@@ -11,9 +11,9 @@
   // (starting XI + 4 subs); he releases that player in FIFA 17. Like the Special Player draw, every result is read from
   // the Showdown's own Firebase id (64 random hex digits, the same on both phones): no read, no Rules lookup, and a refresh
   // or a second tap can never re-spin.
-  // Contract v4: launch formation XI + 4 subs; each later season removes the shot player, places kept
-  // signings by compatible line and overall, then promotes from the bench into any remaining XI vacancies.
-  // The Special Player is excluded and every filled slot keeps the same target chance.
+  // Contract v4: always a full formation XI + 4 subs, with hidden local reserves. Shots permanently
+  // remove a player; kept signings, the bench and reserves replace him before the next board is returned.
+  // The Special Player is excluded and all 15 slots keep the same target chance.
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]); // turn order: Daniel (Player One) first
   const CHAMBERS=7;
@@ -97,50 +97,88 @@
     }
     return fit;
   }
-  const rrEmpty=p=>rrRow(p.slot,p.pos,"",{number:null,rating:0,positions:Object.freeze([]),special:false,signedSeason:null});
   const rrPlace=(slot,player)=>rrRow(slot.slot,slot.pos,player.name,{number:player.number??null,rating:player.rating,positions:player.positions,special:false,signedSeason:player.signedSeason??null});
-  // Prefer an empty bench slot, then the weakest sub. Strict improvement retains incumbents on ties.
-  function rrBench(board,player){
-    let at=board.findIndex(p=>p.bench&&!p.name);
-    if(at<0){
-      for(let i=XI_SIZE;i<BOARD_SIZE;i+=1)if(at<0||board[i].rating<board[at].rating)at=i;
-      if(!(player.rating>board[at].rating))return false;
-    }
-    board[at]=rrPlace(board[at],player);
-    return true;
+  const rrRank=(a,b)=>b.rating-a.rating||(a.number??100)-(b.number??100);
+  const rrDatabasePlayer=p=>({name:p[0],rating:p[1],positions:p[2],number:p[4],signedSeason:null});
+  const rrOnBoard=(state,name)=>state.board.some(p=>rrKey(p.name)===rrKey(name));
+  function rrReserve(state,player){
+    const key=rrKey(player.name);
+    if(state.excluded.has(key)||rrOnBoard(state,key)||state.reserves.some(p=>rrKey(p.name)===key))return;
+    state.reserves.push(player);
   }
-  function rrJoin(board,player){
-    if(!player.name||board.some(p=>rrKey(p.name)===rrKey(player.name)))return false;
-    // Vacancies take precedence, with CAM preferring an AM slot among compatible vacancies.
+  // Database replacements use bundled data only. Never resurrect a shot player or the Special Player,
+  // and never select the second source row of an already-used short name (e.g. Manu García).
+  function rrNextReserve(state,predicate=()=>true){
+    const eligible=p=>
+      predicate(p)&&!state.excluded.has(rrKey(p.name))&&!rrOnBoard(state,p.name)&&!state.reserves.some(r=>rrKey(r.name)===rrKey(p.name));
+    const next=rrPlayers().clubs[state.club].players.map(rrDatabasePlayer).sort(rrRank).find(eligible);
+    if(next)state.reserves.push(next);
+    return next;
+  }
+  function rrTakeReserve(state,predicate=()=>true){
+    if(!state.reserves.some(predicate))rrNextReserve(state,predicate);
     let at=-1;
-    for(let i=0;i<XI_SIZE;i+=1)if(!board[i].name&&rrFit(player,board[i].pos)>0&&(at<0||rrFit(player,board[i].pos)>rrFit(player,board[at].pos)))at=i;
+    for(let i=0;i<state.reserves.length;i+=1)if(predicate(state.reserves[i])&&(at<0||rrRank(state.reserves[i],state.reserves[at])<0))at=i;
     if(at<0){
-      for(let i=0;i<XI_SIZE;i+=1){
-        const current=board[i];
-        if(!current.name||!rrFit(player,current.pos)||!(player.rating>current.rating))continue;
-        if(at<0||rrFit(player,current.pos)>rrFit(player,board[at].pos)||(rrFit(player,current.pos)===rrFit(player,board[at].pos)&&current.rating<board[at].rating))at=i;
-      }
+      // Nik: replacements stay club-only even when the finite pool is exhausted.
+      // Report the exhaustion rather than returning an empty row or reviving a loss.
+      const error=new Error('Club roster exhausted: '+state.club);
+      error.code='ROSTER_EXHAUSTED';error.club=state.club;throw error;
     }
-    if(at<0)return rrBench(board,player);
-    const replaced=board[at];board[at]=rrPlace(replaced,player);
-    if(replaced.name)rrBench(board,replaced);
+    const [player]=state.reserves.splice(at,1);
+    return player;
+  }
+  // Strict improvements retain incumbents on ties. A displaced player stays in the local squad.
+  function rrBench(state,player){
+    const board=state.board;
+    let at=XI_SIZE;
+    for(let i=XI_SIZE+1;i<BOARD_SIZE;i+=1)if(board[i].rating<board[at].rating)at=i;
+    if(!(player.rating>board[at].rating)){rrReserve(state,player);return false;}
+    const replaced=board[at];board[at]=rrPlace(replaced,player);rrReserve(state,replaced);
     return true;
   }
-  // Promotion happens after every kept signing has had its chance. Protect the GK line: only keepers fill GK,
-  // and keepers never fill an outfield hole. Unknown-position signings remain sub-only.
-  function rrFill(board){
+  function rrJoin(state,player){
+    if(state.excluded.has(rrKey(player.name))||rrOnBoard(state,player.name))return false;
+    state.reserves=state.reserves.filter(p=>rrKey(p.name)!==rrKey(player.name));
+    let at=-1;
     for(let i=0;i<XI_SIZE;i+=1){
-      if(board[i].name)continue;
-      let at=-1;
-      for(let j=XI_SIZE;j<BOARD_SIZE;j+=1){
-        const player=board[j];
-        if(!player.name||!player.positions.length)continue;
-        const keeper=player.positions[0]==="GK";
-        if((board[i].pos==="GK")!==keeper)continue;
-        const fit=rrFit(player,board[i].pos);
-        if(at<0||fit>rrFit(board[at],board[i].pos)||(fit===rrFit(board[at],board[i].pos)&&player.rating>board[at].rating))at=j;
-      }
-      if(at>=0){board[i]=rrPlace(board[i],board[at]);board[at]=rrEmpty(board[at]);}
+      const current=state.board[i];
+      if(!rrFit(player,current.pos)||!(player.rating>current.rating))continue;
+      if(at<0||rrFit(player,current.pos)>rrFit(player,state.board[at].pos)||(rrFit(player,current.pos)===rrFit(player,state.board[at].pos)&&current.rating<state.board[at].rating))at=i;
+    }
+    if(at<0)return rrBench(state,player);
+    const replaced=state.board[at];state.board[at]=rrPlace(replaced,player);
+    rrBench(state,replaced);
+    return true;
+  }
+  // Replace directly: no intermediate empty row is ever written to a board. Kept signings get
+  // first refusal, even below the lost player's rating. Otherwise promote the best same-line
+  // sub, then the best outfield overall, and immediately refill the bench from hidden reserves.
+  function rrReplace(state,at,kept){
+    const slot=state.board[at];
+    const candidates=[...kept,...state.reserves.filter(p=>p.signedSeason!==null)].filter(p=>
+      !state.excluded.has(rrKey(p.name))&&!rrOnBoard(state,p.name)&&(slot.bench||rrFit(p,slot.pos)>0));
+    candidates.sort((a,b)=>b.rating-a.rating||(a.slot??0)-(b.slot??0));
+    if(candidates.length){
+      const player=candidates[0];state.board[at]=rrPlace(slot,player);
+      state.reserves=state.reserves.filter(p=>rrKey(p.name)!==rrKey(player.name));
+      return;
+    }
+    if(slot.bench){state.board[at]=rrPlace(slot,rrTakeReserve(state));return;}
+    const keeper=slot.pos==='GK';
+    let bench=-1;
+    for(let i=XI_SIZE;i<BOARD_SIZE;i+=1){
+      const player=state.board[i];
+      if(!player.positions.length||(player.positions[0]==='GK')!==keeper)continue;
+      if(bench<0||rrFit(player,slot.pos)>rrFit(state.board[bench],slot.pos)||(rrFit(player,slot.pos)===rrFit(state.board[bench],slot.pos)&&rrRank(player,state.board[bench])<0))bench=i;
+    }
+    if(bench>=0){
+      const player=state.board[bench],replacement=rrTakeReserve(state);
+      state.board[at]=rrPlace(slot,player);state.board[bench]=rrPlace(state.board[bench],replacement);
+    }else{
+      // A club need not carry a keeper among its four subs. Its next database keeper
+      // fills GK directly; unknown-position signings remain bench-only.
+      state.board[at]=rrPlace(slot,rrTakeReserve(state,p=>(p.positions[0]==='GK')===keeper));
     }
   }
   // special = {playerOne:{name, overall}, playerTwo:{...}} from the Special Player draw, or null for an older Showdown.
@@ -174,18 +212,28 @@
     const boards={},turns={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
     for(const role of ROLES){
-      const board=args.launch[role].slice(),sp=rrSpecial(special,role);
-      // r87 (Nik 2026-10-30): the Special Player is never on the board, so he can never be hit. If he is in the club's
-      // launch squad his slot starts empty and the next kept signing fills it.
-      if(sp){const same=board.findIndex(p=>rrKey(p.name)===rrKey(sp.name));if(same>=0)board[same]=rrEmpty(board[same]);}
-      for(let k=1;k<season;k+=1){
-        const turn=rrTurn(args.hex,k,role,board);
-        if(turn.fired){const old=board[turn.hitSlot];board[turn.hitSlot]=rrEmpty(old);}
-        const kept=rrKept(history&&history[k]&&history[k][role],k,clubs[role]);
-        if(!kept)return null;
-        for(const player of kept)if(!sp||rrKey(player.name)!==rrKey(sp.name))rrJoin(board,player);
-        rrFill(board);
+      const sp=rrSpecial(special,role),state={club:clubs[role],board:args.launch[role].slice(),reserves:[],excluded:new Set(sp?[rrKey(sp.name)]:[])};
+      for(const [,name,number,rating] of rrSquads().squads[state.club].reserves)
+        rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club),signedSeason:null});
+      if(sp){
+        const same=state.board.findIndex(p=>rrKey(p.name)===rrKey(sp.name));
+        if(same>=0)rrReplace(state,same,[]);
+        while(state.reserves.length<3&&rrNextReserve(state)){} // skip him in the hidden three too
       }
+      for(let k=1;k<season;k+=1){
+        const kept=rrKept(history&&history[k]&&history[k][role],k,state.club);
+        if(!kept)return null;
+        // A guessed signing must not sneak in later through the club database refill.
+        for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string')state.excluded.add(rrKey(row.name));
+        state.reserves=state.reserves.filter(p=>!state.excluded.has(rrKey(p.name)));
+        const turn=rrTurn(args.hex,k,role,state.board);
+        if(turn.fired){
+          state.excluded.add(rrKey(state.board[turn.hitSlot].name));
+          rrReplace(state,turn.hitSlot,kept);
+        }
+        for(const player of kept)rrJoin(state,player);
+      }
+      const board=state.board;
       boards[role]=Object.freeze(board);
       turns[role]=rrTurn(args.hex,season,role,board);
     }
