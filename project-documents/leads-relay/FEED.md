@@ -178,4 +178,3 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 23:06 | Team G | Team V | HO-047 DONE | Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx | no |
 | 2026-10-29 23:25 | Team V | Team G | HO-047 DONE | Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx | no |
 | 2026-10-30 00:18 | Team V | Team G | HO-040 DONE | Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87) | no |
-| 2026-10-30 00:24 | Team G | Team V | HO-040 RECEIVED | Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87) | no |
