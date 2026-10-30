@@ -137,7 +137,7 @@ STEP 2: SCORE EVERY ITEM from 1 to 10 against this bar:
 - 4 or below: breaks a rule, invents a fact, wrong situation, awkward placeholder grammar, or mean to the losing manager.
 Be strict. A typical first draft scores 6 or 7.
 
-STEP 3: FIX. Rewrite every item that scores below 9 until it would score 9 or 10, keeping its id, its situation and the batch's voice or lens. Make the rewrite genuinely different, not a synonym swap. Where two items share an idea, rewrite the weaker one to a new idea. Keep every original rule of the batch: allowed placeholders only, no numbers except through placeholders, no em or en dashes, the length limits, no real people, brands, chants or famous quotes.
+STEP 3: FIX. Rewrite every item that scores below 9 until it would score 9 or 10, keeping its id, its situation and the batch's voice or lens. Make the rewrite genuinely different, not a synonym swap. Where two items share an idea, rewrite the weaker one to a new idea. Never remove a name placeholder to make a line safe: keep {winner}, {winnerClub} and the other names, and never swap them for "the chasing manager", "the winner" or "this side". Keep every original rule of the batch: allowed placeholders only, no numbers except through placeholders, no em or en dashes, the length limits, no real people, brands, chants or famous quotes.
 
 STEP 4: CHECK THE WHOLE SET. No two items start with the same three words. No word or image used more than 5 times across the file (watch "clear", "verdict", "table", "daylight", "statement"). Exclamation marks in at most 15 items unless the voice is the lead caller (then at most 60).
 
