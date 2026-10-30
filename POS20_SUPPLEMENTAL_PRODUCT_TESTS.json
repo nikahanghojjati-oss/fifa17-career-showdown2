@@ -2327,6 +2327,16 @@
         "^tests/contracts/r86\\-unlock\\-reads\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r86-release-contracts.cjs",
+      "patterns": [
+        "^js/marqueePlayer\\.js$",
+        "^service-worker\\.js$",
+        "^\\.github/workflows/deploy-(github-pages|firestore-rules-zero-billing)\\.yml$",
+        "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

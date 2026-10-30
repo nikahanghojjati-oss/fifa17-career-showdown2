@@ -10,8 +10,9 @@
   // read, no write and no Rules change, and nothing is added to any hashed document (Sol round 2 design rule). Only a
   // Showdown confirmed on r86 or later has a Special Player: older Showdowns and saves show none, never an error.
   // The confirm time is the shared Setup's last updatedAt (the Rules pin it to request.time at SHOWDOWN_CONFIRMED).
-  // MARQUEE_FROM_MS is set to the r86 release time in the release PR.
-  const MARQUEE_FROM_MS=Date.parse("2026-10-28T00:00:00Z");
+  // MARQUEE_FROM_MS is the r86 release time (red team #3): the release PR's start, 2026-10-30 03:00 UTC. Showdowns
+  // confirmed before it get no Special Player.
+  const MARQUEE_FROM_MS=Date.parse("2026-10-30T03:00:00Z");
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   // Ranking badge (Nik): top 3 black-blue-gold, top 10 blue-gold, top 20 gold, top 50 silver, others bronze.

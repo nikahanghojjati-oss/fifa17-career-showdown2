@@ -193,15 +193,16 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 
 // The r79 shell on an installed phone was filled by the r79 worker with r79's own 221 paths. Activating r80 must keep it (and its
 // image cache) as the recovery target instead of deleting it. r80 adds and removes no shell path, so both lists are the same 221.
-const R79_SHELL_PATHS_SHA256="99d8ad165dc2da11cd05d11b06d38c839a810253ab78ae22cbdf53efd425631b";// sorted JSON of r79's SHELL_PATHS (main d1888c33)
+// r86: the retained shell is now r85's, filled by the r85 worker with its own 222 paths (the r79 cases below run on it).
+const R79_SHELL_PATHS_SHA256="1e8c63be868fa7c51a07b31958ab5aca4290061af5a1ffabd2ca94893d8d861c";// sorted JSON of r85's SHELL_PATHS (main a8a5b372)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"1.9.8-r84");
-  assert.equal(diag.previousShellPaths.length,221,"r79 shipped 221 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r79's");
-  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r80 removed no shell path");
+  assert.equal(diag.previousRevision,"1.9.9-r85");
+  assert.equal(diag.previousShellPaths.length,222,"r85 shipped 222 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r85's");
+  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r86 removed no shell path");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover
