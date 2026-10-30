@@ -116,7 +116,7 @@ BAD examples: "{winner} WINS THE SEASON" (flat), "A GREAT SEASON" (vague), "WON 
 SUBHEAD AND KICKER
 - "subhead": one sentence, 12 to 24 words, the plain news behind the headline in warm broadsheet English, using only the situation's allowed placeholders. Pay off the headline's idea, do not repeat its words. Numbers only through placeholders. No em dashes.
 - "kicker": 1 to 3 words in capitals for the black label above the headline. Use any one kicker at most 4 times. A kicker is a newspaper section label (e.g. "SEASON REVIEW", "CABINET WATCH", "LATE EDITION"); never name the writing style ("WORDPLAY", "QUESTION", "PUN", "ALLITERATION" are banned).
-- Subhead variety: vary the sentence shape. At most 10 subheads may use "ahead of", at most 10 "clear of", and at most 25 may mention {seasonNo}. Some subheads lead with the club, some with the rival, some with a short image, then the news.
+- Subhead variety: vary the sentence shape. At most 10 subheads may use "ahead of", at most 10 "clear of", at most 10 "comfortable" or "comfortably", at most 10 "margin" or "advantage", and at most 25 may mention {seasonNo}. Never fall into one formula ("{winner} finished comfortably above {loser}") said 100 ways: each subhead adds a different fact or angle (the club, the cabinet, what it means for next season, the rivalry, the lens image). Some subheads lead with the club, some with the rival, some with a short image, then the news.
 
 WORK METHOD
 Think briefly; spend your effort on writing, not planning. Write all 100 in one pass, then check rules 1 to 4 quickly and fix what breaks them. Always finish all 100 rows and close the JSON.
