@@ -1,0 +1,608 @@
+{
+  "batch": 34,
+  "situation": "comeback",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb34-001",
+      "text": "That's a proper response from {winner}; the overall deficit has taken a useful knock.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-002",
+      "text": "{winnerClub} needed a season to change the conversation; this reply has given everyone fresh material.",
+      "score": 9,
+      "was": "{winnerClub} needed a season that changed the conversation, and this result certainly does that."
+    },
+    {
+      "id": "cb34-003",
+      "text": "You can see the difference at last; {winner} is chasing a much more manageable target.",
+      "score": 9,
+      "was": "You can see the difference now; {winner} is chasing a much more manageable target."
+    },
+    {
+      "id": "cb34-004",
+      "text": "Once you own a cushion, it's tempting to admire it; this outcome argues against that.",
+      "score": 10,
+      "was": "{loser} still has that previous advantage to lean on, but there's rather less of it."
+    },
+    {
+      "id": "cb34-005",
+      "text": "The immediate job for {winner} was winning; the larger chase looks healthier for it.",
+      "score": 9,
+      "was": "Winning this season was the job for {winner}, and the pursuit looks healthier for it."
+    },
+    {
+      "id": "cb34-006",
+      "text": "Good timing from {winnerClub}; the running battle had begun to drift beyond comfortable reach.",
+      "score": 9,
+      "was": "A strong reply from {winnerClub}, especially when the wider contest had begun to drift away."
+    },
+    {
+      "id": "cb34-007",
+      "text": "This is more than a seasonal victory for {winner}; the accumulated arrears have finally shrunk.",
+      "score": 10,
+      "was": "The important part isn't merely the season victory; {winner} has reduced the overall arrears."
+    },
+    {
+      "id": "cb34-008",
+      "text": "{loserClub} had some breathing room before this, and suddenly the room feels noticeably smaller.",
+      "score": 9,
+      "was": "{loserClub} had some breathing room before this, and now the room feels noticeably smaller."
+    },
+    {
+      "id": "cb34-009",
+      "text": "There was ground to recover, and {winner} has actually recovered some of it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-010",
+      "text": "For {winner}, this is where a difficult chase becomes a rather more interesting proposition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-011",
+      "text": "An old cushion is slimmer, and the winner has finally made its owner sit forward.",
+      "score": 9,
+      "was": "{winnerClub} has taken the season, and that old cushion across the rivalry is thinner."
+    },
+    {
+      "id": "cb34-012",
+      "text": "Well judged from {winner}; you cannot overturn a deficit without first making it smaller.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-013",
+      "text": "{loser} won't enjoy surrendering some of that advantage, although the contest remains very much alive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-014",
+      "text": "It's a reminder that {winner} was trailing, not finished; the latest victory proves the distinction.",
+      "score": 10,
+      "was": "It's a reminder that {winner} was trailing, not finished; this season proves the distinction."
+    },
+    {
+      "id": "cb34-015",
+      "text": "Just when the chase looked forlorn, {winnerClub} has dragged it back into reach.",
+      "score": 9,
+      "was": "The latest return from {winnerClub} puts genuine pressure back into the overall contest."
+    },
+    {
+      "id": "cb34-016",
+      "text": "There's no shortcut through those arrears; the pursuing manager has chosen a sensible route.",
+      "score": 10,
+      "was": "Nobody gets the old advantage back by talking about it; {winner} has done something useful."
+    },
+    {
+      "id": "cb34-017",
+      "text": "Mind the shrinking margin, {loserClub}; the advantage remains, but its protection has thinned.",
+      "score": 9,
+      "was": "{loserClub} has less protection in the standings now, thanks to a deserved seasonal response."
+    },
+    {
+      "id": "cb34-018",
+      "text": "A useful change for {winner}: the manager ahead is noticeably nearer than before.",
+      "score": 10,
+      "was": "That moves {winner} closer to the rival they were watching disappear into the distance."
+    },
+    {
+      "id": "cb34-019",
+      "text": "At {winnerClub}, this turnaround has consequences far beyond the immediate verdict.",
+      "score": 9,
+      "was": "An excellent season for {winnerClub}, with consequences that extend beyond this particular result."
+    },
+    {
+      "id": "cb34-020",
+      "text": "{winner} has not settled the wider argument, but has made the next chapter worth reading.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-021",
+      "text": "Credit where it's due: {winner} needed to take something back, and did so handsomely.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-022",
+      "text": "{loser} has seen the overall lead trimmed, which should sharpen this friendly duel considerably.",
+      "score": 9,
+      "was": "{loser} has seen the overall lead trimmed, which should sharpen the rivalry considerably."
+    },
+    {
+      "id": "cb34-023",
+      "text": "Reduced arrears don't happen by accident; {winnerClub} delivered across an entire campaign.",
+      "score": 10,
+      "was": "The deficit is smaller because {winnerClub} delivered where it counted, over a complete season."
+    },
+    {
+      "id": "cb34-024",
+      "text": "It wasn't enough to wish the gap away; {winner} has made a proper start.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-025",
+      "text": "Whatever the earlier standings suggested, this reply has made the pursuit much more compelling.",
+      "score": 9,
+      "was": "{winnerClub} has supplied the answer, and suddenly the overall race is less comfortable for its rival."
+    },
+    {
+      "id": "cb34-026",
+      "text": "For {winner}, the immediate victory matters because the longer battle has tightened.",
+      "score": 9,
+      "was": "A season belongs to {winner}, while the longer struggle has become much more competitive."
+    },
+    {
+      "id": "cb34-027",
+      "text": "Even {loserClub} cannot ignore how much force the latest pursuit has gained.",
+      "score": 10,
+      "was": "{loserClub} retains its place in the story, of course, but the pursuit has gathered force."
+    },
+    {
+      "id": "cb34-028",
+      "text": "One result can alter the mood without settling the contest; {winner} has shown exactly how.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-029",
+      "text": "Thanks to {winner}, the old separation in this competition has been cut back.",
+      "score": 10,
+      "was": "With {winner} collecting this season's honours, the old separation has narrowed significantly."
+    },
+    {
+      "id": "cb34-030",
+      "text": "Perhaps {loser} will look at that previous cushion with a touch less affection after that.",
+      "score": 10,
+      "was": "The sensible thing for {loser} is to respect this response; that cushion isn't quite as generous."
+    },
+    {
+      "id": "cb34-031",
+      "text": "Lately that pursuit had felt remote; the distance looks more negotiable again.",
+      "score": 9,
+      "was": "{winnerClub} has turned a distant pursuit into one that demands much closer attention."
+    },
+    {
+      "id": "cb34-032",
+      "text": "No closing ceremony yet; {winner} has won the round and drawn the longer contest closer.",
+      "score": 9,
+      "was": "This wasn't an overall victory parade; it was the season {winner} needed to get closer."
+    },
+    {
+      "id": "cb34-033",
+      "text": "{loser} had the benefit of earlier campaigns, but those reserves have been called upon in turn.",
+      "score": 9,
+      "was": "{loser} had the benefit of earlier seasons, but those reserves have been called upon now."
+    },
+    {
+      "id": "cb34-034",
+      "text": "There's an unmistakable shift here: {winner} wins the season and reduces the accumulated deficit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-035",
+      "text": "Measured improvement for {winnerClub}, and evidence to unsettle even a calm rival.",
+      "score": 9,
+      "was": "A measured comeback from {winnerClub}, and the sort of evidence that changes a rival's calculations."
+    },
+    {
+      "id": "cb34-036",
+      "text": "{winner} is still writing this rivalry, rather than accepting the ending someone else had imagined.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-037",
+      "text": "How much closer can this become? {winner} has at least supplied a convincing first answer.",
+      "score": 10,
+      "was": "The season verdict favours {winner}, and it brings the contest's distant leader nearer."
+    },
+    {
+      "id": "cb34-038",
+      "text": "From behind, {winnerClub} has found a way to make the overall picture look less forbidding.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-039",
+      "text": "Experience teaches a sound lesson here: a head start only comforts you while it holds.",
+      "score": 10,
+      "was": "{loser} knows better than most that a lead is only comforting while it stays intact."
+    },
+    {
+      "id": "cb34-040",
+      "text": "No grand claims required here; {winner} has secured the immediate victory and improved the position.",
+      "score": 9,
+      "was": "No grand claims required here; {winner} has won the season and improved the position."
+    },
+    {
+      "id": "cb34-041",
+      "text": "Those old arrears have new terms; this time it's the pursuer doing the negotiating.",
+      "score": 10,
+      "was": "{winner} has sent the previous deficit a polite note saying the arrangement is under review."
+    },
+    {
+      "id": "cb34-042",
+      "text": "Funny how that comfortable chair of {loser}'s suddenly needs a little more padding.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-043",
+      "text": "Some overdue housekeeping from {winnerClub}; there's less left on the arrears shelf.",
+      "score": 9,
+      "was": "A tidy bit of housekeeping by {winnerClub}; the arrears cupboard is no longer quite so full."
+    },
+    {
+      "id": "cb34-044",
+      "text": "Patient chasing is admirable; {winner} has sensibly decided that progress is even better.",
+      "score": 9,
+      "was": "They say patience is a virtue, but this season {winner} wisely preferred progress."
+    },
+    {
+      "id": "cb34-045",
+      "text": "While that old advantage remains, {loser} finally has less time for self-congratulation.",
+      "score": 10,
+      "was": "The old advantage hasn't vanished; {loser} might just stop admiring it for a moment."
+    },
+    {
+      "id": "cb34-046",
+      "text": "{winnerClub} has given the running story a useful nudge, not another long speech about ambition.",
+      "score": 9,
+      "was": "{winnerClub} has given the rivalry a useful nudge, rather than another long speech about ambition."
+    },
+    {
+      "id": "cb34-047",
+      "text": "Not a complete renovation, this, but {winner} has certainly knocked down an inconvenient wall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-048",
+      "text": "{loserClub} can still read the standings with satisfaction, although perhaps not quite as leisurely.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-049",
+      "text": "Interesting repair work from {winner}; those overall arrears were beginning to look seriously expensive.",
+      "score": 10,
+      "was": "Interesting repair work from {winner}; that overall deficit was beginning to look rather expensive."
+    },
+    {
+      "id": "cb34-050",
+      "text": "Rather than owning the whole rivalry, the chasing side has earned this result outright.",
+      "score": 9,
+      "was": "{winnerClub} hasn't bought the whole shop, but the season's best merchandise is theirs."
+    },
+    {
+      "id": "cb34-051",
+      "text": "You'd think {loser} would be entitled to relax; this turnaround has quietly spoiled that little plan.",
+      "score": 9,
+      "was": "You'd think {loser} would be entitled to relax; this result has rather spoiled that little plan."
+    },
+    {
+      "id": "cb34-052",
+      "text": "Here's {winner} doing the sensible thing: shortening the journey before discussing the destination.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-053",
+      "text": "Quite a way for {winnerClub} to remind everyone that the rivalry still has sharp edges.",
+      "score": 9,
+      "was": "A fine way for {winnerClub} to remind everyone that the subscription to this rivalry hasn't expired."
+    },
+    {
+      "id": "cb34-054",
+      "text": "Quite right that {loserClub} should retain confidence; a lead still has to be defended.",
+      "score": 10,
+      "was": "{loserClub} hasn't misplaced the whole advantage, just discovered it isn't nailed to the floor."
+    },
+    {
+      "id": "cb34-055",
+      "text": "Well, {winner} has done the useful thing; a convincing reply carries more weight than promises.",
+      "score": 9,
+      "was": "That was good work from {winner}; no fireworks needed when a scoreboard correction will do."
+    },
+    {
+      "id": "cb34-056",
+      "text": "Look closely at the deficit; a meaningful portion of it has simply disappeared.",
+      "score": 9,
+      "was": "{winnerClub} has taken a bite out of the deficit, and left the rest looking rather nervous."
+    },
+    {
+      "id": "cb34-057",
+      "text": "Hardly a time for {loser} to panic, but checking the rearview mirror seems sensible again.",
+      "score": 10,
+      "was": "Hardly a time for {loser} to panic, but checking the rearview mirror seems sensible now."
+    },
+    {
+      "id": "cb34-058",
+      "text": "No engraving orders just yet, but that win has earned a proper smile.",
+      "score": 9,
+      "was": "{winner} won't be ordering the final engraving yet, though that season win earns a smile."
+    },
+    {
+      "id": "cb34-059",
+      "text": "Less mountain to climb after that result, which is generally considered helpful to the person climbing.",
+      "score": 9,
+      "was": "A little less mountain for {winnerClub} to climb; that is generally considered helpful."
+    },
+    {
+      "id": "cb34-060",
+      "text": "Even the person in front must keep working; that job has just grown harder.",
+      "score": 9,
+      "was": "{loser} still has something worth protecting, and the latest challenge has made that quite clear."
+    },
+    {
+      "id": "cb34-061",
+      "text": "Under 'comfortable advantage' in the filing cabinet, someone has thoughtfully added 'revised'.",
+      "score": 10,
+      "was": "The filing cabinet marked 'comfortable advantage' needs relabelling after a season like this."
+    },
+    {
+      "id": "cb34-062",
+      "text": "Nobody has to announce a revival when the standings make the introduction themselves.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-063",
+      "text": "You'd rather have a shorter distance than a stirring speech about trying harder; that's progress.",
+      "score": 10,
+      "was": "A chasing manager's favourite kind of arithmetic: finish the season and find the distance reduced."
+    },
+    {
+      "id": "cb34-064",
+      "text": "That earlier cushion resembles a smaller sofa; still useful, just less luxurious.",
+      "score": 9,
+      "was": "That earlier cushion now resembles a smaller sofa; still useful, just less luxurious."
+    },
+    {
+      "id": "cb34-065",
+      "text": "Suddenly the side behind looks like an awkward guest who has no intention of leaving.",
+      "score": 10,
+      "was": "The overall contest has acquired an awkward guest: genuine pressure from the side behind."
+    },
+    {
+      "id": "cb34-066",
+      "text": "It's becoming less a comeback story on paper and more a challenge being lived.",
+      "score": 9,
+      "was": "No need to send invitations to a comeback; this season's winner has already arrived."
+    },
+    {
+      "id": "cb34-067",
+      "text": "Someone has shortened the long walk back, which is considerably better than complaining about the distance.",
+      "score": 9,
+      "was": "Someone has shortened the long walk back, which is rather better than complaining about the distance."
+    },
+    {
+      "id": "cb34-068",
+      "text": "It's not the finish line, but the chase finally has decent shoes on.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-069",
+      "text": "Notice how that stretch of daylight has shortened; you'd be wrong to look away.",
+      "score": 9,
+      "was": "A bit of daylight has disappeared, and neither manager will need an explanation of why."
+    },
+    {
+      "id": "cb34-070",
+      "text": "Being in front is still an asset; defending the smaller lead might prove more demanding.",
+      "score": 9,
+      "was": "The opposition's lead is still a useful possession, only now it comes with maintenance costs."
+    },
+    {
+      "id": "cb34-071",
+      "text": "Well, the pencil has moved on the ledger, and the comeback suddenly looks less hypothetical.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-072",
+      "text": "A warning delivered without a lecture: the pursuing side is finally taking points back.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-073",
+      "text": "Odd how quickly a distant silhouette becomes a proper rival when the latest verdict goes your way.",
+      "score": 9,
+      "was": "Odd how quickly a distant silhouette becomes a proper rival when the season goes your way."
+    },
+    {
+      "id": "cb34-074",
+      "text": "Nobody has redrawn the entire map, but the route back no longer looks absurd.",
+      "score": 10,
+      "was": "The big picture hasn't been repainted, but someone's changed the most important part of it."
+    },
+    {
+      "id": "cb34-075",
+      "text": "There's still work in the in-tray, mind you; at least the comeback file is open.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-076",
+      "text": "Listen to what this victory means: {winner} has made the pursuit a live contest again.",
+      "score": 9,
+      "was": "Listen to what that season means: {winner} has made the pursuit a live contest again."
+    },
+    {
+      "id": "cb34-077",
+      "text": "{winnerClub} was looking up at a deficit; the view has begun to change, quite deliberately.",
+      "score": 9,
+      "was": "{winnerClub} was looking up at a deficit; now the view is changing, quite deliberately."
+    },
+    {
+      "id": "cb34-078",
+      "text": "Past seasons still carry weight; {winner} has at least removed some from the scales.",
+      "score": 10,
+      "was": "The weight of the previous seasons hasn't gone, but {winner} has lifted a fair portion."
+    },
+    {
+      "id": "cb34-079",
+      "text": "A lead can survive a challenge, but {loser} has just been shown how serious this one is.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb34-080",
+      "text": "There is real substance to that response from {winnerClub}; the longer fight suddenly has a pulse.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-081",
+      "text": "{winner} needed to make the daunting distance seem manageable, and this victory has done it.",
+      "score": 9,
+      "was": "{winner} needed to make the impossible-looking distance seem possible, and the season has done it."
+    },
+    {
+      "id": "cb34-082",
+      "text": "Imagine defending that overall advantage; {loserClub} has considerably less room for error.",
+      "score": 9,
+      "was": "Imagine defending that overall advantage now; {loserClub} has considerably less room for error."
+    },
+    {
+      "id": "cb34-083",
+      "text": "You can feel the pursuit gathering substance; {winner} has turned hopeful talk into something tangible.",
+      "score": 10,
+      "was": "The chase has acquired a different sound, and {winner} is responsible for every bit of it."
+    },
+    {
+      "id": "cb34-084",
+      "text": "The old pecking order has been challenged, not abolished; that seasonal return matters.",
+      "score": 9,
+      "was": "{winnerClub} has taken this season's verdict and put the old order under genuine examination."
+    },
+    {
+      "id": "cb34-085",
+      "text": "It matters because {winner} had been behind; a victory from there changes more than mood.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-086",
+      "text": "Measured against the old standings, the distance between these managers is visibly shorter after this.",
+      "score": 9,
+      "was": "The distance between these managers has contracted, and with it any sense of an easy ending."
+    },
+    {
+      "id": "cb34-087",
+      "text": "{loser} earned an advantage in earlier campaigns; the challenger has finally earned a response.",
+      "score": 9,
+      "was": "{loser} had earned an advantage before this season; the challenger has now earned a response."
+    },
+    {
+      "id": "cb34-088",
+      "text": "You don't hear a final whistle on the whole rivalry, only a new question being asked.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-089",
+      "text": "For a while the chase seemed remote; this win has brought the opposition within clearer sight.",
+      "score": 9,
+      "was": "For a while the pursuit seemed remote; now this season has brought the opposition within clearer sight."
+    },
+    {
+      "id": "cb34-090",
+      "text": "Forget speeches from the dugout; a comeback begins with a season won while behind.",
+      "score": 10,
+      "was": "A comeback isn't a speech from the dugout; it's a season won when the deficit mattered."
+    },
+    {
+      "id": "cb34-091",
+      "text": "Underneath the hope of catching up, there's at last something solid: an actual victory.",
+      "score": 9,
+      "was": "{winner} has put something solid beneath the hope of catching up, and that's no small achievement."
+    },
+    {
+      "id": "cb34-092",
+      "text": "Ordinarily the one in front sets the mood; the challenger has changed that arrangement.",
+      "score": 9,
+      "was": "The previous leader must look back now, because the challenger has finally given them a reason."
+    },
+    {
+      "id": "cb34-093",
+      "text": "{winnerClub} has reclaimed a piece of the contest that once seemed to belong entirely elsewhere.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-094",
+      "text": "It's the sort of turnaround that replaces resignation with resistance, without pretending the job is finished.",
+      "score": 10,
+      "was": "It's the sort of season that turns resignation into resistance, without claiming the job is finished."
+    },
+    {
+      "id": "cb34-095",
+      "text": "{loserClub} will know the difference between losing a round and losing control of a rivalry.",
+      "score": 9,
+      "was": "{loserClub} will know the difference between losing a season and losing control of a rivalry."
+    },
+    {
+      "id": "cb34-096",
+      "text": "Despite the remaining lead, there's enough momentum behind to make the next result matter more.",
+      "score": 9,
+      "was": "The old lead still matters, but the fresh victory has given the chasing side belief with substance."
+    },
+    {
+      "id": "cb34-097",
+      "text": "{winner} has shortened the road to the rival, and the next stretch looks altogether different.",
+      "score": 10,
+      "was": "{winner} has shortened the road to the rival, and the next stretch now looks altogether different."
+    },
+    {
+      "id": "cb34-098",
+      "text": "Something important has shifted: this result doesn't erase the past, it gives the future a contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb34-099",
+      "text": "There's proof that arrears can be attacked rather than merely endured by the pursuing side.",
+      "score": 9,
+      "was": "{winnerClub} has made a persuasive case that an overall deficit can be attacked, not merely endured."
+    },
+    {
+      "id": "cb34-100",
+      "text": "That is a season {winner} can build upon; the longer battle has been drawn much closer.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}
