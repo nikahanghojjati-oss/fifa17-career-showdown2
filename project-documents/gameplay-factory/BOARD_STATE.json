@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 12:11 AM Boston time (EDT)",
+ "generated": "2026-10-30 12:15 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1618,27 +1618,18 @@
  },
  "two": {
   "live": {
-   "sha": "a8a5b37",
-   "revision": "1.9.9-r85",
-   "when": "2026-10-29T21:12:05Z",
-   "subject": "Phone Home: keep every tile above the bottom bar on iOS 26 Safari (#1062)",
-   "fixes": [
+   "sha": "64b6bbd",
+   "revision": "1.9.10-r86",
+   "when": "2026-10-30T04:13:35Z",
+   "subject": "r86 release: 1.9.10-r86 (Special Player, reads at scale, Rule Book trims) (#1076)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1076,
      "title": "r86 release: 1.9.10-r86 (Special Player, reads at scale, Rule Book trims)",
-     "draft": false,
-     "branch": "gameplay/r86",
-     "sha": "0f29ab5f84140aef3718b8ec0d629e132ad9b2d5",
-     "updated": "2026-10-30T03:56:03Z",
-     "gates": {
-      "passed": 6,
-      "running": 1,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-10-30T04:13:36Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -2358,7 +2349,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3574,22 +3565,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1076,
-    "title": "r86 release: 1.9.10-r86 (Special Player, reads at scale, Rule Book trims)",
-    "draft": false,
-    "branch": "gameplay/r86",
-    "sha": "0f29ab5f84140aef3718b8ec0d629e132ad9b2d5",
-    "updated": "2026-10-30T03:56:03Z",
-    "gates": {
-     "passed": 6,
-     "running": 1,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
