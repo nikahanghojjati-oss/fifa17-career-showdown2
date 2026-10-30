@@ -1,0 +1,249 @@
+{
+  "batch": 7,
+  "situation": "league-title",
+  "edition": "season",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb7-01",
+      "byline": "From the football editor's desk",
+      "standfirst": "For {winner}, the league championship gives a season its defining distinction and {winnerClub} a claim that needs no embellishment.",
+      "paragraphs": [
+        "There are honors that decorate a season and honors that define it. The league title belongs firmly in the latter category. {winner} has secured that distinction for {winnerClub}, placing a championship at the center of this season's account.",
+        "For {loser}, the comparison is not diminished by the achievement on the other side. The Showdown rewards a range of honors, yet a league championship carries its own unmistakable authority within that reckoning. It is a substantial marker in a rivalry measured through seasons.",
+        "When the broader contest is remembered, the title will not require an elaborate explanation. It is the sort of achievement that can stand alone on the page."
+      ],
+      "pullquote": {
+        "text": "A championship is a complete sentence in the language of football.",
+        "who": "A Gazette columnist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb7-02",
+      "byline": "Our correspondent on the championship desk",
+      "standfirst": "The championship belongs to {winnerClub}, but its significance reaches beyond a single entry in the season's final reckoning.",
+      "paragraphs": [
+        "A club's name takes on a different resonance when the word champions can be written beside it. That privilege now belongs to {winnerClub}, whose manager {winner} has delivered the league crown and given this edition its central story.",
+        "That distinction changes the conversation between the managers without closing it. {loserClub} remains part of an independent campaign in which every recognized honor contributes to the Showdown. The title offers prestige; the wider rivalry must still be understood on its own terms.",
+        "For now, the important pairing is simple: a club and a championship. Whatever follows in the contest, that association is permanent within this season's story."
+      ],
+      "pullquote": {
+        "text": "Write the club's name carefully. It belongs next to the championship.",
+        "who": "The press box"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-03",
+      "byline": "From our season review desk",
+      "standfirst": "A league crown brings {winner} both sporting prestige and a valuable return in the Showdown's points competition.",
+      "paragraphs": [
+        "Beyond the ceremony of a league championship lies its practical importance to the season standings. {winner} has brought the title to {winnerClub}, earning the distinction itself and an important contribution to the points that shape this private contest.",
+        "The arithmetic cannot tell the whole story, but neither can the romance of the trophy. {loser} is competing in the same framework, where separate achievements build separate totals. This title therefore matters as both an honor and a concrete advantage in the season's reckoning.",
+        "That balance between romance and measurement is the Showdown's enduring attraction. Here the finest symbol of domestic success also has a precise place in the account."
+      ],
+      "pullquote": {
+        "text": "The title shines on its own, then makes its mark in the ledger.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-04",
+      "byline": "Our chief writer reports",
+      "standfirst": "The league title is the ultimate domestic endorsement, and {winner} now possesses it with {winnerClub}.",
+      "paragraphs": [
+        "League football asks a broader question than any individual cup can answer: who deserves to be called champion? For this season, the title has gone to {winnerClub} under {winner}. It is a verdict with a special weight.",
+        "The Showdown offers {loser} plenty of reasons to remain invested in the contest, because no single kind of achievement tells every story. Nevertheless, the league crown carries a particular clarity. There is no need to turn its significance into an argument.",
+        "The next installment of the rivalry will bring its own judgments. This one has already supplied a defining answer, written in the simplest possible terms: league champions."
+      ],
+      "pullquote": {
+        "text": "Domestic football has issued its verdict, and the wording is wonderfully plain.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb7-05",
+      "byline": "From the rivalry correspondence desk",
+      "standfirst": "{winner}'s league championship strengthens the season's record while giving {loser} a distinguished standard to answer.",
+      "paragraphs": [
+        "Rivalries are often sustained not by hostility but by the quality of the challenge. {winner} has raised that standard with a league title for {winnerClub}. It is a significant achievement, and the season's record is richer for it.",
+        "The other managerial story deserves its proper space. {loser} is not a footnote to this championship; both participants build their own reputations across the Showdown. A title can shape the current comparison without determining the value of every campaign still to come.",
+        "Such contests become worth following when their achievements demand a response. The league crown has given this rivalry a particularly distinguished point of reference."
+      ],
+      "pullquote": {
+        "text": "The finest rivalries are improved whenever either manager raises the standard.",
+        "who": "A Gazette columnist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb7-06",
+      "byline": "From the domestic honors desk",
+      "standfirst": "There is no mistaking the central honor in {winnerClub}'s season: {winner} has won the league championship.",
+      "paragraphs": [
+        "Some prizes invite comparison with others; the league crown is immediately recognizable on its own terms. {winnerClub} has claimed that honor, and {winner} can properly be described as a title winning manager. Nothing need be added to validate it.",
+        "The distinction also invites care in how this contest is described. A championship is not the entire Showdown, whose measures include other available honors and bonuses. It is, however, a powerful fact in the season's balance against {loserClub}, regardless of competing narratives.",
+        "There will be more space for interpretation as the campaign develops. On this point, the record is unambiguous: a domestic crown has been earned."
+      ],
+      "pullquote": {
+        "text": "Give the championship its due, without pretending it explains everything else.",
+        "who": "The press box"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-07",
+      "byline": "Our season chronicle correspondent",
+      "standfirst": "Season {seasonNo} has acquired an enduring landmark with {winner}'s memorable league title for {winnerClub}.",
+      "paragraphs": [
+        "Every season needs a fact around which its account can be organized. In season {seasonNo}, that fact is a league championship for {winnerClub}. Manager {winner} has secured a domestic honor that needs no retrospective invention to feel important.",
+        "The distinction matters across a Showdown spanning {seasonsTotal} seasons, each with a separate contribution to the final picture. {loser} has a story of their own within that structure. The league title supplies a chapter heading, not the conclusion to every chapter.",
+        "Future editions may give greater prominence to other achievements. This particular season already has a place marker that readers will have little trouble finding."
+      ],
+      "pullquote": {
+        "text": "A long rivalry is easier to recall when its chapters have landmarks.",
+        "who": "A Gazette archivist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-08",
+      "byline": "From the editorial analysis desk",
+      "standfirst": "The league championship offers {winner} something rarer than a favorable interpretation: an achievement beyond dispute.",
+      "paragraphs": [
+        "Debates over the finest season can travel in many directions, from points to the character of particular honors. There is far less room for debate about a league champion. {winner} has brought that title to {winnerClub}.",
+        "That certainty should not be mistaken for a verdict on everything {loser} has accomplished. The Showdown compares the managers through an agreed range of achievements. Within that wider framework, the domestic title is an especially compelling piece of evidence for one campaign.",
+        "Arguments over relative greatness can wait for the full account. The championship itself is settled, and the simplicity of that fact gives it unusual force."
+      ],
+      "pullquote": {
+        "text": "Opinions may wander, but the name of the champion stays put.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb7-09",
+      "byline": "Reporting from the Gazette's honors desk",
+      "standfirst": "For {winner}, a domestic championship supplies a moment of formal recognition in a contest built around achievement.",
+      "paragraphs": [
+        "A league title merits the formal language of an awards presentation, but its lasting evidence is recorded without ceremony. {winnerClub} are league champions under {winner}, with a distinction large enough to need no ornamental fanfare.",
+        "Elsewhere in the comparison stands {loser}, whose own season deserves to be read on its merits. The Showdown does not require the achievements of one manager to erase those of the other. The crown is prestigious precisely because it can be celebrated without exaggeration.",
+        "An imagined presentation ends, but the recorded honor remains. In the long conversation between these managers, this will be a substantial statement."
+      ],
+      "pullquote": {
+        "text": "The finest announcement is sometimes the one with no adjectives attached.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-10",
+      "byline": "Our correspondent on the season's balance",
+      "standfirst": "The championship shifts attention toward {winnerClub}, yet the wider contest between the managers retains its independent fascination.",
+      "paragraphs": [
+        "One result can dominate the conversation without exhausting the subject. This season, that result is {winner}'s league title with {winnerClub}. It deserves the prominence it receives, because domestic supremacy remains among the clearest distinctions football can award.",
+        "Even so, the Showdown has its own horizon. {loserClub} forms the other half of a contest designed to compare season achievements, not merely celebrate an individual trophy. The championship is central to this edition, while the eventual wider assessment remains separate.",
+        "A great sporting story needs both a compelling present and an uncertain future. This title supplies the former without claiming ownership of the latter."
+      ],
+      "pullquote": {
+        "text": "A league crown can command attention without settling every other question.",
+        "who": "The press box"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-11",
+      "byline": "From the record room",
+      "standfirst": "The season's archive has gained a particularly durable entry: {winnerClub} and {winner} are league champions.",
+      "paragraphs": [
+        "An archive preserves what the passing excitement of a season might otherwise blur. This entry requires no elaborate caption: {winner} has won the league title with {winnerClub}. The distinction belongs in the permanent account of this Showdown.",
+        "Records also demand proportion. They should preserve {loser}'s contributions to the rivalry without allowing a single championship to swallow the rest of the story. Each season supplies its own material, and each manager remains responsible for an independent body of achievement.",
+        "Years from now, if the contest is reopened for a fresh reading, the domestic title will still be there. Its significance needs no revision."
+      ],
+      "pullquote": {
+        "text": "Memory may change its emphasis, but a championship remains on the record.",
+        "who": "A Gazette archivist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb7-12",
+      "byline": "From the managerial affairs desk",
+      "standfirst": "For all the attention given to clubs and honors, this is also an important professional distinction for {winner}.",
+      "paragraphs": [
+        "A manager's standing is shaped by accomplishments that survive the end of a campaign. {winner} has added a league championship to that account at {winnerClub}. The honor attaches to both the club and the person entrusted with it.",
+        "That dual identity gives the rivalry some of its character. {loser} competes not as a detached name on a scoreboard but as another manager building a record. Titles remain an unusually direct way of measuring accomplishment, even in a broader points contest.",
+        "A season may be remembered by its totals, but reputations acquire shape through particular distinctions. For {winner}, this championship is exactly that kind of distinction."
+      ],
+      "pullquote": {
+        "text": "The club receives the crown; the manager carries the responsibility and credit.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-13",
+      "byline": "The Gazette's language and football correspondent",
+      "standfirst": "It takes remarkably few words to describe {winner}'s achievement, and none of them can be taken lightly.",
+      "paragraphs": [
+        "Champions. The word is brief, but it contains a considerable sporting claim. This season it applies to {winnerClub}, whose league title has been secured under {winner}. In a newspaper full of competing descriptions, this is the one that matters most.",
+        "The word should not be used to belittle the work of {loserClub}. Rival achievements can coexist, and the Showdown is richer when they are considered fairly. Yet the domestic title grants one club a designation that requires neither apology nor qualification.",
+        "A good headline sometimes needs almost nothing beyond the truth. This is such a case: the league has its champion, and the season has its signature achievement."
+      ],
+      "pullquote": {
+        "text": "Few words in football are shorter, or heavier, than champions.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb7-14",
+      "byline": "Our correspondent on football's honors",
+      "standfirst": "A league title asks to be judged on its own merits, and {winnerClub} now holds that distinction.",
+      "paragraphs": [
+        "Different honors confer different kinds of satisfaction. A domestic cup has its particular appeal, just as continental competition holds another. The league title, won here by {winner} with {winnerClub}, speaks with a distinctly authoritative voice in its own category.",
+        "It would be careless to assume that the championship tells us what {loser} did or did not accomplish elsewhere. The Showdown's appeal lies partly in its recognition of several kinds of success. Still, the league crown is plainly among its defining accomplishments.",
+        "The comparison can remain generous without becoming vague. One manager has secured a recognized domestic distinction, and that achievement merits a prominent place in the edition."
+      ],
+      "pullquote": {
+        "text": "Different honors deserve different praise, and this one deserves serious attention.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb7-15",
+      "byline": "From our continuing rivalry review",
+      "standfirst": "With the league title secured, {winner} has written a substantial entry into an unfinished sporting conversation.",
+      "paragraphs": [
+        "Every enduring contest is made of statements and replies. {winner} has supplied a major statement by winning the league championship at {winnerClub}. It is neither a boast nor a prediction, merely a considerable achievement entered into the season's record.",
+        "The reply need not arrive in the same form. {loser} has a range of possible honors through which to contribute to the broader Showdown, and the rivalry is strongest when each accomplishment is assessed fairly. Respect gives the comparison its lasting appeal.",
+        "This title will keep its place whatever the coming chapters contain. The unanswered question is not whether it matters, but what the rivalry will place beside it."
+      ],
+      "pullquote": {
+        "text": "The title is a powerful statement, and good rivalries invite thoughtful replies.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    }
+  ]
+}

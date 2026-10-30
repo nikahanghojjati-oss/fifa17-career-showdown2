@@ -304,7 +304,7 @@ FACTS THE GAME KNOWS (never invent anything else)
 EACH STORY
 - "byline": a short invented byline with no person's name, e.g. "From our touchline desk". Vary it.
 - "standfirst": one sentence, 14 to 24 words, the summary printed in bold under the headline.
-- "paragraphs": exactly 3. Paragraph 1: 30 to 42 words, the news. Paragraph 2: 30 to 45 words, what it means for the rivalry, using only what the game knows. Paragraph 3: 20 to 35 words, the look ahead or the legacy.
+- "paragraphs": exactly 3. Paragraph 1: 30 to 42 words, the news. Paragraph 2: 30 to 45 words, what it means for the rivalry, using only what the game knows. Paragraph 3: 20 to 35 words, the look ahead or the legacy. Paragraph 2 must NOT be the same move every time ("this does not diminish {loser}..."): at most 3 of the 15 stories may reassure the losing manager. Use the other stories for the cabinet, the club, the season count, the next season, a cheeky aside or the rivalry history. No two standfirsts or pullquotes share an idea.
 - "pullquote": a short invented quote, 8 to 18 words, credited as "who": one of "A Gazette columnist", "The press box", "Overheard in the dugout", "The tea lady at the training ground" or a similar invented role. Never a real person.
 - Every story has its own angle and its own opening sentence. No two stories start with the same three words.
 - Only the situation's allowed placeholders. No numbers except through placeholders. Never invent goals, scores, players, transfers, injuries, dates or weather. No em or en dashes. Kind rivalry, never mean.
