@@ -1,0 +1,809 @@
+{
+  "batch": 84,
+  "situation": "comeback",
+  "edition": "season",
+  "lens": "Stage and screen",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b84-001",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE STORY TURNS AGAIN",
+      "subhead": "A season victory for {winner} has narrowed the overall distance to {loser}, giving this rivalry a compelling new direction.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-002",
+      "kicker": "GAZETTE LEAD",
+      "headline": "CHASE CLAIMS THE STAGE",
+      "subhead": "After trailing in the wider contest, {winner} has won this campaign and brought the leading manager closer into view.",
+      "score": 10,
+      "was": "headline: THE CHASE CLAIMS THE STAGE"
+    },
+    {
+      "id": "b84-003",
+      "kicker": "THE LONG VIEW",
+      "headline": "RIVALRY IN REVISION",
+      "subhead": "The latest result belongs to {winnerClub}, and the distance separating the managers over the Showdown has grown smaller.",
+      "score": 9,
+      "was": "headline: A RIVALRY IN REVISION"
+    },
+    {
+      "id": "b84-004",
+      "kicker": "FRONT PAGE",
+      "headline": "SECOND ACT, STRONGER CLAIM",
+      "subhead": "Behind overall before this season, {winner} has responded with a win that changes the balance without settling the competition.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-005",
+      "kicker": "SEASON CHRONICLE",
+      "headline": "THE ENDING IS NOT WRITTEN",
+      "subhead": "Victory this season gives {winner} meaningful ground back on {loser}, whose earlier advantage remains part of the larger story.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-006",
+      "kicker": "THE MAIN FEATURE",
+      "headline": "LEADING ROLE REVISITED",
+      "subhead": "The latest chapter favors {winnerClub}, with the manager's season success making a previously difficult pursuit more competitive.",
+      "score": 9,
+      "was": "headline: A LEADING ROLE RECLAIMED"
+    },
+    {
+      "id": "b84-007",
+      "kicker": "SPORTING RECORD",
+      "headline": "NARRATIVE ON THE TURN",
+      "subhead": "From a losing overall position, {winner} has produced the stronger season and drawn nearer to the rival's standing.",
+      "score": 9,
+      "was": "headline: THE NARRATIVE FINDS A TURN"
+    },
+    {
+      "id": "b84-008",
+      "kicker": "PRESS BOX",
+      "headline": "PLOT ACQUIRES DEPTH",
+      "subhead": "A campaign won by {winner} makes the full Showdown less straightforward, although its eventual conclusion is still unknown.",
+      "score": 9,
+      "was": "headline: THE PLOT ACQUIRES DEPTH"
+    },
+    {
+      "id": "b84-009",
+      "kicker": "THE BIG PICTURE",
+      "headline": "FRESH CHAPTER IN VIEW",
+      "subhead": "The overall contest looked different before this season; {winner} has now cut into {loser}'s advantage with a deserved victory.",
+      "score": 10,
+      "was": "headline: A FRESH CHAPTER IN VIEW"
+    },
+    {
+      "id": "b84-010",
+      "kicker": "RESULTS EDITION",
+      "headline": "CHASE ENTERS A NEW ACT",
+      "subhead": "The season belongs to {winner}, who has made the pursuit of {loser} far more interesting without claiming final honors.",
+      "score": 9,
+      "was": "headline: THE CHASE HAS A NEW LEAD"
+    },
+    {
+      "id": "b84-011",
+      "kicker": "THE SPORTING LIFE",
+      "headline": "REVERSAL IN THE PLAYBILL",
+      "subhead": "The manager once behind overall, {winner}, has taken this season's honors and reduced the distance still to travel.",
+      "score": 10,
+      "was": "headline: A REVERSAL IN THE SCRIPT"
+    },
+    {
+      "id": "b84-012",
+      "kicker": "SEASON FILE",
+      "headline": "LATER ACTS SPEAK LOUDER",
+      "subhead": "Whatever the final standings may become, {winnerClub} has given its manager a season win that tightens the rivalry.",
+      "score": 9,
+      "was": "headline: THE SECOND HALF SPEAKS"
+    },
+    {
+      "id": "b84-013",
+      "kicker": "THE EDITOR'S VIEW",
+      "headline": "SMALLER GAP, LARGER DRAMA",
+      "subhead": "The latest campaign favors {winner}, converting a trailing overall position into a closer pursuit of {loser}.",
+      "score": 10,
+      "was": "headline: A SMALLER DISTANCE, GREATER DRAMA"
+    },
+    {
+      "id": "b84-014",
+      "kicker": "THE MATCHLESS PAGE",
+      "headline": "TALE STILL UNFOLDING",
+      "subhead": "A season win has restored momentum to {winner}, leaving the wider competition closer than before this campaign began.",
+      "score": 10,
+      "was": "headline: THE TALE HAS MORE TO GIVE"
+    },
+    {
+      "id": "b84-015",
+      "kicker": "AFTER THE CREDITS",
+      "headline": "RIVALRY GAINS A SEQUEL",
+      "subhead": "For {winner}, this victory is a renewed opportunity to challenge {loser} across the Showdown, not an ending in itself.",
+      "score": 9,
+      "was": "headline: THE RIVALRY GAINS A SEQUEL"
+    },
+    {
+      "id": "b84-016",
+      "kicker": "THE REVIEW DESK",
+      "headline": "AN UNFINISHED RACE TO THE TOP",
+      "subhead": "Once further behind overall, {winner} has taken the season and made the remaining challenge more immediate.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-017",
+      "kicker": "THE SUNDAY EDITION",
+      "headline": "SEASON BANNER FOR THE CHASER",
+      "subhead": "This campaign is {winner}'s to celebrate, even while the overall story still includes {loser}'s earlier advantage.",
+      "score": 9,
+      "was": "headline: THE BANNER CHANGES HANDS"
+    },
+    {
+      "id": "b84-018",
+      "kicker": "ARCHIVE NOTES",
+      "headline": "PAST IN A DIFFERENT LIGHT",
+      "subhead": "The latest season result cannot erase previous campaigns, but {winner} has made the cumulative picture markedly more competitive.",
+      "score": 10,
+      "was": "headline: THE PAST IS RECUT"
+    },
+    {
+      "id": "b84-019",
+      "kicker": "THE LARGER STORY",
+      "headline": "COMEBACK IN THE MAKING",
+      "subhead": "By winning the season, {winnerClub}'s manager has cut the overall gap and given the rivalry fresh urgency.",
+      "score": 9,
+      "was": "headline: A COMEBACK IN THE MAKING"
+    },
+    {
+      "id": "b84-020",
+      "kicker": "EDITORIAL PAGE",
+      "headline": "PERSPECTIVE FINDS A NEW ANGLE",
+      "subhead": "The manager chasing from behind, {winner}, now holds this season's win and a better position from which to continue.",
+      "score": 9,
+      "was": "headline: A CHANGE OF PERSPECTIVE"
+    },
+    {
+      "id": "b84-021",
+      "kicker": "LATE EDITION",
+      "headline": "REWRITE THE BILLING!",
+      "subhead": "With {winner} winning the campaign, {loser}'s position at the front of the overall contest faces fresh pressure.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-022",
+      "kicker": "BREAKING NEWS",
+      "headline": "FLIP THAT SCRIPT!",
+      "subhead": "The season has gone to {winnerClub}, whose manager has transformed a distant chase into a closer contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-023",
+      "kicker": "BACK PAGE",
+      "headline": "ROLL THE COMEBACK REEL!",
+      "subhead": "A winning campaign gives {winner} fresh reason to believe the overall distance to {loser} can be reduced further.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-024",
+      "kicker": "THE BIG REVEAL",
+      "headline": "CUE THE CHASER!",
+      "subhead": "Once behind across the Showdown, {winner} has taken the season and pulled nearer to the rival's standing.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-025",
+      "kicker": "NEWS DESK",
+      "headline": "LIGHT THE RETURN SIGN!",
+      "subhead": "The new result favors {winner}, cutting into an overall disadvantage that had made the rivalry feel less balanced.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-026",
+      "kicker": "THE SPORTING FLASH",
+      "headline": "BRING ON THE REMATCH!",
+      "subhead": "A season win by {winnerClub} has reduced the cumulative separation and made the next chapter more inviting.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-027",
+      "kicker": "STOP PRESS",
+      "headline": "RECAST THE OLD ROLES!",
+      "subhead": "This campaign changes the competitive picture as {winner} wins the season and presses closer to {loser} overall.",
+      "score": 10,
+      "was": "headline: TEAR UP THE OLD SCRIPT!"
+    },
+    {
+      "id": "b84-028",
+      "kicker": "TONIGHT'S EDITION",
+      "headline": "TURN UP THE DRAMA!",
+      "subhead": "The latest honors fall to {winner}, giving the chasing manager a substantial response in the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-029",
+      "kicker": "THE EVENING REPORT",
+      "headline": "ROLL BACK THE CREDITS!",
+      "subhead": "Just when the overall contest seemed to have its direction, {winner} has won a season and shortened the chase.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-030",
+      "kicker": "THE SPORTING BULLETIN",
+      "headline": "PUT THE RIVALRY ON AIR!",
+      "subhead": "The season belongs to {winnerClub}, and the Showdown's overall difference is smaller than it was beforehand.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-031",
+      "kicker": "SPECIAL REPORT",
+      "headline": "SEND IN THE LEAD!",
+      "subhead": "A strong answer from {winner} takes this campaign and makes the previously larger overall separation less imposing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-032",
+      "kicker": "THE NEWSROOM",
+      "headline": "REOPEN THE STORY!",
+      "subhead": "The manager who trailed, {winner}, has earned the season victory and revived the cumulative contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-033",
+      "kicker": "THE PRESS BOX",
+      "headline": "CUT TO THE CHASE!",
+      "subhead": "The newest season favors {winner}, drawing the pursuing manager closer to {loser} in the overall comparison.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-034",
+      "kicker": "THE SCORE DESK",
+      "headline": "BREAK THE STORYBOARD!",
+      "subhead": "With {winnerClub} taking the season, the story of the whole Showdown has acquired fresh uncertainty.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-035",
+      "kicker": "CLOSING EDITION",
+      "headline": "RECALL THE FINAL SCENE!",
+      "subhead": "There is more to settle after {winner}'s season success reduces the distance that separated the managers overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-036",
+      "kicker": "THE RESULT SHEET",
+      "headline": "RAISE THE HOUSE LIGHTS!",
+      "subhead": "A victorious campaign has brought {winner} nearer to {loser}, ensuring the rivalry merits another look.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-037",
+      "kicker": "THE NIGHT DESK",
+      "headline": "STRIKE UP THE REPRISE!",
+      "subhead": "Season honors return to {winner}'s side of the rivalry, closing part of an earlier overall deficit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-038",
+      "kicker": "THE SEASON WIRE",
+      "headline": "OPEN THE ENCORE BOOK!",
+      "subhead": "The latest contest goes to {winnerClub}, giving its manager a needed result in the longer pursuit.",
+      "score": 10,
+      "was": "headline: SHOUT FOR AN ENCORE!"
+    },
+    {
+      "id": "b84-039",
+      "kicker": "TOUCHLINE UPDATE",
+      "headline": "PRESS PLAY ON THE RETURN!",
+      "subhead": "From an unfavorable overall standing, {winner} has won this season and restored genuine suspense to the comparison.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-040",
+      "kicker": "GREAT SPORT",
+      "headline": "WATCH THE STORY SWERVE!",
+      "subhead": "The manager chasing {loser} now has this campaign to celebrate, having reduced the Showdown's cumulative separation.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-041",
+      "kicker": "FOOTBALL EDITION",
+      "headline": "NET GAINS, NEW ACT",
+      "subhead": "The season belongs to {winner}, and the overall chase has become tighter without any promise of a final reversal.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-042",
+      "kicker": "CUPBOARD WATCH",
+      "headline": "POSTMARKED: A COMEBACK",
+      "subhead": "Victory for {winnerClub} has opened a more hopeful passage in the ongoing story against {loser}'s club.",
+      "score": 9,
+      "was": "headline: A POST TO PROLOGUE"
+    },
+    {
+      "id": "b84-043",
+      "kicker": "THE TABLE PAGE",
+      "headline": "TABLE TAKES A TWIST",
+      "subhead": "After coming into the season behind, {winner} has produced the better campaign and narrowed the total difference.",
+      "score": 10,
+      "was": "headline: THE TABLE GETS A TWIST"
+    },
+    {
+      "id": "b84-044",
+      "kicker": "FINAL WHISTLE",
+      "headline": "WHISTLE FOR THE REPRISE",
+      "subhead": "The season result favors {winner}, turning a previous deficit into a less daunting pursuit across the Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-045",
+      "kicker": "THE DUGOUT DESK",
+      "headline": "BACK IN THE DUGOUT DRAMA",
+      "subhead": "A campaign taken by {winner} has sharpened the friendly contest with {loser} beyond the season itself.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-046",
+      "kicker": "THE CUP PAGE",
+      "headline": "CUP HALF FULL AGAIN",
+      "subhead": "No specific trophy is needed for this story: {winner} has won the season and reclaimed ground overall.",
+      "score": 10,
+      "was": "headline: A CUP OF SECOND CHANCES"
+    },
+    {
+      "id": "b84-047",
+      "kicker": "OFFSIDE VIEW",
+      "headline": "OLD ENDING CAUGHT OFFSIDE",
+      "subhead": "An earlier advantage for {loser} now looks less secure after {winner} took the latest season comparison.",
+      "score": 10,
+      "was": "headline: OFFSIDE THE OLD ENDING"
+    },
+    {
+      "id": "b84-048",
+      "kicker": "THE TROPHY NOTE",
+      "headline": "SILVERWARE CAN WAIT",
+      "subhead": "Whatever the cabinets contain, the important result is that {winner} won the campaign and reduced the overall deficit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-049",
+      "kicker": "HALFTIME REVIEW",
+      "headline": "HALFTIME IN THE STORY",
+      "subhead": "The full competition continues, but {winner} has won this season and made the overall pursuit more competitive.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-050",
+      "kicker": "SPORTING ANGLE",
+      "headline": "BAR NONE, BACK IN IT",
+      "subhead": "A victory for {winnerClub}'s manager puts renewed pressure on the overall leader, {loser}, without deciding the contest.",
+      "score": 10,
+      "was": "headline: THE BAR HAS BEEN RAISED"
+    },
+    {
+      "id": "b84-051",
+      "kicker": "EXTRA TIME",
+      "headline": "EXTRA TIME FOR THE SEQUEL",
+      "subhead": "A season claimed by {winner} keeps the larger rivalry alive and makes the road back shorter.",
+      "score": 10,
+      "was": "headline: EXTRA TIME FOR THE PLOT"
+    },
+    {
+      "id": "b84-052",
+      "kicker": "PENALTY BOX",
+      "headline": "PENALTY BOX PLOT SHIFT",
+      "subhead": "The balance of the season has swung to {winner}, who has narrowed the gap in the bigger contest.",
+      "score": 9,
+      "was": "headline: PENALTY TO THE PLOTLINE"
+    },
+    {
+      "id": "b84-053",
+      "kicker": "CLEAN SHEET",
+      "headline": "CLEAN SHEET, FRESH PAGE",
+      "subhead": "This new chapter records a season win for {winner}, rather than the final overall result still to come.",
+      "score": 10,
+      "was": "headline: A CLEAN SHEET OF PAPER"
+    },
+    {
+      "id": "b84-054",
+      "kicker": "THE TOP FLIGHT",
+      "headline": "TOP FLIGHT, SECOND ACT",
+      "subhead": "The latest campaign favors {winnerClub}, and its manager has recovered part of the Showdown's previous deficit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-055",
+      "kicker": "SPORTING CLOSEUP",
+      "headline": "NET CLOSING ON THE LEAD",
+      "subhead": "Season victory for {winner} has brought the rival within closer reach in the overall standings.",
+      "score": 9,
+      "was": "headline: THE NET TIGHTENS"
+    },
+    {
+      "id": "b84-056",
+      "kicker": "THE SIDELINE",
+      "headline": "POSTSCRIPT TO THE CHASE",
+      "subhead": "A fresh result has gone to {winner}, giving the pursuing manager better prospects against {loser} overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-057",
+      "kicker": "THE POINTS PAGE",
+      "headline": "POINTS WITH A PLOT",
+      "subhead": "Whatever the exact totals, {winner} collected more this season and reduced the difference accumulated previously.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-058",
+      "kicker": "THE PRESS TRIBUNE",
+      "headline": "RETURN FROM THE WINGS",
+      "subhead": "The winner of this season, {winner}, has stepped back into contention after trailing in the wider race.",
+      "score": 10,
+      "was": "headline: A RETURN FROM THE WINGS"
+    },
+    {
+      "id": "b84-059",
+      "kicker": "THE FOOTBALL FILE",
+      "headline": "LEAD FACES A CHALLENGE",
+      "subhead": "The overall advantage held by {loser} has been trimmed after {winner} took the latest season.",
+      "score": 9,
+      "was": "headline: THE LEAD MEETS A CHALLENGE"
+    },
+    {
+      "id": "b84-060",
+      "kicker": "THE REPLAY DESK",
+      "headline": "DIFFERENT FINAL FRAME",
+      "subhead": "The season's result gives {winner} a victory and makes the cumulative story more competitive than before.",
+      "score": 9,
+      "was": "headline: A DIFFERENT FINAL FRAME"
+    },
+    {
+      "id": "b84-061",
+      "kicker": "THE SCOREBOARD",
+      "headline": "SCOREBOARD'S SUBPLOT",
+      "subhead": "After {winner} takes the campaign, the overall points difference has narrowed and the rivalry carries fresh tension.",
+      "score": 9,
+      "was": "headline: THE SCOREBOARD'S SUBPLOT"
+    },
+    {
+      "id": "b84-062",
+      "kicker": "SPOTLIGHT REPORT",
+      "headline": "BRIGHT BILLING, BOLD RETURN",
+      "subhead": "The latest season victory puts {winner} closer to a rival who had enjoyed an overall advantage.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-063",
+      "kicker": "THEATRE COLUMN",
+      "headline": "BACKSTAGE BATTLE BEGINS",
+      "subhead": "For {winner}, winning this campaign has turned an uphill comparison into a shorter, still unfinished challenge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-064",
+      "kicker": "WEEKEND REVIEW",
+      "headline": "SCENE SHIFT, SEASON SAVED",
+      "subhead": "The season is {winner}'s, even though the overall standings cannot be assumed to have changed hands.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-065",
+      "kicker": "THE MARQUEE",
+      "headline": "PROJECTOR PICKS UP PACE",
+      "subhead": "The latest victory goes to {winnerClub}, bringing the club's manager nearer to {loser} in the overall contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-066",
+      "kicker": "THE CULTURE PAGE",
+      "headline": "MARQUEE MOMENTUM MOUNTS",
+      "subhead": "With this season secured, {winner} has made the wider Showdown more tightly contested than before.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-067",
+      "kicker": "THE STAGE DOOR",
+      "headline": "FOOTLIGHTS FAVOR THE FIGHTBACK",
+      "subhead": "A previously trailing {winner} has claimed the campaign, reducing the task that remains across the full rivalry.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-068",
+      "kicker": "THE CINEMA DESK",
+      "headline": "CAMERA CATCHES THE CHANGE",
+      "subhead": "The overall picture is different after {winner}'s victory this season, though the final result remains beyond this page.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-069",
+      "kicker": "THE PLAYBILL",
+      "headline": "PROGRAM PROMISES A RETURN",
+      "subhead": "A new season win for {winnerClub} has given its manager a convincing answer to an earlier deficit.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-070",
+      "kicker": "THE REEL REPORT",
+      "headline": "REEL REVIVAL REACHES HOME",
+      "subhead": "The campaign belongs to {winner}, whose success shrinks the distance to {loser} in the longer comparison.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-071",
+      "kicker": "THE FILM REVIEW",
+      "headline": "SCREENPLAY SHAKES STANDINGS",
+      "subhead": "An overall lead is less commanding after {winner} wins this season and makes the chase more competitive.",
+      "score": 10,
+      "was": "headline: SCRIPT SURPRISES THE LEADER"
+    },
+    {
+      "id": "b84-072",
+      "kicker": "THE GREEN ROOM",
+      "headline": "GREEN ROOM GETS LOUDER",
+      "subhead": "The stronger campaign belongs to {winnerClub}, offering renewed hope to the manager who began behind overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-073",
+      "kicker": "THE STAGE REVIEW",
+      "headline": "SECOND BILLING STRIKES BACK",
+      "subhead": "Having entered the campaign behind, {winner} has won the season and made the rivalry less predictable.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-074",
+      "kicker": "THE PERFORMERS",
+      "headline": "SPOTLIGHT SWINGS SHARPLY",
+      "subhead": "A fresh season result has favored {winner}, shortening the overall distance between the managers.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-075",
+      "kicker": "THE FEATURE DESK",
+      "headline": "PREMIERE PRESSURE BUILDS",
+      "subhead": "The manager once trailing, {winner}, now has a season win that complicates {loser}'s overall advantage.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-076",
+      "kicker": "THE LATE SHOW",
+      "headline": "IS THE TRAILER NOW A THREAT?",
+      "subhead": "This season's victory gives {winner} a deserved place in the comeback narrative, but the overall verdict remains open.",
+      "score": 10,
+      "was": "headline: CREDITS CHANGE COURSE"
+    },
+    {
+      "id": "b84-077",
+      "kicker": "THE BIG PICTURE",
+      "headline": "WHO GETS THE NEXT SCENE?",
+      "subhead": "By taking this season, {winner} has narrowed the cumulative difference, making the rivalry's next development worth watching.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-078",
+      "kicker": "SEASON REVIEW",
+      "headline": "IS THE SCRIPT STILL SET?",
+      "subhead": "A once distant pursuit has grown closer because {winner} won the campaign against {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-079",
+      "kicker": "GAZETTE LEAD",
+      "headline": "CAN THE CHASER STEAL BILLING?",
+      "subhead": "A season victory has brought {winner} nearer to {loser} overall, with the ultimate ordering still uncertain.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-080",
+      "kicker": "THE LONG VIEW",
+      "headline": "WILL THE SEQUEL CHANGE COURSE?",
+      "subhead": "The latest result belongs to {winnerClub}, and its manager has shortened a previously wider overall deficit.",
+      "score": 10,
+      "was": "headline: WILL THE SEQUEL CHANGE EVERYTHING?"
+    },
+    {
+      "id": "b84-081",
+      "kicker": "FRONT PAGE",
+      "headline": "HAS THE LEADER LOST THE PLOT?",
+      "subhead": "The overall challenger, {winner}, has taken this campaign and made {loser}'s advantage smaller than before.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-082",
+      "kicker": "SEASON CHRONICLE",
+      "headline": "WHO OWNS THE LAST ACT?",
+      "subhead": "After winning the season, {winner} has reduced the difference in the wider contest without completing the comeback.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-083",
+      "kicker": "THE MAIN FEATURE",
+      "headline": "IS THERE A SECOND TAKE?",
+      "subhead": "The latest success for {winner} has made the overall chase shorter, inviting a different conclusion to the rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-084",
+      "kicker": "SPORTING RECORD",
+      "headline": "COULD THE CREDITS YET CHANGE?",
+      "subhead": "A season gained by {winnerClub} leaves the cumulative contest closer and the eventual outcome unresolved.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-085",
+      "kicker": "PRESS BOX",
+      "headline": "WAS THAT THE TURNING SCENE?",
+      "subhead": "Victory for {winner} has altered the overall picture, replacing a larger deficit with a more manageable one.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-086",
+      "kicker": "THE SPORTING LIFE",
+      "headline": "CHASER IN CLOSEUP",
+      "subhead": "This season goes to {winner}, whose answer to {loser}'s earlier lead keeps the competitive story alive.",
+      "score": 9,
+      "was": "headline: DOES THE PLOT FAVOR A RETURN?"
+    },
+    {
+      "id": "b84-087",
+      "kicker": "RESULTS EDITION",
+      "headline": "NEXT EPISODE: UNWRITTEN",
+      "subhead": "A campaign won by {winner} has trimmed the overall separation, leaving both managers with a continuing stake.",
+      "score": 9,
+      "was": "headline: WHO WRITES THE NEXT EPISODE?"
+    },
+    {
+      "id": "b84-088",
+      "kicker": "THE EDITOR'S VIEW",
+      "headline": "UNDERSTUDY TAKES CHARGE",
+      "subhead": "Previously behind in the longer contest, {winner} has now captured a season and forced the rivalry into a new phase.",
+      "score": 10,
+      "was": "headline: THE UNDERSTUDY TAKES CHARGE"
+    },
+    {
+      "id": "b84-089",
+      "kicker": "THE SUNDAY EDITION",
+      "headline": "FINALE ON HOLD",
+      "subhead": "For {winner}, the season win marks a successful response, while the overall Showdown still has its own story.",
+      "score": 10,
+      "was": "headline: THE FINALE HAS TO WAIT"
+    },
+    {
+      "id": "b84-090",
+      "kicker": "ARCHIVE NOTES",
+      "headline": "BETTER NEXT TAKE",
+      "subhead": "This season has gone to {winnerClub}, reducing the cumulative distance to its rival and reshaping the contest.",
+      "score": 10,
+      "was": "headline: ANOTHER TAKE, BETTER ANGLE"
+    },
+    {
+      "id": "b84-091",
+      "kicker": "THE LARGER STORY",
+      "headline": "TWIST WITH TEETH",
+      "subhead": "A trailing manager has become this season's winner as {winner} cuts into {loser}'s overall lead.",
+      "score": 10,
+      "was": "headline: A PLOT TWIST WITH TEETH"
+    },
+    {
+      "id": "b84-092",
+      "kicker": "EDITORIAL PAGE",
+      "headline": "THE EDIT IS NOT FINAL",
+      "subhead": "Although {winner} has won this season, the larger rivalry remains unresolved and the distance between managers has narrowed.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b84-093",
+      "kicker": "LATE EDITION",
+      "headline": "GAP, INTERRUPTED",
+      "subhead": "The latest campaign belongs to {winner}, who has reclaimed ground after arriving with a deficit overall.",
+      "score": 9,
+      "was": "headline: THE COMEBACK TAKES FORM"
+    },
+    {
+      "id": "b84-094",
+      "kicker": "BREAKING NEWS",
+      "headline": "FRESH ROLE, SECOND WIND",
+      "subhead": "A season victory for {winnerClub}'s manager has reduced the previous overall difference and renewed the challenge.",
+      "score": 10,
+      "was": "headline: SECOND WIND, FRESH SCRIPT"
+    },
+    {
+      "id": "b84-095",
+      "kicker": "BACK PAGE",
+      "headline": "SUPPORTING ROLE? HARDLY",
+      "subhead": "What began as an uphill overall chase now looks closer after {winner} captured the season honors.",
+      "score": 9,
+      "was": "headline: SURPRISE SUPPORTING STAR"
+    },
+    {
+      "id": "b84-096",
+      "kicker": "THE BIG REVEAL",
+      "headline": "HOPE GETS BILLING",
+      "subhead": "By taking this campaign, {winner} has made the cumulative rivalry more open than the prior standings suggested.",
+      "score": 10,
+      "was": "headline: PLOT HOLE? NO, HOPE"
+    },
+    {
+      "id": "b84-097",
+      "kicker": "NEWS DESK",
+      "headline": "STORY BITES BACK",
+      "subhead": "The season belongs to {winner}, and {loser} now has a closer overall challenger than before.",
+      "score": 10,
+      "was": "headline: THE STORY BITES BACK"
+    },
+    {
+      "id": "b84-098",
+      "kicker": "THE SPORTING FLASH",
+      "headline": "CURTAIN UP, CHASE ON",
+      "subhead": "The latest Showdown chapter belongs to {winner}, who has made the overall challenge against {loser} closer and more compelling.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b84-099",
+      "kicker": "TONIGHT'S EDITION",
+      "headline": "LAST REEL PENDING",
+      "subhead": "A season victory for {winnerClub} strengthens its manager's position in a wider contest that remains to be decided.",
+      "score": 10,
+      "was": "headline: NO ENDING IN SIGHT"
+    },
+    {
+      "id": "b84-100",
+      "kicker": "THE EVENING REPORT",
+      "headline": "REHEARSAL FOR RECKONING",
+      "subhead": "After starting behind overall, {winner} has earned a season win and narrowed the ground separating the rivals.",
+      "score": 10,
+      "was": "headline: REHEARSAL FOR A RECKONING"
+    }
+  ]
+}

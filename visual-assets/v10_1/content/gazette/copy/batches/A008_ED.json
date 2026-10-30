@@ -1,0 +1,809 @@
+{
+  "batch": 8,
+  "situation": "comeback",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b8-001",
+      "kicker": "RETURN DESK",
+      "headline": "THE CABINET REMEMBERS",
+      "subhead": "After entering the season behind overall, {winner} claimed the latest round and made the wider contest feel open again.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-002",
+      "kicker": "SEASON REVIEW",
+      "headline": "SILVER IN THE REARVIEW",
+      "subhead": "The season belonged to {winner}, whose response to an earlier deficit has given {loser} a renewed challenge.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-003",
+      "kicker": "HONOURS WATCH",
+      "headline": "SHELF WITHIN REACH",
+      "subhead": "What looked distant in the overall race is closer after {winner} put an important season victory on the board.",
+      "score": 10,
+      "was": "Headline: THE SHELF IS WITHIN REACH | Subhead: What looked distant in the overall race is closer after {winner} put an important season victory on the board."
+    },
+    {
+      "id": "b8-004",
+      "kicker": "THE RIVALRY",
+      "headline": "A PLACE AMONG THE FRAMES",
+      "subhead": "For {winnerClub}, this season has been a vital answer to an overall position that previously favoured {loser}.",
+      "score": 10,
+      "was": "Headline: A PLACE BACK IN THE FRAME | Subhead: An earlier shortfall no longer defines the entire contest, with {winnerClub} now central to the developing story."
+    },
+    {
+      "id": "b8-005",
+      "kicker": "RESULTS DESK",
+      "headline": "GLASS REFLECTS A REVIVAL",
+      "subhead": "What had looked like a settled direction has changed, with {winner}'s season victory shifting the overall standings.",
+      "score": 10,
+      "was": "Headline: GLASS REFLECTS A REVIVAL | Subhead: A season win for {winner} has changed the view of the overall standings without settling their final order."
+    },
+    {
+      "id": "b8-006",
+      "kicker": "SEASON PAGES",
+      "headline": "THE DISPLAY SHIFTS",
+      "subhead": "Behind the latest result lies a larger change, as {winner} converts a season victory into a compelling response.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-007",
+      "kicker": "THE LONG VIEW",
+      "headline": "ENGRAVING STILL OPEN",
+      "subhead": "The honours of the full Showdown remain undecided, but {winner} has made the rivalry considerably harder to call.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-008",
+      "kicker": "CABINET NOTES",
+      "headline": "CASE FOR THE RETURN",
+      "subhead": "A significant result for {winner} has followed an earlier overall deficit, reviving interest in the wider contest.",
+      "score": 9,
+      "was": "Headline: THE CASE FOR A RETURN | Subhead: There is fresh significance to {winner}'s season win, earned after arriving at this stage behind in the overall contest."
+    },
+    {
+      "id": "b8-009",
+      "kicker": "AFTER THE ROUND",
+      "headline": "HONOURS RETURN TO VIEW",
+      "subhead": "Season {seasonNo} has tightened the rivalry, with {winner} producing the stronger return after entering the round behind overall.",
+      "score": 10,
+      "was": "Headline: HONOURS BACK IN VIEW | Subhead: The overall race has acquired new tension because {winner} refused to let the earlier deficit dictate this season."
+    },
+    {
+      "id": "b8-010",
+      "kicker": "GAZETTE REPORT",
+      "headline": "NEW INK ON THE LABEL",
+      "subhead": "A fresh season entry belongs to {winner}, and the overall rivalry now reads differently from before.",
+      "score": 9,
+      "was": "Headline: A NEW LINE ON THE LABEL | Subhead: A fresh season entry belongs to {winner}, and the overall rivalry now reads differently from before."
+    },
+    {
+      "id": "b8-011",
+      "kicker": "FEATURE REPORT",
+      "headline": "KEY IN MOTION AGAIN",
+      "subhead": "Having been on the wrong side of the cumulative contest, {winner} has found a way back into contention.",
+      "score": 10,
+      "was": "Headline: THE KEY TURNS AGAIN | Subhead: Having been on the wrong side of the cumulative contest, {winner} has found a way back into contention."
+    },
+    {
+      "id": "b8-012",
+      "kicker": "DISPLAY ROOM",
+      "headline": "EMPTY SPACE SHRINKS",
+      "subhead": "Now the distance to the overall target is shorter, thanks to {winner}'s success in this season's contest.",
+      "score": 10,
+      "was": "Headline: THE EMPTY SPACE NARROWS | Subhead: The latest season victory has reduced the distance between {winner} and the position they were chasing overall."
+    },
+    {
+      "id": "b8-013",
+      "kicker": "THE RECORD",
+      "headline": "RIBBON OF RECOVERY",
+      "subhead": "For {winner}, this season brought more than local bragging rights: it answered an earlier overall disadvantage.",
+      "score": 9,
+      "was": "Headline: A RIBBON OF RECOVERY | Subhead: For {winner}, this season brought more than local bragging rights: it answered an earlier overall disadvantage."
+    },
+    {
+      "id": "b8-014",
+      "kicker": "RIVALRY FILE",
+      "headline": "BEHIND GLASS, NEW HOPE",
+      "subhead": "For {loserClub}, the earlier overall advantage was genuine; {winnerClub}'s season victory now gives that position a serious test.",
+      "score": 10,
+      "was": "Headline: BEHIND GLASS, NEW HOPE | Subhead: A campaign that began with {winner} chasing overall has ended with the larger rivalry looking far less settled."
+    },
+    {
+      "id": "b8-015",
+      "kicker": "THE MANTEL",
+      "headline": "CABINET, NOT YET CLOSED",
+      "subhead": "The overall verdict must wait, and {winner}'s successful season has supplied a convincing reason to keep watching.",
+      "score": 9,
+      "was": "Headline: THE CABINET IS NOT CLOSED | Subhead: The overall verdict must wait, and {winner}'s successful season has supplied a convincing reason to keep watching."
+    },
+    {
+      "id": "b8-016",
+      "kicker": "THE HONOURS",
+      "headline": "PLAQUE AWAITS REVISION",
+      "subhead": "The story of this Showdown has changed after {winner} won the season and cut into an established deficit.",
+      "score": 10,
+      "was": "Headline: THE PLAQUE GETS REVISED | Subhead: The story of this Showdown has changed after {winner} won the season and cut into an established deficit."
+    },
+    {
+      "id": "b8-017",
+      "kicker": "TROPHY ROOM",
+      "headline": "PEDESTAL LOOKS CLOSER",
+      "subhead": "From a place behind overall, {winner} has returned with a season result that restores genuine competitive pressure.",
+      "score": 9,
+      "was": "Headline: THE PEDESTAL LOOKS CLOSER | Subhead: From a place behind overall, {winner} has returned with a season result that restores genuine competitive pressure."
+    },
+    {
+      "id": "b8-018",
+      "kicker": "SEASON LEDGER",
+      "headline": "NAME REENTERS THE FRAME",
+      "subhead": "A season victory places {winner} firmly back in the conversation after the earlier overall numbers favoured {loser}.",
+      "score": 10,
+      "was": "Headline: THE NAME RETURNS TO VIEW | Subhead: A season victory places {winner} firmly back in the conversation after the earlier overall numbers favoured {loser}."
+    },
+    {
+      "id": "b8-019",
+      "kicker": "PRINT EDITION",
+      "headline": "FRAME FINDS ITS FIGHT",
+      "subhead": "The latest honours belong to the season's victor, while the full contest now has fresh suspense.",
+      "score": 9,
+      "was": "Headline: THE FRAME FINDS ITS FIGHT | Subhead: The latest honours belong to the season's victor, while the full contest now has fresh suspense."
+    },
+    {
+      "id": "b8-020",
+      "kicker": "CABINET REPORT",
+      "headline": "DOOR STANDS AJAR",
+      "subhead": "No final claim is being made, but {winner} has turned a previous overall disadvantage into a live contest.",
+      "score": 10,
+      "was": "Headline: THE DOOR STANDS AJAR | Subhead: No final claim is being made, but {winner} has turned a previous overall disadvantage into a live contest."
+    },
+    {
+      "id": "b8-021",
+      "kicker": "BACK PAGE",
+      "headline": "FLING OPEN THE CASE!",
+      "subhead": "The full Showdown still has questions to answer after {winner} delivered a season win from behind overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-022",
+      "kicker": "THE LATEST",
+      "headline": "RATTLE THOSE SHELVES!",
+      "subhead": "At {winnerClub}, the season has delivered the stronger points return and narrowed the gap to the overall leader beforehand.",
+      "score": 10,
+      "was": "Headline: RATTLE THOSE SHELVES! | Subhead: A forceful season from {winnerClub} has jolted the wider rivalry out of its earlier pattern."
+    },
+    {
+      "id": "b8-023",
+      "kicker": "RIVAL WATCH",
+      "headline": "GET THE POLISH READY!",
+      "subhead": "An earlier overall deficit looks less daunting now that {winner} has put a fresh season victory alongside it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-024",
+      "kicker": "SEASON SIGNAL",
+      "headline": "SWING THAT CABINET DOOR!",
+      "subhead": "After starting this round behind overall, {winner} has made sure the next chapter cannot be taken for granted.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-025",
+      "kicker": "PRESS BOX",
+      "headline": "DUST OFF THE COMEBACK!",
+      "subhead": "This was {winner}'s season, and it brought a needed change of direction to the cumulative contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-026",
+      "kicker": "THE BIG TURN",
+      "headline": "PART THE VELVET",
+      "subhead": "From {winnerPoints} to {loserPoints} in this season's reckoning, {winner} has found precisely the result an overall chase required.",
+      "score": 9,
+      "was": "Headline: PULL BACK THE VELVET! | Subhead: The rivalry has taken an unexpected turn as {winner} wins the latest season and draws closer in the overall reckoning."
+    },
+    {
+      "id": "b8-027",
+      "kicker": "HONOURS ALERT",
+      "headline": "SHAKE UP THE SHOWCASE!",
+      "subhead": "After an earlier disadvantage, {winner} found a season result strong enough to alter the contest's complexion.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-028",
+      "kicker": "LATE EDITION",
+      "headline": "SLIDE INTO THE LIGHT",
+      "subhead": "For a manager previously behind overall, this season's victory gives {winner} a very different outlook.",
+      "score": 9,
+      "was": "Headline: SLIDE BACK INTO VIEW! | Subhead: For a manager previously behind overall, this season's victory gives {winner} a very different outlook."
+    },
+    {
+      "id": "b8-029",
+      "kicker": "THE REMATCH",
+      "headline": "BRING OUT THE BRASS!",
+      "subhead": "The overall leader had a cushion before this season, but {winner} has now made the contest tighter.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-030",
+      "kicker": "THE RESPONSE",
+      "headline": "SWEEP ASIDE THE DUST!",
+      "subhead": "A previous overall deficit has met its answer, with {winner} taking the latest season on merit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-031",
+      "kicker": "RIVALRY BULLETIN",
+      "headline": "UNLOCK THE ARCHIVE!",
+      "subhead": "The latest round went to {winner}, whose comeback has opened fresh possibilities for the Showdown's eventual outcome.",
+      "score": 10,
+      "was": "Headline: UNLOCK THAT DISPLAY! | Subhead: The latest round went to {winner}, whose comeback has opened fresh possibilities for the remaining Showdown."
+    },
+    {
+      "id": "b8-032",
+      "kicker": "FRONT PAGE",
+      "headline": "POLISH UP THE RETURN!",
+      "subhead": "There is new energy in the overall contest following a season victory that brings {winner} back towards {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-033",
+      "kicker": "CABINET ALERT",
+      "headline": "SHIFT THE SPOTLIGHT",
+      "subhead": "The full rivalry deserves a second look now that {winner} has cut into the lead they faced before this season.",
+      "score": 10,
+      "was": "Headline: SHIFT THE SPOTLIGHT! | Subhead: The full rivalry deserves a second look now that {winner} has cut into the lead they faced before this season."
+    },
+    {
+      "id": "b8-034",
+      "kicker": "ON THE STAND",
+      "headline": "LIFT THE CLOTH AGAIN!",
+      "subhead": "With {winner} taking the season, a contest once leaning the other way has found its suspense again.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-035",
+      "kicker": "THE TURNAROUND",
+      "headline": "CHARGE THE TROPHY ROOM!",
+      "subhead": "The cabinet can wait for its final arrangement, because {winner} has made the overall outcome less predictable.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-036",
+      "kicker": "LATEST HONOURS",
+      "headline": "SWING THE LATCH WIDE",
+      "subhead": "A season that might have deepened an earlier deficit instead handed {winner} a route back into the fight.",
+      "score": 9,
+      "was": "Headline: ROLL BACK THE GLASS! | Subhead: A season that might have deepened an earlier deficit instead handed {winner} a route back into the fight."
+    },
+    {
+      "id": "b8-037",
+      "kicker": "THE COMEBACK",
+      "headline": "THROW OPEN THE GALLERY!",
+      "subhead": "An earlier overall edge for {loserClub} has been challenged by a successful season from {winnerClub}.",
+      "score": 10,
+      "was": "Headline: THROW OPEN THE GALLERY! | Subhead: The latest success changes the direction of the rivalry, even if the overall winner is not yet known."
+    },
+    {
+      "id": "b8-038",
+      "kicker": "AFTER THE WHISTLE",
+      "headline": "SOUND THE HONOURS BELL!",
+      "subhead": "Once behind in the complete contest, {winner} has provided the sort of response that keeps rivals alert.",
+      "score": 10,
+      "was": "Headline: RING THE DISPLAY BELL! | Subhead: Once behind in the complete contest, {winner} has provided the sort of response that keeps rivals alert."
+    },
+    {
+      "id": "b8-039",
+      "kicker": "SEASON TURN",
+      "headline": "FETCH THE NAMEPLATE!",
+      "subhead": "Victory in this season belongs to {winner}, leaving the eventual Showdown honours a much more open question.",
+      "score": 9,
+      "was": "Headline: FETCH THE NAMEPLATE! | Subhead: The latest season belongs to {winner}, and the argument over the Showdown's eventual honours is alive again."
+    },
+    {
+      "id": "b8-040",
+      "kicker": "THE RECKONING",
+      "headline": "HEAVE OPEN THE DRAPES",
+      "subhead": "There is no finished verdict here, only a season won by {winner} and a much livelier overall race.",
+      "score": 9,
+      "was": "Headline: HEAVE BACK THE CURTAIN! | Subhead: There is no finished verdict here, only a season won by {winner} and a much livelier overall race."
+    },
+    {
+      "id": "b8-041",
+      "kicker": "FOOTBALL FILE",
+      "headline": "CABINET COUNTERATTACK",
+      "subhead": "Rather than accept the overall gap, {winner} answered through the season standings and turned the pressure back on {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-042",
+      "kicker": "NET RETURNS",
+      "headline": "THE NET CLOSES ON SILVER",
+      "subhead": "For {winnerClub}, a season won by {margin} has made the larger honours race far more compelling.",
+      "score": 10,
+      "was": "Headline: THE NET CLOSES ON SILVER | Subhead: The season's points have brought {winner} nearer to the overall prize that once seemed further away."
+    },
+    {
+      "id": "b8-043",
+      "kicker": "TACTICS BOARD",
+      "headline": "POST MARKED FOR DISPLAY",
+      "subhead": "What mattered this season was the result on the board, and {winner} used it to reshape the wider chase.",
+      "score": 9,
+      "was": "Headline: A POST IN THE DISPLAY | Subhead: What mattered this season was the result on the board, and {winner} used it to reshape the wider chase."
+    },
+    {
+      "id": "b8-044",
+      "kicker": "CUPBOARD WATCH",
+      "headline": "CUPBOARD WITH A COMEBACK",
+      "subhead": "The cabinet of final honours is still waiting, while {winner} has given this season a sharply different ending.",
+      "score": 10,
+      "was": "Headline: CUPBOARD WITH A COMEBACK | Subhead: The honours room remains a metaphor for what is at stake, but {winner}'s latest success is quite real."
+    },
+    {
+      "id": "b8-045",
+      "kicker": "LEAGUE LINES",
+      "headline": "TOP SHELF, BACK IN PLAY",
+      "subhead": "For {winnerClub}, this success puts the club back at the heart of an overall contest that threatened to drift away.",
+      "score": 10,
+      "was": "Headline: TOP SHELF, BACK IN PLAY | Subhead: A season win has restored {winnerClub} to the heart of a contest that previously appeared to be getting away."
+    },
+    {
+      "id": "b8-046",
+      "kicker": "THE SIDE LINE",
+      "headline": "OFFSIDE? NOT ON THE PLAQUE",
+      "subhead": "The overall picture was unkind to {winner} beforehand, yet this season showed how quickly a rivalry can shift.",
+      "score": 9,
+      "was": "Headline: OFFSIDE? NOT IN THE CASE | Subhead: The overall picture was unkind to {winner} beforehand, yet this season showed how quickly a rivalry can shift."
+    },
+    {
+      "id": "b8-047",
+      "kicker": "THE DUGOUT",
+      "headline": "DUGOUT TO DISPLAY CASE",
+      "subhead": "From the position of overall pursuer, {winner} has taken a season that makes the eventual verdict harder to predict.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-048",
+      "kicker": "FULL TIME FILE",
+      "headline": "WHISTLE FOR THE SILVER",
+      "subhead": "At this round's conclusion, {winner} held the better seasonal total, cutting the lead {loser} carried beforehand.",
+      "score": 9,
+      "was": "Headline: WHISTLE FOR THE SILVER | Subhead: The latest season ended with {winner} on top, reducing the importance of the lead {loser} had carried into it."
+    },
+    {
+      "id": "b8-049",
+      "kicker": "THE FIXTURE",
+      "headline": "SHELVES UNDER PRESSURE",
+      "subhead": "An overall lead is no invitation to relax, as {winner} demonstrated by claiming the latest season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-050",
+      "kicker": "POINTS DESK",
+      "headline": "A REBOUND OFF THE GLASS",
+      "subhead": "The season result does not finish the Showdown, but it gives {winner} a valuable way back into contention.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-051",
+      "kicker": "EXTRA COLUMN",
+      "headline": "EXTRA ROOM FOR REVIVAL",
+      "subhead": "The season now belongs to {winnerClub}, but the bigger story is how their manager answered an earlier overall deficit.",
+      "score": 9,
+      "was": "Headline: EXTRA ROOM FOR REVIVAL | Subhead: A renewed challenge from {winner} has changed the shape of the rivalry without deciding who will ultimately prevail."
+    },
+    {
+      "id": "b8-052",
+      "kicker": "THE TOUCHLINE",
+      "headline": "FAR POST, NEARER HONOURS",
+      "subhead": "The season's winner had been chasing in the larger contest, and the latest result has narrowed that distance.",
+      "score": 10,
+      "was": "Headline: BACK POST TO BACK SHELF | Subhead: The season's winner had been chasing in the larger contest, and the latest result has narrowed that distance."
+    },
+    {
+      "id": "b8-053",
+      "kicker": "THE SCORECARD",
+      "headline": "SCOREBOARD IN THE VAULT",
+      "subhead": "Figures from this season favour {winner}, making a once more distant overall outcome feel less remote.",
+      "score": 10,
+      "was": "Headline: SCOREBOARD BEHIND GLASS | Subhead: Figures from this season favour {winner}, making a once more distant overall outcome feel less remote."
+    },
+    {
+      "id": "b8-054",
+      "kicker": "TABLE REPORT",
+      "headline": "TABLE TURNS THE KEY",
+      "subhead": "An earlier deficit prompted no surrender from {winner}, whose season win has reopened the conversation around the final standings.",
+      "score": 10,
+      "was": "Headline: THE TABLE TURNS THE KEY | Subhead: An earlier deficit prompted no surrender from {winner}, whose season win has reopened the conversation around the final standings."
+    },
+    {
+      "id": "b8-055",
+      "kicker": "HALF TIME VIEW",
+      "headline": "HALF TIME IN THE GALLERY",
+      "subhead": "The complete Showdown still awaits its conclusion, but {winner} has used this season to change the momentum.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-056",
+      "kicker": "PENALTY BOX",
+      "headline": "NO PENALTY FOR PURSUIT",
+      "subhead": "Renewed life fills {winner}'s challenge after a season victory that answers the existing overall disadvantage.",
+      "score": 9,
+      "was": "Headline: NO PENALTY FOR PURSUIT | Subhead: There is fresh life in {winner}'s challenge after a season victory that answers the existing overall disadvantage."
+    },
+    {
+      "id": "b8-057",
+      "kicker": "FINAL WHISTLE",
+      "headline": "FULL TIME, LATCH RATTLES",
+      "subhead": "A result in favour of {winner} puts new strain on the gap that previously separated the rival managers.",
+      "score": 10,
+      "was": "Headline: FULL TIME, GLASS RATTLES | Subhead: A result in favour of {winner} puts new strain on the gap that previously separated the rival managers."
+    },
+    {
+      "id": "b8-058",
+      "kicker": "HONOURS TABLE",
+      "headline": "SHELF LIFE IN EXTRA TIME",
+      "subhead": "The overall contest has been given fresh intrigue because {winner} produced a season worthy of another look.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-059",
+      "kicker": "BACK FOUR",
+      "headline": "SILVER LINING FOR THE CHASE",
+      "subhead": "Coming from an overall deficit, {winner} has won the latest season and altered the mood of the race.",
+      "score": 9,
+      "was": "Headline: SILVER LINING AT THE BACK | Subhead: Coming from an overall deficit, {winner} has won the latest season and altered the mood of the race."
+    },
+    {
+      "id": "b8-060",
+      "kicker": "MATCH DESK",
+      "headline": "CABINET IN PLAY",
+      "subhead": "Against the earlier overall picture, {winner}'s season result has brought the cumulative challenge into sharper focus.",
+      "score": 9,
+      "was": "Headline: THE CASE IS BACK ON | Subhead: The season has swung towards {winner}, and the cumulative challenge now feels more competitive than it did before."
+    },
+    {
+      "id": "b8-061",
+      "kicker": "ARCHIVE NOTES",
+      "headline": "PLAQUES POINT TOWARD HOPE",
+      "subhead": "A difficult overall position has been met with a strong season from {winner}, leaving the eventual outcome newly uncertain.",
+      "score": 10,
+      "was": "Headline: PLAQUES POINT BACK TO HOPE | Subhead: A difficult overall position has been met with a strong season from {winner}, leaving the eventual outcome newly uncertain."
+    },
+    {
+      "id": "b8-062",
+      "kicker": "CABINET CORNER",
+      "headline": "RIBBONS RETURN TO RELEVANCE",
+      "subhead": "The larger contest had tilted towards {loser}, but this season's points have brought {winner} back towards the centre.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-063",
+      "kicker": "DISPLAY DESK",
+      "headline": "GLASS GIVES GROUND",
+      "subhead": "Where {loser} held the stronger overall position, {winner} has inserted a season victory that demands a revised assessment.",
+      "score": 10,
+      "was": "Headline: GLASS GIVES GROUND | Subhead: The view from the overall standings has shifted after {winner} turned a chasing position into a season victory."
+    },
+    {
+      "id": "b8-064",
+      "kicker": "ENGRAVER'S LOG",
+      "headline": "BRASS BEARS A REPLY",
+      "subhead": "A fresh result has given {winner} something more persuasive than promises in the ongoing rivalry with {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-065",
+      "kicker": "THE VAULT",
+      "headline": "VELVET VEILS A REVERSAL",
+      "subhead": "The final outcome remains out of sight, though {winner}'s latest success has made the contest significantly closer.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-066",
+      "kicker": "SHELF REPORT",
+      "headline": "SHELVES SHAKE OFF SILENCE",
+      "subhead": "After a spell behind overall, {winner} has returned to the conversation with a season win that demands attention.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-067",
+      "kicker": "MANTEL MATTERS",
+      "headline": "MANTELS MARK MOMENTUM",
+      "subhead": "The chase has changed character because {winner} collected the better season total and closed the previous gap.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-068",
+      "kicker": "HONOURS ROOM",
+      "headline": "HINGES HOLD NEW HOPE",
+      "subhead": "What appeared to be a settled direction in the overall race has been challenged by {winner}'s latest result.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-069",
+      "kicker": "COLLECTORS' FILE",
+      "headline": "CASES CONCEAL A COMEBACK",
+      "subhead": "A valuable answer has come from {winner}, whose season victory leaves the wider contest with a different complexion.",
+      "score": 10,
+      "was": "Headline: CASES CONCEAL A COMEBACK | Subhead: The season has supplied {winner} with a valuable answer, even while the final order of the rivalry remains open."
+    },
+    {
+      "id": "b8-070",
+      "kicker": "THE INSCRIPTION",
+      "headline": "ETCHINGS ECHO AN ANSWER",
+      "subhead": "With a season win to their name, {winner} has reduced the effect of the earlier overall deficit.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-071",
+      "kicker": "TROPHY ARCHIVE",
+      "headline": "PEDESTALS PROMISE A RETURN",
+      "subhead": "There is reason for renewed belief around {winnerClub} after this season narrowed the separation in the overall contest.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-072",
+      "kicker": "POLISHING DESK",
+      "headline": "LUSTRE LIFTS THE CHASE",
+      "subhead": "This season's defining turn was {winner}'s answer to an existing overall deficit, a result that renewed the contest.",
+      "score": 9,
+      "was": "Headline: LUSTRE LIFTS THE CHASE | Subhead: The story of the season is {winner}'s response, achieved while the overall contest still carried an earlier imbalance."
+    },
+    {
+      "id": "b8-073",
+      "kicker": "LOCKSMITH'S VIEW",
+      "headline": "LOCKS LOOSEN ON THE LEAD",
+      "subhead": "The previous gap has narrowed, and the fight for overall honours now carries tension that the earlier standings lacked.",
+      "score": 10,
+      "was": "Headline: LOCKS LOOSEN ON THE LEAD | Subhead: The gap was greater before this season, and {winner}'s victory has made every future result more consequential."
+    },
+    {
+      "id": "b8-074",
+      "kicker": "HONOURS INSIDE",
+      "headline": "SHOWCASES SIGNAL A SHIFT",
+      "subhead": "What the previous overall totals suggested is no longer the whole story after {winner} claimed the season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-075",
+      "kicker": "FRONT ROW",
+      "headline": "GALLERIES GAIN A PLOT TWIST",
+      "subhead": "The overall rivalry has its intrigue back, thanks to a season result that favoured the manager previously chasing.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-076",
+      "kicker": "RIVALRY QUESTIONS",
+      "headline": "WHO REOPENS THE CASE?",
+      "subhead": "A manager who began behind overall has taken the latest round, leaving the wider contest with fresh uncertainty.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-077",
+      "kicker": "SEASON QUESTIONS",
+      "headline": "IS THE FRAME FILLING?",
+      "subhead": "For {winner}, a season victory offers proof of progress after an earlier deficit in the overall standings.",
+      "score": 9,
+      "was": "Headline: IS THE GLASS HALF FULL? | Subhead: For {winner}, a season victory offers proof of progress after an earlier deficit in the overall standings."
+    },
+    {
+      "id": "b8-078",
+      "kicker": "THE BIG QUESTION",
+      "headline": "WHO MOVED THE NAMEPLATE?",
+      "subhead": "With {winnerPoints} to {loserPoints}, the seasonal figures have swung in {winner}'s favour and altered the wider picture.",
+      "score": 9,
+      "was": "Headline: WHO MOVED THE NAMEPLATE? | Subhead: The record now shows a valuable season win for {winner}, a result that changes the larger picture."
+    },
+    {
+      "id": "b8-079",
+      "kicker": "THE EDITOR ASKS",
+      "headline": "CAN THE SHELF HOLD ON?",
+      "subhead": "The overall advantage enjoyed by {loser} before this season has been challenged by {winner}'s response.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-080",
+      "kicker": "PRESS QUESTIONS",
+      "headline": "HAS THE POLISH RETURNED?",
+      "subhead": "Something has shifted in the rivalry, with {winner} earning the season's higher total after starting behind overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-081",
+      "kicker": "CABINET QUESTIONS",
+      "headline": "WILL THE VAULT STAY SHUT?",
+      "subhead": "With {winnerClub} taking this season, the complete Showdown remains more open than its earlier standings suggested.",
+      "score": 9,
+      "was": "Headline: WILL THE GLASS STAY SHUT? | Subhead: With {winnerClub} taking this season, the complete Showdown remains more open than its earlier standings suggested."
+    },
+    {
+      "id": "b8-082",
+      "kicker": "FINAL QUESTIONS",
+      "headline": "IS THE NAME SETTLED?",
+      "subhead": "Any premature prediction of the overall winner looks increasingly risky after {winner} claimed this season's better points total.",
+      "score": 10,
+      "was": "Headline: IS THE ENGRAVER READY? | Subhead: A season win from {winner} makes any premature prediction about the eventual overall result look increasingly risky."
+    },
+    {
+      "id": "b8-083",
+      "kicker": "READERS' QUESTIONS",
+      "headline": "WHO HOLDS THE KEY NOW?",
+      "subhead": "{winner} has improved their position with the latest seasonal victory, challenging a race that previously favoured {loser}.",
+      "score": 10,
+      "was": "Headline: WHO HOLDS THE KEY NOW? | Subhead: The latest season has improved {winner}'s position in a contest that had previously favoured {loser}."
+    },
+    {
+      "id": "b8-084",
+      "kicker": "THE QUESTION BOX",
+      "headline": "DOES THE RIBBON STILL FIT?",
+      "subhead": "That cushion enjoyed by {loser} has narrowed after a campaign where {winnerClub} earned the stronger season score.",
+      "score": 9,
+      "was": "Headline: DOES THE RIBBON STILL FIT? | Subhead: The broader story cannot be written in advance, especially after {winner} narrowed an overall deficit."
+    },
+    {
+      "id": "b8-085",
+      "kicker": "AFTER THE RESULT",
+      "headline": "WHAT'S BEHIND THE BRASS?",
+      "subhead": "The cabinet offers a fitting image of the prize at stake, now closer after {winner}'s season triumph.",
+      "score": 10,
+      "was": "Headline: WHAT'S BEHIND THE GLASS? | Subhead: The cabinet offers a fitting image of the prize at stake, now closer after {winner}'s season triumph."
+    },
+    {
+      "id": "b8-086",
+      "kicker": "LATE NOTES",
+      "headline": "GAP SHRINKS, STORY GROWS",
+      "subhead": "The overall gap has been cut by {winner}'s season victory, bringing a welcome new uncertainty to the rivalry.",
+      "score": 10,
+      "was": "Headline: SMALL GAP, BIG STORY | Subhead: A previously trailing manager has won the season, and the reduction in the overall gap gives this rivalry fresh interest."
+    },
+    {
+      "id": "b8-087",
+      "kicker": "THE FINE PRINT",
+      "headline": "NOT FINISHED YET",
+      "subhead": "A deficit that once weighed against {winner} has lost some of its force after this season's success.",
+      "score": 9,
+      "was": "Headline: NOT FINISHED YET | Subhead: The latest result favoured {winner}, who has made the once more distant overall contest considerably more competitive."
+    },
+    {
+      "id": "b8-088",
+      "kicker": "CABINET VERDICT",
+      "headline": "DUST, THEN DRAMA",
+      "subhead": "A season won by {winner} has interrupted the direction of the overall rivalry and restored its uncertainty.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-089",
+      "kicker": "MANTEL NOTES",
+      "headline": "BRASS, NOT BRAVADO",
+      "subhead": "The reply to an earlier overall disadvantage came through a season victory rather than a prediction from {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-090",
+      "kicker": "SILVER COLUMN",
+      "headline": "SHELF WITH AMBITION",
+      "subhead": "The overall prize is not awarded by this result, but {winner} has moved towards it with purpose.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b8-091",
+      "kicker": "HONOURS UPDATE",
+      "headline": "GILT, MEET GRIT",
+      "subhead": "The winner of this season has shown resilience after starting the round behind in the full contest.",
+      "score": 10,
+      "was": "Headline: GLASS, MEET GRIT | Subhead: The winner of this season has shown resilience after starting the round behind in the full contest."
+    },
+    {
+      "id": "b8-092",
+      "kicker": "THE INQUEST",
+      "headline": "PLINTHS CAN WAIT",
+      "subhead": "Before anyone claims the final honours, {winner}'s latest season victory has made the cumulative contest far more interesting.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-093",
+      "kicker": "THE SECOND LOOK",
+      "headline": "MUSEUM OF MAYBES",
+      "subhead": "A display case would tell only half this story, for {winner}'s season result has changed the overall chase.",
+      "score": 9,
+      "was": "Headline: VITRINE WITH A VIEW | Subhead: A display case would tell only half this story, for {winner}'s season result has changed the overall chase."
+    },
+    {
+      "id": "b8-094",
+      "kicker": "THE AFTERWORD",
+      "headline": "VELVET AND VIGOR",
+      "subhead": "Even {loser}'s earlier overall edge has a different feel now that {winner} has taken the latest season.",
+      "score": 9,
+      "was": "Headline: VELVET AND VIGOUR | Subhead: The latest season brought {winner} forward from an earlier overall deficit and gave {loser} a stronger challenge."
+    },
+    {
+      "id": "b8-095",
+      "kicker": "INSIDE SPORT",
+      "headline": "POLISH WITH PURPOSE",
+      "subhead": "For {winnerClub}, there is a meaningful season victory behind their manager's improved position in the wider rivalry.",
+      "score": 10,
+      "was": "Headline: POLISH WITH PURPOSE | Subhead: There is a meaningful season victory behind {winner}'s improved position in the wider rivalry."
+    },
+    {
+      "id": "b8-096",
+      "kicker": "SEASON EXTRA",
+      "headline": "KEYS STILL TURNING",
+      "subhead": "The final order remains to be decided, and {winner} has made sure the overall race stays worth following.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b8-097",
+      "kicker": "LAST LOOK",
+      "headline": "ANSWER UNDER SPOTLIGHT",
+      "subhead": "The season was decided in {winner}'s favour, giving fresh force to a challenge that began from behind overall.",
+      "score": 9,
+      "was": "Headline: A REPLY ON DISPLAY | Subhead: The season was decided in {winner}'s favour, giving fresh force to a challenge that began from behind overall."
+    },
+    {
+      "id": "b8-098",
+      "kicker": "RIVALRY INSIDE",
+      "headline": "ANOTHER OPENING",
+      "subhead": "With {winnerClub} winning this round, the gap has contracted and the wider contest has room for another turn.",
+      "score": 10,
+      "was": "Headline: ANOTHER OPENING | Subhead: With {winner} winning this round, the gap has contracted and the wider contest has room for another turn."
+    },
+    {
+      "id": "b8-099",
+      "kicker": "SHOWDOWN NOTES",
+      "headline": "BRONZE TO BRIGHT",
+      "subhead": "Behind {winner}'s latest success is a tangible reduction in the gap they faced before the season began.",
+      "score": 9,
+      "was": "Headline: BRONZE TO BRIGHT | Subhead: The metaphor is a change in finish, but the fact is simpler: {winner} has won the season and recovered ground."
+    },
+    {
+      "id": "b8-100",
+      "kicker": "THE INSIDE LINE",
+      "headline": "EXHIBIT STILL PENDING",
+      "subhead": "The season's honours go to {winnerClub}, but the complete rivalry remains more open after their manager's successful response.",
+      "score": 10,
+      "was": "Headline: DISPLAY CASE PENDING | Subhead: The season's honours in this rivalry go to {winner}, while the complete contest still resists a final conclusion."
+    }
+  ]
+}

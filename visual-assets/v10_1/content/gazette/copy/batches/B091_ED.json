@@ -1,0 +1,608 @@
+{
+  "batch": 91,
+  "situation": "showdown-drawn",
+  "voice": "The touchline reporter",
+  "lines": [
+    {
+      "id": "cb91-001",
+      "text": "{managerA} reaches the end exactly level with {managerB}, with no private claim to the ending.",
+      "was": "{managerA} reaches the end with nothing separating the overall totals, and no private claim to the ending.",
+      "score": 9
+    },
+    {
+      "id": "cb91-002",
+      "text": "Down here, you would understand the pause before finding words for a shared finish.",
+      "was": "Down here, you would understand a glance across the rivalry before either friend found the right words.",
+      "score": 9
+    },
+    {
+      "id": "cb91-003",
+      "text": "For {managerB}, the final answer includes {managerA}, instead of leaving an opponent behind.",
+      "was": "For {managerB}, the final answer includes the rival rather than leaving them behind.",
+      "score": 9
+    },
+    {
+      "id": "cb91-004",
+      "text": "At {clubA}, an exact match with {clubB} gives a very personal ambition a shared conclusion.",
+      "was": "At {clubA}, the whole contest ends exactly level, with every ambition still reflected in the other club.",
+      "score": 9
+    },
+    {
+      "id": "cb91-005",
+      "text": "You can imagine {managerA} taking a moment to absorb an ending without a solitary signature.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-006",
+      "text": "The Showdown has finished as a draw. That is a result large enough to stand on its own.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-007",
+      "text": "{clubB} has matched {clubA} across the whole journey, not merely for an afternoon.",
+      "was": "{clubB} has matched the rival across the whole journey, not merely for an afternoon.",
+      "score": 9
+    },
+    {
+      "id": "cb91-008",
+      "text": "All that effort leads to a difficult pleasure, knowing you have been matched rather than beaten.",
+      "was": "All that effort brings us here, to an outcome neither friend can tuck away as theirs alone.",
+      "score": 9
+    },
+    {
+      "id": "cb91-009",
+      "text": "From {managerB}'s position, that final glance meets {managerA}, with nothing lost between them.",
+      "was": "From {managerB}'s position, the last look across is at an equal, not a defeated opponent.",
+      "score": 9
+    },
+    {
+      "id": "cb91-010",
+      "text": "Nothing left unsettled, even without an isolated name to celebrate above the other.",
+      "was": "Nothing left unsettled, even though there is no isolated name to celebrate above the other.",
+      "score": 9
+    },
+    {
+      "id": "cb91-011",
+      "text": "With {clubA} level at the conclusion, {clubB} has an identical right to stand tall.",
+      "was": "With {clubA} level at the conclusion, the rivalry has refused to produce a hierarchy.",
+      "score": 9
+    },
+    {
+      "id": "cb91-012",
+      "text": "A competitive friendship can finish without requiring a bow from either participant. This is that moment.",
+      "was": "A contest can end without putting a friend beneath you. This has done exactly that.",
+      "score": 9
+    },
+    {
+      "id": "cb91-013",
+      "text": "Ask {managerA} what it means, and leave room for an answer more complicated than celebration.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-014",
+      "text": "There is a particular weight to discovering that the entire journey has separated absolutely nothing.",
+      "was": "There is a particular weight to finding that the entire journey has separated absolutely nothing.",
+      "score": 9
+    },
+    {
+      "id": "cb91-015",
+      "text": "Here is {clubB}, standing alongside the rival after all the uncertainty has run its course.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-016",
+      "text": "The comparison offers distance from the pressure, without distance between the competitors.",
+      "was": "The final comparison offers no distance, just an unusually close view of what each friend has achieved.",
+      "score": 9
+    },
+    {
+      "id": "cb91-017",
+      "text": "Perhaps {managerB} imagined standing above {managerA}. Standing alongside deserves respect in its own right.",
+      "was": "Perhaps {managerB} imagined a different conclusion. The actual outcome deserves to be appreciated on its own terms.",
+      "score": 9
+    },
+    {
+      "id": "cb91-018",
+      "text": "Some farewells narrow the picture to a single face. This keeps room for the whole challenge.",
+      "was": "Some endings choose a single face. This has kept the picture wide enough for the rivalry.",
+      "score": 9
+    },
+    {
+      "id": "cb91-019",
+      "text": "Over at {clubA}, satisfaction may share space with an awkward thought, how do you shake an exact match?",
+      "was": "Over at {clubA}, satisfaction may have to share space with the thought of how close it came.",
+      "score": 9
+    },
+    {
+      "id": "cb91-020",
+      "text": "Think of the original ambition. It has been answered in full, and mirrored across the divide.",
+      "was": "Think of the ambition at the start. It has found its match rather than its superior.",
+      "score": 9
+    },
+    {
+      "id": "cb91-021",
+      "text": "If {managerA} looks across now, there is {managerB}, who made the whole experience matter.",
+      "was": "If {managerA} looks across now, there is the friend who made every step of this matter.",
+      "score": 9
+    },
+    {
+      "id": "cb91-022",
+      "text": "Getting to the conclusion side by side asks for a different kind of appreciation.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-023",
+      "text": "{clubB} leaves with an equal part in the outcome, but a journey that remains entirely its own.",
+      "was": "{clubB} leaves the contest with an equal part in the result, and a distinct journey behind it.",
+      "score": 9
+    },
+    {
+      "id": "cb91-024",
+      "text": "Even familiar competition can produce a goodbye that takes time to find words for.",
+      "was": "Even the most familiar rivalry can produce a closing moment that takes time to find words for.",
+      "score": 9
+    },
+    {
+      "id": "cb91-025",
+      "text": "Take the view from {managerB}, acknowledging {managerA} means recognizing the same achievement.",
+      "was": "Take the view from {managerB}, respect is not a consolation here, it is recognition of an equal.",
+      "score": 9
+    },
+    {
+      "id": "cb91-026",
+      "text": "All the arguments finish level for {managerA}. The next conversation may need a different subject.",
+      "was": "All the arguments end level for {managerA}, which may make the next conversation especially interesting.",
+      "score": 9
+    },
+    {
+      "id": "cb91-027",
+      "text": "Gracious expressions are easy enough. Working out which occasion you are dressing for is trickier.",
+      "was": "No need to practice looking gracious in defeat. Finding a satisfied expression may be complicated enough.",
+      "score": 9
+    },
+    {
+      "id": "cb91-028",
+      "text": "{managerB} can congratulate {managerA} without pretending that means looking upward.",
+      "was": "{managerB} can congratulate a friend without having to pretend they were the better rival overall.",
+      "score": 9
+    },
+    {
+      "id": "cb91-029",
+      "text": "Celebration has become an exercise in etiquette, who politely insists the congratulations should go first?",
+      "was": "Celebration has become a question of etiquette, who politely insists the other person should go first?",
+      "score": 9
+    },
+    {
+      "id": "cb91-030",
+      "text": "The situation at {clubA} calls for an unusual admission, {clubB} has a perfect answer to our bragging.",
+      "was": "The situation at {clubA} calls for an unusual sentence, we did just as well as the rival.",
+      "score": 9
+    },
+    {
+      "id": "cb91-031",
+      "text": "Somewhere between pride and a raised eyebrow sits the expression this result deserves.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-032",
+      "text": "Give {managerA} time to work out whether matching a friend is reassuring or mildly infuriating.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-033",
+      "text": "Consider {managerA}'s dilemma, is matching {managerB} reassuring or mildly infuriating?",
+      "was": "Winning the final argument is off the agenda. Finding a new topic may be more productive.",
+      "score": 9
+    },
+    {
+      "id": "cb91-034",
+      "text": "Exclusive bragging rights have left the agenda. Finding a new topic may be the diplomatic choice.",
+      "was": "As {clubB} takes stock, the mirror at the end of the rivalry is remarkably accurate.",
+      "score": 9
+    },
+    {
+      "id": "cb91-035",
+      "text": "As {clubB} takes stock, the comparison with {clubA} makes a remarkably accurate mirror.",
+      "was": "Nobody has to deliver a brave speech about coming second. That should simplify the refreshments afterward.",
+      "score": 9
+    },
+    {
+      "id": "cb91-036",
+      "text": "Nobody needs a brave speech about defeat. That ought to simplify the atmosphere afterward.",
+      "was": "Finally {managerB} can put the contest aside without looking up at the rival.",
+      "score": 9
+    },
+    {
+      "id": "cb91-037",
+      "text": "Good friends make room for each other. This outcome has taken that courtesy rather literally.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-038",
+      "text": "To {managerA}, the pleasure of congratulating {managerB} without having to concede an inch.",
+      "was": "To {managerA}, the unusual pleasure of offering congratulations without admitting a deficit.",
+      "score": 9
+    },
+    {
+      "id": "cb91-039",
+      "text": "Dead level at the farewell is a very effective way to keep the debate alive after the work is done.",
+      "was": "Finishing a friendly contest dead level is a very effective way to keep the debate alive afterward.",
+      "score": 9
+    },
+    {
+      "id": "cb91-040",
+      "text": "After everything, {clubB} has presented {clubA} with an extremely inconvenient equal.",
+      "was": "After everything, {clubB} has supplied the rival with an extremely inconvenient equal.",
+      "score": 9
+    },
+    {
+      "id": "cb91-041",
+      "text": "A little modesty is easy when somebody else is equally entitled to stop you getting carried away.",
+      "was": "A little modesty is easy when the other person has achieved precisely the same standing.",
+      "score": 9
+    },
+    {
+      "id": "cb91-042",
+      "text": "There is no exclusive view from the summit for {managerB}. The company was persistent.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-043",
+      "text": "The most diplomatic closing speech might simply acknowledge that the seating arrangements stay as they were.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-044",
+      "text": "Arrive beside {clubA}, ask for a flattering comparison, and you may be directed toward a mirror.",
+      "was": "Put yourself beside {clubA}, looking for a flattering comparison and finding a surprisingly good mirror.",
+      "score": 9
+    },
+    {
+      "id": "cb91-045",
+      "text": "Tomorrow's story may differ depending on who tells it. The totals have finished arguing.",
+      "was": "Tomorrow's story might sound different depending on who tells it. The conclusion cannot change.",
+      "score": 9
+    },
+    {
+      "id": "cb91-046",
+      "text": "Even {managerA} must leave space in the memory for {managerB}, who has an identical claim.",
+      "was": "Even {managerA} has to leave room in this memory for a rival with an identical claim.",
+      "score": 9
+    },
+    {
+      "id": "cb91-047",
+      "text": "Relief and frustration make an odd partnership. This ending has given them reason to compare notes.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-048",
+      "text": "For {clubB}, the goodbye comes with {clubA} neither out of reach nor out of the picture.",
+      "was": "For {clubB}, the whole contest ends with the rival neither out of reach nor out of the picture.",
+      "score": 9
+    },
+    {
+      "id": "cb91-049",
+      "text": "Friendly competition has arranged a farewell without giving anybody permission to become unbearable.",
+      "was": "Friendly competition has found a way to end without giving anybody permission to become unbearable.",
+      "score": 9
+    },
+    {
+      "id": "cb91-050",
+      "text": "Leave {managerB} with the happy problem of accepting respect without having to offer sympathy.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-051",
+      "text": "{managerA} might find that being congratulated by an equal carries a rather particular flavor.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-052",
+      "text": "Pride has arrived with company, and each guest seems equally entitled to the best chair.",
+      "was": "Pride has arrived with company, and neither guest seems especially willing to give up the best chair.",
+      "score": 9
+    },
+    {
+      "id": "cb91-053",
+      "text": "Near {clubB}'s dugout, you would forgive a long look at just how closely this has ended.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-054",
+      "text": "Keeping the last word is difficult when somebody else has earned an identical right to reply.",
+      "was": "Having the last word is difficult when the other person has earned an identical right to reply.",
+      "score": 9
+    },
+    {
+      "id": "cb91-055",
+      "text": "That is {managerB}'s reward, matching {managerA} without surrendering an inch of standing.",
+      "was": "That is {managerB}'s outcome, a share of the conclusion without surrendering an inch of standing.",
+      "score": 9
+    },
+    {
+      "id": "cb91-056",
+      "text": "Modesty has a straightforward assignment. Exclusive bragging is not among the options available.",
+      "was": "Modesty has an easy assignment here. There is somebody equally entitled to interrupt the celebration.",
+      "score": 9
+    },
+    {
+      "id": "cb91-057",
+      "text": "Should {clubA} want a flattering description, it has to leave room for {clubB} in the sentence.",
+      "was": "Should {clubA} want a flattering assessment, the rival is obliged to accept the same description.",
+      "score": 9
+    },
+    {
+      "id": "cb91-058",
+      "text": "Imagine looking for a dividing line after so much effort and finding that the line has disappeared.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-059",
+      "text": "A farewell for {managerA} without an admission of inferiority, or a case for superiority over {managerB}.",
+      "was": "A farewell for {managerA} without an admission of inferiority, but without superiority to claim either.",
+      "score": 9
+    },
+    {
+      "id": "cb91-060",
+      "text": "Comparisons are supposed to settle the argument. An exact match may simply move it somewhere else.",
+      "was": "The best kind of comparison is supposed to settle things. This has settled on an exact match.",
+      "score": 9
+    },
+    {
+      "id": "cb91-061",
+      "text": "{clubB} has made a clean break with suspense without having to bow to {clubA}.",
+      "was": "{clubB} has made a clean break with suspense without having to bow to the rival.",
+      "score": 9
+    },
+    {
+      "id": "cb91-062",
+      "text": "Prepared victory speeches are not entirely useless. They simply need a less exclusive introduction.",
+      "was": "There might be a perfectly prepared victory speech available. It will need a less exclusive introduction.",
+      "score": 9
+    },
+    {
+      "id": "cb91-063",
+      "text": "Whether {managerB} welcomes this or not, {managerA} has accomplished just as much.",
+      "was": "Whether {managerB} finds this pleasing or frustrating, there is no lesser achievement across the divide.",
+      "score": 9
+    },
+    {
+      "id": "cb91-064",
+      "text": "Pleasure has an unusual companion, the knowledge that your favorite opponent has precisely as much reason for it.",
+      "was": "Pleasure gets an unusual companion here, the knowledge that your friend has precisely as much reason for it.",
+      "score": 9
+    },
+    {
+      "id": "cb91-065",
+      "text": "Respect for {managerA} cannot be offered at {managerB}'s expense. The footing is identical.",
+      "was": "Respect for {managerA} cannot come at the rival's expense. The conclusion gives them the same footing.",
+      "score": 9
+    },
+    {
+      "id": "cb91-066",
+      "text": "Finishing did not end the conversation. It merely removed superiority from the list of useful subjects.",
+      "was": "Finishing the contest did not end the conversation. It simply took superiority off the list of useful subjects.",
+      "score": 9
+    },
+    {
+      "id": "cb91-067",
+      "text": "Look at the prospect for {clubA}, remembering beside {clubB}, equally qualified to correct the telling.",
+      "was": "Look at the prospect for {clubA}, a memory that comes with someone equally qualified to correct the telling.",
+      "score": 9
+    },
+    {
+      "id": "cb91-068",
+      "text": "At last, the arguing can become entirely recreational. The overall result has stopped accepting revisions.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-069",
+      "text": "Around {managerB}, you could understand a smile that acknowledges admiration as well as relief.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-070",
+      "text": "Certainty has arrived in a sociable form, refusing to give either participant an exclusive invitation.",
+      "was": "Certainty has arrived in an unusually sociable form, refusing to leave either friend outside.",
+      "score": 9
+    },
+    {
+      "id": "cb91-071",
+      "text": "Behind {clubB}'s draw lies a complete journey, deserving recognition without a consoling pat on the shoulder.",
+      "was": "Behind {clubB}'s result is a complete journey that has come out level with the rival's.",
+      "score": 9
+    },
+    {
+      "id": "cb91-072",
+      "text": "Explanations can differ freely. The finishing positions are less interested in variety.",
+      "was": "Explanations can differ as much as they please. The finishing positions are less interested in variety.",
+      "score": 9
+    },
+    {
+      "id": "cb91-073",
+      "text": "Unlike a near miss, {managerA}'s draw asks for recognition without requiring a generous interpretation.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-074",
+      "text": "Tension has departed without appointing a favorite. That should make the goodbye a little warmer.",
+      "was": "The tension has departed without appointing a favorite. That should make the goodbye a little warmer.",
+      "score": 9
+    },
+    {
+      "id": "cb91-075",
+      "text": "When {clubA} looks across, there is {clubB}, neither left behind nor out of reach.",
+      "was": "When {clubA} looks across, there is no rival left to catch and no defeated friend to console.",
+      "score": 9
+    },
+    {
+      "id": "cb91-076",
+      "text": "This Showdown leaves {managerB} alongside {managerA}, inseparable in the achievement they take away.",
+      "was": "This Showdown leaves {managerB} alongside a friend who has proved impossible to separate from the story.",
+      "score": 9
+    },
+    {
+      "id": "cb91-077",
+      "text": "Listen to what the farewell preserves, the dignity of a challenge that found its exact match.",
+      "was": "Listen to what the ending preserves, the dignity of a challenge that found its exact match.",
+      "score": 9
+    },
+    {
+      "id": "cb91-078",
+      "text": "Beneath the pride at {clubA} lies an acknowledgment, {clubB} earned the same place here.",
+      "was": "Beneath the pride at {clubA} lies an acknowledgment, the rival earned an equal place here.",
+      "score": 9
+    },
+    {
+      "id": "cb91-079",
+      "text": "An outcome can settle the competition without requiring the friendship to arrange itself into a hierarchy.",
+      "was": "An outcome can settle a contest without asking the friendship to arrange itself into a hierarchy.",
+      "score": 9
+    },
+    {
+      "id": "cb91-080",
+      "text": "{managerA} has reached the far side of suspense with {managerB} still alongside, neither left behind.",
+      "was": "{managerA} has reached the far end without falling behind or leaving the rival there instead.",
+      "score": 9
+    },
+    {
+      "id": "cb91-081",
+      "text": "Ordinary farewells celebrate a difference. This invites us to appreciate the complete absence of one.",
+      "was": "Ordinary conclusions celebrate a difference. This invites us to appreciate an extraordinary lack of one.",
+      "score": 9
+    },
+    {
+      "id": "cb91-082",
+      "text": "A moment for {clubB} to keep, shared in standing but personal in everything it took to arrive.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-083",
+      "text": "Distance may bring perspective. It cannot supply a separation the completed Showdown did not find.",
+      "was": "Distance may bring perspective. It will not supply a separation the completed contest could not find.",
+      "score": 9
+    },
+    {
+      "id": "cb91-084",
+      "text": "Whatever {managerB} hoped for, there is dignity in meeting {managerA} here with identical honors.",
+      "was": "Whatever {managerB} hoped this would become, there is an equal worthy of standing beside at the end.",
+      "score": 9
+    },
+    {
+      "id": "cb91-085",
+      "text": "Quietly or loudly, the acknowledgment belongs to the friendship as much as to the competition.",
+      "was": "Quietly or loudly, the acknowledgment belongs to the rivalry as much as to either participant.",
+      "score": 9
+    },
+    {
+      "id": "cb91-086",
+      "text": "{clubA} can see the same achievement looking back from {clubB}, however different the roads here.",
+      "was": "{clubA} can see the same achievement looking back, however different the roads that led here.",
+      "score": 9
+    },
+    {
+      "id": "cb91-087",
+      "text": "Beyond the draw lies a friendship tested without producing a lesser competitor.",
+      "was": "Beyond the result lies a friendship that has been tested without producing a lesser competitor.",
+      "score": 9
+    },
+    {
+      "id": "cb91-088",
+      "text": "Through {managerA}'s eyes, the journey ends facing {managerB}, with no downward glance required.",
+      "was": "Through {managerA}'s eyes, the journey ends facing an equal rather than looking past an opponent.",
+      "score": 9
+    },
+    {
+      "id": "cb91-089",
+      "text": "Hard to picture beforehand, a draw that gives mutual respect such an unambiguous place to stand.",
+      "was": "Hard to imagine beforehand, a conclusion that gives respect such a clear place to stand.",
+      "score": 9
+    },
+    {
+      "id": "cb91-090",
+      "text": "From {clubB}'s side, pride has no need to disguise itself as consolation.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-091",
+      "text": "Everything that sustained the challenge has brought them to the same place, with nothing separating them.",
+      "was": "Everything that kept them competing has brought them to the same place, with nothing left to separate.",
+      "score": 9
+    },
+    {
+      "id": "cb91-092",
+      "text": "{managerB} can close the chapter meeting {managerA}'s gaze without a flicker of inferiority.",
+      "was": "{managerB} can close the chapter without looking for permission to stand as tall as the rival.",
+      "score": 9
+    },
+    {
+      "id": "cb91-093",
+      "text": "Pride takes an unusual shape when acknowledging your friend does nothing to diminish your own achievement.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb91-094",
+      "text": "Inside {clubA}'s memory, this belongs as a destination earned, not a victory withheld.",
+      "was": "Inside {clubA}'s memory, this belongs as an ending earned, not an ending withheld.",
+      "score": 9
+    },
+    {
+      "id": "cb91-095",
+      "text": "Suddenly, the chase is done. The company at the destination deserves to be appreciated.",
+      "was": "Suddenly, the need to pull away is gone. The companionship at the conclusion can be appreciated.",
+      "score": 9
+    },
+    {
+      "id": "cb91-096",
+      "text": "As {managerA} leaves, {managerB} is there to be honored, with neither expected to bow.",
+      "was": "As {managerA} leaves the contest, there is a rival to honor rather than a defeat to explain.",
+      "score": 9
+    },
+    {
+      "id": "cb91-097",
+      "text": "Hold the moment before somebody tries to make it smaller. These equals deserve a complete farewell.",
+      "was": "Hold the moment before somebody tries to make it smaller. An equal contest deserves a complete farewell.",
+      "score": 9
+    },
+    {
+      "id": "cb91-098",
+      "text": "Ask {clubB} what remains, and there is {clubA}, having gone the entire distance alongside.",
+      "was": "Ask {clubB} what remains, and the answer includes a friend who went the entire distance alongside.",
+      "score": 9
+    },
+    {
+      "id": "cb91-099",
+      "text": "Closure can be generous without being vague. They have finished level, and the recognition belongs together.",
+      "was": "Closure can be generous without being vague. They have finished level, and the achievement belongs together.",
+      "score": 9
+    },
+    {
+      "id": "cb91-100",
+      "text": "No pursuit left for {managerB}. The whole Showdown has found its balance.",
+      "was": "Nothing left to chase for {managerB}. The whole Showdown has found its balance.",
+      "score": 9
+    }
+  ],
+  "edited": true
+}

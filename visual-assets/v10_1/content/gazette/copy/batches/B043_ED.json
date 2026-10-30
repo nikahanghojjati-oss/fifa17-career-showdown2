@@ -1,0 +1,608 @@
+{
+  "batch": 43,
+  "situation": "showdown-drawn",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb43-001",
+      "text": "At the final whistle on this rivalry, {managerA} and {managerB} have equal claims to respect, not the crown.",
+      "score": 9,
+      "was": "{managerA} has finished without the title, and so has {managerB}. Neither has a complaint about the verdict."
+    },
+    {
+      "id": "cb43-002",
+      "text": "Put {clubA}'s total beside {clubB}'s and there's your answer. Not much room for boasting, is there?",
+      "score": 9,
+      "was": "Look at {clubA}'s final total, then look at {clubB}'s. That's as level as it gets."
+    },
+    {
+      "id": "cb43-003",
+      "text": "Nobody owns the title, though {managerB} might be entitled to a very satisfied shrug. That's fair enough.",
+      "score": 9,
+      "was": "Nobody can claim the Showdown outright, which is rather fitting after all that competition."
+    },
+    {
+      "id": "cb43-004",
+      "text": "After the full campaign, {clubA} has precisely the same haul as the opposition. That's some stubborn company.",
+      "score": 9,
+      "was": "After the whole contest, there isn't a point between them. You'd struggle to separate that pair."
+    },
+    {
+      "id": "cb43-005",
+      "text": "The crown stays unclaimed, because {managerB} hasn't finished behind anyone, including {managerA}.",
+      "score": 9,
+      "was": "{managerB} had every reason to aim for the crown. {managerA} has made sure it remains unclaimed."
+    },
+    {
+      "id": "cb43-006",
+      "text": "That's a shared result for {clubB}, not an awkward pause while somebody hunts for a missing point.",
+      "score": 9,
+      "was": "That's a draw across the entire Showdown, not a temporary pause while somebody checks the totals."
+    },
+    {
+      "id": "cb43-007",
+      "text": "Both have carried the challenge to its conclusion, and {managerA} has nobody left to overtake.",
+      "score": 9,
+      "was": "Both managers have come the full distance and arrived at exactly the same place. Quite a finish."
+    },
+    {
+      "id": "cb43-008",
+      "text": "The champion's chair can stay empty. {managerB} has done quite enough to make the other manager earn a seat beside them.",
+      "score": 9,
+      "was": "There's no champion to interview here, just a rivalry that refused to give either side the last word."
+    },
+    {
+      "id": "cb43-009",
+      "text": "Anyone expecting {clubB} to edge {clubA} will have to settle for precisely matched totals.",
+      "score": 9,
+      "was": "{clubB} finishes with the same return as {clubA}. You won't find a fairer argument for a draw."
+    },
+    {
+      "id": "cb43-010",
+      "text": "Worth remembering, neither manager has fallen short of the other. The closing standings couldn't be straighter.",
+      "score": 9,
+      "was": "Worth remembering, neither manager has fallen short of the other. They've finished shoulder to shoulder."
+    },
+    {
+      "id": "cb43-011",
+      "text": "If {managerA} feels proud, fair enough. Matching a worthy competitor is an achievement, even without the outright prize.",
+      "score": 9,
+      "was": "If {managerA} wants a reason to feel proud, matching {managerB} across the contest will do nicely."
+    },
+    {
+      "id": "cb43-012",
+      "text": "Every season has contributed to this ending, and {clubB} finds itself level when the last count is made.",
+      "score": 9,
+      "was": "Every season mattered, and the final totals have left nothing at all between these managers."
+    },
+    {
+      "id": "cb43-013",
+      "text": "For all {clubA}'s efforts, {clubB} has ended up at the same height. That's a balanced rivalry.",
+      "score": 9,
+      "was": "{clubA} couldn't pull away in the end, but neither could {clubB}. That's genuine competition."
+    },
+    {
+      "id": "cb43-014",
+      "text": "Imagine seeing every campaign through, only for {managerA} to discover the gap has vanished altogether.",
+      "score": 9,
+      "was": "Imagine carrying that rivalry all the way through, only for the last column to say equal."
+    },
+    {
+      "id": "cb43-015",
+      "text": "A victory speech would be premature. The championship has concluded without anybody earning the right to give it.",
+      "score": 9,
+      "was": "Nobody's lifting the Showdown crown, although both managers have done enough to make the other work."
+    },
+    {
+      "id": "cb43-016",
+      "text": "You can argue over favorite moments. You can't argue with identical totals once the whole Showdown is complete.",
+      "score": 9,
+      "was": "You can argue about which campaign looked prettier. You can't argue with identical totals at the finish."
+    },
+    {
+      "id": "cb43-017",
+      "text": "Bragging rights aren't much use when {managerB} and {managerA} close on identical figures.",
+      "score": 9,
+      "was": "{managerB} doesn't get the bragging rights, but {managerA} won't be taking them home either."
+    },
+    {
+      "id": "cb43-018",
+      "text": "By the close, {clubA} has no gap to protect and no deficit to chase. That's the reality of a tie.",
+      "score": 9,
+      "was": "By the end, the distance between the managers is measured in nothing. That's almost cheeky."
+    },
+    {
+      "id": "cb43-019",
+      "text": "Ask {clubB} for its version of events and you might hear a different story. The outcome stays unchanged.",
+      "score": 9,
+      "was": "{clubB} will have its moments to treasure, and so will {clubA}. The overall result belongs to neither."
+    },
+    {
+      "id": "cb43-020",
+      "text": "Some rivalries are remembered for their champions. This pairing might be remembered for refusing to choose.",
+      "score": 9,
+      "was": "Some contests need a victor to be remembered. This one has managed without one."
+    },
+    {
+      "id": "cb43-021",
+      "text": "Fair play to {managerA}. Keeping pace with {managerB} is an achievement, even with the trophy unclaimed.",
+      "score": 9,
+      "was": "Fair play to {managerA} and {managerB}. Neither gave the other the final advantage."
+    },
+    {
+      "id": "cb43-022",
+      "text": "Perhaps the best compliment is this: {clubA} has earned every bit as much credit in the final reckoning.",
+      "score": 9,
+      "was": "Perhaps the finest compliment to this rivalry is that neither manager could finish above the other."
+    },
+    {
+      "id": "cb43-023",
+      "text": "Straight down the page, {clubA} finds {clubB} waiting on the same line. Neither gets past.",
+      "score": 9,
+      "was": "{clubA} has met {clubB} at the very last line of the standings. No room to squeeze ahead."
+    },
+    {
+      "id": "cb43-024",
+      "text": "I suppose {managerB} can prepare a speech, provided it recognizes the manager they couldn't outscore.",
+      "score": 9,
+      "was": "I suppose both managers can make the same speech, provided neither calls themselves champion."
+    },
+    {
+      "id": "cb43-025",
+      "text": "Plenty of room for opinions. None for a disputed ranking, because {points} apiece settles that.",
+      "score": 9,
+      "was": "Plenty to discuss afterward, but the final totals are not open for debate. They match."
+    },
+    {
+      "id": "cb43-026",
+      "text": "There's a certain comfort for {managerA} in knowing the opposition cannot claim to have come out above them.",
+      "score": 9,
+      "was": "{managerA} can keep the good memories. {managerB} gets the same courtesy and the same final standing."
+    },
+    {
+      "id": "cb43-027",
+      "text": "Shame about the exclusive bragging rights. {clubA} will have to share that particular argument.",
+      "score": 9,
+      "was": "Shame about the bragging rights, really. Nobody's leaving this Showdown with the exclusive set."
+    },
+    {
+      "id": "cb43-028",
+      "text": "At the closing of the book, {managerA} has precisely the same points as the opposition. No footnotes required.",
+      "score": 9,
+      "was": "At the end of it all, the rivalry has supplied its own answer. A perfect tie."
+    },
+    {
+      "id": "cb43-029",
+      "text": "No separating {clubB} from {clubA} once everything is counted, even if the arguments are just getting started.",
+      "score": 9,
+      "was": "{clubB} couldn't be separated from {clubA}, even once every season had been counted."
+    },
+    {
+      "id": "cb43-030",
+      "text": "Quite a neat verdict for {managerB}, and quite an untidy argument to follow. That's a proper draw.",
+      "score": 9,
+      "was": "Rarely does the full contest close with such a neat answer and such a complicated conversation."
+    },
+    {
+      "id": "cb43-031",
+      "text": "Here's the consolation for {managerB}: the opposing manager hasn't beaten them to the grand prize either.",
+      "score": 9,
+      "was": "{managerB} can point to the work put in, but {managerA} can point to an identical return."
+    },
+    {
+      "id": "cb43-032",
+      "text": "Nothing in {clubA}'s last total suggests superiority. There's a useful lesson in that for both sides.",
+      "score": 9,
+      "was": "Nothing in that final margin gives either manager a title. That is the whole story."
+    },
+    {
+      "id": "cb43-033",
+      "text": "Perfect parity after the entire series. {managerA} might find it frustrating, but they can't call it unfair.",
+      "score": 9,
+      "was": "Equal on points after the Showdown. If you wanted an easy verdict, you've come to the wrong contest."
+    },
+    {
+      "id": "cb43-034",
+      "text": "Count it however you like, {clubA} and {clubB} finish together. There isn't another answer hiding here.",
+      "score": 9,
+      "was": "{clubA} ends with exactly what {clubB} has. The rivalry has kept its balance right to the finish."
+    },
+    {
+      "id": "cb43-035",
+      "text": "Neither manager gets exclusive billing. {managerB} can at least enjoy the other camp sharing the predicament.",
+      "score": 9,
+      "was": "Neither manager gets the headline all to themselves. They will have to share the space instead."
+    },
+    {
+      "id": "cb43-036",
+      "text": "Call it unfinished business if you like. The contest itself is complete, and the result is a draw.",
+      "score": 9,
+      "was": "Call it unfinished business if you like. The Showdown itself is finished, and the result is a draw."
+    },
+    {
+      "id": "cb43-037",
+      "text": "Respect is the proper reward for {managerA}, who kept up without ever taking sole possession of the title.",
+      "score": 9,
+      "was": "{managerA} has matched the standard set by {managerB}, which sounds a decent achievement from either side."
+    },
+    {
+      "id": "cb43-038",
+      "text": "Anyone hoping for a runaway decision got a surprise. {clubA} has met its match in the standings.",
+      "score": 9,
+      "was": "Anyone who expected a runaway ending has got an argument instead, because the final scores agree."
+    },
+    {
+      "id": "cb43-039",
+      "text": "You can't split {clubB} and {clubA} on points. The tea afterward should be interesting, though.",
+      "score": 9,
+      "was": "{clubB} and {clubA} have landed on the same mark. No mystery and no disputed result."
+    },
+    {
+      "id": "cb43-040",
+      "text": "Still plenty to smile about. Both managers know what it means to meet somebody who won't be outscored.",
+      "score": 9,
+      "was": "Still room for a smile here. Both managers have seen how hard it is to outlast the other."
+    },
+    {
+      "id": "cb43-041",
+      "text": "In fairness, {managerB} cannot demand greater recognition than their counterpart, given how this closes.",
+      "score": 9,
+      "was": "{managerB} knows there was no separation at the end. {managerA} knows it just as well."
+    },
+    {
+      "id": "cb43-042",
+      "text": "Funny how a lengthy series can yield such a brief verdict. Neither ahead.",
+      "score": 9,
+      "was": "Funny how a long contest can finish with such a short verdict. Nobody ahead."
+    },
+    {
+      "id": "cb43-043",
+      "text": "Turn the standings upside down if you like. {clubA} and {clubB} will still have the same total.",
+      "score": 9,
+      "was": "{clubA} hasn't taken the Showdown from {clubB}, and the reverse is every bit as true."
+    },
+    {
+      "id": "cb43-044",
+      "text": "Listen, you don't need a sole winner for a proper rivalry. The ledger makes that clear.",
+      "score": 9,
+      "was": "Listen, you don't need a winner to have a proper rivalry. This finish proves the point."
+    },
+    {
+      "id": "cb43-045",
+      "text": "Another glance won't change a thing. {managerA} shares precisely the opposition's haul.",
+      "score": 9,
+      "was": "One last look at the totals, and the answer hasn't changed. They really did finish equal."
+    },
+    {
+      "id": "cb43-046",
+      "text": "Looking back, {managerA} may have a few what-ifs, but the other manager has no title either.",
+      "score": 9,
+      "was": "{managerA} may replay every decision in their mind. {managerB} can do likewise, without claiming the title."
+    },
+    {
+      "id": "cb43-047",
+      "text": "It would be simpler to settle the debate if somebody had actually come out in front.",
+      "score": 9,
+      "was": "It would be easier to settle the debate if somebody had actually finished in front."
+    },
+    {
+      "id": "cb43-048",
+      "text": "On the ledger, {clubB} and {clubA} have equal billing. Even the accountant can put the pen down.",
+      "score": 9,
+      "was": "{clubB} has the same final haul as {clubA}. That's a handshake of a result."
+    },
+    {
+      "id": "cb43-049",
+      "text": "An empty top step, and I rather like the idea. Neither manager has a reason to stand higher.",
+      "score": 9,
+      "was": "Nobody gets the top step to themselves, and I rather like that for this particular rivalry."
+    },
+    {
+      "id": "cb43-050",
+      "text": "Hard to script a fairer curtain call for {managerA}: neither side gets to tower above its counterpart.",
+      "score": 9,
+      "was": "Hard to imagine a more fitting curtain call than both managers sharing exactly the same standing."
+    },
+    {
+      "id": "cb43-051",
+      "text": "No need for {managerB} to concede the greater achievement. Their counterpart cannot prove it from matching tallies.",
+      "score": 9,
+      "was": "{managerB} can celebrate matching a rival who never went away. {managerA} can say the same thing."
+    },
+    {
+      "id": "cb43-052",
+      "text": "Across the entire series, achievements have yielded matching scores. Even the loudest speech won't change that.",
+      "score": 9,
+      "was": "Across the Showdown, their achievements add up to the same total. No grand speech can alter that."
+    },
+    {
+      "id": "cb43-053",
+      "text": "You can look for daylight, but {clubA} and {clubB} have reached the close without a sliver between them.",
+      "score": 9,
+      "was": "{clubA}'s final return is mirrored by {clubB}'s. You can stop looking for daylight now."
+    },
+    {
+      "id": "cb43-054",
+      "text": "Quite a strange luxury for both managers, having the right to be pleased and no right to boast.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb43-055",
+      "text": "Well, the journey's complete, yet neither manager has managed to put a point between them.",
+      "score": 9,
+      "was": "The full journey is complete, yet neither has managed to put a point between them."
+    },
+    {
+      "id": "cb43-056",
+      "text": "It takes some doing to complete a contest and leave {managerA} unable to claim the throne.",
+      "score": 9,
+      "was": "{managerA} and {managerB} have settled the contest without settling who is better. That takes some doing."
+    },
+    {
+      "id": "cb43-057",
+      "text": "A shared verdict may sound modest, but try maintaining equality at the close of an entire Showdown.",
+      "score": 9,
+      "was": "A shared finish might sound modest, but try staying level over an entire Showdown."
+    },
+    {
+      "id": "cb43-058",
+      "text": "Individual campaigns can tell different stories, but {clubB} ends with the same haul as {clubA}.",
+      "score": 9,
+      "was": "{clubB} didn't leave {clubA} behind. That will sting a little less once the pride returns."
+    },
+    {
+      "id": "cb43-059",
+      "text": "Forget looking for a hidden advantage. Both managers are level when the closing figures are read.",
+      "score": 9,
+      "was": "No need to talk about luck here. Both managers have arrived on the same final tally."
+    },
+    {
+      "id": "cb43-060",
+      "text": "You've got to admire {managerA}'s position. They can respect the challenge without conceding an inch in the standings.",
+      "score": 9,
+      "was": "You've got to admire an ending where neither side can borrow the other's credit."
+    },
+    {
+      "id": "cb43-061",
+      "text": "For {managerB}, there's no outright title. There's also no proof the competition outdid them.",
+      "score": 9,
+      "was": "{managerB} can respect the challenge from {managerA}, because it lasted right through the final reckoning."
+    },
+    {
+      "id": "cb43-062",
+      "text": "Maybe the managers will disagree about the highlights, but the Showdown itself belongs to neither.",
+      "score": 9,
+      "was": "Maybe nobody will agree on the better season, but nobody can dispute the final tie."
+    },
+    {
+      "id": "cb43-063",
+      "text": "Whatever the route, {clubA} and {clubB} arrived together. You can't argue with the destination.",
+      "score": 9,
+      "was": "{clubA} kept pace with {clubB} across the contest. Neither ever earned the outright finish."
+    },
+    {
+      "id": "cb43-064",
+      "text": "It says plenty about {managerA}'s challenge that the opposition couldn't outscore them over the whole series.",
+      "score": 9,
+      "was": "It says something about the rivalry that neither manager could buy themselves a little breathing room."
+    },
+    {
+      "id": "cb43-065",
+      "text": "Both managers may have favorite moments, but {clubB}'s tally matches the opposite camp's.",
+      "score": 9,
+      "was": "Both sets of efforts deserve their own telling, because the final totals won't distinguish them."
+    },
+    {
+      "id": "cb43-066",
+      "text": "Nobody has to bow. {managerA} stands on equal terms, and that's quite enough to stand on.",
+      "score": 9,
+      "was": "{managerA} has no reason to bow to {managerB}, and just as little reason to demand a bow."
+    },
+    {
+      "id": "cb43-067",
+      "text": "Strange as it sounds, this is a complete conclusion with no outright champion. That's football rivalry for you.",
+      "score": 9,
+      "was": "Strange as it sounds, this is a complete result with no outright champion. That's football rivalry for you."
+    },
+    {
+      "id": "cb43-068",
+      "text": "If {clubB} wanted a grander closing chapter than {clubA}, the numbers haven't obliged.",
+      "score": 9,
+      "was": "{clubB} has gone all the way with {clubA} and still finds no space between their totals."
+    },
+    {
+      "id": "cb43-069",
+      "text": "Try telling either manager a joint finish isn't a proper conclusion. I wouldn't fancy that conversation.",
+      "score": 9,
+      "was": "Try telling either manager this doesn't count as a proper ending. I wouldn't fancy that conversation."
+    },
+    {
+      "id": "cb43-070",
+      "text": "There's the rub for {managerB}: an excellent argument for parity and nothing to prove superiority.",
+      "score": 9,
+      "was": "{managerB} might prefer a title, naturally. {managerA} would too. Neither has earned it outright."
+    },
+    {
+      "id": "cb43-071",
+      "text": "At the last accounting, the pair cannot be separated. Not even a point to spare.",
+      "score": 9,
+      "was": "In the final accounting, there's simply no separating the pair. Not a point to spare."
+    },
+    {
+      "id": "cb43-072",
+      "text": "If {clubA} is looking for sensible perspective, {clubB} has earned equal credit. Neither more nor less.",
+      "score": 9,
+      "was": "{clubA} can look at {clubB} and see an equal, not an opponent left behind."
+    },
+    {
+      "id": "cb43-073",
+      "text": "Sometimes you've just got to say it plainly. Both managers have earned identical returns across the full contest.",
+      "score": 9,
+      "was": "Sometimes the most honest conclusion is that the managers were evenly matched across the competition."
+    },
+    {
+      "id": "cb43-074",
+      "text": "You'd have paid for a close decision, and {managerA} has helped supply the closest possible without a winner.",
+      "score": 9,
+      "was": "You'd have paid for a close finish. This lot have delivered the closest possible."
+    },
+    {
+      "id": "cb43-075",
+      "text": "Asking {managerA} who's better is unlikely to resolve it. The totals have already declined to choose.",
+      "score": 9,
+      "was": "{managerA} won't have an advantage to mention when discussing {managerB}. That should keep the conversation lively."
+    },
+    {
+      "id": "cb43-076",
+      "text": "It all ends with parallel tallies, and no trophy for winning the whole thing between them.",
+      "score": 9,
+      "was": "It all ends with both totals sitting together, and not a trophy for winning the Showdown between them."
+    },
+    {
+      "id": "cb43-077",
+      "text": "Just as {clubB} has no advantage over {clubA}, the reverse is true. No room for an asterisk.",
+      "score": 9,
+      "was": "{clubB} has given {clubA} no ground in the final count. Neither has taken any either."
+    },
+    {
+      "id": "cb43-078",
+      "text": "Well, pack away the victory speech. A fair handshake might be more use than an argument.",
+      "score": 9,
+      "was": "Well, you can pack away the victory speech. You might want to keep the mutual respect handy."
+    },
+    {
+      "id": "cb43-079",
+      "text": "Before {managerB} accepts a champion's congratulations, check the figures. They're shared, and that's that.",
+      "score": 9,
+      "was": "{managerB} won't be celebrating an outright Showdown win. {managerA} won't need to offer congratulations for one."
+    },
+    {
+      "id": "cb43-080",
+      "text": "For once, the standings have made choosing a favorite seem rather beside the point.",
+      "score": 9,
+      "was": "For once, the final standings are less interested in choosing sides than the managers are."
+    },
+    {
+      "id": "cb43-081",
+      "text": "And {clubA} deserves respect for reaching the same destination as {clubB}. No title, no inferiority either.",
+      "score": 9,
+      "was": "{clubA} has earned its place alongside {clubB}, right down to the final point of the contest."
+    },
+    {
+      "id": "cb43-082",
+      "text": "Talking louder won't settle it. The figures have already made their peace, much to the managers' amusement.",
+      "score": 9,
+      "was": "Nobody's going to settle this one by talking louder. The figures have already made their peace."
+    },
+    {
+      "id": "cb43-083",
+      "text": "I wouldn't call it anticlimactic. The Showdown has produced an ending no manager can claim outright.",
+      "score": 9,
+      "was": "I wouldn't call it anticlimactic. They spent the entire Showdown proving how close the contest could be."
+    },
+    {
+      "id": "cb43-084",
+      "text": "At least {managerA} and {managerB} agree on something without saying a word: their tallies match.",
+      "score": 9,
+      "was": "{managerA} and {managerB} may disagree about plenty, but their final scores are in complete agreement."
+    },
+    {
+      "id": "cb43-085",
+      "text": "The last comparison almost invites a laugh. After everything, they end up on the exact same line.",
+      "score": 9,
+      "was": "That last comparison is almost comical. The managers have spent the whole contest refusing to part company."
+    },
+    {
+      "id": "cb43-086",
+      "text": "Let {clubB} describe its campaign, and let {clubA} describe theirs. Neither can claim greater success in points.",
+      "score": 9,
+      "was": "{clubB} will have its own account of the Showdown, but {clubA} can produce an equally convincing total."
+    },
+    {
+      "id": "cb43-087",
+      "text": "No winner doesn't mean no ending. The Showdown has closed level, and the verdict stands.",
+      "score": 9,
+      "was": "There is no last-minute escape from a draw. This is the final result, and it stands."
+    },
+    {
+      "id": "cb43-088",
+      "text": "You can admire {managerB}'s effort without pretending it outdid {managerA}. That's the fair reading.",
+      "score": 9,
+      "was": "{managerB} has finished level with {managerA}. No claims of superiority, just a proper contest."
+    },
+    {
+      "id": "cb43-089",
+      "text": "Oddly enough, a shared tally leaves plenty for the managers to disagree over in good humor.",
+      "score": 9,
+      "was": "Oddly enough, a shared ending leaves plenty for the managers to argue about in good humor."
+    },
+    {
+      "id": "cb43-090",
+      "text": "Read the columns beside {clubA} and {clubB}. Not a sliver between them when you reach the bottom.",
+      "score": 9,
+      "was": "{clubA} and {clubB} can put their totals side by side. Neither column gets the better view."
+    },
+    {
+      "id": "cb43-091",
+      "text": "Don't confuse a shared verdict with uncertainty. Neither manager has outscored the other, and that's perfectly clear.",
+      "score": 9,
+      "was": "The verdict isn't indecisive. It says very clearly that neither manager finished above the other."
+    },
+    {
+      "id": "cb43-092",
+      "text": "I think {managerA} can live with matching a worthy challenger, even if outright victory was the ambition.",
+      "score": 9,
+      "was": "{managerA} gets the satisfaction of matching the rival. {managerB} gets the identical reward."
+    },
+    {
+      "id": "cb43-093",
+      "text": "Give them credit, matching a determined counterpart over the full run takes more than tidy bookkeeping.",
+      "score": 9,
+      "was": "Give them credit, because matching a rival over a whole Showdown takes more than a tidy ending."
+    },
+    {
+      "id": "cb43-094",
+      "text": "No higher ground for {clubB}, no lower ground for {clubA}. They can split the bragging rights.",
+      "score": 9,
+      "was": "{clubB} can't claim the higher ground, and {clubA} has no better claim. Fair enough."
+    },
+    {
+      "id": "cb43-095",
+      "text": "Their campaign has ended, and the only honest headline is that the managers stand side by side.",
+      "score": 9,
+      "was": "All those seasons, and the only honest headline is that the managers finished together."
+    },
+    {
+      "id": "cb43-096",
+      "text": "In the end, {managerB} has precisely the same license to be proud as the opposing manager.",
+      "score": 9,
+      "was": "{managerB} can take pride in their part. {managerA} has precisely the same license."
+    },
+    {
+      "id": "cb43-097",
+      "text": "So the contest closes without a champion. What a strange way to end a thoroughly proper rivalry.",
+      "score": 9,
+      "was": "So the Showdown ends without a champion. If rivalry is the measure, it has hardly been wasted."
+    },
+    {
+      "id": "cb43-098",
+      "text": "With {clubA} and {clubB} level, the only thing left to separate is the version each prefers.",
+      "score": 9,
+      "was": "{clubA} has nothing to concede to {clubB} in the overall tally. The reverse holds too."
+    },
+    {
+      "id": "cb43-099",
+      "text": "When the closing count has {points} each, even the liveliest debate has to acknowledge a draw.",
+      "score": 9,
+      "was": "When neither manager can point to a higher total, the respectful nod is the right ending."
+    },
+    {
+      "id": "cb43-100",
+      "text": "There's a rather nice symmetry to {managerA} standing level without having to applaud a sole champion.",
+      "score": 9,
+      "was": "There's a curious kind of honesty in admitting that neither manager got the better of the other."
+    }
+  ]
+}

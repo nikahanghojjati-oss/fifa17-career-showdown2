@@ -1,0 +1,608 @@
+{
+  "batch": 87,
+  "situation": "opening-season",
+  "voice": "The touchline reporter",
+  "lines": [
+    {
+      "id": "cb87-001",
+      "text": "{winner} gets the opening word, and suddenly this rivalry feels very real.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-002",
+      "text": "Down here, the introductions are over. There is a contest to get your teeth into.",
+      "was": "Down here, the first season feels less like an introduction and more like a challenge.",
+      "score": 9
+    },
+    {
+      "id": "cb87-003",
+      "text": "For {loser}, that opening defeat gives the next meeting a little extra edge.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-004",
+      "text": "Opening honors belong to {winnerClub}, with the rest of the story still unwritten.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-005",
+      "text": "You can imagine {winner} leaving that screen untouched while the satisfaction sinks in.",
+      "was": "You can imagine {winner} wanting to leave that first result on the screen a while.",
+      "score": 9
+    },
+    {
+      "id": "cb87-006",
+      "text": "Nothing prepares you for the moment a friendly challenge becomes something you have actually won.",
+      "was": "Nothing quite prepares you for the moment a friendly rivalry gets its first result.",
+      "score": 9
+    },
+    {
+      "id": "cb87-007",
+      "text": "At {loserClub}, the chatter before the start has become a matter of finding a response.",
+      "was": "At {loserClub}, the opening chapter offers something concrete to answer.",
+      "score": 9
+    },
+    {
+      "id": "cb87-008",
+      "text": "That debut gives {winner} a subject to bring up with suspicious regularity over the coming weeks.",
+      "was": "That first season has given {winner} a result to bring up rather casually.",
+      "score": 9
+    },
+    {
+      "id": "cb87-009",
+      "text": "Before this began, it was all possibility. Now the rivalry has a starting point.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-010",
+      "text": "From here, {winnerClub} can enjoy being the club that made the first impression.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-011",
+      "text": "There is a special satisfaction in putting your signature on a blank page.",
+      "was": "There is a special satisfaction in getting your name on the opening chapter.",
+      "score": 9
+    },
+    {
+      "id": "cb87-012",
+      "text": "Ask {loser} about the start, and the conversation may turn toward next season.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-013",
+      "text": "Right at the beginning, {winner} has made the introductions rather memorable.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-014",
+      "text": "Early bragging rights are lovely things. Keeping a straight face may be the hard part.",
+      "was": "Early bragging rights are lovely things, especially before anyone gets used to losing them.",
+      "score": 9
+    },
+    {
+      "id": "cb87-015",
+      "text": "With {winnerClub} taking the opener, the polite part of the rivalry may be over.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-016",
+      "text": "This is where the handshake, metaphorically speaking, gets a slightly firmer grip.",
+      "was": "This is where the talk before the start becomes something worth answering.",
+      "score": 9
+    },
+    {
+      "id": "cb87-017",
+      "text": "Even {loserClub} knows more now. The challenge has a shape, rather than just a promise.",
+      "was": "Even {loserClub} has a clearer picture now. The opening challenge has been delivered.",
+      "score": 9
+    },
+    {
+      "id": "cb87-018",
+      "text": "A first success for {winner}, and permission to look pleased without offering an explanation.",
+      "was": "A first success for {winner}, and a fresh reason to enjoy checking the result.",
+      "score": 9
+    },
+    {
+      "id": "cb87-019",
+      "text": "Some new contests take time to get interesting. This has skipped the waiting room.",
+      "was": "Some opening chapters need a little patience. This rivalry has gone straight to business.",
+      "score": 9
+    },
+    {
+      "id": "cb87-020",
+      "text": "What {winner} has earned here is the pleasure of setting the conversation.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb87-021",
+      "text": "Already, a return to the dugout feels a more tempting prospect.",
+      "was": "Already, the next season has a little more meaning than it did before.",
+      "score": 9
+    },
+    {
+      "id": "cb87-022",
+      "text": "Back at {winnerClub}, confidence has found something sturdier than pre-season optimism.",
+      "was": "Back at {winnerClub}, the opening result is something to build confidence around.",
+      "score": 9
+    },
+    {
+      "id": "cb87-023",
+      "text": "Nobody owns the whole story yet. There is, though, a definite author for the first chapter.",
+      "was": "Nobody owns the whole story yet, but the first page has a definite signature.",
+      "score": 9
+    },
+    {
+      "id": "cb87-024",
+      "text": "If {loser} wanted a reason to come back sharper, it has arrived without an invitation.",
+      "was": "If {loser} needed a reason to get going again, the opener has supplied it.",
+      "score": 9
+    },
+    {
+      "id": "cb87-025",
+      "text": "Listen for the change in tone. The friendly teasing now has evidence behind it.",
+      "was": "Listen to the way an opening result changes a rivalry, even before anything else happens.",
+      "score": 9
+    },
+    {
+      "id": "cb87-026",
+      "text": "{winner} can set the nerves of unfamiliar territory aside. There is a win to savor.",
+      "was": "{winner} can put the nerves of a beginning aside and enjoy a successful start.",
+      "score": 9
+    },
+    {
+      "id": "cb87-027",
+      "text": "First impressions can last. Taking the opener gives your friend a reason to remember yours.",
+      "was": "First impressions linger. This result will be part of how the rivalry remembers its beginning.",
+      "score": 9
+    },
+    {
+      "id": "cb87-028",
+      "text": "Over at {loserClub}, waiting to make amends may be harder than accepting the congratulations are for somebody else.",
+      "was": "Over at {loserClub}, the natural temptation will be to start the reply immediately.",
+      "score": 9
+    },
+    {
+      "id": "cb87-029",
+      "text": "Getting started is awkward enough. Getting started successfully makes the small talk easier.",
+      "was": "Getting started is awkward enough. Getting started with a win is rather easier to enjoy.",
+      "score": 9
+    },
+    {
+      "id": "cb87-030",
+      "text": "Here is {winnerClub}'s calling card. You suspect it will be kept somewhere quite visible.",
+      "was": "Here is {winnerClub}'s opening contribution, and it asks for a proper response.",
+      "score": 9
+    },
+    {
+      "id": "cb87-031",
+      "text": "Once the dust settles on an introduction, you find out how much the challenge matters.",
+      "was": "Once an opener is settled, all that friendly confidence has something to measure itself against.",
+      "score": 9
+    },
+    {
+      "id": "cb87-032",
+      "text": "Perhaps {winner} will try modesty. An ambitious choice when there is no earlier disappointment to balance it.",
+      "was": "Perhaps {winner} will call it a modest start. That would be a very generous description.",
+      "score": 9
+    },
+    {
+      "id": "cb87-033",
+      "text": "Let the rivalry settle in. It has already found a way to get under the skin.",
+      "was": "Let the rivalry settle in. The opening result has already given it a personality.",
+      "score": 9
+    },
+    {
+      "id": "cb87-034",
+      "text": "Until this began, {loser} could rehearse the conversation. The real version is harder.",
+      "was": "Until today, {loser} could wonder how this would begin. Now comes the response.",
+      "score": 9
+    },
+    {
+      "id": "cb87-035",
+      "text": "Every new venture needs encouragement. A win provides a fairly convincing kind.",
+      "was": "Every beginning needs a little spark, and this result has supplied exactly that.",
+      "score": 9
+    },
+    {
+      "id": "cb87-036",
+      "text": "So {winnerClub} discovers the nicer side of this experiment, what it is like to lead a rival.",
+      "was": "So {winnerClub} gets to enjoy the unfamiliar pleasure of being ahead from the start.",
+      "score": 9
+    },
+    {
+      "id": "cb87-037",
+      "text": "Winning the introduction answers a nagging doubt, whether the nerves would get the better of you.",
+      "was": "Winning the opener cannot answer every question, but it makes asking them considerably more pleasant.",
+      "score": 9
+    },
+    {
+      "id": "cb87-038",
+      "text": "Behind the relief for {winner} is a welcome discovery, this challenge can produce some very happy moments.",
+      "was": "Behind the opening result is a simple change for {winner}: anticipation has become satisfaction.",
+      "score": 9
+    },
+    {
+      "id": "cb87-039",
+      "text": "Rivalries sound different once congratulations have to cross from anticipation into actual words.",
+      "was": "Rivalries sound different once there is an actual result tucked into the conversation.",
+      "score": 9
+    },
+    {
+      "id": "cb87-040",
+      "text": "Think how {loserClub} might welcome another go, simply to leave a better taste.",
+      "was": "Think how {loserClub} will approach the next installment, with an opening defeat to put behind them.",
+      "score": 9
+    },
+    {
+      "id": "cb87-041",
+      "text": "Fresh ventures promise plenty. Rarely do they hand you bragging rights quite so quickly.",
+      "was": "Fresh starts promise a great deal. This has already delivered something worth talking about.",
+      "score": 9
+    },
+    {
+      "id": "cb87-042",
+      "text": "There goes the chance to call it all talk. {winner} has made the talk worthwhile.",
+      "was": "There goes the chance to call it all talk. {winner} has the opening success.",
+      "score": 9
+    },
+    {
+      "id": "cb87-043",
+      "text": "Starting well is a pleasant problem, how do you keep this feeling going?",
+      "was": "Starting well leaves a lovely feeling, even when the larger journey has barely begun.",
+      "score": 9
+    },
+    {
+      "id": "cb87-044",
+      "text": "{winnerClub} has supplied the benchmark. Now comes the interesting business of living with it.",
+      "was": "{winnerClub} has given this new contest its first reference point.",
+      "score": 9
+    },
+    {
+      "id": "cb87-045",
+      "text": "Tomorrow can wait. You do not have to turn a happy introduction straight into another assignment.",
+      "was": "Tomorrow's preparation can wait a moment. An opening win deserves to be enjoyed properly.",
+      "score": 9
+    },
+    {
+      "id": "cb87-046",
+      "text": "Consider {loser}'s position, realizing that calling it friendly does very little to soften defeat.",
+      "was": "Consider {loser}'s position now: a rivalry that began with promise has become personal motivation.",
+      "score": 9
+    },
+    {
+      "id": "cb87-047",
+      "text": "Whatever follows, this is the memory that gets to say it was here before the others.",
+      "was": "Whatever follows, there will always be a particular feeling attached to this first result.",
+      "score": 9
+    },
+    {
+      "id": "cb87-048",
+      "text": "As openings go, {winner} has given the post-season conversation a decidedly pleasant accent.",
+      "was": "As openings go, {winner} could hardly ask for a nicer conversation afterward.",
+      "score": 9
+    },
+    {
+      "id": "cb87-049",
+      "text": "Success feels different without a past attached. There is nothing old about this satisfaction.",
+      "was": "Success feels different when nothing came before it. There is no old result to compare it with.",
+      "score": 9
+    },
+    {
+      "id": "cb87-050",
+      "text": "That is the appeal for {winnerClub}, discovering the pleasure before getting used to the pressure.",
+      "was": "That is the appeal of {winnerClub}'s start, a good memory before the rivalry has any old ones.",
+      "score": 9
+    },
+    {
+      "id": "cb87-051",
+      "text": "{winner} has the sort of start that makes leaving the dugout feel like walking a little taller.",
+      "was": "{winner} has the sort of opening result that makes the walk away feel a little shorter.",
+      "score": 9
+    },
+    {
+      "id": "cb87-052",
+      "text": "Waiting to find out is exciting. Discovering you have won makes the welcome considerably more comfortable.",
+      "was": "Waiting for a rivalry to begin is exciting. Having something to celebrate is better.",
+      "score": 9
+    },
+    {
+      "id": "cb87-053",
+      "text": "Should {loser} want a quick return to action, the motivation will not need much explaining.",
+      "was": "Should {loser} prefer a quick return to action, you can certainly understand the feeling.",
+      "score": 9
+    },
+    {
+      "id": "cb87-054",
+      "text": "The pre-season optimism has met reality, and somebody gets to say the faith was justified.",
+      "was": "The first interruption to all that pre-season optimism comes with a result attached.",
+      "score": 9
+    },
+    {
+      "id": "cb87-055",
+      "text": "Near the dugout, you would forgive {winnerClub} a moment of pure, uncomplicated delight.",
+      "was": "Near the dugout, you would forgive {winnerClub} a lingering look at that opening success.",
+      "score": 9
+    },
+    {
+      "id": "cb87-056",
+      "text": "Good beginnings give ambition a foothold. From there, you can start looking a little higher.",
+      "was": "Good beginnings have a way of making the next challenge feel like an invitation.",
+      "score": 9
+    },
+    {
+      "id": "cb87-057",
+      "text": "Credit {winner} with giving this contest something it never had before, a happy memory.",
+      "was": "Credit {winner} with giving the rivalry an opening worth remembering.",
+      "score": 9
+    },
+    {
+      "id": "cb87-058",
+      "text": "No old disappointments to put right, just the fresh satisfaction of having done this successfully.",
+      "was": "No history to lean on yet, just the immediate pleasure of getting started successfully.",
+      "score": 9
+    },
+    {
+      "id": "cb87-059",
+      "text": "For all the anticipation at {loserClub}, the immediate task is learning how to answer disappointment.",
+      "was": "For all the anticipation around {loserClub}, there is now a clear starting challenge.",
+      "score": 9
+    },
+    {
+      "id": "cb87-060",
+      "text": "An opener can feel enormous. Once it is settled, the anticipation changes direction.",
+      "was": "An opener feels enormous until it is over, then everyone starts thinking about what follows.",
+      "score": 9
+    },
+    {
+      "id": "cb87-061",
+      "text": "Imagine playing this down at {winnerClub}. A quiet smile might be the hardest expression to manage.",
+      "was": "Imagine trying to play this down at {winnerClub}. The first bragging rights are theirs.",
+      "score": 9
+    },
+    {
+      "id": "cb87-062",
+      "text": "Small talk has acquired a surprisingly sharp edge, without anyone needing to raise their voice.",
+      "was": "Small talk has a new subject, and it may prove surprisingly difficult to change.",
+      "score": 9
+    },
+    {
+      "id": "cb87-063",
+      "text": "After the curtain rises, {winner} can accept the congratulations without wondering whether they will ever arrive.",
+      "was": "After the first season, {winner} has a little less explaining to do.",
+      "score": 9
+    },
+    {
+      "id": "cb87-064",
+      "text": "Curiosity has given way to appetite. Suddenly, you want to know how the reply will look.",
+      "was": "Anticipation can only carry a contest so far. A result gives it something solid.",
+      "score": 9
+    },
+    {
+      "id": "cb87-065",
+      "text": "{loser} has discovered the awkward side of a new pastime, caring about it straight away.",
+      "was": "{loser} has an early setback to digest, with plenty of reason to want another chance.",
+      "score": 9
+    },
+    {
+      "id": "cb87-066",
+      "text": "Enjoy the novelty. Familiarity will come soon enough, but this particular feeling cannot be rehearsed.",
+      "was": "Enjoy the novelty of this moment. The rivalry will never feel quite so new again.",
+      "score": 9
+    },
+    {
+      "id": "cb87-067",
+      "text": "Look at what {winnerClub} takes away, the confidence of experience rather than expectation.",
+      "was": "Look at the start {winnerClub} can take away, something earned rather than promised.",
+      "score": 9
+    },
+    {
+      "id": "cb87-068",
+      "text": "All that uncertainty has left the room. In its place, a proper contest is taking shape.",
+      "was": "All that uncertainty before the beginning has turned into a very definite talking point.",
+      "score": 9
+    },
+    {
+      "id": "cb87-069",
+      "text": "Whether {winner} admits it or not, an early success makes the effort feel warmly repaid.",
+      "was": "Whether {winner} admits it or not, taking the opener must be a lovely feeling.",
+      "score": 9
+    },
+    {
+      "id": "cb87-070",
+      "text": "An opening win carries a peculiar invitation, discovering whether this unfamiliar pleasure can become a habit.",
+      "was": "New rivalries acquire their habits quickly. The first result is where that begins.",
+      "score": 9
+    },
+    {
+      "id": "cb87-071",
+      "text": "Away from the disappointment, {loserClub} can take stock without letting a debut define everything.",
+      "was": "Away from the result, {loserClub} has the task of keeping an early disappointment in perspective.",
+      "score": 9
+    },
+    {
+      "id": "cb87-072",
+      "text": "Opening successfully has a private pleasure, knowing you did not leave it all in the rehearsal.",
+      "was": "Opening a rivalry successfully is its own pleasure, before the bigger ambitions take over.",
+      "score": 9
+    },
+    {
+      "id": "cb87-073",
+      "text": "Nothing to recover from for {winner}. This has been a generous welcome to unfamiliar territory.",
+      "was": "Nothing for {winner} to chase down yet. The first season has gone their way.",
+      "score": 9
+    },
+    {
+      "id": "cb87-074",
+      "text": "Pre-season belief now has a firmer handshake. There is experience behind the confidence.",
+      "was": "Pre-season confidence is free. The first result gives it a rather different weight.",
+      "score": 9
+    },
+    {
+      "id": "cb87-075",
+      "text": "Call it encouragement for {winnerClub}, and a reason to make room for bigger ambitions.",
+      "was": "Call it an encouraging introduction for {winnerClub}, with a rival now eager to answer.",
+      "score": 9
+    },
+    {
+      "id": "cb87-076",
+      "text": "{winner} has a happy debut to carry into whatever this rivalry becomes.",
+      "was": "{winner} has something to enjoy before this contest develops all its familiar pressures.",
+      "score": 9
+    },
+    {
+      "id": "cb87-077",
+      "text": "Usually unfamiliar territory brings doubts. Having a win banked deals with the loudest.",
+      "was": "Usually the hardest part is knowing where to begin. This result has taken care of that.",
+      "score": 9
+    },
+    {
+      "id": "cb87-078",
+      "text": "Beside the frustration for {loser}, a useful discovery, this contest is worth caring about.",
+      "was": "Beside the disappointment for {loser}, there is the relief of finally knowing the challenge.",
+      "score": 9
+    },
+    {
+      "id": "cb87-079",
+      "text": "Watch how quickly the newcomer nerves disappear once you have a win to protect.",
+      "was": "Watch how quickly a first result becomes the story everyone tells about the start.",
+      "score": 9
+    },
+    {
+      "id": "cb87-080",
+      "text": "{winnerClub} can approach the unfamiliar business ahead with a successful debut to draw upon.",
+      "was": "{winnerClub} can approach the next installment with a good introduction already made.",
+      "score": 9
+    },
+    {
+      "id": "cb87-081",
+      "text": "Pride has found its way into the dugout early. It rarely asks permission to stay.",
+      "was": "Pride arrives early in a rivalry, particularly when the opener gives it somewhere to settle.",
+      "score": 9
+    },
+    {
+      "id": "cb87-082",
+      "text": "You would understand {winner} savoring this. A first taste cannot be saved for later.",
+      "was": "You would understand {winner} savoring this. An opening win only feels new once.",
+      "score": 9
+    },
+    {
+      "id": "cb87-083",
+      "text": "Beginning successfully puts a warmer light on the effort it took to get here.",
+      "was": "Beginning with success puts a little warmth into all the work that comes afterward.",
+      "score": 9
+    },
+    {
+      "id": "cb87-084",
+      "text": "Another chance will appeal to {loserClub}, especially now the uncertainty has a familiar opponent.",
+      "was": "Another chance will appeal to {loserClub}, but the opening honors have already found a home.",
+      "score": 9
+    },
+    {
+      "id": "cb87-085",
+      "text": "Success at the outset puts a warmer light on the effort it took to get here.",
+      "was": "Suddenly the promises before the start sound a little less interesting than the result afterward.",
+      "score": 9
+    },
+    {
+      "id": "cb87-086",
+      "text": "From anticipation to satisfaction, {winner} has made the journey everyone hoped to make.",
+      "was": "From anticipation to a season won, {winner} has had the more enjoyable introduction.",
+      "score": 9
+    },
+    {
+      "id": "cb87-087",
+      "text": "Remember being new at something. Now imagine leaving with the best possible reason to return.",
+      "was": "Remember the feeling of starting something new. Now add the pleasure of winning immediately.",
+      "score": 9
+    },
+    {
+      "id": "cb87-088",
+      "text": "Out of the uncertainty, {winnerClub} can take a reassuring thought, we can do this.",
+      "was": "Out of the uncertainty, {winnerClub} emerges with the first season to its name.",
+      "score": 9
+    },
+    {
+      "id": "cb87-089",
+      "text": "Funny how quickly you stop being the newcomer once somebody has to congratulate you.",
+      "was": "Funny how the wait for a beginning disappears once you have an opener to discuss.",
+      "score": 9
+    },
+    {
+      "id": "cb87-090",
+      "text": "Much for {loser} to digest, including how quickly friendly curiosity can turn into serious intent.",
+      "was": "Much for {loser} to take from this, starting with the desire to answer it.",
+      "score": 9
+    },
+    {
+      "id": "cb87-091",
+      "text": "Plenty for {loser} to digest, including how quickly the first disappointment has come to matter.",
+      "was": "An opening success brings its own responsibility, making sure it becomes a beginning worth having.",
+      "score": 9
+    },
+    {
+      "id": "cb87-092",
+      "text": "Settle into the rivalry, {winner}. Being ahead is a feeling you will want to recognize again.",
+      "was": "Settle into the rivalry, {winner}. There is already something here worth defending.",
+      "score": 9
+    },
+    {
+      "id": "cb87-093",
+      "text": "Better to discover the weight of expectation with a good start already behind you.",
+      "was": "Better to learn the shape of a contest by winning the introduction.",
+      "score": 9
+    },
+    {
+      "id": "cb87-094",
+      "text": "{winnerClub} has earned an introduction that should make the next hello particularly enjoyable.",
+      "was": "{winnerClub} has made the sort of start that turns curiosity into real appetite.",
+      "score": 9
+    },
+    {
+      "id": "cb87-095",
+      "text": "Take a moment before looking forward. The nerves beforehand deserve this little reward.",
+      "was": "Take a moment with the first result. Everything after this will have something to follow.",
+      "score": 9
+    },
+    {
+      "id": "cb87-096",
+      "text": "Through {loserClub}'s eyes, the welcome has been stern, but the invitation to answer remains.",
+      "was": "Through {loserClub}'s eyes, the next season now looks like an opportunity to respond.",
+      "score": 9
+    },
+    {
+      "id": "cb87-097",
+      "text": "Barely introduced, and already there is something neither friend will be entirely casual about.",
+      "was": "Barely has the rivalry introduced itself, and already the conversation has a favorite subject.",
+      "score": 9
+    },
+    {
+      "id": "cb87-098",
+      "text": "Put yourself in {winner}'s position. Even the prospect of getting back to work feels sweeter.",
+      "was": "Put yourself in {winner}'s position, enjoying success while the contest still feels brand new.",
+      "score": 9
+    },
+    {
+      "id": "cb87-099",
+      "text": "Memorable beginnings make a contest easy to return to. You want another taste of this.",
+      "was": "Memorable beginnings need no long explanation. The opening season has done the talking.",
+      "score": 9
+    },
+    {
+      "id": "cb87-100",
+      "text": "Finally, {winnerClub} knows the pleasure of emerging from an unfamiliar challenge with something worth celebrating.",
+      "was": "Finally, {winnerClub} has changed an exciting idea into a successful first season.",
+      "score": 9
+    }
+  ],
+  "edited": true
+}

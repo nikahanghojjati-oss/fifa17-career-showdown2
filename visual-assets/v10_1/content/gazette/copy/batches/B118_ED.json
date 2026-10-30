@@ -1,0 +1,608 @@
+{
+  "batch": 118,
+  "situation": "dominant-run",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb118-001",
+      "text": "Nobody gets to borrow a season win from {leader}, and that makes the next challenge wonderfully awkward.",
+      "score": 10,
+      "was": "{leader} has taken every season on offer, and the chasing side is still looking for an opening."
+    },
+    {
+      "id": "cb118-002",
+      "text": "Season after season, {winner} keeps coming away with the verdict, and that is some standard to maintain.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-003",
+      "text": "For {winnerClub}, every completed campaign has ended with the same distinction, a season victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-004",
+      "text": "You cannot fault the contest, but {trailer} has yet to interrupt this remarkable sequence of season wins.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-005",
+      "text": "Each time the season settles, {leader} is standing on the right side of the result again.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-006",
+      "text": "A run like this changes the conversation, because every new campaign begins with somebody trying to end it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-007",
+      "text": "Listen to us hunting for adjectives, while {winner} simply adds another season victory to the pile.",
+      "score": 10,
+      "was": "{winner} is making the extraordinary look routine, and that might be the most impressive part."
+    },
+    {
+      "id": "cb118-008",
+      "text": "Not a single season has slipped away from {leader}, although the next one still has to be earned.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-009",
+      "text": "Look beyond the latest result, and you see a manager who has owned every completed chapter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-010",
+      "text": "From {loserClub}'s perspective, the opportunity is obvious, become the first to halt this procession.",
+      "score": 10,
+      "was": "The opposition has every reason to regroup, but the season victories still belong entirely to {winner}."
+    },
+    {
+      "id": "cb118-011",
+      "text": "When {winnerClub} reaches the season review, the outcome keeps matching the previous ones, another triumph.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-012",
+      "text": "Consistency is {leader}'s signature so far, and {trailer} gets another chance to challenge it.",
+      "score": 9,
+      "was": "It is the consistency that stands out, not merely this result but all the seasons before it."
+    },
+    {
+      "id": "cb118-013",
+      "text": "{trailer} still has a route back into the argument, but it begins with ending this winning sequence.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-014",
+      "text": "That rival has something nobody else can offer, the chance to end an unbroken run.",
+      "score": 9,
+      "was": "An uninterrupted collection of season victories is the sort of form that gives a rivalry its edge."
+    },
+    {
+      "id": "cb118-015",
+      "text": "I'd call it unusual, except that {leader} winning every season has become the entire pattern.",
+      "score": 9,
+      "was": "There is no need to exaggerate it, {leader} has won every season this contest has produced."
+    },
+    {
+      "id": "cb118-016",
+      "text": "Even a spirited debate cannot disguise the pattern, the same manager has won every finished campaign.",
+      "score": 9,
+      "was": "For all the debate about the next campaign, the completed seasons have told one consistent story."
+    },
+    {
+      "id": "cb118-017",
+      "text": "Apparently {winner} has not discovered a season they are willing to let anybody else have.",
+      "score": 10,
+      "was": "{winner} deserves the credit for refusing to let even one season escape."
+    },
+    {
+      "id": "cb118-018",
+      "text": "This is the uncomfortable question for {loserClub}, where does the first season victory come from?",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-019",
+      "text": "Latest result, familiar destination, {winner} takes the season honours without breaking this extraordinary rhythm.",
+      "score": 10,
+      "was": "The latest season belongs to {winner}, just as every earlier season in this Showdown has."
+    },
+    {
+      "id": "cb118-020",
+      "text": "Every campaign is a fresh contest, yet {winnerClub} has finished each one in front.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-021",
+      "text": "Around this desk, the argument is whether the next season can finally break the sequence.",
+      "score": 9,
+      "was": "In the studio, we can debate the manner, but nobody can dispute that uninterrupted sweep."
+    },
+    {
+      "id": "cb118-022",
+      "text": "Strip away the chatter and {leader} still owns every season victory in the Showdown so far.",
+      "score": 9,
+      "was": "{leader} holds the initiative through every completed season, without any need for a grand speech."
+    },
+    {
+      "id": "cb118-023",
+      "text": "Another campaign finishes and the leading manager's run remains intact, an imposing achievement.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-024",
+      "text": "I admire the resolve required to keep winning, especially when the rival has another chance to respond.",
+      "score": 10,
+      "was": "You admire the resilience required to keep winning, especially when the rival knows what is coming."
+    },
+    {
+      "id": "cb118-025",
+      "text": "{trailer} has work ahead, certainly, but the chance to be the first to halt it is still there.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-026",
+      "text": "Nobody is handing out the next season, even after a sequence as convincing as this.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-027",
+      "text": "Across the entire run, {winner} has never had to watch a rival claim a completed season.",
+      "score": 10,
+      "was": "Through every completed chapter, {winner} has found a way to finish with the season honours."
+    },
+    {
+      "id": "cb118-028",
+      "text": "That sequence belongs to {leader}, and it sets a formidable benchmark for whatever comes next.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-029",
+      "text": "As a plot twist, a new season winner would be a welcome surprise to everybody but the leader.",
+      "score": 10,
+      "was": "There has been no change at the top of the season-by-season conversation, not once so far."
+    },
+    {
+      "id": "cb118-030",
+      "text": "{winnerClub} keeps supplying the winning campaign, which is an extraordinary habit to develop.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-031",
+      "text": "Perhaps the real measure is this, the other manager has yet to celebrate a season victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-032",
+      "text": "For {trailer}, the challenge is not to erase the past, it is to write a different next chapter.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-033",
+      "text": "What strikes me most is the reliability, {winner} keeps delivering when a season reaches its conclusion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-034",
+      "text": "When {leader} keeps sweeping seasons, {trailer} inherits an irresistible challenge, find the first interruption.",
+      "score": 9,
+      "was": "An entire run without a lost season, and suddenly every new campaign feels like a test of nerve."
+    },
+    {
+      "id": "cb118-035",
+      "text": "Picture the next season, {leader} arrives with a flawless run and a fresh challenge to protect it.",
+      "score": 10,
+      "was": "{leader} has built the kind of sequence that makes the next result compelling before it arrives."
+    },
+    {
+      "id": "cb118-036",
+      "text": "A rival can stay patient for only so long before the next season becomes a personal challenge.",
+      "score": 9,
+      "was": "There is room for the chasing manager to respond, but the current run is beyond question."
+    },
+    {
+      "id": "cb118-037",
+      "text": "{winnerClub} owns an unbroken set of season wins, not a bad foundation for the rest of the rivalry.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-038",
+      "text": "Take your pick of past campaigns, each one has left {leader} claiming the season honours.",
+      "score": 10,
+      "was": "The sequence is undeniable, {leader} has made every completed season count as a victory."
+    },
+    {
+      "id": "cb118-039",
+      "text": "You can respect the rival's persistence while recognising just how stubborn this winning form has become.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-040",
+      "text": "Nothing about the next campaign is settled, but every previous one has gone the way of {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-041",
+      "text": "I would love to hear the scouting report, because apparently nobody has found the off switch yet.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb118-042",
+      "text": "One might think {winner} has a reserved seat in the winner's interview, and nobody has cancelled it.",
+      "score": 10,
+      "was": "{winner} must be getting quite attached to that winning feeling, although the next campaign gets a vote."
+    },
+    {
+      "id": "cb118-043",
+      "text": "At this rate, the season recap is starting to resemble a very familiar television rerun.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb118-044",
+      "text": "The results desk could save ink writing {leader} first, but {trailer} will want a different story next season.",
+      "score": 10,
+      "was": "Somebody should tell the results desk to keep the other side of the page warm."
+    },
+    {
+      "id": "cb118-045",
+      "text": "{trailer} has not had the last laugh yet, and that is precisely why we keep watching.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-046",
+      "text": "Apparently, {leader} has developed a very selective taste in season results, victories only.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb118-047",
+      "text": "Nobody seems able to make this run blink, and that is exactly why the next season matters.",
+      "score": 9,
+      "was": "The trouble with a perfect run is that everyone else gets to circle the next season."
+    },
+    {
+      "id": "cb118-048",
+      "text": "You can almost hear {winnerClub} asking whether the winning column comes with a loyalty card.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb118-049",
+      "text": "A sensible studio question, does this manager ever plan to give the rival a turn?",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-050",
+      "text": "No one promised {loserClub} a share of the season wins, but interrupting this run would be a fine reply.",
+      "score": 9,
+      "was": "Nobody promised {loserClub} an easy partnership, but a season victory would certainly freshen the conversation."
+    },
+    {
+      "id": "cb118-051",
+      "text": "Watching {winner} dominate the season reviews is turning our analysis desk into a guessing game about the next one.",
+      "score": 9,
+      "was": "{winner} keeps collecting season honours, and the rest of us keep searching for a new question."
+    },
+    {
+      "id": "cb118-052",
+      "text": "I have seen favourite storylines, but this one refuses to change its ending.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-053",
+      "text": "On this evidence, {leader} considers surrendering a season an entirely optional activity.",
+      "score": 10,
+      "was": "{leader} is treating each season like an invitation with one acceptable reply, yes please."
+    },
+    {
+      "id": "cb118-054",
+      "text": "If repetition were an art form, this unbroken run would have its own exhibition.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-055",
+      "text": "{trailer} might want to change the subject, but the latest season insists on staying in view.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-056",
+      "text": "Just when you think the running order might change, {winnerClub} gets another headline slot.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb118-057",
+      "text": "Anyone booked for the surprise segment? That chair in our studio has remained rather empty.",
+      "score": 10,
+      "was": "There is a chair in this studio for surprises, and it has been rather underused lately."
+    },
+    {
+      "id": "cb118-058",
+      "text": "Even the studio coffee seems accustomed to {winner} winning every season, which tells you something.",
+      "score": 10,
+      "was": "{winner} seems to have made the season victory column a permanent forwarding address."
+    },
+    {
+      "id": "cb118-059",
+      "text": "At least the challenger gets a fresh chance every campaign, even while the other manager owns every season.",
+      "score": 9,
+      "was": "I admire the patience of the challenger, because the winning door has been firmly occupied."
+    },
+    {
+      "id": "cb118-060",
+      "text": "A panel can argue over almost anything, but not who has won every completed season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-061",
+      "text": "Call {leader} relentless, but leave some room for the rival's next idea.",
+      "score": 10,
+      "was": "{leader} would probably prefer we call it consistency, while everybody else calls it relentless."
+    },
+    {
+      "id": "cb118-062",
+      "text": "Here's a harmless suggestion for the chasing camp, start by making the next season look different.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-063",
+      "text": "{loser} knows the script by now, although scripts are written to be interrupted.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb118-064",
+      "text": "{winnerClub} has turned season-end congratulations into the most regular appointment on the calendar.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-065",
+      "text": "Predict a fresh season champion now, and you're taking a brave position against the form.",
+      "score": 10,
+      "was": "The next person to predict a different season winner will either be brave or eventually right."
+    },
+    {
+      "id": "cb118-066",
+      "text": "If {trailer} breaks this streak, nobody in the studio will be short of talking points.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-067",
+      "text": "Meanwhile, {leader} keeps collecting season victories, and we are running out of fresh compliments.",
+      "score": 10,
+      "was": "{leader} has kept the winning side of the argument so busy, the other side may request overtime."
+    },
+    {
+      "id": "cb118-068",
+      "text": "In fairness, the rival is still here, which means the story remains worth following.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-069",
+      "text": "Maybe {winner} writes a new ending next season, but so far every campaign has the same victorious signature.",
+      "score": 9,
+      "was": "{winner} has answered every season's question with the same result, and never needed a rehearsal."
+    },
+    {
+      "id": "cb118-070",
+      "text": "Someone pass the challenger a fresh notebook, because this chapter keeps ending with {leader}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb118-071",
+      "text": "Our resident sceptic has one difficult admission, every season victory belongs to the same manager.",
+      "score": 9,
+      "was": "Even the studio sceptic has to concede this, the season victories have been a complete set."
+    },
+    {
+      "id": "cb118-072",
+      "text": "Good news keeps arriving for {winnerClub}, and the panel has almost run out of ways to announce it.",
+      "score": 9,
+      "was": "{winnerClub} is making a habit of good news, and habits like this are hard to argue with."
+    },
+    {
+      "id": "cb118-073",
+      "text": "Imagine being asked for a fresh take when the winner keeps refusing to change.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-074",
+      "text": "Even I can admit that {winner} has made a very repetitive joke impressive, by winning every time.",
+      "score": 10,
+      "was": "The remarkable thing about {winner} is that the punchline has become the plain truth."
+    },
+    {
+      "id": "cb118-075",
+      "text": "All right, {trailer} has not taken a season yet, but the next opportunity is still a live one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-076",
+      "text": "Behind that run is a difficult truth, each campaign has offered a challenge and {leader} has answered it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-077",
+      "text": "For {trailer}, every season {leader} wins adds meaning to that possible first breakthrough.",
+      "score": 10,
+      "was": "One unbroken line of season victories, and the next chapter carries a heavier question than ever."
+    },
+    {
+      "id": "cb118-078",
+      "text": "From the rival's end of the desk, this is the sort of streak you cannot ignore or concede forever.",
+      "score": 9,
+      "was": "{winner} has left no completed season for the rival, and that is a striking place to stand."
+    },
+    {
+      "id": "cb118-079",
+      "text": "Every time the contest offers a fresh start, this manager turns it into another winning finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-080",
+      "text": "There is a particular pressure in knowing that the first defeat would become the story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-081",
+      "text": "Rare is the manager who never loses a season within a running contest, and {leader} is living that story.",
+      "score": 10,
+      "was": "{leader} sits in rare company within this rivalry, untouched by a lost season so far."
+    },
+    {
+      "id": "cb118-082",
+      "text": "At the end of every campaign, the same manager has had reason to hold their head high.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-083",
+      "text": "Imagine the noise around the studio if {trailer} is the manager who finally ends this sequence.",
+      "score": 10,
+      "was": "For {trailer}, the moment that ends this sequence could become the most memorable of all."
+    },
+    {
+      "id": "cb118-084",
+      "text": "No interruption, no change of hands, just {winnerClub} gathering another season victory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-085",
+      "text": "History does not promise the future, but this sequence gives the next contest tremendous weight.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-086",
+      "text": "Consider the scale of it, {winner} has taken every single season without letting the narrative slip.",
+      "score": 9,
+      "was": "{winner} has made each season a separate triumph, and together they form something imposing."
+    },
+    {
+      "id": "cb118-087",
+      "text": "To end this run, the challenger needn't rewrite yesterday, only make the next campaign theirs.",
+      "score": 9,
+      "was": "The challenger does not need to conquer the whole past, only the next season in front of them."
+    },
+    {
+      "id": "cb118-088",
+      "text": "That is the sting of an unbeaten seasonal run, every new result can either preserve or break it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-089",
+      "text": "All the winning seasons have pointed toward {leader}, so the next campaign arrives with a real question.",
+      "score": 9,
+      "was": "{leader} is still writing the only winning entries in this rivalry's season-by-season story."
+    },
+    {
+      "id": "cb118-090",
+      "text": "You can sense the stakes rising, because the first season to go the other way would matter enormously.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-091",
+      "text": "Every completed season has favoured {winnerClub}, a simple fact with an extraordinary echo.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-092",
+      "text": "Now the question hangs over the next campaign, can anybody finally change the name at the top?",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-093",
+      "text": "What keeps this rivalry interesting is the test {winner} still faces, winning again when nothing is promised.",
+      "score": 9,
+      "was": "{winner} has carried the lead across every season, and the rival keeps the contest alive by returning."
+    },
+    {
+      "id": "cb118-094",
+      "text": "Call it a winning streak if you like, but there has not been a losing season to interrupt it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb118-095",
+      "text": "Hear the studio go quiet if {trailer} finally interrupts this parade, a moment worth staying for.",
+      "score": 10,
+      "was": "The silence after a streak ends can be enormous, and {trailer} still has the chance to create it."
+    },
+    {
+      "id": "cb118-096",
+      "text": "Only {trailer} can make the next season the exception to {leader}'s rule, and that's the intrigue.",
+      "score": 10,
+      "was": "Some sequences fade quietly, but this one has become the central drama of the entire contest."
+    },
+    {
+      "id": "cb118-097",
+      "text": "Spotlight or no spotlight, {leader} still has to produce a fresh victory when another campaign ends.",
+      "score": 9,
+      "was": "{leader} has never surrendered a season in this Showdown, and that puts every new challenge under a spotlight."
+    },
+    {
+      "id": "cb118-098",
+      "text": "Remember this is an active contest, and the other manager can still claim the next season.",
+      "score": 9,
+      "was": "The opponent has not been given a season victory, but the next one remains there to be fought for."
+    },
+    {
+      "id": "cb118-099",
+      "text": "However complete this sequence looks, it cannot decide a season that has yet to begin.",
+      "score": 10,
+      "was": "A sequence this complete can dominate the discussion, yet it cannot decide a season that has not begun."
+    },
+    {
+      "id": "cb118-100",
+      "text": "{winnerClub} carries the weight of expectation now, and that is the price of winning every time.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

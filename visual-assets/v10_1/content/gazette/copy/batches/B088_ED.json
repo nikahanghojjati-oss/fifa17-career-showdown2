@@ -1,0 +1,608 @@
+{
+  "batch": 88,
+  "situation": "halfway",
+  "voice": "The touchline reporter",
+  "lines": [
+    {
+      "id": "cb88-001",
+      "text": "{leader} reaches the halfway stage with something to defend, and plenty still to think about.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-002",
+      "text": "Down here, you could understand a moment of quiet, as the scale of what remains sinks in.",
+      "was": "Down here, the break between looking back and looking forward feels unusually brief.",
+      "score": 9
+    },
+    {
+      "id": "cb88-003",
+      "text": "For {trailer}, the middle of the campaign is a place to regroup, not settle.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-004",
+      "text": "At {winnerClub}, the campaign divides evenly between experience gained and challenges still to face.",
+      "was": "At {winnerClub}, the work ahead now deserves as much attention as the work behind.",
+      "score": 9
+    },
+    {
+      "id": "cb88-005",
+      "text": "You would forgive {leader} a look over the shoulder before getting on with the job.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-006",
+      "text": "The journey has acquired some weight. There is just as long a stretch of road waiting.",
+      "was": "The journey has acquired some weight. There is just as much road still waiting.",
+      "score": 9
+    },
+    {
+      "id": "cb88-007",
+      "text": "{trailer} has reached the point where encouragement needs to become something more substantial.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-008",
+      "text": "Behind us, plenty to digest. Ahead, enough uncertainty to make any confident prediction sound premature.",
+      "was": "Behind us, plenty to digest. Ahead, enough uncertainty to keep this wonderfully uncomfortable.",
+      "score": 9
+    },
+    {
+      "id": "cb88-009",
+      "text": "From {loserClub}'s perspective, this pause has to be used rather than simply enjoyed.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-010",
+      "text": "Nobody gets to put their feet up because the campaign has reached its middle.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-011",
+      "text": "With {leader} in front, even a moment to catch breath comes with a rival attached.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-012",
+      "text": "Half the route is covered. You suspect the feet will notice that sooner than the nerves.",
+      "was": "Half the journey is a useful place to check your direction, not choose the souvenir.",
+      "score": 9
+    },
+    {
+      "id": "cb88-013",
+      "text": "Ask {trailer} what matters now, and the answer should have very little past tense.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-014",
+      "text": "There is no comfortable shortcut from this point. The rest still has to be earned.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-015",
+      "text": "Here at {winnerClub}, even a pause for reflection comes with a considerable to-do list.",
+      "was": "Here at {winnerClub}, perspective means remembering how much of this contest remains open.",
+      "score": 9
+    },
+    {
+      "id": "cb88-016",
+      "text": "From the dugout, the finish must look less remote now, without looking remotely secure.",
+      "was": "A campaign changes character when the finish becomes imaginable without becoming close.",
+      "score": 9
+    },
+    {
+      "id": "cb88-017",
+      "text": "Perhaps {leader} would like the journey to feel shorter. That is not how it works.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-018",
+      "text": "Somewhere between the nerves of beginning and the strain of finishing, belief gets tested.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-019",
+      "text": "Over at {loserClub}, the next challenge offers more use than another look backward.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-020",
+      "text": "Think of the effort already invested. Nobody will want it to become the best part.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-021",
+      "text": "If {trailer} needed a natural moment to reset, the calendar has supplied a useful one.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-022",
+      "text": "Here you would understand a longer breath before the return to business, with as much again still waiting.",
+      "was": "Getting this far brings experience, but experience still has to do something useful.",
+      "score": 9
+    },
+    {
+      "id": "cb88-023",
+      "text": "{leader} can be encouraged by the position, provided encouragement does not become permission to relax.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-024",
+      "text": "Even a friendly rivalry feels heavier when each friend has invested this much of themselves.",
+      "was": "Even a friendly rivalry feels heavier once there is this much effort tied up in it.",
+      "score": 9
+    },
+    {
+      "id": "cb88-025",
+      "text": "Take the view from {winnerClub}: a substantial journey behind, an equally demanding invitation ahead.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-026",
+      "text": "{trailer} might prefer to call this the start of the response rather than a halfway assessment.",
+      "was": "{trailer} might prefer to call this the start of the response rather than the midpoint.",
+      "score": 9
+    },
+    {
+      "id": "cb88-027",
+      "text": "Nobody needs a reminder of the effort spent. The awkward part is budgeting for the same again.",
+      "was": "Reaching the middle is an achievement until you remember it comes with another equally large assignment.",
+      "score": 9
+    },
+    {
+      "id": "cb88-028",
+      "text": "Beside the dugout, you could understand {leader} wanting reassurance rather than congratulations.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-029",
+      "text": "Nobody should frame a halfway photograph as the finished picture. Too much remains outside the lens.",
+      "was": "Nobody should start framing the picture. There is a sizeable blank section left to fill.",
+      "score": 9
+    },
+    {
+      "id": "cb88-030",
+      "text": "So {winnerClub} arrives at a useful checkpoint, carrying experience rather than a finished job.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-031",
+      "text": "Looking backward can explain the trip. It cannot do much of the driving.",
+      "was": "Looking backward has its uses. Staying turned that way is how the future catches you out.",
+      "score": 9
+    },
+    {
+      "id": "cb88-032",
+      "text": "What {trailer} needs from this pause is a plan that survives the return to business.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-033",
+      "text": "Halfway photographs can be misleading. They leave out all the movement still to come.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-034",
+      "text": "Consider {leader}'s dilemma, how to enjoy the lead without turning the advantage into an invitation to relax.",
+      "was": "Consider {leader}'s problem, enjoying the position without getting too fond of the comfort.",
+      "score": 9
+    },
+    {
+      "id": "cb88-035",
+      "text": "At this stage, confidence ought to arrive with its working clothes on, ready for another long shift.",
+      "was": "At this stage, confidence ought to come with its working clothes still on.",
+      "score": 9
+    },
+    {
+      "id": "cb88-036",
+      "text": "{loserClub} has time to change the mood, provided the opportunity becomes action.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-037",
+      "text": "Relaxation is a tempting souvenir from the middle of a campaign. Best leave it on the shelf.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-038",
+      "text": "Should {trailer} find fresh belief here, the rest of the contest could feel very different.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-039",
+      "text": "The fuel gauge matters as much as the distance covered now.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-040",
+      "text": "Around {winnerClub}, satisfaction needs a short visit rather than a permanent address.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-041",
+      "text": "Whether {trailer} welcomes this checkpoint will depend on the response, once reflection gives way to action.",
+      "was": "By now, ambition has picked up a few responsibilities. It is no longer simply a nice idea.",
+      "score": 9
+    },
+    {
+      "id": "cb88-042",
+      "text": "A little encouragement would be welcome down here. Complacency would be a considerably less helpful visitor.",
+      "was": "Picture {leader} putting the notebook away, then remembering there is just as much still to write.",
+      "score": 9
+    },
+    {
+      "id": "cb88-043",
+      "text": "A long contest asks an awkward question here, can you remain hungry after all that effort?",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-044",
+      "text": "Until the rest is done, this is a progress report with plenty of space for corrections.",
+      "was": "Away from {loserClub}, no verdict is ready. The unfinished business remains substantial.",
+      "score": 9
+    },
+    {
+      "id": "cb88-045",
+      "text": "Rivalries do not give out a reward for arriving at the middle in good spirits.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-046",
+      "text": "Near the technical area, promise may be starting to sound a little more like obligation.",
+      "was": "Whether {trailer} welcomes the checkpoint depends on what happens after the pause.",
+      "score": 9
+    },
+    {
+      "id": "cb88-047",
+      "text": "Much has been spent getting here. The reserve of patience may matter just as much now.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-048",
+      "text": "There is a reason for {winnerClub} to take stock, but none to start packing away.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-049",
+      "text": "Established habits have had an examination. The remaining stretch asks whether they survive familiarity.",
+      "was": "Until the rest is done, this is a progress report with room for corrections.",
+      "score": 9
+    },
+    {
+      "id": "cb88-050",
+      "text": "Call it a warning for {leader}, admiration belongs after the task, not in the middle of doing it.",
+      "was": "Call it a useful warning for {leader}, the position can be admired after the work is finished.",
+      "score": 9
+    },
+    {
+      "id": "cb88-051",
+      "text": "{trailer} still has an entire response to make. That ought to keep the shoulders square.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-052",
+      "text": "Listen to the language now. Early promise has to stand up as lasting belief.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-053",
+      "text": "Near {winnerClub}'s dugout, you would understand the temptation to count what is already secure.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-054",
+      "text": "Good habits have had a decent examination. Now comes the question of whether they last.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-055",
+      "text": "As for {leader}, staying alert means treating this position as a responsibility, not a reward.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-056",
+      "text": "Some of the excitement has become routine. Keeping the appetite alive is a challenge in itself.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-057",
+      "text": "Remember why the chase mattered, {trailer}. This checkpoint is a chance to recover that original hunger.",
+      "was": "To {loserClub}, this is a natural dividing line between the explanation and the answer.",
+      "score": 9
+    },
+    {
+      "id": "cb88-058",
+      "text": "Winning the argument about what has happened cannot win the argument about what happens next.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-059",
+      "text": "{trailer} has reason to remember why the chase seemed worth beginning.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-060",
+      "text": "Every ambition looks different with some mileage on it. The shine is no longer the point.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-061",
+      "text": "Imagine {winnerClub} trying to celebrate being here without sounding as though the job is over.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-062",
+      "text": "Faith has met frustration by this stage. Down here, you would want to know which has the louder voice.",
+      "was": "Faith has had time to meet frustration. From here, it has to keep showing up anyway.",
+      "score": 9
+    },
+    {
+      "id": "cb88-063",
+      "text": "Before {leader} looks too far toward the destination, there is the next step to take.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-064",
+      "text": "Whatever the position, nobody arrives here with exactly the same expectations they started with.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-065",
+      "text": "{loserClub} can use this point to change the conversation from what went wrong to what comes next.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-066",
+      "text": "Progress makes a demanding companion, always asking what you intend to do after acknowledging it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-067",
+      "text": "Knowing {trailer} has a long response available should keep any early certainty in check.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-068",
+      "text": "Tomorrow is no longer a distant promise. It is where the weight of the campaign begins to land.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-069",
+      "text": "Put yourself in {winnerClub}'s place, proud of getting here but still unable to call it enough.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-070",
+      "text": "Neither nostalgia nor nerves can do the remaining work. Both may have to wait outside.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-071",
+      "text": "By reaching this stage ahead, {leader} has earned scrutiny as well as encouragement.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-072",
+      "text": "Pressure has had time to become familiar. Familiar does not necessarily mean easy.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-073",
+      "text": "Look toward {loserClub}, where an honest assessment should leave space for renewed purpose.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-074",
+      "text": "Momentum is welcome company on a journey. The remaining distance will discover whether the friendship lasts.",
+      "was": "Momentum is a fine companion on a journey. It still needs somebody willing to keep walking.",
+      "score": 9
+    },
+    {
+      "id": "cb88-075",
+      "text": "Even {trailer} can draw breath here, as long as the rest stop does not turn into a destination.",
+      "was": "Even {trailer} can take a breath here, as long as the pause does not become surrender.",
+      "score": 9
+    },
+    {
+      "id": "cb88-076",
+      "text": "{leader} has reached the middle with the pursuit still very much a live concern.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-077",
+      "text": "Getting here took commitment. Getting through the rest will ask whether that commitment has changed.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-078",
+      "text": "Behind {winnerClub}'s assessment, there should be a question about appetite, not just satisfaction.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-079",
+      "text": "Comfort is a dangerous reading of a checkpoint. It can make a moving target look stationary.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-080",
+      "text": "Assessing {winnerClub}, you wonder whether ambition feels as urgent now as it did at the start.",
+      "was": "For {trailer}, the remaining stretch is large enough to demand more than hopeful talk.",
+      "score": 9
+    },
+    {
+      "id": "cb88-081",
+      "text": "Experience now has to earn its keep. Being older in the contest is not enough.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-082",
+      "text": "From the view at {loserClub}, a reset should mean renewed intent rather than forgetting everything.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-083",
+      "text": "Certainty would be a remarkably expensive luxury with so much of the contest still unpaid for.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-084",
+      "text": "{winnerClub} has reached the bend where memories and expectations occupy about the same space.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-085",
+      "text": "Around {loserClub}, reflection offers a chance to separate a useful lesson from an old frustration.",
+      "was": "Anyone waiting for the nerves to disappear may be waiting for the wrong thing.",
+      "score": 9
+    },
+    {
+      "id": "cb88-086",
+      "text": "Under the surface for {leader}, the job is changing from finding a lead to living with one.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-087",
+      "text": "Weariness is understandable here. Letting it choose your ambitions would be another matter.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-088",
+      "text": "In {trailer}'s position, the unfinished portion should be an invitation rather than a burden.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-089",
+      "text": "A checkpoint separates what you hoped you could do from what you now know it takes.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-090",
+      "text": "Next for {loserClub}, the chance to put fresh purpose behind an increasingly familiar challenge.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-091",
+      "text": "From {leader}'s perspective, finding a lead has given way to the pressure of living with it.",
+      "was": "Time spent cannot be reclaimed. Time left can still be put to a very different use.",
+      "score": 9
+    },
+    {
+      "id": "cb88-092",
+      "text": "Midway through, ordinary persistence begins to deserve attention. The glamorous part of ambition has had its turn.",
+      "was": "{leader} can look back with satisfaction, provided the gaze does not linger too long.",
+      "score": 9
+    },
+    {
+      "id": "cb88-093",
+      "text": "Midway through a demanding contest, ordinary persistence starts to acquire a rather impressive weight.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-094",
+      "text": "Perhaps {winnerClub} will find the pause useful simply for remembering the ambition that started this.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-095",
+      "text": "Time spent is beyond recall. Time remaining offers a chance to prove that the lessons were worth learning.",
+      "was": "There comes a point when excitement needs patience beside it. We are very much there.",
+      "score": 9
+    },
+    {
+      "id": "cb88-096",
+      "text": "{leader} can reflect with satisfaction, provided reflection does not steal attention from the business ahead.",
+      "was": "Around {trailer}, the useful question is how to improve the response, not how to excuse the position.",
+      "score": 9
+    },
+    {
+      "id": "cb88-097",
+      "text": "Reaching the center of the story makes the ending feel possible, without making it inevitable.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-098",
+      "text": "Through {loserClub}'s eyes, the road ahead offers room that the road behind no longer can.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-099",
+      "text": "Early enthusiasm has carried its share. Now the quieter qualities have to take some of the weight.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb88-100",
+      "text": "Remember, {leader} has reached a marker on the route, not a place to stop.",
+      "was": null,
+      "score": 9
+    }
+  ],
+  "edited": true
+}

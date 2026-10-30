@@ -1,0 +1,608 @@
+{
+  "batch": 89,
+  "situation": "final-season-decider",
+  "voice": "The touchline reporter",
+  "lines": [
+    {
+      "id": "cb89-001",
+      "text": "Ahead of the last season, {leader} has the prize in sight and a rival still refusing to disappear.",
+      "was": "{leader} has reached the last season with the prize still requiring a proper answer.",
+      "score": 9
+    },
+    {
+      "id": "cb89-002",
+      "text": "Down here, all the reasons for starting are about to acquire a rather sharper edge.",
+      "was": "Down here, every reason for starting this contest is about to come back into focus.",
+      "score": 9
+    },
+    {
+      "id": "cb89-003",
+      "text": "For {trailer}, looking past the immediate task offers nothing. The opportunity is right in front.",
+      "was": "For {trailer}, there is no need to look beyond the next campaign. That is the opportunity.",
+      "score": 9
+    },
+    {
+      "id": "cb89-004",
+      "text": "At {winnerClub}, any temptation to relax must compete with the knowledge that this remains undecided.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-005",
+      "text": "You would understand {leader} wanting the wait over, then wishing for a moment longer.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-006",
+      "text": "Soon the introduction and the farewell arrive together. That ought to sharpen the senses.",
+      "was": "The next beginning comes with an ending attached. That changes the feel of everything.",
+      "score": 9
+    },
+    {
+      "id": "cb89-007",
+      "text": "{trailer} can put the long view away. There is a final opening to give this story a different destination.",
+      "was": "{trailer} can put the long view away now. There is a single campaign left to shape.",
+      "score": 9
+    },
+    {
+      "id": "cb89-008",
+      "text": "No room left for a vague promise about the future. The future has reached the dugout.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-009",
+      "text": "From {loserClub}'s perspective, the chance to change the ending is still alive.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-010",
+      "text": "Nothing unfinished can be put aside for a later installment. This is where the postponements end.",
+      "was": "Nobody can carry an unfinished task into another year after this.",
+      "score": 9
+    },
+    {
+      "id": "cb89-011",
+      "text": "With {leader} ahead, the hard part is remembering that close is not the same as finished.",
+      "was": "With {leader} ahead, the hard part is remembering that being close is not being finished.",
+      "score": 9
+    },
+    {
+      "id": "cb89-012",
+      "text": "Earlier disappointments and successes have been brought into the same waiting room. A decision is approaching.",
+      "was": "Every earlier disappointment or success now leads toward the same immediate question.",
+      "score": 9
+    },
+    {
+      "id": "cb89-013",
+      "text": "Ask {trailer} about the opportunity, and there should be very little difficulty finding motivation.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-014",
+      "text": "There is something stark about a fresh campaign when you know it comes without a sequel.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-015",
+      "text": "Here at {winnerClub}, preparation has acquired the weight of knowing what comes afterward.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-016",
+      "text": "Friendly as this rivalry is, you could understand a reluctance to make confident promises down here.",
+      "was": "A friendly rivalry can still make the thought of getting started feel rather serious.",
+      "score": 9
+    },
+    {
+      "id": "cb89-017",
+      "text": "Perhaps {leader} would welcome a comfortable conversation. The contest has other plans.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-018",
+      "text": "Some pauses offer relief. This feels more like the breath before the room falls quiet.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-019",
+      "text": "Over at {loserClub}, hope still has a very practical place to report for work.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-020",
+      "text": "Think of the effort invested getting here. The remaining assignment will give it a conclusion.",
+      "was": "Think of everything invested getting here. The next season gets to give it a conclusion.",
+      "score": 9
+    },
+    {
+      "id": "cb89-021",
+      "text": "If {trailer} wants to leave a different memory, the invitation remains open.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-022",
+      "text": "Getting ready is different when a later apology cannot be accompanied by another attempt.",
+      "was": "Getting ready feels different when there will be no later campaign to make an excuse sound better.",
+      "score": 9
+    },
+    {
+      "id": "cb89-023",
+      "text": "{leader} can see the destination, but the remaining stretch has a rival standing in it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-024",
+      "text": "Even the most relaxed friends could find plenty to think about before this gets going.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-025",
+      "text": "Take the view from {winnerClub}, no verdict yet, and no comfortable place to hide from the prospect.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-026",
+      "text": "{trailer} has the chance every rival wants, a say in how the whole thing ends.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-027",
+      "text": "Rehearsals offer the comfort of a mistake you can leave behind. The coming assignment is less forgiving.",
+      "was": "Rehearsals are a comforting idea. Unfortunately, the coming campaign has no use for that description.",
+      "score": 9
+    },
+    {
+      "id": "cb89-028",
+      "text": "Beside the dugout, you could understand {leader} measuring every confident thought against a quiet doubt.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-029",
+      "text": "Nobody gets to file this under experience and promise a better reply farther down the road.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-030",
+      "text": "So {winnerClub} approaches the point where ambition has to stop leaving its promises undated.",
+      "was": "So {winnerClub} approaches the point where ambition has to stop talking about someday.",
+      "score": 9
+    },
+    {
+      "id": "cb89-031",
+      "text": "Looking beyond the decisive stretch is easy. Working out who gets to smile there is rather harder.",
+      "was": "Looking beyond the next season is easy. There will be an answer waiting there.",
+      "score": 9
+    },
+    {
+      "id": "cb89-032",
+      "text": "What {trailer} does from here can still change which memories hurt, and which are worth revisiting.",
+      "was": "What {trailer} does from here can still change the meaning of the entire journey.",
+      "score": 9
+    },
+    {
+      "id": "cb89-033",
+      "text": "A long rivalry has reached a very short question, who gets to remember this most fondly?",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-034",
+      "text": "Consider {leader}'s position, able to imagine the satisfaction, unable to claim any of it in advance.",
+      "was": "Consider {leader}'s position, close enough to imagine the satisfaction, too exposed to enjoy it yet.",
+      "score": 9
+    },
+    {
+      "id": "cb89-035",
+      "text": "At this stage, a good night's rest would be a useful part of preparation.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-036",
+      "text": "{loserClub} can still choose more than a farewell speech. The outcome remains there to be influenced.",
+      "was": "{loserClub} can still help choose the closing picture. That should sharpen the appetite.",
+      "score": 9
+    },
+    {
+      "id": "cb89-037",
+      "text": "Restlessness is understandable. You can almost hear the question waiting to be answered.",
+      "was": "Relaxation may have to wait until the ending knows what it wants to be.",
+      "score": 9
+    },
+    {
+      "id": "cb89-038",
+      "text": "Should {trailer} sense the weight of the occasion, at least the opportunity weighs just as much.",
+      "was": "Should {trailer} feel the weight of the occasion, at least the opportunity weighs just as much.",
+      "score": 9
+    },
+    {
+      "id": "cb89-039",
+      "text": "The countdown has shed its comfortable distance. Starting again now means accepting that this will be the farewell.",
+      "was": "The countdown has shed its comfortable distance. Getting started now means getting ready to finish.",
+      "score": 9
+    },
+    {
+      "id": "cb89-040",
+      "text": "Around {winnerClub}, tomorrow's ambitions are becoming the immediate assignment.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-041",
+      "text": "By now, motivational speeches ought to be unnecessary. The unresolved rivalry is a fairly persuasive speaker.",
+      "was": "By now, nobody needs a speech about why this matters. The unfinished contest explains itself.",
+      "score": 9
+    },
+    {
+      "id": "cb89-042",
+      "text": "Picture {leader} trying to keep the routine ordinary while the stakes feel anything but.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-043",
+      "text": "Regrets make awkward baggage for a decisive stretch. There will be time to unpack them afterward.",
+      "was": "This is an awkward place to carry regrets. Better to leave room for a response.",
+      "score": 9
+    },
+    {
+      "id": "cb89-044",
+      "text": "Away at {loserClub}, the window remains open. That is a better invitation than any encouragement from outside.",
+      "was": "Away at {loserClub}, there is still a future worth preparing for, however narrow the window feels.",
+      "score": 9
+    },
+    {
+      "id": "cb89-045",
+      "text": "Rivalries often promise another installment. This particular story is preparing to close the cover.",
+      "was": "Rivalries usually offer another installment. This particular story is approaching its closing page.",
+      "score": 9
+    },
+    {
+      "id": "cb89-046",
+      "text": "Whether {trailer} enjoys the pressure may matter less than finding a way to use it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-047",
+      "text": "Much has been said along the way. Soon, the conversation will have a permanent reference point.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-048",
+      "text": "There is reason for {winnerClub} to be restless. Possibility is about to become something settled.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-049",
+      "text": "Until the job is done, confidence might want to keep its voice a little lower.",
+      "was": "Until the remaining business is done, every confident prediction has to leave its shoes by the door.",
+      "score": 9
+    },
+    {
+      "id": "cb89-050",
+      "text": "Call it the sternest invitation {leader} has received, finish what this position promises.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-051",
+      "text": "Were {leader} hoping for certainty, the remaining business has declined to supply it in advance.",
+      "was": "{leader} could be forgiven for wanting certainty. The remaining campaign is not offering any in advance.",
+      "score": 9
+    },
+    {
+      "id": "cb89-052",
+      "text": "Listen for the missing reassurance, there is always next time. It cannot help with this conclusion.",
+      "was": "Listen for the missing phrase, there is always next time. It cannot help with this ending.",
+      "score": 9
+    },
+    {
+      "id": "cb89-053",
+      "text": "Near {loserClub}'s dugout, the most important thought should be that a chance remains.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-054",
+      "text": "Good preparation cannot remove the nerves. It can stop them being the only voice in your ear.",
+      "was": "Good preparation cannot remove the nerves. It can give them something useful to stand beside.",
+      "score": 9
+    },
+    {
+      "id": "cb89-055",
+      "text": "As for {trailer}, this is where the wait becomes a chance to make the response count.",
+      "was": "As for {trailer}, this is the opportunity to make the wait worthwhile.",
+      "score": 9
+    },
+    {
+      "id": "cb89-056",
+      "text": "Distance from the decision has disappeared. Getting back to work means getting ready to live with the answer.",
+      "was": "The luxury of a distant conclusion has disappeared. Everything left belongs to the immediate task.",
+      "score": 9
+    },
+    {
+      "id": "cb89-057",
+      "text": "To {winnerClub}, the impending campaign offers the prospect of a memory that outlasts the contest.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-058",
+      "text": "Winning the conversation beforehand will feel fairly hollow if the ending takes another direction.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-059",
+      "text": "{leader} must carry expectation into a season that has no interest in granting it favors.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-060",
+      "text": "Long-held ambition now has an appointment it cannot postpone.",
+      "was": "Every ambition now has an appointment it cannot postpone.",
+      "score": 9
+    },
+    {
+      "id": "cb89-061",
+      "text": "Imagine {loserClub} turning away from a chance to change this. There is too much still available.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-062",
+      "text": "Belief is about to meet its strictest test, carrying on without borrowing reassurance from the future.",
+      "was": "Faith is about to meet its strictest test, believing without borrowing reassurance from the future.",
+      "score": 9
+    },
+    {
+      "id": "cb89-063",
+      "text": "Before {trailer} gets going, a useful reminder, the conclusion has yet to be claimed.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-064",
+      "text": "Whatever the confidence beforehand, the decisive season has the right to disagree.",
+      "was": "Whatever the confidence beforehand, the next campaign has the right to disagree.",
+      "score": 9
+    },
+    {
+      "id": "cb89-065",
+      "text": "{winnerClub} has reached the uncomfortable space between hoping for an ending and having to earn it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-066",
+      "text": "Progress can be enjoyed later. The unfinished part needs your attention before the congratulations do.",
+      "was": "Progress can be enjoyed later. Right now, the unfinished part demands undivided attention.",
+      "score": 9
+    },
+    {
+      "id": "cb89-067",
+      "text": "Knowing {trailer} is still involved should keep the celebrations firmly in the imagination.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-068",
+      "text": "Tomorrow has run out as a place to leave a promise you have not delivered.",
+      "was": "Tomorrow is running out as a place to store an unfinished ambition.",
+      "score": 9
+    },
+    {
+      "id": "cb89-069",
+      "text": "Put yourself in {leader}'s place, drawn toward the moment, wary of what it might ask.",
+      "was": "Put yourself in {leader}'s place, wanting the moment without wanting the risk that comes with it.",
+      "score": 9
+    },
+    {
+      "id": "cb89-070",
+      "text": "Neither reputation nor reassurance can supply what the closing campaign has still to deliver.",
+      "was": "Neither reputation nor reassurance can supply what the closing campaign has yet to deliver.",
+      "score": 9
+    },
+    {
+      "id": "cb89-071",
+      "text": "By the time {loserClub} is done, this story will have no unanswered ending to lean on.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-072",
+      "text": "Ordinary routines become strangely significant with the farewell waiting on the other side.",
+      "was": "Pressure makes ordinary preparation feel strangely significant when there is no subsequent installment.",
+      "score": 9
+    },
+    {
+      "id": "cb89-073",
+      "text": "Look toward {winnerClub}, where the promise of a lasting memory must sit beside the possibility of regret.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-074",
+      "text": "Momentum, confidence, expectation, useful company, but no substitutes for delivering when the farewell approaches.",
+      "was": "Momentum, confidence, expectation, all useful company, but none can do the remaining work for you.",
+      "score": 9
+    },
+    {
+      "id": "cb89-075",
+      "text": "Even {trailer} has to stop rehearsing the reply eventually. The opportunity to deliver it is nearly here.",
+      "was": "Even {trailer} has to stop imagining the response eventually. The chance to make it is nearly here.",
+      "score": 9
+    },
+    {
+      "id": "cb89-076",
+      "text": "A last season awaits {leader}, and the lead is about to sit considerably heavier on the shoulders.",
+      "was": "The last season awaits {leader}, and the lead is about to feel considerably heavier.",
+      "score": 9
+    },
+    {
+      "id": "cb89-077",
+      "text": "Familiar routines are useful, but you would understand finding them harder to settle into now.",
+      "was": "No familiar routine can make the coming assignment feel entirely ordinary.",
+      "score": 9
+    },
+    {
+      "id": "cb89-078",
+      "text": "For all the miles covered, {trailer} still has a route into the ending.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-079",
+      "text": "Stepping back into action means knowing the conversation afterward could last much longer than the nerves beforehand.",
+      "was": "Stepping back into this contest means accepting that the conversation afterward could last a long time.",
+      "score": 9
+    },
+    {
+      "id": "cb89-080",
+      "text": "{winnerClub} must get ready for the assignment while somehow tuning out the occasion.",
+      "was": "{winnerClub} has to prepare for the task, while somehow ignoring the scale of the occasion.",
+      "score": 9
+    },
+    {
+      "id": "cb89-081",
+      "text": "Ordinary patience becomes surprisingly elusive when the next campaign will settle everything.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-082",
+      "text": "A glance toward {loserClub} brings the same reminder, the story is still open for revision.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-083",
+      "text": "Somewhere between anticipation and dread sits the peculiar excitement of a decisive season.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-084",
+      "text": "Certainty would be pleasant company. Unfortunately, it has not been invited into the dugout.",
+      "was": "Not yet, {leader}. The satisfaction can wait until there is nothing left for a rival to change.",
+      "score": 9
+    },
+    {
+      "id": "cb89-085",
+      "text": "{trailer} has arrived at the point where a hopeful intention must become an actual reply.",
+      "was": "Certainty would be pleasant company. Unfortunately, it has not been invited into the dugout yet.",
+      "score": 9
+    },
+    {
+      "id": "cb89-086",
+      "text": "Quiet routines can seem almost unnatural when the occasion keeps demanding your attention.",
+      "was": "{trailer} has arrived at the point where a hopeful intention must become the actual reply.",
+      "score": 9
+    },
+    {
+      "id": "cb89-087",
+      "text": "Quiet preparation can feel almost unnatural when the occasion keeps demanding your attention.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-088",
+      "text": "Awaiting the decision is exhausting. Being responsible for shaping it asks rather more of you.",
+      "was": "Against {winnerClub}'s ambitions stands the simple fact that the ending remains available to a rival.",
+      "score": 9
+    },
+    {
+      "id": "cb89-089",
+      "text": "Waiting for a decision can be exhausting. Being responsible for shaping it is another level entirely.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-090",
+      "text": "Nothing settled for {loserClub}, and that is precisely why the preparation matters so much.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-091",
+      "text": "Before long, the tense of this rivalry will change from what might happen to what did.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-092",
+      "text": "{leader} can leave a permanent answer, provided the thought does not get in the way of the task.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-093",
+      "text": "Carry the lessons forward, but leave enough space for the demands that refuse to be settled in advance.",
+      "was": "Carry every lesson forward, but leave enough space for the demands nobody can settle in advance.",
+      "score": 9
+    },
+    {
+      "id": "cb89-094",
+      "text": "Beyond the immediate nerves for {trailer}, there is the possibility of a wonderfully different conclusion.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-095",
+      "text": "Closure approaches with all the easy assurances conspicuously absent. You would understand a restless wait.",
+      "was": "The end of a long contest approaches with all the easy assurances conspicuously absent.",
+      "score": 9
+    },
+    {
+      "id": "cb89-096",
+      "text": "Inside {winnerClub}'s thinking, the temptation to imagine afterward has to lose to the work immediately ahead.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-097",
+      "text": "Hope is a useful guest at this stage. It cannot be allowed to take over the whole dugout.",
+      "was": "Hope is a useful guest at this stage. It cannot be allowed to take charge of preparation.",
+      "score": 9
+    },
+    {
+      "id": "cb89-098",
+      "text": "Ask how {loserClub} approaches the closing assignment, and there is a simple answer, like it still matters.",
+      "was": "Ask how {loserClub} should approach this, and there is an uncomplicated answer, like it still matters.",
+      "score": 9
+    },
+    {
+      "id": "cb89-099",
+      "text": "Final seasons have a way of making yesterday's arguments feel small beside tomorrow's possibilities.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb89-100",
+      "text": "Still unfinished, still available, {trailer} has a closing opportunity that deserves undivided attention.",
+      "was": "Still unfinished, still within reach, {trailer} has a chance that deserves every bit of attention.",
+      "score": 9
+    }
+  ],
+  "edited": true
+}

@@ -1,0 +1,249 @@
+{
+  "batch": 11,
+  "situation": "winning-streak",
+  "edition": "season",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb11-01",
+      "byline": "From the chief football desk",
+      "standfirst": "Another season belongs to {winner}, whose successive victories have turned an impressive run into the defining thread of this rivalry.",
+      "paragraphs": [
+        "A successful season can stand on its own. This one has joined a procession. {winner} has prevailed over {loser} again, extending a succession of season victories that now gives the contest an unmistakable shape.",
+        "The distinction matters because each campaign begins with the same opportunity to alter the story. {loserClub} remains a genuine part of that story, not merely the name beneath another result. Rivalry requires a response, and the next chapter remains unwritten.",
+        "For {winnerClub}, the achievement is continuity rather than a single flash of glory. The record now carries an expectation that the next season can either reward or overturn."
+      ],
+      "pullquote": {
+        "text": "A fine season earns applause; a continuing run changes the conversation.",
+        "who": "A Gazette columnist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb11-02",
+      "byline": "Reporting from the season desk",
+      "standfirst": "The latest verdict extends {winner}'s winning sequence, but the next opportunity for {loser} remains entirely their own.",
+      "paragraphs": [
+        "Continuity is the headline here. {winner} has added another season victory to an already unbroken series, with {winnerClub} once more taking the honours in the season comparison against {loserClub}. Nothing about that requires the past to have been easy.",
+        "The temptation with a sustained run is to treat the next outcome as a formality. That would miss the essential appeal of this contest. {loser} can challenge again, and previous verdicts do not award points in a season yet to be played.",
+        "What endures from this edition is a simple distinction: repeated achievement has become a story of its own, while the immediate future remains open to argument."
+      ],
+      "pullquote": {
+        "text": "The record can travel forward; the result of the next season cannot.",
+        "who": "The Gazette editorial desk"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb11-03",
+      "byline": "The Gazette football correspondent",
+      "standfirst": "With another season secured, {winner} has made consistency the most conspicuous achievement in a contest built on change.",
+      "paragraphs": [
+        "Every fresh edition offers a chance for the narrative to turn. Instead, the same manager has supplied another decisive entry. {winner} finishes this season ahead of {loser}, preserving a sequence of victories notable for its refusal to break.",
+        "There is an important difference between an enduring run and an easy rivalry. The present result establishes the former, not the latter. {loserClub} still has a separate history to write, and {winnerClub} cannot borrow anything from this season for the next.",
+        "The achievement will outlast the announcement of the points. To sustain success is to make repetition meaningful, and that is precisely what this campaign has done."
+      ],
+      "pullquote": {
+        "text": "Repeating the verdict is harder than merely remembering the previous one.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb11-04",
+      "byline": "From our rivalry review",
+      "standfirst": "The new result gives {winner} something beyond another season victory: a body of work that survives comparison across campaigns.",
+      "paragraphs": [
+        "Sportswriting often treats every ending as a fresh revelation. Here the revelation lies in continuity. {winner} has again taken the season ahead of {loser}, and another success joins a longer, uninterrupted account.",
+        "Such a series can become shorthand for superiority, but shorthand should not obscure the competition. Each result belongs to a separate campaign, and {loserClub} remains a contender whose next opportunity is unclaimed. {winnerClub} has earned distinction, not immunity from future challenges.",
+        "The archive now has a story that stretches beyond a solitary edition. Whether it becomes a landmark or a prelude will depend on what follows."
+      ],
+      "pullquote": {
+        "text": "Repeated results do not erase fresh possibilities; they give those possibilities sharper edges.",
+        "who": "The Gazette archive editor"
+      },
+      "score": 10,
+      "was": "A sequence that began as individual season wins now forms a larger story, with {winner} still writing its ending.\n\nThe latest season has not introduced a new victor. It has deepened the significance of the familiar one. {winner} has defeated {loser} in the season standings again, and another completed campaign joins an uninterrupted line of success.\n\nThat does not make the rivalry a closed book. Each new season carries its own rewards, and each manager must begin the pursuit anew. {loser} has every reason to see the next page as a fresh opportunity rather than a repetition already decided.\n\nIn time, a run may be remembered by the occasion on which it ended or the achievement it became. For now, its continuation is news enough.\n\nA familiar victor can still make an unfamiliar kind of history."
+    },
+    {
+      "id": "sb11-05",
+      "byline": "The season results correspondent",
+      "standfirst": "For {winnerClub}, the remarkable feature is no longer a solitary success but the habit of finishing each season ahead.",
+      "paragraphs": [
+        "It is possible to celebrate a result without seeing its larger meaning. Not this time. {winner} has added another season victory over {loser}, keeping a successful sequence intact and lending fresh weight to everything that preceded it.",
+        "The latest result belongs wholly to this campaign, even as it strengthens the broader narrative. {loserClub} has been outscored in the season comparison, but it has not been written out of the competition. The next set of honours remains available to pursue.",
+        "A durable achievement asks a different question from a sudden triumph. Not simply who prevailed today, but how long excellence can continue to renew itself."
+      ],
+      "pullquote": {
+        "text": "A habit is only impressive when someone has to earn it again.",
+        "who": "A senior Gazette columnist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb11-06",
+      "byline": "From the Gazette analysis room",
+      "standfirst": "The season ledger records another victory for {winner}, strengthening a remarkable pattern without settling the rivalry's unfinished business.",
+      "paragraphs": [
+        "Look down the list of season verdicts and a pattern comes into focus. {winner} has won once more, with the latest comparison placing {winnerClub} above {loserClub} and continuing a succession of victories across campaigns.",
+        "A pattern, however persuasive, is not a promise. It describes what has happened, not what must happen. {loser} will have another chance to change the direction of the record, while {winner} must make any further success stand on its own merits.",
+        "This is the appeal of a rivalry written season by season. Its recent chapters may share a victor, yet the next page cannot be filled in early."
+      ],
+      "pullquote": {
+        "text": "The ledger knows the past, but it has no authority over tomorrow.",
+        "who": "The statistics editor"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb11-07",
+      "byline": "The Touchline Gazette special report",
+      "standfirst": "With {winner} victorious again, the rivalry has acquired a recurring headline that future seasons will have to confront.",
+      "paragraphs": [
+        "What began as a series of separate decisions now reads as a continuous account of success. {winner} has taken the latest season from {loser}, ensuring the run of winning campaigns survives another turn of the calendar.",
+        "There is no need to diminish {loserClub} to appreciate that achievement. A sustained sequence makes a compelling sporting story precisely because another manager is always entitled to interrupt it. {winnerClub} has earned this entry, but must earn the next one separately.",
+        "The newspaper can print the continuation in confident type. It cannot yet print the conclusion, and that uncertainty remains the contest's most valuable asset."
+      ],
+      "pullquote": {
+        "text": "A recurring headline is not the same thing as a foregone conclusion.",
+        "who": "The Gazette front-page editor"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb11-08",
+      "byline": "From our long-form football desk",
+      "standfirst": "An unbroken series of season victories gives {winner} a special distinction, independent of the eventual overall Showdown outcome.",
+      "paragraphs": [
+        "A rivalry can be read across more than one page. The season verdict favours {winner} again, and the latest result continues a remarkable passage of repeated successes. That is a meaningful achievement in its own right.",
+        "The final Showdown is judged on accumulated points, not simply on the appearance of successive seasonal victories. The distinction matters. Whatever the overall reckoning, {loserClub} remains a serious counterpart, while {winnerClub} can value what has already been done without claiming an ending prematurely.",
+        "The wider prize will have its own reckoning. This result, meanwhile, belongs in the account of a manager who has repeatedly met the season’s test."
+      ],
+      "pullquote": {
+        "text": "A sequence has its own story, even before the overall story ends.",
+        "who": "A Gazette features columnist"
+      },
+      "score": 10,
+      "was": "Another completed campaign reinforces {winner}'s place in the rivalry, where the accumulation of victories now matters as much as each result.\n\nGreat runs are built without the benefit of knowing what they will eventually become. {winner} has secured another season against {loser}, maintaining the chain of successes and turning this latest triumph into something larger than an isolated entry.\n\nThe comparison with {loser} gives that achievement its context. There are two managers in this contest, both pursuing the same season honours, and only one can finish a given campaign in front. The present chapter favours {winnerClub}; the rivalry itself continues.\n\nThe value of such a sequence grows through renewal, not memory alone. Its future length remains unknown, which is why the achievement still commands attention.\n\nA run becomes significant because every season asks the question again."
+    },
+    {
+      "id": "sb11-09",
+      "byline": "The Gazette standings editor",
+      "standfirst": "{winner} has claimed another season comparison, and a continuing string of victories now gives the latest standings added significance.",
+      "paragraphs": [
+        "Figures settle the immediate argument. In this season, {winner} finished with {winnerPoints} against {loser}'s {loserPoints}, another successful result in the sequence that has kept the same manager ahead across consecutive campaigns.",
+        "The totals record an outcome, not every quality of the contest. They cannot measure the possibilities that remain for {loserClub}, nor do they turn a future season into a completed result. The strength of {winnerClub}'s record lies in what has actually been achieved.",
+        "For the archive, this is another line in a distinguished succession. For the coming campaign, the page is blank and the questions begin again."
+      ],
+      "pullquote": {
+        "text": "The figures explain this verdict; the next set has yet to exist.",
+        "who": "The Gazette numbers desk"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb11-10",
+      "byline": "Our chief correspondent on the rivalry",
+      "standfirst": "The pressure of sustaining success remains with {winner}, even as another season victory gives the manager fresh authority.",
+      "paragraphs": [
+        "Winning establishes a claim; winning again renews it under scrutiny. {winner} has completed another successful season ahead of {loser}, extending a series of victories that now stands among the central facts of this Showdown.",
+        "The achievement changes the frame through which the rivalry is viewed, but not the conditions of its next contest. {loser} can still offer the defining response of a fresh campaign. For {winner}, previous success provides distinction without providing any future points.",
+        "There is a peculiar burden attached to a long winning sequence. Every addition is a triumph, and every new beginning asks whether the standard can be met."
+      ],
+      "pullquote": {
+        "text": "The reward for sustaining success is another opportunity to prove it.",
+        "who": "The senior football correspondent"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb11-11",
+      "byline": "From our opponents' perspective desk",
+      "standfirst": "{loserClub} remains the other half of an increasingly remarkable contest, despite another season ending in {winner}'s favour.",
+      "paragraphs": [
+        "The obvious story belongs to {winner}, who has taken another season victory and preserved an uninterrupted series of them. Yet the scale of that achievement is understood only within a rivalry that still has two competing ambitions.",
+        "For {loser}, the fresh verdict is a disappointment in the season standings, not a judgement on every season still to come. The possibility of an answer gives the sequence its tension. Without a capable rival pursuing honours, continued success would have less meaning.",
+        "The latest chapter honours {winnerClub}. The next remains a place where {loserClub} can write a different headline, and that prospect deserves equal attention."
+      ],
+      "pullquote": {
+        "text": "The rival's next chance is part of what makes this run matter.",
+        "who": "A correspondent in the press box"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb11-12",
+      "byline": "The Gazette notebook",
+      "standfirst": "For {winner}, another triumph reinforces reputation; for {loser}, that reputation is something to contest rather than accept.",
+      "paragraphs": [
+        "Reputation is a curious reward for repeated success: it arrives after the work and threatens to overshadow the next test. {winner} has prevailed again over {loser}, adding substance to an established series of season wins.",
+        "It would be unfair to make {loserClub}’s task sound impossible, just as it would be unfair to dismiss {winnerClub}’s repeated accomplishment as routine. The season’s points settle this edition alone. Every wider judgement must remain answerable to the evidence that follows.",
+        "A reputation forged by season results deserves respect, not prophecy. This campaign has strengthened it, while leaving the fundamental appeal of competition untouched."
+      ],
+      "pullquote": {
+        "text": "Reputation may arrive with a manager; the season verdict must be earned.",
+        "who": "The Gazette notebook editor"
+      },
+      "score": 10,
+      "was": "The latest season has deepened {winner}'s winning sequence, transforming repeated finishes into an achievement with its own identity.\n\nSome results alter the standings; others alter the way the standings are read. {winner}'s latest season victory over {loser} does both in the immediate contest, while extending a sequence that has become its own measure of accomplishment.\n\nEach season has its independent prizes and its separate verdict. That is what makes a succession of victories more substantial than a single commanding performance. The challenge from {loserClub} returns each time, and {winnerClub} must keep answering it through results rather than reputation.\n\nNo inscription can yet give this sequence a finished shape. What can be said with certainty is that another chapter now belongs to the same manager.\n\nReputation may arrive with a manager; the season verdict must be earned."
+    },
+    {
+      "id": "sb11-13",
+      "byline": "From the newspaper archive",
+      "standfirst": "Future editions may judge the full significance of this run, but another victory has already ensured {winner}'s continuing prominence.",
+      "paragraphs": [
+        "Archives are seldom written with the ending in view. They grow one season at a time, and the newest entry is unmistakable: {winner} has beaten {loser} in the season comparison again, maintaining the series of consecutive successes.",
+        "It would be premature to assign the run its ultimate place in the Showdown's history. Its present importance is clearer. {winnerClub} has carried achievement from one campaign into the next, while {loserClub} retains the opportunity to shape the eventual account.",
+        "The historian can underline this passage but cannot close the book. A streak is a living record for as long as another season remains to be contested."
+      ],
+      "pullquote": {
+        "text": "A record still unfolding is more interesting than a monument already finished.",
+        "who": "The Gazette heritage editor"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb11-14",
+      "byline": "The Gazette competition editor",
+      "standfirst": "The latest season adds to {winner}’s uninterrupted success, yet the margin of this individual verdict deserves attention on its own terms.",
+      "paragraphs": [
+        "There is a temptation to let a prolonged series swallow the details of each instalment. In this campaign, {winner} finishes {margin} ahead of {loser}, adding another season victory to a continuing succession of them.",
+        "That particular difference belongs to this result alone. It does not tell us how previous seasons were won, nor does it dictate the scale of any future challenge. {loserClub} remains the other essential participant, and {winnerClub} has earned the current honours.",
+        "A long passage of success is composed of individual judgments. This one has a measured margin, a definite winner and a legitimate place in the larger record."
+      ],
+      "pullquote": {
+        "text": "The margin belongs to this campaign; the longer accomplishment belongs to the manager.",
+        "who": "The competition desk"
+      },
+      "score": 10,
+      "was": "Another season title in the two-manager comparison goes to {winner}, whose sustained success now poses a fresh question for {loser}.\n\nThere can be no argument over this campaign's outcome. {winner} finishes ahead of {loser}, prolonging a sequence of season wins and giving {winnerClub} another reason to regard continuity as a sporting achievement in itself.\n\nThe difficulty for the other manager is not that the next season has somehow been decided. It is that {winner} has demonstrated an ability to return and prevail repeatedly. {loserClub} has the same fresh opportunity to compete when the next campaign begins.\n\nSuch periods are remembered for their duration, but lived through as separate contests. The latest is complete. Its successor is not, and neither manager can claim it yet.\n\nContinuity deserves its credit, but the next contest still belongs to neither side."
+    },
+    {
+      "id": "sb11-15",
+      "byline": "The chief writer's closing column",
+      "standfirst": "With {winner} celebrating another season victory, the enduring question is whether the rivalry's prevailing pattern can be changed.",
+      "paragraphs": [
+        "The season closes with a conclusion readers have encountered before, though repetition has not made it insignificant. {winner} has prevailed over {loser} again, preserving an unbroken run that gives the completed campaign a place in a wider achievement.",
+        "Yet the story's value lies partly in what it cannot guarantee. The same prize will be pursued anew by {winnerClub} and {loserClub}, and the former's success is evidence of past accomplishment, not possession of an outcome that has not arrived.",
+        "For this edition, the judgement is settled and deserved. For the next, the newspaper reserves its front page, knowing the rivalry may still find a different voice."
+      ],
+      "pullquote": {
+        "text": "A repeated ending still leaves room for an entirely new beginning.",
+        "who": "The chief Gazette columnist"
+      },
+      "score": 10,
+      "was": null
+    }
+  ]
+}

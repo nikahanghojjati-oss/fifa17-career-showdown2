@@ -1,0 +1,608 @@
+{
+  "batch": 90,
+  "situation": "showdown-won",
+  "voice": "The touchline reporter",
+  "lines": [
+    {
+      "id": "cb90-001",
+      "text": "{winner} can finally stop defending the ambition and enjoy having achieved it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-002",
+      "text": "Down here, you would understand forgetting the prepared remarks. Winning can do that to a sensible speech.",
+      "was": "Down here, you would understand a long pause before finding anything useful to say.",
+      "score": 9
+    },
+    {
+      "id": "cb90-003",
+      "text": "For {loser}, the contest ends with respect due and disappointment to absorb.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-004",
+      "text": "At {winnerClub}, the whole journey now has the ending they hoped to give it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-005",
+      "text": "You can imagine {winner} looking again, simply because the answer is worth another look.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-006",
+      "text": "Pressure has somewhere to go at last. For the successful rival, it can no longer spoil the pleasure.",
+      "was": "The pressure has somewhere to go at last. There is nothing left hanging over this contest.",
+      "score": 9
+    },
+    {
+      "id": "cb90-007",
+      "text": "{loserClub} leaves a rivalry behind that deserves more than a glance at the closing result.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-008",
+      "text": "All that anticipation is now a memory with a name attached, and it is not going to be forgotten.",
+      "was": "All that anticipation has become a memory somebody will be very reluctant to put away.",
+      "score": 9
+    },
+    {
+      "id": "cb90-009",
+      "text": "From {winner}'s position, even the ordinary business of sitting still must feel different now.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-010",
+      "text": "Nothing further is required. You could understand a lingering suspicion that surely there must be another task.",
+      "was": "Nothing further is required. That can take a moment to sink in after so much expectation.",
+      "score": 9
+    },
+    {
+      "id": "cb90-011",
+      "text": "With {winnerClub} taking the Showdown, the hard work has acquired a lasting shape.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-012",
+      "text": "A rivalry ends, and the work stops disguising itself as worry. There is an achievement to admire.",
+      "was": "A rivalry ends, and suddenly there is room to appreciate what it demanded.",
+      "score": 9
+    },
+    {
+      "id": "cb90-013",
+      "text": "Ask {loser} for a response too quickly and you may miss the weight of the occasion.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-014",
+      "text": "Relief carries a surprise of its own, discovering how deeply you wanted the outcome that finally arrived.",
+      "was": "There is a particular relief in finding that the hoped-for answer is also the final answer.",
+      "score": 9
+    },
+    {
+      "id": "cb90-015",
+      "text": "Here is {winner}, with the long argument settled and the pleasure still arriving.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-016",
+      "text": "The quiet afterward can hold more satisfaction than anything said while the outcome was open.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-017",
+      "text": "Perhaps {winnerClub} will need a moment to stop thinking about what comes next.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-018",
+      "text": "Some achievements arrive loudly. Others need a second look before their size becomes clear.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-019",
+      "text": "Over at {loserClub}, appreciation may take longer than acceptance. That is entirely understandable.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-020",
+      "text": "Think of the original hope. It has grown into something sturdy enough to keep.",
+      "was": "Think of the ambition at the start. It has somewhere permanent to live now.",
+      "score": 9
+    },
+    {
+      "id": "cb90-021",
+      "text": "If {winner} looks back from here, the uncertainty will have a very different color.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-022",
+      "text": "Getting to the end with the prize is a lovely way to discover how tired you are.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-023",
+      "text": "{winnerClub} can turn the page at leisure. Nobody is waiting to rewrite this conclusion.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-024",
+      "text": "Even a friendly contest can leave a substantial silence when the question is finally answered.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-025",
+      "text": "Take the view from {loserClub}, a painful result need not diminish the value of having competed.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-026",
+      "text": "All the unfinished sentences can be completed for {winner} now. The Showdown belongs to them.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-027",
+      "text": "No nervous checking required anymore, although old habits might take a while to hear the news.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-028",
+      "text": "{loser} faces the delicate business of rivalry, meaning the congratulations while wishing they were coming back.",
+      "was": "{loser} has reached the difficult part of a good rivalry, congratulating the friend who beat you.",
+      "score": 9
+    },
+    {
+      "id": "cb90-029",
+      "text": "Celebration is a pleasant change of occupation after spending so long wondering about the outcome.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-030",
+      "text": "The question for {winnerClub} is how to sound modest without making the congratulations seem unnecessary.",
+      "was": "The awkward question for {winnerClub} is how to sound modest without wasting a thoroughly earned moment.",
+      "score": 9
+    },
+    {
+      "id": "cb90-031",
+      "text": "Somewhere between a laugh and a deep breath, the scale of this success ought to reveal itself.",
+      "was": "Somewhere, a relieved sigh could be doing more expressive work than a prepared speech.",
+      "score": 9
+    },
+    {
+      "id": "cb90-032",
+      "text": "Give {winner} time to enjoy this before asking for a sensible explanation of the feeling.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-033",
+      "text": "Give {winner} room to enjoy this before requesting the sensible version for the post-season interview.",
+      "was": "Winning the whole thing ought to come with permission to leave the washing up until later.",
+      "score": 9
+    },
+    {
+      "id": "cb90-034",
+      "text": "As {loserClub} takes stock, the rival's happiness may be rather easier to understand than to share.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-035",
+      "text": "Taking stock at {loserClub}, the rival's happiness is easier to understand than to join in with.",
+      "was": "Nobody needs to rehearse an argument about how it might turn out. That department has closed.",
+      "score": 9
+    },
+    {
+      "id": "cb90-036",
+      "text": "Finally {winnerClub} can admire the destination without also checking the route.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-037",
+      "text": "Good friends congratulate each other. Very good friends allow a little time to get the expression right.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-038",
+      "text": "To {winner}, a suggestion, remember the feeling before the success becomes a story you tell on autopilot.",
+      "was": "To {winner}, a useful suggestion, remember this feeling before the story becomes something you tell too easily.",
+      "score": 9
+    },
+    {
+      "id": "cb90-039",
+      "text": "Finishing successfully is strange. Your biggest preoccupation suddenly hands in its notice.",
+      "was": "Finishing successfully is strange. The thing that occupied your thoughts suddenly offers to leave you alone.",
+      "score": 9
+    },
+    {
+      "id": "cb90-040",
+      "text": "After all the anticipation, {loser} can take pride in having made this worth winning.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-041",
+      "text": "A little restraint is admirable. Requiring complete modesty at a moment like this seems ambitious.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-042",
+      "text": "There will be no need for {winnerClub} to add a hopeful qualification to the news.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-043",
+      "text": "Nothing for {winnerClub} to qualify hopefully anymore. The result no longer needs a wish attached.",
+      "was": "The most satisfying explanation may be the shortest, it is done, and it is yours.",
+      "score": 9
+    },
+    {
+      "id": "cb90-044",
+      "text": "Success makes a lovely change from suspense, especially when your friend has to acknowledge the difference.",
+      "was": "Put yourself beside {winner}, trying to describe a feeling that keeps getting in the way of the description.",
+      "score": 9
+    },
+    {
+      "id": "cb90-045",
+      "text": "Tomorrow's version of this story will probably sound calmer than the experience of living it.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-046",
+      "text": "Even {loserClub} can recognize what the successful rival has earned, however slowly the congratulations arrive.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-047",
+      "text": "Respect from {loserClub} belongs beside the achievement. Immediate enthusiasm might be too much to ask.",
+      "was": "Relief tends to get overlooked in advance. At the end, it can take up most of the room.",
+      "score": 9
+    },
+    {
+      "id": "cb90-048",
+      "text": "For {winnerClub}, the answer to that constant what-if has become a very agreeable fact.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-049",
+      "text": "Friendly competition produces the odd situation where somebody you like becomes delightfully hard to tolerate.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-050",
+      "text": "Leave {winner} with the happy problem of deciding how often this can reasonably come up in conversation.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-051",
+      "text": "{winner} might discover that accepting compliments is easier once there is nothing left to defend.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-052",
+      "text": "Success has canceled the appointment with worry. Leaving that space empty sounds like a sensible celebration.",
+      "was": "Success has canceled an appointment with worry. It would be rude not to enjoy the free time.",
+      "score": 9
+    },
+    {
+      "id": "cb90-053",
+      "text": "Near {loserClub}'s dugout, you would understand a preference for discussing almost anything else.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-054",
+      "text": "Keeping the last word is lovely. Working out when to stop repeating it requires a different skill.",
+      "was": "Having the last word is lovely. Finding a tasteful way to repeat it is the delicate part.",
+      "score": 9
+    },
+    {
+      "id": "cb90-055",
+      "text": "That is {winnerClub}'s privilege now, remembering the nerves with the reassurance of knowing how they ended.",
+      "was": "That is {winnerClub}'s prize now, knowing the memory will survive the excitement that made it.",
+      "score": 9
+    },
+    {
+      "id": "cb90-056",
+      "text": "Modesty can make an appearance later. Nobody sensible would put it in charge of proceedings immediately.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-057",
+      "text": "Should {winner} need reassurance, a completed Showdown is more persuasive than another encouraging pep talk.",
+      "was": "Should {winner} need reassurance, the completed Showdown makes a fairly convincing character reference.",
+      "score": 9
+    },
+    {
+      "id": "cb90-058",
+      "text": "Imagine putting all that tension down and discovering you were carrying more than you realized.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-059",
+      "text": "A difficult goodbye for {loser}, who helped make this more than an achievement in isolation.",
+      "was": "A difficult goodbye to the contest for {loser}, but a worthy rivalry all the same.",
+      "score": 9
+    },
+    {
+      "id": "cb90-060",
+      "text": "The best kind of tiredness is the kind that comes without a disappointed explanation attached.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-061",
+      "text": "{winnerClub} has retired the word nearly from this particular ambition.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-062",
+      "text": "A polished speech may have been prepared. Winning the whole thing is a good excuse to lose your place.",
+      "was": "There may be a perfectly sensible speech available. A happy silence could do the job just as well.",
+      "score": 9
+    },
+    {
+      "id": "cb90-063",
+      "text": "Whether {winner} admits to dreaming about this or not, there is no need to imagine it anymore.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-064",
+      "text": "Pleasure sometimes arrives dressed as disbelief. Give it room to take its coat off.",
+      "was": "Pleasure sometimes arrives dressed as disbelief. Give it a moment to take its coat off.",
+      "score": 9
+    },
+    {
+      "id": "cb90-065",
+      "text": "Respect for {loserClub} belongs in the picture too. A rivalry needs somebody worth overcoming.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-066",
+      "text": "Settling the argument is satisfying. Leaving it with a friend still worth arguing with is better.",
+      "was": "Finishing an argument is satisfying. Finishing it with your friend still beside you is better.",
+      "score": 9
+    },
+    {
+      "id": "cb90-067",
+      "text": "Look at the prospect for {winnerClub}, the luxury of remembering without first having to worry.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-068",
+      "text": "At last, the goal can stop demanding attention and start rewarding the effort it received.",
+      "was": "At last, ambition can change out of its working clothes and sit with what it achieved.",
+      "score": 9
+    },
+    {
+      "id": "cb90-069",
+      "text": "Around {loser}, you would forgive a generous congratulations delivered with a fairly measured smile.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-070",
+      "text": "Certainty has arrived, and it turns out to be far easier company than the suspense that preceded it.",
+      "was": "Certainty has finally arrived, and it has brought considerably better company than suspense.",
+      "score": 9
+    },
+    {
+      "id": "cb90-071",
+      "text": "Behind {winner}'s success lies an experience that no tidy explanation can quite compress.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-072",
+      "text": "Explanations can wait their turn. A successful ending deserves the right to interrupt.",
+      "was": "Explanations can wait their turn. The pleasure of having done it deserves the first invitation.",
+      "score": 9
+    },
+    {
+      "id": "cb90-073",
+      "text": "Unlike the preparation, {winnerClub}'s enjoyment no longer comes with a warning about the work remaining.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-074",
+      "text": "The tension never promised to leave politely. Success has at least given it a reason to go.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-075",
+      "text": "When {winner} looks back, this will be the place where all the hoping found its answer.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-076",
+      "text": "This Showdown is {winner}'s, and every unfinished thought about it can finally come to rest.",
+      "was": "The Showdown is {winner}'s, and every unfinished thought about it can finally come to rest.",
+      "score": 9
+    },
+    {
+      "id": "cb90-077",
+      "text": "Listen to what is missing now, the need to prove that the belief was justified.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-078",
+      "text": "Beneath the disappointment for {loser}, there is a contest that made the victory worth earning.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-079",
+      "text": "An ending can fit inside a sentence while taking up an enormous place in somebody's life.",
+      "was": "An ending can be simple to describe and enormous to live through.",
+      "score": 9
+    },
+    {
+      "id": "cb90-080",
+      "text": "{winnerClub} has reached the far side of uncertainty, with the prize safely attached to its name.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-081",
+      "text": "Ordinary words can seem very small when they have to carry an experience of this size.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-082",
+      "text": "Language can look very small beside the experience of completing something you cared about deeply.",
+      "was": "A moment for {winner} to keep, long after the urgency that created it has faded.",
+      "score": 9
+    },
+    {
+      "id": "cb90-083",
+      "text": "Distance from the occasion may bring perspective. It will not make the achievement any less personal.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-084",
+      "text": "Whatever {loserClub} hoped this would become, the response to defeat can still honor the friendship.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-085",
+      "text": "Quietly or loudly, relief will find its way into the space the pressure leaves behind.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-086",
+      "text": "Loudly or quietly, relief will find its way into the space the pressure leaves behind.",
+      "was": "{winner} no longer has to picture being here. That imagined moment has become a lived memory.",
+      "score": 9
+    },
+    {
+      "id": "cb90-087",
+      "text": "Beyond the contest lies the pleasure of telling the story without needing to change its ending.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-088",
+      "text": "Beyond the outcome lies a lasting privilege, telling the story without having to improve its conclusion.",
+      "was": "Through {winnerClub}'s eyes, the whole journey can now be seen from the place it was meant to reach.",
+      "score": 9
+    },
+    {
+      "id": "cb90-089",
+      "text": "Through {winnerClub}'s eyes, the journey can be admired without searching it for a different turn.",
+      "was": "Hard to explain in advance, the size of the silence once a consuming ambition is fulfilled.",
+      "score": 9
+    },
+    {
+      "id": "cb90-090",
+      "text": "Hard to anticipate, the sense of space when a demanding hope stops asking questions and becomes an achievement.",
+      "was": "From {loser}'s side, accepting the answer does not erase the courage it took to seek another.",
+      "score": 9
+    },
+    {
+      "id": "cb90-091",
+      "text": "From {loser}'s side, acceptance need not erase the pride in challenging a friend for something that mattered.",
+      "was": "Everything that once felt provisional now belongs to a story with its conclusion intact.",
+      "score": 9
+    },
+    {
+      "id": "cb90-092",
+      "text": "{winnerClub} can close this chapter knowing the signature at the bottom will stay there.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-093",
+      "text": "Pride takes its time sometimes, arriving after the immediate relief has found somewhere to settle.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-094",
+      "text": "Inside {winner}'s memory, this ending will give the difficult parts a warmer place to live.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-095",
+      "text": "Suddenly, the pressure belongs to yesterday. Today is allowed to be about what it produced.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-096",
+      "text": "Hold the feeling before familiarity softens it. Fulfilled hopes deserve more than a hurried glance.",
+      "was": "As {loserClub} leaves the contest, respect is still available, even where satisfaction is not.",
+      "score": 9
+    },
+    {
+      "id": "cb90-097",
+      "text": "Hold the moment before it becomes familiar. Fulfilled hopes deserve more than a hurried glance.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-098",
+      "text": "Ask {winner} what it means, and leave room for the experience to grow into words.",
+      "was": "Ask {winner} what it means, and allow a little room for the answer to catch up.",
+      "score": 9
+    },
+    {
+      "id": "cb90-099",
+      "text": "Closure does not always arrive with a speech. Sometimes it is simply the freedom to breathe properly.",
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "cb90-100",
+      "text": "Nothing left to chase in this Showdown, {winnerClub}. The ambition has come home.",
+      "was": null,
+      "score": 9
+    }
+  ],
+  "edited": true
+}
