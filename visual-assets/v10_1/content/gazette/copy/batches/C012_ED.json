@@ -1,0 +1,249 @@
+{
+  "batch": 12,
+  "situation": "final-season-decider",
+  "edition": "season",
+  "desk": "The chief football writer",
+  "stories": [
+    {
+      "id": "sb12-01",
+      "byline": "From the chief football desk",
+      "standfirst": "The contest has reached its last turning point, with {leader} ahead but the ultimate verdict still waiting for another season.",
+      "paragraphs": [
+        "There is an unusual silence at the end of this chapter. The latest season is complete, yet the result that matters most remains beyond the page. {leader} holds the overall advantage, while the final campaign still awaits.",
+        "For {trailer}, that distinction is the source of genuine opportunity. The distance between holding the lead and securing the entire Showdown is precisely what gives the approaching finale its force. Nothing has been awarded in advance.",
+        "The next season will settle the argument. Until then, the headline belongs not to a champion, but to the possibility of one."
+      ],
+      "pullquote": {
+        "text": "The story has a leader, but it has not found its ending.",
+        "who": "The press box"
+      },
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "sb12-02",
+      "byline": "By the Gazette's competition correspondent",
+      "standfirst": "An overall advantage is valuable, but {leader} must carry it into a decisive finale that gives {trailer} another chance.",
+      "paragraphs": [
+        "Leadership brings comfort only until the next challenge arrives. With the penultimate reckoning complete, {leader} approaches the closing season from in front, a position earned across the campaign but not yet converted into an overall victory.",
+        "The pressure is different on either side of the standings. {trailer} has ground to recover, while the manager ahead must protect what has been built. Both have a reason to treat the final season as an opportunity rather than a ceremony.",
+        "A lead is an advantage to use, not a result to celebrate prematurely. This rivalry will reserve its final judgment for the season still to come."
+      ],
+      "pullquote": {
+        "text": "Standing first is a position. Finishing first is the achievement still at stake.",
+        "who": "A Gazette columnist"
+      },
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "sb12-03",
+      "byline": "From our rivalry correspondent",
+      "standfirst": "For {trailer}, the approaching final season offers something more useful than consolation: an undiminished chance to shape the ending.",
+      "paragraphs": [
+        "The standings are not an obituary for the chasing manager. They are an invitation to answer back. {trailer} enters the decisive season behind {leader}, but the entire contest remains open to the result of that final campaign.",
+        "A rivalry is measured partly by how seriously its participants take one another when the balance shifts. Here, the manager in front cannot afford to dismiss the challenge, and the manager behind has every reason to embrace it.",
+        "The closing season will reveal whether the pursuit succeeds. For now, a deficit is a starting position rather than an ending."
+      ],
+      "pullquote": {
+        "text": "The chase matters most when the finishing line is finally in sight.",
+        "who": "The press box"
+      },
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "sb12-04",
+      "byline": "From the season review desk",
+      "standfirst": "With only the decisive campaign remaining, every earlier achievement now forms part of the background to a definitive reckoning.",
+      "paragraphs": [
+        "The calendar of this Showdown has almost run its course. Earlier seasons established the contest, and the latest has brought it to the brink of resolution. The remaining campaign will decide what all that accumulated work ultimately means.",
+        "That sense of finality changes the perspective on {leader} and {trailer}. The standings offer a useful account of what has happened, but they cannot yet deliver the conclusion. The next season stands apart because nothing follows it.",
+        "There will be no later chapter in which to revise the outcome. The last campaign is not an afterword. It is the judgment itself."
+      ],
+      "pullquote": {
+        "text": "Every previous season has led here, but none can write the closing sentence.",
+        "who": "A Gazette columnist"
+      },
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "sb12-05",
+      "byline": "From our football analysis desk",
+      "standfirst": "The latest season has reshaped the conversation without settling it, leaving the final campaign to determine the entire Showdown.",
+      "paragraphs": [
+        "A completed season normally invites a verdict. This one demands a qualification. The result now belongs in the record, but its place in the larger contest cannot be fully understood until the final season has been played.",
+        "What looks decisive in isolation may prove merely influential in retrospect. {leader} carries the stronger overall position, while {trailer} retains a path to the ultimate prize. The distinction between a season result and the full competition remains essential.",
+        "Only after the next campaign can the Gazette tell which moments mattered most. For the moment, the broader story is unresolved by design."
+      ],
+      "pullquote": {
+        "text": "A season can change the picture without becoming the final picture.",
+        "who": "The press box"
+      },
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "sb12-06",
+      "byline": "By the Gazette's standings editor",
+      "standfirst": "The overall standings place {leader} in front, but the column that matters most has yet to receive its final entry.",
+      "paragraphs": [
+        "The figures already entered carry authority, but not finality. They record a sequence of seasons and an overall advantage for {leader}. They do not yet record a Showdown winner, because the deciding campaign remains to be contested.",
+        "For {trailer}, the unfinished ledger is a reminder that a gap can still be challenged. For the leader, it is a warning against treating the present order as permanent. Neither manager can outsource the ending to earlier results.",
+        "The last set of season points will turn a running account into a final one. Until that moment, the ledger stays open."
+      ],
+      "pullquote": {
+        "text": "The totals explain the past. The blank space belongs to the future.",
+        "who": "A Gazette columnist"
+      },
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "sb12-07",
+      "byline": "From our closing stages correspondent",
+      "standfirst": "The great advantage of a final season is its clarity: both managers know exactly when the contest will be settled.",
+      "paragraphs": [
+        "The final assignment is now certain, even if its outcome remains unknown. Only the closing season stands between the managers and the Showdown verdict. {leader} begins that decisive campaign from ahead, with the overall prize unsettled.",
+        "An advantage is worth having, but it cannot perform the last task on its owner's behalf. {trailer} still has the opportunity to change the outcome, and the leader has an opportunity to preserve the position already earned.",
+        "The rivalry has reached the rare point where the next chapter is certain to be the last, yet its central answer remains unknown."
+      ],
+      "pullquote": {
+        "text": "The appointment is fixed. The identity of the winner is not.",
+        "who": "The press box"
+      },
+      "was": "The great advantage of a final season is its clarity: both managers know exactly when the contest will be settled.\n\nThere is no ambiguity about the next appointment. The campaign still to come is the last, and its outcome will decide the Showdown. Everything else, including the current overall lead held by {leader}, is context for that meeting.\n\nThe certainty of an ending does not make the result any easier to predict. {trailer} can still change the balance, while the manager ahead has a chance to make the advantage count. The rivalry remains properly alive.\n\nAn ending has been scheduled, not announced. The coming season must provide the substance before anybody is entitled to write the conclusion.\n\nWe know when the verdict comes, not which manager will receive it.",
+      "score": 10
+    },
+    {
+      "id": "sb12-08",
+      "byline": "From the Gazette club desk",
+      "standfirst": "The clubs have supplied the rivalry with its colors, but their managers must still determine which campaign becomes decisive.",
+      "paragraphs": [
+        "Club identity gives this contest its familiar shape. {winnerClub} and {loserClub} have each served as the setting for ambition across the seasons, yet neither badge can settle the unfinished matter on reputation alone.",
+        "That is the strength of a competition conducted season by season. Whatever the appeal of a club's history, the outcome follows what its manager achieves within this contest. {leader} enters the finale ahead, with {trailer} still pursuing.",
+        "The last campaign will attach a definitive result to those efforts. Until then, the clubs remain participants in a story whose final owner is unknown."
+      ],
+      "pullquote": {
+        "text": "The crests bring the identity; the managers must still write the ending.",
+        "who": "A Gazette columnist"
+      },
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "sb12-09",
+      "byline": "By our competition affairs writer",
+      "standfirst": "The last chance to change the standings is also the final chance for either manager to determine the overall prize.",
+      "paragraphs": [
+        "A competition can be generous with second chances until it reaches its limit. This Showdown is at that limit now. The next season will decide the prize, and no later campaign can reopen the question.",
+        "{leader} brings an advantage to the closing contest; {trailer} brings a challenge that remains legitimate until the finish. Neither position offers a shortcut through the work ahead. Their different ambitions will meet in the same decisive campaign.",
+        "What remains is not another installment of an endless contest. It is the one remaining opportunity to establish the final order."
+      ],
+      "pullquote": {
+        "text": "The last opportunity is not smaller. It is simply impossible to postpone.",
+        "who": "The press box"
+      },
+      "was": "The approaching finale removes the comfort of future seasons, giving each remaining point of achievement a sharper significance.\n\nOpportunity has a boundary in this contest, and that boundary is now visible. Once the next season is complete, there will be no further campaign to change the Showdown result. The remaining chance is therefore unusually precious.\n\nThe implications fall on both managers. {leader} must turn an established advantage into a finished achievement, while {trailer} must make the last opportunity matter. Their positions differ, but the importance of what comes next is shared.\n\nThe competition has not run out of possibility. It has simply reached the point where possibility must become a result.\n\nThe last opportunity is not smaller. It is simply impossible to postpone.",
+      "score": 10
+    },
+    {
+      "id": "sb12-10",
+      "byline": "From our long campaign desk",
+      "standfirst": "A rivalry built season by season now faces its central examination: whether the established order can survive the final test.",
+      "paragraphs": [
+        "Patterns are persuasive, especially when a competition has been unfolding over several seasons. Yet no pattern can stand in for the campaign still ahead. {leader} has the stronger overall record for now, not the completed Showdown title.",
+        "It would be a mistake to see {trailer} merely as an obstacle to a preordained result. This manager retains the ability to affect the destination of the entire contest. The leader's responsibility is equally real, and no less demanding.",
+        "The final season will distinguish durable advantage from a lead that could still be overturned. It is the examination the standings cannot take for either manager."
+      ],
+      "pullquote": {
+        "text": "A pattern becomes a legacy only after it survives its final test.",
+        "who": "A Gazette columnist"
+      },
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "sb12-11",
+      "byline": "From the Gazette front page",
+      "standfirst": "The newspaper can report who leads today, but it must reserve its largest headline for the season still unwritten.",
+      "paragraphs": [
+        "The space where a final winner's name should appear remains deliberately empty. It is not an omission. The Showdown has reached the verge of its concluding season, and the overall prize still has no confirmed recipient.",
+        "For a paper built around this rivalry, restraint is part of the duty. {leader} deserves recognition for holding the advantage, just as {trailer} deserves recognition for remaining in contention. Neither fact cancels the other.",
+        "The definitive front page will come after the last season. For now, the honest headline is an invitation to watch what happens next."
+      ],
+      "pullquote": {
+        "text": "Good journalism knows when the story is not finished yet.",
+        "who": "The Gazette editorial desk"
+      },
+      "was": null,
+      "score": 10
+    },
+    {
+      "id": "sb12-12",
+      "byline": "By our form and fortune correspondent",
+      "standfirst": "The current standings favor {leader}, yet no position in the table can decide a season that has not been played.",
+      "paragraphs": [
+        "An advantage is easy to mistake for a prediction. {leader} has earned the stronger position across the Showdown, and it is a valuable one. Yet the deciding campaign remains untouched by any certainty about its outcome.",
+        "{trailer} has the opportunity to revise the final order, while the manager in front has the opportunity to defend it. Those prospects arise from the unfinished competition itself, not from any assumption about how either will perform.",
+        "It is possible to respect the standings without surrendering to them. The last season will replace expectation with an actual verdict."
+      ],
+      "pullquote": {
+        "text": "The strongest position is still only a position until the contest ends.",
+        "who": "The press box"
+      },
+      "was": "Current form gives the leaders reason for confidence, but the remaining season leaves room for the balance to change.\n\nMomentum is a useful word until it begins to sound like a guarantee. {leader} has earned the overall lead, and that position deserves respect. It does not remove the uncertainty of a final season still to be decided.\n\nFor {trailer}, the task is to produce a campaign that changes the destination of the Showdown. For the manager ahead, it is to ensure the lead survives. Both goals depend on what happens next, not what commentators expect.\n\nConfidence and caution can coexist in the same contest. When the last season ends, expectation will finally give way to evidence.\n\nMomentum is a companion for the finale, not a substitute for it.",
+      "score": 10
+    },
+    {
+      "id": "sb12-13",
+      "byline": "From the Gazette rivalries file",
+      "standfirst": "Neither manager needs another reminder of the stakes; the final campaign will decide the rivalry's overall winner.",
+      "paragraphs": [
+        "Every competitive friendship develops its own measure of achievement. In this one, the seasons have been gathered into a larger Showdown, with the final installment now ready to determine who takes the overall prize.",
+        "The immediate positions are plain enough: {leader} leads and {trailer} follows. Their significance is less simple. An advantage reflects what has been achieved so far, while the remaining season preserves the possibility of a different conclusion.",
+        "When the full contest is over, both managers will have contributed to its meaning. Only then will the sporting verdict be complete."
+      ],
+      "pullquote": {
+        "text": "A strong rivalry gives both managers something worth defending in the end.",
+        "who": "A Gazette columnist"
+      },
+      "was": null,
+      "score": 9
+    },
+    {
+      "id": "sb12-14",
+      "byline": "From the decision desk",
+      "standfirst": "The penultimate chapter permits no coronation; it gives both managers a final chance to settle the rivalry on its own terms.",
+      "paragraphs": [
+        "The closing judgment cannot be borrowed from the standings. They show {leader} with an advantage, but the overall contest still depends on the season ahead. What has been earned so far must be carried through the final examination.",
+        "This is an exacting kind of fairness. {trailer} has a chance to reverse the order, and the manager ahead has a chance to preserve it. Their prospects differ, but both remain accountable to the same unfinished competition.",
+        "There is no reason to rehearse a coronation now. The last campaign has its own authority, and the eventual result must be allowed to speak."
+      ],
+      "pullquote": {
+        "text": "The standings provide the evidence so far, but not the final judgment.",
+        "who": "A Gazette columnist"
+      },
+      "was": "The penultimate chapter provides no final coronation, only an exacting invitation to decide the overall contest on the field of seasons.\n\nAn advantage can be measured; certainty must be earned. The overall standings have placed {leader} in a favorable position, but the final season remains the one that will determine the entire Showdown. Its importance is beyond dispute.\n\nThat leaves {trailer} with a clear purpose and the manager ahead with an equally clear responsibility. Neither should confuse where the rivalry stands today with what its eventual conclusion must be. The deciding evidence has yet to arrive.\n\nNo ceremonial language is needed before the competition ends. The approaching season carries the authority to deliver a verdict, and both managers must meet it.\n\nThe standings offer a forecast, but only the final season can deliver judgment.",
+      "score": 10
+    },
+    {
+      "id": "sb12-15",
+      "byline": "By the Gazette's chief columnist",
+      "standfirst": "After all the seasons already played, the fairest tribute to this rivalry is to leave its conclusion genuinely open.",
+      "paragraphs": [
+        "There is a temptation at this stage to write the ending early. A manager is in front, the seasons have supplied their evidence, and the conclusion feels close. Yet the decisive season has not happened.",
+        "{leader} has earned the right to begin the finale with an advantage. {trailer} has earned the right to challenge it. Those are not contradictory judgments, but the foundations of a contest that has retained its purpose to the last.",
+        "The coming campaign deserves the full weight of attention, without a verdict borrowed from the past. This time, the final page really must wait."
+      ],
+      "pullquote": {
+        "text": "The most respectful prediction is to let the remaining season speak for itself.",
+        "who": "A Gazette columnist"
+      },
+      "was": null,
+      "score": 10
+    }
+  ],
+  "edited": true
+}

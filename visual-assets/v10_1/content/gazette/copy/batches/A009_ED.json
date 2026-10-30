@@ -1,0 +1,809 @@
+{
+  "batch": 9,
+  "situation": "lead-extended",
+  "edition": "season",
+  "lens": "The trophy cabinet",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b9-001",
+      "kicker": "CABINET WATCH",
+      "headline": "THE SUMMIT HAS A LOCK",
+      "subhead": "{leader} has added a further season victory to an existing lead, leaving {trailer} with a steeper climb toward parity.",
+      "score": 10,
+      "was": "Headline: THE LEAD HAS A LOCK | Subhead: {leader} has added another season victory to an existing lead, leaving {trailer} with a longer route back."
+    },
+    {
+      "id": "b9-002",
+      "kicker": "SEASON RECORD",
+      "headline": "A CASE FOR CONTINUITY",
+      "subhead": "For {winner}, the latest result is another claim on first place, while the rivalry retains plenty of room for response.",
+      "score": 9,
+      "was": "Subhead: For {winner}, the latest result strengthens an advantage already held, while the rivalry retains plenty of room for response."
+    },
+    {
+      "id": "b9-003",
+      "kicker": "HONOURS DESK",
+      "headline": "HONOURS HOLD THEIR ORDER",
+      "subhead": "Another season belongs to {leader}, and the overall standings now put more distance between the familiar rivals.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-004",
+      "kicker": "ARCHIVE EDITION",
+      "headline": "BRASS PLAQUE, BROADER GAP",
+      "subhead": "The inscription may be imaginary, but {winner}'s fresh season success has given their established lead greater weight.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-005",
+      "kicker": "MANTEL REPORT",
+      "headline": "MANTEL LEANS FURTHER",
+      "subhead": "For {trailer}, the target has moved again: {leader} added another winning season to an already imposing overall tally.",
+      "score": 10,
+      "was": "Headline: THE MANTEL LEANS FURTHER | Subhead: {trailer} must now chase a taller overall tally after {leader} added a further season triumph to the account."
+    },
+    {
+      "id": "b9-006",
+      "kicker": "DISPLAY REVIEW",
+      "headline": "DISPLAY RIGHTS EXPAND",
+      "subhead": "{winnerClub} has delivered another winning season for {leader}, extending a lead the other dugout still hopes to recover.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-007",
+      "kicker": "TOP SHELF",
+      "headline": "NO CHANGE AT THE TOP SHELF",
+      "subhead": "The same manager retains command of the overall contest, with this season's result widening rather than merely protecting it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-008",
+      "kicker": "THE FINE PRINT",
+      "headline": "INSCRIPTION DEEPENS",
+      "subhead": "A fresh line in {leader}'s season record makes the existing separation from {trailer} more substantial.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-009",
+      "kicker": "GLASS ROOM",
+      "headline": "MORE ROOM ON THE LEDGE",
+      "subhead": "The seasonal record acquired another chapter for {winner}, whose overall lead has grown after this fresh result.",
+      "score": 10,
+      "was": "Headline: MORE ROOM BEHIND GLASS | Subhead: The display of results has acquired another chapter for {winner}, whose overall lead has grown after this season."
+    },
+    {
+      "id": "b9-010",
+      "kicker": "HONOUR BOARD",
+      "headline": "POSITION OF PRIVILEGE",
+      "subhead": "Already leading the Showdown, {leader} has made that position sturdier through another successful season against {trailer}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-011",
+      "kicker": "VELVET FILE",
+      "headline": "VELVET ROPE MOVES BACK",
+      "subhead": "{winner} moves further into the foreground of the overall contest, while {loser} remains a worthy part of its story.",
+      "score": 10,
+      "was": "Subhead: {winner} moves further into the foreground of the overall contest, and {loser} still has a contest worth pursuing."
+    },
+    {
+      "id": "b9-012",
+      "kicker": "GALLERY NOTES",
+      "headline": "THE GALLERY GAINS DEPTH",
+      "subhead": "There is more history to exhibit for {leader}, as this season's victory broadens the existing overall separation.",
+      "score": 10,
+      "was": "Subhead: There is more history to display for {leader}, as this season's victory broadens the existing overall separation."
+    },
+    {
+      "id": "b9-013",
+      "kicker": "CUSTODIAN REPORT",
+      "headline": "KEY REMAINS WITH THE LEADER",
+      "subhead": "The latest season did not change the front runner, but it gave {leader} a firmer grip on the Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-014",
+      "kicker": "CURATOR'S DESK",
+      "headline": "CURATOR'S NEW ARRANGEMENT",
+      "subhead": "{winner}'s victory has altered the scale, not the order, of the rivalry, with the overall lead now larger.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-015",
+      "kicker": "PEDESTAL WATCH",
+      "headline": "ANOTHER INCH ON THE PLINTH",
+      "subhead": "The imaginary honours stand grows taller for {leader}, whose season win has pushed the overall contest further apart.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-016",
+      "kicker": "SILVER COLUMN",
+      "headline": "SILVER SHADOW GROWS LONGER",
+      "subhead": "What began as an established lead now reaches further, after {leader} claimed another season over {trailer}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-017",
+      "kicker": "HINGE REPORT",
+      "headline": "HINGES TURN THE SAME WAY",
+      "subhead": "A familiar name remains in charge of the overall standings, with another winning season increasing the distance.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-018",
+      "kicker": "RECORD CABINET",
+      "headline": "RECORD CASE EXPANDS",
+      "subhead": "A wider gap is the lasting consequence of {winner}'s latest success, although {loser}'s contribution to the rivalry deserves its place.",
+      "score": 9,
+      "was": "Headline: THE RECORD CASE EXPANDS | Subhead: A wider gap is the lasting consequence of {winner}'s latest success, though {loser} retains future chances to answer."
+    },
+    {
+      "id": "b9-019",
+      "kicker": "HERITAGE FILE",
+      "headline": "A WIDER PLACE IN THE HALL",
+      "subhead": "{winnerClub} has supplied {leader} with another season result worth preserving, and the overall lead has grown accordingly.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-020",
+      "kicker": "SHOWCASE REPORT",
+      "headline": "SHOWCASE TELLS MORE",
+      "subhead": "From the outset {leader} held the better overall position; victory this season has made that distinction sharper.",
+      "score": 10,
+      "was": "Headline: THE SHOWCASE TELLS MORE | Subhead: {leader}'s position was already strong before this season; another victory now adds fresh emphasis to the picture."
+    },
+    {
+      "id": "b9-021",
+      "kicker": "BACK PAGE",
+      "headline": "SNAP THE DISPLAY SHUT",
+      "subhead": "Another season ends in {leader}'s favour, leaving {trailer} with more overall ground to retrieve.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-022",
+      "kicker": "FRONT PAGE",
+      "headline": "STRETCH THE VELVET",
+      "subhead": "The leader has not changed, but the distance has, with {winner} earning another season result of real consequence.",
+      "score": 9,
+      "was": "Headline: STRETCH THE VELVET!"
+    },
+    {
+      "id": "b9-023",
+      "kicker": "LEAD ALERT",
+      "headline": "POLISH THAT LEAD!",
+      "subhead": "{winner} has taken a lead that was already shining and added another decisive season to its record.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-024",
+      "kicker": "RESULTS DESK",
+      "headline": "PULL THE ROPE BACK!",
+      "subhead": "The latest result gives {leader} greater breathing space, and {trailer} a tougher scoreline to reflect upon.",
+      "score": 10,
+      "was": "Subhead: A successful campaign has given {leader} greater breathing space, while {trailer} must work toward a future reversal."
+    },
+    {
+      "id": "b9-025",
+      "kicker": "RIVALRY WATCH",
+      "headline": "OPEN UP THAT GAP!",
+      "subhead": "The latest season belongs to {winner}, and the established difference in the overall competition has expanded again.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-026",
+      "kicker": "LATEST EDITION",
+      "headline": "LOCK IN THE LEAD!",
+      "subhead": "{leader} emerges from another season with the overall advantage strengthened, not merely preserved against {trailer}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-027",
+      "kicker": "EXHIBIT ALERT",
+      "headline": "SHOVE THE CASE FURTHER",
+      "subhead": "A newly imagined alcove suits {winner}'s success, which lengthens the lead already held in the overall contest.",
+      "score": 10,
+      "was": "Subhead: There is extra room required in the metaphorical display, as {winner}'s success adds to an existing lead."
+    },
+    {
+      "id": "b9-028",
+      "kicker": "SPOTLIGHT WATCH",
+      "headline": "CRANK UP THE SPOTLIGHT!",
+      "subhead": "A fresh triumph by {winnerClub} has put {leader} firmly in focus, leaving more ground between the managers than before.",
+      "score": 10,
+      "was": "Subhead: {winnerClub} has put {leader} firmly in focus with another victorious season and an increased overall advantage."
+    },
+    {
+      "id": "b9-029",
+      "kicker": "BRASS BULLETIN",
+      "headline": "BOLT ON MORE DISTANCE",
+      "subhead": "{trailer} has a bigger task ahead after the season tipped once more toward the manager already leading.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-030",
+      "kicker": "PLAQUE NEWS",
+      "headline": "PUSH THE PLAQUE HIGHER!",
+      "subhead": "Another win for {leader} has moved the overall benchmark beyond where {trailer} began this season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-031",
+      "kicker": "KEY DESK",
+      "headline": "KEEP YOUR HANDS ON THE KEY",
+      "subhead": "{winner} maintains control of the overall contest and leaves the next challenge noticeably steeper for {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-032",
+      "kicker": "HONOURS FLASH",
+      "headline": "SWELL THAT SHOWCASE!",
+      "subhead": "The prevailing manager added another successful season, turning a lead into a more substantial obstacle for the rival.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-033",
+      "kicker": "GLASS BULLETIN",
+      "headline": "SLIDE THE GLASS ASIDE!",
+      "subhead": "{leader} has found more space at the summit of the overall contest by winning the latest season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-034",
+      "kicker": "NAMEPLATE NEWS",
+      "headline": "RAISE THE NAMEPLATE!",
+      "subhead": "Success belongs to {winner} again, and the overall standings now need a longer line between the managers.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-035",
+      "kicker": "WINNER'S DESK",
+      "headline": "WIDEN THE VICTORY STAND!",
+      "subhead": "A further season triumph has increased {leader}'s cushion, though {trailer}'s role in the rivalry remains significant.",
+      "score": 9,
+      "was": "Subhead: A further season triumph has increased {leader}'s cushion, although {trailer} can still shape the chapters ahead."
+    },
+    {
+      "id": "b9-036",
+      "kicker": "FRAME FLASH",
+      "headline": "FILL THE FRONT FRAME!",
+      "subhead": "The latest season belongs to {winnerClub}, giving its manager a healthier cushion in the ongoing Showdown.",
+      "score": 9,
+      "was": "Subhead: {winnerClub} takes the season honours, giving its manager a broader advantage in the ongoing Showdown."
+    },
+    {
+      "id": "b9-037",
+      "kicker": "STAMP REPORT",
+      "headline": "STAMP THE LEAD DEEPER!",
+      "subhead": "The season's verdict reinforces the hierarchy already in place, with {leader} pulling farther away overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-038",
+      "kicker": "HONOURS ALERT",
+      "headline": "TAKE THE HONOURS WALL!",
+      "subhead": "{winner} secures this season's prize in the rivalry, and the overall distance from {loser} grows.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-039",
+      "kicker": "DISPLAY FLASH",
+      "headline": "SHIFT THE DISPLAY LINE!",
+      "subhead": "The leading manager has won again, shifting the imagined museum markers apart without diminishing the rival's efforts.",
+      "score": 9,
+      "was": "Subhead: The leading manager has won again, shifting the imagined museum markers further apart without closing the rivalry."
+    },
+    {
+      "id": "b9-040",
+      "kicker": "SHADOW EDITION",
+      "headline": "LENGTHEN THE SHADOW!",
+      "subhead": "{leader}'s latest success stretches the overall lead, leaving an increasingly demanding return for {trailer}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-041",
+      "kicker": "FOOTBALL FILE",
+      "headline": "NET GAINS, LOCKED IN",
+      "subhead": "{winner} has turned another season result into lasting overall distance, while the chasing manager searches for a reply.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-042",
+      "kicker": "TOP FLIGHT",
+      "headline": "TOP SHELF, TOP FLIGHT",
+      "subhead": "This season belongs to {leader}, whose advantage over {trailer} now occupies an even loftier place.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-043",
+      "kicker": "OFFSIDE DESK",
+      "headline": "NO OFFSIDE IN THE CASE",
+      "subhead": "There is nothing marginal about the direction of travel: {winner}'s success makes the overall lead larger.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-044",
+      "kicker": "EXTRA TIME",
+      "headline": "EXTRA TIME IN THE SHOWCASE",
+      "subhead": "The competition's story has another winning chapter for {leader}, whose overall advantage continues to grow.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-045",
+      "kicker": "CUPBOARD NOTES",
+      "headline": "CUPBOARD GAINS GROUND",
+      "subhead": "The overall standings leave more space beneath {winner}, whose latest season success has extended an established lead.",
+      "score": 9,
+      "was": "Headline: CUPBOARD TO CUP LEAD | Subhead: {winner} has not needed a specified trophy here to enlarge the lead; the season result does that alone."
+    },
+    {
+      "id": "b9-046",
+      "kicker": "CLEAN SHEET",
+      "headline": "CLEAN SHEET OF GLASS",
+      "subhead": "With another season victory, {leader} makes the overall standings look more settled, while leaving a clear challenge for {trailer}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-047",
+      "kicker": "NEAR POST",
+      "headline": "PUT THE LEAD ON THE POST",
+      "subhead": "{winnerClub} has added to the manager's season record, and {leader} now stands further ahead overall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-048",
+      "kicker": "CROSSBAR FILE",
+      "headline": "CROSSBAR TO CABINET",
+      "subhead": "In this football rivalry, the important finish is the season tally, and {winner} has extended an existing lead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-049",
+      "kicker": "DUGOUT NOTES",
+      "headline": "DUGOUT CLAIMS THE SPOT",
+      "subhead": "A season won by {leader} moves the standings farther apart and leaves {trailer} with a more distant target.",
+      "score": 10,
+      "was": "Headline: DUGOUT TO DISPLAY CASE | Subhead: {leader} turns another winning campaign into a wider overall advantage, leaving {trailer} to plan the reply."
+    },
+    {
+      "id": "b9-050",
+      "kicker": "FINAL WHISTLE",
+      "headline": "WHISTLE FOR THE KEYHOLDER",
+      "subhead": "The season is settled in {winner}'s favour, strengthening the manager's claim to the overall front position.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-051",
+      "kicker": "FIRST TOUCH",
+      "headline": "FIRST TOUCH, FIRMER GRIP",
+      "subhead": "{winner} already led the contest before this season and has now made the position harder to challenge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-052",
+      "kicker": "TABLE WATCH",
+      "headline": "TABLE TAKES A FRAME",
+      "subhead": "The fresh standings reinforce the larger story, with {leader} drawing further away from {trailer} in the overall contest.",
+      "score": 10,
+      "was": "Subhead: The fresh season standings have reinforced the bigger picture, with {leader} drawing further away from {trailer} overall."
+    },
+    {
+      "id": "b9-053",
+      "kicker": "GOALPOST NOTES",
+      "headline": "POSTED HIGHER UP",
+      "subhead": "The season record gains another entry for {winner}, whose place at the top of the overall standings grows stronger.",
+      "score": 10,
+      "was": "Headline: GOALPOSTS OF THE GALLERY | Subhead: The distance between the rivals has widened in the standings, and {winner} is responsible for the latest shift."
+    },
+    {
+      "id": "b9-054",
+      "kicker": "MANTEL SPORTS",
+      "headline": "NET RESULT, EXTRA SHELF",
+      "subhead": "Another season falls to {leader}, lengthening the distance from {trailer} and supplying the metaphorical cabinet with fresh room.",
+      "score": 10,
+      "was": "Headline: ON THE NET, OFF THE SHELF | Subhead: {leader} claims another season in the rivalry, and the overall lead is larger after the result."
+    },
+    {
+      "id": "b9-055",
+      "kicker": "DEFENCE DESK",
+      "headline": "CABINET DEFENDS ITS LEAD",
+      "subhead": "Holding the lead would have been enough to retain first place, but {winner}'s victory has widened it instead.",
+      "score": 10,
+      "was": "Subhead: The front runner has not simply held position: {winner}'s success has added to the advantage already established."
+    },
+    {
+      "id": "b9-056",
+      "kicker": "PENALTY BOX",
+      "headline": "POST SEASON, MORE POLISH",
+      "subhead": "With another season settled in {leader}'s favour, even the imagined exhibition room needs to acknowledge the bigger gap.",
+      "score": 9,
+      "was": "Headline: PENALTY? NOT ON THIS PLAQUE | Subhead: There is no doubt about this season's winner, and {leader} now carries a bigger overall lead."
+    },
+    {
+      "id": "b9-057",
+      "kicker": "UPPER CORNER",
+      "headline": "STANDARD CLEARS THE BAR",
+      "subhead": "{winner}'s season victory has raised the standard for {loser}, who now faces a more demanding overall pursuit.",
+      "score": 10,
+      "was": "Headline: TOP BIN FOR THE LEADER | Subhead: {winner} has another season victory to celebrate, while the contest's overall distance has grown further."
+    },
+    {
+      "id": "b9-058",
+      "kicker": "MIDFIELD REPORT",
+      "headline": "TOP FLIGHT, LONGER SHADOW",
+      "subhead": "The latest campaign favours {leader} again, lengthening the distance between the managers across the whole Showdown.",
+      "score": 9,
+      "was": "Headline: HOLDING MIDFIELD, HOLDING KEY | Subhead: The season result favours {leader} again, extending an advantage that {trailer} is still trying to reduce."
+    },
+    {
+      "id": "b9-059",
+      "kicker": "PLAYMAKER FILE",
+      "headline": "ON THE BALL, UNDER GLASS",
+      "subhead": "{winner} has reinforced the overall lead through another successful season, giving the rivalry an unmistakable new contour.",
+      "score": 9,
+      "was": "Headline: LEAD PLAY, LONG DISPLAY | Subhead: An existing advantage has become larger through {winner}'s latest triumph, giving the overall story fresh shape."
+    },
+    {
+      "id": "b9-060",
+      "kicker": "WHISTLE WATCH",
+      "headline": "WHISTLE, THEN WIDER",
+      "subhead": "This season ends with {leader} in front, followed by a further expansion of the manager's overall lead.",
+      "score": 10,
+      "was": "Headline: WHISTLE STAYS IN THE FRAME | Subhead: {leader} finishes this season in front, then takes an enlarged overall lead into the next chapter."
+    },
+    {
+      "id": "b9-061",
+      "kicker": "POLISH DESK",
+      "headline": "POLISHED POSITION PERSISTS",
+      "subhead": "Already the overall leader, {winner} has added a season victory that makes the standings more emphatic.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-062",
+      "kicker": "BRASS FILE",
+      "headline": "BRASS BACKS BIGGER BUSINESS",
+      "subhead": "The result is another gain for {leader}, who now holds a greater overall separation from {trailer}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-063",
+      "kicker": "GALLERY GAZETTE",
+      "headline": "GALLERY GAINS GROUND",
+      "subhead": "The season was won by {winner}, and the ongoing Showdown now tilts further toward the established leader.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-064",
+      "kicker": "VELVET BULLETIN",
+      "headline": "VELVET VIEW WIDENS",
+      "subhead": "The satin border keeps receding as {leader}'s season triumph enlarges the gap in the overall contest.",
+      "score": 9,
+      "was": "Headline: VELVET VICTORY VANTAGE | Subhead: {leader} has strengthened the position from which every future season will be judged, thanks to another triumph."
+    },
+    {
+      "id": "b9-065",
+      "kicker": "MANTEL MEMO",
+      "headline": "MANTEL MAKES MORE ROOM",
+      "subhead": "This season's success stretches {winner}'s lead, creating a taller target for {loser} in the overall race.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-066",
+      "kicker": "SHOWCASE SIGNAL",
+      "headline": "SHOWCASE SPACE STRETCHES",
+      "subhead": "Rather than retreating, the established leader has won again, and the wider Showdown has moved further apart.",
+      "score": 10,
+      "was": "Headline: SHOWCASE STAKES STRETCH | Subhead: The distance has grown rather than narrowed, as the leading manager has taken another season."
+    },
+    {
+      "id": "b9-067",
+      "kicker": "ENGRAVING WATCH",
+      "headline": "ENGRAVING EXTENDS EDGE",
+      "subhead": "{winnerClub} has given {leader} a fresh season victory and a more commanding place in the overall standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-068",
+      "kicker": "KEYHOLDER REPORT",
+      "headline": "KEYHOLDER KEEPS COMMAND",
+      "subhead": "{trailer} must find a response in a future season, for {leader} has moved further ahead overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-069",
+      "kicker": "PLAQUE BULLETIN",
+      "headline": "PLAQUE PROVES PROGRESS",
+      "subhead": "The latest result is more than a defence of first place, adding fresh ground to {winner}'s lead.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-070",
+      "kicker": "SATIN EDITION",
+      "headline": "SATIN SETS THE STANDARD",
+      "subhead": "Another victorious season for {leader} has raised the bar facing {trailer}, even as the rivalry continues.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-071",
+      "kicker": "DISPLAY DIGEST",
+      "headline": "DISPLAY DEEPENS DISTANCE",
+      "subhead": "Another victorious season for {leader} has raised the bar facing {trailer}, who has supplied worthy opposition throughout.",
+      "score": 9,
+      "was": "Subhead: The leader keeps collecting successful season results, and this newest addition has increased the overall difference."
+    },
+    {
+      "id": "b9-072",
+      "kicker": "LACQUER LEDGER",
+      "headline": "LACQUER LENDS LEVERAGE",
+      "subhead": "The record now presents a stiffer challenge for {loser}, after {winner} turned this result into a bigger overall lead.",
+      "score": 10,
+      "was": "Subhead: The season belongs to {winner}, whose growing advantage will influence how the next campaign is viewed."
+    },
+    {
+      "id": "b9-073",
+      "kicker": "CURATOR COLUMN",
+      "headline": "CURATOR CLAIMS CONTROL",
+      "subhead": "{leader} has made a strong overall position more secure by taking another season from the contest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-074",
+      "kicker": "SHELF SIGNAL",
+      "headline": "SHELVES SIGNAL SUPERIORITY",
+      "subhead": "There is a fresh season triumph on {winner}'s side of the record and more daylight in the totals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-075",
+      "kicker": "RIBBON REPORT",
+      "headline": "RIBBONS REVEAL RANGE",
+      "subhead": "{leader} has increased the overall gap once again, with {trailer}'s efforts still central to the rivalry's story.",
+      "score": 10,
+      "was": "Subhead: {leader} has increased the overall gap once again, although {trailer} remains part of an unfinished rivalry."
+    },
+    {
+      "id": "b9-076",
+      "kicker": "CURATOR QUESTION",
+      "headline": "WHO HOLDS THE LATCH?",
+      "subhead": "{leader} has kept control of the overall contest with another winning season, expanding the task facing {trailer}.",
+      "score": 10,
+      "was": "Headline: WHO GUARDS THE GLASS?"
+    },
+    {
+      "id": "b9-077",
+      "kicker": "SILVER QUESTION",
+      "headline": "HOW FAR CAN SILVER STRETCH?",
+      "subhead": "With a further season victory, {winner} has made the gap from the rival greater than it was before.",
+      "score": 10,
+      "was": "Subhead: The latest season gave {winner} more ground, and the overall advantage now reaches farther than before."
+    },
+    {
+      "id": "b9-078",
+      "kicker": "CASE INQUIRY",
+      "headline": "IS THAT CASE GETTING WIDER?",
+      "subhead": "It is the overall gap, not necessarily any trophy collection, that has expanded after {leader}'s new success.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-079",
+      "kicker": "VELVET QUESTION",
+      "headline": "WHY MOVE THE VELVET?",
+      "subhead": "Because another season win has given {winner} more space in the standings, with {loser} still chasing.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-080",
+      "kicker": "KEY INQUIRY",
+      "headline": "CAN THE KEY TURN AGAIN?",
+      "subhead": "For {leader}, the key has turned once more: a season victory moves the overall totals farther apart.",
+      "score": 9,
+      "was": "Subhead: {leader} has tightened control of the rivalry through a further season victory, broadening the overall lead."
+    },
+    {
+      "id": "b9-081",
+      "kicker": "MANTEL QUESTION",
+      "headline": "MORE SPACE ON THE MANTEL?",
+      "subhead": "Imaginary exhibition space is expanding after {winner} secured another successful season and opened up more overall room.",
+      "score": 10,
+      "was": "Subhead: The imagined display grows with {winner}'s latest achievement, while {trailer} faces a more distant overall leader."
+    },
+    {
+      "id": "b9-082",
+      "kicker": "PLAQUE INQUIRY",
+      "headline": "DOES THE PLAQUE NEED ROOM?",
+      "subhead": "The latest success extends {leader}'s lead and invites an imaginary engraver to make room for a longer inscription.",
+      "score": 9,
+      "was": "Subhead: {leader} has won the season and widened the lead, prompting an imaginary revision to the honours display."
+    },
+    {
+      "id": "b9-083",
+      "kicker": "SPOTLIGHT INQUIRY",
+      "headline": "WHO OWNS THE SPOTLIGHT?",
+      "subhead": "The latest season brings {winner} another win, casting more attention on the overall position that manager already held.",
+      "score": 10,
+      "was": "Subhead: This season adds another success for {winner}, placing greater emphasis on the advantage already held overall."
+    },
+    {
+      "id": "b9-084",
+      "kicker": "HINGE QUESTION",
+      "headline": "IS THE DOOR EVEN CLOSING?",
+      "subhead": "The rivalry still has room to turn, but {leader}'s latest victory has pushed the totals further apart.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-085",
+      "kicker": "FRAME INQUIRY",
+      "headline": "WHERE NEXT FOR THE FRAME?",
+      "subhead": "What lies next for {trailer} is a larger overall deficit, after {leader} turned another season into greater distance.",
+      "score": 9,
+      "was": "Subhead: {trailer} faces a larger gap after the season, as {leader} has built on an already established advantage."
+    },
+    {
+      "id": "b9-086",
+      "kicker": "LOCKSMITH FILE",
+      "headline": "LOCKED. THEN LARGER.",
+      "subhead": "The season strengthens {leader}'s hold on the overall lead, and the rival will need an answer later.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-087",
+      "kicker": "LINING NOTES",
+      "headline": "CUSHION, CUSTOM FIT",
+      "subhead": "Already leading overall, {winner} now has a little more breathing room after taking this season's honours.",
+      "score": 10,
+      "was": "Headline: LEAD WITH LINING | Subhead: The advantage already belonged to {winner}; this season has given it a little more substance and depth."
+    },
+    {
+      "id": "b9-088",
+      "kicker": "MUSEUM EDITION",
+      "headline": "MUSEUM, STILL EXPANDING",
+      "subhead": "{leader}'s victorious season supplies another imaginary exhibit, reflecting a bigger gap in the overall standings.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-089",
+      "kicker": "KEYROOM NOTES",
+      "headline": "KEY STILL TURNING",
+      "subhead": "The established front runner has won again, moving the overall totals further in {leader}'s direction.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-090",
+      "kicker": "VELVET NOTES",
+      "headline": "VELVET HAS ELBOWS",
+      "subhead": "{winner} has created additional room between the rivals through another season triumph, making the existing overall lead more substantial.",
+      "score": 10,
+      "was": "Headline: VELVET, MORE VELVET | Subhead: {winner} has opened additional space between the rivals through another season triumph, without settling their future meetings."
+    },
+    {
+      "id": "b9-091",
+      "kicker": "UPPER SHELF",
+      "headline": "THAT EXTRA SHELF",
+      "subhead": "Another win extends {leader}'s overall lead, making the season a meaningful addition to the rivalry's record.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-092",
+      "kicker": "DISPLAY ANNEX",
+      "headline": "DISPLAY, EXTENDED EDITION",
+      "subhead": "The result puts extra distance between {leader} and {trailer}, extending a story whose conclusion still lies ahead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-093",
+      "kicker": "BRASS ADDENDUM",
+      "headline": "CONTINUED IN BRASS",
+      "subhead": "The current leader has added another winning season, and the overall standings now register a wider difference.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b9-094",
+      "kicker": "TENANT RECORD",
+      "headline": "TOP SHELF TENANT",
+      "subhead": "{winner} continues to occupy the highest overall position, with this season's result reinforcing the separation.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-095",
+      "kicker": "GLASS CEILING",
+      "headline": "GLASS, NOT CEILING",
+      "subhead": "What seemed a substantial lead before this season has grown still larger following {leader}'s new success.",
+      "score": 10,
+      "was": "Subhead: The lead was not the limit: {leader} has won again and stretched the overall advantage farther."
+    },
+    {
+      "id": "b9-096",
+      "kicker": "RECORD OFFICE",
+      "headline": "PLINTH WITH INTEREST",
+      "subhead": "{winner} emerges from the latest season with an even stronger overall position, building upon the gains already made.",
+      "score": 10,
+      "was": "Subhead: The season's victory has earned {winner} a stronger overall position, building on an advantage already secured."
+    },
+    {
+      "id": "b9-097",
+      "kicker": "LATCH REPORT",
+      "headline": "LATCHED ON TIGHTER",
+      "subhead": "{leader} closes the latest season with a larger cushion, although {trailer} remains essential to the rivalry's account.",
+      "score": 9,
+      "was": "Subhead: {leader} leaves the latest season with a larger cushion, while {trailer} has more work ahead."
+    },
+    {
+      "id": "b9-098",
+      "kicker": "AFTER THE CASE",
+      "headline": "FURTHER UNDER GLASS",
+      "subhead": "{winnerClub}'s season success has increased the leader's distance in the overall contest, adding weight to an established edge.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b9-099",
+      "kicker": "EXTRA SPACE",
+      "headline": "ROOM FOR DAYLIGHT",
+      "subhead": "The season win belongs to {winner}, increasing an established lead and giving the rivalry another result worth preserving.",
+      "score": 9,
+      "was": "Subhead: The latest season has widened {leader}'s overall lead, making the gulf more visible without ending the rivalry."
+    },
+    {
+      "id": "b9-100",
+      "kicker": "HONOURS FOOTNOTE",
+      "headline": "ANOTHER FRAME TO FILL",
+      "subhead": "The season win belongs to {winner}, increasing an existing lead and giving the rivalry another result to remember.",
+      "score": 10,
+      "was": null
+    }
+  ]
+}

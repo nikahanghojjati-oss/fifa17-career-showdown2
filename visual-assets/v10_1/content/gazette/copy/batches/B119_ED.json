@@ -1,0 +1,608 @@
+{
+  "batch": 119,
+  "situation": "rivalry-history",
+  "voice": "The studio panel",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb119-001",
+      "text": "Years of friendly competition, and {managerA} still knows exactly whose club makes {managerB} sit forward.",
+      "score": 10,
+      "was": "The remarkable thing about {managerA} and {managerB} is how much history fits between their seasons."
+    },
+    {
+      "id": "cb119-002",
+      "text": "At {clubA}, even a tidy season review comes with an extra question, how did the old rival do?",
+      "score": 10,
+      "was": "For {clubA}, this rivalry is bigger than an isolated campaign, and that's what gives every season its edge."
+    },
+    {
+      "id": "cb119-003",
+      "text": "Whatever happens in the next chapter, {managerB} has a familiar opponent and an unfamiliar question to answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb119-004",
+      "text": "Change the scenery, swap the ambitions, the familiar voice at the other end still makes it personal.",
+      "score": 9,
+      "was": "You can change the clubs' fortunes, but you cannot make this rivalry feel like a first meeting."
+    },
+    {
+      "id": "cb119-005",
+      "text": "Every campaign brings a fresh comparison, and {managerA} knows the other manager will be watching closely.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb119-006",
+      "text": "Neither wants to give an inch, yet {managerB} can still admire the friend pushing from the opposite dugout.",
+      "score": 10,
+      "was": "There is a lovely tension here, because respect survives even when neither side wants to give an inch."
+    },
+    {
+      "id": "cb119-007",
+      "text": "There's a subplot whenever {clubB} is discussed, somebody in the other dugout knows what that badge means.",
+      "score": 9,
+      "was": "Watch how {clubB} becomes part of the conversation the moment its rival's name comes up."
+    },
+    {
+      "id": "cb119-008",
+      "text": "Silverware gets polished, but {managerA} has something less fragile here, a rival worth coming back for.",
+      "score": 10,
+      "was": "Some rivalries need a trophy to matter, but this one has years of competitive curiosity behind it."
+    },
+    {
+      "id": "cb119-009",
+      "text": "I reckon {managerB} has the sort of rival who can turn a quiet league table into a lively discussion.",
+      "score": 9,
+      "was": "I like the way {managerB} can make an ordinary season feel like part of a much longer argument."
+    },
+    {
+      "id": "cb119-010",
+      "text": "With {clubA}, even the neatest season review comes with a private footnote, the rival gets a copy.",
+      "score": 9,
+      "was": "Nothing about {clubA}'s next chapter exists in isolation when a friend is managing the other side."
+    },
+    {
+      "id": "cb119-011",
+      "text": "We've watched {managerA} put another season on the shelf, and the friendly inspection is never far behind.",
+      "score": 10,
+      "was": "We've followed the turns of this contest, and the real constant is the willingness to go again."
+    },
+    {
+      "id": "cb119-012",
+      "text": "You don't need hostile headlines when a friend knows exactly which part of your campaign deserves a closer look.",
+      "score": 9,
+      "was": "Between these managers, the competition is personal in the best possible sense, and that shows in the anticipation."
+    },
+    {
+      "id": "cb119-013",
+      "text": "Look at {managerA}'s side of the rivalry, every campaign is another chance to change the conversation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb119-014",
+      "text": "Bad blood sells a cheap headline, but a rivalry like this has something better, actual staying power.",
+      "score": 10,
+      "was": "There are rivalries built on grudges, and then there's this one, built on a shared love of football."
+    },
+    {
+      "id": "cb119-015",
+      "text": "From {clubB}'s touchline, the other club isn't a villain, it's an especially demanding yardstick.",
+      "score": 9,
+      "was": "From {clubB}'s perspective, the comparison never gets stale, because the challenge keeps finding a new shape."
+    },
+    {
+      "id": "cb119-016",
+      "text": "What's unusual is that {managerA} knows the rival well enough to hear the raised eyebrow from miles away.",
+      "score": 10,
+      "was": "What's striking is the familiarity, with {managerA} facing a friend who knows the stakes just as well."
+    },
+    {
+      "id": "cb119-017",
+      "text": "Imagine {clubB} in the end-of-season montage, with the rival manager checking every frame for context.",
+      "score": 10,
+      "was": "Behind every season review lies the same question, what will the other manager make of that?"
+    },
+    {
+      "id": "cb119-018",
+      "text": "As {managerB} approaches another season, there's no blank slate here, only a beautifully messy notebook.",
+      "score": 9,
+      "was": "As {managerB} prepares another chapter, the story already has the weight of everything that came before."
+    },
+    {
+      "id": "cb119-019",
+      "text": "{managerA} knows the competition is serious, and the friendship is strong enough to enjoy the pressure.",
+      "score": 9,
+      "was": "It matters that these two know each other, because the competitive edge comes with genuine affection."
+    },
+    {
+      "id": "cb119-020",
+      "text": "That badge on {clubA} carries a club's own hopes, with a knowing friend ready to add commentary.",
+      "score": 9,
+      "was": "At {clubA}, the badge carries its own ambitions, but the friendly challenge adds another layer altogether."
+    },
+    {
+      "id": "cb119-021",
+      "text": "Forget a final tally, the fascinating part is how {clubB} becomes the subject of tomorrow's debate.",
+      "score": 10,
+      "was": "I wouldn't reduce this to a scoreline, the real appeal is a conversation that refuses to end."
+    },
+    {
+      "id": "cb119-022",
+      "text": "When {managerA} hears the season verdict, a familiar challenger is close enough to understand the subtext.",
+      "score": 9,
+      "was": "When {managerA} makes a mark on the season, somebody across the rivalry is paying close attention."
+    },
+    {
+      "id": "cb119-023",
+      "text": "Nobody needs to explain the stakes to a friend who's already listening for the season verdict.",
+      "score": 9,
+      "was": "The best part is that neither manager needs to explain why the next campaign matters."
+    },
+    {
+      "id": "cb119-024",
+      "text": "With {clubB} involved, every campaign gets an imaginary footnote, please consult the other manager.",
+      "score": 10,
+      "was": "With {clubB} in the picture, every comparison comes wrapped in a bit of shared history."
+    },
+    {
+      "id": "cb119-025",
+      "text": "For {managerB}, the familiar rival turns even an ordinary season review into a must-watch appointment.",
+      "score": 9,
+      "was": "Across the seasons, this contest has kept its character, familiar faces and fresh reasons to care."
+    },
+    {
+      "id": "cb119-026",
+      "text": "Football supplies the results, but this little contest gets its warmth from what happens between seasons.",
+      "score": 9,
+      "was": "There's plenty of football in the story, but the friendship is what makes it worth following."
+    },
+    {
+      "id": "cb119-027",
+      "text": "Seeing {managerB} return to this contest is like reaching for a bookmarked page, the old debate is still there.",
+      "score": 10,
+      "was": "Seeing {managerB} return to the challenge feels less like repetition and more like another chapter worth reading."
+    },
+    {
+      "id": "cb119-028",
+      "text": "At {clubA}, there's more than a place in the cabinet to consider, there's bragging room at the next conversation.",
+      "score": 10,
+      "was": "Rivalries like this aren't measured only by the silverware, they're measured by the appetite to continue."
+    },
+    {
+      "id": "cb119-029",
+      "text": "That quiet glance toward {managerB}'s club says more about friendly competition than a studio speech ever could.",
+      "score": 9,
+      "was": "One manager sets a standard, the other considers it, and that quiet exchange makes excellent television."
+    },
+    {
+      "id": "cb119-030",
+      "text": "In {clubA}'s corner, there's no need to hire a critic, the friend in charge of the opposition volunteers.",
+      "score": 10,
+      "was": "In {clubA}'s corner, the competition has a second audience, the friend following the other club."
+    },
+    {
+      "id": "cb119-031",
+      "text": "Names become familiar, but the points of disagreement still come dressed in fresh club colours every time.",
+      "score": 10,
+      "was": "You know the names now, and yet {managerA} can still give this contest a fresh direction."
+    },
+    {
+      "id": "cb119-032",
+      "text": "Between seasons, {clubB} can put the result away, but not the interest in what comes next.",
+      "score": 9,
+      "was": "Even a settled season leaves the rivalry alive, because the next one asks a different question."
+    },
+    {
+      "id": "cb119-033",
+      "text": "Here comes {managerB} with fresh ambitions, and the rival will be especially keen to inspect the fine print.",
+      "score": 10,
+      "was": "Here comes another chance for {managerB} to write something that the other side will remember."
+    },
+    {
+      "id": "cb119-034",
+      "text": "Put {managerA} opposite a friend with the same ambition, and even the pause feels competitive.",
+      "score": 9,
+      "was": "This is football with an extra layer, the people behind these clubs know exactly who they're challenging."
+    },
+    {
+      "id": "cb119-035",
+      "text": "Inside {clubB}'s season report, the margin notes practically write themselves, somebody else is always comparing.",
+      "score": 10,
+      "was": "Throughout the contest, {clubB} has been part of a dialogue that goes well beyond its own results."
+    },
+    {
+      "id": "cb119-036",
+      "text": "I'd sooner watch {clubA} face a familiar friendly challenge than sit through another manufactured football grudge.",
+      "score": 10,
+      "was": "I'd argue that the best rivalries don't need bad blood, just somebody good enough to keep you interested."
+    },
+    {
+      "id": "cb119-037",
+      "text": "Remember, {managerA} has the rare opponent who can argue about football and still pick up the phone afterward.",
+      "score": 9,
+      "was": "Remember that {managerA} isn't competing against a stranger, and that makes every comparison feel sharper."
+    },
+    {
+      "id": "cb119-038",
+      "text": "If {managerB} needs a reason to care about the next campaign, try the rival's very existence.",
+      "score": 10,
+      "was": "It all comes back to the managers, the seasons change but their friendly challenge remains wonderfully familiar."
+    },
+    {
+      "id": "cb119-039",
+      "text": "That long familiarity gives {clubA} a different kind of pressure, the other manager remembers the earlier editions.",
+      "score": 9,
+      "was": "That shared history matters when {clubA} enters another campaign, because expectations already have a voice."
+    },
+    {
+      "id": "cb119-040",
+      "text": "Football gives the managers a scorecard, but the friendship gives every campaign a second meaning.",
+      "score": 9,
+      "was": "Plenty can change across a Showdown, but the pleasure of measuring yourself against a friend stays put."
+    },
+    {
+      "id": "cb119-041",
+      "text": "No awkward introductions for {managerB}, the person to impress has been in the picture for ages.",
+      "score": 10,
+      "was": "I'm told we have another chapter coming, and apparently the friendly argument still has plenty of life."
+    },
+    {
+      "id": "cb119-042",
+      "text": "Sometimes {managerB} needs no greater incentive than the thought of an old rival's knowing smile.",
+      "score": 9,
+      "was": "If {managerB} ever needed motivation, an old rival's next season should provide plenty without saying a word."
+    },
+    {
+      "id": "cb119-043",
+      "text": "There's no need for villains, {clubA} already has a trusted rival with a wonderfully inconvenient memory.",
+      "score": 10,
+      "was": "Nobody here needs a manufactured feud, the football itself is enough to keep this little debate alive."
+    },
+    {
+      "id": "cb119-044",
+      "text": "{clubB} has its own ambitions, but our panel loves the extra question, how will the rival react?",
+      "score": 9,
+      "was": "I'd watch {clubB} for its own story, then watch again for what it means to the rivalry."
+    },
+    {
+      "id": "cb119-045",
+      "text": "Our panel can argue over a season for hours, but that friendly disagreement matters more in private.",
+      "score": 9,
+      "was": "Our studio can debate the finer points, but those managers have been having the interesting conversation all along."
+    },
+    {
+      "id": "cb119-046",
+      "text": "Before {managerA} starts another season, a familiar observer already understands the subtext without an explanation.",
+      "score": 9,
+      "was": "Before another campaign begins, {managerA} knows the person across the challenge will understand every little twist."
+    },
+    {
+      "id": "cb119-047",
+      "text": "Compare {clubA} with its rival and you get a football debate that comes with years of context.",
+      "score": 10,
+      "was": "The comparison is what makes this format sing, and {clubA} always has another club to measure against."
+    },
+    {
+      "id": "cb119-048",
+      "text": "Mutual admiration is lovely, though I'd wager the competitive instinct still has its boots by the door.",
+      "score": 10,
+      "was": "You can hear the respect in this rivalry, even if the competitive instinct never takes an evening off."
+    },
+    {
+      "id": "cb119-049",
+      "text": "This panel keeps asking who's under pressure, when the real answer is whoever speaks to the rival next.",
+      "score": 10,
+      "was": "For the managers involved, every new season offers a fresh answer to an old and enjoyable question."
+    },
+    {
+      "id": "cb119-050",
+      "text": "It's a rare competition where the next conversation can be every bit as interesting as the next campaign.",
+      "score": 10,
+      "was": "Nobody has to win an argument today for the rivalry to have another terrific chapter tomorrow."
+    },
+    {
+      "id": "cb119-051",
+      "text": "Honestly, {managerA} could probably recognize that rival's competitive streak without looking at the league table.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb119-052",
+      "text": "People say friendly as though it means gentle, football managers usually hear that word rather differently.",
+      "score": 9,
+      "was": "People call it friendly competition, which is a polite way of saying nobody wants to hear about it afterward."
+    },
+    {
+      "id": "cb119-053",
+      "text": "Apparently {clubA} can enjoy the spotlight for almost a minute before somebody asks about the other club.",
+      "score": 9,
+      "was": "Apparently {clubA} gets a season to itself, right up until somebody brings up the other club."
+    },
+    {
+      "id": "cb119-054",
+      "text": "Do we charge {managerB} for studio space, or is this friendly debate now a permanent fixture?",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb119-055",
+      "text": "Strange how a casual evening can become a full-length seminar on club management without anybody asking for one.",
+      "score": 10,
+      "was": "Strange how the phrase just a game never quite survives the opening of another Showdown season."
+    },
+    {
+      "id": "cb119-056",
+      "text": "Put {clubB} on this desk and every pundit suddenly starts practicing the delicate art of diplomatic comparisons.",
+      "score": 10,
+      "was": "Put {clubB} on the screen and watch this panel suddenly develop very strong opinions about comparison."
+    },
+    {
+      "id": "cb119-057",
+      "text": "When {clubA} comes into focus, the friend following its progress is never far from the discussion.",
+      "score": 9,
+      "was": "If friendship were the only prize, the managers would be delighted, but they'd still check the standings."
+    },
+    {
+      "id": "cb119-058",
+      "text": "We're terribly impartial in this studio, until somebody asks us which club we'd rather be managing.",
+      "score": 10,
+      "was": "We're all very mature until the subject turns to whose club had the more satisfying campaign."
+    },
+    {
+      "id": "cb119-059",
+      "text": "I suspect {managerA} can praise the rival quite warmly, once we've switched off the studio microphones.",
+      "score": 9,
+      "was": "I suspect {managerA} can enjoy a rival's success, provided there's another season on the calendar."
+    },
+    {
+      "id": "cb119-060",
+      "text": "Try explaining why they keep comparing seasons and you'll eventually arrive at the simplest answer, they're friends.",
+      "score": 9,
+      "was": "Try explaining this rivalry to a neutral, and you'll spend longer discussing the friendship than the competition."
+    },
+    {
+      "id": "cb119-061",
+      "text": "Someone ought to tell {managerB} that friendly doesn't mean the studio will stop asking awkward questions.",
+      "score": 9,
+      "was": "Someone should tell {managerB} that a friendly contest is allowed to be this wonderfully serious."
+    },
+    {
+      "id": "cb119-062",
+      "text": "Open the cabinet for {managerA} and you'll find football ambitions, but the friendly rivalry lives beyond the glass.",
+      "score": 10,
+      "was": "The trophy cabinet may be quiet, but I doubt the conversation between these two ever runs short."
+    },
+    {
+      "id": "cb119-063",
+      "text": "Apparently these managers can agree on friendship and still produce a disagreement worth its own highlights show.",
+      "score": 10,
+      "was": "Apparently the only thing these managers agree on is that the next comparison will be fascinating."
+    },
+    {
+      "id": "cb119-064",
+      "text": "Here's a thought for {clubA}, the quietest rival may have the loudest opinions once the season ends.",
+      "score": 10,
+      "was": "Here's a thought for {clubA}, the loudest rival might be the friend who's barely saying anything."
+    },
+    {
+      "id": "cb119-065",
+      "text": "Our studio could fill an entire programme with the finer points of a season neither friend will forget.",
+      "score": 9,
+      "was": "Give this panel a quiet evening and we'll still find a reason to discuss their next campaign."
+    },
+    {
+      "id": "cb119-066",
+      "text": "If {managerA} asks for an impartial opinion, asking the other manager might be wonderfully optimistic.",
+      "score": 10,
+      "was": "If {managerA} wants a second opinion, the rival is conveniently invested in absolutely every season."
+    },
+    {
+      "id": "cb119-067",
+      "text": "For all the politeness, both managers have that unmistakable habit of checking how the other is getting on.",
+      "score": 9,
+      "was": "The funny part is how both managers can be perfectly gracious and fiercely competitive at once."
+    },
+    {
+      "id": "cb119-068",
+      "text": "With {clubB} in the mix, nobody needs to manufacture a nemesis, just fetch the old friend.",
+      "score": 10,
+      "was": "There's no need for a grudge when {clubB} already gives the other manager enough to think about."
+    },
+    {
+      "id": "cb119-069",
+      "text": "The comparison is like a school exam, nobody has to compare papers, and somehow everyone still does.",
+      "score": 10,
+      "was": "My favorite detail is that the friendship remains intact while every season gets examined like a final exam."
+    },
+    {
+      "id": "cb119-070",
+      "text": "Say it's only a hobby to {managerB}, and the careful tone suggests an extremely competitive hobby.",
+      "score": 10,
+      "was": "Say it's casual to {managerB}, then listen for the very careful explanation of why it matters."
+    },
+    {
+      "id": "cb119-071",
+      "text": "Perhaps we should display the friendly banter in a museum, provided the exhibits agree to stop debating.",
+      "score": 10,
+      "was": "Someone ought to put the banter in a museum, though the exhibits would probably start arguing."
+    },
+    {
+      "id": "cb119-072",
+      "text": "Tell any football manager a rivalry is only for fun, then watch them straighten their imaginary tie.",
+      "score": 9,
+      "was": "Call it a friendly rivalry, but nobody has ever accused a football manager of enjoying comparisons quietly."
+    },
+    {
+      "id": "cb119-073",
+      "text": "A familiar opponent brings something a new challenger can't, a whole library of old arguments to enjoy.",
+      "score": 10,
+      "was": "A familiar opponent makes even a routine campaign interesting, especially when that opponent is also your friend."
+    },
+    {
+      "id": "cb119-074",
+      "text": "You wouldn't believe how fast a polite hello can become a debate about {clubA}'s next campaign.",
+      "score": 9,
+      "was": "You wouldn't believe how quickly a relaxed conversation becomes a discussion of what {clubA} might do next."
+    },
+    {
+      "id": "cb119-075",
+      "text": "Personally, the remarkable part isn't that they disagree, it's that they keep looking forward to the discussion.",
+      "score": 9,
+      "was": "Personally, I admire the patience, these managers can disagree about football and still want another season."
+    },
+    {
+      "id": "cb119-076",
+      "text": "What a twist for a football rivalry, the person reading the season's story also happens to be a friend.",
+      "score": 10,
+      "was": "What gives the story its bite is that the person on the other side knows its author."
+    },
+    {
+      "id": "cb119-077",
+      "text": "Neither {managerA} nor {managerB} needs a villain, they've got a worthy rival and plenty to talk about.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb119-078",
+      "text": "Forget an invented feud, this one thrives on people who respect each other and still want the upper hand.",
+      "score": 9,
+      "was": "Forget the theatrical feud, this rivalry runs on something more durable, respect with a competitive edge."
+    },
+    {
+      "id": "cb119-079",
+      "text": "There's a whole archive in the way {managerB} weighs the rival's progress, years of knowing what matters.",
+      "score": 10,
+      "was": "There's a whole history in the pause before {managerB} hears what the other side has done."
+    },
+    {
+      "id": "cb119-080",
+      "text": "A crest usually says where a club belongs, here it also invites an old friend to judge its ambitions.",
+      "score": 10,
+      "was": "A club crest can mean home, ambition and pride, but here it can also mean a friendly challenge."
+    },
+    {
+      "id": "cb119-081",
+      "text": "You sense the extra weight whenever {clubB} enters the discussion, because its story is never entirely alone.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb119-082",
+      "text": "Beyond the scoreboard, the friendship is what gives this contest a memory longer than any single season.",
+      "score": 9,
+      "was": "Beyond the scoreboards, these managers have built a contest that keeps making room for another chapter."
+    },
+    {
+      "id": "cb119-083",
+      "text": "You cannot switch off a rivalry like this at the final whistle, only put the conversation on mute.",
+      "score": 10,
+      "was": "That rivalry doesn't disappear between seasons, it just waits for the next reason to spring to life."
+    },
+    {
+      "id": "cb119-084",
+      "text": "Maybe {managerA} sees a hurdle, maybe an invitation, but the familiar opponent makes it worth returning.",
+      "score": 9,
+      "was": "Maybe {managerA} will change the story next time, maybe not, but the friendship guarantees an interested reader."
+    },
+    {
+      "id": "cb119-085",
+      "text": "Old rivals don't need an introduction, and a new campaign is all the invitation they require.",
+      "score": 9,
+      "was": "The years give a rivalry depth, and each campaign offers these managers another chance to surprise one another."
+    },
+    {
+      "id": "cb119-086",
+      "text": "Strip away the trophies and the league tables, the heartbeat is a friend who cares how you did.",
+      "score": 10,
+      "was": "Imagine removing the friendship from this contest, you'd still have football, but you'd lose its heartbeat."
+    },
+    {
+      "id": "cb119-087",
+      "text": "Behind {clubA}'s crest sits more than a season's ambition, there's a friend's measure of progress too.",
+      "score": 9,
+      "was": "Somewhere beneath all that competitive talk, {clubA} is part of a story about knowing your opponent well."
+    },
+    {
+      "id": "cb119-088",
+      "text": "No villain, no fake outrage, just somebody you've known for years making your football choices more interesting.",
+      "score": 9,
+      "was": "No dramatic villain is required when two friends can make a football comparison feel so important."
+    },
+    {
+      "id": "cb119-089",
+      "text": "Consider {managerB}'s position, every campaign carries a polite little challenge scribbled in the margin.",
+      "score": 9,
+      "was": "Consider what {managerB} brings to this rivalry, not just another club, but a familiar standard of ambition."
+    },
+    {
+      "id": "cb119-090",
+      "text": "An old rivalry works like a familiar tune, you know the melody but never quite predict the next verse.",
+      "score": 10,
+      "was": "It's the sort of contest that gains meaning through repetition, because the personalities never stop mattering."
+    },
+    {
+      "id": "cb119-091",
+      "text": "The next campaign is unwritten, but the friendly audience already knows the cast by heart.",
+      "score": 9,
+      "was": "The next season belongs to the future, but this rivalry brings its past into the room with it."
+    },
+    {
+      "id": "cb119-092",
+      "text": "Beneath the studio lights, {managerA} and {managerB} are simply people who refuse to let the conversation fade.",
+      "score": 10,
+      "was": "For all the studio noise, {managerA} and {managerB} have a simpler reason to return, unfinished curiosity."
+    },
+    {
+      "id": "cb119-093",
+      "text": "History makes every new challenge heavier, but friendship stops that weight from spoiling the enjoyment.",
+      "score": 9,
+      "was": "History isn't merely what these managers have already shared, it's what makes the next challenge feel different."
+    },
+    {
+      "id": "cb119-094",
+      "text": "Whatever this season brings, {clubB} has a familiar rival who will read the verdict closely.",
+      "score": 9,
+      "was": "Even when nothing has been settled, {clubB} gives the rivalry a reason to keep its place in the conversation."
+    },
+    {
+      "id": "cb119-095",
+      "text": "Look past the prizes and there's a much better keepsake, the memories these managers get to share.",
+      "score": 10,
+      "was": "Look past the trophies and you'll find something harder to display, a friendship that makes competition richer."
+    },
+    {
+      "id": "cb119-096",
+      "text": "Shut the console down and the contest pauses, but the teasing can easily survive the power button.",
+      "score": 10,
+      "was": "When the season closes, the game can pause, but the argument has a habit of staying wide awake."
+    },
+    {
+      "id": "cb119-097",
+      "text": "Not every lasting football memory belongs in a trophy cabinet, some belong in the conversation afterward.",
+      "score": 10,
+      "was": "The lasting image isn't a celebration or a defeat, it's two friends choosing to challenge each other again."
+    },
+    {
+      "id": "cb119-098",
+      "text": "Whatever the season tally eventually reads, {managerA} has helped turn the console into a meeting place.",
+      "score": 9,
+      "was": "Whatever the ledger eventually reads, {managerA} will have helped turn ordinary seasons into a shared story."
+    },
+    {
+      "id": "cb119-099",
+      "text": "Perhaps the best compliment in football is knowing your old rival still looks forward to facing you.",
+      "score": 10,
+      "was": "Perhaps the finest prize in this rivalry is the chance to look back and still want another chapter."
+    },
+    {
+      "id": "cb119-100",
+      "text": "Years from now, they'll forget our predictions, but the pleasure of competing together should last beautifully.",
+      "score": 10,
+      "was": "One day these campaigns will be memories, and the friendship will be the thread holding them together."
+    }
+  ]
+}

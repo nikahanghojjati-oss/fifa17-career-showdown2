@@ -1,0 +1,608 @@
+{
+  "batch": 44,
+  "situation": "golden-showdown",
+  "voice": "The co-commentator",
+  "edited": true,
+  "lines": [
+    {
+      "id": "cb44-001",
+      "text": "A grand pursuit for {leader}, this. Winning a season is lovely, but this is the entire golden prize.",
+      "score": 9,
+      "was": "For {leader}, the reward at the end of this long road isn't another season. It's the whole golden prize."
+    },
+    {
+      "id": "cb44-002",
+      "text": "Watch the balance here. {trailer} can still shape the chase, but only an individual total unlocks that finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-003",
+      "text": "Notice how {leader}'s priorities have shifted. A good season is now a stepping stone to something enormous.",
+      "score": 9,
+      "was": "You sense the difference with {leader} now. Ordinary success looks rather small beside the ultimate target."
+    },
+    {
+      "id": "cb44-004",
+      "text": "Credit the patience involved. This is a prize that refuses to be hurried, however well a season goes.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-005",
+      "text": "Oddly, the grandest honour makes a modest gain worth celebrating. Almost, I said almost, like silverware.",
+      "score": 10,
+      "was": "Funny how the biggest trophy turns every modest improvement into something worth watching, doesn't it?"
+    },
+    {
+      "id": "cb44-006",
+      "text": "Personal responsibility falls on {leader}. Nobody else's achievements can carry that manager over the line.",
+      "score": 9,
+      "was": "{leader} has the kind of responsibility you cannot pass to a teammate. That final mark is personal."
+    },
+    {
+      "id": "cb44-007",
+      "text": "There's no shortcut through this one. The gold waits for a manager to earn it alone.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb44-008",
+      "text": "Think about {trailer} for a moment. A rival near the summit can be a useful incentive, however unwelcome.",
+      "score": 10,
+      "was": "Consider the pressure on {trailer}. A rival nearing the summit is an invitation to raise your own standards."
+    },
+    {
+      "id": "cb44-009",
+      "text": "You could fill a cabinet with ordinary trophies. This particular honour deserves a chapter all to itself.",
+      "score": 9,
+      "was": "That's why this particular race matters. The reward belongs to whoever gets over the line individually."
+    },
+    {
+      "id": "cb44-010",
+      "text": "Rather telling, isn't it, that {leader} can make an entire campaign feel like part of a larger climb?",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb44-011",
+      "text": "Good managers enjoy a trophy. Sticking at it for the richest honour requires a slightly different temperament.",
+      "score": 9,
+      "was": "Good managers enjoy a trophy. Great patience is needed when the prize takes a whole Showdown to reach."
+    },
+    {
+      "id": "cb44-012",
+      "text": "Look beyond this season. The question for {leader} is the distance to a target that changes everything.",
+      "score": 9,
+      "was": "Look beyond the season result. For {leader}, the important question is how close the golden landmark stands."
+    },
+    {
+      "id": "cb44-013",
+      "text": "No committee is deciding this. Fancy speeches won't put the missing points beside a manager's name.",
+      "score": 9,
+      "was": "No committee is handing out this honour. Someone has to put the required total beside their own name."
+    },
+    {
+      "id": "cb44-014",
+      "text": "From {trailer}'s viewpoint, a mountain is still climbable. It simply doesn't offer an easier path downhill.",
+      "score": 10,
+      "was": "{trailer} isn't simply watching a rival. There's still a personal summit to pursue, season after season."
+    },
+    {
+      "id": "cb44-015",
+      "text": "Persistence is the impressive part. Every useful campaign is another foothold on this particular ascent.",
+      "score": 9,
+      "was": "The impressive part is the persistence. Every useful campaign is another foothold on this particular ascent."
+    },
+    {
+      "id": "cb44-016",
+      "text": "Don't confuse {leader}'s advantage with the prize itself. The special finish has its own conditions.",
+      "score": 10,
+      "was": "{leader} will know the difference between leading the contest and actually claiming its richest reward."
+    },
+    {
+      "id": "cb44-017",
+      "text": "Listen, a cup can mean the world, yet still look small against a prize this ambitious.",
+      "score": 9,
+      "was": "Listen, a long pursuit does funny things to priorities. Smaller distinctions start to feel like footnotes."
+    },
+    {
+      "id": "cb44-018",
+      "text": "Sharing the work won't do here. That top honour recognizes an individual manager's accumulated achievements.",
+      "score": 10,
+      "was": "This isn't a shared savings account. The special prize recognizes one manager's accumulated achievement."
+    },
+    {
+      "id": "cb44-019",
+      "text": "Even {trailer} has reason to be interested. A towering standard gives the whole rivalry greater purpose.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-020",
+      "text": "Worth remembering, {leader} cannot borrow another club's accomplishments to complete this journey.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-021",
+      "text": "Some prizes reward a brilliant stretch. This one asks whether brilliance can be sustained for the distance.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-022",
+      "text": "Imagine {leader} considering the engraving. I'd keep the pen in its box until the mark is reached.",
+      "score": 10,
+      "was": "{leader} may be close enough to think of the engraving, but the final requirement still matters."
+    },
+    {
+      "id": "cb44-023",
+      "text": "Strange, isn't it? A comfortable lead doesn't get anybody through the entrance marked gold.",
+      "score": 10,
+      "was": "Here's the awkward beauty of it. A comfortable lead doesn't do the work of reaching the gold standard."
+    },
+    {
+      "id": "cb44-024",
+      "text": "Steady work has brought {leader} here. Excitement is fine, but it won't add a point by itself.",
+      "score": 9,
+      "was": "There's a particular calm about {leader}'s task. Keep collecting, and let the individual progress speak."
+    },
+    {
+      "id": "cb44-025",
+      "text": "A disappointing season for the opponent won't improve your own tally. That's the wonderfully cruel twist here.",
+      "score": 10,
+      "was": "Nobody wins this distinction by making the rival's total look small. The personal threshold is everything."
+    },
+    {
+      "id": "cb44-026",
+      "text": "From where {trailer} stands, the summit is equally high. It's a fair test, if not a gentle one.",
+      "score": 9,
+      "was": "{trailer} has an uphill road, certainly, but the summit is the same height for either manager."
+    },
+    {
+      "id": "cb44-027",
+      "text": "That distant destination puts a different weight on each season, without changing what a season is worth.",
+      "score": 9,
+      "was": "That golden destination puts a different weight on each season, without changing what a season is worth."
+    },
+    {
+      "id": "cb44-028",
+      "text": "Each modest campaign matters differently once {leader} is within reach of this extraordinary distinction.",
+      "score": 9,
+      "was": "{leader} has entered the territory where another good campaign can carry enormous significance."
+    },
+    {
+      "id": "cb44-029",
+      "text": "Imagine the satisfaction of earning the highest reward without needing another manager to stumble.",
+      "score": 9,
+      "was": "Imagine the satisfaction of earning the grandest prize without needing another manager to stumble."
+    },
+    {
+      "id": "cb44-030",
+      "text": "Before {leader} polishes the medal, there's the small matter of meeting the entrance requirement.",
+      "score": 10,
+      "was": "Quite right to admire {leader}'s progress, but you don't polish the medal before the job is done."
+    },
+    {
+      "id": "cb44-031",
+      "text": "You can't just look industrious in the dugout. This distinction asks for something substantial in your own ledger.",
+      "score": 9,
+      "was": "Every contender knows a finish line. Here, it's a mark each manager must reach under their own steam."
+    },
+    {
+      "id": "cb44-032",
+      "text": "Perhaps {trailer} likes the challenge. There's something useful about knowing exactly what excellence requires.",
+      "score": 9,
+      "was": "{trailer} might fancy the challenge. There's something rather clarifying about knowing exactly what the prize demands."
+    },
+    {
+      "id": "cb44-033",
+      "text": "I'd call it a test of appetite, not just ability. Can a manager keep coming back for more?",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb44-034",
+      "text": "Persistence has put {leader} in the conversation. That commemorative edition demands more than a good headline.",
+      "score": 9,
+      "was": "{leader} has turned consistency into a serious argument for a place in the golden edition."
+    },
+    {
+      "id": "cb44-035",
+      "text": "It's a peculiar kind of final, spread across seasons rather than settled in a single evening.",
+      "score": 9,
+      "was": "For once, nobody needs a complicated explanation. Keep building your own total until the highest target is met."
+    },
+    {
+      "id": "cb44-036",
+      "text": "Borrowing the opponent's efforts wouldn't help anyway. A gilded honour like this requires individual substance.",
+      "score": 9,
+      "was": "There is no hiding behind the opponent's efforts. A glittering honour like this requires individual substance."
+    },
+    {
+      "id": "cb44-037",
+      "text": "Instead of watching the rival, {trailer} might measure the climb still possible on their own side.",
+      "score": 9,
+      "was": "{trailer} can see the standard being set. That's often more useful than hearing a grand speech."
+    },
+    {
+      "id": "cb44-038",
+      "text": "What strikes me is how {leader} has made the faraway prize a realistic conversation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-039",
+      "text": "Cabinet space might become an issue, although I'd suggest qualifying for the trophy before ordering furniture.",
+      "score": 10,
+      "was": "You can almost hear the cabinet door being measured. Mind you, there is still a requirement to satisfy."
+    },
+    {
+      "id": "cb44-040",
+      "text": "It takes an unusual focus to pursue an award this distant without being distracted by smaller triumphs.",
+      "score": 9,
+      "was": "It takes an unusual sort of focus to pursue a reward this distant without getting distracted by weekly glory."
+    },
+    {
+      "id": "cb44-041",
+      "text": "Picture {leader}'s name in the gold edition. Splendid image, provided that final condition is satisfied.",
+      "score": 9,
+      "was": "{leader} isn't chasing a decorative title. The golden finish changes the way the entire rivalry is remembered."
+    },
+    {
+      "id": "cb44-042",
+      "text": "Compare the trophy cabinets all you like. The great honour still demands a personal tally that qualifies.",
+      "score": 9,
+      "was": "One manager has to do the reaching. The competition may involve both, but that landmark belongs to an individual."
+    },
+    {
+      "id": "cb44-043",
+      "text": "Proper marathon of ambition, this. {trailer} must watch the distance without losing sight of the destination.",
+      "score": 10,
+      "was": "A proper marathon of ambition, this. {trailer} must watch the distance without losing sight of the destination."
+    },
+    {
+      "id": "cb44-044",
+      "text": "I'd keep the celebrations modest for now. The greatest distinction has a very particular qualifying mark.",
+      "score": 9,
+      "was": "I'd be careful about celebrating early. The richest honour has a very precise entrance requirement."
+    },
+    {
+      "id": "cb44-045",
+      "text": "Plainly, {leader} has done well to make the distant destination worth talking about seriously.",
+      "score": 9,
+      "was": "{leader} has made the long view look worthwhile. That's harder than collecting the odd impressive season."
+    },
+    {
+      "id": "cb44-046",
+      "text": "A trophy cabinet is unusual furniture. Even before anything is won, it can give a manager sleepless nights.",
+      "score": 9,
+      "was": "Suddenly, the trophy cabinet has an imaginary space reserved for something rather exceptional."
+    },
+    {
+      "id": "cb44-047",
+      "text": "That mountain hasn't moved for {trailer}. A perfectly fair test, and a rather exhausting one.",
+      "score": 10,
+      "was": "{trailer} knows the prize hasn't moved. The challenge is to climb toward it, regardless of the rival."
+    },
+    {
+      "id": "cb44-048",
+      "text": "Respect anyone who comes this far. Getting there asks for repeated excellence, not a lucky flourish.",
+      "score": 9,
+      "was": "Fair play to anyone within touching distance. Getting there demands repeated excellence, not an isolated flourish."
+    },
+    {
+      "id": "cb44-049",
+      "text": "Comparison can't carry {leader} over that threshold. Personal points alone do the heavy lifting.",
+      "score": 10,
+      "was": "{leader} cannot win the gold by comparison alone. That is what makes the achievement distinctive."
+    },
+    {
+      "id": "cb44-050",
+      "text": "Think back across the seasons. All that work can come down to a final sliver of progress.",
+      "score": 9,
+      "was": "Think of the years of ambition condensed into that last little piece of progress."
+    },
+    {
+      "id": "cb44-051",
+      "text": "An ordinary season settles an argument. For {leader}, this pursuit asks who can endure the whole climb.",
+      "score": 9,
+      "was": "An ordinary season settles an argument. This quest, for {leader}, asks who can endure the whole climb."
+    },
+    {
+      "id": "cb44-052",
+      "text": "Worth reminding {trailer}, this isn't a relay race. Nobody can contribute the missing points on your behalf.",
+      "score": 9,
+      "was": "{trailer} might be behind, but the golden road is still measured by each manager's own work."
+    },
+    {
+      "id": "cb44-053",
+      "text": "Pocket change on the standings can become a fortune when you're saving toward a golden future.",
+      "score": 10,
+      "was": "My word, the highest honour makes even a quiet addition to the total feel consequential."
+    },
+    {
+      "id": "cb44-054",
+      "text": "Close enough to imagine it, and {leader} must resist making the finish more complicated than it is.",
+      "score": 9,
+      "was": "{leader} is discovering that the hardest part of a grand target may be staying composed near it."
+    },
+    {
+      "id": "cb44-055",
+      "text": "A domestic cup might sparkle, but the biggest distinction demands a whole career's worth of staying power.",
+      "score": 10,
+      "was": "There's your distinction. Beating somebody across a season and meeting the golden benchmark are different achievements."
+    },
+    {
+      "id": "cb44-056",
+      "text": "Should the final milestone fall, it will belong to a manager's perseverance, not a partnership.",
+      "score": 9,
+      "was": "Should the final milestone fall, it will belong to one manager's perseverance, not a partnership."
+    },
+    {
+      "id": "cb44-057",
+      "text": "I wouldn't expect {trailer} to lose interest. A difficult target is a powerful invitation to improve.",
+      "score": 9,
+      "was": "{trailer} has every reason to keep pushing. The grand standard offers no discount for a difficult chase."
+    },
+    {
+      "id": "cb44-058",
+      "text": "As {leader} looks higher, a perfectly respectable season becomes part of a much grander test.",
+      "score": 9,
+      "was": "Notice how {leader}'s perspective changes. Every season is now judged against something much bigger."
+    },
+    {
+      "id": "cb44-059",
+      "text": "Staying power, that's what I admire about this award. You can't bluff your way to it.",
+      "score": 10,
+      "was": "I like that the ultimate award asks for staying power. There's precious little room for a lucky flourish."
+    },
+    {
+      "id": "cb44-060",
+      "text": "Another fine season won't necessarily do it for {leader}. Sustaining that quality is the real examination.",
+      "score": 9,
+      "was": "{leader} has done the difficult thing of keeping a distant ambition alive through ordinary campaigns."
+    },
+    {
+      "id": "cb44-061",
+      "text": "The prize is so unusual you'd have to explain it to your oldest friends. That's rather appealing.",
+      "score": 9,
+      "was": "Not every great rivalry produces this sort of possibility. The golden prize makes the long story special."
+    },
+    {
+      "id": "cb44-062",
+      "text": "Being behind doesn't stop {trailer} building the personal total that this extraordinary title demands.",
+      "score": 9,
+      "was": "If {trailer} wants that honour, matching the rival's pace won't be enough without personal progress."
+    },
+    {
+      "id": "cb44-063",
+      "text": "That's an unforgiving landmark, but at least it treats both managers exactly the same way.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-064",
+      "text": "Now there is a finish to chase for {leader}, not merely another season to edge.",
+      "score": 9,
+      "was": "{leader} has a finish worth chasing for its own sake, quite apart from the immediate season result."
+    },
+    {
+      "id": "cb44-065",
+      "text": "Some achievements require no speech afterward. The length of the pursuit does the talking.",
+      "score": 9,
+      "was": "Rather lovely, this idea that a career can be judged by persistence as well as its brightest moments."
+    },
+    {
+      "id": "cb44-066",
+      "text": "This highest tier remains a demanding destination for {trailer}. There's pride in pursuing it properly.",
+      "score": 9,
+      "was": "{trailer} can still take pride in the pursuit. Reaching the highest tier is demanding by design."
+    },
+    {
+      "id": "cb44-067",
+      "text": "Remarkably, {leader}'s biggest achievement may be keeping the chase alive rather than enjoying a solitary flourish.",
+      "score": 9,
+      "was": "The remarkable thing about {leader}'s campaign is not a single flourish, but the sustained pursuit."
+    },
+    {
+      "id": "cb44-068",
+      "text": "Nobody gets there on the strength of a handshake. That golden distinction has to be earned outright.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-069",
+      "text": "When ambition is this large, {leader} needs the patience to treat routine seasons as important ones.",
+      "score": 9,
+      "was": "{leader} would be wise to keep treating each season seriously. Ambition is no substitute for progress."
+    },
+    {
+      "id": "cb44-070",
+      "text": "Ask what matters at this stage, and the answer is the individual journey toward the final target.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-071",
+      "text": "Don't expect {trailer} to applaud the competition into submission. Personal improvement is the better reply.",
+      "score": 9,
+      "was": "{trailer} isn't required to applaud. The best response is to make a serious bid of their own."
+    },
+    {
+      "id": "cb44-072",
+      "text": "In football terms, this is a long build-up with the richest possible finish still in sight.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "cb44-073",
+      "text": "Composure is valuable for {leader}. You can see the destination without having claimed it.",
+      "score": 9,
+      "was": "{leader} has reached the point where composure is as valuable as excitement about the prize."
+    },
+    {
+      "id": "cb44-074",
+      "text": "I'd save the fireworks. The accumulating points are doing a perfectly decent job of supplying the drama.",
+      "score": 9,
+      "was": "You don't need a dramatic gesture here. The progress toward gold is quite dramatic enough."
+    },
+    {
+      "id": "cb44-075",
+      "text": "Strange privilege for {trailer}, really, to contest an award that makes normal success feel like preparation.",
+      "score": 9,
+      "was": "A strange privilege for {trailer}, really, to contest a prize that makes ordinary success feel like preparation."
+    },
+    {
+      "id": "cb44-076",
+      "text": "That final standard cannot be negotiated down. {leader} knows exactly what must be achieved.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "cb44-077",
+      "text": "You don't preserve a winning habit in a glass case. You have to bring it back season after season.",
+      "score": 9,
+      "was": "Plenty of managers enjoy a good run. Carrying ambition toward the summit is a different discipline."
+    },
+    {
+      "id": "cb44-078",
+      "text": "Maybe {trailer} will find the hardest contest is with the distance remaining on their own journey.",
+      "score": 9,
+      "was": "{trailer} may find the most important contest is with the distance left on their own journey."
+    },
+    {
+      "id": "cb44-079",
+      "text": "Such a lofty distinction asks for enduring resolve, not a dazzling afternoon.",
+      "score": 9,
+      "was": "The weight of the prize is obvious. It asks for a career's worth of resolve, not one glorious afternoon."
+    },
+    {
+      "id": "cb44-080",
+      "text": "At some stage the faraway finish starts looking real. {leader} has given it that feeling.",
+      "score": 9,
+      "was": "{leader} has given that distant finish a shape you can almost see now. Quite an accomplishment."
+    },
+    {
+      "id": "cb44-081",
+      "text": "Trophies come with ribbons. This golden honour might as well include a certificate for sheer stubbornness.",
+      "score": 10,
+      "was": "Call it an individual examination held over many seasons. The questions never get easier near the end."
+    },
+    {
+      "id": "cb44-082",
+      "text": "So {trailer} has the familiar problem of a difficult target. Football offers no substitute for working toward it.",
+      "score": 9,
+      "was": "{trailer} will be measuring personal progress, not waiting for a share of someone else's reward."
+    },
+    {
+      "id": "cb44-083",
+      "text": "Admire the pursuit, certainly, but keep the champagne on ice. That final condition must actually be met.",
+      "score": 9,
+      "was": "You can admire the chase without declaring it finished. The golden condition is wonderfully unforgiving."
+    },
+    {
+      "id": "cb44-084",
+      "text": "Far bigger than an ordinary season trophy, this aim of {leader}'s. And much harder to claim.",
+      "score": 9,
+      "was": "{leader} looks to the biggest honour available, and every worthwhile campaign keeps the conversation alive."
+    },
+    {
+      "id": "cb44-085",
+      "text": "Try winning this distinction with charm, and you'd be rich in compliments but desperately short of points.",
+      "score": 10,
+      "was": "This is where discipline earns its reputation. There is no substitute for getting your own tally high enough."
+    },
+    {
+      "id": "cb44-086",
+      "text": "Quietly, {trailer} has good reason to concentrate. The opponent cannot supply those missing points for you.",
+      "score": 9,
+      "was": "{trailer} has something valuable to pursue regardless of the order in which the managers stand."
+    },
+    {
+      "id": "cb44-087",
+      "text": "Expectations can be inherited by a manager. The individual total for this honour cannot.",
+      "score": 9,
+      "was": "A manager can inherit plenty of expectations, but not the personal total needed for this distinction."
+    },
+    {
+      "id": "cb44-088",
+      "text": "Pressure changes as the gold becomes possible. {leader} must still pay proper attention to every season.",
+      "score": 9,
+      "was": "{leader} is living with an unusual kind of pressure. The reward is enormous, and the requirement is exact."
+    },
+    {
+      "id": "cb44-089",
+      "text": "Imagine explaining that the triumph wasn't an isolated brilliant campaign, but finding the resolve to repeat it.",
+      "score": 9,
+      "was": "What a curious prize, rewarding the long memory of success rather than just a moment of brilliance."
+    },
+    {
+      "id": "cb44-090",
+      "text": "For {trailer}, headlines won't help. The highest mark rewards what accumulates over the whole contest.",
+      "score": 9,
+      "was": "{trailer} must resist chasing headlines. The highest mark rewards what accumulates across the whole undertaking."
+    },
+    {
+      "id": "cb44-091",
+      "text": "Polish it all you like, the cabinet cannot turn an unfinished pursuit into a completed achievement.",
+      "score": 10,
+      "was": "Put it this way. The gold belongs to persistence with a purpose, and that's a proper managerial challenge."
+    },
+    {
+      "id": "cb44-092",
+      "text": "This isn't about leaving {trailer} behind. {leader} has a mark to reach on individual merit.",
+      "score": 9,
+      "was": "{leader} knows that reaching the threshold matters more than making the opponent feel further away."
+    },
+    {
+      "id": "cb44-093",
+      "text": "Every gain is personally earned in this contest. Nobody else can do the reaching on your behalf.",
+      "score": 9,
+      "was": "The beauty of the format is that every gain is genuinely yours. Nobody can contribute on your behalf."
+    },
+    {
+      "id": "cb44-094",
+      "text": "It's still a possible destination for {trailer}, and nobody has a monopoly on ambition.",
+      "score": 9,
+      "was": "{trailer} is entitled to dream just as boldly. The route is demanding, not reserved for anybody."
+    },
+    {
+      "id": "cb44-095",
+      "text": "Anticipation can be a dangerous companion near the end of this chase. It isn't accomplishment.",
+      "score": 9,
+      "was": "I'd say the greatest temptation near this mark is to mistake anticipation for accomplishment."
+    },
+    {
+      "id": "cb44-096",
+      "text": "Almost is a very expensive word in this contest. {leader} will be wanting to retire it.",
+      "score": 10,
+      "was": "{leader} has brought the grand prize into focus. Now the challenge is to keep the work as sharp."
+    },
+    {
+      "id": "cb44-097",
+      "text": "There's a world of difference between seeing the clubhouse and holding the key to its golden room.",
+      "score": 9,
+      "was": "Sometimes an entire career turns on the difference between being close and actually arriving."
+    },
+    {
+      "id": "cb44-098",
+      "text": "You don't ask the opposition to slow down. {trailer} has much more to gain by pressing on.",
+      "score": 9,
+      "was": "{trailer} needn't look for a miracle from anyone else. Personal progress is the only currency accepted."
+    },
+    {
+      "id": "cb44-099",
+      "text": "And that's the essential truth. The golden honour rewards the manager who arrives, never their combined output.",
+      "score": 10,
+      "was": "And there's the essential truth. The golden honour rewards the manager who gets there, not the rivalry's combined output."
+    },
+    {
+      "id": "cb44-100",
+      "text": "Patience, not panic, is what {leader} needs if the remaining steps begin to feel enormous.",
+      "score": 9,
+      "was": "{leader} may find the final steps feel longer than the entire earlier climb. That's quite natural."
+    }
+  ]
+}
