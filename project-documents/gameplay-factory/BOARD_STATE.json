@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 12:44 AM Boston time (EDT)",
+ "generated": "2026-10-30 12:49 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1622,7 +1622,22 @@
    "revision": "1.9.10-r86",
    "when": "2026-10-30T04:13:35Z",
    "subject": "r86 release: 1.9.10-r86 (Special Player, reads at scale, Rule Book trims) (#1076)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1077,
+     "title": "L5: re-pin the Rules check to main after the r86 release",
+     "draft": false,
+     "branch": "claude-gameplay/r86-repin",
+     "sha": "121a335b18166b108c4a1fe2fb9de51b75239299",
+     "updated": "2026-10-30T04:48:48Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 1076,
@@ -2349,7 +2364,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3565,7 +3580,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1077,
+    "title": "L5: re-pin the Rules check to main after the r86 release",
+    "draft": false,
+    "branch": "claude-gameplay/r86-repin",
+    "sha": "121a335b18166b108c4a1fe2fb9de51b75239299",
+    "updated": "2026-10-30T04:48:48Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
