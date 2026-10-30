@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
 
-  // r86 Marquee Player (Nik 2026-10-27): the FIFA 17 top players by potential, then overall, from the game's LAUNCH
+  // r86 Special Player (Nik 2026-10-27): the FIFA 17 top players by potential, then overall, from the game's LAUNCH
   // database (Nik 2026-10-28 "Launch data, re-rank all 200", HO-037; widened to the top 300 the same day): SoFIFA roster 170002, September 2016, 17,597 players
   // (players_17.csv, raw.githubusercontent.com/ifrankandrade/data-visualization). Ties share a competition rank, and a tie
   // at the cut is kept whole (Nik's pick): all 8 players at 85/75 are in, so the list has 305 rows. Gabriel Jesus is not in the launch

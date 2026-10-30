@@ -44,6 +44,13 @@
     const counts=v10Seam().goldenShowdownCounts(model.history&&model.history.showdowns);
     if(counts.daniel>0||counts.nik>0)frame.goldenShowdowns=counts;
   }
+  // r86 Special Player chip (js/specialPlayerChip.js): the live Showdown's Special Players, else the most recently confirmed
+  // Showdown's in this career. A career with no r86 Showdown carries no field (no chip).
+  const v10Chip=()=>v10Node?require("./specialPlayerChip.js"):root.CareerModeSpecialPlayerChip;
+  function v10SpecialPlayers(model,frame){
+    let sp=null;try{sp=v10Chip()?.latest?.(model.history&&model.history.showdowns)??null;}catch(_){sp=null;}
+    if(sp)frame.specialPlayers={daniel:sp.daniel,nik:sp.nik};
+  }
   function v10CareerStatistics(model,status){
     const managers={},showdowns={};
     for(const manager of MANAGERS){
@@ -58,7 +65,7 @@
     if(ranks.some(row=>row.rank===null))return null;
     const frame={status,managerOrder:MANAGERS.slice(),managers,showdowns,expectedCareerTableRows:ranks};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
-    v10GoldenShowdowns(model,frame);
+    v10GoldenShowdowns(model,frame);v10SpecialPlayers(model,frame);
     return frame;
   }
   function v10TrophyRoom(model,status){
@@ -75,7 +82,7 @@
     const records=room.records.filter(row=>v10Finite(row.value)).map(row=>({label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}));
     const frame={status,activeCategory:"ALL",managerOrder:MANAGERS.slice(),managers,standings,records,showdowns};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
-    v10GoldenShowdowns(model,frame);
+    v10GoldenShowdowns(model,frame);v10SpecialPlayers(model,frame);
     return frame;
   }
   // Pure: model + screen -> the frame Team V's renderer reads. loading and unavailable carry no numbers.
@@ -113,6 +120,8 @@
   let registered=null,onlineLoading=false,onlineToken=0;
   const onlineLifetimes={careerStatistics:0,trophyRoom:0};
   const v10Screens=()=>root.CareerModeV10Screens;
+  // The Special Player draw loads with the screen's own files (never rejects: a chip that cannot load is not drawn).
+  function v10EnsureChip(){return Promise.resolve().then(()=>root.loadRuntimeScript("special-player-chip","js/specialPlayerChip.js",()=>Boolean(root.CareerModeSpecialPlayerChip))).then(()=>root.CareerModeSpecialPlayerChip.ensure()).catch(()=>false);}
   function v10Fail(error){if(typeof root.reportApplicationError==="function")root.reportApplicationError("Career screens could not load",error);}
 
   const TROPHY_SMALL_PHONE_CSS=String.raw`
@@ -1632,7 +1641,7 @@
         screens.register(screen,{
           css:[FILES[screen].style],
           js:[FILES[screen].script],
-          prepare:()=>v10Platemap(screen),
+          prepare:()=>Promise.all([v10Platemap(screen),v10EnsureChip()]),
           frame:()=>v10Source(screen),
           mount:frame=>{v10Render(screen,frame===UNAVAILABLE?null:frame);},
           // Job 13 leaves its markup in the hidden section; the loader switches its styles off.

@@ -228,11 +228,11 @@
     if(!stages.has("terminal-closed")&&!recoveryDone()&&(done>=1||total===1)){
       if(!safe.offlineObserved)return "Now: turn the internet off on this device for 15 seconds, then back on.";
       if(!safe.onlineRecovered)return root.navigator?.onLine===false?"Offline. Turn the internet back on.":"Back online. Play on: the next saved step finishes this check.";
-      return "Now: reload this page once (same tab).";
+      return "Now: reload this page once: tap RELOAD NOW.";
     }
     if(!stages.has("terminal-closed"))return total?`Play on: season ${Math.min(done+1,total)} of ${total}.`:"Play on.";
     if(!recoveryDone())return "The offline and reload checks were missed. Send Claude a screenshot.";
-    return "Showdown saved. Reload this page once more.";
+    return "Showdown saved. Reload this page once more: tap RELOAD NOW.";
   }
   function ensurePanel(){
     if(!enabled||!root.document)return null;let panel=root.document.getElementById(PANEL_ID);if(panel)return panel;
@@ -246,7 +246,7 @@
 #${PANEL_ID}[data-open="false"] .ssjrTestBody{display:none}
 #${PANEL_ID} .ssjrTestBody{max-height:60vh;overflow:auto}
 #${PANEL_ID} button{min-height:36px}
-#${PANEL_ID} :is(.ssjrTestNetwork,.ssjrTestActions) button{color:#16120a;-webkit-text-fill-color:#16120a;background:linear-gradient(180deg,#ffe9a6,#e8b33c);border:1px solid #f5d77a;text-shadow:none;opacity:1}`;
+#${PANEL_ID} :is(.ssjrTestNetwork,.ssjrTestActions,.ssjrTestReloadRow) button{color:#16120a;-webkit-text-fill-color:#16120a;background:linear-gradient(180deg,#ffe9a6,#e8b33c);border:1px solid #f5d77a;text-shadow:none;opacity:1}`;
     panel.append(style);
     const head=create("button","ssjrTestHead");head.type="button";head.setAttribute("aria-expanded","true");
     head.style.cssText="display:flex;align-items:center;gap:8px;min-height:30px;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer";
@@ -259,6 +259,10 @@
     const network=create("div","ssjrTestNetwork");network.style.cssText="display:flex;gap:6px;margin-top:6px";
     for(const [text,label] of NETWORKS){const button=create("button","",text);button.type="button";button.style.cssText="padding:7px 12px;font-weight:800;border-radius:8px";button.addEventListener("click",()=>setNetwork(label));network.append(button);}
     body.append(network);
+    // r86 (Nik: "make ssjr easier"): the reload steps get their own button, so nobody has to find the browser's reload control.
+    const reloadRow=create("div","ssjrTestReloadRow");reloadRow.style.cssText="display:none;margin-top:6px";
+    const reload=create("button","ssjrTestReload","RELOAD NOW");reload.type="button";reload.style.cssText="padding:9px 16px;font-weight:800;border-radius:8px";
+    reload.addEventListener("click",()=>{persist();try{root.location.reload();}catch(_error){}});reloadRow.append(reload);body.append(reloadRow);
     const details=create("details","ssjrTestDetails"),summary=create("summary","","Checklist");summary.style.cssText="cursor:pointer;margin-top:4px;color:#cbb88a";details.append(summary,create("div","ssjrTestSteps"));body.append(details);
     const actions=create("div","ssjrTestActions");actions.style.cssText="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px";
     const save=create("button","ssjrTestSave","SAVE RESULT FILE");save.type="button";save.style.cssText="padding:8px 12px;font-weight:800;border-radius:8px";save.addEventListener("click",()=>void saveEvidence());
@@ -278,6 +282,7 @@
     panel.querySelector(".ssjrTestCaret").textContent=panel.dataset.open==="false"?"▸":"▾";
     panel.querySelector(".ssjrTestHead").setAttribute("aria-expanded",panel.dataset.open==="false"?"false":"true");
     panel.querySelector(".ssjrTestNetwork").style.display=safe.networkLabel?"none":"flex";
+    panel.querySelector(".ssjrTestReloadRow").style.display=/RELOAD NOW/.test(hint)?"block":"none";
     panel.querySelector(".ssjrTestActions").style.display=done||safe.authorityViolation||hasStage("terminal-closed")?"flex":"none";
     const box=panel.querySelector(".ssjrTestSteps");box.replaceChildren();for(const [label,ok] of list){const row=create("div","",`${ok?"✓":"○"} ${label}`);row.dataset.passed=String(ok);box.append(row);}
     box.append(create("div","",`Device: ${autoDeviceLabel()}${safe.networkLabel?` · ${safe.networkLabel}`:""}`));

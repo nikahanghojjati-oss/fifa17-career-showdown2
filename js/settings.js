@@ -300,14 +300,19 @@ function createMenuFeedbackControl(){
     return row;
 }
 
-// r84: this device's share of today's free Firebase reads (Google bills security-check lookups too, so it is an estimate).
-// Both devices share the 50,000; the count resets at 3 am Boston.
+// r86: today's free Firebase reads as Google bills them (documents plus the security-check lookups, priced per document),
+// for both devices: this device's game reads twice, since the other one plays the same seasons, and this device's career
+// pages (History, Legacy and the others) once. Split the same way in one row, so Settings keeps its height. Resets at 3 am Boston.
+function getSettingsRoundedReads(value){
+    return (Math.round(value / 10) * 10).toLocaleString("en-US");
+}
 function getSettingsReadsTodayText(){
     try{
         const today = window.CareerModeFirestoreBudget?.readsToday?.();
         if(!today || !Number.isFinite(today.billedEstimate)){ return ""; }
-        const rounded = Math.round(today.billedEstimate / 100) * 100;
-        return `About ${rounded.toLocaleString("en-US")} of ${today.freeReadsPerDay.toLocaleString("en-US")} · counted here`;
+        const total = `About ${getSettingsRoundedReads(today.billedEstimate)} of ${today.freeReadsPerDay.toLocaleString("en-US")}`;
+        if(!Number.isFinite(today.game) || !Number.isFinite(today.career)){ return `${total} · both devices`; }
+        return `${total} · games ${getSettingsRoundedReads(today.game * 2)} · career pages ${getSettingsRoundedReads(today.career)}`;
     }catch(_error){
         return "";
     }

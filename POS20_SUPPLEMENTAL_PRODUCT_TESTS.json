@@ -2308,6 +2308,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r84-billed-budget-contracts.cjs",
+      "patterns": [
+        "^tests/browser/(ce2pg-journey\\.cjs|support/(billed-meter|rules-lookups|firestore-meter)\\.cjs|support/billed-reads-table\\.json)$",
+        "^(firestore\\.[a-z0-9-]+\\.rules|scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs)$",
+        "^tests/contracts/r84\\-billed\\-budget\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-deadline-day-contracts.cjs",
       "patterns": [
         "^js/(deadlineDay|transferScreenV10)\\.js$",
@@ -2315,6 +2324,47 @@
         "^css/v10Transfer\\.css$",
         "^service-worker\\.js$",
         "^tests/contracts/r87-deadline-day-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r86-billed-counter-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|settings)\\.js$",
+        "^tests/browser/support/(billed-meter|rules-lookups)\\.cjs$",
+        "^tests/browser/support/billed-reads-table\\.json$",
+        "^(firestore\\.[a-z0-9-]+\\.rules|scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs)$",
+        "^tests/contracts/r86\\-billed\\-counter\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r86-sp-chip-contracts.cjs",
+      "patterns": [
+        "^js/(specialPlayerChip|marqueePlayer|careerScreensV10|rivalryLegacyV10|seasonFinalV10|ruleBook|rulesSettingsV10|productionSharedCareerStart|sharedCareerAnalytics|visualIdentity)\\.js$",
+        "^data/marqueePlayers\\.js$",
+        "^visual-assets/v10_1/(career-statistics|trophy-room|legacy|rivalry-statistics|standings|final-winner)/[a-z-]+\\.(js|css)$",
+        "^service-worker\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/r86-sp-chip-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r86-unlock-reads-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|productionSharedSeasonCommit)\\.js$",
+        "^tests/contracts/r86\\-unlock\\-reads\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r86-release-contracts.cjs",
+      "patterns": [
+        "^js/marqueePlayer\\.js$",
+        "^service-worker\\.js$",
+        "^\\.github/workflows/deploy-(github-pages|firestore-rules-zero-billing)\\.yml$",
+        "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

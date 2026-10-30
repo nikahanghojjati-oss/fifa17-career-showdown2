@@ -2,14 +2,13 @@
   "schemaVersion": 1,
   "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules on gameplay/recovery-v1 differ from what production main deploys. The main gate must see exactly these changes and nothing else. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "ref": "main",
-    "commit": "e849e0ffb58bac0643184d38e10a9561fc89c86e",
-    "sha256": "8ea8d7ba9bf89ad999969da961b5b748e62bdb3348b7fe609cf3da2f67b71f61",
-    "gitBlobSha1": "dfa67c6576e4a75fadb247eea9ef588ac708607c",
-    "bytes": 153241
+    "commit": "5b4337fdd64aaf1e2ed8de5abf6830021f29c82e",
+    "sha256": "d38489a8fabf24de301c838a6669e17af663aaca7e6c286064e769ac3bc0c30e",
+    "gitBlobSha1": "656c63b797a946290a351f2a2a420d25faf14da2",
+    "bytes": 155662
   },
   "candidate": {
-    "base": "main e849e0ff (r85 Rules live, unchanged since 076177e2) plus r86 career summaries (two R86-SUMMARY hunks) and r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall). Regenerated with --print-main-delta origin/main",
+    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall). Regenerated with --print-main-delta origin/main",
     "sha256": "e927711e52df10fbcf98f51823cd73286663fef7a49f503dcaff0ae67a97c2c4",
     "gitBlobSha1": "2a3f3c09f9c589aebe1fbc90e8a4d93c6797e7c6",
     "bytes": 155779
@@ -47,66 +46,6 @@
       ],
       "owner": "R87-RRR",
       "why": "r87 Roster Russian Roulette (Nik 2026-10-30): each own Transfer War signing may carry its FIFA 17 overall (whole number 30-99, optional key so older rows stay valid); it decides the roulette board from season 2. No new path, read or write."
-    },
-    {
-      "mainLine": 2772,
-      "candidateLine": 2773,
-      "removed": [],
-      "added": [
-        "    // r86 reads at scale (Nik 2026-10-27): one create-only career summary per finished Showdown under the reading",
-        "    // account. Reads are owner-only exact gets (no lookup); the one create checks the closed root and, for a completed",
-        "    // Showdown, that the summary's totals, winner and length equal the Terminal Close witness. Never updated or deleted.",
-        "    function cmsCareerSummaryCreateValid(accountId, rivalryId) {",
-        "      let s = request.resource.data;",
-        "      let root = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;",
-        "      return signedIn()",
-        "        && request.auth.uid == accountId",
-        "        && activeAccount(request.auth.uid)",
-        "        && rivalryId.matches('^pair_[0-9a-f]{64}$')",
-        "        && s.keys().hasOnly(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])",
-        "        && s.keys().hasAll(['schemaVersion', 'objectType', 'rivalryId', 'status', 'totalSeasons', 'managerTotals', 'winner', 'payload', 'payloadHash'])",
-        "        && s.schemaVersion == 1",
-        "        && s.objectType == 'careerSummary'",
-        "        && s.rivalryId == rivalryId",
-        "        && s.payload is string",
-        "        && s.payload.size() > 0",
-        "        && s.payload.size() <= 262144",
-        "        && s.payloadHash is string",
-        "        && s.payloadHash.matches('^sha256:[0-9a-f]{64}$')",
-        "        && root.connectionState == 'closed'",
-        "        && accountId in root.authorizedAccountIds",
-        "        && ((s.status == 'completed'",
-        "              && 'terminalClose' in root",
-        "              && root.terminalClose.rivalryId == rivalryId",
-        "              && s.totalSeasons == root.terminalClose.totalSeasons",
-        "              && s.managerTotals == root.terminalClose.managerTotals",
-        "              && s.winner == root.terminalClose.winner)",
-        "          || ((s.status == 'abandoned' || s.status == 'never-started')",
-        "              && !('terminalClose' in root)",
-        "              && s.totalSeasons == null",
-        "              && s.managerTotals == null",
-        "              && s.winner == null));",
-        "    }",
-        ""
-      ],
-      "owner": "R86-SUMMARY",
-      "why": "r86 reads at scale: one create-only career summary per finished Showdown, checked against the closed root (completed totals, winner and length equal the Terminal Close witness; abandoned and never-started carry no totals)."
-    },
-    {
-      "mainLine": 2905,
-      "candidateLine": 2941,
-      "removed": [],
-      "added": [
-        "    }",
-        "    match /accounts/{accountId}/careerSummary/{rivalryId} {",
-        "      // A disabled or tombstoned account loses its summaries with the rest of the shared history (same boundary as",
-        "      // cmsCompletedShowdownReadable).",
-        "      allow get: if signedIn() && request.auth.uid == accountId && activeAccount(request.auth.uid);",
-        "      allow create: if cmsCareerSummaryCreateValid(accountId, rivalryId);",
-        "      allow update, list, delete: if false;"
-      ],
-      "owner": "R86-SUMMARY",
-      "why": "r86 reads at scale: owner-only exact get of accounts/{uid}/careerSummary/{rivalryId}; one create; never updated, listed or deleted. Both get and create require an active account, like the completed-history grants."
     }
   ]
 }

@@ -42,7 +42,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 // R2 the Final Winner wiring: one more button in the same exit row, Daniel's runs openRematch, Nik's goes Home; nothing moves.
 {
   const src=read('js/seasonFinalV10.js');
-  assert.match(src,/return \{final,rematch:rematchFrame\(final,closed,s\.identity\)\};/,'the rematch frame comes from states the page already holds');
+  assert.match(src,/const rematch=rematchFrame\(final,closed,s\.identity\);[\s\S]{0,600}if\(!sp\)return \{final,rematch\};\n\s*return \{[^\n]*,rematch\};/,'the rematch frame comes from states the page already holds, with or without the r86 Special Player chips');
   assert.match(src,/renderFinal\(host,frame\.final,frame\.rematch\);/);
   const button=src.slice(src.indexOf('const REMATCH_ID="finalWinnerRematch"'),src.indexOf('function renderFinal('));
   assert.match(button,/if\(!rematch\.starter\)\{if\(typeof root\.navigateTo==="function"\)void Promise\.resolve\(root\.navigateTo\("mainMenu"\)\)/,'Nik: Showdown Home (the existing JOIN tile)');

@@ -66,9 +66,12 @@ function api_page(){return revealWorld().api.page;}
   assert.match(page,/else requestAnimationFrame\(frame\); \}\);/,'the preview (no embed) still plays at once');
   assert.match(revealSource,/event\.source!==frame\.contentWindow\|\|event\.origin!==origin/,'the game listens only to its own frame');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\)/);
-  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/failedHere\.add\(pick\.key\);spRemoveStage\(\);loading\.hide\(\);return null;/,'a failed page is skipped, not marked seen, and not retried on this page');
+  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/catch\(_error\)\{if\(channel\)channel\.stop\(\);spMarkSeen\(pick\.key\);spRemoveStage\(\);loading\.hide\(\);return null;\}/,'a failed page is skipped and kept as seen, so a reload never re-runs it over the live game (red team #1)');
+  assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\);\s*spMarkSeen\(pick\.key\);/,'seen is kept as soon as the reveal is shown, not at Continue (red team #1)');
+  assert.ok(!/failedHere/.test(revealSource),'no page-only skip list');
+  assert.match(page,/function loadPano\(\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>rej\(/,'a failed stadium image ends the page at once (red team #2)');
   assert.match(revealSource,/event\.data\.type==="cms-sp-error"\)\{onReady\("error"\);onContinue\("error"\);\}/,'an error after ready also ends the Continue wait (Codex P2 on #1035)');
-  assert.match(revealSource,/if\(end==="error"\)\{failedHere\.add\(pick\.key\);spRemoveStage\(\);return null;\}/,'so the broken stage is removed and Career Start opens');
+  assert.match(revealSource,/if\(end==="error"\)\{spRemoveStage\(\);return null;\}/,'so the broken stage is removed and Career Start opens');
   assert.match(revealSource,/stage\.style\.visibility="visible";\s*frame\.contentWindow\.postMessage/,'the stage is shown before the loading screen fades');
   assert.match(revealSource,/z-index:95/,'above Settings (90), under the loading screen (100) and confirm dialogs (120)');
   ok('R3','ready / start / continue / error messages are origin- and frame-checked; failure skips the reveal; the loading screen fades onto a drawn first frame');
@@ -119,4 +122,70 @@ function api_page(){return revealWorld().api.page;}
   ok('R7','emulator journeys skip the reveal unless they ask for it (cmsSpecialPlayer=1); its own browser audit covers it');
 }
 
-console.log(`PASS r86 Special Player reveal contracts: ${checks} numbered checks (who, same players, messages, Career Start order, offline shell, confirm time, journeys).`);
+// R8-R12 Special Player hype ideas (2026-10-29, Team G r86): the guarantees that can be read in the page source.
+const one=(re,label)=>{const m=re.exec(page);assert.ok(m,`${label} in the page`);return m[0];};
+const pageCode=(...parts)=>vm.runInNewContext(parts.join('\n')+';({TIER_ORDER,tierLevel,LADDER_T0,LADDER_DT,LADDER,ladderStep,ENCORE,ENCORE_TAIL,encoreFor,scoutInFor,GUARD_TIERS})',{});
+const hype=pageCode(
+  one(/const TIER_ORDER=\[[^\n]*/,'tier scale'),one(/const LADDER_T0=[^\n]*/,'ladder timing'),one(/const LADDER=\[[^\n]*/,'ladder colours'),one(/const ladderStep=[^\n]*/,'ladder step'),
+  one(/const SCOUT_IN_BASE=[^\n]*/,'hold times'),one(/const scoutInFor=[^\n]*/,'hold time by tier'),one(/const ENCORE=\{[^\n]*/,'encore list'),one(/const encoreFor=[^\n]*/,'encore by tier'),
+  one(/const GUARD_TIERS=\{[^}]*\}/,'skip guard tiers'));
+const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
+// R8 the pack's colour ladder never shows a higher tier than the real one, and climbs to it before the pack bursts (3.7 s)
+{
+  assert.deepEqual([...hype.TIER_ORDER],TIERS,'one tier scale, rank 51+ (bronze) up to top 3');
+  const power=/const TIER = \{([\s\S]*?)\n\};/.exec(page)[1];const powers=TIERS.map(t=>Number(new RegExp(`"${t}":\\s*\\{[^\\n]*power:([\\d.]+)`).exec(power)[1]));
+  assert.deepEqual(powers,[...powers].sort((a,b)=>a-b),'the scale follows the card power');
+  assert.equal(hype.LADDER.length,5,'bronze, silver, gold, blue, black-blue-gold');
+  for(const tier of TIERS){const lvl=hype.tierLevel(tier),p={tier};
+    for(let tt=0;tt<=12;tt+=.005)assert.ok(hype.ladderStep(p,tt)<=lvl,`${tier}: ladder step at ${tt.toFixed(3)} s never above the real tier`);
+    assert.equal(hype.ladderStep(p,3.69),lvl,`${tier}: the ladder has reached the real tier before the burst`);
+    assert.equal(hype.ladderStep(p,hype.LADDER_T0-.01),-1,'no step before the ladder starts');}
+  assert.match(page,/const lad=ladderColor\(p,tt\), ladA=ladderAccent\(p,tt\);\s*for\(let i=0;i<=lvl;i\+\+\)/,'the pack colour and the step ticks come from the ladder, up to the real tier only');
+  ok('R8','the pack colour ladder stops at the real tier (rank 51+ bronze, top 3 all five) and never shows a higher one');
+}
+// R9 skip guard tiers, card tap, Replay
+{
+  assert.deepEqual(Object.keys(hype.GUARD_TIERS).sort(),['black-blue-gold','blue-gold','gold'],'top 3, top 10 and top 20 need a second tap');
+  assert.match(page,/const guarded=\(\)=>vtt<LADDER_T0\+2\*LADDER_DT\|\|Boolean\(GUARD_TIERS\[cur\(\)\.tier\]\);/,'until the ladder reaches gold every reveal asks twice, so the hint never tells a tier early');
+  assert.match(page,/if\(phase==="settled"\)\{ if\(onCard\(e\.clientX,e\.clientY\)\) toScout\(\); return; \}\s*guardedSkip\(\); \}\);/,'a tap on the held card goes to the report; any other tap follows the skip rules');
+  assert.match(page,/Math\.hypot\(e\.clientX-downAt\[0\],e\.clientY-downAt\[1\]\)>12\)\{ downAt=null; return; \}/,'a tilt drag is never a tap');
+  const replay=one(/function replay\(\)\{[^\n]*\}/,'Replay');
+  assert.ok(!/toGame|postMessage|fetch|XMLHttpRequest/.test(replay),'Replay sends nothing to the game and makes no request');
+  assert.match(page,/\$\("again"\)\.addEventListener\("click",e=>\{ e\.stopPropagation\(\); replay\(\); \}\);/);
+  assert.match(page,/if\(idx===1\)\{ bothShown=true; if\(!cta\.dataset\.sent\)\{ cta\.disabled=false;/,'a Continue already sent is never armed again by a replay');
+  assert.equal((page.match(/toGame\("cms-sp-continue"\)/g)||[]).length,1,'one place sends Continue');
+  ok('R9','top 3-20 reveals need a second tap to skip (top 50 and rank 51+ one), a tap on the held card opens the report, Replay stays local');
+}
+// R10 encore volleys per tier, all before the scouting report
+{
+  assert.deepEqual(TIERS.map(t=>hype.encoreFor(t).length),[0,0,1,2,3],'top 3 three volleys, top 10 two, top 20 one, top 50 and rank 51+ none');
+  for(const tier of TIERS)for(const t of hype.encoreFor(tier))assert.ok(t+hype.ENCORE_TAIL<hype.scoutInFor(tier),`${tier}: the volley at ${t} s ends before the report`);
+  assert.deepEqual(TIERS.map(t=>hype.scoutInFor(t)),[3,4.5,6,7.5,9],'hold times unchanged (x2..x6 of 1.5 s)');
+  assert.match(page,/if\(k>=t&&!fired\["enc"\+i\]\)\{ fired\["enc"\+i\]=1; if\(k-t<\.3&&k<SCOUT_IN-ENCORE_TAIL\) encore\(cur\(\),i\); \}/,'a volley made late by a jump to the report is dropped');
+  assert.match(page,/confettiRain\(natCols\(p\.nation\)\.concat\(\[0xf1c35a,0xfff3c4\]\),Math\.round\(110\*PK\),-6,6,3,4\);/,'encore confetti falls behind the card plane (z -9 to -3)');
+  ok('R10','encore volleys: top 3 three, top 10 two, top 20 one, none below; behind the card and over before the scouting report');
+}
+// R11 vibration: feature-detected, guarded, silent when muted
+{
+  const buzz=one(/function buzz\(pattern\)\{[^\n]*\}/,'buzz');
+  assert.match(page,/const CAN_BUZZ=typeof navigator!=="undefined"&&typeof navigator\.vibrate==="function";/);
+  assert.match(buzz,/if\(!CAN_BUZZ\|\|!SFX\.on\|\|REDUCED\) return; try\{ navigator\.vibrate\(pattern\); \}catch\(e\)\{\}/,'no buzz without vibrate, with the speaker off, or under reduced motion; never throws');
+  assert.equal((page.match(/navigator\.vibrate\(/g)||[]).length,1,'buzz() is the only place that vibrates');
+  ok('R11','phone vibration is feature-detected, wrapped, and off whenever the speaker is off');
+}
+// R12 no dimming anywhere, Special Player wording, reduced motion
+{
+  assert.equal((page.match(/brightness\(/g)||[]).length,1,'the only brightness() is the disabled Continue button (HO-027: no dimming)');
+  assert.ok((page.match(/rgba\(0,0,0,/g)||[]).length<=38,'no new black overlays (38 before the hype pass)');
+  assert.ok(!/vignette/i.test(page),'no vignette');
+  assert.ok(!/exposure\.value\s*=/.test(page),'the exposure is never lowered');
+  for(const m of page.matchAll(/strength\.value=([^;]*);/g))assert.match(m[1],/^\.3(\+|$)/,'bloom only rises from its .3 base');
+  const visible=page.replace(/<script[\s\S]*?<\/script>/g,'').replace(/<style[\s\S]*?<\/style>/g,'').replace(/<[^>]+>/g,' ');
+  assert.ok(!/marquee|\bMP\b/i.test(visible),'visible text says Special Player, never Marquee/MP');
+  assert.ok(!/\b(fetch|XMLHttpRequest|firestore|sendBeacon)\b/i.test(page),'no network calls or Firebase in the page');
+  assert.match(page,/function aimTilt\(x,y\)\{ if\(REDUCED\|\|phase!=="settled"\) return;/,'reduced motion: no tilt');
+  assert.match(page,/const slowAt=\(t\)=>REDUCED\?1:/,'reduced motion: no slow motion');
+  ok('R12','no dimming, vignette or lowered exposure; Special Player wording; no network; reduced motion keeps no tilt or slow motion');
+}
+
+console.log(`PASS r86 Special Player reveal contracts: ${checks} numbered checks (who, same players, messages, Career Start order, offline shell, confirm time, journeys, hype ladder, skip guard, encore, vibration, no dimming).`);

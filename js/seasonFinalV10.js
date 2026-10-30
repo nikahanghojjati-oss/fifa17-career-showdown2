@@ -225,6 +225,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 `;parent.appendChild(style);
   }
   /*SG-END*/
+  // r86 Special Player chip (js/specialPlayerChip.js, loaded in each screen's prepare step so the chip is in the first frame).
+  const sfChip=()=>typeof module!=="undefined"&&module.exports&&typeof require==="function"?require("./specialPlayerChip.js"):root.CareerModeSpecialPlayerChip;
+  function sfSpecial(pick){try{const chip=sfChip(),sp=chip?pick(chip):null;return sp&&sp.daniel&&sp.nik?{daniel:sp.daniel,nik:sp.nik}:null;}catch(_){return null;}}
+  function sfEnsureChip(){return Promise.resolve().then(()=>root.loadRuntimeScript("special-player-chip","js/specialPlayerChip.js",()=>Boolean(root.CareerModeSpecialPlayerChip))).then(()=>root.CareerModeSpecialPlayerChip.ensure()).catch(()=>false);}
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
@@ -241,6 +245,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       if(all.status!=="unavailable"){all.standings=standings;if(all.status==="partial")all.coverage=career.coverage;}
     }
     if(["ready","partial"].includes(all.status)&&!all.standings)all={status:"unavailable"};
+    // r86 Special Player chip: THIS SHOWDOWN shows the live Showdown's, CAREER the most recently confirmed one's (none before r86).
+    if(current.score){const sp=sfSpecial(chip=>chip.live());if(sp)current.specialPlayers=sp;}
+    if(all.standings){const sp=sfSpecial(chip=>chip.latest(career.history&&career.history.showdowns));if(sp)all.specialPlayers=sp;}
     return freeze({SHOWDOWN:{view:"this-showdown",previewLabel:"",model:current},CAREER:{view:"career",previewLabel:"",model:all}});
   }
   // Reparent original nodes, including the entire review shell. No clone, value write,
@@ -2057,7 +2064,20 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(!stage){stage=skinSeason(host,stageElement("season-results"));if(stage){root.ShowdownSeasonResultsBoot(stage);if(typeof root.MutationObserver==="function"){const watch=new root.MutationObserver(()=>{if(stage.dataset.ownerSet)watch.disconnect();else sfOwnerTab(stage);});stage.querySelectorAll("#daniel-entry-panel,#nik-entry-panel").forEach(card=>watch.observe(card,{attributes:true,attributeFilter:["class"]}));}}}
     if(!stage)return;
     sfOwnerTab(stage);
+    sfSeasonChips(stage,frame.specialPlayers);
     renderFinal(host,frame.final,frame.rematch);
+  }
+  // r86: each entry card's manager header shows that manager's Special Player under the name (none before r86). Only the chip
+  // slot is added or replaced; the header's own name and club nodes stay as they are.
+  function sfSeasonChips(stage,sp){
+    const api=root.CareerModeSpecialPlayerChip;
+    for(const [manager,id] of [["daniel","daniel-entry-panel"],["nik","nik-entry-panel"]]){
+      const header=stage.querySelector?.("#"+id+" .seasonManagerHeader");if(!header)continue;
+      header.querySelectorAll(".seasonSpecialPlayer").forEach(node=>node.remove());
+      const chip=api&&sp&&sp[manager]?api.element(root.document,sp[manager]):null;if(!chip)continue;
+      const slot=root.document.createElement("span");slot.className="seasonSpecialPlayer";slot.appendChild(chip);
+      const name=header.querySelector("h3");if(name)name.after(slot);else header.appendChild(slot);
+    }
   }
   function renderStandings(frame,host){
     sfStandingsRule(root.document);
@@ -2088,13 +2108,15 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   function sfRetainHistory(history){if(history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.projection)retainedHistory=history;return history;}
   // JOB-1042: the rival can close before this phone's live history converges. Reuse the session-free,
   // completed-only reader per closed rivalry; the partial Final Winner stays visible during the read.
-  const closedHistoryReads=new Map();
+  const closedHistoryReads=new Map(),CLOSED_HISTORY_MAX_ATTEMPTS=6;
   // JOB-1811: previous-season convergence must not suppress the completed read after the rival closes.
   const sfConverged=(history,closed)=>history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.rivalryId===closed.rivalryId&&history.projection&&closed.terminalWitness&&closedHistoryBound(history.projection,closed.terminalWitness);
   function sfClosedHistory(rivalryId){
     if(!closedHistoryReads.has(rivalryId))closedHistoryReads.set(rivalryId,{history:null,promise:null,retryAt:0,attempts:0,retryTimer:null});
     const entry=closedHistoryReads.get(rivalryId);
-    if(!entry.history&&!entry.promise&&Date.now()>=entry.retryAt&&(!entry.attempts||sfDetailsVisible())){
+    // r86 (red team #7): a failure stored in the game itself stops the retries, and the rest stop after six attempts (about a
+    // minute of backoff); the partial Final Winner stays on screen either way.
+    if(!entry.history&&!entry.promise&&!entry.stopped&&Date.now()>=entry.retryAt&&(!entry.attempts||sfDetailsVisible())){
       entry.attempts++;
       entry.promise=Promise.resolve().then(async()=>{
         if(!root.CareerModeSparkCompletedShowdownReader)await root.loadRuntimeScript("career-completed-reader","js/sparkCompletedShowdownReader.js",()=>Boolean(root.CareerModeSparkCompletedShowdownReader));
@@ -2104,8 +2126,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
         if(!services?.ok||!user||user.uid!==account.accountId)return;
         const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(s=>s))(services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule));
         const result=await root.CareerModeSparkCompletedShowdownReader.readCompletedShowdown({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,rivalryId});
-        if(result?.status==="completed"&&result.rivalryId===rivalryId&&result.projection)entry.history={authoritative:true,phase:"HISTORY_CONVERGED",rivalryId,projection:result.projection};
-      }).catch(()=>{}).then(()=>{entry.promise=null;entry.retryAt=Date.now()+Math.min(30000,1000*2**Math.min(entry.attempts-1,5));wake();});
+        if(result?.status==="completed"&&result.rivalryId===rivalryId&&result.projection)entry.history={authoritative:true,phase:"HISTORY_CONVERGED",rivalryId,projection:result.projection,setupConfirmedAt:Number.isFinite(result.setupConfirmedAt)?result.setupConfirmedAt:null};
+        else if(root.CareerModeSparkCompletedShowdownReader.permanentFailure?.(result)===true)entry.stopped=true;
+      }).catch(()=>{}).then(()=>{entry.promise=null;if(!entry.history&&entry.attempts>=CLOSED_HISTORY_MAX_ATTEMPTS)entry.stopped=true;entry.retryAt=Date.now()+Math.min(30000,1000*2**Math.min(entry.attempts-1,5));wake();});
     }
     return closedHistoryReads.get(rivalryId).history;
   }
@@ -2117,14 +2140,19 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     const closed=state("CareerModeProductionSharedTerminalClose"),entry=closedHistoryReads.get(closed?.rivalryId);
     if(closed?.phase!=="CLOSED"||!entry)return;
     await entry.promise;
-    if(entry.history||entry.retryTimer!==null||!sfDetailsVisible())return;
+    if(entry.history||entry.stopped||entry.retryTimer!==null||!sfDetailsVisible())return;
     entry.retryTimer=root.setTimeout(()=>{entry.retryTimer=null;if(sfDetailsVisible()&&state("CareerModeProductionSharedTerminalClose")?.rivalryId===closed.rivalryId)wake();},Math.max(0,entry.retryAt-Date.now()));
   }
   function seasonSource(){
     const s=sfSnapshot(),live=sfRetainHistory(s.history),closed=s.terminalClose?.phase==="CLOSED"?s.terminalClose:null;
     const history=closed?.terminal===true?(sfConverged(live,closed)?live:sfConverged(retainedHistory,closed)?retainedHistory:sfClosedHistory(closed.rivalryId)):live;
     const final=finalSeasonReview?{status:"unavailable"}:finalFrame(s.finalReconciliation,s.terminalClose,history);
-    return {final,rematch:rematchFrame(final,closed,s.identity)};
+    const rematch=rematchFrame(final,closed,s.identity);
+    // r86 Special Player chip: the live Setup's confirm time, or after close the finished Showdown's own (kept by its read).
+    const rid=s.finalReconciliation?.rivalryId||closed?.rivalryId||null,read=closed?closedHistoryReads.get(closed.rivalryId)?.history:null;
+    const sp=sfSpecial(chip=>chip.liveFor(rid)||(rid&&read&&Number.isFinite(read.setupConfirmedAt)?chip.forShowdown(rid,read.setupConfirmedAt):null));
+    if(!sp)return {final,rematch};
+    return {final:final.winner?freeze({...final,specialPlayers:sp}):final,specialPlayers:sp,rematch};
   }
   // The pair module notifies only its own subscribers (no window event), so Standings follows pairing
   // and closure through it. It may load after this file, so each screen change retries once until bound.
@@ -2147,8 +2175,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(installed)return true;installed=true;
     root.SEASON_RESULTS_APP=true;root.FINAL_WINNER_APP=true;root.STANDINGS_APP=true;
     const loader=root.CareerModeV10Screens.install();
-    loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner")]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
-    loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
+    loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner"),sfEnsureChip()]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
+    loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
     installStandingsRoute();installChampionBack();
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.

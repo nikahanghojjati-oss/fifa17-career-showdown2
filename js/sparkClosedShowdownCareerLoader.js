@@ -42,11 +42,11 @@
     const careerInput=cclModules.adapter.buildClosedCareerInput({index:{status:"unavailable",code}});
     return cclResult(accountId,careerInput,Object.freeze([Object.freeze({rivalryId:null,source:"index",classification:"unavailable",code})]));
   }
-  function cclRead(reader,options,scope,rivalryId,interested){
+  function cclRead(reader,options,scope,rivalryId,interested,beat){
     if(scope.cache.has(rivalryId))return Promise.resolve(scope.cache.get(rivalryId));
     let flight=scope.pending.get(rivalryId);
     // A new screen arriving while an abandoned batch drains retries after that batch settles.
-    if(flight?.cancelled)return flight.promise.then(()=>interested()?cclRead(reader,options,scope,rivalryId,interested):null);
+    if(flight?.cancelled)return flight.promise.then(()=>interested()?cclRead(reader,options,scope,rivalryId,interested,beat):null);
     if(!flight){
       flight={consumers:new Set(),promise:null};
       flight.promise=new Promise(resolve=>scope.queue.push(async()=>{
@@ -71,11 +71,13 @@
             if(store&&options.careerSummaries!==false){try{kept=await store.loadSummary({...storeOptions,firebase:!live});}catch(error){if(error?.code==="CLOSED_LOAD_CANCELLED")throw error;kept=null;}}
             if(kept)read=kept.state;
             else{
-              read=await reader.readCompletedShowdown({firestore:options.firestore,firebaseSdk:sdk,user:{uid:scope.uid},rivalryId,cryptoImpl:options.cryptoImpl});
+              read=await reader.readCompletedShowdown({firestore:options.firestore,firebaseSdk:sdk,user:{uid:scope.uid},rivalryId,cryptoImpl:options.cryptoImpl,...(typeof beat==="function"?{onSeasonRead:beat}:{})});
               if(store&&options.careerSummaries!==false&&store.summarisable(read,rivalryId))await store.saveSummary({...storeOptions,firebaseSdk:options.firebaseSdk,state:read});
             }
           }
-          if(read&&read.rivalryId===rivalryId&&(TERMINAL.includes(read.status)||read.status==="never-started"&&read.ended!=null)&&cclScope===scope)scope.cache.set(rivalryId,read);
+          // r86 (red team #7): a failure stored in the game's own documents repeats on every read, so it is kept for this page
+          // like a finished game instead of costing a full re-read (~154 billed for 10 seasons) on every career-screen open.
+          if(read&&read.rivalryId===rivalryId&&(TERMINAL.includes(read.status)||read.status==="never-started"&&read.ended!=null||reader.permanentFailure?.(read)===true)&&cclScope===scope)scope.cache.set(rivalryId,read);
         }catch(_error){}finally{scope.pending.delete(rivalryId);resolve(read);}
       }));
       scope.pending.set(rivalryId,flight);
@@ -110,12 +112,14 @@
       if(index&&index.status==="ready"&&Array.isArray(index.rivalryIds)){
         const ids=[...new Set(index.rivalryIds.filter(id=>typeof id==="string"))];
         // r86 (Sol S61-r85-04): each finished Showdown reports progress, so a long cold career keeps its screen alive.
+        // Red team #10: each season read inside a full read reports it too (same count): one 10-season game is ~12 round trips,
+        // longer than the screen's 15 s inactivity limit on a ~1.1 s connection.
         let next=0,done=0;
         const progress=()=>{try{if(typeof o.onProgress==="function"&&interested())o.onProgress({done,total:ids.length});}catch(_error){}};
         progress();
         const worker=async()=>{
           while(next<ids.length&&interested()){
-            const rivalryId=ids[next++];reads[rivalryId]=await cclRead(reader,o,scope,rivalryId,interested);done++;progress();
+            const rivalryId=ids[next++];reads[rivalryId]=await cclRead(reader,o,scope,rivalryId,interested,typeof o.onProgress==="function"?progress:null);done++;progress();
           }
         };
         await Promise.all(Array.from({length:Math.min(COLD_READ_LIMIT,ids.length)},worker));

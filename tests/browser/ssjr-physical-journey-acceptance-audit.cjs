@@ -75,14 +75,17 @@ function season(n,total=3){
     await run.context.setOffline(false);await p.waitForTimeout(100);await setState(p,{reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:2}});await observe(p);
     await p.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().onlineRecovered===true,null,{timeout:3000});
     assert.match(await next(p),/reload this page once/);
+    assert.equal(await p.locator("#ssjrPhysicalJourneyAcceptance .ssjrTestReload").isVisible(),true,"r86: a RELOAD NOW button on the reload step");
 
     await load(p);await setState(p,{...live(),...season(1),reconnect:{phase:"ACTIVE_RECOVERED",activeSeason:2}});await p.evaluate(`${API}.install()`);await observe(p);
     await p.waitForFunction(()=>window.CareerModeSSJRPhysicalJourneyAcceptance.getState().reloadResumed===true,null,{timeout:3000});
     assert.match(await next(p),/Play on: season 2 of 3/);
+    assert.equal(await p.locator("#ssjrPhysicalJourneyAcceptance .ssjrTestReload").isVisible(),false,"the button goes away once the reload counted");
     await setState(p,season(2));await observe(p);await setState(p,season(3));await setState(p,{local:{phase:"REMOTE_OBSERVED"}});await observe(p);await observe(p);
     await p.waitForFunction(()=>window.__previews===1&&window.CareerModeSSJRPhysicalJourneyAcceptance.getState().canonicalStorageProofReady===true,null,{timeout:3000});
     await setState(p,{final:{phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,completedSeason:3},terminal:{phase:"CLOSED",terminal:true,rivalryRevision:7}});await observe(p);
     assert.match(await next(p),/Showdown saved\. Reload this page once more/);
+    assert.equal(await p.locator("#ssjrPhysicalJourneyAcceptance .ssjrTestReload").isVisible(),true,"and again for the reload after the close");
     assert.equal(await p.locator(".ssjrTestSave").isVisible(),true,"SAVE RESULT FILE shows once the Showdown is saved");
 
     // After the reload the closed Showdown is not current any more (Home shows a new start); it is confirmed by a read-only check.

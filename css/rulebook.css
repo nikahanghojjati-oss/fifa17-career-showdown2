@@ -78,8 +78,8 @@
 .ruleSection:nth-child(2){--rule-accent:var(--f17-blue);--rule-accent-text:#fff;}
 .ruleSection:nth-child(3){--rule-accent:var(--f17-yellow-deep);--rule-accent-text:var(--f17-ink);}
 .ruleSection:nth-child(4){--rule-accent:var(--f17-yellow);--rule-accent-text:var(--f17-ink);}
-.ruleSection:nth-child(5){--rule-accent:#62bed8;--rule-accent-text:var(--f17-ink);}
-.ruleSection:nth-child(6){--rule-accent:#546b7b;--rule-accent-text:#fff;}
+.ruleSection:nth-child(5){--rule-accent:#546b7b;--rule-accent-text:#fff;}
+.ruleSection:nth-child(6){--rule-accent:#e3b84a;--rule-accent-text:var(--f17-ink);}
 
 .ruleSectionHeader{
     display:flex;
