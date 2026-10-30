@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 7:16 AM Boston time (EDT)",
+ "generated": "2026-10-30 7:20 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1618,27 +1618,17 @@
  },
  "two": {
   "live": {
-   "sha": "64b6bbd",
+   "sha": "5b4337f",
    "revision": "1.9.10-r86",
-   "when": "2026-10-30T04:13:35Z",
-   "subject": "r86 release: 1.9.10-r86 (Special Player, reads at scale, Rule Book trims) (#1076)",
-   "fixes": [
+   "when": "2026-10-30T11:17:04Z",
+   "subject": "L5: re-pin the composed Rules check to main 64b6bbd6 after the r86 release (no delta) (#1077)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1077,
      "title": "L5: re-pin the Rules check to main after the r86 release",
-     "draft": false,
-     "branch": "claude-gameplay/r86-repin",
-     "sha": "121a335b18166b108c4a1fe2fb9de51b75239299",
-     "updated": "2026-10-30T04:48:48Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-30T11:17:04Z"
+    },
     {
      "pr": 1076,
      "title": "r86 release: 1.9.10-r86 (Special Player, reads at scale, Rule Book trims)",
@@ -1649,7 +1639,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1077: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1077 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -2364,7 +2354,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3580,22 +3570,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1077,
-    "title": "L5: re-pin the Rules check to main after the r86 release",
-    "draft": false,
-    "branch": "claude-gameplay/r86-repin",
-    "sha": "121a335b18166b108c4a1fe2fb9de51b75239299",
-    "updated": "2026-10-30T04:48:48Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
