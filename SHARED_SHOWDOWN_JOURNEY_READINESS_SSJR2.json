@@ -3,8 +3,85 @@
   "modelVersion": "SSJR-2.1",
   "modelFile": "SHARED_SHOWDOWN_JOURNEY_MODEL_SSJR2.json",
   "denominator": 100,
-  "currentScore": 0,
-  "creditedCapabilityIds": [],
-  "events": [],
+  "currentScore": 100,
+  "creditedCapabilityIds": [
+    "entry-binding",
+    "entry-before-draw",
+    "setup-league",
+    "setup-clubs",
+    "setup-length",
+    "setup-confirmation",
+    "career-start",
+    "transfer-challenge",
+    "results-publication",
+    "season-commit",
+    "canonical-scoring",
+    "history-convergence",
+    "multi-season",
+    "journey-reconnect",
+    "journey-conflicts",
+    "local-reconciliation",
+    "final-reconciliation",
+    "terminal-close",
+    "physical-journey",
+    "stable-journey-release"
+  ],
+  "events": [
+    {
+      "eventId": "ssjr2-physical-run-2026-10-29-20f0cbbb",
+      "recordedAt": "2026-10-29T02:36:43.939Z",
+      "modelVersion": "SSJR-2.1",
+      "runtimeRevision": "1.9.9-r85",
+      "productionMainSha": "ac2f021d176c5cb444cb688e380fbae88111aa06",
+      "automatedEvidence": {
+        "requiredChecks": [
+          "seal",
+          "L1 core",
+          "L2 browser full",
+          "L3A storage gameplay",
+          "L3B visual",
+          "L4 remote",
+          "L5 rules regression",
+          "L6 browser journey",
+          "deploy",
+          "deployed-site-smoke"
+        ],
+        "checkRunCount": 65,
+        "rulesDeploymentRunId": 40506807809,
+        "rulesDeploymentHeadSha": "67479f28ef96c7edb14767478770fd14f7236139"
+      },
+      "exportHashes": [
+        "sha256:20f0cbbbda89a7baa2491a77be37b63fe25614248fe6f09454e2ba5655fa5ce3",
+        "sha256:8999b7bbbc10601573887e38d862b069e5ff2762845b5e8c01fbe2c2ce521148"
+      ],
+      "attestationHash": "sha256:3a428c454c7c00efc9d6b53ddff8ad9a2e5552392cdabb07bd87920daa74f690",
+      "provenance": "owner-delivered hash-bound attestation",
+      "creditedCapabilityIds": [
+        "entry-binding",
+        "entry-before-draw",
+        "setup-league",
+        "setup-clubs",
+        "setup-length",
+        "setup-confirmation",
+        "career-start",
+        "transfer-challenge",
+        "results-publication",
+        "season-commit",
+        "canonical-scoring",
+        "history-convergence",
+        "multi-season",
+        "journey-reconnect",
+        "journey-conflicts",
+        "local-reconciliation",
+        "final-reconciliation",
+        "terminal-close",
+        "physical-journey",
+        "stable-journey-release"
+      ],
+      "blockedCapabilityIds": [],
+      "scoreBefore": 0,
+      "scoreAfter": 100
+    }
+  ],
   "note": "Credit is appended only by scripts/ssjr2-physical-run-credit.mjs --record after a validated physical pair and owner attestation. SSJR-1.1 remains frozen at 0/100 in SHARED_SHOWDOWN_JOURNEY_READINESS.json."
 }

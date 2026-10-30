@@ -1,0 +1,20 @@
+{
+  "schema": "career-mode-showdown.ssjr2-owner-attestation.v1",
+  "owner": "Nik",
+  "runDate": "2026-10-29",
+  "runtimeRevision": "1.9.9-r85",
+  "managers": {
+    "playerOne": "Daniel",
+    "playerTwo": "Nik"
+  },
+  "deviceLabels": [
+    "Daniel \u00b7 Chromebook 1920x1080",
+    "Nik \u00b7 iPhone 440x956"
+  ],
+  "exportHashes": [
+    "sha256:20f0cbbbda89a7baa2491a77be37b63fe25614248fe6f09454e2ba5655fa5ce3",
+    "sha256:8999b7bbbc10601573887e38d862b069e5ff2762845b5e8c01fbe2c2ce521148"
+  ],
+  "statement": "I confirm that Daniel and Nik personally played this Shared Showdown on the production game, on their own separate devices and networks, and that the two attached exports came from those devices without editing.",
+  "stableReleaseAccepted": true
+}
