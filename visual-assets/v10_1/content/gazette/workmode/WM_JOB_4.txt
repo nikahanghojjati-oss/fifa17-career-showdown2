@@ -1,0 +1,776 @@
+SHOWDOWN COPY: SOL WORK MODE JOB 4 OF 5 (25 batches in one run)
+Attach this file in GPT-5.6 Sol Work mode and type "start". If it stops, type "go".
+Five Work mode jobs and five chats run at the same time. Do ONLY the 25 batches in YOUR QUEUE below, never any other batch.
+
+YOU ARE
+The writers' room and chief editor for Career Mode Showdown, a private two-player FIFA 17 career mode website. You write AAA copy: every item 9 or 10 out of 10.
+
+START RULES (these stop the pauses)
+1. Do not show a plan. Do not ask any question. Do not ask me to confirm anything. Start at once and keep going.
+2. Use only the Python tool. No web browsing, no search, no connectors, no canvas, no images.
+3. Never print copy, JSON or file contents in the chat. Copy goes straight into files. The chat only gets download links and the STATUS line.
+4. Keep every Python cell small: one cell writes or edits at most 25 items (for stories C: at most 5 stories). Small cells do not time out or glitch.
+5. Save after every cell. All work lives in /mnt/data/work/. Keep /mnt/data/work/PROGRESS_WM4.json up to date: {"job":4,"done":[...],"current":"...","items_done_in_current":0,"next":"..."}.
+6. If a cell errors, fix it and run it once more. If it fails again, note the ids in PROGRESS under "skipped" and move on. Never stop because of one error.
+7. Go batch after batch without writing to me in between. Stop only when the queue is done or you are near the end of what you can do in one turn. Before stopping, ALWAYS zip (loop step 8) so nothing is lost.
+8. On "go": read PROGRESS_WM4.json and continue from "current" (redo an unfinished batch from the start).
+
+SETUP (first turn only)
+- Save the CHECKER section at the bottom of this file as /mnt/data/work/check_batch.py.
+- Read the prompt for each letter you will use (A headlines, B commentary, C stories, D small print, F duets, G club lines) and prompt E (the editor bar). Every rule there applies. Each prompt starts with "BATCH: 1": ignore that, use the batch number from your queue in that prompt's STEP 1.
+
+YOUR QUEUE (in order)
+A128 A129 A130 A131 A132 A133 A134 A135 A136 A137 A138 A139 A140 A141 A142 A143 A144 A145 A146 A147 A148 A149 A150 A151 A152
+
+THE LOOP FOR ONE BATCH
+1. WRITE it exactly as its prompt says, by hand, in cells of 25 items (5 for stories).
+2. DIAGNOSE: run python3 /mnt/data/work/check_batch.py --strict on it. Note every overused word, repeated shape and generic stand-in.
+3. SCORE every item 1 to 10 with prompt E's bar. Be strict: a first draft is 6 or 7. Punish: generic stand-ins instead of name placeholders ("the winner", "the chasing manager", "this side"); the same idea in new words; pet words over the limit; semicolons; written-not-spoken phrasing; subheads or paragraphs that repeat one formula.
+4. REWRITE every item under 9, by hand, as a new idea or shape, never a synonym swap. Keep ids, situation and voice or lens. Add "score" and "was" to every item and "edited": true at the top.
+5. CHECK: run the checker with --strict on the file. HARD must be 0. Fix SOFT problems (for stories C, the word count warnings may stay). At most three rounds.
+6. COLD READ: pick 10 items at random and read them as a viewer would. If any is under 9, rewrite every item with the same flaw and go back to step 5.
+7. SAVE /mnt/data/work/<LETTER><batch 3 digits>_ED.json and update PROGRESS. Go straight to the next batch.
+8. ZIP: after every 5 finished batches, and always before you stop, write /mnt/data/work/SHOWDOWN_WM4_<first>_<last>.zip with the _ED files since the last zip plus PROGRESS_WM4.json, and give the download link.
+
+QUALITY RULES THAT NEVER BEND
+- Write every item yourself. Never generate copy with code, templates, word lists, random combination or find and replace. Code is only for saving, counting and checking.
+- Never write the real names of the two friends. No real players, commentators, brands, chants or famous quotes. No em or en dashes. No digits; numbers only through placeholders.
+- A season is worth at most 11 points per manager. A Golden Showdown is won by ONE manager reaching 110, never a combined total. A draw is a draw, no tiebreaks. Never talk about rules, arithmetic or records.
+
+END OF TURN
+Your reply is the zip download link(s) and then one line, nothing else:
+STATUS: finished <batches this turn> | next <batch> | total done <n> of 25 | type go
+
+==================== PROMPT A ====================
+BATCH: 1
+
+(Change only the number above for each run: 1, 2, 3 and so on up to 152.)
+
+You are the headline desk of "The Touchline Gazette", an invented newspaper inside a private two-player website called Career Mode Showdown. Two friends each manage one club in FIFA 17 career mode. After every season they enter what their club won and the site turns it into points. The Gazette prints a front page after each season and a final front page when the whole Showdown ends. The game picks one headline at random for each page, so we are building a very large library where every headline is a small gem: the kind a reader screenshots and sends to their rival.
+
+STEP 1: WORK OUT YOUR BATCH
+Situation number = ((BATCH - 1) mod 19) + 1
+Lens number = ((BATCH - 1) div 19) + 1
+Examples: batch 1 = situation 1, lens 1. Batch 19 = situation 19, lens 1. Batch 20 = situation 1, lens 2. Batch 152 = situation 19, lens 8.
+
+THE 19 SITUATIONS
+1. big-win (season page): {winner} won the season far ahead of {loser} (margin 6 or more).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+2. comfortable-win (season page): {winner} won the season by a clear, comfortable margin (3 to 5).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+3. narrow-win (season page): {winner} won the season by the smallest margin (1 or 2). Never write "{margin} points" in the subhead; say "by the narrowest of margins" or "by {margin}".
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+4. draw (season page): Both managers finished the season on the same points. Nobody won.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {seasonNo} {seasonsTotal} (never {winner} or {loser})
+5. champions-league (season page): {winner} lifted the Champions League this season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+6. europa-league (season page): {winner} lifted the Europa League this season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+7. league-title (season page): {winner} won their league title this season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+8. comeback (season page): {winner} was behind overall before this season and this season pulled them back.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+9. lead-extended (season page): {leader} won the season and is now further ahead of {trailer} overall.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {seasonNo} {seasonsTotal}
+10. level-overall (season page): After this season the two managers are exactly level overall.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {seasonNo} {seasonsTotal} (never {winner} or {loser})
+11. winning-streak (season page): {winner} has now won several seasons in a row. Never say how many.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+12. final-season-decider (season page): The next season is the last one, and it will decide the whole Showdown.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {seasonNo} {seasonsTotal}
+13. showdown-won-1-season (final page): {winner} won a one-season Showdown: a sprint, one shot, no second chances.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+14. showdown-won-3-seasons (final page): {winner} won a three-season Showdown: a trilogy, a best of three.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+15. showdown-won-5-seasons (final page): {winner} won a five-season Showdown: an era, a long campaign.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+16. golden-showdown-won (final page): {winner} was the FIRST manager to reach 110 points and wins the Golden Showdown. The biggest story the Gazette will ever print: gold commemorative edition, history books, a dynasty. Never a combined total. Never write the number.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+17. showdown-drawn (final page): The whole Showdown ended exactly level. Nobody wins. Make a shared ending feel dramatic, not disappointing.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {seasonsTotal} (never {winner} or {loser})
+18. won-on-the-final-day (final page): {winner} won the Showdown, and it was only settled by the very last season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+19. dominant-win (final page): {winner} finished the whole Showdown far ahead overall.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+
+THE 8 LENSES (the imagery family for this batch, so every batch covers fresh ground)
+1. The trophy cabinet: silverware, polish, shelves, keys, display cases, engraving, medals, ribbons
+2. The table and the scoreboard: league table, columns, sums, ledgers, tallies, ink, figures, the bottom line
+3. History and legend: history books, monuments, statues, legends, eras, archives, plaques, folklore
+4. Roads, races and journeys: marathons, sprints, finish lines, maps, routes, laps, summits, milestones
+5. Stage and screen: theatre, curtain calls, encores, scripts, sequels, premieres, plot twists, credits
+6. Crowns, thrones and empires: royalty, coronations, kingdoms, rulers, reigns, palaces, cabinets, elections
+7. Kitchen, music and craft: recipes, ovens, menus, encores, orchestras, rhythm, tailoring, workshops
+8. Night skies and the console: stars, comets, orbits, late nights, the glow of the screen, controllers, save files, pressing start
+At least 70 of your 100 headlines must draw on the batch's lens. The other 30 are free: any strong idea that fits the situation.
+
+STEP 2: WRITE 100 ROWS FOR THAT ONE SITUATION
+
+FACTS THE GAME KNOWS (never invent anything else)
+- Points per season, per manager: Champions League 5, league title 3, domestic cup 1, performance bonus at most 1, awards bonus at most 1. Europa League can appear as a trophy. A season is worth 0 to 11 points; never suggest more than 11 in a season.
+- A Showdown lasts 1, 3, 5 or 10 seasons. Overall points are the seasons added up.
+- A Golden Showdown is won by the FIRST single manager to reach 110 points. Never a combined total.
+- A draw is a draw: nobody wins it, nobody loses it.
+- The game does NOT know goals, match scores, scorers, players, transfers, injuries, tactics, crowds, dates or weather. Never state any of these as fact. Metaphors are fine ("A STORM IN THE TABLE"), facts are not ("RAIN STOPS PLAY").
+
+HEADLINE RULES
+1. ALL CAPITALS. 12 to 30 characters including spaces (count a placeholder as 10). It must break into two short lines on a phone.
+2. No numbers or number words the game should supply (no "ELEVEN", "TWO", "110"). No em or en dashes. Apostrophes, question marks and exclamation marks are fine.
+3. At most 20 of the 100 headlines may contain a placeholder.
+4. No two headlines share the same key word, idea or pun. No more than 3 headlines start with the same word, and at most 5 start with "A" or "THE".
+5. Style mix for the 100: 20 classic broadsheet (calm, grand), 20 tabloid shouts (short, loud, a verb that punches), 20 football wordplay puns (net, bar, post, table, cup, cabinet, whistle, extra time, penalty, offside, clean sheet, silverware, top flight, dugout, half time), 15 alliteration, 10 short questions, 15 punchlines of two or three words with a twist.
+6. Reads naturally for any club and either manager. Kind: tease the rivalry, never mock the loser.
+7. No real newspapers or famous real headlines, chants, slogans, songs, film titles, players, pundits or brands. American readers must understand it.
+8. Never use these tired lines: "WHAT A SEASON", "SIMPLY THE BEST", "OVER THE MOON", "SICK AS A PARROT", "GAME CHANGER", "HISTORY MAKER".
+
+GOOD examples of the bar (do not reuse): "CABINET RESHUFFLE", "NET PROFIT", "TABLE MANNERS", "WHO BLINKED FIRST?", "SILVER SERVICE", "CROWNED AT THE DEATH".
+BAD examples: "{winner} WINS THE SEASON" (flat), "A GREAT SEASON" (vague), "WON BY TWO POINTS" (number), "SCORES A HAT TRICK" (the game does not know goals).
+
+SUBHEAD AND KICKER
+- "subhead": one sentence, 12 to 24 words, the plain news behind the headline in warm broadsheet English, using only the situation's allowed placeholders. Pay off the headline's idea, do not repeat its words. Numbers only through placeholders. No em dashes.
+- "kicker": 1 to 3 words in capitals for the black label above the headline. Use any one kicker at most 4 times. A kicker is a newspaper section label (e.g. "SEASON REVIEW", "CABINET WATCH", "LATE EDITION"); never name the writing style ("WORDPLAY", "QUESTION", "PUN", "ALLITERATION" are banned).
+- Subhead variety: vary the sentence shape. At most 10 subheads may use "ahead of", at most 10 "clear of", at most 10 "comfortable" or "comfortably", at most 10 "margin" or "advantage", and at most 25 may mention {seasonNo}. Never fall into one formula ("{winner} finished comfortably above {loser}") said 100 ways: each subhead adds a different fact or angle (the club, the cabinet, what it means for next season, the rivalry, the lens image). Some subheads lead with the club, some with the rival, some with a short image, then the news.
+
+WORK METHOD
+Think briefly; spend your effort on writing, not planning. Write all 100 in one pass, then check rules 1 to 4 quickly and fix what breaks them. Always finish all 100 rows and close the JSON.
+
+OUTPUT
+Reply with ONE JSON object and nothing else: no intro, no notes, no markdown fence. Straight double quotes. Ids are b<BATCH>-001 to b<BATCH>-100 (for batch 7: b7-001 ... b7-100).
+{"batch":1,"situation":"big-win","edition":"season","lens":"The trophy cabinet","rows":[{"id":"b1-001","kicker":"...","headline":"...","subhead":"..."}, ...]}
+(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named A<BATCH as 3 digits>.json (for batch 7: A007.json). If you cannot make files, reply with the JSON only.
+
+==================== PROMPT B ====================
+BATCH: 1
+
+(Change only the number above for each run: 1, 2, 3 and so on up to 144.)
+
+You write the TV commentary for Career Mode Showdown, a private two-player website. Two friends each manage one club in FIFA 17 career mode. After every season they enter what their club won and the site turns it into points. When a season result is shared, a broadcast-style commentary bar types out one line under the scores, like the commentators in FIFA 17. The game picks a line at random, so we are building a huge library where every line sounds like a real top-level football broadcast: natural, spoken, quotable, never robotic.
+
+STEP 1: WORK OUT YOUR BATCH
+Situation number = ((BATCH - 1) mod 24) + 1
+Voice number = ((BATCH - 1) div 24) + 1
+Examples: batch 1 = situation 1, voice 1. Batch 24 = situation 24, voice 1. Batch 25 = situation 1, voice 2. Batch 144 = situation 24, voice 6.
+
+THE 24 SITUATIONS
+1. big-win: {winner} won the season far ahead of {loser} (margin 6 or more).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+2. comfortable-win: {winner} won the season by a clear margin (3 to 5).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+3. narrow-win: {winner} won the season by 1 or 2 points. Never write "{margin} points"; say "by {margin}" or "by the slimmest of margins".
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+4. draw: Both managers finished the season on the same points. A draw: nobody won, no tiebreak.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+5. champions-league: A manager lifted the Champions League this season (worth 5).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+6. europa-league: A manager lifted the Europa League this season. Never say what it is worth.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+7. league-title: A manager won their league title this season (worth 3).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+8. cup-double: {winner} won the league title and the domestic cup in the same season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+9. no-trophy: {winner} won the season without lifting a trophy, on bonus points and consistency.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+10. comeback: {winner} was behind overall, won this season and closed the gap.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+11. lead-extended: {leader} won again and pulled further ahead of {trailer} overall.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+12. level-overall: After this season the overall totals are exactly level.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+13. winning-streak: {winner} has won three or more seasons in a row. Never say the exact number.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+14. streak-broken: {winner} has just ended {loser}'s run of season wins.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+15. opening-season: The result of season one: the first word in the rivalry.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+16. halfway: The middle season of a 5 or 10 season Showdown: the halfway mark.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+17. final-season-decider: The last season is about to be played and the Showdown is still open.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+18. showdown-won: The whole Showdown is over and {winner} won it.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasons} (points and margin are OVERALL totals)
+19. showdown-drawn: The whole Showdown ended level overall. A draw, nobody wins.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+20. golden-showdown: The race to 110: a manager is closing in on, or has just reached, 110 points to win the Golden Showdown. Only ONE manager's total counts, never a combined total.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+21. one-season-sprint: The result of a one-season Showdown: one shot, settled at once.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasons} (points and margin are OVERALL totals)
+22. dominant-run: One manager has won every season so far in this Showdown.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+23. rivalry-history: A line about the long friendly rivalry between the two managers, no result needed.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+24. season-preview: Shown before a season starts: anticipation, nobody knows the result yet. No winner or loser.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {season} {seasons} {leader} {trailer}
+
+THE 6 VOICES (write every line of this batch in this voice)
+1. The lead caller: the main TV commentator at the big moment: urgent, rising, a crisp call that lands on the final word, like a goal call but for the season result
+2. The co-commentator: the former pro beside them: dry, knowing, wry analysis, a little understatement, a reason why it happened told in plain football language
+3. The stats desk: the numbers person: the table, the gap, the trophy count, history in the making, but only numbers that come from placeholders
+4. The touchline reporter: down by the dugout: the mood, the managers' faces, the celebrations, the quiet walk to the tunnel, the cabinet being opened
+5. The studio panel: the late-night highlights show: banter between pundits, a cheeky aside, a gentle wind-up of the rival, a laugh at the end
+6. The radio poet: the old-school radio voice: vivid images, rhythm, a memorable turn of phrase, painting the picture for listeners who cannot see it
+
+STEP 2: WRITE 100 LINES FOR THAT ONE SITUATION, IN THAT VOICE
+
+FACTS THE GAME KNOWS (never invent anything else)
+- Points per season, per manager: Champions League 5, league title 3, domestic cup 1, performance bonus at most 1, awards bonus at most 1. Europa League can appear as a trophy. A season is worth 0 to 11 points; never suggest more than 11 in a season.
+- A Showdown lasts 1, 3, 5 or 10 seasons. Overall points are the seasons added up.
+- A Golden Showdown is won by the FIRST single manager to reach 110 points. Never a combined total.
+- A draw is a draw: nobody wins it, nobody loses it.
+- The game does NOT know goals, match scores, scorers, players, transfers, injuries, tactics, crowds, dates or weather. Never state any of these as fact. Metaphors are fine ("A STORM IN THE TABLE"), facts are not ("RAIN STOPS PLAY").
+
+PLACEHOLDER GRAMMAR: {season} and {seasons} are plain numbers, so write "season {season}" or "{seasons} seasons", never "wins {season}". {margin}, {winnerPoints}, {loserPoints} and {points} are numbers too ("{margin} clear", "{winnerPoints} to {loserPoints}").
+
+WHAT MAKES A GREAT LINE
+- It sounds spoken aloud: commas for breath, a build, then a payoff on the last few words. No semicolons (nobody speaks one): use a full stop or a comma instead. Read it in your head in a broadcaster's voice; if it sounds written, rewrite it.
+- 8 to 24 words, 50 to 120 characters including spaces (count a placeholder as 10). One or two sentences.
+- Specific to this situation: a narrow-win line must not work for a big win.
+- Fresh imagery every time. Football texture is welcome: the table, the cabinet, the dugout, the tunnel, the final whistle, the open-top bus, the trophy ribbons, the long season, the console glow.
+- Tone mix for the 100: 40 straight broadcast quality (the line a real commentator would be proud of), 35 warm wit (a smile, a clever turn), 25 big drama (goosebumps, the moment).
+- Kind rivalry: tease, never mock or insult the losing manager.
+- Numbers are seasoning, not the meal: at most 30 lines may use {margin}, at most 15 may use {winnerPoints} or {points}, and at least 35 lines use no number placeholder at all (just names, clubs and the moment).
+- Exclamation marks: the lead caller may use them in up to 60 lines; every other voice in at most 15. Real commentators also land big moments with a calm, weighty full stop.
+
+- Use the people: 50 to 70 of the 100 lines name a manager or a club through a placeholder ({winner}, {loser}, {winnerClub}, {loserClub}, {managerA}, {managerB}, {clubA}, {clubB}, {leader}, {trailer}). Vary it: one name, one club, a name and a rival club. At most 20 lines name both managers together, and never fall into the pattern "Exclamation! {managerA} and {managerB} finish level." Names belong in different places in the line, not always at the end.
+- Never talk about the rules. Lines must not mention tiebreaks, arithmetic, calculations, records, "inventing", "the numbers say" or what the commentator is or is not allowed to say. Speak about the moment, the people and the rivalry, like a broadcaster on air.
+
+HARD RULES
+1. Every line is different in idea and shape. No two lines start with the same three words. At most 4 lines start with any one word. Never write a template with swapped endings (the old library did "X made this season a procession, and ..." three times: never do that).
+2. Only the situation's allowed placeholders, copied exactly with curly brackets. Never write the managers' real names. No numbers except through placeholders; you may say "five points" only for the Champions League and "three" only for the league title.
+3. Never invent goals, scores, scorers, players, transfers, injuries, dates or weather as fact. No tiebreaks: equal points are a draw.
+4. No real commentators, pundits, catchphrases, chants, songs, brands or famous real quotes. No em or en dashes. American listeners must understand it.
+
+WORK METHOD
+Think briefly; spend your effort on writing, not planning. Write all 100 in one pass, check the hard rules quickly, fix what breaks them. Always finish all 100 and close the JSON.
+
+OUTPUT
+ONE JSON object and nothing else: no intro, no notes, no markdown fence. Straight double quotes. Ids cb<BATCH>-001 to cb<BATCH>-100.
+{"batch":1,"situation":"big-win","voice":"The lead caller","lines":[{"id":"cb1-001","text":"..."}, ...]}
+(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named B<BATCH as 3 digits>.json (for batch 7: B007.json). If you cannot make files, reply with the JSON only.
+
+==================== PROMPT C ====================
+BATCH: 1
+
+(Change only the number above for each run: 1, 2, 3 and so on up to 76.)
+
+You write front-page stories for "The Touchline Gazette", an invented newspaper inside a private two-player website called Career Mode Showdown. Two friends each manage one club in FIFA 17 career mode. After every season they enter what their club won and the site turns it into points. The Gazette prints a front page after each season and a final front page when the whole Showdown ends. The game picks a story at random, so we are building a big library of stories that read like the best sports desk in the world wrote them.
+
+STEP 1: WORK OUT YOUR BATCH
+Situation number = ((BATCH - 1) mod 19) + 1
+Desk number = ((BATCH - 1) div 19) + 1
+Examples: batch 1 = situation 1, desk 1. Batch 20 = situation 1, desk 2. Batch 76 = situation 19, desk 4.
+
+THE 19 SITUATIONS
+1. big-win (season page): {winner} won the season far ahead of {loser} (margin 6 or more).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+2. comfortable-win (season page): {winner} won the season by a clear, comfortable margin (3 to 5).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+3. narrow-win (season page): {winner} won the season by the smallest margin (1 or 2). Never write "{margin} points" in the subhead; say "by the narrowest of margins" or "by {margin}".
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+4. draw (season page): Both managers finished the season on the same points. Nobody won.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {seasonNo} {seasonsTotal} (never {winner} or {loser})
+5. champions-league (season page): {winner} lifted the Champions League this season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+6. europa-league (season page): {winner} lifted the Europa League this season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+7. league-title (season page): {winner} won their league title this season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+8. comeback (season page): {winner} was behind overall before this season and this season pulled them back.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+9. lead-extended (season page): {leader} won the season and is now further ahead of {trailer} overall.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {seasonNo} {seasonsTotal}
+10. level-overall (season page): After this season the two managers are exactly level overall.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {seasonNo} {seasonsTotal} (never {winner} or {loser})
+11. winning-streak (season page): {winner} has now won several seasons in a row. Never say how many.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonNo} {seasonsTotal}
+12. final-season-decider (season page): The next season is the last one, and it will decide the whole Showdown.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {seasonNo} {seasonsTotal}
+13. showdown-won-1-season (final page): {winner} won a one-season Showdown: a sprint, one shot, no second chances.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+14. showdown-won-3-seasons (final page): {winner} won a three-season Showdown: a trilogy, a best of three.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+15. showdown-won-5-seasons (final page): {winner} won a five-season Showdown: an era, a long campaign.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+16. golden-showdown-won (final page): {winner} was the FIRST manager to reach 110 points and wins the Golden Showdown. The biggest story the Gazette will ever print: gold commemorative edition, history books, a dynasty. Never a combined total. Never write the number.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+17. showdown-drawn (final page): The whole Showdown ended exactly level. Nobody wins. Make a shared ending feel dramatic, not disappointing.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {seasonsTotal} (never {winner} or {loser})
+18. won-on-the-final-day (final page): {winner} won the Showdown, and it was only settled by the very last season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+19. dominant-win (final page): {winner} finished the whole Showdown far ahead overall.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasonsTotal} (points and margin are OVERALL totals)
+
+THE 4 DESKS (write every story of this batch in this desk's style)
+1. The chief football writer: authoritative broadsheet match report style, measured and grand
+2. The tabloid back page: punchy, short paragraphs, exclamations, cheeky puns, big energy
+3. The feature writer: long-read magazine style: scene setting, character, what it means for the rivalry
+4. The heritage columnist: history and legacy: how this season will be remembered, the archive, the trophy cabinet
+
+STEP 2: WRITE 15 STORIES FOR THAT ONE SITUATION
+
+FACTS THE GAME KNOWS (never invent anything else)
+- Points per season, per manager: Champions League 5, league title 3, domestic cup 1, performance bonus at most 1, awards bonus at most 1. Europa League can appear as a trophy. A season is worth 0 to 11 points; never suggest more than 11 in a season.
+- A Showdown lasts 1, 3, 5 or 10 seasons. Overall points are the seasons added up.
+- A Golden Showdown is won by the FIRST single manager to reach 110 points. Never a combined total.
+- A draw is a draw: nobody wins it, nobody loses it.
+- The game does NOT know goals, match scores, scorers, players, transfers, injuries, tactics, crowds, dates or weather. Never state any of these as fact. Metaphors are fine ("A STORM IN THE TABLE"), facts are not ("RAIN STOPS PLAY").
+
+EACH STORY
+- "byline": a short invented byline with no person's name, e.g. "From our touchline desk". Vary it.
+- "standfirst": one sentence, 14 to 24 words, the summary printed in bold under the headline.
+- "paragraphs": exactly 3. Paragraph 1: 30 to 42 words, the news. Paragraph 2: 30 to 45 words, what it means for the rivalry, using only what the game knows. Paragraph 3: 20 to 35 words, the look ahead or the legacy. Paragraph 2 must NOT be the same move every time ("this does not diminish {loser}..."): at most 3 of the 15 stories may reassure the losing manager. Use the other stories for the cabinet, the club, the season count, the next season, a cheeky aside or the rivalry history. No two standfirsts or pullquotes share an idea.
+- "pullquote": a short invented quote, 8 to 18 words, credited as "who": one of "A Gazette columnist", "The press box", "Overheard in the dugout", "The tea lady at the training ground" or a similar invented role. Never a real person.
+- Every story has its own angle and its own opening sentence. No two stories start with the same three words.
+- Only the situation's allowed placeholders. No numbers except through placeholders. Never invent goals, scores, players, transfers, injuries, dates or weather. No em or en dashes. Kind rivalry, never mean.
+
+WORK METHOD
+Think briefly; spend your effort on writing. Always finish all 15 and close the JSON.
+
+OUTPUT
+ONE JSON object and nothing else, no markdown fence. Ids sb<BATCH>-01 to sb<BATCH>-15.
+{"batch":1,"situation":"big-win","edition":"season","desk":"The chief football writer","stories":[{"id":"sb1-01","byline":"...","standfirst":"...","paragraphs":["...","...","..."],"pullquote":{"text":"...","who":"..."}}, ...]}
+(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named C<BATCH as 3 digits>.json (for batch 7: C007.json). If you cannot make files, reply with the JSON only.
+
+==================== PROMPT D ====================
+BATCH: 1
+
+(Change only the number above for each run: 1, 2, 3 and so on up to 40.)
+
+You write the small print of "The Touchline Gazette", an invented newspaper inside a private two-player website called Career Mode Showdown. Two friends each manage one club in FIFA 17 career mode. After every season they enter what their club won and the site turns it into points. The small print is what makes the page feel like a real paper: captions, quotes, the trophy desk, the masthead ears and the inside teasers. The game picks pieces at random, so we are building a big library where every piece has craft and charm.
+
+STEP 1: WORK OUT YOUR BATCH
+Kind number = ((BATCH - 1) mod 5) + 1
+Lens number = ((BATCH - 1) div 5) + 1
+Examples: batch 1 = kind 1, lens 1. Batch 6 = kind 1, lens 2. Batch 40 = kind 5, lens 8.
+
+THE 5 KINDS
+1. captions: photo captions under the press photos. Each row names its photo: lead-season (the season results stage), lead-draw (both managers level), lead-final (the final winner stage), lead-gold (the trophy room in gold), winner (one manager celebrating), thinker (one manager deep in thought). 16 or 17 rows per photo. 10 to 22 words. The managers wear the Showdown kit, the stands are full. Never say who stands left or right.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {managerA} {managerB} {clubA} {clubB} (draw photo: only managerA, managerB, clubA, clubB)
+2. quotes: invented quotes from the two managers after a season, 8 to 20 words each, each credited "who": "{winner}" or "{loser}" (or "{managerA}" / "{managerB}" for a draw row; set "situation" to win or draw). 70 win rows, 30 draw rows. Gracious, funny, competitive, never mean.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {managerA} {managerB} {clubA} {clubB}
+3. briefs: Trophy desk briefs: a bold 2 to 4 word "head" in capitals and a 14 to 26 word "text". Spread over: champions-league, europa-league, league-title, cup, performance-bonus, awards-bonus, empty-cabinet (a season with no trophy). Use {manager} and {club} for the manager it is about.
+   Allowed placeholders: {manager} {club}
+4. ears: masthead ears: the two little boxes either side of the paper's name. A "head" of 1 to 3 words in capitals and a "text" of 3 to 8 words. Playful newspaper promises like "INSIDE: THE CABINET, DUSTED". No placeholders.
+   Allowed placeholders: none
+5. inside: inside-pages teasers for the strip at the bottom: 4 to 9 words each, like "Page six: the rematch rumour mill". Never a real page number; say "Inside", "Page six", "Back page" only as words. No placeholders except {winner} or {loser} in at most 10 rows.
+   Allowed placeholders: {winner} {loser}
+
+THE 8 LENSES (the imagery family; at least 70 of 100 rows draw on it)
+1. The trophy cabinet: silverware, polish, shelves, keys, display cases, engraving, medals, ribbons
+2. The table and the scoreboard: league table, columns, sums, ledgers, tallies, ink, figures, the bottom line
+3. History and legend: history books, monuments, statues, legends, eras, archives, plaques, folklore
+4. Roads, races and journeys: marathons, sprints, finish lines, maps, routes, laps, summits, milestones
+5. Stage and screen: theatre, curtain calls, encores, scripts, sequels, premieres, plot twists, credits
+6. Crowns, thrones and empires: royalty, coronations, kingdoms, rulers, reigns, palaces, cabinets, elections
+7. Kitchen, music and craft: recipes, ovens, menus, encores, orchestras, rhythm, tailoring, workshops
+8. Night skies and the console: stars, comets, orbits, late nights, the glow of the screen, controllers, save files, pressing start
+
+STEP 2: WRITE 100 ROWS OF THAT KIND
+
+FACTS THE GAME KNOWS (never invent anything else)
+- Points per season, per manager: Champions League 5, league title 3, domestic cup 1, performance bonus at most 1, awards bonus at most 1. Europa League can appear as a trophy. A season is worth 0 to 11 points; never suggest more than 11 in a season.
+- A Showdown lasts 1, 3, 5 or 10 seasons. Overall points are the seasons added up.
+- A Golden Showdown is won by the FIRST single manager to reach 110 points. Never a combined total.
+- A draw is a draw: nobody wins it, nobody loses it.
+- The game does NOT know goals, match scores, scorers, players, transfers, injuries, tactics, crowds, dates or weather. Never state any of these as fact. Metaphors are fine ("A STORM IN THE TABLE"), facts are not ("RAIN STOPS PLAY").
+
+RULES
+- Every row different in idea and wording. No two rows start with the same three words.
+- Only the kind's allowed placeholders. No numbers except through placeholders. Never invent goals, scores, players, transfers, injuries, dates or weather. No real people, papers or brands. No em or en dashes. Kind rivalry, never mean.
+- Think briefly; spend your effort on writing. Always finish all 100 and close the JSON.
+
+OUTPUT
+ONE JSON object and nothing else, no markdown fence. Ids pb<BATCH>-001 to pb<BATCH>-100. Include only the fields the kind needs ("photo" for captions, "who" and "situation" for quotes, "situation" and "head" for briefs, "head" for ears).
+{"batch":1,"kind":"captions","lens":"The trophy cabinet","rows":[{"id":"pb1-001","photo":"lead-season","text":"..."}, ...]}
+(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named D<BATCH as 3 digits>.json (for batch 7: D007.json). If you cannot make files, reply with the JSON only.
+
+==================== PROMPT F ====================
+BATCH: 1
+
+(Change only the number above for each run: 1, 2, 3 and so on up to 96.)
+
+You write the commentary booth for Career Mode Showdown, a private two-player website where two friends each manage one club in FIFA 17 career mode and compare seasons for points. When a season result is shared, the commentary bar can play a short exchange between two voices, like the commentary team in FIFA 17: the LEAD caller says a line, then the CO-commentator (a dry former pro) answers it. We want exchanges with real chemistry: a set-up and a reply that lands, never two lines that say the same thing.
+
+STEP 1: WORK OUT YOUR BATCH
+Situation number = ((BATCH - 1) mod 24) + 1
+Flavour number = ((BATCH - 1) div 24) + 1
+Batch 1 = situation 1, flavour 1. Batch 25 = situation 1, flavour 2. Batch 96 = situation 24, flavour 4.
+
+THE 24 SITUATIONS
+1. big-win: {winner} won the season far ahead of {loser} (margin 6 or more).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+2. comfortable-win: {winner} won the season by a clear margin (3 to 5).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+3. narrow-win: {winner} won the season by 1 or 2 points. Never write "{margin} points"; say "by {margin}" or "by the slimmest of margins".
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+4. draw: Both managers finished the season on the same points. A draw: nobody won, no tiebreak.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+5. champions-league: A manager lifted the Champions League this season (worth 5).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+6. europa-league: A manager lifted the Europa League this season. Never say what it is worth.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+7. league-title: A manager won their league title this season (worth 3).
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+8. cup-double: {winner} won the league title and the domestic cup in the same season.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+9. no-trophy: {winner} won the season without lifting a trophy, on bonus points and consistency.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+10. comeback: {winner} was behind overall, won this season and closed the gap.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+11. lead-extended: {leader} won again and pulled further ahead of {trailer} overall.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+12. level-overall: After this season the overall totals are exactly level.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+13. winning-streak: {winner} has won three or more seasons in a row. Never say the exact number.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+14. streak-broken: {winner} has just ended {loser}'s run of season wins.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+15. opening-season: The result of season one: the first word in the rivalry.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {season} {seasons}
+16. halfway: The middle season of a 5 or 10 season Showdown: the halfway mark.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+17. final-season-decider: The last season is about to be played and the Showdown is still open.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+18. showdown-won: The whole Showdown is over and {winner} won it.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasons} (points and margin are OVERALL totals)
+19. showdown-drawn: The whole Showdown ended level overall. A draw, nobody wins.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+20. golden-showdown: The race to 110: a manager is closing in on, or has just reached, 110 points to win the Golden Showdown. Only ONE manager's total counts, never a combined total.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+21. one-season-sprint: The result of a one-season Showdown: one shot, settled at once.
+   Allowed placeholders: {winner} {loser} {winnerClub} {loserClub} {margin} {winnerPoints} {loserPoints} {seasons} (points and margin are OVERALL totals)
+22. dominant-run: One manager has won every season so far in this Showdown.
+   Allowed placeholders: {leader} {trailer} {winner} {loser} {winnerClub} {loserClub} {margin} {season} {seasons}
+23. rivalry-history: A line about the long friendly rivalry between the two managers, no result needed.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {points} {season} {seasons} (never {winner} or {loser})
+24. season-preview: Shown before a season starts: anticipation, nobody knows the result yet. No winner or loser.
+   Allowed placeholders: {managerA} {managerB} {clubA} {clubB} {season} {seasons} {leader} {trailer}
+
+THE 4 FLAVOURS
+1. Call and analysis: the lead calls the moment, the co explains why in plain football language.
+2. Banter: the lead teases, the co replies with a dry one-liner; a gentle laugh.
+3. Drama: the lead builds the tension, the co delivers the weight of the moment.
+4. Contrast: one sees it one way, the other adds the twist or the bigger picture.
+
+FACTS THE GAME KNOWS (never invent anything else)
+- Points per season, per manager: Champions League 5, league title 3, domestic cup 1, performance bonus at most 1, awards bonus at most 1. Europa League can appear as a trophy. A season is worth 0 to 11 points; never suggest more than 11 in a season.
+- A Showdown lasts 1, 3, 5 or 10 seasons. Overall points are the seasons added up.
+- A Golden Showdown is won by the FIRST single manager to reach 110 points. Never a combined total.
+- A draw is a draw: nobody wins it, nobody loses it.
+- The game does NOT know goals, match scores, scorers, players, transfers, injuries, tactics, crowds, dates or weather. Never state any of these as fact. Metaphors are fine ("A STORM IN THE TABLE"), facts are not ("RAIN STOPS PLAY").
+
+PLACEHOLDER GRAMMAR: {season} and {seasons} are plain numbers, so write "season {season}" or "{seasons} seasons", never "wins {season}". {margin}, {winnerPoints}, {loserPoints} and {points} are numbers too ("{margin} clear", "{winnerPoints} to {loserPoints}").
+
+EACH DUET
+- "lead": 6 to 18 words. "co": 6 to 20 words. Together under 200 characters (count a placeholder as 10).
+- The co line must answer the lead line, not repeat it.
+- Only the situation's allowed placeholders. At most 15 of the 50 duets use {margin}; at least 20 use no number placeholder at all.
+- No em or en dashes. No real commentators, catchphrases, chants, songs, brands or famous quotes. Kind rivalry, never mean.
+- No two duets share an idea; no two lead lines start with the same three words.
+
+WORK METHOD
+Think briefly; spend your effort on writing. Write all 50, check the rules, fix what breaks them. Always finish all 50 and close the JSON.
+
+OUTPUT
+ONE JSON object and nothing else. Ids fb<BATCH>-01 to fb<BATCH>-50.
+{"batch":1,"situation":"big-win","flavour":"Call and analysis","duets":[{"id":"fb1-01","lead":"...","co":"..."}, ...]}
+(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named F<BATCH as 3 digits>.json (for batch 7: F007.json). If you cannot make files, reply with the JSON only.
+
+==================== PROMPT G ====================
+BATCH: 1
+
+(Change only the number above for each run: 1, 2, 3 and so on up to 14.)
+
+You write club-flavoured TV commentary for Career Mode Showdown, a private two-player website where two friends each manage one club in FIFA 17 career mode (the 2016-17 season) and compare seasons for points. When a manager's club has a good moment, the commentary bar can say a line that knows the club: its city or region, its colours, its nickname, its home ground, its history and its supporters, like a FIFA 17 commentator who knows the club well.
+
+STEP 1: YOUR 7 CLUBS
+Your clubs are numbers (BATCH x 7 - 6) to (BATCH x 7) in the list below. Batch 1 = clubs 1 to 7. Batch 14 = clubs 92 to 98.
+
+THE 98 CLUBS
+1. Arsenal
+2. Bournemouth
+3. Burnley
+4. Chelsea
+5. Crystal Palace
+6. Everton
+7. Hull City
+8. Leicester City
+9. Liverpool
+10. Manchester City
+11. Manchester United
+12. Middlesbrough
+13. Southampton
+14. Stoke City
+15. Sunderland
+16. Swansea City
+17. Tottenham Hotspur
+18. Watford
+19. West Bromwich Albion
+20. West Ham United
+21. Alavés
+22. Athletic Club
+23. Atlético Madrid
+24. Barcelona
+25. Celta Vigo
+26. Deportivo La Coruña
+27. Eibar
+28. Espanyol
+29. Granada
+30. Las Palmas
+31. Leganés
+32. Málaga
+33. Osasuna
+34. Real Betis
+35. Real Madrid
+36. Real Sociedad
+37. Sevilla
+38. Sporting Gijón
+39. Valencia
+40. Villarreal
+41. Bayern Munich
+42. Borussia Dortmund
+43. Bayer Leverkusen
+44. Borussia Mönchengladbach
+45. Schalke 04
+46. Mainz 05
+47. Hertha BSC
+48. Wolfsburg
+49. Hoffenheim
+50. Eintracht Frankfurt
+51. Werder Bremen
+52. Hamburg
+53. FC Augsburg
+54. SC Freiburg
+55. RB Leipzig
+56. FC Ingolstadt
+57. Darmstadt 98
+58. 1. FC Köln
+59. Atalanta
+60. Bologna
+61. Cagliari
+62. Chievo
+63. Crotone
+64. Empoli
+65. Fiorentina
+66. Genoa
+67. Inter Milan
+68. Juventus
+69. Lazio
+70. Milan
+71. Napoli
+72. Palermo
+73. Pescara
+74. Roma
+75. Sampdoria
+76. Sassuolo
+77. Torino
+78. Udinese
+79. Angers
+80. Bastia
+81. Bordeaux
+82. Caen
+83. Dijon
+84. Guingamp
+85. Lille
+86. Lorient
+87. Lyon
+88. Marseille
+89. Metz
+90. Monaco
+91. Montpellier
+92. Nancy
+93. Nantes
+94. Nice
+95. Paris Saint-Germain
+96. Rennes
+97. Saint-Étienne
+98. Toulouse
+
+STEP 2: FOR EACH OF YOUR 7 CLUBS WRITE 20 LINES (140 in all), 5 for each mood:
+- win: this club's manager has just won the season.
+- draw: the season ended level and this club's manager shares it.
+- trophy: this club has just lifted a trophy this season.
+- any: works after any result; pride, history, the stands, the badge.
+
+FACTS
+- Use only real, well-known, long-standing facts about the club as of 2016-17: city or region, colours, a widely used nickname, the home ground's name, founding era, famous traditions. If you are not sure of a fact, do not use it.
+- Never name a player, manager, owner, chairman or sponsor. Never mention a match result, scorer, transfer or real trophy count.
+- Never quote or paraphrase a chant, song or club motto.
+- Use {manager} for the manager's name if you need it (at most 4 of each club's 20 lines). No other placeholders. No numbers.
+
+STYLE
+- Spoken TV commentary: 8 to 22 words, 45 to 120 characters, natural rhythm, a payoff at the end.
+- Every line is different: no template with the club name swapped in, never the club name twice in one line, no two lines for a club start with the same three words.
+- Warm, proud, specific. A Napoli line should feel like Naples, a Bayern line like Munich. Kind to every club.
+- No em or en dashes. American listeners must understand it.
+
+WORK METHOD
+Think briefly; spend your effort on writing. Always finish all 140 and close the JSON.
+
+OUTPUT
+ONE JSON object and nothing else. Ids gb<BATCH>-001 to gb<BATCH>-140.
+{"batch":1,"clubs":["Arsenal", "..."],"lines":[{"id":"gb1-001","club":"Arsenal","mood":"win","text":"..."}, ...]}
+(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named G<BATCH as 3 digits>.json (for batch 7: G007.json). If you cannot make files, reply with the JSON only.
+
+==================== PROMPT E ====================
+You are the chief editor of a football broadcast and newspaper team. Attached is one batch file from our content factory for Career Mode Showdown, a private two-player website where two friends each manage one club in FIFA 17 career mode and compare seasons for points. The file is commentary lines (B), headlines (A), front-page stories (C), small print (D), booth duets (F) or club lines (G). Your job is to make it AAA: every item good enough for a FIFA-level broadcast or a top newspaper.
+
+FACTS THE GAME KNOWS (never invent anything else)
+- Points per season, per manager: Champions League 5, league title 3, domestic cup 1, performance bonus at most 1, awards bonus at most 1. Europa League can appear as a trophy. A season is worth 0 to 11 points; never suggest more than 11 in a season.
+- A Showdown lasts 1, 3, 5 or 10 seasons. Overall points are the seasons added up.
+- A Golden Showdown is won by the FIRST single manager to reach 110 points. Never a combined total.
+- A draw is a draw: nobody wins it, nobody loses it.
+- The game does NOT know goals, match scores, scorers, players, transfers, injuries, tactics, crowds, dates or weather. Never state any of these as fact. Metaphors are fine ("A STORM IN THE TABLE"), facts are not ("RAIN STOPS PLAY").
+
+PLACEHOLDER GRAMMAR: {season} and {seasons} are plain numbers, so write "season {season}" or "{seasons} seasons", never "wins {season}". {margin}, {winnerPoints}, {loserPoints} and {points} are numbers too ("{margin} clear", "{winnerPoints} to {loserPoints}").
+
+STEP 1: READ THE WHOLE FILE. Note which situation, voice, lens or kind it is for (see its top fields). If the file holds "parts" (a mega run), edit every part the same way and keep the parts in order.
+
+STEP 2: SCORE EVERY ITEM from 1 to 10 against this bar:
+- 10: a real top broadcaster or sub-editor would be proud of it; quotable, natural, perfectly fitted to the situation.
+- 8: strong and broadcast-ready.
+- 6: fine but generic, flat, clunky, or too like another item in the file.
+- 4 or below: breaks a rule, invents a fact, wrong situation, awkward placeholder grammar, or mean to the losing manager.
+Be strict. A typical first draft scores 6 or 7.
+
+STEP 3: FIX. Rewrite every item that scores below 9 until it would score 9 or 10, keeping its id, its situation and the batch's voice or lens. Make the rewrite genuinely different, not a synonym swap. Where two items share an idea, rewrite the weaker one to a new idea. Never remove a name placeholder to make a line safe: keep {winner}, {winnerClub} and the other names, and never swap them for "the chasing manager", "the winner" or "this side". Keep every original rule of the batch: allowed placeholders only, no numbers except through placeholders, no em or en dashes, the length limits, no real people, brands, chants or famous quotes.
+
+STEP 4: CHECK THE WHOLE SET. No two items start with the same three words. No word or image used more than 5 times across the file (watch "clear", "verdict", "table", "daylight", "statement"). Exclamation marks in at most 15 items unless the voice is the lead caller (then at most 60).
+
+OUTPUT
+The same JSON shape as the file you were given, with two extra fields on every item: "score" (your final score after fixing, 9 or 10) and "was" (the original text if you changed it, or null if you kept it). Keep the top fields and add "edited": true.
+(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file with the same name as the input plus _ED (for B002.json: B002_ED.json).
+
+==================== CHECKER (check_batch.py) ====================
+"""Checks content-factory batch files (A, B, C, D, F, G and their _ED / MEGA forms).
+
+Usage: python3 check_batch.py FILE [FILE ...]
+Prints one line per problem and a summary per part. Exit code 1 if any HARD problem.
+Only checks rules; it never writes or changes copy.
+"""
+import json, re, sys, collections
+
+PH = re.compile(r"\{(\w+)\}")
+WIN = {"winner", "loser", "winnerClub", "loserClub", "margin", "winnerPoints", "loserPoints"}
+LEVEL = {"managerA", "managerB", "clubA", "clubB", "points"}
+LEAD = {"leader", "trailer"}
+SEASON_A = {"seasonNo", "seasonsTotal"}   # headlines, stories, small print
+SEASON_B = {"season", "seasons"}          # commentary, duets
+LEVEL_SITS = {"draw", "level-overall", "showdown-drawn", "rivalry-history"}
+LEAD_SITS = {"lead-extended", "halfway", "final-season-decider", "golden-showdown", "dominant-run"}
+
+
+def allowed(kind, sit):
+    season = SEASON_B if kind in "BF" else SEASON_A
+    if sit in LEVEL_SITS:
+        return LEVEL | season
+    if sit == "season-preview":
+        return {"managerA", "managerB", "clubA", "clubB", "leader", "trailer"} | season
+    if sit in LEAD_SITS:
+        return LEAD | (WIN - {"winnerPoints", "loserPoints"}) | season
+    return WIN | season
+
+
+def vis_len(t):
+    return len(PH.sub("x" * 10, t))
+
+
+def texts(kind, item):
+    if kind == "A":
+        return [item.get("headline", ""), item.get("subhead", ""), item.get("kicker", "")]
+    if kind == "C":
+        return [item.get("standfirst", ""), *item.get("paragraphs", []), (item.get("pullquote") or {}).get("text", "")]
+    if kind == "F":
+        return [item.get("lead", ""), item.get("co", "")]
+    return [item.get("text", ""), item.get("head", "")]
+
+
+def items_of(part):
+    for k in ("rows", "lines", "stories", "duets"):
+        if k in part:
+            return part[k]
+    return []
+
+
+def kind_of(part, name):
+    if "duets" in part: return "F"
+    if "clubs" in part: return "G"
+    if "stories" in part: return "C"
+    if "voice" in part: return "B"
+    if "kind" in part: return "D"
+    if "rows" in part: return "A"
+    return name[:1].upper()
+
+
+def check_part(part, name):
+    hard = soft = 0
+    kind = kind_of(part, name)
+    sit = part.get("situation", "")
+    items = items_of(part)
+    ok = allowed(kind, sit) if kind in "ABCF" else None
+    starts = collections.Counter()
+    ids = set()
+    for it in items:
+        iid = it.get("id", "?")
+        if iid in ids:
+            print(f"  HARD {iid}: duplicate id"); hard += 1
+        ids.add(iid)
+        for t in texts(kind, it):
+            if not t:
+                continue
+            bare = PH.sub("", t)
+            if re.search(r"[–—]", t):
+                print(f"  HARD {iid}: dash: {t}"); hard += 1
+            digits = re.findall(r"\d+", bare)
+            if digits and not (kind == "C" and set(digits) <= {"11", "110"}) and not (kind == "G"):
+                print(f"  HARD {iid}: number written out: {t}"); hard += 1
+            used = set(PH.findall(t))
+            if kind == "G":
+                bad = used - {"manager"}
+            elif kind == "D":
+                bad = used - (WIN | LEVEL | {"manager", "club"})
+            else:
+                bad = used - ok
+            if bad:
+                print(f"  HARD {iid}: placeholder not allowed {sorted(bad)}: {t}"); hard += 1
+            if re.search(r"\b(Daniel|Nik)\b", t):
+                print(f"  HARD {iid}: real name: {t}"); hard += 1
+        main = texts(kind, it)[0]
+        if kind == "A":
+            h = it.get("headline", "")
+            if h != h.upper() and not PH.search(h):
+                print(f"  HARD {iid}: headline not capitals: {h}"); hard += 1
+            if not 12 <= vis_len(h) <= 30:
+                print(f"  SOFT {iid}: headline length {vis_len(h)}: {h}"); soft += 1
+        if kind in "BG":
+            n = vis_len(main)
+            if not 45 <= n <= 125:
+                print(f"  SOFT {iid}: length {n}: {main}"); soft += 1
+        if kind == "B" and sit == "narrow-win" and "{margin} points" in main:
+            print(f"  HARD {iid}: narrow win says '{{margin}} points'"); hard += 1
+        if main:
+            starts[" ".join(main.lower().split()[:3])] += 1
+    for s, c in starts.items():
+        if c > 1 and kind != "G":
+            print(f"  SOFT same opening x{c}: '{s}'"); soft += 1
+    if kind == "B":
+        m = sum("{margin}" in it.get("text", "") for it in items)
+        if m > 35:
+            print(f"  SOFT {{margin}} used in {m} lines (limit 30)"); soft += 1
+    print(f"{name} part batch={part.get('batch')} kind={kind} situation={sit or '-'} items={len(items)} hard={hard} soft={soft}")
+    return hard
+
+
+def main(paths):
+    total = 0
+    for p in paths:
+        d = json.load(open(p, encoding="utf-8"))
+        parts = d.get("parts") or d.get("batches") or [d]
+        name = p.rsplit("/", 1)[-1]
+        for part in parts:
+            total += check_part(part, name)
+    print("RESULT:", "PASS" if total == 0 else f"FAIL ({total} hard problems)")
+    return 1 if total else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
