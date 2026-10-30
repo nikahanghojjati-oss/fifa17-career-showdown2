@@ -11,7 +11,9 @@ const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 const V10_IMAGE_CACHE_PREFIX = "career-mode-showdown-v10-images-";
 const V10_IMAGE_CACHE_NAME = `${V10_IMAGE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFIX}${revision}` : ""; }
-const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg)$/i;
+// r87: the Russian Roster Roulette sounds (visual-assets/v10_1/roulette/assets/sfx/*.wav, 1.8 MB) follow the same cache-first
+// runtime rule as Team V's images instead of the install precache.
+const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
@@ -22,7 +24,8 @@ const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
 // it gets that page from the shell the app runs (then the network), never the shell's index.html. Its images follow the
 // Team V cache-first image rule.
 const SHELL_FRAME_NAVIGATION_PATHS = new Set([
-    "visual-assets/v10_1/special-player/index.html"
+    "visual-assets/v10_1/special-player/index.html",
+    "visual-assets/v10_1/roulette/index.html"
 ]);
 // Precached shell files that a stylesheet asks for by a relative url(), so the request has no ?v=: css/r78-marble-surfaces.css
 // draws its panels with url("r78-marble-tile.webp"). They come from the shell the page runs (the precached copy), then the network.
@@ -80,6 +83,14 @@ const SHELL_PATHS = Object.freeze([
   "data/marqueePlayers.js",
   "js/deadlineDay.js",
   "data/deadlineDayLines.js",
+  "js/rosterRouletteStep.js",
+  "js/rosterRoulette.js",
+  "data/rosterSquads.js",
+  "js/rosterBoardStore.js",
+  "css/v10Roulette.css",
+  "visual-assets/v10_1/roulette/index.html",
+  "visual-assets/v10_1/roulette/platemap.json",
+  "visual-assets/v10_1/roulette/assets/squads.json",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
     "js/app.js",
@@ -271,8 +282,9 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
 // the set when it changes PREVIOUS_RUNTIME_REVISION again). r80 adds no shell path to r79's 221 paths and removes none.
 // r85: the music player script is new since the previous release, so the rollback list stays exactly the previous one.
-// r87: the Deadline Day strip (js/deadlineDay.js) and its lines (data/deadlineDayLines.js) are new shell paths too.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/musicDockV10.js","js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/deadlineDay.js","data/deadlineDayLines.js"]);
+// r87: the Deadline Day strip (js/deadlineDay.js) and its lines (data/deadlineDayLines.js) are new shell paths too, and so
+// are the Russian Roster Roulette step, its engine, squads, board store, styles and Team V's page (its frame navigation).
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","js/rosterBoardStore.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/assets/squads.json","js/musicDockV10.js","js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/deadlineDay.js","data/deadlineDayLines.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 
