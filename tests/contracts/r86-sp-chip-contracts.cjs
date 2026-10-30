@@ -188,4 +188,33 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   ok('S8','the chip\'s style is its own #app-scoped sheet: no Team V pinned file touched, no dimming, no overlay');
 }
 
+// S9 (Nik 2026-10-30): closing a Showdown clears the Setup, so the screens opened right after the close keep the pair the
+// page last saw for that Showdown, only while the pair still names it. Rivalry lines name, chip and club up the same on both
+// sides; the published Season Results cards carry the chip; long names wrap in the phone Career Table.
+{
+  const live=projection({seed:'9',totalSeasons:3,seasons:[[result(),result()]]});
+  const state={ready:true,rivalryId:live.rivalryId,setupUpdatedAtMs:AT,setup:{phase:'SHOWDOWN_CONFIRMED'}};
+  try{
+    globalThis.CareerModeProductionSharedShowdownSetup={getState:()=>state};
+    const sp=plain(Chip.live());assert.ok(sp&&sp.daniel&&sp.nik);
+    globalThis.CareerModeProductionSharedShowdownSetup={getState:()=>({ready:false,rivalryId:null})};
+    globalThis.CareerModePersistentNikDanielPair={getState:()=>({rivalryId:null,closedRivalryId:live.rivalryId})};
+    assert.deepEqual(plain(Chip.live()),sp,'just closed: the same Showdown keeps its pair');
+    globalThis.CareerModePersistentNikDanielPair={getState:()=>({rivalryId:r86.rivalryId})};
+    assert.equal(Chip.live(),null,'the pair names another rivalry: none');
+    globalThis.CareerModePersistentNikDanielPair={getState:()=>({rivalryId:null,closedRivalryId:null})};
+    assert.equal(Chip.live(),null,'no pair names it: none');
+    globalThis.CareerModePersistentNikDanielPair={getState:()=>({closedRivalryId:live.rivalryId})};
+    globalThis.currentShowdown={sharedJourney:{mode:'shared',rivalryId:r86.rivalryId}};
+    assert.equal(Chip.live(),null,'the game is on another Showdown: none');
+  }finally{delete globalThis.CareerModeProductionSharedShowdownSetup;delete globalThis.CareerModePersistentNikDanielPair;delete globalThis.currentShowdown;}
+  assert.match(Chip.css,/\.rv-manager span\.rvSpecialPlayer\{display:flex;flex:0 0 100%;order:1;/,'Rivalry: the chip has its own line under the name');
+  assert.match(Chip.css,/\.rv-manager--right span\.rvSpecialPlayer\{justify-content:flex-end;\}/,'Rivalry: Nik\'s chip sits on the right edge');
+  assert.doesNotMatch(Chip.css,/rvSpecialPlayer\{order:-1;\}/,'no chip before Nik\'s name');
+  assert.match(Chip.css,/#careerStatistics \.careerTable \.spChip \.spChipName\{max-width:none;overflow:visible;text-overflow:clip;white-space:normal;/,'phone Career Table: a long name wraps');
+  const sr=read('js/productionSharedSeasonResults.js');
+  assert.match(sr,/function pssrSpecialPlayerSlot\(role\)/);assert.match(sr,/fragment\.append\(heading\);if\(special\)fragment\.append\(special\);fragment\.append\(club\);/,'published Season Results cards: chip under the name');
+  ok('S9','just after the close the same Showdown keeps its chips; Rivalry chips and clubs line up; published Season Results cards and long phone names');
+}
+
 console.log(`r86 Special Player chip contracts: ${checks} groups passed`);

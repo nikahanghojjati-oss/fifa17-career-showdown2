@@ -41,17 +41,28 @@
   // A History row (js/sharedCareerAnalytics.js) carries its rivalryId and setupConfirmedAt.
   function spForRow(row){return row&&typeof row==="object"?spForShowdown(row.rivalryId,row.setupConfirmedAt):null;}
   function spState(name){try{return root[name]?.getState?.()??null;}catch(_error){return null;}}
+  function spJourneyRivalry(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return showdown?.sharedJourney?.mode==="shared"&&typeof showdown.sharedJourney.rivalryId==="string"?showdown.sharedJourney.rivalryId:null;}catch(_error){return null;}}
+  function spPairedRivalry(){const pair=spState("CareerModePersistentNikDanielPair"),paired=pair?.rivalryId||pair?.closedRivalryId||null;return typeof paired==="string"&&paired?paired:null;}
   // The live Showdown: the confirmed shared Setup's rivalry and confirm time (the Setup read the game already made). When
   // the game or the pair names another rivalry (a new Showdown, or another save), there is no live Special Player.
-  function spLive(){
+  function spLiveNow(){
     const setup=spState("CareerModeProductionSharedShowdownSetup");
     if(!setup||setup.ready!==true||setup.setup?.phase!=="SHOWDOWN_CONFIRMED"||typeof setup.rivalryId!=="string"||!Number.isFinite(setup.setupUpdatedAtMs))return null;
-    let journey=null;
-    try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;journey=showdown?.sharedJourney?.mode==="shared"&&typeof showdown.sharedJourney.rivalryId==="string"?showdown.sharedJourney.rivalryId:null;}catch(_error){journey=null;}
+    const journey=spJourneyRivalry();
     if(journey&&journey!==setup.rivalryId)return null;
-    const pair=spState("CareerModePersistentNikDanielPair"),paired=pair?.rivalryId||pair?.closedRivalryId||null;
-    if(typeof paired==="string"&&paired&&paired!==setup.rivalryId)return null;
-    return spForShowdown(setup.rivalryId,setup.setupUpdatedAtMs);
+    const paired=spPairedRivalry();
+    if(paired&&paired!==setup.rivalryId)return null;
+    const sp=spForShowdown(setup.rivalryId,setup.setupUpdatedAtMs);
+    if(sp)lastLive={rivalryId:setup.rivalryId,sp};
+    return sp;
+  }
+  // Closing a Showdown clears the Setup, so the screens opened right after the close (Rivalry, Standings) keep the pair
+  // this page last saw for that same Showdown until the pair or the game names another one (r86, Nik 2026-10-30).
+  let lastLive=null;
+  function spLive(){
+    const sp=spLiveNow();if(sp||!lastLive)return sp;
+    const journey=spJourneyRivalry(),paired=spPairedRivalry();
+    return paired===lastLive.rivalryId&&(!journey||journey===lastLive.rivalryId)?lastLive.sp:null;
   }
   // The live Showdown when it is rivalryId (or any live one when rivalryId is not given).
   function spLiveFor(rivalryId){
@@ -129,6 +140,8 @@
 #app #seasonEntry .finalWinnerManager .spChip{margin:.2em 0 .1em;}
 #app #seasonEntry .seasonManagerHeader .seasonSpecialPlayer{display:block;min-width:0;max-width:100%;margin:.2em 0 0;}
 #app #seasonEntry .seasonManagerHeader .spChip{margin:0;}
+#app #seasonEntry .seasonReviewCard .seasonSpecialPlayer{display:block;min-width:0;max-width:100%;margin:.2em 0 .35em;}
+#app #seasonEntry .seasonReviewCard .spChip{margin:0;font-size:12px;}
 #app #ruleBook .ruleSpecialPlayer .spChip{margin:0 0 0 .35em;}
 #app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag{display:inline-flex;margin:0;padding:.08em .42em;border-radius:999px;background:linear-gradient(135deg,#050608 0%,#0c2a66 55%,#050608 100%);color:var(--sd-gold-300,#ffd34d);font-size:11px;font-weight:800;letter-spacing:.1em;vertical-align:middle;}
 /* Tight spots ("SP · Name" in the tier colour: the badge's colour moves onto the whole chip, its full text stays in the
@@ -149,20 +162,23 @@
   #app #trophyRoom .careerRank>span{display:inline;max-width:none;}
   #app #trophyRoom .careerRank .spChip{display:flex;width:max-content;max-width:100%;margin:.25em auto 0;}
   #app #standings.standingsScreenV10 .sdg-side .spChip>span.spChipRank{display:none;}
+  /* The Career Table's Manager column is narrow on phones: a long name wraps inside its chip instead of being cut. */
+  #app #careerStatistics .careerTable td>.spChip{align-items:flex-start;border-radius:.7em;}
+  #app #careerStatistics .careerTable .spChip .spChipName{max-width:none;overflow:visible;text-overflow:clip;white-space:normal;overflow-wrap:break-word;}
 }
-/* Rivalry: the manager row is one short grid line at most sizes, so the chip joins the name's line
-   ("DANIEL [SP · Name]", "[SP · Name] NIK") and the club stays on its own line below; the box keeps its height. */
+/* Rivalry: the same three lines on both sides at every size (Nik 2026-10-30): the name, the chip under it, then the club.
+   Daniel's lines sit on the left edge and Nik's on the right, so the two chips and the two clubs line up. */
 #app #statistics[data-rivalry-legacy-v10] .rv-manager>div:has(>.rvSpecialPlayer){display:flex;flex-wrap:wrap;align-items:center;column-gap:5px;min-width:0;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager--right>div:has(>.rvSpecialPlayer){justify-content:flex-end;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager>div:has(>.rvSpecialPlayer)>[id^="rvClub"]{flex:0 0 100%;order:2;}
-#app #statistics[data-rivalry-legacy-v10] .rv-manager--right>div>span.rvSpecialPlayer{order:-1;}
-#app #statistics[data-rivalry-legacy-v10] .rv-manager span.rvSpecialPlayer{display:flex;flex:0 1 auto;min-width:0;max-width:100%;overflow:visible;font-size:inherit;line-height:inherit;}
+#app #statistics[data-rivalry-legacy-v10] .rv-manager span.rvSpecialPlayer{display:flex;flex:0 0 100%;order:1;min-width:0;max-width:100%;margin:.2em 0;overflow:visible;font-size:inherit;line-height:inherit;}
+#app #statistics[data-rivalry-legacy-v10] .rv-manager--right span.rvSpecialPlayer{justify-content:flex-end;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{display:inline-flex;min-width:0;max-width:100%;margin:0;font-size:10.5px;line-height:1.2;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span{display:inline-block;font-size:inherit;line-height:inherit;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{overflow:hidden;text-overflow:ellipsis;}
 @media (max-width:900px){
   #app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{font-size:10px;}
-  #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{max-width:6.5em;}
+  #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{max-width:none;}
   #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipRank{display:none;}
 }
 `;

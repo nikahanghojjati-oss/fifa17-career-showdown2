@@ -706,7 +706,9 @@ async function reloadBoth(daniel,nik,sessionCode){
 // ---------------------------------------------------------------------------------------------------------------------------
 // Career pages: read every page as a player would, then compare every figure with the recomputed career.
 // ---------------------------------------------------------------------------------------------------------------------------
-const hostText=(m,hostId)=>m.page.evaluate(id=>{const h=document.getElementById(id);return h&&!h.classList.contains("hidden")?(h.innerText||"").replace(/\s+/g," ").trim():"";},hostId);
+// r86: the Special Player chip sits right after a manager's name, so the figure readers leave it out (the r86-sp-chip
+// contracts check the chips). The rule is added and removed inside one evaluate, so nothing is painted without it.
+const hostText=(m,hostId)=>m.page.evaluate(id=>{const h=document.getElementById(id);if(!h||h.classList.contains("hidden"))return "";const hide=document.createElement("style");hide.textContent="[data-sp-chip]{display:none!important}";document.head.appendChild(hide);try{return (h.innerText||"").replace(/\s+/g," ").trim();}finally{hide.remove();}},hostId);
 // Figures on these screens count up when they open, and the online career loads after the frame: wait until the text has
 // stopped changing and is not a loading state.
 const LOADING_TEXT=/Loading (career history|your showdown history|standings|rivalry statistics)|LOADING CAREER HISTORY|Loading career history/i;
@@ -756,7 +758,7 @@ async function capturePage(m,hostId,label){
   out.default=await stableHostText(m,hostId);
   for(const tab of TABS[hostId]||[]){if(await clickTab(m,hostId,tab))out[tab]=await stableHostText(m,hostId,1200,12000);}
   if(hostId==="trophyRoom"){
-    out.dom=await m.page.evaluate(()=>(document.getElementById("trophyRoom")?.textContent||"").replace(/\s+/g," ").trim());
+    out.dom=await m.page.evaluate(()=>{const h=document.getElementById("trophyRoom");if(!h)return "";const copy=h.cloneNode(true);copy.querySelectorAll("[data-sp-chip]").forEach(chip=>chip.remove());return (copy.textContent||"").replace(/\s+/g," ").trim();});
     out.cards=await m.page.evaluate(()=>[...document.querySelectorAll("#trophyRoom .trophyCard")].map(card=>({trophy:card.dataset.trophy||"",sides:Object.fromEntries([...card.querySelectorAll("[data-side]")].map(side=>[side.dataset.side,(side.querySelector("strong")?.dataset.countValue)||(side.querySelector("strong")?.textContent||"").trim()]))})));
     const more=m.page.locator("#trophyRoom label.trophyPhoneMoreButton");
     if(await more.isVisible().catch(()=>false)){await more.click({timeout:5000}).catch(()=>{});await m.page.waitForTimeout(1200);out.MORE=await hostText(m,"trophyRoom");await shot(m,`${label}-trophyRoom-more`);await more.click({timeout:5000}).catch(()=>{});}
