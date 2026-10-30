@@ -385,7 +385,7 @@ const table=new T.Group(); scene.add(table);
   mesh(lathe([[0,0],[.5,0],[.52,.02],[.5,.045],[.34,.06],[.2,.08],[.15,.1],[0,.1]],64),bmarble,0,0,0,table).receiveShadow=true; mesh(new T.TorusGeometry(.5,.012,8,96),M.gold,0,.03,0,table).rotation.x=Math.PI/2;
   for(let i=0;i<4;i++){ const a=i/4*Math.PI*2+Math.PI/4; const f=mesh(lathe([[0,0],[.06,0],[.07,.02],[.05,.05],[.02,.07],[0,.07]],24),M.gold,Math.cos(a)*.47,0,Math.sin(a)*.47,table); f.castShadow=true; }
   /* lantern: a period brass oil lamp. fluted foot, knopped stem, oil font with a seam, burner with a wick knob, tall glass chimney, living flame */
-  const lan=new T.Group(); lan.position.set(-.42,.75,-.22); table.add(lan);
+  const lan=new T.Group(); lan.position.set(-.16,.75,.5); table.add(lan); /* r87: front of the table, off both shooting lines, so it never stands between the gun and a board */
   const foot=lathe([[0,0],[.085,0],[.09,.012],[.082,.02],[.06,.028],[.042,.04],[.03,.06],[.026,.09],[.034,.1],[.024,.108],[.022,.13],[.03,.14],[.028,.15]],48); mesh(foot,M.brass,0,0,0,lan).castShadow=true;
   for(let i=0;i<16;i++){ const a=i/16*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.005,.007,.03,10),M.gold,Math.cos(a)*.07,.012,Math.sin(a)*.07,lan); fl.rotation.y=-a; fl.rotation.z=Math.PI/2-.9; }
   const font=lathe([[.028,.15],[.05,.158],[.07,.18],[.076,.21],[.07,.24],[.052,.262],[.03,.27],[.026,.285],[.03,.295],[.022,.3]],48); mesh(font,M.brass,0,0,0,lan).castShadow=true;
@@ -404,7 +404,7 @@ const table=new T.Group(); scene.add(table);
   const lantern=new T.PointLight(L("#ffb15a"),1.85,6,2); lantern.position.set(0,.43,0); lan.add(lantern);
   table.userData={flame,halo,lantern};
   /* coffee pot: tall pewter-brass body with a belly, a domed hinged lid with a finial, a gooseneck spout and a looped handle */
-  { const pg=new T.Group(); pg.position.set(.46,.75,-.26); pg.rotation.y=-.5; table.add(pg);
+  { const pg=new T.Group(); pg.position.set(.16,.75,-.56); pg.rotation.y=-.5; table.add(pg); /* r87: back of the table, off both shooting lines */
     const body=lathe([[0,0],[.062,0],[.07,.008],[.072,.03],[.066,.07],[.054,.11],[.046,.15],[.045,.18],[.05,.196],[.058,.204],[.056,.212],[.03,.216],[.03,.222],[.04,.236],[.03,.25],[.012,.258],[0,.26]],56); const bm=mesh(body,M.brass,0,0,0,pg); bm.castShadow=true;
     mesh(new T.TorusGeometry(.057,.003,8,48),M.gold,0,.208,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.069,.004,8,48),M.gold,0,.012,0,pg).rotation.x=Math.PI/2;
     mesh(new T.TorusGeometry(.0665,.0025,8,64),M.gold,0,.06,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.0555,.0025,8,64),M.gold,0,.105,0,pg).rotation.x=Math.PI/2; for(let i=0;i<18;i++){ const a=i/18*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.0035,.0045,.04,8),M.gold,Math.cos(a)*.0665,.085,Math.sin(a)*.0665,pg); fl.rotation.y=-a; }   /* engraved band + flutes */
@@ -424,7 +424,7 @@ const table=new T.Group(); scene.add(table);
     const hc=new T.CatmullRomCurve3([new T.Vector3(.041,.066,0),new T.Vector3(.062,.066,0),new T.Vector3(.066,.045,0),new T.Vector3(.05,.03,0),new T.Vector3(.04,.03,0)]);
     const hm=new T.Mesh(new T.TubeGeometry(hc,16,.0045,10,false),M.porcelain); hm.castShadow=true; g.add(hm);
     const spoon=mesh(new T.BoxGeometry(.004,.0015,.07),M.gold,.03,.023,.04,g); spoon.rotation.y=.9; mesh(new T.SphereGeometry(.009,12,8),M.gold,.03-.03*Math.sin(.9)*0+.027,.024,.04+.03*0+.025,g).scale.set(1,.3,1.3); }
-  cup(-.1,.38,.3); cup(.44,.22,-.4);
+  cup(.3,.42,.3); cup(.44,.22,-.4);
   for(let i=0;i<5;i++){ const c=mesh(new T.BoxGeometry(.064,.002,.09),M.card,-.5+i*.02,.752+i*.002,.34,table); c.rotation.y=.4+i*.12; }
   for(let i=0;i<4;i++) mesh(new T.CylinderGeometry(.013,.013,.003,16),M.gold,.2+i*.03,.753,.45+(i%2)*.025,table);
 }
@@ -724,7 +724,9 @@ function placeTracer(a,b,k0,k1){ const p0=a.clone().lerp(b,k0), p1=a.clone().ler
 /* ================= layout: desktop vs portrait phone ================= */
 const camRest=new T.Vector3(), lookRest=new T.Vector3(); let PH=false, fovRest=38, fovNow=38;
 function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspect=w/h; fovRest=PH?54:36; camera.fov=fovNow=fovRest; camera.updateProjectionMatrix();
-  const bx=PH?.5:1.0, by=PH?1.02:1.0, bz=PH?.12:-.08, yaw=PH?.48:.5, sc=PH?.62:.92;
+  /* r87 (Nik 2026-10-30): the easels stand clear of the table on every screen (no leg or ledge inside the rim, R .78 + rim), and
+     the boards never move during a turn. Desktop: beside and behind the table. Phone: behind it, raised, legs to the floor. */
+  const bx=PH?.5:1.1, by=PH?1.2:1.0, bz=PH?-1.05:-.45, yaw=PH?.3:.55, sc=PH?.8:.92;
   [["D",-1],["N",1]].forEach(([k,s])=>{ const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.12,-yaw*s,0); b.scale.setScalar(sc); });
   if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.7); lookRest.set(0,.86,-.1); }
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?2.5:3)); renderer.setSize(w,h,false); }
@@ -808,7 +810,7 @@ function fireShot(p,tgt){ const mz=new T.Vector3(); if(handHold){ camera.updateM
   puff(mz,dir,14,.11,2.0,1.9); puff(mz,new T.Vector3(0,1,0),10,.09,.35,3.0); puff(mz.clone().add(dir.clone().multiplyScalar(.08)),dir,8,.07,2.8,1.2);
   const flat=new T.Vector3(dir.x,0,dir.z).normalize(); p.slideV.copy(flat).multiplyScalar(REDUCED?-.5:-1.3); p.slide.set(0,0,0); p.slideSpin=0; p.spinKick=(rnd()-.5)*.6; recoil=1;
   shake=REDUCED?0:.025; SFX.play("bang"); }
-function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); hitFlash.position.copy(tgt).addScaledVector(n,.02); hitFlash.material.opacity=1; hitFlash.scale.set(.12,.12,1); hitLight.position.copy(tgt).addScaledVector(n,.12); hitLight.intensity=REDUCED?1.5:4; spray(tgt,n,REDUCED?6:18,2.2); b.userData.joltV.set((rnd()-.5)*.5,-.6,2.2); const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; drawBoard(p.who,b.userData.club); SFX.play("splinter"); puff(tgt,n,5,.08,.5,1.3); }
+function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); hitFlash.position.copy(tgt).addScaledVector(n,.02); hitFlash.material.opacity=1; hitFlash.scale.set(.12,.12,1); hitLight.position.copy(tgt).addScaledVector(n,.12); hitLight.intensity=REDUCED?1.5:4; spray(tgt,n,REDUCED?6:18,2.2); /* r87: no board kick on the hit (Nik: the boards never move); the splinters, flash and hole carry the impact */ const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; drawBoard(p.who,b.userData.club); SFX.play("splinter"); puff(tgt,n,5,.08,.5,1.3); }
 
 /* ================= camera ================= */
 function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new T.Vector3(Math.sin(t*.23)*.05,Math.sin(t*.31)*.02,Math.cos(t*.19)*.04);
