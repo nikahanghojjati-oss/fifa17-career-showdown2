@@ -137,7 +137,7 @@ Think briefly; spend your effort on writing, not planning. Write all 100 in one 
 OUTPUT
 Reply with ONE JSON object and nothing else: no intro, no notes, no markdown fence. Straight double quotes. Ids are b<BATCH>-001 to b<BATCH>-100 (for batch 7: b7-001 ... b7-100).
 {"batch":1,"situation":"big-win","edition":"season","lens":"The trophy cabinet","rows":[{"id":"b1-001","kicker":"...","headline":"...","subhead":"..."}, ...]}
-(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named A<BATCH as 3 digits>.json (for batch 7: A007.json). If you cannot make files, reply with the JSON only.
+(Work order: ignore this FILE line; follow loop step 7 of this job instead.) FILE: Give the JSON as a downloadable .json file named A<BATCH as 3 digits>.json (for batch 7: A007.json). If you cannot make files, reply with the JSON only.
 
 ==================== PROMPT B ====================
 BATCH: 1
@@ -245,7 +245,7 @@ Think briefly; spend your effort on writing, not planning. Write all 100 in one 
 OUTPUT
 ONE JSON object and nothing else: no intro, no notes, no markdown fence. Straight double quotes. Ids cb<BATCH>-001 to cb<BATCH>-100.
 {"batch":1,"situation":"big-win","voice":"The lead caller","lines":[{"id":"cb1-001","text":"..."}, ...]}
-(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named B<BATCH as 3 digits>.json (for batch 7: B007.json). If you cannot make files, reply with the JSON only.
+(Work order: ignore this FILE line; follow loop step 7 of this job instead.) FILE: Give the JSON as a downloadable .json file named B<BATCH as 3 digits>.json (for batch 7: B007.json). If you cannot make files, reply with the JSON only.
 
 ==================== PROMPT C ====================
 BATCH: 1
@@ -328,7 +328,7 @@ Think briefly; spend your effort on writing. Always finish all 15 and close the 
 OUTPUT
 ONE JSON object and nothing else, no markdown fence. Ids sb<BATCH>-01 to sb<BATCH>-15.
 {"batch":1,"situation":"big-win","edition":"season","desk":"The chief football writer","stories":[{"id":"sb1-01","byline":"...","standfirst":"...","paragraphs":["...","...","..."],"pullquote":{"text":"...","who":"..."}}, ...]}
-(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named C<BATCH as 3 digits>.json (for batch 7: C007.json). If you cannot make files, reply with the JSON only.
+(Work order: ignore this FILE line; follow loop step 7 of this job instead.) FILE: Give the JSON as a downloadable .json file named C<BATCH as 3 digits>.json (for batch 7: C007.json). If you cannot make files, reply with the JSON only.
 
 ==================== PROMPT D ====================
 BATCH: 1
@@ -381,7 +381,7 @@ RULES
 OUTPUT
 ONE JSON object and nothing else, no markdown fence. Ids pb<BATCH>-001 to pb<BATCH>-100. Include only the fields the kind needs ("photo" for captions, "who" and "situation" for quotes, "situation" and "head" for briefs, "head" for ears).
 {"batch":1,"kind":"captions","lens":"The trophy cabinet","rows":[{"id":"pb1-001","photo":"lead-season","text":"..."}, ...]}
-(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named D<BATCH as 3 digits>.json (for batch 7: D007.json). If you cannot make files, reply with the JSON only.
+(Work order: ignore this FILE line; follow loop step 7 of this job instead.) FILE: Give the JSON as a downloadable .json file named D<BATCH as 3 digits>.json (for batch 7: D007.json). If you cannot make files, reply with the JSON only.
 
 ==================== PROMPT F ====================
 BATCH: 1
@@ -473,7 +473,7 @@ Think briefly; spend your effort on writing. Write all 50, check the rules, fix 
 OUTPUT
 ONE JSON object and nothing else. Ids fb<BATCH>-01 to fb<BATCH>-50.
 {"batch":1,"situation":"big-win","flavour":"Call and analysis","duets":[{"id":"fb1-01","lead":"...","co":"..."}, ...]}
-(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named F<BATCH as 3 digits>.json (for batch 7: F007.json). If you cannot make files, reply with the JSON only.
+(Work order: ignore this FILE line; follow loop step 7 of this job instead.) FILE: Give the JSON as a downloadable .json file named F<BATCH as 3 digits>.json (for batch 7: F007.json). If you cannot make files, reply with the JSON only.
 
 ==================== PROMPT G ====================
 BATCH: 1
@@ -609,7 +609,7 @@ Think briefly; spend your effort on writing. Always finish all 140 and close the
 OUTPUT
 ONE JSON object and nothing else. Ids gb<BATCH>-001 to gb<BATCH>-140.
 {"batch":1,"clubs":["Arsenal", "..."],"lines":[{"id":"gb1-001","club":"Arsenal","mood":"win","text":"..."}, ...]}
-(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file named G<BATCH as 3 digits>.json (for batch 7: G007.json). If you cannot make files, reply with the JSON only.
+(Work order: ignore this FILE line; follow loop step 7 of this job instead.) FILE: Give the JSON as a downloadable .json file named G<BATCH as 3 digits>.json (for batch 7: G007.json). If you cannot make files, reply with the JSON only.
 
 ==================== PROMPT E ====================
 You are the chief editor of a football broadcast and newspaper team. Attached is one batch file from our content factory for Career Mode Showdown, a private two-player website where two friends each manage one club in FIFA 17 career mode and compare seasons for points. The file is commentary lines (B), headlines (A), front-page stories (C), small print (D), booth duets (F) or club lines (G). Your job is to make it AAA: every item good enough for a FIFA-level broadcast or a top newspaper.
@@ -638,7 +638,7 @@ STEP 4: CHECK THE WHOLE SET. No two items start with the same three words. No wo
 
 OUTPUT
 The same JSON shape as the file you were given, with two extra fields on every item: "score" (your final score after fixing, 9 or 10) and "was" (the original text if you changed it, or null if you kept it). Keep the top fields and add "edited": true.
-(Work order: ignore this FILE line; follow step 4 of the work order instead.) FILE: Give the JSON as a downloadable .json file with the same name as the input plus _ED (for B002.json: B002_ED.json).
+(Work order: ignore this FILE line; follow loop step 7 of this job instead.) FILE: Give the JSON as a downloadable .json file with the same name as the input plus _ED (for B002.json: B002_ED.json).
 
 ==================== CHECKER (check_batch.py) ====================
 """Checks content-factory batch files (A, B, C, D, F, G and their _ED / MEGA forms).
