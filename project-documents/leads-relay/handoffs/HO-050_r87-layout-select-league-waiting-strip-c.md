@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-31T19:35:41Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-10-31T19:35:41Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T19:40:24Z", "by": "V", "status": "WORKING", "note": "Team V thread on it now; PR into gameplay/r87 before 21:00 UTC"}],
  "from_session": "session_01GU43Q5xHsv4Q8dmAPKsP5f"
 }
 ```
