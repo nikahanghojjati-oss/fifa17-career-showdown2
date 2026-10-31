@@ -323,5 +323,9 @@
     {"rank":298,"name":"Rúben Neves","club":"FC Porto","overall":75,"potential":85,"number":6,"nation":"Portugal","nationCode":"PT","position":"CDM","stats":{"PAC":66,"SHO":65,"PAS":76,"DRI":73,"DEF":71,"PHY":71}},
     {"rank":298,"name":"M. Rog","club":"Napoli","overall":75,"potential":85,"number":30,"nation":"Croatia","nationCode":"HR","position":"CAM","stats":{"PAC":73,"SHO":67,"PAS":77,"DRI":76,"DEF":43,"PHY":54}}
   ].map(Object.freeze));
-  return Object.freeze({listVersion:LIST_VERSION,players:PLAYERS});
+  // Red team R87-D-01: the one Special Player whose FIFA 17 squad database row (data/fifa17Players.js, the CSV short_name)
+  // has a different name from his display name. The roulette excludes him by that row (name + shirt number); the rows
+  // above and LIST_VERSION are unchanged.
+  const SOURCE_NAMES=Object.freeze({"K. Mbappé":"K. Mbappe Lottin"});
+  return Object.freeze({listVersion:LIST_VERSION,players:PLAYERS,sourceNames:SOURCE_NAMES});
 });

@@ -35,7 +35,9 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
     "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
     "visual-assets/v10_1/roulette/platemap.json",
-    "visual-assets/v10_1/roulette/assets/squads.json"
+    "visual-assets/v10_1/roulette/assets/squads.json",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2"
 ]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",

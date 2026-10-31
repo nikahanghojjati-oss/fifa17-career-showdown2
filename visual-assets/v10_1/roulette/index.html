@@ -6,8 +6,13 @@
 <title>Russian Roster Roulette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&family=Rye&display=swap">
+<!-- Polish RR-3: Barlow Condensed (every board name, rating, button and result line) ships with the app from ../shared/fonts
+     (shell-cached), so offline it never falls back to a serif. Big Shoulders Display (the RELEASED stamp) and Rye (the
+     title) have no OFL files in the repo yet, so they still come from Google Fonts and fall back when offline. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Rye&display=swap">
 <style>
+@font-face { font-family: "Barlow Condensed"; font-weight: 500 600; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700 900; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
 /* HO-040 Russian Roster Roulette · real 3D stage (three.js r128) with the Showdown HUD over it. Same tokens as the Special Player screen. */
 :root {
   --ink: #050506; --gold: #f1c35a; --gold-hi: #fff3c4; --gold-deep: #9c6e22; --ivory: #f6eedb; --muted: #c9bc9c;
@@ -44,7 +49,9 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 @media (prefers-reduced-motion: reduce) { .title::after { animation: none; } }
 /* centre column: result line + button */
 .mid { position: absolute; left: 50%; top: 612px; transform: translateX(-50%); width: 440px; text-align: center; pointer-events: auto; }
-.result { height: 34px; display: grid; place-items: center; font: 800 20px/1 var(--disp); letter-spacing: .1em; text-transform: uppercase; color: #fff8e6; text-shadow: 0 2px 4px #000, 0 0 16px rgba(0,0,0,.8); white-space: nowrap; overflow: hidden; }
+.result { min-height: 34px; display: grid; place-items: center; font: 800 20px/1.1 var(--disp); letter-spacing: .1em; text-transform: uppercase; color: #fff8e6; text-shadow: 0 2px 4px #000, 0 0 16px rgba(0,0,0,.8); white-space: normal; overflow-wrap: anywhere; text-wrap: balance; }
+/* Polish RR-2: never cut ("BANG! NACHO MONREAL IS RELEASE"): the line wraps to a second line, and a long name shrinks a step */
+.result.long { font-size: 17px; letter-spacing: .06em; }
 .result.bang { color: #ffd77a; }
 .result.safe { color: #d8f5c8; }
 .cta { margin-top: 10px; width: 360px; height: 52px; font: 800 19px/1 var(--disp); letter-spacing: .1em; text-transform: uppercase; color: #140e04; background: linear-gradient(180deg, #fff6d2, var(--gold) 55%, #c4943e); border: 0; box-shadow: 0 0 0 1px #000, inset 0 -2px 0 rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.5); cursor: pointer; white-space: nowrap; transition: filter .3s; }
@@ -81,7 +88,8 @@ body.game .tools { display: none; }
   .badge { font-size: 11px; }
   .title { font-size: clamp(22px, 7.2vw, 30px); }
   .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 77px); width: min(353px, calc(100vw - 40px)); }
-  .result { height: 24px; font-size: 16px; }
+  .result { min-height: 24px; font-size: 16px; }
+  .result.long { font-size: 14px; }
   .cta { width: 100%; height: 44px; font-size: 17px; margin-top: 6px; }
   .phonebar { display: grid; position: absolute; left: 0; right: 0; bottom: 0; height: calc(env(safe-area-inset-bottom, 0px) + 65px); grid-template-columns: repeat(5, 1fr); align-items: start; padding-top: 10px; background: linear-gradient(180deg, rgba(14,11,7,.97), rgba(6,5,3,.98)); border-top: 1px solid rgba(241,195,90,.55); pointer-events: auto; }
   .phonebar a { text-align: center; font: 700 10px/1 var(--num); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: grid; gap: 5px; justify-items: center; }
@@ -89,14 +97,16 @@ body.game .tools { display: none; }
   .phonebar a.on { color: var(--gold); }
   .tools { bottom: 140px; }
 }
-@media (max-width: 899px) and (max-height: 600px) { .top { top: calc(env(safe-area-inset-top, 0px) + 40px); } .title { font-size: 22px; } .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 70px); } .result { height: 22px; font-size: 15px; } .cta { height: 40px; } .phonebar { height: calc(env(safe-area-inset-bottom, 0px) + 58px); } }
+@media (max-width: 899px) and (max-height: 600px) { .top { top: calc(env(safe-area-inset-top, 0px) + 40px); } .title { font-size: 22px; } .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 70px); } .result { min-height: 22px; font-size: 15px; } .cta { height: 40px; } .phonebar { height: calc(env(safe-area-inset-bottom, 0px) + 58px); } }
 @media (max-width: 899px) and (orientation: landscape) { .top { top: 8px; } .mid { bottom: 12px; } .phonebar { display: none; } }
 /* r87 Team G embed (?embed=1): the game's own frame wraps the page; mock site chrome off, the sound switch stays */
 body.embed .bar, body.embed .pchips, body.embed .pgear, body.embed .phonebar { display: none !important; }
 body.embed .tools { display: flex; bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 12px); left: auto; right: max(12px, env(safe-area-inset-right, 0px)); transform: none; }
 body.embed .tools > :not(#sound) { display: none; }
 body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 16px); }
-body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
+body.embed .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
+/* Polish RR-1: on a laptop the bottom panel is 24 + 72 px (+ border) tall, so the button stands clear above it */
+@media (min-width: 900px) { body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); } }
 /* phone portrait: the title starts below the sound switch (it covered the CAREER MODE SHOWDOWN 17 plate at 390px) */
 @media (max-width: 899px) and (orientation: portrait) { body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 54px); } }
 </style>
@@ -576,7 +586,7 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
-    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.fillStyle="rgba(0,0,0,0)"; x.fillRect(0,0,256,96); x.font="700 44px Oswald, Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.shadowColor="rgba(0,0,0,.8)"; x.shadowBlur=8; x.fillText("FIRES HERE",128,62); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
+    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.fillStyle="rgba(0,0,0,0)"; x.fillRect(0,0,256,96); x.font="700 44px 'Barlow Condensed', Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.shadowColor="rgba(0,0,0,.8)"; x.shadowBlur=8; x.fillText("FIRES HERE",128,62); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
     const lbl=new T.Mesh(new T.PlaneGeometry(.022,.00825),new T.MeshBasicMaterial({map:lblTex, transparent:true, depthWrite:false})); lbl.position.set(0,.0068,0); ptr.add(lbl);
     ptr.visible=false; ptr.scale.set(.001,.001,.001); }
   /* base pin through the cylinder with its knurled head out the front of the frame */
@@ -650,10 +660,14 @@ const POS_COL=(pos)=>pos==="GK"?"#f2d23c":/B$/.test(pos)?"#3f86e8":/^(ST|CF|LS|R
 function playerCard(ctx,x,y,s,kit,pos,name,rating,num,tagLeft){
   ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=12; ctx.shadowOffsetY=5; shirt(ctx,x,y,s,kit); ctx.restore();
   ctx.textAlign="center"; ctx.textBaseline="middle";
-  const sur=(name.includes(". ")?name.slice(name.indexOf(". ")+2):name); ctx.font=`600 ${Math.round(s*.3)}px 'Barlow Condensed'`; const tw=Math.max(s*1.3,ctx.measureText(sur).width+s*.5); const nx=x-tw/2, ny=y+s*.5, nh=s*.36;
+  /* Polish RR-3: the name band never grows past its slot (s*1.2): the surname shrinks to fit (down to 65%), then ends in "…" */
+  let sur=(name.includes(". ")?name.slice(name.indexOf(". ")+2):name); const maxW=s*1.2, pad=s*.16; let fs=Math.round(s*.3);
+  ctx.font=`600 ${fs}px 'Barlow Condensed'`; while(fs>Math.round(s*.3*.65)&&ctx.measureText(sur).width>maxW-pad){ fs-=1; ctx.font=`600 ${fs}px 'Barlow Condensed'`; }
+  if(ctx.measureText(sur).width>maxW-pad){ while(sur.length>2&&ctx.measureText(sur+"…").width>maxW-pad) sur=sur.slice(0,-1); sur+="…"; }
+  const tw=Math.min(maxW,Math.max(s*1.0,ctx.measureText(sur).width+pad)); const nx=x-tw/2, ny=y+s*.5, nh=s*.36;
   ctx.fillStyle="rgba(8,10,14,.78)"; ctx.fillRect(nx,ny,tw,nh); ctx.fillStyle="#fff"; ctx.fillText(sur,x,ny+nh/2+1);
-  /* rating: bold white, top-left of the shirt like the reference */
-  ctx.font=`800 ${Math.round(s*.34)}px 'Barlow Condensed'`; ctx.textAlign="right"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.strokeText(String(rating),x-s*.5,y-s*.42); ctx.fillStyle="#fff"; ctx.fillText(String(rating),x-s*.5,y-s*.42);
+  /* rating: bold white on the shirt's upper left (inside the shirt, so it never meets a neighbour's name band) */
+  ctx.font=`800 ${Math.round(s*.3)}px 'Barlow Condensed'`; ctx.textAlign="center"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.7)"; ctx.strokeText(String(rating),x-s*.17,y-s*.2); ctx.fillStyle="#fff"; ctx.fillText(String(rating),x-s*.17,y-s*.2);
   /* position tag: colour bar + letters, left of the shirt */
   if(tagLeft!==false){ const col=POS_COL(pos); ctx.fillStyle=col; ctx.fillRect(x-s*1.0,y-s*.1,s*.07,s*.3); ctx.textAlign="left"; ctx.font=`700 ${Math.round(s*.22)}px 'Barlow Condensed'`; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.strokeText(pos,x-s*.9,y+s*.05); ctx.fillStyle="#fff"; ctx.fillText(pos,x-s*.9,y+s*.05); } }
 function lum(hex){ const n=parseInt(String(hex).replace("#",""),16); if(isNaN(n)) return .5; return ((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255; }
@@ -677,11 +691,11 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
     line(.28,PB-108,.28,PB-12); line(.72,PB-108,.72,PB-12); line(.28,PB-108,.72,PB-108); line(.41,PB-46,.41,PB-12); line(.59,PB-46,.59,PB-12); line(.41,PB-46,.59,PB-46); }
   ctx.restore();
   const used={}; const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; const x=PL+62+xy[0]*(PR-PL-124), y=PT+58+xy[1]*(PB-PT-136); return {x,y,pos,name,rating,num:i+1}; });
-  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); playerCard(ctx,sp.x,sp.y-6,72,sp.pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit,sp.pos,sp.name,sp.rating,sp.num); });
+  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); playerCard(ctx,sp.x,sp.y-6,72,sp.pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit,sp.pos,sp.name,sp.rating,sp.num); });
   /* bench list on the right */
   const BL=590, BR=W-30; ctx.fillStyle="#17181c"; ctx.fillRect(BL,PT,BR-BL,PB-PT); ctx.fillStyle="#2a2d33"; ctx.fillRect(BL,PT,BR-BL,44); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",BL+18,PT+22); ctx.textAlign="right"; ctx.fillStyle="#9ea4b0"; ctx.font="600 20px 'Barlow Condensed'"; ctx.fillText("BENCH · "+club.subs.length,BR-18,PT+22);
   const subs=club.subs.slice(0,6); const rowH=(PB-PT-44)/Math.max(6,subs.length);
-  subs.forEach(([pos,name,rating],i)=>{ const y=PT+44+rowH*(i+.5), x=BL+70; b.bubbles.push({x,y,name,pos,rating,u:x/W,v:1-y/H}); ctx.fillStyle=i%2?"rgba(255,255,255,.03)":"rgba(255,255,255,0)"; ctx.fillRect(BL,PT+44+rowH*i,BR-BL,rowH);
+  subs.forEach(([pos,name,rating],i)=>{ const y=PT+44+rowH*(i+.5), x=BL+70; b.bubbles.push({slot:11+i,x,y,name,pos,rating,u:x/W,v:1-y/H}); ctx.fillStyle=i%2?"rgba(255,255,255,.03)":"rgba(255,255,255,0)"; ctx.fillRect(BL,PT+44+rowH*i,BR-BL,rowH);
     ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=8; ctx.shadowOffsetY=3; shirt(ctx,x,y,52,pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit); ctx.restore();
     ctx.fillStyle=POS_COL(pos); ctx.fillRect(BL+118,y-14,5,28); ctx.textAlign="left"; ctx.font="700 20px 'Barlow Condensed'"; ctx.fillStyle="#c9ccd3"; ctx.fillText(pos,BL+132,y-10); ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; const sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; ctx.fillText(sur,BL+132,y+14);
     ctx.textAlign="right"; ctx.font="800 36px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),BR-22,y); });
@@ -752,12 +766,24 @@ let turn=0, loaded=false, chamber=0, bulletAt=0, playing=null, done={D:null,N:nu
 let manual=null, last=0, fired={}, camPos=new T.Vector3(), camLook=new T.Vector3(), shake=0, camTmp=new T.Vector3();
 function slot(el,txt,cls){ el.textContent=txt; el.className=cls||""; }
 function setBusy(b){ cta.classList.toggle("busy",b); cta.textContent=b?"Spinning…":(turn%2===0&&turn>0?"Spin again":"Spin the cylinder"); }
-function startTurn(force,targetName){ if(playing) return; const who=ORDER[turn%2];
-  if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; cyl.userData.placeRound(bulletAt); }
-  const fireQ=qs.get("fire"); const want=force!==undefined?force:(fireQ==="1"?true:fireQ==="0"?false:null);
-  chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
-  const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const pick=(targetName&&free.find(x=>x.name===targetName))||free[Math.floor(rnd()*free.length)];   /* Team G can name the released player; otherwise the screen picks one */
-  playing={ who, t0:now(), fire:chamber===bulletAt, target:pick, hitDone:false, yaw0:spin.rotation.y, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
+/* red team R87-C-06: in the game both phones play the engine's own plan (js/rosterRoulette.js via the season step): the round
+   sits in bulletChamber, the cylinder stops on stopChamber and the barrel points at hitSlot (a safe turn at aimSlot). Board
+   slots 0-10 are the XI, 11-14 the subs. No random choice is left for anything both phones see. */
+function rrPlanTurn(o,free){ if(!o||!Number.isInteger(o.bulletChamber)||!Number.isInteger(o.stopChamber)) return null;
+  const at=Number.isInteger(o.hitSlot)?o.hitSlot:o.aimSlot;
+  const pick=(Number.isInteger(at)&&free.find(x=>x.slot===at))||(o.target&&free.find(x=>x.name===o.target))||free[0];
+  return {bulletAt:((o.bulletChamber%7)+7)%7, chamber:((o.stopChamber%7)+7)%7, pick, fire:o.fire===true}; }
+/* rrPlanTurn end */
+function startTurn(force,targetName,planned){ if(playing) return; const who=ORDER[turn%2];
+  const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const plan=rrPlanTurn(planned,free); let pick, fire;
+  if(plan){ bulletAt=plan.bulletAt; loaded=true; cyl.userData.placeRound(bulletAt); chamber=plan.chamber; pick=plan.pick; fire=plan.fire; }
+  else{
+    if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; cyl.userData.placeRound(bulletAt); }
+    const fireQ=qs.get("fire"); const want=force!==undefined?force:(fireQ==="1"?true:fireQ==="0"?false:null);
+    chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
+    pick=(targetName&&free.find(x=>x.name===targetName))||free[Math.floor(rnd()*free.length)];   /* the gallery (no plan) picks one */
+    fire=chamber===bulletAt; }
+  playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const tgt=boardTargetWorld(who,pick); const dir=tgt.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
   setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
@@ -803,7 +829,7 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
       if(!impact){ bullet.visible=true; bullet.position.copy(slugAt(p,tgt,k)); bullet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),dir); bullet.rotateZ(tt*40); p.bulletK=k; const sp=.5+fl*1.2; bullet.userData.streak.scale.set(sp,1,1); fxScale=lerp(fxScale,.16,Math.min(1,dt*6)); }
       else { bullet.visible=false; if(!p.hitDone){ p.hitDone=true; hitBoard(p,tgt); } fxScale=lerp(fxScale,tt<B.impact+1.2?.22:1,Math.min(1,dt*(tt<B.impact+1.2?8:1.5))); } }
     else fxScale=lerp(fxScale,1,Math.min(1,dt*4));
-    if(tt>=(p.fire?B.impact+1.6:B.fire+.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"; result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } }
+    if(tt>=(p.fire?B.impact+1.6:B.fire+.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"+(p.target.name.length>14?" long":""); result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } }
     /* recoil: the gun kicks and slides back across the felt, turning a little */
     if(p.slideV.lengthSq()>1e-6||p.slide.lengthSq()>1e-8){ p.slideV.multiplyScalar(Math.pow(.02,dt)); p.slide.addScaledVector(p.slideV,dt); spin.position.set(p.slide.x,.751,.02+p.slide.z); spin.rotation.y=p.yawTarget+p.slideSpin*(1-Math.exp(-(tt-B.fire)*3))*.001; if(p.spinKick){ spin.rotation.y=p.yawTarget+p.spinKick*(1-Math.pow(.02,tt-B.fire)); } }
     if(tt>=B.end) endTurn();
@@ -917,7 +943,7 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
 async function loadAssets(){ const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx);
-  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),loadImg("assets/RR_GUN_TOP.png"),loadImg("assets/RR_FLASH.png"),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp")]);
+  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp")]);
   { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.encoding=T.sRGBEncoding; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq;
   if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.encoding=T.sRGBEncoding; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; const cut=(PLATEMAP.room&&PLATEMAP.room.floorCut)||0; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-cut*H,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
@@ -932,7 +958,8 @@ function buildEnv(){ const pm=new T.PMREMGenerator(renderer); pm.compileEquirect
   const env=pm.fromScene(sc,.04).texture; scene.environment=env; pm.dispose(); }
 
 /* ================= controls, hooks ================= */
-/* r87 Team G embed (?embed=1, HO040-M1): the game sends {type:"cms-rr-setup", d, n, boards:{D,N}, turns:[{fire,target},{fire,target}]}:
+/* r87 Team G embed (?embed=1, HO040-M1): the game sends {type:"cms-rr-setup", d, n, boards:{D,N}, seed,
+   turns:[{fire,target,bulletChamber,stopChamber,hitSlot,aimSlot},{...}]}:
    both clubs, each manager's 15-player board for this season ({pos,name}: XI then 4 subs) and the outcomes from js/rosterRoulette.js.
    The button plays Daniel's turn, then Nik's, then hands back with "cms-rr-continue". The first tap turns sound on (it is the
    viewer's own tap inside this frame); the switch at the top turns it off. A board keeps the launch kit, and the launch rating
@@ -942,18 +969,21 @@ const toGame=(type,extra)=>{ try{ parent.postMessage(Object.assign({type},extra|
 function embedLabel(){ if(!GAME||playing) return; cta.disabled=false; cta.classList.remove("busy"); cta.textContent=turn<2?(NAME[ORDER[turn%2]]+" spins"):"Continue"; }
 if(EMBED){ document.body.classList.add("embed");
   addEventListener("message",e=>{ if(e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-rr-setup"||GAME) return; const g=e.data;
-    if(!SQUADS||!g.boards||!Array.isArray(g.boards.D)||!Array.isArray(g.boards.N)||!Array.isArray(g.turns)||g.turns.length!==2) return;
+    /* red team RT5-FLOW-01: a page that cannot take the setup (its squads file failed, or a bad message) tells the game at
+       once, so the game shows the result panel instead of a black stage with a dead button */
+    if(!SQUADS||!g.boards||!Array.isArray(g.boards.D)||!Array.isArray(g.boards.N)||!Array.isArray(g.turns)||g.turns.length!==2){ toGame("cms-rr-error",{message:SQUADS?"setup":"squads"}); return; }
     const merge=(clubName,rows,formation)=>{ const base=clubByName(clubName), launch=[...base.xi,...base.subs]; const known=nm=>launch.find(r=>r[1]===nm);
       const rate=(r,k)=>Number.isInteger(r.rating)?r.rating:(k?k[2]:""); /* a signing or Special Player shows the overall the game sent */
       const xi=rows.slice(0,11).map(r=>[r.pos,r.name,rate(r,known(r.name))]), subs=rows.slice(11,15).map(r=>{ const k=known(r.name); return [r.position||(k?k[0]:"SUB"),r.name,rate(r,k)]; });
       return Object.assign({},base,{club:clubName,xi,subs,formation:typeof formation==="string"?formation:null}); };
     const dEntry=merge(g.d,g.boards.D,g.formations&&g.formations.D), nEntry=merge(g.n,g.boards.N,g.formations&&g.formations.N);
+    if(Number.isInteger(g.seed)) seed=g.seed>>>0;   /* cosmetic draws (sparks, smoke) start from the Showdown's seed on both phones */
     GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent="One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
   addEventListener("rr:end",e=>{ toGame("cms-rr-end",{detail:e.detail}); setTimeout(embedLabel,0); }); }
 cta.addEventListener("click",()=>{ if(playing) return;
   if(EMBED){ if(!GAME) return; if(turn>=2){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; toGame("cms-rr-continue"); return; }
     if(!SFX.on&&GAME.sound!==false){ SFX.enable(true); $("sound").textContent="Sound: on"; $("sound").setAttribute("aria-pressed","true"); }
-    const o=GAME.turns[turn]; startTurn(o.fire===true,o.target||undefined); return; }
+    const o=GAME.turns[turn]; startTurn(o.fire===true,o.target||undefined,o); return; }
   startTurn(); });
 $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sound").textContent="Sound: "+(v?"on":"off"); $("sound").setAttribute("aria-pressed",String(v)); });
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));

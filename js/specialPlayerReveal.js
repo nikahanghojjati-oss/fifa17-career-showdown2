@@ -106,7 +106,9 @@
       stage.style.visibility="visible";
       frame.contentWindow.postMessage({type:"cms-sp-start"},root.location.origin);
       spMarkSeen(pick.key);
-    }catch(_error){if(channel)channel.stop();spMarkSeen(pick.key);spRemoveStage();loading.hide();return null;}
+    // Red team R87-SP-03: a page that never started (no 3D library, no network, timeout) is NOT marked seen, so the reveal
+    // plays the next time Career Start opens and the page can load.
+    }catch(_error){if(channel)channel.stop();spRemoveStage();loading.hide();return null;}
     loading.hide();
     try{frame.focus();}catch(_error){}
     const end=await channel.cont;channel.stop();

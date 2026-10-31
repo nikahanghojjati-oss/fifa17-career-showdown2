@@ -13,7 +13,8 @@
   // or a second tap can never re-spin.
   // Contract v4: always a full formation XI + 4 subs, with hidden local reserves. Shots permanently
   // remove a player; kept signings, the bench and reserves replace him before the next board is returned.
-  // The Special Player is excluded and all 15 slots keep the same target chance.
+  // Both managers' Special Players are excluded from both boards and both reserve pools (red team R87-C-01), and all 15
+  // slots keep the same target chance.
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]); // turn order: Daniel (Player One) first
   const CHAMBERS=7;
@@ -35,10 +36,24 @@
   function rrBoard(club){
     const data=rrSquads(),squad=data&&Object.prototype.hasOwnProperty.call(data.squads,club)?data.squads[club]:null;
     if(!squad||!rrPlayers())return null;
-    return Object.freeze([...squad.xi,...squad.subs].map(([pos,name,number,rating],i)=>rrRow(i,i<XI_SIZE?pos:"SUB",name,{number,rating,positions:rrPlayerPositions(name,club),special:false,signedSeason:null})));
+    return Object.freeze([...squad.xi,...squad.subs].map(([pos,name,number,rating],i)=>rrRow(i,i<XI_SIZE?pos:"SUB",name,{number,rating,positions:rrPlayerPositions(name,club,number),special:false,signedSeason:null})));
   }
   const rrOverall=value=>Number.isInteger(value)&&value>=OVERALL_MIN&&value<=OVERALL_MAX;
-  const rrKey=name=>String(name||"").trim().toLowerCase();
+  // Identity (red team R87-C-05): names compare with accents folded, trimmed and lower-cased ("M. Ozil" = "M. Özil"; no
+  // initials guessing). A database row is one person by (name, shirt number), so Alavés' two Manu García rows stay two
+  // people; a typed signing has no shirt number and matches every row with his name (the cautious reading).
+  const rrKeys=new Map();
+  function rrKey(name){
+    const text=String(name||"");let key=rrKeys.get(text);
+    if(key===undefined){key=text.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();if(rrKeys.size<20000)rrKeys.set(text,key);}
+    return key;
+  }
+  const rrNumber=p=>Number.isInteger(p&&p.number)?p.number:null;
+  const rrSame=(a,b)=>rrKey(a.name)===rrKey(b.name)&&(rrNumber(a)===null||rrNumber(b)===null||rrNumber(a)===rrNumber(b));
+  // Plain code-point order: identical on every phone (localeCompare depends on the browser's ICU data).
+  const rrCmp=(a,b)=>a<b?-1:a>b?1:0;
+  // Equal overalls rank by a stable identity, never by the Transfer War entry slot (red team R87-C-04).
+  const rrOrder=(a,b)=>b.rating-a.rating||rrCmp(rrKey(a.name),rrKey(b.name))||rrCmp(a.positions[0]||"",b.positions[0]||"")||rrCmp(a.name,b.name);
   // A 32-bit stream seeded from the id, the season and the role (xmur3 + mulberry32). Synchronous, so the screen
   // can show the result the moment the trigger is pulled; the id itself is the randomness.
   function rrStream(hex,season,role){
@@ -52,27 +67,30 @@
   const rrTargets=board=>board.filter(p=>p.name&&!p.special).map(p=>p.slot);
   // One manager's turn in one season. The bullet sits in one chamber, the cylinder stops on one chamber; it fires only
   // when they match (exactly 1 in 7). The animation must settle on stopChamber. A fired turn hits one target slot.
+  // aimSlot is where the barrel points when it stops (red team R87-C-06): the hit slot, or for a safe turn the same
+  // third draw on the same target list, so both phones aim at the same player with no extra randomness.
   function rrTurn(hex,season,role,board){
     const next=rrStream(hex,season,role);
     const bulletChamber=next()%CHAMBERS,stopChamber=next()%CHAMBERS,pick=next(),targets=rrTargets(board);
-    const fired=bulletChamber===stopChamber&&targets.length>0;
-    return {role,season,bulletChamber,stopChamber,fired,hitSlot:fired?targets[pick%targets.length]:null};
+    const fired=bulletChamber===stopChamber&&targets.length>0,aimSlot=targets.length?targets[pick%targets.length]:null;
+    return {role,season,bulletChamber,stopChamber,fired,hitSlot:fired?aimSlot:null,aimSlot};
   }
   // Player positions travel with the player; pos remains the formation slot even after a substitution.
-  // Name ambiguity: prefer the manager's launch club, then catalog/source order. Preserve the source's short_name.
+  // Name ambiguity: prefer the same shirt at the manager's launch club, then the club, then catalog/source order.
+  // Preserve the source's short_name.
   const byName=new Map();
   let indexed=false;
-  function rrPlayerPositions(name,club){
+  function rrPlayerPositions(name,club,number=null){
     const database=rrPlayers();
     if(!indexed&&database){
       for(const [sourceClub,data] of Object.entries(database.clubs))for(const row of data.players){
         const key=rrKey(row[0]),matches=byName.get(key)||[];
-        matches.push({club:sourceClub,positions:row[2]});byName.set(key,matches);
+        matches.push({club:sourceClub,number:row[4],positions:row[2]});byName.set(key,matches);
       }
       indexed=true;
     }
     const matches=byName.get(rrKey(name));
-    return matches?(matches.find(p=>p.club===club)||matches[0]).positions:Object.freeze([]);
+    return matches?(matches.find(p=>p.club===club&&p.number===number)||matches.find(p=>p.club===club)||matches[0]).positions:Object.freeze([]);
   }
   const SIGNING_POSITIONS=new Set(["GK","RB","RWB","CB","LB","LWB","CDM","CM","CAM","RM","LM","RW","LW","CF","ST"]);
   function rrLine(pos){
@@ -86,16 +104,11 @@
     if(["ST","CF","RS","LS","RF","LF"].includes(pos))return "ST";
     return null;
   }
-  // 2 = preferred attacking-midfield slot, 1 = compatible line, 0 = incompatible or sub-only.
+  // Positional fit only decides eligibility (red team R87-C-03): 1 = one of his positions is in the slot's line, 0 = not
+  // (or a sub-only player with no known position). Among eligible players the overall decides.
   function rrFit(player,pos){
     const line=rrLine(pos);
-    if(!line)return 0;
-    let fit=0;
-    for(const position of player.positions){
-      if(rrLine(position)!==line)continue;
-      fit=Math.max(fit,position==="CAM"&&["CAM","RAM","LAM"].includes(pos)?2:1);
-    }
-    return fit;
+    return line&&player.positions.some(position=>rrLine(position)===line)?1:0;
   }
   // Nik 2026-10-31: a club that has run out of players keeps an EMPTY slot (no name, rating 0); the roulette still runs
   // and the bullet only ever hits a filled slot (rrTargets).
@@ -103,103 +116,154 @@
   const rrPlace=(slot,player)=>player?rrRow(slot.slot,slot.pos,player.name,{number:player.number??null,rating:player.rating,positions:player.positions,special:false,signedSeason:player.signedSeason??null}):rrEmpty(slot);
   const rrRank=(a,b)=>b.rating-a.rating||(a.number??100)-(b.number??100);
   const rrDatabasePlayer=p=>({name:p[0],rating:p[1],positions:p[2],number:p[4],signedSeason:null});
-  const rrOnBoard=(state,name)=>state.board.some(p=>rrKey(p.name)===rrKey(name));
+  const rrOnBoard=(state,player)=>state.board.some(p=>p.name&&rrSame(p,player));
+  // Who may never come back: shot players, guessed signings and both Special Players. A person with a shirt number blocks
+  // only his own row (a namesake at the club stays) plus any typed signing with his name; a name-only entry (a guessed
+  // signing, a shot signing, a Special Player without a number) blocks the name.
+  function rrExclude(state,player){
+    const key=rrKey(player.name),number=rrNumber(player);
+    state.excludedNames.add(key);
+    if(number===null)state.excludedAll.add(key);else state.excludedIds.add(`${key}#${number}`);
+  }
+  function rrExcluded(state,player){
+    const key=rrKey(player.name),number=rrNumber(player);
+    if(state.excludedAll.has(key))return true;
+    return number===null?state.excludedNames.has(key):state.excludedIds.has(`${key}#${number}`);
+  }
   function rrReserve(state,player){
-    const key=rrKey(player.name);
-    if(state.excluded.has(key)||rrOnBoard(state,key)||state.reserves.some(p=>rrKey(p.name)===key))return;
+    if(rrExcluded(state,player)||rrOnBoard(state,player)||state.reserves.some(p=>rrSame(p,player)))return;
     state.reserves.push(player);
   }
-  // Database replacements use bundled data only. Never resurrect a shot player or the Special Player,
-  // and never select the second source row of an already-used short name (e.g. Manu García).
-  function rrNextReserve(state,predicate=()=>true){
+  // Database replacements use bundled data only. Never resurrect a shot player or a Special Player, and never pick a
+  // row already on the board or in the reserves (one person = name + shirt number).
+  function rrBestDatabase(state,predicate){
     const eligible=p=>
-      predicate(p)&&!state.excluded.has(rrKey(p.name))&&!rrOnBoard(state,p.name)&&!state.reserves.some(r=>rrKey(r.name)===rrKey(p.name));
-    const next=rrPlayers().clubs[state.club].players.map(rrDatabasePlayer).sort(rrRank).find(eligible);
+      predicate(p)&&!rrExcluded(state,p)&&!rrOnBoard(state,p)&&!state.reserves.some(r=>rrSame(r,p));
+    return rrPlayers().clubs[state.club].players.map(rrDatabasePlayer).sort(rrRank).find(eligible)||null;
+  }
+  function rrNextReserve(state,predicate=()=>true){
+    const next=rrBestDatabase(state,predicate);
     if(next)state.reserves.push(next);
     return next;
   }
+  // Every refill takes the best available club player (red team RT5 Q2): the best of the reserves (hidden three, dropped
+  // starters, parked signings) and the club's unused database players, by overall then lower shirt number, the build
+  // script's tie rule. A weak player in the reserves never blocks a better unused club player.
   function rrTakeReserve(state,predicate=()=>true){
-    if(!state.reserves.some(predicate))rrNextReserve(state,predicate);
     let at=-1;
     for(let i=0;i<state.reserves.length;i+=1)if(predicate(state.reserves[i])&&(at<0||rrRank(state.reserves[i],state.reserves[at])<0))at=i;
+    const next=rrBestDatabase(state,predicate);
+    if(next&&(at<0||rrRank(next,state.reserves[at])<0))return next;
     // Replacements stay club-only: a club with no player left gets an empty slot (null), never a revived loss or an import.
     if(at<0)return null;
     const [player]=state.reserves.splice(at,1);
     return player;
   }
   // Strict improvements retain incumbents on ties. A displaced player stays in the local squad.
-  function rrBench(state,player){
-    const board=state.board;
-    if(state.vacant>=XI_SIZE){
-      const at=state.vacant;board[at]=rrPlace(board[at],player);state.vacant=null;
-      return true;
-    }
-    let at=XI_SIZE;
-    for(let i=XI_SIZE+1;i<BOARD_SIZE;i+=1)if(board[i].rating<board[at].rating)at=i;
-    if(!(player.rating>board[at].rating)){rrReserve(state,player);return false;}
+  // A shot sub's place goes to a kept signing of this window; a starter a signing displaced only goes to the bench when
+  // he beats the weakest remaining sub (red team RT5 Q1), otherwise he joins the reserves, and the shot sub's place is
+  // refilled afterwards with the best available club player (who may be him).
+  function rrBench(state,player,signing=false){
+    const board=state.board,benchVacancy=state.vacant!==null&&state.vacant>=XI_SIZE;
+    const fillVacancy=()=>{board[state.vacant]=rrPlace(board[state.vacant],player);state.vacant=null;return true;};
+    if(signing&&benchVacancy)return fillVacancy();
+    let at=-1;
+    for(let i=XI_SIZE;i<BOARD_SIZE;i+=1)if(i!==state.vacant&&(at<0||board[i].rating<board[at].rating))at=i;
+    if(at<0&&benchVacancy)return fillVacancy();
+    if(at<0||!(player.rating>board[at].rating)){rrReserve(state,player);return false;}
+    if(benchVacancy)return fillVacancy();
     const replaced=board[at];board[at]=rrPlace(replaced,player);rrReserve(state,replaced);
     return true;
   }
+  // A kept signing starts only in a slot of his line: the shot player's slot, else the weakest compatible starter when
+  // he is strictly better (equal weakest: the lower board slot). Otherwise the bench rule below.
   function rrJoin(state,player){
-    if(state.excluded.has(rrKey(player.name))||rrOnBoard(state,player.name))return false;
-    state.reserves=state.reserves.filter(p=>rrKey(p.name)!==rrKey(player.name));
+    if(rrExcluded(state,player)||rrOnBoard(state,player))return false;
+    state.reserves=state.reserves.filter(p=>!rrSame(p,player));
     let at=state.vacant!==null&&state.vacant<XI_SIZE&&rrFit(player,state.board[state.vacant].pos)>0?state.vacant:-1;
     if(at<0){
       for(let i=0;i<XI_SIZE;i+=1){
         const current=state.board[i];
-        if(i===state.vacant)continue;
-        if(!rrFit(player,current.pos)||!(player.rating>current.rating))continue;
-        if(at<0||rrFit(player,current.pos)>rrFit(player,state.board[at].pos)||(rrFit(player,current.pos)===rrFit(player,state.board[at].pos)&&current.rating<state.board[at].rating))at=i;
+        if(i===state.vacant||!rrFit(player,current.pos))continue;
+        // An outfielder standing in goal because the club ran out of keepers (red team R87-E-02) gives way to any keeper.
+        const stopgap=current.pos==="GK"&&current.name&&current.positions[0]!=="GK";
+        if(!stopgap&&!(player.rating>current.rating))continue;
+        if(at<0||stopgap||current.rating<state.board[at].rating)at=i;
       }
     }
-    if(at<0)return rrBench(state,player);
+    if(at<0)return rrBench(state,player,true);
     const replaced=state.board[at];state.board[at]=rrPlace(replaced,player);
     if(at===state.vacant)state.vacant=null;
     else rrBench(state,replaced);
     return true;
   }
-  // Replace directly: no intermediate empty row is ever written to a board. Kept signings get
-  // first refusal, even below the lost player's rating. Otherwise promote the best same-line
-  // sub, then the best outfield overall, and immediately refill the bench from hidden reserves.
-  function rrReplace(state,at,kept){
+  // Replace directly: no intermediate empty row is ever written to a board. Kept signings get first refusal, even below
+  // the lost player's rating. Otherwise (red team R87-C-02) the best sub who FITS the slot moves up and the best reserve
+  // refills the bench; with no fitting sub, the best fitting reserve or club database player goes straight into the slot.
+  // Only when nobody left at the club fits does the best available player of the same kind (keeper / outfielder) take
+  // it, and only a club that has run out entirely leaves the slot empty.
+  // Only signings of the window being processed (season) get first refusal (red team R87-E-01): one from an earlier
+  // window who never made the board is an ordinary reserve.
+  function rrReplace(state,at,kept,season=null){
     const slot=state.board[at];
-    const candidates=[...kept,...state.reserves.filter(p=>p.signedSeason!==null)].filter(p=>
-      !state.excluded.has(rrKey(p.name))&&!rrOnBoard(state,p.name)&&(slot.bench||rrFit(p,slot.pos)>0));
-    candidates.sort((a,b)=>b.rating-a.rating||(a.slot??0)-(b.slot??0));
+    const candidates=[...kept,...state.reserves.filter(p=>season!==null&&p.signedSeason===season)].filter(p=>
+      !rrExcluded(state,p)&&!rrOnBoard(state,p)&&(slot.bench||rrFit(p,slot.pos)>0));
+    candidates.sort(rrOrder);
     if(candidates.length){
       const player=candidates[0];state.board[at]=rrPlace(slot,player);
-      state.reserves=state.reserves.filter(p=>rrKey(p.name)!==rrKey(player.name));
+      state.reserves=state.reserves.filter(p=>!rrSame(p,player));
       return;
     }
     if(slot.bench){state.board[at]=rrPlace(slot,rrTakeReserve(state));return;}
     const keeper=slot.pos==='GK';
-    let bench=-1;
-    for(let i=XI_SIZE;i<BOARD_SIZE;i+=1){
-      const player=state.board[i];
-      if(!player.positions.length||(player.positions[0]==='GK')!==keeper)continue;
-      if(bench<0||rrFit(player,slot.pos)>rrFit(state.board[bench],slot.pos)||(rrFit(player,slot.pos)===rrFit(state.board[bench],slot.pos)&&rrRank(player,state.board[bench])<0))bench=i;
-    }
-    if(bench>=0){
+    const fits=p=>rrFit(p,slot.pos)>0;
+    const sameKind=p=>p.positions.length>0&&(p.positions[0]==='GK')===keeper;
+    const bestBench=predicate=>{
+      let bench=-1;
+      for(let i=XI_SIZE;i<BOARD_SIZE;i+=1){
+        const player=state.board[i];
+        if(!player.name||rrExcluded(state,player)||!predicate(player))continue;
+        if(bench<0||rrRank(player,state.board[bench])<0)bench=i;
+      }
+      return bench;
+    };
+    const promote=bench=>{
       const player=state.board[bench],replacement=rrTakeReserve(state);// null = the bench slot stays empty
       state.board[at]=rrPlace(slot,player);state.board[bench]=rrPlace(state.board[bench],replacement);
-    }else{
-      // A club need not carry a keeper among its four subs. Its next database keeper
-      // fills GK directly; unknown-position signings remain bench-only.
-      state.board[at]=rrPlace(slot,rrTakeReserve(state,p=>(p.positions[0]==='GK')===keeper));
-    }
+    };
+    let bench=bestBench(fits);
+    if(bench>=0){promote(bench);return;}
+    const direct=rrTakeReserve(state,fits);
+    if(direct){state.board[at]=rrPlace(slot,direct);return;}
+    bench=bestBench(sameKind);
+    if(bench>=0){promote(bench);return;}
+    // A club need not carry a keeper among its four subs; unknown-position signings remain bench-only.
+    const last=rrTakeReserve(state,sameKind);
+    if(last||!keeper){state.board[at]=rrPlace(slot,last);return;}
+    // No keeper left at the club at all (red team R87-E-02, rare): the best remaining outfielder goes in goal; the slot is
+    // empty only when the club has nobody left.
+    bench=bestBench(p=>p.positions.length>0);
+    if(bench>=0){promote(bench);return;}
+    state.board[at]=rrPlace(slot,rrTakeReserve(state,p=>p.positions.length>0));
   }
-  // special = {playerOne:{name, overall}, playerTwo:{...}} from the Special Player draw, or null for an older Showdown.
+  // special = {playerOne:{name, overall, number?, sourceName?}, playerTwo:{...}} from the Special Player draw, or null for
+  // an older Showdown. With his shirt number only his own database row is excluded (red team R87-C-05: Empoli's other
+  // Matheus Pereira stays); sourceName is his squad database name when it differs (R87-D-01: "K. Mbappe Lottin").
+  // Without a number, every row with his name.
   function rrSpecial(special,role){
     const p=special&&special[role];
-    return p&&typeof p.name==="string"&&p.name.trim()&&rrOverall(p.overall)?{name:p.name.trim(),rating:p.overall}:null;
+    if(!(p&&typeof p.name==="string"&&p.name.trim()&&rrOverall(p.overall)))return null;
+    const number=rrNumber(p),names=[p.name.trim()];
+    if(typeof p.sourceName==="string"&&p.sourceName.trim())names.push(p.sourceName.trim());
+    return names.map(name=>({name,rating:p.overall,number}));
   }
   // Kept signings of one season for one manager: Transfer War verdict rows with a valid overall that were not released
-  // by the rival's guess, best overall first (equal overalls by signing slot).
+  // by the rival's guess, best overall first; equal overalls by identity (name, then position), never by entry slot.
   function rrKept(rows,season,club){
     if(!Array.isArray(rows))return null;
     return rows.filter(r=>r&&r.release===false&&typeof r.name==="string"&&r.name.trim()&&rrOverall(r.overall))
-      .map(r=>({slot:Number(r.slot)||0,name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrPlayerPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
-      .sort((a,b)=>b.rating-a.rating||a.slot-b.slot);
+      .map(r=>({name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrPlayerPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
+      .sort(rrOrder);
   }
   function rrArgs(rivalryId,clubs,season){
     const match=RIVALRY_ID.exec(String(rivalryId||""));
@@ -218,30 +282,31 @@
     const history=options&&options.history,special=options&&options.special;
     const boards={},turns={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
+    // The Special Player is never on any board, bench or reserve list anywhere: both managers' draws are excluded from
+    // both clubs (red team R87-C-01). One in the club's launch board is skipped and the next player takes his place.
+    const specials=ROLES.flatMap(role=>rrSpecial(special,role)||[]);
     for(const role of ROLES){
-      const sp=rrSpecial(special,role),state={club:clubs[role],board:args.launch[role].slice(),reserves:[],vacant:null,excluded:new Set(sp?[rrKey(sp.name)]:[])};
+      const state={club:clubs[role],board:args.launch[role].slice(),reserves:[],vacant:null,excludedNames:new Set(),excludedIds:new Set(),excludedAll:new Set()};
+      for(const sp of specials)rrExclude(state,sp);
       for(const [,name,number,rating] of rrSquads().squads[state.club].reserves)
-        rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club),signedSeason:null});
-      if(sp){
-        const same=state.board.findIndex(p=>rrKey(p.name)===rrKey(sp.name));
-        if(same>=0)rrReplace(state,same,[]);
-        while(state.reserves.length<3&&rrNextReserve(state)){} // skip him in the hidden three too
-      }
+        rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club,number),signedSeason:null});
+      for(let i=0;i<BOARD_SIZE;i+=1)if(rrExcluded(state,state.board[i]))rrReplace(state,i,[]);
+      while(state.reserves.length<3&&rrNextReserve(state)){} // skip him in the hidden three too
       for(let k=1;k<season;k+=1){
         const kept=rrKept(history&&history[k]&&history[k][role],k,state.club);
         if(!kept)return null;
         // A guessed signing must not sneak in later through the club database refill.
-        for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string')state.excluded.add(rrKey(row.name));
-        state.reserves=state.reserves.filter(p=>!state.excluded.has(rrKey(p.name)));
+        for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string')rrExclude(state,{name:row.name,number:null});
+        state.reserves=state.reserves.filter(p=>!rrExcluded(state,p));
         const turn=rrTurn(args.hex,k,role,state.board);
         if(turn.fired){
-          state.excluded.add(rrKey(state.board[turn.hitSlot].name));
+          rrExclude(state,state.board[turn.hitSlot]);
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
           // R87-2's XI/bench signing placement run first without ever writing a blank row.
           state.vacant=turn.hitSlot;
         }
         for(const player of kept)rrJoin(state,player);
-        if(state.vacant!==null){rrReplace(state,state.vacant,[]);state.vacant=null;}
+        if(state.vacant!==null){rrReplace(state,state.vacant,[],k);state.vacant=null;}
       }
       const board=state.board;
       boards[role]=Object.freeze(board);
