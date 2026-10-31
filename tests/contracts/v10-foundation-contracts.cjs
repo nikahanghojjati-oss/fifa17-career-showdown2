@@ -422,7 +422,19 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
   // every display:none rule must target only the shell's own music dock/sheet/tab or a Team V stage decoration layer.
   const hiding=[...css.replace(/\/\*[\s\S]*?\*\//g,"").matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter(m=>/display:\s*none/.test(m[2])).map(m=>m[1].trim().replace(/\s+/g," "));
   assert.ok(hiding.length>0,"the music player rules are found");
-  for(const selector of hiding)assert.match(selector,/\.cmsMusic(?:Dock|Sheet|SheetShield|Tab)\b|\.sd-stage__layer--/,`the shell CSS hides only its own music pieces or Team V decoration, not: ${selector}`);
+  // Each hidden target is checked on its own: top-level commas split the rule, the last compound is the element hidden, and
+  // an :is() list there is split again (Codex #1115: ".cmsMusicDock, #app" must not pass because one branch is allowed).
+  const splitTop=text=>{const out=[];let depth=0,cur="";for(const ch of text){if(ch==="("||ch==="[")depth+=1;else if(ch===")"||ch==="]")depth-=1;if(ch===","&&depth===0){out.push(cur.trim());cur="";}else cur+=ch;}if(cur.trim())out.push(cur.trim());return out;};
+  const lastCompound=text=>{let depth=0;for(let i=text.length-1;i>=0;i-=1){const ch=text[i];if(ch===")"||ch==="]")depth+=1;else if(ch==="("||ch==="[")depth-=1;else if(depth===0&&/[\s>+~]/.test(ch))return text.slice(i+1).trim();}return text.trim();};
+  const targets=selector=>splitTop(selector).flatMap(branch=>{const last=lastCompound(branch),is=/^:is\((.*)\)$/.exec(last);return is?splitTop(is[1]).map(inner=>`${branch.slice(0,branch.length-last.length)}${lastCompound(inner)}`):[branch];});
+  const allowed=/\.cmsMusic(?:Dock|Sheet|SheetShield|Tab)\b|\.sd-stage__layer--|^\.cmsMusicDock(?:Text|Disc|Open)\b/;
+  const ownPiece=/(?:^|\s)\.cmsMusic|\.sd-stage__layer--/;
+  for(const selector of hiding)for(const target of targets(selector)){
+    const element=lastCompound(target);
+    assert.ok(allowed.test(element)||(ownPiece.test(target)&&/^(?:\.[\w-]+|small|span)(?:\[[^\]]*\])*$/.test(element)),`the shell CSS hides only its own music pieces or Team V decoration, not: ${target} (in ${selector})`);
+  }
+  for(const bad of [".cmsMusicDock, #app",".cmsMusicDock :is(.cmsMusicDockText, #mainMenu)","#app #careerStatistics.careerScreenV10"])
+    assert.ok(targets(bad).some(target=>{const element=lastCompound(target);return !(allowed.test(element)||(ownPiece.test(target)&&/^(?:\.[\w-]+|small|span)(?:\[[^\]]*\])*$/.test(element)));}),`self-check: ${bad} is caught`);
 });
 
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
