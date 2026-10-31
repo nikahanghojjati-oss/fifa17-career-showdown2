@@ -175,6 +175,14 @@
     const replaced=board[at];board[at]=rrPlace(replaced,player);rrReserve(state,replaced);
     return true;
   }
+  // A stopgap (Sol SQ-2-01): an XI player standing in a slot outside his line because nobody fitting was left, unless
+  // he is the club's own FIFA 17 launch pick for that slot (the source puts some starters out of position on purpose).
+  function rrStopgap(state,i){
+    const current=state.board[i];
+    if(i>=XI_SIZE||!current.name||rrFit(current,current.pos))return false;
+    const launch=state.launch&&state.launch[i];
+    return !(launch&&launch.name&&rrSame(launch,current));
+  }
   // A kept signing starts only in a slot of his line: the shot player's slot, else the weakest compatible starter when
   // he is strictly better (equal weakest: the lower board slot). Otherwise the bench rule below.
   function rrJoin(state,player){
@@ -185,8 +193,9 @@
       for(let i=0;i<XI_SIZE;i+=1){
         const current=state.board[i];
         if(i===state.vacant||!rrFit(player,current.pos))continue;
-        // An outfielder standing in goal because the club ran out of keepers (red team R87-E-02) gives way to any keeper.
-        const stopgap=current.pos==="GK"&&current.name&&current.positions[0]!=="GK";
+        // A stopgap (an outfielder in goal, R87-E-02, or any player outside his line, Sol SQ-2-01) gives way to any
+        // fitting signing.
+        const stopgap=rrStopgap(state,i);
         if(!stopgap&&!(player.rating>current.rating))continue;
         if(at<0||stopgap||current.rating<state.board[at].rating)at=i;
       }
@@ -246,6 +255,26 @@
     if(bench>=0){promote(bench);return;}
     state.board[at]=rrPlace(slot,rrTakeReserve(state,p=>p.positions.length>0));
   }
+  // Sol SQ-2-01: once a fitting club player or signing is available again, a stopgap hands his slot back (best fitting
+  // player by the normal refill order) and returns to the bench or the reserves.
+  function rrRepairStopgaps(state,season){
+    for(let i=0;i<XI_SIZE;i+=1){
+      if(!rrStopgap(state,i))continue;
+      const slot=state.board[i],fits=p=>p.name&&!rrExcluded(state,p)&&rrFit(p,slot.pos)>0;
+      let available=false;
+      for(let b=XI_SIZE;b<BOARD_SIZE&&!available;b+=1)available=fits(state.board[b]);
+      if(!available)available=state.reserves.some(fits)||Boolean(rrBestDatabase(state,p=>rrFit(p,slot.pos)>0));
+      if(!available)continue;
+      const stopgap=slot;
+      rrReplace(state,i,[],season);
+      rrBench(state,stopgap);
+    }
+  }
+  // Sol SQ-2-02: a player the rival guessed must be released, so he leaves the board too (not only the reserves); his
+  // slot is refilled the normal way. Runs after that season's shot, so the shot already shown never changes.
+  function rrEvictExcluded(state,season){
+    for(let i=0;i<BOARD_SIZE;i+=1)if(state.board[i].name&&rrExcluded(state,state.board[i]))rrReplace(state,i,[],season);
+  }
   // special = {playerOne:{name, overall, number?, sourceName?}, playerTwo:{...}} from the Special Player draw, or null for
   // an older Showdown. With his shirt number only his own database row is excluded (red team R87-C-05: Empoli's other
   // Matheus Pereira stays); sourceName is his squad database name when it differs (R87-D-01: "K. Mbappe Lottin").
@@ -286,19 +315,24 @@
     // both clubs (red team R87-C-01). One in the club's launch board is skipped and the next player takes his place.
     const specials=ROLES.flatMap(role=>rrSpecial(special,role)||[]);
     for(const role of ROLES){
-      const state={club:clubs[role],board:args.launch[role].slice(),reserves:[],vacant:null,excludedNames:new Set(),excludedIds:new Set(),excludedAll:new Set()};
+      const state={club:clubs[role],launch:args.launch[role],board:args.launch[role].slice(),reserves:[],vacant:null,excludedNames:new Set(),excludedIds:new Set(),excludedAll:new Set()};
       for(const sp of specials)rrExclude(state,sp);
       for(const [,name,number,rating] of rrSquads().squads[state.club].reserves)
         rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club,number),signedSeason:null});
       for(let i=0;i<BOARD_SIZE;i+=1)if(rrExcluded(state,state.board[i]))rrReplace(state,i,[]);
       while(state.reserves.length<3&&rrNextReserve(state)){} // skip him in the hidden three too
       for(let k=1;k<season;k+=1){
-        const kept=rrKept(history&&history[k]&&history[k][role],k,state.club);
-        if(!kept)return null;
-        // A guessed signing must not sneak in later through the club database refill.
+        const allKept=rrKept(history&&history[k]&&history[k][role],k,state.club);
+        if(!allKept)return null;
+        const turn=rrTurn(args.hex,k,role,state.board);
+        // A guessed signing must not sneak in later through the club database refill. Applied after this season's turn
+        // was drawn (the board it aimed at is the one the screen showed); a guessed player already on the board is
+        // evicted below (Sol SQ-2-02).
         for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string')rrExclude(state,{name:row.name,number:null});
         state.reserves=state.reserves.filter(p=>!rrExcluded(state,p));
-        const turn=rrTurn(args.hex,k,role,state.board);
+        // Sol SQ-2-03: a player this manager already signed in an earlier window is not a new signing when entered again;
+        // he keeps his first window and his place (board or reserves).
+        const kept=allKept.filter(p=>!state.reserves.some(r=>r.signedSeason!==null&&rrSame(r,p)));
         if(turn.fired){
           rrExclude(state,state.board[turn.hitSlot]);
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
@@ -307,6 +341,8 @@
         }
         for(const player of kept)rrJoin(state,player);
         if(state.vacant!==null){rrReplace(state,state.vacant,[],k);state.vacant=null;}
+        rrEvictExcluded(state,k);
+        rrRepairStopgaps(state,k);
       }
       const board=state.board;
       boards[role]=Object.freeze(board);
