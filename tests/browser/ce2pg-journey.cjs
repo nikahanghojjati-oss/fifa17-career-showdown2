@@ -884,7 +884,8 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   const champs={daniel:winners.filter(w=>w==="daniel").length,nik:winners.filter(w=>w==="nik").length};
   await eq(m,id("trophy.cabinet"),"Trophy Room cabinet: Showdown Champion, league titles, cups, Champions League (D / N)",[f.cabChampion,f.cabLeague,f.cabCup,f.cabCl],[[cell(champs.daniel),cell(champs.nik)],[cell(x.daniel.league),cell(x.nik.league)],[cell(x.daniel.cup),cell(x.nik.cup)],[cell(x.daniel.cl),cell(x.nik.cl)]],scr("Trophy Room (cabinet)"));
   if(E.completedCount>0){
-    const ahead=u=>{const o=u==="daniel"?"nik":"daniel";return x[u].total!==x[o].total?x[u].total>x[o].total:x[u].W!==x[o].W?x[u].W>x[o].W:null;};
+    // No tiebreak anywhere (Nik): equal career points share #1; season wins never decide the rank.
+    const ahead=u=>{const o=u==="daniel"?"nik":"daniel";return x[u].total!==x[o].total?x[u].total>x[o].total:null;};
     for(const u of ["daniel","nik"]){
       const got=f[u==="daniel"?"rankDaniel":"rankNik"],a=ahead(u),want=[a===null?"1":a?"1":"2",S(x[u].total),S(x[u].W)];
       await eq(m,id(`trophy.rank.${u}`),`Trophy Room ranking: ${NAMES[u]} rank, career points, season wins`,got,want,scr("Trophy Room (ranking)"));
