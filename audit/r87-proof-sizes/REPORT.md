@@ -32,6 +32,7 @@ Base: `gameplay/r87` @ `73713d75` (2026-10-31). Emulator only (firebase@12.17.0)
 | F7 | 768x1024 | Legacy | The LEGACY brush title sits over Daniel's hand and arm. VIEW SEASON HISTORY and CLOSE SEASON HISTORY show at the same time. | F7 | Low |
 | F8 | 768x1024 | Club Assignment | Nik's card is faded while Daniel's pack opens. Check this against the no-dimming rule. | F8 | Low, owner's call |
 | F9 | 820x1180 | Club Assignment | Nik's card says REVEALED with a crest but no club name; Daniel's card shows "West Ham United". The packs show no crest yet. | F9 | Low to medium: check |
+| F11 | 844x390 | Transfer, signings | LOCK MY SIGNINGS sits over REFRESH CHALLENGE: REFRESH CHALLENGE is covered at its centre. Found in the rerun at 9acd3ab, which shoots each Transfer phase. | F11 | Medium: something covers a button |
 | F10 | 740x360 | Transfer, before the window | The right column is mostly empty, and the "15 MIN · 3 SIGNINGS · 3 GUESSES" line is near-invisible. | F10 | Low |
 
 Clean at every size checked:
