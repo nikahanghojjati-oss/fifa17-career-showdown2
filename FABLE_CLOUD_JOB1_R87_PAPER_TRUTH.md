@@ -18,6 +18,11 @@ The **Touchline Gazette** (js/touchlineGazette.js) prints a newspaper after each
 ## Owner rule
 **Every printed line must match what happened.** A draw is never told as a win; a 1-point win is never a big win or a rout; a season without a trophy never talks about silverware; a manager without the Champions League is never called a European champion; EL is never told as CL; a final page never talks about next season; a level Showdown has no winner; nothing invents facts (scores, goals, players, injuries, managers' names other than Daniel/Nik, clubs other than the two in the game). No raw `{placeholder}`, "undefined", "NaN", "1 points", wrong club, wrong season number or wrong total.
 
+## Part 0: two known Gazette bugs from Fable job 2 (fix first, each with a contract that fails before the fix)
+- **F2-15:** `SEASON_SAFETY_MS=9000` closes the paper while `continueToNextSeason()` is still in flight. Expected: the paper (or a loading state, never dimmed) stays until the action it runs has finished or failed, and a failure leaves the player with a working way on. The tap must never run twice.
+- **F2-16:** the two phones' papers can differ by the Special Players line when `CareerModeSpecialPlayerChip` is not loaded on one phone. Expected: both phones print the identical paper (load the chip's data before the paper is built, or leave the line out on both by a rule that depends only on shared data).
+Commit and push Part 0 before Part A.
+
 ## Part A: an exhaustive renderer (commit and push when done)
 Write `tests/support/gazetteTruthSweep.cjs` that builds valid Shared History projections (same shape the contracts test uses) and renders papers for:
 - every season-score pair 0..11 × 0..11, with every legal trophy mix that gives those scores (CL vs EL vs neither, title, cup, both bonuses), for season 1 of 1, season 1/2/9 of 10, and the last season of 3 and 5;
@@ -34,7 +39,7 @@ Fix the smallest coherent cause:
 - the row's text overclaims → edit the text minimally (keep the voice; no tiebreak words, "Special Player"/"SP" only);
 - the engine picks a false situation or fills a wrong value → fix js/touchlineGazette.js;
 - a row cannot be made true → remove it, and make sure its situation still has rows (at least 3).
-Do not change any other file. Do not change the paper's layout, js/seasonFinalV10.js, the renderer or CSS.
+Do not change any other file (Part 0 may also change only js/touchlineGazette.js). Do not change the paper's layout, js/seasonFinalV10.js, the renderer or CSS.
 
 Every engine fix gets a case in tests/contracts/r87-gazette-contracts.cjs that fails before the fix. Every data fix is covered by turning the sweep's mechanical checks plus a list of the false rows you found into a contract (a small fixed-seed version of the sweep that runs in under 10 s) added to r87-gazette-contracts.cjs.
 
