@@ -237,7 +237,20 @@ if(OUT){
         const [tr,tg,tb,ta=1]=parseRGB(cs.color);
         const fillCol=cs.webkitTextFillColor&&!/rgba?\(0, 0, 0, 0\)/.test(cs.webkitTextFillColor)?parseRGB(cs.webkitTextFillColor):null;
         if(ta<0.1&&!fillCol)continue;// gradient/clip text: skip
-        const col=fillCol||[tr,tg,tb];
+        let col=fillCol?fillCol.slice(0,3):[tr,tg,tb];
+        // translucent text (alpha colour or faded ancestors) renders blended with what is behind it: composite it over the
+        // median colour of the sampled area (mostly background) before comparing
+        let alpha=fillCol?(fillCol[3]===undefined?1:fillCol[3]):ta;
+        for(let e=el;e&&e.nodeType===1;e=e.parentElement)alpha*=Number(getComputedStyle(e).opacity);
+        if(alpha<0.95){
+          const px=[];
+          for(const r of rects.slice(0,3)){
+            const s=img.scale,x0=Math.max(0,Math.floor((r.left-3)*s)),x1=Math.min(img.w-1,Math.ceil((r.right+3)*s)),y0=Math.max(0,Math.floor((r.top-2)*s)),y1=Math.min(img.h-1,Math.ceil((r.bottom+2)*s));
+            const step=Math.max(1,Math.floor((x1-x0)*(y1-y0)/2000));let i=0;
+            for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){if((i++)%step)continue;const p=(y*img.w+x)*4;px.push([img.data[p],img.data[p+1],img.data[p+2]]);}
+          }
+          if(px.length){const med=k=>px.map(q=>q[k]).sort((m,n)=>m-n)[px.length>>1];const bg=[med(0),med(1),med(2)];col=col.map((c,k)=>Math.round(alpha*c+(1-alpha)*bg[k]));}
+        }
         const Lt=lum(col[0],col[1],col[2]);
         // sample a ring just outside the text box plus the box itself, keep pixels far from the text colour = background
         const bgL=[];let sampled=0;
