@@ -176,6 +176,7 @@ function checkBrowser(who,raw,E){
   if(!f.seasonHistoryFor&&E.history.some(h=>h.state==="completed"))check(id("history.seasons"),"History VIEW SEASON HISTORY opens for the selected completed Showdown",false,{seasonHistoryFor:f.seasonHistoryFor,text:f.seasonHistory.slice(0,300)},o("History (season history)"));
   if(f.seasonHistoryFor){
     const r=E.history.find(h=>h.number===Number(f.seasonHistoryFor)&&h.state==="completed");
+    if(!r&&E.history.some(h=>h.state==="completed"))check(id("history.seasons"),"History VIEW SEASON HISTORY opens a completed Showdown",false,{seasonHistoryFor:f.seasonHistoryFor},o("History (season history)"));
     if(r){
       const sc=Expect.scoreSeason;
       const want=r.seasons.map((p,i)=>`Season ${i+1} Daniel: ${sc(p.daniel).total} #${p.daniel.leaguePosition} · ${p.daniel.leaguePoints} league pts · ${p.daniel.leagueGoals} goals – Nik: ${sc(p.nik).total} #${p.nik.leaguePosition} · ${p.nik.leaguePoints} league pts · ${p.nik.leagueGoals} goals`);

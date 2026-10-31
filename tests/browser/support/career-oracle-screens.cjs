@@ -132,6 +132,18 @@ async function capturePage(m,hostId,shot){
     out.navigation={steps,ms:Date.now()-navStart};
     out.cards=[...all.values()].sort((a,b)=>Number(a.number)-Number(b.number));
     // Back to where it opened (the newest is the last page/card) for VIEW SEASON HISTORY below.
+    // VIEW SEASON HISTORY works for a completed Showdown only: when the walk ends on an Ended early card, step back (phone ‹)
+    // or tap the newest completed card on the page (desktop) first (Codex P2 on #1121).
+    const selected=()=>m.page.evaluate(()=>{const n=window.LegacyFixture?.selectedShowdown;const card=(n!==undefined&&n!==null?document.querySelector(`#legacy .legacyCard[data-showdown="${n}"]`):null)||document.querySelector("#legacy .legacyCard[data-selected=true]")||document.querySelector("#legacy .legacyVisibleCard");return card?{number:card.dataset.showdown,status:card.dataset.status}:null;});
+    for(let i=0;i<30;i+=1){
+      const sel=await selected();if(!sel||sel.status==="completed")break;
+      if(phone){if(!await enabled(-1))break;await pager(-1).click({timeout:5000}).catch(()=>{});}
+      else{
+        const done=await m.page.evaluate(()=>{const cards=[...document.querySelectorAll("#legacy .legacyCard[data-status=completed]")].filter(c=>c.getBoundingClientRect().width>0);const c=cards.at(-1);if(!c)return false;c.click();return true;});
+        if(!done){if(!await enabled(-1))break;await pager(-1).click({timeout:5000}).catch(()=>{});}
+      }
+      await m.page.waitForTimeout(300);
+    }
     const hist=m.page.locator("#legacy button").filter({hasText:/VIEW SEASON HISTORY/i}).first();
     if(await hist.count()&&await hist.isVisible().catch(()=>false)){
       // The Showdown VIEW SEASON HISTORY opens is the History controller's selection (the button sits outside the cards:
