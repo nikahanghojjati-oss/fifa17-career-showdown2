@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 3:48 PM Boston time (EDT)",
+ "generated": "2026-10-31 3:52 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1589,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0bbc92c",
-  "head_boston": "Sat 31 Oct 3:40 PM",
+  "head": "b841fcd",
+  "head_boston": "Sat 31 Oct 3:48 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1685,6 +1685,16 @@
     "total": 4,
     "pr": 381,
     "current": "Done; handed to Team G as HO-006"
+   },
+   {
+    "job": "V-HO-050",
+    "title": "League waiting strip never covers controls; sideways Rule Book scrolls in main",
+    "worker": "worker not set",
+    "lane": "",
+    "done": 0,
+    "total": 1,
+    "pr": 1140,
+    "current": ""
    }
   ],
   "inbox": {
@@ -2347,8 +2357,8 @@
     "from": "G",
     "to": "V",
     "title": "r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-050_r87-layout-select-league-waiting-strip-c.md",
     "worker": "opus",

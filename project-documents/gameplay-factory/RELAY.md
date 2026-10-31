@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-31 3:48 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-31 3:52 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `0bbc92c` (Sat 31 Oct 3:40 PM Boston time) · 174 messages · 51 hand-offs · 336 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b841fcd` (Sat 31 Oct 3:48 PM Boston time) · 174 messages · 51 hand-offs · 336 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-050 · G → V · r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Sat 31 Oct 3:48 PM · Team V · Done · F3 strip clear at 1280-2560x1440 (ultrawide 21:10 pre-existing, open); F6 main only scroller at 844x390/740x360
 - Sat 31 Oct 3:40 PM · Team V · In progress · Team V thread on it now; PR into gameplay/r87 before 21:00 UTC
 - Sat 31 Oct 3:35 PM · Team G · Sent
 - Sat 31 Oct 3:39 PM · relay Action · Delivered in full as a wake comment on PR #312
