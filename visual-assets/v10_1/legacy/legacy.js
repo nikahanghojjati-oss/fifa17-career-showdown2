@@ -388,6 +388,8 @@ window.ShowdownLegacyBoot = function () {
       card.dataset.status = item.status || "completed";
       card.dataset.selected = "false";
       card.dataset.standIn = "true";
+      // The screen's layout reads data-golden from any card (css/rivalryLegacyV10.css :has()), so a stand-in carries it too.
+      if (Array.isArray(item.goldenShowdown) && item.goldenShowdown.some((manager) => manager === "daniel" || manager === "nik")) card.dataset.golden = "true";
       card.setAttribute("aria-hidden", "true");
       return card;
     }

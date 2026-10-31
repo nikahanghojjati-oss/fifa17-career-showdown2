@@ -7,6 +7,7 @@
 //   S-02  phone History draws only the selected card and PHONE_CARD_WINDOW (3) on each side; the rest are hidden stand-ins
 //   S-03  stepping through Showdowns on a phone always shows a real, selected card, and keeps the drawn set small
 //   S-04  History with 300 Showdowns stays under 2,000 elements on desktop and on a phone
+//   S-05  a phone stand-in keeps the card's layout marks (Codex #1120: data-golden, read by the screen's :has() layout)
 // tests/browser/r87-history-scale-audit.cjs is the timed version (reveal and step times at 4x CPU), run by hand.
 const assert=require('node:assert/strict');
 const path=require('node:path');
@@ -19,8 +20,10 @@ const {score,winner,result}=require(path.join(ROOT,'tests/support/career-fixture
 
 const COUNT=300,WINDOW=3,LEAGUES=['premier_league','laliga','bundesliga','serie_a','ligue_1'];
 const hash=n=>'sha256:'+String(n).padStart(64,'0');
+// Showdown 5 is Golden (Daniel 110: 11 points every season), far from the newest, so it starts as a stand-in on a phone.
+const PERFECT=result({leaguePosition:1,leaguePoints:100,leagueGoals:100,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true});
 function projection(i){
-  const seasons=Array.from({length:10},(_,s)=>[
+  const seasons=i===5?Array.from({length:10},()=>[PERFECT,result()]):Array.from({length:10},(_,s)=>[
     result({leaguePosition:1+((i+s)%4),leaguePoints:70+((i*7+s)%35),championsLeague:(i+s)%5===0}),
     result({leaguePosition:1+((i+2*s)%4),leaguePoints:72+((i*3+s)%31),domesticCup:(i+s)%3===0})]);
   return History.buildProjection({rivalryId:'pair_'+i.toString(16).padStart(64,'0'),setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:10,leagueId:LEAGUES[i%LEAGUES.length],clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'}},
@@ -52,7 +55,7 @@ const STATE=()=>{
     real:cards.filter(c=>c.dataset.standIn!=='true').map(c=>Number(c.dataset.showdown)),
     shownStandIns:cards.filter(c=>c.dataset.standIn==='true'&&c.getClientRects().length).length,
     selected:sel?Number(sel.dataset.showdown):null,selectedReal:Boolean(sel&&sel.dataset.standIn!=='true'&&sel.querySelector('.legacyCrest')),
-    selectedShown:Boolean(sel&&sel.getClientRects().length)};
+    selectedShown:Boolean(sel&&sel.getClientRects().length),golden:cards.filter(c=>c.dataset.golden==='true').map(c=>Number(c.dataset.showdown))};
 };
 
 (async()=>{
@@ -85,6 +88,7 @@ const STATE=()=>{
       assert.ok(s.selectedReal&&s.selectedShown,'S-02 phone: the selected card is drawn and shown');
       assert.equal(s.shownStandIns,0,'S-02 phone: a stand-in is never shown');
       assert.ok(s.elements<2000,`S-04 phone: History with ${COUNT} Showdowns holds ${s.elements} elements`);
+      assert.deepEqual(s.golden,[5],'S-05 phone: the Golden Showdown\'s stand-in carries data-golden from the first frame');
       const first=s.selected;
       // S-03: ‹ ten times (History opens on the newest), then « to the oldest.
       for(let i=1;i<=10;i++){
