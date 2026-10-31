@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-31T03:48:59Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-10-31T03:48:59Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T03:59:43Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; routing to a Team V thread via the coordinator"}],
  "from_session": "session_01GU43Q8SekYEo4yZo5Tik3P"
 }
 ```
