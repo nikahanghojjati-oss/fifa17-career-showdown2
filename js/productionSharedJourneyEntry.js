@@ -372,12 +372,16 @@
     await loadScript("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js",()=>root.CareerModeProductionSharedSeasonResultsRoute);
     const route=root.CareerModeProductionSharedSeasonResultsRoute;route.install();return route.open();
   }
+  function localSeasonPlayed(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return Boolean(showdown&&(Array.isArray(showdown.rounds)&&showdown.rounds.length>0||Number(showdown.currentRound)>1));}catch(_error){return false;}}
   async function resumeAcceptedSeason(){
     await loadScript("ssjr-production-multi-season","js/productionSharedMultiSeasonProgression.js",()=>root.CareerModeProductionSharedMultiSeasonProgression);
     const progression=root.CareerModeProductionSharedMultiSeasonProgression;
     if(!progression||typeof progression.resumeFromAuthority!=="function")return false;
     progression.install?.();
     const resumed=await progression.resumeFromAuthority();
+    // r87 arch S-01: an unread season count is not "no season played". When the reads failed and this phone's own save
+    // already holds a played season, Career Start (season 1) is the wrong landing: fail into the retryable entry instead.
+    if(!resumed&&progression.lastError?.()&&localSeasonPlayed()){const error=new Error("Your season could not be checked. Check your internet, then press START again.");error.code="MULTI_SEASON_RESUME_UNREAD";throw error;}
     if(!resumed||!Number.isInteger(resumed.acceptedSeasons)||resumed.acceptedSeasons<0)return false;
     // The Results route is a nicer landing, never a new way to fail: any error here keeps the existing fallback.
     let routed=false;try{routed=await resumeSeasonResults(resumed);}catch(_error){}
