@@ -2408,6 +2408,16 @@
         "^tests/contracts/r87\\-wait\\-both\\-spins\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-career-start-b-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^css/(remoteJoining|v10Club)\\.css$",
+        "^tests/browser/career-start-b-fits-audit\\.cjs$",
+        "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
