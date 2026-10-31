@@ -108,15 +108,39 @@
     if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)throw srjError("REMOTE_JOINING_DEVICE_MISMATCH","The attached Connected Rivalry belongs to a different registered browser identity.");
     return Object.freeze({protocol,services,user,accountId:user.uid,deviceId:pairingState.deviceId,rivalryId:rivalryState.rivalryId});
   }
-  function srjOperationOptions(context,sessionId){
-    return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
+  // r87 W3-6 (clock proof lane): the Rules take a session's createdAt and lastActivityAt only inside [server - 5 min,
+  // server + 1 min] and its expiresAt only up to server + 4 h, so a phone whose clock ran 2 minutes fast or 5 minutes slow
+  // could never host or join (tests/firebase/r87-device-clock-skew-emulator.cjs). Session writes now use server time: this
+  // phone's offset from a freshly issued ID token (issuedAtTime is the server's clock), measured at the request midpoint.
+  // Date.now()+offset keeps running while the phone sleeps. Re-measured every 10 minutes; if it cannot be measured (offline,
+  // no token) the phone's own clock is used, as before. Costs no Firestore read. Reads and expiry checks use the same offset.
+  const SRJ_CLOCK_REFRESH_MS=10*60*1000;
+  let srjClock={known:false,offsetMs:0,at:0};
+  function srjClockNow(){return Date.now()+(srjClock.known?srjClock.offsetMs:0);}
+  async function srjServerNow(user){
+    if(srjClock.known&&Math.abs(Date.now()-srjClock.at)<SRJ_CLOCK_REFRESH_MS)return srjClockNow();
+    try{
+      if(user&&typeof user.getIdTokenResult==="function"){
+        const sent=Date.now(),token=await user.getIdTokenResult(true),got=Date.now();
+        const issued=Date.parse(String(token&&token.issuedAtTime||""));
+        if(Number.isFinite(issued)&&issued>0&&got>=sent&&got-sent<30000){
+          const server=issued+(issued%1000===0?500:0);
+          srjClock={known:true,offsetMs:server-Math.round((sent+got)/2),at:got};
+        }
+      }
+    }catch(_error){}
+    return srjClockNow();
   }
+  function srjOperationOptions(context,sessionId){
+    return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId,nowEpochMs:srjClockNow(),cryptoImpl:root.crypto};
+  }
+  async function srjWriteOptions(context,sessionId){return {...srjOperationOptions(context,sessionId),nowEpochMs:await srjServerNow(context.user)};}
   function srjFailureMessage(result,fallback){
     if(result&&result.code==="resource-exhausted")return "Firebase Spark quota is temporarily exhausted. No upgrade will be attempted; try again later.";
     if(result&&typeof result.message==="string"&&result.message.trim())return result.message.trim();
     return fallback;
   }
-  function srjExpiredByClock(){const expiresAt=Number(srjState.expiresAtEpochMs);return Boolean(srjState.sessionId&&Number.isFinite(expiresAt)&&Date.now()>=expiresAt);}
+  function srjExpiredByClock(){const expiresAt=Number(srjState.expiresAtEpochMs);return Boolean(srjState.sessionId&&Number.isFinite(expiresAt)&&srjClockNow()>=expiresAt);}
   function srjHasNonterminalSession(){return !!srjState.sessionId&&["open","active"].includes(srjState.sessionState)&&!srjExpiredByClock();}
   function srjSessionBlocksStart(){return srjHasNonterminalSession()||!!srjState.pendingAction||srjState.sessionState==="unresolved";}
   // BH-11 (#1): after a reload the other phone loses its page-memory code while this phone still holds the old session, so
@@ -171,9 +195,9 @@
     srjSetState({status:`retrying-${action}`,busy:true,capabilityCopyAllowed:false,message:`Retrying the exact same ${action} capability. No replacement session will be generated…`});
     try{
       let result;
-      if(action==="host")result=await context.protocol.openSession({...srjOperationOptions(context,sessionId),ttlMs:SRJ_HOST_TTL_MS});
-      else if(action==="join")result=await context.protocol.joinSession(srjOperationOptions(context,sessionId));
-      else if(action==="close")result=await context.protocol.closeSession(srjOperationOptions(context,sessionId));
+      if(action==="host")result=await context.protocol.openSession({...await srjWriteOptions(context,sessionId),ttlMs:SRJ_HOST_TTL_MS});
+      else if(action==="join")result=await context.protocol.joinSession(await srjWriteOptions(context,sessionId));
+      else if(action==="close")result=await context.protocol.closeSession(await srjWriteOptions(context,sessionId));
       else throw srjError("REMOTE_JOINING_RECOVERY_ACTION_INVALID","The unresolved private-session action is invalid.");
       if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_RECOVERY_FAILED",srjFailureMessage(result,"Private-session recovery could not be confirmed."));
       if(action==="host"){srjAcceptResult(result,context,"host",result.replayed?"Private session recovery confirmed the original host capability. No duplicate session was created.":"Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");srjWatchForJoin(result.sessionId);}
@@ -299,7 +323,7 @@
     srjSetState({status:"revoking",busy:true,message:"Revoking the exact open private session…"});
     try{
       const context=await srjResolveContext();
-      const result=await context.protocol.revokeSession(srjOperationOptions(context,remembered));
+      const result=await context.protocol.revokeSession(await srjWriteOptions(context,remembered));
       if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_REVOKE_FAILED",srjFailureMessage(result,"Private session could not be revoked."));
       srjAcceptResult(result,context,"host","Private session is revoked terminally. It can no longer be joined; forget the code when ready.");
       return result;
@@ -368,7 +392,7 @@
     if(!result||result.ok!==true||result.sessionId!==sessionId||!["open","active","closed","revoked","expired"].includes(result.state))throw srjError("REMOTE_JOINING_SESSION_UNREADABLE");
     if(["closed","revoked","expired"].includes(result.state))return null;
     if(!Number.isFinite(result.expiresAtEpochMs))throw srjError("REMOTE_JOINING_SESSION_UNREADABLE");
-    return result.expiredByClock===true||result.expiresAtEpochMs<=Date.now()?null:result;
+    return result.expiredByClock===true||result.expiresAtEpochMs<=srjClockNow()?null:result;
   }
   let srjConnectReadPending=false;
   // JOB-1 F1: retry the exact failed read at 0, 3 and 9 seconds. Hidden pages pause for the existing wake/retry path.
@@ -413,7 +437,7 @@
   async function srjCheckForOffer(generation){
     try{
       const context=await srjResolveContext(),offer=await srjReadOffer(context);
-      if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession()){
+      if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession()){
         const adopted=await srjAdopt(context,offer.sessionId,"peer",true,generation);
         if(adopted){srjSetState({auto:null,waitRetry:false});return;}
       }
@@ -496,7 +520,7 @@
     const own=await srjReadSession(context,sessionId);
     if(!own)return "stop";
     if(own.state==="active"){if(srjHostWaitingForJoin(sessionId))srjAcceptResult(own,context,"host","The other manager joined. Private session is active with exactly the two paired rivalry accounts.");return "stop";}
-    if(!(own.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS)||!srjHostWaitingForJoin(sessionId))return "stop";
+    if(!(own.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS)||!srjHostWaitingForJoin(sessionId))return "stop";
     return srjCommitOffer(context,sessionId,guard.seen);
   }
   function srjRetryOfferPublish(sessionId,startedAt=Date.now(),attempt=0){
@@ -669,6 +693,8 @@
     registeredDeviceAuthority:"account-owned-mutation-metadata",
     exactCapabilityBits:256,
     hostSessionTtlMs:SRJ_HOST_TTL_MS,
+    clockNow:srjClockNow,
+    serverNow:srjServerNow,
     sessionCapabilityStorage:"page-memory-only",
     persistentFirestoreCache:false,
     publicDiscovery:false,

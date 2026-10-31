@@ -45,7 +45,31 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .55);
   text-align: center;
 }
-#touchlineGazette .cmx-fp-screen__desk { width: min(540px, 100%); }
+/* 2.0.0: the paper takes the room between the managers' faces (the plate's inner face edges sit 374px either side of its
+   centre, 48vw of the window at the narrowest crop), so the type can be read on a laptop without leaning in */
+#touchlineGazette .cmx-fp-screen__desk { width: min(clamp(540px, calc(48vw - 40px), 700px), 100%); }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { font-size: 12px; line-height: 1.36; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief p { font-size: 11.5px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums { font-size: 12px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap,
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait figcaption { font-size: 11px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { font-size: 10px; }
+/* a wider, shorter lead photo and a numbers column wide enough for one line a row keep the bigger paper inside the window */
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__front { grid-template-columns: 1fr 190px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 3 / 1; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait { width: 128px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait img { aspect-ratio: 4 / 3.6; }
+/* laptop-height windows: the story keeps its first two paragraphs (as the phone edition does), so the paper still fits */
+@media (max-height: 960px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text p + p + p { display: none; }
+}
+@media (max-height: 820px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { max-height: 1.3em; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait { display: none; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 3.6 / 1; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote { display: none; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums td { padding: 1.5px 0; }
+}
 #touchlineGazette .cmx-paper { width: 100%; will-change: transform; }
 #touchlineGazette .cmx-continue { margin-top: 18px; min-width: 274px; min-height: 52px; }
 #touchlineGazette .cmx-continue:disabled { cursor: progress; }
@@ -67,16 +91,61 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 #touchlineGazette .tgz-sp span + span::before { content: "·"; margin-right: 10px; }
 #touchlineGazette .cmx-gz--compact .tgz-sp { font-size: 9.5px; margin-top: 3px; }
 
+/* THE RACE strip (js/touchlineGazette.js addRace): the standing after this season and every season's score, winner in
+   bold; and the record book line under the trophy desk, allowed two lines (a fact that does not fit is left out whole). */
+#touchlineGazette .tgz-race {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+  align-items: baseline;
+  margin-top: 7px;
+  padding: 5px 0 0;
+  border-top: 2px solid var(--paper-rule, #1b1712);
+}
+#touchlineGazette .tgz-race h4 { margin: 0; padding: 0; border: 0; white-space: nowrap; }
+#touchlineGazette .tgz-race__line { flex: 1 1 260px; margin: 0; font: 700 13px/1.25 "Gazette Head", Georgia, serif; color: #1b1712; }
+#touchlineGazette .tgz-race__chips {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 600 11px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif);
+  font-variant-numeric: tabular-nums;
+  color: #2a241c;
+}
+#touchlineGazette .tgz-race__chips li { display: inline-flex; gap: 2px; align-items: baseline; padding: 3px 6px 2px; border: 1px solid rgba(27, 23, 18, .35); }
+#touchlineGazette .tgz-race__chips b { margin-right: 3px; font-size: 9.5px; letter-spacing: .12em; color: #6b5a3a; }
+#touchlineGazette .tgz-race__chips .is-left span:first-of-type,
+#touchlineGazette .tgz-race__chips .is-right span:last-of-type { font-weight: 800; color: #000; }
+#touchlineGazette .tgz-race__chips .is-draw { border-style: dashed; }
+#touchlineGazette .cmx-gz__inside { height: auto; max-height: 2.6em; padding: 4px 9px 3px; font-size: 10.5px; }
+
 /* Phones and narrow windows: the phone plate, the phone edition starting under the managers' faces (Team V's face-safe
    lines: 168px of 393 on a season page, 258px of 393 on the final page, where the faces sit lower). */
 @media (max-width: 700px), (max-height: 520px) and (max-width: 1000px) {
-  #touchlineGazette.tgzPage {
-    background-image: var(--tgz-plate-phone);
-    background-position: 50% 0;
-    background-size: 100% auto;
+  /* 2.0.0: the phone plate (393 x 698.7) covers the whole window, so a tall phone has no bare black band under it; it is
+     drawn once, window-high, behind the page (the page itself may scroll past it), and the face line follows its scale */
+  #touchlineGazette.tgzPage { background-image: none; }
+  #touchlineGazette.tgzPage::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100svh;
+    height: 100dvh;
+    background: var(--tgz-plate-phone) 50% 0 / cover no-repeat;
+    pointer-events: none;
   }
-  #touchlineGazette .cmx-fp-screen { padding: calc(100vw * 168 / 393) 10px 16px; }
-  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: calc(100vw * 258 / 393); }
+  #touchlineGazette .cmx-fp-screen { position: relative; padding: max(calc(100vw * 168 / 393), calc(100dvh * 168 / 698.7)) 10px 16px; }
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: max(calc(100vw * 258 / 393), calc(100dvh * 258 / 698.7)); }
+  #touchlineGazette .cmx-gz--compact .tgz-race { gap: 2px 8px; margin-top: 5px; padding-top: 4px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race h4 { font-size: 9.5px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__line { font-size: 11.5px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__chips { font-size: 10px; gap: 2px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__chips li { padding: 2px 4px 1px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__chips b { font-size: 8.5px; margin-right: 2px; }
   #touchlineGazette .cmx-fp-screen__eyebrow { display: none; }
   #touchlineGazette .cmx-fp-screen__desk { width: 100%; }
   #touchlineGazette .cmx-continue { width: 100%; min-width: 0; margin-top: 14px; }
@@ -84,8 +153,8 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 /* short phones (393x660, 360x640, 375x553): the paper starts just under the chins (not the shoulders) so the paper and
    CONTINUE stay on the screen without covering a face */
 @media (max-width: 700px) and (max-height: 680px) {
-  #touchlineGazette .cmx-fp-screen { padding-top: calc(100vw * 140 / 393); }
-  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: calc(100vw * 236 / 393); }
+  #touchlineGazette .cmx-fp-screen { padding-top: max(calc(100vw * 140 / 393), calc(100dvh * 140 / 698.7)); }
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: max(calc(100vw * 236 / 393), calc(100dvh * 236 / 698.7)); }
 }
 @media (prefers-reduced-motion: reduce) {
   #touchlineGazette .cmx-paper { will-change: auto; }
