@@ -6,7 +6,7 @@
 //   NODE_OPTIONS="--require $PWD/tools/proof-sizes-hook.cjs" CE2PG_PLAN=single CE2PG_SEASONS=1 node tests/browser/ce2pg-journey.cjs
 //
 // Each new screen state (visible .screen ids + open overlays + main heading) is shot once per manager: the top of the viewport, and the
-// bottom of `main` when main scrolls. Checks per shot go to <PROOF_OUT>/findings.jsonl:
+// bottom of `main` when main scrolls and PROOF_BOTTOM=1. Checks per shot go to <PROOF_OUT>/findings.jsonl:
 //   hscroll   the page or main scrolls sideways
 //   scroller  something other than `main` scrolls (main is the only scroller)
 //   covered   a visible button/input/link in the viewport is covered at its centre by an unrelated element
@@ -69,8 +69,10 @@ const probe=()=>{
   const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
   for(let t=walker.nextNode();t;t=walker.nextNode()){
     const txt=t.textContent.trim();if(!txt)continue;const el=t.parentElement;if(!el||!vis(el)||el.closest("#loadingScreen"))continue;
+    // painted: no ancestor is fully transparent or hidden (descendants of an opacity-0 layer still hit-test and report opacity 1)
+    let painted=true;for(let a=el;a&&a!==document.documentElement;a=a.parentElement){const sa=getComputedStyle(a);if(Number(sa.opacity)===0||sa.visibility==="hidden"){painted=false;break;}}
     const r=el.getBoundingClientRect();total+=txt.length;
-    if(r.bottom>0&&r.right>0&&r.top<vh&&r.left<vw&&r.width>0&&r.height>0){
+    if(painted&&r.bottom>0&&r.right>0&&r.top<vh&&r.left<vw&&r.width>0&&r.height>0){
       const hit=document.elementFromPoint(Math.min(vw-1,Math.max(0,r.left+Math.min(r.width,20)/2)),Math.min(vh-1,Math.max(0,r.top+r.height/2)));
       if(hit&&(hit===el||el.contains(hit)||hit.contains(el)))inView+=txt.length;
     }else if(where.length<4)where.push(`${name(el)} "${txt.slice(0,30)}" at y ${Math.round(r.top)}..${Math.round(r.bottom)} x ${Math.round(r.left)}`);
@@ -131,7 +133,9 @@ if(SPEC&&process.env.FIRESTORE_EMULATOR_HOST){
             await page.screenshot({path:path.join(OUT,shots[0])});
             const issues=[...b.issues];
             const typing=await page.evaluate(()=>/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement?.tagName||""));
-            if(b.mainScrolls&&!typing){
+            // Bottom-of-main shots move the scroll of a page the harness is driving, so they are opt-in (PROOF_BOTTOM=1);
+            // the signed-out tour takes them on its own pages.
+            if(process.env.PROOF_BOTTOM==="1"&&b.mainScrolls&&!typing){
               await page.evaluate(()=>{const m=document.querySelector("main");m.scrollTop=m.scrollHeight;});
               await page.waitForTimeout(150);
               const c=await page.evaluate(probe);
