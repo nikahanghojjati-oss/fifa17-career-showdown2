@@ -115,4 +115,36 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   for(const css of [tw.slice(tw.indexOf('r87 match-day polish')),sr.slice(sr.indexOf('r87 match-day polish'))])assert.doesNotMatch(css,/backdrop-filter|filter:\s*brightness|rgba\(0,\s*0,\s*0,\s*\.[5-9]\)\s*;?\s*inset/);
   ok('M5','Transfer War, Season Results and Final Winner looks');
 }
+// M6 (sizes F2) LOCK MY GUESSES never moves under a tap: the open search list sits in the page's flow, so closing it on the
+// press would shift the button up and the release would land on the empty panel. A press outside the box keeps the list open
+// until that press has finished and its click has landed; the blur close waits for it too.
+{
+  const docL={},winL={};let timers=[];
+  const on=bag=>(type,fn)=>{(bag[type]=bag[type]||[]).push(fn);};
+  const fire=(bag,type,ev)=>(bag[type]||[]).forEach(fn=>fn(ev));
+  const flush=()=>{while(timers.length){const t=timers;timers=[];t.sort((a,b)=>a.ms-b.ms).forEach(x=>x.fn());}};
+  const window={addEventListener:on(winL),removeEventListener(){},setTimeout:(fn,ms)=>{timers.push({fn,ms});return timers.length;}};
+  const list={hidden:false,classList:{add(c){if(c==='hidden')list.hidden=true;},remove(c){if(c==='hidden')list.hidden=false;}}};
+  const input={attrs:{},setAttribute(k,v){this.attrs[k]=v;},removeAttribute(k){delete this.attrs[k];}};
+  const document={addEventListener:on(docL),querySelectorAll:()=>[input]};
+  const ctx=vm.createContext({window,document,console});
+  vm.runInContext(read('js/transferSelector.js')+'\n;transferSelectorStates.set(globalThis.__in,{input:globalThis.__in,list:globalThis.__list,kind:"league",filteredOptions:[],activeIndex:-1});',Object.assign(ctx,{__in:input,__list:list,globalThis:ctx}),{filename:'js/transferSelector.js'});
+  vm.runInContext('bindTransferSelectorDocumentDismiss()',ctx);
+  const outside={target:{closest:()=>null}};
+  fire(docL,'pointerdown',outside);
+  assert.equal(list.hidden,false,'pressing LOCK MY GUESSES does not close the list (and move the button) before the press ends');
+  assert.equal(typeof ctx.closeTransferSelectorAfterBlur,'function','blur close goes through the press-aware helper');
+  ctx.closeTransferSelectorAfterBlur(input);flush();
+  assert.equal(list.hidden,false,'the 120 ms blur close waits for the press too');
+  fire(winL,'pointerup',{});
+  assert.equal(list.hidden,false,'still open while the click is dispatched');
+  flush();
+  assert.equal(list.hidden,true,'closed once the press and its click are done');
+  // Without a press (Tab away), blur still closes after 120 ms.
+  list.hidden=false;ctx.closeTransferSelectorAfterBlur(input);flush();assert.equal(list.hidden,true);
+  // A cancelled press (scroll) also releases the list.
+  list.hidden=false;fire(docL,'pointerdown',outside);fire(winL,'pointercancel',{});flush();assert.equal(list.hidden,true);
+  assert.match(read('js/transferSelector.js'),/input\.addEventListener\("blur", \(\) => closeTransferSelectorAfterBlur\(input\)\)/);
+  ok('M6','LOCK MY GUESSES stays put under the tap (sizes F2)');
+}
 console.log(`PASS r87 match-day polish contracts (${checks} checks)`);
