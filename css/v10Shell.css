@@ -672,7 +672,8 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
   .sd-nav-bottom .cmsMusicTab[aria-expanded="true"]::after { opacity: 1; }
   .sd-nav-bottom .cmsMusicTab[aria-expanded="true"]::before { border-color: var(--r78-gold-strong, #ffd34d); }
 }
-@media (max-width: 380px) { [data-nav="hub"] .sd-nav-bottom:has(.cmsMusicTab) .sd-nav-tab { font-size: 9.5px; letter-spacing: .06em; } }
+/* r87 a11y A-05: six tabs on a 360 phone kept their labels at 9.5px; 10.5px (as on every other phone) fits with tighter spacing. */
+@media (max-width: 380px) { [data-nav="hub"] .sd-nav-bottom:has(.cmsMusicTab) .sd-nav-tab { font-size: 10.5px; letter-spacing: .02em; } }
 @media (prefers-reduced-motion: reduce) {
   .cmsMusicSheet, .cmsMusicSheet[data-mode] { transition: none; transform: none; opacity: 1; }
   .cmsMusicSheetSong, .cmsMusicSheetBar i { transition: none; }

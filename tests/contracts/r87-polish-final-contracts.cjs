@@ -148,7 +148,15 @@ check("P-15 Club Assignment step labels keep a dark halo on phones",()=>{
   assert.match(read("css/v10Club.css"),/#app #clubWheelScreen\.cl-on \.clubRevealProgress span,\s*#app #clubWheelScreen\.cl-on \.clubVs > span \{ color: #e6dcc4; text-shadow: 0 1px 2px #000/);
 });
 
+
+// a11y A-05: on a 360 phone the six tab labels were 9.5px; they are 10.5px like every other phone (STANDINGS measures 43 of 59px).
+check("A-05 360 phone tab labels are 10.5px",()=>{
+  const css=read("css/v10Shell.css");
+  assert.match(css,/@media \(max-width: 380px\) \{ \[data-nav="hub"\] \.sd-nav-bottom:has\(\.cmsMusicTab\) \.sd-nav-tab \{ font-size: 10\.5px; letter-spacing: \.02em; \} \}/);
+  assert.doesNotMatch(css,/\.sd-nav-tab \{ font-size: 9\.5px/);
+});
+
 (async()=>{
   for(const [name,fn] of checks){await fn();console.log(`ok ${++n} ${name}`);}
-  console.log(`PASS r87 polish final contracts (C-05, C-08, sweep P-01/02/08/09/10/15): ${n} checks.`);
+  console.log(`PASS r87 polish final contracts (C-05, C-08, sweep P-01/02/08/09/10/15, a11y A-05): ${n} checks.`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
