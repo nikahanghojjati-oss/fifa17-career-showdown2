@@ -152,12 +152,12 @@ function fakeProvider(store,eligible){
 }
 async function settle(){for(let i=0;i<30;i+=1)await new Promise(resolve=>setImmediate(resolve));}
 // One phone: the real module, a fake page, the given role and confirm time, a roulette step that is already done on this browser.
-async function phone({role,confirmedAtMs,store,killSwitch=false}){
-  const page=fakePage();let sandbox=null;
+async function phone({role,confirmedAtMs,store,killSwitch=false,step=null,awaitOpen=true}){
+  const page=fakePage(),intervals=[];let sandbox=null;
   const provider=fakeProvider(store,ms=>Number.isFinite(ms)&&ms>=Provider.rouletteFromMs&&sandbox.CMS_ROSTER_ROULETTE!=="off");
   sandbox={
     console,Date,Promise,JSON,Math,Number,String,Array,Object,Set,Map,Error,Boolean,RegExp,Uint8Array,
-    setTimeout:(fn,ms)=>ms>=1000?0:setTimeout(fn,ms),clearTimeout:()=>{},setInterval:()=>0,clearInterval:()=>{},
+    setTimeout:(fn,ms)=>ms>=1000?0:setTimeout(fn,ms),clearTimeout:()=>{},setInterval:fn=>{intervals.push(fn);return 0;},clearInterval:()=>{},
     performance:{now:()=>Date.now()},crypto:webcrypto,document:page.doc,addEventListener(){},
     currentShowdown:{id:"save_1",currentRound:1,sharedJourney:{mode:"shared",rivalryId},managers:{playerOne:"Daniel",playerTwo:"Nik"},clubs:{playerOne:"SC Freiburg",playerTwo:"Hertha BSC"}},
     navigateTo:async id=>{page.doc.getElementById(id).classList.remove("hidden");return true;},
@@ -165,14 +165,15 @@ async function phone({role,confirmedAtMs,store,killSwitch=false}){
     CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider.api,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==="playerOne"?uid1:uid2,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
-    CareerModeRosterRouletteStep:{fromMs:Step.fromMs,decide:()=>false,runBeforeTransfers:async()=>true,close(){}}
+    CareerModeRosterRouletteStep:step||{fromMs:Step.fromMs,decide:()=>false,runBeforeTransfers:async()=>true,close(){}}
   };
   if(killSwitch)sandbox.CMS_ROSTER_ROULETTE="off";
   sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});
   const api=sandbox.CareerModeProductionSharedTransferChallenge;api.install();await settle();
-  assert.equal(await api.open(),true,`${role} reaches the Transfer Challenge`);await settle();
+  if(awaitOpen){assert.equal(await api.open(),true,`${role} reaches the Transfer Challenge`);await settle();}else{void api.open();await settle();}
+  const tick=async()=>{for(const fn of intervals)fn();await settle();};
   const start=page.doc.getElementById("startTransferTimer");
-  return {api,page,provider,start,status:()=>page.doc.getElementById("transferPhaseStatus").textContent};
+  return {api,page,provider,start,tick,status:()=>page.doc.getElementById("transferPhaseStatus").textContent};
 }
 
 async function partB(){
@@ -249,6 +250,15 @@ async function partB(){
   assert.equal(danielOff.start.textContent,"START 15-MINUTE WINDOW");assert.equal(danielOff.start.disabled,false);
   danielOff.page.tap("startTransferTimer");await settle();
   assert.deepEqual(danielOff.provider.calls.startWindow,["plain"],"START succeeds once Nik's automatic mark landed");
+
+  // B9 (Codex P1 #1101, comment 4431666801): only Daniel has marked; Nik's phone is installed with the roulette on and his roulette
+  // showing but not spun. The partner's mark alone never counts as his: no playerTwo write from install, refresh or any check.
+  const unspun={spins:["playerOne"],state:null};
+  const spinning={fromMs:Step.fromMs,decide:()=>true,runBeforeTransfers:()=>new Promise(()=>{}),close(){}};
+  const nikSpinning=await phone({role:"playerTwo",confirmedAtMs:R87,store:unspun,step:spinning,awaitOpen:false});
+  await nikSpinning.api.refresh();await settle();await nikSpinning.tick();await nikSpinning.tick();
+  assert.deepEqual(nikSpinning.provider.calls.markSpun,[],"no mark for Nik before his own roulette is done");
+  assert.deepEqual(unspun.spins,["playerOne"]);
 }
 
 // ---------- part C: reads. The partner's mark wakes the waiting screen on the listener's copy (no context re-read) ----------

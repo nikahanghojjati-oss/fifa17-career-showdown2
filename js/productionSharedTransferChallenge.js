@@ -26,7 +26,9 @@
   // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (confirmed on r87 or later, not
   // switched off)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
   // server yet; the next check writes it again until it lands.
-  let rouletteGate={key:"",applies:false},spinPendingKey="",spinRefusedKey="",spinWriting=null;
+  // rouletteClearedKey (Codex P1 #1101): the request whose roulette this phone has finished, or that the roulette does not apply to
+  // on this phone (no confirm time, kill switch, decide() false). Only then may his own mark be written; a partner's mark never counts.
+  let rouletteGate={key:"",applies:false},spinPendingKey="",spinRefusedKey="",spinWriting=null,rouletteClearedKey="";
 
   function pstcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pstcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -424,16 +426,16 @@
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       // No confirm time = a Showdown the roulette never applies to (the step's own rule), so nothing is loaded.
-      if(!Number.isFinite(confirmedAtMs)){rouletteGate={key:request.key,applies:false};await pstcAfterSpin(request);return true;}
+      if(!Number.isFinite(confirmedAtMs)){rouletteGate={key:request.key,applies:false};rouletteClearedKey=request.key;await pstcAfterSpin(request);return true;}
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")},confirmedAtMs,phase:view.state?.phase||"NOT_STARTED",
         verdicts:season=>pstcRouletteVerdicts(request,season)};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){rouletteLoadError=true;return false;}
       rouletteGate={key:request.key,applies:pstcRouletteAppliesTo(confirmedAtMs,step)};
       // Done on this browser before (or the step does not run for this manager): his mark still goes to the server once.
-      if(!step.decide(ctx)){await pstcAfterSpin(request);return true;}
+      if(!step.decide(ctx)){rouletteClearedKey=request.key;await pstcAfterSpin(request);return true;}
       const go=await step.runBeforeTransfers(ctx);
-      if(go)await pstcAfterSpin(request);
+      if(go){rouletteClearedKey=request.key;await pstcAfterSpin(request);}
       return go;
     }catch(_error){rouletteLoadError=true;return false;}
   }
@@ -478,7 +480,7 @@
   }
   const SPIN_WRITE_WAIT_MS=8000;
   async function pstcAfterSpin(request){
-    if(!request||!pstcRouletteApplies(request)||view?.state)return;
+    if(!request||rouletteClearedKey!==request.key||!pstcRouletteApplies(request)||view?.state)return;
     spinPendingKey=request.key;
     let timer;await Promise.race([pstcMarkSpun(request),new Promise(resolve=>{timer=root.setTimeout(resolve,SPIN_WRITE_WAIT_MS);})]).finally(()=>root.clearTimeout(timer));
   }
@@ -530,9 +532,9 @@
     if(view?.state?.phase==="COMPLETED"&&viewContextKey&&currentKey&&viewContextKey===currentKey&&(view.verdicts||pstcKeptVerdicts(view.rivalryId,view.seasonNumber))){pstcDecorateDashboard();return;}
     try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden")){if(light!==true)pstcScreenFresh();await pstcRefresh(light===true,false);}else if(!view)await pstcRefresh(false,false);else pstcDecorateDashboard();}
       // RT5-FLOW-02: a mark that did not reach the server is written again (one write, no read) while the window is still shut.
-      // On this screen the roulette step is behind him, so a partner's mark arriving while his own is missing (the season turned
-      // ineligible after one mark) arms his own one write here as well, unless the server refused it on this page.
-      const request=pstcRequestContext();if(request&&!busy&&view&&!view.state&&viewContextKey===request.key&&spinPendingKey!==request.key&&spinRefusedKey!==request.key&&view.managerRole&&pstcSpunRoles().length&&!pstcSpunRoles().includes(view.managerRole))spinPendingKey=request.key;
+      // Once this phone's own roulette is finished or does not apply (rouletteClearedKey, never the partner's mark alone), a
+      // partner's mark arriving while his own is missing arms his own one write, unless the server refused it on this page.
+      const request=pstcRequestContext();if(request&&rouletteClearedKey===request.key&&!busy&&view&&!view.state&&viewContextKey===request.key&&spinPendingKey!==request.key&&spinRefusedKey!==request.key&&view.managerRole&&pstcSpunRoles().length&&!pstcSpunRoles().includes(view.managerRole))spinPendingKey=request.key;
       if(request&&spinPendingKey===request.key&&!busy&&view&&!view.state)void pstcMarkSpun(request);
     }catch(_error){}
   }
