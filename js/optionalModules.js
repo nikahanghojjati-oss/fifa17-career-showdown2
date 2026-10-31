@@ -552,8 +552,8 @@ bindOptionalModuleButton(document.getElementById("settingsButton"), "settings", 
 
 ensureRequiredFootballVisualExperience().catch(error => {
 if(typeof window.reportApplicationError === "function"){
-window.reportApplicationError("Required football presentation could not be prepared", error);
-}else{ console.error("Required football presentation could not be prepared", error); }
+window.reportApplicationError("The match art did not load", error);
+}else{ console.error("The match art did not load", error); }
 });
 optionalModulesInitialized = true;
 }

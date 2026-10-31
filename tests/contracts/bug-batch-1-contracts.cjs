@@ -110,7 +110,7 @@ function setupSandbox(mutate){
   const shown=sandbox.text(providerRejected,"x");
   assert.doesNotMatch(shown,/TRANSFER_SIGNINGS_INVALID/,"a provider signings rejection is no longer a bare code");
   assert.match(shown,/80 characters/);
-  assert.equal(sandbox.text(Object.assign(new Error("TRANSFER_X"),{code:"TRANSFER_X",providerResult:true}),"x"),"TRANSFER_X","unmapped provider codes are unchanged");
+  assert.equal(sandbox.text(Object.assign(new Error("TRANSFER_X"),{code:"TRANSFER_X",providerResult:true}),"x"),"x","r87: an unmapped provider code is never shown raw; the plain fallback is");
   assert.equal(sandbox.text({},"fallback sentence"),"fallback sentence");
 
   console.log("PASS bug-batch-1 contracts: plain Setup/tap errors, neutral manager fallbacks, 80-character signing names.");
