@@ -29,6 +29,7 @@
   const idFor=(()=>{const ids=new WeakMap();let n=0;return f=>{if(!f||(typeof f!=="function"&&typeof f!=="object"))return "x";let v=ids.get(f);if(!v){v=++n;ids.set(f,v);}return v;};})();
   function untrack(target,key){
     const m=reg.get(target);if(!m)return;const e=m.get(key);if(!e)return;m.delete(key);
+    for(const h of e.helpers||[])try{rem.call(h.on,h.type,h.fn,h.capture);}catch(_){}
     const k=`${e.kind} ${e.type} @ ${e.site}`;bump(P.listeners,k,-1);
     const held=heldKeys.get(target);if(held){const i=held.indexOf(k);if(i>=0)held.splice(i,1);}
   }
@@ -44,8 +45,10 @@
       if(fin&&this!==window&&this!==document){let held=heldKeys.get(this);if(!held){held=[];heldKeys.set(this,held);try{fin.register(this,held);}catch(_){}}held.push(k);}
       const target=this;
       if(opts&&typeof opts==="object"){
-        if(opts.once)add.call(this,type,()=>untrack(target,key),{once:true,capture:capOf(opts)});
-        if(opts.signal&&typeof opts.signal.addEventListener==="function"){if(opts.signal.aborted)untrack(target,key);else add.call(opts.signal,"abort",()=>untrack(target,key),{once:true});}
+        // Helpers are kept on the entry and removed with it, so a later re-add of the same callback is not untracked by a stale helper.
+        e.helpers=[];
+        if(opts.once){const h={on:this,type,fn:()=>untrack(target,key),capture:capOf(opts)};e.helpers.push(h);add.call(this,type,h.fn,{once:true,capture:h.capture});}
+        if(opts.signal&&typeof opts.signal.addEventListener==="function"){if(opts.signal.aborted)untrack(target,key);else{const h={on:opts.signal,type:"abort",fn:()=>untrack(target,key),capture:false};e.helpers.push(h);add.call(opts.signal,"abort",h.fn,{once:true});}}
       }
     }catch(_){}
     return r;

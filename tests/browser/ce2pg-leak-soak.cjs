@@ -9,7 +9,7 @@
 // default) and only wraps Playwright's browser so every context gets the probe, plus the meter's Firestore wrapper so
 // unsubscribes are seen. Reloads are off by default (CE2PG_RELOAD_EVERY=0) so each tab lives for all 10 seasons, as on a phone.
 //
-// Samples: on both managers, each time the Transfer Challenge screen opens (once per season, the same screen every season)
+// Samples: on both managers, at the first Transfer Challenge of each season (later returns in that season are tagged revisit)
 // and each time Season Summary opens, after a forced garbage collection; one at the very end. Heap snapshots (Daniel, at the
 // season-2 and season-10 transfer screen) are reduced to object counts per constructor and the growth between the two.
 // Verdict: a series that grows with the season count (season 2 -> 10, the warm-up season 1 left out) is a finding.
@@ -92,7 +92,7 @@ playwright.chromium.launch=async function(...args){
 };
 
 function watch(page,label,viewport){
-  const w={page,label,viewport,user:null,cdp:null,stopped:false,count:{transferChallenge:0,seasonSummary:0},prev:"",busy:false};
+  const w={page,label,viewport,user:null,cdp:null,stopped:false,count:{transferChallenge:0,seasonSummary:0},lastSeason:0,prev:"",busy:false};
   state.pages.push({label,viewport});
   w.stop=()=>{w.stopped=true;};
   w.sample=async(tag,{gc=false,season=null}={})=>{
@@ -121,10 +121,19 @@ function watch(page,label,viewport){
         const screens=await page.evaluate(()=>[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.id).join(",")).catch(()=>"");
         for(const anchor of ["transferChallenge","seasonSummary"]){
           if(screens.split(",").includes(anchor)&&!w.prev.split(",").includes(anchor)){
-            w.count[anchor]+=1;const season=w.count[anchor];
+            // The season comes from game state (the same source Transfer Challenge uses: the multi-season progression, else
+            // currentShowdown.currentRound). The journey returns to Transfer Challenge after its career-page checks in the same
+            // season; those later visits are tagged revisit so each season is sampled once, at its first Transfer Challenge.
+            let tag=anchor,season;
+            if(anchor==="transferChallenge"){
+              season=await page.evaluate(()=>{try{const sd=typeof currentShowdown!=="undefined"?currentShowdown:null,f=sd&&sd.currentRound,p=window.CareerModeProductionSharedMultiSeasonProgression;let v=f;try{if(p&&typeof p.resolveSeason==="function")v=p.resolveSeason(f);}catch(_){}v=Number(v);return Number.isInteger(v)&&v>0?v:null;}catch(_){return null;}}).catch(()=>null);
+              if(season==null){state.errors.push(`${label}: season unreadable at Transfer Challenge`);tag="transferChallenge-unknown";}
+              else if(season>w.lastSeason)w.lastSeason=season;
+              else tag="transferChallenge-revisit";
+            }else{w.count.seasonSummary+=1;season=w.count.seasonSummary;}
             await page.waitForTimeout(1500);// let the screen settle
-            await w.sample(anchor,{gc:true,season});
-            if(anchor==="transferChallenge"&&label==="ctx1"&&SNAP_SEASONS.includes(season))await heapSnapshot(w,`S${season}`);
+            await w.sample(tag,{gc:true,season});
+            if(tag==="transferChallenge"&&label==="ctx1"&&SNAP_SEASONS.includes(season))await heapSnapshot(w,`S${season}`);
           }
         }
         w.prev=screens;

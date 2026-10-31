@@ -1,60 +1,63 @@
-ctx1 heapUsedMB: 12.6 13.6 14.9 15.5 15.9 15.9 16.4 16.5 16.6 16.9 17.3 17.2 17.3 17.3  (S2->S14 +3.7 MB, 0.31/season)
-ctx1 rendererNodes: 3331 3924 6420 6540 6432 8040 8154 8046 7939 9657 9862 9772 9666 11282  (S2->S14 +7358, 613.17/season)  <-- GROWS
-ctx1 docNodes: 2106 2376 2914 2914 2913 2913 2914 2913 2797 2913 2907 2914 2913 2914  (S2->S14 +538, 44.83/season)  <-- GROWS
-ctx1 detachedNodesEstimate: 1225 1548 3506 3626 3519 5127 5240 5133 5142 6744 6955 6858 6753 8368  (S2->S14 +6820, 568.33/season)  <-- GROWS
-ctx1 jsEventListeners: 606 624 782 791 782 862 868 860 852 936 943 936 936 1010  (S2->S14 +386, 32.17/season)  <-- GROWS
-ctx1 probeListeners: 467 479 595 599 595 661 663 661 655 724 726 724 724 788  (S2->S14 +309, 25.75/season)  <-- GROWS
-ctx1 intervals: 19 19 18 19 19 18 19 19 18 18 19 19 18 18  (S2->S14 -1, -0.08/season)
-ctx1 timeouts: 20 15 26 61 38 3 59 34 18 3 69 51 15 30  (S2->S14 +15, 1.25/season)  <-- GROWS
-ctx1 raf: 0 0 0 0 0 0 0 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx1 observers: 38 38 48 48 48 56 56 56 54 64 64 64 64 72  (S2->S14 +34, 2.83/season)  <-- GROWS
-ctx1 onSnapshot: 3 2 3 3 3 3 3 1 2 3 3 3 0 3  (S2->S14 +1, 0.08/season)
-ctx1 webglAlive: 0 0 0 0 0 0 0 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx1 iframes: 0 0 0 0 0 0 0 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx1 canvases: 0 0 0 0 0 0 0 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx1 documents: 10 13 14 14 14 14 14 14 14 14 14 14 14 14  (S2->S14 +1, 0.08/season)
-ctx1 localStorageKB: 1.9 2.8 3.1 3.8 4.4 4.4 5.2 5.7 6.4 6.4 7.2 7.9 8.5 8.6  (S2->S14 +5.8 KB, 0.48/season)
-ctx1   listeners grew: element click @ ~career-statistics.js  0 -> 69
-ctx1   listeners grew: element click @ careerScreensV10.js:1631  0 -> 49
-ctx1   listeners grew: element error @ v10Screens.js:202  14 -> 59
-ctx1   listeners grew: element click @ careerScreensV10.js:1575  0 -> 23
-ctx1   listeners grew: element click @ careerScreensV10.js:1577  0 -> 23
-ctx1   listeners grew: window orientationchange @ ~stage.js  0 -> 23
-ctx1   timeouts grew: ~motion.js  0 -> 21
-ctx1   observers grew: ResizeObserver @ ~stage.js  0 -> 23
-ctx1   observers grew: ResizeObserver @ careerScreensV10.js:1631  0 -> 7
-ctx1 live at end of S14: intervals {"productionSharedSeasonCommit.js:284 every 15000ms":1,"productionSharedSeasonCommit.js:284 every 3000ms":1,"productionSharedCareerStart.js:526 every 3000ms":1,"productionSharedSeasonResults.js:223 every 15000ms":1,"productionSharedSeasonResults.js:223 every 3000ms":1,"productionSharedTransferChallenge.js:582 every 15000ms":1,"productionSharedTransferChallenge.js:582 every 1000ms":1,"productionSharedTransferChallenge.js:582 every 3000ms":1,"sparkConnectedAccount.js:166 every 800ms":1,"productionSharedCanonicalScoring.js:100 every 15000ms":1,"productionSharedCanonicalScoring.js:100 every 3000ms":1,"productionSharedHistoryConvergence.js:112 every 15000ms":1,"productionSharedHistoryConvergence.js:112 every 3000ms":1,"productionSharedMultiSeasonProgression.js:196 every 15000ms":1,"productionSharedJourneyReconnect.js:222 every 15000ms":1,"productionSharedLocalReconciliation.js:136 every 15000ms":1,"productionSharedFinalReconciliation.js:110 every 15000ms":1,"productionSharedTerminalClose.js:394 every 15000ms":1} | onSnapshot {"rivalries/pair_ad5fcabfe4c385bf277eb8dfacf81f16d57f1fcd726f9f3f00db249551d93c95 @ sparkPrivatePairing.js:1333:29(fsbCtxAttach)":1,"rivalries/pair_ad5fcabfe4c385bf277eb8dfacf81f16d57f1fcd726f9f3f00db249551d93c95/sessions/session_c57fa727cb4b8462346eb9ad15ce07d8e2870d596baaeaa2f5d14077878f40ed @ sparkPrivatePairing.js:1333:29(fsbCtxAttach)":1,"rivalries/pair_ad5fcabfe4c385bf277eb8dfacf81f16d57f1fcd726f9f3f00db249551d93c95/transferChallenges/season_10 @ sparkPrivatePairing.js:1471:28(watchWaitPoint])":1} | observers {"ResizeObserver @ ~stage.js":23,"ResizeObserver @ careerScreensV10.js:1631":7,"MutationObserver @ visualIdentity.js:834":5,"MutationObserver @ transferScreenV10.js:411":4,"MutationObserver @ ?":2,"MutationObserver @ clubScreenV10.js:351":2,"MutationObserver @ clubScreenV10.js:352":2,"MutationObserver @ v10Screens.js:480":1,"MutationObserver @ productionSharedSeasonResultsRoute.js:96":1,"MutationObserver @ productionSharedJourneyEntry.js:529":1,"MutationObserver @ productionSharedCareerStart.js:526":1,"MutationObserver @ transferScreenV10.js:404":1,"MutationObserver @ transferScreenV10.js:408":1,"MutationObserver @ transferScreenV10.js:409":1,"MutationObserver @ clubScreenV10.js:350":1,"MutationObserver @ v10Setup.js:247":1,"MutationObserver @ homeScreensV10.js:211":1,"MutationObserver @ homeScreensV10.js:137":1,"MutationObserver @ musicDockV10.js:278":1,"MutationObserver @ musicDockV10.js:280":1,"ResizeObserver @ musicDockV10.js:296":1,"MutationObserver @ productionSharedMultiSeasonProgression.js:111":1,"MutationObserver @ connectPlayersScreenV10.js:133":1,"MutationObserver @ connectPlayersScreenV10.js:137":1,"MutationObserver @ productionSharedSeasonCommit.js:281":1,"MutationObserver @ productionSharedCanonicalScoring.js:98":1,"ResizeObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ restoreUI.js:275":1,"MutationObserver @ onlinePlayerIdentity.js:78":1,"MutationObserver @ saveLibraryUI.js:714":1,"MutationObserver @ v10Screens.js:223":1,"ResizeObserver @ transferScreenV10.js:373":1,"ResizeObserver @ transferScreenV10.js:381":1} | webgl []
-ctx2 heapUsedMB: 11.9 13.6 14.9 15.7 15.7 16.5 16.5 16.6 16.8 17 17.7 17.1 17.3 17.5  (S2->S14 +3.9 MB, 0.32/season)
-ctx2 rendererNodes: 3310 3999 6378 6405 6395 7997 8011 8009 8012 9620 9842 9627 9629 11244  (S2->S14 +7245, 603.75/season)  <-- GROWS
-ctx2 docNodes: 2108 2473 2902 2906 2901 2895 2906 2895 2901 2901 2906 2901 2901 2906  (S2->S14 +433, 36.08/season)  <-- GROWS
-ctx2 detachedNodesEstimate: 1202 1526 3476 3499 3494 5102 5105 5114 5111 6719 6936 6726 6728 8338  (S2->S14 +6812, 567.67/season)  <-- GROWS
-ctx2 jsEventListeners: 595 620 780 782 784 857 857 856 858 934 946 930 934 1010  (S2->S14 +390, 32.5/season)  <-- GROWS
-ctx2 probeListeners: 465 477 593 632 595 658 658 658 658 722 726 720 722 787  (S2->S14 +310, 25.83/season)  <-- GROWS
-ctx2 intervals: 19 19 19 18 19 19 18 19 19 19 19 19 18 19  (S2->S14 0, 0/season)
-ctx2 timeouts: 11 10 23 26 11 24 28 38 12 4 52 14 13 35  (S2->S14 +25, 2.08/season)  <-- GROWS
-ctx2 raf: 1 0 0 1 0 0 1 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx2 observers: 38 40 48 48 48 56 56 56 56 64 64 64 64 72  (S2->S14 +32, 2.67/season)  <-- GROWS
-ctx2 onSnapshot: 3 3 3 3 1 3 3 3 1 3 3 0 3 3  (S2->S14 0, 0/season)
-ctx2 webglAlive: 0 0 0 0 0 0 0 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx2 iframes: 0 0 0 0 0 0 0 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx2 canvases: 0 0 0 0 0 0 0 0 0 0 0 0 0 0  (S2->S14 0, 0/season)
-ctx2 documents: 10 13 14 14 14 14 14 14 14 14 14 14 14 14  (S2->S14 +1, 0.08/season)
-ctx2 localStorageKB: 2 2.8 3.1 4.4 4.4 4.8 5.2 6.2 6.4 6.4 7.2 7.8 8.5 8.6  (S2->S14 +5.8 KB, 0.49/season)
-ctx2   listeners grew: element click @ ~career-statistics.js  0 -> 69
-ctx2   listeners grew: element click @ careerScreensV10.js:1631  0 -> 49
-ctx2   listeners grew: element error @ v10Screens.js:202  12 -> 60
-ctx2   listeners grew: element click @ careerScreensV10.js:1575  0 -> 23
-ctx2   listeners grew: element click @ careerScreensV10.js:1577  0 -> 23
-ctx2   listeners grew: window orientationchange @ ~stage.js  0 -> 23
-ctx2   timeouts grew: ~motion.js  0 -> 21
-ctx2   timeouts grew: v10Screens.js:219  0 -> 8
-ctx2   observers grew: ResizeObserver @ ~stage.js  0 -> 23
-ctx2   observers grew: ResizeObserver @ careerScreensV10.js:1631  0 -> 7
-ctx2 live at end of S14: intervals {"productionSharedSeasonCommit.js:284 every 15000ms":1,"productionSharedSeasonCommit.js:284 every 3000ms":1,"productionSharedCareerStart.js:526 every 3000ms":1,"productionSharedSeasonResults.js:223 every 15000ms":1,"productionSharedSeasonResults.js:223 every 3000ms":1,"productionSharedTransferChallenge.js:582 every 15000ms":1,"productionSharedTransferChallenge.js:582 every 1000ms":1,"productionSharedTransferChallenge.js:582 every 3000ms":1,"sparkConnectedAccount.js:166 every 800ms":1,"productionSharedCanonicalScoring.js:100 every 15000ms":1,"productionSharedCanonicalScoring.js:100 every 3000ms":1,"productionSharedHistoryConvergence.js:112 every 15000ms":1,"productionSharedHistoryConvergence.js:112 every 3000ms":1,"productionSharedMultiSeasonProgression.js:196 every 15000ms":1,"productionSharedJourneyReconnect.js:222 every 15000ms":1,"productionSharedLocalReconciliation.js:136 every 15000ms":1,"productionSharedFinalReconciliation.js:110 every 15000ms":1,"productionSharedTerminalClose.js:394 every 15000ms":1,"productionSharedJourneyGuard.js:111 every 250ms":1} | onSnapshot {"rivalries/pair_ad5fcabfe4c385bf277eb8dfacf81f16d57f1fcd726f9f3f00db249551d93c95 @ sparkPrivatePairing.js:1333:29(fsbCtxAttach)":1,"rivalries/pair_ad5fcabfe4c385bf277eb8dfacf81f16d57f1fcd726f9f3f00db249551d93c95/sessions/session_c57fa727cb4b8462346eb9ad15ce07d8e2870d596baaeaa2f5d14077878f40ed @ sparkPrivatePairing.js:1333:29(fsbCtxAttach)":1,"rivalries/pair_ad5fcabfe4c385bf277eb8dfacf81f16d57f1fcd726f9f3f00db249551d93c95/transferChallenges/season_10 @ sparkPrivatePairing.js:1471:28(watchWaitPoint])":1} | observers {"ResizeObserver @ ~stage.js":23,"ResizeObserver @ careerScreensV10.js:1631":7,"MutationObserver @ visualIdentity.js:834":5,"MutationObserver @ transferScreenV10.js:411":4,"MutationObserver @ ?":2,"MutationObserver @ clubScreenV10.js:351":2,"MutationObserver @ clubScreenV10.js:352":2,"MutationObserver @ v10Screens.js:480":1,"MutationObserver @ productionSharedSeasonResultsRoute.js:96":1,"MutationObserver @ productionSharedJourneyEntry.js:529":1,"MutationObserver @ productionSharedCareerStart.js:526":1,"MutationObserver @ transferScreenV10.js:404":1,"MutationObserver @ transferScreenV10.js:408":1,"MutationObserver @ transferScreenV10.js:409":1,"MutationObserver @ clubScreenV10.js:350":1,"MutationObserver @ v10Setup.js:247":1,"MutationObserver @ homeScreensV10.js:211":1,"MutationObserver @ homeScreensV10.js:137":1,"MutationObserver @ musicDockV10.js:278":1,"MutationObserver @ musicDockV10.js:280":1,"ResizeObserver @ musicDockV10.js:296":1,"MutationObserver @ productionSharedMultiSeasonProgression.js:111":1,"MutationObserver @ connectPlayersScreenV10.js:133":1,"MutationObserver @ connectPlayersScreenV10.js:137":1,"MutationObserver @ productionSharedSeasonCommit.js:281":1,"MutationObserver @ productionSharedCanonicalScoring.js:98":1,"ResizeObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ restoreUI.js:275":1,"MutationObserver @ onlinePlayerIdentity.js:78":1,"MutationObserver @ saveLibraryUI.js:714":1,"MutationObserver @ v10Screens.js:223":1,"ResizeObserver @ transferScreenV10.js:373":1,"ResizeObserver @ transferScreenV10.js:381":1} | webgl []
+ctx1 heapUsedMB: 11.6 13.6 15.3 15.8 16.5 16.6 17 17.3 17.4 17.4  (S2->S10 +3.8 MB, 0.47/season)
+ctx1 rendererNodes: 3336 4049 6552 6436 8169 8276 8069 9790 9683 10144  (S2->S10 +6095, 761.88/season)  <-- GROWS
+ctx1 docNodes: 2106 2485 2914 2804 2907 2907 2913 2914 2913 3169  (S2->S10 +684, 85.5/season)  <-- GROWS
+ctx1 detachedNodesEstimate: 1230 1564 3638 3632 5262 5369 5156 6876 6770 6975  (S2->S10 +5411, 676.38/season)  <-- GROWS
+ctx1 jsEventListeners: 491 513 639 641 718 726 715 791 789 794  (S2->S10 +281, 35.13/season)  <-- GROWS
+ctx1 probeListeners: 467 481 596 596 670 665 661 724 722 728  (S2->S10 +247, 30.88/season)  <-- GROWS
+ctx1 intervals: 19 19 19 19 19 19 18 19 19 19  (S2->S10 0, 0/season)
+ctx1 timeouts: 6 10 53 30 59 77 41 50 29 32  (S2->S10 +22, 2.75/season)  <-- GROWS
+ctx1 raf: 0 0 0 0 1 0 0 0 0 0  (S2->S10 0, 0/season)
+ctx1 observers: 38 40 48 46 56 56 56 64 64 63  (S2->S10 +23, 2.88/season)  <-- GROWS
+ctx1 onSnapshot: 2 0 3 1 3 3 3 3 3 3  (S2->S10 +3, 0.38/season)  <-- GROWS
+ctx1 webglAlive: 0 0 0 0 0 0 0 0 0 0  (S2->S10 0, 0/season)
+ctx1 iframes: 0 0 0 0 0 0 0 0 0 0  (S2->S10 0, 0/season)
+ctx1 canvases: 0 0 0 0 0 0 0 0 0 0  (S2->S10 0, 0/season)
+ctx1 documents: 10 13 14 14 14 14 14 14 14 14  (S2->S10 +1, 0.13/season)
+ctx1 localStorageKB: 1.9 2.8 3.8 4.4 5.2 6.2 6.4 7.2 7.8 8.5  (S2->S10 +5.7 KB, 0.71/season)
+ctx1   listeners grew: element click @ ~career-statistics.js  0 -> 51
+ctx1   listeners grew: element click @ careerScreensV10.js:1631  0 -> 35
+ctx1   listeners grew: element error @ v10Screens.js:202  14 -> 48
+ctx1   listeners grew: element click @ careerScreensV10.js:1575  0 -> 17
+ctx1   listeners grew: element click @ careerScreensV10.js:1577  0 -> 17
+ctx1   listeners grew: window orientationchange @ ~stage.js  0 -> 17
+ctx1   timeouts grew: ~motion.js  0 -> 8
+ctx1   timeouts grew: ?  3 -> 8
+ctx1   timeouts grew: seasonFinalV10.js:2094  0 -> 4
+ctx1   timeouts grew: v10Screens.js:219  1 -> 4
+ctx1   timeouts grew: v10Screens.js:319  2 -> 4
+ctx1   observers grew: ResizeObserver @ ~stage.js  0 -> 17
+ctx1   observers grew: ResizeObserver @ careerScreensV10.js:1631  0 -> 5
+ctx1 live at end of S10: intervals {"productionSharedSeasonCommit.js:284 every 15000ms":1,"productionSharedSeasonCommit.js:284 every 3000ms":1,"productionSharedCareerStart.js:526 every 3000ms":1,"productionSharedSeasonResults.js:223 every 15000ms":1,"productionSharedSeasonResults.js:223 every 3000ms":1,"productionSharedTransferChallenge.js:582 every 15000ms":1,"productionSharedTransferChallenge.js:582 every 1000ms":1,"productionSharedTransferChallenge.js:582 every 3000ms":1,"sparkConnectedAccount.js:166 every 800ms":1,"productionSharedCanonicalScoring.js:100 every 15000ms":1,"productionSharedCanonicalScoring.js:100 every 3000ms":1,"productionSharedHistoryConvergence.js:112 every 15000ms":1,"productionSharedHistoryConvergence.js:112 every 3000ms":1,"productionSharedMultiSeasonProgression.js:196 every 15000ms":1,"productionSharedJourneyReconnect.js:222 every 15000ms":1,"productionSharedLocalReconciliation.js:136 every 15000ms":1,"productionSharedFinalReconciliation.js:110 every 15000ms":1,"productionSharedTerminalClose.js:394 every 15000ms":1,"productionSharedJourneyGuard.js:111 every 250ms":1} | onSnapshot {"rivalries/pair_a55655d8dd962d88e63398dbcfc57248175a4d761e24e4fb13fcabbc59a7c56d/sessions/session_e62227e3b19f7fbd9d28112d1dc1875297bb444ae25533c66249acbcfd8735f7 @ sparkPrivatePairing.js:1333:29(fsbCtxAttach)":1,"rivalries/pair_a55655d8dd962d88e63398dbcfc57248175a4d761e24e4fb13fcabbc59a7c56d @ sparkPrivatePairing.js:1333:29(fsbCtxAttach)":1,"rivalries/pair_a55655d8dd962d88e63398dbcfc57248175a4d761e24e4fb13fcabbc59a7c56d/transferChallenges/season_10 @ sparkPrivatePairing.js:1471:28(watchWaitPoint])":1} | observers {"ResizeObserver @ ~stage.js":17,"MutationObserver @ visualIdentity.js:834":5,"ResizeObserver @ careerScreensV10.js:1631":5,"MutationObserver @ transferScreenV10.js:411":4,"MutationObserver @ ?":2,"MutationObserver @ clubScreenV10.js:351":2,"MutationObserver @ clubScreenV10.js:352":2,"MutationObserver @ v10Screens.js:480":1,"MutationObserver @ productionSharedSeasonResultsRoute.js:96":1,"MutationObserver @ productionSharedJourneyEntry.js:529":1,"MutationObserver @ productionSharedCareerStart.js:526":1,"MutationObserver @ transferScreenV10.js:404":1,"MutationObserver @ transferScreenV10.js:408":1,"MutationObserver @ transferScreenV10.js:409":1,"MutationObserver @ clubScreenV10.js:350":1,"MutationObserver @ v10Setup.js:247":1,"MutationObserver @ homeScreensV10.js:211":1,"MutationObserver @ homeScreensV10.js:137":1,"MutationObserver @ musicDockV10.js:278":1,"MutationObserver @ musicDockV10.js:280":1,"ResizeObserver @ musicDockV10.js:296":1,"MutationObserver @ productionSharedMultiSeasonProgression.js:111":1,"MutationObserver @ connectPlayersScreenV10.js:133":1,"MutationObserver @ connectPlayersScreenV10.js:137":1,"MutationObserver @ productionSharedSeasonCommit.js:281":1,"MutationObserver @ productionSharedCanonicalScoring.js:98":1,"ResizeObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ restoreUI.js:275":1,"MutationObserver @ onlinePlayerIdentity.js:78":1,"MutationObserver @ saveLibraryUI.js:714":1,"MutationObserver @ v10Screens.js:223":1,"ResizeObserver @ seasonFinalV10.js:2094":1} | webgl []
+ctx2 heapUsedMB: 11.1 13.5 15.4 15.7 16.5 16.6 16.7 17.3 17.3 17.4  (S2->S10 +3.9 MB, 0.49/season)
+ctx2 rendererNodes: 3312 4018 6411 6409 8138 8126 8037 9793 9798 9804  (S2->S10 +5786, 723.25/season)  <-- GROWS
+ctx2 docNodes: 2108 2473 2906 2901 2895 2895 2901 3010 3016 3016  (S2->S10 +543, 67.88/season)  <-- GROWS
+ctx2 detachedNodesEstimate: 1204 1545 3505 3508 5243 5231 5136 6783 6782 6788  (S2->S10 +5243, 655.38/season)  <-- GROWS
+ctx2 jsEventListeners: 487 511 635 637 720 717 725 801 803 801  (S2->S10 +290, 36.25/season)  <-- GROWS
+ctx2 probeListeners: 465 479 596 594 663 661 661 733 735 733  (S2->S10 +254, 31.75/season)  <-- GROWS
+ctx2 intervals: 19 19 18 19 18 19 19 18 19 19  (S2->S10 0, 0/season)
+ctx2 timeouts: 22 10 28 11 56 54 14 13 13 13  (S2->S10 +3, 0.38/season)
+ctx2 raf: 0 0 0 0 0 0 0 1 0 0  (S2->S10 0, 0/season)
+ctx2 observers: 38 40 48 48 56 56 56 64 64 64  (S2->S10 +24, 3/season)  <-- GROWS
+ctx2 onSnapshot: 3 3 3 3 3 3 1 3 1 1  (S2->S10 -2, -0.25/season)
+ctx2 webglAlive: 0 0 0 0 0 0 0 0 0 0  (S2->S10 0, 0/season)
+ctx2 iframes: 0 0 0 0 0 0 0 0 0 0  (S2->S10 0, 0/season)
+ctx2 canvases: 0 0 0 0 0 0 0 0 0 0  (S2->S10 0, 0/season)
+ctx2 documents: 10 13 14 14 14 14 14 14 14 14  (S2->S10 +1, 0.13/season)
+ctx2 localStorageKB: 2 2.8 3.8 4.4 5.5 6.2 6.4 7.5 7.8 8.5  (S2->S10 +5.7 KB, 0.71/season)
+ctx2   listeners grew: element click @ ~career-statistics.js  0 -> 51
+ctx2   listeners grew: element error @ v10Screens.js:202  14 -> 50
+ctx2   listeners grew: element click @ careerScreensV10.js:1631  0 -> 35
+ctx2   listeners grew: element click @ careerScreensV10.js:1575  0 -> 17
+ctx2   listeners grew: element click @ careerScreensV10.js:1577  0 -> 17
+ctx2   listeners grew: window orientationchange @ ~stage.js  0 -> 17
+ctx2   timeouts grew: ?  5 -> 8
+ctx2   observers grew: ResizeObserver @ ~stage.js  0 -> 17
+ctx2   observers grew: ResizeObserver @ careerScreensV10.js:1631  0 -> 5
+ctx2 live at end of S10: intervals {"productionSharedSeasonCommit.js:284 every 15000ms":1,"productionSharedSeasonCommit.js:284 every 3000ms":1,"productionSharedCareerStart.js:526 every 3000ms":1,"productionSharedSeasonResults.js:223 every 15000ms":1,"productionSharedSeasonResults.js:223 every 3000ms":1,"productionSharedTransferChallenge.js:582 every 15000ms":1,"productionSharedTransferChallenge.js:582 every 1000ms":1,"productionSharedTransferChallenge.js:582 every 3000ms":1,"sparkConnectedAccount.js:166 every 800ms":1,"productionSharedCanonicalScoring.js:100 every 15000ms":1,"productionSharedCanonicalScoring.js:100 every 3000ms":1,"productionSharedHistoryConvergence.js:112 every 15000ms":1,"productionSharedHistoryConvergence.js:112 every 3000ms":1,"productionSharedMultiSeasonProgression.js:196 every 15000ms":1,"productionSharedJourneyReconnect.js:222 every 15000ms":1,"productionSharedLocalReconciliation.js:136 every 15000ms":1,"productionSharedFinalReconciliation.js:110 every 15000ms":1,"productionSharedTerminalClose.js:394 every 15000ms":1,"productionSharedJourneyGuard.js:111 every 250ms":1} | onSnapshot {"rivalries/pair_a55655d8dd962d88e63398dbcfc57248175a4d761e24e4fb13fcabbc59a7c56d/transferChallenges/season_10 @ sparkPrivatePairing.js:1471:28(watchWaitPoint])":1} | observers {"ResizeObserver @ ~stage.js":17,"MutationObserver @ visualIdentity.js:834":5,"ResizeObserver @ careerScreensV10.js:1631":5,"MutationObserver @ transferScreenV10.js:411":4,"MutationObserver @ ?":2,"MutationObserver @ clubScreenV10.js:351":2,"MutationObserver @ clubScreenV10.js:352":2,"MutationObserver @ v10Screens.js:480":1,"MutationObserver @ productionSharedSeasonResultsRoute.js:96":1,"MutationObserver @ productionSharedJourneyEntry.js:529":1,"MutationObserver @ productionSharedCareerStart.js:526":1,"MutationObserver @ transferScreenV10.js:404":1,"MutationObserver @ transferScreenV10.js:408":1,"MutationObserver @ transferScreenV10.js:409":1,"MutationObserver @ clubScreenV10.js:350":1,"MutationObserver @ v10Setup.js:247":1,"MutationObserver @ homeScreensV10.js:211":1,"MutationObserver @ homeScreensV10.js:137":1,"MutationObserver @ musicDockV10.js:278":1,"MutationObserver @ musicDockV10.js:280":1,"ResizeObserver @ musicDockV10.js:296":1,"MutationObserver @ productionSharedMultiSeasonProgression.js:111":1,"MutationObserver @ connectPlayersScreenV10.js:133":1,"MutationObserver @ connectPlayersScreenV10.js:137":1,"MutationObserver @ productionSharedSeasonCommit.js:281":1,"MutationObserver @ productionSharedCanonicalScoring.js:98":1,"ResizeObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ seasonFinalV10.js:2072":1,"MutationObserver @ restoreUI.js:275":1,"MutationObserver @ onlinePlayerIdentity.js:78":1,"MutationObserver @ saveLibraryUI.js:714":1,"MutationObserver @ v10Screens.js:223":1,"ResizeObserver @ transferScreenV10.js:373":1,"ResizeObserver @ transferScreenV10.js:381":1} | webgl []
 ctx3: only 0 transfer samples
 ctx4: only 0 transfer samples
-heap snapshot S2 -> S10 (ctx1): top count growth InternalNode +13063, Object +3638, Text +1389, Array +1147, system / WeakArrayList +872, CSSStyleDeclaration +749, DOMRectReadOnly +554, system / ExternalStringData +504, system / ProtectedFixedArray +494, system / SharedFunctionInfoWrapper +494, DOMStringMap +435, SVGAnimatedLength +426, (closure) anonymous +336, V8EventListener +312, EventListener +312, HTMLDivElement +292, Attr +282, LayoutShiftAttribution +277, HTMLElement +255, DOMTokenList +242
+heap snapshot S2 -> S10 (ctx1): top count growth InternalNode +14125, Object +5047, Array +1540, Text +1467, system / WeakArrayList +1030, SVGAnimatedLength +920, CSSStyleDeclaration +682, SVGAnimatedString +672, system / ProtectedFixedArray +575, system / SharedFunctionInfoWrapper +575, DOMRectReadOnly +558, (closure) anonymous +502, DOMStringMap +451, system / ExternalStringData +421, SVGAnimatedNumber +380, system / PropertyArray +308, Attr +298, SVGAnimatedTransformList +287, LayoutShiftAttribution +279, V8EventListener +279
 detached at S10: none
 
-findings: 33
+findings: 36
 errors: 
