@@ -209,6 +209,18 @@ check('B2 History on the same race also shows the career',async()=>{
   const last=h.frames.filter(f=>f.id==='legacy').at(-1).frame;
   assert.equal(last.status,'ready','History draws the career, not UNAVAILABLE');
 });
+check('B2 (Codex #1103) the replacement read keeps History alive while it reports progress, past the 15 s inactivity deadline',async()=>{
+  const h=harness({legacy:true});
+  const opening=h.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);
+  await h.settle();assert.equal(h.loads.length,1);
+  h.endShowdown();await h.finish(0);assert.equal(h.loads.length,2,'the read runs once more under the new pair state');
+  const progress=h.loads[1].options.onProgress;assert.equal(typeof progress,'function');
+  for(let i=1;i<=6;i++){await h.advance(4000);progress({done:i,total:10});await h.settle();}
+  assert.deepEqual(h.errors,[],'24 s of steady progress never times out');
+  assert.notEqual(h.frames.filter(f=>f.id==='legacy').at(-1).frame.status,'unavailable');
+  await h.finish(1);await opening;await h.settle();
+  assert.equal(h.frames.filter(f=>f.id==='legacy').at(-1).frame.status,'ready','History shows the career');
+});
 check('B1 (Codex #1103) a page waiting on the career hears "load-settled" after the read stops counting as running, on success and on failure',async()=>{
   const h=harness();const RL=h.c.CareerModeRivalryLegacyV10;const seen=[];
   h.c.addEventListener('career-mode-online-career-model-change',()=>seen.push(['model',RL.careerModelLoading()]));

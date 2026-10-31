@@ -274,12 +274,14 @@
   // and Standings stayed on UNAVAILABLE. The read is not published under the new key (after a Showdown completes it would
   // miss that Showdown), it is run once more for the same account and manager instead. Finished Showdowns are kept in the
   // loader's page cache, so the retry reads only what changed.
-  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false,onProgress=null){
+  // onRetry(key) runs as the retry starts, so a screen waiting on this read moves its own key (and inactivity deadline) to
+  // the new context first: its progress heartbeats then count for the retry (Codex #1103).
+  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false,onProgress=null,onRetry=null){
     const sequence=++careerLoadSequence;careerLoadsRunning+=1;
     try{
       let key=context(),result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);
       const now=context();
-      if(now!==key&&canPublish()&&sequence===careerLoadSequence&&rlOwner(now)===rlOwner(key)){key=now;result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);}
+      if(now!==key&&canPublish()&&sequence===careerLoadSequence&&rlOwner(now)===rlOwner(key)){key=now;if(typeof onRetry==="function")onRetry(key);result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);}
       return result;
     }finally{
       careerLoadsRunning-=1;
@@ -354,6 +356,8 @@
         if(!flight.alive||flight.left||context()!==key)return;arm();
         if(screen==="legacy"&&sources[screen]===LOADING&&Number.isInteger(done)&&Number.isInteger(total)&&total>0)rlShowProgress(screen,done,total);
       };
+      // r87 career fixes (B2, Codex #1103): the read runs once more under the new pair state; this screen follows it at once.
+      const retrying=next=>{if(!flight.alive||flight.left||rlOwner(next)!==rlOwner(key))return;key=flight.key=sourceKeys[screen]=next;arm();};
       try{
         // Only first entry shows LOADING. Reloads leave the last ready/partial/error frame visible.
         await screens().show(APP[screen]);
@@ -362,10 +366,10 @@
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress);
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress,retrying);
             return {...active.rivalry,lifecycle:active.classification};
           }
-          return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress);
+          return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress,retrying);
         })();
         const model=await Promise.race([loading,deadline]);
         if(flight.left)return false;
