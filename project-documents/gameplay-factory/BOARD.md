@@ -6,13 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 31 Oct, 4:13 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Sat 31 Oct, 4:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
-🩺 **All clear (from GitHub).** · POS20 #304 7/7
+🐕 **Barking: Showdown Gate on #1125 has waited 54 min for a machine; Showdown Gate on #1131 has waited 52 min for a machine; Showdown Gate on #1128 has waited 50 min for a machine; Showdown Gate on #1132 has waited 50 min for a machine; Showdown Gate on #1118 has waited 47 min for a machine; Showdown Gate on #1134 has waited 42 min for a machine; Showdown Gate on #1129 has waited 41 min for a machine; Showdown Gate on #1103 has waited 40 min for a machine; Showdown Gate on #1137 has waited 39 min for a machine; Showdown Gate on #1138 has waited 37 min for a machine; Showdown Gate on #1133 has waited 33 min for a machine; Showdown Gate on #1139 has waited 33 min for a machine; Showdown Gate on #1140 has waited 26 min for a machine; POS20 on #312 has waited 26 min for a machine; Showdown Gate on #1117 has waited 24 min for a machine; Showdown Gate on #1130 has waited 21 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -56,7 +54,7 @@ Updated Sat 31 Oct, 4:13 PM Boston time. Bug hunting only, no new features until
 
 **#10 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 402 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 403 h ago
 
 **#11 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  

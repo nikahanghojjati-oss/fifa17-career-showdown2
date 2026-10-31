@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 4:13 PM Boston time (EDT)",
+ "generated": "2026-10-31 4:16 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1669,10 +1669,10 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "POS20 #304 7/7",
-   "source": "github"
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1125 has waited 54 min for a machine; Showdown Gate on #1131 has waited 52 min for a machine; Showdown Gate on #1128 has waited 50 min for a machine; Showdown Gate on #1132 has waited 50 min for a machine; Showdown Gate on #1118 has waited 47 min for a machine; Showdown Gate on #1134 has waited 42 min for a machine; Showdown Gate on #1129 has waited 41 min for a machine; Showdown Gate on #1103 has waited 40 min for a machine; Showdown Gate on #1137 has waited 39 min for a machine; Showdown Gate on #1138 has waited 37 min for a machine; Showdown Gate on #1133 has waited 33 min for a machine; Showdown Gate on #1139 has waited 33 min for a machine; Showdown Gate on #1140 has waited 26 min for a machine; POS20 on #312 has waited 26 min for a machine; Showdown Gate on #1117 has waited 24 min for a machine; Showdown Gate on #1130 has waited 21 min for a machine.",
+   "gate": "POS20 #304 6/16",
+   "source": "physio"
   },
   "v_headline": "Queued next",
   "v_jobs": [
