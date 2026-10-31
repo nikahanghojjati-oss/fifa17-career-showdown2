@@ -89,15 +89,15 @@ const readWith=(docs,opts={},uid=A)=>{const f=fakeSdk(docs,opts);return Reader.r
   assert.doesNotMatch(grant,/getAfter|request\.resource/,'read grant never inspects a write');
   assert.doesNotMatch(fragment,/billing|blaze|cloud[\s_-]*functions|cloud[\s_-]*run/i);
   const inject=read('scripts/inject-persistent-pair-rules.mjs');
-  for(const label of ['completed Showdown setup read','completed Showdown season results read','completed Showdown season result role read','completed Showdown season commit read'])assert.ok(inject.includes(label),label);
+  for(const label of ['completed Showdown setup read','completed Showdown season results read','completed Showdown season result role read','completed Showdown season commit read','completed Showdown reads meter read'])assert.ok(inject.includes(label),label);
 
   // K8. Composed artifact: both builds pass; grant appears on exactly setup, results, roles and commits, never on a write rule
   for(const script of ['scripts/build-production-firestore-rules.mjs','scripts/build-production-firestore-rules-with-persistent-pair.mjs']){const run=spawnSync(process.execPath,[script],{cwd:root,encoding:'utf8',timeout:30000});assert.equal(run.status,0,run.stderr);}
   const generated=read('firestore.spark.generated.rules');
   const getLines=generated.split('\n').filter(line=>/cmsCompleted(Showdown|Season)Readable\(rivalryId/.test(line)&&!/function /.test(line));
-  assert.equal(getLines.length,7,'setup, results, roles, commits + the season helper call; JOB-10 adds the transfer challenge get and the transfer role helper call');
+  assert.equal(getLines.length,8,'setup, results, roles, commits + the season helper call; JOB-10 adds the transfer challenge get and the transfer role helper call; r87 adds the reads meter get (the final season\'s partner read lands after Terminal Close)');
   assert.equal(/allow (create|update|delete|list|write)[^\n]*cmsCompleted/.test(generated),false);
-  for(const [match,granted] of [['match /sharedSetup/authoritative',true],['match /sharedSetup/leagueProjection',false],['match /careerStart/authoritative',false],['match /transferChallenges/{transferId}',true],['match /seasonResults/{seasonId}',true],['match /seasonCommits/{seasonId}',true],['match /sessions/{sessionId}',false],['match /invites/{inviteId}',false]]){
+  for(const [match,granted] of [['match /sharedSetup/authoritative',true],['match /sharedSetup/leagueProjection',false],['match /careerStart/authoritative',false],['match /transferChallenges/{transferId}',true],['match /seasonResults/{seasonId}',true],['match /seasonCommits/{seasonId}',true],['match /sessions/{sessionId}',false],['match /invites/{inviteId}',false],['match /meters/{managerRole}',true]]){
     const at=generated.indexOf(match);assert.ok(at>=0,match);const getLine=generated.slice(at).split('\n').find(line=>line.includes('allow get'));
     assert.equal(/cmsCompleted/.test(getLine),granted,match);
   }

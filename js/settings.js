@@ -300,9 +300,11 @@ function createMenuFeedbackControl(){
     return row;
 }
 
-// r86: today's free Firebase reads as Google bills them (documents plus the security-check lookups, priced per document),
-// for both devices: this device's game reads twice, since the other one plays the same seasons, and this device's career
-// pages (History, Legacy and the others) once. Split the same way in one row, so Settings keeps its height. Resets at 3 am Boston.
+// r86: today's free Firebase reads as Google bills them (documents plus the security-check lookups, priced per document).
+// r87 shared reads meter: once both phones have confirmed a season today, the total is the two phones' own meters added up, the same
+// number on both phones ("both phones after season N"), with this phone's part ("here"), the partner's and what this phone has
+// read since. Before that (or with a partner phone on an older build) it is an estimate from this phone's reads and its role's share
+// of a season, marked "estimated". Resets at 3 am Boston.
 function getSettingsRoundedReads(value){
     return (Math.round(value / 10) * 10).toLocaleString("en-US");
 }
@@ -310,21 +312,30 @@ function getSettingsReadsTodayText(){
     try{
         const today = window.CareerModeFirestoreBudget?.readsToday?.();
         if(!today || !Number.isFinite(today.billedEstimate)){ return ""; }
-        const total = `About ${getSettingsRoundedReads(today.billedEstimate)} of ${today.freeReadsPerDay.toLocaleString("en-US")}`;
-        if(!Number.isFinite(today.game) || !Number.isFinite(today.career)){ return `${total} · both devices`; }
-        return `${total} · games ${getSettingsRoundedReads(today.game * 2)} · career pages here ${getSettingsRoundedReads(today.career)}`;
+        const limit = today.freeReadsPerDay.toLocaleString("en-US");
+        const shared = today.shared;
+        if(shared && Number.isFinite(shared.used)){
+            const since = shared.sinceThisPhone >= 5 ? ` · +${getSettingsRoundedReads(shared.sinceThisPhone)} here since` : "";
+            return `${getSettingsRoundedReads(shared.used)} of ${limit} · both phones after season ${shared.season} · ${getSettingsRoundedReads(shared.thisPhone)} here · partner ${getSettingsRoundedReads(shared.partner)}${since}`;
+        }
+        const total = `About ${getSettingsRoundedReads(today.billedEstimate)} of ${limit} · estimated for both phones`;
+        if(!Number.isFinite(today.thisPhone)){ return total; }
+        return `${total} · ${getSettingsRoundedReads(today.thisPhone)} here`;
     }catch(_error){
         return "";
     }
 }
 
-// r84: how many more seasons today's free reads allow at the pace played (both devices, cost per season measured here).
+// r84: how many more seasons today's free reads allow at the pace played. r87: from both phones' meters (the same on both
+// phones), or estimated from this phone's own season costs and its role's share.
 function getSettingsSeasonsLeftText(){
     try{
         const left = window.CareerModeFirestoreBudget?.seasonsLeftToday?.();
         if(!left || !Number.isFinite(left.seasons)){ return ""; }
         const count = `${left.seasons} ${left.seasons === 1 ? "season" : "seasons"}`;
-        if(left.basis === "today"){ return `About ${count} · at today's pace`; }
+        const cost = Number.isFinite(left.billedPerSeason) ? ` · ${getSettingsRoundedReads(left.billedPerSeason)} per season` : "";
+        if(left.basis === "shared"){ return `About ${count}${cost}, both phones`; }
+        if(left.basis === "today"){ return `About ${count}${cost} · estimated at today's pace`; }
         return `About ${count} · estimate until a season is played today`;
     }catch(_error){
         return "";

@@ -8,10 +8,10 @@
     "bytes": 155662
   },
   "candidate": {
-    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position). Regenerated with --print-main-delta origin/main",
-    "sha256": "40eb0caa4a283eae72d91d22c80234c76cf087683ce5a37ddf82e12a1f0db29b",
-    "gitBlobSha1": "ffc301349477e401055d58daafa28dbdc4e6c797",
-    "bytes": 155928
+    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position) plus the r87 shared reads meter (two R87-METER hunks: rivalries/{rid}/meters/{role}, get also after Terminal Close). Regenerated with --print-main-delta origin/main",
+    "sha256": "4585bc97941abf4b251fbe8dea7d0684850aec62e557369ebcc7242e6aff4c7e",
+    "gitBlobSha1": "ae8830b2b82d90241ea720209026b425a6ea8c98",
+    "bytes": 158386
   },
   "allowedOwners": [
     "G-7",
@@ -31,7 +31,8 @@
     "R84-TRIM",
     "R85-AUTHZ",
     "R86-SUMMARY",
-    "R87-RRR"
+    "R87-RRR",
+    "R87-METER"
   ],
   "hunks": [
     {
@@ -47,6 +48,62 @@
       ],
       "owner": "R87-RRR",
       "why": "r87 Roster Russian Roulette (Nik 2026-10-30): each own Transfer War signing may carry its FIFA 17 overall (whole number 30-99, optional key so older rows stay valid); it decides the roulette board from season 2. No new path, read or write. r87 (Nik 2026-10-30 16:53 UTC): it may also carry the signing's FIFA 17 position (one of 15 fixed codes, optional key, own only, never guessed) so the board can place him."
+    },
+    {
+      "mainLine": 2015,
+      "candidateLine": 2017,
+      "removed": [],
+      "added": [
+        "    // R87 shared reads meter (B2): each phone keeps ONE small document per rivalry, rivalries/{rid}/meters/{its role}, with the",
+        "    // Firebase reads it was billed today (documents + Rules lookups), written once a season when it sees the season commit",
+        "    // ACKNOWLEDGED; the partner phone reads it once, so both phones show the same \"both phones\" total and seasons left.",
+        "    // Members of the live paired rivalry only (one lookup: the rivalry, the same as every shared read), each phone writes only",
+        "    // its own role's document, exact keys, bounded whole numbers (at most three season costs), no list and no delete.",
+        "    // A phone on an older build never writes it; nothing else reads it.",
+        "    function ssjrMeterCount(value, max) { return value is int && value >= 0 && value <= max; }",
+        "    function ssjrMeterCost(costs, index) { return costs.size() <= index || (costs[index] is int && costs[index] > 0 && costs[index] <= 100000); }",
+        "    function ssjrMeterValidWrite(rivalryId, managerRole) {",
+        "      let meter = request.resource.data;",
+        "      return ssjrEntitled(rivalryId)",
+        "        && managerRole in ['playerOne', 'playerTwo']",
+        "        && ssjrRivalryData(rivalryId).managerSlots[managerRole == 'playerOne' ? 0 : 1].accountId == request.auth.uid",
+        "        && meter.keys().hasAll(['schemaVersion','objectType','rivalryId','role','day','season','game','career','costs','updatedAt'])",
+        "        && meter.keys().hasOnly(['schemaVersion','objectType','rivalryId','role','day','season','game','career','costs','updatedAt'])",
+        "        && meter.schemaVersion == 1",
+        "        && meter.objectType == 'readsMeter'",
+        "        && meter.rivalryId == rivalryId",
+        "        && meter.role == managerRole",
+        "        && meter.day is string",
+        "        && meter.day.matches('^20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$')",
+        "        && meter.season is int",
+        "        && meter.season >= 1",
+        "        && meter.season <= 10",
+        "        && ssjrMeterCount(meter.game, 1000000)",
+        "        && ssjrMeterCount(meter.career, 1000000)",
+        "        && meter.costs is list",
+        "        && meter.costs.size() <= 3",
+        "        && ssjrMeterCost(meter.costs, 0)",
+        "        && ssjrMeterCost(meter.costs, 1)",
+        "        && ssjrMeterCost(meter.costs, 2)",
+        "        && meter.updatedAt == request.time;",
+        "    }"
+      ],
+      "owner": "R87-METER",
+      "why": "r87 shared reads meter (B2, recommended on Nik's decision card 2026-10-31; not deployed): the validator for rivalries/{rid}/meters/{role}. Members of the live paired rivalry only (ssjrEntitled, one lookup: the rivalry), only the signed-in manager's own role, exact keys, schemaVersion 1, day YYYY-MM-DD, season 1-10, whole-number game and career counts up to 1,000,000, at most three season costs up to 100,000, updatedAt == request.time. No other path changes."
+    },
+    {
+      "mainLine": 3074,
+      "candidateLine": 3109,
+      "removed": [],
+      "added": [
+        "      }",
+        "      match /meters/{managerRole} {",
+        "        allow get: if ssjrEntitled(rivalryId) || cmsCompletedShowdownReadable(rivalryId);",
+        "        allow list, delete: if false;",
+        "        allow create, update: if ssjrMeterValidWrite(rivalryId, managerRole);"
+      ],
+      "owner": "R87-METER",
+      "why": "r87 shared reads meter: the match itself. get for members of the live Showdown (one lookup) or, once it is Terminal-Closed, through the same completed-only grant as setup and season commits (cmsCompletedShowdownReadable; the final season's partner read lands after the close); list and delete never; create/update only through ssjrMeterValidWrite (own role's document, live Showdown only). Each phone writes it once a season at ACKNOWLEDGED and reads the partner's 8 s later (at most four reads a season), so both phones show the same both-phones reads total and seasons left; phones on older builds never touch it."
     }
   ]
 }

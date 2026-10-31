@@ -209,7 +209,11 @@ for(const required of [
   "after.phase == 'CAREER_START_READY'",
   "request.time >= before.startedAt + duration.value(15, 'm')",
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
-  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))'
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
+  // R87 shared reads meter: member-only get, own-role write, never list or delete.
+  'match /meters/{managerRole}',
+  'allow create, update: if ssjrMeterValidWrite(rivalryId, managerRole);',
+  "ssjrRivalryData(rivalryId).managerSlots[managerRole == 'playerOne' ? 0 : 1].accountId == request.auth.uid"
 ]){
   if(!generated.includes(required))throw new Error(`Generated production Rules missing required Shared Journey boundary: ${required}`);
 }
@@ -218,6 +222,7 @@ if((generated.match(/match \/careerStart\/authoritative/g)||[]).length!==1)throw
 if((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Transfer Challenge authority match.');
 if((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Results authority match.');
 if((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Commit authority match.');
+if((generated.match(/match \/meters\/\{managerRole\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one shared reads meter match.');
 if((generated.match(/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close rivalry authority function.');
 if((generated.match(/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close session authority function.');
 if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new Error('Generated production Rules must contain exactly two role-private matches: Transfer Challenge and Season Results.');
