@@ -42,6 +42,9 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .l3.on { transform: none; opacity: 1; }
 .l3 .tag { display: inline-block; font: 800 13px/1 var(--num); letter-spacing: .22em; text-transform: uppercase; color: #160f03; background: linear-gradient(180deg, var(--gold-hi), var(--gold)); padding: 6px 10px 5px; }
 .l3 .name { margin-top: 6px; font: 900 clamp(44px, 4.6vw, 66px)/.86 var(--disp); text-transform: uppercase; letter-spacing: .01em; color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.55); white-space: nowrap; }
+/* r87 start-polish BUG-4: the name sat white-on-yellow over the LED board. A solid dark nameplate with a gold edge sits
+   behind the name only (not a scrim, nothing dimmed); the name keeps its place, size and colour. */
+.l3 .name { display: block; width: -moz-fit-content; width: fit-content; padding: .1em .22em .04em; margin-left: -.22em; background: linear-gradient(180deg, #17140e, #070605); border-left: 3px solid var(--gold); box-shadow: inset 0 1px 0 rgba(255,243,196,.22), 0 0 0 1px rgba(241,195,90,.55); }
 .l3 .rule { height: 3px; margin: 10px 0 8px; background: linear-gradient(90deg, var(--gold-hi), var(--gold) 40%, transparent); }
 .l3 .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 700 16px/1 var(--num); letter-spacing: .14em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.9); }
 .l3 .meta i { font-style: normal; color: var(--gold-hi); }
@@ -1453,7 +1456,10 @@ function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c
 /* ================= renderer + bloom ================= */
 const stage=document.getElementById("stage");
 const renderer=new T.WebGLRenderer({antialias:false, powerPreference:"high-performance"});
-const DPR=Math.min(devicePixelRatio||1, 2);
+/* r87 start-polish: phones (a touch screen whose short side is at most 600px) get a lighter pipeline: pixel ratio
+   capped at 1.5, a 1024 shadow map and 2x MSAA. Desktop, laptops and tablets keep 2 / 2048 / 4x. */
+const PHONE_GPU=matchMedia("(pointer: coarse)").matches && Math.min(innerWidth,innerHeight)<=600;
+const DPR=Math.min(devicePixelRatio||1, PHONE_GPU?1.5:2);
 renderer.setPixelRatio(DPR);
 renderer.outputEncoding=T.LinearEncoding; renderer.toneMapping=T.NoToneMapping;
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap;
@@ -1461,7 +1467,7 @@ stage.appendChild(renderer.domElement);
 const isGL2=renderer.capabilities.isWebGL2;
 const RTO={type:T.HalfFloatType, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:false};
 const sceneRT=isGL2?new T.WebGLMultisampleRenderTarget(4,4,{type:T.HalfFloatType,format:T.RGBAFormat}):new T.WebGLRenderTarget(4,4,{type:T.HalfFloatType,format:T.RGBAFormat});
-if(isGL2) sceneRT.samples=4;
+if(isGL2) sceneRT.samples=PHONE_GPU?2:4;
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
 const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:1.5}},vertexShader:VS,depthTest:false,depthWrite:false,
@@ -1481,7 +1487,7 @@ const camera=new T.PerspectiveCamera(40,1,0.1,900);
 scene.add(new T.HemisphereLight(L(0xcfe4ff),L(0x2d5a22),0.45));
 const SUN=new T.Vector3(-36,79,49);
 const sun=new T.DirectionalLight(L(0xfff0d8),2.3); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
+sun.shadow.mapSize.set(PHONE_GPU?1024:2048,PHONE_GPU?1024:2048); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
 const sky=new T.Mesh(new T.SphereGeometry(500,32,16), new T.ShaderMaterial({side:T.BackSide, depthWrite:false, fog:false,
   uniforms:{top:{value:L(0x1f5fbf)},hor:{value:L(0xd2e6f7)},sunDir:{value:SUN.clone().normalize()}},
@@ -1939,6 +1945,7 @@ function run(tt){
     for(let i=0;i<=lvl;i++){ const at0=LADDER_T0+i*LADDER_DT; at(tt,at0,"lad"+i,()=>{ if(tt-at0<.3) SFX.play("step",i); packPulse=1; burst(PACK_REST.clone().add(new T.Vector3(0,0,.4)),LADDER[i],Math.round(46*PK),3.6,.55,.13); }); }
     const charge=S(2.3,1.4,tt); packFace.emissive.copy(lad).multiplyScalar(charge*charge*.4);
     if(charge>.5){ pack.position.x+=(Math.random()-.5)*.05*charge; pack.position.y+=(Math.random()-.5)*.03*charge; }
+    keepPackUnderTitle();
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
     const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10));
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,PACK_D/2+.1)); pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
@@ -2076,6 +2083,15 @@ function keepCardInBand(){ camera.updateMatrixWorld(); let [top,bot]=cardSpan(),
   const perNdc=camera.position.distanceTo(card.position)*Math.tan(camera.fov*Math.PI/360);
   if(top>lim) card.position.y-=(top-lim)*perNdc*1.03; else if(bot<bandBot) card.position.y+=Math.min(bandBot-bot,lim-top)*perNdc;
   [top,bot]=cardSpan(); bandDbg={excess,k,top,lim,bot,limB:bandBot}; }
+/* r87 start-polish BUG-3: on a short desktop (1366x768) the landed pack's top edge rose into the "DANIEL'S SPECIAL
+   PLAYER" line. Measure where the pack's top corners would sit at the top of its landed float (ignoring the fall, with
+   the current tilt, pulse and camera) and lower the pack just enough
+   to stay under the title band; the fall and the wobble are unchanged and taller screens need no lowering. */
+const PACK_TOP=[[-1,-1],[1,-1],[-1,1],[1,1]], packV=new T.Vector3();
+function keepPackUnderTitle(){ const yNow=pack.position.y; pack.position.y=PACK_REST.y+.05; pack.updateMatrixWorld(); /* .05: the landed float's highest point */ camera.updateMatrixWorld();
+  let top=-9; PACK_TOP.forEach(([x,z])=>{ packV.set(x*PACK_W/2,PACK_H/2+.04,z*(PACK_D/2+.04)); pack.localToWorld(packV).project(camera); top=Math.max(top,packV.y); });
+  const perNdc=camera.position.distanceTo(PACK_REST)*Math.tan(camera.fov*Math.PI/360);
+  pack.position.y=yNow-(top>bandTop?Math.min(.45,(top-bandTop)*perNdc*1.03):0); pack.updateMatrixWorld(); }
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
 function resize(){
   W=innerWidth; H=innerHeight; renderer.setSize(W,H,false);

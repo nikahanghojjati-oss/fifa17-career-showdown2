@@ -173,6 +173,12 @@
     grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 52px;
   }
   #mainMenu.v10Home #continueCareer { grid-column: 1 / -1; grid-row: 1; }
+  /* r87 start-polish: the phone Continue tile wears the desktop's metallic gold plate (and its top sheen), not flat yellow. */
+  #mainMenu.v10Home #continueCareer,
+  #mainMenu.v10Home #continueCareer:disabled {
+    background: linear-gradient(180deg, rgba(255,255,255,.42) 0, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 50%),
+      linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%);
+  }
   #mainMenu.v10Home #newShowdown { grid-column: 1; grid-row: 2; }
   #mainMenu.v10Home #legacyButton { grid-column: 2; grid-row: 2; }
   #mainMenu.v10Home #careerStatisticsButton { grid-column: 3; grid-row: 2; }
