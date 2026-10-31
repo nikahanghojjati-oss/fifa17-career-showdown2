@@ -158,9 +158,9 @@ const REMOVED=Object.freeze([
 ]);
 check("W7 r80 Season Results: the result check speaks of the shared result, and no removed local-era string comes back",()=>{
   const lr=read("js/productionSharedLocalReconciliation.js");
-  assert.match(lr,/lrText\(ui\.heading,"DOUBLE-CHECK"\);/);
-  assert.match(lr,/lrText\(ui\.summary,"Optional: compare the shared result with the Showdown copy in this app\. Nothing is changed\."\);/);
-  assert.match(lr,/"CHECKING YOUR SAVE…":"PREVIEW RESULT"/);
+  assert.match(lr,/lrText\(ui\.heading,"SAVE CHECK"\);/);
+  assert.match(lr,/lrText\(ui\.summary,"Optional: check that your saved Showdown matches the shared result\. Nothing is changed\."\);/);
+  assert.match(lr,/"CHECKING…":"CHECK MY SAVE"/);
   const legacy=read("js/legacy.js");
   assert.match(legacy,/backupTitle\.textContent = "BACKUP FILE";/);
   assert.match(legacy,/"Download a checksum-protected backup file before destructive maintenance\./);

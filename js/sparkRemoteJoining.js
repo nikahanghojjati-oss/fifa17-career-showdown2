@@ -4,6 +4,8 @@
   else root.CareerModeSparkRemoteJoining=api;
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
+  // r87 (2.0.0 plain-words sweep): a provider or JS message reaches the connection panel only when it reads as words.
+  function srjPlain(error,fallback){const m=error&&error.message;return m&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null|Error|Firebase|permission|[a-z][A-Z]/.test(m)?m:fallback;}
 
   const SRJ_PANEL_ID="sparkRemoteJoiningOverlay";
   const SRJ_DEPENDENCIES=Object.freeze([
@@ -30,7 +32,7 @@
   let srjReplaceAction=null;
   const srjScriptPromises=new Map();
   const srjListeners=new Set();
-  let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,auto:null,waitRetry:false,message:"Remote Joining is private and action-only. No session request has been sent."});
+  let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,auto:null,waitRetry:false,message:"Not connected yet. Nothing has been sent."});
 
   function srjFreeze(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
@@ -148,14 +150,14 @@
   // hosts) and then host or join a fresh one. Unresolved or pending capabilities are never replaced.
   function srjHeldSessionReplaceable(){return srjHasNonterminalSession()&&!srjState.pendingAction&&!srjState.busy&&(srjState.sessionState==="active"||(srjState.sessionState==="open"&&srjState.role==="host"));}
   async function srjEndHeldSession(){
-    if(!srjHeldSessionReplaceable())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"The current private session cannot be replaced right now."};
+    if(!srjHeldSessionReplaceable())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"The current connection cannot be replaced right now."};
     let context;
     try{context=await srjResolveContext();}
-    catch(error){const message=`${error&&error.message?error.message:"Current private authority could not be resolved."} The current private session was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REPLACE_FAILED",message};}
+    catch(error){const message=`${srjPlain(error,"Could not check the connection.")} Your current connection was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REPLACE_FAILED",message};}
     if(!srjPendingContextMatches(context)){const message="The current private session belongs to a different Google account, browser or Showdown, so it was not replaced.";srjSetState({status:"error",busy:false,message});return {ok:false,code:"REMOTE_JOINING_REPLACE_CONTEXT_CHANGED",message};}
     const result=srjState.sessionState==="active"?await srjCloseSession():await srjRevokeSession();
-    if(!result||result.ok!==true)return result||{ok:false,code:"REMOTE_JOINING_REPLACE_FAILED",message:"The current private session could not be ended."};
-    return srjSessionBlocksStart()?{ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"The current private session could not be ended."}:{ok:true};
+    if(!result||result.ok!==true)return result||{ok:false,code:"REMOTE_JOINING_REPLACE_FAILED",message:"Could not end the connection. Try again."};
+    return srjSessionBlocksStart()?{ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Could not end the connection. Try again."}:{ok:true};
   }
   function srjAcceptResult(result,context,role,message){
     return srjSetState({status:"ready",busy:false,sessionId:result.sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role,sessionState:result.state,revision:result.revision,expiresAtEpochMs:result.expiresAtEpochMs,pendingAction:null,capabilityCopyAllowed:true,auto:result.state==="open"?srjState.auto:null,message});
@@ -164,23 +166,23 @@
     return !!context&&context.rivalryId===srjState.rivalryId&&context.accountId===srjState.accountId&&context.deviceId===srjState.deviceId;
   }
   function srjPendingFailure(error,action){
-    const message=error&&error.message?error.message:"The provider acknowledgement was not received.";
-    srjSetState({status:"recovery-pending",busy:false,pendingAction:action,capabilityCopyAllowed:false,message:`${message} The outcome is unresolved. The exact same page-memory capability is retained for deterministic retry; no new session will be generated and your Showdown was not changed.`});
+    const message=srjPlain(error,"No answer from the online server.");
+    srjSetState({status:"recovery-pending",busy:false,pendingAction:action,capabilityCopyAllowed:false,message:`${message} Tap the RETRY button below to try again. Your Showdown was not changed.`});
     return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_PENDING",message,recoverable:true,pendingAction:action};
   }
   // BH-11 (#10): a host or join write is refused when the phone clock is minutes off server time (the Rules check createdAt and
   // lastActivityAt against request.time), which used to surface as a raw permission error.
   const SRJ_CLOCK_HINT=" If the code is right, check that your phone's date and time are set automatically; a phone clock that is several minutes off is refused.";
   function srjRejectionMessage(error,action){
-    if((action==="host"||action==="join")&&srjErrorCode(error)==="permission-denied")return `The private session was refused.${SRJ_CLOCK_HINT}`;
-    return error&&error.message?error.message:"Private session request was rejected.";
+    if((action==="host"||action==="join")&&srjErrorCode(error)==="permission-denied")return `The connection was refused.${SRJ_CLOCK_HINT}`;
+    return srjPlain(error,"The connection was refused. Try again.");
   }
   function srjClearRejectedPending(error,action){
     const message=srjRejectionMessage(error,action);
     if(action==="close"){
-      srjSetState({status:"error",busy:false,pendingAction:null,capabilityCopyAllowed:true,message:`${message} The last confirmed active session remains held in page memory; your Showdown was not changed.`});
+      srjSetState({status:"error",busy:false,pendingAction:null,capabilityCopyAllowed:true,message:`${message} You are still connected and your Showdown was not changed.`});
     }else{
-      srjSetState({status:"error",busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:`${message} No unresolved capability is exposed and your Showdown was not changed.`});
+      srjSetState({status:"error",busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:`${message} Your Showdown was not changed.`});
     }
     return {ok:false,code:error&&error.code||`REMOTE_JOINING_${String(action).toUpperCase()}_FAILED`,message,recoverable:false};
   }
@@ -189,10 +191,10 @@
     const sessionId=srjState.sessionId;
     if(!action||!sessionId)return {ok:false,code:"REMOTE_JOINING_RECOVERY_REQUIRED",message:"No unresolved private-session operation is waiting for retry."};
     if(!srjPendingContextMatches(context)){
-      srjSetState({status:"recovery-pending",busy:false,capabilityCopyAllowed:false,message:"The current account, registered browser or Connected Rivalry no longer matches the unresolved request. Retry is blocked so the capability cannot cross authority contexts."});
-      return {ok:false,code:"REMOTE_JOINING_RECOVERY_CONTEXT_CHANGED",message:"The unresolved request belongs to a different current authority context.",recoverable:true,pendingAction:action};
+      srjSetState({status:"recovery-pending",busy:false,capabilityCopyAllowed:false,message:"This sign-in changed since the last try. Close this panel and connect again."});
+      return {ok:false,code:"REMOTE_JOINING_RECOVERY_CONTEXT_CHANGED",message:"This sign-in changed since the last try. Close this panel and connect again.",recoverable:true,pendingAction:action};
     }
-    srjSetState({status:`retrying-${action}`,busy:true,capabilityCopyAllowed:false,message:`Retrying the exact same ${action} capability. No replacement session will be generated…`});
+    srjSetState({status:`retrying-${action}`,busy:true,capabilityCopyAllowed:false,message:"Connecting again…"});
     try{
       let result;
       if(action==="host")result=await context.protocol.openSession({...await srjWriteOptions(context,sessionId),ttlMs:SRJ_HOST_TTL_MS});
@@ -243,8 +245,8 @@
     try{return await srjAttemptPending(await srjResolveContext());}
     catch(error){
       if(srjIsAmbiguousFailure(error))return srjPendingFailure(error,srjState.pendingAction);
-      srjSetState({status:"recovery-pending",busy:false,capabilityCopyAllowed:false,message:`${error&&error.message?error.message:"Current private authority could not be resolved."} The unresolved capability remains memory-only and will not be copied or replaced.`});
-      return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_CONTEXT_UNAVAILABLE",message:error&&error.message||"Current private authority could not be resolved.",recoverable:true,pendingAction:srjState.pendingAction};
+      srjSetState({status:"recovery-pending",busy:false,capabilityCopyAllowed:false,message:`${srjPlain(error,"Could not check the connection.")} Try again in a moment.`});
+      return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_CONTEXT_UNAVAILABLE",message:srjPlain(error,"Could not check the connection."),recoverable:true,pendingAction:srjState.pendingAction};
     }
   }
   function srjReplaceBusy(){return {ok:false,code:"REMOTE_JOINING_BUSY",message:"A private-session operation is already in progress."};}
@@ -252,34 +254,34 @@
   async function srjHostSession(options={}){
     if(srjReplaceAction)return srjReplaceBusy();
     if(srjSessionBlocksStart()){
-      if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before hosting another."};
+      if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Finish or end the current connection first."};
       return srjReplaceHeld(srjStartHost);
     }
     return srjStartHost();
   }
   async function srjStartHost(){
-    srjSetState({status:"hosting",busy:true,message:"Creating an exact private session capability…"});
+    srjSetState({status:"hosting",busy:true,message:"Connecting…"});
     try{
       const context=await srjResolveContext();
       const sessionId=context.protocol.generateSessionId(root.crypto);
-      srjSetState({status:"hosting",busy:true,sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role:"host",sessionState:"unresolved",revision:null,expiresAtEpochMs:null,pendingAction:"host",capabilityCopyAllowed:false,message:"Opening the exact private session. Its full capability is hidden until provider acknowledgement is confirmed…"});
+      srjSetState({status:"hosting",busy:true,sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role:"host",sessionState:"unresolved",revision:null,expiresAtEpochMs:null,pendingAction:"host",capabilityCopyAllowed:false,message:"Connecting…"});
       return await srjAttemptPending(context);
     }catch(error){
       if(srjState.pendingAction==="host"&&srjIsAmbiguousFailure(error))return srjPendingFailure(error,"host");
       if(srjState.pendingAction==="host")return srjClearRejectedPending(error,"host");
-      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be opened."} Your Showdown was not changed.`});
-      return {ok:false,code:error&&error.code||"REMOTE_JOINING_HOST_FAILED",message:error&&error.message||"Private session could not be opened."};
+      srjSetState({status:"error",busy:false,message:`${srjPlain(error,"Could not connect. Try again.")} Your Showdown was not changed.`});
+      return {ok:false,code:error&&error.code||"REMOTE_JOINING_HOST_FAILED",message:srjPlain(error,"Could not connect. Try again.")};
     }
   }
   async function srjJoinSession(value,options={}){
     if(srjReplaceAction)return srjReplaceBusy();
     if(srjSessionBlocksStart()){
       // BH-11 (#1): only an ACTIVE session may be ended to join a fresh code; an OPEN hosted one keeps the existing guard.
-      if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable()||srjState.sessionState!=="active")return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before joining another."};
+      if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable()||srjState.sessionState!=="active")return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Finish or end the current connection first."};
       srjReplaceAction=(async()=>{
         let nextSessionId;
         try{const deps=await srjEnsureDependencies();nextSessionId=deps["standard-auth-session"].normalizeSessionId(value);}
-        catch(error){const message=`${error&&error.message?error.message:"That private session code is invalid."} The current private session was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message};}
+        catch(error){const message=`${srjPlain(error,"That code does not work. Check it and try again.")} Your current connection was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message};}
         if(nextSessionId===srjState.sessionId){const message="This phone is already in that private session.";srjSetState({message});return {ok:false,code:"REMOTE_JOINING_SAME_SESSION",message};}
         const ended=await srjEndHeldSession();return ended.ok?await srjStartJoin(value):ended;
       })().finally(()=>{srjReplaceAction=null;});
@@ -288,66 +290,66 @@
     return srjStartJoin(value);
   }
   async function srjStartJoin(value){
-    srjSetState({status:"joining",busy:true,message:"Joining the exact private session…"});
+    srjSetState({status:"joining",busy:true,message:"Connecting…"});
     try{
       const context=await srjResolveContext();
       const sessionId=context.protocol.normalizeSessionId(value);
-      srjSetState({status:"joining",busy:true,sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role:"peer",sessionState:"unresolved",revision:null,expiresAtEpochMs:null,pendingAction:"join",capabilityCopyAllowed:false,message:"Joining the exact capability. Its full value remains hidden while provider acknowledgement is unresolved…"});
+      srjSetState({status:"joining",busy:true,sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role:"peer",sessionState:"unresolved",revision:null,expiresAtEpochMs:null,pendingAction:"join",capabilityCopyAllowed:false,message:"Connecting…"});
       return await srjAttemptPending(context);
     }catch(error){
       if(srjState.pendingAction==="join"&&srjIsAmbiguousFailure(error))return srjPendingFailure(error,"join");
       if(srjState.pendingAction==="join")return srjClearRejectedPending(error,"join");
-      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be joined."} Your Showdown was not changed.`});
-      return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message:error&&error.message||"Private session could not be joined."};
+      srjSetState({status:"error",busy:false,message:`${srjPlain(error,"Could not connect. Try again.")} Your Showdown was not changed.`});
+      return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message:srjPlain(error,"Could not connect. Try again.")};
     }
   }
   async function srjRefreshSession(){
     const remembered=srjState.sessionId;
-    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};
+    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"There is no code to use yet."};
     if(srjState.pendingAction)return {ok:false,code:"REMOTE_JOINING_RECOVERY_PENDING",message:"Resolve the pending operation before reading the session."};
-    srjSetState({status:"refreshing",busy:true,message:"Reading exact private-session authority…"});
+    srjSetState({status:"refreshing",busy:true,message:"Checking the connection…"});
     try{
       const context=await srjResolveContext();
       const result=await context.protocol.readSession(srjOperationOptions(context,remembered));
-      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_READ_FAILED",srjFailureMessage(result,"Private session could not be read."));
+      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_READ_FAILED",srjFailureMessage(result,"Could not check the connection. Try again."));
       const clockNote=result.expiredByClock?" The provider expiry boundary has passed; no automatic mutation was performed.":"";
       srjAcceptResult(result,context,srjState.role||"member",`Private session refreshed at revision ${result.revision}.${clockNote}`);
       return result;
-    }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be read."}`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};}
+    }catch(error){srjSetState({status:"error",busy:false,message:`${srjPlain(error,"Could not check the connection. Try again.")}`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:srjPlain(error,"Could not check the connection. Try again.")};}
   }
   async function srjRevokeSession(){
     const remembered=srjState.sessionId;
-    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};
+    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"There is no code to use yet."};
     if(srjState.pendingAction)return {ok:false,code:"REMOTE_JOINING_RECOVERY_PENDING",message:"Resolve the pending operation before revoking the session."};
     if(srjState.sessionState!=="open")return {ok:false,code:"REMOTE_JOINING_REVOKE_NOT_OPEN",message:"Only an open host session can be revoked before peer join."};
-    srjSetState({status:"revoking",busy:true,message:"Revoking the exact open private session…"});
+    srjSetState({status:"revoking",busy:true,message:"Cancelling the code…"});
     try{
       const context=await srjResolveContext();
       const result=await context.protocol.revokeSession(await srjWriteOptions(context,remembered));
-      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_REVOKE_FAILED",srjFailureMessage(result,"Private session could not be revoked."));
+      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_REVOKE_FAILED",srjFailureMessage(result,"Could not cancel the code. Try again."));
       srjAcceptResult(result,context,"host","Private session is revoked terminally. It can no longer be joined; forget the code when ready.");
       return result;
-    }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be revoked."} The capability remains held in page memory.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REVOKE_FAILED",message:error&&error.message||"Private session could not be revoked."};}
+    }catch(error){srjSetState({status:"error",busy:false,message:`${srjPlain(error,"Could not cancel the code. Try again.")} Try again.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REVOKE_FAILED",message:srjPlain(error,"Could not cancel the code. Try again.")};}
   }
   async function srjCloseSession(){
     const remembered=srjState.sessionId;
-    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};
+    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"There is no code to use yet."};
     if(srjState.pendingAction)return {ok:false,code:"REMOTE_JOINING_RECOVERY_PENDING",message:"Resolve the pending operation before closing the session."};
-    if(srjState.sessionState!=="active")return {ok:false,code:"REMOTE_JOINING_CLOSE_NOT_ACTIVE",message:"Only an active private session can be closed."};
+    if(srjState.sessionState!=="active")return {ok:false,code:"REMOTE_JOINING_CLOSE_NOT_ACTIVE",message:"There is no connection to end."};
     try{
       const context=await srjResolveContext();
-      srjSetState({status:"closing",busy:true,accountId:context.accountId,deviceId:context.deviceId,pendingAction:"close",capabilityCopyAllowed:false,message:"Closing the exact active private session. Copy is disabled until provider acknowledgement is confirmed…"});
+      srjSetState({status:"closing",busy:true,accountId:context.accountId,deviceId:context.deviceId,pendingAction:"close",capabilityCopyAllowed:false,message:"Ending the connection…"});
       return await srjAttemptPending(context);
     }catch(error){
       if(srjState.pendingAction==="close"&&srjIsAmbiguousFailure(error))return srjPendingFailure(error,"close");
       if(srjState.pendingAction==="close")return srjClearRejectedPending(error,"close");
-      srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be closed."}`});
-      return {ok:false,code:error&&error.code||"REMOTE_JOINING_CLOSE_FAILED",message:error&&error.message||"Private session could not be closed."};
+      srjSetState({status:"error",busy:false,message:`${srjPlain(error,"Could not end the connection. Try again.")}`});
+      return {ok:false,code:error&&error.code||"REMOTE_JOINING_CLOSE_FAILED",message:srjPlain(error,"Could not end the connection. Try again.")};
     }
   }
   function srjForgetSession(){
-    if(srjState.pendingAction||srjState.sessionState==="unresolved")return {ok:false,code:"REMOTE_JOINING_RECOVERY_PENDING",message:"Resolve the pending provider outcome before forgetting this page-memory capability."};
-    return srjSetState({status:"idle",busy:false,auto:null,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Private session code forgotten from page memory. No provider state was changed."});
+    if(srjState.pendingAction||srjState.sessionState==="unresolved")return {ok:false,code:"REMOTE_JOINING_RECOVERY_PENDING",message:"Wait for the connection to finish first."};
+    return srjSetState({status:"idle",busy:false,auto:null,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Code cleared. Your Showdown was not changed."});
   }
   async function srjCopySessionCode(){
     if(!srjState.sessionId||srjState.capabilityCopyAllowed!==true||srjState.pendingAction)return false;
@@ -552,7 +554,7 @@
     srjRetireEnded();
     if(srjState.busy||srjState.pendingAction||srjReplaceAction)return {ok:false,code:"REMOTE_JOINING_BUSY",message:"A private-session operation is already in progress."};
     let context;
-    try{context=await srjResolveContext();}catch(error){srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_CONTEXT_UNAVAILABLE",message:error&&error.message||"Player connection is unavailable."};}
+    try{context=await srjResolveContext();}catch(error){srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_CONTEXT_UNAVAILABLE",message:srjPlain(error,"Connecting is not available right now. Try again.")};}
     if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){
       if(srjState.sessionState==="active")srjSetState({auto:null});
       else if(srjHostWaitingForJoin(srjState.sessionId)&&srjOfferConfirmed!==srjState.sessionId&&!srjPublishRetry&&srjPermanentlyPaired()){srjSetState({auto:"waiting",message:"Waiting for Nik to open the game."});srjRewatchForJoin(srjState.sessionId);srjRetryOfferPublish(srjState.sessionId);return {ok:true,kind:"held-publishing"};}
@@ -581,7 +583,7 @@
         return {ok:true,kind:"hosted-manual"};
       }
       srjSetState({auto:null});
-      return hosted||{ok:false,code:"REMOTE_JOINING_HOST_FAILED",message:"Private session could not be opened."};
+      return hosted||{ok:false,code:"REMOTE_JOINING_HOST_FAILED",message:"Could not connect. Try again."};
     }
     srjSetState({auto:"waiting",message:"Waiting for Daniel to open the game."});
     srjWaitForOffer();
@@ -591,9 +593,9 @@
     if(srjAutoPromise)return srjAutoPromise;
     if(!srjHasNonterminalSession()&&!srjState.busy&&!srjState.pendingAction)srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});
     srjAutoPromise=srjAutoConnectOnce().catch(error=>{
-      if(error?.code==="REMOTE_JOINING_READ_UNAVAILABLE"){srjConnectReadPending=true;srjPauseWait("Player connection failed.");}
+      if(error?.code==="REMOTE_JOINING_READ_UNAVAILABLE"){srjConnectReadPending=true;srjPauseWait("Could not connect. Try again.");}
       else srjSetState({auto:null});
-      return {ok:false,code:error&&error.code||"REMOTE_JOINING_AUTO_FAILED",message:error&&error.message||"Player connection failed."};
+      return {ok:false,code:error&&error.code||"REMOTE_JOINING_AUTO_FAILED",message:srjPlain(error,"Could not connect. Try again.")};
     }).finally(()=>{srjAutoPromise=null;});
     return srjAutoPromise;
   }

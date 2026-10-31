@@ -879,7 +879,7 @@ function confirmCurrentSeason(){
     }catch(error){
         console.error("Season was saved but the summary screen failed to render:", error);
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Season saved, but the summary screen failed", error);
+            window.reportApplicationError("The season is saved, but its summary did not open", error);
         }
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(

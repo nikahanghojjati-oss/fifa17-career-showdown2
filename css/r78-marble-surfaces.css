@@ -132,12 +132,15 @@
 }
 /* the approved System/Settings marble room as the screen (paths for this file in css/) */
 .r78-error-screen--plate {
-  background: #07080a image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat;
+  background: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat,
+    #07080a url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
 }
+/* r87 (Team G): the marble tile under the plate is the precached fallback, so an offline phone that has not opened Settings
+   yet still gets black-and-gold marble behind the panel instead of a flat black screen. */
 @media (max-width: 760px) and (orientation: portrait) {
   /* r78 wiring: the old system phone plate was removed in r78 (PR #891); phones use the same marble plate as phone
      Settings (plates-v2/ENV_SETTINGS_PHONE_V2.webp, js/rulesSettingsV10.js) */
-  .r78-error-screen--plate { background-image: url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp"); }
+  .r78-error-screen--plate { background-image: url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp"), url("r78-marble-tile.webp"); }
 }
 .r78-error-screen__panel {
   width: min(560px, 100%);
@@ -599,12 +602,13 @@
    Also remove the old #onlinePlayerIdentityOverlay block in css/v10Shell.css (lines ~110-135) once this is wired.
    Until then, these rules already override the inline look without JS changes (inline styles need !important): */
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay {
-  background: #07080a image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat !important;
+  background: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat,
+    #07080a url("r78-marble-tile.webp") 0 0 / 256px 256px repeat !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
 @media (max-width: 760px) and (orientation: portrait) {
-  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay { background-image: url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp") !important; }
+  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay { background-image: url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp"), url("r78-marble-tile.webp") !important; }
 }
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section {
   box-sizing: border-box;

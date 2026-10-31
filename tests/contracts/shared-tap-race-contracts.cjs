@@ -130,12 +130,13 @@ async function transferContracts(){
     assert.match(h.error(),/^Complete guess 1 with a FIFA 17 league or nationality\.$/,"the validation sentence must be shown, not TRANSFER_GUESSES_INVALID");
     assert.equal(h.calls.mutations.length,0,"an invalid form must not reach the provider");
   }
-  // D2. Provider codes are still shown as codes (the generic wrapper sentence is not more useful than the code).
+  // D2. r87 (2.0.0, Nik's plain-words sweep): an unmapped provider code is never shown raw; the player gets the plain
+  // fallback sentence with a way forward (the code stays in the console).
   {
     const h=transferHarness(windowOpen());await h.api.refresh();
     h.scripts.requestEndWindow.push(denied("TRANSFER_COORDINATOR_REQUIRED"));
     h.api.install();await h.tap("endTransferTimer");
-    assert.equal(h.error(),"TRANSFER_COORDINATOR_REQUIRED");
+    assert.equal(h.error(),"The Transfer Challenge did not update. Try again.");
   }
   // D3. Signing name inputs are capped at the provider's 80 characters (set from this lazy module; index.html is in the startup budget).
   {

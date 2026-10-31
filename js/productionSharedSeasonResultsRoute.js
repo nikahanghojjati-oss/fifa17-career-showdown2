@@ -85,7 +85,7 @@
     const target=event.target&&event.target.closest&&event.target.closest("button");
     if(!target||!CONTROL_IDS.includes(target.id)||!routeReady())return;
     event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();
-    void routeOpen().catch(error=>{if(typeof root.reportApplicationError==="function")root.reportApplicationError("Unable to open Shared Season Results",error);else root.console?.error?.(error);});
+    void routeOpen().catch(error=>{if(typeof root.reportApplicationError==="function")root.reportApplicationError("Season Results did not open",error);else root.console?.error?.(error);});
   }
   function routeInstall(){
     if(installed){routeDecorate();return true;}

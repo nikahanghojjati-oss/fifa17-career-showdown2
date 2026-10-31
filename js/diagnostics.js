@@ -444,7 +444,7 @@ function runApplicationDiagnostics(){
         if(!storageAvailable){ problems.push("storage unavailable"); }
 
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Application integrity check failed", new Error(problems.join("; ")));
+            window.reportApplicationError("Some game files did not load. Reload the game", new Error(problems.join("; ")));
         }else{
             console.error("Application integrity check failed:", problems.join("; "));
         }

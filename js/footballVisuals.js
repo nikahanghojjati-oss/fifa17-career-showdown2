@@ -192,7 +192,7 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
 function warmFootballVisualPlan(plan){
     preloadFootballVisualAssets(plan.assets).catch(error => {
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Required football photograph could not be prepared", error);
+            window.reportApplicationError("A player photo did not load", error);
         }else{
             console.error(error);
         }
