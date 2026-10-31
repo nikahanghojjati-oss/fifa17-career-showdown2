@@ -1508,6 +1508,27 @@
   }
   `;
   
+  // r87 polish (career screens). Nothing here dims, overlays or moves another element.
+  // Trophy Room, all sizes: an unwon case (both counts "—") puts NOT WON YET in the counts row instead of a row of its own
+  // under it, so its picture keeps the height of its neighbours and its name lines up with theirs (it sat 12px higher).
+  // Trophy Room, upright phones and tablets: the MORE sheet's CAREER DETAILS heading gets the same opaque black-gold marble
+  // face as the rank cards; the plate's bright light column ran through the words.
+  // Career Statistics: a shared lead shows one split face (Daniel's half left, Nik's half right) in the single face's box.
+  const CAREER_POLISH_R87_CSS=String.raw`
+#app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard.is-unwon > .managerCounts {grid-row:3;grid-column:1 / -1;visibility:hidden}
+#app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard.is-unwon > .notWonYet {grid-row:3;grid-column:1 / -1;align-self:center;margin:0}
+@media (max-width:900px) and (orientation:portrait) {
+  #app #trophyRoom .phoneMoreToggle:checked ~ .trophyPhoneSheet.sd-sheet {
+    box-sizing:border-box;border:1px solid #8b713c;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%),#0b0b0c url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  }
+}
+#app #careerStatistics.careerScreenV10 .managerPortraitSplit {position:relative;overflow:hidden;background-image:none}
+#app #careerStatistics.careerScreenV10 .managerPortraitSplit > .managerPortrait {position:absolute;inset:0;box-sizing:border-box;width:100%;height:100%;max-height:none;margin:0;border:0}
+#app #careerStatistics.careerScreenV10 .managerPortraitSplit > .managerPortrait.daniel {clip-path:inset(0 50% 0 0)}
+#app #careerStatistics.careerScreenV10 .managerPortraitSplit > .managerPortrait.nik {clip-path:inset(0 0 0 50%)}
+#app #careerStatistics.careerScreenV10 .managerPortraitSplit::after {content:"";position:absolute;top:0;bottom:0;left:calc(50% - .5px);width:1px;background:rgba(255,211,77,.8)}
+`;
   // r84 Golden Showdown looks: the shared gold tokens and the r78 black-and-gold marble tile. Nothing here dims, overlays or moves
   // another element. Trophy Room: the gold case is a sixth case on the ALL shelf, so rows that held five cases hold six; portrait
   // phones and tablets (three across, the last two centred) show two full rows of three. Career Statistics: one gold line under the
@@ -1588,11 +1609,11 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS;
       host.appendChild(smallPhoneStyle);
     }else{
       const careerStatsStyle=doc.createElement("style");
-      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS;
+      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS;
       host.appendChild(careerStatsStyle);
     }
     v10Wire(screen,host);

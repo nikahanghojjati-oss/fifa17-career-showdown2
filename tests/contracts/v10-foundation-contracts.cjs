@@ -404,13 +404,16 @@ check("F7 the lock comes from startJoinViewModel; a locked tap shows the toast a
   assert.equal(topBar(root).dataset.locked,"false","unlocked again outside the locked steps");
 });
 
-check("F8 the bar is hidden on Loading and appears only after start-up",async()=>{
+// r87 (Reus Gate: Loading stays until the next screen is ready): the bar used to load only after Loading had gone, so Home
+// showed for a moment without it. It now mounts behind Loading, hidden by html[data-nav="none"], and shows as Loading leaves.
+check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",async()=>{
   const root=await installed({loading:true});
-  assert.equal(root.document.documentElement.dataset.nav,"none");
-  assert.equal(topBar(root),null,"no bar while Loading shows");
-  assert.equal(root.scripts.some(s=>s.includes("navbar.js")),false,"bar code not loaded during Loading");
+  await flush();
+  assert.equal(root.document.documentElement.dataset.nav,"none","the bar stays hidden while Loading shows");
+  assert.ok(topBar(root),"the bar is mounted behind Loading, so it is ready when Home is handed over");
+  assert.equal(typeof V10.mountNav,"function","js/ssjr.js waits on the bar through mountNav()");
   root.endLoading();await flush();
-  assert.ok(topBar(root),"bar mounts once Loading is gone");
+  assert.ok(topBar(root),"the bar is there once Loading is gone");
   assert.equal(root.document.documentElement.dataset.nav,"hub");
   const css=read(V10.NAV.shellStyle);
   assert.match(css,/html\[data-nav="hub"\] #app/,"phone hub screens keep room for the bottom bar");
