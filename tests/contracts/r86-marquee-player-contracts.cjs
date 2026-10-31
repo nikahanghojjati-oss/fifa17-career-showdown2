@@ -99,4 +99,25 @@ ok('L5','older reads and saves carry a null confirm time (no MP, still ready); n
 }
 ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the dataset names mapped to the catalog clubs');
 
+// L7 red team R87-SP-02: the manager's own Special Player is refused as a Transfer War signing (Rule Book cards 03/06:
+// a free extra signing that a guess can never release). R87-D-01: the one database-name alias is listed.
+{
+  const AT=Date.parse('2026-10-31T00:00:00Z'),id='pair_a0000000000000030000012d0000000000000000000000000000000000000045';
+  const pair=MP.forShowdown(id,AT);assert.equal(pair.playerOne.name,'L. Messi');assert.equal(pair.playerTwo.name,'Neymar');
+  for(const typed of ['L. Messi',' l. messi ','L. MESSI'])assert.equal(MP.isOwnSpecial(id,AT,'playerOne',typed),true,typed);
+  assert.equal(MP.isOwnSpecial(id,AT,'playerOne','Neymar'),false,'the rival’s Special Player is an ordinary signing for this manager');
+  assert.equal(MP.isOwnSpecial(id,AT,'playerTwo','Neymar'),true);
+  assert.equal(MP.isOwnSpecial(id,AT,'playerOne','Lionel Messi'),false,'no initials guessing');
+  assert.equal(MP.isOwnSpecial(id,MP.fromMs-1,'playerOne','L. Messi'),false,'a Showdown before r86 has no Special Player');
+  assert.deepEqual({...List.sourceNames},{'K. Mbappé':'K. Mbappe Lottin'});
+  const mb='pair_f13088c76395207270826b4fd7993470f9e24eeab5eb59952ffe87c2b474e4bd';
+  assert.equal(MP.forShowdown(mb,AT).playerOne.name,'K. Mbappé');
+  for(const typed of ['K. Mbappé','K. Mbappe','K. Mbappe Lottin'])assert.equal(MP.isOwnSpecial(mb,AT,'playerOne',typed),true,typed);
+  const pstc=read('js/productionSharedTransferChallenge.js');
+  assert.match(pstc,/if\(pstcIsOwnSpecial\(role,player\)\)pstcFail\("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing \$\{i\} is your Special Player\./,'the signing form refuses him with a plain line');
+  assert.match(pstc,/step\.isOwnSpecial\(request\.rivalryId,at,role,name\)/,'asked of the season step with the Setup confirm time the page holds');
+  assert.match(read('js/rosterRouletteStep.js'),/draw\.isOwnSpecial\(rivalryId,confirmedAtMs,role,name\)/,'the step asks the draw');
+}
+ok('L7','red team R87-SP-02: own Special Player refused as a Transfer War signing (folded names, database alias); rival SP allowed');
+
 console.log(`PASS r86 Special Player contracts: ${checks} numbered checks (list, badges, draw, which Showdowns, old saves, crests).`);

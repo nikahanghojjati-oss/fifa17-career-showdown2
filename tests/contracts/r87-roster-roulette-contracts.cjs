@@ -233,7 +233,10 @@ ok('L8','CB displaces weakest CB to bench, ST preserves CBs, database fallback, 
 {
   const cs={playerOne:'Arsenal',playerTwo:'Liverpool'},noShot=spinWhere(cs,t=>!t.fired);
   const board=second(noShot,cs,[row('Creative signing',99,'CAM')]).boards.playerOne;
-  assert.equal(board.find(p=>p.name==='Creative signing').pos,'CAM','CAM prefers AM over lower-rated CM');
+  // Red team R87-C-03 (Nik's rule, replaces the old "CAM preference"): fit only decides eligibility, so a CAM signing
+  // replaces the WEAKEST compatible midfield starter (G. Xhaka 84 at LDM), not the stronger CAM M. Özil 89.
+  assert.equal(board.find(p=>p.name==='Creative signing').pos,'LDM','CAM signing replaces the weakest compatible starter');
+  assert.equal(board.find(p=>p.pos==='CAM').name,'M. Özil','the stronger CAM keeps his place');
   for(const [position,slots] of [['RB',['RB','RWB']],['RWB',['RB','RWB']],['LB',['LB','LWB']],['LWB',['LB','LWB']],['RW',['RM','RW']],['RM',['RM','RW']],['LW',['LM','LW']],['LM',['LM','LW']],['CM',['LDM','RDM','CAM']],['CDM',['LDM','RDM','CAM']],['CF',['ST']],['GK',['GK']]]){
     const b=second(noShot,cs,[row('Line check',99,position)]).boards.playerOne;
     assert.ok(slots.includes(b.find(p=>p.name==='Line check').pos),position+' compatible side/line');
@@ -248,7 +251,8 @@ ok('L8','CB displaces weakest CB to bench, ST preserves CBs, database fallback, 
   assert.equal(promoted.filter(p=>p.name).length,15,'promotion moves player and a reserve fills the bench');
   assert.ok(promoted.some(p=>p.bench&&p.name===Squads.squads.Arsenal.reserves[0][1]));
   const rbShot=spinWhere(cs,t=>t.fired&&t.player.pos==='RB');
-  assert.equal(second(rbShot,cs,[]).boards.playerOne.find(p=>p.pos==='RB').name,'P. Mertesacker','without a same-line sub, best outfield overall fills the hole');
+  // Red team R87-C-02: without a fitting sub, the best fitting reserve (M. Debuchy, RB) goes straight in; the CB sub stays.
+  assert.equal(second(rbShot,cs,[]).boards.playerOne.find(p=>p.pos==='RB').name,'M. Debuchy','without a same-line sub, the best fitting reserve fills the hole');
   const gkShot=spinWhere(cs,t=>t.fired&&t.player.pos==='GK');
   const gkSecond=second(gkShot,cs,[row('Incoming keeper',70,'GK')]).boards.playerOne;
   assert.equal(gkSecond.find(p=>p.pos==='GK').name,'Incoming keeper');
@@ -260,7 +264,7 @@ ok('L8','CB displaces weakest CB to bench, ST preserves CBs, database fallback, 
   assert.equal(noKeeper.find(p=>p.pos==='GK').name,'D. Ospina','database keeper fills GK when no sub is a keeper');
   assert.ok(noKeeper.find(p=>p.name==='Unknown keeperless').bench);
 }
-ok('L9','all position lines, CAM preference, compatible vacancies, bench promotion and GK protection');
+ok('L9','all position lines, weakest compatible starter (no CAM preference, R87-C-03), compatible vacancies, bench promotion and GK protection');
 
 {
   const cs={playerOne:'Liverpool',playerTwo:'Arsenal'},r=fixedId(205),history=[null];
@@ -324,7 +328,7 @@ function fullBoard(board,label){
   assert.equal(board.slice(0,11).filter(p=>p.pos==='GK').length,1,label);
   assert.equal(board.slice(0,11).filter(p=>p.positions[0]==='GK').length,1,label+' actual keeper');
   assert.ok(board.every(p=>p.name.trim()&&p.rating>=30&&p.rating<=99),label+' no empty row');
-  assert.equal(new Set(board.map(p=>p.name.trim().toLowerCase())).size,15,label+' unique');
+  assert.equal(new Set(board.map(p=>`${p.name.trim().toLowerCase()}#${p.number}`)).size,15,label+' unique');
 }
 {
   const forced=everyBullet(k=>k-1);
@@ -335,9 +339,10 @@ function fullBoard(board,label){
     const lost={playerOne:new Set(),playerTwo:new Set()};
     for(const v of first)for(const role of RRR.roles){
       const b=v.boards[role];fullBoard(b,club+' season '+v.season);
-      for(const p of b)assert.ok(!lost[role].has(p.name),club+' shot player never returns');
+      // One person = name + shirt (red team R87-C-05): Alavés' Manu García #26 may play after #19 is shot.
+      for(const p of b)assert.ok(!lost[role].has(`${p.name}#${p.number}`),club+' shot player never returns');
       const turn=v.turns.find(t=>t.role===role);assert.equal(turn.fired,true);
-      assert.ok(turn.player.name&&turn.player.rating>0);lost[role].add(turn.player.name);
+      assert.ok(turn.player.name&&turn.player.rating>0);lost[role].add(`${turn.player.name}#${turn.player.number}`);
     }
   }
   // Empty rows exist only when a club has run out of players (Nik 2026-10-31): one writer, the rrPlace fallback.
@@ -420,12 +425,58 @@ ok('L12','fitting kept signing first, bench and reserve substitutions, database 
 }
 ok('L13','all 98 clubs exclude any launch XI, sub or reserve Special Player and keep full boards');
 
-// L14 Nik chose club-only replacements and explicit exhaustion reporting. A finite
-// goalkeeper/club pool must never produce a blank row, resurrect a loss or import a player.
+// Red team r87 Roulette + Special Player (audit/r87/REDTEAM_R87_RR_SP.md, R87-C-01..C-06): the exact reproductions.
+const MP=require('../../js/marqueePlayer.js');
+// What the season step passes (js/rosterRouletteStep.js rrsSpecial, run in a VM below): name, overall, shirt number and
+// the squad database name of both draws.
+const drawFor=r=>{
+  const box={CareerModeMarqueePlayers:require('../../data/marqueePlayers.js'),CareerModeMarqueePlayer:MP};vm.createContext(box);
+  const stepSource=fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8');
+  const fn=stepSource.slice(stepSource.indexOf('  function rrsSpecial('),stepSource.indexOf('/* rrsSpecial end */'));
+  vm.runInContext('const root=this,ROLES=["playerOne","playerTwo"];'+fn+';this.special=rrsSpecial;',box);
+  return JSON.parse(JSON.stringify(box.special({rivalryId:r,confirmedAtMs:Date.parse('2026-10-31T00:00:00Z')})));
+};
+const LINE={GK:'GK',CB:'CB',LCB:'CB',RCB:'CB',SW:'CB',RB:'RB',RWB:'RB',LB:'LB',LWB:'LB',CDM:'CM',RDM:'CM',LDM:'CM',CM:'CM',RCM:'CM',LCM:'CM',CAM:'CM',RAM:'CM',LAM:'CM',RM:'RW',RW:'RW',LM:'LW',LW:'LW',ST:'ST',CF:'ST',RS:'ST',LS:'ST',RF:'ST',LF:'ST'};
+const fitsSlot=(positions,pos)=>positions.some(p=>LINE[p]&&LINE[p]===LINE[pos]);
+const fold=n=>String(n||'').normalize('NFD').replace(/[̀-ͯ]/g,'').trim().toLowerCase();
+const AL={playerOne:'Arsenal',playerTwo:'Liverpool'};
+const firstSeason=rows=>[null,{playerOne:rows,playerTwo:[]}];
+
+// L14 Nik chose club-only replacements. A club out of KEEPERS puts its best remaining outfielder in goal (red team
+// R87-E-02); only a club that has truly run out of players shows an empty slot. Never a revived loss or an import.
 {
-  for(const [club,exhaustedSeason] of [['Torino',2],['Cagliari',10]]){
-    const cs={playerOne:club,playerTwo:'Liverpool'},gk=RRR.board(club).find(p=>p.pos==='GK');
-    const forced=everyBullet(k=>club==='Torino'?gk.slot:k-1);
+  const keeperless=(b,label)=>{
+    assert.equal(b.length,15,label);assert.ok(b.every(p=>p.name&&p.rating>0),label+' no empty slot while outfielders remain');
+    const gk=b.find(p=>p.pos==='GK');assert.ok(gk.positions[0]!=='GK',label+' an outfielder stands in goal');
+    assert.equal(new Set(b.map(p=>`${p.name}#${p.number}`)).size,15,label+' unique');
+  };
+  {
+    const club='Torino',cs={playerOne:club,playerTwo:'Liverpool'},gk=RRR.board(club).find(p=>p.pos==='GK');
+    const forced=everyBullet(()=>gk.slot);
+    const options={history:noSignings,special:{playerOne:{name:gk.name,overall:gk.rating}}};
+    const ownNames=new Set(Players.clubs[club].players.map(p=>p[0]));
+    fullBoard(forced.forSeason(fixedId(92),cs,1,options).boards.playerOne,'Torino season 1');
+    for(let call=0;call<2;call+=1){
+      const v=forced.forSeason(fixedId(92),cs,2,options),b=v.boards.playerOne;
+      keeperless(b,club+' no keeper left');
+      assert.ok(b.every(p=>ownNames.has(p.name)&&p.name!==gk.name),'still club-only, never the Special Player');
+      const turn=v.turns.find(t=>t.role==='playerOne');assert.ok(turn.fired&&turn.player&&turn.player.name,'the bullet hits a real player');
+      assert.equal(JSON.stringify(v),JSON.stringify(forced.forSeason(fixedId(92),cs,2,options)),'deterministic');
+    }
+  }
+  // A kept keeper signing replaces the stopgap outfielder whatever his overall.
+  {
+    const gk=RRR.board('Torino').find(p=>p.pos==='GK'),forced=everyBullet(k=>k===1?gk.slot:14);
+    const history=noSignings.slice();history[2]={playerOne:[row('Late keeper',45,'GK')],playerTwo:[]};
+    const b=forced.forSeason(fixedId(92),{playerOne:'Torino',playerTwo:'Liverpool'},3,{history,special:{playerOne:{name:gk.name,overall:gk.rating}}}).boards.playerOne;
+    assert.equal(b.find(p=>p.pos==='GK').name,'Late keeper','a keeper always takes the goal back from an outfielder');
+    fullBoard(b,'keeper back in goal');
+  }
+  // Cagliari (24 players, one Special Player, nine shots) truly runs out by season 10: it keeps an EMPTY slot
+  // (Nik 2026-10-31), the roulette still runs and the bullet only hits a real player.
+  {
+    const club='Cagliari',exhaustedSeason=10,cs={playerOne:club,playerTwo:'Liverpool'},gk=RRR.board(club).find(p=>p.pos==='GK');
+    const forced=everyBullet(k=>k-1);
     const options={history:noSignings,special:{playerOne:{name:gk.name,overall:gk.rating}}};
     const ownNames=new Set(Players.clubs[club].players.map(p=>p[0]));
     const run=()=>Array.from({length:exhaustedSeason-1},(_,i)=>forced.forSeason(fixedId(92),cs,i+1,options));
@@ -434,7 +485,6 @@ ok('L13','all 98 clubs exclude any launch XI, sub or reserve Special Player and 
       const b=v.boards.playerOne;fullBoard(b,club+' before exhaustion '+v.season);
       assert.ok(b.every(p=>ownNames.has(p.name)&&p.name!==gk.name),'replacements stay club-only and skip Special Player');
     }
-    // Nik 2026-10-31: the roulette is never skipped. The run-out club shows an empty slot and the bullet hits a real player.
     for(let call=0;call<2;call+=1){
       const v=forced.forSeason(fixedId(92),cs,exhaustedSeason,options),b=v.boards.playerOne,filled=b.filter(p=>p.name);
       assert.equal(b.length,15,club+' board keeps 15 places');assert.ok(filled.length<15,club+' run-out club shows an empty slot');
@@ -445,20 +495,231 @@ ok('L13','all 98 clubs exclude any launch XI, sub or reserve Special Player and 
       assert.ok(turn.player&&turn.player.name,'the bullet hits a real player, never the empty slot');
       assert.equal(JSON.stringify(v),JSON.stringify(forced.forSeason(fixedId(92),cs,exhaustedSeason,options)),'deterministic');
     }
-    if(club==='Cagliari'){
-      const history=noSignings.slice();history[9]={playerOne:[row('Kept reserve cover',40,null)],playerTwo:[]};
-      const b=forced.forSeason(fixedId(92),cs,10,{...options,history}).boards.playerOne;
-      fullBoard(b,'kept signing prevents club exhaustion');
-      assert.ok(b.some(p=>p.bench&&p.name==='Kept reserve cover'),'kept sub-only signing can cover the promoted bench slot');
-    }
+    const history=noSignings.slice();history[9]={playerOne:[row('Kept reserve cover',40,null)],playerTwo:[]};
+    const b=forced.forSeason(fixedId(92),cs,10,{...options,history}).boards.playerOne;
+    fullBoard(b,'kept signing prevents club exhaustion');
+    assert.ok(b.some(p=>p.bench&&p.name==='Kept reserve cover'),'kept sub-only signing can cover the promoted bench slot');
   }
   const r='pair_4f30dc1baf68cf8f3e5cf3d58163ef451816249ea818b46fde9e9539ce3654fa';
   const real=RRR.forSeason(r,{playerOne:'Torino',playerTwo:'Liverpool'},10,{history:noSignings,special:{playerOne:{name:'J. Hart',overall:84}}});
-  assert.ok(real&&real.boards.playerOne.length===15&&real.boards.playerOne.some(p=>!p.name),'real-stream goalkeeper run-out leaves an empty slot, no skip');
+  keeperless(real.boards.playerOne,'real-stream Torino keeper run-out');
   assert.ok(real.turns.every(t=>!t.fired||(t.player&&t.player.name)),'real-stream bullets hit real players');
+  // Red team R87-E-02 natural repro: Everton loses both keepers; from season 8 an outfielder is in goal, never empty.
+  const ev='pair_b5e16e93ab412832c9430aa2a2b003bd61c6f1811b1fd8c373a53207c2af7c18',evSp=drawFor(ev);
+  for(const season of [8,10]){
+    const b=RRR.forSeason(ev,{playerOne:'Everton',playerTwo:'Middlesbrough'},season,{special:evSp,history:noSignings}).boards.playerOne;
+    keeperless(b,'Everton season '+season);
+  }
 }
-ok('L14','club-only replacements: a run-out club keeps an empty slot, the roulette still runs and only hits real players');
+ok('L14','club-only replacements: no keeper left = best outfielder in goal (R87-E-02); only a truly run-out club keeps an empty slot, the roulette still runs');
 
+
+// L17 R87-C-01 (P0): both managers' Special Players are off both boards, benches and hidden reserves, so never hit.
+{
+  const r='pair_a0000000000000030000012d0000000000000000000000000000000000000045',sp=drawFor(r);
+  assert.equal(sp.playerOne.name,'L. Messi');assert.equal(sp.playerTwo.name,'Neymar');
+  const isSp=p=>p.name&&['L. Messi','Neymar'].includes(p.name);
+  const v1=RRR.forSeason(r,{playerOne:'Barcelona',playerTwo:'Liverpool'},1,{special:sp});
+  assert.equal(v1.turns[0].fired,true,'the reported fired turn');
+  assert.notEqual(v1.turns[0].player.name,'Neymar','the rival Special Player is never hit');
+  assert.equal(v1.boards.playerOne[1].name,'André Gomes','LW: the best fitting sub moves up');
+  assert.equal(v1.boards.playerOne[11].name,'J. Mathieu','the best reserve (81, above the report\u2019s example Denis Suárez 80) fills the bench');
+  for(const cs of [{playerOne:'Barcelona',playerTwo:'Liverpool'},{playerOne:'Liverpool',playerTwo:'Barcelona'},{playerOne:'Barcelona',playerTwo:'Barcelona'}])
+    for(let s=1;s<=10;s+=1){
+      const v=RRR.forSeason(r,cs,s,{special:sp,history:noSignings});
+      for(const role of RRR.roles){fullBoard(v.boards[role],'both SPs excluded '+s);assert.ok(!v.boards[role].some(isSp),'neither Special Player on any board');}
+      for(const t of v.turns)if(t.fired)assert.ok(!isSp(t.player));
+    }
+  // Every Special Player in a catalog club, drawn as the RIVAL's: forced shots at a sub drain the hidden reserves and
+  // the club database, and he never surfaces on the other manager's board (his own club).
+  const forced=everyBullet(()=>14),Marquee=require('../../data/marqueePlayers.js');
+  let checked=0;
+  for(const m of Marquee.players){
+    const dbName=Marquee.sourceNames[m.name]||m.name;
+    const home=Object.entries(Players.clubs).find(([,d])=>d.players.some(p=>p[0]===dbName&&p[4]===m.number));
+    if(!home)continue;checked+=1;
+    const special={playerOne:{name:'Nobody Here',overall:80},playerTwo:{name:m.name,sourceName:dbName,overall:m.overall,number:m.number}};
+    for(const season of [1,10]){
+      const b=forced.forSeason(fixedId(93),{playerOne:home[0],playerTwo:'Liverpool'},season,{history:noSignings,special}).boards.playerOne;
+      assert.ok(!b.some(p=>p.name===dbName&&p.number===m.number),`${m.name} (${home[0]}) never on the rival's board, season ${season}`);
+    }
+  }
+  assert.ok(checked>=170,'every catalog Special Player checked');
+  ok('L17',`red team R87-C-01: both Special Players off both boards and reserves (${checked} catalog draws as rival SP)`);
+}
+
+// L18 R87-C-02: a replacement needs a positive positional fit; a fitting reserve/database player beats a misfit sub.
+{
+  const rb='pair_aa5da30f08fc95a1210a286f52fa2c33b594e44bcb7381802e9a699cd68bcd0e';
+  const s1=RRR.forSeason(rb,AL,1).turns[0];assert.equal(s1.player&&s1.player.name,'Héctor Bellerín');
+  const b2=RRR.forSeason(rb,AL,2,{history:noSignings}).boards.playerOne;
+  assert.equal(b2[10].name,'M. Debuchy','RB stays a right-back: the fitting reserve goes straight into the slot');
+  assert.equal(b2[11].name,'P. Mertesacker','the misfit sub stays on the bench');
+  const bel='pair_a000000000000085000000000000000000000000000000000000000000000000',spBel=drawFor(bel);
+  assert.equal(spBel.playerOne.name,'Héctor Bellerín');
+  const bb=RRR.forSeason(bel,AL,1,{special:spBel}).boards.playerOne;
+  assert.equal(bb[10].name,'M. Debuchy','own-club Special Player: the next fitting player takes his place');
+  assert.equal(bb[11].name,'P. Mertesacker');
+  // Liverpool's no-signing walk: CB Sakho never plays ST while a striker remains.
+  const forced=everyBullet(k=>k-1);
+  const lv=forced.forSeason(fixedId(87),{playerOne:'Liverpool',playerTwo:'Arsenal'},3,{history:noSignings}).boards.playerOne;
+  assert.ok(fitsSlot(lv[1].positions,lv[1].pos),'Liverpool season 3 ST is a striker, not '+lv[1].name);
+  // Every club, ten forced firing seasons: a replaced starter fits his slot unless nobody left at the club fits it.
+  let misfits=0;
+  for(const club of catalog){
+    const launch=RRR.board(club),lost=[];
+    for(let season=1;season<=10;season+=1){
+      const v=forced.forSeason(fixedId(87),{playerOne:club,playerTwo:club},season,{history:noSignings}),b=v.boards.playerOne;
+      b.slice(0,11).forEach((p,i)=>{
+        if(!p.name||p.name===launch[i].name||fitsSlot(p.positions,p.pos))return;
+        misfits+=1;
+        const spare=Players.clubs[club].players.find(row=>fitsSlot(row[2],p.pos)&&!b.some(q=>q.name===row[0]&&q.number===row[4])&&!lost.some(l=>l.name===row[0]&&l.number===row[4]));
+        assert.ok(!spare,`${club} season ${season}: ${p.name} misfits ${p.pos} while ${spare&&spare[0]} fits`);
+      });
+      lost.push(v.turns[0].player);
+    }
+  }
+  ok('L18',`red team R87-C-02: positive fit first (fitting sub, else fitting reserve/database), misfit fallback only when none fits (${misfits} genuine)`);
+}
+
+// L19 R87-C-03: fit decides eligibility only; a signing replaces the WEAKEST compatible starter when strictly better.
+{
+  const safe='pair_a9b24c458404d9c2f3b8a8937ba550a8e50867c1b522a009b99b2fdfbb1f66a5';
+  assert.equal(RRR.forSeason(safe,AL,1).turns[0].fired,false);
+  const b=RRR.forSeason(safe,AL,2,{history:firstSeason([row('Playmaker',90,'CAM')])}).boards.playerOne;
+  assert.equal(b[0].name,'M. Özil','the stronger CAM stays');
+  assert.equal(b[6].name,'Playmaker','the weakest compatible midfielder (G. Xhaka 84, LDM) is replaced');
+  assert.equal(b[12].name,'G. Xhaka','the replaced starter beats the weakest sub');
+  assert.ok(!b.some(p=>p.name==='F. Coquelin'),'the weakest sub goes to the reserves');
+  ok('L19','red team R87-C-03: weakest compatible starter, strictly better; no CAM preference');
+}
+
+// L20 R87-C-04: the Transfer War entry order never changes a board or a release.
+{
+  const order='pair_a2621a78bf4fa1e0a09ea793d734478e32bc7178fe0b3971ff9563fad68d9c5c';
+  const run=(a,b)=>RRR.forSeason(order,AL,2,{history:firstSeason([row('First CM',90,'CM',a),row('Second CM',90,'CM',b)])});
+  const A=run(1,2),B=run(2,1);
+  assert.equal(JSON.stringify(A),JSON.stringify(B),'same kept players, same board and the same released player');
+  assert.equal(A.turns[0].fired,true);
+  // Ties across names, positions and accents in every entry order.
+  const tied=[row('Zed Tie',88,'CB'),row('Abe Tie',88,'CB'),row('Mid Tie',88,'CM'),row('Émile Tie',88,'ST'),row('Emile Tie',88,'ST')];
+  const perms=[[0,1,2,3,4],[4,3,2,1,0],[2,0,4,1,3],[1,4,0,3,2]];
+  for(const g of [0,1,2]){
+    const runs=perms.map(perm=>JSON.stringify(RRR.forSeason(fixedId(g),AL,3,{history:[null,{playerOne:perm.map((i,slot)=>({...tied[i],slot:slot+1})),playerTwo:[]},{playerOne:[],playerTwo:[]}]})));
+    assert.ok(runs.every(x=>x===runs[0]),'entry order never matters');
+  }
+  ok('L20','red team R87-C-04: equal-overall signings rank by identity, not entry slot');
+}
+
+// L21 R87-C-05 (partial): accents fold; a Special Player's exclusion is his own row (name + shirt), so a homonym at another
+// club stays; Alavés' two Manu García rows are two people for the database refill.
+{
+  const mat='pair_a0000000000000d2000000000000000000000000000000000000000000000000',sp=drawFor(mat);
+  assert.equal(sp.playerOne.name,'Matheus Pereira');assert.equal(sp.playerOne.number,73);
+  const sub11=everyBullet(()=>11);
+  const b4=sub11.forSeason(fixedId(94),{playerOne:'Empoli',playerTwo:'Liverpool'},4,{history:noSignings,special:sp}).boards.playerOne;
+  assert.equal(b4[11].name,'Matheus Pereira','Empoli’s own Matheus Pereira stays in the hidden reserves');
+  assert.equal(b4[11].rating,70);assert.equal(b4[11].number,31);
+  // Alavés: shoot Manu García #19 (LDM), then the last sub every season; the refill reaches Manu García #26.
+  const alaves=RRR.board('Alavés'),ldm=alaves.find(p=>p.name==='Manu García').slot;
+  const walk=everyBullet(k=>k===1?ldm:14);
+  const a10=walk.forSeason(fixedId(95),{playerOne:'Alavés',playerTwo:'Liverpool'},10,{history:noSignings}).boards.playerOne;
+  assert.equal(a10[14].name,'Manu García','the other Manu García is a different person');
+  assert.equal(a10[14].number,26);assert.deepEqual([...a10[14].positions],['CAM'],'his own positions, not #19’s');
+  // Accent-folded identity: a kept "M. Ozil" is the Special Player M. Özil and never joins.
+  const oz='pair_a000000000000012000000000000000000000000000000000000000000000000',spOz=drawFor(oz);
+  assert.equal(spOz.playerOne.name,'M. Özil');
+  for(const name of ['M. Ozil',' m. özil ','M. OZIL'])
+    assert.ok(!RRR.forSeason(oz,AL,2,{special:spOz,history:firstSeason([row(name,89,'CAM')])}).boards.playerOne.some(p=>fold(p.name)==='m. ozil'),name+' never joins');
+  // The season step passes the shirt number with each draw.
+  assert.match(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),/number:picks\[role\]\.number/);
+  // R87-D-01 (P0): every Special Player at a catalog club is exactly one squad database row by (database name, shirt),
+  // and none outside the catalog matches any row. K. Mbappé is "K. Mbappe Lottin" in the database.
+  const Marquee=require('../../data/marqueePlayers.js');
+  const py=fs.readFileSync(path_.join(ROOT,'scripts/build-fifa17-rosters.py'),'utf8');
+  const aliases=Object.fromEntries([...py.slice(py.indexOf('ALIASES = {'),py.indexOf('}',py.indexOf('ALIASES = {'))).matchAll(/'([^']+)':\s*'([^']+)'/g)].map(m=>[m[2],m[1]]));
+  let inCatalog=0;
+  for(const m of Marquee.players){
+    const dbName=Marquee.sourceNames[m.name]||m.name,club=aliases[m.club]||m.club;
+    const rows=Object.entries(Players.clubs).flatMap(([c,d])=>d.players.filter(p=>fold(p[0])===fold(dbName)&&p[4]===m.number).map(p=>[c,p]));
+    if(Players.clubs[club]){
+      inCatalog+=1;
+      assert.equal(rows.length,1,`${m.name} (${m.club}) is exactly one database row`);
+      assert.equal(rows[0][0],club,`${m.name} row is at his own club`);assert.equal(rows[0][1][1],m.overall,`${m.name} same overall`);
+    }else assert.equal(rows.length,0,`${m.name} (${m.club}, not in the catalog) matches no squad row`);
+  }
+  assert.equal(inCatalog,269,'269 of the 305 Special Players play for catalog clubs');
+  const mb='pair_f13088c76395207270826b4fd7993470f9e24eeab5eb59952ffe87c2b474e4bd',spMb=drawFor(mb);
+  assert.equal(spMb.playerOne.name,'K. Mbappé');assert.equal(spMb.playerOne.sourceName,'K. Mbappe Lottin');
+  const isMb=p=>p&&p.name&&/^k\. mbapp/.test(fold(p.name));
+  for(let season=1;season<=10;season+=1){
+    const v=RRR.forSeason(mb,{playerOne:'Monaco',playerTwo:'Nice'},season,{special:spMb,history:noSignings});
+    assert.ok(!v.boards.playerOne.some(isMb),'Mbappé never on Monaco’s board, season '+season);
+    for(const t of v.turns)assert.ok(!isMb(t.player),'Mbappé is never shot');
+  }
+  const monaco=everyBullet(()=>14);
+  for(const season of [5,6,10])assert.ok(!monaco.forSeason(fixedId(96),{playerOne:'Monaco',playerTwo:'Nice'},season,{special:spMb,history:noSignings}).boards.playerOne.some(isMb),'database refill skips Mbappé');
+  // A typed signing with his display name is still the Special Player.
+  assert.ok(!RRR.forSeason(mb,{playerOne:'Monaco',playerTwo:'Nice'},2,{special:spMb,history:firstSeason([row('K. Mbappe',80,'ST')])}).boards.playerOne.some(isMb));
+  ok('L21','red team R87-C-05 (partial) + R87-D-01: folded names, SP excluded by own row (Empoli homonym stays, Mbappé caught by database name), Manu García #26 distinct');
+}
+
+// L22 R87-C-06: both phones animate the engine's own plan: chambers, aim and seed come from the step, never Math.random.
+{
+  for(let g=0;g<2000;g+=1)for(const t of RRR.forSeason(fixedId(g),AL,1).turns){
+    assert.ok(Number.isInteger(t.aimSlot)&&t.aimSlot>=0&&t.aimSlot<15);
+    if(t.fired)assert.equal(t.aimSlot,t.hitSlot);
+  }
+  const step=fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8');
+  for(const field of ['bulletChamber:turn.bulletChamber','stopChamber:turn.stopChamber','hitSlot:turn.hitSlot','aimSlot:turn.aimSlot'])assert.ok(step.includes(field),'step passes '+field);
+  assert.match(step,/seed:rrsSeed\(ctx\)/);
+  const scene=fs.readFileSync(path_.join(ROOT,'visual-assets/v10_1/roulette/index.html'),'utf8');
+  const start=scene.indexOf('function rrPlanTurn('),end=scene.indexOf('/* rrPlanTurn end */');
+  assert.ok(start>0&&end>start,'the scene has one plan helper');
+  const box={};vm.createContext(box);vm.runInContext(scene.slice(start,end)+';this.plan=rrPlanTurn;',box);
+  const free=[{slot:3,name:'A'},{slot:11,name:'B'},{slot:14,name:'C'}];
+  const p=box.plan({fire:false,bulletChamber:1,stopChamber:4,hitSlot:null,aimSlot:11},free,()=>{throw new Error('no random');});
+  assert.equal(p.bulletAt,1);assert.equal(p.chamber,4);assert.equal(p.pick.name,'B');assert.equal(p.fire,false);
+  const q=box.plan({fire:true,bulletChamber:5,stopChamber:5,hitSlot:14,aimSlot:14,target:'C'},free,()=>{throw new Error('no random');});
+  assert.equal(q.chamber,5);assert.equal(q.pick.name,'C');assert.equal(q.fire,true);
+  assert.match(scene,/Number\.isInteger\(g\.seed\)/,'the scene takes the Showdown seed');
+  ok('L22','red team R87-C-06: the scene plays bulletChamber, stopChamber and the hit/aim slot from the engine, seeded');
+}
+
+
+// L23 red team RT5 engine fuzz (R87-E-01, Q1, Q2): stale signings, displaced starters and weak reserves never jump the
+// queue; every refill is the best available club player.
+{
+  const cs={playerOne:'Arsenal',playerTwo:'Chelsea'},special={playerOne:{name:'Neymar',overall:92},playerTwo:{name:'Cristiano Ronaldo',overall:94}};
+  const none={playerOne:[],playerTwo:[]},s1={playerOne:[row('Test Defender',50,'CB',0)],playerTwo:[]};
+  // R87-E-01 XI case: Koscielny is shot in season 2; P. Mertesacker moves up and M. Debuchy fills the bench.
+  const xi=`pair_${'0000002e'.repeat(8)}`;
+  assert.equal(RRR.forSeason(xi,cs,2,{special,history:[null,s1]}).turns[0].player.name,'L. Koscielny');
+  const x3=RRR.forSeason(xi,cs,3,{special,history:[null,s1,none]}).boards.playerOne;
+  assert.equal(x3[4].name,'P. Mertesacker','a season-1 signing parked in the reserves does not take a season-3 vacancy');
+  assert.ok(x3.some(p=>p.bench&&p.name==='M. Debuchy'));assert.ok(!x3.some(p=>p.name==='Test Defender'));
+  // R87-E-01 bench case: Coquelin (sub) is shot in season 2; the best reserve M. Debuchy (80) fills slot 12.
+  const bench=`pair_${'00000062'.repeat(8)}`;
+  assert.equal(RRR.forSeason(bench,cs,2,{special,history:[null,s1]}).turns[0].player.name,'F. Coquelin');
+  assert.equal(RRR.forSeason(bench,cs,3,{special,history:[null,s1,none]}).boards.playerOne[12].name,'M. Debuchy');
+  // Q1: Test Back (RB 85) replaces Bellerín (79); Bellerín beats no remaining sub, so he goes to the reserves and the shot
+  // sub's place goes to the best available club player, M. Debuchy (80).
+  const s2={playerOne:[row('Test Back',85,'RB',0)],playerTwo:[]};
+  const q1=RRR.forSeason(bench,cs,3,{special,history:[null,none,s2]}).boards.playerOne;
+  assert.equal(q1[10].name,'Test Back');assert.equal(q1[12].name,'M. Debuchy','displaced 79 never takes the bench over an 80');
+  assert.ok(!q1.some(p=>p.name==='Héctor Bellerín'));
+  // Q2: a weak kept signing in the reserves never blocks a better unused club player. Season 1 is safe (he beats no sub,
+  // so he is parked in the reserves), then sub 14 is shot every season; once
+  // the hidden three are used, the refill is the best unused club player, not the parked 70.
+  const sub=everyBullet(()=>14,k=>k>1),weak=[null,{playerOne:[row('Weak cover',70,null)],playerTwo:[]},...noSignings.slice(2)];
+  const occupied=new Set(RRR.board('Arsenal').map(p=>p.name)),pool=Players.clubs.Arsenal.players.filter(p=>!occupied.has(p[0])).sort((a,b)=>b[1]-a[1]||a[4]-b[4]);
+  for(let season=3;season<=10;season+=1){
+    const b=sub.forSeason(fixedId(97),AL,season,{history:weak}).boards.playerOne;
+    assert.equal(b[14].name,pool[season-3][0],`season ${season}: the best unused club player refills, not a weak reserve`);
+    assert.ok(!b.some(p=>p.name==='Weak cover'));
+  }
+  ok('L23','red team RT5 engine: no stale-signing first refusal (E-01), displaced starter to the bench only when he beats a sub (Q1), best available refill (Q2)');
+}
 
 // L15 red team R87-B-02: the roulette's own files failing never opens the Transfer window silently. The step asks TRY
 // AGAIN / BACK; a retry that loads runs the season; a club that runs out says so before the window.
@@ -527,6 +788,49 @@ const stepChecks=(async()=>{
   const pairing=fs.readFileSync(path_.join(ROOT,'js/sparkPrivatePairing.js'),'utf8');
   assert.match(pairing,/function fsbGetFailed\(error,lookups\)\{[^\n]*if\(fsbIsQuotaError\(error\)\)fsbTrip\(\);\}/,'a quota answer on a direct get trips the pause');
   ok('L16','red team R87-B-03..06: offline scene files, two-tab drafts, plain error words, quota pause on direct gets');
+
+  // L24 red team RT5-FLOW-01: a roulette page that says "ready" and then drops the setup (its squads file failed) never
+  // traps the manager on a black stage: the page posts cms-rr-error, and the step keeps the stage hidden until
+  // cms-rr-armed, removes it after a short wait and shows the result panel (never the Transfer window).
+  {
+    const scene=fs.readFileSync(path_.join(ROOT,'visual-assets/v10_1/roulette/index.html'),'utf8');
+    assert.match(scene,/g\.turns\.length!==2\)\{ toGame\("cms-rr-error",\{message:SQUADS\?"setup":"squads"\}\); return; \}/,'the page reports a setup it cannot take');
+    const stepSrc=fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8');
+    assert.match(stepSrc,/event\.data\.type==="cms-rr-armed"\)onArmed\("armed"\)/);
+    assert.ok(stepSrc.indexOf('if(armed!=="armed")throw')<stepSrc.indexOf('stage.style.visibility="visible"'),'the stage is shown only after armed');
+    for(const pageSays of [['cms-rr-ready'],['cms-rr-ready',{type:'cms-rr-error',message:'squads'}]]){
+      class El{constructor(tag){this.tagName=tag;this.children=[];this.attrs={};this.listeners={};this.style={};this.classList={add(){},remove(){}};this.textContent='';this.parent=null;
+        if(tag==='iframe')this.contentWindow={posted:[],postMessage(m){this.posted.push(m);},location:{href:'x'},THREE:{}};}
+        append(...nodes){for(const n of nodes){n.parent=this;this.children.push(n);}}
+        remove(){if(this.parent)this.parent.children=this.parent.children.filter(n=>n!==this);this.parent=null;}
+        setAttribute(k,v){this.attrs[k]=String(v);}getAttribute(k){return this.attrs[k]??null;}removeAttribute(k){delete this.attrs[k];}
+        addEventListener(t,fn){(this.listeners[t]||=[]).push(fn);}focus(){}
+        all(){return [this,...this.children.flatMap(c=>c.all())];}
+        querySelector(sel){return sel==='button'?this.all().slice(1).find(n=>n.tagName==='button')||null:null;}}
+      const body=new El('body'),doc={body,createElement:tag=>new El(tag),getElementById:id=>body.all().find(n=>n.id===id)||null};
+      const handlers=[],store=new Map();
+      const plan={boards:{playerOne:RRR.board('Arsenal'),playerTwo:RRR.board('Liverpool')},formations:{playerOne:'x',playerTwo:'y'},turns:[{role:'playerOne',fired:false,player:null,bulletChamber:1,stopChamber:4,hitSlot:null,aimSlot:3},{role:'playerTwo',fired:false,player:null,bulletChamber:2,stopChamber:5,hitSlot:null,aimSlot:7}]};
+      const sandbox={document:doc,setTimeout:(fn,ms)=>setTimeout(fn,Math.min(ms,30)),clearTimeout,location:{origin:'x'},
+        addEventListener:(t,fn)=>{if(t==='message')handlers.push(fn);},removeEventListener(){},
+        readStorageValue:k=>store.get(k)||null,writeStorageValue:(k,v)=>{store.set(k,v);return true;},
+        loadRuntimeScript:async()=>{sandbox.CareerModeFifa17Players={};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};sandbox.CareerModeRosterRoulette={forSeason:()=>plan};return true;}};
+      vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
+      const step=sandbox.CareerModeRosterRouletteStep;
+      const ctx={rivalryId:'pair_'+'b'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:Date.parse('2026-11-01T00:00:00Z'),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
+      const run=step.runBeforeTransfers(ctx);
+      let frame=null;for(let i=0;i<200&&!frame;i+=1){await new Promise(r=>setTimeout(r,5));frame=body.all().find(n=>n.tagName==='iframe')||null;}
+      assert.ok(frame,'the roulette page is framed');
+      for(const message of pageSays)for(const h of handlers)h({source:frame.contentWindow,origin:'x',data:typeof message==='string'?{type:message}:message});
+      let panel=null;for(let i=0;i<300&&!panel;i+=1){await new Promise(r=>setTimeout(r,5));panel=doc.getElementById(step.panelId);}
+      assert.ok(panel,'the result panel shows instead of a stuck stage');
+      assert.equal(doc.getElementById(step.stageId),null,'the black stage is removed');
+      assert.equal(panel.all().find(n=>n.className==='rrStepTitle').textContent,'Your squad is safe');
+      assert.ok(frame.contentWindow.posted.some(m=>m.type==='cms-rr-setup'&&m.turns[0].bulletChamber===1&&m.turns[0].aimSlot===3&&Number.isInteger(m.seed)),'the setup carried the engine plan and seed (R87-C-06)');
+      const back=panel.all().find(n=>n.tagName==='button'&&n.textContent==='BACK TO SHOWDOWN HOME');back.listeners.click[0]();
+      assert.equal(await run,false,'BACK never opens the Transfer window');
+    }
+    ok('L24','red team RT5-FLOW-01: a page that drops the setup posts cms-rr-error; the stage waits for cms-rr-armed, times out to the result panel');
+  }
   console.log(`r87 roster roulette contracts: ${checks} groups passed`);
 })();
 stepChecks.catch(error=>{console.error(error);process.exitCode=1;});

@@ -217,4 +217,15 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   ok('S9','just after the close the same Showdown keeps its chips; Rivalry chips and clubs line up; published Season Results cards and long phone names');
 }
 
+// S10 red team R87-SP-01: with no live Setup, an in-progress Showdown whose row has no confirm time owns the current
+// Special Players; the career screens show no chip rather than the previous Showdown's pair.
+{
+  const finished={rivalryId:r86.rivalryId,status:'completed',setupConfirmedAt:AT};
+  const live={rivalryId:'pair_'+'c'.repeat(64),status:'in-progress',setupConfirmedAt:null};
+  assert.deepEqual(plain(Chip.latest([finished])),r86Sp,'no Showdown in progress: the latest confirmed one');
+  assert.equal(Chip.latest([finished,live]),null,'an in-progress Showdown without its confirm time: no chip, never an older pair');
+  assert.deepEqual(plain(Chip.latest([finished,{...live,setupConfirmedAt:AT+1}])),plain(Chip.forShowdown(live.rivalryId,AT+1)),'with its confirm time: its own pair');
+  ok('S10','red team R87-SP-01: an in-progress Showdown without a confirm time shows no chip, never the previous Showdown\'s');
+}
+
 console.log(`r86 Special Player chip contracts: ${checks} groups passed`);

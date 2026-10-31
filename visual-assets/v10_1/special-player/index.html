@@ -157,7 +157,7 @@ body.game #spk { display: grid; }
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  document.addEventListener('webglcontextlost',function(){ show('3D graphics were reset by the phone. Close the tab and open the link again.'); },true);
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../roulette/vendor/three-r128.min.js"></script><!-- red team R87-SP-03: the same r128 build, shell-cached by the service worker, so the reveal also plays offline -->
 <script>/* r85 crest collection (js/visualIdentity.js, claude-gameplay/r85-crests) */
 /* =====================================================
    Career Mode Showdown

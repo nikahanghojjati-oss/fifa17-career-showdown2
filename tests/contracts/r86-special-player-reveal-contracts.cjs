@@ -66,7 +66,10 @@ function api_page(){return revealWorld().api.page;}
   assert.match(page,/else requestAnimationFrame\(frame\); \}\);/,'the preview (no embed) still plays at once');
   assert.match(revealSource,/event\.source!==frame\.contentWindow\|\|event\.origin!==origin/,'the game listens only to its own frame');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\)/);
-  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/catch\(_error\)\{if\(channel\)channel\.stop\(\);spMarkSeen\(pick\.key\);spRemoveStage\(\);loading\.hide\(\);return null;\}/,'a failed page is skipped and kept as seen, so a reload never re-runs it over the live game (red team #1)');
+  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/catch\(_error\)\{if\(channel\)channel\.stop\(\);spRemoveStage\(\);loading\.hide\(\);return null;\}/,'red team R87-SP-03 (replaces red team #1 here): a page that never started is skipped but NOT marked seen, so the reveal plays at the next Career Start once it can load');
+  assert.ok(!/catch\(_error\)\{[^}]*spMarkSeen/.test(revealSource),'a failed page is never marked seen');
+  assert.match(page,/<script src="\.\.\/roulette\/vendor\/three-r128\.min\.js"><\/script>/,'R87-SP-03: three.js from the shell-cached vendored copy');
+  assert.ok(!/cdnjs\.cloudflare\.com/.test(page),'no CDN script on the reveal page');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\);\s*spMarkSeen\(pick\.key\);/,'seen is kept as soon as the reveal is shown, not at Continue (red team #1)');
   assert.ok(!/failedHere/.test(revealSource),'no page-only skip list');
   assert.match(page,/function loadPano\(\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>rej\(/,'a failed stadium image ends the page at once (red team #2)');

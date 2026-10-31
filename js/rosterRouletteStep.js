@@ -19,9 +19,11 @@
   const PAGE="visual-assets/v10_1/roulette/index.html";
   const STAGE_ID="rrStage",PANEL_ID="rrStepPanel";
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;
-  // RRR_FROM_MS is set to the r87 release time in the release PR.
+  // RRR_FROM_MS is set to the r87 release time in the release PR (red team R87-C-07: the placeholder below is earlier than
+  // the r86 boundary, js/marqueePlayer.js MARQUEE_FROM_MS 03:00 UTC that day, so until the release PR pins it, r86
+  // Showdowns confirmed after midnight would get a roulette). Do not change it outside the release PR.
   const RRR_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
-  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000;
+  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=5000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
   let running=null,leftForHome=false;
@@ -93,12 +95,19 @@
     if(result&&/permission/.test(String(result.code)))return "Last season's Transfer War could not be read: the Showdown is not open here. Go back to Showdown Home and open it again.";
     return "Last season's Transfer War could not be reached. Check the connection and try again.";
   }
-  // The Special Players both phones drew for this Showdown (js/marqueePlayer.js): {role:{name, overall}}, or null for a
-  // Showdown confirmed before the Special Player.
+  // The Special Players both phones drew for this Showdown (js/marqueePlayer.js): {role:{name, overall, number,
+  // sourceName}}, or null for a Showdown confirmed before the Special Player. The engine excludes BOTH from both boards
+  // (red team R87-C-01) by his own squad database row: name + shirt number (R87-C-05), under the database name when it
+  // differs from the display name (R87-D-01, data/marqueePlayers.js sourceNames).
   function rrsSpecial(ctx){
     const draw=root.CareerModeMarqueePlayer,picks=draw&&draw.forShowdown(ctx.rivalryId,ctx.confirmedAtMs);
-    return picks?Object.fromEntries(ROLES.map(role=>[role,{name:picks[role].name,overall:picks[role].overall}])):null;
+    const sourceNames=(root.CareerModeMarqueePlayers&&root.CareerModeMarqueePlayers.sourceNames)||{};
+    return picks?Object.fromEntries(ROLES.map(role=>[role,{name:picks[role].name,overall:picks[role].overall,number:picks[role].number,
+      sourceName:Object.prototype.hasOwnProperty.call(sourceNames,picks[role].name)?sourceNames[picks[role].name]:null}])):null;
   }
+  /* rrsSpecial end */
+  // A cosmetic seed for the scene (red team R87-C-06): from the Showdown id and the season, the same on both phones.
+  function rrsSeed(ctx){return (parseInt(String(ctx.rivalryId).slice(-8),16)^Math.imul(ctx.season,0x9E3779B1))>>>0;}
   // history[k] = both managers' Transfer War verdicts of season k, for every season before this one; null when the
   // manager leaves.
   async function rrsHistory(ctx){
@@ -140,12 +149,13 @@
     return {stage,frame};
   }
   function rrsListen(frame){
-    const origin=root.location&&root.location.origin;let onReady,onDone;
-    const ready=new Promise(resolve=>{onReady=resolve;}),done=new Promise(resolve=>{onDone=resolve;});
+    const origin=root.location&&root.location.origin;let onReady,onDone,onArmed;
+    const ready=new Promise(resolve=>{onReady=resolve;}),done=new Promise(resolve=>{onDone=resolve;}),armed=new Promise(resolve=>{onArmed=resolve;});
     const handler=event=>{
       if(event.source!==frame.contentWindow||event.origin!==origin||!event.data)return;
       if(event.data.type==="cms-rr-ready")onReady("ready");
-      else if(event.data.type==="cms-rr-error"){onReady("error");onDone("error");}
+      else if(event.data.type==="cms-rr-armed")onArmed("armed");
+      else if(event.data.type==="cms-rr-error"){onReady("error");onArmed("error");onDone("error");}
       else if(event.data.type==="cms-rr-continue")onDone("continue");
     };
     root.addEventListener("message",handler);
@@ -153,7 +163,7 @@
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
     const timer=root.setTimeout(()=>onReady("timeout"),MAX_LOADING_MS);
-    return {ready:ready.finally(()=>root.clearTimeout(timer)),done,stop(){root.removeEventListener("message",handler);root.clearTimeout(timer);}};
+    return {ready:ready.finally(()=>root.clearTimeout(timer)),armed,done,stop(){root.removeEventListener("message",handler);root.clearTimeout(timer);}};
   }
   // "watched" when both spins played to the end, "skipped" when the page could not run (the result still shows).
   async function rrsScene(ctx,plan){
@@ -162,8 +172,16 @@
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
       if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
-      const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null}));
-      frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns},root.location.origin);
+      // The whole spin plan (red team R87-C-06): the scene loads bulletChamber, stops on stopChamber and aims at hitSlot
+      // (a safe turn at aimSlot), so both phones show the same chambers and the same player.
+      const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null,bulletChamber:turn.bulletChamber,stopChamber:turn.stopChamber,hitSlot:turn.hitSlot,aimSlot:turn.aimSlot}));
+      frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns,seed:rrsSeed(ctx)},root.location.origin);
+      // Red team RT5-FLOW-01: the stage stays hidden until the page says it took the setup ("cms-rr-armed"). A page that
+      // drops it (its squads file failed) or never answers is removed after ARMED_WAIT_MS and the result panel shows.
+      let armedTimer;
+      const armed=await Promise.race([channel.armed,new Promise(resolve=>{armedTimer=root.setTimeout(()=>resolve("timeout"),ARMED_WAIT_MS);})]);
+      root.clearTimeout(armedTimer);
+      if(armed!=="armed")throw new Error("Roulette page did not take the spins.");
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
       stage.style.visibility="visible";
     }catch(_error){if(channel)channel.stop();sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();loading.hide();return "skipped";}
@@ -232,10 +250,16 @@
     running=run;return run;
   }
   function rrsClose(){rrsRemovePanel();rrsRemoveStage();return true;}
+  // Red team R87-SP-02: for the Transfer War signing form, is a typed name this manager's own Special Player? The draw is
+  // loaded by rrsEnsure before the window opens; false when it is not loaded or the Showdown has none.
+  function rrsIsOwnSpecial(rivalryId,confirmedAtMs,role,name){
+    const draw=root.CareerModeMarqueePlayer;
+    try{return Boolean(draw&&typeof draw.isOwnSpecial==="function"&&draw.isOwnSpecial(rivalryId,confirmedAtMs,role,name));}catch(_error){return false;}
+  }
   // For the screens that open the Transfer Challenge: a roulette is on screen (its pace is the manager's, so no load timeout
   // may end it), and whether the last one ended with the manager going back to Showdown Home (not a failure).
   function rrsActive(){return Boolean(running);}
   function rrsWentHome(){return leftForHome;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,isOwnSpecial:rrsIsOwnSpecial});
 });
