@@ -3,8 +3,9 @@
 // The fixed cases in r87-roster-roulette-contracts.cjs pin one example per bug (SQ-2-01..03, R87-C-01/05, R87-E-02). This
 // file drives js/rosterRoulette.js with many random Showdowns and random Transfer War histories (kept signings, released
 // signings, guessed incumbents, repeats, accent and case variants of names) and checks, for every season of every career:
-//   P1 a player the rival guessed (release:true) never stands on a later board ("guessed player stays on board", Nik)
-//   P2 a player the bullet hit never comes back
+//   P1 a signing the rival guessed (release:true) never stands on a later board as a signing ("guessed player stays on
+//      board", Nik); a club player who only shares his name stays (Sol SQ-4-01, Nik card "Only the signing")
+//   P2 a player the bullet hit never comes back (a shot club player also never returns as a signing)
 //   P3 neither Special Player is on either board (by name, by shirt number when he has one, by his squad name)
 //   P4 board names come only from the manager's own club pool or his own kept signings (Nik: squads only from own club)
 //   P5 15 slots in order, no person twice, empty rows only as name null / rating 0, the bullet only hits a filled row
@@ -30,8 +31,12 @@ const catalog=Object.values(ctx.c).flat();
 assert.equal(catalog.length,98);
 
 // Same identity rule as the engine (accents folded, trimmed, lower-cased); written out here so a change to the engine's
-// rule has to change this file too.
+// rule has to change this file too. Two kinds of people never match each other (Sol SQ-4-01): a club player is
+// c|name#shirt, a Transfer War signing (signedSeason set, no shirt) is s|name.
 const key=name=>String(name||'').normalize('NFD').replace(/[̀-ͯ]/g,'').trim().toLowerCase();
+const isSigning=p=>p.signedSeason!==null&&p.signedSeason!==undefined;
+const identity=p=>isSigning(p)?`s|${key(p.name)}`:`c|${key(p.name)}#${Number.isInteger(p.number)?p.number:'-'}`;
+const signingOnBoard=(board,name)=>board.some(p=>p.name&&isSigning(p)&&key(p.name)===key(name));
 const SIGNING_POSITIONS=['GK','RB','RWB','CB','LB','LWB','CDM','CM','CAM','RM','LM','RW','LW','CF','ST'];
 const ROLES=['playerOne','playerTwo'];
 
@@ -72,7 +77,7 @@ function careerInputs(){
   return {id,clubs,special};
 }
 
-function personKey(row){return `${key(row.name)}#${Number.isInteger(row.number)?row.number:'-'}`;}
+// A Special Player blocks any signing with his name and his own club row (every club row with his name without a shirt).
 function onBoard(board,name,number){
   const k=key(name);
   return board.some(p=>p.name&&key(p.name)===k&&(number===null||number===undefined||!Number.isInteger(p.number)||p.number===number));
@@ -105,17 +110,23 @@ for(let c=0;c<CAREERS;c+=1){
       const seen=new Set();
       for(const p of filled){
         const k=key(p.name);
-        assert.ok(!seen.has(personKey(p)),`${label} ${role}: ${p.name} twice on the board`);
-        seen.add(personKey(p));
-        if(!Number.isInteger(p.number))assert.equal(filled.filter(q=>key(q.name)===k).length,1,`${label} ${role}: a signing ${p.name} is one person on the board`);
+        assert.ok(!seen.has(identity(p)),`${label} ${role}: ${identity(p)} twice on the board`);
+        seen.add(identity(p));
+        if(isSigning(p))assert.ok(!Number.isInteger(p.number),`${label} ${role}: a signing ${p.name} has no shirt number`);
+        else assert.ok(pool[role].has(k),`${label} ${role}: club player ${p.name} is from ${clubs[role]}`);
         // P4 own pool or own kept signing.
+        if(isSigning(p))assert.ok(kept[role].has(k),`${label} ${role}: signing ${p.name} is one of his own kept signings`);
         assert.ok(pool[role].has(k)||kept[role].has(k),`${label} ${role}: ${p.name} is not from ${clubs[role]} or a kept signing`);
         assert.notEqual(p.special,true,`${label} ${role}: no row is flagged special`);
       }
       // P1 guessed players stay off.
-      for(const g of guessed[role]){guessedChecked+=1;assert.ok(!onBoard(board,g,null),`${label} ${role}: guessed ${g} is back on the board`);}
+      for(const g of guessed[role]){guessedChecked+=1;assert.ok(!signingOnBoard(board,g),`${label} ${role}: guessed signing ${g} is back on the board`);}
       // P2 shot players stay off.
-      for(const p of shot[role]){shotsChecked+=1;assert.ok(!board.some(q=>q.name&&personKey(q)===personKey(p)),`${label} ${role}: shot ${p.name} is back on the board`);}
+      for(const p of shot[role]){
+        shotsChecked+=1;
+        assert.ok(!board.some(q=>q.name&&identity(q)===identity(p)),`${label} ${role}: shot ${identity(p)} is back on the board`);
+        if(!isSigning(p))assert.ok(!signingOnBoard(board,p.name),`${label} ${role}: shot club player ${p.name} is back as a signing`);
+      }
       // P3 Special Players, both managers', on both boards.
       for(const r of ROLES){
         const sp=special[r],num=Number.isInteger(sp.number)?sp.number:null;
@@ -181,11 +192,11 @@ for(let c=0;c<CAREERS;c+=1){
 assert.ok(guessedChecked>200,`enough guessed-player checks (${guessedChecked})`);
 assert.ok(incumbentGuesses>50&&variantsUsed>10,`guessed incumbents ${incumbentGuesses}, name variants ${variantsUsed}`);
 assert.ok(shotsChecked>20,`enough shot-player checks (${shotsChecked})`);
-ok('P1','a guessed player (release:true, any accent/case/space variant) never stands on a later board');
+ok('P1','a guessed signing (release:true, any accent/case/space variant) never stands on a later board as a signing');
 ok('P2','a player the bullet hit never comes back');
 ok('P3','neither Special Player is on either board (name, shirt number, squad name)');
 ok('P4','every board name is from the manager\'s own club pool or his own kept signing');
-ok('P5','15 ordered slots, no person twice, empty rows are blank with rating 0, the bullet only hits a filled row');
+ok('P5','15 ordered slots, no identity twice (c|name#shirt, s|name), empty rows are blank with rating 0, the bullet only hits a filled row');
 ok('P6','the shot already shown never changes when later windows are entered');
 ok('P7','one manager\'s entries never change the other manager\'s board or shot');
 ok('P8','same inputs give the same plan');
@@ -218,7 +229,7 @@ vm.runInContext([
     const history=[null],gone={playerOne:[],playerTwo:[]};
     for(let s=1;s<=10;s+=1){
       const plan=RRR.forSeason(id,clubs,s,{special,history});assert.ok(plan);
-      for(const role of ROLES)for(const name of gone[role])assert.ok(!onBoard(plan.boards[role],name,null),`P9 career ${c} season ${s} ${role}: released ${name} is on the board`);
+      for(const role of ROLES)for(const name of gone[role])assert.ok(!signingOnBoard(plan.boards[role],name),`P9 career ${c} season ${s} ${role}: released signing ${name} is on the board`);
       if(s===10)break;
       const inputs={};
       for(const role of ROLES){
