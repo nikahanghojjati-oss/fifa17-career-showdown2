@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-31T03:48:59Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T03:59:43Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; routing to a Team V thread via the coordinator"}],
+ "log": [{"at": "2026-10-31T03:48:59Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T03:59:43Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; routing to a Team V thread via the coordinator"}, {"at": "2026-10-31T04:00:53Z", "by": "V", "status": "WORKING", "note": "Team V thread building items 1-3 on gameplay/r87; item 4 as 2 options for Nik"}],
  "from_session": "session_01GU43Q8SekYEo4yZo5Tik3P"
 }
 ```
