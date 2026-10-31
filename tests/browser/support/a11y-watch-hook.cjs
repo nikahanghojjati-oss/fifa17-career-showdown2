@@ -110,8 +110,10 @@ if(OUT){
   async function keyWalk(page){
     const out=[],stops=[];
     const saved=await page.evaluate(()=>{const m=document.querySelector("main")||document.scrollingElement;window.__a11yPrevFocus=document.activeElement;return {main:m?m.scrollTop:0,win:scrollY};});
-    await page.evaluate(()=>{if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();});
-    for(let i=0;i<40;i++){
+    // start from the top of the document: focusing <body> (tabindex -1 for a moment) moves the sequential focus start point there
+    await page.evaluate(()=>{const b=document.body,had=b.hasAttribute("tabindex");b.setAttribute("tabindex","-1");b.focus({preventScroll:true});if(!had)b.removeAttribute("tabindex");});
+    let boundary=0;
+    for(let i=0;i<60;i++){
       await page.keyboard.press("Tab");
       const st=await page.evaluate(()=>{
         const el=document.activeElement;if(!el||el===document.body)return null;
@@ -123,7 +125,8 @@ if(OUT){
         const hiddenBehind=(()=>{if(!on)return false;const t=document.elementFromPoint(Math.min(innerWidth-1,Math.max(0,r.left+r.width/2)),Math.min(innerHeight-1,Math.max(0,r.top+r.height/2)));return t&&t!==el&&!el.contains(t)&&!t.contains(el)?(t.id||t.className||t.tagName).toString().slice(0,40):false;})();
         return {sel,txt:(el.innerText||el.getAttribute("aria-label")||"").replace(/\s+/g," ").trim().slice(0,40),on,ring,opacity:o,hiddenBehind,w:Math.round(r.width),h:Math.round(r.height)};
       });
-      if(!st)break;
+      // focus left the page (browser chrome): one more Tab comes back to the top; a second boundary means a full cycle
+      if(!st){if(++boundary>=2||!stops.length)break;continue;}
       if(stops.length&&stops[0].sel===st.sel&&stops[0].txt===st.txt)break;
       stops.push(st);
     }
