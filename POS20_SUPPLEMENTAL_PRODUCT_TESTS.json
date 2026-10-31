@@ -2339,6 +2339,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r88-icon-guess-contracts.cjs",
+      "patterns": [
+        "^js/iconGuess\\.js$",
+        "^tests/contracts/r88\\-icon\\-guess\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r88-icon-names-contracts.cjs",
       "patterns": [
         "^js/iconNames\\.js$",
@@ -2346,6 +2354,16 @@
         "^scripts/r88\\-icons\\-from\\-csv\\.mjs$",
         "^tests/fixtures/r88\\-icons/",
         "^tests/contracts/r88\\-icon\\-names\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-page-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^visual-assets/v10_1/shared/fonts/barlow-condensed-latin-(600|700)-normal\\.woff2$",
+        "^tests/browser/r88-icon-page-audit\\.cjs$",
+        "^tests/contracts/r88-icon-page-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
