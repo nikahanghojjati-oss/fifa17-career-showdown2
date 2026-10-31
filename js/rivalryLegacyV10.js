@@ -53,6 +53,7 @@
       if(!row||["abandoned","unavailable"].includes(row.status))return bare(status==="empty"?"empty":"unavailable");
       source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers};lifecycle=row.status;sp=rowSpecial(row);
     }else{source=model;status=STATES.includes(source?.status)?source.status:"unavailable";lifecycle=source?.lifecycle??null;sp=liveSpecial();}
+    if(status==="unavailable"&&source?.notice==="continue")return {...bare("unavailable"),notice:"continue"};
     if(status==="loading"||status==="unavailable")return bare(status);
     if(status==="empty"&&!source.managers)return {...bare("empty"),seasons:[],transfers:{status:"unavailable"}};
     if(!source.managers||!ORDER.every(k=>source.managers[k]&&FIELDS.every(f=>finite(source.managers[k][f])||(f==="bestSeasonScore"&&source.managers[k][f]===null))))return bare("unavailable");
@@ -213,9 +214,10 @@
         installed=true;
         // r87 career fixes (A-08): a screen left on "unavailable" (a timeout after a phone lock or bad signal) loads again by
         // itself when the page is shown again or the connection comes back, as TRY AGAIN would. Nothing loads while hidden.
+        // Codex #1103: by status, so the loader's own "unavailable" career (a failed career-index read) retries too.
         const retryUnavailable=()=>{
           if(root.document?.visibilityState==="hidden")return;
-          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&sources[screen]===UNAVAILABLE&&!reloads[screen]?.flight)void refresh(screen).catch(report);
+          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&(sources[screen]===UNAVAILABLE||sources[screen]?.status==="unavailable")&&!reloads[screen]?.flight)void refresh(screen).catch(report);
         };
         root.addEventListener?.("online",retryUnavailable);
         root.document?.addEventListener?.("visibilitychange",retryUnavailable);
@@ -273,14 +275,21 @@
   // and Standings stayed on UNAVAILABLE. The read is not published under the new key (after a Showdown completes it would
   // miss that Showdown), it is run once more for the same account and manager instead. Finished Showdowns are kept in the
   // loader's page cache, so the retry reads only what changed.
-  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false,onProgress=null){
+  // onRetry(key) runs as the retry starts, so a screen waiting on this read moves its own key (and inactivity deadline) to
+  // the new context first: its progress heartbeats then count for the retry (Codex #1103).
+  async function rlLoadCareerModel(canPublish=()=>true,rivalry=false,onProgress=null,onRetry=null){
     const sequence=++careerLoadSequence;careerLoadsRunning+=1;
     try{
       let key=context(),result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);
       const now=context();
-      if(now!==key&&canPublish()&&sequence===careerLoadSequence&&rlOwner(now)===rlOwner(key)){key=now;result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);}
+      if(now!==key&&canPublish()&&sequence===careerLoadSequence&&rlOwner(now)===rlOwner(key)){key=now;if(typeof onRetry==="function")onRetry(key);result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);}
       return result;
-    }finally{careerLoadsRunning-=1;}
+    }finally{
+      careerLoadsRunning-=1;
+      // Codex #1103: the model-change event fires while this read still counts as running, and a failed read fires none. A
+      // page that waits on the read (History & Backup) hears this once the count is down, on success and on failure.
+      if(careerLoadsRunning===0&&typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-load-settled"));
+    }
   }
   // r87 career fixes (B1): History & Backup shows the kept career and says "Loading" while a career read is running.
   const rlCareerModelLoading=()=>careerLoadsRunning>0;
@@ -315,6 +324,16 @@
     if(canPublish()&&context()===key&&sequence===careerLoadSequence){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
     return rivalry?rivalryModel??UNAVAILABLE:model;
   }
+  // r87 career fixes (lane C C-01): the live Showdown's numbers come from the in-game providers, which only run on a page
+  // that has entered the game (its shared save and live session). Out of the game they never arrive, so instead of
+  // "Loading…" forever the screen says how to load them. No read is made or saved for this; in the game nothing changes.
+  function rlLiveCanArrive(){
+    try{
+      const history=root.CareerModeProductionSharedHistoryConvergence,setup=root.CareerModeProductionSharedShowdownSetup?.getState?.();
+      return Boolean(history?.isActive?.()&&setup?.sessionId);
+    }catch(_){return false;}
+  }
+  function rlLiveOrContinue(rivalry){return rivalry?.status==="loading"&&!rlLiveCanArrive()?{...rivalry,status:"unavailable",notice:"continue"}:rivalry;}
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
   function refresh(screen,event=false){
@@ -348,6 +367,8 @@
         if(!flight.alive||flight.left||context()!==key)return;arm();
         if(screen==="legacy"&&sources[screen]===LOADING&&Number.isInteger(done)&&Number.isInteger(total)&&total>0)rlShowProgress(screen,done,total);
       };
+      // r87 career fixes (B2, Codex #1103): the read runs once more under the new pair state; this screen follows it at once.
+      const retrying=next=>{if(!flight.alive||flight.left||rlOwner(next)!==rlOwner(key))return;key=flight.key=sourceKeys[screen]=next;arm();};
       try{
         // Only first entry shows LOADING. Reloads leave the last ready/partial/error frame visible.
         await screens().show(APP[screen]);
@@ -356,10 +377,10 @@
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress);
-            return {...active.rivalry,lifecycle:active.classification};
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress,retrying);
+            return rlLiveOrContinue({...active.rivalry,lifecycle:active.classification});
           }
-          return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress);
+          return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress,retrying);
         })();
         const model=await Promise.race([loading,deadline]);
         if(flight.left)return false;

@@ -232,6 +232,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
+    if(scope.status==="unavailable"&&scope.notice==="continue")current.notice="continue";
     if(["ready","partial","empty"].includes(scope.status)&&scope.score&&scope.managers){
       if(!["daniel","nik"].every(m=>number(scope.score[m])&&scope.managers[m]&&COUNT_FIELDS.every(k=>number(scope.managers[m][k]))))current={status:"unavailable"};
       else {current.score={...scope.score};current.managerRecords=Object.fromEntries(["daniel","nik"].map(m=>[m,Object.fromEntries(COUNT_FIELDS.map(k=>[k,scope.managers[m][k]]))]));}
@@ -290,7 +291,13 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function currentRivalry(){
     const snapshot=sfSnapshot(),pair=snapshot.pair;
     if(pair?.initialized===true&&pair.status==="unpaired"&&!pair.rivalryId&&snapshot.terminalClose?.phase==="CLOSED")snapshot.terminalClose=null;
-    return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+    const view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+    // r87 career fixes (lane C C-01): out of the game the live providers never run, so THIS SHOWDOWN says how to load it
+    // instead of "Loading standings." forever (no read is made for this; in the game nothing changes).
+    return view.status==="loading"&&!sfLiveCanArrive()?{status:"unavailable",notice:"continue"}:view;
+  }
+  function sfLiveCanArrive(){
+    try{return Boolean(root.CareerModeProductionSharedHistoryConvergence?.isActive?.()&&root.CareerModeProductionSharedShowdownSetup?.getState?.()?.sessionId);}catch(_){return false;}
   }
   // A supplied model first, then the provider-backed career model shared with Stats, Trophy Room and History.
   // CE2PG: Standings only reused the model another screen last read, so opened first it said "unavailable" and

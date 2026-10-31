@@ -109,7 +109,7 @@ await check("6. Left and right with all row mappings",()=>{
   assert.deepEqual(trophy.sections.map(s=>s.heading),["MANAGER CABINETS","CAREER TABLE","ALL-TIME RECORDS"]);
   assert.deepEqual(trophy.sections[0].rows,comparisonRows(cabinetFields,ready.trophyRoom.cabinet));
   assert.deepEqual(trophy.sections[1].rows,[{label:"1. Nik",value:"11 points, 1 season wins"},{label:"2. Daniel",value:"1 points, 0 season wins"}]);
-  assert.deepEqual(trophy.sections[2].rows,ready.trophyRoom.records.map(r=>({label:r.label,value:r.value===null?"-":(r.manager==="daniel"?"Daniel":r.manager==="nik"?"Nik":"Shared")+" · "+format(r.value)})));
+  assert.deepEqual(trophy.sections[2].rows,ready.trophyRoom.records.map(r=>({label:r.label,value:r.value===null?"-":(r.manager==="daniel"?"Daniel":r.manager==="nik"?"Nik":"LEVEL")+" · "+format(r.value)})));
   const rivalry=Seam.careerScreenView("rivalryStatistics",ready);
   assert.deepEqual(rivalry.sections.map(s=>s.heading),["HEAD TO HEAD","SEASONS"]);
   assert.deepEqual(rivalry.sections[0].rows,[{label:"Showdown points",daniel:"1",nik:"11"},...comparisonRows(rivalryFields,ready.managers)]);

@@ -166,6 +166,25 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
         s=await page.evaluate(STATE);assert.deepEqual(s.cards,[37,38,39,40],'the scrubber jumps straight to page 10');assert.equal(s.counter,'37–40 / 100');
         await page.click('#legacyPager [data-jump="newest"]');s=await page.evaluate(STATE);assert.deepEqual(s.cards,[97,98,99,100]);
         assert.equal(await page.$eval('#legacyPager [data-jump="newest"]',el=>el.disabled),true,'» is off on the newest page');
+        // Codex #1103: one continuous drag of the scrubber runs through many pages, and its keyboard steps keep focus on it.
+        await page.evaluate(()=>{window.__scrub=document.querySelector('#legacyPager .legacyPageScrub');});
+        const box=await page.locator('#legacyPager .legacyPageScrub').boundingBox();const y=box.y+box.height/2;
+        await page.mouse.move(box.x+box.width-4,y);await page.mouse.down();
+        for(let i=1;i<=12;i++)await page.mouse.move(box.x+box.width-4-(box.width-8)*i/12*0.6,y);
+        const during=await page.evaluate(()=>({same:window.__scrub===document.querySelector('#legacyPager .legacyPageScrub'),value:Number(window.__scrub.value)}));
+        await page.mouse.up();
+        s=await page.evaluate(STATE);
+        assert.equal(during.same,true,'the scrubber is the same element through the drag');
+        assert.ok(Number(s.scrub)<=12,'the drag ran on past the first page change (page '+s.scrub+')');
+        assert.equal(s.cards[0],(Number(s.scrub)-1)*4+1,'the cards follow the scrubber');
+        const before=Number(s.scrub);
+        await page.focus('#legacyPager .legacyPageScrub');
+        for(let i=0;i<3;i++)await page.keyboard.press('ArrowLeft');
+        s=await page.evaluate(STATE);
+        assert.equal(Number(s.scrub),before-3,'three keyboard steps on the scrubber move three pages');
+        assert.equal(s.cards[0],(before-4)*4+1);
+        assert.equal(await page.evaluate(()=>document.activeElement===window.__scrub),true,'focus stays on the scrubber');
+        await page.click('#legacyPager [data-jump="newest"]');s=await page.evaluate(STATE);assert.deepEqual(s.cards,[97,98,99,100]);
         // the season list open: arrows belong to it, the archive stays put
         await page.click('#viewSeasonHistory');await page.waitForTimeout(200);
         await page.keyboard.press('Home');s=await page.evaluate(STATE);assert.deepEqual(s.cards.slice(-1),[100],'keys do not page while the season list is open');
@@ -176,6 +195,20 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
       const short=await openHistory(browser,base,[1366,768],many(30));
       try{const s=await short.page.evaluate(STATE);assert.deepEqual(s.cards,[29,30],'30 Showdowns open on page 8');assert.equal(s.dots,8,'8 pages keep their dots');assert.equal(s.counter,null);
       }finally{await short.context.close();}
+      // Codex #1103: a last page with one card (45 Showdowns) still lets the scrubber take a click and a drag.
+      const single=await openHistory(browser,base,[1366,768],many(45));
+      try{
+        let s=await single.page.evaluate(STATE);assert.deepEqual(s.cards,[45],'45 Showdowns open on the one-card page 12');
+        assert.equal((await single.page.evaluate(HIT)).scrub,'hit','the scrubber is uncovered');
+        assert.equal(await single.page.$eval('#legacyPager .legacyPageScrub',el=>getComputedStyle(el).pointerEvents),'auto','the scrubber takes pointer input');
+        const box=await single.page.locator('#legacyPager .legacyPageScrub').boundingBox();const y=box.y+box.height/2;
+        await single.page.mouse.move(box.x+box.width-4,y);await single.page.mouse.down();
+        for(let i=1;i<=8;i++)await single.page.mouse.move(box.x+box.width-4-(box.width-8)*i/8*0.7,y);
+        await single.page.mouse.up();
+        s=await single.page.evaluate(STATE);assert.ok(Number(s.scrub)<=5,'a drag from the one-card page moves the archive (page '+s.scrub+')');
+        assert.equal(s.cards[0],(Number(s.scrub)-1)*4+1);
+        assert.deepEqual(single.errors,[]);
+      }finally{await single.context.close();}
     }
     groups.push('History opens on the newest Showdown; 100 Showdowns on desktop use "97–100 / 100", « », a scrubber and ← → Home End');
 
@@ -190,8 +223,9 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
         await swipe(120);s=await page.evaluate(STATE);assert.equal(s.selected,99,'a swipe right shows the older Showdown');assert.equal(s.counter,'99 / 100');
         await swipe(-120);s=await page.evaluate(STATE);assert.equal(s.selected,100,'a swipe left comes back');
         await page.click('#legacyPager [data-jump="oldest"]');s=await page.evaluate(STATE);assert.equal(s.selected,1);assert.equal(s.counter,'1 / 100');
+        await page.evaluate(()=>{window.__phoneScrub=document.querySelector('#legacyPager .legacyPageScrub');});
         await page.$eval('#legacyPager .legacyPageScrub',el=>{el.value='37';el.dispatchEvent(new Event('input',{bubbles:true}));});
-        s=await page.evaluate(STATE);assert.equal(s.selected,37,'the scrubber jumps to Showdown 37');assert.equal(s.counter,'37 / 100');
+        s=await page.evaluate(STATE);assert.equal(s.selected,37,'the scrubber jumps to Showdown 37');assert.equal(await page.evaluate(()=>window.__phoneScrub===document.querySelector('#legacyPager .legacyPageScrub')),true,'the phone scrubber is kept too');assert.equal(s.counter,'37 / 100');
         const hit=await page.evaluate(HIT);assert.equal(hit.counter,'hit');assert.equal(hit.scrub,'hit');assert.equal(hit.button,'hit');
         assert.deepEqual(errors,[]);
       }finally{await context.close();}

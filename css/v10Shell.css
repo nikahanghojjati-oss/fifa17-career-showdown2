@@ -309,6 +309,11 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   /* r84: three-digit totals (career points past 99, e.g. after a Golden Showdown) shrink to stay inside the tile. */
   #app #careerStatistics.careerScreenV10 .headlinePair[data-digits="5"] b { font-size: max(26px, calc(var(--cs-u) * 2.05)); }
   #app #careerStatistics.careerScreenV10 .headlinePair[data-digits="6"] b { font-size: max(22px, calc(var(--cs-u) * 1.7)); }
+  /* r87 career fixes (lane C C-03): four-digit totals (a career past 999 points, about 100 short Showdowns) shrink again, so
+     Nik's total is never cut to its first digit. */
+  #app #careerStatistics.careerScreenV10 .headlinePair[data-digits="7"] b { font-size: max(19px, calc(var(--cs-u) * 1.45)); }
+  #app #careerStatistics.careerScreenV10 .headlinePair[data-digits="8"] b { font-size: max(17px, calc(var(--cs-u) * 1.27)); }
+  #app #careerStatistics.careerScreenV10 .headlinePair:is([data-digits="7"],[data-digits="8"]) { gap: calc(var(--cs-u) * .18); }
   #app #careerStatistics.careerScreenV10 .headlinePair small { font-size: max(9px, calc(var(--cs-u) * .6)); }
   #app #careerStatistics.careerScreenV10 .headlinePair .slash { opacity: 1; color: #a3997b; font-size: max(16px, calc(var(--cs-u) * 1.3)); }
 
@@ -654,4 +659,29 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
   .cmsMusicDock[data-playing="true"] .cmsMusicDockDisc,
   .cmsMusicSheet[data-playing="true"] :is(.cmsMusicSheetDisc, .cmsMusicSheetEq i, [aria-current="true"] .cmsMusicSheetSongEq b),
   .sd-nav-bottom .cmsMusicTab[data-playing="true"] .cmsMusicTabDisc { animation: none; }
+}
+/* r87 career fixes (lane C C-06): the Career Table's Manager column was a sixth of the table on phones and a quarter on
+   desktop, so a long Special Player name broke mid-word ("Llorent / e") over three to five lines and pushed the career
+   leader's row out of the panel (1280x720, 1366x768, 360x780). The Manager column now takes the room the number columns do
+   not need, a name breaks only between words (or after its hyphen), rows with a chip sit tighter, and a table that still
+   runs long (two long names plus the Golden Showdown line on a short window) scrolls inside its panel instead of being cut.
+   thead raises these over the phone sizes careerScreensV10.js injects. */
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(1) { width: 6%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 36%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 13%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 20%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(5) { width: 12%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(6) { width: 13%; }
+#app #careerStatistics.careerScreenV10 .careerTable td:not(:nth-child(2)) { white-space: nowrap; }
+#app #careerStatistics.careerScreenV10 .careerTable .spChip .spChipName { overflow-wrap: normal; word-break: normal; hyphens: manual; line-height: 1.08; }
+#app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td { padding-top: max(4px, calc(var(--cs-u, 8px) * .38)); padding-bottom: max(4px, calc(var(--cs-u, 8px) * .38)); }
+#app #careerStatistics.careerScreenV10 .careerTablePanel { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #9e8d5c transparent; }
+@media (max-width: 760px) and (orientation: portrait) {
+  /* Upright phones keep their 12px one-line headers: the number columns keep just the room their headers need. */
+  #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(1) { width: 6%; }
+  #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 29%; }
+  #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 18%; }
+  #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 21%; }
+  #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(5) { width: 12%; }
+  #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(6) { width: 14%; }
 }

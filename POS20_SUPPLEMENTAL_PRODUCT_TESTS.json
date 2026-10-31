@@ -2422,7 +2422,8 @@
     {
       "path": "tests/contracts/r87-career-fixes-contracts.cjs",
       "patterns": [
-        "^js/(legacy|settings|rivalryLegacyV10|careerScreensV10|careerScreenSeam|careerSummaryStore|sharedCareerAnalytics|touchlineGazette)\\.js$",
+        "^js/(legacy|settings|rivalryLegacyV10|careerScreensV10|careerScreenSeam|careerSummaryStore|sharedCareerAnalytics|touchlineGazette|seasonFinalV10)\\.js$",
+        "^visual-assets/v10_1/(standings|rivalry-statistics|trophy-room)/",
         "^tests/contracts/r87\\-career\\-fixes\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -2448,6 +2449,18 @@
         "^js/specialPlayerChip\\.js$",
         "^tests/contracts/r87\\-career\\-fixes\\-browser\\-contracts\\.cjs$",
         "^tests/contracts/r87\\-career\\-fixes\\-browser\\-nav\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-lane-c-browser-contracts.cjs",
+      "patterns": [
+        "^css/v10Shell\\.css$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^js/careerScreensV10\\.js$",
+        "^js/specialPlayerChip\\.js$",
+        "^visual-assets/v10_1/(career-statistics|legacy)/",
+        "^tests/contracts/r87\\-career\\-fixes\\-lane\\-c\\-browser\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

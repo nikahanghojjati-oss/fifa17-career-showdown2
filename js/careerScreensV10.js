@@ -1714,6 +1714,17 @@
         if(!Object.keys(SCREEN_IDS).some(screen=>screens.isMounted(screen)&&getters[screen]?.()==null))return;
         if(v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline().catch(v10Fail);
       });
+      // r87 career fixes (lane C C-09): Career Statistics or Trophy Room left on "unavailable" (opened offline, or a read that
+      // failed) loads again by itself when the connection comes back or the page is shown again. Nothing loads while hidden.
+      const retryUnavailable=()=>{
+        if(root.document?.visibilityState==="hidden"||onlineLoading||!v10Seam().isOnlineCareerRoute(v10Identity()))return;
+        const live=Object.keys(SCREEN_IDS).filter(screen=>screens.isMounted(screen)&&getters[screen]?.()==null);
+        if(!live.length)return;
+        const model=v10OnlineModel();
+        if(model==null||model.status==="unavailable")v10LoadOnline(live[0]).catch(v10Fail);
+      };
+      root.addEventListener?.("online",retryUnavailable);
+      root.document?.addEventListener?.("visibilitychange",retryUnavailable);
       root.addEventListener?.("career-mode-online-career-model-change",()=>{
         // r82 (Nik: panels show, vanish, then load again): this screen's own load redraws once when it ends, so a model
         // published during that load must not draw the same frame a second time.

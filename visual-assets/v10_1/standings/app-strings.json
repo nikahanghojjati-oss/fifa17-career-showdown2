@@ -33,6 +33,7 @@
     "emptyShowdownAction": "SEE CAREER STANDINGS",
     "loading": "Loading standings.",
     "unavailable": "Standings are unavailable right now.",
+    "continueToLoad": "This Showdown's live numbers load once you continue it from Home. Nothing is lost.",
     "partial": "Some Showdowns could not be read. These totals cover available history only.",
     "coverageTemplate": "{readable} of {indexed} Showdowns available.",
     "interimLabel": "Current Showdown only. Career history is not yet available.",

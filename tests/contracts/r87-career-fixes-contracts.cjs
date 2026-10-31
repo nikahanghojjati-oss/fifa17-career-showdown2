@@ -154,7 +154,7 @@ check('A-03 the phone copy lookup gives up after about 2 s, falls through to the
 });
 
 // ---- B2 + A-08: the browser binding, run in a vm with the real rivalryLegacyV10.js and careerScreensV10.js ----
-function harness({legacy=false}={}){
+function harness({legacy=false,mounted=null,active=null,live=false}={}){
   let pair={status:'paired',rivalryId:'pair_'+'a'.repeat(64),closedRivalryId:null},hidden=false;
   const loads=[],definitions=new Map(),frames=[],errors=[],timers=new Map(),listeners={},docListeners={};let now=0,nextTimer=0;
   const host={dataset:{},innerHTML:'',classList:{contains:()=>false},querySelector:()=>null,setAttribute(){}};
@@ -166,11 +166,12 @@ function harness({legacy=false}={}){
     CareerModeOnlinePlayerIdentity:{getState:()=>({status:'ready',registered:true,managerId:'nik'})},
     CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:'acct_nik'})},
     CareerModePersistentNikDanielPair:{getState:()=>pair},
-    CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:{}})},
+    CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>active??({careerInput:{}})},
+    CareerModeProductionSharedHistoryConvergence:{getState:()=>null,isActive:()=>live},CareerModeProductionSharedShowdownSetup:{getState:()=>({sessionId:live?'session_live':null})},
     CareerModeCareerStartMarker:{readMarker:async()=>({status:'ready',hiddenRivalryIds:[]}),hiddenRivalryIds:()=>[],epoch:()=>0},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:'acct_nik'}},firestore:{},firestoreSdk:{getDoc(){}}})},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:(options,canPublish)=>new Promise(resolve=>loads.push({resolve,options,canPublish}))},
-    CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),isMounted:id=>legacy?id==='legacy':id==='careerStatistics',invalidate(){},
+    CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),isMounted:id=>mounted?id===mounted:legacy?id==='legacy':id==='careerStatistics',invalidate(){},
       async show(id){const def=definitions.get(id);if(!def)return false;if(def.prepare)await def.prepare();const frame=def.frame();frames.push({id,frame});if(def.mount&&legacy)def.mount(frame,host);return true;}},
     ShowdownLegacyBoot(){},renderLegacy(){},loadRuntimeScript:async()=>{},fetch:async()=>({ok:true,json:async()=>({})}),
     reportApplicationError:(_context,error)=>errors.push(error),
@@ -209,6 +210,31 @@ check('B2 History on the same race also shows the career',async()=>{
   const last=h.frames.filter(f=>f.id==='legacy').at(-1).frame;
   assert.equal(last.status,'ready','History draws the career, not UNAVAILABLE');
 });
+check('B2 (Codex #1103) the replacement read keeps History alive while it reports progress, past the 15 s inactivity deadline',async()=>{
+  const h=harness({legacy:true});
+  const opening=h.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);
+  await h.settle();assert.equal(h.loads.length,1);
+  h.endShowdown();await h.finish(0);assert.equal(h.loads.length,2,'the read runs once more under the new pair state');
+  const progress=h.loads[1].options.onProgress;assert.equal(typeof progress,'function');
+  for(let i=1;i<=6;i++){await h.advance(4000);progress({done:i,total:10});await h.settle();}
+  assert.deepEqual(h.errors,[],'24 s of steady progress never times out');
+  assert.notEqual(h.frames.filter(f=>f.id==='legacy').at(-1).frame.status,'unavailable');
+  await h.finish(1);await opening;await h.settle();
+  assert.equal(h.frames.filter(f=>f.id==='legacy').at(-1).frame.status,'ready','History shows the career');
+});
+check('B1 (Codex #1103) a page waiting on the career hears "load-settled" after the read stops counting as running, on success and on failure',async()=>{
+  const h=harness();const RL=h.c.CareerModeRivalryLegacyV10;const seen=[];
+  h.c.addEventListener('career-mode-online-career-model-change',()=>seen.push(['model',RL.careerModelLoading()]));
+  h.c.addEventListener('career-mode-online-career-load-settled',()=>seen.push(['settled',RL.careerModelLoading()]));
+  const ok=RL.loadCareerModel();await h.settle();assert.equal(RL.careerModelLoading(),true);
+  await h.finish(0);await ok;
+  assert.deepEqual(seen,[['model',true],['settled',false]],'the redraw that follows the settle sees the read as finished');
+  seen.length=0;
+  const failing=RL.loadCareerModel();await h.settle();
+  h.loads[1].resolve(Promise.reject(new Error('offline')));await failing.catch(()=>{});await h.settle();
+  assert.equal(RL.careerModelLoading(),false);
+  assert.deepEqual(seen.filter(([type])=>type==='settled'),[['settled',false]],'a failed read settles too, so the page leaves "Loading"');
+});
 check('A-08 a timed-out History says so in plain words and loads again by itself when the page is shown or back online',async()=>{
   const h=harness({legacy:true});
   const opening=h.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);
@@ -227,8 +253,73 @@ check('A-08 a timed-out History says so in plain words and loads again by itself
   // and coming back online after another timeout
   const h2=harness({legacy:true});const o2=h2.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);await h2.settle();await h2.advance(15000);await o2;
   h2.online();await h2.settle();assert.equal(h2.loads.length,2,'back online retries');
+  // Codex #1103: a career-index read that fails comes back from the loader as its own "unavailable" career (not the
+  // screen's UNAVAILABLE sentinel); that History retries the same way.
+  const h3=harness({legacy:true});const o3=h3.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);await h3.settle();
+  h3.loads[0].resolve({model:Career.buildCareerModel({indexStatus:'unavailable',showdowns:[]}),careerInput:{indexStatus:'unavailable',showdowns:[]}});await h3.settle();await o3;
+  assert.equal(h3.frames.at(-1).frame.status,'unavailable','the failed index read shows as unavailable');
+  h3.online();await h3.settle();assert.equal(h3.loads.length,2,'back online retries a loader-unavailable career');
+  await h3.finish(1);assert.equal(h3.frames.at(-1).frame.status,'ready');
 });
 
+// ---- Nik's rule: equal is a draw or level, never "Shared" (and never a tiebreak) ----
+check('a level record reads LEVEL on every career screen, never "Shared"',()=>{
+  const level=model([completed(1,1,[[CL,CL]]),completed(2,1,[[PERFECT,PERFECT]])]);
+  const shared=level.trophyRoom.records.filter(r=>r.manager==='shared'&&r.value!==null);
+  assert.ok(shared.length>0,'the fixture has level records');
+  for(const screen of ['careerStatistics','trophyRoom','legacy','rivalryStatistics']){
+    const text=JSON.stringify(Seam.careerScreenView(screen,level));
+    assert.doesNotMatch(text,/Shared/,`${screen}: no "Shared"`);
+  }
+  const rows=Seam.careerScreenView('trophyRoom',level).sections.flatMap(section=>section.rows||[]);
+  assert.ok(rows.some(row=>/^LEVEL · /.test(row.value)),'the old screen says "LEVEL · n"');
+  for(const screen of ['careerStatistics','trophyRoom'])assert.doesNotMatch(JSON.stringify(V10.toV10Frame(level,screen)),/Shared/,`Team V ${screen} frame: no "Shared"`);
+  for(const file of ['visual-assets/v10_1/trophy-room/trophy-room.js','visual-assets/v10_1/career-statistics/career-statistics.js','visual-assets/v10_1/legacy/legacy.js','visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js','js/careerScreenSeam.js','js/careerScreensV10.js'])
+    assert.doesNotMatch(read(file),/["']Shared["']/,`${file}: no "Shared" label`);
+});
+// ---- lane C ----
+check('C-01 out of the game, Rivalry Statistics and Standings THIS SHOWDOWN say how to load the live Showdown instead of loading forever',async()=>{
+  const live={classification:'active',rivalry:{status:'loading'},careerInput:{}};
+  const h=harness({mounted:'statistics',active:live});
+  await h.c.CareerModeRivalryLegacyV10.mount('rivalryStatistics',()=>null);await h.settle();
+  const last=h.frames.filter(f=>f.id==='statistics').at(-1).frame;
+  assert.equal(last.status,'unavailable');assert.equal(last.notice,'continue','the frame carries the continue notice');
+  assert.equal(h.loads.length,0,'no read is made for it');
+  const inGame=harness({mounted:'statistics',active:live,live:true});
+  void inGame.c.CareerModeRivalryLegacyV10.mount('rivalryStatistics',()=>null);await inGame.settle();
+  assert.equal(inGame.frames.filter(f=>f.id==='statistics').at(-1).frame.status,'loading','in the game it still waits for the providers');
+  // Standings: the real seasonFinalV10.js route with the providers out of (then in) the game
+  let entered=false;const defs=new Map();
+  const c={console,setTimeout,clearTimeout,setInterval:()=>0,
+    CareerModeV10Screens:new Proxy({install(){return {register:(id,d)=>defs.set(id,d)};}},{get:(t,k)=>k in t?t[k]:()=>{}}),
+    CareerModeSharedActiveShowdownAdapter:{rivalryView:()=>({status:'loading'})},
+    CareerModePersistentNikDanielPair:{getState:()=>({initialized:true,status:'paired',rivalryId:'pair_'+'a'.repeat(64),connectionState:'active'})},
+    CareerModeProductionSharedHistoryConvergence:{getState:()=>null,isActive:()=>entered},
+    CareerModeProductionSharedShowdownSetup:{getState:()=>({sessionId:entered?'session_live':null})},
+    loadRuntimeScript:()=>new Promise(()=>{}),
+    document:{getElementById:()=>null,querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){},createElement:()=>({style:{},classList:{add(){},remove(){},toggle(){}},setAttribute(){},appendChild(){},addEventListener(){}})},
+    addEventListener(){},dispatchEvent(){},CustomEvent:class{}};
+  c.window=c;c.globalThis=c;vm.createContext(c);vm.runInContext(read('js/seasonFinalV10.js'),c,{filename:'js/seasonFinalV10.js'});
+  await c.CareerModeSeasonFinalV10.install();
+  assert.deepEqual(JSON.parse(JSON.stringify(defs.get('standings').frame().SHOWDOWN.model)),{status:'unavailable',notice:'continue'});
+  entered=true;assert.deepEqual(JSON.parse(JSON.stringify(defs.get('standings').frame().SHOWDOWN.model)),{status:'loading'});
+  // the renderers print the plain line (strings in both apps)
+  const notice="This Showdown's live numbers load once you continue it from Home. Nothing is lost.";
+  assert.equal(JSON.parse(read('visual-assets/v10_1/standings/app-strings.json')).strings.continueToLoad,notice);
+  assert.equal(JSON.parse(read('visual-assets/v10_1/rivalry-statistics/strings.json')).continueToLoad,notice);
+  assert.match(read('visual-assets/v10_1/standings/standings.js'),/m\.notice === "continue" \? \(S\.continueToLoad/);
+  assert.match(read('visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js'),/f\.notice==="continue"\?\(s\.continueToLoad/);
+});
+check('C-09 Career Statistics left UNAVAILABLE loads again by itself when the connection returns or the page is shown',async()=>{
+  const h=harness();
+  const opening=h.c.CareerModeCareerScreensV10.mount('careerStatistics',()=>null);await h.settle();
+  h.loads[0].resolve({model:Career.buildCareerModel({indexStatus:'unavailable',showdowns:[]}),careerInput:{indexStatus:'unavailable',showdowns:[]}});await h.settle();await opening;
+  assert.equal(h.definitions.get('careerStatistics').frame().status,'unavailable');
+  h.hide();h.online();await h.settle();assert.equal(h.loads.length,1,'nothing loads while hidden');
+  h.show();await h.settle();assert.equal(h.loads.length,2,'shown again: one new read');
+  await h.finish(1);assert.equal(h.definitions.get('careerStatistics').frame().status,'ready','the career arrives');
+  h.online();await h.settle();assert.equal(h.loads.length,2,'a ready career is not read again');
+});
 // ---- B1: History & Backup shows the online career, one figure per manager ----
 check('B1 History & Backup shows the online career Settings counts, never added-together points, with a way to the real History',()=>{
   const source=read('js/legacy.js');
