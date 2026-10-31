@@ -1545,3 +1545,75 @@
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyPager[data-compact="true"]) { --lg-trim-pager:46px; }
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyCard[data-golden="true"]) { --lg-trim-golden:64px; }
 }
+
+/* r87 career polish: History season list as a table (Season · Daniel · Nik · Result). The heading and the close button share one
+   line, each manager cell shows the season's Showdown points large with the league finish below, and the Result column names
+   the winner with the crown, or "=" and Draw for equal points (no tiebreak). The season winner's points are gold; a draw keeps
+   both white. Every size; nothing here moves the list out of the place earlier rules give it. */
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
+  display:grid; grid-template-columns:minmax(0,1fr) auto; align-content:start; column-gap:12px;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > * { grid-column:1 / -1; }
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryHeading { grid-column:1; grid-row:1; align-self:center; margin:0 !important; font-size:13px !important; letter-spacing:.12em; color:var(--sd-gold-300,#ffd34d); }
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryClose {
+  grid-column:2; grid-row:1; position:static !important; min-height:36px !important; padding:4px 14px !important;
+  border:1px solid rgba(242,196,91,.55) !important; border-radius:2px; background:rgba(8,9,11,.9) !important;
+  color:#f4f1ea !important; font-size:11px !important; letter-spacing:.12em; text-transform:uppercase;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistorySpecialPlayers { margin:8px 0 0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable {
+  width:100%; margin-top:8px; border-collapse:collapse; table-layout:fixed; font-variant-numeric:tabular-nums; color:#f4f1ea;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable th,
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td { padding:6px 8px; vertical-align:middle; text-align:center; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th {
+  padding-top:4px; padding-bottom:6px; border-bottom:1px solid rgba(242,196,91,.55);
+  color:#c9b98f; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonHead,
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonLabel { width:18%; text-align:left; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResultHead,
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResult { width:18%; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable tbody tr { border-top:1px solid rgba(255,255,255,.09); }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable tbody tr:first-child { border-top:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable tbody tr:nth-child(even) { background:rgba(255,255,255,.025); }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel { color:#e9dfc6; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:block; font-size:20px; line-height:22px; font-weight:800; color:#f4f1ea; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td[data-won="true"] .legacyHistoryPoints { color:var(--sd-gold-300,#ffd34d); text-shadow:0 0 10px rgba(255,211,77,.35); }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:block; margin-top:2px; color:#b9b3a4; font-size:11px; line-height:14px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { display:block; margin-top:2px; color:#f3ce6a; font-size:11px; line-height:14px; font-weight:700; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryResult { white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryMark { display:inline-block; min-width:1.1em; margin-right:4px; color:var(--sd-gold-300,#ffd34d); font-size:14px; font-weight:800; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { color:#f4f1ea; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistorySeason[data-winner="draw"] .legacyHistoryWinner { color:#c9b98f; }
+/* Desktop pane: the table header stays in view while a long Showdown scrolls inside the pane. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding:12px 16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { bottom:calc(22% + 6px); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th { position:sticky; top:-12px; z-index:1; background:#0b0c0e; }
+  /* one line per season: the points sit beside the league line (a Europa League win wraps under it) */
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td:is(.daniel,.nik) { padding-top:4px; padding-bottom:4px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:inline-block; min-width:1.6em; margin-right:8px; vertical-align:middle; font-size:18px; line-height:22px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:inline-block; margin:0; vertical-align:middle; }
+}
+@media (min-width:1700px) and (min-height:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { font-size:24px; line-height:26px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { font-size:13px; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { font-size:14px; }
+}
+/* Phones: four narrow columns; "Season 3" shortens to its number column, the details wrap under the points. */
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable th,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td { padding:7px 4px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonHead,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonLabel { width:19%; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResultHead,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResult { width:21%; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel { font-size:11px; white-space:normal; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { font-size:10.5px; line-height:13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { font-size:11px; letter-spacing:.04em; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryHeading { font-size:12px !important; }
+}
