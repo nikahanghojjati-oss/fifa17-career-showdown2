@@ -38,7 +38,10 @@ const CTX={rivalryId:"pair_"+"c".repeat(64),managerRole:"playerOne",season:1,clu
 const SAFE_PLAN={boards:{playerOne:[{pos:"GK",positions:["GK"],name:"Keeper",rating:80}],playerTwo:[{pos:"GK",positions:["GK"],name:"Other",rating:80}]},formations:{playerOne:"x",playerTwo:"y"},
   turns:[{role:"playerOne",fired:false,player:null,bulletChamber:1,stopChamber:4,hitSlot:null,aimSlot:0},{role:"playerTwo",fired:false,player:null,bulletChamber:2,stopChamber:5,hitSlot:null,aimSlot:0}]};
 function stepWorld({forSeason=()=>SAFE_PLAN,clubs={Arsenal:{},Liverpool:{}},loadGate=null,loads=()=>true}={}){
-  const body=new El("body"),doc={body,createElement:tag=>new El(tag),getElementById:id=>body.all().find(n=>n.id===id)||null};
+  const docListeners=[];
+  const body=new El("body"),doc={body,visibilityState:"visible",createElement:tag=>new El(tag),getElementById:id=>body.all().find(n=>n.id===id)||null,
+    addEventListener:(t,fn)=>docListeners.push({t,fn}),removeEventListener:(t,fn)=>{const i=docListeners.findIndex(l=>l.t===t&&l.fn===fn);if(i>=0)docListeners.splice(i,1);}};
+  const setVisibility=state=>{doc.visibilityState=state;for(const l of docListeners.slice())if(l.t==="visibilitychange")l.fn();};
   const loading=new El("div");loading.id="loadingScreen";loading.hidden=true;loading.classList.add("hidden");loading.setAttribute("aria-hidden","true");
   const text=new El("p");text.id="loadingText";text.textContent="LOADING";loading.append(text);body.append(loading);
   const handlers=[],store=new Map(),calls={forSeason:0,navigate:[],loads:[]};let attempt=0;
@@ -59,7 +62,7 @@ function stepWorld({forSeason=()=>SAFE_PLAN,clubs={Arsenal:{},Liverpool:{}},load
   const frame=()=>body.all().find(n=>n.tagName==="iframe")||null;
   const pageSays=type=>{for(const h of handlers)h({source:frame().contentWindow,origin:"x",data:{type}});};
   const loadingUp=()=>!loading.hidden&&!loading.classList.contains("hidden")&&!loading.classList.contains("is-exiting")&&loading.getAttribute("aria-busy")==="true";
-  return {step,store,calls,panel,stage,title,lines,button,press,frame,pageSays,loading,loadingUp};
+  return {step,store,calls,panel,stage,title,lines,button,press,frame,pageSays,loading,loadingUp,setVisibility};
 }
 
 async function partA(){
@@ -150,6 +153,26 @@ async function partA(){
     assert.equal(w.loadingUp(),true,"TRY AGAIN brings the loading screen back over the card");
     await w.press("BACK TO SHOWDOWN HOME");
     assert.equal(await run,false);assert.equal(w.loadingUp(),false,"BACK takes the loading screen down");assert.equal(w.panel(),null);
+  }
+  // F2-07 (P3 part): a phone locked while the scene loads does not use up the 15 s / 5 s waits, so the scene is not skipped
+  // the moment the manager comes back; once on screen again the waits run as before.
+  {
+    const w=stepWorld();const ctx={...CTX,verdicts:async()=>({ok:false})};
+    const run=w.step.runBeforeTransfers(ctx);
+    await until(()=>w.frame(),"the roulette page");
+    w.setVisibility("hidden");
+    await wait(400);// past MAX_LOADING_MS (15 s at this scale) while locked
+    assert.ok(w.stage(),"the scene is still loading after the lock");assert.equal(w.panel(),null,"not skipped while away");
+    w.setVisibility("visible");w.pageSays("cms-rr-ready");
+    w.setVisibility("hidden");await wait(150);// past ARMED_WAIT_MS while locked again
+    assert.ok(w.stage(),"the armed wait does not run out while locked");
+    w.setVisibility("visible");w.pageSays("cms-rr-armed");
+    await until(()=>w.stage()&&w.stage().style.visibility==="visible","the stage to show after the lock");
+    w.pageSays("cms-rr-continue");await w.press("GO TO THE TRANSFER WINDOW");assert.equal(await run,true);
+    const v=stepWorld();const run2=v.step.runBeforeTransfers({...CTX,verdicts:async()=>({ok:false})});
+    await until(()=>v.title()==="Your squad is safe","a page that never answers on screen still falls back to the result card");
+    await v.press("GO TO THE TRANSFER WINDOW");assert.equal(await run2,true);
+    ok("F2-07","the scene's load and armed waits count only on-screen time, so a lock mid-load never skips a scene that would have worked");
   }
   // F2-06: the Special Player draw loads by itself, also when this season's roulette is already done on this browser.
   {

@@ -158,6 +158,17 @@
   }
   function rrsLoadingOn(){if(!loading)loading=rrsShowLoading();}
   function rrsLoadingOff(){const shown=loading;loading=null;if(shown)shown.hide();}
+  // A wait that only counts time the page was on screen (Fable F2-07): a phone locked or switched away while the scene loads
+  // does not use up the wait, so a scene that would have worked is not skipped the moment the manager comes back.
+  function rrsVisibleWait(ms,onTimeout){
+    const doc=rrsDoc();let timer=null,stopped=false,away=false;
+    const hidden=()=>Boolean(doc&&doc.visibilityState==="hidden");
+    const onVisibility=()=>{if(hidden())away=true;};
+    const arm=()=>{timer=root.setTimeout(()=>{if(stopped)return;if(away||hidden()){away=hidden();arm();return;}stop();onTimeout();},ms);};
+    const stop=()=>{stopped=true;root.clearTimeout(timer);doc?.removeEventListener?.("visibilitychange",onVisibility);};
+    doc?.addEventListener?.("visibilitychange",onVisibility);arm();
+    return stop;
+  }
   function rrsRemoveStage(){const stage=rrsDoc()?.getElementById(STAGE_ID);if(stage)stage.remove();}
   function rrsCreateStage(ctx){
     const doc=rrsDoc();rrsRemoveStage();
@@ -184,8 +195,8 @@
     // A page that loads without its 3D library, or not at all, is dropped at once instead of after the full wait.
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
-    const timer=root.setTimeout(()=>onReady("timeout"),MAX_LOADING_MS);
-    return {ready:ready.finally(()=>root.clearTimeout(timer)),armed,done,stop(){root.removeEventListener("message",handler);root.clearTimeout(timer);}};
+    const stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));
+    return {ready:ready.finally(stopWait),armed,done,stop(){root.removeEventListener("message",handler);stopWait();}};
   }
   // "watched" when both spins played to the end, "skipped" when the page could not run (the result still shows).
   async function rrsScene(ctx,plan){
@@ -203,9 +214,9 @@
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns,seed:rrsSeed(ctx)},root.location.origin);
       // Red team RT5-FLOW-01: the stage stays hidden until the page says it took the setup ("cms-rr-armed"). A page that
       // drops it (its squads file failed) or never answers is removed after ARMED_WAIT_MS and the result panel shows.
-      let armedTimer;
-      const armed=await Promise.race([channel.armed,new Promise(resolve=>{armedTimer=root.setTimeout(()=>resolve("timeout"),ARMED_WAIT_MS);})]);
-      root.clearTimeout(armedTimer);
+      let stopArmed=()=>{};
+      const armed=await Promise.race([channel.armed,new Promise(resolve=>{stopArmed=rrsVisibleWait(ARMED_WAIT_MS,()=>resolve("timeout"));})]);
+      stopArmed();
       if(armed!=="armed")throw new Error("Roulette page did not take the spins.");
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
       stage.style.visibility="visible";
