@@ -53,6 +53,7 @@
       if(!row||["abandoned","unavailable"].includes(row.status))return bare(status==="empty"?"empty":"unavailable");
       source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers};lifecycle=row.status;sp=rowSpecial(row);
     }else{source=model;status=STATES.includes(source?.status)?source.status:"unavailable";lifecycle=source?.lifecycle??null;sp=liveSpecial();}
+    if(status==="unavailable"&&source?.notice==="continue")return {...bare("unavailable"),notice:"continue"};
     if(status==="loading"||status==="unavailable")return bare(status);
     if(status==="empty"&&!source.managers)return {...bare("empty"),seasons:[],transfers:{status:"unavailable"}};
     if(!source.managers||!ORDER.every(k=>source.managers[k]&&FIELDS.every(f=>finite(source.managers[k][f])||(f==="bestSeasonScore"&&source.managers[k][f]===null))))return bare("unavailable");
@@ -323,6 +324,16 @@
     if(canPublish()&&context()===key&&sequence===careerLoadSequence){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
     return rivalry?rivalryModel??UNAVAILABLE:model;
   }
+  // r87 career fixes (lane C C-01): the live Showdown's numbers come from the in-game providers, which only run on a page
+  // that has entered the game (its shared save and live session). Out of the game they never arrive, so instead of
+  // "Loading…" forever the screen says how to load them. No read is made or saved for this; in the game nothing changes.
+  function rlLiveCanArrive(){
+    try{
+      const history=root.CareerModeProductionSharedHistoryConvergence,setup=root.CareerModeProductionSharedShowdownSetup?.getState?.();
+      return Boolean(history?.isActive?.()&&setup?.sessionId);
+    }catch(_){return false;}
+  }
+  function rlLiveOrContinue(rivalry){return rivalry?.status==="loading"&&!rlLiveCanArrive()?{...rivalry,status:"unavailable",notice:"continue"}:rivalry;}
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
   function refresh(screen,event=false){
@@ -367,7 +378,7 @@
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
             if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress,retrying);
-            return {...active.rivalry,lifecycle:active.classification};
+            return rlLiveOrContinue({...active.rivalry,lifecycle:active.classification});
           }
           return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress,retrying);
         })();

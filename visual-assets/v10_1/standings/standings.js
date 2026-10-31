@@ -166,7 +166,7 @@
     // Availability copy for states without numbers, and the new-career / first-season messages.
     let msg = "";
     if (m.status === "loading") msg = S.loading;
-    else if (m.status === "unavailable") msg = S.unavailable;
+    else if (m.status === "unavailable") msg = m.notice === "continue" ? (S.continueToLoad || S.unavailable) : S.unavailable;
     else if (m.status === "empty") {
       if (m.score) msg = S.emptySeason;
       else msg = view === "career" ? S.emptyCareer : S.emptyShowdown;

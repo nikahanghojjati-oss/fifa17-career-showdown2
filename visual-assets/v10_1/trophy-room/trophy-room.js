@@ -118,7 +118,7 @@
     if (!Array.isArray(frame.records) || !frame.records.length) return "";
     const heading = frame.status === "partial" ? strings.stateCopy.partialRecordsHeading.text : strings.recordsReadyHeading;
     return `<div class="recordRibbon" data-sd-enter="panel" aria-label="${esc(heading)}"><span class="recordRibbonHeading">${esc(heading)}</span>${frame.records.map(record => {
-      const manager = record.manager === "shared" ? "Shared" : (frame.managers?.[record.manager]?.displayName || record.manager);
+      const manager = record.manager === "shared" ? "LEVEL" : (frame.managers?.[record.manager]?.displayName || record.manager);
       return `<div class="recordItem"><small>${esc(record.label)}</small><strong>${esc(record.value)}</strong><span>${esc(manager)}</span></div>`;
     }).join("")}</div>`;
   }
