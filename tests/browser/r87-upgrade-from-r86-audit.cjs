@@ -52,7 +52,18 @@ function releaseWorker(source){
   out=out.replace(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\(\[[^\]]*\]\);/,`const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(${JSON.stringify(addedSinceR86)});`);
   return out;
 }
+// U7: a later release on top of 2.0.0 (revision BUMP, PREVIOUS = 2.0.0, nothing added), to check the next update too.
+const BUMP=`${TO_APP}-r87-next`;let bumped=false;
+function bumpText(rel,text){
+  let out=text.split(TO).join(BUMP);
+  if(rel==="service-worker.js"){out=out.replace(/const PREVIOUS_RUNTIME_REVISION = "[^"]*";/,`const PREVIOUS_RUNTIME_REVISION = "${TO}";`);out=out.replace(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\([^;]*\);/,"const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);");}
+  return out;
+}
 function releaseText(rel,text){
+  if(bumped)return bumpText(rel,releaseText0(rel,text));
+  return releaseText0(rel,text);
+}
+function releaseText0(rel,text){
   if(rel==="service-worker.js")return releaseWorker(text);
   let out=text.split(FROM).join(TO);
   if(rel==="js/app.js")out=out.replace(/const APP_VERSION = "[^"]+";/,`const APP_VERSION = "${TO_APP}";`);
@@ -199,6 +210,22 @@ async function run(){
     await page.reload({waitUntil:"domcontentloaded"});await waitHome(page);
     facts=await pageFacts(page);assert.equal(facts.meta,TO);
     pass(`U6 offline rollback ran the whole ${FROM} shell from cache; clearing it returned to ${TO}`);
+
+    // U7 ------------------------------------------------------------------------------------------------------------------
+    // The next release after 2.0.0, on a phone that opens the app and closes it again within a few seconds (before the
+    // app's own update check may run), then opens it again: the second open must still end on the new build by itself.
+    bumped=true;
+    await page.close();
+    const quick=await context.newPage();quick.on("pageerror",e=>pageErrors.push(String(e.message||e)));
+    await quick.goto(BASE,{waitUntil:"domcontentloaded"});await quick.waitForTimeout(5000);await quick.close();
+    const next=await context.newPage();next.on("pageerror",e=>pageErrors.push(String(e.message||e)));
+    const opened=Date.now();
+    await next.goto(BASE,{waitUntil:"domcontentloaded"});
+    const until=Date.now()+180000;let nextMeta=null;
+    while(Date.now()<until){nextMeta=await next.evaluate(()=>document.querySelector('meta[name="app-asset-revision"]')?.content||null).catch(()=>null);if(nextMeta===BUMP)break;await next.waitForTimeout(500);}
+    assert.equal(nextMeta,BUMP,`the next update did not apply after a 5 s open and a second open (still ${nextMeta})`);
+    await waitHome(next);
+    pass(`U7 the next release (${BUMP}) applied by itself on the second open, ${Math.round((Date.now()-opened)/1000)} s after it, after a first open closed at 5 s`);
 
     assert.deepEqual(pageErrors,[],"uncaught page errors");
     console.log(`r87 upgrade audit passed: ${FROM} -> ${TO}; rollback list adds ${addedSinceR86.length} paths: ${addedSinceR86.join(" ")}; refused hosts: ${[...refused].sort().join(", ")||"none"}`);
