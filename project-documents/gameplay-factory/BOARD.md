@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 31 Oct, 3:14 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 31 Oct, 3:25 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1126 has waited 5 min for a machine; Showdown Gate on #1127 has waited 4 min for a machine; Showdown Gate on #1128 has waited 4 min for a machine; Showdown Gate on #1105 has waited 4 min for a machine; Showdown Gate on #1125 has waited 4 min for a machine; Showdown Gate on #1121 has waited 4 min for a machine; Showdown Gate on #1122 has waited 4 min for a machine; Showdown Gate on #1130 has waited 2 min for a machine; Showdown Gate on #1131 has waited 2 min for a machine; Showdown Gate on #1119 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Updated Sat 31 Oct, 3:14 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 462 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 463 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -34,7 +34,7 @@ Updated Sat 31 Oct, 3:14 PM Boston time. Bug hunting only, no new features until
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 462 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 463 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,11 +58,11 @@ Updated Sat 31 Oct, 3:14 PM Boston time. Bug hunting only, no new features until
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 401 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 402 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 398 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 399 h ago
 
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
@@ -78,11 +78,11 @@ Updated Sat 31 Oct, 3:14 PM Boston time. Bug hunting only, no new features until
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 356 h ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 357 h ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 356 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 357 h ago
 
 ### 👉 Next for you, in this order
 
@@ -2117,6 +2117,13 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - Nothing else needs you right now.
 
 ## Other Team G work
+
+**Fixing now**
+
+| Lane | Item | What | State |
+| --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #1127](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1127) | R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader | ⏳ 7 passed, 1 running (draft) |
+| 🟧 Team G lead | [PR #1124](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1124) | r88 Icon Unmasked: round logic (draw, reveal clock, chips and winner) | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 3:14 PM Boston time (EDT)",
+ "generated": "2026-10-31 3:25 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1622,12 +1622,41 @@
    "revision": "1.9.10-r86",
    "when": "2026-10-30T11:17:04Z",
    "subject": "L5: re-pin the composed Rules check to main 64b6bbd6 after the r86 release (no delta) (#1077)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1127,
+     "title": "R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader",
+     "draft": true,
+     "branch": "claude/r88-icon-names",
+     "sha": "e8f1b8dca4890230b619441c8ebfe80ac6d20d14",
+     "updated": "2026-10-31T19:19:22Z",
+     "gates": {
+      "passed": 7,
+      "running": 1,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
+    {
+     "pr": 1124,
+     "title": "r88 Icon Unmasked: round logic (draw, reveal clock, chips and winner)",
+     "draft": true,
+     "branch": "claude/r88-icon-core",
+     "sha": "8cc49d753b8907d7126baf8388f7eb4a7a778ba7",
+     "updated": "2026-10-31T19:19:03Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1126 has waited 5 min for a machine; Showdown Gate on #1127 has waited 4 min for a machine; Showdown Gate on #1128 has waited 4 min for a machine; Showdown Gate on #1105 has waited 4 min for a machine; Showdown Gate on #1125 has waited 4 min for a machine; Showdown Gate on #1121 has waited 4 min for a machine; Showdown Gate on #1122 has waited 4 min for a machine; Showdown Gate on #1130 has waited 2 min for a machine; Showdown Gate on #1131 has waited 2 min for a machine; Showdown Gate on #1119 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2369,7 +2398,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3585,7 +3614,36 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1127,
+    "title": "R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader",
+    "draft": true,
+    "branch": "claude/r88-icon-names",
+    "sha": "e8f1b8dca4890230b619441c8ebfe80ac6d20d14",
+    "updated": "2026-10-31T19:19:22Z",
+    "gates": {
+     "passed": 7,
+     "running": 1,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
+   {
+    "pr": 1124,
+    "title": "r88 Icon Unmasked: round logic (draw, reveal clock, chips and winner)",
+    "draft": true,
+    "branch": "claude/r88-icon-core",
+    "sha": "8cc49d753b8907d7126baf8388f7eb4a7a778ba7",
+    "updated": "2026-10-31T19:19:03Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
