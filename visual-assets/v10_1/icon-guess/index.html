@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Icon Unmasked</title>
+<!--
+  R88 Icon Unmasked: STAND-IN page (workstream C). Team V's final card art replaces the card face later; the hooks stay.
+  Spec: project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md · Look: R88_ICON_CARD_TEAM_V_BRIEF.md.
+  The page never picks a player and never decides whether a guess is right. The game sends the round and the beats;
+  the page shows them and sends typed text out. Wrong guesses are only ever shown on the phone that made them.
+  No network: local fonts, no CDN, no EA assets, no photos. Flags and the silhouette are drawn in code.
+-->
+<style>
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: swap; src: url("../shared/fonts/barlow-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: swap; src: url("../shared/fonts/barlow-latin-600-normal.woff2") format("woff2"); }
+:root {
+  --ink: #07080a; --text: #f4f1ea; --text-2: #c9c0ab;
+  --pearl-1: #fffdf6; --pearl-2: #f4ecd9; --pearl-3: #e6d7b5; --pearl-ink: #2a2110; --pearl-ink-2: #6b5a35;
+  --foil-1: #fff6d2; --foil-2: #f1cf7a; --foil-3: #c4932f; --foil-4: #7d5a17;
+  --daniel: #2c7399; --nik: #f0d900;
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow", system-ui, sans-serif;
+  --flip: 700ms; --ease: cubic-bezier(.22, 1, .36, 1);
+  color-scheme: dark;
+}
+html.rm { --flip: 220ms; }
+html, body { height: 100%; margin: 0; }
+body { background: radial-gradient(120% 70% at 50% 18%, #2a2416 0%, #12100b 46%, var(--ink) 100%); color: var(--text); font-family: var(--body);
+  overflow: hidden; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+/* #app follows the visual viewport, so with the iPhone keyboard open everything sits above it (nothing behind the keyboard) */
+#app { position: fixed; left: 0; right: 0; top: 0; height: 100%; display: flex; flex-direction: column;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px calc(env(safe-area-inset-bottom, 0px) + 10px); box-sizing: border-box; gap: 8px; }
+html.kb #app { padding-bottom: 8px; }
+
+/* ---------- managers and their two guess chips (both visible on both phones) ---------- */
+.managers { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex: none; }
+.mgr { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.mgr[data-role="playerTwo"] { flex-direction: row-reverse; }
+.mgr .who { font: 700 18px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.mgr[data-role="playerOne"] .who { color: #8fc6e4; }
+.mgr[data-role="playerTwo"] .who { color: var(--nik); }
+.mgr .you { font: 700 10px/1 var(--cond); letter-spacing: .14em; color: var(--ink); background: var(--foil-2); padding: 3px 5px 2px; border-radius: 2px; }
+.mgr:not([data-me="1"]) .you { display: none; }
+.chips { display: flex; gap: 5px; }
+.chip { width: 18px; height: 18px; border-radius: 50%; box-sizing: border-box; transition: opacity 300ms, transform 300ms var(--ease);
+  background: radial-gradient(circle at 35% 30%, var(--foil-1), var(--foil-2) 45%, var(--foil-3) 80%); box-shadow: 0 0 0 1.5px var(--foil-4), 0 2px 4px rgba(0,0,0,.5); }
+.chip.used { opacity: .28; transform: scale(.82); background: transparent; box-shadow: inset 0 0 0 2px var(--foil-3); }
+.vs { font: 700 13px/1 var(--cond); letter-spacing: .2em; color: var(--text-2); }
+
+/* ---------- status line: which beat, and the guess-window countdown ---------- */
+.status { flex: none; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 34px; }
+.beat { font: 700 15px/1 var(--cond); letter-spacing: .16em; text-transform: uppercase; color: var(--foil-1); }
+.beat.last { color: #ffd77a; }
+.ring { width: 34px; height: 34px; position: relative; flex: none; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 3.5; }
+.ring .track { stroke: rgba(255,240,200,.18); }
+.ring .left { stroke: var(--foil-2); stroke-linecap: round; }
+.ring.low .left { stroke: #ff9a6a; }
+.ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 14px/1 var(--cond); color: var(--text); }
+.ring[hidden] { display: none; }
+.pill { font: 700 15px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 7px 12px 6px; border-radius: 999px;
+  background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); }
+
+/* ---------- the card (stand-in art; Team V replaces the face) ---------- */
+.stagewrap { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; position: relative; container-type: size; }
+.card { width: min(100cqw, 100cqh * 5 / 7, 380px); aspect-ratio: 5 / 7; position: relative; container-type: size; }
+.card .foil, .card .face { position: absolute; inset: 0; clip-path: polygon(50% 0, 88% 3.5%, 100% 11%, 100% 89%, 88% 96.5%, 50% 100%, 12% 96.5%, 0 89%, 0 11%, 12% 3.5%); }
+.card .foil { background: linear-gradient(135deg, var(--foil-1) 0%, var(--foil-2) 22%, var(--foil-4) 38%, var(--foil-2) 52%, var(--foil-1) 64%, var(--foil-3) 82%, var(--foil-1) 100%);
+  filter: drop-shadow(0 10px 22px rgba(0,0,0,.55)); }
+.card .face { inset: 2.2cqw; background:
+  radial-gradient(90% 55% at 70% 30%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 60%),
+  repeating-linear-gradient(118deg, rgba(196,147,47,.06) 0 2px, rgba(255,255,255,0) 2px 9px),
+  linear-gradient(170deg, var(--pearl-1) 0%, var(--pearl-2) 46%, var(--pearl-3) 100%); overflow: hidden; }
+.card .face::after { content: ""; position: absolute; inset: -40% -60%; background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,247,214,.55) 50%, rgba(255,255,255,0) 60%);
+  transform: translateX(-60%); animation: sheen 6s var(--ease) infinite 1.2s; pointer-events: none; }
+@keyframes sheen { 0%, 70% { transform: translateX(-60%); } 100% { transform: translateX(60%); } }
+.inner-line { position: absolute; inset: 1.4cqw; pointer-events: none; }
+.inner-line svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.inner-line polygon { fill: none; stroke: rgba(196,147,47,.6); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+
+.side { position: absolute; left: 9cqw; top: 11cqh; width: 20cqw; display: flex; flex-direction: column; align-items: center; gap: 1.6cqh; z-index: 2; }
+.ovr { font: 700 17cqw/0.85 var(--cond); color: var(--pearl-ink); letter-spacing: -.02em; }
+.pos { font: 700 8.5cqw/1 var(--cond); color: var(--pearl-ink); letter-spacing: .04em; }
+.side .rule { width: 70%; height: .5cqw; background: linear-gradient(90deg, rgba(196,147,47,0), var(--foil-3), rgba(196,147,47,0)); }
+.flagtile canvas { width: 100%; height: 100%; display: block; box-shadow: 0 0 0 .4cqw rgba(125,90,23,.55); }
+
+.portrait { position: absolute; right: 4cqw; top: 6cqh; width: 66cqw; height: 50cqh; z-index: 1;
+  -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, #000 72%, transparent 100%); }
+.portrait svg { width: 100%; height: 100%; display: block; }
+.iconword { position: absolute; right: 9cqw; top: 9.5cqh; z-index: 2; font: 700 4.6cqw/1 var(--cond); letter-spacing: .42em; color: var(--foil-4);
+  padding-left: .42em; border-top: .35cqw solid var(--foil-3); border-bottom: .35cqw solid var(--foil-3); padding-block: .5cqw .35cqw; }
+
+.tile.nameplate { position: absolute; left: 8cqw; right: 8cqw; top: 57cqh; text-align: center; z-index: 2;
+  font: 700 9.5cqw/1.05 var(--cond); letter-spacing: .06em; text-transform: uppercase; color: var(--pearl-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.underline { position: absolute; left: 14cqw; right: 14cqw; top: 66.4cqh; height: .5cqw; background: linear-gradient(90deg, rgba(196,147,47,0), var(--foil-3) 20%, var(--foil-3) 80%, rgba(196,147,47,0)); }
+
+.stats { position: absolute; left: 12cqw; right: 12cqw; top: 69.5cqh; display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(3, 7.2cqh); column-gap: 7cqw; row-gap: .8cqh; z-index: 2; }
+.stats .divider { position: absolute; left: 50%; top: 4%; bottom: 4%; width: .4cqw; background: linear-gradient(180deg, rgba(196,147,47,0), var(--foil-3), rgba(196,147,47,0)); }
+/* a slot (and the overall, flag and name) is a two-sided tile: back = hidden "??", front = the value */
+.tile { position: relative; perspective: 60cqw; }
+.tile .b, .tile .f { position: absolute; inset: 0; display: flex; align-items: center; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  transition: transform var(--flip) var(--ease), opacity var(--flip) linear; }
+.tile .f { transform: rotateY(180deg); }
+.tile[data-shown="1"] .b { transform: rotateY(-180deg); }
+.tile[data-shown="1"] .f { transform: rotateY(0deg); }
+html.rm .tile .b, html.rm .tile .f { transform: none !important; }
+html.rm .tile .f { opacity: 0; }
+html.rm .tile[data-shown="1"] .b { opacity: 0; }
+html.rm .tile[data-shown="1"] .f { opacity: 1; }
+.stat .b, .stat .f { gap: 2.4cqw; font: 700 7.4cqw/1 var(--cond); color: var(--pearl-ink); }
+.stat .b { justify-content: flex-start; }
+.stat .b i { font-style: normal; width: 11cqw; text-align: center; border-radius: .9cqw; padding: .6cqw 0 .3cqw; color: var(--foil-1);
+  background: linear-gradient(180deg, #b48a32, #7d5a17); box-shadow: inset 0 .3cqw 0 rgba(255,246,210,.45); letter-spacing: .06em; }
+.stat .b span, .stat .f span { color: var(--pearl-ink-2); font-size: 6.2cqw; letter-spacing: .05em; }
+.stat .f em { font-style: normal; width: 11cqw; text-align: center; }
+.stat.fresh .f em { color: #8a5d00; text-shadow: 0 0 2.4cqw rgba(241,207,122,.95); }
+.big .b, .big .f { justify-content: center; }
+.ovrtile { width: 20cqw; height: 15cqw; }
+.ovrtile .b { font: 700 13cqw/1 var(--cond); color: var(--foil-3); }
+.postile { width: 20cqw; height: 8.5cqw; }
+.flagtile { width: 15cqw; height: 10cqw; }
+.flagtile .b { justify-content: center; border-radius: .6cqw; background: linear-gradient(180deg, #b48a32, #7d5a17); color: var(--foil-1); font: 700 6cqw/1 var(--cond); }
+.nametile { height: 11cqw; }
+.nametile .b, .nametile .f { justify-content: center; }
+.nametile .b { color: var(--foil-3); letter-spacing: .5em; padding-left: .5em; }
+.flagtile.fresh .f canvas { box-shadow: 0 0 0 .4cqw rgba(125,90,23,.55), 0 0 4cqw rgba(241,207,122,.95); }
+
+.source { flex: none; text-align: center; font: 600 13px/1.2 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--foil-1); min-height: 16px; }
+
+/* ---------- result banner (no dimming layer: it sits in the status line's place, never over the card or buttons) ---------- */
+.banner { flex: none; text-align: center; font: 700 clamp(24px, 7.4vw, 40px)/1 var(--cond); letter-spacing: .06em; text-transform: uppercase;
+  background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 30%, #f2c35a 50%, #a8731f 54%, #f3cf73 74%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 #2a1c05); animation: pop 600ms var(--ease) both; }
+.banner.draw { background: none; color: var(--text); filter: none; }
+html.rm .banner { animation: fade 220ms linear both; }
+@keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+[hidden] { display: none !important; }
+
+/* ---------- guess bar: suggestions open upwards, so the iPhone keyboard never hides them ---------- */
+.guessbar { flex: none; position: relative; }
+.row { display: flex; gap: 8px; }
+.row input { flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.6); background: #15130e; color: var(--text);
+  font: 600 17px/1 var(--body); padding: 0 14px; outline: none; }
+.row input:focus { border-color: var(--foil-2); box-shadow: 0 0 0 3px rgba(241,207,122,.22); }
+.row input:disabled { opacity: .5; }
+.btn { height: 48px; padding: 0 20px; border: 0; border-radius: 4px; font: 700 18px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
+  background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); box-shadow: inset 0 1px 0 #fff; cursor: pointer; }
+.btn:disabled { background: #4a4232; color: #9c927b; box-shadow: none; cursor: default; }
+.suggest { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810;
+  border: 1px solid rgba(241,207,122,.45); box-shadow: 0 -8px 20px rgba(0,0,0,.45); max-height: 40vh; overflow: auto; }
+.suggest li { padding: 11px 10px; font: 600 16px/1.1 var(--body); color: var(--text); border-radius: 3px; cursor: pointer; }
+.suggest li[aria-selected="true"], .suggest li:hover { background: rgba(241,207,122,.16); }
+.note { min-height: 18px; margin-top: 6px; font: 600 14px/1.2 var(--body); text-align: center; color: var(--text-2); }
+.note.warn { color: #ffb48a; }
+.cta { width: 100%; }
+
+/* the test clock freezes every CSS transition and animation, so a still is the end state of each beat */
+html.still *, html.still *::before, html.still *::after { transition: none !important; animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .card .face::after { animation: none; } .chip { transition: none; } }
+html.rm .card .face::after { animation: none; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="managers" id="managers">
+    <div class="mgr" data-role="playerOne"><span class="who" id="nameOne">Daniel</span><span class="you">YOU</span><span class="chips" id="chipsOne" data-role="playerOne" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
+    <span class="vs">VS</span>
+    <div class="mgr" data-role="playerTwo"><span class="who" id="nameTwo">Nik</span><span class="you">YOU</span><span class="chips" id="chipsTwo" data-role="playerTwo" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
+  </div>
+
+  <div class="status" id="status">
+    <span class="pill" id="waiting" hidden></span>
+    <span class="beat" id="beat"></span>
+    <span class="ring" id="ring" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="17"/><circle class="left" id="ringLeft" cx="20" cy="20" r="17" stroke-dasharray="106.8" stroke-dashoffset="0"/></svg><b id="ringNum"></b></span>
+  </div>
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="stagewrap">
+    <div class="card" id="card" aria-label="Icon card">
+      <div class="foil"></div>
+      <div class="face">
+        <div class="inner-line"><svg viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="50,0 88,4.9 100,15.4 100,124.6 88,135.1 50,140 12,135.1 0,124.6 0,15.4 12,4.9"/></svg></div>
+        <div class="portrait" id="portrait"></div>
+        <div class="iconword">ICON</div>
+        <div class="side">
+          <div class="tile big ovrtile" id="ovr" data-shown="0"><div class="b">??</div><div class="f ovr" id="ovrValue"></div></div>
+          <div class="tile big postile" id="pos" data-shown="0"><div class="b pos">??</div><div class="f pos" id="posValue"></div></div>
+          <div class="rule"></div>
+          <div class="tile big flagtile" id="flag" data-shown="0"><div class="b">?</div><div class="f"><canvas id="flagCanvas" width="180" height="120"></canvas></div></div>
+        </div>
+        <div class="tile nameplate nametile" id="name" data-shown="0"><div class="b">? ? ?</div><div class="f" id="nameValue"></div></div>
+        <div class="underline"></div>
+        <div class="stats" id="stats"><div class="divider"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="source" id="source"></div>
+
+  <div class="guessbar" id="guessbar">
+    <ul class="suggest" id="suggest" role="listbox" hidden></ul>
+    <form class="row" id="form" autocomplete="off">
+      <input id="guess" name="guess" type="text" inputmode="text" enterkeyhint="send" autocapitalize="words" autocorrect="off" spellcheck="false" placeholder="Who is he?" aria-label="Your guess" aria-controls="suggest" disabled>
+      <button class="btn" id="go" type="submit" disabled>Guess</button>
+    </form>
+    <div class="note" id="note" aria-live="polite"></div>
+  </div>
+  <button class="btn cta" id="cta" type="button" hidden>Continue</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ================= switches and timing ================= */
+// Nik, 31 Oct 2026: the big overall rating stays hidden until the result. This is the one switch; a round may still pass
+// overallHidden:false if that decision ever changes, so the page itself never needs editing for it.
+const OVERALL_HIDDEN_UNTIL_END = true;
+const STAT_KEYS = ["PAC","SHO","PAS","DRI","DEF","PHY"];            // FIFA layout: left column PAC SHO PAS, right DRI DEF PHY
+const ROLES = ["playerOne","playerTwo"];                            // playerOne = Daniel (left), playerTwo = Nik (right), as on the Special Player page
+const LAST_BEAT = 7;                                                // 0 position, 1..6 one stat each, 7 the flag (last chance)
+const WINDOW_MS_DEFAULT = 8000, WINDOW_MS_MIN = 5000, WINDOW_MS_MAX = 10000;
+const CHIPS_PER_MANAGER = 2;
+const EMBED = /[?&]embed=1(&|$)/.test(location.search);
+const QS = new URLSearchParams(location.search);
+const REDUCED = QS.get("rm")==="1" || (typeof matchMedia==="function" && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const REVEAL_MS = REDUCED ? 220 : 700;                              // each reveal beat stays well under the 2 s the brief allows
+if(REDUCED) document.documentElement.classList.add("rm");
+const $ = (id) => document.getElementById(id);
+
+/* ================= messages to the game ================= */
+function toGame(type, data){
+  const msg = Object.assign({ type }, data || {});
+  try { window.dispatchEvent(new CustomEvent("cms-ig", { detail: msg })); } catch(e) {}
+  if(EMBED){ try { parent.postMessage(msg, location.origin); } catch(e) {} }
+}
+window.addEventListener("error", (e) => { if(EMBED){ try{ parent.postMessage({type:"cms-ig-error", message:String(e && e.message || "error")}, location.origin); }catch(_e){} } });
+
+/* ================= clock (real time, or the test clock) ================= */
+let frozen = QS.get("still")==="1", manualMs = 0;
+const realNow = () => performance.now();
+const now = () => frozen ? manualMs : realNow();
+if(frozen) document.documentElement.classList.add("still");
+
+/* ================= state ================= */
+const S = {
+  round: null, me: "playerTwo", names: { playerOne: "Daniel", playerTwo: "Nik" },
+  beat: -1, windowMs: WINDOW_MS_DEFAULT, closesAt: null,
+  chips: { playerOne: CHIPS_PER_MANAGER, playerTwo: CHIPS_PER_MANAGER },
+  waitingFor: null, result: null, pending: false, suggestions: [], active: -1, continued: false
+};
+
+/* ================= art: silhouette and flags (drawn in code; generic, the same for every player) ================= */
+const SILHOUETTE = '<svg viewBox="0 0 300 300" aria-hidden="true"><defs>'+
+  '<linearGradient id="sil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d6232"/><stop offset=".6" stop-color="#4a3a1c"/><stop offset="1" stop-color="#2f2511"/></linearGradient>'+
+  '<radialGradient id="halo" cx=".5" cy=".42" r=".55"><stop offset="0" stop-color="#fff7da" stop-opacity=".95"/><stop offset="1" stop-color="#fff7da" stop-opacity="0"/></radialGradient></defs>'+
+  '<ellipse cx="150" cy="128" rx="140" ry="120" fill="url(#halo)"/>'+
+  '<g id="bust"><path d="M150 40c-27 0-45 21-45 50 0 19 7 35 17 45l-2 22c-1 8-6 13-14 16l-46 17c-24 9-38 28-40 54l-2 26h264l-2-26c-2-26-16-45-40-54l-46-17c-8-3-13-8-14-16l-2-22c10-10 17-26 17-45 0-29-18-50-45-50z" fill="url(#sil)"/>'+
+  '<path d="M124 172l26 30 26-30" fill="none" stroke="#c4932f" stroke-width="5" stroke-linejoin="round" opacity=".75"/></g>'+
+  '<path d="M118 66c8-17 20-24 32-24" fill="none" stroke="#fff3c4" stroke-width="4" stroke-linecap="round" opacity=".5"/></svg>';
+
+/* simple real flags drawn in code: h = horizontal bands top to bottom, v = vertical bands left to right */
+const FLAGS = { FR:["v","#0055a4","#ffffff","#ef4135"], IT:["v","#009246","#ffffff","#ce2b37"], IE:["v","#169b62","#ffffff","#ff883e"], BE:["v","#1a1a1a","#fdda24","#ef3340"],
+  CI:["v","#f77f00","#ffffff","#009e60"], NG:["v","#008751","#ffffff","#008751"], ML:["v","#14b53a","#fcd116","#ce1126"], RO:["v","#002b7f","#fcd116","#ce1126"], MX:["v","#006847","#ffffff","#ce1126"],
+  DE:["h","#000000","#dd0000","#ffce00"], NL:["h","#ae1c28","#ffffff","#21468b"], AT:["h","#ed2939","#ffffff","#ed2939"], HU:["h","#ce2939","#ffffff","#477050"], BG:["h","#ffffff","#00966e","#d62612"],
+  RU:["h","#ffffff","#0039a6","#d52b1e"], UA:["h","#0057b7","#ffd700"], PL:["h","#ffffff","#dc143c"], HR:["h","#ff0000","#ffffff","#171796"], RS:["h","#c6363c","#0c4076","#ffffff"],
+  CO:["h","#fcd116","#fcd116","#003893","#ce1126"], PY:["h","#d52b1e","#ffffff","#0038a8"], GA:["h","#009e60","#fcd116","#3a75c4"], EE:["h","#0072ce","#000000","#ffffff"] };
+function star(ctx, cx, cy, r){ ctx.beginPath(); for(let i=0;i<10;i++){ const a=-Math.PI/2+i*Math.PI/5, rr=i%2?r*.4:r; ctx[i?"lineTo":"moveTo"](cx+Math.cos(a)*rr, cy+Math.sin(a)*rr); } ctx.closePath(); ctx.fill(); }
+function cross(ctx, w, h, fg, cx, t){ ctx.fillStyle=fg; ctx.fillRect(cx-t/2,0,t,h); ctx.fillRect(0,h/2-t/2,w,t); }
+function nordic(ctx, w, h, bg, fg, inner){ ctx.fillStyle=bg; ctx.fillRect(0,0,w,h); const cx=w*.36; ctx.fillStyle=fg; ctx.fillRect(cx-h*.12,0,h*.24,h); ctx.fillRect(0,h*.38,w,h*.24); if(inner){ ctx.fillStyle=inner; ctx.fillRect(cx-h*.06,0,h*.12,h); ctx.fillRect(0,h*.44,w,h*.12); } }
+function drawFlag(canvas, code){
+  const ctx=canvas.getContext("2d"), w=canvas.width, h=canvas.height; ctx.clearRect(0,0,w,h);
+  const c=String(code||"").toUpperCase(), band=(cols,vertical)=>cols.forEach((col,i)=>{ ctx.fillStyle=col; vertical?ctx.fillRect(i*w/cols.length,0,w/cols.length+1,h):ctx.fillRect(0,i*h/cols.length,w,h/cols.length+1); });
+  if(FLAGS[c]){ const f=FLAGS[c]; band(f.slice(1), f[0]==="v");
+    if(c==="MX"){ ctx.fillStyle="#7a5230"; ctx.beginPath(); ctx.ellipse(w/2,h/2,h*.11,h*.14,0,0,7); ctx.fill(); } }
+  else if(c==="EN"||c==="GB-ENG"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); cross(ctx,w,h,"#ce1124",w/2,h*.2); }
+  else if(c==="GB-SCT"||c==="SCO"){ ctx.fillStyle="#005eb8"; ctx.fillRect(0,0,w,h); ctx.strokeStyle="#fff"; ctx.lineWidth=h*.2; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(w,h); ctx.moveTo(w,0); ctx.lineTo(0,h); ctx.stroke(); }
+  else if(c==="GB-NIR"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); cross(ctx,w,h,"#c8102e",w/2,h*.2); }
+  else if(c==="GB-WLS"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h/2); ctx.fillStyle="#00b140"; ctx.fillRect(0,h/2,w,h/2); ctx.fillStyle="#d30731";
+    ctx.beginPath(); ctx.moveTo(w*.22,h*.62); ctx.quadraticCurveTo(w*.3,h*.3,w*.5,h*.34); ctx.lineTo(w*.66,h*.22); ctx.lineTo(w*.7,h*.36); ctx.quadraticCurveTo(w*.8,h*.5,w*.72,h*.7); ctx.lineTo(w*.6,h*.62); ctx.lineTo(w*.5,h*.76); ctx.lineTo(w*.4,h*.64); ctx.closePath(); ctx.fill(); }
+  else if(c==="SE") nordic(ctx,w,h,"#006aa7","#fecc02");
+  else if(c==="DK") nordic(ctx,w,h,"#c8102e","#ffffff");
+  else if(c==="NO") nordic(ctx,w,h,"#ba0c2f","#ffffff","#00205b");
+  else if(c==="FI") nordic(ctx,w,h,"#ffffff","#002f6c");
+  else if(c==="IS") nordic(ctx,w,h,"#02529c","#ffffff","#dc1e35");
+  else if(c==="CH"){ ctx.fillStyle="#da291c"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#fff"; const s=h; ctx.fillRect(w/2-s*.1,h/2-s*.32,s*.2,s*.64); ctx.fillRect(w/2-s*.32,h/2-s*.1,s*.64,s*.2); }
+  else if(c==="ES"){ band(["#aa151b","#f1bf00","#f1bf00","#aa151b"],false); ctx.fillStyle="#aa151b"; ctx.fillRect(w*.24,h*.36,w*.1,h*.28); }
+  else if(c==="PT"){ ctx.fillStyle="#da291c"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#046a38"; ctx.fillRect(0,0,w*.4,h); ctx.strokeStyle="#ffe000"; ctx.lineWidth=h*.05; ctx.beginPath(); ctx.arc(w*.4,h/2,h*.2,0,7); ctx.stroke();
+    ctx.fillStyle="#fff"; ctx.fillRect(w*.4-h*.09,h/2-h*.11,h*.18,h*.22); }
+  else if(c==="BR"){ ctx.fillStyle="#009c3b"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#ffdf00"; ctx.beginPath(); ctx.moveTo(w*.08,h/2); ctx.lineTo(w/2,h*.1); ctx.lineTo(w*.92,h/2); ctx.lineTo(w/2,h*.9); ctx.fill();
+    ctx.fillStyle="#002776"; ctx.beginPath(); ctx.arc(w/2,h/2,h*.22,0,7); ctx.fill(); ctx.strokeStyle="#fff"; ctx.lineWidth=h*.03; ctx.beginPath(); ctx.arc(w/2,h*.95,h*.5,Math.PI*1.33,Math.PI*1.67); ctx.stroke(); }
+  else if(c==="AR"){ band(["#74acdf","#ffffff","#74acdf"],false); ctx.fillStyle="#f6b40e"; ctx.beginPath(); ctx.arc(w/2,h/2,h*.1,0,7); ctx.fill(); }
+  else if(c==="UY"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#0038a8"; for(let i=1;i<9;i+=2) ctx.fillRect(0,i*h/9,w,h/9+.5); ctx.fillStyle="#fff"; ctx.fillRect(0,0,w*.37,h*5/9); ctx.fillStyle="#fcd116"; ctx.beginPath(); ctx.arc(w*.185,h*.278,h*.13,0,7); ctx.fill(); }
+  else if(c==="CL"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h/2); ctx.fillStyle="#d52b1e"; ctx.fillRect(0,h/2,w,h/2); ctx.fillStyle="#0039a6"; ctx.fillRect(0,0,w/3,h/2); ctx.fillStyle="#fff"; star(ctx,w/6,h/4,h*.13); }
+  else if(c==="CZ"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h/2); ctx.fillStyle="#d7141a"; ctx.fillRect(0,h/2,w,h/2); ctx.fillStyle="#11457e"; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(w*.5,h/2); ctx.lineTo(0,h); ctx.fill(); }
+  else if(c==="US"){ for(let i=0;i<13;i++){ ctx.fillStyle=i%2?"#ffffff":"#b22234"; ctx.fillRect(0,i*h/13,w,h/13+.5); } ctx.fillStyle="#3c3b6e"; ctx.fillRect(0,0,w*.4,h*7/13); }
+  else if(c==="LR"){ for(let i=0;i<11;i++){ ctx.fillStyle=i%2?"#ffffff":"#bf0a30"; ctx.fillRect(0,i*h/11,w,h/11+.5); } ctx.fillStyle="#002868"; ctx.fillRect(0,0,h*5/11,h*5/11); ctx.fillStyle="#fff"; star(ctx,h*2.5/11,h*2.5/11,h*.15); }
+  else if(c==="GH"){ band(["#ce1126","#fcd116","#006b3f"],false); ctx.fillStyle="#000"; star(ctx,w/2,h/2,h*.16); }
+  else if(c==="CM"){ band(["#007a5e","#ce1126","#fcd116"],true); ctx.fillStyle="#fcd116"; star(ctx,w/2,h/2,h*.16); }
+  else if(c==="SN"){ band(["#00853f","#fdef42","#e31b23"],true); ctx.fillStyle="#00853f"; star(ctx,w/2,h/2,h*.16); }
+  else if(c==="TR"){ ctx.fillStyle="#e30a17"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(w*.38,h/2,h*.25,0,7); ctx.fill(); ctx.fillStyle="#e30a17"; ctx.beginPath(); ctx.arc(w*.42,h/2,h*.2,0,7); ctx.fill(); ctx.fillStyle="#fff"; star(ctx,w*.55,h/2,h*.11); }
+  else if(c==="GR"){ for(let i=0;i<9;i++){ ctx.fillStyle=i%2?"#ffffff":"#0d5eaf"; ctx.fillRect(0,i*h/9,w,h/9+.5); } ctx.fillStyle="#0d5eaf"; ctx.fillRect(0,0,w*.37,h*5/9); ctx.fillStyle="#fff"; ctx.fillRect(w*.15,0,w*.07,h*5/9); ctx.fillRect(0,h*2/9,w*.37,h/9); }
+  else if(c==="JP"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#bc002d"; ctx.beginPath(); ctx.arc(w/2,h/2,h*.3,0,7); ctx.fill(); }
+  else if(c==="KR"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#cd2e3a"; ctx.beginPath(); ctx.arc(w/2,h/2,h*.25,Math.PI,0); ctx.fill(); ctx.fillStyle="#0047a0"; ctx.beginPath(); ctx.arc(w/2,h/2,h*.25,0,Math.PI); ctx.fill(); }
+  else { // a nation this stand-in has no flag for: a plain gold plate with its code (never a wrong flag)
+    const g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,"#f1cf7a"); g.addColorStop(1,"#c4932f"); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    ctx.fillStyle="#2a2110"; ctx.font=`700 ${Math.round(h*.42)}px "Barlow Condensed", sans-serif`; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(c.replace(/^GB-/,"")||"?",w/2,h/2+h*.03); }
+  const sh=ctx.createLinearGradient(0,0,w,h); sh.addColorStop(0,"rgba(255,255,255,.18)"); sh.addColorStop(.5,"rgba(255,255,255,0)"); sh.addColorStop(1,"rgba(0,0,0,.14)"); ctx.fillStyle=sh; ctx.fillRect(0,0,w,h);
+}
+
+/* ================= building the card ================= */
+$("portrait").innerHTML = SILHOUETTE;
+const statsEl = $("stats");
+STAT_KEYS.forEach((key) => {
+  const t=document.createElement("div"); t.className="tile stat"; t.dataset.stat=key; t.dataset.shown="0";
+  t.innerHTML=`<div class="b"><i>??</i><span>${key}</span></div><div class="f"><em></em><span>${key}</span></div>`; statsEl.appendChild(t);
+});
+const statEl = (key) => statsEl.querySelector(`[data-stat="${key}"]`);
+const show = (el, on) => { el.dataset.shown = on ? "1" : "0"; };
+function fresh(el){ statsEl.querySelectorAll(".fresh").forEach(x=>x.classList.remove("fresh")); $("flag").classList.remove("fresh"); if(el) el.classList.add("fresh"); }
+
+/* ================= validation of the round the game sends ================= */
+function validRound(r){
+  if(!r || typeof r!=="object") throw new Error("round: missing");
+  if(typeof r.position!=="string" || !/^[A-Z]{2,3}$/.test(r.position)) throw new Error("round: position");
+  if(!Array.isArray(r.statOrder) || r.statOrder.length!==6 || [...r.statOrder].sort().join()!==[...STAT_KEYS].sort().join()) throw new Error("round: statOrder must be the six stats once each");
+  for(const k of STAT_KEYS){ const v=r.stats && r.stats[k]; if(!Number.isInteger(v) || v<1 || v>99) throw new Error("round: stat "+k); }
+  if(typeof r.nation!=="string" || !r.nation) throw new Error("round: nation");
+  if(typeof r.name!=="string" || !r.name.trim()) throw new Error("round: name");
+  if(!Number.isInteger(r.overall) || r.overall<1 || r.overall>99) throw new Error("round: overall");
+  if(r.me!=null && !ROLES.includes(r.me)) throw new Error("round: me");
+  return r;
+}
+const clampWindow = (ms) => Math.min(WINDOW_MS_MAX, Math.max(WINDOW_MS_MIN, Number.isFinite(ms) ? ms : WINDOW_MS_DEFAULT));
+const overallHidden = () => S.round && typeof S.round.overallHidden==="boolean" ? S.round.overallHidden : OVERALL_HIDDEN_UNTIL_END;
+
+/* ================= play hooks (the game calls these; the page never decides anything) ================= */
+function load(round){
+  validRound(round);
+  S.round = round; S.me = round.me || "playerTwo"; S.names = Object.assign({ playerOne:"Daniel", playerTwo:"Nik" }, round.names || {});
+  S.windowMs = clampWindow(round.windowMs); S.beat=-1; S.closesAt=null; S.result=null; S.pending=false; S.continued=false; S.waitingFor=null;
+  S.chips = { playerOne: CHIPS_PER_MANAGER, playerTwo: CHIPS_PER_MANAGER };
+  $("nameOne").textContent=S.names.playerOne; $("nameTwo").textContent=S.names.playerTwo;
+  document.querySelectorAll(".mgr").forEach(m=>{ m.dataset.me = m.dataset.role===S.me ? "1" : "0"; });
+  $("posValue").textContent=round.position; $("ovrValue").textContent=String(round.overall); $("nameValue").textContent=round.name;
+  STAT_KEYS.forEach(k=>{ statEl(k).querySelector("em").textContent=String(round.stats[k]); show(statEl(k),false); });
+  drawFlag($("flagCanvas"), round.nation);
+  [$("pos"),$("flag"),$("name"),$("ovr")].forEach(el=>show(el,false)); fresh(null);
+  $("ovr").hidden = false; $("source").textContent=""; $("banner").hidden=true; $("banner").className="banner"; $("cta").hidden=true; $("guessbar").hidden=false;
+  $("guess").value=""; setSuggestions([]); note("");
+  render();
+}
+function setWaiting(role){ S.waitingFor = ROLES.includes(role) ? role : null; render(); }
+// reveal(index): flips every beat up to index (a phone that reloads rejoins at the current beat with no replayed animation
+// for the earlier ones) and opens that beat's guess window. remainingMs comes from the game's shared round clock.
+function reveal(index, opts){
+  if(!S.round || S.result) return;
+  const i = Math.max(0, Math.min(LAST_BEAT, Math.floor(Number(index))));
+  if(!Number.isFinite(i)) return;
+  const jump = i > S.beat + 1;
+  if(jump) document.documentElement.classList.add("still");
+  for(let b=0;b<=i;b++) showBeat(b);
+  if(jump){ void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still"); }
+  fresh(i>=1 && i<=6 ? statEl(S.round.statOrder[i-1]) : i===LAST_BEAT ? $("flag") : null);
+  S.beat = i; S.waitingFor = null;
+  const remaining = opts && Number.isFinite(opts.remainingMs) ? Math.max(0, Math.min(S.windowMs, opts.remainingMs)) : S.windowMs;
+  S.closesAt = now() + remaining;
+  render();
+}
+function showBeat(b){
+  if(b===0) show($("pos"),true);
+  else if(b<=6) show(statEl(S.round.statOrder[b-1]),true);
+  else show($("flag"),true);
+}
+function setChips(role, count){
+  if(!ROLES.includes(role)) return;
+  const n = Math.max(0, Math.min(CHIPS_PER_MANAGER, Math.floor(Number(count))));
+  if(!Number.isFinite(n)) return;
+  S.chips[role] = n; if(role===S.me && S.pending){ S.pending=false; note(""); } render();
+}
+// The game turns the typed text into names from the icon list (workstream B's matcher) and sends them back here.
+function setSuggestions(names){
+  S.suggestions = Array.isArray(names) ? names.filter(n=>typeof n==="string" && n.trim()).slice(0,6) : []; S.active=-1;
+  const ul=$("suggest"); ul.textContent="";
+  S.suggestions.forEach((n,i)=>{ const li=document.createElement("li"); li.textContent=n; li.setAttribute("role","option"); li.id="sg"+i;
+    li.addEventListener("pointerdown",(e)=>{ e.preventDefault(); pick(i); }); ul.appendChild(li); });
+  ul.hidden = !S.suggestions.length || !canType();
+}
+// Feedback on this phone's own guess. "not-in-list": costs no chip. "wrong": shown only here; the other phone sees
+// only the chip count drop. "used": both chips gone. Anything else just clears the pending state.
+function guessFeedback(kind){
+  S.pending=false;
+  if(kind==="not-in-list") note("Not an icon in the list", true);
+  else if(kind==="wrong") { note("Not him."); $("guess").value=""; setSuggestions([]); }
+  else if(kind==="used") note("No guesses left. Watch the rest.");
+  render();
+}
+function showResult(winner){
+  if(!S.round || S.result) return;
+  S.result = ROLES.includes(winner) ? winner : "draw"; S.closesAt=null; S.pending=false;
+  document.documentElement.classList.add("still"); for(let b=0;b<=LAST_BEAT;b++) showBeat(b); void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still");
+  show($("name"),true); show($("ovr"),true); fresh(null);
+  const b=$("banner"); b.hidden=false;
+  if(S.result==="draw"){ b.textContent="Nobody got him"; b.classList.add("draw"); }
+  else { b.textContent=`${S.names[S.result]} +1 Showdown point`; b.classList.remove("draw"); }
+  b.dataset.winner=S.result;
+  $("source").textContent = S.round.source || "";
+  $("guessbar").hidden=true; $("guess").blur(); setSuggestions([]);
+  const cta=$("cta"); cta.hidden=false; cta.disabled=false; cta.textContent="Continue";
+  render();
+}
+
+/* ================= the guess bar ================= */
+// Typing stays open between windows (so the iPhone keyboard never drops mid-round); only sending waits for an open window.
+function canType(){ return Boolean(S.round) && !S.result && !S.waitingFor && S.beat>=0 && S.chips[S.me]>0; }
+function canGuess(){ return canType() && S.closesAt!==null && now()<S.closesAt && !S.pending; }
+function note(text, warn){ const n=$("note"); n.textContent=text||""; n.classList.toggle("warn",Boolean(warn)); }
+function pick(i){ const n=S.suggestions[i]; if(!n) return; $("guess").value=n; setSuggestions([]); submit(); }
+function submit(){
+  const text=$("guess").value.trim();
+  if(!text || !canGuess()) return;
+  S.pending=true; setSuggestions([]); note("Checking…");
+  toGame("cms-ig-guess", { text, beat:S.beat, role:S.me });
+  render();
+}
+$("form").addEventListener("submit",(e)=>{ e.preventDefault(); if(S.active>=0) pick(S.active); else submit(); });
+$("guess").addEventListener("input",()=>{ const t=$("guess").value; if($("note").classList.contains("warn")) note(""); toGame("cms-ig-input", { text:t }); if(t.trim().length<2) setSuggestions([]); });
+$("guess").addEventListener("keydown",(e)=>{
+  if(!S.suggestions.length) return;
+  const n=S.suggestions.length;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault();
+    S.active = e.key==="ArrowDown" ? (S.active+1>=n ? -1 : S.active+1) : (S.active-1<-1 ? n-1 : S.active-1);
+    [...$("suggest").children].forEach((li,i)=>li.setAttribute("aria-selected",String(i===S.active))); }
+  else if(e.key==="Escape") setSuggestions([]);
+});
+$("cta").addEventListener("click",()=>{ if(S.continued) return; S.continued=true; const c=$("cta"); c.disabled=true; c.textContent="Opening Transfer Challenge…"; toGame("cms-ig-continue"); });
+
+/* ================= iPhone keyboard: keep the whole screen inside the visible viewport ================= */
+function fitViewport(){
+  const vv=window.visualViewport, app=$("app"); if(!vv) return;
+  app.style.height=vv.height+"px"; app.style.top=vv.offsetTop+"px";
+  document.documentElement.classList.toggle("kb", window.innerHeight - vv.height > 120);
+}
+if(window.visualViewport){ visualViewport.addEventListener("resize",fitViewport); visualViewport.addEventListener("scroll",fitViewport); fitViewport(); }
+
+/* ================= render (cheap; runs on every hook and every frame of an open window) ================= */
+const RING=106.8;
+function render(){
+  const t=now();
+  ROLES.forEach(r=>{ const el=r==="playerOne"?$("chipsOne"):$("chipsTwo"); el.dataset.count=String(S.chips[r]); [...el.children].forEach((c,i)=>c.classList.toggle("used", i>=S.chips[r])); });
+  const w=$("waiting"); w.hidden=!S.waitingFor || Boolean(S.result); if(S.waitingFor) w.textContent=`Waiting for ${S.names[S.waitingFor]}`;
+  const beat=$("beat"), ring=$("ring");
+  if(S.result || S.waitingFor || S.beat<0 || !S.round){ beat.textContent = !S.round||S.result||S.waitingFor ? "" : "Get ready"; ring.hidden=true; $("status").hidden=Boolean(S.result); }
+  else {
+    $("status").hidden=false;
+    beat.textContent = S.beat===0 ? "Position" : S.beat===LAST_BEAT ? "Last chance: nation" : `Stat ${S.beat} of 6`;
+    beat.classList.toggle("last", S.beat===LAST_BEAT);
+    const left=Math.max(0, (S.closesAt||t)-t); ring.hidden=false;
+    $("ringLeft").setAttribute("stroke-dashoffset", String(RING*(1-left/S.windowMs)));
+    $("ringNum").textContent=String(Math.ceil(left/1000)); ring.classList.toggle("low", left<3000);
+  }
+  if(S.round && !S.result) show($("ovr"), !overallHidden() && S.beat>=0);
+  const ok=canGuess(), mine=S.chips[S.me];
+  $("guess").disabled = !canType(); $("go").disabled = !ok;
+  if(S.round && !S.result){
+    $("guess").placeholder = S.waitingFor ? "Waiting…" : S.beat<0 ? "Get ready…" : mine<=0 ? "No guesses left" : S.pending ? "Checking…" : ok ? "Who is he?" : S.beat===LAST_BEAT ? "Time's up" : "Next reveal…";
+    if(!canType()) $("suggest").hidden=true;
+  }
+}
+function frame(){ tickDriver(); render(); if(!frozen) requestAnimationFrame(frame); }
+
+/* ================= preview driver (no embed): plays a made-up round so the page can be looked at on its own =================
+   The player is fictional, with made-up numbers: the page never carries real card data. */
+const SAMPLE = { position:"CAM", statOrder:["DRI","PAC","PHY","PAS","DEF","SHO"], stats:{PAC:88,SHO:86,PAS:90,DRI:93,DEF:41,PHY:72},
+  nation:"NL", name:"Sample Icon", overall:94, source:"PRIME ICON · SAMPLE CARD", me:"playerTwo", names:{playerOne:"Daniel",playerTwo:"Nik"} };
+const SAMPLE_NAMES = ["Sample Icon","Sample Striker","Sample Winger","Simon Sample","Samuel Example"];
+let driver = null;
+function startPreview(){
+  const round=Object.assign({}, SAMPLE, { windowMs: Number(QS.get("win"))||WINDOW_MS_DEFAULT });
+  if(QS.get("overall")==="shown") round.overallHidden=false;
+  if(QS.get("me")==="playerOne") round.me="playerOne";
+  load(round); setWaiting(round.me==="playerTwo"?"playerOne":"playerTwo");
+  const step=clampWindow(round.windowMs)+REVEAL_MS, t0=now()+1500, plan=[];
+  for(let b=0;b<=LAST_BEAT;b++) plan.push({ at:t0+b*step, run:()=>reveal(b) });
+  const other=round.me==="playerTwo"?"playerOne":"playerTwo";
+  plan.push({ at:t0+3*step+2600, run:()=>setChips(other,1) });           // the other manager's wrong guess: only the count drops
+  plan.push({ at:t0+(LAST_BEAT+1)*step, run:()=>showResult("draw") });
+  driver = { plan, other };
+}
+function tickDriver(){ if(!driver) return; const t=now(); driver.plan=driver.plan.filter(p=>{ if(t>=p.at && !S.result){ p.run(); return false; } return !S.result; }); }
+if(!EMBED){
+  window.addEventListener("cms-ig",(e)=>{ const m=e.detail; if(!driver) return;
+    if(m.type==="cms-ig-input"){ const q=m.text.trim().toLowerCase(); setSuggestions(q.length>=2?SAMPLE_NAMES.filter(n=>n.toLowerCase().includes(q)):[]); }
+    else if(m.type==="cms-ig-guess"){ const hit=SAMPLE_NAMES.find(n=>n.toLowerCase()===m.text.toLowerCase());
+      if(!hit) guessFeedback("not-in-list");
+      else { setChips(S.me,S.chips[S.me]-1); if(hit===SAMPLE.name) showResult(S.me); else guessFeedback("wrong"); } }
+    else if(m.type==="cms-ig-continue"){ setTimeout(()=>{ driver=null; startPreview(); }, 600); }
+  });
+}
+
+/* ================= game messages (embed=1), origin- and frame-checked like the Special Player page ================= */
+window.addEventListener("message",(e)=>{
+  if(e.source!==parent||e.origin!==location.origin||!e.data||typeof e.data.type!=="string"||e.data.type.indexOf("cms-ig-")!==0) return;
+  const d=e.data;
+  try {
+    if(d.type==="cms-ig-start"){ load(d.round); if(d.waitingFor) setWaiting(d.waitingFor); }
+    else if(d.type==="cms-ig-waiting") setWaiting(d.role);
+    else if(d.type==="cms-ig-reveal") reveal(d.index, { remainingMs:d.remainingMs });
+    else if(d.type==="cms-ig-chips") setChips(d.role, d.count);
+    else if(d.type==="cms-ig-suggestions") setSuggestions(d.names);
+    else if(d.type==="cms-ig-feedback") guessFeedback(d.kind);
+    else if(d.type==="cms-ig-result") showResult(d.winner);
+  } catch(err) { try{ parent.postMessage({type:"cms-ig-error", message:String(err&&err.message||err)}, location.origin); }catch(_e){} }
+});
+
+/* ================= same-window API and the test clock ================= */
+window.IconUnmaskedPage = Object.freeze({ load, setWaiting, reveal, setChips, setSuggestions, guessFeedback, showResult,
+  revealMs: REVEAL_MS, reduced: REDUCED, lastBeat: LAST_BEAT, statKeys: STAT_KEYS.slice(), windowMs: { min:WINDOW_MS_MIN, max:WINDOW_MS_MAX, default:WINDOW_MS_DEFAULT },
+  overallHiddenUntilEnd: OVERALL_HIDDEN_UNTIL_END });
+// Deterministic test clock (like __mq on the Special Player page): freeze() stops real time and every CSS transition,
+// advance(sec) steps the page clock (countdown and preview driver), state() reads what is on screen.
+window.__ig = {
+  freeze(){ if(!frozen){ manualMs=realNow(); frozen=true; } document.documentElement.classList.add("still"); render(); },
+  advance(sec){ if(!frozen) this.freeze(); manualMs+=Math.max(0,Number(sec)||0)*1000; tickDriver(); render(); },
+  now, preview(on){ if(on===false){ driver=null; } else { driver=null; startPreview(); } render(); },
+  state(){ const shown=(id)=>$(id).dataset.shown==="1";
+    return { beat:S.beat, waitingFor:S.waitingFor, result:S.result, me:S.me, chips:Object.assign({},S.chips), pending:S.pending,
+      position:shown("pos")?$("posValue").textContent:null, overall:shown("ovr")?$("ovrValue").textContent:null,
+      flag:shown("flag"), name:shown("name")?$("nameValue").textContent:null,
+      stats:Object.fromEntries(STAT_KEYS.map(k=>[k, statEl(k).dataset.shown==="1"?Number(statEl(k).querySelector("em").textContent):null])),
+      secondsLeft:S.closesAt===null?null:Math.max(0,Math.ceil((S.closesAt-now())/1000)), canGuess:canGuess(),
+      banner:$("banner").hidden?null:$("banner").textContent, source:$("source").textContent||null, cta:!$("cta").hidden, reduced:REDUCED }; }
+};
+
+if(EMBED) toGame("cms-ig-ready", { revealMs: REVEAL_MS, reduced: REDUCED });
+else startPreview();
+if(frozen){ manualMs=0; render(); } else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -2337,6 +2337,16 @@
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-page-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^visual-assets/v10_1/shared/fonts/[a-z0-9-]+\\.woff2$",
+        "^tests/browser/r88-icon-page-audit\\.cjs$",
+        "^tests/contracts/r88-icon-page-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
