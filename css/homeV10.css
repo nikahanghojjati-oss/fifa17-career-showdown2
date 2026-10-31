@@ -1570,3 +1570,13 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     visibility: visible !important; font-size: 11px; line-height: 1.2;
   }
 }
+
+/* r87 F5 (tablet portrait, 761-1199px wide): the lockup's two line scrims (Team V home.css ::before/::after, 37px bands
+   ~345px wide) and the strong top scrim made a dark box across the left manager's cheek. Nothing may cover a face: the
+   bands go (as on phone and wide desktop) and the top scrim takes the desktop's light values; the kicker and tagline keep
+   their contrast with the desktop's text shadow. */
+@media (min-width: 761px) and (max-width: 1199px) and (orientation: portrait) {
+  #app #mainMenu.v10Home .homeLockup::before, #app #mainMenu.v10Home .homeLockup::after { display: none; }
+  #app #mainMenu.v10Home .scrimTop { background: linear-gradient(90deg, rgba(6,7,9,.34) 0, rgba(6,7,9,.14) 70%, rgba(6,7,9,0)); }
+  #app #mainMenu.v10Home .lockupKicker, #app #mainMenu.v10Home .lockupLegacy { color: #FFF6D8; text-shadow: 0 1px 3px #000, 0 0 10px rgba(0,0,0,.95), 0 0 22px rgba(0,0,0,.8); }
+}
