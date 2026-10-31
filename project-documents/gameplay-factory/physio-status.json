@@ -1,81 +1,8 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-31T14:59:35.295Z",
-  "state": "BARKING",
-  "checks": [
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "4e08daa73be8340526649c9c5bb2ed0eaf4aee95",
-      "pr": 1108,
-      "queued_minutes": 25.7,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "b355a7bcac6d110fdb61c9ee44de058fe149d3db",
-      "pr": 1111,
-      "queued_minutes": 17.6,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "b763a1de7b41ef5701f7d6d50baf76fad89652fa",
-      "pr": 1114,
-      "queued_minutes": 14.7,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "ff1c78432034ad4a4f0f82058c7e9be60c455ed4",
-      "pr": 1110,
-      "queued_minutes": 12.5,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "87e44de4f7c9f18a76e729bc86a89ad4de86fb1c",
-      "pr": 1109,
-      "queued_minutes": 12.4,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "6864e836b3e8f38b9094982e71f120c01bd54bbb",
-      "pr": 1112,
-      "queued_minutes": 11.4,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "129f25d4f3b7535a6b1c328f4b1dceff64a1ca8a",
-      "pr": 1115,
-      "queued_minutes": 9.9,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "fb58958430d90f62f7ee323cfc57bebcb279b519",
-      "pr": 1103,
-      "queued_minutes": 9.1,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    }
-  ],
+  "at": "2026-10-31T15:14:05.106Z",
+  "state": "ALL_CLEAR",
+  "checks": [],
   "helpers_paused": [],
   "gate": null,
   "pos20": {
