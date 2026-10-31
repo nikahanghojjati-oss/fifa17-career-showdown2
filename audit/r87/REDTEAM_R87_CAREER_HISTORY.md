@@ -32,7 +32,7 @@ Evidence levels: **executed module** = unchanged production functions with local
 
 **Player sees:** Season scores and league facts, but no Roulette release or released player's name. This is missing history, not a claim that the release incorrectly changes points. There is no career-screen control to recover that fact.
 
-**Executed proof:** Calling the unchanged `rosterRoulette.forSeason` for `pair_1` + hexadecimal 4 padded to 63 digits, Arsenal/Liverpool, season 1, yields Nik firing at slot 5: **G. Wijnaldum**, rating 81 (Daniel does not fire). The reproduction below finds that valid 1-season ID. The career History frame has no field for that event; actual browser History drawers have ten score/league rows and no Roulette line. Source tracing establishes the loss at the frame boundary, independently of which random ID normal play creates. The particular live r87 fired-result → closed-history browser journey is **unknown** until separately exercised; the data omission itself is deterministic.
+**Executed proof:** Calling the unchanged `rosterRoulette.forSeason` for `pair_1` + hexadecimal 4 padded to 63 digits, Arsenal/Liverpool, season 1, yields Nik firing at slot 5: **G. Wijnaldum**, rating 81 (Daniel does not fire). Revalidation also supplied the actual post-r86 Special Player draw (Neymar / Cristiano Ronaldo); the same release results. The reproduction below finds that valid 1-season ID. The career History frame has no field for that event; actual browser History drawers have ten score/league rows and no Roulette line. Source tracing establishes the loss at the frame boundary, independently of which random ID normal play creates. The particular live r87 fired-result → closed-history browser journey is **unknown** until separately exercised; the data omission itself is deterministic.
 
 **Root cause:** The new deterministic Roulette presentation was not connected to career-history rendering. Existing transfer-release handling in the retired local Legacy renderer (`js/legacy.js:128`–`151`) does not service online History.
 
@@ -140,9 +140,9 @@ Executed `node tests/contracts/r86-career-summary-scale-contracts.cjs`: **PASS**
 
 | Finished ten-season games | First backfill SDK gets / writes | Known phone gets | Fresh phone gets | Known-phone model load (local ms) | Firebase / phone KB per manager |
 |---|---|---:|---:|---:|---|
-| 10 | 431 / 10 | 1 | 11 | 15 | 128 / 125 |
-| 30 | 1,291 / 30 | 1 | 31 | 87 | 383 / 376 |
-| 100 | 4,301 / 100 | 1 | 101 | 149 | 1,276 / 1,255 |
+| 10 | 431 / 10 | 1 | 11 | 10 | 128 / 125 |
+| 30 | 1,291 / 30 | 1 | 31 | 42 | 383 / 376 |
+| 100 | 4,301 / 100 | 1 | 101 | 116 | 1,276 / 1,255 |
 
 These are fake-SDK counts and local elapsed times, **not** actual billed reads or Firebase network latency. Fresh summaries also incur Rules account lookups. No claim that a 100-game cold backfill fits an arbitrary real-phone timeout. Index paging above 500 games is source/test coverage, outside this requested 100-game browser sample.
 
@@ -150,7 +150,9 @@ Browser scale fixture: every game is ten seasons, Daniel scores 5 per season/Nik
 
 ### Commands and result ledger
 
-Executed locally (temporary probes/artifacts outside the committed report):
+Initial evidence ledger retained from report commit `36228a38569bdcc3cd8d480c14e87484c2b9fbf4`; fresh revalidation against the same gameplay head is recorded immediately below. The incomplete CE2PG run was not repeated during revalidation. Temporary probes/artifacts stay outside the committed report.
+
+Executed locally:
 
 ```sh
 npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.0
@@ -171,6 +173,22 @@ CE2PG_PLAN=single CE2PG_SEASONS=10 CE2PG_SCENARIO=draw npm run test:ce2pg
 - CE2PG coverage gap: `buildPlanOnce` at `tests/browser/ce2pg-journey.cjs:292`–`330` never generates `europaLeague`; `tally` at `:240`–`252` counts CL/title/cup only. Consequently even a completed default run cannot validate EL arithmetic. The separate mixed-EL arithmetic/frame/browser probes above supply that coverage; this gap is not labelled a new player-facing defect.
 - Custom arithmetic/filter probes (including executing this report's embedded Node reproduction verbatim): **PASS** for asserted arithmetic, deduplication, second-ID separation, final frame, Golden controls; D-01/D-02/D-03 reproduced at the module boundary.
 - Browser: actual local app and shipped styles, reduced motion, two viewport sizes, all off-origin requests aborted. Models are read-only fixtures, not production-account evidence.
+
+### Fresh revalidation (2026-10-31, same gameplay head)
+
+- **`npm run test:contracts`: PASS, 267/267 in one invocation, exit 0.** This includes the startup contract that timed out in the initial ledger. No assertions or game source changed.
+- **Emulator: PASS, 150/150, exit 0**, repeating the three suites above under `demo-cms-r87-d-recheck`, with Firebase JS **12.17.0**, Java 21 and CLI **15.28.1**. Exact invocation:
+
+  ```sh
+  npx --yes firebase-tools@15.28.1 emulators:exec --only firestore \
+    --project demo-cms-r87-d-recheck \
+    'node tests/firebase/career-summary-emulator.cjs && node tests/firebase/completed-showdown-read-emulator.cjs && node tests/firebase/completed-transfer-history-emulator.cjs'
+  ```
+
+- **Summary scale: PASS** for both managers at 10/30/100 ten-season games. The local timing column above now records this revalidation's 10/42/116 ms; SDK get/write counts and payload sizes match the initial run. These remain fake-IO timings.
+- **Module probes: PASS** for D-01/D-02/D-03, the full arithmetic/prefix/Golden matrix, duplicate suppression, distinct-rivalry isolation, equal ranks despite unequal season wins, and the verified closed Final Winner frame. The embedded reproduction below includes these arithmetic assertions. The separate eleven-valid-game loader probe again gives 10 games, 10 seasons and 50–10 after the oldest ID is excluded.
+- **Chromium: D-04/D-05 reproduced** in actual Career Statistics at 10/30/100 games, 1440×900 and 390×844. Desktop Cristiano Ronaldo remains 43px wide with 71px content; the desktop second `1000` still exceeds its clipping ancestor by 8.34px. Phone controls show complete names/numbers. Screenshots were inspected; all off-origin browser requests were aborted. This rerun did not repeat the other screens' original browser probes or the CE2PG journey; their recorded coverage and unknowns above remain unchanged.
+- Latest base was re-resolved as `5598c0768067a48a51dc5b2675a5b0701197734b`. Only this Markdown report differs from it. No production Firebase was contacted.
 
 ### Minimal reproducible module probes
 
@@ -206,9 +224,34 @@ console.log('D-02 History fields',Object.keys(V.toV10Frame(m,'legacy').showdowns
 const rr = require('./js/rosterRoulette.js');
 for (let i=1;i<100;i++) {
   const id='pair_1'+i.toString(16).padStart(63,'0');
-  const turn=rr.forSeason(id,{playerOne:'Arsenal',playerTwo:'Liverpool'},1);
+  const special=require('./js/marqueePlayer.js').forShowdown(id,Date.parse('2026-10-31'));
+  const turn=rr.forSeason(id,{playerOne:'Arsenal',playerTwo:'Liverpool'},1,{special});
   if (turn.turns.some(t=>t.fired)) { console.log('D-02 fired',id,turn.turns); break; }
 }
+for(const [n,pts,wdl,cups] of [[1,11,[0,1,0],3],[3,20,[1,1,1],6],[5,27,[2,1,2],9],[10,47,[3,4,3],15]]){
+ const q=projection({seed:'a',totalSeasons:n,seasons:seasons.slice(0,n)});
+ const model=C.buildCareerModel({indexStatus:'ready',showdowns:[{rivalryId:q.rivalryId,classification:'completed',projection:q,final:finalFor(q)}]});
+ for(const x of Object.values(model.managers)){A.equal(x.careerPoints,pts);A.equal(x.totalTrophies,cups);A.deepEqual([x.seasonWins,x.seasonDraws,x.seasonLosses],wdl);}
+ const gp=projection({seed:'b',totalSeasons:n,seasons:Array.from({length:n},()=>[P,P])});
+ const gm=C.buildCareerModel({indexStatus:'ready',showdowns:[{rivalryId:gp.rivalryId,classification:'completed',projection:gp,final:finalFor(gp)}]});
+ A.deepEqual(G.goldenShowdownCounts(gm.history.showdowns),{daniel:n===10?1:0,nik:n===10?1:0});
+ console.log('prefix/Golden',n,pts,cups,'PASS');
+}
+for(const x of Object.values(m.managers)){A.deepEqual([x.championsLeagues,x.europaLeagues,x.leagueTitles,x.domesticCups],[4,3,3,5]);A.equal(x.averageSeasonScore,4.7);}
+const dup=C.buildCareerModel({indexStatus:'ready',showdowns:[done,done]});A.equal(dup.managers.daniel.careerPoints,47);
+const q=projection({seed:'b',totalSeasons:1,seasons:[[CL,Z]]});
+const next=C.buildCareerModel({indexStatus:'ready',showdowns:[done,{rivalryId:q.rivalryId,classification:'completed',projection:q,final:finalFor(q)}]});A.equal(next.managers.daniel.careerPoints,52);A.equal(next.managers.nik.careerPoints,47);A.equal(next.managers.nik.seasons,11);A.equal(next.history.showdowns[0].seasons.length,10);
+const tied=projection({seed:'c',totalSeasons:3,seasons:[[CL,Z],[Z,L],[Z,r({domesticCup:true,topScorer:true})]]});
+const tiedModel=C.buildCareerModel({indexStatus:'ready',showdowns:[{rivalryId:tied.rivalryId,classification:'completed',projection:tied,final:finalFor(tied)}]});
+A.equal(tiedModel.managers.daniel.careerPoints,5);A.equal(tiedModel.managers.nik.careerPoints,5);A.equal(tiedModel.managers.daniel.seasonWins,1);A.equal(tiedModel.managers.nik.seasonWins,2);
+A.deepEqual(require('./js/careerScreensV10.js').toV10Frame(tiedModel,'careerStatistics').expectedCareerTableRows.map(r=>r.rank),[1,1]);
+console.log('PASS 47-47 honours, dedup, distinct rivalry isolation, 5-5 ranks despite unequal season wins');
+const F=require('./tests/support/active-showdown-fixtures.cjs');
+const final=require('./js/seasonFinalV10.js').finalFrame(F.finalReconciliation(p),F.closed(p),F.history(p));
+A.equal(final.status,'ready');A.equal(final.state,'completed');A.equal(final.winner,'draw');A.equal(final.outcomeHeadline,'DRAW');A.equal(final.margin,0);A.deepEqual(final.totals,{daniel:47,nik:47});A.deepEqual(final.lastSeason,{season:10,daniel:11,nik:11,winner:'draw'});
+for(const x of Object.values(final.trophies))A.deepEqual(x,{championsLeague:4,europaLeague:3,leagueTitles:3,domesticCups:5,total:15});
+console.log('PASS verified closed Final Winner 47-47, DRAW, margin 0, last season draw, all honours');
+
 (async()=>{
   const Marker=require('./js/careerStartMarker.js');
   const ids=Array.from({length:11},(_,i)=>'pair_'+(i+1).toString(16).padStart(64,'0'));
