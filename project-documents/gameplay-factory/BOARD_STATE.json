@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 9:49 PM Boston time (EDT)",
+ "generated": "2026-10-30 9:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1589,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6ec6bfe",
-  "head_boston": "Thu 29 Oct 8:24 PM",
+  "head": "16fed74",
+  "head_boston": "Fri 30 Oct 9:52 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2283,6 +2283,19 @@
     "worker": "sol-work",
     "pickup_min": 5,
     "waiting_min": null
+   },
+   {
+    "id": "HO-048",
+    "from": "V",
+    "to": "G",
+    "title": "Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-048_touchline-gazette-full-edition-real-news.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2354,7 +2367,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
