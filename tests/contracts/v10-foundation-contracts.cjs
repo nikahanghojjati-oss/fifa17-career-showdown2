@@ -418,7 +418,11 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
   const css=read(V10.NAV.shellStyle);
   assert.match(css,/html\[data-nav="hub"\] #app/,"phone hub screens keep room for the bottom bar");
   assert.match(css,/min-width:\s*901px/,"desktop keeps room for the top bar");
-  assert.doesNotMatch(css,/display:\s*none/,"the shell CSS never hides app elements");
+  // The shell CSS never hides app elements. Since r85 this file also styles the music player, which hides its own pieces;
+  // every display:none rule must target only the shell's own music dock/sheet/tab or a Team V stage decoration layer.
+  const hiding=[...css.replace(/\/\*[\s\S]*?\*\//g,"").matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter(m=>/display:\s*none/.test(m[2])).map(m=>m[1].trim().replace(/\s+/g," "));
+  assert.ok(hiding.length>0,"the music player rules are found");
+  for(const selector of hiding)assert.match(selector,/\.cmsMusic(?:Dock|Sheet|SheetShield|Tab)\b|\.sd-stage__layer--/,`the shell CSS hides only its own music pieces or Team V decoration, not: ${selector}`);
 });
 
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
@@ -669,21 +673,103 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp":"0effe0edb3159888b4417201ffafa806a3435a1f94cf2630408b7b96dd3b6bd1",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp":"739359106c586b8e98640290c5091b97008550f4bebad4919eabde3c0c9c1086",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316"
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316",
+    // r87 test gaps (2026-10-31): F9c had not run since r78, so these r84-r87 images were never listed. Pinned at gameplay/r87 73713d75.
+    "visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_1X.webp":"2a9b7b56dc0760ab17ba419676c45cbdd0e94d9601a9ffc32faa52b28ef1fd3c",
+    "visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_2X.webp":"5762425e970db318445d1d54934a69227948387e60d3ccad9744176e5e6ee0f8",
+    "visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PLATE_V2_1X.webp":"1962b2933408c959ad07ecf9ef9bf8350e52e69bb9c49c223a59531aa6719d59",
+    "visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PLATE_V2_2X.webp":"2595ee275b6a2ea8258a07bbaddb4caf5504f50994bfe1849d097aa6b30b7306",
+    "visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_1X.webp":"89e785b5c8ff03d2eeaed58a71163daf6fd6d3ef45fbdee053fdb3352ff60153",
+    "visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp":"f1ba8d0f1c4feba538d2863f56701794c590aacc95c074921cce226054c153f8",
+    "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_1X.webp":"ac069f0612bc6f36f5938f217385638ae36663d650e54f8c7b988159c8634b2a",
+    "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_2X.webp":"58e3f15d3c7a802a1dfe6c3e6eed309e6c0f2e089f2ed8eb2235a9b27d6f00e1",
+    "visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_1X.webp":"7f186eaba7fe87b9355c4a188e367a1b5633826fbe501151fb09615a0555699c",
+    "visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_2X.webp":"f9b440cf0054d28d0874bbd80139a252ae6d9d310cbb1cfdce3fa62f9c87e2b3",
+    "visual-assets/v10_1/plates-v2/ENV_LEGACY_PLATE_V2_1X.webp":"f35969337c19c8cfb2d31e300a10487edf96a60c9154832ff3134c5ca1d0777e",
+    "visual-assets/v10_1/plates-v2/ENV_LEGACY_PLATE_V2_2X.webp":"59aadb8537cc15df70e1dacbbb8a3205de39a13e97bc362028318ea0ed4b249c",
+    "visual-assets/v10_1/plates-v2/ENV_RIVALRY_PLATE_V2_1X.webp":"3acf6b94f668d975ff47dc0427ae70d18a1b62958d37b81ba520ab2adba0d48c",
+    "visual-assets/v10_1/plates-v2/ENV_RIVALRY_PLATE_V2_2X.webp":"2a638beb0ee6517b56a6e56796794535a8211b31e35a0eefd26c07ecdfe300ef",
+    "visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_1X.webp":"5458ada61fc342a416bece9653e32b189ce1c0a1f81bdf7a66857fbf00f11915",
+    "visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_2X.webp":"e290e31b61419f12289aaf3e9e1732509e0967de4e01f1379fbfd28dd62bc8c9",
+    "visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PLATE_V2_1X.webp":"e09694f2727a0cebee427a8c4bfd4e80a0cd8ef82433994f81b9333a4a24ac7e",
+    "visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PLATE_V2_2X.webp":"6421669af483fc747dcf9ee76b194dcf9e928a48d42dd1d59a4b813c5433d6ff",
+    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp":"651807205b505730fc7a20fefe3d69393db0a63fc3f631b91c5c91945bb48908",
+    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp":"31cc72452e11f5ea2bfce066a59dc34a1c2993af3f2ca3d993de600646b3fd44",
+    "visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_1X.webp":"0185af62ee977ba6d5dc941cef48a9ca0ff8f843d0263f2609b0821a6e7526f8",
+    "visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_2X.webp":"eadb2d001cd0d1098d23c9ea3dc9187a0dd5083545c3850cffea235975e058f0",
+    "visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_1X.webp":"01f1da695e3f8a0568033bc3181d64abd76f321dfecfb14581f579ed59e3160f",
+    "visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_2X.webp":"6557f4f8a663a9ec07a895927ec2c06acb00a442c27f2556f7fb343bc44d7a26",
+    "visual-assets/v10_1/plates-v2/ENV_TRANSFER_PLATE_V2_1X.webp":"1f156657ec806296ceb1d6dc9cb165a03c413a327b70926645a9088d55aa90e2",
+    "visual-assets/v10_1/plates-v2/ENV_TRANSFER_PLATE_V2_2X.webp":"af5ae502ee11c10fca963fa8649dbdd617eaa96a6185ee5e8d34208ec008df5b",
+    "visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_1X.webp":"45444347a7f63e51e7f24e9deeb7f2c2af3017f0bf82ad8fb498436c564bb7c6",
+    "visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_2X.webp":"886e0bec255f61619f8aeb33c38ddb6d4d7ad427527561528d3a900c5898e960",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V1.webp":"a07b1e11254b36b7347b8f98e9682fa8a610d09713fcce8f028ca9ff4f024a85",
+    // Unversioned names shipped while F9c was not running (r86 Special Player, r87 roulette room, r87 Gazette). Their bytes are
+    // pinned; they are first generations, so nothing older is cached under the same name. A change ships under a new _V<n> name.
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW.webp":"54534295ea82979d7cccee5feb69830a290f29f6bc9f1a2ba8f8860a94b4fead",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_FINAL.webp":"c88e149ae22cf2a43f2fd60e5851500f44da8cc470440ee3ee5a73343438e363",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_GOLD.webp":"2cadac839aa84a4319ec108c15b0cc4bb24477e72c5966184f22b50f078ba026",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_PRESS.webp":"228e11148ab253199590499d3ff1f193648dafae1683719375a5da3a9ba480a7",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_SEASON.webp":"3c33e6823a01b8b977026afd8400e2a432d31433e385023b05bfa64f3e216f8f",
+    "visual-assets/v10_1/content/gazette/GZ_THINK_DANIEL.webp":"51dab2234e2477cf403c99d33ba18446a9433d72c255e75547426a7918170a0d",
+    "visual-assets/v10_1/content/gazette/GZ_THINK_NIK.webp":"e784ea13d111d71952cc1a19ce1b951728d910b8974ec1e941fd0c75dd3316d7",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp":"1087e684e01ea45d1d9d4b88c65bb9a841e9f43295cbf6e8bdafff0c56d46a5c",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp":"471173df754656a8d6eef7c1a6cd9a10141cc18809709b44464427775a61dab6",
+    "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"a5df1ba6ad003b749c4eb5118e88580097acb1a52bc7c8b8d947ea65221a668f",
+    "visual-assets/v10_1/roulette/assets/RR_ROOM.jpg":"c89bdab7d056dc0237959a5fd7def3d8ce8e3bacb23ef2cd19dee43632f94fc5",
+    "visual-assets/v10_1/special-player/assets/board.jpg":"e5eff37ae5c37939bb82117b20ee971caae8c3be4cd74f58990f4fabfbd6788e",
+    "visual-assets/v10_1/special-player/assets/card_black.jpg":"44c96b79f9b039d15c060d0a324f30ba03e25a9430f2bfab485685e3875881fb",
+    "visual-assets/v10_1/special-player/assets/card_blue.jpg":"aa09951a2b4ada2fa263c539032d0acb4610bc4b30b2924f3fac5359b34eb9fc",
+    "visual-assets/v10_1/special-player/assets/card_bronze.jpg":"6b3d9d9851a05cc5e235458d6347d1f8be2627ca9fc7a5ccb2a4b35b5c8e144c",
+    "visual-assets/v10_1/special-player/assets/card_gold.jpg":"87530f5dd5aa878d4c18e792a2b1944fddb2ab1eb6fb689696dfa6ed7e8f8b62",
+    "visual-assets/v10_1/special-player/assets/card_silver.jpg":"e8d185e723fdb22bec7584b70280e84d5a82cf2f67d0fab0a8eed066e9e061b0",
+    "visual-assets/v10_1/special-player/assets/grass.jpg":"c934944069c19292de82af6d02202504cec98012664153ddd57ecbdbcee7d56e",
+    "visual-assets/v10_1/special-player/assets/pack.jpg":"91e3cfce6535024f392cf872ba0035319a5363c90f4eb1252b38b67b626ceac6",
+    "visual-assets/v10_1/special-player/assets/stadium.jpg":"5162a7da9383ac7a9fcde3d6d5e8fea2c8587b0eb339f850c0e276269a9c751d",
+    "visual-assets/v10_1/special-player/assets/stand.jpg":"4e4119e35177486553bac69bc149648014547147544a9c7b53db2f45337a9337",
+    "visual-assets/v10_1/special-player/assets/stand_left.jpg":"c66fb757809a81c9978a418a80e59dcfb93df54d20fe3f1826aa1d7229d2bbff",
+    "visual-assets/v10_1/special-player/assets/stand_right.jpg":"4c4654b85390cb7381d73ea0975203b373486e77a12bd621e3eb103154ac7ccb"
 };
+const V10_UNVERSIONED_FIRST_GENERATION=new Set([
+  "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW.webp",
+  "visual-assets/v10_1/content/gazette/GZ_LEAD_FINAL.webp",
+  "visual-assets/v10_1/content/gazette/GZ_LEAD_GOLD.webp",
+  "visual-assets/v10_1/content/gazette/GZ_LEAD_PRESS.webp",
+  "visual-assets/v10_1/content/gazette/GZ_LEAD_SEASON.webp",
+  "visual-assets/v10_1/content/gazette/GZ_THINK_DANIEL.webp",
+  "visual-assets/v10_1/content/gazette/GZ_THINK_NIK.webp",
+  "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp",
+  "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp",
+  "visual-assets/v10_1/roulette/assets/RR_HAND.webp",
+  "visual-assets/v10_1/roulette/assets/RR_ROOM.jpg",
+  "visual-assets/v10_1/special-player/assets/board.jpg",
+  "visual-assets/v10_1/special-player/assets/card_black.jpg",
+  "visual-assets/v10_1/special-player/assets/card_blue.jpg",
+  "visual-assets/v10_1/special-player/assets/card_bronze.jpg",
+  "visual-assets/v10_1/special-player/assets/card_gold.jpg",
+  "visual-assets/v10_1/special-player/assets/card_silver.jpg",
+  "visual-assets/v10_1/special-player/assets/grass.jpg",
+  "visual-assets/v10_1/special-player/assets/pack.jpg",
+  "visual-assets/v10_1/special-player/assets/stadium.jpg",
+  "visual-assets/v10_1/special-player/assets/stand.jpg",
+  "visual-assets/v10_1/special-player/assets/stand_left.jpg",
+  "visual-assets/v10_1/special-player/assets/stand_right.jpg"
+]);
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
   const walk=dir=>{for(const entry of fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true})){const rel=dir+"/"+entry.name;if(entry.isDirectory())walk(rel);else if(/\.(?:webp|png|jpe?g|avif|gif|svg)$/i.test(entry.name))found.push(rel);}};
   walk("visual-assets/v10_1");
   assert.deepEqual(found.sort(),Object.keys(V10_IMAGES).sort(),"every shipped Team V image is listed with its hash");
   for(const [file,hash] of Object.entries(V10_IMAGES)){
-    assert.match(path.basename(file),/_V\d+(?:_[^.]+)?\./,`${file} carries a _V<n> generation in its name`);
+    if(!V10_UNVERSIONED_FIRST_GENERATION.has(file))assert.match(path.basename(file),/_V\d+(?:_[^.]+)?\./,`${file} carries a _V<n> generation in its name`);
     assert.equal(sha256(file),hash,`${file} bytes changed: ship changed art under a new _V<n> name instead`);
   }
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"3aabe91b4e74d5b770eee7d9884bc1a747e0a582e0ee20bdcffbdad90317d89e","index.html byte-identical to the r86 release");
+  // Re-pinned 2026-10-31 to the r87 candidate (gameplay/r87 73713d75: r87 signing OVR boxes and plain button words). This
+  // check had not run since r78; the r87 release PR re-pins it to the shipped bytes.
+  assert.equal(sha256("index.html"),"f1ddd3638c0aa57060993de90f9b908f7ac4bb424a75166d640d8e248cfa0159","index.html byte-identical to the r87 candidate");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
@@ -699,10 +785,11 @@ check("F11 Team V files are copied unchanged; no docs, previews or images are co
   const pinned={
     "visual-assets/v10_1/shared/navbar/navbar.css":"19e3aec81f0de27d2a893c1019587c3157952c9ea8801c19276ce942938c208b",
     "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
-    // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream.
-    "visual-assets/v10_1/career-statistics/career-statistics.css":"20c472e0da172fc65167c598b890f9e53a057c08276e6e5efb7763161d558323"
+    // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream. Gameplay has edited it
+    // since r78 (r78 look, r84 release, r87 red-team fits D-04/D-05, e3df0019); re-pinned 2026-10-31 to gameplay/r87 73713d75.
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"cd7d9a5657dc5e2c8747368ff8c2b9385f52881bfff47b8dc24ccac0dc430f12"
   };
-  for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals Team V 5e05a1f`);
+  for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals its pinned copy`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);
   const src=read("js/v10Screens.js");
   assert.ok(!src.includes("fixtures.json")&&!src.includes("Preview data"),"no fixtures in production");
@@ -806,8 +893,19 @@ check("F14 guards: no Rules, scoring, provider or index change; only lazy files 
   for(const file of ["js/app.js","js/screens.js","js/storage.js","js/showdown.js","js/scoring.js","js/menuExperience.js","js/optionalModules.js"])assert.ok(!read(file).includes("v10Screens"),`${file} untouched`);
 });
 
+// r87 test gaps: the fake page's timers are unref'd, so a check waiting on one let node exit 0 in the middle of F2 and
+// F2-F14 never ran (found 2026-10-17, contract-test-gap-r78). A keep-alive holds the process open, every check gets a
+// time limit so a hang is a failure, and the run must report every check before it can pass.
 (async()=>{
+  const keepAlive=setInterval(()=>{},1000);
   let n=0;
-  for(const [name,fn] of checks){n+=1;await fn();console.log(`ok ${n} ${name}`);}
+  try{
+    for(const [name,fn] of checks){
+      n+=1;let limit;
+      await Promise.race([Promise.resolve().then(fn),new Promise((_,reject)=>{limit=setTimeout(()=>reject(new Error(`${name}: no result in 20 s`)),20000);})]).finally(()=>clearTimeout(limit));
+      console.log(`ok ${n} ${name}`);
+    }
+  }finally{clearInterval(keepAlive);}
+  assert.equal(n,checks.length,'every check ran');
   console.log(`PASS v10 foundation contracts: ${n} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});
