@@ -58,9 +58,11 @@
     return out;
   }
   // `used` holds the rows earlier papers of the same Showdown printed: they are passed over while an unused row fits.
+  // walk.fresh(slot) says whether the slot's row was unused (so a paper offered several true situations prefers the ones
+  // whose headline and story are both still fresh).
   const rowKey=row=>plain(row)?String(row.id||row.text||row.head||""):null;
   function walker(rivalryId,kind,start,used){
-    const taken={};
+    const taken={},freshness={};
     const walk=(slot,list,make)=>{
       if(!list||!list.length)return null;
       const order=shuffled(`${rivalryId}|${kind}|${slot}`,list);
@@ -69,20 +71,21 @@
           const row=order[(start+k)%order.length];
           if(plain(row)&&BANNED.test(words(row)))continue;
           if(fresh&&used&&used.has(rowKey(row)))continue;
-          const out=make?make(row):row;if(out){taken[slot]=rowKey(row);return out;}
+          const out=make?make(row):row;if(out){taken[slot]=rowKey(row);freshness[slot]=fresh;return out;}
         }
         if(!used)break;
       }
       return null;
     };
     walk.keep=slots=>{if(used)for(const slot of slots)if(taken[slot])used.add(taken[slot]);};
+    walk.fresh=slot=>freshness[slot]!==false;
     return walk;
   }
   // Fills {placeholders}; a row naming a value this paper does not have is refused (null), never printed with braces.
   function fill(text,vals){
     let missing=false;
     const out=String(text??"").replace(/\{(\w+)\}/g,(match,key)=>{if(vals[key]===undefined||vals[key]===null||vals[key]===""){missing=true;return match;}return String(vals[key]);});
-    return missing?null:out.replace(/\b1 points\b/g,"1 point");
+    return missing?null:out.replace(/\b1 (points|seasons)\b/g,(m,word)=>"1 "+word.slice(0,-1));
   }
   function fillRow(row,keys,vals){const out={...row};for(const k of keys){if(row[k]===undefined)continue;const t=fill(row[k],vals);if(t===null)return null;out[k]=t;}return out;}
   function fillStory(row,vals){
@@ -135,7 +138,9 @@
     }[topic];
     return {...plainLine,trophy:TROPHY_ART[topic]||null,club,id:`brief:${topic}`};
   }
-  function earsFor(walk){const C=tgCopy(),first=walk("ear1",C.small.ears);const second=walk("ear2",C.small.ears.filter(e=>e!==first));return [first?.text||"",second?.text||""];}
+  // The ears (the two strap lines by the masthead) obey the same rule as the rest of the page: no silverware talk on a paper
+  // whose season had no trophy, nothing about next season on a final.
+  function earsFor(walk,keep){const C=tgCopy(),pick=r=>keep(r)?r:null,first=walk("ear1",C.small.ears,pick);const second=walk("ear2",C.small.ears.filter(e=>e!==first),pick);return [first?.text||"",second?.text||""];}
   // The pull quote: a winner or runner-up line (a draw: either manager), said by that manager.
   function quoteFor(walk,side,vals,keep){
     const C=tgCopy(),who=side==="draw"?null:side==="winner"?"{winner}":"{loser}";
@@ -170,8 +175,9 @@
       if(wi["league-title"]&&!li["league-title"])list.push("league-title");
     }
     if(N>=2&&level)list.push("level-overall");
-    // shown on the paper before the last season, while the last season can still settle it (a season is worth at most 11)
-    if(T>=3&&N===T-1&&gap<=11)list.push("final-season-decider");
+    // shown on the paper before the last season, while the trailer can still win the Showdown in it (a season is worth at
+    // most 11 and equal totals are a draw, so a gap of 11 can only be levelled, never turned)
+    if(T>=3&&N===T-1&&gap<=10)list.push("final-season-decider");
     return list;
   }
   // Each paper is built after the papers of the Showdown's earlier seasons (the same rows on both phones), so it can pass
@@ -194,7 +200,7 @@
     if(leader)Object.assign(base,{leader:NAMES[leader],trailer:NAMES[OTHER[leader]]});
     // {points}: the season points each on a drawn season, the overall total each when the totals are level
     const valsFor=situation=>situation==="level-overall"?{...base,points:after.playerOne}:situation==="draw"?{...base,points:season.score.playerOne}:base;
-    const noSilver=!draw&&trophyCount(season.items[W])===0;
+    const noSilver=draw?trophyCount(season.items.playerOne)+trophyCount(season.items.playerTwo)===0:trophyCount(season.items[W])===0;
     // "whoever wins the last season takes the Showdown" is only true while the totals are level
     const keep=row=>!(noSilver&&SILVER.test(words(row)))&&!(leader&&WINNER_TAKES_ALL.test(words(row)));
     const options=seasonSituations(facts,N).map(situation=>{
@@ -202,10 +208,11 @@
       const heads=P.season.filter(r=>r.situation===situation),stories=C.stories.filter(s=>s.edition==="season"&&s.situation===situation);
       const head=walk(`headline:${situation}`,heads,r=>keep(r)?fillRow(r,["headline","subhead","kicker"],vals):null);
       const story=walk(`story:${situation}`,stories,r=>keep(r)?fillStory(r,vals):null);
-      return head&&story?{situation,head,story,vals}:null;
+      return head&&story?{situation,head,story,vals,fresh:walk.fresh(`headline:${situation}`)&&walk.fresh(`story:${situation}`)}:null;
     }).filter(Boolean);
     if(!options.length)return null;
-    const chosen=options[tgHash(`${key}|situation`)%options.length],{head,story}=chosen,vals=valsFor(draw?"draw":"");
+    const pool=options.some(o=>o.fresh)?options.filter(o=>o.fresh):options;
+    const chosen=pool[tgHash(`${key}|situation`)%pool.length],{head,story}=chosen,vals=valsFor(draw?"draw":"");
     const side=draw?"draw":walk("quote-side",["winner","runner-up"]);
     const quote=quoteFor(walk,side,vals,keep);
     const photo=draw?"GZ_LEAD_DRAW":walk("photo",["GZ_LEAD_SEASON","GZ_LEAD_PRESS"]);
@@ -222,7 +229,7 @@
     numbers.push({label:"Season points",left:season.score.playerOne,right:season.score.playerTwo,total:true});
     if(N>1)numbers.push({label:"Showdown total",left:after.playerOne,right:after.playerTwo});
     const briefs=ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,season.items[role],facts.clubs,false));
-    const ears=earsFor(walk);
+    const ears=earsFor(walk,keep);
     walk.keep([`headline:${chosen.situation}`,`story:${chosen.situation}`,"quote","caption","brief0","brief1","ear1","ear2"]);
     return Object.freeze({
       kind:"season",key,rivalryId:facts.rivalryId,seasonNumber:N,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],
@@ -253,24 +260,35 @@
     const vals={seasonsTotal:T,managerA:NAMES.playerOne,managerB:NAMES.playerTwo,clubA:facts.clubs.playerOne,clubB:facts.clubs.playerTwo};
     if(draw)vals.points=totals.playerOne;
     else Object.assign(vals,{winner:NAMES[W],loser:NAMES[L],winnerClub:facts.clubs[W],loserClub:facts.clubs[L],winnerPoints:totals[W],loserPoints:totals[L],margin,leader:NAMES[W],trailer:NAMES[L]});
+    const rec=role=>{const r={cl:0,el:0,league:0,cup:0,wins:0,best:0};for(const s of facts.seasons){const it=s.items[role];r.cl+=it["champions-league"]?1:0;r.el+=it["europa-league"]?1:0;r.league+=it["league-title"]?1:0;r.cup+=it["domestic-cup"]?1:0;r.wins+=s.winner===role?1:0;r.best=Math.max(r.best,s.score[role]);}return r;};
+    const r1=rec("playerOne"),r2=rec("playerTwo");
     // Situations: a draw only the drawn pages; the Golden Showdown (first to 110 over ten seasons); otherwise the Showdown's
     // length (ten seasons read as the long, five-season pages), decided in its last season (the winner did not lead before
-    // it), or a dominant win (already out of reach before the last season: a season is worth at most 11 points).
+    // it), or a dominant win: the winner was ahead after every season, out of reach before the last one (a season is worth
+    // at most 11 points) and still more than a season clear at the end, so the dominant pages' landslides and wire-to-wire
+    // leads are true as printed.
     let situations;
     if(draw)situations=["showdown-drawn"];
     else if(golden)situations=["golden-showdown-won"];
     else{
       situations=[T===1?"showdown-won-1-season":T===3?"showdown-won-3-seasons":"showdown-won-5-seasons"];
-      if(T>=3){const before=totalsOf(facts.seasons.slice(0,T-1));if(before[W]<=before[L])situations.push("won-on-the-final-day");if(before[W]-before[L]>11)situations.push("dominant-win");}
+      if(T>=3){
+        const before=totalsOf(facts.seasons.slice(0,T-1));if(before[W]<=before[L])situations.push("won-on-the-final-day");
+        const ledThroughout=facts.seasons.every((s,i)=>{const t=totalsOf(facts.seasons.slice(0,i+1));return t[W]>t[L];});
+        if(ledThroughout&&before[W]-before[L]>11&&margin>11)situations.push("dominant-win");
+      }
     }
-    const keep=row=>!FUTURE.test(words(row));
+    // A drawn Showdown in which neither manager won a trophy prints no silverware talk (a won one has the Showdown trophy).
+    const noSilver=draw&&r1.cl+r1.el+r1.league+r1.cup+r2.cl+r2.el+r2.league+r2.cup===0;
+    const keep=row=>!FUTURE.test(words(row))&&!(noSilver&&SILVER.test(words(row)));
     const options=situations.map(situation=>{
       const head=walk(`headline:${situation}`,P.final.filter(r=>r.situation===situation),r=>keep(r)?fillRow(r,["headline","subhead","kicker"],vals):null);
       const story=walk(`story:${situation}`,C.stories.filter(s=>s.edition==="final"&&s.situation===situation),r=>keep(r)?fillStory(r,vals):null);
-      return head&&story?{situation,head,story}:null;
+      return head&&story?{situation,head,story,fresh:walk.fresh(`headline:${situation}`)&&walk.fresh(`story:${situation}`)}:null;
     }).filter(Boolean);
     if(!options.length)return null;
-    const chosen=options[tgHash(`${key}|situation`)%options.length],{head,story}=chosen;
+    const pool=options.some(o=>o.fresh)?options.filter(o=>o.fresh):options;
+    const chosen=pool[tgHash(`${key}|situation`)%pool.length],{head,story}=chosen;
     const side=draw?"draw":walk("quote-side",["winner","runner-up"]);
     const quote=quoteFor(walk,side,vals,keep);
     const photo=golden?"GZ_LEAD_GOLD":draw?"GZ_LEAD_DRAW":"GZ_LEAD_FINAL";
@@ -278,8 +296,6 @@
     const portrait=draw?null:{name:`GZ_WIN_${W==="playerOne"?"DANIEL":"NIK"}`,caption:`${NAMES[W]}, Showdown ${golden?"Golden champion":"champion"} with ${facts.clubs[W]}.`};
     // The Showdown in numbers: every season (up to five), or the trophy count over ten seasons.
     let numbers;
-    const rec=role=>{const r={cl:0,el:0,league:0,cup:0,wins:0,best:0};for(const s of facts.seasons){const it=s.items[role];r.cl+=it["champions-league"]?1:0;r.el+=it["europa-league"]?1:0;r.league+=it["league-title"]?1:0;r.cup+=it["domestic-cup"]?1:0;r.wins+=s.winner===role?1:0;r.best=Math.max(r.best,s.score[role]);}return r;};
-    const r1=rec("playerOne"),r2=rec("playerTwo");
     if(T<=5)numbers=facts.seasons.map(s=>({label:`Season ${s.number}`,left:s.score.playerOne,right:s.score.playerTwo}));
     else{numbers=[{label:"Champions Leagues",left:r1.cl,right:r2.cl}];if(r1.el||r2.el)numbers.push({label:"Europa Leagues",left:r1.el,right:r2.el});numbers.push({label:"League titles",left:r1.league,right:r2.league},{label:"Domestic cups",left:r1.cup,right:r2.cup},{label:"Seasons won",left:r1.wins,right:r2.wins},{label:"Best season",left:r1.best,right:r2.best});}
     numbers.push({label:"Overall",left:totals.playerOne,right:totals.playerTwo,total:true});
@@ -291,7 +307,7 @@
       kind:"final",key,rivalryId:facts.rivalryId,seasonNumber:T,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],golden,
       paper:{
         variant:golden?"gold":draw?"draw":"season",kicker:draw?"DRAWN":head.kicker||"SHOWDOWN WINNER",headline:head.headline,subhead:head.subhead,
-        season:`${T} season${T===1?"":"s"}`,dateline:golden?"Golden edition":"Final edition",edition:golden?"Commemorative edition":"Price: one point",issue:golden?"Vol. I · Golden edition":"Vol. I · Final edition",ears:earsFor(walk),
+        season:`${T} season${T===1?"":"s"}`,dateline:golden?"Golden edition":"Final edition",edition:golden?"Commemorative edition":"Price: one point",issue:golden?"Vol. I · Golden edition":"Vol. I · Final edition",ears:earsFor(walk,keep),
         left:{name:NAMES.playerOne,club:facts.clubs.playerOne,score:totals.playerOne},right:{name:NAMES.playerTwo,club:facts.clubs.playerTwo,score:totals.playerTwo},
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},
         story:{byline:story.byline,paragraphs:story.paragraphs},
