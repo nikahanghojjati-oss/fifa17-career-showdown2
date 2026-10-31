@@ -1,2 +1,159 @@
 .remoteJoiningOverlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:18px;background:rgba(15,23,29,.74);backdrop-filter:blur(4px);overflow:auto}.remoteJoiningShell{width:min(920px,96vw);max-height:94vh;overflow:auto;color:var(--f17-ink);background:linear-gradient(145deg,#edf2f3,#d7e1e4);border-top:6px solid var(--f17-yellow);box-shadow:0 24px 60px rgba(6,14,19,.42)}.remoteJoiningHeader{min-height:46px;padding:8px 12px 8px 18px;display:flex;align-items:center;justify-content:space-between;color:#dce5e8;background:#252e35;font:700 11px/1 var(--f17-display);letter-spacing:2px}.remoteJoiningDismiss{width:38px;height:32px;border:0;color:#fff;background:#3b474f;font-size:24px;line-height:1;cursor:pointer}.remoteJoiningDismiss:focus-visible{outline:2px solid var(--f17-yellow);outline-offset:2px}.remoteJoiningBody{padding:22px}.remoteJoiningIntro{padding:2px 2px 15px;border-bottom:1px solid rgba(30,48,60,.2)}.remoteJoiningEyebrow,.remoteJoiningStep{display:block;color:var(--f17-blue-deep);font:700 10px/1 var(--f17-display);letter-spacing:2.1px;text-transform:uppercase}.remoteJoiningIntro h2{margin-top:7px;font:800 clamp(38px,6vw,58px)/.84 var(--f17-display);text-transform:uppercase}.remoteJoiningIntro p,.remoteJoiningCard p,.remoteJoiningMeta,.remoteJoiningEmpty,.remoteJoiningStatus{margin-top:9px;color:#4f606a;font-size:12px;line-height:1.45}.remoteJoiningGrid{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:9px}.remoteJoiningCard{min-width:0;padding:17px;background:rgba(250,252,252,.95);border-top:4px solid var(--f17-cyan);box-shadow:0 5px 15px rgba(18,34,45,.12)}.remoteJoiningCard:first-child{border-top-color:var(--f17-yellow)}.remoteJoiningCard h3{margin-top:7px;font:800 25px/.92 var(--f17-display);text-transform:uppercase}.remoteJoiningCard .menuButton{margin-top:14px}.remoteJoiningInput{width:100%;min-height:48px;margin-top:14px;padding:9px 11px;font:600 12px/1.2 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.remoteJoiningCurrent{margin-top:12px;padding:16px;background:#273139;color:#fff;border-left:5px solid var(--f17-yellow)}.remoteJoiningCurrent .remoteJoiningEyebrow{color:#91d9ee}.remoteJoiningState{display:block;margin-top:8px;font:800 20px/1 var(--f17-display);letter-spacing:1px;text-transform:uppercase}.remoteJoiningCode{display:block;margin-top:10px;padding:10px;color:#f6f1a4;background:#182026;font:600 11px/1.45 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;white-space:normal;overflow-wrap:anywhere;user-select:text}.remoteJoiningCurrent .remoteJoiningMeta,.remoteJoiningCurrent .remoteJoiningEmpty{color:#bdc9cf}.remoteJoiningActions{margin-top:11px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.remoteJoiningActions .compactButton{min-width:0}.remoteJoiningStatus{min-height:38px;margin-top:12px;padding:10px 12px;background:#e6eef0;border-left:4px solid var(--f17-cyan)}@media(max-width:680px){.remoteJoiningOverlay{padding:8px;place-items:start center}.remoteJoiningBody{padding:15px}.remoteJoiningGrid{grid-template-columns:1fr}.remoteJoiningActions{grid-template-columns:1fr 1fr}.remoteJoiningIntro h2{font-size:42px}}@media(prefers-reduced-motion:reduce){.remoteJoiningOverlay{backdrop-filter:none}}
 #productionSharedCareerStartOverlay .settingsInfoGrid{margin-top:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#productionSharedCareerStartOverlay .settingsInfoRow{min-width:0;padding:8px 10px;display:flex;flex-direction:column;justify-content:flex-start;gap:4px;border-left:3px solid var(--f17-yellow,#f2c45b)}#productionSharedCareerStartOverlay .settingsInfoRow span{display:block;font:700 11px/1.2 var(--f17-display,sans-serif);letter-spacing:.14em;text-transform:uppercase}#productionSharedCareerStartOverlay .settingsInfoRow strong{display:block;font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+
+/* HO-049 item 4 · Career Start option B (Nik picked B, 2026-10-31; js/productionSharedCareerStart.js pcstStage). On the
+   Club Assignment screen Career Start is its own stage on the Club plate: the Club screen's own panels, wordmark, pack
+   emblems and buttons step aside (visibility only, nothing is dimmed or scrimmed), each manager holds his club's crest and
+   name inside his pack face, and one black-and-gold marble pillar (desktop) or panel (phone) holds the words. The script
+   places the panel from the packs it must never cover; main stays the only scroller. */
+html[data-career-start-stage] #clubWheelScreen.cl-on > :not(.cl-stage):not(.cl-footer):not(.clPhoneScene):not(#productionSharedCareerStartOverlay),
+html[data-career-start-stage] #clubWheelScreen.cl-on #world .reveal,
+html[data-career-start-stage] #clubWheelScreen.cl-on .clubAnticipationDim,
+html[data-career-start-stage] #clubWheelScreen.cl-on .clPhoneScene > * { visibility: hidden !important; }
+html[data-career-start-stage] #clubWheelScreen.cl-on .clPhoneScene::before,
+html[data-career-start-stage] #clubWheelScreen.cl-on .clPhoneScene::after { content: none !important; display: none !important; }
+html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100svh; min-height: 0; max-height: 100svh; overflow: clip; }
+
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage {
+  position: absolute; inset: 0; z-index: 30; display: block; padding: 0; overflow: visible; pointer-events: none;
+  background: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+  color: #f6eedb; font-family: var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage :is(.remoteJoiningShell, .remoteJoiningBody) { display: contents; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningHeader { display: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage :is(.pcstTitle, .pcstHold, .pcstPillar, .remoteJoiningActions) { position: absolute; box-sizing: border-box; margin: 0; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage :is(.pcstPillar, .remoteJoiningActions) { pointer-events: auto; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPlateProbe {
+  position: absolute; left: 0; top: 0; height: 0; width: max(100vw, calc(100svh * 1179 / 2096)); visibility: hidden; pointer-events: none;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstSrOnly {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* the title where the Club wordmark sits */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstTitle {
+  left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; white-space: nowrap; pointer-events: none;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstTitleKicker {
+  font: 600 12px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .34em; color: #f2c45b; text-transform: uppercase;
+  text-shadow: 0 1px 2px #000;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstTitleWord {
+  display: block; margin: 0; padding: 0 .06em; font: 800 var(--pcst-title, 30px)/1.05 var(--r78-font-label, "Barlow Condensed", sans-serif);
+  letter-spacing: .04em; text-transform: uppercase; color: transparent;
+  background: linear-gradient(#fff1b8, #f2c45b 55%, #b98a2f); -webkit-background-clip: text; background-clip: text;
+  filter: drop-shadow(0 2px 1px #000);
+}
+
+/* each manager's crest and club name inside his pack face (Nik's rule: always inside, never overflowing) */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstHold {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; pointer-events: none;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstHoldCrest { flex: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstHoldCrest svg {
+  display: block; width: 100%; height: 100%; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .7));
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstHoldName {
+  flex: none; max-width: 100%; overflow: hidden; white-space: nowrap; text-align: center; overflow-wrap: normal;
+  font: 800 16px/1.1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .02em; color: #fff3c4; text-transform: uppercase;
+  text-shadow: 0 1px 2px #000, 0 0 6px #000;
+}
+
+/* the marble pillar (desktop) or panel (phone) */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar {
+  display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px; overflow: clip; text-align: center; color: #f6eedb;
+  background: #0b0a08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(242, 196, 91, .8); border-radius: 3px;
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3), 0 0 0 1px #000, 0 10px 24px rgba(0, 0, 0, .55);
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar > * { flex: none; max-width: 100%; margin: 0; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstKicker {
+  position: static; width: auto; height: auto; padding: 0; transform: none; filter: none; -webkit-text-stroke: 0; white-space: normal;
+  font: 600 12px/1.25 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .34em; color: #f2c45b; text-transform: uppercase;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstChips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstChips .settingsInfoRow {
+  display: block; min-height: 0; padding: 6px 12px; background: rgba(0, 0, 0, .35); border: 1px solid rgba(242, 196, 91, .45); border-radius: 0;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstChips .settingsInfoRow span { display: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstChips .settingsInfoRow strong {
+  display: block; font: 600 13px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .16em; text-transform: uppercase; color: #f6e3a8;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstNote {
+  font: 500 15px/1.35 var(--r78-font-body, "Barlow", sans-serif); color: #efe6cf;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstNote b { color: #fff3c4; font-weight: 700; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningStatus {
+  min-height: 0; padding: 6px 10px; background: rgba(0, 0, 0, .35); border: 1px solid rgba(242, 196, 91, .35); border-radius: 2px; box-shadow: none;
+  font-weight: 600; letter-spacing: .06em;
+  /* css/r78-type.css and r78-marble-surfaces.css size and colour every status line with !important */
+  font-family: var(--r78-font-label, "Barlow Condensed", sans-serif) !important; font-size: 13px !important; line-height: 1.3 !important; color: #f6e3a8 !important;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningStatus[data-stage-idle] { display: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage :is(.pcstRival, .pcstSpecial) {
+  display: flex; flex-flow: row wrap; justify-content: center; align-items: baseline; column-gap: .45em; row-gap: 2px;
+  min-height: 0; padding: 0; background: none; border: 0;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstRival :is(span, strong) {
+  display: inline; font: 600 12px/1.25 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .2em; color: #c9bc9c; text-transform: uppercase;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstRival span::after { content: ":"; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstSpecial span {
+  display: inline; font: 600 11px/1.3 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .16em; color: #f2c45b; text-transform: uppercase;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstSpecial strong {
+  display: inline; font: 600 13px/1.3 var(--r78-font-body, "Barlow", sans-serif); letter-spacing: 0; color: #efe6cf;
+}
+
+/* the two buttons: I STARTED AT <CLUB> metallic gold, REFRESH gold outline; never dimmed, also while busy */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningActions { display: flex; flex-flow: row wrap; align-items: center; gap: 14px; justify-content: center; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningActions .compactButton {
+  display: flex; align-items: center; justify-content: center; box-sizing: border-box; min-width: 0; min-height: 48px; margin: 0; padding: 0 22px;
+  font: 800 17px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .1em; text-transform: uppercase;
+  border-radius: 3px; cursor: pointer; opacity: 1; filter: none;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningActions .compactButton.r78-btn--primary {
+  color: #140e04; border: 0; background: linear-gradient(180deg, #fff1b8 0%, #f2c45b 40%, #c08f33 78%, #8f6420 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 0 0 1px #000;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningActions .compactButton:not(.r78-btn--primary) {
+  color: #f2c45b; background: #0b0a08; border: 1px solid #f2c45b; box-shadow: 0 0 0 1px #000;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningActions .compactButton:disabled { cursor: default; opacity: 1; filter: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningActions .compactButton:focus-visible { outline: 2px solid #fff3bd; outline-offset: 2px; }
+
+/* desktop: a narrow pillar between the two men (left, width and top set by the script), the buttons centred on the lower deck */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="desktop"] .remoteJoiningActions { left: 0; right: 0; width: auto; max-width: none; padding: 0 16px; pointer-events: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="desktop"] .remoteJoiningActions .compactButton { min-height: 54px; pointer-events: auto; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="desktop"] .remoteJoiningActions .r78-btn--primary { min-width: 360px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="desktop"] .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-width: 180px; }
+
+/* phone: one panel from below the packs (top set by the script) to the foot of the screen, the buttons at its foot */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstPillar { right: 8px; bottom: 8px; gap: 9px; padding: 12px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="phone"] .pcstPillar { left: 8px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="band"] .pcstPillar { top: 8px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstTitleKicker { display: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="phone"] .pcstTitleWord { font-size: 28px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="band"] .pcstTitleWord { font-size: 22px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstKicker { font-size: 11px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstNote { font-size: 14px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstRival :is(span, strong) { font-size: 11px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .remoteJoiningActions {
+  position: static; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; width: 100%; max-width: none; margin-top: auto;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 44px; }
+/* a short panel (under 290px) drops the rival line, then tightens step by step until nothing overflows */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room] .pcstRival { display: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) { gap: 6px; padding: 10px 12px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) .pcstNote { font-size: 13px; line-height: 1.3; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) .pcstChips .settingsInfoRow { padding: 4px 10px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) .remoteJoiningActions { gap: 6px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) .remoteJoiningActions .compactButton { min-height: 42px; font-size: 16px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 38px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) { gap: 4px; padding: 8px 10px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .pcstNote { font-size: 12px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .pcstSpecial :is(span, strong) { font-size: 11px; line-height: 1.2; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .remoteJoiningActions .compactButton { min-height: 38px; font-size: 15px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 34px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .pcstKicker { display: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .remoteJoiningStatus { padding: 3px 8px; font-size: 12px !important; line-height: 1.25 !important; }
