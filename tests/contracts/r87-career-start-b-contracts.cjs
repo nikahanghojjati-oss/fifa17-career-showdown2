@@ -89,7 +89,7 @@ check('B5 every way in shows option B: the old card never renders, the Club scre
   assert.ok(backdrop.indexOf('dataset[STAGE_ATTR]="opening"')<backdrop.indexOf('root.showScreen(STAGE_HOST,false)'),'the Club screen parts step aside before the screen shows (no wheel or pack frame)');
   assert.doesNotMatch(backdrop,/provider\.|setupApi|pcstAcknowledge|saveShowdown|localStorage/,'the backdrop draws, it never writes');
   assert.match(js,/pcstCreate\("button","compactButton pcstBack","BACK"\);back\.type="button";back\.setAttribute\("aria-label","Close Career Start"\);back\.addEventListener\("click",pcstClosePanel\);/,'the stage BACK closes Career Start');
-  assert.match(js,/watch\.escape=event=>\{if\(event\.key==="Escape"&&!event\.defaultPrevented&&pcstPanelOpen\(\)\)\{event\.preventDefault\(\);pcstClosePanel\(\);\}\};/,'Escape does the same');
+  assert.match(js,/watch\.escape=event=>\{if\(event\.key==="Escape"&&!event\.defaultPrevented&&pcstPanelOpen\(\)&&!root\.CareerModeRosterRouletteStep\?\.active\?\.\(\)\)\{event\.preventDefault\(\);pcstClosePanel\(\);\}\};/,'Escape does the same (never under a running roulette: Fable F2-18)');
   assert.match(css,/\.pcstBack \{[^}]*border: 1px solid #f2c45b;[^}]*opacity: 1;/,'a gold-outline BACK, never dimmed');
   // Codex P2 4431463618: the sideways (band) panel placement is its own branch of the phone/band choice, never of the BACK.
   assert.match(js,/if\(mode==="phone"\)\{title\.style\.top=[^\n]*\}\n\s*else\{Object\.assign\(title\.style,[^\n]*pillar\.style,\{left:`\$\{Math\.round\(band\.x\+band\.w\+8\)\}px`,top:`\$\{Math\.round\(top\+8\)\}px`\}\);\}\n\s*const back=overlay\.querySelector\("\.pcstBack"\);/,'band placement runs on its own; the BACK is placed after');

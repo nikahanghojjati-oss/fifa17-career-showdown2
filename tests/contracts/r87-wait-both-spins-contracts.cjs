@@ -215,12 +215,20 @@ async function partB(){
   assert.equal(nik.start.classList.contains("hidden"),true,"Nik never sees START");
 
   // B5: an old Showdown (confirmed before the roulette) and the switched-off roulette pass by themselves: no mark, no wait.
-  for(const [label,options] of [["old Showdown",{confirmedAtMs:OLD}],["no confirm time",{confirmedAtMs:undefined}],["roulette off",{confirmedAtMs:R87,killSwitch:true}]]){
+  for(const [label,options] of [["old Showdown",{confirmedAtMs:OLD}],["roulette off",{confirmedAtMs:R87,killSwitch:true}]]){
     const s={spins:[],state:null},p=await phone({role:"playerOne",store:s,...options});
     assert.deepEqual(p.provider.calls.markSpun,[],`${label}: no mark is written`);
     assert.equal(p.start.textContent,"START 15-MINUTE WINDOW",`${label}: START is ready at once`);assert.equal(p.start.disabled,false);
     p.page.tap("startTransferTimer");await settle();
     assert.deepEqual(p.provider.calls.startWindow,["plain"],`${label}: START goes straight to the provider`);
+  }
+
+  // B5b (Fable F2-05): no confirm time after the Setup refresh means the Setup could not be read (every ledger carries
+  // updatedAt), so it is never a silent pass: the window stays shut with that reason and no mark is written.
+  {
+    const s={spins:[],state:null},p=await phone({role:"playerOne",store:s,confirmedAtMs:undefined,awaitOpen:false});
+    assert.equal(await p.api.open(),false,"no confirm time: the window stays shut");
+    assert.match(p.api.rouletteError(),/could not be read just now/);assert.deepEqual(p.provider.calls.markSpun,[]);
   }
 
   // B6: Rules on the server that do not know the marks (refused write): the window stays shut (the provider would refuse START),

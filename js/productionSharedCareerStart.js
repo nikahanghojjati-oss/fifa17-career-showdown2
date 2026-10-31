@@ -137,6 +137,9 @@
       const opened=await transfer.open();
       // r87: the manager left the Russian Roster Roulette for Showdown Home; it opens again from there. Not a failure.
       if(opened!==true&&root.CareerModeRosterRouletteStep?.wentHome?.()){pcstClosePanel();return false;}
+      // The roulette could not start (Setup not read, its files not loaded): its own reason, not a generic one (Fable F2-05).
+      const reason=opened!==true&&typeof transfer.rouletteError==="function"?transfer.rouletteError():"";
+      if(reason){lastError=reason;return false;}
       if(opened!==true)throw new Error("Shared Transfer Challenge could not be opened from this Career Start state.");
       pcstClosePanel();
       return true;
@@ -234,7 +237,8 @@
     const watch={frame:0,observer:null};
     watch.schedule=()=>{if(watch.frame||typeof root.requestAnimationFrame!=="function")return;watch.frame=root.requestAnimationFrame(()=>{watch.frame=0;pcstStageLayout();});};
     root.addEventListener("resize",watch.schedule);
-    watch.escape=event=>{if(event.key==="Escape"&&!event.defaultPrevented&&pcstPanelOpen()){event.preventDefault();pcstClosePanel();}};root.document?.addEventListener?.("keydown",watch.escape);
+    // Escape never closes Career Start under a running roulette (Fable F2-18).
+    watch.escape=event=>{if(event.key==="Escape"&&!event.defaultPrevented&&pcstPanelOpen()&&!root.CareerModeRosterRouletteStep?.active?.()){event.preventDefault();pcstClosePanel();}};root.document?.addEventListener?.("keydown",watch.escape);
     try{const host=pcstStageHost();if(host&&typeof root.ResizeObserver==="function"){watch.observer=new root.ResizeObserver(watch.schedule);watch.observer.observe(host);host.querySelectorAll(".clubPackStage").forEach(node=>watch.observer.observe(node));}}catch(_error){}
     stageWatch=watch;
   }

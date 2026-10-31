@@ -2418,6 +2418,16 @@
         "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-step-contracts.cjs",
+      "patterns": [
+        "^js/rosterRouletteStep\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^tests/contracts/r87\\-fable\\-step\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
