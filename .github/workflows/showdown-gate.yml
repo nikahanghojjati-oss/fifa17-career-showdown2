@@ -303,7 +303,7 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-transfer "node tests/firebase/completed-transfer-history-emulator.cjs"
       - name: 'TEST: Season commit concurrent acknowledge'
         id: gf_season_ack
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-season-ack "node tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs && node tests/firebase/shared-season-commit-ack-race-emulator.cjs && node tests/firebase/season-commit-raw-authority-denial-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-season-ack "node tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs && node tests/firebase/shared-season-commit-ack-race-emulator.cjs && node tests/firebase/season-commit-raw-authority-denial-emulator.cjs && node tests/firebase/shared-reads-meter-emulator.cjs"
       - name: Record lane result
         if: always()
         shell: bash

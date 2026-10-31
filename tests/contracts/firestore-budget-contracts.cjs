@@ -522,6 +522,8 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.equal(before.basis,"estimate","before any season is played the CE2PG measured cost is used");
     assert.equal(before.billedPerSeason,DEFAULT*2,"the measured cost of one season on one device, for both devices");
     assert.equal(before.seasons,Math.floor(50000/(DEFAULT*2)));
+    // r87 RE-05: season 1 is measured from its start mark (Career Start ready), never from the setup before it.
+    assert.equal(world.budget.noteSeasonStart("pair_x|1"),true);
     // countListenerRead(): one outside listener delivery is one document read and no lookups.
     for(let i=0;i<100;i++)world.budget.countListenerRead();
     assert.equal(world.budget.noteSeasonDone("pair_x|1",true),true);

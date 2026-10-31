@@ -56,7 +56,7 @@ function staticChecks(getCandidate){
     }],
     ['T8','completed-only grant is get-only on exactly four lines, and candidate minus the reviewed delta is production main',()=>{
       const text=artifact();
-      assert.equal((text.match(/cmsCompletedShowdownReadable\(rivalryId\)/g)||[]).length,3);
+      assert.equal((text.match(/cmsCompletedShowdownReadable\(rivalryId\)/g)||[]).length,4,'definition, the season grant, setup and the reads meter');
       assert.equal((text.match(/cmsCompletedSeasonReadable\(rivalryId, seasonId\)/g)||[]).length,4);
       for(const s of h.allowStatements(text)){
         if(/cmsCompleted/.test(s.condition))assert.deepEqual(s.methods,['get'],`completed grant on ${s.methods.join(',')}`);
@@ -87,7 +87,10 @@ function staticChecks(getCandidate){
           const r79Partner=hunk.owner==='R79-PARTNER'&&['allow create: if cmsPartnerCreateValid(accountId, partnerId);','allow update: if cmsPartnerUpdateValid(accountId, partnerId);','allow create, update: if cmsPartnerInboxWriteValid(accountId, noteId);'].includes(line.trim());
           // r86 reads at scale (Nik's standing authorization 2026-10-27 22:06 UTC): exactly the create-only career summary.
           const r86Summary=hunk.owner==='R86-SUMMARY'&&line.trim()==='allow create: if cmsCareerSummaryCreateValid(accountId, rivalryId);';
-          if(methods.some(x=>['create','update'].includes(x))&&!/:\s*if false;\s*$/.test(line))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner||r86Summary,`only the reviewed G-7 career index block may add write rules: ${line}`);
+          // r87 shared reads meter (B2, recommended on Nik's decision card 2026-10-31, needs his choice before merge): exactly the
+          // own-role meter document write.
+          const r87Meter=hunk.owner==='R87-METER'&&line.trim()==='allow create, update: if ssjrMeterValidWrite(rivalryId, managerRole);';
+          if(methods.some(x=>['create','update'].includes(x))&&!/:\s*if false;\s*$/.test(line))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner||r86Summary||r87Meter,`only the reviewed G-7 career index block may add write rules: ${line}`);
         }
       }
       return `${delta.hunks.length} hunks, -${delta.hunks.reduce((a,x)=>a+x.removed.length,0)} +${delta.hunks.reduce((a,x)=>a+x.added.length,0)} lines vs main ${delta.productionMain.commit.slice(0,7)}`;
