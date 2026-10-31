@@ -102,3 +102,22 @@ Judgement calls (left as voice, not facts): cabinet hyperbole for a winner with 
 comfortable wins always have one), within-season narrative the data cannot contradict ("led from the first page",
 "settled long before the end"), "rematch" on final pages (the product offers one; "next season" lines are filtered),
 "Price: one point" on the masthead, the brief "Nothing on the shelf / No trophy and no bonus point" (a statement of fact).
+
+## Before / after (50 ids per case, the same 707,600 papers each)
+
+| | before (base `73713d7`) | after (this PR) |
+| --- | --- | --- |
+| Papers rendered | 707,600 (358,800 season, 348,800 final) | 707,600 |
+| Rows printed and read | 968 (724 headlines, 114 stories, 30 quotes, 30 captions, 30 ears, 35 briefs, 9 engine lines) | 968 |
+| Rows fixed / removed | | 34 fixed (35 edits) / 0 removed |
+| Mechanical failures | 0 | 0 |
+| Rows printing "1 seasons" | 8 | 0 |
+| Dominant rows printed with a final margin of 11 or less | 42 | 0 |
+| Decider rows printed at a gap of 11 | 27 | 0 |
+| Silverware ears printed on a trophy-less win | 11 | 0 |
+| Broad truth-check hits (noisy by design, read by hand) | 207 | 184 (the rest are the judgement calls above) |
+
+Never printed in either run: h1-145, h1-424, h1-461, h1-467 ("marquee", skipped by the engine), h1-361 and h1-396 ("whoever
+wins it" decider lines, refused while a leader exists; when the totals are level the decider stories all need `{leader}`, so
+the situation is not offered), and five final headlines the 50-id hash walk did not reach (h2-030; h2-116, h2-143, h2-144,
+h2-147 of the Golden pages, which have only 100 papers in the sweep). They are the rows G18 cannot see; read by hand, all true.
