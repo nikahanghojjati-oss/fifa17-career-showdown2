@@ -26,7 +26,7 @@ function clone(value){
 const plain=value=>value&&typeof value==="object"&&!Array.isArray(value)&&typeof value.toMillis!=="function";
 function merge(base,patch){const out=plain(base)?{...base}:{};for(const [key,value] of Object.entries(patch))out[key]=plain(value)&&plain(out[key])?merge(out[key],value):value;return out;}
 
-function createHarness(){
+function createHarness(setupUpdatedAtMs){
   const store=new Map(),getLog=[],writes=[];
   const key=(...parts)=>parts.join("/"),put=(p,value)=>store.set(p,clone(value));
   put(key("accounts",uid1),{objectType:"account",objectId:uid1,lifecycleState:"live",data:{status:"active"}});
@@ -35,7 +35,7 @@ function createHarness(){
   put(key("accounts",uid2,"devices",device2),{objectType:"device",objectId:device2,lifecycleState:"live",data:{deviceId:device2,state:"active"}});
   put(key("rivalries",rivalryId),{objectType:"rivalry",objectId:rivalryId,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[uid1,uid2],managerSlots:[{slotId:"playerOne",accountId:uid1,entitlementState:"active"},{slotId:"playerTwo",accountId:uid2,entitlementState:"active"}]}});
   put(key("rivalries",rivalryId,"sessions",sessionId),{objectType:"session",objectId:sessionId,lifecycleState:"live",data:{rivalryId,state:"active",memberAccountIds:[uid1,uid2],expiresAt:ts(10_000_000)}});
-  put(key("rivalries",rivalryId,"sharedSetup","authoritative"),{schemaVersion:1,objectType:"sharedSetupLedger",rivalryId,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",totalSeasons:3,confirmedRoles:["playerOne","playerTwo"]});
+  put(key("rivalries",rivalryId,"sharedSetup","authoritative"),{schemaVersion:1,objectType:"sharedSetupLedger",rivalryId,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",totalSeasons:3,confirmedRoles:["playerOne","playerTwo"],...(Number.isFinite(setupUpdatedAtMs)?{updatedAt:ts(setupUpdatedAtMs)}:{})});
   put(key("rivalries",rivalryId,"careerStart","authoritative"),{schemaVersion:1,objectType:"sharedCareerStart",rivalryId,setupRevision:6,totalSeasons:3,revision:2,phase:"CAREER_START_READY",acknowledgedRoles:["playerOne","playerTwo"]});
   let serverNow=0;
   const sdk={
@@ -54,18 +54,31 @@ function createHarness(){
 async function partA(){
   assert.equal(typeof Provider.markSpun,"function","the provider writes a manager's own spun mark");
 
-  // A1: one mark is not enough, whichever way START is asked.
-  const h=createHarness();
+  assert.equal(Provider.rouletteFromMs,Step.fromMs,"the provider and the roulette step share RRR_FROM_MS");
+  const ELIGIBLE=Step.fromMs+60_000,BEFORE=Step.fromMs-60_000;
+
+  // A0 (Codex P2 on #1101): in a roulette-eligible season a START with no flag and no mark is refused by the provider itself.
+  const bare=createHarness(ELIGIBLE);
+  let result=await Provider.startWindow({...bare.options("playerOne",1_000_000),operationId:op(9),baseRevision:0});
+  assert.equal(result.ok,false);assert.equal(result.code,"TRANSFER_ROULETTE_PENDING","an eligible season never opens without both marks, whoever calls START");
+  assert.equal(bare.store.has(bare.publicPath),false,"nothing was written");
+  result=await Provider.startWindow({...bare.options("playerOne",1_000_001),operationId:op(10),baseRevision:0,requireSpins:false});
+  assert.equal(result.code,"TRANSFER_ROULETTE_PENDING","no caller flag can switch the check off");
+
+  // A1: one mark is not enough.
+  const h=createHarness(ELIGIBLE);
   const reads=h.getLog.length;
-  let result=await Provider.markSpun({...h.options("playerOne",1_000_000),managerRole:"playerOne"});
+  result=await Provider.markSpun({...h.options("playerOne",1_000_000),managerRole:"playerOne"});
   assert.equal(result.ok,true);assert.equal(h.getLog.length,reads,"the mark costs no read");assert.deepEqual(h.writes,[h.publicPath],"the mark is one write of the season's public document");
   assert.deepEqual(Object.keys(h.store.get(h.publicPath)).sort(),["objectType","phase","rivalryId","schemaVersion","seasonNumber","spins","updatedAt"]);
   let view=await Provider.read(h.options("playerOne",1_000_010));
   assert.equal(view.ok,true);assert.equal(view.state,null,"a mark document is not a started window");assert.deepEqual([...view.spunRoles],["playerOne"]);
-  result=await Provider.startWindow({...h.options("playerOne",1_000_020),operationId:op(1),baseRevision:0,requireSpins:true});
+  result=await Provider.startWindow({...h.options("playerOne",1_000_020),operationId:op(1),baseRevision:0});
   assert.equal(result.ok,false);assert.equal(result.code,"TRANSFER_ROULETTE_PENDING","START waits for Nik's spin");
-  result=await Provider.startWindow({...h.options("playerOne",1_000_030),operationId:op(2),baseRevision:0});
-  assert.equal(result.ok,false);assert.equal(result.code,"TRANSFER_ROULETTE_PENDING","a season with a mark waits for both even when the caller does not ask");
+  // ...and a season with a mark waits for both even when its Setup carries no confirm time.
+  const marked=createHarness();await Provider.markSpun({...marked.options("playerOne",1_000_025),managerRole:"playerOne"});
+  result=await Provider.startWindow({...marked.options("playerOne",1_000_030),operationId:op(2),baseRevision:0});
+  assert.equal(result.ok,false);assert.equal(result.code,"TRANSFER_ROULETTE_PENDING","a season with a mark waits for both");
   assert.equal(h.store.get(h.publicPath).phase,"NOT_STARTED");
 
   // A2: the window cannot expire before it opened.
@@ -83,20 +96,19 @@ async function partA(){
   assert.deepEqual([...view.spunRoles],["playerOne","playerTwo"]);
 
   // A4: with both marks START opens the window, and the ledger has exactly its old keys (no other reader changes).
-  result=await Provider.startWindow({...h.options("playerOne",1_000_080),operationId:op(4),baseRevision:0,requireSpins:true});
+  result=await Provider.startWindow({...h.options("playerOne",1_000_080),operationId:op(4),baseRevision:0});
   assert.equal(result.ok,true);assert.equal(result.state.phase,"WINDOW_OPEN");
   assert.deepEqual(Object.keys(h.store.get(h.publicPath)).sort(),[...PUBLIC_KEYS].sort(),"the started ledger replaces the mark document");
   view=await Provider.read(h.options("playerTwo",1_000_090));
   assert.equal(view.state.phase,"WINDOW_OPEN");assert.equal(view.spunRoles,null);
 
-  // A5: an old Showdown / a season without the roulette: no marks, START is not asked to wait and opens at once.
-  const old=createHarness();
-  result=await Provider.startWindow({...old.options("playerOne",2_000_000),operationId:op(5),baseRevision:0});
-  assert.equal(result.ok,true,"a season the roulette does not apply to never blocks");assert.equal(result.state.phase,"WINDOW_OPEN");
-  // ...but a Showdown the roulette applies to is asked to wait even before any mark reached the server.
-  const none=createHarness();
-  result=await Provider.startWindow({...none.options("playerOne",2_100_000),operationId:op(6),baseRevision:0,requireSpins:true});
-  assert.equal(result.ok,false);assert.equal(result.code,"TRANSFER_ROULETTE_PENDING");
+  // A5: an old Showdown (confirmed before RRR_FROM_MS), one with no confirm time, and the switched-off roulette: no marks, opens at once.
+  for(const [label,at,off] of [["old Showdown",BEFORE,false],["no confirm time",undefined,false],["roulette off",ELIGIBLE,true]]){
+    const old=createHarness(at);if(off)globalThis.CMS_ROSTER_ROULETTE="off";
+    try{result=await Provider.startWindow({...old.options("playerOne",2_000_000),operationId:op(5),baseRevision:0});}finally{delete globalThis.CMS_ROSTER_ROULETTE;}
+    assert.equal(result.ok,true,`${label}: a season the roulette does not apply to never blocks`);assert.equal(result.state.phase,"WINDOW_OPEN");
+  }
+  assert.equal(Provider.rouletteEligible(Step.fromMs),true);assert.equal(Provider.rouletteEligible(Step.fromMs-1),false);assert.equal(Provider.rouletteEligible(Number.NaN),false);
 
   // A6: the mark names only a real role and a valid season.
   result=await Provider.markSpun({...createHarness().options("playerOne",1),managerRole:"referee"});
@@ -117,21 +129,23 @@ function fakePage(){
   const tap=id=>{const target=doc.getElementById(id);for(const l of listeners.filter(item=>item.type==="click"))l.fn({target:{closest:()=>target},preventDefault(){},stopPropagation(){},stopImmediatePropagation(){}});};
   return {doc,tap};
 }
-function fakeProvider(store){
+function fakeProvider(store,eligible){
   const calls={markSpun:[],startWindow:[],read:0};
   const projection=role=>store.state?{ok:true,revision:store.state.revision,state:store.state,managerRole:role,seasonNumber:1,spunRoles:null,ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null}:{ok:true,revision:0,state:null,managerRole:role,seasonNumber:1,spunRoles:[...store.spins],ownInputs:null,opponentInputs:null,verdicts:null};
   return {calls,api:{
+    rouletteEligible:eligible,
     read:async options=>{calls.read+=1;return projection(options.user.uid===uid1?"playerOne":"playerTwo");},
     markSpun:async options=>{calls.markSpun.push(options.managerRole);if(store.refuseMarks)return {ok:false,code:"permission-denied"};if(!store.spins.includes(options.managerRole))store.spins=["playerOne","playerTwo"].filter(r=>r===options.managerRole||store.spins.includes(r));return {ok:true};},
-    startWindow:async options=>{calls.startWindow.push({requireSpins:options.requireSpins===true});store.state={phase:"WINDOW_OPEN",revision:1,startedAtEpochMs:options.nowEpochMs,endedAtEpochMs:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]};return {ok:true,status:"accepted",revision:1,state:store.state,managerRole:"playerOne",seasonNumber:1,needsRefresh:false};},
+    startWindow:async options=>{calls.startWindow.push(Object.keys(options).includes("requireSpins")?"flag":"plain");store.state={phase:"WINDOW_OPEN",revision:1,startedAtEpochMs:options.nowEpochMs,endedAtEpochMs:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]};return {ok:true,status:"accepted",revision:1,state:store.state,managerRole:"playerOne",seasonNumber:1,needsRefresh:false};},
     requestEndWindow:async()=>({ok:false}),advanceExpiredWindow:async()=>({ok:false}),lockGuesses:async()=>({ok:false}),lockSignings:async()=>({ok:false})
   }};
 }
 async function settle(){for(let i=0;i<30;i+=1)await new Promise(resolve=>setImmediate(resolve));}
 // One phone: the real module, a fake page, the given role and confirm time, a roulette step that is already done on this browser.
 async function phone({role,confirmedAtMs,store,killSwitch=false}){
-  const page=fakePage(),provider=fakeProvider(store);
-  const sandbox={
+  const page=fakePage();let sandbox=null;
+  const provider=fakeProvider(store,ms=>Number.isFinite(ms)&&ms>=Provider.rouletteFromMs&&sandbox.CMS_ROSTER_ROULETTE!=="off");
+  sandbox={
     console,Date,Promise,JSON,Math,Number,String,Array,Object,Set,Map,Error,Boolean,RegExp,Uint8Array,
     setTimeout:(fn,ms)=>ms>=1000?0:setTimeout(fn,ms),clearTimeout:()=>{},setInterval:()=>0,clearInterval:()=>{},
     performance:{now:()=>Date.now()},crypto:webcrypto,document:page.doc,addEventListener(){},
@@ -172,7 +186,7 @@ async function partB(){
   await daniel.api.refresh();await settle();
   assert.equal(daniel.start.textContent,"START 15-MINUTE WINDOW");assert.equal(daniel.start.disabled,false);assert.equal(daniel.start.dataset.rouletteWait,undefined);
   daniel.page.tap("startTransferTimer");await settle();
-  assert.deepEqual(daniel.provider.calls.startWindow,[{requireSpins:true}],"START asks the provider to check both marks");
+  assert.deepEqual(daniel.provider.calls.startWindow,["plain"],"START goes to the provider, which checks the marks itself (no opt-in flag)");
 
   // B3: reload: a new page with the marks already on the server writes nothing again and does not wait.
   const reload={spins:["playerOne","playerTwo"],state:null};
@@ -195,12 +209,16 @@ async function partB(){
     assert.deepEqual(p.provider.calls.markSpun,[],`${label}: no mark is written`);
     assert.equal(p.start.textContent,"START 15-MINUTE WINDOW",`${label}: START is ready at once`);assert.equal(p.start.disabled,false);
     p.page.tap("startTransferTimer");await settle();
-    assert.deepEqual(p.provider.calls.startWindow,[{requireSpins:false}],`${label}: START does not ask for marks`);
+    assert.deepEqual(p.provider.calls.startWindow,["plain"],`${label}: START goes straight to the provider`);
   }
 
-  // B6: Rules on the server that do not know the marks (refused write): this phone stops waiting instead of locking the window.
+  // B6: Rules on the server that do not know the marks (refused write): the window stays shut (the provider would refuse START),
+  // the refused write is not retried on every check, and the line says to reload.
   const refused=await phone({role:"playerOne",confirmedAtMs:R87,store:{spins:[],state:null,refuseMarks:true}});
-  assert.equal(refused.start.textContent,"START 15-MINUTE WINDOW");assert.equal(refused.start.disabled,false);
+  assert.equal(refused.start.textContent,"YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY");assert.equal(refused.start.disabled,true);assert.equal(refused.start.dataset.rouletteWait,"true");
+  await refused.api.refresh();await settle();
+  assert.deepEqual(refused.provider.calls.markSpun,["playerOne"],"a refused mark is written once per page, not on every check");
+  refused.page.tap("startTransferTimer");await settle();assert.equal(refused.provider.calls.startWindow.length,0);
 
   // B7: the gate helper follows RRR_FROM_MS exactly.
   const applies=daniel.api.rouletteAppliesTo;

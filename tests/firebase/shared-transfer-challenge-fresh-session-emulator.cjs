@@ -349,7 +349,7 @@ async function proveRouletteMarks(env){
     assert.deepEqual((await stored()).spins,{playerOne:true,playerTwo:true});
   });
   await proof("RM5","START with both marks is accepted and writes the unchanged ledger; a mark after the window opened is denied",async()=>{
-    const started=await provider.startWindow({...options("playerOne"),operationId:opId(903),baseRevision:0,requireSpins:true});
+    const started=await provider.startWindow({...options("playerOne"),operationId:opId(903),baseRevision:0});
     assert.equal(started.ok,true,JSON.stringify(started));assert.equal(started.state.phase,"WINDOW_OPEN");
     const ledger=await stored();
     assert.equal(Object.hasOwn(ledger,"spins"),false,"the ledger replaces the mark document");assert.equal(ledger.revision,1);

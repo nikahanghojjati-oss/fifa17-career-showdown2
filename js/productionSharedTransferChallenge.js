@@ -26,7 +26,7 @@
   // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (confirmed on r87 or later, not
   // switched off)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
   // server yet; the next check writes it again until it lands.
-  let rouletteGate={key:"",applies:false},spinPendingKey="",spinWriting=null;
+  let rouletteGate={key:"",applies:false},spinPendingKey="",spinRefusedKey="",spinWriting=null;
 
   function pstcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pstcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -392,7 +392,7 @@
         pstcHidden(start,false);const missing=isReplay?[]:pstcSpinsMissing();
         // RT5-FLOW-02: until both marks are on the server the button is the waiting line: full gold edge and words (HO-027,
         // never dimmed; css/transfer.css), not tappable, and it turns into START by itself when the partner's mark arrives.
-        if(missing.length){const label=missing.includes(other)?`WAITING FOR ${String(pstcManagerName(other)).toUpperCase()} TO SPIN THE ROULETTE`:"SAVING YOUR ROULETTE SPIN…";start.textContent=label;start.dataset.rouletteWait="true";pstcDisable(start,true);pstcText("transferPhaseStatus",`READY · ${label}`);}
+        if(missing.length){const refusedHere=Boolean(spinRefusedKey&&spinRefusedKey===pstcRequestContext()?.key&&missing.includes(view.managerRole));const label=refusedHere?"YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY":missing.includes(other)?`WAITING FOR ${String(pstcManagerName(other)).toUpperCase()} TO SPIN THE ROULETTE`:"SAVING YOUR ROULETTE SPIN…";start.textContent=label;start.dataset.rouletteWait="true";pstcDisable(start,true);pstcText("transferPhaseStatus",`READY · ${label}`);}
         else{delete start.dataset.rouletteWait;start.textContent="START 15-MINUTE WINDOW";pstcDisable(start,busy);}
       }
     }else if(phase==="WINDOW_OPEN"){
@@ -463,10 +463,11 @@
   // ---- RT5-FLOW-02: both spins before the shared window ----
   // The roulette applies to a Showdown confirmed at or after the step's RRR_FROM_MS while it is not switched off; any other
   // season (an older Showdown) passes by itself and never writes or waits for a mark.
-  function pstcRouletteAppliesTo(confirmedAtMs,step){return Boolean(step&&Number.isFinite(step.fromMs)&&Number.isFinite(confirmedAtMs)&&confirmedAtMs>=step.fromMs&&root.CMS_ROSTER_ROULETTE!=="off");}
-  // A page that reached this screen without the roulette path (none does today) falls back to the stored marks: a season that
-  // has any mark waits for both, one with none passes.
-  function pstcRouletteApplies(request=pstcRequestContext()){if(request&&rouletteGate.key===request.key)return rouletteGate.applies;return pstcSpunRoles().length>0;}
+  // The provider's own eligibility rule (it enforces START with it), so the screen and the provider can never disagree.
+  function pstcRouletteAppliesTo(confirmedAtMs,step){return Boolean(step&&typeof provider?.rouletteEligible==="function"&&provider.rouletteEligible(confirmedAtMs));}
+  // A page that reached this screen without the roulette path (none does today) uses the provider's rule on the Setup confirm
+  // time, and any stored mark: the same answer START gets from the provider.
+  function pstcRouletteApplies(request=pstcRequestContext()){if(request&&rouletteGate.key===request.key)return rouletteGate.applies;return pstcSpunRoles().length>0||Boolean(typeof provider?.rouletteEligible==="function"&&provider.rouletteEligible(pstcSetupState()?.setupUpdatedAtMs));}
   function pstcSpunRoles(){return Array.isArray(view?.spunRoles)?view.spunRoles.filter(role=>role==="playerOne"||role==="playerTwo"):[];}
   // The roles whose mark is still missing for this season's window (empty once it opened, or when the roulette does not apply).
   function pstcSpinsMissing(){
@@ -479,9 +480,9 @@
     spinPendingKey=request.key;
     let timer;await Promise.race([pstcMarkSpun(request),new Promise(resolve=>{timer=root.setTimeout(resolve,SPIN_WRITE_WAIT_MS);})]).finally(()=>root.clearTimeout(timer));
   }
-  // One merge write of this manager's own mark (no read); idempotent. On success the view shows it at once; a refused write while
-  // the window is still shut means the Rules on the server do not know the marks yet: this phone then stops waiting for them
-  // (fail open, never a window that can never start). Any other failure keeps it pending for the next check.
+  // One merge write of this manager's own mark (no read); idempotent. On success the view shows it at once. A refused write
+  // (Rules on the server that do not know the marks: they must be deployed with or before this client) is not retried on every
+  // check; the screen keeps waiting and says to reload, which writes it once more. Any other failure stays pending.
   function pstcMarkSpun(request){
     if(spinWriting)return spinWriting;
     const role=view?.managerRole;
@@ -491,11 +492,11 @@
       const result=await provider.markSpun({...provided.options,managerRole:role});
       if(!pstcRequestMatches(request))return false;
       if(result&&result.ok===true){
-        spinPendingKey="";
+        spinPendingKey="";spinRefusedKey="";
         if(view&&viewContextKey===request.key&&!view.state){const spun=pstcSpunRoles();view={...view,spunRoles:["playerOne","playerTwo"].filter(item=>item===role||spun.includes(item))};}
         pstcRender();return true;
       }
-      if(/permission/i.test(String(result?.code||""))&&view&&!view.state){spinPendingKey="";rouletteGate={key:request.key,applies:false};pstcRender();}
+      if(/permission/i.test(String(result?.code||""))&&view&&!view.state){spinPendingKey="";spinRefusedKey=request.key;pstcRender();}
       return false;
     })().catch(()=>false).finally(()=>{if(spinWriting===run)spinWriting=null;});
     spinWriting=run;return run;
@@ -507,7 +508,7 @@
     if(id==="seasonPrimaryAction")return pstcOpen();
     if(id==="continueFromTransfers"&&pstcReplayPhase())return pstcAdvanceReplay();
     if(pstcReplayPhase())return false;
-    if(id==="startTransferTimer"){if(pstcSpinsMissing().length)return false;return pstcMutate("startWindow",{requireSpins:pstcRouletteApplies()});}
+    if(id==="startTransferTimer"){if(pstcSpinsMissing().length)return false;return pstcMutate("startWindow");}
     if(id==="endTransferTimer")return pstcMutate("requestEndWindow");
     if(id==="completeTransferChallenge"){
       const phase=view?.state?.phase,role=view?.managerRole;if(phase==="GUESS_ENTRY"){const guesses=pstcBuildGuesses(role);if(!await pstcConfirmPartialLock(guesses.length,"guesses"))return false;return pstcMutate("lockGuesses",{guesses});}if(phase==="SIGNING_ENTRY"){const signings=pstcBuildSignings(role);if(!await pstcConfirmPartialLock(signings.length,"signings"))return false;return pstcMutate("lockSignings",{signings});}pstcFail("TRANSFER_PHASE_INVALID");

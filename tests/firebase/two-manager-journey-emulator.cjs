@@ -13,6 +13,8 @@ require("../../data/transferOptions.js");
 const Setup=require("../../js/sparkSharedShowdownSetup.js");
 const Career=require("../../js/sparkSharedCareerStart.js");
 const Transfer=require("../../js/sparkSharedTransferChallenge.js");
+// r87 RT5-FLOW-02: in a roulette-eligible Showdown START needs both managers' spun marks, so each manager writes his own first.
+async function startAfterSpins(start,partner){for(const [options,role] of [[start,"playerOne"],[partner,"playerTwo"]]){const mark=await Transfer.markSpun({...options,managerRole:role});if(!mark||mark.ok!==true)return mark;}return Transfer.startWindow(start);}
 const Results=require("../../js/sparkSharedSeasonResults.js");
 const Commit=require("../../js/sparkSharedSeasonCommit.js");
 const Scoring=require("../../js/sparkSharedCanonicalScoring.js");
@@ -141,7 +143,7 @@ async function playFreshSingleSeason(env,{rivalryId,sessionId,nowMs,closeAtEnd=f
   setup=await Setup.mutate({...b(106),type:"confirm",baseRevision:5,operationId:op("setup_op_",106)});assert.equal(setup.ok,true,JSON.stringify(setup));assert.equal(setup.state.phase,"SHOWDOWN_CONFIRMED");assert.equal(setup.state.totalSeasons,1);
   let career=await Career.acknowledge({...a(110),operationId:op("career_start_op_",101),baseRevision:0});assert.equal(career.ok,true,JSON.stringify(career));
   career=await Career.acknowledge({...b(120),operationId:op("career_start_op_",102),baseRevision:1});assert.equal(career.ok,true,JSON.stringify(career));assert.equal(career.state.phase,"CAREER_START_READY");
-  let transfer=await Transfer.startWindow({...a(200),seasonNumber:1,operationId:op("transfer_op_",101),baseRevision:0});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+  let transfer=await startAfterSpins({...a(200),seasonNumber:1,operationId:op("transfer_op_",101),baseRevision:0},{...b(200),seasonNumber:1});assert.equal(transfer.ok,true,JSON.stringify(transfer));
   transfer=await Transfer.requestEndWindow({...a(210),seasonNumber:1,operationId:op("transfer_op_",102),baseRevision:1});assert.equal(transfer.ok,true,JSON.stringify(transfer));
   transfer=await Transfer.requestEndWindow({...b(220),seasonNumber:1,operationId:op("transfer_op_",103),baseRevision:2});assert.equal(transfer.ok,true,JSON.stringify(transfer));
   transfer=await Transfer.lockGuesses({...a(230),seasonNumber:1,operationId:op("transfer_op_",104),baseRevision:3,guesses:[{slot:1,type:"league",valueId:"england-premier-league"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));
@@ -277,7 +279,7 @@ async function playMainJourney(env){
 
   let lastHistory=null,lastMulti=null;const totals={playerOne:0,playerTwo:0};
   for(let season=1;season<=TOTAL_SEASONS;season+=1){const offset=season*10000;
-    let transfer=await Transfer.startWindow({...a(offset+100),seasonNumber:season,operationId:op("transfer_op_",season*10+1),baseRevision:0});assert.equal(transfer.ok,true,JSON.stringify(transfer));
+    let transfer=await startAfterSpins({...a(offset+100),seasonNumber:season,operationId:op("transfer_op_",season*10+1),baseRevision:0},{...b(offset+100),seasonNumber:season});assert.equal(transfer.ok,true,JSON.stringify(transfer));
     transfer=await Transfer.requestEndWindow({...a(offset+200),seasonNumber:season,operationId:op("transfer_op_",season*10+2),baseRevision:1});assert.equal(transfer.ok,true,JSON.stringify(transfer));
     transfer=await Transfer.requestEndWindow({...b(offset+300),seasonNumber:season,operationId:op("transfer_op_",season*10+3),baseRevision:2});assert.equal(transfer.ok,true,JSON.stringify(transfer));assert.equal(transfer.state.phase,"GUESS_ENTRY");
     transfer=await Transfer.lockGuesses({...a(offset+400),seasonNumber:season,operationId:op("transfer_op_",season*10+4),baseRevision:3,guesses:[{slot:1,type:"league",valueId:"england-premier-league"},{slot:2,type:"nationality",valueId:"brazil"},{slot:3,type:"league",valueId:"germany-bundesliga"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));await assertFails(getDoc(doc(dbB,"rivalries",R1,"transferChallenges",`season_${season}`,"roles","playerOne")),`S${season}: Nik must not read Daniel unfinished transfer inputs`);
