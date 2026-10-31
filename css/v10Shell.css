@@ -13,8 +13,9 @@
 html #app #topHeader { color: var(--f17-ink); font-family: var(--f17-ui); }
 
 /* While Team V's look for a screen is still loading, the app's own content in that screen stays invisible (js/v10Screens.js
-   expect/settle; never longer than the loader's timeout). Opacity, not display or visibility, so layout and focus are kept. */
-[data-v10-pending] > * { opacity: 0 !important; transition: none !important; }
+   expect/settle; never longer than the loader's timeout). Opacity, not display or visibility, so layout and focus are kept.
+   r87 (lane C C-05): invisible content takes no taps either, so a quick second tap never presses a button nobody can see. */
+[data-v10-pending] > * { opacity: 0 !important; transition: none !important; pointer-events: none !important; }
 /* Team V's dark page base under every Team V screen, including while its look is still loading: without it the app's
    old light page colour (css/app.css html, body, #background) showed for a moment on every screen change. */
 html[data-v10-screen], html[data-v10-screen] body { background: #060709; }
@@ -37,6 +38,11 @@ html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePl
 html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator::before,
 html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator::after { content: none; }
 html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > footer { min-height: 0; background: #07080a; color: #b8b09c; border-top: 1px solid rgba(242,196,91,.22); }
+/* r87 sweep P-09: on desktop Home the footer's two lines (name, version) filled its 28px band edge to edge and touched the
+   window bottom. Slightly smaller type, centred in the same band; the band keeps its place and size, so nothing on Home moves. */
+@media (min-width: 901px) {
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > footer { display: flex; align-items: center; padding-top: 0; padding-bottom: 0; font-size: 10.5px; line-height: 12px; letter-spacing: .04em; }
+}
 @media (max-width: 900px) {
   html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; padding-right: 0; }
   html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
@@ -145,6 +151,24 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
 html[data-v10-screen] #app > .stateNote {
   color: #ece6d6; background: rgba(7, 8, 10, .92); border: 1px solid rgba(242, 196, 91, .35); border-left: 3px solid var(--sd-gold-400, #f2c45b);
   font: 600 11px/1.35 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .06em;
+}
+/* r87 sweep P-01: after a finished Showdown the reconnect note ("SHOWDOWN COMPLETE · Open the Final Winner or History from
+   Home.") sat under Home's fixed chips on phones. On Home it points to where the player already is, so Home leaves it out. */
+html[data-v10-screen="mainMenu"] #app > #sharedJourneyReconnectStatus[data-closed-notice="true"] { display: none; }
+/* Any other reconnect note (OFFLINE, RECONNECTING, NEW CONNECTION NEEDED) sat in the page flow above Home: under the chips on
+   a phone, and it pushed every Home tile down by its height (on a 768x1024 tablet the second tile row went under the tab
+   bar). On Home it now sits in the free band under the chips / top bar, out of the flow, so Home keeps its layout. */
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > #sharedJourneyReconnectStatus:not(.hidden) {
+  position: fixed; z-index: 13; top: calc(var(--sd-nav-top-h, 52px) + 10px); left: 16px; right: auto; width: auto; max-width: min(560px, calc(100vw - 360px)); margin: 0; box-sizing: border-box;
+}
+@media (max-width: 900px) {
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > #sharedJourneyReconnectStatus:not(.hidden) { top: calc(max(10px, env(safe-area-inset-top)) + 46px); left: 10px; right: 10px; max-width: none; }
+}
+/* r87 sweep P-02: touch has no hover-out, so the tab last tapped kept its gold :hover colour and Home showed two lit tabs.
+   On touch screens only the current tab is lit (the music tab keeps its own gold). */
+@media (hover: none) {
+  .sd-nav .sd-nav-tab:not(.cmsMusicTab):hover:not([aria-current="page"]):not(:focus-visible),
+  .sd-nav .sd-nav-gear:hover:not([aria-current="page"]):not(:focus-visible) { color: var(--sd-text-warm); }
 }
 
 /* r61: Legacy's backup, restore and reset tools (Settings > History & Backup, js/legacy.js marks html[data-v10-tools]).
@@ -648,7 +672,8 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
   .sd-nav-bottom .cmsMusicTab[aria-expanded="true"]::after { opacity: 1; }
   .sd-nav-bottom .cmsMusicTab[aria-expanded="true"]::before { border-color: var(--r78-gold-strong, #ffd34d); }
 }
-@media (max-width: 380px) { [data-nav="hub"] .sd-nav-bottom:has(.cmsMusicTab) .sd-nav-tab { font-size: 9.5px; letter-spacing: .06em; } }
+/* r87 a11y A-05: six tabs on a 360 phone kept their labels at 9.5px; 10.5px (as on every other phone) fits with tighter spacing. */
+@media (max-width: 380px) { [data-nav="hub"] .sd-nav-bottom:has(.cmsMusicTab) .sd-nav-tab { font-size: 10.5px; letter-spacing: .02em; } }
 @media (prefers-reduced-motion: reduce) {
   .cmsMusicSheet, .cmsMusicSheet[data-mode] { transition: none; transform: none; opacity: 1; }
   .cmsMusicSheetSong, .cmsMusicSheetBar i { transition: none; }

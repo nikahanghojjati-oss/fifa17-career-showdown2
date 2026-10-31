@@ -2427,6 +2427,15 @@
         "^tests/contracts/r87\\-roulette\\-board\\-invariants\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-polish-final-contracts.cjs",
+      "patterns": [
+        "^js/(v10Screens|menuExperience|productionSharedMultiSeasonProgression|productionSharedJourneyReconnect)\\.js$",
+        "^css/(v10Shell|rulesSettingsV10|v10Club)\\.css$",
+        "^tests/contracts/r87\\-polish\\-final\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
