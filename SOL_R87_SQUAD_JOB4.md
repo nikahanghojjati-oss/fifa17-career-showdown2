@@ -2,7 +2,7 @@
 
 You are the **Red team Sol 6.1 reviewer** for Career Mode Showdown. Hunt real bugs; Claude (the engineering lead) checks every finding against live code, fixes the valid ones and rejects wrong ones with reasons. **Goal: 10/10 for this job's area**: no defect normal play can hit, and proof for every claim.
 
-**Code:** GitHub `nikahanghojjati-oss/fifa17-career-showdown2`, branch `gameplay/r87`, commit `78b43f8ceddd7eabdde41da0b9775447adbd1948`. Read the files at that commit, not main (main is r86 and has no roulette).
+**Code:** GitHub `nikahanghojjati-oss/fifa17-career-showdown2`, branch `gameplay/r87`, commit `73713d75b5ef9f5cee62a26038ec1468111c5e34` (it includes PR #1102, the fixes for your jobs 1 and 2). Read the files at that commit, not main (main is r86 and has no roulette).
 
 ## The feature (Roster Russian Roulette, r87 = version 2.0.0)
 
@@ -28,7 +28,7 @@ Main code paths: `js/rosterRoulette.js` (engine: `rrBoard`, `rrForSeason`, `rrTu
 - Identity: names compare accent-folded, trimmed, lower-case; one database person = name + shirt number; no initials guessing (initial matching such as "C. Ronaldo" vs "Cristiano Ronaldo" is parked for a later release, R87-C-05 part 2).
 - A kept signing's position comes from the Transfer War form; an unknown position makes him bench-only.
 - An outfielder plays GK only when the club has no keeper left (R87-E-02). Only signings of the current window get first refusal for a vacancy (R87-E-01).
-- Fixed earlier, so only report if you can show it is still broken: R87-C-01..C-06, R87-D-01, R87-E-01/E-02, RT5 Q1/Q2.
+- Fixed earlier, so only report if you can show it is still broken: R87-C-01..C-06, R87-D-01, R87-E-01/E-02, RT5 Q1/Q2, SQ-1-01, SQ-2-01..03 (PR #1102; job 5 attacks those fixes directly, so here count them only if they break pool integrity).
 - Accented names drawn in a fallback font on the 3D boards (known, being fixed).
 
 ## Threat model
