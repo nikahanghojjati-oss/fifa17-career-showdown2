@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "opus",
  "parent": null,
- "job": null,
- "status": "WORKING",
+ "job": "PR #1140 (f00f0e4e)",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-31T19:35:41Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T19:40:24Z", "by": "V", "status": "WORKING", "note": "Team V thread on it now; PR into gameplay/r87 before 21:00 UTC"}],
+ "evidence": ["attachments/HO-050/"],
+ "log": [{"at": "2026-10-31T19:35:41Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T19:40:24Z", "by": "V", "status": "WORKING", "note": "Team V thread on it now; PR into gameplay/r87 before 21:00 UTC"}, {"at": "2026-10-31T19:48:15Z", "by": "V", "status": "DONE", "note": "F3 strip clear at 1280-2560x1440 (ultrawide 21:10 pre-existing, open); F6 main only scroller at 844x390/740x360"}],
  "from_session": "session_01GU43Q5xHsv4Q8dmAPKsP5f"
 }
 ```
