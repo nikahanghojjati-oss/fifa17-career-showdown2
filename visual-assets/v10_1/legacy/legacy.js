@@ -371,6 +371,7 @@ window.ShowdownLegacyBoot = function () {
     let selected = frame.ui.selectedShowdown;
     let visible = [];
     let settling = 0;
+    let pagerBuiltFor = null;
 
     function select(number, scroll = false) {
       const previousIndex = records.findIndex(item => item.number === selected);
@@ -430,6 +431,11 @@ window.ShowdownLegacyBoot = function () {
         card.addEventListener("click", () => select(item.number));
         grid.appendChild(card);
       });
+      // Codex #1103: the pager is built once per layout (phone or desktop) and kept while the cards change, so a scrubber
+      // drag or a keyboard step on it is never cut short by its own element being replaced; select() updates it.
+      const pagerKey = records.length ? (phone.matches ? "phone:" : "desktop:") + (phone.matches ? records.length : pages) : "empty";
+      if (pagerKey !== pagerBuiltFor) {
+      pagerBuiltFor = pagerKey;
       pager.replaceChildren();
       if (records.length) {
         const total = phone.matches ? records.length : pages;
@@ -489,6 +495,7 @@ window.ShowdownLegacyBoot = function () {
           scrub.addEventListener("input", () => goTo(Number(scrub.value), false));
           pager.appendChild(scrub);
         }
+      }
       }
       select(selected, phone.matches);
       if (focusCard) {

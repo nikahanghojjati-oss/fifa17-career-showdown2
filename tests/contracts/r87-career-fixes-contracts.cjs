@@ -209,6 +209,19 @@ check('B2 History on the same race also shows the career',async()=>{
   const last=h.frames.filter(f=>f.id==='legacy').at(-1).frame;
   assert.equal(last.status,'ready','History draws the career, not UNAVAILABLE');
 });
+check('B1 (Codex #1103) a page waiting on the career hears "load-settled" after the read stops counting as running, on success and on failure',async()=>{
+  const h=harness();const RL=h.c.CareerModeRivalryLegacyV10;const seen=[];
+  h.c.addEventListener('career-mode-online-career-model-change',()=>seen.push(['model',RL.careerModelLoading()]));
+  h.c.addEventListener('career-mode-online-career-load-settled',()=>seen.push(['settled',RL.careerModelLoading()]));
+  const ok=RL.loadCareerModel();await h.settle();assert.equal(RL.careerModelLoading(),true);
+  await h.finish(0);await ok;
+  assert.deepEqual(seen,[['model',true],['settled',false]],'the redraw that follows the settle sees the read as finished');
+  seen.length=0;
+  const failing=RL.loadCareerModel();await h.settle();
+  h.loads[1].resolve(Promise.reject(new Error('offline')));await failing.catch(()=>{});await h.settle();
+  assert.equal(RL.careerModelLoading(),false);
+  assert.deepEqual(seen.filter(([type])=>type==='settled'),[['settled',false]],'a failed read settles too, so the page leaves "Loading"');
+});
 check('A-08 a timed-out History says so in plain words and loads again by itself when the page is shown or back online',async()=>{
   const h=harness({legacy:true});
   const opening=h.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);

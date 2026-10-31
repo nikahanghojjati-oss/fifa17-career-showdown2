@@ -145,12 +145,16 @@ function createLegacyOnlineCareerSection(){
 
 // While the page waits on the career read Settings started, it redraws once that career is kept.
 if(typeof window.addEventListener === "function"){
-    window.addEventListener("career-mode-online-career-model-change", () => {
+    // Codex #1103: the redraw waits for "load-settled" too, which comes after the read stops counting as running (and after a
+    // failed read), so the page never stays on "Loading your career…".
+    const redrawOnlineCareer = () => {
         if(window.careerModeLegacyDataTools === true && document.querySelector("#legacy .legacyOnlineCareer")){
             lastLegacyRenderedRevision = null;
             renderLegacy(true);
         }
-    });
+    };
+    window.addEventListener("career-mode-online-career-model-change", redrawOnlineCareer);
+    window.addEventListener("career-mode-online-career-load-settled", redrawOnlineCareer);
 }
 
 function createLegacyStat(label, value){

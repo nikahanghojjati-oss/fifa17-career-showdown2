@@ -280,7 +280,12 @@
       const now=context();
       if(now!==key&&canPublish()&&sequence===careerLoadSequence&&rlOwner(now)===rlOwner(key)){key=now;result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);}
       return result;
-    }finally{careerLoadsRunning-=1;}
+    }finally{
+      careerLoadsRunning-=1;
+      // Codex #1103: the model-change event fires while this read still counts as running, and a failed read fires none. A
+      // page that waits on the read (History & Backup) hears this once the count is down, on success and on failure.
+      if(careerLoadsRunning===0&&typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-load-settled"));
+    }
   }
   // r87 career fixes (B1): History & Backup shows the kept career and says "Loading" while a career read is running.
   const rlCareerModelLoading=()=>careerLoadsRunning>0;
