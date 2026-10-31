@@ -111,10 +111,13 @@ async function capturePage(m,hostId,shot){
   }
   if(hostId==="legacy"){
     // Every card, in DOM order, and which one is on show when History opens (desktop shows a page, a phone one card).
-    const readCards=()=>m.page.evaluate(()=>{
+    // Desktop shows a page of cards (all geometrically visible ones count); a phone shows one card, the selected one
+    // (.legacyVisibleCard; on desktop that class only marks the selection, not what is on show: Codex P2 on #1121).
+    const phone=(m.viewport?.width||1366)<700;
+    const readCards=()=>m.page.evaluate(phoneLayout=>{
       const shown=el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);const grid=el.parentElement?.getBoundingClientRect();const inGrid=!grid||(r.left<grid.right-1&&r.right>grid.left+1);return r.width>0&&r.height>0&&s.visibility!=="hidden"&&s.display!=="none"&&inGrid;};
-      return [...document.querySelectorAll("#legacy .legacyCard")].map(c=>({status:c.dataset.status||"",number:c.dataset.showdown||"",visible:shown(c)&&(!c.classList.contains("legacyCard")||!document.querySelector("#legacy .legacyVisibleCard")||c.classList.contains("legacyVisibleCard")),text:(c.textContent||"").replace(/\s+/g," ").trim()}));
-    });
+      return [...document.querySelectorAll("#legacy .legacyCard")].map(c=>({status:c.dataset.status||"",number:c.dataset.showdown||"",visible:phoneLayout?c.classList.contains("legacyVisibleCard"):shown(c),text:(c.textContent||"").replace(/\s+/g," ").trim()}));
+    },phone);
     // What is on show when History opens; then every page (desktop pages of cards; a phone keeps every card in the DOM),
     // walking ‹ to the oldest and › to the newest with the player's own buttons, timed.
     const first=await readCards();
@@ -131,7 +134,9 @@ async function capturePage(m,hostId,shot){
     // Back to where it opened (the newest is the last page/card) for VIEW SEASON HISTORY below.
     const hist=m.page.locator("#legacy button").filter({hasText:/VIEW SEASON HISTORY/i}).first();
     if(await hist.count()&&await hist.isVisible().catch(()=>false)){
-      const which=await m.page.evaluate(()=>{const b=[...document.querySelectorAll("#legacy button")].find(x=>/VIEW SEASON HISTORY/i.test(x.textContent||"")&&x.offsetParent!==null);return b?.closest(".legacyCard")?.dataset.showdown||null;});
+      // The Showdown VIEW SEASON HISTORY opens is the History controller's selection (the button sits outside the cards:
+      // Codex P2 on #1121), else the selected card.
+      const which=await m.page.evaluate(()=>{const n=window.LegacyFixture?.selectedShowdown;if(Number.isInteger(Number(n))&&n!==null)return String(n);return document.querySelector("#legacy .legacyCard[data-selected=true]")?.dataset.showdown||document.querySelector("#legacy .legacyVisibleCard")?.dataset.showdown||null;});
       await hist.click({timeout:10000}).catch(()=>{});await m.page.waitForTimeout(2500);
       out.seasonHistory=norm(await m.page.evaluate(()=>[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.innerText).join(" | ")));
       out.seasonHistoryFor=which;

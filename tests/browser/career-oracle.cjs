@@ -173,6 +173,7 @@ function checkBrowser(who,raw,E){
     const shown=listed.filter(c=>c.visible).map(c=>Number(c.number));
     check(id("history.opensNewest"),`History opens on the newest Showdown (#${newest.number}) (Nik 2026-10-31)`,shown.includes(newest.number),{newest:newest.number,onShow:shown.slice(0,12)},o("History"));
   }
+  if(!f.seasonHistoryFor&&E.history.some(h=>h.state==="completed"))check(id("history.seasons"),"History VIEW SEASON HISTORY opens for the selected completed Showdown",false,{seasonHistoryFor:f.seasonHistoryFor,text:f.seasonHistory.slice(0,300)},o("History (season history)"));
   if(f.seasonHistoryFor){
     const r=E.history.find(h=>h.number===Number(f.seasonHistoryFor)&&h.state==="completed");
     if(r){
