@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 11:51 PM Boston time (EDT)",
+ "generated": "2026-10-30 11:55 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -2308,7 +2308,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-049_r87-start-screens-season-chips-led-words.md",
     "worker": "opus",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 4
    }
   ],
   "relay_ok": true
