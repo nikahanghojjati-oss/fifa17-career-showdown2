@@ -1325,12 +1325,19 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   /* HO-033 item 9: the old brand bar text ("CAREER MODE / SHOWDOWN // 17") and the version footer go, as on desktop
      (css/v10Shell.css r61). SIGN IN and the status chip stay one tap away on a slim bar, right-aligned. */
   html[data-v10-setup="league"] #app #topHeader { grid-template-columns: minmax(0, 1fr) auto auto; min-height: 52px; }
+  /* r87 start-polish BUG-1: the seasons step (createShowdown; "start" also covers the dashboard, which keeps its bar)
+     drops the same old brand bar and footer. */
+  html[data-v10-setup="start"]:has(#createShowdown:not(.hidden)) #app #topHeader { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; min-height: 52px; gap: 6px; padding: 6px 58px 6px 10px; }
   html[data-v10-setup="league"] #app #topHeader .brand,
-  html[data-v10-setup="league"] #app > footer {
+  html[data-v10-setup="league"] #app > footer,
+  html[data-v10-setup="start"]:has(#createShowdown:not(.hidden)) #app #topHeader .brand,
+  html[data-v10-setup="start"]:has(#createShowdown:not(.hidden)) #app > footer {
     position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
   }
-  html[data-v10-setup="league"] #app #topHeader #onlinePlayerIdentityBadge { grid-column: 2; }
-  html[data-v10-setup="league"] #app #topHeader #seasonIndicator { grid-column: 3; }
+  html[data-v10-setup="league"] #app #topHeader #onlinePlayerIdentityBadge,
+  html[data-v10-setup="start"]:has(#createShowdown:not(.hidden)) #app #topHeader #onlinePlayerIdentityBadge { grid-column: 2; }
+  html[data-v10-setup="league"] #app #topHeader #seasonIndicator,
+  html[data-v10-setup="start"]:has(#createShowdown:not(.hidden)) #app #topHeader #seasonIndicator { grid-column: 3; }
   #app #leagueWheelScreen.v26Skin {
     --v26-wheel: max(140px, min(76vw, calc(100svh - 420px)));
     --v1697-title: min(76vw, 42svh, 310px);

@@ -866,8 +866,15 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
 /* r73 polish, desktop confirmation: the league line sat on the deck's top rule, tight under CLUBS LOCKED, with the two
    clubs right below it. Both lines get room; the lock note still ends inside the deck. */
 @media (min-width: 1200px) and (min-height: 700px) {
-  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { margin-top: calc(var(--s) * 10px); }
-  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryMatchup { margin-top: calc(var(--s) * 9px); }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { margin-top: calc(var(--s) * 7px); }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryMatchup { margin-top: calc(var(--s) * 6px); }
+  /* r87 start-polish BUG-2: at the r78 15px body size the two-line lock note ran onto (1366) or under (1920) the deck's
+     bottom gold rule. Tighter leading on the centre club names and the note, and a shorter rule gap, keep both note
+     lines inside the deck at every desktop size; nothing moves and the type size stays. */
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubConfirmationSide strong { line-height: 1.04; }
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubRivalryLockNote {
+    margin-top: calc(var(--s) * 4px); padding-top: calc(var(--s) * 4px); line-height: 1.25;
+  }
 }
 
 /* r78 HO-031 phone marble: Club draws Team V's ENV_CLUB_PHONE_V2 (both managers painted in, holding the two plain club
