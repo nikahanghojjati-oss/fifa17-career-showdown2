@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 6:00 AM Boston time (EDT)",
+ "generated": "2026-10-31 6:04 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1642,16 +1642,6 @@
     "total": 4,
     "pr": 381,
     "current": "Done; handed to Team G as HO-006"
-   },
-   {
-    "job": "V-HO-049",
-    "title": "r87 start screens: season chips, NEW SHOWDOWN wordmark, LED words, no-dim Continue",
-    "worker": "worker not set",
-    "lane": "",
-    "done": 0,
-    "total": 1,
-    "pr": 1099,
-    "current": ""
    }
   ],
   "inbox": {
@@ -2379,7 +2369,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
