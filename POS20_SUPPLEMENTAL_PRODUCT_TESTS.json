@@ -2337,6 +2337,17 @@
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-names-contracts.cjs",
+      "patterns": [
+        "^js/iconNames\\.js$",
+        "^data/icons\\.js$",
+        "^scripts/r88\\-icons\\-from\\-csv\\.mjs$",
+        "^tests/fixtures/r88\\-icons/",
+        "^tests/contracts/r88\\-icon\\-names\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

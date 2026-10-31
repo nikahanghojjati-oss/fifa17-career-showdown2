@@ -1,0 +1,11 @@
+id,card_name,full_name,accepted_names,nation,nation_code,position,game,card_version,overall,PAC,SHO,PAS,DRI,DEF,PHY,source_url,source_name,notes
+tomas-vreskovy,Vřeskový,Tomáš Vřeskový,Vřeskový|Tomáš Vřeskový|Vreskovy|Tomas Vreskovy,Czech Republic,CZ,CB,FIFA 15,Legend,88,71,48,66,62,90,87,https://example.com/made-up/tomas-vreskovy-15,Made-up source,
+bjorn-odegardsen,Ødegårdsen,Bjørn Ødegårdsen,Ødegårdsen|Bjørn Ødegårdsen|Odegardsen|Bjorn Odegardsen,Norway,NO,CAM,FIFA 19,Icon Prime,92,84,88,93,91,52,70,https://example.com/made-up/bjorn-odegardsen-19,Made-up source,"tie with FIFA 18 Prime at 92, newer game kept"
+jean-luc-darcy,D'Arcy,Jean-Luc D'Arcy,D'Arcy|Jean-Luc D'Arcy|Darcy|Jean Luc Darcy|Le Phare,France,FR,ST,FC 25,Icon Base,90,89,92,78,87,40,82,https://example.com/made-up/jean-luc-darcy-25,Made-up source,
+zeljko-coric,Ćorić,Željko Ćorić,Ćorić|Željko Ćorić|Coric|Zeljko Coric,Yugoslavia,YU,CM,FIFA 21,Icon Prime,91,77,85,92,88,74,79,https://example.com/made-up/zeljko-coric-21,Made-up source,card shows Yugoslavia
+ansgar-muller-strauss,Müller-Strauß,Ansgar Müller-Strauß,Müller-Strauß|Ansgar Müller-Strauß|Muller-Strauss|Mueller-Strauss,Germany,DE,CDM,FC 24,Icon Base,89,70,72,86,80,88,90,https://example.com/made-up/ansgar-muller-strauss-24,Made-up source,
+pelinho,Pelinho,Paulo Eduardo Lima,Pelinho|Paulo Eduardo Lima|Lima,Brazil,BR,LW,FIFA 20,Icon Prime,93,95,90,86,96,35,72,https://example.com/made-up/pelinho-20,Made-up source,
+pelao,Pelão,Pedro Lourenço,Pelão|Pedro Lourenço|Pelao|Lourenço|Lourenco,Portugal,PT,RW,FIFA 16,Legend,87,91,84,83,89,38,66,https://example.com/made-up/pelao-16,Made-up source,
+kofi-asante-mensah,Asante,Kofi Asante Mensah,Asante|Kofi Asante Mensah|Mensah,Ghana,GH,RB,FC 26,Icon Base,88,90,60,80,84,85,83,https://example.com/made-up/kofi-asante-mensah-26,Made-up source,
+iain-mcleod,McLeod,Iain McLeod,McLeod|Iain McLeod|Mac Leod,Scotland,GB-SCT,CF,FIFA 18,Icon Prime,90,85,90,84,88,45,80,https://example.com/made-up/iain-mcleod-18,Made-up source,
+sergei-volkov,Volkov,Sergei Volkov,Volkov|Sergei Volkov,Soviet Union,SU,LB,FIFA 14,Legend,86,88,52,78,80,85,79,https://example.com/made-up/sergei-volkov-14,Made-up source,card shows the Soviet Union
