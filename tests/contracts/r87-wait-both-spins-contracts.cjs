@@ -108,6 +108,16 @@ async function partA(){
     try{result=await Provider.startWindow({...old.options("playerOne",2_000_000),operationId:op(5),baseRevision:0});}finally{delete globalThis.CMS_ROSTER_ROULETTE;}
     assert.equal(result.ok,true,`${label}: a season the roulette does not apply to never blocks`);assert.equal(result.state.phase,"WINDOW_OPEN");
   }
+  // A5b: the roulette is switched off after one mark: START still waits for both; the partner's own mark (allowed with the
+  // roulette off) then lets START open the window.
+  {const flip=createHarness(ELIGIBLE);await Provider.markSpun({...flip.options("playerOne",3_000_000),managerRole:"playerOne"});globalThis.CMS_ROSTER_ROULETTE="off";
+    try{
+      result=await Provider.startWindow({...flip.options("playerOne",3_000_010),operationId:op(11),baseRevision:0});
+      assert.equal(result.code,"TRANSFER_ROULETTE_PENDING","a stored mark keeps START waiting for both after the switch");
+      assert.equal((await Provider.markSpun({...flip.options("playerTwo",3_000_020),managerRole:"playerTwo"})).ok,true);
+      result=await Provider.startWindow({...flip.options("playerOne",3_000_030),operationId:op(12),baseRevision:0});
+      assert.equal(result.ok,true,JSON.stringify(result));assert.equal(result.state.phase,"WINDOW_OPEN");
+    }finally{delete globalThis.CMS_ROSTER_ROULETTE;}}
   assert.equal(Provider.rouletteEligible(Step.fromMs),true);assert.equal(Provider.rouletteEligible(Step.fromMs-1),false);assert.equal(Provider.rouletteEligible(Number.NaN),false);
 
   // A6: the mark names only a real role and a valid season.
@@ -223,6 +233,22 @@ async function partB(){
   // B7: the gate helper follows RRR_FROM_MS exactly.
   const applies=daniel.api.rouletteAppliesTo;
   assert.equal(applies(Step.fromMs,Step),true);assert.equal(applies(Step.fromMs-1,Step),false);assert.equal(applies(Number.NaN,Step),false);
+
+  // B8 (Codex P2 #1101, comment 4431577474): the roulette is switched off after Daniel's mark was saved. The provider still waits
+  // for both (a mark exists), so Daniel's START keeps waiting, Nik's phone writes his own mark on reaching the step with no
+  // roulette shown, and Daniel's START then opens the window.
+  const flipped={spins:["playerOne"],state:null};
+  const danielOff=await phone({role:"playerOne",confirmedAtMs:R87,store:flipped,killSwitch:true});
+  assert.deepEqual(danielOff.provider.calls.markSpun,[],"Daniel's mark is already stored");
+  assert.equal(danielOff.start.textContent,"WAITING FOR NIK TO SPIN THE ROULETTE","with a stored mark START still waits, as the provider does");
+  danielOff.page.tap("startTransferTimer");await settle();assert.equal(danielOff.provider.calls.startWindow.length,0);
+  const nikOff=await phone({role:"playerTwo",confirmedAtMs:R87,store:flipped,killSwitch:true});
+  assert.deepEqual(nikOff.provider.calls.markSpun,["playerTwo"],"Nik's phone writes his own mark automatically (the roulette is off, so none is shown)");
+  assert.deepEqual(flipped.spins,["playerOne","playerTwo"]);
+  await danielOff.api.refresh();await settle();
+  assert.equal(danielOff.start.textContent,"START 15-MINUTE WINDOW");assert.equal(danielOff.start.disabled,false);
+  danielOff.page.tap("startTransferTimer");await settle();
+  assert.deepEqual(danielOff.provider.calls.startWindow,["plain"],"START succeeds once Nik's automatic mark landed");
 }
 
 // ---------- part C: reads. The partner's mark wakes the waiting screen on the listener's copy (no context re-read) ----------

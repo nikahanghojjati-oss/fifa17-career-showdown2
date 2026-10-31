@@ -424,7 +424,7 @@
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       // No confirm time = a Showdown the roulette never applies to (the step's own rule), so nothing is loaded.
-      if(!Number.isFinite(confirmedAtMs)){rouletteGate={key:request.key,applies:false};return true;}
+      if(!Number.isFinite(confirmedAtMs)){rouletteGate={key:request.key,applies:false};await pstcAfterSpin(request);return true;}
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")},confirmedAtMs,phase:view.state?.phase||"NOT_STARTED",
         verdicts:season=>pstcRouletteVerdicts(request,season)};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
@@ -465,9 +465,11 @@
   // season (an older Showdown) passes by itself and never writes or waits for a mark.
   // The provider's own eligibility rule (it enforces START with it), so the screen and the provider can never disagree.
   function pstcRouletteAppliesTo(confirmedAtMs,step){return Boolean(step&&typeof provider?.rouletteEligible==="function"&&provider.rouletteEligible(confirmedAtMs));}
-  // A page that reached this screen without the roulette path (none does today) uses the provider's rule on the Setup confirm
-  // time, and any stored mark: the same answer START gets from the provider.
-  function pstcRouletteApplies(request=pstcRequestContext()){if(request&&rouletteGate.key===request.key)return rouletteGate.applies;return pstcSpunRoles().length>0||Boolean(typeof provider?.rouletteEligible==="function"&&provider.rouletteEligible(pstcSetupState()?.setupUpdatedAtMs));}
+  // The same answer START gets from the provider: the season is roulette-eligible, or any mark is already stored. The second
+  // case covers the roulette being switched off (or the season otherwise turning ineligible) after one manager's mark was
+  // saved: the provider still waits for both, so the missing manager's phone writes his own mark when it reaches this step,
+  // with no roulette shown (pstcAfterSpin), and the coordinator's START flips through the listener as usual (Codex P2 #1101).
+  function pstcRouletteApplies(request=pstcRequestContext()){if(pstcSpunRoles().length>0)return true;if(request&&rouletteGate.key===request.key)return rouletteGate.applies;return Boolean(typeof provider?.rouletteEligible==="function"&&provider.rouletteEligible(pstcSetupState()?.setupUpdatedAtMs));}
   function pstcSpunRoles(){return Array.isArray(view?.spunRoles)?view.spunRoles.filter(role=>role==="playerOne"||role==="playerTwo"):[];}
   // The roles whose mark is still missing for this season's window (empty once it opened, or when the roulette does not apply).
   function pstcSpinsMissing(){
@@ -528,7 +530,10 @@
     if(view?.state?.phase==="COMPLETED"&&viewContextKey&&currentKey&&viewContextKey===currentKey&&(view.verdicts||pstcKeptVerdicts(view.rivalryId,view.seasonNumber))){pstcDecorateDashboard();return;}
     try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden")){if(light!==true)pstcScreenFresh();await pstcRefresh(light===true,false);}else if(!view)await pstcRefresh(false,false);else pstcDecorateDashboard();}
       // RT5-FLOW-02: a mark that did not reach the server is written again (one write, no read) while the window is still shut.
-      const request=pstcRequestContext();if(request&&spinPendingKey===request.key&&!busy&&view&&!view.state)void pstcMarkSpun(request);
+      // On this screen the roulette step is behind him, so a partner's mark arriving while his own is missing (the season turned
+      // ineligible after one mark) arms his own one write here as well, unless the server refused it on this page.
+      const request=pstcRequestContext();if(request&&!busy&&view&&!view.state&&viewContextKey===request.key&&spinPendingKey!==request.key&&spinRefusedKey!==request.key&&view.managerRole&&pstcSpunRoles().length&&!pstcSpunRoles().includes(view.managerRole))spinPendingKey=request.key;
+      if(request&&spinPendingKey===request.key&&!busy&&view&&!view.state)void pstcMarkSpun(request);
     }catch(_error){}
   }
   // Read-only: the fast lane only calls pstcTick (the same provider read as REFRESH CHALLENGE), never a write.
