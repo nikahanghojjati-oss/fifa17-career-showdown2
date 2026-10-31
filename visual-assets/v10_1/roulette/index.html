@@ -646,7 +646,7 @@ function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=
 makeBoard("D","DANIEL"); makeBoard("N","NIK");
 
 /* FIFA 17 squad screen look: position -> pitch spot (x 0-1 across, y 0-1 down; GK bottom) */
-const POS_XY={ GK:[.5,.9], LB:[.12,.72], LWB:[.1,.62], LCB:[.34,.76], CB:[.5,.76], RCB:[.66,.76], RB:[.88,.72], RWB:[.9,.62], LDM:[.33,.58], CDM:[.5,.6], RDM:[.67,.58], LCM:[.3,.48], CM:[.5,.5], RCM:[.7,.48], LM:[.1,.42], RM:[.9,.42], LAM:[.3,.34], CAM:[.5,.36], RAM:[.7,.34], LW:[.14,.22], RW:[.86,.22], LF:[.32,.16], CF:[.5,.2], RF:[.68,.16], LS:[.36,.1], ST:[.5,.1], RS:[.64,.1] };
+const POS_XY={ GK:[.5,.9], LB:[.12,.72], LWB:[.1,.62], LCB:[.34,.76], CB:[.5,.76], RCB:[.66,.76], RB:[.88,.72], RWB:[.9,.62], LDM:[.33,.58], CDM:[.5,.6], RDM:[.67,.58], LCM:[.3,.48], CM:[.5,.5], RCM:[.7,.48], LM:[.1,.42], RM:[.9,.42], LAM:[.3,.34], CAM:[.5,.36], RAM:[.7,.34], LW:[.14,.22], RW:[.86,.22], LF:[.32,.16], CF:[.5,.25], RF:[.68,.16], LS:[.36,.1], ST:[.5,.1], RS:[.64,.1] };
 function shirt(ctx,x,y,s,kit){ const [p,sec,acc]=kit; ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
   ctx.beginPath(); ctx.moveTo(-.5,-.42); ctx.lineTo(-.22,-.5); ctx.quadraticCurveTo(0,-.36,.22,-.5); ctx.lineTo(.5,-.42); ctx.lineTo(.62,-.1); ctx.lineTo(.36,0); ctx.lineTo(.36,.5); ctx.lineTo(-.36,.5); ctx.lineTo(-.36,0); ctx.lineTo(-.62,-.1); ctx.closePath();
   ctx.fillStyle=p; ctx.fill(); ctx.lineWidth=.05; ctx.strokeStyle="rgba(0,0,0,.55)"; ctx.stroke();
@@ -657,19 +657,24 @@ function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo
 /* FIFA 17 squad screen look: graphite panel, lit pitch, chemistry links, kit + gold rating plate + name pill per player, subs bench */
 const POS_COL=(pos)=>pos==="GK"?"#f2d23c":/B$/.test(pos)?"#3f86e8":/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(pos)?"#e8502f":"#4fc74d";
 /* FIFA 17 squad screen player: kit shirt, white rating at the shirt's top-left, name on a dark band under it, coloured position tag on the left */
-function playerCard(ctx,x,y,s,kit,pos,name,rating,num,tagLeft){
-  ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=12; ctx.shadowOffsetY=5; shirt(ctx,x,y,s,kit); ctx.restore();
-  ctx.textAlign="center"; ctx.textBaseline="middle";
-  /* Polish RR-3: the name band never grows past its slot (s*1.2): the surname shrinks to fit (down to 65%), then ends in "…" */
-  let sur=(name.includes(". ")?name.slice(name.indexOf(". ")+2):name); const maxW=s*1.2, pad=s*.16; let fs=Math.round(s*.3);
+/* Polish RR-3: the name band never grows past its slot (s*1.2, or bandW when a neighbour's band shares the row): the surname shrinks to fit (down to 65%), then ends in "…" */
+function fitName(ctx,name,s,bandW){ let sur=(name.includes(". ")?name.slice(name.indexOf(". ")+2):name); const maxW=Math.min(s*1.2,bandW||Infinity), pad=s*.16; let fs=Math.round(s*.3);
   ctx.font=`600 ${fs}px 'Barlow Condensed'`; while(fs>Math.round(s*.3*.65)&&ctx.measureText(sur).width>maxW-pad){ fs-=1; ctx.font=`600 ${fs}px 'Barlow Condensed'`; }
   if(ctx.measureText(sur).width>maxW-pad){ while(sur.length>2&&ctx.measureText(sur+"…").width>maxW-pad) sur=sur.slice(0,-1); sur+="…"; }
-  const tw=Math.min(maxW,Math.max(s*1.0,ctx.measureText(sur).width+pad)); const nx=x-tw/2, ny=y+s*.5, nh=s*.36;
-  ctx.fillStyle="rgba(8,10,14,.78)"; ctx.fillRect(nx,ny,tw,nh); ctx.fillStyle="#fff"; ctx.fillText(sur,x,ny+nh/2+1);
-  /* rating: bold white on the shirt's upper left (inside the shirt, so it never meets a neighbour's name band) */
-  ctx.font=`800 ${Math.round(s*.3)}px 'Barlow Condensed'`; ctx.textAlign="center"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.7)"; ctx.strokeText(String(rating),x-s*.17,y-s*.2); ctx.fillStyle="#fff"; ctx.fillText(String(rating),x-s*.17,y-s*.2);
-  /* position tag: colour bar + letters, left of the shirt */
-  if(tagLeft!==false){ const col=POS_COL(pos); ctx.fillStyle=col; ctx.fillRect(x-s*1.0,y-s*.1,s*.07,s*.3); ctx.textAlign="left"; ctx.font=`700 ${Math.round(s*.22)}px 'Barlow Condensed'`; ctx.lineWidth=3; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.strokeText(pos,x-s*.9,y+s*.05); ctx.fillStyle="#fff"; ctx.fillText(pos,x-s*.9,y+s*.05); } }
+  return {sur, tw:Math.min(maxW,Math.max(s*1.0,ctx.measureText(sur).width+pad))}; }
+/* RT5-SCENE-03: drawBoard calls this once per pass over the whole XI (phase 0 every shirt, 1 every rating and tag, 2 every name band),
+   so no neighbour's shirt, rating or tag ever paints over a name. The rating and the position chip sit on the chest, clear of the
+   band of the row above (rows are 47-66 px apart). No phase draws the whole card at once. */
+function playerCard(ctx,x,y,s,kit,pos,name,rating,num,tagLeft,phase,bandW){ const all=phase===undefined;
+  if(all||phase===0){ ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=12; ctx.shadowOffsetY=5; shirt(ctx,x,y,s,kit); ctx.restore(); }
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  if(all||phase===2){ const {sur,tw}=fitName(ctx,name,s,bandW); const nx=x-tw/2, ny=y+s*.5, nh=s*.36;
+    ctx.fillStyle="rgba(8,10,14,.78)"; ctx.fillRect(nx,ny,tw,nh); ctx.fillStyle="#fff"; ctx.fillText(sur,x,ny+nh/2+1); }
+  if(!(all||phase===1)) return;
+  /* rating: bold white on the shirt's chest (inside the shirt, below the band of the row above) */
+  ctx.font=`800 ${Math.round(s*.3)}px 'Barlow Condensed'`; ctx.textAlign="center"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.7)"; ctx.strokeText(String(rating),x,y+s*.06); ctx.fillStyle="#fff"; ctx.fillText(String(rating),x,y+s*.06);
+  /* position tag: a small chip in the position colour under the rating (inside the shirt, so no neighbour's band reaches it) */
+  if(tagLeft!==false){ ctx.font=`700 ${Math.round(s*.19)}px 'Barlow Condensed'`; const pw=ctx.measureText(pos).width+s*.14, ph=s*.19, py=y+s*.31; roundRect(ctx,x-pw/2,py-ph/2,pw,ph,ph*.3); ctx.fillStyle=POS_COL(pos); ctx.fill(); ctx.lineWidth=1.5; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(); ctx.textAlign="center"; ctx.fillStyle="#0d1015"; ctx.fillText(pos,x,py+1); } }
 function lum(hex){ const n=parseInt(String(hex).replace("#",""),16); if(isNaN(n)) return .5; return ((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255; }
 function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; const kit=club.kit; b.bubbles.length=0; b.club=club;
   ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H);
@@ -690,8 +695,13 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
     line(.28,PT+12,.28,PT+108); line(.72,PT+12,.72,PT+108); line(.28,PT+108,.72,PT+108); line(.41,PT+12,.41,PT+46); line(.59,PT+12,.59,PT+46); line(.41,PT+46,.59,PT+46);
     line(.28,PB-108,.28,PB-12); line(.72,PB-108,.72,PB-12); line(.28,PB-108,.72,PB-108); line(.41,PB-46,.41,PB-12); line(.59,PB-46,.59,PB-12); line(.41,PB-46,.59,PB-46); }
   ctx.restore();
-  const used={}; const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; const x=PL+62+xy[0]*(PR-PL-124), y=PT+58+xy[1]*(PB-PT-136); return {x,y,pos,name,rating,num:i+1}; });
-  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); playerCard(ctx,sp.x,sp.y-6,72,sp.pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit,sp.pos,sp.name,sp.rating,sp.num); });
+  const used={}, has=p=>club.xi.some(r=>r[0]===p), wide={LCB:has("CB")?.27:0, RCB:has("CB")?.73:0, LCM:has("CM")?.27:0, RCM:has("CM")?.73:0}; const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; if(wide[pos]) xy=[wide[pos],xy[1]]; /* RT5-SCENE-03: a back three or a midfield three spreads out so three names fit on one row */ let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; const x=PL+62+xy[0]*(PR-PL-124), y=PT+58+xy[1]*(PB-PT-136); return {x,y,pos,name,rating,num:i+1}; });
+  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); });
+  /* RT5-SCENE-03: a name band is only as wide as the gap to the nearest card whose band shares its row;
+     two bands on one row share the gap: a short name keeps its width and the long one takes the rest */
+  const CS=72, gkKit=[club.gk||"#2fb0a8","#1c6e69","#ffffff"]; spots.forEach(sp=>{ sp.natW=fitName(ctx,sp.name,CS).tw; sp.bandW=Infinity; });
+  spots.forEach(sp=>spots.forEach(o=>{ if(o===sp||Math.abs(o.y-sp.y)>=CS*.36+4) return; const gap=Math.abs(o.x-sp.x)-3; sp.bandW=Math.min(sp.bandW,2*gap-Math.min(o.natW,gap)); }));
+  for(const phase of [0,1,2]) spots.forEach(sp=>playerCard(ctx,sp.x,sp.y-6,CS,sp.pos==="GK"?gkKit:kit,sp.pos,sp.name,sp.rating,sp.num,true,phase,sp.bandW));
   /* bench list on the right */
   const BL=590, BR=W-30; ctx.fillStyle="#17181c"; ctx.fillRect(BL,PT,BR-BL,PB-PT); ctx.fillStyle="#2a2d33"; ctx.fillRect(BL,PT,BR-BL,44); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",BL+18,PT+22); ctx.textAlign="right"; ctx.fillStyle="#9ea4b0"; ctx.font="600 20px 'Barlow Condensed'"; ctx.fillText("BENCH · "+club.subs.length,BR-18,PT+22);
   const subs=club.subs.slice(0,6); const rowH=(PB-PT-44)/Math.max(6,subs.length);
