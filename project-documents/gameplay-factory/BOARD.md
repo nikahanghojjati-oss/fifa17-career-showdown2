@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 31 Oct, 3:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 31 Oct, 3:33 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
-🐕 **Barking: Showdown Gate on #1127 has waited 8 min for a machine; Showdown Gate on #1105 has waited 8 min for a machine; Showdown Gate on #1122 has waited 7 min for a machine; Showdown Gate on #1125 has waited 7 min for a machine; Showdown Gate on #1121 has waited 7 min for a machine; Showdown Gate on #1130 has waited 5 min for a machine; Showdown Gate on #1131 has waited 5 min for a machine; Showdown Gate on #1119 has waited 5 min for a machine; Showdown Gate on #1116 has waited 3 min for a machine; Showdown Gate on #1128 has waited 3 min for a machine; Showdown Gate on #1132 has waited 3 min for a machine; Showdown Gate has waited 2 min for a machine; Showdown Gate on #1133 has waited 2 min for a machine; Showdown Gate on #1134 has waited 2 min for a machine; Showdown Gate on #1129 has waited 1 min for a machine; Showdown Gate on #1126 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1117 has waited 17 min for a machine; Showdown Gate on #1105 has waited 10 min for a machine; Showdown Gate on #1122 has waited 9 min for a machine; Showdown Gate on #1125 has waited 9 min for a machine; Showdown Gate on #1121 has waited 9 min for a machine; Showdown Gate on #1130 has waited 7 min for a machine; Showdown Gate on #1131 has waited 7 min for a machine; Showdown Gate on #1119 has waited 7 min for a machine; Showdown Gate on #1116 has waited 5 min for a machine; Showdown Gate on #1128 has waited 5 min for a machine; Showdown Gate on #1132 has waited 5 min for a machine; Showdown Gate on #1133 has waited 4 min for a machine; Showdown Gate on #1134 has waited 4 min for a machine; Showdown Gate on #1129 has waited 3 min for a machine; Showdown Gate on #1126 has waited 3 min for a machine; Showdown Gate on #1118 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -42,7 +42,7 @@ Updated Sat 31 Oct, 3:28 PM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 462 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 463 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -54,7 +54,7 @@ Updated Sat 31 Oct, 3:28 PM Boston time. Bug hunting only, no new features until
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 386 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 387 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Sat 31 Oct, 3:28 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 357 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 358 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,8 +2122,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1136](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1136) | R88 Icon Unmasked: stand-in card page (workstream C) | ⏳ 7 passed, 1 running (draft) |
-| 🟧 Team G lead | [PR #1127](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1127) | R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader | ⏳ 7 passed, 1 running (draft) |
+| 🟧 Team G lead | [PR #1136](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1136) | R88 Icon Unmasked: stand-in card page (workstream C) | 🔴 7 passed, 1 failed (draft) |
+| 🟧 Team G lead | [PR #1127](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1127) | R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader | 🔴 7 passed, 1 failed (draft) |
 | 🟧 Team G lead | [PR #1124](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1124) | r88 Icon Unmasked: round logic (draw, reveal clock, chips and winner) | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**

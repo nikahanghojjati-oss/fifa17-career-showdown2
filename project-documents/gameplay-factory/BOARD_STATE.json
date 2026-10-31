@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 3:28 PM Boston time (EDT)",
+ "generated": "2026-10-31 3:32 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1629,11 +1629,11 @@
      "draft": true,
      "branch": "claude/r88-icon-page",
      "sha": "dd8223fa6fa211524cfe6b68a5b0401a5a6b28db",
-     "updated": "2026-10-31T19:27:15Z",
+     "updated": "2026-10-31T19:29:05Z",
      "gates": {
       "passed": 7,
-      "running": 1,
-      "failed": 0,
+      "running": 0,
+      "failed": 1,
       "cancelled": 0
      }
     },
@@ -1643,11 +1643,11 @@
      "draft": true,
      "branch": "claude/r88-icon-names",
      "sha": "e8f1b8dca4890230b619441c8ebfe80ac6d20d14",
-     "updated": "2026-10-31T19:19:22Z",
+     "updated": "2026-10-31T19:28:13Z",
      "gates": {
       "passed": 7,
-      "running": 1,
-      "failed": 0,
+      "running": 0,
+      "failed": 1,
       "cancelled": 0
      }
     },
@@ -1670,7 +1670,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1127 has waited 8 min for a machine; Showdown Gate on #1105 has waited 8 min for a machine; Showdown Gate on #1122 has waited 7 min for a machine; Showdown Gate on #1125 has waited 7 min for a machine; Showdown Gate on #1121 has waited 7 min for a machine; Showdown Gate on #1130 has waited 5 min for a machine; Showdown Gate on #1131 has waited 5 min for a machine; Showdown Gate on #1119 has waited 5 min for a machine; Showdown Gate on #1116 has waited 3 min for a machine; Showdown Gate on #1128 has waited 3 min for a machine; Showdown Gate on #1132 has waited 3 min for a machine; Showdown Gate has waited 2 min for a machine; Showdown Gate on #1133 has waited 2 min for a machine; Showdown Gate on #1134 has waited 2 min for a machine; Showdown Gate on #1129 has waited 1 min for a machine; Showdown Gate on #1126 has waited 1 min for a machine.",
+   "line": "Barking: Showdown Gate on #1117 has waited 17 min for a machine; Showdown Gate on #1105 has waited 10 min for a machine; Showdown Gate on #1122 has waited 9 min for a machine; Showdown Gate on #1125 has waited 9 min for a machine; Showdown Gate on #1121 has waited 9 min for a machine; Showdown Gate on #1130 has waited 7 min for a machine; Showdown Gate on #1131 has waited 7 min for a machine; Showdown Gate on #1119 has waited 7 min for a machine; Showdown Gate on #1116 has waited 5 min for a machine; Showdown Gate on #1128 has waited 5 min for a machine; Showdown Gate on #1132 has waited 5 min for a machine; Showdown Gate on #1133 has waited 4 min for a machine; Showdown Gate on #1134 has waited 4 min for a machine; Showdown Gate on #1129 has waited 3 min for a machine; Showdown Gate on #1126 has waited 3 min for a machine; Showdown Gate on #1118 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -3635,11 +3635,11 @@
     "draft": true,
     "branch": "claude/r88-icon-page",
     "sha": "dd8223fa6fa211524cfe6b68a5b0401a5a6b28db",
-    "updated": "2026-10-31T19:27:15Z",
+    "updated": "2026-10-31T19:29:05Z",
     "gates": {
      "passed": 7,
-     "running": 1,
-     "failed": 0,
+     "running": 0,
+     "failed": 1,
      "cancelled": 0
     }
    },
@@ -3649,11 +3649,11 @@
     "draft": true,
     "branch": "claude/r88-icon-names",
     "sha": "e8f1b8dca4890230b619441c8ebfe80ac6d20d14",
-    "updated": "2026-10-31T19:19:22Z",
+    "updated": "2026-10-31T19:28:13Z",
     "gates": {
      "passed": 7,
-     "running": 1,
-     "failed": 0,
+     "running": 0,
+     "failed": 1,
      "cancelled": 0
     }
    },
