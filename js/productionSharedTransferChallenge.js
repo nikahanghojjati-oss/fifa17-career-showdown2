@@ -21,7 +21,14 @@
   let clockContextKey="",clockServerEpochMs=0,clockPerformanceMs=0,clockRefreshPerformanceMs=0;
   const witnessedByContext=new Map();
   let fastWaitKey="",fastWaitSince=0;
-  let rouletteLoadError=false;
+  // The reason the roulette could not start on this phone (shown on the dashboard and on Career Start), or "" (Fable F2-05).
+  let rouletteError="";
+  const PSTC_ROULETTE_TEXT=Object.freeze({
+    load:"The roulette could not load. Check the connection and tap again.",
+    setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",
+    draw:"The Special Player list could not load, so the transfer window stays shut. Tap again to retry.",
+    error:"The roulette hit an error before it could start. Nothing was spun or saved. Tap again to retry."
+  });
   // r87 RT5-FLOW-02 (Nik 2026-10-31): the shared window waits until both managers have spun this season's roulette. The gate is
   // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (confirmed on r87 or later, not
   // switched off)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
@@ -412,7 +419,7 @@
     const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy||isReplay);return true;
   }
   function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge could not be refreshed."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
-  function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER CHALLENGE…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER CHALLENGE`;status.textContent="Transfer Challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WINDOW";status.textContent="Transfer Challenge: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer Challenge: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer Challenge: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer Challenge: complete";}if(rouletteLoadError)status.textContent="The roulette could not load. Check the connection and tap again.";return true;}
+  function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER CHALLENGE…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER CHALLENGE`;status.textContent="Transfer Challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WINDOW";status.textContent="Transfer Challenge: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer Challenge: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer Challenge: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer Challenge: complete";}if(rouletteError)status.textContent=rouletteError;return true;}
   // r50: the first open loads the Transfer runtime and reads authority; show it and share one attempt.
   // r87 Russian Roster Roulette (js/rosterRouletteStep.js): before this season's Transfer Challenge opens, this manager does
   // the season's roulette once (board from season 2, both spins, the release). It decides for itself whether it applies (a
@@ -420,24 +427,27 @@
   // step itself could not load: the window then stays shut with a TRY AGAIN line on the dashboard (red team R87-B-02).
   // The confirm time comes with the Setup read; only a manager whose Setup state came from his own confirm tap reads it once.
   async function pstcRouletteFirst(request){
-    rouletteLoadError=false;
+    rouletteError="";
     try{
       if(!view||!view.managerRole||!request)return true;
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
-      // No confirm time = a Showdown the roulette never applies to (the step's own rule), so nothing is loaded.
-      if(!Number.isFinite(confirmedAtMs)){rouletteGate={key:request.key,applies:false};rouletteClearedKey=request.key;await pstcAfterSpin(request);return true;}
+      // Every Setup read carries the confirm time (the ledger's updatedAt is a required field), so a missing one means the
+      // Setup could not be read just now: the window stays shut with the reason, never opened without the roulette (Fable F2-05).
+      if(!Number.isFinite(confirmedAtMs)){rouletteError=PSTC_ROULETTE_TEXT.setup;return false;}
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")},confirmedAtMs,phase:view.state?.phase||"NOT_STARTED",
         verdicts:season=>pstcRouletteVerdicts(request,season)};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
-      if(!step){rouletteLoadError=true;return false;}
+      if(!step){rouletteError=PSTC_ROULETTE_TEXT.load;return false;}
+      // The Special Player draw for the signing form (R87-SP-02), also when the roulette is already done here (Fable F2-06).
+      if(typeof step.ensureDraw==="function"&&!await step.ensureDraw()){rouletteError=PSTC_ROULETTE_TEXT.draw;return false;}
       rouletteGate={key:request.key,applies:pstcRouletteAppliesTo(confirmedAtMs,step)};
       // Done on this browser before (or the step does not run for this manager): his mark still goes to the server once.
       if(!step.decide(ctx)){rouletteClearedKey=request.key;await pstcAfterSpin(request);return true;}
       const go=await step.runBeforeTransfers(ctx);
       if(go){rouletteClearedKey=request.key;await pstcAfterSpin(request);}
       return go;
-    }catch(_error){rouletteLoadError=true;return false;}
+    }catch(_error){rouletteError=PSTC_ROULETTE_TEXT.error;return false;}
   }
   // r87 roulette boards: each finished season's verdicts (both managers' signings, overall and release) are kept on this
   // phone when the Transfer Challenge shows them, so the next spins build their boards with no read. A season not kept
@@ -507,7 +517,10 @@
   }
   function pstcCloseRoulette(){try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}}
   function pstcOpen(){if(openPromise)return openPromise;const run=Promise.resolve().then(pstcOpenNow);openPromise=run;run.finally(()=>{if(openPromise===run)openPromise=null;pstcDecorateDashboard();}).catch(()=>{});try{pstcDecorateDashboard();}catch(_error){}return run;}
-  async function pstcOpenNow(){if(!pstcSharedMarker())return false;await pstcEnsureDependencies();const request=pstcRequestContext(),result=await pstcRefresh();if(!request||!result||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");if(!await pstcRouletteFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}const shown=await root.navigateTo("transferChallenge");pstcCloseRoulette();if(shown===false||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;pstcPrepareReplay();pstcRender();return true;}
+  // Fable F2-11: an earlier BACK from the roulette is forgotten first. Fable F2-14: the replay of phases this phone did not see
+  // is set before the screen shows, so it never mounts the live phase first. Fable F2-01: the roulette's card and stage come
+  // down on every way out, a navigation that fails included.
+  async function pstcOpenNow(){if(!pstcSharedMarker())return false;try{root.CareerModeRosterRouletteStep?.forgetHome?.();}catch(_error){}await pstcEnsureDependencies();const request=pstcRequestContext(),result=await pstcRefresh();if(!request||!result||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");if(!await pstcRouletteFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}let shown=false;try{pstcPrepareReplay();pstcRender();shown=await root.navigateTo("transferChallenge");}finally{pstcCloseRoulette();}if(shown===false||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;pstcPrepareReplay();pstcRender();return true;}
   async function pstcHandleAction(id){
     if(id==="seasonPrimaryAction")return pstcOpen();
     if(id==="continueFromTransfers"&&pstcReplayPhase())return pstcAdvanceReplay();
@@ -581,5 +594,5 @@
   }
   function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange);root.document.addEventListener("change",pstcSigningDraftChange);if(typeof root.addEventListener==="function")root.addEventListener("storage",pstcSigningDraftStorage);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("online",pstcVisibilityChange);root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError,rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView});
 });

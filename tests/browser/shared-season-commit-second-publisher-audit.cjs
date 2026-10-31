@@ -35,7 +35,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       const audit=window.__secondPublisherAudit={resultsReads:0,publishCalls:0,commitReads:0,commitWrites:0,failResultsRead:false,published:false,season2Published:false,acknowledgedSeasons:[],committedSeasons:[],hangNextCommitRead:false,releaseHungRead:null};
       const waiting=n=>({ok:true,revision:1,state:{phase:'WAITING_FOR_RIVAL',revision:1,publishedRoles:['playerOne']},managerRole:role,seasonNumber:n,ownResult:null,opponentResult:null,allResults:null});
       const ready=n=>({ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:n,ownResult:resultTwo,opponentResult:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}});
-      window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
+      window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
       window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer(),refresh:async()=>transfer()};
       window.CareerModeSparkSharedSeasonResults={
         read:async options=>{audit.resultsReads+=1;if(audit.failResultsRead)return {ok:false,code:'unavailable'};const n=options.seasonNumber;return (n===1?audit.published:audit.season2Published)?ready(n):waiting(n);},

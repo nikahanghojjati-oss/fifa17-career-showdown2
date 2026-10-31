@@ -31,7 +31,8 @@ function page({storage,role,season=1,rivalry=RID,stage="entry",phase="COMPLETED"
   const doc={visibilityState:"visible",body:new FakeNode("body"),head:new FakeNode("head"),documentElement:new FakeNode("html"),
     getElementById:id=>node(id),createElement:tag=>new FakeNode(tag),createDocumentFragment:()=>new FakeNode("fragment",true),
     querySelector:()=>null,querySelectorAll:()=>[],addEventListener(type,fn){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(fn);}};
-  const setup={ready:true,managerRole:role,rivalryId:rivalry,sessionId:SID,deviceId:DEVICE,
+  // Fable F2-05: a Setup read always carries the confirm time (here a Showdown from before the roulette).
+  const setup={ready:true,managerRole:role,rivalryId:rivalry,sessionId:SID,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-09-01T00:00:00Z"),
     setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",totalSeasons:3,leagueId:"premier_league",clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"}}};
   const remote={sessionState:"active",sessionId:SID,pendingAction:null,rivalryId:rivalry,accountId:role,deviceId:DEVICE,expiresAtEpochMs:Date.now()+3600000};
   const forbidden=async()=>{writes.push("unexpected mutation");throw Error("resume must be read-only");};
@@ -51,6 +52,7 @@ function page({storage,role,season=1,rivalry=RID,stage="entry",phase="COMPLETED"
     CareerModeSparkRemoteJoining:{getState:()=>remote,subscribe:()=>()=>{}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
     CareerModeProductionSharedShowdownSetup:{refresh:async()=>setup,getState:()=>setup},
+    CareerModeRosterRouletteStep:{decide:()=>false,runBeforeTransfers:async()=>true,close(){},ensureDraw:async()=>true},
     CareerModeProductionSharedCareerStart:{refresh:async()=>true,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}}),openPanel:async()=>{s.CareerModeProductionSharedTransferChallenge.install();return s.CareerModeProductionSharedTransferChallenge.open();}},
     CareerModeProductionSharedMultiSeasonProgression:{install(){},resolveSeason:()=>season,resumeFromAuthority:async()=>({acceptedSeasons:season-1,season,rivalryId:rivalry}),decorateDashboard(){}},
     CareerModeSparkSharedTransferChallenge:{read:async()=>deny?{ok:false,code:"permission-denied"}:{ok:true,managerRole:role,seasonNumber:season,revision:8,state:{phase:currentPhase,guessLockedRoles:[],signingLockedRoles:[]},ownInputs:{guesses:[],signings:[]},opponentInputs:{guesses:[],signings:[]}},startWindow:forbidden,requestEndWindow:forbidden,advanceExpiredWindow:forbidden,lockGuesses:forbidden,lockSignings:forbidden},

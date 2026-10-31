@@ -40,7 +40,7 @@ async function prepare(page,{role,saveId}){
     const currentCommit={...seasonTwo.commit,rivalryId,managerRole:role,coordinatorRole:'playerOne',ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo']};
     const currentScoring={...seasonTwo.scoring,rivalryId,managerRole:role};
     window.__historyAuditMode='success';window.__historyProviderCalls=[];
-    window.CareerModeProductionSharedShowdownSetup={getState:()=>setupState,refresh:async()=>setupState};
+    window.CareerModeProductionSharedShowdownSetup={getState:()=>setupState,refresh:async()=>setupState}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedSeasonCommit={getState:()=>window.__historyAuditCommitOverride===undefined?currentCommit:window.__historyAuditCommitOverride,refresh:async()=>window.CareerModeProductionSharedSeasonCommit.getState()};
     window.CareerModeProductionSharedCanonicalScoring={getState:()=>window.__historyAuditScoringOverride===undefined?currentScoring:window.__historyAuditScoringOverride,refresh:async()=>window.CareerModeProductionSharedCanonicalScoring.getState()};
     window.CareerModeSparkSharedSeasonCommit={read:async()=>({ok:false,code:'AUDIT_DIRECT_R10_READ_FORBIDDEN'})};

@@ -34,7 +34,7 @@ async function prepare(page,{managerRole,saveId}){
       rivalryId:activeRivalry,sessionId,deviceId:'device_'+(managerRole==='playerOne'?'1':'2').repeat(32),managerRole,
       setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',totalSeasons:3,confirmedRoles:['playerOne','playerTwo'],clubs}
     });
-    window.CareerModeProductionSharedShowdownSetup={getState:setupValue,refresh:async()=>({ok:true})};
+    window.CareerModeProductionSharedShowdownSetup={getState:setupValue,refresh:async()=>({ok:true})}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedCareerStart={getState:()=>({state:{phase:'CAREER_START_READY',revision:2,acknowledgedRoles:['playerOne','playerTwo']}}),refresh:async()=>({ok:true})};
     window.CareerModeSharedTransferChallenge={runtimeRevision:'1.9.1-r8'};
     const completedInputs=role=>({
