@@ -28,7 +28,7 @@ if(OUT){
   const PER_KEY=Number(process.env.A11Y_PER_KEY||1);
   const KEYS=process.env.A11Y_KEYS==="1";// desktop only: walk the page with Tab and check each stop is visible and shows focus
   fs.mkdirSync(OUT,{recursive:true});
-  const sink=fs.createWriteStream(path.join(OUT,"audit.jsonl"),{flags:"a"});
+  let sink=null;// opened in the process that loads playwright (the emulator wrapper processes also inherit this hook)
   let seq=0;
   const seen=new Map();
   const origLoad=Module._load;
@@ -40,6 +40,9 @@ if(OUT){
   };
 
   function patchChromium(chromium){
+    // one run per output folder: rows and screenshots are reset together, so no row points at another pass's shot
+    for(const f of fs.readdirSync(OUT))if(f==="audit.jsonl"||/\.png$/.test(f))fs.rmSync(path.join(OUT,f),{force:true});
+    sink=fs.createWriteStream(path.join(OUT,"audit.jsonl"),{flags:"w"});
     const launch=chromium.launch.bind(chromium);
     chromium.launch=async(...args)=>{
       const browser=await launch(...args);
@@ -234,19 +237,22 @@ if(OUT){
         const col=fillCol||[tr,tg,tb];
         const Lt=lum(col[0],col[1],col[2]);
         // sample a ring just outside the text box plus the box itself, keep pixels far from the text colour = background
-        const bgL=[];
+        const bgL=[];let sampled=0;
         for(const r of rects.slice(0,3)){
           const s=img.scale,x0=Math.max(0,Math.floor((r.left-3)*s)),x1=Math.min(img.w-1,Math.ceil((r.right+3)*s)),y0=Math.max(0,Math.floor((r.top-2)*s)),y1=Math.min(img.h-1,Math.ceil((r.bottom+2)*s));
           const step=Math.max(1,Math.floor((x1-x0)*(y1-y0)/4000));
           let i=0;
           for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){
             if((i++)%step)continue;
+            sampled++;
             const p=(y*img.w+x)*4,d=img.data;
             const dr=d[p]-col[0],dg=d[p+1]-col[1],db=d[p+2]-col[2];
             if(dr*dr+dg*dg+db*db<60*60)continue;// text pixel (or near it)
             bgL.push(lum(d[p],d[p+1],d[p+2]));
           }
         }
+        // almost every pixel matches the text colour: the background is (nearly) the text colour, so contrast is very low
+        if(bgL.length<12&&sampled>=24)out.push({t:"contrast",s:sel(el),d:`background matches text colour (${sampled-bgL.length}/${sampled} pixels), likely under 1.5:1 ${fs}px`,txt:text});
         if(bgL.length>=12){
           const cr=bgL.map(L=>ratio(L,Lt)).sort((a,b)=>a-b);
           const p10=cr[Math.floor(cr.length*0.1)],med=cr[Math.floor(cr.length/2)];
