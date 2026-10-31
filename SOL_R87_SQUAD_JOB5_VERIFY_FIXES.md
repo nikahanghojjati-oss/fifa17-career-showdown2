@@ -38,3 +38,28 @@ Private two-player tool. Anything that needs a modified app, the browser console
 ## How to report
 
 For each finding: ID (`SQ-<job>-NN`), severity (P0 wrong board that breaks play or loses a player wrongly; P1 wrong player/position/count a player will see; P2 rare edge; P3 cosmetic), file and line at the commit above, exact inputs (clubs, Special Players, season, verdict rows, the 64-hex rivalry id if it matters), expected vs actual, and **proof**: a runnable Node snippet that `require`s `js/rosterRoulette.js` and prints the wrong result, or exact data rows. Mark anything unproven as "suspected" in a separate list. No style comments. End with a score out of 10 for this job's area and what would make it 10.
+
+## JOB 5: rigorously verify the fixes for your job 2 findings (and job 1's SQ-1-01)
+
+Your job 2 audit found three defects at `78b43f8c`. PR #1102 claims to fix them, plus SQ-1-01 from job 1:
+- **SQ-2-01:** a fitting winger stayed benched behind an outfield stopgap. Fix: `rrStopgap` treats an XI player outside his line as a stopgap, unless he is the club's own launch pick for that slot. `rrJoin` lets any fitting signing replace a stopgap. A new `rrRepairStopgaps` pass after each window hands the slot back once any fitting club player is available.
+- **SQ-2-02:** a guessed player stayed on the board and could be shot. Fix: the guessed exclusions are applied after that season's `rrTurn`, and a new `rrEvictExcluded` removes any excluded board player and refills his slot.
+- **SQ-2-03:** a repeated earlier signing got new-window priority. Fix: kept rows matching an earlier signing still in the reserves are dropped before joining.
+- **SQ-1-01:** `squads.json` benches were regenerated from the engine by `scripts/sync-roulette-scene-squads.cjs`.
+- New contracts L1b and L1c in `tests/contracts/r87-roster-roulette-contracts.cjs`.
+
+Do all of this:
+1. **Re-run your own job 2 proofs and census** (your `SOL_R87_SQUAD_JOB2_PROOFS.cjs` and probe) against `0eeac965`. Each of the three must now give the correct result. Report any that do not.
+2. **Attack each fix for incompleteness.** Find inputs where the same defect still happens by another path.
+   - SQ-2-01: a stopgap created through a signing's displacement, a bench vacancy, a GK slot, a stopgap who is himself a kept signing, two stopgaps at once, or a repair that should happen in the same season as the shot.
+   - SQ-2-02: a guessed player sitting on the bench, a guessed name matching a club namesake, a guess in the same window as his first kept entry, a guess in season 9 (affects the season 10 board), a guessed Special Player name.
+   - SQ-2-03: a repeat of a signing who is now on the board rather than in the reserves, who was shot, who was later guessed, or entered with a different position or overall.
+3. **Attack each fix for regressions.**
+   - Does the repair or eviction ever change a season's board *retroactively*, so that season s's board or turn differs from what season s showed before a later window's verdicts existed? It must not: season s may only depend on history 1..s-1.
+   - Does it ever change the launch board or any board with empty histories? It must not.
+   - Does it ever pull a non-club player, duplicate a person, leave fewer than 11 + 4 while the pool has players, hit an empty slot, or let the two phones compute different boards?
+   - Is a launch starter whom FIFA 17 itself puts out of position (68 such slots) now wrongly swapped out?
+4. **Check the new tests prove the fixes.** Would L1b/L1c fail on `78b43f8c`? Are their assertions strong enough, or could a wrong fix pass them?
+5. Run the full existing contract file and your census across all 98 clubs, seasons 1 to 10, at `0eeac965`, and report the counts.
+
+Report as before, with IDs `SQ-5-NN`. For each original finding, give a verdict: **FIXED**, **PARTIAL** (with a repro of what remains) or **NOT FIXED**. End with the job 2 area score out of 10 at `0eeac965`, and what is still needed for 10.
