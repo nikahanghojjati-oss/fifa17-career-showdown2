@@ -337,7 +337,7 @@ window.ShowdownLegacyBoot = function () {
         side.appendChild(cell("b", "legacyHistoryPoints", String(season.score[manager])));
         side.appendChild(cell("span", "legacyHistoryDetail", copy(strings, "seasonDetail", { position: season.leaguePosition[manager], points: season.leaguePoints[manager], goals: season.leagueGoals[manager] })));
         // r80: a season row names a Europa League win (the career season row carries it only for such a season).
-        if (season.europaLeague && season.europaLeague[manager] === true) side.appendChild(cell("span", "legacyHistoryEuropa", ui.europaLeague || "Europa League winner"));
+        if (season.europaLeague && season.europaLeague[manager] === true) side.appendChild(cell("span", "legacyHistoryEuropa", strings.ui.europaLeague || "Europa League winner"));
         row.appendChild(side);
       });
       const result = cell("td", "legacyHistoryResult");

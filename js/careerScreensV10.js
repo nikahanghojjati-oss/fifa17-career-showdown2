@@ -1542,7 +1542,7 @@
   // draw the numbers bigger. Trophy Room: the cabinet name labels and the record holders are lifted from 7-9px to readable
   // sizes.
   const CAREER_POLISH_R87B_CSS=String.raw`
-#app #careerStatistics.careerScreenV10 .headlinePair small {font-size:max(12px,.8vw);font-weight:800;letter-spacing:.06em}
+#app #careerStatistics.careerScreenV10 .headlinePair small {font-size:max(10px,.66vw);font-weight:800;letter-spacing:.04em}
 #app #careerStatistics.careerScreenV10 .headlinePair small:first-of-type {color:#5cb9eb}
 #app #careerStatistics.careerScreenV10 .headlinePair small:last-of-type {color:#f0d900}
 #app #careerStatistics.careerScreenV10 .leaderCard::after {content:none}
@@ -1553,6 +1553,12 @@
   #app #careerStatistics.careerScreenV10 .headlinePair {gap:4px;margin-top:2px;align-items:baseline}
   #app #careerStatistics.careerScreenV10 :is(.headlinePair b,.headlineNumber) {font-size:22px;line-height:1}
   #app #careerStatistics.careerScreenV10 .headlinePair small {font-size:12px}
+}
+@media (max-width:379px) and (orientation:portrait) {
+  #app #careerStatistics.careerScreenV10 .headlineTile {grid-template-columns:minmax(0,1fr);padding:4px 7px}
+  #app #careerStatistics.careerScreenV10 .headlineIcon {display:none}
+  #app #careerStatistics.careerScreenV10 :is(.headlinePair b,.headlineNumber) {font-size:19px}
+  #app #careerStatistics.careerScreenV10 .headlinePair small {font-size:11px}
 }
 @media (min-width:901px) {
   #app #trophyRoom .managerCounts span {font-size:max(9.5px,.6vw)}
