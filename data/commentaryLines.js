@@ -212,7 +212,7 @@
     {"id":"n1-198","situation":"season-win-by-7-plus","text":"{loserClub} never found the pace, and {winnerClub} took full advantage, finishing a huge {margin} points clear."},
     {"id":"n1-199","situation":"season-win-by-7-plus","text":"In the history of this friendly rivalry, a gap of {margin} points is a rare beast, and {winner} has bagged it."},
     {"id":"n1-200","situation":"season-win-by-7-plus","text":"Gap? What gap? It is more like a motorway, {margin} points wide, and {winner} is cruising down it."},
-    {"id":"n1-201","situation":"season-win-by-7-plus","text":"Emphatic is the word for {winner}, so much that that {loser} may want to sit down: {winnerPoints} against {loserPoints}."},
+    {"id":"n1-201","situation":"season-win-by-7-plus","text":"Emphatic is the word for {winner}, so much so that {loser} may want to sit down: {winnerPoints} against {loserPoints}."},
     {"id":"n1-202","situation":"season-win-by-7-plus","text":"Total control from {winner}! The margin is {margin} Showdown points, and {loser} can only applaud."},
     {"id":"n1-203","situation":"season-win-by-7-plus","text":"Seven or more points is a gap you rarely see. This time it is {margin}, and it belongs to {winner}."},
     {"id":"n1-204","situation":"season-win-by-7-plus","text":"That is one-way traffic on the scoreboard. {winnerClub} finishes {winnerPoints} points, {loserClub} just {loserPoints}, and {winner} wins by {margin}."},
