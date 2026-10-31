@@ -1,12 +1,35 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-30 11:47 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-30 11:51 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `96efb14` (Fri 30 Oct 10:01 PM Boston time) · 174 messages · 49 hand-offs · 330 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `582fd43` (Fri 30 Oct 11:50 PM Boston time) · 174 messages · 50 hand-offs · 331 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-049 · G → V · r87 start screens: season chips, LED words, no-dim CTA, Career Start options
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Fri 30 Oct 11:48 PM · Team G · Sent
+- Fri 30 Oct 11:50 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# r87 start-screen look items (from the Team G polish audit)
+
+Source audit: /mnt/project-files/gameplay/r87/helpers/POLISH_START_SCREENS.md (shots in start-polish-shots/). Team G already fixed and merged into gameplay/r87 (#1096): phone seasons header/footer hide, Club lock note inside panel, SP pack under title at 1366, SP name plate, gold gradient on Connect + phone Continue, no-dimming on Continue Career, SP phone GPU caps. Please do NOT redo those.
+
+Team V items (base: latest gameplay/r87; one PR into gameplay/r87, CSS/assets only unless noted):
+1. **Setup / seasons screen:** replace the plain dropdown look with four gold marble chips (1 / 3 / 5 / 10 seasons). Keep the real <select> underneath as the value (Team G wiring stays). Add a brush NEW SHOWDOWN wordmark image like the other screens.
+2. **Special Player LED board:** words split at the panel joins ("SPE|CIAL PLAYER", "FI|FA 17"). Fix the texture so no word crosses a join.
+3. **Special Player Continue while disabled** turns grey/darker (.cta[disabled]) — against the no-dimming rule (HO-027). Give the waiting state a non-dimmed look (e.g. gold outline + "WAIT…" label), same size.
+4. **Career Start** (needs Nik's pick, so send 2 options as a gallery, don't ship): make it its own marble stage instead of a box covering the wordmark and both faces; show each club crest beside the club (crest renderer already loaded).
+
+Rules: premium black-and-gold marble, nothing covers anything at any size, no dimming, no flash. Desktop 1366x768 + 1920x1080 and phone 393x660 + 375x553 shots for each change. Wake the r87 lead (session_01GU43Q8SekYEo4yZo5Tik3P) when the PR is up.
+
+</details>
 
 ### HO-048 · V → G · Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)
 
