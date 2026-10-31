@@ -152,8 +152,11 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
 }
 
 // ---------- a small page for the flow (just what js/touchlineGazette.js touches) ----------
-function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne'}={}){
-  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[]};
+// advance: replaces continueToNextSeason (a promise that takes its time, or fails). chipLate: the Special Player chip is not on
+// the page at the tap and arrives through loadRuntimeScript. chipFails: the chip is there but its data cannot load.
+// Timers of a second or more (safety timers, the asset cap) are captured in calls.longTimers and fired only by the test.
+function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false}={}){
+  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[],longTimers:[]};
   let screen='seasonEntry';
   class El{
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.parent=null;this.dataset={};this.attrs={};this.listeners={};this.classes=new Set();this.id='';this.disabled=false;this.textContent='';this.scrollTop=0;this.scrollHeight=0;this.offsetHeight=100;const self=this;this.style={setProperty(k,v){self.style[k]=v;}};this.classList={add:(...c)=>c.forEach(x=>this.classes.add(x)),remove:(...c)=>c.forEach(x=>this.classes.delete(x)),contains:c=>this.classes.has(c)};}
@@ -193,12 +196,13 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     back=actions.appendChild(new El('button'));back.className='backButton';back.addEventListener('click',()=>{calls.ownBack+=1;go('mainMenu');});
   }
   const sandbox={
-    document:doc,console,Promise,URL,setTimeout,clearTimeout,innerHeight:900,
+    document:doc,console,Promise,URL,clearTimeout,innerHeight:900,
+    setTimeout:(fn,ms,...rest)=>{if(ms>=1000){calls.longTimers.push({fn,ms});return -1;}return setTimeout(fn,ms,...rest);},
     addEventListener(t,f,cap){if(t==='click'&&cap)capture.push(f);},removeEventListener(){},scrollTo(){},
     matchMedia:()=>({matches:false}),
     readStorageValue:k=>store.has(k)?store.get(k):null,writeStorageValue:(k,v)=>{store.set(k,String(v));return true;},
     getActiveScreenName:()=>screen,optionalAssetUrl:p=>p+'?v=test',
-    loadRuntimeScript:(key)=>loadFails?Promise.reject(new Error('offline')):lateFiles?new Promise(resolve=>setTimeout(()=>{if(late[key])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);resolve(true);},60)):Promise.resolve(true),loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
+    loadRuntimeScript:(key)=>{if(loadFails)return Promise.reject(new Error('offline'));const install=()=>{if(late[key]&&!sandbox[late[key][0]])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);return true;};return lateFiles?new Promise(resolve=>setTimeout(()=>resolve(install()),60)):Promise.resolve(install());},loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
     Image:class{set src(v){setTimeout(()=>this.onload&&this.onload(),0);}decode(){return Promise.resolve();}},
     ShowdownContent:{frontPage:{art:n=>`visual-assets/v10_1/content/gazette/${n}.webp`,screen(slot,p,onContinue){
       calls.shown.push(p);const s=slot.appendChild(new El('section'));s.className='cmx-fp-screen';const t=s.appendChild(new El('h2'));t.className='cmx-fp-screen__title';
@@ -206,13 +210,14 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
       const b=s.appendChild(new El('button'));b.className='cmx-continue';b.addEventListener('click',()=>{if(onContinue)onContinue();});}}},
     CareerModeGazetteCopy:Copy,CareerModeFrontPages:Pages,
     CareerModeProductionSharedHistoryConvergence:{getState:()=>({...history,managerRole})},
-    CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(proceedResult)go('dashboard');return proceedResult;}},
-    CareerModeSpecialPlayerChip:{liveFor:()=>sp},
+    CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(advance)return advance();if(proceedResult)go('dashboard');return proceedResult;}},
+    CareerModeSpecialPlayerChip:{liveFor:()=>sp,...(chipFails?{ensure:()=>Promise.resolve(false)}:{})},
     FINAL_WINNER_FIXTURES:final?{frames:{LIVE:final}}:undefined,CareerModeSeasonFinalV10:{gazetteHistory:()=>final?history:null}
   };
   // lateFiles: the paper, the copy and the headlines are not on the page yet when the player taps (a tap before warm() ends)
-  const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages]};
-  if(lateFiles)for(const [name] of Object.values(late))delete sandbox[name];
+  const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages],'special-player-chip':['CareerModeSpecialPlayerChip',sandbox.CareerModeSpecialPlayerChip]};
+  if(lateFiles)for(const key of ['gazette-frontpage','gazette-copy','gazette-headlines'])delete sandbox[late[key][0]];
+  if(chipLate)delete sandbox.CareerModeSpecialPlayerChip;
   vm.createContext(sandbox);vm.runInContext(read('js/touchlineGazette.js'),sandbox,{filename:'touchlineGazette.js'});
   const api=sandbox.CareerModeTouchlineGazette;api.install();
   return {api,calls,host,doc,seasonButton,back,dispatch,go,store,screen:()=>screen,page:()=>doc.getElementById('touchlineGazette'),continueButton:()=>doc.getElementById('touchlineGazetteContinue')};
@@ -260,8 +265,8 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(off.page(),null);assert.equal(off.calls.continue,1,'offline: the tap simply went on');assert.equal(off.screen(),'dashboard');
     const stuck=world({history,proceedResult:false});stuck.dispatch(stuck.seasonButton);await settle();assert.ok(stuck.page());
     stuck.dispatch(stuck.continueButton());await settle();assert.equal(stuck.calls.continue,1);assert.equal(stuck.page(),null,'Season Results is back with its own button');assert.equal(stuck.host.dataset.gazette,undefined);
-    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500,SEASON_SAFETY_MS=9000/);
-    ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper, safety timers close it regardless');
+    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;/);
+    ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper');
   }
   // G11 a fast tap: CONTINUE pressed before the paper's files are on the page (warm() not finished) is still held for its
   // paper; the files load after the tap, the paper is built and shown, and its CONTINUE runs the same step once (Codex P2).
@@ -270,7 +275,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     const w=world({history,lateFiles:true});
     const ev=w.dispatch(w.seasonButton);assert.equal(ev.defaultPrevented,true,'held although the copy is not loaded yet');assert.equal(w.calls.ownSeason,0);
     assert.equal(w.page(),null);await new Promise(resolve=>setTimeout(resolve,150));
-    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','visual-identity']);
+    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','special-player-chip','visual-identity']);
     assert.ok(w.page(),'the paper came up once its files arrived');assert.equal(w.calls.shown[0].headline,G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp}).paper.headline);
     w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1);assert.equal(w.screen(),'dashboard');assert.equal(w.page(),null);
     const q=proj('9',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),fr=frame(q),f=world({history:fx.history(q),final:fr,lateFiles:true});
@@ -280,6 +285,49 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     const d=world({history,lateFiles:true});d.dispatch(d.seasonButton);assert.equal(d.dispatch(d.seasonButton).defaultPrevented,true);await new Promise(resolve=>setTimeout(resolve,150));
     assert.equal(d.calls.shown.length,1);assert.equal(d.calls.continue,0);
     ok('G11','a tap made before the paper\'s files arrive is still held for its paper (season and final), shown once, then the same step runs once');
+  }
+  // G12 (Fable job 2 F2-15) a SEASON paper stays until continueToNextSeason has finished or failed: no timer closes it while
+  // the step is in flight, a busy CONTINUE never runs the step twice, and a failed step gives Season Results back with its
+  // own working button.
+  {
+    const p=proj('a',3,[[R.clLeague,R.cupAward]]),history=fx.history(p);
+    let finish=null;const w=world({history,advance:()=>new Promise(resolve=>{finish=resolve;})});
+    w.dispatch(w.seasonButton);await settle();assert.ok(w.page());
+    w.dispatch(w.continueButton());await settle();
+    assert.equal(w.calls.continue,1);assert.ok(w.page(),'the paper stays while continueToNextSeason runs');assert.equal(w.continueButton().disabled,true);assert.equal(w.continueButton().attrs['aria-busy'],'true');
+    assert.ok(!w.calls.longTimers.some(t=>t.ms>=5000),'no long safety timer on a season paper');
+    for(const t of w.calls.longTimers.splice(0))t.fn();await settle();
+    assert.ok(w.page(),'no timer closes the paper mid-flight');assert.equal(w.host.dataset.gazette,'season');
+    w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1,'a tap on the busy CONTINUE runs nothing more');
+    w.go('dashboard');finish(true);await settle();
+    assert.equal(w.page(),null,'closed with the screen it left for');assert.equal(w.calls.continue,1);assert.equal(w.host.dataset.gazette,undefined);
+    // the step fails after a while: the paper closes, Season Results is back and its own button goes straight on, once
+    let fail=null;const f=world({history,advance:()=>new Promise((resolve,reject)=>{fail=reject;})});
+    f.dispatch(f.seasonButton);await settle();f.dispatch(f.continueButton());await settle();assert.ok(f.page());
+    fail(new Error('offline'));await settle();assert.equal(f.page(),null);assert.equal(f.host.dataset.gazette,undefined);assert.ok(f.seasonButton.isConnected);
+    const ev=f.dispatch(f.seasonButton);assert.equal(ev.defaultPrevented,false);await settle();assert.equal(f.calls.ownSeason,1);assert.equal(f.calls.continue,2);
+    // the step finished (true) without leaving this screen, or said false: the paper closes at once
+    for(const value of [true,false]){const s=world({history,advance:()=>Promise.resolve(value)});s.dispatch(s.seasonButton);await settle();s.dispatch(s.continueButton());await settle();assert.equal(s.page(),null,String(value));assert.equal(s.calls.continue,1);}
+    assert.ok(!/SEASON_SAFETY_MS/.test(read('js/touchlineGazette.js')),'no season safety timer');
+    ok('G12','F2-15: a season paper stays (CONTINUE busy) until continueToNextSeason has finished or failed, never closed by a timer mid-flight, the step never run twice, a failure hands Season Results back with a working button');
+  }
+  // G13 (Fable job 2 F2-16) both phones print the identical paper, Special Players line included: the chip and its data are
+  // loaded as one of the paper's files, and the line is read when the paper is built, not at the tap.
+  {
+    const p=proj('b',3,[[R.cl,R.league]]),history=fx.history(p);
+    const a=world({history}),b=world({history,managerRole:'playerTwo',chipLate:true});
+    a.dispatch(a.seasonButton);b.dispatch(b.seasonButton);await settle();
+    assert.ok(a.page()&&b.page());assert.ok(b.calls.loads.includes('special-player-chip'),'the chip is loaded with the paper\'s files');
+    const plain=x=>JSON.parse(JSON.stringify(x));
+    assert.deepEqual(plain(b.calls.shown[0]),plain(a.calls.shown[0]),'the same paper on the phone whose chip was missing at the tap');
+    assert.deepEqual(plain(b.calls.shown[0].specialPlayers),{daniel:'Lionel Messi',nik:'Cristiano Ronaldo'});assert.ok(b.page().querySelector('.tgz-sp'));
+    const full=proj('b',3,[[R.cl,R.league],[R.cup,R.none],[R.none,R.cup]]),fr=frame(full);assert.equal(fr.specialPlayers,undefined);
+    const fa=world({history:fx.history(full),final:fr}),fb=world({history:fx.history(full),final:fr,managerRole:'playerTwo',chipLate:true});
+    fa.dispatch(fa.back);fb.dispatch(fb.back);await settle();assert.ok(fa.page()&&fb.page());
+    assert.deepEqual(plain(fb.calls.shown[0]),plain(fa.calls.shown[0]));assert.ok(fb.page().querySelector('.tgz-sp'),'final: the Special Players line on both phones');
+    // the chip's data cannot load: no paper on this phone (the tap goes on), never a paper missing the line on one phone only
+    const c=world({history,chipFails:true});c.dispatch(c.seasonButton);await settle();assert.equal(c.page(),null);assert.equal(c.calls.continue,1);
+    ok('G13','F2-16: the Special Player chip is loaded with the paper\'s files and read when the paper is built, so both phones print the identical paper (season and final), line included');
   }
   // G10 the files: HO-048 copy byte for byte, shell-cached, fonts licensed, images on the V10 runtime cache, wired in once.
   {

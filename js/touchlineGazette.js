@@ -20,6 +20,10 @@
   // that are true (a 1-point win is never a big win, a draw is never a win). Screen words say "Special Player" or "SP".
   // A paper already shown on this phone is not shown again (one small local list, careerModeShowdown.gazetteSeen.v1). If its
   // files cannot load within a few seconds the tap simply goes on as before, so the Gazette can never hold anyone up.
+  // Fable job 2 F2-16: the Special Players line is read from the chip only after the chip and its data have loaded, as one of
+  // the paper's files, so a phone where the chip was still missing at the tap prints the same line as the other phone.
+  // F2-15: a SEASON paper stays up (its CONTINUE busy) until continueToNextSeason has finished or failed; no timer closes it
+  // mid-flight, and a step that fails or stays here gives Season Results back with its own working button.
   const node=typeof module!=="undefined"&&module.exports;
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
@@ -307,6 +311,8 @@
   // ---------- the inputs, read from what this screen already holds (no read, no write) ----------
   function tgState(name){try{return root[name]?.getState?.()??null;}catch(_error){return null;}}
   function tgSpecial(rivalryId){try{const chip=root.CareerModeSpecialPlayerChip;return chip&&typeof chip.liveFor==="function"?chip.liveFor(rivalryId):null;}catch(_error){return null;}}
+  // F2-16: the chip is one of the paper's files (loadAssets), so it is read when the paper is built, never at the tap.
+  function tgChip(load){return load("special-player-chip","js/specialPlayerChip.js",()=>Boolean(root.CareerModeSpecialPlayerChip)).then(()=>root.CareerModeSpecialPlayerChip?.ensure?.()).then(ready=>{if(ready===false)throw new Error("GAZETTE_SPECIAL_PLAYER_UNAVAILABLE");return true;});}
   // SEASON: the season this phone's CONTINUE TO SEASON N+1 belongs to (Shared History converged through it).
   function seasonInput(states){
     const history=states?.history,projection=history?.projection;
@@ -324,7 +330,7 @@
 
   // ---------- the page (browser only) ----------
   const SEEN_KEY="careerModeShowdown.gazetteSeen.v1",SEEN_MAX=60;
-  const ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500,SEASON_SAFETY_MS=9000;
+  const ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;
   const BASE="visual-assets/v10_1/content/";
   const FONTS=Object.freeze([["Gazette Mast","normal",400,"unifrakturmaguntia-latin-400-normal"],["Gazette Head","normal",700,"playfair-display-latin-700-normal"],["Gazette Head","normal",900,"playfair-display-latin-900-normal"],["Gazette Head","italic",400,"playfair-display-latin-400-italic"],["Gazette Body","normal",400,"old-standard-tt-latin-400-normal"],["Gazette Body","italic",400,"old-standard-tt-latin-400-italic"],["Gazette Body","normal",700,"old-standard-tt-latin-700-normal"]]);
   const FONT_FILES=Object.freeze(FONTS.map(f=>`${BASE}gazette/fonts/${f[3]}.woff2`));
@@ -354,6 +360,7 @@
       load("gazette-frontpage",BASE+"frontpage.js",()=>Boolean(root.ShowdownContent?.frontPage)),
       load("gazette-copy","data/gazetteCopy.js",()=>Boolean(root.CareerModeGazetteCopy)),
       load("gazette-headlines","data/frontPages.js",()=>Boolean(root.CareerModeFrontPages)),
+      tgChip(load),
       load("visual-identity","js/visualIdentity.js",()=>typeof root.getClubCrestSvg==="function").catch(()=>null)
     ]).then(()=>{tgFontRule(doc);return doc.fonts&&typeof doc.fonts.load==="function"?Promise.all(FONTS.map(f=>doc.fonts.load(`${f[1]} ${f[2]} 16px "${f[0]}"`).catch(()=>null))):null;}).then(()=>true);
     assetsPromise.catch(()=>{assetsPromise=null;});
@@ -428,14 +435,18 @@
     fit();if(doc.fonts?.ready)doc.fonts.ready.then(()=>fit());
     return true;
   }
-  // CONTINUE: the same step the tapped button ran. If it does not leave this screen (it could not go on), the paper closes
-  // and the screen the player came from is back with its own button, so nobody is ever left on the paper.
+  // CONTINUE: the same step the tapped button ran, once (leaving). SEASON (F2-15): the paper stays, its CONTINUE busy, until
+  // continueToNextSeason has finished or failed: the screen it leaves for closes the paper (onScreen); a step that returns
+  // false, throws, or finishes still on this screen closes it here, so Season Results is back with its own working button.
+  // No timer closes a season paper while the step is in flight. FINAL: the tapped button is clicked through (its own
+  // listener leaves the screen); only if that click did not leave within FINAL_SAFETY_MS is the paper closed, so nobody
+  // is ever left on the paper.
   function proceed(){
     const state=current;if(!state||state.leaving)return;state.leaving=true;
     const button=state.page.querySelector(".cmx-continue");if(button){button.disabled=true;button.setAttribute("aria-busy","true");}
-    state.safety=root.setTimeout(()=>{if(current===state)tgClose();},state.plan.kind==="final"?FINAL_SAFETY_MS:SEASON_SAFETY_MS);
+    if(state.plan.kind==="final")state.safety=root.setTimeout(()=>{if(current===state)tgClose();},FINAL_SAFETY_MS);
     let result;try{result=state.plan.proceed();}catch(_error){result=false;}
-    Promise.resolve(result).then(value=>{if(value===false&&current===state)tgClose();},()=>{if(current===state)tgClose();});
+    Promise.resolve(result).then(value=>{if(current!==state)return;if(value===false||state.plan.kind==="season")tgClose();},()=>{if(current===state)tgClose();});
   }
   // The tapped button, let through once exactly as it was tapped (its own listeners run; this page does not touch it).
   function clickThrough(find){
@@ -460,15 +471,15 @@
       const progression=root.CareerModeProductionSharedMultiSeasonProgression;
       if(button.disabled||!progression||typeof progression.canContinue!=="function"||!progression.canContinue())return null;
       const history=tgState("CareerModeProductionSharedHistoryConvergence"),rivalryId=history?.rivalryId||history?.projection?.rivalryId;
-      const input=seasonInput({history,specialPlayers:tgSpecial(rivalryId)}),key=seasonKey(input);if(!key||seen(key))return null;
-      return {kind:"season",key,button,build:()=>seasonEdition(input),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
+      const input=seasonInput({history}),key=seasonKey(input);if(!key||seen(key))return null;
+      return {kind:"season",key,button,build:()=>seasonEdition({...input,specialPlayers:tgSpecial(rivalryId)}),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
     }
     const finalStage=button.closest(".v10FinalStage");
     if(finalStage&&host.classList.contains("v10FinalMode")&&!button.disabled&&(button.id==="finalWinnerRematch"||button.classList.contains("backButton"))){
       const final=root.FINAL_WINNER_FIXTURES?.frames?.LIVE||null,history=root.CareerModeSeasonFinalV10?.gazetteHistory?.()||null;
       const input=finalInput({final,history}),key=finalKey(input);if(!key||seen(key))return null;
       const rematch=button.id==="finalWinnerRematch";
-      return {kind:"final",key,button,build:()=>finalEdition(input),proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
+      return {kind:"final",key,button,build:()=>finalEdition({...input,specialPlayers:input.specialPlayers||tgSpecial(input.projection.rivalryId)}),proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
     }
     return null;
   }
