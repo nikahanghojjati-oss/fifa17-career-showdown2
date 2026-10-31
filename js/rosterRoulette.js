@@ -22,6 +22,10 @@
   const BOARD_SIZE=15;
   const MAX_SEASONS=10;
   const OVERALL_MIN=30,OVERALL_MAX=99;
+  // F2-02 (Fable job 2): the engine revision. Bump it whenever a board or a shot can come out differently for the same
+  // Showdown, season and history (tests/contracts/r87-roulette-hits-contracts.cjs pins it to this file's text). It is part of
+  // the version string each manager's spin mark carries (rrVersion), so two phones on different builds are told so.
+  const ENGINE_REVISION=1;
   const POSITIONS=Object.freeze(["GK","SW","RWB","RB","RCB","CB","LCB","LB","LWB","RDM","CDM","LDM","RM","RCM","CM","LCM","LM","RAM","CAM","LAM","RF","CF","LF","RW","RS","ST","LS","LW","SUB"]);
 
   function rrSquads(){
@@ -294,6 +298,55 @@
       .map(r=>({name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrPlayerPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
       .sort(rrOrder);
   }
+  // ---------- F2-02: persisted hits and the version pin ----------
+  // A spin mark (js/sparkSharedTransferChallenge.js markSpun) records that season's outcome for that manager: fired, hitName,
+  // hitNumber, hitSlot and this version. The version names the engine revision and a hash of exactly the data this Showdown's
+  // boards are built from (both clubs' squad rows and database rows, and both Special Players), so a data fix for another club
+  // never stops a running Showdown, and any change that can move a board or a shot here does.
+  function rrHash(text){let h=0x811c9dc5;for(let i=0;i<text.length;i+=1){h^=text.charCodeAt(i);h=Math.imul(h,0x01000193);}return (h>>>0).toString(16).padStart(8,"0");}
+  function rrVersion(clubs,options){
+    const squads=rrSquads(),players=rrPlayers();
+    if(!squads||!players||!clubs)return null;
+    const parts=[];
+    for(const role of ROLES){
+      const club=clubs[role];
+      if(!Object.prototype.hasOwnProperty.call(squads.squads,club)||!players.clubs||!Object.prototype.hasOwnProperty.call(players.clubs,club))return null;
+      parts.push(club,squads.squads[club],players.clubs[club]);
+    }
+    const special=options&&options.special;
+    parts.push(ROLES.map(role=>rrSpecial(special,role)));
+    return `rr${4}.${ENGINE_REVISION}.${rrHash(JSON.stringify(parts))}`;
+  }
+  // A persisted outcome is used only when it is whole: fired true with a name and a board slot 0-14, or fired false with none.
+  function rrSavedHit(hits,season,role){
+    const h=hits&&hits[season]&&hits[season][role];
+    if(!h||typeof h!=="object"||typeof h.fired!=="boolean")return null;
+    if(!h.fired)return {fired:false};
+    if(typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>=BOARD_SIZE)return null;
+    return {fired:true,hitName:h.hitName.trim(),hitNumber:Number.isInteger(h.hitNumber)?h.hitNumber:null,hitSlot:h.hitSlot};
+  }
+  // Where the saved shot player stands on this phone's board: his saved slot when that slot still holds him, else wherever he
+  // is (a later build may have moved him), else -1 (not on this board at all: he is still out, nobody else is).
+  function rrSavedAt(board,saved){
+    const shot={name:saved.hitName,number:saved.hitNumber};
+    const row=board[saved.hitSlot];
+    if(row&&row.name&&rrSame(row,shot))return {shot,at:saved.hitSlot};
+    return {shot,at:board.findIndex(p=>p.name&&rrSame(p,shot))};
+  }
+  // This season's turn with a saved outcome as the authority. The chambers stay the seeded ones (they never depend on a board);
+  // the stop chamber follows the saved result so the animation agrees with it.
+  function rrSavedTurn(turn,saved,board){
+    if(!saved.fired)return {...turn,fired:false,hitSlot:null,stopChamber:turn.bulletChamber===turn.stopChamber?(turn.bulletChamber+1)%CHAMBERS:turn.stopChamber,authority:"saved",shot:null};
+    const {shot,at}=rrSavedAt(board,saved),slot=at>=0?at:saved.hitSlot;
+    return {...turn,fired:true,hitSlot:slot,aimSlot:slot,stopChamber:turn.bulletChamber,authority:"saved",shot:at>=0?null:shot};
+  }
+  // The outcome a manager's spin mark records for his own turn of this plan.
+  function rrOutcome(plan,role,version){
+    const turn=plan&&Array.isArray(plan.turns)?plan.turns.find(item=>item.role===role):null;
+    if(!turn||typeof version!=="string"||!version)return null;
+    if(!turn.fired||!turn.player||!turn.player.name)return Object.freeze({fired:false,hitName:null,hitNumber:null,hitSlot:null,version});
+    return Object.freeze({fired:true,hitName:String(turn.player.name).trim(),hitNumber:Number.isInteger(turn.player.number)?turn.player.number:null,hitSlot:turn.hitSlot,version});
+  }
   function rrArgs(rivalryId,clubs,season){
     const match=RIVALRY_ID.exec(String(rivalryId||""));
     if(!match||!Number.isInteger(season)||season<1||season>MAX_SEASONS||!clubs)return null;
@@ -303,12 +356,14 @@
   }
   // What the screen shows for one season. clubs = {playerOne, playerTwo} club names; options.special = the Special
   // Players; options.history[k] = {playerOne:[verdict rows], playerTwo:[verdict rows]} for every season k before this
-  // one (index 1..season-1). Returns null for a malformed id, an unknown club, a season outside 1..10 or a missing season
-  // of history (the screen then shows no roulette).
+  // one (index 1..season-1). options.hits[k] = {playerOne:outcome|null, playerTwo:outcome|null}: the outcomes the spin marks
+  // saved (F2-02). A saved outcome is the authority for that season and manager: the saved player is out even if this build's
+  // board would have aimed elsewhere; a season or manager without one is computed as before. Returns null for a malformed id,
+  // an unknown club, a season outside 1..10 or a missing season of history (the screen then shows no roulette).
   function rrForSeason(rivalryId,clubs,season,options){
     const args=rrArgs(rivalryId,clubs,season);
     if(!args)return null;
-    const history=options&&options.history,special=options&&options.special;
+    const history=options&&options.history,special=options&&options.special,hits=options&&options.hits;
     const boards={},turns={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
     // The Special Player is never on any board, bench or reserve list anywhere: both managers' draws are excluded from
@@ -333,11 +388,15 @@
         // Sol SQ-2-03: a player this manager already signed in an earlier window is not a new signing when entered again;
         // he keeps his first window and his place (board or reserves).
         const kept=allKept.filter(p=>!state.reserves.some(r=>r.signedSeason!==null&&rrSame(r,p)));
-        if(turn.fired){
-          rrExclude(state,state.board[turn.hitSlot]);
+        const saved=rrSavedHit(hits,k,role);
+        let shot=null,at=-1;
+        if(saved){if(saved.fired)({shot,at}=rrSavedAt(state.board,saved));}
+        else if(turn.fired){shot=state.board[turn.hitSlot];at=turn.hitSlot;}
+        if(shot){
+          rrExclude(state,shot);
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
           // R87-2's XI/bench signing placement run first without ever writing a blank row.
-          state.vacant=turn.hitSlot;
+          if(at>=0)state.vacant=at;
         }
         for(const player of kept)rrJoin(state,player);
         if(state.vacant!==null){rrReplace(state,state.vacant,[],k);state.vacant=null;}
@@ -346,11 +405,16 @@
       }
       const board=state.board;
       boards[role]=Object.freeze(board);
-      turns[role]=rrTurn(args.hex,season,role,board);
+      const turn=rrTurn(args.hex,season,role,board),saved=rrSavedHit(hits,season,role);
+      turns[role]=saved?rrSavedTurn(turn,saved,board):{...turn,authority:"computed",shot:null};
     }
-    const order=ROLES.map(role=>{const turn=turns[role],board=boards[role];return Object.freeze({...turn,player:turn.hitSlot!==null?board[turn.hitSlot]:null});});
+    const order=ROLES.map(role=>{
+      const {shot,...turn}=turns[role],board=boards[role];
+      const player=turn.hitSlot===null?null:shot?rrRow(turn.hitSlot,board[turn.hitSlot].pos,shot.name,{number:shot.number,rating:0,positions:Object.freeze([]),special:false,signedSeason:null}):board[turn.hitSlot];
+      return Object.freeze({...turn,player});
+    });
     return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order)});
   }
 
-  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,board:rrBoard,forSeason:rrForSeason});
+  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,engineRevision:ENGINE_REVISION,board:rrBoard,forSeason:rrForSeason,version:rrVersion,outcome:rrOutcome});
 });

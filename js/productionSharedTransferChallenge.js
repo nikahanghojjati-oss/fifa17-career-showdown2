@@ -62,7 +62,7 @@
   function pstcCurrentContextKey(){const showdown=pstcShowdown(),setup=pstcSetupState(),rivalry=showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"";let season;try{season=pstcSeason();}catch(_error){return "";}return pstcBoundContextKey(rivalry,season);}
   function pstcRequestContext(){const showdown=pstcShowdown(),localKey=pstcLocalContextKey(),rivalryId=String(showdown?.sharedJourney?.rivalryId||pstcSetupState()?.rivalryId||"").trim();let seasonNumber;try{seasonNumber=pstcSeason();}catch(_error){return null;}const key=pstcBoundContextKey(rivalryId,seasonNumber,localKey);return key?Object.freeze({key,localKey,rivalryId,seasonNumber}):null;}
   function pstcRequestMatches(request,ctx=null){if(!request||pstcCurrentContextKey()!==request.key)return false;if(!ctx)return true;return String(ctx.state?.rivalryId||"").trim()===request.rivalryId&&Number(ctx.options?.seasonNumber)===request.seasonNumber;}
-  function pstcBindView(result,ctx,request){if(!pstcRequestMatches(request,ctx))return false;view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};viewContextKey=request.key;if(view.state?.phase==="COMPLETED"&&view.verdicts)pstcKeepVerdicts(request.rivalryId,request.seasonNumber,view.verdicts);return true;}
+  function pstcBindView(result,ctx,request){if(!pstcRequestMatches(request,ctx))return false;view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};viewContextKey=request.key;if(view.state?.phase==="COMPLETED"&&view.verdicts){pstcKeepVerdicts(request.rivalryId,request.seasonNumber,view.verdicts);pstcSavedClear(request.key);}if(!view.state&&view.spinMarks)pstcKeepMarks(request.rivalryId,request.seasonNumber,view.spinMarks);return true;}
   function pstcResetExpiryAttempts(){expiryAttemptContextKey="";expiryAttemptRevision=-1;expiryAttemptAt=0;expiryAttemptCount=0;expiryPermissionDenied=false;}
   function pstcExpiryPaused(){return root.document?.visibilityState==="hidden"||expiryNeedsAuthority;}
   function pstcExpiryPermissionRefused(error,request){if(["permission-denied","firestore/permission-denied","permission_denied"].includes(error?.code)&&pstcRequestMatches(request)&&view?.state?.phase==="WINDOW_OPEN"){expiryAttemptContextKey=request.key;expiryAttemptRevision=Number(view.revision);expiryPermissionDenied=true;}}
@@ -214,13 +214,38 @@
             continue;
           }
           if(!pstcRequestMatches(request,ctx))return true;
-          if(!pstcBindView(result,ctx,request))return true;if(method==="lockSignings")pstcClearSigningDraft(view.managerRole);if(method==="lockGuesses")pstcClearGuessDraft(view.managerRole);pstcSetError("");
-          if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefreshNow(request);else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
+          // F2-08 (Fable job 2): the write result carries the public state only. Keep this manager's own inputs (the read at the
+          // top plus what was just locked) so the sealed rows stay on screen, and the rival's as last read.
+          if(!pstcBindView(pstcLockedView(result,current,method,payload),ctx,request))return true;if(method==="lockSignings")pstcClearSigningDraft(view.managerRole);if(method==="lockGuesses")pstcClearGuessDraft(view.managerRole);pstcSetError("");
+          if(result.needsRefresh||result.state?.phase==="COMPLETED"){
+            // F2-08: the lock is saved. A failed follow-up read is not an error and never shows an empty verdict screen or "did
+            // it save?": the screen says saved, loading verdicts, and reads again by itself.
+            if(method==="lockSignings"||method==="lockGuesses")pstcSavedPending(request);
+            try{await pstcRefreshNow(request);}catch(_error){if(pstcSavedPendingFor(request)){pstcRender();pstcDecorateDashboard();pstcSavedRetry(request);}else throw _error;}
+          }else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
           return true;
         }
       });
     }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer Challenge update failed."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
     finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
+  }
+  // ---- F2-08: a lock that is saved while its verdicts are still loading ----
+  let savedPendingKey="",savedRetryTimer=null,savedRetryCount=0;
+  const SAVED_RETRY_MS=Object.freeze([1500,4000,8000,15000]);
+  function pstcLockedView(result,current,method,payload){
+    const own=current&&current.ownInputs?{guesses:current.ownInputs.guesses??null,signings:current.ownInputs.signings??null}:{guesses:null,signings:null};
+    if(method==="lockGuesses"&&Array.isArray(payload?.guesses))own.guesses=JSON.parse(JSON.stringify(payload.guesses));
+    if(method==="lockSignings"&&Array.isArray(payload?.signings))own.signings=JSON.parse(JSON.stringify(payload.signings));
+    return {...result,ownInputs:own,opponentInputs:current?.opponentInputs||null,verdicts:null,spinMarks:null,spunRoles:null};
+  }
+  function pstcSavedPending(request){savedPendingKey=request.key;savedRetryCount=0;}
+  function pstcSavedPendingFor(request){return Boolean(request&&savedPendingKey===request.key&&view&&viewContextKey===request.key&&!view.verdicts);}
+  function pstcSavedClear(key){if(!key||savedPendingKey===key){savedPendingKey="";savedRetryCount=0;if(savedRetryTimer){root.clearTimeout?.(savedRetryTimer);savedRetryTimer=null;}}}
+  function pstcSavedRetry(request){
+    if(savedRetryTimer||typeof root.setTimeout!=="function")return;
+    const wait=SAVED_RETRY_MS[Math.min(savedRetryCount,SAVED_RETRY_MS.length-1)];savedRetryCount+=1;
+    savedRetryTimer=root.setTimeout(()=>{savedRetryTimer=null;if(!pstcSavedPendingFor(request)||!pstcRequestMatches(request))return;
+      pstcRefresh(false,false).then(fresh=>{if(!fresh&&pstcSavedPendingFor(request))pstcSavedRetry(request);},()=>{if(pstcSavedPendingFor(request))pstcSavedRetry(request);});},wait);
   }
   function pstcSetError(message=""){const node=root.document&&root.document.getElementById("transferChallengeError");if(node)node.textContent=String(message||"");}
   function pstcRolePrefix(role){return role==="playerOne"?"p1":"p2";}
@@ -350,6 +375,7 @@
   }
   function pstcDisableRole(role,disabled){const signing=pstcRolePrefix(role),guess=pstcGuessPrefix(role);for(let i=1;i<=3;i+=1){[`${signing}Signing${i}Name`,`${signing}Signing${i}Overall`,`${signing}Signing${i}Position`,`${signing}Signing${i}League`,`${signing}Signing${i}Nationality`,`${guess}Guess${i}Type`,`${guess}Guess${i}Value`].forEach(id=>pstcDisable(pstcField(id),disabled));}}
   function pstcRenderVerdictCard(role,rows){const target=pstcField(role==="playerOne"?"transferResultsOne":"transferResultsTwo");if(!target)return;target.replaceChildren();const heading=root.document.createElement("h4");heading.textContent=`${pstcManagerName(role)} · ${pstcClubName(role)}`;target.append(heading);if(!rows||!rows.length){const empty=root.document.createElement("p");empty.textContent="No signings were entered.";target.append(empty);return;}rows.forEach(row=>{const item=root.document.createElement("p"),name=root.document.createElement("strong"),status=root.document.createElement("span");name.textContent=row.name;status.textContent=row.release?"RELEASE · MATCHED BY RIVAL GUESS":"KEEP · NO RIVAL GUESS MATCH";item.append(name,root.document.createTextNode(" — "),status);target.append(item);});}
+  function pstcRenderVerdictLoading(role){const target=pstcField(role==="playerOne"?"transferResultsOne":"transferResultsTwo");if(!target)return;target.replaceChildren();const heading=root.document.createElement("h4");heading.textContent=`${pstcManagerName(role)} · ${pstcClubName(role)}`;const line=root.document.createElement("p");line.textContent="Saved. Loading the verdicts…";target.append(heading,line);}
   function pstcRenderProgress(phase){
     const localPhase=PHASE_PROGRESS[phase]||"window",order=["window","guess_entry","signing_entry","completed"],index=order.indexOf(localPhase),screen=pstcField("transferChallenge");
     if(screen)screen.dataset.transferPhase=localPhase;
@@ -405,7 +431,9 @@
     }else if(phase==="SIGNING_ENTRY"){
       const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · SIGNINGS":locked?"SIGNINGS LOCKED · WAITING FOR YOUR RIVAL":"SIGNINGS · ENTER YOUR FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent=isReplay?"Replay: your signings are read-only. Nothing here changes the game or your save.":"Both sets of guesses are locked. Enter your own signings; your rival still can't see them.";if(!isReplay&&!locked){const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
     }else if(phase==="COMPLETED"){
-      pstcText("transferPhaseStatus","TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);pstcRenderVerdictCard("playerOne",view?.verdicts?.playerOne||[]);pstcRenderVerdictCard("playerTwo",view?.verdicts?.playerTwo||[]);if(continueButton){continueButton.textContent="SEASON RESULTS NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
+      // F2-08: COMPLETED without its verdicts yet (the follow-up read after the lock failed): saved, loading, never "No signings".
+      const loadingVerdicts=!view?.verdicts;
+      pstcText("transferPhaseStatus",loadingVerdicts?"SAVED · LOADING VERDICTS":"TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);if(loadingVerdicts){pstcRenderVerdictLoading("playerOne");pstcRenderVerdictLoading("playerTwo");}else{pstcRenderVerdictCard("playerOne",view.verdicts.playerOne||[]);pstcRenderVerdictCard("playerTwo",view.verdicts.playerTwo||[]);}if(continueButton){continueButton.textContent="SEASON RESULTS NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
     }
     if(isReplay&&continueButton){continueButton.textContent=`CONTINUE REPLAY · ${phase.replaceAll("_"," ")}`;pstcHidden(actionBar,false);pstcHidden(continueButton,false);pstcDisable(continueButton,false);}
     pstcMarkWitness(key,phase);
@@ -427,7 +455,12 @@
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       // No confirm time = a Showdown the roulette never applies to (the step's own rule), so nothing is loaded.
       if(!Number.isFinite(confirmedAtMs)){rouletteGate={key:request.key,applies:false};rouletteClearedKey=request.key;await pstcAfterSpin(request);return true;}
+      // F2-02 / F2-10: this season's marks from the read just made (no new read), whether the window already opened (both
+      // managers spun), where this manager's outcome goes, and a fresh look at the marks for the version stop's TRY AGAIN.
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")},confirmedAtMs,phase:view.state?.phase||"NOT_STARTED",
+        marks:view.state?null:(view.spinMarks||null),windowStarted:Boolean(view.state),
+        remember:outcome=>pstcRememberOutcome(request,view?.managerRole,outcome),
+        refreshMarks:async()=>{const fresh=await pstcRefresh(true,false);return fresh&&viewContextKey===request.key?{marks:view.state?null:(view.spinMarks||null),windowStarted:Boolean(view.state)}:null;},
         verdicts:season=>pstcRouletteVerdicts(request,season)};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){rouletteLoadError=true;return false;}
@@ -451,17 +484,54 @@
     try{const key=`${rivalryId}|${season}`,list=pstcVerdictList().filter(item=>item[0]!==key);list.push([key,value]);if(typeof root.writeStorageValue==="function")root.writeStorageValue(PSTC_ROULETTE_VERDICTS_KEY,JSON.stringify(list.slice(-PSTC_ROULETTE_VERDICTS_MAX)));}catch(_error){}
     return value;
   }
+  // F2-02: each season's saved outcomes ({playerOne, playerTwo}: an outcome or null) once both are known for good: from the
+  // durable record, or from the pre-window marks once both managers have one (the record START writes is their exact copy).
+  const PSTC_ROULETTE_HITS_KEY="careerModeShowdown.rouletteHits.v1";
+  function pstcHitList(){try{const value=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PSTC_ROULETTE_HITS_KEY)||"[]");return Array.isArray(value)?value.filter(item=>Array.isArray(item)&&item.length===2&&typeof item[0]==="string"):[];}catch(_error){return [];}}
+  function pstcOutcomeCopy(entry){return entry&&typeof entry==="object"&&provider?.outcomeValid?.(entry)?{fired:entry.fired,hitName:entry.hitName,hitNumber:entry.hitNumber,hitSlot:entry.hitSlot,version:entry.version}:null;}
+  function pstcKeptHits(rivalryId,season){const found=pstcHitList().find(item=>item[0]===`${rivalryId}|${season}`),value=found&&found[1];return value&&typeof value==="object"&&Object.hasOwn(value,"playerOne")&&Object.hasOwn(value,"playerTwo")?value:null;}
+  function pstcKeepHits(rivalryId,season,hits){
+    const value={playerOne:pstcOutcomeCopy(hits?.playerOne),playerTwo:pstcOutcomeCopy(hits?.playerTwo)};if(!rivalryId)return value;
+    try{const key=`${rivalryId}|${season}`,list=pstcHitList().filter(item=>item[0]!==key);list.push([key,value]);if(typeof root.writeStorageValue==="function")root.writeStorageValue(PSTC_ROULETTE_HITS_KEY,JSON.stringify(list.slice(-PSTC_ROULETTE_VERDICTS_MAX)));}catch(_error){}
+    return value;
+  }
+  function pstcKeepMarks(rivalryId,season,marks){if(marks&&marks.playerOne&&marks.playerTwo)pstcKeepHits(rivalryId,season,marks);}
+  // F2-12 (Fable job 2): a season missing here is read with plain document gets (both role documents and the spin record; one
+  // record get when the verdicts are already kept), not the full prerequisite transaction with a forced token refresh.
+  async function pstcRouletteServices(){
+    const runtime=root.CareerModeProductionFirebaseRuntime;if(!runtime||typeof runtime.ensureAccountServices!=="function")pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+    const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
+    if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+    const base=services.firestoreSdk;
+    const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(s=>s))(typeof base.getDoc==="function"?base:{...base,getDoc:(await import(runtime.firebaseFirestoreModule)).getDoc});
+    return {user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:sdk};
+  }
   async function pstcRouletteVerdicts(request,season){
     try{
-      const kept=pstcKeptVerdicts(request.rivalryId,season);if(kept)return {ok:true,verdicts:kept};
-      const provided=await pstcProviderOptions(request,true);if(!provided?.options)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
-      const result=await provider.read({...provided.options,seasonNumber:season});
+      const kept=pstcKeptVerdicts(request.rivalryId,season),keptHits=pstcKeptHits(request.rivalryId,season);
+      if(kept&&keptHits)return {ok:true,verdicts:kept,hits:keptHits};
+      await pstcEnsureDependencies();
+      const role=view?.managerRole||pstcSetupState()?.managerRole;if(!role)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+      if(typeof provider.readRouletteSeason!=="function")pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+      const result=await provider.readRouletteSeason({...await pstcRouletteServices(),rivalryId:request.rivalryId,seasonNumber:season,managerRole:role,verdicts:!kept});
       if(!result||result.ok!==true)return {ok:false,code:result?.code||"TRANSFER_PROVIDER_FAILED"};
-      if(result.state?.phase!=="COMPLETED"||!result.verdicts)return {ok:false,code:"TRANSFER_NOT_COMPLETED"};
-      const value=pstcKeepVerdicts(request.rivalryId,season,result.verdicts);
-      return value?{ok:true,verdicts:value}:{ok:false,code:"TRANSFER_PROVIDER_STATE_INVALID"};
+      const value=kept||pstcKeepVerdicts(request.rivalryId,season,result.verdicts);
+      if(!value)return {ok:false,code:"TRANSFER_PROVIDER_STATE_INVALID"};
+      return {ok:true,verdicts:value,hits:pstcKeepHits(request.rivalryId,season,result.hits)};
     }catch(error){return {ok:false,code:error?.code||"TRANSFER_PROVIDER_FAILED"};}
   }
+  // F2-02: the outcome this manager's own mark records, kept on this phone until the mark is on the server (a reload re-sends
+  // exactly the same one; the Rules accept one write per role and season).
+  const PSTC_ROULETTE_OUTCOME_KEY="careerModeShowdown.rouletteOutcome.v1";
+  function pstcOutcomeList(){try{const value=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PSTC_ROULETTE_OUTCOME_KEY)||"[]");return Array.isArray(value)?value.filter(item=>Array.isArray(item)&&item.length===2&&typeof item[0]==="string"):[];}catch(_error){return [];}}
+  const pstcOutcomeKey=(request,role)=>`${request.rivalryId}|${request.seasonNumber}|${role}`;
+  function pstcRememberOutcome(request,role,outcome){
+    const copy=pstcOutcomeCopy(outcome);if(!request||!role||!copy)return false;
+    try{const key=pstcOutcomeKey(request,role),list=pstcOutcomeList().filter(item=>item[0]!==key);list.push([key,copy]);if(typeof root.writeStorageValue==="function")root.writeStorageValue(PSTC_ROULETTE_OUTCOME_KEY,JSON.stringify(list.slice(-PSTC_ROULETTE_VERDICTS_MAX)));}catch(_error){}
+    pendingOutcome={key:pstcOutcomeKey(request,role),outcome:copy};return true;
+  }
+  let pendingOutcome=null;
+  function pstcPendingOutcome(request,role){const key=pstcOutcomeKey(request,role);if(pendingOutcome&&pendingOutcome.key===key)return pendingOutcome.outcome;const found=pstcOutcomeList().find(item=>item[0]===key);return found?pstcOutcomeCopy(found[1]):null;}
   // ---- RT5-FLOW-02: both spins before the shared window ----
   // The roulette applies to a Showdown confirmed at or after the step's RRR_FROM_MS while it is not switched off; any other
   // season (an older Showdown) passes by itself and never writes or waits for a mark.
@@ -493,8 +563,11 @@
     if(!request||spinPendingKey!==request.key||!role||viewContextKey!==request.key||view.state||pstcSpunRoles().includes(role)){if(view?.state||pstcSpunRoles().includes(role))spinPendingKey="";return Promise.resolve(false);}
     const run=(async()=>{
       const provided=await pstcProviderOptions(request,true);if(!provided?.options||!pstcRequestMatches(request))return false;
-      const result=await provider.markSpun({...provided.options,managerRole:role});
+      const outcome=pstcPendingOutcome(request,role);
+      let result=await provider.markSpun({...provided.options,managerRole:role,...(outcome?{outcome}:{})});
       if(!pstcRequestMatches(request))return false;
+      // F2-02: a mark is written once. A refusal after an earlier write whose answer was lost: the server already holds it.
+      if(/permission/i.test(String(result?.code||""))){try{const fresh=await pstcRefreshNow(request,true);if(fresh&&!fresh.state&&pstcSpunRoles().includes(role))result={ok:true};}catch(_error){}}
       if(result&&result.ok===true){
         spinPendingKey="";spinRefusedKey="";
         if(view&&viewContextKey===request.key&&!view.state){const spun=pstcSpunRoles();view={...view,spunRoles:["playerOne","playerTwo"].filter(item=>item===role||spun.includes(item))};}

@@ -353,7 +353,27 @@
         && root.phase == 'NOT_STARTED'
         && root.spins is map
         && root.spins.keys().hasOnly(['playerOne','playerTwo'])
+        && (root.spins.get('playerOne', true) == true || ssjrTransferSpinOutcomeValid(root.spins.playerOne))
+        && (root.spins.get('playerTwo', true) == true || ssjrTransferSpinOutcomeValid(root.spins.playerTwo))
         && root.updatedAt == request.time;
+    }
+    // F2-02 (Fable job 2): a mark may record its manager's outcome for the season instead of plain true: fired, the shot player's
+    // name (as a signing name: 1-80 characters, trimmed) and shirt number (0-99 or null), his board slot 0-14, and the engine and
+    // data version. A safe spin has no name, number or slot. Exact keys; nothing else.
+    function ssjrTransferSpinOutcomeValid(value) {
+      return value is map
+        && value.keys().hasAll(['fired','hitName','hitNumber','hitSlot','version'])
+        && value.keys().hasOnly(['fired','hitName','hitNumber','hitSlot','version'])
+        && value.version is string
+        && value.version.size() <= 24
+        && value.version.matches('^rr[0-9]{1,3}[.][0-9]{1,4}[.][0-9a-f]{8}$')
+        && (
+          (value.fired == true
+            && ssjrTransferValidSigningName(value.hitName)
+            && value.hitSlot is int && value.hitSlot >= 0 && value.hitSlot <= 14
+            && (value.hitNumber == null || (value.hitNumber is int && value.hitNumber >= 0 && value.hitNumber <= 99)))
+          || (value.fired == false && value.hitName == null && value.hitNumber == null && value.hitSlot == null)
+        );
     }
     function ssjrTransferSpinCreate(rivalryId, transferId) {
       let after = request.resource.data;
@@ -361,7 +381,7 @@
         && ssjrTransferSpinShape(after, rivalryId, transferId)
         && ssjrEntitled(rivalryId)
         && after.spins.keys().hasOnly([ssjrActorRole(rivalryId)])
-        && after.spins[ssjrActorRole(rivalryId)] == true;
+        && after.spins[ssjrActorRole(rivalryId)] != false;
     }
     function ssjrTransferSpinUpdate(rivalryId, transferId) {
       let before = resource.data;
@@ -371,15 +391,36 @@
         && ssjrTransferSpinShape(after, rivalryId, transferId)
         && after.seasonNumber == before.seasonNumber
         && ssjrEntitled(rivalryId)
+        && !(ssjrActorRole(rivalryId) in before.spins)
         && after.spins.diff(before.spins).affectedKeys().hasOnly([ssjrActorRole(rivalryId)])
-        && after.spins[ssjrActorRole(rivalryId)] == true;
+        && after.spins[ssjrActorRole(rivalryId)] != false;
     }
     function ssjrTransferStartAfterSpins(rivalryId, transferId) {
       let before = resource.data;
       return before.phase == 'NOT_STARTED'
-        && before.spins.get('playerOne', false) == true
-        && before.spins.get('playerTwo', false) == true
+        && before.spins.get('playerOne', false) != false
+        && before.spins.get('playerTwo', false) != false
         && ssjrTransferValidCreate(rivalryId, transferId);
+    }
+    // F2-02 (Fable job 2): START replaces the mark document with the ledger, so it also writes one durable record of both marks:
+    // transferChallenges/season_N/roulette/spins, an exact copy of the stored spins (both present, so final: each entry is written
+    // once). Created once, never updated, listed or deleted; members read it to replay earlier seasons' saved shots. One lookup
+    // more than START itself (the mark document as it stands before this request).
+    function ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId) {
+      let after = request.resource.data;
+      let marks = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
+      return docId == 'spins'
+        && after.keys().hasAll(['schemaVersion','objectType','rivalryId','seasonNumber','spins'])
+        && after.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','spins'])
+        && after.schemaVersion == 1
+        && after.objectType == 'sharedTransferRouletteSpins'
+        && after.rivalryId == rivalryId
+        && ssjrTransferSeasonMatches(transferId, after.seasonNumber)
+        && ssjrEntitled(rivalryId)
+        && marks.phase == 'NOT_STARTED'
+        && marks.spins.get('playerOne', false) != false
+        && marks.spins.get('playerTwo', false) != false
+        && after.spins == marks.spins;
     }
     function ssjrTransferPrivateReadable(rivalryId, transferId, managerRole) {
       let public = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
@@ -397,6 +438,13 @@
         // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.
         allow create: if ssjrTransferSpinCreate(rivalryId, transferId);
         allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);
+
+        // F2-02: the durable record of both marks, written once by START.
+        match /roulette/{docId} {
+          allow get: if ssjrEntitled(rivalryId);
+          allow list, update, delete: if false;
+          allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);
+        }
 
         match /roles/{managerRole} {
           allow get: if ssjrTransferPrivateReadable(rivalryId, transferId, managerRole);

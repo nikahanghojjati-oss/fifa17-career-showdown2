@@ -217,7 +217,13 @@ for(const required of [
   'allow create: if ssjrTransferSpinCreate(rivalryId, transferId);',
   'allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);',
   "after.spins.diff(before.spins).affectedKeys().hasOnly([ssjrActorRole(rivalryId)])",
-  "before.spins.get('playerTwo', false) == true",
+  "before.spins.get('playerTwo', false) != false",
+  // F2-02 (Fable job 2): each mark is written once and may carry its outcome; START keeps both in one durable record.
+  "!(ssjrActorRole(rivalryId) in before.spins)",
+  'match /roulette/{docId}',
+  'allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);',
+  'allow list, update, delete: if false;',
+  "value.hitSlot is int && value.hitSlot >= 0 && value.hitSlot <= 14",
   "ssjrRivalryData(rivalryId).managerSlots[managerRole == 'playerOne' ? 0 : 1].accountId == request.auth.uid"
 ]){
   if(!generated.includes(required))throw new Error(`Generated production Rules missing required Shared Journey boundary: ${required}`);

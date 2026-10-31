@@ -110,12 +110,15 @@
   function rrsSeed(ctx){return (parseInt(String(ctx.rivalryId).slice(-8),16)^Math.imul(ctx.season,0x9E3779B1))>>>0;}
   // history[k] = both managers' Transfer War verdicts of season k, for every season before this one; null when the
   // manager leaves.
-  async function rrsHistory(ctx){
+  // F2-02: also the outcomes each season's spin marks saved (hits[k], or null when that season has none): the engine replays
+  // them as the authority. F2-12: all missing seasons are asked for at once; TRY AGAIN asks again only for those that failed.
+  async function rrsHistory(ctx,hits){
     const history=[null];
+    const first=new Map();for(let k=1;k<ctx.season;k+=1)first.set(k,Promise.resolve(ctx.verdicts(k)).catch(()=>null));
     for(let k=1;k<ctx.season;k+=1){
-      for(;;){
-        const result=await ctx.verdicts(k);
-        if(result&&result.ok){history.push(result.verdicts);break;}
+      for(let attempt=0;;attempt+=1){
+        const result=attempt===0?await first.get(k):await ctx.verdicts(k);
+        if(result&&result.ok){history.push(result.verdicts);hits[k]=result.hits||null;break;}
         const choice=await rrsAsk(ctx,{heading:"Building the boards",label:"Building the boards",lines:[rrsReadError(result)],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
         if(choice==="back")return null;
       }
@@ -206,23 +209,58 @@
     return choice==="go";
   }
 
+  // ---------- F2-02 / F2-10: the spin marks on the server ----------
+  // ctx.marks = this season's marks as the Transfer Challenge read them ({playerOne, playerTwo}: true, an outcome, or null), or
+  // null once the window opened (both managers had spun: START needs both marks). An outcome is {fired, hitName, hitNumber,
+  // hitSlot, version}.
+  function rrsOutcomeOf(entry){return entry&&typeof entry==="object"&&typeof entry.fired==="boolean"&&typeof entry.version==="string"?entry:null;}
+  function rrsSpunOnServer(ctx){return ctx.windowStarted===true||Boolean(ctx.marks&&ctx.marks[ctx.managerRole]);}
+  // F2-02: the partner spun this season on a different version of the game (another build, or other squad data), so the two
+  // phones could show different players. Said plainly, never a silent desync. TRY AGAIN reads the marks again (after either
+  // phone was updated); the partner's saved spin stands for him either way, so CONTINUE goes on with it as the authority.
+  async function rrsVersionStop(ctx,version){
+    for(;;){
+      const partner=rrsOutcomeOf(ctx.marks&&ctx.marks[rrsOther(ctx.managerRole)]);
+      if(!version||!partner||partner.version===version||rrsSpunOnServer(ctx)&&ctx.marks&&ctx.marks[ctx.managerRole])return true;
+      const name=NAMES[rrsOther(ctx.managerRole)];
+      const choice=await rrsAsk(ctx,{heading:"Update the game on the other phone",label:"Update the game on the other phone",
+        lines:[`${name} spun this season's roulette on a different version of the game, so the two phones could show different players.`,`Update the game on ${name}'s phone: close it fully and open it again. If this phone is the one behind, do the same here. Then tap TRY AGAIN.`],
+        note:`This phone: ${version} · ${name}'s spin: ${partner.version}. ${name}'s saved spin stands for him either way.`,
+        buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"continue",label:`CONTINUE WITH ${name.toUpperCase()}'S SAVED SPIN`},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+      if(choice==="back")return false;
+      if(choice==="continue")return true;
+      if(typeof ctx.refreshMarks==="function"){try{const next=await ctx.refreshMarks();if(next&&typeof next==="object"){ctx.marks=next.marks===undefined?ctx.marks:next.marks;ctx.windowStarted=next.windowStarted===true;}}catch(_error){}}
+    }
+  }
+
   async function rrsRun(ctx){
     if(!rrsDecide(ctx)||!rrsDoc())return true;
     while(!await rrsEnsure()){
       const choice=await rrsAsk(ctx,{heading:"Loading the roulette",label:"Loading the roulette",lines:["The roulette could not load. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
       if(choice==="back")return false;
     }
-    const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx);
-    const history=ctx.season>1?await rrsHistory(ctx):[null];if(!history)return false;
+    const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx),special=rrsSpecial(ctx);
+    const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special}):null;
+    if(!await rrsVersionStop(ctx,version))return false;
+    const hits={};
+    const history=ctx.season>1?await rrsHistory(ctx,hits):[null];if(!history)return false;
+    // This season: a saved mark (this manager's own on a second browser, the partner's always) is the authority for that turn.
+    hits[ctx.season]=Object.fromEntries(ROLES.map(role=>[role,rrsOutcomeOf(ctx.marks&&ctx.marks[role])]));
     // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player.
-    const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special:rrsSpecial(ctx),history});
+    const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits});
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){rrsMark(DONE_KEY,key);return true;}
-    if(!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
+    // F2-10: the server already holds this manager's spin for this season (another browser or tab, or cleared storage): the
+    // result card shows it at once, with no second spin.
+    const spun=rrsSpunOnServer(ctx);
+    if(spun)rrsMark(WATCHED_KEY,key);
+    if(!spun&&!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
       const scene=await rrsScene(ctx,plan);
       if(scene==="watched")rrsMark(WATCHED_KEY,key);
     }
     const go=await rrsResult(ctx,plan);
     if(!go)return false;
+    // F2-02: the outcome this manager's mark records (only while the server has none for him this season).
+    if(!spun&&typeof ctx.remember==="function"&&typeof engine.outcome==="function"){try{ctx.remember(engine.outcome(plan,ctx.managerRole,version));}catch(_error){}}
     rrsMark(DONE_KEY,key);
     return true;
   }
