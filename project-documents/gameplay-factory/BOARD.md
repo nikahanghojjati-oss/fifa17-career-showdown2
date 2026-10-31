@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 31 Oct, 4:22 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 31 Oct, 4:26 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
-🐕 **Barking: Showdown Gate on #1125 has waited 54 min for a machine; Showdown Gate on #1131 has waited 52 min for a machine; Showdown Gate on #1128 has waited 50 min for a machine; Showdown Gate on #1132 has waited 50 min for a machine; Showdown Gate on #1118 has waited 47 min for a machine; Showdown Gate on #1134 has waited 42 min for a machine; Showdown Gate on #1129 has waited 41 min for a machine; Showdown Gate on #1103 has waited 40 min for a machine; Showdown Gate on #1137 has waited 39 min for a machine; Showdown Gate on #1138 has waited 37 min for a machine; Showdown Gate on #1133 has waited 33 min for a machine; Showdown Gate on #1139 has waited 33 min for a machine; Showdown Gate on #1140 has waited 26 min for a machine; POS20 on #312 has waited 26 min for a machine; Showdown Gate on #1117 has waited 24 min for a machine; Showdown Gate on #1130 has waited 21 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1121 has waited 64 min for a machine; Showdown Gate on #1122 has waited 64 min for a machine; Showdown Gate on #1131 has waited 62 min for a machine; Showdown Gate on #1126 has waited 58 min for a machine; Showdown Gate on #1137 has waited 48 min for a machine; Showdown Gate on #1138 has waited 46 min for a machine; Showdown Gate on #1133 has waited 43 min for a machine; Showdown Gate on #1139 has waited 42 min for a machine; Showdown Gate on #1140 has waited 36 min for a machine; Showdown Gate on #1117 has waited 34 min for a machine; Showdown Gate on #1130 has waited 30 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -34,7 +34,7 @@ Updated Sat 31 Oct, 4:22 PM Boston time. Bug hunting only, no new features until
 
 **#5 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 463 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 464 h ago
 
 **#6 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -74,11 +74,11 @@ Updated Sat 31 Oct, 4:22 PM Boston time. Bug hunting only, no new features until
 
 **#15 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 357 h ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 358 h ago
 
 **#16 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 357 h ago
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 358 h ago
 
 ### 👉 Next for you, in this order
 
