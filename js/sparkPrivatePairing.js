@@ -867,13 +867,16 @@ async function revokePairing(options={}){
     if(!error||typeof error!=="object"||error.quotaPaused)return 0;
     return FSB_ANSWERED_ERRORS.has(String(error.code||"").toLowerCase().replace(/^firestore\//,"").replace(/_/g,"-"))?1:0;
   }
+  // Red team R87-B-06: a direct get (career index, summaries) that hits the daily quota trips the same online-play pause as a
+  // transaction, so Home shows the notice and nothing keeps asking.
+  function fsbGetFailed(error,lookups){fsbStats.directFailures+=1;fsbCountRead(fsbMeterFailureUnits(error),false,lookups,true);if(fsbIsQuotaError(error))fsbTrip();}
   function fsbMeterGet(get){
     if(typeof get!=="function"||fsbMetered.has(get))return get;
     const metered=function(...args){
       let pending;
       const lookups=fsbReadLookups(fsbPathOf(args[0]),true);
-      try{pending=get.apply(this,args);}catch(error){fsbStats.directFailures+=1;fsbCountRead(fsbMeterFailureUnits(error),false,lookups,true);throw error;}
-      return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);return snapshot;},error=>{fsbStats.directFailures+=1;fsbCountRead(fsbMeterFailureUnits(error),false,lookups,true);throw error;});
+      try{pending=get.apply(this,args);}catch(error){fsbGetFailed(error,lookups);throw error;}
+      return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);return snapshot;},error=>{fsbGetFailed(error,lookups);throw error;});
     };
     fsbMetered.add(metered);
     return metered;

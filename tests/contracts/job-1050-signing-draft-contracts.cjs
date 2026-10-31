@@ -14,7 +14,7 @@ check("D1", "draft keys are scoped to rivalry, season, and manager role", () => 
   assert.ok(source.includes("cms.signingDraft.v1:" + "${request.rivalryId}:${request.seasonNumber}:${role}"));
 });
 check("D2", "the same context restores locally saved rows only during unlocked Signing Entry", () => {
-  assert.ok(source.includes("function pstcRestoreSigningDraft(role,own)"));
+  assert.ok(source.includes("function pstcRestoreSigningDraft(role,own,force=false)"));
   assert.ok(source.includes('actualPhase==="SIGNING_ENTRY"&&!isReplay&&!state?.signingLockedRoles?.includes(role))pstcRestoreSigningDraft(role,own)'));
   assert.ok(source.includes("draft.rivalryId!==request.rivalryId||Number(draft.seasonNumber)!==request.seasonNumber||draft.role!==role"));
 });
