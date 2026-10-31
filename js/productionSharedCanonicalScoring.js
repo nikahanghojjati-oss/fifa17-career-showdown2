@@ -56,7 +56,24 @@
     const p1=view.scoring.playerOne,p2=view.scoring.playerTwo,n1=pcscManagerName("playerOne"),n2=pcscManagerName("playerTwo");
     pcscText(ui.totals,`${n1}: ${p1.total} · ${n2}: ${p2.total}`);
     pcscText(ui.breakdown,`Champions League ${p1.championsLeague}–${p2.championsLeague}${p1.europaLeague||p2.europaLeague?` · Europa League ${p1.europaLeague||0}–${p2.europaLeague||0}`:""} · League Title ${p1.leagueTitle}–${p2.leagueTitle} · Domestic Cup ${p1.domesticCup}–${p2.domesticCup} · Performance Bonus ${p1.performanceBonus}–${p2.performanceBonus} · Awards Bonus ${p1.individualAwardsBonus}–${p2.individualAwardsBonus}`);
-    pcscText(ui.winner,view.winner==="draw"?"Season result: Draw":`Season winner: ${pcscManagerName(view.winner)}`);return true;
+    pcscText(ui.winner,view.winner==="draw"?"Season result: Draw":`Season winner: ${pcscManagerName(view.winner)}`);pcscBoard(ui.panel,p1,p2,n1,n2,view.winner);return true;
+  }
+  // r87 match-day polish: the same numbers drawn as a scoreboard (names, big totals, one row per category with the higher
+  // number gold, the season verdict). The three text lines above stay for screen readers and the audits; the board is
+  // aria-hidden. Equal stays level: a row or a season is never split by anything else (no tiebreak).
+  function pcscBoard(panel,p1,p2,n1,n2,winner){
+    const doc=root.document;if(!doc||!panel)return;
+    let board=panel.querySelector(":scope > .pcscBoard");if(!board){board=doc.createElement("div");board.className="pcscBoard";board.setAttribute("aria-hidden","true");panel.appendChild(board);}
+    const key=JSON.stringify([p1,p2,n1,n2,winner]);if(board.dataset.key===key)return;board.dataset.key=key;
+    const el=(tag,cls,text)=>{const node=doc.createElement(tag);if(cls)node.className=cls;if(text!=null)node.textContent=String(text);return node;};
+    const side=(a,b)=>a>b?" is-lead":"";
+    const head=el("div","pcscBoard__head");
+    head.append(el("span","pcscBoard__name",n1),el("strong",`pcscBoard__total${side(p1.total,p2.total)}`,p1.total),el("span","pcscBoard__colon",":"),el("strong",`pcscBoard__total${side(p2.total,p1.total)}`,p2.total),el("span","pcscBoard__name",n2));
+    const rows=el("div","pcscBoard__rows");
+    const lines=[["Champions League",p1.championsLeague,p2.championsLeague],...(p1.europaLeague||p2.europaLeague?[["Europa League",p1.europaLeague||0,p2.europaLeague||0]]:[]),["League Title",p1.leagueTitle,p2.leagueTitle],["Domestic Cup",p1.domesticCup,p2.domesticCup],["Performance Bonus",p1.performanceBonus,p2.performanceBonus],["Awards Bonus",p1.individualAwardsBonus,p2.individualAwardsBonus]];
+    for(const [label,a,b] of lines){const one=Number(a)||0,two=Number(b)||0,row=el("div",`pcscBoard__row${one||two?"":" is-zero"}`);row.append(el("span",`pcscBoard__val${side(one,two)}`,`+${one}`),el("span","pcscBoard__label",label),el("span",`pcscBoard__val${side(two,one)}`,`+${two}`));rows.append(row);}
+    const verdict=el("div",`pcscBoard__verdict${winner==="draw"?" is-draw":""}`,winner==="draw"?"SEASON DRAWN":`SEASON WINNER · ${pcscManagerName(winner)}`);
+    board.replaceChildren(head,rows,verdict);panel.classList.add("hasPcscBoard");
   }
   async function pcscProviderOptions(request){
     const setup=setupApi?.getState?.();if(!setup||setup.ready!==true||!setup.setup||setup.setup.phase!=="SHOWDOWN_CONFIRMED"||setup.setup.revision!==6||!setup.rivalryId||!setup.sessionId||!setup.deviceId)pcscFail("CANONICAL_SCORING_SETUP_NOT_CONFIRMED");
@@ -99,5 +116,5 @@
   function pcscInstallObservers(){if(pcscAttachHeadingObserver()||!root.MutationObserver||!root.document?.documentElement)return;bootstrapObserver=new root.MutationObserver(()=>{if(pcscAttachHeadingObserver()){bootstrapObserver.disconnect();bootstrapObserver=null;}});bootstrapObserver.observe(root.document.documentElement,{childList:true,subtree:true});}
   function pcscInstall(){if(installed)return true;installed=true;pcscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void pcscTick(false,true));if(typeof root.setInterval==="function"){root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())void pcscTick();},POLL_MS);root.setInterval(pcscFastTick,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(()=>void pcscTick(),0);return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-canonical-scoring",productionEnabled:true,runtimeRevision:"1.9.1-r11",requiresAcknowledgedSeasonCommit:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,reusesSeasonReview:true,canonicalStorageMutation:false,authoritativeScoring:true,trustsSubmittedTotals:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pcscWaitingKey()),install:pcscInstall,refresh:pcscRefresh,getState:()=>view,isActive:pcscSharedMarker});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-canonical-scoring",scoreBoard:pcscBoard,productionEnabled:true,runtimeRevision:"1.9.1-r11",requiresAcknowledgedSeasonCommit:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,reusesSeasonReview:true,canonicalStorageMutation:false,authoritativeScoring:true,trustsSubmittedTotals:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pcscWaitingKey()),install:pcscInstall,refresh:pcscRefresh,getState:()=>view,isActive:pcscSharedMarker});
 });

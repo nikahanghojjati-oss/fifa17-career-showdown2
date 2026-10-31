@@ -1113,3 +1113,59 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 @media (max-width: 760px) and (orientation: portrait) {
   #app #transferChallenge .tw-host .transferCombobox > .transferComboboxList { scroll-margin: 12px 0 calc(var(--footer-h, 56px) + var(--phone-action-h, 48px) + 28px); }
 }
+/* r87 match-day polish (2.0.0). Nothing moves: sizes, faces and finishes only, inside the boxes the layout already gives.
+   1. Desktop: the live window clock is the hero of the hanging sign (Team V's NEXT_TRANSFER draws it biggest), and the
+      sign's phase line after the window reads as a headline instead of small print in an empty frame.
+   2. RELEASE and KEEP read as stamps: a red-wax pill and a gold-outline pill (they echo the SEALED seal on the same screen).
+   3. Phone: the fixed CONTINUE bar on the verdicts is opaque marble with the gold edge (names no longer ghost through it),
+      and END WINDOW EARLY wears the gold primary until it is requested (the black "requested" face stays distinct). */
+@media (min-width: 1101px) {
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer {
+    font-size: max(34px, calc(var(--k) * 52px)); line-height: .95; letter-spacing: .02em; font-variant-numeric: tabular-nums; margin-bottom: calc(var(--k) * 6px);
+  }
+  #app #transferChallenge .tw-host .stage:not([data-phase="WINDOW_OPEN"]) .sign-status.reg .part:first-child {
+    font-size: max(16px, calc(var(--k) * 21px)); line-height: 1.05; letter-spacing: .12em; color: var(--gold-hot, #ffd27a);
+  }
+  #app #transferChallenge .tw-host .stage:not([data-phase="WINDOW_OPEN"]) .sign-status.reg .part + .part { margin-top: 4px; }
+}
+#app #transferChallenge .tw-host .verdict-row .vr-word {
+  display: inline-block; align-self: flex-end; padding: 2px 9px 1px; margin-right: 0; border-radius: 999px;
+  font-size: 13px; letter-spacing: .14em; line-height: 1.2; text-shadow: none;
+}
+#app #transferChallenge .tw-host .verdict-row.is-release .vr-word {
+  color: #fff3e6; background: radial-gradient(circle at 35% 30%, #c2402c, #8a1d14 70%); box-shadow: inset 0 0 0 1px rgba(255, 190, 160, .35), 0 1px 0 rgba(0, 0, 0, .28);
+}
+#app #transferChallenge .tw-host .verdict-row.is-keep .vr-word {
+  color: var(--gold-hot, #ffd27a); background: rgba(10, 8, 5, .7); box-shadow: inset 0 0 0 1px rgba(242, 196, 91, .85);
+}
+#app #transferChallenge .tw-host .vr-verdict .vr-why { margin-top: 3px; }
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #transferChallenge .tw-host .verdict-row .vr-verdict { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 2px 8px; }
+  #app #transferChallenge .tw-host .verdict-row .vr-word { align-self: center; }
+  #app #transferChallenge .tw-host .vr-verdict .vr-why { margin-top: 0; }
+  #app #transferChallenge .tw-host .btn-continue:not(.hidden) {
+    background: #0b0906 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+    border: 1px solid var(--gold, #f2c45b); box-shadow: 0 -1px 0 rgba(242, 196, 91, .55), 0 6px 14px rgba(0, 0, 0, .28);
+    color: var(--gold-hot, #ffd27a);
+  }
+  #app #transferChallenge .tw-host #endTransferTimer.btn-end:not(.requested):not(:disabled) {
+    color: #17110a; background: linear-gradient(180deg, #ffe08a 0%, #f2c45b 46%, #c8932e 100%);
+    border: 1px solid #ffe7a6; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 2px 0 #6e4f16;
+  }
+}
+/* r87 match-day polish: Deadline Day drives the clock (js/deadlineDay.js sets data-dd on the host). The last minute turns
+   the clock hot; the last ten seconds pulse it (transform only, off for reduced motion). The strip slides in instead of
+   jumping. */
+#app #transferChallenge .tw-host[data-dd] :is(.sign-main.timer, .sign-status.reg[data-clock]::after) { transition: color .4s ease, text-shadow .4s ease; }
+#app #transferChallenge .tw-host[data-dd="ticker"] .sign-main.timer,
+#app #transferChallenge .tw-host[data-dd="ticker"] .sign-status.reg[data-clock]::after { color: #ffb067; text-shadow: 0 0 10px rgba(255, 120, 50, .55); }
+#app #transferChallenge .tw-host[data-dd="countdown"] .sign-main.timer,
+#app #transferChallenge .tw-host[data-dd="countdown"] .sign-status.reg[data-clock]::after { color: #ff7a52; text-shadow: 0 0 12px rgba(255, 80, 40, .7); }
+#app #transferChallenge .tw-host[data-dd="countdown"] .sign-main.timer { animation: twClockPulse 1s ease-in-out infinite; transform-origin: 50% 55%; }
+@keyframes twClockPulse { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.07); } }
+#app #transferChallenge .tw-host .ddStrip:not([hidden]) { animation: twDdIn .28s ease-out both; }
+@keyframes twDdIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  #app #transferChallenge .tw-host[data-dd="countdown"] .sign-main.timer,
+  #app #transferChallenge .tw-host .ddStrip:not([hidden]) { animation: none; }
+}
