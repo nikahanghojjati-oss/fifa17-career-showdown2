@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 9:57 PM Boston time (EDT)",
+ "generated": "2026-10-30 10:02 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -2289,13 +2289,13 @@
     "from": "V",
     "to": "G",
     "title": "Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-048_touchline-gazette-full-edition-real-news.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 5
+    "pickup_min": 9,
+    "waiting_min": null
    }
   ],
   "relay_ok": true

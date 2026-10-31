@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-30 9:57 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-30 10:02 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `16fed74` (Fri 30 Oct 9:52 PM Boston time) · 174 messages · 49 hand-offs · 329 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `96efb14` (Fri 30 Oct 10:01 PM Boston time) · 174 messages · 49 hand-offs · 329 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-048 · V → G · Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 9 min after delivery
 
+- Fri 30 Oct 10:01 PM · Team G · Received · r87 lead: building it now (branch claude-gameplay/r87-gazette); season edition after each Season Results, final after Final Winner (Nik 01:28 UTC). Paper text deterministic per Showdown+season so both phones match.
 - Fri 30 Oct 9:52 PM · Team V · Sent
 - Fri 30 Oct 9:53 PM · relay Action · Delivered in full as a wake comment on PR #312
 
