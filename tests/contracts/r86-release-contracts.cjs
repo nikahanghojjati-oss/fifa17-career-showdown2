@@ -45,10 +45,12 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.deepEqual(added.slice(6),['js/rosterRouletteStep.js','js/rosterRoulette.js','data/rosterSquads.js','css/v10Roulette.css','visual-assets/v10_1/roulette/index.html','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/vendor/three-r128.min.js','visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt','visual-assets/v10_1/roulette/assets/squads.json','js/deadlineDay.js','data/deadlineDayLines.js','data/fifa17Players.js',
     'js/touchlineGazette.js','data/gazetteCopy.js','data/frontPages.js','css/v10Gazette.css','visual-assets/v10_1/content/content.css','visual-assets/v10_1/content/frontpage.js',
     ...['unifrakturmaguntia-latin-400-normal','playfair-display-latin-700-normal','playfair-display-latin-900-normal','playfair-display-latin-400-italic','old-standard-tt-latin-400-normal','old-standard-tt-latin-400-italic','old-standard-tt-latin-700-normal'].map(f=>`visual-assets/v10_1/content/gazette/fonts/${f}.woff2`),
-    ...['unifrakturmaguntia','playfair-display','old-standard-tt'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`)]);
+    ...['unifrakturmaguntia','playfair-display','old-standard-tt'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`),
+    // r87 first load: the self-hosted Barlow Condensed sheet and its nine files.
+    'assets/fonts/barlow-condensed.css',...['vietnamese','latin-ext','latin'].flatMap(s=>[600,700,800].map(w=>`assets/fonts/barlow-condensed-${s}-${w}-normal.woff2`))]);
   assert.ok(!added.includes('js/musicDockV10.js'),'the r85 music player is in r85\'s own list');
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(shell.length,256); // r86 228 + r87's twelve + the Gazette's sixteen
+  assert.equal(shell.length,266); // r86 228 + r87's twelve + the Gazette's sixteen + the self-hosted Barlow Condensed ten
   assert.ok(added.every(p=>shell.includes(p)));
   assert.equal(shell.filter(p=>!added.includes(p)).length,222,'r85 rollback shell is unchanged');
   ok('RR3','the retained r85 shell is verified against its own 222 paths');

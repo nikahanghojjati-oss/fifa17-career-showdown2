@@ -9,8 +9,8 @@ Career Mode Showdown is a personal fan project. This file records third-party ma
 - Project source: `https://github.com/jpt/barlow`
 - License: SIL Open Font License, Version 1.1
 - Application use: Barlow Condensed 600 / 700 / 800 for selected football-game-inspired display text.
-- Delivery: Google Fonts stylesheet service with `display=swap`; no font binary is stored in this repository.
-- Fallback: local condensed/system fonts are used if the external stylesheet cannot load.
+- Delivery (r87): Google Fonts' own Barlow Condensed v13 WOFF2 files and @font-face rules (`display=swap`), stored in this repository (`assets/fonts/`, `assets/fonts/barlow-condensed.css`) and served from the game's own site, so startup no longer waits on another site.
+- Fallback: local condensed/system fonts are used if a font file cannot load.
 
 The application does not claim Barlow is EA/FIFA's proprietary typeface.
 

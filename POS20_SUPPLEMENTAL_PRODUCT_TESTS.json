@@ -2418,6 +2418,17 @@
         "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-first-load-contracts.cjs",
+      "patterns": [
+        "^js/offlineApp\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^assets/fonts/",
+        "^tests/contracts/r87\\-first\\-load\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

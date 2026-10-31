@@ -509,6 +509,19 @@ function observeRegistration(registration){
     });
 }
 
+function afterStartupHandover(){
+    return new Promise(resolve=>{
+        const started=Date.now();
+        const idle=()=>typeof requestIdleCallback==="function"?requestIdleCallback(()=>resolve(),{timeout:3000}):setTimeout(resolve,300);
+        const check=()=>{
+            const loading=document.getElementById("loadingScreen");
+            if(!loading||loading.hidden||Date.now()-started>=20000){ idle(); return; }
+            setTimeout(check,250);
+        };
+        check();
+    });
+}
+
 async function registerOfflineApplication(){
     if(!isServiceWorkerSupported()){
         renderConnectivity();
@@ -607,7 +620,11 @@ function initializeOfflineApplication(){
         void verifyOfflineReadiness(navigator.serviceWorker.controller);
     });
 
-    registerOfflineApplication().catch(error=>{
+    // r87 first load: the worker's install precaches the whole shell (about 4 MB, and again on every release), which shared
+    // the phone's link with Home and held the Reus loading screen about 4 s longer on a slow phone. Registration and the update
+    // check now start once the loading screen has handed over to the first screen (bounded at 20 s), on idle. A page the
+    // worker already controls is served by it either way; an update check from Settings registers at once.
+    afterStartupHandover().then(registerOfflineApplication).catch(error=>{
         offlineReady=false;
         offlineRecoveryReady=false;
         connectivityVerified=false;
