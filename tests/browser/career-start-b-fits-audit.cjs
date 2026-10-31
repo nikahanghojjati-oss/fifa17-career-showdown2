@@ -28,7 +28,11 @@ const CASES = [
     // Resume from Home (productionSharedJourneyEntry.openCareerStart after a reload or CONTINUE CAREER): Career Start opens
     // while Home is up and the shared shell has no clubs yet. It must open the Club screen behind it and show the stage,
     // never the old card and never a frame of the Club wheel or packs.
-    { name: "resume-from-home", from: "home", clubs: ["Fiorentina", "Bologna"], state: null, sizes: SIZES }
+    { name: "resume-from-home", from: "home", clubs: ["Fiorentina", "Bologna"], state: null, sizes: SIZES },
+    // The Club screen's visuals cannot load (its plate map fails, so clMaps() in js/clubScreenV10.js rejects): Career Start
+    // shows on its own marble plate with every control visible and working, RETRY reloads the Club visuals, and nothing is
+    // ever left as an invisible panel.
+    { name: "club-visuals-fail", from: "home", failMaps: true, clubs: ["Fiorentina", "Bologna"], state: null, sizes: [[1366, 768], [393, 660], [375, 553]] }
 ];
 
 async function openCareerStart(page, kase){
@@ -39,6 +43,7 @@ async function openCareerStart(page, kase){
         try{ shared.state = JSON.parse(JSON.stringify(Career.apply({ state: shared.state, setup, actorRole: role, command: { type: "acknowledge-career-start", operationId, baseRevision } }).state)); return { ok: true, status: "accepted", revision: shared.state.revision, state: shared.state, setup, managerRole: role, assignment: Career.localAssignment(setup, role) }; }
         catch(error){ return { ok: false, code: error.code || "CAREER_START_PROVIDER_FAILED" }; }
     });
+    if(kase.failMaps) await page.route("**/platemap.json*", route => route.abort());
     await page.route("**/js/offlineApp.js*", route => route.fulfill({ contentType: "application/javascript", body: "window.getOfflineAppDiagnostics=()=>({isolatedGateScreenshot:true});" }));
     await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 30000 });
@@ -67,7 +72,7 @@ async function openCareerStart(page, kase){
     await page.evaluate(() => loadRuntimeScript("ssjr-production-career-start", "js/productionSharedCareerStart.js", () => window.CareerModeProductionSharedCareerStart));
     // Every painted frame from the open on: the old card must never be visible, and the Club screen's wheel, packs, panels
     // or buttons must never be visible without the stage in front of them.
-    await page.evaluate(() => {
+    await page.evaluate(oldCardOnly => {
         window.__careerStartFrames = { frames: 0, bad: [] };
         const seen = node => { if(!node) return false; const r = node.getBoundingClientRect(); if(r.width < 1 || r.height < 1) return false; for(let n = node; n && n.nodeType === 1; n = n.parentElement){ const s = getComputedStyle(n); if(s.display === "none" || s.visibility === "hidden" || Number(s.opacity) === 0) return false; } return true; };
         // Opened from the Club screen, the Club screen is rightly up until Career Start opens; from Home it never shows bare.
@@ -77,14 +82,58 @@ async function openCareerStart(page, kase){
             const overlay = document.getElementById("productionSharedCareerStartOverlay");
             const careerStartUp = !startedOnClub || Boolean(overlay && !overlay.classList.contains("hidden"));
             if(overlay && !overlay.classList.contains("pcstStage") && seen(overlay.querySelector(".remoteJoiningShell"))) log.bad.push(`frame ${log.frames}: old card visible`);
-            for(const sel of ["#clubWheelScreen .clubAssignmentHeader", "#clubWheelScreen .clubRevealProgress", "#clubWheelScreen .clubVs", "#clubRivalryConfirmation", "#openClubPack", "#continueClubAssignment", "#clubWheelScreen #world .reveal"]) if(careerStartUp && seen(document.querySelector(sel))) log.bad.push(`frame ${log.frames}: ${sel} visible`);
+            if(!oldCardOnly) for(const sel of ["#clubWheelScreen .clubAssignmentHeader", "#clubWheelScreen .clubRevealProgress", "#clubWheelScreen .clubVs", "#clubRivalryConfirmation", "#openClubPack", "#continueClubAssignment", "#clubWheelScreen #world .reveal"]) if(careerStartUp && seen(document.querySelector(sel))) log.bad.push(`frame ${log.frames}: ${sel} visible`);
             if(log.frames < 600) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
-    });
+    }, Boolean(kase.failMaps));
     await page.evaluate(async () => { window.CareerModeProductionSharedCareerStart.install(); await window.CareerModeProductionSharedCareerStart.openPanel(); });
     await page.locator("#productionSharedCareerStartOverlay").waitFor({ state: "visible", timeout: 10000 });
     await page.waitForTimeout(500); // fonts and the Club layout settle
+}
+
+// The marble fallback: visible, covers nothing, every control works; RETRY while the maps still fail stays put, and RETRY once
+// they load shows the stage on the Club screen; BACK closes it.
+async function checkFallback(page, kase, width, height, expectedMode, errors){
+    const label = `${kase.name} ${width}x${height}`;
+    const audit = await page.evaluate(() => window.CareerModeProductionSharedCareerStart.layoutAudit());
+    if(shotDir){ fs.mkdirSync(shotDir, { recursive: true }); await page.screenshot({ path: path.join(shotDir, `career-start-b-${kase.name}-${width}x${height}.png`) }); }
+    assert.equal(audit.stage, true, `${label}: Career Start is up, never a hidden panel`);
+    assert.equal(audit.mode, "fallback", `${label}: the marble fallback`);
+    assert.equal(audit.back, true, `${label}: BACK visible`);
+    assert.equal(audit.retry, true, `${label}: RETRY visible`);
+    assert.deepEqual(audit.covers, [], `${label}: nothing covers anything`);
+    assert.equal(audit.overflow, false, `${label}: the words fit their panel`);
+    assert.equal(audit.onScreen, true, `${label}: all on screen`);
+    const look = await page.evaluate(() => { const o = document.getElementById("productionSharedCareerStartOverlay"), s = getComputedStyle(o); return { visibility: s.visibility, opacity: s.opacity, marble: /r78-marble-tile/.test(s.backgroundImage), text: o.innerText }; });
+    assert.deepEqual([look.visibility, look.opacity, look.marble], ["visible", "1", true], `${label}: visible, undimmed, black-and-gold marble`);
+    assert.match(look.text, /The Club screen didn't load/, `${label}: says what happened once`);
+    assert.match(look.text, /T\. Courtois · Chelsea/, `${label}: Special Player original club stays`);
+    const buttons = { confirm: page.getByRole("button", { name: /I STARTED AT FIORENTINA/ }), refresh: page.getByRole("button", { name: "REFRESH" }), retry: page.getByRole("button", { name: "RETRY" }), back: page.getByRole("button", { name: "Close Career Start" }) };
+    for(const [key, locator] of Object.entries(buttons)){
+        assert.equal(await locator.count(), 1, `${label}: one ${key}`);
+        // visible and on top: the point at its centre hits the button itself
+        const hit = await locator.evaluate(node => { const r = node.getBoundingClientRect(), at = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return r.width > 0 && r.height > 0 && Boolean(at && (at === node || node.contains(at))); });
+        assert.equal(hit, true, `${label}: ${key} is visible and nothing covers it`);
+    }
+    await buttons.refresh.click();
+    await buttons.retry.click();
+    await page.waitForFunction(() => /still didn't load/.test(document.getElementById("productionSharedCareerStartOverlay").innerText), null, { timeout: 15000 });
+    assert.equal(await page.evaluate(() => document.getElementById("productionSharedCareerStartOverlay").dataset.stageMode), "fallback", `${label}: RETRY while the Club visuals still fail keeps the fallback`);
+    await buttons.confirm.click();
+    await page.waitForFunction(() => /YOUR CAREER IS CONFIRMED/.test(document.getElementById("productionSharedCareerStartOverlay").innerText), null, { timeout: 15000 });
+    const frames = await page.evaluate(() => window.__careerStartFrames);
+    assert.deepEqual([...new Set(frames.bad)].slice(0, 5), [], `${label}: the old card never painted`);
+    await page.unroute("**/platemap.json*");
+    await page.getByRole("button", { name: "RETRY" }).click();
+    await page.waitForFunction(mode => document.getElementById("productionSharedCareerStartOverlay").dataset.stageMode === mode, expectedMode, { timeout: 20000 });
+    await page.waitForTimeout(300);
+    const staged = await page.evaluate(() => window.CareerModeProductionSharedCareerStart.layoutAudit());
+    assert.deepEqual([staged.mode, staged.fits, staged.covers.length, staged.retry], [expectedMode, true, 0, false], `${label}: RETRY with the maps back shows the stage on the Club screen ${JSON.stringify(staged.covers)}`);
+    await page.getByRole("button", { name: "Close Career Start" }).click();
+    await page.waitForFunction(() => document.getElementById("productionSharedCareerStartOverlay").classList.contains("hidden"), null, { timeout: 5000 });
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.careerStartStage || ""), "", `${label}: BACK closes Career Start`);
+    assert.deepEqual(errors, [], `${label}: page errors`);
 }
 
 (async() => {
@@ -92,7 +141,8 @@ async function openCareerStart(page, kase){
     const browser = await chromium.launch({ executablePath: runtime.executablePath, headless: true, args: runtime.args });
     const failures = [], lines = [];
     try{
-        for(const kase of CASES) for(const [width, height] of kase.sizes){
+        const only = process.env.CMS_CAREER_START_CASE || "";
+        for(const kase of CASES.filter(item => !only || item.name === only)) for(const [width, height] of kase.sizes){
             const phone = width <= 900 || height <= 500;
             // Sideways phones draw the plate in the left band; everything else is the portrait plate or the desktop stage.
             const expectedMode = MODE_AT[`${width}x${height}`] || (phone ? "phone" : "desktop");
@@ -101,6 +151,7 @@ async function openCareerStart(page, kase){
             page.on("pageerror", error => errors.push(error.message));
             try{
                 await openCareerStart(page, kase);
+                if(kase.failMaps){ await checkFallback(page, kase, width, height, expectedMode, errors); lines.push(`${kase.name} ${width}x${height}: marble fallback with I STARTED AT, REFRESH, RETRY and BACK visible and working; RETRY brings the stage back`); continue; }
                 const audit = await page.evaluate(() => window.CareerModeProductionSharedCareerStart.layoutAudit());
                 const view = await page.evaluate(() => {
                     const host = document.getElementById("clubWheelScreen"), visible = id => { const n = document.getElementById(id); return Boolean(n && getComputedStyle(n).visibility === "visible" && n.getBoundingClientRect().width > 0); };
@@ -152,5 +203,5 @@ async function openCareerStart(page, kase){
     }finally{ await browser.close().catch(() => {}); }
     for(const line of lines) console.log(`ok ${line}`);
     if(failures.length){ for(const failure of failures) console.error(`FAIL ${failure}`); throw new Error(`${failures.length} Career Start option B check(s) failed`); }
-    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (7 sizes x pending, waiting, long names, resume from Home; sideways 844x390 and 915x412 and tablet 820x1180 x pending, waiting); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
+    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (7 sizes x pending, waiting, long names, resume from Home; sideways 844x390 and 915x412 and tablet 820x1180 x pending, waiting; Club visuals failing x 3 sizes); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
 })().catch(error => { console.error("CAREER START OPTION B FITS AUDIT FAILED"); console.error(error.stack || error); process.exit(1); });

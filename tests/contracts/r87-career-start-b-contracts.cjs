@@ -60,7 +60,7 @@ check('B3 layout only: same buttons, actions, status and reads; Special Player c
   assert.match(render,/pcstCreate\("button","compactButton","REFRESH"\)/);
   assert.match(render,/pcstStage\(overlay,body,\{setup,role,ownClub,status:status,idle:!lastError&&!ready&&!mine\}\);/,'the stage arranges the nodes the card already built');
   const stage=js.slice(js.indexOf('function pcstStage(overlay,body,ctx){'),js.indexOf('function pcstStageLayout(){'));
-  assert.doesNotMatch(stage.replace('back.addEventListener("click",pcstClosePanel);',''),/addEventListener|provider\.|pcstAcknowledge|pcstRefresh|setupApi/,'the stage adds no action, read or write (its only control is the close)');
+  assert.doesNotMatch(stage.replace('back.addEventListener("click",pcstClosePanel);','').replace('retry.addEventListener("click",()=>void pcstRetryStage(retry));',''),/addEventListener|provider\.|pcstAcknowledge|pcstRefresh|setupApi/,'the stage adds no action, read or write (its own controls are the close and, in the fallback, RETRY)');
   assert.match(stage,/if\(item\.dataset\.careerRow==="special"\)\{item\.classList\.add\("pcstSpecial"\);pillar\.append\(item\);\}/,'Special Player original-club rows move into the pillar');
   assert.match(stage,/getClubCrestSvg|pcstStageHold\("playerOne",ctx\.setup\.clubs\.playerOne\),pcstStageHold\("playerTwo",ctx\.setup\.clubs\.playerTwo\)/,'Daniel left, Nik right');
   assert.match(js,/root\.getClubCrestSvg\(club\)/,'the crest is the product\'s own crest renderer');
@@ -83,7 +83,7 @@ check('B4 house rules: no dim, scrim, blur or opacity drop; only main scrolls; t
 
 check('B5 every way in shows option B: the old card never renders, the Club screen opens behind first, and the stage has its own way out',()=>{
   assert.match(css,/#productionSharedCareerStartOverlay:not\(\.pcstStage\) \{ visibility: hidden !important; \}/,'a panel that is not a stage is never visible (the old card cannot render)');
-  assert.match(js,/const overlay=pcstEnsurePanel\(\);stageRetries=0;await request\.wait\(pcstClubBackdrop\(\)\);overlay\.classList\.remove\("hidden"\);/,'every open (resume from Home, reload, auto-continue) puts the Club screen up behind first');
+  assert.match(js,/const overlay=pcstEnsurePanel\(\);stageRetries=0;stageFailed=false;retryFailed=false;stageFailed=!\(await request\.wait\(pcstClubBackdrop\(\)\)\);overlay\.classList\.remove\("hidden"\);/,'every open (resume from Home, reload, auto-continue) puts the Club screen up behind first; a failed one goes to the fallback');
   const backdrop=js.slice(js.indexOf('async function pcstClubBackdrop(){'),js.indexOf('function pcstStage(overlay,body,ctx){'));
   assert.ok(backdrop.length>0);
   assert.ok(backdrop.indexOf('dataset[STAGE_ATTR]="opening"')<backdrop.indexOf('root.showScreen(STAGE_HOST,false)'),'the Club screen parts step aside before the screen shows (no wheel or pack frame)');
@@ -95,7 +95,17 @@ check('B5 every way in shows option B: the old card never renders, the Club scre
   assert.match(js,/if\(mode==="phone"\)\{title\.style\.top=[^\n]*\}\n\s*else\{Object\.assign\(title\.style,[^\n]*pillar\.style,\{left:`\$\{Math\.round\(band\.x\+band\.w\+8\)\}px`,top:`\$\{Math\.round\(top\+8\)\}px`\}\);\}\n\s*const back=overlay\.querySelector\("\.pcstBack"\);/,'band placement runs on its own; the BACK is placed after');
   assert.match(js,/const top=Math\.max\(band\.y,pcstTopBarBottom\(origin\)\);/,'where the top bar shows, the stage starts below it');
   assert.match(js,/covers\.push\(`top bar covers \$\{key\}`\)/,'the layout audit flags the top bar covering the stage');
+  // Codex P2 4431517374: Club visuals that cannot load never leave an invisible panel; the marble fallback has every control.
+  assert.match(js,/return stageFailed&&root\.document&&root\.document\.body\?\{host:root\.document\.body,mode:"fallback"\}:null;/,'a failed Club screen gives the marble fallback');
+  assert.match(js,/try\{await screens\.show\(STAGE_HOST\);return true;\}catch\(error\)/,'the backdrop asks the v10 loader for the Club visuals, so a failed load is known at once');
+  assert.match(js,/const ready=await pcstShowClubVisuals\(\)&&await pcstWaitForStageHost\(host,10000\);/);
+  assert.match(js,/if\(!root\.document\?\.getElementById\?\.\(STAGE_HOST\)\|\|stageRetries>=100\)\{root\.setTimeout\(pcstStageGiveWay,0\);return;\}/,'the retry loop ends in the fallback, never in a hidden panel');
+  assert.match(js,/const retry=pcstCreate\("button","compactButton pcstRetry","RETRY"\);retry\.type="button";retry\.addEventListener\("click",\(\)=>void pcstRetryStage\(retry\)\);/,'RETRY reloads the Club visuals');
+  assert.match(js,/async function pcstRetryStage\(button\)\{[\s\S]*?ok=await pcstClubBackdrop\(\);/);
+  assert.match(css,/#productionSharedCareerStartOverlay\.pcstStage\[data-stage-mode="fallback"\] \{\n  position: fixed;[^}]*background: #0b0a08 url\("r78-marble-tile\.webp"\)/,'the fallback is the black-and-gold marble plate');
   const audit=read('tests/browser/career-start-b-fits-audit.cjs');
+  assert.match(audit,/name: "club-visuals-fail", from: "home", failMaps: true/,'the audit forces clMaps to fail');
+  assert.match(audit,/page\.route\("\*\*\/platemap\.json\*", route => route\.abort\(\)\)/);
   assert.match(audit,/const EXTRA_SIZES = \[\[844, 390\], \[915, 412\], \[820, 1180\]\];/,'the audit covers sideways phones and a tablet');
   assert.match(audit,/const MODE_AT = \{ "844x390": "band", "915x412": "band", "820x1180": "phone" \};/);
   assert.match(audit,/name: "resume-from-home", from: "home"/,'the audit covers the resume path from Home');

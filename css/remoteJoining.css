@@ -132,19 +132,19 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="desktop"] .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-width: 180px; }
 
 /* phone: one panel from below the packs (top set by the script) to the foot of the screen, the buttons at its foot */
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstPillar { right: 8px; bottom: 8px; gap: 9px; padding: 12px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstPillar { right: 8px; bottom: 8px; gap: 9px; padding: 12px; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="phone"] .pcstPillar { left: 8px; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="band"] .pcstPillar { top: 8px; }
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstTitleKicker { display: none; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstTitleKicker { display: none; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="phone"] .pcstTitleWord { font-size: 28px; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="band"] .pcstTitleWord { font-size: 22px; }
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstKicker { font-size: 11px; }
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstNote { font-size: 14px; }
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .pcstRival :is(span, strong) { font-size: 11px; }
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .remoteJoiningActions {
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstKicker { font-size: 11px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstNote { font-size: 14px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstRival :is(span, strong) { font-size: 11px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .remoteJoiningActions {
   position: static; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; width: 100%; max-width: none; margin-top: auto;
 }
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 44px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 44px; }
 /* a short panel (under 290px) drops the rival line, then tightens step by step until nothing overflows */
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room] .pcstRival { display: none; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) { gap: 6px; padding: 10px 12px; }
@@ -170,3 +170,17 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
   color: #f2c45b; background: #0b0a08; border: 1px solid #f2c45b; border-radius: 3px; box-shadow: 0 0 0 1px #000; opacity: 1; filter: none; cursor: pointer;
 }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstBack:focus-visible { outline: 2px solid #fff3bd; outline-offset: 2px; }
+/* the Club screen's visuals could not load: Career Start on its own black-and-gold marble plate below the top bar, with the
+   title, its BACK, and one centred panel holding every control plus RETRY (top set by the script). No scrim: the plate is opaque. */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] {
+  position: fixed; left: 0; right: 0; bottom: 0; top: 0; z-index: 40; overflow: clip; pointer-events: auto;
+  background: #0b0a08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  box-shadow: inset 0 0 0 1px rgba(242, 196, 91, .45);
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] .pcstPillar { left: max(8px, calc(50% - 280px)); right: max(8px, calc(50% - 280px)); bottom: auto; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] .remoteJoiningActions { margin-top: 4px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] .pcstFallbackNote {
+  padding: 6px 10px; border: 1px solid rgba(242, 196, 91, .55); border-radius: 2px; background: rgba(0, 0, 0, .4);
+  font: 600 13px/1.3 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .04em; color: #f6e3a8;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] .pcstPillar[data-room="tightest"] .pcstFallbackNote { padding: 3px 8px; font-size: 12px; }

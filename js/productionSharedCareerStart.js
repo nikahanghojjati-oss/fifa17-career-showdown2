@@ -205,10 +205,17 @@
     const crest=pcstCreate("div","pcstHoldCrest");try{if(typeof root.getClubCrestSvg==="function")crest.innerHTML=root.getClubCrestSvg(club);}catch(_error){}
     hold.append(crest,pcstCreate("div","pcstHoldName",club));return hold;
   }
-  let stageRetry=null,stageRetries=0;
+  // stageFailed: the Club screen's visuals could not load (a missing map, script or style), so Career Start shows on its own
+  // black-and-gold marble plate (mode "fallback") with every control, plus RETRY, instead of waiting behind an invisible panel.
+  let stageRetry=null,stageRetries=0,stageFailed=false,retryFailed=false;
+  function pcstStageGiveWay(){
+    if(stageFailed)return;stageFailed=true;
+    const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay&&!overlay.classList.contains("hidden"))pcstRender();
+  }
   function pcstStageRetry(){
-    // Only where the Club screen exists, and for at most 30 s per open (the Club screen's own CONTINUE TO CAREER START stays).
-    if(stageRetry||typeof root.setTimeout!=="function"||!root.document?.getElementById?.(STAGE_HOST)||stageRetries>=100)return;
+    // Where the Club screen exists, for at most 30 s per open; after that (or with no Club screen at all) the marble fallback.
+    if(stageRetry||typeof root.setTimeout!=="function")return;
+    if(!root.document?.getElementById?.(STAGE_HOST)||stageRetries>=100){root.setTimeout(pcstStageGiveWay,0);return;}
     stageRetries+=1;
     stageRetry=root.setTimeout(()=>{stageRetry=null;const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay&&!overlay.classList.contains("hidden")&&!overlay.classList.contains("pcstStage"))pcstRender();},300);
   }
@@ -216,7 +223,7 @@
     try{
       const doc=root.document;pcstStageWatch(false);
       if(doc&&doc.documentElement&&doc.documentElement.dataset)delete doc.documentElement.dataset[STAGE_ATTR];
-      if(overlay&&overlay.classList&&overlay.classList.contains("pcstStage")){overlay.classList.remove("pcstStage");delete overlay.dataset.stageMode;if(doc.body&&overlay.parentNode!==doc.body)doc.body.append(overlay);}
+      if(overlay&&overlay.classList&&overlay.classList.contains("pcstStage")){overlay.classList.remove("pcstStage");delete overlay.dataset.stageMode;overlay.style.removeProperty("top");if(doc.body&&overlay.parentNode!==doc.body)doc.body.append(overlay);}
     }catch(_error){}
     return false;
   }
@@ -258,6 +265,14 @@
       timer=root.setTimeout(()=>finish(Boolean(pcstStageHost())),ms);
     });
   }
+  // Loads (or reloads) the Club screen's visuals through the v10 loader: a load that failed before (its maps, script or styles)
+  // is tried again, because the loader forgets a failed load. false only when they cannot load.
+  async function pcstShowClubVisuals(){
+    const screens=root.CareerModeV10Screens;
+    if(!screens||typeof screens.show!=="function")return false;
+    // No toast: the fallback panel says it once, and a toast would cover its buttons.
+    try{await screens.show(STAGE_HOST);return true;}catch(error){try{root.console?.warn?.("[Career Mode Showdown] Club visuals unavailable for Career Start.",error);}catch(_error){}return false;}
+  }
   async function pcstClubBackdrop(){
     if(pcstStageHost())return true;
     const doc=root.document,host=doc&&typeof doc.getElementById==="function"?doc.getElementById(STAGE_HOST):null,state=pcstSetupState();
@@ -270,17 +285,23 @@
     try{shown=typeof root.showScreen==="function"&&root.showScreen(STAGE_HOST,false)===true;}catch(_error){shown=false;}
     if(!shown)pcstForceScreen(host);
     pcstPaintClubBackdrop(host,state);
-    const ready=await pcstWaitForStageHost(host,10000);
+    const ready=await pcstShowClubVisuals()&&await pcstWaitForStageHost(host,10000);
     if(!ready&&doc.documentElement.dataset[STAGE_ATTR]==="opening")delete doc.documentElement.dataset[STAGE_ATTR];
     return ready;
   }
+  function pcstStageTarget(){
+    const host=pcstStageHost(),mode=host&&pcstStageMode(host);
+    if(mode)return {host,mode};
+    return stageFailed&&root.document&&root.document.body?{host:root.document.body,mode:"fallback"}:null;
+  }
   function pcstStage(overlay,body,ctx){
     try{
-      const host=overlay.classList.contains("hidden")?null:pcstStageHost(),mode=host&&pcstStageMode(host);
+      const target=overlay.classList.contains("hidden")?null:pcstStageTarget(),host=target&&target.host,mode=target&&target.mode;
       if(!mode){if(!overlay.classList.contains("hidden"))pcstStageRetry();return pcstStageOff(overlay);}
-      const doc=root.document;
-      stageRetries=0;if(overlay.parentNode!==host)host.append(overlay);
-      overlay.classList.add("pcstStage");overlay.dataset.stageMode=mode;doc.documentElement.dataset[STAGE_ATTR]=mode;
+      const doc=root.document,fallback=mode==="fallback";
+      if(!fallback){stageRetries=0;stageFailed=false;retryFailed=false;}
+      if(overlay.parentNode!==host)host.append(overlay);overlay.style.removeProperty("top");
+      overlay.classList.add("pcstStage");overlay.dataset.stageMode=mode;if(fallback)delete doc.documentElement.dataset[STAGE_ATTR];else doc.documentElement.dataset[STAGE_ATTR]=mode;
       const title=pcstCreate("div","pcstTitle");title.append(pcstCreate("span","pcstTitleKicker","CAREER MODE SHOWDOWN 17"));
       const eyebrow=body.querySelector(".remoteJoiningEyebrow");title.append(eyebrow||pcstCreate("span","remoteJoiningEyebrow","CAREER START"));title.lastChild.classList.add("pcstTitleWord");
       const pillar=pcstCreate("div","pcstPillar"),heading=body.querySelector("h2"),note=body.querySelector(":scope > p:not(.remoteJoiningStatus)");
@@ -297,23 +318,31 @@
         for(const item of rows)if(item.dataset.careerRow==="special"){item.classList.add("pcstSpecial");pillar.append(item);}
         const you=row("YOU");if(you){you.classList.add("pcstSrOnly");pillar.append(you);}
         if(grid)grid.remove();
-        holds.push(pcstStageHold("playerOne",ctx.setup.clubs.playerOne),pcstStageHold("playerTwo",ctx.setup.clubs.playerTwo));
+        if(!fallback)holds.push(pcstStageHold("playerOne",ctx.setup.clubs.playerOne),pcstStageHold("playerTwo",ctx.setup.clubs.playerTwo));
       }else if(note){note.classList.add("pcstNote");pillar.append(note);}
       const actions=body.querySelector(".remoteJoiningActions");
       if(actions&&mode!=="desktop")pillar.append(actions);
       // The card's × and the Club screen's BACK both step aside with the stage, so the stage carries its own way out
       // (Escape too): it closes Career Start and gives the Club screen back, where CONTINUE TO CAREER START reopens it.
       const back=pcstCreate("button","compactButton pcstBack","BACK");back.type="button";back.setAttribute("aria-label","Close Career Start");back.addEventListener("click",pcstClosePanel);
+      if(fallback){
+        // The Club screen did not load: say so once, keep every control, and offer RETRY (it loads the Club visuals again).
+        const notice=pcstCreate("p","pcstFallbackNote",retryFailed?"The Club screen still didn't load. Career Start works here; try RETRY again in a moment.":"The Club screen didn't load. Career Start works here; RETRY loads the Club screen again.");notice.setAttribute("role","status");
+        pillar.insertBefore(notice,pillar.children[heading?1:0]||null);
+        const retry=pcstCreate("button","compactButton pcstRetry","RETRY");retry.type="button";retry.addEventListener("click",()=>void pcstRetryStage(retry));
+        if(actions)actions.append(retry);else pillar.append(retry);
+      }
       const probe=pcstCreate("div","pcstPlateProbe");probe.setAttribute("aria-hidden","true");
       body.prepend(title,...holds,pillar);if(actions&&mode==="desktop"){actions.append(back);body.append(actions);}else body.append(back);body.append(probe);
       pcstStageWatch(true);pcstStageLayout();return true;
-    }catch(error){pcstReport("Career Start stage fell back to the card",error);return pcstStageOff(overlay);}
+    }catch(error){pcstReport("Career Start stage could not be drawn; using the marble fallback",error);pcstStageOff(overlay);if(!stageFailed&&typeof root.setTimeout==="function")root.setTimeout(pcstStageGiveWay,0);return false;}
   }
   function pcstStageLayout(){
     const doc=root.document,overlay=doc&&doc.getElementById(PANEL_ID);
     if(!overlay||!overlay.classList.contains("pcstStage")||overlay.classList.contains("hidden"))return null;
-    const host=pcstStageHost(),mode=host&&pcstStageMode(host);
+    const target=pcstStageTarget(),host=target&&target.host,mode=target&&target.mode;
     if(!mode||mode!==overlay.dataset.stageMode){pcstRender();return null;}
+    if(mode==="fallback")return pcstFallbackLayout(overlay);
     const origin=overlay.getBoundingClientRect(),W=origin.width,H=origin.height,frames=pcstStageFrames(overlay,host,mode,origin);
     overlay.querySelectorAll(".pcstHold").forEach((hold,index)=>{
       const frame=frames[index];if(!frame)return;const fit=pcstFitHold(frame),crest=hold.querySelector(".pcstHoldCrest"),name=hold.querySelector(".pcstHoldName");
@@ -353,6 +382,33 @@
     }
     return mode;
   }
+  // The app's runtime notice for the same failure ("Team V screen could not load…") says what the fallback panel already says,
+  // and on a small phone it would cover the panel's buttons: it is dismissed through its own close button. Other notices stay.
+  function pcstDismissClubNotice(){
+    try{const notice=root.document.getElementById("appRuntimeNotice");if(notice&&/Team V screen could not (load|update)|Club Assignment visuals|CLUB_V10_MAP/.test(notice.textContent||""))notice.querySelector("button")?.click();}catch(_error){}
+  }
+  function pcstFallbackLayout(overlay){
+    pcstDismissClubNotice();
+    overlay.style.top=`${Math.round(pcstTopBarBottom({top:0}))}px`;
+    const title=overlay.querySelector(".pcstTitle"),pillar=overlay.querySelector(".pcstPillar"),back=overlay.querySelector(".pcstBack");
+    if(!title||!pillar)return null;
+    pillar.removeAttribute("data-room");pillar.removeAttribute("style");title.removeAttribute("style");
+    const origin=overlay.getBoundingClientRect();
+    title.style.top="12px";title.style.setProperty("--pcst-title",`${Math.round(Math.max(22,Math.min(34,origin.height*.05)))}px`);
+    if(back){back.removeAttribute("style");back.style.top="10px";}
+    const below=Math.max(title.getBoundingClientRect().bottom,back?back.getBoundingClientRect().bottom:0)-origin.top+10;
+    pillar.style.top=`${Math.round(below)}px`;pillar.style.maxHeight=`${Math.max(0,Math.floor(origin.height-below-8))}px`;
+    const room=pillar.getBoundingClientRect().height;if(room<290)pillar.dataset.room="short";
+    for(const step of ["tight","tighter","tightest"])if(pillar.scrollHeight>pillar.clientHeight+1)pillar.dataset.room=step;
+    return "fallback";
+  }
+  async function pcstRetryStage(button){
+    if(button){button.disabled=true;button.textContent="RETRYING…";}
+    let ok=false;try{ok=await pcstClubBackdrop();}catch(_error){ok=false;}
+    stageFailed=!ok;retryFailed=!ok;stageRetries=0;
+    if(pcstPanelOpen())pcstRender();
+    return ok;
+  }
   function pcstTopBar(){
     const doc=root.document,bar=doc&&doc.querySelector(".sd-nav-top");if(!bar||typeof root.getComputedStyle!=="function")return null;
     const style=root.getComputedStyle(bar),rect=bar.getBoundingClientRect();
@@ -381,7 +437,8 @@
     if(overlap(title,pillar))covers.push("title covers pillar");if(named.back){const word=box(overlay.querySelector(".pcstTitleWord"));if(overlap(named.back,word))covers.push("back covers title");}if(named.buttons&&overlap(named.buttons,pillar))covers.push("buttons cover pillar");
     const viewH=root.innerHeight,viewW=root.innerWidth,onScreen=Object.values(named).every(r=>r.top>=-.5&&r.left>=-.5&&r.bottom<=viewH+.5&&r.right<=viewW+.5);
     const overflow=pillarNode.scrollHeight>pillarNode.clientHeight+1||pillarNode.scrollWidth>pillarNode.clientWidth+1;
-    return {stage:true,back:Boolean(backNode&&backNode.getBoundingClientRect().width>0),mode:overlay.dataset.stageMode,room:pillarNode.dataset.room||"",holds,fits:holds.length===2&&holds.every(item=>item.fits==="fits"),covers,overflow,onScreen,ok:holds.length===2&&holds.every(item=>item.fits==="fits")&&!covers.length&&!overflow&&onScreen};
+    const retryNode=overlay.querySelector(".pcstRetry");
+    return {stage:true,back:Boolean(backNode&&backNode.getBoundingClientRect().width>0),retry:Boolean(retryNode&&retryNode.getBoundingClientRect().width>0),mode:overlay.dataset.stageMode,room:pillarNode.dataset.room||"",holds,fits:holds.length===2&&holds.every(item=>item.fits==="fits"),covers,overflow,onScreen,ok:holds.length===2&&holds.every(item=>item.fits==="fits")&&!covers.length&&!overflow&&onScreen};
   }
   function pcstRender(){pcstWatchSync();
     const overlay=root.document&&root.document.getElementById(PANEL_ID);if(!overlay)return;const body=overlay.querySelector(".remoteJoiningBody");if(!body)return;body.replaceChildren();
@@ -429,7 +486,7 @@
   async function pcstOpenPanelNow(request){
     pcstDeactivateSetupPresentation();await request.wait(pcstEnsureDependencies());
     if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return pcstCloseReveal();
-    const overlay=pcstEnsurePanel();stageRetries=0;await request.wait(pcstClubBackdrop());overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
+    const overlay=pcstEnsurePanel();stageRetries=0;stageFailed=false;retryFailed=false;stageFailed=!(await request.wait(pcstClubBackdrop()));overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay){overlay.classList.add("hidden");pcstStageOff(overlay);}return true;}
   function pcstPresentationOwnsControl(){const presentation=root.CareerModeProductionSharedShowdownPresentation;return Boolean(presentation&&typeof presentation.isPresentationActive==="function"&&presentation.isPresentationActive());}
