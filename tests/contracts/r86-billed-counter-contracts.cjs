@@ -9,8 +9,9 @@
 //    re-evaluates the Rules: Firebase pricing, "Listeners and rules"); a cached delivery costs nothing;
 // B4 a transaction that writes is billed its write lookups once per request; a read-only one none;
 // B5 a direct setDoc (the career summary) is billed its write lookups as a career page;
-// B6 seasons left: a season's cost is game reads only, today's use counts career pages too (this phone's, once), games for both devices;
-// B7 Settings shows both devices' total, split into games and career pages, in one row.
+// B6 seasons left: a season's cost is game reads only, today's use counts career pages too (this phone's, once); until both phones'
+//    meter documents agree (r87), games are estimated for both phones from this phone's role share (0.5 while the role is unknown);
+// B7 Settings shows the both-phones total in one row: shared (both meters) or "estimated", with this phone's part.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -118,20 +119,24 @@ const RID='pair_'+'a'.repeat(64);
     const {budget:b}=page();
     const DEFAULT=Number(/FSB_DEFAULT_SEASON_BILLED=(\d+);/.exec(source)[1]);
     assert.ok(DEFAULT>=200&&DEFAULT<=2000,`the measured default (${DEFAULT}) is a real season cost`);
-    assert.equal(b.seasonsLeftToday().billedPerSeason,DEFAULT*2);
+    assert.equal(b.seasonsLeftToday().billedPerSeason,DEFAULT*2,'role unknown: share 0.5, the old doubling');
+    assert.equal(b.seasonsLeftToday().estimated,true);
     for(let i=0;i<300;i+=1)b.countListenerRead();
     const sdk=b.meterSdk({doc:()=>null,getDoc:async()=>snap()});
     for(let i=0;i<50;i+=1)await sdk.getDoc({path:`accounts/u1/careerSummary/${RID}`});
-    b.noteSeasonDone(`${RID}|1`,true);
+    // r87 RE-05: season 1 counts from its start mark (Career Start ready); a season 2 needs none.
+    b.noteSeasonDone(`${RID}|2`,true);
     const left=b.seasonsLeftToday(),today=b.readsToday();
     assert.equal(left.billedPerSeason,300*2,'career pages opened during the season are not part of its cost');
     assert.equal(left.billedToday,300*2+today.career,'but they are part of today\'s use, once: only this phone opened them (red team #9)');
     assert.equal(left.seasons,Math.floor((50000-left.billedToday)/left.billedPerSeason));
+    assert.equal(today.billedEstimate,Math.round(300*2+today.career),'estimated both phones: game reads over the 0.5 share plus this phone\'s career pages');
   });
 
-  await check('B7 Settings shows both devices\' total split into games and career pages in one row (Settings keeps its height)',()=>{
+  await check('B7 Settings shows the both-phones total in one row: shared from both meters, or estimated (Settings keeps its height)',()=>{
     const settings=read('js/settings.js');
-    assert.match(settings,/· games \$\{getSettingsRoundedReads\(today\.game \* 2\)\} · career pages here \$\{getSettingsRoundedReads\(today\.career\)\}`/,'career pages are this phone\'s only (the partner\'s are not exchanged; red team r87 A-06)');
+    assert.match(settings,/both phones after season \$\{shared\.season\} · \$\{getSettingsRoundedReads\(shared\.thisPhone\)\} here · partner \$\{getSettingsRoundedReads\(shared\.partner\)\}/,'r87: both meters, this phone\'s part and the partner\'s (career pages of both included)');
+    assert.match(settings,/estimated for both phones/,'r87: the B1 fallback says it is an estimate');
     assert.doesNotMatch(settings,/COUNTED HERE TODAY|THIS DEVICE TODAY/,'no extra row: the short Settings screen must not scroll');
   });
 

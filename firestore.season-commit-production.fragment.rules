@@ -160,6 +160,39 @@
         && after.updatedAt == request.time
         && ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId);
     }
+    // R87 shared reads meter (B2): each phone keeps ONE small document per rivalry, rivalries/{rid}/meters/{its role}, with the
+    // Firebase reads it was billed today (documents + Rules lookups), written once a season when it sees the season commit
+    // ACKNOWLEDGED; the partner phone reads it once, so both phones show the same "both phones" total and seasons left.
+    // Members of the live paired rivalry only (one lookup: the rivalry, the same as every shared read), each phone writes only
+    // its own role's document, exact keys, bounded whole numbers (at most three season costs), no list and no delete.
+    // A phone on an older build never writes it; nothing else reads it.
+    function ssjrMeterCount(value, max) { return value is int && value >= 0 && value <= max; }
+    function ssjrMeterCost(costs, index) { return costs.size() <= index || (costs[index] is int && costs[index] > 0 && costs[index] <= 100000); }
+    function ssjrMeterValidWrite(rivalryId, managerRole) {
+      let meter = request.resource.data;
+      return ssjrEntitled(rivalryId)
+        && managerRole in ['playerOne', 'playerTwo']
+        && ssjrRivalryData(rivalryId).managerSlots[managerRole == 'playerOne' ? 0 : 1].accountId == request.auth.uid
+        && meter.keys().hasAll(['schemaVersion','objectType','rivalryId','role','day','season','game','career','costs','updatedAt'])
+        && meter.keys().hasOnly(['schemaVersion','objectType','rivalryId','role','day','season','game','career','costs','updatedAt'])
+        && meter.schemaVersion == 1
+        && meter.objectType == 'readsMeter'
+        && meter.rivalryId == rivalryId
+        && meter.role == managerRole
+        && meter.day is string
+        && meter.day.matches('^20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$')
+        && meter.season is int
+        && meter.season >= 1
+        && meter.season <= 10
+        && ssjrMeterCount(meter.game, 1000000)
+        && ssjrMeterCount(meter.career, 1000000)
+        && meter.costs is list
+        && meter.costs.size() <= 3
+        && ssjrMeterCost(meter.costs, 0)
+        && ssjrMeterCost(meter.costs, 1)
+        && ssjrMeterCost(meter.costs, 2)
+        && meter.updatedAt == request.time;
+    }
 // SSJR_SEASON_COMMIT_FUNCTIONS_END
 
 // SSJR_SEASON_COMMIT_MATCH_BEGIN
@@ -168,5 +201,10 @@
         allow list, delete: if false;
         allow create: if ssjrCommitValidCreate(rivalryId, seasonId);
         allow update: if ssjrCommitValidUpdate(rivalryId, seasonId);
+      }
+      match /meters/{managerRole} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create, update: if ssjrMeterValidWrite(rivalryId, managerRole);
       }
 // SSJR_SEASON_COMMIT_MATCH_END

@@ -693,31 +693,32 @@ async function revokePairing(options={}){
   // pricing, "Listeners and rules"), so every server delivery is billed its document plus its lookups. A write is priced at
   // every document its create or update rule can reach, once per request (a transaction is one request): an upper bound.
   // tests/contracts/r86-billed-counter-contracts.cjs fails when the Rules change and this table is not regenerated.
-  const FSB_RULES_SHA256="40eb0caa4a283eae72d91d22c80234c76cf087683ce5a37ddf82e12a1f0db29b";
+  const FSB_RULES_SHA256="4585bc97941abf4b251fbe8dea7d0684850aec62e557369ebcc7242e6aff4c7e";
   // BEGIN generated Rules lookup table (paths are priced here, never read or written by this module).
   const FSB_RULES_LOOKUPS=Object.freeze([
       ["accounts/*",0,0,[]],
       ["accounts/*/profileLinks/*",0,0,[]],
       ["accounts/*/devices/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}"]],
       ["accounts/*/securityEvents/*",0,0,[]],
-      ["accounts/*/pairLinks/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/devices/{root.updatedByDeviceId}","accounts/{accountId}/careerIndex/current","rivalries/{after.data.rivalryId}","rivalries/{before.data.rivalryId}","rivalries/{before.data.rivalryId}/invites/{before.data.rivalryId}","rivalries/{root.data.rivalryId}"]],
-      ["accounts/*/careerIndex/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/devices/{root.updatedByDeviceId}","accounts/{accountId}/careerIndex/current","accounts/{accountId}/careerIndex/{'page_'+stringafter.data.sealedPageCount}","accounts/{accountId}/pairLinks/current","accounts/{before.createdByAccountId}/careerIndex/current","rivalries/{@pair0}","rivalries/{next[prior.size]}"]],
-      ["accounts/*/careerStart/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/devices/{root.updatedByDeviceId}","accounts/{accountId}/careerIndex/current"]],
+      ["accounts/*/pairLinks/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{accountId}/careerIndex/current","rivalries/{after.data.rivalryId}","rivalries/{before.data.rivalryId}","rivalries/{before.data.rivalryId}/invites/{before.data.rivalryId}"]],
+      ["accounts/*/careerIndex/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{accountId}/careerIndex/current","accounts/{accountId}/careerIndex/{'page_'+stringafter.data.sealedPageCount}","accounts/{accountId}/pairLinks/current","accounts/{before.createdByAccountId}/careerIndex/current","rivalries/{@pair0}","rivalries/{next[prior.size]}"]],
+      ["accounts/*/careerStart/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{accountId}/careerIndex/current"]],
       ["accounts/*/partner/*",0,0,["accounts/{@self}","accounts/{accountId}/careerStart/current","rivalries/{after.pairedViaRivalryId}","rivalries/{request.resource.data.pairedViaRivalryId}"]],
       ["accounts/*/partnerInbox/*",0,0,["accounts/{@self}","accounts/{@self}/partner/current","accounts/{accountId}/partner/current","rivalries/{note.rivalryId}","rivalries/{note.rivalryId}/invites/{note.rivalryId}"]],
       ["accounts/*/careerSummary/*",1,1,["accounts/{@self}","rivalries/{rivalryId}"]],
-      ["rivalries/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/devices/{root.updatedByDeviceId}","accounts/{@self}/pairLinks/current","rivalries/{rivalryId}/invites/{rivalryId}","rivalries/{rivalryId}/seasonCommits/season_1","rivalries/{rivalryId}/seasonCommits/{seasonId}","rivalries/{rivalryId}/sessions/{intent.sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
+      ["rivalries/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/pairLinks/current","rivalries/{rivalryId}/invites/{rivalryId}","rivalries/{rivalryId}/seasonCommits/season_1","rivalries/{rivalryId}/seasonCommits/{seasonId}","rivalries/{rivalryId}/sessions/{intent.sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
       ["rivalries/*/state/authoritative",1,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/state/authoritative/idempotency/{receiptKey}"]],
-      ["rivalries/*/state/authoritative/idempotency/*",2,2,["accounts/{@self}","accounts/{@self}/devices/{root.updatedByDeviceId}","rivalries/{rivalryId}/state/authoritative"]],
-      ["rivalries/*/invites/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/devices/{root.updatedByDeviceId}","rivalries/{rivalryId}"]],
-      ["rivalries/*/sharedSetup/authoritative",1,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{after.rivalryId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{after.activeSessionId}"]],
+      ["rivalries/*/state/authoritative/idempotency/*",2,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}/state/authoritative"]],
+      ["rivalries/*/invites/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}"]],
+      ["rivalries/*/sharedSetup/authoritative",1,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{after.activeSessionId}"]],
       ["rivalries/*/sharedSetup/leagueProjection",1,1,["accounts/{@self}","rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
       ["rivalries/*/careerStart/authoritative",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{after.activeSessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
-      ["rivalries/*/transferChallenges/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{after.rivalryId}","rivalries/{rivalryId}","rivalries/{rivalryId}/careerStart/authoritative","rivalries/{rivalryId}/sessions/{after.activeSessionId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/transferChallenges/{transferId}/roles/{role}"]],
+      ["rivalries/*/transferChallenges/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/careerStart/authoritative","rivalries/{rivalryId}/sessions/{after.activeSessionId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/transferChallenges/{transferId}/roles/{role}"]],
       ["rivalries/*/transferChallenges/*/roles/*",2,3,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{after.activeSessionId}","rivalries/{rivalryId}/transferChallenges/{transferId}"]],
       ["rivalries/*/seasonResults/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/seasonResults/{seasonId}/roles/{role}","rivalries/{rivalryId}/sessions/{after.activeSessionId}","rivalries/{rivalryId}/sharedSetup/leagueProjection"]],
       ["rivalries/*/seasonResults/*/roles/*",2,3,["rivalries/{rivalryId}","rivalries/{rivalryId}/seasonResults/{seasonId}"]],
       ["rivalries/*/seasonCommits/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/seasonResults/{seasonId}","rivalries/{rivalryId}/seasonResults/{seasonId}/roles/{'playerOne'}","rivalries/{rivalryId}/seasonResults/{seasonId}/roles/{'playerTwo'}","rivalries/{rivalryId}/sessions/{after.activeSessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
+      ["rivalries/*/meters/*",1,2,["rivalries/{rivalryId}"]],
       ["rivalries/*/sessions/*",2,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}"]],
       ["rivalries/*/sessionOffers/*",1,1,["accounts/{@pair0}","accounts/{@pair1}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{offer.sessionId}"]]
   ].map(row=>Object.freeze([Object.freeze(row[0].split("/")),row[1],row[2],Object.freeze(row[3])])));
@@ -739,7 +740,9 @@ async function revokePairing(options={}){
     return row;
   }
   function fsbReadLookups(path,finished=false){const row=fsbLookupRow(path);return row?row[finished?2:1]:FSB_QUERY_LOOKUPS;}
-  function fsbWriteLookups(paths){const docs=new Set();for(const path of paths){const row=fsbLookupRow(path);if(row)for(const doc of row[3])docs.add(doc);}return docs.size;}
+  // RE-08 (r87): one request is billed each distinct document once. The table's templates are already canonical (root.* is after.*,
+  // the written rivalryId is the match's); across the documents of one request the signed-in account is one of the pair's two.
+  function fsbWriteLookups(paths){const docs=new Set();for(const path of paths){const row=fsbLookupRow(path);if(row)for(const doc of row[3])docs.add(doc);}if(docs.has("accounts/{@pair0}")||docs.has("accounts/{@pair1}")){docs.delete("accounts/{@self}");docs.delete("accounts/{accountId}");}else if(docs.has("accounts/{@self}"))docs.delete("accounts/{accountId}");return docs.size;}
   // Today's billed reads on this phone, kept apart: game screens (including every write's lookups) and career pages
   // (History, Legacy, Trophy Room, Statistics, Rivalry, Season Final history: the direct gets of finished Showdowns).
   function fsbBill(units,career=false){
@@ -750,16 +753,22 @@ async function revokePairing(options={}){
   }
   function fsbBillCost(bill){const costs=bill&&Array.isArray(bill.costs)?bill.costs.slice(-3):[];return costs.length?Math.round(costs.reduce((sum,cost)=>sum+cost,0)/costs.length):0;}
   // A season that runs past the Google day keeps its billed reads from before the reset (the new mark starts below 0 by them).
-  function fsbBillNextDay(bill){return {game:0,career:0,markGame:-Math.max(0,bill.game-bill.markGame),costs:[],lastCost:fsbBillCost(bill)||bill.lastCost||0};}
+  // r87 (B2): role is this phone's manager role (kept across days: Daniel is always playerOne); setupCosts are the billed game reads
+  // before a Showdown's first season starts (RE-05); startKey is the season whose start mark was taken; own and partner are the
+  // two shared meter documents of today (fsbShare*). The start mark of a season still being played crosses midnight with its reads
+  // (markGame), so a season started before the Pacific reset and finished after it keeps its whole measured cost (PR #1097 review).
+  function fsbBillNextDay(bill){return {game:0,career:0,markGame:-Math.max(0,bill.game-bill.markGame),costs:[],lastCost:fsbBillCost(bill)||bill.lastCost||0,role:fsbShareRole(bill.role),setupCosts:[],startKey:typeof bill.startKey==="string"&&bill.startKey?bill.startKey:null,own:null,partner:null};}
   function fsbBillFrom(saved,today){
     const old=saved&&saved.bill&&typeof saved.bill==="object"?saved.bill:null,whole=value=>Number.isFinite(value)?Math.floor(value):0;
     const costs=old&&Array.isArray(old.costs)?old.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS):[];
-    const lastCost=Math.max(0,whole(old&&old.lastCost));
-    if(!saved)return {game:0,career:0,markGame:0,costs:[],lastCost:0};
-    if(saved.day!==today)return fsbBillNextDay({game:Math.max(0,whole(old&&old.game)),markGame:whole(old&&old.markGame),costs,lastCost});
+    const lastCost=Math.max(0,whole(old&&old.lastCost)),role=fsbShareRole(old&&old.role);
+    if(!saved)return {game:0,career:0,markGame:0,costs:[],lastCost:0,role:null,setupCosts:[],startKey:null,own:null,partner:null};
+    if(saved.day!==today)return fsbBillNextDay({game:Math.max(0,whole(old&&old.game)),markGame:whole(old&&old.markGame),costs,lastCost,role,startKey:old&&old.startKey});
     // A day first counted before r86 holds document reads only: they stay priced at the old 2.8 until that day ends.
     const game=old?Math.max(0,whole(old.game)):Math.round(Math.max(0,whole(saved.reads))*FSB_BILLED_PER_READ);
-    return {game,career:old?Math.max(0,whole(old.career)):0,markGame:old&&whole(old.markGame)<=game?whole(old.markGame):game,costs,lastCost};
+    const setupCosts=old&&Array.isArray(old.setupCosts)?old.setupCosts.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS):[];
+    const own=fsbShareClean(old&&old.own),partner=fsbShareClean(old&&old.partner);
+    return {game,career:old?Math.max(0,whole(old.career)):0,markGame:old&&whole(old.markGame)<=game?whole(old.markGame):game,costs,lastCost,role,setupCosts,startKey:old&&typeof old.startKey==="string"?old.startKey:null,own:own&&own.day===today?own:null,partner:partner&&partner.day===today?partner:null};
   }
   const fsbReadTimes=[];let fsbDay=null,fsbDayUnsaved=0,fsbDayStoreBroken=false;
   function fsbPacificDay(at){try{return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Los_Angeles",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(at));}catch(_error){return new Date(at-8*3600000).toISOString().slice(0,10);}}
@@ -794,11 +803,18 @@ async function revokePairing(options={}){
     fsbStats.brakeSince=on?(fsbStats.brakeSince||at):0;
     return on;
   }
-  // r86: billedEstimate is both phones (this phone's billed reads twice: the other phone plays the same seasons); thisPhone,
-  // game and career are this phone's own billed reads (documents + Rules lookups).
-  // Red team #9: game reads are doubled for the partner's phone (it plays the same seasons); career pages are not, since only
-  // the phone that opens History or Legacy pays for them.
-  function fsbReadsToday(){const day=fsbDayState(),bill=day.bill,here=bill.game+bill.career;return Object.freeze({day:day.day,reads:day.reads,billedEstimate:Math.round(bill.game*2+bill.career),thisPhone:Math.round(here),game:Math.round(bill.game),career:Math.round(bill.career),freeReadsPerDay:FSB_FREE_READS_PER_DAY});}
+  // r86: thisPhone, game and career are this phone's own billed reads (documents + Rules lookups); billedEstimate is both phones.
+  // Red team #9: career pages are never scaled, since only the phone that opens History or Legacy pays for them.
+  // r87 (B2): with both phones' meter documents of today for the same season, billedEstimate is their sum, exactly the same number
+  // on both phones (shared: the two documents, this phone's and the partner's, as of that season's ACKNOWLEDGED); otherwise it is the
+  // B1 role-share estimate (estimated: true): this phone's game reads over its role's share of a season plus its career pages.
+  function fsbReadsToday(){
+    const day=fsbDayState(),bill=day.bill,here=bill.game+bill.career,shared=fsbShareFrom(bill.own,bill.partner,day.day);
+    const mine=shared&&bill.own?fsbShareUsed(bill.own):null,estimate=Math.round(bill.game/fsbRoleShare(bill.role)+bill.career);
+    return Object.freeze({day:day.day,reads:day.reads,billedEstimate:shared?shared.used:estimate,estimated:!shared,role:bill.role,
+      shared:shared?Object.freeze({used:shared.used,season:shared.season,thisPhone:mine,partner:shared.used-mine,sinceThisPhone:Math.max(0,Math.round(here)-mine)}):null,
+      thisPhone:Math.round(here),game:Math.round(bill.game),career:Math.round(bill.career),freeReadsPerDay:FSB_FREE_READS_PER_DAY});
+  }
   // r84: seasons left today. Each season this page sees ACKNOWLEDGED records the reads it made since the previous one, so
   // the cost per season follows the pace actually played (a slow season waits longer and costs more). The partner's device
   // is assumed to cost the same. Until a season is finished today, the last day's average (or the r84 measured cost) is used.
@@ -808,27 +824,168 @@ async function revokePairing(options={}){
   // A season that runs past the Google day keeps its reads from before the reset: the new day's mark starts below 0 by them.
   function fsbCarried(day){const reads=Number(day&&day.reads),mark=Number(day&&day.markReads);return Number.isFinite(reads)&&reads>0?Math.max(0,Math.floor(reads-(Number.isFinite(mark)?mark:0))):0;}
   function fsbSeasonCost(day){const costs=day&&Array.isArray(day.costs)?day.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-3):[];return costs.length?Math.round(costs.reduce((sum,cost)=>sum+cost,0)/costs.length):0;}
-  function fsbNoteSeasonDone(key,live){
+  // r87 RE-05 / RS-07: a Showdown's first season starts when Career Start is ready on this phone (noteSeasonStart, key
+  // "rivalryId|1"). What this phone billed before it (Home, the pair wait and JOIN, setup, Special Player, Career Start, the
+  // previous Showdown's tail) goes to setupCosts and never into a season's cost.
+  function fsbNoteSeasonStart(key){
+    if(typeof key!=="string"||!key)return false;
+    const day=fsbDayState(),bill=day.bill;
+    if(bill.startKey===key||day.seasons.includes(key))return false;
+    const setup=bill.game-bill.markGame;
+    if(setup>0){bill.setupCosts.push(setup);if(bill.setupCosts.length>FSB_DAY_SEASONS)bill.setupCosts.shift();}
+    bill.startKey=key;bill.markGame=bill.game;fsbDayUnsaved+=1;fsbSaveDay();
+    return true;
+  }
+  // info (r87): {role, season, rivalryId, firestore} from Season Commit. role is kept for the B1 estimate; with firestore this phone
+  // writes its meter document and reads the partner's (fsbShareSeason). Without info (an older caller) nothing is written.
+  function fsbNoteSeasonDone(key,live,info){
     if(typeof key!=="string"||!key)return false;
     const day=fsbDayState();
-    if(day.seasons.includes(key))return false;
+    // Already noted (a reload keeps the season key): no new snapshot, but a meter document written before the reload whose partner
+    // read never ran gets that bounded read now (fsbShareResume, once per page).
+    if(day.seasons.includes(key)){try{if(info&&typeof info==="object")fsbShareResume(info.firestore);}catch(_error){}return false;}
     const cost=day.reads-day.markReads;
     day.seasons.push(key);if(day.seasons.length>FSB_DAY_SEASONS)day.seasons.shift();
     // A commit first seen already ACKNOWLEDGED (a reload, an older season) only moves the mark: its cost is unknown.
     if(live===true&&cost>0){day.costs.push(cost);if(day.costs.length>FSB_DAY_SEASONS)day.costs.shift();}
-    const bill=day.bill,billed=bill.game-bill.markGame;
-    if(live===true&&billed>0){bill.costs.push(billed);if(bill.costs.length>FSB_DAY_SEASONS)bill.costs.shift();}
-    bill.markGame=bill.game;
+    const bill=day.bill,billed=bill.game-bill.markGame,role=fsbShareRole(info&&info.role);
+    const season=Number.isInteger(info&&info.season)?info.season:Number(String(key).split("|").pop());
+    if(role)bill.role=role;
+    // Season 1 counts only from its start mark; without one (a reload during the season) it only moves the mark.
+    const steady=season>1||bill.startKey===key;
+    if(live===true&&billed>0&&steady){bill.costs.push(billed);if(bill.costs.length>FSB_DAY_SEASONS)bill.costs.shift();}
+    bill.markGame=bill.game;bill.startKey=null;
     day.markReads=day.reads;fsbDayUnsaved+=1;fsbSaveDay();
+    try{fsbShareSeason(info,season);}catch(_error){}
     return true;
   }
   // r86: a season's cost is this phone's billed GAME reads between two ACKNOWLEDGED seasons (career pages opened meanwhile are
-  // not part of it), doubled for the two phones; what is left is the 50,000 less today's billed game reads of both phones
-  // and this phone's career pages (red team #9: only the phone that opens them pays).
+  // not part of it); what is left is the 50,000 less today's use of both phones.
+  // r87 (B2): from both phones' meter documents, a season costs the two phones' recent season costs added up (each phone's average
+  // of its last three, fsbShareFrom), the same on both phones. Without them (estimated) it is this phone's cost over its role's share.
   function fsbSeasonsLeftToday(){
-    const day=fsbDayState(),bill=day.bill,measured=fsbBillCost(bill),perPhone=measured||bill.lastCost||FSB_DEFAULT_SEASON_BILLED;
-    const perSeason=perPhone*2,used=bill.game*2+bill.career,left=Math.max(0,FSB_FREE_READS_PER_DAY-used);
-    return Object.freeze({seasons:fsbPaused()?0:Math.floor(left/perSeason),basis:measured?"today":bill.lastCost?"earlier":"estimate",billedPerSeason:Math.round(perSeason),billedLeft:Math.round(left),billedToday:Math.round(used)});
+    const day=fsbDayState(),bill=day.bill,shared=fsbShareFrom(bill.own,bill.partner,day.day);
+    if(shared)return Object.freeze({seasons:fsbPaused()?0:shared.seasons,basis:"shared",estimated:false,season:shared.season,billedPerSeason:shared.perSeason,billedLeft:shared.left,billedToday:shared.used});
+    const share=fsbRoleShare(bill.role),measured=fsbBillCost(bill),perPhone=measured||bill.lastCost||FSB_DEFAULT_SEASON_BILLED;
+    const perSeason=perPhone/share,used=bill.game/share+bill.career,left=Math.max(0,FSB_FREE_READS_PER_DAY-used);
+    return Object.freeze({seasons:fsbPaused()?0:Math.floor(left/perSeason),basis:measured?"today":bill.lastCost?"earlier":"estimate",estimated:true,season:null,billedPerSeason:Math.round(perSeason),billedLeft:Math.round(left),billedToday:Math.round(used)});
+  }
+
+  // r87 shared reads meter (B2). Each phone writes ONE small document, rivalries/{rid}/meters/{its role}, once a season when it
+  // sees the season commit ACKNOWLEDGED: today's billed game and career reads of this phone (cumulative, Pacific day) and its last
+  // three season costs. It reads the partner's document once, 8 s later (the partner sees the same ACKNOWLEDGED within seconds),
+  // and once more 45 s later only if that document is not yet at the same season. Both phones then hold the same two documents and
+  // compute the same total, cost per season and seasons left from them (fsbShareFrom orders them by role). Cost: one write (1 Rules
+  // lookup: the rivalry) and one read (1 document + 1 lookup; 2 once the Showdown is Terminal-Closed, when the final season's read
+  // lands) per phone per season, billed as game reads here. A refused first write of the day (Rules not deployed yet) stops the
+  // meter for the day; a refused read, or a write refused after one succeeded, skips only that season; the partner's document missing (an older build never writes it), from another day,
+  // or behind this phone's season: the B1 estimate, marked estimated. Never part of a game write, never a reason for an error.
+  // Reads of the partner's document: 8 s after this phone's write, again 45 s later; a partner whose document exists but is behind
+  // (a phone that was locked when the season was acknowledged) is read again at +3 and +10 min, then not again that season. A
+  // missing document (an older build, or Rules not deployed) is read twice only.
+  // B1 shares of a season's reads, measured on the CE2PG harness (READS_ESTIMATE_CONSISTENCY.md): the coordinator (Daniel, playerOne)
+  // starts, locks and commits, so his phone reads about 55%.
+  const FSB_ROLE_SHARE=Object.freeze({playerOne:0.55,playerTwo:0.45});
+  const FSB_SHARE_READS_MS=Object.freeze([8000,45000,180000,600000]),FSB_SHARE_MISSING_READS=2;
+  let fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null,fsbShareStarted=null;
+  function fsbShareRole(role){return role==="playerOne"||role==="playerTwo"?role:null;}
+  function fsbRoleShare(role){return FSB_ROLE_SHARE[role]||0.5;}
+  function fsbShareWhole(value,max){return Number.isInteger(value)&&value>=0&&value<=max;}
+  // A meter document as the Rules allow it (updatedAt aside), or null.
+  function fsbShareClean(value){
+    if(!value||typeof value!=="object")return null;
+    const out={schemaVersion:value.schemaVersion,objectType:value.objectType,rivalryId:value.rivalryId,role:value.role,day:value.day,season:value.season,game:value.game,career:value.career,costs:Array.isArray(value.costs)?value.costs.slice():null};
+    if(out.schemaVersion!==1||out.objectType!=="readsMeter"||typeof out.rivalryId!=="string"||!/^pair_[0-9a-f]{64}$/.test(out.rivalryId)||!fsbShareRole(out.role))return null;
+    if(typeof out.day!=="string"||!/^20\d{2}-\d{2}-\d{2}$/.test(out.day)||!Number.isInteger(out.season)||out.season<1||out.season>10)return null;
+    if(!fsbShareWhole(out.game,1000000)||!fsbShareWhole(out.career,1000000)||!out.costs||out.costs.length>3||!out.costs.every(cost=>Number.isInteger(cost)&&cost>0&&cost<=100000))return null;
+    return Object.freeze({...out,costs:Object.freeze(out.costs)});
+  }
+  function fsbShareUsed(doc){return doc.game+doc.career;}
+  function fsbShareCost(doc){return doc.costs.length?Math.round(doc.costs.reduce((sum,cost)=>sum+cost,0)/doc.costs.length):FSB_DEFAULT_SEASON_BILLED;}
+  // Pure: the both-phones figures from the two documents, or null when they are not today's documents of the two roles of one
+  // rivalry at one season. Ordered by role, so either phone (and either argument order) gives the same answer.
+  function fsbShareFrom(a,b,today){
+    const x=fsbShareClean(a),y=fsbShareClean(b);
+    if(!x||!y||x.role===y.role||x.day!==today||y.day!==today||x.rivalryId!==y.rivalryId||x.season!==y.season)return null;
+    const one=x.role==="playerOne"?x:y,two=x.role==="playerOne"?y:x;
+    const used=fsbShareUsed(one)+fsbShareUsed(two),perSeason=fsbShareCost(one)+fsbShareCost(two),left=Math.max(0,FSB_FREE_READS_PER_DAY-used);
+    return Object.freeze({used,perSeason,left,seasons:Math.floor(left/perSeason),season:one.season,playerOne:fsbShareUsed(one),playerTwo:fsbShareUsed(two)});
+  }
+  // This phone's document now: its last three season costs, or the cost it carries from an earlier day when none is measured yet.
+  function fsbShareDoc(bill,day,rivalryId,season,role){
+    const costs=bill.costs.slice(-3).map(cost=>Math.min(100000,Math.round(cost))).filter(cost=>cost>0);
+    if(!costs.length&&bill.lastCost>0)costs.push(Math.min(100000,Math.round(bill.lastCost)));
+    return fsbShareClean({schemaVersion:1,objectType:"readsMeter",rivalryId,role,day,season,game:Math.min(1000000,Math.round(bill.game)),career:Math.min(1000000,Math.round(bill.career)),costs});
+  }
+  // The raw (unmetered) getDoc/setDoc: the runtime's SDK when it has them (tests), otherwise the Firestore module the listeners
+  // load from the runtime's own URL (one SDK instance). Billed here by hand, as game reads.
+  async function fsbShareApi(){
+    const usable=api=>api&&typeof api.doc==="function"&&typeof api.getDoc==="function"&&typeof api.setDoc==="function"&&typeof api.serverTimestamp==="function"?api:null;
+    if(usable(fsbRawSdk))return fsbRawSdk;
+    if(!usable(fsbSnapshotApi))await fsbLoadSnapshotApi();
+    return usable(fsbSnapshotApi);
+  }
+  function fsbShareSeason(info,season){
+    if(!info||typeof info!=="object"||!info.firestore||typeof info.rivalryId!=="string")return;
+    const day=fsbDayState(),bill=day.bill,role=fsbShareRole(info.role);
+    if(!role||fsbShareOffDay===day.day||fsbPaused())return;
+    const doc=fsbShareDoc(bill,day.day,info.rivalryId,season,role);
+    if(!doc)return;
+    void fsbShareWrite(info.firestore,doc).then(written=>{if(written)fsbShareLater(info.firestore,doc,0);},()=>{});
+  }
+  async function fsbShareWrite(db,doc){
+    const api=await fsbShareApi();
+    if(!api)return false;
+    const path=`rivalries/${doc.rivalryId}/meters/${doc.role}`;
+    try{await api.setDoc(api.doc(db,"rivalries",doc.rivalryId,"meters",doc.role),{...doc,costs:[...doc.costs],updatedAt:api.serverTimestamp()});}
+    // Refused before any write succeeded today: the Rules are not deployed yet, so the meter is off for the day. Refused after one
+    // succeeded (a Showdown closed under this write): only this season is skipped.
+    catch(error){if(fsbMeterFailureUnits(error))fsbBill(fsbWriteLookups([path]));const now=fsbDayState();if(fsbIsDeniedError(error)&&!(now.day===doc.day&&now.bill.own))fsbShareOffDay=doc.day;if(fsbIsQuotaError(error))fsbTrip();return false;}
+    fsbBill(fsbWriteLookups([path]));
+    const day=fsbDayState();if(day.day===doc.day){day.bill.own=doc;fsbDayUnsaved+=1;fsbSaveDay();}
+    fsbShareStarted=fsbShareKey(doc);
+    return true;
+  }
+  function fsbShareKey(doc){return `${doc.day}|${doc.rivalryId}|${doc.season}`;}
+  // PR #1097 review: a reload between this phone's meter write and the partner read loses the read's timer while the saved day keeps
+  // the own document and the season key (so noteSeasonDone returns early). This restarts the same bounded read sequence for the
+  // restored document, once per page, without writing it again; nothing when the partner's document already matches.
+  function fsbShareResume(db){
+    if(!db||fsbShareTimer!==null)return false;
+    const day=fsbDayState(),own=day.bill.own,partner=day.bill.partner;
+    if(!own||own.day!==day.day||fsbShareOffDay===day.day||fsbPaused())return false;
+    if(partner&&partner.rivalryId===own.rivalryId&&partner.season>=own.season)return false;
+    const key=fsbShareKey(own);
+    if(fsbShareStarted===key)return false;
+    fsbShareStarted=key;fsbShareLater(db,own,0);
+    return true;
+  }
+  function fsbShareLater(db,own,attempt){
+    if(fsbShareTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(fsbShareTimer);
+    fsbShareTimer=null;
+    if(typeof root.setTimeout!=="function"||attempt>=FSB_SHARE_READS_MS.length)return;
+    fsbShareTimer=root.setTimeout(()=>{fsbShareTimer=null;void fsbShareRead(db,own).then(({doc,seen,stop})=>{
+      if(stop||(doc&&doc.season===own.season&&doc.rivalryId===own.rivalryId))return;
+      if(!seen&&attempt+1>=FSB_SHARE_MISSING_READS)return;
+      fsbShareLater(db,own,attempt+1);
+    },()=>{});},FSB_SHARE_READS_MS[attempt]);
+  }
+  async function fsbShareReadPartner(db,own){return (await fsbShareRead(db,own)).doc;}
+  // {doc: today's partner document or null, seen: a partner document exists (any day), stop: nothing more to read this season}.
+  async function fsbShareRead(db,own){
+    const day=fsbDayState();
+    if(fsbShareOffDay===day.day||fsbPaused()||!own||day.bill.own!==own)return {doc:null,seen:false,stop:true};
+    const api=await fsbShareApi();
+    if(!api)return {doc:null,seen:false,stop:true};
+    const role=own.role==="playerOne"?"playerTwo":"playerOne",path=`rivalries/${own.rivalryId}/meters/${role}`,lookups=fsbReadLookups(path);
+    let snapshot;
+    try{snapshot=await api.getDoc(api.doc(db,"rivalries",own.rivalryId,"meters",role));}
+    catch(error){fsbCountRead(fsbMeterFailureUnits(error),false,lookups);const denied=fsbIsDeniedError(error),quota=fsbIsQuotaError(error);if(quota)fsbTrip();return {doc:null,seen:false,stop:denied||quota};}
+    const units=fsbMeterUnits(snapshot);fsbCountRead(units,false,units?lookups:0);
+    let doc=null;try{doc=snapshot&&typeof snapshot.exists==="function"&&snapshot.exists()?fsbShareClean(snapshot.data()):null;}catch(_error){doc=null;}
+    const now=fsbDayState(),seen=Boolean(doc&&doc.role===role&&doc.rivalryId===own.rivalryId);
+    if(seen&&doc.day===now.day){now.bill.partner=doc;fsbDayUnsaved+=1;fsbSaveDay();return {doc,seen,stop:doc.season>own.season};}
+    return {doc:null,seen,stop:false};
   }
 
   // r85 (audit F04): ONE read meter. Before, only this layer's transactions and listener deliveries were counted, while the
@@ -1240,7 +1397,9 @@ async function revokePairing(options={}){
     const wait=fsbWait;
     if(!wait||!wait.healthy)return;
     const version=fsbVersion(snapshot),serial=fsbSerial(snapshot);
-    if(serial===wait.serial||fsbVersionCompare(version,wait.version)<0){wait.confirmedAt=fsbNow();return;}
+    // RS-03 (r87): a server read that returns exactly the listener's copy proves the listener is current, so it may serve again
+    // even when this page's own write (or a write that threw) left it dirty without a new delivery.
+    if(serial===wait.serial||fsbVersionCompare(version,wait.version)<0){wait.confirmedAt=fsbNow();if(serial===wait.serial)wait.dirty=false;return;}
     // The server has a newer copy than the listener: give the listener a moment to deliver it, otherwise drop it.
     if(!wait.lagUntil){wait.lagUntil=fsbNow()+FSB_WAIT_LAG_MS;wait.lagVersion=version;wait.lagSerial=serial;}
   }
@@ -1342,17 +1501,23 @@ async function revokePairing(options={}){
   // fresh=true: no reuse at all (only in-flight sharing). A probe that used an old copy and also read a document that changed
   // (or was not known) runs once more on fresh reads, so a screen never acts on a mix of old and new documents.
   async function fsbProbe(sdk,db,updateFunction,fresh=false){
-    let write=false,old=false,changed=false;
+    // RS-02 (r87): a fresh re-run reads each document once per pass, and keeps what cannot have changed (immutable documents, this
+    // account's own within 5 min: what a server transaction keeps too); every other document is still read from the server.
+    let write=false,old=false,changed=false;const pass=new Map();
     const refuse=()=>{write=true;throw FSB_PROBE_WRITE;};
     const transaction={
       get:ref=>{
         if(write)return Promise.reject(FSB_PROBE_WRITE);
         if(fsbPaused())return Promise.reject(fsbQuotaError());
         const path=fsbPathOf(ref);
+        if(fresh&&pass.has(path))return pass.get(path);
         const serverOnly=fsbTakeServerNext(path),reused=fresh||serverOnly?null:fsbReusable(path);
         if(reused){fsbStats.reusedReads+=1;if(reused.old)old=true;return Promise.resolve(reused.snapshot);}
         const known=fsbEntries.get(path),prior=known?fsbSerial(known.snapshot):null;
-        return fsbReadOne(sdk,db,ref,serverOnly).then(snapshot=>{if(prior===null||prior!==fsbSerial(snapshot))changed=true;return snapshot;});
+        if(fresh&&!serverOnly){const kept=fsbTransactionKept(db,path);if(kept){const reuse=Promise.resolve(kept);pass.set(path,reuse);return reuse;}}
+        const read=fsbReadOne(sdk,db,ref,serverOnly).then(snapshot=>{if(prior===null||prior!==fsbSerial(snapshot))changed=true;return snapshot;});
+        if(fresh)pass.set(path,read);
+        return read;
       },
       set:refuse,update:refuse,delete:refuse
     };
@@ -1456,6 +1621,8 @@ async function revokePairing(options={}){
     const existing=fsbWrapped.get(services);
     if(existing)return existing;
     const sdk=services.firestoreSdk;
+    fsbRawSdk=sdk;
+    try{fsbShareResume(services.firestore);}catch(_error){}
     // A runtime that already hands out onSnapshot (none does today; the contract test does) is used as is; otherwise the
     // listener API is loaded from the same Firestore module URL the runtime uses, so it shares one SDK instance.
     if(!fsbSnapshotApi&&typeof sdk.onSnapshot==="function"&&typeof sdk.doc==="function")fsbSnapshotApi=Object.freeze({onSnapshot:sdk.onSnapshot,doc:sdk.doc});
@@ -1506,8 +1673,15 @@ async function revokePairing(options={}){
     noteError(error){if(fsbIsQuotaError(error))fsbTrip();return fsbQuotaMessage(error);},
     state:fsbState,
     readsToday:fsbReadsToday,
+    noteSeasonStart:fsbNoteSeasonStart,
     noteSeasonDone:fsbNoteSeasonDone,
     seasonsLeftToday:fsbSeasonsLeftToday,
+    // r87 shared reads meter: sharedEstimate(a, b, day) is the pure both-phones result from two meter documents (contract tests);
+    // meterDocuments() the two documents this phone holds today; readPartnerMeter() reads the partner's now (tests).
+    sharedEstimate:(a,b,day)=>fsbShareFrom(a,b,typeof day==="string"?day:fsbDayState().day),
+    meterDocuments:()=>{const bill=fsbDayState().bill;return Object.freeze({own:bill.own,partner:bill.partner,off:fsbShareOffDay===fsbDayState().day});},
+    readPartnerMeter:db=>{const bill=fsbDayState().bill;return bill.own?fsbShareReadPartner(db||fsbFirestore,bill.own):Promise.resolve(null);},
+    roleShare:fsbRoleShare,
     braking:()=>fsbBraking(),
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
     reset(){fsbDetachWait();fsbCtxRivalry=null;fsbCtxDetach();fsbExternal.clear();fsbCtxReturn=[];fsbWaitReturn=null;fsbDenied.clear();fsbCtxFailed.clear();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbServerNext.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}

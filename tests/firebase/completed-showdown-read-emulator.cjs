@@ -141,8 +141,9 @@ async function run(env){
   await playToCollecting(env,Z,SZ,now+2000);
   const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
 
-  await check("I0","composed Rules carry the completed-only grant on exactly setup, season results, result roles and season commits",async()=>{
-    assert.equal((RULES.match(/allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedShowdownReadable\(rivalryId\);/g)||[]).length,1);
+  await check("I0","composed Rules carry the completed-only grant on exactly setup, season results, result roles, season commits and the r87 reads meter",async()=>{
+    assert.equal((RULES.match(/allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedShowdownReadable\(rivalryId\);/g)||[]).length,2);
+    assert.match(RULES,/match \/meters\/\{managerRole\} \{\n\s+allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedShowdownReadable\(rivalryId\);/);
     assert.equal((RULES.match(/allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedSeasonReadable\(rivalryId, seasonId\);/g)||[]).length,2);
     assert.match(RULES,/allow get: if ssjrResultsPrivateReadable\(rivalryId, seasonId, managerRole\)\n\s+\|\| \(managerRole in \['playerOne', 'playerTwo'\] && cmsCompletedSeasonReadable\(rivalryId, seasonId\)\);/);
     assert.equal(/allow (create|update|delete|list|write)[^\n]*cmsCompleted/.test(RULES),false);
@@ -161,6 +162,13 @@ async function run(env){
   await check("A5","Nik reads X season_1 public results",async()=>{await assertSucceeds(getDoc(doc(dbB,"rivalries",X,"seasonResults","season_1")));});
   await check("A6","Daniel reads Nik's final season_1 result (shared at RESULTS_READY)",async()=>{await assertSucceeds(getDoc(doc(dbA,"rivalries",X,"seasonResults","season_1","roles","playerTwo")));});
   await check("A7","Nik reads Daniel's final season_1 result",async()=>{await assertSucceeds(getDoc(doc(dbB,"rivalries",X,"seasonResults","season_1","roles","playerOne")));});
+  // r87 shared reads meter: the final season's partner read lands after Terminal Close (members only, get only).
+  const meter=role=>({schemaVersion:1,objectType:"readsMeter",rivalryId:X,role,day:"2026-10-31",season:1,game:400,career:0,costs:[300],updatedAt:Timestamp.fromMillis(Date.now())});
+  await env.withSecurityRulesDisabled(async context=>{const db=context.firestore();for(const role of ["playerOne","playerTwo"])await setDoc(doc(db,"rivalries",X,"meters",role),meter(role));});
+  await check("A8","after Terminal Close Daniel reads Nik's X reads meter and Nik reads Daniel's",async()=>{
+    const theirs=await assertSucceeds(getDoc(doc(dbA,"rivalries",X,"meters","playerTwo")));assert.equal(theirs.data().role,"playerTwo");
+    await assertSucceeds(getDoc(doc(dbB,"rivalries",X,"meters","playerOne")));
+  });
 
   // B. Still denied on the completed Showdown.
   await check("B1","stranger cannot read X setup",async()=>{await assertFails(getDoc(doc(dbC,"rivalries",X,"sharedSetup","authoritative")));});
@@ -174,6 +182,10 @@ async function run(env){
   await check("B9","X transfer role is readable through the G-10 grant only because season_1 is COMPLETED",async()=>{const snap=await assertSucceeds(getDoc(doc(dbB,"rivalries",X,"transferChallenges","season_1","roles","playerOne")));assert.equal(snap.data().managerRole,"playerOne");});
   await check("B10","X career start stays outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"careerStart","authoritative")));});
   await check("B11","X league projection stays outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"sharedSetup","leagueProjection")));});
+  await check("B13","stranger and signed-out reads of X reads meters are denied; listing them is denied",async()=>{
+    await assertFails(getDoc(doc(dbC,"rivalries",X,"meters","playerOne")));await assertFails(getDoc(doc(anon,"rivalries",X,"meters","playerTwo")));
+    await assertFails(getDocs(collection(dbA,"rivalries",X,"meters")));
+  });
   await check("B12","unknown role id playerThree is outside the grant",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",X,"seasonResults","season_1","roles","playerThree")));});
 
   // C. Closed writes stay denied.
@@ -182,6 +194,10 @@ async function run(env){
   await check("C2","Nik cannot create X season_2 commit",async()=>{await assertFails(setDoc(doc(dbB,"rivalries",X,"seasonCommits","season_2"),{...stored.commit,seasonNumber:2}));});
   await check("C3","Daniel cannot update X season_1 commit",async()=>{await assertFails(setDoc(doc(dbA,"rivalries",X,"seasonCommits","season_1"),{...stored.commit}));});
   await check("C4","Daniel cannot delete X setup",async()=>{await assertFails(deleteDoc(doc(dbA,"rivalries",X,"sharedSetup","authoritative")));});
+  await check("C6","after Terminal Close Daniel cannot write or delete his X reads meter",async()=>{
+    await assertFails(setDoc(doc(dbA,"rivalries",X,"meters","playerOne"),{...meter("playerOne"),season:1,game:500,updatedAt:serverTimestamp()}));
+    await assertFails(deleteDoc(doc(dbA,"rivalries",X,"meters","playerOne")));
+  });
   await check("C5","Nik cannot rewrite his X result role",async()=>{await assertFails(setDoc(doc(dbB,"rivalries",X,"seasonResults","season_1","roles","playerTwo"),{...stored.role}));});
 
   // D. Abandoned Showdown Y (closed without Terminal Close): nothing below the root is readable.
@@ -190,6 +206,7 @@ async function run(env){
   await check("D3","Nik cannot read Daniel's unfinished Y result",async()=>{await assertFails(getDoc(doc(dbB,"rivalries",Y,"seasonResults","season_1","roles","playerOne")));});
   await check("D4","Daniel cannot read his own Y result after abandon",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",Y,"seasonResults","season_1","roles","playerOne")));});
   await check("D5","Daniel still reads the Y root (History status row)",async()=>{const snap=await assertSucceeds(getDoc(doc(dbA,"rivalries",Y)));assert.equal(snap.data().data.connectionState,"closed");assert.equal(Object.hasOwn(snap.data().data,"terminalClose"),false);});
+  await check("D7","abandoned Y (no Terminal Close): the reads meter is not readable",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",Y,"meters","playerTwo")));});
   await check("D6","Daniel cannot read Nik's Y transfer role",async()=>{await assertFails(getDoc(doc(dbA,"rivalries",Y,"transferChallenges","season_1","roles","playerTwo")));});
 
   // E. Forged or partial terminal witnesses (roots seeded with Rules disabled; children absent, so an allowed get returns not-found).
@@ -325,4 +342,4 @@ async function run(env){
   });
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,66);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader, Q never-joined codes and current-row isolation).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,70);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader, Q never-joined codes and current-row isolation).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});

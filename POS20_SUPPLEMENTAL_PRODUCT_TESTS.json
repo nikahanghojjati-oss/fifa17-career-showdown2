@@ -2380,6 +2380,24 @@
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-shared-reads-meter-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|settings|productionSharedSeasonCommit|productionSharedCareerStart)\\.js$",
+        "^tests/browser/support/(billed-meter|rules-lookups)\\.cjs$",
+        "^(firestore\\.[a-z0-9-]+\\.rules|scripts/(build-production-firestore-rules(-with-persistent-pair)?|inject-persistent-pair-rules)\\.mjs)$",
+        "^tests/contracts/r87\\-shared\\-reads\\-meter\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-reads-sp-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|productionSharedCareerStart|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^tests/contracts/r87\\-reads\\-sp\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
