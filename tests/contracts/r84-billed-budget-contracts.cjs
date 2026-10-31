@@ -28,8 +28,11 @@ const model=B.loadModel();
 const read=(p,live=true)=>model.readDocs(model.templateOf(p),live);
 // r86: since the r84 check trim a live Showdown's shared reads look up the rivalry only; the signed-in account is reached only on
 // the finished-Showdown / tombstone / pending-pair alternative, which is priced once the Showdown has ended (live=false).
-assert.deepEqual(read("rivalries/pair_x"),["rivalries/{rivalryId}"],"a live paired rivalry read: the rivalry itself (the account and invite lookups are on the other || branch)");
-assert.deepEqual(read("rivalries/pair_x",false),["accounts/{@self}","rivalries/{rivalryId}"],"a finished rivalry read also reaches the signed-in account");
+// r87: the root's get() of itself is no access call (reads-meter emulator proof), and its account/invite lookups are only on the
+// pending-pair branch (red team A-04): a member's root read costs no lookup, live or after Terminal Close.
+assert.deepEqual(read("rivalries/pair_x"),[],"a live paired rivalry read: no lookup (its get() is of itself; the account and invite lookups are on the other || branch)");
+assert.deepEqual(read("rivalries/pair_x",false),[],"a finished rivalry read: no lookup either (currentlyEntitled still allows it)");
+assert.deepEqual(read("rivalries/pair_x/state/authoritative/idempotency/h1"),["rivalries/{rivalryId}"],"an idempotency read: its exists() of itself is free; the rivalry is a real lookup");
 for(const sub of ["state/authoritative","sharedSetup/authoritative","careerStart/authoritative","transferChallenges/season_1","seasonResults/season_1","seasonCommits/season_1","sessionOffers/current"]){
   const docs=read(`rivalries/pair_x/${sub}`);
   assert.ok(docs.includes("rivalries/{rivalryId}"),`${sub} read looks up the rivalry`);
@@ -65,7 +68,7 @@ for(const rule of analysis.rules)if(rule.ops.some(o=>["list"].includes(o))&&rule
 // re-evaluates Rules); a commit pays each looked-up document once.
 const ev=(o)=>({user:"daniel",st:"x.js:1:1",n:1,...o});
 const sample=B.price(model,[
-  ev({k:"read",op:"getDoc",path:"rivalries/pair_x"}),
+  ev({k:"read",op:"getDoc",path:"rivalries/pair_x/sharedSetup/authoritative"}),
   ev({k:"listener",op:"onSnapshot",path:"rivalries/pair_x/state/authoritative",n:0}),
   ev({k:"read",op:"listen",path:"rivalries/pair_x/state/authoritative"}),
   ev({k:"read",op:"listen",path:"rivalries/pair_x/state/authoritative"}),

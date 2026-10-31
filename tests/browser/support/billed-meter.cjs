@@ -17,8 +17,10 @@
 //                                                  (every `allow list` in the production Rules is false, so none is expected)
 //   writes                                         lookups of the path's create/update upper bound, once per distinct document per
 //                                                  commit (batch/transaction = one request, a single setDoc/updateDoc = its own)
-// Not modelled: reads Firebase bills that the SDK makes without the app asking (index/metadata), rules-evaluation retries. A lookup of the very document being read or written is counted (conservative);
-// `selfLookups` says how many reads that was.
+// Not modelled: reads Firebase bills that the SDK makes without the app asking (index/metadata), rules-evaluation retries.
+// r87 (reads-meter emulator proof, gameplay/r87/reads/READS_R87.md): a get()/exists()/getAfter() of the very document being read
+// or written is NOT a Rules access call (it does not count toward the 10-call limit, on reads, creates, updates and listener
+// deliveries), so it is not billed and is left out of every path's lookups; `selfLookups` stays 0 as a guard.
 const path=require("node:path");
 const fs=require("node:fs");
 const R=require("./rules-lookups.cjs");
@@ -37,14 +39,16 @@ function loadModel({rulesFile=RULES_FILE,tableFile=TABLE_FILE}={}){
     if(readCache.has(key))return readCache.get(key);
     const ub=R.upperBound(analysis,template,"get")||[];
     const ex=new Set([...(table.readExclusions?.[template]?.exclude||[]),...(live?table.liveReadExclusions?.[template]?.exclude||[]:[])]);
-    const docs=ub.filter(d=>!ex.has(d));readCache.set(key,docs);return docs;
+    const self=template.replace(/^\//,"");// r87: a lookup of the requested document itself is no access call (never billed)
+    const docs=ub.filter(d=>!ex.has(d)&&d!==self);readCache.set(key,docs);return docs;
   }
   // A Showdown's reads after its Terminal Close / END (the career pages) are priced at the full upper bound.
   function markFinished(rivalryId,at=Date.now()){if(rivalryId&&!finishedAt.has(rivalryId))finishedAt.set(rivalryId,at);}
   function liveAt(docPath,t){const m=/rivalries\/(pair_[0-9a-f]+)/.exec(String(docPath||""));if(!m||!finishedAt.has(m[1]))return true;return !(Number.isFinite(t)&&t>=finishedAt.get(m[1]));}
   function writeDocs(template){
     if(writeCache.has(template))return writeCache.get(template);
-    const docs=writeRequestDocs([...(R.upperBound(analysis,template,"create")||[]),...(R.upperBound(analysis,template,"update")||[])]);
+    const self=template.replace(/^\//,"");
+    const docs=writeRequestDocs([...(R.upperBound(analysis,template,"create")||[]),...(R.upperBound(analysis,template,"update")||[])]).filter(d=>d!==self);
     writeCache.set(template,docs);return docs;
   }
   return {analysis,table,rulesSha256:R.hashRules(rulesText),readDocs,writeDocs,markFinished,liveAt,templateOf:p=>R.matchTemplate(analysis,p)};
