@@ -36,7 +36,9 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .chip { font: 700 12px/1 var(--num); letter-spacing: .18em; text-transform: uppercase; color: var(--gold-hi); border: 1px solid rgba(241,195,90,.7); border-radius: 999px; padding: 6px 11px 5px; background: rgba(0,0,0,.35); }
 .gear { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(241,195,90,.7); display: grid; place-items: center; color: var(--gold); font-size: 15px; background: rgba(0,0,0,.35); }
 /* title lockup */
-.top { position: absolute; left: 0; right: 0; top: 46px; text-align: center; }
+.top { position: absolute; left: 0; right: 0; top: 46px; text-align: center; transition: opacity .45s ease; }
+/* r87 scene polish: during a turn the camera goes in close (drum, shooter's view, the bullet), so the title lockup steps aside and never stands over a board name or the drum; it is back for the wide shot. Nothing else fades. */
+body.turning .top { opacity: 0; }
 .kicker { display: flex; justify-content: center; align-items: center; gap: 12px; }
 .kicker::before, .kicker::after { content: ""; width: clamp(28px, 7vw, 90px); height: 1px; background: linear-gradient(90deg, transparent, var(--gold-hi)); box-shadow: 0 0 6px rgba(255,220,140,.8); }
 .kicker::after { transform: scaleX(-1); }
@@ -174,14 +176,14 @@ const hand=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transpar
 function keyOutBlack(img){ const c=document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); const d=x.getImageData(0,0,c.width,c.height), a=d.data; let hasAlpha=false; for(let i=3;i<a.length;i+=4*97){ if(a[i]<250){ hasAlpha=true; break; } }
   if(!hasAlpha){ for(let i=0;i<a.length;i+=4){ const m=Math.max(a[i],a[i+1],a[i+2]); a[i+3]=m<7?0:m<22?Math.round((m-7)/15*255):255; } x.putImageData(d,0,0); } return c; }
 function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect; const ph=fh*(PH?.56:.68)*(handAimAt?AIM_SCALE():1), pw=ph*handAspect; hand.scale.set(pw*handSide,ph,1);
-  const lift=(1-handK)*ph*1.1; const rx=handRecoil; hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift+rx*.025, -1);
+  const lift=(1-handK)*ph*1.1; const rx=handRecoil; const low=PH&&handAimAt?fh*.13:0; /* r87 polish: on the phone the aimed hand sits lower, so the muzzle stays under the board instead of across the squad */ hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift-low+rx*.025, -1);
   hand.rotation.z=handAim(fw,fh,pw,ph)*Math.min(1,handK)+handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; }
 /* r87 (Nik 2026-10-30: "gun should face the board it's shooting"): while a turn aims, the hand sits a little smaller in its
    corner, so the muzzle is below and beside the board instead of in the middle of the frame, and the picture turns about its
    centre until the line from the cylinder (HAND_REAR) through the muzzle runs through the target (projected onto the hand's
    plane, z -1). A few passes, because the turn moves the muzzle too; clamped so the wrist stays natural. */
 /* phones: the frame is narrow and the barrel long, so the hand is smaller and may turn further (the barrel rises toward the board) */
-const AIM_SCALE=()=>PH?.72:.8, AIM_MAX=()=>PH?1.0:.38;
+const AIM_SCALE=()=>PH?.6:.8, AIM_MAX=()=>PH?1.0:.38;
 function handAim(fw,fh,pw,ph){ if(!handAimAt) return 0; camera.updateMatrixWorld(); const n=handAimAt.clone().project(camera); if(!(n.z<1)) return 0;
   const tx=n.x*fw/2, ty=n.y*fh/2, px=hand.position.x, py=hand.position.y, sx=pw*handSide;
   const mx=(HAND_MUZZLE.u-.5)*sx, my=(HAND_MUZZLE.v-.5)*ph, bx=mx-(HAND_REAR.u-.5)*sx, by=my-(HAND_REAR.v-.5)*ph, base=Math.atan2(by,bx);
@@ -407,7 +409,7 @@ const table=new T.Group(); scene.add(table);
   mesh(lathe([[0,0],[.5,0],[.52,.02],[.5,.045],[.34,.06],[.2,.08],[.15,.1],[0,.1]],64),bmarble,0,0,0,table).receiveShadow=true; mesh(new T.TorusGeometry(.5,.012,8,96),M.gold,0,.03,0,table).rotation.x=Math.PI/2;
   for(let i=0;i<4;i++){ const a=i/4*Math.PI*2+Math.PI/4; const f=mesh(lathe([[0,0],[.06,0],[.07,.02],[.05,.05],[.02,.07],[0,.07]],24),M.gold,Math.cos(a)*.47,0,Math.sin(a)*.47,table); f.castShadow=true; }
   /* lantern: a period brass oil lamp. fluted foot, knopped stem, oil font with a seam, burner with a wick knob, tall glass chimney, living flame */
-  const lan=new T.Group(); lan.position.set(-.16,.75,.5); table.add(lan); /* r87: front of the table, off both shooting lines, so it never stands between the gun and a board */
+  const lan=new T.Group(); lan.position.set(-.38,.75,.36); table.add(lan); /* r87: front of the table, off both shooting lines, so it never stands between the gun and a board; r87 polish: further out to the left, so from the wide shot it no longer stands in front of the revolver */
   const foot=lathe([[0,0],[.085,0],[.09,.012],[.082,.02],[.06,.028],[.042,.04],[.03,.06],[.026,.09],[.034,.1],[.024,.108],[.022,.13],[.03,.14],[.028,.15]],48); mesh(foot,M.brass,0,0,0,lan).castShadow=true;
   for(let i=0;i<16;i++){ const a=i/16*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.005,.007,.03,10),M.gold,Math.cos(a)*.07,.012,Math.sin(a)*.07,lan); fl.rotation.y=-a; fl.rotation.z=Math.PI/2-.9; }
   const font=lathe([[.028,.15],[.05,.158],[.07,.18],[.076,.21],[.07,.24],[.052,.262],[.03,.27],[.026,.285],[.03,.295],[.022,.3]],48); mesh(font,M.brass,0,0,0,lan).castShadow=true;
@@ -426,7 +428,7 @@ const table=new T.Group(); scene.add(table);
   const lantern=new T.PointLight(L("#ffb15a"),1.85,6,2); lantern.position.set(0,.43,0); lan.add(lantern);
   table.userData={flame,halo,lantern};
   /* coffee pot: tall pewter-brass body with a belly, a domed hinged lid with a finial, a gooseneck spout and a looped handle */
-  { const pg=new T.Group(); pg.position.set(.16,.75,-.56); pg.rotation.y=-.5; table.add(pg); /* r87: back of the table, off both shooting lines */
+  { const pg=new T.Group(); pg.position.set(.04,.75,-.6); pg.rotation.y=-.5; table.add(pg); /* r87: back of the table, off both shooting lines; r87 polish: nearer the middle, so in Nik's phone shot it no longer stands over the corner of his board */
     const body=lathe([[0,0],[.062,0],[.07,.008],[.072,.03],[.066,.07],[.054,.11],[.046,.15],[.045,.18],[.05,.196],[.058,.204],[.056,.212],[.03,.216],[.03,.222],[.04,.236],[.03,.25],[.012,.258],[0,.26]],56); const bm=mesh(body,M.brass,0,0,0,pg); bm.castShadow=true;
     mesh(new T.TorusGeometry(.057,.003,8,48),M.gold,0,.208,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.069,.004,8,48),M.gold,0,.012,0,pg).rotation.x=Math.PI/2;
     mesh(new T.TorusGeometry(.0665,.0025,8,64),M.gold,0,.06,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.0555,.0025,8,64),M.gold,0,.105,0,pg).rotation.x=Math.PI/2; for(let i=0;i<18;i++){ const a=i/18*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.0035,.0045,.04,8),M.gold,Math.cos(a)*.0665,.085,Math.sin(a)*.0665,pg); fl.rotation.y=-a; }   /* engraved band + flutes */
@@ -518,8 +520,8 @@ const GM={
   walnut:new T.MeshPhysicalMaterial({map:woodTex(256,256,"#5a2e14","#2a1206",1,[2,2]), color:0xb07a50, roughness:.32, clearcoat:.9, clearcoatRoughness:.08}),
   bore:new T.MeshStandardMaterial({color:0x020202, roughness:.95}),
   boreIn:new T.MeshStandardMaterial({color:L("#15181d"), metalness:.7, roughness:.62, side:T.DoubleSide}),
-  drum:new T.MeshPhysicalMaterial({color:L("#c3cddc"), metalness:.78, roughness:.24, clearcoat:.6, clearcoatRoughness:.12}),
-  drumFace:new T.MeshPhysicalMaterial({color:L("#b8c3d3"), metalness:.72, roughness:.32, clearcoat:.4}),
+  drum:new T.MeshPhysicalMaterial({color:L("#8f99a8"), metalness:.92, roughness:.26, clearcoat:.7, clearcoatRoughness:.1}),   /* r87 polish: nickel steel like the hand picture's cylinder, not cream */
+  drumFace:new T.MeshPhysicalMaterial({color:L("#7e8898"), metalness:.88, roughness:.3, clearcoat:.5}),
   drumGroove:new T.MeshStandardMaterial({color:L("#2a2f38"), metalness:.8, roughness:.5, side:T.DoubleSide}),
   lead:new T.MeshPhysicalMaterial({color:L("#85888c"), metalness:.6, roughness:.52})
 };
@@ -586,7 +588,7 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
-    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.fillStyle="rgba(0,0,0,0)"; x.fillRect(0,0,256,96); x.font="700 44px 'Barlow Condensed', Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.shadowColor="rgba(0,0,0,.8)"; x.shadowBlur=8; x.fillText("FIRES HERE",128,62); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
+    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.clearRect(0,0,256,96); /* r87 polish: a black-and-gold plate behind the words, so they read over the board behind the drum instead of running into its names */ x.beginPath(); x.moveTo(30,16); x.lineTo(226,16); x.arcTo(246,16,246,48,18); x.arcTo(246,80,226,80,18); x.lineTo(30,80); x.arcTo(10,80,10,48,18); x.arcTo(10,16,30,16,18); x.closePath(); x.fillStyle="rgba(12,9,5,.9)"; x.fill(); x.lineWidth=3; x.strokeStyle="#d4a017"; x.stroke(); x.font="700 38px 'Barlow Condensed', Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.fillText("FIRES HERE",128,61); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
     const lbl=new T.Mesh(new T.PlaneGeometry(.022,.00825),new T.MeshBasicMaterial({map:lblTex, transparent:true, depthWrite:false})); lbl.position.set(0,.0068,0); ptr.add(lbl);
     ptr.visible=false; ptr.scale.set(.001,.001,.001); }
   /* base pin through the cylinder with its knurled head out the front of the frame */
@@ -775,7 +777,7 @@ const ORDER=["D","N"]; const NAME={D:"Daniel",N:"Nik"};
 let turn=0, loaded=false, chamber=0, bulletAt=0, playing=null, done={D:null,N:null};
 let manual=null, last=0, fired={}, camPos=new T.Vector3(), camLook=new T.Vector3(), shake=0, camTmp=new T.Vector3();
 function slot(el,txt,cls){ el.textContent=txt; el.className=cls||""; }
-function setBusy(b){ cta.classList.toggle("busy",b); cta.textContent=b?"Spinning…":(turn%2===0&&turn>0?"Spin again":"Spin the cylinder"); }
+function setBusy(b){ cta.classList.toggle("busy",b); document.body.classList.toggle("turning",b); cta.textContent=b?"Spinning…":(turn%2===0&&turn>0?"Spin again":"Spin the cylinder"); }
 /* red team R87-C-06: in the game both phones play the engine's own plan (js/rosterRoulette.js via the season step): the round
    sits in bulletChamber, the cylinder stops on stopChamber and the barrel points at hitSlot (a safe turn at aimSlot). Board
    slots 0-10 are the XI, 11-14 the subs. No random choice is left for anything both phones see. */
@@ -869,13 +871,13 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
     const yaw=p.yawTarget; const back=new T.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)); const side=new T.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
     const closePos=gw.clone().add(back.clone().multiplyScalar(.5)).add(side.clone().multiplyScalar(PH?-.26:-.3)).add(new T.Vector3(0,.5,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?22:18;
-    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.078,.05,-.25).lerp(new T.Vector3(-.064,.034,-.215),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.045,.0,-.012)); const insideFov=PH?26:20;
+    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.078,.05,-.25).lerp(new T.Vector3(-.064,.034,-.215),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.045,.0,-.012)); if(!PH) insideLook.y-=.0055; /* r87 polish: on a laptop the drum sits higher and a touch smaller, so the result line and the button never cover its lower chambers or the live round */ const insideFov=PH?26:22;
     /* a soft key light rides above the camera for the cylinder and hammer close-ups, so the steel has something to reflect */
     const keyOn=tt>=B.close&&tt<B.fire?1:0; closeKey.intensity=lerp(closeKey.intensity,keyOn*.5,Math.min(1,dt*6)); closeKey.position.copy(camPos).add(new T.Vector3(0,.09,0)); closeFill.intensity=lerp(closeFill.intensity,keyOn*.22,Math.min(1,dt*6)); closeFill.position.copy(camPos).add(new T.Vector3(-.12,-.02,0));
     const tensePos=gw.clone().add(back.clone().multiplyScalar(.26)).add(side.clone().multiplyScalar(PH?-.2:-.24)).add(new T.Vector3(0,.14,0));
     const hitPos=PH?new T.Vector3(sx*.25,1.5,2.1):new T.Vector3(sx*.6,1.35,1.9), hitLook=bw.clone().lerp(gw,.35);
     /* shooter's view: across the table from the target board, the hand and gun in the lower corner, the board ahead */
-    const away=gw.clone().sub(bw); away.y=0; if(PH) away.multiplyScalar(.55).add(new T.Vector3(0,0,1)); away.normalize(); /* on the phone the shooter stands more in front of the board so the squad reads, not the frame edge */ const povPos=gw.clone().addScaledVector(away,PH?1.15:.95).add(new T.Vector3(0,.62,0)), povLook=bw.clone().add(new T.Vector3(0,.04,0)); const povFov=PH?44:34;
+    const away=gw.clone().sub(bw); away.y=0; if(PH) away.multiplyScalar(.55).add(new T.Vector3(0,0,1)); away.normalize(); /* on the phone the shooter stands more in front of the board so the squad reads, not the frame edge */ const povPos=gw.clone().addScaledVector(away,PH?1.15:.95).add(new T.Vector3(0,.62,0)), povLook=bw.clone().add(new T.Vector3(0,PH?-.1:.04,0)); /* r87 polish: on the phone the board rides higher in the frame, so the raised gun sits under the squad instead of across it */ const povFov=PH?44:34;
     if(tt<B.spin+.3){ const k=ease.inOut(S(0,.6,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
     else if(tt<B.inside){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
