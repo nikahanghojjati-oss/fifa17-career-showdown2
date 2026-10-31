@@ -318,8 +318,68 @@
     typing=root.setInterval(()=>{shown=Math.min(parts.full.length,shown+step);parts.typed.textContent=parts.full.slice(0,shown);if(shown>=parts.full.length){cvStopTyping();finish();}},24);
   }
   function cvRemove(){cvStopTyping();const bar=root.document?.getElementById(BAR_ID);if(bar){bar.parentNode?.classList?.remove("cmv3-has");bar.remove();}}
+  // Final Winner (lead request 2026-10-31): Team V's stage fills the window and has no free slot, so the Showdown verdict
+  // sits BELOW the stage in the page flow (main scrolls to it). Nothing on the stage moves or is covered. Facts come from the
+  // same verified history Final Winner itself was drawn from (CareerModeSeasonFinalV10.gazetteHistory), checked against the
+  // totals the stage shows.
+  const FINAL_ID="commentaryV3Final";
+  function cvFinalFacts(){
+    const host=root.document?.getElementById("seasonEntry");
+    if(!host||host.classList.contains("hidden")||!host.classList.contains("v10FinalMode")||!host.querySelector(".v10FinalStage"))return null;
+    const history=root.CareerModeSeasonFinalV10?.gazetteHistory?.(),p=history?.projection;
+    if(!p||!Array.isArray(p.seasonHistory)||!LENGTHS.includes(p.totalSeasons)||p.seasonHistory.length!==p.totalSeasons)return null;
+    if(p.seasonHistory.some((row,i)=>row?.roundNumber!==i+1))return null;
+    const frame=root.FINAL_WINNER_FIXTURES?.frames?.LIVE;
+    let a=0,b=0;for(const row of p.seasonHistory){a+=row.playerOne?.scoring?.total;b+=row.playerTwo?.scoring?.total;}
+    if(!frame||frame.totals?.daniel!==a||frame.totals?.nik!==b)return null;
+    const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[p.leagueId];
+    return {showdownId:String(p.rivalryId||history.rivalryId||""),seasons:p.totalSeasons,league:p.leagueId,clubs:{playerOne:p.managerRecords?.playerOne?.club,playerTwo:p.managerRecords?.playerTwo?.club},
+      teamCount:Array.isArray(teams)?teams.length:null,history:p.seasonHistory,season:p.totalSeasons};
+  }
+  function cvFinalRule(doc){
+    if(doc.getElementById("commentaryV3FinalRule"))return;
+    const style=doc.createElement("style");style.id="commentaryV3FinalRule";
+    style.textContent=`
+#${FINAL_ID}{display:block;box-sizing:border-box;width:min(1040px,100%);margin:0 auto;padding:22px 16px 28px;pointer-events:none;user-select:text}
+#${FINAL_ID} .cmx-bar__slab{flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 44px 10px 30px}
+#${FINAL_ID} .cmv3-line{position:relative;margin:0}
+#${FINAL_ID} .cmv3-lead{color:#f6f2e8;font:600 18px/1.22 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9);text-wrap:pretty}
+#${FINAL_ID} .cmv3-numbers{color:#ffd34d;font:600 13px/1.25 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.03em;text-wrap:pretty}
+#${FINAL_ID} .cmv3-numbers b{display:inline-block;margin-right:7px;padding:1px 6px 0;background:#e0ae3a;color:#07080a;font-weight:700;font-size:10px;letter-spacing:.18em;line-height:15px;vertical-align:1px}
+#${FINAL_ID} .cmv3-ghost{color:transparent;text-shadow:none}
+#${FINAL_ID} .cmv3-typed{position:absolute;inset:0}
+@media (max-width:600px){
+  #${FINAL_ID}{padding:16px 16px 22px}
+  #${FINAL_ID} .cmx-bar{margin-top:0}
+  #${FINAL_ID} .cmx-bar__slab{padding:8px 26px 8px 20px;gap:4px}
+  #${FINAL_ID} .cmv3-lead{font-size:15px;line-height:1.2}
+  #${FINAL_ID} .cmv3-numbers{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){#${FINAL_ID} .cmx-bar.is-in{animation:none}}
+`;
+    doc.head.appendChild(style);
+  }
+  function cvRemoveFinal(){root.document?.getElementById(FINAL_ID)?.remove();}
+  function cvRenderFinal(doc){
+    const facts=cvFinalFacts();if(!facts||!facts.teamCount){cvRemoveFinal();return;}
+    const key=`${facts.showdownId}|final|${facts.history.map(r=>`${r.playerOne?.scoring?.total}-${r.playerTwo?.scoring?.total}`).join(",")}`;
+    const host=doc.getElementById("seasonEntry"),existing=doc.getElementById(FINAL_ID);
+    if(existing&&existing.dataset.key===key&&existing.previousElementSibling===host)return;
+    if(!root.CareerModeCommentaryEngine||!root.CareerModeCommentaryLines){cvLoadAssets().then(cvSchedule,()=>{});return;}
+    const result=call(facts,facts.season,root.CareerModeCommentaryLines);
+    cvRemoveFinal();if(!result||(!result.lead&&!result.numbers))return;
+    cvRule(doc);cvFinalRule(doc);
+    const parts=cvBuildBar(doc,result);parts.wrap.id=FINAL_ID;parts.wrap.dataset.key=key;
+    host.after(parts.wrap);
+    // Below the stage it is read after a scroll, so it is shown whole (no typing).
+    if(parts.typed)parts.typed.textContent=parts.full;if(parts.numbers)parts.numbers.classList.add("is-in");
+  }
   function cvRender(){
-    const doc=root.document,panel=doc?.getElementById("sharedCanonicalScoringPanel"),winner=doc?.getElementById("sharedCanonicalScoringWinner");
+    const doc=root.document;if(!doc)return;
+    const finalMode=doc.getElementById("seasonEntry")?.classList.contains("v10FinalMode")&&root.getActiveScreenName?.()==="seasonEntry";
+    if(finalMode){cvRemove();cvRenderFinal(doc);return;}
+    cvRemoveFinal();
+    const panel=doc.getElementById("sharedCanonicalScoringPanel"),winner=doc.getElementById("sharedCanonicalScoringWinner");
     if(!panel||!winner||panel.classList.contains("hidden")||panel.hidden){cvRemove();return;}
     const facts=cvLiveFacts();if(!facts||!facts.teamCount){cvRemove();return;}
     const key=`${facts.showdownId}|${facts.season}|${facts.history.map(r=>`${r.playerOne?.scoring?.total}-${r.playerTwo?.scoring?.total}`).join(",")}`;
@@ -343,11 +403,11 @@
   function cvInstall(){
     if(installed)return true;installed=true;
     for(const e of ["career-mode-shared-history-convergence-state-change","career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change"])root.addEventListener?.(e,cvSchedule);
-    root.document?.addEventListener?.("career-mode-screen-shown",()=>{cvWatch();if(root.getActiveScreenName?.()==="seasonEntry")cvLoadAssets().then(cvSchedule,()=>{});});
+    root.document?.addEventListener?.("career-mode-screen-shown",()=>{cvWatch();if(root.getActiveScreenName?.()==="seasonEntry")cvLoadAssets().then(cvSchedule,()=>{});else{cvRemove();cvRemoveFinal();}});
     cvWatch();cvSchedule();
     return true;
   }
 
   return Object.freeze({contractVersion:3,feature:"cms-commentary-v3",names:NAMES,leadFirst:LEAD_FIRST,call,seasonNumbers:(facts,season)=>{const rows=cvRows(facts);return rows&&int(season,1,rows.length)?seasonNumbers(rows.slice(0,season),season,facts.seasons,facts.clubs):null;},
-    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons):null;},topicOf,install:cvInstall,_liveFacts:cvLiveFacts,_render:cvRender});
+    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons):null;},topicOf,install:cvInstall,_liveFacts:cvLiveFacts,_render:cvRender,_finalFacts:cvFinalFacts});
 });
