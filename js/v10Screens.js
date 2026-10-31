@@ -50,6 +50,13 @@
   const IMAGE_HOLD_MS=8000;
   const REVEAL_MS=220;
   const TAP_GUARD_MS=350;
+  // r87 (transitions, Reus Gate: the loading screen stays until the next screen is ready). A screen still held after
+  // GATE_GRACE_MS (its look, pictures or plate still on their way) hands over to the Reus loading screen instead of a black
+  // page; Reus then stays at least GATE_MIN_MS, so it never blinks, and leaves with its own crossfade once the screen is ready.
+  // A quick change (most of them, once files are cached) never shows it.
+  const GATE_GRACE_MS=250;
+  const GATE_MIN_MS=600;
+  const GATE_EXIT_MS=240;
   // r87 (lane C C-05): how long after a Home tile tap the second tap of a pointer double tap is swallowed, wherever it lands.
   const DOUBLE_TAP_MS=500;
   // r78 (HO-028 / HO-029): Team V's readable body type and the black-and-gold marble for errors, notes, pop-ups and
@@ -200,6 +207,18 @@
   }
   // Settles once the picture is decoded (or failed). decode() rejects at once before a <picture> has picked its source, and also when
   // the browser swaps the request it was waiting on; a picture that is still loading then waits for its load event and decodes again.
+  // r87 (transitions, P-05): only a picture that paints on this reveal is waited for. A picture inside a part of the screen that
+  // is not shown (display:none: Final Winner's trophy while Season Results shows) or a lazy one below the fold is not fetched
+  // until it is needed, so its decode never settled and every Season Results / Final Winner open sat black for the whole
+  // DECODE_TIMEOUT_MS. Such a picture is still held by the watcher (data-v10-decoding) until it is decoded once it shows.
+  function vsImageWillPaint(img){
+    if(typeof img.getClientRects!=="function")return true;
+    const rects=img.getClientRects();
+    if(!rects.length)return false;
+    if(img.loading!=="lazy"||typeof img.getBoundingClientRect!=="function")return true;
+    const r=img.getBoundingClientRect(),h=root.innerHeight||0,w=root.innerWidth||0;
+    return !(h&&w)||(r.bottom>=-h&&r.top<=2*h&&r.right>=-w&&r.left<=2*w);
+  }
   function vsImageSettled(img){
     const loaded=()=>new Promise(resolve=>{if(img.complete){resolve(img.naturalWidth>0);return;}img.addEventListener("load",()=>resolve(true),{once:true});img.addEventListener("error",()=>resolve(false),{once:true});});
     if(typeof img.decode!=="function")return loaded();
@@ -289,10 +308,61 @@
   // The app draws its own screen at once and Team V's look mounts only after its files load. expect(id) keeps the
   // host's own content invisible meanwhile (css/v10Shell.css [data-v10-pending]); show() ends it on every outcome
   // (mounted, null frame, not shown, load error) and STYLE_TIMEOUT_MS ends it anyway, so the app's screen is never lost.
+  // ---- in-app Reus Gate ----
+  // The gate owns the loading screen only when it raised it (data-v10-gate): the startup splash, Roster Roulette and the Special
+  // Player reveal raise it themselves and are never touched. Only full screens count; an overlay (Settings) never raises it.
+  const gate={timer:null,raisedAt:0,lowering:null};
+  const vsGateHeld=()=>[...pending.keys()].some(id=>registry.get(id)?.overlay!==true&&vsIsShown(id));
+  function vsGateEl(){const el=vsHost("loadingScreen");return el&&el.dataset&&el.classList?el:null;}
+  function vsGateHold(){
+    if(gate.lowering!==null){root.clearTimeout(gate.lowering);gate.lowering=null;const el=vsGateEl();if(vsGateOwns(el)){el.classList.remove("is-exiting");el.setAttribute("aria-busy","true");el.removeAttribute("aria-hidden");vsSetNavMode("none");}else{gate.raisedAt=0;vsGateForget(el);}}
+    if(gate.timer!==null||gate.raisedAt)return;
+    gate.timer=root.setTimeout(vsGateRaise,GATE_GRACE_MS);
+  }
+  function vsGateRaise(){
+    gate.timer=null;
+    const el=vsGateEl();
+    // Another owner already shows it (or it is on its way out from startup): leave it alone.
+    if(!el||!vsGateHeld()||!el.hidden&&!el.classList.contains("hidden"))return;
+    const text=vsHost("loadingText");
+    el.dataset.v10Gate="1";el.dataset.v10GateText=text?text.textContent:"";el.dataset.v10GateLabel=el.getAttribute("aria-label")||"";
+    if(text)text.textContent="LOADING";
+    el.setAttribute("aria-label","Loading");el.setAttribute("aria-busy","true");el.removeAttribute("aria-hidden");
+    // Fades in over the dark page with the splash's own opacity transition (is-exiting is its 0 state).
+    el.classList.add("is-exiting");el.classList.remove("hidden");el.hidden=false;void el.offsetWidth;el.classList.remove("is-exiting");
+    gate.raisedAt=Date.now();
+    vsSetNavMode("none");
+  }
+  // Roster Roulette or the Special Player reveal may take the loading screen over while it is up (they relabel it): from then
+  // on it is theirs to hide.
+  const vsGateOwns=el=>Boolean(el&&el.dataset.v10Gate==="1"&&el.getAttribute("aria-label")==="Loading");
+  function vsGateForget(el){if(el&&el.dataset){delete el.dataset.v10Gate;delete el.dataset.v10GateText;delete el.dataset.v10GateLabel;}}
+  function vsGateRelease(){
+    if(vsGateHeld())return;
+    if(gate.timer!==null){root.clearTimeout(gate.timer);gate.timer=null;}
+    if(!gate.raisedAt||gate.lowering!==null)return;
+    gate.lowering=root.setTimeout(()=>{
+      const el=vsGateEl();
+      if(!el||!vsGateOwns(el)){gate.lowering=null;gate.raisedAt=0;vsGateForget(el);return;}
+      el.setAttribute("aria-hidden","true");el.setAttribute("aria-busy","false");el.classList.add("is-exiting");
+      // The bar comes back with the screen, as it does when the startup splash leaves.
+      vsPaintNav(vsActiveScreen());
+      gate.lowering=root.setTimeout(()=>{
+        gate.lowering=null;gate.raisedAt=0;
+        if(!vsGateOwns(el)){vsGateForget(el);return;}
+        const text=vsHost("loadingText");
+        if(text)text.textContent=el.dataset.v10GateText||"";
+        if(el.dataset.v10GateLabel)el.setAttribute("aria-label",el.dataset.v10GateLabel);
+        delete el.dataset.v10Gate;delete el.dataset.v10GateText;delete el.dataset.v10GateLabel;
+        el.hidden=true;el.classList.add("hidden");
+      },GATE_EXIT_MS);
+    },Math.max(0,GATE_MIN_MS-(Date.now()-gate.raisedAt)));
+  }
   function vsSettle(id,reveal=false){
     const entry=pending.get(id);
     if(!entry)return;
     pending.delete(id);root.clearTimeout(entry.timer);
+    vsGateRelease();
     if(entry.host.dataset){
       delete entry.host.dataset.v10Pending;
       // One short reveal for every Team V screen (css/v10Shell.css [data-v10-reveal]); reduced motion makes it instant.
@@ -325,7 +395,9 @@
     if(!host||typeof host.querySelectorAll!=="function")return false;
     // One frame first: an <img> inside <picture> has no currentSrc until the browser has picked its source.
     await new Promise(resolve=>typeof root.requestAnimationFrame==="function"?root.requestAnimationFrame(()=>resolve()):root.setTimeout(resolve,0));
-    const images=[...host.querySelectorAll("img")].filter(vsImagePending);
+    const waiting=[...host.querySelectorAll("img")].filter(vsImagePending),images=waiting.filter(vsImageWillPaint);
+    // Pictures this reveal does not wait for keep the longer hold, as a picture still loading at the cap does below.
+    for(const img of waiting)if(!images.includes(img))vsHoldImage(img,IMAGE_HOLD_MS);
     let plates=[];
     try{plates=vsPlates(host);}catch(error){plates=[];}
     if(!images.length&&!plates.length)return false;
@@ -346,6 +418,7 @@
     vsSettle(id);
     host.dataset.v10Pending="1";
     pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});
+    vsGateHold();
     vsSyncStyles();
     return true;
   }
@@ -366,7 +439,7 @@
       if(current&&current.frame===frame&&current.host===host&&host.isConnected!==false)return true;
       // A screen drawn for the first time (or drawn again) keeps its content invisible until its pictures are decoded, then
       // reveals once; a screen the app did not expect() gets that pending state here.
-      if(!current&&!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});}
+      if(!current&&!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});vsGateHold();}
       // Styles first, then mount: Team V's layout code measures a container its own CSS already sizes.
       mounted.set(id,{frame,host});
       vsSyncStyles();
