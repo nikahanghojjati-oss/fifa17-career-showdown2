@@ -216,7 +216,7 @@
   const BAR_ID="commentaryV3Bar";
   let installed=false,scheduled=false,observer=null,assets=null,typing=null;
   function state(name){try{return root[name]?.getState?.()||null;}catch(_){return null;}}
-  function liveFacts(){
+  function cvLiveFacts(){
     const setupState=state("CareerModeProductionSharedShowdownSetup"),setup=setupState?.setup;
     if(!setupState||setupState.ready!==true||setup?.phase!=="SHOWDOWN_CONFIRMED"||!setupState.rivalryId)return null;
     const rivalryId=String(setupState.rivalryId),N=setup.totalSeasons;if(!LENGTHS.includes(N))return null;
@@ -233,7 +233,7 @@
     const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[setup.leagueId];
     return {showdownId:rivalryId,seasons:N,league:setup.leagueId,clubs:setup.clubs,teamCount:Array.isArray(teams)?teams.length:null,history:rows,season:s};
   }
-  function loadAssets(){
+  function cvLoadAssets(){
     if(assets)return assets;
     const load=root.loadRuntimeScript,style=root.loadRuntimeStyle;
     if(typeof load!=="function")return Promise.reject(new Error("COMMENTARY_LOADER_UNAVAILABLE"));
@@ -288,7 +288,7 @@
     doc.head.appendChild(style);
   }
   function text(doc,tag,cls,value){const el=doc.createElement(tag);el.className=cls;if(value!==undefined)el.textContent=value;return el;}
-  function buildBar(doc,result){
+  function cvBuildBar(doc,result){
     const wrap=doc.createElement("div");wrap.id=BAR_ID;wrap.className="cmx cmv3";wrap.setAttribute("role","note");wrap.setAttribute("aria-label","Commentary");
     const bar=text(doc,"div","cmx-bar is-in");
     bar.appendChild(text(doc,"span","cmx-bar__tab",result.moment==="final"?"FULL TIME":"COMMENTARY"));
@@ -307,47 +307,47 @@
     bar.appendChild(slab);bar.appendChild(text(doc,"span","cmx-bar__end"));wrap.appendChild(bar);
     return {wrap,typed,numbers,full:result.lead?.text||""};
   }
-  function stopTyping(){if(typing){root.clearInterval?.(typing);typing=null;}}
-  function play(parts){
-    stopTyping();
+  function cvStopTyping(){if(typing){root.clearInterval?.(typing);typing=null;}}
+  function cvPlay(parts){
+    cvStopTyping();
     const reduce=root.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     const finish=()=>{if(parts.typed){parts.typed.textContent=parts.full;}if(parts.numbers){parts.numbers.classList.remove("is-waiting");parts.numbers.classList.add("is-in");}};
     if(reduce||!parts.typed||typeof root.setInterval!=="function"){finish();return;}
     if(parts.numbers)parts.numbers.classList.add("is-waiting");
     let shown=0;const step=Math.max(1,Math.round(parts.full.length/70));
-    typing=root.setInterval(()=>{shown=Math.min(parts.full.length,shown+step);parts.typed.textContent=parts.full.slice(0,shown);if(shown>=parts.full.length){stopTyping();finish();}},24);
+    typing=root.setInterval(()=>{shown=Math.min(parts.full.length,shown+step);parts.typed.textContent=parts.full.slice(0,shown);if(shown>=parts.full.length){cvStopTyping();finish();}},24);
   }
-  function remove(){stopTyping();const bar=root.document?.getElementById(BAR_ID);if(bar){bar.parentNode?.classList?.remove("cmv3-has");bar.remove();}}
-  function render(){
+  function cvRemove(){cvStopTyping();const bar=root.document?.getElementById(BAR_ID);if(bar){bar.parentNode?.classList?.remove("cmv3-has");bar.remove();}}
+  function cvRender(){
     const doc=root.document,panel=doc?.getElementById("sharedCanonicalScoringPanel"),winner=doc?.getElementById("sharedCanonicalScoringWinner");
-    if(!panel||!winner||panel.classList.contains("hidden")||panel.hidden){remove();return;}
-    const facts=liveFacts();if(!facts||!facts.teamCount){remove();return;}
+    if(!panel||!winner||panel.classList.contains("hidden")||panel.hidden){cvRemove();return;}
+    const facts=cvLiveFacts();if(!facts||!facts.teamCount){cvRemove();return;}
     const key=`${facts.showdownId}|${facts.season}|${facts.history.map(r=>`${r.playerOne?.scoring?.total}-${r.playerTwo?.scoring?.total}`).join(",")}`;
     const existing=doc.getElementById(BAR_ID);
     if(existing&&existing.dataset.key===key&&existing.parentNode===panel)return;
-    if(!root.CareerModeCommentaryEngine||!root.CareerModeCommentaryLines){loadAssets().then(schedule,()=>{});return;}
+    if(!root.CareerModeCommentaryEngine||!root.CareerModeCommentaryLines){cvLoadAssets().then(cvSchedule,()=>{});return;}
     const result=call(facts,facts.season,root.CareerModeCommentaryLines);
-    if(!result||(!result.lead&&!result.numbers)){remove();return;}
-    remove();cvRule(doc);
-    const parts=buildBar(doc,result);parts.wrap.dataset.key=key;
+    if(!result||(!result.lead&&!result.numbers)){cvRemove();return;}
+    cvRemove();cvRule(doc);
+    const parts=cvBuildBar(doc,result);parts.wrap.dataset.key=key;
     panel.appendChild(parts.wrap);panel.classList.add("cmv3-has");
-    play(parts);
+    cvPlay(parts);
   }
-  function schedule(){if(scheduled)return;scheduled=true;root.setTimeout(()=>{scheduled=false;try{render();}catch(error){root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error);remove();}},0);}
-  function watch(){
+  function cvSchedule(){if(scheduled)return;scheduled=true;root.setTimeout(()=>{scheduled=false;try{cvRender();}catch(error){root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error);cvRemove();}},0);}
+  function cvWatch(){
     if(observer||typeof root.MutationObserver!=="function")return;
     const host=root.document?.getElementById("seasonEntry");if(!host)return;
-    observer=new root.MutationObserver(list=>{const bar=root.document.getElementById(BAR_ID);if(list.every(m=>bar&&bar.contains(m.target)))return;schedule();});
+    observer=new root.MutationObserver(list=>{const bar=root.document.getElementById(BAR_ID);if(list.every(m=>bar&&bar.contains(m.target)))return;cvSchedule();});
     observer.observe(host,{subtree:true,childList:true,attributes:true,attributeFilter:["class","hidden"]});
   }
-  function install(){
+  function cvInstall(){
     if(installed)return true;installed=true;
-    for(const e of ["career-mode-shared-history-convergence-state-change","career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change"])root.addEventListener?.(e,schedule);
-    root.document?.addEventListener?.("career-mode-screen-shown",()=>{watch();if(root.getActiveScreenName?.()==="seasonEntry")loadAssets().then(schedule,()=>{});});
-    watch();schedule();
+    for(const e of ["career-mode-shared-history-convergence-state-change","career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change"])root.addEventListener?.(e,cvSchedule);
+    root.document?.addEventListener?.("career-mode-screen-shown",()=>{cvWatch();if(root.getActiveScreenName?.()==="seasonEntry")cvLoadAssets().then(cvSchedule,()=>{});});
+    cvWatch();cvSchedule();
     return true;
   }
 
   return Object.freeze({contractVersion:3,feature:"cms-commentary-v3",names:NAMES,leadFirst:LEAD_FIRST,call,seasonNumbers:(facts,season)=>{const rows=cvRows(facts);return rows&&int(season,1,rows.length)?seasonNumbers(rows.slice(0,season),season,facts.seasons,facts.clubs):null;},
-    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons):null;},topicOf,install,_liveFacts:liveFacts,_render:render});
+    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons):null;},topicOf,install:cvInstall,_liveFacts:cvLiveFacts,_render:cvRender});
 });
