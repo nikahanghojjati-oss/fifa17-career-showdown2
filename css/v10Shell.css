@@ -530,6 +530,8 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 .cmsMusicSheetTime small { font: 600 12px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .08em; color: var(--cms-meta); font-variant-numeric: tabular-nums; }
 .cmsMusicSheetTime small:first-of-type { grid-area: a; }
 .cmsMusicSheetTime small:last-of-type { grid-area: b; }
+/* r87: the clock waits for the song's length, so the panel never shows "0:00 … -:--" (js/musicDockV10.js mdTime). */
+.cmsMusicSheet:not([data-timed="true"]) .cmsMusicSheetTime small { visibility: hidden; }
 
 .cmsMusicSheetControls { flex: none; display: grid; grid-template-columns: 44px 52px 68px 52px 44px; justify-content: center; align-items: center; gap: 14px; padding: 8px 16px 14px; }
 .cmsMusicSheetControls button { display: grid; place-items: center; border: 0; background: none; padding: 0; }

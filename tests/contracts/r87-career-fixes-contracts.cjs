@@ -53,7 +53,7 @@ check('B3 a 110-110 Golden draw prints the Golden edition as a draw, with no win
   assert.equal(edition.golden,true,'the Gazette agrees with every other career screen');
   assert.equal(edition.paper.variant,'gold');assert.equal(edition.paper.photo.name,'GZ_LEAD_GOLD');
   assert.equal(edition.winner,'draw');assert.equal(edition.situation,'showdown-drawn','told with the drawn pages');
-  assert.equal(edition.paper.kicker,'GOLDEN DRAW');assert.equal(edition.paper.dateline,'Golden edition');assert.equal(edition.paper.numbersTitle,'The Golden Showdown');
+  assert.equal(edition.paper.kicker,'DRAWN','the drawn kicker (gameplay/r87 owns the Golden draw copy)');assert.equal(edition.paper.dateline,'Golden edition');assert.equal(edition.paper.numbersTitle,'The Golden Showdown');
   assert.equal(edition.paper.portrait,null,'no winner portrait');
   const words=[edition.paper.headline,edition.paper.subhead,edition.paper.kicker,...edition.paper.story.paragraphs,...edition.paper.briefs.map(b=>b.head+' '+b.text)].join(' ');
   assert.doesNotMatch(words,/tie-?break|first to|reach(es|ed)? .*first|wins the Golden/i,'a draw: no tiebreak, nobody first');
