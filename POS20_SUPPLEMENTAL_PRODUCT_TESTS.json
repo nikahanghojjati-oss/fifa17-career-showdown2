@@ -2418,6 +2418,15 @@
         "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-polish-final-contracts.cjs",
+      "patterns": [
+        "^js/(v10Screens|menuExperience|productionSharedMultiSeasonProgression)\\.js$",
+        "^css/v10Shell\\.css$",
+        "^tests/contracts/r87\\-polish\\-final\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -191,17 +191,18 @@ function getSavedShowdownMenuMeta(){
     const managerOne = saved.managers && saved.managers.playerOne ? saved.managers.playerOne : "Manager 1";
     const managerTwo = saved.managers && saved.managers.playerTwo ? saved.managers.playerTwo : "Manager 2";
     const completed = saved.status === "Completed";
+    const unknown = window.CareerModeProductionSharedMultiSeasonProgression?.seasonUnknown?.();
     const currentRound = Number(window.getShowdownSeason ? window.getShowdownSeason(saved) : saved.currentRound) || 1;
-    const totalRounds = Number(saved.totalRounds) || 1;
+    const totalRounds = Number(saved.totalRounds) || 1, live = unknown && `${totalRounds}-Season Showdown`;
     const status = completed
         ? "Showdown complete"
-        : `Season ${currentRound} of ${totalRounds}`;
+        : live || `Season ${currentRound} of ${totalRounds}`;
 
     return {
         hasSave: true,
         label: completed ? "VIEW COMPLETED SHOWDOWN" : "CONTINUE CAREER",
         meta: `${managerOne} vs ${managerTwo} · ${status}`,
-        indicator: completed ? "Showdown Complete" : `Season ${currentRound} / ${totalRounds}`
+        indicator: completed ? "Showdown Complete" : live || `Season ${currentRound} / ${totalRounds}`
     };
 }
 

@@ -50,6 +50,8 @@
   const IMAGE_HOLD_MS=8000;
   const REVEAL_MS=220;
   const TAP_GUARD_MS=350;
+  // r87 (lane C C-05): how long after a Home tile tap the second tap of a pointer double tap is swallowed, wherever it lands.
+  const DOUBLE_TAP_MS=500;
   // r78 (HO-028 / HO-029): Team V's readable body type and the black-and-gold marble for errors, notes, pop-ups and
   // toasts. They load with the kit sheets (never in the startup bundle) and stay on, like the shell sheet.
   const R78_STYLES=Object.freeze(["css/r78-type.css","css/r78-marble-surfaces.css"]);
@@ -508,13 +510,19 @@
     // shown (the first tap already left it). A repeat tap for the same target that still gets through joins the in-flight
     // navigation (vsDedupe). There is no global in-flight lock, so a navigation that never settles cannot freeze Home's tiles.
     // TAP_GUARD_MS stays as an extra debounce. Programmatic navigation is untouched.
+    // r87 (lane C C-05): once the first tap has switched the screen, the second tap of a double tap lands on the next screen's
+    // control under the finger (STATISTICS opened the Trophy Room on desktop; RULE BOOK bounced back Home on a phone, through a
+    // BACK TO HOME still pending and invisible). Any other pointer tap within DOUBLE_TAP_MS of a Home tile tap is that second
+    // tap, so it is swallowed. Keyboard and programmatic clicks (detail 0) pass; a deliberate tap a moment later works.
+    let lastTileTapAt=0,lastTile=null;
     vsDoc().addEventListener("click",event=>{
       const tile=event.target&&typeof event.target.closest==="function"?event.target.closest("#mainMenu .menuTile"):null;
+      if(lastTileTapAt&&tile!==lastTile&&Number(event.detail)>0&&Date.now()-lastTileTapAt<DOUBLE_TAP_MS){event.stopImmediatePropagation();event.preventDefault();return;}
       if(!tile||!tile.dataset)return;
       const now=Date.now(),last=Number(tile.dataset.v10Tap||0),home=vsHost("mainMenu"),active=vsActiveScreen();
       const homeGone=Boolean(home&&home.classList.contains("hidden"))||(active!==null&&active!=="mainMenu");
       if(tile.getAttribute("aria-busy")==="true"||homeGone||(last&&now-last<TAP_GUARD_MS)){event.stopImmediatePropagation();event.preventDefault();return;}
-      tile.dataset.v10Tap=String(now);
+      tile.dataset.v10Tap=String(now);lastTileTapAt=now;lastTile=tile;
     },true);
     vsDoc().addEventListener(EVENT,vsOnScreenShown);
     vsWatchScreenClasses();

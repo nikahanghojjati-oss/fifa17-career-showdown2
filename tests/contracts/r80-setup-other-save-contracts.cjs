@@ -118,9 +118,11 @@ function boot(){
   assert.equal(again,null,"N2 the new shell does not resume the ended Showdown");
   assert.deepEqual(t.reads.slice(readsBefore),[],`N2 no progression read of the ended R2 under the new shell: ${JSON.stringify(t.reads.slice(readsBefore))}`);
   assert.equal(t.multi.resolveSeason(1),1,"N2 every shared consumer resolves season 1 for the new shell");
-  assert.equal(t.indicator(),"Season 1 / 3",`N2 the new Showdown reads Season 1 / 3, never the ended one's season (got "${t.indicator()}")`);
+  // r87 C-08: the pair is active and this page has not read the new Showdown's own shared state yet, so the header names no
+  // season ("3-Season Showdown"), and never the ended one's season.
+  assert.equal(t.indicator(),"3-Season Showdown",`N2 the new Showdown never reads the ended one's season (got "${t.indicator()}")`);
   assert.equal(t.multi.decorateDashboard(),false,"N2 the dashboard is never decorated with the ended R2");
-  console.log("ok N2 a resume on the new shell never reads the ended R2: Season 1 / 3");
+  console.log("ok N2 a resume on the new shell never reads the ended R2 (header: 3-Season Showdown)");
 
   // N3: the Setup held for save A, read for the new shell.
   const other=t.setup.getState();
