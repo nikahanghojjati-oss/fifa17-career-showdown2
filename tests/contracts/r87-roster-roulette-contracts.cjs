@@ -83,6 +83,76 @@ ok('L1b','Sol SQ-1-01: the roulette scene asset carries the engine launch XI + 4
 }
 ok('L1c','Sol job 2: outfield stopgap repair (SQ-2-01), guessed incumbent evicted (SQ-2-02), repeated signing keeps his window (SQ-2-03)');
 
+// L1d Sol SQ-4-01 + Nik 2026-10-31 ("only the signing"): a signing and a club player are different people even with the
+// same name. A guess removes only the signing; the club's own namesake stays. Then an independent oracle replays 400
+// Showdowns x 10 seasons with namesake, repeated, guessed and shot signings: nobody excluded is ever on a board.
+{
+  const pal={playerOne:'Crystal Palace',playerTwo:'West Bromwich Albion'},id1='pair_'+'a'.repeat(64);
+  const sp1={playerOne:{name:'J. Añor',overall:76,number:10},playerTwo:{name:'Williams',overall:80,number:11}};
+  const ward={slot:1,name:'J. Ward',overall:62,position:'CM'};
+  const s2=RRR.forSeason(id1,pal,2,{special:sp1,history:[null,{playerOne:[{...ward,release:true}],playerTwo:[]}]}).boards.playerOne;
+  const own=s2.find(p=>p.name==='J. Ward');
+  assert.ok(own&&own.number===2&&own.signedSeason===null&&own.pos==='RB','SQ-4-01: Palace keep their own J. Ward #2 when WBA\'s J. Ward is guessed');
+  assert.equal(s2.filter(p=>p.name).length,15);
+  const kept=RRR.forSeason(id1,pal,2,{special:sp1,history:[null,{playerOne:[{...ward,overall:90,release:false}],playerTwo:[]}]}).boards.playerOne;
+  assert.equal(kept.filter(p=>p.name==='J. Ward').length,2,'a kept namesake signing joins next to the club player');
+  const cag={playerOne:'Cagliari',playerTwo:'Napoli'},none=[null,...Array.from({length:9},()=>({playerOne:[],playerTwo:[]}))];
+  const h=none.slice();h[1]={playerOne:[{slot:1,name:'Rafael',overall:74,position:'GK',release:true}],playerTwo:[]};
+  for(let season=2;season<=10;season+=1)assert.ok(RRR.forSeason(id1,cag,season,{history:h}).boards.playerOne.some(p=>p.name==='Rafael'&&p.signedSeason===null),'Cagliari keep their own Rafael after Napoli\'s Rafael is guessed');
+  // Oracle: identity = "c|name#shirt" for a club row, "s|name" for a signing (folded names).
+  const fold=n=>String(n).normalize('NFD').replace(/[̀-ͯ]/g,'').trim().toLowerCase();
+  const idOf=p=>p.signedSeason!==null?`s|${fold(p.name)}`:`c|${fold(p.name)}#${p.number}`;
+  const clubs=catalog.slice().sort();
+  const namesAt=Object.fromEntries(clubs.map(c=>[c,new Set(Players.clubs[c].players.map(r=>fold(r[0])))]));
+  const others=c=>Players.clubs[clubs[(clubs.indexOf(c)+7)%clubs.length]].players;
+  let boards=0,checked=0;
+  for(let n=0;n<400;n+=1){
+    const hex=createHash('sha256').update('L1d-'+n).digest('hex'),rid='pair_'+hex,byte=i=>parseInt(hex.slice(i*2,i*2+2),16);
+    const pair={playerOne:clubs[byte(0)%98],playerTwo:clubs[(byte(0)+1+byte(1)%97)%98]};
+    const hist=[null];
+    for(let k=1;k<=9;k+=1){
+      const w={};
+      for(const [r,role] of ['playerOne','playerTwo'].entries()){
+        const club=pair[role],pool=others(club),mine=Players.clubs[club].players,rows=[];
+        for(let j=0;j<3;j+=1){
+          const b=byte((k*6+r*3+j)%32),pick=b%4;
+          // 0: another club's player; 1: a namesake of an own-club player; 2: repeat an earlier signing; 3: another club's player
+          let name=pool[(b*7+k)%pool.length][0];
+          if(pick===1)name=mine[(b+k)%mine.length][0];
+          if(pick===2&&k>1){const prev=hist[k-1][role];if(prev.length)name=prev[b%prev.length].name;}
+          rows.push({slot:j+1,name,overall:55+(b%40),position:['CB','ST','LW','CM','GK','RB'][b%6],release:(b>>3)%3===0});
+        }
+        w[role]=rows;
+      }
+      hist.push(w);
+    }
+    const ex={playerOne:new Set(),playerTwo:new Set()},signed={playerOne:new Set(),playerTwo:new Set()};
+    for(let season=1;season<=10;season+=1){
+      const v=RRR.forSeason(rid,pair,season,{history:hist});
+      for(const role of ['playerOne','playerTwo']){
+        const b=v.boards[role],filled=b.filter(p=>p.name),ids=filled.map(idOf);boards+=1;
+        assert.equal(new Set(ids).size,ids.length,`L1d no duplicate person ${rid} s${season} ${role}`);
+        for(const p of filled){
+          const i=idOf(p);checked+=1;
+          assert.ok(!ex[role].has(i),`L1d excluded ${i} back on the board ${rid} s${season} ${role}`);
+          if(p.signedSeason===null)assert.ok(namesAt[pair[role]].has(fold(p.name)),`L1d ${p.name} is a ${pair[role]} player`);
+          else assert.ok(signed[role].has(fold(p.name))&&p.signedSeason<season,`L1d ${p.name} is this manager's own earlier kept signing`);
+        }
+        assert.equal(b.filter(p=>p.name&&!p.bench).length,11,`L1d full XI ${rid} s${season} ${role}`);
+        assert.equal(b.filter(p=>p.name&&p.bench).length,4,`L1d full bench ${rid} s${season} ${role}`);
+        const t=v.turns.find(x=>x.role===role);
+        if(t.fired){const p=t.player;ex[role].add(idOf(p));if(p.signedSeason===null)ex[role].add(`s|${fold(p.name)}`);}
+        if(season<10)for(const row of hist[season][role]){
+          if(row.release)ex[role].add(`s|${fold(row.name)}`);
+          else if(!ex[role].has(`s|${fold(row.name)}`))signed[role].add(fold(row.name));
+        }
+      }
+    }
+  }
+  assert.ok(boards===8000&&checked>100000);
+}
+ok('L1d','Sol SQ-4-01: a guess removes only the signing, never the club namesake; 400 x 10-season oracle, nobody excluded returns');
+
 // L2 determinism: both phones agree, a refresh or a second tap gives the same result, and nothing touches the network.
 const id=()=>`pair_${randomBytes(32).toString('hex')}`;
 const clubs={playerOne:'Liverpool',playerTwo:'Real Madrid'};
@@ -415,9 +485,12 @@ ok('L11','every club: 10 forced firing seasons, no kept signing, full 11 + 4 wit
   assert.equal(JSON.stringify(released),JSON.stringify(after),'guessed signing never joins');
   const guessedClubPlayer=Squads.squads.Arsenal.reserves[0][1];
   const guessedHistory=noSignings.slice();guessedHistory[1]={playerOne:[{...row(guessedClubPlayer,99,'CB'),release:true}],playerTwo:[]};
+  // Nik 2026-10-31 (Sol SQ-4-01): a guessed signing is the player the manager bought, never his own club's namesake, so
+  // the club player still steps in from the reserves; only the signing is gone.
+  assert.equal(sub.forSeason(fixedId(89),cs,2,{history:guessedHistory}).boards.playerOne[14].name,guessedClubPlayer,'a guessed namesake never blocks the club player');
   for(let season=2;season<=10;season+=1){
     const b=sub.forSeason(fixedId(89),cs,season,{history:guessedHistory}).boards.playerOne;
-    assert.ok(!b.some(p=>p.name===guessedClubPlayer),'guessed club player cannot join from reserves or database');
+    assert.ok(!b.some(p=>p.name===guessedClubPlayer&&p.signedSeason!==null),'the guessed signing never joins');
     fullBoard(b,'guessed database signing '+season);
   }
   // Repeated sub losses consume the three reserves, then use the next highest-rated
