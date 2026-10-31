@@ -1,0 +1,5199 @@
+{
+ "sequence": {
+  "ready": [],
+  "ready_chat": [],
+  "ready_chat_batches": [],
+  "ready_work": [],
+  "ready_work_batches": [],
+  "ready_work_label": "Sol 6.1 \u00b7 High",
+  "ready_sol": [],
+  "ready_codex": [],
+  "held_until_picture": 0,
+  "open_code_prs": 0,
+  "open_train_prs": 0,
+  "next_free": null,
+  "highest_taken": 552,
+  "total": 552,
+  "states": {
+   "1": "merged",
+   "2": "merged",
+   "3": "merged",
+   "4": "merged",
+   "5": "merged",
+   "6": "merged",
+   "7": "closed",
+   "8": "merged",
+   "9": "closed",
+   "10": "merged",
+   "11": "merged",
+   "12": "merged",
+   "13": "closed",
+   "14": "merged",
+   "15": "merged",
+   "16": "merged",
+   "17": "closed",
+   "18": "merged",
+   "19": "merged",
+   "20": "merged",
+   "21": "merged",
+   "22": "merged",
+   "23": "merged",
+   "24": "merged",
+   "25": "closed",
+   "26": "merged",
+   "27": "closed",
+   "28": "merged",
+   "29": "merged",
+   "30": "merged",
+   "31": "closed",
+   "32": "merged",
+   "33": "merged",
+   "34": "merged",
+   "35": "closed",
+   "36": "merged",
+   "37": "merged",
+   "38": "merged",
+   "39": "merged",
+   "40": "merged",
+   "41": "merged",
+   "42": "merged",
+   "43": "closed",
+   "44": "merged",
+   "45": "closed",
+   "46": "merged",
+   "47": "merged",
+   "48": "merged",
+   "49": "closed",
+   "50": "merged",
+   "51": "merged",
+   "52": "merged",
+   "53": "closed",
+   "54": "merged",
+   "55": "merged",
+   "56": "merged",
+   "57": "merged",
+   "58": "merged",
+   "59": "merged",
+   "60": "merged",
+   "61": "closed",
+   "62": "merged",
+   "63": "closed",
+   "64": "merged",
+   "65": "merged",
+   "66": "merged",
+   "67": "closed",
+   "68": "merged",
+   "69": "merged",
+   "70": "merged",
+   "71": "closed",
+   "72": "merged",
+   "73": "merged",
+   "74": "merged",
+   "75": "merged",
+   "76": "merged",
+   "77": "merged",
+   "78": "merged",
+   "79": "closed",
+   "80": "merged",
+   "81": "closed",
+   "82": "merged",
+   "83": "merged",
+   "84": "merged",
+   "85": "closed",
+   "86": "merged",
+   "87": "merged",
+   "88": "merged",
+   "89": "closed",
+   "90": "merged",
+   "91": "merged",
+   "92": "merged",
+   "93": "merged",
+   "94": "merged",
+   "95": "merged",
+   "96": "merged",
+   "97": "merged",
+   "98": "merged",
+   "99": "closed",
+   "100": "merged",
+   "101": "merged",
+   "102": "merged",
+   "103": "closed",
+   "104": "merged",
+   "105": "merged",
+   "106": "merged",
+   "107": "merged",
+   "108": "merged",
+   "109": "merged",
+   "110": "merged",
+   "111": "merged",
+   "112": "merged",
+   "113": "merged",
+   "114": "merged",
+   "115": "merged",
+   "116": "merged",
+   "117": "closed",
+   "118": "merged",
+   "119": "merged",
+   "120": "merged",
+   "121": "closed",
+   "122": "merged",
+   "123": "merged",
+   "124": "merged",
+   "125": "merged",
+   "126": "merged",
+   "127": "merged",
+   "128": "merged",
+   "129": "merged",
+   "130": "merged",
+   "131": "merged",
+   "132": "merged",
+   "133": "merged",
+   "134": "merged",
+   "135": "closed",
+   "136": "merged",
+   "137": "merged",
+   "138": "merged",
+   "139": "closed",
+   "140": "merged",
+   "141": "merged",
+   "142": "merged",
+   "143": "merged",
+   "144": "merged",
+   "145": "merged",
+   "146": "merged",
+   "147": "merged",
+   "148": "merged",
+   "149": "merged",
+   "150": "merged",
+   "151": "merged",
+   "152": "merged",
+   "153": "closed",
+   "154": "merged",
+   "155": "merged",
+   "156": "merged",
+   "157": "closed",
+   "158": "merged",
+   "159": "merged",
+   "160": "merged",
+   "161": "merged",
+   "162": "merged",
+   "163": "merged",
+   "164": "merged",
+   "165": "merged",
+   "166": "merged",
+   "167": "merged",
+   "168": "merged",
+   "169": "merged",
+   "170": "merged",
+   "171": "closed",
+   "172": "merged",
+   "173": "merged",
+   "174": "merged",
+   "175": "closed",
+   "176": "merged",
+   "177": "merged",
+   "178": "merged",
+   "179": "merged",
+   "180": "merged",
+   "181": "merged",
+   "182": "merged",
+   "183": "merged",
+   "184": "merged",
+   "185": "merged",
+   "186": "merged",
+   "187": "retired",
+   "188": "merged",
+   "189": "merged",
+   "190": "merged",
+   "191": "merged",
+   "192": "merged",
+   "193": "closed",
+   "194": "merged",
+   "195": "retired",
+   "196": "merged",
+   "197": "retired",
+   "198": "merged",
+   "199": "merged",
+   "200": "merged",
+   "201": "merged",
+   "202": "merged",
+   "203": "merged",
+   "204": "merged",
+   "205": "retired",
+   "206": "merged",
+   "207": "merged",
+   "208": "merged",
+   "209": "merged",
+   "210": "merged",
+   "211": "closed",
+   "212": "merged",
+   "213": "retired",
+   "214": "merged",
+   "215": "retired",
+   "216": "merged",
+   "217": "merged",
+   "218": "merged",
+   "219": "merged",
+   "220": "merged",
+   "221": "merged",
+   "222": "merged",
+   "223": "retired",
+   "224": "merged",
+   "225": "merged",
+   "226": "closed",
+   "227": "merged",
+   "228": "closed",
+   "229": "closed",
+   "230": "merged",
+   "231": "retired",
+   "232": "closed",
+   "233": "retired",
+   "234": "closed",
+   "235": "merged",
+   "236": "merged",
+   "237": "merged",
+   "238": "closed",
+   "239": "merged",
+   "240": "pr_open",
+   "241": "retired",
+   "242": "merged",
+   "243": "merged",
+   "244": "closed",
+   "245": "merged",
+   "246": "pr_open",
+   "247": "closed",
+   "248": "merged",
+   "249": "retired",
+   "250": "closed",
+   "251": "retired",
+   "252": "merged",
+   "253": "merged",
+   "254": "closed",
+   "255": "merged",
+   "256": "merged",
+   "257": "merged",
+   "258": "closed",
+   "259": "retired",
+   "260": "closed",
+   "261": "merged",
+   "262": "closed",
+   "263": "merged",
+   "264": "closed",
+   "265": "closed",
+   "266": "merged",
+   "267": "retired",
+   "268": "blocked",
+   "269": "retired",
+   "270": "closed",
+   "271": "retired",
+   "272": "closed",
+   "273": "retired",
+   "274": "pr_open",
+   "275": "retired",
+   "276": "closed",
+   "277": "retired",
+   "278": "closed",
+   "279": "retired",
+   "280": "closed",
+   "281": "retired",
+   "282": "merged",
+   "283": "closed",
+   "284": "closed",
+   "285": "retired",
+   "286": "closed",
+   "287": "retired",
+   "288": "closed",
+   "289": "retired",
+   "290": "closed",
+   "291": "retired",
+   "292": "closed",
+   "293": "retired",
+   "294": "closed",
+   "295": "retired",
+   "296": "pr_open",
+   "297": "retired",
+   "298": "closed",
+   "299": "retired",
+   "300": "merged",
+   "301": "closed",
+   "302": "pr_open",
+   "303": "retired",
+   "304": "closed",
+   "305": "retired",
+   "306": "closed",
+   "307": "retired",
+   "308": "closed",
+   "309": "retired",
+   "310": "merged",
+   "311": "retired",
+   "312": "merged",
+   "313": "retired",
+   "314": "merged",
+   "315": "retired",
+   "316": "closed",
+   "317": "retired",
+   "318": "closed",
+   "319": "closed",
+   "320": "merged",
+   "321": "retired",
+   "322": "merged",
+   "323": "retired",
+   "324": "pr_open",
+   "325": "retired",
+   "326": "merged",
+   "327": "retired",
+   "328": "merged",
+   "329": "retired",
+   "330": "pr_open",
+   "331": "retired",
+   "332": "closed",
+   "333": "retired",
+   "334": "closed",
+   "335": "retired",
+   "336": "closed",
+   "337": "closed",
+   "338": "merged",
+   "339": "retired",
+   "340": "merged",
+   "341": "retired",
+   "342": "merged",
+   "343": "retired",
+   "344": "closed",
+   "345": "retired",
+   "346": "closed",
+   "347": "retired",
+   "348": "closed",
+   "349": "retired",
+   "350": "merged",
+   "351": "retired",
+   "352": "pr_open",
+   "353": "retired",
+   "354": "merged",
+   "355": "closed",
+   "356": "merged",
+   "357": "retired",
+   "358": "pr_open",
+   "359": "retired",
+   "360": "closed",
+   "361": "retired",
+   "362": "closed",
+   "363": "closed",
+   "364": "merged",
+   "365": "retired",
+   "366": "pr_open",
+   "367": "retired",
+   "368": "pr_open",
+   "369": "retired",
+   "370": "pr_open",
+   "371": "closed",
+   "372": "merged",
+   "373": "retired",
+   "374": "pr_open",
+   "375": "retired",
+   "376": "retired",
+   "377": "retired",
+   "378": "retired",
+   "379": "closed",
+   "380": "retired",
+   "381": "retired",
+   "382": "retired",
+   "383": "retired",
+   "384": "retired",
+   "385": "retired",
+   "386": "retired",
+   "387": "closed",
+   "388": "retired",
+   "389": "retired",
+   "390": "retired",
+   "391": "retired",
+   "392": "retired",
+   "393": "retired",
+   "394": "retired",
+   "395": "closed",
+   "396": "retired",
+   "397": "retired",
+   "398": "retired",
+   "399": "retired",
+   "400": "retired",
+   "401": "retired",
+   "402": "retired",
+   "403": "merged",
+   "404": "retired",
+   "405": "retired",
+   "406": "retired",
+   "407": "retired",
+   "408": "retired",
+   "409": "retired",
+   "410": "retired",
+   "411": "merged",
+   "412": "retired",
+   "413": "retired",
+   "414": "retired",
+   "415": "retired",
+   "416": "retired",
+   "417": "retired",
+   "418": "retired",
+   "419": "merged",
+   "420": "retired",
+   "421": "retired",
+   "422": "retired",
+   "423": "retired",
+   "424": "retired",
+   "425": "retired",
+   "426": "retired",
+   "427": "merged",
+   "428": "retired",
+   "429": "retired",
+   "430": "retired",
+   "431": "retired",
+   "432": "retired",
+   "433": "retired",
+   "434": "retired",
+   "435": "merged",
+   "436": "retired",
+   "437": "retired",
+   "438": "retired",
+   "439": "retired",
+   "440": "retired",
+   "441": "retired",
+   "442": "retired",
+   "443": "retired",
+   "444": "retired",
+   "445": "retired",
+   "446": "retired",
+   "447": "retired",
+   "448": "retired",
+   "449": "retired",
+   "450": "retired",
+   "451": "retired",
+   "452": "retired",
+   "453": "retired",
+   "454": "retired",
+   "455": "retired",
+   "456": "retired",
+   "457": "retired",
+   "458": "retired",
+   "459": "retired",
+   "460": "retired",
+   "461": "retired",
+   "462": "retired",
+   "463": "retired",
+   "464": "retired",
+   "465": "retired",
+   "466": "retired",
+   "467": "retired",
+   "468": "retired",
+   "469": "retired",
+   "470": "retired",
+   "471": "retired",
+   "472": "retired",
+   "473": "retired",
+   "474": "retired",
+   "475": "retired",
+   "476": "retired",
+   "477": "retired",
+   "478": "retired",
+   "479": "retired",
+   "480": "retired",
+   "481": "retired",
+   "482": "retired",
+   "483": "retired",
+   "484": "retired",
+   "485": "retired",
+   "486": "retired",
+   "487": "retired",
+   "488": "retired",
+   "489": "retired",
+   "490": "retired",
+   "491": "retired",
+   "492": "retired",
+   "493": "retired",
+   "494": "retired",
+   "495": "retired",
+   "496": "retired",
+   "497": "retired",
+   "498": "retired",
+   "499": "retired",
+   "500": "retired",
+   "501": "retired",
+   "502": "retired",
+   "503": "retired",
+   "504": "retired",
+   "505": "retired",
+   "506": "retired",
+   "507": "retired",
+   "508": "retired",
+   "509": "retired",
+   "510": "retired",
+   "511": "retired",
+   "512": "retired",
+   "513": "retired",
+   "514": "retired",
+   "515": "retired",
+   "516": "retired",
+   "517": "retired",
+   "518": "retired",
+   "519": "pr_open",
+   "520": "pr_open",
+   "521": "pr_open",
+   "522": "pr_open",
+   "523": "pr_open",
+   "524": "pr_open",
+   "525": "retired",
+   "526": "pr_open",
+   "527": "retired",
+   "528": "pr_open",
+   "529": "pr_open",
+   "530": "pr_open",
+   "531": "pr_open",
+   "532": "pr_open",
+   "533": "pr_open",
+   "534": "pr_open",
+   "535": "pr_open",
+   "536": "pr_open",
+   "537": "pr_open",
+   "538": "pr_open",
+   "539": "pr_open",
+   "540": "pr_open",
+   "541": "pr_open",
+   "542": "retired",
+   "543": "retired",
+   "544": "retired",
+   "545": "retired",
+   "546": "retired",
+   "547": "retired",
+   "548": "retired",
+   "549": "retired",
+   "550": "retired",
+   "551": "retired",
+   "552": "retired"
+  }
+ },
+ "updated": "2026-10-31T22:14:42Z",
+ "counts": {
+  "merged": 226,
+  "retired": 209,
+  "closed": 82,
+  "pr_open": 34,
+  "blocked": 1
+ },
+ "stages": {
+  "2": {
+   "total": 266,
+   "taken": 266,
+   "merged": 85
+  },
+  "3": {
+   "total": 14,
+   "taken": 14,
+   "merged": 5
+  },
+  "4": {
+   "total": 70,
+   "taken": 70,
+   "merged": 23
+  },
+  "5": {
+   "total": 56,
+   "taken": 56,
+   "merged": 1
+  },
+  "1": {
+   "total": 146,
+   "taken": 146,
+   "merged": 112
+  }
+ },
+ "slots": {},
+ "trains": {
+  "gameplay/train-home-1": {
+   "jobs": [
+    1061,
+    1062,
+    1063,
+    1064,
+    1065
+   ],
+   "done": [],
+   "pr": 588,
+   "state": "merged"
+  },
+  "gameplay/train-home-2": {
+   "jobs": [
+    1066,
+    1067,
+    1068,
+    1069,
+    1070
+   ],
+   "done": [],
+   "pr": 681,
+   "state": "merged"
+  },
+  "gameplay/train-home-3": {
+   "jobs": [
+    1071,
+    1072,
+    1073,
+    1074,
+    1075
+   ],
+   "done": [],
+   "pr": 712,
+   "state": "merged"
+  },
+  "gameplay/train-home-4": {
+   "jobs": [
+    1076,
+    1077,
+    1078,
+    1079,
+    1080
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-start-join-1": {
+   "jobs": [
+    1090,
+    1091,
+    1092,
+    1093,
+    1094
+   ],
+   "done": [],
+   "pr": 590,
+   "state": "merged"
+  },
+  "gameplay/train-start-join-2": {
+   "jobs": [
+    1095,
+    1096,
+    1097,
+    1098,
+    1099
+   ],
+   "done": [],
+   "pr": 682,
+   "state": "merged"
+  },
+  "gameplay/train-start-join-3": {
+   "jobs": [
+    1100,
+    1101,
+    1102,
+    1103,
+    1104
+   ],
+   "done": [],
+   "pr": 713,
+   "state": "merged"
+  },
+  "gameplay/train-start-join-4": {
+   "jobs": [
+    1105,
+    1106,
+    1107,
+    1108,
+    1109
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-league-1": {
+   "jobs": [
+    1119,
+    1120,
+    1121,
+    1122,
+    1123
+   ],
+   "done": [],
+   "pr": 593,
+   "state": "merged"
+  },
+  "gameplay/train-league-2": {
+   "jobs": [
+    1124,
+    1125,
+    1126,
+    1127,
+    1128
+   ],
+   "done": [],
+   "pr": 683,
+   "state": "merged"
+  },
+  "gameplay/train-league-3": {
+   "jobs": [
+    1129,
+    1130,
+    1131,
+    1132,
+    1133
+   ],
+   "done": [],
+   "pr": 702,
+   "state": "merged"
+  },
+  "gameplay/train-league-4": {
+   "jobs": [
+    1134,
+    1135,
+    1136,
+    1137,
+    1138
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-club-1": {
+   "jobs": [
+    1148,
+    1149,
+    1150,
+    1151,
+    1152
+   ],
+   "done": [
+    "1148",
+    "1149",
+    "1150",
+    "1151",
+    "1152"
+   ],
+   "pr": 598,
+   "state": "closed"
+  },
+  "gameplay/train-club-2": {
+   "jobs": [
+    1153,
+    1154,
+    1155,
+    1156,
+    1157
+   ],
+   "done": [],
+   "pr": 684,
+   "state": "merged"
+  },
+  "gameplay/train-club-3": {
+   "jobs": [
+    1158,
+    1159,
+    1160,
+    1161,
+    1162
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-club-4": {
+   "jobs": [
+    1163,
+    1164,
+    1165,
+    1166,
+    1167
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-transfer-1": {
+   "jobs": [
+    1177,
+    1178,
+    1179,
+    1180,
+    1181
+   ],
+   "done": [
+    "1177",
+    "1178",
+    "1179",
+    "1180",
+    "1181"
+   ],
+   "pr": 584,
+   "state": "closed"
+  },
+  "gameplay/train-transfer-2": {
+   "jobs": [
+    1182,
+    1183,
+    1184,
+    1185,
+    1186
+   ],
+   "done": [
+    "1182",
+    "1183",
+    "1184",
+    "1185",
+    "1186"
+   ],
+   "pr": 661,
+   "state": "closed"
+  },
+  "gameplay/train-transfer-3": {
+   "jobs": [
+    1187,
+    1188,
+    1189,
+    1190,
+    1191
+   ],
+   "done": [],
+   "pr": 705,
+   "state": "merged"
+  },
+  "gameplay/train-transfer-4": {
+   "jobs": [
+    1192,
+    1193,
+    1194,
+    1195,
+    1196
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-1": {
+   "jobs": [
+    1206,
+    1207,
+    1208,
+    1209,
+    1210
+   ],
+   "done": [],
+   "pr": 585,
+   "state": "merged"
+  },
+  "gameplay/train-season-final-2": {
+   "jobs": [
+    1211,
+    1212,
+    1213,
+    1214,
+    1215
+   ],
+   "done": [],
+   "pr": 685,
+   "state": "merged"
+  },
+  "gameplay/train-season-final-3": {
+   "jobs": [
+    1216,
+    1217,
+    1218,
+    1219,
+    1220
+   ],
+   "done": [],
+   "pr": 716,
+   "state": "merged"
+  },
+  "gameplay/train-season-final-4": {
+   "jobs": [
+    1221,
+    1222,
+    1223,
+    1224,
+    1225
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-5": {
+   "jobs": [
+    1235,
+    1236,
+    1237,
+    1238,
+    1239
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-6": {
+   "jobs": [
+    1240,
+    1241,
+    1242,
+    1243,
+    1244
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-7": {
+   "jobs": [
+    1245,
+    1246,
+    1247,
+    1248,
+    1249
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-8": {
+   "jobs": [
+    1250,
+    1251,
+    1252,
+    1253,
+    1254
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-9": {
+   "jobs": [
+    1264,
+    1265,
+    1266,
+    1267,
+    1268
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-10": {
+   "jobs": [
+    1269,
+    1270,
+    1271,
+    1272,
+    1273
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-11": {
+   "jobs": [
+    1274,
+    1275,
+    1276,
+    1277,
+    1278
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-12": {
+   "jobs": [
+    1279,
+    1280,
+    1281,
+    1282,
+    1283
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-1": {
+   "jobs": [
+    1293,
+    1294,
+    1295,
+    1296,
+    1297
+   ],
+   "done": [
+    "1293",
+    "1294",
+    "1295",
+    "1296",
+    "1297"
+   ],
+   "pr": 509,
+   "state": "closed"
+  },
+  "gameplay/train-rivalry-legacy-2": {
+   "jobs": [
+    1298,
+    1299,
+    1300,
+    1301,
+    1302
+   ],
+   "done": [
+    "1298",
+    "1299",
+    "1300",
+    "1301",
+    "1302"
+   ],
+   "pr": 521,
+   "state": "closed"
+  },
+  "gameplay/train-rivalry-legacy-3": {
+   "jobs": [
+    1303,
+    1304,
+    1305,
+    1306,
+    1307
+   ],
+   "done": [
+    "1303",
+    "1304",
+    "1305",
+    "1306",
+    "1307"
+   ],
+   "pr": 536,
+   "state": "closed"
+  },
+  "gameplay/train-rivalry-legacy-4": {
+   "jobs": [
+    1308,
+    1309,
+    1310,
+    1311,
+    1312
+   ],
+   "done": [
+    "1308",
+    "1309",
+    "1310",
+    "1311",
+    "1312"
+   ],
+   "pr": 539,
+   "state": "closed"
+  },
+  "gameplay/train-career-screens-1": {
+   "jobs": [
+    1322,
+    1323,
+    1324,
+    1325,
+    1326
+   ],
+   "done": [],
+   "pr": 586,
+   "state": "merged"
+  },
+  "gameplay/train-career-screens-2": {
+   "jobs": [
+    1327,
+    1328,
+    1329,
+    1330,
+    1331
+   ],
+   "done": [],
+   "pr": 686,
+   "state": "merged"
+  },
+  "gameplay/train-career-screens-3": {
+   "jobs": [
+    1332,
+    1333,
+    1334,
+    1335,
+    1336
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-4": {
+   "jobs": [
+    1337,
+    1338,
+    1339,
+    1340,
+    1341
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-5": {
+   "jobs": [
+    1351,
+    1352,
+    1353,
+    1354,
+    1355
+   ],
+   "done": [
+    "1351",
+    "1352"
+   ],
+   "pr": 542,
+   "state": "closed"
+  },
+  "gameplay/train-rivalry-legacy-6": {
+   "jobs": [
+    1356,
+    1357,
+    1358,
+    1359,
+    1360
+   ],
+   "done": [],
+   "pr": 721,
+   "state": "merged"
+  },
+  "gameplay/train-rivalry-legacy-7": {
+   "jobs": [
+    1361,
+    1362,
+    1363,
+    1364,
+    1365
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-8": {
+   "jobs": [
+    1366,
+    1367,
+    1368,
+    1369,
+    1370
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-5": {
+   "jobs": [
+    1380,
+    1381,
+    1382,
+    1383,
+    1384
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-6": {
+   "jobs": [
+    1385,
+    1386,
+    1387,
+    1388,
+    1389
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-7": {
+   "jobs": [
+    1390,
+    1391,
+    1392,
+    1393,
+    1394
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-8": {
+   "jobs": [
+    1395,
+    1396,
+    1397,
+    1398,
+    1399
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-1": {
+   "jobs": [
+    1409,
+    1410,
+    1411,
+    1412,
+    1413
+   ],
+   "done": [
+    "1409",
+    "1410",
+    "1411",
+    "1412",
+    "1413"
+   ],
+   "pr": 587,
+   "state": "closed"
+  },
+  "gameplay/train-rules-settings-2": {
+   "jobs": [
+    1414,
+    1415,
+    1416,
+    1417,
+    1418
+   ],
+   "done": [],
+   "pr": 687,
+   "state": "merged"
+  },
+  "gameplay/train-rules-settings-3": {
+   "jobs": [
+    1419,
+    1420,
+    1421,
+    1422,
+    1423
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-4": {
+   "jobs": [
+    1424,
+    1425,
+    1426,
+    1427,
+    1428
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-5": {
+   "jobs": [
+    1438,
+    1439,
+    1440,
+    1441,
+    1442
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-6": {
+   "jobs": [
+    1443,
+    1444,
+    1445,
+    1446,
+    1447
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-7": {
+   "jobs": [
+    1448,
+    1449,
+    1450,
+    1451,
+    1452
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-8": {
+   "jobs": [
+    1453,
+    1454,
+    1455,
+    1456,
+    1457
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  }
+ },
+ "tickets": {
+  "1061": {
+   "state": "merged",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
+   "branch": "gameplay/train-home-1"
+  },
+  "1062": {
+   "state": "merged",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
+   "branch": "gameplay/train-home-1"
+  },
+  "1063": {
+   "state": "merged",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
+   "branch": "gameplay/train-home-1"
+  },
+  "1064": {
+   "state": "merged",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
+   "branch": "gameplay/train-home-1"
+  },
+  "1065": {
+   "state": "merged",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
+   "branch": "gameplay/train-home-1"
+  },
+  "1066": {
+   "state": "merged",
+   "pr": 681,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
+   "branch": "gameplay/train-home-2"
+  },
+  "1067": {
+   "state": "merged",
+   "pr": 681,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
+   "branch": "gameplay/train-home-2"
+  },
+  "1068": {
+   "state": "merged",
+   "pr": 681,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
+   "branch": "gameplay/train-home-2"
+  },
+  "1069": {
+   "state": "merged",
+   "pr": 681,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
+   "branch": "gameplay/train-home-2"
+  },
+  "1070": {
+   "state": "merged",
+   "pr": 681,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
+   "branch": "gameplay/train-home-2"
+  },
+  "1071": {
+   "state": "merged",
+   "pr": 712,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
+   "branch": "gameplay/train-home-3"
+  },
+  "1072": {
+   "state": "merged",
+   "pr": 712,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
+   "branch": "gameplay/train-home-3"
+  },
+  "1073": {
+   "state": "merged",
+   "pr": 712,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
+   "branch": "gameplay/train-home-3"
+  },
+  "1074": {
+   "state": "merged",
+   "pr": 712,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
+   "branch": "gameplay/train-home-3"
+  },
+  "1075": {
+   "state": "merged",
+   "pr": 712,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
+   "branch": "gameplay/train-home-3"
+  },
+  "1076": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1077": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1078": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1079": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1080": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1081": {
+   "state": "closed",
+   "pr": 589,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/589",
+   "branch": "study/job-1081-blocked"
+  },
+  "1082": {
+   "state": "closed",
+   "pr": 591,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/591",
+   "branch": "study/job-1082-blocked"
+  },
+  "1083": {
+   "state": "closed",
+   "pr": 592,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/592",
+   "branch": "study/job-1083-blocked"
+  },
+  "1084": {
+   "state": "closed",
+   "pr": 594,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/594",
+   "branch": "study/job-1084-blocked"
+  },
+  "1085": {
+   "state": "closed",
+   "pr": 595,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/595",
+   "branch": "study/job-1085-tablet-no-change"
+  },
+  "1086": {
+   "state": "merged",
+   "pr": 671,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671",
+   "branch": "study/job-1086-home-desktop-polish"
+  },
+  "1087": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1088": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1089": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1090": {
+   "state": "merged",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1091": {
+   "state": "merged",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1092": {
+   "state": "merged",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1093": {
+   "state": "merged",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1094": {
+   "state": "merged",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1095": {
+   "state": "merged",
+   "pr": 682,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+   "branch": "gameplay/train-start-join-2"
+  },
+  "1096": {
+   "state": "merged",
+   "pr": 682,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+   "branch": "gameplay/train-start-join-2"
+  },
+  "1097": {
+   "state": "merged",
+   "pr": 682,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+   "branch": "gameplay/train-start-join-2"
+  },
+  "1098": {
+   "state": "merged",
+   "pr": 682,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+   "branch": "gameplay/train-start-join-2"
+  },
+  "1099": {
+   "state": "merged",
+   "pr": 682,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+   "branch": "gameplay/train-start-join-2"
+  },
+  "1100": {
+   "state": "merged",
+   "pr": 713,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+   "branch": "gameplay/train-start-join-3"
+  },
+  "1101": {
+   "state": "merged",
+   "pr": 713,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+   "branch": "gameplay/train-start-join-3"
+  },
+  "1102": {
+   "state": "merged",
+   "pr": 713,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+   "branch": "gameplay/train-start-join-3"
+  },
+  "1103": {
+   "state": "merged",
+   "pr": 713,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+   "branch": "gameplay/train-start-join-3"
+  },
+  "1104": {
+   "state": "merged",
+   "pr": 713,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+   "branch": "gameplay/train-start-join-3"
+  },
+  "1105": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1106": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1107": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1108": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1109": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1110": {
+   "state": "merged",
+   "pr": 597,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597",
+   "branch": "study/job-1110-connect-players-phone-a"
+  },
+  "1111": {
+   "state": "closed",
+   "pr": 599,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/599",
+   "branch": "study/job-1111-connect-players-phone-b"
+  },
+  "1112": {
+   "state": "closed",
+   "pr": 601,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/601",
+   "branch": "study/job-1112-connect-players-phone-c"
+  },
+  "1113": {
+   "state": "closed",
+   "pr": 603,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/603",
+   "branch": "study/job-1113-connect-players-sideways"
+  },
+  "1114": {
+   "state": "closed",
+   "pr": 605,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605",
+   "branch": "study/job-1114-connect-players-tablet"
+  },
+  "1115": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1116": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1117": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1118": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1119": {
+   "state": "merged",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
+   "branch": "gameplay/train-league-1"
+  },
+  "1120": {
+   "state": "merged",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
+   "branch": "gameplay/train-league-1"
+  },
+  "1121": {
+   "state": "merged",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
+   "branch": "gameplay/train-league-1"
+  },
+  "1122": {
+   "state": "merged",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
+   "branch": "gameplay/train-league-1"
+  },
+  "1123": {
+   "state": "merged",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
+   "branch": "gameplay/train-league-1"
+  },
+  "1124": {
+   "state": "merged",
+   "pr": 683,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+   "branch": "gameplay/train-league-2"
+  },
+  "1125": {
+   "state": "merged",
+   "pr": 683,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+   "branch": "gameplay/train-league-2"
+  },
+  "1126": {
+   "state": "merged",
+   "pr": 683,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+   "branch": "gameplay/train-league-2"
+  },
+  "1127": {
+   "state": "merged",
+   "pr": 683,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+   "branch": "gameplay/train-league-2"
+  },
+  "1128": {
+   "state": "merged",
+   "pr": 683,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+   "branch": "gameplay/train-league-2"
+  },
+  "1129": {
+   "state": "merged",
+   "pr": 702,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+   "branch": "gameplay/train-league-3"
+  },
+  "1130": {
+   "state": "merged",
+   "pr": 702,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+   "branch": "gameplay/train-league-3"
+  },
+  "1131": {
+   "state": "merged",
+   "pr": 702,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+   "branch": "gameplay/train-league-3"
+  },
+  "1132": {
+   "state": "merged",
+   "pr": 702,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+   "branch": "gameplay/train-league-3"
+  },
+  "1133": {
+   "state": "merged",
+   "pr": 702,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+   "branch": "gameplay/train-league-3"
+  },
+  "1134": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1135": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1136": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1137": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1138": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1139": {
+   "state": "closed",
+   "pr": 656,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/656",
+   "branch": "study/job-1139-blocked"
+  },
+  "1140": {
+   "state": "closed",
+   "pr": 657,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/657",
+   "branch": "study/job-1140-blocked"
+  },
+  "1141": {
+   "state": "closed",
+   "pr": 658,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/658",
+   "branch": "study/job-1141-blocked"
+  },
+  "1142": {
+   "state": "closed",
+   "pr": 659,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/659",
+   "branch": "study/job-1142-blocked"
+  },
+  "1143": {
+   "state": "closed",
+   "pr": 660,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/660",
+   "branch": "study/job-1143-blocked"
+  },
+  "1144": {
+   "state": "pr_open",
+   "pr": 749,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/749",
+   "branch": "study/job-1144-league-desktop-a-polish"
+  },
+  "1145": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1146": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1147": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1148": {
+   "state": "closed",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+   "branch": "gameplay/train-club-1"
+  },
+  "1149": {
+   "state": "closed",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+   "branch": "gameplay/train-club-1"
+  },
+  "1150": {
+   "state": "closed",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+   "branch": "gameplay/train-club-1"
+  },
+  "1151": {
+   "state": "closed",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+   "branch": "gameplay/train-club-1"
+  },
+  "1152": {
+   "state": "closed",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+   "branch": "gameplay/train-club-1"
+  },
+  "1153": {
+   "state": "merged",
+   "pr": 684,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+   "branch": "gameplay/train-club-2"
+  },
+  "1154": {
+   "state": "merged",
+   "pr": 684,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+   "branch": "gameplay/train-club-2"
+  },
+  "1155": {
+   "state": "merged",
+   "pr": 684,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+   "branch": "gameplay/train-club-2"
+  },
+  "1156": {
+   "state": "merged",
+   "pr": 684,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+   "branch": "gameplay/train-club-2"
+  },
+  "1157": {
+   "state": "merged",
+   "pr": 684,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+   "branch": "gameplay/train-club-2"
+  },
+  "1158": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1159": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1160": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1161": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1162": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1163": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1164": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1165": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1166": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1167": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1168": {
+   "state": "closed",
+   "pr": 625,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/625",
+   "branch": "study/job-1168-club-phone-faithful"
+  },
+  "1169": {
+   "state": "merged",
+   "pr": 626,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/626",
+   "branch": "study/job-1169-club-phone-hierarchy"
+  },
+  "1170": {
+   "state": "closed",
+   "pr": 627,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/627",
+   "branch": "study/job-1170-club-phone-compact"
+  },
+  "1171": {
+   "state": "merged",
+   "pr": 628,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/628",
+   "branch": "study/job-1171-club-sideways"
+  },
+  "1172": {
+   "state": "merged",
+   "pr": 629,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/629",
+   "branch": "study/job-1172-club-upright-tablet"
+  },
+  "1173": {
+   "state": "pr_open",
+   "pr": 728,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/728",
+   "branch": "study/job-1173-desktop-polish"
+  },
+  "1174": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1175": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1176": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1177": {
+   "state": "closed",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1178": {
+   "state": "closed",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1179": {
+   "state": "closed",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1180": {
+   "state": "closed",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1181": {
+   "state": "closed",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1182": {
+   "state": "closed",
+   "pr": 661,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+   "branch": "gameplay/train-transfer-2"
+  },
+  "1183": {
+   "state": "closed",
+   "pr": 661,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+   "branch": "gameplay/train-transfer-2"
+  },
+  "1184": {
+   "state": "closed",
+   "pr": 661,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+   "branch": "gameplay/train-transfer-2"
+  },
+  "1185": {
+   "state": "closed",
+   "pr": 661,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+   "branch": "gameplay/train-transfer-2"
+  },
+  "1186": {
+   "state": "closed",
+   "pr": 661,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+   "branch": "gameplay/train-transfer-2"
+  },
+  "1187": {
+   "state": "merged",
+   "pr": 705,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+   "branch": "gameplay/train-transfer-3"
+  },
+  "1188": {
+   "state": "merged",
+   "pr": 705,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+   "branch": "gameplay/train-transfer-3"
+  },
+  "1189": {
+   "state": "merged",
+   "pr": 705,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+   "branch": "gameplay/train-transfer-3"
+  },
+  "1190": {
+   "state": "merged",
+   "pr": 705,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+   "branch": "gameplay/train-transfer-3"
+  },
+  "1191": {
+   "state": "merged",
+   "pr": 705,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+   "branch": "gameplay/train-transfer-3"
+  },
+  "1192": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1193": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1194": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1195": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1196": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1197": {
+   "state": "closed",
+   "pr": 606,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/606",
+   "branch": "study/job-1197-transfer-phone-a"
+  },
+  "1198": {
+   "state": "closed",
+   "pr": 611,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/611",
+   "branch": "study/job-1198-transfer-phone-b"
+  },
+  "1199": {
+   "state": "closed",
+   "pr": 613,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/613",
+   "branch": "study/job-1199-transfer-phone-c"
+  },
+  "1200": {
+   "state": "closed",
+   "pr": 615,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/615",
+   "branch": "study/job-1200-sideways-no-change"
+  },
+  "1201": {
+   "state": "closed",
+   "pr": 617,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617",
+   "branch": "study/job-1201-tablet-no-change"
+  },
+  "1202": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1203": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1204": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1205": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1206": {
+   "state": "merged",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1207": {
+   "state": "merged",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1208": {
+   "state": "merged",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1209": {
+   "state": "merged",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1210": {
+   "state": "merged",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1211": {
+   "state": "merged",
+   "pr": 685,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
+   "branch": "gameplay/train-season-final-2"
+  },
+  "1212": {
+   "state": "merged",
+   "pr": 685,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
+   "branch": "gameplay/train-season-final-2"
+  },
+  "1213": {
+   "state": "merged",
+   "pr": 685,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
+   "branch": "gameplay/train-season-final-2"
+  },
+  "1214": {
+   "state": "merged",
+   "pr": 685,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
+   "branch": "gameplay/train-season-final-2"
+  },
+  "1215": {
+   "state": "merged",
+   "pr": 685,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
+   "branch": "gameplay/train-season-final-2"
+  },
+  "1216": {
+   "state": "merged",
+   "pr": 716,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716",
+   "branch": "gameplay/train-season-final-3"
+  },
+  "1217": {
+   "state": "merged",
+   "pr": 716,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716",
+   "branch": "gameplay/train-season-final-3"
+  },
+  "1218": {
+   "state": "merged",
+   "pr": 716,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716",
+   "branch": "gameplay/train-season-final-3"
+  },
+  "1219": {
+   "state": "merged",
+   "pr": 716,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716",
+   "branch": "gameplay/train-season-final-3"
+  },
+  "1220": {
+   "state": "merged",
+   "pr": 716,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716",
+   "branch": "gameplay/train-season-final-3"
+  },
+  "1221": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1222": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1223": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1224": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1225": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1226": {
+   "state": "merged",
+   "pr": 619,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/619",
+   "branch": "study/job-1226-season-results-phone-a"
+  },
+  "1227": {
+   "state": "closed",
+   "pr": 620,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/620",
+   "branch": "study/job-1227-season-results-phone-b"
+  },
+  "1228": {
+   "state": "closed",
+   "pr": 621,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/621",
+   "branch": "study/job-1228-season-results-phone-c"
+  },
+  "1229": {
+   "state": "merged",
+   "pr": 622,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/622",
+   "branch": "study/job-1229-season-results-sideways"
+  },
+  "1230": {
+   "state": "merged",
+   "pr": 623,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/623",
+   "branch": "study/job-1230-season-results-tablet"
+  },
+  "1231": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1232": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1233": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1234": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1235": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1236": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1237": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1238": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1239": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1240": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1241": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1242": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1243": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1244": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1245": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1246": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1247": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1248": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1249": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1250": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1251": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1252": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1253": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1254": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1255": {
+   "state": "pr_open",
+   "pr": 698,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/698",
+   "branch": "study/job-1255-standings-phone-a"
+  },
+  "1256": {
+   "state": "pr_open",
+   "pr": 699,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/699",
+   "branch": "study/job-1256-blocked"
+  },
+  "1257": {
+   "state": "pr_open",
+   "pr": 719,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/719",
+   "branch": "study/job-1257-standings-phone-c"
+  },
+  "1258": {
+   "state": "pr_open",
+   "pr": 725,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/725",
+   "branch": "study/job-1258-sideways-standings"
+  },
+  "1259": {
+   "state": "pr_open",
+   "pr": 727,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/727",
+   "branch": "study/job-1259-standings-upright-tablet"
+  },
+  "1260": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1261": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1262": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1263": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1264": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1265": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1266": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1267": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1268": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1269": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1270": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1271": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1272": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1273": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1274": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1275": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1276": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1277": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1278": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1279": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1280": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1281": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1282": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1283": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1284": {
+   "state": "merged",
+   "pr": 634,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/634",
+   "branch": "study/job-1284-phone-a"
+  },
+  "1285": {
+   "state": "closed",
+   "pr": 635,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/635",
+   "branch": "study/job-1285-phone-b"
+  },
+  "1286": {
+   "state": "closed",
+   "pr": 633,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/633",
+   "branch": "study/job-1286-phone-c"
+  },
+  "1287": {
+   "state": "merged",
+   "pr": 637,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/637",
+   "branch": "study/job-1287-sideways"
+  },
+  "1288": {
+   "state": "merged",
+   "pr": 640,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/640",
+   "branch": "study/job-1288-tablet"
+  },
+  "1289": {
+   "state": "pr_open",
+   "pr": 730,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/730",
+   "branch": "study/job-1289-desktop-a-polish"
+  },
+  "1290": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1291": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1292": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1293": {
+   "state": "closed",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1294": {
+   "state": "closed",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1295": {
+   "state": "closed",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1296": {
+   "state": "closed",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1297": {
+   "state": "closed",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1298": {
+   "state": "closed",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1299": {
+   "state": "closed",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1300": {
+   "state": "closed",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1301": {
+   "state": "closed",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1302": {
+   "state": "closed",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1303": {
+   "state": "closed",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1304": {
+   "state": "closed",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1305": {
+   "state": "closed",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1306": {
+   "state": "closed",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1307": {
+   "state": "closed",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1308": {
+   "state": "closed",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1309": {
+   "state": "closed",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1310": {
+   "state": "closed",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1311": {
+   "state": "closed",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1312": {
+   "state": "closed",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1313": {
+   "state": "merged",
+   "pr": 644,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/644",
+   "branch": "study/job-1313-blocked"
+  },
+  "1314": {
+   "state": "closed",
+   "pr": 647,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/647",
+   "branch": "study/job-1314-blocked"
+  },
+  "1315": {
+   "state": "closed",
+   "pr": 632,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/632",
+   "branch": "study/job-1315-legacy-phone-c-compact"
+  },
+  "1316": {
+   "state": "merged",
+   "pr": 649,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/649",
+   "branch": "study/job-1316-blocked"
+  },
+  "1317": {
+   "state": "closed",
+   "pr": 652,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/652",
+   "branch": "study/job-1317-blocked"
+  },
+  "1318": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1319": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1320": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1321": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1322": {
+   "state": "merged",
+   "pr": 586,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1323": {
+   "state": "merged",
+   "pr": 586,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1324": {
+   "state": "merged",
+   "pr": 586,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1325": {
+   "state": "merged",
+   "pr": 586,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1326": {
+   "state": "merged",
+   "pr": 586,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1327": {
+   "state": "merged",
+   "pr": 686,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+   "branch": "gameplay/train-career-screens-2"
+  },
+  "1328": {
+   "state": "merged",
+   "pr": 686,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+   "branch": "gameplay/train-career-screens-2"
+  },
+  "1329": {
+   "state": "merged",
+   "pr": 686,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+   "branch": "gameplay/train-career-screens-2"
+  },
+  "1330": {
+   "state": "merged",
+   "pr": 686,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+   "branch": "gameplay/train-career-screens-2"
+  },
+  "1331": {
+   "state": "merged",
+   "pr": 686,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+   "branch": "gameplay/train-career-screens-2"
+  },
+  "1332": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1333": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1334": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1335": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1336": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1337": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1338": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1339": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1340": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1341": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1342": {
+   "state": "merged",
+   "pr": 636,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/636",
+   "branch": "study/job-1342-trophy-room-phone-a"
+  },
+  "1343": {
+   "state": "closed",
+   "pr": 638,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/638",
+   "branch": "study/job-1343-trophy-room-phone-b"
+  },
+  "1344": {
+   "state": "closed",
+   "pr": 641,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/641",
+   "branch": "study/job-1344-trophy-room-phone-c"
+  },
+  "1345": {
+   "state": "closed",
+   "pr": 642,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/642",
+   "branch": "study/job-1345-trophy-room-sideways"
+  },
+  "1346": {
+   "state": "merged",
+   "pr": 643,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643",
+   "branch": "study/job-1346-trophy-room-tablet"
+  },
+  "1347": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1348": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1349": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1350": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1351": {
+   "state": "closed",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1352": {
+   "state": "closed",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1353": {
+   "state": "closed",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1354": {
+   "state": "closed",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1355": {
+   "state": "closed",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1356": {
+   "state": "merged",
+   "pr": 721,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721",
+   "branch": "gameplay/train-rivalry-legacy-6"
+  },
+  "1357": {
+   "state": "merged",
+   "pr": 721,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721",
+   "branch": "gameplay/train-rivalry-legacy-6"
+  },
+  "1358": {
+   "state": "merged",
+   "pr": 721,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721",
+   "branch": "gameplay/train-rivalry-legacy-6"
+  },
+  "1359": {
+   "state": "merged",
+   "pr": 721,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721",
+   "branch": "gameplay/train-rivalry-legacy-6"
+  },
+  "1360": {
+   "state": "merged",
+   "pr": 721,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721",
+   "branch": "gameplay/train-rivalry-legacy-6"
+  },
+  "1361": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1362": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1363": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1364": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1365": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1366": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1367": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1368": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1369": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1370": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1371": {
+   "state": "closed",
+   "pr": 602,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/602",
+   "branch": "study/job-1371-rivalry-phone-a"
+  },
+  "1372": {
+   "state": "merged",
+   "pr": 604,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/604",
+   "branch": "study/job-1372-rivalry-phone-b"
+  },
+  "1373": {
+   "state": "closed",
+   "pr": 607,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/607",
+   "branch": "study/job-1373-rivalry-phone-c"
+  },
+  "1374": {
+   "state": "merged",
+   "pr": 609,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/609",
+   "branch": "study/job-1374-rivalry-sideways"
+  },
+  "1375": {
+   "state": "merged",
+   "pr": 612,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/612",
+   "branch": "study/job-1375-rivalry-tablet"
+  },
+  "1376": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1377": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1378": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1379": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1380": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1381": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1382": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1383": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1384": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1385": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1386": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1387": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1388": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1389": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1390": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1391": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1392": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1393": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1394": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1395": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1396": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1397": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1398": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1399": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1400": {
+   "state": "closed",
+   "pr": 600,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/600",
+   "branch": "study/job-1400-career-statistics-phone-a"
+  },
+  "1401": {
+   "state": "closed",
+   "pr": 608,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/608",
+   "branch": "study/job-1401-career-statistics-phone-b"
+  },
+  "1402": {
+   "state": "merged",
+   "pr": 610,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/610",
+   "branch": "study/job-1402-career-statistics-phone-c"
+  },
+  "1403": {
+   "state": "merged",
+   "pr": 614,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/614",
+   "branch": "study/job-1403-career-statistics-sideways"
+  },
+  "1404": {
+   "state": "merged",
+   "pr": 616,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/616",
+   "branch": "study/job-1404-career-statistics-tablet"
+  },
+  "1405": {
+   "state": "pr_open",
+   "pr": 729,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/729",
+   "branch": "study/job-1405-desktop-polish"
+  },
+  "1406": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1407": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1408": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1409": {
+   "state": "closed",
+   "pr": 587,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1410": {
+   "state": "closed",
+   "pr": 587,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1411": {
+   "state": "closed",
+   "pr": 587,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1412": {
+   "state": "closed",
+   "pr": 587,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1413": {
+   "state": "closed",
+   "pr": 587,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1414": {
+   "state": "merged",
+   "pr": 687,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
+   "branch": "gameplay/train-rules-settings-2"
+  },
+  "1415": {
+   "state": "merged",
+   "pr": 687,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
+   "branch": "gameplay/train-rules-settings-2"
+  },
+  "1416": {
+   "state": "merged",
+   "pr": 687,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
+   "branch": "gameplay/train-rules-settings-2"
+  },
+  "1417": {
+   "state": "merged",
+   "pr": 687,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
+   "branch": "gameplay/train-rules-settings-2"
+  },
+  "1418": {
+   "state": "merged",
+   "pr": 687,
+   "draft": false,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
+   "branch": "gameplay/train-rules-settings-2"
+  },
+  "1419": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1420": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1421": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1422": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1423": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1424": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1425": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1426": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1427": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1428": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1429": {
+   "state": "pr_open",
+   "pr": 696,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/696",
+   "branch": "study/job-1429-rule-book-phone-a"
+  },
+  "1430": {
+   "state": "blocked",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "study/job-1430-blocked"
+  },
+  "1431": {
+   "state": "pr_open",
+   "pr": 718,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/718",
+   "branch": "study/job-1431-rule-book-phone-c"
+  },
+  "1432": {
+   "state": "pr_open",
+   "pr": 724,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/724",
+   "branch": "study/job-1432-sideways-rule-book"
+  },
+  "1433": {
+   "state": "pr_open",
+   "pr": 726,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/726",
+   "branch": "study/job-1433-upright-rule-book"
+  },
+  "1434": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1435": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1436": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1437": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1438": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1439": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1440": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1441": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1442": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1443": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1444": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1445": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1446": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1447": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1448": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1449": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1450": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1451": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1452": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1453": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1454": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1455": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1456": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1457": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1458": {
+   "state": "closed",
+   "pr": 645,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/645",
+   "branch": "study/job-1458-blocked"
+  },
+  "1459": {
+   "state": "closed",
+   "pr": 648,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/648",
+   "branch": "study/job-1459-blocked"
+  },
+  "1460": {
+   "state": "merged",
+   "pr": 651,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/651",
+   "branch": "study/job-1460-blocked"
+  },
+  "1461": {
+   "state": "merged",
+   "pr": 653,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/653",
+   "branch": "study/job-1461-blocked"
+  },
+  "1462": {
+   "state": "merged",
+   "pr": 655,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/655",
+   "branch": "study/job-1462-blocked"
+  },
+  "1463": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1464": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1465": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1466": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1467": {
+   "state": "merged",
+   "pr": 458,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/458",
+   "branch": "qa/job-1467-tap-targets"
+  },
+  "1468": {
+   "state": "merged",
+   "pr": 459,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/459",
+   "branch": "qa/job-1468-long-names-audit"
+  },
+  "1469": {
+   "state": "merged",
+   "pr": 461,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/461",
+   "branch": "qa/job-1469-safe-area-audit"
+  },
+  "1470": {
+   "state": "merged",
+   "pr": 462,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/462",
+   "branch": "qa/job-1470-short-landscape-css-audit"
+  },
+  "1471": {
+   "state": "merged",
+   "pr": 463,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/463",
+   "branch": "qa/job-1471-focus-motion-audit"
+  },
+  "1472": {
+   "state": "merged",
+   "pr": 464,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/464",
+   "branch": "qa/job-1472-empty-states"
+  },
+  "1473": {
+   "state": "merged",
+   "pr": 465,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/465",
+   "branch": "qa/job-1473-contrast-audit"
+  },
+  "1474": {
+   "state": "merged",
+   "pr": 466,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/466",
+   "branch": "qa/job-1474-font-fallback-audit"
+  },
+  "1475": {
+   "state": "merged",
+   "pr": 468,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468",
+   "branch": "qa/job-1475-alt-text-audit"
+  },
+  "1476": {
+   "state": "merged",
+   "pr": 467,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467",
+   "branch": "qa/job-1476-z-layer-audit"
+  },
+  "1477": {
+   "state": "merged",
+   "pr": 470,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470",
+   "branch": "qa/job-1477-audit-design-token-colours"
+  },
+  "1478": {
+   "state": "merged",
+   "pr": 471,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/471",
+   "branch": "qa/job-1478-touch-hover-audit"
+  },
+  "1479": {
+   "state": "merged",
+   "pr": 472,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/472",
+   "branch": "qa/job-1479-season-engine-first-half-audit"
+  },
+  "1480": {
+   "state": "merged",
+   "pr": 473,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/473",
+   "branch": "qa/job-1480-seasonengine-second-half-audit"
+  },
+  "1481": {
+   "state": "merged",
+   "pr": 475,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/475",
+   "branch": "qa/job-1481-transfer-challenge-first-half"
+  },
+  "1482": {
+   "state": "merged",
+   "pr": 474,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/474",
+   "branch": "qa/job-1482-transfer-challenge-second-half-audit"
+  },
+  "1483": {
+   "state": "merged",
+   "pr": 478,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478",
+   "branch": "qa/job-1483-transfer-race-audit"
+  },
+  "1484": {
+   "state": "merged",
+   "pr": 479,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479",
+   "branch": "qa/job-1484-guess-refresh-audit"
+  },
+  "1485": {
+   "state": "merged",
+   "pr": 480,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/480",
+   "branch": "qa/job-1485-transfer-challenge-first-half"
+  },
+  "1486": {
+   "state": "merged",
+   "pr": 481,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/481",
+   "branch": "qa/job-1486-transfer-challenge-2"
+  },
+  "1487": {
+   "state": "merged",
+   "pr": 483,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/483",
+   "branch": "qa/job-1487-signing-name-audit"
+  },
+  "1488": {
+   "state": "merged",
+   "pr": 543,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/543",
+   "branch": "qa/job-1488-sharedtransferchallenge-2-audit"
+  },
+  "1489": {
+   "state": "merged",
+   "pr": 545,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/545",
+   "branch": "qa/job-1489-restore-1-audit"
+  },
+  "1490": {
+   "state": "merged",
+   "pr": 548,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/548",
+   "branch": "qa/job-1490-restore-2-audit"
+  },
+  "1491": {
+   "state": "merged",
+   "pr": 550,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/550",
+   "branch": "qa/job-1491-importanalysis-1-audit"
+  },
+  "1492": {
+   "state": "merged",
+   "pr": 552,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/552",
+   "branch": "qa/job-1492-importanalysis-2-audit"
+  },
+  "1493": {
+   "state": "merged",
+   "pr": 554,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/554",
+   "branch": "qa/job-1493-persistentnikdanielpair-1-audit"
+  },
+  "1494": {
+   "state": "merged",
+   "pr": 558,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/558",
+   "branch": "qa/job-1494-persistentnikdanielpair-2-audit"
+  },
+  "1495": {
+   "state": "merged",
+   "pr": 560,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/560",
+   "branch": "qa/job-1495-sparkconnectedrivalry-1-audit"
+  },
+  "1496": {
+   "state": "merged",
+   "pr": 563,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/563",
+   "branch": "qa/job-1496-sparkconnectedrivalry-2-audit"
+  },
+  "1497": {
+   "state": "merged",
+   "pr": 565,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/565",
+   "branch": "qa/job-1497-visualidentity-1-audit"
+  },
+  "1498": {
+   "state": "merged",
+   "pr": 568,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/568",
+   "branch": "qa/job-1498-visualidentity-2-audit"
+  },
+  "1499": {
+   "state": "merged",
+   "pr": 570,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/570",
+   "branch": "qa/job-1499-savelibraryruntime-1-audit"
+  },
+  "1500": {
+   "state": "merged",
+   "pr": 573,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/573",
+   "branch": "qa/job-1500-savelibraryruntime-2-audit"
+  },
+  "1501": {
+   "state": "merged",
+   "pr": 576,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/576",
+   "branch": "qa/job-1501-savelibraryui-1-audit"
+  },
+  "1502": {
+   "state": "merged",
+   "pr": 577,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/577",
+   "branch": "qa/job-1502-savelibraryui-2-audit"
+  },
+  "1503": {
+   "state": "merged",
+   "pr": 578,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/578",
+   "branch": "qa/job-1503-productionsharedshowdownpresentation-1-audit"
+  },
+  "1504": {
+   "state": "merged",
+   "pr": 579,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/579",
+   "branch": "qa/job-1504-productionsharedshowdownpresentation-2-audit"
+  },
+  "1505": {
+   "state": "merged",
+   "pr": 580,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/580",
+   "branch": "qa/job-1505-productionsharedterminalclose-1-audit"
+  },
+  "1506": {
+   "state": "merged",
+   "pr": 581,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/581",
+   "branch": "qa/job-1506-productionsharedterminalclose-2-audit"
+  },
+  "1507": {
+   "state": "merged",
+   "pr": 582,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/582",
+   "branch": "qa/job-1507-sparksharedseasonresults-1-audit"
+  },
+  "1508": {
+   "state": "merged",
+   "pr": 583,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/583",
+   "branch": "qa/job-1508-sparksharedseasonresults-2-audit"
+  },
+  "1509": {
+   "state": "merged",
+   "pr": 544,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/544",
+   "branch": "qa/job-1509-production-season-results-1"
+  },
+  "1510": {
+   "state": "merged",
+   "pr": 546,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/546",
+   "branch": "qa/job-1510-production-season-results-2"
+  },
+  "1511": {
+   "state": "merged",
+   "pr": 547,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/547",
+   "branch": "qa/job-1511-production-season-commit-1"
+  },
+  "1512": {
+   "state": "merged",
+   "pr": 549,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/549",
+   "branch": "qa/job-1512-production-season-commit-2"
+  },
+  "1513": {
+   "state": "merged",
+   "pr": 551,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/551",
+   "branch": "qa/job-1513-spark-season-commit-1"
+  },
+  "1514": {
+   "state": "merged",
+   "pr": 553,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/553",
+   "branch": "qa/job-1514-spark-season-commit-2"
+  },
+  "1515": {
+   "state": "merged",
+   "pr": 555,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/555",
+   "branch": "qa/job-1515-production-journey-entry-1"
+  },
+  "1516": {
+   "state": "merged",
+   "pr": 556,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/556",
+   "branch": "qa/job-1516-production-journey-entry-2"
+  },
+  "1517": {
+   "state": "merged",
+   "pr": 557,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/557",
+   "branch": "qa/job-1517-production-journey-reconnect-1"
+  },
+  "1518": {
+   "state": "merged",
+   "pr": 559,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/559",
+   "branch": "qa/job-1518-production-journey-reconnect-2"
+  },
+  "1519": {
+   "state": "merged",
+   "pr": 561,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/561",
+   "branch": "qa/job-1519-production-multiseason-1"
+  },
+  "1520": {
+   "state": "merged",
+   "pr": 562,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/562",
+   "branch": "qa/job-1520-production-multiseason-2"
+  },
+  "1521": {
+   "state": "merged",
+   "pr": 564,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/564",
+   "branch": "qa/job-1521-production-career-start-1"
+  },
+  "1522": {
+   "state": "merged",
+   "pr": 566,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/566",
+   "branch": "qa/job-1522-production-career-start-2"
+  },
+  "1523": {
+   "state": "merged",
+   "pr": 567,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/567",
+   "branch": "qa/job-1523-production-showdown-setup-1"
+  },
+  "1524": {
+   "state": "merged",
+   "pr": 569,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/569",
+   "branch": "qa/job-1524-production-showdown-setup-2"
+  },
+  "1525": {
+   "state": "merged",
+   "pr": 571,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/571",
+   "branch": "qa/job-1525-spark-showdown-setup-1"
+  },
+  "1526": {
+   "state": "merged",
+   "pr": 572,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/572",
+   "branch": "qa/job-1526-spark-showdown-setup-2"
+  },
+  "1527": {
+   "state": "merged",
+   "pr": 574,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/574",
+   "branch": "qa/job-1527-shared-showdown-setup-1"
+  },
+  "1528": {
+   "state": "merged",
+   "pr": 575,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/575",
+   "branch": "qa/job-1528-shared-showdown-setup-2"
+  },
+  "1529": {
+   "state": "merged",
+   "pr": 487,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/487",
+   "branch": "qa/job-1529-spark-terminal-close-1"
+  },
+  "1530": {
+   "state": "merged",
+   "pr": 488,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/488",
+   "branch": "qa/job-1530-spark-terminal-close-2"
+  },
+  "1531": {
+   "state": "merged",
+   "pr": 489,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/489",
+   "branch": "qa/job-1531-production-canonical-scoring-1"
+  },
+  "1532": {
+   "state": "merged",
+   "pr": 490,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/490",
+   "branch": "qa/job-1532-production-canonical-scoring-2"
+  },
+  "1533": {
+   "state": "merged",
+   "pr": 493,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/493",
+   "branch": "qa/job-1533-production-history-convergence-1"
+  },
+  "1534": {
+   "state": "merged",
+   "pr": 494,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/494",
+   "branch": "qa/job-1534-production-history-convergence-2"
+  },
+  "1535": {
+   "state": "merged",
+   "pr": 496,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/496",
+   "branch": "qa/job-1535-shared-history-convergence-1"
+  },
+  "1536": {
+   "state": "merged",
+   "pr": 497,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/497",
+   "branch": "qa/job-1536-shared-history-convergence-2"
+  },
+  "1537": {
+   "state": "merged",
+   "pr": 500,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/500",
+   "branch": "qa/job-1537-shared-journey-reconnect-1"
+  },
+  "1538": {
+   "state": "merged",
+   "pr": 501,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/501",
+   "branch": "qa/job-1538-shared-journey-reconnect-2"
+  },
+  "1539": {
+   "state": "merged",
+   "pr": 504,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/504",
+   "branch": "qa/job-1539-shared-active-showdown-adapter-1"
+  },
+  "1540": {
+   "state": "merged",
+   "pr": 505,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/505",
+   "branch": "qa/job-1540-shared-active-showdown-adapter-2"
+  },
+  "1541": {
+   "state": "merged",
+   "pr": 510,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/510",
+   "branch": "qa/job-1541-statistics-1"
+  },
+  "1542": {
+   "state": "merged",
+   "pr": 511,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/511",
+   "branch": "qa/job-1542-statistics-2"
+  },
+  "1543": {
+   "state": "merged",
+   "pr": 514,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/514",
+   "branch": "qa/job-1543-legacy-1"
+  },
+  "1544": {
+   "state": "merged",
+   "pr": 515,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/515",
+   "branch": "qa/job-1544-legacy-2"
+  },
+  "1545": {
+   "state": "merged",
+   "pr": 518,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/518",
+   "branch": "qa/job-1545-analytics-1"
+  },
+  "1546": {
+   "state": "merged",
+   "pr": 519,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/519",
+   "branch": "qa/job-1546-analytics-2"
+  },
+  "1547": {
+   "state": "merged",
+   "pr": 522,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/522",
+   "branch": "qa/job-1547-settings-1"
+  },
+  "1548": {
+   "state": "merged",
+   "pr": 523,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/523",
+   "branch": "qa/job-1548-settings-2"
+  },
+  "1549": {
+   "state": "merged",
+   "pr": 525,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/525",
+   "branch": "qa/job-1549-screens-1"
+  },
+  "1550": {
+   "state": "merged",
+   "pr": 526,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/526",
+   "branch": "qa/job-1550-screens-2"
+  },
+  "1551": {
+   "state": "merged",
+   "pr": 529,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/529",
+   "branch": "qa/job-1551-menu-experience-1"
+  },
+  "1552": {
+   "state": "merged",
+   "pr": 530,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/530",
+   "branch": "qa/job-1552-menu-experience-2"
+  },
+  "1553": {
+   "state": "merged",
+   "pr": 533,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/533",
+   "branch": "qa/job-1553-club-assignment-1"
+  },
+  "1554": {
+   "state": "merged",
+   "pr": 491,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/491",
+   "branch": "qa/job-1554-clubassignment-2"
+  },
+  "1555": {
+   "state": "merged",
+   "pr": 492,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/492",
+   "branch": "qa/job-1555-storage-1"
+  },
+  "1556": {
+   "state": "merged",
+   "pr": 495,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/495",
+   "branch": "qa/job-1556-storage-2"
+  },
+  "1557": {
+   "state": "merged",
+   "pr": 498,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/498",
+   "branch": "qa/job-1557-diagnostics-1"
+  },
+  "1558": {
+   "state": "merged",
+   "pr": 499,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/499",
+   "branch": "qa/job-1558-diagnostics-2"
+  },
+  "1559": {
+   "state": "merged",
+   "pr": 502,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/502",
+   "branch": "qa/job-1559-offlineapp-1"
+  },
+  "1560": {
+   "state": "merged",
+   "pr": 503,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/503",
+   "branch": "qa/job-1560-offlineapp-2"
+  },
+  "1561": {
+   "state": "merged",
+   "pr": 507,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/507",
+   "branch": "qa/job-1561-sparkcompleted-1"
+  },
+  "1562": {
+   "state": "merged",
+   "pr": 508,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/508",
+   "branch": "qa/job-1562-sparkcompleted-2"
+  },
+  "1563": {
+   "state": "merged",
+   "pr": 512,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/512",
+   "branch": "qa/job-1563-transferhistory-1"
+  },
+  "1564": {
+   "state": "merged",
+   "pr": 513,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/513",
+   "branch": "qa/job-1564-transferhistory-2"
+  },
+  "1565": {
+   "state": "merged",
+   "pr": 516,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/516",
+   "branch": "qa/job-1565-careerscreens-1"
+  },
+  "1566": {
+   "state": "merged",
+   "pr": 517,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/517",
+   "branch": "qa/job-1566-careerscreens-2"
+  },
+  "1567": {
+   "state": "merged",
+   "pr": 520,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/520",
+   "branch": "qa/job-1567-rivalrylegacy-1"
+  },
+  "1568": {
+   "state": "merged",
+   "pr": 524,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/524",
+   "branch": "qa/job-1568-rivalrylegacy-2"
+  },
+  "1569": {
+   "state": "merged",
+   "pr": 527,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/527",
+   "branch": "qa/job-1569-transferscreen-1"
+  },
+  "1570": {
+   "state": "merged",
+   "pr": 528,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/528",
+   "branch": "qa/job-1570-transferscreen-2"
+  },
+  "1571": {
+   "state": "merged",
+   "pr": 531,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/531",
+   "branch": "qa/job-1571-clubscreen-1"
+  },
+  "1572": {
+   "state": "merged",
+   "pr": 532,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/532",
+   "branch": "qa/job-1572-clubscreen-2"
+  },
+  "1573": {
+   "state": "merged",
+   "pr": 534,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/534",
+   "branch": "qa/job-1573-seasonfinal-1"
+  },
+  "1574": {
+   "state": "merged",
+   "pr": 535,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/535",
+   "branch": "qa/job-1574-seasonfinal-2"
+  },
+  "1575": {
+   "state": "merged",
+   "pr": 537,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/537",
+   "branch": "qa/job-1575-homescreens-1"
+  },
+  "1576": {
+   "state": "merged",
+   "pr": 538,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/538",
+   "branch": "qa/job-1576-homescreens-2"
+  },
+  "1577": {
+   "state": "merged",
+   "pr": 540,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/540",
+   "branch": "qa/job-1577-v10screens-1"
+  },
+  "1578": {
+   "state": "merged",
+   "pr": 541,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/541",
+   "branch": "qa/job-1578-v10screens-2"
+  },
+  "1661": {
+   "state": "pr_open",
+   "pr": 704,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704",
+   "branch": "qa/job-1661-scoring-tiebreakers"
+  },
+  "1662": {
+   "state": "pr_open",
+   "pr": 701,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701",
+   "branch": "qa/job-1662-showdown-ui-first-half-audit"
+  },
+  "1663": {
+   "state": "pr_open",
+   "pr": 707,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707",
+   "branch": "qa/job-1663-transfer-selector-audit"
+  },
+  "1664": {
+   "state": "pr_open",
+   "pr": 703,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/703",
+   "branch": "qa/job-1664-league-wheel-first-half-audit"
+  },
+  "1665": {
+   "state": "pr_open",
+   "pr": 708,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/708",
+   "branch": "qa/job-1665-trophy-room-audit"
+  },
+  "1666": {
+   "state": "pr_open",
+   "pr": 706,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/706",
+   "branch": "qa/job-1666-save-library-first-half-audit"
+  },
+  "1667": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1668": {
+   "state": "pr_open",
+   "pr": 709,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/709",
+   "branch": "qa/job-1668-football-visuals-first-half"
+  },
+  "1669": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1670": {
+   "state": "pr_open",
+   "pr": 710,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/710",
+   "branch": "qa/job-1670-backup-first-half"
+  },
+  "1671": {
+   "state": "pr_open",
+   "pr": 732,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/732",
+   "branch": "qa/job-1671-optionalmodules-firsthalf-audit"
+  },
+  "1672": {
+   "state": "pr_open",
+   "pr": 711,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/711",
+   "branch": "qa/job-1672-rule-book-first-half"
+  },
+  "1673": {
+   "state": "pr_open",
+   "pr": 734,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/734",
+   "branch": "qa/job-1673-storage-transactions-audit"
+  },
+  "1674": {
+   "state": "pr_open",
+   "pr": 714,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/714",
+   "branch": "qa/job-1674-menu-feedback-audit"
+  },
+  "1675": {
+   "state": "pr_open",
+   "pr": 736,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/736",
+   "branch": "qa/job-1675-shared-journey-guard-audit"
+  },
+  "1676": {
+   "state": "pr_open",
+   "pr": 715,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/715",
+   "branch": "qa/job-1676-shared-journey-conflicts-audit"
+  },
+  "1677": {
+   "state": "pr_open",
+   "pr": 720,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/720",
+   "branch": "qa/job-1677-shared-season-results-route-first-half"
+  },
+  "1678": {
+   "state": "pr_open",
+   "pr": 717,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/717",
+   "branch": "qa/job-1678-scoring-second-half-audit"
+  },
+  "1679": {
+   "state": "pr_open",
+   "pr": 722,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/722",
+   "branch": "qa/job-1679-showdown-ui-second-half"
+  },
+  "1680": {
+   "state": "pr_open",
+   "pr": 731,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/731",
+   "branch": "qa/job-1680-transfer-selector-audit-2"
+  },
+  "1681": {
+   "state": "pr_open",
+   "pr": 723,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/723",
+   "branch": "qa/job-1681-league-wheel-second-half"
+  },
+  "1682": {
+   "state": "pr_open",
+   "pr": 733,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/733",
+   "branch": "qa/job-1682-trophy-room-audit-2"
+  },
+  "1683": {
+   "state": "pr_open",
+   "pr": 735,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/735",
+   "branch": "qa/job-1683-save-library-audit-2"
+  },
+  "1684": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1685": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1686": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1687": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1688": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1689": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1690": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1691": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1692": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1693": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1694": {
+   "state": "retired",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  }
+ }
+}

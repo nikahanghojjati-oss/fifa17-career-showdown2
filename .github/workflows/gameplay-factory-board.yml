@@ -1,0 +1,73 @@
+name: Gameplay factory board auto-update
+
+# Rebuilds project-documents/gameplay-factory/BOARD.md (and BOARD_STATE.json) whenever a job
+# status or BOARD.json changes on the Team G factory branch, so Nik always sees a current board
+# on GitHub without asking Claude. Times are Boston time. Factory branch only; never runs on main.
+# Team V messages land on leads/relay, a different branch, so a push there cannot start this file.
+# leads-relay-ping.yml (on leads/relay) therefore dispatches this workflow on every new relay message.
+on:
+  push:
+    branches: [factory/gameplay-v1]
+    paths:
+      - project-documents/gameplay-factory/status/**
+      - project-documents/gameplay-factory/jobs/**
+      - project-documents/gameplay-factory/BOARD.json
+      - project-documents/gameplay-factory/tools/board.py
+      - project-documents/gameplay-factory/tools/bug_board.py
+      - project-documents/gameplay-factory/tools/factory_common.py
+      - project-documents/gameplay-factory/tools/custom_view.py
+      - project-documents/gameplay-factory/BUGS.json
+      - project-documents/gameplay-factory/physio-status.json
+      - project-documents/gameplay-factory/tools/two_factories.py
+      - project-documents/gameplay-factory/tools/relay_page.py
+      - project-documents/gameplay-factory/tools/goals.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: read
+  checks: read
+  issues: read
+
+concurrency:
+  group: gameplay-factory-board
+  cancel-in-progress: true  # every run rebuilds from current state, so a newer run safely replaces an older one
+
+jobs:
+  board:
+    # Loop guard: the bot's own push never re-runs this (GITHUB_TOKEN pushes do not trigger workflows either).
+    # A dispatch from the relay ping runs as the bot, so dispatches are always allowed.
+    if: github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: factory/gameplay-v1
+          fetch-depth: 50
+      - name: Rebuild and commit the board if a job moved
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B=project-documents/gameplay-factory
+          for i in 1 2 3 4; do
+            git fetch origin factory/gameplay-v1
+            git reset --hard origin/factory/gameplay-v1
+            python3 $B/tools/collect_progress.py >/dev/null
+            python3 $B/tools/board.py
+            python3 $B/tools/bug_board.py
+            python3 $B/tools/relay_page.py
+            python3 $B/tools/custom_view.py
+            # Ignore the timestamp line alone: commit only when a job's row actually changed.
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/BOARD_ARCHIVE.md $B/RELAY.md | grep '^[-+][^-+]' | grep -qv '· generated 20' || ! git ls-files --error-unmatch $B/RELAY.md >/dev/null 2>&1 || ! git ls-files --error-unmatch $B/CUSTOM_VIEW.html >/dev/null 2>&1; then :; else echo "Board unchanged"; exit 0; fi
+            git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/CUSTOM_VIEW_V.html $B/TEAM_G_PROGRESS.json $B/RELAY.md $B/GOALS.json
+            git commit -m "Gameplay factory: board auto-update [skip ci]"
+            git push origin HEAD:factory/gameplay-v1 && exit 0
+            sleep $((2**i))
+          done
+          exit 1
+      - name: Start the progress poller if it is not running
+        run: gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1 || true
