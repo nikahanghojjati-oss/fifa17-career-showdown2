@@ -17,6 +17,8 @@
 //   M6 RE-08: the client lookup table names no document twice (root./after., the written rivalryId, the signed-in account in
 //      the pair), and the meter document costs one lookup to read (two once the Showdown is closed) and one to write.
 //   M7 the meter's own cost: one write (1 lookup) and one read (1 document + 1 lookup) per phone per season, billed as game reads.
+//   M8 a season that crosses Pacific midnight keeps its start mark, so its whole cost is measured (live and after a reload).
+//   M9 a reload between the meter write and the partner read resumes the bounded read once, with no second write.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -308,6 +310,75 @@ const reads=p=>p.ops.gets.length;
       assert.equal(t.career,career,'never a career page');
       assert.equal(t.shared.sinceThisPhone,3,'counted after the document was written');
     }
+  });
+
+  await check('M8 a season that starts before Pacific midnight and finishes after it keeps its measured cost (live page and a page reloaded after midnight)',async()=>{
+    // The test clock starts at 2027-01-15 00:00 Pacific; one minute before it is the previous Pacific day.
+    const world=createPair({now:1_800_000_000_000-60000});
+    const nik=phone(world,{uid:'nik',role:'playerTwo',game:0,markGame:0});
+    const before=dayOf(world.clock.now);
+    assert.equal(nik.budget.noteSeasonStart(`${RID}|1`),true);
+    for(let i=0;i<100;i+=1)nik.budget.countListenerRead();
+    const savedBefore=JSON.parse(nik.storage.get(DAY_KEY));
+    assert.equal(savedBefore.day,before);assert.equal(savedBefore.bill.startKey,`${RID}|1`);
+    // A page reloaded after midnight rebuilds the new day from the saved old one.
+    const reloadStorage=new Map(nik.storage);
+    await world.advance(2*60000);
+    assert.notEqual(dayOf(world.clock.now),before,'past Pacific midnight');
+    for(let i=0;i<50;i+=1)nik.budget.countListenerRead();
+    nik.budget.noteSeasonDone(`${RID}|1`,true,{role:'playerTwo',season:1});
+    assert.deepEqual(JSON.parse(nik.storage.get(DAY_KEY)).bill.costs,[150],'100 before midnight + 50 after: the whole season (was dropped)');
+    const reloaded=pageWithStorage(world,{uid:'nik',storage:reloadStorage});
+    for(let i=0;i<50;i+=1)reloaded.budget.countListenerRead();
+    reloaded.budget.noteSeasonDone(`${RID}|1`,true,{role:'playerTwo',season:1});
+    assert.deepEqual(JSON.parse(reloadStorage.get(DAY_KEY)).bill.costs,[150],'the same after a reload past midnight');
+    // A season that never started (no mark) still records no season-1 cost across midnight.
+    const other=phone(createPair({now:1_800_000_000_000-60000}),{uid:'nik2',role:'playerTwo',game:0,markGame:0});
+    for(let i=0;i<100;i+=1)other.budget.countListenerRead();
+    other.budget.noteSeasonDone(`pair_${'c'.repeat(64)}|1`,true,{role:'playerTwo',season:1});
+    assert.deepEqual(JSON.parse(other.storage.get(DAY_KEY)).bill.costs,[]);
+  });
+
+  await check('M9 a reload after the meter write and before the partner read resumes the bounded partner read without writing again',async()=>{
+    const world=createPair();
+    const daniel=phone(world,{uid:'daniel',role:'playerOne',game:900,markGame:600});
+    const nik=phone(world,{uid:'nik',role:'playerTwo',game:700,markGame:450});
+    daniel.acknowledge(2,{role:'playerOne'});
+    await world.advance(1000);
+    assert.equal(daniel.ops.sets.length,1);assert.equal(reads(daniel),0,'written, partner read still pending');
+    assert.equal(daniel.budget.meterDocuments().own.season,2,'the own document is saved with the day');
+    // Reload: the page and its timers are gone; the saved day (own document, season key) stays.
+    world.timers.length=0;
+    const again=pageWithStorage(world,{uid:'daniel',storage:daniel.storage});
+    assert.equal(again.budget.meterDocuments().own.season,2);
+    nik.acknowledge(2,{role:'playerTwo'});
+    // The Season Commit screen may report the same ACKNOWLEDGED season again: no second write, no second sequence.
+    assert.equal(again.acknowledge(2,{role:'playerOne'}),false,'the saved season key: no new snapshot');
+    await world.advance(9000);
+    assert.equal(again.ops.sets.length,0,'no rewrite of the own document');
+    assert.equal(reads(again),1,'the resumed partner read');
+    assert.equal(again.budget.readsToday().estimated,false,'both documents: shared again (was estimated for the rest of the season)');
+    assert.equal(again.budget.readsToday().billedEstimate,nik.budget.readsToday().billedEstimate);
+    assert.deepEqual(plain(again.budget.seasonsLeftToday()),plain(nik.budget.seasonsLeftToday()));
+    await world.advance(20*60000);
+    again.acknowledge(2,{role:'playerOne'});await world.advance(20*60000);
+    assert.equal(reads(again),1,'matched: no further reads that season');
+    // Partner never arrives after a reload: still bounded (two reads for a missing document), and only once per page.
+    const world2=createPair();
+    const lone=phone(world2,{uid:'daniel',role:'playerOne',game:900,markGame:600});
+    lone.acknowledge(2,{role:'playerOne'});await world2.advance(1000);
+    world2.timers.length=0;
+    const lone2=pageWithStorage(world2,{uid:'daniel',storage:lone.storage});
+    for(let i=0;i<3;i+=1){lone2.acknowledge(2,{role:'playerOne'});await world2.advance(20*60000);}
+    assert.equal(reads(lone2),2,'a missing partner document after a reload: two reads, then none');
+    assert.equal(lone2.ops.sets.length,0);
+    // A page that already ran its sequence does not run another when the screen reports the season again.
+    const world3=createPair();
+    const d3=phone(world3,{uid:'daniel',role:'playerOne',game:900,markGame:600});
+    d3.acknowledge(2,{role:'playerOne'});await world3.advance(20*60000);
+    assert.equal(reads(d3),2);
+    d3.acknowledge(2,{role:'playerOne'});await world3.advance(20*60000);
+    assert.equal(reads(d3),2,'no second sequence on the same page');
   });
 
   console.log(`PASS r87 shared reads meter contracts: ${checks} checks`);

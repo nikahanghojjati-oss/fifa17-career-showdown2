@@ -755,14 +755,15 @@ async function revokePairing(options={}){
   // A season that runs past the Google day keeps its billed reads from before the reset (the new mark starts below 0 by them).
   // r87 (B2): role is this phone's manager role (kept across days: Daniel is always playerOne); setupCosts are the billed game reads
   // before a Showdown's first season starts (RE-05); startKey is the season whose start mark was taken; own and partner are the
-  // two shared meter documents of today (fsbShare*).
-  function fsbBillNextDay(bill){return {game:0,career:0,markGame:-Math.max(0,bill.game-bill.markGame),costs:[],lastCost:fsbBillCost(bill)||bill.lastCost||0,role:fsbShareRole(bill.role),setupCosts:[],startKey:null,own:null,partner:null};}
+  // two shared meter documents of today (fsbShare*). The start mark of a season still being played crosses midnight with its reads
+  // (markGame), so a season started before the Pacific reset and finished after it keeps its whole measured cost (PR #1097 review).
+  function fsbBillNextDay(bill){return {game:0,career:0,markGame:-Math.max(0,bill.game-bill.markGame),costs:[],lastCost:fsbBillCost(bill)||bill.lastCost||0,role:fsbShareRole(bill.role),setupCosts:[],startKey:typeof bill.startKey==="string"&&bill.startKey?bill.startKey:null,own:null,partner:null};}
   function fsbBillFrom(saved,today){
     const old=saved&&saved.bill&&typeof saved.bill==="object"?saved.bill:null,whole=value=>Number.isFinite(value)?Math.floor(value):0;
     const costs=old&&Array.isArray(old.costs)?old.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS):[];
     const lastCost=Math.max(0,whole(old&&old.lastCost)),role=fsbShareRole(old&&old.role);
     if(!saved)return {game:0,career:0,markGame:0,costs:[],lastCost:0,role:null,setupCosts:[],startKey:null,own:null,partner:null};
-    if(saved.day!==today)return fsbBillNextDay({game:Math.max(0,whole(old&&old.game)),markGame:whole(old&&old.markGame),costs,lastCost,role});
+    if(saved.day!==today)return fsbBillNextDay({game:Math.max(0,whole(old&&old.game)),markGame:whole(old&&old.markGame),costs,lastCost,role,startKey:old&&old.startKey});
     // A day first counted before r86 holds document reads only: they stay priced at the old 2.8 until that day ends.
     const game=old?Math.max(0,whole(old.game)):Math.round(Math.max(0,whole(saved.reads))*FSB_BILLED_PER_READ);
     const setupCosts=old&&Array.isArray(old.setupCosts)?old.setupCosts.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS):[];
@@ -840,7 +841,9 @@ async function revokePairing(options={}){
   function fsbNoteSeasonDone(key,live,info){
     if(typeof key!=="string"||!key)return false;
     const day=fsbDayState();
-    if(day.seasons.includes(key))return false;
+    // Already noted (a reload keeps the season key): no new snapshot, but a meter document written before the reload whose partner
+    // read never ran gets that bounded read now (fsbShareResume, once per page).
+    if(day.seasons.includes(key)){try{if(info&&typeof info==="object")fsbShareResume(info.firestore);}catch(_error){}return false;}
     const cost=day.reads-day.markReads;
     day.seasons.push(key);if(day.seasons.length>FSB_DAY_SEASONS)day.seasons.shift();
     // A commit first seen already ACKNOWLEDGED (a reload, an older season) only moves the mark: its cost is unknown.
@@ -884,7 +887,7 @@ async function revokePairing(options={}){
   // starts, locks and commits, so his phone reads about 55%.
   const FSB_ROLE_SHARE=Object.freeze({playerOne:0.55,playerTwo:0.45});
   const FSB_SHARE_READS_MS=Object.freeze([8000,45000,180000,600000]),FSB_SHARE_MISSING_READS=2;
-  let fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null;
+  let fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null,fsbShareStarted=null;
   function fsbShareRole(role){return role==="playerOne"||role==="playerTwo"?role:null;}
   function fsbRoleShare(role){return FSB_ROLE_SHARE[role]||0.5;}
   function fsbShareWhole(value,max){return Number.isInteger(value)&&value>=0&&value<=max;}
@@ -940,6 +943,21 @@ async function revokePairing(options={}){
     catch(error){if(fsbMeterFailureUnits(error))fsbBill(fsbWriteLookups([path]));const now=fsbDayState();if(fsbIsDeniedError(error)&&!(now.day===doc.day&&now.bill.own))fsbShareOffDay=doc.day;if(fsbIsQuotaError(error))fsbTrip();return false;}
     fsbBill(fsbWriteLookups([path]));
     const day=fsbDayState();if(day.day===doc.day){day.bill.own=doc;fsbDayUnsaved+=1;fsbSaveDay();}
+    fsbShareStarted=fsbShareKey(doc);
+    return true;
+  }
+  function fsbShareKey(doc){return `${doc.day}|${doc.rivalryId}|${doc.season}`;}
+  // PR #1097 review: a reload between this phone's meter write and the partner read loses the read's timer while the saved day keeps
+  // the own document and the season key (so noteSeasonDone returns early). This restarts the same bounded read sequence for the
+  // restored document, once per page, without writing it again; nothing when the partner's document already matches.
+  function fsbShareResume(db){
+    if(!db||fsbShareTimer!==null)return false;
+    const day=fsbDayState(),own=day.bill.own,partner=day.bill.partner;
+    if(!own||own.day!==day.day||fsbShareOffDay===day.day||fsbPaused())return false;
+    if(partner&&partner.rivalryId===own.rivalryId&&partner.season>=own.season)return false;
+    const key=fsbShareKey(own);
+    if(fsbShareStarted===key)return false;
+    fsbShareStarted=key;fsbShareLater(db,own,0);
     return true;
   }
   function fsbShareLater(db,own,attempt){
@@ -1604,6 +1622,7 @@ async function revokePairing(options={}){
     if(existing)return existing;
     const sdk=services.firestoreSdk;
     fsbRawSdk=sdk;
+    try{fsbShareResume(services.firestore);}catch(_error){}
     // A runtime that already hands out onSnapshot (none does today; the contract test does) is used as is; otherwise the
     // listener API is loaded from the same Firestore module URL the runtime uses, so it shares one SDK instance.
     if(!fsbSnapshotApi&&typeof sdk.onSnapshot==="function"&&typeof sdk.doc==="function")fsbSnapshotApi=Object.freeze({onSnapshot:sdk.onSnapshot,doc:sdk.doc});
