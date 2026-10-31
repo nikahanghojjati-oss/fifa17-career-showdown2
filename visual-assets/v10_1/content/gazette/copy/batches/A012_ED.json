@@ -1,0 +1,329 @@
+{
+  "batch": 12,
+  "situation": "final-season-decider",
+  "edition": "season",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b12-001",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE LAST SEASON SETTLES IT",
+      "subhead": "The next campaign is the last, and it alone will decide whether {leader} holds on or {trailer} turns the whole Showdown around.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-002",
+      "kicker": "FINAL COUNTDOWN",
+      "headline": "THE LAST CHAPTER LOADS",
+      "subhead": "Everything written so far now waits on a single closing season, with {leader} in front and {trailer} still very much in the story.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-003",
+      "kicker": "LATE EDITION",
+      "headline": "LAST ORDERS, EVERYONE",
+      "subhead": "One more season remains on the bar, and whoever wins it will walk out with the Showdown in hand.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-004",
+      "kicker": "RIVALRY WATCH",
+      "headline": "SUDDEN DEATH SEASON",
+      "subhead": "No more lessons and no more patience: the coming season is the final one and carries the entire contest on its shoulders.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-005",
+      "kicker": "TABLE TALK",
+      "headline": "THE FINAL PAGE TURNS",
+      "subhead": "The ledger has one empty line left, and {trailer} knows it could be the line that rewrites every total before it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-006",
+      "kicker": "SPORTS DESK",
+      "headline": "LAST LAP, LOUD ENGINES",
+      "subhead": "The long race has reached its final circuit, and {leader} must hold the inside line while {trailer} hunts for any gap.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-007",
+      "kicker": "OPENING PAGES",
+      "headline": "ALL ROADS LEAD HERE",
+      "subhead": "Every earlier season was a stepping stone to this one, the closing campaign that will name the Showdown's rightful owner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-008",
+      "kicker": "CROWN WATCH",
+      "headline": "THE FINAL CORONATION",
+      "subhead": "A single season stands between {leader} and the throne, and between {trailer} and a stunning change of monarch.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-009",
+      "kicker": "CABINET WATCH",
+      "headline": "ROOM FOR A LAST SHELF",
+      "subhead": "The closing season will decide whose cabinet carries the biggest prize of all, so both managers are polishing for it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-010",
+      "kicker": "NIGHT DESK",
+      "headline": "PRESS START, FINAL LEVEL",
+      "subhead": "The save file reaches its last stage, and {leader} and {trailer} both know there is no checkpoint after this one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-011",
+      "kicker": "FINAL COUNTDOWN",
+      "headline": "{trailer} SMELLS A FINISH",
+      "subhead": "The chaser is not out of this, because one season is long enough to turn the order of the Showdown upside down.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-012",
+      "kicker": "BACK PAGE",
+      "headline": "THE BELL HAS RUNG",
+      "subhead": "The last season has been announced, and this is the moment the whole rivalry has been quietly counting down toward.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-013",
+      "kicker": "HISTORY DESK",
+      "headline": "THE ARCHIVE HOLDS ITS BREATH",
+      "subhead": "Whatever happens next will be filed under the end of the Showdown, and both clubs are aware of the weight of that.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-014",
+      "kicker": "SEASON REVIEW",
+      "headline": "WHO BLINKS LAST?",
+      "subhead": "With one season to play, {leader} and {trailer} must hold their nerve longer than the other to claim the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-015",
+      "kicker": "CURTAIN CALL",
+      "headline": "FINAL ACT, NO REHEARSAL",
+      "subhead": "The closing season is the final act of the drama, and the ending is still unwritten for {winnerClub} and {loserClub} alike.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-016",
+      "kicker": "KITCHEN DESK",
+      "headline": "THE LAST COURSE ARRIVES",
+      "subhead": "After many seasons of preparation, one final dish is on the pass, and it will decide who leaves the table satisfied.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-017",
+      "kicker": "RIVALRY WATCH",
+      "headline": "FINAL WHISTLE LOOMS",
+      "subhead": "One season now separates this rivalry from its conclusion, and neither manager is ready to hand anything over.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-018",
+      "kicker": "SUMMIT NEWS",
+      "headline": "THE LAST CLIMB BEGINS",
+      "subhead": "Both managers can see the top of the mountain now, and the closing season is the only path left to reach it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-019",
+      "kicker": "TABLE TALK",
+      "headline": "THE BOTTOM LINE AWAITS",
+      "subhead": "Add up the story so far and it still is not the answer, because one more season will change the sums.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-020",
+      "kicker": "EVENING EDITION",
+      "headline": "ALL IN ON THE LAST",
+      "subhead": "There is no saving anything for next year in this Showdown, so both clubs are spending everything on the closing season.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-021",
+      "kicker": "SPORTS DESK",
+      "headline": "THE FINAL BOUT LOOMS",
+      "subhead": "The closing season is the final bout of a long rivalry, and the Showdown belongs to whoever is still standing at the end.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-022",
+      "kicker": "LEGEND WATCH",
+      "headline": "WRITING THE LAST LINE",
+      "subhead": "Statues are built from final chapters, and whichever manager owns this one will be remembered as the Showdown's champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-023",
+      "kicker": "SEASON REVIEW",
+      "headline": "EXTRA TIME FOR NOBODY",
+      "subhead": "The closing season has no overtime and no replay, only one run of campaign that must give the Showdown a winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-024",
+      "kicker": "FINAL COUNTDOWN",
+      "headline": "SHOWDOWN IN THE BALANCE",
+      "subhead": "{leader} carries the advantage into the last season, but a single strong campaign from {trailer} could still tip it all away.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-025",
+      "kicker": "CROWN WATCH",
+      "headline": "THE THRONE ROOM IS OPEN",
+      "subhead": "Palace doors swing wide for the final season, and the Showdown's crown is waiting for the manager brave enough to take it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-026",
+      "kicker": "NIGHT DESK",
+      "headline": "THE LAST SHOT CLOCK",
+      "subhead": "Somewhere past midnight the closing season begins, and it will decide who gets to leave the sofa as the Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-027",
+      "kicker": "BACK PAGE",
+      "headline": "HOLD YOUR NERVE, {leader}",
+      "subhead": "The advantage is real, yet the closing season is exactly where a lead is tested hardest by a determined rival.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-028",
+      "kicker": "HONOURS DESK",
+      "headline": "THE FINAL POLISH",
+      "subhead": "Medals, shelves and pride are all on the line, and the closing season will determine who gets to display the Showdown itself.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-029",
+      "kicker": "LATE EDITION",
+      "headline": "A SEASON TO REMEMBER",
+      "subhead": "Whichever way it falls, the final campaign will be the one both managers talk about long after the controllers are put away.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-030",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "PENALTY SPOT OF SEASONS",
+      "subhead": "The closing campaign is the contest's own penalty kick, with every eye fixed on it and no room left for error.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-031",
+      "kicker": "HISTORY DESK",
+      "headline": "DESTINY COMES KNOCKING",
+      "subhead": "The long rivalry between {winnerClub} and {loserClub} reaches its closing season, and fate seems to have scheduled a thrilling ending.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-032",
+      "kicker": "THE GAZETTE",
+      "headline": "THE SPRINT FOR THE LINE",
+      "subhead": "After the long haul, the final stretch is here, and one season is all that remains to separate the two managers.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-033",
+      "kicker": "FRONT PAGE",
+      "headline": "PLEDGES AND POLISH",
+      "subhead": "Both dugouts are promising everything, because the next season is the last chance to make a Showdown win official.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-034",
+      "kicker": "SPORTS DESK",
+      "headline": "DEADLINE DAY FOR GLORY",
+      "subhead": "The transfer window is not the only thing closing, as the contest itself heads into its last and most decisive campaign.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-035",
+      "kicker": "RIVALRY WATCH",
+      "headline": "THE SCORECARD IS STILL OPEN",
+      "subhead": "Nothing is signed and nothing is sealed, because the closing season can still reshape the entire shape of the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-036",
+      "kicker": "OPENING PAGES",
+      "headline": "SEQUEL NIGHT, FINAL CUT",
+      "subhead": "The rivalry gets its last instalment, and the credits will not roll until the closing season has named a winner.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-037",
+      "kicker": "CABINET WATCH",
+      "headline": "A LOCK STILL UNTURNED",
+      "subhead": "The glass door has a single lock remaining, and the closing season will show which manager finally holds the key.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-038",
+      "kicker": "TABLE TALK",
+      "headline": "CHASE FOR THE LAST WORD",
+      "subhead": "Whoever finishes this closing season ahead gets the final say in a rivalry that has argued for years.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b12-039",
+      "kicker": "EVENING EDITION",
+      "headline": "THE FINAL STRETCH IS NIGH",
+      "subhead": "Legs are heavy and nerves are tight, but the last season is here and there is only one way to run it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b12-040",
+      "kicker": "ORCHESTRA DESK",
+      "headline": "THE CLOSING MOVEMENT",
+      "subhead": "The rivalry builds toward its final movement, and the last notes of the closing season will decide who takes the bow.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

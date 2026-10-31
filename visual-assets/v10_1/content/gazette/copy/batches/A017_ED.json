@@ -1,0 +1,329 @@
+{
+  "batch": 17,
+  "situation": "showdown-drawn",
+  "edition": "final",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b17-001",
+      "kicker": "FINAL EDITION",
+      "headline": "EVERYONE WINS, NOBODY LOSES",
+      "subhead": "{managerA} and {managerB} finish the Showdown on exactly the same points, and the Gazette declares it a share of the glory.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-002",
+      "kicker": "HISTORY DESK",
+      "headline": "HISTORY'S PERFECT PAIR",
+      "subhead": "The books will say that {clubA} and {clubB} matched each other in full, leaving a rarity that no one else can claim.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-003",
+      "kicker": "TABLE TALK",
+      "headline": "THE LEDGER BALANCES",
+      "subhead": "After every season has been counted, the books close level at {points} each, and no rival has anything to complain about.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-004",
+      "kicker": "RIVALRY WATCH",
+      "headline": "A DEAD HEAT FOR THE AGES",
+      "subhead": "Neither manager could pull away across {seasonsTotal} seasons, and the final tally proves the rivalry was beautifully evenly matched.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-005",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "A STANDING OVATION FOR BOTH",
+      "subhead": "The curtain falls on a Showdown with two leading roles and no supporting cast, and the applause is shared equally.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-006",
+      "kicker": "CROWN WATCH",
+      "headline": "BOTH CROWNS SIT WELL",
+      "subhead": "{managerA} and {managerB} both wear it well, because the Showdown refuses to make either of them a subject.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-007",
+      "kicker": "ROAD NOTES",
+      "headline": "SIDE BY SIDE AT THE LINE",
+      "subhead": "They ran every stride together, and the tape was broken by both managers in the same moment.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-008",
+      "kicker": "SPORTS DESK",
+      "headline": "NOBODY BLINKED",
+      "subhead": "The staring contest lasted the entire Showdown, and when it ended {clubA} and {clubB} were still locked eye to eye.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-009",
+      "kicker": "LEGEND WATCH",
+      "headline": "A MYTH FOR BOTH",
+      "subhead": "Folklore will not name one hero here, because {managerA} and {managerB} shared the stage in equal measure.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-010",
+      "kicker": "TROPHY ROOM",
+      "headline": "A CABINET WITH SPARE KEYS",
+      "subhead": "Neither manager can lock the other out, since the Showdown ends in a share that leaves both with something to polish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-011",
+      "kicker": "NIGHT DESK",
+      "headline": "SAME SCORE, BOTH SCREENS",
+      "subhead": "The save file reads the same on either side of the screen, and the Showdown ends in a perfect stalemate.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-012",
+      "kicker": "KITCHEN DESK",
+      "headline": "SPLIT THE BILL",
+      "subhead": "The meal was long and the dishes rich, and in the end {managerA} and {managerB} agree that the cost is shared.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-013",
+      "kicker": "HONOURS DESK",
+      "headline": "THE BALANCE OF POWER",
+      "subhead": "It stays exactly where it started, evenly poised, since {clubA} and {clubB} finish the Showdown with the same total.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-014",
+      "kicker": "BACK PAGE",
+      "headline": "THE GREAT STANDOFF",
+      "subhead": "Two managers stared across the whole contest and neither gave an inch, leaving a draw that the Gazette salutes.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-015",
+      "kicker": "EVENING EDITION",
+      "headline": "SHARING THE SPOTLIGHT",
+      "subhead": "There is room for two in the last frame of the Showdown, and {managerA} and {managerB} both fill it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-016",
+      "kicker": "OPENING PAGES",
+      "headline": "A TIE WORTH FRAMING",
+      "subhead": "The rarest outcome in the Showdown has just arrived, and the Gazette suggests both managers hang it on the wall.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-017",
+      "kicker": "SEASON REVIEW",
+      "headline": "NO VERDICT NEEDED",
+      "subhead": "The rivalry produced exactly the same figures on either side, so the court of the Gazette has nothing left to decide.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-018",
+      "kicker": "RIVALRY WATCH",
+      "headline": "ALL SQUARE AT THE END",
+      "subhead": "After {seasonsTotal} seasons of struggle, the scoreboard is level and the rivalry stays as alive as it was on day one.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-019",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "DRAWN TOGETHER, FOREVER",
+      "subhead": "The managers will be linked in the archive as co-owners of a Showdown that no season could split.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-020",
+      "kicker": "CABINET WATCH",
+      "headline": "SHARED SHELF, SHARED SHINE",
+      "subhead": "The display case has been rearranged to give {clubA} and {clubB} equal billing on the same shelf.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-021",
+      "kicker": "TABLE TALK",
+      "headline": "THE SUMS ALL AGREE",
+      "subhead": "Checked once and checked again, the totals still match, and the Showdown is a draw with nothing out of place.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-022",
+      "kicker": "LATE EDITION",
+      "headline": "THE UNBREAKABLE TIE",
+      "subhead": "The deadlock held through the whole Showdown, and not even the last season could force it open.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-023",
+      "kicker": "HISTORY DESK",
+      "headline": "THE RARE MIRROR",
+      "subhead": "It is not often a Showdown reflects itself so perfectly, and {managerA} and {managerB} are each other's equal.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-024",
+      "kicker": "ROAD NOTES",
+      "headline": "THE CROSSROADS OF CHAMPIONS",
+      "subhead": "Two paths meet here and neither turns away, since both managers end the Showdown in exactly the same place.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-025",
+      "kicker": "CROWN WATCH",
+      "headline": "THE EMPTY THRONE IS SHARED",
+      "subhead": "No one sits alone in the seat of honour, as {clubA} and {clubB} agree to split the chair.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-026",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE PERFECT CLIFFHANGER",
+      "subhead": "Fans were promised a winner and got a draw instead, which feels like the setup for a rematch someday.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-027",
+      "kicker": "SPORTS DESK",
+      "headline": "HONOURS EVEN",
+      "subhead": "Nobody takes the Showdown, nobody loses it, and both clubs go home with their heads held high.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-028",
+      "kicker": "NIGHT DESK",
+      "headline": "SYNCHRONISED FINISH",
+      "subhead": "The two consoles ended in perfect harmony, and the Showdown closes on a draw as tidy as any ever printed.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-029",
+      "kicker": "BACK PAGE",
+      "headline": "SPLIT DOWN THE MIDDLE",
+      "subhead": "Nothing separates {managerA} from {managerB} at the finish, and the Gazette has nothing but admiration for both.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-030",
+      "kicker": "KITCHEN DESK",
+      "headline": "HALF EACH, AND PLENTY",
+      "subhead": "The pie was cut in two, and each manager leaves the Showdown with a perfectly equal slice.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-031",
+      "kicker": "EVENING EDITION",
+      "headline": "THE LONGEST HANDSHAKE",
+      "subhead": "The rivalry ends the way a respectful one should, with two managers on identical totals offering a hand across the table.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-032",
+      "kicker": "LEGEND WATCH",
+      "headline": "BOTH NAMES, SAME LINE",
+      "subhead": "The archive will record both names on a single line, because {clubA} and {clubB} are indivisible.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-033",
+      "kicker": "HONOURS DESK",
+      "headline": "THE TRUCE OF THE SEASONS",
+      "subhead": "After so many seasons of competition, the Showdown declares peace, with both managers on the same winning total.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-034",
+      "kicker": "OPENING PAGES",
+      "headline": "THE FINAL PAGE READS EQUAL",
+      "subhead": "Every page of the story pointed toward a winner, yet the ending delivers a gentle surprise instead.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-035",
+      "kicker": "SEASON REVIEW",
+      "headline": "DEAD LEVEL, FULLY ALIVE",
+      "subhead": "The Showdown is over, but the energy between {managerA} and {managerB} is far from finished.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-036",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "NEITHER FLINCHED",
+      "subhead": "Pressure came from every angle across {seasonsTotal} seasons, and still the managers matched each other point for point.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-037",
+      "kicker": "TROPHY ROOM",
+      "headline": "SILVER FOR BOTH HANDS",
+      "subhead": "Two sets of hands will polish the memory of this draw, and it will gleam all the brighter for being shared.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-038",
+      "kicker": "TABLE TALK",
+      "headline": "PERFECT SYMMETRY",
+      "subhead": "If a ledger could smile, it would be doing so now, as two columns finish with identical totals.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b17-039",
+      "kicker": "ROAD NOTES",
+      "headline": "A SPLIT FINISH LINE",
+      "subhead": "Judges looked at the photo and shook their heads, since {managerA} and {managerB} crossed together.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b17-040",
+      "kicker": "FINAL EDITION",
+      "headline": "A DRAW TO BE PROUD OF",
+      "subhead": "It may not have a trophy, but it has something better: a rivalry so even that the Showdown could not choose.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

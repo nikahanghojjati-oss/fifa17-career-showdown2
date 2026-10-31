@@ -1,0 +1,329 @@
+{
+  "batch": 18,
+  "situation": "won-on-the-final-day",
+  "edition": "final",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b18-001",
+      "kicker": "FINAL EDITION",
+      "headline": "DECIDED AT THE DEATH",
+      "subhead": "Nothing was settled until the very last season, and {winner} was the one to take the Showdown when it finally was.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-002",
+      "kicker": "LATE EDITION",
+      "headline": "THE LAST PAGE DECIDES",
+      "subhead": "{winnerClub} held out until the closing season, and only then did the Showdown find its rightful champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-003",
+      "kicker": "RIVALRY WATCH",
+      "headline": "THE DRAW WAS STILL ALIVE",
+      "subhead": "It could have gone either way until the final campaign, and {winner} grabbed the Showdown by {margin} in the end.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-004",
+      "kicker": "SPORTS DESK",
+      "headline": "PHOTO FINISH FOR THE AGES",
+      "subhead": "The judges had to look twice, because {winner} edged {loser} at the line in the closing season of the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-005",
+      "kicker": "TABLE TALK",
+      "headline": "THE LAST LINE IN THE LEDGER",
+      "subhead": "Every earlier total was a draft, and the closing season wrote {winnerPoints} to {loserPoints} as the final answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-006",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE TWIST IN THE LAST REEL",
+      "subhead": "Viewers were kept guessing until the closing scenes, when {winnerClub} turned the final season into a Showdown win.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-007",
+      "kicker": "NIGHT DESK",
+      "headline": "FINAL BOSS, FINAL SEASON",
+      "subhead": "The last level was the hardest on the save file, and {winner} cleared it to win the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-008",
+      "kicker": "CROWN WATCH",
+      "headline": "THE CROWN CHANGED HANDS LATE",
+      "subhead": "Both managers wore it in turn, but it was {winner} who held it as the final season ended.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-009",
+      "kicker": "ROAD NOTES",
+      "headline": "FIRST OVER THE LAST HILL",
+      "subhead": "The race was still wide open at the final climb, and {winner} was the first to crest it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-010",
+      "kicker": "HONOURS DESK",
+      "headline": "NERVES OF STEEL",
+      "subhead": "The Showdown demanded a cool head right to the last, and {winnerClub} kept one when it mattered.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-011",
+      "kicker": "BACK PAGE",
+      "headline": "WIRE TO WIRE, ALMOST",
+      "subhead": "Only in the closing season did the race resolve, with {winner} breaking away just in time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-012",
+      "kicker": "LEGEND WATCH",
+      "headline": "THE STUFF OF LEGENDS",
+      "subhead": "Stories like this one are repeated for years, and {winner} will be at the centre of every telling.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-013",
+      "kicker": "HISTORY DESK",
+      "headline": "WENT THE FULL DISTANCE",
+      "subhead": "No one could call it before the closing campaign, and the books now record {winner} as the winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-014",
+      "kicker": "KITCHEN DESK",
+      "headline": "SERVED AT THE LAST MINUTE",
+      "subhead": "The dish was still in the oven when the final season began, and {winner} plated the Showdown just in time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-015",
+      "kicker": "TROPHY ROOM",
+      "headline": "THE TROPHY WAITED",
+      "subhead": "The trophy sat unclaimed until the last season ended, and {winnerClub} finally reached out to take it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-016",
+      "kicker": "OPENING PAGES",
+      "headline": "NO FOREGONE CONCLUSION",
+      "subhead": "The closing season was needed to settle things, and {winner} used it well to take the Showdown from {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-017",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE FINALE TAKES THE CROWN",
+      "subhead": "After a long and tight contest, the final campaign gave {winnerClub} the lead and the Showdown with it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-018",
+      "kicker": "SPORTS DESK",
+      "headline": "EDGE OF THE SEAT STUFF",
+      "subhead": "Spectators were kept perched until the very end, when {winner} confirmed the Showdown title with the last season.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-019",
+      "kicker": "EVENING EDITION",
+      "headline": "THE COIN FINALLY LANDED",
+      "subhead": "It spun through the whole Showdown, and only the closing season determined which side it fell on: {winner}'s.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-020",
+      "kicker": "RIVALRY WATCH",
+      "headline": "A BREATH AWAY FOR {loser}",
+      "subhead": "The challenger was never out of it until the very last, though {winner} finished the job in time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-021",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "HELD ON FOR THE FINISH",
+      "subhead": "{winner} refused to let go of the Showdown through the closing season, and the grip was enough.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-022",
+      "kicker": "CABINET WATCH",
+      "headline": "THE LAST KEY TURNS",
+      "subhead": "The final lock opened only in the closing season, and {winnerClub} now holds the Showdown trophy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-023",
+      "kicker": "ROAD NOTES",
+      "headline": "THE FINAL BEND DECIDES",
+      "subhead": "The track stayed tight through the final corner, and {winner} came out of it with the lead and the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-024",
+      "kicker": "TABLE TALK",
+      "headline": "THE SUMS SAT ON A KNIFE EDGE",
+      "subhead": "Not until the closing season did the totals tip, with {winner} finishing {winnerPoints} to {loserPoints} overall.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-025",
+      "kicker": "NIGHT DESK",
+      "headline": "THE LAST SAVE POINT",
+      "subhead": "A single closing season was left on the console, and {winner} made it count for the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-026",
+      "kicker": "BACK PAGE",
+      "headline": "WHEN IT MATTERED MOST",
+      "subhead": "The Showdown needed a hero in its final season, and {winnerClub} supplied one in the form of {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-027",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE ENCORE THAT DECIDED IT",
+      "subhead": "The last performance of the Showdown was the one that counted, and {winner} stole the show.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-028",
+      "kicker": "HONOURS DESK",
+      "headline": "THE LONGEST SUSPENSE",
+      "subhead": "The title was kept in doubt until the final season, and {winner} finally ended the wait.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-029",
+      "kicker": "LATE EDITION",
+      "headline": "IT WENT TO THE WIRE",
+      "subhead": "The Showdown ran down to its last stretch, and {winner} crossed first by the finest of margins.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-030",
+      "kicker": "LEGEND WATCH",
+      "headline": "A COMEBACK OF NERVE",
+      "subhead": "Doubt lingered until the last season, but {winnerClub} turned every worry into the Showdown title.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-031",
+      "kicker": "SEASON REVIEW",
+      "headline": "A FINISH WORTH THE WAIT",
+      "subhead": "It took the whole Showdown and one final campaign, and the reward for {winner} is a title with real weight.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-032",
+      "kicker": "KITCHEN DESK",
+      "headline": "PROOF IN THE PUDDING",
+      "subhead": "The recipe was tested until the very end, and the last season confirmed that {winner} had the better formula.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-033",
+      "kicker": "OPENING PAGES",
+      "headline": "THE BIG REVEAL, AT LAST",
+      "subhead": "The envelope stayed sealed until the closing season ended, and inside it was the name of {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-034",
+      "kicker": "CROWN WATCH",
+      "headline": "RIVAL CLAIMS, A WINNER",
+      "subhead": "Both managers had a claim until the last season, and {winnerClub} made its case the stronger.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-035",
+      "kicker": "SPORTS DESK",
+      "headline": "THE FINAL WHISTLE DECIDES",
+      "subhead": "Everything hung on the closing campaign, and the whistle that ended it confirmed {winner} as Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-036",
+      "kicker": "HISTORY DESK",
+      "headline": "THE LATE SURGE",
+      "subhead": "{winner} saved the best for last, and the closing season proved the decisive chapter of the whole Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-037",
+      "kicker": "RIVALRY WATCH",
+      "headline": "THE CHASE ENDS AT THE LINE",
+      "subhead": "{loserClub} chased all the way, yet the line itself belonged to {winnerClub} and the Showdown with it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-038",
+      "kicker": "EVENING EDITION",
+      "headline": "CLOSE, CLOSER, CROWNED",
+      "subhead": "Margins narrowed all the way to the closing season, when {winner} was finally crowned champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b18-039",
+      "kicker": "TROPHY ROOM",
+      "headline": "THE LAST LAP TROPHY",
+      "subhead": "It was lifted only after the final season had run its course, and {winner} was the one holding it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b18-040",
+      "kicker": "BACK PAGE",
+      "headline": "SETTLED AT LAST",
+      "subhead": "At last the question has an answer, and the answer is {winner}, champion of a Showdown that refused to end early.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

@@ -1,0 +1,329 @@
+{
+  "batch": 19,
+  "situation": "dominant-win",
+  "edition": "final",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b19-001",
+      "kicker": "FINAL EDITION",
+      "headline": "A RUNAWAY SHOWDOWN",
+      "subhead": "{winner} finished far ahead of {loser} over the whole contest, and the Showdown was never really in doubt near the end.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-002",
+      "kicker": "HONOURS DESK",
+      "headline": "A MASTERCLASS",
+      "subhead": "From the first season to the last, {winnerClub} delivered a campaign that the rivals could only watch with admiration.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-003",
+      "kicker": "TABLE TALK",
+      "headline": "THE BIGGEST GAP IN THE BOOK",
+      "subhead": "{winnerPoints} against {loserPoints} says it all, and the space between them is a margin of {margin} for {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-004",
+      "kicker": "CROWN WATCH",
+      "headline": "ABSOLUTE MONARCHY",
+      "subhead": "There was no council and no rival court, only {winner} ruling the Showdown from start to finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-005",
+      "kicker": "SPORTS DESK",
+      "headline": "LAPS AND LAPS AHEAD",
+      "subhead": "By the end {winnerClub} was so far out in front that {loserClub} could barely see the taillights.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-006",
+      "kicker": "LEGEND WATCH",
+      "headline": "AN ERA OF {winner}",
+      "subhead": "Historians will have little trouble naming the dominant force of this Showdown, and the name is {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-007",
+      "kicker": "TROPHY ROOM",
+      "headline": "THE SHELVES RUN OUT",
+      "subhead": "{winner} won so convincingly that the cabinet needs a bigger case to hold the Showdown trophy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-008",
+      "kicker": "RIVALRY WATCH",
+      "headline": "HOMEWORK FOR {loser}",
+      "subhead": "The runner-up has plenty to study after watching {winnerClub} run away with the Showdown by {margin}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-009",
+      "kicker": "NIGHT DESK",
+      "headline": "CHEAT CODE ENERGY",
+      "subhead": "The Showdown looked rather like a game on easy mode for {winner}, though every point was fairly earned.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-010",
+      "kicker": "ROAD NOTES",
+      "headline": "OUT OF SIGHT BY THE END",
+      "subhead": "The leader built the distance patiently and was long gone when the Showdown reached its finish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-011",
+      "kicker": "KITCHEN DESK",
+      "headline": "A FEAST FOR {winner}",
+      "subhead": "{winner} laid out a feast of results and took most of it, leaving the Showdown title for the host.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-012",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE LEADING ROLE, ALL ALONG",
+      "subhead": "Nobody upstaged {winnerClub} for a moment, and the Showdown closes with the star clearly the biggest name on the bill.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-013",
+      "kicker": "HISTORY DESK",
+      "headline": "THE LANDSLIDE",
+      "subhead": "The vote of the seasons was overwhelming, and {winner} takes the Showdown with a mandate that no one can question.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-014",
+      "kicker": "BACK PAGE",
+      "headline": "IN A LEAGUE OF THEIR OWN",
+      "subhead": "The whole Showdown was a test of strength, and {winner} was visibly the strongest manager in the room.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-015",
+      "kicker": "LATE EDITION",
+      "headline": "SHOWDOWN, SECURED EARLY",
+      "subhead": "Long before the last page, the writing was on the wall that {winnerClub} was heading for a convincing Showdown win.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-016",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "COMMANDING FROM THE START",
+      "subhead": "{winner} kept a tight grip on the Showdown, and {loser} never quite found a way to loosen it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-017",
+      "kicker": "TABLE TALK",
+      "headline": "SUMS THAT DON'T NEED CHECKING",
+      "subhead": "Nobody asked for a recount, because the finishing totals leave {winner} comfortably and clearly at the top.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-018",
+      "kicker": "HONOURS DESK",
+      "headline": "A GRAND SLAM OF CONFIDENCE",
+      "subhead": "{winnerClub} brought belief to every season and left with the Showdown title and a very healthy gap behind.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-019",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE GAP KEPT GROWING",
+      "subhead": "Each season added to the lead, and by the end {winner} was untouchable at the head of the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-020",
+      "kicker": "SPORTS DESK",
+      "headline": "PACE SETTER SUPREME",
+      "subhead": "{winner} set the tempo of the whole contest and finished with a gap that the field could only admire.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-021",
+      "kicker": "CABINET WATCH",
+      "headline": "SILVERWARE IN BULK",
+      "subhead": "The polish will be needed for weeks, because {winner} won the Showdown by enough to fill several shelves.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-022",
+      "kicker": "OPENING PAGES",
+      "headline": "A LOPSIDED SAGA",
+      "subhead": "The story had a clear protagonist from the beginning, and {winnerClub} lived up to the part until the credits.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-023",
+      "kicker": "EVENING EDITION",
+      "headline": "TOWERING OVER THE TABLE",
+      "subhead": "Looking up from the standings, {loserClub} can see only {winnerClub}, whose total rises high above the rest.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-024",
+      "kicker": "RIVALRY WATCH",
+      "headline": "ROUND AFTER ROUND AFTER ROUND",
+      "subhead": "{winner} kept winning the argument as the seasons passed, and the Showdown ended with only one side talking.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-025",
+      "kicker": "ROAD NOTES",
+      "headline": "SUMMIT, ALONE",
+      "subhead": "{winner} reached the top with air to spare and looked down on a long, empty trail behind.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-026",
+      "kicker": "NIGHT DESK",
+      "headline": "MAX DIFFICULTY, NO PROBLEM",
+      "subhead": "The Showdown challenged every manager, and {winnerClub} treated it like a warm up on the way to a clear title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-027",
+      "kicker": "LEGEND WATCH",
+      "headline": "THE STANDARD IS SET",
+      "subhead": "{winner} has raised the bar on what a dominant Showdown looks like, and others will chase this record for years.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-028",
+      "kicker": "KITCHEN DESK",
+      "headline": "A MASTER OF THE KITCHEN",
+      "subhead": "{winnerClub} ran the whole service with calm precision, and the Showdown title is the proof.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-029",
+      "kicker": "CROWN WATCH",
+      "headline": "THE LONG, UNCHALLENGED REIGN",
+      "subhead": "With such an enormous lead, {winner} wore the Showdown crown comfortably, and {loser} could only hope for a lucky break.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-030",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "A STANDING OVATION FROM START",
+      "subhead": "The crowd was on its feet for {winner} early on, and never really sat down again during the Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-031",
+      "kicker": "HISTORY DESK",
+      "headline": "THE BOOKS WILL BE KIND",
+      "subhead": "The record will describe the Showdown as one of clear superiority, led by {winner} in every sense.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-032",
+      "kicker": "BACK PAGE",
+      "headline": "FAR, FAR AHEAD",
+      "subhead": "{winnerPoints} points to {loserPoints} is a gap you can see from space, and it all belongs to {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-033",
+      "kicker": "SPORTS DESK",
+      "headline": "NO CONTEST, ALMOST",
+      "subhead": "There was a fight early on, but in time {winner} made the Showdown look less like a duel and more like a procession.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-034",
+      "kicker": "TROPHY ROOM",
+      "headline": "ROOM FOR A STATUE TOO",
+      "subhead": "The cabinet is full and the foyer is next, since {winnerClub} has earned a monument along with the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-035",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "THE FORM BOOK WAS RIGHT",
+      "subhead": "Those who backed {winner} from the beginning will feel justified, as the Showdown ends with a wide margin.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-036",
+      "kicker": "EVENING EDITION",
+      "headline": "A CLEAN SWEEP OF GLORY",
+      "subhead": "The Showdown finished with {winner} so far ahead that the lead feels like a landslide on paper.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-037",
+      "kicker": "HONOURS DESK",
+      "headline": "SUPREMACY CONFIRMED",
+      "subhead": "The final totals leave no room for debate, and {winnerClub} is the clear and deserving Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-038",
+      "kicker": "LATE EDITION",
+      "headline": "THE ONLY NAME ON THE LIST",
+      "subhead": "When the page is read to the end, only {winner} stands out as Showdown winner.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b19-039",
+      "kicker": "SEASON REVIEW",
+      "headline": "UNSTOPPABLE FORCE",
+      "subhead": "{winner} rolled through the Showdown as an irresistible force, and by the end {loserClub} could only admire the sheer distance between them.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b19-040",
+      "kicker": "ROAD NOTES",
+      "headline": "THE WIDE BLUE GAP",
+      "subhead": "Out on the water, {winnerClub} sailed on while {loserClub} lagged far behind, and the Showdown ended with an ocean between them.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

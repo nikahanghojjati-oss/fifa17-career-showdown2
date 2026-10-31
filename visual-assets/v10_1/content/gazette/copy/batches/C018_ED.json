@@ -1,0 +1,137 @@
+{
+  "batch": 18,
+  "situation": "won-on-the-final-day",
+  "edition": "final",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb18-01",
+      "byline": "From our chief football desk",
+      "standfirst": "It came down to the very last season, and in the end {winner} found the answer that {loser} could not quite take away.",
+      "paragraphs": [
+        "Some Showdowns are decided early and some are decided late. This one waited for its final season, and only then did {winner} move clear to finish with {winnerPoints}, leaving {loser} on {loserPoints} when the book closed.",
+        "That final season carried the weight of all the others. {winnerClub} and {loserClub} had been inseparable for long stretches, and the margin of {margin} was only fixed at the very last moment.",
+        "Nobody will remember the quiet years as clearly as this one. The final page is always the longest."
+      ],
+      "pullquote": {
+        "text": "The last season arrived with everything still undecided, and it did not disappoint.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb18-02",
+      "byline": "At the final standings desk",
+      "standfirst": "Every point mattered until the last, and the last of them belonged to {winner}, who edged home by {margin}.",
+      "paragraphs": [
+        "The ledger stayed open to the end. Across {seasonsTotal} seasons the lead had never felt safe for either manager, and only the final season could say who would take the Showdown. It said {winner}, with {winnerPoints} against {loserPoints}.",
+        "A margin of {margin} sounds small written down. In a race this long it is the gap between a trophy and a long walk home, and {winnerClub} has crossed it.",
+        "Close the books and read the total once more. It will not change, however many times you look."
+      ],
+      "pullquote": {
+        "text": "A small margin on paper can be a very large one in the heart.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb18-03",
+      "byline": "Our correspondent on the rivalry",
+      "standfirst": "Never has a rivalry made so much of its final chapter, as {winner} held on when {loser} pushed hardest.",
+      "paragraphs": [
+        "There was no champion until there was nothing left to play. {loser} pressed {winner} through the closing season, and the rivalry ran to its limit before {winner} finished ahead on the overall count.",
+        "That is the character of this contest. {winnerClub} and {loserClub} kept each other honest from the first season to the last, and the margin of {margin} is what honesty looks like in print.",
+        "The next rivalry will have to work hard to match this one."
+      ],
+      "pullquote": {
+        "text": "A race this tight has no winner until the very end, and no loser worth pitying.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb18-04",
+      "byline": "The late-edition desk",
+      "standfirst": "Hold the front page, because the Showdown was not settled until the final season, and then it was settled by {winner}.",
+      "paragraphs": [
+        "Up to the very last moment the Gazette kept two headlines ready. When the final season ended, {winner} had {winnerPoints}, {loser} had {loserPoints} and only one of the prepared pages went to print.",
+        "Close finishes are the stuff of memory. {winnerClub} will remember the nerve it took, and {loserClub} will remember how near the distance was, with only {margin} between them at the death.",
+        "Late editions are rarely so well rewarded. Tonight the wait was worth every minute."
+      ],
+      "pullquote": {
+        "text": "We kept two headlines ready and only one of them was needed.",
+        "who": "Overheard in the dugout"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb18-05",
+      "byline": "From the Gazette archive room",
+      "standfirst": "The archive will mark this Showdown as one that lived until the last page, and then quietly gave itself to {winner}.",
+      "paragraphs": [
+        "Some contests are won in the middle and merely confirmed at the end. This was not one of them. Over {seasonsTotal} seasons, {winner} and {loser} stayed so close that only the final season could draw a line between them.",
+        "{winnerClub} finished on {winnerPoints} and {loserClub} on {loserPoints}. The difference is a modest {margin}, but modest distances make the finest stories, and this one is already filed under favourites.",
+        "Archivists love a late twist. This one will be pulled from the shelf often."
+      ],
+      "pullquote": {
+        "text": "The best files are the ones where the last page changes everything.",
+        "who": "A Gazette archivist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb18-06",
+      "byline": "Our chief writer's decisive report",
+      "standfirst": "Everything before it was preparation, because the final season was the one that decided who would claim the Showdown.",
+      "paragraphs": [
+        "For {seasonsTotal} seasons the contest held its breath. Then the last of them arrived, and {winner} gathered enough to pass {loser} and take the Showdown, finishing on {winnerPoints} against {loserPoints}.",
+        "It is a rare achievement to be best at the moment that matters most. {winnerClub} was exactly that, while {loserClub} gave the closing season everything it had, and left {margin} short of the line.",
+        "That is the beauty of waiting. The ending felt earned because nobody could see it coming."
+      ],
+      "pullquote": {
+        "text": "You cannot win a long race early, only on the last page.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb18-07",
+      "byline": "From the club desk",
+      "standfirst": "Down at {winnerClub} the celebrations will be late, because the Showdown was only decided at the end of the very last season.",
+      "paragraphs": [
+        "Nobody at {winnerClub} was able to relax until the final points were counted. {winner} spent the whole of the closing season in the chase, and the reward is a Showdown title with a margin of {margin} over {loser}.",
+        "At {loserClub} the sense of a near thing will last longer than the season did. A contest decided at the final hurdle is the cruellest and the finest kind, and both managers gave it all they had.",
+        "Some wins are loud. This one was breathless."
+      ],
+      "pullquote": {
+        "text": "We counted the points three times and then we sat down.",
+        "who": "The tea lady at the training ground"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb18-08",
+      "byline": "The Gazette's final word",
+      "standfirst": "The longest campaign in the book has ended, and the winner of the Showdown was only known at the final turn.",
+      "paragraphs": [
+        "The Gazette has watched {seasonsTotal} seasons pass, and none of them gave away the ending. Only the last season did that, and it handed the Showdown to {winner} with {winnerPoints} on the board.",
+        "There is no shame in the chase. {loser} finished on {loserPoints}, a margin of {margin} from the prize, and the rivalry has rarely been better advertised than by that closing run.",
+        "Late glory tastes best, so we are told. Tonight {winner} is in a position to confirm it."
+      ],
+      "pullquote": {
+        "text": "A winner who is not sure until the end has truly won.",
+        "who": "A Gazette editor"
+      },
+      "score": 10,
+      "was": null
+    }
+  ]
+}

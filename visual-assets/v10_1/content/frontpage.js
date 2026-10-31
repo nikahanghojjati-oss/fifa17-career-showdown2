@@ -101,14 +101,14 @@
       for (var c = 0; c < 3; c++) { cols += "<div>"; for (var r = 0; r < 6; r++) cols += "<i></i>"; cols += "</div>"; }
       el.innerHTML = head +
         (p.kicker ? '<span class="cmx-paper__kicker">' + esc(p.kicker) + '</span>' : "") +
-        '<h3 class="cmx-paper__headline">' + esc(p.headline) + '</h3>' +
+        '<h3 class="cmx-paper__headline' + (p.headline.length > 24 ? ' cmx-paper__headline--long' : '') + '">' + esc(p.headline) + '</h3>' +
         '<p class="cmx-paper__subhead">' + esc(p.subhead) + '</p>' + scoreStrip(p) +
         (p.caption ? '<p class="cmx-paper__caption">' + esc(p.caption) + '</p>' : "") +
         '<div class="cmx-paper__cols" aria-hidden="true">' + cols + '</div>';
     } else {
       el.innerHTML = head +
         '<div class="cmx-gz__top">' + (p.kicker ? '<span class="cmx-paper__kicker">' + esc(p.kicker) + '</span>' : "") +
-        '<h3 class="cmx-paper__headline">' + esc(p.headline) + '</h3>' +
+        '<h3 class="cmx-paper__headline' + (p.headline.length > 24 ? ' cmx-paper__headline--long' : '') + '">' + esc(p.headline) + '</h3>' +
         '<p class="cmx-paper__subhead">' + esc(p.subhead) + '</p></div>' +
         '<div class="cmx-gz__front">' + (p.photo && p.photo.src ? leadPhoto(p) : scoreStrip(p)) + side2(p) + '</div>' +
         '<div class="cmx-gz__body">' + story(p) + portrait(p) + '</div>' + briefs(p) + inside(p);

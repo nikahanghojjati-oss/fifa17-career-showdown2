@@ -1,0 +1,329 @@
+{
+  "batch": 14,
+  "situation": "showdown-won-3-seasons",
+  "edition": "final",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b14-001",
+      "kicker": "FINAL EDITION",
+      "headline": "THE SERIES GOES TO {winner}",
+      "subhead": "{seasonsTotal} seasons gave the contest its shape, and {winner} owned the better half of the story to win the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-002",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE TRILOGY HAS A HERO",
+      "subhead": "After {seasonsTotal} chapters of rivalry, {winner} emerges as the star of the saga and the owner of the Showdown title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-003",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THIRD ACT TRIUMPH",
+      "subhead": "The final season of the trilogy delivered the ending {winnerClub} wanted, and the credits roll over a champion named {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-004",
+      "kicker": "HONOURS DESK",
+      "headline": "THE VERDICT OF THE TRILOGY",
+      "subhead": "{winnerPoints} points to {loserPoints} across the full run is all the evidence the court needs to rule for {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-005",
+      "kicker": "TABLE TALK",
+      "headline": "THE SUMS FINALLY AGREE",
+      "subhead": "Add all {seasonsTotal} seasons together and the ledger leaves no doubt: {winner} is the Showdown champion by {margin}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-006",
+      "kicker": "HISTORY DESK",
+      "headline": "A SMALL ERA, WELL OWNED",
+      "subhead": "{seasonsTotal} seasons make a compact reign, and {winner} used every one of them to build a title worth retelling.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-007",
+      "kicker": "RIVALRY WATCH",
+      "headline": "{loser} HAD ITS MOMENTS",
+      "subhead": "The runner-up gave the trilogy plenty of drama, yet {winnerClub} was the side that finished the story on top.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-008",
+      "kicker": "TROPHY ROOM",
+      "headline": "THE TROPHY POLISH",
+      "subhead": "{seasonsTotal} seasons of effort have earned a new place on the shelf, and {winner} has already reserved it for the Showdown trophy.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-009",
+      "kicker": "ROAD NOTES",
+      "headline": "LAPS DONE, LEADER NAMED",
+      "subhead": "The track has been run in full and the order has been confirmed, with {winner} crossing the line ahead of {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-010",
+      "kicker": "SPORTS DESK",
+      "headline": "A BASKET OF SEASONS",
+      "subhead": "{winner} collected enough from {seasonsTotal} campaigns to settle the Showdown and leave {loserClub} chasing a rematch.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-011",
+      "kicker": "CROWN WATCH",
+      "headline": "CROWNED AFTER THE TRILOGY",
+      "subhead": "The coronation took {seasonsTotal} seasons to arrange, but {winner} now wears the crown of the Showdown with every right.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-012",
+      "kicker": "NIGHT DESK",
+      "headline": "SAVES LOADED, CHAMPION NAMED",
+      "subhead": "Through {seasonsTotal} seasons on the console, {winnerClub} kept finding the right move and finished as clear Showdown winners.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-013",
+      "kicker": "KITCHEN DESK",
+      "headline": "A TASTING MENU VICTORY",
+      "subhead": "{winner} served a starter, a main and a dessert of results, and the Showdown title was the final flourish.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-014",
+      "kicker": "BACK PAGE",
+      "headline": "THE DECIDING VOICE",
+      "subhead": "After {seasonsTotal} seasons of debate, {winnerClub} has the last word on who is the better manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-015",
+      "kicker": "OPENING PAGES",
+      "headline": "THE LAST CHAPTER CLOSES",
+      "subhead": "The story of the Showdown ends with {winner} on top, after {seasonsTotal} seasons of competition that kept everyone reading.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-016",
+      "kicker": "CABINET WATCH",
+      "headline": "A SHELF FOR THE SHOWDOWN",
+      "subhead": "The glass case has been rearranged, because {winner} needs space for the Showdown trophy won across {seasonsTotal} seasons.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-017",
+      "kicker": "LATE EDITION",
+      "headline": "NO NEED FOR A DECIDER",
+      "subhead": "{seasonsTotal} seasons were enough to separate the managers, and {winner} finished the trilogy with {margin} to spare.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-018",
+      "kicker": "EVENING EDITION",
+      "headline": "CAPTAIN OF THE TRILOGY",
+      "subhead": "{winnerClub} led the {seasonsTotal}-part saga from the front, and the finale simply confirmed the order of things.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-019",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "PLAYING THE LONG GAME, BRIEFLY",
+      "subhead": "{seasonsTotal} seasons is not a marathon but it is more than a sprint, and {winner} managed the distance expertly.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-020",
+      "kicker": "LEGEND WATCH",
+      "headline": "A CLASSIC IN PARTS",
+      "subhead": "Future readers will find the whole story in one trio of seasons, with {winner} written in as the champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-021",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE PENDULUM STOPPED",
+      "subhead": "It swung for {seasonsTotal} seasons and settled on {winner}, who holds the Showdown while {loser} reflects on what almost was.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-022",
+      "kicker": "TABLE TALK",
+      "headline": "COLUMNS AGREE ON A NAME",
+      "subhead": "Season by season the totals grew, and at the foot of the page only {winner} appears as Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-023",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "CREDITS ROLL FOR {winner}",
+      "subhead": "The trilogy is over, and the final reel belongs to {winnerClub}, whose name now tops the cast list.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-024",
+      "kicker": "RIVALRY WATCH",
+      "headline": "THE CHASER FINISHED SECOND",
+      "subhead": "{loserClub} pushed {winnerClub} hard, but {seasonsTotal} seasons were enough for the better record to speak.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-025",
+      "kicker": "ROAD NOTES",
+      "headline": "OVER THE LAST HILL",
+      "subhead": "After climbing {seasonsTotal} summits in a row, {winner} reached the highest point and claimed the Showdown from there.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-026",
+      "kicker": "SPORTS DESK",
+      "headline": "ROUNDS WON, CASE CLOSED",
+      "subhead": "{winner} won the argument in {seasonsTotal} seasons, finishing with {winnerPoints} points and a Showdown title to prove it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-027",
+      "kicker": "HISTORY DESK",
+      "headline": "A SHORT SAGA, A LONG MEMORY",
+      "subhead": "The trilogy has finished, but the memory of how {winner} won it will stay in the archive for years.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-028",
+      "kicker": "HONOURS DESK",
+      "headline": "MEDAL FOR THE METRONOME",
+      "subhead": "Consistency across {seasonsTotal} seasons was the secret, and {winner} ticked every box on the way to the Showdown win.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-029",
+      "kicker": "CROWN WATCH",
+      "headline": "A SHORT ROAD TO THE THRONE",
+      "subhead": "The route to the Showdown crown took {seasonsTotal} seasons, and {winner} walked it without ever losing the way.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-030",
+      "kicker": "KITCHEN DESK",
+      "headline": "SLOW COOKED, WELL SEASONED",
+      "subhead": "The title took {seasonsTotal} seasons to prepare, and {winnerClub} served it with the confidence of a seasoned chef.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-031",
+      "kicker": "NIGHT DESK",
+      "headline": "NIGHTS UNDER THE LIGHTS",
+      "subhead": "The console hummed through {seasonsTotal} seasons, and when the screen dimmed it was {winner} who held the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-032",
+      "kicker": "BACK PAGE",
+      "headline": "THE MIDDLE CHAPTER MATTERED",
+      "subhead": "Looking back at the {seasonsTotal} seasons, the turning point was easy to find, and {winner} made the most of it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-033",
+      "kicker": "LATE EDITION",
+      "headline": "DANGER SURVIVED",
+      "subhead": "{seasonsTotal} seasons of danger were survived by one manager, and {winner} is now the champion of the Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-034",
+      "kicker": "OPENING PAGES",
+      "headline": "FROM OVERTURE TO FINALE",
+      "subhead": "The Showdown had a beginning, a middle and an end, and {winnerClub} kept the best part of the music for last.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-035",
+      "kicker": "SEASON REVIEW",
+      "headline": "A FAIR FIGHT, A FIRM ANSWER",
+      "subhead": "{seasonsTotal} seasons gave both managers every chance to prove a point, and {winner} was the one who proved it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-036",
+      "kicker": "FINAL EDITION",
+      "headline": "SEASONS ADDED, TITLE WON",
+      "subhead": "The sum of {seasonsTotal} campaigns has {winner} out in front by {margin}, and the Showdown belongs to {winnerClub}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-037",
+      "kicker": "TROPHY ROOM",
+      "headline": "ENGRAVER, YOU ARE NEEDED",
+      "subhead": "Another name must be carved into the base of the Showdown trophy, and {winner} supplied it after {seasonsTotal} seasons.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-038",
+      "kicker": "EVENING EDITION",
+      "headline": "PERFECTLY BALANCED, FIRMLY WON",
+      "subhead": "The {seasonsTotal}-season Showdown asked for patience and nerve, and {winnerClub} brought both to finish ahead of {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b14-039",
+      "kicker": "BACK PAGE",
+      "headline": "THE SERIES SIGNS OFF",
+      "subhead": "A compact trilogy has reached the end, and the closing credits list {winner} as the proud Showdown champion over {loser}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b14-040",
+      "kicker": "LATE EDITION",
+      "headline": "A STEADY HAND THROUGHOUT",
+      "subhead": "Over the full run of {seasonsTotal} seasons, {winnerClub} never lost its composure, and the Showdown title is the natural reward.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

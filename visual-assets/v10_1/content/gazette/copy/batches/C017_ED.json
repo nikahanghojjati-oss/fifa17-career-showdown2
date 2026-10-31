@@ -1,0 +1,137 @@
+{
+  "batch": 17,
+  "situation": "showdown-drawn",
+  "edition": "final",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb17-01",
+      "byline": "From our chief football desk",
+      "standfirst": "Nobody wins and nobody loses, as {managerA} and {managerB} finish the whole Showdown dead level on {points}.",
+      "paragraphs": [
+        "There are endings that crown a champion and endings that do something rarer. After {seasonsTotal} seasons, {managerA} of {clubA} and {managerB} of {clubB} stand on exactly {points} each, and the Gazette has no winner to name.",
+        "Draws this late in a contest are almost unheard of. Every point earned by one manager was answered by the other, and the result is a rivalry that refused to be separated across the entire distance.",
+        "Shake hands, share the front page and keep the trophy talk for another year. Neither manager has anything to explain."
+      ],
+      "pullquote": {
+        "text": "A tie at the end is a compliment to both sides.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb17-02",
+      "byline": "At the final standings desk",
+      "standfirst": "The ledger closes on a perfect balance: {points} for {managerA}, {points} for {managerB} and no room for a verdict.",
+      "paragraphs": [
+        "Auditors double check a result like this, and the Gazette has done so twice. Across {seasonsTotal} seasons, {clubA} and {clubB} have produced identical totals, and the standings desk can only report that the books balance.",
+        "Mathematically this is the neatest of conclusions. In human terms it is better still, because two rivals spent years trading blows and ended up in the same place, with neither able to claim the last word.",
+        "The shared figure will sit in the archive for good. It is a single number with two owners."
+      ],
+      "pullquote": {
+        "text": "The numbers have said all they wish to say, and it is the same thing twice.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb17-03",
+      "byline": "Our correspondent on the rivalry",
+      "standfirst": "Two managers set out to settle an argument, and the argument has settled itself in the most surprising way.",
+      "paragraphs": [
+        "Every rivalry carries a hope that someone will finally be proved right. Here, {managerA} and {managerB} have used {seasonsTotal} seasons to prove only that they are evenly matched, each finishing on {points}.",
+        "That is a finding of its own. {clubA} and {clubB} traded the lead, the pressure and the nerves, and neither could be shaken loose from the other even when it counted most.",
+        "The argument remains open, which suits the best rivalries. They are not meant to be finished, only paused."
+      ],
+      "pullquote": {
+        "text": "Sometimes the argument ends because both sides were right all along.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb17-04",
+      "byline": "From the Gazette archive room",
+      "standfirst": "History will have to file this one under a heading it has barely used: level, together, and together at the end.",
+      "paragraphs": [
+        "Archivists like clean winners and tidy losers. This Showdown offers neither, and so {managerA} and {managerB} have earned a rarer entry, one in which both names sit on the same line with {points} beside them.",
+        "The record will show {seasonsTotal} seasons played out between {clubA} and {clubB} with nothing to separate them in the end. That is not an absence of a result. It is a result with two authors.",
+        "Future readers will open this folder expecting a champion. They will leave understanding that sometimes the champion is the contest itself."
+      ],
+      "pullquote": {
+        "text": "Some folders have no winner, and they are the ones people keep reading.",
+        "who": "A Gazette archivist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb17-05",
+      "byline": "The late-edition desk",
+      "standfirst": "Stop the presses, then start them again, because the Showdown has ended in the one way nobody wrote a headline for.",
+      "paragraphs": [
+        "It is a little past the hour when the Gazette would usually know its champion. Instead, {managerA} and {managerB} sit level on {points}, and the final edition must find words for a night with no winner and no loser.",
+        "The pressroom has reached a happy conclusion. {clubA} and {clubB} gave the whole of {seasonsTotal} seasons everything they had, and what they had turned out to be exactly the same.",
+        "We will print it warmly and leave the headline plain. They finished together."
+      ],
+      "pullquote": {
+        "text": "We prepared two front pages and neither of them was this one.",
+        "who": "Overheard in the dugout"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb17-06",
+      "byline": "Our chief writer's closing report",
+      "standfirst": "Call it a dead heat, a shared crown or a perfect stalemate, but call it a fine way for a rivalry to end.",
+      "paragraphs": [
+        "There is a particular silence that follows a result nobody predicted. {managerA} and {managerB} finish the Showdown on {points} apiece, and the silence is quickly replaced by the sound of two rivals realising what they have done.",
+        "{seasonsTotal} seasons is a long time to chase someone who is chasing you back. {clubA} and {clubB} made it a mirror, and the mirror held to the very end.",
+        "Whatever comes next will have to start from level ground. That is the best foundation a new contest could ask for."
+      ],
+      "pullquote": {
+        "text": "A dead heat is the sound of two people both doing their best.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb17-07",
+      "byline": "From the club desk",
+      "standfirst": "In one house the trophy shelf stays empty, in another it stays empty too, and both are strangely proud of that.",
+      "paragraphs": [
+        "Neither {clubA} nor {clubB} will be able to polish a Showdown trophy tonight. What each can say instead is that {managerA} and {managerB} met on equal terms and left on equal terms, level on {points}.",
+        "That has its own dignity. Across {seasonsTotal} seasons the two clubs have never been more than a moment from each other, and their shared total sits proudly at the head of the final page.",
+        "Perhaps a rematch will tidy the record. Until then the shelf waits, and the pride stays put."
+      ],
+      "pullquote": {
+        "text": "We came to find a champion and we found a friendship.",
+        "who": "The tea lady at the training ground"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb17-08",
+      "byline": "The Gazette's final word",
+      "standfirst": "They began as rivals and they end as equals, with {managerA} and {managerB} sharing a Showdown that no one could split.",
+      "paragraphs": [
+        "The last page of the last season has been turned, and the line at the bottom reads the same for both managers. {managerA} on {points}, {managerB} on {points}, and {seasonsTotal} seasons of work between them to explain it.",
+        "It would be easy to call this an anticlimax. The Gazette prefers a different word, which is perfection, because a contest that finishes exactly even was perfectly contested from the first day to the last.",
+        "Take a bow, both of you. The newspaper has nothing left to add."
+      ],
+      "pullquote": {
+        "text": "The best ending was the one neither of them could have planned.",
+        "who": "A Gazette editor"
+      },
+      "score": 10,
+      "was": null
+    }
+  ]
+}

@@ -284,6 +284,8 @@
 .cmx-gz--compact .cmx-gz__edline { margin-bottom: 5px; padding: 2px 0; font-size: 8.5px; letter-spacing: .18em; }
 .cmx-gz--compact .cmx-paper__kicker { margin-bottom: 3px; padding: 2px 8px 1px; font-size: 9.5px; }
 .cmx-gz--compact .cmx-paper__headline { margin-bottom: 5px; font-size: 22px; }
+.cmx-gz .cmx-paper__headline--long { font-size: 24px; } /* HO-041: long real headlines stay on one or two short lines */
+.cmx-gz--compact .cmx-paper__headline--long { font-size: 18px; }
 .cmx-gz--compact .cmx-gz__leadimg { aspect-ratio: 2.9 / 1; }
 .cmx-gz--compact .cmx-paper__photo { padding: 5px 8px; gap: 6px; }
 .cmx-gz--compact .cmx-paper__crest { width: 26px; height: 31px; }

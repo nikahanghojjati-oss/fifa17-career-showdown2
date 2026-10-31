@@ -1,0 +1,137 @@
+{
+  "batch": 16,
+  "situation": "golden-showdown-won",
+  "edition": "final",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb16-01",
+      "byline": "From our chief football desk",
+      "standfirst": "Gold has a way of ending arguments, and {winner} has been first to reach it, claiming the Golden Showdown for {winnerClub}.",
+      "paragraphs": [
+        "Let the presses run slowly tonight, because this edition is printed in gold. {winner} was the first manager to reach the summit of the Golden Showdown, and no second chance exists for {loser} to answer. The race has ended.",
+        "Nothing in the rules asks for a combined tally or a shared reckoning. One manager had to arrive first, and {winner} arrived with {winnerPoints} to the {loserPoints} of {loser}. That order of arrival is the whole story.",
+        "Historians will open this page for generations. They will find {winnerClub} at the head of the roll, and they will find that the order of arrival never needed a second reading."
+      ],
+      "pullquote": {
+        "text": "Gold goes to whoever arrives first, and the Gazette has watched the arrival.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb16-02",
+      "byline": "At the history desk",
+      "standfirst": "The history books have a new first line, and it reads {winner}, who stood alone at the top of the Golden Showdown.",
+      "paragraphs": [
+        "Somewhere in the Gazette archive a page has been cleared for a name that was not there yesterday. {winner} has won the Golden Showdown, becoming the first manager to reach the line that no ordinary Showdown ever draws.",
+        "It is a rare thing for a rivalry to be remembered by its ending. Across {seasonsTotal} seasons, {winnerClub} and {loserClub} wrote the longest chapter this newspaper has known, and the final paragraph belongs to {winner}.",
+        "Future editions will refer to this one in a lowered voice. Some pages are simply bigger than the rest, and the archivist has already reached for the good paper."
+      ],
+      "pullquote": {
+        "text": "Every archive has one page that the others are arranged around.",
+        "who": "A Gazette archivist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb16-03",
+      "byline": "Our correspondent on the dynasty",
+      "standfirst": "A dynasty is a habit that refuses to stop, and {winnerClub} under {winner} has made one worth the crown of gold.",
+      "paragraphs": [
+        "Few clubs are ever called a dynasty while the ink is still wet. Yet {winner} has carried {winnerClub} through {seasonsTotal} seasons of relentless accumulation and has become the first to complete the Golden Showdown, with {loser} chasing to the very end.",
+        "The measure of a dynasty is not a single glorious night. It is the quiet repetition of excellence, season after season, until the rest of the contest can only watch. {winnerPoints} points is what that repetition looks like when written down.",
+        "{loserClub} was the rival every dynasty needs, and the pursuit was real. The record now belongs to {winner}, and the word will not fade from the clubhouse wall."
+      ],
+      "pullquote": {
+        "text": "A dynasty is only visible once it has stopped being surprised by itself.",
+        "who": "The press box"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb16-04",
+      "byline": "From the Gazette gold desk",
+      "standfirst": "In a Showdown measured one manager at a time, {winner} has been the first to cross the golden line.",
+      "paragraphs": [
+        "This is the edition that every other edition was practice for. The Golden Showdown asks one question of each manager, and {winner} answered it before {loser} could, finishing on {winnerPoints} when {loserPoints} was the best the pursuit could manage.",
+        "There is no consolation in a race like this, only a clear order of finish. The gap of {margin} is the distance between first and second, and in a contest this long even that gap is a long way earned.",
+        "Gold is cold to the touch and warm to the memory. The Gazette prints it with pride, and the shelf at {winnerClub} has a new centrepiece."
+      ],
+      "pullquote": {
+        "text": "We printed a great many headlines to reach this one.",
+        "who": "A Gazette editor"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb16-05",
+      "byline": "The commemorative edition",
+      "standfirst": "Keep this one, fold it carefully and tell your grandchildren: {winner} has won the Golden Showdown.",
+      "paragraphs": [
+        "Newsprint rarely deserves to be kept, but this page does. {winner} won the Golden Showdown by being first to the line, and the whole of {seasonsTotal} seasons has led to this front page and this single name.",
+        "Collectors will argue about margins and moments. The Gazette prefers the plain fact that {winnerClub} got there ahead of {loserClub}, and that nobody can take the order of arrival away from {winner} now.",
+        "Frame it, pin it or tuck it inside a favourite book. In years to come it will still read exactly as grandly as it does tonight."
+      ],
+      "pullquote": {
+        "text": "Some front pages are made to be thrown away and this was not one.",
+        "who": "Overheard in the dugout"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb16-06",
+      "byline": "Our chief writer's gold report",
+      "standfirst": "The long road is over and the gold is awarded, with {winner} first home after a Showdown that asked for everything.",
+      "paragraphs": [
+        "Nobody wins a Golden Showdown by accident. It takes patience, appetite and the nerve to keep collecting while a rival keeps pace, and {winner} had all three as {winnerClub} became the first to complete the climb.",
+        "{loser} deserves a page of its own in this story, because a chase is only as good as the pace it sets. {loserClub} set a hard one, and that is why the winning total of {winnerPoints} carries such weight.",
+        "The rivalry will go on in conversation, as the best rivalries do. For now the title is settled, and it is gold."
+      ],
+      "pullquote": {
+        "text": "The chase made the gold shine, and the winner made it gleam.",
+        "who": "A Gazette columnist"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb16-07",
+      "byline": "From the trophy room desk",
+      "standfirst": "Somewhere in a quiet room, a cabinet is being rearranged, because {winnerClub} has won the Golden Showdown.",
+      "paragraphs": [
+        "The most dramatic moments in football often happen in silence. {winner} has completed the Golden Showdown, and the first thing {winnerClub} will need is shelf space, because gold of this scale does not sit politely among the rest.",
+        "{seasonsTotal} seasons of work have been compressed into a single line of print. It reads {winner} first and {loser} second, and the line is as short as the work behind it was long.",
+        "Trophy cabinets are the quiet storytellers of the game. This one now holds the loudest object it has ever been given."
+      ],
+      "pullquote": {
+        "text": "Make room in the cabinet, because the gold does not fit politely.",
+        "who": "The tea lady at the training ground"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb16-08",
+      "byline": "The Gazette's final word",
+      "standfirst": "It ends as legends end, with a name, a number it will not repeat here and a rival who made it hard.",
+      "paragraphs": [
+        "There comes a moment in every great rivalry when the story outgrows the newspaper. {winner} has won the Golden Showdown, and the Gazette, which has printed everything else, hesitates over what to add to that sentence.",
+        "Perhaps nothing at all is needed. {winnerClub} finished ahead, {loserClub} pushed it all the way, and across {seasonsTotal} seasons two managers produced a contest worth the gold that closes it.",
+        "Close the ledger gently and leave the lights on for a while. A page like this deserves a slow and thankful reading."
+      ],
+      "pullquote": {
+        "text": "There are headlines you write, and there are headlines that arrive.",
+        "who": "A Gazette editor"
+      },
+      "score": 10,
+      "was": null
+    }
+  ]
+}

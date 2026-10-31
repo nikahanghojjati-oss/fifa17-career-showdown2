@@ -1,0 +1,137 @@
+{
+  "batch": 19,
+  "situation": "dominant-win",
+  "edition": "final",
+  "desk": "The chief football writer",
+  "edited": true,
+  "stories": [
+    {
+      "id": "sb19-01",
+      "byline": "From our chief football desk",
+      "standfirst": "It was never close in the end, as {winner} finished the Showdown far ahead of {loser} with {winnerPoints} to the rival's {loserPoints}.",
+      "paragraphs": [
+        "Some Showdowns are a contest and some are a coronation. This one began as the first and finished as the second, with {winner} moving clear of {loser} and ending {seasonsTotal} seasons well beyond reach.",
+        "The margin of {margin} tells the tale in a single figure. {winnerClub} did not so much win the Showdown as take possession of it, and the gap only widened as the pages turned.",
+        "Dominance is rarer than talent, and harder to keep. {winner} kept it throughout."
+      ],
+      "pullquote": {
+        "text": "Winning is one thing, but this was something closer to ownership.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb19-02",
+      "byline": "At the final standings desk",
+      "standfirst": "The figures speak plainly: {winner} finished on {winnerPoints} and {loser} on {loserPoints}, a gap of {margin}.",
+      "paragraphs": [
+        "Nobody needs a calculator to read this ledger. Over {seasonsTotal} seasons, {winner} built a lead that stretched to {margin} by the end, and the Showdown belongs to {winnerClub} by a wide and comfortable distance.",
+        "Wide margins are not always won in a rush. This one was assembled steadily, one good season after another, until the gap simply became too large for anyone to close.",
+        "The totals are filed and the verdict is clear. Let the champion enjoy it."
+      ],
+      "pullquote": {
+        "text": "A margin like this is written in pencil first and ink later.",
+        "who": "The press box"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb19-03",
+      "byline": "Our correspondent on the rivalry",
+      "standfirst": "A rivalry sometimes finds one manager simply operating on a different level, and here that manager was {winner}.",
+      "paragraphs": [
+        "Rivalries thrive on balance, but this one tilted early and kept tilting. {winner} turned the Showdown into a procession, finishing {margin} clear of {loser} and giving {winnerClub} an undisputed claim on the title.",
+        "{loserClub} deserves credit for staying in the contest. Pursuing a leader this far ahead takes character, and the results show a manager who kept on coming even when the horizon grew distant.",
+        "Next time the scales may swing the other way. That is how rivalries stay alive."
+      ],
+      "pullquote": {
+        "text": "The best rivals push the champion to look even better.",
+        "who": "A Gazette columnist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb19-04",
+      "byline": "From the Gazette gold desk",
+      "standfirst": "Pick up the cabinet key, because {winnerClub} is going to need the whole shelf after a Showdown this commanding.",
+      "paragraphs": [
+        "There is a particular sound a trophy makes when it is set down with confidence. {winner} has finished {seasonsTotal} seasons so far ahead of {loser} that the Showdown felt decided long before the final page.",
+        "{winnerPoints} points, {loserPoints} for the rival and a margin of {margin} between them. Those are the figures a champion dreams of, and {winnerClub} has the evidence in black and white.",
+        "A win this big is a memory the whole club can share."
+      ],
+      "pullquote": {
+        "text": "Some wins sneak up on you, and others walk in through the front door.",
+        "who": "Overheard in the dugout"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb19-05",
+      "byline": "The Gazette's season-review desk",
+      "standfirst": "Look back over all the seasons and the shape is unmistakable, with {winner} always a little further ahead.",
+      "paragraphs": [
+        "A long Showdown has a rhythm, and {winner} set it. From the opening season to the last, {winnerClub} kept gathering the points that mattered, and by the end the lead over {loser} had grown to {margin}.",
+        "Single seasons can be argued over for years. The complete picture cannot, because {winnerPoints} against {loserPoints} across {seasonsTotal} seasons leaves very little to argue about.",
+        "This is how champions are made, quietly and repeatedly, until the result looks inevitable."
+      ],
+      "pullquote": {
+        "text": "A complete record is the only argument that never loses.",
+        "who": "The press box"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb19-06",
+      "byline": "From the club desk",
+      "standfirst": "Down at {winnerClub} the mood is quietly regal, and the Showdown trophy has found a home it intends to keep.",
+      "paragraphs": [
+        "A comfortable victory is a different animal from a narrow one. {winner} has won the Showdown by {margin}, and the sense around {winnerClub} is of a job done thoroughly rather than a battle narrowly survived.",
+        "{loser} and {loserClub} carry on with their own plans, and a dominant finish for a rival does not close the book on them. It simply tells them where the standard now sits.",
+        "The winning club can now enjoy the calm of a decision that nobody doubts."
+      ],
+      "pullquote": {
+        "text": "A comfortable win is a thousand small good decisions in a row.",
+        "who": "The tea lady at the training ground"
+      },
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "sb19-07",
+      "byline": "The heritage desk",
+      "standfirst": "Few Showdowns will be remembered so clearly, because {winner} did not merely win but stamped a whole era with one name.",
+      "paragraphs": [
+        "The heritage desk has seen many champions and few who left as little doubt as this. {winner} ended {seasonsTotal} seasons with {winnerPoints}, a lead of {margin} that sets a standard future managers will measure themselves against.",
+        "It is the mark of a great campaign that nobody asks about the closing stages. By the end, the outcome was settled by sheer weight of results, and {winnerClub} simply kept going.",
+        "That is the stuff of legend. The rest is for the archive to tell."
+      ],
+      "pullquote": {
+        "text": "Dominance is just talent that refuses to take a day off.",
+        "who": "A Gazette archivist"
+      },
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "sb19-08",
+      "byline": "The Gazette's final word",
+      "standfirst": "The Showdown is over, and the verdict is a wide and happy one for {winner}, who led for most of the way.",
+      "paragraphs": [
+        "The Gazette records, with pleasure, that {winner} has won the Showdown by a distance. With {winnerPoints} against {loserPoints}, the gap of {margin} makes the story a short one to tell.",
+        "Brevity is no insult here. The shortest headlines belong to the biggest wins, and {winnerClub} has earned a front page that does not need a second line to explain itself.",
+        "Well played, both of you. One of you simply played a little better."
+      ],
+      "pullquote": {
+        "text": "A great win needs no footnote and no explanation.",
+        "who": "A Gazette editor"
+      },
+      "score": 10,
+      "was": null
+    }
+  ]
+}

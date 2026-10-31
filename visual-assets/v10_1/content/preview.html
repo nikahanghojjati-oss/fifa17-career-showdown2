@@ -50,6 +50,7 @@
 <script src="fixtures/commentaryLines.js"></script>
 <script src="fixtures/frontPages.js"></script>
 <script src="fixtures/clubCards.js"></script>
+<script src="fixtures/gazetteCopy.js"></script>
 <script src="fixtures/gazetteSample.js"></script>
 <script src="commentary.js"></script>
 <script src="frontpage.js"></script>
@@ -133,16 +134,18 @@
   }
   function slotPanel(x, y, w, h) { var d = el("cmx-slotpanel", x, y, w, h); d.style.zIndex = 3; return d; }
   var DAN = { name: "Daniel", club: "Arsenal" }, NIK = { name: "Nik", club: "Chelsea" };
-  var vals = function (o) { return Object.assign({ winner: "Daniel", loser: "Nik", winnerClub: "Arsenal", loserClub: "Chelsea", managerA: "Daniel", managerB: "Nik" }, o); };
-  function page(id, list, o, extra) {
-    var r = byId(list, id), v = vals(o);
+  var vals = function (o) { return Object.assign({ winner: "Daniel", loser: "Nik", winnerClub: "Arsenal", loserClub: "Chelsea", managerA: "Daniel", managerB: "Nik", clubA: "Arsenal", clubB: "Chelsea", leader: "Daniel", trailer: "Nik", seasonNo: 1, seasonsTotal: 3, winnerPoints: 8, loserPoints: 3 }, o); };
+  var PICK = +q.get("pick") || 0; // ?pick=n shows the n-th line of each situation (HO-041 real copy)
+  function sit(list, s) { var l = list.filter(function (r) { return r.situation === s; }); return l[PICK % l.length]; }
+  function page(s, list, o, extra) {
+    var r = sit(list, s), v = vals(o); extra._v = o;
     return Object.assign({ headline: fill(r.headline, v), subhead: fill(r.subhead, v), kicker: r.kicker ? fill(r.kicker, v) : "" }, extra);
   }
 
   var FR = {
     CM1: function () { // Season Results after both managers shared: commentary bar under the shared score panel
       return base(P ? "PHONE_SEASON_RESULTS_MARBLE.png" : "NEXT_SEASON_RESULTS.png").then(function () {
-        var line = fill(byId(C.results, "c1-151").text, vals({ margin: 5 }));
+        var line = fill(sit(C.results, "comfortable-win").text, vals({ margin: 5 }));
         var mount = function (s) { SD.commentary.mount(s, line, { typeMs: still ? 0 : 28 }); }, dy;
         if (P) {
           srDone(8, 250, 377, 291);
@@ -159,17 +162,17 @@
     },
     CM2: function () { // Final Winner: commentary bar under the score panel
       return base(P ? "PHONE_FINAL_WINNER_MARBLE.png" : "NEXT_FINAL_WINNER.png").then(function () {
-        var line = fill(byId(C.results, "c4-183").text, vals({}));
+        var line = fill(sit(C.results, "showdown-won").text, vals({}));
         var dy;
         if (P) { dy = push(8, 385, 562, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 1, 14); btn(20, 578 + dy, 175, 39); btn(205, 578 + dy, 175, 39); }
         else { dy = push(290, 1150, 736, function (s) { SD.commentary.mount(s, line, { typeMs: 0 }); }, 6); btn(510, 742 + dy, 202, 41); btn(724, 742 + dy, 206, 41); }
       });
     },
-    FP1: function () { return fpScreen(page("h1-035", F.season, { margin: 5 }, { season: "Season 1 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 8 }, right: { name: "Nik", club: "Chelsea", score: 3 }, caption: "Season points under the Showdown scoring: Daniel 8, Nik 3." })); },
-    FP2: function () { return fpScreen(page("h1-019", F.season, { margin: 1 }, { season: "Season 2 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 5 }, right: { name: "Nik", club: "Chelsea", score: 4 }, caption: "One point in it after a tense second season." })); },
-    FP3: function () { return fpScreen(page("h1-052", F.season, { points: 5 }, { variant: "draw", kicker: "DRAWN", season: "Season 3 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 5 }, right: { name: "Nik", club: "Chelsea", score: 5 }, caption: "Level on points, honours shared." })); },
-    FW1: function () { return fpScreen(page("h2-013", F.final, {}, { season: "3 seasons", dateline: "Final edition", left: { name: "Daniel", club: "Arsenal", score: 16 }, right: { name: "Nik", club: "Chelsea", score: 8 } }), "final"); },
-    FW2: function () { return fpScreen(page("h2-037", F.final, {}, { variant: "gold", season: "10 seasons", dateline: "Golden edition", left: { name: "Daniel", club: "Arsenal", score: 110 }, right: { name: "Nik", club: "Chelsea", score: 79 } }), "final"); },
+    FP1: function () { return fpScreen(page("comfortable-win", F.season, { margin: 5, winnerPoints: 8, loserPoints: 3 }, { _sit: "comfortable-win", season: "Season 1 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 8 }, right: { name: "Nik", club: "Chelsea", score: 3 }, caption: "Season points under the Showdown scoring: Daniel 8, Nik 3." })); },
+    FP2: function () { return fpScreen(page("narrow-win", F.season, { margin: 1, seasonNo: 2, winnerPoints: 5, loserPoints: 4 }, { _sit: "narrow-win", season: "Season 2 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 5 }, right: { name: "Nik", club: "Chelsea", score: 4 }, caption: "One point in it after a tense second season." })); },
+    FP3: function () { return fpScreen(page("draw", F.season, { points: 5, seasonNo: 3 }, { _sit: "draw", variant: "draw", kicker: "DRAWN", season: "Season 3 of 3", dateline: "Season review", left: { name: "Daniel", club: "Arsenal", score: 5 }, right: { name: "Nik", club: "Chelsea", score: 5 }, caption: "Level on points, honours shared." })); },
+    FW1: function () { return fpScreen(page("showdown-won-3-seasons", F.final, { seasonsTotal: 3, winnerPoints: 16, loserPoints: 8, margin: 8 }, { _sit: "showdown-won-3-seasons", season: "3 seasons", dateline: "Final edition", left: { name: "Daniel", club: "Arsenal", score: 16 }, right: { name: "Nik", club: "Chelsea", score: 8 } }), "final"); },
+    FW2: function () { return fpScreen(page("golden-showdown-won", F.final, { seasonsTotal: 10, winnerPoints: 110, loserPoints: 79, margin: 31 }, { _sit: "golden-showdown-won", variant: "gold", season: "10 seasons", dateline: "Golden edition", left: { name: "Daniel", club: "Arsenal", score: 110 }, right: { name: "Nik", club: "Chelsea", score: 79 } }), "final"); },
     CC1: function () { // Club Assignment: club cards slide up under the crests
       return base(P ? "PHONE_CLUB_MARBLE.png" : "NEXT_CLUB.png").then(function () {
         if (P) {
@@ -194,8 +197,12 @@
     var g = window.GazetteSample[FRAME];
     if (!g || q.get("gz") === "0") return p;
     var A = SD.frontPage.art;
+    var GC = window.CareerModeGazetteCopy, st = GC && sit(GC.stories, p._sit), v = vals(p._v || {});
+    var draw = p.variant === "draw", qs = GC && GC.small.quotes.filter(function (r) { return r.situation === (draw ? "draw" : "win"); });
+    var story = st ? { byline: st.byline, paragraphs: st.paragraphs.map(function (t) { return fill(t, v); }) } : g.story;
+    var quote = qs && qs.length ? { text: fill(qs[PICK % qs.length].text, v), who: fill(qs[PICK % qs.length].who, v) } : g.quote;
     return Object.assign(p, {
-      issue: g.issue, ears: g.ears, story: g.story, quote: g.quote, numbersTitle: g.numbersTitle, inside: g.inside, compact: P && (/^FW/.test(FRAME) ? "short" : true),
+      issue: g.issue, ears: g.ears, story: story, quote: quote, numbersTitle: g.numbersTitle, inside: g.inside, compact: P && (/^FW/.test(FRAME) ? "short" : true),
       numbers: g.numbers.map(function (r) { return { label: r[0], left: r[1], right: r[2], total: !!r[3] }; }),
       photo: { src: A(g.photo.src), caption: g.photo.caption },
       portrait: g.portrait && { src: A(g.portrait.src), caption: g.portrait.caption },

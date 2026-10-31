@@ -1,0 +1,329 @@
+{
+  "batch": 16,
+  "situation": "golden-showdown-won",
+  "edition": "final",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b16-001",
+      "kicker": "GOLDEN EDITION",
+      "headline": "GOLD AT LAST",
+      "subhead": "{winner} is the first manager to reach the golden mark, and the Golden Showdown now belongs to {winnerClub} forever.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-002",
+      "kicker": "COMMEMORATIVE EDITION",
+      "headline": "THE GOLDEN AGE HAS A NAME",
+      "subhead": "This is the moment the history books were saved for, as {winner} claims the Golden Showdown ahead of {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-003",
+      "kicker": "HISTORY DESK",
+      "headline": "CARVED IN GOLD",
+      "subhead": "Few feats will ever be recorded in this paper with more reverence than {winner} reaching the golden mark first.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-004",
+      "kicker": "LEGEND WATCH",
+      "headline": "A DYNASTY IS CROWNED",
+      "subhead": "The Golden Showdown is not won by accident, and {winnerClub} has built a dynasty that will be spoken of for generations.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-005",
+      "kicker": "CROWN WATCH",
+      "headline": "THE GOLDEN CROWN",
+      "subhead": "{winner} is the first to the top of the mountain, and the crown of the Golden Showdown is placed upon the winning manager.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-006",
+      "kicker": "FINAL EDITION",
+      "headline": "FIRST TO THE SUMMIT",
+      "subhead": "The race was long and fiercely contested, yet {winner} was the first manager to arrive, and the Golden Showdown is the prize.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-007",
+      "kicker": "GOLDEN EDITION",
+      "headline": "THE GREATEST STORY WE PRINT",
+      "subhead": "Every other front page was practice for this one, in which {winner} stands alone as the Golden Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-008",
+      "kicker": "TROPHY ROOM",
+      "headline": "MELT THE SILVER, CAST THE GOLD",
+      "subhead": "A trophy of a rare and shining kind is being made, and {winner} has earned the right to lift it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-009",
+      "kicker": "HONOURS DESK",
+      "headline": "THE GOLD STANDARD",
+      "subhead": "From now on this is the measure that every other manager will be compared to, and {winner} is the one who set it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-010",
+      "kicker": "OPENING PAGES",
+      "headline": "ONCE IN A GENERATION",
+      "subhead": "Some contests produce a champion, and this one produced a legend, as {winner} became first to the golden mark.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-011",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE GRAND FINALE",
+      "subhead": "The Golden Showdown reaches its glittering last scene, and {winnerClub} takes the final bow to a standing ovation.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-012",
+      "kicker": "NIGHT DESK",
+      "headline": "THE BRIGHTEST STAR OF ALL",
+      "subhead": "Of all the lights on the console screen, none shines like the one that now marks {winner} as the Golden Showdown winner.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-013",
+      "kicker": "RIVALRY WATCH",
+      "headline": "{loser} SALUTES THE GOLD",
+      "subhead": "The runner-up fought bravely through an epic chase, and now raises a hat to {winner}, who got there first.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-014",
+      "kicker": "SPORTS DESK",
+      "headline": "THE LONGEST RACE, WON",
+      "subhead": "It was the greatest distance a manager could run, and {winner} reached the golden line before {loser} could close the gap.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-015",
+      "kicker": "LATE EDITION",
+      "headline": "STOP THE PRESSES",
+      "subhead": "This front page was held for a moment like no other, because {winner} has just won the Golden Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-016",
+      "kicker": "ROAD NOTES",
+      "headline": "THE ROAD TO GOLD ENDS HERE",
+      "subhead": "Years of seasons have led to this exact place, and {winner} is the manager who walked the whole way and arrived first.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-017",
+      "kicker": "KITCHEN DESK",
+      "headline": "THE FINEST VINTAGE",
+      "subhead": "Some things are worth waiting for, and {winnerClub} has produced the finest, rarest result this paper has ever served.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-018",
+      "kicker": "EVENING EDITION",
+      "headline": "THE ARCHIVE BOWS DEEPLY",
+      "subhead": "Even the dusty shelves of the Gazette look brighter tonight, because {winner} has taken the Golden Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-019",
+      "kicker": "TABLE TALK",
+      "headline": "THE TOP LINE TURNS TO GOLD",
+      "subhead": "The ledger has never printed a figure like this, and it belongs wholly to {winner}, the first to reach the mark.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-020",
+      "kicker": "HISTORY DESK",
+      "headline": "FIRST NAME ON THE PLAQUE",
+      "subhead": "A fresh plaque is being polished, and the engraver has only one name to carve into it: {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-021",
+      "kicker": "BACK PAGE",
+      "headline": "LEGEND STATUS CONFIRMED",
+      "subhead": "There is no debate and no appeal, as {winner} becomes a legend by winning the Golden Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-022",
+      "kicker": "CROWN WATCH",
+      "headline": "LONG LIVE THE GOLDEN MONARCH",
+      "subhead": "All the realm bows to {winner}, whose reign in the Showdown now has the richest crown in the kingdom.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-023",
+      "kicker": "HONOURS DESK",
+      "headline": "THE MOUNTAIN HAS A FLAG",
+      "subhead": "{winner} has planted it at the very top, where the air is thin and the Golden Showdown is finally within reach.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-024",
+      "kicker": "SPORTS DESK",
+      "headline": "NOBODY CAME CLOSER",
+      "subhead": "{loserClub} made a gallant chase, but {winnerClub} got to the golden mark first, and only one manager can.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-025",
+      "kicker": "LEGEND WATCH",
+      "headline": "TOLD FOR GENERATIONS",
+      "subhead": "Years from now the story will be passed on, and {winner} will always be the name at the centre of it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-026",
+      "kicker": "FINAL EDITION",
+      "headline": "A COLLECTOR'S EDITION",
+      "subhead": "Keep this page, frame it, and show it to future generations as proof of the day {winner} won the Golden Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-027",
+      "kicker": "OPENING PAGES",
+      "headline": "THE GOLDEN DOOR OPENS",
+      "subhead": "One manager reached the entrance first, and {winner} now walks in as the undisputed owner of the Golden Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-028",
+      "kicker": "NIGHT DESK",
+      "headline": "THE LAST CHECKPOINT, CLEARED",
+      "subhead": "{winnerClub} has beaten the hardest level on the console and earned the rarest ending the save file can offer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-029",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "GILDED FROM TOP TO TOE",
+      "subhead": "{winner} has made the Showdown shine from every angle, from the dugout to the highest seat in the house.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-030",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE GOLDEN CURTAIN FALLS",
+      "subhead": "The greatest production this paper has covered is over, and {winner} is the unrivalled star of the closing night.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-031",
+      "kicker": "RIVALRY WATCH",
+      "headline": "THE ULTIMATE BRAGGING RIGHT",
+      "subhead": "Nobody will ever argue with {winner} again over who won the Golden Showdown, because the records are settled.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-032",
+      "kicker": "ROAD NOTES",
+      "headline": "THE ENDLESS MILE, FINISHED",
+      "subhead": "The longest route the game offers has been run in full, and {winnerClub} is the first to see the golden line.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-033",
+      "kicker": "SEASON REVIEW",
+      "headline": "WHEN GOLD MEETS GLORY",
+      "subhead": "These two rarely appear on the same page, but {winner} has brought them together in the Golden Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-034",
+      "kicker": "HONOURS DESK",
+      "headline": "THE GOLDEN SHELF",
+      "subhead": "There is a very special place in the cabinet reserved for the Golden Showdown, and {winner} will be filling it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-035",
+      "kicker": "TABLE TALK",
+      "headline": "TOP OF EVERY LIST",
+      "subhead": "Every column and every table agrees today, and {winner} appears first on all of them as Golden Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-036",
+      "kicker": "KITCHEN DESK",
+      "headline": "THE GOLDEN RECIPE",
+      "subhead": "It took patience, seasoning and years of hard work, but {winnerClub} finally has the perfect dish to show for it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-037",
+      "kicker": "BACK PAGE",
+      "headline": "OUR FINEST HOUR",
+      "subhead": "The Gazette has never been prouder to print a result, since {winner} has made history with the Golden Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-038",
+      "kicker": "EVENING EDITION",
+      "headline": "BEYOND ALL COMPARE",
+      "subhead": "There is nothing like it in the archive, and {winner} has set a standard that the book of records now bears.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b16-039",
+      "kicker": "HISTORY DESK",
+      "headline": "THE FIRST AND ONLY",
+      "subhead": "Only one manager can be the first to get there, and the proud holder of that distinction is {winner}.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b16-040",
+      "kicker": "LATE EDITION",
+      "headline": "GOLD RUSH WINNER",
+      "subhead": "{winnerClub} dashed ahead in a thrilling race for the Golden Showdown, and no one else reached the golden mark in time.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

@@ -1,0 +1,329 @@
+{
+  "batch": 15,
+  "situation": "showdown-won-5-seasons",
+  "edition": "final",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b15-001",
+      "kicker": "FINAL EDITION",
+      "headline": "AN ERA HAS ITS OWNER",
+      "subhead": "Across {seasonsTotal} seasons of rivalry, {winner} built the defining stretch of the Showdown and finishes it as champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-002",
+      "kicker": "HISTORY DESK",
+      "headline": "THE LONG CAMPAIGN ENDS",
+      "subhead": "{winnerClub} outlasted {loserClub} through every twist of a patient campaign, and the Showdown title is the reward.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-003",
+      "kicker": "ROAD NOTES",
+      "headline": "MILESTONES AND MILE MARKERS",
+      "subhead": "Season after season the route unfolded, and {winner} reached the final marker ahead by {margin} to claim the Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-004",
+      "kicker": "TABLE TALK",
+      "headline": "THE LEDGER RUNS LONG",
+      "subhead": "A great many lines were written in the book, and the grand total at the bottom reads {winnerPoints} to {loserPoints} in favour of {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-005",
+      "kicker": "CROWN WATCH",
+      "headline": "A REIGN WELL EARNED",
+      "subhead": "{winner} did not seize the Showdown in a day, but ruled it patiently over a full era and now wears the crown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-006",
+      "kicker": "LEGEND WATCH",
+      "headline": "FOLKLORE IN THE MAKING",
+      "subhead": "The tale of this long contest will be told for a good while, and {winner} is the hero at the heart of it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-007",
+      "kicker": "OPENING PAGES",
+      "headline": "A SERIAL WITH A SATISFYING END",
+      "subhead": "Every season was an episode and every episode mattered, and the finale confirmed {winnerClub} as the Showdown champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-008",
+      "kicker": "TROPHY ROOM",
+      "headline": "SILVER BUILT SLOWLY",
+      "subhead": "The Showdown trophy was earned a season at a time, and {winner} has now stacked enough of them to take the lot.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-009",
+      "kicker": "NIGHT DESK",
+      "headline": "THE LONG SAVE FILE",
+      "subhead": "Hours of play and a full run of seasons later, {winner} sits on top of the Showdown while the console glows on.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-010",
+      "kicker": "SPORTS DESK",
+      "headline": "ENDURANCE WINS THE DAY",
+      "subhead": "The Showdown rewarded stamina over sprints, and {winner} finished as strongly as a manager could after such a stretch.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-011",
+      "kicker": "KITCHEN DESK",
+      "headline": "SLOW BURN, SWEET FINISH",
+      "subhead": "{winnerClub} let the Showdown simmer through every season and served the title at exactly the right moment.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-012",
+      "kicker": "CABINET WATCH",
+      "headline": "ROOM FOR A WHOLE ERA",
+      "subhead": "The shelves are full and the polish is fresh, because {winner} has an entire campaign of proof to display.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-013",
+      "kicker": "RIVALRY WATCH",
+      "headline": "THE ERA BELONGS TO {winner}",
+      "subhead": "The chase was real across a long run of seasons, yet the final standings give {winnerClub} the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-014",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE MINISERIES FINALE",
+      "subhead": "After a long and gripping run, the last episode belongs to {winner}, who finishes as the Showdown's lead character.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-015",
+      "kicker": "BACK PAGE",
+      "headline": "MARATHON MAN, MARATHON WIN",
+      "subhead": "{winner} paced the full distance without cramping, and the Showdown was the prize for staying on course.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-016",
+      "kicker": "HONOURS DESK",
+      "headline": "THE LONG GAME PAYS",
+      "subhead": "Patience marked every season of {winnerClub}'s campaign, and the Showdown is a very fitting reward.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-017",
+      "kicker": "LATE EDITION",
+      "headline": "WRITTEN IN INK, STEADILY",
+      "subhead": "Every result was recorded and every total added up, and {winner} finished with a margin of {margin} in the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-018",
+      "kicker": "EVENING EDITION",
+      "headline": "ARCHIVE SPACE FOR {winner}",
+      "subhead": "Historians will need a dedicated shelf for this long Showdown, whose champion is now {winnerClub}'s manager.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-019",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "A CAMPAIGN OF CHAPTERS",
+      "subhead": "The managers wrote a long book across the seasons, and the closing page names {winner} as the winner of the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-020",
+      "kicker": "SEASON REVIEW",
+      "headline": "THE SLOW CROWN",
+      "subhead": "Not hurried and not handed over, the Showdown title reached {winner} only after an era of steady, serious work.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-021",
+      "kicker": "CROWN WATCH",
+      "headline": "A DYNASTY IN THE WINGS",
+      "subhead": "The reign has been a long one, and {winnerClub} looks every inch the royal house of this particular rivalry.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-022",
+      "kicker": "ROAD NOTES",
+      "headline": "SUMMIT AFTER SUMMIT",
+      "subhead": "{winner} kept climbing through the long campaign, and the top of the Showdown was reached with {loser} in sight below.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-023",
+      "kicker": "HISTORY DESK",
+      "headline": "BOOK CLOSED, NAME WRITTEN",
+      "subhead": "An era of competition is formally finished, and the final entry names {winner} as the Showdown's champion.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-024",
+      "kicker": "TABLE TALK",
+      "headline": "ADD IT UP, AGAIN, AND AGAIN",
+      "subhead": "The totals were checked many times over, and each time {winnerClub} came out ahead of {loserClub} in the Showdown.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-025",
+      "kicker": "SPORTS DESK",
+      "headline": "A FULL SEASON TICKET FOR GLORY",
+      "subhead": "Every home game and every away day of the campaign counted, and {winner} has the Showdown to show for it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-026",
+      "kicker": "NIGHT DESK",
+      "headline": "STARLIGHT ON THE LONG HAUL",
+      "subhead": "Through a very long run of nights beneath the screen's glow, {winner} charted a course to the Showdown title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-027",
+      "kicker": "OPENING PAGES",
+      "headline": "PATIENCE AND PERSISTENCE",
+      "subhead": "{winner} pursued the Showdown through a lengthy campaign and finally took firm hold of it at the finish.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-028",
+      "kicker": "KITCHEN DESK",
+      "headline": "THE SLOW COOKER SPECIAL",
+      "subhead": "A dish of this size takes time, and {winnerClub} let the seasons do the work before serving the Showdown win.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-029",
+      "kicker": "LEGEND WATCH",
+      "headline": "CARVED IN STONE",
+      "subhead": "Statues are made for campaigns this long, and the sculptor has already been asked to start work on {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-030",
+      "kicker": "FINAL EDITION",
+      "headline": "THE MARATHON HAS A WINNER",
+      "subhead": "After a very long run, {winner} breaks the tape, and the Showdown title is placed around the manager's shoulders.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-031",
+      "kicker": "RIVALRY WATCH",
+      "headline": "A LONG ARGUMENT SETTLED",
+      "subhead": "The disagreement lasted a great many seasons, and now the finishing totals give {winner} the last word over {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-032",
+      "kicker": "BACK PAGE",
+      "headline": "SEASONS OF SERVICE",
+      "subhead": "{winnerClub} delivered year after year of quality, and the Showdown title is the thank you for the whole shift.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-033",
+      "kicker": "HONOURS DESK",
+      "headline": "MEDAL FOR THE DISTANCE",
+      "subhead": "Many managers can start well, but {winner} kept the standard through a lengthy campaign and finished the Showdown as champion.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-034",
+      "kicker": "EVENING EDITION",
+      "headline": "TIME WELL SPENT",
+      "subhead": "There were no shortcuts in this contest, only a steady build that left {winner} with the Showdown at the end.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-035",
+      "kicker": "SEASON REVIEW",
+      "headline": "FROM FIRST PAGE TO LAST",
+      "subhead": "The story ran across the whole book of the Showdown, and {winner} was never out of it on the way to the final title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-036",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "A LONG RUN IN THE WEST END",
+      "subhead": "The show kept selling out for season after season, and {winner} took the final bow as the Showdown's star.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-037",
+      "kicker": "TROPHY ROOM",
+      "headline": "THE GREAT POLISHING",
+      "subhead": "Cloths are out and shelves are cleared, since {winner} has a long era's worth of silverware to arrange.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-038",
+      "kicker": "ROAD NOTES",
+      "headline": "THE LONGEST ROAD HOME",
+      "subhead": "The route was winding and the weather turned many times, but {winnerClub} reached the end of it with the Showdown in hand.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b15-039",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "STAMINA AND STYLE",
+      "subhead": "{winner} showed both over the full length of the Showdown, and that combination proved too much for {loserClub} to match.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b15-040",
+      "kicker": "LATE EDITION",
+      "headline": "THE ERA ENDS ON A HIGH",
+      "subhead": "It has been a long and winding contest, and it closes with a champion standing proudly at the top.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}

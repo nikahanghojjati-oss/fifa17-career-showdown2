@@ -1,0 +1,329 @@
+{
+  "batch": 13,
+  "situation": "showdown-won-1-season",
+  "edition": "final",
+  "lens": "Mixed",
+  "edited": true,
+  "rows": [
+    {
+      "id": "b13-001",
+      "kicker": "FINAL EDITION",
+      "headline": "SHOT TAKEN, CROWN WON",
+      "subhead": "There was no second chance in this sprint, and {winner} took the single opportunity to win the Showdown outright.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-002",
+      "kicker": "SEASON REVIEW",
+      "headline": "A SPRINT, NO SECOND LAP",
+      "subhead": "{winnerClub} treated the single season as a short dash and crossed the line first, leaving {loser} with no time to answer.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-003",
+      "kicker": "FINAL EDITION",
+      "headline": "ALL OR NOTHING, ALL OURS",
+      "subhead": "When there is only one season to play, {winner} grabbed it with both hands and walked away as Showdown champion.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-004",
+      "kicker": "HONOURS DESK",
+      "headline": "THE SHORTEST RULE IN TOWN",
+      "subhead": "A one-season Showdown leaves no room for a slow start, and {winner} never allowed one on the way to the title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-005",
+      "kicker": "LATE EDITION",
+      "headline": "NO TIME TO BLINK",
+      "subhead": "{loser} blinked once and the season was gone, because {winner} made sure the one and only chance did not slip away.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-006",
+      "kicker": "TROPHY ROOM",
+      "headline": "SNAP DECISION",
+      "subhead": "The Showdown lasted a single campaign, and {winner} decided it quickly enough to leave {loserClub} little room to recover.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-007",
+      "kicker": "CROWN WATCH",
+      "headline": "CROWNED IN RECORD TIME",
+      "subhead": "No long reign was required, as {winner} took the throne of the Showdown after just one remarkable campaign.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-008",
+      "kicker": "BACK PAGE",
+      "headline": "A WONDER OF A SEASON",
+      "subhead": "It lasted only one season, and it was enough for {winnerClub} to leave the contest with the Showdown title in hand.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-009",
+      "kicker": "HISTORY DESK",
+      "headline": "QUICKEST ENTRY ON RECORD",
+      "subhead": "Few Showdowns end this fast, and {winner} will be remembered as the manager who needed only one campaign to claim it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-010",
+      "kicker": "TABLE TALK",
+      "headline": "THE ONLY ROW THAT MATTERED",
+      "subhead": "With a single line in the ledger, {winnerPoints} to {loserPoints} was the whole story, and it belonged to {winner}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-011",
+      "kicker": "NIGHT DESK",
+      "headline": "NO CONTINUES, NO FEAR",
+      "subhead": "A single season on the save file meant no retries, and {winner} played it perfectly enough to win the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-012",
+      "kicker": "STAGE AND SCREEN",
+      "headline": "THE SHORT FILM WINS",
+      "subhead": "Not every great story needs a trilogy, and {winnerClub} proved it with a single tight season that ended in the Showdown title.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-013",
+      "kicker": "SPORTS DESK",
+      "headline": "FLYING START, FLYING END",
+      "subhead": "There was no gap between the opening and the ending, so {winner} led from the first page and lifted the Showdown on the last.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-014",
+      "kicker": "KITCHEN DESK",
+      "headline": "SERVED HOT AND FAST",
+      "subhead": "The Showdown was a single course, and {winner} served it with such confidence that {loser} was left only to applaud.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-015",
+      "kicker": "RIVALRY WATCH",
+      "headline": "{loser} WILL WANT A REMATCH",
+      "subhead": "The one-season Showdown ended too soon for the runner-up, but {winner} owns the title and the memories that go with it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-016",
+      "kicker": "ROAD NOTES",
+      "headline": "LIGHTNING IN A BOTTLE",
+      "subhead": "{winnerClub} caught it in the only season available, and the Showdown now carries the name of {winner} for good.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-017",
+      "kicker": "FINAL EDITION",
+      "headline": "THE FIRST AND FINAL WORD",
+      "subhead": "Having just one season to speak, {winner} said everything that needed saying and left with the Showdown title.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-018",
+      "kicker": "CABINET WATCH",
+      "headline": "ENGRAVED ON THE FIRST TRY",
+      "subhead": "The trophy plate needed only one entry, and {winner} gave the engraver a name to carve after a single campaign.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-019",
+      "kicker": "SPORTS DESK",
+      "headline": "HOME STRAIGHT, FIRST TIME",
+      "subhead": "It was a one-lap race from start to finish, and {winnerClub} broke clear to take the Showdown without needing a second.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-020",
+      "kicker": "HONOURS DESK",
+      "headline": "NO ENCORE NEEDED",
+      "subhead": "The applause came after one performance, because {winner} delivered a Showdown win that required no repeat to be believed.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-021",
+      "kicker": "LEGEND WATCH",
+      "headline": "INSTANT CLASSIC",
+      "subhead": "A season was all the Showdown asked for, and {winner} made it count with a campaign worth retelling for years.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-022",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "QUICK, CLEAN AND DECISIVE",
+      "subhead": "Efficiency was the theme as {winnerClub} turned one season into one title, leaving {loserClub} to plan a longer fight next time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-023",
+      "kicker": "EVENING EDITION",
+      "headline": "SHORT STORY, BIG ENDING",
+      "subhead": "The Showdown fit into a single campaign, and the ending belonged entirely to {winner}, who finished on top of the standings.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-024",
+      "kicker": "NIGHT DESK",
+      "headline": "SPEEDRUN SUCCESS",
+      "subhead": "The whole contest was done in a single season of the save file, and {winner} reached the title screen first.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-025",
+      "kicker": "SEASON REVIEW",
+      "headline": "SPRINT FINISH, SOLE VICTOR",
+      "subhead": "Only one sprint was on the card, and {winner} flew through it to take a Showdown that never allowed a rematch.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-026",
+      "kicker": "TABLE TALK",
+      "headline": "ROUND OVER, WINNER NAMED",
+      "subhead": "Nothing carried over and nothing was owed, and {winnerClub} simply finished the single season ahead of {loserClub}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-027",
+      "kicker": "TROPHY ROOM",
+      "headline": "THE QUICK POLISH",
+      "subhead": "The cabinet barely had time to open before {winner} was putting a brand new Showdown trophy inside it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-028",
+      "kicker": "THE GAZETTE",
+      "headline": "NO SECOND CHANCES, NO PROBLEM",
+      "subhead": "{winner} took the pressure of a single-season contest and turned it into a crown, leaving no appeal for {loser}.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-029",
+      "kicker": "BACK PAGE",
+      "headline": "WHAT A FIRST ROUND!",
+      "subhead": "It was also the last round, and {winnerClub} walked off with the Showdown after just one.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-030",
+      "kicker": "RIVALRY WATCH",
+      "headline": "TOO SOON TO SAY GOODBYE",
+      "subhead": "The runner-up will wish the rivalry had longer to run, but {winner} gets to enjoy the championship while it is fresh.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-031",
+      "kicker": "ROYAL NEWS",
+      "headline": "SHORT REIGN, SWEET REIGN",
+      "subhead": "{winner} did not wait years for the throne, taking the Showdown crown in a single campaign.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-032",
+      "kicker": "HISTORY DESK",
+      "headline": "THE SHORTEST CHAPTER SELLS",
+      "subhead": "A Showdown contained in one season still makes the archives, and {winner} now has the proudest entry in it.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-033",
+      "kicker": "OPENING PAGES",
+      "headline": "STRAIGHT TO THE FINALE",
+      "subhead": "There was no build-up, only the climax, and {winnerClub} delivered it before {loserClub} could find a rhythm.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-034",
+      "kicker": "SPORTS DESK",
+      "headline": "A SHOT AT GLORY, TAKEN",
+      "subhead": "{winner} stepped up with a single chance in hand and made it count, taking the Showdown without a second thought.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-035",
+      "kicker": "KITCHEN DESK",
+      "headline": "A FLASH WORTH KEEPING",
+      "subhead": "The heat was on for exactly one season, and {winner} cooked up a title that will taste sweet for a long time.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-036",
+      "kicker": "LATE EDITION",
+      "headline": "THE CLOCK LOVED {winner}",
+      "subhead": "The clock on the one-season Showdown did not wait, and {winner} had made good use of every minute of it.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-037",
+      "kicker": "FRONT PAGE",
+      "headline": "THE SOLO SHOWDOWN",
+      "subhead": "A Showdown of a single season is a best of one, and {winner} came out the best by finishing on top.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-038",
+      "kicker": "ROAD NOTES",
+      "headline": "FROM STARTING GUN TO TAPE",
+      "subhead": "Everything happened between the first whistle and the last, and {winnerClub} held the lead when it counted for the Showdown.",
+      "score": 9,
+      "was": null
+    },
+    {
+      "id": "b13-039",
+      "kicker": "INSIDE STORY",
+      "headline": "SPRINT SPECIALIST",
+      "subhead": "{winnerClub} took the whole Showdown in a short dash, staying ahead of {loserClub} from the first minute to the last.",
+      "score": 10,
+      "was": null
+    },
+    {
+      "id": "b13-040",
+      "kicker": "TOUCHLINE VIEW",
+      "headline": "TIGHT, FAST, FINAL",
+      "subhead": "The compact Showdown left no space to recover, and {winner} used every moment to finish as its champion.",
+      "score": 9,
+      "was": null
+    }
+  ]
+}
