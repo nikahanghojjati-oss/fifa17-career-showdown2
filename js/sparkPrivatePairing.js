@@ -693,7 +693,7 @@ async function revokePairing(options={}){
   // pricing, "Listeners and rules"), so every server delivery is billed its document plus its lookups. A write is priced at
   // every document its create or update rule can reach, once per request (a transaction is one request): an upper bound.
   // tests/contracts/r86-billed-counter-contracts.cjs fails when the Rules change and this table is not regenerated.
-  const FSB_RULES_SHA256="4585bc97941abf4b251fbe8dea7d0684850aec62e557369ebcc7242e6aff4c7e";
+  const FSB_RULES_SHA256="bffd4bff694d6fa91d97c0b943b1fd6c40f7e125db4acb53639684a31dd86e9e";
   // BEGIN generated Rules lookup table (paths are priced here, never read or written by this module).
   const FSB_RULES_LOOKUPS=Object.freeze([
       ["accounts/*",0,0,[]],
@@ -1419,6 +1419,9 @@ async function revokePairing(options={}){
   function fsbWakeReturning(){
     for(const wake of fsbReturnWakes.values()){if(typeof root.setTimeout==="function")root.setTimeout(()=>{try{wake();}catch(_error){}},0);}
   }
+  function fsbRouletteMarkOnly(path,snapshot){
+    try{return /^rivalries\/[^/]+\/transferChallenges\/season_\d+$/.test(String(path||""))&&Boolean(snapshot&&snapshot.exists&&snapshot.exists())&&snapshot.data().phase==="NOT_STARTED";}catch(_error){return false;}
+  }
   function fsbWaitDelivery(wait,snapshot){
     if(fsbWait!==wait)return;
     if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){wait.healthy=false;return;}
@@ -1433,7 +1436,10 @@ async function revokePairing(options={}){
     // stayed behind the listener, so the next 30 s server check of the waited document always looked "changed" and re-ran
     // the whole check on fresh reads (about 9 documents) after every lock.
     fsbEntries.delete(wait.path);fsbEntries.set(wait.path,{snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(wait.path,snapshot)});
-    if(changed){fsbForgetContext();fsbChainAt=fsbNow();fsbWakeOwners(wait);}
+    // r87 RT5-FLOW-02: a partner's roulette mark only adds a role to the season's pre-window Transfer document; no other
+    // document can have changed with it, so the waiting screen wakes on the listener's copy without forgetting (and re-reading)
+    // the rest of its context. Anything else, including the window opening, forgets as before.
+    if(changed){if(!fsbRouletteMarkOnly(wait.path,snapshot)){fsbForgetContext();fsbChainAt=fsbNow();}fsbWakeOwners(wait);}
   }
   // r86 red team #18: back from hidden, the wait listener the page had is attached again at once for the same screens, and a
   // read of its document waits up to 5 s for its first server delivery, instead of the screen reading it from the server and
