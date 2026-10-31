@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-31 5:24 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-31 5:27 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `8f08eb1` (Sat 31 Oct 12:16 AM Boston time) · 174 messages · 50 hand-offs · 333 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d6dabc5` (Sat 31 Oct 5:26 AM Boston time) · 174 messages · 50 hand-offs · 334 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-049 · G → V · r87 start screens: season chips, LED words, no-dim CTA, Career Start options
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 9 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 9 min after delivery
 
+- Sat 31 Oct 5:26 AM · Team V · Done · Items 1-3 in PR #1099 (Nik OK). Item 4: Nik picked B; crest must always fit inside the pack frame, never overflow; spec CAREER_START_B_SPEC.md for Team G to build
 - Sat 31 Oct 12:00 AM · Team V · In progress · Team V thread building items 1-3 on gameplay/r87; item 4 as 2 options for Nik
 - Fri 30 Oct 11:59 PM · Team V · Received · Team V: received; routing to a Team V thread via the coordinator
 - Fri 30 Oct 11:48 PM · Team G · Sent

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 5:24 AM Boston time (EDT)",
+ "generated": "2026-10-31 5:27 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1589,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "8f08eb1",
-  "head_boston": "Sat 31 Oct 12:16 AM",
+  "head": "d6dabc5",
+  "head_boston": "Sat 31 Oct 5:26 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1642,6 +1642,16 @@
     "total": 4,
     "pr": 381,
     "current": "Done; handed to Team G as HO-006"
+   },
+   {
+    "job": "V-HO-049",
+    "title": "r87 start screens: season chips, NEW SHOWDOWN wordmark, LED words, no-dim Continue",
+    "worker": "worker not set",
+    "lane": "",
+    "done": 0,
+    "total": 1,
+    "pr": 1099,
+    "current": ""
    }
   ],
   "inbox": {
@@ -2291,8 +2301,8 @@
     "from": "G",
     "to": "V",
     "title": "r87 start screens: season chips, LED words, no-dim CTA, Career Start options",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-049_r87-start-screens-season-chips-led-words.md",
     "worker": "opus",
