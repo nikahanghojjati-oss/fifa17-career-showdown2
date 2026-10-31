@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-31T01:52:26Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-31T01:52:26Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-31T02:01:58Z", "by": "G", "status": "RECEIVED", "note": "r87 lead: building it now (branch claude-gameplay/r87-gazette); season edition after each Season Results, final after Final Winner (Nik 01:28 UTC). Paper text deterministic per Showdown+season so both phones match."}]
 }
 ```
 

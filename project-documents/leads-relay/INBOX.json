@@ -1,9 +1,9 @@
 {
  "_how": "Each team's current Claude session for the relay, with state active|rotating (missing = active). Set only with handoff.py register (CONTRACT.md §11). New leads: do NEW_LEAD_START.md first.",
  "G": {
-  "session_id": "session_01GU43Q7tUFaokdEJ5951ioW",
-  "thread": "Team G lead: r86",
-  "updated": "2026-10-27T23:12:32Z",
+  "session_id": "session_01GU43Q8SekYEo4yZo5Tik3P",
+  "thread": "Team G lead: r87 Squad Roulette",
+  "updated": "2026-10-31T02:01:58Z",
   "state": "active"
  },
  "V": {
@@ -15,9 +15,9 @@
  "coordinators": {
   "_how": "Each project's coordinator (channel session) outlives lead threads. Every wake also goes to the other team's coordinator (Nik 2026-10-29: leads always change, reach the coordinator). Each coordinator keeps its own entry current; any lead that learns a newer id updates it.",
   "G": {
-   "session_id": "session_01GU43Q7nrAuYiru6MfLUnoU",
+   "session_id": "session_01GU43Q8G6m5LYkJDr1GJcmX",
    "project": "G Lead - Claude Career Mode Showdown - Gameplay Engineering",
-   "updated": "2026-10-29T00:10:00Z"
+   "updated": "2026-10-31T02:01:58Z"
   },
   "V": {
    "session_id": "session_01GU43Q7VYc12yjGta5X1XbP",
