@@ -313,7 +313,7 @@
   // Player reveal raise it themselves and are never touched. Only full screens count; an overlay (Settings) never raises it.
   const gate={timer:null,raisedAt:0,lowering:null};
   const vsGateHeld=()=>[...pending.keys()].some(id=>registry.get(id)?.overlay!==true&&vsIsShown(id));
-  function vsGateEl(){const el=vsHost("loadingScreen");return el&&el.dataset&&el.classList?el:null;}
+  function vsGateEl(){const el=vsHost("loadingScreen");return el&&el.dataset&&el.classList&&typeof el.getAttribute==="function"&&typeof el.setAttribute==="function"&&typeof el.removeAttribute==="function"?el:null;}
   function vsGateHold(){
     if(gate.lowering!==null){root.clearTimeout(gate.lowering);gate.lowering=null;const el=vsGateEl();if(vsGateOwns(el)){el.classList.remove("is-exiting");el.setAttribute("aria-busy","true");el.removeAttribute("aria-hidden");vsSetNavMode("none");}else{gate.raisedAt=0;vsGateForget(el);}}
     if(gate.timer!==null||gate.raisedAt)return;
