@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 9:53 PM Boston time (EDT)",
+ "generated": "2026-10-30 9:57 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -2295,7 +2295,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-048_touchline-gazette-full-edition-real-news.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    }
   ],
   "relay_ok": true
