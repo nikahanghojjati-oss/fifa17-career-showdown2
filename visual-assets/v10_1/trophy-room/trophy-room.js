@@ -78,7 +78,7 @@
       const s = frame.standings.find(x => x.manager === manager);
       const m = frame.managers[manager];
       if (!s || !m) return "";
-      return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}${spChip(frame, manager)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON WINS</small></div>`;
+      return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}${spChip(frame, manager)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON ${m.seasonWins === 1 ? "WIN" : "WINS"}</small></div>`;
     }).join("");
     return `<div class="careerRanks" data-sd-enter="panel" aria-label="Career standings">${rows}</div>`;
   }
@@ -125,7 +125,8 @@
 
   function statePanel(strings, frame) {
     if (frame.status === "loading") return `<div class="statePanel statePanel--loading" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true"></i><strong>${esc(strings.stateCopy.loading.text)}</strong></div>`;
-    if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong></div>`;
+    // r87 polish (P-07): TRY AGAIN opens the screen again the way the menu does (the same read-only career load).
+    if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong>${typeof window.openTrophyRoom === "function" ? `<button type="button" id="trophyRetryButton" class="stateRetry sd-btn">${esc(strings.retry || "TRY AGAIN")}</button>` : ""}</div>`;
     if (frame.status === "partial") return `<div class="stateNotice" data-sd-enter="panel"><span class="stateNoticeIcon" aria-hidden="true">!</span><span>${esc(frame.stateMessage || strings.stateCopy.partial.text.replace("{READABLE}", frame.coverage.readable).replace("{INDEXED}", frame.coverage.indexed))}</span><b>${frame.coverage.readable} of ${frame.coverage.indexed} Showdowns readable</b></div>`;
     return "";
   }
@@ -222,6 +223,8 @@
     content.dataset.frame = state.frameKey;
     content.dataset.category = state.activeCategory;
 
+    const retry = content.querySelector("#trophyRetryButton");
+    if (retry) retry.addEventListener("click", () => { retry.disabled = true; try { window.openTrophyRoom(); } catch (_) { retry.disabled = false; } });
     content.querySelectorAll(".trophyTab").forEach(btn => btn.addEventListener("click", () => {
       const category = btn.dataset.category;
       if (state.tabTransitioning || category === state.activeCategory) return;

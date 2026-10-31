@@ -71,7 +71,7 @@ const figures=f=>({ranks:f.ranks.map(({visible,...row})=>row),records:f.records.
         if(!phone){
           desktop=figures(actual);
           assert.equal(actual.ranks.length,2);assert.equal(actual.records.length,frame.records.length);
-          for(const row of frame.standings){const rank=actual.ranks.find(r=>r.manager===row.manager);assert.equal(rank.rank,row.rank);assert.equal(rank.points,row.careerPoints);assert.equal(rank.detail,`CAREER POINTS · ${row.seasonWins} SEASON WINS`);}
+          for(const row of frame.standings){const rank=actual.ranks.find(r=>r.manager===row.manager);assert.equal(rank.rank,row.rank);assert.equal(rank.points,row.careerPoints);assert.equal(rank.detail,`CAREER POINTS · ${row.seasonWins} SEASON ${row.seasonWins===1?"WIN":"WINS"}`);}
           assert.deepEqual(actual.records.map(r=>[r.label,r.value,r.manager]),frame.records.map(r=>[r.label,r.value,r.manager==="shared"?"Shared":frame.managers[r.manager].displayName]));
         }else{
           assert.equal(actual.sheetTitle,"CAREER DETAILS");assert.equal(actual.sheetVisible,true);

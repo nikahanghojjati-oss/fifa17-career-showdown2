@@ -576,3 +576,14 @@ html[data-motion-reduced="true"] .actionButton:active, html[data-reduced-motion=
 /* CC-008 B7 · desktop: the old decorative topChrome (aria-hidden) still drew under the shared navbar, so every
    tab label had a faint ghost copy beside it ("HOMEME", "CAREERER"). The shared bar owns the top now. */
 .topChrome { display: none !important; }
+
+/* r87 polish (P-07): TRY AGAIN under an unavailable career, a gold-edged marble button centred under the message. */
+.stateRetry {
+  justify-self: center; align-self: center; margin: 14px auto 0; min-height: 44px; min-width: 160px; padding: 8px 22px;
+  border: 1px solid rgba(255,211,77,.78); border-radius: 2px; cursor: pointer;
+  background: linear-gradient(180deg, rgba(255,211,77,.16), rgba(10,10,12,.92) 70%); color: #ffd34d;
+  font: 700 14px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing: .14em; text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255,236,170,.3), 0 6px 18px rgba(0,0,0,.45);
+}
+.stateRetry:disabled { cursor: progress; opacity: .7; }
+.stateRetry:focus-visible { outline: 2px solid #ffe36c; outline-offset: 3px; }

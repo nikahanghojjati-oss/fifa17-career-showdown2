@@ -132,7 +132,7 @@
     const panel=document.getElementById("leadersPanel"); panel.replaceChildren();
     const h=document.createElement("h2"); h.id="leadersHeading"; h.className="panelTitle"; h.textContent=fx.strings.sections.careerLeaders; panel.appendChild(h);
     const D=frame.managers.daniel,N=frame.managers.nik;
-    const specs=[[fx.strings.leaderLabels[0],"seasonWins","wins"],[fx.strings.leaderLabels[1],"totalTrophies","trophies"],[fx.strings.leaderLabels[2],"careerPoints","pts"],[fx.strings.leaderLabels[3],"bestSeasonScore","pts"]];
+    const specs=[[fx.strings.leaderLabels[0],"seasonWins",["win","wins"]],[fx.strings.leaderLabels[1],"totalTrophies",["trophy","trophies"]],[fx.strings.leaderLabels[2],"careerPoints",["pt","pts"]],[fx.strings.leaderLabels[3],"bestSeasonScore",["pt","pts"]]];
     const grid=document.createElement("div"); grid.className="leaderGrid";
     specs.forEach(([label,key,suffix])=>{
       const x=leader(D,N,key);
@@ -141,7 +141,7 @@
         ? `<span class="managerPortrait managerPortraitSplit" role="img" aria-label="Daniel and Nik portrait crops"><span class="managerPortrait daniel"></span><span class="managerPortrait nik"></span></span>`
         : `<span class="managerPortrait ${x.role}" role="img" aria-label="${x.name} portrait crop"></span>`;
       const card=document.createElement("article"); card.className="leaderCard"; card.dataset.leader=x.role;
-      card.innerHTML=`${portrait}<div><div class="leaderLabel">${label}</div><div class="leaderName">${x.name}</div><div class="leaderValue">${fmt(x.value)} ${suffix}</div></div>`;
+      card.innerHTML=`${portrait}<div><div class="leaderLabel">${label}</div><div class="leaderName">${x.name}</div><div class="leaderValue">${fmt(x.value)} ${Number(x.value)===1?suffix[0]:suffix[1]}</div></div>`;
       grid.appendChild(card);
     }); panel.appendChild(grid);
   }
@@ -166,6 +166,14 @@
     if(frame.status==="empty") { heading=fx.strings.noCompletedRecord || "No completed record yet"; body="Career Statistics fill in after your first finished Showdown. The live Showdown's numbers are on Standings and Rivalry Statistics."; icon="0"; }
     else { const c=fx.strings.stateCopy[frame.status]; heading=c.heading; body=c.body; icon=frame.status==="loading"?"…":"!"; }
     state.innerHTML=`<div class="stateIcon" aria-hidden="true">${icon}</div><h2>${heading}</h2><p>${body}</p>`;
+    // r87 polish (P-07): an unavailable career offers TRY AGAIN, which opens the screen again the way the menu does (the same
+    // read-only career load; nothing is written).
+    if(frame.status==="unavailable" && typeof window.openCareerStatistics==="function") {
+      const retry=document.createElement("button"); retry.type="button"; retry.id="careerRetryButton"; retry.className="stateRetry sd-btn";
+      retry.textContent=fx.strings.retry || "TRY AGAIN";
+      retry.addEventListener("click",()=>{ retry.disabled=true; try { window.openCareerStatistics(); } catch (_) { retry.disabled=false; } });
+      state.appendChild(retry);
+    }
   }
   // JOB-152 signature moment: headline numbers count up once with the tiles (kit sdCountUp).
   // r80: the app can mount this screen twice in a row (first visit after a reload), and both boots reach this
