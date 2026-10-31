@@ -410,9 +410,7 @@
 
   /* ---- HUD rail: HOME, progress, REFRESH ---- */
   #app #transferChallenge .tw-host .hud-footer {
-    position: absolute; left: 0; right: 0; bottom: 0; height: var(--ls-foot); padding: 0 12px; gap: 10px;
-    /* r87 sizes F11: above the own card (layer 6), so LOCK MY SIGNINGS scrolls under the rail, never over REFRESH */
-    z-index: 8;
+    position: absolute; left: 0; right: 0; bottom: 0; height: var(--ls-foot); padding: 0 12px; gap: 10px; z-index: 5;
     background: linear-gradient(to top, rgba(6, 5, 3, .98) 0%, rgba(6, 5, 3, .94) 80%, rgba(6, 5, 3, 0) 100%);
   }
   #app #transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) { height: 44px; min-height: 44px; min-width: 44px; padding: 0 18px; }
@@ -748,7 +746,7 @@
   #app #transferChallenge .tw-host .world {
     position: relative; inset: auto; width: 100% !important; height: auto !important;
     min-height: calc(100svh - 52px); grid-template-rows: auto auto;
-    padding-bottom: var(--ls-foot, 52px); align-content: start; overflow: visible;
+    padding-bottom: 4px; align-content: start; overflow: visible;
   }
   #app #transferChallenge .tw-host .panel { min-height: auto; }
   #app #transferChallenge .tw-host .panel-body { min-height: 0; }
@@ -756,7 +754,10 @@
   #app #transferChallenge .tw-host .phase-signing .action-row .privacy-note { display: block; }
   #app #transferChallenge .tw-host :is(.guess-col select, .guess-col input, .signing-row input, .signing-row select.signingPosition) { height: 44px; min-height: 44px; }
   #app #transferChallenge .tw-host .phone-hero-art { position: fixed; }
-  #app #transferChallenge .tw-host .hud-footer { position: fixed; }
+  /* r87 sizes F11: the HOME / progress / REFRESH rail sits in the page's flow under the cards, not fixed over them. A
+     fixed rail had the scrolling form pass under it, so LOCK MY SIGNINGS and REFRESH overlapped mid-scroll (nothing may
+     cover anything). The world is one rail short of the screen, so when nothing scrolls the rail still ends the screen. */
+  #app #transferChallenge .tw-host .hud-footer { position: relative; left: auto; right: auto; bottom: auto; }
   #app #transferChallenge .tw-host .hud-mid { flex-direction: column; gap: 3px; }
   #app #transferChallenge .tw-host .hud-title { white-space: normal; text-align: center; font-size: 11px; letter-spacing: .05em; }
   #app #transferChallenge .tw-host .rail { gap: 8px; }

@@ -147,15 +147,18 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   assert.match(read('js/transferSelector.js'),/input\.addEventListener\("blur", \(\) => closeTransferSelectorAfterBlur\(input\)\)/);
   ok('M6','LOCK MY GUESSES stays put under the tap (sizes F2)');
 }
-// M7 (sizes F11) at 844x390 the page scrolls under a fixed HOME / progress / REFRESH rail, but the viewer's own card is
-// lifted to layer 6 (so the sealed card can't cover LOCK) while the rail sat on layer 5: LOCK MY SIGNINGS painted over
-// REFRESH. The sideways-phone rail sits above the card.
+// M7 (sizes F11) at 844x390 the Signing form scrolls, and the HOME / progress / REFRESH rail was fixed over it, so LOCK MY
+// SIGNINGS and REFRESH overlapped mid-scroll (a layer swap only changes which one is covered). On a sideways phone the rail
+// sits in the page's flow under the cards; the world is one rail short of the screen so a page that fits still ends on it.
 {
   const tw=read('css/v10Transfer.css');
-  const own=Number(/\.world > \.panel\.own \{ position: relative; z-index: (\d+); \}/.exec(tw)[1]);
-  const block=tw.slice(tw.indexOf('/* ---- HUD rail: HOME, progress, REFRESH ---- */'));
-  const rail=Number(/\.hud-footer \{[^}]*z-index: (\d+);/.exec(block)[1]);
-  assert.ok(rail>own,`sideways-phone rail layer ${rail} must be above the own card layer ${own}`);
-  ok('M7','LOCK MY SIGNINGS never covers REFRESH on a sideways phone (sizes F11)');
+  const at=tw.indexOf('/* r87 sizes F11:');assert.ok(at>0,'F11 block');
+  const media=tw.lastIndexOf('@media',at);
+  assert.equal(tw.slice(media,tw.indexOf('{',media)).trim(),'@media (orientation: landscape) and (max-height: 500px) and (max-width: 1100px)');
+  const block=tw.slice(media,tw.indexOf('\n}\n',at));
+  assert.match(block,/\.hud-footer \{ position: relative; left: auto; right: auto; bottom: auto; \}/,'rail in flow');
+  assert.doesNotMatch(block,/\.hud-footer \{ position: fixed; \}/,'no fixed rail over the scrolling cards');
+  assert.match(block,/min-height: calc\(100svh - 52px\)[^}]*padding-bottom: 4px;/,'world one rail short, no reserved fixed-rail gap');
+  ok('M7','LOCK MY SIGNINGS and REFRESH never overlap on a sideways phone (sizes F11)');
 }
 console.log(`PASS r87 match-day polish contracts (${checks} checks)`);
