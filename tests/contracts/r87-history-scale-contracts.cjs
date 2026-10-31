@@ -8,6 +8,8 @@
 //   S-03  stepping through Showdowns on a phone always shows a real, selected card, and keeps the drawn set small
 //   S-04  History with 300 Showdowns stays under 2,000 elements on desktop and on a phone
 //   S-05  a phone stand-in keeps the card's layout marks (Codex #1120: data-golden, read by the screen's :has() layout)
+//   S-06  on a phone, stepping between two Ended early Showdowns moves the shown card (Codex #1120: both stay
+//         data-selected="false", so select() must still write it for the layout's observer)
 // tests/browser/r87-history-scale-audit.cjs is the timed version (reveal and step times at 4x CPU), run by hand.
 const assert=require('node:assert/strict');
 const path=require('node:path');
@@ -31,12 +33,14 @@ function projection(i){
     seasons:seasons.map(([p1,p2],k)=>{const n=k+1,h=hash(n);return {commit:{ok:true,committed:true,phase:'ACKNOWLEDGED',revision:3,resultsRevision:2,resultsContentHash:h,seasonNumber:n,results:{playerOne:p1,playerTwo:p2}},scoring:{ok:true,authoritative:true,phase:'SCORING_RECONCILED',revision:1,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:h,seasonNumber:n,scoring:{playerOne:score(p1),playerTwo:score(p2)},winner:winner(p1,p2)}};})});
 }
 const finalFor=p=>{const a=p.managerRecords.playerOne.totalPoints,b=p.managerRecords.playerTwo.totalPoints;return {totals:{playerOne:a,playerTwo:b},winner:a>b?'playerOne':b>a?'playerTwo':'draw'};};
+const ended=n=>({rivalryId:'ended_'+n.toString(16).padStart(62,'0'),classification:'abandoned',projection:null,final:null,ended:{endedAt:1790000000000+n*86400000,seasonsPlayed:n}});
+const endedModel=()=>{const p=projection(1);return Career.buildCareerModel({indexStatus:'ready',showdowns:[{rivalryId:p.rivalryId,classification:'completed',projection:p,final:finalFor(p)},ended(2),ended(3)]});};
 const model=Career.buildCareerModel({indexStatus:'ready',showdowns:Array.from({length:COUNT},(_,i)=>{const p=projection(i+1);return {rivalryId:p.rivalryId,classification:'completed',projection:p,final:finalFor(p)};})});
 
 function freePort(){return new Promise((resolve,reject)=>{const server=net.createServer();server.unref();server.on('error',reject);server.listen(0,'127.0.0.1',()=>{const {port}=server.address();server.close(()=>resolve(port));});});}
 async function waitForServer(port){for(let i=0;i<100;i+=1){const ok=await new Promise(resolve=>{const socket=net.connect(port,'127.0.0.1',()=>{socket.end();resolve(true);});socket.on('error',()=>resolve(false));});if(ok)return;await new Promise(resolve=>setTimeout(resolve,100));}throw new Error('static server did not start');}
 
-async function openHistory(browser,base,[w,h]){
+async function openHistory(browser,base,[w,h],history=model){
   const phone=w<900;
   const context=await browser.newContext({viewport:{width:w,height:h},deviceScaleFactor:1,reducedMotion:'reduce',hasTouch:phone,isMobile:phone});
   await context.route(url=>!url.href.startsWith(base),route=>route.abort());
@@ -44,7 +48,7 @@ async function openHistory(browser,base,[w,h]){
   await page.goto(base,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:60000});
   await page.waitForFunction(()=>window.CareerModeV10Screens&&window.getActiveScreenName()==='mainMenu',null,{timeout:60000});
-  await page.evaluate(async model=>{await window.ensureGameplayModules();await loadRuntimeScript('career-screen-seam','js/careerScreenSeam.js',()=>Boolean(window.CareerModeCareerScreenSeam));await window.openOptionalModule('legacy');window.renderLegacy({model});},model);
+  await page.evaluate(async model=>{await window.ensureGameplayModules();await loadRuntimeScript('career-screen-seam','js/careerScreenSeam.js',()=>Boolean(window.CareerModeCareerScreenSeam));await window.openOptionalModule('legacy');window.renderLegacy({model});},history);
   await page.waitForFunction(()=>document.querySelector('#legacyCardGrid .legacyCard')&&!document.getElementById('legacy').hasAttribute('data-v10-pending')&&window.CareerModeV10Screens.isMounted('legacy'),null,{timeout:60000});
   return {context,page,errors};
 }
@@ -109,6 +113,21 @@ const STATE=()=>{
       assert.deepEqual(errors,[]);
       await context.close();
       console.log(`ok   phone 390x844: ${s.elements} elements, ${s.real.length} cards drawn of ${s.cards}`);
+    }
+    // Phone: S-06, two Ended early Showdowns side by side (History opens on the newest, #3).
+    {
+      const {context,page,errors}=await openHistory(browser,base,[390,844],endedModel());
+      const shown=()=>page.evaluate(()=>[...document.querySelectorAll('#legacyCardGrid .legacyVisibleCard')].map(c=>Number(c.dataset.showdown)));
+      assert.deepEqual(await shown(),[3],'S-06 phone: History opens on the newest (Ended early) Showdown');
+      await page.locator('#legacyPager [data-direction="-1"]').click();
+      await page.waitForTimeout(50);
+      assert.deepEqual(await shown(),[2],'S-06 phone: ‹ from one Ended early Showdown shows the other');
+      await page.locator('#legacyPager [data-direction="-1"]').click();
+      await page.waitForTimeout(50);
+      assert.deepEqual(await shown(),[1],'S-06 phone: ‹ again shows the finished Showdown');
+      assert.deepEqual(errors,[]);
+      await context.close();
+      console.log('ok   phone 390x844: Ended early Showdowns step 3 -> 2 -> 1');
     }
     console.log('r87 History scale contracts: PASS');
   }finally{

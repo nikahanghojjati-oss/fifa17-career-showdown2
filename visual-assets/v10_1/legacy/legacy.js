@@ -407,6 +407,7 @@ window.ShowdownLegacyBoot = function () {
       drawNear(number);
       const previousIndex = records.findIndex(item => item.number === selected);
       const changed = number !== selected;
+      const before = selected;
       selected = number;
       frame.ui.selectedShowdown = selected;
       if (window.LegacyFixture) window.LegacyFixture.selectedShowdown = selected;
@@ -416,8 +417,11 @@ window.ShowdownLegacyBoot = function () {
       grid.querySelectorAll(".legacyCard").forEach((card) => {
         const active = Number(card.dataset.showdown) === selected;
         // r87 (transitions): only cards whose state changes are written, so a long career restyles two cards per step, not all.
+        // The old and new selected cards are always written: two Ended early cards both stay "false", and the shell's
+        // MutationObserver (js/rivalryLegacyV10.js) moves the shown card only on a data-selected write (Codex #1120).
         const shown = String(active && canDisclose(record));
-        if (card.dataset.selected !== shown) card.dataset.selected = shown;
+        const step = changed && (active || Number(card.dataset.showdown) === before);
+        if (step || card.dataset.selected !== shown) card.dataset.selected = shown;
         if (card.tagName === "BUTTON" && card.getAttribute("aria-pressed") !== String(active)) card.setAttribute("aria-pressed", String(active));
         if (active && scroll) grid.scrollLeft = Array.from(grid.children).indexOf(card) * grid.clientWidth;
       });
