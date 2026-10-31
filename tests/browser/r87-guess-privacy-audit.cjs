@@ -412,8 +412,11 @@ async function main(){
     await probe(daniel,"nik","P5-daniel-locked-signings",{signing:false});
 
     // P6: Nik locks: COMPLETED. Positive control: the same detectors now find the revealed data on both phones.
+    // P5b: Nik types his signing (draft), not locked: Daniel's phone must still hold nothing of Nik's guesses or signing.
+    await fillSigning(nik,N);await nik.page.waitForTimeout(1500);
+    await probe(daniel,"nik","P5b-nik-typed-signing");
+    // The reveal boundary is the tap that completes the challenge: everything before it must hold nothing of the partner.
     const revealAt=Date.now();
-    await fillSigning(nik,N);
     await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
     await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
     await nik.page.waitForTimeout(2500);
