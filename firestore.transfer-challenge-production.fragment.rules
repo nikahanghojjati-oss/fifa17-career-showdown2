@@ -172,7 +172,8 @@
     }
     function ssjrTransferValidCreate(rivalryId, transferId) {
       let after = request.resource.data;
-      return ssjrTransferPublicShape(after, rivalryId, transferId)
+      return after.phase == 'WINDOW_OPEN'
+        && ssjrTransferPublicShape(after, rivalryId, transferId)
         && after.revision == 1
         && after.phase == 'WINDOW_OPEN'
         && after.startedAt == request.time
@@ -188,8 +189,14 @@
         && after.actorRoles[0] == after.coordinatorRole
         && after.coordinatorRole == ssjrActorRole(rivalryId);
     }
-    // Updates preserve the secured creation envelope and validate only the append-only transition delta.
+    // R87 roulette marks: a pre-window mark document (phase NOT_STARTED) is never a ledger to update (START from it is
+    // ssjrTransferStartAfterSpins). The phase is tested before the ledger function's let bindings run: measured on the emulator,
+    // START from a two-mark document was refused while those bindings ran against it.
     function ssjrTransferValidUpdate(rivalryId, transferId) {
+      return resource.data.phase != 'NOT_STARTED' && ssjrTransferValidLedgerUpdate(rivalryId, transferId);
+    }
+    // Updates preserve the secured creation envelope and validate only the append-only transition delta.
+    function ssjrTransferValidLedgerUpdate(rivalryId, transferId) {
       let before = resource.data;
       let after = request.resource.data;
       let i = before.revision;
@@ -329,6 +336,51 @@
         && public.updatedByDeviceId == after.updatedByDeviceId
         && public.updatedAt == request.time;
     }
+    // R87 roulette marks (Nik 2026-10-31, red team RT5-FLOW-02): the shared window waits until both managers have spun this season's
+    // Russian Roster Roulette. Before the window opens, transferChallenges/season_N may hold a small pre-window document whose
+    // spins map has a true entry per manager who has spun. Each member writes only his own entry (one merge write, one lookup: the
+    // rivalry, like the reads meter), never removes or changes the partner's, never removes his own, and never once the ledger has
+    // started. START from that document needs both entries and writes the normal ledger in its place (exact keys as before).
+    // A season with no marks (a Showdown from before the roulette) still starts by the create rule. Every branch first tests the
+    // phase of the stored or new document, so a normal ledger write never evaluates these and looks up nothing more.
+    function ssjrTransferSpinShape(root, rivalryId, transferId) {
+      return root.keys().hasAll(['schemaVersion','objectType','rivalryId','seasonNumber','phase','spins','updatedAt'])
+        && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','phase','spins','updatedAt'])
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedTransferChallenge'
+        && root.rivalryId == rivalryId
+        && ssjrTransferSeasonMatches(transferId, root.seasonNumber)
+        && root.phase == 'NOT_STARTED'
+        && root.spins is map
+        && root.spins.keys().hasOnly(['playerOne','playerTwo'])
+        && root.updatedAt == request.time;
+    }
+    function ssjrTransferSpinCreate(rivalryId, transferId) {
+      let after = request.resource.data;
+      return after.phase == 'NOT_STARTED'
+        && ssjrTransferSpinShape(after, rivalryId, transferId)
+        && ssjrEntitled(rivalryId)
+        && after.spins.keys().hasOnly([ssjrActorRole(rivalryId)])
+        && after.spins[ssjrActorRole(rivalryId)] == true;
+    }
+    function ssjrTransferSpinUpdate(rivalryId, transferId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return before.phase == 'NOT_STARTED'
+        && after.phase == 'NOT_STARTED'
+        && ssjrTransferSpinShape(after, rivalryId, transferId)
+        && after.seasonNumber == before.seasonNumber
+        && ssjrEntitled(rivalryId)
+        && after.spins.diff(before.spins).affectedKeys().hasOnly([ssjrActorRole(rivalryId)])
+        && after.spins[ssjrActorRole(rivalryId)] == true;
+    }
+    function ssjrTransferStartAfterSpins(rivalryId, transferId) {
+      let before = resource.data;
+      return before.phase == 'NOT_STARTED'
+        && before.spins.get('playerOne', false) == true
+        && before.spins.get('playerTwo', false) == true
+        && ssjrTransferValidCreate(rivalryId, transferId);
+    }
     function ssjrTransferPrivateReadable(rivalryId, transferId, managerRole) {
       let public = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
       return ssjrEntitled(rivalryId)
@@ -342,6 +394,9 @@
         allow list, delete: if false;
         allow create: if ssjrTransferValidCreate(rivalryId, transferId);
         allow update: if ssjrTransferValidUpdate(rivalryId, transferId);
+        // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.
+        allow create: if ssjrTransferSpinCreate(rivalryId, transferId);
+        allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);
 
         match /roles/{managerRole} {
           allow get: if ssjrTransferPrivateReadable(rivalryId, transferId, managerRole);

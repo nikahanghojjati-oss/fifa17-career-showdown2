@@ -14,6 +14,8 @@ require("../../data/transferOptions.js");
 const Setup=require("../../js/sparkSharedShowdownSetup.js");
 const Career=require("../../js/sparkSharedCareerStart.js");
 const Transfer=require("../../js/sparkSharedTransferChallenge.js");
+// r87 RT5-FLOW-02: in a roulette-eligible Showdown START needs both managers' spun marks, so each manager writes his own first.
+async function startAfterSpins(start,partner){for(const [options,role] of [[start,"playerOne"],[partner,"playerTwo"]]){const mark=await Transfer.markSpun({...options,managerRole:role});if(!mark||mark.ok!==true)return mark;}return Transfer.startWindow(start);}
 const Results=require("../../js/sparkSharedSeasonResults.js");
 const Commit=require("../../js/sparkSharedSeasonCommit.js");
 const History=require("../../js/sparkSharedHistoryConvergence.js");
@@ -85,7 +87,7 @@ async function playToCollecting(env,rivalryId,sessionId,nowMs){
   v=await Setup.mutate({...b(60),type:"confirm",baseRevision:5,operationId:op("setup_op_",6)});assert.equal(v.ok,true,JSON.stringify(v));assert.equal(v.state.phase,"SHOWDOWN_CONFIRMED");
   v=await Career.acknowledge({...a(70),operationId:op("career_start_op_",1),baseRevision:0});assert.equal(v.ok,true,JSON.stringify(v));
   v=await Career.acknowledge({...b(80),operationId:op("career_start_op_",2),baseRevision:1});assert.equal(v.ok,true,JSON.stringify(v));
-  v=await Transfer.startWindow({...a(100),seasonNumber:1,operationId:op("transfer_op_",1),baseRevision:0});assert.equal(v.ok,true,JSON.stringify(v));
+  v=await startAfterSpins({...a(100),seasonNumber:1,operationId:op("transfer_op_",1),baseRevision:0},{...b(100),seasonNumber:1});assert.equal(v.ok,true,JSON.stringify(v));
   v=await Transfer.requestEndWindow({...a(110),seasonNumber:1,operationId:op("transfer_op_",2),baseRevision:1});assert.equal(v.ok,true,JSON.stringify(v));
   v=await Transfer.requestEndWindow({...b(120),seasonNumber:1,operationId:op("transfer_op_",3),baseRevision:2});assert.equal(v.ok,true,JSON.stringify(v));
   v=await Transfer.lockGuesses({...a(130),seasonNumber:1,operationId:op("transfer_op_",4),baseRevision:3,guesses:[{slot:1,type:"league",valueId:"england-premier-league"}]});assert.equal(v.ok,true,JSON.stringify(v));

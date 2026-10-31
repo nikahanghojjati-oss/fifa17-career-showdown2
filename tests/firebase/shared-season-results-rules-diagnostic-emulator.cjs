@@ -12,6 +12,8 @@ require("../../data/transferOptions.js");
 const Setup=require("../../js/sparkSharedShowdownSetup.js");
 const Career=require("../../js/sparkSharedCareerStart.js");
 const Transfer=require("../../js/sparkSharedTransferChallenge.js");
+// r87 RT5-FLOW-02: in a roulette-eligible Showdown START needs both managers' spun marks, so each manager writes his own first.
+async function startAfterSpins(start,partner){for(const [options,role] of [[start,"playerOne"],[partner,"playerTwo"]]){const mark=await Transfer.markSpun({...options,managerRole:role});if(!mark||mark.ok!==true)return mark;}return Transfer.startWindow(start);}
 const Results=require("../../js/sparkSharedSeasonResults.js");
 
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
@@ -71,7 +73,7 @@ async function prepare(env,now){
   if(!value.ok)throw new Error(`career A failed: ${JSON.stringify(value)}`);
   value=await Career.acknowledge({...b(80),operationId:op("career_start_op_",2),baseRevision:1});
   if(!value.ok)throw new Error(`career B failed: ${JSON.stringify(value)}`);
-  value=await Transfer.startWindow({...a(100),seasonNumber:1,operationId:op("transfer_op_",11),baseRevision:0});
+  value=await startAfterSpins({...a(100),seasonNumber:1,operationId:op("transfer_op_",11),baseRevision:0},{...b(100),seasonNumber:1});
   if(!value.ok)throw new Error(`transfer start failed: ${JSON.stringify(value)}`);
   value=await Transfer.requestEndWindow({...a(200),seasonNumber:1,operationId:op("transfer_op_",12),baseRevision:1});
   if(!value.ok)throw new Error(`transfer end A failed: ${JSON.stringify(value)}`);
