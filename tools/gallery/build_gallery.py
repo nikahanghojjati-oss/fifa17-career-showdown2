@@ -87,14 +87,14 @@ def md_to_html(md):
 CSS = """
 :root{--bg:#111013;--panel:#1b1a1e;--fg:#ece8df;--muted:#a9a397;--gold:#d4b35f;--line:#2e2c31;color-scheme:dark;
 --display:"Cinzel",Georgia,serif;--body:"Source Sans 3",system-ui,sans-serif}
-:root[data-theme="light"]{--bg:#f6f3ec;--panel:#fff;--fg:#1c1b1f;--muted:#5d584f;--gold:#8a6a1d;--line:#ddd6c8;color-scheme:light}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f6f3ec;--panel:#fff;--fg:#1c1b1f;--muted:#5d584f;--gold:#8a6a1d;--line:#ddd6c8;color-scheme:light}}
+:root[data-theme="light"]{--bg:#f6f3ec;--panel:#fff;--fg:#1c1b1f;--muted:#5d584f;--gold:#8a6a1d;--line:#ddd6c8;color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5}
-main{max-width:1200px;margin:0 auto;padding:28px 16px 60px;display:grid;gap:28px}
+main{max-width:1200px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
 h1{font-family:var(--display);color:var(--gold);font-size:clamp(26px,4vw,38px);margin:0;letter-spacing:.04em;text-wrap:balance}
 .lede{color:var(--muted);margin:6px 0 0;max-width:65ch}
-a{color:var(--gold)}
+a{color:var(--gold)}\na:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
 .box h3{font-family:var(--display);color:var(--gold);font-size:15px;letter-spacing:.08em;margin:16px 0 6px}
 .box h3:first-child{margin-top:0}
@@ -158,6 +158,11 @@ def main():
             got = [d for d in ("desktop", "phone") if d in figs]
             cls = "shots" if len(got) == 2 else ("shots one wide" if got == ["desktop"] else "shots one")
             parts.append(f'<div class="{cls}">' + "".join(figure(figs[d], d, d.capitalize(), f'{s["title"]} {d}') for d in got) + "</div>")
+        for j, ex in enumerate(s.get("extra", [])):
+            src = resolve(ex["file"], "desktop", shots)
+            if src:
+                rel = to_webp(src, out_dir, f"{slug}-extra{j}")
+                parts.append(('<div class="shots one">' if 'phone' in ex.get('caption','').lower() else '<div class="shots one wide">') + figure(rel, "extra", ex.get("caption", ""), f'{s["title"]} {ex.get("caption", "")}') + "</div>")
         parts.append("</section>")
         sections.append("".join(parts))
     notes_html = ""
@@ -167,16 +172,16 @@ def main():
     miss = ""
     if missing:
         miss = '<div class="box missing"><h3>MISSING SHOTS</h3><ul>' + "".join(f"<li>{html.escape(x)}</li>" for x in missing) + "</ul></div>"
-    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{html.escape(m["title"])}</title>
+    page = f"""<title>{html.escape(m["title"])}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Source+Sans+3:wght@400;600&display=swap">
-<style>{CSS}</style></head><body><main>
+<style>{CSS}</style><main>
 <div><h1>{html.escape(m["title"])}</h1><p class="lede">{html.escape(m.get("lede", ""))}</p>{checklist}</div>
 <details class="box"><summary>RELEASE NOTES</summary>{notes_html}</details>
 <nav class="toc">{"".join(toc)}</nav>
 {miss}
 {"".join(sections)}
-</main></body></html>"""
+</main>"""
     open(os.path.join(out_dir, "index.html"), "w", encoding="utf8").write(page)
     print(f"{len(sections)} screens, {len(missing)} missing -> {out_dir}/index.html")
 

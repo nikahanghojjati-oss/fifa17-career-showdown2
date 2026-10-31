@@ -1,0 +1,300 @@
+{
+ "title": "Showdown 2.0.0 Gallery",
+ "lede": "PREVIEW from gameplay/r87 73713d75 (before the fix PRs land); rebuilt from the release head before you type merge r87. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator from the release branch by CE2PG. Tap any picture to open it full size.",
+ "notes": "gameplay/r87/RELEASE_NOTES_2.0.0.md",
+ "checklist_url": "https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU",
+ "shots_dir": "test-results/gallery-r87",
+ "screens": [
+  {
+   "title": "Home",
+   "note": "Gold Continue tile and Connect buttons, no dimming. Desktop music player in the top bar.",
+   "prs": [
+    1096,
+    1049
+   ],
+   "desktop": {
+    "match": "^mainMenu$",
+    "first": true
+   },
+   "phone": {
+    "match": "^mainMenu$",
+    "first": true
+   }
+  },
+  {
+   "title": "Seasons",
+   "note": "Four gold chips for 1, 3, 5 and 10 seasons and the NEW SHOWDOWN wordmark. REMATCH opens this with the length already picked.",
+   "prs": [
+    1099,
+    1065
+   ],
+   "desktop": {
+    "match": "createShowdown"
+   },
+   "phone": null
+  },
+  {
+   "title": "Select League, waiting",
+   "note": "Waiting strip sits low under SPIN WHEEL; waiting buttons are solid black and gold, not see-through.",
+   "prs": [
+    1052
+   ],
+   "desktop": {
+    "match": "leagueWheelScreen.*WAITING FOR NIK"
+   },
+   "phone": {
+    "match": "mainMenu.*WAITING FOR DANIEL"
+   }
+  },
+  {
+   "title": "Club Assignment",
+   "note": "CLUBS LOCKED panel on solid marble (phone); lock note stays inside the deck (desktop).",
+   "prs": [
+    1052,
+    1096
+   ],
+   "desktop": {
+    "match": "^clubWheelScreen \\| CLUB ASSIGNMENT"
+   },
+   "phone": {
+    "match": "^clubWheelScreen$"
+   }
+  },
+  {
+   "title": "Special Player reveal",
+   "note": "Smoother on phones, LED boards show whole messages, Continue no longer dimmed while waiting.",
+   "prs": [
+    1096,
+    1099,
+    1095
+   ],
+   "desktop": {
+    "match": "frame \\| .*special",
+    "first": true
+   },
+   "phone": {
+    "match": "frame \\| .*special",
+    "first": true
+   }
+  },
+  {
+   "title": "Career Start",
+   "note": "Option B: its own stage on the Club plate, club crests inside the packs, nothing over the faces or wordmark.",
+   "prs": [
+    1100
+   ],
+   "desktop": {
+    "match": "productionSharedCareerStartOverlay"
+   },
+   "phone": {
+    "match": "productionSharedCareerStartOverlay"
+   }
+  },
+  {
+   "title": "Russian Roster Roulette, the scene",
+   "note": "Seven chambers, one bullet. Daniel spins first. Boards are each club's FIFA 17 launch squad in its real formation. Pictures from the roulette fix PR (#1095), at 1366x768 and 390x844: headless Chromium here has no WebGL, so CE2PG plays this step on the result panel.",
+   "prs": [
+    1069,
+    1080,
+    1081,
+    1083,
+    1085,
+    1095,
+    1098,
+    1102
+   ],
+   "desktop": "/mnt/project-files/gameplay/r87/helpers/roulette-fixes/after-bang-1366x768.png",
+   "phone": "/mnt/project-files/gameplay/r87/helpers/roulette-fixes/after-bang-390x844.png",
+   "extra": [
+    {
+     "file": "/mnt/project-files/gameplay/r87/helpers/roulette-fixes/after-armed-1366x768.png",
+     "caption": "Desktop, armed"
+    },
+    {
+     "file": "/mnt/project-files/gameplay/r87/helpers/roulette-fixes/after-aim-390x844.png",
+     "caption": "Phone, aiming"
+    }
+   ]
+  },
+  {
+   "title": "Russian Roster Roulette, result",
+   "note": "Your result on a marble panel: release the player who was hit in FIFA 17, or your squad is safe.",
+   "prs": [
+    1069,
+    1075,
+    1091
+   ],
+   "desktop": {
+    "match": "rrStepPanel"
+   },
+   "phone": {
+    "match": "rrStepPanel"
+   }
+  },
+  {
+   "title": "Showdown Home, waiting for the spin",
+   "note": "The transfer window waits until both managers have spun; the button names who it waits for.",
+   "prs": [
+    1101
+   ],
+   "desktop": {
+    "match": "^(tap:)?dashboard"
+   },
+   "phone": {
+    "match": "^(tap:)?dashboard"
+   }
+  },
+  {
+   "title": "Transfer Challenge",
+   "note": "Each signing takes FIFA 17 overall and position. Official 2016-17 league names, full scrolling search lists, faces clear on laptops.",
+   "prs": [
+    1069,
+    1081,
+    1082,
+    1044
+   ],
+   "desktop": {
+    "match": "^transferChallenge"
+   },
+   "phone": {
+    "match": "^transferChallenge"
+   }
+  },
+  {
+   "title": "Season Results",
+   "note": "Results entry and review.",
+   "prs": [
+    1052
+   ],
+   "desktop": {
+    "match": "^(tap:)?seasonEntry"
+   },
+   "phone": {
+    "match": "^(tap:)?seasonEntry"
+   }
+  },
+  {
+   "title": "Touchline Gazette, season edition",
+   "note": "A front page after each season, the same on both phones, no extra reads.",
+   "prs": [
+    1094
+   ],
+   "desktop": {
+    "match": "^gazette",
+    "first": true
+   },
+   "phone": {
+    "match": "^gazette",
+    "first": true
+   }
+  },
+  {
+   "title": "Final Winner",
+   "note": "Three equal exit buttons including REMATCH.",
+   "prs": [
+    1044,
+    1065,
+    1093
+   ],
+   "desktop": {
+    "match": "finalWinnerScreen"
+   },
+   "phone": {
+    "match": "finalWinnerScreen"
+   }
+  },
+  {
+   "title": "Touchline Gazette, final edition",
+   "note": "Covers the whole Showdown; the last season goes straight here.",
+   "prs": [
+    1094
+   ],
+   "desktop": {
+    "match": "^(tap:)?gazette"
+   },
+   "phone": {
+    "match": "^(tap:)?gazette"
+   }
+  },
+  {
+   "title": "Standings",
+   "note": "Title block at the same height on both tabs (phone).",
+   "prs": [
+    1052
+   ],
+   "desktop": {
+    "match": "^standings"
+   },
+   "phone": {
+    "match": "^standings"
+   }
+  },
+  {
+   "title": "Career Statistics",
+   "note": "Big numbers and 7-8 digit pairs fit; Special Player names wrap; level leaders show a split face.",
+   "prs": [
+    1091,
+    1093
+   ],
+   "desktop": {
+    "match": "^careerStatistics"
+   },
+   "phone": {
+    "match": "^careerStatistics"
+   }
+  },
+  {
+   "title": "Trophy Room",
+   "note": "CAREER DETAILS heading on solid marble; NOT WON YET for trophies not won.",
+   "prs": [
+    1093
+   ],
+   "desktop": {
+    "match": "^trophyRoom"
+   },
+   "phone": {
+    "match": "^trophyRoom"
+   }
+  },
+  {
+   "title": "Legacy",
+   "note": "Season history opens in the archive pane; drawn Showdowns show a gold =.",
+   "prs": [
+    1052,
+    1093
+   ],
+   "desktop": {
+    "match": "^legacy"
+   },
+   "phone": {
+    "match": "^legacy"
+   }
+  },
+  {
+   "title": "Rivalry Statistics",
+   "note": "Unchanged layout, shown for the career numbers.",
+   "prs": [],
+   "desktop": {
+    "match": "^statistics"
+   },
+   "phone": {
+    "match": "^statistics"
+   }
+  },
+  {
+   "title": "Settings",
+   "note": "Shared reads meter: both phones show the same free use today and seasons left.",
+   "prs": [
+    1097,
+    1088,
+    1093
+   ],
+   "desktop": {
+    "match": "settingsDialog"
+   },
+   "phone": {
+    "match": "settingsDialog"
+   }
+  }
+ ]
+}
