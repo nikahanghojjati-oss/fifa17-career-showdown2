@@ -1,0 +1,1843 @@
+[
+ {
+  "id": "b1-001",
+  "situation": "big-win",
+  "kicker": "SEASON REPORT",
+  "headline": "BUILT TO LAST",
+  "subhead": "{winner} took season {seasonNo} with {winnerPoints} points and finished {margin} clear of {loser}. A campaign made for keeping."
+ },
+ {
+  "id": "b1-002",
+  "situation": "big-win",
+  "kicker": "CABINET WATCH",
+  "headline": "EVERY NICHE FILLED",
+  "subhead": "Not a corner was left empty as {winner} ran up {winnerPoints} points and left {loser} {margin} behind."
+ },
+ {
+  "id": "b1-003",
+  "situation": "big-win",
+  "kicker": "TROPHY ROOM",
+  "headline": "ENGRAVER WORKS OVERTIME",
+  "subhead": "The craftsman barely put his tools down as {winner} closed season {seasonNo} {margin} ahead of {loser}."
+ },
+ {
+  "id": "b1-004",
+  "situation": "big-win",
+  "kicker": "SEASON REPORT",
+  "headline": "ONE FOR THE DISPLAY CASE",
+  "subhead": "{winnerClub} will want this one behind glass after {winner} outscored {loser} by {margin} in season {seasonNo}."
+ },
+ {
+  "id": "b1-005",
+  "situation": "big-win",
+  "kicker": "VERDICT",
+  "headline": "MEDALS WEIGH HEAVY",
+  "subhead": "{winner} carries a hefty haul home after finishing {margin} clear of {loser}. A rematch will be welcomed."
+ },
+ {
+  "id": "b1-006",
+  "situation": "big-win",
+  "kicker": "RUNAWAY",
+  "headline": "THE LOCK, THE KEYS, THE LOT",
+  "subhead": "With {winnerPoints} points to {loserPoints} the lock and the story of season {seasonNo} are both in {winner}'s pocket."
+ },
+ {
+  "id": "b1-007",
+  "situation": "big-win",
+  "kicker": "STATEMENT",
+  "headline": "SILVER SPEAKS LOUDEST",
+  "subhead": "No speeches were needed. {winner} let the haul do the talking and finished {margin} ahead of {loser}."
+ },
+ {
+  "id": "b1-008",
+  "situation": "big-win",
+  "kicker": "CABINET WATCH",
+  "headline": "PLINTHS IN SHORT SUPPLY",
+  "subhead": "{winnerClub} is running out of places to stand its prizes after {winner} cleared {loser} by {margin}."
+ },
+ {
+  "id": "b1-009",
+  "situation": "big-win",
+  "kicker": "HONOURS",
+  "headline": "NEW WOOD FOR THE BOARD",
+  "subhead": "Fresh timber is on order at {winnerClub} as {winner} completes a season {margin} clear of a gallant {loser}."
+ },
+ {
+  "id": "b1-010",
+  "situation": "big-win",
+  "kicker": "ANALYSIS",
+  "headline": "VELVET LINING, IRON RESOLVE",
+  "subhead": "Soft on the shelf and hard on the pitch. {winner} finished season {seasonNo} on {winnerPoints} points against {loserPoints}."
+ },
+ {
+  "id": "b1-011",
+  "situation": "big-win",
+  "kicker": "LOPSIDED",
+  "headline": "A LUSTROUS LOPSIDED AFFAIR",
+  "subhead": "{winner} shone brightest by a distance and ended season {seasonNo} a commanding {margin} in front of {loser}."
+ },
+ {
+  "id": "b1-012",
+  "situation": "big-win",
+  "kicker": "TROPHY ROOM",
+  "headline": "MANTELPIECE OVERFLOWS",
+  "subhead": "There is simply no ledge left at {winnerClub} after {winner} raced {margin} clear of {loser}."
+ },
+ {
+  "id": "b1-013",
+  "situation": "big-win",
+  "kicker": "FULL TIME",
+  "headline": "GLEAMING PROOF OF A RUNAWAY",
+  "subhead": "The evidence sits on the shelf. {winner} posted {winnerPoints} points while {loser} finished on {loserPoints}."
+ },
+ {
+  "id": "b1-014",
+  "situation": "big-win",
+  "kicker": "ANALYSIS",
+  "headline": "HALLMARKS OF A MASTERCLASS",
+  "subhead": "Every stamp of quality was present as {winner} took season {seasonNo} by a towering {margin} over {loser}."
+ },
+ {
+  "id": "b1-015",
+  "situation": "big-win",
+  "kicker": "HONOURS",
+  "headline": "CURATOR'S BUSIEST YEAR",
+  "subhead": "Somebody at {winnerClub} has a lot of arranging to do after {winner} finished {margin} ahead of {loser}."
+ },
+ {
+  "id": "b1-016",
+  "situation": "big-win",
+  "kicker": "CABINET WATCH",
+  "headline": "WALL SPACE AT A PREMIUM",
+  "subhead": "Hooks and frames are scarce at {winnerClub} after a season {winner} won by {margin} over {loser}."
+ },
+ {
+  "id": "b1-017",
+  "situation": "big-win",
+  "kicker": "VERDICT",
+  "headline": "NOT A SPECK OF DOUBT",
+  "subhead": "Season {seasonNo} was settled long before the end. {winner} finished on {winnerPoints} and {loser} on {loserPoints}."
+ },
+ {
+  "id": "b1-018",
+  "situation": "big-win",
+  "kicker": "STATEMENT",
+  "headline": "THE BRIGHTEST GLOW",
+  "subhead": "The brightest glow of season {seasonNo} came from {winnerClub}, who finished {margin} clear of {loserClub}."
+ },
+ {
+  "id": "b1-019",
+  "situation": "big-win",
+  "kicker": "HONOURS",
+  "headline": "AN HEIRLOOM HAUL",
+  "subhead": "A season to pass down the generations. {winner} amassed {winnerPoints} points and left {loser} {margin} adrift."
+ },
+ {
+  "id": "b1-020",
+  "situation": "big-win",
+  "kicker": "TROPHY ROOM",
+  "headline": "NAMEPLATES IN BULK",
+  "subhead": "The brass shop near {winnerClub} is booming after {winner} beat {loser} by {margin} this season."
+ },
+ {
+  "id": "b1-021",
+  "situation": "big-win",
+  "kicker": "BREAKING",
+  "headline": "RAIDING THE VAULT",
+  "subhead": "{winner} walked off with the riches of season {seasonNo} and finished {margin} ahead of a game {loser}."
+ },
+ {
+  "id": "b1-022",
+  "situation": "big-win",
+  "kicker": "EXCLUSIVE",
+  "headline": "BRACKETS BUCKLE!",
+  "subhead": "The shelving at {winnerClub} is groaning under a season that ended {winnerPoints} points to {loserPoints} in their favour."
+ },
+ {
+  "id": "b1-023",
+  "situation": "big-win",
+  "kicker": "BREAKING",
+  "headline": "GLASS DOORS GROAN!",
+  "subhead": "The cabinet will barely close after {winner} stormed to a {margin}-point season win over {loser}."
+ },
+ {
+  "id": "b1-024",
+  "situation": "big-win",
+  "kicker": "LANDSLIDE",
+  "headline": "POLISH PANIC!",
+  "subhead": "Supplies are running low at {winnerClub} after {winner} finished season {seasonNo} on {winnerPoints} points."
+ },
+ {
+  "id": "b1-025",
+  "situation": "big-win",
+  "kicker": "EXCLUSIVE",
+  "headline": "HINGES SNAP UNDER STRAIN!",
+  "subhead": "Something had to give as {winner} piled up the prizes and ended {margin} ahead of {loser}."
+ },
+ {
+  "id": "b1-026",
+  "situation": "big-win",
+  "kicker": "RUNAWAY",
+  "headline": "NOBODY CATCHES THEM!",
+  "subhead": "{loser} gave chase all season but {winner} pulled {margin} clear by the time season {seasonNo} closed."
+ },
+ {
+  "id": "b1-027",
+  "situation": "big-win",
+  "kicker": "BREAKING",
+  "headline": "LOCKSMITH CALLED IN!",
+  "subhead": "Bigger locks are needed at {winnerClub} after {winner} secured season {seasonNo} by {margin} over {loser}."
+ },
+ {
+  "id": "b1-028",
+  "situation": "big-win",
+  "kicker": "EXCLUSIVE",
+  "headline": "DUSTERS SEIZED IN SWOOP",
+  "subhead": "Cleaning crews mobilise as {winner} returns with {winnerPoints} points and comfortably outpaces {loser} on {loserPoints}."
+ },
+ {
+  "id": "b1-029",
+  "situation": "big-win",
+  "kicker": "LANDSLIDE",
+  "headline": "CARPENTERS ON STANDBY!",
+  "subhead": "Extra shelving may be needed after {winner} finished season {seasonNo} a whopping {margin} clear of {loser}."
+ },
+ {
+  "id": "b1-030",
+  "situation": "big-win",
+  "kicker": "MISMATCH",
+  "headline": "SPOTLIGHT STOLEN!",
+  "subhead": "Every lamp in the house turned toward {winner}, who ended season {seasonNo} {margin} ahead of {loser}."
+ },
+ {
+  "id": "b1-031",
+  "situation": "big-win",
+  "kicker": "LANDSLIDE",
+  "headline": "TROPHY ROOM BURSTS!",
+  "subhead": "The walls of {winnerClub} can barely hold it all after {winner} beat {loser} by {margin}."
+ },
+ {
+  "id": "b1-032",
+  "situation": "big-win",
+  "kicker": "SILVERWARE",
+  "headline": "SILVERWARE STAMPEDE!",
+  "subhead": "The prizes came thick and fast for {winner}, who closed season {seasonNo} on {winnerPoints} points to {loserPoints}."
+ },
+ {
+  "id": "b1-033",
+  "situation": "big-win",
+  "kicker": "MISMATCH",
+  "headline": "SIDEBOARD SWEPT BARE!",
+  "subhead": "{winner} cleared the table of honours in season {seasonNo} and left {loser} {margin} behind and plotting a reply."
+ },
+ {
+  "id": "b1-034",
+  "situation": "big-win",
+  "kicker": "POLISHED",
+  "headline": "BURNISHED AND UNSTOPPABLE!",
+  "subhead": "{winner} buffed a brilliant season to a high finish and ended {margin} clear of {loser}."
+ },
+ {
+  "id": "b1-035",
+  "situation": "big-win",
+  "kicker": "ONE WAY",
+  "headline": "SHEEN MACHINE ROLLS ON!",
+  "subhead": "Season {seasonNo} of {seasonsTotal} belonged to {winner}, who ran up {winnerPoints} points while {loser} managed {loserPoints}."
+ },
+ {
+  "id": "b1-036",
+  "situation": "big-win",
+  "kicker": "SILVERWARE",
+  "headline": "RIBBONS GALORE!",
+  "subhead": "Every handle at {winnerClub} wears fresh colours after {winner} finished {margin} ahead of {loser}."
+ },
+ {
+  "id": "b1-037",
+  "situation": "big-win",
+  "kicker": "BREAKING",
+  "headline": "A GOLD RUSH, BANKED!",
+  "subhead": "{winner} struck it rich in season {seasonNo} and banked {winnerPoints} points to open a {margin}-point gap on {loser}."
+ },
+ {
+  "id": "b1-038",
+  "situation": "big-win",
+  "kicker": "ONE WAY",
+  "headline": "PEDESTAL PILE UP!",
+  "subhead": "The prizes are queuing for a spot after {winner} took season {seasonNo} by {margin} over {loser}."
+ },
+ {
+  "id": "b1-039",
+  "situation": "big-win",
+  "kicker": "EXCLUSIVE",
+  "headline": "CRATES KEEP COMING!",
+  "subhead": "Deliveries roll in at {winnerClub} after {winner} won the season by {winnerPoints} points to {loserPoints}."
+ },
+ {
+  "id": "b1-040",
+  "situation": "big-win",
+  "kicker": "MISMATCH",
+  "headline": "GLINT IN THEIR EYE!",
+  "subhead": "{winner} looked hungry from the start and finished season {seasonNo} a sparkling {margin} ahead of {loser}."
+ },
+ {
+  "id": "b12-001",
+  "situation": "final-season-decider",
+  "kicker": "SEASON REVIEW",
+  "headline": "THE LAST SEASON SETTLES IT",
+  "subhead": "One campaign remains and it alone decides whether {leader} holds on or {trailer} turns the Showdown on its head."
+ },
+ {
+  "id": "b12-002",
+  "situation": "final-season-decider",
+  "kicker": "FINAL COUNTDOWN",
+  "headline": "THE LAST CHAPTER LOADS",
+  "subhead": "Everything written so far now waits on one closing season, with {leader} in front and {trailer} very much in the story."
+ },
+ {
+  "id": "b12-004",
+  "situation": "final-season-decider",
+  "kicker": "RIVALRY WATCH",
+  "headline": "SUDDEN DEATH SEASON",
+  "subhead": "No more lessons and no more patience. The coming season is the final one and carries the whole contest on its shoulders."
+ },
+ {
+  "id": "b12-005",
+  "situation": "final-season-decider",
+  "kicker": "TABLE TALK",
+  "headline": "THE FINAL PAGE TURNS",
+  "subhead": "The ledger has one empty line left and {trailer} knows it could rewrite every total before it."
+ },
+ {
+  "id": "b12-007",
+  "situation": "final-season-decider",
+  "kicker": "OPENING PAGES",
+  "headline": "ALL ROADS LEAD HERE",
+  "subhead": "Every earlier season was a stepping stone to this closing campaign, which will name the Showdown's rightful owner."
+ },
+ {
+  "id": "b12-008",
+  "situation": "final-season-decider",
+  "kicker": "CROWN WATCH",
+  "headline": "THE FINAL CORONATION",
+  "subhead": "A single season stands between {leader} and the throne, and between {trailer} and a stunning change of monarch."
+ },
+ {
+  "id": "b12-010",
+  "situation": "final-season-decider",
+  "kicker": "NIGHT DESK",
+  "headline": "PRESS START, FINAL LEVEL",
+  "subhead": "The save file reaches its last stage and both {leader} and {trailer} know there is no checkpoint after this one."
+ },
+ {
+  "id": "b12-011",
+  "situation": "final-season-decider",
+  "kicker": "FINAL COUNTDOWN",
+  "headline": "THE CHASER SMELLS BLOOD",
+  "subhead": "The chaser is far from finished. One season is long enough to turn the whole order of the Showdown upside down."
+ },
+ {
+  "id": "b12-013",
+  "situation": "final-season-decider",
+  "kicker": "HISTORY DESK",
+  "headline": "ARCHIVE HOLDS ITS BREATH",
+  "subhead": "Whatever happens next will be filed under the end of the Showdown. Both clubs feel the weight of that."
+ },
+ {
+  "id": "b12-014",
+  "situation": "final-season-decider",
+  "kicker": "SEASON REVIEW",
+  "headline": "WHO BLINKS LAST?",
+  "subhead": "One season to play. {leader} and {trailer} must each hold their nerve a little longer than the other."
+ },
+ {
+  "id": "b12-016",
+  "situation": "final-season-decider",
+  "kicker": "KITCHEN DESK",
+  "headline": "THE LAST COURSE ARRIVES",
+  "subhead": "After many seasons of preparation one final dish is on the pass. It decides who leaves the table satisfied."
+ },
+ {
+  "id": "b12-017",
+  "situation": "final-season-decider",
+  "kicker": "RIVALRY WATCH",
+  "headline": "FINAL WHISTLE LOOMS",
+  "subhead": "One season now separates this rivalry from its conclusion and neither manager is ready to hand anything over."
+ },
+ {
+  "id": "b12-019",
+  "situation": "final-season-decider",
+  "kicker": "TABLE TALK",
+  "headline": "THE BOTTOM LINE AWAITS",
+  "subhead": "Add up the story so far and it is still not the answer. One more season will change the sums."
+ },
+ {
+  "id": "b12-020",
+  "situation": "final-season-decider",
+  "kicker": "EVENING EDITION",
+  "headline": "ALL IN ON THE LAST",
+  "subhead": "Nothing can be saved for next year in this Showdown. Both clubs are spending everything on the closing season."
+ },
+ {
+  "id": "b12-022",
+  "situation": "final-season-decider",
+  "kicker": "LEGEND WATCH",
+  "headline": "WRITING THE LAST LINE",
+  "subhead": "Statues are built from final chapters. Whoever owns this one will be remembered as the Showdown's champion."
+ },
+ {
+  "id": "b12-023",
+  "situation": "final-season-decider",
+  "kicker": "SEASON REVIEW",
+  "headline": "EXTRA TIME FOR NOBODY",
+  "subhead": "The closing season has no overtime and no replay. It has one run of fixtures and it must produce a winner."
+ },
+ {
+  "id": "b12-025",
+  "situation": "final-season-decider",
+  "kicker": "CROWN WATCH",
+  "headline": "THE THRONE ROOM IS OPEN",
+  "subhead": "Palace doors swing wide for the final season and the crown waits for the manager brave enough to take it."
+ },
+ {
+  "id": "b12-026",
+  "situation": "final-season-decider",
+  "kicker": "NIGHT DESK",
+  "headline": "THE LAST SHOT CLOCK",
+  "subhead": "Somewhere past midnight the closing season begins. It decides who gets off the sofa as Showdown champion."
+ },
+ {
+  "id": "b12-028",
+  "situation": "final-season-decider",
+  "kicker": "HONOURS DESK",
+  "headline": "THE FINAL POLISH",
+  "subhead": "Medals, shelves and pride are all on the line. The closing season decides who gets to display the Showdown itself."
+ },
+ {
+  "id": "b12-031",
+  "situation": "final-season-decider",
+  "kicker": "HISTORY DESK",
+  "headline": "DESTINY COMES KNOCKING",
+  "subhead": "The long rivalry between {clubA} and {clubB} reaches its closing season. Fate seems to have scheduled a thriller."
+ },
+ {
+  "id": "b12-034",
+  "situation": "final-season-decider",
+  "kicker": "SPORTS DESK",
+  "headline": "DEADLINE DAY FOR GLORY",
+  "subhead": "The transfer window is not the only thing closing. The contest itself heads into its last and most decisive campaign."
+ },
+ {
+  "id": "b12-035",
+  "situation": "final-season-decider",
+  "kicker": "RIVALRY WATCH",
+  "headline": "THE SCORECARD STAYS OPEN",
+  "subhead": "Nothing is signed and nothing is sealed. The closing season can still reshape the whole Showdown."
+ },
+ {
+  "id": "b12-037",
+  "situation": "final-season-decider",
+  "kicker": "CABINET WATCH",
+  "headline": "A LOCK STILL UNTURNED",
+  "subhead": "The glass door has one lock remaining and the closing season will show which manager finally holds the key."
+ },
+ {
+  "id": "b12-038",
+  "situation": "final-season-decider",
+  "kicker": "TABLE TALK",
+  "headline": "CHASE FOR THE LAST WORD",
+  "subhead": "Whoever finishes the closing season ahead gets the final say in a rivalry that has argued for years."
+ },
+ {
+  "id": "b12-040",
+  "situation": "final-season-decider",
+  "kicker": "ORCHESTRA DESK",
+  "headline": "THE CLOSING MOVEMENT",
+  "subhead": "The rivalry builds toward its last movement and the final notes of the closing season decide who takes the bow."
+ },
+ {
+  "id": "b13-001",
+  "situation": "showdown-won-1-season",
+  "kicker": "FINAL EDITION",
+  "headline": "SHOT TAKEN, CROWN WON",
+  "subhead": "There was no second chance in this sprint. {winner} took the single opportunity and won the Showdown outright."
+ },
+ {
+  "id": "b13-002",
+  "situation": "showdown-won-1-season",
+  "kicker": "SEASON REVIEW",
+  "headline": "A SPRINT, NO SECOND LAP",
+  "subhead": "{winnerClub} treated the single season as a short dash and crossed the line first. {loser} had no time to answer."
+ },
+ {
+  "id": "b13-004",
+  "situation": "showdown-won-1-season",
+  "kicker": "HONOURS DESK",
+  "headline": "THE SHORTEST RULE IN TOWN",
+  "subhead": "A one-season Showdown leaves no room for a slow start and {winner} never allowed one on the way to the title."
+ },
+ {
+  "id": "b13-005",
+  "situation": "showdown-won-1-season",
+  "kicker": "LATE EDITION",
+  "headline": "NO TIME TO BLINK",
+  "subhead": "{loser} blinked once and the season was gone. {winner} made sure the one and only chance did not slip away."
+ },
+ {
+  "id": "b13-007",
+  "situation": "showdown-won-1-season",
+  "kicker": "CROWN WATCH",
+  "headline": "CROWNED IN RECORD TIME",
+  "subhead": "No long reign was required. {winner} took the throne of the Showdown after one remarkable campaign."
+ },
+ {
+  "id": "b13-008",
+  "situation": "showdown-won-1-season",
+  "kicker": "BACK PAGE",
+  "headline": "A WONDER OF A SEASON",
+  "subhead": "It lasted only one season and that was plenty for {winnerClub} to leave with the Showdown in hand."
+ },
+ {
+  "id": "b13-010",
+  "situation": "showdown-won-1-season",
+  "kicker": "TABLE TALK",
+  "headline": "THE ONLY ROW THAT MATTERED",
+  "subhead": "The ledger held a single line. {winnerPoints} to {loserPoints} was the whole story and it belonged to {winner}."
+ },
+ {
+  "id": "b13-011",
+  "situation": "showdown-won-1-season",
+  "kicker": "NIGHT DESK",
+  "headline": "NO CONTINUES, NO FEAR",
+  "subhead": "One season on the save file meant no retries. {winner} played it cleanly enough to win the Showdown."
+ },
+ {
+  "id": "b13-013",
+  "situation": "showdown-won-1-season",
+  "kicker": "SPORTS DESK",
+  "headline": "FLYING START, FLYING END",
+  "subhead": "There was no gap between the opening and the ending. {winner} led from the first page and lifted the Showdown on the last."
+ },
+ {
+  "id": "b13-014",
+  "situation": "showdown-won-1-season",
+  "kicker": "KITCHEN DESK",
+  "headline": "SERVED HOT AND FAST",
+  "subhead": "The Showdown was a single course and {winner} served it with such confidence that {loser} could only applaud."
+ },
+ {
+  "id": "b13-016",
+  "situation": "showdown-won-1-season",
+  "kicker": "ROAD NOTES",
+  "headline": "LIGHTNING IN A BOTTLE",
+  "subhead": "{winnerClub} caught it in the only season available and the Showdown now carries the name of {winner} for good."
+ },
+ {
+  "id": "b13-017",
+  "situation": "showdown-won-1-season",
+  "kicker": "FINAL EDITION",
+  "headline": "THE FIRST AND FINAL WORD",
+  "subhead": "With one season to speak, {winner} said everything that needed saying and left with the Showdown title."
+ },
+ {
+  "id": "b13-019",
+  "situation": "showdown-won-1-season",
+  "kicker": "SPORTS DESK",
+  "headline": "HOME STRAIGHT, FIRST TIME",
+  "subhead": "A one-lap race from start to finish. {winnerClub} broke clear and took the Showdown without needing a second."
+ },
+ {
+  "id": "b13-020",
+  "situation": "showdown-won-1-season",
+  "kicker": "HONOURS DESK",
+  "headline": "NO ENCORE NEEDED",
+  "subhead": "The applause came after one performance. {winner} delivered a Showdown win that required no repeat to be believed."
+ },
+ {
+  "id": "b13-022",
+  "situation": "showdown-won-1-season",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "QUICK, CLEAN AND DECISIVE",
+  "subhead": "Efficiency was the theme as {winnerClub} turned one season into one title. {loserClub} must plan a longer fight next time."
+ },
+ {
+  "id": "b13-023",
+  "situation": "showdown-won-1-season",
+  "kicker": "EVENING EDITION",
+  "headline": "SHORT STORY, BIG ENDING",
+  "subhead": "The Showdown fitted into a single campaign and the ending belonged entirely to {winner}, who finished top of the standings."
+ },
+ {
+  "id": "b13-025",
+  "situation": "showdown-won-1-season",
+  "kicker": "SEASON REVIEW",
+  "headline": "SPRINT FINISH, SOLE VICTOR",
+  "subhead": "Only one sprint was on the card and {winner} flew through it to take a Showdown that never allowed a rematch."
+ },
+ {
+  "id": "b13-026",
+  "situation": "showdown-won-1-season",
+  "kicker": "TABLE TALK",
+  "headline": "ROUND OVER, WINNER NAMED",
+  "subhead": "Nothing carried over and nothing was owed. {winnerClub} simply finished the single season ahead of {loserClub}."
+ },
+ {
+  "id": "b13-028",
+  "situation": "showdown-won-1-season",
+  "kicker": "THE GAZETTE",
+  "headline": "NO SECOND CHANCES NEEDED",
+  "subhead": "{winner} took the pressure of a single-season contest and turned it into a crown. There is no appeal for {loser}."
+ },
+ {
+  "id": "b13-029",
+  "situation": "showdown-won-1-season",
+  "kicker": "BACK PAGE",
+  "headline": "WHAT A FIRST ROUND!",
+  "subhead": "It was also the last round, and {winnerClub} walked off with the Showdown after just the one."
+ },
+ {
+  "id": "b13-031",
+  "situation": "showdown-won-1-season",
+  "kicker": "ROYAL NEWS",
+  "headline": "SHORT REIGN, SWEET REIGN",
+  "subhead": "{winner} did not wait years for the throne. The Showdown crown arrived in a single campaign."
+ },
+ {
+  "id": "b13-032",
+  "situation": "showdown-won-1-season",
+  "kicker": "HISTORY DESK",
+  "headline": "THE SHORTEST CHAPTER SELLS",
+  "subhead": "A Showdown contained in one season still makes the archives and {winner} now owns the proudest entry in it."
+ },
+ {
+  "id": "b13-034",
+  "situation": "showdown-won-1-season",
+  "kicker": "SPORTS DESK",
+  "headline": "A SHOT AT GLORY, TAKEN",
+  "subhead": "{winner} stepped up with a single chance in hand and made it count, taking the Showdown without a second thought."
+ },
+ {
+  "id": "b13-035",
+  "situation": "showdown-won-1-season",
+  "kicker": "KITCHEN DESK",
+  "headline": "A FLASH WORTH KEEPING",
+  "subhead": "The heat was on for exactly one season. {winner} cooked up a title that will taste sweet for a long time."
+ },
+ {
+  "id": "b13-037",
+  "situation": "showdown-won-1-season",
+  "kicker": "FRONT PAGE",
+  "headline": "THE SOLO SHOWDOWN",
+  "subhead": "A Showdown of one season is a best of one, and {winner} came out the best by finishing on top."
+ },
+ {
+  "id": "b13-038",
+  "situation": "showdown-won-1-season",
+  "kicker": "ROAD NOTES",
+  "headline": "FROM STARTING GUN TO TAPE",
+  "subhead": "Everything happened between the first whistle and the last, and {winnerClub} held the lead when it counted."
+ },
+ {
+  "id": "b13-040",
+  "situation": "showdown-won-1-season",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "TIGHT, FAST, FINAL",
+  "subhead": "The compact Showdown left no space to recover. {winner} used every moment to finish as its champion."
+ },
+ {
+  "id": "b14-001",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "FINAL EDITION",
+  "headline": "THE SERIES HAS A WINNER",
+  "subhead": "{seasonsTotal} seasons gave the contest its shape and {winner} owned the better half of the story."
+ },
+ {
+  "id": "b14-002",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "SEASON REVIEW",
+  "headline": "THE TRILOGY HAS A HERO",
+  "subhead": "After {seasonsTotal} chapters of rivalry {winner} emerges as the star of the saga and owner of the Showdown title."
+ },
+ {
+  "id": "b14-004",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "HONOURS DESK",
+  "headline": "THE VERDICT OF THE TRILOGY",
+  "subhead": "{winnerPoints} points to {loserPoints} across the full run is all the evidence the court needs to rule for {winner}."
+ },
+ {
+  "id": "b14-005",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "TABLE TALK",
+  "headline": "THE SUMS FINALLY AGREE",
+  "subhead": "Add all {seasonsTotal} seasons together and the ledger leaves no doubt. {winner} is the Showdown champion by {margin}."
+ },
+ {
+  "id": "b14-007",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "RIVALRY WATCH",
+  "headline": "THE RUNNER-UP HAD MOMENTS",
+  "subhead": "{loser} gave the trilogy plenty of drama but {winnerClub} was the side that finished the story on top."
+ },
+ {
+  "id": "b14-008",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "TROPHY ROOM",
+  "headline": "THE TROPHY POLISH",
+  "subhead": "{seasonsTotal} seasons of effort have earned a new place on the shelf and {winner} has already reserved it."
+ },
+ {
+  "id": "b14-010",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "SPORTS DESK",
+  "headline": "A BASKET OF SEASONS",
+  "subhead": "{winner} collected enough from {seasonsTotal} campaigns to settle the Showdown and leave {loserClub} chasing a rematch."
+ },
+ {
+  "id": "b14-011",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "CROWN WATCH",
+  "headline": "CROWNED AFTER THE TRILOGY",
+  "subhead": "The coronation took {seasonsTotal} seasons to arrange. {winner} now wears the crown of the Showdown with every right."
+ },
+ {
+  "id": "b14-013",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "KITCHEN DESK",
+  "headline": "A TASTING MENU VICTORY",
+  "subhead": "{winner} served a starter, a main and a dessert of results. The Showdown title was the final flourish."
+ },
+ {
+  "id": "b14-016",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "CABINET WATCH",
+  "headline": "A SHELF FOR THE SHOWDOWN",
+  "subhead": "The glass case has been rearranged because {winner} needs space for the trophy won across {seasonsTotal} seasons."
+ },
+ {
+  "id": "b14-017",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "LATE EDITION",
+  "headline": "NO NEED FOR A DECIDER",
+  "subhead": "{seasonsTotal} seasons were enough to separate the managers and {winner} finished the trilogy with {margin} to spare."
+ },
+ {
+  "id": "b14-019",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "PLAYING THE LONG GAME",
+  "subhead": "{seasonsTotal} seasons is no marathon but it is more than a sprint. {winner} managed the distance expertly."
+ },
+ {
+  "id": "b14-020",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "LEGEND WATCH",
+  "headline": "A CLASSIC IN PARTS",
+  "subhead": "Future readers will find the whole story in one trio of seasons, with {winner} written in as the champion."
+ },
+ {
+  "id": "b14-022",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "TABLE TALK",
+  "headline": "COLUMNS AGREE ON A NAME",
+  "subhead": "Season by season the totals grew and at the foot of the page only {winner} appears as Showdown champion."
+ },
+ {
+  "id": "b14-023",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "STAGE AND SCREEN",
+  "headline": "CREDITS ROLL AT LAST",
+  "subhead": "The trilogy is over and the final reel belongs to {winnerClub}, whose name now tops the cast list."
+ },
+ {
+  "id": "b14-025",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "ROAD NOTES",
+  "headline": "OVER THE LAST HILL",
+  "subhead": "After climbing {seasonsTotal} summits in a row {winner} reached the highest point and claimed the Showdown from there."
+ },
+ {
+  "id": "b14-026",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "SPORTS DESK",
+  "headline": "ROUNDS WON, CASE CLOSED",
+  "subhead": "{winner} won the argument over {seasonsTotal} seasons and finished with {winnerPoints} points and a title to prove it."
+ },
+ {
+  "id": "b14-028",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "HONOURS DESK",
+  "headline": "MEDAL FOR THE METRONOME",
+  "subhead": "Consistency across {seasonsTotal} seasons was the secret. {winner} ticked every box on the way to the Showdown win."
+ },
+ {
+  "id": "b14-029",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "CROWN WATCH",
+  "headline": "A SHORT ROAD TO THE THRONE",
+  "subhead": "The route to the crown took {seasonsTotal} seasons and {winner} walked it without ever losing the way."
+ },
+ {
+  "id": "b14-031",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "NIGHT DESK",
+  "headline": "NIGHTS UNDER THE LIGHTS",
+  "subhead": "The console hummed through {seasonsTotal} seasons and when the screen dimmed it was {winner} who held the Showdown."
+ },
+ {
+  "id": "b14-034",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "OPENING PAGES",
+  "headline": "FROM OVERTURE TO FINALE",
+  "subhead": "The Showdown had a beginning, a middle and an end, and {winnerClub} kept the best of the music for last."
+ },
+ {
+  "id": "b14-035",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "SEASON REVIEW",
+  "headline": "A FAIR FIGHT, A FIRM ANSWER",
+  "subhead": "{seasonsTotal} seasons gave both managers every chance to prove a point and {winner} was the one who did."
+ },
+ {
+  "id": "b14-037",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "TROPHY ROOM",
+  "headline": "ENGRAVER, YOU ARE NEEDED",
+  "subhead": "Another name must be carved into the base of the Showdown trophy. {winner} supplied it after {seasonsTotal} seasons."
+ },
+ {
+  "id": "b14-038",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "EVENING EDITION",
+  "headline": "PERFECTLY BALANCED, FIRMLY WON",
+  "subhead": "This Showdown asked for patience and nerve. {winnerClub} brought both and finished ahead of {loserClub}."
+ },
+ {
+  "id": "b14-040",
+  "situation": "showdown-won-3-seasons",
+  "kicker": "LATE EDITION",
+  "headline": "A STEADY HAND THROUGHOUT",
+  "subhead": "Over the full run of {seasonsTotal} seasons {winnerClub} never lost its composure and the title is the natural reward."
+ },
+ {
+  "id": "b15-001",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "FINAL EDITION",
+  "headline": "AN ERA HAS ITS OWNER",
+  "subhead": "Across {seasonsTotal} seasons of rivalry {winner} built the defining stretch of the Showdown and finishes it as champion."
+ },
+ {
+  "id": "b15-002",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "HISTORY DESK",
+  "headline": "THE LONG CAMPAIGN ENDS",
+  "subhead": "{winnerClub} outlasted {loserClub} through every twist of a patient campaign and the Showdown is the reward."
+ },
+ {
+  "id": "b15-004",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "TABLE TALK",
+  "headline": "THE LEDGER RUNS LONG",
+  "subhead": "A great many lines went into the book and the grand total at the foot reads {winnerPoints} to {loserPoints} for {winner}."
+ },
+ {
+  "id": "b15-005",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "CROWN WATCH",
+  "headline": "A REIGN WELL EARNED",
+  "subhead": "{winner} did not seize the Showdown in a day. It was ruled patiently over a full era and the crown now fits."
+ },
+ {
+  "id": "b15-007",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "OPENING PAGES",
+  "headline": "A SERIAL WITH A SATISFYING END",
+  "subhead": "Every season was an episode and every episode mattered. The finale confirmed {winnerClub} as the Showdown champion."
+ },
+ {
+  "id": "b15-008",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "TROPHY ROOM",
+  "headline": "SILVER BUILT SLOWLY",
+  "subhead": "The Showdown was earned a season at a time and {winner} has stacked enough of them to take the lot."
+ },
+ {
+  "id": "b15-010",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "SPORTS DESK",
+  "headline": "ENDURANCE WINS THE DAY",
+  "subhead": "The Showdown rewarded stamina over sprints and {winner} finished as strongly as any manager could after such a stretch."
+ },
+ {
+  "id": "b15-011",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "KITCHEN DESK",
+  "headline": "SLOW BURN, SWEET FINISH",
+  "subhead": "{winnerClub} let the Showdown simmer through every season and served the title at exactly the right moment."
+ },
+ {
+  "id": "b15-013",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "RIVALRY WATCH",
+  "headline": "THE ERA BELONGS TO THEM",
+  "subhead": "The chase was real across a long run of seasons. Even so, the final standings give {winnerClub} the Showdown."
+ },
+ {
+  "id": "b15-014",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "STAGE AND SCREEN",
+  "headline": "THE MINISERIES FINALE",
+  "subhead": "After a long and gripping run the last episode belongs to {winner}, who finishes as the Showdown's lead character."
+ },
+ {
+  "id": "b15-016",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "HONOURS DESK",
+  "headline": "THE LONG GAME PAYS",
+  "subhead": "Patience marked every season of {winnerClub}'s campaign and the Showdown is a very fitting reward."
+ },
+ {
+  "id": "b15-017",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "LATE EDITION",
+  "headline": "WRITTEN IN INK, STEADILY",
+  "subhead": "Every result was recorded and every total added up. {winner} finished the Showdown with a margin of {margin}."
+ },
+ {
+  "id": "b15-019",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "A CAMPAIGN OF CHAPTERS",
+  "subhead": "The managers wrote a long book across the seasons and the closing page names {winner} as the winner."
+ },
+ {
+  "id": "b15-020",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "SEASON REVIEW",
+  "headline": "THE SLOW CROWN",
+  "subhead": "Not hurried and not handed over. The Showdown reached {winner} only after an era of steady and serious work."
+ },
+ {
+  "id": "b15-022",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "ROAD NOTES",
+  "headline": "SUMMIT AFTER SUMMIT",
+  "subhead": "{winner} kept climbing through the long campaign and reached the top of the Showdown with {loser} still in sight below."
+ },
+ {
+  "id": "b15-023",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "HISTORY DESK",
+  "headline": "BOOK CLOSED, NAME WRITTEN",
+  "subhead": "An era of competition is formally finished and the final entry names {winner} as the Showdown's champion."
+ },
+ {
+  "id": "b15-025",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "SPORTS DESK",
+  "headline": "A SEASON TICKET FOR GLORY",
+  "subhead": "Every home game and every away day counted. {winner} has the Showdown to show for it."
+ },
+ {
+  "id": "b15-026",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "NIGHT DESK",
+  "headline": "STARLIGHT ON THE LONG HAUL",
+  "subhead": "Through a long run of nights in the glow of the screen, {winner} charted a course to the Showdown title."
+ },
+ {
+  "id": "b15-028",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "KITCHEN DESK",
+  "headline": "THE SLOW COOKER SPECIAL",
+  "subhead": "A dish this size takes time. {winnerClub} let the seasons do the work before serving the Showdown win."
+ },
+ {
+  "id": "b15-029",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "LEGEND WATCH",
+  "headline": "CARVED IN STONE",
+  "subhead": "Statues are made for campaigns this long and the sculptor has already been asked to start work on {winner}."
+ },
+ {
+  "id": "b15-031",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "RIVALRY WATCH",
+  "headline": "A LONG ARGUMENT SETTLED",
+  "subhead": "The disagreement lasted a great many seasons. Now the finishing totals give {winner} the last word over {loser}."
+ },
+ {
+  "id": "b15-032",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "BACK PAGE",
+  "headline": "SEASONS OF SERVICE",
+  "subhead": "{winnerClub} delivered year after year of quality and the Showdown title is the thank you for the whole shift."
+ },
+ {
+  "id": "b15-034",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "EVENING EDITION",
+  "headline": "TIME WELL SPENT",
+  "subhead": "There were no shortcuts in this contest, only a steady build that left {winner} holding the Showdown at the end."
+ },
+ {
+  "id": "b15-035",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "SEASON REVIEW",
+  "headline": "FROM FIRST PAGE TO LAST",
+  "subhead": "The story ran across the whole book of the Showdown and {winner} was never out of it on the way to the title."
+ },
+ {
+  "id": "b15-037",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "TROPHY ROOM",
+  "headline": "THE GREAT POLISHING",
+  "subhead": "Cloths are out and shelves are cleared. {winner} has a long era's worth of silverware to arrange."
+ },
+ {
+  "id": "b15-038",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "ROAD NOTES",
+  "headline": "THE LONGEST ROAD HOME",
+  "subhead": "The route was winding and the mood turned many times. {winnerClub} still reached the end of it with the Showdown in hand."
+ },
+ {
+  "id": "b15-040",
+  "situation": "showdown-won-5-seasons",
+  "kicker": "LATE EDITION",
+  "headline": "THE ERA ENDS ON A HIGH",
+  "subhead": "It has been a long and winding contest and it closes with a champion standing proudly at the top."
+ },
+ {
+  "id": "b16-001",
+  "situation": "golden-showdown-won",
+  "kicker": "GOLDEN EDITION",
+  "headline": "GOLD AT LAST",
+  "subhead": "{winner} is the first manager to reach the golden mark and the Golden Showdown now belongs to {winnerClub} for good."
+ },
+ {
+  "id": "b16-002",
+  "situation": "golden-showdown-won",
+  "kicker": "COMMEMORATIVE EDITION",
+  "headline": "THE GOLDEN AGE HAS A NAME",
+  "subhead": "This is the moment the history books were saved for. {winner} claims the Golden Showdown ahead of {loser}."
+ },
+ {
+  "id": "b16-004",
+  "situation": "golden-showdown-won",
+  "kicker": "LEGEND WATCH",
+  "headline": "A DYNASTY IS CROWNED",
+  "subhead": "The Golden Showdown is never won by accident. {winnerClub} has built a dynasty that will be spoken of for generations."
+ },
+ {
+  "id": "b16-005",
+  "situation": "golden-showdown-won",
+  "kicker": "CROWN WATCH",
+  "headline": "THE GOLDEN CROWN",
+  "subhead": "{winner} is first to the top of the mountain and the crown of the Golden Showdown is placed upon the winning manager."
+ },
+ {
+  "id": "b16-007",
+  "situation": "golden-showdown-won",
+  "kicker": "GOLDEN EDITION",
+  "headline": "THE GREATEST STORY WE PRINT",
+  "subhead": "Every other front page was practice for this one, in which {winner} stands alone as Golden Showdown champion."
+ },
+ {
+  "id": "b16-008",
+  "situation": "golden-showdown-won",
+  "kicker": "TROPHY ROOM",
+  "headline": "MELT THE SILVER, CAST GOLD",
+  "subhead": "A trophy of a rare and shining kind is being made and {winner} has earned the right to lift it."
+ },
+ {
+  "id": "b16-010",
+  "situation": "golden-showdown-won",
+  "kicker": "OPENING PAGES",
+  "headline": "ONCE IN A GENERATION",
+  "subhead": "Some contests produce a champion. This one produced a legend as {winner} became first to the golden mark."
+ },
+ {
+  "id": "b16-011",
+  "situation": "golden-showdown-won",
+  "kicker": "STAGE AND SCREEN",
+  "headline": "THE GRAND FINALE",
+  "subhead": "The Golden Showdown reaches its glittering last scene and {winnerClub} takes the final bow to a standing ovation."
+ },
+ {
+  "id": "b16-013",
+  "situation": "golden-showdown-won",
+  "kicker": "RIVALRY WATCH",
+  "headline": "A HAT TIPPED TO GOLD",
+  "subhead": "{loser} fought bravely through an epic chase and now raises a hat to {winner}, who got there first."
+ },
+ {
+  "id": "b16-014",
+  "situation": "golden-showdown-won",
+  "kicker": "SPORTS DESK",
+  "headline": "THE LONGEST RACE, WON",
+  "subhead": "It was the greatest distance a manager could run. {winner} reached the golden line before {loser} could close the gap."
+ },
+ {
+  "id": "b16-016",
+  "situation": "golden-showdown-won",
+  "kicker": "ROAD NOTES",
+  "headline": "THE ROAD TO GOLD ENDS",
+  "subhead": "Years of seasons led to this exact place and {winner} is the manager who walked the whole way and arrived first."
+ },
+ {
+  "id": "b16-017",
+  "situation": "golden-showdown-won",
+  "kicker": "KITCHEN DESK",
+  "headline": "THE FINEST VINTAGE",
+  "subhead": "Some things are worth waiting for. {winnerClub} has produced the rarest result this paper has ever served."
+ },
+ {
+  "id": "b16-019",
+  "situation": "golden-showdown-won",
+  "kicker": "TABLE TALK",
+  "headline": "THE TOP LINE TURNS TO GOLD",
+  "subhead": "The ledger has never printed a figure like this. It belongs wholly to {winner}, the first to reach the mark."
+ },
+ {
+  "id": "b16-020",
+  "situation": "golden-showdown-won",
+  "kicker": "HISTORY DESK",
+  "headline": "FIRST NAME ON THE PLAQUE",
+  "subhead": "A fresh plaque is being polished and the engraver has only one name to carve into it. That name is {winner}."
+ },
+ {
+  "id": "b16-022",
+  "situation": "golden-showdown-won",
+  "kicker": "CROWN WATCH",
+  "headline": "LONG LIVE THE GOLDEN MONARCH",
+  "subhead": "All the realm bows to {winner}, whose reign in the Showdown now carries the richest crown in the kingdom."
+ },
+ {
+  "id": "b16-023",
+  "situation": "golden-showdown-won",
+  "kicker": "HONOURS DESK",
+  "headline": "THE MOUNTAIN HAS A FLAG",
+  "subhead": "{winner} has planted it at the very top, where the air is thin and the Golden Showdown is finally in hand."
+ },
+ {
+  "id": "b16-025",
+  "situation": "golden-showdown-won",
+  "kicker": "LEGEND WATCH",
+  "headline": "TOLD FOR GENERATIONS",
+  "subhead": "Years from now the story will be passed on and {winner} will always be the name at the centre of it."
+ },
+ {
+  "id": "b16-026",
+  "situation": "golden-showdown-won",
+  "kicker": "FINAL EDITION",
+  "headline": "A COLLECTOR'S EDITION",
+  "subhead": "Keep this page and frame it as proof of the day {winner} won the Golden Showdown."
+ },
+ {
+  "id": "b16-028",
+  "situation": "golden-showdown-won",
+  "kicker": "NIGHT DESK",
+  "headline": "THE LAST CHECKPOINT CLEARED",
+  "subhead": "{winnerClub} has beaten the hardest level on the console and earned the rarest ending the save file can offer."
+ },
+ {
+  "id": "b16-029",
+  "situation": "golden-showdown-won",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "GILDED FROM TOP TO TOE",
+  "subhead": "{winner} has made the Showdown shine from every angle, from the dugout to the highest seat in the house."
+ },
+ {
+  "id": "b16-031",
+  "situation": "golden-showdown-won",
+  "kicker": "RIVALRY WATCH",
+  "headline": "THE ULTIMATE BRAGGING RIGHT",
+  "subhead": "Nobody will argue with {winner} again over who won the Golden Showdown. The records are settled."
+ },
+ {
+  "id": "b16-032",
+  "situation": "golden-showdown-won",
+  "kicker": "ROAD NOTES",
+  "headline": "THE ENDLESS MILE, FINISHED",
+  "subhead": "The longest route the game offers has been run in full and {winnerClub} is the first to see the golden line."
+ },
+ {
+  "id": "b16-034",
+  "situation": "golden-showdown-won",
+  "kicker": "HONOURS DESK",
+  "headline": "THE GOLDEN SHELF",
+  "subhead": "A very special place in the cabinet is reserved for the Golden Showdown and {winner} will be filling it."
+ },
+ {
+  "id": "b16-035",
+  "situation": "golden-showdown-won",
+  "kicker": "TABLE TALK",
+  "headline": "TOP OF EVERY LIST",
+  "subhead": "Every column and every table agrees today. {winner} appears first on all of them as Golden Showdown champion."
+ },
+ {
+  "id": "b16-037",
+  "situation": "golden-showdown-won",
+  "kicker": "BACK PAGE",
+  "headline": "OUR FINEST HOUR",
+  "subhead": "The Gazette has never been prouder to print a result. {winner} has made history with the Golden Showdown."
+ },
+ {
+  "id": "b16-038",
+  "situation": "golden-showdown-won",
+  "kicker": "EVENING EDITION",
+  "headline": "BEYOND ALL COMPARE",
+  "subhead": "There is nothing like it in the archive. {winner} has set a standard that the book of records now bears."
+ },
+ {
+  "id": "b16-040",
+  "situation": "golden-showdown-won",
+  "kicker": "LATE EDITION",
+  "headline": "GOLD RUSH WINNER",
+  "subhead": "{winnerClub} dashed ahead in a thrilling race for the Golden Showdown and no one else reached the golden mark in time."
+ },
+ {
+  "id": "b17-002",
+  "situation": "showdown-drawn",
+  "kicker": "HISTORY DESK",
+  "headline": "HISTORY'S PERFECT PAIR",
+  "subhead": "The books will say that {clubA} and {clubB} matched each other in full. It is a rarity no one else can claim."
+ },
+ {
+  "id": "b17-004",
+  "situation": "showdown-drawn",
+  "kicker": "RIVALRY WATCH",
+  "headline": "A DEAD HEAT FOR THE AGES",
+  "subhead": "Neither manager could pull away across {seasonsTotal} seasons and the final tally proves a beautifully even rivalry."
+ },
+ {
+  "id": "b17-005",
+  "situation": "showdown-drawn",
+  "kicker": "STAGE AND SCREEN",
+  "headline": "A STANDING OVATION FOR BOTH",
+  "subhead": "The curtain falls on a Showdown with two leading roles and no supporting cast. The applause is shared equally."
+ },
+ {
+  "id": "b17-007",
+  "situation": "showdown-drawn",
+  "kicker": "ROAD NOTES",
+  "headline": "SIDE BY SIDE AT THE LINE",
+  "subhead": "They ran every stride together and both managers broke the tape in the same moment."
+ },
+ {
+  "id": "b17-008",
+  "situation": "showdown-drawn",
+  "kicker": "SPORTS DESK",
+  "headline": "NOBODY BLINKED",
+  "subhead": "The staring contest lasted the entire Showdown and when it ended {clubA} and {clubB} were still locked eye to eye."
+ },
+ {
+  "id": "b17-010",
+  "situation": "showdown-drawn",
+  "kicker": "TROPHY ROOM",
+  "headline": "A CABINET WITH SPARE KEYS",
+  "subhead": "Neither manager can lock the other out. The Showdown ends in a share that leaves both with something to polish."
+ },
+ {
+  "id": "b17-011",
+  "situation": "showdown-drawn",
+  "kicker": "NIGHT DESK",
+  "headline": "SAME SCORE, BOTH SCREENS",
+  "subhead": "The save file reads the same on either side of the sofa and the Showdown ends in a perfect stalemate."
+ },
+ {
+  "id": "b17-013",
+  "situation": "showdown-drawn",
+  "kicker": "HONOURS DESK",
+  "headline": "THE BALANCE OF POWER",
+  "subhead": "It stays exactly where it started and evenly poised, as {clubA} and {clubB} finish the Showdown on the same total."
+ },
+ {
+  "id": "b17-014",
+  "situation": "showdown-drawn",
+  "kicker": "BACK PAGE",
+  "headline": "THE GREAT STANDOFF",
+  "subhead": "Two managers stared across the whole contest and neither gave an inch. The Gazette salutes the draw."
+ },
+ {
+  "id": "b17-016",
+  "situation": "showdown-drawn",
+  "kicker": "OPENING PAGES",
+  "headline": "A TIE WORTH FRAMING",
+  "subhead": "The rarest outcome in the Showdown has just arrived and the Gazette suggests both managers hang it on the wall."
+ },
+ {
+  "id": "b17-017",
+  "situation": "showdown-drawn",
+  "kicker": "SEASON REVIEW",
+  "headline": "NO VERDICT NEEDED",
+  "subhead": "The rivalry produced exactly the same figures on either side, so the court of the Gazette has nothing left to decide."
+ },
+ {
+  "id": "b17-019",
+  "situation": "showdown-drawn",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "DRAWN TOGETHER, FOREVER",
+  "subhead": "The managers will be linked in the archive as co-owners of a Showdown that no season could split."
+ },
+ {
+  "id": "b17-020",
+  "situation": "showdown-drawn",
+  "kicker": "CABINET WATCH",
+  "headline": "SHARED SHELF, SHARED SHINE",
+  "subhead": "The display case has been rearranged to give {clubA} and {clubB} equal billing on the same shelf."
+ },
+ {
+  "id": "b17-022",
+  "situation": "showdown-drawn",
+  "kicker": "LATE EDITION",
+  "headline": "THE UNBREAKABLE TIE",
+  "subhead": "The deadlock held through the whole Showdown and not even the last season could force it open."
+ },
+ {
+  "id": "b17-023",
+  "situation": "showdown-drawn",
+  "kicker": "HISTORY DESK",
+  "headline": "THE RARE MIRROR",
+  "subhead": "It is not often a Showdown reflects itself so perfectly. {managerA} and {managerB} are each other's equal."
+ },
+ {
+  "id": "b17-025",
+  "situation": "showdown-drawn",
+  "kicker": "CROWN WATCH",
+  "headline": "THE EMPTY THRONE IS SHARED",
+  "subhead": "No one sits alone in the seat of honour as {clubA} and {clubB} agree to split the chair."
+ },
+ {
+  "id": "b17-026",
+  "situation": "showdown-drawn",
+  "kicker": "STAGE AND SCREEN",
+  "headline": "THE PERFECT CLIFFHANGER",
+  "subhead": "Fans were promised a winner and got a draw instead. It feels like the setup for a rematch someday."
+ },
+ {
+  "id": "b17-028",
+  "situation": "showdown-drawn",
+  "kicker": "NIGHT DESK",
+  "headline": "SYNCHRONISED FINISH",
+  "subhead": "The two consoles ended in perfect harmony and the Showdown closes on a draw as tidy as any ever printed."
+ },
+ {
+  "id": "b17-029",
+  "situation": "showdown-drawn",
+  "kicker": "BACK PAGE",
+  "headline": "SPLIT DOWN THE MIDDLE",
+  "subhead": "Nothing separates {managerA} from {managerB} at the finish and the Gazette has only admiration for both."
+ },
+ {
+  "id": "b17-031",
+  "situation": "showdown-drawn",
+  "kicker": "EVENING EDITION",
+  "headline": "THE LONGEST HANDSHAKE",
+  "subhead": "The rivalry ends the way a respectful one should, with two managers on identical totals offering a hand across the table."
+ },
+ {
+  "id": "b17-032",
+  "situation": "showdown-drawn",
+  "kicker": "LEGEND WATCH",
+  "headline": "BOTH NAMES, SAME LINE",
+  "subhead": "The archive will record both names on a single line because {clubA} and {clubB} are indivisible."
+ },
+ {
+  "id": "b17-034",
+  "situation": "showdown-drawn",
+  "kicker": "OPENING PAGES",
+  "headline": "EVEN ON THE LAST PAGE",
+  "subhead": "Every page of the story pointed toward a winner. The ending delivers a gentle surprise instead."
+ },
+ {
+  "id": "b17-035",
+  "situation": "showdown-drawn",
+  "kicker": "SEASON REVIEW",
+  "headline": "DEAD LEVEL, FULLY ALIVE",
+  "subhead": "The Showdown is over but the energy between {managerA} and {managerB} is far from finished."
+ },
+ {
+  "id": "b17-037",
+  "situation": "showdown-drawn",
+  "kicker": "TROPHY ROOM",
+  "headline": "SILVER FOR BOTH HANDS",
+  "subhead": "Two sets of hands will polish the memory of this draw and it will gleam all the brighter for being shared."
+ },
+ {
+  "id": "b17-040",
+  "situation": "showdown-drawn",
+  "kicker": "FINAL EDITION",
+  "headline": "A DRAW TO BE PROUD OF",
+  "subhead": "It may not come with a trophy but it has something better. This rivalry is so even that the Showdown could not choose."
+ },
+ {
+  "id": "b18-001",
+  "situation": "won-on-the-final-day",
+  "kicker": "FINAL EDITION",
+  "headline": "DECIDED AT THE DEATH",
+  "subhead": "Nothing was settled until the very last season and {winner} was the one to take the Showdown when it finally was."
+ },
+ {
+  "id": "b18-002",
+  "situation": "won-on-the-final-day",
+  "kicker": "LATE EDITION",
+  "headline": "THE LAST PAGE DECIDES",
+  "subhead": "{winnerClub} held out until the closing season and only then did the Showdown find its rightful champion."
+ },
+ {
+  "id": "b18-004",
+  "situation": "won-on-the-final-day",
+  "kicker": "SPORTS DESK",
+  "headline": "PHOTO FINISH FOR THE AGES",
+  "subhead": "The judges had to look twice. {winner} edged {loser} at the line in the closing season of the Showdown."
+ },
+ {
+  "id": "b18-005",
+  "situation": "won-on-the-final-day",
+  "kicker": "TABLE TALK",
+  "headline": "THE LAST LINE IN THE LEDGER",
+  "subhead": "Every earlier total was a draft. The closing season wrote {winnerPoints} to {loserPoints} as the final answer."
+ },
+ {
+  "id": "b18-007",
+  "situation": "won-on-the-final-day",
+  "kicker": "NIGHT DESK",
+  "headline": "FINAL BOSS, FINAL SEASON",
+  "subhead": "The last level was the hardest on the save file and {winner} cleared it to win the Showdown."
+ },
+ {
+  "id": "b18-008",
+  "situation": "won-on-the-final-day",
+  "kicker": "CROWN WATCH",
+  "headline": "THE CROWN CHANGED HANDS LATE",
+  "subhead": "Both managers wore it in turn. It was {winner} who held it when the final season ended."
+ },
+ {
+  "id": "b18-010",
+  "situation": "won-on-the-final-day",
+  "kicker": "HONOURS DESK",
+  "headline": "NERVES OF STEEL",
+  "subhead": "The Showdown demanded a cool head to the very last and {winnerClub} kept one when it mattered."
+ },
+ {
+  "id": "b18-011",
+  "situation": "won-on-the-final-day",
+  "kicker": "BACK PAGE",
+  "headline": "WIRE TO WIRE, ALMOST",
+  "subhead": "Only in the closing season did the race resolve, with {winner} breaking away just in time."
+ },
+ {
+  "id": "b18-013",
+  "situation": "won-on-the-final-day",
+  "kicker": "HISTORY DESK",
+  "headline": "WENT THE FULL DISTANCE",
+  "subhead": "No one could call it before the closing campaign and the books now record {winner} as the winner."
+ },
+ {
+  "id": "b18-014",
+  "situation": "won-on-the-final-day",
+  "kicker": "KITCHEN DESK",
+  "headline": "SERVED AT THE LAST MINUTE",
+  "subhead": "The dish was still in the oven when the final season began. {winner} plated the Showdown just in time."
+ },
+ {
+  "id": "b18-016",
+  "situation": "won-on-the-final-day",
+  "kicker": "OPENING PAGES",
+  "headline": "NO FOREGONE CONCLUSION",
+  "subhead": "The closing season was needed to settle things and {winner} used it well to take the Showdown from {loser}."
+ },
+ {
+  "id": "b18-017",
+  "situation": "won-on-the-final-day",
+  "kicker": "SEASON REVIEW",
+  "headline": "THE FINALE TAKES THE CROWN",
+  "subhead": "After a long and tight contest the final campaign gave {winnerClub} the lead and the Showdown with it."
+ },
+ {
+  "id": "b18-019",
+  "situation": "won-on-the-final-day",
+  "kicker": "EVENING EDITION",
+  "headline": "THE COIN FINALLY LANDED",
+  "subhead": "It spun through the whole Showdown and only the closing season decided which side it fell on. It fell for {winner}."
+ },
+ {
+  "id": "b18-020",
+  "situation": "won-on-the-final-day",
+  "kicker": "RIVALRY WATCH",
+  "headline": "A BREATH AWAY",
+  "subhead": "The challenger was never out of it until the very last. {winner} finished the job in time all the same."
+ },
+ {
+  "id": "b18-022",
+  "situation": "won-on-the-final-day",
+  "kicker": "CABINET WATCH",
+  "headline": "THE LAST KEY TURNS",
+  "subhead": "The final lock opened only in the closing season and {winnerClub} now holds the Showdown trophy."
+ },
+ {
+  "id": "b18-023",
+  "situation": "won-on-the-final-day",
+  "kicker": "ROAD NOTES",
+  "headline": "THE FINAL BEND DECIDES",
+  "subhead": "The track stayed tight through the last corner and {winner} came out of it with the lead and the Showdown."
+ },
+ {
+  "id": "b18-025",
+  "situation": "won-on-the-final-day",
+  "kicker": "NIGHT DESK",
+  "headline": "THE LAST SAVE POINT",
+  "subhead": "A single closing season was left on the console and {winner} made it count for the Showdown."
+ },
+ {
+  "id": "b18-026",
+  "situation": "won-on-the-final-day",
+  "kicker": "BACK PAGE",
+  "headline": "WHEN IT MATTERED MOST",
+  "subhead": "The Showdown needed a hero in its final season and {winnerClub} supplied one in the form of {winner}."
+ },
+ {
+  "id": "b18-028",
+  "situation": "won-on-the-final-day",
+  "kicker": "HONOURS DESK",
+  "headline": "THE LONGEST SUSPENSE",
+  "subhead": "The title was kept in doubt until the final season and {winner} finally ended the wait."
+ },
+ {
+  "id": "b18-029",
+  "situation": "won-on-the-final-day",
+  "kicker": "LATE EDITION",
+  "headline": "IT WENT TO THE WIRE",
+  "subhead": "The Showdown ran down to its last stretch and {winner} crossed first when it counted."
+ },
+ {
+  "id": "b18-031",
+  "situation": "won-on-the-final-day",
+  "kicker": "SEASON REVIEW",
+  "headline": "A FINISH WORTH THE WAIT",
+  "subhead": "It took the whole Showdown and one final campaign. The reward for {winner} is a title with real weight."
+ },
+ {
+  "id": "b18-032",
+  "situation": "won-on-the-final-day",
+  "kicker": "KITCHEN DESK",
+  "headline": "PROOF IN THE PUDDING",
+  "subhead": "The recipe was tested to the very end and the last season confirmed that {winner} had the better formula."
+ },
+ {
+  "id": "b18-034",
+  "situation": "won-on-the-final-day",
+  "kicker": "CROWN WATCH",
+  "headline": "BOTH HAD A CLAIM",
+  "subhead": "Both managers could dream until the last season. In the end {winnerClub} made its case the stronger."
+ },
+ {
+  "id": "b18-035",
+  "situation": "won-on-the-final-day",
+  "kicker": "SPORTS DESK",
+  "headline": "THE FINAL WHISTLE DECIDES",
+  "subhead": "Everything hung on the closing campaign and the whistle that ended it confirmed {winner} as Showdown champion."
+ },
+ {
+  "id": "b18-037",
+  "situation": "won-on-the-final-day",
+  "kicker": "RIVALRY WATCH",
+  "headline": "THE CHASE ENDS AT THE LINE",
+  "subhead": "{loserClub} chased all the way. Even so, the line itself belonged to {winnerClub} and the Showdown with it."
+ },
+ {
+  "id": "b18-038",
+  "situation": "won-on-the-final-day",
+  "kicker": "EVENING EDITION",
+  "headline": "CLOSE, CLOSER, CROWNED",
+  "subhead": "Margins narrowed all the way to the closing season and then {winner} was finally crowned champion."
+ },
+ {
+  "id": "b18-040",
+  "situation": "won-on-the-final-day",
+  "kicker": "BACK PAGE",
+  "headline": "SETTLED AT LAST",
+  "subhead": "At last the question has an answer and it is {winner}, champion of a Showdown that refused to end early."
+ },
+ {
+  "id": "b19-001",
+  "situation": "dominant-win",
+  "kicker": "FINAL EDITION",
+  "headline": "A RUNAWAY SHOWDOWN",
+  "subhead": "{winner} finished far ahead of {loser} over the whole contest and the title was never in doubt near the end."
+ },
+ {
+  "id": "b19-002",
+  "situation": "dominant-win",
+  "kicker": "HONOURS DESK",
+  "headline": "A MASTERCLASS",
+  "subhead": "From the first season to the last {winnerClub} delivered a campaign that its rivals could only admire."
+ },
+ {
+  "id": "b19-004",
+  "situation": "dominant-win",
+  "kicker": "CROWN WATCH",
+  "headline": "ABSOLUTE MONARCHY",
+  "subhead": "There was no council and no rival court. {winner} ruled the Showdown from start to finish."
+ },
+ {
+  "id": "b19-005",
+  "situation": "dominant-win",
+  "kicker": "SPORTS DESK",
+  "headline": "LAPS AND LAPS AHEAD",
+  "subhead": "By the end {winnerClub} was so far out in front that {loserClub} could barely see the taillights."
+ },
+ {
+  "id": "b19-007",
+  "situation": "dominant-win",
+  "kicker": "TROPHY ROOM",
+  "headline": "THE SHELVES RUN OUT",
+  "subhead": "{winner} won so convincingly that the cabinet needs a bigger case to hold the Showdown trophy."
+ },
+ {
+  "id": "b19-008",
+  "situation": "dominant-win",
+  "kicker": "RIVALRY WATCH",
+  "headline": "HOMEWORK FOR THE RUNNER-UP",
+  "subhead": "{loser} has plenty to study after watching {winnerClub} run away with the Showdown by {margin}."
+ },
+ {
+  "id": "b19-010",
+  "situation": "dominant-win",
+  "kicker": "ROAD NOTES",
+  "headline": "OUT OF SIGHT BY THE END",
+  "subhead": "The leader built the distance patiently and was long gone when the Showdown reached its finish."
+ },
+ {
+  "id": "b19-011",
+  "situation": "dominant-win",
+  "kicker": "KITCHEN DESK",
+  "headline": "A FEAST WELL TAKEN",
+  "subhead": "{winner} laid out a feast of results and took most of it, leaving the host with the Showdown title."
+ },
+ {
+  "id": "b19-013",
+  "situation": "dominant-win",
+  "kicker": "HISTORY DESK",
+  "headline": "THE LANDSLIDE",
+  "subhead": "The vote of the seasons was overwhelming. {winner} takes the Showdown with a mandate nobody can question."
+ },
+ {
+  "id": "b19-014",
+  "situation": "dominant-win",
+  "kicker": "BACK PAGE",
+  "headline": "IN A LEAGUE OF THEIR OWN",
+  "subhead": "The whole Showdown was a test of strength and {winner} was visibly the strongest manager in the room."
+ },
+ {
+  "id": "b19-016",
+  "situation": "dominant-win",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "COMMANDING FROM THE START",
+  "subhead": "{winner} kept a tight grip on the Showdown and {loser} never quite found a way to loosen it."
+ },
+ {
+  "id": "b19-017",
+  "situation": "dominant-win",
+  "kicker": "TABLE TALK",
+  "headline": "SUMS THAT DON'T NEED CHECKING",
+  "subhead": "Nobody asked for a recount. The finishing totals leave {winner} comfortably and clearly at the top."
+ },
+ {
+  "id": "b19-019",
+  "situation": "dominant-win",
+  "kicker": "SEASON REVIEW",
+  "headline": "THE GAP KEPT GROWING",
+  "subhead": "Each season added to the lead and by the end {winner} was untouchable at the head of the Showdown."
+ },
+ {
+  "id": "b19-020",
+  "situation": "dominant-win",
+  "kicker": "SPORTS DESK",
+  "headline": "PACE SETTER SUPREME",
+  "subhead": "{winner} set the tempo of the whole contest and finished with a gap that the field could only admire."
+ },
+ {
+  "id": "b19-022",
+  "situation": "dominant-win",
+  "kicker": "OPENING PAGES",
+  "headline": "A LOPSIDED SAGA",
+  "subhead": "The story had a clear protagonist from the beginning and {winnerClub} lived up to the part until the credits."
+ },
+ {
+  "id": "b19-025",
+  "situation": "dominant-win",
+  "kicker": "ROAD NOTES",
+  "headline": "SUMMIT, ALONE",
+  "subhead": "{winner} reached the top with air to spare and looked down on a long and empty trail behind."
+ },
+ {
+  "id": "b19-026",
+  "situation": "dominant-win",
+  "kicker": "NIGHT DESK",
+  "headline": "MAX DIFFICULTY, NO PROBLEM",
+  "subhead": "The Showdown challenged every manager and {winnerClub} treated it like a warm-up on the way to a clear title."
+ },
+ {
+  "id": "b19-028",
+  "situation": "dominant-win",
+  "kicker": "KITCHEN DESK",
+  "headline": "A MASTER OF THE KITCHEN",
+  "subhead": "{winnerClub} ran the whole service with calm precision and the Showdown title is the proof."
+ },
+ {
+  "id": "b19-029",
+  "situation": "dominant-win",
+  "kicker": "CROWN WATCH",
+  "headline": "THE LONG, UNCHALLENGED REIGN",
+  "subhead": "With such an enormous lead {winner} wore the crown comfortably. {loser} could only hope for a lucky break."
+ },
+ {
+  "id": "b19-031",
+  "situation": "dominant-win",
+  "kicker": "HISTORY DESK",
+  "headline": "THE BOOKS WILL BE KIND",
+  "subhead": "The record will describe the Showdown as one of clear superiority, led by {winner} in every sense."
+ },
+ {
+  "id": "b19-032",
+  "situation": "dominant-win",
+  "kicker": "BACK PAGE",
+  "headline": "FAR, FAR AHEAD",
+  "subhead": "{winnerPoints} points to {loserPoints} is a gap you can see from space and every inch of it belongs to {winner}."
+ },
+ {
+  "id": "b19-034",
+  "situation": "dominant-win",
+  "kicker": "TROPHY ROOM",
+  "headline": "ROOM FOR A STATUE TOO",
+  "subhead": "The cabinet is full and the foyer is next. {winnerClub} has earned a monument along with the Showdown."
+ },
+ {
+  "id": "b19-035",
+  "situation": "dominant-win",
+  "kicker": "TOUCHLINE VIEW",
+  "headline": "THE FORM BOOK WAS RIGHT",
+  "subhead": "Those who backed {winner} from the beginning will feel justified as the Showdown ends with a wide margin."
+ },
+ {
+  "id": "b19-037",
+  "situation": "dominant-win",
+  "kicker": "HONOURS DESK",
+  "headline": "SUPREMACY CONFIRMED",
+  "subhead": "The final totals leave no room for debate and {winnerClub} is the clear and deserving Showdown champion."
+ },
+ {
+  "id": "b19-038",
+  "situation": "dominant-win",
+  "kicker": "LATE EDITION",
+  "headline": "THE ONLY NAME ON THE LIST",
+  "subhead": "Read the page to the end and only {winner} stands out as Showdown winner."
+ },
+ {
+  "id": "b19-040",
+  "situation": "dominant-win",
+  "kicker": "ROAD NOTES",
+  "headline": "THE WIDE BLUE GAP",
+  "subhead": "Out on the water {winnerClub} sailed on while {loserClub} lagged far behind. An ocean separated them at the finish."
+ },
+ {
+  "id": "b82-002",
+  "situation": "europa-league",
+  "kicker": "CONTINENTAL RECORD",
+  "headline": "HONOURS BEYOND THE MARQUEE",
+  "subhead": "Not every great European story plays on the biggest stage. {winnerClub} has still supplied a title worth serious attention."
+ },
+ {
+  "id": "b82-004",
+  "situation": "europa-league",
+  "kicker": "TROPHY REGISTER",
+  "headline": "A CONTINENTAL ENCORE",
+  "subhead": "With the Europa League secured by {winnerClub} this season gains an achievement that will still matter when the rivalry resumes."
+ },
+ {
+  "id": "b82-006",
+  "situation": "europa-league",
+  "kicker": "EUROPE IN FOCUS",
+  "headline": "ANOTHER SPOTLIGHT FOR EUROPE",
+  "subhead": "The Europa League title gives {winnerClub} a continental chapter all of its own, distinct from the rest of the season."
+ },
+ {
+  "id": "b82-008",
+  "situation": "europa-league",
+  "kicker": "AFTER THE CURTAIN",
+  "headline": "PRESENCE OF A PRIZE",
+  "subhead": "For {winnerClub} the Europa League trophy needs no oversized production to leave a lasting mark on the season."
+ },
+ {
+  "id": "b82-010",
+  "situation": "europa-league",
+  "kicker": "EDITORIAL VIEW",
+  "headline": "LEADING ROLE ELSEWHERE",
+  "subhead": "{winnerClub} has won the Europa League and the distinction deserves recognition in its own right."
+ },
+ {
+  "id": "b82-012",
+  "situation": "europa-league",
+  "kicker": "SPECIAL EDITION",
+  "headline": "THE OTHER GRAND PRODUCTION",
+  "subhead": "The Europa League supplied its own prize this season and {winnerClub} emerged with the honour that mattered most there."
+ },
+ {
+  "id": "b82-013",
+  "situation": "europa-league",
+  "kicker": "CULTURE AND SPORT",
+  "headline": "CONTINENT IN A NEW LIGHT",
+  "subhead": "A different European competition has delivered a celebrated trophy to {winner} and handed the Gazette a fresh kind of story."
+ },
+ {
+  "id": "b82-014",
+  "situation": "europa-league",
+  "kicker": "TROPHY DESK",
+  "headline": "SILVER TAKES A SOLO BOW",
+  "subhead": "Lifting the Europa League gives {winnerClub} a European title that borrows no prestige from any other result."
+ },
+ {
+  "id": "b82-016",
+  "situation": "europa-league",
+  "kicker": "CONTINENTAL REVIEW",
+  "headline": "ENCORE WORTH REMEMBERING",
+  "subhead": "The Europa League trophy is {winnerClub}'s reward and it deserves room in the record of this rivalry."
+ },
+ {
+  "id": "b82-017",
+  "situation": "europa-league",
+  "kicker": "THE PLAYBILL",
+  "headline": "BILLED FOR EUROPE",
+  "subhead": "For {winner} a Europa League title belongs on the programme of lasting honours and not among the footnotes."
+ },
+ {
+  "id": "b82-019",
+  "situation": "europa-league",
+  "kicker": "HONOR ROLL",
+  "headline": "THE SPOTLIGHT HAS RANGE",
+  "subhead": "There is room for more than one kind of European acclaim and {winner} has earned this season's Europa League title."
+ },
+ {
+  "id": "b82-021",
+  "situation": "europa-league",
+  "kicker": "LATE BULLETIN",
+  "headline": "ROLL OUT THE RED CARPET",
+  "subhead": "Europa League silverware gives {winner} a genuine reason to celebrate and the Gazette its continental headline."
+ },
+ {
+  "id": "b82-024",
+  "situation": "europa-league",
+  "kicker": "SECOND EDITION",
+  "headline": "PUT THE PRIZE ON SCREEN!",
+  "subhead": "No dramatic replay is needed. {winnerClub} has secured Europa League honours and added silverware to its season."
+ },
+ {
+  "id": "b82-026",
+  "situation": "europa-league",
+  "kicker": "NEWSFLASH",
+  "headline": "SWING THE SPOTLIGHT!",
+  "subhead": "The Europa League is {winnerClub}'s achievement and a trophy that shifts the focus of this season's European story."
+ }
+]

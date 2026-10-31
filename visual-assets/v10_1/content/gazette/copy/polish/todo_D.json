@@ -1,0 +1,782 @@
+[
+ {
+  "id": "pb1-001",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "The season results stage is lit like a shop window, and {winner} steps into the glare alone."
+ },
+ {
+  "id": "pb1-002",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "{loser} reads the season sheet like a jeweller hunting for a scratch on the glass."
+ },
+ {
+  "id": "pb1-003",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Every shelf on the results stage has been dusted, and {winner} is already waiting at the glass."
+ },
+ {
+  "id": "pb1-004",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Engraved name plates line the back wall, and {loserClub} waits quietly for its name to be read."
+ },
+ {
+  "id": "pb1-005",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Keys in hand, {winner} and the results board share a long, hushed moment before the figures go up."
+ },
+ {
+  "id": "pb1-006",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Ribbons drape the lectern, silver sits on the sideboard, and {winnerClub} is polished for the night."
+ },
+ {
+  "id": "pb1-007",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "The results board glows at the far end of the stage while {loser} checks the cabinet glass once more."
+ },
+ {
+  "id": "pb1-008",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "A velvet-lined case waits by the results desk, empty for now, as {managerA} and {managerB} reach for the shelves."
+ },
+ {
+  "id": "pb1-009",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Medals are laid out in a row across the stage, and the final figures are still hidden under a cloth."
+ },
+ {
+  "id": "pb1-010",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "The stage is set, every case lit, and {winnerClub} keeps its silver in the middle of the room."
+ },
+ {
+  "id": "pb1-011",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Nobody needs an engraving tool tonight, only a steady hand on the results sheet and a cabinet about to fill."
+ },
+ {
+  "id": "pb1-012",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "{loserClub} sits beside a shelf of silver that looks heavier than it did before the reading began."
+ },
+ {
+  "id": "pb1-013",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Before the season is read out, {winner} gives the trophy cabinet a final polish, more ritual than need."
+ },
+ {
+  "id": "pb1-014",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "The results stage is where the year's silverware gets counted, and {loser} arrives with a cloth and a steady gaze."
+ },
+ {
+  "id": "pb1-015",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Lights rise over a row of glass cases and a sealed ledger, the season locked inside, waiting for the reading."
+ },
+ {
+  "id": "pb1-016",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "Keys jangle at the back of the hall as {managerA} unlocks the results room with {managerB} close behind."
+ },
+ {
+  "id": "pb1-017",
+  "kind": "captions",
+  "photo": "lead-season",
+  "text": "That season's results sit on the lectern like the last piece on a shelf, and nobody has touched the glass yet."
+ },
+ {
+  "id": "pb1-018",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "Matching display cases stand side by side, and {managerA} and {managerB} look at them with the same level gaze."
+ },
+ {
+  "id": "pb1-019",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "The scales in the trophy room sit perfectly still, weighed down by equal silver on either side for {clubA} and {clubB}."
+ },
+ {
+  "id": "pb1-020",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "A matched pair of keys hangs on the same hook, and neither {managerA} nor {managerB} is ready to reach for it."
+ },
+ {
+  "id": "pb1-021",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "{clubA} and {clubB} have shelves that match in polish and shine, a stalemate of silver nobody wants to break."
+ },
+ {
+  "id": "pb1-022",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "Engraved plates sit in a neat line, and the names of {managerA} and {managerB} are cut at exactly the same depth."
+ },
+ {
+  "id": "pb1-023",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "The medals stop swinging together, and {managerA} and {managerB} exchange a nod across the glass."
+ },
+ {
+  "id": "pb1-024",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "A ribbon for {clubA}, a ribbon for {clubB}, both tied in the same knot and both waiting for a verdict."
+ },
+ {
+  "id": "pb1-025",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "{managerA} wipes the glass, {managerB} wipes the glass, and the reflections look like twins."
+ },
+ {
+  "id": "pb1-026",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "Dust settles evenly across both display cases, and neither {managerA} nor {managerB} has found a reason to claim the top shelf."
+ },
+ {
+  "id": "pb1-027",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "The ledger closes with the bottom line inked the same on both pages, {clubA} and {clubB} alike."
+ },
+ {
+  "id": "pb1-028",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "A stand-off in silver: {clubA} and {clubB} with cabinets of equal weight and polish, glowing in the spotlight."
+ },
+ {
+  "id": "pb1-029",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "The velvet is pressed flat on both shelves, marking the spot where a trophy would sit if the scoreboard tilted."
+ },
+ {
+  "id": "pb1-030",
+  "kind": "captions",
+  "photo": "lead-draw",
+  "text": "{managerB} hands over the cloth, {managerA} hands it straight back, and the cabinet keeps its shine a little longer."
+ },
+ {
+  "id": "pb2-001",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Polish that cup until you can see your face in it, then go and find an empty shelf."
+ },
+ {
+  "id": "pb2-002",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "I will not sulk in the trophy room, {winner}, because the carpet deserves better."
+ },
+ {
+  "id": "pb2-003",
+  "kind": "quotes",
+  "who": "{managerA}",
+  "situation": "draw",
+  "text": "Neither of us lifts it, so the room gets a fresh cloth and a shrug."
+ },
+ {
+  "id": "pb2-004",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Honestly, the trophies do most of the talking. I just keep the ribbons straight."
+ },
+ {
+  "id": "pb2-005",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "Keep the key safe for me, {winner}, and do not let it get used as a bottle opener."
+ },
+ {
+  "id": "pb2-006",
+  "kind": "quotes",
+  "who": "{managerB}",
+  "situation": "draw",
+  "text": "Nobody gets the glory from a draw, so the least we can do is split the dusting."
+ },
+ {
+  "id": "pb2-007",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Engraving takes ages, so I told the engraver to leave room for my middle name."
+ },
+ {
+  "id": "pb2-008",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "Next season I will bring my own cloth, and the silver will know exactly who is coming."
+ },
+ {
+  "id": "pb2-009",
+  "kind": "quotes",
+  "who": "{managerA}",
+  "situation": "draw",
+  "text": "A draw keeps the cabinet locked, and I have not decided whether to thank or blame the key."
+ },
+ {
+  "id": "pb2-010",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Forget the medals, I am in it for the squeak the cabinet door makes when it opens."
+ },
+ {
+  "id": "pb2-011",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "Your display is gleaming, {winner}, and I am jealous in the most respectful way."
+ },
+ {
+  "id": "pb2-012",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "The lock sticks, so every time I open the doors I make a proper performance of it."
+ },
+ {
+  "id": "pb2-013",
+  "kind": "quotes",
+  "who": "{managerB}",
+  "situation": "draw",
+  "text": "Nobody takes the big gold cup today, so we get to glare at it together, politely."
+ },
+ {
+  "id": "pb2-014",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Engraved silver is lovely, but the best part is seeing my name spelled right for once."
+ },
+ {
+  "id": "pb2-015",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "I have dusted the ribbons again and again, which tells you exactly how I took the news."
+ },
+ {
+  "id": "pb2-016",
+  "kind": "quotes",
+  "who": "{managerA}",
+  "situation": "draw",
+  "text": "A draw hands us the same view of the silver, and gloating is off the menu."
+ },
+ {
+  "id": "pb2-017",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Trophies are only metal until somebody polishes them, so I keep a cloth in my pocket."
+ },
+ {
+  "id": "pb2-018",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "Well played, {winner}. Please tell the cabinet it can stop looking so smug about it."
+ },
+ {
+  "id": "pb2-019",
+  "kind": "quotes",
+  "who": "{managerB}",
+  "situation": "draw",
+  "text": "A draw means the key stays in my pocket and yours, which is a very polite standoff."
+ },
+ {
+  "id": "pb2-020",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "The trophy room smells of polish and fresh victory, and I am glad to be its tenant."
+ },
+ {
+  "id": "pb2-021",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "Those medals look far too good on someone else, so I shall plan my revenge with a feather duster."
+ },
+ {
+  "id": "pb2-022",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Every proud manager needs a locked door, a warm light and a rival who asks to see inside."
+ },
+ {
+  "id": "pb2-023",
+  "kind": "quotes",
+  "who": "{managerA}",
+  "situation": "draw",
+  "text": "We both polish until the silver shows our faces, and nobody can say who looks better."
+ },
+ {
+  "id": "pb2-024",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "I have a shelf for every season, a drawer for the medals and a ribbon for the bad days."
+ },
+ {
+  "id": "pb2-025",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "Your name on that plate looks very grand, {winner}, so I will read it while I make tea."
+ },
+ {
+  "id": "pb2-026",
+  "kind": "quotes",
+  "who": "{managerB}",
+  "situation": "draw",
+  "text": "A draw will not hand either of us a trophy, but it does hand us a duster and a grin."
+ },
+ {
+  "id": "pb2-027",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Anyone can own a key, {loser}, but only a true champion remembers where the spare is."
+ },
+ {
+  "id": "pb2-028",
+  "kind": "quotes",
+  "who": "{loser}",
+  "situation": "win",
+  "text": "My shelf has room for improvement, so I am spending the next few evenings with a saw."
+ },
+ {
+  "id": "pb2-029",
+  "kind": "quotes",
+  "who": "{managerA}",
+  "situation": "draw",
+  "text": "No trophy moves tonight, so the room can finally have a sit down and so can we."
+ },
+ {
+  "id": "pb2-030",
+  "kind": "quotes",
+  "who": "{winner}",
+  "situation": "win",
+  "text": "Gold in the case, silver in the drawer, and a grin so wide it needs its own shelf."
+ },
+ {
+  "id": "pb3-001",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "THE CONTINENT'S CROWN",
+  "text": "{manager} has the continent's top prize under glass now, and {club} will polish it every morning."
+ },
+ {
+  "id": "pb3-002",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "TOP SHELF TENANT",
+  "text": "The biggest trophy in the building has found its home, and {manager} has placed it on the top shelf with care."
+ },
+ {
+  "id": "pb3-003",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "THE UPPER CASE",
+  "text": "{club} needed a bigger key for this prize, because the continental crown would not fit in any ordinary cupboard."
+ },
+ {
+  "id": "pb3-004",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "THE ENGRAVER'S BEST LETTERING",
+  "text": "The engraver has been working through the night on the continental inscription, and {manager} wants every letter to shine."
+ },
+ {
+  "id": "pb3-005",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "CONTINENTAL MEDAL",
+  "text": "{club} now hold the medal that matters most across the continent, and the ribbon has been pressed flat by a proud hand."
+ },
+ {
+  "id": "pb3-006",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "A FINER PLACE",
+  "text": "Nobody on the continent has a finer place on the display than {manager}, whose crown now sits above every other silver piece."
+ },
+ {
+  "id": "pb3-007",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "KEY TO THE CASE",
+  "text": "Hand over the key, {manager}, because the continental prize is ready for its spotlight, and the glass has never looked so bright."
+ },
+ {
+  "id": "pb3-008",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "SILVER FOR THE CONTINENT",
+  "text": "{club} have carried the continent's top silver home, and the case is already too small for the kind of glory on show."
+ },
+ {
+  "id": "pb3-009",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "POLISH THE CROWN AGAIN",
+  "text": "The crown needs a polish before the photographers arrive, so {manager} has gathered the cloths and started on the big gold piece."
+ },
+ {
+  "id": "pb3-010",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "THE RECORD BOOKS",
+  "text": "Under the lights, {club} lifted the continent's most famous prize, and the history books will need a fresh page for {manager}."
+ },
+ {
+  "id": "pb3-011",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "THE CROWN COMES HOME",
+  "text": "The continental crown has come home to {club}, and {manager} has given it the proudest spot on the sideboard, facing the door."
+ },
+ {
+  "id": "pb3-012",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "THE LOCK CLICKS SHUT",
+  "text": "The lock clicks shut on the top case, and {manager} keeps the only key on a ribbon round the neck."
+ },
+ {
+  "id": "pb3-013",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "EUROPE'S PRIZE, ENGRAVED",
+  "text": "A plate with the continent's name is being engraved right now, and {club} will have their own letters beside the glass soon."
+ },
+ {
+  "id": "pb3-014",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "HOME AT LAST",
+  "text": "{manager} carried the grandest trophy in club football to the top of the stairs and set it down in the best case in the house."
+ },
+ {
+  "id": "pb3-015",
+  "kind": "briefs",
+  "situation": "champions-league",
+  "head": "CROWNED FOR THE CONTINENT",
+  "text": "Few silver pieces on the continent shine like this, and {club} have bought the finest polish in town to keep it that way."
+ },
+ {
+  "id": "pb3-016",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "A NEW SHELF",
+  "text": "The Europa silver has its own shelf, polished to a shine, and {manager} has promised it will never sit in the dark."
+ },
+ {
+  "id": "pb3-017",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "A BIGGER SMILE",
+  "text": "It may not be the continent's top prize, but {club} have given it a glass case, a velvet cloth and a spot near the door."
+ },
+ {
+  "id": "pb3-018",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "THE OTHER CROWN",
+  "text": "{manager} lifted the continent's other prize with the same care given to any silver in the room, and the ribbon looks finer for it."
+ },
+ {
+  "id": "pb3-019",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "A SMALLER PLATE, ENGRAVED",
+  "text": "The engraver is cutting the name of {club} onto the modest plate, and the letters are so crisp they could slice glass."
+ },
+ {
+  "id": "pb3-020",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "WORTH THE POLISH",
+  "text": "Every cloth in the house has been used on this prize, and {manager} still finds a fresh smudge to wipe away each evening."
+ },
+ {
+  "id": "pb3-021",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "THE SHELF FILLS UP",
+  "text": "Once the shelf held nothing but dust, and now {club} have a European prize standing in front of the old silver with pride."
+ },
+ {
+  "id": "pb3-022",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "A KEY TURNS",
+  "text": "{manager} turned the key on the European case with a flourish, then tucked the spare into a waistcoat pocket for safekeeping."
+ },
+ {
+  "id": "pb3-024",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "A NEW TENANT",
+  "text": "A new tenant has moved into the glass case, and {manager} has promised the lodger a clean window, good light and steady polishing."
+ },
+ {
+  "id": "pb3-025",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "EARNS ITS PLACE",
+  "text": "Some prizes take a long road to the shelf, and {club} earned this continental piece the hard way, through every round."
+ },
+ {
+  "id": "pb3-027",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "PROUDLY POLISHED",
+  "text": "{club} have the polish out again, rubbing the continental prize until the engraving catches the light across the whole room."
+ },
+ {
+  "id": "pb3-028",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "A FINAL TOUCH",
+  "text": "Before the case closes for the evening, {manager} adds a last touch of silver to the shelf, a small piece that has been waiting."
+ },
+ {
+  "id": "pb3-029",
+  "kind": "briefs",
+  "situation": "europa-league",
+  "head": "THE SIDE SHELF GLOWS",
+  "text": "On the side shelf, {club} have a European prize glowing under the lamp, and visitors are asked to admire it without fingerprints."
+ },
+ {
+  "id": "pb3-030",
+  "kind": "briefs",
+  "situation": "league-title",
+  "head": "THE LEAGUE'S PRIZE",
+  "text": "The title has been wrapped in tissue and placed in the cabinet, where {manager} can admire its tarnish-free shine every morning."
+ },
+ {
+  "id": "pb3-032",
+  "kind": "briefs",
+  "situation": "league-title",
+  "head": "A LEAGUE SHIELD",
+  "text": "{club} have a league shield with fresh engraving, and the lettering is sharp enough to read from the far end of the shelf."
+ },
+ {
+  "id": "pb3-033",
+  "kind": "briefs",
+  "situation": "league-title",
+  "head": "TITLE AT THE CENTRE",
+  "text": "The league crown sits in the centre of the cabinet now, and {manager} has rubbed it until the reflection is just right."
+ },
+ {
+  "id": "pb4-001",
+  "kind": "ears",
+  "head": "POLISH WATCH",
+  "text": "Cloths sharpened, elbows greased, the cups look nervous"
+ },
+ {
+  "id": "pb4-002",
+  "kind": "ears",
+  "head": "KEYS INSIDE",
+  "text": "The cabinet key turns at last, gently"
+ },
+ {
+  "id": "pb4-003",
+  "kind": "ears",
+  "head": "SILVER SPECIAL",
+  "text": "Hours of buffing for a shine too bright"
+ },
+ {
+  "id": "pb4-004",
+  "kind": "ears",
+  "head": "ENGRAVED DAILY",
+  "text": "Every nameplate read aloud, then read again"
+ },
+ {
+  "id": "pb4-005",
+  "kind": "ears",
+  "head": "MEDAL DESK",
+  "text": "Ribbons pressed flat, medals hung with pride"
+ },
+ {
+  "id": "pb4-006",
+  "kind": "ears",
+  "head": "SHELF SPACE",
+  "text": "Shelves measured, and the plan is bold"
+ },
+ {
+  "id": "pb4-008",
+  "kind": "ears",
+  "head": "ARCHIVE FIND",
+  "text": "Old ribbons unearthed in a dusty drawer"
+ },
+ {
+  "id": "pb4-009",
+  "kind": "ears",
+  "head": "BRASS NOTICE",
+  "text": "Brass plates buffed for the grand reopening"
+ },
+ {
+  "id": "pb4-010",
+  "kind": "ears",
+  "head": "KEY HOLDERS",
+  "text": "Only the caretaker holds the spare key"
+ },
+ {
+  "id": "pb4-011",
+  "kind": "ears",
+  "head": "TROPHY ROOM",
+  "text": "Velvet cloth and a steady hand, always"
+ },
+ {
+  "id": "pb4-012",
+  "kind": "ears",
+  "head": "PLAQUE PRESS",
+  "text": "Each plaque checked for spelling and pride"
+ },
+ {
+  "id": "pb4-013",
+  "kind": "ears",
+  "head": "GLASS CASE",
+  "text": "The glass case wiped down for guests"
+ },
+ {
+  "id": "pb4-014",
+  "kind": "ears",
+  "head": "INSIDE JOB",
+  "text": "Somebody polished the shelves all night long"
+ },
+ {
+  "id": "pb4-015",
+  "kind": "ears",
+  "head": "SHINE ALERT",
+  "text": "Gold leaf catching the lamps again"
+ },
+ {
+  "id": "pb4-016",
+  "kind": "ears",
+  "head": "CABINET CALL",
+  "text": "Doors open, silver out, inspection begins"
+ },
+ {
+  "id": "pb4-017",
+  "kind": "ears",
+  "head": "RIBBON WATCH",
+  "text": "Ribbons tied tight, bows straightened for the cameras"
+ },
+ {
+  "id": "pb4-018",
+  "kind": "ears",
+  "head": "SILVER LINING",
+  "text": "Silver on every shelf, no exceptions allowed"
+ },
+ {
+  "id": "pb4-019",
+  "kind": "ears",
+  "head": "TOP SHELF",
+  "text": "The best sits on the top shelf"
+ },
+ {
+  "id": "pb4-020",
+  "kind": "ears",
+  "head": "MEDAL RUN",
+  "text": "Medals sorted by weight, then by mood"
+ },
+ {
+  "id": "pb4-021",
+  "kind": "ears",
+  "head": "LOCKED AWAY",
+  "text": "Some trophies stay behind the glass for good"
+ },
+ {
+  "id": "pb4-022",
+  "kind": "ears",
+  "head": "ENGRAVING NOW",
+  "text": "Names carved into the base tonight"
+ },
+ {
+  "id": "pb4-023",
+  "kind": "ears",
+  "head": "DUSTED OFF",
+  "text": "Yesterday's dust has been politely removed"
+ },
+ {
+  "id": "pb4-024",
+  "kind": "ears",
+  "head": "SHELF LIFE",
+  "text": "The medals are living their best life"
+ },
+ {
+  "id": "pb4-026",
+  "kind": "ears",
+  "head": "GLEAM WATCH",
+  "text": "All cups in the room now gleam"
+ },
+ {
+  "id": "pb4-027",
+  "kind": "ears",
+  "head": "KEEPER OF KEYS",
+  "text": "The keeper of the keys keeps a list"
+ },
+ {
+  "id": "pb4-028",
+  "kind": "ears",
+  "head": "NOTICE BOARD",
+  "text": "Pinned to the door: handle with care"
+ },
+ {
+  "id": "pb4-029",
+  "kind": "ears",
+  "head": "CASE CLOSED",
+  "text": "Silver lined up, every label in place"
+ },
+ {
+  "id": "pb4-030",
+  "kind": "ears",
+  "head": "SPARKLE INDEX",
+  "text": "Brightness rated, sheen index updated"
+ },
+ {
+  "id": "pb4-031",
+  "kind": "ears",
+  "head": "PALACE GRADE",
+  "text": "Palace-grade polish applied with patience"
+ },
+ {
+  "id": "pb4-032",
+  "kind": "ears",
+  "head": "HALL OF FAME",
+  "text": "Names still climbing the wall of honour"
+ }
+]

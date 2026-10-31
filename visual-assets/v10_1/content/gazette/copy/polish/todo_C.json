@@ -1,0 +1,482 @@
+[
+ {
+  "id": "sb1-01",
+  "situation": "big-win",
+  "byline": "From our touchline desk",
+  "standfirst": "{winner} took season {seasonNo} of {seasonsTotal} by a margin that left {loser} studying the horizon from a very long way back.",
+  "paragraphs": [
+   "Some seasons are contested and some are simply taken, and the one just ended belonged to the second kind. {winner}, guiding {winnerClub}, finished {margin} ahead of {loser}, a gap that needs no interpretation from this correspondent.",
+   "For {loserClub} the season offers little comfort, though rivalry is built on such reverses. A lead of this size shifts the whole weather of the contest, and {winnerPoints} against {loserPoints} reads as a record of authority rather than accident.",
+   "The reply now belongs to {loser}. Great rivalries are seldom settled by a single chapter, and {winnerClub} will know the next one is already being written."
+  ],
+  "pullquote": {
+   "text": "That was not a gap, it was a different postcode altogether.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb1-02",
+  "situation": "big-win",
+  "byline": "Our chief football correspondent",
+  "standfirst": "Seldom does a season announce its winner so plainly, and {winnerClub} wore the finish as though it had been fitted for them.",
+  "paragraphs": [
+   "The best campaigns settle their business early and spend the remainder in confirmation. So it proved for {winner}, whose {winnerClub} ended season {seasonNo} {margin} ahead of {loser} and {loserClub}, composed throughout and never once hurried.",
+   "What lingers is the ease of it. A rivalry between two friends usually lives on small edges, yet here the edge became a ridge, and {loser} must now study {winnerPoints} against {loserPoints} closely before the next chapter.",
+   "There remains plenty of Showdown left for the response, and {loser} is not a manager to treat such a gap as a final judgement, only as a very pointed question."
+  ],
+  "pullquote": {
+   "text": "You could have drawn the finish with a ruler on the first morning.",
+   "who": "The press box"
+  }
+ },
+ {
+  "id": "sb1-03",
+  "situation": "big-win",
+  "byline": "Reported from the directors' box",
+  "standfirst": "Built patiently and finished with confidence, {winner}'s season for {winnerClub} stands as the most commanding work in the Gazette's recent files.",
+  "paragraphs": [
+   "Grand structures are rarely hurried, and {winner} has spent this season laying stone upon stone at {winnerClub}. The result, {margin} beyond the reach of {loser}, is less a finish than a finished building, handsome and load-bearing.",
+   "{loser} and {loserClub} will walk its corridors with mixed feelings, admiring the craft while measuring the walls. A margin of that height does not fall in one afternoon; it must be undermined slowly, season by season.",
+   "Season {seasonNo} of {seasonsTotal} has given this rivalry its first great edifice. Whether it becomes a monument or a ruin depends entirely on what {loser} builds in reply."
+  ],
+  "pullquote": {
+   "text": "A fine house, and the neighbours have noticed the extension.",
+   "who": "Overheard in the dugout"
+  }
+ },
+ {
+  "id": "sb1-04",
+  "situation": "big-win",
+  "byline": "From the press gallery",
+  "standfirst": "Defeat is never gracious in its first hour, yet {loser} will find that a gap this wide can also be a map.",
+  "paragraphs": [
+   "The headline belongs to {winner}, who carried {winnerClub} home {margin} in front of {loserClub} and {loser} at the close of season {seasonNo}. It was a performance of range and nerve, delivered without apparent strain.",
+   "Yet the story of any lopsided season is half told from the other side. {loser} has been shown, in plain figures, precisely what the standard is, and a manager who knows the standard can begin to plan for it.",
+   "Rivals rarely forget a season like this one, and the best of them use it. Expect {loserClub} to return with something sharper than sympathy."
+  ],
+  "pullquote": {
+   "text": "Nothing sharpens a pencil like a long way to travel.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb1-05",
+  "situation": "big-win",
+  "byline": "Our rivalry correspondent",
+  "standfirst": "One chapter of {seasonsTotal} has been written in {winner}'s hand, and the margin suggests the author had the ending half planned.",
+  "paragraphs": [
+   "It is only season {seasonNo}, and the sensible reader will resist the word decisive. Still, {winner} and {winnerClub} have opened the account with {margin} to spare over {loser}, and a lead of that weight deserves to be taken seriously.",
+   "The shape of the Showdown now tilts. {loserClub} must chase where it expected to trade blows, and chasing is a different art, requiring patience as well as appetite. {winnerPoints} against {loserPoints} sets the terms.",
+   "Much remains on the calendar of this rivalry, and a lead this large can look either comfortable or heavy, depending on who is carrying it."
+  ],
+  "pullquote": {
+   "text": "A big lead is a loan, and somebody always comes to collect.",
+   "who": "The tea lady at the training ground"
+  }
+ },
+ {
+  "id": "sb1-06",
+  "situation": "big-win",
+  "byline": "From the statistician's corner",
+  "standfirst": "Balanced against everything {loser} could offer, the ledger for this season closes heavily in favour of {winnerClub}.",
+  "paragraphs": [
+   "Audit the season line by line and the conclusion arrives quickly. {winner} brought {winnerPoints} to the account where {loser} brought {loserPoints}, and the resulting {margin} is the sort of surplus that needs no creative accounting.",
+   "For {loserClub} the entries are not shameful, merely outweighed. A rivalry like this keeps long books, and one lopsided page, however bold its figures, does not close a volume that still has many pages unturned.",
+   "The next audit falls due soon enough. {loser} will be hoping to present a more flattering set of accounts, and {winnerClub} will be hoping to avoid presenting any apology."
+  ],
+  "pullquote": {
+   "text": "Check the sums twice and they come out the same, sadly for one of us.",
+   "who": "Overheard in the dugout"
+  }
+ },
+ {
+  "id": "sb2-01",
+  "situation": "comfortable-win",
+  "byline": "From our touchline desk",
+  "standfirst": "{winner} took season {seasonNo} of {seasonsTotal} with authority, finishing {margin} ahead and leaving {loser} to ponder what might have been.",
+  "paragraphs": [
+   "Authority is a quiet quality, and {winner} showed plenty of it this season. The {winnerClub} manager closed on {winnerPoints} against {loserPoints}, a lead of {margin} that never felt in serious danger of being closed.",
+   "It was not a rout, and {loser} will take some comfort from that. But a gap of {margin} is a gap all the same, and {winnerClub} now carry the better story into the rivalry's next chapter.",
+   "With seasons still to play, nothing is settled. {loserClub} have the means to answer, and the Gazette expects the reply to be both prompt and proud."
+  ],
+  "pullquote": {
+   "text": "Calm hands win seasons like this one, and those hands wore a {winnerClub} badge.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb2-02",
+  "situation": "comfortable-win",
+  "byline": "By the Gazette football desk",
+  "standfirst": "A lead of {margin} is the kind that lets a manager sleep, and {winner} will rest well after season {seasonNo}.",
+  "paragraphs": [
+   "Few things in this rivalry are as satisfying as a result that arrives without drama. {winner} finished season {seasonNo} on {winnerPoints}, with {loser} on {loserPoints}, and {winnerClub} were worthy owners of the margin of {margin}.",
+   "There is a difference between winning and being comfortable, and this season belonged firmly to the second kind. {loser} pushed where they could, yet {loserClub} were always chasing a pace they could not quite match.",
+   "The lesson for {loserClub} is simple and not unkind: find a few more points early, and the picture changes. The Gazette will be watching with interest."
+  ],
+  "pullquote": {
+   "text": "You could hear the {winnerClub} dugout exhale around the middle of the season.",
+   "who": "The press box"
+  }
+ },
+ {
+  "id": "sb2-03",
+  "situation": "comfortable-win",
+  "byline": "Our rivalry correspondent",
+  "standfirst": "With {margin} between the two sides at the finish, {winnerClub} can claim season {seasonNo} as a performance of real substance.",
+  "paragraphs": [
+   "Substance, rather than spectacle, defined this season. {winner} gathered {winnerPoints} to {loser}'s {loserPoints}, and the resulting margin of {margin} was built patiently, season-long habits turning into a lead that proved sturdy.",
+   "For the wider rivalry, it is a useful marker. {winner} now has evidence that {winnerClub} can win a season on merit, while {loser} must decide how much of this was timing and how much was talent.",
+   "Expect {loserClub} to treat this as unfinished business. Rivalries of this quality rarely allow one season to become the whole story."
+  ],
+  "pullquote": {
+   "text": "Nobody hands out margins like that for nothing. Somebody earned every inch.",
+   "who": "Overheard in the dugout"
+  }
+ },
+ {
+  "id": "sb2-04",
+  "situation": "comfortable-win",
+  "byline": "From the Gazette press gallery",
+  "standfirst": "Sensible, steady and a little ruthless: {winner} separated {winnerClub} from {loserClub} by {margin} and took season {seasonNo} in style.",
+  "paragraphs": [
+   "Ruthlessness need not be loud. {winner} went about season {seasonNo} with the tidy efficiency of a manager who knew the route, finishing on {winnerPoints} while {loser} had to settle for {loserPoints}.",
+   "That gap of {margin} will be talked about in the {winnerClub} camp for some time. At {loserClub}, the conversation will be shorter, firmer and entirely about how to turn the next season around.",
+   "The rivalry has gained a fresh edge, and that is good news for everyone who follows it. The next season arrives with something to prove on both sides."
+  ],
+  "pullquote": {
+   "text": "A margin like that is a polite way of saying, we meant it.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb2-05",
+  "situation": "comfortable-win",
+  "byline": "Gazette football desk",
+  "standfirst": "Season {seasonNo} ends with {winner} holding a handsome advantage, and {loser} left with questions worth asking and time to answer.",
+  "paragraphs": [
+   "Handsome is the word. {winner} finished with {winnerPoints} against {loserPoints}, a lead of {margin} that gives {winnerClub} a comfortable seat and a generous view of the whole road still ahead.",
+   "Yet comfort is relative in a rivalry such as this. {loser} remains well within reach of a swing, and the {loserClub} manager knows better than anyone how quickly a season can turn.",
+   "So the questions pass to {loserClub}, and they are good ones. The answers, as ever, will be written on the scoreboard rather than in the press."
+  ],
+  "pullquote": {
+   "text": "Every handsome lead has a rival studying it carefully from the other side.",
+   "who": "The tea lady at the training ground"
+  }
+ },
+ {
+  "id": "sb2-06",
+  "situation": "comfortable-win",
+  "byline": "By our senior correspondent",
+  "standfirst": "{winnerClub} lead {loserClub} by {margin} after season {seasonNo}, and the {winner} era, if that is what this is, has a promising first draft.",
+  "paragraphs": [
+   "Draft is perhaps the kindest term for a season of this quality. {winner} produced {winnerPoints}, {loser} produced {loserPoints}, and the margin of {margin} reads like the opening argument in a case that will run on.",
+   "The Gazette is wary of grand claims this early, yet the evidence favours {winnerClub}. A manager who wins by {margin} has shown both control and appetite, and those travel well across seasons.",
+   "{loser} will want a rewrite, and the pen is still in {loserClub} hands. The next chapter promises to be sharper for both of them."
+  ],
+  "pullquote": {
+   "text": "First drafts are meant to be improved, and both managers know it.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb3-01",
+  "situation": "narrow-win",
+  "byline": "From our touchline desk",
+  "standfirst": "{winner} takes season {seasonNo} by the narrowest of margins, a lead so slim it could have slipped through a keyhole.",
+  "paragraphs": [
+   "{winnerClub} finished season {seasonNo} in front of {loserClub}, but only just. {winner} took the honours by {margin}, a gap thin enough to vanish with one stray breath, yet wide enough to carry the season home.",
+   "For {loser}, this is the cruellest kind of near thing: a campaign played at full stretch and settled by the width of a boot. For {winner}, it is proof that a small advantage, held steadily, still counts as a lead.",
+   "Season {seasonNo} of {seasonsTotal} is now in the book. Both managers will spend the break studying the same thin line from opposite sides of it."
+  ],
+  "pullquote": {
+   "text": "You could not slide newsprint between them, and still one of them found the room.",
+   "who": "The press box"
+  }
+ },
+ {
+  "id": "sb3-02",
+  "situation": "narrow-win",
+  "byline": "By our senior correspondent",
+  "standfirst": "Rarely has so little separated two clubs, and rarely has it meant so much to the one on the right side.",
+  "paragraphs": [
+   "{winnerClub} closed the season on {winnerPoints} against the {loserPoints} of {loserClub}, and the gap between those two figures is the whole story. {winner} wins season {seasonNo}, and the margin is as narrow as football allows.",
+   "It would be easy to call it luck, and it would be wrong. A lead this small is earned in the quiet weeks, and {loser} will know that the same quiet weeks were available to both sides.",
+   "The rivalry now carries a fresh grievance and a fresh bragging right in equal measure. Neither will fade before the next season begins, and neither manager will want it to."
+  ],
+  "pullquote": {
+   "text": "A hair is not much to win by, but it is more than nothing.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb3-03",
+  "situation": "narrow-win",
+  "byline": "From the press box",
+  "standfirst": "{loser} pushed all the way to the line, and {winner} still had just enough left to hold the lead in season {seasonNo}.",
+  "paragraphs": [
+   "Applause is due to {loserClub} before the winner is named. {loser} drove the season to its very last breath, and only the thinnest of margins, {margin} in all, kept {winnerClub} and {winner} in front.",
+   "That is the measure of this rivalry. Neither side can relax, because the distance between a good season and a great one has shrunk to almost nothing, and both managers have now seen it up close.",
+   "{loser} leaves season {seasonNo} with nothing to be ashamed of and every reason to be dangerous. The next chapter will begin with a point to prove, and a short walk to prove it."
+  ],
+  "pullquote": {
+   "text": "Second by a whisker is still a loud kind of second.",
+   "who": "Overheard in the dugout"
+  }
+ },
+ {
+  "id": "sb3-04",
+  "situation": "narrow-win",
+  "byline": "Our chief football writer",
+  "standfirst": "Season {seasonNo} was a tightrope walk across {seasonsTotal} seasons of ambition, and {winner} reached the far side with an inch to spare.",
+  "paragraphs": [
+   "There are seasons that sprawl and seasons that squeeze, and this was a squeeze. {winnerClub} crossed the line ahead of {loserClub} by the narrowest of margins, and {winner} will accept that inch with both hands.",
+   "The drama lies in how little room there was for error. One tentative step and the order reverses, which is why {winner} wins this one on nerve as much as on skill.",
+   "{loser} will look at the width of the gap and see an invitation. The tightrope is still strung, the next season is waiting, and the net remains a long way down."
+  ],
+  "pullquote": {
+   "text": "On a rope that thin, the only thing to do is keep walking.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb3-05",
+  "situation": "narrow-win",
+  "byline": "From our rivalry desk",
+  "standfirst": "A photo finish with no photograph: {winner} edges {loser} in season {seasonNo} and nobody can say it was easy.",
+  "paragraphs": [
+   "Had there been a camera on the line, the picture would have needed a magnifying glass. {winnerClub} edged {loserClub} by {margin}, and the verdict of season {seasonNo} belongs to {winner} by the smallest possible stretch.",
+   "Those who prefer decisive outcomes will be disappointed. Those who love a rivalry will be delighted, because this is how grudges are grown: in small, stubborn portions that nobody can quite dismiss.",
+   "{loser} will say, with some justice, that it was close enough to touch. {winner} will reply, equally fairly, that touching is not the same as winning."
+  ],
+  "pullquote": {
+   "text": "Close enough to touch, and that is exactly where it stayed.",
+   "who": "The tea lady at the training ground"
+  }
+ },
+ {
+  "id": "sb3-06",
+  "situation": "narrow-win",
+  "byline": "By our archive correspondent",
+  "standfirst": "Some seasons are won by a lunge and some by a leaning shoulder; this one, for {winner}, was a leaning shoulder.",
+  "paragraphs": [
+   "{winner} did not run away with season {seasonNo}, and nobody in the press box pretended otherwise. {winnerClub} leaned on {loserClub} for the whole contest and came out ahead by the narrowest of margins.",
+   "A lean is a patient thing. It asks for pressure without panic, and it rewards the manager who trusts it when the other side pushes back, which {loser} certainly did with great spirit.",
+   "The rivalry has gained a new lesson, which is that small leads are still leads. Season {seasonNo} of {seasonsTotal} will be remembered less for its size than for its stubbornness."
+  ],
+  "pullquote": {
+   "text": "Nobody wins by a lean unless they believe in the lean.",
+   "who": "Overheard in the dugout"
+  }
+ },
+ {
+  "id": "sb4-01",
+  "situation": "draw",
+  "byline": "From our touchline desk",
+  "standfirst": "{managerA} and {managerB} finished season {seasonNo} on {points} points apiece, and the Gazette must report that the record holds no winner.",
+  "paragraphs": [
+   "Nothing separated {clubA} and {clubB} when season {seasonNo} closed. Both managers finished on {points} points, and the space that usually carries a victor's name must this time carry two names in equal type, side by side.",
+   "It is a rare outcome in a rivalry built on comparison. {managerA} cannot claim the better season and {managerB} cannot concede one, so both walk away from the year with honour intact and a grievance neither can quite justify.",
+   "Season {seasonNo} of {seasonsTotal} now goes into the archive as a shared page. The next chapter opens with both managers newly aware of exactly how little it takes to be level."
+  ],
+  "pullquote": {
+   "text": "Two managers, one result, and not a single argument left unfinished.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb4-02",
+  "situation": "draw",
+  "byline": "By our chief correspondent",
+  "standfirst": "Season {seasonNo} ends with {clubA} and {clubB} locked together on {points} points, a result the record books will list without a victor.",
+  "paragraphs": [
+   "The ledger closed on season {seasonNo} with identical entries. {managerA} of {clubA} and {managerB} of {clubB} each collected {points} points, and for once the Gazette finds no champion to crown and nobody to console.",
+   "Rivalries are usually defined by who blinked first. Here neither blinked, and both managers can fairly say they gave the other everything. Each carries a season to be proud of, and each knows the other carries the same.",
+   "With {seasonsTotal} seasons in the Showdown, a single level year changes little on paper and a great deal in the mind. Both camps will fancy their chances of breaking the deadlock."
+  ],
+  "pullquote": {
+   "text": "Nobody went home empty handed and nobody went home with the whole prize.",
+   "who": "The press box"
+  }
+ },
+ {
+  "id": "sb4-03",
+  "situation": "draw",
+  "byline": "From the press gallery",
+  "standfirst": "Mirror images in the standings: {managerA} and {managerB} both end season {seasonNo} on {points} points, and neither can look down on the other.",
+  "paragraphs": [
+   "Hold the two seasons up to the light and they match exactly. {clubA} brought {points} points to the finish and so did {clubB}, which leaves {managerA} and {managerB} staring at one another across an even page.",
+   "A result of this kind asks more of the spectator than a decisive one does. There is no hero to cheer and no villain to blame, only two competitors of equal weight and an unresolved argument between friends.",
+   "The argument will resume next season, and it will resume without any advantage claimed from this one. Whatever comes next starts from honest ground."
+  ],
+  "pullquote": {
+   "text": "You could lay a ruler across those two seasons and find no gap.",
+   "who": "Overheard in the dugout"
+  }
+ },
+ {
+  "id": "sb4-04",
+  "situation": "draw",
+  "byline": "From our honours desk",
+  "standfirst": "No single name goes on top this time, because {managerA} and {managerB} finished season {seasonNo} with the same {points} points each.",
+  "paragraphs": [
+   "The honours board keeps room for one name per season, and this year it has been asked to hold two. {clubA} and {clubB} ended level on {points} points, and the board will simply have to share.",
+   "Neither manager has a story of triumph to tell, but neither has one of disappointment either. {managerA} and {managerB} produced seasons of identical value, which in a rivalry this keen is its own kind of compliment.",
+   "The engraver can put down the chisel and the debate can begin afresh. Season {seasonNo} of {seasonsTotal} is complete, and both managers know the next one starts with everything to play for."
+  ],
+  "pullquote": {
+   "text": "There was room on the board for two names after all.",
+   "who": "The tea lady at the training ground"
+  }
+ },
+ {
+  "id": "sb4-05",
+  "situation": "draw",
+  "byline": "From our court correspondent",
+  "standfirst": "Patience is the lesson of season {seasonNo}, which ended with {clubA} and {clubB} on {points} points each and the argument adjourned.",
+  "paragraphs": [
+   "Judgement will have to wait. The season that was meant to separate {managerA} and {managerB} has handed each of them {points} points instead, and the case for either club stands exactly where it began.",
+   "Adjourned is the right word. Nobody has been refused anything, because nobody was owed anything. The two managers have simply produced equal evidence, and the court of opinion will need another sitting before it can rule.",
+   "That sitting is already booked in the form of the next season. Until then {clubA} and {clubB} share the same footing, and the same appetite."
+  ],
+  "pullquote": {
+   "text": "Case adjourned. Bring better evidence next time, both of you.",
+   "who": "A retired sub-editor"
+  }
+ },
+ {
+  "id": "sb4-06",
+  "situation": "draw",
+  "byline": "From the scorers' table",
+  "standfirst": "The scales settled flat in season {seasonNo}, with {managerA} and {managerB} each holding {points} points and neither pan dropping an inch.",
+  "paragraphs": [
+   "A pair of scales has a simple honesty, and this year it reads level. {clubA} placed {points} points on one side, {clubB} placed {points} on the other, and the beam did not tremble for either manager.",
+   "It makes for an unusually fair account of the season. {managerA} can point to a campaign of real worth, and so can {managerB}, and nobody in good faith could call one lighter than the other.",
+   "Scales are patient instruments. They will be loaded again next season, and the Gazette will be watching the beam closely when season {seasonNo} gives way to the one after."
+  ],
+  "pullquote": {
+   "text": "Weigh them as carefully as you like, they come out the same.",
+   "who": "The press box"
+  }
+ },
+ {
+  "id": "sb16-01",
+  "situation": "golden-showdown-won",
+  "byline": "From our chief football desk",
+  "standfirst": "Gold has a way of ending arguments, and {winner} has been first to reach it, claiming the Golden Showdown for {winnerClub}.",
+  "paragraphs": [
+   "Let the presses run slowly tonight, because this edition is printed in gold. {winner} was the first manager to reach the summit of the Golden Showdown, and no second chance exists for {loser} to answer. The race has ended.",
+   "Nothing in the rules asks for a combined tally or a shared reckoning. One manager had to arrive first, and {winner} arrived with {winnerPoints} to the {loserPoints} of {loser}. That order of arrival is the whole story.",
+   "Historians will open this page for generations. They will find {winnerClub} at the head of the roll, and they will find that the order of arrival never needed a second reading."
+  ],
+  "pullquote": {
+   "text": "Gold goes to whoever arrives first, and the Gazette has watched the arrival.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb16-03",
+  "situation": "golden-showdown-won",
+  "byline": "Our correspondent on the dynasty",
+  "standfirst": "A dynasty is a habit that refuses to stop, and {winnerClub} under {winner} has made one worth the crown of gold.",
+  "paragraphs": [
+   "Few clubs are ever called a dynasty while the ink is still wet. Yet {winner} has carried {winnerClub} through {seasonsTotal} seasons of relentless accumulation and has become the first to complete the Golden Showdown, with {loser} chasing to the very end.",
+   "The measure of a dynasty is not a single glorious night. It is the quiet repetition of excellence, season after season, until the rest of the contest can only watch. {winnerPoints} points is what that repetition looks like when written down.",
+   "{loserClub} was the rival every dynasty needs, and the pursuit was real. The record now belongs to {winner}, and the word will not fade from the clubhouse wall."
+  ],
+  "pullquote": {
+   "text": "A dynasty is only visible once it has stopped being surprised by itself.",
+   "who": "The press box"
+  }
+ },
+ {
+  "id": "sb17-01",
+  "situation": "showdown-drawn",
+  "byline": "From our chief football desk",
+  "standfirst": "Nobody wins and nobody loses, as {managerA} and {managerB} finish the whole Showdown dead level on {points}.",
+  "paragraphs": [
+   "There are endings that crown a champion and endings that do something rarer. After {seasonsTotal} seasons, {managerA} of {clubA} and {managerB} of {clubB} stand on exactly {points} each, and the Gazette has no winner to name.",
+   "Draws this late in a contest are almost unheard of. Every point earned by one manager was answered by the other, and the result is a rivalry that refused to be separated across the entire distance.",
+   "Shake hands, share the front page and keep the trophy talk for another year. Neither manager has anything to explain."
+  ],
+  "pullquote": {
+   "text": "A tie at the end is a compliment to both sides.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb17-03",
+  "situation": "showdown-drawn",
+  "byline": "Our correspondent on the rivalry",
+  "standfirst": "Two managers set out to settle an argument, and the argument has settled itself in the most surprising way.",
+  "paragraphs": [
+   "Every rivalry carries a hope that someone will finally be proved right. Here, {managerA} and {managerB} have used {seasonsTotal} seasons to prove only that they are evenly matched, each finishing on {points}.",
+   "That is a finding of its own. {clubA} and {clubB} traded the lead, the pressure and the nerves, and neither could be shaken loose from the other even when it counted most.",
+   "The argument remains open, which suits the best rivalries. They are not meant to be finished, only paused."
+  ],
+  "pullquote": {
+   "text": "Sometimes the argument ends because both sides were right all along.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb18-01",
+  "situation": "won-on-the-final-day",
+  "byline": "From our chief football desk",
+  "standfirst": "It came down to the very last season, and in the end {winner} found the answer that {loser} could not quite take away.",
+  "paragraphs": [
+   "Some Showdowns are decided early and some are decided late. This one waited for its final season, and only then did {winner} move clear to finish with {winnerPoints}, leaving {loser} on {loserPoints} when the book closed.",
+   "That final season carried the weight of all the others. {winnerClub} and {loserClub} had been inseparable for long stretches, and the margin of {margin} was only fixed at the very last moment.",
+   "Nobody will remember the quiet years as clearly as this one. The final page is always the longest."
+  ],
+  "pullquote": {
+   "text": "The last season arrived with everything still undecided, and it did not disappoint.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb18-03",
+  "situation": "won-on-the-final-day",
+  "byline": "Our correspondent on the rivalry",
+  "standfirst": "Never has a rivalry made so much of its final chapter, as {winner} held on when {loser} pushed hardest.",
+  "paragraphs": [
+   "There was no champion until there was nothing left to play. {loser} pressed {winner} through the closing season, and the rivalry ran to its limit before {winner} finished ahead on the overall count.",
+   "That is the character of this contest. {winnerClub} and {loserClub} kept each other honest from the first season to the last, and the margin of {margin} is what honesty looks like in print.",
+   "The next rivalry will have to work hard to match this one."
+  ],
+  "pullquote": {
+   "text": "A race this tight has no winner until the very end, and no loser worth pitying.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb19-01",
+  "situation": "dominant-win",
+  "byline": "From our chief football desk",
+  "standfirst": "It was never close in the end, as {winner} finished the Showdown far ahead of {loser} with {winnerPoints} to the rival's {loserPoints}.",
+  "paragraphs": [
+   "Some Showdowns are a contest and some are a coronation. This one began as the first and finished as the second, with {winner} moving clear of {loser} and ending {seasonsTotal} seasons well beyond reach.",
+   "The margin of {margin} tells the tale in a single figure. {winnerClub} did not so much win the Showdown as take possession of it, and the gap only widened as the pages turned.",
+   "Dominance is rarer than talent, and harder to keep. {winner} kept it throughout."
+  ],
+  "pullquote": {
+   "text": "Winning is one thing, but this was something closer to ownership.",
+   "who": "A Gazette columnist"
+  }
+ },
+ {
+  "id": "sb19-03",
+  "situation": "dominant-win",
+  "byline": "Our correspondent on the rivalry",
+  "standfirst": "A rivalry sometimes finds one manager simply operating on a different level, and here that manager was {winner}.",
+  "paragraphs": [
+   "Rivalries thrive on balance, but this one tilted early and kept tilting. {winner} turned the Showdown into a procession, finishing {margin} clear of {loser} and giving {winnerClub} an undisputed claim on the title.",
+   "{loserClub} deserves credit for staying in the contest. Pursuing a leader this far ahead takes character, and the results show a manager who kept on coming even when the horizon grew distant.",
+   "Next time the scales may swing the other way. That is how rivalries stay alive."
+  ],
+  "pullquote": {
+   "text": "The best rivals push the champion to look even better.",
+   "who": "A Gazette columnist"
+  }
+ }
+]

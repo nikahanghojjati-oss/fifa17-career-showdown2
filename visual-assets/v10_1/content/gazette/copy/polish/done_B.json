@@ -1,0 +1,1737 @@
+[
+ {
+  "id": "cb121-003",
+  "situation": "big-win",
+  "text": "The ink is barely dry and {winner} has already left the question of who won with nothing left to argue about."
+ },
+ {
+  "id": "cb121-005",
+  "situation": "big-win",
+  "text": "Some seasons are settled by inches. This one was settled by miles, and {winner} drew the map."
+ },
+ {
+  "id": "cb121-008",
+  "situation": "big-win",
+  "text": "That is a canyon, not a gap, and {loser} now has an awfully tall wall to climb next season."
+ },
+ {
+  "id": "cb121-015",
+  "situation": "big-win",
+  "text": "A margin this size does not stay in the table. {winner} will carry it into every future conversation with {loser}."
+ },
+ {
+  "id": "cb121-016",
+  "situation": "big-win",
+  "text": "Wins like this weigh more than they read. {winner} will feel it long after the pages have turned."
+ },
+ {
+  "id": "cb121-019",
+  "situation": "big-win",
+  "text": "The rivalry usually deals in photo finishes. This season {winner} turned up with a landslide instead."
+ },
+ {
+  "id": "cb121-020",
+  "situation": "big-win",
+  "text": "A {margin}-point gap means {winner} spent the closing stretch relaxed while {loser} spent it counting."
+ },
+ {
+  "id": "cb121-023",
+  "situation": "big-win",
+  "text": "Read it out loud, {winnerPoints} to {loserPoints}. Even the numbers sound like they are showing off."
+ },
+ {
+  "id": "cb121-028",
+  "situation": "big-win",
+  "text": "When the dust settles, the tallest thing left standing is {winner}'s lead. Everything else is looking up at it."
+ },
+ {
+  "id": "cb121-034",
+  "situation": "big-win",
+  "text": "So the season is done, and {winner} has set a benchmark the next one will have to squint to see."
+ },
+ {
+  "id": "cb2-001",
+  "situation": "comfortable-win",
+  "text": "Plenty of air at the top of the table this season, and {winner} is breathing all of it in."
+ },
+ {
+  "id": "cb2-002",
+  "situation": "comfortable-win",
+  "text": "No photo finish required this time. {winner} has put enough distance between the managers to skip the replay."
+ },
+ {
+  "id": "cb2-003",
+  "situation": "comfortable-win",
+  "text": "The table speaks plainly today. {winnerClub} finish comfortably clear of {loserClub} and nobody needs a recount."
+ },
+ {
+  "id": "cb2-004",
+  "situation": "comfortable-win",
+  "text": "Season {seasonNo} goes to {winner} with space to spare, enough to fit the trophy and a deckchair."
+ },
+ {
+  "id": "cb2-005",
+  "situation": "comfortable-win",
+  "text": "The table is settled and {winner} sits a clear step ahead of {loser}. Nobody needs to check the arithmetic twice."
+ },
+ {
+  "id": "cb2-006",
+  "situation": "comfortable-win",
+  "text": "A winning margin like this ends arguments before they start. {winner} takes the season and the last word."
+ },
+ {
+  "id": "cb2-007",
+  "situation": "comfortable-win",
+  "text": "There is the separation. {winner} takes the season without needing a single last-gasp escape."
+ },
+ {
+  "id": "cb2-008",
+  "situation": "comfortable-win",
+  "text": "Pencil {winnerClub} in at the top of this season's ledger and use ink for the margin. It is that convincing."
+ },
+ {
+  "id": "cb2-010",
+  "situation": "comfortable-win",
+  "text": "Daylight between them, and {winner} is standing right in the middle of it with both hands in pockets."
+ },
+ {
+  "id": "cb2-011",
+  "situation": "comfortable-win",
+  "text": "Look at the spread. {winner} takes it by {margin}, a gap clean enough to eat dinner off."
+ },
+ {
+  "id": "cb2-013",
+  "situation": "comfortable-win",
+  "text": "The chase ends here for {loser}. {winner} has the breathing space to celebrate properly and nobody is hurrying them."
+ },
+ {
+  "id": "cb2-015",
+  "situation": "comfortable-win",
+  "text": "Here is your season winner, {winner}, with a lead that needs no footnotes and no interpreter."
+ },
+ {
+  "id": "cb2-016",
+  "situation": "comfortable-win",
+  "text": "Not a runaway, but a very solid win. {winner} did the job properly and made it look sensible."
+ },
+ {
+  "id": "cb2-018",
+  "situation": "comfortable-win",
+  "text": "This one goes to {winner}, and the margin is a good deal more than a whisker. Call it a moustache."
+ },
+ {
+  "id": "cb2-020",
+  "situation": "comfortable-win",
+  "text": "Set it down in the record. {winner} clears {loser} by {margin}, and the pen did not hesitate."
+ },
+ {
+  "id": "cb2-021",
+  "situation": "comfortable-win",
+  "text": "The final tally is up on the board and {winnerClub} hold a convincing advantage over {loserClub}."
+ },
+ {
+  "id": "cb2-022",
+  "situation": "comfortable-win",
+  "text": "Now the picture is sharp. {winner} finishes in front and the outcome is not in doubt. The nerves can go home."
+ },
+ {
+  "id": "cb2-023",
+  "situation": "comfortable-win",
+  "text": "The season closes with {winner} out in front, and the word for it is convincing."
+ },
+ {
+  "id": "cb2-026",
+  "situation": "comfortable-win",
+  "text": "By {margin} the season goes to {winner}, and that is a healthy helping of separation."
+ },
+ {
+  "id": "cb2-027",
+  "situation": "comfortable-win",
+  "text": "That settles season {seasonNo}. {winner} finishes a comfortable distance ahead and can put the calculator away."
+ },
+ {
+  "id": "cb2-028",
+  "situation": "comfortable-win",
+  "text": "Firm and unmistakable, the edge belongs to {winner}. Nobody will call that a narrow scrape."
+ },
+ {
+  "id": "cb2-029",
+  "situation": "comfortable-win",
+  "text": "Add up the season and {winnerClub} comes out clearly above {loserClub}. The sums are nowhere near awkward."
+ },
+ {
+  "id": "cb2-031",
+  "situation": "comfortable-win",
+  "text": "Confirmation arrives in the totals. {winner} takes this season by {margin} and has earned a very deep breath."
+ },
+ {
+  "id": "cb2-032",
+  "situation": "comfortable-win",
+  "text": "A lead worth celebrating, and {winner} finished clearly ahead of {loser} to earn every bit of it."
+ },
+ {
+  "id": "cb2-035",
+  "situation": "comfortable-win",
+  "text": "Judgement day for season {seasonNo}, and {winner} walks out with a convincing win. The jury barely left the room."
+ },
+ {
+  "id": "cb2-036",
+  "situation": "comfortable-win",
+  "text": "There it is. {winnerClub} sit above {loserClub} with real space between them, the good kind of space."
+ },
+ {
+  "id": "cb2-037",
+  "situation": "comfortable-win",
+  "text": "Make that a comfortable season win for {winner}, and a deserved one. No asterisks required."
+ },
+ {
+  "id": "cb2-038",
+  "situation": "comfortable-win",
+  "text": "The result reads {winnerPoints} to {loserPoints} and {winner} takes it convincingly. That is a scoreline with confidence."
+ },
+ {
+  "id": "cb2-039",
+  "situation": "comfortable-win",
+  "text": "Ahead by {margin}, {winner} stamps a decisive signature on season {seasonNo}. Neat handwriting, too."
+ },
+ {
+  "id": "cb2-040",
+  "situation": "comfortable-win",
+  "text": "A win with room to breathe, and {winner} takes the season in no particular hurry."
+ },
+ {
+  "id": "cb2-042",
+  "situation": "comfortable-win",
+  "text": "If {loser} was hoping for a close finish, {winner} had other plans and the points to back them up."
+ },
+ {
+  "id": "cb2-043",
+  "situation": "comfortable-win",
+  "text": "Not exactly a nail-biter, this one. {winner} has put clear water on the board and nobody is chewing anything."
+ },
+ {
+  "id": "cb2-044",
+  "situation": "comfortable-win",
+  "text": "The numbers are being polite about it, but the message is plain. {winner} won rather comfortably."
+ },
+ {
+  "id": "cb2-049",
+  "situation": "comfortable-win",
+  "text": "Photo finish? Not this season, and {winner} will be absolutely fine with that."
+ },
+ {
+  "id": "cb2-051",
+  "situation": "comfortable-win",
+  "text": "A little breathing room was the request. {winner} has delivered a full set of lungs."
+ },
+ {
+  "id": "cb2-053",
+  "situation": "comfortable-win",
+  "text": "Even the gap has earned its own seat at the table, and {winner} is sitting pretty right beside it."
+ },
+ {
+  "id": "cb2-054",
+  "situation": "comfortable-win",
+  "text": "Nobody has to lean in to hear this verdict. {winnerClub} have made it perfectly audible from the back row."
+ },
+ {
+  "id": "cb2-057",
+  "situation": "comfortable-win",
+  "text": "Has anyone got a tighter contest on offer? {winner} certainly has not supplied one this season."
+ },
+ {
+  "id": "cb2-058",
+  "situation": "comfortable-win",
+  "text": "That is what you call elbow room, and {winner} has the whole table to stretch across."
+ },
+ {
+  "id": "cb2-059",
+  "situation": "comfortable-win",
+  "text": "A tidy little gap for {winner}, though {loser} may prefer a different adjective."
+ },
+ {
+  "id": "cb3-001",
+  "situation": "narrow-win",
+  "text": "Barely a whisker of daylight between the managers, and {winner} takes season {seasonNo} right on the line."
+ },
+ {
+  "id": "cb3-002",
+  "situation": "narrow-win",
+  "text": "What a finish. {winnerClub} edge {loserClub} and the season belongs to {winner} by the narrowest of squeaks."
+ },
+ {
+  "id": "cb3-003",
+  "situation": "narrow-win",
+  "text": "That is tight. {winner} holds off {loser} by {margin} right at the finish and will exhale for a week."
+ },
+ {
+  "id": "cb3-004",
+  "situation": "narrow-win",
+  "text": "Through by {margin}, {winner} survives a season that refused to separate the pair until the very last count."
+ },
+ {
+  "id": "cb3-005",
+  "situation": "narrow-win",
+  "text": "{winner} on top, {loser} pushed all the way, and the final margin is thin enough to read through."
+ },
+ {
+  "id": "cb3-006",
+  "situation": "narrow-win",
+  "text": "Close enough to make every point matter, {loser} still falls short, and season {seasonNo} goes to {winner}."
+ },
+ {
+  "id": "cb3-007",
+  "situation": "narrow-win",
+  "text": "There is your verdict. {winnerClub} have the edge, but {loserClub} made it desperately and wonderfully close."
+ },
+ {
+  "id": "cb3-008",
+  "situation": "narrow-win",
+  "text": "Unbelievably tight at the top, yet {winner} gets the nod over {loser}. The nod was a close call too."
+ },
+ {
+  "id": "cb3-009",
+  "situation": "narrow-win",
+  "text": "Balanced on a knife edge all season, the table finally tilts toward {winner}. Gravity wins eventually."
+ },
+ {
+  "id": "cb3-010",
+  "situation": "narrow-win",
+  "text": "Just enough from {winner}, just short from {loser}. That is the whole season in one sentence."
+ },
+ {
+  "id": "cb3-011",
+  "situation": "narrow-win",
+  "text": "The table can finally exhale. {winner} finishes narrowly clear of {loser} and the nerves can be switched off."
+ },
+ {
+  "id": "cb3-012",
+  "situation": "narrow-win",
+  "text": "The finest of margins decides it. {winnerClub} prevail over {loserClub} at the death of the season."
+ },
+ {
+  "id": "cb3-013",
+  "situation": "narrow-win",
+  "text": "Nothing comfortable about that one. {winner} squeezed past {loser} to claim the season, elbows out."
+ },
+ {
+  "id": "cb3-014",
+  "situation": "narrow-win",
+  "text": "Here comes the verdict and it is {winner}. The difference could scarcely be smaller without a microscope."
+ },
+ {
+  "id": "cb3-015",
+  "situation": "narrow-win",
+  "text": "You could not have asked for much closer. {winner} scrapes home against {loser} and takes the season."
+ },
+ {
+  "id": "cb3-016",
+  "situation": "narrow-win",
+  "text": "Every point counted and {winner} found just enough of them to finish ahead of {loser}."
+ },
+ {
+  "id": "cb3-017",
+  "situation": "narrow-win",
+  "text": "A gap of {margin} is official now, and {winner} takes the season on the strength of it."
+ },
+ {
+  "id": "cb3-018",
+  "situation": "narrow-win",
+  "text": "Almost a dead heat, but not quite. {winner} made the difference when the difference was hardest to find."
+ },
+ {
+  "id": "cb3-019",
+  "situation": "narrow-win",
+  "text": "The season hung on the finest thread and {winner} came out in front of it."
+ },
+ {
+  "id": "cb3-020",
+  "situation": "narrow-win",
+  "text": "No room to relax for {winner} all year, but the final table puts them ahead of {loser}."
+ },
+ {
+  "id": "cb3-021",
+  "situation": "narrow-win",
+  "text": "There were no acres of space here. {winner} edges it and {loser} was right there to the last."
+ },
+ {
+  "id": "cb3-023",
+  "situation": "narrow-win",
+  "text": "Seriously close, but not level. {winner} wins the season and gets every bit of the credit."
+ },
+ {
+  "id": "cb3-024",
+  "situation": "narrow-win",
+  "text": "Barely any breathing room, but a full season to celebrate. {winner} takes the honours."
+ },
+ {
+  "id": "cb3-025",
+  "situation": "narrow-win",
+  "text": "At last they can call it. {winner} has beaten {loser}, and only just, but a win is a win."
+ },
+ {
+  "id": "cb3-026",
+  "situation": "narrow-win",
+  "text": "{winnerPoints} to {loserPoints} says it all, and {winner} survives the squeeze with a deep breath."
+ },
+ {
+  "id": "cb3-027",
+  "situation": "narrow-win",
+  "text": "Tense to the last point. {winner} takes the spoils and {loser} takes a very respectable near miss."
+ },
+ {
+  "id": "cb3-028",
+  "situation": "narrow-win",
+  "text": "Out of a whole season of work, only {margin} separates them. {winner} holds on."
+ },
+ {
+  "id": "cb3-029",
+  "situation": "narrow-win",
+  "text": "Right at the line, {winner} nicks it from {loser}. What a way to settle a season."
+ },
+ {
+  "id": "cb3-030",
+  "situation": "narrow-win",
+  "text": "Put {winner} at the top, but keep {loser} close beneath. That was a scrap from start to finish."
+ },
+ {
+  "id": "cb3-032",
+  "situation": "narrow-win",
+  "text": "Check the standings. {winner} finishes ahead of {loser} by {margin} and the gap is real even if it is small."
+ },
+ {
+  "id": "cb3-033",
+  "situation": "narrow-win",
+  "text": "Absolutely nothing to spare. {winnerClub} edge out {loserClub} for the season and nobody blinked first."
+ },
+ {
+  "id": "cb3-034",
+  "situation": "narrow-win",
+  "text": "Hardly a gap to speak of, but {winner} finishes ahead of {loser} and that is all a verdict needs."
+ },
+ {
+  "id": "cb3-035",
+  "situation": "narrow-win",
+  "text": "Nowhere to hide in those figures. {winnerPoints} against {loserPoints}, and {winner} takes it."
+ },
+ {
+  "id": "cb3-037",
+  "situation": "narrow-win",
+  "text": "A tight race, a clear result, and {winner} just about crosses the line ahead of {loser}."
+ },
+ {
+  "id": "cb3-038",
+  "situation": "narrow-win",
+  "text": "Such a slender lead, and still {winner} did enough with {loser} snapping at the heels all the way."
+ },
+ {
+  "id": "cb3-039",
+  "situation": "narrow-win",
+  "text": "Final figures, final verdict. {winner} wins this season by the tiniest gap and will want it framed."
+ },
+ {
+  "id": "cb3-040",
+  "situation": "narrow-win",
+  "text": "Across the finish line comes {winner}, with {loser} close enough to feel the breeze."
+ },
+ {
+  "id": "cb3-041",
+  "situation": "narrow-win",
+  "text": "Someone find a magnifying glass. That is how narrow {winner}'s advantage over {loser} turned out to be."
+ },
+ {
+  "id": "cb3-043",
+  "situation": "narrow-win",
+  "text": "Good luck calling that early. {winner} gets there and {loser} very nearly steals the headline."
+ },
+ {
+  "id": "cb3-044",
+  "situation": "narrow-win",
+  "text": "If {winner} wanted an easy finish, {loser} never got the message. Nobody was allowed to relax."
+ },
+ {
+  "id": "cb4-001",
+  "situation": "draw",
+  "text": "Level at the finish. {managerA} and {managerB} have arrived at the same place and neither can claim the high ground."
+ },
+ {
+  "id": "cb4-002",
+  "situation": "draw",
+  "text": "{managerA} was matched stride for stride by {managerB}, and neither gives an inch on the season table."
+ },
+ {
+  "id": "cb4-005",
+  "situation": "draw",
+  "text": "Nobody takes the season outright. {managerA} and {managerB} will have to share the final word."
+ },
+ {
+  "id": "cb4-006",
+  "situation": "draw",
+  "text": "Some finish. {managerA} and {managerB} come through the season with identical returns and matching expressions."
+ },
+ {
+  "id": "cb4-008",
+  "situation": "draw",
+  "text": "No daylight on the board at all. {clubA} and {clubB} stand perfectly level when it matters most."
+ },
+ {
+  "id": "cb4-009",
+  "situation": "draw",
+  "text": "All square at the close. {managerA} and {managerB} have reached the very same mark and presumably shaken on it."
+ },
+ {
+  "id": "cb4-010",
+  "situation": "draw",
+  "text": "Well, look at that. {clubA} cannot be split from {clubB} on the season standings by any method known to man."
+ },
+ {
+  "id": "cb4-011",
+  "situation": "draw",
+  "text": "Some seasons spring surprises. This one hands both managers equal billing in the final standings."
+ },
+ {
+  "id": "cb4-014",
+  "situation": "draw",
+  "text": "Equal points, equal billing. {managerA} and {managerB} share the season spotlight and the sunglasses."
+ },
+ {
+  "id": "cb4-016",
+  "situation": "draw",
+  "text": "We have a result, just not a winner. {managerA} and {managerB} have matched totals to the last point."
+ },
+ {
+  "id": "cb4-017",
+  "situation": "draw",
+  "text": "Read the final figures however you like. {clubA} and {clubB} finish on precisely equal footing."
+ },
+ {
+  "id": "cb4-018",
+  "situation": "draw",
+  "text": "Hear that silence? It is a level finish, and neither manager can claim an advantage from this season."
+ },
+ {
+  "id": "cb4-019",
+  "situation": "draw",
+  "text": "Neither can break clear. {managerA} and {managerB} finish the season locked together like a pair of bookends."
+ },
+ {
+  "id": "cb4-020",
+  "situation": "draw",
+  "text": "From opposite ends of the rivalry, {clubA} and {clubB} have arrived at the same season tally."
+ },
+ {
+  "id": "cb4-022",
+  "situation": "draw",
+  "text": "In the final reckoning the season refuses to separate {clubA} and {clubB}. It is a draw, and a stubborn one."
+ },
+ {
+  "id": "cb4-024",
+  "situation": "draw",
+  "text": "Side by side in that last column, {clubA} and {clubB} have turned the final verdict into a draw."
+ },
+ {
+  "id": "cb4-025",
+  "situation": "draw",
+  "text": "There will be no sole winner here. This season belongs to {managerA} and {managerB} together."
+ },
+ {
+  "id": "cb4-026",
+  "situation": "draw",
+  "text": "Consider how little separates them. {clubA} and {clubB} have ended up on identical points."
+ },
+ {
+  "id": "cb4-027",
+  "situation": "draw",
+  "text": "Not even a ruler could divide them. {managerA} and {managerB} are level when the season ends."
+ },
+ {
+  "id": "cb4-028",
+  "situation": "draw",
+  "text": "An even finish can be the loudest result of all. Neither manager has broken away this season."
+ },
+ {
+  "id": "cb4-029",
+  "situation": "draw",
+  "text": "Officially inseparable. {managerA} and {managerB} arrive at matching season totals and nobody is allowed to gloat."
+ },
+ {
+  "id": "cb5-002",
+  "situation": "champions-league",
+  "text": "Here is the prize every club dreams of, and {winner} has brought it home."
+ },
+ {
+  "id": "cb5-004",
+  "situation": "champions-league",
+  "text": "Up goes the Champions League trophy and {winner} has the best view in the stadium."
+ },
+ {
+  "id": "cb5-005",
+  "situation": "champions-league",
+  "text": "Few announcements travel this far. {winnerClub} have claimed the Champions League and Europe has heard every word."
+ },
+ {
+  "id": "cb5-007",
+  "situation": "champions-league",
+  "text": "That is the Champions League in {winner}'s hands, and suddenly this season has a golden spine."
+ },
+ {
+  "id": "cb5-008",
+  "situation": "champions-league",
+  "text": "Put that name in the European honours column now. {winnerClub}, standing proudly at the very top."
+ },
+ {
+  "id": "cb5-009",
+  "situation": "champions-league",
+  "text": "Just look where {winner} stands now, with the finest club prize in Europe held aloft."
+ },
+ {
+  "id": "cb5-010",
+  "situation": "champions-league",
+  "text": "Ordinary success fades into a season. {winnerClub}'s Champions League title will not fade for anyone."
+ },
+ {
+  "id": "cb5-011",
+  "situation": "champions-league",
+  "text": "Make room beside the old honours, {winnerClub}. The Champions League is coming home with you."
+ },
+ {
+  "id": "cb5-012",
+  "situation": "champions-league",
+  "text": "Forget the polite applause for a moment. {winnerClub} have captured the prize that commands a roar."
+ },
+ {
+  "id": "cb5-014",
+  "situation": "champions-league",
+  "text": "Write this across {winner}'s career story in the grandest letters available. Champions League winner."
+ },
+ {
+  "id": "cb5-015",
+  "situation": "champions-league",
+  "text": "Nothing in the European club game quite matches that trophy, and now {winnerClub} have it."
+ },
+ {
+  "id": "cb5-016",
+  "situation": "champions-league",
+  "text": "Forget the rivalry score for a heartbeat. {winner} is holding the Champions League and the room has gone quiet."
+ },
+ {
+  "id": "cb5-017",
+  "situation": "champions-league",
+  "text": "Picture the display in years to come, with {winner}'s name sitting beside a Champions League triumph."
+ },
+ {
+  "id": "cb5-018",
+  "situation": "champions-league",
+  "text": "Pull the curtain back and there it is, a Champions League triumph for {winnerClub}."
+ },
+ {
+  "id": "cb5-019",
+  "situation": "champions-league",
+  "text": "High above the usual honours sits this famous cup. {winnerClub} have taken Europe's greatest club prize."
+ },
+ {
+  "id": "cb5-020",
+  "situation": "champions-league",
+  "text": "Remember the name in this moment. {winner}, winner of the Champions League. That carries real weight."
+ },
+ {
+  "id": "cb5-021",
+  "situation": "champions-league",
+  "text": "Suddenly the trophy shelves feel a little smaller. {winnerClub} have won a giant of a prize."
+ },
+ {
+  "id": "cb5-023",
+  "situation": "champions-league",
+  "text": "Ask what defines {winnerClub}'s campaign and the Champions League triumph answers before anyone speaks."
+ },
+ {
+  "id": "cb5-024",
+  "situation": "champions-league",
+  "text": "No manager's handbook prepares you for a trophy this special, and {winner} did not need the handbook."
+ },
+ {
+  "id": "cb5-025",
+  "situation": "champions-league",
+  "text": "See those colours on a European champion? That is {winnerClub}'s achievement, delivered by {winner}."
+ },
+ {
+  "id": "cb5-026",
+  "situation": "champions-league",
+  "text": "No small trophy and no passing mention. {winner} has put a Champions League triumph on the board."
+ },
+ {
+  "id": "cb5-027",
+  "situation": "champions-league",
+  "text": "Try finding a better centrepiece for a season than the Champions League. You will not manage it."
+ },
+ {
+  "id": "cb5-028",
+  "situation": "champions-league",
+  "text": "Hoisted high for {winnerClub} is a European prize carrying the weight of an entire campaign."
+ },
+ {
+  "id": "cb5-029",
+  "situation": "champions-league",
+  "text": "Prestige is a word used too easily in football. {winner} has given it proper meaning here."
+ },
+ {
+  "id": "cb5-031",
+  "situation": "champions-league",
+  "text": "Allow the picture to settle. {winner} has delivered Europe's highest club honour and it belongs to {winnerClub}."
+ },
+ {
+  "id": "cb6-001",
+  "situation": "europa-league",
+  "text": "Europa League glory for {winnerClub}, and a European journey that ends with something worth holding."
+ },
+ {
+  "id": "cb6-003",
+  "situation": "europa-league",
+  "text": "From a competition full of ambition comes a champion, and {winnerClub} took their chance with both hands."
+ },
+ {
+  "id": "cb6-004",
+  "situation": "europa-league",
+  "text": "Look what {winner} has brought back from Europe. Not just a memory, but a title."
+ },
+ {
+  "id": "cb6-005",
+  "situation": "europa-league",
+  "text": "Read the name on this honour. {winnerClub}. The Europa League has found its new champion."
+ },
+ {
+  "id": "cb6-006",
+  "situation": "europa-league",
+  "text": "Here is a moment for {winner} to remember. European ambition has become a title and not just a promise."
+ },
+ {
+  "id": "cb6-009",
+  "situation": "europa-league",
+  "text": "No longer a European ambition for {winnerClub}. The Europa League is theirs, in silver and in history."
+ },
+ {
+  "id": "cb6-010",
+  "situation": "europa-league",
+  "text": "Watch this season take on a different shape. {winner} has written a European victory right through it."
+ },
+ {
+  "id": "cb6-011",
+  "situation": "europa-league",
+  "text": "At the end of that continental road, {winnerClub} stand with the prize they went looking for."
+ },
+ {
+  "id": "cb6-012",
+  "situation": "europa-league",
+  "text": "Steady hands and big ambition. {winner} has turned the Europa League challenge into a magnificent triumph."
+ },
+ {
+  "id": "cb6-013",
+  "situation": "europa-league",
+  "text": "Call the roll of European winners and add {winnerClub}. This is their moment in the competition's history."
+ },
+ {
+  "id": "cb6-014",
+  "situation": "europa-league",
+  "text": "A passport full of memories is fine, {winner}, but this is the souvenir that goes in the cabinet."
+ },
+ {
+  "id": "cb6-015",
+  "situation": "europa-league",
+  "text": "Try saying it without a smile. {winnerClub} have won the Europa League. It has a lovely ring."
+ },
+ {
+  "id": "cb6-017",
+  "situation": "europa-league",
+  "text": "Take it in, {winnerClub}. The Europa League winners' roll has a new name and it is yours."
+ },
+ {
+  "id": "cb6-018",
+  "situation": "europa-league",
+  "text": "Now there is a different weight to this season. {winner} has lifted a trophy from Europe's stage."
+ },
+ {
+  "id": "cb6-019",
+  "situation": "europa-league",
+  "text": "Across Europe this trophy commands respect, and {winnerClub} have earned the right to claim it."
+ },
+ {
+  "id": "cb6-020",
+  "situation": "europa-league",
+  "text": "Give {winner} the applause this deserves. A major continental honour is not something to hurry past."
+ },
+ {
+  "id": "cb6-021",
+  "situation": "europa-league",
+  "text": "Put a European trophy beside the badge and suddenly {winnerClub}'s season has a different meaning."
+ },
+ {
+  "id": "cb6-022",
+  "situation": "europa-league",
+  "text": "Make some room, {winner}. That Europa League trophy is not a small parcel to bring home."
+ },
+ {
+  "id": "cb6-023",
+  "situation": "europa-league",
+  "text": "In the proudest corner of the honours list, put {winnerClub} down as Europa League winners."
+ },
+ {
+  "id": "cb6-024",
+  "situation": "europa-league",
+  "text": "It is a fine thing to dream of silverware abroad, and {winner} has gone and brought it back."
+ },
+ {
+  "id": "cb6-027",
+  "situation": "europa-league",
+  "text": "File that European adventure in the books. {winnerClub} have written the closing line in silver."
+ },
+ {
+  "id": "cb6-028",
+  "situation": "europa-league",
+  "text": "Borders are part of the adventure, but {winner} has brought the achievement right back home."
+ },
+ {
+  "id": "cb6-029",
+  "situation": "europa-league",
+  "text": "Listen to that description of {winnerClub}. Europa League winners. It fits them rather nicely."
+ },
+ {
+  "id": "cb6-030",
+  "situation": "europa-league",
+  "text": "Not every European story gets a silver ending, but {winner} has written precisely that one."
+ },
+ {
+  "id": "cb6-031",
+  "situation": "europa-league",
+  "text": "Raise the curtain on the honours list. {winnerClub} have become Europa League champions."
+ },
+ {
+  "id": "cb6-032",
+  "situation": "europa-league",
+  "text": "Nobody gets an advance promise of European glory. {winner} has gone out and secured it."
+ },
+ {
+  "id": "cb6-033",
+  "situation": "europa-league",
+  "text": "That name belongs in the European honours list now. {winnerClub} have won their place there."
+ },
+ {
+  "id": "cb6-034",
+  "situation": "europa-league",
+  "text": "Set aside the ordinary headlines. {winner} has a European trophy to put above the season's noise."
+ },
+ {
+  "id": "cb6-035",
+  "situation": "europa-league",
+  "text": "Follow the European trail all the way to {winnerClub} and you will find silver at the end."
+ },
+ {
+  "id": "cb6-036",
+  "situation": "europa-league",
+  "text": "Take a second to appreciate that. A European tournament won and a special honour secured."
+ },
+ {
+  "id": "cb6-037",
+  "situation": "europa-league",
+  "text": "And what a finish to this European chapter for {winner}, with the Europa League trophy itself."
+ },
+ {
+  "id": "cb6-038",
+  "situation": "europa-league",
+  "text": "Nothing cryptic about the headline. {winnerClub} have lifted the Europa League trophy."
+ },
+ {
+  "id": "cb7-001",
+  "situation": "league-title",
+  "text": "League champions! {winnerClub} have earned the prize every domestic rival was chasing this season."
+ },
+ {
+  "id": "cb7-002",
+  "situation": "league-title",
+  "text": "Listen to this for a finish. {winner} is the league champion and owns the season's biggest domestic prize."
+ },
+ {
+  "id": "cb7-003",
+  "situation": "league-title",
+  "text": "Confirmed at the top. {winnerClub} have completed a league campaign worth remembering for all the right reasons."
+ },
+ {
+  "id": "cb7-005",
+  "situation": "league-title",
+  "text": "That title belongs to {winnerClub}. A season of domestic ambition ends with the ultimate reward."
+ },
+ {
+  "id": "cb7-007",
+  "situation": "league-title",
+  "text": "So it is settled. The league crown goes to {winnerClub} and the season has its champions."
+ },
+ {
+  "id": "cb7-008",
+  "situation": "league-title",
+  "text": "They wanted the top prize at home, and {winnerClub} have made it theirs."
+ },
+ {
+  "id": "cb7-009",
+  "situation": "league-title",
+  "text": "Mark the achievement, not merely the occasion. {winner} has guided a club to the league title."
+ },
+ {
+  "id": "cb7-011",
+  "situation": "league-title",
+  "text": "Now it is official for {winnerClub}. The domestic prize every challenger wanted is theirs to keep."
+ },
+ {
+  "id": "cb7-012",
+  "situation": "league-title",
+  "text": "It takes a full season to earn that distinction. {winner} can call themselves a league champion."
+ },
+ {
+  "id": "cb7-013",
+  "situation": "league-title",
+  "text": "What an entry on the honours board for {winnerClub}. The league championship goes right beside their name."
+ },
+ {
+  "id": "cb8-001",
+  "situation": "cup-double",
+  "text": "The league championship and the domestic cup both belong to {winner}. A magnificent double, signed and sealed."
+ },
+ {
+  "id": "cb8-004",
+  "situation": "cup-double",
+  "text": "Both home honours secured in the same campaign. {winnerClub} can call themselves double winners."
+ },
+ {
+  "id": "cb8-006",
+  "situation": "cup-double",
+  "text": "Win a championship and you can call it a great season. Add the domestic cup and it becomes something else."
+ },
+ {
+  "id": "cb8-008",
+  "situation": "cup-double",
+  "text": "Different challenges, one formidable achievement. {winnerClub} have won the league and the domestic cup."
+ },
+ {
+  "id": "cb8-009",
+  "situation": "cup-double",
+  "text": "Cup winners and league champions in the same breath. {winner} has made those words belong together."
+ },
+ {
+  "id": "cb8-011",
+  "situation": "cup-double",
+  "text": "Every league title carries weight and every domestic cup has its own shine. {winner} has both."
+ },
+ {
+  "id": "cb8-012",
+  "situation": "cup-double",
+  "text": "Think of the contrasting demands, a league campaign and a cup challenge, and a club that conquered both."
+ },
+ {
+  "id": "cb8-013",
+  "situation": "cup-double",
+  "text": "That championship belongs to {winner} and so does the domestic cup. There is the season's real headline."
+ },
+ {
+  "id": "cb8-014",
+  "situation": "cup-double",
+  "text": "No choosing between league glory and cup glory here. {winnerClub} have taken both honours."
+ },
+ {
+  "id": "cb8-015",
+  "situation": "cup-double",
+  "text": "This is the season {winner} can point to proudly, champions of the league and holders of the cup."
+ },
+ {
+  "id": "cb8-018",
+  "situation": "cup-double",
+  "text": "No separating those achievements now. The league title and domestic cup both belong to {winnerClub}."
+ },
+ {
+  "id": "cb8-019",
+  "situation": "cup-double",
+  "text": "Different competitions, different pressures, the same winning manager. {winner} has the domestic double."
+ },
+ {
+  "id": "cb8-022",
+  "situation": "cup-double",
+  "text": "There are fine domestic seasons and then there are doubles. {winnerClub} have the league and the cup."
+ },
+ {
+  "id": "cb8-024",
+  "situation": "cup-double",
+  "text": "That rare combination at last, a league title earned over a campaign and a cup to sit beside it."
+ },
+ {
+  "id": "cb8-026",
+  "situation": "cup-double",
+  "text": "Hear it in full. {winnerClub} are league champions and domestic cup holders, a remarkable double."
+ },
+ {
+  "id": "cb9-001",
+  "situation": "no-trophy",
+  "text": "{winner} will not be calling the engraver, but the season is theirs. Sometimes the quiet work wins out."
+ },
+ {
+  "id": "cb9-002",
+  "situation": "no-trophy",
+  "text": "Look at that. No silverware for {winnerClub}, yet the season belongs to them all the same."
+ },
+ {
+  "id": "cb9-004",
+  "situation": "no-trophy",
+  "text": "Every little advantage mattered, and {winner} has finished in front without a major honour to show for it."
+ },
+ {
+  "id": "cb9-005",
+  "situation": "no-trophy",
+  "text": "Set the main prizes aside for a moment. {winnerClub} took this season through everything they did beyond them."
+ },
+ {
+  "id": "cb9-006",
+  "situation": "no-trophy",
+  "text": "Now the season verdict arrives, and {winner} takes it with no new cup beside the old ones."
+ },
+ {
+  "id": "cb9-007",
+  "situation": "no-trophy",
+  "text": "Not a glittering haul, but {winner} made the details count when the season was settled."
+ },
+ {
+  "id": "cb9-009",
+  "situation": "no-trophy",
+  "text": "No prize to hold above the head, yet {winner} has a season victory to savour."
+ },
+ {
+  "id": "cb9-010",
+  "situation": "no-trophy",
+  "text": "A fine piece of management from {winner}, with the season secured and no trophy to carry home."
+ },
+ {
+  "id": "cb9-011",
+  "situation": "no-trophy",
+  "text": "Who needs a ribbon on the handle? {winnerClub} have won the season without taking a cup."
+ },
+ {
+  "id": "cb9-013",
+  "situation": "no-trophy",
+  "text": "An unlikely winner, then. {winner} has the season secured and nothing new in the trophy room."
+ },
+ {
+  "id": "cb9-014",
+  "situation": "no-trophy",
+  "text": "Nothing changes on the display shelf, but the rivalry takes a turn in favour of {winnerClub}."
+ },
+ {
+  "id": "cb9-015",
+  "situation": "no-trophy",
+  "text": "Elsewhere the cups may find their homes. Here the season belongs to {winner} on the strength of the extras."
+ },
+ {
+  "id": "cb9-016",
+  "situation": "no-trophy",
+  "text": "Count the little contributions and there it is, a trophyless success for {winnerClub}."
+ },
+ {
+  "id": "cb9-017",
+  "situation": "no-trophy",
+  "text": "It takes an unusual season to win without lifting anything, and {winner} has just produced one."
+ },
+ {
+  "id": "cb9-018",
+  "situation": "no-trophy",
+  "text": "For {winnerClub} the most important addition is not an object. It is a winning season in the rivalry."
+ },
+ {
+  "id": "cb9-019",
+  "situation": "no-trophy",
+  "text": "Credit where it is due. {winner} found a winning route through a season without a cup to show."
+ },
+ {
+  "id": "cb9-021",
+  "situation": "no-trophy",
+  "text": "Watch the supporting points take centre stage. {winner} has turned them into a season victory."
+ },
+ {
+  "id": "cb9-022",
+  "situation": "no-trophy",
+  "text": "Not every victory arrives wrapped in ribbons. {winnerClub} have proved it with this season's outcome."
+ },
+ {
+  "id": "cb9-023",
+  "situation": "no-trophy",
+  "text": "Quiet contributions, decisive effect. {winner} has won the season without a trophy to their name."
+ },
+ {
+  "id": "cb9-025",
+  "situation": "no-trophy",
+  "text": "It may not come with a medal ceremony, but {winner} is the season's winning manager."
+ },
+ {
+  "id": "cb35-002",
+  "situation": "lead-extended",
+  "text": "The nuisance for {trailer} is not this setback alone. It is watching the other side collect another season."
+ },
+ {
+  "id": "cb35-004",
+  "situation": "lead-extended",
+  "text": "Protecting an advantage is one thing. Making it inconvenient to pursue is rather better."
+ },
+ {
+  "id": "cb35-005",
+  "situation": "lead-extended",
+  "text": "Another season goes to {winner}, and it carries extra weight when the rivalry already leans your way."
+ },
+ {
+  "id": "cb35-006",
+  "situation": "lead-extended",
+  "text": "It is the timing I admire from {leader}. There was room to coast and not a hint of it here."
+ },
+ {
+  "id": "cb35-007",
+  "situation": "lead-extended",
+  "text": "{loserClub} can be proud of the effort. This round simply leaves them farther behind."
+ },
+ {
+  "id": "cb35-008",
+  "situation": "lead-extended",
+  "text": "You can explain it quite simply. {winnerClub} took this round and made the pursuit harder."
+ },
+ {
+  "id": "cb35-010",
+  "situation": "lead-extended",
+  "text": "Here lies the practical benefit of winning again. The entire rivalry leans a little farther {winner}'s way."
+ },
+ {
+  "id": "cb35-011",
+  "situation": "lead-extended",
+  "text": "The real skill is not sitting in front. It is persuading the pursuer there is still farther to travel."
+ },
+ {
+  "id": "cb35-013",
+  "situation": "lead-extended",
+  "text": "{trailer} cannot undo the earlier rounds now, and this one has only increased the work remaining."
+ },
+ {
+  "id": "cb35-014",
+  "situation": "lead-extended",
+  "text": "Remarkably tidy from {winnerClub}. The fresh success reinforces all the earlier work."
+ },
+ {
+  "id": "cb35-016",
+  "situation": "lead-extended",
+  "text": "You sense the difference between holding your place and moving the whole Showdown forward."
+ },
+ {
+  "id": "cb36-001",
+  "situation": "level-overall",
+  "text": "{managerA} can take satisfaction from parity, but {managerB} has exactly the same right to it."
+ },
+ {
+  "id": "cb36-002",
+  "situation": "level-overall",
+  "text": "When {clubA} and {clubB} land on identical overall totals there is not much room for bragging."
+ },
+ {
+  "id": "cb36-003",
+  "situation": "level-overall",
+  "text": "The interesting part for {managerA} is simple. Neither manager has an overall edge to protect."
+ },
+ {
+  "id": "cb36-005",
+  "situation": "level-overall",
+  "text": "You can dress up {points} apiece however you like, but there is no separation in the overall standings."
+ },
+ {
+  "id": "cb36-006",
+  "situation": "level-overall",
+  "text": "The standings have played diplomat this time. Neither manager can honestly argue with the overall position."
+ },
+ {
+  "id": "cb36-008",
+  "situation": "level-overall",
+  "text": "With {clubA} the point is not to borrow anyone's credit. The full account gives each camp its due."
+ },
+ {
+  "id": "cb36-011",
+  "situation": "level-overall",
+  "text": "It says plenty that {managerA} and {managerB} can stand beside the same overall total without anyone stepping down."
+ },
+ {
+  "id": "cb36-013",
+  "situation": "level-overall",
+  "text": "{clubB} has earned a place at the same height as its rival, and that is not second best."
+ },
+ {
+  "id": "cb36-015",
+  "situation": "level-overall",
+  "text": "Neither {clubA} nor {clubB} can lean on reputation now. The full standing favours neither badge."
+ },
+ {
+  "id": "cb37-002",
+  "situation": "winning-streak",
+  "text": "Staying in front for successive seasons demands fresh standards, and {winnerClub} keep meeting them."
+ },
+ {
+  "id": "cb37-003",
+  "situation": "winning-streak",
+  "text": "There is a difference between winning once and making a habit of it, as {winner} is demonstrating."
+ },
+ {
+  "id": "cb37-005",
+  "situation": "winning-streak",
+  "text": "Every campaign brings its own demands, yet the season victories keep going to {winner}."
+ },
+ {
+  "id": "cb37-006",
+  "situation": "winning-streak",
+  "text": "Quite a run from {winnerClub}, and the impressive part is how familiar the outcome remains."
+ },
+ {
+  "id": "cb37-007",
+  "situation": "winning-streak",
+  "text": "Consistency sounds rather dull until you are the manager trying to reproduce a winning season."
+ },
+ {
+  "id": "cb37-009",
+  "situation": "winning-streak",
+  "text": "Successive season wins suggest {winner} understands the difference between a breakthrough and a standard."
+ },
+ {
+  "id": "cb37-010",
+  "situation": "winning-streak",
+  "text": "Nobody wins a campaign on reputation, however often {winner} has managed it before."
+ },
+ {
+  "id": "cb37-011",
+  "situation": "winning-streak",
+  "text": "Maintaining an edge is harder than finding it, and {winnerClub} have done the difficult part again and again."
+ },
+ {
+  "id": "cb37-013",
+  "situation": "winning-streak",
+  "text": "With {winner} taking the latest verdict, the earlier victories begin to look like a genuine foundation."
+ },
+ {
+  "id": "cb37-014",
+  "situation": "winning-streak",
+  "text": "Getting the better of the rivalry season after season takes application, and {winner} is supplying it."
+ },
+ {
+  "id": "cb37-018",
+  "situation": "winning-streak",
+  "text": "Keeping a streak alive means answering the latest challenge and not admiring the previous result."
+ },
+ {
+  "id": "cb37-020",
+  "situation": "winning-streak",
+  "text": "A sustained run rarely happens by accident, and {winnerClub} are giving us further evidence of that."
+ },
+ {
+  "id": "cb37-021",
+  "situation": "winning-streak",
+  "text": "Expectations follow {winner} into each new season now. Meeting them again is what makes this impressive."
+ },
+ {
+  "id": "cb37-022",
+  "situation": "winning-streak",
+  "text": "Remarkable, really, that {winner} has turned a difficult annual task into something people half expect."
+ },
+ {
+  "id": "cb37-024",
+  "situation": "winning-streak",
+  "text": "Those victories belong to separate campaigns, and {winner} has found a way through each of them."
+ },
+ {
+  "id": "cb37-025",
+  "situation": "winning-streak",
+  "text": "As a rival you can shrug off a defeat. A sequence like {winner}'s asks for a more serious response."
+ },
+ {
+  "id": "cb37-026",
+  "situation": "winning-streak",
+  "text": "There are no free renewals on a season victory, yet {winnerClub} keep making good on theirs."
+ },
+ {
+  "id": "cb37-028",
+  "situation": "winning-streak",
+  "text": "One season can flatter a manager, but a run of successes gives {winner} a much stronger case."
+ },
+ {
+  "id": "cb37-029",
+  "situation": "winning-streak",
+  "text": "Give {loser} credit for staying in the contest. It is {winner}'s repeated seasonal victories that make the task so demanding."
+ },
+ {
+  "id": "cb37-030",
+  "situation": "winning-streak",
+  "text": "Nothing carries over automatically except the expectation, and {winner} has handled that rather well."
+ },
+ {
+  "id": "cb37-031",
+  "situation": "winning-streak",
+  "text": "Making a sequence last means starting each season with yesterday's expectations still waiting at the door."
+ },
+ {
+  "id": "cb38-002",
+  "situation": "streak-broken",
+  "text": "Credit {winnerClub}. They have interrupted a formidable sequence without diminishing anything that came before it."
+ },
+ {
+  "id": "cb38-003",
+  "situation": "streak-broken",
+  "text": "What a proper answer from {winner}, measured against somebody who had made winning seasons a habit."
+ },
+ {
+  "id": "cb38-005",
+  "situation": "streak-broken",
+  "text": "Notice how {winner} has replaced a predictable season verdict with a very welcome question for the favourite."
+ },
+ {
+  "id": "cb38-006",
+  "situation": "streak-broken",
+  "text": "A series that once seemed to belong to {loser} is a contest again, thanks to {winnerClub}."
+ },
+ {
+  "id": "cb38-007",
+  "situation": "streak-broken",
+  "text": "Beating {loser} after such a run of successful seasons carries a particular weight, even without extra ceremony."
+ },
+ {
+  "id": "cb38-009",
+  "situation": "streak-broken",
+  "text": "Eventually a winning spell meets a rival who has learned enough to end it, and here we are."
+ },
+ {
+  "id": "cb38-010",
+  "situation": "streak-broken",
+  "text": "This one belongs to {winner}, but the earlier seasons explain why it carries far more weight than usual."
+ },
+ {
+  "id": "cb38-011",
+  "situation": "streak-broken",
+  "text": "There is no need to diminish {loser}, because that long stretch of success makes this turn all the more impressive."
+ },
+ {
+  "id": "cb38-013",
+  "situation": "streak-broken",
+  "text": "Even the most established pecking order can be challenged, and this season somebody has done exactly that."
+ },
+ {
+  "id": "cb38-014",
+  "situation": "streak-broken",
+  "text": "Set {winnerPoints} against {loserPoints} and the reversal becomes official after a long spell favouring {loserClub}."
+ },
+ {
+  "id": "cb38-015",
+  "situation": "streak-broken",
+  "text": "Quite a shift for {winner}, who no longer has to wait for the established winner to relinquish a season."
+ },
+ {
+  "id": "cb38-017",
+  "situation": "streak-broken",
+  "text": "Consider the pressure on {winner}, who knew a good season alone would not change the story without winning it."
+ },
+ {
+  "id": "cb38-018",
+  "situation": "streak-broken",
+  "text": "Same contest, new victor, and the old assumption has been relieved of its duties."
+ },
+ {
+  "id": "cb38-019",
+  "situation": "streak-broken",
+  "text": "See {winnerClub} now, not just victorious but responsible for closing a remarkable chapter of dominance."
+ },
+ {
+  "id": "cb38-021",
+  "situation": "streak-broken",
+  "text": "Against {loserClub} even an ordinary season triumph demands extra perspective after that long spell of success."
+ },
+ {
+  "id": "cb38-022",
+  "situation": "streak-broken",
+  "text": "A monopoly on season victories sounds secure only until someone decides to challenge the ownership."
+ },
+ {
+  "id": "cb38-023",
+  "situation": "streak-broken",
+  "text": "It took {winner} to change the headline, after {loser} had occupied it for so long."
+ },
+ {
+  "id": "cb38-025",
+  "situation": "streak-broken",
+  "text": "From {winnerClub}'s point of view the greatest reward may be ending the expectation of yet another rival success."
+ },
+ {
+  "id": "cb38-026",
+  "situation": "streak-broken",
+  "text": "Previous seasons gave {loser} a strong claim to consistency, but this season belongs elsewhere."
+ },
+ {
+  "id": "cb38-027",
+  "situation": "streak-broken",
+  "text": "Nothing about the old success becomes smaller because {winner} has finally broken through."
+ },
+ {
+  "id": "cb38-029",
+  "situation": "streak-broken",
+  "text": "Right there is the value of persistence, with {winner} finally cutting through the expectation of defeat."
+ },
+ {
+  "id": "cb38-030",
+  "situation": "streak-broken",
+  "text": "Even {loser} will know that a streak is only as long as its latest successful season."
+ },
+ {
+  "id": "cb39-003",
+  "situation": "opening-season",
+  "text": "No one wins a lasting argument in the opening chapter, but {winner} has certainly chosen the subject."
+ },
+ {
+  "id": "cb39-005",
+  "situation": "opening-season",
+  "text": "Confidence follows a decent beginning, but {winnerClub} will find no guarantee attached to the result."
+ },
+ {
+  "id": "cb39-006",
+  "situation": "opening-season",
+  "text": "An early setback can be useful to {loser}, if more energy goes into responding than explaining."
+ },
+ {
+  "id": "cb39-010",
+  "situation": "opening-season",
+  "text": "Bragging rights are lovely, but they do not defend themselves when the next comparison arrives."
+ },
+ {
+  "id": "cb39-011",
+  "situation": "opening-season",
+  "text": "Comfort belongs to {winner} for now. The other manager has a fresh reason to get back to work."
+ },
+ {
+  "id": "cb39-012",
+  "situation": "opening-season",
+  "text": "I would leave {winnerClub}'s cabinet shut for now, because opening honours are not a finished Showdown."
+ },
+ {
+  "id": "cb39-013",
+  "situation": "opening-season",
+  "text": "For {loserClub} the task changes immediately, but the season just finished is not the whole story."
+ },
+ {
+  "id": "cb39-015",
+  "situation": "opening-season",
+  "text": "Early credit is earned, not borrowed. That is the pleasing thing about {winner}'s first result."
+ },
+ {
+  "id": "cb39-016",
+  "situation": "opening-season",
+  "text": "Consider that our opening reference point. Future campaigns will have to live with it."
+ },
+ {
+  "id": "cb39-017",
+  "situation": "opening-season",
+  "text": "Good starts are useful, though {winner} will know the next campaign asks the question all over again."
+ },
+ {
+  "id": "cb39-019",
+  "situation": "opening-season",
+  "text": "Banked points do not lose value just because {winnerClub} earned them before the rivalry had much history."
+ },
+ {
+  "id": "cb39-020",
+  "situation": "opening-season",
+  "text": "Suddenly the screen has an order, and that order already comes with a story worth telling."
+ },
+ {
+  "id": "cb39-021",
+  "situation": "opening-season",
+  "text": "I would enjoy the applause if I were {winner}, but I would also ask how repeatable that advantage really is."
+ },
+ {
+  "id": "cb39-022",
+  "situation": "opening-season",
+  "text": "Starting in front is a pleasant luxury, and you do not need permission to enjoy it."
+ },
+ {
+  "id": "cb39-023",
+  "situation": "opening-season",
+  "text": "Odd thing about early rankings. They matter immediately and yet remain entirely open to challenge."
+ },
+ {
+  "id": "cb40-002",
+  "situation": "halfway",
+  "text": "There is still room for {trailer} to answer, and that is what makes the middle of a contest fascinating."
+ },
+ {
+  "id": "cb40-003",
+  "situation": "halfway",
+  "text": "Taking stock is all very well. What matters is whether your habits survive the business end of the Showdown."
+ },
+ {
+  "id": "cb40-004",
+  "situation": "halfway",
+  "text": "Credit for coming this far with purpose goes to {winnerClub}. Getting home is quite another assignment."
+ },
+ {
+  "id": "cb40-005",
+  "situation": "halfway",
+  "text": "Keeping the advantage will tell us more about {leader} than winning it in the first place ever could."
+ },
+ {
+  "id": "cb40-006",
+  "situation": "halfway",
+  "text": "Predicting the ending from here would be like leaving a match at half time to write the report."
+ },
+ {
+  "id": "cb40-007",
+  "situation": "halfway",
+  "text": "For {trailer} the challenge is not to rewrite the past. It is to give the closing chapters a new direction."
+ },
+ {
+  "id": "cb40-008",
+  "situation": "halfway",
+  "text": "By now the strengths are familiar. The real examination is whether they hold when the prize comes into view."
+ },
+ {
+  "id": "cb40-009",
+  "situation": "halfway",
+  "text": "Wise managers use this pause to find the cracks and not to admire the paintwork."
+ },
+ {
+  "id": "cb40-010",
+  "situation": "halfway",
+  "text": "A result like this gives {winner} momentum and not a holiday from everything still to be done."
+ },
+ {
+  "id": "cb40-012",
+  "situation": "halfway",
+  "text": "Fair enough that {leader} would choose this position gladly. It does not make the closing duties optional."
+ },
+ {
+  "id": "cb40-013",
+  "situation": "halfway",
+  "text": "Having a lead at the midpoint beats chasing, provided you remember nobody awards the Showdown early."
+ },
+ {
+  "id": "cb40-014",
+  "situation": "halfway",
+  "text": "Patience matters to {trailer}, because a reckless chase can squander a perfectly genuine chance."
+ },
+ {
+  "id": "cb40-015",
+  "situation": "halfway",
+  "text": "Perhaps the nicest thing about this checkpoint is discovering that your rival still has questions for you."
+ },
+ {
+  "id": "cb40-017",
+  "situation": "halfway",
+  "text": "Promising form gets you to this point. Repeating it is what makes the closing stretch interesting."
+ },
+ {
+  "id": "cb40-018",
+  "situation": "halfway",
+  "text": "Do not be fooled by a familiar pecking order. For {leader} the difficult part may be what follows."
+ },
+ {
+  "id": "cb40-020",
+  "situation": "halfway",
+  "text": "Experienced managers know the pause can be misleading. Inspecting the standings is easier than improving them."
+ },
+ {
+  "id": "cb40-022",
+  "situation": "halfway",
+  "text": "Nothing is decided, but from here there are fewer chances to make a poor choice look harmless."
+ },
+ {
+  "id": "cb40-023",
+  "situation": "halfway",
+  "text": "I suspect {trailer} would gladly trade a tidy explanation for a better answer in the coming seasons."
+ },
+ {
+  "id": "cb40-024",
+  "situation": "halfway",
+  "text": "We have reached the turn, and the rivalry has at least told both managers what kind of answer will be required."
+ },
+ {
+  "id": "cb43-001",
+  "situation": "showdown-drawn",
+  "text": "At the final whistle on this rivalry, {managerA} and {managerB} have equal claims to respect and nobody has the crown."
+ },
+ {
+  "id": "cb43-002",
+  "situation": "showdown-drawn",
+  "text": "Put {clubA}'s total beside {clubB}'s and there is your answer. Not much room for boasting, is there?"
+ },
+ {
+  "id": "cb43-003",
+  "situation": "showdown-drawn",
+  "text": "Nobody owns the title, though {managerB} might be entitled to a very satisfied shrug. That is fair enough."
+ },
+ {
+  "id": "cb43-005",
+  "situation": "showdown-drawn",
+  "text": "The crown stays unclaimed, because {managerB} has not finished behind anyone, including {managerA}."
+ },
+ {
+  "id": "cb43-006",
+  "situation": "showdown-drawn",
+  "text": "This is a shared result for {clubB}, not an awkward pause while somebody hunts for a missing point."
+ },
+ {
+  "id": "cb43-007",
+  "situation": "showdown-drawn",
+  "text": "Both have carried the challenge to its conclusion, and {managerA} has nobody left to overtake."
+ },
+ {
+  "id": "cb43-008",
+  "situation": "showdown-drawn",
+  "text": "The champion's chair can stay empty. {managerB} has done enough to earn a seat beside {managerA}, and the reverse is true too."
+ },
+ {
+  "id": "cb43-009",
+  "situation": "showdown-drawn",
+  "text": "Anyone expecting {clubB} to edge {clubA} will have to settle for precisely matched totals."
+ },
+ {
+  "id": "cb43-010",
+  "situation": "showdown-drawn",
+  "text": "Worth remembering that neither manager fell short of the other. The closing standings could not be straighter."
+ },
+ {
+  "id": "cb43-011",
+  "situation": "showdown-drawn",
+  "text": "If {managerA} feels proud, fair enough. Matching a worthy competitor is an achievement, even without the outright prize."
+ },
+ {
+  "id": "cb43-012",
+  "situation": "showdown-drawn",
+  "text": "Every season has contributed to this ending, and {clubB} finds itself level when the last count is made."
+ },
+ {
+  "id": "cb43-014",
+  "situation": "showdown-drawn",
+  "text": "Imagine seeing every campaign through, only for {managerA} to discover the gap has vanished altogether."
+ },
+ {
+  "id": "cb43-015",
+  "situation": "showdown-drawn",
+  "text": "A victory speech would be premature. The championship has concluded without anybody earning the right to give it."
+ },
+ {
+  "id": "cb45-001",
+  "situation": "one-season-sprint",
+  "text": "You can spend ages preparing for a rivalry, but {winner} has settled this edition before it could grow old."
+ },
+ {
+  "id": "cb45-002",
+  "situation": "one-season-sprint",
+  "text": "Bruising finish for {loser}, this one. Not because it was long, but because it was not."
+ },
+ {
+  "id": "cb45-003",
+  "situation": "one-season-sprint",
+  "text": "No long tour of excuses here. {winnerClub} answered the only question on the card and takes the prize."
+ },
+ {
+  "id": "cb45-004",
+  "situation": "one-season-sprint",
+  "text": "I quite like the simplicity. {winner} did enough and nobody needs to consult a calendar."
+ },
+ {
+  "id": "cb45-005",
+  "situation": "one-season-sprint",
+  "text": "A brief rivalry chapter can leave a surprisingly long argument. {loserClub} may have a few contributions."
+ },
+ {
+  "id": "cb45-006",
+  "situation": "one-season-sprint",
+  "text": "Look at {winner} now. A whole Showdown decided with barely enough time for the arguments to warm up."
+ },
+ {
+  "id": "cb45-007",
+  "situation": "one-season-sprint",
+  "text": "There was no rehearsal for {loser}. They had to get this right immediately, which is rather unforgiving."
+ },
+ {
+  "id": "cb45-008",
+  "situation": "one-season-sprint",
+  "text": "Winning that season has handed {winnerClub} the whole Showdown. That is efficiency worth admiring."
+ },
+ {
+  "id": "cb45-009",
+  "situation": "one-season-sprint",
+  "text": "Imagine telling {winner} to pace themselves. There was nowhere further to go after this."
+ },
+ {
+  "id": "cb45-010",
+  "situation": "one-season-sprint",
+  "text": "Consider {loserClub}'s predicament. The next campaign might be brilliant, but it cannot alter this edition."
+ },
+ {
+  "id": "cb45-011",
+  "situation": "one-season-sprint",
+  "text": "True credit belongs to {winner}, who arrived ready while the format offered no room for adjustments."
+ },
+ {
+  "id": "cb45-013",
+  "situation": "one-season-sprint",
+  "text": "There are lessons for {loser}, certainly, though none can change the championship that has just ended."
+ },
+ {
+  "id": "cb45-014",
+  "situation": "one-season-sprint",
+  "text": "A sprint is not necessarily easier. Ask {winner}, who had to make the whole campaign work at once."
+ },
+ {
+  "id": "cb45-015",
+  "situation": "one-season-sprint",
+  "text": "What a peculiar pressure on {loserClub}, knowing there was no later season to balance the books."
+ },
+ {
+  "id": "cb45-016",
+  "situation": "one-season-sprint",
+  "text": "Some managers like the safety of a long project. {winner} has managed rather well without that safety net."
+ },
+ {
+  "id": "cb45-017",
+  "situation": "one-season-sprint",
+  "text": "That is why {winnerClub} will be delighted. No later chapter is going to undo this achievement."
+ },
+ {
+  "id": "cb45-018",
+  "situation": "one-season-sprint",
+  "text": "Notice that {loser} does not need to feel diminished. Sometimes the other manager simply makes the opportunity count."
+ },
+ {
+  "id": "cb120-003",
+  "situation": "season-preview",
+  "text": "Put {managerB} in the hypothetical hot seat, ask for a forecast, and listen to this desk disagree with itself."
+ },
+ {
+  "id": "cb120-004",
+  "situation": "season-preview",
+  "text": "You can almost hear the debate starting, and {clubA} has yet to make its opening statement."
+ },
+ {
+  "id": "cb120-005",
+  "situation": "season-preview",
+  "text": "Nobody has lifted anything yet, which is exactly why this rivalry feels so deliciously wide open."
+ },
+ {
+  "id": "cb120-006",
+  "situation": "season-preview",
+  "text": "Look at {managerA}, enjoying that rare managerial luxury, a plan nobody has had the chance to test."
+ },
+ {
+  "id": "cb120-008",
+  "situation": "season-preview",
+  "text": "One question nobody at this desk can answer. Whose great plan survives the first serious test?"
+ },
+ {
+  "id": "cb120-010",
+  "situation": "season-preview",
+  "text": "Tonight {managerB} gets the luxury every manager loves, being judged on what might happen."
+ },
+ {
+  "id": "cb120-012",
+  "situation": "season-preview",
+  "text": "Imagine the argument if both managers could pick their own headline before playing a game."
+ }
+]

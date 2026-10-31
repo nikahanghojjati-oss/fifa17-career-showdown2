@@ -39,6 +39,8 @@ def fix_semicolons(s):
 
 
 def clean(s):
+    # B and F prompts used {season}/{seasons}; ship one slot name everywhere.
+    s = s.replace("{season}", "{seasonNo}").replace("{seasons}", "{seasonsTotal}")
     return fix_semicolons(s.strip())
 
 
@@ -68,15 +70,54 @@ def load():
     return out
 
 
+POLISH_DIR = os.path.join(HERE, "polish")
+
+
+def load_polish():
+    """Editor rewrites (polish/done_*.json): source id -> new fields, applied after picking."""
+    out = {}
+    if os.path.isdir(POLISH_DIR):
+        for f in sorted(os.listdir(POLISH_DIR)):
+            if f.startswith("done_") and f.endswith(".json"):
+                for r in json.load(open(os.path.join(POLISH_DIR, f))):
+                    out[r["id"]] = {k: v for k, v in r.items() if k not in ("id", "situation", "score", "kind")}
+    return out
+
+
+POLISH = load_polish()
+
+
 def ranked(items):
     return sorted(items, key=lambda r: (-r["_score"], r["_order"]))
 
 
-def pick(rows, cap, textfn, splice=True, openers_max=1):
+DRAWS = {"draw", "level-overall", "showdown-drawn"}
+DRAW_WIN = re.compile(r"winning total|co-owner|shared crown|\{(?:winner|loser)", re.I)
+UNDECIDED = re.compile(r"\{(?:winner|loser)")
+
+
+def misfit(sit, t):
+    """Meaning checks: a draw names no winner, the last-season preview names no result yet."""
+    return (sit in DRAWS and DRAW_WIN.search(t)) or (sit == "final-season-decider" and UNDECIDED.search(t))
+
+
+NUM_START = re.compile(r"(?:^|[.!?] )\{(?:winnerPoints|loserPoints|margin|points|seasonsTotal|seasonNo)\}")
+
+
+def print_numbers(s):
+    """Printed copy never starts a sentence with a number: lead in with words."""
+    s = re.sub(r"(^|[.!?] )(\{(?:winnerPoints|loserPoints)\})", r"\1The tally of \2", s)
+    return re.sub(r"(^|[.!?] )(\{seasonsTotal\})", r"\1All \2", s)
+
+
+def pick(rows, cap, textfn, splice=True, openers_max=1, sit=None, maxlen=None):
     """Best rows first, skip rule breaks, duplicates and repeated three-word openers."""
     seen, openers, keep = set(), collections.Counter(), []
     for r in ranked(rows):
+        r = {**r, **POLISH.get(r.get("id"), {})}
         t = textfn(r)
+        if misfit(sit, t) or (maxlen and len(clean(t)) > maxlen):
+            continue
         if r.get("id") in DROP_IDS or bad(t, splice):
             continue
         w = norm(t)
@@ -132,10 +173,16 @@ def main():
     heads = group(b["A"], "rows")
     season, final = [], []
     for sit, rows in heads.items():
-        keep = pick(rows, CAP["A"], lambda r: r["headline"] + " " + r["subhead"])
+        keep = pick([r for r in rows if not NUM_START.search(clean({**r, **POLISH.get(r.get("id"), {})}["subhead"]))], CAP["A"], lambda r: r["headline"] + " " + r["subhead"], sit=sit)
         report["A " + sit] = len(keep)
+        bangs = 0
         for r in keep:
-            row = {"situation": sit, "headline": clean(r["headline"]), "subhead": clean(r["subhead"]), "kicker": r.get("kicker", "")}
+            head = clean(r["headline"])
+            if head.endswith("!"):
+                bangs += 1
+                if bangs > 4:  # at most four shouting headlines per situation
+                    head = head.rstrip("!").rstrip()
+            row = {"situation": sit, "headline": head, "subhead": clean(r["subhead"]), "kicker": r.get("kicker", "")}
             (final if sit in FINAL_SITUATIONS else season).append(row)
     for prefix, lst in (("h1", season), ("h2", final)):
         for i, r in enumerate(lst, 1):
@@ -154,7 +201,7 @@ def main():
     lines = group(b["B"], "lines")
     results = []
     for sit, rows in lines.items():
-        keep = pick(rows, CAP["B"], lambda r: r["text"])
+        keep = pick(rows, CAP["B"], lambda r: r["text"], sit=sit, maxlen=92)  # phone commentary bar fits about 92 characters
         report["B " + sit] = len(keep)
         results += [{"situation": sit, "text": clean(r["text"])} for r in keep]
     results = [{"id": "c1-%04d" % i, **r} for i, r in enumerate(results, 1)]
@@ -173,17 +220,17 @@ def main():
     # C stories, F duets, D small print
     stories = []
     for sit, rows in group(b["C"], "stories").items():
-        keep = pick(rows, CAP["C"], lambda r: r["standfirst"] + " " + " ".join(r["paragraphs"]) + " " + r["pullquote"]["text"], splice=False, openers_max=2)
+        keep = pick(rows, CAP["C"], lambda r: r["standfirst"] + " " + " ".join(r["paragraphs"]) + " " + r["pullquote"]["text"], splice=False, openers_max=2, sit=sit)
         report["C " + sit] = len(keep)
         for r in keep:
             stories.append({"situation": sit, "edition": "final" if sit in FINAL_SITUATIONS else "season",
-                            "byline": clean(r["byline"]), "standfirst": clean(r["standfirst"]),
-                            "paragraphs": [clean(p) for p in r["paragraphs"]],
+                            "byline": clean(r["byline"]), "standfirst": print_numbers(clean(r["standfirst"])),
+                            "paragraphs": [print_numbers(clean(p)) for p in r["paragraphs"]],
                             "pullquote": {"text": clean(r["pullquote"]["text"]), "who": r["pullquote"]["who"]}})
     stories = [{"id": "s-%03d" % i, **r} for i, r in enumerate(stories, 1)]
     duets = []
     for sit, rows in group(b["F"], "duets").items():
-        keep = pick(rows, CAP["F"], lambda r: r["lead"] + " " + r["co"])
+        keep = pick(rows, CAP["F"], lambda r: r["lead"] + " " + r["co"], sit=sit)
         report["F " + sit] = len(keep)
         duets += [{"situation": sit, "lead": clean(r["lead"]), "co": clean(r["co"])} for r in keep]
     duets = [{"id": "d-%04d" % i, **r} for i, r in enumerate(duets, 1)]

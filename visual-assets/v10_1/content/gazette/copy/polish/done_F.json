@@ -1,0 +1,1730 @@
+[
+ {
+  "id": "fb1-01",
+  "situation": "big-win",
+  "lead": "{winner} takes the season by miles and {loser} is left waving from the back of the pack.",
+  "co": "Waving is generous. At that distance {loserClub} needed binoculars just to find the leader."
+ },
+ {
+  "id": "fb1-02",
+  "situation": "big-win",
+  "lead": "The gap is opening and {winner} is already out of sight over the horizon.",
+  "co": "And {loserClub} are still reading the map. Once {winnerClub} found their rhythm there was no way in."
+ },
+ {
+  "id": "fb1-03",
+  "situation": "big-win",
+  "lead": "{margin} clear at the finish and {loser} is still asking where it all went wrong.",
+  "co": "Nowhere in particular. It was a steady march with no wobbles, so there was nothing to chase."
+ },
+ {
+  "id": "fb1-04",
+  "situation": "big-win",
+  "lead": "This was less a race and more a stampede, with {winner} doing the trampling.",
+  "co": "Then {loser} did well to stay on their feet. Most rivals would have been flattened by Christmas."
+ },
+ {
+  "id": "fb1-06",
+  "situation": "big-win",
+  "lead": "{winnerClub} were ruthless from first week to last while {loser} picked up the pieces.",
+  "co": "Ruthless but never reckless. A gap this size takes a manager who simply refuses to ease off."
+ },
+ {
+  "id": "fb1-07",
+  "situation": "big-win",
+  "lead": "There is no way back for {loser} this time, and everyone in the room knows it.",
+  "co": "True, but notice how calm {loser} looks. A lead like this is exactly what makes next season dangerous."
+ },
+ {
+  "id": "fb1-08",
+  "situation": "big-win",
+  "lead": "Foot flat on the floor, {winner} watched the gap stretch season long.",
+  "co": "And {loserClub} ran out of road long before the finish, which is a hard lesson to swallow."
+ },
+ {
+  "id": "fb1-09",
+  "situation": "big-win",
+  "lead": "Nobody else is in this conversation now, because {winner} has taken the lot.",
+  "co": "It is the kind of season managers frame and hang in the hallway for the grandchildren."
+ },
+ {
+  "id": "fb1-10",
+  "situation": "big-win",
+  "lead": "Send the camera crew to {loserClub}, because that is a very long walk home.",
+  "co": "The only mercy is the scenery. {winnerClub} never looked back, so nobody saw the walk begin."
+ },
+ {
+  "id": "fb1-11",
+  "situation": "big-win",
+  "lead": "A proper hiding in the table, and {winner} dished it out week after week.",
+  "co": "Dominant from first to last. {loser} did nothing wrong and still ended up a county behind."
+ },
+ {
+  "id": "fb1-13",
+  "situation": "big-win",
+  "lead": "{loser} turned up full of hope and {winner} quietly took it away.",
+  "co": "Quietly is the key word. There was no gloating, just a lead that grew every week."
+ },
+ {
+  "id": "fb1-14",
+  "situation": "big-win",
+  "lead": "{margin} clear stops being a battle and becomes a lecture, with {winner} at the lectern.",
+  "co": "A lecture needs questions from the floor, and {loser} has been far too stunned to raise a hand."
+ },
+ {
+  "id": "fb2-01",
+  "situation": "comfortable-win",
+  "lead": "{winner} wins the season by {margin} and makes it look like a Sunday stroll.",
+  "co": "The best managers make hard things look dull. This was control from start to finish, with no sprint needed."
+ },
+ {
+  "id": "fb2-02",
+  "situation": "comfortable-win",
+  "lead": "Sealed with a little to spare, and {winner} sails past {loser} by {margin}.",
+  "co": "Comfortable but not crushing, which is exactly how a margin like that ought to feel."
+ },
+ {
+  "id": "fb2-03",
+  "situation": "comfortable-win",
+  "lead": "No thrashing here, only a steady grip from {winner} that {loser} could never loosen.",
+  "co": "Grips like that start with a plan, and {winnerClub} clearly had one from the opening week."
+ },
+ {
+  "id": "fb2-04",
+  "situation": "comfortable-win",
+  "lead": "While {loserClub} began to rattle, {winnerClub} simply kept their heads, and that wins races.",
+  "co": "Panic is the enemy of any lead. {winner} kept it at arm's length all year."
+ },
+ {
+  "id": "fb2-05",
+  "situation": "comfortable-win",
+  "lead": "A {margin}-point cushion is a healthy place to be, and {winner} is spending it wisely.",
+  "co": "A cushion only helps if you sit on it properly, and {winner} clearly knows how to sit."
+ },
+ {
+  "id": "fb2-06",
+  "situation": "comfortable-win",
+  "lead": "Not a single firework from {winner}, just quiet efficiency that leaves {loser} fuming.",
+  "co": "Efficiency gets no applause but it gets points, and that is why the table looks this way."
+ },
+ {
+  "id": "fb2-07",
+  "situation": "comfortable-win",
+  "lead": "{loser} made a proper fight of it for a spell, but {winner} always had an answer.",
+  "co": "Having another answer ready is what separates a champion from a contender."
+ },
+ {
+  "id": "fb2-08",
+  "situation": "comfortable-win",
+  "lead": "{loserClub} wobbled and {winnerClub} did not, and that is most of the story.",
+  "co": "Every wobble costs ground, and {winner} guarded every inch of theirs."
+ },
+ {
+  "id": "fb2-09",
+  "situation": "comfortable-win",
+  "lead": "Setting the pace early meant {winner} never had to chase anything down.",
+  "co": "Setting it is easy. Holding it for a whole season takes real discipline."
+ },
+ {
+  "id": "fb2-10",
+  "situation": "comfortable-win",
+  "lead": "{margin} clear and a sensible finish, so {loser} has little to argue with.",
+  "co": "Sensible wins are still wins, and {winnerClub} collected theirs without any fuss."
+ },
+ {
+  "id": "fb2-11",
+  "situation": "comfortable-win",
+  "lead": "I suspect {loser} would swap that {margin} for a re-run of a few key weeks.",
+  "co": "Who wouldn't? {winnerClub} punished every slip, and the slips added up to a gap."
+ },
+ {
+  "id": "fb2-12",
+  "situation": "comfortable-win",
+  "lead": "Under pressure, {winner} stayed composed, and that was the whole difference.",
+  "co": "Pressure shows you who people really are. {winner} showed calm when it counted."
+ },
+ {
+  "id": "fb3-01",
+  "situation": "narrow-win",
+  "lead": "{winner} edges {loser} by {margin} and nobody in the room is breathing easy.",
+  "co": "One slip would have flipped the whole thing, and neither manager gave an inch."
+ },
+ {
+  "id": "fb3-02",
+  "situation": "narrow-win",
+  "lead": "The slimmest of margins, and {winner} gets the nod by {margin}.",
+  "co": "Slim wins still go in the book. Nobody asks how thin they were in ten years."
+ },
+ {
+  "id": "fb3-03",
+  "situation": "narrow-win",
+  "lead": "You could slide a pin between {winnerClub} and {loserClub} right now.",
+  "co": "A pin's width is still a width, and {winner} landed on the right side of it."
+ },
+ {
+  "id": "fb3-04",
+  "situation": "narrow-win",
+  "lead": "Who blinks first? {winner} did not, and that is the entire difference.",
+  "co": "Nerves decide contests like this, and {loser} let theirs show a moment too soon."
+ },
+ {
+  "id": "fb3-05",
+  "situation": "narrow-win",
+  "lead": "Nail-biting from start to finish, and {winner} comes out on top by a whisker.",
+  "co": "Whiskers matter. The lead swapped hands plenty, but {winner} held it when it counted."
+ },
+ {
+  "id": "fb3-06",
+  "situation": "narrow-win",
+  "lead": "{loser} will be sick about this one because the prize was right there to take.",
+  "co": "Taking is the hard part, and {loserClub} watched it slide just out of reach."
+ },
+ {
+  "id": "fb3-07",
+  "situation": "narrow-win",
+  "lead": "Only {margin} separates them, and that is all the drama this result needed.",
+  "co": "Drama comes cheap when it is this fine, and both managers earned every ounce of it."
+ },
+ {
+  "id": "fb3-08",
+  "situation": "narrow-win",
+  "lead": "A narrow win for {winner} means an even narrower loss for {loserClub}.",
+  "co": "Narrow losses sting longest, because the fix always seems to be one small step away."
+ },
+ {
+  "id": "fb3-09",
+  "situation": "narrow-win",
+  "lead": "Whisker thin, that is the phrase, and {winner} walks away smiling.",
+  "co": "Smiles are earned in the squeakers, and {winnerClub} earned this one fair and square."
+ },
+ {
+  "id": "fb3-10",
+  "situation": "narrow-win",
+  "lead": "Somebody should tell {loser} just how fine that line was, though it hardly helps.",
+  "co": "Fine is only a feeling until it is locked in, and now it is a result for {winner}."
+ },
+ {
+  "id": "fb3-11",
+  "situation": "narrow-win",
+  "lead": "{loserClub} had their hands on it, and then the lead slipped away by {margin}.",
+  "co": "Hands on a prize are not the same as holding it, and {winnerClub} held on hard."
+ },
+ {
+  "id": "fb3-12",
+  "situation": "narrow-win",
+  "lead": "Inches decided it, and every one of them belonged to {winner}.",
+  "co": "Inches are where these battles are won, and {winner} measured each one carefully."
+ },
+ {
+  "id": "fb4-01",
+  "situation": "draw",
+  "lead": "All square at the close, with {managerA} and {managerB} both on {points}.",
+  "co": "Nobody dropped off at any stage, so this is a fair split rather than a verdict."
+ },
+ {
+  "id": "fb4-02",
+  "situation": "draw",
+  "lead": "{clubA} and {clubB} land on identical totals, and the rivalry rolls on undecided.",
+  "co": "Undecided is the honest word. Neither club found the gap that would have settled it."
+ },
+ {
+  "id": "fb4-03",
+  "situation": "draw",
+  "lead": "Consistency was meant to pay, yet it has only bought {managerA} and {managerB} a share.",
+  "co": "Nobody slipped, so the gap never opened and the books close on {points} apiece."
+ },
+ {
+  "id": "fb4-04",
+  "situation": "draw",
+  "lead": "Nobody is celebrating at {clubA} or {clubB}, because parity is a strange sort of prize.",
+  "co": "A fine outcome in theory, but it sits badly with anyone who came to win outright."
+ },
+ {
+  "id": "fb4-05",
+  "situation": "draw",
+  "lead": "The final tally reads {points} apiece, and no verdict beyond that is coming.",
+  "co": "Fair enough. Neither manager handed the other a single moment to edge clear."
+ },
+ {
+  "id": "fb4-06",
+  "situation": "draw",
+  "lead": "Not a winner and not a loser, just two bosses on exactly equal footing.",
+  "co": "In a Showdown that counts for something, because nobody let the other run away."
+ },
+ {
+  "id": "fb4-07",
+  "situation": "draw",
+  "lead": "Nobody could separate {managerA} from {managerB}, and the season tells the same tale.",
+  "co": "On paper they are twins, and the way they traded blows all year backs that up."
+ },
+ {
+  "id": "fb4-08",
+  "situation": "draw",
+  "lead": "No gap ever opened between {clubA} and {clubB}, so the books close with nothing to pick apart.",
+  "co": "Both kept pace from the first whistle to the last, which makes this a stalemate of equals."
+ },
+ {
+  "id": "fb4-09",
+  "situation": "draw",
+  "lead": "Bragging rights stay locked in the drawer, as {managerA} and {managerB} finished level.",
+  "co": "Expect a long argument in both camps about who had the better year, and neither can win it."
+ },
+ {
+  "id": "fb4-10",
+  "situation": "draw",
+  "lead": "A stalemate at the top, and neither boss will be gracious about sharing it.",
+  "co": "Gracious may be a stretch, but a clean finish with nothing hidden is something both can respect."
+ },
+ {
+  "id": "fb4-11",
+  "situation": "draw",
+  "lead": "Every good grudge needs a spell like this, where nobody may claim domination.",
+  "co": "Domination is a myth here. The points never gave either side room to breathe."
+ },
+ {
+  "id": "fb4-12",
+  "situation": "draw",
+  "lead": "Supporters of {clubA} and {clubB} both trudge home certain they were the better outfit.",
+  "co": "Each camp swears it was superior, and that argument is half the fun of a rivalry."
+ },
+ {
+  "id": "fb5-01",
+  "situation": "champions-league",
+  "lead": "{winner} lifts the Champions League and {loserClub} are left staring at an empty plinth.",
+  "co": "The grandest prize in club football, and nothing else on the card comes close."
+ },
+ {
+  "id": "fb5-02",
+  "situation": "champions-league",
+  "lead": "Continental glory for {winnerClub}, as {winner} claims the title no one else could reach.",
+  "co": "Years of building went into this moment, and the silverware finally answers the question."
+ },
+ {
+  "id": "fb5-03",
+  "situation": "champions-league",
+  "lead": "{winner} takes the biggest gong in club football, and the cabinet gets a new centrepiece.",
+  "co": "Every manager wants that one on the shelf, and this arrival changes the whole picture."
+ },
+ {
+  "id": "fb5-04",
+  "situation": "champions-league",
+  "lead": "A long wait ends for {winner}, with the continental crown finally in their hands.",
+  "co": "Patience is the word. The wait was longer than most managers would tolerate."
+ },
+ {
+  "id": "fb5-05",
+  "situation": "champions-league",
+  "lead": "{winnerClub} have taken Europe's grandest crown, and {loserClub} can only nod along.",
+  "co": "Respect where it is due. A prize like that goes only to sides who keep coming back."
+ },
+ {
+  "id": "fb5-06",
+  "situation": "champions-league",
+  "lead": "{winner} clears {loser} by {margin}, and the main European honour is in the bag.",
+  "co": "A gap that size settles the argument, and the trophy only makes it sweeter."
+ },
+ {
+  "id": "fb5-07",
+  "situation": "champions-league",
+  "lead": "The Champions League belongs to {winner}, and {margin} now separates the rivals.",
+  "co": "That is a rare kind of separation, and the chasing side will need a huge response."
+ },
+ {
+  "id": "fb5-09",
+  "situation": "champions-league",
+  "lead": "Champions League success for {winnerClub} has reshaped the top of the standings entirely.",
+  "co": "The trophy counts for so much that the points on top are merely a bonus."
+ },
+ {
+  "id": "fb5-10",
+  "situation": "champions-league",
+  "lead": "{loser} had their moments, but the crown went the other way.",
+  "co": "Moments only count for so much, and {loser} knows that better than anyone."
+ },
+ {
+  "id": "fb5-11",
+  "situation": "champions-league",
+  "lead": "A dream season for {winnerClub}, and the title belongs to {winner} now.",
+  "co": "Dreams are the right word, because this one rewards a long and patient campaign."
+ },
+ {
+  "id": "fb5-12",
+  "situation": "champions-league",
+  "lead": "{loserClub} will remember this one for ages, since the crown went elsewhere.",
+  "co": "Grief is natural, but good sportsmanship will carry {loser} past the sore bit."
+ },
+ {
+  "id": "fb5-13",
+  "situation": "champions-league",
+  "lead": "Europe's prize room has a new name on the wall, and it reads {winner}.",
+  "co": "It is a name people will read on the honours board for years, and it looks right there."
+ },
+ {
+  "id": "fb6-01",
+  "situation": "europa-league",
+  "lead": "{winner} lifts the Europa League and {loserClub} are left to console themselves.",
+  "co": "A pot is a pot, and the cabinet never asks which stage it came from."
+ },
+ {
+  "id": "fb6-02",
+  "situation": "europa-league",
+  "lead": "Nobody expected {winnerClub} to go this far, and now {winner} holds the continental prize.",
+  "co": "The best runs always begin with nobody believing in them, and this one ended with a trophy."
+ },
+ {
+  "id": "fb6-03",
+  "situation": "europa-league",
+  "lead": "{winner} wins the cup and pulls clear in the standings by {margin} points.",
+  "co": "A tidy margin for a tidy result, and nobody can say the silverware was handed over."
+ },
+ {
+  "id": "fb6-04",
+  "situation": "europa-league",
+  "lead": "European glory for {winnerClub}, and {winner} gets to hoist the silverware.",
+  "co": "Hoisting is the best bit. Those photos stay in the club archive for years."
+ },
+ {
+  "id": "fb6-05",
+  "situation": "europa-league",
+  "lead": "The continental gong goes to {winner}, and the name goes up in lights.",
+  "co": "Lights or no lights, the name on the trophy is what supporters remember."
+ },
+ {
+  "id": "fb6-06",
+  "situation": "europa-league",
+  "lead": "{loser} came so close to the continental prize, and {winner} took it on the day.",
+  "co": "Close is no use in a Showdown, and the difference was in the decisive moments."
+ },
+ {
+  "id": "fb6-07",
+  "situation": "europa-league",
+  "lead": "{winner} holds the cup, and a gap of {margin} points opens up at the top.",
+  "co": "Gaps open fast when a manager finds form, and the rest must find an answer."
+ },
+ {
+  "id": "fb6-08",
+  "situation": "europa-league",
+  "lead": "A European crown for {winnerClub}, and {margin} now separates the rivals.",
+  "co": "That feels huge, but a Showdown is long enough for the chasing side to come back."
+ },
+ {
+  "id": "fb6-09",
+  "situation": "europa-league",
+  "lead": "The Europa League is {winner}'s, and {loser} can only tip their hat.",
+  "co": "A tip of the hat is fitting, because the run was good and deserved a bow."
+ },
+ {
+  "id": "fb6-10",
+  "situation": "europa-league",
+  "lead": "{loserClub} will rue the moment the continental prize slipped out of reach.",
+  "co": "Rueing is natural, but the club returns to the table with a sharper plan."
+ },
+ {
+  "id": "fb6-11",
+  "situation": "europa-league",
+  "lead": "{winnerClub} now carry a European title into the coming campaign.",
+  "co": "Carrying silverware is a fine way to start, and it sends a message to the field."
+ },
+ {
+  "id": "fb6-12",
+  "situation": "europa-league",
+  "lead": "The European gong goes to {winner}, and the mood in {winnerClub}'s camp is electric.",
+  "co": "Electric is the perfect word. A gong of that stature lifts the whole group and staff."
+ },
+ {
+  "id": "fb7-01",
+  "situation": "league-title",
+  "lead": "{winnerClub} have it wrapped up, and nobody is really surprised.",
+  "co": "Steady from the opening week to the last, which is exactly how big prizes get won."
+ },
+ {
+  "id": "fb7-02",
+  "situation": "league-title",
+  "lead": "The trophy heads to {winnerClub}, and the table has stopped pretending.",
+  "co": "The summit is built one unglamorous decision at a time, and {winnerClub} made the right ones."
+ },
+ {
+  "id": "fb7-03",
+  "situation": "league-title",
+  "lead": "Cups reward a big night, but the league rewards patience, and {winner} had plenty.",
+  "co": "Being good for that long is harder than one great moment, and it counts for more."
+ },
+ {
+  "id": "fb7-04",
+  "situation": "league-title",
+  "lead": "Early on {loser} had their moments, but the chase belonged to {winner} all along.",
+  "co": "Leaders who wobble in the middle end up watching the standings from behind."
+ },
+ {
+  "id": "fb7-05",
+  "situation": "league-title",
+  "lead": "The honours are sealed for {winnerClub}, and the standings have finally settled down.",
+  "co": "They were never shaken off the summit, and that steadiness made all the difference."
+ },
+ {
+  "id": "fb7-06",
+  "situation": "league-title",
+  "lead": "Sprints win cups, but a league is a marathon, and {winner} has finished it.",
+  "co": "Staying in contention from start to finish is the real skill, and {winner} has it."
+ },
+ {
+  "id": "fb7-07",
+  "situation": "league-title",
+  "lead": "{loser} can only watch the standings now as {winner} lifts the trophy.",
+  "co": "One bad spell in the middle is hard to climb out of, and nobody catches up after it."
+ },
+ {
+  "id": "fb7-08",
+  "situation": "league-title",
+  "lead": "The gold goes to {winnerClub}, and it arrives without any fuss at all.",
+  "co": "Quiet, disciplined football rarely makes the noise, but it does collect the silverware."
+ },
+ {
+  "id": "fb7-09",
+  "situation": "league-title",
+  "lead": "That settles it. {winner} is the champion and the rest are chasing shadows.",
+  "co": "Over a long stretch, calm nerves are worth more than one flashy streak of form."
+ },
+ {
+  "id": "fb7-10",
+  "situation": "league-title",
+  "lead": "Champions again in the record books, and {winnerClub} have room for one more gleaming piece.",
+  "co": "Honours are won in the quiet weeks, when nobody is watching and every choice still counts."
+ },
+ {
+  "id": "fb7-11",
+  "situation": "league-title",
+  "lead": "A championship for {winner}, and the finish looks almost too easy from the stands.",
+  "co": "Easy from the sofa, maybe. Every decision along the way had to be right."
+ },
+ {
+  "id": "fb7-12",
+  "situation": "league-title",
+  "lead": "Champions of the land are {winnerClub}, and they have every right to strut a little.",
+  "co": "Strutting is allowed once you have done the hard yards across a full campaign."
+ },
+ {
+  "id": "fb8-01",
+  "situation": "cup-double",
+  "lead": "{winnerClub} hold the title and the domestic cup, the whole set in one season.",
+  "co": "One trophy is a fine return, but landing the full set is something else entirely."
+ },
+ {
+  "id": "fb8-02",
+  "situation": "cup-double",
+  "lead": "Both prizes in one season, and {winner} makes it look like the easy route.",
+  "co": "Easy it is not. Plenty of managers go years without getting both in one year."
+ },
+ {
+  "id": "fb8-03",
+  "situation": "cup-double",
+  "lead": "Only a handful of managers pull off the double, and {winnerClub} have just joined them.",
+  "co": "A rare blend of steadiness and sharpness, and it deserves every bit of applause."
+ },
+ {
+  "id": "fb8-04",
+  "situation": "cup-double",
+  "lead": "{loser} collected a fine prize this time, but {winner} went and took the lot.",
+  "co": "Taking it all needs nerve in every competition, and a dash of good fortune too."
+ },
+ {
+  "id": "fb8-05",
+  "situation": "cup-double",
+  "lead": "A pair of trophies in one campaign, and {winnerClub} are beaming.",
+  "co": "Pairs are rare because the table demands consistency while the cup demands a cool head."
+ },
+ {
+  "id": "fb8-06",
+  "situation": "cup-double",
+  "lead": "The table says {winnerClub} were the steadiest, and the cup run agrees.",
+  "co": "When the standings and the trophies point the same way, there is only one story."
+ },
+ {
+  "id": "fb8-07",
+  "situation": "cup-double",
+  "lead": "Having taken the title, {winnerClub} refused to stop and lifted the cup as well.",
+  "co": "Stopping would have been sensible, but ambition is stubborn and so is {winner}."
+ },
+ {
+  "id": "fb8-08",
+  "situation": "cup-double",
+  "lead": "A title and a cup for {winner}, and the cabinet needs a rethink.",
+  "co": "A haul like that turns the trophy room into the most crowded room at the club."
+ },
+ {
+  "id": "fb8-09",
+  "situation": "cup-double",
+  "lead": "Watch out for {winner}, because the set is complete and the rest are scrambling.",
+  "co": "When one manager is strong on every front, the chasers run out of places to hide."
+ },
+ {
+  "id": "fb8-10",
+  "situation": "cup-double",
+  "lead": "The set is complete for {winnerClub}, and the cheers carry to the far end of the table.",
+  "co": "The cheers are fair. A league asks for patience and a cup final asks for nerve."
+ },
+ {
+  "id": "fb8-11",
+  "situation": "cup-double",
+  "lead": "Rare air for {winner}, with title form and a cup win in the same breath.",
+  "co": "Few managers combine steady table form with cup grit, and {winner} managed both."
+ },
+ {
+  "id": "fb8-12",
+  "situation": "cup-double",
+  "lead": "Another name joins the exclusive club, and this time it is {winnerClub}.",
+  "co": "The club is small and selective, and {winnerClub} earned the invitation the hard way."
+ },
+ {
+  "id": "fb9-01",
+  "situation": "no-trophy",
+  "lead": "{winnerClub} took the season with empty hands and topped the ladder anyway.",
+  "co": "Small gains and sound form carry a club a long way when the display case stays bare."
+ },
+ {
+  "id": "fb9-02",
+  "situation": "no-trophy",
+  "lead": "Not a piece of silverware in sight, yet {winner} sits ahead of {loser}.",
+  "co": "Points need no shiny object to count. They only need to keep arriving."
+ },
+ {
+  "id": "fb9-03",
+  "situation": "no-trophy",
+  "lead": "Nothing for the mantelpiece at {winnerClub}, but plenty for the standings.",
+  "co": "Small gains are a quiet kind of reward, and they add up without any fanfare."
+ },
+ {
+  "id": "fb9-04",
+  "situation": "no-trophy",
+  "lead": "A bare shelf for {winner}, yet the running tally looks very healthy indeed.",
+  "co": "Bonuses do not shout, but they stack up nicely when nobody is paying attention."
+ },
+ {
+  "id": "fb9-05",
+  "situation": "no-trophy",
+  "lead": "No gongs this time for {winnerClub}, and the standings could not care less.",
+  "co": "Consistency is a prize of its own in a long contest, and it quietly builds the tally."
+ },
+ {
+  "id": "fb9-06",
+  "situation": "no-trophy",
+  "lead": "The shelves stay empty for {winner}, and still the tally keeps climbing.",
+  "co": "Everything banked from bonuses is real, and it never needs a display case."
+ },
+ {
+  "id": "fb9-07",
+  "situation": "no-trophy",
+  "lead": "{loser} chased the glamour the whole way while {winner} collected the small change.",
+  "co": "Silverware looks glamorous, but a steady flow of extras is what kept {winner} in front."
+ },
+ {
+  "id": "fb9-08",
+  "situation": "no-trophy",
+  "lead": "Without a single medal on the mantelpiece, {winnerClub} still come out on top.",
+  "co": "Medals are lovely, but steady returns win seasons too, and that is today's lesson."
+ },
+ {
+  "id": "fb9-09",
+  "situation": "no-trophy",
+  "lead": "The silverware went elsewhere, but the extra credit came home to {winnerClub}.",
+  "co": "A season with no trophy can still be a winning one, and this proves it."
+ },
+ {
+  "id": "fb9-10",
+  "situation": "no-trophy",
+  "lead": "An empty display case for {winner}, and a full notebook of good results.",
+  "co": "Steadiness without a cup in sight is still steadiness, and it goes on the record."
+ },
+ {
+  "id": "fb9-11",
+  "situation": "no-trophy",
+  "lead": "A modest triumph for {winnerClub}, with nothing lifted and no fuss made.",
+  "co": "Modest triumphs get no parade, but they land in the total, and the total is what matters."
+ },
+ {
+  "id": "fb9-12",
+  "situation": "no-trophy",
+  "lead": "Hard to believe a season can be claimed without hardware, yet {winner} has done it.",
+  "co": "It takes sound form, a careful hunt for extras and a little nerve to pull it off."
+ },
+ {
+  "id": "fb10-01",
+  "situation": "comeback",
+  "lead": "Behind at the start of season {seasonNo}, but {winner} has torn the gap up.",
+  "co": "Patience is the quiet weapon. {winner} waited for the seasons that mattered, then took them."
+ },
+ {
+  "id": "fb10-02",
+  "situation": "comeback",
+  "lead": "They wrote {winner} off on points, and nobody thought to tell {winner}.",
+  "co": "Chasers look harmless until the leader glances round and finds them already past."
+ },
+ {
+  "id": "fb10-03",
+  "situation": "comeback",
+  "lead": "{winner} trailed badly once, and now the whole picture has flipped.",
+  "co": "A flip this big is rarely one season's work. It is quiet results adding up."
+ },
+ {
+  "id": "fb10-04",
+  "situation": "comeback",
+  "lead": "{loser} was lounging at the top, and {winner} came through the middle without a sound.",
+  "co": "Silence is a hunter's best friend. A leader only hears footsteps when they are close."
+ },
+ {
+  "id": "fb10-05",
+  "situation": "comeback",
+  "lead": "A poor spell had {winner} sinking, then {winnerPoints} to {loserPoints} turned the whole thing round.",
+  "co": "One good season does not erase the bad ones, but it can outweigh them in a single go."
+ },
+ {
+  "id": "fb10-06",
+  "situation": "comeback",
+  "lead": "{loser} thought the lead was comfortable, then {winner} turned up unannounced.",
+  "co": "Comfortable leads attract visitors, and {loser} has just met the unwelcome sort."
+ },
+ {
+  "id": "fb10-07",
+  "situation": "comeback",
+  "lead": "Politeness is over, as {winner} has made the Showdown a proper fight again.",
+  "co": "Chasers who wait for permission never catch anybody, and {winner} stopped asking long ago."
+ },
+ {
+  "id": "fb10-08",
+  "situation": "comeback",
+  "lead": "They said the race was finished, and {winner} simply carried on training.",
+  "co": "Being written off is just a head start for the chaser who kept sharpening."
+ },
+ {
+  "id": "fb10-09",
+  "situation": "comeback",
+  "lead": "Look at the table, because the gap has gone and {winner} is the one who ate it.",
+  "co": "Gaps never close on their own. Somebody has to keep biting away, season after season."
+ },
+ {
+  "id": "fb10-10",
+  "situation": "comeback",
+  "lead": "Chasing from the start, now {winner} finally catches {loser} overall.",
+  "co": "Anyone can lead for a season. Catching the leader takes grit that nobody applauds."
+ },
+ {
+  "id": "fb10-11",
+  "situation": "comeback",
+  "lead": "A quiet recovery, and suddenly {winner} is the one the whole room is watching.",
+  "co": "The best comebacks look dull in the middle, which is why nobody saw this one coming."
+ },
+ {
+  "id": "fb10-12",
+  "situation": "comeback",
+  "lead": "Trailing {loser} before season {seasonNo}, and the lead belongs to {winner} at last.",
+  "co": "Turning points never announce themselves, but {winner} spotted this one early."
+ },
+ {
+  "id": "fb11-01",
+  "situation": "lead-extended",
+  "lead": "{leader} wins again and pulls clear of {trailer}, and the rear view is emptying.",
+  "co": "An empty mirror is the leader's favourite sight, and {trailer} knows exactly what it means."
+ },
+ {
+  "id": "fb11-02",
+  "situation": "lead-extended",
+  "lead": "Another win for {leader}, and {trailer} has to stop and count the cost.",
+  "co": "The cost is the seasons already gone, and no single one can buy them back."
+ },
+ {
+  "id": "fb11-03",
+  "situation": "lead-extended",
+  "lead": "Taking the season, {leader} stretches the overall lead to {margin} clear.",
+  "co": "The bigger the cushion, the more a leader can afford to play it steady from here."
+ },
+ {
+  "id": "fb11-04",
+  "situation": "lead-extended",
+  "lead": "{trailer} needed this one badly, and {leader} took it without breaking stride.",
+  "co": "Hunger is a fine thing, but good form on the other side will outrun it."
+ },
+ {
+  "id": "fb11-05",
+  "situation": "lead-extended",
+  "lead": "The Showdown looks one-sided with {leader} out front, and {trailer} knows it.",
+  "co": "One-sided is fair, and {trailer} has spent a long while on the wrong end of it."
+ },
+ {
+  "id": "fb11-06",
+  "situation": "lead-extended",
+  "lead": "Season after season {leader} keeps stacking wins, and {trailer} is running short of options.",
+  "co": "Stack enough victories and the rest of the field starts to look like spectators."
+ },
+ {
+  "id": "fb11-07",
+  "situation": "lead-extended",
+  "lead": "Bonus points keep landing for {leader}, and {trailer} is still waiting for a turn.",
+  "co": "Little extras build up over a long Showdown, and {leader} has collected them all along."
+ },
+ {
+  "id": "fb11-08",
+  "situation": "lead-extended",
+  "lead": "Another Champions League for {leader}, and the chase has turned into a climb.",
+  "co": "A trophy of that size moves the needle, and distance like that does not close quickly."
+ },
+ {
+  "id": "fb11-09",
+  "situation": "lead-extended",
+  "lead": "A cup joins the cabinet at {leader}, and {trailer} watches the gap grow.",
+  "co": "Cabinets fill slowly, but every trophy is another brick in the wall between the two."
+ },
+ {
+  "id": "fb11-10",
+  "situation": "lead-extended",
+  "lead": "Help must come from somewhere for {trailer}, and {leader} is not waiting around.",
+  "co": "Hope is no plan, and {trailer} needs wins that {leader} is busy taking."
+ },
+ {
+  "id": "fb11-11",
+  "situation": "lead-extended",
+  "lead": "Europa League glory for {leader}, and the margin edges out again.",
+  "co": "Any trophy counts for more when you are already in front, and {leader} knows it."
+ },
+ {
+  "id": "fb11-12",
+  "situation": "lead-extended",
+  "lead": "Stuck in the middle ground, {trailer} watches {leader} sit at the top.",
+  "co": "The middle is cruel. Too close to the top to relax, too far off to threaten."
+ },
+ {
+  "id": "fb12-01",
+  "situation": "level-overall",
+  "lead": "Dead level on {points}, {managerA} and {managerB} are waiting for the other to flinch.",
+  "co": "A standoff between careful managers, and whoever moves first gives away the advantage."
+ },
+ {
+  "id": "fb12-02",
+  "situation": "level-overall",
+  "lead": "Season {seasonNo} ends with {clubA} and {clubB} side by side on {points}.",
+  "co": "Level is a fair result, though neither club will enjoy sharing it."
+ },
+ {
+  "id": "fb12-03",
+  "situation": "level-overall",
+  "lead": "Over {seasonsTotal} seasons these two have traded blows, and now the totals match.",
+  "co": "Traded blows across the whole run and still neither has pulled ahead, which is a credit to both."
+ },
+ {
+  "id": "fb12-04",
+  "situation": "level-overall",
+  "lead": "The overall stands even at {points}, and the table has never looked so balanced.",
+  "co": "Balance like that is rare. It takes two managers at the same standard for this long."
+ },
+ {
+  "id": "fb12-06",
+  "situation": "level-overall",
+  "lead": "Having swapped the top spot, {clubA} and {clubB} now share it on {points}.",
+  "co": "Sharing the top is a nice problem, but the next season will not let it stay shared."
+ },
+ {
+  "id": "fb12-07",
+  "situation": "level-overall",
+  "lead": "Mirror images, the pair of them, matching on {points} with nothing to split them.",
+  "co": "Nothing but who blinks first, and neither manager is the blinking sort."
+ },
+ {
+  "id": "fb12-08",
+  "situation": "level-overall",
+  "lead": "Both sides finish season {seasonNo} on {points}, and the scales sit perfectly still.",
+  "co": "Scales that never move are rare. It takes two steady managers to keep them that way."
+ },
+ {
+  "id": "fb12-09",
+  "situation": "level-overall",
+  "lead": "Shoulder to shoulder after season {seasonNo}, {managerA} and {managerB} look at each other and grin.",
+  "co": "A grin from each camp means the rivalry is doing exactly what it should."
+ },
+ {
+  "id": "fb12-10",
+  "situation": "level-overall",
+  "lead": "A dead heat after {seasonsTotal} seasons, and the friendly needle is already back.",
+  "co": "Dead heats make the best rivalries. Nobody gets to gloat and nobody gets to sulk."
+ },
+ {
+  "id": "fb12-11",
+  "situation": "level-overall",
+  "lead": "{managerA} calls it a fair result, while {managerB} calls it a warning.",
+  "co": "Both are right, because a shared total only feels fair until the next season begins."
+ },
+ {
+  "id": "fb12-12",
+  "situation": "level-overall",
+  "lead": "The totals are identical on {points}, and both clubs are hunting for a way out.",
+  "co": "A deadlock this clean needs one good season to break, and it could come from either side."
+ },
+ {
+  "id": "fb12-13",
+  "situation": "level-overall",
+  "lead": "For {seasonsTotal} seasons {clubA} and {clubB} have matched each other, and they are still going.",
+  "co": "Matching each other that long is no accident. It is two sides refusing to flinch."
+ },
+ {
+  "id": "fb13-05",
+  "situation": "winning-streak",
+  "lead": "{loser} hoped this would finally be the season of change.",
+  "co": "Change needs a plan that works, and right now {winner} is the only one holding one."
+ },
+ {
+  "id": "fb13-24",
+  "situation": "winning-streak",
+  "lead": "Let us be honest. {winner} has become the benchmark everyone else gets measured against.",
+  "co": "And the chasers are all aiming at a target that keeps moving."
+ },
+ {
+  "id": "fb13-26",
+  "situation": "winning-streak",
+  "lead": "Consistency is the least glamorous thing in football and the most valuable.",
+  "co": "{winnerClub} know it better than anyone. Glamour is the trailer, consistency is the film."
+ },
+ {
+  "id": "fb13-28",
+  "situation": "winning-streak",
+  "lead": "Everyone else in the table is starting to look like a supporting act.",
+  "co": "A supporting act needs a headliner, and this headliner is not budging."
+ },
+ {
+  "id": "fb13-33",
+  "situation": "winning-streak",
+  "lead": "The rivalry tilts again, only this time it is a slow and steady lean.",
+  "co": "Slow leans are the dangerous ones. They never look dramatic until they are finished."
+ },
+ {
+  "id": "fb13-44",
+  "situation": "winning-streak",
+  "lead": "Each time {loser} thinks the spell is over, {winner} adds a fresh chapter.",
+  "co": "The author clearly has not put the pen down, and the readers are not complaining."
+ },
+ {
+  "id": "fb13-01",
+  "situation": "winning-streak",
+  "lead": "{winner} has won again, and the chain just grew another link.",
+  "co": "Chains like that are not built on luck. They come from sound habits, season after season."
+ },
+ {
+  "id": "fb13-02",
+  "situation": "winning-streak",
+  "lead": "Win after win for {winnerClub}, and {loser} is searching for an exit.",
+  "co": "No gap has opened in ages, so the door stays firmly shut."
+ },
+ {
+  "id": "fb13-03",
+  "situation": "winning-streak",
+  "lead": "Nobody holds the summit this long by accident, and {winner} knows it.",
+  "co": "Knowing is the easy part. Repeating the right thing without a slip is what counts."
+ },
+ {
+  "id": "fb13-07",
+  "situation": "winning-streak",
+  "lead": "The trophy cabinet at {winnerClub} is filling up nicely.",
+  "co": "Each season adds a piece, and before long the shelf looks like a fortress."
+ },
+ {
+  "id": "fb13-08",
+  "situation": "winning-streak",
+  "lead": "Refusing to let the top spot slip is the whole story for {winner}.",
+  "co": "Refusing to let go is how you hold on. Talent alone tends to fade."
+ },
+ {
+  "id": "fb13-10",
+  "situation": "winning-streak",
+  "lead": "{winner} makes winning look routine, and {loser} is running out of patience.",
+  "co": "Routine is the highest praise in this game. It means nothing is left to chance."
+ },
+ {
+  "id": "fb14-01",
+  "situation": "streak-broken",
+  "lead": "{winner} has ended {loser}'s reign, and the room has gone very quiet.",
+  "co": "Reigns end the same way every time, with one result the other side cannot answer."
+ },
+ {
+  "id": "fb14-05",
+  "situation": "streak-broken",
+  "lead": "Down goes the wall, and {winner} walks through the gap with a grin.",
+  "co": "That wall relied on nobody finding the way through. Somebody finally did."
+ },
+ {
+  "id": "fb14-09",
+  "situation": "streak-broken",
+  "lead": "The grip has slipped for {loser}, and {winner} is the hand that loosened it.",
+  "co": "A grip only works while it stays firm, and this time it simply was not firm enough."
+ },
+ {
+  "id": "fb14-14",
+  "situation": "streak-broken",
+  "lead": "The reign ends, and {winner} takes the crown with a shrug.",
+  "co": "A shrug can be dangerous. It says {winner} saw this coming and planned for it."
+ },
+ {
+  "id": "fb14-18",
+  "situation": "streak-broken",
+  "lead": "There goes the monopoly, and {winner} is the one who flipped the board.",
+  "co": "A monopoly needs everyone else to stay quiet, and {winner} made sure they would not."
+ },
+ {
+  "id": "fb14-30",
+  "situation": "streak-broken",
+  "lead": "Gone is {loser}'s grip, and {winner} has not even blinked.",
+  "co": "Blinking would have been a mistake. Pressure like that was always going to find a crack."
+ },
+ {
+  "id": "fb14-36",
+  "situation": "streak-broken",
+  "lead": "There is a new name in charge of this rivalry, and it reads {winner}.",
+  "co": "It is not forever, but it is real. Power only shifts when somebody takes it."
+ },
+ {
+  "id": "fb14-02",
+  "situation": "streak-broken",
+  "lead": "So that is it. The run is over for {loser}, and {winnerClub} did the ending.",
+  "co": "Good endings need a sharper plan, and {winnerClub} brought one right when it counted."
+ },
+ {
+  "id": "fb14-03",
+  "situation": "streak-broken",
+  "lead": "The chain snaps, and {winnerClub} are holding the scissors.",
+  "co": "Scissors is a fair picture. No drama, just a clean cut when the moment came."
+ },
+ {
+  "id": "fb14-04",
+  "situation": "streak-broken",
+  "lead": "{loser} looked untouchable until {winner} walked into the picture.",
+  "co": "Nobody stays untouchable forever. This was simply the day the spell broke."
+ },
+ {
+  "id": "fb14-06",
+  "situation": "streak-broken",
+  "lead": "{loser} has finally lost the lead, and the whole rivalry feels different now.",
+  "co": "Every long reign leaves the old certainty behind, and the contest opens up again."
+ },
+ {
+  "id": "fb14-07",
+  "situation": "streak-broken",
+  "lead": "The sequence is over, and {winner} has the honour of ending it.",
+  "co": "Honour is the right word. Stopping a run like that takes a plan as well as nerve."
+ },
+ {
+  "id": "fb15-01",
+  "situation": "opening-season",
+  "lead": "The curtain rises, and {winner} takes the first bow.",
+  "co": "Bows are earned on the night, not promised in the programme. This one was earned."
+ },
+ {
+  "id": "fb15-02",
+  "situation": "opening-season",
+  "lead": "{winnerClub} have fired the opening salvo and hit the target.",
+  "co": "A salvo only counts if it lands, and landing it first is a fine way to be taken seriously."
+ },
+ {
+  "id": "fb15-03",
+  "situation": "opening-season",
+  "lead": "That prologue belongs to {winner}, and it reads beautifully.",
+  "co": "Prologues set expectations. Whether the chapters match them is the real question."
+ },
+ {
+  "id": "fb15-04",
+  "situation": "opening-season",
+  "lead": "{loser} stumbles out of the blocks and {winnerClub} pounce.",
+  "co": "Stumbles are normal at the start. What matters is how fast the other side finds its feet."
+ },
+ {
+  "id": "fb15-05",
+  "situation": "opening-season",
+  "lead": "Season {seasonNo} is in the books, and {winner} holds the early advantage.",
+  "co": "Early advantages are real, but they guarantee nothing at all."
+ },
+ {
+  "id": "fb15-06",
+  "situation": "opening-season",
+  "lead": "The maiden result is in, and it is {winner} by {margin}.",
+  "co": "A margin of {margin} is a sound introduction. It settles nothing but sets the mood nicely."
+ },
+ {
+  "id": "fb15-07",
+  "situation": "opening-season",
+  "lead": "Nobody knew what to expect, and now we know {winner} got the better footing.",
+  "co": "Better beginnings are welcome, but plenty of fast starters fade long before the finish."
+ },
+ {
+  "id": "fb15-08",
+  "situation": "opening-season",
+  "lead": "Swinging from the very first bell, {winner} came out ready for a scrap.",
+  "co": "Swinging is fun, but it has to be backed up with steady results afterwards."
+ },
+ {
+  "id": "fb15-09",
+  "situation": "opening-season",
+  "lead": "The overture belongs to {winnerClub} while {loserClub} reread the sheet music.",
+  "co": "Rereading is sensible. Sheet music can be rewritten, and the next movement counts for more."
+ },
+ {
+  "id": "fb15-10",
+  "situation": "opening-season",
+  "lead": "A maiden win for {winner}, and the rivalry has its opening line.",
+  "co": "A strong line matters in a good story. Whether the rest of the book keeps pace is another matter."
+ },
+ {
+  "id": "fb15-11",
+  "situation": "opening-season",
+  "lead": "{loser} will want that result back, and {winner} will want it framed.",
+  "co": "Framing is lovely. A strong beginning is worth looking back on when the going gets tough."
+ },
+ {
+  "id": "fb15-12",
+  "situation": "opening-season",
+  "lead": "A launch win for {winnerClub}, and the standings have a new leader.",
+  "co": "Leaders change fast in these early days, so nobody should get comfortable yet."
+ },
+ {
+  "id": "fb16-01",
+  "situation": "halfway",
+  "lead": "Halfway through, and {leader} is the one everybody else is trying to catch.",
+  "co": "Tough job, because every rival now studies the man ahead and hunts for cracks."
+ },
+ {
+  "id": "fb16-02",
+  "situation": "halfway",
+  "lead": "The interval arrives, and {trailer} is breathing down the front man's neck.",
+  "co": "Close enough to pounce if {leader} drops off, and that is the whole plan from here."
+ },
+ {
+  "id": "fb16-03",
+  "situation": "halfway",
+  "lead": "We reach the turn of the campaign, and the summit is up for grabs.",
+  "co": "Nobody has nailed it down, so every patch of good form from now on will decide the owner."
+ },
+ {
+  "id": "fb16-04",
+  "situation": "halfway",
+  "lead": "At the centre of the run the standings look tight, and the neutrals are loving it.",
+  "co": "Tight is the best news for anyone watching, since the big moves are still to come."
+ },
+ {
+  "id": "fb16-05",
+  "situation": "halfway",
+  "lead": "The finish line is already in sight, and the pacesetter can almost taste it.",
+  "co": "Tasting it is the easy bit. The trick is keeping the legs fresh for the final stretch."
+ },
+ {
+  "id": "fb16-06",
+  "situation": "halfway",
+  "lead": "At the midway mark the gap is only {margin}, which is next to nothing.",
+  "co": "A gap that small can vanish in a single purple patch, so nobody should relax."
+ },
+ {
+  "id": "fb16-07",
+  "situation": "halfway",
+  "lead": "The halfway mark has arrived, and {trailer} has the look of a hungry hunter.",
+  "co": "Hungry is right. The hunter has studied the favourite and is waiting for the first wobble."
+ },
+ {
+  "id": "fb16-08",
+  "situation": "halfway",
+  "lead": "Half of the Showdown is gone, and it is still anybody's game.",
+  "co": "The heart of the run is where early advantages get eaten away, so nobody can switch off."
+ },
+ {
+  "id": "fb16-09",
+  "situation": "halfway",
+  "lead": "The mood has swung all campaign, and everyone is afraid to call it.",
+  "co": "Swings are what a campaign does to people. The table only settles once results stop surprising us."
+ },
+ {
+  "id": "fb16-10",
+  "situation": "halfway",
+  "lead": "At the midpoint {leader} has built a little breathing room at the summit.",
+  "co": "Breathing room is handy now, but a bad spell can take it away fast."
+ },
+ {
+  "id": "fb16-11",
+  "situation": "halfway",
+  "lead": "Past the interval, and {trailer} is making all the right noises in the background.",
+  "co": "Noises in the background are what hunters do, and the man in front would be foolish to ignore them."
+ },
+ {
+  "id": "fb16-12",
+  "situation": "halfway",
+  "lead": "The midway point gives us our sharpest picture yet of who is genuinely serious.",
+  "co": "A picture this sharp is still a snapshot and not a verdict, so do not frame it yet."
+ },
+ {
+  "id": "fb17-01",
+  "situation": "final-season-decider",
+  "lead": "Crunch time has arrived, and {leader} still holds the edge at the top.",
+  "co": "An edge is useful, but the run-in is all about who keeps a cool head when nerves kick in."
+ },
+ {
+  "id": "fb17-02",
+  "situation": "final-season-decider",
+  "lead": "A final lap to run, and {trailer} is close enough to smell the prize.",
+  "co": "Close is never enough on its own. The chaser needs the leader to slip."
+ },
+ {
+  "id": "fb17-03",
+  "situation": "final-season-decider",
+  "lead": "The curtain is about to rise on the closing act, and it is wide open.",
+  "co": "Wide open means one wrong decision could settle everything, so nobody can relax."
+ },
+ {
+  "id": "fb17-04",
+  "situation": "final-season-decider",
+  "lead": "Every manager is staring at the home straight, and no one is looking away.",
+  "co": "That is where character shows, and where the rest of us find out who they really are."
+ },
+ {
+  "id": "fb17-05",
+  "situation": "final-season-decider",
+  "lead": "Last lap of the Showdown, and {leader} has to hold the line.",
+  "co": "Holding the line sounds simple, but it is the hardest job in football once pressure lands."
+ },
+ {
+  "id": "fb17-06",
+  "situation": "final-season-decider",
+  "lead": "The decider is here, with {margin} between the pair and everything still to play for.",
+  "co": "A gap of {margin} is nothing when the finale is this close, since one bad spell can flip it."
+ },
+ {
+  "id": "fb17-07",
+  "situation": "final-season-decider",
+  "lead": "This is the endgame, and every corner of the table is still alive.",
+  "co": "Every corner counts now, since the run-in leaves no room for second thoughts."
+ },
+ {
+  "id": "fb17-08",
+  "situation": "final-season-decider",
+  "lead": "The finale of these {seasonsTotal} seasons is about to begin, and nothing is settled.",
+  "co": "Nothing settled at this stage is what makes the wait worth it, because every point counts."
+ },
+ {
+  "id": "fb17-09",
+  "situation": "final-season-decider",
+  "lead": "A decider with the table so tight you could slide paper between them.",
+  "co": "Tight tables are a nightmare for the managers and a treat for everyone else."
+ },
+ {
+  "id": "fb17-10",
+  "situation": "final-season-decider",
+  "lead": "Season {seasonNo} is the big one, and {trailer} needs a spark to catch up.",
+  "co": "A challenger needs a big surge and a steady head, and a spark is only the start."
+ },
+ {
+  "id": "fb17-11",
+  "situation": "final-season-decider",
+  "lead": "The clock is ticking down, and the deciding moment of this Showdown is in sight.",
+  "co": "Countdowns make everyone check their notes and their nerves, and this one is no different."
+ },
+ {
+  "id": "fb17-12",
+  "situation": "final-season-decider",
+  "lead": "We are looking at the last lap, and {leader} has a little cushion.",
+  "co": "A cushion is comforting now, but one ropey spell of form can deflate it in a flash."
+ },
+ {
+  "id": "fb18-01",
+  "situation": "showdown-won",
+  "lead": "It is over, and {winner} has taken the whole contest.",
+  "co": "The side that stayed sharpest across {seasonsTotal} seasons takes the prize, and rightly so."
+ },
+ {
+  "id": "fb18-02",
+  "situation": "showdown-won",
+  "lead": "The final whistle has gone, and the manager in front has the prize.",
+  "co": "Champions are built over the long haul, and this one kept its shape from start to finish."
+ },
+ {
+  "id": "fb18-03",
+  "situation": "showdown-won",
+  "lead": "{loser} can only tip a cap as {winner} walks away with the lot.",
+  "co": "A tip of the cap is the fitting response. The consistency on display was simply too much."
+ },
+ {
+  "id": "fb18-04",
+  "situation": "showdown-won",
+  "lead": "The last word is in, and it belongs to {winnerClub}.",
+  "co": "Quite fitting. The form was there from the first campaign to the last and never faded."
+ },
+ {
+  "id": "fb18-05",
+  "situation": "showdown-won",
+  "lead": "This feud is over, and the trophy has a new owner.",
+  "co": "A journey like that is never about one big moment. It is about turning up strong every time."
+ },
+ {
+  "id": "fb18-06",
+  "situation": "showdown-won",
+  "lead": "The overall table closes {winnerPoints} to {loserPoints}, and {winner} is king of the hill.",
+  "co": "Totals never lie, and a finish like that comes from a steady road to the top."
+ },
+ {
+  "id": "fb18-07",
+  "situation": "showdown-won",
+  "lead": "{winner} beats {loser} to the crown by {margin} points overall.",
+  "co": "A margin of {margin} might look small, but a deserved win is still a deserved win."
+ },
+ {
+  "id": "fb18-08",
+  "situation": "showdown-won",
+  "lead": "The Showdown belongs to {winnerClub}, and the gap closed out at {margin}.",
+  "co": "Closing out at {margin} means the lead was never really in doubt once the middle was done."
+ },
+ {
+  "id": "fb18-09",
+  "situation": "showdown-won",
+  "lead": "It is all settled at the top, and {winner} is lifting the silverware.",
+  "co": "Lifting it means keeping cool in the closing moments, and that is exactly what {winner} did."
+ },
+ {
+  "id": "fb18-10",
+  "situation": "showdown-won",
+  "lead": "And that is the battle, with {winner} taking it and {loser} offering a generous nod.",
+  "co": "A nod is the fitting gesture. Rivalry is only fun when the loser can still laugh afterwards."
+ },
+ {
+  "id": "fb18-11",
+  "situation": "showdown-won",
+  "lead": "It is finished, and the one holding the trophy aloft is {winner}.",
+  "co": "Holding it aloft is the reward for every sensible decision across the entire run."
+ },
+ {
+  "id": "fb18-12",
+  "situation": "showdown-won",
+  "lead": "Lights down on this race, and {winnerClub} are the last club standing.",
+  "co": "Standing at the end is the whole point. The campaign rewards whoever keeps going longest."
+ },
+ {
+  "id": "fb19-01",
+  "situation": "showdown-drawn",
+  "lead": "Full stop on {seasonsTotal} seasons, and the pair sit on exactly {points} apiece.",
+  "co": "Two careers in perfect step for that long means no lucky spell, only consistency."
+ },
+ {
+  "id": "fb19-02",
+  "situation": "showdown-drawn",
+  "lead": "Nobody takes the trophy home, because {managerA} and {managerB} end level.",
+  "co": "Neither lost and neither won, so the bragging rights stay split down the middle."
+ },
+ {
+  "id": "fb19-03",
+  "situation": "showdown-drawn",
+  "lead": "{clubA} and {clubB} have swapped the top spot all the way through the campaign.",
+  "co": "Changing places that often and still ending even says neither side ever gave an inch."
+ },
+ {
+  "id": "fb19-04",
+  "situation": "showdown-drawn",
+  "lead": "No winner, no loser, just {managerA} and {managerB} standing even at the death.",
+  "co": "Level at the very end is the hardest thing to earn, because every season was fought for."
+ },
+ {
+  "id": "fb19-05",
+  "situation": "showdown-drawn",
+  "lead": "Bragging rights go to no one, so {clubA} and {clubB} can sit back and smirk.",
+  "co": "Smirking is allowed. Neither side collapsed and neither got lucky along the way."
+ },
+ {
+  "id": "fb19-06",
+  "situation": "showdown-drawn",
+  "lead": "Two clubs, {seasonsTotal} seasons, and the ledger refuses to pick a champion.",
+  "co": "The ledger is honest about it, because both sides earned exactly the same haul."
+ },
+ {
+  "id": "fb19-07",
+  "situation": "showdown-drawn",
+  "lead": "A neck and neck run, and {managerA} is already demanding a rematch.",
+  "co": "Fair enough, since {managerB} is already asking for the very same thing."
+ },
+ {
+  "id": "fb19-08",
+  "situation": "showdown-drawn",
+  "lead": "The next round is being drawn up, and {managerA} wants first pick.",
+  "co": "Good luck with that, because {managerB} has been plotting the same opening for ages."
+ },
+ {
+  "id": "fb19-09",
+  "situation": "showdown-drawn",
+  "lead": "Not a wobble, not a collapse, not a single lucky break across the whole run.",
+  "co": "That is why it satisfies. Two steady operators and not a flicker of panic."
+ },
+ {
+  "id": "fb19-10",
+  "situation": "showdown-drawn",
+  "lead": "The pair finish level on {points}, which is either beautiful or infuriating.",
+  "co": "Beautiful for everyone watching, and faintly infuriating for the two people who lived it."
+ },
+ {
+  "id": "fb19-11",
+  "situation": "showdown-drawn",
+  "lead": "A quiet draw between {clubA} and {clubB}, and nobody gets to lift anything.",
+  "co": "Quiet is not dull, though. Every one of those seasons was a proper scrap."
+ },
+ {
+  "id": "fb19-12",
+  "situation": "showdown-drawn",
+  "lead": "Neither side gets a lap of honour, just a handshake at the centre circle.",
+  "co": "A handshake fits. Nobody can claim the stage and nobody has to slink off alone."
+ },
+ {
+  "id": "fb20-01",
+  "situation": "golden-showdown",
+  "lead": "{leader} is closing in on the threshold, and {trailer} has to chase every point.",
+  "co": "Chasing is the right word, because only one manager's own total counts here."
+ },
+ {
+  "id": "fb20-02",
+  "situation": "golden-showdown",
+  "lead": "The finishing tape is in sight, and only {leader} is close enough to grab it.",
+  "co": "Only a single manager's total counts, so {trailer} cannot sneak in on a shared score."
+ },
+ {
+  "id": "fb20-03",
+  "situation": "golden-showdown",
+  "lead": "{trailer} is hunting the summit now, and every season from here is a must-win.",
+  "co": "Harsh but accurate. The crown goes to whoever reaches the top first, with no consolation."
+ },
+ {
+  "id": "fb20-04",
+  "situation": "golden-showdown",
+  "lead": "The top step is just ahead, and {leader} has a clear run at it in season {seasonNo}.",
+  "co": "A clear run is all a closer needs, because the crown goes to whoever gets there first."
+ },
+ {
+  "id": "fb20-05",
+  "situation": "golden-showdown",
+  "lead": "Out in front by {margin}, {leader} sees the finish closer than ever.",
+  "co": "Closer than ever is not the same as there, and {trailer} still has a push left."
+ },
+ {
+  "id": "fb20-07",
+  "situation": "golden-showdown",
+  "lead": "A bold step toward the peak from {trailer}, and the room gasps.",
+  "co": "Gasps are fair, because one bold season can change the whole picture in a hurry."
+ },
+ {
+  "id": "fb20-08",
+  "situation": "golden-showdown",
+  "lead": "It is a solo race and not a relay, and {leader} is carrying every single step.",
+  "co": "A relay would share the weight. Here each manager carries only their own load to the top."
+ },
+ {
+  "id": "fb20-09",
+  "situation": "golden-showdown",
+  "lead": "The threshold is glowing, and {leader} can almost reach out and touch it.",
+  "co": "Almost touching is dangerous, because the first manager over the mark takes the whole crown."
+ },
+ {
+  "id": "fb20-10",
+  "situation": "golden-showdown",
+  "lead": "{winner} has crossed the golden line first, and the Golden Showdown is decided.",
+  "co": "First over the line takes it outright, and nobody gets a half share of the glory."
+ },
+ {
+  "id": "fb20-11",
+  "situation": "golden-showdown",
+  "lead": "The summit is reached by {winner}, and the Showdown has its champion, just like that.",
+  "co": "Just like that is how these races end. One total got there while the other was still climbing."
+ },
+ {
+  "id": "fb20-12",
+  "situation": "golden-showdown",
+  "lead": "{winnerClub} are first to the peak, and {loserClub} can only tip their caps.",
+  "co": "Tipping caps is right, because the crown goes to whichever single manager arrives first."
+ },
+ {
+  "id": "fb20-13",
+  "situation": "golden-showdown",
+  "lead": "The golden prize goes to {winner} in season {seasonNo}, and with a flourish.",
+  "co": "A flourish suits it, because the first manager over the mark walks away with the lot."
+ },
+ {
+  "id": "fb21-01",
+  "situation": "one-season-sprint",
+  "lead": "No second act is coming, and {winner} has the entire contest in hand.",
+  "co": "That is the cruel beauty of a quickfire format. There is no time to recover from a bad start."
+ },
+ {
+  "id": "fb21-02",
+  "situation": "one-season-sprint",
+  "lead": "All done this season, and {winnerClub} walk away with the lot.",
+  "co": "Fast and final. A campaign like this leaves no room for a comeback, and that is the point."
+ },
+ {
+  "id": "fb21-03",
+  "situation": "one-season-sprint",
+  "lead": "{winnerPoints} to {loserPoints}, and that is the entire Showdown settled.",
+  "co": "The full story sits in this one season, so every point had to be fought for right then."
+ },
+ {
+  "id": "fb21-05",
+  "situation": "one-season-sprint",
+  "lead": "A quickfire Showdown, and {winnerClub} cross the line {margin} clear.",
+  "co": "A margin like that, in a single season, reflects a dominant display across the board."
+ },
+ {
+  "id": "fb21-06",
+  "situation": "one-season-sprint",
+  "lead": "Second chances do not exist here, and {loser} knew it before the final whistle.",
+  "co": "Knowing early is the hardest part, because the season had already decided the outcome."
+ },
+ {
+  "id": "fb21-07",
+  "situation": "one-season-sprint",
+  "lead": "{winnerClub} took it, {loserClub} did not, and it was over before anyone blinked.",
+  "co": "Blinking is for longer contests. The sprint ends the moment the last point lands."
+ },
+ {
+  "id": "fb21-08",
+  "situation": "one-season-sprint",
+  "lead": "{winnerPoints} points to {loserPoints}, a result nobody saw coming in the warm-up.",
+  "co": "Warm-ups never tell you much. The season always has the final word."
+ },
+ {
+  "id": "fb21-09",
+  "situation": "one-season-sprint",
+  "lead": "Settled at once, and {winner} steps forward with the Showdown in both hands.",
+  "co": "Both hands is a fair image, because there was no time for anyone else to grab a piece."
+ },
+ {
+  "id": "fb21-10",
+  "situation": "one-season-sprint",
+  "lead": "{loserClub} had a lone shot, and it went wide.",
+  "co": "A lone shot is all a dash gives you, and it is harsh on anyone who misses."
+ },
+ {
+  "id": "fb21-11",
+  "situation": "one-season-sprint",
+  "lead": "The race is over, and {winner} crosses the line with {margin} to spare.",
+  "co": "Room to spare means the season never threatened to slip away."
+ },
+ {
+  "id": "fb21-12",
+  "situation": "one-season-sprint",
+  "lead": "No comeback was needed for {winner}, because there was never time for one.",
+  "co": "A brief campaign rewards the side that starts sharp and stays sharp all the way."
+ },
+ {
+  "id": "fb21-13",
+  "situation": "one-season-sprint",
+  "lead": "A quick settle for {winnerClub}, and {loserClub} can only admire the speed.",
+  "co": "Speed is the nature of this format. Nobody gets a long build-up to change their mind."
+ },
+ {
+  "id": "fb22-01",
+  "situation": "dominant-run",
+  "lead": "Every season so far has gone {leader}'s way, and {trailer} is still knocking on the door.",
+  "co": "Knocking is polite, but a run like this needs a crowbar, and {trailer} has not brought one."
+ },
+ {
+  "id": "fb22-02",
+  "situation": "dominant-run",
+  "lead": "No slips, no sulks and no excuses, as {leader} runs this Showdown like a well-oiled machine.",
+  "co": "Machines do not get tired, which is terrible news for anyone trying to catch one."
+ },
+ {
+  "id": "fb22-03",
+  "situation": "dominant-run",
+  "lead": "With every campaign taken, {leader} makes the rest feel like a formality.",
+  "co": "A contest becomes a formality when the result stays put, and {trailer} has stopped pretending otherwise."
+ },
+ {
+  "id": "fb22-04",
+  "situation": "dominant-run",
+  "lead": "Every time {trailer} edges closer, {leader} simply pulls further clear.",
+  "co": "Pulling clear is {leader}'s favourite trick, and it has never needed a rehearsal."
+ },
+ {
+  "id": "fb22-05",
+  "situation": "dominant-run",
+  "lead": "Not once has {leader} dropped a round, and {trailer} is running short of new ideas.",
+  "co": "New ideas are cheap to dream up and expensive to test, and {trailer} has tested the lot."
+ },
+ {
+  "id": "fb22-06",
+  "situation": "dominant-run",
+  "lead": "{leader} is the standard now, and every other manager gets measured against it.",
+  "co": "A standard only stays one while nobody can reach it, and {trailer} is still reaching."
+ },
+ {
+  "id": "fb22-07",
+  "situation": "dominant-run",
+  "lead": "Here is the cruel thing about a dominant run. It makes everyone else doubt themselves.",
+  "co": "Doubt is an unwelcome passenger, and {trailer} has shared the back seat with it for ages."
+ },
+ {
+  "id": "fb22-08",
+  "situation": "dominant-run",
+  "lead": "Each rival counterattack gets treated by {leader} as a minor inconvenience.",
+  "co": "Inconveniences are irritating until you run out of patience, and {trailer} is close to empty."
+ },
+ {
+  "id": "fb22-09",
+  "situation": "dominant-run",
+  "lead": "{trailer} has tried every trick in the book, and {leader} has answered each one.",
+  "co": "Answering every trick is what a prepared manager does, not a lucky one."
+ },
+ {
+  "id": "fb22-10",
+  "situation": "dominant-run",
+  "lead": "Planning the next campaign already, {leader} leaves the chaser still nursing the last one.",
+  "co": "Nursing wounds takes time, and a dominant run leaves plenty of them open."
+ },
+ {
+  "id": "fb22-11",
+  "situation": "dominant-run",
+  "lead": "Ask {trailer} what they want from this race and the answer is a single crack.",
+  "co": "Cracks are hard to find in form like this, and {leader} has polished the surface all year."
+ },
+ {
+  "id": "fb22-12",
+  "situation": "dominant-run",
+  "lead": "The benchmark is {leader}, and {trailer} is still searching for the route to it.",
+  "co": "A benchmark only helps if somebody can reach it, and nobody has managed it yet."
+ },
+ {
+  "id": "fb23-01",
+  "situation": "rivalry-history",
+  "lead": "{managerA} and {managerB} have been circling each other for {seasonsTotal} seasons now.",
+  "co": "Circling is the polite term, because neither has ever stopped looking over the fence."
+ },
+ {
+  "id": "fb23-02",
+  "situation": "rivalry-history",
+  "lead": "{clubA} against {clubB} has never been a simple affair, and it never will be.",
+  "co": "Simple affairs are forgettable, and this one has been unforgettable from the very start."
+ },
+ {
+  "id": "fb23-03",
+  "situation": "rivalry-history",
+  "lead": "Some rivalries fade with time, but {managerA} and {managerB} only get louder.",
+  "co": "Louder is right, because each season hands the pair fresh reasons to argue."
+ },
+ {
+  "id": "fb23-04",
+  "situation": "rivalry-history",
+  "lead": "{managerB} still brings up that old business with {clubA}, and {managerA} refuses to let it go.",
+  "co": "Old business keeps the pot simmering, and nobody involved is ready to file it away."
+ },
+ {
+  "id": "fb23-05",
+  "situation": "rivalry-history",
+  "lead": "What keeps {managerA} and {managerB} going is simple, and it is pride, plenty of it.",
+  "co": "Pride is the glue here, and both sides have enough of it to fill a trophy room."
+ },
+ {
+  "id": "fb23-06",
+  "situation": "rivalry-history",
+  "lead": "Collisions have followed {clubA} and {clubB} for as long as this Showdown has existed.",
+  "co": "Collisions leave bruises, and these two keep collecting them season after season."
+ },
+ {
+  "id": "fb23-07",
+  "situation": "rivalry-history",
+  "lead": "The trouble with this feud is that nobody on either side knows when to quit.",
+  "co": "Quitting was never on the menu. The pair would rather keep swinging than admit it."
+ },
+ {
+  "id": "fb23-08",
+  "situation": "rivalry-history",
+  "lead": "Ask {managerA} about {managerB} and you will get a sigh, a grin and a full history lesson.",
+  "co": "The sigh is for the hard years, the grin for the good ones, and the lesson for anyone listening."
+ },
+ {
+  "id": "fb23-09",
+  "situation": "rivalry-history",
+  "lead": "Two managers trade sharp words all the time, yet share a friendship worth keeping.",
+  "co": "Sharp words are part of the deal, and the friendship has survived every single one."
+ },
+ {
+  "id": "fb23-10",
+  "situation": "rivalry-history",
+  "lead": "Never once has {managerA} let {managerB} forget a moment from the early campaigns.",
+  "co": "Memory is a weapon in this rivalry, and each keeps sharpening theirs."
+ },
+ {
+  "id": "fb23-11",
+  "situation": "rivalry-history",
+  "lead": "The grudges are hardly grudges now, as they have become rituals both look forward to.",
+  "co": "A ritual is sweeter than a grudge, and each would miss the other if it stopped."
+ },
+ {
+  "id": "fb23-12",
+  "situation": "rivalry-history",
+  "lead": "{managerA} would never say it aloud, but {managerB} has become a favourite opponent.",
+  "co": "Favourite opponent is high praise from a rival, even when it arrives with a sneer."
+ },
+ {
+  "id": "fb24-01",
+  "situation": "season-preview",
+  "lead": "Season {seasonNo} is about to begin, and {managerA} and {managerB} stare at the same blank page.",
+  "co": "A blank page is the most dangerous thing in a rivalry, because anything can be written on it."
+ },
+ {
+  "id": "fb24-02",
+  "situation": "season-preview",
+  "lead": "Into the campaign goes {leader} holding the lead, and {trailer} has a point to prove.",
+  "co": "Points to prove make the best motivation, but a lead is only as safe as the next campaign."
+ },
+ {
+  "id": "fb24-03",
+  "situation": "season-preview",
+  "lead": "Nothing is decided yet, and the next phase of this Showdown sits face down on the table.",
+  "co": "Face-down cards are the most exciting thing in any game, right up until somebody turns one over."
+ },
+ {
+  "id": "fb24-04",
+  "situation": "season-preview",
+  "lead": "{clubA} and {clubB} are raring to go, and both look like they planned all night.",
+  "co": "Planning all night is the easy part. The true test is first contact with reality."
+ },
+ {
+  "id": "fb24-06",
+  "situation": "season-preview",
+  "lead": "After {seasonsTotal} seasons the rivalry is as hot as ever heading into season {seasonNo}.",
+  "co": "Heat like that does not cool with time. It simply moves on to the next challenge."
+ },
+ {
+  "id": "fb24-07",
+  "situation": "season-preview",
+  "lead": "Bold promises are flying before the campaign begins, and {managerA} has made a few big ones.",
+  "co": "Promises are cheap until the table starts telling the truth."
+ },
+ {
+  "id": "fb24-08",
+  "situation": "season-preview",
+  "lead": "Champions League talk is loud, and {managerA} says the cabinet has room for more.",
+  "co": "Cabinets only fill when trophies are actually won, and nobody can promise that bit."
+ },
+ {
+  "id": "fb24-09",
+  "situation": "season-preview",
+  "lead": "A strong opening to season {seasonNo} is what {trailer} needs, and the old hands can see it.",
+  "co": "A strong opening will not be enough alone, but a weak one would be a real problem."
+ },
+ {
+  "id": "fb24-10",
+  "situation": "season-preview",
+  "lead": "Up at the top sits {leader}, and the term ahead will test that seat.",
+  "co": "The top is comfortable until the new campaign reminds everyone how quickly that changes."
+ },
+ {
+  "id": "fb24-11",
+  "situation": "season-preview",
+  "lead": "What will {clubA} do in season {seasonNo}? Nobody knows yet, and that is the fun part.",
+  "co": "Not knowing is half the fun, and {clubB} is probably wondering the very same thing."
+ },
+ {
+  "id": "fb24-12",
+  "situation": "season-preview",
+  "lead": "Each manager spent the break on their plans, and now the moment of truth is close.",
+  "co": "Plans look wonderful on paper. The moment of truth is when they meet the Showdown."
+ },
+ {
+  "id": "fb24-13",
+  "situation": "season-preview",
+  "lead": "Sleeves are already rolled for {managerA} and {managerB} before the opener.",
+  "co": "Ready sleeves are a good sign, but the trick is keeping them ready when it starts to hurt."
+ }
+]
