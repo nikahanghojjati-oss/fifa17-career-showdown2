@@ -178,7 +178,7 @@ const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
 }
 // R12 no dimming anywhere, Special Player wording, reduced motion
 {
-  assert.equal((page.match(/brightness\(/g)||[]).length,1,'the only brightness() is the disabled Continue button (HO-027: no dimming)');
+  assert.equal((page.match(/brightness\(/g)||[]).length,0,'no brightness() left: the waiting Continue button is black with a gold edge (HO-027, r87 HO-049)');
   assert.ok((page.match(/rgba\(0,0,0,/g)||[]).length<=38,'no new black overlays (38 before the hype pass)');
   assert.ok(!/vignette/i.test(page),'no vignette');
   assert.ok(!/exposure\.value\s*=/.test(page),'the exposure is never lowered');

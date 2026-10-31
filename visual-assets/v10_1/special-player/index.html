@@ -62,7 +62,8 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .slot i.rk:empty { display: none; }
 @media (min-width: 900px) { .slot i.rk { display: none; } } /* desktop shows the rank in the name panel */
 .cta { font: 800 18px/1 var(--disp); letter-spacing: .08em; text-transform: uppercase; color: #140e04; background: linear-gradient(180deg, #fff6d2, var(--gold) 55%, #c4943e); border: 0; padding: 13px 22px 12px; box-shadow: 0 0 0 1px #000, inset 0 -2px 0 rgba(0,0,0,.2); cursor: pointer; white-space: nowrap; transition: filter .3s; }
-.cta[disabled] { filter: grayscale(.85) brightness(.55); cursor: default; }
+/* HO-049 (HO-027 no dimming): the waiting button keeps its size and full brightness: black with a gold edge and gold label */
+.cta[disabled] { cursor: default; color: var(--gold-hi); background: linear-gradient(180deg, #17120a, #0a0805); box-shadow: 0 0 0 1px #000, inset 0 0 0 2px var(--gold); }
 /* hype idea 7 (2026-10-29): Replay beside Continue once both cards are out; the hint for a guarded skip shows in the who line */
 .mid { display: flex; gap: 8px; align-items: stretch; justify-content: center; min-width: 0; }
 .again { flex: none; width: 44px; padding: 0; display: grid; place-items: center; color: var(--gold-hi); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.75); cursor: pointer; }
@@ -1763,13 +1764,19 @@ const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGrou
 function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.encoding=T.sRGBEncoding; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
 function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.encoding=T.sRGBEncoding; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
-/* pitch-side LED boards (ticket 1850-5) in front of the main stand, scrolling like the reference */
-const boards=new T.Group(); let boardTex=null;
-function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.encoding=T.sRGBEncoding; t.wrapS=T.RepeatWrapping; t.anisotropy=8; boardTex=t;
-  const face=new T.MeshBasicMaterial({map:t, fog:false}); face.color.setScalar(1.25); const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
+/* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
+   (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
+const boards=new T.Group(); let boardTex=null, boardTex2=null;
+function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.encoding=T.sRGBEncoding; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=8; boardTex=t;
+  boardTex2=t.clone(); boardTex2.needsUpdate=true;
+  const face=new T.MeshBasicMaterial({map:t, fog:false}); face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
+  const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
   for(let i=-4;i<=4;i++){ const g=new T.Group(); const box=new T.Mesh(new T.BoxGeometry(9.6,1.66,.3),frame); box.position.y=.83; g.add(box);
-    const f=new T.Mesh(new T.PlaneGeometry(9.5,1.58),face); f.position.set(0,.83,.3); g.add(f); g.position.set(i*9.62,0,-15); boards.add(g); }
+    const f=new T.Mesh(new T.PlaneGeometry(9.5,1.58),i&1?face2:face); f.position.set(0,.83,.3); g.add(f); g.position.set(i*9.62,0,-15); boards.add(g); }
   res(); },undefined,()=>res())); }
+/* HO-049: hold each message 4.4 s, then roll it up over .6 s (a cut with reduced motion) */
+function stepBoards(now){ if(!boardTex) return; const P=5, R=.6, k=now%P, n=Math.floor(now/P), r=REDUCED?(k>=P-R?1:0):ease.inOut(clamp01((k-(P-R))/R));
+  const y=((n+r)*.5)%1; boardTex.offset.y=y; boardTex2.offset.y=(y+.5)%1; }
 function loadPlate(){ return new Promise(res=>new T.TextureLoader().load("assets/stand.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
   const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); smoke.forEach(q=>keep.add(q.sp)); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); beams.forEach(b=>keep.add(b)); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
@@ -2132,7 +2139,7 @@ function tick(draw){
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
   stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
-  ledTex.tx.offset.x=(now*.04)%1; if(boardTex) boardTex.offset.x=(now*.05)%1;
+  ledTex.tx.offset.x=(now*.04)%1; stepBoards(now);
   pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
   camera.position.copy(camPos).add(new T.Vector3((Math.random()-.5)*shake,(Math.random()-.5)*shake,0));
