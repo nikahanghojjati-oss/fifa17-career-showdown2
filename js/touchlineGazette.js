@@ -38,6 +38,8 @@
   const BANNED=/marquee/i;
   const WINNER_TAKES_ALL=/whoever wins it|whoever finishes the closing season ahead/i;
   const FUTURE=/next season|new season|season ahead|next year|next few evenings/i;
+  const GOLDEN_DRAW_OFF=/may not come with a trophy|trophy talk for another year/i;
+  const NEVER_LED_OFF=/pointed toward a winner|promised a winner/i;
 
   const plain=x=>Boolean(x)&&typeof x==="object"&&!Array.isArray(x);
   const int=(x,lo,hi)=>Number.isInteger(x)&&x>=lo&&x<=hi;
@@ -85,7 +87,7 @@
   function fill(text,vals){
     let missing=false;
     const out=String(text??"").replace(/\{(\w+)\}/g,(match,key)=>{if(vals[key]===undefined||vals[key]===null||vals[key]===""){missing=true;return match;}return String(vals[key]);});
-    return missing?null:out.replace(/\b1 (points|seasons)\b/g,(m,word)=>"1 "+word.slice(0,-1));
+    return missing?null:out.replace(/\b1 points\b/g,"1 point").replace(/\b1 seasons\b/g,"1 season");
   }
   function fillRow(row,keys,vals){const out={...row};for(const k of keys){if(row[k]===undefined)continue;const t=fill(row[k],vals);if(t===null)return null;out[k]=t;}return out;}
   function fillStory(row,vals){
@@ -122,6 +124,64 @@
   }
   const totalsOf=seasons=>seasons.reduce((t,s)=>({playerOne:t.playerOne+s.score.playerOne,playerTwo:t.playerTwo+s.score.playerTwo}),{playerOne:0,playerTwo:0});
   function spOf(sp){return plain(sp)&&plain(sp.daniel)&&plain(sp.nik)&&typeof sp.daniel.name==="string"&&sp.daniel.name&&typeof sp.nik.name==="string"&&sp.nik.name?{daniel:sp.daniel.name,nik:sp.nik.name}:null;}
+
+  // ---------- the Gazette desk (2.0.0): plain facts worked out from the seasons, never from copy ----------
+  // THE RACE: where the Showdown stands after this paper's season, with what is still possible (a season is worth at most
+  // 11 to each manager, so a lead bigger than 11 x the seasons left cannot be caught; a lead of exactly that can only be
+  // levelled, and level is a draw: no tiebreak). The RECORD BOOK: seasons won, trophies, best season, streaks, perfect seasons.
+  const plural=(n,word)=>`${n} ${word}${n===1?"":"s"}`;
+  const both=list=>list.length===2?`${list[0]} and ${list[1]}`:list[0];
+  function recordsOf(seasons){
+    const rec={};
+    for(const role of ROLES){
+      const r={wins:0,trophies:0,perfect:0,best:0};
+      for(const s of seasons){const it=s.items[role];r.wins+=s.winner===role?1:0;r.trophies+=trophyCount(it);r.perfect+=s.score[role]===11?1:0;r.best=Math.max(r.best,s.score[role]);}
+      rec[role]=r;
+    }
+    let streak=null;
+    const last=seasons[seasons.length-1];
+    if(last&&last.winner!=="draw"){let n=0;for(let i=seasons.length-1;i>=0&&seasons[i].winner===last.winner;i-=1)n+=1;if(n>=2)streak={role:last.winner,n};}
+    let biggest=null;
+    for(const s of seasons){if(s.winner==="draw")continue;const m=Math.abs(s.score.playerOne-s.score.playerTwo);if(!biggest||m>biggest.margin)biggest={margin:m,role:s.winner,season:s.number,score:s.score};}
+    return {...rec,draws:seasons.filter(s=>s.winner==="draw").length,streak,biggest};
+  }
+  function raceFor(facts,N,final){
+    const T=facts.totalSeasons,seasons=facts.seasons.slice(0,N),totals=totalsOf(seasons);
+    const gap=Math.abs(totals.playerOne-totals.playerTwo),leader=totals.playerOne>totals.playerTwo?"playerOne":totals.playerTwo>totals.playerOne?"playerTwo":null;
+    const left=T-N,pointsLeft=left*11;
+    let line;
+    if(final){
+      line=leader?`${NAMES[leader]} wins the Showdown ${totals[leader]} to ${totals[OTHER[leader]]}, by ${plural(gap,"point")}.`
+        :totals.playerOne>=GOLDEN.points&&T===GOLDEN.seasons?`Level on ${totals.playerOne} points each after ${plural(T,"season")}: a drawn Showdown, and a Golden Showdown for both.`
+        :`Level on ${plural(totals.playerOne,"point")} each after ${plural(T,"season")}: a drawn Showdown, honours even.`;
+    }else if(!leader){
+      line=`All square on ${plural(totals.playerOne,"point")} each. ${plural(left,"season")} to go, ${pointsLeft} points still to play for on each side.`;
+    }else if(gap>pointsLeft){
+      line=`${NAMES[leader]} is ${gap} clear with only ${pointsLeft} points left to play for: the Showdown can no longer be caught.`;
+    }else if(gap===pointsLeft){
+      line=`${NAMES[leader]} leads by ${gap}. ${NAMES[OTHER[leader]]} can still draw level, but only with every one of the last ${pointsLeft} points while ${NAMES[leader]} scores none.`;
+    }else{
+      line=`${NAMES[leader]} leads by ${plural(gap,"point")}. ${plural(left,"season")} to go, ${pointsLeft} points still to play for on each side.`;
+    }
+    const chips=seasons.map(s=>({label:`S${s.number}`,left:s.score.playerOne,right:s.score.playerTwo,winner:s.winner==="draw"?"draw":s.winner==="playerOne"?"left":"right"}));
+    return {title:final?"How it was won":"The race",line,chips,totals,leader:leader?NAMES[leader]:null,seasonsLeft:left,pointsLeft};
+  }
+  // One line each, most telling first; only facts that are true for this Showdown so far are printed.
+  function recordBook(facts,N,final){
+    const seasons=facts.seasons.slice(0,N),r=recordsOf(seasons),out=[];
+    // (never beside level totals, where a seasons-won count could read as a tiebreak: level is a draw)
+    const lvl=totalsOf(seasons);
+    if(N>=2&&lvl.playerOne!==lvl.playerTwo)out.push(`Seasons won: ${NAMES.playerOne} ${r.playerOne.wins} · ${NAMES.playerTwo} ${r.playerTwo.wins}${r.draws?` · drawn ${r.draws}`:""}`);
+    out.push(`Trophies${final?"":" so far"}: ${NAMES.playerOne} ${r.playerOne.trophies} · ${NAMES.playerTwo} ${r.playerTwo.trophies}`);
+    if(r.streak)out.push(r.streak.n===N&&N>=3?`${NAMES[r.streak.role]} has won every season${final?"":" so far"}`:`${NAMES[r.streak.role]} has won ${r.streak.n} seasons in a row`);
+    if(N>=2){const best=Math.max(r.playerOne.best,r.playerTwo.best);if(best>0)out.push(`Best season${final?"":" so far"}: ${plural(best,"point")}, ${both(ROLES.filter(x=>r[x].best===best).map(x=>NAMES[x]))}`);}
+    if(N>=2&&r.biggest&&r.biggest.margin>=3)out.push(`Biggest season win: ${NAMES[r.biggest.role]} ${r.biggest.score[r.biggest.role]}–${r.biggest.score[OTHER[r.biggest.role]]} in season ${r.biggest.season}`);
+    const perfect=ROLES.filter(x=>r[x].perfect>0);
+    if(perfect.length)out.push(`Perfect 11s: ${perfect.map(x=>`${NAMES[x]} ${r[x].perfect}`).join(" · ")}`);
+    // the Golden Showdown (110 over ten seasons) needs 11 in every season: it is "on" only while a manager has dropped nothing
+    if(!final&&facts.totalSeasons===GOLDEN.seasons){const alive=ROLES.filter(x=>r[x].perfect===N);if(alive.length)out.push(`Golden watch: ${both(alive.map(x=>NAMES[x]))} still perfect`);}
+    return out;
+  }
 
   // Trophy desk: each manager's biggest item of the season (or of the Showdown on a final page). Team V's briefs cover the
   // Champions League, the Europa League and the league title; the smaller items get one plain line of fact.
@@ -240,7 +300,7 @@
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},
         story:{byline:story.byline,paragraphs:story.paragraphs},
         numbersTitle:"Season in numbers",numbers,quote:quote?{text:quote.text,who:quote.who}:null,portrait,briefs,
-        inside:[],specialPlayers:spOf(specialPlayers)
+        race:raceFor(facts,N,false),inside:recordBook(facts,N,false),specialPlayers:spOf(specialPlayers)
       },
       ids:{headline:head.id,story:story.id,briefs:briefs.map(b=>b.id)}
     });
@@ -254,7 +314,10 @@
     // The Final Winner frame, when given, must say the same (it reads the reconciled winner; the paper never disagrees with it).
     if(final){const fw={daniel:"playerOne",nik:"playerTwo",draw:"draw"}[final.winner];if(fw!==W)return null;if(plain(final.totals)&&(final.totals.daniel!==totals.playerOne||final.totals.nik!==totals.playerTwo))return null;}
     const draw=W==="draw",L=draw?null:OTHER[W],margin=Math.abs(totals.playerOne-totals.playerTwo);
-    const golden=!draw&&T===GOLDEN.seasons&&totals[W]>=GOLDEN.points;
+    // A Golden Showdown is a manager on 110 over ten seasons: the winner, or both managers on a 110-110 draw (still a draw,
+    // no tiebreak; the paper is the gold edition with the drawn copy).
+    const goldenRoles=T===GOLDEN.seasons?ROLES.filter(role=>totals[role]>=GOLDEN.points):[];
+    const golden=goldenRoles.length>0;
     const used=new Set();for(let k=1;k<T;k+=1)buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,null,used);
     const key=`${facts.rivalryId}|final|${T}`,walk=walker(facts.rivalryId,"final",0,used);
     const vals={seasonsTotal:T,managerA:NAMES.playerOne,managerB:NAMES.playerTwo,clubA:facts.clubs.playerOne,clubB:facts.clubs.playerTwo};
@@ -280,7 +343,10 @@
     }
     // A drawn Showdown in which neither manager won a trophy prints no silverware talk (a won one has the Showdown trophy).
     const noSilver=draw&&r1.cl+r1.el+r1.league+r1.cup+r2.cl+r2.el+r2.league+r2.cup===0;
-    const keep=row=>!FUTURE.test(words(row))&&!(noSilver&&SILVER.test(words(row)));
+    // A 110-110 Golden draw: both managers lifted everything, so no "no trophy" consolation row. A Showdown level after every
+    // season never "pointed toward a winner".
+    const neverLed=draw&&facts.seasons.every((s,i)=>{const t=totalsOf(facts.seasons.slice(0,i+1));return t.playerOne===t.playerTwo;});
+    const keep=row=>!FUTURE.test(words(row))&&!(noSilver&&SILVER.test(words(row)))&&!(draw&&golden&&GOLDEN_DRAW_OFF.test(words(row)))&&!(neverLed&&NEVER_LED_OFF.test(words(row)));
     const options=situations.map(situation=>{
       const head=walk(`headline:${situation}`,P.final.filter(r=>r.situation===situation),r=>keep(r)?fillRow(r,["headline","subhead","kicker"],vals):null);
       const story=walk(`story:${situation}`,C.stories.filter(s=>s.edition==="final"&&s.situation===situation),r=>keep(r)?fillStory(r,vals):null);
@@ -297,11 +363,12 @@
     // The Showdown in numbers: every season (up to five), or the trophy count over ten seasons.
     let numbers;
     if(T<=5)numbers=facts.seasons.map(s=>({label:`Season ${s.number}`,left:s.score.playerOne,right:s.score.playerTwo}));
-    else{numbers=[{label:"Champions Leagues",left:r1.cl,right:r2.cl}];if(r1.el||r2.el)numbers.push({label:"Europa Leagues",left:r1.el,right:r2.el});numbers.push({label:"League titles",left:r1.league,right:r2.league},{label:"Domestic cups",left:r1.cup,right:r2.cup},{label:"Seasons won",left:r1.wins,right:r2.wins},{label:"Best season",left:r1.best,right:r2.best});}
+    else{numbers=[{label:"Champions Leagues",left:r1.cl,right:r2.cl}];if(r1.el||r2.el)numbers.push({label:"Europa Leagues",left:r1.el,right:r2.el});numbers.push({label:"League titles",left:r1.league,right:r2.league},{label:"Domestic cups",left:r1.cup,right:r2.cup});if(!draw)numbers.push({label:"Seasons won",left:r1.wins,right:r2.wins});numbers.push({label:"Best season",left:r1.best,right:r2.best});}
     numbers.push({label:"Overall",left:totals.playerOne,right:totals.playerTwo,total:true});
     // Trophy desk: the Showdown trophy for the winner (none on a draw), and each other manager's biggest prize of the Showdown.
     const showdownItems=role=>{const r=rec(role);return {"champions-league":r.cl>0,"europa-league":r.el>0,"league-title":r.league>0,"domestic-cup":r.cup>0,"performance-bonus":facts.seasons.some(s=>s.items[role]["performance-bonus"]),"awards-bonus":facts.seasons.some(s=>s.items[role]["awards-bonus"])};};
-    const briefs=draw?ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,showdownItems(role),facts.clubs,true))
+    const briefs=draw&&golden?ROLES.map(role=>({head:"Golden Showdown",text:`${NAMES[role]} reaches ${GOLDEN.points} points over ${T} seasons: a Golden Showdown, shared.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[role],id:`golden-shared:${role}`}))
+      :draw?ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,showdownItems(role),facts.clubs,true))
       :[{head:golden?"Golden Showdown won":"The Showdown trophy",text:golden?`${NAMES[W]} reaches ${GOLDEN.points} points, the target that wins the Golden Showdown.`:`${NAMES[W]}'s name goes on the trophy that outranks every cup in either cabinet.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[W],id:"showdown-trophy"},briefFor(walk,"brief1",L,showdownItems(L),facts.clubs,true)];
     return Object.freeze({
       kind:"final",key,rivalryId:facts.rivalryId,seasonNumber:T,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],golden,
@@ -312,7 +379,7 @@
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},
         story:{byline:story.byline,paragraphs:story.paragraphs},
         numbersTitle:golden?"The Golden Showdown":"The Showdown in numbers",numbers,quote:quote?{text:quote.text,who:quote.who}:null,portrait,briefs,
-        inside:[],specialPlayers:spOf(specialPlayers)
+        race:raceFor(facts,T,true),inside:recordBook(facts,T,true),specialPlayers:spOf(specialPlayers)
       },
       ids:{headline:head.id,story:story.id,briefs:briefs.map(b=>b.id)}
     });
@@ -321,7 +388,7 @@
   // Every word a paper prints (for the contracts: no braces, no "Marquee", the same on both phones).
   function paperText(edition){
     const p=edition?.paper;if(!p)return "";
-    return [p.kicker,p.headline,p.subhead,p.season,p.dateline,p.edition,p.issue,...p.ears,p.left.name,p.left.club,p.right.name,p.right.club,p.photo.caption,p.photo.credit,p.story.byline,...p.story.paragraphs,p.numbersTitle,...p.numbers.map(n=>`${n.label} ${n.left} ${n.right}`),p.quote?.text,p.quote?.who,p.portrait?.caption,...p.briefs.map(b=>`${b.head} ${b.text}`),...p.inside,p.specialPlayers?`Special Players ${p.specialPlayers.daniel} ${p.specialPlayers.nik}`:""].filter(x=>x!==null&&x!==undefined).join("\n");
+    return [p.kicker,p.headline,p.subhead,p.season,p.dateline,p.edition,p.issue,...p.ears,p.left.name,p.left.club,p.right.name,p.right.club,p.photo.caption,p.photo.credit,p.story.byline,...p.story.paragraphs,p.numbersTitle,...p.numbers.map(n=>`${n.label} ${n.left} ${n.right}`),p.quote?.text,p.quote?.who,p.portrait?.caption,...p.briefs.map(b=>`${b.head} ${b.text}`),p.race?`${p.race.title} ${p.race.line} ${p.race.chips.map(c=>`${c.label} ${c.left} ${c.right}`).join(" ")}`:"",...p.inside,p.specialPlayers?`Special Players ${p.specialPlayers.daniel} ${p.specialPlayers.nik}`:""].filter(x=>x!==null&&x!==undefined).join("\n");
   }
 
   // ---------- the inputs, read from what this screen already holds (no read, no write) ----------
@@ -405,6 +472,26 @@
     const b=doc.createElement("span");b.textContent=`${NAMES.playerTwo}: ${sp.nik}`;
     line.append(label,a,b);strip.after(line);
   }
+  // THE RACE strip (desktop and phone), above the trophy desk: where the Showdown stands, then every season's score with
+  // its winner in bold (a drawn season in plain type).
+  function addRace(paper,race,doc){
+    if(!race)return;
+    const box=doc.createElement("section");box.className="tgz-race";
+    const h=doc.createElement("h4");h.textContent=race.title;
+    const line=doc.createElement("p");line.className="tgz-race__line";line.textContent=race.line;
+    const list=doc.createElement("ol");list.className="tgz-race__chips";list.setAttribute("aria-label","Season by season, Daniel first");
+    for(const c of race.chips){
+      const li=doc.createElement("li");li.className=`is-${c.winner}`;
+      const b=doc.createElement("b");b.textContent=c.label;
+      const l=doc.createElement("span");l.textContent=String(c.left);
+      const r=doc.createElement("span");r.textContent=String(c.right);
+      const dash=doc.createElement("i");dash.textContent="–";
+      li.append(b,l,dash,r);list.appendChild(li);
+    }
+    box.append(h,line,list);
+    const desk=paper.querySelector(".cmx-gz__desk");
+    if(desk)desk.before(box);else paper.appendChild(box);
+  }
   // The whole paper and its CONTINUE fit the window: the paper is scaled down a little on short windows (never below 72% on
   // desktop or 82% for the phone edition), after which the page scrolls as usual. CONTINUE itself is never scaled.
   function fit(){
@@ -440,7 +527,7 @@
     const compact=compactNow();
     root.ShowdownContent.frontPage.screen(page,paperFor(plan.edition,compact),()=>proceed(),{eyebrow:eyebrowFor(plan.edition),title:"Read all about it",button:"Continue",still:Boolean(previous)});
     page.querySelector(".cmx-fp-screen__title")?.remove();
-    const paper=page.querySelector(".cmx-paper");if(paper)addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);
+    const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}}
     const button=page.querySelector(".cmx-continue");if(button)button.id="touchlineGazetteContinue";
     host.dataset.gazette=plan.kind;doc.documentElement.dataset.gazette=plan.kind;
     const state=previous||{plan,host,onResize:null,safety:null,leaving:false};

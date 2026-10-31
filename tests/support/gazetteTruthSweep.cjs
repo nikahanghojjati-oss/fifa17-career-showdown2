@@ -93,7 +93,7 @@ function finalFacts(seasons,T,sp,clubs){
   let ledThroughout=W!=='draw',trailedUntilLast=W!=='draw'&&T>=2;
   for(let i=1;i<T;i+=1){const p=trail(i);if(W!=='draw'){if(p[W]<=p[L])ledThroughout=false;if(p[W]>=p[L])trailedUntilLast=false;}}
   return {kind:'final',T,N:T,W,L,margin:Math.abs(totals.playerOne-totals.playerTwo),winnerPoints:W==='draw'?null:totals[W],loserPoints:W==='draw'?null:totals[L],totals,points:W==='draw'?totals.playerOne:null,
-    golden:W!=='draw'&&T===10&&totals[W]>=110,gapBefore,decidedEarly:W!=='draw'&&T>=3&&gapBefore>11,wonOnFinalDay:W!=='draw'&&T>=3&&gapBefore<=0,ledThroughout,trailedUntilLast,
+    golden:T===10&&Math.max(totals.playerOne,totals.playerTwo)>=110,gapBefore,decidedEarly:W!=='draw'&&T>=3&&gapBefore>11,wonOnFinalDay:W!=='draw'&&T>=3&&gapBefore<=0,ledThroughout,trailedUntilLast,
     rec,draws,last:{a:seasons[T-1][0].total,b:seasons[T-1][1].total},sp:Boolean(sp),clubs,wItems:W==='draw'?null:rec[W],lItems:W==='draw'?null:rec[L]};
 }
 
@@ -302,7 +302,7 @@ function finalCases(T){
     'el-only-winner':[...rep(M.el,M.none,T-1),[M.elTitle,M.cup]]
   };
   if(T>=3){cases['comeback']=[...rep(M.none,M.cup,T-1),[M.max,M.none]];cases['nik-comeback']=[...rep(M.cup,M.none,T-1),[M.none,M.max]];const k=Math.floor((T-1)/2);cases['level-before-last']=[...rep(M.cl,M.none,k),...rep(M.none,M.cl,k),...(T-1-2*k?[[M.cup,M.cup]]:[]),[M.title,M.cup]];cases['decided-early']=[...rep(M.max,M.none,T-1),[M.none,M.max]];cases['draw-season-inside']=[...rep(M.cl,M.cup,T-2),[M.cup,M.cup],[M.none,M.cl]];}
-  if(T===10)cases['golden']=rep(M.max,M.clTitle);
+  if(T===10){cases['golden']=rep(M.max,M.clTitle);cases['golden-draw']=rep(M.max,M.max);}
   return cases;
 }
 function sweepFinals(report,{ids=50,both=true,log=()=>{}}={}){

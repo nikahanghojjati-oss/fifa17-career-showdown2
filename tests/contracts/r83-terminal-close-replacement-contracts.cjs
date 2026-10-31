@@ -98,14 +98,14 @@ async function harness({expiresAt=2_100_000}={}){
 }
 
 
-function page(h,who,clock,{failClose=false,readOverride=null}={}){
+function page(h,who,clock,{failClose=false,readOverride=null,terminal=Terminal}={}){
   const timers=[],calls=[],errors=[];let forgets=0,remoteSession=sessionId;
   const options=h.options(who),accountId=options.user.uid,deviceId=options.deviceId;
   const context=vm.createContext({console,TextEncoder,crypto:webcrypto,
     Date:class extends Date{static now(){return clock.now;}},
     setTimeout:fn=>timers.push(fn),setInterval(){},addEventListener(){},
     currentShowdown:{identity:{saveId:who===1?save1:save2,managerProfileIds:{playerOne:profile1,playerTwo:profile2}},sharedJourney:{mode:"shared",rivalryId}},
-    CareerModeSharedTerminalClose:Terminal,
+    CareerModeSharedTerminalClose:terminal,
     CareerModeSparkTerminalClose:{read:o=>readOverride?readOverride(o):Provider.read(o),close:async o=>{
       calls.push(clone(o.intent));
       // Fail before the first close transaction writes anything, using the real provider's error handling.
@@ -122,7 +122,7 @@ function page(h,who,clock,{failClose=false,readOverride=null}={}){
   });
   vm.runInContext(fs.readFileSync(require.resolve("../../js/productionSharedTerminalClose.js"),"utf8"),context);
   const api=context.CareerModeProductionSharedTerminalClose;
-  return {api,calls,errors,get forgets(){return forgets;},replaceSession(){remoteSession=freshSessionId;},setRead(fn){readOverride=fn;},async automaticSave(){
+  return {api,calls,errors,timers,get forgets(){return forgets;},replaceSession(){remoteSession=freshSessionId;},setRead(fn){readOverride=fn;},async automaticSave(){
     api.install();await api.refresh();
     for(let i=0;i<2000&&(timers.length||api.isBusy());i++){
       if(timers.length)timers.shift()();
@@ -214,4 +214,25 @@ for(const who of [1,2])test(`${who===1?"Daniel":"Nik"}: a closed Showdown is not
   assert.equal(reads,0,"no billed rivalry read after a verified close");
   assert.equal(p.api.getState().phase,"CLOSED");
   assert.deepEqual(p.errors,[]);
+});
+
+// r87 arch S-05: a throw before the close's own try (the intent check) used to leave the automatic save on
+// "Saving this Showdown..." for the page life: no failure state, CLOSE hidden, retry blocked. It now ends as a failed
+// automatic save with CLOSE shown, and nothing is written.
+test("Daniel: an automatic close that throws before writing shows CLOSE instead of saving forever",async()=>{
+  const h=await harness(),clock={now:2_000_000};let armed=false;
+  const terminal={...Terminal,verifyIntent(value){if(armed){armed=false;throw Object.assign(new Error("intent check failed"),{code:"TERMINAL_CLOSE_INTENT_INVALID"});}return Terminal.verifyIntent(value);}};
+  const p=page(h,1,clock,{terminal});const before=storeSnapshot(h);
+  const rejections=[];const onRejection=error=>rejections.push(error);process.on("unhandledRejection",onRejection);
+  try{
+    p.api.install();await p.api.refresh();armed=true;
+    const timers=p.timers;
+    for(let i=0;i<200;i++){if(timers.length)timers.shift()();await new Promise(resolve=>setTimeout(resolve,1));}
+  }finally{process.off("unhandledRejection",onRejection);}
+  assert.equal(armed,false,"the close ran its intent check");
+  assert.deepEqual(rejections.map(e=>e?.code),[],"no unhandled rejection");
+  const state=p.api.getState();
+  assert.equal(state.automaticSaving,false,"not left on Saving this Showdown");
+  assert.equal(state.automaticCloseFailed,true,"the failed automatic save is shown, so CLOSE appears");
+  assert.equal(p.calls.length,0,"nothing was sent");assert.equal(storeSnapshot(h),before);
 });
