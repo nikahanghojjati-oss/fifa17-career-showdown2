@@ -63,14 +63,112 @@ function countShowdownTrophies(showdown){
     );
 }
 
+// r87 career fixes (B1): points belong to one manager each, so they are never added together. Codex #1135: an older local
+// archive may store Nik as player one, so each Showdown's managers are read from its own names; a Showdown whose names do
+// not say which is Daniel and which is Nik adds to neither manager (never guessed, never added together); it is counted.
+function legacyManagerFor(name){
+    const key = String(name || "").trim().toLowerCase();
+    return key === "daniel" ? "daniel" : key === "nik" ? "nik" : null;
+}
 function getLegacyTotals(history){
     return history.reduce((totals, showdown) => {
         totals.showdowns += 1;
         totals.trophies += countShowdownTrophies(showdown);
-        totals.points += (Number(showdown.score && showdown.score.playerOne) || 0)
-            + (Number(showdown.score && showdown.score.playerTwo) || 0);
+        const one = Number(showdown.score && showdown.score.playerOne) || 0;
+        const two = Number(showdown.score && showdown.score.playerTwo) || 0;
+        const managers = showdown.managers || {};
+        const first = legacyManagerFor(managers.playerOne), second = legacyManagerFor(managers.playerTwo);
+        if(first && second && first !== second){
+            totals.points[first] += one;
+            totals.points[second] += two;
+        }else{
+            totals.unattributedShowdowns += 1;
+        }
         return totals;
-    }, { showdowns: 0, trophies: 0, points: 0 });
+    }, { showdowns: 0, trophies: 0, unattributedShowdowns: 0, points: { daniel: 0, nik: 0 } });
+}
+
+/* r87 career fixes (B1, Lane B P1): online the local Legacy list is never written, so History & Backup showed
+   "0 Showdowns" under a Settings row that said 12. For Daniel's and Nik's phones this page now shows the same online career
+   the other career screens use (the model Settings already loaded; this page makes no read of its own), one points figure
+   per manager, and an OPEN HISTORY button to the real History screen. Backup, restore and reset below are unchanged. */
+function getLegacyOnlineCareer(){
+    try{
+        const legacy = window.CareerModeRivalryLegacyV10;
+        const model = legacy && typeof legacy.cachedCareerModel === "function" ? legacy.cachedCareerModel() : null;
+        if(model && ["ready", "partial", "empty"].includes(model.status)){
+            const rows = model.history && Array.isArray(model.history.showdowns) ? model.history.showdowns : [];
+            const completed = rows.filter(row => row && row.status === "completed").length;
+            const points = manager => {
+                const value = model.managers && model.managers[manager] ? model.managers[manager].careerPoints : null;
+                return Number.isFinite(value) ? value : 0;
+            };
+            return { status: model.status, completed, points: { daniel: points("daniel"), nik: points("nik") } };
+        }
+        const loading = Boolean(legacy && typeof legacy.careerModelLoading === "function" && legacy.careerModelLoading());
+        return { status: loading ? "loading" : "unavailable", completed: null, points: null };
+    }catch(_error){
+        return { status: "unavailable", completed: null, points: null };
+    }
+}
+
+function openLegacyHistoryFromTools(){
+    window.careerModeLegacyDataTools = false;
+    if(document.documentElement?.dataset){ delete document.documentElement.dataset.v10Tools; }
+    renderLegacy(true);
+}
+
+function createLegacyOnlineCareerSection(){
+    const career = getLegacyOnlineCareer();
+    const fragment = document.createDocumentFragment();
+    const text = value => career.status === "loading" ? "Loading…" : value === null ? "—" : String(value);
+    const stats = document.createElement("div");
+    stats.className = "legacyStatsGrid legacyOnlineCareer";
+    stats.dataset.careerStatus = career.status;
+    stats.append(
+        createLegacyStat(career.status === "partial" ? "SHOWDOWNS COMPLETED (AT LEAST)" : "SHOWDOWNS COMPLETED", text(career.completed)),
+        createLegacyStat("DANIEL · CAREER POINTS", text(career.points ? career.points.daniel : null)),
+        createLegacyStat("NIK · CAREER POINTS", text(career.points ? career.points.nik : null))
+    );
+    fragment.appendChild(stats);
+
+    const heading = document.createElement("h3");
+    heading.className = "legacySectionHeading";
+    heading.textContent = "COMPLETED SHOWDOWNS";
+    fragment.appendChild(heading);
+
+    const note = document.createElement("div");
+    note.className = "legacyEmpty legacyOnlineHistoryNote";
+    note.textContent = career.status === "loading"
+        ? "Loading your career…"
+        : career.status === "unavailable"
+            ? "Your career could not be loaded right now. Nothing is lost. History shows it when you are connected."
+            : career.completed === 0
+                ? "No completed Showdowns yet. Finish one and it appears in History."
+                : "Every Showdown, season by season, is on the History screen.";
+    const open = document.createElement("button");
+    open.type = "button";
+    open.className = "compactButton legacyOpenHistory";
+    open.textContent = "OPEN HISTORY";
+    open.addEventListener("click", openLegacyHistoryFromTools);
+    note.appendChild(document.createElement("br"));
+    note.appendChild(open);
+    fragment.appendChild(note);
+    return fragment;
+}
+
+// While the page waits on the career read Settings started, it redraws once that career is kept.
+if(typeof window.addEventListener === "function"){
+    // Codex #1103: the redraw waits for "load-settled" too, which comes after the read stops counting as running (and after a
+    // failed read), so the page never stays on "Loading your career…".
+    const redrawOnlineCareer = () => {
+        if(window.careerModeLegacyDataTools === true && document.querySelector("#legacy .legacyOnlineCareer")){
+            lastLegacyRenderedRevision = null;
+            renderLegacy(true);
+        }
+    };
+    window.addEventListener("career-mode-online-career-model-change", redrawOnlineCareer);
+    window.addEventListener("career-mode-online-career-load-settled", redrawOnlineCareer);
 }
 
 function createLegacyStat(label, value){
@@ -281,7 +379,8 @@ function createLegacyShowdownCard(showdown){
 
     const meta = document.createElement("div");
     meta.className = "legacyCardMeta";
-    meta.textContent = `${countShowdownTrophies(showdown)} trophies won\n${(Number(showdown.score.playerOne) || 0) + (Number(showdown.score.playerTwo) || 0)} total showdown points`;
+    // r87 (B1): the final score above already gives each manager's points; they are never added into one figure.
+    meta.textContent = `${countShowdownTrophies(showdown)} trophies won`;
     meta.style.whiteSpace = "pre-line";
     top.append(title, matchup, meta);
 
@@ -553,7 +652,9 @@ function renderLegacy(request = false){
         ? window.getLegacyStorageRevision()
         : null;
 
-    if(revision !== null && lastLegacyRenderedRevision === revision && container.childElementCount > 0){
+    // r87 (B1): the online career figures are not part of the local revision, so that page is always drawn fresh.
+    const onlineCareer = typeof seam.isOnlineCareerRoute === "function" && seam.isOnlineCareerRoute(identityState);
+    if(!onlineCareer && revision !== null && lastLegacyRenderedRevision === revision && container.childElementCount > 0){
         return;
     }
 
@@ -563,24 +664,34 @@ function renderLegacy(request = false){
         return bTime - aTime;
     });
 
-    const totals = getLegacyTotals(history);
     const fragment = document.createDocumentFragment();
 
-    const stats = document.createElement("div");
-    stats.className = "legacyStatsGrid";
-    stats.append(
-        createLegacyStat("SHOWDOWNS PLAYED", totals.showdowns),
-        createLegacyStat("TROPHIES WON", totals.trophies),
-        createLegacyStat("TOTAL POINTS", totals.points)
-    );
-    fragment.appendChild(stats);
+    if(onlineCareer){
+        // The online career is listed on the History screen; the local list is never written online.
+        fragment.appendChild(createLegacyOnlineCareerSection());
+    }else{
+        const totals = getLegacyTotals(history);
+        const stats = document.createElement("div");
+        stats.className = "legacyStatsGrid";
+        stats.append(
+            createLegacyStat("SHOWDOWNS PLAYED", totals.showdowns),
+            createLegacyStat("DANIEL · POINTS", totals.points.daniel),
+            createLegacyStat("NIK · POINTS", totals.points.nik)
+        );
+        if(totals.unattributedShowdowns > 0){
+            stats.appendChild(createLegacyStat("SHOWDOWNS WITH NO MANAGER NAMES", totals.unattributedShowdowns));
+        }
+        fragment.appendChild(stats);
 
-    const heading = document.createElement("h3");
-    heading.className = "legacySectionHeading";
-    heading.textContent = "COMPLETED SHOWDOWNS";
-    fragment.appendChild(heading);
+        const heading = document.createElement("h3");
+        heading.className = "legacySectionHeading";
+        heading.textContent = "COMPLETED SHOWDOWNS";
+        fragment.appendChild(heading);
+    }
 
-    if(history.length === 0){
+    if(onlineCareer){
+        // nothing more: OPEN HISTORY above leads to the real History screen
+    }else if(history.length === 0){
         const empty = document.createElement("div");
         empty.className = "legacyEmpty";
         empty.textContent = "No completed Showdowns yet. Finish one and it appears here.";

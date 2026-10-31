@@ -57,8 +57,16 @@
     });
   }
   // One cursor pass per account and page load; later lookups are in memory.
+  // r87 career fixes (A-03): a phone whose IndexedDB open (or cursor) never answers must not stall every career open. After
+  // CSS_PHONE_TIMEOUT_MS the lookup answers "no phone copy", so each Showdown falls through to its Firebase summary (the read
+  // a phone without a copy makes anyway). The hung lookup is not kept: it is dropped from the page cache, and while a
+  // timed-out open is still pending the phone copy is skipped at once (no second 2 s wait per Showdown). If that open
+  // answers later, its result becomes the page's copy as usual.
+  const CSS_PHONE_TIMEOUT_MS=2000;
+  const cssHung=new Map();
   function cssLocalFor(uid,phoneStorage){
     if(cssLocal.has(uid))return cssLocal.get(uid);
+    if(cssHung.has(uid))return Promise.resolve({db:null,map:new Map(),skipped:true});
     const loading=(async()=>{
       const map=new Map(),db=await cssOpen(phoneStorage);
       if(!db)return {db:null,map};
@@ -72,8 +80,18 @@
       });
       return {db,map};
     })();
-    cssLocal.set(uid,loading);
-    return loading;
+    let timer=null;
+    const timedOut=new Promise(resolve=>{timer=setTimeout(()=>resolve(null),CSS_PHONE_TIMEOUT_MS);});
+    const guarded=Promise.race([loading,timedOut]).then(result=>{
+      clearTimeout(timer);
+      if(result)return result;
+      if(cssLocal.get(uid)===guarded)cssLocal.delete(uid);
+      cssHung.set(uid,loading);
+      loading.then(late=>{if(cssHung.get(uid)===loading){cssHung.delete(uid);if(!cssLocal.has(uid)&&late)cssLocal.set(uid,Promise.resolve(late));}},()=>{if(cssHung.get(uid)===loading)cssHung.delete(uid);});
+      return {db:null,map:new Map(),skipped:true};
+    });
+    cssLocal.set(uid,guarded);
+    return guarded;
   }
   async function cssPutLocal(uid,rivalryId,record,phoneStorage){
     try{
@@ -133,7 +151,7 @@
   }
   // Tests and the gallery: wait until every started summary write has settled.
   function cssSettled(){return Promise.all([...cssWrites]).then(()=>undefined);}
-  function cssForget(){cssLocal.clear();}
+  function cssForget(){cssLocal.clear();cssHung.clear();}
 
-  return Object.freeze({contractVersion:1,feature:"cms-career-summary-store",readerVersion:CSS_READER_VERSION,statuses:CSS_STATUSES,summarisable:cssSummarisable,documentKeys:CSS_KEYS,maxPayload:CSS_MAX_PAYLOAD,loadSummary:cssLoad,saveSummary:cssSave,writesSettled:cssSettled,forgetPhoneCopies:cssForget,documentFor:cssDocument});
+  return Object.freeze({contractVersion:1,feature:"cms-career-summary-store",readerVersion:CSS_READER_VERSION,statuses:CSS_STATUSES,summarisable:cssSummarisable,documentKeys:CSS_KEYS,maxPayload:CSS_MAX_PAYLOAD,loadSummary:cssLoad,saveSummary:cssSave,writesSettled:cssSettled,forgetPhoneCopies:cssForget,documentFor:cssDocument,phoneTimeoutMs:CSS_PHONE_TIMEOUT_MS});
 });

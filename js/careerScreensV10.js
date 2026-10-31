@@ -79,7 +79,11 @@
     const ranks=v10Ranks(room.standings);
     if(ranks.some(row=>row.rank===null))return null;
     const standings=ranks.map(({manager,rank})=>({manager,careerPoints:managers[manager].careerPoints,seasonWins:managers[manager].seasonWins,rank:"#"+rank}));
-    const records=room.records.filter(row=>v10Finite(row.value)).map(row=>({label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}));
+    // r87 career fixes (B5): a record nobody holds (the model's null best, for example no perfect season yet) shows a dash
+    // with no holder, never "0 Shared".
+    // Every record counts up (season score, league points, league goals, biggest win, perfect seasons), so a best of 0 is
+    // held by nobody either.
+    const records=room.records.filter(row=>v10Finite(row.value)||row.value===null).map(row=>v10Finite(row.value)&&row.value>0?{label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}:{label:String(row.label).toUpperCase(),manager:"",value:"\u2014"});
     const frame={status,activeCategory:"ALL",managerOrder:MANAGERS.slice(),managers,standings,records,showdowns};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
     v10GoldenShowdowns(model,frame);v10SpecialPlayers(model,frame);
@@ -88,9 +92,12 @@
   // Pure: model + screen -> the frame Team V's renderer reads. loading and unavailable carry no numbers.
   function toV10Frame(model,screen){
     if(!Object.prototype.hasOwnProperty.call(SCREEN_IDS,screen))throw new TypeError("CAREER_SCREEN_V10_UNKNOWN");
-    const view=v10Seam().careerScreenView(screen,model);
+    let view=v10Seam().careerScreenView(screen,model);
     const bare=status=>{const frame={status,managerOrder:MANAGERS.slice()};if(screen==="trophyRoom")frame.activeCategory="ALL";return frame;};
     let frame=null;
+    // r87 career fixes (B4): a career whose only Showdowns ended early has no finished Showdown, so nothing counts: it is the
+    // same empty state as a new career, not both managers crowned #1 on 0-0. History still lists those Showdowns.
+    if(view.status==="ready"&&!view.interimLabel&&MANAGERS.every(manager=>model.managers?.[manager]?.showdowns?.completed===0))view={...view,status:"empty"};
     if(view.status==="ready"||view.status==="partial"){
       frame=screen==="careerStatistics"?v10CareerStatistics(model,view.status):v10TrophyRoom(model,view.status);
       if(!frame)frame=bare("unavailable");
@@ -1603,6 +1610,9 @@
     if(!host)return false;
     const frame=toV10Frame(model,screen);
     // Only one Team V stage exists at a time (both use #stage-root); the other screen is rebuilt on its next open.
+    // r87 LK-1: the stage being replaced lets go of its ResizeObserver and orientationchange listener first (as
+    // seasonFinalV10's v10StageHandle does), so opening career pages again and again keeps one live stage.
+    v10DestroyStages();
     const other=screen==="careerStatistics"?"trophyRoom":"careerStatistics",otherHost=doc.getElementById(SCREEN_IDS[other]);
     if(otherHost&&otherHost.dataset.careerV10==="1"){v10Screens().hide(other);otherHost.remove();}
     host.dataset.careerV10="1";host.classList.add("careerScreenV10");
@@ -1631,6 +1641,9 @@
       root.ShowdownTrophyRoomBoot();
     }
     return true;
+  }
+  function v10DestroyStages(){
+    for(const key of ["__careerStageEngine","__trophyRoomStage"]){try{root[key]?.destroy?.();}catch(_){}root[key]=null;}
   }
   // The old render paths keep running (they hold the model) and rewrite the host, so a V10 screen is always
   // redrawn after them, as in job 13.
@@ -1682,6 +1695,17 @@
         if(!Object.keys(SCREEN_IDS).some(screen=>screens.isMounted(screen)&&getters[screen]?.()==null))return;
         if(v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline().catch(v10Fail);
       });
+      // r87 career fixes (lane C C-09): Career Statistics or Trophy Room left on "unavailable" (opened offline, or a read that
+      // failed) loads again by itself when the connection comes back or the page is shown again. Nothing loads while hidden.
+      const retryUnavailable=()=>{
+        if(root.document?.visibilityState==="hidden"||onlineLoading||!v10Seam().isOnlineCareerRoute(v10Identity()))return;
+        const live=Object.keys(SCREEN_IDS).filter(screen=>screens.isMounted(screen)&&getters[screen]?.()==null);
+        if(!live.length)return;
+        const model=v10OnlineModel();
+        if(model==null||model.status==="unavailable")v10LoadOnline(live[0]).catch(v10Fail);
+      };
+      root.addEventListener?.("online",retryUnavailable);
+      root.document?.addEventListener?.("visibilitychange",retryUnavailable);
       root.addEventListener?.("career-mode-online-career-model-change",()=>{
         // r82 (Nik: panels show, vanish, then load again): this screen's own load redraws once when it ends, so a model
         // published during that load must not draw the same frame a second time.

@@ -240,7 +240,8 @@ async function main(env){
   });
   await ok("C5","career numbers: totals equal the witness, abandoned counts nothing, live season waits for the finish (r83), no ids",async()=>{
     const m=views.daniel.model;
-    assert.deepEqual(m.coverage,{readable:3,indexed:3});
+    // r87 career fixes (A-05): coverage ("N of M readable") leaves out the live Showdown, so 2 of 2 here.
+    assert.deepEqual(m.coverage,{readable:2,indexed:2});
     assert.equal(m.managers.daniel.careerPoints,witness1.managerTotals.playerOne);assert.equal(m.managers.nik.careerPoints,witness1.managerTotals.playerTwo);
     assert.equal(m.managers.daniel.seasons,3);assert.equal(m.managers.nik.perfectSeasons,0);
     assert.deepEqual(m.managers.daniel.showdowns,{completed:1,wins:1,draws:0,losses:0});assert.deepEqual(m.managers.nik.showdowns,{completed:1,wins:0,draws:0,losses:1});

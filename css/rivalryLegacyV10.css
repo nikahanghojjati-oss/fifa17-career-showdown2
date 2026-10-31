@@ -1283,7 +1283,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel { min-height:clamp(232px,39.4svh,440px); }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyCardGrid { grid-area:1 / 2 / 3 / 3; grid-auto-rows:1fr; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager { position:relative; z-index:2; pointer-events:none; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager button { pointer-events:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager :is(button,.legacyPageScrub) { pointer-events:auto; }
   /* side tabs */
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel {
     border:0; border-right:1px solid #d9aa3c99; border-radius:0; background:linear-gradient(180deg,#0a0a0bf2,#050506f5); box-shadow:none;
@@ -1477,4 +1477,71 @@
    (the list opened below the fold, behind the bar). */
 @media (max-width:900px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory { scroll-margin-top:12px; scroll-margin-bottom:calc(var(--sd-nav-bottom-space,56px) + 12px); }
+}
+/* r87 career fixes (red team lane A).
+   A-01: on desktop a 3-digit total ("110 – 110", every Golden Showdown) is wider than the score's third of the card and ran
+   over Nik's crest and name. Only that card (data-wide-score, set by js/rivalryLegacyV10.js) gives the score the width it
+   needs and sizes it to the card (container units), so the card keeps its height; a long club word may break inside its
+   own column instead of running into the next.
+   A-07: Special Player names on History cards were cut short ("A. Oxla…"). On desktop a long name wraps inside its chip
+   (the R87-D-04 Career Table rule), each chip still under its own manager's side. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard { container-type:inline-size; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-wide-score="true"] .legacyCardBody { grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-wide-score="true"] .legacyScore { white-space:nowrap; font-size:min(clamp(22px,1.9vw,56px),9cqi); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyClubName { overflow-wrap:anywhere; hyphens:auto; -webkit-hyphens:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial { align-items:flex-start; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { align-items:flex-start; border-radius:.7em; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip .spChipName {
+    max-width:none; overflow:visible; text-overflow:clip; white-space:normal; overflow-wrap:break-word;
+  }
+  /* a narrow card (four across on a window up to about 1150 wide): each chip takes its own line, Daniel's left and Nik's right, so a
+     name breaks only between words */
+  @container (max-width:175px) {
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial { flex-direction:column; align-items:stretch; gap:3px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { max-width:100%; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip:nth-child(1) { align-self:flex-start; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip:nth-child(2) { align-self:flex-end; }
+  }
+}
+/* the big desktop score (36px and up) drew its glyphs 4px into the draw "=" above it (line-height 1); a little more line
+   keeps them apart */
+@media (min-width:1600px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyScore { line-height:1.2; }
+}
+/* A-06: on phones the sticky VIEW SEASON HISTORY button sat over the pager (‹ › and the dots) until the player scrolled.
+   It now stays in its own row under the pager, so nothing covers anything. */
+@media (max-width:600px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction { position:relative; bottom:auto; }
+}
+/* r87 career fixes (Nik 2026-10-31): long careers. More than ten positions swap the dots for a "‹ 37 / 100 ›" counter,
+   « » jumps to the oldest and newest Showdown, and a gold scrubber on its own line under them (in the pager's own row, so
+   nothing moves elsewhere and nothing covers anything). */
+#app #legacy[data-rivalry-legacy-v10] .legacyPager[data-compact="true"] {
+  flex-wrap:wrap; height:auto; min-height:44px; row-gap:2px; column-gap:6px; align-content:center;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyPageCounter {
+  flex:0 0 auto; min-width:96px; padding:0 4px; text-align:center; white-space:nowrap;
+  font-variant-numeric:tabular-nums; font-weight:700; font-size:15px; line-height:20px; letter-spacing:.06em;
+  color:#fff1b8; text-shadow:0 1px 2px #000;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyPager[data-compact="true"] button { color:#f2c45b; font-size:22px; line-height:1; }
+#app #legacy[data-rivalry-legacy-v10] .legacyPager button:disabled { opacity:1; color:#6f6a5c; cursor:default; }
+#app #legacy[data-rivalry-legacy-v10] .legacyPageScrub {
+  flex:1 1 100%; order:9; box-sizing:border-box; width:100%; max-width:520px; height:28px; margin:0 auto; padding:0;
+  background:transparent; accent-color:#e4b032; cursor:pointer;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyPageScrub:focus-visible { outline:2px solid #ffe36c; outline-offset:2px; }
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyPageScrub { height:36px; }
+}
+/* r87 career fixes (A-06 with the compact pager): VIEW SEASON HISTORY is no longer sticky, so on phones the hero picture
+   gives up the room the longer content needs (the scrubber line, a Golden Showdown line) and the button still shows above
+   the tab bar on first paint. Both are fixed for the visit (career size, any Golden card), so nothing jumps while paging. */
+@media (max-width:600px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] {
+    --lg-hero:clamp(44px,calc(100svh - 476px - var(--lg-trim-pager,0px) - var(--lg-trim-golden,0px) - env(safe-area-inset-bottom)),350px);
+  }
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyPager[data-compact="true"]) { --lg-trim-pager:46px; }
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyCard[data-golden="true"]) { --lg-trim-golden:64px; }
 }

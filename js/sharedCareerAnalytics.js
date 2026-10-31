@@ -94,6 +94,8 @@
   function bestRecord(label,candidates){
     if(!candidates.length)return {label,manager:"shared",value:null,ref:null};
     const value=Math.max(...candidates.map(candidate=>candidate.value));
+    // r87 career fixes (B5): a best of 0 (no perfect season, a 0-0 season) is a record nobody holds, never "0 Shared".
+    if(!(value>0))return {label,manager:"shared",value:null,ref:null};
     const tied=candidates.filter(candidate=>candidate.value===value);
     const managers=new Set(tied.map(candidate=>candidate.manager));
     const places=new Set(tied.map(candidate=>caCanonical(candidate.ref)));
@@ -165,7 +167,11 @@
     const records=LABELS.map((label,index)=>bestRecord(label,candidates[index]));
     // A cross-manager tie for the biggest win is shared, as in the Trophy Room record.
     if(biggestShowdownWin&&records[3].manager==="shared")biggestShowdownWin={manager:"shared",margin:biggestShowdownWin.margin,showdownRef:null};
-    return caFreeze({status:entries.length===0?"empty":readable<entries.length?"partial":"ready",interimLabel,coverage:{readable,indexed:entries.length},managers,biggestShowdownWin,trophyRoom:trophyRoom(managers,records,false),history:{showdowns:rows}});
+    // r87 career fixes (A-05): the coverage line counts finished Showdowns only. The live (or completion-pending) Showdown is
+    // read but History never lists it, so "Showing 3 of 4" above 2 cards counted a game that is not there. The labelled
+    // current-only view is that live Showdown, so it keeps counting it. The status is unchanged (the same entry leaves both).
+    const live=interimLabel!==null?0:rows.filter(row=>!["completed","abandoned","unavailable"].includes(row.status)).length;
+    return caFreeze({status:entries.length===0?"empty":readable<entries.length?"partial":"ready",interimLabel,coverage:{readable:readable-live,indexed:entries.length-live},managers,biggestShowdownWin,trophyRoom:trophyRoom(managers,records,false),history:{showdowns:rows}});
   }
   return Object.freeze({buildCareerModel,seasonTiebreak});
 });

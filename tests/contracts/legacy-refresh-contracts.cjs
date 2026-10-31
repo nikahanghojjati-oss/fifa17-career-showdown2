@@ -91,7 +91,7 @@ test('an unchanged phase/status never starts or queues a load for either state s
 test('a hung load shows unavailable at 15 seconds and TRY AGAIN recovers without a late cache write',async()=>{
   const h=harness(),first=h.mount();await settle();await h.advance(14999);
   assert.equal(h.frames.at(-1).status,'loading');await h.advance(1);assert.equal(await first,false);
-  assert.equal(h.frames.at(-1).status,'unavailable');assert.equal(h.errors.at(-1).message,'RIVALRY_LEGACY_LOAD_TIMEOUT');
+  assert.equal(h.frames.at(-1).status,'unavailable');assert.equal(h.errors.at(-1).code,'RIVALRY_LEGACY_LOAD_TIMEOUT');assert.doesNotMatch(h.errors.at(-1).message,/RIVALRY_|_TIMEOUT/,'r87 A-08: plain words in the toast');
   const retry=h.banner.children.find(child=>child.textContent==='TRY AGAIN');assert.ok(retry,'unavailable offers retry');
   await h.finish(0);assert.equal(h.c.CareerModeRivalryLegacyV10.cachedCareerModel(),null,'timed-out result cannot publish');
   assert.equal(h.frames.at(-1).status,'unavailable');
@@ -105,7 +105,7 @@ test('r86 S61-r85-04: Showdowns still arriving keep History loading past 15 s wi
   assert.equal(h.copy.textContent,'Loading your Showdown history… 6 of 100');assert.equal(h.errors.length,0);
   await h.advance(4999);assert.equal(h.frames.at(-1).status,'loading');
   await h.advance(1);assert.equal(await first,false);assert.equal(h.frames.at(-1).status,'unavailable');
-  assert.equal(h.errors.at(-1).message,'RIVALRY_LEGACY_LOAD_TIMEOUT');
+  assert.equal(h.errors.at(-1).code,'RIVALRY_LEGACY_LOAD_TIMEOUT');assert.doesNotMatch(h.errors.at(-1).message,/RIVALRY_|_TIMEOUT/,'r87 A-08: plain words in the toast');
   h.loads[0].options.onProgress({done:7,total:100});await h.finish(0);
   assert.equal(h.c.CareerModeRivalryLegacyV10.cachedCareerModel(),null,'a late load after the deadline cannot publish');
   assert.equal(h.copy.textContent,'Loading your Showdown history… 6 of 100','a dead load writes no more progress');
