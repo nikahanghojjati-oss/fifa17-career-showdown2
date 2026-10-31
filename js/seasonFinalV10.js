@@ -2143,10 +2143,13 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     if(entry.history||entry.stopped||entry.retryTimer!==null||!sfDetailsVisible())return;
     entry.retryTimer=root.setTimeout(()=>{entry.retryTimer=null;if(sfDetailsVisible()&&state("CareerModeProductionSharedTerminalClose")?.rivalryId===closed.rivalryId)wake();},Math.max(0,entry.retryAt-Date.now()));
   }
+  let sfGazetteHistory=null;
   function seasonSource(){
     const s=sfSnapshot(),live=sfRetainHistory(s.history),closed=s.terminalClose?.phase==="CLOSED"?s.terminalClose:null;
     const history=closed?.terminal===true?(sfConverged(live,closed)?live:sfConverged(retainedHistory,closed)?retainedHistory:sfClosedHistory(closed.rivalryId)):live;
     const final=finalSeasonReview?{status:"unavailable"}:finalFrame(s.finalReconciliation,s.terminalClose,history);
+    // r87 Touchline Gazette: the FINAL edition prints from the same verified history this Final Winner was drawn from.
+    sfGazetteHistory=final.status==="ready"?history:null;
     const rematch=rematchFrame(final,closed,s.identity);
     // r86 Special Player chip: the live Setup's confirm time, or after close the finished Showdown's own (kept by its read).
     const rid=s.finalReconciliation?.rivalryId||closed?.rivalryId||null,read=closed?closedHistoryReads.get(closed.rivalryId)?.history:null;
@@ -2178,6 +2181,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner"),sfEnsureChip()]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
     loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
     installStandingsRoute();installChampionBack();
+    // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
+    // Small and loaded here with the screens it follows; its paper, sheet and copy load only when a paper is due.
+    Promise.resolve().then(()=>root.loadRuntimeScript("touchline-gazette","js/touchlineGazette.js",()=>Boolean(root.CareerModeTouchlineGazette))).then(()=>root.CareerModeTouchlineGazette?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Touchline Gazette unavailable.",error));
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.
     if(typeof loader.show==="function")Promise.resolve(loader.show("seasonEntry")).catch(fail);
@@ -2189,5 +2195,5 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     followPair();
     wake();return true;
   }
-  return Object.freeze({finalFrame,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,install:installResults});
+  return Object.freeze({finalFrame,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
 });

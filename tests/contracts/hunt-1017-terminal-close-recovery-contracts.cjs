@@ -161,7 +161,8 @@ async function closedReaderFrameSource(f,readImpl,{history=null,lazy=false}={}){
     CareerModeSharedHistoryConvergence:historyModule,CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:user.uid})},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:user},firestore,firestoreSdk:firebaseSdk})},
     CareerModeV10Screens:{install(){return this;},register(id,def){defs[id]=def;},setNavRoute(){},invalidate(){wakes++;},show:async()=>true},
-    loadRuntimeScript:async(key,file,ready)=>{loads++;assert.equal(key,"career-completed-reader");assert.equal(file,"js/sparkCompletedShowdownReader.js");env.CareerModeSparkCompletedShowdownReader=reader;assert.equal(ready(),true);}
+    // r87: Season Results also loads the Touchline Gazette page (js/touchlineGazette.js); it reads nothing and is not counted here.
+    loadRuntimeScript:async(key,file,ready)=>{if(key==="touchline-gazette"){assert.equal(file,"js/touchlineGazette.js");return;}loads++;assert.equal(key,"career-completed-reader");assert.equal(file,"js/sparkCompletedShowdownReader.js");env.CareerModeSparkCompletedShowdownReader=reader;assert.equal(ready(),true);}
   };
   if(!lazy)env.CareerModeSparkCompletedShowdownReader=reader;
   vm.runInNewContext(read("js/seasonFinalV10.js"),env);await env.CareerModeSeasonFinalV10.install();
