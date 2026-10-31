@@ -25,7 +25,10 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   Firestore +1, hub +2, logging +3, websocket +4), CE2PG_APP_PORT (default 4611; or CMS_BASE_URL for a server you started),
 //   CE2PG_PAGES_EVERY (career pages after every Nth season; default 1, 3 for 10 seasons; the first, last and every Showdown end are
 //   always checked), CE2PG_RELOAD_EVERY (both players reload before the page check of every Nth season; default 2),
-//   CE2PG_DEBUG=1 (print raw screen text).
+//   CE2PG_DEBUG=1 (print raw screen text),
+//   CE2PG_OUTAGES=1 (r87 connectivity: every season one phone loses its connection at a different step, in turn: the
+//   transfer window, the moment it taps PUBLISH, while the partner commits, a tab killed right after CONFIRM SEASON, and the
+//   CONTINUE tap; see OUTAGE_KINDS. The page goes offline and hidden like a locked phone, then comes back online and visible).
 // Run: npm run test:ce2pg   (or CE2PG_PLAN=single CE2PG_SEASONS=10 npm run test:ce2pg)
 //   It starts its own emulators (firebase emulators:exec) and static server and builds the composed Rules if they are missing.
 // Output: test-results/<tag>.json (every check, problem, raw screen text and the meter) and screenshots in test-results/<tag>/.
@@ -370,13 +373,13 @@ function wirePage(m){
     if(type==="error"||type==="warning"){
       const text=message.text().slice(0,400);
       report.console[m.account].push({who:m.user,showdown:showdownNow,season:seasonNow,type,text});
-      if(type==="error"&&!/Failed to load resource/.test(text))m.log.consoleErrors.push(text);
+      if(type==="error"&&!/Failed to load resource/.test(text)){if(inOutage(m)){(report.outageNoise||=[]).push({who:m.user,season:seasonNow,text:text.slice(0,200)});}else m.log.consoleErrors.push(text);}
     }
   });
   page.on("requestfailed",request=>{
     const failure=request.failure()?.errorText||"failed";
     const entry={who:m.user,showdown:showdownNow,season:seasonNow,kind:"requestfailed",method:request.method(),url:request.url().slice(0,200),error:failure};
-    entry.class=classifyNetwork(entry);report.network[m.account].push(entry);if(!NOISE_ABORT.test(failure)&&entry.class==="unexpected")m.log.failedRequests.push(entry);
+    entry.class=inOutage(m)&&/ERR_INTERNET_DISCONNECTED|ERR_NETWORK_CHANGED|ERR_FAILED/.test(failure)?"outage":classifyNetwork(entry);report.network[m.account].push(entry);if(!NOISE_ABORT.test(failure)&&entry.class==="unexpected")m.log.failedRequests.push(entry);
   });
   page.on("response",async response=>{
     if(response.status()>=400){
@@ -561,8 +564,15 @@ async function playTransfers(daniel,nik,tag){
   await daniel.page.locator("#startTransferTimer").click({timeout:30000});
   await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
   await budgetWait("transfer-window");
+  const dark=outageKind(seasonNow)==="transfer";
+  if(dark)await goDark(nik);
   await daniel.page.locator("#endTransferTimer").click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  if(dark){
+    await daniel.page.waitForTimeout(OUTAGE_MS);await comeBack(nik);
+    try{await nik.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:45000});}
+    catch(_e){await check(nik,`${showdownNow}.S${seasonNow}.outage.transfer`,"back online, Nik's phone sees Daniel's early end without a reload",false,await describe(nik),{screen:"Shared Transfer Challenge"});}
+  }
   await nik.page.locator("#endTransferTimer").click({timeout:30000});
   await waitTransferPhase(nik,"guess_entry");await waitTransferPhase(daniel,"guess_entry");
   await daniel.page.locator("#p2Guess1Type").selectOption("league");await fillCombo(daniel,"p2Guess1Value","Premier League");
@@ -597,6 +607,36 @@ async function publish(m){
   await m.page.locator("#confirmSeasonCompletion").click({timeout:30000});
   await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
 }
+// The publish tap with no connection (outage "publish"). While offline the screen may show progress or an error, never
+// "published" unless Firebase really has the result; back online the same typed result publishes with at most one more tap.
+async function publishThroughOutage(m,k){
+  const role=m.account==="daniel"?"playerOne":"playerTwo",rid=ctxRef.entry?.rivalryId;
+  await prepareReview(m);
+  // The signal drops as the tap lands (offline first would put CONNECTION REQUIRED over the screen before the tap).
+  await Promise.all([m.page.locator("#confirmSeasonCompletion").click({timeout:30000}),m.page.waitForTimeout(40).then(()=>goDark(m,{hidden:false}))]);
+  const end=Date.now()+OUTAGE_MS;let fake=null;
+  while(Date.now()<end){
+    const heading=(await m.page.locator("#seasonReviewHeading").textContent().catch(()=>""))||"";
+    if(/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(heading)&&rid&&!(await admin(`rivalries/${rid}/seasonResults/season_${k}/roles/${role}`)))fake=heading;
+    await m.page.waitForTimeout(1000);
+  }
+  const offlineText=await describe(m);
+  await comeBack(m);
+  await check(m,`${showdownNow}.S${k}.outage.publish.noFake`,"offline, the screen never says the result is published while Firebase does not have it",!fake,`showed "${fake}"`,{screen:"Shared Season Results"});
+  // Back online: wait for the publish to land; if the screen offers PUBLISH again (the offline attempt failed), tap it once.
+  const isPublished=()=>m.page.evaluate(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||"")).catch(()=>false);
+  const button=()=>m.page.evaluate(()=>{const b=document.getElementById("confirmSeasonCompletion");return b?{text:(b.textContent||"").trim(),disabled:b.disabled===true||b.getAttribute("aria-disabled")==="true",shown:b.getClientRects().length>0,error:(document.querySelector("#seasonReviewPanel .seasonReviewError, #seasonEntry [role=alert]")?.textContent||"").trim().slice(0,160)}:null;}).catch(()=>null);
+  let taps=0,ok=false;const trail=[];const by=Date.now()+60000;
+  while(Date.now()<by){
+    if(await isPublished()){ok=true;break;}
+    const b=await button();trail.push(b);
+    if(taps===0&&b&&b.shown&&!b.disabled&&Date.now()-(m.backAt||0)>3000){taps+=1;await m.page.locator("#confirmSeasonCompletion").click({timeout:10000}).catch(()=>{});}
+    await m.page.waitForTimeout(1000);
+  }
+  const last=[...outageRuns].reverse().find(o=>o.user===m.user);if(last){last.extraTaps=taps;last.offlineScreen=offlineText.slice(0,300);last.buttonTrail=trail.filter((b,i)=>i===0||JSON.stringify(b)!==JSON.stringify(trail[i-1])).slice(0,12);}
+  await check(m,`${showdownNow}.S${k}.outage.publish.recovers`,"back online, the typed result publishes within 60 s (at most one more tap, nothing typed again)",ok,`${await describe(m)} | button ${JSON.stringify(trail.slice(-1)[0])}`,{screen:"Shared Season Results"});
+  if(!ok)throw new Error(`${m.user}: the result did not publish after the connection came back`);
+}
 async function playSeasonResults(daniel,nik,k,planSeason){
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
@@ -611,7 +651,8 @@ async function playSeasonResults(daniel,nik,k,planSeason){
   }else{
     const [first,second]=mode==="daniel-first"?[daniel,nik]:[nik,daniel];
     const prefix=first.account==="daniel"?"p1":"p2",res=planSeason[first.account];
-    await fill[first.account]();await publish(first);
+    await fill[first.account]();
+    if(outageKind(k)==="publish")await publishThroughOutage(first,k);else await publish(first);
     const leaked=await second.page.evaluate(([p,r])=>{const card=document.getElementById(p==="p1"?"seasonReviewOne":"seasonReviewTwo");return {review:Boolean(card&&!card.classList.contains("hidden")&&getComputedStyle(card).display!=="none"&&card.getClientRects().length>0),points:document.getElementById(`${p}LeaguePoints`)?.value===String(r.leaguePoints)&&r.leaguePoints!==0};},[prefix,res]);
     await check(second,`${showdownNow}.S${k}.results.privacy`,`${NAMES[first.account]}'s published numbers stay hidden from ${NAMES[second.account]} until ${NAMES[second.account]} publishes`,!leaked.review&&!leaked.points,leaked,{screen:"Shared Season Results"});
     await budgetWait("results-published");
@@ -625,14 +666,28 @@ async function commitSeason(daniel,nik,k,planSeason,final){
   await nik.page.waitForFunction(()=>["WAITING FOR DANIEL","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
   if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR DANIEL")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
   await budgetWait("commit");
+  const kind=outageKind(k);
+  if(kind==="commit")await goDark(nik);
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  if(kind==="commit"){
+    await daniel.page.waitForTimeout(OUTAGE_MS);await comeBack(nik);
+    const seen=await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000}).then(()=>true).catch(()=>false);
+    await check(nik,`${showdownNow}.S${k}.outage.commit`,"back online, Nik's phone offers CONFIRM SEASON by itself (no reload)",seen,await describe(nik),{screen:"Shared Season Commit"});
+  }
   await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
   await budgetWait("ack");
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  if(kind==="ack-kill"){
+    await nik.page.waitForTimeout(300);
+    outageRuns.push({showdown:showdownNow,season:k,user:nik.user,kind,at:Date.now()});report.outages=outageRuns;
+    await killTab(nik);
+    await nikBackAfterKill(nik,k,final);
+  }
   const exp={d:scoreSeason(planSeason.daniel),n:scoreSeason(planSeason.nik),w:seasonWinner(planSeason.daniel,planSeason.nik)};
   const winnerText=exp.w.side==="draw"?"Season result: Draw":`Season winner: ${NAMES[exp.w.side]}`;
   for(const m of [daniel,nik]){
+    if(m.ahead===k+1)continue;// resumed on the next season after a killed tab (outage "ack-kill")
     await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON CONFIRMED ✓"||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"||document.getElementById("finalWinnerScreen")&&getComputedStyle(document.getElementById("finalWinnerScreen")).visibility!=="hidden"&&document.getElementById("finalWinnerScreen").getClientRects().length>0,null,{timeout:45000});
     if(!final){
       await m.page.waitForFunction(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},k,{timeout:60000});
@@ -645,6 +700,45 @@ async function commitSeason(daniel,nik,k,planSeason,final){
     }
   }
   return exp;
+}
+// After a killed tab (outage "ack-kill") Nik opens the app again: Showdown Home, CONTINUE SHOWDOWN, and he must land on the
+// confirmed season (or the Showdown Champion screen after the final season) with no second CONFIRM and no duplicate commit.
+async function nikBackAfterKill(nik,k,final){
+  const deadline=Date.now()+90000;let landed=false;
+  while(Date.now()<deadline&&!landed){
+    landed=await nik.page.evaluate(([n,fin])=>{
+      const vis=id=>{const e=document.getElementById(id);return Boolean(e&&!e.classList.contains("hidden")&&getComputedStyle(e).display!=="none"&&getComputedStyle(e).visibility!=="hidden"&&e.getClientRects().length>0);};
+      if(fin)return vis("finalWinnerScreen")||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED";
+      const btn=document.getElementById("sharedSeasonCommitAction")?.textContent||"";
+      const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();
+      if(btn==="SEASON CONFIRMED ✓"||(s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n))return "confirmed";
+      // The app may resume straight at the next season (its roulette or transfer window): the confirmed season is done.
+      const rr=document.getElementById("rrStepPanel")||document.getElementById("rrStage");
+      const ind=document.getElementById("seasonIndicator")?.textContent||"";
+      if((rr&&rr.getClientRects().length>0&&new RegExp(`SEASON ${n+1}\\b`,"i").test(rr.textContent||"SEASON "+(n+1)))||(vis("transferChallenge")&&ind.startsWith(`Season ${n+1} /`)))return "next";
+      return false;
+    },[k,final]).catch(()=>false);
+    if(landed)break;
+    const confirm=nik.page.locator("#sharedSeasonCommitAction");
+    if((await confirm.textContent().catch(()=>""))==="CONFIRM SEASON"&&await confirm.isVisible().catch(()=>false)){
+      // The acknowledgement did reach Firebase before the kill only if the commit doc says so; a second tap is then a bug.
+      const commit=await admin(`rivalries/${ctxRef.entry.rivalryId}/seasonCommits/season_${k}`);
+      const acked=JSON.stringify(commit||{}).includes("ACKNOWLEDGED");
+      await check(nik,`${showdownNow}.S${k}.outage.ackKill.noSecondTap`,"after the killed tab, CONFIRM SEASON is offered again only if the acknowledgement never reached Firebase",!acked,"Firebase has the acknowledgement but the screen asks again",{screen:"Shared Season Commit"});
+      await confirm.click({timeout:10000}).catch(()=>{});
+    }else if(await nik.page.locator("#mainMenu").isVisible().catch(()=>false)){
+      const tile=nik.page.locator("#newShowdown");if(await tile.isVisible().catch(()=>false))await tile.click({timeout:5000}).catch(()=>{});
+    }else{
+      const getReady=nik.page.locator("#productionSharedJourneyEntryOverlay");
+      if(await getReady.isVisible().catch(()=>false)){const go=getReady.getByRole("button",{name:/^(START CAREER|CONTINUE CAREER)$/});if(await go.first().isVisible().catch(()=>false)&&await go.first().isEnabled().catch(()=>false))await go.first().click({timeout:5000}).catch(()=>{});}
+      else if(await nik.page.locator("#dashboard").isVisible().catch(()=>false)){const label=await textOf(nik,"#seasonPrimaryAction");if(/SEASON|RESULT|CONFIRM/i.test(label)&&await nik.page.locator("#seasonPrimaryAction").isEnabled().catch(()=>false))await nik.page.locator("#seasonPrimaryAction").click({timeout:5000}).catch(()=>{});}
+    }
+    await nik.page.waitForTimeout(1000);
+  }
+  await check(nik,`${showdownNow}.S${k}.outage.ackKill`,"after a killed tab, the app reopens on the confirmed season, or straight on the next season, by itself (Home > CONTINUE SHOWDOWN at most)",Boolean(landed),await describe(nik),{screen:"Shared Season Commit"});
+  if(!landed)throw new Error(`Nik did not get back to season ${k} after the killed tab`);
+  nik.ahead=landed==="next"?k+1:0;
+  const last=[...outageRuns].reverse().find(o=>o.user===nik.user);if(last)last.landed=landed;
 }
 // Shared History panel (after every non-final season) against this Showdown's running tally.
 async function checkSharedHistory(m,k,total,seasons){
@@ -664,11 +758,18 @@ async function checkSharedHistory(m,k,total,seasons){
   await check(m,`${showdownNow}.S${k}.history.trophies`,"Shared History trophy attribution",trophies.includes(wantTro("daniel"))&&trophies.includes(wantTro("nik")),`expected "${wantTro("daniel")}" and "${wantTro("nik")}"; saw "${trophies}"`,{screen:"Shared History"});
 }
 async function continueToSeason(daniel,nik,next,total){
-  for(const m of [daniel,nik])await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
+  for(const m of [daniel,nik])if(m.ahead!==next)await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
   await budgetWait("continue");
+  const dark=outageKind(next-1)==="continue";
   for(const m of [daniel,nik]){
+    if(m.ahead===next){m.ahead=0;await rosterRoulette.waitForTransfer(m.page,60000);continue;}
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
-    await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    if(dark&&m===daniel){
+      // The signal drops as CONTINUE is tapped and the phone is locked a moment later.
+      await Promise.all([m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000}),m.page.waitForTimeout(40).then(()=>goDark(m,{hidden:false}))]);
+      await m.page.waitForTimeout(2000);await setHidden(m,true);
+      await m.page.waitForTimeout(OUTAGE_MS);await comeBack(m);
+    }else await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
     const paper=await gazette.passGazette(m.page,"season");
     if(!paper||!paper.endsWith(`|season|${next-1}`))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
@@ -1040,6 +1141,73 @@ async function unlockProbe(point){
     for(const r of cycles[0].byModule)console.log(`   MOD ${r.key}  docs=${r.docs} rules=${r.rules}`);
   }
 }
+// ---------------------------------------------------------------------------------------------------------------------------
+// r87 connectivity (CE2PG_OUTAGES=1): one phone drops off every season, at a different step each season.
+//   transfer   Nik's phone is offline and locked while Daniel ends the transfer window; it comes back and finishes the season.
+//   publish    the first manager taps PUBLISH with no connection: the screen must not claim it published (Firebase has nothing);
+//              back online, the same draft publishes (one more tap at most) and nothing is typed again.
+//   commit     Nik's phone is offline and locked while Daniel locks the season; back online it offers CONFIRM SEASON by itself.
+//   ack-kill   Nik's tab is killed right after CONFIRM SEASON; a fresh tab of the app opens on the confirmed season.
+//   continue   Daniel taps CONTINUE TO SEASON n offline (phone locked a moment before); back online the next season opens.
+// Every outage lasts OUTAGE_MS. Firebase is checked directly (admin) for exactly one result per role and one commit per season.
+const OUTAGES=process.env.CE2PG_OUTAGES==="1";
+const OUTAGE_KINDS=Object.freeze(["transfer","publish","commit","ack-kill","continue"]);
+const OUTAGE_MS=Number(process.env.CE2PG_OUTAGE_MS||20000);
+const outageRuns=[];
+const outageKind=k=>OUTAGES?OUTAGE_KINDS[(k-1)%OUTAGE_KINDS.length]:null;
+// While a phone is dark (and for OUTAGE_GRACE_MS after it is back) its failed requests and the app's own "connection failed"
+// reports are the outage itself: they are kept in report.outageNoise, not counted as zz.network / zz.pageerrors failures.
+const OUTAGE_GRACE_MS=15000;
+const inOutage=m=>Boolean(m&&(m.dark||(m.backAt&&Date.now()-m.backAt<OUTAGE_GRACE_MS)));
+async function goDark(m,{hidden=true}={}){
+  if(hidden)await setHidden(m,true);
+  m.dark=true;
+  await m.context.setOffline(true);
+  outageRuns.push({showdown:showdownNow,season:seasonNow,user:m.user,kind:outageKind(seasonNow),at:Date.now()});report.outages=outageRuns;
+}
+async function comeBack(m){
+  await m.context.setOffline(false);
+  m.dark=false;m.backAt=Date.now();
+  await setHidden(m,false,"online");
+  const last=[...outageRuns].reverse().find(o=>o.user===m.user&&!o.back);if(last){last.back=Date.now();last.ms=last.back-last.at;}
+  // CONNECTION REQUIRED (the online identity gate) may cover a game screen while offline; online again, it must clear by itself.
+  const cleared=await m.page.waitForFunction(()=>!document.getElementById("onlinePlayerIdentityOverlay")||document.getElementById("onlinePlayerIdentityOverlay").getClientRects().length===0,null,{timeout:20000}).then(()=>true).catch(()=>false);
+  await check(m,`${showdownNow}.S${seasonNow}.outage.gateClears`,"back online, CONNECTION REQUIRED clears by itself (no TRY AGAIN tap)",cleared,await describe(m),{screen:"Connection required"});
+}
+// A killed tab: the page is closed without unload work finishing, and the manager opens the app again in a new tab (same
+// browser profile, so the same sign-in and local storage).
+async function killTab(m){
+  await m.page.close({runBeforeUnload:false});
+  m.page=await m.context.newPage();
+  wirePage(m);
+  await installMarbleConfirmAnswers(m.page,{answer:true});
+  await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
+  await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:45000});
+  const last=[...outageRuns].reverse().find(o=>o.user===m.user);if(last)last.killed=true;
+  // Sign-in is session-only by design (browserSessionPersistence, checked by firebaseProductionPreflight.js), so a new tab
+  // asks for SIGN IN WITH GOOGLE once; the player is then known from the Google account.
+  const label=NAMES[m.account];
+  const sign=m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"});
+  if(!(await sign.isVisible().catch(()=>false)))await m.page.locator("#newShowdown").click({timeout:10000}).catch(()=>{});
+  if(await sign.isVisible({timeout:10000}).catch(()=>false)){
+    if(last)last.signInAgain=true;
+    await sign.click({timeout:10000});
+    const choose=m.page.getByRole("button",{name:new RegExp(`^${label} · PLAYER`,"i")});
+    const by=Date.now()+30000;
+    while(await m.page.evaluate(()=>document.getElementById("onlinePlayerIdentityBadge")?.textContent||"")!==label.toUpperCase()){
+      if(Date.now()>by)throw new Error(`${m.user}: after the killed tab the player ${label} never came back: ${await describe(m)}`);
+      if(await choose.isVisible().catch(()=>false))await choose.click({timeout:3000}).catch(()=>{});
+      await m.page.waitForTimeout(500);
+    }
+  }
+}
+// The authoritative documents of one season, read directly: one published result per role, at most one commit.
+async function seasonDocs(rivalryId,k){
+  const results=await admin(`rivalries/${rivalryId}/seasonResults/season_${k}`);
+  const roles={};for(const r of ["playerOne","playerTwo"])roles[r]=await admin(`rivalries/${rivalryId}/seasonResults/season_${k}/roles/${r}`);
+  const commit=await admin(`rivalries/${rivalryId}/seasonCommits/season_${k}`);
+  return {results,roles,commit};
+}
 let ctxRef=null;const publishedRates=[];const playWindows=[];
 const sumBy=(evs,user)=>evs.filter(e=>!user||e.user===user);
 function priceWindow(from,to){
@@ -1184,6 +1352,7 @@ async function playShowdown(ctx,spec){
   const {daniel,nik,career}=ctx;
   showdownNow=spec.name;seasonNow=0;
   const entry={name:spec.name,state:"live",seasons:[],totalSeasons:spec.length,clubs:null,league:null,rivalryId:null,test:false};
+  if(ctxRef)ctxRef.entry=entry;
   const startMark=mark(`${spec.name}:start`);
   const code=await phase(`${spec.name}-start`,()=>danielStartsShowdown(daniel,spec.length,{firstRealStart:spec.firstRealStart}));
   if(spec.firstRealStart)await check(daniel,`${spec.name}.code`,"the first real START makes the one-time CMS17R- code",/^CMS17R-pair_[0-9a-f]{64}$/.test(code),code,{screen:"Connect Players"});
@@ -1207,8 +1376,12 @@ async function playShowdown(ctx,spec){
     const mode=await phase(`${spec.name}-S${k}-results`,()=>playSeasonResults(daniel,nik,k,plan[k-1]));
     await phase(`${spec.name}-S${k}-commit`,()=>commitSeason(daniel,nik,k,plan[k-1],final));
     entry.seasons.push(plan[k-1]);
+    if(OUTAGES){
+      const d=await seasonDocs(entry.rivalryId,k);
+      await check(null,`${spec.name}.S${k}.outage.db`,`database after the ${outageKind(k)} outage: both results and one commit for season ${k}, nothing for season ${k+1}`,Boolean(d.roles.playerOne&&d.roles.playerTwo&&d.commit)&&!(await admin(`rivalries/${entry.rivalryId}/seasonCommits/season_${k+1}`)),{roles:Object.keys(d.roles).filter(r=>d.roles[r]),commit:Boolean(d.commit)},{screen:"Database"});
+    }
     if(!final){
-      for(const m of [daniel,nik])await checkSharedHistory(m,k,spec.length,plan);
+      for(const m of [daniel,nik])if(m.ahead!==k+1)await checkSharedHistory(m,k,spec.length,plan);
       await phase(`${spec.name}-S${k}-continue`,()=>continueToSeason(daniel,nik,k+1,spec.length));
       const playEnd=mark(`${spec.name}:S${k}:play`);
       const pagesDue=!SLIM&&(k%PAGES_EVERY===0||k===1||k===playedTo);
