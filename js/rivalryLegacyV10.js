@@ -213,9 +213,10 @@
         installed=true;
         // r87 career fixes (A-08): a screen left on "unavailable" (a timeout after a phone lock or bad signal) loads again by
         // itself when the page is shown again or the connection comes back, as TRY AGAIN would. Nothing loads while hidden.
+        // Codex #1103: by status, so the loader's own "unavailable" career (a failed career-index read) retries too.
         const retryUnavailable=()=>{
           if(root.document?.visibilityState==="hidden")return;
-          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&sources[screen]===UNAVAILABLE&&!reloads[screen]?.flight)void refresh(screen).catch(report);
+          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&(sources[screen]===UNAVAILABLE||sources[screen]?.status==="unavailable")&&!reloads[screen]?.flight)void refresh(screen).catch(report);
         };
         root.addEventListener?.("online",retryUnavailable);
         root.document?.addEventListener?.("visibilitychange",retryUnavailable);

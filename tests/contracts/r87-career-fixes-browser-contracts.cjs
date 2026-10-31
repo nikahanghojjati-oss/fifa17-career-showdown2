@@ -195,6 +195,20 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
       const short=await openHistory(browser,base,[1366,768],many(30));
       try{const s=await short.page.evaluate(STATE);assert.deepEqual(s.cards,[29,30],'30 Showdowns open on page 8');assert.equal(s.dots,8,'8 pages keep their dots');assert.equal(s.counter,null);
       }finally{await short.context.close();}
+      // Codex #1103: a last page with one card (45 Showdowns) still lets the scrubber take a click and a drag.
+      const single=await openHistory(browser,base,[1366,768],many(45));
+      try{
+        let s=await single.page.evaluate(STATE);assert.deepEqual(s.cards,[45],'45 Showdowns open on the one-card page 12');
+        assert.equal((await single.page.evaluate(HIT)).scrub,'hit','the scrubber is uncovered');
+        assert.equal(await single.page.$eval('#legacyPager .legacyPageScrub',el=>getComputedStyle(el).pointerEvents),'auto','the scrubber takes pointer input');
+        const box=await single.page.locator('#legacyPager .legacyPageScrub').boundingBox();const y=box.y+box.height/2;
+        await single.page.mouse.move(box.x+box.width-4,y);await single.page.mouse.down();
+        for(let i=1;i<=8;i++)await single.page.mouse.move(box.x+box.width-4-(box.width-8)*i/8*0.7,y);
+        await single.page.mouse.up();
+        s=await single.page.evaluate(STATE);assert.ok(Number(s.scrub)<=5,'a drag from the one-card page moves the archive (page '+s.scrub+')');
+        assert.equal(s.cards[0],(Number(s.scrub)-1)*4+1);
+        assert.deepEqual(single.errors,[]);
+      }finally{await single.context.close();}
     }
     groups.push('History opens on the newest Showdown; 100 Showdowns on desktop use "97–100 / 100", « », a scrubber and ← → Home End');
 

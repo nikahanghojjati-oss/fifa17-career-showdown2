@@ -240,6 +240,13 @@ check('A-08 a timed-out History says so in plain words and loads again by itself
   // and coming back online after another timeout
   const h2=harness({legacy:true});const o2=h2.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);await h2.settle();await h2.advance(15000);await o2;
   h2.online();await h2.settle();assert.equal(h2.loads.length,2,'back online retries');
+  // Codex #1103: a career-index read that fails comes back from the loader as its own "unavailable" career (not the
+  // screen's UNAVAILABLE sentinel); that History retries the same way.
+  const h3=harness({legacy:true});const o3=h3.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);await h3.settle();
+  h3.loads[0].resolve({model:Career.buildCareerModel({indexStatus:'unavailable',showdowns:[]}),careerInput:{indexStatus:'unavailable',showdowns:[]}});await h3.settle();await o3;
+  assert.equal(h3.frames.at(-1).frame.status,'unavailable','the failed index read shows as unavailable');
+  h3.online();await h3.settle();assert.equal(h3.loads.length,2,'back online retries a loader-unavailable career');
+  await h3.finish(1);assert.equal(h3.frames.at(-1).frame.status,'ready');
 });
 
 // ---- B1: History & Backup shows the online career, one figure per manager ----

@@ -1283,7 +1283,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel { min-height:clamp(232px,39.4svh,440px); }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyCardGrid { grid-area:1 / 2 / 3 / 3; grid-auto-rows:1fr; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager { position:relative; z-index:2; pointer-events:none; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager button { pointer-events:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager :is(button,.legacyPageScrub) { pointer-events:auto; }
   /* side tabs */
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel {
     border:0; border-right:1px solid #d9aa3c99; border-radius:0; background:linear-gradient(180deg,#0a0a0bf2,#050506f5); box-shadow:none;
@@ -1489,7 +1489,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyCard { container-type:inline-size; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-wide-score="true"] .legacyCardBody { grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); }
   #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-wide-score="true"] .legacyScore { white-space:nowrap; font-size:min(clamp(22px,1.9vw,56px),9cqi); }
-  #app #legacy[data-rivalry-legacy-v10] .legacyClubName { overflow-wrap:anywhere; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyClubName { overflow-wrap:anywhere; hyphens:auto; -webkit-hyphens:auto; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial { align-items:flex-start; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { align-items:flex-start; border-radius:.7em; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip .spChipName {
