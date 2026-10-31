@@ -2,7 +2,8 @@
 // in-page provider fakes as in shared-career-start-r33-audit) over the real Club Assignment screen and runs the spec's audit at
 // the 7 sizes Nik named: each manager's crest and club name sit inside his pack frame ("fits"), nothing covers anything (packs,
 // title, pillar or panel, buttons), the words never overflow their panel, all of it stays on screen, the Club screen's own
-// buttons step aside, and closing the panel gives the Club screen back. Pending and waiting states, plus long club names.
+// buttons step aside, the stage's own BACK (or Escape) gives the Club screen back, and no frame ever paints the old card or
+// the Club wheel or packs. Pending and waiting states, long club names, and the resume path from Home.
 // Usage: node tests/browser/career-start-b-fits-audit.cjs   (CMS_BASE_URL; CMS_CAREER_START_SHOTS=<dir> saves screenshots)
 "use strict";
 process.env.CMS_CHROMIUM_MULTI_CONTEXT = process.env.CMS_CHROMIUM_MULTI_CONTEXT || "1";
@@ -20,7 +21,11 @@ const rivalryId = "pair_" + "a".repeat(64), sessionId = "session_" + "b".repeat(
 const CASES = [
     { name: "pending", clubs: ["Fiorentina", "Bologna"], state: null, sizes: SIZES },
     { name: "waiting", clubs: ["Fiorentina", "Bologna"], state: { revision: 1, phase: "WAITING_FOR_ACKNOWLEDGEMENTS", acknowledgedRoles: ["playerOne"] }, sizes: SIZES },
-    { name: "long-names", clubs: ["Borussia Mönchengladbach", "Wolverhampton Wanderers"], state: null, sizes: SIZES }
+    { name: "long-names", clubs: ["Borussia Mönchengladbach", "Wolverhampton Wanderers"], state: null, sizes: SIZES },
+    // Resume from Home (productionSharedJourneyEntry.openCareerStart after a reload or CONTINUE CAREER): Career Start opens
+    // while Home is up and the shared shell has no clubs yet. It must open the Club screen behind it and show the stage,
+    // never the old card and never a frame of the Club wheel or packs.
+    { name: "resume-from-home", from: "home", clubs: ["Fiorentina", "Bologna"], state: null, sizes: SIZES }
 ];
 
 async function openCareerStart(page, kase){
@@ -36,12 +41,14 @@ async function openCareerStart(page, kase){
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 30000 });
     await page.evaluate(() => document.getElementById("onlinePlayerIdentityOverlay")?.remove());
     await page.waitForFunction(() => window.CareerModeClubScreenV10 && typeof window.ensureGameplayModules === "function", null, { timeout: 30000 });
-    await page.evaluate(async ({ setup, rivalryId, sessionId }) => {
+    await page.evaluate(async ({ setup, rivalryId, sessionId, fromHome }) => {
         window.setApplicationReducedMotionPreference(true);
-        await window.ensureGameplayModules(); await window.CareerModeClubScreenV10.install();
+        if(!fromHome){ await window.ensureGameplayModules(); await window.CareerModeClubScreenV10.install(); }
         currentShowdown = { id: "career-start-b", name: "Daniel vs Nik", managers: { playerOne: "Daniel", playerTwo: "Nik" }, selectedLeague: { id: "serie_a", name: "Serie A" }, clubs: { playerOne: null, playerTwo: null }, totalRounds: 3, currentRound: 1, status: "League Confirmed", rounds: [], transferChallenges: [], sharedJourney: { mode: "shared", rivalryId } };
-        initializeClubAssignment(); showScreen("clubWheelScreen"); populateClubAssignmentBase(); renderReadyAssignmentState();
-        currentShowdown.clubs = { ...setup.clubs }; renderClubConfirmationState();
+        if(!fromHome){
+            initializeClubAssignment(); showScreen("clubWheelScreen"); populateClubAssignmentBase(); renderReadyAssignmentState();
+            currentShowdown.clubs = { ...setup.clubs }; renderClubConfirmationState();
+        }
         const state = { ready: true, status: "ready", open: false, busy: false, rivalryId, sessionId, accountId: "account_daniel", deviceId: "device_" + "1".repeat(32), managerRole: "playerOne", remoteRole: "host", setupUpdatedAtMs: Date.now(), setup };
         window.CareerModeProductionSharedShowdownSetup = { getState: () => state, async refresh(){ return { ok: true }; } };
         window.CareerModeSharedShowdownSetup = { feature: "career-start-b-audit" };
@@ -51,9 +58,27 @@ async function openCareerStart(page, kase){
         window.CareerModeProductionFirebaseRuntime = { async ensureAccountServices(){ return { ok: true, auth: { currentUser: { uid: "account_daniel" } }, firestore: {}, firestoreSdk: {} }; } };
         // Two Special Players, so the original-club lines (Nik 2026-10-29) are part of every layout checked.
         window.CareerModeSpecialPlayerChip = { forShowdown: () => ({ daniel: { name: "T. Courtois", club: "Chelsea" }, nik: { name: "J. Oblak", club: "Atlético Madrid" } }), clubLine: sp => sp ? `${sp.name} · ${sp.club}` : "", ensure: async () => true };
-    }, { setup, rivalryId, sessionId });
-    await page.waitForFunction(() => window.CareerModeClubScreenV10.isMounted() && !document.getElementById("clubWheelScreen").hasAttribute("data-v10-pending"), null, { timeout: 20000 });
+    }, { setup, rivalryId, sessionId, fromHome: kase.from === "home" });
+    if(kase.from === "home") await page.waitForFunction(() => window.getActiveScreenName() === "mainMenu" && !document.getElementById("mainMenu").hasAttribute("data-v10-pending"), null, { timeout: 20000 });
+    else await page.waitForFunction(() => window.CareerModeClubScreenV10.isMounted() && !document.getElementById("clubWheelScreen").hasAttribute("data-v10-pending"), null, { timeout: 20000 });
     await page.evaluate(() => loadRuntimeScript("ssjr-production-career-start", "js/productionSharedCareerStart.js", () => window.CareerModeProductionSharedCareerStart));
+    // Every painted frame from the open on: the old card must never be visible, and the Club screen's wheel, packs, panels
+    // or buttons must never be visible without the stage in front of them.
+    await page.evaluate(() => {
+        window.__careerStartFrames = { frames: 0, bad: [] };
+        const seen = node => { if(!node) return false; const r = node.getBoundingClientRect(); if(r.width < 1 || r.height < 1) return false; for(let n = node; n && n.nodeType === 1; n = n.parentElement){ const s = getComputedStyle(n); if(s.display === "none" || s.visibility === "hidden" || Number(s.opacity) === 0) return false; } return true; };
+        // Opened from the Club screen, the Club screen is rightly up until Career Start opens; from Home it never shows bare.
+        const startedOnClub = !document.getElementById("clubWheelScreen").classList.contains("hidden");
+        const tick = () => {
+            const log = window.__careerStartFrames; log.frames += 1;
+            const overlay = document.getElementById("productionSharedCareerStartOverlay");
+            const careerStartUp = !startedOnClub || Boolean(overlay && !overlay.classList.contains("hidden"));
+            if(overlay && !overlay.classList.contains("pcstStage") && seen(overlay.querySelector(".remoteJoiningShell"))) log.bad.push(`frame ${log.frames}: old card visible`);
+            for(const sel of ["#clubWheelScreen .clubAssignmentHeader", "#clubWheelScreen .clubRevealProgress", "#clubWheelScreen .clubVs", "#clubRivalryConfirmation", "#openClubPack", "#continueClubAssignment", "#clubWheelScreen #world .reveal"]) if(careerStartUp && seen(document.querySelector(sel))) log.bad.push(`frame ${log.frames}: ${sel} visible`);
+            if(log.frames < 600) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    });
     await page.evaluate(async () => { window.CareerModeProductionSharedCareerStart.install(); await window.CareerModeProductionSharedCareerStart.openPanel(); });
     await page.locator("#productionSharedCareerStartOverlay").waitFor({ state: "visible", timeout: 10000 });
     await page.waitForTimeout(500); // fonts and the Club layout settle
@@ -105,8 +130,15 @@ async function openCareerStart(page, kase){
                     const after = await page.evaluate(() => window.CareerModeProductionSharedCareerStart.layoutAudit());
                     assert.equal(after.ok, true, `${label}: the waiting stage still fits ${JSON.stringify(after)}`);
                 }
-                const closed = await page.evaluate(() => { window.CareerModeProductionSharedCareerStart.closePanel(); return { attr: document.documentElement.dataset.careerStartStage || "", back: getComputedStyle(document.getElementById("clubAssignmentBack")).visibility }; });
-                assert.deepEqual(closed, { attr: "", back: "visible" }, `${label}: closing gives the Club screen back`);
+                const frames = await page.evaluate(() => window.__careerStartFrames);
+                assert.ok(frames.frames > 0, `${label}: frames were sampled`);
+                assert.deepEqual([...new Set(frames.bad)].slice(0, 5), [], `${label}: no old card and no Club wheel or packs ever painted`);
+                assert.equal(audit.back, true, `${label}: the stage shows its own BACK`);
+                if(kase.name === "waiting" && width === 1366) await page.keyboard.press("Escape");
+                else await page.getByRole("button", { name: "Close Career Start" }).click();
+                await page.waitForFunction(() => document.getElementById("productionSharedCareerStartOverlay").classList.contains("hidden"), null, { timeout: 5000 });
+                const closed = await page.evaluate(() => ({ attr: document.documentElement.dataset.careerStartStage || "", back: getComputedStyle(document.getElementById("clubAssignmentBack")).visibility, screen: window.getActiveScreenName() }));
+                assert.deepEqual(closed, { attr: "", back: "visible", screen: "clubWheelScreen" }, `${label}: BACK (or Escape) closes Career Start and gives the Club screen back`);
                 assert.deepEqual(errors, [], `${label}: page errors`);
                 lines.push(`${label}: ${audit.holds.map(h => `${h.club} crest ${h.crest}px name ${h.label}px ${h.fits}`).join(", ")}${audit.room ? ` (panel ${audit.room})` : ""}`);
             }catch(error){ failures.push(error.message); }
@@ -115,5 +147,5 @@ async function openCareerStart(page, kase){
     }finally{ await browser.close().catch(() => {}); }
     for(const line of lines) console.log(`ok ${line}`);
     if(failures.length){ for(const failure of failures) console.error(`FAIL ${failure}`); throw new Error(`${failures.length} Career Start option B check(s) failed`); }
-    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (7 sizes x pending, waiting, long names); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
+    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (7 sizes x pending, waiting, long names, resume from Home); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
 })().catch(error => { console.error("CAREER START OPTION B FITS AUDIT FAILED"); console.error(error.stack || error); process.exit(1); });

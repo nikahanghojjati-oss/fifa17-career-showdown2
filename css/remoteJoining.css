@@ -13,6 +13,9 @@ html[data-career-start-stage] #clubWheelScreen.cl-on .clPhoneScene > * { visibil
 html[data-career-start-stage] #clubWheelScreen.cl-on .clPhoneScene::before,
 html[data-career-start-stage] #clubWheelScreen.cl-on .clPhoneScene::after { content: none !important; display: none !important; }
 html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100svh; min-height: 0; max-height: 100svh; overflow: clip; }
+/* One look per screen: the old Career Start card never shows. Career Start opens the Club screen behind it first
+   (pcstClubBackdrop), and a panel that is not (yet) a stage stays invisible until it is. */
+#productionSharedCareerStartOverlay:not(.pcstStage) { visibility: hidden !important; }
 
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage {
   position: absolute; inset: 0; z-index: 30; display: block; padding: 0; overflow: visible; pointer-events: none;
@@ -157,3 +160,13 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 34px; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .pcstKicker { display: none; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .remoteJoiningStatus { padding: 3px 8px; font-size: 12px !important; line-height: 1.25 !important; }
+/* the stage's own way out (the card's close and the Club screen's BACK step aside with the stage): a small gold-outline BACK,
+   in the button row on desktop and on the title row on phones, clear of the title, the packs and the panel */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstBack { pointer-events: auto; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .remoteJoiningActions .compactButton.pcstBack { min-width: 0; padding: 0 18px; font-size: 15px; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage > .remoteJoiningShell > .remoteJoiningBody > .pcstBack {
+  position: absolute; left: 8px; z-index: 1; min-height: 32px; min-width: 0; margin: 0; padding: 0 10px; box-sizing: border-box;
+  font: 800 13px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .1em; text-transform: uppercase;
+  color: #f2c45b; background: #0b0a08; border: 1px solid #f2c45b; border-radius: 3px; box-shadow: 0 0 0 1px #000; opacity: 1; filter: none; cursor: pointer;
+}
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstBack:focus-visible { outline: 2px solid #fff3bd; outline-offset: 2px; }

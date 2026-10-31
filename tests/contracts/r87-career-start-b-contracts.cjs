@@ -53,18 +53,18 @@ check('B2 phone frames are the painted packs of ENV_CLUB_PHONE_V2 mapped through
   assert.match(js,/pillar\.style\.top=`\$\{Math\.round\(Math\.max\(band\.y\+band\.h,packBottom\+6\)\)\}px`/);
 });
 
-check('B3 layout only: same buttons, actions, status and reads; Special Player club lines stay; other screens keep the card',()=>{
+check('B3 layout only: same buttons, actions, status and reads; Special Player club lines stay',()=>{
   const render=js.slice(js.indexOf('function pcstRender(){'),js.indexOf('// r50: opening Career Start'));
   assert.match(render,/`I STARTED AT \$\{String\(ownClub\)\.toUpperCase\(\)\}`/);
   assert.match(render,/confirm\.addEventListener\("click",\(\)=>void \(ready\?pcstOpenTransferChallenge\(\):pcstAcknowledge\(\)\)\)/);
   assert.match(render,/pcstCreate\("button","compactButton","REFRESH"\)/);
   assert.match(render,/pcstStage\(overlay,body,\{setup,role,ownClub,status:status,idle:!lastError&&!ready&&!mine\}\);/,'the stage arranges the nodes the card already built');
   const stage=js.slice(js.indexOf('function pcstStage(overlay,body,ctx){'),js.indexOf('function pcstStageLayout(){'));
-  assert.doesNotMatch(stage,/addEventListener|provider\.|pcstAcknowledge|pcstRefresh|setupApi/,'the stage adds no action, read or write');
+  assert.doesNotMatch(stage.replace('back.addEventListener("click",pcstClosePanel);',''),/addEventListener|provider\.|pcstAcknowledge|pcstRefresh|setupApi/,'the stage adds no action, read or write (its only control is the close)');
   assert.match(stage,/if\(item\.dataset\.careerRow==="special"\)\{item\.classList\.add\("pcstSpecial"\);pillar\.append\(item\);\}/,'Special Player original-club rows move into the pillar');
   assert.match(stage,/getClubCrestSvg|pcstStageHold\("playerOne",ctx\.setup\.clubs\.playerOne\),pcstStageHold\("playerTwo",ctx\.setup\.clubs\.playerTwo\)/,'Daniel left, Nik right');
   assert.match(js,/root\.getClubCrestSvg\(club\)/,'the crest is the product\'s own crest renderer');
-  assert.match(js,/if\(!mode\)return pcstStageOff\(overlay\);/,'no Club screen, no stage: the card stays');
+  assert.match(js,/if\(!mode\)\{if\(!overlay\.classList\.contains\("hidden"\)\)pcstStageRetry\(\);return pcstStageOff\(overlay\);\}/,'no Club screen yet: no stage, and it keeps trying while open');
   assert.match(js,/if\(overlay\)\{overlay\.classList\.add\("hidden"\);pcstStageOff\(overlay\);\}/,'closing the panel hands the Club screen back');
   assert.equal(career.careerStartStage,'option-b');
 });
@@ -79,6 +79,22 @@ check('B4 house rules: no dim, scrim, blur or opacity drop; only main scrolls; t
   assert.match(stageCss,/\.pcstHold \{[^}]*overflow: hidden;/,'the pack box clips as a safety net');
   assert.equal(typeof career.layoutAudit,'function');
   assert.doesNotMatch((js.slice(js.indexOf('// HO-049 item 4'),js.indexOf('function pcstRender(){'))+stageCss).replace(/\/\/[^\n]*/g,''),/marquee|\bMP\b/i);
+});
+
+check('B5 every way in shows option B: the old card never renders, the Club screen opens behind first, and the stage has its own way out',()=>{
+  assert.match(css,/#productionSharedCareerStartOverlay:not\(\.pcstStage\) \{ visibility: hidden !important; \}/,'a panel that is not a stage is never visible (the old card cannot render)');
+  assert.match(js,/const overlay=pcstEnsurePanel\(\);stageRetries=0;await request\.wait\(pcstClubBackdrop\(\)\);overlay\.classList\.remove\("hidden"\);/,'every open (resume from Home, reload, auto-continue) puts the Club screen up behind first');
+  const backdrop=js.slice(js.indexOf('async function pcstClubBackdrop(){'),js.indexOf('function pcstStage(overlay,body,ctx){'));
+  assert.ok(backdrop.length>0);
+  assert.ok(backdrop.indexOf('dataset[STAGE_ATTR]="opening"')<backdrop.indexOf('root.showScreen(STAGE_HOST,false)'),'the Club screen parts step aside before the screen shows (no wheel or pack frame)');
+  assert.doesNotMatch(backdrop,/provider\.|setupApi|pcstAcknowledge|saveShowdown|localStorage/,'the backdrop draws, it never writes');
+  assert.match(js,/pcstCreate\("button","compactButton pcstBack","BACK"\);back\.type="button";back\.setAttribute\("aria-label","Close Career Start"\);back\.addEventListener\("click",pcstClosePanel\);/,'the stage BACK closes Career Start');
+  assert.match(js,/watch\.escape=event=>\{if\(event\.key==="Escape"&&!event\.defaultPrevented&&pcstPanelOpen\(\)\)\{event\.preventDefault\(\);pcstClosePanel\(\);\}\};/,'Escape does the same');
+  assert.match(css,/\.pcstBack \{[^}]*border: 1px solid #f2c45b;[^}]*opacity: 1;/,'a gold-outline BACK, never dimmed');
+  const audit=read('tests/browser/career-start-b-fits-audit.cjs');
+  assert.match(audit,/name: "resume-from-home", from: "home"/,'the audit covers the resume path from Home');
+  assert.match(audit,/getByRole\("button", \{ name: "Close Career Start" \}\)\.click\(\)/,'the audit taps the stage BACK itself');
+  assert.match(audit,/old card visible/,'the audit watches every frame for the old card');
 });
 
 console.log(`PASS r87 Career Start option B contracts: ${checks} checks`);

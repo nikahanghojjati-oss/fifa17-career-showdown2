@@ -205,6 +205,13 @@
     const crest=pcstCreate("div","pcstHoldCrest");try{if(typeof root.getClubCrestSvg==="function")crest.innerHTML=root.getClubCrestSvg(club);}catch(_error){}
     hold.append(crest,pcstCreate("div","pcstHoldName",club));return hold;
   }
+  let stageRetry=null,stageRetries=0;
+  function pcstStageRetry(){
+    // Only where the Club screen exists, and for at most 30 s per open (the Club screen's own CONTINUE TO CAREER START stays).
+    if(stageRetry||typeof root.setTimeout!=="function"||!root.document?.getElementById?.(STAGE_HOST)||stageRetries>=100)return;
+    stageRetries+=1;
+    stageRetry=root.setTimeout(()=>{stageRetry=null;const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay&&!overlay.classList.contains("hidden")&&!overlay.classList.contains("pcstStage"))pcstRender();},300);
+  }
   function pcstStageOff(overlay){
     try{
       const doc=root.document;pcstStageWatch(false);
@@ -215,20 +222,64 @@
   }
   // Re-lays the stage on a resize (the Club layout moves the packs with the window); a turn of the phone rebuilds it.
   function pcstStageWatch(on){
-    if(!on){if(stageWatch){root.removeEventListener?.("resize",stageWatch.schedule);stageWatch.observer?.disconnect?.();if(stageWatch.frame)root.cancelAnimationFrame?.(stageWatch.frame);stageWatch=null;}return;}
+    if(!on){if(stageWatch){root.removeEventListener?.("resize",stageWatch.schedule);root.document?.removeEventListener?.("keydown",stageWatch.escape);stageWatch.observer?.disconnect?.();if(stageWatch.frame)root.cancelAnimationFrame?.(stageWatch.frame);stageWatch=null;}return;}
     if(stageWatch||typeof root.addEventListener!=="function")return;
     const watch={frame:0,observer:null};
     watch.schedule=()=>{if(watch.frame||typeof root.requestAnimationFrame!=="function")return;watch.frame=root.requestAnimationFrame(()=>{watch.frame=0;pcstStageLayout();});};
     root.addEventListener("resize",watch.schedule);
+    watch.escape=event=>{if(event.key==="Escape"&&!event.defaultPrevented&&pcstPanelOpen()){event.preventDefault();pcstClosePanel();}};root.document?.addEventListener?.("keydown",watch.escape);
     try{const host=pcstStageHost();if(host&&typeof root.ResizeObserver==="function"){watch.observer=new root.ResizeObserver(watch.schedule);watch.observer.observe(host);host.querySelectorAll(".clubPackStage").forEach(node=>watch.observer.observe(node));}}catch(_error){}
     stageWatch=watch;
+  }
+  // Every way into Career Start (the Club screen's own button, the first confirmer's automatic open, resume from Home, a
+  // reload) shows option B, never the old card: when the Club screen is not up, it opens behind Career Start first with the
+  // confirmed Setup's clubs, drawn as the shared presentation draws them (no draw, no write, no save change). The Club
+  // screen's own parts already step aside (html[data-career-start-stage]) and the v10 loader keeps its content invisible
+  // until it is ready (Reus Gate), so neither the wheel nor the packs ever show; the panel goes up the moment the screen is.
+  function pcstForceScreen(host){
+    const doc=root.document;for(const el of doc.querySelectorAll(".screen")){const show=el===host;el.classList.toggle("hidden",!show);el.setAttribute("aria-hidden",show?"false":"true");}
+  }
+  function pcstPaintClubBackdrop(host,state){
+    const doc=root.document,setup=state.setup,text=(id,value)=>{const node=doc.getElementById(id);if(node&&node.textContent!==value)node.textContent=value;};
+    host.dataset.sharedPresentationRole=state.managerRole||"unresolved";
+    text("clubAssignmentLeague",pcstLeagueName(setup.leagueId));text("clubPlayerOne",pcstManagerLabel("playerOne"));text("clubPlayerTwo",pcstManagerLabel("playerTwo"));
+    if(typeof root.setClubRevealStage==="function")root.setClubRevealStage("confirmation");else host.dataset.clubRevealStage="confirmation";
+    for(const [suffix,role] of [["One","playerOne"],["Two","playerTwo"]]){
+      const card=doc.getElementById(`clubCard${suffix}`),name=doc.getElementById(`clubName${suffix}`),stateNode=doc.getElementById(`clubCardState${suffix}`),club=String(setup.clubs[role]||"");
+      if(typeof root.applyClubRevealCard==="function")root.applyClubRevealCard(card,name,stateNode,club);else{if(name)name.textContent=club;if(card)card.classList.add("is-revealed");}
+    }
+  }
+  function pcstWaitForStageHost(host,ms){
+    return new Promise(resolve=>{
+      if(pcstStageHost())return resolve(true);
+      let done=false,observer=null,timer=null;
+      const finish=ok=>{if(done)return;done=true;try{observer&&observer.disconnect();}catch(_error){}if(timer)root.clearTimeout(timer);resolve(ok);};
+      try{observer=new root.MutationObserver(()=>{if(pcstStageHost())finish(true);});observer.observe(root.document.documentElement,{attributes:true,attributeFilter:["data-v10-screen"]});observer.observe(host,{attributes:true,attributeFilter:["class"]});}catch(_error){}
+      timer=root.setTimeout(()=>finish(Boolean(pcstStageHost())),ms);
+    });
+  }
+  async function pcstClubBackdrop(){
+    if(pcstStageHost())return true;
+    const doc=root.document,host=doc&&typeof doc.getElementById==="function"?doc.getElementById(STAGE_HOST):null,state=pcstSetupState();
+    if(!host||!doc.documentElement||!doc.documentElement.dataset||!state||!state.setup||!state.setup.clubs)return false;
+    try{if(typeof root.ensureGameplayModules==="function")await root.ensureGameplayModules();}catch(_error){}
+    try{if(root.CareerModeClubScreenV10&&typeof root.CareerModeClubScreenV10.install==="function")await root.CareerModeClubScreenV10.install();}catch(_error){}
+    if(pcstStageHost())return true;
+    doc.documentElement.dataset[STAGE_ATTR]="opening";
+    let shown=false;
+    try{shown=typeof root.showScreen==="function"&&root.showScreen(STAGE_HOST,false)===true;}catch(_error){shown=false;}
+    if(!shown)pcstForceScreen(host);
+    pcstPaintClubBackdrop(host,state);
+    const ready=await pcstWaitForStageHost(host,10000);
+    if(!ready&&doc.documentElement.dataset[STAGE_ATTR]==="opening")delete doc.documentElement.dataset[STAGE_ATTR];
+    return ready;
   }
   function pcstStage(overlay,body,ctx){
     try{
       const host=overlay.classList.contains("hidden")?null:pcstStageHost(),mode=host&&pcstStageMode(host);
-      if(!mode)return pcstStageOff(overlay);
+      if(!mode){if(!overlay.classList.contains("hidden"))pcstStageRetry();return pcstStageOff(overlay);}
       const doc=root.document;
-      if(overlay.parentNode!==host)host.append(overlay);
+      stageRetries=0;if(overlay.parentNode!==host)host.append(overlay);
       overlay.classList.add("pcstStage");overlay.dataset.stageMode=mode;doc.documentElement.dataset[STAGE_ATTR]=mode;
       const title=pcstCreate("div","pcstTitle");title.append(pcstCreate("span","pcstTitleKicker","CAREER MODE SHOWDOWN 17"));
       const eyebrow=body.querySelector(".remoteJoiningEyebrow");title.append(eyebrow||pcstCreate("span","remoteJoiningEyebrow","CAREER START"));title.lastChild.classList.add("pcstTitleWord");
@@ -250,8 +301,11 @@
       }else if(note){note.classList.add("pcstNote");pillar.append(note);}
       const actions=body.querySelector(".remoteJoiningActions");
       if(actions&&mode!=="desktop")pillar.append(actions);
+      // The card's × and the Club screen's BACK both step aside with the stage, so the stage carries its own way out
+      // (Escape too): it closes Career Start and gives the Club screen back, where CONTINUE TO CAREER START reopens it.
+      const back=pcstCreate("button","compactButton pcstBack","BACK");back.type="button";back.setAttribute("aria-label","Close Career Start");back.addEventListener("click",pcstClosePanel);
       const probe=pcstCreate("div","pcstPlateProbe");probe.setAttribute("aria-hidden","true");
-      body.prepend(title,...holds,pillar);if(actions&&mode==="desktop")body.append(actions);body.append(probe);
+      body.prepend(title,...holds,pillar);if(actions&&mode==="desktop"){actions.append(back);body.append(actions);}else body.append(back);body.append(probe);
       pcstStageWatch(true);pcstStageLayout();return true;
     }catch(error){pcstReport("Career Start stage fell back to the card",error);return pcstStageOff(overlay);}
   }
@@ -288,6 +342,7 @@
     }else{
       const band=scene?pcstStageBox(scene,origin):{x:0,y:0,w:0,h:0},packBottom=Math.max(...frames.map(f=>f.y+f.h));
       if(mode==="phone"){title.style.top=`${Math.round(band.y+12)}px`;pillar.style.top=`${Math.round(Math.max(band.y+band.h,packBottom+6))}px`;}
+      const back=overlay.querySelector(".pcstBack");if(back&&!pillar.contains(back)&&!(actions&&actions.contains(back))){back.removeAttribute("style");back.style.top=`${Math.round(band.y+(mode==="phone"?10:8))}px`;}
       else{Object.assign(title.style,{top:`${Math.round(band.y+10)}px`,left:`${Math.round(band.x)}px`,width:`${Math.round(band.w)}px`});pillar.style.left=`${Math.round(band.x+band.w+8)}px`;}
       // The rival line shows only when the panel has 290px or more; then the panel tightens until nothing overflows.
       const room=pillar.getBoundingClientRect().height;if(room<290)pillar.dataset.room="short";
@@ -310,12 +365,13 @@
       return {side:hold.dataset.side,club:name.textContent,fits:fits?"fits":"OVERFLOW",frame:[x,y,w,h].map(Math.round),crest:Math.round(crest.right-crest.left),label:parseFloat(name.style.fontSize)};
     });
     const title=box(overlay.querySelector(".pcstTitle")),pillarNode=overlay.querySelector(".pcstPillar"),pillar=box(pillarNode),actionsNode=overlay.querySelector(".remoteJoiningActions"),actions=actionsNode?box(actionsNode):null;
-    const covers=[],named={title,pillar};if(actions&&!pillarNode.contains(actionsNode))named.buttons=actions;
+    const backNode=overlay.querySelector(".pcstBack"),covers=[],named={title,pillar};if(actions&&!pillarNode.contains(actionsNode))named.buttons=actions;
+    if(backNode&&!(actionsNode&&actionsNode.contains(backNode))){named.back=box(backNode);if(overlap(named.back,pillar))covers.push("back covers pillar");}
     frames.forEach((frame,index)=>{for(const [key,r] of Object.entries(named))if(overlap(r,frame))covers.push(`${key} covers pack ${index+1}`);});
-    if(overlap(title,pillar))covers.push("title covers pillar");if(named.buttons&&overlap(named.buttons,pillar))covers.push("buttons cover pillar");
+    if(overlap(title,pillar))covers.push("title covers pillar");if(named.back){const word=box(overlay.querySelector(".pcstTitleWord"));if(overlap(named.back,word))covers.push("back covers title");}if(named.buttons&&overlap(named.buttons,pillar))covers.push("buttons cover pillar");
     const viewH=root.innerHeight,viewW=root.innerWidth,onScreen=Object.values(named).every(r=>r.top>=-.5&&r.left>=-.5&&r.bottom<=viewH+.5&&r.right<=viewW+.5);
     const overflow=pillarNode.scrollHeight>pillarNode.clientHeight+1||pillarNode.scrollWidth>pillarNode.clientWidth+1;
-    return {stage:true,mode:overlay.dataset.stageMode,room:pillarNode.dataset.room||"",holds,fits:holds.length===2&&holds.every(item=>item.fits==="fits"),covers,overflow,onScreen,ok:holds.length===2&&holds.every(item=>item.fits==="fits")&&!covers.length&&!overflow&&onScreen};
+    return {stage:true,back:Boolean(backNode&&backNode.getBoundingClientRect().width>0),mode:overlay.dataset.stageMode,room:pillarNode.dataset.room||"",holds,fits:holds.length===2&&holds.every(item=>item.fits==="fits"),covers,overflow,onScreen,ok:holds.length===2&&holds.every(item=>item.fits==="fits")&&!covers.length&&!overflow&&onScreen};
   }
   function pcstRender(){pcstWatchSync();
     const overlay=root.document&&root.document.getElementById(PANEL_ID);if(!overlay)return;const body=overlay.querySelector(".remoteJoiningBody");if(!body)return;body.replaceChildren();
@@ -363,7 +419,7 @@
   async function pcstOpenPanelNow(request){
     pcstDeactivateSetupPresentation();await request.wait(pcstEnsureDependencies());
     if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return pcstCloseReveal();
-    const overlay=pcstEnsurePanel();overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
+    const overlay=pcstEnsurePanel();stageRetries=0;await request.wait(pcstClubBackdrop());overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay){overlay.classList.add("hidden");pcstStageOff(overlay);}return true;}
   function pcstPresentationOwnsControl(){const presentation=root.CareerModeProductionSharedShowdownPresentation;return Boolean(presentation&&typeof presentation.isPresentationActive==="function"&&presentation.isPresentationActive());}
