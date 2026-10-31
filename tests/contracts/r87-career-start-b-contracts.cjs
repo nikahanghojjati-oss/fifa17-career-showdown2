@@ -91,7 +91,13 @@ check('B5 every way in shows option B: the old card never renders, the Club scre
   assert.match(js,/pcstCreate\("button","compactButton pcstBack","BACK"\);back\.type="button";back\.setAttribute\("aria-label","Close Career Start"\);back\.addEventListener\("click",pcstClosePanel\);/,'the stage BACK closes Career Start');
   assert.match(js,/watch\.escape=event=>\{if\(event\.key==="Escape"&&!event\.defaultPrevented&&pcstPanelOpen\(\)\)\{event\.preventDefault\(\);pcstClosePanel\(\);\}\};/,'Escape does the same');
   assert.match(css,/\.pcstBack \{[^}]*border: 1px solid #f2c45b;[^}]*opacity: 1;/,'a gold-outline BACK, never dimmed');
+  // Codex P2 4431463618: the sideways (band) panel placement is its own branch of the phone/band choice, never of the BACK.
+  assert.match(js,/if\(mode==="phone"\)\{title\.style\.top=[^\n]*\}\n\s*else\{Object\.assign\(title\.style,[^\n]*pillar\.style,\{left:`\$\{Math\.round\(band\.x\+band\.w\+8\)\}px`,top:`\$\{Math\.round\(top\+8\)\}px`\}\);\}\n\s*const back=overlay\.querySelector\("\.pcstBack"\);/,'band placement runs on its own; the BACK is placed after');
+  assert.match(js,/const top=Math\.max\(band\.y,pcstTopBarBottom\(origin\)\);/,'where the top bar shows, the stage starts below it');
+  assert.match(js,/covers\.push\(`top bar covers \$\{key\}`\)/,'the layout audit flags the top bar covering the stage');
   const audit=read('tests/browser/career-start-b-fits-audit.cjs');
+  assert.match(audit,/const EXTRA_SIZES = \[\[844, 390\], \[915, 412\], \[820, 1180\]\];/,'the audit covers sideways phones and a tablet');
+  assert.match(audit,/const MODE_AT = \{ "844x390": "band", "915x412": "band", "820x1180": "phone" \};/);
   assert.match(audit,/name: "resume-from-home", from: "home"/,'the audit covers the resume path from Home');
   assert.match(audit,/getByRole\("button", \{ name: "Close Career Start" \}\)\.click\(\)/,'the audit taps the stage BACK itself');
   assert.match(audit,/old card visible/,'the audit watches every frame for the old card');

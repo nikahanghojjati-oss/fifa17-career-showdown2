@@ -17,10 +17,13 @@ const Career = require("../../js/sharedCareerStart.js");
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_CAREER_START_SHOTS || "";
 const SIZES = [[1366, 768], [1440, 900], [1920, 1080], [393, 660], [375, 553], [360, 640], [412, 915]];
+// Sideways phones (band mode) and a tablet: pending and waiting.
+const EXTRA_SIZES = [[844, 390], [915, 412], [820, 1180]];
+const MODE_AT = { "844x390": "band", "915x412": "band", "820x1180": "phone" };
 const rivalryId = "pair_" + "a".repeat(64), sessionId = "session_" + "b".repeat(64);
 const CASES = [
-    { name: "pending", clubs: ["Fiorentina", "Bologna"], state: null, sizes: SIZES },
-    { name: "waiting", clubs: ["Fiorentina", "Bologna"], state: { revision: 1, phase: "WAITING_FOR_ACKNOWLEDGEMENTS", acknowledgedRoles: ["playerOne"] }, sizes: SIZES },
+    { name: "pending", clubs: ["Fiorentina", "Bologna"], state: null, sizes: [...SIZES, ...EXTRA_SIZES] },
+    { name: "waiting", clubs: ["Fiorentina", "Bologna"], state: { revision: 1, phase: "WAITING_FOR_ACKNOWLEDGEMENTS", acknowledgedRoles: ["playerOne"] }, sizes: [...SIZES, ...EXTRA_SIZES] },
     { name: "long-names", clubs: ["Borussia Mönchengladbach", "Wolverhampton Wanderers"], state: null, sizes: SIZES },
     // Resume from Home (productionSharedJourneyEntry.openCareerStart after a reload or CONTINUE CAREER): Career Start opens
     // while Home is up and the shared shell has no clubs yet. It must open the Club screen behind it and show the stage,
@@ -90,7 +93,9 @@ async function openCareerStart(page, kase){
     const failures = [], lines = [];
     try{
         for(const kase of CASES) for(const [width, height] of kase.sizes){
-            const phone = width <= 900;
+            const phone = width <= 900 || height <= 500;
+            // Sideways phones draw the plate in the left band; everything else is the portrait plate or the desktop stage.
+            const expectedMode = MODE_AT[`${width}x${height}`] || (phone ? "phone" : "desktop");
             const context = await browser.newContext({ viewport: { width, height }, isMobile: phone, hasTouch: phone, serviceWorkers: "block" });
             const page = await context.newPage(), errors = [];
             page.on("pageerror", error => errors.push(error.message));
@@ -106,7 +111,7 @@ async function openCareerStart(page, kase){
                 if(shotDir){ fs.mkdirSync(shotDir, { recursive: true }); await page.screenshot({ path: path.join(shotDir, `career-start-b-${kase.name}-${width}x${height}.png`) }); }
                 const label = `${kase.name} ${width}x${height}`;
                 assert.equal(audit.stage, true, `${label}: Career Start is a stage on the Club plate`);
-                assert.equal(audit.mode, phone ? "phone" : "desktop", `${label}: layout mode`);
+                assert.equal(audit.mode, expectedMode, `${label}: layout mode`);
                 assert.deepEqual(audit.holds.map(h => h.fits), ["fits", "fits"], `${label}: crest and name inside each pack frame ${JSON.stringify(audit.holds)}`);
                 assert.deepEqual(audit.holds.map(h => h.club), kase.clubs, `${label}: Daniel's club left, Nik's right`);
                 assert.deepEqual(audit.covers, [], `${label}: nothing covers anything`);
@@ -141,11 +146,11 @@ async function openCareerStart(page, kase){
                 assert.deepEqual(closed, { attr: "", back: "visible", screen: "clubWheelScreen" }, `${label}: BACK (or Escape) closes Career Start and gives the Club screen back`);
                 assert.deepEqual(errors, [], `${label}: page errors`);
                 lines.push(`${label}: ${audit.holds.map(h => `${h.club} crest ${h.crest}px name ${h.label}px ${h.fits}`).join(", ")}${audit.room ? ` (panel ${audit.room})` : ""}`);
-            }catch(error){ failures.push(error.message); }
+            }catch(error){ failures.push(`${kase.name} ${width}x${height}: ${String(error.message).split("\n")[0]}`); }
             finally{ await context.close().catch(() => {}); }
         }
     }finally{ await browser.close().catch(() => {}); }
     for(const line of lines) console.log(`ok ${line}`);
     if(failures.length){ for(const failure of failures) console.error(`FAIL ${failure}`); throw new Error(`${failures.length} Career Start option B check(s) failed`); }
-    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (7 sizes x pending, waiting, long names, resume from Home); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
+    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (7 sizes x pending, waiting, long names, resume from Home; sideways 844x390 and 915x412 and tablet 820x1180 x pending, waiting); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
 })().catch(error => { console.error("CAREER START OPTION B FITS AUDIT FAILED"); console.error(error.stack || error); process.exit(1); });
