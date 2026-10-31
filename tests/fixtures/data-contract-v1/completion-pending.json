@@ -78,8 +78,8 @@
     "status": "ready",
     "interimLabel": null,
     "coverage": {
-      "readable": 1,
-      "indexed": 1
+      "readable": 0,
+      "indexed": 0
     },
     "managers": {
       "daniel": {
@@ -440,7 +440,7 @@
         {
           "label": "Most perfect seasons",
           "manager": "shared",
-          "value": 0,
+          "value": null,
           "ref": null
         }
       ]

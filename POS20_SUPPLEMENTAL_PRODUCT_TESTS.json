@@ -2425,6 +2425,19 @@
         "^visual-assets/v10_1/legacy/",
         "^js/specialPlayerChip\\.js$",
         "^tests/contracts/r87\\-career\\-fixes\\-browser\\-contracts\\.cjs$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-nav\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-browser-nav-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/legacy/",
+        "^js/specialPlayerChip\\.js$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-contracts\\.cjs$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-nav\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

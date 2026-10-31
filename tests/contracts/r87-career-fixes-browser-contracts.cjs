@@ -58,6 +58,12 @@ async function openHistory(browser,base,[w,h],model){
   await page.evaluate(()=>document.fonts&&document.fonts.ready);await page.waitForTimeout(800);
   return {context,page,errors};
 }
+// Draws another career into an open History (the same path a fresh model takes) and waits for its cards.
+async function redraw(page,model){
+  await page.evaluate(model=>{window.renderLegacy({model});},model);
+  await page.waitForFunction(n=>{const cards=document.querySelectorAll('#legacyCardGrid .legacyCard');return cards.length&&Number(cards[cards.length-1].dataset.showdown)===n&&!document.getElementById('legacy').hasAttribute('data-v10-pending');},model.history.showdowns.length,{timeout:30000});
+  await page.waitForTimeout(500);
+}
 // Text boxes of shown cards that run into one another, out of their card, or are cut by their own box.
 const CARD_PROBLEMS=()=>{
   const out=[];
@@ -89,6 +95,9 @@ const STATE=()=>({selected:window.LegacyFixture?.selectedShowdown??null,cards:[.
   counter:document.querySelector('#legacyPager .legacyPageCounter')?.textContent??null,dots:document.querySelectorAll('#legacyPager .legacyPageDot').length,
   scrub:document.querySelector('#legacyPager .legacyPageScrub')?.value??null});
 
+// Two runs, each well inside the runner's 120 s per file: this file checks the desktop cards (A-01, A-07);
+// r87-career-fixes-browser-nav-contracts.cjs requires it with PART "nav" for the phone pager (A-06) and long-career navigation.
+const PART=global.R87_CAREER_FIXES_PART==='nav'?'nav':'layout';
 let finished=false;
 process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes browser contracts ended before their last check.');process.exitCode=1;}});
 (async()=>{
@@ -104,6 +113,7 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
     const base=`http://127.0.0.1:${port}/`;
     const groups=[];
 
+    if(PART==='layout'){
     // A-01 + A-07: desktop History cards, a Golden 110-110 card among long club and Special Player names.
     const golden=career(['draw10','el3','win1','golden']);
     for(const size of [[1024,768],[1100,600],[1280,650],[1366,768],[1536,864],[1920,1080]]){
@@ -119,11 +129,14 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
       }finally{await context.close();}
     }
     groups.push('A-01 a 3-digit total never overlaps a crest or a name, and A-07 Special Player names are whole, at every desktop width from 1024 to 1920');
+    }else{
 
     // A-06: phones, the pager stays visible and tappable on first paint with a Golden first card and with 100 Showdowns.
-    for(const size of [[360,740],[390,844],[393,660]])for(const [label,model] of [['golden',career(['el3','win1','golden'])],['100',many(100)],['3',career(['el3','win1','el3'])]]){
-      const {context,page,errors}=await openHistory(browser,base,size,model);
-      try{
+    // one page per size (each boot costs seconds on a loaded runner); the next career is drawn into the same History
+    for(const size of [[360,740],[390,844],[393,660]]){const models=[['golden',career(['el3','win1','golden'])],['100',many(100)],['3',career(['el3','win1','el3'])]];
+      const {context,page,errors}=await openHistory(browser,base,size,models[0][1]);
+      try{for(const [index,[label,model]] of models.entries()){
+        if(index>0)await redraw(page,model);
         const hit=await page.evaluate(HIT);
         const where=`${size.join('x')} ${label}`;
         assert.equal(await page.evaluate(()=>document.getElementById('appRuntimeNotice')?.textContent??null),null,`${where}: no error notice`);
@@ -133,7 +146,7 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
         assert.equal(hit.button,'hit',`${where}: VIEW SEASON HISTORY shows on first paint, above the tab bar`);
         assert.equal(await page.evaluate(()=>getComputedStyle(document.getElementById('viewSeasonHistory')).position),'relative','the button is in its own row, not sticky over the pager');
         assert.deepEqual(errors,[]);
-      }finally{await context.close();}
+      }}finally{await context.close();}
     }
     groups.push('A-06 on phones VIEW SEASON HISTORY never covers ‹ › or the dots, and still shows on first paint (360x740, 390x844, 393x660)');
 
@@ -184,9 +197,10 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
       }finally{await context.close();}
     }
     groups.push('a phone opens on the newest of 100 Showdowns with "100 / 100", swipes one at a time, and jumps with « » and the scrubber');
+    }
 
     for(const name of groups)console.log(`ok - ${name}`);
-    console.log(`r87 career fixes browser contracts: ${groups.length} groups passed`);
+    console.log(`r87 career fixes browser contracts (${PART}): ${groups.length} groups passed`);
     finished=true;
   }finally{
     if(browser)await browser.close().catch(()=>{});
