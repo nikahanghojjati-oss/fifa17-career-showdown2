@@ -1,0 +1,92 @@
+/* r87 Touchline Gazette page (js/touchlineGazette.js). Team V's newspaper (visual-assets/v10_1/content/content.css,
+   HO-041) on its own page inside the Season Results screen: after a season's results (CONTINUE TO SEASON N+1) and
+   after Final Winner. While it is up, the page replaces the screen's stage (nothing is laid over anything, no dimming),
+   and it sits on the same black-and-gold plate the screen just showed (already loaded: no new plate download).
+   Layout as Team V's frames FP1-FP3 and FW1-FW2: desktop paper 540px between the managers, phone edition under the
+   faces, one CONTINUE below the paper. */
+
+#app #seasonEntry[data-gazette] > :not(#touchlineGazette) { display: none !important; }
+#app #seasonEntry[data-gazette] {
+  position: relative !important; inset: auto !important; height: auto !important; min-height: 0 !important;
+  padding: 0 !important; margin: 0 !important; background: #07080a !important;
+}
+/* the page is the window's own scroller at every size (as the Season Results screen is), whatever the Final Winner's
+   desktop or phone frame had set on it */
+html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
+  position: fixed !important; inset: 0 !important; height: 100svh !important; height: 100dvh !important;
+  padding: 0 !important; margin: 0 !important; overflow-x: hidden !important; overflow-y: auto !important;
+  background: #07080a !important;
+}
+
+#touchlineGazette.tgzPage {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100svh;
+  min-height: 100dvh;
+  background-color: #07080a;
+  background-image: var(--tgz-plate-desktop);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  overflow-x: clip;
+}
+#touchlineGazette .cmx-fp-screen {
+  min-height: inherit;
+  /* the top bar stays fixed over the page on desktop: the paper starts below it */
+  padding: calc(var(--sd-nav-top-h, 52px) + 16px) 20px 28px;
+  background: none;
+  justify-content: flex-start;
+}
+#touchlineGazette .cmx-fp-screen__eyebrow {
+  margin: 0 0 14px;
+  padding: 6px 14px 5px;
+  background: #07080a;
+  box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .55);
+  text-align: center;
+}
+#touchlineGazette .cmx-fp-screen__desk { width: min(540px, 100%); }
+#touchlineGazette .cmx-paper { width: 100%; will-change: transform; }
+#touchlineGazette .cmx-continue { margin-top: 18px; min-width: 274px; min-height: 52px; }
+#touchlineGazette .cmx-continue:disabled { cursor: progress; }
+/* the paper is generous with box-shadow on its own; the desk shadow below it is plain paint, not a scrim */
+#touchlineGazette .cmx-fp-screen__desk::after { z-index: 0; }
+
+/* Special Players line under the score strip */
+#touchlineGazette .tgz-sp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px 10px;
+  margin: 4px 0 0;
+  font: 600 10.5px/1.25 var(--sd-font-condensed, "Barlow Condensed", sans-serif);
+  letter-spacing: .04em;
+  color: #2a241c;
+}
+#touchlineGazette .tgz-sp b { letter-spacing: .18em; text-transform: uppercase; }
+#touchlineGazette .tgz-sp span + span::before { content: "·"; margin-right: 10px; }
+#touchlineGazette .cmx-gz--compact .tgz-sp { font-size: 9.5px; margin-top: 3px; }
+
+/* Phones and narrow windows: the phone plate, the phone edition starting under the managers' faces (Team V's face-safe
+   lines: 168px of 393 on a season page, 258px of 393 on the final page, where the faces sit lower). */
+@media (max-width: 700px), (max-height: 520px) and (max-width: 1000px) {
+  #touchlineGazette.tgzPage {
+    background-image: var(--tgz-plate-phone);
+    background-position: 50% 0;
+    background-size: 100% auto;
+  }
+  #touchlineGazette .cmx-fp-screen { padding: calc(100vw * 168 / 393) 10px 16px; }
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: calc(100vw * 258 / 393); }
+  #touchlineGazette .cmx-fp-screen__eyebrow { display: none; }
+  #touchlineGazette .cmx-fp-screen__desk { width: 100%; }
+  #touchlineGazette .cmx-continue { width: 100%; min-width: 0; margin-top: 14px; }
+}
+/* short phones (393x660, 360x640, 375x553): the paper starts just under the chins (not the shoulders) so the paper and
+   CONTINUE stay on the screen without covering a face */
+@media (max-width: 700px) and (max-height: 680px) {
+  #touchlineGazette .cmx-fp-screen { padding-top: calc(100vw * 140 / 393); }
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: calc(100vw * 236 / 393); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #touchlineGazette .cmx-paper { will-change: auto; }
+}

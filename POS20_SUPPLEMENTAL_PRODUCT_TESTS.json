@@ -2328,6 +2328,19 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-gazette-contracts.cjs",
+      "patterns": [
+        "^js/(touchlineGazette|seasonFinalV10)\\.js$",
+        "^data/(gazetteCopy|frontPages|commentaryLines)\\.js$",
+        "^css/v10Gazette\\.css$",
+        "^visual-assets/v10_1/content/",
+        "^service-worker\\.js$",
+        "^tests/support/(career-fixture-helpers|active-showdown-fixtures)\\.cjs$",
+        "^tests/contracts/r87-gazette-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r86-billed-counter-contracts.cjs",
       "patterns": [
         "^js/(sparkPrivatePairing|settings)\\.js$",

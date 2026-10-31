@@ -1,5 +1,6 @@
 "use strict";
 const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // Real-only entry and historical markerless recovery audit. Current gameplay uses Home START / JOIN and writes
 // career markers automatically. Emulator admin restores old markerless metadata and explicit test-mode data only
 // to verify that existing historical games remain hidden and unused old codes cannot reopen through Home.
@@ -155,6 +156,8 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return;
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
     for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
@@ -352,6 +355,9 @@ async function continueToSeason(daniel,nik,season,total){
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
+    const paper=await gazette.passGazette(m.page,"season");
+    if(!paper||!paper.endsWith(`|season|${season-1}`))throw new Error(`${m.user||"manager"} did not see the season-${season-1} Touchline Gazette after CONTINUE TO SEASON ${season} (${paper})`);
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
     await rosterRoulette.waitForTransfer(m.page,30000);
   }

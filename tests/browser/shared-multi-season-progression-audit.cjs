@@ -1,6 +1,7 @@
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 const {resolveChromiumRuntime}=require('../support/chromium-runtime.cjs');
+const {passGazette}=require('./support/touchline-gazette.cjs');
 
 const baseUrl=new URL(process.env.CMS_BASE_URL||'http://127.0.0.1:4173/');
 const canonicalKeys=['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'];
@@ -90,6 +91,7 @@ async function runPlan(page,{role,saveId,totalSeasons,rivalrySeed}){
       assert.equal(await action.isEnabled(),true,`Season ${season} must allow exactly one witnessed advance.`);
       assert.equal(await action.textContent(),`CONTINUE TO SEASON ${season+1}`);
       await action.click();
+      await passGazette(page,'season'); // r87 Touchline Gazette: its CONTINUE runs the same step
       await page.waitForFunction(expected=>window.CareerModeProductionSharedMultiSeasonProgression.resolveSeason()===expected,season+1,{timeout:5000});
       assert.equal(await page.evaluate(()=>currentShowdown.currentRound),7,'shared progression must not mutate canonical local currentRound.');
       assert.equal(await page.locator('#dashboard').getAttribute('data-shared-dashboard-authority'),'true','Showdown Home must be decorated from shared provider authority instead of stale local Save totals.');

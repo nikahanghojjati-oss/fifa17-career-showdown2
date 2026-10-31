@@ -100,6 +100,22 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
   "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt",
   "visual-assets/v10_1/roulette/assets/squads.json",
+  "js/touchlineGazette.js",
+  "data/gazetteCopy.js",
+  "data/frontPages.js",
+  "css/v10Gazette.css",
+  "visual-assets/v10_1/content/content.css",
+  "visual-assets/v10_1/content/frontpage.js",
+  "visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
+  "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt",
+  "visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
   "js/specialPlayerChip.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
@@ -294,7 +310,9 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // r86: PREVIOUS is now r85, whose own list already holds the music player; these are the six files r86 adds to its 222.
 // r87 (until its own release moves PREVIOUS to r86): r86's six, plus the Deadline Day strip and lines and the Russian Roster
 // Roulette step, engine, squads, styles and Team V's page with its vendored three.js.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/deadlineDay.js","data/deadlineDayLines.js","data/fifa17Players.js"]);
+// r87 Touchline Gazette (Nik 2026-10-31): its page script, copy, headline pack, styles, Team V's paper and sheet and the
+// seven OFL Gazette fonts (licences beside them). Its press photos are Team V images (V10_IMAGE_PATH, runtime cache).
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/deadlineDay.js","data/deadlineDayLines.js","data/fifa17Players.js","js/touchlineGazette.js","data/gazetteCopy.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css","visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 
