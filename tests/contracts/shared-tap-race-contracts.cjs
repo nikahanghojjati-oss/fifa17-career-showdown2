@@ -90,7 +90,7 @@ async function transferContracts(){
     h.scripts.requestEndWindow.push(denied("permission-denied"),denied("permission-denied"),denied("permission-denied"));
     h.api.install();await h.tap("endTransferTimer");
     assert.equal(h.calls.mutations.length,2,"a real denial must be tried at most twice (one retry), never looped");
-    assert.equal(h.error(),"permission-denied","a real denial must still be visible after the one retry");
+    assert.match(h.error(),/session has lapsed\. Go back to Showdown Home/,"a real denial must still be visible after the one retry, in plain words (red team R87-B-05)");
   }
   // A4. The refreshed state already shows the outcome (partner already moved the phase on): silent, no second write.
   {

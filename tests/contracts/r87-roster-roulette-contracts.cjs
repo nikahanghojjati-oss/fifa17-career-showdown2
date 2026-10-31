@@ -446,4 +446,79 @@ ok('L13','all 98 clubs exclude any launch XI, sub or reserve Special Player and 
 }
 ok('L14','club-only replacements: finite goalkeeper and club pools report deterministic exhaustion without empty rows or imports');
 
-console.log(`r87 roster roulette contracts: ${checks} groups passed`);
+
+// L15 red team R87-B-02: the roulette's own files failing never opens the Transfer window silently. The step asks TRY
+// AGAIN / BACK; a retry that loads runs the season; a club that runs out says so before the window.
+async function stepWorld({loads,forSeason}){
+  class El{constructor(tag){this.tagName=tag;this.children=[];this.attrs={};this.listeners={};this.style={};this.classList={add(){},remove(){}};this.textContent='';this.parent=null;}
+    append(...nodes){for(const n of nodes){n.parent=this;this.children.push(n);}}
+    remove(){if(this.parent)this.parent.children=this.parent.children.filter(n=>n!==this);this.parent=null;}
+    setAttribute(k,v){this.attrs[k]=String(v);}getAttribute(k){return this.attrs[k]??null;}removeAttribute(k){delete this.attrs[k];}
+    addEventListener(t,fn){(this.listeners[t]||=[]).push(fn);}focus(){}
+    all(){return [this,...this.children.flatMap(c=>c.all())];}
+    querySelector(sel){return sel==='button'?this.all().slice(1).find(n=>n.tagName==='button')||null:null;}}
+  const body=new El('body'),doc={body,createElement:tag=>new El(tag),getElementById:id=>body.all().find(n=>n.id===id)||null};
+  const store=new Map();let attempt=0;
+  const sandbox={document:doc,setTimeout,clearTimeout,location:{origin:'x'},addEventListener(){},removeEventListener(){},
+    readStorageValue:k=>store.get(k)||null,writeStorageValue:(k,v)=>{store.set(k,v);return true;},
+    loadRuntimeScript:async(key)=>{if(key==='fifa17-players'){attempt+=1;if(!loads(attempt))throw new Error('network unavailable');}
+      sandbox.CareerModeFifa17Players={};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};
+      sandbox.CareerModeRosterRoulette={forSeason};return true;}};
+  vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
+  const step=sandbox.CareerModeRosterRouletteStep;
+  const panel=()=>doc.getElementById(step.panelId);
+  const find=label=>panel()&&panel().all().find(n=>n.tagName==='button'&&n.textContent===label);
+  const press=async label=>{for(let i=0;i<200&&!find(label);i+=1)await new Promise(r=>setTimeout(r,5));const b=panel().all().find(n=>n.tagName==='button'&&n.textContent===label);assert.ok(b,'button '+label);const title=panel().all().find(n=>n.className==='rrStepTitle').textContent;b.listeners.click[0]();await new Promise(r=>setTimeout(r,5));return title;};
+  const ctx={rivalryId:'pair_'+'a'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:Date.parse('2026-11-01T00:00:00Z'),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
+  return {step,ctx,press,store};
+}
+const stepChecks=(async()=>{
+  {
+    const w=await stepWorld({loads:()=>false,forSeason:()=>{throw new Error('not reached');}});
+    assert.equal(w.step.decide(w.ctx),true);
+    const run=w.step.runBeforeTransfers(w.ctx);
+    assert.equal(await w.press('BACK TO SHOWDOWN HOME'),'Loading the roulette');
+    assert.equal(await run,false,'a roulette that cannot load keeps the Transfer window shut');
+    assert.equal(w.step.decide(w.ctx),true,'nothing is marked done or skipped: the next tap tries again');
+  }
+  {
+    const plan={boards:{playerOne:[],playerTwo:[]},formations:{},turns:[{role:'playerOne',fired:false,player:null},{role:'playerTwo',fired:false,player:null}]};
+    const w=await stepWorld({loads:n=>n>1,forSeason:()=>plan});
+    w.store.set(w.step.watchedKey,JSON.stringify([`${w.ctx.rivalryId}|1|playerOne`]));// the scene was watched before a reload
+    const run=w.step.runBeforeTransfers({...w.ctx});
+    assert.equal(await w.press('TRY AGAIN'),'Loading the roulette');
+    assert.equal(await w.press('GO TO THE TRANSFER WINDOW'),'Your squad is safe','a retry that loads shows this season’s result');
+    assert.equal(await run,true);
+  }
+  {
+    const w=await stepWorld({loads:()=>true,forSeason:()=>{const e=new Error('Club roster exhausted: Torino');e.code='ROSTER_EXHAUSTED';e.club='Torino';throw e;}});
+    const run=w.step.runBeforeTransfers(w.ctx);
+    assert.equal(await w.press('GO TO THE TRANSFER WINDOW'),'No roulette this season','exhaustion is told, not swallowed');
+    assert.equal(await run,true);assert.equal(w.step.decide(w.ctx),false,'an exhausted season is done');
+  }
+  {
+    let calls=0;const w=await stepWorld({loads:()=>true,forSeason:()=>{calls+=1;throw new Error('boom');}});
+    const run=w.step.runBeforeTransfers(w.ctx);
+    assert.equal(await w.press('TRY AGAIN'),'The roulette hit a problem');
+    assert.equal(await w.press('BACK TO SHOWDOWN HOME'),'The roulette hit a problem');
+    assert.equal(await run,false,'an unexpected error never opens the window');assert.equal(calls,2,'retry rebuilds the same plan');
+  }
+  const pstc=fs.readFileSync(path_.join(ROOT,'js/productionSharedTransferChallenge.js'),'utf8');
+  assert.match(pstc,/if\(!step\)\{rouletteLoadError=true;return false;\}/,'the step file itself failing keeps the window shut');
+  assert.match(pstc,/\}catch\(_error\)\{rouletteLoadError=true;return false;\}/);
+  ok('L15','red team R87-B-02: roulette load failure or error asks TRY AGAIN / BACK and never opens Transfers silently; exhaustion is told');
+
+  // L16 red team R87-B-03/04/05/06: offline scene files, two-tab signing drafts, plain connection text, quota on direct gets.
+  const swSource=fs.readFileSync(path_.join(ROOT,'service-worker.js'),'utf8');
+  const unversioned=swSource.slice(swSource.indexOf('const UNVERSIONED_SHELL_ASSET_PATHS'),swSource.indexOf(']);',swSource.indexOf('const UNVERSIONED_SHELL_ASSET_PATHS')));
+  for(const file of ['visual-assets/v10_1/roulette/vendor/three-r128.min.js','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/assets/squads.json'])
+    assert.ok(unversioned.includes(`"${file}"`),'offline scene file '+file);
+  assert.match(pstc,/root\.addEventListener\("storage",pstcSigningDraftStorage\)/,'a newer draft from another tab is taken over');
+  assert.match(pstc,/pstcRestoreSigningDraft\(role,view\.ownInputs\|\|null,true\)/);
+  assert.match(pstc,/unavailable\|deadline\|offline\|network\|aborted/,'connection codes read as plain words');
+  const pairing=fs.readFileSync(path_.join(ROOT,'js/sparkPrivatePairing.js'),'utf8');
+  assert.match(pairing,/function fsbGetFailed\(error,lookups\)\{[^\n]*if\(fsbIsQuotaError\(error\)\)fsbTrip\(\);\}/,'a quota answer on a direct get trips the pause');
+  ok('L16','red team R87-B-03..06: offline scene files, two-tab drafts, plain error words, quota pause on direct gets');
+  console.log(`r87 roster roulette contracts: ${checks} groups passed`);
+})();
+stepChecks.catch(error=>{console.error(error);process.exitCode=1;});

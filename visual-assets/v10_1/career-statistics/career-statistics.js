@@ -83,7 +83,7 @@
       const card=document.createElement("article"); card.className="headlineTile"; card.setAttribute("data-sd-enter","panel");
       const val=vals[i];
       const valueHtml = val ? (val.pair
-        ? `<div class="headlinePair" data-digits="${Math.min(6,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
+        ? `<div class="headlinePair" data-digits="${Math.min(8,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
         : `<div class="headlineNumber" data-count-value="${fmt(val.combined)}">${fmt(val.combined)}</div><div class="headlineTogether">Together</div>`)
         : '<div class="headlinePair"><b aria-hidden="true">—</b></div>';
       card.innerHTML=`<div class="headlineIcon">${iconSvgs[i]}</div><div class="headlineCopy"><div class="headlineLabel">${label}</div>${valueHtml}</div>`;
