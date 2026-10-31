@@ -308,7 +308,24 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
+  // r87 (CE2PG season 3: net::ERR_FAILED on TRO_SHOWDOWN_CHAMPION_V1_512.webp on both phones): Season Results and Final
+  // Winner both draw the Showdown Champion trophy, and the last season swaps one stage for the other in the same host, so
+  // the first <img> was removed while its load was still in the service worker and the load was cancelled. The trophy is
+  // now loaded once into memory while the screen prepares (behind the loading screen, at most 2.5 s, never an error), and
+  // both stages take it from there. Same URL as the stages use, so it is the same cache entry.
+  const TROPHY_PATH="visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp";
+  let trophyWarm=null,trophyImage=null;
+  function sfWarmTrophy(){
+    if(trophyWarm)return trophyWarm;
+    if(typeof root.Image!=="function"||!root.document)return Promise.resolve(false);
+    trophyWarm=new Promise(resolve=>{
+      let settled=false;const finish=ok=>{if(settled)return;settled=true;if(!ok)trophyWarm=null;resolve(ok);};
+      try{const img=trophyImage=new root.Image();img.decoding="async";img.onload=()=>finish(true);img.onerror=()=>finish(false);img.src=new root.URL(TROPHY_PATH,root.document.baseURI).href;root.setTimeout(()=>finish(false),2500);}catch(_error){finish(false);}
+    });
+    return trophyWarm;
+  }
   async function prepare(folder){
+    if(folder==="season-results"||folder==="final-winner")await sfWarmTrophy();
     if(!templates[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-shell.html"));if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
     if(folder!=="season-results"&&!strings[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-strings.json"));if(!r.ok)throw new Error("V10_RESULTS_STRINGS");strings[folder]=(await r.json()).strings;strings[folder].previewLabel="";}
   }

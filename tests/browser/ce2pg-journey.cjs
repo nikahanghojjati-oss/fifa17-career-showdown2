@@ -660,7 +660,7 @@ async function checkSharedHistory(m,k,total,seasons){
   await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons played ... Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}" but saw "${summary}"`,{screen:"Shared History"});
   const wantRec=u=>new RegExp(`${NAMES[u]} \\([^)]+\\): ${t[u].W} won, ${t[u].D} drawn, ${t[u].L} lost · ${t[u].total} pts`);
   await check(m,`${showdownNow}.S${k}.history.records`,"Shared History W/D/L and points per manager",wantRec("daniel").test(records)&&wantRec("nik").test(records),`expected Daniel ${t.daniel.W}W ${t.daniel.D}D ${t.daniel.L}L ${t.daniel.total} pts, Nik ${t.nik.W}W ${t.nik.D}D ${t.nik.L}L ${t.nik.total} pts; saw "${records}"`,{screen:"Shared History"});
-  const wantTro=u=>`${NAMES[u]} ${t[u].trophies} trophies (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
+  const wantTro=u=>`${NAMES[u]} ${t[u].trophies} ${t[u].trophies===1?"trophy":"trophies"} (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
   await check(m,`${showdownNow}.S${k}.history.trophies`,"Shared History trophy attribution",trophies.includes(wantTro("daniel"))&&trophies.includes(wantTro("nik")),`expected "${wantTro("daniel")}" and "${wantTro("nik")}"; saw "${trophies}"`,{screen:"Shared History"});
 }
 async function continueToSeason(daniel,nik,next,total){

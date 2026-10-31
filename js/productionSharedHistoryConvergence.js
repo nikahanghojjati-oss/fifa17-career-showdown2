@@ -76,7 +76,7 @@
     return {panel,heading,summary,records,trophies};
   }
   function phcRecordLine(role,record){return `${phcManagerName(role)} (${record.club}): ${record.seasonWins} won, ${record.seasonDraws} drawn, ${record.seasonLosses} lost · ${record.totalPoints} pts`;}
-  function phcTrophyLine(role,item){return `${phcManagerName(role)} ${item.totalTrophies} trophies (${item.leagueTitles} league, ${item.domesticCups} cup, ${item.championsLeagues} Champions League${item.europaLeagues>0?`, ${item.europaLeagues} Europa League`:""})`;}
+  function phcTrophyLine(role,item){return `${phcManagerName(role)} ${item.totalTrophies} ${Number(item.totalTrophies)===1?"trophy":"trophies"} (${item.leagueTitles} league, ${item.domesticCups} cup, ${item.championsLeagues} Champions League${item.europaLeagues>0?`, ${item.europaLeagues} Europa League`:""})`;}
   function phcRender(){
     const ui=phcEnsureUi();if(!ui)return false;const request=phcRequest(),active=Boolean(request&&contextKey===request.key&&view&&view.authoritative===true&&view.phase==="HISTORY_CONVERGED"&&view.projection);
     phcHidden(ui.panel,!active);if(!active)return false;const projection=view.projection;

@@ -85,7 +85,7 @@
     screen.dataset.sharedDashboardAuthority="true";
     pmspText(pmspField("dashboardShowdownName"),pmspShowdown()?.name||"Showdown");
     pmspText(pmspField("dashboardLeague"),pmspLeagueName(setup.leagueId));
-    pmspText(pmspField("dashboardRound"),state.terminal?`All ${total} seasons complete`:`Season ${cursor} of ${total}`);
+    pmspText(pmspField("dashboardRound"),state.terminal?(Number(total)===1?"Season complete":`All ${total} seasons complete`):`Season ${cursor} of ${total}`);
     pmspText(pmspField("seasonIndicator"),state.terminal?"Showdown Complete":`Season ${cursor} / ${total}`);
     pmspText(pmspField("dashboardStatus"),state.terminal?"SHOWDOWN COMPLETE":`${accepted} OF ${total} SEASONS PLAYED`);
     pmspText(pmspField("dashboardManagerOne"),n1);pmspText(pmspField("dashboardManagerTwo"),n2);
@@ -133,13 +133,13 @@
     const ui=pmspEnsureUi();if(!ui)return false;const season=pmspEnsureCursor(),state=view?.state,visible=Boolean(pmspSharedMarker()&&season&&state&&pmspScreenVisible()&&Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season);
     pmspHidden(ui.status,!visible);pmspHidden(ui.action,!visible);if(!visible)return false;
     if(pmspTerminalWitnessed()){
-      pmspText(ui.status,`ALL ${state.totalSeasons} SEASONS PLAYED · FINAL RESULT NEXT`);pmspText(ui.action,"ALL SEASONS PLAYED ✓");pmspDisable(ui.action,true);return true;
+      pmspText(ui.status,Number(state.totalSeasons)===1?"SEASON PLAYED · FINAL RESULT NEXT":`ALL ${state.totalSeasons} SEASONS PLAYED · FINAL RESULT NEXT`);pmspText(ui.action,"ALL SEASONS PLAYED ✓");pmspDisable(ui.action,true);return true;
     }
     if(pmspHistoryWitnessed()){
       const next=season+1;pmspText(ui.status,`SEASON ${season} SAVED · CONTINUE TO SEASON ${next}`);pmspText(ui.action,`CONTINUE TO SEASON ${next}`);pmspDisable(ui.action,!pmspCanContinue());return true;
     }
-    // Job 33 (R8): the Shared Season Commit status already says SEASON COMMITTED · SCORE BELOW; do not repeat it.
-    const commitStatus=pmspField("sharedSeasonCommitStatus"),duplicate=Boolean(commitStatus&&!commitStatus.classList.contains("hidden")&&commitStatus.textContent==="SEASON COMMITTED · SCORE BELOW");pmspHidden(ui.status,duplicate);
+    // Job 33 (R8): the Shared Season Commit status already says SEASON CONFIRMED BY BOTH MANAGERS; do not repeat it.
+    const commitStatus=pmspField("sharedSeasonCommitStatus"),duplicate=Boolean(commitStatus&&!commitStatus.classList.contains("hidden")&&commitStatus.textContent==="SEASON CONFIRMED BY BOTH MANAGERS");pmspHidden(ui.status,duplicate);
     pmspText(ui.status,`SEASON ${season} LOCKED · REVIEW IT BEFORE MOVING ON`);pmspText(ui.action,"WAITING FOR SEASON REVIEW");pmspDisable(ui.action,true);return true;
   }
   async function pmspRefreshNow(request=pmspRequest()){
