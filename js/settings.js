@@ -312,7 +312,7 @@ function getSettingsReadsTodayText(){
         if(!today || !Number.isFinite(today.billedEstimate)){ return ""; }
         const total = `About ${getSettingsRoundedReads(today.billedEstimate)} of ${today.freeReadsPerDay.toLocaleString("en-US")}`;
         if(!Number.isFinite(today.game) || !Number.isFinite(today.career)){ return `${total} · both devices`; }
-        return `${total} · games ${getSettingsRoundedReads(today.game * 2)} · career pages ${getSettingsRoundedReads(today.career)}`;
+        return `${total} · games ${getSettingsRoundedReads(today.game * 2)} · career pages here ${getSettingsRoundedReads(today.career)}`;
     }catch(_error){
         return "";
     }

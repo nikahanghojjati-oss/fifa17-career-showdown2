@@ -131,7 +131,7 @@ const RID='pair_'+'a'.repeat(64);
 
   await check('B7 Settings shows both devices\' total split into games and career pages in one row (Settings keeps its height)',()=>{
     const settings=read('js/settings.js');
-    assert.match(settings,/· games \$\{getSettingsRoundedReads\(today\.game \* 2\)\} · career pages \$\{getSettingsRoundedReads\(today\.career\)\}`/);
+    assert.match(settings,/· games \$\{getSettingsRoundedReads\(today\.game \* 2\)\} · career pages here \$\{getSettingsRoundedReads\(today\.career\)\}`/,'career pages are this phone\'s only (the partner\'s are not exchanged; red team r87 A-06)');
     assert.doesNotMatch(settings,/COUNTED HERE TODAY|THIS DEVICE TODAY/,'no extra row: the short Settings screen must not scroll');
   });
 

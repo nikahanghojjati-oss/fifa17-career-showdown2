@@ -62,7 +62,9 @@
           if(!live())flight.cancelled=true;
           else{
             // r86: the phone copy or the Firebase summary first; a Showdown without one is read in full and then summarised.
-            // A failed summary get (not a missing one) falls back to the full read too, so the Rules rolling out never hide a game.
+            // A denied summary get falls back to the full read, so a Rules change never hides a game. Any other failed get
+            // (offline, unavailable) is tried once more and otherwise leaves the game unavailable for this open: a blip must not
+            // turn a 2-read summary into a full read (~145 billed for 10 seasons; red team r87 A-01).
             const store=cclModules.summary,storeOptions={firestore:options.firestore,firebaseSdk:sdk,uid:scope.uid,rivalryId,cryptoImpl:options.cryptoImpl,...(options.phoneStorage!==undefined?{phoneStorage:options.phoneStorage}:{})};
             // The Showdown the app is showing live is still being played: it gets no Firebase summary check, so a live game costs
             // no extra read. Once the app sees it completed or abandoned it is a finished game like any other (Sol r86 #01: a
@@ -70,7 +72,15 @@
             const current=options.current,entry=Array.isArray(current?.showdowns)?current.showdowns.find(item=>item?.rivalryId===rivalryId):undefined;
             const live=entry?!["completed","abandoned"].includes(entry.classification):current?.currentRivalryId===rivalryId;
             let kept=null;
-            if(store&&options.careerSummaries!==false){try{kept=await store.loadSummary({...storeOptions,firebase:!live});}catch(error){if(error?.code==="CLOSED_LOAD_CANCELLED")throw error;kept=null;}}
+            if(store&&options.careerSummaries!==false){
+              const denied=error=>/permission-denied/.test(String(error?.code||""));
+              try{kept=await store.loadSummary({...storeOptions,firebase:!live});}
+              catch(error){
+                if(error?.code==="CLOSED_LOAD_CANCELLED")throw error;
+                if(!denied(error)){try{kept=await store.loadSummary({...storeOptions,firebase:!live});}catch(again){if(again?.code==="CLOSED_LOAD_CANCELLED"||!denied(again))throw again;kept=null;}}
+                else kept=null;
+              }
+            }
             if(kept)read=kept.state;
             else{
               read=await reader.readCompletedShowdown({firestore:options.firestore,firebaseSdk:sdk,user:{uid:scope.uid},rivalryId,cryptoImpl:options.cryptoImpl,...(typeof beat==="function"?{onSeasonRead:beat}:{})});

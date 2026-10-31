@@ -90,10 +90,10 @@ function fakeIndexedDB(){
 }
 const keyRange={bound:(lower,upper)=>({lower,upper})};
 // One fresh page load: the real modules in one realm; `log` holds every server get, `writes` every summary create.
-function page(docs,phone,{hang=false}={}){
+function page(docs,phone,{hang=false,fail=null}={}){
   const log=[],writes=[];
   const sdk={doc:(_db,...p)=>p.join('/'),
-    getDoc:async ref=>{log.push(ref);await new Promise(resolve=>setImmediate(resolve));const value=docs[ref];return {exists:()=>value!==undefined,data:()=>value};},
+    getDoc:async ref=>{log.push(ref);await new Promise(resolve=>setImmediate(resolve));const failure=fail?.(ref);if(failure)throw Object.assign(new Error(failure),{code:failure});const value=docs[ref];return {exists:()=>value!==undefined,data:()=>value};},
     setDoc:async(ref,value)=>{if(hang)return new Promise(()=>{});await new Promise(resolve=>setImmediate(resolve));if(docs[ref]!==undefined)throw Object.assign(new Error('PERMISSION_DENIED'),{code:'permission-denied'});writes.push(ref);docs[ref]=JSON.parse(JSON.stringify(value));}};
   const c=vm.createContext({console,TextEncoder,crypto:webcrypto,setTimeout,clearTimeout,IDBKeyRange:keyRange});
   vm.runInContext(read('js/persistentNikDanielPair.js'),c);
@@ -169,6 +169,21 @@ async function currentCompleted(){
   await live.load(uid,{current:{indexStatus:'ready',showdowns:[{rivalryId:rid(1),classification:'active'}]}});
   assert.ok(!live.log.includes(summary),'a live current Showdown gets no Firebase summary check');
 }
+// Red team r87 A-01: a summary get that fails (offline, unavailable) is tried once more, never turned into the full read of
+// the game (~145 billed for 10 seasons); a denied one still falls back to the full read, so a Rules change never hides a game.
+async function summaryFailure(){
+  const docs=game(1,10),uid=accounts[0];index(docs,uid,[rid(1)]);
+  const first=page(docs,fakeIndexedDB());complete(await first.load(uid),1,10);await first.settled();
+  const summary=`accounts/${uid}/careerSummary/${rid(1)}`;
+  let left=1;const blip=page(docs,fakeIndexedDB(),{fail:ref=>ref===summary&&left-->0?'unavailable':null});
+  complete(await blip.load(uid),1,10);
+  assert.deepEqual(blip.log,[`accounts/${uid}/careerIndex/current`,summary,summary],'one blip: the summary is asked again, not the whole game');
+  const down=page(docs,fakeIndexedDB(),{fail:ref=>ref===summary?'unavailable':null}),d=await down.load(uid);
+  assert.ok(!down.log.some(ref=>ref.startsWith('rivalries/')),'summary still unavailable: no full read of the game');
+  assert.equal(d.model.coverage.readable,0,'the game is left out for this open and asked again on the next one');
+  const denied=page(docs,fakeIndexedDB(),{fail:ref=>ref===summary?'permission-denied':null});complete(await denied.load(uid),1,10);
+  assert.ok(denied.log.includes(`rivalries/${rid(1)}`),'a denied summary falls back to the full read');
+}
 const counts=[10,30,100,...(process.env.CMS_SCALE_1000==='1'?[1000]:[])];
 const results=[];
 (async()=>{
@@ -176,6 +191,7 @@ const results=[];
   await damagedGame();
   await readerVersion();
   await currentCompleted();
+  await summaryFailure();
   const TOTAL=10;
   for(const count of counts){
     const docs=Object.assign({},...Array.from({length:count},(_,i)=>game(i+1,TOTAL)));
