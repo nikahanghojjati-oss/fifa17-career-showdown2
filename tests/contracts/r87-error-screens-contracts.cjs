@@ -89,6 +89,21 @@ check("E5 offline fonts and the marble fallback",()=>{
   assert.match(css,/#onlinePlayerIdentityOverlay \{ background-image: url\("\.\.\/visual-assets\/v10_1\/plates-v2\/ENV_SETTINGS_PHONE_V2\.webp"\), url\("r78-marble-tile\.webp"\) !important; \}/);
 });
 
+check("E7 the connection panel and the save check speak plainly (proofread W3-7)",()=>{
+  const srj=read("js/sparkRemoteJoining.js");
+  const msgs=[...srj.matchAll(/message:(?:"([^"]*)"|`([^`]*)`)/g)].map(m=>m[1]??m[2]);
+  assert.ok(msgs.length>20,"messages found");
+  for(const m of msgs)assert.doesNotMatch(m,/capability|page.memory|provider acknowledgement|exact (?:same|private|active|open)|private session|authority/i,m);
+  assert.match(srj,/function srjPlain\(error,fallback\)/);
+  assert.ok(!/error&&error\.message\?error\.message:|error&&error\.message\|\|"/.test(srj),"no raw error.message reaches the panel");
+  const S=new Function("error","fallback",srj.match(/function srjPlain\(error,fallback\)\{([^\n]*)\}/)[1]);
+  assert.equal(S(new Error("Firebase: Error (auth/network-request-failed)."),"Could not connect. Try again."),"Could not connect. Try again.");
+  assert.equal(S(new Error("Nik's phone could not be reached. Check your connection."),"x"),"Nik's phone could not be reached. Check your connection.");
+  const lr=read("js/productionSharedLocalReconciliation.js");
+  for(const old of ["DOUBLE-CHECK","PREVIEW READY","ADVANCED RECOVERY","APPLY REMAINS DISABLED","Waiting for your rival to finish the last season"])assert.ok(!lr.includes(old),old);
+  assert.match(lr,/"Waiting for your rival's result\. It appears here by itself\."/);
+});
+
 function freePort(){return new Promise((resolve,reject)=>{const s=net.createServer();s.unref();s.on("error",reject);s.listen(0,"127.0.0.1",()=>{const {port}=s.address();s.close(()=>resolve(port));});});}
 async function waitForServer(port){for(let i=0;i<100;i++){const ok=await new Promise(r=>{const c=net.connect(port,"127.0.0.1",()=>{c.end();r(true);});c.on("error",()=>r(false));});if(ok)return;await new Promise(r=>setTimeout(r,100));}throw new Error("static server did not start");}
 

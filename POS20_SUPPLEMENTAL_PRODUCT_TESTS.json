@@ -2431,7 +2431,7 @@
     {
       "path": "tests/contracts/r87-error-screens-contracts.cjs",
       "patterns": [
-        "^js/(app|onlinePlayerIdentity|productionSharedTransferChallenge|transferChallenge|productionSharedJourneyGuard|seasonEngine|optionalModules|footballVisuals|diagnostics|productionSharedSeasonResultsRoute)\\.js$",
+        "^js/(app|onlinePlayerIdentity|productionSharedTransferChallenge|transferChallenge|productionSharedJourneyGuard|seasonEngine|optionalModules|footballVisuals|diagnostics|productionSharedSeasonResultsRoute|sparkRemoteJoining|productionSharedLocalReconciliation)\\.js$",
         "^css/r78-marble-surfaces\\.css$",
         "^service-worker\\.js$",
         "^tests/contracts/r87\\-error\\-screens\\-contracts\\.cjs$",
