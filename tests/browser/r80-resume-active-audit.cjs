@@ -1,5 +1,6 @@
 "use strict";
 const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // r80 resume (G7 + Home items 5/6): from Home, an ACTIVE Showdown always resumes to the screen the game is on, the same place a
 // reload takes the player, on Daniel's and Nik's phones, with no frame of GET READY, Career Start or Remote Joining on the way.
 // Before: a page that already held the ACTIVE private session answered Home START / CONTINUE CAREER with GET READY, and its
@@ -148,6 +149,8 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return;
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
     for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}

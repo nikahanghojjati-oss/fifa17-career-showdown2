@@ -152,8 +152,8 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
 }
 
 // ---------- a small page for the flow (just what js/touchlineGazette.js touches) ----------
-function world({loadFails=false,proceedResult=true,final=null,history,managerRole='playerOne'}={}){
-  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[]};
+function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne'}={}){
+  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[]};
   let screen='seasonEntry';
   class El{
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.parent=null;this.dataset={};this.attrs={};this.listeners={};this.classes=new Set();this.id='';this.disabled=false;this.textContent='';this.scrollTop=0;this.scrollHeight=0;this.offsetHeight=100;const self=this;this.style={setProperty(k,v){self.style[k]=v;}};this.classList={add:(...c)=>c.forEach(x=>this.classes.add(x)),remove:(...c)=>c.forEach(x=>this.classes.delete(x)),contains:c=>this.classes.has(c)};}
@@ -198,7 +198,7 @@ function world({loadFails=false,proceedResult=true,final=null,history,managerRol
     matchMedia:()=>({matches:false}),
     readStorageValue:k=>store.has(k)?store.get(k):null,writeStorageValue:(k,v)=>{store.set(k,String(v));return true;},
     getActiveScreenName:()=>screen,optionalAssetUrl:p=>p+'?v=test',
-    loadRuntimeScript:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
+    loadRuntimeScript:(key)=>loadFails?Promise.reject(new Error('offline')):lateFiles?new Promise(resolve=>setTimeout(()=>{if(late[key])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);resolve(true);},60)):Promise.resolve(true),loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
     Image:class{set src(v){setTimeout(()=>this.onload&&this.onload(),0);}decode(){return Promise.resolve();}},
     ShowdownContent:{frontPage:{art:n=>`visual-assets/v10_1/content/gazette/${n}.webp`,screen(slot,p,onContinue){
       calls.shown.push(p);const s=slot.appendChild(new El('section'));s.className='cmx-fp-screen';const t=s.appendChild(new El('h2'));t.className='cmx-fp-screen__title';
@@ -210,6 +210,9 @@ function world({loadFails=false,proceedResult=true,final=null,history,managerRol
     CareerModeSpecialPlayerChip:{liveFor:()=>sp},
     FINAL_WINNER_FIXTURES:final?{frames:{LIVE:final}}:undefined,CareerModeSeasonFinalV10:{gazetteHistory:()=>final?history:null}
   };
+  // lateFiles: the paper, the copy and the headlines are not on the page yet when the player taps (a tap before warm() ends)
+  const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages]};
+  if(lateFiles)for(const [name] of Object.values(late))delete sandbox[name];
   vm.createContext(sandbox);vm.runInContext(read('js/touchlineGazette.js'),sandbox,{filename:'touchlineGazette.js'});
   const api=sandbox.CareerModeTouchlineGazette;api.install();
   return {api,calls,host,doc,seasonButton,back,dispatch,go,store,screen:()=>screen,page:()=>doc.getElementById('touchlineGazette'),continueButton:()=>doc.getElementById('touchlineGazetteContinue')};
@@ -259,6 +262,24 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     stuck.dispatch(stuck.continueButton());await settle();assert.equal(stuck.calls.continue,1);assert.equal(stuck.page(),null,'Season Results is back with its own button');assert.equal(stuck.host.dataset.gazette,undefined);
     const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500,SEASON_SAFETY_MS=9000/);
     ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper, safety timers close it regardless');
+  }
+  // G11 a fast tap: CONTINUE pressed before the paper's files are on the page (warm() not finished) is still held for its
+  // paper; the files load after the tap, the paper is built and shown, and its CONTINUE runs the same step once (Codex P2).
+  {
+    const p=proj('9',3,[[R.clLeague,R.cupAward]]),history=fx.history(p);
+    const w=world({history,lateFiles:true});
+    const ev=w.dispatch(w.seasonButton);assert.equal(ev.defaultPrevented,true,'held although the copy is not loaded yet');assert.equal(w.calls.ownSeason,0);
+    assert.equal(w.page(),null);await new Promise(resolve=>setTimeout(resolve,150));
+    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','visual-identity']);
+    assert.ok(w.page(),'the paper came up once its files arrived');assert.equal(w.calls.shown[0].headline,G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp}).paper.headline);
+    w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1);assert.equal(w.screen(),'dashboard');assert.equal(w.page(),null);
+    const q=proj('9',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),fr=frame(q),f=world({history:fx.history(q),final:fr,lateFiles:true});
+    assert.equal(f.dispatch(f.back).defaultPrevented,true);await new Promise(resolve=>setTimeout(resolve,150));
+    assert.ok(f.page(),'final paper after a fast tap');f.dispatch(f.continueButton());await settle();assert.equal(f.calls.ownBack,1);assert.equal(f.screen(),'mainMenu');
+    // a second tap while the files are still loading is held too (one paper, one step)
+    const d=world({history,lateFiles:true});d.dispatch(d.seasonButton);assert.equal(d.dispatch(d.seasonButton).defaultPrevented,true);await new Promise(resolve=>setTimeout(resolve,150));
+    assert.equal(d.calls.shown.length,1);assert.equal(d.calls.continue,0);
+    ok('G11','a tap made before the paper\'s files arrive is still held for its paper (season and final), shown once, then the same step runs once');
   }
   // G10 the files: HO-048 copy byte for byte, shell-cached, fonts licensed, images on the V10 runtime cache, wired in once.
   {

@@ -1,5 +1,6 @@
 "use strict";
 const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // G-2b: Daniel and Nik play through the real app screens in two Chromium contexts against the
 // Auth + Firestore emulators (composed production Rules). Test database only; project demo-cms-browser-journey.
 // Run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
@@ -257,6 +258,9 @@ async function continueToSeason(daniel,nik,season,total){
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
+    const paper=await gazette.passGazette(m.page,"season");
+    assert.ok(paper&&paper.endsWith(`|season|${season-1}`),`${m.user} saw the season-${season-1} Touchline Gazette after CONTINUE TO SEASON ${season} (${paper})`);
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
     await rosterRoulette.waitForTransfer(m.page,30000);
     assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
@@ -306,6 +310,8 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return;
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
     for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
@@ -877,6 +883,13 @@ async function main(){
     // JOB-1040: after a finished online Showdown both devices open Career Statistics, Trophy Room and Legacy from Showdown Home
     // (real buttons) and must see the just-completed Showdown, before and after a reload. Every wait is bounded to 20 s.
     await assertCareerScreensShowCompletedShowdown([daniel,nik],"J10.3");
+    // r87 Touchline Gazette: each phone showed every season paper and the final paper exactly once, for the same Showdown.
+    for(const m of [daniel,nik]){
+      const seen=await gazette.gazetteSeen(m.page),rid=seen[0]?.split("|")[0];
+      assert.deepEqual(seen.map(k=>k.slice(k.indexOf("|")+1)),[...Array.from({length:LENGTH-1},(x,i)=>`season|${i+1}`),`final|${LENGTH}`],`${m.user} Gazette papers ${JSON.stringify(seen)}`);
+      assert.ok(rid&&seen.every(k=>k.startsWith(rid+"|")),`${m.user} papers belong to one Showdown`);
+    }
+    ok("J10.3g",`both devices showed the Touchline Gazette once per season (${LENGTH-1}) and once after Final Winner, and CONTINUE went on to the same screens`);
     for(const m of [daniel,nik]){
       await m.page.reload({waitUntil:"domcontentloaded"});
       await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});

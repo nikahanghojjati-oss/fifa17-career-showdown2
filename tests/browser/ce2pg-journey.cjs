@@ -1,5 +1,6 @@
 "use strict";
 const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // CE2PG: "Cloud Emulator 2-player Journey" (r80 flow).
 // Daniel and Nik play the real Career Mode Showdown in two Chromium contexts against the Firebase Auth + Firestore emulators
 // with the composed production Rules (the same production adapter path as tests/browser/r79-two-player-journey-audit.cjs).
@@ -463,6 +464,8 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return true;
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
     for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
@@ -666,6 +669,9 @@ async function continueToSeason(daniel,nik,next,total){
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
+    const paper=await gazette.passGazette(m.page,"season");
+    if(!paper||!paper.endsWith(`|season|${next-1}`))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
     await rosterRoulette.waitForTransfer(m.page,30000);
   }
@@ -1232,8 +1238,8 @@ async function playShowdown(ctx,spec){
       }
       entry.state="completed";billedModel?.markFinished(entry.rivalryId);
       for(const m of [daniel,nik]){
-        let landed=false;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});landed=await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
-        await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen opens Showdown Home",landed,await describe(m),{screen:"Showdown Champion"});
+        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final");landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
+        await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home",landed,`${paper||"no Gazette paper"} ${await describe(m)}`,{screen:"Showdown Champion"});
       }
       if(!SLIM)await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
       const end=mark(`${spec.name}:S${k}:end`);

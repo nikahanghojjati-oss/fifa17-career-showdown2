@@ -443,6 +443,16 @@
     passing=true;try{target.click();}finally{passing=false;}
     return true;
   }
+  // Whether a tap is due a paper is decided from the screen and the verified history alone (no copy needed), so a tap made
+  // before the paper's files have arrived is still held for its paper: the files load after the tap (within ASSET_CAP_MS)
+  // and the paper is built then. Only if they cannot load, or the paper cannot be built, does the tap simply go on.
+  function seasonKey(input){const facts=input&&readHistory(input.projection,input.seasonNumber);return facts&&input.seasonNumber<facts.totalSeasons?`${facts.rivalryId}|season|${input.seasonNumber}`:null;}
+  function finalKey(input){
+    if(!input)return null;const T=input.projection.totalSeasons,facts=readHistory(input.projection,T);if(!facts||facts.seasons.length!==T)return null;
+    const totals=totalsOf(facts.seasons),W=totals.playerOne>totals.playerTwo?"playerOne":totals.playerTwo>totals.playerOne?"playerTwo":"draw",final=input.final;
+    if(plain(final)){if({daniel:"playerOne",nik:"playerTwo",draw:"draw"}[final.winner]!==W)return null;if(plain(final.totals)&&(final.totals.daniel!==totals.playerOne||final.totals.nik!==totals.playerTwo))return null;}
+    return `${facts.rivalryId}|final|${T}`;
+  }
   function planFor(button){
     if(activeScreen()!=="seasonEntry")return null;
     const host=root.document.getElementById("seasonEntry");if(!host||host.classList.contains("hidden")||!host.contains(button))return null;
@@ -450,19 +460,22 @@
       const progression=root.CareerModeProductionSharedMultiSeasonProgression;
       if(button.disabled||!progression||typeof progression.canContinue!=="function"||!progression.canContinue())return null;
       const history=tgState("CareerModeProductionSharedHistoryConvergence"),rivalryId=history?.rivalryId||history?.projection?.rivalryId;
-      const input=seasonInput({history,specialPlayers:tgSpecial(rivalryId)});if(!input)return null;
-      const edition=seasonEdition(input);if(!edition||seen(edition.key))return null;
-      return {kind:"season",edition,button,proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
+      const input=seasonInput({history,specialPlayers:tgSpecial(rivalryId)}),key=seasonKey(input);if(!key||seen(key))return null;
+      return {kind:"season",key,button,build:()=>seasonEdition(input),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
     }
     const finalStage=button.closest(".v10FinalStage");
     if(finalStage&&host.classList.contains("v10FinalMode")&&!button.disabled&&(button.id==="finalWinnerRematch"||button.classList.contains("backButton"))){
       const final=root.FINAL_WINNER_FIXTURES?.frames?.LIVE||null,history=root.CareerModeSeasonFinalV10?.gazetteHistory?.()||null;
-      const input=finalInput({final,history});if(!input)return null;
-      const edition=finalEdition(input);if(!edition||seen(edition.key))return null;
+      const input=finalInput({final,history}),key=finalKey(input);if(!key||seen(key))return null;
       const rematch=button.id==="finalWinnerRematch";
-      return {kind:"final",edition,button,proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
+      return {kind:"final",key,button,build:()=>finalEdition(input),proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
     }
     return null;
+  }
+  // The files, then the paper, then its pictures, all inside the cap: resolves true only when the paper is ready to show.
+  function tgReady(plan){
+    const work=loadAssets().then(()=>{const edition=plan.build();if(!edition||edition.key!==plan.key)return false;plan.edition=edition;return Promise.all(edPictures(edition).map(decode)).then(()=>true);}).then(value=>value===true,()=>false);
+    return Promise.race([work,new Promise(resolve=>root.setTimeout(()=>resolve(false),ASSET_CAP_MS))]);
   }
   function onClick(event){
     if(passing)return;
@@ -474,13 +487,13 @@
     if(!plan)return;
     event.preventDefault();event.stopPropagation();event.stopImmediatePropagation?.();
     opening=plan;
-    within(tgPrepare(plan.edition),ASSET_CAP_MS).then(ready=>{
+    tgReady(plan).then(ready=>{
       opening=null;
-      // The player went somewhere else meanwhile: nothing happens. Files not ready: the tap goes on as before.
+      // The player went somewhere else meanwhile: nothing happens. Files or paper not ready: the tap goes on as before.
       if(activeScreen()!=="seasonEntry"||!plan.button.isConnected&&plan.kind==="season")return;
-      if(!ready||!root.ShowdownContent?.frontPage){void Promise.resolve().then(()=>plan.proceed()).catch(()=>{});return;}
+      if(!ready||!plan.edition||!root.ShowdownContent?.frontPage){void Promise.resolve().then(()=>plan.proceed()).catch(()=>{});return;}
       let shown=false;try{shown=tgRender(plan);}catch(_error){shown=false;tgClose();}
-      if(shown)markSeen(plan.edition.key);else void Promise.resolve().then(()=>plan.proceed()).catch(()=>{});
+      if(shown)markSeen(plan.key);else void Promise.resolve().then(()=>plan.proceed()).catch(()=>{});
     });
   }
   function onScreen(event){const screen=event?.detail?.screen??activeScreen();if(current&&screen!=="seasonEntry")tgClose();}
