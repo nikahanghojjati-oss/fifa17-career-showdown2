@@ -28,7 +28,7 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   CE2PG_DEBUG=1 (print raw screen text).
 // Run: npm run test:ce2pg   (or CE2PG_PLAN=single CE2PG_SEASONS=10 npm run test:ce2pg)
 //   It starts its own emulators (firebase emulators:exec) and static server and builds the composed Rules if they are missing.
-// Upgrade run (release proof for 2.0.0): CE2PG_UPGRADE_FROM=<r86 tree> (for example `git worktree add ../r86 origin/main`) serves
+// Upgrade run (release proof for 2.0.0; CE2PG_PLAN=single only): CE2PG_UPGRADE_FROM=<r86 tree> (for example `git worktree add ../r86 origin/main`) serves
 //   that tree first; the Showdown starts and plays CE2PG_UPGRADE_AFTER (default 1) season(s) on it, then, right after CONTINUE
 //   TO SEASON k+1, the server switches to this tree, both phones drop their service worker and caches (the update the phone
 //   applies on Home, proven on its own by tests/browser/r87-upgrade-from-r86-audit.cjs) and reload into the new build in the
@@ -1320,6 +1320,8 @@ async function main(){
   fs.rmSync(SHOT_DIR,{recursive:true,force:true});fs.mkdirSync(SHOT_DIR,{recursive:true});
   await loadComposedRules();
   if(UPGRADE_FROM&&process.env.CMS_BASE_URL)throw new Error("CE2PG_UPGRADE_FROM needs the harness's own server (no CMS_BASE_URL)");
+  // The upgrade happens after a non-final season of ONE Showdown: plan single, with more seasons than CE2PG_UPGRADE_AFTER.
+  if(UPGRADE_FROM&&(PLAN_NAME!=="single"||!(Number.isInteger(UPGRADE_AFTER)&&UPGRADE_AFTER>=1&&UPGRADE_AFTER<SEASONS)))throw new Error("CE2PG_UPGRADE_FROM needs CE2PG_PLAN=single and 1 <= CE2PG_UPGRADE_AFTER < CE2PG_SEASONS");
   if(UPGRADE_FROM){
     const old=fs.readFileSync(path.join(UPGRADE_FROM,"service-worker.js"),"utf8").match(/const RUNTIME_REVISION = "([^"]+)"/)?.[1];
     report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,pinned:UPGRADE_PIN,switchedAt:null};
