@@ -167,6 +167,37 @@
     sync();
   }
 
+  // r87 HO-049: season chips. Four gold marble chips (1/3/5/10) drawn over the product's own #roundAmount, which stays
+  // the value and the keyboard/screen-reader control (it is only visually tucked under the chips). A chip tap writes
+  // the value into the select and fires its input/change events exactly as a pick in the list would; the chips then
+  // follow whatever value the select holds, also when product code presets it. Each chip shows its option's own words
+  // ("3" + "Seasons" from "3 Seasons").
+  function v26Seasons(state){
+    const select=v26Byid("roundAmount");
+    const options=select&&select.options?Array.from(select.options):[];
+    if(!options.length||typeof select.after!=="function"||state.host.querySelector(".v26Seasons"))return;
+    const row=v26Make("div","v26Seasons"),chips=[];
+    for(const option of options){
+      const n=Number(option.value)||1,chip=v26Doc().createElement("button");
+      chip.type="button";chip.tabIndex=-1;chip.className="v26Season";chip.dataset.value=option.value;
+      const num=v26Doc().createElement("b"),word=v26Doc().createElement("span");num.append(String(n));word.append(String(option.text||"").replace(/^\s*\d+\s*/,""));chip.append(num,word);
+      chip.addEventListener("click",()=>{
+        if(select.disabled||select.value===option.value)return;
+        select.value=option.value;
+        select.dispatchEvent(new root.Event("input",{bubbles:true}));
+        select.dispatchEvent(new root.Event("change",{bubbles:true}));
+        sync();
+      });
+      chips.push(chip);row.appendChild(chip);
+    }
+    const sync=()=>{chips.forEach(chip=>chip.classList.toggle("is-on",chip.dataset.value===select.value));row.classList.toggle("is-locked",Boolean(select.disabled));};
+    select.after(row);
+    select.addEventListener("change",sync);state.cleanups.push(()=>select.removeEventListener("change",sync));
+    // A preset sets select.value without an event; a light check keeps the chips true while the screen is up.
+    const tick=()=>{sync();v26Later(state,tick,300);};
+    tick();
+  }
+
   function v26Mount(frame,host){
     const doc=v26Doc();
     if(!frame||!host||!doc)return;
@@ -177,6 +208,7 @@
     doc.documentElement.dataset[HTML_ATTR]=frame.skin;
     if(!host.querySelector(":scope > .v26Art"))host.appendChild(v26Art(frame.skin));
     if(frame.skin==="league")v26BindLeague(state);
+    if(host.id==="createShowdown"){try{v26Seasons(state);}catch(error){v26Report("Team V season chips could not mount.",error);}}
   }
   function v26Unmount(host){
     const state=host?live.get(host):null;

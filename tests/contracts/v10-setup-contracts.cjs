@@ -31,6 +31,7 @@ const TRUTH_MD_IDS=["newShowdown","createShowdown","createShowdownScreenTitle","
 // Team V files copied byte for byte from factory/v1-wtt5ye 5e05a1f (sha256 of `git show 5e05a1f:<path>`).
 const TEAM_V_FILES={
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
+  "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V1.webp":"a07b1e11254b36b7347b8f98e9682fa8a610d09713fcce8f028ca9ff4f024a85",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
   "visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp":"f1c490adad469e3f05dde6252b2f0455a11c468b3240f8d6dfebd34146b0c587",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
@@ -466,7 +467,10 @@ check("S7 Back routes unchanged: every Back keeps data-smart-back, its text and 
   for(const screen of Object.keys(Setup.SCREENS)){root.showScreen(screen);await flush();assert.deepEqual(smart(),before,screen);}
   for(const b of backs){root.calls.length=0;b.fire("click");assert.deepEqual(root.calls,[["navigateBackSmart"]],"Back still runs the app's smart back only");}
   const src=read("js/v10Setup.js");
-  for(const banned of ["smart-back","smartBack","navigateBack","navigateTo(","showScreen(","addEventListener(\"click\"","addEventListener('click'","onclick"])assert.ok(!src.includes(banned),`v10Setup.js never touches routing: ${banned}`);
+  for(const banned of ["smart-back","smartBack","navigateBack","navigateTo(","showScreen(","addEventListener('click'","onclick"])assert.ok(!src.includes(banned),`v10Setup.js never touches routing: ${banned}`);
+  // r87 HO-049: the one click listener is on Team V's own season chips; it only writes #roundAmount's value.
+  assert.equal(src.split('addEventListener("click"').length-1,1,"one click listener only (the season chips)");
+  assert.match(src,/chip\.addEventListener\("click",\(\)=>\{\s*if\(select\.disabled\|\|select\.value===option\.value\)return;\s*select\.value=option\.value;/,"the chip click only sets the select's value");
 });
 
 check("S8 the top bar is locked (setup) on both wheels, also when the shared presentation forces a wheel",async()=>{

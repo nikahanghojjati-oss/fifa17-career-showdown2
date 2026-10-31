@@ -255,6 +255,93 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 #createShowdown.v26Skin .setupBox .backButton { display: block; width: 100%; margin: 10px 0 0; }
 #createShowdown.v26Skin #onlineShowdownSetupNote { margin-top: 12px; }
 
+/* r87 HO-049: NEW SHOWDOWN brush wordmark (TITLE_NEW_SHOWDOWN_V1, cut from the approved TITLE_FINAL_WINNER and
+   TITLE_TRANSFER brush letters). Text stays for screen readers. */
+#createShowdown.v26Skin > h2 {
+  box-sizing: border-box;
+  width: clamp(260px, 40vw, 640px);
+  max-width: calc(100% - 16px);
+  aspect-ratio: 1180 / 225;
+  height: auto;
+  margin: clamp(6px, 2.4vh, 26px) auto 10px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 150%;
+  color: transparent;
+  border: 0;
+  box-shadow: none;
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V1.webp") center / 100% 100% no-repeat;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, .9));
+}
+/* The panel is opaque black marble with a gold edge (HO-027: no see-through, no blur). */
+#createShowdown.v26Skin .setupBox {
+  background: #0b0a08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(242, 196, 91, .75);
+  border-top: 3px solid var(--v26-gold-deep);
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3), 0 0 0 1px #000, 0 10px 24px rgba(0, 0, 0, .55);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* Season chips: the real #roundAmount stays in place as the value and the keyboard control, tucked under the chips. */
+#createShowdown.v26Skin .setupBox:has(.v26Seasons) #roundAmount {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+#createShowdown.v26Skin .v26Seasons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(8px, 1.2vw, 12px);
+  margin: 0 0 16px;
+}
+#createShowdown.v26Skin .v26Season {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 74px;
+  margin: 0;
+  padding: 8px 4px 9px;
+  color: #f6e3a8;
+  background: #121009 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(242, 196, 91, .8);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 2px rgba(17, 15, 12, .9), inset 0 0 0 3px rgba(242, 196, 91, .28), 0 0 0 1px #000;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#createShowdown.v26Skin .v26Season b { font: 700 34px/1 var(--v26-cond); letter-spacing: .02em; }
+#createShowdown.v26Skin .v26Season span { font: 600 13px/1 var(--v26-cond); font-variant-caps: all-small-caps; letter-spacing: .24em; }
+#createShowdown.v26Skin .v26Season.is-on {
+  color: #140e04;
+  background: linear-gradient(180deg, #fff1b8 0%, #f2c45b 40%, #c08f33 78%, #8f6420 100%);
+  border-color: #fff1b8;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 -2px 0 rgba(0, 0, 0, .25), 0 0 0 1px #000, 0 0 14px rgba(242, 196, 91, .45);
+}
+#createShowdown.v26Skin .v26Seasons.is-locked .v26Season { cursor: default; }
+#createShowdown.v26Skin .setupBox:has(#roundAmount:focus-visible) .v26Season.is-on { outline: 2px solid #fff1b8; outline-offset: 3px; }
+@media (hover: hover) {
+  #createShowdown.v26Skin .v26Seasons:not(.is-locked) .v26Season:not(.is-on):hover { border-color: #fff1b8; color: #fff1b8; }
+}
+@media (max-width: 760px) {
+  #createShowdown.v26Skin > h2 { width: min(64vw, 280px); margin: 4px auto 8px; }
+  #createShowdown.v26Skin .v26Season { min-height: 64px; }
+  #createShowdown.v26Skin .v26Season b { font-size: 28px; }
+  #createShowdown.v26Skin .v26Season span { font-size: 12px; letter-spacing: .16em; }
+}
+
 /* ---------- League wheel ---------- */
 #leagueWheelScreen.v26Skin { --v26-wheel: clamp(250px, min(46vh, 34vw), 460px); }
 #leagueWheelScreen.v26Skin .wheelContainer {
