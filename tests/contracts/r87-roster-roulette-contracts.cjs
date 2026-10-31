@@ -50,6 +50,8 @@ ok('L1','98 launch boards: XI + 4 highest-rated subs, one GK, unique shirts');
   for(const c of scene.clubs){
     const board=RRR.board(c.club);
     assert.deepEqual([...c.xi,...c.subs].map(r=>[r[1],r[2]]),board.map(p=>[p.name,p.rating]),`${c.club}: scene XI+subs match the engine board`);
+    // Sol job 5 coverage gap: the scene must also put each starter in the engine's formation slot.
+    assert.deepEqual(c.xi.map(r=>r[0]),board.slice(0,11).map(p=>p.pos),`${c.club}: scene XI positions match the engine formation`);
   }
 }
 ok('L1b','Sol SQ-1-01: the roulette scene asset carries the engine launch XI + 4 subs for all 98 clubs');
@@ -80,6 +82,13 @@ ok('L1b','Sol SQ-1-01: the roulette scene asset carries the engine launch XI + 4
   const repeat=RRR.forSeason(id3,ars,3,{special:sp3,history:h}).boards.playerOne;
   assert.deepEqual(repeat,plain,'SQ-2-03: entering an earlier signing again changes nothing');
   assert.equal(plain[11].name,'M. Debuchy','SQ-2-03: the best club player fills the shot sub');
+  // Sol job 5 coverage gap: a case only the repair pass fixes (no signing ever joins at RM). Hull City lose
+  // R. Snodgrass in season 1; by season 5 the striker stopgap at RM hands the slot back to A. Elmohamady.
+  const n=1707,hx=createHash('sha256').update('g'+n).digest();
+  h=none();for(let k=1;k<=9;k+=1)h[k].playerOne=[0,1].map(j=>{const b=hx[(k*2+j)%32];return {slot:j+1,name:`X${n}_${k}_${j}`,overall:50+b%45,position:['CB','ST','LW','RW','LB','RB','GK','CM'][b%8],release:b%5===0};});
+  const hull=RRR.forSeason('pair_'+createHash('sha256').update('f'+n).digest('hex'),{playerOne:'Hull City',playerTwo:'Werder Bremen'},5,{history:h}).boards.playerOne;
+  assert.equal(hull[6].name,'A. Elmohamady','SQ-2-01 repair pass: the fitting RM takes his slot back');
+  assert.ok(hull.some(p=>p.bench&&p.name==='D. Mbokani'),'SQ-2-01 repair pass: the stopgap returns to the bench');
 }
 ok('L1c','Sol job 2: outfield stopgap repair (SQ-2-01), guessed incumbent evicted (SQ-2-02), repeated signing keeps his window (SQ-2-03)');
 

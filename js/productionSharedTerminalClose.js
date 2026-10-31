@@ -26,7 +26,8 @@
       if(!ptcHistoryConverged(request.rivalryId)&&polls<HISTORY_WAIT_POLLS){polls++;root.setTimeout(attempt,HISTORY_POLL_MS);return;}
       automaticAttempts.set(key,{failed:false});
       ptcPublish(request,{...ptcCurrentState(),automaticSaving:true,automaticCloseFailed:false});
-      void ptcClose(key).then(result=>{
+      // r87 arch S-05: a throw before the close's own try (intent check) is a failed save too, never "Saving..." forever.
+      void ptcClose(key).catch(error=>{ptcReport("Shared Showdown Terminal Close failed",error);return null;}).then(result=>{
         if(result?.ok===true)return;
         automaticAttempts.set(key,{failed:true});
         if(ptcStillCurrent(request,generation)&&ptcCurrentState()?.phase!=="CLOSED")ptcPublish(request,{...ptcCurrentState(),automaticSaving:false,automaticCloseFailed:true});
