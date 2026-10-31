@@ -95,6 +95,9 @@ check("E7 the connection panel and the save check speak plainly (proofread W3-7)
   assert.ok(msgs.length>20,"messages found");
   for(const m of msgs)assert.doesNotMatch(m,/capability|page.memory|provider acknowledgement|exact (?:same|private|active|open)|private session|authority/i,m);
   assert.match(srj,/function srjPlain\(error,fallback\)/);
+  // Codex #1118: a lost acknowledgement is retried by the RETRY button (or an online event), not on a timer, so the line says so.
+  assert.match(srj,/srjPendingFailure[^\n]*\n[^\n]*\n[^\n]*Tap the RETRY button below to try again\. Your Showdown was not changed\./);
+  assert.ok(!srj.includes("It will try again by itself"),"no promise of an automatic retry that is not scheduled");
   assert.ok(!/error&&error\.message\?error\.message:|error&&error\.message\|\|"/.test(srj),"no raw error.message reaches the panel");
   const S=new Function("error","fallback",srj.match(/function srjPlain\(error,fallback\)\{([^\n]*)\}/)[1]);
   assert.equal(S(new Error("Firebase: Error (auth/network-request-failed)."),"Could not connect. Try again."),"Could not connect. Try again.");

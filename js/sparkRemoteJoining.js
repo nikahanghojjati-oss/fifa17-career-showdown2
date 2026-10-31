@@ -167,7 +167,7 @@
   }
   function srjPendingFailure(error,action){
     const message=srjPlain(error,"No answer from the online server.");
-    srjSetState({status:"recovery-pending",busy:false,pendingAction:action,capabilityCopyAllowed:false,message:`${message} It will try again by itself. Your Showdown was not changed.`});
+    srjSetState({status:"recovery-pending",busy:false,pendingAction:action,capabilityCopyAllowed:false,message:`${message} Tap the RETRY button below to try again. Your Showdown was not changed.`});
     return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_PENDING",message,recoverable:true,pendingAction:action};
   }
   // BH-11 (#10): a host or join write is refused when the phone clock is minutes off server time (the Rules check createdAt and
