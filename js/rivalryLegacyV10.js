@@ -35,8 +35,10 @@
     const completed=rows.filter(r=>r.status==="completed");
     if(!completed.every(validRow))return bare("unavailable");
     // r80: an Ended early Showdown is listed as one status-only row (date, seasons played); it never counts anywhere.
+    // r87 career fixes (Nik 2026-10-31): the list stays oldest to newest (‹ older, › newer), but History opens on the newest
+    // Showdown: its page on desktop, its card on a phone.
     const listed=rows.filter(r=>r.status==="completed"||(r.status==="abandoned"&&Number.isInteger(r.number)));
-    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons),...golden(r),...rowSpecial(r)}),ui:{page:1,pageSize:4,selectedShowdown:completed[0]?.number??null}};
+    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons),...golden(r),...rowSpecial(r)}),ui:{page:Math.max(1,Math.ceil(listed.length/4)),pageSize:4,selectedShowdown:listed.at(-1)?.number??null}};
     if(status==="partial")frame.coverage=copy(model.coverage);
     // Current-only projections are never offered as an archive or backfilled.
     if(model.interimLabel){frame.status="unavailable";return bare("unavailable");}
@@ -84,6 +86,9 @@
   // and one after Showdown B no longer share a key (Standings and Settings showed A's career after B had finished).
   const context=()=>{const pair=state("CareerModePersistentNikDanielPair");return JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,pair?.rivalryId??null,pair?.closedRivalryId??null,markerEpoch()]);};
   const report=error=>root.reportApplicationError?.("History and stats screens could not load",error);
+  // r87 career fixes (A-08): the toast says what happened in plain words; the code stays on error.code for diagnostics.
+  const TIMEOUT_CODE="RIVALRY_LEGACY_LOAD_TIMEOUT";
+  function rlTimeoutError(){const error=new Error("The connection was too slow. It tries again by itself when you are back online.");error.code=TIMEOUT_CODE;return error;}
   const load=(key,file,global)=>root.loadRuntimeScript(key,file,()=>Boolean(root[global]));
   async function modelDependencies(){
     for(const [key,file,global] of [
@@ -139,6 +144,9 @@
         const selected=root.LegacyFixture?.selectedShowdown;
         const current=cards.find(card=>Number(card.dataset.showdown)===Number(selected))||cards[0];
         cards.forEach(card=>card.classList.toggle("legacyVisibleCard",card===current));
+        // r87 career fixes (A-01): a 3-digit total ("110 – 110") is wider than the score's third of a desktop card, so that
+        // card puts the score on its own line above the two managers (css/rivalryLegacyV10.css). Nothing else changes.
+        for(const card of cards){const row=Array.isArray(frame.showdowns)?frame.showdowns.find(item=>item&&item.number===Number(card.dataset.showdown)):null;const wide=Boolean(row?.totals&&Math.max(row.totals.daniel,row.totals.nik)>=100);if(wide!==(card.dataset.wideScore==="true")){if(wide)card.dataset.wideScore="true";else delete card.dataset.wideScore;}}
       };
       syncCard();
       const observer=grid&&root.MutationObserver?new root.MutationObserver(syncCard):null;
@@ -203,6 +211,14 @@
       }
       if(!installed){
         installed=true;
+        // r87 career fixes (A-08): a screen left on "unavailable" (a timeout after a phone lock or bad signal) loads again by
+        // itself when the page is shown again or the connection comes back, as TRY AGAIN would. Nothing loads while hidden.
+        const retryUnavailable=()=>{
+          if(root.document?.visibilityState==="hidden")return;
+          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&sources[screen]===UNAVAILABLE&&!reloads[screen]?.flight)void refresh(screen).catch(report);
+        };
+        root.addEventListener?.("online",retryUnavailable);
+        root.document?.addEventListener?.("visibilitychange",retryUnavailable);
         const events={"career-mode-online-identity-change":"CareerModeOnlinePlayerIdentity","career-mode-connected-account-state-change":"CareerModeSparkConnectedAccount","career-mode-shared-history-convergence-state-change":"CareerModeProductionSharedHistoryConvergence","career-mode-shared-terminal-close-state-change":"CareerModeProductionSharedTerminalClose","career-mode-career-start-change":"CareerModeCareerStartMarker"};
         for(const [event,provider] of Object.entries(events)){
           const signature=value=>JSON.stringify([context(),value?.phase??null,value?.status??null,value?.acceptedRevisionKey?value.throughSeason??null:null,value?.acceptedRevisionKey??null]);
@@ -221,7 +237,7 @@
   // Career Statistics and Trophy Room, and the Standings Career view). Same exact gets and services as
   // before; the last result is kept in memory for the current account, manager and pair only.
   // careerLoadSequence orders overlapping loads: only the newest started load may publish the shared cache.
-  let careerCache=null,careerLoadSequence=0;
+  let careerCache=null,careerLoadSequence=0,careerLoadsRunning=0;
   // Career start marker (js/careerStartMarker.js, lazily loaded; one exact get per account per page load once it exists).
   // r80 (Nik 2026-10-19: test runs never count anywhere, a real game is never hidden): with a marker, the Showdowns it
   // names are hidden, except a Showdown finished on r79 or later (Nik 2026-10-19 20:35 UTC: show r79 onward, #941 reverted;
@@ -252,8 +268,23 @@
       return scope.testOnly||scope.hidden.includes(rivalryId);
     }catch(_){return true;}
   }
+  // r87 career fixes (B2): a pair change while the career loads (the other phone ends the live Showdown, or a failed pair
+  // re-check) changes the context key. The finished read was then dropped with no event, so Career Statistics, Trophy Room
+  // and Standings stayed on UNAVAILABLE. The read is not published under the new key (after a Showdown completes it would
+  // miss that Showdown), it is run once more for the same account and manager instead. Finished Showdowns are kept in the
+  // loader's page cache, so the retry reads only what changed.
   async function rlLoadCareerModel(canPublish=()=>true,rivalry=false,onProgress=null){
-    const key=context(),sequence=++careerLoadSequence;
+    const sequence=++careerLoadSequence;careerLoadsRunning+=1;
+    try{
+      let key=context(),result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);
+      const now=context();
+      if(now!==key&&canPublish()&&sequence===careerLoadSequence&&rlOwner(now)===rlOwner(key)){key=now;result=await rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress);}
+      return result;
+    }finally{careerLoadsRunning-=1;}
+  }
+  // r87 career fixes (B1): History & Backup shows the kept career and says "Loading" while a career read is running.
+  const rlCareerModelLoading=()=>careerLoadsRunning>0;
+  async function rlLoadCareerModelOnce(key,sequence,canPublish,rivalry,onProgress){
     await modelDependencies();
     const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
     const account=state("CareerModeSparkConnectedAccount"),runtime=root.CareerModeProductionFirebaseRuntime;
@@ -287,7 +318,7 @@
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
   function refresh(screen,event=false){
-    const key=context(),reload=reloads[screen]??(reloads[screen]={flight:null,timer:null,dirty:false,lastStarted:-Infinity});
+    let key=context();const reload=reloads[screen]??(reloads[screen]={flight:null,timer:null,dirty:false,lastStarted:-Infinity});
     const supplied=getters[screen]?.();
     if(supplied!=null){screens().invalidate(APP[screen]);return screens().show(APP[screen]);}
     // Never retain another account's frame while its old request finishes. r82 (Nik: Legacy panels show, vanish, then
@@ -312,7 +343,7 @@
       let timeout,fail;
       // r86 (Sol S61-r85-04): an inactivity deadline, not a flat cut. Each Showdown read restarts the 15 s, so a long cold
       // career keeps loading while records arrive; first-entry History says how far it got (never partial totals).
-      const arm=()=>{root.clearTimeout(timeout);timeout=root.setTimeout(()=>{flight.alive=false;fail(new Error("RIVALRY_LEGACY_LOAD_TIMEOUT"));},LOAD_TIMEOUT);};
+      const arm=()=>{root.clearTimeout(timeout);timeout=root.setTimeout(()=>{flight.alive=false;fail(rlTimeoutError());},LOAD_TIMEOUT);};
       const progress=({done,total}={})=>{
         if(!flight.alive||flight.left||context()!==key)return;arm();
         if(screen==="legacy"&&sources[screen]===LOADING&&Number.isInteger(done)&&Number.isInteger(total)&&total>0)rlShowProgress(screen,done,total);
@@ -331,7 +362,14 @@
           return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress);
         })();
         const model=await Promise.race([loading,deadline]);
-        if(context()!==key||flight.left)return false;
+        if(flight.left)return false;
+        // r87 career fixes (B2): the pair changed while this screen loaded. The load already ran once more under the new key;
+        // when that career is the one now kept for this account and manager, show it. Otherwise load again (never strand
+        // the screen on its old key, which drew UNAVAILABLE with no reload).
+        if(context()!==key){
+          if(screen==="legacy"&&rlOwner(context())===rlOwner(key)&&model&&model===rlCachedCareerModel()){key=sourceKeys[screen]=context();}
+          else{reload.dirty=true;return false;}
+        }
         // r82 (Codex JOB-B B3/B6): a reload that returns the same career keeps the frame already shown (no second boot).
         const shown=sources[screen];if(shown&&shown!==LOADING&&shown!==UNAVAILABLE&&model&&JSON.stringify(shown)===JSON.stringify(model))return true;
         sources[screen]=model;return await screens().show(APP[screen]);
@@ -371,6 +409,6 @@
   }
 
   const RUNTIME_FILES=["visual-assets/v10_1/legacy/legacy.css", "visual-assets/v10_1/legacy/legacy.js", "visual-assets/v10_1/legacy/strings.json", "visual-assets/v10_1/legacy/assets/platemap.json", "visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js", "visual-assets/v10_1/rivalry-statistics/strings.json", "visual-assets/v10_1/rivalry-statistics/assets/platemap.json", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp", "js/rivalryLegacyV10.js", "js/rivalryLegacyV10Markup.js", "css/rivalryLegacyV10.css"];
-  return rlFreeze({toV10Frame:rlToV10Frame,mount:rlMount,markup,loadCareerModel:rlLoadCareerModel,cachedCareerModel:rlCachedCareerModel,RUNTIME_FILES});
+  return rlFreeze({toV10Frame:rlToV10Frame,mount:rlMount,markup,loadCareerModel:rlLoadCareerModel,cachedCareerModel:rlCachedCareerModel,careerModelLoading:rlCareerModelLoading,RUNTIME_FILES});
 });
 

@@ -2408,6 +2408,25 @@
         "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(legacy|settings|rivalryLegacyV10|careerScreensV10|careerScreenSeam|careerSummaryStore|sharedCareerAnalytics|touchlineGazette)\\.js$",
+        "^tests/contracts/r87\\-career\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-browser-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/legacy/",
+        "^js/specialPlayerChip\\.js$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

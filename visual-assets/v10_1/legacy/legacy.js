@@ -394,6 +394,19 @@ window.ShowdownLegacyBoot = function () {
       if (next) next.disabled = phone.matches ? index >= records.length - 1 : page >= pages;
       const currentPage = phone.matches ? Math.max(0, index) + 1 : page;
       frame.ui.page = currentPage;
+      // r87 career fixes (Nik 2026-10-31): long careers use a compact counter and a scrubber instead of one dot per item.
+      const total = phone.matches ? records.length : pages;
+      const counter = pager.querySelector(".legacyPageCounter");
+      if (counter) {
+        const firstShown = (page - 1) * pageSize + 1, lastShown = Math.min(records.length, page * pageSize);
+        counter.textContent = phone.matches ? currentPage + " / " + total : (firstShown === lastShown ? String(firstShown) : firstShown + "–" + lastShown) + " / " + records.length;
+        counter.setAttribute("aria-label", copy(strings, "page", { number: currentPage, total }));
+      }
+      const scrub = pager.querySelector(".legacyPageScrub");
+      if (scrub) { scrub.value = String(currentPage); scrub.setAttribute("aria-valuetext", copy(strings, "page", { number: currentPage, total })); }
+      const oldest = pager.querySelector('[data-jump="oldest"]'), newest = pager.querySelector('[data-jump="newest"]');
+      if (oldest) oldest.disabled = currentPage <= 1;
+      if (newest) newest.disabled = currentPage >= total;
       const dots = pager.querySelector(".legacyPageDots");
       if (dots) {
         dots.setAttribute("aria-label", copy(strings, "page", { number: currentPage, total: phone.matches ? records.length : pages }));
@@ -419,35 +432,63 @@ window.ShowdownLegacyBoot = function () {
       });
       pager.replaceChildren();
       if (records.length) {
-        const dots = document.createElement("span");
-        dots.className = "legacyPageDots";
-        dots.setAttribute("role", "img");
-        // Indicators, not tiny controls: 44px arrows and swipe own navigation.
-        Array.from({ length: phone.matches ? records.length : pages }, () => {
-          const dot = document.createElement("span");
-          dot.className = "legacyPageDot";
-          dot.setAttribute("aria-hidden", "true");
-          dots.appendChild(dot);
-        });
+        const total = phone.matches ? records.length : pages;
+        // Up to 10 positions keep the dots; more use "‹ 37 / 100 ›", jumps to the oldest and newest Showdown and a
+        // scrubber, so a career of hundreds of Showdowns is a few taps (or one drag) from end to end.
+        const compact = total > 10;
+        pager.dataset.compact = String(compact);
+        let middle;
+        if (compact) {
+          middle = document.createElement("span");
+          middle.className = "legacyPageCounter";
+          middle.setAttribute("role", "status");
+          middle.setAttribute("aria-live", "polite");
+        } else {
+          middle = document.createElement("span");
+          middle.className = "legacyPageDots";
+          middle.setAttribute("role", "img");
+          // Indicators, not tiny controls: 44px arrows and swipe own navigation.
+          Array.from({ length: total }, () => {
+            const dot = document.createElement("span");
+            dot.className = "legacyPageDot";
+            dot.setAttribute("aria-hidden", "true");
+            middle.appendChild(dot);
+          });
+        }
+        const jump = (kind) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.dataset.jump = kind;
+          button.className = "legacyPageJump";
+          button.textContent = kind === "oldest" ? "«" : "»";
+          button.setAttribute("aria-label", kind === "oldest" ? "Oldest Showdown" : "Newest Showdown");
+          button.title = kind === "oldest" ? "Oldest" : "Newest";
+          button.addEventListener("click", () => goTo(kind === "oldest" ? 1 : total));
+          return button;
+        };
+        if (compact) pager.appendChild(jump("oldest"));
         [-1, 1].forEach((direction) => {
           const button = document.createElement("button");
           button.type = "button";
           button.dataset.direction = String(direction);
           button.textContent = direction < 0 ? "‹" : "›";
           button.setAttribute("aria-label", direction < 0 ? strings.ui.previous : strings.ui.next);
-          button.addEventListener("click", () => {
-            if (phone.matches) {
-              const index = records.findIndex((item) => item.number === selected);
-              select(records[Math.max(0, Math.min(records.length - 1, index + direction))].number, true);
-            } else {
-              page = Math.max(1, Math.min(pages, page + direction));
-              paint(true);
-              pageMotion(direction);
-            }
-          });
+          button.addEventListener("click", () => step(direction));
           pager.appendChild(button);
-          if (direction === -1) pager.appendChild(dots);
+          if (direction === -1) pager.appendChild(middle);
         });
+        if (compact) {
+          pager.appendChild(jump("newest"));
+          const scrub = document.createElement("input");
+          scrub.type = "range";
+          scrub.className = "legacyPageScrub";
+          scrub.min = "1";
+          scrub.max = String(total);
+          scrub.step = "1";
+          scrub.setAttribute("aria-label", phone.matches ? "Choose a Showdown" : "Choose an archive page");
+          scrub.addEventListener("input", () => goTo(Number(scrub.value), false));
+          pager.appendChild(scrub);
+        }
       }
       select(selected, phone.matches);
       if (focusCard) {
@@ -455,6 +496,57 @@ window.ShowdownLegacyBoot = function () {
         if (target) target.focus({ preventScroll: true });
       }
     }
+    // r87 career fixes: one way to move for the arrows, the jumps, the scrubber, the keyboard and a swipe.
+    function goTo(position, focusCard = true) {
+      if (!records.length) return;
+      if (phone.matches) {
+        const target = records[Math.max(0, Math.min(records.length - 1, position - 1))];
+        if (target && target.number !== selected) select(target.number, true);
+      } else {
+        const next = Math.max(1, Math.min(pages, position));
+        if (next === page) return;
+        const direction = next > page ? 1 : -1;
+        page = next;
+        paint(focusCard);
+        pageMotion(direction);
+      }
+    }
+    function step(direction) {
+      if (phone.matches) {
+        const index = records.findIndex((item) => item.number === selected);
+        goTo(Math.max(0, index) + 1 + direction);
+      } else goTo(page + direction);
+    }
+    // Desktop (and a phone with a keyboard): ← → step, Home / End jump to the oldest / newest. Never while typing, while
+    // the season list is open, or when another screen shows.
+    const onKey = (event) => {
+      if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      const host = document.getElementById("legacy");
+      if (!host || host.classList.contains("hidden") || !host.contains(grid)) return;
+      const t = event.target;
+      if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+      const drawer = document.getElementById("legacySeasonHistory");
+      if (drawer && !drawer.hidden) return;
+      event.preventDefault();
+      const total = phone.matches ? records.length : pages;
+      if (event.key === "Home") goTo(1);
+      else if (event.key === "End") goTo(total);
+      else step(event.key === "ArrowRight" ? 1 : -1);
+    };
+    if (typeof document.addEventListener === "function") document.addEventListener("keydown", onKey);
+    // Phone: a sideways swipe on the card moves one Showdown (a mostly vertical drag still scrolls the page).
+    let touch = null;
+    const onTouchStart = (event) => { const p = event.changedTouches && event.changedTouches[0]; touch = p ? { x: p.clientX, y: p.clientY } : null; };
+    const onTouchEnd = (event) => {
+      const p = event.changedTouches && event.changedTouches[0];
+      if (!touch || !p || !phone.matches) { touch = null; return; }
+      const dx = p.clientX - touch.x, dy = p.clientY - touch.y;
+      touch = null;
+      if (Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+    };
+    grid.addEventListener("touchstart", onTouchStart, { passive: true });
+    grid.addEventListener("touchend", onTouchEnd, { passive: true });
     grid.addEventListener("scroll", () => {
       clearTimeout(settling);
       settling = setTimeout(() => {
@@ -480,7 +572,7 @@ window.ShowdownLegacyBoot = function () {
       paint();
     };
     phone.addEventListener("change", onPhoneChange);
-    window.LEGACY_BOOT.cleanup = () => { phone.removeEventListener("change", onPhoneChange); clearTimeout(settling); };
+    window.LEGACY_BOOT.cleanup = () => { phone.removeEventListener("change", onPhoneChange); clearTimeout(settling); if (typeof document.removeEventListener === "function") document.removeEventListener("keydown", onKey); if (typeof grid.removeEventListener === "function") { grid.removeEventListener("touchstart", onTouchStart); grid.removeEventListener("touchend", onTouchEnd); } };
     paint();
   }
 

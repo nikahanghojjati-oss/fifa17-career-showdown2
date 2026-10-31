@@ -243,7 +243,9 @@
     // The Final Winner frame, when given, must say the same (it reads the reconciled winner; the paper never disagrees with it).
     if(final){const fw={daniel:"playerOne",nik:"playerTwo",draw:"draw"}[final.winner];if(fw!==W)return null;if(plain(final.totals)&&(final.totals.daniel!==totals.playerOne||final.totals.nik!==totals.playerTwo))return null;}
     const draw=W==="draw",L=draw?null:OTHER[W],margin=Math.abs(totals.playerOne-totals.playerTwo);
-    const golden=!draw&&T===GOLDEN.seasons&&totals[W]>=GOLDEN.points;
+    // r87 career fixes (B3): the seam judges each manager on their own total, so a 110-110 ten-season draw is Golden for both.
+    // That paper is the Golden edition told as a draw (the drawn pages, both managers level, no winner and no tiebreak).
+    const golden=T===GOLDEN.seasons&&(draw?totals.playerOne>=GOLDEN.points:totals[W]>=GOLDEN.points);
     const used=new Set();for(let k=1;k<T;k+=1)buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,null,used);
     const key=`${facts.rivalryId}|final|${T}`,walk=walker(facts.rivalryId,"final",0,used);
     const vals={seasonsTotal:T,managerA:NAMES.playerOne,managerB:NAMES.playerTwo,clubA:facts.clubs.playerOne,clubB:facts.clubs.playerTwo};
@@ -286,7 +288,7 @@
     return Object.freeze({
       kind:"final",key,rivalryId:facts.rivalryId,seasonNumber:T,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],golden,
       paper:{
-        variant:golden?"gold":draw?"draw":"season",kicker:draw?"DRAWN":head.kicker||"SHOWDOWN WINNER",headline:head.headline,subhead:head.subhead,
+        variant:golden?"gold":draw?"draw":"season",kicker:draw?(golden?"GOLDEN DRAW":"DRAWN"):head.kicker||"SHOWDOWN WINNER",headline:head.headline,subhead:head.subhead,
         season:`${T} season${T===1?"":"s"}`,dateline:golden?"Golden edition":"Final edition",edition:golden?"Commemorative edition":"Price: one point",issue:golden?"Vol. I · Golden edition":"Vol. I · Final edition",ears:earsFor(walk),
         left:{name:NAMES.playerOne,club:facts.clubs.playerOne,score:totals.playerOne},right:{name:NAMES.playerTwo,club:facts.clubs.playerTwo,score:totals.playerTwo},
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},

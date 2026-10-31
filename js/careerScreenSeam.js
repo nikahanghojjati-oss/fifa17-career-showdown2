@@ -50,9 +50,10 @@
     return dataTools===true?"local":"unavailable";
   }
   // r80 Ended early row: "Ended early · 18 Oct 2026 · 1 season"; an unknown date or count (closes before the mark) is a dash.
+  // r87 career fixes (A-04): the date is the UTC day, so Daniel's and Nik's phones print the same date in any time zone.
   function endedEarlyText(row){
     const at=row&&Number.isFinite(row.endedAt)&&row.endedAt>0?new Date(row.endedAt):null,played=row&&Number.isInteger(row.seasonsPlayed)?row.seasonsPlayed:null;
-    let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(at);}catch(_error){date="-";}}
+    let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"}).format(at);}catch(_error){date="-";}}
     return TEXT.historyStatus.abandoned+" · "+date+" · "+(played===null?"- seasons":played+(played===1?" season":" seasons"));
   }
   // r84 Golden Showdown (Nik): a manager who scores 110 Showdown points (11, the most a season can score, in every season)

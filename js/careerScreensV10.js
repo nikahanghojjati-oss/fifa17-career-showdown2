@@ -79,7 +79,11 @@
     const ranks=v10Ranks(room.standings);
     if(ranks.some(row=>row.rank===null))return null;
     const standings=ranks.map(({manager,rank})=>({manager,careerPoints:managers[manager].careerPoints,seasonWins:managers[manager].seasonWins,rank:"#"+rank}));
-    const records=room.records.filter(row=>v10Finite(row.value)).map(row=>({label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}));
+    // r87 career fixes (B5): a record nobody holds (the model's null best, for example no perfect season yet) shows a dash
+    // with no holder, never "0 Shared".
+    // Every record counts up (season score, league points, league goals, biggest win, perfect seasons), so a best of 0 is
+    // held by nobody either.
+    const records=room.records.filter(row=>v10Finite(row.value)||row.value===null).map(row=>v10Finite(row.value)&&row.value>0?{label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}:{label:String(row.label).toUpperCase(),manager:"",value:"\u2014"});
     const frame={status,activeCategory:"ALL",managerOrder:MANAGERS.slice(),managers,standings,records,showdowns};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
     v10GoldenShowdowns(model,frame);v10SpecialPlayers(model,frame);
@@ -88,9 +92,12 @@
   // Pure: model + screen -> the frame Team V's renderer reads. loading and unavailable carry no numbers.
   function toV10Frame(model,screen){
     if(!Object.prototype.hasOwnProperty.call(SCREEN_IDS,screen))throw new TypeError("CAREER_SCREEN_V10_UNKNOWN");
-    const view=v10Seam().careerScreenView(screen,model);
+    let view=v10Seam().careerScreenView(screen,model);
     const bare=status=>{const frame={status,managerOrder:MANAGERS.slice()};if(screen==="trophyRoom")frame.activeCategory="ALL";return frame;};
     let frame=null;
+    // r87 career fixes (B4): a career whose only Showdowns ended early has no finished Showdown, so nothing counts: it is the
+    // same empty state as a new career, not both managers crowned #1 on 0-0. History still lists those Showdowns.
+    if(view.status==="ready"&&!view.interimLabel&&MANAGERS.every(manager=>model.managers?.[manager]?.showdowns?.completed===0))view={...view,status:"empty"};
     if(view.status==="ready"||view.status==="partial"){
       frame=screen==="careerStatistics"?v10CareerStatistics(model,view.status):v10TrophyRoom(model,view.status);
       if(!frame)frame=bare("unavailable");
