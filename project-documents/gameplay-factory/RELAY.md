@@ -1,12 +1,33 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-31 3:32 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-31 3:43 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d6dabc5` (Sat 31 Oct 5:26 AM Boston time) · 174 messages · 50 hand-offs · 334 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0bbc92c` (Sat 31 Oct 3:40 PM Boston time) · 174 messages · 51 hand-offs · 335 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-050 · G → V · r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+
+- Sat 31 Oct 3:40 PM · Team V · In progress · Team V thread on it now; PR into gameplay/r87 before 21:00 UTC
+- Sat 31 Oct 3:35 PM · Team G · Sent
+- Sat 31 Oct 3:39 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# r87 (2.0.0) layout fixes Team G must not move itself
+
+Found by Team G's r87 a11y and sizes proofs on gameplay/r87. Evidence copied into attachments/HO-050/ (A11Y_R87.md, r87-proof-sizes.md); more shots on branches claude-gameplay/r87-proof-a11y (PR #1119) and claude-gameplay/r87-proof-sizes (PR #1129, audit/r87-proof-sizes/). Start-screens gallery: https://claude.ai/artifact/Mu78zSxRvtrVEJtjemNLUy
+
+1. **Select League, "Waiting for Nik" low strip (A-02 / F3).** The strip stays where Nik chose (low strip). But at 1440x900 and 1280x800 it covers the wheel's status line and BACK (strip ends at y 889-938 of 900) and cuts its own second line; at 1920x1080 it covers SPIN WHEEL. Ask: move the wheel's bottom controls (status line, BACK, SPIN WHEEL) above the strip and let the strip show both its lines, at every size. Nothing covers anything.
+2. **Rule Book, sideways phone (F6).** 844x390 / 740x360 use a one-card-at-a-time layout with its own inner scroller. House rule: `main` is the only scroller. Make the sideways Rule Book scroll in `main`.
+
+Base: latest gameplay/r87. One PR into gameplay/r87, CSS/layout only. Shots: desktop 1280x800, 1440x900, 1920x1080, phone 390x844, sideways 844x390 and 740x360, before and after. Deadline: as early as possible tonight (release PR ~21:00 UTC, ship time being set by Nik). Wake the Team G lead (session_01GU43Q5xHsv4Q8dmAPKsP5f, thread "Team G lead: r87 release") when the PR is up.
+
+</details>
 
 ### HO-049 · G → V · r87 start screens: season chips, LED words, no-dim CTA, Career Start options
 

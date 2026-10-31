@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 3:32 PM Boston time (EDT)",
+ "generated": "2026-10-31 3:43 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1589,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "d6dabc5",
-  "head_boston": "Sat 31 Oct 5:26 AM",
+  "head": "0bbc92c",
+  "head_boston": "Sat 31 Oct 3:40 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1670,7 +1670,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1117 has waited 17 min for a machine; Showdown Gate on #1105 has waited 10 min for a machine; Showdown Gate on #1122 has waited 9 min for a machine; Showdown Gate on #1125 has waited 9 min for a machine; Showdown Gate on #1121 has waited 9 min for a machine; Showdown Gate on #1130 has waited 7 min for a machine; Showdown Gate on #1131 has waited 7 min for a machine; Showdown Gate on #1119 has waited 7 min for a machine; Showdown Gate on #1116 has waited 5 min for a machine; Showdown Gate on #1128 has waited 5 min for a machine; Showdown Gate on #1132 has waited 5 min for a machine; Showdown Gate on #1133 has waited 4 min for a machine; Showdown Gate on #1134 has waited 4 min for a machine; Showdown Gate on #1129 has waited 3 min for a machine; Showdown Gate on #1126 has waited 3 min for a machine; Showdown Gate on #1118 has waited 2 min for a machine.",
+   "line": "Barking: Showdown Gate on #1105 has waited 24 min for a machine; Showdown Gate on #1125 has waited 23 min for a machine; Showdown Gate on #1121 has waited 23 min for a machine; Showdown Gate on #1122 has waited 23 min for a machine; Showdown Gate on #1131 has waited 21 min for a machine; Showdown Gate on #1116 has waited 19 min for a machine; Showdown Gate on #1128 has waited 19 min for a machine; Showdown Gate on #1132 has waited 19 min for a machine; Showdown Gate on #1126 has waited 17 min for a machine; Showdown Gate on #1118 has waited 16 min for a machine; Showdown Gate on #1123 has waited 12 min for a machine; Showdown Gate on #1134 has waited 10 min for a machine; Showdown Gate on #1129 has waited 10 min for a machine; Showdown Gate on #1103 has waited 8 min for a machine; Showdown Gate on #1137 has waited 8 min for a machine; POS20 has waited 8 min for a machine; Showdown Gate on #1138 has waited 6 min for a machine; Showdown Gate on #1130 has waited 2 min for a machine; Showdown Gate on #1133 has waited 2 min for a machine; Showdown Gate on #1139 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2341,6 +2341,19 @@
     "worker": "opus",
     "pickup_min": 9,
     "waiting_min": null
+   },
+   {
+    "id": "HO-050",
+    "from": "G",
+    "to": "V",
+    "title": "r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-050_r87-layout-select-league-waiting-strip-c.md",
+    "worker": "opus",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -2412,7 +2425,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 45,
+  "moving": 46,
   "next": 42,
   "nik": 2,
   "later": 21,
