@@ -28,6 +28,15 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   CE2PG_DEBUG=1 (print raw screen text).
 // Run: npm run test:ce2pg   (or CE2PG_PLAN=single CE2PG_SEASONS=10 npm run test:ce2pg)
 //   It starts its own emulators (firebase emulators:exec) and static server and builds the composed Rules if they are missing.
+// Upgrade run (release proof for 2.0.0; CE2PG_PLAN=single only): CE2PG_UPGRADE_FROM=<r86 tree> (for example `git worktree add ../r86 origin/main`) serves
+//   that tree first; the Showdown starts and plays CE2PG_UPGRADE_AFTER (default 1) season(s) on it, then, right after CONTINUE
+//   TO SEASON k+1, the server switches to this tree, both phones drop their service worker and caches (the update the phone
+//   applies on Home, proven on its own by tests/browser/r87-upgrade-from-r86-audit.cjs) and reload into the new build in the
+//   middle of the live Showdown, which then plays to the end with every check. CE2PG_UPGRADE_PIN=1 (default) also serves the
+//   roulette start time (RRR_FROM_MS / ROULETTE_FROM_MS) as the switch time, as the release PR pins it; 0 leaves the
+//   placeholder, so an r86 Showdown gets the roulette from the next season. The seasons played on r86 skip the r87-only
+//   checks (Gazette, signing overall/position, r87 Shared History wording); Daniel's emulator runs with the composed Rules of
+//   THIS tree throughout (the Rules deploy goes first).
 // Output: test-results/<tag>.json (every check, problem, raw screen text and the meter) and screenshots in test-results/<tag>/.
 // Test database only (demo project on the local emulators). Never touches production Firebase. Not a Gate lane (main about 20 min,
 // 10 seasons about 19 min on a 4-core runner; over the ~15 min Gate budget).
@@ -126,6 +135,15 @@ const BUDGET_MODE=process.env.CE2PG_BUDGET==="1";
 // The budget run needs the play, not the career-page, reload, storage-wipe and fresh-browser checks (about 10 of the 21 minutes of a
 // 3-season run); CE2PG_BUDGET_FULL=1 keeps them.
 const SLIM=BUDGET_MODE&&process.env.CE2PG_BUDGET_FULL!=="1";
+const UPGRADE_FROM=process.env.CE2PG_UPGRADE_FROM?path.resolve(process.env.CE2PG_UPGRADE_FROM):"";
+const UPGRADE_AFTER=Number(process.env.CE2PG_UPGRADE_AFTER||1);
+const UPGRADE_PIN=process.env.CE2PG_UPGRADE_PIN!=="0";
+const RRR_PLACEHOLDER='Date.parse("2026-10-30T00:00:00Z")';
+let servingOld=Boolean(UPGRADE_FROM),appServer=null;
+function startAppServer(rewrites=[]){
+  appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
+  return new Promise(resolve=>setTimeout(resolve,800));
+}
 const num=(name,fallback)=>{const v=Number(process.env[name]);return Number.isFinite(v)&&process.env[name]!==""&&process.env[name]!==undefined?v:fallback;};
 // The only place real-play waiting times live (slow, mid and fast pace; the gate checks all three).
 const WAIT_PROFILES=Object.freeze({
@@ -572,13 +590,13 @@ async function playTransfers(daniel,nik,tag){
   await budgetWait("transfer-guesses");
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);if(!servingOld){await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");}await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await privateTokenAbsent(nik,tokenD.split(" ")[0],`${showdownNow}.S${seasonNow}.transfer.privacy`,"Daniel's locked signing stays hidden from Nik before completion");
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await budgetWait("transfer-signings");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillCombo(nik,"p2Signing1League","Serie A TIM");await fillCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);if(!servingOld){await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");}await fillCombo(nik,"p2Signing1League",servingOld?"TIM Serie A":"Serie A TIM");await fillCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
 }
@@ -622,8 +640,8 @@ async function playSeasonResults(daniel,nik,k,planSeason){
 }
 async function commitSeason(daniel,nik,k,planSeason,final){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>["WAITING FOR DANIEL","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR DANIEL")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
+  await nik.page.waitForFunction(()=>["WAITING FOR DANIEL","WAITING FOR HOST","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()===(servingOld?"WAITING FOR HOST":"WAITING FOR DANIEL"))await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
   await budgetWait("commit");
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
@@ -648,6 +666,7 @@ async function commitSeason(daniel,nik,k,planSeason,final){
 }
 // Shared History panel (after every non-final season) against this Showdown's running tally.
 async function checkSharedHistory(m,k,total,seasons){
+  if(servingOld){report.observations.push({where:"shared history",user:m.user,season:k,skipped:"r86 build (its own wording); checked again on 2.0.0"});return;}
   const t=tally(seasons.slice(0,k));
   try{await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});}
   catch(_e){await check(m,`${showdownNow}.S${k}.history.visible`,"Shared History panel appears",false,"panel never became visible",{screen:"Shared History"});return;}
@@ -671,7 +690,7 @@ async function continueToSeason(daniel,nik,next,total){
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
     // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
     const paper=await gazette.passGazette(m.page,"season");
-    if(!paper||!paper.endsWith(`|season|${next-1}`))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
+    if(!servingOld&&(!paper||!paper.endsWith(`|season|${next-1}`)))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
     await rosterRoulette.waitForTransfer(m.page,30000);
   }
@@ -686,6 +705,8 @@ async function returnToGame(m,season,total){
   const deadline=Date.now()+60000;
   while(!(await m.page.locator("#transferChallenge").isVisible().catch(()=>false))){
     if(Date.now()>deadline){await check(m,`${showdownNow}.S${season-1}.return`,"CONTINUE SHOWDOWN returns to the live season",false,await describe(m),{screen:"Showdown Home"});throw new Error(`${m.user} did not return to the game`);}
+    // A season's roulette not played yet on this phone (the upgrade run reloads into 2.0.0 before it) plays here.
+    if(await rosterRoulette.playRoulette(m.page)){await m.page.waitForTimeout(500);continue;}
     // GET READY (both connected) opens first: START CAREER continues into the season.
     const getReady=m.page.locator("#productionSharedJourneyEntryOverlay");
     if(await getReady.isVisible().catch(()=>false)){
@@ -699,6 +720,25 @@ async function returnToGame(m,season,total){
   }
   await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${season} / ${total}`,{timeout:20000}).catch(()=>{});
   await eq(m,`${showdownNow}.S${season-1}.return.indicator`,`back in the game on Season ${season} / ${total}`,await textOf(m,"#seasonIndicator"),`Season ${season} / ${total}`,{screen:"Shared Transfer Challenge"});
+}
+// The 2.0.0 update in the middle of a live Showdown: the server now sends this tree (with the release pin when asked),
+// each phone drops the old worker and caches and reloads on the screen it was on, then must be back in the same session
+// on the new build (its Transfer Challenge has r87's signing overall field) at season k+1.
+async function upgradeBoth(daniel,nik,sessionCode,k){
+  const at=new Date().toISOString();
+  appServer.kill();await new Promise(resolve=>setTimeout(resolve,300));
+  servingOld=false;
+  await startAppServer(UPGRADE_PIN?[[RRR_PLACEHOLDER,`Date.parse("${at}")`]]:[]);
+  report.upgrade.switchedAt=at;report.upgrade.switchedAfterSeason=k;
+  for(const m of [daniel,nik])await m.page.evaluate(async()=>{try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();}catch(_e){}try{for(const k of await caches.keys())await caches.delete(k);}catch(_e){}});
+  await reloadBoth(daniel,nik,sessionCode);
+  for(const m of [daniel,nik]){
+    const fresh=await m.page.evaluate(()=>Boolean(document.getElementById("p1Signing1Overall")));
+    await check(m,`${showdownNow}.S${k}.upgrade.build`,"after the update the phone runs the new build",fresh,"still the r86 page",{screen:"Update"});
+    const screen=await m.page.evaluate(()=>typeof window.getActiveScreenName==="function"?window.getActiveScreenName():null);
+    report.observations.push({where:"upgrade",user:m.user,season:k,screen});
+  }
+  console.log(`UPGRADE switched to this tree after season ${k} at ${at}`);
 }
 async function reloadBoth(daniel,nik,sessionCode){
   for(const m of [daniel,nik])await reload(m);
@@ -1210,6 +1250,7 @@ async function playShowdown(ctx,spec){
     if(!final){
       for(const m of [daniel,nik])await checkSharedHistory(m,k,spec.length,plan);
       await phase(`${spec.name}-S${k}-continue`,()=>continueToSeason(daniel,nik,k+1,spec.length));
+      if(servingOld&&k===UPGRADE_AFTER)await phase(`${spec.name}-S${k}-upgrade`,()=>upgradeBoth(daniel,nik,sessionCode,k));
       const playEnd=mark(`${spec.name}:S${k}:play`);
       const pagesDue=!SLIM&&(k%PAGES_EVERY===0||k===1||k===playedTo);
       if(pagesDue){
@@ -1278,8 +1319,15 @@ async function playShowdown(ctx,spec){
 async function main(){
   fs.rmSync(SHOT_DIR,{recursive:true,force:true});fs.mkdirSync(SHOT_DIR,{recursive:true});
   await loadComposedRules();
-  let server=null;
-  if(!process.env.CMS_BASE_URL){server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT)}});await new Promise(resolve=>setTimeout(resolve,800));}
+  if(UPGRADE_FROM&&process.env.CMS_BASE_URL)throw new Error("CE2PG_UPGRADE_FROM needs the harness's own server (no CMS_BASE_URL)");
+  // The upgrade happens after a non-final season of ONE Showdown: plan single, with more seasons than CE2PG_UPGRADE_AFTER.
+  if(UPGRADE_FROM&&(PLAN_NAME!=="single"||!(Number.isInteger(UPGRADE_AFTER)&&UPGRADE_AFTER>=1&&UPGRADE_AFTER<SEASONS)))throw new Error("CE2PG_UPGRADE_FROM needs CE2PG_PLAN=single and 1 <= CE2PG_UPGRADE_AFTER < CE2PG_SEASONS");
+  if(UPGRADE_FROM){
+    const old=fs.readFileSync(path.join(UPGRADE_FROM,"service-worker.js"),"utf8").match(/const RUNTIME_REVISION = "([^"]+)"/)?.[1];
+    report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,pinned:UPGRADE_PIN,switchedAt:null};
+    console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree${UPGRADE_PIN?" (roulette start pinned to the switch time)":" (roulette start left at the placeholder)"}`);
+  }
+  if(!process.env.CMS_BASE_URL)await startAppServer();
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[],retired=[];
@@ -1392,7 +1440,7 @@ async function main(){
     const failed=report.checks.some(c=>!c.pass)||Boolean(failure);
     report.verdict=failed?"FAIL":"PASS";
     writeReport();
-    await browser.close().catch(()=>{});if(server)server.kill();
+    await browser.close().catch(()=>{});if(appServer)appServer.kill();
     console.log(`METER summary: ${report.meter.map(e=>`${e.label}: ${e.reads}r/${e.writes}w${e.play?` (play ${e.play.reads}r/${e.play.writes}w)`:""}`).join(" | ")}`);
     console.log(`${report.verdict} ${TAG}: ${report.summary.passed}/${report.summary.checks} checks, ${report.problems.length} problem(s), ${Math.round(report.timings.totalMs/1000)} s -> ${rel(REPORT_PATH)}; screenshots in ${rel(SHOT_DIR)}`);
   }

@@ -2,7 +2,11 @@ const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
 
-const root = path.resolve(__dirname, "../..");
+// CMS_TEST_ROOT serves another tree (the r86 tree in the CE2PG upgrade run). CMS_TEST_REWRITE is a JSON list of
+// [from, to] pairs replaced in every text file sent (the release PR's edits simulated; the files on disk never change).
+const root = path.resolve(process.env.CMS_TEST_ROOT || path.resolve(__dirname, "../.."));
+const rewrites = (()=>{ try{ const list = JSON.parse(process.env.CMS_TEST_REWRITE || "[]"); return Array.isArray(list) ? list.filter(pair => Array.isArray(pair) && pair.length === 2 && typeof pair[0] === "string" && pair[0] && typeof pair[1] === "string") : []; }catch(_error){ return []; } })();
+const textTypes = new Set([".css", ".html", ".js", ".json", ".md", ".svg", ".webmanifest"]);
 const host = process.env.CMS_TEST_HOST || "127.0.0.1";
 const port = Number(process.env.CMS_TEST_PORT || 4173);
 
@@ -57,7 +61,13 @@ const server = http.createServer((request, response) => {
                 response.end();
                 return;
             }
-            response.end(data);
+            let body = data;
+            if(rewrites.length && textTypes.has(path.extname(filePath).toLowerCase())){
+                let text = data.toString("utf8");
+                for(const [from, to] of rewrites) text = text.split(from).join(to);
+                body = Buffer.from(text);
+            }
+            response.end(body);
         });
     });
 });
