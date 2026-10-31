@@ -160,6 +160,7 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     set className(v){this.classes=new Set(String(v).split(/\s+/).filter(Boolean));}get className(){return [...this.classes].join(' ');}
     get firstElementChild(){return this.children[0]||null;}
     appendChild(c){c.remove();c.parent=this;this.children.push(c);return c;}append(...cs){cs.forEach(c=>this.appendChild(c));}
+    before(c){const p=this.parent;c.remove();c.parent=p;p.children.splice(p.children.indexOf(this),0,c);}
     after(c){const p=this.parent;c.remove();c.parent=p;p.children.splice(p.children.indexOf(this)+1,0,c);}
     remove(){if(this.parent){this.parent.children.splice(this.parent.children.indexOf(this),1);this.parent=null;}}
     get isConnected(){let n=this;while(n.parent)n=n.parent;return n===doc.documentElement;}
@@ -230,6 +231,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(w.host.dataset.gazette,'season');assert.equal(w.doc.documentElement.dataset.gazette,'season');assert.equal(w.calls.continue,0);
     const expected=G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp});assert.equal(w.calls.shown[0].headline,expected.paper.headline,'the paper on screen is the pure edition');
     assert.ok(w.page().querySelector('.tgz-sp'),'the Special Players line');
+    const race=w.page().querySelector('.tgz-race');assert.ok(race,'THE RACE strip');assert.equal(race.children[1].textContent,expected.paper.race.line);
     // Nik's phone prints the same paper
     const n=world({history,managerRole:'playerTwo'});n.dispatch(n.seasonButton);await settle();assert.deepEqual(JSON.parse(JSON.stringify(n.calls.shown[0])),JSON.parse(JSON.stringify(w.calls.shown[0])));
     w.dispatch(w.continueButton());await settle();
@@ -304,6 +306,56 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(require('../../data/commentaryLines.js').results.length,5100);
     const css=read('css/v10Gazette.css');assert.ok(!/rgba\(0,\s*0,\s*0,\s*0?\.\d+\)\s*;?\s*\}?\s*$/m.test(css.replace(/box-shadow[^;]*;/g,'')),'no scrim');assert.ok(!/backdrop-filter|opacity:\s*0?\.\d/.test(css),'no dimming');
     ok('G10','HO-048 headlines, copy, paper and sheet byte for byte; every runtime file shell-cached with its font licence; photos on the image cache; wired from Season Results; Commentary v2 lines untouched; no scrim');
+  }
+  // G12 (2.0.0) THE RACE and the record book come from the seasons alone and are always true: level is "All square" (never a
+  // lead), a lead beyond 11 x the seasons left cannot be caught, exactly that can only be levelled, a final draw is never a
+  // win; seasons won, trophies, streaks, perfect 11s and the Golden watch match the history; a 110-110 Showdown is a drawn
+  // Golden Showdown for both. The strip is drawn above the trophy desk on desktop and phone.
+  {
+    const pool=Object.values(R),T=[3,5,10];let seen=new Set();
+    const tro=r=>(r.championsLeague?1:0)+(r.europaLeague?1:0)+(r.leaguePosition===1?1:0)+(r.domesticCup?1:0);
+    const pts=r=>require('../support/career-fixture-helpers.cjs').score(r).total;
+    for(let i=0;i<240;i+=1){
+      const len=T[i%3],n=1+(i*7)%len,rows=[];for(let k=0;k<len;k+=1)rows.push([pool[(i*3+k*5)%pool.length],pool[(i*11+k*2+1)%pool.length]]);
+      const p=proj('0123456789abcdef'[i%16],len,rows);
+      const editions=[];if(n<len)editions.push([G.seasonEdition({projection:p,seasonNumber:n}),n,false]);editions.push([G.finalEdition({projection:p}),len,true]);
+      for(const [e,N,final] of editions){
+        assert.ok(e&&e.paper.race,'every paper carries THE RACE');const race=e.paper.race,played=rows.slice(0,N);
+        const a=played.reduce((t,r)=>t+pts(r[0]),0),b=played.reduce((t,r)=>t+pts(r[1]),0),gap=Math.abs(a-b),left=(len-N)*11,lead=a>b?'Daniel':b>a?'Nik':null;
+        assert.equal(race.chips.length,N);race.chips.forEach((c,k)=>{assert.equal(c.left,pts(played[k][0]));assert.equal(c.right,pts(played[k][1]));assert.equal(c.winner,c.left>c.right?'left':c.right>c.left?'right':'draw');});
+        assert.equal(race.leader,lead);
+        if(!lead){assert.ok(!/leads|wins|clear|caught/.test(race.line),race.line);assert.match(race.line,final?/drawn Showdown/:/All square/);}
+        else if(final){assert.equal(race.line,`${lead} wins the Showdown ${Math.max(a,b)} to ${Math.min(a,b)}, by ${gap} point${gap===1?'':'s'}.`);}
+        else if(gap>left){assert.match(race.line,/can no longer be caught/);seen.add('caught');}
+        else if(gap===left){assert.match(race.line,/can still draw level, but only/);seen.add('level-only');}
+        else{assert.ok(race.line.startsWith(`${lead} leads by ${gap} point`),race.line);assert.ok(race.line.includes(`${left} points still to play`));seen.add('open');}
+        if(final)assert.ok(!/to go|still to play|next season/i.test(race.line+e.paper.inside.join(' ')),'a final page never looks ahead');
+        const book=e.paper.inside.join('\n'),won=k=>played.filter(r=>k===0?pts(r[0])>pts(r[1]):pts(r[1])>pts(r[0])).length,draws=played.filter(r=>pts(r[0])===pts(r[1])).length;
+        assert.equal(/Seasons won/.test(book),N>=2&&a!==b,'no seasons-won count beside level totals');
+        if(N>=2&&a!==b)assert.ok(book.includes(`Seasons won: Daniel ${won(0)} · Nik ${won(1)}${draws?` · drawn ${draws}`:''}`),book);
+        assert.ok(book.includes(`Daniel ${played.reduce((t,r)=>t+tro(r[0]),0)} · Nik ${played.reduce((t,r)=>t+tro(r[1]),0)}`),book);
+        const perfect=k=>played.filter(r=>pts(r[k])===11).length;
+        assert.equal(/Golden watch/.test(book),!final&&len===10&&(perfect(0)===N||perfect(1)===N),book);
+        assert.ok(!/marquee|[{}]|undefined|NaN/i.test(book+race.line),book);
+        assert.ok(G.paperText(e).includes(race.line),'the race is part of the printed paper');
+      }
+    }
+    assert.ok(seen.has('open'),'the sweep met open races');
+    const gone=G.seasonEdition({projection:proj('a',3,[[R.max,R.none],[R.max,R.none]]),seasonNumber:2});
+    assert.equal(gone.paper.race.line,'Daniel is 22 clear with only 11 points left to play for: the Showdown can no longer be caught.');
+    // the lead of exactly 11 x seasons left, built on purpose: 3 seasons, Daniel 11-0 then 0-0 before the last season
+    const exact=G.seasonEdition({projection:proj('9',3,[[R.max,R.none],[R.none,R.none]]),seasonNumber:2});
+    assert.equal(exact.paper.race.line,'Daniel leads by 11. Nik can still draw level, but only with every one of the last 11 points while Daniel scores none.');
+    // 110-110 over ten seasons: a drawn Showdown, and the gold edition for both
+    const gold=proj('8',10,Array.from({length:10},()=>[R.max,R.max])),ge=G.finalEdition({projection:gold,final:frame(gold)});
+    assert.ok(ge);assert.equal(ge.winner,'draw');assert.equal(ge.golden,true);assert.equal(ge.paper.variant,'gold');assert.equal(ge.paper.kicker,'DRAWN');assert.equal(ge.paper.photo.name,'GZ_LEAD_GOLD');
+    assert.deepEqual(ge.paper.briefs.map(b=>b.head),['Golden Showdown','Golden Showdown']);assert.ok(!/seasons won/i.test(G.paperText(ge)),'a drawn ten-season paper prints no seasons-won count');assert.match(ge.paper.race.line,/drawn Showdown, and a Golden Showdown for both/);
+    const solo=G.finalEdition({projection:proj('7',10,Array.from({length:10},()=>[R.max,R.cl]))});assert.equal(solo.golden,true);assert.equal(solo.winner,'Daniel');
+    const plain10=G.finalEdition({projection:proj('6',10,Array.from({length:10},()=>[R.cl,R.cl]))});assert.equal(plain10.golden,false);assert.equal(plain10.paper.variant,'draw');
+    const src=read('js/touchlineGazette.js');assert.match(src,/addSpecialPlayers\(paper,plan\.edition\.paper\.specialPlayers,doc\);try\{addRace\(paper,plan\.edition\.paper\.race,doc\);\}catch/);
+    assert.match(src,/if\(desk\)desk\.before\(box\)/);
+    const css=read('css/v10Gazette.css');assert.match(css,/#touchlineGazette\.tgzPage::before \{[^}]*background: var\(--tgz-plate-phone\) 50% 0 \/ cover no-repeat;/,'the phone plate covers a tall window');
+    ok('G12','THE RACE and the record book are true for 480 papers (level, open, uncatchable, level-only, final), 110-110 is a shared Golden Showdown, the strip sits above the trophy desk');
   }
   console.log(`PASS r87 Touchline Gazette contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});
