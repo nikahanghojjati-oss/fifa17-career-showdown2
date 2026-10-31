@@ -83,7 +83,11 @@ const probe=()=>{
   }
   // what is stacked at the middle of the viewport, top first (shows a see-through or click-through layer over the screen)
   const stack=document.elementsFromPoint(vw/2,vh/2).slice(0,8).map(e=>{const st=getComputedStyle(e);return `${name(e)}{op ${st.opacity}${st.pointerEvents==="none"?" pe-none":""}${st.backgroundColor!=="rgba(0, 0, 0, 0)"?" bg "+st.backgroundColor:""}${st.visibility!=="visible"?" "+st.visibility:""}${st.filter!=="none"?" filter "+st.filter:""}}`;});
-  return {stack,screens,overlays,loading,head,issues,mainScrolls:Boolean(main&&main.scrollHeight>main.clientHeight+2),mainTop:main?main.scrollTop:0};
+  // phase: screens such as the Transfer Challenge change phase (window, guesses, signings, verdicts) under the same id and title,
+  // so the state key also carries the phase line and the labels of the visible buttons
+  const phase=[(document.getElementById("transferPhaseStatus")?.textContent||"").replace(/\s+/g," ").trim().slice(0,40),
+    ...[...document.querySelectorAll(".screen:not(.hidden) button,[id$='Overlay']:not(.hidden) button")].filter(vis).map(b=>(b.textContent||"").replace(/[\d:]+/g,"").replace(/\s+/g," ").trim().slice(0,24)).filter(Boolean).slice(0,10)].join("/");
+  return {phase,stack,screens,overlays,loading,head,issues,mainScrolls:Boolean(main&&main.scrollHeight>main.clientHeight+2),mainTop:main?main.scrollTop:0};
 };
 module.exports={probe};
 
@@ -103,7 +107,7 @@ if(SPEC&&process.env.FIRESTORE_EMULATOR_HOST){
       if(busy||page.isClosed())return;busy=true;
       try{
         const a=await page.evaluate(probe);
-        const key=`${who}|${a.loading?"loading":""}|${a.screens.join(",")}|${a.overlays.join(",")}|${a.head}`;
+        const key=`${who}|${a.loading?"loading":""}|${a.screens.join(",")}|${a.overlays.join(",")}|${a.head}|${a.phase}`;
         if(key!==last){
           last=key;
           // Settle: wait (up to 6 s) until no finite animation is running and every visible picture has loaded, so a shot shows the
@@ -123,7 +127,7 @@ if(SPEC&&process.env.FIRESTORE_EMULATOR_HOST){
           const sig=i=>`${i.kind}|${i.what}|${i.text||""}`;const firstLook=new Set(b0.issues.map(sig));
           b.issues=b.issues.filter(i=>firstLook.has(sig(i)));
           b.settleMs=settleMs;
-          const key2=`${who}|${b.loading?"loading":""}|${b.screens.join(",")}|${b.overlays.join(",")}|${b.head}`;
+          const key2=`${who}|${b.loading?"loading":""}|${b.screens.join(",")}|${b.overlays.join(",")}|${b.head}|${b.phase}`;
           if(key2===key&&!seen.has(key)){
             seen.add(key);
             const n=String(++shotNo).padStart(3,"0");
