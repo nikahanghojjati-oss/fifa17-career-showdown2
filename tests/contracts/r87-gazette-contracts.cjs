@@ -141,6 +141,91 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
   ok('G5',`${papers} papers over 400 Showdowns: all printed, every placeholder filled, no "Marquee", no headline or story repeated within a Showdown, finals never look ahead`);
 }
 
+// G14 (Fable cloud job 1) "1 seasons" is printed as "1 season": a drawn 1-season Showdown's pages say "After 1 season", never "1 seasons".
+{
+  assert.equal(G.fill('After {seasonsTotal} seasons, {points} points',{seasonsTotal:1,points:1}),'After 1 season, 1 point');
+  assert.equal(G.fill('{seasonsTotal} seasons',{seasonsTotal:3}),'3 seasons');
+  let singular=0;
+  for(const seed of '0123456789abcdef'){const f=G.finalEdition({projection:proj(seed,1,[[R.league,R.league]])});assert.equal(f.situation,'showdown-drawn');const t=G.paperText(f);assert.ok(!/\b1 seasons\b/.test(t),t);if(/\b1 season\b/.test(t))singular+=1;}
+  assert.ok(singular>0,'a row with {seasonsTotal} seasons printed for a 1-season Showdown');
+  ok('G14','"1 seasons" is printed as "1 season" (the plural fix covers seasons as well as points)');
+}
+// G15 (Fable cloud job 1) the last-season decider is offered only while the trailer can still WIN the Showdown in the last
+// season: a gap of 11 can only be levelled (equal totals are a draw), so its pages ("whoever wins it", "turn it upside down",
+// "change of monarch") are not printed then.
+{
+  const sit=(seasons,N,T=3)=>G.seasonSituations(proj('f',T,seasons),N);
+  assert.ok(!sit([[R.max,R.none],[R.none,R.none]],2).includes('final-season-decider'),'gap 11: the trailer can at best level it');
+  assert.ok(sit([[R.clLeague,R.none],[R.cupAward,R.none]],2).includes('final-season-decider'),'gap 10: still winnable');
+  assert.ok(sit([[R.cl,R.cl],[R.cup,R.cup]],2).includes('final-season-decider'),'level before the last season');
+  for(const seed of '0123456789abcdef'){const e=G.seasonEdition({projection:proj(seed,3,[[R.max,R.none],[R.none,R.none]]),seasonNumber:2});assert.notEqual(e.situation,'final-season-decider');assert.ok(!/whoever wins|upside down|change of monarch|sudden death/i.test(G.paperText(e)),e.paper.headline);}
+  ok('G15','the last-season decider needs a gap of at most 10 (a gap of 11 can only be levelled, never turned)');
+}
+// G16 (Fable cloud job 1) the dominant pages (landslides, "from start to finish", "out of sight by the end") print only when
+// the winner was ahead after every season, out of reach before the last one and still more than a season clear at the end.
+{
+  const fin=(seed,T,seasons)=>G.finalEdition({projection:proj(seed,T,seasons)});
+  const sits=(T,seasons)=>{const s=new Set();for(const seed of '0123456789abcdef')s.add(fin(seed,T,seasons).situation);return s;};
+  assert.ok(sits(3,[[R.max,R.none],[R.max,R.none],[R.none,R.cl]]).has('dominant-win'),'led throughout, out of reach before the last, 17 clear at the end');
+  assert.ok(!sits(3,[[R.max,R.none],[R.max,R.none],[R.none,R.max]]).has('dominant-win'),'out of reach before the last but only 11 clear at the end: no landslide');
+  assert.ok(!sits(5,[[R.none,R.cl],[R.max,R.none],[R.max,R.none],[R.max,R.none],[R.max,R.none]]).has('dominant-win'),'behind after season 1: not "from start to finish"');
+  assert.ok(!sits(5,[[R.cl,R.cl],[R.max,R.none],[R.max,R.none],[R.max,R.none],[R.max,R.none]]).has('dominant-win'),'level after season 1: not "from start to finish"');
+  for(const seed of '0123456789abcdef'){const f=fin(seed,3,[[R.max,R.none],[R.max,R.none],[R.none,R.max]]);assert.ok(!/landslide|ocean|laps and laps|out of sight|run away with|by a distance|enormous lead/i.test(G.paperText(f)),f.paper.headline);}
+  ok('G16','dominant pages need a lead after every season, an unreachable gap before the last season and more than a season clear at the end');
+}
+// G17 (Fable cloud job 1) no silverware talk where there is no trophy on the page: the ears obey the same rule as the headline,
+// story, quote and caption, a drawn season without a trophy either side prints none, nor does a drawn Showdown without one.
+{
+  const silver=/silver|troph|cabinet|shelf|shelves|title|crown|medal|engrav|plaque|\bcups?\b|display case|glass case/i;
+  const parts=e=>[e.paper.headline,e.paper.subhead,...e.paper.ears,e.paper.photo.caption,...e.paper.story.paragraphs,e.paper.quote?.text||''].join(' ');
+  for(const seed of '0123456789abcdef'){
+    const bonus=G.seasonEdition({projection:proj(seed,3,[[result({topScorer:true}),R.none]]),seasonNumber:1});assert.ok(!silver.test(parts(bonus)),'bonus-only win: '+parts(bonus));
+    const nil=G.seasonEdition({projection:proj(seed,10,[[R.none,R.none],[result({topScorer:true}),result({leaguePoints:100})]]),seasonNumber:2});assert.equal(nil.winner,'draw');assert.ok(!silver.test(parts(nil)),'trophy-less draw: '+parts(nil));
+    const both=G.seasonEdition({projection:proj(seed,3,[[R.cup,R.cup]]),seasonNumber:1});assert.ok(both.paper.ears.every(Boolean),'two ears');
+    const level=G.finalEdition({projection:proj(seed,3,[[result({topScorer:true}),R.none],[R.none,result({topScorer:true})],[R.none,R.none]])});assert.equal(level.situation,'showdown-drawn');assert.ok(!silver.test(parts(level)),'trophy-less drawn Showdown: '+parts(level));
+    const won=G.finalEdition({projection:proj(seed,3,[[result({topScorer:true}),R.none],[R.none,R.none],[R.none,R.none]])});assert.ok(won.paper.briefs[0].trophy==='TRO_SHOWDOWN_CHAMPION','a won Showdown has its trophy');
+  }
+  // the walker prefers a situation whose headline and story are both unused in this Showdown (nine drawn 0-0 seasons never repeat a story)
+  const zeros=Array.from({length:10},()=>[R.none,R.none]);const stories=[];for(let N=1;N<10;N+=1)stories.push(G.seasonEdition({projection:proj('7',10,zeros),seasonNumber:N}).ids.story);
+  assert.equal(new Set(stories).size,stories.length,stories.join());
+  ok('G17','no silverware talk without a trophy: ears included, trophy-less drawn seasons and Showdowns included; fresh situations preferred');
+}
+// G18 (Fable cloud job 1) the truth sweep, fixed seed: every score pair with a trophy mix as season 1, 2 and 9 of 10 and as the
+// last season of 1, 3 and 5, plus the named final cases, through the mechanical checks (braces, undefined/NaN/null, "1 points",
+// "marquee", foreign managers and clubs, invented numbers, both phones, null/throw); and the rows the full read found false,
+// each now carrying its corrected words.
+{
+  const Sweep=require('../support/gazetteTruthSweep.cjs');
+  const t0=Date.now();const report=Sweep.runFast();const secs=(Date.now()-t0)/1000;
+  assert.equal(report.failures.length,0,JSON.stringify(report.failures.slice(0,5)));
+  assert.ok(report.papers>1000&&report.summary.rowsPrinted>600,`${report.papers} papers, ${report.summary.rowsPrinted} rows`);
+  assert.ok(secs<10,`fast sweep took ${secs}s`);
+  for(const row of Object.values(report.rows)){
+    if(row.situation==='dominant-win'){assert.ok(Object.keys(row.facts.margin).every(m=>Number(m)>11),row.id+' margin');assert.deepEqual(Object.keys(row.facts.ledThroughout),['true'],row.id+' led');}
+    if(row.situation==='final-season-decider')assert.ok(Object.keys(row.facts.gap).every(g=>Number(g)<=10),row.id+' gap');
+    if(row.kind==='ear'&&/silver|troph|cabinet|shelf|shelves|title|crown|medal|engrav|plaque|\bcups?\b/i.test(row.template))assert.ok(!row.facts.winnerTrophies||!row.facts.winnerTrophies['0'],row.id+' on a trophy-less win');
+    for(const text of row.texts)assert.ok(!/\b1 seasons\b|\b1 points\b/.test(text),row.id);
+  }
+  const FALSE_ROWS={
+    'h1-002':[/Corner after corner was filled/,/Not a corner was left empty/],'h1-033':[/took the pick of the honours/,/cleared the table of honours/],'h1-110':[/NARROWLY SKETCHED ENDING/,/DRAWN/],
+    'h1-127':[/FULL TIME, FULL RESPECT/,/HALF TIME/],'h1-220':[/a contest leaning the other way/,/once leaning/],'h1-235':[/narrowed the previous gap/,/closed the previous gap/],
+    'h1-252':[/Before this season \{leader\} held/,/From the outset/],'h1-380':[/\{trailer\} is far from finished/,/The chaser is/],'h1-383':[/After the seasons of preparation/,/many seasons/],
+    'h1-387':[/This one decides who will be remembered/,/Whoever owns this one/],'h1-388':[/then the Showdown is over/,/must produce a winner/],
+    'h2-004':[/a single season that ended/,/tight season/],'h2-029':[/never allowed a second season/,/never allowed a rematch/],'h2-042':[/finished as the Showdown winners/,/clear Showdown winners/],
+    'h2-044':[/came out on top of the \{seasonsTotal\}-part saga/,/from the front/],'h2-064':[/reached the end of it first/,/without ever losing the way/],'h2-066':[/still playing the lead when the music stopped/,/best of the music for last/],
+    'h2-103':[/lasted \{seasonsTotal\} seasons/,/a great many seasons/],'h2-172':[/ends in deadlock/,/held through the whole Showdown/],'h2-189':[/TOOK HOLD AT THE FINISH/,/refused to let go/],
+    'h2-192':[/A FINISH OF NERVE/,/COMEBACK/],'h2-198':[/passed \{loser\} at the line/,/edged \{loser\}/],'h2-201':[/THE CROWN SETTLED LATE/,/wore it in turn/],
+    'h2-220':[/was in it all the way/,/chased all the way/],'h2-221':[/The question stayed open all the way/,/Margins narrowed/],'h2-246':[/The lead was built early/,/Each season added to the lead/],
+    's-014':[/merely one round of a long argument/,/opening round/],'s-097':[/spent the whole Showdown trading blows/,/spent years/],'s-101':[/traded blows, pressure and nerves/,/traded the lead/],
+    's-103':[/who came home by \{margin\}/,/edged home|sounds small/],'s-104':[/Late finishes are the stuff of memory/,/Close finishes|how near the distance/],'s-107':[/kept the question open for long stretches/,/inseparable/],
+    's-108':[/came through when \{loser\} pushed hardest/,/held on when/],'s-114':[/tilted early and stayed tilted/,/kept tilting/]
+  };
+  const rowText=id=>{const r=[...Pages.season,...Pages.final].find(r=>r.id===id);if(r)return JSON.stringify(r);const st=Copy.stories.find(s=>s.id===id);return st?JSON.stringify(st):null;};
+  for(const [id,[must,mustNot]] of Object.entries(FALSE_ROWS)){const text=rowText(id);assert.ok(text,id);assert.match(text,must,id);assert.doesNotMatch(text,mustNot,id);}
+  assert.equal(Object.keys(FALSE_ROWS).length,34);
+  ok('G18',`truth sweep (fixed seed): ${report.papers} papers, ${report.summary.rowsPrinted} printed rows, 0 mechanical failures in ${secs.toFixed(1)}s; the 34 rows the full read found false carry their corrected words`);
+}
+
 // G6 zero Firestore: the Gazette reads only what the screen already holds and writes nothing but one small local list.
 {
   assert.equal(G.firestoreReads,0);assert.equal(G.firestoreWrites,0);
@@ -152,8 +237,11 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
 }
 
 // ---------- a small page for the flow (just what js/touchlineGazette.js touches) ----------
-function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne'}={}){
-  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[]};
+// advance: replaces continueToNextSeason (a promise that takes its time, or fails). chipLate: the Special Player chip is not on
+// the page at the tap and arrives through loadRuntimeScript. chipFails: the chip is there but its data cannot load.
+// Timers of a second or more (safety timers, the asset cap) are captured in calls.longTimers and fired only by the test.
+function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false}={}){
+  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[],longTimers:[]};
   let screen='seasonEntry';
   class El{
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.parent=null;this.dataset={};this.attrs={};this.listeners={};this.classes=new Set();this.id='';this.disabled=false;this.textContent='';this.scrollTop=0;this.scrollHeight=0;this.offsetHeight=100;const self=this;this.style={setProperty(k,v){self.style[k]=v;}};this.classList={add:(...c)=>c.forEach(x=>this.classes.add(x)),remove:(...c)=>c.forEach(x=>this.classes.delete(x)),contains:c=>this.classes.has(c)};}
@@ -194,12 +282,13 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     back=actions.appendChild(new El('button'));back.className='backButton';back.addEventListener('click',()=>{calls.ownBack+=1;go('mainMenu');});
   }
   const sandbox={
-    document:doc,console,Promise,URL,setTimeout,clearTimeout,innerHeight:900,
+    document:doc,console,Promise,URL,clearTimeout,innerHeight:900,
+    setTimeout:(fn,ms,...rest)=>{if(ms>=1000){calls.longTimers.push({fn,ms});return -1;}return setTimeout(fn,ms,...rest);},
     addEventListener(t,f,cap){if(t==='click'&&cap)capture.push(f);},removeEventListener(){},scrollTo(){},
     matchMedia:()=>({matches:false}),
     readStorageValue:k=>store.has(k)?store.get(k):null,writeStorageValue:(k,v)=>{store.set(k,String(v));return true;},
     getActiveScreenName:()=>screen,optionalAssetUrl:p=>p+'?v=test',
-    loadRuntimeScript:(key)=>loadFails?Promise.reject(new Error('offline')):lateFiles?new Promise(resolve=>setTimeout(()=>{if(late[key])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);resolve(true);},60)):Promise.resolve(true),loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
+    loadRuntimeScript:(key)=>{if(loadFails)return Promise.reject(new Error('offline'));const install=()=>{if(late[key]&&!sandbox[late[key][0]])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);return true;};return lateFiles?new Promise(resolve=>setTimeout(()=>resolve(install()),60)):Promise.resolve(install());},loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
     Image:class{set src(v){setTimeout(()=>this.onload&&this.onload(),0);}decode(){return Promise.resolve();}},
     ShowdownContent:{frontPage:{art:n=>`visual-assets/v10_1/content/gazette/${n}.webp`,screen(slot,p,onContinue){
       calls.shown.push(p);const s=slot.appendChild(new El('section'));s.className='cmx-fp-screen';const t=s.appendChild(new El('h2'));t.className='cmx-fp-screen__title';
@@ -207,13 +296,14 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
       const b=s.appendChild(new El('button'));b.className='cmx-continue';b.addEventListener('click',()=>{if(onContinue)onContinue();});}}},
     CareerModeGazetteCopy:Copy,CareerModeFrontPages:Pages,
     CareerModeProductionSharedHistoryConvergence:{getState:()=>({...history,managerRole})},
-    CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(proceedResult)go('dashboard');return proceedResult;}},
-    CareerModeSpecialPlayerChip:{liveFor:()=>sp},
+    CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(advance)return advance();if(proceedResult)go('dashboard');return proceedResult;}},
+    CareerModeSpecialPlayerChip:{liveFor:()=>sp,...(chipFails?{ensure:()=>Promise.resolve(false)}:{})},
     FINAL_WINNER_FIXTURES:final?{frames:{LIVE:final}}:undefined,CareerModeSeasonFinalV10:{gazetteHistory:()=>final?history:null}
   };
   // lateFiles: the paper, the copy and the headlines are not on the page yet when the player taps (a tap before warm() ends)
-  const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages]};
-  if(lateFiles)for(const [name] of Object.values(late))delete sandbox[name];
+  const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages],'special-player-chip':['CareerModeSpecialPlayerChip',sandbox.CareerModeSpecialPlayerChip]};
+  if(lateFiles)for(const key of ['gazette-frontpage','gazette-copy','gazette-headlines'])delete sandbox[late[key][0]];
+  if(chipLate)delete sandbox.CareerModeSpecialPlayerChip;
   vm.createContext(sandbox);vm.runInContext(read('js/touchlineGazette.js'),sandbox,{filename:'touchlineGazette.js'});
   const api=sandbox.CareerModeTouchlineGazette;api.install();
   return {api,calls,host,doc,seasonButton,back,dispatch,go,store,screen:()=>screen,page:()=>doc.getElementById('touchlineGazette'),continueButton:()=>doc.getElementById('touchlineGazetteContinue')};
@@ -262,8 +352,8 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(off.page(),null);assert.equal(off.calls.continue,1,'offline: the tap simply went on');assert.equal(off.screen(),'dashboard');
     const stuck=world({history,proceedResult:false});stuck.dispatch(stuck.seasonButton);await settle();assert.ok(stuck.page());
     stuck.dispatch(stuck.continueButton());await settle();assert.equal(stuck.calls.continue,1);assert.equal(stuck.page(),null,'Season Results is back with its own button');assert.equal(stuck.host.dataset.gazette,undefined);
-    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500,SEASON_SAFETY_MS=9000/);
-    ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper, safety timers close it regardless');
+    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;/);
+    ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper');
   }
   // G11 a fast tap: CONTINUE pressed before the paper's files are on the page (warm() not finished) is still held for its
   // paper; the files load after the tap, the paper is built and shown, and its CONTINUE runs the same step once (Codex P2).
@@ -272,7 +362,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     const w=world({history,lateFiles:true});
     const ev=w.dispatch(w.seasonButton);assert.equal(ev.defaultPrevented,true,'held although the copy is not loaded yet');assert.equal(w.calls.ownSeason,0);
     assert.equal(w.page(),null);await new Promise(resolve=>setTimeout(resolve,150));
-    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','visual-identity']);
+    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','special-player-chip','visual-identity']);
     assert.ok(w.page(),'the paper came up once its files arrived');assert.equal(w.calls.shown[0].headline,G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp}).paper.headline);
     w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1);assert.equal(w.screen(),'dashboard');assert.equal(w.page(),null);
     const q=proj('9',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),fr=frame(q),f=world({history:fx.history(q),final:fr,lateFiles:true});
@@ -283,12 +373,56 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(d.calls.shown.length,1);assert.equal(d.calls.continue,0);
     ok('G11','a tap made before the paper\'s files arrive is still held for its paper (season and final), shown once, then the same step runs once');
   }
+  // G12 (Fable job 2 F2-15) a SEASON paper stays until continueToNextSeason has finished or failed: no timer closes it while
+  // the step is in flight, a busy CONTINUE never runs the step twice, and a failed step gives Season Results back with its
+  // own working button.
+  {
+    const p=proj('a',3,[[R.clLeague,R.cupAward]]),history=fx.history(p);
+    let finish=null;const w=world({history,advance:()=>new Promise(resolve=>{finish=resolve;})});
+    w.dispatch(w.seasonButton);await settle();assert.ok(w.page());
+    w.dispatch(w.continueButton());await settle();
+    assert.equal(w.calls.continue,1);assert.ok(w.page(),'the paper stays while continueToNextSeason runs');assert.equal(w.continueButton().disabled,true);assert.equal(w.continueButton().attrs['aria-busy'],'true');
+    assert.ok(!w.calls.longTimers.some(t=>t.ms>=5000),'no long safety timer on a season paper');
+    for(const t of w.calls.longTimers.splice(0))t.fn();await settle();
+    assert.ok(w.page(),'no timer closes the paper mid-flight');assert.equal(w.host.dataset.gazette,'season');
+    w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1,'a tap on the busy CONTINUE runs nothing more');
+    w.go('dashboard');finish(true);await settle();
+    assert.equal(w.page(),null,'closed with the screen it left for');assert.equal(w.calls.continue,1);assert.equal(w.host.dataset.gazette,undefined);
+    // the step fails after a while: the paper closes, Season Results is back and its own button goes straight on, once
+    let fail=null;const f=world({history,advance:()=>new Promise((resolve,reject)=>{fail=reject;})});
+    f.dispatch(f.seasonButton);await settle();f.dispatch(f.continueButton());await settle();assert.ok(f.page());
+    fail(new Error('offline'));await settle();assert.equal(f.page(),null);assert.equal(f.host.dataset.gazette,undefined);assert.ok(f.seasonButton.isConnected);
+    const ev=f.dispatch(f.seasonButton);assert.equal(ev.defaultPrevented,false);await settle();assert.equal(f.calls.ownSeason,1);assert.equal(f.calls.continue,2);
+    // the step finished (true) without leaving this screen, or said false: the paper closes at once
+    for(const value of [true,false]){const s=world({history,advance:()=>Promise.resolve(value)});s.dispatch(s.seasonButton);await settle();s.dispatch(s.continueButton());await settle();assert.equal(s.page(),null,String(value));assert.equal(s.calls.continue,1);}
+    assert.ok(!/SEASON_SAFETY_MS/.test(read('js/touchlineGazette.js')),'no season safety timer');
+    ok('G12','F2-15: a season paper stays (CONTINUE busy) until continueToNextSeason has finished or failed, never closed by a timer mid-flight, the step never run twice, a failure hands Season Results back with a working button');
+  }
+  // G13 (Fable job 2 F2-16) both phones print the identical paper, Special Players line included: the chip and its data are
+  // loaded as one of the paper's files, and the line is read when the paper is built, not at the tap.
+  {
+    const p=proj('b',3,[[R.cl,R.league]]),history=fx.history(p);
+    const a=world({history}),b=world({history,managerRole:'playerTwo',chipLate:true});
+    a.dispatch(a.seasonButton);b.dispatch(b.seasonButton);await settle();
+    assert.ok(a.page()&&b.page());assert.ok(b.calls.loads.includes('special-player-chip'),'the chip is loaded with the paper\'s files');
+    const plain=x=>JSON.parse(JSON.stringify(x));
+    assert.deepEqual(plain(b.calls.shown[0]),plain(a.calls.shown[0]),'the same paper on the phone whose chip was missing at the tap');
+    assert.deepEqual(plain(b.calls.shown[0].specialPlayers),{daniel:'Lionel Messi',nik:'Cristiano Ronaldo'});assert.ok(b.page().querySelector('.tgz-sp'));
+    const full=proj('b',3,[[R.cl,R.league],[R.cup,R.none],[R.none,R.cup]]),fr=frame(full);assert.equal(fr.specialPlayers,undefined);
+    const fa=world({history:fx.history(full),final:fr}),fb=world({history:fx.history(full),final:fr,managerRole:'playerTwo',chipLate:true});
+    fa.dispatch(fa.back);fb.dispatch(fb.back);await settle();assert.ok(fa.page()&&fb.page());
+    assert.deepEqual(plain(fb.calls.shown[0]),plain(fa.calls.shown[0]));assert.ok(fb.page().querySelector('.tgz-sp'),'final: the Special Players line on both phones');
+    // the chip's data cannot load: no paper on this phone (the tap goes on), never a paper missing the line on one phone only
+    const c=world({history,chipFails:true});c.dispatch(c.seasonButton);await settle();assert.equal(c.page(),null);assert.equal(c.calls.continue,1);
+    ok('G13','F2-16: the Special Player chip is loaded with the paper\'s files and read when the paper is built, so both phones print the identical paper (season and final), line included');
+  }
   // G10 the files: HO-048 copy byte for byte, shell-cached, fonts licensed, images on the V10 runtime cache, wired in once.
   {
     const sha=file=>crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,file))).digest('hex');
-    // Team V HO-048, origin/claude/project-thread-fyjnky 8fa67110 visual-assets/v10_1/content/{fixtures/gazetteCopy.js,fixtures/frontPages.js,frontpage.js,content.css}
-    assert.equal(sha('data/gazetteCopy.js'),'3bc761e89b5e47c79e43df5b6da6d0585a021684c1b43870d492029cae52eb76');
-    assert.equal(sha('data/frontPages.js'),'054c60cbfd2ecde8f506014cb8b8b4f99416fb5736200cca53fc5133dfaf0bfd');
+    // Team V HO-048, origin/claude/project-thread-fyjnky 8fa67110 visual-assets/v10_1/content/{fixtures/gazetteCopy.js,fixtures/frontPages.js,frontpage.js,content.css},
+    // with the Fable cloud job 1 truth edits to 26 headlines and 8 stories (G18 lists them): same rows, same ids, same counts.
+    assert.equal(sha('data/gazetteCopy.js'),'2a3caf1dd4713f628e2fb39b83415a5b53b8372173148c88e482fd3715429d0d');
+    assert.equal(sha('data/frontPages.js'),'1b73a935a115c2bdb5e8e28961ad1a26282f07fd68a2e353d55d5f26433ec70a');
     assert.equal(sha('visual-assets/v10_1/content/frontpage.js'),'a4b8ced9ac63123795bfe1d9ee2741027df7426466b5f5b5314c3bf55a58baf6');
     assert.equal(sha('visual-assets/v10_1/content/content.css'),'cfa7f1a4227673127ad34f59f5c0c4272248846cf3a456d2c814923ad0f6f7dc');
     assert.equal(Copy.stories.length,114);assert.equal(Copy.duets.length,288);for(const k of ['briefs','captions','ears','quotes'])assert.equal(Copy.small[k].length,30,k);
@@ -305,7 +439,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     // Commentary v2 keeps its own 5,100 lines: HO-048's commentaryLines.js (24 different situations) is not swapped in.
     assert.equal(require('../../data/commentaryLines.js').results.length,5100);
     const css=read('css/v10Gazette.css');assert.ok(!/rgba\(0,\s*0,\s*0,\s*0?\.\d+\)\s*;?\s*\}?\s*$/m.test(css.replace(/box-shadow[^;]*;/g,'')),'no scrim');assert.ok(!/backdrop-filter|opacity:\s*0?\.\d/.test(css),'no dimming');
-    ok('G10','HO-048 headlines, copy, paper and sheet byte for byte; every runtime file shell-cached with its font licence; photos on the image cache; wired from Season Results; Commentary v2 lines untouched; no scrim');
+    ok('G10','HO-048 headlines and copy (with the job 1 truth edits), paper and sheet byte for byte; every runtime file shell-cached with its font licence; photos on the image cache; wired from Season Results; Commentary v2 lines untouched; no scrim');
   }
   // G12 (2.0.0) THE RACE and the record book come from the seasons alone and are always true: level is "All square" (never a
   // lead), a lead beyond 11 x the seasons left cannot be caught, exactly that can only be levelled, a final draw is never a
@@ -357,6 +491,20 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.match(src,/if\(desk\)desk\.before\(box\)/);
     const css=read('css/v10Gazette.css');assert.match(css,/#touchlineGazette\.tgzPage::before \{[^}]*background: var\(--tgz-plate-phone\) 50% 0 \/ cover no-repeat;/,'the phone plate covers a tall window');
     ok('G12','THE RACE and the record book are true for 480 papers (level, open, uncatchable, level-only, final), 110-110 is a shared Golden Showdown, the strip sits above the trophy desk');
+  }
+  // G20: a 110-110 Golden draw never prints a "no trophy" consolation row, and a Showdown level after every season never
+  // "pointed toward a winner" (both phones, 120 Showdown ids each).
+  {
+    const Sweep=require('../support/gazetteTruthSweep.cjs');const G=require('../../js/touchlineGazette.js');
+    const cases={golden:Array.from({length:10},()=>[Sweep.M.max,Sweep.M.max]),level:Array.from({length:5},()=>[Sweep.M.title,Sweep.M.title])};
+    for(const [name,seasons] of Object.entries(cases))for(let id=0;id<120;id+=1){
+      const T=seasons.length,p=Sweep.buildProjection({seed:51000+id,totalSeasons:T,seasons});const pts=p.managerRecords.playerOne.totalPoints;
+      const ed=G.finalEdition({projection:p,final:{winner:'draw',totals:{daniel:pts,nik:pts},seasonsPlayed:T},specialPlayers:Sweep.SP});
+      assert.ok(ed,`${name} ${id}: a drawn final paper prints`);const text=G.paperText(ed);
+      if(name==='golden')assert.doesNotMatch(text,/may not come with a trophy|trophy talk for another year/i,`${name} ${id}`);
+      assert.doesNotMatch(text,/pointed toward a winner|promised a winner/i,`${name} ${id}`);
+    }
+    ok('G20','a 110-110 Golden draw prints no "no trophy" consolation row; a Showdown level after every season never "pointed toward a winner"');
   }
   console.log(`PASS r87 Touchline Gazette contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});
