@@ -153,12 +153,20 @@ export function checkIcons({iconsCsv,cardsCsv,lastPrimeGame}){
     players.push(row);
   }
 
-  // No accepted name may belong to two players.
+  // No accepted name may belong to two players. The one exception is a printed card name that two players share and
+  // that neither lists in accepted_names (Brian and Michael Laudrup are both "Laudrup"): js/iconNames.js treats that text as
+  // "ambiguous", so it costs no chip and the suggestions show both players; their full names still count. Reported as a warning.
   const owner=new Map();
+  const listed=p=>new Set([p.fullName,...p.acceptedNames].map(Names.fold));
   for(const p of players){
     for(const name of Names.namesFor(p)){
       const key=Names.fold(name);
-      if(owner.has(key)&&owner.get(key).id!==p.id)errors.push(`accepted name "${name}" belongs to both ${owner.get(key).id} and ${p.id}`);
+      if(owner.has(key)&&owner.get(key).id!==p.id){
+        const other=owner.get(key);
+        if(Names.fold(p.name)===key&&Names.fold(other.name)===key&&!listed(p).has(key)&&!listed(other).has(key))
+          warnings.push(`card name "${name}" is shared by ${other.id} and ${p.id}; typing it alone is ambiguous (no chip), their full names count`);
+        else errors.push(`accepted name "${name}" belongs to both ${other.id} and ${p.id}`);
+      }
       else owner.set(key,p);
     }
   }
