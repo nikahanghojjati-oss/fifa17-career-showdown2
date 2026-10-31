@@ -152,6 +152,9 @@
 :is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipTag{background:rgba(5,6,8,.78);color:var(--sd-gold-300,#ffd34d);}
 :is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipTag::after{content:" ·";}
 :is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipName{color:inherit;}
+/* The Career Table's Manager column is narrow at every size: a long name wraps inside its chip instead of being cut (red team R87-D-04). */
+#app #careerStatistics .careerTable td>.spChip{align-items:flex-start;border-radius:.7em;}
+#app #careerStatistics .careerTable .spChip .spChipName{max-width:none;overflow:visible;text-overflow:clip;white-space:normal;overflow-wrap:break-word;}
 @media (max-width:640px){
   #app .spChip{gap:.3em;padding:.1em .45em .1em .12em;font-size:10.5px;background:var(--sp-tier-bg);color:var(--sp-tier-ink);}
   #app .spChip .spChipRank{display:none;}

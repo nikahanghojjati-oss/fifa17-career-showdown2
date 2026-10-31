@@ -43,6 +43,12 @@
     const decode=img=>typeof img.decode==="function"?img.decode().catch(()=>img.complete?null:settled(img)):null;
     await Promise.all([...[...plates].map(url=>{const img=new root.Image();img.src=url;return decode(img);}),...[...host.querySelectorAll("img")].map(decode)]);
     while(host.hasAttribute("data-v10-pending")&&root.getActiveScreenName()==="mainMenu")await new Promise(resolve=>root.setTimeout(resolve,50));
+    // r87: Home's top bar (navigation, account chips and, once the soundtrack has started, its music dock) is part of Home. The
+    // bar mounts behind the loading screen (js/v10Screens.js); Home is handed over only once it is there, so it no longer pops in
+    // during the crossfade.
+    if(typeof V.mountNav==="function")await V.mountNav().catch(()=>null);
+    await Promise.resolve(load("v10-music-dock","js/musicDockV10.js",()=>Boolean(root.CareerModeMusicDockV10))).catch(()=>null);
+    while(root.CareerModeMusicDockV10?.state?.().started&&!doc.getElementById("cmsMusicDockTop")&&root.getActiveScreenName()==="mainMenu")await new Promise(resolve=>root.setTimeout(resolve,50));
   };
   // The checks are bounded by the same 15 s as js/app.js, so a picture request that never ends cannot hold back what follows Home.
   const reusGate=async()=>Promise.race([checkHome(),new Promise(resolve=>root.setTimeout(resolve,15e3))]);

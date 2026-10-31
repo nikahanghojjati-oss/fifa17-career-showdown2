@@ -97,7 +97,10 @@
     }
     return fit;
   }
-  const rrPlace=(slot,player)=>rrRow(slot.slot,slot.pos,player.name,{number:player.number??null,rating:player.rating,positions:player.positions,special:false,signedSeason:player.signedSeason??null});
+  // Nik 2026-10-31: a club that has run out of players keeps an EMPTY slot (no name, rating 0); the roulette still runs
+  // and the bullet only ever hits a filled slot (rrTargets).
+  const rrEmpty=slot=>rrRow(slot.slot,slot.pos,null,{number:null,rating:0,positions:Object.freeze([]),special:false,signedSeason:null});
+  const rrPlace=(slot,player)=>player?rrRow(slot.slot,slot.pos,player.name,{number:player.number??null,rating:player.rating,positions:player.positions,special:false,signedSeason:player.signedSeason??null}):rrEmpty(slot);
   const rrRank=(a,b)=>b.rating-a.rating||(a.number??100)-(b.number??100);
   const rrDatabasePlayer=p=>({name:p[0],rating:p[1],positions:p[2],number:p[4],signedSeason:null});
   const rrOnBoard=(state,name)=>state.board.some(p=>rrKey(p.name)===rrKey(name));
@@ -119,12 +122,8 @@
     if(!state.reserves.some(predicate))rrNextReserve(state,predicate);
     let at=-1;
     for(let i=0;i<state.reserves.length;i+=1)if(predicate(state.reserves[i])&&(at<0||rrRank(state.reserves[i],state.reserves[at])<0))at=i;
-    if(at<0){
-      // Nik: replacements stay club-only even when the finite pool is exhausted.
-      // Report the exhaustion rather than returning an empty row or reviving a loss.
-      const error=new Error('Club roster exhausted: '+state.club);
-      error.code='ROSTER_EXHAUSTED';error.club=state.club;throw error;
-    }
+    // Replacements stay club-only: a club with no player left gets an empty slot (null), never a revived loss or an import.
+    if(at<0)return null;
     const [player]=state.reserves.splice(at,1);
     return player;
   }
@@ -181,7 +180,7 @@
       if(bench<0||rrFit(player,slot.pos)>rrFit(state.board[bench],slot.pos)||(rrFit(player,slot.pos)===rrFit(state.board[bench],slot.pos)&&rrRank(player,state.board[bench])<0))bench=i;
     }
     if(bench>=0){
-      const player=state.board[bench],replacement=rrTakeReserve(state);
+      const player=state.board[bench],replacement=rrTakeReserve(state);// null = the bench slot stays empty
       state.board[at]=rrPlace(slot,player);state.board[bench]=rrPlace(state.board[bench],replacement);
     }else{
       // A club need not carry a keeper among its four subs. Its next database keeper

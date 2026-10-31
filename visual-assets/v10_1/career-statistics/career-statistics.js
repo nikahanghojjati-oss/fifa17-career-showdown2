@@ -83,7 +83,7 @@
       const card=document.createElement("article"); card.className="headlineTile"; card.setAttribute("data-sd-enter","panel");
       const val=vals[i];
       const valueHtml = val ? (val.pair
-        ? `<div class="headlinePair" data-digits="${Math.min(6,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
+        ? `<div class="headlinePair" data-digits="${Math.min(8,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
         : `<div class="headlineNumber" data-count-value="${fmt(val.combined)}">${fmt(val.combined)}</div><div class="headlineTogether">Together</div>`)
         : '<div class="headlinePair"><b aria-hidden="true">—</b></div>';
       card.innerHTML=`<div class="headlineIcon">${iconSvgs[i]}</div><div class="headlineCopy"><div class="headlineLabel">${label}</div>${valueHtml}</div>`;
@@ -126,7 +126,8 @@
       body.appendChild(row);
     }); panel.appendChild(body);
   }
-  const leader = (d,n,key) => d[key]===n[key] ? {role:"shared",name:"Daniel + Nik",value:d[key]} : (d[key]>n[key]?{role:"daniel",name:"Daniel",value:d[key]}:{role:"nik",name:"Nik",value:n[key]});
+  // r87 (house rule: equal is level, no tiebreak): a shared lead reads "Level · Daniel + Nik" and shows both managers' faces.
+  const leader = (d,n,key) => d[key]===n[key] ? {role:"shared",name:"Level · Daniel + Nik",value:d[key]} : (d[key]>n[key]?{role:"daniel",name:"Daniel",value:d[key]}:{role:"nik",name:"Nik",value:n[key]});
   function renderLeaders(frame, fx) {
     const panel=document.getElementById("leadersPanel"); panel.replaceChildren();
     const h=document.createElement("h2"); h.id="leadersHeading"; h.className="panelTitle"; h.textContent=fx.strings.sections.careerLeaders; panel.appendChild(h);
@@ -134,9 +135,13 @@
     const specs=[[fx.strings.leaderLabels[0],"seasonWins","wins"],[fx.strings.leaderLabels[1],"totalTrophies","trophies"],[fx.strings.leaderLabels[2],"careerPoints","pts"],[fx.strings.leaderLabels[3],"bestSeasonScore","pts"]];
     const grid=document.createElement("div"); grid.className="leaderGrid";
     specs.forEach(([label,key,suffix])=>{
-      const x=leader(D,N,key), portraitRole=x.role==="shared"?"daniel":x.role;
-      const card=document.createElement("article"); card.className="leaderCard";
-      card.innerHTML=`<span class="managerPortrait ${portraitRole}" role="img" aria-label="${x.name} portrait crop"></span><div><div class="leaderLabel">${label}</div><div class="leaderName">${x.name}</div><div class="leaderValue">${fmt(x.value)} ${suffix}</div></div>`;
+      const x=leader(D,N,key);
+      // a shared lead: one split face, Daniel's half on the left and Nik's on the right, in the same box as a single face
+      const portrait=x.role==="shared"
+        ? `<span class="managerPortrait managerPortraitSplit" role="img" aria-label="Daniel and Nik portrait crops"><span class="managerPortrait daniel"></span><span class="managerPortrait nik"></span></span>`
+        : `<span class="managerPortrait ${x.role}" role="img" aria-label="${x.name} portrait crop"></span>`;
+      const card=document.createElement("article"); card.className="leaderCard"; card.dataset.leader=x.role;
+      card.innerHTML=`${portrait}<div><div class="leaderLabel">${label}</div><div class="leaderName">${x.name}</div><div class="leaderValue">${fmt(x.value)} ${suffix}</div></div>`;
       grid.appendChild(card);
     }); panel.appendChild(grid);
   }

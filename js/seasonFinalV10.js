@@ -2054,6 +2054,14 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  display:block;font-size:max(9px,.74em);letter-spacing:.1em;color:#f2d68c;opacity:.9;
 }
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch[aria-busy="true"] { cursor:progress; }
+/* r87 polish: desktop exits are three equal cells (they were 1 / .78 / 1.12 of the row, and BACK TO SHOWDOWN HOME ran past its
+   gold edge at 1366x768 and 1920x1080). A label too long for its cell breaks onto two balanced lines, as REMATCH does. */
+@media (min-width:1200px) and (min-height:600px) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > button {
+  flex:1 1 0;min-width:0;padding:0 10px;white-space:normal;text-wrap:balance;overflow-wrap:normal;word-break:normal;line-height:1.1;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch { flex:1 1 0;white-space:nowrap; }
+}
 `;
     parent.appendChild(style);
   }

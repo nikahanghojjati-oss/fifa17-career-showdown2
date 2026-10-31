@@ -29,8 +29,13 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 ]);
 // Precached shell files that a stylesheet asks for by a relative url(), so the request has no ?v=: css/r78-marble-surfaces.css
 // draws its panels with url("r78-marble-tile.webp"). They come from the shell the page runs (the precached copy), then the network.
+// r87: the Roulette page in its frame asks for its 3D library and data the same way (no ?v=), so offline it still gets the
+// precached copies of the shell it runs (red team R87-B-03).
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
-    "css/r78-marble-tile.webp"
+    "css/r78-marble-tile.webp",
+    "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
+    "visual-assets/v10_1/roulette/platemap.json",
+    "visual-assets/v10_1/roulette/assets/squads.json"
 ]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",

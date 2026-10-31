@@ -13,7 +13,9 @@
   // last seasons' Transfer War verdicts (kept on this phone when they were shown; otherwise one Transfer Challenge read per
   // missing season). No board is saved anywhere and nobody types one.
   // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
-  // before r87. A page that fails to load skips only the animation: the result and the release still show.
+  // before r87. A page that fails to load skips only the animation: the result and the release still show. Anything else that
+  // fails (engine, data, an error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded
+  // shot still counts on later boards, so a manager must never reach the window without being told about it.
   const PAGE="visual-assets/v10_1/roulette/index.html";
   const STAGE_ID="rrStage",PANEL_ID="rrStepPanel";
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;
@@ -21,7 +23,7 @@
   const RRR_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
-  const failedHere=new Set(),sceneFailedHere=new Set();
+  const sceneFailedHere=new Set();
   let running=null,leftForHome=false;
 
   function rrsDoc(){return root.document||null;}
@@ -54,7 +56,7 @@
     if(!ctx.clubs||!ctx.clubs.playerOne||!ctx.clubs.playerTwo||ctx.phase==="COMPLETED")return false;
     if(!Number.isFinite(ctx.confirmedAtMs)||ctx.confirmedAtMs<RRR_FROM_MS)return false;
     const key=rrsKey(ctx);
-    return !failedHere.has(key)&&!rrsHas(DONE_KEY,key);
+    return !rrsHas(DONE_KEY,key);
   }
 
   // ---------- the panel (marble, like Career Start; no scrim: it sits on the scene or the page as an opaque card) ----------
@@ -159,7 +161,7 @@
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
       if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
-      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"VACANT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
+      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
       const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null}));
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns},root.location.origin);
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
@@ -188,9 +190,13 @@
 
   async function rrsRun(ctx){
     if(!rrsDecide(ctx)||!rrsDoc())return true;
-    if(!await rrsEnsure())return true;
+    while(!await rrsEnsure()){
+      const choice=await rrsAsk(ctx,{heading:"Loading the roulette",label:"Loading the roulette",lines:["The roulette could not load. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+      if(choice==="back")return false;
+    }
     const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx);
     const history=ctx.season>1?await rrsHistory(ctx):[null];if(!history)return false;
+    // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player.
     const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special:rrsSpecial(ctx),history});
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){rrsMark(DONE_KEY,key);return true;}
     if(!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
@@ -202,13 +208,24 @@
     rrsMark(DONE_KEY,key);
     return true;
   }
-  // Resolves true when the Transfer Challenge may open, false when the manager went back to Showdown Home. Never rejects:
-  // a failure before the result skips the roulette for this page load (the Transfer Challenge opens as before).
+  // An unexpected error asks TRY AGAIN / BACK; the same seeded plan is rebuilt on retry and nothing is marked done.
+  async function rrsRunGuarded(ctx){
+    for(;;){
+      try{return await rrsRun(ctx);}
+      catch(_error){
+        rrsRemoveStage();
+        const choice=await rrsAsk(ctx,{heading:"The roulette hit a problem",label:"The roulette hit a problem",lines:["This season's spins could not be shown. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+        if(choice==="back")return false;
+      }
+    }
+  }
+  // Resolves true when the Transfer Challenge may open, false when the manager went back to Showdown Home (or the step could
+  // not even show its panel). Never rejects, and never opens the Transfer Challenge without this season's result.
   // The panel and the stage stay up until close() so nothing shows between them and the next screen.
   function rrsRunBeforeTransfers(ctx){
     if(running)return running;
     leftForHome=false;
-    const run=Promise.resolve().then(()=>rrsRun(ctx)).catch(()=>{if(ctx)failedHere.add(rrsKey(ctx));return true;}).then(go=>{
+    const run=Promise.resolve().then(()=>rrsRunGuarded(ctx)).catch(()=>false).then(go=>{
       if(go===false){leftForHome=true;rrsRemovePanel();rrsRemoveStage();if(typeof root.navigateTo==="function")void Promise.resolve(root.navigateTo("mainMenu")).catch(()=>{});}
       return go!==false;
     }).finally(()=>{if(running===run)running=null;});
