@@ -667,11 +667,11 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
    runs long (two long names plus the Golden Showdown line on a short window) scrolls inside its panel instead of being cut.
    thead raises these over the phone sizes careerScreensV10.js injects. */
 #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(1) { width: 6%; }
-#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 36%; }
-#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 13%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 32%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 16%; }
 #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 20%; }
 #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(5) { width: 12%; }
-#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(6) { width: 13%; }
+#app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(6) { width: 14%; }
 #app #careerStatistics.careerScreenV10 .careerTable td:not(:nth-child(2)) { white-space: nowrap; }
 #app #careerStatistics.careerScreenV10 .careerTable .spChip .spChipName { overflow-wrap: normal; word-break: normal; hyphens: manual; line-height: 1.08; }
 #app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td { padding-top: max(4px, calc(var(--cs-u, 8px) * .38)); padding-bottom: max(4px, calc(var(--cs-u, 8px) * .38)); }

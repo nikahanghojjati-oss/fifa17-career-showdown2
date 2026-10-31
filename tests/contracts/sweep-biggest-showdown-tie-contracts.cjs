@@ -55,6 +55,6 @@ for(const [runtime,Analytics,Seam] of apis){
     assert.deepEqual(ties.map(m=>m.biggestShowdownWin.showdownRef),[null,null],"cross-Showdown tie has no single witness");
   });
   test(runtime+": career summary agrees with Trophy Room instead of naming one manager",()=>{
-    assert.deepEqual(ties.map(m=>summary(Seam,m)),["Shared · 1","Shared · 1"]);
+    assert.deepEqual(ties.map(m=>summary(Seam,m)),["LEVEL · 1","LEVEL · 1"]);
   });
 }
