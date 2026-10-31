@@ -2191,6 +2191,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
     // Small and loaded here with the screens it follows; its paper, sheet and copy load only when a paper is due.
+    // r87 Commentary v3: one TV bar inside Season Results' SEASON SCORE box (js/commentaryV3.js); its lines load only there.
+    Promise.resolve().then(()=>root.loadRuntimeScript("commentary-v3","js/commentaryV3.js",()=>Boolean(root.CareerModeCommentaryV3))).then(()=>root.CareerModeCommentaryV3?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error));
     Promise.resolve().then(()=>root.loadRuntimeScript("touchline-gazette","js/touchlineGazette.js",()=>Boolean(root.CareerModeTouchlineGazette))).then(()=>root.CareerModeTouchlineGazette?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Touchline Gazette unavailable.",error));
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.
