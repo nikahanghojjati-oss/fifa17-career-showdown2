@@ -161,7 +161,7 @@
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
       if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
-      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"VACANT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
+      const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null}));
       const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null}));
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns},root.location.origin);
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
@@ -196,15 +196,8 @@
     }
     const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx);
     const history=ctx.season>1?await rrsHistory(ctx):[null];if(!history)return false;
-    let plan;
-    try{plan=engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special:rrsSpecial(ctx),history});}
-    catch(error){
-      if(!error||error.code!=="ROSTER_EXHAUSTED")throw error;
-      // A club with no player left for a position (club-only exhaustion, #1085): no spins this season, and he is told why.
-      const go=await rrsAsk(ctx,{heading:"No roulette this season",label:"No roulette this season",lines:[`${error.club||"A club"} has no players left to lose, so nobody spins this season.`],buttons:[{id:"go",label:"GO TO THE TRANSFER WINDOW",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
-      if(go!=="go")return false;
-      rrsMark(DONE_KEY,key);return true;
-    }
+    // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player.
+    const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special:rrsSpecial(ctx),history});
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){rrsMark(DONE_KEY,key);return true;}
     if(!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
       const scene=await rrsScene(ctx,plan);

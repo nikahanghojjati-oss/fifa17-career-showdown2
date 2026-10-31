@@ -340,10 +340,12 @@ function fullBoard(board,label){
       assert.ok(turn.player.name&&turn.player.rating>0);lost[role].add(turn.player.name);
     }
   }
-  assert.ok(!/rrEmpty|name:\s*""|rating:\s*0\b/.test(src),'no path writes an empty board row');
+  // Empty rows exist only when a club has run out of players (Nik 2026-10-31): one writer, the rrPlace fallback.
+  assert.equal(src.split('rrEmpty').length-1,2,'empty rows come only from the rrPlace fallback');
+  assert.ok(!/name:\s*""/.test(src),'no blank-name rows');
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
   assert.match(rules,/lost player is replaced by a kept signing or the bench/);
-  assert.match(rules,/board is always full: 11 starters and 4 subs/);
+  assert.match(rules,/the roulette still spins, and the bullet only ever hits a real player/);
 }
 ok('L11','every club: 10 forced firing seasons, no kept signing, full 11 + 4 with one GK, permanent losses and identical replay');
 
@@ -432,8 +434,17 @@ ok('L13','all 98 clubs exclude any launch XI, sub or reserve Special Player and 
       const b=v.boards.playerOne;fullBoard(b,club+' before exhaustion '+v.season);
       assert.ok(b.every(p=>ownNames.has(p.name)&&p.name!==gk.name),'replacements stay club-only and skip Special Player');
     }
-    for(let call=0;call<2;call+=1)assert.throws(()=>forced.forSeason(fixedId(92),cs,exhaustedSeason,options),error=>
-      error.code==='ROSTER_EXHAUSTED'&&error.club===club&&error.message==='Club roster exhausted: '+club,'explicit deterministic exhaustion; no incomplete board returned');
+    // Nik 2026-10-31: the roulette is never skipped. The run-out club shows an empty slot and the bullet hits a real player.
+    for(let call=0;call<2;call+=1){
+      const v=forced.forSeason(fixedId(92),cs,exhaustedSeason,options),b=v.boards.playerOne,filled=b.filter(p=>p.name);
+      assert.equal(b.length,15,club+' board keeps 15 places');assert.ok(filled.length<15,club+' run-out club shows an empty slot');
+      assert.ok(b.filter(p=>!p.name).every(p=>p.rating===0&&p.positions.length===0),'empty slot has no player data');
+      assert.equal(new Set(filled.map(p=>p.name.toLowerCase())).size,filled.length,'no duplicate player');
+      assert.ok(filled.every(p=>ownNames.has(p.name)&&p.name!==gk.name),'still club-only, never the Special Player');
+      const turn=v.turns.find(t=>t.role==='playerOne');assert.ok(turn.fired,'forced bullet still fires');
+      assert.ok(turn.player&&turn.player.name,'the bullet hits a real player, never the empty slot');
+      assert.equal(JSON.stringify(v),JSON.stringify(forced.forSeason(fixedId(92),cs,exhaustedSeason,options)),'deterministic');
+    }
     if(club==='Cagliari'){
       const history=noSignings.slice();history[9]={playerOne:[row('Kept reserve cover',40,null)],playerTwo:[]};
       const b=forced.forSeason(fixedId(92),cs,10,{...options,history}).boards.playerOne;
@@ -442,9 +453,11 @@ ok('L13','all 98 clubs exclude any launch XI, sub or reserve Special Player and 
     }
   }
   const r='pair_4f30dc1baf68cf8f3e5cf3d58163ef451816249ea818b46fde9e9539ce3654fa';
-  assert.throws(()=>RRR.forSeason(r,{playerOne:'Torino',playerTwo:'Liverpool'},10,{history:noSignings,special:{playerOne:{name:'J. Hart',overall:84}}}),error=>error.code==='ROSTER_EXHAUSTED'&&error.club==='Torino','real-stream goalkeeper exhaustion reported');
+  const real=RRR.forSeason(r,{playerOne:'Torino',playerTwo:'Liverpool'},10,{history:noSignings,special:{playerOne:{name:'J. Hart',overall:84}}});
+  assert.ok(real&&real.boards.playerOne.length===15&&real.boards.playerOne.some(p=>!p.name),'real-stream goalkeeper run-out leaves an empty slot, no skip');
+  assert.ok(real.turns.every(t=>!t.fired||(t.player&&t.player.name)),'real-stream bullets hit real players');
 }
-ok('L14','club-only replacements: finite goalkeeper and club pools report deterministic exhaustion without empty rows or imports');
+ok('L14','club-only replacements: a run-out club keeps an empty slot, the roulette still runs and only hits real players');
 
 
 // L15 red team R87-B-02: the roulette's own files failing never opens the Transfer window silently. The step asks TRY
@@ -490,12 +503,7 @@ const stepChecks=(async()=>{
     assert.equal(await w.press('GO TO THE TRANSFER WINDOW'),'Your squad is safe','a retry that loads shows this season’s result');
     assert.equal(await run,true);
   }
-  {
-    const w=await stepWorld({loads:()=>true,forSeason:()=>{const e=new Error('Club roster exhausted: Torino');e.code='ROSTER_EXHAUSTED';e.club='Torino';throw e;}});
-    const run=w.step.runBeforeTransfers(w.ctx);
-    assert.equal(await w.press('GO TO THE TRANSFER WINDOW'),'No roulette this season','exhaustion is told, not swallowed');
-    assert.equal(await run,true);assert.equal(w.step.decide(w.ctx),false,'an exhausted season is done');
-  }
+  assert.ok(!/ROSTER_EXHAUSTED|No roulette this season/.test(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8')),'the roulette is never skipped for a short squad');
   {
     let calls=0;const w=await stepWorld({loads:()=>true,forSeason:()=>{calls+=1;throw new Error('boom');}});
     const run=w.step.runBeforeTransfers(w.ctx);
@@ -506,7 +514,7 @@ const stepChecks=(async()=>{
   const pstc=fs.readFileSync(path_.join(ROOT,'js/productionSharedTransferChallenge.js'),'utf8');
   assert.match(pstc,/if\(!step\)\{rouletteLoadError=true;return false;\}/,'the step file itself failing keeps the window shut');
   assert.match(pstc,/\}catch\(_error\)\{rouletteLoadError=true;return false;\}/);
-  ok('L15','red team R87-B-02: roulette load failure or error asks TRY AGAIN / BACK and never opens Transfers silently; exhaustion is told');
+  ok('L15','red team R87-B-02: roulette load failure or error asks TRY AGAIN / BACK and never opens Transfers silently; never skipped for a short squad');
 
   // L16 red team R87-B-03/04/05/06: offline scene files, two-tab signing drafts, plain connection text, quota on direct gets.
   const swSource=fs.readFileSync(path_.join(ROOT,'service-worker.js'),'utf8');
