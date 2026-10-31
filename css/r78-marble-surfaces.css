@@ -669,7 +669,7 @@
    2. On Select League and Club Assignment the shared dialogs (WAITING FOR <rival>, Shared Career Start, shared setup) sat in the
       middle of a wide window and covered the wheel or the club cards. On wide landscape windows they are now one low strip
       along the bottom of the window (at most 105px tall, bottom 1.2vh): the header on the left, then the words, the YOU/RIVAL
-      rows and the buttons side by side. On Select League the strip sits under SPIN WHEEL / BACK; on Club Assignment there is no
+      rows and the buttons side by side (r87 HO-050: at most 96px). On Select League the strip sits under SPIN WHEEL / BACK; on Club Assignment there is no
       free band (the club cards end 18px above OPEN SHOWDOWN PACKS), so the strip sits over that button row, never over the
       cards, the faces or the title. Phones, sideways phones and tablets keep the centred card. The overlay stays transparent
       (7d above), so nothing behind it is dimmed.
@@ -681,7 +681,7 @@
     place-items: end center; padding: 0 0 1.2vh;
   }
   :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningShell {
-    width: min(1240px, 92vw); max-height: min(105px, 12.5vh); display: grid; grid-template-columns: 150px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); overflow: hidden;
+    width: min(1240px, 92vw); max-height: 96px; display: grid; grid-template-columns: 150px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); overflow: hidden;
   }
   :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningHeader {
     display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 10px; min-height: 0;
@@ -705,6 +705,15 @@
   :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody .settingsInfoRow > strong { display: inline; margin: 0; font-size: 13px; line-height: 1.2; }
   :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningActions { grid-column: 3; grid-row: 1 / span 6; align-self: center; display: flex; flex-direction: column; align-items: stretch; gap: 4px; margin: 0; min-width: 190px; max-width: 300px; }
   :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningActions :is(.compactButton, .menuButton) { min-height: 34px; width: auto; margin: 0; padding: 3px 14px; font-size: 12px; }
+  /* r87 HO-050: WAITING FOR <rival> / CONNECTING put their words in a .remoteJoiningIntro wrapper, which the rules above
+     never reached, so its brush-size title pushed the status line out of the strip. The wrapper is the words column and its
+     title, eyebrow and line take the strip sizes, so both lines (the words and the status) show inside the 96px strip;
+     the status box drops its 38px minimum here. */
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningIntro { grid-column: 1; display: grid; gap: 2px; margin: 0; padding: 0; min-width: 0; text-align: left; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningIntro > .remoteJoiningEyebrow { display: none; } /* the strip's header column already says CAREER MODE SHOWDOWN // 17 */
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningIntro > h2 { margin: 0; font-size: 22px; line-height: 1.05; }
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningIntro > p { margin: 0; } /* body copy keeps the r78 15px readable size (r78-type.css) */
+  :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningStatus { min-height: 0; }
   /* a dialog with only words (WAITING FOR NIK) lets them run the whole width */
   :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody:not(:has(.settingsInfoGrid, .remoteJoiningCard, .remoteJoiningActions)) > :is(p, h2, .remoteJoiningEyebrow, .remoteJoiningStatus) { grid-column: 1 / -1; }
 }
