@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 31 Oct, 4:26 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 31 Oct, 4:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
-🐕 **Barking: Showdown Gate on #1121 has waited 64 min for a machine; Showdown Gate on #1122 has waited 64 min for a machine; Showdown Gate on #1131 has waited 62 min for a machine; Showdown Gate on #1126 has waited 58 min for a machine; Showdown Gate on #1137 has waited 48 min for a machine; Showdown Gate on #1138 has waited 46 min for a machine; Showdown Gate on #1133 has waited 43 min for a machine; Showdown Gate on #1139 has waited 42 min for a machine; Showdown Gate on #1140 has waited 36 min for a machine; Showdown Gate on #1117 has waited 34 min for a machine; Showdown Gate on #1130 has waited 30 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1137 has waited 53 min for a machine; Showdown Gate on #1139 has waited 47 min for a machine; Showdown Gate on #1140 has waited 40 min for a machine; Showdown Gate on #1117 has waited 38 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,11 +22,11 @@ Updated Sat 31 Oct, 4:26 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 463 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 464 h ago
 
 **#3 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 463 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 464 h ago
 
 **#4 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -70,7 +70,7 @@ Updated Sat 31 Oct, 4:26 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 358 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 359 h ago
 
 **#15 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
