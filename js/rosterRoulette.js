@@ -25,7 +25,7 @@
   // F2-02 (Fable job 2): the engine revision. Bump it whenever a board or a shot can come out differently for the same
   // Showdown, season and history (tests/contracts/r87-roulette-hits-contracts.cjs pins it to this file's text). It is part of
   // the version string each manager's spin mark carries (rrVersion), so two phones on different builds are told so.
-  const ENGINE_REVISION=1;
+  const ENGINE_REVISION=2;
   const POSITIONS=Object.freeze(["GK","SW","RWB","RB","RCB","CB","LCB","LB","LWB","RDM","CDM","LDM","RM","RCM","CM","LCM","LM","RAM","CAM","LAM","RF","CF","LF","RW","RS","ST","LS","LW","SUB"]);
 
   function rrSquads(){
@@ -336,17 +336,20 @@
     return `rr${4}.${ENGINE_REVISION}.${rrHash(JSON.stringify(parts))}`;
   }
   // A persisted outcome is used only when it is whole: fired true with a name and a board slot 0-14, or fired false with none.
+  // hitSignedSeason names which kind of person was shot (Sol SQ-4-01 identities): the season a signing was signed, or null for
+  // a club player, so the saved player is found by the same rrId the engine uses and never his namesake of the other kind.
   function rrSavedHit(hits,season,role){
     const h=hits&&hits[season]&&hits[season][role];
     if(!h||typeof h!=="object"||typeof h.fired!=="boolean")return null;
     if(!h.fired)return {fired:false};
     if(typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>=BOARD_SIZE)return null;
-    return {fired:true,hitName:h.hitName.trim(),hitNumber:Number.isInteger(h.hitNumber)?h.hitNumber:null,hitSlot:h.hitSlot};
+    const signedSeason=Number.isInteger(h.hitSignedSeason)&&h.hitSignedSeason>=1&&h.hitSignedSeason<=MAX_SEASONS?h.hitSignedSeason:null;
+    return {fired:true,hitName:h.hitName.trim(),hitNumber:Number.isInteger(h.hitNumber)?h.hitNumber:null,hitSlot:h.hitSlot,signedSeason};
   }
   // Where the saved shot player stands on this phone's board: his saved slot when that slot still holds him, else wherever he
   // is (a later build may have moved him), else -1 (not on this board at all: he is still out, nobody else is).
   function rrSavedAt(board,saved){
-    const shot={name:saved.hitName,number:saved.hitNumber};
+    const shot={name:saved.hitName,number:saved.hitNumber,signedSeason:saved.signedSeason};
     const row=board[saved.hitSlot];
     if(row&&row.name&&rrSame(row,shot))return {shot,at:saved.hitSlot};
     return {shot,at:board.findIndex(p=>p.name&&rrSame(p,shot))};
@@ -362,8 +365,9 @@
   function rrOutcome(plan,role,version){
     const turn=plan&&Array.isArray(plan.turns)?plan.turns.find(item=>item.role===role):null;
     if(!turn||typeof version!=="string"||!version)return null;
-    if(!turn.fired||!turn.player||!turn.player.name)return Object.freeze({fired:false,hitName:null,hitNumber:null,hitSlot:null,version});
-    return Object.freeze({fired:true,hitName:String(turn.player.name).trim(),hitNumber:Number.isInteger(turn.player.number)?turn.player.number:null,hitSlot:turn.hitSlot,version});
+    if(!turn.fired||!turn.player||!turn.player.name)return Object.freeze({fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason:null,version});
+    const signed=turn.player.signedSeason;
+    return Object.freeze({fired:true,hitName:String(turn.player.name).trim(),hitNumber:Number.isInteger(turn.player.number)?turn.player.number:null,hitSlot:turn.hitSlot,hitSignedSeason:Number.isInteger(signed)&&signed>=1&&signed<=MAX_SEASONS?signed:null,version});
   }
   function rrArgs(rivalryId,clubs,season){
     const match=RIVALRY_ID.exec(String(rivalryId||""));
@@ -411,7 +415,7 @@
         if(saved){if(saved.fired)({shot,at}=rrSavedAt(state.board,saved));}
         else if(turn.fired){shot=state.board[turn.hitSlot];at=turn.hitSlot;}
         if(shot){
-          rrExclude(state,shot);
+          rrExclude(state,at>=0?state.board[at]:shot);
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
           // R87-2's XI/bench signing placement run first without ever writing a blank row.
           if(at>=0)state.vacant=at;
@@ -428,7 +432,7 @@
     }
     const order=ROLES.map(role=>{
       const {shot,...turn}=turns[role],board=boards[role];
-      const player=turn.hitSlot===null?null:shot?rrRow(turn.hitSlot,board[turn.hitSlot].pos,shot.name,{number:shot.number,rating:0,positions:Object.freeze([]),special:false,signedSeason:null}):board[turn.hitSlot];
+      const player=turn.hitSlot===null?null:shot?rrRow(turn.hitSlot,board[turn.hitSlot].pos,shot.name,{number:shot.number,rating:0,positions:Object.freeze([]),special:false,signedSeason:shot.signedSeason}):board[turn.hitSlot];
       return Object.freeze({...turn,player});
     });
     return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order)});

@@ -488,7 +488,7 @@
   // durable record, or from the pre-window marks once both managers have one (the record START writes is their exact copy).
   const PSTC_ROULETTE_HITS_KEY="careerModeShowdown.rouletteHits.v1";
   function pstcHitList(){try{const value=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PSTC_ROULETTE_HITS_KEY)||"[]");return Array.isArray(value)?value.filter(item=>Array.isArray(item)&&item.length===2&&typeof item[0]==="string"):[];}catch(_error){return [];}}
-  function pstcOutcomeCopy(entry){return entry&&typeof entry==="object"&&provider?.outcomeValid?.(entry)?{fired:entry.fired,hitName:entry.hitName,hitNumber:entry.hitNumber,hitSlot:entry.hitSlot,version:entry.version}:null;}
+  function pstcOutcomeCopy(entry){return entry&&typeof entry==="object"&&provider?.outcomeValid?.(entry)?{fired:entry.fired,hitName:entry.hitName,hitNumber:entry.hitNumber,hitSlot:entry.hitSlot,hitSignedSeason:entry.hitSignedSeason,version:entry.version}:null;}
   function pstcKeptHits(rivalryId,season){const found=pstcHitList().find(item=>item[0]===`${rivalryId}|${season}`),value=found&&found[1];return value&&typeof value==="object"&&Object.hasOwn(value,"playerOne")&&Object.hasOwn(value,"playerTwo")?value:null;}
   function pstcKeepHits(rivalryId,season,hits){
     const value={playerOne:pstcOutcomeCopy(hits?.playerOne),playerTwo:pstcOutcomeCopy(hits?.playerTwo)};if(!rivalryId)return value;

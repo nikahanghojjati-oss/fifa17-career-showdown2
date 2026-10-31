@@ -46,7 +46,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     assert.equal(daniel.fired,true);assert.equal(daniel.player.name,"J. Milner");assert.equal(daniel.hitSlot,7);
     const version=R.version(CLUBS,{});
     const outcome=R.outcome(s1,"playerOne",version);
-    assert.deepEqual({...outcome},{fired:true,hitName:"J. Milner",hitNumber:7,hitSlot:7,version});
+    assert.deepEqual({...outcome},{fired:true,hitName:"J. Milner",hitNumber:7,hitSlot:7,hitSignedSeason:null,version});
     const nik=R.outcome(s1,"playerTwo",version);assert.equal(nik.fired,false);assert.equal(nik.hitName,null);assert.equal(nik.hitSlot,null);
     const hits={1:{playerOne:outcome,playerTwo:nik}};
     // Same build, saved outcome = computed outcome: identical boards.
@@ -67,6 +67,22 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const s10=Fixed.forSeason(RID,CLUBS,10,{history:noSignings(9),hits:s10hits});
     assert.equal(names(s10.boards.playerOne).includes("J. Milner"),false);
     for(let k=2;k<=9;k+=1)assert.notEqual(s10hits[k].playerOne.hitName,"J. Milner","the saved player is never shot twice");
+    // Sol SQ-4-01 identities (#1107): a signing and a club player with the same name are two people. Daniel signs a Coutinho
+    // namesake in season 1; the saved season 2 shot names the signing (hitSignedSeason 1), so the club's Coutinho stays.
+    const coutinho=R.forSeason(RID,CLUBS,1).boards.playerOne.find(p=>p.name==="Coutinho");
+    const hist2=[null,{playerOne:[{slot:1,name:"Coutinho",overall:99,position:"ST",release:false}],playerTwo:[]},{playerOne:[],playerTwo:[]}];
+    const both=R.forSeason(RID,CLUBS,2,{history:hist2}).boards.playerOne.filter(p=>p.name==="Coutinho");
+    assert.deepEqual(both.map(p=>p.signedSeason),[null,1],"season 2: the club's Coutinho and the signed namesake");
+    const signingSlot=both[1].slot;
+    const shotSigning={fired:true,hitName:"Coutinho",hitNumber:null,hitSlot:signingSlot,hitSignedSeason:1,version};
+    const plan2=R.forSeason(RID,CLUBS,2,{history:hist2,hits:{2:{playerOne:shotSigning,playerTwo:null}}});
+    assert.equal(plan2.turns.find(t=>t.role==="playerOne").player.signedSeason,1);
+    assert.equal(R.outcome(plan2,"playerOne",version).hitSignedSeason,1,"the outcome records that the shot player was a signing");
+    const s3=R.forSeason(RID,CLUBS,3,{history:hist2,hits:{2:{playerOne:shotSigning,playerTwo:null}}}).boards.playerOne.filter(p=>p.name==="Coutinho");
+    assert.deepEqual(s3.map(p=>[p.number,p.signedSeason]),[[coutinho.number,null]],"the signing is out; his club namesake stays");
+    const shotClub={fired:true,hitName:"Coutinho",hitNumber:coutinho.number,hitSlot:coutinho.slot,hitSignedSeason:null,version};
+    const s3c=R.forSeason(RID,CLUBS,3,{history:hist2,hits:{2:{playerOne:shotClub,playerTwo:null}}}).boards.playerOne.filter(p=>p.name==="Coutinho");
+    assert.equal(s3c.some(p=>p.signedSeason===null),false,"a saved club-player shot removes the club's Coutinho");
     // A malformed saved outcome is ignored (computed as before), never trusted.
     const bad=R.forSeason(RID,CLUBS,2,{history:noSignings(1),hits:{1:{playerOne:{fired:true,hitName:"",hitSlot:99}}}}).boards;
     assert.deepEqual(JSON.stringify(bad),JSON.stringify(R.forSeason(RID,CLUBS,2,{history:noSignings(1)}).boards));
@@ -79,15 +95,15 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const plain=R.forSeason(RID,CLUBS,1);
     // Nik's phone (another build) saved "Nik lost B. Leno": this phone shows exactly that for his turn.
     const leno=plain.boards.playerTwo.find(p=>p.name&&!p.bench&&p.pos==="GK");
-    const saved=R.forSeason(RID,CLUBS,1,{hits:{1:{playerOne:null,playerTwo:{fired:true,hitName:leno.name,hitNumber:leno.number,hitSlot:leno.slot,version}}}});
+    const saved=R.forSeason(RID,CLUBS,1,{hits:{1:{playerOne:null,playerTwo:{fired:true,hitName:leno.name,hitNumber:leno.number,hitSlot:leno.slot,hitSignedSeason:null,version}}}});
     const nik=saved.turns.find(t=>t.role==="playerTwo");
     assert.equal(nik.fired,true);assert.equal(nik.player.name,leno.name);assert.equal(nik.hitSlot,leno.slot);assert.equal(nik.stopChamber,nik.bulletChamber,"the animation lands on the bullet");assert.equal(nik.authority,"saved");
     assert.deepEqual(saved.turns.find(t=>t.role==="playerOne"),plain.turns.find(t=>t.role==="playerOne"),"Daniel's own turn is unchanged");
     // Daniel's saved safe spin stays safe even if this build's chambers say otherwise.
-    const safe=R.forSeason(RID,CLUBS,1,{hits:{1:{playerOne:{fired:false,hitName:null,hitNumber:null,hitSlot:null,version},playerTwo:null}}}).turns.find(t=>t.role==="playerOne");
+    const safe=R.forSeason(RID,CLUBS,1,{hits:{1:{playerOne:{fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason:null,version},playerTwo:null}}}).turns.find(t=>t.role==="playerOne");
     assert.equal(safe.fired,false);assert.equal(safe.player,null);assert.notEqual(safe.stopChamber,safe.bulletChamber);
     // A saved player this board no longer has: the line still names him, at his saved slot.
-    const gone=R.forSeason(RID,CLUBS,1,{hits:{1:{playerOne:{fired:true,hitName:"A. Nobody",hitNumber:null,hitSlot:4,version},playerTwo:null}}}).turns.find(t=>t.role==="playerOne");
+    const gone=R.forSeason(RID,CLUBS,1,{hits:{1:{playerOne:{fired:true,hitName:"A. Nobody",hitNumber:null,hitSlot:4,hitSignedSeason:null,version},playerTwo:null}}}).turns.find(t=>t.role==="playerOne");
     assert.equal(gone.player.name,"A. Nobody");assert.equal(gone.hitSlot,4);
     ok("H2","F2-02 this season: a saved outcome (fired or safe) is the authority for that manager's turn");
   }
@@ -103,7 +119,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     assert.equal(R.version({playerOne:"Not A Club",playerTwo:"Arsenal"},{}),null);
     // The engine revision is pinned to the engine's text: any change to js/rosterRoulette.js must decide whether a board or a
     // shot can come out differently (then bump ENGINE_REVISION) and update this pin.
-    const PIN={revision:1,sha256:"215b36cb9af76c44b2290a937c6e8eeb80a7ffe9052537ef90693c347fc14283"};
+    const PIN={revision:2,sha256:"bae72f14ac9eecb9f2db241eb0eaefd01a9779acba8a0732f7e89001ac7317a2"};
     const sha=crypto.createHash("sha256").update(read("js/rosterRoulette.js")).digest("hex");
     assert.equal(R.engineRevision,PIN.revision,"ENGINE_REVISION changed: update the pin below with the file's sha256");
     assert.equal(sha,PIN.sha256,"js/rosterRoulette.js changed: if a board or a shot can come out differently, bump ENGINE_REVISION; then update this pin");
@@ -142,7 +158,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
   // ---------- H4 ----------
   {
     const page=stepPage(),version=page.R.version(CLUBS,{});
-    const other={fired:false,hitName:null,hitNumber:null,hitSlot:null,version:"rr4.1.deadbeef"};
+    const other={fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason:null,version:"rr4.1.deadbeef"};
     let refreshes=0,remembered=null;
     // This browser already watched the scene (so the run goes straight to the card after the stop).
     page.store.set(page.step.watchedKey,JSON.stringify([`${RID}|1|playerOne`]));
@@ -162,7 +178,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     // CONTINUE goes on with the partner's saved spin as the authority for his turn.
     const page2=stepPage();page2.store.set(page2.step.watchedKey,JSON.stringify([`${RID}|1|playerOne`]));
     const lenoBoard=page2.R.forSeason(RID,CLUBS,1).boards.playerTwo,keeper=lenoBoard.find(x=>x.pos==="GK");
-    const run2=page2.step.runBeforeTransfers(ctxFor({marks:{playerOne:null,playerTwo:{fired:true,hitName:keeper.name,hitNumber:keeper.number,hitSlot:keeper.slot,version:"rr4.1.deadbeef"}},windowStarted:false,remember(){}}));
+    const run2=page2.step.runBeforeTransfers(ctxFor({marks:{playerOne:null,playerTwo:{fired:true,hitName:keeper.name,hitNumber:keeper.number,hitSlot:keeper.slot,hitSignedSeason:null,version:"rr4.1.deadbeef"}},windowStarted:false,remember(){}}));
     let q=await page2.panel();page2.press(q,"CONTINUE WITH NIK'S SAVED SPIN");await new Promise(r=>setTimeout(r,40));
     q=await page2.panel();assert.ok(page2.lines(q).includes(`Nik lost ${keeper.name}.`),"Nik's line is his saved spin");
     page2.press(q,"BACK TO SHOWDOWN HOME");assert.equal(await run2,false);
@@ -177,7 +193,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
   {
     const page=stepPage(),version=page.R.version(CLUBS,{});
     let remembered=0;
-    const mine={fired:true,hitName:"J. Milner",hitNumber:7,hitSlot:7,version};
+    const mine={fired:true,hitName:"J. Milner",hitNumber:7,hitSlot:7,hitSignedSeason:null,version};
     const run=page.step.runBeforeTransfers(ctxFor({marks:{playerOne:mine,playerTwo:null},windowStarted:false,remember:()=>{remembered+=1;}}));
     const p=await page.panel();
     assert.equal(page.doc.frames.length,0,"no second spin: the scene never loads");

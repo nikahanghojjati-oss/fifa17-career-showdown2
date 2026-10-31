@@ -224,6 +224,7 @@ for(const required of [
   'allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);',
   'allow list, update, delete: if false;',
   "value.hitSlot is int && value.hitSlot >= 0 && value.hitSlot <= 14",
+  "value.hitSignedSeason is int && value.hitSignedSeason >= 1 && value.hitSignedSeason <= 10",
   "ssjrRivalryData(rivalryId).managerSlots[managerRole == 'playerOne' ? 0 : 1].accountId == request.auth.uid"
 ]){
   if(!generated.includes(required))throw new Error(`Generated production Rules missing required Shared Journey boundary: ${required}`);

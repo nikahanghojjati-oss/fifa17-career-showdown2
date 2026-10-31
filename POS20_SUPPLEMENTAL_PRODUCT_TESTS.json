@@ -2410,21 +2410,21 @@
       ]
     },
     {
-      "path": "tests/contracts/r87-roulette-hits-contracts.cjs",
-      "patterns": [
-        "^js/(rosterRoulette|rosterRouletteStep|sparkSharedTransferChallenge|productionSharedTransferChallenge|productionSharedJourneyReconnect|sparkPrivatePairing)\\.js$",
-        "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
-        "^tests/contracts/r87\\-roulette\\-hits\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/r87-career-start-b-contracts.cjs",
       "patterns": [
         "^js/productionSharedCareerStart\\.js$",
         "^css/(remoteJoining|v10Club)\\.css$",
         "^tests/browser/career-start-b-fits-audit\\.cjs$",
         "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-roulette-hits-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRoulette|rosterRouletteStep|sparkSharedTransferChallenge|productionSharedTransferChallenge|productionSharedJourneyReconnect|sparkPrivatePairing)\\.js$",
+        "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
+        "^tests/contracts/r87\\-roulette\\-hits\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

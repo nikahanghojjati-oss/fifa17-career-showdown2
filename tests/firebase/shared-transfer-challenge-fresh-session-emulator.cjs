@@ -362,7 +362,7 @@ async function proveRouletteMarks(env){
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// F2-02 (Fable job 2): each mark records its manager's outcome (fired, hitName, hitNumber, hitSlot 0-14, version), written once;
+// F2-02 (Fable job 2): each mark records its manager's outcome (fired, hitName, hitNumber, hitSlot 0-14, hitSignedSeason, version), written once;
 // START keeps both marks in one durable record (transferChallenges/season_N/roulette/spins, an exact copy, created once).
 // F2-12: an earlier season is read with plain gets (both role documents and the record), allowed only once COMPLETED.
 // ---------------------------------------------------------------------------------------------------------------------
@@ -381,12 +381,13 @@ async function proveRouletteOutcomes(env){
   const markDoc=(season,spins)=>({schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R4,seasonNumber:season,phase:"NOT_STARTED",spins,updatedAt:firestoreSdk.serverTimestamp()});
   const withGet={...sdk(),getDoc};
   const options=(role,season,extra={})=>({user:{uid:role==="playerOne"?A:B},firestore:role==="playerOne"?dbA:dbB,firebaseSdk:withGet,rivalryId:R4,sessionId:S4,deviceId:role==="playerOne"?DA:DB,seasonNumber:season,cryptoImpl:crypto.webcrypto,nowEpochMs:Date.now(),...extra});
-  const V="rr4.1.0d0adc9d",HIT={fired:true,hitName:"J. Milner",hitNumber:7,hitSlot:7,version:V},SAFE={fired:false,hitName:null,hitNumber:null,hitSlot:null,version:V};
+  const V="rr4.2.0d0adc9d",HIT={fired:true,hitName:"J. Milner",hitNumber:7,hitSlot:7,hitSignedSeason:null,version:V},SAFE={fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason:null,version:V};
 
   await proof("RH1","malformed outcomes are refused by the Rules (raw writes): slot outside 0-14, bad name, number, version, keys, types",async()=>{
     const bad=[{...HIT,hitSlot:15},{...HIT,hitSlot:-1},{...HIT,hitSlot:1.5},{...HIT,hitSlot:"7"},{...HIT,hitName:""},{...HIT,hitName:" J. Milner"},{...HIT,hitName:"x".repeat(81)},{...HIT,hitName:7},
       {...HIT,hitNumber:100},{...HIT,hitNumber:-1},{...HIT,hitNumber:"7"},{...HIT,version:"v1"},{...HIT,version:`rr4.1.${"a".repeat(9)}`},{...HIT,version:7},{...HIT,fired:"yes"},{...HIT,extra:1},
-      (({version,...rest})=>rest)(HIT),{...SAFE,hitName:"J. Milner"},{...SAFE,hitSlot:0},{...SAFE,hitNumber:7},{...HIT,hitSlot:null},false,"spun",1,{}];
+      (({version,...rest})=>rest)(HIT),{...SAFE,hitName:"J. Milner"},{...SAFE,hitSlot:0},{...SAFE,hitNumber:7},{...HIT,hitSlot:null},
+      {...HIT,hitSignedSeason:0},{...HIT,hitSignedSeason:11},{...HIT,hitSignedSeason:"1"},{...HIT,hitSignedSeason:1.5},{...SAFE,hitSignedSeason:1},(({hitSignedSeason,...rest})=>rest)(HIT),false,"spun",1,{}];
     for(const outcome of bad)await assertFails(setDoc(pub(dbA,1),markDoc(1,{playerOne:outcome}),{merge:true}));
     assert.equal(await stored(db=>pub(db,1)),null,"nothing was written");
     for(const outcome of bad.filter(item=>item&&typeof item==="object"))assert.equal(provider.outcomeValid(outcome),false,`the provider refuses the same outcome: ${JSON.stringify(outcome)}`);

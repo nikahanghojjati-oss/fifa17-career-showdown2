@@ -10,8 +10,8 @@
   // the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms the
   // release in his FIFA 17 save. The app never releases anyone itself. The boards build themselves (Nik 2026-10-30): the
   // FIFA 17 launch board excluding the Special Player, then each season's shot player out and kept signings in by position and overall, from
-  // last seasons' Transfer War verdicts (kept on this phone when they were shown; otherwise one Transfer Challenge read per
-  // missing season). No board is saved anywhere and nobody types one.
+  // last seasons' Transfer War verdicts and saved shots (kept on this phone when they were shown; otherwise plain reads of
+  // both verdict documents and the saved spins per missing season, all seasons at once; F2-12). No board is saved anywhere and nobody types one.
   // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
   // before r87. A page that fails to load skips only the animation: the result and the release still show. Anything else that
   // fails (engine, data, an error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded
@@ -212,7 +212,7 @@
   // ---------- F2-02 / F2-10: the spin marks on the server ----------
   // ctx.marks = this season's marks as the Transfer Challenge read them ({playerOne, playerTwo}: true, an outcome, or null), or
   // null once the window opened (both managers had spun: START needs both marks). An outcome is {fired, hitName, hitNumber,
-  // hitSlot, version}.
+  // hitSlot, hitSignedSeason, version}.
   function rrsOutcomeOf(entry){return entry&&typeof entry==="object"&&typeof entry.fired==="boolean"&&typeof entry.version==="string"?entry:null;}
   function rrsSpunOnServer(ctx){return ctx.windowStarted===true||Boolean(ctx.marks&&ctx.marks[ctx.managerRole]);}
   // F2-02: the partner spun this season on a different version of the game (another build, or other squad data), so the two
@@ -224,8 +224,8 @@
       if(!version||!partner||partner.version===version||rrsSpunOnServer(ctx)&&ctx.marks&&ctx.marks[ctx.managerRole])return true;
       const name=NAMES[rrsOther(ctx.managerRole)];
       const choice=await rrsAsk(ctx,{heading:"Update the game on the other phone",label:"Update the game on the other phone",
-        lines:[`${name} spun this season's roulette on a different version of the game, so the two phones could show different players.`,`Update the game on ${name}'s phone: close it fully and open it again. If this phone is the one behind, do the same here. Then tap TRY AGAIN.`],
-        note:`This phone: ${version} · ${name}'s spin: ${partner.version}. ${name}'s saved spin stands for him either way.`,
+        lines:[`${name} spun this season's roulette on a different version of the game, so the two phones could show different players.`,`Update the game on ${name}'s phone: close it fully and open it again. If yours is the one behind, do the same on yours. Then tap TRY AGAIN.`],
+        note:`Your version: ${version} · ${name}'s spin: ${partner.version}. ${name}'s saved spin stands for him either way.`,
         buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"continue",label:`CONTINUE WITH ${name.toUpperCase()}'S SAVED SPIN`},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
       if(choice==="back")return false;
       if(choice==="continue")return true;

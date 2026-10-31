@@ -28,9 +28,9 @@
   // starting the window replaces the document with the normal ledger (exactly PUBLIC_KEYS, so no other reader changes).
   const SPIN_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","phase","spins","updatedAt"]);
   // F2-02 (Fable job 2): a mark records that season's outcome for its manager (js/rosterRoulette.js outcome): fired, hitName,
-  // hitNumber, hitSlot (0-14) and the engine and data version. A mark from a phone that ran no roulette (switched off, no
-  // confirm time) is plain true. Each manager writes his own entry once (the Rules refuse a second write).
-  const OUTCOME_KEYS=Object.freeze(["fired","hitName","hitNumber","hitSlot","version"]);
+  // hitNumber, hitSlot (0-14), hitSignedSeason (1-10, or null for a club player) and the engine and data version. A mark from a
+  // phone that ran no roulette (switched off, no confirm time) is plain true. Each manager writes his own entry once (the Rules refuse a second write).
+  const OUTCOME_KEYS=Object.freeze(["fired","hitName","hitNumber","hitSlot","hitSignedSeason","version"]);
   const OUTCOME_VERSION=/^rr[0-9]{1,3}\.[0-9]{1,4}\.[0-9a-f]{8}$/;
   // The durable copy START makes of both marks (the mark document itself is replaced by the ledger), so later seasons replay the
   // saved shots: rivalries/{rid}/transferChallenges/season_N/roulette/spins, written once, never changed.
@@ -108,9 +108,9 @@
     if(!stspPlain(value)||Object.keys(value).length!==OUTCOME_KEYS.length||OUTCOME_KEYS.some(key=>!Object.hasOwn(value,key)))return null;
     if(typeof value.fired!=="boolean"||typeof value.version!=="string"||!OUTCOME_VERSION.test(value.version))return null;
     if(value.fired){
-      if(typeof value.hitName!=="string"||!value.hitName||value.hitName!==value.hitName.trim()||value.hitName.length>80||!Number.isInteger(value.hitSlot)||value.hitSlot<0||value.hitSlot>14||!(value.hitNumber===null||(Number.isInteger(value.hitNumber)&&value.hitNumber>=0&&value.hitNumber<=99)))return null;
-    }else if(value.hitName!==null||value.hitNumber!==null||value.hitSlot!==null)return null;
-    return Object.freeze({fired:value.fired,hitName:value.hitName,hitNumber:value.hitNumber,hitSlot:value.hitSlot,version:value.version});
+      if(typeof value.hitName!=="string"||!value.hitName||value.hitName!==value.hitName.trim()||value.hitName.length>80||!Number.isInteger(value.hitSlot)||value.hitSlot<0||value.hitSlot>14||!(value.hitNumber===null||(Number.isInteger(value.hitNumber)&&value.hitNumber>=0&&value.hitNumber<=99))||!(value.hitSignedSeason===null||(Number.isInteger(value.hitSignedSeason)&&value.hitSignedSeason>=1&&value.hitSignedSeason<=10)))return null;
+    }else if(value.hitName!==null||value.hitNumber!==null||value.hitSlot!==null||value.hitSignedSeason!==null)return null;
+    return Object.freeze({fired:value.fired,hitName:value.hitName,hitNumber:value.hitNumber,hitSlot:value.hitSlot,hitSignedSeason:value.hitSignedSeason,version:value.version});
   }
   // {playerOne, playerTwo}: each manager's stored entry (true, or his outcome), or null when he has none.
   function stspSpinEntries(spins){
