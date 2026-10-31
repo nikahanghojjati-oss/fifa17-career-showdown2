@@ -154,9 +154,9 @@ check('A-03 the phone copy lookup gives up after about 2 s, falls through to the
 });
 
 // ---- B2 + A-08: the browser binding, run in a vm with the real rivalryLegacyV10.js and careerScreensV10.js ----
-function harness({legacy=false,mounted=null,active=null,live=false}={}){
+function harness({legacy=false,mounted=null,active=null,live=false,cold=false}={}){
   let pair={status:'paired',rivalryId:'pair_'+'a'.repeat(64),closedRivalryId:null},hidden=false;
-  const loads=[],definitions=new Map(),frames=[],errors=[],timers=new Map(),listeners={},docListeners={};let now=0,nextTimer=0;
+  const loads=[],definitions=new Map(),frames=[],errors=[],timers=new Map(),listeners={},docListeners={},drawn=new Set(),expects=[];let now=0,nextTimer=0;
   const host={dataset:{},innerHTML:'',classList:{contains:()=>false},querySelector:()=>null,setAttribute(){}};
   const fixture=JSON.parse(read('tests/fixtures/data-contract-v1/finished-three-seasons.json')).career;
   const c=vm.createContext({console,TextEncoder,crypto:webcrypto,Date:class extends Date{static now(){return now;}},
@@ -171,8 +171,9 @@ function harness({legacy=false,mounted=null,active=null,live=false}={}){
     CareerModeCareerStartMarker:{readMarker:async()=>({status:'ready',hiddenRivalryIds:[]}),hiddenRivalryIds:()=>[],epoch:()=>0},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:'acct_nik'}},firestore:{},firestoreSdk:{getDoc(){}}})},
     CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:(options,canPublish)=>new Promise(resolve=>loads.push({resolve,options,canPublish}))},
-    CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),isMounted:id=>mounted?id===mounted:legacy?id==='legacy':id==='careerStatistics',invalidate(){},
-      async show(id){const def=definitions.get(id);if(!def)return false;if(def.prepare)await def.prepare();const frame=def.frame();frames.push({id,frame});if(def.mount&&legacy)def.mount(frame,host);return true;}},
+    CareerModeV10Screens:{install(){return this;},register:(id,def)=>definitions.set(id,def),isMounted:id=>cold?drawn.has(id):mounted?id===mounted:legacy?id==='legacy':id==='careerStatistics',invalidate(){},
+      expect(id){expects.push({id,at:now,frames:frames.length});return !drawn.has(id);},
+      async show(id){const def=definitions.get(id);if(!def)return false;if(def.prepare)await def.prepare();const frame=def.frame();frames.push({id,frame});drawn.add(id);if(def.mount&&legacy)def.mount(frame,host);return true;}},
     ShowdownLegacyBoot(){},renderLegacy(){},loadRuntimeScript:async()=>{},fetch:async()=>({ok:true,json:async()=>({})}),
     reportApplicationError:(_context,error)=>errors.push(error),
     CustomEvent:class{constructor(type,options){this.type=type;this.detail=options?.detail;}}
@@ -183,7 +184,7 @@ function harness({legacy=false,mounted=null,active=null,live=false}={}){
   vm.runInContext(read('js/careerScreensV10.js'),c,{filename:'js/careerScreensV10.js'});
   async function advance(ms){const target=now+ms;await tick();for(;;){const entry=[...timers].filter(([,t])=>t.at<=target).sort((a,b)=>a[1].at-b[1].at)[0];if(!entry)break;now=entry[1].at;timers.delete(entry[0]);entry[1].fn();await tick();await tick();}now=target;for(let i=0;i<10;i++)await tick();}
   const settle=async()=>{for(let i=0;i<30;i++)await tick();};
-  return {c,loads,definitions,frames,errors,advance,settle,fixture,
+  return {c,loads,definitions,frames,errors,advance,settle,fixture,expects,
     endShowdown(){pair={status:'unpaired',rivalryId:null,closedRivalryId:pair.rivalryId};},
     hide(){hidden=true;},show(){hidden=false;(docListeners.visibilitychange||[]).forEach(fn=>fn({}));},online(){(listeners.online||[]).forEach(fn=>fn({}));},
     finish:async(i)=>{loads[i].resolve({model:fixture,careerInput:{indexStatus:'ready',showdowns:[]}});await settle();}};
@@ -319,6 +320,45 @@ check('C-09 Career Statistics left UNAVAILABLE loads again by itself when the co
   h.show();await h.settle();assert.equal(h.loads.length,2,'shown again: one new read');
   await h.finish(1);assert.equal(h.definitions.get('careerStatistics').frame().status,'ready','the career arrives');
   h.online();await h.settle();assert.equal(h.loads.length,2,'a ready career is not read again');
+});
+check('C-02 (Reus Gate) the first career screen opened after start is revealed once, with its numbers, never LOADING first',async()=>{
+  const statuses=(h,id)=>h.frames.filter(f=>f.id===id).map(f=>f.frame?.status??null);
+  // Career Statistics and Trophy Room: covered (pending) while the one read runs, then one draw with the career.
+  for(const screen of ['careerStatistics','trophyRoom']){
+    const h=harness({cold:true});
+    const opening=h.c.CareerModeCareerScreensV10.mount(screen,()=>null);await h.settle();
+    assert.equal(h.loads.length,1,`${screen}: one read`);
+    assert.ok(h.expects.some(e=>e.id===screen&&e.frames===0),`${screen}: covered before anything is drawn`);
+    assert.deepEqual(statuses(h,screen),[],`${screen}: no LOADING frame while the read runs`);
+    await h.advance(1200);await h.finish(0);await opening;await h.settle();
+    assert.deepEqual(statuses(h,screen),['ready'],`${screen}: one reveal, with the numbers`);
+    assert.equal(h.loads.length,1,`${screen}: no read added`);
+  }
+  // History: the same on first entry.
+  const legacy=harness({legacy:true,cold:true});
+  const opening=legacy.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);await legacy.settle();
+  assert.equal(legacy.loads.length,1);assert.ok(legacy.expects.some(e=>e.id==='legacy'&&e.frames===0),'History is covered first');
+  assert.deepEqual(statuses(legacy,'legacy'),[],'History draws no loading panel while the read runs');
+  await legacy.advance(900);await legacy.finish(0);await opening;await legacy.settle();
+  assert.deepEqual(statuses(legacy,'legacy'),['ready'],'History: one reveal, with the career');
+  // A slow read is not hidden forever: after the hold the loading frame (with its progress) shows, the cover renewed for it.
+  const slow=harness({cold:true});
+  const slowOpen=slow.c.CareerModeCareerScreensV10.mount('careerStatistics',()=>null);await slow.settle();
+  await slow.advance(3400);assert.deepEqual(statuses(slow,'careerStatistics'),[],'still covered inside the hold');
+  await slow.advance(200);await slowOpen;
+  assert.deepEqual(statuses(slow,'careerStatistics'),['loading'],'then the loading frame');
+  assert.equal(slow.expects.filter(e=>e.id==='careerStatistics').length,2,'the cover is renewed for that draw');
+  await slow.finish(0);assert.equal(statuses(slow,'careerStatistics').at(-1),'ready');assert.equal(slow.loads.length,1);
+  const slowHistory=harness({legacy:true,cold:true});
+  void slowHistory.c.CareerModeRivalryLegacyV10.mount('legacy',()=>null);await slowHistory.settle();
+  await slowHistory.advance(3600);assert.deepEqual(statuses(slowHistory,'legacy'),['loading'],'History shows its loading panel after the hold');
+  await slowHistory.finish(0);assert.equal(statuses(slowHistory,'legacy').at(-1),'ready');
+  // A warm open (career kept) draws at once, as before: no cover, no wait.
+  const warm=harness({cold:true});
+  const first=warm.c.CareerModeCareerScreensV10.mount('careerStatistics',()=>null);await warm.settle();await warm.finish(0);await first;
+  warm.expects.length=0;warm.frames.length=0;
+  const again=warm.c.CareerModeCareerScreensV10.mount('trophyRoom',()=>null);await warm.settle();await again;
+  assert.deepEqual(warm.expects,[],'a warm open is not covered');assert.equal(statuses(warm,'trophyRoom')[0],'ready');
 });
 // ---- B1: History & Backup shows the online career, one figure per manager ----
 check('B1 History & Backup shows the online career Settings counts, never added-together points, with a way to the real History',()=>{

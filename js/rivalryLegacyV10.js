@@ -334,6 +334,7 @@
     }catch(_){return false;}
   }
   function rlLiveOrContinue(rivalry){return rivalry?.status==="loading"&&!rlLiveCanArrive()?{...rivalry,status:"unavailable",notice:"continue"}:rivalry;}
+  const FIRST_HOLD_MS=3500;
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
   function refresh(screen,event=false){
@@ -370,8 +371,7 @@
       // r87 career fixes (B2, Codex #1103): the read runs once more under the new pair state; this screen follows it at once.
       const retrying=next=>{if(!flight.alive||flight.left||rlOwner(next)!==rlOwner(key))return;key=flight.key=sourceKeys[screen]=next;arm();};
       try{
-        // Only first entry shows LOADING. Reloads leave the last ready/partial/error frame visible.
-        await screens().show(APP[screen]);
+        const firstEntry=sources[screen]===LOADING;
         const deadline=new Promise((_,reject)=>{fail=reject;arm();});
         const loading=(async()=>{
           if(screen==="rivalryStatistics"){
@@ -382,6 +382,15 @@
           }
           return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress,retrying);
         })();
+        // r87 career fixes (lane C C-02, Reus Gate): a first entry stays covered (the screen's pending state) while its career
+        // arrives, so it is revealed once, with its numbers. Only a read still running after FIRST_HOLD_MS shows the loading
+        // frame (with its "n of N" progress). Reloads leave the last ready/partial/error frame visible, as before.
+        // A screen already on show (TRY AGAIN, a retried "unavailable") is redrawn at once, so the press always answers.
+        if(firstEntry&&!screens().isMounted(APP[screen])&&screens().expect?.(APP[screen])){
+          let held;const settled=await Promise.race([loading.then(()=>true,()=>true),deadline.then(()=>true,()=>true),new Promise(resolve=>{held=root.setTimeout(()=>resolve(false),FIRST_HOLD_MS);})]);
+          root.clearTimeout(held);screens().expect?.(APP[screen]);
+          if(!settled&&!flight.left)await screens().show(APP[screen]);
+        }else await screens().show(APP[screen]);
         const model=await Promise.race([loading,deadline]);
         if(flight.left)return false;
         // r87 career fixes (B2): the pair changed while this screen loaded. The load already ran once more under the new key;
