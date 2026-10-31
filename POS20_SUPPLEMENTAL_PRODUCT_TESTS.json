@@ -2429,6 +2429,15 @@
         "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-roulette-board-invariants-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRoulette|rosterRouletteStep|sharedTransferChallenge|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^data/(fifa17Players|rosterSquads|clubs)\\.js$",
+        "^tests/contracts/r87\\-roulette\\-board\\-invariants\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
