@@ -14,14 +14,12 @@
 <style>
 @font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 400; font-display: swap; src: url("../shared/fonts/barlow-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 600; font-display: swap; src: url("../shared/fonts/barlow-latin-600-normal.woff2") format("woff2"); }
 :root {
   --ink: #07080a; --text: #f4f1ea; --text-2: #c9c0ab;
   --pearl-1: #fffdf6; --pearl-2: #f4ecd9; --pearl-3: #e6d7b5; --pearl-ink: #2a2110; --pearl-ink-2: #6b5a35;
   --foil-1: #fff6d2; --foil-2: #f1cf7a; --foil-3: #c4932f; --foil-4: #7d5a17;
   --daniel: #2c7399; --nik: #f0d900;
-  --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow", system-ui, sans-serif;
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow Condensed", system-ui, sans-serif; /* only the two condensed weights: r87 already serves them to framed pages offline */
   --flip: 700ms; --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: dark;
 }
@@ -144,7 +142,7 @@ html.rm .banner { animation: fade 220ms linear both; }
 .guessbar { flex: none; position: relative; }
 .row { display: flex; gap: 8px; }
 .row input { flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.6); background: #15130e; color: var(--text);
-  font: 600 17px/1 var(--body); padding: 0 14px; outline: none; }
+  font: 600 20px/1 var(--body); letter-spacing: .02em; padding: 0 14px; outline: none; }
 .row input:focus { border-color: var(--foil-2); box-shadow: 0 0 0 3px rgba(241,207,122,.22); }
 .row input:disabled { opacity: .5; }
 .btn { height: 48px; padding: 0 20px; border: 0; border-radius: 4px; font: 700 18px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
@@ -152,9 +150,9 @@ html.rm .banner { animation: fade 220ms linear both; }
 .btn:disabled { background: #4a4232; color: #9c927b; box-shadow: none; cursor: default; }
 .suggest { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810;
   border: 1px solid rgba(241,207,122,.45); box-shadow: 0 -8px 20px rgba(0,0,0,.45); max-height: 40vh; overflow: auto; }
-.suggest li { padding: 11px 10px; font: 600 16px/1.1 var(--body); color: var(--text); border-radius: 3px; cursor: pointer; }
+.suggest li { padding: 11px 10px; font: 600 19px/1.1 var(--body); letter-spacing: .02em; color: var(--text); border-radius: 3px; cursor: pointer; }
 .suggest li[aria-selected="true"], .suggest li:hover { background: rgba(241,207,122,.16); }
-.note { min-height: 18px; margin-top: 6px; font: 600 14px/1.2 var(--body); text-align: center; color: var(--text-2); }
+.note { min-height: 18px; margin-top: 6px; font: 600 16px/1.15 var(--body); letter-spacing: .03em; text-align: center; color: var(--text-2); }
 .note.warn { color: #ffb48a; }
 .cta { width: 100%; }
 

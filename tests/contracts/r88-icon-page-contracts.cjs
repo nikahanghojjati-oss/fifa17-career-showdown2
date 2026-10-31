@@ -119,7 +119,7 @@ const one=(re,label)=>{const m=re.exec(script);assert.ok(m,`${label} in the page
   assert.ok(!/\b(fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|firebase|firestore)\b/i.test(code),'no network or Firebase');
   assert.ok(!/https?:\/\//.test(page.replace(/<!--[\s\S]*?-->/g,'')),'no outside URL (no CDN, no fonts service)');
   assert.ok(!/<script[^>]+src=|<img|<link[^>]+stylesheet|\.(jpe?g|png|webp|gif)\b/i.test(page),'no external scripts, stylesheets or pictures');
-  for(const font of page.matchAll(/url\("([^"]+)"\)/g)){assert.match(font[1],/^\.\.\/shared\/fonts\/[a-z0-9-]+\.woff2$/,font[1]);assert.ok(fs.existsSync(path.join(ROOT,DIR,font[1])),font[1]);}
+  for(const font of page.matchAll(/url\("([^"]+)"\)/g)){assert.match(font[1],/^\.\.\/shared\/fonts\/barlow-condensed-latin-(600|700)-normal\.woff2$/,`${font[1]}: only the two fonts r87 already serves to framed pages offline`);assert.ok(fs.existsSync(path.join(ROOT,DIR,font[1])),font[1]);}
   const visible=page.replace(/<script[\s\S]*?<\/script>/g,'').replace(/<style[\s\S]*?<\/style>/g,'').replace(/<!--[\s\S]*?-->/g,'').replace(/<[^>]+>/g,' ');
   assert.ok(!/\bEA\b|EA SPORTS|Ultimate Team|\bFUT\b/i.test(visible+script),'no EA names or marks');
   assert.match(script,/const SAMPLE = \{[^}]*\}[^}]*name:"Sample Icon"/,'the preview player is made up, so the page carries no real card data');
