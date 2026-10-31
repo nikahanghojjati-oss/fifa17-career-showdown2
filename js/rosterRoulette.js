@@ -43,9 +43,13 @@
     return Object.freeze([...squad.xi,...squad.subs].map(([pos,name,number,rating],i)=>rrRow(i,i<XI_SIZE?pos:"SUB",name,{number,rating,positions:rrPlayerPositions(name,club,number),special:false,signedSeason:null})));
   }
   const rrOverall=value=>Number.isInteger(value)&&value>=OVERALL_MIN&&value<=OVERALL_MAX;
-  // Identity (red team R87-C-05): names compare with accents folded, trimmed and lower-cased ("M. Ozil" = "M. Özil"; no
-  // initials guessing). A database row is one person by (name, shirt number), so Alavés' two Manu García rows stay two
-  // people; a typed signing has no shirt number and matches every row with his name (the cautious reading).
+  // Identity (red team R87-C-05, Sol SQ-4-01): names compare with accents folded, trimmed and lower-cased ("M. Ozil" =
+  // "M. Özil"; no initials guessing). There are two kinds of people and they never match each other:
+  // - a club player (a database row of the manager's own club, signedSeason null) is one person by (name, shirt number),
+  //   so Alavés' two Manu García rows stay two people;
+  // - a Transfer War signing (signedSeason set, no shirt number) is one person by name among that manager's signings.
+  // A manager never buys his own player, so a signing who shares a name with a club player is a namesake from another
+  // club (WBA's J. Ward is not Palace's J. Ward). Guessing, shooting or re-entering a signing never touches a club player.
   const rrKeys=new Map();
   function rrKey(name){
     const text=String(name||"");let key=rrKeys.get(text);
@@ -53,7 +57,10 @@
     return key;
   }
   const rrNumber=p=>Number.isInteger(p&&p.number)?p.number:null;
-  const rrSame=(a,b)=>rrKey(a.name)===rrKey(b.name)&&(rrNumber(a)===null||rrNumber(b)===null||rrNumber(a)===rrNumber(b));
+  const rrSigning=p=>Boolean(p)&&p.signedSeason!==null&&p.signedSeason!==undefined;
+  // One identity string per person: "s|name" for a signing, "c|name#shirt" for a club player.
+  const rrId=p=>rrSigning(p)?`s|${rrKey(p.name)}`:`c|${rrKey(p.name)}#${rrNumber(p)}`;
+  const rrSame=(a,b)=>rrId(a)===rrId(b);
   // Plain code-point order: identical on every phone (localeCompare depends on the browser's ICU data).
   const rrCmp=(a,b)=>a<b?-1:a>b?1:0;
   // Equal overalls rank by a stable identity, never by the Transfer War entry slot (red team R87-C-04).
@@ -96,6 +103,12 @@
     const matches=byName.get(rrKey(name));
     return matches?(matches.find(p=>p.club===club&&p.number===number)||matches.find(p=>p.club===club)||matches[0]).positions:Object.freeze([]);
   }
+  // A signing comes from another club, so a namesake elsewhere wins over the manager's own player.
+  function rrSigningPositions(name,club){
+    rrPlayerPositions(name,club);
+    const matches=byName.get(rrKey(name));
+    return matches?(matches.find(p=>p.club!==club)||matches[0]).positions:Object.freeze([]);
+  }
   const SIGNING_POSITIONS=new Set(["GK","RB","RWB","CB","LB","LWB","CDM","CM","CAM","RM","LM","RW","LW","CF","ST"]);
   function rrLine(pos){
     if(pos==="GK")return "GK";
@@ -121,18 +134,23 @@
   const rrRank=(a,b)=>b.rating-a.rating||(a.number??100)-(b.number??100);
   const rrDatabasePlayer=p=>({name:p[0],rating:p[1],positions:p[2],number:p[4],signedSeason:null});
   const rrOnBoard=(state,player)=>state.board.some(p=>p.name&&rrSame(p,player));
-  // Who may never come back: shot players, guessed signings and both Special Players. A person with a shirt number blocks
-  // only his own row (a namesake at the club stays) plus any typed signing with his name; a name-only entry (a guessed
-  // signing, a shot signing, a Special Player without a number) blocks the name.
+  // Who may never come back: shot players, guessed signings and both Special Players. One identity set holds them all
+  // (rrId), and every path that puts a player on the board, the bench or the reserves asks rrExcluded, so a blocked
+  // person can never return by any route. A guessed or shot signing blocks only that signing: his club namesake stays.
+  // A shot club player blocks his own row and any later signing with his name (a released player could be bought back,
+  // and a shot player never returns). A Special Player blocks his own club row (every row with his name when the draw has
+  // no shirt number) and any signing with his name.
   function rrExclude(state,player){
-    const key=rrKey(player.name),number=rrNumber(player);
-    state.excludedNames.add(key);
-    if(number===null)state.excludedAll.add(key);else state.excludedIds.add(`${key}#${number}`);
+    state.excluded.add(rrId(player));
+    if(!rrSigning(player))state.excluded.add(`s|${rrKey(player.name)}`);
+  }
+  function rrExcludeSpecial(state,sp){
+    const key=rrKey(sp.name);
+    state.excluded.add(`s|${key}`);
+    if(rrNumber(sp)===null)state.excludedClubNames.add(key);else state.excluded.add(`c|${key}#${rrNumber(sp)}`);
   }
   function rrExcluded(state,player){
-    const key=rrKey(player.name),number=rrNumber(player);
-    if(state.excludedAll.has(key))return true;
-    return number===null?state.excludedNames.has(key):state.excludedIds.has(`${key}#${number}`);
+    return state.excluded.has(rrId(player))||(!rrSigning(player)&&state.excludedClubNames.has(rrKey(player.name)));
   }
   function rrReserve(state,player){
     if(rrExcluded(state,player)||rrOnBoard(state,player)||state.reserves.some(p=>rrSame(p,player)))return;
@@ -295,7 +313,7 @@
   function rrKept(rows,season,club){
     if(!Array.isArray(rows))return null;
     return rows.filter(r=>r&&r.release===false&&typeof r.name==="string"&&r.name.trim()&&rrOverall(r.overall))
-      .map(r=>({name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrPlayerPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
+      .map(r=>({name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrSigningPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
       .sort(rrOrder);
   }
   // ---------- F2-02: persisted hits and the version pin ----------
@@ -370,8 +388,8 @@
     // both clubs (red team R87-C-01). One in the club's launch board is skipped and the next player takes his place.
     const specials=ROLES.flatMap(role=>rrSpecial(special,role)||[]);
     for(const role of ROLES){
-      const state={club:clubs[role],launch:args.launch[role],board:args.launch[role].slice(),reserves:[],vacant:null,excludedNames:new Set(),excludedIds:new Set(),excludedAll:new Set()};
-      for(const sp of specials)rrExclude(state,sp);
+      const state={club:clubs[role],launch:args.launch[role],board:args.launch[role].slice(),reserves:[],vacant:null,excluded:new Set(),excludedClubNames:new Set()};
+      for(const sp of specials)rrExcludeSpecial(state,sp);
       for(const [,name,number,rating] of rrSquads().squads[state.club].reserves)
         rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club,number),signedSeason:null});
       for(let i=0;i<BOARD_SIZE;i+=1)if(rrExcluded(state,state.board[i]))rrReplace(state,i,[]);
@@ -383,7 +401,7 @@
         // A guessed signing must not sneak in later through the club database refill. Applied after this season's turn
         // was drawn (the board it aimed at is the one the screen showed); a guessed player already on the board is
         // evicted below (Sol SQ-2-02).
-        for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string')rrExclude(state,{name:row.name,number:null});
+        for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string'&&row.name.trim())rrExclude(state,{name:row.name.trim(),number:null,signedSeason:k});
         state.reserves=state.reserves.filter(p=>!rrExcluded(state,p));
         // Sol SQ-2-03: a player this manager already signed in an earlier window is not a new signing when entered again;
         // he keeps his first window and his place (board or reserves).
