@@ -42,6 +42,47 @@ assert.equal(board.length,15);assert.deepEqual(board.map(p=>p.slot),[...Array(15
 assert.equal(board.filter(p=>p.bench).length,4);assert.equal(RRR.board('Not A Club'),null);
 ok('L1','98 launch boards: XI + 4 highest-rated subs, one GK, unique shirts');
 
+// L1b Sol SQ-1-01: the 3D scene's own squads.json shows the same launch XI and 4 subs as the engine for every club
+// (scripts/sync-roulette-scene-squads.cjs regenerates it after the roster build).
+{
+  const scene=JSON.parse(fs.readFileSync(path_.join(ROOT,'visual-assets/v10_1/roulette/assets/squads.json'),'utf8'));
+  assert.deepEqual(scene.clubs.map(c=>c.club).sort(),[...catalog].sort(),'scene asset covers exactly the 98 clubs');
+  for(const c of scene.clubs){
+    const board=RRR.board(c.club);
+    assert.deepEqual([...c.xi,...c.subs].map(r=>[r[1],r[2]]),board.map(p=>[p.name,p.rating]),`${c.club}: scene XI+subs match the engine board`);
+  }
+}
+ok('L1b','Sol SQ-1-01: the roulette scene asset carries the engine launch XI + 4 subs for all 98 clubs');
+
+// L1c Sol job 2 (SQ-2-01..03): stopgaps hand back their slot, guessed players leave the board, repeats keep their window.
+{
+  const none=()=>[null,...Array.from({length:9},()=>({playerOne:[],playerTwo:[]}))];
+  let h=none();h[7].playerOne=[{name:'R. Greenwood',overall:60,position:'LW',release:false}];
+  const roma=RRR.forSeason('pair_52e7c95cc93839ff3455413e05872659093e8b558f1275a05170c77db665b65c',{playerOne:'Roma',playerTwo:'Lazio'},8,
+    {special:{playerOne:{name:'S. Mané',overall:79,number:19},playerTwo:{name:'Neymar',overall:92,number:11}},history:h}).boards.playerOne;
+  assert.equal(roma.find(p=>p.pos==='LW').name,'R. Greenwood','SQ-2-01: the fitting winger takes LW back from the RWB stopgap');
+  assert.ok(roma.some(p=>p.bench&&p.name==='Bruno Peres'),'SQ-2-01: the stopgap stays in the squad');
+  const ars={playerOne:'Arsenal',playerTwo:'Liverpool'},ramos={name:'Sergio Ramos',overall:89,position:'CB',release:false};
+  const sp2={playerOne:{name:'K. Volland',overall:81,number:31},playerTwo:{name:'J. Vargas',overall:70,number:16}};
+  const id2='pair_f81777fb406d8197eb25b80daa12475edd09db988cdf046088ec0e21f498ee72';
+  h=[null,{playerOne:[ramos],playerTwo:[]},{playerOne:[{...ramos,release:true}],playerTwo:[]}];
+  const s2=RRR.forSeason(id2,ars,2,{special:sp2,history:h}),s3=RRR.forSeason(id2,ars,3,{special:sp2,history:h});
+  assert.ok(s2.boards.playerOne.some(p=>p.name==='Sergio Ramos'),'SQ-2-02: season 2 (before the guess) still shows him');
+  assert.ok(!s3.boards.playerOne.some(p=>p.name==='Sergio Ramos'),'SQ-2-02: guessed in window 2, gone from the season 3 board');
+  assert.notEqual(s3.turns[0].player&&s3.turns[0].player.name,'Sergio Ramos','SQ-2-02: the bullet can never hit him');
+  assert.equal(s3.boards.playerOne.filter(p=>p.name).length,15,'SQ-2-02: his slot is refilled');
+  const chal={name:'T. Chalobah',overall:55,position:'CB',release:false};
+  const sp3={playerOne:{name:'De Gea',overall:90,number:1},playerTwo:{name:'C. Marchisio',overall:86,number:8}};
+  const id3='pair_b523e277557caabcfb5f058275f09306482926c110195f695ad3b4613b547e1c';
+  h=[null,{playerOne:[chal],playerTwo:[]},{playerOne:[],playerTwo:[]}];
+  const plain=RRR.forSeason(id3,ars,3,{special:sp3,history:h}).boards.playerOne;
+  h[2].playerOne=[{...chal}];
+  const repeat=RRR.forSeason(id3,ars,3,{special:sp3,history:h}).boards.playerOne;
+  assert.deepEqual(repeat,plain,'SQ-2-03: entering an earlier signing again changes nothing');
+  assert.equal(plain[11].name,'M. Debuchy','SQ-2-03: the best club player fills the shot sub');
+}
+ok('L1c','Sol job 2: outfield stopgap repair (SQ-2-01), guessed incumbent evicted (SQ-2-02), repeated signing keeps his window (SQ-2-03)');
+
 // L2 determinism: both phones agree, a refresh or a second tap gives the same result, and nothing touches the network.
 const id=()=>`pair_${randomBytes(32).toString('hex')}`;
 const clubs={playerOne:'Liverpool',playerTwo:'Real Madrid'};

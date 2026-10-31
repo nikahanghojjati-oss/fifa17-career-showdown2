@@ -2400,6 +2400,16 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-wait-both-spins-contracts.cjs",
+      "patterns": [
+        "^js/(sparkSharedTransferChallenge|productionSharedTransferChallenge|rosterRouletteStep|sparkPrivatePairing)\\.js$",
+        "^css/transfer\\.css$",
+        "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
+        "^tests/contracts/r87\\-wait\\-both\\-spins\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-career-start-b-contracts.cjs",
       "patterns": [
         "^js/productionSharedCareerStart\\.js$",

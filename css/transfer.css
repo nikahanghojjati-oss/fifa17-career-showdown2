@@ -156,3 +156,12 @@
 .signingRow:has(> .signingPosition){grid-template-columns:27px 1.2fr 66px 56px 1fr 1fr;}
 .signingRow>.signingPosition{text-align:center;padding:0 4px;}
 @media(max-width:900px){.signingRow:has(> .signingPosition){grid-template-columns:27px 1fr;}}
+/* r87 RT5-FLOW-02: until both managers have spun the roulette, the coordinator's START button is the waiting line
+   ("WAITING FOR NIK TO SPIN THE ROULETTE"). Owner rule HO-027: never dimmed or greyed, so a solid black lacquer with a gold
+   edge and gold words at full opacity (the r78 waiting look), whichever layout adopted the button; the pointer shows "wait". */
+#app #transferChallenge #startTransferTimer[data-roulette-wait="true"],
+#app #transferChallenge #startTransferTimer[data-roulette-wait="true"]:disabled{
+    opacity:1;filter:none;cursor:wait;color:#f6c75e;-webkit-text-fill-color:#f6c75e;text-shadow:none;
+    background:linear-gradient(180deg,#16140f,#080807) padding-box,linear-gradient(135deg,#f2c45b,#8a6a12 45%,#f2c45b) border-box;
+    border:2px solid transparent;box-shadow:inset 0 0 0 1px #050505,0 4px 14px rgba(0,0,0,.5);
+}

@@ -213,6 +213,11 @@ for(const required of [
   // R87 shared reads meter: member-only get, own-role write, never list or delete.
   'match /meters/{managerRole}',
   'allow create, update: if ssjrMeterValidWrite(rivalryId, managerRole);',
+  // R87 roulette marks (RT5-FLOW-02): own pre-window mark only, never removed, START needs both.
+  'allow create: if ssjrTransferSpinCreate(rivalryId, transferId);',
+  'allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);',
+  "after.spins.diff(before.spins).affectedKeys().hasOnly([ssjrActorRole(rivalryId)])",
+  "before.spins.get('playerTwo', false) == true",
   "ssjrRivalryData(rivalryId).managerSlots[managerRole == 'playerOne' ? 0 : 1].accountId == request.auth.uid"
 ]){
   if(!generated.includes(required))throw new Error(`Generated production Rules missing required Shared Journey boundary: ${required}`);
