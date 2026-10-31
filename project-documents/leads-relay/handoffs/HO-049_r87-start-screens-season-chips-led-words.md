@@ -10,11 +10,11 @@
  "priority": "normal",
  "worker": "opus",
  "parent": null,
- "job": null,
- "status": "WORKING",
+ "job": "1099",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-31T03:48:59Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T03:59:43Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; routing to a Team V thread via the coordinator"}, {"at": "2026-10-31T04:00:53Z", "by": "V", "status": "WORKING", "note": "Team V thread building items 1-3 on gameplay/r87; item 4 as 2 options for Nik"}],
+ "evidence": ["PR #1099 into gameplay/r87; attachments/HO-049/ (items 1-3 preview, CAREER_START_B_SPEC.md + OPTION_B.jpg)"],
+ "log": [{"at": "2026-10-31T03:48:59Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-31T03:59:43Z", "by": "V", "status": "RECEIVED", "note": "Team V: received; routing to a Team V thread via the coordinator"}, {"at": "2026-10-31T04:00:53Z", "by": "V", "status": "WORKING", "note": "Team V thread building items 1-3 on gameplay/r87; item 4 as 2 options for Nik"}, {"at": "2026-10-31T09:26:35Z", "by": "V", "status": "DONE", "note": "Items 1-3 in PR #1099 (Nik OK). Item 4: Nik picked B; crest must always fit inside the pack frame, never overflow; spec CAREER_START_B_SPEC.md for Team G to build"}],
  "from_session": "session_01GU43Q8SekYEo4yZo5Tik3P"
 }
 ```
