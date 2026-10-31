@@ -1466,6 +1466,15 @@
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow { min-height:0; padding:3px 8px; gap:8px; font-size:12px; line-height:16px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow :is(.daniel,.nik) > span { display:inline !important; line-height:16px !important; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow :is(.daniel,.nik) > span::before { content:" · "; color:#8f8775; }
+  /* r87: the list sits over the second to fourth card slots. While it is open the other Showdown cards step aside (hidden in
+     their slots, so nothing moves or peeks out above and below the list) and the chosen Showdown's card takes the first slot. */
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid > .legacyCard:not([data-selected="true"]) { visibility:hidden; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid > .legacyCard[data-selected="true"] { order:-1; }
   /* the pane under the list keeps its edge; the pager dots stay below it */
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager { z-index:1; }
+}
+/* r87: phones and tablets. When VIEW SEASON HISTORY opens the list, js scrolls it into view; it stops 12px above the tab bar
+   (the list opened below the fold, behind the bar). */
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory { scroll-margin-top:12px; scroll-margin-bottom:calc(var(--sd-nav-bottom-space,56px) + 12px); }
 }
