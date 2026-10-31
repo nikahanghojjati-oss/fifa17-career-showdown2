@@ -352,6 +352,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.deepEqual(ge.paper.briefs.map(b=>b.head),['Golden Showdown','Golden Showdown']);assert.ok(!/seasons won/i.test(G.paperText(ge)),'a drawn ten-season paper prints no seasons-won count');assert.match(ge.paper.race.line,/drawn Showdown, and a Golden Showdown for both/);
     const solo=G.finalEdition({projection:proj('7',10,Array.from({length:10},()=>[R.max,R.cl]))});assert.equal(solo.golden,true);assert.equal(solo.winner,'Daniel');
     const plain10=G.finalEdition({projection:proj('6',10,Array.from({length:10},()=>[R.cl,R.cl]))});assert.equal(plain10.golden,false);assert.equal(plain10.paper.variant,'draw');
+    assert.equal(G.fill('used {n} seasons, {m} seasons, 1 points',{n:1,m:11}),'used 1 season, 11 seasons, 1 point','singular after 1 (seasons and points)');
     const src=read('js/touchlineGazette.js');assert.match(src,/addSpecialPlayers\(paper,plan\.edition\.paper\.specialPlayers,doc\);try\{addRace\(paper,plan\.edition\.paper\.race,doc\);\}catch/);
     assert.match(src,/if\(desk\)desk\.before\(box\)/);
     const css=read('css/v10Gazette.css');assert.match(css,/#touchlineGazette\.tgzPage::before \{[^}]*background: var\(--tgz-plate-phone\) 50% 0 \/ cover no-repeat;/,'the phone plate covers a tall window');

@@ -78,7 +78,7 @@
   function fill(text,vals){
     let missing=false;
     const out=String(text??"").replace(/\{(\w+)\}/g,(match,key)=>{if(vals[key]===undefined||vals[key]===null||vals[key]===""){missing=true;return match;}return String(vals[key]);});
-    return missing?null:out.replace(/\b1 points\b/g,"1 point");
+    return missing?null:out.replace(/\b1 points\b/g,"1 point").replace(/\b1 seasons\b/g,"1 season");
   }
   function fillRow(row,keys,vals){const out={...row};for(const k of keys){if(row[k]===undefined)continue;const t=fill(row[k],vals);if(t===null)return null;out[k]=t;}return out;}
   function fillStory(row,vals){
