@@ -410,7 +410,9 @@
 
   /* ---- HUD rail: HOME, progress, REFRESH ---- */
   #app #transferChallenge .tw-host .hud-footer {
-    position: absolute; left: 0; right: 0; bottom: 0; height: var(--ls-foot); padding: 0 12px; gap: 10px; z-index: 5;
+    position: absolute; left: 0; right: 0; bottom: 0; height: var(--ls-foot); padding: 0 12px; gap: 10px;
+    /* r87 sizes F11: above the own card (layer 6), so LOCK MY SIGNINGS scrolls under the rail, never over REFRESH */
+    z-index: 8;
     background: linear-gradient(to top, rgba(6, 5, 3, .98) 0%, rgba(6, 5, 3, .94) 80%, rgba(6, 5, 3, 0) 100%);
   }
   #app #transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) { height: 44px; min-height: 44px; min-width: 44px; padding: 0 18px; }
