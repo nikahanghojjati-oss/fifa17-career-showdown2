@@ -63,15 +63,29 @@ function countShowdownTrophies(showdown){
     );
 }
 
-// r87 career fixes (B1): points belong to one manager each, so they are never added together (Daniel is player one).
+// r87 career fixes (B1): points belong to one manager each, so they are never added together. Codex #1135: an older local
+// archive may store Nik as player one, so each Showdown's managers are read from its own names; a Showdown whose names do
+// not say which is Daniel and which is Nik adds to neither manager (never guessed, never added together); it is counted.
+function legacyManagerFor(name){
+    const key = String(name || "").trim().toLowerCase();
+    return key === "daniel" ? "daniel" : key === "nik" ? "nik" : null;
+}
 function getLegacyTotals(history){
     return history.reduce((totals, showdown) => {
         totals.showdowns += 1;
         totals.trophies += countShowdownTrophies(showdown);
-        totals.points.daniel += Number(showdown.score && showdown.score.playerOne) || 0;
-        totals.points.nik += Number(showdown.score && showdown.score.playerTwo) || 0;
+        const one = Number(showdown.score && showdown.score.playerOne) || 0;
+        const two = Number(showdown.score && showdown.score.playerTwo) || 0;
+        const managers = showdown.managers || {};
+        const first = legacyManagerFor(managers.playerOne), second = legacyManagerFor(managers.playerTwo);
+        if(first && second && first !== second){
+            totals.points[first] += one;
+            totals.points[second] += two;
+        }else{
+            totals.unattributedShowdowns += 1;
+        }
         return totals;
-    }, { showdowns: 0, trophies: 0, points: { daniel: 0, nik: 0 } });
+    }, { showdowns: 0, trophies: 0, unattributedShowdowns: 0, points: { daniel: 0, nik: 0 } });
 }
 
 /* r87 career fixes (B1, Lane B P1): online the local Legacy list is never written, so History & Backup showed
@@ -664,6 +678,9 @@ function renderLegacy(request = false){
             createLegacyStat("DANIEL · POINTS", totals.points.daniel),
             createLegacyStat("NIK · POINTS", totals.points.nik)
         );
+        if(totals.unattributedShowdowns > 0){
+            stats.appendChild(createLegacyStat("SHOWDOWNS WITH NO MANAGER NAMES", totals.unattributedShowdowns));
+        }
         fragment.appendChild(stats);
 
         const heading = document.createElement("h3");

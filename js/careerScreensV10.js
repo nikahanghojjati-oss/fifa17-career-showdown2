@@ -1610,6 +1610,9 @@
     if(!host)return false;
     const frame=toV10Frame(model,screen);
     // Only one Team V stage exists at a time (both use #stage-root); the other screen is rebuilt on its next open.
+    // r87 LK-1: the stage being replaced lets go of its ResizeObserver and orientationchange listener first (as
+    // seasonFinalV10's v10StageHandle does), so opening career pages again and again keeps one live stage.
+    v10DestroyStages();
     const other=screen==="careerStatistics"?"trophyRoom":"careerStatistics",otherHost=doc.getElementById(SCREEN_IDS[other]);
     if(otherHost&&otherHost.dataset.careerV10==="1"){v10Screens().hide(other);otherHost.remove();}
     host.dataset.careerV10="1";host.classList.add("careerScreenV10");
@@ -1638,6 +1641,9 @@
       root.ShowdownTrophyRoomBoot();
     }
     return true;
+  }
+  function v10DestroyStages(){
+    for(const key of ["__careerStageEngine","__trophyRoomStage"]){try{root[key]?.destroy?.();}catch(_){}root[key]=null;}
   }
   // The old render paths keep running (they hold the model) and rewrite the host, so a V10 screen is always
   // redrawn after them, as in job 13.

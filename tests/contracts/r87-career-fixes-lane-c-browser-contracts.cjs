@@ -6,6 +6,7 @@
 //   C-06  the Career Table never cuts the career leader's row (a table that still runs long scrolls inside its panel) and
 //         a Special Player name breaks only between words
 //   C-07  a long club name on a desktop History card never runs under the result label
+//   LK-1  opening career pages again and again keeps one live stage (no ResizeObserver / orientationchange leak)
 const assert=require('node:assert/strict');
 const path=require('node:path');
 const net=require('node:net');
@@ -104,6 +105,31 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes la
       }finally{await context.close();}
     }
     groups.push('C-07 "Borussia Mönchengladbach" stays clear of "♛ NIK WINS" on desktop History cards (1024, 1280, 1440)');
+    {
+      const {context,page,errors}=await boot(browser,base,[1366,768]);
+      try{
+        await page.evaluate(()=>{
+          const live=window.__liveStages={observers:0,orientation:0};const RO=window.ResizeObserver;
+          window.ResizeObserver=class extends RO{constructor(cb){super(cb);this.__on=false;}observe(...a){if(!this.__on){this.__on=true;live.observers++;}return super.observe(...a);}disconnect(){if(this.__on){this.__on=false;live.observers--;}return super.disconnect();}};
+          const add=window.addEventListener.bind(window),remove=window.removeEventListener.bind(window),seen=new Set();
+          window.addEventListener=(type,fn,o)=>{if(type==='orientationchange'&&!seen.has(fn)){seen.add(fn);live.orientation++;}return add(type,fn,o);};
+          window.removeEventListener=(type,fn,o)=>{if(type==='orientationchange'&&seen.delete(fn))live.orientation--;return remove(type,fn,o);};
+        });
+        const open=async(kind)=>{
+          await page.evaluate(async({kind,model})=>{if(kind==='stats'){await window.openOptionalModule('statistics');window.openCareerStatistics({model});}else{await window.openOptionalModule('trophyRoom');window.openTrophyRoom({model});}},{kind,model:CLUBS});
+          const id=kind==='stats'?'careerStatistics':'trophyRoom';
+          await page.waitForFunction(id=>{const h=document.getElementById(id);return h&&h.classList.contains('careerScreenV10')&&!h.hasAttribute('data-v10-pending')&&h.querySelector('.sd-stage[data-sd-ready="1"], [data-sd-ready="1"]');},id,{timeout:30000});
+          await page.waitForTimeout(300);
+          return page.evaluate(()=>({...window.__liveStages}));
+        };
+        const first=await open('stats');
+        await open('trophy');await open('stats');await open('trophy');const last=await open('stats');
+        assert.ok(first.orientation>=1,'the stage listens for orientation changes');
+        assert.deepEqual(last,first,`four more opens leave the same live stage count (${JSON.stringify(first)} -> ${JSON.stringify(last)})`);
+        assert.deepEqual(errors,[]);
+      }finally{await context.close();}
+    }
+    groups.push('LK-1 Career Statistics and Trophy Room opened five times keep one live stage (no ResizeObserver or orientationchange leak)');
     for(const name of groups)console.log(`ok - ${name}`);
     console.log(`r87 career fixes lane C browser contracts: ${groups.length} groups passed`);
     finished=true;
