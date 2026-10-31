@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-30 11:59 PM Boston time (EDT)",
+ "generated": "2026-10-31 12:01 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1589,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "582fd43",
-  "head_boston": "Fri 30 Oct 11:50 PM",
+  "head": "7a3d07a",
+  "head_boston": "Fri 30 Oct 11:59 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1623,18 +1623,7 @@
    "when": "2026-10-30T11:17:04Z",
    "subject": "L5: re-pin the composed Rules check to main 64b6bbd6 after the r86 release (no delta) (#1077)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1077,
-     "title": "L5: re-pin the Rules check to main after the r86 release",
-     "merged": "2026-10-30T11:17:04Z"
-    },
-    {
-     "pr": 1076,
-     "title": "r86 release: 1.9.10-r86 (Special Player, reads at scale, Rule Book trims)",
-     "merged": "2026-10-30T04:13:36Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
@@ -2302,13 +2291,13 @@
     "from": "G",
     "to": "V",
     "title": "r87 start screens: season chips, LED words, no-dim CTA, Career Start options",
-    "stage": "DELIVERED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-049_r87-start-screens-season-chips-led-words.md",
     "worker": "opus",
-    "pickup_min": null,
-    "waiting_min": 8
+    "pickup_min": 9,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
