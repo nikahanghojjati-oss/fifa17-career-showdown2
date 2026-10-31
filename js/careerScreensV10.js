@@ -1536,6 +1536,31 @@
 #app #careerStatistics.careerScreenV10 .managerPortraitSplit > .managerPortrait.nik {clip-path:inset(0 0 0 50%)}
 #app #careerStatistics.careerScreenV10 .managerPortraitSplit::after {content:"";position:absolute;top:0;bottom:0;left:calc(50% - .5px);width:1px;background:rgba(255,211,77,.8)}
 `;
+  // r87 career polish, round 2 (2.0.0). Type and colour only; nothing dims, overlays or moves another element.
+  // Career Statistics: the D / N markers next to the totals take the comparison bars' colours (Daniel blue, Nik yellow) at a
+  // readable size; leader cards drop the ">" chevron (they are not buttons); upright phones bring the totals' icons back and
+  // draw the numbers bigger. Trophy Room: the cabinet name labels and the record holders are lifted from 7-9px to readable
+  // sizes.
+  const CAREER_POLISH_R87B_CSS=String.raw`
+#app #careerStatistics.careerScreenV10 .headlinePair small {font-size:max(12px,.8vw);font-weight:800;letter-spacing:.06em}
+#app #careerStatistics.careerScreenV10 .headlinePair small:first-of-type {color:#5cb9eb}
+#app #careerStatistics.careerScreenV10 .headlinePair small:last-of-type {color:#f0d900}
+#app #careerStatistics.careerScreenV10 .leaderCard::after {content:none}
+@media (max-width:760px) and (orientation:portrait) {
+  #app #careerStatistics.careerScreenV10 .headlineTile {grid-template-columns:24px minmax(0,1fr);column-gap:7px;padding:4px 8px}
+  #app #careerStatistics.careerScreenV10 .headlineIcon {display:grid;width:22px;height:22px}
+  #app #careerStatistics.careerScreenV10 .headlineIcon img {max-width:22px;max-height:26px}
+  #app #careerStatistics.careerScreenV10 .headlinePair {gap:4px;margin-top:2px;align-items:baseline}
+  #app #careerStatistics.careerScreenV10 :is(.headlinePair b,.headlineNumber) {font-size:22px;line-height:1}
+  #app #careerStatistics.careerScreenV10 .headlinePair small {font-size:12px}
+}
+@media (min-width:901px) {
+  #app #trophyRoom .managerCounts span {font-size:max(9.5px,.6vw)}
+  #app #trophyRoom .recordItem span {font-size:max(10px,.62vw);font-weight:700}
+  #app #trophyRoom .recordItem strong {font-size:max(16px,1.15vw)}
+  #app #trophyRoom .recordRibbonHeading {font-size:max(10px,.66vw)}
+}
+`;
   // r84 Golden Showdown looks: the shared gold tokens and the r78 black-and-gold marble tile. Nothing here dims, overlays or moves
   // another element. Trophy Room: the gold case is a sixth case on the ALL shelf, so rows that held five cases hold six; portrait
   // phones and tablets (three across, the last two centred) show two full rows of three. Career Statistics: one gold line under the
@@ -1616,11 +1641,11 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS;
       host.appendChild(smallPhoneStyle);
     }else{
       const careerStatsStyle=doc.createElement("style");
-      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS;
+      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS;
       host.appendChild(careerStatsStyle);
     }
     v10Wire(screen,host);
