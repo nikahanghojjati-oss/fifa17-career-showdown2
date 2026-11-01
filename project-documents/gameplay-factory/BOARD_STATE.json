@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-01 10:18 AM Boston time (EST)",
+ "generated": "2026-11-01 10:22 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 180,
+  "count": 181,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1623,6 +1623,15 @@
     "subject": "SP reveal: lower-third name overflow on tablet landscape (F8-09)",
     "reply": "yes (receive it)",
     "boston": "Sun 1 Nov 7:30 AM"
+   },
+   {
+    "time": "2026-11-01 15:21",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-053 SENT",
+    "subject": "Re-skin #1163 onto final Prime Pack page: quick visual sign-off",
+    "reply": "yes (receive it)",
+    "boston": "Sun 1 Nov 10:21 AM"
    }
   ],
   "g2v": {
@@ -1643,8 +1652,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "7a58dca",
-  "head_boston": "Sun 1 Nov 7:57 AM",
+  "head": "5cb6c91",
+  "head_boston": "Sun 1 Nov 10:21 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2401,6 +2410,19 @@
     "worker": "opus",
     "pickup_min": 3,
     "waiting_min": null
+   },
+   {
+    "id": "HO-053",
+    "from": "G",
+    "to": "V",
+    "title": "Re-skin #1163 onto final Prime Pack page: quick visual sign-off",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-053_re-skin-1163-onto-final-prime-pack-page-.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2472,7 +2494,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,

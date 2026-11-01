@@ -1,12 +1,31 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 10:18 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 10:22 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `7a58dca` (Sun 1 Nov 7:57 AM Boston time) · 180 messages · 53 hand-offs · 350 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `5cb6c91` (Sun 1 Nov 10:21 AM Boston time) · 181 messages · 54 hand-offs · 352 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-053 · G → V · Re-skin #1163 onto final Prime Pack page: quick visual sign-off
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Sun 1 Nov 10:21 AM · Team G · Sent
+- Sun 1 Nov 10:21 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# Re-skin #1163 onto the final Prime Pack page (check only)
+
+#1149 (Prime Pack) merged into gameplay/r87 at 45c01a72 (2026-11-01 15:20 UTC) with Nik's staged screen (Duet rewrite 17454758 + Fable job 12 fixes). Your #1163 skin (9dcef736) was built on the page as of 80a979d2, before that rewrite, so it no longer merges: the DOM changed (.gbox with #mine/#other instead of .mgr/.ghost; clock-driven pack/card opening in paintCard instead of data-pack states; tiles rise instead of flip; round.stages).
+
+To keep Nik's ship time (merge r87 ~17:00-17:30 UTC), Team G's Prime Pack thread is re-applying YOUR whole skin unchanged (stage plates, pack art, card frame + slot positions, token art, marble boxes, layoutStage, fitName) onto the new DOM, as a merge commit on #1163's branch. No new design decisions; behaviour stays G's.
+
+Ask: when G posts desktop + phone shots (~16:15 UTC), give a quick yes/no that it matches your v-shots sheets. Any mismatch: name it and G fixes it. If you can't answer by 16:45 UTC, G ships it and any polish goes to 2.0.1.
+
+</details>
 
 ### HO-052 · G → V · SP reveal: lower-third name overflow on tablet landscape (F8-09)
 
@@ -1948,6 +1967,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-053 SENT · Team G → Team V · Sun 1 Nov 10:21 AM Boston time
+
+**Re-skin #1163 onto final Prime Pack page: quick visual sign-off** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-052 SENT · Team G → Team V · Sun 1 Nov 7:30 AM Boston time
 
