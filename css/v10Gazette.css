@@ -70,12 +70,9 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 /* laptop-height windows: the story keeps its first two paragraphs (as the phone edition does), so the paper still fits */
 @media (max-height: 960px) {
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text p + p + p { display: none; }
-  /* 2.0.0 readability: at reading size the story needs the portrait's room on laptop-height windows */
-  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait { display: none; }
-  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote { display: none; }
+  /* 2.0.0 readability: a slightly shorter lead photo keeps more of the paper on a laptop-height window; the rest scrolls
+     inside main to CONTINUE (Nik keeps the portrait, the pull quote and the eyebrow) */
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 3.5 / 1; }
-  /* the paper's own dateline already says which season or edition it is */
-  #touchlineGazette .cmx-fp-screen__eyebrow { display: none; }
 }
 @media (max-height: 820px) {
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { max-height: 1.3em; }
