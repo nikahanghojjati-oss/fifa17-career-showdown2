@@ -88,7 +88,8 @@ function setupSandbox(mutate){
   const progression=read("js/productionSharedMultiSeasonProgression.js");
   assert.match(progression,/role==="playerOne"\?"Manager 1":"Manager 2"/);
   assert.match(progression,/pmspShowdown\(\)\?\.name\|\|"Showdown"/);
-  assert.doesNotMatch(progression.replace(/\/\/.*$/gm,""),/Daniel|"Nik"|Nik\b/,"no hard-coded manager names in the progression module");
+  // r87 C-08: the pair module's global name (CareerModePersistentNikDanielPair) is an API name, not a manager name shown on screen.
+  assert.doesNotMatch(progression.replace(/\/\/.*$/gm,"").replace(/CareerModePersistentNikDanielPair/g,""),/Daniel|"Nik"|Nik\b/,"no hard-coded manager names in the progression module");
 
   // BUG-3: signing name inputs are capped at the provider limit (80), and the visible transfer error shows message before code.
   const transfer=read("js/productionSharedTransferChallenge.js");

@@ -374,14 +374,26 @@ async function pairContracts(){
     ok("J4b Nik's JOIN on the reused shell redraws Home's chip once the new pairing lands (and on nothing else)");
   }
   {
-    // Nothing says the local Showdown is closed: the refusal and its Settings message are unchanged.
-    const h=pairHarness({linked:false,rounds:5});
+    // Nothing says the local Showdown is closed and the pair link still names a Showdown: the refusal and its Settings message
+    // are unchanged.
+    const h=pairHarness({rivalryState:"pending-pair",rounds:5});
     await h.pair.initialize({force:true});
     const joined=await h.pair.joinPairing(`CMS17-${R2}`,{managerRole:"playerTwo",autoContinue:false});
     assert.notEqual(joined.status,"paired");
     assert.match(joined.message,/You still have a different unfinished Showdown\. End it in Settings \(END SHOWDOWN\)/);
     assert.equal(h.calls.redeem.length,0);assert.equal(h.calls.provision,0);
-    ok("J5 a local Showdown not known closed still refuses with the Settings message (not weakened)");
+    ok("J5 a local Showdown a pair link still names refuses with the Settings message (not weakened)");
+  }
+  {
+    // r87 Fable F4-01: no pair link at all, so nothing was ever committed for the untouched shell of another length (a JOIN whose
+    // redeem failed left it; Settings shows no END SHOWDOWN for it). It is replaced and the JOIN goes on.
+    const h=pairHarness({linked:false,rounds:5});
+    await h.pair.initialize({force:true});
+    const joined=await h.pair.joinPairing(`CMS17-${R2}`,{managerRole:"playerTwo",autoContinue:false});
+    assert.doesNotMatch(String(joined.message),/End it in Settings \(END SHOWDOWN\)/);
+    assert.deepEqual(h.deleted.slice(0,1),[SAVE_OLD],"the orphan empty shell is removed");assert.equal(h.calls.provision,1,"the code's length is prepared");
+    assert.equal(h.calls.redeem.length,1,"and redeemed");
+    ok("J5b an orphan empty shell no pair link names never blocks Nik's JOIN of another length");
   }
 }
 

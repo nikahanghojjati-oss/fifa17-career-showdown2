@@ -2328,6 +2328,17 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-polish-matchday-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedCanonicalScoring|productionSharedSeasonCommit|productionSharedMultiSeasonProgression|productionSharedFinalReconciliation|productionSharedHistoryConvergence|seasonFinalV10|seasonEngine|deadlineDay)\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^visual-assets/v10_1/(season-results/app\\.css|final-winner/final-winner\\.js)$",
+        "^index\\.html$",
+        "^tests/contracts/r87\\-polish\\-matchday\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-gazette-contracts.cjs",
       "patterns": [
         "^js/(touchlineGazette|seasonFinalV10)\\.js$",
@@ -2420,6 +2431,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
+        "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-roulette-board-invariants-contracts.cjs",
       "patterns": [
         "^js/(rosterRoulette|rosterRouletteStep|sharedTransferChallenge|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
@@ -2474,6 +2493,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-fable3-meter-fixes-contracts.cjs",
+      "patterns": [
+        "^js/sparkPrivatePairing\\.js$",
+        "^tests/contracts/r87\\-fable3\\-meter\\-fixes\\-contracts\\.cjs$",
+          "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+        ]
+      },
+      {
       "path": "tests/contracts/r87-scoring-everywhere-contracts.cjs",
       "patterns": [
         "^js/(scoring|sharedCanonicalScoring|sharedSeasonCommit|sharedHistoryConvergence|sharedCareerAnalytics|careerScreenSeam|careerScreensV10|rivalryLegacyV10|sparkTerminalClose)\\.js$",
@@ -2487,6 +2514,35 @@
         "^service-worker\\.js$",
         "^tests/fixtures/shell-paths/",
         "^tests/contracts/r87\\-upgrade\\-rollback\\-list\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-step-contracts.cjs",
+      "patterns": [
+        "^js/rosterRouletteStep\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^tests/contracts/r87\\-fable\\-step\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-history-scale-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/legacy/",
+        "^tests/contracts/r87\\-history\\-scale\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-polish-final-contracts.cjs",
+      "patterns": [
+        "^js/(v10Screens|menuExperience|productionSharedMultiSeasonProgression|productionSharedJourneyReconnect)\\.js$",
+        "^css/(v10Shell|rulesSettingsV10|v10Club)\\.css$",
+        "^tests/contracts/r87\\-polish\\-final\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
