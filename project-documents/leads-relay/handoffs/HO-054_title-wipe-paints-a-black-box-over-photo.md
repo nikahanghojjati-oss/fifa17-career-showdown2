@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-01T15:57:04Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-11-01T15:57:04Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T16:00:31Z", "by": "V", "status": "RECEIVED", "note": "V on it now: clip-path reveal, transparent cover, same 450 ms; tiny PR into gameplay/r87 before 16:40 UTC (12:40 p.m. Eastern)."}]
 }
 ```
 
