@@ -2,12 +2,14 @@
 // r87 Prime Pack (Nik 2026-10-31/11-01) in the composed production Rules (firestore.spark.generated.rules).
 // One shared round record per season, rivalries/{rid}/primePackRounds/season_N, written only by the two managers through
 // js/iconGuessStep.js (the real step code runs here against the emulator):
-//   1. Arrivals: each manager writes only his own arrival, at server time, once; the other's facts never move.
-//   2. Guesses: only after both arrived, from 2 s to 43 s after the later arrival (four stages of 9.5 s after a 3 s count-in),
-//      one chip at a time, two at most; a manager can name only himself the winner; once there is a winner nothing changes.
+//   1. Arrivals: each manager writes only his own arrival, at server time, once; the other's facts never move. Leaving the
+//      screen before the other manager has arrived withdraws it (Fable F12-02), once both have arrived it stays.
+//   2. Guesses: only after both arrived, from 2 s to 97 s after the later arrival (stage timers 25/20/20/20 s after a 3 s
+//      count-in, each after a 1.5 s reveal), one chip at a time, two at most; a manager can name only himself the winner;
+//      once there is a winner nothing changes.
 //   3. The points (Nik 2026-11-01): a Season Result with primePack N (1 to 4) is accepted only from the manager the round names,
-//      and only when N is the stage of the winning write's server time (4 before 12.5 s after the later arrival, 3 before 22 s,
-//      2 before 31.5 s, then 1). The phone's clock plays no part.
+//      and only when N is the stage of the winning write's server time (4 before 30.5 s after the later arrival, 3 before 52 s,
+//      2 before 73.5 s, then 1). The phone's clock plays no part.
 //   4. No list, no delete, reads only for the two managers.
 // The score (up to +4, season maximum 15) and the 10-season expression budget are in tests/firebase/europa-league-rules-emulator.cjs.
 // Run inside the Firestore emulator:
@@ -177,19 +179,35 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
 
     // A round whose later arrival was 100 s ago: every guess is too late.
     await env.withSecurityRulesDisabled(async context=>{
-      const old=Timestamp.fromMillis(Date.now()-100_000);
+      const old=Timestamp.fromMillis(Date.now()-120_000);
       await setDoc(roundRef(context.firestore(),2),{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:2,arrived:{playerOne:old,playerTwo:old},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:2,activeSessionId:SID,updatedByDeviceId:DA,updatedAt:old});
     });
-    await assertPlainDenial(updateDoc(roundRef(dbA,2),{"chipsUsed.playerOne":1,namedBy:"playerOne",revision:3,...stamp(DA)}),"a right guess 100 s after the later arrival");
+    await assertPlainDenial(updateDoc(roundRef(dbA,2),{"chipsUsed.playerOne":1,namedBy:"playerOne",revision:3,...stamp(DA)}),"a right guess 120 s after the later arrival");
     await env.withSecurityRulesDisabled(async context=>{
-      const old=Timestamp.fromMillis(Date.now()-50_000);
+      const old=Timestamp.fromMillis(Date.now()-99_000);
       await setDoc(roundRef(context.firestore(),2),{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:2,arrived:{playerOne:old,playerTwo:old},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:2,activeSessionId:SID,updatedByDeviceId:DA,updatedAt:old});
     });
-    await assertPlainDenial(updateDoc(roundRef(dbA,2),{"chipsUsed.playerOne":1,revision:3,...stamp(DA)}),"a guess 50 s after the later arrival, after stage 4 closed");
-    checks.push("a guess more than 43 s after the later arrival is refused (stage 4 closes at 41 s): no guessing during the full reveal");
+    await assertPlainDenial(updateDoc(roundRef(dbA,2),{"chipsUsed.playerOne":1,revision:3,...stamp(DA)}),"a guess 99 s after the later arrival, after stage 4 closed");
+    checks.push("a guess more than 97 s after the later arrival is refused (stage 4 closes at 95 s): no guessing during the full reveal");
     await assertPlainDenial(setDoc(roundRef(dbA,"x"),{seasonNumber:1}),"a round outside season_N");
     await assertPlainDenial(setDoc(roundRef(dbA,3),{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:4,arrived:{playerOne:serverTimestamp(),playerTwo:null},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:1,...stamp(DA)}),"a round whose season does not match its id");
     checks.push("the round's id and season must match");
+
+    // Leaving while waiting (Fable F12-02): Daniel arrives, goes back Home before Nik is there, so the round cannot start
+    // without him; he comes back and arrives again. Once both are on the screen, nobody can withdraw.
+    assert.equal(await Step.arrive(io(dbA,DA),ctx("playerOne",4)),"created");
+    await assertPlainDenial(updateDoc(roundRef(dbB,4),{"arrived.playerOne":null,revision:2,...stamp(DB)}),"Nik withdraws Daniel's arrival");
+    checks.push("a manager cannot withdraw the other manager's arrival");
+    assert.equal(await Step.leave(io(dbA,DA),ctx("playerOne",4)),"left");
+    current=await read(4);assert.equal(current.arrived.playerOne,null);assert.equal(current.revision,2);
+    assert.equal(await Step.arrive(io(dbB,DB),ctx("playerTwo",4)),"arrived");
+    await assertPlainDenial(updateDoc(roundRef(dbB,4),{"chipsUsed.playerTwo":1,revision:4,...stamp(DB)}),"Nik guesses while Daniel is away");
+    checks.push("Daniel's arrival (the step) is withdrawn when he leaves before Nik arrives: Nik alone cannot start or guess");
+    assert.equal(await Step.arrive(io(dbA,DA),ctx("playerOne",4)),"arrived");
+    current=await read(4);assert.ok(current.arrived.playerOne&&current.arrived.playerTwo);assert.equal(current.revision,4);
+    assert.equal(await Step.leave(io(dbA,DA),ctx("playerOne",4)),"stays");
+    await assertPlainDenial(updateDoc(roundRef(dbA,4),{"arrived.playerOne":null,revision:5,...stamp(DA)}),"Daniel withdraws after both arrived");
+    checks.push("coming back arrives again (a fresh server time); once both are on the screen an arrival is never withdrawn");
 
     // 3. The points.
     const publish=async(db,uid,deviceId,result,n,baseRevision,t)=>Results.publishResult({...base(db,uid,deviceId,now+t),seasonNumber:1,operationId:op("season_result_op_",n),baseRevision,result});
@@ -201,7 +219,7 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
     const real=await read();
     const later=Math.max(real.arrived.playerOne.toMillis(),real.arrived.playerTwo.toMillis());
     let n=40;
-    for(const [offset,points] of [[3_000,4],[12_400,4],[12_600,3],[21_900,3],[22_100,2],[31_400,2],[31_600,1],[40_000,1]]){
+    for(const [offset,points] of [[3_000,4],[30_400,4],[30_600,3],[51_900,3],[52_100,2],[73_400,2],[73_600,1],[94_000,1]]){
       await env.withSecurityRulesDisabled(async context=>{await setDoc(roundRef(context.firestore()),{...real,updatedAt:Timestamp.fromMillis(later+offset)});});
       for(const wrongPoints of [1,2,3,4].filter(v=>v!==points)){
         const claim=await publish(dbB,B,DB,{...SEVEN,leaguePosition:2,primePack:wrongPoints},n+=1,0,1000+n);
@@ -211,7 +229,7 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
       assert.equal(Guess.points(page).playerTwo,points,`the step gives ${points} for ${offset} ms, as the Rules do`);
     }
     await env.withSecurityRulesDisabled(async context=>{await setDoc(roundRef(context.firestore()),real);});
-    checks.push("the Rules accept only the stage's points by the winning write's server time (4, 3, 2, 1 across 12.5 s, 22 s and 31.5 s) and the step agrees at every edge");
+    checks.push("the Rules accept only the stage's points by the winning write's server time (4, 3, 2, 1 across 30.5 s, 52 s and 73.5 s) and the step agrees at every edge");
     assert.equal(await Step.pointsFor({firestore:dbA,sdk:plainSdk(),rivalryId:RID},ctx("playerOne")),0);
     assert.equal(await Step.pointsFor({firestore:dbB,sdk:plainSdk(),rivalryId:RID},ctx("playerTwo")),4);
     checks.push("the step reads the points back for each manager (Daniel 0, Nik 4 for a stage 1 win)");

@@ -33,7 +33,8 @@
   const LOAD_WAIT_MS=10000,READY_WAIT_MS=10000,TICK_MS=200,POLL_MS=2500;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const wonMemo=new Map();
-  let running=null;
+  // wentHome: the last run ended because the manager chose Showdown Home (not a fault), so the caller shows no error.
+  let running=null,wentHome=false;
 
   function igsDoc(){return root.document||null;}
   function igsWait(ms){return new Promise(resolve=>root.setTimeout(resolve,ms));}
@@ -54,7 +55,8 @@
   }
   function igsGuess(){return root.CareerModeIconGuess||(typeof require==="function"?require("./iconGuess.js"):null);}
 
-  // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Prime Pack this season?
+  // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Prime Pack this season? It needs
+  // js/iconGuess.js: a browser caller awaits ensure() first (before it, the answer is always false).
   function igsApplies(ctx){
     if(root.CMS_PRIME_PACK==="off"||!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
@@ -74,11 +76,11 @@
     let winner=null;
     if(ROLES.includes(data.namedBy)){
       const atMs=igsMillis(data.updatedAt),startMs=arrived.playerOne&&arrived.playerTwo?Math.max(arrived.playerOne,arrived.playerTwo)+guess.leadMs:null;
-      const at=startMs&&atMs?guess.beatAt(startMs,atMs,guess.windowMs):null;
+      const at=startMs&&atMs?guess.beatAt(startMs,atMs):null;
       winner={role:data.namedBy,beat:at&&at.beat>=0?Math.min(at.beat,guess.lastBeat):0,atMs:atMs||1};
     }
     const record={v:1,season,arrived,chipsUsed:{playerOne:data.chipsUsed?.playerOne,playerTwo:data.chipsUsed?.playerTwo},winner};
-    return guess.outcome(record,0,guess.windowMs)?record:null;
+    return guess.outcome(record,0)?record:null;
   }
   function igsRef(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,igsSeasonId(season));}
   function igsStamp(io){return {activeSessionId:io.sessionId,updatedByDeviceId:io.deviceId,updatedAt:io.sdk.serverTimestamp()};}
@@ -96,13 +98,27 @@
       return "already";
     });
   }
+  // Leaving (BACK, or the phone hidden) before the other manager has arrived withdraws this arrival (Fable F12-02), so the
+  // round can never start while this manager is away; coming back arrives again. Once both have arrived it stays.
+  async function igsLeave(io,ctx){
+    const ref=igsRef(io,ctx.season),me=ctx.managerRole;
+    return io.sdk.runTransaction(io.firestore,async tx=>{
+      const snap=await tx.get(ref),data=snap.exists()?snap.data():null;
+      if(data&&data.arrived&&data.arrived[me]!=null&&data.arrived[igsOther(me)]===null&&data.namedBy===null){tx.update(ref,{[`arrived.${me}`]:null,revision:data.revision+1,...igsStamp(io)});return "left";}
+      return "stays";
+    });
+  }
+  // Arrive and leave run one after the other, in the order they were asked for (a quick hide and show never leaves a
+  // withdrawn arrival behind).
+  let igsPresenceChain=Promise.resolve();
+  function igsPresence(task){const run=igsPresenceChain.then(task,task);igsPresenceChain=run.catch(()=>{});return run;}
   // One matched guess: this manager's used guesses +1, and the winner when it is right, on the latest record.
   async function igsApplyGuess(io,ctx,correct){
     const ref=igsRef(io,ctx.season),guess=igsGuess();
     return io.sdk.runTransaction(io.firestore,async tx=>{
       const snap=await tx.get(ref),data=snap.exists()?snap.data():null,record=igsRecord(data,ctx.season);
       if(!record)return {ok:false,reason:"BAD_RECORD"};
-      const next=guess.applyGuess(record,{role:ctx.managerRole,correct,atMs:io.now()},guess.windowMs);
+      const next=guess.applyGuess(record,{role:ctx.managerRole,correct,atMs:io.now()});
       if(!next.ok)return next;
       tx.update(ref,{[`chipsUsed.${ctx.managerRole}`]:next.record.chipsUsed[ctx.managerRole],namedBy:correct?ctx.managerRole:null,revision:data.revision+1,...igsStamp(io)});
       return next;
@@ -151,7 +167,7 @@
     return new Promise(resolve=>{
       igsRemove(PANEL_ID);
       const overlay=igsEl("div","remoteJoiningOverlay rrStepOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",heading);
-      overlay.style.cssText="position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;background:rgba(5,4,3,.82);padding:16px";
+      overlay.style.cssText="position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;background:#050403;padding:16px";
       const shell=igsEl("div","remoteJoiningShell rrStepShell");shell.style.cssText="max-width:420px;width:100%;background:#15130f;color:#f3ead7;border:1px solid #6b5a33;border-radius:12px;padding:20px";
       shell.append(igsEl("strong","","PRIME PACK"),igsEl("h2","rrStepTitle",heading));
       for(const line of lines)shell.append(igsEl("p","rrStepLine",line));
@@ -172,6 +188,8 @@
     const back=doc.createElement("button");back.type="button";back.className="backButton";back.textContent="BACK TO SHOWDOWN HOME";back.hidden=true;
     back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2";
     stage.append(frame,back);doc.body.append(stage);
+    // The roulette's result panel (z-index 96) would stand over this stage and take its taps: it goes once this stage is up.
+    try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}
     return {stage,frame,back};
   }
   function igsPost(frame,type,data={}){try{frame.contentWindow?.postMessage({type,...data},root.location?.origin||"*");}catch(_error){}}
@@ -183,8 +201,8 @@
     const icon=draw&&players[draw.index];
     if(!icon)return null;
     const source=`${String(icon.cardVersion||"").toUpperCase()} · ${icon.game}`;
-    return {answerId:icon.id,round:{me:ctx.managerRole,names:{...NAMES},windowMs:guess.windowMs,position:icon.position,overall:icon.overall,name:icon.name,
-      stats:{...icon.stats},statOrder:[...draw.statOrder],stagePoints:[...guess.stagePoints],nation:icon.nationCode,source,overallHidden:true}};
+    return {answerId:icon.id,round:{me:ctx.managerRole,names:{...NAMES},stages:guess.stages,position:icon.position,overall:icon.overall,name:icon.name,
+      stats:{...icon.stats},statOrder:[...draw.statOrder],stagePoints:[...guess.stagePoints],nation:icon.nationCode,source}};
   }
   // A suggestion shows the card name, or the full name when two icons share that card name (typing it alone is ambiguous).
   function igsSuggestions(index,text){
@@ -198,6 +216,7 @@
   // could not run (the window then stays shut and the dashboard says why; tapping again retries).
   async function igsRun(ctx,io){
     if(running)return running;
+    wentHome=false;
     // On true the stage stays up until the Transfer Challenge is on screen (the caller closes it), so nothing flashes between.
     running=igsRunNow(ctx,io).then(go=>{if(!go)igsClose();return go;},error=>{igsClose();throw error;}).finally(()=>{running=null;});
     return running;
@@ -212,9 +231,9 @@
     for(;;){
       const result=await igsPlay(ctx,io,{index,pick,guess});
       if(result==="continue"){igsMark(DONE_KEY,igsKey(ctx));return true;}
-      if(result==="back")return false;
+      if(result==="back"){wentHome=true;return false;}
       const choice=await igsAsk({heading:"Prime Pack could not load",lines:[root.CareerModeFirestoreBudget?.quotaMessage?.(result)||"Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
-      if(choice==="back")return false;
+      if(choice==="back"){wentHome=true;return false;}
     }
   }
   // One screen session: "continue", "back", or an error object.
@@ -222,18 +241,30 @@
     return new Promise(resolve=>{
       const me=ctx.managerRole,other=igsOther(me);
       const {frame,back}=igsStage();
-      let record=null,ready=false,stop=null,timer=null,shownBeat=-2,finished=false,resultShown=false,sentChips={playerOne:null,playerTwo:null};
-      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.removeEventListener("message",onMessage);try{stop&&stop();}catch(_error){}resolve(value);};
+      // resultShown: the result on screen as "winner:points" (or "draw:0"); it follows the server's record, so a winner that
+      // lands after a shown draw (the Rules' 2 s slack) replaces it (Fable F12-03).
+      let record=null,ready=false,stop=null,timer=null,shownBeat=-2,finished=false,resultShown="",sentChips={playerOne:null,playerTwo:null};
+      // After this phone's right guess: the round record as the server stamped it (its updatedAt gives the stage and points).
+      const readBack=()=>io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(igsRef(io,ctx.season));return snap.exists()?snap.data():null;}).then(data=>onData(data),()=>{});
+      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.removeEventListener("message",onMessage);igsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
+      // Away while the other manager has not arrived: withdraw (igsLeave); back on screen: arrive again.
+      let away=false;
+      const leave=()=>igsPresence(()=>igsLeave(io,ctx)).catch(error=>{root.CareerModeFirestoreBudget?.noteError?.(error);});
+      const onVisibility=()=>{
+        if(finished)return;
+        if(igsDoc().visibilityState==="hidden"){if(record&&!record.winner&&record.arrived[other]===null){away=true;leave();}}
+        else if(away){away=false;igsPresence(()=>igsArrive(io,ctx)).catch(fail);}
+      };
       const fail=error=>{root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"PRIME_PACK_FAILED"});};
       const render=()=>{
         if(!ready||!record||finished)return;
         let now;try{now=io.now();}catch(error){return fail(error);}
-        const out=guess.outcome(record,now,guess.windowMs);if(!out)return;
+        const out=guess.outcome(record,now);if(!out)return;
         for(const role of ROLES){if(sentChips[role]!==out.chips[role]){sentChips[role]=out.chips[role];igsPost(frame,"cms-ig-chips",{role,count:out.chips[role]});}}
         if(out.state==="won"||out.state==="draw"){
-          if(!resultShown){
-            resultShown=true;back.hidden=true;
-            const points=out.winner?guess.points(record)[out.winner]:0;
+          const points=out.winner?guess.points(record)[out.winner]:0,shown=`${out.winner||"draw"}:${points}`;
+          if(resultShown!==shown&&!(out.state==="draw"&&resultShown)){
+            resultShown=shown;back.hidden=true;
             igsPost(frame,"cms-ig-result",{winner:out.winner||"draw",points});
             if(out.winner)for(const role of ROLES)wonMemo.set(igsKey({...ctx,managerRole:role}),role===out.winner?points:0);
           }
@@ -241,9 +272,9 @@
         }
         if(out.state==="waiting"){const waitingFor=record.arrived[other]===null?other:me;back.hidden=waitingFor!==other;if(shownBeat!==-1){shownBeat=-1;igsPost(frame,"cms-ig-waiting",{role:waitingFor});}return;}
         back.hidden=true;
-        const at=guess.beatAt(guess.startMs(record),now,guess.windowMs);
+        const at=guess.beatAt(guess.startMs(record),now);
         if(at.phase==="waiting"){if(shownBeat!==-1.5){shownBeat=-1.5;igsPost(frame,"cms-ig-waiting",{role:null});}return;}
-        if(at.beat!==shownBeat){shownBeat=at.beat;igsPost(frame,"cms-ig-reveal",{index:at.beat,remainingMs:at.phase==="reveal"?at.msLeft+guess.windowMs:at.msLeft});}
+        if(at.beat!==shownBeat){shownBeat=at.beat;igsPost(frame,"cms-ig-reveal",{index:at.beat,phase:at.phase,remainingMs:at.stageMsLeft,revealMsLeft:at.phase==="reveal"?at.msLeft:0});}
       };
       const onData=data=>{
         const next=igsRecord(data,ctx.season);
@@ -265,9 +296,11 @@
           if(check.status==="ambiguous")return igsPost(frame,"cms-ig-feedback",{kind:"ambiguous"});
           igsApplyGuess(io,ctx,check.correct).then(next=>{
             if(!next.ok)return igsPost(frame,"cms-ig-feedback",{kind:next.reason==="NO_CHIPS"?"used":"late"});
-            record=next.record;
-            if(!check.correct)igsPost(frame,"cms-ig-feedback",{kind:"wrong"});
-            render();
+            // A right guess: its stage, and so its points, is the SERVER time of the write (updatedAt), never this phone's clock
+            // when the transaction read ran (Fable F12-01: a commit landing past a stage edge scores the later stage). Only the
+            // stamped record is shown or remembered, so both phones and the season result agree with the Rules.
+            if(check.correct)return readBack();
+            record=next.record;igsPost(frame,"cms-ig-feedback",{kind:"wrong"});render();
           },error=>{root.CareerModeFirestoreBudget?.noteError?.(error);igsPost(frame,"cms-ig-feedback",{kind:/permission/.test(String(error&&error.code))?"late":"error"});});
         }else if(m.type==="cms-ig-continue"){
           if(resultShown)end("continue");
@@ -276,12 +309,13 @@
           root.CareerModeFirestoreBudget?.noteError?.({code:"PRIME_PACK_PAGE",message:String(m.message||"")});
         }
       };
-      back.addEventListener("click",()=>end("back"));
+      back.addEventListener("click",()=>{if(finished)return;leave();end("back");});
+      igsDoc().addEventListener?.("visibilitychange",onVisibility);
       root.addEventListener("message",onMessage);
       timer=root.setInterval(render,TICK_MS);
       root.setTimeout(()=>{if(!ready&&!finished)fail({code:"PRIME_PACK_PAGE_TIMEOUT"});},READY_WAIT_MS);
       Promise.resolve().then(async()=>{
-        await igsArrive(io,ctx);
+        await igsPresence(()=>igsArrive(io,ctx));
         if(finished)return;
         const unsubscribe=await igsWatch(io,ctx,onData,fail);
         if(finished){try{unsubscribe();}catch(_error){}return;}
@@ -291,5 +325,5 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-prime-pack-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,collection:COLLECTION,doneKey:DONE_KEY,
-    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,applyGuess:igsApplyGuess,run:igsRun,close:igsClose});
+    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,leave:igsLeave,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,wentHome:()=>wentHome,ensure:igsEnsure});
 });

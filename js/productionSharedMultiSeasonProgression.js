@@ -48,6 +48,19 @@
     if(!Number.isInteger(exposedSeason)||exposedSeason<1)exposedSeason=1;
     return exposedSeason;
   }
+  // F1 (fault suite, reload after the season acknowledgement): CONTINUE TO SEASON N+1 only moves this page's cursor, so a reload
+  // after the acknowledgement but before CONTINUE resumed straight into season N+1 and skipped season N's Shared History, its
+  // CONTINUE and the Gazette. The page notes here the season its CONTINUE moved into; the entry's resume holds a season that
+  // this phone accepted but never continued from on its results. Storage only, no read.
+  function pmspContinuedKey(rivalryId){return `cms.seasonContinued.v1:${rivalryId}`;}
+  function pmspContinuedInto(rivalryId){try{const n=Number(typeof root.readStorageValue==="function"?root.readStorageValue(pmspContinuedKey(rivalryId)):null);return Number.isInteger(n)&&n>=1&&n<=10?n:0;}catch(_error){return 0;}}
+  function pmspMarkContinued(rivalryId,season){try{if(season>pmspContinuedInto(rivalryId)&&typeof root.writeStorageValue==="function")root.writeStorageValue(pmspContinuedKey(rivalryId),String(season));}catch(_error){}}
+  // r87 upgrade (R4): a Showdown carried over from 1.9.10 has no note, because 1.9.10 never wrote one. Its phones tapped CONTINUE
+  // there, and with no note they would be sent back to the last season's results after the 2.0.0 update. So the hold applies
+  // only where this phone has a note. 2.0.0 notes season 1 the moment it sees a Showdown with no season accepted yet,
+  // so every Showdown played on 2.0.0 keeps F1's hold exactly. Storage only, no read.
+  function pmspNoteLiveSeason(rivalryId,accepted){if(accepted===0)pmspMarkContinued(rivalryId,1);}
+  function pmspHoldsForReview(rivalryId,accepted,total,terminal){const into=pmspContinuedInto(rivalryId);return terminal!==true&&Number.isInteger(accepted)&&accepted>=1&&accepted<total&&into>=1&&into<accepted+1;}
   function pmspFallbackSeason(value){const n=Number(value);return Number.isInteger(n)&&n>=1&&n<=10?n:null;}
   function pmspResolveSeason(fallback=null){
     const local=pmspFallbackSeason(fallback??pmspShowdown()?.currentRound);if(!pmspSharedMarker())return local;
@@ -145,7 +158,13 @@
     if(status.parentNode!==actions)actions.prepend(status);
     return {status,action};
   }
+  // F1: this phone reached its final season's results (or saw every season accepted), so the Champion screen is due here. A
+  // reload, a closed tab or a cold start at the close opens it again (js/productionSharedJourneyEntry.js championAfterClose)
+  // until the player leaves it. Storage only, written once.
+  const PMSP_CHAMPION_KEY="cms.championPending.v1";
+  function pmspMarkChampionDue(rivalryId){try{if(rivalryId&&typeof root.writeStorageValue==="function"&&root.readStorageValue?.(PMSP_CHAMPION_KEY)!==rivalryId)root.writeStorageValue(PMSP_CHAMPION_KEY,rivalryId);}catch(_error){}}
   function pmspRender(){
+    {const season=pmspEnsureCursor(),state=view?.state,rivalryId=pmspRivalryId();if(season&&state&&rivalryId&&String(view.rivalryId||"")===rivalryId&&season===Number(state.totalSeasons)&&pmspScreenVisible())pmspMarkChampionDue(rivalryId);}
     const ui=pmspEnsureUi();if(!ui)return false;const season=pmspEnsureCursor(),state=view?.state,visible=Boolean(pmspSharedMarker()&&season&&state&&pmspScreenVisible()&&Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season);
     pmspHidden(ui.status,!visible);pmspHidden(ui.action,!visible);if(!visible)return false;
     if(pmspTerminalWitnessed()){
@@ -163,7 +182,7 @@
     await setupApi.refresh();if(!pmspContextMatches(request))return null;
     const result=pmspResult(await provider.read(await pmspProviderOptions(request)));if(!pmspContextMatches(request))return null;
     if(result.runtimeRevision!=="1.9.1-r13"||String(result.rivalryId)!==request.rivalryId||!["SEASON_READY","SHOWDOWN_COMPLETE"].includes(result.phase)||result.state.runtimeRevision!=="1.9.1-r13"||result.state.rivalryId!==request.rivalryId)pmspFail("MULTI_SEASON_PROJECTION_INVALID");
-    view=result;contextKey=request.key;const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();pmspAnnounce(request);return view;
+    view=result;contextKey=request.key;pmspNoteLiveSeason(request.rivalryId,Number(result.state.acceptedSeasons));const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();pmspAnnounce(request);return view;
   }
   // r75: once the accepted count or terminal state changes, ask Local Reconciliation to run its automatic final check now. It
   // used to learn about the last accepted season only from unrelated repeated events, which stopped once those cascades
@@ -172,6 +191,7 @@
     const state=view?.state;if(!state)return;
     const key=`${request.key}|${view.phase}|${state.acceptedSeasons}|${state.totalSeasons}|${state.terminal===true}`;
     if(key===announcedKey)return;announcedKey=key;
+    if(state.terminal===true)pmspMarkChampionDue(request.rivalryId);
     const local=root.CareerModeProductionSharedLocalReconciliation;
     if(state.terminal===true&&local&&typeof local.autoCheck==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{void local.autoCheck();}catch(_error){}},0);
   }
@@ -179,7 +199,7 @@
   async function pmspAdvance(){
     if(busy&&refreshPromise){try{await refreshPromise;}catch(_error){}}
     if(busy||!pmspCanContinue())return false;const request=pmspRequest();if(!request)return false;const state=view.state,season=pmspEnsureCursor();
-    if(season>=state.totalSeasons)return false;exposedSeason=season+1;pmspRender();
+    if(season>=state.totalSeasons)return false;exposedSeason=season+1;pmspMarkContinued(request.rivalryId,exposedSeason);pmspRender();
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-season-cursor-change",{detail:{rivalryId:request.rivalryId,previousSeason:season,activeSeason:exposedSeason,acceptedSeasons:state.acceptedSeasons}}));}catch(_error){}
     if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false});pmspDecorateDashboard();
     // Job 33 (R2): go straight on to the new season's Shared Transfer Challenge (the same open() the dashboard button runs).
@@ -190,12 +210,18 @@
   // Job 19: a fresh runtime starts its page-memory cursor at season 1. After the exact ACTIVE session is
   // re-established, the entry resumes at the provider-authoritative active season (acceptedSeasons+1, or the
   // final season once all are accepted). The cursor only moves forward and never past provider authority.
-  async function pmspResumeFromAuthority(){
+  // F1: options.holdForReview resumes at the last accepted season instead when this phone never tapped its CONTINUE (see
+  // pmspContinuedInto); the entry then opens that season's results, or calls releaseHeldSeason when it cannot.
+  let heldSeason=null;
+  async function pmspResumeFromAuthority(options={}){
     if(!pmspSharedMarker())return null;
     let result=await pmspRefresh();if(!result)result=await pmspRefresh();
     const request=pmspRequest(),state=view?.state;
     if(!result||!request||!view||view.authoritative!==true||!state||String(view.rivalryId||"")!==request.rivalryId)return null;
-    const total=Number(state.totalSeasons),accepted=Number(state.acceptedSeasons),target=state.terminal===true?total:accepted+1;
+    const total=Number(state.totalSeasons),accepted=Number(state.acceptedSeasons);
+    const held=options?.holdForReview===true&&pmspHoldsForReview(request.rivalryId,accepted,total,state.terminal);
+    const target=state.terminal===true?total:held?accepted:accepted+1;
+    heldSeason=held?Object.freeze({key:request.key,rivalryId:request.rivalryId,season:accepted}):null;
     if(!Number.isInteger(total)||!Number.isInteger(accepted)||accepted<0||!Number.isInteger(target)||target<1||target>total)return null;
     const previous=pmspEnsureCursor();
     if(target>previous){
@@ -203,7 +229,16 @@
       try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-season-cursor-change",{detail:{rivalryId:request.rivalryId,previousSeason:previous,activeSeason:exposedSeason,acceptedSeasons:accepted,resumed:true}}));}catch(_error){}
     }
     pmspRender();pmspDecorateDashboard();
-    return Object.freeze({rivalryId:request.rivalryId,season:exposedSeason,acceptedSeasons:accepted,totalSeasons:total,terminal:state.terminal===true});
+    return Object.freeze({rivalryId:request.rivalryId,season:exposedSeason,acceptedSeasons:accepted,totalSeasons:total,terminal:state.terminal===true,heldForReview:held&&exposedSeason===accepted});
+  }
+  // F1: the held season's results could not be opened: move on to the active season exactly as an unheld resume does.
+  function pmspReleaseHeldSeason(){
+    const held=heldSeason;heldSeason=null;const request=pmspRequest(),state=view?.state;
+    if(!held||!request||request.key!==held.key||!state||state.terminal===true)return false;
+    const previous=pmspEnsureCursor(),target=held.season+1;if(previous!==held.season||target>Number(state.totalSeasons)||Number(state.acceptedSeasons)<held.season)return false;
+    exposedSeason=target;
+    try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-season-cursor-change",{detail:{rivalryId:request.rivalryId,previousSeason:previous,activeSeason:exposedSeason,acceptedSeasons:state.acceptedSeasons,resumed:true}}));}catch(_error){}
+    pmspRender();pmspDecorateDashboard();return true;
   }
   function pmspCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!pmspSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;void pmspAdvance();}
   // r75: a wake that arrives while a refresh is running (Shared History converging, setup changing) runs once more right
@@ -211,5 +246,5 @@
   function pmspWake(){if(busy){wakePending=true;return;}if(!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
   function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())pmspWake();},POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
 
-  return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,seasonUnknown:pmspSeasonUnknown,nameSeason:pmspNameSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});
+  return Object.freeze({upgradeHold:Object.freeze({note:pmspNoteLiveSeason,holds:pmspHoldsForReview,continuedInto:pmspContinuedInto,markContinued:pmspMarkContinued}),lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,seasonUnknown:pmspSeasonUnknown,nameSeason:pmspNameSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,releaseHeldSeason:pmspReleaseHeldSeason,isActive:pmspSharedMarker});
 });

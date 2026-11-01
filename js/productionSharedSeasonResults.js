@@ -56,7 +56,10 @@
   }
   function pssrContextMatches(request){const current=pssrRequestContext();return Boolean(request&&current&&request.key===current.key);}
   function pssrTransferComplete(request){const transfer=pssrTransferState();return Boolean(request&&transfer&&Number(transfer.seasonNumber)===request.seasonNumber&&transfer.state&&transfer.state.phase==="COMPLETED");}
-  function pssrCanRoute(){const request=pssrRequestContext();return Boolean(pssrSharedMarker()&&request&&contextKey===request.key&&view&&view.managerRole&&view.rivalryId===request.rivalryId&&Number(view.seasonNumber)===request.seasonNumber&&pssrTransferComplete(request));}
+  // F1 (fault suite): after a reload or in a stale tab, a closed Showdown's Champion screen is this screen (js/seasonFinalV10.js
+  // draws Final Winner from Terminal Close's verified witness), so the route allows it while Terminal Close holds it CLOSED.
+  function pssrClosedChampion(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(pssrSharedMarker()&&t&&t.phase==="CLOSED"&&t.terminal===true&&t.terminalWitness);}catch(_error){return false;}}
+  function pssrCanRoute(){if(pssrClosedChampion())return true;const request=pssrRequestContext();return Boolean(pssrSharedMarker()&&request&&contextKey===request.key&&view&&view.managerRole&&view.rivalryId===request.rivalryId&&Number(view.seasonNumber)===request.seasonNumber&&pssrTransferComplete(request));}
   function pssrResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The Season Results request was rejected.");error.code=result&&result.code||"SEASON_RESULTS_PROVIDER_FAILED";throw error;}
   // JOB-1611: provider codes that mean "contended", not "refused": Firestore lock contention after the SDK's own retries.
   const PSSR_CONTENTION_CODES=Object.freeze(["aborted","failed-precondition","permission-denied","firestore/permission-denied","permission_denied"]);
@@ -178,11 +181,14 @@
   // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record, only for a Showdown that plays
   // Prime Pack; an older Showdown never loads the step or reads anything. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
+  const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   async function pssrWithPrimePack(ctx,request,result){
     const confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;
-    if(!Number.isFinite(confirmedAtMs)||root.CMS_PRIME_PACK==="off"||!result||typeof result!=="object")return result;
+    // Old Showdowns never load the step (the same boundary as js/iconGuess.js fromMs; a contract keeps them equal).
+    if(!Number.isFinite(confirmedAtMs)||confirmedAtMs<PRIME_PACK_FROM_MS||root.CMS_PRIME_PACK==="off"||!result||typeof result!=="object")return result;
     const step=root.CareerModeIconGuessStep||await (typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep).then(()=>root.CareerModeIconGuessStep,()=>null):null);
-    if(!step)pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");
+    // applies() needs the round engine (js/iconGuess.js): load it first, or a won Prime Pack point would be dropped.
+    if(!step||!await step.ensure())pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");
     const gameCtx={rivalryId:ctx.options.rivalryId,managerRole:ctx.setup.managerRole,season:request.seasonNumber,confirmedAtMs};
     if(!step.applies(gameCtx))return result;
     const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);

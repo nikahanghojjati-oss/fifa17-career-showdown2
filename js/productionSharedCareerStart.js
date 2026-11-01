@@ -10,6 +10,7 @@
   const POLL_MS=15000;
   // Job 33 (R1): once this manager has acknowledged, read every 3 s for at most 3 minutes while waiting on the rival.
   const FAST_POLL_MS=3000,FAST_POLL_WINDOW_MS=180000;
+  let transferOpening=false;const TRANSFER_OPEN_LIMIT_MS=120000;
   let installed=false,busy=false,revealStage=null,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null,openPromise=null,readyKey="",fastWaitKey="",fastWaitSince=0,autoContinueKey="";
 
   function pcstCreate(tag,className,text){const node=root.document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
@@ -34,7 +35,7 @@
   }
   // r86 Special Player: the club he played for in FIFA 17 at launch, so each manager can sign him in-game. Only a Showdown
   // confirmed on r86 or later has one (no line otherwise).
-  function pcstSpecialPlayers(){try{const chip=root.CareerModeSpecialPlayerChip,state=pcstSetupState();return chip&&state&&Number.isFinite(state.setupUpdatedAtMs)?chip.forShowdown(state.rivalryId,state.setupUpdatedAtMs):null;}catch(_error){return null;}}
+  function pcstSpecialPlayers(){try{const chip=root.CareerModeSpecialPlayerChip,state=pcstSetupState();return chip&&state&&Number.isFinite(state.setupUpdatedAtMs)?chip.forShowdown(state.rivalryId,state.setupUpdatedAtMs,state.setup?.clubs):null;}catch(_error){return null;}}
   function pcstSetupState(){try{return setupApi&&setupApi.getState?setupApi.getState():root.CareerModeProductionSharedShowdownSetup?.getState?.()||null;}catch(_error){return null;}}
   function pcstConfirmed(){const state=pcstSetupState();return Boolean(state&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.setup.revision===6&&state.managerRole&&state.rivalryId&&state.sessionId&&state.deviceId);}
   function pcstReady(){return Boolean(view&&view.state&&view.state.phase==="CAREER_START_READY");}
@@ -43,8 +44,10 @@
     if(request)return task(request);
     let timer;const error=Object.assign(new Error("Career Start took too long. Check your connection and tap again."),{code:"CAREER_START_TIMEOUT"});
     // r87: the Russian Roster Roulette between Career Start and the Transfer Challenge runs at the manager's pace, so the 25 s
-    // limit waits while it is on screen (js/rosterRouletteStep.js active()).
-    const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
+    // limit waits while it is on screen (js/rosterRouletteStep.js active()). Fable F6-09: it also waits while the Transfer
+    // Challenge open is still in flight before the roulette shows (a cold cache loads its files), up to 2 minutes in all.
+    const began=Date.now();
+    const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()||(transferOpening&&Date.now()-began<TRANSFER_OPEN_LIMIT_MS)){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
     let active=true;request={wait:promise=>Promise.race([promise,timeout]).then(value=>{if(!active)throw error;return value;})};
     return Promise.race([Promise.resolve().then(()=>task(request)),timeout]).catch(failure=>{if(failure===error){lastError=error.message;if(task===pcstOpenPanelNow)pcstEnsurePanel();pcstRender();pcstDecorateControl();}throw failure;}).finally(()=>{active=false;root.clearTimeout(timer);});
   }
@@ -134,10 +137,12 @@
       const transfer=root.CareerModeProductionSharedTransferChallenge;
       if(!transfer||typeof transfer.install!=="function"||typeof transfer.open!=="function")throw new Error("Shared Transfer Challenge is unavailable.");
       transfer.install();
+      transferOpening=true;
       const opened=await transfer.open();
-      // r87: the manager left the Russian Roster Roulette for Showdown Home; it opens again from there. Not a failure.
-      if(opened!==true&&root.CareerModeRosterRouletteStep?.wentHome?.()){pcstClosePanel();return false;}
-      // The roulette could not start (Setup not read, its files not loaded): its own reason, not a generic one (Fable F2-05).
+      transferOpening=false;
+      // r87: the manager left the Russian Roster Roulette or the Prime Pack for Showdown Home; it opens again from there. Not a failure.
+      if(opened!==true&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.())){pcstClosePanel();return false;}
+      // The roulette or the Prime Pack could not start (Setup not read, its files not loaded): its own reason, not a generic one (Fable F2-05).
       const reason=opened!==true&&typeof transfer.rouletteError==="function"?transfer.rouletteError():"";
       if(reason){lastError=reason;return false;}
       if(opened!==true)throw new Error("Shared Transfer Challenge could not be opened from this Career Start state.");
@@ -148,7 +153,7 @@
       pcstReport("Unable to continue to Shared Transfer Challenge",error);
       return false;
     }finally{
-      busy=false;pcstRender();
+      busy=false;transferOpening=false;pcstRender();
     }
   }
   // Keep provider codes in diagnostics, not in the sentence shown beneath the Career Start button.
@@ -475,8 +480,12 @@
     }catch(_error){return null;}
   }
   function pcstCloseReveal(){const stage=revealStage;revealStage=null;if(stage)try{stage.close();}catch(_error){}return true;}
+  // F1 (fault suite): a stale tab or a reload must never open Career Start for a Showdown this page already holds CLOSED; it
+  // goes to that Showdown's Champion screen (or Home) instead. In-memory only, no read.
+  function pcstShowdownClosed(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(t&&t.phase==="CLOSED"&&t.terminal===true);}catch(_error){return false;}}
   function pcstOpenPanel(){
     if(openPromise)return openPromise;
+    if(pcstShowdownClosed()){const entry=root.CareerModeProductionSharedJourneyEntry;return Promise.resolve(typeof entry?.openClosedShowdown==="function"?entry.openClosedShowdown():false);}
     const run=pcstSpecialPlayerFirst().then(stage=>{revealStage=stage;return pcstWithTimeout(pcstOpenPanelNow);}).finally(pcstCloseReveal);openPromise=run;
     run.finally(()=>{if(openPromise===run)openPromise=null;pcstDecorateControl();}).catch(()=>{});
     try{pcstDecorateControl();}catch(_error){}
@@ -489,7 +498,10 @@
   function pcstReadyHere(){return Boolean(pcstReady()&&readyKey&&pcstConfirmed()&&readyKey===pcstSetupKey(pcstSetupState()));}
   async function pcstOpenPanelNow(request){
     pcstDeactivateSetupPresentation();await request.wait(pcstEnsureDependencies());
+    // Fable F6-01: a BACK TO SHOWDOWN HOME from the roulette opened here (CONTINUE CAREER from Home) stays on Home, as it does
+    // from the panel; only a roulette that could not start (its own reason) or a failed open shows Career Start below.
     if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return pcstCloseReveal();
+    if(!pcstPanelOpen()&&pcstReadyHere()&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()))return pcstCloseReveal();
     const overlay=pcstEnsurePanel();stageRetries=0;stageFailed=false;retryFailed=false;stageFailed=!(await request.wait(pcstClubBackdrop()));overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay){overlay.classList.add("hidden");pcstStageOff(overlay);}return true;}

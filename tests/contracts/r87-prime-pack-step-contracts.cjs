@@ -37,8 +37,8 @@ const ts=ms=>({toMillis:()=>ms});
   const stored={schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:3,arrived:{playerOne:ts(a),playerTwo:ts(b)},chipsUsed:{playerOne:1,playerTwo:0},namedBy:null,revision:4};
   const live=Step.record(stored,3);
   assert.deepEqual(live.arrived,{playerOne:a,playerTwo:b});assert.equal(live.winner,null);
-  assert.equal(Guess.outcome(live,start+100,Guess.windowMs).state,"live");
-  const wonAt=start+2*(Guess.revealMs+Guess.windowMs)+Guess.revealMs+500;
+  assert.equal(Guess.outcome(live,start+100).state,"live");
+  const wonAt=start+Guess.stageStarts[2]+Guess.stages[2].revealMs+500;
   const won=Step.record({...stored,chipsUsed:{playerOne:1,playerTwo:1},namedBy:"playerTwo",updatedAt:ts(wonAt)},3);
   assert.deepEqual(won.winner,{role:"playerTwo",beat:2,atMs:wonAt},"the winning write's server time gives the beat");
   assert.deepEqual(Guess.points(won),{playerOne:0,playerTwo:2},"a right guess at stage 3 is worth 2 (Nik 2026-11-01: 4, 3, 2, 1)");
@@ -57,13 +57,13 @@ const ts=ms=>({toMillis:()=>ms});
   assert.equal(pick.answerId,icon.id);
   assert.equal(pick.round.me,"playerTwo");assert.deepEqual(pick.round.names,{playerOne:"Daniel",playerTwo:"Nik"});
   assert.deepEqual(pick.round.statOrder,[...draw.statOrder]);assert.deepEqual(pick.round.stats,icon.stats);
-  assert.equal(pick.round.overallHidden,true,"Nik N2: the overall stays hidden until the result");
-  assert.equal(pick.round.windowMs,Guess.windowMs);
+  assert.equal(pick.round.overallHidden,undefined,"the stages table says when the overall shows (stage 4, G Lead 2026-11-01)");
+  assert.equal(pick.round.windowMs,undefined);assert.strictEqual(pick.round.stages,Guess.stages,"the page gets the one stages table with the round");
   assert.deepEqual(pick.round.stagePoints,[...Guess.stagePoints],"the page gets the one stage-points table with the round");
   assert.equal(Step.round({...ctx,managerRole:"playerOne"}).answerId,pick.answerId,"both phones get the same icon");
   const seasons=new Set(Array.from({length:10},(_,i)=>Step.round({...ctx,season:i+1}).answerId));
   assert.equal(seasons.size,10,"no icon twice in one Showdown");
-  ok("S3","both phones draw the same icon from the Showdown id, never the same one twice in 10 seasons; the overall stays hidden");
+  ok("S3","both phones draw the same icon from the Showdown id, never the same one twice in 10 seasons; the page gets the one stages table");
 }
 
 // S3b Nik 2026-11-01 ("the stat itself always draws from real data base stats and never random; the selection of which stats
@@ -82,7 +82,7 @@ const ts=ms=>({toMillis:()=>ms});
       assert.equal(new Set(pick.round.statOrder).size,6,"each stat at most once");assert.deepEqual([...pick.round.statOrder].sort(),[...Guess.stats].sort());
       for(let stage=0;stage<Guess.beats;stage+=1){
         const shown=Guess.revealed(stage,pick.round.statOrder).stats;
-        assert.equal(shown.length,stage+1,"stage n shows n stats");
+        assert.equal(shown.length,Guess.stages[stage].stats,"each stage shows the stat count in the one table");
         for(const key of shown)assert.equal(pick.round.stats[key],player.stats[key],`${player.id} ${key} is the real value`);
       }
       orders.add(pick.round.statOrder.slice(0,4).join());rounds+=1;
@@ -123,13 +123,20 @@ const ts=ms=>({toMillis:()=>ms});
   const pssr=read("js/productionSharedSeasonResults.js");
   assert.match(pssr,/const publishedResult=await pssrWithPrimePack\(ctx,request,draft\.result\);[\s\S]{0,200}provider\.publishResult\(\{[^}]*result:publishedResult\}\)/);
   assert.match(pssr,/const points=await step\.pointsFor\(/);assert.match(pssr,/Number\.isInteger\(points\)&&points>=1&&points<=4\?\{\.\.\.rest,primePack:points\}:rest/);
-  const sw=read("service-worker.js");
-  for(const file of ["js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html"]){
-    assert.ok(sw.includes(`  "${file}",`),`${file} is in the offline shell`);
-    assert.match(sw,new RegExp(`SHELL_PATHS_ADDED_SINCE_PREVIOUS[^;]*"${file.replace(/[.\/]/g,"\\$&")}"`),`${file} offline for existing installs`);
-  }
+  // The service worker and shell lists are G Lead's after #1149 merges (scope split, 2026-11-01 10:44 UTC): the five files
+  // are listed in the handoff note for G Lead to add; this PR leaves service-worker.js as gameplay/r87 has it.
   assert.match(read("js/ruleBook.js"),/Prime Pack: first to name the masked Icon/);
-  ok("S6","the winner publishes primePack 1 to 4 (its stage's points) from the round record; the five files are offline; the Rule Book has the line");
+  ok("S6","the winner publishes primePack 1 to 4 (its stage's points) from the round record; the Rule Book has the line");
+}
+
+// S8 Nik 2026-11-01 (via G Lead): no dimming, ever. The step's own overlay (igsAsk) is solid, and the file sets no
+// translucent background anywhere.
+{
+  const step=read("js/iconGuessStep.js");
+  assert.match(step,/function igsAsk\([\s\S]{0,1200}background:#050403;/,"the igsAsk overlay is solid #050403");
+  assert.ok(!/background(?:-color)?\s*:\s*(?:rgba|hsla)\(/i.test(step),"no rgba or hsla background in js/iconGuessStep.js");
+  assert.ok(!/\.background(?:Color)?\s*=\s*["'`](?:rgba|hsla)\(/i.test(step),"no rgba or hsla background set from script");
+  ok("S8","the Prime Pack step never dims the screen: its overlay is solid #050403 and it sets no rgba background");
 }
 
 // S7 the step's own messages to the page match the page's protocol.
@@ -139,6 +146,68 @@ const ts=ms=>({toMillis:()=>ms});
   for(const kind of ["not-in-list","ambiguous","wrong","used","late","error"]){assert.ok(step.includes(`kind:"${kind}"`)||step.includes(`"${kind}"`),kind);assert.match(page,new RegExp(`kind==="${kind}"`),kind);}
   assert.doesNotMatch(step,/Icon Unmasked/,"players see Prime Pack");
   ok("S7","every message and feedback kind the step sends is one the page handles");
+}
+
+// S9 leaving the Prime Pack for Showdown Home is not a fault; a step that could not run says so (never the generic
+// "could not be opened from this Career Start state").
+{
+  const step=read("js/iconGuessStep.js"),pstc=read("js/productionSharedTransferChallenge.js"),pcst=read("js/productionSharedCareerStart.js");
+  assert.match(step,/if\(result==="back"\)\{wentHome=true;return false;\}/,"BACK on the stage marks wentHome");
+  assert.match(step,/if\(choice==="back"\)\{wentHome=true;return false;\}/,"BACK on the error panel marks wentHome");
+  assert.match(step,/wentHome:\(\)=>wentHome/,"the step exports wentHome");
+  assert.match(pstc,/if\(go!==true&&!step\.wentHome\?\.\(\)\)primePackLoadError=true;/,"a false run that was not BACK is a Prime Pack fault");
+  assert.match(pstc,/rouletteError:\(\)=>rouletteError\|\|\(primePackLoadError\?PSTC_PRIME_PACK_TEXT:""\)/,"Career Start reads the Prime Pack reason");
+  assert.equal((pcst.match(/root\.CareerModeIconGuessStep\?\.wentHome\?\.\(\)/g)||[]).length,2,"Career Start treats BACK from the Prime Pack like BACK from the roulette (both places)");
+  ok("S9","BACK from the Prime Pack returns home quietly and a Prime Pack fault shows its own reason");
+}
+
+// S10 the service worker serves the Prime Pack: its five files are in the install shell (a versioned path outside it is
+// refused), and its page is a frame navigation served from the shell (else the frame would get the app's index.html).
+{
+  const sw=read("service-worker.js");
+  const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
+  for(const file of ["js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html"])assert.ok(shell.includes(file),`shell lists ${file}`);
+  const frames=/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[([\s\S]*?)\]\);/.exec(sw)[1];
+  assert.ok(frames.includes('"visual-assets/v10_1/icon-guess/index.html"'),"the Prime Pack page is a shell frame navigation");
+  const step=read("js/iconGuessStep.js"),stageFn=step.slice(step.indexOf("function igsStage("),step.indexOf("function igsStage(")+2500);
+  assert.ok(stageFn.indexOf("doc.body.append(stage)")>0&&stageFn.indexOf("doc.body.append(stage)")<stageFn.indexOf("CareerModeRosterRouletteStep?.close?.()"),"the roulette's panel is closed once the Prime Pack stage is up, so nothing covers the Prime Pack");
+  ok("S10","the service worker serves the Prime Pack files and its frame page from the shell, and no roulette panel covers its stage");
+}
+
+// S11 Fable F12-01/03: a right guess scores the stage of the SERVER time of its write. A guess sent at 30.25 s after the later
+// arrival whose commit lands at 30.65 s is stage 2 (3 points) on both phones and in the season result, never the 4 points
+// this phone's clock saw; the step reads the stamped record back instead of adopting its own client-timed winner, and the
+// result on screen follows the record (a winner landing after a shown draw replaces it).
+{
+  const T=Date.parse("2026-11-01T12:00:00Z");
+  const doc=(updatedAtMs)=>({objectType:"sharedPrimePackRound",seasonNumber:1,arrived:{playerOne:ts(T-5000),playerTwo:ts(T)},chipsUsed:{playerOne:1,playerTwo:0},namedBy:"playerOne",updatedAt:ts(updatedAtMs)});
+  const stamped=Step.record(doc(T+30650),1);
+  assert.equal(Guess.points(stamped).playerOne,3,"a commit stamped at 30.65 s after the later arrival is stage 2: 3 points");
+  assert.equal(Guess.points(Step.record(doc(T+30450),1)).playerOne,4,"stamped at 30.45 s it is still stage 1: 4 points");
+  const clientTimed=Guess.applyGuess(Step.record({...doc(T),namedBy:null,chipsUsed:{playerOne:0,playerTwo:0}},1),{role:"playerOne",correct:true,atMs:T+30250});
+  assert.equal(clientTimed.ok,true);assert.equal(Guess.points(clientTimed.record).playerOne,4,"the phone's own clock at the read would have said 4 (the straddle)");
+  const rules=read("firestore.season-results-production.fragment.rules");
+  assert.match(rules,/at < \(a > b \? a : b\) \+ duration\.value\(30500, 'ms'\) \? 4/,"the Rules edge for 4 points is 30.5 s after the later arrival");
+  const step=read("js/iconGuessStep.js"),guessFn=step.slice(step.indexOf('m.type==="cms-ig-guess"'),step.indexOf('m.type==="cms-ig-continue"'));
+  assert.match(guessFn,/if\(check\.correct\)return readBack\(\);/,"a right guess reads the stamped record back");
+  assert.ok(guessFn.indexOf("record=next.record")>guessFn.indexOf("if(check.correct)return readBack();"),"only a wrong guess adopts the transaction's record");
+  assert.match(step,/const points=out\.winner\?guess\.points\(record\)\[out\.winner\]:0,shown=`\$\{out\.winner\|\|"draw"\}:\$\{points\}`;/,"the result shown is keyed on winner and points, so it follows the record");
+  const page=read("visual-assets/v10_1/icon-guess/index.html");
+  assert.match(page,/if\(S\.result && \(S\.result!=="draw" \|\| result==="draw"\)\) return;/,"the page lets only a late winner replace a shown draw");
+  ok("S11","a right guess scores the stage of its server time (30.5 s straddle), and the result on screen follows the stamped record");
+}
+
+// S12 Fable F12-02: leaving the screen (BACK, or the phone hidden) before the other manager has arrived withdraws this
+// arrival in the Rules and the step, so the round never starts while he is away; showing the screen again arrives again.
+{
+  const step=read("js/iconGuessStep.js"),rules=read("firestore.season-results-production.fragment.rules");
+  assert.match(rules,/function ssjrPackLeave\(before, after, role\) \{\s*return before\.arrived\[role\] != null\s*&& before\.arrived\[ssjrPackOther\(role\)\] == null\s*&& after\.arrived\[role\] == null/,"the Rules let a manager withdraw only his own arrival, only while the other has not arrived");
+  assert.match(rules,/ssjrPackArrive\(before, after, role\) \|\| ssjrPackLeave\(before, after, role\) \|\| ssjrPackGuess/,"the update rule takes the leave");
+  assert.match(step,/async function igsLeave\(io,ctx\)[\s\S]*?data\.arrived\[me\]!=null&&data\.arrived\[igsOther\(me\)\]===null&&data\.namedBy===null\)\{tx\.update\(ref,\{\[`arrived\.\$\{me\}`\]:null/,"the step withdraws only while the other has not arrived");
+  assert.match(step,/back\.addEventListener\("click",\(\)=>\{if\(finished\)return;leave\(\);end\("back"\);\}\)/,"BACK withdraws");
+  assert.match(step,/visibilityState==="hidden"\)\{if\(record&&!record\.winner&&record\.arrived\[other\]===null\)\{away=true;leave\(\);\}\}\s*else if\(away\)\{away=false;igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
+  assert.match(step,/await igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"arrive and leave run in order");
+  ok("S12","leaving while the other manager has not arrived withdraws the arrival (Rules + step: BACK and a hidden phone), and coming back arrives again");
 }
 
 console.log(`PASS r87 Prime Pack step contracts: ${checks} checks.`);

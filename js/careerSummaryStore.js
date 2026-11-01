@@ -97,7 +97,9 @@
     try{
       const local=await cssLocalFor(uid,phoneStorage);local.map.set(rivalryId,record);
       if(!local.db)return;
-      await new Promise(resolve=>{try{const tx=local.db.transaction(CSS_STORE,"readwrite");tx.objectStore(CSS_STORE).put(record,uid+"/"+rivalryId);tx.oncomplete=resolve;tx.onerror=resolve;tx.onabort=resolve;}catch(_error){resolve();}});
+      // r87 Fable F7-03: the put is started, never awaited. A transaction that never settles (WebKit stalls IndexedDB in the
+      // background) must not hang the career load or the summary save; this page already holds the copy in memory (above).
+      try{const tx=local.db.transaction(CSS_STORE,"readwrite");tx.onerror=tx.onabort=()=>{};tx.objectStore(CSS_STORE).put(record,uid+"/"+rivalryId);}catch(_error){}
     }catch(_error){}
   }
 

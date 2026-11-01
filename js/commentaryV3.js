@@ -24,13 +24,13 @@
   // screen, nothing dims, nothing is tappable. Shown only once the season is committed and its score is reconciled.
   // Data: only what the screen already holds (Shared Setup, the acknowledged Season Commit, the reconciled canonical
   // score and the converged Shared History). No Firebase read, no write, no storage.
-  // Rules: a season is 0 to 11 Showdown points; equal points is a draw (no tiebreak: league position, league points and
+  // Rules: a season is 0 to 11 Showdown points (0 to 15 in a Showdown that plays r87 Prime Pack: 11 + up to 4); equal points is a draw (no tiebreak: league position, league points and
   // goals never decide anything between the two managers).
 
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const LENGTHS=Object.freeze([1,3,5,10]);
-  const MAX=11;
+  const MAX=11,PACK_MAX=15;
   const node=typeof module!=="undefined"&&module.exports;
   const other=role=>role==="playerOne"?"playerTwo":"playerOne";
   const int=(x,lo,hi)=>Number.isInteger(x)&&x>=lo&&x<=hi;
@@ -44,6 +44,20 @@
   const ORDINAL_WORDS=["","first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth"];
   function nth(n){return ORDINAL_WORDS[n]||ordinal(n);}
 
+  // ---------- the season maximum ----------
+  // GC-01 (consistency check 2026-11-01): every "decided", "draw-only", "points still to win", "final-late" and Golden line
+  // uses this Showdown's own season maximum, the same rule as js/commentaryEngine.js and js/careerScreenSeam.js: 15 in a
+  // Showdown that plays Prime Pack, 11 before it. facts.primePack (true/false) decides when given; otherwise a season over 11
+  // or with Prime Pack points can only be Prime Pack, and the career seam (when loaded) knows the live Showdown's boundary.
+  function cvSeasonMax(facts){
+    if(facts&&facts.primePack===true)return PACK_MAX;
+    if(facts&&facts.primePack===false)return MAX;
+    const rows=Array.isArray(facts&&facts.history)?facts.history:[];
+    if(rows.some(row=>plain(row)&&ROLES.some(role=>{const r=row[role];return plain(r)&&((Number.isInteger(r.scoring?.total)&&r.scoring.total>MAX)||int(r.primePack,1,4)||int(r.scoring?.primePack,1,4));})))return PACK_MAX;
+    try{if(facts&&facts.showdownId&&root.CareerModeCareerScreenSeam?.seasonMaxFor?.({rivalryId:String(facts.showdownId)})===PACK_MAX)return PACK_MAX;}catch(_){}
+    return MAX;
+  }
+
   // ---------- facts ----------
   // facts = {showdownId, seasons (1|3|5|10), clubs:{playerOne,playerTwo}, league, teamCount, history:[row...]}
   // row = one accepted season as Shared History stores it: {playerOne:{leaguePosition, leaguePoints, leagueGoals,
@@ -51,13 +65,13 @@
   function cvRows(facts){
     if(!plain(facts)||!LENGTHS.includes(facts.seasons)||!Array.isArray(facts.history))return null;
     if(facts.history.length<1||facts.history.length>facts.seasons)return null;
-    const rows=[];
+    const rows=[],max=cvSeasonMax(facts);
     for(const row of facts.history){
       if(!plain(row))return null;
       const out={};
       for(const role of ROLES){
         const r=row[role],total=r?.scoring?.total;
-        if(!plain(r)||!int(total,0,MAX)||!int(r.leaguePosition,1,40)||!int(r.leaguePoints,0,200)||!int(r.leagueGoals,0,300))return null;
+        if(!plain(r)||!int(total,0,max)||!int(r.leaguePosition,1,40)||!int(r.leaguePoints,0,200)||!int(r.leagueGoals,0,300))return null;
         out[role]={points:total,position:r.leaguePosition,leaguePoints:r.leaguePoints,leagueGoals:r.leagueGoals,
           trophies:(r.leaguePosition===1?1:0)+(r.championsLeague===true?1:0)+(r.europaLeague===true?1:0)+(r.domesticCup===true?1:0)};
       }
@@ -87,14 +101,14 @@
   // ---------- BY THE NUMBERS: season ----------
   // Every candidate is true for this season by construction; the first one whose topic the lead line does not already
   // cover is shown. `topic` lets the booth avoid saying the same thing twice.
-  function seasonNumbers(rows,s,N,clubs){
+  function seasonNumbers(rows,s,N,clubs,MAX){
     const totals=cvTotals(rows),row=rows[s-1],after=totals[s-1],before=s>1?totals[s-2]:{playerOne:0,playerTwo:0};
     const left=N-s,leader=leaderOf(after),gap=leader?after[leader]-after[other(leader)]:0,W=row.winner==="draw"?null:row.winner;
     const L=leader?NAMES[leader]:null,T=leader?NAMES[other(leader)]:null,out=[],add=(id,topic,text)=>out.push({id,topic,text});
     const seasonsLeft=count(left,"season","seasons");
-    // The clock: what is still possible. Most a season can swing the gap is 11 (11 to 0).
-    if(leader&&left>0&&gap>MAX*left)add("decided","math",`${L} leads by ${gap} with ${seasonsLeft} to play, and the most ${T} can win back is ${MAX*left}. The Showdown is decided.`);
-    else if(leader&&left>0&&gap===MAX*left)add("draw-only","math",`${T} can no longer win it. The best left is a level Showdown, and only by winning ${left===1?"the last season":"every season left"} 11 to 0.`);
+    // The clock: what is still possible. Most a season can swing the gap is the season maximum (11 to 0, or 15 to 0 with Prime Pack).
+    if(leader&&left>0&&gap>MAX*left)add("decided","clock",`${L} leads by ${gap} with ${seasonsLeft} to play, and the most ${T} can win back is ${MAX*left}. The Showdown is decided.`);
+    else if(leader&&left>0&&gap===MAX*left)add("draw-only","clock",`${T} can no longer win it. The best left is a level Showdown, and only by winning ${left===1?"the last season":"every season left"} ${MAX} to 0.`);
     else if(left===1&&leader)add("decider","math",`One season left, ${L} ${after[leader]}, ${T} ${after[other(leader)]}. ${T} must win it by ${gap+1} or more to take the Showdown; by exactly ${gap}, it ends level.`);
     else if(left===1&&!leader)add("decider-level","math",`Level on ${after.playerOne} with one season left: whoever wins the final season wins the Showdown, and a drawn season means a drawn Showdown.`);
     // The lead.
@@ -123,22 +137,23 @@
     // Counts.
     const tally=cvTally(rows.slice(0,s));
     if(s>1&&(row.playerOne.trophies>0||row.playerTwo.trophies>0))add("trophy-count","trophy",`Trophies in this Showdown: ${both(tally.trophies.playerOne,tally.trophies.playerTwo)}.`);
-    if(s>1)add("season-count","tally",`Seasons won: ${both(tally.playerOne,tally.playerTwo)}${tally.draws?`, with ${count(tally.draws,"draw","draws")}`:""}. Overall: ${both(after.playerOne,after.playerTwo)}.`);
+    // Seasons won never sits beside level totals: it would read as a tiebreak (there is none).
+    if(s>1&&after.playerOne!==after.playerTwo)add("season-count","tally",`Seasons won: ${both(tally.playerOne,tally.playerTwo)}${tally.draws?`, with ${count(tally.draws,"draw","draws")}`:""}. Overall: ${both(after.playerOne,after.playerTwo)}.`);
     if(left>0)add("clock","clock",`${seasonsLeft[0].toUpperCase()+seasonsLeft.slice(1)} to go, with up to ${MAX*left} points each still to win. Overall: ${both(after.playerOne,after.playerTwo)}.`);
     return out;
   }
 
   // ---------- BY THE NUMBERS: the whole Showdown (its last season) ----------
-  function finalNumbers(rows,N){
+  function finalNumbers(rows,N,MAX){
     const totals=cvTotals(rows),end=totals[N-1],W=leaderOf(end),tally=cvTally(rows),out=[],add=(id,topic,text)=>out.push({id,topic,text});
     if(!W){
-      // 110 each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's 110 is per manager).
-      if(N===10&&end.playerOne===MAX*N)add("final-golden-both","golden",`110 each: both managers won 11 points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
-      add("final-level","level",`Level on ${end.playerOne} after ${count(N,"season","seasons")}, so the Showdown is drawn. Seasons won: ${both(tally.playerOne,tally.playerTwo)}.`);
+      // 110 (150 with Prime Pack) each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's total is per manager).
+      if(N===10&&end.playerOne===MAX*N)add("final-golden-both","golden",`${MAX*N} each: both managers won ${MAX} points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
+      add("final-level","level",`Level on ${end.playerOne} after ${count(N,"season","seasons")}, so the Showdown is drawn.`);
       return out;
     }
     const Lr=other(W),w=NAMES[W],l=NAMES[Lr],score=`${w} ${end[W]}, ${l} ${end[Lr]}`;
-    if(N===10&&end[W]===MAX*N)add("final-golden","golden",`110 out of 110 for ${w}: every season won 11 points, the Golden Showdown.`);
+    if(N===10&&end[W]===MAX*N)add("final-golden","golden",`${MAX*N} out of ${MAX*N} for ${w}: every season won ${MAX} points, the Golden Showdown.`);
     const behind=totals.filter(pair=>pair[W]<pair[Lr]).length;
     if(behind>0)add("final-comeback","comeback",`${w} was behind after ${count(behind,"season","seasons")} of ${N} and still won the Showdown, ${end[W]} to ${end[Lr]}.`);
     if(N>=3&&totals.every(pair=>pair[W]>pair[Lr]))add("final-wire","wire",`${w} led after every one of the ${N} seasons and finishes ${end[W]} to ${end[Lr]}.`);
@@ -179,7 +194,7 @@
   function v2Facts(facts,season){
     const league=typeof facts.league==="string"?facts.league:null,clubs=plain(facts.clubs)?facts.clubs:{};
     return {managers:{playerOne:{name:NAMES.playerOne,club:clubs.playerOne||null,league},playerTwo:{name:NAMES.playerTwo,club:clubs.playerTwo||null,league}},
-      seasons:facts.seasons,season,results:facts.history.slice(0,season).map(row=>({...row,teamCount:facts.teamCount}))};
+      seasons:facts.seasons,season,primePack:cvSeasonMax(facts)===PACK_MAX,results:facts.history.slice(0,season).map(row=>({...row,teamCount:facts.teamCount}))};
   }
   // Stock lines were written for any number; "1 points" reads wrong on air, so the booth says "1 point".
   function grammar(value){return String(value).replace(/(^|[^\d.])1 (Showdown |league )?points\b/g,"$11 $2point");}
@@ -196,7 +211,7 @@
     const avoid=new Set(memo?.lastSituation?[memo.lastSituation]:[]);
     const picked=E.pick(ordered(moment,entries,avoid),linesOf(lines),E.seedFor(String(facts.showdownId||""),"v3-"+moment,season),used);
     const lead=picked?Object.freeze({...picked,text:grammar(picked.text)}):null;
-    const pool=last?finalNumbers(rows.slice(0,N),N):seasonNumbers(rows.slice(0,season),season,N,facts.clubs);
+    const max=cvSeasonMax(facts),pool=last?finalNumbers(rows.slice(0,N),N,max):seasonNumbers(rows.slice(0,season),season,N,facts.clubs,max);
     const leadTopic=lead?topicOf(lead.situation):null;
     const numbers=pool.find(item=>item.topic!==leadTopic)||null;
     return Object.freeze({season,moment,lead,numbers});
@@ -239,6 +254,8 @@
     if(typeof load!=="function")return Promise.reject(new Error("COMMENTARY_LOADER_UNAVAILABLE"));
     assets=Promise.all([
       typeof style==="function"?style("gazette-content","visual-assets/v10_1/content/content.css").catch(()=>null):null,
+      // The league's team count comes from the shared catalog; load it here too so a phone reloaded onto Season Results still has it.
+      load("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>Boolean(root.CareerModeSharedShowdownCatalog)),
       load("commentary-engine","js/commentaryEngine.js",()=>Boolean(root.CareerModeCommentaryEngine)),
       load("commentary-lines","data/commentaryLines.js",()=>Boolean(root.CareerModeCommentaryLines))
     ]).then(()=>true);
@@ -408,6 +425,6 @@
     return true;
   }
 
-  return Object.freeze({contractVersion:3,feature:"cms-commentary-v3",names:NAMES,leadFirst:LEAD_FIRST,call,seasonNumbers:(facts,season)=>{const rows=cvRows(facts);return rows&&int(season,1,rows.length)?seasonNumbers(rows.slice(0,season),season,facts.seasons,facts.clubs):null;},
-    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons):null;},topicOf,install:cvInstall,_liveFacts:cvLiveFacts,_render:cvRender,_finalFacts:cvFinalFacts});
+  return Object.freeze({contractVersion:3,feature:"cms-commentary-v3",names:NAMES,leadFirst:LEAD_FIRST,call,seasonNumbers:(facts,season)=>{const rows=cvRows(facts);return rows&&int(season,1,rows.length)?seasonNumbers(rows.slice(0,season),season,facts.seasons,facts.clubs,cvSeasonMax(facts)):null;},
+    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons,cvSeasonMax(facts)):null;},topicOf,install:cvInstall,_liveFacts:cvLiveFacts,_render:cvRender,_finalFacts:cvFinalFacts});
 });

@@ -85,7 +85,15 @@ async function openPage(m,hostId){
   if(hostId==="standings"){await m.page.locator("button.sd-nav-tab[data-nav-key=standings]:visible").first().click({timeout:8000});}
   else if(hostId==="careerStatistics")await m.page.locator("#careerStatisticsButton").click({timeout:20000});
   else if(hostId==="legacy")await m.page.locator("#legacyButton").click({timeout:20000});
-  else if(hostId==="trophyRoom"){await m.page.locator("#careerStatisticsButton").click({timeout:20000});await m.page.locator("#trophyRoomButton").click({timeout:20000});}
+  else if(hostId==="trophyRoom"){
+    await m.page.locator("#careerStatisticsButton").click({timeout:20000});
+    // With hundreds of Showdowns the first tap on OPEN TROPHY ROOM can land before Career Statistics has finished loading and does
+    // nothing (seen 2 of 4 browsers at 131 Showdowns). Tap again, a few seconds apart, until Trophy Room shows; report the retries.
+    for(let attempt=1;attempt<=4;attempt++){
+      await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(()=>{});
+      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1)(m.notes||(m.notes=[])).push(`trophyRoom opened on tap ${attempt}`);break;}
+    }
+  }
   else if(hostId==="statistics"){
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
     await m.page.waitForTimeout(1500);
@@ -127,8 +135,8 @@ async function capturePage(m,hostId,shot){
     const enabled=async dir=>(await pager(dir).count())&&await pager(dir).isEnabled().catch(()=>false)&&await pager(dir).isVisible().catch(()=>false);
     const navStart=Date.now();let steps=0;
     while(await enabled(-1)&&steps<2000){await pager(-1).click({timeout:5000}).catch(()=>{});steps++;}
-    for(const c of await readCards())if(!all.has(c.number))all.set(c.number,{...c,visible:false});
-    while(await enabled(1)&&steps<4000){await pager(1).click({timeout:5000}).catch(()=>{});steps++;for(const c of await readCards())if(!all.has(c.number))all.set(c.number,{...c,visible:false});}
+    for(const c of await readCards())if(!all.has(c.number)||(!all.get(c.number).text&&c.text))all.set(c.number,{...c,visible:out.onOpen.includes(Number(c.number))});
+    while(await enabled(1)&&steps<4000){await pager(1).click({timeout:5000}).catch(()=>{});steps++;for(const c of await readCards())if(!all.has(c.number)||(!all.get(c.number).text&&c.text))all.set(c.number,{...c,visible:out.onOpen.includes(Number(c.number))});}
     out.navigation={steps,ms:Date.now()-navStart};
     out.cards=[...all.values()].sort((a,b)=>Number(a.number)-Number(b.number));
     // Back to where it opened (the newest is the last page/card) for VIEW SEASON HISTORY below.
@@ -209,7 +217,7 @@ function extract(raw){
   const rv=corpus(raw,"statistics");
   o.rivalry={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/)};
   o.rivalryText=rv;
-  o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);
+  o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],r[2].toUpperCase()]:null;};
   o.recSeason=rec(/HIGHEST SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPoints=rec(/HIGHEST LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recGoals=rec(/HIGHEST LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPerfect=rec(/MOST PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|SHARED)/);
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));

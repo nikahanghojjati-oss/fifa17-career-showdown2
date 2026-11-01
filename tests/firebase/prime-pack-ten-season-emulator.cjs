@@ -169,7 +169,7 @@ async function seedBase(env,now){
 
       // ---- The ten rounds. The Rules do not order a round against the Transfer Challenge, so all ten run at once (each waits for
       // its own stage, measured from the server-stamped later arrival) instead of one after the other. ----
-      const stageWaitMs={1:3_300,2:16_000,3:26_500,4:34_000};// inside stage 1 (3 to 12.5 s), 2 (12.5 to 22 s), 3 (22 to 31.5 s), 4 (31.5 to 41 s)
+      const stageWaitMs={1:3_300,2:33_000,3:55_000,4:76_000};// inside stage 1 (3 to 30.5 s), 2 (30.5 to 52 s), 3 (52 to 73.5 s), 4 (73.5 to 95 s)
       const playRound=async season=>{
         const entry=plan[season-1];
         const draw=Guess.draw(rid,season,Icons.players.length,Icons.listVersion);
@@ -200,7 +200,7 @@ async function seedBase(env,now){
           assert.equal(Guess.points(record)[entry.winner],[4,3,2,1][entry.stage-1]);
           assert.deepEqual(stored.chipsUsed,{playerOne:1,playerTwo:1});
         }else{
-          assert.deepEqual(stored.chipsUsed,{playerOne:2,playerTwo:2});assert.equal(Guess.outcome(record,Date.now(),Guess.windowMs).state,"draw");
+          assert.deepEqual(stored.chipsUsed,{playerOne:2,playerTwo:2});assert.equal(Guess.outcome(record,Date.now()).state,"draw");
         }
         assert.deepEqual(Object.keys(stored).sort(),["activeSessionId","arrived","chipsUsed","namedBy","objectType","revision","rivalryId","schemaVersion","seasonNumber","updatedAt","updatedByDeviceId"]);
         const text=JSON.stringify(stored);

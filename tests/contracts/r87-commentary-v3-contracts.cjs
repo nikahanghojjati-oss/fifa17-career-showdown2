@@ -58,6 +58,8 @@ for(let seed=1;seed<=1200;seed+=1){
       const t=totalsOf(f,s),overall=c.numbers.text.match(/Overall: Daniel (\d+), Nik (\d+)/);
       if(overall)ok(+overall[1]===t.playerOne&&+overall[2]===t.playerTwo,`overall ${c.numbers.text}`);
       const won=c.numbers.text.match(/Seasons won: Daniel (\d+), Nik (\d+)(?:, with (\w+) draws?)?/);
+      // Fable F5-11: "Seasons won" never sits beside level totals (it would read as a tiebreak).
+      if(won){const T=totalsOf(f,s);ok(T.playerOne!==T.playerTwo,`no seasons won beside level totals: ${c.numbers.text}`);}
       if(won){const rows=f.history.slice(0,s);ok(+won[1]===rows.filter(h=>h.winner==="playerOne").length&&+won[2]===rows.filter(h=>h.winner==="playerTwo").length,`season count ${c.numbers.text}`);}
       const full=c.numbers.text.match(/(Daniel|Nik) (\d+), (Daniel|Nik) (\d+) at full time|Full time: (Daniel|Nik) (\d+), (Daniel|Nik) (\d+)/);
       if(full){const m=full.slice(1).filter(Boolean),T=totalsOf(f,N);ok(+m[1]===T[m[0]==="Daniel"?"playerOne":"playerTwo"]&&+m[3]===T[m[2]==="Daniel"?"playerOne":"playerTwo"],`full time ${c.numbers.text}`);}
@@ -72,10 +74,21 @@ for(let seed=1;seed<=1200;seed+=1){
   }
 }
 ok(calls>4000,`fuzzed ${calls} booth calls`);
-for(const id of ["decider","decided","clock","season-count","final-count","final-sprint","final-late"])ok(numberIds.has(id),`the fuzz reaches the ${id} numbers line`);
+for(const id of ["decider","clock","season-count","final-count","final-sprint","final-late"])ok(numberIds.has(id),`the fuzz reaches the ${id} numbers line`);
 ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${leadSituations.size})`);
 
 // ---------- 2. exact scenarios ----------
+{ // Fable F5-23: a clinched lead line is never followed by the same "decided" maths.
+  const f=scripted("clinched",[[11,0],[11,0],[11,0],[0,0],[0,0]]),c=V.call(f,3,L);
+  ok(c&&/^clock-/.test(c.lead.situation),`a 33-0 lead with two to play leads with the clock: ${c&&c.lead.situation}`);
+  ok(c.numbers&&!["decided","draw-only"].includes(c.numbers.id),`clinched + decided said twice: ${c.numbers&&c.numbers.id}`);
+  ok(V.seasonNumbers(f,3).some(x=>x.id==="decided"&&x.topic==="clock"),"decided is a clock line");
+}
+{ // Fable F5-11: a drawn Showdown's numbers never add seasons won.
+  const f=scripted("level-final",[[5,0],[0,1],[0,4]]);
+  const n=V.finalNumbers(f).find(x=>x.id==="final-level");
+  ok(n&&n.text==="Level on 5 after three seasons, so the Showdown is drawn.",n&&n.text);
+}
 { // 3 seasons: Nik leads by 1 with one to go.
   const f=scripted("decider",[[5,1],[0,5],[0,0]]),c=V.call(f,2,L);
   assert.equal(c.numbers.id,"decider");assert.equal(c.numbers.text,"One season left, Nik 6, Daniel 5. Daniel must win it by 2 or more to take the Showdown; by exactly 1, it ends level.");checks+=2;
@@ -121,11 +134,13 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
   const f=randomShowdown(9,3);f.history[1].winner="playerOne";f.history[1].playerOne.scoring.total=0;f.history[1].playerTwo.scoring.total=4;
   assert.equal(V.call(f,2,L),null);checks+=1;
   assert.equal(V.call({...randomShowdown(9,3),seasons:4},1,L),null);checks+=1;
-  const g=randomShowdown(10,3);g.history[0].playerOne.scoring.total=12;assert.equal(V.call(g,1,L),null);checks+=1;
+  // GC-01: a 12 is invalid only in a Showdown known to be without Prime Pack (with no flag, a season over 11 can only be Prime Pack).
+  const g={...randomShowdown(10,3),primePack:false};g.history[0].playerOne.scoring.total=12;assert.equal(V.call(g,1,L),null);checks+=1;
 }
 
 // ---------- 3. wiring and rules ----------
 const src=read("js/commentaryV3.js");
+ok(/load\("ssjr-shared-setup-catalog","js\/sharedShowdownCatalog\.js"/.test(src),"Fable F5-17: the booth loads the league catalog itself");
 ok(!/getDoc|getDocs|onSnapshot|setDoc|updateDoc|runTransaction|firestore\b|fetch\(|XMLHttpRequest|localStorage|sessionStorage|indexedDB/.test(src),"the booth reads only what the screen holds: no Firebase, network or storage");
 ok(!/Math\.random|Date\.now|new Date/.test(src),"no randomness or clock: both phones show the same words");
 ok(/pointer-events:none/.test(src)&&!/position:fixed/.test(src)&&!/z-index/.test(src),"the bar is in flow, never on top, never tappable");

@@ -574,7 +574,7 @@ async function r2MultiSeasonContracts(){
   ok("R2 Multi Season: CONTINUE TO SEASON N moves the cursor once, then opens the new Transfer Challenge (no START SEASON N tap, no window start)");
   const source=read("js/productionSharedMultiSeasonProgression.js");
   assert.match(source,/try\{const transfer=root\.CareerModeProductionSharedTransferChallenge;if\(transfer&&typeof transfer\.open==="function"\)\{if\(typeof transfer\.install==="function"\)transfer\.install\(\);await transfer\.open\(\);\}\}catch\(_error\)\{\}\s*return true;/,"a failed open keeps the dashboard (its START SEASON button stays the fallback)");
-  assert.doesNotMatch(source.match(/async function pmspResumeFromAuthority\(\)\{[\s\S]*?\n  \}/)[0],/CareerModeProductionSharedTransferChallenge/,"reload resume still lands on the dashboard and keeps its button");
+  assert.doesNotMatch(source.match(/async function pmspResumeFromAuthority\([^)]*\)\{[\s\S]*?\n  \}/)[0],/CareerModeProductionSharedTransferChallenge/,"reload resume still lands on the dashboard and keeps its button");
   ok("R2 Multi Season: a failed open stays on the dashboard; reload resume keeps the dashboard button");
 }
 

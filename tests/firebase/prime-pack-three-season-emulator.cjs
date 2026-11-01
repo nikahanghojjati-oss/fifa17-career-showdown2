@@ -158,12 +158,12 @@ async function transferCycle(season,{a,b,must}){
         }
         current=await round(season);
         assert.equal(current.namedBy,null);assert.deepEqual(current.chipsUsed,{playerOne:2,playerTwo:2});
-        assert.equal(Guess.outcome(Step.record(current,season),Date.now(),Guess.windowMs).state,"draw","both managers out of chips with no winner is a draw");
+        assert.equal(Guess.outcome(Step.record(current,season),Date.now()).state,"draw","both managers out of chips with no winner is a draw");
         ok("S3: both managers spend their wrong-guess chips, nobody names the Icon, the round is a draw");
       }else{
         const winner=want.winner,loser=winner==="playerOne"?"playerTwo":"playerOne";
-        // Season 1 lands in stage 1 (3.3 s after the later arrival); season 2 waits into stage 3 (24 s: stage 3 is 22 s to 31.5 s).
-        await wait(Math.max(0,later+(want.stage===1?3_300:24_000)-Date.now()));
+        // Season 1 lands in stage 1 (3.3 s after the later arrival); season 2 waits into stage 3 (55 s: stage 3 is 52 s to 73.5 s).
+        await wait(Math.max(0,later+(want.stage===1?3_300:55_000)-Date.now()));
         const wrong=await Step.applyGuess(io(dbOf[loser],deviceOf[loser]),ctx(loser,season),wrongGuess());
         assert.equal(wrong.ok,true,`S${season} ${loser}'s wrong guess: ${JSON.stringify(wrong)}`);
         const right=await Step.applyGuess(io(dbOf[winner],deviceOf[winner]),ctx(winner,season),rightGuess());

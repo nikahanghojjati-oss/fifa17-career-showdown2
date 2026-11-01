@@ -1571,6 +1571,35 @@
 /* the plinth's second line now carries the Showdown wins (DANIEL ×2 · NIK ×1): readable at every size (it was 6-8px) */
 #app #trophyRoom .heroPlinth small {font-size:max(9.5px,.62vw);line-height:1.15;letter-spacing:.08em;white-space:nowrap;color:#e7d39a}
 `;
+  /* r87 round 3 (career pages toward 10/10): on desktop every data word a reader needs is at least 11px (labels, table
+     heads, tabs, counts, record names); nothing moves, the rows only tighten their padding to keep the same boxes. */
+  const CAREER_POLISH_R87C_CSS=String.raw`
+@media (min-width:901px) {
+  #app #careerStatistics.careerScreenV10 .careerTable th {font-size:max(11px,.66vw);line-height:1;letter-spacing:.02em;white-space:nowrap;padding-top:2px;padding-bottom:2px}
+  #app #careerStatistics.careerScreenV10 .compareRow {padding:0}
+  #app #careerStatistics.careerScreenV10 .compareLabel {font-size:max(11px,.62vw);letter-spacing:.04em;line-height:1.05}
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue,.nValue) {font-size:max(12px,.76vw)}
+  #app #careerStatistics.careerScreenV10 .compareTrack {margin-top:2px}
+  #app #careerStatistics.careerScreenV10 .leaderLabel {font-size:max(11px,.6vw);letter-spacing:.05em}
+  #app #trophyRoom .trophyTab {font-size:max(11px,.66vw)}
+  #app #trophyRoom .managerCounts span {font-size:max(11px,.6vw)}
+  #app #trophyRoom .recordItem small {font-size:max(11px,.6vw);letter-spacing:.04em}
+  #app #trophyRoom .recordItem span {font-size:max(11px,.62vw)}
+  #app #trophyRoom .recordRibbonHeading {font-size:max(11px,.66vw)}
+  #app #trophyRoom .careerRank small {font-size:max(11px,.6vw);letter-spacing:.02em}
+}
+/* phones: the Trophy Room tabs, card titles and counts one step up (at least 10px) in the same boxes */
+@media (max-width:900px) {
+  #app #trophyRoom .trophyTab {font-size:10.5px;letter-spacing:.03em}
+  #app #trophyRoom .managerCounts span {font-size:10px}
+  #app #trophyRoom .heroPlinth span {font-size:10.5px}
+}
+/* the tile heads hold one line from 1240px; narrower laptops keep Team V's two-line heads */
+@media (min-width:1240px) {
+  #app #careerStatistics.careerScreenV10 .headlineLabel {font-size:max(11px,.72vw);letter-spacing:0;white-space:nowrap}
+  #app #careerStatistics.careerScreenV10 .headlineTogether {font-size:max(11px,.6vw);letter-spacing:.1em}
+}
+`;
   // r84 Golden Showdown looks: the shared gold tokens and the r78 black-and-gold marble tile. Nothing here dims, overlays or moves
   // another element. Trophy Room: the gold case is a sixth case on the ALL shelf, so rows that held five cases hold six; portrait
   // phones and tablets (three across, the last two centred) show two full rows of three. Career Statistics: one gold line under the
@@ -1654,11 +1683,11 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS+CAREER_POLISH_R87C_CSS;
       host.appendChild(smallPhoneStyle);
     }else{
       const careerStatsStyle=doc.createElement("style");
-      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS;
+      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS+CAREER_POLISH_R87C_CSS;
       host.appendChild(careerStatsStyle);
     }
     v10Wire(screen,host);
@@ -1711,7 +1740,8 @@
           css:[FILES[screen].style],
           js:[FILES[screen].script],
           prepare:()=>Promise.all([v10Platemap(screen),v10EnsureChip()]),
-          frame:()=>v10Source(screen),
+          // r87 H4: covered while its career is read (Reus Gate); see v10Hold.
+          frame:()=>held.has(screen)&&screens.HOLD?screens.HOLD:v10Source(screen),
           mount:frame=>{v10Render(screen,frame===UNAVAILABLE?null:frame);},
           // Job 13 leaves its markup in the hidden section; the loader switches its styles off.
           unmount(){onlineLifetimes[screen]++;}
@@ -1737,10 +1767,11 @@
         const live=Object.keys(SCREEN_IDS).filter(screen=>screens.isMounted(screen)&&getters[screen]?.()==null);
         if(!live.length)return;
         const model=v10OnlineModel();
-        if(model==null||model.status==="unavailable")v10LoadOnline(live[0]).catch(v10Fail);
+        if(model==null||model.status==="unavailable")v10Retry(live[0]).catch(v10Fail);
       };
       root.addEventListener?.("online",retryUnavailable);
       root.document?.addEventListener?.("visibilitychange",retryUnavailable);
+      v10WrapOpen("careerStatistics");v10WrapOpen("trophyRoom");
       root.addEventListener?.("career-mode-online-career-model-change",()=>{
         // r82 (Nik: panels show, vanish, then load again): this screen's own load redraws once when it ends, so a model
         // published during that load must not draw the same frame a second time.
@@ -1753,7 +1784,49 @@
     }).catch(error=>{registered=null;throw error;});
     return registered;
   }
-  const FIRST_HOLD_MS=3500;
+  // r87 H4 (Reus Gate, Nik): a career page with no career to draw yet (first open, TRY AGAIN, the connection coming back after
+  // "unavailable") stays covered under Reus while its one read runs and is revealed once, with its numbers or its unavailable
+  // state. Only a read still running after HOLD_MAX_MS shows the loading frame (inside js/v10Screens.js's LOAD_HOLD_MAX_MS, so
+  // the cover never ends first and shows the app's own page). Same one read as before; nothing is read for the hold.
+  const HOLD_MAX_MS=14000;
+  const LOAD_TIMEOUT_MS=15000;
+  const held=new Set();
+  // No career to draw yet for this screen (online, no supplied model, none kept or the kept one "unavailable").
+  function v10NeedsCareer(screen){
+    try{
+      if(typeof getters[screen]!=="function"||getters[screen]()!=null||!v10Seam().isOnlineCareerRoute(v10Identity()))return false;
+      const model=v10OnlineModel();return model==null||model.status==="unavailable";
+    }catch(_){return false;}
+  }
+  // Holds `screen` (already covered) until `load` settles or HOLD_MAX_MS, then draws it once.
+  async function v10Hold(screen,load){
+    const screens=v10Screens();held.add(screen);
+    let timer;
+    try{await Promise.race([load,new Promise(resolve=>{timer=root.setTimeout(resolve,HOLD_MAX_MS);})]);}
+    finally{root.clearTimeout(timer);held.delete(screen);}
+    if(screens.isMounted(screen))return true;
+    // The cover is renewed for the draw, so the screen's pictures still get their own decode time before the one reveal.
+    screens.expect?.(screen);
+    return screens.show(screen);
+  }
+  // A drawn "unavailable" screen loads again under Reus: covered first, then one reveal (never LOADING, then a second boot).
+  async function v10Retry(screen){
+    const screens=v10Screens();
+    if(screens.isMounted(screen)&&v10NeedsCareer(screen)&&typeof screens.hide==="function"&&typeof screens.expect==="function"){
+      screens.hide(screen);
+      if(screens.expect(screen)===true)return v10Hold(screen,v10LoadOnline(screen).catch(v10Fail));
+      await v10LoadOnline(screen);return screens.show(screen);
+    }
+    return v10LoadOnline(screen);
+  }
+  // TRY AGAIN on the unavailable state calls window.openCareerStatistics / openTrophyRoom (Team V's file), which draws the old
+  // frame again before mount() runs. The hold starts first, so nothing is drawn until the read answers.
+  function v10WrapOpen(screen){
+    const name=screen==="careerStatistics"?"openCareerStatistics":"openTrophyRoom",original=root[name];
+    if(typeof original!=="function"||original.careerScreensV10)return;
+    const wrapped=function(){if(v10NeedsCareer(screen))held.add(screen);try{return original.apply(this,arguments);}catch(error){held.delete(screen);throw error;}};
+    wrapped.careerScreensV10=true;root[name]=wrapped;
+  }
   function v10ModelText(model){try{return model==null?null:JSON.stringify(model);}catch(_){return null;}}
   function v10OnlineModel(){try{return root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;}catch(_){return null;}}
   function v10Redraw(){
@@ -1766,10 +1839,25 @@
     // frame stays (no second boot). Only a changed career is drawn again.
     // An "unavailable" career is drawn as loading while the read runs, so it is always drawn again when the read ends.
     const token=++onlineToken,lifetime=onlineLifetimes[screen],before=v10ModelText(v10OnlineModel());onlineLoading=true;v10Redraw();
+    // r87 H4 (Fable job 7 F7-04): History's inactivity deadline. A read with no progress for LOAD_TIMEOUT_MS ends here as
+    // UNAVAILABLE (with its plain toast), which TRY AGAIN and the connection coming back retry; every Showdown read re-arms it,
+    // so a long cold career keeps loading. The stalled read can no longer publish.
+    let timer=null,stalled=false,expire;
+    const deadline=new Promise(resolve=>{expire=resolve;});
+    const arm=()=>{if(typeof root.setTimeout!=="function")return;root.clearTimeout?.(timer);timer=root.setTimeout(()=>{stalled=true;expire(false);},LOAD_TIMEOUT_MS);};
+    const live=()=>!stalled&&token===onlineToken&&onlineLifetimes[screen]===lifetime&&root.document?.getElementById?.(screen)?.classList?.contains("hidden")!==true;
     try{
+      arm();
       await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
-      await root.CareerModeRivalryLegacyV10.loadCareerModel(()=>token===onlineToken&&onlineLifetimes[screen]===lifetime&&root.document?.getElementById?.(screen)?.classList?.contains("hidden")!==true);
-    }finally{if(token===onlineToken){onlineLoading=false;const after=v10OnlineModel();if(before===null||after?.status==="unavailable"||before!==v10ModelText(after))v10Redraw();}}
+      // F7-10: a pair change during the B2 retry leaves the read unpublished (no career kept for the new key). It is read again,
+      // twice at most; finished Showdowns stay in the loader's page cache, so only what changed is read.
+      for(let attempt=0;attempt<3&&live();attempt++){
+        arm();
+        const done=await Promise.race([root.CareerModeRivalryLegacyV10.loadCareerModel(live,false,()=>{if(live())arm();}).then(()=>true),deadline]);
+        if(!done||v10OnlineModel()!=null)break;
+      }
+      if(stalled&&token===onlineToken){const error=new Error("The connection was too slow. It tries again by itself when you are back online.");error.code="CAREER_SCREENS_LOAD_TIMEOUT";v10Fail(error);}
+    }finally{root.clearTimeout?.(timer);if(token===onlineToken){onlineLoading=false;const after=v10OnlineModel();if(before===null||after?.status==="unavailable"||before!==v10ModelText(after))v10Redraw();}}
   }
   // Called by statistics.js / trophyRoom.js after the old open path; getModel returns the screen's current model.
   async function mount(screen,getModel){
@@ -1778,14 +1866,13 @@
     getters[screen]=getModel;
     v10WrapRender(screen);
     if(getModel()==null&&v10Seam().isOnlineCareerRoute(v10Identity())){
-      // r87 career fixes (lane C C-02, Reus Gate): a cold first open (no career kept yet) stays covered (pending) while the
-      // career arrives, then is revealed once with its numbers instead of LOADING first and a second boot. A read still
-      // running after FIRST_HOLD_MS shows the loading frame, which the read then replaces. The cover is renewed for the draw,
-      // so the screen's pictures still get their own decode time before the one reveal. No read is added: the same one read runs.
-      const cold=v10OnlineModel()==null&&!screens.isMounted(screen)&&screens.expect?.(screen)===true;
+      // r87 career fixes (lane C C-02) + H4 (Reus Gate): a first open, or TRY AGAIN on "unavailable", stays covered under Reus
+      // while its career arrives, then is revealed once (v10Hold). No read is added: the same one read runs.
+      const cold=v10NeedsCareer(screen)&&!screens.isMounted(screen)&&screens.expect?.(screen)===true;
       const load=v10LoadOnline(screen).catch(v10Fail);
-      if(cold){let held;await Promise.race([load,new Promise(resolve=>{held=root.setTimeout(resolve,FIRST_HOLD_MS);})]);root.clearTimeout(held);screens.expect?.(screen);}
-    }
+      if(cold)return v10Hold(screen,load);
+      held.delete(screen);
+    }else held.delete(screen);
     return screens.show(screen);
   }
   const openCareerStatistics=getModel=>mount("careerStatistics",getModel);

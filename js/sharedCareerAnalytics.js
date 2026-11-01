@@ -39,7 +39,8 @@
       if(classification!=="active"){
         const a=p.managerRecords.playerOne.totalPoints,b=p.managerRecords.playerTwo.totalPoints;
         const winner=a>b?"playerOne":b>a?"playerTwo":"draw";
-        if(entry.final?.totals?.playerOne!==a||entry.final?.totals?.playerTwo!==b||entry.final?.winner!==winner)throw new Error("CAREER_FINAL_MISMATCH");
+        // r87 Fable F7-01: equal career points is a draw even when an older final named a winner; unequal must agree.
+        if(entry.final?.totals?.playerOne!==a||entry.final?.totals?.playerTwo!==b||entry.final?.winner!==winner&&!(a===b&&["playerOne","playerTwo"].includes(entry.final?.winner)))throw new Error("CAREER_FINAL_MISMATCH");
         final={totals:{playerOne:a,playerTwo:b},winner};
       }
       // r86 (red team #13): the Setup confirm time rides along, so a row can say whether this Showdown has Special Players.

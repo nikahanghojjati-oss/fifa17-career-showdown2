@@ -240,8 +240,8 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
 // advance: replaces continueToNextSeason (a promise that takes its time, or fails). chipLate: the Special Player chip is not on
 // the page at the tap and arrives through loadRuntimeScript. chipFails: the chip is there but its data cannot load.
 // Timers of a second or more (safety timers, the asset cap) are captured in calls.longTimers and fired only by the test.
-function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false}={}){
-  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[],longTimers:[]};
+function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false,imageFails=false,renderThrows=false}={}){
+  const capture=[],docListeners={},winListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,ownRematch:0,shown:[],loads:[],longTimers:[]};let compact=false;
   let screen='seasonEntry';
   class El{
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.parent=null;this.dataset={};this.attrs={};this.listeners={};this.classes=new Set();this.id='';this.disabled=false;this.textContent='';this.scrollTop=0;this.scrollHeight=0;this.offsetHeight=100;const self=this;this.style={setProperty(k,v){self.style[k]=v;}};this.classList={add:(...c)=>c.forEach(x=>this.classes.add(x)),remove:(...c)=>c.forEach(x=>this.classes.delete(x)),contains:c=>this.classes.has(c)};}
@@ -275,23 +275,24 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
   // the Season Results continue button (production: js/productionSharedMultiSeasonProgression.js) and Final Winner's exit
   const seasonButton=host.appendChild(new El('button'));seasonButton.id='sharedMultiSeasonContinueAction';
   seasonButton.addEventListener('click',()=>{calls.ownSeason+=1;sandbox.CareerModeProductionSharedMultiSeasonProgression.continueToNextSeason();});
-  let back=null;
+  let back=null,rematch=null;
   if(final){
     host.classList.add('v10FinalMode');seasonButton.remove();
     const stage=host.appendChild(new El('div'));stage.className='v10FinalStage';const actions=stage.appendChild(new El('div'));actions.className='seasonEntryActions';
     back=actions.appendChild(new El('button'));back.className='backButton';back.addEventListener('click',()=>{calls.ownBack+=1;go('mainMenu');});
+    rematch=actions.appendChild(new El('button'));rematch.id='finalWinnerRematch';rematch.addEventListener('click',()=>{calls.ownRematch+=1;});
   }
   const sandbox={
     document:doc,console,Promise,URL,clearTimeout,innerHeight:900,
     setTimeout:(fn,ms,...rest)=>{if(ms>=1000){calls.longTimers.push({fn,ms});return -1;}return setTimeout(fn,ms,...rest);},
-    addEventListener(t,f,cap){if(t==='click'&&cap)capture.push(f);},removeEventListener(){},scrollTo(){},
-    matchMedia:()=>({matches:false}),
+    addEventListener(t,f,cap){if(t==='click'&&cap)capture.push(f);else (winListeners[t]=winListeners[t]||[]).push(f);},removeEventListener(){},scrollTo(){},
+    matchMedia:()=>({matches:compact}),
     readStorageValue:k=>store.has(k)?store.get(k):null,writeStorageValue:(k,v)=>{store.set(k,String(v));return true;},
     getActiveScreenName:()=>screen,optionalAssetUrl:p=>p+'?v=test',
     loadRuntimeScript:(key)=>{if(loadFails)return Promise.reject(new Error('offline'));const install=()=>{if(late[key]&&!sandbox[late[key][0]])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);return true;};return lateFiles?new Promise(resolve=>setTimeout(()=>resolve(install()),60)):Promise.resolve(install());},loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
-    Image:class{set src(v){setTimeout(()=>this.onload&&this.onload(),0);}decode(){return Promise.resolve();}},
+    Image:class{set src(v){setTimeout(()=>imageFails?this.onerror&&this.onerror():this.onload&&this.onload(),0);}decode(){return imageFails?Promise.reject(new Error('EncodingError')):Promise.resolve();}get complete(){return true;}get naturalWidth(){return imageFails?0:400;}},
     ShowdownContent:{frontPage:{art:n=>`visual-assets/v10_1/content/gazette/${n}.webp`,screen(slot,p,onContinue){
-      calls.shown.push(p);const s=slot.appendChild(new El('section'));s.className='cmx-fp-screen';const t=s.appendChild(new El('h2'));t.className='cmx-fp-screen__title';
+      calls.shown.push(p);const s=slot.appendChild(new El('section'));if(renderThrows)throw new Error('draw failed');s.className='cmx-fp-screen';const t=s.appendChild(new El('h2'));t.className='cmx-fp-screen__title';
       const desk=s.appendChild(new El('div'));desk.className='cmx-fp-screen__desk';const paper=desk.appendChild(new El('article'));paper.className='cmx-paper';const photo=paper.appendChild(new El('figure'));photo.className='cmx-paper__photo';
       const b=s.appendChild(new El('button'));b.className='cmx-continue';b.addEventListener('click',()=>{if(onContinue)onContinue();});}}},
     CareerModeGazetteCopy:Copy,CareerModeFrontPages:Pages,
@@ -306,7 +307,7 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
   if(chipLate)delete sandbox.CareerModeSpecialPlayerChip;
   vm.createContext(sandbox);vm.runInContext(read('js/touchlineGazette.js'),sandbox,{filename:'touchlineGazette.js'});
   const api=sandbox.CareerModeTouchlineGazette;api.install();
-  return {api,calls,host,doc,seasonButton,back,dispatch,go,store,screen:()=>screen,page:()=>doc.getElementById('touchlineGazette'),continueButton:()=>doc.getElementById('touchlineGazetteContinue')};
+  return {api,calls,host,doc,seasonButton,back,rematch,main,dispatch,go,store,setCompact:v=>{compact=v;},resize:()=>{for(const f of winListeners.resize||[])f();},screen:()=>screen,page:()=>doc.getElementById('touchlineGazette'),continueButton:()=>doc.getElementById('touchlineGazetteContinue')};
 }
 const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
 
@@ -422,7 +423,8 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     // Team V HO-048, origin/claude/project-thread-fyjnky 8fa67110 visual-assets/v10_1/content/{fixtures/gazetteCopy.js,fixtures/frontPages.js,frontpage.js,content.css},
     // with the Fable cloud job 1 truth edits to 26 headlines and 8 stories (G18 lists them): same rows, same ids, same counts.
     assert.equal(sha('data/gazetteCopy.js'),'2a3caf1dd4713f628e2fb39b83415a5b53b8372173148c88e482fd3715429d0d');
-    assert.equal(sha('data/frontPages.js'),'1b73a935a115c2bdb5e8e28961ad1a26282f07fd68a2e353d55d5f26433ec70a');
+    // r87 proofreading: only four marquee/billboard advertising metaphors changed.
+    assert.equal(sha('data/frontPages.js'),'7d115ee41cb85e69d22f90d6d083452c1caf92bf83284aafb4e2355f0aabdc09');
     assert.equal(sha('visual-assets/v10_1/content/frontpage.js'),'a4b8ced9ac63123795bfe1d9ee2741027df7426466b5f5b5314c3bf55a58baf6');
     assert.equal(sha('visual-assets/v10_1/content/content.css'),'cfa7f1a4227673127ad34f59f5c0c4272248846cf3a456d2c814923ad0f6f7dc');
     assert.equal(Copy.stories.length,114);assert.equal(Copy.duets.length,288);for(const k of ['briefs','captions','ears','quotes'])assert.equal(Copy.small[k].length,30,k);
@@ -524,6 +526,51 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.ok(seen.has('ROUND OVER, WINNER NAMED'),'h2-030 prints on some one-season final');
     assert.equal(seen.size,heads.size,`every one-season winner headline prints (${seen.size}/${heads.size})`);
     ok('G21','"finished the single season ahead of" is not next-season talk: every one-season winner headline can print');
+  }
+  // G22 (Fable job 5, r87 2.0.0) the Gazette page after review: a picture that cannot load means no paper (never a broken
+  // image), the paper is marked read at its CONTINUE (not when drawn), a paper that cannot be drawn leaves no empty page, a
+  // re-drawn paper keeps its CONTINUE busy, Season Results comes back scrolled where it was, the other Final Winner exit
+  // calls the first one's paper off, "an 8-point" / "an 11-point", and the FULL TIME bar and sideways phones in the sheet.
+  {
+    const p=proj('c',3,[[R.clLeague,R.cupAward]]),history=fx.history(p),key=`${p.rivalryId}|season|1`;
+    // F5-01: offline / 404 pictures: the tap goes on at once, no paper, not marked seen
+    const off=world({history,imageFails:true});const ev=off.dispatch(off.seasonButton);assert.equal(ev.defaultPrevented,true);await settle();
+    assert.equal(off.page(),null,'no paper with a broken picture');assert.equal(off.calls.shown.length,0);assert.equal(off.calls.continue,1,'the tap went on');assert.equal(off.screen(),'dashboard');
+    assert.equal(off.store.get(G.SEEN_KEY),undefined,'a paper that never printed is not marked seen');
+    // F5-08: drawn is not read: the top bar while reading brings the paper back next time; CONTINUE marks it
+    const w=world({history});w.dispatch(w.seasonButton);await settle();assert.ok(w.page());assert.equal(w.store.get(G.SEEN_KEY),undefined,'not marked while drawn');
+    w.go('ruleBook');assert.equal(w.page(),null);w.go('seasonEntry');
+    assert.equal(w.dispatch(w.seasonButton).defaultPrevented,true);await settle();assert.ok(w.page(),'the unread paper shows again');assert.equal(w.calls.continue,0);
+    w.dispatch(w.continueButton());await settle();assert.deepEqual(JSON.parse(w.store.get(G.SEEN_KEY)),[key]);assert.equal(w.calls.continue,1);
+    w.go('seasonEntry');assert.equal(w.dispatch(w.seasonButton).defaultPrevented,false,'read once: straight on');
+    // F5-22: a paper that cannot be drawn leaves no empty page: the tap goes on
+    const bad=world({history,renderThrows:true});bad.dispatch(bad.seasonButton);await settle();
+    assert.equal(bad.page(),null,'no empty page');assert.equal(bad.host.dataset.gazette,undefined);assert.equal(bad.doc.documentElement.dataset.gazette,undefined);assert.equal(bad.calls.continue,1);
+    // F5-06: turned on its side while the step runs: the new CONTINUE is busy too and runs nothing
+    let finish=null;const r=world({history,advance:()=>new Promise(resolve=>{finish=resolve;})});r.dispatch(r.seasonButton);await settle();
+    r.dispatch(r.continueButton());await settle();assert.equal(r.continueButton().disabled,true);
+    const before=r.continueButton();r.setCompact(true);r.resize();assert.notEqual(r.continueButton(),before,'re-drawn for the new size');
+    assert.equal(r.continueButton().disabled,true);assert.equal(r.continueButton().attrs['aria-busy'],'true');
+    r.dispatch(r.continueButton());await settle();assert.equal(r.calls.continue,1);r.go('dashboard');finish(true);await settle();assert.equal(r.page(),null);
+    // F5-15: a step that stays here gives Season Results back where the player had scrolled
+    const s=world({history,proceedResult:false});s.main.scrollTop=420;s.dispatch(s.seasonButton);await settle();assert.equal(s.main.scrollTop,0,'the paper starts at the top');
+    s.dispatch(s.continueButton());await settle();assert.equal(s.page(),null);assert.equal(s.main.scrollTop,420,'Season Results back where it was');
+    // F5-21: BACK, then REMATCH while BACK's paper is loading: REMATCH goes on and BACK's paper is called off
+    const q=proj('d',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),f=world({history:fx.history(q),final:frame(q),lateFiles:true});
+    assert.equal(f.dispatch(f.back).defaultPrevented,true);const rm=f.dispatch(f.rematch);assert.equal(rm.defaultPrevented,false,'REMATCH is not held');
+    await new Promise(resolve=>setTimeout(resolve,150));
+    assert.equal(f.calls.ownRematch,1);assert.equal(f.page(),null,'no BACK paper over the rematch');assert.equal(f.calls.ownBack,0,'BACK never runs behind REMATCH');
+    // F5-16: the article before a number
+    for(const [m,a] of [[1,'a'],[3,'a'],[7,'a'],[8,'an'],[11,'an'],[18,'an'],[80,'an'],[110,'a']])assert.equal(G.fill('by a {margin}-point gap. A {margin}-point win',{margin:m}),`by ${a} ${m}-point gap. ${a[0].toUpperCase()+a.slice(1)} ${m}-point win`);
+    assert.equal(G.fill('a {winnerClub} side',{winnerClub:'Atlético Madrid'}),'an Atlético Madrid side');assert.equal(G.fill('a {x}',{}),null);
+    const Sweep=require('../support/gazetteTruthSweep.cjs');let margins=0;
+    for(let id=0;id<400;id+=1)for(const [a,b] of [[Sweep.M.max,Sweep.M.none],[Sweep.M.clTitle,Sweep.M.none]]){const t=G.paperText(G.seasonEdition({projection:Sweep.buildProjection({seed:70000+id,totalSeasons:3,seasons:[[a,b]]}),seasonNumber:1}));assert.doesNotMatch(t,/\b[Aa] (8|11|18)\b/,t);if(/\ban (8|11)-point/.test(t))margins+=1;}
+    assert.ok(margins>=4,`"an 8-point" / "an 11-point" print (${margins})`);
+    // F5-04 and F5-02 in the sheet (the browser check: project-documents shots in the PR)
+    const css=read('css/v10Gazette.css'),cv3=read('js/commentaryV3.js');assert.match(cv3,/FINAL_ID="commentaryV3Final"/);
+    assert.match(css,/html\[data-gazette\] #commentaryV3Final,[^{]*\{ display: none !important; \}/,'the FULL TIME bar goes with the stage');
+    assert.match(css,/@media \(max-height: 520px\) and \(max-width: 1000px\) and \(orientation: landscape\) \{\s*#touchlineGazette \.cmx-fp-screen,\s*#touchlineGazette\.tgzPage--final \.cmx-fp-screen \{ padding-top: 12px; \}\s*#touchlineGazette\.tgzPage::before \{ background-position: 50% 50%; \}/,'sideways phones: the paper starts at the top');
+    ok('G22',`Fable job 5: broken pictures mean no paper, read at CONTINUE, no empty page, busy after a re-draw, scroll given back, REMATCH calls BACK's paper off, a/an before numbers (${margins} papers with "an 8/11-point"), FULL TIME bar and sideways phones in the sheet`);
   }
   console.log(`PASS r87 Touchline Gazette contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});

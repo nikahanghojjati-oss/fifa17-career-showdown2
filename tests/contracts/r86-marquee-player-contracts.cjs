@@ -69,7 +69,8 @@ const id='pair_a'+'0123456789abcdef'.repeat(4).slice(1);
 const both=MP.forShowdown(id,MP.fromMs+1);
 assert.ok(both&&both.playerOne.name&&both.playerTwo.name&&both.playerOne.name!==both.playerTwo.name);
 assert.deepEqual(Object.keys(both.playerOne),['listVersion','rank','name','club','overall','potential','number','nation','nationCode','position','stats','tier']);
-assert.deepEqual(MP.forNewShowdown(id),both,'the reveal and the career screens show the same players');
+// GC-04: from 2.0.0 the draw takes both clubs; clubs no listed player plays for leave the r86 pair unchanged.
+assert.deepEqual(MP.forNewShowdown(id,{playerOne:'No Such Club A',playerTwo:'No Such Club B'}),both,'the reveal and the career screens show the same players');
 assert.deepEqual(MP.forShowdown(id,{toMillis:()=>MP.fromMs+1}),both,'a Firestore Timestamp works too');
 for(const old of [MP.fromMs-1,null,undefined,'2026-10-29',NaN,{}])assert.equal(MP.forShowdown(id,old),null,`no MP for ${String(old)}`);
 ok('L4','a Showdown confirmed before r86 (or with no confirm time at all) has no Special Player; one confirmed after has the same pair the reveal showed');
@@ -115,8 +116,8 @@ ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the 
   for(const typed of ['K. Mbappé','K. Mbappe','K. Mbappe Lottin'])assert.equal(MP.isOwnSpecial(mb,AT,'playerOne',typed),true,typed);
   const pstc=read('js/productionSharedTransferChallenge.js');
   assert.match(pstc,/if\(pstcIsOwnSpecial\(role,player\)\)pstcFail\("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing \$\{i\} is your Special Player\./,'the signing form refuses him with a plain line');
-  assert.match(pstc,/step\.isOwnSpecial\(request\.rivalryId,at,role,name\)/,'asked of the season step with the Setup confirm time the page holds');
-  assert.match(read('js/rosterRouletteStep.js'),/draw\.isOwnSpecial\(rivalryId,confirmedAtMs,role,name\)/,'the step asks the draw');
+  assert.match(pstc,/step\.isOwnSpecial\(request\.rivalryId,at,role,name,setup\?\.setup\?\.clubs\)/,'asked of the season step with the Setup confirm time the page holds');
+  assert.match(read('js/rosterRouletteStep.js'),/draw\.isOwnSpecial\(rivalryId,confirmedAtMs,role,name,clubs\)/,'the step asks the draw');
 }
 ok('L7','red team R87-SP-02: own Special Player refused as a Transfer War signing (folded names, database alias); rival SP allowed');
 

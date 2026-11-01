@@ -27,15 +27,26 @@
   const STATS=Object.freeze(["PAC","SHO","PAS","DRI","DEF","PHY"]);
   const MAX_SEASONS=10;
   const CHIPS=2;
-  // Beats are the four stages: beat 0 shows the position and statOrder[0], beat n adds statOrder[n]. Each beat is a short
-  // reveal then a guess window. The flag is no longer a stage (Nik 2026-11-01): it shows only on the result.
-  const BEATS=4,LAST_BEAT=3;
-  const STAGE_POINTS=Object.freeze([4,3,2,1]),MAX_POINTS=4;
-  // The one guess-window setting (Nik: 5 to 10 s, G Lead picks). The Rules hold the same period (reveal + window) for
-  // the stage boundaries: firestore.season-results-production.fragment.rules ssjrPackPoints; change both together.
-  const WINDOW_MS=8000,WINDOW_MIN_MS=5000,WINDOW_MAX_MS=10000;
-  const REVEAL_MS=1500; // Team V brief: each reveal beat takes at most about 2 s so the guessing time stays the focus
-  const LEAD_MS=3000;   // after the second manager arrives, both phones count in together before the position shows
+  // THE ONE TABLE (Nik's final stage rule via G Lead, 2026-11-01 11:08 UTC; tune here only). Beats are the four guessing
+  // stages. Each stage is a reveal animation (revealMs) then guessing time with a visible timer (guessMs); a guess at any
+  // moment of a stage, reveal included, counts for that stage. stats is how many of the six real card stats are face up from
+  // that stage on (1, 2, 3, 4; which stats is the seeded statOrder; the values are always the player's own). Stage 5 has no
+  // guessing: when the round ends (a right guess at any stage, both out of guesses, or stage 4's timer) the result reveals
+  // the last two stats, the name, the flag and the overall (igResultView). The Rules hold the same stage edges
+  // (ssjrPackStagePoints and ssjrPackGuessInTime in firestore.season-results-production.fragment.rules); contract G8 fails
+  // until they match this table.
+  const STAGES=Object.freeze([
+    Object.freeze({points:4,revealMs:2500,guessMs:25000,stats:1,position:true,flag:false,overall:false}),
+    Object.freeze({points:3,revealMs:1500,guessMs:20000,stats:2,position:true,flag:false,overall:false}),
+    Object.freeze({points:2,revealMs:1500,guessMs:20000,stats:3,position:true,flag:false,overall:false}),
+    Object.freeze({points:1,revealMs:1500,guessMs:20000,stats:4,position:true,flag:false,overall:false})
+  ]);
+  const BEATS=STAGES.length,LAST_BEAT=BEATS-1;
+  const STAGE_POINTS=Object.freeze(STAGES.map(stage=>stage.points)),MAX_POINTS=STAGE_POINTS[0];
+  // Each stage's start, relative to the round start, and the round's end (the last moment a guess counts).
+  const STAGE_STARTS=Object.freeze(STAGES.reduce((out,stage,i)=>[...out,i?out[i-1]+STAGES[i-1].revealMs+STAGES[i-1].guessMs:0],[]));
+  const ROUND_MS=STAGE_STARTS[LAST_BEAT]+STAGES[LAST_BEAT].revealMs+STAGES[LAST_BEAT].guessMs;
+  const LEAD_MS=3000;   // after the second manager arrives, both phones count in together before the card rises
   const RECORD_VERSION=1;
   // Nik 2026-10-31 (N1), moved to r87 on 2026-11-01: the game runs only in Showdowns confirmed on the release that ships it,
   // like Roster Roulette, so one Showdown never mixes 11-point and 15-point seasons. ICON_FROM_MS is the same boundary as
@@ -96,29 +107,32 @@
   }
 
   // ---------- the reveal clock ----------
-  function igWindow(windowMs){return Number.isInteger(windowMs)&&windowMs>=WINDOW_MIN_MS&&windowMs<=WINDOW_MAX_MS?windowMs:WINDOW_MS;}
-  const igPeriod=windowMs=>REVEAL_MS+igWindow(windowMs);
-  // When the stage 4 window closes: the last moment a guess counts.
-  function igEndsAt(startMs,windowMs){return Number.isFinite(startMs)?startMs+BEATS*igPeriod(windowMs):null;}
-  // What a phone shows at server time nowMs. phase: "waiting" (before the start), "reveal" (a beat flipping), "window"
-  // (guessing open after the flip), "over" (the stage 4 window has closed). A phone that reloads or rejoins calls this with the
-  // current server time and lands on the current beat; one that missed the whole game gets "over".
-  function igBeatAt(startMs,nowMs,windowMs){
+  // When the stage 4 timer runs out: the last moment a guess counts. (A windowMs argument from older callers is ignored:
+  // every timing lives in STAGES.)
+  function igEndsAt(startMs){return Number.isFinite(startMs)?startMs+ROUND_MS:null;}
+  // What a phone shows at server time nowMs. phase: "waiting" (before the start), "reveal" (a stage animating in),
+  // "window" (that stage's guessing timer), "over" (the stage 4 timer has run out). msLeft is what is left of the current
+  // phase; stageMsLeft is what is left of the whole stage (reveal plus timer). A phone that reloads or rejoins calls this
+  // with the current server time and lands on the current stage; one that missed the whole game gets "over".
+  function igBeatAt(startMs,nowMs){
     if(!Number.isFinite(startMs)||!Number.isFinite(nowMs))return null;
-    const period=igPeriod(windowMs),elapsed=nowMs-startMs;
-    if(elapsed<0)return Object.freeze({phase:"waiting",beat:-1,msLeft:-elapsed});
-    const beat=Math.floor(elapsed/period);
-    if(beat>=BEATS)return Object.freeze({phase:"over",beat:LAST_BEAT,msLeft:0});
-    const into=elapsed-beat*period;
-    return into<REVEAL_MS?Object.freeze({phase:"reveal",beat,msLeft:REVEAL_MS-into}):Object.freeze({phase:"window",beat,msLeft:period-into});
+    const elapsed=nowMs-startMs;
+    if(elapsed<0)return Object.freeze({phase:"waiting",beat:-1,msLeft:-elapsed,stageMsLeft:-elapsed});
+    if(elapsed>=ROUND_MS)return Object.freeze({phase:"over",beat:LAST_BEAT,msLeft:0,stageMsLeft:0});
+    let beat=LAST_BEAT;
+    while(beat>0&&elapsed<STAGE_STARTS[beat])beat-=1;
+    const stage=STAGES[beat],into=elapsed-STAGE_STARTS[beat],stageMsLeft=stage.revealMs+stage.guessMs-into;
+    return into<stage.revealMs
+      ?Object.freeze({phase:"reveal",beat,msLeft:stage.revealMs-into,stageMsLeft})
+      :Object.freeze({phase:"window",beat,msLeft:stageMsLeft,stageMsLeft});
   }
-  // Which parts of the card are face up once beat `beat` has flipped: the position and beat+1 stats. The overall, the flag
-  // and the name never show during play (Nik 2026-10-31, N2: the overall gives the player away); only the result screen
-  // (igResultView) shows them.
+  // Which parts of the card are face up once stage `beat` has started, straight from STAGES: the position and that stage's
+  // stat count (in the seeded order). The last two stats, the flag, the overall and the name only show in the stage 5
+  // reveal (igResultView).
   function igRevealed(beat,statOrder){
-    const count=Number.isInteger(beat)&&beat>=0?Math.min(BEATS,beat+1):0;
-    const stats=Array.isArray(statOrder)?statOrder.slice(0,count):[];
-    return Object.freeze({position:count>0,stats:Object.freeze(stats),flag:false,overall:false,name:false});
+    const stage=Number.isInteger(beat)&&beat>=0?STAGES[Math.min(beat,LAST_BEAT)]:null;
+    const stats=stage&&Array.isArray(statOrder)?statOrder.slice(0,stage.stats):[];
+    return Object.freeze({position:Boolean(stage&&stage.position),stats:Object.freeze(stats),flag:Boolean(stage&&stage.flag),overall:Boolean(stage&&stage.overall),name:false});
   }
   // What a right guess in beat `beat` is worth (0 outside the four stages).
   function igStagePoints(beat){return Number.isInteger(beat)&&beat>=0&&beat<BEATS?STAGE_POINTS[beat]:0;}
@@ -168,28 +182,28 @@
   }
   // How the round stands at server time nowMs: "waiting" (someone hasn't arrived), "live", or the end:
   // "won" (winner set), "draw" (stage 4 window closed, or both managers out of chips, with no winner).
-  function igOutcome(record,nowMs,windowMs){
+  function igOutcome(record,nowMs){
     if(!igValid(record))return null;
     const chips=Object.freeze({playerOne:CHIPS-record.chipsUsed.playerOne,playerTwo:CHIPS-record.chipsUsed.playerTwo});
     if(record.winner)return Object.freeze({state:"won",winner:record.winner.role,beat:record.winner.beat,chips});
     const startMs=igStartMs(record);
     if(startMs===null)return Object.freeze({state:"waiting",winner:null,beat:null,chips});
     if(chips.playerOne===0&&chips.playerTwo===0)return Object.freeze({state:"draw",winner:null,beat:null,chips});
-    if(Number.isFinite(nowMs)&&nowMs>=igEndsAt(startMs,windowMs))return Object.freeze({state:"draw",winner:null,beat:null,chips});
+    if(Number.isFinite(nowMs)&&nowMs>=igEndsAt(startMs))return Object.freeze({state:"draw",winner:null,beat:null,chips});
     return Object.freeze({state:"live",winner:null,beat:null,chips});
   }
   // One accepted guess (a name already matched to an icon in the list; text that matched nothing never gets here and
   // costs no chip). correct is whether that icon is this season's answer. atMs is the SERVER time of the write (the
   // transaction's request time), never the phone's clock. Returns the next record, or why the guess doesn't count.
   // Run inside a transaction on the latest record: the first right guess to commit wins; a later one sees the winner.
-  function igApplyGuess(record,{role,correct,atMs}={},windowMs){
+  function igApplyGuess(record,{role,correct,atMs}={}){
     if(!igValid(record))return {ok:false,reason:"BAD_RECORD"};
     if(!ROLES.includes(role)||typeof correct!=="boolean"||!igMs(atMs))return {ok:false,reason:"BAD_GUESS"};
     if(record.winner)return {ok:false,reason:"ROUND_OVER"};
     const startMs=igStartMs(record);
     if(startMs===null)return {ok:false,reason:"NOT_STARTED"};
     if(record.chipsUsed[role]>=CHIPS)return {ok:false,reason:"NO_CHIPS"};
-    const at=igBeatAt(startMs,atMs,windowMs);
+    const at=igBeatAt(startMs,atMs);
     if(at.phase==="waiting")return {ok:false,reason:"NOT_STARTED"};
     if(at.phase==="over")return {ok:false,reason:"ROUND_OVER"};
     const chipsUsed=Object.freeze({...record.chipsUsed,[role]:record.chipsUsed[role]+1});
@@ -206,7 +220,7 @@
 
   return Object.freeze({
     contractVersion:1,feature:"cms-icon-guess",roles:ROLES,stats:STATS,maxSeasons:MAX_SEASONS,chips:CHIPS,
-    beats:BEATS,lastBeat:LAST_BEAT,stagePoints:STAGE_POINTS,maxPoints:MAX_POINTS,windowMs:WINDOW_MS,windowMinMs:WINDOW_MIN_MS,windowMaxMs:WINDOW_MAX_MS,revealMs:REVEAL_MS,leadMs:LEAD_MS,
+    beats:BEATS,lastBeat:LAST_BEAT,stagePoints:STAGE_POINTS,maxPoints:MAX_POINTS,stages:STAGES,stageStarts:STAGE_STARTS,roundMs:ROUND_MS,leadMs:LEAD_MS,
     fromMs:ICON_FROM_MS,eligible:igEligible,order:igOrder,statOrder:igStatOrder,draw:igDraw,
     endsAt:igEndsAt,beatAt:igBeatAt,revealed:igRevealed,stagePointsAt:igStagePoints,resultView:igResultView,
     newRecord:igNewRecord,validRecord:igValid,startMs:igStartMs,arrive:igArrive,outcome:igOutcome,applyGuess:igApplyGuess,points:igPoints

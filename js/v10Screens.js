@@ -20,6 +20,10 @@
   // r87 (lead, 2026-11-01): a shown screen whose Team V files are still arriving when STYLE_TIMEOUT_MS ends stays held (under
   // the in-app Reus) until they land or fail, up to this cap; only then does the app's own screen show.
   const LOAD_HOLD_MAX_MS=15000;
+  // r87 H4 (Reus Gate on career pages): a screen whose frame() answers HOLD has no frame to draw yet (its career is still being
+  // read). show() then keeps it covered (under Reus) and mounts nothing; the screen's own module shows it again once its data is
+  // there. The cover's own timer keeps holding meanwhile, up to LOAD_HOLD_MAX_MS, so a stuck read never traps the player.
+  const HOLD=Object.freeze({v10Hold:true});
   const KIT=Object.freeze({
     styles:Object.freeze(["shared/showdown-tokens.css","shared/showdown-type.css","shared/showdown-ui.css","shared/stage.css","shared/motion.css"]),
     scripts:Object.freeze([
@@ -372,9 +376,10 @@
   function vsPendingTimeout(id){
     const entry=pending.get(id);
     if(!entry)return;
-    if(loadingNow.has(id)&&vsIsShown(id)&&Date.now()-entry.since<LOAD_HOLD_MAX_MS){entry.timer=root.setTimeout(()=>vsPendingTimeout(id),250);return;}
+    if((loadingNow.has(id)||vsHeld(id))&&vsIsShown(id)&&Date.now()-entry.since<LOAD_HOLD_MAX_MS){entry.timer=root.setTimeout(()=>vsPendingTimeout(id),250);return;}
     vsSettle(id);
   }
+  function vsHeld(id){try{return !mounted.has(id)&&registry.get(id)?.frame?.()===HOLD;}catch(_error){return false;}}
   function vsSettle(id,reveal=false){
     const entry=pending.get(id);
     if(!entry)return;
@@ -444,7 +449,7 @@
   // module re-showing on a data change with the same frame) used to settle it at once and reveal the screen before its plate.
   const decoding=new Map();
   async function vsShow(id){
-    let revealed=false;const token={};
+    let revealed=false,held=false;const token={};
     try{
       const def=registry.get(id);
       if(!def)return false;
@@ -453,6 +458,13 @@
       const host=vsHost(id),frame=def.frame();
       if(frame===null||frame===undefined){vsUnmount(id);vsSyncStyles();return false;}
       const current=mounted.get(id);
+      // HOLD: nothing to draw yet. A drawn screen keeps its frame; a covered one stays covered (its module shows it later).
+      if(frame===HOLD){
+        if(current)return true;
+        held=true;
+        if(!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});vsGateHold();vsSyncStyles();}
+        return false;
+      }
       if(current&&current.frame===frame&&current.host===host&&host.isConnected!==false)return true;
       // A screen drawn for the first time (or drawn again) keeps its content invisible until its pictures are decoded, then
       // reveals once; a screen the app did not expect() gets that pending state here.
@@ -468,7 +480,7 @@
       // Still pending (content invisible) while the pictures decode; the reveal below starts only once they are ready.
       if(pending.has(id)){decoding.set(id,token);try{await vsDecodeImages(host,id);}finally{if(decoding.get(id)===token)decoding.delete(id);}if(vsIsShown(id)&&mounted.get(id)?.frame===frame)revealed=true;}
       return true;
-    }finally{if(!decoding.has(id))vsSettle(id,revealed);}
+    }finally{if(!held&&!decoding.has(id))vsSettle(id,revealed);}
   }
   function vsHide(id){vsSettle(id);vsUnmount(id);vsSyncStyles();}
   // The app rewrote the screen's host (e.g. its old renderer ran): forget the drawn frame so the next show() draws
@@ -626,7 +638,7 @@
   }
 
   const api=Object.freeze({
-    contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,
+    contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,HOLD,
     install:vsInstall,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
     navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute,getUiPreference:vsGetUiPreference,setUiPreference:vsSetUiPreference
   });

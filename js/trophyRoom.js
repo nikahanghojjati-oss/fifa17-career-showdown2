@@ -131,6 +131,7 @@ function managerLeaderText(record, suffix = ""){
 }
 
 function seasonRecordText(record, suffix = ""){
+    if(record && record.value === 1) suffix = suffix === " pts" ? " pt" : suffix === " goals" ? " goal" : suffix;
     if(!record || record.value === null || !record.holders || !record.holders.length){
         return { value: "—", detail: "No completed record yet" };
     }
@@ -176,7 +177,7 @@ function renderAllTimeRecords(container, analytics){
     );
     if(records.biggestShowdownMargin){
         grid.appendChild(createRecordCard("BIGGEST SHOWDOWN WIN", {
-            value: `${records.biggestShowdownMargin.value} pts`,
+            value: `${records.biggestShowdownMargin.value} pt${records.biggestShowdownMargin.value === 1 ? "" : "s"}`,
             detail: `${records.biggestShowdownMargin.manager} · ${records.biggestShowdownMargin.score} · ${records.biggestShowdownMargin.showdown}`
         }));
     }

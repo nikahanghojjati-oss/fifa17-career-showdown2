@@ -2188,7 +2188,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     const rematch=rematchFrame(final,closed,s.identity);
     // r86 Special Player chip: the live Setup's confirm time, or after close the finished Showdown's own (kept by its read).
     const rid=s.finalReconciliation?.rivalryId||closed?.rivalryId||null,read=closed?closedHistoryReads.get(closed.rivalryId)?.history:null;
-    const sp=sfSpecial(chip=>chip.liveFor(rid)||(rid&&read&&Number.isFinite(read.setupConfirmedAt)?chip.forShowdown(rid,read.setupConfirmedAt):null));
+    const sp=sfSpecial(chip=>chip.liveFor(rid)||(rid&&read&&Number.isFinite(read.setupConfirmedAt)?chip.forShowdown(rid,read.setupConfirmedAt,{playerOne:read.projection?.managerRecords?.playerOne?.club,playerTwo:read.projection?.managerRecords?.playerTwo?.club}):null));
     if(!sp)return {final,rematch};
     return {final:final.winner?freeze({...final,specialPlayers:sp}):final,specialPlayers:sp,rematch};
   }
