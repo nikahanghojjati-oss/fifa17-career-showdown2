@@ -122,13 +122,15 @@ function createLegacyOnlineCareerSection(){
     const career = getLegacyOnlineCareer();
     const fragment = document.createDocumentFragment();
     const text = value => career.status === "loading" ? "Loading…" : value === null ? "—" : String(value);
+    // H2: a partial career could not read every Showdown, so its points are a floor like its count ("AT LEAST").
+    const floor = career.status === "partial" ? " (AT LEAST)" : "";
     const stats = document.createElement("div");
     stats.className = "legacyStatsGrid legacyOnlineCareer";
     stats.dataset.careerStatus = career.status;
     stats.append(
-        createLegacyStat(career.status === "partial" ? "SHOWDOWNS COMPLETED (AT LEAST)" : "SHOWDOWNS COMPLETED", text(career.completed)),
-        createLegacyStat("DANIEL · CAREER POINTS", text(career.points ? career.points.daniel : null)),
-        createLegacyStat("NIK · CAREER POINTS", text(career.points ? career.points.nik : null))
+        createLegacyStat("SHOWDOWNS COMPLETED" + floor, text(career.completed)),
+        createLegacyStat("DANIEL · CAREER POINTS" + floor, text(career.points ? career.points.daniel : null)),
+        createLegacyStat("NIK · CAREER POINTS" + floor, text(career.points ? career.points.nik : null))
     );
     fragment.appendChild(stats);
 
