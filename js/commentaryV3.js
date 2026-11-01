@@ -93,8 +93,8 @@
     const L=leader?NAMES[leader]:null,T=leader?NAMES[other(leader)]:null,out=[],add=(id,topic,text)=>out.push({id,topic,text});
     const seasonsLeft=count(left,"season","seasons");
     // The clock: what is still possible. Most a season can swing the gap is 11 (11 to 0).
-    if(leader&&left>0&&gap>MAX*left)add("decided","math",`${L} leads by ${gap} with ${seasonsLeft} to play, and the most ${T} can win back is ${MAX*left}. The Showdown is decided.`);
-    else if(leader&&left>0&&gap===MAX*left)add("draw-only","math",`${T} can no longer win it. The best left is a level Showdown, and only by winning ${left===1?"the last season":"every season left"} 11 to 0.`);
+    if(leader&&left>0&&gap>MAX*left)add("decided","clock",`${L} leads by ${gap} with ${seasonsLeft} to play, and the most ${T} can win back is ${MAX*left}. The Showdown is decided.`);
+    else if(leader&&left>0&&gap===MAX*left)add("draw-only","clock",`${T} can no longer win it. The best left is a level Showdown, and only by winning ${left===1?"the last season":"every season left"} 11 to 0.`);
     else if(left===1&&leader)add("decider","math",`One season left, ${L} ${after[leader]}, ${T} ${after[other(leader)]}. ${T} must win it by ${gap+1} or more to take the Showdown; by exactly ${gap}, it ends level.`);
     else if(left===1&&!leader)add("decider-level","math",`Level on ${after.playerOne} with one season left: whoever wins the final season wins the Showdown, and a drawn season means a drawn Showdown.`);
     // The lead.
@@ -123,7 +123,8 @@
     // Counts.
     const tally=cvTally(rows.slice(0,s));
     if(s>1&&(row.playerOne.trophies>0||row.playerTwo.trophies>0))add("trophy-count","trophy",`Trophies in this Showdown: ${both(tally.trophies.playerOne,tally.trophies.playerTwo)}.`);
-    if(s>1)add("season-count","tally",`Seasons won: ${both(tally.playerOne,tally.playerTwo)}${tally.draws?`, with ${count(tally.draws,"draw","draws")}`:""}. Overall: ${both(after.playerOne,after.playerTwo)}.`);
+    // Seasons won never sits beside level totals: it would read as a tiebreak (there is none).
+    if(s>1&&after.playerOne!==after.playerTwo)add("season-count","tally",`Seasons won: ${both(tally.playerOne,tally.playerTwo)}${tally.draws?`, with ${count(tally.draws,"draw","draws")}`:""}. Overall: ${both(after.playerOne,after.playerTwo)}.`);
     if(left>0)add("clock","clock",`${seasonsLeft[0].toUpperCase()+seasonsLeft.slice(1)} to go, with up to ${MAX*left} points each still to win. Overall: ${both(after.playerOne,after.playerTwo)}.`);
     return out;
   }
@@ -134,7 +135,7 @@
     if(!W){
       // 110 each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's 110 is per manager).
       if(N===10&&end.playerOne===MAX*N)add("final-golden-both","golden",`110 each: both managers won 11 points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
-      add("final-level","level",`Level on ${end.playerOne} after ${count(N,"season","seasons")}, so the Showdown is drawn. Seasons won: ${both(tally.playerOne,tally.playerTwo)}.`);
+      add("final-level","level",`Level on ${end.playerOne} after ${count(N,"season","seasons")}, so the Showdown is drawn.`);
       return out;
     }
     const Lr=other(W),w=NAMES[W],l=NAMES[Lr],score=`${w} ${end[W]}, ${l} ${end[Lr]}`;
@@ -239,6 +240,8 @@
     if(typeof load!=="function")return Promise.reject(new Error("COMMENTARY_LOADER_UNAVAILABLE"));
     assets=Promise.all([
       typeof style==="function"?style("gazette-content","visual-assets/v10_1/content/content.css").catch(()=>null):null,
+      // The league's team count comes from the shared catalog; load it here too so a phone reloaded onto Season Results still has it.
+      load("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>Boolean(root.CareerModeSharedShowdownCatalog)),
       load("commentary-engine","js/commentaryEngine.js",()=>Boolean(root.CareerModeCommentaryEngine)),
       load("commentary-lines","data/commentaryLines.js",()=>Boolean(root.CareerModeCommentaryLines))
     ]).then(()=>true);
