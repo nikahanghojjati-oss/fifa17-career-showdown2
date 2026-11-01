@@ -1586,15 +1586,26 @@
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryMark { display:inline-block; min-width:1.1em; margin-right:4px; color:var(--sd-gold-300,#ffd34d); font-size:14px; font-weight:800; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { color:#f4f1ea; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeason[data-winner="draw"] .legacyHistoryWinner { color:#c9b98f; }
-/* Desktop pane: the table header stays in view while a long Showdown scrolls inside the pane. */
+/* Desktop pane: compact enough that a 3-season Showdown fits the pane at 1366x768 with no inner scroll and no sticky bar
+   (main stays the only scroller there; a long Showdown still scrolls inside the pane as HO-043 allows). */
 @media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
-  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding:12px 16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding:8px 14px; row-gap:4px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { bottom:calc(22% + 6px); }
-  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th { position:sticky; top:-12px; z-index:1; background:#0b0c0e; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th { padding-top:2px; padding-bottom:3px; }
   /* one line per season: the points sit beside the league line (a Europa League win wraps under it) */
-  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td:is(.daniel,.nik) { padding-top:4px; padding-bottom:4px; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:inline-block; min-width:1.6em; margin-right:8px; vertical-align:middle; font-size:18px; line-height:22px; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:inline-block; margin:0; vertical-align:middle; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable :is(th,td) { padding-top:2px; padding-bottom:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:inline-block; min-width:1.6em; margin-right:8px; vertical-align:middle; font-size:18px; line-height:19px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:inline-block; margin:0; vertical-align:middle; line-height:13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { margin-top:0; line-height:13px; }
+}
+/* Short desktop windows (1280x650, 1366x640): a 3-season Showdown still fits the pane with no inner scroll. */
+@media (min-width:1200px) and (min-height:600px) and (max-height:700px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:6px; padding-bottom:6px; row-gap:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryClose { min-height:28px !important; padding:2px 12px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable :is(th,td) { padding-top:1px; padding-bottom:1px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { font-size:16px; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { line-height:12px; }
 }
 @media (min-width:1700px) and (min-height:900px) {
   #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { font-size:24px; line-height:26px; }
