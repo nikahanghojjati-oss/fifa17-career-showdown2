@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-051",
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-01T15:21:02Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-11-01T15:21:02Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T15:25:09Z", "by": "V", "status": "RECEIVED", "note": "Team V will review G's desktop+phone shots against attachments/HO-051/V sheets as soon as they land (~16:15 UTC) and answer yes/no before 16:45 UTC."}]
 }
 ```
 
