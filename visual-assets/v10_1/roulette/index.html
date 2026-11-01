@@ -9,7 +9,8 @@
 <!-- Polish RR-3: Barlow Condensed (every board name, rating, button and result line) ships with the app from ../shared/fonts
      (shell-cached), so offline it never falls back to a serif. Big Shoulders Display (the RELEASED stamp) and Rye (the
      title) have no OFL files in the repo yet, so they still come from Google Fonts and fall back when offline. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Rye&display=swap">
+<!-- Fable F11-02: the title fonts load without blocking the scene scripts; a stalled connection must not hold three.js (precached) back. Local fallbacks draw until they arrive. -->
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Rye&display=swap">
 <style>
 @font-face { font-family: "Barlow Condensed"; font-weight: 500 600; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 700 900; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
@@ -711,7 +712,7 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   const subs=club.subs.slice(0,6); const rowH=(PB-PT-44)/Math.max(6,subs.length);
   subs.forEach(([pos,name,rating],i)=>{ const y=PT+44+rowH*(i+.5), x=BL+70; b.bubbles.push({slot:11+i,x,y,name,pos,rating,u:x/W,v:1-y/H}); ctx.fillStyle=i%2?"rgba(255,255,255,.03)":"rgba(255,255,255,0)"; ctx.fillRect(BL,PT+44+rowH*i,BR-BL,rowH);
     ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=8; ctx.shadowOffsetY=3; shirt(ctx,x,y,52,pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit); ctx.restore();
-    ctx.fillStyle=POS_COL(pos); ctx.fillRect(BL+118,y-14,5,28); ctx.textAlign="left"; ctx.font="700 20px 'Barlow Condensed'"; ctx.fillStyle="#c9ccd3"; ctx.fillText(pos,BL+132,y-10); ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; const sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; ctx.fillText(sur,BL+132,y+14);
+    ctx.fillStyle=POS_COL(pos); ctx.fillRect(BL+118,y-14,5,28); ctx.textAlign="left"; ctx.font="700 20px 'Barlow Condensed'"; ctx.fillStyle="#c9ccd3"; ctx.fillText(pos,BL+132,y-10); ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; let sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; const surW=BR-BL-132-70; /* Fable F11-19: a long bench surname shrinks, then ends in an ellipsis, and never runs under the rating */ for(let fs=26;fs>18&&ctx.measureText(sur).width>surW;fs--) ctx.font=`700 ${fs-1}px 'Barlow Condensed'`; if(ctx.measureText(sur).width>surW){ while(sur.length>2&&ctx.measureText(sur+"…").width>surW) sur=sur.slice(0,-1); sur+="…"; } ctx.fillText(sur,BL+132,y+14);
     ctx.textAlign="right"; ctx.font="800 36px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),BR-22,y); });
   ctx.textAlign="left"; ctx.font="800 28px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.strokeText((club.formation||formationOf(club.xi)),PL+12,PB-28); ctx.fillText((club.formation||formationOf(club.xi)),PL+12,PB-28);
   if(b.hit) drawHit(key,b.hit); b.tex.needsUpdate=true; }
@@ -905,7 +906,10 @@ function crossFade(k){ if(gunTop.visible){ gunTop.material.opacity=k; } gun.visi
 
 /* ================= tick ================= */
 let frames=0, fpsT=0, fps=0; const bubbleTmp=new T.Vector3();
-function tick(draw){ const t=now(); let dt=Math.min(.05,t-last||.016); last=t; if(manual!==null) dt=1/30;
+function tick(draw){ const t=now();
+  /* Fable F11-01: no frame runs while the page is hidden (phone locked, app switched). The turn clock pauses for that gap, so the spin resumes where it stopped instead of jumping to the end with every cue at once. */
+  if(manual===null&&playing&&last>0&&t-last>.25) playing.t0+=t-last-.016;
+  let dt=Math.min(.05,t-last||.016); last=t; if(manual!==null) dt=1/30;
   stepTurn(dt); stepCamera(t,dt);
   /* lantern: living flame */
   const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl;

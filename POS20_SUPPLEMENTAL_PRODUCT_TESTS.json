@@ -2679,6 +2679,17 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-fable11-roulette-contracts.cjs",
+      "patterns": [
+        "^js/rosterRoulette\\.js$",
+        "^js/rosterRouletteStep\\.js$",
+        "^js/ruleBook\\.js$",
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r87\\-fable11\\-roulette\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/settings-internal-audit-surface-contracts.cjs",
       "patterns": [
         "^js/onlinePlayerIdentity\\.js$",
