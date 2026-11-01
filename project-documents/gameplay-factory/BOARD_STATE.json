@@ -2400,7 +2400,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-052_sp-reveal-lower-third-name-overflow-on-t.md",
     "worker": "opus",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 2
    }
   ],
   "relay_ok": true
