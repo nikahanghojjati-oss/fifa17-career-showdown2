@@ -11,7 +11,7 @@
 //   2. The seeder adds more finished Showdowns to the same two accounts through the game's own Spark providers with the
 //      composed production Rules on (tests/browser/support/career-oracle-seed.cjs): ORACLE_SEED=standard (default) adds a
 //      3-season Showdown with Europa League wins, a drawn 1-season Showdown (equal totals, different league finishes), a
-//      10-season Golden Showdown (Nik closes on 110) and a 3-season Showdown ended early after 2 seasons. ORACLE_SCALE=N adds N
+//      10-season Golden Showdown (Nik closes on 150: 15 a season with Prime Pack) and a 3-season Showdown ended early after 2 seasons. ORACLE_SCALE=N adds N
 //      more 1-season Showdowns (History through hundreds of Showdowns; the career index pages at 50). ORACLE_SEED=none adds none.
 //   3. The oracle reads both accounts' careers straight from the stored documents (career index, career start marker, rivalry
 //      roots, setup, acknowledged season commits) and computes every figure with the house rules
@@ -101,10 +101,10 @@ function seedSpecs(){
     specs.push({name:"europa",seasons:[{playerOne:R(2,80,70,"E"),playerTwo:R(1,85,72,"c")},{playerOne:R(1,92,101,"Es"),playerTwo:R(3,70,60,"C")},{playerOne:R(4,60,55,""),playerTwo:R(2,75,64,"Ea")}]});
     // Drawn Showdown: equal points (3 - 3), Daniel 1st in the league vs Nik 2nd: league position must not decide it.
     specs.push({name:"draw",seasons:[{playerOne:R(1,80,70,""),playerTwo:R(2,79,70,"E")}]});
-    // Golden Showdown: Nik scores 11 in every one of 10 seasons (110).
+    // Golden Showdown: Nik scores 15 in every one of 10 seasons (150), naming the Prime Pack Icon in stage 1 each time.
     specs.push({name:"golden",seasons:Array.from({length:10},(_,i)=>({playerOne:R(2+(i%3),70+i,60+i,i%2?"c":""),playerTwo:PERFECT}))});
     // Ended early after 2 of 3 seasons: one History status card, counted nowhere.
-    specs.push({name:"ended",totalSeasons:3,endAfter:2,seasons:[{playerOne:PERFECT,playerTwo:R(5,50,40,"")},{playerOne:PERFECT,playerTwo:R(6,45,38,"")},{playerOne:PERFECT,playerTwo:PERFECT}]});
+    specs.push({name:"ended",totalSeasons:3,endAfter:2,seasons:[{playerOne:PERFECT,playerTwo:R(5,50,40,"")},{playerOne:PERFECT,playerTwo:R(6,45,38,"")},{playerOne:PERFECT,playerTwo:R(2,90,90,"")}]});// one Prime Pack winner a season
   }
   const scale=Number(process.env.ORACLE_SCALE||0);
   for(let i=0;i<scale;i+=1){

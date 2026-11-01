@@ -37,18 +37,13 @@ assert.match(read('js/sharedCareerAnalytics.js'),new RegExp(`PRIME_PACK_FROM_MS=
 assert.match(read('js/productionSharedTransferChallenge.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the transfer hook boundary is js/iconGuess.js fromMs');
 assert.match(read('js/productionSharedSeasonResults.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Season Results boundary (old Showdowns never load the step) is js/iconGuess.js fromMs');
 {const src=read('js/productionSharedSeasonResults.js'),fn=src.slice(src.indexOf('async function pssrWithPrimePack('));assert.ok(fn.indexOf('confirmedAtMs<PRIME_PACK_FROM_MS')>0&&fn.indexOf('confirmedAtMs<PRIME_PACK_FROM_MS')<fn.indexOf('loadRuntimeScript'),'a Showdown from before Prime Pack publishes its Season Result without loading the Prime Pack step or reading a round');}
-assert.deepEqual(plain(Seam.SEASON_MAX),{before:11,primePack:15});assert.equal(IG.maxPoints+11,15);
+assert.deepEqual(plain(Seam.SEASON_MAX),{primePack:15},'one season maximum (Nik 2026-11-01 18:32 UTC)');assert.equal(IG.maxPoints+11,15);
 ok('T1','the seam, the Gazette and the transfer hook use the round\'s own start boundary, and 11 + 4 = 15 a season');
 
 // T2 the season maximum and the Golden total per Showdown
 const id='pair_'+'c'.repeat(64);
-assert.equal(Seam.seasonMaxFor({rivalryId:id,setupConfirmedAt:AFTER}),15);
-assert.equal(Seam.seasonMaxFor({rivalryId:id,setupConfirmedAt:BEFORE}),11,'a Showdown confirmed before Prime Pack keeps 11');
-assert.equal(Seam.seasonMaxFor({rivalryId:id,setupConfirmedAt:null,seasons:[{score:{daniel:12,nik:3}}]}),15,'a season over 11 can only be Prime Pack');
-assert.equal(Seam.seasonMaxFor({rivalryId:id,setupConfirmedAt:null,seasons:[{score:{daniel:11,nik:3}}]}),11,'no confirm time and no season over 11: 11');
-const live=loadSeam({CareerModeProductionSharedShowdownSetup:{getState:()=>({ready:true,rivalryId:id,setupUpdatedAtMs:AFTER,setup:{phase:'SHOWDOWN_CONFIRMED'}})}});
-assert.equal(live.seasonMaxFor({seasons:[]}),15,'the live Showdown\'s Setup decides when the row has no confirm time');
-assert.equal(live.seasonMaxFor({rivalryId:'pair_'+'d'.repeat(64),seasons:[]}),11,'another Showdown\'s row never borrows the live Setup');
+// Nik 2026-11-01 18:32 UTC: no 11 anywhere; every Showdown's season maximum is 15, whatever its confirm time or seasons.
+for(const row of [{rivalryId:id,setupConfirmedAt:AFTER},{rivalryId:id,setupConfirmedAt:BEFORE},{rivalryId:id,setupConfirmedAt:null,seasons:[{score:{daniel:11,nik:3}}]},{seasons:[]},null])assert.equal(Seam.seasonMaxFor(row),15);
 assert.equal(Seam.goldenShowdownPoints({rivalryId:id,setupConfirmedAt:AFTER}),150);assert.equal(Seam.goldenShowdownPoints({rivalryId:id,setupConfirmedAt:BEFORE}),150,'r87 (Nik 2026-11-01 17:35 UTC): no 110 Golden Showdown');
 ok('T2','the season maximum is 15 for a Showdown that plays Prime Pack and 11 before it (the race maths); the Golden Showdown is 150 in every Showdown');
 
@@ -85,7 +80,7 @@ ok('T3','Trophy Room, Career Statistics, Legacy and Rivalry Statistics give the 
   const open=G.seasonEdition({projection:q,seasonNumber:2,primePack:true}).paper.race.line;
   assert.equal(open,'Daniel leads by 12 points. 1 season to go, 15 points still to play for on each side.','a 12-point lead with Prime Pack is still catchable');
   const old=projection({seed:'3',totalSeasons:3,seasons:[[perfect(),plainSeason()],[result({leaguePosition:1}),plainSeason()]]});
-  assert.match(G.seasonEdition({projection:old,seasonNumber:2,primePack:false}).paper.race.line,/14 clear with only 11 points left/,'an older Showdown still counts 11');
+  assert.match(G.seasonEdition({projection:old,seasonNumber:2,primePack:false}).paper.race.line,/leads by 14 points\. 1 season to go, 15 points/,'r87: every Showdown counts 15 a season (no 11)');
   assert.match(G.seasonEdition({projection:old,seasonNumber:2,primePack:true}).paper.race.line,/leads by 14 points\. 1 season to go, 15 points/,'the same scores with Prime Pack are still open');
   assert.match(G.seasonEdition({projection:q,seasonNumber:2}).paper.race.line,/15 points still to play/,'no confirm time: a season over 11 means Prime Pack');
   // the Golden draw: 150-150 with Prime Pack, and 110-110 with Prime Pack is just a draw
@@ -107,7 +102,7 @@ ok('T4','the Gazette race strip counts 15 a season left with Prime Pack ("can no
   const results=[season(perfect(),plainSeason()),season(result({leaguePosition:4,leaguePoints:70,primePack:1}),plainSeason())];
   const has=(facts,moment,situation)=>CE.situationsFor(moment,facts).some(e=>e.situation===situation);
   const facts=pack=>({managers,seasons:3,season:2,results,...(pack===undefined?{}:{primePack:pack})});
-  assert.ok(has(facts(false),'season-result','clock-clinched'),'11 a season: a 12-point lead with one season left is clinched');
+  assert.ok(!has(facts(false),'season-result','clock-clinched'),'r87: 15 a season in every Showdown, a 12-point lead with one left is never clinched');
   assert.ok(!has(facts(true),'season-result','clock-clinched'),'15 a season: it is not');
   assert.ok(!has(facts(undefined),'season-result','clock-clinched'),'a season over 11 means Prime Pack');
   const max=[season(perfect(4),plainSeason())];

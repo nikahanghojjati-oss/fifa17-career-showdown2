@@ -38,7 +38,7 @@
       return {manager,rank:index<0?null:standings[index].level===true?1:index+1};
     });
   }
-  // r84 Golden Showdown: how many finished 10-season Showdowns each manager closed on the Golden total (110, or 150 with Prime Pack), counted from the completed
+  // r84 Golden Showdown: how many finished 10-season Showdowns each manager closed on the Golden total (150), counted from the completed
   // rows this model already holds (the seam owns the rule). Only a career with one carries the field.
   function v10GoldenShowdowns(model,frame){
     const counts=v10Seam().goldenShowdownCounts(model.history&&model.history.showdowns);

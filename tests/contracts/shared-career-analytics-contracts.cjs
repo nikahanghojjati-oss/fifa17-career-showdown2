@@ -14,6 +14,17 @@ const labels=["Highest season score","Highest league points","Highest league goa
 let cases=0;
 function check(name,fn){try{fn();cases+=1;}catch(error){error.message=name+": "+error.message;throw error;}}
 
+check("0. A summary saved before 2.0.0 still loads (r87)",()=>{
+  // A Firebase careerSummary is create-only, so a finished Showdown saved by r86 keeps its old projection, which counted an
+  // 11 as a perfect season. It must load as completed (never "unavailable"), with 0 perfect seasons and the same totals.
+  const fresh=projection({totalSeasons:3,seasons:[[perfect,result()],[result(),result({leaguePosition:1})],[result(),result()]]});
+  const saved=JSON.parse(JSON.stringify(fresh));saved.managerRecords.playerOne.perfectSeasons=1;
+  const m=model([entry(saved)]);
+  assert.equal(m.status,"ready");assert.equal(m.history.showdowns.length,1);assert.equal(m.history.showdowns[0].status,"completed","the old summary is a finished Showdown, not unavailable");
+  assert.equal(m.managers.daniel.perfectSeasons,0);assert.equal(m.managers.daniel.careerPoints,fresh.managerRecords.playerOne.totalPoints);
+  const forged=JSON.parse(JSON.stringify(saved));forged.managerRecords.playerOne.totalPoints+=1;
+  assert.notEqual(model([entry(forged)]).history.showdowns[0]?.status,"completed","any other difference is still refused");
+});
 check("1. Bonus caps",()=>{
   const p=projection({totalSeasons:1,seasons:[[perfect,result()]]}),m=model([entry(p)]);
   assert.equal(m.managers.daniel.performanceBonuses,1,"both thresholds award one bonus");
@@ -247,4 +258,4 @@ check("17. Agreement with sharedHistoryConvergence",()=>{
   }
 });
 
-console.log(`PASS Shared Career Analytics contracts (${cases}/18 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.`);
+console.log(`PASS Shared Career Analytics contracts (${cases}/19 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.`);

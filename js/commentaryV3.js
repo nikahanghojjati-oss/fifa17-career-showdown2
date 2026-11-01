@@ -30,7 +30,7 @@
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const LENGTHS=Object.freeze([1,3,5,10]);
-  const MAX=11,PACK_MAX=15;
+  const PACK_MAX=15;
   // The Prime Pack boundary is js/iconGuess.js fromMs: a Showdown confirmed on or after it plays Prime Pack.
   const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   const node=typeof module!=="undefined"&&module.exports;
@@ -51,14 +51,8 @@
   // uses this Showdown's own season maximum, the same rule as js/commentaryEngine.js and js/careerScreenSeam.js: 15 in a
   // Showdown that plays Prime Pack, 11 before it. facts.primePack (true/false) decides when given; otherwise a season over 11
   // or with Prime Pack points can only be Prime Pack, and the career seam (when loaded) knows the live Showdown's boundary.
-  function cvSeasonMax(facts){
-    if(facts&&facts.primePack===true)return PACK_MAX;
-    if(facts&&facts.primePack===false)return MAX;
-    const rows=Array.isArray(facts&&facts.history)?facts.history:[];
-    if(rows.some(row=>plain(row)&&ROLES.some(role=>{const r=row[role];return plain(r)&&((Number.isInteger(r.scoring?.total)&&r.scoring.total>MAX)||int(r.primePack,1,4)||int(r.scoring?.primePack,1,4));})))return PACK_MAX;
-    try{if(facts&&facts.showdownId&&root.CareerModeCareerScreenSeam?.seasonMaxFor?.({rivalryId:String(facts.showdownId)})===PACK_MAX)return PACK_MAX;}catch(_){}
-    return MAX;
-  }
+  // Nik 2026-11-01 18:32 UTC: one season maximum, 15, in every Showdown (no 11 anywhere).
+  function cvSeasonMax(_facts){return PACK_MAX;}
 
   // ---------- facts ----------
   // facts = {showdownId, seasons (1|3|5|10), clubs:{playerOne,playerTwo}, league, teamCount, history:[row...]}
@@ -149,14 +143,13 @@
   function finalNumbers(rows,N,MAX){
     const totals=cvTotals(rows),end=totals[N-1],W=leaderOf(end),tally=cvTally(rows),out=[],add=(id,topic,text)=>out.push({id,topic,text});
     if(!W){
-      // 150 each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's total is per manager). The
-      // Golden Showdown is 150 only (Nik 2026-11-01 17:35 UTC), so a Showdown played before Prime Pack (11 a season) has none.
-      if(N===10&&MAX===PACK_MAX&&end.playerOne===MAX*N)add("final-golden-both","golden",`${MAX*N} each: both managers won ${MAX} points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
+      // 150 each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's total is per manager).
+      if(N===10&&end.playerOne===MAX*N)add("final-golden-both","golden",`${MAX*N} each: both managers won ${MAX} points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
       add("final-level","level",`Level on ${end.playerOne} after ${count(N,"season","seasons")}, so the Showdown is drawn.`);
       return out;
     }
     const Lr=other(W),w=NAMES[W],l=NAMES[Lr],score=`${w} ${end[W]}, ${l} ${end[Lr]}`;
-    if(N===10&&MAX===PACK_MAX&&end[W]===MAX*N)add("final-golden","golden",`${MAX*N} out of ${MAX*N} for ${w}: every season won ${MAX} points, the Golden Showdown.`);
+    if(N===10&&end[W]===MAX*N)add("final-golden","golden",`${MAX*N} out of ${MAX*N} for ${w}: every season won ${MAX} points, the Golden Showdown.`);
     const behind=totals.filter(pair=>pair[W]<pair[Lr]).length;
     if(behind>0)add("final-comeback","comeback",`${w} was behind after ${count(behind,"season","seasons")} of ${N} and still won the Showdown, ${end[W]} to ${end[Lr]}.`);
     if(N>=3&&totals.every(pair=>pair[W]>pair[Lr]))add("final-wire","wire",`${w} led after every one of the ${N} seasons and finishes ${end[W]} to ${end[Lr]}.`);

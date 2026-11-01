@@ -31,13 +31,12 @@
   const OTHER=Object.freeze({playerOne:"playerTwo",playerTwo:"playerOne"});
   const LENGTHS=Object.freeze([1,3,5,10]);
   // Nik 2026-11-01 17:35 UTC: a perfect season is 15 and the Golden Showdown is 150 in every Showdown (there was never a
-  // real 10-season Showdown before Prime Pack, so no 110 record to keep). Only the race maths below keeps an older
-  // Showdown's own 11 a season, because that is the most it can still score.
+  // real 10-season Showdown before Prime Pack, so no old record to keep). One season maximum, 15, everywhere.
   const GOLDEN=Object.freeze({seasons:10,points:150}),PERFECT=15;
   // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so
-  // its race counts 15 a season left; a Showdown confirmed before Prime Pack counts the 11 a season it can still score.
+  // its race counts 15 a season left (every Showdown, Nik 2026-11-01 18:32 UTC).
   // PRIME_PACK_FROM_MS is js/iconGuess.js fromMs (tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
-  const SEASON_MAX=Object.freeze({before:11,primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  const SEASON_MAX=Object.freeze({primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   // true/false when this Showdown's confirm time is known (given, or the live Setup when it is this Showdown), else null.
   function tgPrimePack(rivalryId,confirmedAt){
     if(Number.isFinite(confirmedAt))return confirmedAt>=PRIME_PACK_FROM_MS;
@@ -146,10 +145,8 @@
       const winner=a>b?"playerOne":b>a?"playerTwo":"draw";if(row.winner!==winner)return null;
       seasons.push({number:i+1,score:{playerOne:a,playerTwo:b},winner,items:{playerOne:seasonItems(row.playerOne),playerTwo:seasonItems(row.playerTwo)}});
     }
-    // unknown confirm time: a Prime Pack point, or a season over 11, can only come from a Showdown that plays Prime Pack
-    const sides=projection.seasonHistory.flatMap(row=>plain(row)?[row.playerOne,row.playerTwo].filter(plain):[]);
-    const pack=primePack===true||primePack===false?primePack:sides.some(side=>Number.isInteger(side.primePack)||Number.isInteger(side.scoring?.primePack)||(Number.isInteger(side.scoring?.total)&&side.scoring.total>SEASON_MAX.before));
-    return {rivalryId:String(projection.rivalryId||""),totalSeasons:T,clubs,seasons,max:pack?SEASON_MAX.primePack:SEASON_MAX.before};
+    // Nik 2026-11-01 18:32 UTC: one season maximum, 15, in every Showdown (no 11 anywhere).
+    return {rivalryId:String(projection.rivalryId||""),totalSeasons:T,clubs,seasons,max:SEASON_MAX.primePack};
   }
   const totalsOf=seasons=>seasons.reduce((t,s)=>({playerOne:t.playerOne+s.score.playerOne,playerTwo:t.playerTwo+s.score.playerTwo}),{playerOne:0,playerTwo:0});
   function spOf(sp){return plain(sp)&&plain(sp.daniel)&&plain(sp.nik)&&typeof sp.daniel.name==="string"&&sp.daniel.name&&typeof sp.nik.name==="string"&&sp.nik.name?{daniel:sp.daniel.name,nik:sp.nik.name}:null;}
@@ -358,7 +355,7 @@
     // Situations: a draw only the drawn pages; the Golden Showdown (first to 150 over ten seasons); otherwise the Showdown's
     // length (ten seasons read as the long, five-season pages), decided in its last season (the winner did not lead before
     // it), or a dominant win: the winner was ahead after every season, out of reach before the last one (a season is worth
-    // at most 11 points) and still more than a season clear at the end, so the dominant pages' landslides and wire-to-wire
+    // at most 15 points) and still more than a season clear at the end, so the dominant pages' landslides and wire-to-wire
     // leads are true as printed.
     let situations;
     if(draw)situations=["showdown-drawn"];

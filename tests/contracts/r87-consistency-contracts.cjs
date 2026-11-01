@@ -64,10 +64,10 @@ const dbOverall=name=>{for(const c of Object.values(P.clubs))for(const p of c.pl
   // A Prime Pack season of 15 never silences the booth.
   ok(V.seasonNumbers(facts([[15,0]],true,3),1),"Prime Pack: a 15-point season still gets its numbers line");
   ok(V.seasonNumbers(facts([[13,2]],undefined,3),1),"no flag: a season over 11 can only be Prime Pack, the booth still speaks");
-  ok(V.seasonNumbers(facts([[13,2]],false,3),1)===null,"a 13 in a Showdown without Prime Pack is invalid data: no line rather than a wrong one");
-  // 12 clear with one season left: decided at 11 a season, still open at 15.
+  // Nik 2026-11-01 18:32 UTC: one season maximum, 15, in every Showdown; the Prime Pack flag no longer changes the maths.
+  ok(V.seasonNumbers(facts([[13,2]],false,3),1),"a 13 is a real season in every Showdown");
   const pre=[[11,0],[1,0]];
-  ok(ids(V.seasonNumbers(facts(pre,false,3),2)).includes("decided"),"before Prime Pack: 12 clear with 11 left to win is decided");
+  ok(!ids(V.seasonNumbers(facts(pre,false,3),2)).includes("decided"),"12 clear with 15 left to win is never decided, flag or not");
   const open=V.seasonNumbers(facts(pre,true,3),2);
   ok(!ids(open).includes("decided")&&!ids(open).includes("draw-only")&&ids(open).includes("decider"),"Prime Pack: 12 clear with 15 left to win is still a decider");
   ok(open.every(x=>!/\b11 to 0\b|up to 11 points/.test(x.text)),"Prime Pack: no line names 11 as the season maximum");

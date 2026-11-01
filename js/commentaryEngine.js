@@ -70,12 +70,9 @@
   // The most one season can score: 11, or 15 in a Showdown that plays r87 Prime Pack (11 + up to 4; G Lead and Nik
   // 2026-11-01). facts.primePack (true/false) says which; without it, a Prime Pack point or a season over 11 can only be Prime Pack. A season is
   // checked against the larger maximum; every "maximum", "clinched" and Golden line uses this Showdown's own.
-  const MAX_SEASON_POINTS=11,MAX_PRIME_PACK_SEASON_POINTS=15;
-  function ceSeasonMax(facts,sd){
-    if(facts&&facts.primePack===true)return MAX_PRIME_PACK_SEASON_POINTS;
-    if(facts&&facts.primePack===false)return MAX_SEASON_POINTS;
-    return sd.seasons.some(row=>ROLES.some(role=>row.primePack[role]||row.points[role]>MAX_SEASON_POINTS))?MAX_PRIME_PACK_SEASON_POINTS:MAX_SEASON_POINTS;
-  }
+  const MAX_PRIME_PACK_SEASON_POINTS=15;
+  // Nik 2026-11-01 18:32 UTC: one season maximum, 15, in every Showdown (no 11 anywhere): the clock, season-perfect and Golden.
+  function ceSeasonMax(_facts,_sd){return MAX_PRIME_PACK_SEASON_POINTS;}
   // {mpPosition} is read aloud, so it is the spoken position, never the list's code (Nik 2026-10-29). A code not listed here
   // leaves the slot out rather than reading a code.
   const POSITION_WORDS=Object.freeze({LW:"left winger",RW:"right winger",LM:"left midfielder",RM:"right midfielder",CM:"central midfielder",
@@ -318,7 +315,7 @@
       if(sd.totals.slice(0,N-1).some(pair=>pair[W]<pair[L]))out.push(ceEntry("final-comeback",values));
       if(sd.totals.every(pair=>pair[W]>pair[L]))out.push(ceEntry("final-wire-to-wire",values));
       // r86 (red team #12): the Golden Showdown is the Rule Book's total, not any 10-season win. r87 (Nik 2026-11-01 17:35
-      // UTC): it is 150 (15 in every season) in every Showdown; there is no 110 Golden Showdown.
+      // UTC): it is 150 (15 in every season) in every Showdown; no other total is Golden.
       if(N===10&&totals[W]===MAX_PRIME_PACK_SEASON_POINTS*N)out.push(ceEntry("final-golden",values));
       if(N===1)out.push(ceEntry("final-sprint",values));
       if(N>=2&&ceLeaderOf(sd.totals[N-2])===L)out.push(ceEntry("final-last-season-swing",values));

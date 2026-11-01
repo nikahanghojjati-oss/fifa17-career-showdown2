@@ -26,7 +26,7 @@ function scripted(id,pairs){const history=pairs.map(([a,b])=>row(exact(a,a>=8&&b
 // r87 Prime Pack: one manager a season may add 4, 3, 2 or 1 (or nobody); a season is then 0..15 and Golden is 150.
 function primePacked(f,seed){const r=rng(seed*7919);for(const h of f.history){const k=[0,1,2,3,4][Math.floor(r()*5)];if(k){const role=r()<.5?"playerOne":"playerTwo";h[role].primePack=k;h[role].scoring={...h[role].scoring,primePack:k,total:h[role].scoring.total+k};}
   const x=h.playerOne.scoring.total,y=h.playerTwo.scoring.total;h.winner=x>y?"playerOne":y>x?"playerTwo":"draw";}f.primePack=true;return f;}
-const maxOf=f=>f.primePack===true?15:11;
+const maxOf=_f=>15; // Nik 2026-11-01 18:32 UTC: one season maximum, 15, in every Showdown
 
 // ---------- independent recomputation ----------
 const NAMES={playerOne:"Daniel",playerTwo:"Nik"};
@@ -103,15 +103,15 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
   const f=scripted("level",[[3,4],[4,3],[0,0]]),c=V.call(f,2,L);
   assert.equal(c.numbers.id,"decider-level");ok(/Level on 7 with one season left/.test(c.numbers.text),c.numbers.text);
 }
-{ // 5 seasons, Daniel 23 clear after 3: at most 22 left, decided.
-  const f=scripted("decided",[[11,0],[9,0],[3,0],[0,0],[0,0]]),c=V.call(f,3,L);
-  const n=V.seasonNumbers(f,3);ok(n.some(x=>x.id==="decided"&&/leads by 23 with two seasons to play, and the most Nik can win back is 22/.test(x.text)),"decided wording");
+{ // 5 seasons, Daniel 31 clear after 3: at most 30 left (15 a season), decided.
+  const f=scripted("decided",[[11,0],[11,0],[9,0],[0,0],[0,0]]),c=V.call(f,3,L);
+  const n=V.seasonNumbers(f,3);ok(n.some(x=>x.id==="decided"&&/leads by 31 with two seasons to play, and the most Nik can win back is 30/.test(x.text)),"decided wording");
   ok(!n.some(x=>x.id==="decider"),"no live-race maths once it is decided");
   ok(c.lead&&!/can still win|still in it/i.test(c.lead.text),"the lead line does not pretend the race is open");
 }
-{ // Exactly 11 per season left: only a level Showdown is still possible.
-  const f=scripted("draw-only",[[11,0],[0,0],[0,0]]),n=V.seasonNumbers(f,2);
-  ok(n[0].id==="draw-only"&&/Nik can no longer win it\. The best left is a level Showdown, and only by winning the last season 11 to 0\./.test(n[0].text),n[0].text);
+{ // Exactly 15 per season left: only a level Showdown is still possible.
+  const f=scripted("draw-only",[[11,0],[4,0],[0,0]]),n=V.seasonNumbers(f,2);
+  ok(n[0].id==="draw-only"&&/Nik can no longer win it\. The best left is a level Showdown, and only by winning the last season 15 to 0\./.test(n[0].text),n[0].text);
 }
 { // Lead changes are counted.
   const f=scripted("swing",[[5,0],[0,6],[4,0],[0,0],[0,0]]),n=V.seasonNumbers(f,3);
@@ -147,18 +147,18 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
   const f=randomShowdown(9,3);f.history[1].winner="playerOne";f.history[1].playerOne.scoring.total=0;f.history[1].playerTwo.scoring.total=4;
   assert.equal(V.call(f,2,L),null);checks+=1;
   assert.equal(V.call({...randomShowdown(9,3),seasons:4},1,L),null);checks+=1;
-  const g=randomShowdown(10,3);g.history[0].playerOne.scoring.total=12;assert.equal(V.call({...g,primePack:false},1,L),null);checks+=1;
-  // Prime Pack: 12 is a real season (inferred without the flag), 16 never is.
-  ok(V.call(g,1,L)!==null,"a 12-point season is read as Prime Pack");
+  const g=randomShowdown(10,3);g.history[0].playerOne.scoring.total=12;
+  // r87 (Nik 2026-11-01 18:32 UTC): one season maximum, 15, in every Showdown: 12 is a real season, 16 never is.
+  ok(V.call({...g,primePack:false},1,L)!==null&&V.call(g,1,L)!==null,"a 12-point season is a real season, flag or not");
   g.history[0].playerOne.scoring.total=16;assert.equal(V.call({...g,primePack:true},1,L),null);checks+=1;
 }
 
-{ // Prime Pack race maths: 15 a season left, not 11.
+{ // Race maths: 15 a season left, never 11.
   const f={...scripted("pp-race",[[11,0],[2,0],[0,0]]),primePack:true};
   const n=V.seasonNumbers(f,2);
   ok(n.some(x=>x.id==="draw-only")===false&&n.some(x=>x.id==="decider"&&/Nik must win it by 14 or more/.test(x.text)),`13 clear with 15 left is still live: ${JSON.stringify(n)}`);
   const g={...scripted("pp-dead",[[11,0],[2,0],[0,0]]),primePack:false};
-  ok(V.seasonNumbers(g,2).some(x=>x.id==="decided"),"the same 13 with 11 left is decided");
+  ok(!V.seasonNumbers(g,2).some(x=>x.id==="decided"),"the same 13 is never decided with one season left: 15 a season in every Showdown");
   const h={...scripted("pp-clock",[[5,1],[0,0],[0,0]]),primePack:true};
   ok(V.seasonNumbers(h,1).some(x=>x.id==="clock"&&/up to 30 points each/.test(x.text)),"Prime Pack clock counts 15 a season");
   const d={...scripted("pp-draw-only",[[11,0],[0,0],[0,0]]),primePack:true};d.history[0].playerOne.scoring={...d.history[0].playerOne.scoring,primePack:4,total:15};

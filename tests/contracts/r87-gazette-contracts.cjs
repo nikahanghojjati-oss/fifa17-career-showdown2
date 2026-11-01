@@ -30,6 +30,8 @@ const R={
   cup:result({domesticCup:true}), // 1
   none:result({leaguePosition:9}) // 0
 };
+// r87 (Nik 2026-11-01 18:32 UTC): with Prime Pack a season is worth up to 15 in every Showdown.
+R.p15={...R.max,primePack:4};R.p14={...R.max,primePack:3};
 const proj=(seed,T,seasons)=>projection({seed,totalSeasons:T,seasons});
 const sp={daniel:{name:'Lionel Messi'},nik:{name:'Cristiano Ronaldo'}};
 const frame=p=>Season.finalFrame(fx.finalReconciliation(p),fx.closed(p),fx.history(p));
@@ -153,26 +155,27 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
   ok('G14','"1 seasons" is printed as "1 season" (the plural fix covers seasons as well as points)');
 }
 // G15 (Fable cloud job 1) the last-season decider is offered only while the trailer can still WIN the Showdown in the last
-// season: a gap of 11 can only be levelled (equal totals are a draw), so its pages ("whoever wins it", "turn it upside down",
+// season: a gap of 15 (the season maximum) can only be levelled (equal totals are a draw), so its pages ("whoever wins it", "turn it upside down",
 // "change of monarch") are not printed then.
 {
   const sit=(seasons,N,T=3)=>G.seasonSituations(proj('f',T,seasons),N);
-  assert.ok(!sit([[R.max,R.none],[R.none,R.none]],2).includes('final-season-decider'),'gap 11: the trailer can at best level it');
-  assert.ok(sit([[R.clLeague,R.none],[R.cupAward,R.none]],2).includes('final-season-decider'),'gap 10: still winnable');
+  assert.ok(!sit([[R.p15,R.none],[R.none,R.none]],2).includes('final-season-decider'),'gap 15: the trailer can at best level it');
+  assert.ok(sit([[R.p14,R.none],[R.none,R.none]],2).includes('final-season-decider'),'gap 14: still winnable');
+  assert.ok(sit([[R.max,R.none],[R.none,R.none]],2).includes('final-season-decider'),'gap 11: still winnable at 15 a season');
   assert.ok(sit([[R.cl,R.cl],[R.cup,R.cup]],2).includes('final-season-decider'),'level before the last season');
-  for(const seed of '0123456789abcdef'){const e=G.seasonEdition({projection:proj(seed,3,[[R.max,R.none],[R.none,R.none]]),seasonNumber:2});assert.notEqual(e.situation,'final-season-decider');assert.ok(!/whoever wins|upside down|change of monarch|sudden death/i.test(G.paperText(e)),e.paper.headline);}
-  ok('G15','the last-season decider needs a gap of at most 10 (a gap of 11 can only be levelled, never turned)');
+  for(const seed of '0123456789abcdef'){const e=G.seasonEdition({projection:proj(seed,3,[[R.p15,R.none],[R.none,R.none]]),seasonNumber:2});assert.notEqual(e.situation,'final-season-decider');assert.ok(!/whoever wins|upside down|change of monarch|sudden death/i.test(G.paperText(e)),e.paper.headline);}
+  ok('G15','the last-season decider needs a gap of at most 14 (a gap of 15 can only be levelled, never turned)');
 }
 // G16 (Fable cloud job 1) the dominant pages (landslides, "from start to finish", "out of sight by the end") print only when
 // the winner was ahead after every season, out of reach before the last one and still more than a season clear at the end.
 {
   const fin=(seed,T,seasons)=>G.finalEdition({projection:proj(seed,T,seasons)});
   const sits=(T,seasons)=>{const s=new Set();for(const seed of '0123456789abcdef')s.add(fin(seed,T,seasons).situation);return s;};
-  assert.ok(sits(3,[[R.max,R.none],[R.max,R.none],[R.none,R.cl]]).has('dominant-win'),'led throughout, out of reach before the last, 17 clear at the end');
-  assert.ok(!sits(3,[[R.max,R.none],[R.max,R.none],[R.none,R.max]]).has('dominant-win'),'out of reach before the last but only 11 clear at the end: no landslide');
-  assert.ok(!sits(5,[[R.none,R.cl],[R.max,R.none],[R.max,R.none],[R.max,R.none],[R.max,R.none]]).has('dominant-win'),'behind after season 1: not "from start to finish"');
-  assert.ok(!sits(5,[[R.cl,R.cl],[R.max,R.none],[R.max,R.none],[R.max,R.none],[R.max,R.none]]).has('dominant-win'),'level after season 1: not "from start to finish"');
-  for(const seed of '0123456789abcdef'){const f=fin(seed,3,[[R.max,R.none],[R.max,R.none],[R.none,R.max]]);assert.ok(!/landslide|ocean|laps and laps|out of sight|run away with|by a distance|enormous lead/i.test(G.paperText(f)),f.paper.headline);}
+  assert.ok(sits(3,[[R.p15,R.none],[R.p15,R.none],[R.none,R.cl]]).has('dominant-win'),'led throughout, out of reach before the last, 25 clear at the end');
+  assert.ok(!sits(3,[[R.p15,R.none],[R.p15,R.none],[R.none,R.p15]]).has('dominant-win'),'out of reach before the last but only 15 clear at the end: no landslide');
+  assert.ok(!sits(5,[[R.none,R.cl],[R.p15,R.none],[R.p15,R.none],[R.p15,R.none],[R.p15,R.none]]).has('dominant-win'),'behind after season 1: not "from start to finish"');
+  assert.ok(!sits(5,[[R.cl,R.cl],[R.p15,R.none],[R.p15,R.none],[R.p15,R.none],[R.p15,R.none]]).has('dominant-win'),'level after season 1: not "from start to finish"');
+  for(const seed of '0123456789abcdef'){const f=fin(seed,3,[[R.p15,R.none],[R.p15,R.none],[R.none,R.p15]]);assert.ok(!/landslide|ocean|laps and laps|out of sight|run away with|by a distance|enormous lead/i.test(G.paperText(f)),f.paper.headline);}
   ok('G16','dominant pages need a lead after every season, an unreachable gap before the last season and more than a season clear at the end');
 }
 // G17 (Fable cloud job 1) no silverware talk where there is no trophy on the page: the ears obey the same rule as the headline,
@@ -203,8 +206,8 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
   assert.ok(report.papers>1000&&report.summary.rowsPrinted>600,`${report.papers} papers, ${report.summary.rowsPrinted} rows`);
   assert.ok(secs<10,`fast sweep took ${secs}s`);
   for(const row of Object.values(report.rows)){
-    if(row.situation==='dominant-win'){assert.ok(Object.keys(row.facts.margin).every(m=>Number(m)>11),row.id+' margin');assert.deepEqual(Object.keys(row.facts.ledThroughout),['true'],row.id+' led');}
-    if(row.situation==='final-season-decider')assert.ok(Object.keys(row.facts.gap).every(g=>Number(g)<=10),row.id+' gap');
+    if(row.situation==='dominant-win'){assert.ok(Object.keys(row.facts.margin).every(m=>Number(m)>15),row.id+' margin');assert.deepEqual(Object.keys(row.facts.ledThroughout),['true'],row.id+' led');}
+    if(row.situation==='final-season-decider')assert.ok(Object.keys(row.facts.gap).every(g=>Number(g)<=14),row.id+' gap');
     if(row.kind==='ear'&&/silver|troph|cabinet|shelf|shelves|title|crown|medal|engrav|plaque|\bcups?\b/i.test(row.template))assert.ok(!row.facts.winnerTrophies||!row.facts.winnerTrophies['0'],row.id+' on a trophy-less win');
     for(const text of row.texts)assert.ok(!/\b1 seasons\b|\b1 points\b/.test(text),row.id);
   }
@@ -446,7 +449,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     ok('G10','HO-048 headlines and copy (with the job 1 truth edits), paper and sheet byte for byte; every runtime file shell-cached with its font licence; photos on the image cache; wired from Season Results; Commentary v2 lines untouched; no scrim');
   }
   // G12 (2.0.0) THE RACE and the record book come from the seasons alone and are always true: level is "All square" (never a
-  // lead), a lead beyond 11 x the seasons left cannot be caught, exactly that can only be levelled, a final draw is never a
+  // lead), a lead beyond 15 x the seasons left cannot be caught, exactly that can only be levelled, a final draw is never a
   // win; seasons won, trophies, streaks, perfect 15s and the Golden watch match the history; a 150-150 Showdown is a drawn
   // Golden Showdown for both. The strip is drawn above the trophy desk on desktop and phone.
   {
@@ -459,7 +462,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
       const editions=[];if(n<len)editions.push([G.seasonEdition({projection:p,seasonNumber:n}),n,false]);editions.push([G.finalEdition({projection:p}),len,true]);
       for(const [e,N,final] of editions){
         assert.ok(e&&e.paper.race,'every paper carries THE RACE');const race=e.paper.race,played=rows.slice(0,N);
-        const a=played.reduce((t,r)=>t+pts(r[0]),0),b=played.reduce((t,r)=>t+pts(r[1]),0),gap=Math.abs(a-b),left=(len-N)*11,lead=a>b?'Daniel':b>a?'Nik':null;
+        const a=played.reduce((t,r)=>t+pts(r[0]),0),b=played.reduce((t,r)=>t+pts(r[1]),0),gap=Math.abs(a-b),left=(len-N)*15,lead=a>b?'Daniel':b>a?'Nik':null;
         assert.equal(race.chips.length,N);race.chips.forEach((c,k)=>{assert.equal(c.left,pts(played[k][0]));assert.equal(c.right,pts(played[k][1]));assert.equal(c.winner,c.left>c.right?'left':c.right>c.left?'right':'draw');});
         assert.equal(race.leader,lead);
         if(!lead){assert.ok(!/leads|wins|clear|caught/.test(race.line),race.line);assert.match(race.line,final?/drawn Showdown/:/All square/);}
@@ -480,10 +483,10 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     }
     assert.ok(seen.has('open'),'the sweep met open races');
     const gone=G.seasonEdition({projection:proj('a',3,[[R.max,R.none],[R.max,R.none]]),seasonNumber:2});
-    assert.equal(gone.paper.race.line,'Daniel is 22 clear with only 11 points left to play for: the Showdown can no longer be caught.');
-    // the lead of exactly 11 x seasons left, built on purpose: 3 seasons, Daniel 11-0 then 0-0 before the last season
-    const exact=G.seasonEdition({projection:proj('9',3,[[R.max,R.none],[R.none,R.none]]),seasonNumber:2});
-    assert.equal(exact.paper.race.line,'Daniel leads by 11. Nik can still draw level, but only with every one of the last 11 points while Daniel scores none.');
+    assert.equal(gone.paper.race.line,'Daniel is 22 clear with only 15 points left to play for: the Showdown can no longer be caught.');
+    // the lead of exactly 15 x seasons left, built on purpose: 3 seasons, Daniel 15-0 then 0-0 before the last season
+    const exact=G.seasonEdition({projection:proj('9',3,[[R.p15,R.none],[R.none,R.none]]),seasonNumber:2});
+    assert.equal(exact.paper.race.line,'Daniel leads by 15. Nik can still draw level, but only with every one of the last 15 points while Daniel scores none.');
     // 150-150 over ten seasons (15 every season with Prime Pack): a drawn Showdown, and the gold edition for both. r87 (Nik
     // 2026-11-01 17:35 UTC): 110 (11 every season) is no Golden Showdown.
     const M15={...R.max,primePack:4};
