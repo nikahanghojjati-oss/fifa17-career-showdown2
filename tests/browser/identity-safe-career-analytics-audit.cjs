@@ -123,7 +123,9 @@ async function openTeamVScreen(page,screen){
 // they show their honest unavailable state, never a local, borrowed or merged manager name and never a made-up total.
 const LOCAL_NAMES=["Canonical Manager","Same Name","Analytics Active","Analytics History","Analytics Unresolved"];
 async function assertTeamVIdentitySafe(page,screen,stage){
-  await page.waitForFunction(screen=>/unavailable/i.test(document.getElementById(screen)?.innerText||""),screen,{timeout:10000});
+  // Wait for Team V's own screen, not the app's placeholder underneath it: on a slow runner the placeholder ("Career history
+  // is unavailable right now") is in the DOM, held invisible, until Team V's files arrive, and it matches /unavailable/ too.
+  await page.waitForFunction(screen=>{const host=document.getElementById(screen);return Boolean(host&&window.CareerModeV10Screens?.isMounted?.(screen)&&!host.hasAttribute("data-v10-pending")&&/unavailable/i.test(host.innerText||""));},screen,{timeout:20000});
   const text=await page.locator(`#${screen}`).innerText();
   for(const name of LOCAL_NAMES)assert.ok(!text.toLowerCase().includes(name.toLowerCase()),`${screen} (${stage}) must not show the local name "${name}".`);
   assert.match(text,/unavailable/i,`${screen} (${stage}) must show Team V's unavailable state.`);

@@ -10,8 +10,8 @@
   // the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms the
   // release in his FIFA 17 save. The app never releases anyone itself. The boards build themselves (Nik 2026-10-30): the
   // FIFA 17 launch board excluding the Special Player, then each season's shot player out and kept signings in by position and overall, from
-  // last seasons' Transfer War verdicts (kept on this phone when they were shown; otherwise one Transfer Challenge read per
-  // missing season). No board is saved anywhere and nobody types one.
+  // last seasons' Transfer War verdicts and saved shots (kept on this phone when they were shown; otherwise plain reads of
+  // both verdict documents and the saved spins per missing season, all seasons at once; F2-12). No board is saved anywhere and nobody types one.
   // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
   // before r87. A page that fails to load skips only the animation: the result and the release still show. Anything else that
   // fails (engine, data, an error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded
@@ -128,12 +128,15 @@
   function rrsSeed(ctx){return (parseInt(String(ctx.rivalryId).slice(-8),16)^Math.imul(ctx.season,0x9E3779B1))>>>0;}
   // history[k] = both managers' Transfer War verdicts of season k, for every season before this one; null when the
   // manager leaves.
-  async function rrsHistory(ctx){
+  // F2-02: also the outcomes each season's spin marks saved (hits[k], or null when that season has none): the engine replays
+  // them as the authority. F2-12: all missing seasons are asked for at once; TRY AGAIN asks again only for those that failed.
+  async function rrsHistory(ctx,hits){
     const history=[null];
+    const first=new Map();for(let k=1;k<ctx.season;k+=1)first.set(k,Promise.resolve(ctx.verdicts(k)).catch(()=>null));
     for(let k=1;k<ctx.season;k+=1){
-      for(;;){
-        const result=await ctx.verdicts(k);
-        if(result&&result.ok){history.push(result.verdicts);break;}
+      for(let attempt=0;;attempt+=1){
+        const result=attempt===0?await first.get(k):await ctx.verdicts(k);
+        if(result&&result.ok){history.push(result.verdicts);hits[k]=result.hits||null;break;}
         const choice=await rrsAsk(ctx,{heading:"Building the boards",label:"Building the boards",lines:[rrsReadError(result,k)],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
         if(choice==="back")return null;
       }
@@ -240,9 +243,19 @@
     return parts.length?`${p.name} (${parts.join(", ")})`:String(p.name);
   }
   function rrsOutcomeLine(turn){return turn.fired?`${NAMES[turn.role]} lost ${rrsPlayerLabel(turn.player)}.`:`${NAMES[turn.role]}: empty chamber. Squad safe.`;}
+  // F2-19 (Fable job 2): a kept signing the board rules keep off is said in one line, never dropped silently. Signings are known
+  // by name only, so a name the roulette shot, a Special Player's, or a guessed and released signing's keeps him off the board.
+  const RRS_SKIP_WHY=Object.freeze({
+    shot:name=>`the roulette shot a ${name}, and a shot player never comes back.`,
+    special:name=>`${name} is a Special Player's name, and a Special Player is never on a board.`,
+    guessed:name=>`a ${name} was guessed and released in the Transfer War, and a released player stays off the board.`});
+  function rrsSkippedLines(plan,role){
+    const list=plan&&plan.skipped&&Array.isArray(plan.skipped[role])?plan.skipped[role]:[];
+    return list.filter(item=>item&&typeof item.name==="string"&&RRS_SKIP_WHY[item.reason]).map(item=>`${item.name} (signed in season ${item.season}) is not on your board: ${RRS_SKIP_WHY[item.reason](item.name)}`);
+  }
   async function rrsResult(ctx,plan){
     const mine=plan.turns.find(turn=>turn.role===ctx.managerRole);
-    const lines=plan.turns.map(rrsOutcomeLine);
+    const lines=[...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
         note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the transfer window. The game can't do it for you.`,
@@ -250,6 +263,30 @@
       :await rrsAsk(ctx,{heading:"Your squad is safe",label:"Your squad is safe",lines,note:"Your squad stays as it is this season.",
         buttons:[{id:"go",label:"GO TO THE TRANSFER WINDOW",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
     return choice==="go";
+  }
+
+  // ---------- F2-02 / F2-10: the spin marks on the server ----------
+  // ctx.marks = this season's marks as the Transfer Challenge read them ({playerOne, playerTwo}: true, an outcome, or null), or
+  // null once the window opened (both managers had spun: START needs both marks). An outcome is {fired, hitName, hitNumber,
+  // hitSlot, hitSignedSeason, version}.
+  function rrsOutcomeOf(entry){return entry&&typeof entry==="object"&&typeof entry.fired==="boolean"&&typeof entry.version==="string"?entry:null;}
+  function rrsSpunOnServer(ctx){return ctx.windowStarted===true||Boolean(ctx.marks&&ctx.marks[ctx.managerRole]);}
+  // F2-02: the partner spun this season on a different version of the game (another build, or other squad data), so the two
+  // phones could show different players. Said plainly, never a silent desync. TRY AGAIN reads the marks again (after either
+  // phone was updated); the partner's saved spin stands for him either way, so CONTINUE goes on with it as the authority.
+  async function rrsVersionStop(ctx,version){
+    for(;;){
+      const partner=rrsOutcomeOf(ctx.marks&&ctx.marks[rrsOther(ctx.managerRole)]);
+      if(!version||!partner||partner.version===version||rrsSpunOnServer(ctx)&&ctx.marks&&ctx.marks[ctx.managerRole])return true;
+      const name=NAMES[rrsOther(ctx.managerRole)];
+      const choice=await rrsAsk(ctx,{heading:"Update the game on the other phone",label:"Update the game on the other phone",
+        lines:[`${name} spun this season's roulette on a different version of the game, so the two phones could show different players.`,`Update the game on ${name}'s phone: close it fully and open it again. If yours is the one behind, do the same on yours. Then tap TRY AGAIN.`],
+        note:`Your version: ${version} · ${name}'s spin: ${partner.version}. ${name}'s saved spin stands for him either way.`,
+        buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"continue",label:`CONTINUE WITH ${name.toUpperCase()}'S SAVED SPIN`},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+      if(choice==="back")return false;
+      if(choice==="continue")return true;
+      if(typeof ctx.refreshMarks==="function"){try{const next=await ctx.refreshMarks();if(next&&typeof next==="object"){ctx.marks=next.marks===undefined?ctx.marks:next.marks;ctx.windowStarted=next.windowStarted===true;}}catch(_error){}}
+    }
   }
 
   // Fable F2-04: why no plan could be built, in words a manager can act on (the engine only answers null).
@@ -268,24 +305,35 @@
       const choice=await rrsAsk(ctx,{heading:"Loading the roulette",label:"Loading the roulette",lines:["The roulette could not load. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
       if(choice==="back")return false;
     }
-    const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx);
-    const history=ctx.season>1?await rrsHistory(ctx):[null];if(!history)return false;
+    const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx),special=rrsSpecial(ctx);
+    const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special}):null;
+    if(!await rrsVersionStop(ctx,version))return false;
+    const hits={};
+    const history=ctx.season>1?await rrsHistory(ctx,hits):[null];if(!history)return false;
+    // This season: a saved mark (this manager's own on a second browser, the partner's always) is the authority for that turn.
+    hits[ctx.season]=Object.fromEntries(ROLES.map(role=>[role,rrsOutcomeOf(ctx.marks&&ctx.marks[role])]));
     // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player. A club the data
     // does not know is named before the engine runs (Fable S4); no plan is never marked done (Fable F2-04): the window stays
     // shut and the card says why, with the way back to Showdown Home.
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
-    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special:rrsSpecial(ctx),history}):null;
+    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history);
       await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The transfer window stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
       return false;
     }
-    if(!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
+    // F2-10: the server already holds this manager's spin for this season (another browser or tab, or cleared storage): the
+    // result card shows it at once, with no second spin.
+    const spun=rrsSpunOnServer(ctx);
+    if(spun)rrsMark(WATCHED_KEY,key);
+    if(!spun&&!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
       const scene=await rrsScene(ctx,plan);
       if(scene==="watched")rrsMark(WATCHED_KEY,key);
     }
     const go=await rrsResult(ctx,plan);
     if(!go)return false;
+    // F2-02: the outcome this manager's mark records (only while the server has none for him this season).
+    if(!spun&&typeof ctx.remember==="function"&&typeof engine.outcome==="function"){try{ctx.remember(engine.outcome(plan,ctx.managerRole,version));}catch(_error){}}
     rrsMark(DONE_KEY,key);
     return true;
   }

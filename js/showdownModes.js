@@ -101,6 +101,14 @@ async function smUnpairFromSettings(){
 // PAIR AGAIN: this account's own stale record goes inactive (the same fail-closed unpair), then the existing first real pairing.
 async function smUnpairForPairAgain(){
   if(busy)return Object.freeze({ok:false,message:"Unpairing is already in progress."});busy=true;smRefresh();
+  // r87 Fable F4-02: Daniel's plain code that Nik (who unpaired) can never join is closed first, while nobody has joined it (the
+  // close re-reads that inside its own transaction), so the unpair below is not refused for it and START no longer loops back to
+  // WAITING. Only for Daniel's own pending code; one close transaction, only on PAIR AGAIN.
+  const pending=smPair()?.getState?.();
+  if(pending&&pending.connectionState==="pending-pair"&&pending.managerRole==="playerOne"&&pending.rivalryId&&typeof smPair().closeUnjoinedCode==="function"){
+    try{const closed=await smPair().closeUnjoinedCode({expectedRivalryId:pending.rivalryId});if(!closed||closed.ok!==true)throw new Error("Your earlier code could not be closed.");}
+    catch(error){busy=false;const message=smPlain(error);smSetSettingsMessage(message,"error",false);return Object.freeze({ok:false,message});}
+  }
   let result;try{result=await smRunUnpair();}catch(error){result={ok:false,blocked:false,error};}finally{busy=false;}
   if(!result.ok){const message=result.blocked&&!result.error?BLOCKED:smPlain(result.error);smSetSettingsMessage(message,"error",result.blocked&&result.live);return Object.freeze({ok:false,message});}
   settingsMessage="";settingsMessageWhileLive=false;smRefresh();return Object.freeze({ok:true});
