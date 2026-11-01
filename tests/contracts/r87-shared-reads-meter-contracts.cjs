@@ -10,7 +10,8 @@
 //      partner whose document exists but is behind (a phone locked at ACKNOWLEDGED) is read again at +3 and +10 min.
 //   M3 fallback: no partner document (an older build), one from another day, or one behind this phone's season -> the B1
 //      role-share estimate, labelled "estimated"; four reads at most a season (+8 s, +45 s, +3 min, +10 min), missing or behind.
-//   M4 Rules not deployed yet: the refused write never throws, stops the meter for the day, no partner read. A write or read
+//   M4 Rules not deployed yet: the refused write never throws, no partner read; a second refusal (the next season) stops the meter
+//      for the day, the first only skips its season (F3-01: the day's first ACKNOWLEDGED can be a final season closed under it). A write or read
 //      refused after a write succeeded today (a Showdown closed under it) skips only that season.
 //   M5 RE-05: season 1 is measured from Career Start ready; what came before goes to setup; without the mark season 1 only
 //      moves the mark (RS-07).
@@ -225,17 +226,21 @@ const reads=p=>p.ops.gets.length;
     assert.equal(nik3.budget.sharedEstimate({...nik3.budget.meterDocuments().own},{schemaVersion:1,objectType:'readsMeter',rivalryId:RID,role:'playerOne',day:dayOf(world3.clock.now),season:2,game:-5,career:0,costs:[]}),null);
   });
 
-  await check('M4 Rules not deployed: the refused write never throws, stops the meter for the day, and nothing reads the partner; later refusals skip one season',async()=>{
+  await check('M4 Rules not deployed: the refused write never throws, a second refusal stops the meter for the day (the first skips its season), and nothing reads the partner; later refusals skip one season',async()=>{
     const world=createPair();
     const daniel=phone(world,{uid:'daniel',role:'playerOne',game:800,markGame:500,denyWrites:true});
     assert.equal(daniel.acknowledge(2,{role:'playerOne'}),true);
     await world.advance(60000);
     assert.equal(daniel.ops.sets.length,1);assert.equal(reads(daniel),0,'no partner read after a refused write');
-    assert.equal(daniel.budget.meterDocuments().off,true);
+    // Fable job 3 F3-01: the day's first refusal can be a final season closed under the write, so it skips only that season.
+    assert.equal(daniel.budget.meterDocuments().off,false,'one refusal before any success skips only that season');
     assert.equal(daniel.budget.readsToday().game,800+daniel.budget.rulesLookups.write([`rivalries/${RID}/meters/playerOne`]),'a refused write is still billed its lookup');
     assert.equal(daniel.budget.readsToday().estimated,true);
     daniel.acknowledge(3,{role:'playerOne'});await world.advance(60000);
-    assert.equal(daniel.ops.sets.length,1,'no second try that day');
+    assert.equal(daniel.ops.sets.length,2,'one more try on the next season');
+    assert.equal(daniel.budget.meterDocuments().off,true,'a second refusal: the Rules are not deployed, the meter is off for the day');
+    daniel.acknowledge(4,{role:'playerOne'});await world.advance(60000);
+    assert.equal(daniel.ops.sets.length,2,'no third try that day');
     // Without Firestore (an older Season Commit adapter) noteSeasonDone works as before and writes nothing.
     const world2=createPair();const old=phone(world2,{uid:'nik',role:'playerTwo',game:300,markGame:0});
     assert.equal(old.budget.noteSeasonDone(`${RID}|2`,true),true);await world2.advance(60000);

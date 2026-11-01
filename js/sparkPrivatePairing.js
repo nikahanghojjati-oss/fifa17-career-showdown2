@@ -772,10 +772,20 @@ async function revokePairing(options={}){
   }
   const fsbReadTimes=[];let fsbDay=null,fsbDayUnsaved=0,fsbDayStoreBroken=false;
   function fsbPacificDay(at){try{return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Los_Angeles",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(at));}catch(_error){return new Date(at-8*3600000).toISOString().slice(0,10);}}
+  // The first moment of the next Pacific day after `at` (the Spark daily reset), to the minute.
+  function fsbNextPacificDayAt(at){
+    const today=fsbPacificDay(at);let t=at;
+    for(let i=0;i<30*6&&fsbPacificDay(t)===today;i+=1)t+=10*60000;
+    if(fsbPacificDay(t)===today)return at+24*3600000;
+    let lo=t-10*60000;while(t-lo>1){const mid=lo+Math.floor((t-lo)/2);if(fsbPacificDay(mid)===today)lo=mid;else t=mid;}
+    return t;
+  }
   function fsbDayState(at=fsbNow()){
     const day=fsbPacificDay(at);
-    if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:fsbBillFrom(null,day)};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");fsbDay.bill=fsbBillFrom(saved,day);if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day){if(fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);fsbDay.markReads=-fsbCarried(saved);}if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}}
-    if(fsbDay.day!==day){fsbDay={day,reads:0,markReads:-fsbCarried(fsbDay),seasons:[],costs:[],lastCost:fsbSeasonCost(fsbDay)||fsbDay.lastCost||0,bill:fsbBillNextDay(fsbDay.bill)};fsbDayUnsaved=1;}
+    if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:fsbBillFrom(null,day)};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");fsbDay.bill=fsbBillFrom(saved,day);if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day&&Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(saved&&saved.day!==day){if(fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);fsbDay.markReads=-fsbCarried(saved);}if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}}
+    // F3-14 (Fable job 3): the noted season keys carry over the Pacific reset, so a season acknowledged yesterday is not noted again
+    // (no stale meter write for it with today's near-zero counts).
+    if(fsbDay.day!==day){fsbDay={day,reads:0,markReads:-fsbCarried(fsbDay),seasons:fsbDay.seasons.slice(-FSB_DAY_SEASONS),costs:[],lastCost:fsbSeasonCost(fsbDay)||fsbDay.lastCost||0,bill:fsbBillNextDay(fsbDay.bill)};fsbDayUnsaved=1;}
     return fsbDay;
   }
   // Saved through storage.js (the only module that touches browser storage); a failed write stops further saves so a
@@ -890,7 +900,7 @@ async function revokePairing(options={}){
   // starts, locks and commits, so his phone reads about 55%.
   const FSB_ROLE_SHARE=Object.freeze({playerOne:0.55,playerTwo:0.45});
   const FSB_SHARE_READS_MS=Object.freeze([8000,45000,180000,600000]);
-  let fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null,fsbShareStarted=null;
+  let fsbShareDeniedDay=null,fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null,fsbShareStarted=null;
   function fsbShareRole(role){return role==="playerOne"||role==="playerTwo"?role:null;}
   function fsbRoleShare(role){return FSB_ROLE_SHARE[role]||0.5;}
   function fsbShareWhole(value,max){return Number.isInteger(value)&&value>=0&&value<=max;}
@@ -941,9 +951,11 @@ async function revokePairing(options={}){
     if(!api)return false;
     const path=`rivalries/${doc.rivalryId}/meters/${doc.role}`;
     try{await api.setDoc(api.doc(db,"rivalries",doc.rivalryId,"meters",doc.role),{...doc,costs:[...doc.costs],updatedAt:api.serverTimestamp()});}
-    // Refused before any write succeeded today: the Rules are not deployed yet, so the meter is off for the day. Refused after one
-    // succeeded (a Showdown closed under this write): only this season is skipped.
-    catch(error){if(fsbMeterFailureUnits(error))fsbBill(fsbWriteLookups([path]));const now=fsbDayState();if(fsbIsDeniedError(error)&&!(now.day===doc.day&&now.bill.own))fsbShareOffDay=doc.day;if(fsbIsQuotaError(error))fsbTrip();return false;}
+    // Refused after a write succeeded today (a Showdown closed under this write): only this season is skipped. Refused before any
+    // write succeeded today: also only this season the first time, since the day's first ACKNOWLEDGED can be a final season whose
+    // Terminal Close lands before this write (Fable job 3 F3-01); a second refusal on a later season means the Rules are not
+    // deployed, so the meter is off for the day.
+    catch(error){if(fsbMeterFailureUnits(error))fsbBill(fsbWriteLookups([path]));const now=fsbDayState();if(fsbIsDeniedError(error)&&!(now.day===doc.day&&now.bill.own)){if(fsbShareDeniedDay===doc.day)fsbShareOffDay=doc.day;else fsbShareDeniedDay=doc.day;}if(fsbIsQuotaError(error))fsbTrip();return false;}
     fsbBill(fsbWriteLookups([path]));
     const day=fsbDayState();if(day.day===doc.day){day.bill.own=doc;fsbDayUnsaved+=1;fsbSaveDay();}
     fsbShareStarted=fsbShareKey(doc);
@@ -1033,6 +1045,8 @@ async function revokePairing(options={}){
     if(typeof get!=="function"||fsbMetered.has(get))return get;
     const metered=function(...args){
       let pending;
+      // F3-13 (Fable job 3): like transactions, a direct get is refused on the phone while the quota pause holds.
+      if(fsbPaused())return Promise.reject(fsbQuotaError());
       const lookups=fsbReadLookups(fsbPathOf(args[0]),true);
       try{pending=get.apply(this,args);}catch(error){fsbGetFailed(error,lookups);throw error;}
       return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);return snapshot;},error=>{fsbGetFailed(error,lookups);throw error;});
@@ -1136,15 +1150,17 @@ async function revokePairing(options={}){
   }
   function fsbTrip(){
     if(fsbPaused())return;
-    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000;
+    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPacificDay(fsbPause.since)===fsbPacificDay(at);
     const step=recent?Math.min(fsbPause.step+1,FSB_PAUSE_STEPS_MS.length-1):0;
-    fsbPause=Object.freeze({step,since:at,until:at+FSB_PAUSE_STEPS_MS[step]});
+    // F3-07 (Fable job 3): the free reads come back at midnight Pacific, so no pause runs past the reset (+1 min).
+    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],fsbNextPacificDayAt(at)+60000);
+    fsbPause=Object.freeze({step,since:at,until});
     fsbStats.quotaTrips+=1;
     fsbEntries.clear();
     fsbDetachWait();fsbCtxDetach();
     if(fsbResumeTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(fsbResumeTimer);
     // One timer per pause, only to tell the screens that online play may resume; it reads nothing itself.
-    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},FSB_PAUSE_STEPS_MS[step]+50):null;
+    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},Math.max(0,until-at)+50):null;
     fsbPublish();
   }
   function fsbHidden(){return Boolean(root.document&&root.document.visibilityState==="hidden");}
