@@ -2431,14 +2431,6 @@
       ]
     },
     {
-      "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
-      "patterns": [
-        "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
-        "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/r87-roulette-board-invariants-contracts.cjs",
       "patterns": [
         "^js/(rosterRoulette|rosterRouletteStep|sharedTransferChallenge|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
@@ -2518,6 +2510,25 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-commentary-v3-contracts.cjs",
+      "patterns": [
+        "^js/(commentaryV3|commentaryEngine|seasonFinalV10)\\.js$",
+        "^data/commentaryLines\\.js$",
+        "^visual-assets/v10_1/content/content\\.css$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r87\\-commentary\\-v3\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
+        "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-fable-step-contracts.cjs",
       "patterns": [
         "^js/rosterRouletteStep\\.js$",
@@ -2543,6 +2554,27 @@
         "^js/(v10Screens|menuExperience|productionSharedMultiSeasonProgression|productionSharedJourneyReconnect)\\.js$",
         "^css/(v10Shell|rulesSettingsV10|v10Club)\\.css$",
         "^tests/contracts/r87\\-polish\\-final\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-roulette-hits-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRoulette|rosterRouletteStep|sparkSharedTransferChallenge|productionSharedTransferChallenge|productionSharedJourneyReconnect|sparkPrivatePairing)\\.js$",
+        "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
+        "^tests/contracts/r87\\-roulette\\-hits\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-transition-gate-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^css/v10Shell\\.css$",
+        "^visual-assets/v10_1/season-results/",
+        "^visual-assets/v10_1/final-winner/",
+        "^tests/contracts/r87\\-transition\\-gate\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

@@ -219,7 +219,11 @@
     root.addEventListener?.("career-mode-connected-account-state-change",pjrWake);
     root.addEventListener?.("career-mode-shared-terminal-close-state-change",pjrOnTerminalClose);
     root.document?.addEventListener?.("visibilitychange",pjrWake);
-    if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.()||Date.now()>=Number(root.CareerModeSparkRemoteJoining?.getState?.()?.expiresAtEpochMs))pjrWake();},POLL_MS);
+    // S6 (Fable job 2): the routine 15 s check re-reads Setup and the season progression (with its history) whenever the commit
+    // listener is not watching, about once a minute once the budget layer's quiet copies age. While the full-screen roulette is
+    // up nothing of the banner is visible and no shared state can change under it, so the check waits for the roulette to end
+    // (a session that is expiring still wakes it, and every event wake still runs).
+    if(typeof root.setInterval==="function")root.setInterval(()=>{const expiring=Date.now()>=Number(root.CareerModeSparkRemoteJoining?.getState?.()?.expiresAtEpochMs);if(!expiring&&root.CareerModeRosterRouletteStep?.active?.()===true)return;if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.()||expiring)pjrWake();},POLL_MS);
     if(typeof root.setTimeout==="function")root.setTimeout(pjrWake,0);
     return true;
   }
