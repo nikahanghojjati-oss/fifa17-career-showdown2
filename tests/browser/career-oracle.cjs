@@ -180,7 +180,9 @@ function checkBrowser(who,raw,E){
     if(r){
       const sc=Expect.scoreSeason;
       const want=r.seasons.map((p,i)=>`Season ${i+1} Daniel: ${sc(p.daniel).total} #${p.daniel.leaguePosition} · ${p.daniel.leaguePoints} league pts · ${p.daniel.leagueGoals} goals – Nik: ${sc(p.nik).total} #${p.nik.leaguePosition} · ${p.nik.leaguePoints} league pts · ${p.nik.leagueGoals} goals`);
-      const missing=want.filter(w=>!f.seasonHistory.includes(w));
+      // Desktop lays the season score and the league finish out side by side, so innerText has no space between them ("0#2").
+      const flat=t=>t.replace(/\s*#/g," #");
+      const missing=want.filter(w=>!flat(f.seasonHistory).includes(w));
       check(id("history.seasons"),`History VIEW SEASON HISTORY (Showdown #${r.number}) lists every season's score, league finish, points and goals as stored`,missing.length===0,{missing:missing.slice(0,4),shown:f.seasonHistory.slice(0,800)},o("History (season history)"));
     }
   }
