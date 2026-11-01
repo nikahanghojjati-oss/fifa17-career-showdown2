@@ -97,7 +97,9 @@
     let frame=null;
     // r87 career fixes (B4): a career whose only Showdowns ended early has no finished Showdown, so nothing counts: it is the
     // same empty state as a new career, not both managers crowned #1 on 0-0. History still lists those Showdowns.
-    if(view.status==="ready"&&!view.interimLabel&&MANAGERS.every(manager=>model.managers?.[manager]?.showdowns?.completed===0))view={...view,status:"empty"};
+    // H2 (career truth hunt): a partial career with no finished Showdown is not "#1 at 0-0" either. The Showdown that could not
+    // be read may be a finished one, so nothing can be counted or crowned: unavailable (reopening reads it again).
+    if((view.status==="ready"||view.status==="partial")&&!view.interimLabel&&MANAGERS.every(manager=>model.managers?.[manager]?.showdowns?.completed===0))view={...view,status:view.status==="ready"?"empty":"unavailable"};
     if(view.status==="ready"||view.status==="partial"){
       frame=screen==="careerStatistics"?v10CareerStatistics(model,view.status):v10TrophyRoom(model,view.status);
       if(!frame)frame=bare("unavailable");

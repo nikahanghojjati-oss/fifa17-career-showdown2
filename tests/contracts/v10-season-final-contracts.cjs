@@ -60,9 +60,16 @@ check("V29.2 missing/invalid final authority never supplies zeroes or a winner",
 });
 check("V29.3 Standings copies acknowledged rivalry rows and career standings in Daniel/Nik order",()=>{
   const fx=JSON.parse(read("tests/fixtures/data-contract-v1/active-mid-season.json")),r=fx.viewers.daniel.rivalry;
-  const frames=api.standingsFrames(r,fx.career);
+  // H2 (career truth hunt): the fixture's career has no finished Showdown, so CAREER is the empty career message (never LEVEL 0-0).
+  assert.equal(api.standingsFrames(r,fx.career).CAREER.model.status,"empty");assert.equal(api.standingsFrames(r,fx.career).CAREER.model.standings,undefined);
+  // The CAREER copy is checked on a real career with finished Showdowns (built by the real History verifier and career model).
+  const H=require("../support/career-fixture-helpers.cjs"),Career=require("../../js/sharedCareerAnalytics.js");
+  const done=H.projection({seed:"7",totalSeasons:1,seasons:[[H.result({championsLeague:true,leaguePosition:1}),H.result({domesticCup:true})]]});
+  const career=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:done.rivalryId,classification:"completed",projection:done,final:H.finalFor(done)}]});
+  assert.ok(career.managers.daniel.careerPoints>0&&career.managers.daniel.showdowns.completed===1);
+  const frames=api.standingsFrames(r,career);
   assert.deepEqual(frames.SHOWDOWN.model.score,r.score);for(const m of ["daniel","nik"])for(const [k,v] of Object.entries(frames.SHOWDOWN.model.managerRecords[m]))assert.equal(v,r.managers[m][k],m+" "+k);
-  for(const m of ["daniel","nik"]){assert.equal(frames.CAREER.model.standings[m].careerPoints,fx.career.trophyRoom.standings.find(x=>x.manager===m).careerPoints);}
+  for(const m of ["daniel","nik"]){assert.equal(frames.CAREER.model.standings[m].careerPoints,career.trophyRoom.standings.find(x=>x.manager===m).careerPoints);}
   assert.deepEqual(Object.keys(frames.CAREER.model.standings),["daniel","nik"]);
   const {doc}=visualEnv("standings",frames);
   for(const row of doc.getElementById("sdgRows").children){assert.equal(row.children[0].textContent,String(r.managers.daniel[row.dataset.field]));assert.equal(row.children[2].textContent,String(r.managers.nik[row.dataset.field]));}
