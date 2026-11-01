@@ -44,6 +44,7 @@ function watcher(settleMs){
     frameEl=null;
     if(top){parts.push(top.id||top.className.split(" ").join("."));const h=top.querySelector("h1,h2,[role=heading]");if(h&&visible(h))parts.push(norm(h.innerText));}
     const over=[...document.querySelectorAll("dialog[open],[role=dialog],[aria-modal=true],.modal:not(.hidden),.overlay:not(.hidden)")].filter(visible).pop();
+    const cmx=document.querySelector(".cmx-bar");if(cmx&&visible(cmx))parts.push("cmx");
     if(over){const h=over.querySelector("h1,h2,h3,[role=heading]");parts.push("over:"+(over.id||"")+":"+norm(h?h.innerText:over.innerText.slice(0,40)));}
     if(!parts.length){const h=[...document.querySelectorAll("h1,h2")].find(visible);if(h)parts.push("page:"+norm(h.innerText));}
     return parts.join(" | ")||null;

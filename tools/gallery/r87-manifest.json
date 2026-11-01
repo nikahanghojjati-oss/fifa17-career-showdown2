@@ -1,16 +1,19 @@
 {
  "title": "Showdown 2.0.0 Gallery",
- "lede": "PREVIEW from gameplay/r87 73713d75 (before the fix PRs land); rebuilt from the release head before you type merge r87. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator from the release branch by CE2PG. Tap any picture to open it full size.",
+ "lede": "PREVIEW from gameplay/r87 f4efa199 (1 Nov 07:17 UTC, 45 more fix PRs in); re-shot for the last changes at the 15:00 UTC freeze. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator from the release branch by CE2PG. Tap any picture to open it full size.",
  "notes": "gameplay/r87/RELEASE_NOTES_2.0.0.md",
  "checklist_url": "https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU",
  "shots_dir": "test-results/gallery-r87",
  "screens": [
   {
    "title": "Home",
-   "note": "Gold Continue tile and Connect buttons, no dimming. Desktop music player in the top bar.",
+   "note": "Gold Continue tile and Connect buttons, no dimming. Desktop music player in the top bar. Music keeps your chosen song; a double tap no longer opens the wrong screen.",
    "prs": [
     1096,
-    1049
+    1049,
+    1111,
+    1134,
+    1139
    ],
    "desktop": {
     "match": "^mainMenu$",
@@ -92,7 +95,7 @@
   },
   {
    "title": "Russian Roster Roulette, the scene",
-   "note": "Seven chambers, one bullet. Daniel spins first. Boards are each club's FIFA 17 launch squad in its real formation. Pictures from the roulette fix PR (#1095), at 1366x768 and 390x844: headless Chromium here has no WebGL, so CE2PG plays this step on the result panel.",
+   "note": "Seven chambers, one bullet. Daniel spins first. Boards are each club's FIFA 17 launch squad in its real formation. Pictures from the roulette fix PR (#1095); the look was polished again in #1123 (nickel drum, title steps aside), at 1366x768 and 390x844: headless Chromium here has no WebGL, so CE2PG plays this step on the result panel.",
    "prs": [
     1069,
     1080,
@@ -146,12 +149,14 @@
   },
   {
    "title": "Transfer Challenge",
-   "note": "Each signing takes FIFA 17 overall and position. Official 2016-17 league names, full scrolling search lists, faces clear on laptops.",
+   "note": "Each signing takes FIFA 17 overall and position. Official 2016-17 league names, full scrolling search lists, faces clear on laptops. Window clock is the hero on laptops; RELEASE and KEEP stamps.",
    "prs": [
     1069,
     1081,
     1082,
-    1044
+    1044,
+    1130,
+    1148
    ],
    "desktop": {
     "match": "^transferChallenge"
@@ -161,23 +166,40 @@
    }
   },
   {
-   "title": "Season Results",
-   "note": "Results entry and review.",
+   "title": "Season Results entry",
+   "note": "Result entry form.",
    "prs": [
-    1052
+    1052,
+    1130
    ],
    "desktop": {
-    "match": "^(tap:)?seasonEntry"
+    "match": "^seasonEntry"
    },
    "phone": {
-    "match": "^(tap:)?seasonEntry"
+    "match": "^seasonEntry"
+   }
+  },
+  {
+   "title": "Season Results with Commentary v3",
+   "note": "Two-voice TV bar in the SEASON SCORE box: COMMENTARY plus BY THE NUMBERS, from your own results only.",
+   "prs": [
+    1126,
+    1130
+   ],
+   "desktop": {
+    "match": "cmx"
+   },
+   "phone": {
+    "match": "cmx"
    }
   },
   {
    "title": "Touchline Gazette, season edition",
    "note": "A front page after each season, the same on both phones, no extra reads.",
    "prs": [
-    1094
+    1094,
+    1110,
+    1116
    ],
    "desktop": {
     "match": "^gazette",
@@ -194,7 +216,8 @@
    "prs": [
     1044,
     1065,
-    1093
+    1093,
+    1130
    ],
    "desktop": {
     "match": "finalWinnerScreen"
@@ -207,7 +230,9 @@
    "title": "Touchline Gazette, final edition",
    "note": "Covers the whole Showdown; the last season goes straight here.",
    "prs": [
-    1094
+    1094,
+    1110,
+    1116
    ],
    "desktop": {
     "match": "^(tap:)?gazette"
@@ -258,13 +283,16 @@
   },
   {
    "title": "Legacy",
-   "note": "Season history opens in the archive pane; drawn Showdowns show a gold =.",
+   "note": "History opens on the newest Showdown; season history is now a table (season, both managers, result); fast with hundreds of Showdowns.",
    "prs": [
-    1052,
+    1103,
+    1120,
+    1135,
     1093
    ],
    "desktop": {
-    "match": "^legacy"
+    "match": "^legacy",
+    "first": false
    },
    "phone": {
     "match": "^legacy"
@@ -287,7 +315,9 @@
    "prs": [
     1097,
     1088,
-    1093
+    1093,
+    1134,
+    1146
    ],
    "desktop": {
     "match": "settingsDialog"
