@@ -2679,6 +2679,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-consistency-contracts.cjs",
+      "patterns": [
+        "^js/(commentaryV3|commentaryEngine|rosterRoulette|careerScreenSeam)\\.js$",
+        "^data/(fifa17Players|rosterSquads)\\.js$",
+        "^tests/contracts/r87\\-consistency\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/settings-internal-audit-surface-contracts.cjs",
       "patterns": [
         "^js/onlinePlayerIdentity\\.js$",
