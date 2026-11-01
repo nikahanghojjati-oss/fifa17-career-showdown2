@@ -30,11 +30,7 @@ const confirmed=(extra={})=>({ready:true,rivalryId:RIVALRY,managerRole:'playerOn
   assert.deepEqual({...pick},{key:`${RIVALRY}|playerOne`,d:picks.playerOne,n:picks.playerTwo},'Daniel (playerOne) left, Nik (playerTwo) right, from the shared draw');
   assert.deepEqual(MP.forShowdown(RIVALRY,MP.fromMs+60000).playerOne.name,List.players[pick.d].name,'the reveal shows the pair the career screens show');
   assert.equal(api.decide(confirmed({setupUpdatedAtMs:MP.fromMs-1})),null,'a Showdown confirmed before r86 has no reveal');
-  // Fable F8-04: a confirmed state with no confirm time is this manager's own confirm tap on this build (a read always carries
-  // the time), so the new-Showdown draw applies instead of the reveal being lost for good.
-  const own=api.decide(confirmed({setupUpdatedAtMs:null}));
-  assert.ok(own,'no confirm time yet (own confirm tap): the reveal still shows');
-  assert.deepEqual([own.d,own.n],[MP.picks(RIVALRY,List.players.length).playerOne,MP.picks(RIVALRY,List.players.length).playerTwo],'the same pair as the confirmed draw');
+  assert.equal(api.decide(confirmed({setupUpdatedAtMs:null})),null,'no confirm time, no reveal');
   assert.equal(api.decide(confirmed({setup:{phase:'CLUBS_COMMITTED',revision:5}})),null,'only a confirmed Setup');
   assert.equal(api.decide(confirmed({ready:false})),null);
   assert.equal(api.decide(confirmed({rivalryId:'pair_short'})),null,'an id the draw cannot read');
