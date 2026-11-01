@@ -667,7 +667,7 @@ jobs:
         # Each audit gets fresh emulators: they sign in the same Daniel and Nik accounts, and one
         # audit's pairing and Showdowns must not leak into the next.
         run: |
-          for audit in r79-two-player-journey-audit r79-delete-rejoin-audit r79-modes-settings-audit; do
+          for audit in r79-two-player-journey-audit r79-delete-rejoin-audit r79-modes-settings-audit r87-pairing-edges-audit; do
             npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey "node tests/browser/$audit.cjs" || exit 1
           done
       - name: Upload journey screenshots
