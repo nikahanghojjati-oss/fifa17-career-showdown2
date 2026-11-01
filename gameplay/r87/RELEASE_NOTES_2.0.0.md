@@ -1,7 +1,7 @@
 # Career Mode Showdown 2.0.0 (r87): release notes
 
 Draft for Nik and Daniel. Kept up to date as fix PRs land in gameplay/r87. Facts come from the merged PRs listed at the bottom.
-Status: DRAFT, last updated 2026-11-01 17:45 UTC (final app build gameplay/r87 9a9667fb). Items under "Still to land" are not in yet.
+Status: DRAFT, last updated 2026-11-01 18:00 UTC (gameplay/r87 187a67c0). Items under "Still to land" are not in yet.
 
 ## The big one: Russian Roster Roulette
 Every season, after Career Start and before the transfer window, each of you spins a seven-chamber revolver in a 3D cowboy-cafe scene. Daniel spins first.
@@ -19,7 +19,7 @@ Every season, after Career Start and before the transfer window, each of you spi
 Once a season, right after the roulette and before the transfer window, a Prime Pack opens on both phones and one masked Icon card rises.
 - Stage 1 shows his position and one real card stat; each of the next three stages adds a stat. A right name scores 4, 3, 2 or 1 points depending on the stage.
 - Each of you has 2 guesses for the whole round. The first right guess wins (by server time), so only one of you can score. Nobody right means nobody scores, and the full card is revealed.
-- A perfect season is now 15 points, and a Golden Showdown is 150 points over ten seasons.
+- A perfect season is now 15 points, and a Golden Showdown is 150 points over ten seasons. Trophy Room, Statistics and the Rule Book all say so.
 - The player is never stored: both phones work him out from the Showdown, so nobody can peek.
 - If one of you taps BACK while waiting, the other can't play the round alone.
 - Team V's card art: a cream-and-gold Icon card in the Showdown's own style. With the phone keyboard open the page keeps its phone layout, and once the round is over your line gets the whole box.
@@ -86,4 +86,4 @@ Buttons and status lines name Daniel instead of "host", the Transfer Challenge s
 - Nik's real-phone check on the live game (there is no test site, and the roulette needs a Showdown started after the release): https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU
 
 ## Merged PRs in this release (into gameplay/r87)
-#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148, #1118, #1122, #1150, #1151, #1152, #1153, #1154, #1157, #1158, #1159, #1160, #1161, #1162, #1164, #1165, #1166, #1167, #1168, #1169, #1170, #1171, #1173, #1174, #1149, #1175, #1163, #1176, #1177, #1178, #1179, #1180.
+#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148, #1118, #1122, #1150, #1151, #1152, #1153, #1154, #1157, #1158, #1159, #1160, #1161, #1162, #1164, #1165, #1166, #1167, #1168, #1169, #1170, #1171, #1173, #1174, #1149, #1175, #1163, #1176, #1177, #1178, #1179, #1180, #1182 (tests only), #1183.
