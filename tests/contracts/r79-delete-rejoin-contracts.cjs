@@ -227,6 +227,37 @@ async function pairContracts(){
     ok("J1b2 Daniel's Home (no note watch) lets a normally finished Showdown go too");
   }
   {
+    // r87 fault suite (reload / second tab at the terminal close): the CLOSED event fired before this module loaded, or while
+    // Home was already showing, so it was missed; Home kept CONTINUE SHOWDOWN into the closed Showdown (Remote Joining / dead
+    // dashboard loop). Terminal Close's own in-memory state stands in for the missed event, and Home shown settles it. No read.
+    const closedTerminal=rivalryId=>({getState:()=>({phase:"CLOSED",rivalryId,terminal:true})});
+    const missed=pairHarness();await missed.pair.initialize({force:true});
+    const reads=missed.calls.transactions;
+    missed.sandbox.CareerModeProductionSharedTerminalClose=closedTerminal(R1);
+    missed.pair.settleOnHome();
+    assert.equal(missed.pair.getState().closedRivalryId,R1,"Home shown: Terminal Close already holds R1 CLOSED, so the missed event still lets it go");
+    assert.equal(missed.pair.getState().connectionState,null);
+    assert.equal(missed.calls.transactions,reads,"no read for it");
+    ok("J1b3 a CLOSED event this page missed: Home shown settles the finished Showdown from Terminal Close's state, no read");
+    const other=pairHarness();await other.pair.initialize({force:true});
+    other.sandbox.CareerModeProductionSharedTerminalClose=closedTerminal(R2);
+    other.pair.settleOnHome();
+    assert.equal(other.pair.getState().connectionState,"active","another rivalry's CLOSED state lets nothing go");
+    const away=pairHarness();await away.pair.initialize({force:true});
+    away.sandbox.getActiveScreenName=()=>"dashboard";
+    away.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
+    assert.equal(away.pair.getState().connectionState,"active","CLOSED away from Home still waits for Home (Final Winner runs on the pair)");
+    const onHome=pairHarness();await onHome.pair.initialize({force:true});
+    onHome.sandbox.getActiveScreenName=()=>"mainMenu";
+    onHome.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
+    assert.equal(onHome.pair.getState().closedRivalryId,R1,"CLOSED while Home is already showing settles at once (no later Home-shown moment comes)");
+    const late=pairHarness();late.sandbox.getActiveScreenName=()=>"mainMenu";late.sandbox.CareerModeProductionSharedTerminalClose=closedTerminal(R1);
+    await late.pair.initialize({force:true});
+    assert.equal(late.pair.getState().connectionState,null,"the pair answering after Terminal Close knows R1 CLOSED, on Home: held closed, never live");
+    assert.equal(late.pair.getState().closedRivalryId,R1);
+    ok("J1b4 CLOSED while Home shows, or the pair read answering after it on Home, settles at once; away from Home it still waits");
+  }
+  {
     // Codex #910: DELETED that lands while a pair action is busy is kept and applied once the action settles.
     const h=pairHarness();
     await h.pair.initialize({force:true});
@@ -343,14 +374,26 @@ async function pairContracts(){
     ok("J4b Nik's JOIN on the reused shell redraws Home's chip once the new pairing lands (and on nothing else)");
   }
   {
-    // Nothing says the local Showdown is closed: the refusal and its Settings message are unchanged.
-    const h=pairHarness({linked:false,rounds:5});
+    // Nothing says the local Showdown is closed and the pair link still names a Showdown: the refusal and its Settings message
+    // are unchanged.
+    const h=pairHarness({rivalryState:"pending-pair",rounds:5});
     await h.pair.initialize({force:true});
     const joined=await h.pair.joinPairing(`CMS17-${R2}`,{managerRole:"playerTwo",autoContinue:false});
     assert.notEqual(joined.status,"paired");
     assert.match(joined.message,/You still have a different unfinished Showdown\. End it in Settings \(END SHOWDOWN\)/);
     assert.equal(h.calls.redeem.length,0);assert.equal(h.calls.provision,0);
-    ok("J5 a local Showdown not known closed still refuses with the Settings message (not weakened)");
+    ok("J5 a local Showdown a pair link still names refuses with the Settings message (not weakened)");
+  }
+  {
+    // r87 Fable F4-01: no pair link at all, so nothing was ever committed for the untouched shell of another length (a JOIN whose
+    // redeem failed left it; Settings shows no END SHOWDOWN for it). It is replaced and the JOIN goes on.
+    const h=pairHarness({linked:false,rounds:5});
+    await h.pair.initialize({force:true});
+    const joined=await h.pair.joinPairing(`CMS17-${R2}`,{managerRole:"playerTwo",autoContinue:false});
+    assert.doesNotMatch(String(joined.message),/End it in Settings \(END SHOWDOWN\)/);
+    assert.deepEqual(h.deleted.slice(0,1),[SAVE_OLD],"the orphan empty shell is removed");assert.equal(h.calls.provision,1,"the code's length is prepared");
+    assert.equal(h.calls.redeem.length,1,"and redeemed");
+    ok("J5b an orphan empty shell no pair link names never blocks Nik's JOIN of another length");
   }
 }
 

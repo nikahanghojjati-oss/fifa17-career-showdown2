@@ -1,8 +1,8 @@
 (function(root,factory){
-  const api=factory();
+  const api=factory(root);
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
   else root.CareerModeCareerScreenSeam=api;
-})(typeof globalThis!=="undefined"?globalThis:this,function(){
+})(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
   const SCREENS=["careerStatistics","trophyRoom","legacy","rivalryStatistics"];
   const STATUSES=["loading","empty","unavailable","partial","ready"];
@@ -19,7 +19,7 @@
     historyStatus:{completed:"Completed","in-progress":"In progress","completion-pending":"Final result, completion pending",abandoned:"Ended early",unavailable:"Unavailable"},
     winner:{daniel:"Daniel won",nik:"Nik won",draw:"Draw"}
   };
-  const csNames={daniel:"Daniel",nik:"Nik",shared:"Shared"};
+  const csNames={daniel:"Daniel",nik:"Nik",shared:"LEVEL"};
   const csCareerFields=[["Career points","careerPoints"],["Seasons played","seasons"],["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"]];
   const csShowdownFields=[["Showdowns completed","completed"],["Showdown wins","wins"],["Showdown draws","draws"],["Showdown losses","losses"]];
   const csRecordFields=[["Best season score","bestSeasonScore"],["Best league points","bestLeaguePoints"],["Best league goals","bestLeagueGoals"],["Best league position","bestLeaguePosition"],["Average season score","averageSeasonScore"],["Average league points","averageLeaguePoints"],["Average league goals","averageLeagueGoals"],["Perfect seasons","perfectSeasons"],["100-point seasons","hundredPointSeasons"],["100-goal seasons","hundredGoalSeasons"],["Top scorer seasons","topScorerSeasons"],["Top assist seasons","topAssistSeasons"],["Performance bonuses","performanceBonuses"],["Awards bonuses","awardsBonuses"]];
@@ -50,18 +50,43 @@
     return dataTools===true?"local":"unavailable";
   }
   // r80 Ended early row: "Ended early · 18 Oct 2026 · 1 season"; an unknown date or count (closes before the mark) is a dash.
+  // r87 career fixes (A-04): the date is the UTC day, so Daniel's and Nik's phones print the same date in any time zone.
   function endedEarlyText(row){
     const at=row&&Number.isFinite(row.endedAt)&&row.endedAt>0?new Date(row.endedAt):null,played=row&&Number.isInteger(row.seasonsPlayed)?row.seasonsPlayed:null;
-    let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(at);}catch(_error){date="-";}}
+    let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"}).format(at);}catch(_error){date="-";}}
     return TEXT.historyStatus.abandoned+" · "+date+" · "+(played===null?"- seasons":played+(played===1?" season":" seasons"));
   }
-  // r84 Golden Showdown (Nik): a manager who scores 110 Showdown points (11, the most a season can score, in every season)
-  // in a finished 10-season Showdown. Each manager is judged on their own total, so both can earn it in one Showdown. An
-  // ended-early, unfinished or shorter Showdown never earns it. Read from the completed rows already loaded; nothing is stored.
-  const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:110});
+  // r84 Golden Showdown (Nik): a manager who scores the most a season can score in every season of a finished 10-season
+  // Showdown. Each manager is judged on their own total, so both can earn it in one Showdown. An ended-early, unfinished or
+  // shorter Showdown never earns it. Read from the completed rows already loaded; nothing is stored.
+  // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so its
+  // Golden Showdown is 150; a Showdown confirmed before Prime Pack keeps 11 a season and 110. PRIME_PACK_FROM_MS is
+  // js/iconGuess.js fromMs (the Roster Roulette boundary; tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
+  const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:110,primePackPoints:150});
+  const SEASON_MAX=Object.freeze({before:11,primePack:15});
+  const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  const PAIR_ID=/^pair_[0-9a-f]{64}$/;
+  function csSeasonScores(row){
+    const out=[];
+    for(const season of Array.isArray(row&&row.seasons)?row.seasons:[]){const score=season&&season.score;if(score)for(const key of ["daniel","nik","playerOne","playerTwo"])if(Number.isInteger(score[key]))out.push(score[key]);}
+    return out;
+  }
+  function csLiveSetup(){try{const state=root.CareerModeProductionSharedShowdownSetup?.getState?.();return state&&state.ready===true&&state.setup?.phase==="SHOWDOWN_CONFIRMED"&&PAIR_ID.test(String(state.rivalryId))&&Number.isFinite(state.setupUpdatedAtMs)?state:null;}catch(_error){return null;}}
+  // The most one season of this Showdown can score: 15 with Prime Pack, 11 before. Known from the Showdown's confirm time;
+  // without one, a season over 11 can only be Prime Pack, and the live Showdown's Setup (when it is this Showdown) decides.
+  function seasonMaxFor(row){
+    const pack=SEASON_MAX.primePack,before=SEASON_MAX.before;
+    if(row&&PAIR_ID.test(String(row.rivalryId))&&Number.isFinite(row.setupConfirmedAt))return row.setupConfirmedAt>=PRIME_PACK_FROM_MS?pack:before;
+    if(csSeasonScores(row).some(score=>score>before))return pack;
+    const live=csLiveSetup();
+    if(live&&(row?.rivalryId==null||row.rivalryId===live.rivalryId))return live.setupUpdatedAtMs>=PRIME_PACK_FROM_MS?pack:before;
+    return before;
+  }
+  function goldenShowdownPoints(row){return GOLDEN_SHOWDOWN.seasons*seasonMaxFor(row);}
   function goldenShowdownManagers(row){
     if(!row||row.status!=="completed"||row.totalSeasons!==GOLDEN_SHOWDOWN.seasons||row.seasonsPlayed!==GOLDEN_SHOWDOWN.seasons||!row.totals)return [];
-    return ["daniel","nik"].filter(manager=>Number.isInteger(row.totals[manager])&&row.totals[manager]>=GOLDEN_SHOWDOWN.points);
+    const points=goldenShowdownPoints(row);
+    return ["daniel","nik"].filter(manager=>Number.isInteger(row.totals[manager])&&row.totals[manager]>=points);
   }
   function goldenShowdownCounts(rows){
     const counts={daniel:0,nik:0};
@@ -170,5 +195,5 @@
     }
     fragment.appendChild(root);return fragment;
   }
-  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,endedEarlyText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
+  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,SEASON_MAX,PRIME_PACK_FROM_MS,seasonMaxFor,goldenShowdownPoints,endedEarlyText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
 });

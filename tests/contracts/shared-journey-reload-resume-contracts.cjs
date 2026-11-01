@@ -206,11 +206,37 @@ function multiSandbox({accepted,total=3,terminal=false}){
   }
   console.log("ok C1 accepted season resumes on the dashboard; C2 season 1 still resumes into Career Start");
 
+  // C3/C4 (r87 arch S-01): the multi-season read failed twice (resumeFromAuthority null, lastError set). A phone whose own
+  // save already holds a played season must not land on Career Start (season 1); it fails into the retryable entry.
+  // A phone with no played season keeps the old Career Start fallback.
+  for(const [local,expectCareerStart] of [[{rounds:[{}],currentRound:2},false],[{rounds:[],currentRound:1},true]]){
+    const setup={ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6}};
+    let careerStartOpened=0;const reported=[];
+    const t=bootEntry({pending:true,pairState:{status:"paired",rivalryId:RIVALRY,connectionState:"active"},extra:{
+      currentShowdown:{sharedJourney:{contractVersion:1,mode:"shared"},...local},
+      reportApplicationError:(context,error)=>reported.push(String(error?.code||"")),
+      ensureSaveLibraryRuntimeAuthority:async()=>true,
+      ensureGameplayModules:async()=>true,
+      CareerModeProductionSharedShowdownSetup:{refresh:async()=>setup,getState:()=>setup},
+      CareerModeProductionSharedMultiSeasonProgression:{install(){},decorateDashboard(){},lastError:()=>"MULTI_SEASON_PROVIDER_UNAVAILABLE",resumeFromAuthority:async()=>null},
+      CareerModeProductionSharedCareerStart:{openPanel:async()=>{careerStartOpened+=1;return true;}}
+    }});
+    await t.api.openSharedExperience();
+    if(expectCareerStart){
+      assert.equal(careerStartOpened,1,"C4 no played season: an unread count keeps the Career Start fallback");
+    }else{
+      assert.equal(careerStartOpened,0,"C3 a played season is never sent back to Career Start because a read failed");
+      assert.deepEqual(reported,["MULTI_SEASON_RESUME_UNREAD"],"C3 the failed read is reported, not hidden");
+      assert.deepEqual(t.calls.navigate,[],"C3 no screen is opened on an unread season count");
+    }
+  }
+  console.log("ok C3 unread season count never replays Career Start mid-Showdown; C4 fresh Showdown fallback unchanged");
+
   // D. Static locks: capability stays page-memory, marker shape unchanged, Career Start route literal kept.
   assert.equal(remoteSource.includes("sessionStorage"),false,"D1 the private-session capability is never persisted by Remote Joining");
   assert.equal(remoteSource.includes("localStorage"),false,"D1 the private-session capability is never persisted by Remote Joining");
   assert.match(entrySource,/showdown\.sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,"D2 the permanent shared-mode marker shape is unchanged (it is the local draw lock)");
-  assert.match(entrySource,/if\(confirmed&&await resumeAcceptedSeason\(\)\)\{applyLocalDrawLock\(\);return true;\}\s*if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLock\(\);return true;\}/,"D3 resume is checked before the unchanged Career Start route");
+  assert.match(entrySource,/if\(confirmed&&await resumeAcceptedSeason\(\)\)\{applyLocalDrawLock\(\);return true;\}\s*if\(await showdownClosedNow\(\)\)\{await openClosedShowdown\(\);return true;\}\s*if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLock\(\);return true;\}/,"D3 resume, then the close check (F1), are checked before the unchanged Career Start route");
   assert.doesNotMatch(entrySource,/if\(pending\(\)\)setTimeout\(\(\)=>void openPanel\(\),0\)/,"D4 install no longer opens GET READY from the marker alone");
   assert.doesNotMatch(multiSource,/\blocalStorage\b|sessionStorage/,"D5 the season cursor stays page memory; resume reads provider authority");
   console.log("ok D page-memory capability, marker shape and Career Start route locks hold");

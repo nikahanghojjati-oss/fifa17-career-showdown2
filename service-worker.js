@@ -25,7 +25,9 @@ const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
 // Team V cache-first image rule.
 const SHELL_FRAME_NAVIGATION_PATHS = new Set([
     "visual-assets/v10_1/special-player/index.html",
-    "visual-assets/v10_1/roulette/index.html"
+    "visual-assets/v10_1/roulette/index.html",
+    // r87 Prime Pack: its page in the #igStage frame (js/iconGuessStep.js), same rule.
+    "visual-assets/v10_1/icon-guess/index.html"
 ]);
 // Precached shell files that a stylesheet asks for by a relative url(), so the request has no ?v=: css/r78-marble-surfaces.css
 // draws its panels with url("r78-marble-tile.webp"). They come from the shell the page runs (the precached copy), then the network.
@@ -37,7 +39,20 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/roulette/platemap.json",
     "visual-assets/v10_1/roulette/assets/squads.json",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2"
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
+    // r87: the rest of the local faces, so the offline and error screens keep the brush title and body type offline
+    "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2"
 ]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",
@@ -48,6 +63,16 @@ const SHELL_PATHS = Object.freeze([
     "index.html",
     "manifest.webmanifest",
     "css/app.css",
+    "assets/fonts/barlow-condensed.css",
+    "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
     "css/visual-fidelity-r3.css",
     "css/offline.css",
     "css/remoteJoining.css",
@@ -101,6 +126,9 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt",
   "visual-assets/v10_1/roulette/assets/squads.json",
   "js/touchlineGazette.js",
+  "js/commentaryV3.js",
+  "js/commentaryEngine.js",
+  "data/commentaryLines.js",
   "data/gazetteCopy.js",
   "data/frontPages.js",
   "css/v10Gazette.css",
@@ -116,6 +144,11 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
   "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt",
   "visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
+  "js/iconGuessStep.js",
+  "js/iconGuess.js",
+  "js/iconNames.js",
+  "data/icons.js",
+  "visual-assets/v10_1/icon-guess/index.html",
   "js/specialPlayerChip.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
@@ -312,7 +345,9 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // Roulette step, engine, squads, styles and Team V's page with its vendored three.js.
 // r87 Touchline Gazette (Nik 2026-10-31): its page script, copy, headline pack, styles, Team V's paper and sheet and the
 // seven OFL Gazette fonts (licences beside them). Its press photos are Team V images (V10_IMAGE_PATH, runtime cache).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/deadlineDay.js","data/deadlineDayLines.js","data/fifa17Players.js","js/touchlineGazette.js","data/gazetteCopy.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css","visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt"]);
+// r87 first load: Google Fonts' Barlow Condensed sheet and its nine files, now served from this site.
+// r87 Prime Pack: its step, round engine, name matcher, Icon list and page.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/deadlineDay.js","data/deadlineDayLines.js","data/fifa17Players.js","js/touchlineGazette.js","data/gazetteCopy.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css","visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt","js/commentaryV3.js","js/commentaryEngine.js","data/commentaryLines.js","assets/fonts/barlow-condensed.css","assets/fonts/barlow-condensed-vietnamese-600-normal.woff2","assets/fonts/barlow-condensed-vietnamese-700-normal.woff2","assets/fonts/barlow-condensed-vietnamese-800-normal.woff2","assets/fonts/barlow-condensed-latin-ext-600-normal.woff2","assets/fonts/barlow-condensed-latin-ext-700-normal.woff2","assets/fonts/barlow-condensed-latin-ext-800-normal.woff2","assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","assets/fonts/barlow-condensed-latin-800-normal.woff2","js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 

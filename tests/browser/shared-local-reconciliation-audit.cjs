@@ -20,9 +20,9 @@ const status=()=>document.getElementById("sharedLocalReconciliationStatus").text
 connectedState={...connectedState,status:"attached",reconciliationPreviewReady:false,previewRevision:null,previewContentHash:null,previewSaveId:null,localCommitRevision:null,localCommitContentHash:null,localCommitSaveId:null};api.refresh();
 previewFails=true;assert.equal(await api.previewFromUi(),false);assert.match(status(),/SIMULATED_PREVIEW_FAILURE/);
 previewFails=false;connectedState={...connectedState,status:"reconciliation-preview-ready",reconciliationPreviewReady:true,previewRevision:4,previewContentHash:hash,previewSaveId:saveId};api.refresh();
-assert.equal(api.getState().phase,"PREVIEW_READY");assert.match(status(),/PREVIEW READY/);assert.equal(document.getElementById("sharedLocalReconciliationPreview").classList.contains("hidden"),true);
+assert.equal(api.getState().phase,"PREVIEW_READY");assert.match(status(),/CHECK READY/);assert.equal(document.getElementById("sharedLocalReconciliationPreview").classList.contains("hidden"),true);
 connectedState={...connectedState,status:"attached",reconciliationPreviewReady:false,previewRevision:null,previewContentHash:null,previewSaveId:null};api.refresh();
 previewFails=true;assert.equal(await api.previewFromUi(),false);assert.match(status(),/SIMULATED_PREVIEW_FAILURE/);
 previewFails=false;connectedState={...connectedState,status:"reconciliation-applied",localCommitRevision:4,localCommitContentHash:hash,localCommitSaveId:saveId};api.refresh();
-assert.equal(api.getState().phase,"APPLIED");assert.match(status(),/ALREADY APPLIED/);assert.equal(document.getElementById("sharedLocalReconciliationPreview").classList.contains("hidden"),true);
+assert.equal(api.getState().phase,"APPLIED");assert.match(status(),/ALREADY UP TO DATE/);assert.equal(document.getElementById("sharedLocalReconciliationPreview").classList.contains("hidden"),true);
 process.stdout.write("PASS r16 Local Reconciliation controlled-browser adapter: offline preview, explicit confirmation, Candidate C delegation, recovered UI errors and zero direct local writes\n");})().catch(e=>{console.error(e);process.exit(1);});

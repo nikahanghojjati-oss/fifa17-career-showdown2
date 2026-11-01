@@ -30,16 +30,17 @@
     return Object.freeze({name:player.name,club:typeof player.club==="string"&&player.club?player.club:null,rank:player.rank,tier:player.tier,badge:`#${player.rank} ${TIERS[player.tier]}`});
   }
   // {daniel, nik} for one Showdown (Daniel is playerOne, Nik playerTwo), or null: not r86, no confirm time, data not loaded.
-  function spForShowdown(rivalryId,confirmedAt){
+  // clubs: both managers' clubs ({playerOne, playerTwo} or {daniel, nik}); from 2.0.0 the draw needs them (GC-04).
+  function spForShowdown(rivalryId,confirmedAt,clubs){
     try{
-      const draw=spDraw(),pair=draw&&typeof draw.forShowdown==="function"?draw.forShowdown(rivalryId,confirmedAt):null;
+      const draw=spDraw(),pair=draw&&typeof draw.forShowdown==="function"?draw.forShowdown(rivalryId,confirmedAt,{clubs}):null;
       if(!pair)return null;
       const daniel=spChip(pair.playerOne),nik=spChip(pair.playerTwo);
       return daniel&&nik?Object.freeze({daniel,nik}):null;
     }catch(_error){return null;}
   }
   // A History row (js/sharedCareerAnalytics.js) carries its rivalryId and setupConfirmedAt.
-  function spForRow(row){return row&&typeof row==="object"?spForShowdown(row.rivalryId,row.setupConfirmedAt):null;}
+  function spForRow(row){return row&&typeof row==="object"?spForShowdown(row.rivalryId,row.setupConfirmedAt,row.clubs):null;}
   function spState(name){try{return root[name]?.getState?.()??null;}catch(_error){return null;}}
   function spJourneyRivalry(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return showdown?.sharedJourney?.mode==="shared"&&typeof showdown.sharedJourney.rivalryId==="string"?showdown.sharedJourney.rivalryId:null;}catch(_error){return null;}}
   function spPairedRivalry(){const pair=spState("CareerModePersistentNikDanielPair"),paired=pair?.rivalryId||pair?.closedRivalryId||null;return typeof paired==="string"&&paired?paired:null;}
@@ -52,7 +53,7 @@
     if(journey&&journey!==setup.rivalryId)return null;
     const paired=spPairedRivalry();
     if(paired&&paired!==setup.rivalryId)return null;
-    const sp=spForShowdown(setup.rivalryId,setup.setupUpdatedAtMs);
+    const sp=spForShowdown(setup.rivalryId,setup.setupUpdatedAtMs,setup.setup?.clubs);
     if(sp)lastLive={rivalryId:setup.rivalryId,sp};
     return sp;
   }
@@ -105,8 +106,10 @@
 
   // Marble black-and-gold (the r78 tile and the shared gold tokens, as the r84 Golden Showdown); the tier colour sits on the
   // SP tag and the ranking badge. Inline next to the name: it never covers, dims or moves anything else.
+  // r87 a11y A-04: the bronze tier is a deeper bronze (#9a5a26 to #6b3d16, was #d39a5c to #8a5428) so its cream ink reads
+  // at 4.5:1 or better; its bright edge stays.
   const CSS=String.raw`
-#app .spChip{--sp-tier-bg:linear-gradient(180deg,#d39a5c,#8a5428);--sp-tier-ink:#fff4e6;--sp-tier-edge:#e7b07a;
+#app .spChip{--sp-tier-bg:linear-gradient(180deg,#9a5a26,#6b3d16);--sp-tier-ink:#fff4e6;--sp-tier-edge:#e7b07a;
   display:inline-flex;align-items:center;gap:.4em;max-width:100%;min-width:0;margin:0 0 0 .45em;padding:.14em .5em .14em .16em;
   vertical-align:middle;box-sizing:border-box;border:1px solid var(--sp-tier-edge);border-radius:999px;
   background:linear-gradient(180deg,rgba(73,55,8,.45),rgba(13,12,10,.82)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
@@ -121,7 +124,7 @@
 #app .spChip--blue-gold{--sp-tier-bg:linear-gradient(180deg,#1d4fa3,#0b2558);--sp-tier-ink:var(--sd-gold-300,#ffd34d);--sp-tier-edge:var(--sd-gold-600,#e0ae3a);}
 #app .spChip--gold{--sp-tier-bg:linear-gradient(180deg,#ffe07a,#c99718);--sp-tier-ink:#1a1205;--sp-tier-edge:var(--sd-gold-500,#f5c518);}
 #app .spChip--silver{--sp-tier-bg:linear-gradient(180deg,#f1f3f5,#9aa3ad);--sp-tier-ink:#14171a;--sp-tier-edge:#c9d0d6;}
-#app .spChip--bronze{--sp-tier-bg:linear-gradient(180deg,#d39a5c,#8a5428);--sp-tier-ink:#fff4e6;--sp-tier-edge:#e7b07a;}
+#app .spChip--bronze{--sp-tier-bg:linear-gradient(180deg,#9a5a26,#6b3d16);--sp-tier-ink:#fff4e6;--sp-tier-edge:#e7b07a;}
 #app .spChipPair{display:flex;flex-wrap:wrap;align-items:center;gap:.3em .9em;}
 #app .spChipPair>span{display:inline-flex;align-items:center;min-width:0;max-width:100%;}
 /* Each screen's own spot, next to (or just under) the manager's name, inside that name's own cell or box. */

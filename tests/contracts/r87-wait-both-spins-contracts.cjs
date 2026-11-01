@@ -145,7 +145,7 @@ function fakeProvider(store,eligible){
   return {calls,api:{
     rouletteEligible:eligible,
     read:async options=>{calls.read+=1;return projection(options.user.uid===uid1?"playerOne":"playerTwo");},
-    markSpun:async options=>{calls.markSpun.push(options.managerRole);if(store.refuseMarks)return {ok:false,code:"permission-denied"};if(!store.spins.includes(options.managerRole))store.spins=["playerOne","playerTwo"].filter(r=>r===options.managerRole||store.spins.includes(r));return {ok:true};},
+    markSpun:async options=>{calls.markSpun.push(options.managerRole);if(store.refuseMarks)return {ok:false,code:"permission-denied"};if(store.failMarks)return {ok:false,code:"unavailable"};if(!store.spins.includes(options.managerRole))store.spins=["playerOne","playerTwo"].filter(r=>r===options.managerRole||store.spins.includes(r));return {ok:true};},
     startWindow:async options=>{calls.startWindow.push(Object.keys(options).includes("requireSpins")?"flag":"plain");store.state={phase:"WINDOW_OPEN",revision:1,startedAtEpochMs:options.nowEpochMs,endedAtEpochMs:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]};return {ok:true,status:"accepted",revision:1,state:store.state,managerRole:"playerOne",seasonNumber:1,needsRefresh:false};},
     requestEndWindow:async()=>({ok:false}),advanceExpiredWindow:async()=>({ok:false}),lockGuesses:async()=>({ok:false}),lockSignings:async()=>({ok:false})
   }};
@@ -165,7 +165,9 @@ async function phone({role,confirmedAtMs,store,killSwitch=false,step=null,awaitO
     CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider.api,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==="playerOne"?uid1:uid2,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
-    CareerModeRosterRouletteStep:step||{fromMs:Step.fromMs,decide:()=>false,runBeforeTransfers:async()=>true,close(){}}
+    CareerModeRosterRouletteStep:step||{fromMs:Step.fromMs,decide:()=>false,runBeforeTransfers:async()=>true,close(){}},
+    // r87 Prime Pack runs after the roulette; here it is already played on this browser (the step resolves true at once).
+    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
   };
   if(killSwitch)sandbox.CMS_ROSTER_ROULETTE="off";
   sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});
@@ -215,12 +217,20 @@ async function partB(){
   assert.equal(nik.start.classList.contains("hidden"),true,"Nik never sees START");
 
   // B5: an old Showdown (confirmed before the roulette) and the switched-off roulette pass by themselves: no mark, no wait.
-  for(const [label,options] of [["old Showdown",{confirmedAtMs:OLD}],["no confirm time",{confirmedAtMs:undefined}],["roulette off",{confirmedAtMs:R87,killSwitch:true}]]){
+  for(const [label,options] of [["old Showdown",{confirmedAtMs:OLD}],["roulette off",{confirmedAtMs:R87,killSwitch:true}]]){
     const s={spins:[],state:null},p=await phone({role:"playerOne",store:s,...options});
     assert.deepEqual(p.provider.calls.markSpun,[],`${label}: no mark is written`);
     assert.equal(p.start.textContent,"START 15-MINUTE WINDOW",`${label}: START is ready at once`);assert.equal(p.start.disabled,false);
     p.page.tap("startTransferTimer");await settle();
     assert.deepEqual(p.provider.calls.startWindow,["plain"],`${label}: START goes straight to the provider`);
+  }
+
+  // B5b (Fable F2-05): no confirm time after the Setup refresh means the Setup could not be read (every ledger carries
+  // updatedAt), so it is never a silent pass: the window stays shut with that reason and no mark is written.
+  {
+    const s={spins:[],state:null},p=await phone({role:"playerOne",store:s,confirmedAtMs:undefined,awaitOpen:false});
+    assert.equal(await p.api.open(),false,"no confirm time: the window stays shut");
+    assert.match(p.api.rouletteError(),/could not be read just now/);assert.deepEqual(p.provider.calls.markSpun,[]);
   }
 
   // B6: Rules on the server that do not know the marks (refused write): the window stays shut (the provider would refuse START),
@@ -230,6 +240,28 @@ async function partB(){
   await refused.api.refresh();await settle();
   assert.deepEqual(refused.provider.calls.markSpun,["playerOne"],"a refused mark is written once per page, not on every check");
   refused.page.tap("startTransferTimer");await settle();assert.equal(refused.provider.calls.startWindow.length,0);
+
+  // B6b (Codex C2-02): Nik's own refused mark is shown on his phone too, never hidden behind "READY · WAITING FOR DANIEL"; a
+  // phone whose own mark is saved keeps the normal waiting line.
+  const nikRefused=await phone({role:"playerTwo",confirmedAtMs:R87,store:{spins:["playerOne"],state:null,refuseMarks:true}});
+  assert.equal(nikRefused.status(),"READY · YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY","the non-coordinator sees his own refused mark");
+  assert.match(refused.status(),/YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY/,"the coordinator too");
+  assert.equal(nik.status(),"READY · WAITING FOR DANIEL TO START","a saved mark keeps the normal line");
+
+  // B6c (Fable F6-03): Nik's own mark is not saved yet (a write that failed for now is retried, never refused). His phone says so,
+  // as Daniel's does for his own, instead of "READY · WAITING FOR DANIEL TO START" while Daniel's phone waits for Nik's spin.
+  {
+    const s={spins:["playerOne"],state:null,failMarks:true};
+    const nikSaving=await phone({role:"playerTwo",confirmedAtMs:R87,store:s});
+    assert.deepEqual(nikSaving.provider.calls.markSpun,["playerTwo"]);assert.deepEqual(Array.from(nikSaving.api.spinsMissing()),["playerTwo"]);
+    assert.equal(nikSaving.status(),"READY · SAVING YOUR ROULETTE SPIN…","the non-coordinator sees his own spin being saved");
+    assert.equal(nikSaving.start.classList.contains("hidden"),true,"Nik still never sees START");
+    const danielWaits=await phone({role:"playerOne",confirmedAtMs:R87,store:s});
+    assert.match(danielWaits.status(),/WAITING FOR NIK TO SPIN THE ROULETTE/,"Daniel's phone names the same missing mark");
+    s.failMarks=false;await nikSaving.tick();await nikSaving.api.refresh();await settle();
+    assert.deepEqual(s.spins,["playerOne","playerTwo"],"the retry saves Nik's mark");
+    assert.equal(nikSaving.status(),"READY · WAITING FOR DANIEL TO START","once saved, the normal waiting line");
+  }
 
   // B7: the gate helper follows RRR_FROM_MS exactly.
   const applies=daniel.api.rouletteAppliesTo;

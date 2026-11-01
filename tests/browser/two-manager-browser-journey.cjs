@@ -24,8 +24,14 @@ const SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const ARTIFACTS=process.env.CMS_BROWSER_JOURNEY_ARTIFACTS||path.join(os.tmpdir(),"cms-browser-journey");
 const LENGTH=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
 // JOB-1040: the final totals the scripted seasons produce. The 3-season row is the original expectation; the 1-season row is the
-// season-1 result alone (9-3, Daniel wins), so the journey can also be run with CMS_SHOWDOWN_LENGTH=1 without changing any check.
-const FINAL_EXPECTED={3:{daniel:10,nik:15,winner:"playerTwo",winnerName:"Nik"},1:{daniel:9,nik:3,winner:"playerOne",winnerName:"Daniel"}}[LENGTH]||{daniel:10,nik:15,winner:"playerTwo",winnerName:"Nik"};
+// season-1 result alone (13-3 with Daniel's Prime Pack 4, Daniel wins), so the journey can also be run with CMS_SHOWDOWN_LENGTH=1 without changing any check.
+// r87 Prime Pack (Nik 2026-11-01): each season's round is played for real on both phones before the window. Season 1 Daniel
+// names the card in stage 1 (+4), season 2 Nik does (+4), season 3 both spend their two guesses on wrong names (a Prime Pack
+// draw at once), so the season scores are
+// 13-3, 0-15 and 1-1 and the totals 14-19.
+const PRIME_WAIT_MS=150000; // room for a whole Prime Pack round (stages 25/20/20/20 s plus reveals, about 95 s)
+const PRIME_GUESSER={1:"playerOne",2:"playerTwo",3:null};
+const FINAL_EXPECTED={3:{daniel:14,nik:19,winner:"playerTwo",winnerName:"Nik"},1:{daniel:13,nik:3,winner:"playerOne",winnerName:"Daniel"}}[LENGTH]||{daniel:14,nik:19,winner:"playerTwo",winnerName:"Nik"};
 const FINAL_NO_CLOSE_TAP=process.env.CMS_FINAL_NO_CLOSE_TAP==="1";
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 let checks=0;
@@ -262,9 +268,11 @@ async function continueToSeason(daniel,nik,season,total){
     const paper=await gazette.passGazette(m.page,"season");
     assert.ok(paper&&paper.endsWith(`|season|${season-1}`),`${m.user} saw the season-${season-1} Touchline Gazette after CONTINUE TO SEASON ${season} (${paper})`);
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await rosterRoulette.waitForTransfer(m.page,30000);
-    assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
   }
+  // Both phones at once: the Prime Pack round starts only when both managers have arrived.
+  const steps=await rosterRoulette.waitForTransfer([daniel.page,nik.page],PRIME_WAIT_MS,{primeGuesser:PRIME_GUESSER[season]});
+  assert.ok(steps.filter(step=>step.startsWith("prime-continue")).length>=2&&(PRIME_GUESSER[season]===null?steps.filter(step=>step==="prime-miss").length>=4&&!steps.includes("prime-guess"):steps.includes("prime-guess")),`season ${season} played the real Prime Pack round on both phones (steps: ${steps.join(",")})`);
+  for(const m of [daniel,nik])assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
 }
 async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
@@ -538,10 +546,9 @@ async function main(){
     for(const m of [daniel,nik])await m.page.waitForFunction(()=>window.CareerModeProductionSharedCareerStart?.getState?.()?.state?.phase==="CAREER_START_READY",null,{timeout:30000});
     ok("J5.2","both private Career Start acknowledgements converged to ready");
 
-    for(const m of [daniel,nik]){
-      await rosterRoulette.waitForTransfer(m.page,30000);
-      await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
-    }
+    const primeSteps1=await rosterRoulette.waitForTransfer([daniel.page,nik.page],PRIME_WAIT_MS,{primeGuesser:PRIME_GUESSER[1]});
+    assert.ok(primeSteps1.some(step=>step.startsWith("prime-guess"))&&primeSteps1.some(step=>step.startsWith("prime-continue")),`season 1 played the real Prime Pack round (steps: ${primeSteps1.join(",")})`);
+    for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
     ok("J5.3","both managers reached the real Shared Transfer Challenge through the UI");
     await shot(daniel,"j5-career-start");await shot(nik,"j5-career-start");
 
@@ -647,17 +654,17 @@ async function main(){
     ok("J7.2","RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit");
 
     // J8 season 1 commit + canonical scoring, then seasons 2 and 3.
-    await commitSeasonViaUi(daniel,nik,9,3,"Daniel",{finalSeason:LENGTH===1,seasonNumber:1});
-    ok("J7.3","after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner");
+    await commitSeasonViaUi(daniel,nik,13,3,"Daniel",{finalSeason:LENGTH===1,seasonNumber:1});
+    ok("J7.3","after the immutable season-1 commit both pages show canonical 13-3 (9-3 plus Daniel's 4 Prime Pack points) and Daniel as season winner");
 
     if(LENGTH>1){
       await continueToSeason(daniel,nik,2,LENGTH);
       for(const m of [daniel,nik]){
-        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"13");
         assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"3");
         assert.match((await m.page.locator("#dashboardRound").textContent()).trim(),/Season 2 of 3/);
       }
-      ok("J8.1","both dashboards show 9-3 and Season 2 of 3 after season-1 commit");
+      ok("J8.1","both dashboards show 13-3 and Season 2 of 3 after season-1 commit");
 
       await playTransferSeason(daniel,nik,2,"QWX2 Daniel Signing","ZPV2 Nik Signing");
       ok("J8.2","season 2 repeated the shared transfer flow with rendered privacy before completion");
@@ -688,11 +695,11 @@ async function main(){
           throw new Error(`J9_RESUME_NOT_AT_SEASON_2 ${m.user} ${await describe(m)} ${JSON.stringify(diag).slice(0,3000)}`,{cause:error});
         }
         assert.equal(await m.page.locator("#productionSharedCareerStartOverlay").isVisible().catch(()=>false),false,`${m.user}: resume must not replay Career Start`);
-        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"13");
         assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"3");
         assert.equal(await m.page.locator("#seasonIndicator").textContent(),"Season 2 / 3");
       }
-      ok("J9.2","after a fresh exact session both managers resume on the Season 2 of 3 dashboard at 9-3 (no Career Start, no season-1 replay)");
+      ok("J9.2","after a fresh exact session both managers resume on the Season 2 of 3 dashboard at 13-3 (no Career Start, no season-1 replay)");
       // Studio Z4: Nik closes his tab and opens the game again. The new tab signs in again (session-only sign-in), and one
       // CONTINUE CAREER tap re-attaches to the pair's current session through the shared pointer: still no code.
       {
@@ -750,14 +757,14 @@ async function main(){
         assert.equal((await m.page.locator("#seasonReviewError").textContent()).trim(),"","simultaneous publish must not leave an error banner");
       }
       ok("J8.3","season-2 simultaneous publish converged to RESULTS_READY with no error banner");
-      await commitSeasonViaUi(daniel,nik,0,11,"Nik",{finalSeason:LENGTH===2,seasonNumber:2});
-      ok("J8.4","season 2 canonical score is 0-11 and Nik wins");
+      await commitSeasonViaUi(daniel,nik,0,15,"Nik",{finalSeason:LENGTH===2,seasonNumber:2});
+      ok("J8.4","season 2 canonical score is 0-15 (11 plus Nik's 4 Prime Pack points, the new season maximum) and Nik wins");
 
       if(LENGTH>2){
         await continueToSeason(daniel,nik,3,LENGTH);
         for(const m of [daniel,nik]){
-          assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
-          assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"14");
+          assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"13");
+          assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"18");
           assert.match((await m.page.locator("#dashboardRound").textContent()).trim(),/Season 3 of 3/);
         }
         await playTransferSeason(daniel,nik,3,"QWX3 Daniel Signing","ZPV3 Nik Signing");
@@ -791,7 +798,7 @@ async function main(){
       ok("J10.1-auto","both pages keep the final winner and close without a CLOSE tap");
     }else{
     // Owner decision 2026-10-05 (BH-8): once the last season is committed each phone checks on its own poll and shows the
-    // final winner and CLOSE by itself. Nobody taps PREVIEW RESULT here; Apply stays a separate explicit tap.
+    // final winner and CLOSE by itself. Nobody taps CHECK MY SAVE here; Apply stays a separate explicit tap.
     for(const m of [daniel,nik])await m.page.evaluate(()=>{window.__bh8PreviewTaps=0;document.addEventListener("click",event=>{if(event.target?.closest?.("#sharedLocalReconciliationPreview"))window.__bh8PreviewTaps+=1;},true);});
     for(const m of [daniel,nik]){
       try{
@@ -828,7 +835,7 @@ async function main(){
       await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
       assert.equal((await m.page.locator("#sharedTerminalCloseAction").textContent()).trim(),"CLOSE SHOWDOWN");
       try{
-        await m.page.waitForFunction(()=>/PREVIEW READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
+        await m.page.waitForFunction(()=>/CHECK READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
       }catch(error){
         const diag=await m.page.evaluate(()=>({
           multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,

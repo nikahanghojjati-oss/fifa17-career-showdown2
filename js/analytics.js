@@ -137,9 +137,14 @@ function getAnalyticsScoring(player){
     if(player && player.scoring && Number.isFinite(Number(player.scoring.total))){
         return player.scoring;
     }
-    return typeof calculatePlayerSeasonScore === "function"
-        ? calculatePlayerSeasonScore(player || {})
-        : { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
+    if(typeof calculatePlayerSeasonScore !== "function"){
+        return { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
+    }
+    // r87 Prime Pack: js/scoring.js (startup, at its size budget) leaves the sparse primePack key (1 to 4) to the callers.
+    const scoring = calculatePlayerSeasonScore(player || {});
+    const primePack = player && [1, 2, 3, 4].includes(player.primePack) ? player.primePack : 0;
+    if(primePack && !scoring.primePack){ scoring.primePack = primePack; scoring.total += primePack; }
+    return scoring;
 }
 
 function createManagerCareerStats(name, key = analyticsNormalizeName(name), profileId = null){
@@ -254,7 +259,7 @@ function accumulateRoundStats(stats, showdown, round, playerKey){
     if(leagueGoals >= 100){ stats.hundredGoalSeasons += 1; }
     if(player.topScorer){ stats.topScorerSeasons += 1; }
     if(player.topAssist){ stats.topAssistSeasons += 1; }
-    if(score === 11){ stats.perfectSeasons += 1; }
+    if(score >= 11){ stats.perfectSeasons += 1; }
 
     if(Number.isFinite(leaguePosition) && leaguePosition > 0){
         stats.bestLeaguePosition = stats.bestLeaguePosition === null
@@ -344,11 +349,11 @@ function calculateCareerAnalytics(history, profileNames = new Map()){
 
     const managers = Array.from(managerMap.values())
         .map(finalizeManagerCareerStats)
-        .sort((a, b) => {
-            if(b.showdownWins !== a.showdownWins){ return b.showdownWins - a.showdownWins; }
-            if(b.totalTrophies !== a.totalTrophies){ return b.totalTrophies - a.totalTrophies; }
-            return b.totalPoints - a.totalPoints;
-        });
+        // r87 Fable F7-07: ranked by career points only (no tiebreak). Equal points keep their order and are marked level.
+        .sort((a, b) => b.totalPoints - a.totalPoints);
+    managers.forEach(manager => {
+        manager.level = managers.some(other => other !== manager && other.totalPoints === manager.totalPoints);
+    });
 
     return {
         history,

@@ -120,8 +120,9 @@ async function dispatchFirstPartyUnhandledRejection(page){
         assert.equal(firstPartyClassifier, true, "Same-origin app rejection must remain first-party.");
         await page.locator("#appRuntimeNotice").waitFor({ state: "visible", timeout: 3000 });
         const firstPartyNotice = await page.locator("#appRuntimeNotice").innerText();
-        assert.match(firstPartyNotice, /unexpected application error/i, "First-party rejection must surface through the app error notice.");
-        assert.match(firstPartyNotice, /First-party provenance audit failure/i, "Visible notice must preserve first-party error detail.");
+        assert.match(firstPartyNotice, /Something went wrong on this screen\. Your career is safe\./i, "First-party rejection must surface through the app error notice.");
+        // r87: plain words only; the technical detail stays in the console.
+        assert.doesNotMatch(firstPartyNotice, /provenance audit failure/i, "The raw error text must not reach players.");
 
         await page.locator('#appRuntimeNotice button[aria-label="Dismiss message"]').click();
         await page.locator("#appRuntimeNotice").waitFor({ state: "detached", timeout: 3000 });

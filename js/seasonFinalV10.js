@@ -31,7 +31,7 @@
     if(p&&(r===reconciliation?p.acceptedRevisionKey===r.acceptedRevisionKey:closedHistoryBound(p,r))&&p.acceptedSeasons===frame.seasonsPlayed&&p.managerRecords?.playerOne?.totalPoints===frame.totals.daniel&&p.managerRecords?.playerTwo?.totalPoints===frame.totals.nik){
       // JOB-1005: the last accepted season of the verified history. Points and winner are read as the record stores them; nothing is computed.
       const last=p.seasonHistory[p.seasonHistory.length-1],lp=last?.playerOne?.scoring?.total,ln=last?.playerTwo?.scoring?.total;
-      if(last&&last.roundNumber===frame.seasonsPlayed&&number(lp)&&number(ln)&&lp>=0&&lp<=11&&ln>=0&&ln<=11&&ROLES[last.winner])frame.lastSeason={season:last.roundNumber,daniel:lp,nik:ln,winner:ROLES[last.winner]};
+      if(last&&last.roundNumber===frame.seasonsPlayed&&number(lp)&&number(ln)&&lp>=0&&lp<=15&&ln>=0&&ln<=15&&ROLES[last.winner])frame.lastSeason={season:last.roundNumber,daniel:lp,nik:ln,winner:ROLES[last.winner]};
       const trophies={};
       for(const [role,m] of [["playerOne","daniel"],["playerTwo","nik"]]){const rec=p.managerRecords[role];if(!["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"].every(k=>number(rec[k])))return freeze(frame);trophies[m]={championsLeague:rec.championsLeagues,europaLeague:rec.europaLeagues,leagueTitles:rec.leagueTitles,domesticCups:rec.domesticCups,total:rec.totalTrophies};}
       frame.trophies=trophies;frame.status="ready";frame.message="";
@@ -232,6 +232,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
+    if(scope.status==="unavailable"&&scope.notice==="continue")current.notice="continue";
     if(["ready","partial","empty"].includes(scope.status)&&scope.score&&scope.managers){
       if(!["daniel","nik"].every(m=>number(scope.score[m])&&scope.managers[m]&&COUNT_FIELDS.every(k=>number(scope.managers[m][k]))))current={status:"unavailable"};
       else {current.score={...scope.score};current.managerRecords=Object.fromEntries(["daniel","nik"].map(m=>[m,Object.fromEntries(COUNT_FIELDS.map(k=>[k,scope.managers[m][k]]))]));}
@@ -239,6 +240,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     }
     if(["ready","partial"].includes(current.status)&&!current.managerRecords)current={status:"unavailable"};
     let all={status:career&&["loading","empty","unavailable","partial","ready"].includes(career.status)&&!career.interimLabel?career.status:"unavailable"};
+    // H2 (career truth hunt, as Career Statistics B4): with no finished Showdown nothing counts, so CAREER is the empty career
+    // message, not LEVEL 0-0. A partial career may hold a finished Showdown it could not read: unavailable, never 0-0.
+    if(["ready","partial"].includes(all.status)&&["daniel","nik"].every(m=>career.managers?.[m]?.showdowns?.completed===0))all={status:all.status==="ready"?"empty":"unavailable"};
     if(["ready","partial"].includes(all.status)&&career.managers&&Array.isArray(career.trophyRoom?.standings)){
       const standings={};
       for(const m of ["daniel","nik"]){const row=career.trophyRoom.standings.find(r=>r.manager===m),rec=career.managers[m];if(!row||!rec||!["careerPoints","seasonWins"].every(k=>number(row[k]))||!COUNT_FIELDS.every(k=>number(rec[k]))){all={status:"unavailable"};break;}standings[m]={...Object.fromEntries(COUNT_FIELDS.map(k=>[k,rec[k]])),careerPoints:row.careerPoints,seasonWins:row.seasonWins};}
@@ -290,7 +294,13 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function currentRivalry(){
     const snapshot=sfSnapshot(),pair=snapshot.pair;
     if(pair?.initialized===true&&pair.status==="unpaired"&&!pair.rivalryId&&snapshot.terminalClose?.phase==="CLOSED")snapshot.terminalClose=null;
-    return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+    const view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+    // r87 career fixes (lane C C-01): out of the game the live providers never run, so THIS SHOWDOWN says how to load it
+    // instead of "Loading standings." forever (no read is made for this; in the game nothing changes).
+    return view.status==="loading"&&!sfLiveCanArrive()?{status:"unavailable",notice:"continue"}:view;
+  }
+  function sfLiveCanArrive(){
+    try{return Boolean(root.CareerModeProductionSharedHistoryConvergence?.isActive?.()&&root.CareerModeProductionSharedShowdownSetup?.getState?.()?.sessionId);}catch(_){return false;}
   }
   // A supplied model first, then the provider-backed career model shared with Stats, Trophy Room and History.
   // CE2PG: Standings only reused the model another screen last read, so opened first it said "unavailable" and
@@ -308,7 +318,24 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
+  // r87 (CE2PG season 3: net::ERR_FAILED on TRO_SHOWDOWN_CHAMPION_V1_512.webp on both phones): Season Results and Final
+  // Winner both draw the Showdown Champion trophy, and the last season swaps one stage for the other in the same host, so
+  // the first <img> was removed while its load was still in the service worker and the load was cancelled. The trophy is
+  // now loaded once into memory while the screen prepares (behind the loading screen, at most 2.5 s, never an error), and
+  // both stages take it from there. Same URL as the stages use, so it is the same cache entry.
+  const TROPHY_PATH="visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp";
+  let trophyWarm=null,trophyImage=null;
+  function sfWarmTrophy(){
+    if(trophyWarm)return trophyWarm;
+    if(typeof root.Image!=="function"||!root.document)return Promise.resolve(false);
+    trophyWarm=new Promise(resolve=>{
+      let settled=false;const finish=ok=>{if(settled)return;settled=true;if(!ok)trophyWarm=null;resolve(ok);};
+      try{const img=trophyImage=new root.Image();img.decoding="async";img.onload=()=>finish(true);img.onerror=()=>finish(false);img.src=new root.URL(TROPHY_PATH,root.document.baseURI).href;root.setTimeout(()=>finish(false),2500);}catch(_error){finish(false);}
+    });
+    return trophyWarm;
+  }
   async function prepare(folder){
+    if(folder==="season-results"||folder==="final-winner")await sfWarmTrophy();
     if(!templates[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-shell.html"));if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
     if(folder!=="season-results"&&!strings[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-strings.json"));if(!r.ok)throw new Error("V10_RESULTS_STRINGS");strings[folder]=(await r.json()).strings;strings[folder].previewLabel="";}
   }
@@ -2161,7 +2188,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     const rematch=rematchFrame(final,closed,s.identity);
     // r86 Special Player chip: the live Setup's confirm time, or after close the finished Showdown's own (kept by its read).
     const rid=s.finalReconciliation?.rivalryId||closed?.rivalryId||null,read=closed?closedHistoryReads.get(closed.rivalryId)?.history:null;
-    const sp=sfSpecial(chip=>chip.liveFor(rid)||(rid&&read&&Number.isFinite(read.setupConfirmedAt)?chip.forShowdown(rid,read.setupConfirmedAt):null));
+    const sp=sfSpecial(chip=>chip.liveFor(rid)||(rid&&read&&Number.isFinite(read.setupConfirmedAt)?chip.forShowdown(rid,read.setupConfirmedAt,{playerOne:read.projection?.managerRecords?.playerOne?.club,playerTwo:read.projection?.managerRecords?.playerTwo?.club}):null));
     if(!sp)return {final,rematch};
     return {final:final.winner?freeze({...final,specialPlayers:sp}):final,specialPlayers:sp,rematch};
   }
@@ -2191,6 +2218,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
     // Small and loaded here with the screens it follows; its paper, sheet and copy load only when a paper is due.
+    // r87 Commentary v3: one TV bar inside Season Results' SEASON SCORE box (js/commentaryV3.js); its lines load only there.
+    Promise.resolve().then(()=>root.loadRuntimeScript("commentary-v3","js/commentaryV3.js",()=>Boolean(root.CareerModeCommentaryV3))).then(()=>root.CareerModeCommentaryV3?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error));
     Promise.resolve().then(()=>root.loadRuntimeScript("touchline-gazette","js/touchlineGazette.js",()=>Boolean(root.CareerModeTouchlineGazette))).then(()=>root.CareerModeTouchlineGazette?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Touchline Gazette unavailable.",error));
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.

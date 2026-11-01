@@ -50,6 +50,8 @@ ok('L1','98 launch boards: XI + 4 highest-rated subs, one GK, unique shirts');
   for(const c of scene.clubs){
     const board=RRR.board(c.club);
     assert.deepEqual([...c.xi,...c.subs].map(r=>[r[1],r[2]]),board.map(p=>[p.name,p.rating]),`${c.club}: scene XI+subs match the engine board`);
+    // Sol job 5 coverage gap: the scene must also put each starter in the engine's formation slot.
+    assert.deepEqual(c.xi.map(r=>r[0]),board.slice(0,11).map(p=>p.pos),`${c.club}: scene XI positions match the engine formation`);
   }
 }
 ok('L1b','Sol SQ-1-01: the roulette scene asset carries the engine launch XI + 4 subs for all 98 clubs');
@@ -80,8 +82,103 @@ ok('L1b','Sol SQ-1-01: the roulette scene asset carries the engine launch XI + 4
   const repeat=RRR.forSeason(id3,ars,3,{special:sp3,history:h}).boards.playerOne;
   assert.deepEqual(repeat,plain,'SQ-2-03: entering an earlier signing again changes nothing');
   assert.equal(plain[11].name,'M. Debuchy','SQ-2-03: the best club player fills the shot sub');
+  // Sol job 5 coverage gap: a case only the repair pass fixes (no signing ever joins at RM). Hull City lose
+  // R. Snodgrass in season 1; by season 5 the striker stopgap at RM hands the slot back to A. Elmohamady.
+  const n=1707,hx=createHash('sha256').update('g'+n).digest();
+  h=none();for(let k=1;k<=9;k+=1)h[k].playerOne=[0,1].map(j=>{const b=hx[(k*2+j)%32];return {slot:j+1,name:`X${n}_${k}_${j}`,overall:50+b%45,position:['CB','ST','LW','RW','LB','RB','GK','CM'][b%8],release:b%5===0};});
+  const hull=RRR.forSeason('pair_'+createHash('sha256').update('f'+n).digest('hex'),{playerOne:'Hull City',playerTwo:'Werder Bremen'},5,{history:h}).boards.playerOne;
+  assert.equal(hull[6].name,'A. Elmohamady','SQ-2-01 repair pass: the fitting RM takes his slot back');
+  assert.ok(hull.some(p=>p.bench&&p.name==='D. Mbokani'),'SQ-2-01 repair pass: the stopgap returns to the bench');
 }
 ok('L1c','Sol job 2: outfield stopgap repair (SQ-2-01), guessed incumbent evicted (SQ-2-02), repeated signing keeps his window (SQ-2-03)');
+
+// L1d Sol SQ-4-01 + Nik 2026-10-31 ("only the signing"): a signing and a club player are different people even with the
+// same name. A guess removes only the signing; the club's own namesake stays. Then an independent oracle replays 400
+// Showdowns x 10 seasons with namesake, repeated, guessed and shot signings: nobody excluded is ever on a board.
+{
+  const pal={playerOne:'Crystal Palace',playerTwo:'West Bromwich Albion'},id1='pair_'+'a'.repeat(64);
+  const sp1={playerOne:{name:'J. Añor',overall:76,number:10},playerTwo:{name:'Williams',overall:80,number:11}};
+  const ward={slot:1,name:'J. Ward',overall:62,position:'CM'};
+  const s2=RRR.forSeason(id1,pal,2,{special:sp1,history:[null,{playerOne:[{...ward,release:true}],playerTwo:[]}]}).boards.playerOne;
+  const own=s2.find(p=>p.name==='J. Ward');
+  assert.ok(own&&own.number===2&&own.signedSeason===null&&own.pos==='RB','SQ-4-01: Palace keep their own J. Ward #2 when WBA\'s J. Ward is guessed');
+  assert.equal(s2.filter(p=>p.name).length,15);
+  const kept=RRR.forSeason(id1,pal,2,{special:sp1,history:[null,{playerOne:[{...ward,overall:90,release:false}],playerTwo:[]}]}).boards.playerOne;
+  assert.equal(kept.filter(p=>p.name==='J. Ward').length,2,'a kept namesake signing joins next to the club player');
+  const cag={playerOne:'Cagliari',playerTwo:'Napoli'},none=[null,...Array.from({length:9},()=>({playerOne:[],playerTwo:[]}))];
+  const h=none.slice();h[1]={playerOne:[{slot:1,name:'Rafael',overall:74,position:'GK',release:true}],playerTwo:[]};
+  for(let season=2;season<=10;season+=1)assert.ok(RRR.forSeason(id1,cag,season,{history:h}).boards.playerOne.some(p=>p.name==='Rafael'&&p.signedSeason===null),'Cagliari keep their own Rafael after Napoli\'s Rafael is guessed');
+  // Oracle: identity = "c|name#shirt" for a club row, "s|name" for a signing (folded names).
+  const fold=n=>String(n).normalize('NFD').replace(/[̀-ͯ]/g,'').trim().toLowerCase();
+  const idOf=p=>p.signedSeason!==null?`s|${fold(p.name)}`:`c|${fold(p.name)}#${p.number}`;
+  const clubs=catalog.slice().sort();
+  const namesAt=Object.fromEntries(clubs.map(c=>[c,new Set(Players.clubs[c].players.map(r=>fold(r[0])))]));
+  const others=c=>Players.clubs[clubs[(clubs.indexOf(c)+7)%clubs.length]].players;
+  let boards=0,checked=0;
+  for(let n=0;n<400;n+=1){
+    const hex=createHash('sha256').update('L1d-'+n).digest('hex'),rid='pair_'+hex,byte=i=>parseInt(hex.slice(i*2,i*2+2),16);
+    const pair={playerOne:clubs[byte(0)%98],playerTwo:clubs[(byte(0)+1+byte(1)%97)%98]};
+    const hist=[null];
+    for(let k=1;k<=9;k+=1){
+      const w={};
+      for(const [r,role] of ['playerOne','playerTwo'].entries()){
+        const club=pair[role],pool=others(club),mine=Players.clubs[club].players,rows=[];
+        for(let j=0;j<3;j+=1){
+          const b=byte((k*6+r*3+j)%32),pick=b%4;
+          // 0: another club's player; 1: a namesake of an own-club player; 2: repeat an earlier signing; 3: another club's player
+          let name=pool[(b*7+k)%pool.length][0];
+          if(pick===1)name=mine[(b+k)%mine.length][0];
+          if(pick===2&&k>1){const prev=hist[k-1][role];if(prev.length)name=prev[b%prev.length].name;}
+          rows.push({slot:j+1,name,overall:55+(b%40),position:['CB','ST','LW','CM','GK','RB'][b%6],release:(b>>3)%3===0});
+        }
+        w[role]=rows;
+      }
+      hist.push(w);
+    }
+    const ex={playerOne:new Set(),playerTwo:new Set()},signed={playerOne:new Set(),playerTwo:new Set()};
+    for(let season=1;season<=10;season+=1){
+      const v=RRR.forSeason(rid,pair,season,{history:hist});
+      for(const role of ['playerOne','playerTwo']){
+        const b=v.boards[role],filled=b.filter(p=>p.name),ids=filled.map(idOf);boards+=1;
+        assert.equal(new Set(ids).size,ids.length,`L1d no duplicate person ${rid} s${season} ${role}`);
+        for(const p of filled){
+          const i=idOf(p);checked+=1;
+          assert.ok(!ex[role].has(i),`L1d excluded ${i} back on the board ${rid} s${season} ${role}`);
+          if(p.signedSeason===null)assert.ok(namesAt[pair[role]].has(fold(p.name)),`L1d ${p.name} is a ${pair[role]} player`);
+          else assert.ok(signed[role].has(fold(p.name))&&p.signedSeason<season,`L1d ${p.name} is this manager's own earlier kept signing`);
+        }
+        assert.equal(b.filter(p=>p.name&&!p.bench).length,11,`L1d full XI ${rid} s${season} ${role}`);
+        assert.equal(b.filter(p=>p.name&&p.bench).length,4,`L1d full bench ${rid} s${season} ${role}`);
+        const t=v.turns.find(x=>x.role===role);
+        if(t.fired){const p=t.player;ex[role].add(idOf(p));if(p.signedSeason===null)ex[role].add(`s|${fold(p.name)}`);}
+        if(season<10)for(const row of hist[season][role]){
+          if(row.release)ex[role].add(`s|${fold(row.name)}`);
+          else if(!ex[role].has(`s|${fold(row.name)}`))signed[role].add(fold(row.name));
+        }
+      }
+    }
+  }
+  assert.ok(boards===8000&&checked>100000);
+}
+ok('L1d','Sol SQ-4-01: a guess removes only the signing, never the club namesake; 400 x 10-season oracle, nobody excluded returns');
+
+// L1e Codex R87-C2-03: a failed optional font stylesheet never aborts the 3D scene; a failed script still reports.
+{
+  const html=fs.readFileSync(path_.join(ROOT,'visual-assets/v10_1/roulette/index.html'),'utf8');
+  const start=html.indexOf('(function(){ var EMBED=');assert.ok(start>0,'scene error reporter found');
+  const code=html.slice(start,html.indexOf('</script>',start));
+  const posted=[],listeners={};
+  const ctx={location:{search:'?embed=1',origin:'https://x'},parent:{postMessage:m=>posted.push(m)},setTimeout:()=>0,THREE:{},
+    document:{},window:null};
+  ctx.window={addEventListener:(type,fn)=>{listeners[type]=fn;},THREE:{}};
+  vm.createContext(ctx);vm.runInContext(code.replace(/window\.THREE/g,'true'),ctx);
+  listeners.error({type:'error',target:{tagName:'LINK',href:'https://fonts.googleapis.com/css2'}});
+  assert.equal(posted.length,0,'C2-03: a failed font stylesheet is ignored');
+  listeners.error({type:'error',target:{tagName:'SCRIPT',src:'vendor/three-r128.min.js'}});
+  assert.equal(posted.length,1,'C2-03: a failed script still reports cms-rr-error');
+  assert.equal(posted[0].type,'cms-rr-error');
+}
+ok('L1e','Codex R87-C2-03: an optional font failure never aborts the roulette scene; script failures still report');
 
 // L2 determinism: both phones agree, a refresh or a second tap gives the same result, and nothing touches the network.
 const id=()=>`pair_${randomBytes(32).toString('hex')}`;
@@ -206,8 +303,8 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.ok(!/rosterBoards/.test(fs.readFileSync(path_.join(ROOT,'firestore.persistent-pair-production.fragment.rules'),'utf8')),'no board Rules');
   assert.match(pstc,/verdicts:season=>pstcRouletteVerdicts\(request,season\)/);
   assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v1/);
-  assert.match(pstc,/provider\.read\(\{\.\.\.provided\.options,seasonNumber:season\}\)/);
-  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx\):\[null\]/);
+  assert.match(pstc,/provider\.readRouletteSeason\(\{\.\.\.await pstcRouletteServices\(\),rivalryId:request\.rivalryId,seasonNumber:season,/);
+  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
   assert.match(rules,/Special Player is never on your board, so he is never hit/,'Rule Book: the Special Player is never on the board');
   ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');
@@ -415,9 +512,12 @@ ok('L11','every club: 10 forced firing seasons, no kept signing, full 11 + 4 wit
   assert.equal(JSON.stringify(released),JSON.stringify(after),'guessed signing never joins');
   const guessedClubPlayer=Squads.squads.Arsenal.reserves[0][1];
   const guessedHistory=noSignings.slice();guessedHistory[1]={playerOne:[{...row(guessedClubPlayer,99,'CB'),release:true}],playerTwo:[]};
+  // Nik 2026-10-31 (Sol SQ-4-01): a guessed signing is the player the manager bought, never his own club's namesake, so
+  // the club player still steps in from the reserves; only the signing is gone.
+  assert.equal(sub.forSeason(fixedId(89),cs,2,{history:guessedHistory}).boards.playerOne[14].name,guessedClubPlayer,'a guessed namesake never blocks the club player');
   for(let season=2;season<=10;season+=1){
     const b=sub.forSeason(fixedId(89),cs,season,{history:guessedHistory}).boards.playerOne;
-    assert.ok(!b.some(p=>p.name===guessedClubPlayer),'guessed club player cannot join from reserves or database');
+    assert.ok(!b.some(p=>p.name===guessedClubPlayer&&p.signedSeason!==null),'the guessed signing never joins');
     fullBoard(b,'guessed database signing '+season);
   }
   // Repeated sub losses consume the three reserves, then use the next highest-rated
@@ -777,8 +877,8 @@ async function stepWorld({loads,forSeason}){
   const sandbox={document:doc,setTimeout,clearTimeout,location:{origin:'x'},addEventListener(){},removeEventListener(){},
     readStorageValue:k=>store.get(k)||null,writeStorageValue:(k,v)=>{store.set(k,v);return true;},
     loadRuntimeScript:async(key)=>{if(key==='fifa17-players'){attempt+=1;if(!loads(attempt))throw new Error('network unavailable');}
-      sandbox.CareerModeFifa17Players={};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};
-      sandbox.CareerModeRosterRoulette={forSeason};return true;}};
+      sandbox.CareerModeFifa17Players={clubs:{Arsenal:{},Liverpool:{}}};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};
+      sandbox.CareerModeRosterRoulette={forSeason,board:()=>[{}]};return true;}};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
   const step=sandbox.CareerModeRosterRouletteStep;
   const panel=()=>doc.getElementById(step.panelId);
@@ -814,8 +914,8 @@ const stepChecks=(async()=>{
     assert.equal(await run,false,'an unexpected error never opens the window');assert.equal(calls,2,'retry rebuilds the same plan');
   }
   const pstc=fs.readFileSync(path_.join(ROOT,'js/productionSharedTransferChallenge.js'),'utf8');
-  assert.match(pstc,/if\(!step\)\{rouletteLoadError=true;return false;\}/,'the step file itself failing keeps the window shut');
-  assert.match(pstc,/\}catch\(_error\)\{rouletteLoadError=true;return false;\}/);
+  assert.match(pstc,/if\(!step\)\{rouletteError=PSTC_ROULETTE_TEXT\.load;return false;\}/,'the step file itself failing keeps the window shut');
+  assert.match(pstc,/\}catch\(_error\)\{rouletteError=PSTC_ROULETTE_TEXT\.error;return false;\}/);
   ok('L15','red team R87-B-02: roulette load failure or error asks TRY AGAIN / BACK and never opens Transfers silently; never skipped for a short squad');
 
   // L16 red team R87-B-03/04/05/06: offline scene files, two-tab signing drafts, plain connection text, quota on direct gets.
@@ -854,7 +954,7 @@ const stepChecks=(async()=>{
       const sandbox={document:doc,setTimeout:(fn,ms)=>setTimeout(fn,Math.min(ms,30)),clearTimeout,location:{origin:'x'},
         addEventListener:(t,fn)=>{if(t==='message')handlers.push(fn);},removeEventListener(){},
         readStorageValue:k=>store.get(k)||null,writeStorageValue:(k,v)=>{store.set(k,v);return true;},
-        loadRuntimeScript:async()=>{sandbox.CareerModeFifa17Players={};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};sandbox.CareerModeRosterRoulette={forSeason:()=>plan};return true;}};
+        loadRuntimeScript:async()=>{sandbox.CareerModeFifa17Players={clubs:{Arsenal:{},Liverpool:{}}};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};sandbox.CareerModeRosterRoulette={forSeason:()=>plan,board:()=>[{}]};return true;}};
       vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
       const step=sandbox.CareerModeRosterRouletteStep;
       const ctx={rivalryId:'pair_'+'b'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:Date.parse('2026-11-01T00:00:00Z'),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};

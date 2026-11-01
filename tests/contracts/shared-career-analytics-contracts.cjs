@@ -66,7 +66,10 @@ check("4. Final is totals only",()=>{
   assert.equal(m.history.showdowns[0].winner,"draw");
   for(const manager of Object.values(m.managers))assert.deepEqual(manager.showdowns,{completed:1,wins:0,draws:1,losses:0});
   const invalid=entry(p,"completed",{...finalFor(p),winner:"playerOne"});
-  assert.equal(model([invalid]).status,"partial","season wins cannot break a final draw");
+  // r87 Fable F7-01: a level final that names a winner (pre-r83 shape) still counts, and only as a DRAW.
+  const levelNamed=model([invalid]);
+  assert.equal(levelNamed.status,"ready");assert.equal(levelNamed.history.showdowns[0].winner,"draw","season wins cannot break a final draw");
+  for(const manager of Object.values(levelNamed.managers))assert.deepEqual(manager.showdowns,{completed:1,wins:0,draws:1,losses:0});
 });
 check("5. Once only",()=>{
   const p=projection({totalSeasons:1,seasons:[[perfect,result()]]}),e=entry(p),m=model([e,clone(e)]);

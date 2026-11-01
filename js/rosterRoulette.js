@@ -22,6 +22,10 @@
   const BOARD_SIZE=15;
   const MAX_SEASONS=10;
   const OVERALL_MIN=30,OVERALL_MAX=99;
+  // F2-02 (Fable job 2): the engine revision. Bump it whenever a board or a shot can come out differently for the same
+  // Showdown, season and history (tests/contracts/r87-roulette-hits-contracts.cjs pins it to this file's text). It is part of
+  // the version string each manager's spin mark carries (rrVersion), so two phones on different builds are told so.
+  const ENGINE_REVISION=2;
   const POSITIONS=Object.freeze(["GK","SW","RWB","RB","RCB","CB","LCB","LB","LWB","RDM","CDM","LDM","RM","RCM","CM","LCM","LM","RAM","CAM","LAM","RF","CF","LF","RW","RS","ST","LS","LW","SUB"]);
 
   function rrSquads(){
@@ -39,9 +43,13 @@
     return Object.freeze([...squad.xi,...squad.subs].map(([pos,name,number,rating],i)=>rrRow(i,i<XI_SIZE?pos:"SUB",name,{number,rating,positions:rrPlayerPositions(name,club,number),special:false,signedSeason:null})));
   }
   const rrOverall=value=>Number.isInteger(value)&&value>=OVERALL_MIN&&value<=OVERALL_MAX;
-  // Identity (red team R87-C-05): names compare with accents folded, trimmed and lower-cased ("M. Ozil" = "M. Özil"; no
-  // initials guessing). A database row is one person by (name, shirt number), so Alavés' two Manu García rows stay two
-  // people; a typed signing has no shirt number and matches every row with his name (the cautious reading).
+  // Identity (red team R87-C-05, Sol SQ-4-01): names compare with accents folded, trimmed and lower-cased ("M. Ozil" =
+  // "M. Özil"; no initials guessing). There are two kinds of people and they never match each other:
+  // - a club player (a database row of the manager's own club, signedSeason null) is one person by (name, shirt number),
+  //   so Alavés' two Manu García rows stay two people;
+  // - a Transfer War signing (signedSeason set, no shirt number) is one person by name among that manager's signings.
+  // A manager never buys his own player, so a signing who shares a name with a club player is a namesake from another
+  // club (WBA's J. Ward is not Palace's J. Ward). Guessing, shooting or re-entering a signing never touches a club player.
   const rrKeys=new Map();
   function rrKey(name){
     const text=String(name||"");let key=rrKeys.get(text);
@@ -49,7 +57,10 @@
     return key;
   }
   const rrNumber=p=>Number.isInteger(p&&p.number)?p.number:null;
-  const rrSame=(a,b)=>rrKey(a.name)===rrKey(b.name)&&(rrNumber(a)===null||rrNumber(b)===null||rrNumber(a)===rrNumber(b));
+  const rrSigning=p=>Boolean(p)&&p.signedSeason!==null&&p.signedSeason!==undefined;
+  // One identity string per person: "s|name" for a signing, "c|name#shirt" for a club player.
+  const rrId=p=>rrSigning(p)?`s|${rrKey(p.name)}`:`c|${rrKey(p.name)}#${rrNumber(p)}`;
+  const rrSame=(a,b)=>rrId(a)===rrId(b);
   // Plain code-point order: identical on every phone (localeCompare depends on the browser's ICU data).
   const rrCmp=(a,b)=>a<b?-1:a>b?1:0;
   // Equal overalls rank by a stable identity, never by the Transfer War entry slot (red team R87-C-04).
@@ -92,6 +103,12 @@
     const matches=byName.get(rrKey(name));
     return matches?(matches.find(p=>p.club===club&&p.number===number)||matches.find(p=>p.club===club)||matches[0]).positions:Object.freeze([]);
   }
+  // A signing comes from another club, so a namesake elsewhere wins over the manager's own player.
+  function rrSigningPositions(name,club){
+    rrPlayerPositions(name,club);
+    const matches=byName.get(rrKey(name));
+    return matches?(matches.find(p=>p.club!==club)||matches[0]).positions:Object.freeze([]);
+  }
   const SIGNING_POSITIONS=new Set(["GK","RB","RWB","CB","LB","LWB","CDM","CM","CAM","RM","LM","RW","LW","CF","ST"]);
   function rrLine(pos){
     if(pos==="GK")return "GK";
@@ -117,18 +134,23 @@
   const rrRank=(a,b)=>b.rating-a.rating||(a.number??100)-(b.number??100);
   const rrDatabasePlayer=p=>({name:p[0],rating:p[1],positions:p[2],number:p[4],signedSeason:null});
   const rrOnBoard=(state,player)=>state.board.some(p=>p.name&&rrSame(p,player));
-  // Who may never come back: shot players, guessed signings and both Special Players. A person with a shirt number blocks
-  // only his own row (a namesake at the club stays) plus any typed signing with his name; a name-only entry (a guessed
-  // signing, a shot signing, a Special Player without a number) blocks the name.
+  // Who may never come back: shot players, guessed signings and both Special Players. One identity set holds them all
+  // (rrId), and every path that puts a player on the board, the bench or the reserves asks rrExcluded, so a blocked
+  // person can never return by any route. A guessed or shot signing blocks only that signing: his club namesake stays.
+  // A shot club player blocks his own row and any later signing with his name (a released player could be bought back,
+  // and a shot player never returns). A Special Player blocks his own club row (every row with his name when the draw has
+  // no shirt number) and any signing with his name.
   function rrExclude(state,player){
-    const key=rrKey(player.name),number=rrNumber(player);
-    state.excludedNames.add(key);
-    if(number===null)state.excludedAll.add(key);else state.excludedIds.add(`${key}#${number}`);
+    state.excluded.add(rrId(player));
+    if(!rrSigning(player))state.excluded.add(`s|${rrKey(player.name)}`);
+  }
+  function rrExcludeSpecial(state,sp){
+    const key=rrKey(sp.name);
+    state.excluded.add(`s|${key}`);
+    if(rrNumber(sp)===null)state.excludedClubNames.add(key);else state.excluded.add(`c|${key}#${rrNumber(sp)}`);
   }
   function rrExcluded(state,player){
-    const key=rrKey(player.name),number=rrNumber(player);
-    if(state.excludedAll.has(key))return true;
-    return number===null?state.excludedNames.has(key):state.excludedIds.has(`${key}#${number}`);
+    return state.excluded.has(rrId(player))||(!rrSigning(player)&&state.excludedClubNames.has(rrKey(player.name)));
   }
   function rrReserve(state,player){
     if(rrExcluded(state,player)||rrOnBoard(state,player)||state.reserves.some(p=>rrSame(p,player)))return;
@@ -151,7 +173,9 @@
   // script's tie rule. A weak player in the reserves never blocks a better unused club player.
   function rrTakeReserve(state,predicate=()=>true){
     let at=-1;
-    for(let i=0;i<state.reserves.length;i+=1)if(predicate(state.reserves[i])&&(at<0||rrRank(state.reserves[i],state.reserves[at])<0))at=i;
+    // Fable F11-04: the reserves can still hold a person excluded after they were last filtered (a saved shot this build keeps
+    // in the reserves); like every other route, this one never hands an excluded person back.
+    for(let i=0;i<state.reserves.length;i+=1)if(!rrExcluded(state,state.reserves[i])&&predicate(state.reserves[i])&&(at<0||rrRank(state.reserves[i],state.reserves[at])<0))at=i;
     const next=rrBestDatabase(state,predicate);
     if(next&&(at<0||rrRank(next,state.reserves[at])<0))return next;
     // Replacements stay club-only: a club with no player left gets an empty slot (null), never a revived loss or an import.
@@ -291,8 +315,61 @@
   function rrKept(rows,season,club){
     if(!Array.isArray(rows))return null;
     return rows.filter(r=>r&&r.release===false&&typeof r.name==="string"&&r.name.trim()&&rrOverall(r.overall))
-      .map(r=>({name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrPlayerPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
+      .map(r=>({name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrSigningPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
       .sort(rrOrder);
+  }
+  // ---------- F2-02: persisted hits and the version pin ----------
+  // A spin mark (js/sparkSharedTransferChallenge.js markSpun) records that season's outcome for that manager: fired, hitName,
+  // hitNumber, hitSlot and this version. The version names the engine revision and a hash of exactly the data this Showdown's
+  // boards are built from (both clubs' squad rows and database rows, and both Special Players), so a data fix for another club
+  // never stops a running Showdown, and any change that can move a board or a shot here does.
+  function rrHash(text){let h=0x811c9dc5;for(let i=0;i<text.length;i+=1){h^=text.charCodeAt(i);h=Math.imul(h,0x01000193);}return (h>>>0).toString(16).padStart(8,"0");}
+  function rrVersion(clubs,options){
+    const squads=rrSquads(),players=rrPlayers();
+    if(!squads||!players||!clubs)return null;
+    const parts=[];
+    for(const role of ROLES){
+      const club=clubs[role];
+      if(!Object.prototype.hasOwnProperty.call(squads.squads,club)||!players.clubs||!Object.prototype.hasOwnProperty.call(players.clubs,club))return null;
+      parts.push(club,squads.squads[club],players.clubs[club]);
+    }
+    const special=options&&options.special;
+    parts.push(ROLES.map(role=>rrSpecial(special,role)));
+    return `rr${4}.${ENGINE_REVISION}.${rrHash(JSON.stringify(parts))}`;
+  }
+  // A persisted outcome is used only when it is whole: fired true with a name and a board slot 0-14, or fired false with none.
+  // hitSignedSeason names which kind of person was shot (Sol SQ-4-01 identities): the season a signing was signed, or null for
+  // a club player, so the saved player is found by the same rrId the engine uses and never his namesake of the other kind.
+  function rrSavedHit(hits,season,role){
+    const h=hits&&hits[season]&&hits[season][role];
+    if(!h||typeof h!=="object"||typeof h.fired!=="boolean")return null;
+    if(!h.fired)return {fired:false};
+    if(typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>=BOARD_SIZE)return null;
+    const signedSeason=Number.isInteger(h.hitSignedSeason)&&h.hitSignedSeason>=1&&h.hitSignedSeason<=MAX_SEASONS?h.hitSignedSeason:null;
+    return {fired:true,hitName:h.hitName.trim(),hitNumber:Number.isInteger(h.hitNumber)?h.hitNumber:null,hitSlot:h.hitSlot,signedSeason};
+  }
+  // Where the saved shot player stands on this phone's board: his saved slot when that slot still holds him, else wherever he
+  // is (a later build may have moved him), else -1 (not on this board at all: he is still out, nobody else is).
+  function rrSavedAt(board,saved){
+    const shot={name:saved.hitName,number:saved.hitNumber,signedSeason:saved.signedSeason};
+    const row=board[saved.hitSlot];
+    if(row&&row.name&&rrSame(row,shot))return {shot,at:saved.hitSlot};
+    return {shot,at:board.findIndex(p=>p.name&&rrSame(p,shot))};
+  }
+  // This season's turn with a saved outcome as the authority. The chambers stay the seeded ones (they never depend on a board);
+  // the stop chamber follows the saved result so the animation agrees with it.
+  function rrSavedTurn(turn,saved,board){
+    if(!saved.fired)return {...turn,fired:false,hitSlot:null,stopChamber:turn.bulletChamber===turn.stopChamber?(turn.bulletChamber+1)%CHAMBERS:turn.stopChamber,authority:"saved",shot:null};
+    const {shot,at}=rrSavedAt(board,saved),slot=at>=0?at:saved.hitSlot;
+    return {...turn,fired:true,hitSlot:slot,aimSlot:slot,stopChamber:turn.bulletChamber,authority:"saved",shot:at>=0?null:shot};
+  }
+  // The outcome a manager's spin mark records for his own turn of this plan.
+  function rrOutcome(plan,role,version){
+    const turn=plan&&Array.isArray(plan.turns)?plan.turns.find(item=>item.role===role):null;
+    if(!turn||typeof version!=="string"||!version)return null;
+    if(!turn.fired||!turn.player||!turn.player.name)return Object.freeze({fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason:null,version});
+    const signed=turn.player.signedSeason;
+    return Object.freeze({fired:true,hitName:String(turn.player.name).trim(),hitNumber:Number.isInteger(turn.player.number)?turn.player.number:null,hitSlot:turn.hitSlot,hitSignedSeason:Number.isInteger(signed)&&signed>=1&&signed<=MAX_SEASONS?signed:null,version});
   }
   function rrArgs(rivalryId,clubs,season){
     const match=RIVALRY_ID.exec(String(rivalryId||""));
@@ -303,24 +380,28 @@
   }
   // What the screen shows for one season. clubs = {playerOne, playerTwo} club names; options.special = the Special
   // Players; options.history[k] = {playerOne:[verdict rows], playerTwo:[verdict rows]} for every season k before this
-  // one (index 1..season-1). Returns null for a malformed id, an unknown club, a season outside 1..10 or a missing season
-  // of history (the screen then shows no roulette).
+  // one (index 1..season-1). options.hits[k] = {playerOne:outcome|null, playerTwo:outcome|null}: the outcomes the spin marks
+  // saved (F2-02). A saved outcome is the authority for that season and manager: the saved player is out even if this build's
+  // board would have aimed elsewhere; a season or manager without one is computed as before. Returns null for a malformed id,
+  // an unknown club, a season outside 1..10 or a missing season of history (the screen then shows no roulette).
   function rrForSeason(rivalryId,clubs,season,options){
     const args=rrArgs(rivalryId,clubs,season);
     if(!args)return null;
-    const history=options&&options.history,special=options&&options.special;
-    const boards={},turns={};
+    const history=options&&options.history,special=options&&options.special,hits=options&&options.hits;
+    const boards={},turns={},skipped={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
     // The Special Player is never on any board, bench or reserve list anywhere: both managers' draws are excluded from
     // both clubs (red team R87-C-01). One in the club's launch board is skipped and the next player takes his place.
     const specials=ROLES.flatMap(role=>rrSpecial(special,role)||[]);
     for(const role of ROLES){
-      const state={club:clubs[role],launch:args.launch[role],board:args.launch[role].slice(),reserves:[],vacant:null,excludedNames:new Set(),excludedIds:new Set(),excludedAll:new Set()};
-      for(const sp of specials)rrExclude(state,sp);
+      const state={club:clubs[role],launch:args.launch[role],board:args.launch[role].slice(),reserves:[],vacant:null,excluded:new Set(),excludedClubNames:new Set()};
+      for(const sp of specials)rrExcludeSpecial(state,sp);
       for(const [,name,number,rating] of rrSquads().squads[state.club].reserves)
         rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club,number),signedSeason:null});
       for(let i=0;i<BOARD_SIZE;i+=1)if(rrExcluded(state,state.board[i]))rrReplace(state,i,[]);
       while(state.reserves.length<3&&rrNextReserve(state)){} // skip him in the hidden three too
+      // F2-19 (Fable job 2): names the roulette shot, for saying why a kept signing of the same name stays off the board.
+      const shotNames=new Set();skipped[role]=[];
       for(let k=1;k<season;k+=1){
         const allKept=rrKept(history&&history[k]&&history[k][role],k,state.club);
         if(!allKept)return null;
@@ -328,29 +409,49 @@
         // A guessed signing must not sneak in later through the club database refill. Applied after this season's turn
         // was drawn (the board it aimed at is the one the screen showed); a guessed player already on the board is
         // evicted below (Sol SQ-2-02).
-        for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string')rrExclude(state,{name:row.name,number:null});
+        for(const row of history[k][role])if(row&&row.release===true&&typeof row.name==='string'&&row.name.trim())rrExclude(state,{name:row.name.trim(),number:null,signedSeason:k});
         state.reserves=state.reserves.filter(p=>!rrExcluded(state,p));
         // Sol SQ-2-03: a player this manager already signed in an earlier window is not a new signing when entered again;
         // he keeps his first window and his place (board or reserves).
         const kept=allKept.filter(p=>!state.reserves.some(r=>r.signedSeason!==null&&rrSame(r,p)));
-        if(turn.fired){
-          rrExclude(state,state.board[turn.hitSlot]);
+        const saved=rrSavedHit(hits,k,role);
+        let shot=null,at=-1;
+        if(saved){if(saved.fired)({shot,at}=rrSavedAt(state.board,saved));}
+        else if(turn.fired){shot=state.board[turn.hitSlot];at=turn.hitSlot;}
+        if(shot){
+          shotNames.add(rrKey(shot.name));
+          rrExclude(state,at>=0?state.board[at]:shot);
+          state.reserves=state.reserves.filter(p=>!rrExcluded(state,p));// F11-04: a shot person found in the reserves leaves them too
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
           // R87-2's XI/bench signing placement run first without ever writing a blank row.
-          state.vacant=turn.hitSlot;
+          if(at>=0)state.vacant=at;
+        }
+        // F2-19: a kept signing the rules keep off (signings are known by name only, so his name is one the roulette shot, a
+        // Special Player's, or a guessed and released signing's) is listed for the season right after his window, with why.
+        if(k===season-1)for(const player of kept)if(rrExcluded(state,player)){
+          const key=rrKey(player.name);
+          skipped[role].push(Object.freeze({name:player.name,season:k,reason:specials.some(sp=>rrKey(sp.name)===key)?"special":shotNames.has(key)?"shot":"guessed"}));
         }
         for(const player of kept)rrJoin(state,player);
         if(state.vacant!==null){rrReplace(state,state.vacant,[],k);state.vacant=null;}
         rrEvictExcluded(state,k);
         rrRepairStopgaps(state,k);
+        // Fable F11-07: a kept signing weaker than every fitting starter and every sub waits in the reserves; the card says so
+        // instead of dropping him silently.
+        if(k===season-1)for(const player of kept)if(!rrExcluded(state,player)&&!rrOnBoard(state,player))skipped[role].push(Object.freeze({name:player.name,season:k,reason:"reserve"}));
       }
       const board=state.board;
-      boards[role]=Object.freeze(board);
-      turns[role]=rrTurn(args.hex,season,role,board);
+      boards[role]=Object.freeze(board);skipped[role]=Object.freeze(skipped[role]);
+      const turn=rrTurn(args.hex,season,role,board),saved=rrSavedHit(hits,season,role);
+      turns[role]=saved?rrSavedTurn(turn,saved,board):{...turn,authority:"computed",shot:null};
     }
-    const order=ROLES.map(role=>{const turn=turns[role],board=boards[role];return Object.freeze({...turn,player:turn.hitSlot!==null?board[turn.hitSlot]:null});});
-    return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order)});
+    const order=ROLES.map(role=>{
+      const {shot,...turn}=turns[role],board=boards[role];
+      const player=turn.hitSlot===null?null:shot?rrRow(turn.hitSlot,board[turn.hitSlot].pos,shot.name,{number:shot.number,rating:0,positions:Object.freeze([]),special:false,signedSeason:shot.signedSeason}):board[turn.hitSlot];
+      return Object.freeze({...turn,player});
+    });
+    return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order),skipped:Object.freeze(skipped)});
   }
 
-  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,board:rrBoard,forSeason:rrForSeason});
+  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,engineRevision:ENGINE_REVISION,board:rrBoard,forSeason:rrForSeason,version:rrVersion,outcome:rrOutcome});
 });

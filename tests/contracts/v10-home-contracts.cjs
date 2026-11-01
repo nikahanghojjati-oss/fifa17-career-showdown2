@@ -29,7 +29,7 @@ function fakeDom(){
       removeAttribute(k){delete this.attributes[k];if(k==="src")this.src="";},
       addEventListener(type,fn){const map=listeners.get(el)||{};(map[type]=map[type]||[]).push(fn);listeners.set(el,map);},
       appendChild(child){if(child.parentNode)child.parentNode.children=child.parentNode.children.filter(c=>c!==child);child.parentNode=el;el.children.push(child);return child;},
-      click(){((listeners.get(el)||{}).click||[]).forEach(fn=>fn({target:el}));},
+      click(){((listeners.get(el)||{}).click||[]).forEach(fn=>fn({target:el}));},fire(type){((listeners.get(el)||{})[type]||[]).forEach(fn=>fn({target:el}));},
       play(){el.paused=false;return Promise.resolve();},pause(){el.paused=true;},load(){},closest(){return null;}
     };
     return el;
@@ -96,6 +96,31 @@ test("one long-lived <audio> on <body> keeps playing after Home unmounts and is 
   assert.match(soundtrack,/v10PersistentMedia/);assert.match(soundtrack,/document\.body\.appendChild\(persistent\)/);
   assert.doesNotMatch(soundtrack,/ui\.card\.appendChild\(audio\)/);
 });
+test("r87: Home mounting again (or the online signal) keeps the chosen song; Song 2 is only the first pick",()=>{
+  const dom=fakeDom(),api=runSoundtrack(dom);
+  api.init(Home.MEDIA);
+  assert.equal(api.current().key,"song2","Song 2 opens the game");
+  api.choose("loveMeAgain");dom.toggle.click();
+  const audio=dom.created[0];
+  api.init(Home.MEDIA);
+  assert.equal(api.current().key,"loveMeAgain","re-init never jumps the title back to Song 2 while Love Me Again plays");
+  assert.equal(dom.choices.find(b=>b.dataset.soundtrackTrack==="loveMeAgain").attributes["aria-pressed"],"true");
+  dom.toggle.click();dom.toggle.click();
+  assert.match(audio.src,/GNQJ5dl/,"pause and play resume the same song, not Song 2 from the start");
+});
+test("r87: Play after a failed stream asks Audius again instead of replaying the dead <audio>",()=>{
+  const dom=fakeDom(),api=runSoundtrack(dom);
+  api.init(Home.MEDIA);dom.toggle.click();
+  const audio=dom.created[0];
+  audio.paused=true;audio.fire("error");
+  assert.equal(api.state().failed,true);assert.equal(api.state().wantPlaying,false);
+  assert.equal(dom.status.textContent,Home.MEDIA.statusError);
+  let loads=0;audio.load=()=>{loads+=1;};audio.src="";
+  dom.toggle.click();
+  assert.match(audio.src,/6R99GRQ/,"the stream URL is set again");
+  assert.equal(api.state().failed,false);assert.equal(api.state().wantPlaying,true);
+  assert.equal(audio.paused,false);
+});
 test("the YouTube player is retired only by lazy Home code, and product diagnostics still see their nodes",()=>{
   assert.match(html,/id="menuMusicPlayer"/,"index.html is unchanged");
   assert.match(binder,/v10HomeRetiredMedia/);assert.match(binder,/retired\.hidden=true/);
@@ -160,8 +185,10 @@ test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: ph
   assert.equal(sha("visual-assets/v10_1/home/home.css"),"ba72603790119c404a32711ddc36cbb6ad4190c108d496a1193eef8bbc3dbc53");
   assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
   // r85 (app, Nik 2026-10-27): a small API (toggle, mute, choose, tracks, current, subscribe) for the docked player in js/musicDockV10.js.
-  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"d5ed636e4893b7bed763564c2643f600d85c2db941e78d3b80942f4317b5e986");
+  // r87 (app): init keeps the chosen song, and Play after a failed stream asks Audius again.
+  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"b65c53dbb662e99ad5929607447fc5eaa7bea94fc5db9db79ddc267dd9c19b1a");
   assert.equal((soundtrack.match(/r85 \(app\)/g)||[]).length,2);
+  assert.equal((soundtrack.match(/r87 \(app\)/g)||[]).length,2);
   assert.equal((soundtrack.match(/JOB-25 \(app\)/g)||[]).length,2);
 });
 
