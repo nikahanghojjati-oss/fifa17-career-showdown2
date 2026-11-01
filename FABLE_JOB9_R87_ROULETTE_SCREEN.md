@@ -19,6 +19,14 @@ Job 6 hunted the season-to-season flow and the data chain. **This job is about t
 5. **Leaving and coming back.** Reload mid-spin, BACK TO SHOWDOWN HOME, a second tab, offline mid-step, the other phone a step ahead or behind, the service worker serving a mixed set of files after an upgrade (1.9.10 phone, 2.0.0 phone).
 6. **Leaks.** Listeners, intervals, rAF loops, audio nodes, WebGL renderers and iframes left behind after exit; each time the step runs they add up over 10 seasons.
 
+## Nik's rule on overalls and one game logic (2026-11-01)
+- In season 1 every board player's overall matches the FIFA 17 launch database.
+- From season 2 on, players already at the club keep their launch overall on the board on purpose. That is not a bug.
+- A player who joined through Transfer War shows the overall his manager typed (30-99). It will often differ from the database, especially for top-300 / Special Player list players.
+- Check that the screen copes with this: the 3D boards, labels, highlight and result card must draw any overall 30-99, any mix of launch and typed overalls, and a signed player whose name is also in the database with a different overall. None of this may stall the scene, mislabel the shot player, or make the two phones differ.
+- The screen must show exactly what the one shared game logic decided: the same board, the same shot player and the same overall as the engine, the spin mark and the Transfer War verdicts. The Special Player rules stay the same.
+- Job 10 covers the board-building logic in depth. Report here only what reaches the screen.
+
 ## House rules (a break is a bug)
 - **Reus Gate:** the loading screen stays until the next screen is ready. Never dim. Nothing covers anything at any size. No flash of an old design or of a blank frame.
 - The roulette is never skipped where it applies, and never runs twice for the same season. Never hide or reorder a needed screen.
