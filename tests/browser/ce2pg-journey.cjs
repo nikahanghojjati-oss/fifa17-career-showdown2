@@ -566,10 +566,8 @@ async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
-  for(const m of [daniel,nik]){
-    await rosterRoulette.waitForTransfer(m.page,45000);
-    await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
-  }
+  await rosterRoulette.waitForTransfer([daniel.page,nik.page],45000);
+  for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   const teamCount=await daniel.page.evaluate(()=>window.CareerModeProductionSharedSeasonResults?.getState?.()?.state?.teamCount??null).catch(()=>null)
     ||await daniel.page.evaluate(l=>{const cat=window.CareerModeSharedShowdownCatalog?.catalog;if(!cat)return null;const key=Object.keys(cat).find(k=>k.replace(/_/g," ").toLowerCase()===String(l).toLowerCase());return key?cat[key].length:null;},league).catch(()=>null)||20;
   return {league,clubs,teamCount};
@@ -783,8 +781,9 @@ async function continueToSeason(daniel,nik,next,total){
   for(const m of [daniel,nik])if(m.ahead!==next)await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
   await budgetWait("continue");
   const dark=outageKind(next-1)==="continue";
+  const toRoulette=[];// Prime Pack's round starts only when BOTH phones are in it, so both are driven together at the end
   for(const m of [daniel,nik]){
-    if(m.ahead===next){m.ahead=0;await rosterRoulette.waitForTransfer(m.page,60000);continue;}
+    if(m.ahead===next){m.ahead=0;toRoulette.push(m.page);continue;}
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
     if(dark&&m===daniel){
       // The signal drops as CONTINUE is tapped and the phone is locked a moment later.
@@ -796,8 +795,9 @@ async function continueToSeason(daniel,nik,next,total){
     const paper=await gazette.passGazette(m.page,"season");
     if(!servingOld&&(!paper||!paper.endsWith(`|season|${next-1}`)))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
-    await rosterRoulette.waitForTransfer(m.page,30000);
+    toRoulette.push(m.page);
   }
+  if(toRoulette.length)await rosterRoulette.waitForTransfer(toRoulette,toRoulette.length>1?60000:30000);
 }
 // Back into the live Showdown from Showdown Home: CONTINUE SHOWDOWN, then (on the season dashboard) its primary action, until the
 // season's Shared Transfer Challenge shows.
