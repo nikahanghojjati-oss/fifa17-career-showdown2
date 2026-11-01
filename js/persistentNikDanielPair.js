@@ -46,8 +46,8 @@
   let pairCodeExpiry={rivalryId:null,expiresAtEpochMs:null};
   function pairRememberCodeExpiry(rivalryId,expiresAtEpochMs){if(typeof rivalryId==="string"&&rivalryId&&Number.isFinite(expiresAtEpochMs))pairCodeExpiry={rivalryId,expiresAtEpochMs};}
   function pairCodeExpiresAt(){return state.connectionState==="pending-pair"&&state.rivalryId&&pairCodeExpiry.rivalryId===state.rivalryId?pairCodeExpiry.expiresAtEpochMs:null;}
-  function pairCodeExpired(now=Date.now()){const at=pairCodeExpiresAt();return Number.isFinite(at)&&now>at+PAIR_WAIT_EXPIRY_GRACE_MS;}
-  function pairCodeOpen(now=Date.now()){const at=pairCodeExpiresAt();return Number.isFinite(at)&&!(now>at+PAIR_WAIT_EXPIRY_GRACE_MS);}
+  function pairCodeExpired(now=Date.now()){const at=pairCodeExpiresAt();return Number.isFinite(at)&&now>=at+PAIR_WAIT_EXPIRY_GRACE_MS;}
+  function pairCodeOpen(now=Date.now()){const at=pairCodeExpiresAt();return Number.isFinite(at)&&now<at+PAIR_WAIT_EXPIRY_GRACE_MS;}
   function pairWaitStopAt(){const at=pairCodeExpiresAt();return Number.isFinite(at)?at+PAIR_WAIT_EXPIRY_GRACE_MS:pairWaitSince+PAIR_WAIT_UNKNOWN_CAP_MS;}
   function pairWaitScreenShown(){const d=root.document;if(!d||d.visibilityState==="hidden")return false;try{const layer=typeof d.getElementById==="function"?d.getElementById("connectPlayersScreen"):null;if(layer&&layer.classList&&typeof layer.classList.contains==="function"&&!layer.classList.contains("hidden"))return true;if(typeof root.getActiveScreenName!=="function")return true;const screen=root.getActiveScreenName();return !screen||screen==="mainMenu";}catch(_error){return true;}}
   const pairCodeExpiryTried=new Set();

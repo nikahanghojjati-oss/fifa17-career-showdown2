@@ -123,6 +123,16 @@ const danielBinding=[{managerRole:"playerOne",saveId:SAVE,profileId:PROFILE}];
   ok("F4-03/F3-04","the waiting poll reads only on Home or Connect Players, only the two paths fresh, and stops at the code's expiry");
 }
 {
+  // Codex #1146: the poll's last tick at exactly expiry + grace must also show the code as expired (same boundary).
+  const h=pairHarness({docs:danielDocs({expiresAt:START+10*MIN})});
+  await h.pair.initialize({force:true});
+  h.clock.now=START+11*MIN;const pending=h.timers.pending();assert.equal(pending.length,1);await h.timers.fire(pending[0]);
+  assert.equal(h.timers.pending().length,0,"the poll stops at exactly expiry + grace");
+  assert.equal(h.pair.getCodeExpiry().expired,true,"and the code reads as expired at that same instant");
+  assert.ok(h.buttons().includes("NEW CODE"),"so the final redraw offers NEW CODE");
+  ok("F4-03b","the poll stop and the expired code share one boundary (no stuck COPY CODE at exactly expiry + grace)");
+}
+{
   // expiry unreadable: the poll is still capped (30 minutes, the longest an invite lives)
   const docs=danielDocs();delete docs[`rivalries/${R}/invites/${R}`];
   const h=pairHarness({docs});await h.pair.initialize({force:true});
