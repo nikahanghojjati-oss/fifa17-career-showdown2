@@ -197,12 +197,24 @@ async function section(id,fn){
     assert.doesNotMatch(fn,/!Number\.isFinite\(confirmedAtMs\)\|\|[^\n]*return result/,"an unknown confirm time no longer returns the result without its point");
     assert.match(fn,/if\(!Number\.isFinite\(confirmedAtMs\)\)pssrFail\("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE"/,"an unknown confirm time stops the publish (TRY AGAIN)");
     assert.ok(fn.indexOf("setupApi.refresh()")<fn.indexOf('pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown'),"the setup is read once more first");
-    assert.ok(fn.indexOf('root.CMS_PRIME_PACK==="off"')<fn.indexOf("setupApi.refresh()"),"the kill switch still skips everything");
+    // F14-02: the kill switch never drops a point already won; the round record is still read (no record is 0 points).
+    assert.doesNotMatch(fn,/CMS_PRIME_PACK/,"the season results never skip the round record for the kill switch");
+    assert.match(fn,/step\.applies\(gameCtx,\{ignoreSwitch:true\}\)[\s\S]*step\.pointsFor\([^\n]*gameCtx,\{ignoreSwitch:true\}\)/);
+    {
+      const h=harness(),Step=freshStep(),L=realNow()-200_000;
+      h.stored={schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:1,arrived:{playerOne:ts(L-4000),playerTwo:ts(L)},chipsUsed:{playerOne:1,playerTwo:0},namedBy:"playerOne",revision:4,updatedAt:ts(L+Guess.leadMs+1000)};
+      globalThis.CMS_PRIME_PACK="off";
+      try{
+        assert.equal(Step.applies(ctx("playerOne")),false,"the switch still keeps the screen off");
+        assert.equal(await Step.pointsFor(h.io,ctx("playerOne"),{ignoreSwitch:true}),4,"a round already won keeps its 4 points with the switch on");
+        h.stored=null;assert.equal(await freshStep().pointsFor(h.io,ctx("playerOne"),{ignoreSwitch:true}),0,"no round record: no point");
+      }finally{delete globalThis.CMS_PRIME_PACK;restore();}
+    }
     const pstc=read("js/productionSharedTransferChallenge.js"),first=pstc.slice(pstc.indexOf("async function pstcPrimePackFirst"),pstc.indexOf("async function pstcPrimePackFirst")+2600);
     assert.doesNotMatch(first,/!Number\.isFinite\(confirmedAtMs\)\|\|[^\n]*return true/,"the window never opens past an unknown confirm time");
     assert.match(first,/if\(!Number\.isFinite\(confirmedAtMs\)\)\{primePackLoadError=true;return false;\}/,"an unknown confirm time keeps the window shut with TRY AGAIN");
     assert.match(first,/resync:\(\)=>\{clockRefreshPerformanceMs=Number\.NaN;return pstcEnsureServerClock\(options\.user,request\);\}/,"the step can take a fresh server clock (F13-03)");
-    ok("F6","F13-04: an unknown confirm time fails closed in the season results and the Transfer Challenge");
+    ok("F6","F13-04/F14-02: an unknown confirm time fails closed; the kill switch never drops a point already won");
   });
   if(failed){console.log(`FAIL r87 Prime Pack F13 contracts: ${failed} failed.`);process.exit(1);}
   console.log(`PASS r87 Prime Pack F13 contracts: ${checks} checks.`);

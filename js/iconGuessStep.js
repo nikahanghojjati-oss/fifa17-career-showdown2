@@ -57,8 +57,9 @@
 
   // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Prime Pack this season? It needs
   // js/iconGuess.js: a browser caller awaits ensure() first (before it, the answer is always false).
-  function igsApplies(ctx){
-    if(root.CMS_PRIME_PACK==="off"||!ctx)return false;
+  // ignoreSwitch: the season results attach a point already won even when the kill switch is on (Fable F14-02).
+  function igsApplies(ctx,{ignoreSwitch=false}={}){
+    if((root.CMS_PRIME_PACK==="off"&&!ignoreSwitch)||!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
     if(!Number.isInteger(ctx.season)||ctx.season<1||ctx.season>10)return false;
     const guess=igsGuess();
@@ -147,8 +148,8 @@
   // How many Prime Pack points this manager won this season (0, or 4 to 1 by stage). Read by the season results before they
   // are published, so the points go in as primePack:N (the Rules check N against the round record). io = {firestore, sdk,
   // rivalryId}. One read, once per season, only for a Showdown the game applies to.
-  async function igsPointsFor(io,ctx){
-    if(!igsApplies(ctx))return 0;
+  async function igsPointsFor(io,ctx,{ignoreSwitch=false}={}){
+    if(!igsApplies(ctx,{ignoreSwitch}))return 0;
     const key=igsKey(ctx);if(wonMemo.has(key))return wonMemo.get(key);
     const ref=igsRef(io,ctx.season);
     const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});
