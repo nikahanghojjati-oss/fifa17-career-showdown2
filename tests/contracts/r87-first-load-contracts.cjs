@@ -55,5 +55,19 @@ function run(loading,{idle=true,advance=0}={}){
   const gz=require("node:zlib").gzipSync(Buffer.from(fonts),{level:9}).length;
   assert.ok(gz<=900,`font sheet gzip ${gz} <= 900`);
   assert.equal(fonts.replace(/\/\*[\s\S]*?\*\//g,"").replace(/@font-face \{[^}]*\}/g,"").trim(),"","the font sheet holds only @font-face rules");
-  console.log("PASS r87 first load contracts: worker registers after the handover (bounded 20 s), Barlow Condensed served and precached locally");
+
+  // 3. Fable F3-08: the automatic update never reloads a phone waiting on Home for the partner, or mid-Reconnect.
+  const safeSrc=offline.slice(offline.indexOf("function autoUpdateSafe(){"),offline.indexOf("function scheduleAutoApplyUpdate(){"));
+  const safeWith=win=>{const ctx={window:win,getActiveApplicationScreen:()=>"mainMenu",getUpdateBoundaryStatus:()=>({safe:true}),
+    document:{getElementById:()=>null,querySelectorAll:()=>[]},getComputedStyle:()=>({display:"none"})};
+    vm.createContext(ctx);vm.runInContext(safeSrc+";this.safe=autoUpdateSafe;",ctx);return ctx.safe();};
+  const waiting=v=>({isWaitingForRival:()=>v});
+  assert.equal(safeWith({}),true,"idle Home: update may apply");
+  for(const key of ["CareerModeProductionSharedSeasonResults","CareerModeProductionSharedSeasonCommit","CareerModeProductionSharedTransferChallenge"]){
+    assert.equal(safeWith({[key]:waiting(true)}),false,`${key} waiting: no reload`);
+    assert.equal(safeWith({[key]:waiting(false)}),true,`${key} not waiting: update may apply`);
+    assert.equal(safeWith({[key]:{isWaitingForRival:()=>{throw new Error("x");}}}),false,`${key} unreadable: no reload`);
+  }
+  assert.equal(safeWith({CareerModeProductionSharedJourneyReconnect:{isBusy:()=>true}}),false,"Reconnect busy: no reload");
+  console.log("PASS r87 first load contracts: worker registers after the handover (bounded 20 s), Barlow Condensed served and precached locally, no auto-update reload during a shared wait");
 })().catch(error=>{console.error(error);process.exit(1);});

@@ -274,6 +274,12 @@ let autoUpdateTried=false,autoUpdateTimer=null;
 function autoUpdateSafe(){
     if(getActiveApplicationScreen()!=="mainMenu"||!getUpdateBoundaryStatus().safe)return false;
     if(document.getElementById("onlinePlayerIdentityOverlay"))return false;
+    // Fable F3-08: Home is also where a phone waits for the partner's Season Results, Commit or Transfer step (the wait screens
+    // include mainMenu). A reload then would drop the session, the wait listener and the read-budget copies (RECONNECT, 20-40
+    // billed reads), so the update waits, re-checking every 15 s, until no shared wait or Reconnect is under way.
+    const shared=[window.CareerModeProductionSharedSeasonResults,window.CareerModeProductionSharedSeasonCommit,window.CareerModeProductionSharedTransferChallenge];
+    try{ if(shared.some(m=>typeof m?.isWaitingForRival==="function"&&m.isWaitingForRival()))return false; }catch(_error){ return false; }
+    try{ if(window.CareerModeProductionSharedJourneyReconnect?.isBusy?.())return false; }catch(_error){ return false; }
     return ![...document.querySelectorAll('[id$="Overlay"]')].some(o=>!o.classList.contains("hidden")&&!o.hidden&&getComputedStyle(o).display!=="none");
 }
 function scheduleAutoApplyUpdate(){
