@@ -1566,6 +1566,8 @@
   #app #trophyRoom .recordItem strong {font-size:max(16px,1.15vw)}
   #app #trophyRoom .recordRibbonHeading {font-size:max(10px,.66vw)}
 }
+/* the plinth's second line now carries the Showdown wins (DANIEL ×2 · NIK ×1): readable at every size (it was 6-8px) */
+#app #trophyRoom .heroPlinth small {font-size:max(9.5px,.62vw);line-height:1.15;letter-spacing:.08em;white-space:nowrap;color:#e7d39a}
 `;
   // r84 Golden Showdown looks: the shared gold tokens and the r78 black-and-gold marble tile. Nothing here dims, overlays or moves
   // another element. Trophy Room: the gold case is a sixth case on the ALL shelf, so rows that held five cases hold six; portrait

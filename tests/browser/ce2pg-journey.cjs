@@ -904,8 +904,8 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   if(firstCompleted&&f.seasonHistory){
     // r87 polish: the list is a table (Season · Daniel · Nik · Result); a row reads "Season N <pts> #pos · pts league pts · goals
     // goals [Europa League winner] <pts> ... <crown> Winner | = Draw" (case-insensitive: the labels are drawn in capitals).
-    const esc=x=>String(x).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),side=r=>esc(`${scoreSeason(r).total}`)+" ?"+esc(`#${r.leaguePosition} · ${r.leaguePoints} league pts · ${r.leagueGoals} goals`)+"(?: Europa League winner)?";
-    const want=firstCompleted.seasons.map((p,i)=>{const d=scoreSeason(p.daniel).total,n=scoreSeason(p.nik).total;return {label:`Season ${i+1}`,re:new RegExp(`Season ${i+1} ${side(p.daniel)} ${side(p.nik)} ${d>n?"♛ ?Daniel":n>d?"♛ ?Nik":"= ?Draw"}`,"i")};});
+    const esc=x=>String(x).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),side=r=>esc(`${scoreSeason(r).total}`)+" "+esc(`#${r.leaguePosition} · ${r.leaguePoints} league pts · ${r.leagueGoals} goals`)+"(?: Europa League winner)?";
+    const want=firstCompleted.seasons.map((p,i)=>{const d=scoreSeason(p.daniel).total,n=scoreSeason(p.nik).total;return {label:`Season ${i+1}`,re:new RegExp(`Season ${i+1} ${side(p.daniel)} ${side(p.nik)} ${d>n?"♛ Daniel":n>d?"♛ Nik":"= Draw"}`,"i")};});
     const missing=want.filter(w=>!w.re.test(f.seasonHistory)).map(w=>w.label);
     await check(m,id("legacy.seasonHistory"),`Legacy VIEW SEASON HISTORY (Showdown #${firstCompleted.number}) lists every season with its score, league finish, points and goals`,missing.length===0,`missing ${JSON.stringify(missing)} in: ${f.seasonHistory.slice(0,1500)}`,scr("Legacy (season history)"));
   }else if(firstCompleted)await check(m,id("legacy.seasonHistory"),"Legacy VIEW SEASON HISTORY opens",false,"no VIEW SEASON HISTORY button or no text",scr("Legacy (season history)"));

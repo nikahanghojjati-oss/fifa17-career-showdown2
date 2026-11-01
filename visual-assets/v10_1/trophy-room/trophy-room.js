@@ -88,7 +88,16 @@
     const dim = frame.status === "loading" || frame.status === "unavailable";
     // r80: a tab switch draws the hero again; keep the trophy risen and the spotlight on (they used to drop back onto the plinth).
     const settled = `${state.spotlightLit ? " tr-spotlight-lit" : ""}${state.heroSettled ? " tr-trophy-settled" : ""}`;
-    return `<div class="heroCeremony ${dim ? "is-muted" : ""}${settled}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>CAREER MODE SHOWDOWN</small></div></div>`;
+    return `<div class="heroCeremony ${dim ? "is-muted" : ""}${settled}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>${esc(plinthLine(frame, dim))}</small></div></div>`;
+  }
+
+  // r87 polish: the plinth names how many Showdowns each manager has won ("DANIEL ×2 · NIK ×1"); before the first finished
+  // Showdown, or with no numbers, it keeps the game's name.
+  function plinthLine(frame, dim) {
+    const counts = dim ? null : trophyCounts(TROPHIES[0], frame);
+    if (!counts || !(Number(counts.daniel) > 0 || Number(counts.nik) > 0)) return "CAREER MODE SHOWDOWN";
+    const name = manager => String(frame.managers?.[manager]?.displayName || (manager === "daniel" ? "Daniel" : "Nik")).toUpperCase();
+    return `${name("daniel")} ×${Number(counts.daniel) || 0} · ${name("nik")} ×${Number(counts.nik) || 0}`;
   }
 
   function tabs(strings, frame) {

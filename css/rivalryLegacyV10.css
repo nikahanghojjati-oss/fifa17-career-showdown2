@@ -1617,3 +1617,15 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { font-size:11px; letter-spacing:.04em; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryHeading { font-size:12px !important; }
 }
+
+/* r87 career polish, round 2. History: with no finished Showdown the disabled VIEW SEASON HISTORY reads as disabled (muted
+   ink on plain marble, no gold face). Rivalry Statistics desktop: the trophy cabinet's names and "D n · N n" counts were 9-10px
+   (a11y A-06); they are 11px and 13px. */
+#app #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction:disabled {
+  background:#0d0c0a url("r78-marble-tile.webp") 0 0/256px 256px repeat !important; color:#8f8775 !important;
+  border-color:rgba(242,196,91,.28) !important; box-shadow:none !important; text-shadow:none !important; cursor:default; filter:none;
+}
+@media (min-width:901px) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-trophyLabel { font-size:11px; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-trophyCount { font-size:13px; }
+}

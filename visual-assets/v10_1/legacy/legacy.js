@@ -335,13 +335,16 @@ window.ShowdownLegacyBoot = function () {
         const side = cell("td", manager);
         side.dataset.won = String(winner === manager);
         side.appendChild(cell("b", "legacyHistoryPoints", String(season.score[manager])));
+        // r87: a real space keeps "8 #3" two words wherever the points and the finish sit on one line (copy, screen readers, CE2PG).
+        side.appendChild(document.createTextNode(" "));
         side.appendChild(cell("span", "legacyHistoryDetail", copy(strings, "seasonDetail", { position: season.leaguePosition[manager], points: season.leaguePoints[manager], goals: season.leagueGoals[manager] })));
         // r80: a season row names a Europa League win (the career season row carries it only for such a season).
-        if (season.europaLeague && season.europaLeague[manager] === true) side.appendChild(cell("span", "legacyHistoryEuropa", strings.ui.europaLeague || "Europa League winner"));
+        if (season.europaLeague && season.europaLeague[manager] === true) side.append(" ", cell("span", "legacyHistoryEuropa", strings.ui.europaLeague || "Europa League winner"));
         row.appendChild(side);
       });
       const result = cell("td", "legacyHistoryResult");
       result.appendChild(cell("span", "legacyHistoryMark", winner === "draw" ? "=" : "\u265B")).setAttribute("aria-hidden", "true");
+      result.appendChild(document.createTextNode(" "));
       result.appendChild(cell("span", "legacyHistoryWinner", winner === "draw" ? ui.draw : ui.managers[winner]));
       row.appendChild(result);
       body.appendChild(row);
