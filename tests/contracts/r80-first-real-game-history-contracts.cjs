@@ -144,7 +144,7 @@ await check("G6 no flash: a code that replaces the leftover is begun while WAITI
   assert.equal(await fresh.api.openWaiting({createCode:true}),true);
   same(fresh.calls.order,["layer-opening","layer-open","code-started"],"a first code: unchanged order (layer, then code)");
   const pair=read("js/persistentNikDanielPair.js");
-  assert.match(pair,/\}else if\(state\.status==="starting"&&state\.busy\)\{\/\*[^*]*\*\/\}else if\(state\.connectionState==="pending-pair"&&state\.capability\)\{const code=/,"while a code is being made the panel draws no older code");
+  assert.match(pair,/\}else if\(state\.status==="starting"&&state\.busy\)\{\/\*[^*]*\*\/\}else if\(state\.connectionState==="pending-pair"&&state\.capability\)\{\/\*[^*]*\*\/const open=pairCodeOpen\(\)/,"while a code is being made the panel draws no older code");
 });
 await check("U1 an unexpired leftover code: the seasons START closes it, then writes the marker (the marker refuses while it is open)",async()=>{
   const g=modesGate();

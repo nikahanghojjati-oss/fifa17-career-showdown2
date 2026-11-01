@@ -54,6 +54,14 @@
     const rivalryId=pmspRivalryId();pmspEnsureCursor();const authoritative=Boolean(view&&view.ok===true&&view.authoritative===true&&view.state&&String(view.rivalryId||"")===rivalryId);
     return authoritative?(pmspEnsureCursor()||local):local;
   }
+  // r87 (lane C C-08): true while a live Showdown's season is unknown on this page. A shared Showdown's local save stays at
+  // currentRound 1 (its seasons live in the shared modules), so a browser that had not entered the game read "SEASON 1 / 3"
+  // during season 3. While the pair is active and this page has no authoritative view of that rivalry, js/menuExperience.js
+  // reads "3-Season Showdown" instead of a season. A code still waiting to be joined (pending-pair) is season 1 for certain,
+  // and so is a game screen: a page only reaches one by playing this Showdown from its START or by resuming from authority.
+  const PMSP_GAME_SCREENS=new Set(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"]);
+  function pmspSeasonUnknown(){if(!pmspSharedMarker())return false;const pair=root.CareerModePersistentNikDanielPair?.getState?.();if(!pair||pair.connectionState!=="active")return false;
+    const screen=typeof root.getActiveScreenName==="function"?root.getActiveScreenName():null;if(PMSP_GAME_SCREENS.has(screen))return false;const rivalryId=pmspRivalryId();return !(rivalryId&&view&&view.ok===true&&view.authoritative===true&&view.state&&String(view.rivalryId||"")===rivalryId);}
   function pmspRequest(){
     const rivalryId=pmspRivalryId();
     if(!pmspSharedMarker()||!rivalryId)return null;pmspEnsureCursor();return Object.freeze({rivalryId,key:pmspContextKey(rivalryId)});
@@ -109,6 +117,14 @@
   function pmspObserveDashboard(){
     if(dashboardObserver||!root.MutationObserver)return;const dashboard=pmspField("dashboard");if(!dashboard)return;
     dashboardObserver=new root.MutationObserver(()=>{if(!dashboard.classList.contains("hidden"))pmspDecorateDashboard();});dashboardObserver.observe(dashboard,{attributes:true,attributeFilter:["class"]});
+    // r87 C-08: Home leaves the header on "3-Season Showdown" when this page has not read the season. Entering a game screen
+    // (nothing else rewrites the header there before the dashboard) names the season again: this page is playing it.
+    const games=new root.MutationObserver(pmspNameSeason);for(const id of PMSP_GAME_SCREENS){const el=pmspField(id);if(el)games.observe(el,{attributes:true,attributeFilter:["class"]});}pmspNameSeason();
+  }
+  function pmspNameSeason(){
+    const chip=pmspField("seasonIndicator"),showdown=pmspShowdown();if(!chip||!showdown||!/-Season Showdown$/.test(chip.textContent||""))return false;
+    if(![...PMSP_GAME_SCREENS].some(id=>{const el=pmspField(id);return el&&!el.classList.contains("hidden");}))return false;
+    chip.textContent=`Season ${pmspResolveSeason()} / ${Number(showdown.totalRounds)||1}`;return true;
   }
   function pmspScreenVisible(){const screen=pmspField("seasonEntry"),review=pmspField("seasonReviewPanel");return Boolean(screen&&!screen.classList.contains("hidden")&&review&&!review.classList.contains("hidden"));}
   function pmspHistoryWitnessed(){
@@ -195,5 +211,5 @@
   function pmspWake(){if(busy){wakePending=true;return;}if(!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
   function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())pmspWake();},POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
 
-  return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});
+  return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,seasonUnknown:pmspSeasonUnknown,nameSeason:pmspNameSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});
 });
