@@ -169,7 +169,7 @@ for(const file of fs.readdirSync(path.join(root, '.github/workflows')).filter(fi
     for (const message of ['TypeError: x is not a function', 'ResizeObserver loop', 'ResizeObserver loop failed', 'Uncaught ResizeObserver loop limit exceeded', 'ResizeObserver loop limit exceeded again', 'ResizeObserver loop completed with undelivered notifications. Extra', ' ResizeObserver loop limit exceeded']) {
         const result = raise(message);
         A.equal(result.toasts.length, 1, `${message}: still shows the error toast`);
-        A.ok(result.toasts[0].startsWith('error:A runtime error was detected.'), `${message}: toast text`);
+        A.ok(result.toasts[0].startsWith('error:Something went wrong on this screen. Your career is safe.'), `${message}: toast text`);
         A.deepEqual(result.debugs, [], `${message}: not a benign debug line`);
     }
 }

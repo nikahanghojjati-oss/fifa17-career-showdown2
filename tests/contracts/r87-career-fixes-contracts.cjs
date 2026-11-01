@@ -399,6 +399,48 @@ check('B1 History & Backup shows the online career Settings counts, never added-
   assert.doesNotMatch(source,/NO MANAGER NAMES/,'never the developer label');
 });
 
+// ---- H2 career truth hunt (2026-11-01): no crown on 0-0 when no Showdown finished ----
+// A fuzz of 12,000 random careers against an independent count matched every total, rank, record and Golden count; these are
+// the cases it found where a screen still crowned both managers on 0-0 or showed a floor as an exact figure.
+check('H2-1 a partial career with no finished Showdown is unavailable on Career Statistics and Trophy Room, never #1 at 0-0',()=>{
+  const m=model([abandoned(1),unavailable(2)]);
+  assert.equal(m.status,'partial','one Showdown could not be read');
+  assert.equal(m.managers.daniel.showdowns.completed,0);
+  for(const screen of ['careerStatistics','trophyRoom']){
+    const frame=V10.toV10Frame(m,screen);
+    assert.equal(frame.status,'unavailable',`${screen}: the unreadable Showdown may be a finished one, so nothing is crowned`);
+    assert.equal(frame.expectedCareerTableRows,undefined,`${screen}: no ranks`);assert.equal(frame.standings,undefined,`${screen}: no table`);
+  }
+  // one finished Showdown next to an unreadable one is still the labelled partial career
+  const real=model([completed(1,1,[[CL,Z]]),unavailable(2)]);
+  assert.equal(V10.toV10Frame(real,'careerStatistics').status,'partial');assert.equal(V10.toV10Frame(real,'trophyRoom').status,'partial');
+});
+check('H2-2 Standings CAREER tab shows the empty career state, not LEVEL 0-0, when no Showdown has finished',()=>{
+  const SF=require(path.join(ROOT,'js/seasonFinalV10.js'));
+  const ended=SF.standingsFrames({status:'unavailable'},model([abandoned(1),abandoned(2)])).CAREER.model;
+  assert.equal(ended.status,'empty','only ended-early Showdowns: the new-career message');assert.equal(ended.standings,undefined,'no 0-0 table');
+  const partial=SF.standingsFrames({status:'unavailable'},model([abandoned(1),unavailable(2)])).CAREER.model;
+  assert.equal(partial.status,'unavailable','an unreadable Showdown may be finished: unavailable, never LEVEL 0-0');assert.equal(partial.standings,undefined);
+  // a finished Showdown keeps the CAREER table exactly as before
+  const real=model([abandoned(1),completed(2,1,[[CL,Z]])]),done=SF.standingsFrames({status:'unavailable'},real).CAREER.model;
+  assert.equal(done.status,'ready');assert.equal(done.standings.daniel.careerPoints,real.managers.daniel.careerPoints);assert.equal(done.standings.nik.careerPoints,real.managers.nik.careerPoints);
+});
+check('H2-3 History & Backup marks partial career points as a floor ("AT LEAST"), like the Showdowns count',()=>{
+  const source=read('js/legacy.js');
+  const partial=model([completed(1,1,[[CL,Z]]),unavailable(2)]),full=model([completed(1,1,[[CL,Z]])]);
+  const run=career=>{
+    const make=tag=>({tagName:tag,children:[],className:'',_t:'',dataset:{},append(...x){for(const c of x)this.appendChild(c);},appendChild(c){if(c&&c.isFragment)this.children.push(...c.children);else this.children.push(c);return c;},addEventListener(){},setAttribute(){},get textContent(){return this._t+this.children.map(c=>c.textContent).join('');},set textContent(v){this._t=String(v);this.children=[];},all(){return this.children.flatMap(c=>[c,...c.all()]);}});
+    const ctx={console,JSON,Number,String,Array,Object,Math,Date,document:{createElement:make,createDocumentFragment:()=>Object.assign(make('#f'),{isFragment:true}),querySelector:()=>null,getElementById:()=>null,documentElement:{dataset:{}},addEventListener(){}},
+      CareerModeRivalryLegacyV10:{cachedCareerModel:()=>career,careerModelLoading:()=>false},addEventListener(){}};
+    ctx.window=ctx;vm.createContext(ctx);vm.runInContext(source+'\n;this.__section=createLegacyOnlineCareerSection;',ctx,{filename:'js/legacy.js'});
+    const host=make('div');host.appendChild(ctx.__section());
+    return host.all().filter(e=>e.className==='legacyStat').map(e=>e.textContent);
+  };
+  const D=partial.managers.daniel.careerPoints,N=partial.managers.nik.careerPoints;
+  assert.deepEqual(run(partial),['SHOWDOWNS COMPLETED (AT LEAST)1',`DANIEL · CAREER POINTS (AT LEAST)${D}`,`NIK · CAREER POINTS (AT LEAST)${N}`]);
+  assert.deepEqual(run(full),['SHOWDOWNS COMPLETED1',`DANIEL · CAREER POINTS${D}`,`NIK · CAREER POINTS${N}`],'a fully read career is unchanged');
+});
+
 (async()=>{
   for(const [name,run] of groups){
     try{await run();passed++;console.log(`ok - ${name}`);}

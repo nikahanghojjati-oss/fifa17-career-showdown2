@@ -37,7 +37,7 @@
   // Screen words say "Special Player" or "SP": the one pack row that uses the old word (h1-461) is never printed.
   const BANNED=/marquee/i;
   const WINNER_TAKES_ALL=/whoever wins it|whoever finishes the closing season ahead/i;
-  const FUTURE=/next season|new season|season ahead|next year|next few evenings/i;
+  const FUTURE=/next season|new season|seasons? ahead(?! of)|next year|next few evenings/i;/* r87: "finished the season ahead of" a rival is not next-season talk (h2-030) */
   const GOLDEN_DRAW_OFF=/may not come with a trophy|trophy talk for another year/i;
   const NEVER_LED_OFF=/pointed toward a winner|promised a winner/i;
 

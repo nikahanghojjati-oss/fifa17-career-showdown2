@@ -179,6 +179,8 @@
     background: linear-gradient(180deg, rgba(255,255,255,.42) 0, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 50%),
       linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%);
   }
+  /* r87 (Nik's pick): the free online limit is one short line inside Continue Career on a portrait phone (js/homeScreensV10.js). */
+  #mainMenu.v10Home #continueCareer .menuTileQuota { position: relative; z-index: 2; display: block; margin-top: 3px; color: #5A1A0E; font-size: 10.5px; font-weight: 700; line-height: 1.15; letter-spacing: .02em; }
   #mainMenu.v10Home #newShowdown { grid-column: 1; grid-row: 2; }
   #mainMenu.v10Home #legacyButton { grid-column: 2; grid-row: 2; }
   #mainMenu.v10Home #careerStatisticsButton { grid-column: 3; grid-row: 2; }

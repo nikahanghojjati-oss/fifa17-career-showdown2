@@ -46,7 +46,11 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
     "assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-800-normal.woff2"
+    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
+    // r87: the rest of the local faces, so the offline and error screens keep the brush title and body type offline
+    "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2"
 ]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",

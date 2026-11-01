@@ -27,15 +27,15 @@
     let preview=lrField(ACTION_ID);if(!preview){preview=root.document.createElement("button");preview.id=ACTION_ID;preview.className="menuButton";preview.type="button";preview.addEventListener("click",()=>{void lrPreviewFromUi();});actions.appendChild(preview);}
     return {panel,heading,summary,status,actions,preview};
   }
-  function lrReason(reason){return ({["history-not-authoritative"]:"Waiting for the season history.",["connected-rivalry-not-exact"]:"Checking your saved Showdown.",["remote-not-observed"]:lrMultiTerminal()?"Last season saved. The final result appears here by itself.":"Waiting for your rival to finish the last season. The final result appears here by itself.",["offline-preview-only"]:"Offline: you can preview the last shared result already loaded.",["offline-no-observed-remote"]:"Offline: no shared result has been loaded yet."})[reason]||"Save check is getting ready.";}
+  function lrReason(reason){return ({["history-not-authoritative"]:"Waiting for the season history to load.",["connected-rivalry-not-exact"]:"Checking your saved Showdown.",["remote-not-observed"]:lrMultiTerminal()?"Last season saved. The final result appears here by itself.":"Waiting for your rival's result. It appears here by itself.",["offline-preview-only"]:"Offline: you can check the last shared result already loaded.",["offline-no-observed-remote"]:"Offline: no shared result has been loaded yet."})[reason]||"Getting the save check ready.";}
   function lrRender(){
     const ui=lrEnsureUi();if(!ui)return false;const visible=Boolean(lrSharedActive()&&lrHistoryReady()&&state);lrHidden(ui.panel,!visible);if(!visible)return false;
-    lrText(ui.heading,"DOUBLE-CHECK");
-    lrText(ui.summary,"Optional: compare the shared result with the Showdown copy in this app. Nothing is changed.");
+    lrText(ui.heading,"SAVE CHECK");
+    lrText(ui.summary,"Optional: check that your saved Showdown matches the shared result. Nothing is changed.");
     const ready=state.phase==="PREVIEW_READY",applied=state.phase==="APPLIED";
-    const message=uiError||(ready?"PREVIEW READY ✓ · YOUR SAVE IS UNCHANGED":applied?"THIS RESULT WAS ALREADY APPLIED IN ADVANCED RECOVERY":state.phase==="OFFLINE_FALLBACK"&&state.previewAllowed?"OFFLINE PREVIEW AVAILABLE · APPLY REMAINS DISABLED":lrReason(state.reason));
+    const message=uiError||(ready?"CHECK READY ✓ · NOTHING WAS CHANGED":applied?"ALREADY UP TO DATE":state.phase==="OFFLINE_FALLBACK"&&state.previewAllowed?"OFFLINE · YOU CAN CHECK, NOT SAVE":lrReason(state.reason));
     lrText(ui.status,message);
-    lrHidden(ui.preview,ready||applied);ui.preview.disabled=uiBusy;lrText(ui.preview,uiBusy?"CHECKING YOUR SAVE…":"PREVIEW RESULT");
+    lrHidden(ui.preview,ready||applied);ui.preview.disabled=uiBusy;lrText(ui.preview,uiBusy?"CHECKING…":"CHECK MY SAVE");
     return true;
   }
   function lrDispatch(){lrRender();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-local-reconciliation-state-change",{detail:state}));}catch(_error){}return state;}
