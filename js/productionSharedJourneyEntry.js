@@ -470,12 +470,13 @@
       }catch(error){report("Unable to open the Showdown Champion",error);return false;}
     })();
   }
-  // Leaving the Champion screen of a closed Showdown (BACK TO SHOWDOWN HOME, REMATCH, any route) forgets the note.
-  let championOnScreen="";
+  // Leaving the Champion screen of a closed Showdown (BACK TO SHOWDOWN HOME, REMATCH, any route) forgets the note. The close
+  // usually lands while Season Results is already open (no new screen event), so the closed state is read on leaving it.
+  let lastScreen="";
   function followChampionScreen(){
-    const screen=root.getActiveScreenName?.(),closed=closedHere();
-    if(screen==="seasonEntry"&&closed){championOnScreen=closed;return;}
-    if(championOnScreen&&screen&&screen!=="seasonEntry"){clearChampionPending(championOnScreen);championOnScreen="";}
+    const screen=root.getActiveScreenName?.()||"",closed=closedHere();
+    if(lastScreen==="seasonEntry"&&screen&&screen!=="seasonEntry"&&closed)clearChampionPending(closed);
+    lastScreen=screen;
   }
   async function openSharedExperience(){
     closePanel();
