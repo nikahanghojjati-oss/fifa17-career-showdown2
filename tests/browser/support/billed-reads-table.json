@@ -5,12 +5,13 @@
   "readExclusions": {
     "/rivalries/{rivalryId}": {
       "exclude": [
-        "rivalries/{rivalryId}/invites/{rivalryId}"
+        "rivalries/{rivalryId}/invites/{rivalryId}",
+        "accounts/{@self}"
       ],
-      "why": "allow get: currentlyEntitled(rivalryId) || capabilityCanReadPendingRivalry(rivalryId). The invite get() lives in capabilityCanReadPendingRivalry, which is only evaluated when currentlyEntitled fails (a not-yet-paired rivalry). Once paired every read takes the first branch: rivalry + signed-in account."
+      "why": "allow get: currentlyEntitled(rivalryId) || capabilityCanReadPendingRivalry(rivalryId). The invite get() lives in capabilityCanReadPendingRivalry, which is only evaluated when currentlyEntitled fails (a not-yet-paired rivalry). Once paired every read takes the first branch: rivalry + signed-in account. r87 (red team A-04): the signed-in account lookup (activeActor) is also only on that pending-pair branch; a Terminal-Closed Showdown keeps authorizedAccountIds, so a career-page root read is allowed by currentlyEntitled too (its get() is of the document itself: no access call)."
     }
   },
-  "writeNotes": "Writes are priced at the union of the create and update upper bounds of the path (any branch counted), once per distinct document per commit (a batch or transaction is one request; a single setDoc/updateDoc is its own request). Delete is denied by the Rules everywhere. Lookups of the document being written or read (for example rivalries/{id} while reading rivalries/{id}) are counted, not discounted: that is the conservative choice and billed-meter.cjs reports how many such self lookups there were.",
+  "writeNotes": "Writes are priced at the union of the create and update upper bounds of the path (any branch counted), once per distinct document per commit (a batch or transaction is one request; a single setDoc/updateDoc is its own request). Delete is denied by the Rules everywhere. r87: a lookup of the document being written or read itself (for example rivalries/{id} while reading rivalries/{id}) is no Rules access call and is not billed (reads-meter emulator proof); billed-meter.cjs leaves it out.",
   "liveReadExclusions": {
     "_why": "On a LIVE Showdown the first branch (ssjrEntitled / currentlyEntitled / the private-role check) allows the read and only looks up the rivalry; the signed-in account lookup is in the || alternative for finished Showdowns (cmsCompleted*), a tombstone or a pending pair, which a live read never evaluates. Applied only while the Showdown is live: billed-meter.cjs prices reads of a Showdown after its Terminal Close / END at the full upper bound (both branches are evaluated when the first one fails).",
     "/rivalries/{rivalryId}": {
