@@ -2704,6 +2704,15 @@
         "^tests/contracts/r87\\-upgrade\\-continue\\-hold\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-sp-own-club-contracts.cjs",
+      "patterns": [
+        "^js/(marqueePlayer|specialPlayerChip|specialPlayerReveal|rosterRouletteStep|productionSharedCareerStart|productionSharedTransferChallenge|commentaryEngine)\\.js$",
+        "^data/marqueePlayers\\.js$",
+        "^tests/contracts/r87\\-sp\\-own\\-club\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

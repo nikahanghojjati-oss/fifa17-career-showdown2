@@ -294,8 +294,8 @@
   // loaded the draw before the window opened), with the Setup confirm time this page already holds: no read, nothing in
   // any protocol document. Without them (older Showdown, draw not loaded) nothing is refused.
   function pstcIsOwnSpecial(role,name){
-    try{const step=root.CareerModeRosterRouletteStep,request=pstcRequestContext(),at=pstcSetupState()?.setupUpdatedAtMs;
-      return Boolean(step&&typeof step.isOwnSpecial==="function"&&request&&Number.isFinite(at)&&step.isOwnSpecial(request.rivalryId,at,role,name));}
+    try{const step=root.CareerModeRosterRouletteStep,request=pstcRequestContext(),setup=pstcSetupState(),at=setup?.setupUpdatedAtMs;
+      return Boolean(step&&typeof step.isOwnSpecial==="function"&&request&&Number.isFinite(at)&&step.isOwnSpecial(request.rivalryId,at,role,name,setup?.setup?.clubs));}
     catch(_error){return false;}
   }
   function pstcBuildSignings(role){
