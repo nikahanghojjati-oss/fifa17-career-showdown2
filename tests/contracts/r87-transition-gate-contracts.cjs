@@ -8,6 +8,8 @@
 //         screen is ready, after its minimum time, with the navigation bar back
 //   T-03  a quick screen change (under 200 ms) never raises Reus
 //   T-04  the gate never touches the loading screen while another owner shows it
+//   T-05  a screen whose Team V script or stylesheet is still loading after STYLE_TIMEOUT_MS (4 s, a slow phone) stays held
+//         under Reus until it is drawn; the app's own placeholder never shows meanwhile (lead, 2026-11-01)
 const assert=require('node:assert/strict');
 const path=require('node:path');
 const net=require('node:net');
@@ -15,14 +17,15 @@ const {spawn}=require('node:child_process');
 const ROOT=path.resolve(__dirname,'../..');
 const fixtures=require(path.join(ROOT,'tests/support/active-showdown-fixtures.cjs'));
 const showdownFixture=fixtures.completedShowdownStorage();
+const Career=require(path.join(ROOT,'js/sharedCareerAnalytics.js'));
 const GATE_QUICK_MS=200;
 
 function freePort(){return new Promise((resolve,reject)=>{const server=net.createServer();server.unref();server.on('error',reject);server.listen(0,'127.0.0.1',()=>{const {port}=server.address();server.close(()=>resolve(port));});});}
 async function waitForServer(port){for(let i=0;i<100;i+=1){const ok=await new Promise(resolve=>{const socket=net.connect(port,'127.0.0.1',()=>{socket.end();resolve(true);});socket.on('error',()=>resolve(false));});if(ok)return;await new Promise(resolve=>setTimeout(resolve,100));}throw new Error('static server did not start');}
 
-async function home(browser,base,[w,h]){
+async function home(browser,base,[w,h],extra={}){
   const phone=w<900;
-  const context=await browser.newContext({viewport:{width:w,height:h},deviceScaleFactor:phone?2:1,isMobile:phone,hasTouch:phone});
+  const context=await browser.newContext({viewport:{width:w,height:h},deviceScaleFactor:phone?2:1,isMobile:phone,hasTouch:phone,...extra});
   await context.route(url=>!url.href.startsWith(base),route=>route.abort());
   const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(String(error)));
   await page.goto(base,{waitUntil:'domcontentloaded'});
@@ -120,6 +123,28 @@ const HELD=async(page,open,host)=>page.evaluate(async ({open,host})=>{
       console.log(`ok   T-04 ${size[0]}x${size[1]}: another owner's loading screen untouched`);
       assert.deepEqual(errors,[]);
       await context.close();
+    }
+    // T-05: History's Team V script (lazy, never in the startup bundle) arrives after 6 s, slower than STYLE_TIMEOUT_MS. The
+    // service worker is off so every request goes through the route.
+    for(const late of ['v10_1/legacy/legacy.js','v10_1/legacy/legacy.css']){
+      const {context,page,errors}=await home(browser,base,[390,844],{serviceWorkers:'block'});
+      let release;const gateOpen=new Promise(r=>{release=r;});
+      await context.route(url=>url.href.includes(late),async route=>{await gateOpen;await route.continue();});
+      const model=Career.buildCareerModel({indexStatus:'ready',showdowns:[]});
+      const t0=Date.now();
+      await page.evaluate(model=>{window.ensureGameplayModules().then(()=>loadRuntimeScript('career-screen-seam','js/careerScreenSeam.js',()=>Boolean(window.CareerModeCareerScreenSeam))).then(()=>window.openOptionalModule('legacy')).then(()=>window.renderLegacy({model}));},model);
+      await page.waitForTimeout(4800);
+      const mid=await page.evaluate(()=>{const host=document.getElementById('legacy'),el=document.getElementById('loadingScreen');return {active:window.getActiveScreenName(),pending:Boolean(host&&host.hasAttribute('data-v10-pending')),gate:el.dataset.v10Gate||null,shown:!(el.hidden||el.classList.contains('hidden'))};});
+      setTimeout(release,Math.max(0,6000-(Date.now()-t0)));
+      assert.equal(mid.active,'legacy','T-05: History is the screen being opened');
+      assert.equal(mid.pending,true,`T-05: at 4.8 s History is still held (${late} has not arrived)`);
+      assert.equal(mid.gate,'1',`T-05: Reus covers the held screen (${late})`);
+      assert.equal(mid.shown,true,'T-05: Reus is shown');
+      await page.waitForFunction(()=>window.CareerModeV10Screens.isMounted('legacy')&&!document.getElementById('legacy').hasAttribute('data-v10-pending'),null,{timeout:20000});
+      await page.waitForFunction(()=>!document.getElementById('loadingScreen').dataset.v10Gate,null,{timeout:5000});
+      assert.deepEqual(errors,[]);
+      await context.close();
+      console.log(`ok   T-05 390x844: a 6 s ${late.split('/').pop()} stayed under Reus and revealed the drawn screen at ${Date.now()-t0} ms`);
     }
     console.log('r87 transition gate contracts: PASS');
   }finally{

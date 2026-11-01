@@ -17,6 +17,9 @@
   const EVENT="career-mode-screen-shown";
   const UI_KEY="cms.v10.ui";
   const STYLE_TIMEOUT_MS=4000;
+  // r87 (lead, 2026-11-01): a shown screen whose Team V files are still arriving when STYLE_TIMEOUT_MS ends stays held (under
+  // the in-app Reus) until they land or fail, up to this cap; only then does the app's own screen show.
+  const LOAD_HOLD_MAX_MS=15000;
   const KIT=Object.freeze({
     styles:Object.freeze(["shared/showdown-tokens.css","shared/showdown-type.css","shared/showdown-ui.css","shared/stage.css","shared/motion.css"]),
     scripts:Object.freeze([
@@ -67,6 +70,7 @@
   const registry=new Map();
   const mounted=new Map();
   const screenLoads=new Map();
+  const loadingNow=new Set();
   const styles=new Map();
   const routeOverrides=new Map();
   const pending=new Map();
@@ -149,7 +153,8 @@
     link.rel="stylesheet";link.href=vsAssetUrl(file);link.setAttribute("data-v10-style",file);
     // A link is left alone until it settles (load, error or timeout): disabling a stylesheet that is still loading
     // makes Chromium drop the request, and enabling it later never reloads it. On settling, the wanted state applies.
-    const entry={link,ready:null,settled:false};
+    const entry={link,ready:null,settled:false,loaded:null};
+    entry.loaded=new Promise(resolve=>{link.addEventListener("load",resolve);link.addEventListener("error",resolve);});
     entry.ready=new Promise(resolve=>{
       let timer=null;
       // The timeout releases the screen, but a link whose sheet is still null is still loading: it stays unsettled (left
@@ -177,15 +182,19 @@
   function vsLoadScreen(id){
     if(!screenLoads.has(id)){
       const def=registry.get(id);
+      loadingNow.add(id);
       screenLoads.set(id,(async()=>{
         await vsEnsureKit();
         const css=def.css.map(file=>vsStyle(BASE+file));
         for(const [key,file,ready] of def.js)await vsScript(key,BASE+file,ready);
         if(def.prepare)await def.prepare();
         await Promise.all(css);
+        // r87: a sheet still on its way after STYLE_TIMEOUT_MS is waited for (capped), so the screen never mounts unstyled.
+        const late=def.css.map(file=>styles.get(BASE+file)).filter(entry=>entry&&!entry.settled&&entry.link.sheet===null);
+        if(late.length)await vsWithin(Promise.all(late.map(entry=>entry.loaded)),LOAD_HOLD_MAX_MS-STYLE_TIMEOUT_MS);
         vsSyncStyles();
         return true;
-      })().catch(error=>{screenLoads.delete(id);throw error;}));
+      })().catch(error=>{screenLoads.delete(id);throw error;}).finally(()=>loadingNow.delete(id)));
     }
     return screenLoads.get(id);
   }
@@ -358,6 +367,14 @@
       },GATE_EXIT_MS);
     },Math.max(0,GATE_MIN_MS-(Date.now()-gate.raisedAt)));
   }
+  // The cover's own timer: at STYLE_TIMEOUT_MS it ends the hold, unless the screen is shown and its files are still loading.
+  function vsPendingTimer(id){return root.setTimeout(()=>vsPendingTimeout(id),STYLE_TIMEOUT_MS);}
+  function vsPendingTimeout(id){
+    const entry=pending.get(id);
+    if(!entry)return;
+    if(loadingNow.has(id)&&vsIsShown(id)&&Date.now()-entry.since<LOAD_HOLD_MAX_MS){entry.timer=root.setTimeout(()=>vsPendingTimeout(id),250);return;}
+    vsSettle(id);
+  }
   function vsSettle(id,reveal=false){
     const entry=pending.get(id);
     if(!entry)return;
@@ -417,7 +434,7 @@
     if(!host||!host.dataset||mounted.has(id))return false;
     vsSettle(id);
     host.dataset.v10Pending="1";
-    pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});
+    pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});
     vsGateHold();
     vsSyncStyles();
     return true;
@@ -439,7 +456,7 @@
       if(current&&current.frame===frame&&current.host===host&&host.isConnected!==false)return true;
       // A screen drawn for the first time (or drawn again) keeps its content invisible until its pictures are decoded, then
       // reveals once; a screen the app did not expect() gets that pending state here.
-      if(!current&&!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});vsGateHold();}
+      if(!current&&!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});vsGateHold();}
       // Styles first, then mount: Team V's layout code measures a container its own CSS already sizes.
       mounted.set(id,{frame,host});
       vsSyncStyles();
