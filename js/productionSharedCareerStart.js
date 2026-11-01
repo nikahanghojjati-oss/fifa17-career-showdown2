@@ -475,8 +475,12 @@
     }catch(_error){return null;}
   }
   function pcstCloseReveal(){const stage=revealStage;revealStage=null;if(stage)try{stage.close();}catch(_error){}return true;}
+  // F1 (fault suite): a stale tab or a reload must never open Career Start for a Showdown this page already holds CLOSED; it
+  // goes to that Showdown's Champion screen (or Home) instead. In-memory only, no read.
+  function pcstShowdownClosed(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(t&&t.phase==="CLOSED"&&t.terminal===true);}catch(_error){return false;}}
   function pcstOpenPanel(){
     if(openPromise)return openPromise;
+    if(pcstShowdownClosed()){const entry=root.CareerModeProductionSharedJourneyEntry;return Promise.resolve(typeof entry?.openClosedShowdown==="function"?entry.openClosedShowdown():false);}
     const run=pcstSpecialPlayerFirst().then(stage=>{revealStage=stage;return pcstWithTimeout(pcstOpenPanelNow);}).finally(pcstCloseReveal);openPromise=run;
     run.finally(()=>{if(openPromise===run)openPromise=null;pcstDecorateControl();}).catch(()=>{});
     try{pcstDecorateControl();}catch(_error){}

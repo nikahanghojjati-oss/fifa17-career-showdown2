@@ -635,6 +635,14 @@ async function main(){
       endCheck(`db.season${k}.roles`,roles.length===2,`season_${k} roles ${roles.map(d=>d.name.split("/").pop())}`);
       const c=docData(await admin(R(`seasonCommits/season_${k}`)));endCheck(`db.season${k}.commit`,c&&c.phase==="ACKNOWLEDGED"&&c.revision===3,JSON.stringify(c&&{phase:c.phase,revision:c.revision}));
     }
+    // F1 items 1 and 2: a page holding the Showdown CLOSED never sat on a Season 1 screen or a dashboard, and no button was dead.
+    endCheck("closed.noSeasonOneScreens",!report.notes.some(n=>/held the Showdown CLOSED but was on/.test(n)),report.notes.filter(n=>/held the Showdown CLOSED/.test(n)).join(" | "));
+    endCheck("noDeadButtons",!deadTaps.length,deadTaps.join(" | "));
+    // F1 item 3: reloading a phone on the Champion screen after the close brings the Champion screen back (not Home).
+    {const m=nik;await m.page.reload({waitUntil:"domcontentloaded"}).catch(()=>{});
+      const shown=await m.page.waitForFunction(()=>{const f=document.getElementById("finalWinnerScreen");return Boolean(f&&getComputedStyle(f).visibility!=="hidden"&&f.getClientRects().length>0&&!f.classList.contains("hidden"));},null,{timeout:45000}).then(()=>true,()=>false);
+      const why=shown?"":await m.page.evaluate(()=>{const p=window.CareerModePersistentNikDanielPair?.getState?.();return JSON.stringify({marker:localStorage.getItem("cms.championPending.v1"),live:sessionStorage.getItem("careerModeShowdown.liveGame.v1"),entry:Boolean(window.CareerModeProductionSharedJourneyEntry),letGo:window.careerModeTabResumeLetGo===true,pair:p&&{status:p.status,rid:p.rivalryId,closed:p.closedRivalryId,conn:p.connectionState},term:window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase||null,showdown:typeof currentShowdown!=="undefined"&&currentShowdown?{sj:currentShowdown.sharedJourney,save:currentShowdown.identity?.saveId}:null,lib:window.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.()?.activeSaveId||null,closedSave:p?.closedProviderSaveId||null,rivalry:(()=>{const r=window.CareerModeSparkConnectedRivalry?.getState?.();return r&&{attached:r.attached,rid:r.rivalryId,init:r.initialized,binding:r.binding};})()});}).catch(e=>String(e));
+      endCheck("champion.reloadAfterClose",shown,`after a reload past the close ${m.user} is on ${await describe(m,m.page).catch(()=>"?")} ${why}`);}
     const screens=[];
     for(const m of both){
       const txt=await m.page.evaluate(()=>document.getElementById("finalWinnerScreen")?.innerText.replace(/\s+/g," ")||"").catch(()=>"");screens.push(txt);
@@ -885,11 +893,12 @@ async function commitWithFaults(ctx,R,season,final){
         // save fail, CLOSE SHOWDOWN is the designed path out the next day, so under quota it is a note. Elsewhere it is a failure.
         if(FAULT==="quota"&&ctx.manualClose)report.notes.push(`${pointNow}: the automatic close failed in the quota pause; CLOSE SHOWDOWN (the designed fallback) closed it the next day`);
         else await check(null,"autoClose",!ctx.manualClose,"the Showdown did not close by itself: CLOSE SHOWDOWN had to be tapped");
-        for(const m of both)if(!(await finalShown(m.page)))report.notes.push(`terminal-close: ${m.user} reloaded after the close and opened on Showdown Home (no Showdown Champion screen)`);
+        // F1 item 3: a phone that reloaded at the close comes back to the Showdown Champion screen, not Showdown Home.
+        for(const m of both){const shown=await m.page.waitForFunction(()=>{const f=document.getElementById("finalWinnerScreen");return Boolean(f&&getComputedStyle(f).visibility!=="hidden"&&f.getClientRects().length>0&&!f.classList.contains("hidden"));},null,{timeout:30000}).then(()=>true,()=>false);await check(m,"champion.afterReload",shown,`${m.user} ended on ${await describe(m,m.page).catch(()=>"?")} after the close (no Showdown Champion screen)`);}
       }
       if(!final){
         for(const m of both)await m.page.waitForFunction(()=>Boolean((document.getElementById("sharedHistoryConvergenceSummary")?.textContent||"").trim())||/Season [2-9]/.test(document.getElementById("seasonIndicator")?.textContent||""),null,{timeout:45000}).catch(()=>{});
-        const sums=[];for(const m of both){if(await seasonIs(m.page,season+1,3)){report.notes.push(`${pointNow}: ${m.user} resumed straight into season ${season+1} (no Shared History, CONTINUE or Gazette for season ${season})`);continue;}sums.push(norm(await m.page.locator("#sharedHistoryConvergenceSummary").textContent().catch(()=>"")));}
+        const sums=[];for(const m of both){if(await seasonIs(m.page,season+1,3)){await check(m,"history.notSkipped",false,`${m.user} resumed straight into season ${season+1} (no Shared History, CONTINUE or Gazette for season ${season})`);continue;}sums.push(norm(await m.page.locator("#sharedHistoryConvergenceSummary").textContent().catch(()=>"")));}
         const want=`Daniel ${scoreSeason(PLAN[0].daniel)} - ${scoreSeason(PLAN[0].nik)} Nik`;
         await check(null,"history.same",sums.every(x=>x===sums[0]&&/^1 of 3 seasons? played/.test(x)&&x.includes(want)),`Shared History: ${JSON.stringify(sums)}`);
       }
