@@ -174,4 +174,40 @@ const ts=ms=>({toMillis:()=>ms});
   ok("S10","the service worker serves the Prime Pack files and its frame page from the shell, and no roulette panel covers its stage");
 }
 
+// S11 Fable F12-01/03: a right guess scores the stage of the SERVER time of its write. A guess sent at 30.25 s after the later
+// arrival whose commit lands at 30.65 s is stage 2 (3 points) on both phones and in the season result, never the 4 points
+// this phone's clock saw; the step reads the stamped record back instead of adopting its own client-timed winner, and the
+// result on screen follows the record (a winner landing after a shown draw replaces it).
+{
+  const T=Date.parse("2026-11-01T12:00:00Z");
+  const doc=(updatedAtMs)=>({objectType:"sharedPrimePackRound",seasonNumber:1,arrived:{playerOne:ts(T-5000),playerTwo:ts(T)},chipsUsed:{playerOne:1,playerTwo:0},namedBy:"playerOne",updatedAt:ts(updatedAtMs)});
+  const stamped=Step.record(doc(T+30650),1);
+  assert.equal(Guess.points(stamped).playerOne,3,"a commit stamped at 30.65 s after the later arrival is stage 2: 3 points");
+  assert.equal(Guess.points(Step.record(doc(T+30450),1)).playerOne,4,"stamped at 30.45 s it is still stage 1: 4 points");
+  const clientTimed=Guess.applyGuess(Step.record({...doc(T),namedBy:null,chipsUsed:{playerOne:0,playerTwo:0}},1),{role:"playerOne",correct:true,atMs:T+30250});
+  assert.equal(clientTimed.ok,true);assert.equal(Guess.points(clientTimed.record).playerOne,4,"the phone's own clock at the read would have said 4 (the straddle)");
+  const rules=read("firestore.season-results-production.fragment.rules");
+  assert.match(rules,/at < \(a > b \? a : b\) \+ duration\.value\(30500, 'ms'\) \? 4/,"the Rules edge for 4 points is 30.5 s after the later arrival");
+  const step=read("js/iconGuessStep.js"),guessFn=step.slice(step.indexOf('m.type==="cms-ig-guess"'),step.indexOf('m.type==="cms-ig-continue"'));
+  assert.match(guessFn,/if\(check\.correct\)return readBack\(\);/,"a right guess reads the stamped record back");
+  assert.ok(guessFn.indexOf("record=next.record")>guessFn.indexOf("if(check.correct)return readBack();"),"only a wrong guess adopts the transaction's record");
+  assert.match(step,/const points=out\.winner\?guess\.points\(record\)\[out\.winner\]:0,shown=`\$\{out\.winner\|\|"draw"\}:\$\{points\}`;/,"the result shown is keyed on winner and points, so it follows the record");
+  const page=read("visual-assets/v10_1/icon-guess/index.html");
+  assert.match(page,/if\(S\.result && \(S\.result!=="draw" \|\| result==="draw"\)\) return;/,"the page lets only a late winner replace a shown draw");
+  ok("S11","a right guess scores the stage of its server time (30.5 s straddle), and the result on screen follows the stamped record");
+}
+
+// S12 Fable F12-02: leaving the screen (BACK, or the phone hidden) before the other manager has arrived withdraws this
+// arrival in the Rules and the step, so the round never starts while he is away; showing the screen again arrives again.
+{
+  const step=read("js/iconGuessStep.js"),rules=read("firestore.season-results-production.fragment.rules");
+  assert.match(rules,/function ssjrPackLeave\(before, after, role\) \{\s*return before\.arrived\[role\] != null\s*&& before\.arrived\[ssjrPackOther\(role\)\] == null\s*&& after\.arrived\[role\] == null/,"the Rules let a manager withdraw only his own arrival, only while the other has not arrived");
+  assert.match(rules,/ssjrPackArrive\(before, after, role\) \|\| ssjrPackLeave\(before, after, role\) \|\| ssjrPackGuess/,"the update rule takes the leave");
+  assert.match(step,/async function igsLeave\(io,ctx\)[\s\S]*?data\.arrived\[me\]!=null&&data\.arrived\[igsOther\(me\)\]===null&&data\.namedBy===null\)\{tx\.update\(ref,\{\[`arrived\.\$\{me\}`\]:null/,"the step withdraws only while the other has not arrived");
+  assert.match(step,/back\.addEventListener\("click",\(\)=>\{if\(finished\)return;leave\(\);end\("back"\);\}\)/,"BACK withdraws");
+  assert.match(step,/visibilityState==="hidden"\)\{if\(record&&!record\.winner&&record\.arrived\[other\]===null\)\{away=true;leave\(\);\}\}\s*else if\(away\)\{away=false;igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
+  assert.match(step,/await igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"arrive and leave run in order");
+  ok("S12","leaving while the other manager has not arrived withdraws the arrival (Rules + step: BACK and a hidden phone), and coming back arrives again");
+}
+
 console.log(`PASS r87 Prime Pack step contracts: ${checks} checks.`);

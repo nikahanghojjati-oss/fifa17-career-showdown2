@@ -468,8 +468,11 @@ function guessFeedback(kind){
 // (0 points); then the whole card is face up (paintCard: every stat left, the flag, the overall) and, a moment later, the name.
 // A right guess at any stage comes straight here.
 function showResult(winner, points){
-  if(!S.round || S.result) return;
-  S.result = ROLES.includes(winner) ? winner : "draw"; S.pending=false;
+  if(!S.round) return;
+  const result = ROLES.includes(winner) ? winner : "draw";
+  // Only a late winner may replace a shown draw (the game's record decides; Fable F12-03). Anything else stays as shown.
+  if(S.result && (S.result!=="draw" || result==="draw")) return;
+  S.result = result; S.pending=false;
   S.points = S.result==="draw" ? 0 : clamp(Math.floor(Number(points)) || stagePoints(Math.max(0,S.beat)), 1, 4);
   S.nameAt = now() + NAME_AFTER_MS;
   $("nameValue").textContent=S.round.name;                          // guessing has ended: the only place the name is written

@@ -8,9 +8,9 @@
     "bytes": 155662
   },
   "candidate": {
-    "sha256": "98a3184328c89c026823ff2f9363856867c5f327c0da15320887ce670b23495e",
-    "gitBlobSha1": "450a047bde0fee094c1c149f0aa6701318c73d96",
-    "bytes": 172400
+    "sha256": "4520bfdafe645a28ae742fec770ca00548f24a1b5e1480050cecda1ea82ab432",
+    "gitBlobSha1": "90c7bbb91e6fa170579ee1e07c23b57c256bbfa6",
+    "bytes": 172840
   },
   "allowedOwners": [
     "G-7",
@@ -259,14 +259,15 @@
         "    // r87 Prime Pack (Nik 2026-10-31/11-01; feature spec project-documents/r88-icon-guess): once a season, before the transfer",
         "    // window, both phones reveal one masked card in four stages and each manager has two guesses. The round record is",
         "    // rivalries/{rid}/primePackRounds/season_N. Each manager writes only his own facts: his arrival (the server time, once),",
-        "    // then one guess at a time (his own chip count +1, at most 2, and namedBy set to himself when right), only while",
-        "    // the round runs: the stages start 3 s after the later arrival and last 9.5 s each (1.5 s reveal + the 8 s guess window,",
-        "    // js/iconGuess.js), so guesses count from 2 s to 43 s after the later arrival (1 s and 2 s of slack for the network).",
+        "    // which he withdraws again only while the other manager has not arrived (he left the screen: ssjrPackLeave), then one",
+        "    // guess at a time (his own chip count +1, at most 2, and namedBy set to himself when right), only while the round",
+        "    // runs: the stages start 3 s after the later arrival and their guess timers are 25/20/20/20 s, each after a 1.5 s",
+        "    // reveal (js/iconGuess.js), so guesses count from 2 s to 97 s after the later arrival (1 s and 2 s of network slack).",
         "    // Whether a guess is right is decided on the guessing phone (the answer is not stored, so it is never readable early);",
         "    // the Rules bind the order: namedBy is set once, never changed, the other manager's facts never touched, and the record's",
         "    // updatedAt is the winning write's server time (no write is allowed after it). A season result may carry primePack:N only",
-        "    // for the manager this record names, with N the points of the stage that server time falls in: 4 before 12.5 s after the",
-        "    // later arrival, 3 before 22 s, 2 before 31.5 s, then 1 (ssjrPackPoints). Changing the guess window means changing these.",
+        "    // for the manager this record names, with N the points of the stage that server time falls in: 4 before 30.5 s after the",
+        "    // later arrival, 3 before 52 s, 2 before 73.5 s, then 1 (ssjrPackPoints). Changing the guess window means changing these.",
         "    function ssjrPackOther(role) { return role == 'playerOne' ? 'playerTwo' : 'playerOne'; }",
         "    function ssjrPackRoleMap(value) {",
         "      return value is map && value.keys().size() == 2 && value.keys().hasOnly(['playerOne','playerTwo']);",
@@ -304,6 +305,13 @@
         "        && after.chipsUsed[role] == before.chipsUsed[role]",
         "        && after.namedBy == null;",
         "    }",
+        "    function ssjrPackLeave(before, after, role) {",
+        "      return before.arrived[role] != null",
+        "        && before.arrived[ssjrPackOther(role)] == null",
+        "        && after.arrived[role] == null",
+        "        && after.chipsUsed[role] == before.chipsUsed[role]",
+        "        && after.namedBy == null;",
+        "    }",
         "    function ssjrPackGuessInTime(a, b) {",
         "      return request.time >= (a > b ? a : b) + duration.value(2, 's')",
         "        && request.time <= (a > b ? a : b) + duration.value(97, 's');",
@@ -327,7 +335,7 @@
         "        && before.namedBy == null",
         "        && after.arrived[other] == before.arrived[other]",
         "        && after.chipsUsed[other] == before.chipsUsed[other]",
-        "        && (ssjrPackArrive(before, after, role) || ssjrPackGuess(before, after, role));",
+        "        && (ssjrPackArrive(before, after, role) || ssjrPackLeave(before, after, role) || ssjrPackGuess(before, after, role));",
         "    }",
         "    function ssjrPackStagePoints(at, a, b) {",
         "      return at < (a > b ? a : b) + duration.value(30500, 'ms') ? 4",
@@ -341,11 +349,11 @@
         "    }"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: the round record functions (ssjrPackShape, create, arrive, guess timing, update, ssjrPackStagePoints, ssjrPackPoints). Pure functions used only by the primePackRounds match and the private-result line below."
+      "why": "r87 Prime Pack: the round record functions (ssjrPackShape, create, arrive, guess timing, update, ssjrPackStagePoints, ssjrPackPoints). Pure functions used only by the primePackRounds match and the private-result line below. A manager may withdraw his own arrival only while the other has not arrived (ssjrPackLeave, Fable F12-02)."
     },
     {
       "mainLine": 1878,
-      "candidateLine": 2069,
+      "candidateLine": 2077,
       "removed": [
         "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])"
       ],
@@ -357,7 +365,7 @@
     },
     {
       "mainLine": 1892,
-      "candidateLine": 2083,
+      "candidateLine": 2091,
       "removed": [
         "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));"
       ],
@@ -370,7 +378,7 @@
     },
     {
       "mainLine": 2015,
-      "candidateLine": 2207,
+      "candidateLine": 2215,
       "removed": [],
       "added": [
         "    // R87 shared reads meter (B2): each phone keeps ONE small document per rivalry, rivalries/{rid}/meters/{its role}, with the",
@@ -412,7 +420,7 @@
     },
     {
       "mainLine": 2059,
-      "candidateLine": 2284,
+      "candidateLine": 2292,
       "removed": [
         "    // 100 points or 100 goals +1, top scorer or top assist +1. A season stays at most 11 (an EL season at most 9)."
       ],
@@ -424,7 +432,7 @@
     },
     {
       "mainLine": 2063,
-      "candidateLine": 2288,
+      "candidateLine": 2296,
       "removed": [],
       "added": [
         "        + result.get('primePack', 0)"
@@ -434,7 +442,7 @@
     },
     {
       "mainLine": 2098,
-      "candidateLine": 2324,
+      "candidateLine": 2332,
       "removed": [
         "        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 11"
       ],
@@ -446,7 +454,7 @@
     },
     {
       "mainLine": 2101,
-      "candidateLine": 2327,
+      "candidateLine": 2335,
       "removed": [
         "        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 11"
       ],
@@ -458,7 +466,7 @@
     },
     {
       "mainLine": 3039,
-      "candidateLine": 3265,
+      "candidateLine": 3273,
       "removed": [],
       "added": [
         "        // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.",
@@ -470,7 +478,7 @@
     },
     {
       "mainLine": 3040,
-      "candidateLine": 3269,
+      "candidateLine": 3277,
       "removed": [],
       "added": [
         "        // F2-02: the durable record of both marks, written once by START.",
@@ -486,7 +494,7 @@
     },
     {
       "mainLine": 3065,
-      "candidateLine": 3301,
+      "candidateLine": 3309,
       "removed": [],
       "added": [
         "      match /primePackRounds/{seasonId} {",
@@ -501,7 +509,7 @@
     },
     {
       "mainLine": 3074,
-      "candidateLine": 3316,
+      "candidateLine": 3324,
       "removed": [],
       "added": [
         "      }",
