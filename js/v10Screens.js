@@ -385,7 +385,9 @@
   const vsIsMounted=id=>mounted.has(id);
 
   // ---- navigation bar ----
-  function vsLoadingVisible(){const el=vsHost("loadingScreen");return Boolean(el&&!el.hidden&&!el.classList.contains("hidden"));}
+  // r87 (Reus Gate): a loading screen whose crossfade has begun (is-exiting) no longer hides the bar, so Home and its bar
+  // fade in together.
+  function vsLoadingVisible(){const el=vsHost("loadingScreen");return Boolean(el&&!el.hidden&&!el.classList.contains("hidden")&&!el.classList.contains("is-exiting"));}
   function vsSetNavMode(mode){const doc=vsDoc();if(doc&&doc.documentElement&&doc.documentElement.dataset.nav!==mode)doc.documentElement.dataset.nav=mode;}
   function vsPaintNav(screen){
     const loading=vsLoadingVisible();
@@ -516,13 +518,17 @@
     },true);
     vsDoc().addEventListener(EVENT,vsOnScreenShown);
     vsWatchScreenClasses();
-    vsWhenStarted(()=>{vsMountNav().catch(error=>{if(root.console&&typeof root.console.warn==="function")root.console.warn("[Career Mode Showdown] Navigation bar unavailable.",error);});});
+    // r87 (Reus Gate: Loading stays until the next screen is ready): the bar mounts at once, behind the loading screen
+    // (html[data-nav="none"] keeps it hidden), and js/ssjr.js waits for it before Home is handed over. It used to mount
+    // only after Loading had gone, so Home showed for a moment without its bar, music dock and account chips.
+    vsMountNav().catch(error=>{if(root.console&&typeof root.console.warn==="function")root.console.warn("[Career Mode Showdown] Navigation bar unavailable.",error);});
+    vsWhenStarted(()=>vsPaintNav(vsActiveScreen()));
     return api;
   }
 
   const api=Object.freeze({
     contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,
-    install:vsInstall,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
+    install:vsInstall,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
     navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute,getUiPreference:vsGetUiPreference,setUiPreference:vsSetUiPreference
   });
   return api;

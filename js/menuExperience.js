@@ -167,6 +167,12 @@ function isPairClosedSave(s){
     }catch(_error){ return false; }
 }
 
+function noLiveShowdownMeta(){
+    let id = "";
+    try{ id = window.CareerModeOnlinePlayerIdentity?.getState?.()?.managerId || ""; }catch(_error){}
+    return "No Showdown live" + (id === "daniel" ? " · tap to start" : id === "nik" ? " · tap to join Daniel's" : "");
+}
+
 function getSavedShowdownMenuMeta(){
     let saved = (typeof currentShowdown !== "undefined" && currentShowdown)
         ? currentShowdown
@@ -177,7 +183,7 @@ function getSavedShowdownMenuMeta(){
         return {
             hasSave: false,
             label: "CONTINUE CAREER",
-            meta: "No Showdown in progress",
+            meta: noLiveShowdownMeta(),
             indicator: "No Active Showdown"
         };
     }

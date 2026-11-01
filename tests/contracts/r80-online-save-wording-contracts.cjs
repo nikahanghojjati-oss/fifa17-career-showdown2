@@ -47,7 +47,7 @@ const SIGN_IN_AND_DEVICE=Object.freeze({
   "js/appUpdateBootstrap.js":["This browser cannot use the update service. Return to the game and reload it."],
   "js/offlineApp.js":["INSTALLED ON THIS DEVICE","Career Mode Showdown is already installed on this device.","This browser does not support the application update service."],
   "js/careerStartMarker.js":["This browser is not ready yet."],
-  "js/onlinePlayerIdentity.js":["Your player identity and this browser.","This browser could not be prepared."],
+  "js/onlinePlayerIdentity.js":["Who you are on this device.","THIS DEVICE","This browser could not be prepared."],
   "js/persistentNikDanielPair.js":["This browser is not ready yet."," for this phone on Home, then join again.","CHOOSE DANIEL OR NIK FOR THIS DEVICE FIRST"],
   "js/productionSharedJourneyEntry.js":["THIS BROWSER"],
   "js/productionSharedJourneyReconnect.js":["NOT CONNECTED ON THIS PHONE · Reloading drops the connection. "],
@@ -158,8 +158,8 @@ const REMOVED=Object.freeze([
 ]);
 check("W7 r80 Season Results: the result check speaks of the shared result, and no removed local-era string comes back",()=>{
   const lr=read("js/productionSharedLocalReconciliation.js");
-  assert.match(lr,/lrText\(ui\.heading,"RESULT CHECK"\);/);
-  assert.match(lr,/lrText\(ui\.summary,"Compare the online result with your saved Showdown\. Nothing changes; Apply is only in advanced recovery\."\);/);
+  assert.match(lr,/lrText\(ui\.heading,"DOUBLE-CHECK"\);/);
+  assert.match(lr,/lrText\(ui\.summary,"Optional: compare the shared result with the Showdown copy in this app\. Nothing is changed\."\);/);
   assert.match(lr,/"CHECKING YOUR SAVE…":"PREVIEW RESULT"/);
   const legacy=read("js/legacy.js");
   assert.match(legacy,/backupTitle\.textContent = "BACKUP FILE";/);

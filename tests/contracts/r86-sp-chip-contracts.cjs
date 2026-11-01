@@ -94,7 +94,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   assert.match(rl,/sp=rowSpecial\(row\);\s*\}else\{[^}]*sp=liveSpecial\(\);\}/,'Rivalry: History row, else the live Showdown');
   assert.match(sf,/chip\.liveFor\(rid\)\|\|\(rid&&read&&Number\.isFinite\(read\.setupConfirmedAt\)\?chip\.forShowdown\(rid,read\.setupConfirmedAt\):null\)/,'Final Winner / Season Results: live Setup, else the closed Showdown\'s own read');
   assert.match(sf,/setupConfirmedAt:Number\.isFinite\(result\.setupConfirmedAt\)\?result\.setupConfirmedAt:null/,'the closed read keeps the confirm time it already returns');
-  assert.match(sf,/return \{final:final\.winner\?freeze\(\{\.\.\.final,specialPlayers:sp\}\):final,specialPlayers:sp\};/);
+  assert.match(sf,/return \{final:final\.winner\?freeze\(\{\.\.\.final,specialPlayers:sp\}\):final,specialPlayers:sp,rematch\};/);// r87 adds the Rematch frame beside the chips
   ok('S3','live Showdown: the confirmed Setup\'s rivalry and setupUpdatedAtMs on Standings, Rivalry, Final Winner and Season Results; another rivalry, an unconfirmed or pre-r86 Setup, or a failing one: none');
 }
 
@@ -215,6 +215,17 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   const sr=read('js/productionSharedSeasonResults.js');
   assert.match(sr,/function pssrSpecialPlayerSlot\(role\)/);assert.match(sr,/fragment\.append\(heading\);if\(special\)fragment\.append\(special\);fragment\.append\(club\);/,'published Season Results cards: chip under the name');
   ok('S9','just after the close the same Showdown keeps its chips; Rivalry chips and clubs line up; published Season Results cards and long phone names');
+}
+
+// S10 red team R87-SP-01: with no live Setup, an in-progress Showdown whose row has no confirm time owns the current
+// Special Players; the career screens show no chip rather than the previous Showdown's pair.
+{
+  const finished={rivalryId:r86.rivalryId,status:'completed',setupConfirmedAt:AT};
+  const live={rivalryId:'pair_'+'c'.repeat(64),status:'in-progress',setupConfirmedAt:null};
+  assert.deepEqual(plain(Chip.latest([finished])),r86Sp,'no Showdown in progress: the latest confirmed one');
+  assert.equal(Chip.latest([finished,live]),null,'an in-progress Showdown without its confirm time: no chip, never an older pair');
+  assert.deepEqual(plain(Chip.latest([finished,{...live,setupConfirmedAt:AT+1}])),plain(Chip.forShowdown(live.rivalryId,AT+1)),'with its confirm time: its own pair');
+  ok('S10','red team R87-SP-01: an in-progress Showdown without a confirm time shows no chip, never the previous Showdown\'s');
 }
 
 console.log(`r86 Special Player chip contracts: ${checks} groups passed`);

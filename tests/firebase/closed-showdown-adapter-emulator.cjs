@@ -18,6 +18,8 @@ require("../../data/transferOptions.js");
 const Setup=require("../../js/sparkSharedShowdownSetup.js");
 const CareerStart=require("../../js/sparkSharedCareerStart.js");
 const Transfer=require("../../js/sparkSharedTransferChallenge.js");
+// r87 RT5-FLOW-02: in a roulette-eligible Showdown START needs both managers' spun marks, so each manager writes his own first.
+async function startAfterSpins(start,partner){for(const [options,role] of [[start,"playerOne"],[partner,"playerTwo"]]){const mark=await Transfer.markSpun({...options,managerRole:role});if(!mark||mark.ok!==true)return mark;}return Transfer.startWindow(start);}
 const Results=require("../../js/sparkSharedSeasonResults.js");
 const Commit=require("../../js/sparkSharedSeasonCommit.js");
 const Scoring=require("../../js/sparkSharedCanonicalScoring.js");
@@ -96,7 +98,7 @@ async function playShowdown(env,{rivalryId,sessionId,nowMs,totalSeasons,play,res
   let history=null,multi=null;
   for(let season=1;season<=play;season+=1){
     const t=season*10000,k=x=>n(season*10+x),step=async(value,label)=>{assert.equal(value.ok,true,`S${season} ${label}: ${JSON.stringify(value)}`);return value;};
-    await step(await Transfer.startWindow({...a(t+100),seasonNumber:season,operationId:op("transfer_op_",k(1)),baseRevision:0}),"transfer start");
+    await step(await startAfterSpins({...a(t+100),seasonNumber:season,operationId:op("transfer_op_",k(1)),baseRevision:0},{...b(t+100),seasonNumber:season}),"transfer start");
     await step(await Transfer.requestEndWindow({...a(t+200),seasonNumber:season,operationId:op("transfer_op_",k(2)),baseRevision:1}),"end window A");
     await step(await Transfer.requestEndWindow({...b(t+300),seasonNumber:season,operationId:op("transfer_op_",k(3)),baseRevision:2}),"end window B");
     await step(await Transfer.lockGuesses({...a(t+400),seasonNumber:season,operationId:op("transfer_op_",k(4)),baseRevision:3,guesses:[{slot:1,type:"league",valueId:"england-premier-league"}]}),"guesses A");

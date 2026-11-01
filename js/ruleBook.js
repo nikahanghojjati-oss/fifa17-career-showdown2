@@ -55,7 +55,12 @@ function createRuleBookScreen(){
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
             "Your opponent gets three guesses. Each guess is a league or a nationality.",
             "If a guess matches one of your signings, release that player before the season starts.",
-            "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him."
+            "Type each signing's FIFA 17 overall. Only you see it, and it is never part of a guess.",
+            "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him.",
+            // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
+            "Before each transfer window, Daniel and then Nik spin the Roster Roulette. One spin in seven fires and hits one player on your starting XI or 4 best subs: release him in FIFA 17.",
+            "Your Special Player is never on your board, so he is never hit. Every player on your board has the same chance.",
+            "Your board builds itself: your FIFA 17 launch squad. From season 2, a lost player is replaced by a kept signing or the bench, with reserves filling in, so your board shows 11 starters and 4 subs. Only if your club runs out of players does a place stay empty: the roulette still spins, and the bullet only ever hits a real player."
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "CONNECTION & RECOVERY", [
@@ -74,7 +79,7 @@ function createRuleBookScreen(){
     back.type = "button";
     back.className = "backButton";
     back.setAttribute("data-smart-back", "");
-    back.textContent = "BACK TO MAIN MENU";
+    back.textContent = "BACK TO HOME";
 
     actions.appendChild(back);
     section.append(heading, intro, grid, actions);

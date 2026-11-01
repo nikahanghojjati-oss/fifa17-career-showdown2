@@ -1,4 +1,6 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // r80 resume (G7 + Home items 5/6): from Home, an ACTIVE Showdown always resumes to the screen the game is on, the same place a
 // reload takes the player, on Daniel's and Nik's phones, with no frame of GET READY, Career Start or Remote Joining on the way.
 // Before: a page that already held the ACTIVE private session answered Home START / CONTINUE CAREER with GET READY, and its
@@ -147,7 +149,9 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return;
-    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
+    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
     }
@@ -178,11 +182,11 @@ async function finishTransferSeason(daniel,nik){
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
-  await daniel.page.locator("#p1Signing1Name").fill("QWX Resume Daniel");await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill("QWX Resume Daniel");await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await waitTransferState(nik,"signingLockedRoles","playerOne");
-  await nik.page.locator("#p2Signing1Name").fill("ZPV Resume Nik");await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill("ZPV Resume Nik");await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){
@@ -203,7 +207,7 @@ async function playSetupToTransferChallenge(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   return clubs;

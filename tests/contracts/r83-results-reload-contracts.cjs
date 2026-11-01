@@ -95,7 +95,7 @@ async function finishTransfer(options){
       assert.deepEqual(p.errors,[]);assert.deepEqual(p.writes,[],"resume never republishes or acknowledges");
       if(stage==="entry")assert.equal(p.node("seasonEntry").dataset.sharedSeasonResults,"entry");
       if(stage==="published"){assert.equal(p.node("confirmSeasonCompletion").textContent,"PUBLISHED ✓");assert.equal(p.node("confirmSeasonCompletion").disabled,true);}
-      if(stage==="ready")assert.equal(p.node("sharedSeasonCommitAction").textContent,role==="playerOne"?"LOCK & CONFIRM SEASON":"WAITING FOR HOST");
+      if(stage==="ready")assert.equal(p.node("sharedSeasonCommitAction").textContent,role==="playerOne"?"LOCK & CONFIRM SEASON":"WAITING FOR DANIEL");
       if(stage==="acknowledge")assert.equal(p.node("sharedSeasonCommitAction").textContent,"CONFIRM SEASON");
       if(stage==="acknowledged"){assert.equal(p.node("sharedSeasonCommitAction").textContent,"CONFIRMED ✓ · WAITING FOR RIVAL");assert.equal(p.node("sharedSeasonCommitAction").disabled,true);}
       checks++;

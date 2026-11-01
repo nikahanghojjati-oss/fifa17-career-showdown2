@@ -866,8 +866,15 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
 /* r73 polish, desktop confirmation: the league line sat on the deck's top rule, tight under CLUBS LOCKED, with the two
    clubs right below it. Both lines get room; the lock note still ends inside the deck. */
 @media (min-width: 1200px) and (min-height: 700px) {
-  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { margin-top: calc(var(--s) * 10px); }
-  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryMatchup { margin-top: calc(var(--s) * 9px); }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { margin-top: calc(var(--s) * 7px); }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryMatchup { margin-top: calc(var(--s) * 6px); }
+  /* r87 start-polish BUG-2: at the r78 15px body size the two-line lock note ran onto (1366) or under (1920) the deck's
+     bottom gold rule. Tighter leading on the centre club names and the note, and a shorter rule gap, keep both note
+     lines inside the deck at every desktop size; nothing moves and the type size stays. */
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubConfirmationSide strong { line-height: 1.04; }
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubRivalryLockNote {
+    margin-top: calc(var(--s) * 4px); padding-top: calc(var(--s) * 4px); line-height: 1.25;
+  }
 }
 
 /* r78 HO-031 phone marble: Club draws Team V's ENV_CLUB_PHONE_V2 (both managers painted in, holding the two plain club
@@ -952,4 +959,17 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
        (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) and (prefers-reduced-motion: reduce) {
   #app #clubWheelScreen.cl-on .clPhoneScene::before,
   #app #clubWheelScreen.cl-on .clPhoneScene::after { transition: none; }
+}
+
+/* HO-043 (Team V, 29 Oct 2026) · item 4c: on upright phones the CLUBS LOCKED block (headline, Daniel vs Nik, the "These clubs stay
+   for the whole Showdown" note) sat straight on the photo and was hard to read. It now sits on its own opaque black-marble panel
+   with a gold edge, in the same place, ivory words. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation:not(.hidden) {
+    box-sizing: border-box; padding: 8px 10px 9px; border: 1px solid rgba(242, 196, 91, .55); border-radius: 3px;
+    background: linear-gradient(180deg, rgba(242, 196, 91, .05), transparent 42%) padding-box, #110f0c url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+    box-shadow: inset 0 0 0 1px #050505, 0 6px 18px rgba(0, 0, 0, .55);
+  }
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubRivalryLockNote { color: #f1e9d2; text-shadow: none; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > span { color: #f2c45b; }
 }

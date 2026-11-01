@@ -23,7 +23,7 @@
   "draw": "Draw",
   "unavailable": "Unavailable",
   "emptySeasonHistory": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
-  "noActiveShowdown": "No active showdown is available.",
+  "noActiveShowdown": "No Showdown in progress. Start or join one from Home.",
   "leagueFallback": "League not selected",
   "clubFallback": "Club",
   "stringsNotOnMain": {

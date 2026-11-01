@@ -194,16 +194,24 @@ window.ShowdownLegacyBoot = function () {
       if (index === 1) {
         const score = document.createElement("span");
         score.className = "legacyScoreBlock";
+        const finalResult = ["completed", "completion-pending"].includes(showdown.status);
+        const winner = finalResult ? showdown.winner : "";
         const league = document.createElement("span");
         league.className = "legacyLeagueMark";
-        identityMark(league, window.getLeagueMark(showdown.leagueId)?.svg, true);
+        // r87: the Premier League mark is a gold crown, and over a level score it read as a winner's crown. A draw shows an
+        // "=" in its place (no crown on a draw).
+        if (winner === "draw") {
+          league.classList.add("legacyLeagueMark--draw");
+          league.dataset.draw = "true";
+          league.setAttribute("aria-hidden", "true");
+          league.style.cssText = "clip-path:none;background:none;border:0;padding:0;width:24px;height:24px;line-height:24px;font-size:22px;font-weight:700;text-align:center;color:#f2c45b";
+          league.textContent = "=";
+        } else identityMark(league, window.getLeagueMark(showdown.leagueId)?.svg, true);
         const numbers = document.createElement("span");
         numbers.className = "legacyScore";
         numbers.textContent = showdown.totals ? copy(strings, "score", showdown.totals) : "";
         const crown = document.createElement("span");
         crown.className = "legacyWinner";
-        const finalResult = ["completed", "completion-pending"].includes(showdown.status);
-        const winner = finalResult ? showdown.winner : "";
         crown.dataset.winner = winner || "";
         crown.style.cssText = "height:auto;min-height:14px;font-size:.6875rem;line-height:1.2";
         if (winner === "draw") crown.textContent = strings.ui.draw;
@@ -345,7 +353,9 @@ window.ShowdownLegacyBoot = function () {
     };
     drawer.hidden = false;
     action.setAttribute("aria-expanded", "true");
-    close.focus();
+    close.focus({ preventScroll: true });
+    // r87: on a phone the list opens below the fold, under the tab bar; bring it into view (its scroll-margin clears the bar).
+    drawer.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reducedMotion() ? "instant" : "smooth" });
   }
 
   function renderArchive(frame, strings) {

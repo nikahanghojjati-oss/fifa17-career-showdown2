@@ -74,7 +74,7 @@ function page(docs){
     try{await new Promise(resolve=>setImmediate(resolve));const value=docs[ref];return {exists:()=>value!==undefined,data:()=>value,metadata:{fromCache:false,hasPendingWrites:false}};}
     finally{active--;}
   }};
-  const c=vm.createContext({console,TextEncoder,crypto:webcrypto,setTimeout,clearTimeout});
+  const c=vm.createContext({console,TextEncoder,crypto:webcrypto,setTimeout:(fn,ms)=>{const t=setTimeout(fn,ms);t.unref?.();return t;},clearTimeout});// unref: a quota pause's resume timer must not hold the test open
   vm.runInContext(read('js/persistentNikDanielPair.js'),c);
   for(const [key,file] of Object.entries({CareerModeSparkCompletedShowdownReader:'sparkCompletedShowdownReader',CareerModeSharedClosedShowdownAdapter:'sharedClosedShowdownAdapter',CareerModeSharedCareerAnalytics:'sharedCareerAnalytics'}))c[key]=require(path.join(ROOT,'js',file+'.js'));
   vm.runInContext(read('js/sparkClosedShowdownCareerLoader.js'),c);
@@ -149,6 +149,7 @@ async function units(){
   await assert.rejects(sdk.getDoc('x'));assert.equal(b.readsToday().reads-start,6,'denied get counts 1, as Firestore bills it');
   for(let i=0;i<4;i++)await assert.rejects(sdk.getDoc('x'));
   assert.equal(b.readsToday().reads-start,6,'unanswered (offline, quota, cancelled) or client-side failures count 0');
+  assert.equal(b.paused(),true,'a quota answer on a direct get trips the online-play pause (red team R87-B-06)');
   checks++;
 }
 

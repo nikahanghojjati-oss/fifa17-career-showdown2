@@ -11,7 +11,9 @@ const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 const V10_IMAGE_CACHE_PREFIX = "career-mode-showdown-v10-images-";
 const V10_IMAGE_CACHE_NAME = `${V10_IMAGE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFIX}${revision}` : ""; }
-const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg)$/i;
+// r87: the Russian Roster Roulette sounds (visual-assets/v10_1/roulette/assets/sfx/*.wav, 1.8 MB) follow the same cache-first
+// runtime rule as Team V's images instead of the install precache.
+const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
@@ -22,12 +24,20 @@ const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
 // it gets that page from the shell the app runs (then the network), never the shell's index.html. Its images follow the
 // Team V cache-first image rule.
 const SHELL_FRAME_NAVIGATION_PATHS = new Set([
-    "visual-assets/v10_1/special-player/index.html"
+    "visual-assets/v10_1/special-player/index.html",
+    "visual-assets/v10_1/roulette/index.html"
 ]);
 // Precached shell files that a stylesheet asks for by a relative url(), so the request has no ?v=: css/r78-marble-surfaces.css
 // draws its panels with url("r78-marble-tile.webp"). They come from the shell the page runs (the precached copy), then the network.
+// r87: the Roulette page in its frame asks for its 3D library and data the same way (no ?v=), so offline it still gets the
+// precached copies of the shell it runs (red team R87-B-03).
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
-    "css/r78-marble-tile.webp"
+    "css/r78-marble-tile.webp",
+    "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
+    "visual-assets/v10_1/roulette/platemap.json",
+    "visual-assets/v10_1/roulette/assets/squads.json",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2"
 ]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",
@@ -78,6 +88,34 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/special-player/index.html",
   "js/marqueePlayer.js",
   "data/marqueePlayers.js",
+  "js/deadlineDay.js",
+  "data/deadlineDayLines.js",
+  "js/rosterRouletteStep.js",
+  "js/rosterRoulette.js",
+  "data/rosterSquads.js",
+  "data/fifa17Players.js",
+  "css/v10Roulette.css",
+  "visual-assets/v10_1/roulette/index.html",
+  "visual-assets/v10_1/roulette/platemap.json",
+  "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
+  "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt",
+  "visual-assets/v10_1/roulette/assets/squads.json",
+  "js/touchlineGazette.js",
+  "data/gazetteCopy.js",
+  "data/frontPages.js",
+  "css/v10Gazette.css",
+  "visual-assets/v10_1/content/content.css",
+  "visual-assets/v10_1/content/frontpage.js",
+  "visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2",
+  "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
+  "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt",
+  "visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
   "js/specialPlayerChip.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
@@ -270,7 +308,11 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION (and empties
 // the set when it changes PREVIOUS_RUNTIME_REVISION again). r80 adds no shell path to r79's 221 paths and removes none.
 // r86: PREVIOUS is now r85, whose own list already holds the music player; these are the six files r86 adds to its 222.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js"]);
+// r87 (until its own release moves PREVIOUS to r86): r86's six, plus the Deadline Day strip and lines and the Russian Roster
+// Roulette step, engine, squads, styles and Team V's page with its vendored three.js.
+// r87 Touchline Gazette (Nik 2026-10-31): its page script, copy, headline pack, styles, Team V's paper and sheet and the
+// seven OFL Gazette fonts (licences beside them). Its press photos are Team V images (V10_IMAGE_PATH, runtime cache).
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/careerSummaryStore.js","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html","js/marqueePlayer.js","data/marqueePlayers.js","js/specialPlayerChip.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/deadlineDay.js","data/deadlineDayLines.js","data/fifa17Players.js","js/touchlineGazette.js","data/gazetteCopy.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css","visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)));
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
 

@@ -90,7 +90,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.evaluate(()=>{window.__secondPublisherAudit.failResultsRead=false;});
     await page.waitForFunction(()=>!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:8000});
     await page.locator('#sharedSeasonCommitAction').click();
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST',null,{timeout:8000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR DANIEL',null,{timeout:8000});
     assert.equal(await page.locator('#sharedSeasonCommitAction').isDisabled(),true,'the non-coordinator must never receive commit authority');
     assert.equal(await page.locator('#seasonReviewOne').isVisible(),true,'the healed Results read must reveal the rival result');
     assert.equal(await page.locator('#seasonReviewTwo').isVisible(),true);
@@ -104,7 +104,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     // Rival publishes season 2 while this manager's Results screen is already open; no tap, no reload.
     await page.evaluate(()=>{window.__secondPublisherAudit.season2Published=true;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
     await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED'&&document.getElementById('seasonEntryTitle')?.textContent==='SEASON 2 RESULTS',null,{timeout:20000});
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST',null,{timeout:35000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR DANIEL',null,{timeout:35000});
     assert.ok(await page.evaluate(()=>window.__secondPublisherAudit.commitReads)>commitReadsBeforeSeason2,'season 2 must perform its own automatic authoritative Commit read');
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.seasonNumber),2,'season 2 must bind only season-2 Commit authority');
     // r48: a Commit check that hangs must time out visibly, and when it finally resolves it must not

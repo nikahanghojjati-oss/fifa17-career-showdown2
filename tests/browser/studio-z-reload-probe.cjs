@@ -1,4 +1,6 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // G-2b: Daniel and Nik play through the real app screens in two Chromium contexts against the
 // Auth + Firestore emulators (composed production Rules). Test database only; project demo-cms-browser-journey.
 // Run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
@@ -168,8 +170,8 @@ async function prepareSeasonReview(m){
 }
 async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seasonNumber=null}={}){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="WAITING FOR HOST"||document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR HOST")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="WAITING FOR DANIEL"||document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR DANIEL")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
   // R7 (owner decision 2026-10-04): Daniel's one tap commits, then records his own acknowledgement; Nik still acknowledges himself.
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
@@ -219,8 +221,10 @@ async function continueToSeason(daniel,nik,season,total){
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    // r87 Touchline Gazette: tap through the season paper when it opens (its CONTINUE runs the same step).
+    await gazette.passGazette(m.page,"season");
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
     assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
   }
 }
@@ -240,13 +244,13 @@ async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
 
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy`);
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy after Nik read the lock`);
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
   await assertPrivateTokenAbsent(daniel,tokenN.split(" ")[0],`season ${season} Nik signing privacy`);
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
@@ -362,7 +366,7 @@ async function main(){
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
 
     // J4 shared setup through the real league wheel and club-pack screens.
-    assert.match(await nik.page.locator("#spinLeague").textContent(),/WAITING FOR HOST/i,"Nik waits for Daniel on the league wheel");
+    assert.match(await nik.page.locator("#spinLeague").textContent(),/WAITING FOR DANIEL/i,"Nik waits for Daniel on the league wheel");
     assert.equal(await nik.page.locator("#spinLeague").isDisabled(),true,"Nik cannot draw shared setup authority");
     ok("J4.1","Nik is visibly waiting for the host and cannot draw the shared league");
 
@@ -382,7 +386,7 @@ async function main(){
       assert.equal(await m.page.locator("#leagueWheelScreen").isVisible(),false,`${m.user}: the witnessed league screen advanced to the club packs without a tap`);
       assert.equal((await m.page.locator("#clubAssignmentLeague").textContent()).trim(),sharedLeague,`${m.user}: the club screen names the shared league`);
     }
-    assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR HOST/i,"Nik waits for host pack reveal");
+    assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR DANIEL/i,"Nik waits for host pack reveal");
     assert.equal(await nik.page.locator("#openClubPack").isDisabled(),true,"Nik cannot draw the clubs");
     await daniel.page.locator("#openClubPack").click({timeout:30000});
     await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
@@ -430,7 +434,7 @@ async function main(){
     ok("J5.2","both private Career Start acknowledgements converged to ready");
 
     for(const m of [daniel,nik]){
-      await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+      await rosterRoulette.waitForTransfer(m.page,30000);
       await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
     }
     ok("J5.3","both managers reached the real Shared Transfer Challenge through the UI");
@@ -473,7 +477,7 @@ async function main(){
     await waitTransferPhase(daniel,"signing_entry");
     ok("J6.3","both managers entered and locked their private guesses through the real controls");
 
-    await daniel.page.locator("#p1Signing1Name").fill("QWX Daniel Signing");
+    await daniel.page.locator("#p1Signing1Name").fill("QWX Daniel Signing");await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");
     await fillTransferCombo(daniel,"p1Signing1League","Premier League");
     await fillTransferCombo(daniel,"p1Signing1Nationality","England");
     await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
@@ -483,8 +487,8 @@ async function main(){
     await waitTransferPhase(nik,"signing_entry");
     await assertPrivateTokenAbsent(nik,"QWX","after Daniel signing lock but before COMPLETED");
 
-    await nik.page.locator("#p2Signing1Name").fill("ZPV Nik Signing");
-    await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");
+    await nik.page.locator("#p2Signing1Name").fill("ZPV Nik Signing");await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");
+    await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");
     await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
     await assertPrivateTokenAbsent(daniel,"ZPV","before transfer completion on Daniel");
     ok("J6.4","unfinished rival signings remain absent from rendered text and every input value");

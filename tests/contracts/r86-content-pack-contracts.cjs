@@ -42,16 +42,19 @@ for(const r of Lines.clubs){assert.deepEqual(Object.keys(r),['club','mood','text
 for(const club of CATALOG)assert.equal(Lines.clubs.filter(r=>r.club===club).length,5,club);
 ok('K2','5 history lines for every one of the 98 catalog clubs, with only club slots');
 
-// K3 front pages (still keyed on the r86 page situations)
-const PAGE_SITUATIONS=['big-win','narrow-win','comfortable-win','draw','champions-league','europa-league','league-title','cup-double','no-trophy','comeback','lead-extended','level-overall','winning-streak','streak-broken','opening-season','halfway','final-season-decider','showdown-won','showdown-drawn','golden-showdown','one-season-sprint','dominant-run','rivalry-history','season-preview'];
+// K3 front pages: r87 replaced the r86 pack with Team V's HO-048 Touchline Gazette headlines (contentVersion 2, Nik approved
+// 2026-10-31), keyed on the Gazette situations js/touchlineGazette.js decides; tests/contracts/r87-gazette-contracts.cjs pins
+// how they are picked and filled.
+const PAGE_SITUATIONS=['big-win','comfortable-win','narrow-win','draw','champions-league','europa-league','league-title','comeback','lead-extended','level-overall','winning-streak','final-season-decider'];
 const FINAL_SITUATIONS=['showdown-won-1-season','showdown-won-3-seasons','showdown-won-5-seasons','golden-showdown-won','showdown-drawn','won-on-the-final-day','dominant-win'];
-assert.equal(Pages.season.length,200);assert.equal(Pages.final.length,80);
-for(const [list,keys,sits] of [[Pages.season,['id','situation','headline','subhead'],PAGE_SITUATIONS],[Pages.final,['id','situation','headline','subhead','kicker'],FINAL_SITUATIONS]]){
-  unique(list,p=>p.id,'page ids');unique(list,p=>p.headline,'headlines');
-  for(const p of list){assert.deepEqual(Object.keys(p),keys);assert.ok(sits.includes(p.situation),p.id);slots(p.headline+' '+p.subhead,RESULT_SLOTS,p.id);clean(p,p.id);between(p.headline,3,8,p.id);between(p.subhead,12,24,p.id);if(p.kicker!==undefined)between(p.kicker,1,3,p.id);}
+const PAGE_SLOTS=new Set('winner loser winnerClub loserClub margin winnerPoints loserPoints seasonNo seasonsTotal leader trailer managerA managerB clubA clubB points'.split(' '));
+assert.equal(Pages.contentVersion,2);assert.equal(Pages.season.length,477);assert.equal(Pages.final.length,258);
+for(const [list,sits] of [[Pages.season,PAGE_SITUATIONS],[Pages.final,FINAL_SITUATIONS]]){
+  unique(list,p=>p.id,'page ids');unique(list,p=>p.situation+'|'+p.headline,'headlines within a situation');
+  for(const p of list){assert.deepEqual(Object.keys(p),['id','situation','headline','subhead','kicker']);assert.ok(sits.includes(p.situation),p.id);slots(p.headline+' '+p.subhead+' '+p.kicker,PAGE_SLOTS,p.id);assert.ok(!/[{}]/.test((p.headline+p.subhead+p.kicker).replace(/\{\w+\}/g,'')),`${p.id}: stray brace`);clean(p,p.id);between(p.headline,2,8,p.id);between(p.subhead,12,24,p.id);between(p.kicker,1,3,p.id);}
+  for(const s of sits)assert.ok(list.some(p=>p.situation===s),s);
 }
-for(const s of FINAL_SITUATIONS)assert.ok(Pages.final.some(p=>p.situation===s),s);
-ok('K3','200 season front pages and 80 Final Winner pages, every Final situation covered');
+ok('K3','477 season front pages over 12 situations and 258 Final Winner pages over 7 (HO-048), every situation covered, only the Gazette slots, no tiebreak wording, no names');
 
 // K4 club cards and scouting cards
 assert.deepEqual(Clubs.cards.map(c=>c.club).sort(),[...CATALOG].sort());

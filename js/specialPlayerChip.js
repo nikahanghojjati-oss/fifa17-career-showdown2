@@ -72,10 +72,14 @@
   }
   // Career-wide screens (Career Statistics, Trophy Room, the Standings Career view): the live Showdown's Special Players,
   // else those of the most recently confirmed Showdown that has them.
+  // Red team R87-SP-01: a Showdown still in progress whose row has no confirm time (no live Setup this session) owns the
+  // current Special Players, which cannot be known without a Setup read; show no chip rather than an older Showdown's pair.
   function spLatest(rows){
     const live=spLive();if(live)return live;
+    const list=Array.isArray(rows)?rows:[];
+    if(list.some(row=>row&&row.status==="in-progress"&&!Number.isFinite(row.setupConfirmedAt)))return null;
     let best=null,at=-Infinity;
-    for(const row of Array.isArray(rows)?rows:[]){
+    for(const row of list){
       if(!row||!Number.isFinite(row.setupConfirmedAt)||row.setupConfirmedAt<=at)continue;
       const sp=spForRow(row);if(sp){best=sp;at=row.setupConfirmedAt;}
     }
@@ -152,6 +156,9 @@
 :is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipTag{background:rgba(5,6,8,.78);color:var(--sd-gold-300,#ffd34d);}
 :is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipTag::after{content:" ·";}
 :is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipName{color:inherit;}
+/* The Career Table's Manager column is narrow at every size: a long name wraps inside its chip instead of being cut (red team R87-D-04). */
+#app #careerStatistics .careerTable td>.spChip{align-items:flex-start;border-radius:.7em;}
+#app #careerStatistics .careerTable .spChip .spChipName{max-width:none;overflow:visible;text-overflow:clip;white-space:normal;overflow-wrap:break-word;}
 @media (max-width:640px){
   #app .spChip{gap:.3em;padding:.1em .45em .1em .12em;font-size:10.5px;background:var(--sp-tier-bg);color:var(--sp-tier-ink);}
   #app .spChip .spChipRank{display:none;}

@@ -18,7 +18,7 @@
     "loading": "Loading your Showdown history…",
     "partial": "Some Showdowns could not be loaded. Showing {READABLE} of {INDEXED} Showdowns.",
     "unavailable": "Your Showdown history could not be loaded.",
-    "empty": "No completed showdowns yet. Finish a rivalry and it will be archived here automatically."
+    "empty": "No finished Showdowns yet. Each one is added here when it ends."
   },
   "topNav": [
     "HOME",

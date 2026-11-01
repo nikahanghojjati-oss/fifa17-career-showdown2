@@ -90,7 +90,7 @@ async function transferContracts(){
     h.scripts.requestEndWindow.push(denied("permission-denied"),denied("permission-denied"),denied("permission-denied"));
     h.api.install();await h.tap("endTransferTimer");
     assert.equal(h.calls.mutations.length,2,"a real denial must be tried at most twice (one retry), never looped");
-    assert.equal(h.error(),"permission-denied","a real denial must still be visible after the one retry");
+    assert.match(h.error(),/session has lapsed\. Go back to Showdown Home/,"a real denial must still be visible after the one retry, in plain words (red team R87-B-05)");
   }
   // A4. The refreshed state already shows the outcome (partner already moved the phase on): silent, no second write.
   {
@@ -147,7 +147,7 @@ async function transferContracts(){
     const guessState=()=>({revision:3,state:{...windowOpen().state,phase:"GUESS_ENTRY",revision:3}});
     const signingState=()=>({revision:3,state:{...windowOpen().state,phase:"SIGNING_ENTRY",revision:3}});
     const fillGuesses=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p2Guess${i}Type`).value="league";const v=h.node(`p2Guess${i}Value`);v.value=`League ${i}`;v.dataset.canonicalId=`league_${i}`;}};
-    const fillSignings=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p1Signing${i}Name`).value=`Player ${i}`;h.node(`p1Signing${i}League`).value=`League ${i}`;h.node(`p1Signing${i}League`).dataset.canonicalId=`league_${i}`;h.node(`p1Signing${i}Nationality`).value=`Nation ${i}`;h.node(`p1Signing${i}Nationality`).dataset.canonicalId=`nation_${i}`;}};
+    const fillSignings=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p1Signing${i}Name`).value=`Player ${i}`;h.node(`p1Signing${i}Overall`).value=`7${i}`;if(h.node(`p1Signing${i}Position`))h.node(`p1Signing${i}Position`).value="ST";h.node(`p1Signing${i}League`).value=`League ${i}`;h.node(`p1Signing${i}League`).dataset.canonicalId=`league_${i}`;h.node(`p1Signing${i}Nationality`).value=`Nation ${i}`;h.node(`p1Signing${i}Nationality`).dataset.canonicalId=`nation_${i}`;}};
     for(const kind of ["guesses","signings"]){
       const method=kind==="guesses"?"lockGuesses":"lockSignings",initial=kind==="guesses"?guessState:signingState,fill=kind==="guesses"?fillGuesses:fillSignings;
       // E1. Partial lock, confirm returns false: no provider call, no error.

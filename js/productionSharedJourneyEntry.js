@@ -200,6 +200,9 @@
   // exactly the final-screen terminal close (it requires the final reconciliation, i.e. history saved first, and one exact ACTIVE
   // private session; same writes, same guards), then opens the seasons screen. Nothing is created unless the close succeeded; a
   // close that cannot happen stops on the existing Connect Players / CHECK STATUS path with the reason.
+  // r87 Rematch (js/onlinePlayerIdentity.js openRematch): followStartDecision(decision,{openSeasons:false}) does everything up to the
+  // seasons screen and answers "seasons" instead of opening it; the caller then opens that screen with the length preset.
+  let seasonsHandOff=false;
   let closeEndedPromise=null;
   function closeEndedThenNew(){
     if(closeEndedPromise)return closeEndedPromise;
@@ -226,8 +229,8 @@
       // for the seasons screen instead, so it lets the closed Showdown go now; otherwise START there would find it live again and
       // reopen the same screen. No read, no write.
       try{pair?.settleOnHome?.();}catch(_error){}
-      const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
-      return opened!==false;
+      const opened=seasonsHandOff?"seasons":typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
+      return opened==="seasons"?opened:opened!==false;
     })().finally(()=>{closeEndedPromise=null;});
     return closeEndedPromise;
   }
@@ -241,10 +244,11 @@
   }
   async function openSeasonsForRealStart(){
     closePanel();
-    const opened=typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
-    return opened!==false;
+    const opened=seasonsHandOff?"seasons":typeof root.navigateTo==="function"?await root.navigateTo("createShowdown"):root.showScreen?.("createShowdown");
+    return opened==="seasons"?opened:opened!==false;
   }
-  async function followStartDecision(decision){
+  async function followStartDecision(decision,options){
+    if(options&&options.openSeasons===false){seasonsHandOff=true;try{return await followStartDecision(decision);}finally{seasonsHandOff=false;}}
     if(!decision)return false;
     if(decision.action==="resume-waiting"&&await needsCareerStart(decision))return openSeasonsForRealStart();
     if(decision.action==="close-then-new")return closeEndedThenNew();
@@ -368,12 +372,16 @@
     await loadScript("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js",()=>root.CareerModeProductionSharedSeasonResultsRoute);
     const route=root.CareerModeProductionSharedSeasonResultsRoute;route.install();return route.open();
   }
+  function localSeasonPlayed(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return Boolean(showdown&&(Array.isArray(showdown.rounds)&&showdown.rounds.length>0||Number(showdown.currentRound)>1));}catch(_error){return false;}}
   async function resumeAcceptedSeason(){
     await loadScript("ssjr-production-multi-season","js/productionSharedMultiSeasonProgression.js",()=>root.CareerModeProductionSharedMultiSeasonProgression);
     const progression=root.CareerModeProductionSharedMultiSeasonProgression;
     if(!progression||typeof progression.resumeFromAuthority!=="function")return false;
     progression.install?.();
     const resumed=await progression.resumeFromAuthority();
+    // r87 arch S-01: an unread season count is not "no season played". When the reads failed and this phone's own save
+    // already holds a played season, Career Start (season 1) is the wrong landing: fail into the retryable entry instead.
+    if(!resumed&&progression.lastError?.()&&localSeasonPlayed()){const error=new Error("Your season could not be checked. Check your internet, then press START again.");error.code="MULTI_SEASON_RESUME_UNREAD";throw error;}
     if(!resumed||!Number.isInteger(resumed.acceptedSeasons)||resumed.acceptedSeasons<0)return false;
     // The Results route is a nicer landing, never a new way to fail: any error here keeps the existing fallback.
     let routed=false;try{routed=await resumeSeasonResults(resumed);}catch(_error){}

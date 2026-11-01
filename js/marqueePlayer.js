@@ -52,6 +52,16 @@
   }
   // The same pair for a Showdown being set up on this build right now (the reveal): no confirm time yet.
   function mpForNewShowdown(rivalryId){return mpForShowdown(rivalryId,Number.MAX_SAFE_INTEGER,{fromMs:0});}
+  // Red team R87-SP-02: is a typed Transfer War signing name this manager's own Special Player? Names compare with accents
+  // folded, trimmed and lower-cased, against the display name and the squad database name (data/marqueePlayers.js
+  // sourceNames, R87-D-01). No initials guessing. False when the Showdown has no Special Player.
+  const mpFold=name=>String(name||"").normalize("NFD").replace(/[̀-ͯ]/g,"").trim().toLowerCase();
+  function mpIsOwnSpecial(rivalryId,confirmedAt,role,name){
+    const pair=ROLES.includes(role)&&mpFold(name)?mpForShowdown(rivalryId,confirmedAt):null;
+    if(!pair)return false;
+    const list=mpList(),player=pair[role],source=list&&list.sourceNames&&Object.prototype.hasOwnProperty.call(list.sourceNames,player.name)?list.sourceNames[player.name]:null;
+    return [player.name,source].some(n=>n&&mpFold(n)===mpFold(name));
+  }
 
-  return Object.freeze({contractVersion:1,feature:"cms-marquee-player",fromMs:MARQUEE_FROM_MS,roles:ROLES,tier:mpTier,picks:mpPicks,forShowdown:mpForShowdown,forNewShowdown:mpForNewShowdown});
+  return Object.freeze({contractVersion:1,feature:"cms-marquee-player",fromMs:MARQUEE_FROM_MS,roles:ROLES,tier:mpTier,picks:mpPicks,forShowdown:mpForShowdown,forNewShowdown:mpForNewShowdown,isOwnSpecial:mpIsOwnSpecial});
 });

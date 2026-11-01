@@ -1,4 +1,6 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // CE2PG: "Cloud Emulator 2-player Journey" (r80 flow).
 // Daniel and Nik play the real Career Mode Showdown in two Chromium contexts against the Firebase Auth + Firestore emulators
 // with the composed production Rules (the same production adapter path as tests/browser/r79-two-player-journey-audit.cjs).
@@ -462,7 +464,9 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return true;
-    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
+    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
     }
@@ -539,7 +543,7 @@ async function playSetup(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
+    await rosterRoulette.waitForTransfer(m.page,45000);
     await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   }
   const teamCount=await daniel.page.evaluate(()=>window.CareerModeProductionSharedSeasonResults?.getState?.()?.state?.teamCount??null).catch(()=>null)
@@ -568,13 +572,13 @@ async function playTransfers(daniel,nik,tag){
   await budgetWait("transfer-guesses");
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await privateTokenAbsent(nik,tokenD.split(" ")[0],`${showdownNow}.S${seasonNow}.transfer.privacy`,"Daniel's locked signing stays hidden from Nik before completion");
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await budgetWait("transfer-signings");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillCombo(nik,"p2Signing1League","TIM Serie A");await fillCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillCombo(nik,"p2Signing1League","Serie A TIM");await fillCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
 }
@@ -618,8 +622,8 @@ async function playSeasonResults(daniel,nik,k,planSeason){
 }
 async function commitSeason(daniel,nik,k,planSeason,final){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>["WAITING FOR HOST","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR HOST")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
+  await nik.page.waitForFunction(()=>["WAITING FOR DANIEL","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR DANIEL")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
   await budgetWait("commit");
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
@@ -650,11 +654,11 @@ async function checkSharedHistory(m,k,total,seasons){
   await m.page.waitForFunction(n=>new RegExp(`^${n} of `).test((document.getElementById("sharedHistoryConvergenceSummary")?.textContent||"").trim()),k,{timeout:30000}).catch(()=>{});
   const heading=await textOf(m,"#sharedHistoryConvergenceHeading"),summary=await textOf(m,"#sharedHistoryConvergenceSummary"),records=await textOf(m,"#sharedHistoryConvergenceRecords"),trophies=await textOf(m,"#sharedHistoryConvergenceTrophies");
   debug(`${showdownNow} S${k} history ${m.user}`,`${heading} | ${summary} | ${records} | ${trophies}`);
-  const lead=t.daniel.total===t.nik.total?"TIED":t.daniel.total>t.nik.total?`Daniel +${t.daniel.total-t.nik.total}`:`Nik +${t.nik.total-t.daniel.total}`;
-  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"HISTORY UP TO DATE",{screen:"Shared History"});
-  const wantSummary=new RegExp(`^${k} of ${total} seasons? accepted · [A-Z0-9 ]+ · Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead.replace("+","\\+")}$`);
-  await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons accepted ... Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead}" but saw "${summary}"`,{screen:"Shared History"});
-  const wantRec=u=>new RegExp(`${NAMES[u]} · .+ · ${t[u].W}W ${t[u].D}D ${t[u].L}L · ${t[u].total} showdown pts`);
+  const lead=t.daniel.total===t.nik.total?"Level":t.daniel.total>t.nik.total?`Daniel leads by ${t.daniel.total-t.nik.total}`:`Nik leads by ${t.nik.total-t.daniel.total}`;
+  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"SHOWDOWN SO FAR",{screen:"Shared History"});
+  const wantSummary=new RegExp(`^${k} of ${total} seasons? played · [A-Z0-9 ]+ · Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}$`);
+  await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons played ... Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}" but saw "${summary}"`,{screen:"Shared History"});
+  const wantRec=u=>new RegExp(`${NAMES[u]} \\([^)]+\\): ${t[u].W} won, ${t[u].D} drawn, ${t[u].L} lost · ${t[u].total} pts`);
   await check(m,`${showdownNow}.S${k}.history.records`,"Shared History W/D/L and points per manager",wantRec("daniel").test(records)&&wantRec("nik").test(records),`expected Daniel ${t.daniel.W}W ${t.daniel.D}D ${t.daniel.L}L ${t.daniel.total} pts, Nik ${t.nik.W}W ${t.nik.D}D ${t.nik.L}L ${t.nik.total} pts; saw "${records}"`,{screen:"Shared History"});
   const wantTro=u=>`${NAMES[u]} ${t[u].trophies} trophies (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
   await check(m,`${showdownNow}.S${k}.history.trophies`,"Shared History trophy attribution",trophies.includes(wantTro("daniel"))&&trophies.includes(wantTro("nik")),`expected "${wantTro("daniel")}" and "${wantTro("nik")}"; saw "${trophies}"`,{screen:"Shared History"});
@@ -665,8 +669,11 @@ async function continueToSeason(daniel,nik,next,total){
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
+    const paper=await gazette.passGazette(m.page,"season");
+    if(!paper||!paper.endsWith(`|season|${next-1}`))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.waitForTransfer(m.page,30000);
   }
 }
 // Back into the live Showdown from Showdown Home: CONTINUE SHOWDOWN, then (on the season dashboard) its primary action, until the
@@ -811,8 +818,8 @@ function extract(raw){
   for(const u of ["daniel","nik"]){const row=new RegExp(`${NAMES[u]}\\s+(\\d+)\\s+(\\d+)-(\\d+)-(\\d+)\\s+(\\d+)\\s+(\\d+)`).exec(cs.slice(Math.max(0,cs.indexOf("CAREER TABLE"))));o[`table_${u}`]=row?row.slice(1):null;}
   o.compareTitles=pair(cs,/(\d+)\s+LEAGUE TITLES\s+(\d+)/);o.compareCups=pair(cs,/(\d+)\s+DOMESTIC CUPS\s+(\d+)/);o.compareCl=pair(cs,/(\d+)\s+CHAMPIONS LEAGUE WINS\s+(\d+)/);o.compareWins=pair(cs,/(\d+)\s+SEASON WINS\s+(\d+)/);
   o.compareAvgPoints=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE POINTS\s+([\d.]+)/);o.compareAvgGoals=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE GOALS\s+([\d.]+)/);
-  o.leadWins=lead(cs,/MOST SEASON WINS\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
-  o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);
+  o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
+  o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);
   const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
   o.standings=standings(stCareer);o.standingsFirst=standings(stFirst);
   o.standingsCareerText=stCareer;o.standingsFirstCareerText=stFirst;
@@ -834,7 +841,7 @@ function extract(raw){
   return o;
 }
 const holderName=h=>h==="shared"?"SHARED":NAMES[h].toUpperCase();
-const leaderName=(d,n)=>d>n?"Daniel":n>d?"Nik":"Daniel + Nik";
+const leaderName=(d,n)=>d>n?"Daniel":n>d?"Nik":"Level · Daniel + Nik";// r87: equal is level
 const near=(shown,want)=>Number.isFinite(Number(shown))&&Math.abs(Number(shown)-want)<=0.051;
 const cell=n=>n>0?String(n):"—";
 // live: the Showdown being played right now (its committed seasons), or null. lastCompleted: the newest completed Showdown.
@@ -869,7 +876,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
     const got={points:s.points,W:s.W,D:s.D,L:s.L,cl:s.cl,league:s.league,cup:s.cup,trophies:s.trophies};
     const withLive=Boolean(wantWithLive)&&JSON.stringify(got)===JSON.stringify(wantWithLive);
     if(withLive){const note=`${label} ${m.user}: Standings (Career, ${which}) counted the live Showdown's ${liveEntry.seasons.length} played season(s) (shared history in memory)`;report.notes=(report.notes||[]).concat(note);console.log(`NOTE ${note}`);}
-    if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after the first recorded season|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
+    if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after your first finished Showdown|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
     await check(m,id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions Leagues, league titles, cups, trophies (D / N)`,withLive||JSON.stringify(got)===JSON.stringify(wantStandings),`expected ${JSON.stringify(wantStandings)}${wantWithLive?` (or with the live seasons ${JSON.stringify(wantWithLive)})`:""} but the screen shows ${JSON.stringify(got)}`,scr("Standings (Career)"));
   }
   // Trophy Room
@@ -907,7 +914,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
       {season:two(live.seasons.length+1,live.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),D:two(t.daniel.D,t.nik.D),L:two(t.daniel.L,t.nik.L),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup),trophies:two(t.daniel.trophies,t.nik.trophies)},scr("Standings (This Showdown)"));
   }
   // With no live Showdown, THIS SHOWDOWN is empty on every browser (the one that played the last Showdown too).
-  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
+  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown|No Showdown in progress/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
   // Rivalry Statistics: the live Showdown while one is played, else the newest completed one (never an ended-early one).
   const rivalrySource=live||[...career].reverse().find(s=>s.state==="completed")||null;
   if(rivalrySource&&rivalrySource.seasons.length){
@@ -919,7 +926,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   // Settings
   const st=f.settings,ended=st&&st.buttons.includes("END SHOWDOWN");
   await check(m,id("settings.end"),settingsLive?"Settings offers END SHOWDOWN while the Showdown is live":"Settings shows no END SHOWDOWN when no Showdown is live",settingsLive?ended:!ended,JSON.stringify(st),scr("Settings"));
-  await check(m,id("settings.mode"),"Settings: MODE REAL CAREER and PARTNER Paired with the other manager",st&&/^REAL CAREER/.test(st.rows.MODE||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
+  await check(m,id("settings.mode"),"Settings: CAREER saved online and PARTNER Paired with the other manager",st&&/^Saved online/.test(st.rows.CAREER||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
   await check(m,id("settings.current"),settingsLive?"Settings: CURRENT SHOWDOWN names the live Showdown":"Settings: CURRENT SHOWDOWN is None",st&&(settingsLive?st.rows["CURRENT SHOWDOWN"]&&st.rows["CURRENT SHOWDOWN"]!=="None":st.rows["CURRENT SHOWDOWN"]==="None"),JSON.stringify(st?.rows),scr("Settings"));
   await check(m,id("settings.history"),`Settings: HISTORY counts ${E.completedCount} completed Showdown${E.completedCount===1?"":"s"}`,st&&st.rows.HISTORY===`${E.completedCount} completed showdown${E.completedCount===1?"":"s"}`,JSON.stringify(st?.rows),scr("Settings"));
   return f;
@@ -1231,8 +1238,8 @@ async function playShowdown(ctx,spec){
       }
       entry.state="completed";billedModel?.markFinished(entry.rivalryId);
       for(const m of [daniel,nik]){
-        let landed=false;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});landed=await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
-        await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen opens Showdown Home",landed,await describe(m),{screen:"Showdown Champion"});
+        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final");landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
+        await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home",landed,`${paper||"no Gazette paper"} ${await describe(m)}`,{screen:"Showdown Champion"});
       }
       if(!SLIM)await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
       const end=mark(`${spec.name}:S${k}:end`);

@@ -9,8 +9,9 @@
 //    re-evaluates the Rules: Firebase pricing, "Listeners and rules"); a cached delivery costs nothing;
 // B4 a transaction that writes is billed its write lookups once per request; a read-only one none;
 // B5 a direct setDoc (the career summary) is billed its write lookups as a career page;
-// B6 seasons left: a season's cost is game reads only, today's use counts career pages too (this phone's, once), games for both devices;
-// B7 Settings shows both devices' total, split into games and career pages, in one row.
+// B6 seasons left: a season's cost is game reads only, today's use counts career pages too (this phone's, once); until both phones'
+//    meter documents agree (r87), games are estimated for both phones from this phone's role share (0.5 while the role is unknown);
+// B7 Settings shows the both-phones total in one row: shared (both meters) or "estimated", with this phone's part.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -118,21 +119,43 @@ const RID='pair_'+'a'.repeat(64);
     const {budget:b}=page();
     const DEFAULT=Number(/FSB_DEFAULT_SEASON_BILLED=(\d+);/.exec(source)[1]);
     assert.ok(DEFAULT>=200&&DEFAULT<=2000,`the measured default (${DEFAULT}) is a real season cost`);
-    assert.equal(b.seasonsLeftToday().billedPerSeason,DEFAULT*2);
+    assert.equal(b.seasonsLeftToday().billedPerSeason,DEFAULT*2,'role unknown: share 0.5, the old doubling');
+    assert.equal(b.seasonsLeftToday().estimated,true);
     for(let i=0;i<300;i+=1)b.countListenerRead();
     const sdk=b.meterSdk({doc:()=>null,getDoc:async()=>snap()});
     for(let i=0;i<50;i+=1)await sdk.getDoc({path:`accounts/u1/careerSummary/${RID}`});
-    b.noteSeasonDone(`${RID}|1`,true);
+    // r87 RE-05: season 1 counts from its start mark (Career Start ready); a season 2 needs none.
+    b.noteSeasonDone(`${RID}|2`,true);
     const left=b.seasonsLeftToday(),today=b.readsToday();
     assert.equal(left.billedPerSeason,300*2,'career pages opened during the season are not part of its cost');
     assert.equal(left.billedToday,300*2+today.career,'but they are part of today\'s use, once: only this phone opened them (red team #9)');
     assert.equal(left.seasons,Math.floor((50000-left.billedToday)/left.billedPerSeason));
+    assert.equal(today.billedEstimate,Math.round(300*2+today.career),'estimated both phones: game reads over the 0.5 share plus this phone\'s career pages');
   });
 
-  await check('B7 Settings shows both devices\' total split into games and career pages in one row (Settings keeps its height)',()=>{
+  await check('B7 Settings shows the both-phones total in one row: shared from both meters, or estimated (Settings keeps its height)',()=>{
     const settings=read('js/settings.js');
-    assert.match(settings,/· games \$\{getSettingsRoundedReads\(today\.game \* 2\)\} · career pages \$\{getSettingsRoundedReads\(today\.career\)\}`/);
+    assert.match(settings,/both phones after season \$\{shared\.season\} · \$\{getSettingsRoundedReads\(shared\.thisPhone\)\} here · partner \$\{getSettingsRoundedReads\(shared\.partner\)\}/,'r87: both meters, this phone\'s part and the partner\'s (career pages of both included)');
+    assert.match(settings,/estimated for both phones/,'r87: the B1 fallback says it is an estimate');
     assert.doesNotMatch(settings,/COUNTED HERE TODAY|THIS DEVICE TODAY/,'no extra row: the short Settings screen must not scroll');
+  });
+
+  await check('B8 CE2PG meter: a listener the SDK re-opens after a blip (fromCache, then an unchanged server snapshot) is a billed delivery (Sol r86 #02)',async()=>{
+    const {WRAPPER_SOURCE}=require('../browser/support/firestore-meter.cjs');
+    const body=WRAPPER_SOURCE.replace(/^import[^\n]*\n/gm,'').replace(/^export \* [^\n]*\n/gm,'').replace(/export (async )?function/g,'$1function');
+    const events=[];let deliver=null;
+    const R={onSnapshot:(_ref,next)=>{deliver=next;return()=>{};}};
+    const ctx=vm.createContext({R,globalThis:{__cmsMeterEvent:e=>events.push(e)},Error,JSON,Date,Math,String,Proxy});
+    vm.runInContext(body+'\nglobalThis.onSnapshot=onSnapshot;',ctx);
+    const docSnap=(cache,data)=>({metadata:{fromCache:cache},exists:()=>true,data:()=>data});
+    ctx.globalThis.onSnapshot({path:'rivalries/x/state/authoritative'},()=>{});
+    for(const s of [docSnap(false,{a:1}),docSnap(false,{a:1}),docSnap(true,{a:1}),docSnap(false,{a:1}),docSnap(false,{a:1})])deliver(s);
+    const reads=events.filter(e=>e.k==='read');
+    assert.equal(reads.length,2,'first result + the reconnect; unchanged deliveries stay free');
+    assert.equal(reads[1].reconnect,true);
+    const priced=billedMeter.price(model,[{k:'listener',path:'rivalries/x/state/authoritative',user:'u'},...reads.map(e=>({...e,user:'u'}))]);
+    const lookups=model.readDocs(model.templateOf('rivalries/x/state/authoritative'),true).length;
+    assert.equal(priced.docReads,2);assert.equal(priced.rulesReads,2*lookups,'lookups at attach and again at the reconnect');
   });
 
   console.log(`PASS r86 billed counter contracts: ${checks} checks`);

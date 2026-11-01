@@ -66,7 +66,10 @@ function api_page(){return revealWorld().api.page;}
   assert.match(page,/else requestAnimationFrame\(frame\); \}\);/,'the preview (no embed) still plays at once');
   assert.match(revealSource,/event\.source!==frame\.contentWindow\|\|event\.origin!==origin/,'the game listens only to its own frame');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\)/);
-  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/catch\(_error\)\{if\(channel\)channel\.stop\(\);spMarkSeen\(pick\.key\);spRemoveStage\(\);loading\.hide\(\);return null;\}/,'a failed page is skipped and kept as seen, so a reload never re-runs it over the live game (red team #1)');
+  assert.match(revealSource,/if\(outcome!=="ready"\)throw/);assert.match(revealSource,/catch\(_error\)\{if\(channel\)channel\.stop\(\);spRemoveStage\(\);loading\.hide\(\);return null;\}/,'red team R87-SP-03 (replaces red team #1 here): a page that never started is skipped but NOT marked seen, so the reveal plays at the next Career Start once it can load');
+  assert.ok(!/catch\(_error\)\{[^}]*spMarkSeen/.test(revealSource),'a failed page is never marked seen');
+  assert.match(page,/<script src="\.\.\/roulette\/vendor\/three-r128\.min\.js"><\/script>/,'R87-SP-03: three.js from the shell-cached vendored copy');
+  assert.ok(!/cdnjs\.cloudflare\.com/.test(page),'no CDN script on the reveal page');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\);\s*spMarkSeen\(pick\.key\);/,'seen is kept as soon as the reveal is shown, not at Continue (red team #1)');
   assert.ok(!/failedHere/.test(revealSource),'no page-only skip list');
   assert.match(page,/function loadPano\(\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>rej\(/,'a failed stadium image ends the page at once (red team #2)');
@@ -99,7 +102,7 @@ function api_page(){return revealWorld().api.page;}
     assert.ok(new RegExp(`^\\s+"${file.replace(/[.\/]/g,m=>'\\'+m)}",?$`,'m').test(sw),`${file} is shell-cached`);
     assert.ok(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/.exec(sw)[1].includes(`"${file}"`),`${file} is new since the rollback shell`);
   }
-  assert.match(sw,/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[\s*"visual-assets\/v10_1\/special-player\/index\.html"\s*\]\);/);
+  assert.match(sw,/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[\s*"visual-assets\/v10_1\/special-player\/index\.html",\s*"visual-assets\/v10_1\/roulette\/index\.html"\s*\]\);/,"the Special Player page (and r87's roulette page) are frame navigations");
   assert.match(sw,/if\(SHELL_FRAME_NAVIGATION_PATHS\.has\(path\)\)\{ event\.respondWith\(\(async\(\)=>\{ const selected=await chooseNavigationRuntime\(\); const cached=selected\?await cachedShellResponse\(path,selected\.revision\):null; return cached\|\|fetch\(request\); \}\)\(\)\); return; \}/,'the frame gets its own page, never index.html');
   for(const image of fs.readdirSync(path.join(ROOT,'visual-assets/v10_1/special-player/assets')))assert.match(`visual-assets/v10_1/special-player/assets/${image}`,new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],'i'),`${image} uses the Team V image cache`);
   ok('R5','the reveal scripts and page are shell-cached for the release (and listed as new for rollback); the frame navigation is served its own page; its art uses the Team V image cache');
@@ -175,7 +178,7 @@ const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
 }
 // R12 no dimming anywhere, Special Player wording, reduced motion
 {
-  assert.equal((page.match(/brightness\(/g)||[]).length,1,'the only brightness() is the disabled Continue button (HO-027: no dimming)');
+  assert.equal((page.match(/brightness\(/g)||[]).length,0,'no brightness() left: the waiting Continue button is black with a gold edge (HO-027, r87 HO-049)');
   assert.ok((page.match(/rgba\(0,0,0,/g)||[]).length<=38,'no new black overlays (38 before the hype pass)');
   assert.ok(!/vignette/i.test(page),'no vignette');
   assert.ok(!/exposure\.value\s*=/.test(page),'the exposure is never lowered');

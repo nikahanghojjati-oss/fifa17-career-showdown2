@@ -42,6 +42,9 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .l3.on { transform: none; opacity: 1; }
 .l3 .tag { display: inline-block; font: 800 13px/1 var(--num); letter-spacing: .22em; text-transform: uppercase; color: #160f03; background: linear-gradient(180deg, var(--gold-hi), var(--gold)); padding: 6px 10px 5px; }
 .l3 .name { margin-top: 6px; font: 900 clamp(44px, 4.6vw, 66px)/.86 var(--disp); text-transform: uppercase; letter-spacing: .01em; color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.55); white-space: nowrap; }
+/* r87 start-polish BUG-4: the name sat white-on-yellow over the LED board. A solid dark nameplate with a gold edge sits
+   behind the name only (not a scrim, nothing dimmed); the name keeps its place, size and colour. */
+.l3 .name { display: block; width: -moz-fit-content; width: fit-content; padding: .1em .22em .04em; margin-left: -.22em; background: linear-gradient(180deg, #17140e, #070605); border-left: 3px solid var(--gold); box-shadow: inset 0 1px 0 rgba(255,243,196,.22), 0 0 0 1px rgba(241,195,90,.55); }
 .l3 .rule { height: 3px; margin: 10px 0 8px; background: linear-gradient(90deg, var(--gold-hi), var(--gold) 40%, transparent); }
 .l3 .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 700 16px/1 var(--num); letter-spacing: .14em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.9); }
 .l3 .meta i { font-style: normal; color: var(--gold-hi); }
@@ -59,7 +62,8 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .slot i.rk:empty { display: none; }
 @media (min-width: 900px) { .slot i.rk { display: none; } } /* desktop shows the rank in the name panel */
 .cta { font: 800 18px/1 var(--disp); letter-spacing: .08em; text-transform: uppercase; color: #140e04; background: linear-gradient(180deg, #fff6d2, var(--gold) 55%, #c4943e); border: 0; padding: 13px 22px 12px; box-shadow: 0 0 0 1px #000, inset 0 -2px 0 rgba(0,0,0,.2); cursor: pointer; white-space: nowrap; transition: filter .3s; }
-.cta[disabled] { filter: grayscale(.85) brightness(.55); cursor: default; }
+/* HO-049 (HO-027 no dimming): the waiting button keeps its size and full brightness: black with a gold edge and gold label */
+.cta[disabled] { cursor: default; color: var(--gold-hi); background: linear-gradient(180deg, #17120a, #0a0805); box-shadow: 0 0 0 1px #000, inset 0 0 0 2px var(--gold); }
 /* hype idea 7 (2026-10-29): Replay beside Continue once both cards are out; the hint for a guarded skip shows in the who line */
 .mid { display: flex; gap: 8px; align-items: stretch; justify-content: center; min-width: 0; }
 .again { flex: none; width: 44px; padding: 0; display: grid; place-items: center; color: var(--gold-hi); background: rgba(8,7,6,.82); border: 1px solid rgba(241,195,90,.75); cursor: pointer; }
@@ -157,7 +161,7 @@ body.game #spk { display: grid; }
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  document.addEventListener('webglcontextlost',function(){ show('3D graphics were reset by the phone. Close the tab and open the link again.'); },true);
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../roulette/vendor/three-r128.min.js"></script><!-- red team R87-SP-03: the same r128 build, shell-cached by the service worker, so the reveal also plays offline -->
 <script>/* r85 crest collection (js/visualIdentity.js, claude-gameplay/r85-crests) */
 /* =====================================================
    Career Mode Showdown
@@ -1453,7 +1457,10 @@ function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c
 /* ================= renderer + bloom ================= */
 const stage=document.getElementById("stage");
 const renderer=new T.WebGLRenderer({antialias:false, powerPreference:"high-performance"});
-const DPR=Math.min(devicePixelRatio||1, 2);
+/* r87 start-polish: phones (a touch screen whose short side is at most 600px) get a lighter pipeline: pixel ratio
+   capped at 1.5, a 1024 shadow map and 2x MSAA. Desktop, laptops and tablets keep 2 / 2048 / 4x. */
+const PHONE_GPU=matchMedia("(pointer: coarse)").matches && Math.min(innerWidth,innerHeight)<=600;
+const DPR=Math.min(devicePixelRatio||1, PHONE_GPU?1.5:2);
 renderer.setPixelRatio(DPR);
 renderer.outputEncoding=T.LinearEncoding; renderer.toneMapping=T.NoToneMapping;
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap;
@@ -1461,7 +1468,7 @@ stage.appendChild(renderer.domElement);
 const isGL2=renderer.capabilities.isWebGL2;
 const RTO={type:T.HalfFloatType, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:false};
 const sceneRT=isGL2?new T.WebGLMultisampleRenderTarget(4,4,{type:T.HalfFloatType,format:T.RGBAFormat}):new T.WebGLRenderTarget(4,4,{type:T.HalfFloatType,format:T.RGBAFormat});
-if(isGL2) sceneRT.samples=4;
+if(isGL2) sceneRT.samples=PHONE_GPU?2:4;
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
 const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:1.5}},vertexShader:VS,depthTest:false,depthWrite:false,
@@ -1481,7 +1488,7 @@ const camera=new T.PerspectiveCamera(40,1,0.1,900);
 scene.add(new T.HemisphereLight(L(0xcfe4ff),L(0x2d5a22),0.45));
 const SUN=new T.Vector3(-36,79,49);
 const sun=new T.DirectionalLight(L(0xfff0d8),2.3); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
+sun.shadow.mapSize.set(PHONE_GPU?1024:2048,PHONE_GPU?1024:2048); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
 const sky=new T.Mesh(new T.SphereGeometry(500,32,16), new T.ShaderMaterial({side:T.BackSide, depthWrite:false, fog:false,
   uniforms:{top:{value:L(0x1f5fbf)},hor:{value:L(0xd2e6f7)},sunDir:{value:SUN.clone().normalize()}},
@@ -1757,13 +1764,19 @@ const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGrou
 function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.encoding=T.sRGBEncoding; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
 function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.encoding=T.sRGBEncoding; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
-/* pitch-side LED boards (ticket 1850-5) in front of the main stand, scrolling like the reference */
-const boards=new T.Group(); let boardTex=null;
-function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.encoding=T.sRGBEncoding; t.wrapS=T.RepeatWrapping; t.anisotropy=8; boardTex=t;
-  const face=new T.MeshBasicMaterial({map:t, fog:false}); face.color.setScalar(1.25); const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
+/* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
+   (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
+const boards=new T.Group(); let boardTex=null, boardTex2=null;
+function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.encoding=T.sRGBEncoding; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=8; boardTex=t;
+  boardTex2=t.clone(); boardTex2.needsUpdate=true;
+  const face=new T.MeshBasicMaterial({map:t, fog:false}); face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
+  const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
   for(let i=-4;i<=4;i++){ const g=new T.Group(); const box=new T.Mesh(new T.BoxGeometry(9.6,1.66,.3),frame); box.position.y=.83; g.add(box);
-    const f=new T.Mesh(new T.PlaneGeometry(9.5,1.58),face); f.position.set(0,.83,.3); g.add(f); g.position.set(i*9.62,0,-15); boards.add(g); }
+    const f=new T.Mesh(new T.PlaneGeometry(9.5,1.58),i&1?face2:face); f.position.set(0,.83,.3); g.add(f); g.position.set(i*9.62,0,-15); boards.add(g); }
   res(); },undefined,()=>res())); }
+/* HO-049: hold each message 4.4 s, then roll it up over .6 s (a cut with reduced motion) */
+function stepBoards(now){ if(!boardTex) return; const P=5, R=.6, k=now%P, n=Math.floor(now/P), r=REDUCED?(k>=P-R?1:0):ease.inOut(clamp01((k-(P-R))/R));
+  const y=((n+r)*.5)%1; boardTex.offset.y=y; boardTex2.offset.y=(y+.5)%1; }
 function loadPlate(){ return new Promise(res=>new T.TextureLoader().load("assets/stand.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
   const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); smoke.forEach(q=>keep.add(q.sp)); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); beams.forEach(b=>keep.add(b)); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
@@ -1939,6 +1952,7 @@ function run(tt){
     for(let i=0;i<=lvl;i++){ const at0=LADDER_T0+i*LADDER_DT; at(tt,at0,"lad"+i,()=>{ if(tt-at0<.3) SFX.play("step",i); packPulse=1; burst(PACK_REST.clone().add(new T.Vector3(0,0,.4)),LADDER[i],Math.round(46*PK),3.6,.55,.13); }); }
     const charge=S(2.3,1.4,tt); packFace.emissive.copy(lad).multiplyScalar(charge*charge*.4);
     if(charge>.5){ pack.position.x+=(Math.random()-.5)*.05*charge; pack.position.y+=(Math.random()-.5)*.03*charge; }
+    keepPackUnderTitle();
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
     const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10));
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,PACK_D/2+.1)); pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
@@ -2076,6 +2090,15 @@ function keepCardInBand(){ camera.updateMatrixWorld(); let [top,bot]=cardSpan(),
   const perNdc=camera.position.distanceTo(card.position)*Math.tan(camera.fov*Math.PI/360);
   if(top>lim) card.position.y-=(top-lim)*perNdc*1.03; else if(bot<bandBot) card.position.y+=Math.min(bandBot-bot,lim-top)*perNdc;
   [top,bot]=cardSpan(); bandDbg={excess,k,top,lim,bot,limB:bandBot}; }
+/* r87 start-polish BUG-3: on a short desktop (1366x768) the landed pack's top edge rose into the "DANIEL'S SPECIAL
+   PLAYER" line. Measure where the pack's top corners would sit at the top of its landed float (ignoring the fall, with
+   the current tilt, pulse and camera) and lower the pack just enough
+   to stay under the title band; the fall and the wobble are unchanged and taller screens need no lowering. */
+const PACK_TOP=[[-1,-1],[1,-1],[-1,1],[1,1]], packV=new T.Vector3();
+function keepPackUnderTitle(){ const yNow=pack.position.y; pack.position.y=PACK_REST.y+.05; pack.updateMatrixWorld(); /* .05: the landed float's highest point */ camera.updateMatrixWorld();
+  let top=-9; PACK_TOP.forEach(([x,z])=>{ packV.set(x*PACK_W/2,PACK_H/2+.04,z*(PACK_D/2+.04)); pack.localToWorld(packV).project(camera); top=Math.max(top,packV.y); });
+  const perNdc=camera.position.distanceTo(PACK_REST)*Math.tan(camera.fov*Math.PI/360);
+  pack.position.y=yNow-(top>bandTop?Math.min(.45,(top-bandTop)*perNdc*1.03):0); pack.updateMatrixWorld(); }
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
 function resize(){
   W=innerWidth; H=innerHeight; renderer.setSize(W,H,false);
@@ -2116,7 +2139,7 @@ function tick(draw){
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
   stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
-  ledTex.tx.offset.x=(now*.04)%1; if(boardTex) boardTex.offset.x=(now*.05)%1;
+  ledTex.tx.offset.x=(now*.04)%1; stepBoards(now);
   pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
   camera.position.copy(camPos).add(new T.Vector3((Math.random()-.5)*shake,(Math.random()-.5)*shake,0));

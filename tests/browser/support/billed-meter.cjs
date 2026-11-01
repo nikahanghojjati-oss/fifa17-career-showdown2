@@ -10,14 +10,14 @@
 //   listener                                       Rules are evaluated when the listen stream attaches and again each time its
 //                                                  results update (Firebase pricing, "Listeners and rules"): lookups at attach and
 //                                                  on every delivered change after the first result; each delivery is 1 read (the
-//                                                  firestore-meter count). A stream the SDK silently re-opens (network blip) is not
-//                                                  visible here and would re-evaluate Rules.
+//                                                  firestore-meter count). A stream the SDK re-opens after a network blip (a
+//                                                  fromCache snapshot, then a server one) is a "reconnect" delivery: 1 read +
+//                                                  lookups even when nothing changed (Sol r86 #02).
 //   getDocs (a query)                              Rules evaluated once for the query: lookups once, not per returned document
 //                                                  (every `allow list` in the production Rules is false, so none is expected)
 //   writes                                         lookups of the path's create/update upper bound, once per distinct document per
 //                                                  commit (batch/transaction = one request, a single setDoc/updateDoc = its own)
-// Not modelled: reads Firebase bills that the SDK makes without the app asking (index/metadata), rules-evaluation retries, and a
-// listener the SDK re-attaches by itself. A lookup of the very document being read or written is counted (conservative);
+// Not modelled: reads Firebase bills that the SDK makes without the app asking (index/metadata), rules-evaluation retries. A lookup of the very document being read or written is counted (conservative);
 // `selfLookups` says how many reads that was.
 const path=require("node:path");
 const fs=require("node:fs");
@@ -44,11 +44,22 @@ function loadModel({rulesFile=RULES_FILE,tableFile=TABLE_FILE}={}){
   function liveAt(docPath,t){const m=/rivalries\/(pair_[0-9a-f]+)/.exec(String(docPath||""));if(!m||!finishedAt.has(m[1]))return true;return !(Number.isFinite(t)&&t>=finishedAt.get(m[1]));}
   function writeDocs(template){
     if(writeCache.has(template))return writeCache.get(template);
-    const docs=[...new Set([...(R.upperBound(analysis,template,"create")||[]),...(R.upperBound(analysis,template,"update")||[])])].sort();
+    const docs=writeRequestDocs([...(R.upperBound(analysis,template,"create")||[]),...(R.upperBound(analysis,template,"update")||[])]);
     writeCache.set(template,docs);return docs;
   }
   return {analysis,table,rulesSha256:R.hashRules(rulesText),readDocs,writeDocs,markFinished,liveAt,templateOf:p=>R.matchTemplate(analysis,p)};
 }
+// RE-08 (r87): a write request is billed each distinct DOCUMENT its Rules look up once. The create and update branches are analysed
+// apart, so their union (and the union over the documents of one transaction) named some documents twice under two spellings:
+//  - root.X and after.X are both request.resource.data.X (every `let root` that feeds a lookup is request.resource.data);
+//  - rivalries/{after.rivalryId} is rivalries/{rivalryId}: every validator that looks it up first requires the written
+//    document's rivalryId to equal the match's {rivalryId} (create) or the stored one (update, itself checked at create);
+//  - the signed-in account is one of the pair's two accounts (foldAccounts, now also across branches and documents).
+// before.* is NOT folded into after.*: an update that moves a pointer (pairLinks) can reach the old and the new rivalry.
+// The client table (FSB_RULES_LOOKUPS in js/sparkPrivatePairing.js) is generated from this, and its fsbWriteLookups folds the
+// accounts of one request the same way.
+function canonicalWriteDoc(doc){return String(doc).replace(/\{root\./g,"{after.").replace(/^rivalries\/\{after\.rivalryId\}/,"rivalries/{rivalryId}");}
+function writeRequestDocs(docs){return R.foldAccounts(new Set([...docs].map(canonicalWriteDoc)));}
 function moduleOf(st){
   const frames=String(st||"").split(" < ").map(f=>{const m=/^([A-Za-z0-9_]+\.js):(\d+)/.exec(f);return m?`${m[1]}:${m[2]}`:null;}).filter(Boolean);
   return frames.find(f=>!/^sparkPrivatePairing\.js/.test(f))||frames[0]||"?";
@@ -99,7 +110,7 @@ function price(model,events,listenState={initial:new Set()}){
       T.writes+=e.n||1;bump(T.byPath,`write ${shortPath(e.path)}`,e.n||1,0);bump(T.byModule,`write ${moduleOf(e.st)}`,e.n||1,0);
     }
   }
-  for(const r of writeReq.values()){T.rulesOnWrites+=r.docs.size;bump(T.byPath,`write rules-lookups ${shortPath(r.path)}`,0,r.docs.size);bump(T.byModule,`write ${moduleOf(r.mod)}`,0,r.docs.size);}
+  for(const r of writeReq.values()){const n=writeRequestDocs(r.docs).length;T.rulesOnWrites+=n;bump(T.byPath,`write rules-lookups ${shortPath(r.path)}`,0,n);bump(T.byModule,`write ${moduleOf(r.mod)}`,0,n);}
   T.billed=T.docReads+T.rulesReads+T.rulesOnWrites;
   return T;
 }
@@ -135,4 +146,16 @@ function callerOf(st){
   const via=frames.find(f=>/^sparkPrivatePairing\.js/.test(f));
   return own?own+(via?` (via ${via})`:""):(via||"?");
 }
-module.exports={loadModel,price,attribute,callerOf,top,moduleOf,shortPath,RULES_FILE,TABLE_FILE};
+module.exports={loadModel,price,attribute,callerOf,top,moduleOf,shortPath,writeRequestDocs,canonicalWriteDoc,RULES_FILE,TABLE_FILE};
+
+// Lead/worker tool: node tests/browser/support/billed-meter.cjs --print-client-table prints the rows of the generated Rules lookup
+// table in js/sparkPrivatePairing.js (FSB_RULES_LOOKUPS, between its BEGIN/END lines) and the Rules sha256 to pin as FSB_RULES_SHA256.
+if(require.main===module){
+  if(process.argv[2]!=="--print-client-table"){console.error("usage: --print-client-table");process.exit(2);}
+  const model=loadModel();
+  const rows=R.templates(model.analysis).filter(t=>!t.includes("=**")).map(t=>{
+    const pattern=t.replace(/^\//,"").replace(/\{[^}]+\}/g,"*");
+    return `      ${JSON.stringify([pattern,model.readDocs(t,true).length,model.readDocs(t,false).length,model.writeDocs(t)])}`.replace(/","/g,'","').replace(/,(\d)/g,",$1");
+  });
+  process.stdout.write(`FSB_RULES_SHA256 ${model.rulesSha256}\n${rows.join(",\n")}\n`);
+}

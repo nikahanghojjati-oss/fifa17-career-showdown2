@@ -296,7 +296,7 @@ function restoreSeasonEntryFromReview({ focus = false, clearDraft = true } = {})
 function openSeasonEntry(){
     if(!currentShowdown){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("No active showdown is available.", "error");
+            window.showAppNotice("No Showdown in progress. Start or join one from Home.", "error");
         }
         return;
     }
@@ -610,7 +610,7 @@ function persistCompletedSeason(roundRecord, seasonNumber){
 
 function getSeasonCompletionContextMessage(){
     if(!currentShowdown){
-        return "No active showdown is available.";
+        return "No Showdown in progress. Start or join one from Home.";
     }
 
     if(currentShowdown.status === "Completed"){
@@ -769,7 +769,7 @@ function completeCurrentSeason(){
     if(seasonCompletionInProgress){ return; }
 
     if(!currentShowdown){
-        setSeasonEntryError("No active showdown is available.");
+        setSeasonEntryError("No Showdown in progress. Start or join one from Home.");
         return;
     }
 

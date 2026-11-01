@@ -73,9 +73,9 @@ async function prepare(page,{role,saveId}){
     await prepare(host,{role:'playerOne',saveId:'shared_history_host'});await prepare(peer,{role:'playerTwo',saveId:'shared_history_peer'});
     const rendered=[];
     for(const page of [host,peer]){
-      assert.equal(await page.locator('#sharedHistoryConvergenceHeading').textContent(),'HISTORY UP TO DATE');
-      assert.equal(await page.locator('#sharedHistoryConvergenceSummary').textContent(),'2 of 3 seasons accepted · PREMIER LEAGUE · Overall: Daniel 11 · Nik 5 · Lead: Daniel +6');
-      const records=await page.locator('#sharedHistoryConvergenceRecords').textContent();assert.match(records,/Daniel · Arsenal · 1W 0D 1L · 11 showdown pts/);assert.match(records,/Nik · Liverpool · 1W 0D 1L · 5 showdown pts/);
+      assert.equal(await page.locator('#sharedHistoryConvergenceHeading').textContent(),'SHOWDOWN SO FAR');
+      assert.equal(await page.locator('#sharedHistoryConvergenceSummary').textContent(),'2 of 3 seasons played · PREMIER LEAGUE · Daniel 11 - 5 Nik · Daniel leads by 6');
+      const records=await page.locator('#sharedHistoryConvergenceRecords').textContent();assert.match(records,/Daniel \(Arsenal\): 1 won, 0 drawn, 1 lost · 11 pts/);assert.match(records,/Nik \(Liverpool\): 1 won, 0 drawn, 1 lost · 5 pts/);
       const trophies=await page.locator('#sharedHistoryConvergenceTrophies').textContent();assert.match(trophies,/Daniel 3 trophies \(1 league, 1 cup, 1 Champions League\)/);assert.match(trophies,/Nik 1 trophies \(1 league, 0 cup, 0 Champions League\)/);
       rendered.push({summary:await page.locator('#sharedHistoryConvergenceSummary').textContent(),records,trophies});
       const state=await page.evaluate(()=>window.__historyAudit.state());assert.equal(state.authoritative,true);assert.equal(state.phase,'HISTORY_CONVERGED');assert.equal(state.throughSeason,2);assert.equal(state.projection.acceptedSeasons,2);assert.equal(state.projection.managerRecords.playerOne.profileId,'profile_'+('a'.repeat(24)));assert.equal(state.projection.managerRecords.playerTwo.profileId,'profile_'+('b'.repeat(24)));

@@ -21,7 +21,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
   await check("M2","REAL Settings: Paired with <partner> and UNPAIR; no FORGET THIS DEVICE, no CONNECT PLAYERS, no test run",async()=>{
     for(const [managerId,record,other] of [["daniel",ACTIVE_NIK,"Nik"],["nik",ACTIVE_DANIEL,"Daniel"]]){
       const p=page({managerId,partner:record,side:"mutual"});await p.modes.resolve();const s=p.settings();
-      assert.equal(s.rows.mode,"REAL CAREER · every Showdown counts");assert.equal(s.rows.partner,`Paired with ${other}`);
+      assert.equal(s.rows.mode,"Saved online for both of you");assert.equal(s.rows.partner,`Paired with ${other}`);
       assert.deepEqual(s.buttons,["UNPAIR"],`${managerId}: UNPAIR is the only pairing action`);
       assert.equal(p.dom.panel.dataset.showdownMode,"real");
     }
@@ -46,9 +46,13 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(!blocked.calls.includes("unpair"),"unpair() is never called");assert.ok(!blocked.calls.some(c=>Array.isArray(c)&&c[0]==="confirm"),"no confirm box either");
     assert.deepEqual(blocked.settings().buttons,["UNPAIR"],"the pairing is unchanged");
     // A pending Showdown whose code is still open: the pair module's fail-closed unpair() refuses inside its transaction.
-    const refused=page({partner:ACTIVE_NIK,side:"mutual",pairState:{rivalryId:"r1",connectionState:"pending-pair"},unpairError:Object.assign(new Error("in progress"),{code:"PERMANENT_PARTNER_UNPAIR_BLOCKED"})});await refused.modes.resolve();
+    const refused=page({partner:ACTIVE_NIK,side:"mutual",pairState:{rivalryId:"r1",connectionState:"pending-pair"},unpairError:Object.assign(new Error("Finish or end the current Showdown before you unpair."),{code:"PERMANENT_PARTNER_UNPAIR_BLOCKED"})});await refused.modes.resolve();
     refused.settings().button("UNPAIR").click();await settle();
     assert.equal(refused.settings().note,"Finish or end the current Showdown before you unpair. Nothing was changed.");assert.deepEqual(refused.settings().buttons,["UNPAIR"]);
+    // r87: Nik, nothing live on his page, Daniel's next code waiting: the refusal keeps its own reason and stays on screen.
+    const waiting=page({partner:ACTIVE_NIK,side:"mutual",unpairError:Object.assign(new Error("Daniel's next Showdown is waiting for you. Join it, or wait until its code expires, before you unpair."),{code:"PERMANENT_PARTNER_UNPAIR_BLOCKED"})});await waiting.modes.resolve();
+    waiting.settings().button("UNPAIR").click();await settle();
+    assert.equal(waiting.settings().note,"Daniel's next Showdown is waiting for you. Join it, or wait until its code expires, before you unpair. Nothing was changed.");assert.deepEqual(waiting.settings().buttons,["UNPAIR"]);
     const cancelled=page({partner:ACTIVE_NIK,side:"mutual",confirm:false});await cancelled.modes.resolve();
     cancelled.settings().button("UNPAIR").click();await settle();assert.ok(!cancelled.calls.includes("unpair"),"cancel changes nothing");
     const ok=page({partner:ACTIVE_NIK,side:"mutual"});await ok.modes.resolve();
@@ -117,7 +121,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(Buffer.byteLength(read("js/whichShowdownIsLive.js"))<7000);
   });
   await check("M13","gallery #5/#6: both managers read the same UNPAIR note for the same state, and a refusal goes away once the Showdown is deleted",async()=>{
-    const RULE="Finish or end the current Showdown before you unpair.",IDLE="Every Showdown counts in your career.";
+    const RULE="Finish or end the current Showdown before you unpair.",IDLE="Every finished Showdown counts in your career.";
     const live={rivalryId:"r1",connectionState:"active"},gone={rivalryId:null,connectionState:"none"};
     for(const [managerId,record] of [["daniel",ACTIVE_NIK],["nik",ACTIVE_DANIEL]]){
       const p=page({managerId,partner:record,side:"mutual",pairState:live});await p.modes.resolve();
@@ -135,7 +139,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.deepEqual(d.settings().buttons,["UNPAIR"],"and UNPAIR is offered");
     d.setPairState(live);assert.equal(d.settings().note,RULE,"a later Showdown shows the rule, not the old refusal");
     // The fail-closed refusal of a pending Showdown also clears once it is gone.
-    const pending=page({partner:ACTIVE_NIK,side:"mutual",pairState:{rivalryId:"r1",connectionState:"pending-pair"},unpairError:Object.assign(new Error("in progress"),{code:"PERMANENT_PARTNER_UNPAIR_BLOCKED"})});await pending.modes.resolve();
+    const pending=page({partner:ACTIVE_NIK,side:"mutual",pairState:{rivalryId:"r1",connectionState:"pending-pair"},unpairError:Object.assign(new Error("Finish or end the current Showdown before you unpair."),{code:"PERMANENT_PARTNER_UNPAIR_BLOCKED"})});await pending.modes.resolve();
     pending.settings().button("UNPAIR").click();await settle();
     assert.equal(pending.settings().note,`${RULE} Nothing was changed.`);
     pending.setPairState(gone);assert.equal(pending.settings().note,IDLE);

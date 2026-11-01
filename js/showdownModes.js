@@ -59,8 +59,9 @@ function smDecorateSettingsPanel(panel){
   const v=smView(),grid=panel.querySelector(".settingsInfoGrid"),actions=panel.querySelector(".settingsConnectedAccountActions");
   panel.querySelectorAll("[data-mode-row]").forEach(n=>n.remove());panel.querySelector(`#${SETTINGS_ID}`)?.remove();
   panel.dataset.showdownMode=v.mode;if(v.mode==="none"||!grid||!actions)return panel;
-  const modeText=v.mode==="real"?"REAL CAREER · every Showdown counts":"Checking your career…";
-  grid.append(smInfoRow("MODE",modeText,"mode"));
+  // Polish pass (r87): test mode is gone (r83), so this row says where the career lives instead of naming a mode.
+  const modeText=v.mode==="real"?"Saved online for both of you":"Checking your career…";
+  grid.append(smInfoRow("CAREER",modeText,"mode"));
   if(v.mode==="real"){
     const partnerText=v.pairing==="paired"?`Paired with ${v.partnerLabel}`:v.pairing==="partner-unpaired"?`${v.partnerLabel} is no longer paired with you`:v.pairing==="unpaired"?"Not paired":"Checking…";
     grid.append(smInfoRow("PARTNER",partnerText,"partner"));
@@ -68,7 +69,7 @@ function smDecorateSettingsPanel(panel){
     else if(v.pairing==="partner-unpaired")actions.append(smButton("PAIR AGAIN",()=>void smPairAgainFromSettings(),"menuButton settingsPairAgainButton"));
     else if(v.pairing==="unpaired")actions.append(smButton(`PAIR WITH ${v.partnerLabel.toUpperCase()}`,()=>void smPairWithFromSettings(),"menuButton settingsPairWithButton"));
   }
-  const note=smEl("p","settingsOfflineNote settingsModeNote",smMessage()||(v.mode==="real"?(v.pairing==="paired"&&smUnpairBlocked()?RULE:"Every Showdown counts in your career."):""));
+  const note=smEl("p","settingsOfflineNote settingsModeNote",smMessage()||(v.mode==="real"?(v.pairing==="paired"&&smUnpairBlocked()?RULE:"Every finished Showdown counts in your career."):""));
   note.id=SETTINGS_ID;note.setAttribute("role","status");note.setAttribute("aria-live","polite");if(settingsTone)note.dataset.tone=settingsTone;
   if(note.textContent)actions.after(note);
   return panel;
@@ -76,13 +77,16 @@ function smDecorateSettingsPanel(panel){
 function smSetSettingsMessage(text,tone="",whileLive=false){settingsMessage=text||"";settingsTone=tone;settingsMessageWhileLive=Boolean(text)&&whileLive;smRefresh();}
 function smAskConfirm(message,tone){return typeof root.askShowdownConfirm==="function"?root.askShowdownConfirm(message,{tone}):typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof root.askShowdownConfirm==="function").then(()=>root.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
 const RULE="Finish or end the current Showdown before you unpair.",BLOCKED=`${RULE} Nothing was changed.`;
-function smPlain(error){return error&&error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED"?BLOCKED:`Nothing was changed. ${error&&error.message?error.message:"Try again."}`;}
+// r87: a refusal keeps its own reason (Nik's UNPAIR while Daniel's next code waits for him says so, not "finish the Showdown").
+function smPlain(error){if(error&&error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED")return error.message&&error.message!==RULE?`${error.message} Nothing was changed.`:BLOCKED;return `Nothing was changed. ${error&&error.message?error.message:"Try again."}`;}
 // UNPAIR: a Showdown that is being played is caught here without a read; the pair module's unpair() is the fail-closed check
 // (an ACTIVE rivalry, or a pending one whose code is still open, refuses inside its transaction).
 async function smRunUnpair(){
   const pair=smPair();if(!pair||typeof pair.unpair!=="function")throw new Error("The connection service is unavailable.");
-  try{if(pair.getState?.()?.connectionState==="active"&&pair.getState().rivalryId)return{ok:false,blocked:true};await pair.unpair();return{ok:true};}
-  catch(error){return{ok:false,blocked:error&&error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED",error};}
+  try{if(pair.getState?.()?.connectionState==="active"&&pair.getState().rivalryId)return{ok:false,blocked:true,live:true};await pair.unpair();return{ok:true};}
+  // r87: "live" says whether this page itself holds the Showdown that blocked it; only that refusal goes away by itself when
+  // the Showdown ends. Nik's refusal for Daniel's waiting code (nothing live on Nik's page) stays until his next action.
+  catch(error){return{ok:false,blocked:error&&error.code==="PERMANENT_PARTNER_UNPAIR_BLOCKED",live:smLiveShowdown(),error};}
 }
 async function smUnpairFromSettings(){
   if(busy)return false;const v=smView();
@@ -90,15 +94,15 @@ async function smUnpairFromSettings(){
   const ok=await smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,"danger");
   if(ok!==true)return false;
   busy=true;smSetSettingsMessage("Unpairing…");
-  const result=await smRunUnpair();busy=false;
-  smSetSettingsMessage(result.ok?`Unpaired from ${v.partnerLabel}.`:result.blocked?BLOCKED:smPlain(result.error),result.ok?"success":"error",!result.ok&&result.blocked);
+  let result;try{result=await smRunUnpair();}catch(error){result={ok:false,blocked:false,error};}finally{busy=false;}
+  smSetSettingsMessage(result.ok?`Unpaired from ${v.partnerLabel}.`:result.blocked&&!result.error?BLOCKED:smPlain(result.error),result.ok?"success":"error",!result.ok&&result.blocked&&result.live);
   return result.ok;
 }
 // PAIR AGAIN: this account's own stale record goes inactive (the same fail-closed unpair), then the existing first real pairing.
 async function smUnpairForPairAgain(){
   if(busy)return Object.freeze({ok:false,message:"Unpairing is already in progress."});busy=true;smRefresh();
-  const result=await smRunUnpair();busy=false;
-  if(!result.ok){const message=result.blocked?BLOCKED:smPlain(result.error);smSetSettingsMessage(message,"error",result.blocked);return Object.freeze({ok:false,message});}
+  let result;try{result=await smRunUnpair();}catch(error){result={ok:false,blocked:false,error};}finally{busy=false;}
+  if(!result.ok){const message=result.blocked&&!result.error?BLOCKED:smPlain(result.error);smSetSettingsMessage(message,"error",result.blocked&&result.live);return Object.freeze({ok:false,message});}
   settingsMessage="";settingsMessageWhileLive=false;smRefresh();return Object.freeze({ok:true});
 }
 async function smPairAgainFromSettings(){const result=await smUnpairForPairAgain();if(!result||result.ok!==true)return false;return smPairWithFromSettings();}

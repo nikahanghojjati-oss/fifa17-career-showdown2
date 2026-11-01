@@ -28,7 +28,11 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.match(pages,/"\$conclusion" == "success"[^\n]*exit 0/);
   assert.match(pages,/the site is not deployed ahead of its Rules\."\n\s+exit 1/);
   assert.ok(fs.existsSync(path.join(ROOT,'.github/workflows/deploy-firestore-rules-zero-billing.yml')));
-  ok('RR2','the site deploy waits for the same commit\'s Rules deploy');
+  // r87: a push without a Rules change ships the site only after the last Rules deploy on main succeeded.
+  assert.match(pages,/runs\?branch=main&event=push&status=completed&per_page=1/);
+  assert.match(pages,/"\$last" == "success" \|\| "\$last" == "none"[^\n]*exit 0/);
+  assert.match(pages,/Re-run it first; the site is not deployed ahead of its Rules\."\n\s+exit 1/);
+  ok('RR2','the site deploy waits for the same commit\'s Rules deploy, or for the last one on main to have succeeded');
 }
 
 // RR3 (red team #5): PREVIOUS is r85, so the rollback list is r86's shell minus exactly the six files r86 adds.
@@ -36,10 +40,17 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "1\.9\.10-r86";\nconst PREVIOUS_RUNTIME_REVISION = "1\.9\.9-r85";/);
   const added=JSON.parse('['+/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/.exec(sw)[1]+']');
-  assert.deepEqual(added,['js/careerSummaryStore.js','js/specialPlayerReveal.js','visual-assets/v10_1/special-player/index.html','js/marqueePlayer.js','data/marqueePlayers.js','js/specialPlayerChip.js']);
+  // r87 (until 2.0.0 moves PREVIOUS to r86) appends its own shell files after r86's six: twelve, then the Touchline Gazette's sixteen.
+  assert.deepEqual(added.slice(0,6),['js/careerSummaryStore.js','js/specialPlayerReveal.js','visual-assets/v10_1/special-player/index.html','js/marqueePlayer.js','data/marqueePlayers.js','js/specialPlayerChip.js']);
+  assert.deepEqual(added.slice(6),['js/rosterRouletteStep.js','js/rosterRoulette.js','data/rosterSquads.js','css/v10Roulette.css','visual-assets/v10_1/roulette/index.html','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/vendor/three-r128.min.js','visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt','visual-assets/v10_1/roulette/assets/squads.json','js/deadlineDay.js','data/deadlineDayLines.js','data/fifa17Players.js',
+    'js/touchlineGazette.js','data/gazetteCopy.js','data/frontPages.js','css/v10Gazette.css','visual-assets/v10_1/content/content.css','visual-assets/v10_1/content/frontpage.js',
+    ...['unifrakturmaguntia-latin-400-normal','playfair-display-latin-700-normal','playfair-display-latin-900-normal','playfair-display-latin-400-italic','old-standard-tt-latin-400-normal','old-standard-tt-latin-400-italic','old-standard-tt-latin-700-normal'].map(f=>`visual-assets/v10_1/content/gazette/fonts/${f}.woff2`),
+    ...['unifrakturmaguntia','playfair-display','old-standard-tt'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`)]);
   assert.ok(!added.includes('js/musicDockV10.js'),'the r85 music player is in r85\'s own list');
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(shell.length,228);assert.ok(added.every(p=>shell.includes(p)));
+  assert.equal(shell.length,256); // r86 228 + r87's twelve + the Gazette's sixteen
+  assert.ok(added.every(p=>shell.includes(p)));
+  assert.equal(shell.filter(p=>!added.includes(p)).length,222,'r85 rollback shell is unchanged');
   ok('RR3','the retained r85 shell is verified against its own 222 paths');
 }
 

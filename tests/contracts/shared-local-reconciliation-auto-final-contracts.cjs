@@ -64,7 +64,7 @@ function harness({terminal=false,remoteExists=false,history=true,attached=true}=
   for(let i=0;i<4;i+=1){h.clock.now+=15000;h.poll();h.fire("career-mode-shared-multi-season-state-change");h.fire("career-mode-shared-history-convergence-state-change");await settle();}
   assert.deepEqual(h.calls,[],"no automatic observe before Multi Season reads SHOWDOWN_COMPLETE");
   assert.equal(h.api.getState().phase,"WAITING_REMOTE");
-  assert.equal(h.status(),"Waiting for your partner to finish the last season. The final result shows here by itself.","plain waiting copy, no remote-snapshot jargon");
+  assert.equal(h.status(),"Waiting for your rival to finish the last season. The final result appears here by itself.","plain waiting copy, no remote-snapshot jargon");
   // 2. Once terminal, the Multi Season wake runs the same observe/preview once: missing snapshot is published once, read back, previewed.
   h.setTerminal(true);h.fire("career-mode-shared-multi-season-state-change");await settle();
   assert.deepEqual(h.calls,["initialize","refresh","publish","refresh","preview"],"terminal auto-check publishes the missing snapshot once and previews it");
@@ -90,7 +90,7 @@ function harness({terminal=false,remoteExists=false,history=true,attached=true}=
   // Throttle: after a quiet failure, wakes inside the poll gap do not retry; the next poll does.
   h=harness({terminal:true,remoteExists:true});h.fail.refresh=1;h.api.install();await settle();
   assert.equal(h.count("refresh"),1);assert.equal(h.api.getState().phase,"WAITING_REMOTE");
-  assert.equal(h.status(),"Last season committed. Getting the final result; this updates by itself.","a transient failure stays quiet: plain copy, no error text");
+  assert.equal(h.status(),"Last season saved. The final result appears here by itself.","a transient failure stays quiet: plain copy, no error text");
   for(let i=0;i<10;i+=1){h.clock.now+=1000;h.fire("career-mode-shared-multi-season-state-change");h.fire("career-mode-shared-history-convergence-state-change");await settle();}
   assert.equal(h.count("refresh"),1,"wakes inside the poll gap never retry (no every-wake loop)");
   assert.ok(h.api.autoCheckMinGapMs>=14000&&h.api.autoCheckMinGapMs<=15000,"the gap matches the 15 s poll cadence");

@@ -939,8 +939,11 @@
   :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsWordmark {
     width:100%; height:clamp(32px,6svh,48px); max-height:none; object-fit:contain;
   }
+  /* r87: the tagline sits 8px under the brush title (it was 2px, under the brush tails) and carries the desktop's dark
+     text-shadow: its first and last letters sat on the plate's two bright light columns and washed out ("WO MANAGERS"). */
   :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline {
-    margin:2px 0 0; font-size:9px; line-height:1.3; letter-spacing:.12em;
+    margin:8px 0 0; font-size:9px; line-height:1.3; letter-spacing:.12em;
+    text-shadow:0 1px 3px #000, 0 0 6px #000, 0 0 12px rgba(0,0,0,.9);
   }
   :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsClose {
     top:8px; right:12px; width:44px; height:44px; min-width:44px; min-height:44px; margin:0;
@@ -1133,7 +1136,9 @@
   body #settingsOverlay.v10Settings #v10SettingsStage .sd-stage__plate {
     background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x);
   }
-  body #settingsOverlay.v10Settings .settingsTitleBlock { top: 6.7%; width: min(34vw, 52.4vh); }
+  /* r87: the title block ends 10px above the card grid (top 26.2%) instead of starting at 6.7%, so the cards never sit over
+     the tagline (at 1366x768 they covered its lower half); at 1920x1080 it is within a few px of where it was. */
+  body #settingsOverlay.v10Settings .settingsTitleBlock { top: auto; bottom: calc(73.8% + 10px); width: min(34vw, 52.4vh); }
   body #settingsOverlay.v10Settings :is(.settingsEyebrow, .settingsTagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .85); }
   body #settingsOverlay.v10Settings #settingsContent {
     top: 26.2%; left: 7.5%; width: 85%; height: 68%;

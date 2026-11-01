@@ -2259,6 +2259,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-roster-roulette-contracts.cjs",
+      "patterns": [
+        "^data/(rosterSquads|clubs)\\.js$",
+        "^js/rosterRoulette\\.js$",
+        "^tests/contracts/r87-roster-roulette-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r86-special-player-reveal-contracts.cjs",
       "patterns": [
         "^js/(specialPlayerReveal|productionSharedCareerStart|productionSharedShowdownSetup|sparkSharedShowdownSetup|marqueePlayer)\\.js$",
@@ -2289,11 +2298,45 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-rematch-contracts.cjs",
+      "patterns": [
+        "^js/(seasonFinalV10|onlinePlayerIdentity|productionSharedJourneyEntry|sharedHistoryConvergence)\\.js$",
+        "^firestore\\.rules$",
+        "^tests/support/(active-showdown-fixtures|career-fixture-helpers)\\.cjs$",
+        "^tests/contracts/r87-rematch-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r84-billed-budget-contracts.cjs",
       "patterns": [
         "^tests/browser/(ce2pg-journey\\.cjs|support/(billed-meter|rules-lookups|firestore-meter)\\.cjs|support/billed-reads-table\\.json)$",
         "^(firestore\\.[a-z0-9-]+\\.rules|scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs)$",
         "^tests/contracts/r84\\-billed\\-budget\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-deadline-day-contracts.cjs",
+      "patterns": [
+        "^js/(deadlineDay|transferScreenV10)\\.js$",
+        "^data/deadlineDayLines\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r87-deadline-day-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-gazette-contracts.cjs",
+      "patterns": [
+        "^js/(touchlineGazette|seasonFinalV10)\\.js$",
+        "^data/(gazetteCopy|frontPages|commentaryLines)\\.js$",
+        "^css/v10Gazette\\.css$",
+        "^visual-assets/v10_1/content/",
+        "^service-worker\\.js$",
+        "^tests/support/(career-fixture-helpers|active-showdown-fixtures)\\.cjs$",
+        "^tests/contracts/r87-gazette-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -2335,6 +2378,61 @@
         "^service-worker\\.js$",
         "^\\.github/workflows/deploy-(github-pages|firestore-rules-zero-billing)\\.yml$",
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-shared-reads-meter-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|settings|productionSharedSeasonCommit|productionSharedCareerStart)\\.js$",
+        "^tests/browser/support/(billed-meter|rules-lookups)\\.cjs$",
+        "^(firestore\\.[a-z0-9-]+\\.rules|scripts/(build-production-firestore-rules(-with-persistent-pair)?|inject-persistent-pair-rules)\\.mjs)$",
+        "^tests/contracts/r87\\-shared\\-reads\\-meter\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-reads-sp-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|productionSharedCareerStart|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^tests/contracts/r87\\-reads\\-sp\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-wait-both-spins-contracts.cjs",
+      "patterns": [
+        "^js/(sparkSharedTransferChallenge|productionSharedTransferChallenge|rosterRouletteStep|sparkPrivatePairing)\\.js$",
+        "^css/transfer\\.css$",
+        "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
+        "^tests/contracts/r87\\-wait\\-both\\-spins\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-start-b-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^css/(remoteJoining|v10Club)\\.css$",
+        "^tests/browser/career-start-b-fits-audit\\.cjs$",
+        "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-roulette-board-invariants-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRoulette|rosterRouletteStep|sharedTransferChallenge|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^data/(fifa17Players|rosterSquads|clubs)\\.js$",
+        "^tests/contracts/r87\\-roulette\\-board\\-invariants\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-scoring-everywhere-contracts.cjs",
+      "patterns": [
+        "^js/(scoring|sharedCanonicalScoring|sharedSeasonCommit|sharedHistoryConvergence|sharedCareerAnalytics|careerScreenSeam|careerScreensV10|rivalryLegacyV10|sparkTerminalClose)\\.js$",
+        "^tests/contracts/r87\\-scoring\\-everywhere\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
