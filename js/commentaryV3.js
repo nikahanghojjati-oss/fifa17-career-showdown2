@@ -31,6 +31,8 @@
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const LENGTHS=Object.freeze([1,3,5,10]);
   const MAX=11,PACK_MAX=15;
+  // The Prime Pack boundary is js/iconGuess.js fromMs: a Showdown confirmed on or after it plays Prime Pack.
+  const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   const node=typeof module!=="undefined"&&module.exports;
   const other=role=>role==="playerOne"?"playerTwo":"playerOne";
   const int=(x,lo,hi)=>Number.isInteger(x)&&x>=lo&&x<=hi;
@@ -246,7 +248,10 @@
     const own=accepted[s-1]&&accepted[s-1].roundNumber===s?accepted[s-1]:{playerOne:{...commit.results.playerOne,scoring:scoring.scoring?.playerOne},playerTwo:{...commit.results.playerTwo,scoring:scoring.scoring?.playerTwo},winner:scoring.winner};
     rows.push(own);
     const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[setup.leagueId];
-    return {showdownId:rivalryId,seasons:N,league:setup.leagueId,clubs:setup.clubs,teamCount:Array.isArray(teams)?teams.length:null,history:rows,season:s};
+    // Prime Pack is known from this Showdown's confirm time, so an early season with no Prime Pack points yet still counts 15.
+    const at=setupState.setupUpdatedAtMs;
+    return {showdownId:rivalryId,seasons:N,league:setup.leagueId,clubs:setup.clubs,teamCount:Array.isArray(teams)?teams.length:null,history:rows,season:s,
+      primePack:Number.isFinite(at)?at>=PRIME_PACK_FROM_MS:undefined};
   }
   function cvLoadAssets(){
     if(assets)return assets;
@@ -349,8 +354,11 @@
     const frame=root.FINAL_WINNER_FIXTURES?.frames?.LIVE;
     let a=0,b=0;for(const row of p.seasonHistory){a+=row.playerOne?.scoring?.total;b+=row.playerTwo?.scoring?.total;}
     if(!frame||frame.totals?.daniel!==a||frame.totals?.nik!==b)return null;
-    const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[p.leagueId];
-    return {showdownId:String(p.rivalryId||history.rivalryId||""),seasons:p.totalSeasons,league:p.leagueId,clubs:{playerOne:p.managerRecords?.playerOne?.club,playerTwo:p.managerRecords?.playerTwo?.club},
+    const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[p.leagueId],rid=String(p.rivalryId||history.rivalryId||"");
+    // Prime Pack: this Showdown's confirm time (the closed read carries it), else the live Setup when it is this Showdown.
+    let at=history.setupConfirmedAt;
+    if(!Number.isFinite(at)){const live=state("CareerModeProductionSharedShowdownSetup");if(live&&String(live.rivalryId)===rid&&live.setup?.phase==="SHOWDOWN_CONFIRMED")at=live.setupUpdatedAtMs;}
+    return {showdownId:rid,primePack:Number.isFinite(at)?at>=PRIME_PACK_FROM_MS:undefined,seasons:p.totalSeasons,league:p.leagueId,clubs:{playerOne:p.managerRecords?.playerOne?.club,playerTwo:p.managerRecords?.playerTwo?.club},
       teamCount:Array.isArray(teams)?teams.length:null,history:p.seasonHistory,season:p.totalSeasons};
   }
   function cvFinalRule(doc){
