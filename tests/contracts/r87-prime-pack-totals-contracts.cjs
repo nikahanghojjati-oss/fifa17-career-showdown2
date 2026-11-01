@@ -123,7 +123,14 @@ ok('T5','commentary: "maximum", "clinched" and Golden lines use 15 a season with
 // T6 the Rule Book
 const rb=read('js/ruleBook.js');
 assert.match(rb,/<span>MAXIMUM PER MANAGER \/ SEASON<\/span><strong>15<\/strong>/);
-assert.match(rb,/"Score 150 points in a 10-season Showdown \(15 in every season\) to win the gold trophy\. A Showdown started before Prime Pack needs 110\."/);
+assert.match(rb,/"Score 150 points in a 10-season Showdown \(15 in every season\) to win the gold trophy\."/);
 ok('T6','the Rule Book says 15 a season and 150 for the Golden Showdown (110 for older Showdowns)');
 
 console.log(`PASS r87 Prime Pack totals contracts (${checks} checks)`);
+
+// Nik 2026-11-01 17:35 UTC: a perfect season is 15 and the Golden Showdown is 150; no real 10-season Showdown was ever
+// played before Prime Pack, so no 110 record is kept and no screen labels a perfect season as 11 points.
+for(const f of ["js/statistics.js","js/trophyRoom.js","js/ruleBook.js"]){
+  const src=fs.readFileSync(require("node:path").join(__dirname,"..","..",f),"utf8");
+  assert.doesNotMatch(src,/11-Point Seasons|11-point seasons|"11 points"|needs 110/,`${f} labels a perfect season as 15 points, never 11, and keeps no 110 line`);
+}

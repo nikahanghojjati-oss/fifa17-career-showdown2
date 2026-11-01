@@ -98,7 +98,7 @@ function createManagerCabinet(manager, rank){
     supporting.append(
         createAnalyticsStat("TOTAL TROPHIES", manager.totalTrophies),
         createAnalyticsStat("SEASON WINS", manager.seasonWins),
-        createAnalyticsStat("PERFECT SEASONS", manager.perfectSeasons, "11 points"),
+        createAnalyticsStat("PERFECT SEASONS", manager.perfectSeasons, "15 points"),
         createAnalyticsStat("100-POINT SEASONS", manager.hundredPointSeasons),
         createAnalyticsStat("100-GOAL SEASONS", manager.hundredGoalSeasons),
         createAnalyticsStat("SAFE SIGNINGS", manager.safeSignings)

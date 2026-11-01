@@ -26,7 +26,7 @@ for(const signal of [/V\.isMounted\("mainMenu"\)/,/fonts\.ready/,/\.decode\(\)/,
 assert.match(ssjr,/const home=v10\(\)\.then\(reusGate\)[^\n]*careerModeHomeHold=0/,"Reus Gate: Home's look starts at once and always reports back (ready or failed)");
 const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
 const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-assert.ok(gzip<=37495,`startup gzip ${gzip} must stay <= 37495`);
+assert.ok(gzip<=33900,`startup gzip ${gzip} must stay <= 33900 (r87 2.0.0 candidate 9a9667fb; was 37495 before #1176 removed the Home strip)`);
 console.log("ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget");
 
 // ---- browser ----
