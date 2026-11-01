@@ -72,7 +72,8 @@
   animation: sd-character-in-right var(--sd-duration-character, 450ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
 }
 
-/* Transform-only title wipe: an overlay slides away instead of animating clip-path. */
+/* Title wipe (HO-054): the title itself is revealed left to right with clip-path.
+   Nothing opaque ever paints over it, so photo backgrounds stay visible. */
 .sd-title-wipe,
 [data-sd-enter="title"] {
   position: relative;
@@ -82,35 +83,33 @@
 
 .sd-title-wipe::after,
 [data-sd-enter="title"]::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: 2;
-  pointer-events: none;
-  background: var(--sd-black, #07080a);
-  transform: translate3d(102%, 0, 0);
-  transform-origin: right center;
+  content: none;
 }
 
-.sd-motion-ready [data-sd-enter="title"]:not(.sd-is-animating):not(.sd-entered)::after,
-.sd-motion-ready .sd-title-wipe:not(.sd-is-animating):not(.sd-entered)::after {
-  transform: translate3d(0, 0, 0);
+.sd-motion-ready [data-sd-enter="title"]:not(.sd-is-animating):not(.sd-entered),
+.sd-motion-ready .sd-title-wipe:not(.sd-is-animating):not(.sd-entered) {
+  clip-path: inset(-8px 100% -8px -8px);
 }
 
+/* Kept for the Transfer War verdict brush (tr2 plate.css), which slides its own sweep. */
 @keyframes sd-title-wipe-cover {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(102%, 0, 0); }
 }
 
-.sd-motion-ready [data-sd-enter="title"].sd-is-animating::after,
-.sd-motion-ready .sd-title-wipe.sd-is-animating::after {
-  animation: sd-title-wipe-cover var(--sd-duration-title, 450ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
-  will-change: transform;
+@keyframes sd-title-wipe-reveal {
+  from { clip-path: inset(-8px 100% -8px -8px); }
+  to { clip-path: inset(-8px -8px -8px -8px); }
 }
 
-.sd-title-wipe.sd-entered::after,
-[data-sd-enter="title"].sd-entered::after {
-  transform: translate3d(102%, 0, 0);
+.sd-motion-ready [data-sd-enter="title"].sd-is-animating,
+.sd-motion-ready .sd-title-wipe.sd-is-animating {
+  animation: sd-title-wipe-reveal var(--sd-duration-title, 450ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+}
+
+.sd-title-wipe.sd-entered,
+[data-sd-enter="title"].sd-entered {
+  clip-path: none;
 }
 
 /* Metallic glint: once per entrance or reveal. */
@@ -323,6 +322,13 @@ html[data-reduced-motion="true"] .sd-count-up::after {
   opacity: 0 !important;
 }
 
+html[data-motion-reduced="true"] .sd-title-wipe,
+html[data-reduced-motion="true"] .sd-title-wipe,
+html[data-motion-reduced="true"] [data-sd-enter="title"],
+html[data-reduced-motion="true"] [data-sd-enter="title"] {
+  clip-path: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sd-motion-ready [data-sd-enter].sd-is-animating,
   .sd-is-popping,
@@ -341,5 +347,10 @@ html[data-reduced-motion="true"] .sd-count-up::after {
   .sd-count-up::after {
     animation: none !important;
     opacity: 0 !important;
+  }
+
+  .sd-title-wipe,
+  [data-sd-enter="title"] {
+    clip-path: none !important;
   }
 }
