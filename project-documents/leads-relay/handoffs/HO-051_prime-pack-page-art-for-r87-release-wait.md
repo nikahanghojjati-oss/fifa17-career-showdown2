@@ -76,3 +76,4 @@ The card frame (03_prime_card_frame_transparent) has slots for overall (shield),
 - Empty and dark during the guessing (never a hint). The name fades in there at the end, with no flip.
 - Long names must fit on one line (shrink the font, never cut off). Test with "Bastian Schweinsteiger" and "Puskás".
 - Either redraw the frame with the plate or build the plate in CSS on top of it; your choice, as long as it matches the frame.
+- Split (Nik 10:44): Duet builds behaviour only, in plain marble; Team V owns the whole look. Duet adds the empty name element `#prime-card-name`, so style that as the name plate.
