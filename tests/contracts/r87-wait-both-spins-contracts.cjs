@@ -239,6 +239,13 @@ async function partB(){
   assert.deepEqual(refused.provider.calls.markSpun,["playerOne"],"a refused mark is written once per page, not on every check");
   refused.page.tap("startTransferTimer");await settle();assert.equal(refused.provider.calls.startWindow.length,0);
 
+  // B6b (Codex C2-02): Nik's own refused mark is shown on his phone too, never hidden behind "READY · WAITING FOR DANIEL"; a
+  // phone whose own mark is saved keeps the normal waiting line.
+  const nikRefused=await phone({role:"playerTwo",confirmedAtMs:R87,store:{spins:["playerOne"],state:null,refuseMarks:true}});
+  assert.equal(nikRefused.status(),"READY · YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY","the non-coordinator sees his own refused mark");
+  assert.match(refused.status(),/YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY/,"the coordinator too");
+  assert.equal(nik.status(),"READY · WAITING FOR DANIEL TO START","a saved mark keeps the normal line");
+
   // B7: the gate helper follows RRR_FROM_MS exactly.
   const applies=daniel.api.rouletteAppliesTo;
   assert.equal(applies(Step.fromMs,Step),true);assert.equal(applies(Step.fromMs-1,Step),false);assert.equal(applies(Number.NaN,Step),false);

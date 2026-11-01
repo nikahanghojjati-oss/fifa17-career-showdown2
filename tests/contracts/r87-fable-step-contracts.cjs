@@ -174,6 +174,27 @@ async function partA(){
     await v.press("GO TO THE TRANSFER WINDOW");assert.equal(await run2,true);
     ok("F2-07","the scene's load and armed waits count only on-screen time, so a lock mid-load never skips a scene that would have worked");
   }
+  // Codex C2-01: namesakes (Alavés has a Manu García #19 and #26) are told apart on the release card and in the scene payload by
+  // shirt number, position and overall.
+  {
+    const manu={slot:3,pos:"CB",positions:["CB"],name:"Manu García",number:19,rating:74};
+    const fired={...SAFE_PLAN,boards:{playerOne:[manu,{slot:4,pos:"CB",positions:["CM"],name:"Manu García",number:26,rating:71}],playerTwo:SAFE_PLAN.boards.playerTwo},
+      turns:[{role:"playerOne",fired:true,player:manu,bulletChamber:2,stopChamber:2,hitSlot:3,aimSlot:3},SAFE_PLAN.turns[1]]};
+    const w=stepWorld({forSeason:()=>fired});const run=w.step.runBeforeTransfers({...CTX,verdicts:async()=>({ok:false})});
+    await until(()=>w.frame(),"the roulette page");
+    w.pageSays("cms-rr-ready");
+    const setup=await until(()=>w.frame().contentWindow.posted.find(m=>m.type==="cms-rr-setup"),"the setup");
+    assert.equal(setup.turns[0].targetNumber,19);assert.equal(setup.turns[0].targetPosition,"CB");assert.equal(setup.turns[0].targetRating,74);
+    assert.equal(setup.turns[0].targetLabel,"Manu García (#19, CB, 74 overall)");
+    assert.deepEqual(setup.boards.D.map(r=>r.number),[19,26],"each board row carries its shirt number");
+    w.pageSays("cms-rr-armed");await until(()=>w.stage()&&w.stage().style.visibility==="visible","the stage");w.pageSays("cms-rr-continue");
+    await until(()=>w.title()==="Release Manu García #19","the release card names the shirt number");
+    assert.ok(w.lines().includes("Daniel lost Manu García (#19, CB, 74 overall)."),"the outcome line tells the namesakes apart");
+    assert.ok(w.lines().some(line=>/^Release Manu García \(#19, CB, 74 overall\) in your FIFA 17 save now/.test(line)));
+    await w.press("I'VE RELEASED HIM");assert.equal(await run,true);
+    assert.match(read("visual-assets/v10_1/roulette/index.html"),/GAME\.turns\[turn\]\.targetLabel\)\|\|p\.target\.name/,"the scene's lost line shows the same label");
+    ok("C2-01","the release card and the scene payload name shirt number, position and overall, so namesakes are told apart");
+  }
   // F2-06: the Special Player draw loads by itself, also when this season's roulette is already done on this browser.
   {
     const w=stepWorld();const ctx={...CTX,verdicts:async()=>({ok:false})};
