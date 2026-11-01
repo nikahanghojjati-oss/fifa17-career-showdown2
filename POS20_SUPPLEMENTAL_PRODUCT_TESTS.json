@@ -2659,6 +2659,16 @@
         "^tests/contracts/r87\\-career\\-load\\-gate\\-stall\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-gazette-readability-contracts.cjs",
+      "patterns": [
+        "^js/touchlineGazette\\.js$",
+        "^css/v10Gazette\\.css$",
+        "^visual-assets/v10_1/content/content\\.css$",
+        "^tests/contracts/r87\\-gazette\\-readability\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
