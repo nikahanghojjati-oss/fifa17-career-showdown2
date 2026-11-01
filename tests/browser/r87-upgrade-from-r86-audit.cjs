@@ -56,7 +56,7 @@ function releaseWorker(source){
 const BUMP=`${TO_APP}-r87-next`;let bumped=false;
 function bumpText(rel,text){
   let out=text.split(TO).join(BUMP);
-  if(rel==="service-worker.js"){out=out.replace(/const PREVIOUS_RUNTIME_REVISION = "[^"]*";/,`const PREVIOUS_RUNTIME_REVISION = "${TO}";`);out=out.replace(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\([^;]*\);/,"const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);");}
+  if(rel==="service-worker.js"){out=out.replace(/const PREVIOUS_RUNTIME_REVISION = "[^"]*";/,`const PREVIOUS_RUNTIME_REVISION = "${TO}";`);out=out.replace(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\([^;]*\);/,"const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);");out=out.replace(/const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set\([^;]*\);/,"const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);");}
   return out;
 }
 function releaseText(rel,text){

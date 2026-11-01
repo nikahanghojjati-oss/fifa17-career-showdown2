@@ -307,6 +307,7 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
+// A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
 // 2.0.0 (r87): PREVIOUS is 1.9.10-r86 (228 paths). Added: Deadline Day, the Russian Roster Roulette step, engine, squads,
 // styles and Team V's page with its vendored three.js, the Touchline Gazette (page script, copy, headline pack, styles, paper,
 // sheet and its seven OFL fonts with licences), Commentary v3, and the first-load files. Removed (arch audit D1): the seven
