@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-01T12:30:53Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-01T12:30:53Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T12:35:09Z", "by": "V", "status": "RECEIVED", "note": "Team V picked it up 12:36 UTC. ETA: PR into gameplay/r87 by 14:15 UTC, inside the 15:00 freeze (2.0.0). Bases on #1168 once it merges, else on its branch."}],
  "from_session": "session_01GU43Q5xHsv4Q8dmAPKsP5f"
 }
 ```
