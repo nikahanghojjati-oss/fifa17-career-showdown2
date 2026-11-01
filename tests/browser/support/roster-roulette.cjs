@@ -3,6 +3,7 @@
 // both spins (Team V's page in the #rrStage frame: "Daniel spins", "Nik spins", "Continue") and taps the result panel's
 // primary button (I'VE RELEASED HIM / GO TO THE TRANSFER WINDOW). A scene that cannot load (no three.js) is skipped by the
 // app and only the panel shows. waitForTransfer() plays whatever roulette is on screen until the Transfer Challenge shows.
+const prime=require("./prime-pack.cjs");
 const STEP_MS=500;
 
 async function playRoulette(page){
@@ -18,9 +19,12 @@ async function playRoulette(page){
 }
 
 async function waitForTransfer(page,timeout=45000){
-  const until=Date.now()+timeout,seen=[];
+  let until=Date.now()+timeout,primeSeen=false;const seen=[];
   while(Date.now()<until){
-    if(await page.locator("#transferChallenge").isVisible().catch(()=>false)&&!(await page.locator("#rrStage, #rrStepPanel").count()))return seen;
+    if(await page.locator("#transferChallenge").isVisible().catch(()=>false)&&!(await page.locator("#rrStage, #rrStepPanel, #igStage").count()))return seen;
+    // Prime Pack's masked-Icon round (up to ~95 s a season) comes after the roulette: give it room once it is on screen.
+    const pack=await prime.playPrime(page);
+    if(pack){if(!primeSeen){primeSeen=true;until=Math.max(until,Date.now()+170000);}if(pack!=="wait")seen.push("prime-"+pack);await page.waitForTimeout(STEP_MS);continue;}
     const step=await playRoulette(page);
     if(step&&step!=="wait")seen.push(step);
     await page.waitForTimeout(STEP_MS);
