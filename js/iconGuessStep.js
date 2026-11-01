@@ -33,7 +33,8 @@
   const LOAD_WAIT_MS=10000,READY_WAIT_MS=10000,TICK_MS=200,POLL_MS=2500;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const wonMemo=new Map();
-  let running=null;
+  // wentHome: the last run ended because the manager chose Showdown Home (not a fault), so the caller shows no error.
+  let running=null,wentHome=false;
 
   function igsDoc(){return root.document||null;}
   function igsWait(ms){return new Promise(resolve=>root.setTimeout(resolve,ms));}
@@ -54,7 +55,8 @@
   }
   function igsGuess(){return root.CareerModeIconGuess||(typeof require==="function"?require("./iconGuess.js"):null);}
 
-  // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Prime Pack this season?
+  // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Prime Pack this season? It needs
+  // js/iconGuess.js: a browser caller awaits ensure() first (before it, the answer is always false).
   function igsApplies(ctx){
     if(root.CMS_PRIME_PACK==="off"||!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
@@ -172,6 +174,8 @@
     const back=doc.createElement("button");back.type="button";back.className="backButton";back.textContent="BACK TO SHOWDOWN HOME";back.hidden=true;
     back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2";
     stage.append(frame,back);doc.body.append(stage);
+    // The roulette's result panel (z-index 96) would stand over this stage and take its taps: it goes once this stage is up.
+    try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}
     return {stage,frame,back};
   }
   function igsPost(frame,type,data={}){try{frame.contentWindow?.postMessage({type,...data},root.location?.origin||"*");}catch(_error){}}
@@ -198,6 +202,7 @@
   // could not run (the window then stays shut and the dashboard says why; tapping again retries).
   async function igsRun(ctx,io){
     if(running)return running;
+    wentHome=false;
     // On true the stage stays up until the Transfer Challenge is on screen (the caller closes it), so nothing flashes between.
     running=igsRunNow(ctx,io).then(go=>{if(!go)igsClose();return go;},error=>{igsClose();throw error;}).finally(()=>{running=null;});
     return running;
@@ -212,9 +217,9 @@
     for(;;){
       const result=await igsPlay(ctx,io,{index,pick,guess});
       if(result==="continue"){igsMark(DONE_KEY,igsKey(ctx));return true;}
-      if(result==="back")return false;
+      if(result==="back"){wentHome=true;return false;}
       const choice=await igsAsk({heading:"Prime Pack could not load",lines:[root.CareerModeFirestoreBudget?.quotaMessage?.(result)||"Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
-      if(choice==="back")return false;
+      if(choice==="back"){wentHome=true;return false;}
     }
   }
   // One screen session: "continue", "back", or an error object.
@@ -291,5 +296,5 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-prime-pack-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,collection:COLLECTION,doneKey:DONE_KEY,
-    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,applyGuess:igsApplyGuess,run:igsRun,close:igsClose});
+    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,wentHome:()=>wentHome,ensure:igsEnsure});
 });

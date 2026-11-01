@@ -241,7 +241,7 @@ async function phone({confirmedAtMs,step,state=null,navigateTo=null,readFails=fa
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:uid1,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
     CareerModeRosterRouletteStep:step,
     // r87 Prime Pack runs after the roulette; here it is already done.
-    CareerModeIconGuessStep:{applies:()=>true,run:async()=>true,close(){}}
+    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
   };
   sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(PSTC_SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});
   const api=sandbox.CareerModeProductionSharedTransferChallenge;api.install();await settle();

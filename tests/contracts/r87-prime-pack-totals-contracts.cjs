@@ -35,6 +35,8 @@ assert.equal(Seam.PRIME_PACK_FROM_MS,IG.fromMs,'the seam boundary is js/iconGues
 assert.match(read('js/touchlineGazette.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Gazette boundary is js/iconGuess.js fromMs');
 assert.match(read('js/sharedCareerAnalytics.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Career Stats boundary is js/iconGuess.js fromMs');
 assert.match(read('js/productionSharedTransferChallenge.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the transfer hook boundary is js/iconGuess.js fromMs');
+assert.match(read('js/productionSharedSeasonResults.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Season Results boundary (old Showdowns never load the step) is js/iconGuess.js fromMs');
+{const src=read('js/productionSharedSeasonResults.js'),fn=src.slice(src.indexOf('async function pssrWithPrimePack('));assert.ok(fn.indexOf('confirmedAtMs<PRIME_PACK_FROM_MS')>0&&fn.indexOf('confirmedAtMs<PRIME_PACK_FROM_MS')<fn.indexOf('loadRuntimeScript'),'a Showdown from before Prime Pack publishes its Season Result without loading the Prime Pack step or reading a round');}
 assert.deepEqual(plain(Seam.SEASON_MAX),{before:11,primePack:15});assert.equal(IG.maxPoints+11,15);
 ok('T1','the seam, the Gazette and the transfer hook use the round\'s own start boundary, and 11 + 4 = 15 a season');
 

@@ -255,7 +255,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
       CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"manager_one",getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{getDoc:async()=>null,doc:()=>null}})},
       CareerModeRosterRouletteStep:step,
     // r87 Prime Pack runs after the roulette; here it is already done.
-    CareerModeIconGuessStep:{applies:()=>true,run:async()=>true,close(){}}};
+    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}};
     sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read("js/productionSharedTransferChallenge.js"),sandbox,{filename:"productionSharedTransferChallenge.js"});
     return {api:sandbox.CareerModeProductionSharedTransferChallenge,doc,tap,storage,text:id=>doc.getElementById(id).textContent};
   }
