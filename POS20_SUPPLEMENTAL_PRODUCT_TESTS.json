@@ -2328,17 +2328,6 @@
       ]
     },
     {
-      "path": "tests/contracts/r87-polish-matchday-contracts.cjs",
-      "patterns": [
-        "^js/(productionSharedCanonicalScoring|productionSharedSeasonCommit|productionSharedMultiSeasonProgression|productionSharedFinalReconciliation|productionSharedHistoryConvergence|seasonFinalV10|seasonEngine|deadlineDay)\\.js$",
-        "^css/v10Transfer\\.css$",
-        "^visual-assets/v10_1/(season-results/app\\.css|final-winner/final-winner\\.js)$",
-        "^index\\.html$",
-        "^tests/contracts/r87\\-polish\\-matchday\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/r87-gazette-contracts.cjs",
       "patterns": [
         "^js/(touchlineGazette|seasonFinalV10)\\.js$",
@@ -2431,19 +2420,49 @@
       ]
     },
     {
-      "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
-      "patterns": [
-        "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
-        "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/r87-roulette-board-invariants-contracts.cjs",
       "patterns": [
         "^js/(rosterRoulette|rosterRouletteStep|sharedTransferChallenge|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
         "^data/(fifa17Players|rosterSquads|clubs)\\.js$",
         "^tests/contracts/r87\\-roulette\\-board\\-invariants\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-scoring-everywhere-contracts.cjs",
+      "patterns": [
+        "^js/(scoring|sharedCanonicalScoring|sharedSeasonCommit|sharedHistoryConvergence|sharedCareerAnalytics|careerScreenSeam|careerScreensV10|rivalryLegacyV10|sparkTerminalClose)\\.js$",
+        "^tests/contracts/r87\\-scoring\\-everywhere\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-first-load-contracts.cjs",
+      "patterns": [
+        "^js/offlineApp\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^assets/fonts/",
+        "^tests/contracts/r87\\-first\\-load\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-polish-matchday-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedCanonicalScoring|productionSharedSeasonCommit|productionSharedMultiSeasonProgression|productionSharedFinalReconciliation|productionSharedHistoryConvergence|seasonFinalV10|seasonEngine|deadlineDay)\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^visual-assets/v10_1/(season-results/app\\.css|final-winner/final-winner\\.js)$",
+        "^index\\.html$",
+        "^tests/contracts/r87\\-polish\\-matchday\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
+        "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -2501,23 +2520,6 @@
       ]
     },
     {
-      "path": "tests/contracts/r87-scoring-everywhere-contracts.cjs",
-      "patterns": [
-        "^js/(scoring|sharedCanonicalScoring|sharedSeasonCommit|sharedHistoryConvergence|sharedCareerAnalytics|careerScreenSeam|careerScreensV10|rivalryLegacyV10|sparkTerminalClose)\\.js$",
-        "^tests/contracts/r87\\-scoring\\-everywhere\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
-<<<<<<< HEAD
-      "path": "tests/contracts/r87-first-load-contracts.cjs",
-      "patterns": [
-        "^js/offlineApp\\.js$",
-        "^index\\.html$",
-        "^service-worker\\.js$",
-        "^assets/fonts/",
-        "^tests/contracts/r87\\-first\\-load\\-contracts\\.cjs$",
-=======
       "path": "tests/contracts/r87-upgrade-rollback-list-contracts.cjs",
       "patterns": [
         "^service-worker\\.js$",
@@ -2561,7 +2563,6 @@
         "^js/(rosterRoulette|rosterRouletteStep|sparkSharedTransferChallenge|productionSharedTransferChallenge|productionSharedJourneyReconnect|sparkPrivatePairing)\\.js$",
         "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
         "^tests/contracts/r87\\-roulette\\-hits\\-contracts\\.cjs$",
->>>>>>> origin/gameplay/r87
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
