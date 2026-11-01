@@ -2437,6 +2437,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-upgrade-rollback-list-contracts.cjs",
+      "patterns": [
+        "^service-worker\\.js$",
+        "^tests/fixtures/shell-paths/",
+        "^tests/contracts/r87\\-upgrade\\-rollback\\-list\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-error-screens-contracts.cjs",
       "patterns": [
         "^js/(app|onlinePlayerIdentity|productionSharedTransferChallenge|transferChallenge|productionSharedJourneyGuard|seasonEngine|optionalModules|footballVisuals|diagnostics|productionSharedSeasonResultsRoute|sparkRemoteJoining|productionSharedLocalReconciliation)\\.js$",
