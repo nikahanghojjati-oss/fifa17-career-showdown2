@@ -417,7 +417,7 @@ function getOptionalModuleButton(name){
 if(name === "careerStatistics"){ return document.getElementById("careerStatisticsButton"); }
 if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
 if(name === "trophyRoom"){
-return document.getElementById("careerStatisticsTrophyButton");
+return document.getElementById("trophyRoomButton") || document.getElementById("careerStatisticsTrophyButton");
 }
 if(name === "legacy"){ return document.getElementById("legacyButton"); }
 if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
@@ -462,13 +462,9 @@ function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
 const currentScreen = typeof window.getActiveScreenName === "function"
 ? window.getActiveScreenName()
 : originScreen;
-const currentRevision = typeof window.getNavigationRevision === "function"
-? window.getNavigationRevision()
-: originRevision;
 
 return requestId === optionalOpenRequestId
-&& currentScreen === originScreen
-&& currentRevision === originRevision;
+&& currentScreen === originScreen;
 }
 
 async function openOptionalModule(name){
