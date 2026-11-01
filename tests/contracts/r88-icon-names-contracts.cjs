@@ -1,5 +1,5 @@
 'use strict';
-// R88 Icon Unmasked (Nik 2026-10-31): the typed guess (js/iconNames.js) and the icon list loader
+// R88 Prime Pack (Nik 2026-10-31): the typed guess (js/iconNames.js) and the icon list loader
 // (scripts/r88-icons-from-csv.mjs). Matching ignores accents, case, spaces, dots and hyphens; text that is not a listed
 // name never uses a chip; the loader runs the R88-ICON-01 ticket's schema and card-choice checks before it writes
 // data/icons.js. Every player here is made up (tests/fixtures/r88-icons/README.md); no real card number is used.

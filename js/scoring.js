@@ -28,12 +28,15 @@ function calculatePlayerSeasonScore(result){
 
     // r80: Europa League win +3, never with CL
     if(result.europaLeague === true && !result.championsLeague){ breakdown.europaLeague = 3; }
+    // r88: Prime Pack +1 (first to name the season's masked Icon; shared R88 Showdowns only)
+    if(result.primePack === true){ breakdown.primePack = 1; }
 
     breakdown.awardsBonus = breakdown.individualAwardsBonus;
 
     breakdown.total =
         breakdown.championsLeague +
         (breakdown.europaLeague || 0) +
+        (breakdown.primePack || 0) +
         breakdown.leagueTitle +
         breakdown.domesticCup +
         breakdown.performanceBonus +

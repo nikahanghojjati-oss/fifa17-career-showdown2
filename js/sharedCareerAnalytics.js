@@ -84,7 +84,7 @@
     if(r.leagueGoals>=100)record.hundredGoalSeasons+=1;
     if(r.topScorer)record.topScorerSeasons+=1;
     if(r.topAssist)record.topAssistSeasons+=1;
-    if(score===11)record.perfectSeasons+=1;
+    if(score>=11)record.perfectSeasons+=1;
     record.performanceBonuses+=r.scoring.performanceBonus;
     record.awardsBonuses+=r.scoring.individualAwardsBonus;
     for(const [key,value] of [["bestSeasonScore",score],["bestLeaguePoints",r.leaguePoints],["bestLeagueGoals",r.leagueGoals],["bestLeaguePosition",r.leaguePosition]]){

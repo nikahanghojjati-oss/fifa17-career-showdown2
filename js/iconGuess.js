@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
 
-  // r88 Icon Unmasked (working name; Nik 2026-10-31, spec project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md):
+  // r88 Prime Pack (named by Nik 2026-11-01; earlier working name Prime Pack; Nik 2026-10-31, spec project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md):
   // once a season, after Roster Roulette and before the transfer window, both managers race to name a male outfield Legend
   // or Icon from a card that reveals itself: the position, then the six face stats one at a time in random order, then the
   // nation flag. Each manager has two guesses; the first right guess the server records wins 1 Showdown point; nobody by

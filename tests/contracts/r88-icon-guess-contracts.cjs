@@ -1,5 +1,5 @@
 'use strict';
-// r88 Icon Unmasked round logic (Nik 2026-10-31, project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md):
+// r88 Prime Pack round logic (Nik 2026-10-31, project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md):
 // the seeded draw, the reveal clock and the round record (arrivals, two chips each, first right guess wins, draw).
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -39,7 +39,7 @@ assert.equal(IG.eligible(one,R88,{fromMs:R88}),true);assert.equal(IG.eligible(on
 for(const old of [R88-1,null,undefined,'2026-11-06',NaN,{}])assert.equal(IG.eligible(one,old,{fromMs:R88}),false,`not for ${String(old)}`);
 assert.equal(IG.eligible('pair_short',R88,{fromMs:R88}),false);
 assert.equal(IG.eligible(one,Date.parse('2026-10-31T12:00:00Z')),false,'a Showdown running today never starts the game mid-way');
-ok('G1b','only a Showdown confirmed on R88 or later plays Icon Unmasked, so no Showdown mixes 11-point and 12-point seasons');
+ok('G1b','only a Showdown confirmed on R88 or later plays Prime Pack, so no Showdown mixes 11-point and 12-point seasons');
 
 // G2 the stat order: all six, varied, per season
 const firsts=new Map();

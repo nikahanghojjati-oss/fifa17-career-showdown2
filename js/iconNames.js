@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // R88 Icon Unmasked (Nik 2026-10-31): the typed guess and its live suggestions. Pure functions, no IO.
+  // R88 Prime Pack (Nik 2026-10-31): the typed guess and its live suggestions. Pure functions, no IO.
   // - Matching ignores accents, case, spaces, dots, hyphens and apostrophes, so "Cech", "cech" and "Čech" are one name.
   // - A guess counts only when its text is one of an icon's accepted names (card name, full name, and the database's
   //   accepted_names). Anything else is "not-in-list" and must not use a guess chip (spec §3: a typo never burns a chance).

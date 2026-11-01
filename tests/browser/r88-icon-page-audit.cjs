@@ -1,5 +1,5 @@
 "use strict";
-// R88 Icon Unmasked stand-in page (workstream C), driven with its test clock (__ig) in a phone-sized Chromium:
+// R88 Prime Pack stand-in page (workstream C), driven with its test clock (__ig) in a phone-sized Chromium:
 // the reveal order, the guess window, chips both phones see, wrong guesses kept on the guesser's phone, the overall switch,
 // the result and Continue, the game <-> page messages in a frame (embed=1, rejoin at the current beat), reduced motion,
 // a short (keyboard-open) viewport, and no network outside the page's own origin.
@@ -54,7 +54,7 @@ async function inView(p){
   try{
     // I1 preview: waiting, then the position, then one stat per beat in the round's order, then the flag
     {
-      const p=await newPage();await p.goto(base+PAGE+"?still=1");await p.waitForFunction(()=>window.__ig&&window.IconUnmaskedPage);
+      const p=await newPage();await p.goto(base+PAGE+"?still=1");await p.waitForFunction(()=>window.__ig&&window.PrimePackPage);
       await p.evaluate(()=>document.fonts.ready);
       let s=await state(p);
       assert.equal(s.waitingFor,"playerOne");assert.equal(s.beat,-1);assert.equal(s.position,null);assert.equal(s.canGuess,false);
@@ -139,7 +139,7 @@ async function inView(p){
       // I5 the overall switch: one round field can show it during play
       await p.evaluate(r=>window.send({type:"cms-ig-start",round:{...r,overallHidden:false}}),ROUND);await p.evaluate(()=>window.send({type:"cms-ig-reveal",index:0}));
       s=await f.evaluate(()=>window.__ig.state());assert.equal(s.overall,"93");
-      assert.equal(await f.evaluate(()=>window.IconUnmaskedPage.overallHiddenUntilEnd),true,"the default stays hidden (Nik, 31 Oct)");
+      assert.equal(await f.evaluate(()=>window.PrimePackPage.overallHiddenUntilEnd),true,"the default stays hidden (Nik, 31 Oct)");
       ok("I5","the overall is hidden until the result by default; overallHidden:false shows it from the first beat");
       await p.context().close();
     }
@@ -147,7 +147,7 @@ async function inView(p){
     {
       const p=await newPage({reducedMotion:"reduce"});await p.goto(base+PAGE+"?still=1");await p.waitForFunction(()=>window.__ig);
       const s=await state(p);assert.equal(s.reduced,true);
-      assert.equal(await p.evaluate(()=>window.IconUnmaskedPage.revealMs),220);
+      assert.equal(await p.evaluate(()=>window.PrimePackPage.revealMs),220);
       assert.equal(await p.evaluate(()=>document.documentElement.classList.contains("rm")),true);
       await p.evaluate(()=>document.documentElement.classList.remove("still"));
       const flip=await p.evaluate(()=>{const f=document.querySelector(".stat .f"),cs=getComputedStyle(f);return {dur:cs.transitionDuration,transform:cs.transform};});
@@ -165,5 +165,5 @@ async function inView(p){
     assert.deepEqual(outside,[],"the page loads nothing from outside its own origin");
     ok("I8","no request leaves the page's own origin (no CDN, no fonts service, no Firebase)");
   }finally{await browser.close();server.close();}
-  console.log(`PASS r88 Icon Unmasked page audit: ${checks} numbered checks.`);
+  console.log(`PASS r88 Prime Pack page audit: ${checks} numbered checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});

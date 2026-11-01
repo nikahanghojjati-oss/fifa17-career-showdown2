@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>Icon Unmasked</title>
+<title>Prime Pack</title>
 <!--
-  R88 Icon Unmasked: STAND-IN page (workstream C). Team V's final card art replaces the card face later; the hooks stay.
+  R88 Prime Pack: STAND-IN page (workstream C). Team V's final card art replaces the card face later; the hooks stay.
   Spec: project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md · Look: R88_ICON_CARD_TEAM_V_BRIEF.md.
   The page never picks a player and never decides whether a guess is right. The game sends the round and the beats;
   the page shows them and sends typed text out. Wrong guesses are only ever shown on the phone that made them.
@@ -126,6 +126,7 @@ html.rm .tile[data-shown="1"] .f { opacity: 1; }
 .nametile .b { color: var(--foil-3); letter-spacing: .5em; padding-left: .5em; }
 .flagtile.fresh .f canvas { box-shadow: 0 0 0 .4cqw rgba(125,90,23,.55), 0 0 4cqw rgba(241,207,122,.95); }
 
+.packtitle { flex: none; margin: 0; text-align: center; font: 700 14px/1.2 var(--cond); letter-spacing: .32em; text-transform: uppercase; color: var(--foil-1); }
 .source { flex: none; text-align: center; font: 600 13px/1.2 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--foil-1); min-height: 16px; }
 
 /* ---------- result banner (no dimming layer: it sits in the status line's place, never over the card or buttons) ---------- */
@@ -175,6 +176,7 @@ html.rm .card .face::after { animation: none; }
     <span class="beat" id="beat"></span>
     <span class="ring" id="ring" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="17"/><circle class="left" id="ringLeft" cx="20" cy="20" r="17" stroke-dasharray="106.8" stroke-dashoffset="0"/></svg><b id="ringNum"></b></span>
   </div>
+  <h1 class="packtitle" id="packTitle">Prime Pack</h1>
   <div class="banner" id="banner" hidden></div>
 
   <div class="stagewrap">
@@ -515,7 +517,7 @@ window.addEventListener("message",(e)=>{
 });
 
 /* ================= same-window API and the test clock ================= */
-window.IconUnmaskedPage = Object.freeze({ load, setWaiting, reveal, setChips, setSuggestions, guessFeedback, showResult,
+window.PrimePackPage = Object.freeze({ load, setWaiting, reveal, setChips, setSuggestions, guessFeedback, showResult,
   revealMs: REVEAL_MS, reduced: REDUCED, lastBeat: LAST_BEAT, statKeys: STAT_KEYS.slice(), windowMs: { min:WINDOW_MS_MIN, max:WINDOW_MS_MAX, default:WINDOW_MS_DEFAULT },
   overallHiddenUntilEnd: OVERALL_HIDDEN_UNTIL_END });
 // Deterministic test clock (like __mq on the Special Player page): freeze() stops real time and every CSS transition,

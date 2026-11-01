@@ -1,4 +1,4 @@
-# R88 Icon Unmasked test fixtures: made-up players
+# R88 Prime Pack (was Icon Unmasked) test fixtures: made-up players
 
 Every player, number, nation pairing and link in these CSVs is invented for tests. None is a real footballer or a
 real card, and the links point at example.com. The real list comes from GPT's R88-ICON-01 job, checked by

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// R88 Icon Unmasked (Nik 2026-10-31): check GPT's two icon CSVs (job R88-ICON-01) and write data/icons.js.
+// R88 Prime Pack (Nik 2026-10-31): check GPT's two icon CSVs (job R88-ICON-01) and write data/icons.js.
 //
 //   node scripts/r88-icons-from-csv.mjs --icons icons.csv --cards icon_cards_considered.csv --last-prime-game "FIFA 23"
 //        [--out data/icons.js] [--check] [--generated-on 2026-11-02] [--sample-seed 12345]
@@ -223,7 +223,7 @@ export function renderIconsJs(players,{generatedOn,summary,listVersion=1}){
 })(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
 
-  // R88 Icon Unmasked (Nik 2026-10-31): male outfield Legends and Icons, one card each (the allowed card with the
+  // R88 Prime Pack (Nik 2026-10-31): male outfield Legends and Icons, one card each (the allowed card with the
   // highest overall, the newer game winning a tie). Written by scripts/r88-icons-from-csv.mjs on ${generatedOn} from the
   // checked R88-ICON-01 CSVs: ${summary.players} players (${summary.legend} Legend, ${summary.iconPrime} Icon Prime, ${summary.iconBase} Icon Base),
   // Prime cards up to ${summary.lastPrimeGame}. Do not edit by hand: fix the CSVs and run the script again.

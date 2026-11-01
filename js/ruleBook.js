@@ -134,7 +134,9 @@ function createScoringRuleSection(){
         ["Domestic league winner", "+3"],
         ["Main domestic cup winner", "+1"],
         ["100 league points or 100 league goals", "+1 MAX"],
-        ["League top scorer or top assist", "+1 MAX"]
+        ["League top scorer or top assist", "+1 MAX"],
+        // r88 Prime Pack (Nik 2026-10-31): once a season, before the transfer window, in Showdowns started on R88 or later.
+        ["Prime Pack: first to name the masked Icon", "+1"]
     ].forEach(([label, value]) => {
         const row = document.createElement("div");
         const labelElement = document.createElement("span");
@@ -148,7 +150,7 @@ function createScoringRuleSection(){
 
     const maximum = document.createElement("div");
     maximum.className = "ruleScoreMaximum";
-    maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong>";
+    maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>12</strong>";
 
     // r80 Europa League (owner rules, 2026-10-19). r86 (Nik 2026-10-29): the lines FIFA 17 already enforces (no CL and EL
     // in one season, the 3rd-place drop, EL by league position, only winning scores, best season 11/9) stay in the scoring

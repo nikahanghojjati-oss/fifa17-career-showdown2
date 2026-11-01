@@ -259,7 +259,9 @@ function ruleBook(){
   const flat=n=>n.children.flatMap(c=>c.tagName==="fragment"?flat(c):[c]);
   const score=flat(book.all().find(n=>n.className==="ruleScoreTable")).map(r=>r.children.map(c=>c.textContent));
   assert.deepEqual(score.slice(0,2),[["Champions League winner","+5"],["Europa League winner","+3"]]);
-  assert.equal(book.all().find(n=>n.className==="ruleScoreMaximum").textContent,"MAXIMUM PER MANAGER / SEASON11","the season maximum stays 11");
+  // r88 Prime Pack (Nik 2026-10-31): +1 for the first to name the masked Icon raises the season maximum from 11 to 12.
+  assert.equal(book.all().find(n=>n.className==="ruleScoreMaximum").textContent,"MAXIMUM PER MANAGER / SEASON12","the season maximum is 12 with the Prime Pack point");
+  assert.deepEqual(score[score.length-1],["Prime Pack: first to name the masked Icon","+1"],"the Prime Pack row closes the scoring table");
   assert.ok(items.includes("You may play or simulate a Champions League or Europa League final."),"the EL final may be played, like the CL final");
   assert.ok(items.includes("You may play or simulate the main domestic cup final."),"the cup final line is unchanged");
   const notes=flat(book.all().find(n=>n.className==="ruleScoreNotes")).map(n=>n.textContent).join(" ");

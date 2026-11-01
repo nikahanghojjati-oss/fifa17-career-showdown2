@@ -1,5 +1,5 @@
 'use strict';
-// R88 Icon Unmasked stand-in page (workstream C, look = Team V brief R88_ICON_CARD_TEAM_V_BRIEF.md): the hooks the round logic
+// R88 Prime Pack stand-in page (workstream C, look = Team V brief R88_ICON_CARD_TEAM_V_BRIEF.md): the hooks the round logic
 // and the live sync will drive, the game <-> page messages, that the page never decides a guess and never shows the other
 // manager's wrong guess, the overall switch (Nik, 31 Oct 2026: hidden until the result), the timing limits, reduced motion,
 // no network, no photos and no EA assets. tests/browser/r88-icon-page-audit.cjs plays the page in a phone-sized Chromium.
@@ -17,13 +17,13 @@ const one=(re,label)=>{const m=re.exec(script);assert.ok(m,`${label} in the page
 
 // P1 the hooks Team G drives (brief: reveal(index), setChips(role,count), showResult(winner), a guess sent out, a test clock)
 {
-  assert.match(script,/window\.IconUnmaskedPage = Object\.freeze\(\{ load, setWaiting, reveal, setChips, setSuggestions, guessFeedback, showResult,/,'same-window API');
+  assert.match(script,/window\.PrimePackPage = Object\.freeze\(\{ load, setWaiting, reveal, setChips, setSuggestions, guessFeedback, showResult,/,'same-window API');
   assert.match(script,/window\.__ig = \{\s*freeze\(\)/,'test clock');
   const clock=one(/window\.__ig = \{[\s\S]*?\n\};/,'__ig');
   for(const fn of ['freeze','advance','now','preview','state'])assert.match(clock,new RegExp(`[{\\s,]${fn}[(,]`),`__ig.${fn}`);
   assert.match(script,/const now = \(\) => frozen \? manualMs : realNow\(\);/,'one page clock, real or frozen');
   assert.match(page,/html\.still \*, html\.still \*::before, html\.still \*::after \{ transition: none !important; animation: none !important; \}/,'a frozen clock freezes CSS too');
-  ok('P1','IconUnmaskedPage load/setWaiting/reveal/setChips/setSuggestions/guessFeedback/showResult and the __ig test clock (freeze, advance, state)');
+  ok('P1','PrimePackPage load/setWaiting/reveal/setChips/setSuggestions/guessFeedback/showResult and the __ig test clock (freeze, advance, state)');
 }
 
 // P2 game <-> page messages: frame- and origin-checked, the same shape as the Special Player page
@@ -126,4 +126,4 @@ const one=(re,label)=>{const m=re.exec(script);assert.ok(m,`${label} in the page
   ok('P7','one light file with local fonts; no network, CDN, pictures, real faces, EA marks or real card data');
 }
 
-console.log(`PASS r88 Icon Unmasked page contracts: ${checks} numbered checks (hooks, messages, never decides, beats, overall switch and timing, reduced motion, offline and clean).`);
+console.log(`PASS r88 Prime Pack page contracts: ${checks} numbered checks (hooks, messages, never decides, beats, overall switch and timing, reduced motion, offline and clean).`);

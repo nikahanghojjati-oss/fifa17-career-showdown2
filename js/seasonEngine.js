@@ -393,6 +393,7 @@ function getScoringBreakdownLines(scoring){
     return [
         ["Champions League", scoring.championsLeague || 0],
         ...(scoring.europaLeague > 0 ? [["Europa League", scoring.europaLeague]] : []),
+        ...(scoring.primePack > 0 ? [["Prime Pack", scoring.primePack]] : []),
         ["League Title", scoring.leagueTitle || 0],
         ["Domestic Cup", scoring.domesticCup || 0],
         [buildPerformanceBonusLabel(scoring), scoring.performanceBonus || 0],
