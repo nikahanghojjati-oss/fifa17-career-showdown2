@@ -93,7 +93,7 @@ function ensureCompletionHub(){
         createCompletionAction("NEW SHOWDOWN", () => typeof window.CareerModeOnlinePlayerIdentity?.openStart === "function"
             ? window.CareerModeOnlinePlayerIdentity.openStart()
             : window.navigateTo && window.navigateTo("createShowdown")),
-        createCompletionAction("MAIN MENU", () => window.navigateTo && window.navigateTo("mainMenu", { addToHistory: false }), "backButton")
+        createCompletionAction("HOME", () => window.navigateTo && window.navigateTo("mainMenu", { addToHistory: false }), "backButton")
     );
 
     hub.append(title, result, meta, hubActions);
@@ -209,14 +209,14 @@ function getCurrentTransferStatusLabel(){
     if(!currentShowdown || currentShowdown.status === "Completed"){ return ""; }
     // Polish pass (r87): the season the dashboard shows (a shared Showdown's local round can lag one season behind).
     const challenge = getTransferChallengeForSeason(window.getShowdownSeason(currentShowdown));
-    if(!challenge || challenge.status === "not_started"){ return "Transfer challenge: ready"; }
-    if(challenge.status === "active"){ return "Transfer challenge: window live"; }
+    if(!challenge || challenge.status === "not_started"){ return "Transfer War: ready"; }
+    if(challenge.status === "active"){ return "Transfer War: window live"; }
     if(challenge.status === "recording"){
         return getTransferPhaseForDashboard(challenge) === "signing_entry"
-            ? "Transfer challenge: signing entry"
-            : "Transfer challenge: guess entry";
+            ? "Transfer War: signing entry"
+            : "Transfer War: guess entry";
     }
-    return "Transfer challenge: complete";
+    return "Transfer War: complete";
 }
 
 function renderDashboardIntegrityStatus(){
@@ -395,7 +395,7 @@ function updateShowdownUI(){
     let primaryLabel;
 
     if(!challenge || challenge.status === "not_started"){
-        primaryLabel = `START SEASON ${season} TRANSFER CHALLENGE`;
+        primaryLabel = `START SEASON ${season} TRANSFER WAR`;
     }else if(challenge.status === "active"){
         primaryLabel = `RESUME SEASON ${season} TRANSFER WINDOW`;
     }else if(challenge.status === "recording"){

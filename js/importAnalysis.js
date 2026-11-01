@@ -222,7 +222,7 @@
         }
         if(!isPlainImportObject(showdown.clubs) || !isNullableString(showdown.clubs.playerOne) || !isNullableString(showdown.clubs.playerTwo)){ errors.push("Showdown club assignment is invalid."); }
         if(!isPlainImportObject(showdown.score) || !isFiniteNumber(showdown.score.playerOne) || !isFiniteNumber(showdown.score.playerTwo)){ errors.push("Showdown score is invalid."); }
-        if(!Array.isArray(showdown.transferChallenges)){ errors.push("Transfer Challenge history is invalid."); }
+        if(!Array.isArray(showdown.transferChallenges)){ errors.push("Transfer War history is invalid."); }
         if(!Array.isArray(showdown.rounds)){ errors.push("Season history is invalid."); }
         if(!Array.isArray(showdown.integrityWarnings)){ errors.push("Showdown integrity warnings are invalid."); }
         for(const field of ["createdAt", "updatedAt", "completedAt", "archivedAt"]){
@@ -238,7 +238,7 @@
         }
         if(Array.isArray(showdown.transferChallenges)){
             showdown.transferChallenges.forEach((challenge, index) => {
-                if(!isPlainImportObject(challenge)){ errors.push(`Transfer Challenge ${index + 1} is not an object.`); }
+                if(!isPlainImportObject(challenge)){ errors.push(`Transfer War ${index + 1} is not an object.`); }
             });
         }
         return errors;
