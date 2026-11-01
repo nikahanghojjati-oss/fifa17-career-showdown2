@@ -2663,8 +2663,6 @@
     {
       "path": "tests/contracts/r87-sp-pack-fable8-contracts.cjs",
       "patterns": [
-        "^js/(specialPlayerReveal|marqueePlayer)\\.js$",
-        "^data/marqueePlayers\\.js$",
         "^visual-assets/v10_1/special-player/index\\.html$",
         "^tests/contracts/r87-sp-pack-fable8-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"

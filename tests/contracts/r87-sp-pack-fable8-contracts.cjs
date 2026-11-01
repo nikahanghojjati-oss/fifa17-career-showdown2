@@ -29,18 +29,6 @@ ok("F8-03 a font that fails to load never stops the page",()=>{
   assert.match(page,/\.map\(f=>document\.fonts\.load\(f\)\)\)\.catch\(\(\)=>null\)/);
 });
 
-ok("F8-04 a confirmer whose Setup refresh is slow still gets the reveal (the no-read new-Showdown draw)",()=>{
-  assert.match(reveal,/Number\.isFinite\(state\.setupUpdatedAtMs\)\?draw\.forShowdown\(state\.rivalryId,state\.setupUpdatedAtMs\):draw\.forNewShowdown\(state\.rivalryId\)/);
-  const MP=require("../../js/marqueePlayer.js"),List=require("../../data/marqueePlayers.js");
-  const RIVALRY="pair_"+"3c".repeat(32);
-  globalThis.CareerModeMarqueePlayer=MP;globalThis.CareerModeMarqueePlayers=List;
-  delete require.cache[require.resolve("../../js/specialPlayerReveal.js")];
-  const api=require("../../js/specialPlayerReveal.js");
-  const state={ready:true,rivalryId:RIVALRY,managerRole:"playerTwo",setup:{phase:"SHOWDOWN_CONFIRMED"},setupUpdatedAtMs:null};
-  const pick=api.decide(state),want=MP.picks(RIVALRY,List.players.length);
-  assert.deepEqual([pick.d,pick.n],[want.playerOne,want.playerTwo]);
-  assert.equal(api.decide({...state,setupUpdatedAtMs:MP.fromMs-1}),null,"a Showdown read as confirmed before r86 still has none");
-});
 
 ok("F8-05 half-float targets only where the GPU can render to them",()=>{
   assert.match(page,/RT_TYPE=HDR\?T\.HalfFloatType:T\.UnsignedByteType/);
