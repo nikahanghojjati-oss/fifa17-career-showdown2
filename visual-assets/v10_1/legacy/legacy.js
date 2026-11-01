@@ -299,47 +299,57 @@ window.ShowdownLegacyBoot = function () {
     drawer.setAttribute("aria-labelledby", "legacyHistoryHeading");
     const close = document.createElement("button");
     close.type = "button";
-    close.className = "sd-btn";
+    close.className = "sd-btn legacyHistoryClose";
     close.textContent = strings.ui.close;
     close.style.cssText = "position:sticky;top:0;z-index:2;min-height:44px;min-width:44px;background:#0d0f13;color:#f4f1ea";
     close.addEventListener("click", () => closeHistory(true));
     const heading = document.createElement("h2");
     heading.id = "legacyHistoryHeading";
     heading.className = "legacyHistoryHeading sd-label";
-    heading.textContent = copy(strings, "historyHeading", { showdown: copy(strings, "showdown", { number: showdown.number }), action: strings.actions.viewSeasonHistory });
-    const rows = document.createElement("div");
-    rows.className = "legacyHistoryRows";
+    heading.textContent = copy(strings, "historyHeading", { showdown: copy(strings, "showdown", { number: showdown.number }), action: strings.ui.seasonBySeason || strings.actions.viewSeasonHistory });
+    // r87 polish: the season list is a real table (Season · Daniel · Nik · Result), one row per season. Each manager's cell
+    // carries the season's Showdown points large, then the league finish, points and goals, then a Europa League win. The
+    // Result column names the season winner with the crown, or "=" and Draw when the points are equal (no tiebreak).
+    const ui = strings.ui;
+    const text = (key, fallback, values) => (ui[key] ? copy(strings, key, values) : fallback);
+    const cell = (tag, className, content) => { const el = document.createElement(tag); if (className) el.className = className; if (content != null) el.textContent = content; return el; };
+    const rows = cell("table", "legacyHistoryTable");
+    const head = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    headRow.append(cell("th", "legacyHistorySeasonHead", text("seasonColumn", "Season")),
+      cell("th", "daniel", ui.managers.daniel), cell("th", "nik", ui.managers.nik),
+      cell("th", "legacyHistoryResultHead", text("resultColumn", "Result")));
+    headRow.querySelectorAll("th").forEach((th) => th.setAttribute("scope", "col"));
+    head.appendChild(headRow);
+    const body = document.createElement("tbody");
     showdown.seasons.forEach((season) => {
-      const row = document.createElement("div");
-      row.className = "legacyHistoryRow";
-      const label = document.createElement("span");
-      label.textContent = copy(strings, "season", { number: season.season });
+      const row = document.createElement("tr");
+      row.className = "legacyHistorySeason";
+      const d = Number(season.score.daniel), n = Number(season.score.nik);
+      const winner = d > n ? "daniel" : n > d ? "nik" : "draw";
+      row.dataset.winner = winner;
+      const label = cell("th", "legacyHistorySeasonLabel", copy(strings, "season", { number: season.season }));
+      label.setAttribute("scope", "row");
       row.appendChild(label);
-      ["daniel", "nik"].forEach((manager, index) => {
-        if (index) {
-          const divider = document.createElement("span");
-          divider.textContent = "–";
-          row.appendChild(divider);
-        }
-        const side = document.createElement("span");
-        side.className = manager;
-        side.textContent = copy(strings, "managerScore", { manager: strings.ui.managers[manager], score: season.score[manager] });
-        const detail = document.createElement("span");
-        detail.style.cssText = "display:block;line-height:1.4;color:#b9b3a4";
-        detail.textContent = copy(strings, "seasonDetail", { position: season.leaguePosition[manager], points: season.leaguePoints[manager], goals: season.leagueGoals[manager] });
-        side.appendChild(detail);
+      ["daniel", "nik"].forEach((manager) => {
+        const side = cell("td", manager);
+        side.dataset.won = String(winner === manager);
+        side.appendChild(cell("b", "legacyHistoryPoints", String(season.score[manager])));
+        // r87: a real space keeps "8 #3" two words wherever the points and the finish sit on one line (copy, screen readers, CE2PG).
+        side.appendChild(document.createTextNode(" "));
+        side.appendChild(cell("span", "legacyHistoryDetail", copy(strings, "seasonDetail", { position: season.leaguePosition[manager], points: season.leaguePoints[manager], goals: season.leagueGoals[manager] })));
         // r80: a season row names a Europa League win (the career season row carries it only for such a season).
-        if (season.europaLeague && season.europaLeague[manager] === true) {
-          const europa = document.createElement("span");
-          europa.className = "legacyHistoryEuropa";
-          europa.style.cssText = "display:block;line-height:1.4;color:#f3ce6a;font-weight:700";
-          europa.textContent = strings.ui.europaLeague || "Europa League winner";
-          side.appendChild(europa);
-        }
+        if (season.europaLeague && season.europaLeague[manager] === true) side.append(" ", cell("span", "legacyHistoryEuropa", strings.ui.europaLeague || "Europa League winner"));
         row.appendChild(side);
       });
-      rows.appendChild(row);
+      const result = cell("td", "legacyHistoryResult");
+      result.appendChild(cell("span", "legacyHistoryMark", winner === "draw" ? "=" : "\u265B")).setAttribute("aria-hidden", "true");
+      result.appendChild(document.createTextNode(" "));
+      result.appendChild(cell("span", "legacyHistoryWinner", winner === "draw" ? ui.draw : ui.managers[winner]));
+      row.appendChild(result);
+      body.appendChild(row);
     });
+    rows.append(head, body);
     // r86: this Showdown's Special Players, each next to the manager's name (none for a Showdown from before r86).
     const chips = ["daniel", "nik"].map((manager) => [manager, specialPlayerChip(showdown, manager)]).filter(([, chip]) => chip);
     const special = chips.length === 2 ? document.createElement("p") : null;
@@ -358,6 +368,9 @@ window.ShowdownLegacyBoot = function () {
     drawer.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reducedMotion() ? "instant" : "smooth" });
   }
 
+  // r87 (transitions): phone History draws the selected card and this many on each side; a career of hundreds of
+  // Showdowns used to build every card (three crests each) before the screen could open.
+  const PHONE_CARD_WINDOW = 3;
   function renderArchive(frame, strings) {
     const grid = document.getElementById("legacyCardGrid");
     const pager = document.getElementById("legacyPager");
@@ -373,9 +386,38 @@ window.ShowdownLegacyBoot = function () {
     let settling = 0;
     let pagerBuiltFor = null;
 
+    function liveCard(item) {
+      const card = renderCard(item, selected, strings);
+      card.addEventListener("click", () => select(item.number));
+      return card;
+    }
+    function standIn(item) {
+      const card = document.createElement("div");
+      card.className = "legacyCard";
+      card.dataset.showdown = String(item.number);
+      card.dataset.status = item.status || "completed";
+      card.dataset.selected = "false";
+      card.dataset.standIn = "true";
+      // The screen's layout reads data-golden from any card (css/rivalryLegacyV10.css :has()), so a stand-in carries it too.
+      if (Array.isArray(item.goldenShowdown) && item.goldenShowdown.some((manager) => manager === "daniel" || manager === "nik")) card.dataset.golden = "true";
+      card.setAttribute("aria-hidden", "true");
+      return card;
+    }
+    // Draws the real cards within PHONE_CARD_WINDOW of the given Showdown (a stand-in becomes its card in place).
+    function drawNear(number) {
+      if (!phone.matches) return;
+      const index = records.findIndex((item) => item.number === number);
+      if (index < 0) return;
+      for (let i = Math.max(0, index - PHONE_CARD_WINDOW); i <= Math.min(records.length - 1, index + PHONE_CARD_WINDOW); i++) {
+        const node = grid.children[i];
+        if (node && node.dataset.standIn === "true" && Number(node.dataset.showdown) === records[i].number) node.replaceWith(liveCard(records[i]));
+      }
+    }
     function select(number, scroll = false) {
+      drawNear(number);
       const previousIndex = records.findIndex(item => item.number === selected);
       const changed = number !== selected;
+      const before = selected;
       selected = number;
       frame.ui.selectedShowdown = selected;
       if (window.LegacyFixture) window.LegacyFixture.selectedShowdown = selected;
@@ -384,8 +426,13 @@ window.ShowdownLegacyBoot = function () {
       closeHistory();
       grid.querySelectorAll(".legacyCard").forEach((card) => {
         const active = Number(card.dataset.showdown) === selected;
-        card.dataset.selected = String(active && canDisclose(record));
-        if (card.tagName === "BUTTON") card.setAttribute("aria-pressed", String(active));
+        // r87 (transitions): only cards whose state changes are written, so a long career restyles two cards per step, not all.
+        // The old and new selected cards are always written: two Ended early cards both stay "false", and the shell's
+        // MutationObserver (js/rivalryLegacyV10.js) moves the shown card only on a data-selected write (Codex #1120).
+        const shown = String(active && canDisclose(record));
+        const step = changed && (active || Number(card.dataset.showdown) === before);
+        if (step || card.dataset.selected !== shown) card.dataset.selected = shown;
+        if (card.tagName === "BUTTON" && card.getAttribute("aria-pressed") !== String(active)) card.setAttribute("aria-pressed", String(active));
         if (active && scroll) grid.scrollLeft = Array.from(grid.children).indexOf(card) * grid.clientWidth;
       });
       const index = records.findIndex((item) => item.number === selected);
@@ -426,10 +473,11 @@ window.ShowdownLegacyBoot = function () {
       }
       frame.ui.page = page;
       grid.replaceChildren();
-      visible.forEach((item) => {
-        const card = renderCard(item, selected, strings);
-        card.addEventListener("click", () => select(item.number));
-        grid.appendChild(card);
+      // r87 (transitions): the phone shows one card at a time, so only the cards near the selected Showdown are drawn;
+      // the rest are light stand-ins (same class, hidden like any unselected phone card) drawn when they come near.
+      const at = phone.matches ? Math.max(0, visible.findIndex((item) => item.number === selected)) : 0;
+      visible.forEach((item, index) => {
+        grid.appendChild(phone.matches && Math.abs(index - at) > PHONE_CARD_WINDOW ? standIn(item) : liveCard(item));
       });
       // Codex #1103: the pager is built once per layout (phone or desktop) and kept while the cards change, so a scrubber
       // drag or a keyboard step on it is never cut short by its own element being replaced; select() updates it.
@@ -690,7 +738,8 @@ window.ShowdownLegacyBoot = function () {
       renderSeasonHistory(frame, selected, fixtures.strings);
     });
     renderObject(stringsRoot, fixtures.strings);
-    renderObject(valuesRoot, frame);
+    // r87 (transitions): the live frame is not copied into the hidden debug section. With hundreds of Showdowns it built
+    // ~140k hidden elements and made History slow to open and to page through.
 
     window.LegacyFixture = { fixtures, frameId, frame, platemap, stageController, selectedShowdown: frame.ui && frame.ui.selectedShowdown };
     // The optional screen owns this entrance; all controls are already wired.

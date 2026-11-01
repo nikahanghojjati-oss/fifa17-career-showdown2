@@ -48,7 +48,10 @@ async function visibleInk(page,selector){
       }
       else await openScreen(page,"TROPHY_ROOM");
       await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(2600);
-      const selectors=screen==="season-results"?["#sharedCanonicalScoringHeading","#sharedCanonicalScoringTotals","#sharedCanonicalScoringWinner"]:["#trophyRoomBack"];
+      // r87: the committed SEASON SCORE draws as a scoreboard (.pcscBoard); its plain text lines stay in the DOM for screen
+      // readers and the text checks below, so the board's score line and verdict are what must show unobstructed.
+      const board=screen==="season-results"&&await page.locator("#sharedCanonicalScoringPanel.hasPcscBoard .pcscBoard").count()>0;
+      const selectors=screen==="season-results"?(board?["#sharedCanonicalScoringHeading","#sharedCanonicalScoringPanel .pcscBoard__head","#sharedCanonicalScoringPanel .pcscBoard__verdict"]:["#sharedCanonicalScoringHeading","#sharedCanonicalScoringTotals","#sharedCanonicalScoringWinner"]):["#trophyRoomBack"];
       for(const selector of selectors){
         const issues=await visibleInk(page,selector);if(issues.length)failures.push(`${screen} ${width}x${height} ${selector}: ${issues.join(", ")}`);
       }

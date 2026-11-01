@@ -301,7 +301,7 @@ async function setupContracts(){
 function sourceContracts(){
   const commit=read("js/productionSharedSeasonCommit.js");
   assert.ok(!/SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY/.test(commit),"stale 'scoring remains locked' copy must be gone");
-  assert.ok(commit.includes('"SEASON COMMITTED · SCORE BELOW"'),"after both acknowledged the commit panel must point at the score below");
+  assert.ok(commit.includes('"SEASON CONFIRMED BY BOTH MANAGERS"'),"after both acknowledged the commit panel says both managers confirmed (r87 proofread: one verb, no COMMITTED)");
   for(const file of ["js/productionSharedTransferChallenge.js","js/productionSharedCareerStart.js","js/productionSharedShowdownSetup.js"])assert.ok(/permission-denied/.test(read(file)),`${file} must handle a lost-race permission-denied`);
 }
 

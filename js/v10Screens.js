@@ -61,7 +61,7 @@
   const GATE_MIN_MS=600;
   const GATE_EXIT_MS=240;
   // r87 (lane C C-05): how long after a Home tile tap the second tap of a pointer double tap is swallowed, wherever it lands.
-  const DOUBLE_TAP_MS=500;
+  const DOUBLE_TAP_MS=300;
   // r78 (HO-028 / HO-029): Team V's readable body type and the black-and-gold marble for errors, notes, pop-ups and
   // toasts. They load with the kit sheets (never in the startup bundle) and stay on, like the shell sheet.
   const R78_STYLES=Object.freeze(["css/r78-type.css","css/r78-marble-surfaces.css"]);
@@ -603,7 +603,8 @@
     // r87 (lane C C-05): once the first tap has switched the screen, the second tap of a double tap lands on the next screen's
     // control under the finger (STATISTICS opened the Trophy Room on desktop; RULE BOOK bounced back Home on a phone, through a
     // BACK TO HOME still pending and invisible). Any other pointer tap within DOUBLE_TAP_MS of a Home tile tap is that second
-    // tap, so it is swallowed. Keyboard and programmatic clicks (detail 0) pass; a deliberate tap a moment later works.
+    // tap, so it is swallowed. Keyboard and programmatic clicks (detail 0) pass; a deliberate tap a moment later works. The window
+    // is a phone's double-tap interval (300 ms): at 500 ms a quick deliberate OPEN TROPHY ROOM after the statistics showed was lost.
     let lastTileTapAt=0,lastTile=null;
     vsDoc().addEventListener("click",event=>{
       const tile=event.target&&typeof event.target.closest==="function"?event.target.closest("#mainMenu .menuTile"):null;
