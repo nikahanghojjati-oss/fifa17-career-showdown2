@@ -8,7 +8,7 @@
   // R88 Prime Pack (Nik 2026-10-31/11-01): male outfield Legends, Icons, FUT Heroes and Hall of FUT players, one card each
   // (the Icon card always wins: the highest Legend or Icon card; a Hero or Hall of FUT card only for a player with none; the
   // newer game wins a tie). Written by scripts/r88-icons-from-csv.mjs on 2026-11-01 from the checked CSVs:
-  // 231 players (17 Legend, 102 Icon Prime, 26 Icon Base, 68 Hero, 18 Hall of FUT),
+  // 232 players (17 Legend, 103 Icon Prime, 26 Icon Base, 68 Hero, 18 Hall of FUT),
   // Prime cards up to FIFA 23. Do not edit by hand: fix the CSVs and run the script again.
   // The order is part of the draw: never reorder rows or change who is in them once released; a new list is a new LIST_VERSION.
   const LIST_VERSION=1;
@@ -185,6 +185,7 @@
     {"id":"paulo-futre","name":"Futre","fullName":"Paulo Futre","acceptedNames":["Futre","Paulo Futre"],"nation":"Portugal","nationCode":"PT","position":"LW","game":"FIFA 17","cardVersion":"Legend","overall":87,"stats":{"PAC":84,"SHO":80,"PAS":78,"DRI":92,"DEF":28,"PHY":55}},
     {"id":"pavel-nedved","name":"Nedvěd","fullName":"Pavel Nedvěd","acceptedNames":["Nedvěd","Pavel Nedvěd"],"nation":"Czech Republic","nationCode":"CZ","position":"LM","game":"FIFA 23","cardVersion":"Icon Prime","overall":91,"stats":{"PAC":85,"SHO":88,"PAS":90,"DRI":90,"DEF":60,"PHY":81}},
     {"id":"pele","name":"Pelé","fullName":"Edson Arantes do Nascimento","acceptedNames":["Pelé","Edson Arantes do Nascimento","Nascimento","O Rei"],"nation":"Brazil","nationCode":"BR","position":"CAM","game":"FIFA 23","cardVersion":"Icon Prime","overall":98,"stats":{"PAC":95,"SHO":96,"PAS":93,"DRI":96,"DEF":60,"PHY":76}},
+    {"id":"pep-guardiola","name":"Guardiola","fullName":"Josep Guardiola Sala","acceptedNames":["Guardiola","Josep Guardiola Sala","Pep Guardiola"],"nation":"Spain","nationCode":"ES","position":"CDM","game":"FIFA 22","cardVersion":"Icon Prime","overall":90,"stats":{"PAC":78,"SHO":65,"PAS":88,"DRI":81,"DEF":88,"PHY":83}},
     {"id":"pepe","name":"Pepe","fullName":"Képler Laveran Lima Ferreira","acceptedNames":["Pepe","Képler Laveran Lima Ferreira"],"nation":"Portugal","nationCode":"PT","position":"CB","game":"FC 27","cardVersion":"Icon Base","overall":89,"stats":{"PAC":78,"SHO":51,"PAS":61,"DRI":65,"DEF":90,"PHY":89}},
     {"id":"peter-crouch","name":"Peter Crouch","fullName":"Peter James Crouch","acceptedNames":["Peter Crouch","Peter James Crouch","Crouch"],"nation":"England","nationCode":"GB-ENG","position":"ST","game":"FC 27","cardVersion":"Hero","overall":85,"stats":{"PAC":74,"SHO":87,"PAS":75,"DRI":78,"DEF":52,"PHY":80}},
     {"id":"philipp-lahm","name":"Lahm","fullName":"Philipp Lahm","acceptedNames":["Lahm","Philipp Lahm"],"nation":"Germany","nationCode":"DE","position":"RB","game":"FIFA 23","cardVersion":"Icon Prime","overall":91,"stats":{"PAC":87,"SHO":72,"PAS":87,"DRI":87,"DEF":90,"PHY":73}},
