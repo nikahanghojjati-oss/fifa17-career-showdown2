@@ -236,7 +236,7 @@ function multiSandbox({accepted,total=3,terminal=false}){
   assert.equal(remoteSource.includes("sessionStorage"),false,"D1 the private-session capability is never persisted by Remote Joining");
   assert.equal(remoteSource.includes("localStorage"),false,"D1 the private-session capability is never persisted by Remote Joining");
   assert.match(entrySource,/showdown\.sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,"D2 the permanent shared-mode marker shape is unchanged (it is the local draw lock)");
-  assert.match(entrySource,/if\(confirmed&&await resumeAcceptedSeason\(\)\)\{applyLocalDrawLock\(\);return true;\}\s*if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLock\(\);return true;\}/,"D3 resume is checked before the unchanged Career Start route");
+  assert.match(entrySource,/if\(confirmed&&await resumeAcceptedSeason\(\)\)\{applyLocalDrawLock\(\);return true;\}\s*if\(await showdownClosedNow\(\)\)\{await openClosedShowdown\(\);return true;\}\s*if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLock\(\);return true;\}/,"D3 resume, then the close check (F1), are checked before the unchanged Career Start route");
   assert.doesNotMatch(entrySource,/if\(pending\(\)\)setTimeout\(\(\)=>void openPanel\(\),0\)/,"D4 install no longer opens GET READY from the marker alone");
   assert.doesNotMatch(multiSource,/\blocalStorage\b|sessionStorage/,"D5 the season cursor stays page memory; resume reads provider authority");
   console.log("ok D page-memory capability, marker shape and Career Start route locks hold");

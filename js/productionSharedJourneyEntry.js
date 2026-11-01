@@ -330,7 +330,7 @@
   const LIVE_GAME_KEY="careerModeShowdown.liveGame.v1";let liveGameWatch=null;
   function markLiveGame(remote){
     if(liveGameWatch||!remote||typeof remote.subscribe!=="function")return;
-    const apply=next=>{try{if(!root.sessionStorage||!next)return;if(["open","active"].includes(next.sessionState))root.sessionStorage.setItem(LIVE_GAME_KEY,"1");else if(["closed","revoked","expired"].includes(next.sessionState))root.sessionStorage.removeItem(LIVE_GAME_KEY);}catch(_error){}};
+    const apply=next=>{try{if(!root.sessionStorage||!next)return;if(["open","active"].includes(next.sessionState))root.sessionStorage.setItem(LIVE_GAME_KEY,"1");else if(["closed","revoked","expired"].includes(next.sessionState)&&!(next.sessionState==="closed"&&championPending()))root.sessionStorage.removeItem(LIVE_GAME_KEY);}catch(_error){}};
     liveGameWatch=remote.subscribe(apply);apply(typeof remote.getState==="function"?remote.getState():null);
   }
   async function openRemote(){
@@ -361,7 +361,9 @@
   async function resumeSeasonResults(resumed){
     const confirmed=root.CareerModeProductionSharedShowdownSetup?.getState?.();if(!confirmed||confirmed.ready!==true)return false;
     const season=Number(resumed.season),role=confirmed.managerRole,rivalryId=confirmed.rivalryId;
-    if(resumed.terminal===true||!rivalryId||!role||!Number.isInteger(season)||season<1)return false;
+    // F1: a Showdown whose seasons are all accepted resumes on its final season's results too: Final Winner and the automatic
+    // close follow there, as on a phone that never reloaded (it used to land on a SHOWDOWN COMPLETE dashboard with a dead button).
+    if(!rivalryId||!role||!Number.isInteger(season)||season<1)return false;
     // A hint selects a possible route, never gameplay authority. Missing/unavailable storage keeps the full-screen fallback.
     let hint=null;try{hint=root.readStorageValue?.(`cms.transferViews.v1:${rivalryId}:${season}:${role}`);}catch(_error){}
     if(!hint)return false;
@@ -378,7 +380,8 @@
     const progression=root.CareerModeProductionSharedMultiSeasonProgression;
     if(!progression||typeof progression.resumeFromAuthority!=="function")return false;
     progression.install?.();
-    const resumed=await progression.resumeFromAuthority();
+    // F1: a season this phone accepted but never continued from reopens on its results (Shared History, CONTINUE, Gazette).
+    const resumed=await progression.resumeFromAuthority({holdForReview:true});
     // r87 arch S-01: an unread season count is not "no season played". When the reads failed and this phone's own save
     // already holds a played season, Career Start (season 1) is the wrong landing: fail into the retryable entry instead.
     if(!resumed&&progression.lastError?.()&&localSeasonPlayed()){const error=new Error("Your season could not be checked. Check your internet, then press START again.");error.code="MULTI_SEASON_RESUME_UNREAD";throw error;}
@@ -386,10 +389,94 @@
     // The Results route is a nicer landing, never a new way to fail: any error here keeps the existing fallback.
     let routed=false;try{routed=await resumeSeasonResults(resumed);}catch(_error){}
     if(routed)return true;
+    if(resumed.heldForReview===true)progression.releaseHeldSeason?.();
+    // F1: every season accepted and the final results could not open: a closed Showdown shows its Champion screen (or Home),
+    // never the SHOWDOWN COMPLETE dashboard.
+    if(resumed.terminal===true&&await showdownClosedNow()){await openClosedShowdown();return true;}
     if(resumed.acceptedSeasons<1)return false;
     if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("dashboard",false);
     progression.decorateDashboard?.();
     return true;
+  }
+  // F1 (fault suite, a stale tab or a reload at the close): a Showdown that has already closed must never open its Season 1
+  // screens (the wheel, GET READY, Career Start) or a SHOWDOWN COMPLETE dashboard. Before any of those, the close is checked:
+  // first what this page already holds (Terminal Close, the pair, the season count; no read), and only when this entry's own
+  // reads came back without a usable session (which is what a close leaves) one Terminal Close read. A normal entry reads nothing more.
+  const CHAMPION_KEY="cms.championPending.v1";
+  function validRivalry(id){return /^pair_[0-9a-f]{64}$/.test(String(id||""));}
+  function championPending(){try{const id=String(root.readStorageValue?.(CHAMPION_KEY)||"");return validRivalry(id)?id:"";}catch(_error){return "";}}
+  function clearChampionPending(rivalryId){try{if(rivalryId&&championPending()===rivalryId)root.removeStorageValue?.(CHAMPION_KEY);}catch(_error){}}
+  function closedHere(){
+    try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();if(t&&t.phase==="CLOSED"&&t.terminal===true&&validRivalry(t.rivalryId))return t.rivalryId;}catch(_error){}
+    return "";
+  }
+  async function showdownClosedNow(){
+    if(closedHere())return true;
+    let setupReady=false;try{setupReady=root.CareerModeProductionSharedShowdownSetup?.getState?.()?.ready===true;}catch(_error){}
+    const unread=Boolean(root.CareerModeProductionSharedMultiSeasonProgression?.lastError?.());
+    if(setupReady&&!unread)return false;
+    try{
+      const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);
+      close.install?.();const state=close.getState?.()?.phase==="CLOSED"?close.getState():await close.refresh();
+      return Boolean(state&&state.phase==="CLOSED"&&state.terminal===true);
+    }catch(_error){return false;}
+  }
+  // The Showdown Champion screen of a closed Showdown: Season Results' host draws Final Winner from Terminal Close's verified
+  // witness (js/seasonFinalV10.js) and fetches the finished history itself. When it cannot be shown, Home (the pair lets the
+  // closed Showdown go there). Never a Season 1 screen.
+  let championPromise=null;
+  function openClosedShowdown(){
+    if(championPromise)return championPromise;
+    championPromise=(async()=>{
+      closePanel();try{root.CareerModeProductionSharedCareerStart?.closePanel?.();}catch(_error){}
+      let shown=false;
+      try{if(closedHere()&&typeof root.navigateTo==="function"){await loadScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);shown=await root.navigateTo("seasonEntry",{addToHistory:false,allowCanonicalFallback:false})===true;}}catch(_error){shown=false;}
+      if(!shown&&typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false});
+      return shown;
+    })().finally(()=>{championPromise=null;});
+    return championPromise;
+  }
+  // F1: VIEW FINAL RESULT on a complete Showdown's dashboard: the Champion screen once closed, else the final season's results.
+  function openFinalResult(){return closedHere()?openClosedShowdown():openSharedExperience();}
+  // F1 item 3: a reload at the close found the pair already let the Showdown go, so Home opened instead of the Champion screen
+  // this phone was due to show (js/onlinePlayerIdentity.js asks here instead of dropping the live-game flag; true means this
+  // takes it over). Only the closed Showdown this phone saw finish (cms.championPending.v1), on its own save; one Terminal
+  // Close read, then Season Results' host draws Final Winner. The flag, and with it js/ssjr.js's loading screen, stays until
+  // the Champion screen (or Home) is up. Any other pair state forgets the note.
+  function championAfterClose(pair){
+    const run=championAfterCloseRun(pair);if(!run)return false;
+    void run.catch(()=>false).then(shown=>{if(!shown)root.careerModeTabResumeLetGo=true;try{root.sessionStorage?.removeItem(LIVE_GAME_KEY);}catch(_error){}});
+    return true;
+  }
+  function championAfterCloseRun(pair){
+    const rivalryId=championPending();if(!rivalryId||!pair)return null;
+    if(pair.rivalryId&&pair.rivalryId!==rivalryId){clearChampionPending(rivalryId);return null;}
+    const closed=(!pair.rivalryId&&pair.closedRivalryId===rivalryId)||(pair.rivalryId===rivalryId&&pair.connectionState==="closed");
+    if(!closed)return null;
+    return (async()=>{
+      try{
+        await ensureSaveAuthority();
+        const library=root.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.();
+        if(pair.closedProviderSaveId&&library?.activeSaveId!==pair.closedProviderSaveId){clearChampionPending(rivalryId);return false;}
+        // The closed Showdown's own save is put back in memory (as Home's CONTINUE does, without its navigation): Terminal Close
+        // and Season Results work on the loaded save.
+        if(!loadedShowdown()&&typeof root.loadSavedShowdown==="function"){const saved=root.loadSavedShowdown();if(!saved)return false;currentShowdown=typeof normalizeShowdown==="function"?normalizeShowdown(saved):saved;}
+        // Terminal Close names the rivalry from this save's Connected Rivalry binding, which a fresh page has not read yet.
+        const rivalry=await loadScript("rivalry","js/sparkConnectedRivalry.js",()=>root.CareerModeSparkConnectedRivalry);await rivalry?.initialize?.();
+        const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);
+        close.install?.();const state=close.getState?.()?.phase==="CLOSED"?close.getState():await close.refresh();
+        if(!state||state.phase!=="CLOSED"||state.terminal!==true||state.rivalryId!==rivalryId){if(state?.phase==="DELETED")clearChampionPending(rivalryId);return false;}
+        return await openClosedShowdown();
+      }catch(error){report("Unable to open the Showdown Champion",error);return false;}
+    })();
+  }
+  // Leaving the Champion screen of a closed Showdown (BACK TO SHOWDOWN HOME, REMATCH, any route) forgets the note. The close
+  // usually lands while Season Results is already open (no new screen event), so the closed state is read on leaving it.
+  let lastScreen="";
+  function followChampionScreen(){
+    const screen=root.getActiveScreenName?.()||"",closed=closedHere();
+    if(lastScreen==="seasonEntry"&&screen&&screen!=="seasonEntry"&&closed)clearChampionPending(closed);
+    lastScreen=screen;
   }
   async function openSharedExperience(){
     closePanel();
@@ -397,6 +484,7 @@
       await ensureSaveAuthority();
       const confirmed=await confirmedSetupSnapshot();
       if(confirmed&&await resumeAcceptedSeason()){applyLocalDrawLock();return true;}
+      if(await showdownClosedNow()){await openClosedShowdown();return true;}
       if(confirmed){await openCareerStart();applyLocalDrawLock();return true;}
       await loadScript("ssjr-polished-presentation","js/productionSharedShowdownPresentation.js",()=>root.CareerModeProductionSharedShowdownPresentation);
       const presentation=root.CareerModeProductionSharedShowdownPresentation;if(!presentation||typeof presentation.activate!=="function")throw new Error("Showdown presentation is unavailable.");
@@ -530,7 +618,7 @@
     try{unsubscribe=typeof identity?.subscribe==="function"?identity.subscribe(watch):null;}catch(_error){unsubscribe=null;}watch();
     setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Unable to open career entry",error)).finally(()=>{releaseStartupHold();try{unsubscribe?.();}catch(_error){}}),0);
   }
-  function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())startStartupResume();return true;}
+  function install(){if(installed)return true;installed=true;root.document?.addEventListener?.("career-mode-screen-shown",followChampionScreen);/* F1: a due Champion screen is a live game for the reload resume (and its loading screen) */if(championPending())try{root.sessionStorage?.setItem(LIVE_GAME_KEY,"1");}catch(_error){}installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())startStartupResume();return true;}
 
-  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,startupResume:()=>startupResumePromise,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,startupResume:()=>startupResumePromise,openPanel,closePanel,openSharedExperience,openClosedShowdown,openFinalResult,championAfterClose,isPending:pending});
 });
