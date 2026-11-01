@@ -178,3 +178,8 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 23:06 | Team G | Team V | HO-047 DONE | Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx | no |
 | 2026-10-29 23:25 | Team V | Team G | HO-047 DONE | Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx | no |
 | 2026-10-30 00:18 | Team V | Team G | HO-040 DONE | Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87) | no |
+| 2026-10-31 02:01 | Team G | Team V | HO-048 RECEIVED | Touchline Gazette full edition: real newspaper copy, stories and commentary (r87) | no |
+| 2026-10-31 03:48 | Team G | Team V | HO-049 SENT | r87 start screens: season chips, LED words, no-dim CTA, Career Start options | yes (receive it) |
+| 2026-10-31 19:35 | Team G | Team V | HO-050 SENT | r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller | yes (receive it) |
+| 2026-11-01 10:33 | Team G | Team V | HO-051 SENT | Prime Pack page art for r87 (release waits for it) | yes (receive it) |
+| 2026-11-01 11:16 | Team G | Team V | HO-048 DONE | Touchline Gazette full edition: real newspaper copy, stories and commentary (r87) | no |

@@ -10,11 +10,11 @@
  "priority": "normal",
  "worker": "",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "1110",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-31T01:52:26Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-31T02:01:58Z", "by": "G", "status": "RECEIVED", "note": "r87 lead: building it now (branch claude-gameplay/r87-gazette); season edition after each Season Results, final after Final Winner (Nik 01:28 UTC). Paper text deterministic per Showdown+season so both phones match."}]
+ "evidence": ["project-documents/leads-relay/attachments/HO-048/season-desktop.png"],
+ "log": [{"at": "2026-10-31T01:52:26Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-31T02:01:58Z", "by": "G", "status": "RECEIVED", "note": "r87 lead: building it now (branch claude-gameplay/r87-gazette); season edition after each Season Results, final after Final Winner (Nik 01:28 UTC). Paper text deterministic per Showdown+season so both phones match."}, {"at": "2026-11-01T11:16:09Z", "by": "G", "status": "DONE", "note": "Merged into gameplay/r87 via #1110; ships in 2.0.0. Shots from gameplay/r87 f4efa199 (emulator CE2PG): season 1 of 3 paper and FINAL EDITION, desktop 1440x900 + phone 390x844."}]
 }
 ```
 
