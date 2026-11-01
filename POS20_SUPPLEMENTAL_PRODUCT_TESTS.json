@@ -2618,6 +2618,47 @@
         "^tests/contracts/r87\\-fable\\-career\\-truth\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-browser-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-retry-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-retry\\-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-edges-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-edges\\-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-stall-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-stall\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

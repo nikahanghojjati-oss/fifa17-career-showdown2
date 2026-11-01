@@ -107,6 +107,8 @@
   function rlSnapshot(){return {identity:identity(),pair:state("CareerModePersistentNikDanielPair"),history:state("CareerModeProductionSharedHistoryConvergence"),multiSeason:state("CareerModeProductionSharedMultiSeasonProgression"),finalReconciliation:state("CareerModeProductionSharedFinalReconciliation"),terminalClose:state("CareerModeProductionSharedTerminalClose")};}
   function markup(screen){if(node)require("./rivalryLegacyV10Markup.js");return root.CareerModeRivalryLegacyMarkup?.[screen]??"";}
   function source(screen){
+    // r87 H4: covered while its career is read (Reus Gate); see refresh().
+    if(held.has(screen)&&screens().HOLD)return screens().HOLD;
     const model=getters[screen]?.();
     if(model!=null)return model;
     // Signed in or not, Team V draws the screen; only Legacy's data tools page keeps the app's own markup.
@@ -163,7 +165,7 @@
     }
     if(screen==="legacy"&&frame.status==="unavailable"){
       const banner=host.querySelector("#legacyStateBanner"),retry=banner&&root.document.createElement?.("button");
-      if(retry){retry.type="button";retry.className="sd-btn sd-btn--secondary";retry.textContent="TRY AGAIN";retry.style.gridColumn="1 / -1";retry.style.justifySelf="center";retry.addEventListener("click",()=>{void refresh(screen).catch(report);});banner.appendChild(retry);}
+      if(retry){retry.type="button";retry.className="sd-btn sd-btn--secondary";retry.textContent="TRY AGAIN";retry.style.gridColumn="1 / -1";retry.style.justifySelf="center";retry.addEventListener("click",()=>{void refresh(screen,false,true).catch(report);});banner.appendChild(retry);}
     }
     const title=host.querySelector(screen==="legacy"?"#legacyHeading":"#statisticsScreenTitle");
     if(title){title.tabIndex=-1;title.setAttribute("data-route-focus-target","true");host.setAttribute("aria-labelledby",title.id);}
@@ -217,7 +219,7 @@
         // Codex #1103: by status, so the loader's own "unavailable" career (a failed career-index read) retries too.
         const retryUnavailable=()=>{
           if(root.document?.visibilityState==="hidden")return;
-          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&(sources[screen]===UNAVAILABLE||sources[screen]?.status==="unavailable")&&!reloads[screen]?.flight)void refresh(screen).catch(report);
+          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&(sources[screen]===UNAVAILABLE||sources[screen]?.status==="unavailable")&&!reloads[screen]?.flight)void refresh(screen,false,true).catch(report);
         };
         root.addEventListener?.("online",retryUnavailable);
         root.document?.addEventListener?.("visibilitychange",retryUnavailable);
@@ -313,9 +315,10 @@
           const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc,setDoc:sdk.setDoc},user,current:active.careerInput,...(typeof onProgress==="function"?{onProgress}:{}),...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
           model=result.model??UNAVAILABLE;
           if(rivalry){
-            // Career order is oldest first. Rebuild the latest verified completed entry,
+            // Career order is oldest first. Rebuild the latest verified completed entry (r87 Fable job 7 F7-06: a newer live or
+            // completion-pending Showdown is not finished yet, so it never hides the newest finished one behind "empty"),
             // never mix whole-career manager counters into one rivalry's figures.
-            const input=result.careerInput,entry=input?.showdowns?.filter(item=>item.classification!=="abandoned").at(-1);
+            const input=result.careerInput,entry=input?.showdowns?.filter(item=>!["abandoned","active","completion-pending"].includes(item.classification)).at(-1);
             rivalryModel=input?.indexStatus==="ready"?(entry?.classification==="completed"?root.CareerModeSharedCareerAnalytics.buildCareerModel({indexStatus:"ready",showdowns:[entry]}):entry?.classification==="unavailable"?UNAVAILABLE:{status:"empty"}):UNAVAILABLE;
           }
         }
@@ -334,10 +337,14 @@
     }catch(_){return false;}
   }
   function rlLiveOrContinue(rivalry){return rivalry?.status==="loading"&&!rlLiveCanArrive()?{...rivalry,status:"unavailable",notice:"continue"}:rivalry;}
-  const FIRST_HOLD_MS=3500;
+  // r87 H4 (Reus Gate, Nik): a first entry, TRY AGAIN, or the connection coming back on "unavailable" keeps the screen covered
+  // under Reus while its career is read, then reveals it once. Only a read still running after HOLD_MAX_MS shows the loading
+  // frame with its "n of N" progress (inside js/v10Screens.js's LOAD_HOLD_MAX_MS, so the cover never ends first).
+  const HOLD_MAX_MS=14000;
+  const held=new Set();
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
-  function refresh(screen,event=false){
+  function refresh(screen,event=false,retry=false){
     let key=context();const reload=reloads[screen]??(reloads[screen]={flight:null,timer:null,dirty:false,lastStarted:-Infinity});
     const supplied=getters[screen]?.();
     if(supplied!=null){screens().invalidate(APP[screen]);return screens().show(APP[screen]);}
@@ -358,6 +365,9 @@
     reload.dirty=false;reload.lastStarted=Date.now();
     // r83: opening the screen again retries an earlier "unavailable" read, so it shows loading, not the old card first.
     if(!event&&sources[screen]===UNAVAILABLE)sources[screen]=LOADING;
+    // r87 H4: a retry of a drawn "unavailable" screen is covered first (Reus), so it is redrawn once with what the read says.
+    let covered=false;
+    if(retry&&screens().isMounted(APP[screen])&&typeof screens().hide==="function"&&typeof screens().expect==="function"){screens().hide(APP[screen]);covered=screens().expect(APP[screen])===true;}
     const flight={key,alive:true,promise:null};reload.flight=flight;
     flight.promise=(async()=>{
       let timeout,fail;
@@ -386,9 +396,10 @@
         // arrives, so it is revealed once, with its numbers. Only a read still running after FIRST_HOLD_MS shows the loading
         // frame (with its "n of N" progress). Reloads leave the last ready/partial/error frame visible, as before.
         // A screen already on show (TRY AGAIN, a retried "unavailable") is redrawn at once, so the press always answers.
-        if(firstEntry&&!screens().isMounted(APP[screen])&&screens().expect?.(APP[screen])){
-          let held;const settled=await Promise.race([loading.then(()=>true,()=>true),deadline.then(()=>true,()=>true),new Promise(resolve=>{held=root.setTimeout(()=>resolve(false),FIRST_HOLD_MS);})]);
-          root.clearTimeout(held);screens().expect?.(APP[screen]);
+        if(covered||firstEntry&&!screens().isMounted(APP[screen])&&screens().expect?.(APP[screen])){
+          covered=true;held.add(screen);
+          let timer;const settled=await Promise.race([loading.then(()=>true,()=>true),deadline.then(()=>true,()=>true),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(false),HOLD_MAX_MS);})]);
+          root.clearTimeout(timer);held.delete(screen);screens().expect?.(APP[screen]);
           if(!settled&&!flight.left)await screens().show(APP[screen]);
         }else await screens().show(APP[screen]);
         const model=await Promise.race([loading,deadline]);
@@ -401,11 +412,13 @@
           else{reload.dirty=true;return false;}
         }
         // r82 (Codex JOB-B B3/B6): a reload that returns the same career keeps the frame already shown (no second boot).
-        const shown=sources[screen];if(shown&&shown!==LOADING&&shown!==UNAVAILABLE&&model&&JSON.stringify(shown)===JSON.stringify(model))return true;
+        const shown=sources[screen];if(screens().isMounted(APP[screen])&&shown&&shown!==LOADING&&shown!==UNAVAILABLE&&model&&JSON.stringify(shown)===JSON.stringify(model))return true;
         sources[screen]=model;return await screens().show(APP[screen]);
-      }catch(error){if(context()!==key||flight.left)return false;sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
+      }catch(error){if(flight.left)return false;/* F7-09: the pair changed and the read failed: load again, never stay on LOADING */if(context()!==key){reload.dirty=true;return false;}sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
       finally{
         flight.alive=false;root.clearTimeout(timeout);reload.flight=null;
+        // r87 H4: a covered screen is never left covered (its cover would end on the app's own page): it shows what it has.
+        if(covered){held.delete(screen);if(!flight.left&&!screens().isMounted(APP[screen]))void screens().show(APP[screen]).catch(report);}
         if(reload.dirty)scheduleReload(screen,reload,Math.max(0,RELOAD_INTERVAL-(Date.now()-reload.lastStarted)));
       }
     })();
