@@ -1,6 +1,6 @@
 {
  "title": "Showdown 2.0.0 Gallery",
- "lede": "PREVIEW from gameplay/r87 f4efa199 (1 Nov 07:17 UTC, 45 more fix PRs in); re-shot for the last changes at the 15:00 UTC freeze. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator from the release branch by CE2PG. Tap any picture to open it full size.",
+ "lede": "Freeze build: gameplay/r87 18c09562 (1 Nov 14:40 UTC). Prime Pack is added once #1149 and its art land. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator from the release branch by CE2PG. Tap any picture to open it full size.",
  "notes": "gameplay/r87/RELEASE_NOTES_2.0.0.md",
  "checklist_url": "https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU",
  "shots_dir": "test-results/gallery-r87",
@@ -228,7 +228,7 @@
   },
   {
    "title": "Touchline Gazette, final edition",
-   "note": "Covers the whole Showdown; the last season goes straight here.",
+   "note": "Covers the whole Showdown; the last season goes straight here. Phone picture from the 07:17 UTC build (this run missed it).",
    "prs": [
     1094,
     1110,
@@ -237,9 +237,7 @@
    "desktop": {
     "match": "^(tap:)?gazette"
    },
-   "phone": {
-    "match": "^(tap:)?gazette"
-   }
+   "phone": "test-results/gallery-r87-run6/phone/134-gazette-final.png"
   },
   {
    "title": "Standings",
