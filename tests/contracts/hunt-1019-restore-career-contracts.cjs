@@ -167,7 +167,8 @@ test("H1019-4 an older overlapping career load never overwrites the newer career
   assert.equal(api.cachedCareerModel(),newModel);
   pending[0].resolve({model:oldModel});assert.equal(await older,oldModel,"the older caller still receives its own result");
   assert.equal(api.cachedCareerModel(),newModel,"stale load must not replace the newer cache");
-  assert.equal(events.length,1,"only the newest load announces a career model change");
+  // r87 career fixes: "load-settled" also fires when the last read ends; only model changes are counted here.
+  assert.equal(events.filter(type=>type==="career-mode-online-career-model-change").length,1,"only the newest load announces a career model change");
   // Sequential loads still refresh the cache normally.
   const third=api.loadCareerModel();while(pending.length<3)await new Promise(r=>setImmediate(r));
   const thirdModel={status:"ready",seasons:3};pending[2].resolve({model:thirdModel});await third;

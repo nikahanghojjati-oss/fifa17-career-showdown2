@@ -220,7 +220,7 @@
         {
           "label": "Most perfect seasons",
           "manager": "shared",
-          "value": 0,
+          "value": null,
           "ref": null
         }
       ]
@@ -459,7 +459,7 @@
         {
           "label": "Most perfect seasons",
           "manager": "shared",
-          "value": 0,
+          "value": null,
           "ref": null
         }
       ]
