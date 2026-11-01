@@ -1610,6 +1610,9 @@
     if(!host)return false;
     const frame=toV10Frame(model,screen);
     // Only one Team V stage exists at a time (both use #stage-root); the other screen is rebuilt on its next open.
+    // r87 LK-1: the stage being replaced lets go of its ResizeObserver and orientationchange listener first (as
+    // seasonFinalV10's v10StageHandle does), so opening career pages again and again keeps one live stage.
+    v10DestroyStages();
     const other=screen==="careerStatistics"?"trophyRoom":"careerStatistics",otherHost=doc.getElementById(SCREEN_IDS[other]);
     if(otherHost&&otherHost.dataset.careerV10==="1"){v10Screens().hide(other);otherHost.remove();}
     host.dataset.careerV10="1";host.classList.add("careerScreenV10");
@@ -1638,6 +1641,9 @@
       root.ShowdownTrophyRoomBoot();
     }
     return true;
+  }
+  function v10DestroyStages(){
+    for(const key of ["__careerStageEngine","__trophyRoomStage"]){try{root[key]?.destroy?.();}catch(_){}root[key]=null;}
   }
   // The old render paths keep running (they hold the model) and rewrite the host, so a V10 screen is always
   // redrawn after them, as in job 13.
@@ -1712,6 +1718,7 @@
     }).catch(error=>{registered=null;throw error;});
     return registered;
   }
+  const FIRST_HOLD_MS=3500;
   function v10ModelText(model){try{return model==null?null:JSON.stringify(model);}catch(_){return null;}}
   function v10OnlineModel(){try{return root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;}catch(_){return null;}}
   function v10Redraw(){
@@ -1735,7 +1742,15 @@
     const screens=await v10Register();
     getters[screen]=getModel;
     v10WrapRender(screen);
-    if(getModel()==null&&v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline(screen).catch(v10Fail);
+    if(getModel()==null&&v10Seam().isOnlineCareerRoute(v10Identity())){
+      // r87 career fixes (lane C C-02, Reus Gate): a cold first open (no career kept yet) stays covered (pending) while the
+      // career arrives, then is revealed once with its numbers instead of LOADING first and a second boot. A read still
+      // running after FIRST_HOLD_MS shows the loading frame, which the read then replaces. The cover is renewed for the draw,
+      // so the screen's pictures still get their own decode time before the one reveal. No read is added: the same one read runs.
+      const cold=v10OnlineModel()==null&&!screens.isMounted(screen)&&screens.expect?.(screen)===true;
+      const load=v10LoadOnline(screen).catch(v10Fail);
+      if(cold){let held;await Promise.race([load,new Promise(resolve=>{held=root.setTimeout(resolve,FIRST_HOLD_MS);})]);root.clearTimeout(held);screens.expect?.(screen);}
+    }
     return screens.show(screen);
   }
   const openCareerStatistics=getModel=>mount("careerStatistics",getModel);
