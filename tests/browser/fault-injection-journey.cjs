@@ -11,8 +11,9 @@
 //   tabkill      tap, then the tab is closed at once and the app is opened again in a new tab (sign-in lives in sessionStorage)
 //   twotabs      a second tab of the app opens on that phone (a new tab, signed in again); the write is tapped in one of the two tabs;
 //                both tabs must show the same state; the second tab then closes
-//   quota        Firestore answers RESOURCE_EXHAUSTED to every read and write of that phone (Listen/Write streams refused); the
-//                phone taps; then the limit lifts and the clock jumps 11 minutes ("next day" for the 10-minute pause)
+//   quota        Firestore answers RESOURCE_EXHAUSTED to every read and write of that phone (Listen/Write streams refused) until the
+//                app's own pause trips; then the limit lifts and it is the next day: the player opens the app again (reload), or
+//                at season-results the page stayed open and the clock jumps 11 minutes so the 10-minute pause ends by itself
 //   coldoffline  tap, the tab closes, the phone opens the app again while offline (cold start), then comes back online
 //   none         no fault (the baseline for the read counts)
 // Write points: setup-confirm (CONFIRM SHOWDOWN), career-start (I STARTED AT), spin-mark (the roulette's last tap, which writes the
@@ -26,15 +27,15 @@
 //   converge  both phones reach the same next state, and the database holds the write exactly once
 //   stuck     no screen without a path out
 //   roulette  each phone plays each season's roulette exactly once (never skipped, never replayed after it finished)
-//   reads     the 60 s after recovery: the faulted phone's document reads stay under FIJ_READS_PER_MIN (default 150/min), and the
-//             run's total stays under 2.5 x the fault-free run's total (FIJ_BASELINE_READS, default 1200)
+//   reads     10 s after recovery, a 20 s window: the faulted phone's document reads stay under FIJ_READS_PER_MIN (default 150/min);
+//             the matrix compares every point and every run with the fault-free run (at most 3x+60 per point, 2.5x+100 per run)
 // End checks: the database's season results, commits and terminal close match the typed plan (no lost or doubled season), both
 // phones show the same Showdown Champion totals.
 // Run: node tests/browser/fault-injection-journey.cjs                      every fault, 2 at a time (FIJ_PARALLEL), each in its
 //                                                                          own emulators; prints the fault x point matrix
 //      FIJ_FAULTS=network,reload FIJ_PHONE=alt-nik node tests/browser/fault-injection-journey.cjs
 //      FIJ_FAULT=network node tests/browser/fault-injection-journey.cjs    one fault
-// Options: FIJ_ONLY=point,point (fault only there; the other points run fault-free), FIJ_PORT_BASE (default 19610; each parallel run adds 10), FIJ_APP_PORT (default 14711), FIJ_DEBUG=1.
+// Options: FIJ_AFTER_LAND=1 (reload/evict/tab kill wait until the acknowledgement is stored first), FIJ_ONLY=point,point (fault only there; the other points run fault-free), FIJ_PORT_BASE (default 19610; each parallel run adds 10), FIJ_APP_PORT (default 14711), FIJ_DEBUG=1.
 // Output: test-results/fij-<fault>-<phone>.json and test-results/fij-matrix.json (+ screenshots of problems).
 // Test database only (demo project on the local emulators). Never touches production Firebase.
 const fs=require("node:fs");
@@ -218,7 +219,8 @@ async function describe(m,page=m.page){
     const screens=[...document.querySelectorAll(".screen")].filter(vis).map(s=>s.id).join(",");
     const overlays=[...document.querySelectorAll("[id$='Overlay'],#rrStepPanel,#rrStage,#touchlineGazette,#showdownConfirm")].filter(vis).map(o=>`${o.id}: ${o.innerText.replace(/\s+/g," ").slice(0,160)}`);
     const buttons=[...document.querySelectorAll("button")].filter(b=>vis(b)&&!b.disabled).map(b=>b.textContent.replace(/\s+/g," ").trim()).filter(Boolean).slice(0,14);
-    let tc="";try{const t=window.CareerModeProductionSharedTerminalClose?.getState?.();if(t)tc=` | terminalClose=${JSON.stringify({phase:t.phase,auto:t.automaticSaving,autoFailed:t.automaticCloseFailed,error:t.error||t.message||t.code||null}).slice(0,300)}`;}catch(_e){}
+    let sd="";try{const c=typeof currentShowdown!=="undefined"?currentShowdown:null;if(c)sd=` | showdown=${JSON.stringify({id:String(c.id||"").slice(0,24),status:c.status,round:c.currentRound,total:c.totalRounds,rounds:Array.isArray(c.rounds)?c.rounds.length:null,completedAt:c.completedAt||null,shared:c.sharedJourney?.mode||null,rivalry:String(c.sharedJourney?.rivalryId||"").slice(0,14)})}`;}catch(_e){}
+    let tc=sd;try{const t=window.CareerModeProductionSharedTerminalClose?.getState?.();if(t)tc+=` | terminalClose=${JSON.stringify({phase:t.phase,auto:t.automaticSaving,autoFailed:t.automaticCloseFailed,error:t.error||t.message||t.code||null}).slice(0,300)}`;}catch(_e){}
     return `screens=${screens} | season=${document.getElementById("seasonIndicator")?.textContent||""} | overlays=${overlays.join(" ## ")} | buttons=${buttons.join(" / ")}${tc}`;
   }).catch(e=>`(page unavailable: ${String(e.message).split("\n")[0]})`);
 }
@@ -247,7 +249,12 @@ async function pathForward(m,page=m.page){
   if(await visible(page,"#mainMenu")){
     // A new tab (tab kill, cold start, second tab) is signed out: sign-in lives in sessionStorage.
     if(await clickIf(page,page.locator("button:visible").filter({hasText:/^\s*SIGN IN\s*$/})))return "home:sign-in";
-    const tile=page.locator("#mainMenu button:visible,#mainMenu .menuTile:visible").filter({hasText:/CONTINUE (SHOWDOWN|CAREER)|JOIN DANIEL/}).first();
+    // The live Showdown: the START tile reads CONTINUE SHOWDOWN / JOIN (what a player taps); else the CAREER tile when it names
+    // the live season.
+    const start=page.locator("#newShowdown");
+    const startLabel=norm(await start.locator(".menuTileLabel").textContent().catch(()=>""));
+    if(/CONTINUE SHOWDOWN|JOIN DANIEL/.test(startLabel)){await start.click({timeout:5000}).catch(()=>{});return `home:${startLabel}`;}
+    const tile=page.locator("#mainMenu button:visible,#mainMenu .menuTile:visible").filter({hasText:/Daniel vs Nik · Season \d+ of/}).first();
     if(await tile.count()){const label=norm(await tile.textContent().catch(()=>""));await tile.click({timeout:5000}).catch(()=>{});return `home:${label.slice(0,40)}`;}
     return "";
   }
@@ -335,7 +342,9 @@ async function inject(ctx,X,tap,other,rec){
   if(ONLY.length&&!ONLY.includes(rec.point)){rec.detail="(no fault here: FIJ_ONLY)";if(tap)await tap(X.page);if(other)await other();return;}
   // A tap the fault blocks (an overlay over the button, a dead page) is what the player sees too: it is recorded, and the
   // settle step taps again once the path forward is back.
-  const runTap=async page=>{if(!tap)return;try{await tap(page);}catch(e){rec.tapBlocked=String(e.message).split("\n")[0].slice(0,160);}};
+  const runTap=async page=>{if(!tap)return;try{await tap(page);}catch(e){rec.tapBlocked=String(e.message).split("\n")[0].slice(0,160);}
+    // FIJ_AFTER_LAND=1: the fault waits until the write is in the database (the page has not moved on yet).
+    if(process.env.FIJ_AFTER_LAND==="1"&&rec.landed){const until=Date.now()+15000;while(Date.now()<until&&!(await rec.landed().catch(()=>false)))await sleep(100);rec.detail+=" (after the write landed)";}};
   const runOther=async()=>{if(other)await other();};
   switch(FAULT){
     case "none":await runTap(X.page);await runOther();break;
@@ -380,7 +389,14 @@ async function inject(ctx,X,tap,other,rec){
       while(Date.now()<quotaUntil&&!rec.pausedShown){rec.pausedShown=await X.page.evaluate(()=>document.documentElement.dataset.firestoreQuota==="paused").catch(()=>false);if(!rec.pausedShown)await sleep(1000);}
       if(rec.pausedShown)await sleep(3000);
       await quotaOff(X);
-      try{if(!X.clockInstalled){await X.context.clock.install();X.clockInstalled=true;}await X.context.clock.fastForward("11:00");}catch(e){rec.detail+=` (clock: ${String(e.message).split("\n")[0]})`;}
+      // The next day. Once per run (season-results) the page stays open overnight: the clock jumps 11 minutes, so the app's own
+      // 10-minute pause ends by itself. Everywhere else the phone evicted the page overnight and the player opens the app again
+      // (a reload; the pause lives in page memory). Only one jump per run: the emulator's clock cannot jump with it, and an
+      // hour of skew would expire the Auth token on the phone only (a harness artefact, not the game).
+      if(rec.point==="season-results"){
+        rec.detail=rec.detail.replace("then the next day","then the next day with the page kept open");
+        try{if(!X.clockInstalled){await X.context.clock.install();X.clockInstalled=true;}await X.context.clock.fastForward("11:00");}catch(e){rec.detail+=` (clock: ${String(e.message).split("\n")[0]})`;}
+      }else{rec.detail=rec.detail.replace("then the next day (clock +11 min)","then the next day (the app opened again)");await X.page.reload({waitUntil:"domcontentloaded"}).catch(()=>{});}
       break;
     }
   }
@@ -395,9 +411,10 @@ const readsOf=(events,user)=>events.filter(e=>e.k==="read"&&(!user||e.user===use
 // ---------------------------------------------------------------------------------------------------------------------------
 // One write point: the fault around the write, the path forward on both phones, then the convergence checks.
 // ---------------------------------------------------------------------------------------------------------------------------
-async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks}){
+async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,landed=null}){
   pointNow=point;
   const X=faultPhone(ctx),rec={point,phone:X.user,writer:writer?writer.user:"auto",fault:FAULT,pass:false,checks:[],detail:""};
+  Object.defineProperty(rec,"landed",{value:landed,enumerable:false});
   console.log(`POINT ${point}: ${FAULT} on ${X.user}${writer?` (writer ${writer.user})`:""}`);
   const startIdx=meter.events.length,started=Date.now();
   const check=async(m,id,ok,detail,page)=>{rec.checks.push({id,phone:m?m.user:"both",pass:Boolean(ok),detail:ok?undefined:String(detail).slice(0,800)});if(!ok)await problem(m,id,detail,page);return Boolean(ok);};
@@ -421,8 +438,10 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks})
     }
     if(checks)await checks(check,X);
     // Reads: the 60 s after recovery on the faulted phone (both phones idle on the step's next screen).
-    const from=meter.events.length;await sleep(Number(process.env.FIJ_READ_WINDOW_MS||15000));
-    const win=meter.events.slice(from),perMin=readsOf(win,X.account)/(Number(process.env.FIJ_READ_WINDOW_MS||15000)/60000);
+    // Steady state: 10 s for the catch-up reads after recovery, then the window.
+    await sleep(Number(process.env.FIJ_READ_SETTLE_MS||10000));
+    const from=meter.events.length;await sleep(Number(process.env.FIJ_READ_WINDOW_MS||20000));
+    const win=meter.events.slice(from),perMin=readsOf(win,X.account)/(Number(process.env.FIJ_READ_WINDOW_MS||20000)/60000);
     rec.readsAfter=Math.round(perMin);rec.readsPoint=readsOf(meter.events.slice(startIdx));
     await check(X,"reads",perMin<=READS_PER_MIN,`${Math.round(perMin)} document reads/min on ${X.user} after recovery (limit ${READS_PER_MIN})`);
   }catch(error){await check(X,error.stuck?"stuck":"fatal",false,error.message);}
@@ -818,12 +837,12 @@ async function commitWithFaults(ctx,R,season,final){
   const point=final?"terminal-close":"season-ack";
   const doneGoal=m=>async p=>{
     // Closed: the Showdown Champion screen, or (a phone that reloaded after the close) Showdown Home with no live Showdown.
-    if(final)return (await finalShown(p)&&await closedPhase(p)==="CLOSED")||(await closedInDb()&&await visible(p,"#mainMenu")&&!(await p.locator("#mainMenu").filter({hasText:/CONTINUE (SHOWDOWN|CAREER)/}).count()));
+    if(final)return (await finalShown(p)&&await closedPhase(p)==="CLOSED")||(await closedInDb()&&await visible(p,"#mainMenu")&&!(await p.locator("#mainMenu").filter({hasText:/CONTINUE SHOWDOWN|Daniel vs Nik · Season \d+ of/}).count()));
     // A phone that reloads after the acknowledgement resumes in the next season (its roulette or Transfer Challenge).
     if(await seasonIs(p,season+1,3)&&(await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p)))return true;
     return await commitLabel(p)==="SEASON CONFIRMED ✓"&&await p.evaluate(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},season).catch(()=>false);
   };
-  await writePoint(ctx,point,{writer:nik,ready:async p=>await commitLabel(p)==="CONFIRM SEASON",tap:p=>p.locator("#sharedSeasonCommitAction").click({timeout:10000}),
+  await writePoint(ctx,point,{writer:nik,landed:async()=>(await commitDoc())?.phase==="ACKNOWLEDGED",ready:async p=>await commitLabel(p)==="CONFIRM SEASON",tap:p=>p.locator("#sharedSeasonCommitAction").click({timeout:10000}),
     settle:(m,page)=>drive(m,doneGoal(m),{page,label:final?"Showdown closed":"season confirmed",stepTaps:commitTaps(m),timeout:240000}),
     checks:async(check)=>{
       const c=await commitDoc();await check(null,"db.ack",c&&c.phase==="ACKNOWLEDGED"&&c.revision===3,`commit ${JSON.stringify(c&&{phase:c.phase,revision:c.revision})}`);
