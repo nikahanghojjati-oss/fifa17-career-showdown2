@@ -424,10 +424,13 @@
     if(phase==="NOT_STARTED"){
       // Codex C2-02: this manager's own refused spin mark (the window cannot open without it) is shown on either phone, never
       // hidden behind the partner's "waiting for Daniel" line.
-      const ownRefused=!isReplay&&Boolean(spinRefusedKey&&spinRefusedKey===pstcRequestContext()?.key&&pstcSpinsMissing().includes(role));
-      pstcText("transferPhaseStatus",ownRefused?"READY · YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY":role===view?.setup?.coordinatorRole?"READY · YOU START THE WINDOW":`READY · WAITING FOR ${String(pstcManagerName(view?.setup?.coordinatorRole||"playerOne")).toUpperCase()} TO START`);
+      // Fable F6-03: the missing marks are worked out for both roles (no read), so the partner whose own mark is still being
+      // saved sees that, not "waiting for the coordinator to start" while the coordinator's phone waits for his spin.
+      const missing=isReplay?[]:pstcSpinsMissing(),ownMissing=missing.includes(role);
+      const ownRefused=!isReplay&&Boolean(spinRefusedKey&&spinRefusedKey===pstcRequestContext()?.key&&ownMissing);
+      pstcText("transferPhaseStatus",ownRefused?"READY · YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY":role===view?.setup?.coordinatorRole?"READY · YOU START THE WINDOW":ownMissing?"READY · SAVING YOUR ROULETTE SPIN…":`READY · WAITING FOR ${String(pstcManagerName(view?.setup?.coordinatorRole||"playerOne")).toUpperCase()} TO START`);
       if(role===view?.setup?.coordinatorRole){
-        pstcHidden(start,false);const missing=isReplay?[]:pstcSpinsMissing();
+        pstcHidden(start,false);
         // RT5-FLOW-02: until both marks are on the server the button is the waiting line: full gold edge and words (HO-027,
         // never dimmed; css/transfer.css), not tappable, and it turns into START by itself when the partner's mark arrives.
         if(missing.length){const refusedHere=Boolean(spinRefusedKey&&spinRefusedKey===pstcRequestContext()?.key&&missing.includes(view.managerRole));const label=refusedHere?"YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY":missing.includes(other)?`WAITING FOR ${String(pstcManagerName(other)).toUpperCase()} TO SPIN THE ROULETTE`:"SAVING YOUR ROULETTE SPIN…";start.textContent=label;start.dataset.rouletteWait="true";pstcDisable(start,true);pstcText("transferPhaseStatus",`READY · ${label}`);}
