@@ -350,11 +350,15 @@ async function assertCareerScreensShowCompletedShowdown(managers,id,{endedEarly=
     const fail=(screen,text,why)=>new Error(`${id} ${m.user}: ${screen} ${why}. Screen text: ${text.slice(0,600)||"(screen did not appear)"}`);
     await backToShowdownHome(m);
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
+    const tileTapAt=Date.now();
     // The headline (COMPLETED SHOWDOWNS 1) is the count, also on the first visit after a reload (two mounts in a row
     // count up the same tiles; the count-up's target is the tile's data-count-value, never the 0 it starts from).
     const oneCompleted=t=>/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i.test(t);
     let text=await read(m,"careerStatistics",t=>!bad.test(t)&&oneCompleted(t));
     if(bad.test(text)||!oneCompleted(text))throw fail("Career Statistics",text,"does not show COMPLETED SHOWDOWNS 1");
+    // r87 (lane C C-05): a pointer tap within DOUBLE_TAP_MS (500 ms) of a Home tile tap is taken as the second tap of a double
+    // tap and swallowed. Career Statistics can now be ready in ~100 ms, so a player's next tap waits that long, as a person's would.
+    await m.page.waitForTimeout(Math.max(0,600-(Date.now()-tileTapAt)));
     await m.page.locator("#trophyRoomButton").click({timeout:20000});
     text=await read(m,"trophyRoom",t=>!bad.test(t)&&/Showdown Champion/i.test(t));
     if(bad.test(text)||!/Showdown Champion/i.test(text))throw fail("Trophy Room",text,"does not show the Showdown Champion trophy");
