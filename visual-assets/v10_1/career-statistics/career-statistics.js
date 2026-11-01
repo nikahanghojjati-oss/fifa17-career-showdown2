@@ -35,6 +35,7 @@
     if (arm && a.arm1x) { arm.dataset.src1x=a.arm1x; arm.dataset.src2x=a.arm2x || a.arm1x; }
     if (rim && a.rim1x) { rim.dataset.src1x=a.rim1x; rim.dataset.src2x=a.rim2x || a.rim1x; }
     const focal=Array.isArray(map.focal)?{x:Number(map.focal[0]),y:Number(map.focal[1])}:{x:836,y:340};
+    try { window.__careerStageEngine?.destroy?.(); } catch (_) {}
     window.__careerStageEngine=ShowdownStage.mount(scene,{
       plate:{width:1672,height:941,src1x:a.plate1x || "assets/ENV_CS_PLATE_V1_1X.webp",src2x:a.plate2x || "assets/ENV_CS_PLATE_V1_2X.webp"},
       focal, platemap:map, dustCount:18, phoneBandRatio:.46
