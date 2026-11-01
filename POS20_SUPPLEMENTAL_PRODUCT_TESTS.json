@@ -2518,6 +2518,16 @@
         "^tests/contracts/r87\\-fable\\-step\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-history-scale-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/legacy/",
+        "^tests/contracts/r87\\-history\\-scale\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
