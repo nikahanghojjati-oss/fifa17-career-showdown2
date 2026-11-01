@@ -208,6 +208,9 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .row input { flex: 1; min-width: 0; height: 46px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.7); background: #0b0906; color: var(--text);
   font: 600 18px/1 var(--body); letter-spacing: .02em; padding: 0 10px; outline: none; }
 .row input::placeholder { color: #a99a76; }
+/* the round is over: the own box's line ("Named him · +3", "Round over") gets the whole box, so the Guess button never cuts it */
+#app[data-over="1"] .row #go { display: none; }
+#app[data-over="1"] .row input { text-align: center; }
 .row input:focus { border-color: var(--foil-2); box-shadow: 0 0 0 3px rgba(241,207,122,.22); }
 .row input:disabled { border-color: rgba(196,147,47,.45); color: #b3a580; }
 .btn { height: 46px; padding: 0 14px; border: 0; border-radius: 4px; font: 700 18px/1 var(--cond); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); flex: none;
@@ -479,7 +482,7 @@ function load(round){
   drawFlag($("flagCanvas"), round.nation);
   [$("pos"),$("flag"),$("name"),$("ovr")].forEach(el=>show(el,false)); fresh([]);
   $("source").textContent=""; $("banner").hidden=true; $("banner").className="banner"; $("cta").hidden=true; $("cta").disabled=false; $("cta").textContent="Continue";
-  $("guess").value=""; setSuggestions([]); note("");
+  $("guess").value=""; setSuggestions([]); note(""); $("app").dataset.over="0";
   still(()=>render());  layoutStage();
 }
 // role: the manager still to arrive; null once both are here (the game counts in before the pack opens)
@@ -544,7 +547,7 @@ function showResult(winner, points){
   $("boxOne").dataset.won = S.result==="playerOne" ? "1" : "0"; $("boxTwo").dataset.won = S.result==="playerTwo" ? "1" : "0";
   $("source").textContent = S.round.source || ""; fitName();
   $("guess").blur(); $("guess").value=""; setSuggestions([]); note("");
-  const cta=$("cta"); cta.hidden=false; cta.disabled=false; cta.textContent="Continue";
+  const cta=$("cta"); cta.hidden=false; cta.disabled=false; cta.textContent="Continue"; $("app").dataset.over="1";
   render();  layoutStage();
 }
 
