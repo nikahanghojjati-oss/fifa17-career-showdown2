@@ -19,7 +19,8 @@
 // Write points: setup-confirm (CONFIRM SHOWDOWN), career-start (I STARTED AT), spin-mark (the roulette's last tap, which writes the
 // manager's mark), tw-guess (LOCK MY GUESSES), tw-lock (first LOCK MY SIGNINGS), tw-verdict (the second LOCK MY SIGNINGS, which
 // completes the Transfer War), season-results (the completing publish), season-commit (LOCK & CONFIRM SEASON), season-ack
-// (CONFIRM SEASON), continue-s2 (CONTINUE TO SEASON 2 + Gazette), spin-mark-s2, terminal-close (season 2's acknowledgement, after
+// (CONFIRM SEASON), continue-s2 (CONTINUE TO SEASON 2 + Gazette), spin-mark-s2, the Prime Pack round (prime-mid in season 1,
+// prime-guess in season 2, prime-reveal in season 3: see POINTS), terminal-close (season 2's acknowledgement, after
 // which both phones close the Showdown by themselves). The phone alternates per point (FIJ_PHONE=alt starts with Daniel,
 // alt-nik with Nik; daniel or nik pins it). When the fault phone is not the one writing, the fault hits it while the other writes.
 // After each fault the phone takes the path a player would (CONTINUE SHOWDOWN, TRY AGAIN, sign in, the visible step button; a
@@ -46,7 +47,13 @@ const ROOT=path.resolve(__dirname,"../..");
 const OUT_DIR=path.join(ROOT,"test-results");
 const ALL_FAULTS=["network","lock","evict","reload","tabkill","twotabs","quota","coldoffline"];
 const DEFAULT_JOBS=["none",...ALL_FAULTS];// "none" is the read baseline the matrix compares every fault run with
-const POINTS=["setup-confirm","career-start","spin-mark","tw-guess","tw-lock","tw-verdict","season-results","season-commit","season-ack","continue-s2","spin-mark-s2","terminal-close"];
+const POINTS=["setup-confirm","career-start","spin-mark","prime-mid","tw-guess","tw-lock","tw-verdict","season-results","season-commit","season-ack","continue-s2","spin-mark-s2","prime-guess","prime-reveal","terminal-close"];
+// r87 Prime Pack (js/iconGuessStep.js) under faults: prime-mid (season 1, the fault in stage 2's guess window, nobody has guessed),
+// prime-guess (season 2, the fault right after the fault phone names the masked Icon: its point must stand), prime-reveal
+// (season 3, nobody guesses, the fault when the four stages have run out and the result shows). PRIME is how pathForward plays a
+// round it meets: null = both phones spend their guesses on wrong names (a draw at once), "timeout" (outside a Prime Pack
+// point, so nothing is decided before its fault) = nobody guesses.
+let PRIME="timeout";const primeWon={daniel:0,nik:0};
 const PROJECT="demo-cms-browser-journey";
 const PHONE_MODE=process.env.FIJ_PHONE||"alt";
 const FAULT=process.env.FIJ_FAULT||"";
@@ -242,6 +249,7 @@ async function pathForward(m,page=m.page){
   }
   if(await gazette.tapGazetteIfShown(page))return "gazette";
   for(const name of ["SIGN IN WITH GOOGLE",new RegExp(`^${NAMES[m.account]} · PLAYER`,"i"),"TRY AGAIN"]){if(await clickIf(page,page.locator("#onlinePlayerIdentityOverlay button,[id^='onlinePlayerIdentity'] button").filter({hasText:name})))return `identity:${name}`;}
+  if(await atPrime(page)){const st=await rosterRoulette.playPrimePack(page,{primeGuesser:PRIME});return st&&st!=="wait"?st:"prime-wait";}
   if(await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")){return await rouletteStep(m,page)||"roulette-wait";}
   // The roulette is off this tab's screen: one seen again in this tab for a finished season after this is a replay (a panel a
   // second tab still shows from before the finish is not).
@@ -297,9 +305,12 @@ async function drive(m,goal,{page=null,stepTaps=null,firstTaps=null,timeout=1800
     if(!did&&stepTaps)did=await stepTaps(p()).catch(()=>"")||"";
     if(!did)did=await retryTap(m,p()).catch(()=>"");
     // A tap that changes nothing (a dead button) is not progress: after five in a row a player gives up on it and goes Home.
-    if(did&&did===lastDid&&!["loading","roulette-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
+    if(did&&did===lastDid&&!["loading","roulette-wait","prime-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
     lastDid=did;
-    if(did&&did!=="loading"&&did!=="roulette-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
+    // A running Prime Pack round is progress (its stages run out in about 95 s, longer than STUCK_MS); a round that never ends
+    // still fails on the drive's own timeout.
+    if(did==="prime-wait")idleSince=Date.now();
+    if(did&&did!=="loading"&&did!=="roulette-wait"&&did!=="prime-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
     const now=Date.now();
     if(now-idleSince>STUCK_MS||now>until){
       lastDesc=await describe(m,p());
@@ -520,7 +531,9 @@ async function startAndJoin(daniel,nik,length){
 }
 async function fillCombo(page,id,value){await page.locator(`#${id}`).fill(value);await page.waitForFunction(fieldId=>Boolean(document.getElementById(fieldId)?.dataset.canonicalId),id,{timeout:5000});}
 const tcState=page=>page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()||null).catch(()=>null);
-const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#rrStage, #rrStepPanel").count());
+const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
+const atPrime=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel");
+const primeState=async page=>{const f=page.frames().find(fr=>/\/icon-guess\//.test(fr.url()));return f?await f.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null):null;};
 const transferPhase=page=>page.evaluate(()=>document.getElementById("transferChallenge")?.dataset.transferPhase||"").catch(()=>"");
 const seasonIs=(page,k,total)=>page.evaluate(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${k} / ${total}`).catch(()=>false);
 
@@ -586,16 +599,18 @@ async function main(){
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       await playRouletteToEnd(first,season);
       await writePoint(ctx,point,{writer:X,ready:async page=>await rouletteFinalTapReady(page),tap:async page=>{await page.locator("#rrStepPanel .rrStepPrimary").click({timeout:10000});markRouletteFinished(X,season,true);},
-        settle:(m,page)=>drive(m,async p=>await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} transfer window with both marks`}),
+        settle:(m,page)=>drive(m,async p=>await atPrime(p)||await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} Prime Pack or transfer window with both marks`}),
         checks:async(check)=>{
           const t=docData(await admin(R(`transferChallenges/season_${season}`)));
           await check(null,"db.spinMarks",Boolean(t),`transferChallenges/season_${season} ${JSON.stringify(t).slice(0,300)}`);
           for(const m of both){const r=m.roulette[season]||{};await check(m,"roulette.once",r.steps>0&&!r.replays,`season ${season} roulette on ${m.user}: ${JSON.stringify(r)}`);}
           const start=await daniel.page.evaluate(()=>{const b=document.getElementById("startTransferTimer");return b?{text:b.textContent,disabled:b.disabled,hidden:b.classList.contains("hidden")}:null;});
-          await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START: ${JSON.stringify(start)}`);
+          // With the Prime Pack the phones stop at its round (the next point): START is checked after it, in primePoint.
+          if(!await atPrime(daniel.page))await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START: ${JSON.stringify(start)}`);
         }});
     };
     await spinMarkPoint("spin-mark",1);
+    await primePoint(R,"prime-mid",1);
     await transfersWithFaults(ctx,R,1);
     await resultsWithFaults(ctx,R,1);
     await commitWithFaults(ctx,R,1,false);
@@ -617,15 +632,17 @@ async function main(){
         }});
     }
     await spinMarkPoint("spin-mark-s2",2);
+    await primePoint(R,"prime-guess",2);
     // Seasons 2 and 3 play without faults until season 3's acknowledgement, which is the terminal-close point.
     await plainTransfers(ctx,2);await plainResults(ctx,R,2);await plainCommit(ctx,2);
     seasonNow=3;await plainContinue(ctx,3,TOTAL);
+    await primePoint(R,"prime-reveal",3);
     await plainTransfers(ctx,3);await plainResults(ctx,R,3);
     await commitWithFaults(ctx,R,3,true);
     // --- end checks
     pointNow="end";
     const endCheck=(id,ok,detail)=>{report.endChecks.push({id,pass:Boolean(ok),detail:ok?undefined:String(detail).slice(0,1200)});console.log(`${ok?"ok  ":"FAIL"} end.${id}${ok?"":` -> ${String(detail).slice(0,400)}`}`);return ok;};
-    const totals={daniel:PLAN.reduce((a,s)=>a+scoreSeason(s.daniel),0),nik:PLAN.reduce((a,s)=>a+scoreSeason(s.nik),0)};
+    const totals={daniel:PLAN.reduce((a,s)=>a+scoreSeason(s.daniel),0)+primeWon.daniel,nik:PLAN.reduce((a,s)=>a+scoreSeason(s.nik),0)+primeWon.nik};
     const rivalry=await admin(`rivalries/${rivalryId}`),term=plain(F(rivalry,"data","terminalClose"));
     endCheck("db.closed",plain(F(rivalry,"data","connectionState"))==="closed"&&term&&term.managerTotals?.playerOne===totals.daniel&&term.managerTotals?.playerTwo===totals.nik,`connectionState ${plain(F(rivalry,"data","connectionState"))}, terminalClose ${JSON.stringify(term)}, expected totals ${JSON.stringify(totals)}`);
     const results=await adminList(R("seasonResults")),commits=await adminList(R("seasonCommits"));
@@ -670,6 +687,41 @@ async function main(){
   process.exitCode=report.verdict==="PASS"?0:1;
 
   // ----- step helpers that need ctx -----
+  // One Prime Pack point: both phones play up to the fault's moment (they must both arrive for the round to start), the fault hits
+  // X there, then both play on to the transfer window. Checks: one round record, both phones saw the same result, a right guess
+  // keeps its point (namedBy + the stage's points on the season result), no guess = a draw for nobody.
+  async function primePoint(R,point,season){
+    const {daniel,nik}=ctx;const X=faultPhone(ctx),O=X===daniel?nik:daniel,xRole=X===daniel?"playerOne":"playerTwo";
+    const moment={
+      "prime-mid":s=>Boolean(s&&!s.result&&s.beat===1&&!s.revealing&&s.canGuess),
+      "prime-guess":s=>Boolean(s&&!s.result&&s.beat>=0&&!s.revealing&&s.canGuess),
+      "prime-reveal":s=>Boolean(s&&s.result)}[point];
+    PRIME="timeout";
+    let readyNow=false;
+    await Promise.all([
+      drive(X,async p=>(readyNow=moment(await primeState(p)))||await onTransfer(p),{label:`${point} (round)`,timeout:240000}),
+      drive(O,async p=>readyNow||await onTransfer(p),{label:`${point} (partner)`,timeout:240000})]);
+    let guessed=null;
+    await writePoint(ctx,point,{writer:X,ready:async p=>moment(await primeState(p)),
+      tap:async p=>{
+        if(point!=="prime-guess")return;
+        const names=await rosterRoulette.primeNames(p);const f=p.frames().find(fr=>/\/icon-guess\//.test(fr.url()));
+        if(!names||!f)throw new Error("Prime Pack: no answer or frame to guess with");
+        const st=await primeState(p);guessed={stage:st&&st.beat,points:[4,3,2,1][st&&st.beat>=0?st.beat:0]};
+        await f.locator("#guess").fill(names.answer,{timeout:5000});await f.locator("#guess").press("Enter",{timeout:5000});
+      },
+      settle:async(m,page)=>{PRIME=point==="prime-reveal"?"timeout":null;return drive(m,async p=>await onTransfer(p),{page,label:`season ${season} transfer window after the Prime Pack`,timeout:240000});},
+      checks:async(check)=>{
+        const r=docData(await admin(R(`primePackRounds/season_${season}`)));
+        await check(null,"db.primeRound",Boolean(r),`primePackRounds/season_${season} missing`);
+        const want=point==="prime-guess"?xRole:null;
+        await check(null,"db.primeNamedBy",r&&(r.namedBy??null)===want,`namedBy ${JSON.stringify(r&&r.namedBy)}, expected ${JSON.stringify(want)} (round ${JSON.stringify(r).slice(0,300)})`);
+        if(point==="prime-guess"&&r&&r.namedBy===xRole&&guessed)primeWon[X.user]+=guessed.points;
+        const start=await daniel.page.evaluate(()=>{const b=document.getElementById("startTransferTimer");return b?{text:b.textContent,disabled:b.disabled,hidden:b.classList.contains("hidden")}:null;});
+        await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START after the Prime Pack: ${JSON.stringify(start)}`);
+      }});
+    PRIME="timeout";
+  }
   async function playRouletteToEnd(m,season){
     await drive(m,async p=>await rouletteFinalTapReady(p)||await onTransfer(p),{label:`season ${season} roulette`});
     if(await rouletteFinalTapReady(m.page)){await m.page.locator("#rrStepPanel .rrStepPrimary").click({timeout:10000});markRouletteFinished(m,season,true);}
@@ -685,7 +737,7 @@ async function rouletteFinalTapReady(page){
 }
 async function spunBoth(page){const s=await tcState(page);return Boolean(s&&(s.state||Array.isArray(s.spunRoles)&&s.spunRoles.includes("playerOne")&&s.spunRoles.includes("playerTwo")));}
 // pathForward without playing the roulette (the Career Start settle stops at the roulette).
-async function pathForwardNoRoulette(m,page){if(await visible(page,"#rrStage")||await visible(page,"#rrStepPanel"))return "";return pathForward(m,page);}
+async function pathForwardNoRoulette(m,page){if(await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await atPrime(page))return "";return pathForward(m,page);}
 
 async function transfersWithFaults(ctx,R,season){
   const {daniel,nik}=ctx;const both=[daniel,nik];
@@ -773,7 +825,8 @@ async function plainContinue(ctx,next,total){
     await drive(m,p=>p.evaluate(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next).catch(()=>false),{label:`CONTINUE TO SEASON ${next}`});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:10000});
     await gazette.passGazette(m.page,"season").catch(()=>null);
-    await drive(m,async p=>await seasonIs(p,next,total)&&await onTransfer(p),{label:`season ${next} transfer`});
+    // The Prime Pack round needs both phones: each one stops at it here (or at the window), and the caller plays it.
+    await drive(m,async p=>await seasonIs(p,next,total)&&(await atPrime(p)||await onTransfer(p)),{label:`season ${next} Prime Pack or transfer`});
     markRouletteFinished(m,next);
   }
 }
