@@ -8,10 +8,9 @@
     "bytes": 155662
   },
   "candidate": {
-    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position) plus the r87 shared reads meter (two R87-METER hunks: rivalries/{rid}/meters/{role}, get also after Terminal Close) plus the r87 roulette marks (five R87-SPINS hunks: own pre-window spun mark on transferChallenges/season_N, START from both marks). Regenerated with --print-main-delta origin/main",
-    "sha256": "bffd4bff694d6fa91d97c0b943b1fd6c40f7e125db4acb53639684a31dd86e9e",
-    "gitBlobSha1": "4a7a09f604c3949c404fc22f499e4d1ba40669bf",
-    "bytes": 162066
+    "sha256": "c318ee695274e57e0387f574e3dd45b979e9831122afeabfda81c6a0cc56eda4",
+    "gitBlobSha1": "bfa8e5fc39c830024011c0a6de3dfa6f94ce13e0",
+    "bytes": 163087
   },
   "allowedOwners": [
     "G-7",
@@ -33,7 +32,10 @@
     "R86-SUMMARY",
     "R87-RRR",
     "R87-METER",
-    "R87-SPINS"
+    "R87-SPINS",
+    "R87-E04",
+    "R87-E01",
+    "R87-SPINS+R87-E01"
   ],
   "hunks": [
     {
@@ -50,23 +52,31 @@
       "why": "r87 roulette marks: the existing Transfer Challenge create checks the new document's phase first (it already had to be WINDOW_OPEN), so a pre-window mark create never evaluates the ledger shape and its setup/career lookups. Same allowed set as before."
     },
     {
-      "mainLine": 1466,
-      "candidateLine": 1467,
-      "removed": [],
+      "mainLine": 1464,
+      "candidateLine": 1465,
+      "removed": [
+        "        && after.coordinatorRole == ssjrActorRole(rivalryId);"
+      ],
       "added": [
+        "        && after.coordinatorRole == ssjrActorRole(rivalryId)",
+        "        // Codex R87-E-01: a season's window opens only after the previous season was committed and acknowledged by both",
+        "        // phones, so a wrong season number from a buggy caller can never create a future season. One lookup per START",
+        "        // (seasons 2 to 10), never on later ledger writes or listener deliveries.",
+        "        && (after.seasonNumber == 1",
+        "          || get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.seasonNumber - 1))).data.phase == 'ACKNOWLEDGED');",
+        "    }",
         "    // R87 roulette marks: a pre-window mark document (phase NOT_STARTED) is never a ledger to update (START from it is",
         "    // ssjrTransferStartAfterSpins). The phase is tested before the ledger function's let bindings run: measured on the emulator,",
         "    // START from a two-mark document was refused while those bindings ran against it.",
         "    function ssjrTransferValidUpdate(rivalryId, transferId) {",
-        "      return resource.data.phase != 'NOT_STARTED' && ssjrTransferValidLedgerUpdate(rivalryId, transferId);",
-        "    }"
+        "      return resource.data.phase != 'NOT_STARTED' && ssjrTransferValidLedgerUpdate(rivalryId, transferId);"
       ],
-      "owner": "R87-SPINS",
-      "why": "r87 roulette marks: the existing Transfer Challenge update first checks that the stored document is not a pre-window mark document, then runs the unchanged ledger checks (renamed ssjrTransferValidLedgerUpdate, next hunk). Measured on the emulator: START from a two-mark document was refused while the ledger function's let bindings ran against it. Same allowed set for every ledger update."
+      "owner": "R87-SPINS+R87-E01",
+      "why": "R87-E-01 previous-season ACKNOWLEDGED check on START, followed by the unchanged R87-SPINS phase-first ssjrTransferValidUpdate (the two edits are adjacent, so the diff joins them)."
     },
     {
       "mainLine": 1467,
-      "candidateLine": 1474,
+      "candidateLine": 1479,
       "removed": [
         "    function ssjrTransferValidUpdate(rivalryId, transferId) {"
       ],
@@ -78,7 +88,7 @@
     },
     {
       "mainLine": 1506,
-      "candidateLine": 1513,
+      "candidateLine": 1518,
       "removed": [
         "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId'])"
       ],
@@ -91,8 +101,24 @@
       "why": "r87 Roster Russian Roulette (Nik 2026-10-30): each own Transfer War signing may carry its FIFA 17 overall (whole number 30-99, optional key so older rows stay valid); it decides the roulette board from season 2. No new path, read or write. r87 (Nik 2026-10-30 16:53 UTC): it may also carry the signing's FIFA 17 position (one of 15 fixed codes, optional key, own only, never guessed) so the board can place him."
     },
     {
+      "mainLine": 1597,
+      "candidateLine": 1611,
+      "removed": [
+        "        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"
+      ],
+      "added": [
+        "        // Codex R87-E-04: three r87 signing rows (overall + position) took the full check past the 1,000-expression limit,",
+        "        // so a normal three-signing lock was denied. The linked public ledger write in the same transaction (updatedAt ==",
+        "        // request.time, same session and device, this role as the actor) already runs the full ssjrWriteAuthorityValid pair",
+        "        // envelope; this private half keeps the actor, account, device and ACTIVE-session checks, as season commits do.",
+        "        && ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"
+      ],
+      "owner": "R87-E04",
+      "why": "Codex R87-E-04: the private signing lock uses the actor authority (account, device, ACTIVE session) so three r87 signing rows fit the 1,000-expression limit; the linked public ledger write in the same transaction still runs the full pair envelope."
+    },
+    {
       "mainLine": 1605,
-      "candidateLine": 1614,
+      "candidateLine": 1623,
       "removed": [],
       "added": [
         "    // R87 roulette marks (Nik 2026-10-31, red team RT5-FLOW-02): the shared window waits until both managers have spun this season's",
@@ -146,7 +172,7 @@
     },
     {
       "mainLine": 2015,
-      "candidateLine": 2069,
+      "candidateLine": 2078,
       "removed": [],
       "added": [
         "    // R87 shared reads meter (B2): each phone keeps ONE small document per rivalry, rivalries/{rid}/meters/{its role}, with the",
@@ -188,7 +214,7 @@
     },
     {
       "mainLine": 3039,
-      "candidateLine": 3126,
+      "candidateLine": 3135,
       "removed": [],
       "added": [
         "        // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.",
@@ -200,7 +226,7 @@
     },
     {
       "mainLine": 3074,
-      "candidateLine": 3164,
+      "candidateLine": 3173,
       "removed": [],
       "added": [
         "      }",

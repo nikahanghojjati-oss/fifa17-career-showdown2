@@ -224,6 +224,26 @@ async function p8ContendedReadsInsidePublish(){
   ok("P8 contended reads inside a publish are retried within the same bound; refused reads surface at once");
 }
 
+async function p9RefusedPublishStopsAtOnce(){
+  // Fable job 3 F3-11: the partner ENDed the Showdown, so the publish is denied and every later read is refused outright.
+  const ended={};for(let index=2;index<20;index+=1)ended[index]=()=>({ok:false,code:"SEASON_RESULTS_RIVALRY_INACTIVE"});
+  let run=await scenario([refused("permission-denied"),refused("permission-denied"),refused("permission-denied"),refused("permission-denied")],{readScript:ended,waitMs:12000});
+  assert.equal(run.fake.publishes.length,1,"P9 a denied publish whose re-read is refused is not published again");
+  assert.equal(run.fake.reads.length,3,"P9 the screen's refresh, the pre-publish read and one re-read");
+  assert.equal(run.reports.length,1);assert.equal(run.reports[0].code,"permission-denied","P9 the denial is what is reported");
+  assert.equal(errorText(run.document),"Your Season Result could not be published.","P9 the same clear message as before");
+  assert.equal(run.api.getState().ownResult,null);assert.equal(run.confirm.disabled,false,"P9 the manager can tap PUBLISH again");
+  assert.ok(run.elapsed<1500,`P9 it stops after the first wait (${run.elapsed} ms)`);
+  // A re-read that is itself contended (denied or aborted) keeps the bounded JOB-1611 retry.
+  for(const code of ["permission-denied","aborted"]){
+    const contended={2:()=>({ok:false,code})};
+    run=await scenario([refused("permission-denied"),accept],{readScript:contended});
+    assert.equal(run.fake.publishes.length,2,`P9 a ${code} re-read is still contention: published again`);
+    assertConverged(run,`P9 ${code} re-read`);
+  }
+  ok("P9 a denied publish with a refused re-read stops at once (1 publish, 1 re-read); a contended re-read still retries");
+}
+
 (async()=>{
   await p1AbortedRivalLandsLater();
   await p2DeniedRivalPending();
@@ -233,5 +253,6 @@ async function p8ContendedReadsInsidePublish(){
   await p6RefusalsNotRetried();
   await p7ProviderPassesAbortedThrough();
   await p8ContendedReadsInsidePublish();
+  await p9RefusedPublishStopsAtOnce();
   console.log(`PASS JOB-1611 simultaneous Season Result publish contracts (${checks} checks): contention is re-read and retried with the same operationId, bounded, privacy unchanged.`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
