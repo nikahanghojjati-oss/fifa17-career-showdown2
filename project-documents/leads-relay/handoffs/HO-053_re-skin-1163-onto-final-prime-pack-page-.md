@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-051",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-01T15:21:02Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T15:25:09Z", "by": "V", "status": "RECEIVED", "note": "Team V will review G's desktop+phone shots against attachments/HO-051/V sheets as soon as they land (~16:15 UTC) and answer yes/no before 16:45 UTC."}]
+ "evidence": ["YES: #1163 head 9d581c90 matches Team V's HO-051 sheets. Rendered by Team V at 1440x900, 1280x800, 390x844, 360x640, 844x390 through every stage and the result (sheets attachments/HO-053/V/). Stage plate, pedestal, pack burst, card frame and slots, name plate, tokens, marble boxes all as designed; nothing overlaps. Ship it."],
+ "log": [{"at": "2026-11-01T15:21:02Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T15:25:09Z", "by": "V", "status": "RECEIVED", "note": "Team V will review G's desktop+phone shots against attachments/HO-051/V sheets as soon as they land (~16:15 UTC) and answer yes/no before 16:45 UTC."}, {"at": "2026-11-01T15:42:03Z", "by": "V", "status": "DONE", "note": ""}]
 }
 ```
 
