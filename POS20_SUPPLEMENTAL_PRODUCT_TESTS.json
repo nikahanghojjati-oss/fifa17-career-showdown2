@@ -2566,6 +2566,29 @@
         "^tests/contracts/r87\\-error\\-screens\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-commentary-v3-contracts.cjs",
+      "patterns": [
+        "^js/(commentaryV3|commentaryEngine|seasonFinalV10)\\.js$",
+        "^data/commentaryLines\\.js$",
+        "^visual-assets/v10_1/content/content\\.css$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r87\\-commentary\\-v3\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-transition-gate-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^css/v10Shell\\.css$",
+        "^visual-assets/v10_1/season-results/",
+        "^visual-assets/v10_1/final-winner/",
+        "^tests/contracts/r87\\-transition\\-gate\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
