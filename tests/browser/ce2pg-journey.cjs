@@ -1,5 +1,6 @@
 "use strict";
 const rosterRoulette=require("./support/roster-roulette.cjs");
+const primePack=require("./support/prime-pack.cjs");
 const gazette=require("./support/touchline-gazette.cjs");
 // CE2PG: "Cloud Emulator 2-player Journey" (r80 flow).
 // Daniel and Nik play the real Career Mode Showdown in two Chromium contexts against the Firebase Auth + Firestore emulators
@@ -250,7 +251,8 @@ const norm=s=>String(s||"").replace(/\s+/g," ").trim();
 // ---------------------------------------------------------------------------------------------------------------------------
 function scoreSeason(r){
   const cl=r.championsLeague?5:0,title=r.leaguePosition===1?3:0,cup=r.domesticCup?1:0,perf=(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,indiv=(r.topScorer||r.topAssist)?1:0;
-  return {championsLeague:cl,leagueTitle:title,domesticCup:cup,performanceBonus:perf,individualAwardsBonus:indiv,total:cl+title+cup+perf+indiv};
+  const pack=Number.isInteger(r.primePack)?r.primePack:0;
+  return {championsLeague:cl,leagueTitle:title,domesticCup:cup,performanceBonus:perf,individualAwardsBonus:indiv,...(pack?{primePack:pack}:{}),total:cl+title+cup+perf+indiv+pack};
 }
 function seasonWinner(d,n){
   const sd=scoreSeason(d).total,sn=scoreSeason(n).total;
@@ -267,7 +269,7 @@ function tally(seasons){
       const r=season[user],x=t[user],s=scoreSeason(r).total;
       x.seasons+=1;x.total+=s;if(w.side===user)x.W+=1;else if(w.side==="draw")x.D+=1;else x.L+=1;
       if(r.leaguePosition===1)x.league+=1;if(r.domesticCup)x.cup+=1;if(r.championsLeague)x.cl+=1;
-      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s===11)x.perfect+=1;
+      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s>=11)x.perfect+=1;
       x.bestScore=x.bestScore===null?s:Math.max(x.bestScore,s);x.highPoints=x.highPoints===null?r.leaguePoints:Math.max(x.highPoints,r.leaguePoints);x.highGoals=x.highGoals===null?r.leagueGoals:Math.max(x.highGoals,r.leagueGoals);
       x.trophies=x.league+x.cup+x.cl;
     }
@@ -328,6 +330,7 @@ function buildPlanOnce(N,teamCount,target,seed,attempt){
   const intents=[];
   for(let k=1;k<=N;k+=1){
     let intent="any";
+    if(primePack.golden()){intents.push(intent);continue;}
     if(N>=3&&RUN===3&&k===Math.ceil(N/2))intent="tie";
     if(N>=10&&RUN===1&&k===7)intent="tie";
     if(N>=3&&k===1&&target!=="draw")intent=target==="daniel"?"nik":"daniel";// the eventual winner trails after season 1
@@ -338,7 +341,7 @@ function buildPlanOnce(N,teamCount,target,seed,attempt){
   for(let k=1;k<=N;k+=1){
     let chosen=null;
     for(let tries=0;tries<4000&&!chosen;tries+=1){
-      const c=candidate(),w=seasonWinner(c.daniel,c.nik),i=intents[k-1];
+      const c=primePack.decorate(candidate(),k),w=seasonWinner(c.daniel,c.nik),i=intents[k-1];
       if(c.daniel.leaguePosition===c.nik.leaguePosition)continue;// two clubs never share a league position
       if(i==="tie"&&scoreSeason(c.daniel).total!==scoreSeason(c.nik).total)continue;
       if(i==="daniel"&&w.side!=="daniel")continue;if(i==="nik"&&w.side!=="nik")continue;
@@ -564,10 +567,8 @@ async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
-  for(const m of [daniel,nik]){
-    await rosterRoulette.waitForTransfer(m.page,45000);
-    await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
-  }
+  await rosterRoulette.waitForTransfer([daniel.page,nik.page],45000);
+  for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   const teamCount=await daniel.page.evaluate(()=>window.CareerModeProductionSharedSeasonResults?.getState?.()?.state?.teamCount??null).catch(()=>null)
     ||await daniel.page.evaluate(l=>{const cat=window.CareerModeSharedShowdownCatalog?.catalog;if(!cat)return null;const key=Object.keys(cat).find(k=>k.replace(/_/g," ").toLowerCase()===String(l).toLowerCase());return key?cat[key].length:null;},league).catch(()=>null)||20;
   return {league,clubs,teamCount};
@@ -712,7 +713,7 @@ async function commitSeason(daniel,nik,k,planSeason,final){
       await m.page.waitForFunction(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},k,{timeout:60000});
       await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:15000});
       const state=await m.page.evaluate(()=>{const v=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return v?{authoritative:v.authoritative,p1:v.scoring?.playerOne,p2:v.scoring?.playerTwo,winner:v.winner}:null;});
-      const pick=s=>s&&{championsLeague:s.championsLeague,leagueTitle:s.leagueTitle,domesticCup:s.domesticCup,performanceBonus:s.performanceBonus,individualAwardsBonus:s.individualAwardsBonus,total:s.total};
+      const pick=s=>s&&{championsLeague:s.championsLeague,leagueTitle:s.leagueTitle,domesticCup:s.domesticCup,performanceBonus:s.performanceBonus,individualAwardsBonus:s.individualAwardsBonus,...(s.primePack?{primePack:s.primePack}:{}),total:s.total};
       await eq(m,`${showdownNow}.S${k}.scoring.state`,"canonical scoring equals the recomputed breakdown",{authoritative:state?.authoritative,d:pick(state?.p1),n:pick(state?.p2),winner:state?.winner},{authoritative:true,d:exp.d,n:exp.n,winner:exp.w.side==="draw"?"draw":ROLE[exp.w.side]},{screen:"Season scoring"});
       await eq(m,`${showdownNow}.S${k}.scoring.totals`,"season totals on screen",await textOf(m,"#sharedCanonicalScoringTotals"),`Daniel: ${exp.d.total} · Nik: ${exp.n.total}`,{screen:"Season scoring"});
       await eq(m,`${showdownNow}.S${k}.scoring.winner`,"season winner on screen",await textOf(m,"#sharedCanonicalScoringWinner"),winnerText,{screen:"Season scoring"});
@@ -781,8 +782,9 @@ async function continueToSeason(daniel,nik,next,total){
   for(const m of [daniel,nik])if(m.ahead!==next)await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
   await budgetWait("continue");
   const dark=outageKind(next-1)==="continue";
+  const toRoulette=[];// Prime Pack's round starts only when BOTH phones are in it, so both are driven together at the end
   for(const m of [daniel,nik]){
-    if(m.ahead===next){m.ahead=0;await rosterRoulette.waitForTransfer(m.page,60000);continue;}
+    if(m.ahead===next){m.ahead=0;toRoulette.push(m.page);continue;}
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
     if(dark&&m===daniel){
       // The signal drops as CONTINUE is tapped and the phone is locked a moment later.
@@ -794,8 +796,9 @@ async function continueToSeason(daniel,nik,next,total){
     const paper=await gazette.passGazette(m.page,"season");
     if(!servingOld&&(!paper||!paper.endsWith(`|season|${next-1}`)))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
-    await rosterRoulette.waitForTransfer(m.page,30000);
+    toRoulette.push(m.page);
   }
+  if(toRoulette.length)await rosterRoulette.waitForTransfer(toRoulette,toRoulette.length>1?60000:30000);
 }
 // Back into the live Showdown from Showdown Home: CONTINUE SHOWDOWN, then (on the season dashboard) its primary action, until the
 // season's Shared Transfer Challenge shows.
@@ -886,7 +889,14 @@ async function openPage(m,hostId){
   await backToShowdownHome(m);
   if(hostId==="careerStatistics")await m.page.locator("#careerStatisticsButton").click({timeout:20000});
   else if(hostId==="legacy")await m.page.locator("#legacyButton").click({timeout:20000});
-  else if(hostId==="trophyRoom"){await m.page.locator("#careerStatisticsButton").click({timeout:20000});await m.page.locator("#trophyRoomButton").click({timeout:20000});}
+  else if(hostId==="trophyRoom"){
+    await m.page.locator("#careerStatisticsButton").click({timeout:20000});
+    // The first tap on OPEN TROPHY ROOM can land before Career Statistics has loaded and do nothing (finding H3-1): tap again.
+    for(let attempt=1;attempt<=4;attempt+=1){
+      await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(()=>{});
+      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1){(report.notes||(report.notes=[])).push(`${m.user}: Trophy Room opened on tap ${attempt}`);await check(m,`${showdownNow}.S${seasonNow}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",false,`opened only on tap ${attempt}`,{screen:"Trophy Room"});}break;}
+    }
+  }
   else if(hostId==="statistics"){
     // Rivalry Statistics: Career Statistics' CURRENT RIVALRY STATISTICS button when it shows, else the dashboard's.
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
@@ -1533,6 +1543,11 @@ async function main(){
       await playShowdown(ctx,spec);
     }
     showdownNow="end";seasonNow=0;
+    if(primePack.enabled()){
+      // Prime Pack: every round the phones played ended as the plan says (who named the Icon, and what it was worth).
+      const pv=primePack.verify();report.prime={mode:primePack.MODE,...pv,observed:primePack.observed};
+      await check(null,"prime.rounds","Prime Pack: every round ended as planned on both phones",pv.seasons>0&&pv.problems.length===0,pv.problems.join("; ")||"no round seen",{screen:"Prime Pack"});
+    }
     // Every completed real Showdown remains in the career, including the first one.
     if(PLAN_NAME==="main"){
       const marker=await admin(`accounts/${daniel.uid}/careerStart/current`);

@@ -251,13 +251,21 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       const tile=await p.evaluate(()=>{const f=document.querySelector(".stat .f"),cs=getComputedStyle(f);return {dur:cs.transitionDuration,transform:cs.transform};});
       assert.match(tile.dur,/0\.22s/);assert.equal(tile.transform,"none","reduced motion: fades");
       ok("I5","reduced motion: the card and the values only fade, briefly");
-      for(const size of [{width:390,height:844},{width:375,height:667},{width:390,height:430},{width:844,height:390}]){
+      for(const size of [{width:390,height:844},{width:375,height:667},{width:390,height:430},{width:390,height:350},{width:375,height:300},{width:844,height:390}]){
         await p.setViewportSize(size);await p.waitForFunction(()=>Math.abs(document.getElementById("app").getBoundingClientRect().height-visualViewport.height)<1);
         await p.evaluate(x=>{window.__ig.preview(true);window.__ig.advance(x);},START[0]+sec(STAGES[0].revealMs)+.5);await p.focus("#guess");
         assert.deepEqual(await inView(p),[],`${size.width}x${size.height}: card, both boxes, the input, the button and both token rows on screen`);
+        // the Guess button is wholly on screen and nothing stands over it (Codex P2: a short keyboard-open phone must not take
+        // the wide layout)
+        const go=await p.evaluate(()=>{const el=document.getElementById("go"),r=el.getBoundingClientRect(),H=visualViewport.height,W=innerWidth;
+          const pts=[[r.left+2,r.top+2],[r.right-2,r.top+2],[r.left+2,r.bottom-2],[r.right-2,r.bottom-2],[(r.left+r.right)/2,(r.top+r.bottom)/2]];
+          return {inside:r.left>=0&&r.top>=0&&r.right<=W&&r.bottom<=H,hits:pts.every(([x,y])=>el.contains(document.elementFromPoint(x,y))),shape:document.getElementById("app").dataset.shape};});
+        assert.equal(go.inside&&go.hits,true,`${size.width}x${size.height}: the Guess button is fully on screen and clickable (${go.shape} layout)`);
+        if(size.width<500)assert.equal(go.shape,"tall",`${size.width}x${size.height}: a phone keeps the phone layout`);
         if(size.height===430)await shot(p,"8-keyboard-height");
+        if(size.height===350)await shot(p,"8b-keyboard-350");
       }
-      ok("I6","at 390x844, 375x667, a 390x430 keyboard-open height and 844x390 landscape the card, both boxes and both token rows stay on screen");
+      ok("I6","at 390x844, 375x667, 390x430, 390x350 and 375x300 keyboard-open heights and 844x390 landscape the card, both boxes, both token rows and a clickable Guess button stay on screen; a phone keeps the phone layout");
       await p.context().close();
     }
     // I7 real time at ?fast=1 (all times a tenth): the opening and the stages play on the real clock with no errors

@@ -23,6 +23,7 @@ async function openFresh(browser,{base,ports,account,viewport,label}){
   });
   await context.addInitScript({path:SWITCH});
   const page=await context.newPage();
+  if(Number(process.env.ORACLE_CPU_THROTTLE)>1){const cdp=await context.newCDPSession(page);await cdp.send("Emulation.setCPUThrottlingRate",{rate:Number(process.env.ORACLE_CPU_THROTTLE)});}// slow phone: the cold first open of every career screen
   page.on("pageerror",e=>log.pageErrors.push(e.message.slice(0,300)));
   page.on("console",msg=>{if(msg.type()==="error"&&!/Failed to load resource/.test(msg.text()))log.consoleErrors.push(msg.text().slice(0,300));});
   page.on("request",r=>{try{if(FORBIDDEN_HOSTS.test(new URL(r.url()).hostname))log.forbidden.push(new URL(r.url()).hostname);}catch(_e){}});
@@ -91,7 +92,7 @@ async function openPage(m,hostId){
     // nothing (seen 2 of 4 browsers at 131 Showdowns). Tap again, a few seconds apart, until Trophy Room shows; report the retries.
     for(let attempt=1;attempt<=4;attempt++){
       await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(()=>{});
-      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1)(m.notes||(m.notes=[])).push(`trophyRoom opened on tap ${attempt}`);break;}
+      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1)(m.tapRetries||(m.tapRetries=[])).push(`trophyRoom opened only on tap ${attempt}`);break;}
     }
   }
   else if(hostId==="statistics"){
@@ -219,7 +220,7 @@ function extract(raw){
   o.rivalryText=rv;
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],r[2].toUpperCase()]:null;};
-  o.recSeason=rec(/HIGHEST SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPoints=rec(/HIGHEST LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recGoals=rec(/HIGHEST LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPerfect=rec(/MOST PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|SHARED)/);
+  o.recSeason=rec(/HIGHEST SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recPoints=rec(/HIGHEST LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recGoals=rec(/HIGHEST LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recPerfect=rec(/MOST PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;o.cabEl=cards.europaLeague||null;o.cabGolden=cards.goldenShowdown||null;
   o.historyCards=(raw?.legacy?.cards||[]);

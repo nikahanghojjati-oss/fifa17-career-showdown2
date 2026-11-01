@@ -17,6 +17,7 @@ const RELEASE_TIME_CONSTANTS=Object.freeze([
   {file:"js/sharedCareerAnalytics.js",name:"PRIME_PACK_FROM_MS"},
   {file:"js/productionSharedTransferChallenge.js",name:"PRIME_PACK_FROM_MS"},
   {file:"js/productionSharedSeasonResults.js",name:"PRIME_PACK_FROM_MS"},
+  {file:"js/commentaryV3.js",name:"PRIME_PACK_FROM_MS"},
   // Special Player from the manager's own club (#1173).
   {file:"js/marqueePlayer.js",name:"OWN_CLUB_FROM_MS"}
 ]);

@@ -9,6 +9,7 @@
 // (waitForTransfer([daniel.page, nik.page])); it also drives every other open page of the same browser and any page
 // registered with track().
 // See playPrimePack for the primeGuesser option. Every phone then taps Continue on the result.
+const prime=require("./prime-pack.cjs");
 const STEP_MS=500;
 const tracked=new Set();
 
@@ -50,8 +51,18 @@ async function playPrimePack(page,{primeGuesser=null}={}){
   if(!await page.locator("#igStage").isVisible().catch(()=>false))return null;
   const frame=primeFrame(page);if(!frame)return "wait";
   const state=await frame.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null);if(!state)return "wait";
+  const planned=prime.enabled()?await page.evaluate(()=>{const v=window.CareerModeProductionSharedTransferChallenge?.getState?.();return v?{season:v.seasonNumber,role:v.managerRole}:null;}).catch(()=>null):null;
+  if(state.result&&planned)prime.observe(planned.role,planned.season,state);
   // A real tap (no forced click): anything standing over the Prime Pack would fail it.
   if(state.cta){const r=await frame.locator("#cta").click({timeout:5000}).then(()=>"",e=>process.env.CMS_ROULETTE_DEBUG==="1"?":"+String(e.message).slice(0,900):"");return "prime-continue"+r;}
+  // CE2PG_PRIME=table|golden (tests/browser/support/prime-pack.cjs): the season's planned winner names the card in the planned stage
+  // (4, 3, 2 or 1 points); a season with no winner runs the stages out. Seen results are kept for the end-of-run check.
+  const plan=planned&&prime.planFor(planned.season);
+  if(plan){
+    if(!plan.winner)return state.result||!state.canGuess?"wait":"wait";
+    primeGuesser=plan.winner==="daniel"?"playerOne":"playerTwo";
+    if(!state.result&&state.me===primeGuesser&&state.beat!==plan.beat)return "wait";
+  }
   if(state.result||!state.canGuess||primeGuesser==="timeout")return "wait";
   if(primeGuesser&&state.me!==primeGuesser)return "wait";
   const names=await primeNames(page);if(!names)return "wait";
@@ -73,7 +84,7 @@ async function onTransfer(page){
 // the Transfer Challenge. Returns the steps seen.
 async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   const targets=(Array.isArray(pages)?pages:[pages]).filter(Boolean);track(targets);
-  const until=Date.now()+timeout,seen=[];
+  const until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout),seen=[];// a planned round can run its four stages out (~95 s)
   for(;;){
     const drive=[...new Set([...targets,...tracked,...browserPages(targets)])].filter(page=>!page.isClosed());
     const done=[];for(const page of targets)done.push(await onTransfer(page));

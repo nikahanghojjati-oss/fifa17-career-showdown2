@@ -78,7 +78,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 {
   const {read:readTimes,RELEASE_TIME_CONSTANTS,NOT_RELEASE_TIME}=require('../../tools/set-release-time.cjs');
   const times=readTimes();
-  assert.equal(times.length,RELEASE_TIME_CONSTANTS.length);assert.ok(times.length>=9,'roulette, Prime Pack and own-club boundaries');
+  assert.equal(times.length,RELEASE_TIME_CONSTANTS.length);assert.ok(times.length>=10,'roulette, Prime Pack and own-club boundaries');
   // Every *_FROM_MS=Date.parse("...") start literal in js/ is either a release-time constant or a named older boundary.
   const listed=new Set(RELEASE_TIME_CONSTANTS.map(c=>`${c.file}:${c.name}`));
   for(const file of require('node:fs').readdirSync(require('node:path').join(__dirname,'../../js')).filter(f=>f.endsWith('.js')).map(f=>`js/${f}`))
