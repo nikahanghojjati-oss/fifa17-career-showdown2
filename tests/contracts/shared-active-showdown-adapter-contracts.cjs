@@ -26,7 +26,8 @@ check("1. Left/right",()=>{
 });
 check("2. Rivalry provider fields",()=>{
  const p=P({seasons:[[perfect,R()],[R(),R({leaguePosition:1})]]}),s=snap(p),v=A.rivalryView(s);assert.equal(v.status,"ready");assert.equal(v.season,3);assert.equal(v.totalSeasons,3);assert.equal(v.leagueId,p.leagueId);assert.deepEqual(v.clubs,clubs);assert.deepEqual(v.score,{daniel:11,nik:3});
- for(const [role,id] of [["playerOne","daniel"],["playerTwo","nik"]]){assert.deepEqual(Object.keys(v.managers[id]).sort(),fields.slice().sort());for(const key of fields)assert.equal(v.managers[id][key],p.managerRecords[role][key],id+" "+key);}
+ for(const [role,id] of [["playerOne","daniel"],["playerTwo","nik"]]){assert.deepEqual(Object.keys(v.managers[id]).sort(),fields.slice().sort());for(const key of fields)assert.equal(v.managers[id][key],key==="perfectSeasons"?p.seasonHistory.filter(row=>row[role].scoring.total===15).length:p.managerRecords[role][key],id+" "+key);}
+ assert.equal(p.managerRecords.playerOne.perfectSeasons,1,"the History projection still counts 11 (rebuilt byte for byte)");assert.equal(v.managers.daniel.perfectSeasons,0,"r87: Rivalry Statistics counts only 15s as perfect");
  assert.deepEqual(v.seasons,career(s).history.showdowns[0].seasons.map(({tiebreak,...row})=>row));assert.deepEqual(Object.keys(v).sort(),["status","leagueId","clubs","season","totalSeasons","score","managers","seasons","transfers"].sort());assert.deepEqual(v.transfers,{status:"unavailable"});
 });
 check("3. Rivalry states",()=>{

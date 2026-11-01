@@ -20,7 +20,8 @@ check("1. Bonus caps",()=>{
   assert.equal(m.managers.daniel.awardsBonuses,1,"both awards award one bonus");
   assert.equal(m.history.showdowns[0].seasons[0].score.daniel,11,"maximum score is eleven");
   assert.equal(m.managers.daniel.careerPoints,11);
-  assert.equal(m.managers.daniel.perfectSeasons,1);
+  assert.equal(m.managers.daniel.perfectSeasons,0,"r87 (Nik 2026-11-01): an 11 is not a perfect season; only 15 is");
+  {const pack=projection({totalSeasons:1,seasons:[[{...perfect,primePack:4},result()]]}),mp=model([entry(pack)]);assert.equal(mp.history.showdowns[0].seasons[0].score.daniel,15);assert.equal(mp.managers.daniel.perfectSeasons,1,"15 is a perfect season");}
   assert.equal(m.managers.daniel.hundredPointSeasons,1);
   assert.equal(m.managers.daniel.hundredGoalSeasons,1);
   assert.equal(m.managers.daniel.topScorerSeasons,1);
@@ -239,7 +240,9 @@ check("17. Agreement with sharedHistoryConvergence",()=>{
   const m=model([entry(p)]);
   const sharedFields=["seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"];
   for(const [role,manager] of [["playerOne","daniel"],["playerTwo","nik"]]){
-    for(const field of sharedFields)assert.equal(m.managers[manager][field],p.managerRecords[role][field],`${manager}.${field} agrees with verified history`);
+    // r87 (Nik 2026-11-01): perfect is 15. The History projection keeps counting 11 or more (rebuilt byte for byte, and
+    // stored Firebase summaries hold it), so the career model counts the 15s in the verified seasons instead.
+    for(const field of sharedFields)assert.equal(m.managers[manager][field],field==="perfectSeasons"?p.seasonHistory.filter(row=>row[role].scoring.total===15).length:p.managerRecords[role][field],`${manager}.${field} agrees with verified history`);
     assert.equal(m.managers[manager].careerPoints,p.managerRecords[role].totalPoints,`${manager}.careerPoints equals totalPoints`);
   }
 });

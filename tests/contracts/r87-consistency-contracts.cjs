@@ -74,11 +74,11 @@ const dbOverall=name=>{for(const c of Object.values(P.clubs))for(const p of c.pl
   ok(ids(V.seasonNumbers(facts([[15,0],[0,0]],true,3),2)).includes("draw-only"),"Prime Pack: exactly 15 clear with one left is draw-only");
   ok(V.seasonNumbers(facts([[15,0],[0,0]],true,3),2).find(x=>x.id==="draw-only").text.includes("15 to 0"),"draw-only names 15 to 0");
   ok(V.seasonNumbers(facts([[4,0]],true,3),1).find(x=>x.id==="clock").text.includes("up to 30 points"),"Prime Pack clock: 2 seasons left is up to 30 points each");
-  // Golden: 150 with Prime Pack, 110 before; a 110 in a Prime Pack Showdown is not Golden.
+  // Golden: 150 only (Nik 2026-11-01 17:35 UTC); a 110 is never Golden.
   const ten=t=>Array.from({length:10},()=>[t,0]);
   ok(ids(V.finalNumbers(facts(ten(15),true))).includes("final-golden")&&V.finalNumbers(facts(ten(15),true)).find(x=>x.id==="final-golden").text.startsWith("150 out of 150"),"Prime Pack Golden is 150");
   ok(!ids(V.finalNumbers(facts(ten(11),true))).includes("final-golden"),"Prime Pack: 110 is not a Golden Showdown");
-  ok(V.finalNumbers(facts(ten(11),false)).find(x=>x.id==="final-golden").text.startsWith("110 out of 110"),"before Prime Pack Golden stays 110");
+  ok(!ids(V.finalNumbers(facts(ten(11),false))).includes("final-golden"),"r87 (Nik 2026-11-01): no 110 Golden Showdown, even before Prime Pack");
   ok(V.finalNumbers(facts(ten(15).map(()=>[15,15]),true)).find(x=>x.id==="final-golden-both").text.startsWith("150 each"),"Prime Pack Golden draw is 150 each");
 }
 console.log(`r87 consistency contracts passed (${checks} checks)`);

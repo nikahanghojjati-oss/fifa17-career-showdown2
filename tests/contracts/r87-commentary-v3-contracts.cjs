@@ -121,14 +121,21 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
   const f=scripted("run",[[1,0],[3,1],[5,4],[0,0],[0,0]]),n=V.seasonNumbers(f,3);
   ok(n.some(x=>x.id==="run"&&x.text==="Daniel has now won 3 seasons in a row."),JSON.stringify(n));
 }
-{ // Golden Showdown: 110 for one manager.
+{ // r87 (Nik 2026-11-01 17:35 UTC): there is no 110 Golden Showdown. 11 every season (a Showdown before Prime Pack) is never Golden.
   const f=scripted("golden",Array.from({length:10},()=>[11,4])),n=V.finalNumbers(f);
-  ok(n[0].id==="final-golden"&&/110 out of 110 for Daniel/.test(n[0].text),n[0].text);
+  ok(!n.some(x=>x.topic==="golden"),JSON.stringify(n));
+  const both=scripted("golden-both",Array.from({length:10},()=>[11,11]));
+  ok(!V.finalNumbers(both).some(x=>x.topic==="golden"),"110 each is a plain drawn Showdown, no Golden");
+}
+{ // Golden Showdown: 150 for one manager, told on its last season.
+  const f=scripted("golden",Array.from({length:10},()=>[11,4]));f.primePack=true;for(const h of f.history){h.playerOne.scoring={...h.playerOne.scoring,primePack:4,total:15};}
+  const n=V.finalNumbers(f);
+  ok(n[0].id==="final-golden"&&/150 out of 150 for Daniel/.test(n[0].text),n[0].text);
   const c=V.call(f,10,L);ok(c.moment==="final"&&(c.lead?.situation==="final-golden"||c.numbers?.id==="final-golden"),"the Golden Showdown is told on its last season");
 }
-{ // 110 each: a drawn Showdown and a Golden Showdown for both (lead request 2026-10-31).
-  const f=scripted("golden-both",Array.from({length:10},()=>[11,11]));
-  const n=V.finalNumbers(f);ok(n.some(x=>x.id==="final-golden-both"&&/110 each/.test(x.text)&&/Golden Showdown for both/.test(x.text)),JSON.stringify(n));
+{ // 150 each: a drawn Showdown and a Golden Showdown for both (lead request 2026-10-31).
+  const f=scripted("golden-both",Array.from({length:10},()=>[11,11]));f.primePack=true;for(const h of f.history){for(const r of ["playerOne","playerTwo"])h[r].scoring={...h[r].scoring,primePack:4,total:15};}
+  const n=V.finalNumbers(f);ok(n.some(x=>x.id==="final-golden-both"&&/150 each/.test(x.text)&&/Golden Showdown for both/.test(x.text)),JSON.stringify(n));
   const c=V.call(f,10,L);ok(c.numbers&&c.numbers.id==="final-golden-both","a double Golden Showdown is never told as a plain draw");
 }
 { // Drawn Showdown.

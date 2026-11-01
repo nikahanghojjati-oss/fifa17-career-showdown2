@@ -82,7 +82,9 @@
     if(live&&(row?.rivalryId==null||row.rivalryId===live.rivalryId))return live.setupUpdatedAtMs>=PRIME_PACK_FROM_MS?pack:before;
     return before;
   }
-  function goldenShowdownPoints(row){return GOLDEN_SHOWDOWN.seasons*seasonMaxFor(row);}
+  // Nik 2026-11-01 17:35 UTC: there was never a real 10-season Showdown before Prime Pack, so no 110 record to keep. The
+  // Golden Showdown is 150 in every Showdown (seasonMaxFor still gives the race maths each Showdown's own season maximum).
+  function goldenShowdownPoints(_row){return GOLDEN_SHOWDOWN.primePackPoints;}
   function goldenShowdownManagers(row){
     if(!row||row.status!=="completed"||row.totalSeasons!==GOLDEN_SHOWDOWN.seasons||row.seasonsPlayed!==GOLDEN_SHOWDOWN.seasons||!row.totals)return [];
     const points=goldenShowdownPoints(row);

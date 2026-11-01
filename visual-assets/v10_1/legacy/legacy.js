@@ -252,7 +252,7 @@ window.ShowdownLegacyBoot = function () {
       chips.forEach((chip, index) => { chip.dataset.manager = index ? "nik" : "daniel"; special.appendChild(chip); });
     }
     card.append(title, body, ...(special ? [special] : []), footer);
-    // r84 Golden Showdown: a gold line names each manager who closed this 10-season Showdown on 110 points.
+    // r84 Golden Showdown: a gold line names each manager who closed this 10-season Showdown on 150 points (r87: 15 a season).
     const golden = Array.isArray(showdown.goldenShowdown) ? showdown.goldenShowdown.filter((manager) => manager === "daniel" || manager === "nik") : [];
     if (golden.length) {
       card.dataset.golden = "true";

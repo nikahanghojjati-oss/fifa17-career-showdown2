@@ -149,13 +149,14 @@
   function finalNumbers(rows,N,MAX){
     const totals=cvTotals(rows),end=totals[N-1],W=leaderOf(end),tally=cvTally(rows),out=[],add=(id,topic,text)=>out.push({id,topic,text});
     if(!W){
-      // 110 (150 with Prime Pack) each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's total is per manager).
-      if(N===10&&end.playerOne===MAX*N)add("final-golden-both","golden",`${MAX*N} each: both managers won ${MAX} points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
+      // 150 each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's total is per manager). The
+      // Golden Showdown is 150 only (Nik 2026-11-01 17:35 UTC), so a Showdown played before Prime Pack (11 a season) has none.
+      if(N===10&&MAX===PACK_MAX&&end.playerOne===MAX*N)add("final-golden-both","golden",`${MAX*N} each: both managers won ${MAX} points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
       add("final-level","level",`Level on ${end.playerOne} after ${count(N,"season","seasons")}, so the Showdown is drawn.`);
       return out;
     }
     const Lr=other(W),w=NAMES[W],l=NAMES[Lr],score=`${w} ${end[W]}, ${l} ${end[Lr]}`;
-    if(N===10&&end[W]===MAX*N)add("final-golden","golden",`${MAX*N} out of ${MAX*N} for ${w}: every season won ${MAX} points, the Golden Showdown.`);
+    if(N===10&&MAX===PACK_MAX&&end[W]===MAX*N)add("final-golden","golden",`${MAX*N} out of ${MAX*N} for ${w}: every season won ${MAX} points, the Golden Showdown.`);
     const behind=totals.filter(pair=>pair[W]<pair[Lr]).length;
     if(behind>0)add("final-comeback","comeback",`${w} was behind after ${count(behind,"season","seasons")} of ${N} and still won the Showdown, ${end[W]} to ${end[Lr]}.`);
     if(N>=3&&totals.every(pair=>pair[W]>pair[Lr]))add("final-wire","wire",`${w} led after every one of the ${N} seasons and finishes ${end[W]} to ${end[Lr]}.`);

@@ -170,7 +170,7 @@ function renderAllTimeRecords(container, analytics){
         createRecordCard("MOST CHAMPIONS LEAGUES", managerLeaderText(records.championsLeagues)),
         createRecordCard("MOST LEAGUE TITLES", managerLeaderText(records.leagueTitles)),
         createRecordCard("MOST DOMESTIC CUPS", managerLeaderText(records.domesticCups)),
-        createRecordCard("PERFECT 11-POINT SEASONS", managerLeaderText(records.perfectSeasons)),
+        createRecordCard("PERFECT 15-POINT SEASONS", managerLeaderText(records.perfectSeasons)),
         createRecordCard("HIGHEST SEASON SCORE", seasonRecordText(records.highestSeasonScore, " pts")),
         createRecordCard("HIGHEST LEAGUE POINTS", seasonRecordText(records.highestLeaguePoints, " pts")),
         createRecordCard("MOST LEAGUE GOALS", seasonRecordText(records.highestLeagueGoals, " goals"))

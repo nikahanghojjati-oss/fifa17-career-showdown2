@@ -31,7 +31,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   // ---- fixture helpers ----
   const MANAGERS={playerOne:{name:'Alex',club:'Arsenal',league:'premier_league'},playerTwo:{name:'Sam',club:'Juventus',league:'serie_a'}};
   // A result from a short description: pos, pts, goals, cup, cl, el, ts (top scorer), ta (top assist).
-  const R=({pos=5,pts=60,goals=50,cup=false,cl=false,el=false,ts=false,ta=false}={})=>({leaguePosition:pos,leaguePoints:pts,leagueGoals:goals,domesticCup:cup,championsLeague:cl,topScorer:ts,topAssist:ta,...(el?{europaLeague:true}:{})});
+  const R=({pos=5,pts=60,goals=50,cup=false,cl=false,el=false,ts=false,ta=false,pp=0}={})=>({leaguePosition:pos,leaguePoints:pts,leagueGoals:goals,domesticCup:cup,championsLeague:cl,topScorer:ts,topAssist:ta,...(el?{europaLeague:true}:{}),...(pp?{primePack:pp}:{})});
   // A season total 0..11 as a typical result (only 0-2 come without a trophy).
   const PTS=[{},{ta:true},{ta:true,goals:100},{el:true},{el:true,ta:true},{cl:true},{cl:true,ta:true},{cl:true,ta:true,goals:100},{cl:true,pos:1},{cl:true,pos:1,cup:true},{cl:true,pos:1,cup:true,ta:true},{cl:true,pos:1,cup:true,ta:true,pts:100}];
   const desc=value=>typeof value==='number'?PTS[value]:value;
@@ -204,7 +204,8 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=fin([[2,0],[0,1],[0,0]]);one(x,'final-wire-to-wire');none(x,'final-comeback');
   x=fin([[2,0],[0,2],[1,0]]);none(x,'final-wire-to-wire');none(x,'final-last-season-swing');// level after season 2
   x=fin([[3,0],...Array(9).fill([0,0])],10);none(x,'final-golden');none(x,'final-sprint');
-  x=fin(Array(10).fill([11,4]),10);assert.equal(one(x,'final-golden').winnerTotal,'110');none(x,'final-sprint');
+  x=fin(Array(10).fill([11,4]),10);none(x,'final-golden');none(x,'final-sprint');// r87 (Nik 2026-11-01): 110 is no Golden Showdown; 150 only
+  x=fin(Array(10).fill([{pos:1,pts:101,goals:101,cup:true,cl:true,ts:true,pp:4},4]),10);assert.equal(one(x,'final-golden').winnerTotal,'150');
   x=fin([[10,4],...Array(9).fill([11,4])],10);none(x,'final-golden');
   x=fin([[3,0]],1);one(x,'final-sprint');one(x,'final-wire-to-wire');none(x,'final-golden');none(x,'final-last-season-swing');
   x=fin([[3,3]],1);none(x,'final-sprint');one(x,'final-drawn');

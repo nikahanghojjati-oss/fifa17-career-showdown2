@@ -317,9 +317,9 @@
       out.push(ceEntry(margin===1?"final-won-by-1":margin<=5?"final-won-by-2-5":margin<=15?"final-won-by-6-15":"final-won-by-16-plus",values));
       if(sd.totals.slice(0,N-1).some(pair=>pair[W]<pair[L]))out.push(ceEntry("final-comeback",values));
       if(sd.totals.every(pair=>pair[W]>pair[L]))out.push(ceEntry("final-wire-to-wire",values));
-      // r86 (red team #12): the Golden Showdown is the Rule Book's 110 (11 in every season of a 10-season Showdown), not any
-      // 10-season win; 150 (15 in every season) in a Showdown with Prime Pack.
-      if(N===10&&totals[W]===ceSeasonMax(facts,sd)*N)out.push(ceEntry("final-golden",values));
+      // r86 (red team #12): the Golden Showdown is the Rule Book's total, not any 10-season win. r87 (Nik 2026-11-01 17:35
+      // UTC): it is 150 (15 in every season) in every Showdown; there is no 110 Golden Showdown.
+      if(N===10&&totals[W]===MAX_PRIME_PACK_SEASON_POINTS*N)out.push(ceEntry("final-golden",values));
       if(N===1)out.push(ceEntry("final-sprint",values));
       if(N>=2&&ceLeaderOf(sd.totals[N-2])===L)out.push(ceEntry("final-last-season-swing",values));
     }else{
