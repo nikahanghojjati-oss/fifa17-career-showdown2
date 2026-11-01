@@ -18,8 +18,9 @@
   // the partner. The text is chosen by a hash of the Showdown id, the edition and the season, never by who is looking, so
   // both phones print the same paper. Equal points are a DRAW (no tiebreak) and the copy is picked only from the situations
   // that are true (a 1-point win is never a big win, a draw is never a win). Screen words say "Special Player" or "SP".
-  // A paper already shown on this phone is not shown again (one small local list, careerModeShowdown.gazetteSeen.v1). If its
-  // files cannot load within a few seconds the tap simply goes on as before, so the Gazette can never hold anyone up.
+  // A paper already read on this phone (its CONTINUE tapped) is not shown again (one small local list,
+  // careerModeShowdown.gazetteSeen.v1). If its files or pictures cannot load within a few seconds the tap simply goes on as
+  // before, so the Gazette can never hold anyone up and never prints a broken picture.
   // Fable job 2 F2-16: the Special Players line is read from the chip only after the chip and its data have loaded, as one of
   // the paper's files, so a phone where the chip was still missing at the tap prints the same line as the other phone.
   // F2-15: a SEASON paper stays up (its CONTINUE busy) until continueToNextSeason has finished or failed; no timer closes it
@@ -83,10 +84,20 @@
     walk.fresh=slot=>freshness[slot]!==false;
     return walk;
   }
+  // Fable job 5 F5-16: "a {margin}-point" reads "an 8-point", "an 11-point", "an 18-point" (the Commentary engine's
+  // vowel-sound rule, js/commentaryEngine.js ceVowelSound, ported here so both say the same; no lookbehind, for older Safari).
+  function vowelSound(value){
+    const text=String(value).trim(),word=text.split(/[\s-]/)[0].replace(/[.,;:!?]+$/,"");
+    if(/^\d/.test(text))return /^8/.test(text)||/^(11|18)(?!\d)/.test(text)||/^(11|18)\d\d(?!\d)/.test(text);
+    if(word.length>1&&/^[A-Z]+$/.test(word))return /^[AEFHILMNORSX]/.test(word);
+    if(/^(uni|use|usu|uru|ukr|ure|uti|eu|one|once|ewe)/i.test(word))return false;
+    if(/^(hour|honou?r|honest|heir)/i.test(word))return true;
+    return /^[aeiouàáâäæèéêëìíîïòóôöøùúûü]/i.test(word);
+  }
   // Fills {placeholders}; a row naming a value this paper does not have is refused (null), never printed with braces.
   function fill(text,vals){
     let missing=false;
-    const out=String(text??"").replace(/\{(\w+)\}/g,(match,key)=>{if(vals[key]===undefined||vals[key]===null||vals[key]===""){missing=true;return match;}return String(vals[key]);});
+    const out=String(text??"").replace(/(^|[^\p{L}\p{N}'’-])([Aa])(n?) (?=\{(\w+)\})/gu,(match,before,article,n,key)=>vals[key]===undefined||vals[key]===null||vals[key]===""?match:`${before}${article}${vowelSound(vals[key])?"n":""} `).replace(/\{(\w+)\}/g,(match,key)=>{if(vals[key]===undefined||vals[key]===null||vals[key]===""){missing=true;return match;}return String(vals[key]);});
     return missing?null:out.replace(/\b1 points\b/g,"1 point").replace(/\b1 seasons\b/g,"1 season");
   }
   function fillRow(row,keys,vals){const out={...row};for(const k of keys){if(row[k]===undefined)continue;const t=fill(row[k],vals);if(t===null)return null;out[k]=t;}return out;}
@@ -451,7 +462,15 @@
   }
   const art=name=>root.ShowdownContent?.frontPage?.art?root.ShowdownContent.frontPage.art(name):`${BASE}gazette/${name}.webp`;
   function edPictures(edition){const p=edition.paper;return [p.photo?.name,p.portrait?.name,...p.briefs.map(b=>b.trophy)].filter(Boolean).map(art);}
-  function decode(url){return new Promise(resolve=>{const img=new root.Image();img.decoding="async";img.onload=img.onerror=()=>resolve();img.src=url;if(typeof img.decode==="function")img.decode().then(resolve,resolve);});}
+  // Fable job 5 F5-01: a picture that cannot load (offline, 404) fails the paper: no edition is printed with a broken image
+  // (the tap goes on as before and the paper is not marked seen, so it can print another time). A decode() that rejects for
+  // a picture that did load (some browsers) still counts as loaded; onerror is the failure.
+  function decode(url){return new Promise((resolve,reject)=>{
+    const img=new root.Image();let done=false;
+    const good=()=>{if(!done){done=true;resolve(true);}},bad=()=>{if(!done){done=true;reject(new Error("GAZETTE_PICTURE_UNAVAILABLE"));}};
+    img.decoding="async";img.onload=good;img.onerror=bad;img.src=url;
+    if(typeof img.decode==="function")img.decode().then(good,()=>{if(img.complete&&img.naturalWidth>0)good();});
+  });}
   function tgPrepare(edition){return loadAssets().then(()=>Promise.all(edPictures(edition).map(decode)));}
   function compactNow(){try{return root.matchMedia?.("(max-width: 700px), (max-height: 520px) and (max-width: 1000px)")?.matches===true;}catch(_error){return false;}}
   function paperFor(edition,compact){
@@ -497,7 +516,7 @@
   function fit(){
     const state=current;if(!state||!state.page.isConnected)return;
     const compact=compactNow();
-    if(compact!==state.compact){tgRender(state.plan,state);return;}
+    if(compact!==state.compact){let shown=false;try{shown=tgRender(state.plan,state);}catch(_error){shown=false;}if(!shown&&current===state)tgClose();return;}
     const desk=state.page.querySelector(".cmx-fp-screen__desk");if(!desk)return;
     desk.style.zoom="";
     const screen=state.page.querySelector(".cmx-fp-screen"),paper=desk.firstElementChild;if(!screen||!paper)return;
@@ -511,6 +530,11 @@
     state.page.remove();
     if(state.host?.dataset?.gazette)delete state.host.dataset.gazette;
     if(root.document?.documentElement?.dataset?.gazette)delete root.document.documentElement.dataset.gazette;
+    // F5-15: a step that failed or stayed here gives Season Results (or Final Winner) back where the player left it
+    if(state.scroll&&activeScreen()==="seasonEntry"&&state.host?.isConnected){
+      const main=state.host.closest?.("main");if(main&&Number.isFinite(state.scroll.main))main.scrollTop=state.scroll.main;
+      if(Number.isFinite(state.scroll.window))root.scrollTo?.(0,state.scroll.window);
+    }
   }
   function tgRender(plan,previous=null){
     const doc=root.document,host=doc.getElementById("seasonEntry");if(!host)return false;
@@ -523,18 +547,28 @@
     const abs=path=>{const url=assetUrl(path);try{return new URL(url,doc.baseURI).href;}catch(error){return url;}};
     page.style.setProperty("--tgz-plate-desktop",`image-set(url("${abs(dir+"_PLATE_V2_1X.webp")}") 1x,url("${abs(dir+"_PLATE_V2_2X.webp")}") 2x)`);
     page.style.setProperty("--tgz-plate-phone",`url("${abs(dir+"_PHONE_V2.webp")}")`);
+    // F5-15: where the screen was scrolled, given back if the paper closes onto it again
+    const main=host.closest?.("main");
+    const scroll=previous?previous.scroll:{main:main?Number(main.scrollTop)||0:0,window:Number(root.scrollY??root.pageYOffset)||0};
     host.appendChild(page);
     const compact=compactNow();
-    root.ShowdownContent.frontPage.screen(page,paperFor(plan.edition,compact),()=>proceed(),{eyebrow:eyebrowFor(plan.edition),title:"Read all about it",button:"Continue",still:Boolean(previous)});
-    page.querySelector(".cmx-fp-screen__title")?.remove();
-    const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}}
-    const button=page.querySelector(".cmx-continue");if(button)button.id="touchlineGazetteContinue";
+    let button=null;
+    // F5-22: a paper that cannot be drawn leaves nothing behind (no empty page): it is removed and the caller goes on
+    try{
+      root.ShowdownContent.frontPage.screen(page,paperFor(plan.edition,compact),()=>proceed(),{eyebrow:eyebrowFor(plan.edition),title:"Read all about it",button:"Continue",still:Boolean(previous)});
+      page.querySelector(".cmx-fp-screen__title")?.remove();
+      const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}}
+      button=page.querySelector(".cmx-continue");if(!button)throw new Error("GAZETTE_CONTINUE_MISSING");
+      button.id="touchlineGazetteContinue";
+    }catch(error){page.remove();throw error;}
+    // F5-06: a paper drawn again (rotation) while its step is running keeps its CONTINUE busy
+    if(previous?.leaving){button.disabled=true;button.setAttribute("aria-busy","true");}
     host.dataset.gazette=plan.kind;doc.documentElement.dataset.gazette=plan.kind;
     const state=previous||{plan,host,onResize:null,safety:null,leaving:false};
-    state.page=page;state.compact=compact;state.host=host;
+    state.page=page;state.compact=compact;state.host=host;state.scroll=scroll;
     if(!previous){state.onResize=()=>fit();root.addEventListener?.("resize",state.onResize);}
     current=state;
-    if(!previous){const main=host.closest("main");if(main)main.scrollTop=0;root.scrollTo?.(0,0);button?.focus?.({preventScroll:true});}
+    if(!previous){if(main)main.scrollTop=0;root.scrollTo?.(0,0);button.focus?.({preventScroll:true});}
     fit();if(doc.fonts?.ready)doc.fonts.ready.then(()=>fit());
     return true;
   }
@@ -546,6 +580,9 @@
   // is ever left on the paper.
   function proceed(){
     const state=current;if(!state||state.leaving)return;state.leaving=true;
+    // F5-08: the paper counts as read when its CONTINUE is tapped (not when it is drawn), so a lock, a reload or the top bar
+    // while reading brings it back next time; the step below runs once either way.
+    if(state.plan.key)markSeen(state.plan.key);
     const button=state.page.querySelector(".cmx-continue");if(button){button.disabled=true;button.setAttribute("aria-busy","true");}
     if(state.plan.kind==="final")state.safety=root.setTimeout(()=>{if(current===state)tgClose();},FINAL_SAFETY_MS);
     let result;try{result=state.plan.proceed();}catch(_error){result=false;}
@@ -567,6 +604,7 @@
     if(plain(final)){if({daniel:"playerOne",nik:"playerTwo",draw:"draw"}[final.winner]!==W)return null;if(plain(final.totals)&&(final.totals.daniel!==totals.playerOne||final.totals.nik!==totals.playerTwo))return null;}
     return `${facts.rivalryId}|final|${T}`;
   }
+  const finalExit=button=>Boolean(button?.closest?.(".v10FinalStage"))&&(button.id==="finalWinnerRematch"||button.classList?.contains?.("backButton")===true);
   function planFor(button){
     if(activeScreen()!=="seasonEntry")return null;
     const host=root.document.getElementById("seasonEntry");if(!host||host.classList.contains("hidden")||!host.contains(button))return null;
@@ -577,8 +615,7 @@
       const input=seasonInput({history}),key=seasonKey(input);if(!key||seen(key))return null;
       return {kind:"season",key,button,build:()=>seasonEdition({...input,specialPlayers:tgSpecial(rivalryId)}),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
     }
-    const finalStage=button.closest(".v10FinalStage");
-    if(finalStage&&host.classList.contains("v10FinalMode")&&!button.disabled&&(button.id==="finalWinnerRematch"||button.classList.contains("backButton"))){
+    if(host.classList.contains("v10FinalMode")&&!button.disabled&&finalExit(button)){
       const final=root.FINAL_WINNER_FIXTURES?.frames?.LIVE||null,history=root.CareerModeSeasonFinalV10?.gazetteHistory?.()||null;
       const input=finalInput({final,history}),key=finalKey(input);if(!key||seen(key))return null;
       const rematch=button.id==="finalWinnerRematch";
@@ -595,7 +632,13 @@
     if(passing)return;
     const button=event.target?.closest?.("button");if(!button)return;
     if(current&&current.page.contains(button))return;
-    if(opening){if(button===opening.button){event.preventDefault();event.stopPropagation();event.stopImmediatePropagation?.();}return;}
+    if(opening){
+      if(button===opening.button){event.preventDefault();event.stopPropagation();event.stopImmediatePropagation?.();}
+      // F5-21: the other Final Winner exit tapped while the first one's paper is loading: that tap goes on and the first
+      // paper is called off (its button's step never runs behind the second one's).
+      else if(opening.kind==="final"&&finalExit(button))opening.cancelled=true;
+      return;
+    }
     if(current)return;
     let plan=null;try{plan=planFor(button);}catch(_error){plan=null;}
     if(!plan)return;
@@ -603,11 +646,12 @@
     opening=plan;
     tgReady(plan).then(ready=>{
       opening=null;
+      if(plan.cancelled)return;
       // The player went somewhere else meanwhile: nothing happens. Files or paper not ready: the tap goes on as before.
       if(activeScreen()!=="seasonEntry"||!plan.button.isConnected&&plan.kind==="season")return;
       if(!ready||!plan.edition||!root.ShowdownContent?.frontPage){void Promise.resolve().then(()=>plan.proceed()).catch(()=>{});return;}
       let shown=false;try{shown=tgRender(plan);}catch(_error){shown=false;tgClose();}
-      if(shown)markSeen(plan.key);else void Promise.resolve().then(()=>plan.proceed()).catch(()=>{});
+      if(!shown)void Promise.resolve().then(()=>plan.proceed()).catch(()=>{});
     });
   }
   function onScreen(event){const screen=event?.detail?.screen??activeScreen();if(current&&screen!=="seasonEntry")tgClose();}
