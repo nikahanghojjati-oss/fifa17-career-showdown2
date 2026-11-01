@@ -973,3 +973,12 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
   #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubRivalryLockNote { color: #f1e9d2; text-shadow: none; }
   #app #clubWheelScreen.cl-on .clubRivalryHeadline > span { color: #f2c45b; }
 }
+
+/* r87 sweep P-15: on a phone the step labels (01 DRAW … 05 LOCK) and RIVALRY sit over the managers' dark suits, and the
+   first and last labels nearly disappeared. A dark halo keeps every label readable on the art; nothing moves. */
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on .clubRevealProgress span,
+  #app #clubWheelScreen.cl-on .clubVs > span { color: #e6dcc4; text-shadow: 0 1px 2px #000, 0 0 6px #000, 0 0 10px rgba(0, 0, 0, .85); }
+}
