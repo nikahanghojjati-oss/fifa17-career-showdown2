@@ -439,7 +439,8 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
     await Promise.all([ctx.daniel,ctx.nik].map(m=>settle(m,m.page).catch(async e=>{await check(m,e.stuck?"stuck":"settle",false,e.message,e.page);})));
     rec.recoverMs=Date.now()-recoveredAt;
     if(FAULT==="twotabs"){
-      for(const p of X.extra){const a=await stepState(X,X.page),b=await stepState(X,p);await check(X,"twotabs.same",sameShowdownState(a,b),`tab 1 ${JSON.stringify(a)} vs tab 2 ${JSON.stringify(b)}`,p);}
+      // Both tabs converge: a tab that has not drawn the newest step yet gets up to 30 s, like a player glancing back at it.
+      for(const p of X.extra){let a,b;const until=Date.now()+30000;do{a=await stepState(X,X.page);b=await stepState(X,p);if(sameShowdownState(a,b))break;await sleep(1000);}while(Date.now()<until);await check(X,"twotabs.same",sameShowdownState(a,b),`tab 1 ${JSON.stringify(a)} vs tab 2 ${JSON.stringify(b)}`,p);}
       await closeExtraTabs(X);
     }
     if(checks)await checks(check,X);
@@ -845,8 +846,16 @@ async function commitWithFaults(ctx,R,season,final){
     if(!p.__fijClosedSince)p.__fijClosedSince=Date.now();
     if(Date.now()-p.__fijClosedSince<10000)return "";
     const screen=await p.evaluate(()=>[...document.querySelectorAll(".screen")].filter(s=>!s.classList.contains("hidden")&&s.getClientRects().length).map(s=>s.id).join(",")).catch(()=>"");
-    const back=p.locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|BACK)\s*$/}).first();
-    if(!(await clickIf(p,back)))return "";
+    // The way out a player takes: BACK TO HOME when offered, else close the top overlay (its ×), else BACK. A tap that an
+    // overlay swallows is not a way out, so each tap must really land.
+    const tap=async loc=>{if(!(await loc.isVisible().catch(()=>false)))return false;try{await loc.click({timeout:3000});return true;}catch(_){return false;}};
+    const home=p.locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME)\s*$/}).first();
+    const closers=p.locator("[id$='Overlay']:visible button:visible").filter({hasText:/^\s*×\s*$/});
+    const back=p.locator("button:visible").filter({hasText:/^\s*BACK\s*$/});
+    let landed=await tap(home);
+    for(let i=(await closers.count().catch(()=>0))-1;!landed&&i>=0;i--)landed=await tap(closers.nth(i));
+    for(let i=0,n=await back.count().catch(()=>0);!landed&&i<n;i++)landed=await tap(back.nth(i));
+    if(!landed)return "";
     const note=`${pointNow}: ${m.user} held the Showdown CLOSED but was on ${screen||"another screen"} (not the Champion screen); went back Home`;
     if(!report.notes.includes(note))report.notes.push(note);
     return "closed-back-home";
