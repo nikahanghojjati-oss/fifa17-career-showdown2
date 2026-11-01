@@ -417,8 +417,7 @@ function getOptionalModuleButton(name){
 if(name === "careerStatistics"){ return document.getElementById("careerStatisticsButton"); }
 if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
 if(name === "trophyRoom"){
-return document.getElementById("trophyRoomButton")
-|| document.getElementById("careerStatisticsTrophyButton");
+return document.getElementById("trophyRoomButton") || document.getElementById("careerStatisticsTrophyButton");
 }
 if(name === "legacy"){ return document.getElementById("legacyButton"); }
 if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
@@ -459,9 +458,6 @@ throw error;
 }
 }
 
-// The navigation revision also moves when the SAME screen re-renders while the
-// module loads (career data arriving). That must not swallow the tap: only a newer
-// request or a real move to another screen cancels the open.
 function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
 const currentScreen = typeof window.getActiveScreenName === "function"
 ? window.getActiveScreenName()
@@ -483,10 +479,7 @@ const originRevision = typeof window.getNavigationRevision === "function"
 setOptionalModuleBusy(name, true);
 try{
 await ensureOptionalModule(name);
-if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){
-if(window.__optionalOpenDebug){ console.info("optional open cancelled", name, requestId, originScreen, originRevision); }
-return false;
-}
+if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){ return false; }
 
 if(name === "careerStatistics"){
 window.openCareerStatistics();
