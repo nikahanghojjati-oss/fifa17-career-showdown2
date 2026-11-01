@@ -77,7 +77,7 @@
     "test:r87:oracle": "node tests/browser/career-oracle.cjs",
     "test:r87:finish": "R87FR_SEASONS=1 node tests/browser/r87-finish-rematch-proof.cjs && R87FR_SEASONS=1 R87FR_SCENARIO=draw node tests/browser/r87-finish-rematch-proof.cjs",
     "test:r87:privacy": "npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-r87-guess-privacy \"node tests/firebase/r87-guess-privacy-emulator.cjs\" && node tests/browser/r87-guess-privacy-audit.cjs",
-    "test:r87:clocks": "node tests/contracts/r87-terminal-close-clock-contracts.cjs && npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-r87-clock-skew \"node tests/firebase/r87-device-clock-skew-emulator.cjs\"",
+    "test:r87:clocks": "node tests/contracts/r87-dst-clock-change-contracts.cjs && node tests/contracts/r87-terminal-close-clock-contracts.cjs && npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-r87-clock-skew \"node tests/firebase/r87-device-clock-skew-emulator.cjs\"",
     "test:r87:pairing": "node tests/contracts/r87-fable-pairing-fixes-contracts.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey \"node tests/browser/r87-pairing-edges-audit.cjs\"",
     "test:r87:scoring": "node tests/contracts/r87-scoring-everywhere-contracts.cjs",
     "test:r87:sizes": "node tests/browser/r87-proof-sizes-tour.cjs",

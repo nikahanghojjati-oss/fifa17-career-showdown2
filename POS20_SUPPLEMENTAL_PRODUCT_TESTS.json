@@ -2593,6 +2593,16 @@
         "^tests/contracts/r87\\-transition\\-gate\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-dst-clock-change-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^tests/contracts/r87\\-dst\\-clock\\-change\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
