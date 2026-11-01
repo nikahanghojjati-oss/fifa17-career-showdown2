@@ -1640,3 +1640,14 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-trophyLabel { font-size:11px; }
   #app #statistics[data-rivalry-legacy-v10] .rv-trophyCount { font-size:13px; }
 }
+
+/* r87 round 3 (career pages toward 10/10): on desktop the data words are at least 11px; nothing moves. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardFooter { font-size:max(11px,.6vw); }
+  #app #statistics[data-rivalry-legacy-v10] .rv-progress { font-size:max(11px,.62vw); }
+  #app #statistics[data-rivalry-legacy-v10] .rv-seasonTable th { font-size:max(11px,.62vw); letter-spacing:.06em; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-seasonTable td { font-size:max(13px,.8vw); }
+}
+@media (max-width:900px) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-progress { font-size:10px; width:auto; min-width:92px; max-width:40%; }
+}
