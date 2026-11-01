@@ -203,3 +203,14 @@ html[data-motion-reduced="true"] .trophyGrid.tr-tab-enter,
 @media (min-width:761px) and (max-height:700px){
   .trophyBack{bottom:calc(5.4% - 14px)}
 }
+
+/* r87 polish (P-07): TRY AGAIN under an unavailable career, a gold-edged marble button centred under the message. */
+.stateRetry {
+  justify-self: center; align-self: center; margin: 14px auto 0; min-height: 44px; min-width: 160px; padding: 8px 22px;
+  border: 1px solid rgba(255,211,77,.78); border-radius: 2px; cursor: pointer;
+  background: linear-gradient(180deg, rgba(255,211,77,.16), rgba(10,10,12,.92) 70%); color: #ffd34d;
+  font: 700 14px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing: .14em; text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255,236,170,.3), 0 6px 18px rgba(0,0,0,.45);
+}
+.stateRetry:disabled { cursor: progress; opacity: .7; }
+.stateRetry:focus-visible { outline: 2px solid #ffe36c; outline-offset: 3px; }

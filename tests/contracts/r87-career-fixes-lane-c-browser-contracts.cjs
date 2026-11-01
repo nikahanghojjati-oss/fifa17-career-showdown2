@@ -105,6 +105,26 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes la
       }finally{await context.close();}
     }
     groups.push('C-07 "Borussia Mönchengladbach" stays clear of "♛ NIK WINS" on desktop History cards (1024, 1280, 1440)');
+    // r87 polish (lead, CE2PG RUN=3): a desktop season-history row reads "8 #3 · …", never "8#3", and stays readable at 1920.
+    for(const size of [[1280,800],[1440,900],[1920,1080],[390,844]]){
+      const {context,page,errors}=await boot(browser,base,size);
+      try{
+        await page.evaluate(async model=>{await window.openOptionalModule('legacy');window.renderLegacy({model});},CLUBS);
+        await page.waitForFunction(()=>document.querySelector('#legacyCardGrid .legacyCard')&&!document.getElementById('legacy').hasAttribute('data-v10-pending'),null,{timeout:30000});
+        await page.evaluate(()=>document.fonts&&document.fonts.ready);
+        await page.locator('#viewSeasonHistory').click();
+        await page.waitForSelector('#legacySeasonHistory .legacyHistorySeason',{timeout:10000});await page.waitForTimeout(300);
+        const where=size.join('x');
+        const rows=await page.evaluate(()=>[...document.querySelectorAll('#legacySeasonHistory .legacyHistorySeason')].map(r=>({text:r.innerText.replace(/\s+/g,' ').trim(),px:parseFloat(getComputedStyle(r.querySelector('.legacyHistoryDetail')).fontSize)})));
+        assert.ok(rows.length>0,`${where}: the season history lists its seasons`);
+        for(const r of rows){
+          assert.match(r.text,/^Season \d+ \d+ #\d+ · \d+ league pts · \d+ goals.* \d+ #\d+ · \d+ league pts · \d+ goals.* (♛ (Daniel|Nik)|= Draw)$/i,`${where}: score, finish and winner are separate words (${r.text})`);
+          if(size[0]>=1700)assert.ok(r.px>=13,`${where}: the row detail is readable (${r.px}px)`);
+        }
+        assert.deepEqual(errors,[]);
+      }finally{await context.close();}
+    }
+    groups.push('C-08 desktop and phone season-history rows keep a real gap between score, finish and winner, readable at 1920 (1280x800, 1440x900, 1920x1080, 390x844)');
     {
       const {context,page,errors}=await boot(browser,base,[1366,768]);
       try{

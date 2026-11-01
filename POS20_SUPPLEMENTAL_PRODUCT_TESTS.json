@@ -2328,6 +2328,17 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-polish-matchday-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedCanonicalScoring|productionSharedSeasonCommit|productionSharedMultiSeasonProgression|productionSharedFinalReconciliation|productionSharedHistoryConvergence|seasonFinalV10|seasonEngine|deadlineDay)\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^visual-assets/v10_1/(season-results/app\\.css|final-winner/final-winner\\.js)$",
+        "^index\\.html$",
+        "^tests/contracts/r87\\-polish\\-matchday\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-gazette-contracts.cjs",
       "patterns": [
         "^js/(touchlineGazette|seasonFinalV10)\\.js$",
@@ -2474,6 +2485,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-fable3-meter-fixes-contracts.cjs",
+      "patterns": [
+        "^js/sparkPrivatePairing\\.js$",
+        "^tests/contracts/r87\\-fable3\\-meter\\-fixes\\-contracts\\.cjs$",
+          "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+        ]
+      },
+      {
       "path": "tests/contracts/r87-scoring-everywhere-contracts.cjs",
       "patterns": [
         "^js/(scoring|sharedCanonicalScoring|sharedSeasonCommit|sharedHistoryConvergence|sharedCareerAnalytics|careerScreenSeam|careerScreensV10|rivalryLegacyV10|sparkTerminalClose)\\.js$",

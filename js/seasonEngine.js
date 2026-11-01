@@ -388,11 +388,13 @@ function buildAwardsBonusLabel(scoring){
         : "Awards Bonus";
 }
 
-function getScoringBreakdownLines(scoring){
+function getScoringBreakdownLines(scoring, options = {}){
     // r80: the Europa League line shows only for a season that won it (+3), so every other season reads as before.
+    // r87 polish: the review passes europaRow when either manager won it, so both cards list the same rows (+0 for the
+    // other) and their SEASON SCORE plaques line up.
     return [
         ["Champions League", scoring.championsLeague || 0],
-        ...(scoring.europaLeague > 0 ? [["Europa League", scoring.europaLeague]] : []),
+        ...(scoring.europaLeague > 0 || options.europaRow === true ? [["Europa League", scoring.europaLeague || 0]] : []),
         ["League Title", scoring.leagueTitle || 0],
         ["Domestic Cup", scoring.domesticCup || 0],
         [buildPerformanceBonusLabel(scoring), scoring.performanceBonus || 0],
@@ -683,7 +685,7 @@ function renderSeasonReviewAchievements(container, playerRecord){
     container.appendChild(group);
 }
 
-function renderManagerSeasonReview(container, managerName, clubName, playerRecord){
+function renderManagerSeasonReview(container, managerName, clubName, playerRecord, options = {}){
     if(!container || !playerRecord){ return; }
 
     const fragment = document.createDocumentFragment();
@@ -707,7 +709,7 @@ function renderManagerSeasonReview(container, managerName, clubName, playerRecor
     scoreHeading.textContent = "CALCULATED SCORE";
     fragment.appendChild(scoreHeading);
 
-    getScoringBreakdownLines(playerRecord.scoring).forEach(([label, points]) => {
+    getScoringBreakdownLines(playerRecord.scoring, options).forEach(([label, points]) => {
         appendSeasonReviewLine(fragment, label, `+${points}`, points === 0 ? "isZero" : "isScoring");
     });
 
@@ -736,17 +738,20 @@ function renderSeasonReview(draft){
         setSeasonText(ui.reviewResult, `Season ${seasonNumber} is heading for a draw`);
     }
 
+    const reviewRows = { europaRow: [roundRecord.playerOne, roundRecord.playerTwo].some(record => Number(record && record.scoring && record.scoring.europaLeague) > 0) };
     renderManagerSeasonReview(
         ui.reviewOne,
         currentShowdown.managers.playerOne,
         currentShowdown.clubs.playerOne,
-        roundRecord.playerOne
+        roundRecord.playerOne,
+        reviewRows
     );
     renderManagerSeasonReview(
         ui.reviewTwo,
         currentShowdown.managers.playerTwo,
         currentShowdown.clubs.playerTwo,
-        roundRecord.playerTwo
+        roundRecord.playerTwo,
+        reviewRows
     );
 
     const priorOne = Number(currentShowdown.score && currentShowdown.score.playerOne) || 0;

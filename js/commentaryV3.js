@@ -262,7 +262,7 @@
 #${BAR_ID} .cmv3-typed{position:absolute;inset:0}
 #${BAR_ID} .cmv3-numbers.is-waiting{opacity:0}
 #${BAR_ID} .cmv3-numbers.is-in{transition:opacity .45s ease}
-/* Desktop: the bar sits beside the score lines in the same box, so the box barely grows and CONTINUE stays on the first view. */
+/* Desktop: the bar sits beside the score lines in the same box and is kept no taller than them, so the box does not grow and CONTINUE stays on the first view. */
 @media (min-width:901px){
   #sharedCanonicalScoringPanel.cmv3-has{display:grid;grid-template-columns:fit-content(56%) minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;column-gap:16px}
   #sharedCanonicalScoringPanel.cmv3-has>:not(#${BAR_ID}){grid-column:1}
@@ -271,9 +271,9 @@
   #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__tab{display:none}
   #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__accent{width:46px}
   #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__accent svg{width:18px;height:18px;margin-right:8px}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__slab{padding:7px 34px 7px 24px;gap:3px}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__slab{padding:4px 30px 4px 20px;gap:2px}
   #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__end{width:30px;clip-path:polygon(20px 0,100% 0,100% 100%,0 100%)}
-  #${BAR_ID} .cmv3-lead{font-size:15px;line-height:1.18}
+  #${BAR_ID} .cmv3-lead{font-size:15px;line-height:1.12}
   #${BAR_ID} .cmv3-numbers{font-size:12px;line-height:1.2}
 }
 @media (max-width:600px){
