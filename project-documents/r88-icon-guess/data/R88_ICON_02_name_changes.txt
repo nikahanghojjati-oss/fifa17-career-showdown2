@@ -1,0 +1,31 @@
+david-ginola: removed a repeated name
+eden-hazard: removed a repeated name
+gianluca-vialli: removed a repeated name
+jurgen-kohler: removed a repeated name
+antonio-di-natale: removed a repeated name
+antonio-di-natale: 'Natale' replaced by 'Di Natale'
+bixente-lizarazu: removed a repeated name
+mario-gomez: added 'Mario Gómez'
+rafael-marquez: added 'Rafa Márquez'
+ricardo-carvalho: added 'Carvalho'
+vincent-kompany: removed a repeated name
+wesley-sneijder: removed a repeated name
+andrea-barzagli: removed a repeated name
+claudio-marchisio: removed a repeated name
+harry-kewell: removed a repeated name
+marek-hamsik: removed a repeated name
+blaise-matuidi: removed a repeated name
+dirk-kuyt: removed a repeated name
+john-arne-riise: removed a repeated name
+ledley-king: removed a repeated name
+ludovic-giuly: removed a repeated name
+mario-mandzukic: removed a repeated name
+nwankwo-kanu: removed a repeated name
+park-ji-sung: 'Sung' replaced by 'Ji-sung Park'
+sami-al-jaber: 'Jaber' replaced by 'Al-Jaber'
+tomas-rosicky: removed a repeated name
+antonio-valencia: added 'Antonio Valencia'
+david-luiz: 'Luiz' removed
+hulk: removed a repeated name
+saeed-al-owairan: 'Owairan' replaced by 'Al-Owairan'
+Surname aliases added (unique in the list): Vialli, Stam, Córdoba, Salgado, King. Not added: Cole (Ashley Cole), Keane (Roy Keane).

@@ -174,7 +174,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   }
   assert.match(rb,/specialName\.textContent = " SPECIAL PLAYER";/);assert.match(rb,/specialTag\.textContent = "SP";/);
   assert.match(rb,/Each manager draws one FIFA 17 player at the start of every Showdown\. Your Special Player scores no points\. Full rules in card 06\./);
-  assert.match(rb,/article\.append\(header, scoring, maximum, golden, special, notes\);/,'the rule sits right after GOLDEN SHOWDOWN');
+  assert.match(rb,/article\.append\(header, scoring, maximum, golden, special, primePack, notes\);/,'the rule sits right after GOLDEN SHOWDOWN (r87 Prime Pack follows it)');
   assert.doesNotMatch(pc.replace(/\/\/[^\n]*/g,''),/marquee/i,'Career Start stays free of the code name');
   ok('S7','every shown string (chip, badge, title, rule line, Career Start labels, CSS content) says Special Player or SP, never the code name');
 }

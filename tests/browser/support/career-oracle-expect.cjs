@@ -16,7 +16,8 @@ const NAMES={daniel:"Daniel",nik:"Nik"};
 function scoreSeason(r){
   const cl=r.championsLeague?5:0,el=!r.championsLeague&&r.europaLeague===true?3:0,title=r.leaguePosition===1?3:0,cup=r.domesticCup?1:0;
   const perf=(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,awards=(r.topScorer||r.topAssist)?1:0;
-  return {cl,el,title,cup,perf,awards,total:cl+el+title+cup+perf+awards};
+  const pack=Number.isInteger(r.primePack)?r.primePack:0;// r87 Prime Pack: 4, 3, 2 or 1 to at most one manager a season
+  return {cl,el,title,cup,perf,awards,pack,total:cl+el+title+cup+perf+awards+pack};
 }
 const side=(d,n)=>d>n?"daniel":n>d?"nik":"draw";
 
@@ -29,7 +30,7 @@ function tally(seasons){
       const r=season[u],x=t[u];
       x.seasons+=1;x.total+=s[u];if(w===u)x.W+=1;else if(w==="draw")x.D+=1;else x.L+=1;
       if(r.leaguePosition===1)x.league+=1;if(r.domesticCup)x.cup+=1;if(r.championsLeague)x.cl+=1;else if(r.europaLeague===true)x.el+=1;
-      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s[u]===11)x.perfect+=1;
+      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s[u]>=11)x.perfect+=1;
       x.bestScore=Math.max(x.bestScore??0,s[u]);x.highPoints=Math.max(x.highPoints??0,r.leaguePoints);x.highGoals=Math.max(x.highGoals??0,r.leagueGoals);
       x.trophies=x.league+x.cup+x.cl+x.el;
     }
@@ -79,7 +80,9 @@ async function readCareer(env,uid){
         const w=data.terminalClose?.managerTotals;
         const witness=w?{[roleOf.playerOne]:w.playerOne,[roleOf.playerTwo]:w.playerTwo}:null;
         row.witnessAgrees=Boolean(witness&&witness.daniel===row.totals.daniel&&witness.nik===row.totals.nik&&row.seasons.length===row.totalSeasons);
-        row.golden={daniel:row.totalSeasons===10&&row.totals.daniel===110,nik:row.totalSeasons===10&&row.totals.nik===110};
+        // Golden Showdown: 150 in a Prime Pack Showdown (confirmed on or after 2026-10-30, every Showdown the emulator runs), 110 before.
+        const goldenAt=10*(setup?.updatedAt?.toMillis?.()<Date.parse("2026-10-30T00:00:00Z")?11:15);
+        row.golden={daniel:row.totalSeasons===10&&row.totals.daniel>=goldenAt,nik:row.totalSeasons===10&&row.totals.nik>=goldenAt};
       }
       rows.push(row);
     }

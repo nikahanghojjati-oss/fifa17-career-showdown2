@@ -96,7 +96,9 @@
       for(const line of lines)body.append(rrsEl("p","rrStepLine",line));
       if(note)body.append(rrsEl("p","rrStepNote",note));
       const row=rrsEl("div","rrStepActions");
-      for(const b of buttons)row.append(rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"backButton",()=>{if(b.id==="retry")rrsLoadingOn();resolve(b.id);}));
+      // Fable F11-12: one answer per card; the buttons go quiet at once (saving the spin can take a few seconds after GO).
+      const pressed=[];
+      for(const b of buttons){const button=rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"backButton",()=>{for(const other of pressed)other.disabled=true;if(b.id==="retry")rrsLoadingOn();resolve(b.id);});pressed.push(button);row.append(button);}
       body.append(row);row.querySelector("button")?.focus();
     });
   }
@@ -227,7 +229,7 @@
     rrsLoadingOff();
     try{frame.focus();}catch(_error){}
     const end=await channel.done;channel.stop();
-    if(end!=="continue"){sceneFailedHere.add(rrsKey(ctx));return "skipped";}
+    if(end!=="continue"){sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();return "skipped";}// F11-11: never a dead frame under the card
     return "watched";
   }
 
@@ -248,7 +250,8 @@
   const RRS_SKIP_WHY=Object.freeze({
     shot:name=>`the roulette shot a ${name}, and a shot player never comes back.`,
     special:name=>`${name} is a Special Player's name, and a Special Player is never on a board.`,
-    guessed:name=>`a ${name} was guessed and released in the Transfer War, and a released player stays off the board.`});
+    guessed:name=>`a ${name} was guessed and released in the Transfer War, and a released player stays off the board.`,
+    reserve:name=>`${name} waits in your reserves: every starter in his line and every sub has a higher overall.`});
   function rrsSkippedLines(plan,role){
     const list=plan&&plan.skipped&&Array.isArray(plan.skipped[role])?plan.skipped[role]:[];
     return list.filter(item=>item&&typeof item.name==="string"&&RRS_SKIP_WHY[item.reason]).map(item=>`${item.name} (signed in season ${item.season}) is not on your board: ${RRS_SKIP_WHY[item.reason](item.name)}`);
@@ -355,7 +358,10 @@
     if(running)return running;
     leftForHome=false;holding=true;
     const run=Promise.resolve().then(()=>rrsRunGuarded(ctx)).catch(()=>false).then(go=>{
-      if(go===false){leftForHome=true;holding=false;rrsRemovePanel();rrsRemoveStage();rrsLoadingOff();if(typeof root.navigateTo==="function")void Promise.resolve(root.navigateTo("mainMenu")).catch(()=>{});}
+      // Fable F11-08 (Reus Gate): the roulette and the loading screen stay up until Showdown Home is on screen, so Career Start
+      // or the Club screen never flashes in between. A new run started meanwhile keeps its own panel and stage.
+      if(go===false){leftForHome=true;holding=false;rrsLoadingOn();const tear=()=>{if((running&&running!==run)||holding)return;rrsRemovePanel();rrsRemoveStage();rrsLoadingOff();};
+        if(typeof root.navigateTo==="function")void Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).finally(tear);else tear();}
       return go!==false;
     }).finally(()=>{if(running===run)running=null;});
     running=run;return run;

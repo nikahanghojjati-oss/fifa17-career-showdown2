@@ -173,7 +173,9 @@
   // script's tie rule. A weak player in the reserves never blocks a better unused club player.
   function rrTakeReserve(state,predicate=()=>true){
     let at=-1;
-    for(let i=0;i<state.reserves.length;i+=1)if(predicate(state.reserves[i])&&(at<0||rrRank(state.reserves[i],state.reserves[at])<0))at=i;
+    // Fable F11-04: the reserves can still hold a person excluded after they were last filtered (a saved shot this build keeps
+    // in the reserves); like every other route, this one never hands an excluded person back.
+    for(let i=0;i<state.reserves.length;i+=1)if(!rrExcluded(state,state.reserves[i])&&predicate(state.reserves[i])&&(at<0||rrRank(state.reserves[i],state.reserves[at])<0))at=i;
     const next=rrBestDatabase(state,predicate);
     if(next&&(at<0||rrRank(next,state.reserves[at])<0))return next;
     // Replacements stay club-only: a club with no player left gets an empty slot (null), never a revived loss or an import.
@@ -419,6 +421,7 @@
         if(shot){
           shotNames.add(rrKey(shot.name));
           rrExclude(state,at>=0?state.board[at]:shot);
+          state.reserves=state.reserves.filter(p=>!rrExcluded(state,p));// F11-04: a shot person found in the reserves leaves them too
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
           // R87-2's XI/bench signing placement run first without ever writing a blank row.
           if(at>=0)state.vacant=at;
@@ -433,6 +436,9 @@
         if(state.vacant!==null){rrReplace(state,state.vacant,[],k);state.vacant=null;}
         rrEvictExcluded(state,k);
         rrRepairStopgaps(state,k);
+        // Fable F11-07: a kept signing weaker than every fitting starter and every sub waits in the reserves; the card says so
+        // instead of dropping him silently.
+        if(k===season-1)for(const player of kept)if(!rrExcluded(state,player)&&!rrOnBoard(state,player))skipped[role].push(Object.freeze({name:player.name,season:k,reason:"reserve"}));
       }
       const board=state.board;
       boards[role]=Object.freeze(board);skipped[role]=Object.freeze(skipped[role]);

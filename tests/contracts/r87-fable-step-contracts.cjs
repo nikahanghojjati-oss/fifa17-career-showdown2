@@ -239,7 +239,9 @@ async function phone({confirmedAtMs,step,state=null,navigateTo=null,readFails=fa
     CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:uid1,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
-    CareerModeRosterRouletteStep:step
+    CareerModeRosterRouletteStep:step,
+    // r87 Prime Pack runs after the roulette; here it is already done.
+    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
   };
   sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(PSTC_SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});
   const api=sandbox.CareerModeProductionSharedTransferChallenge;api.install();await settle();

@@ -119,7 +119,7 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   assert.equal(JSON.parse(read("visual-assets/v10_1/legacy/strings.json")).ui.goldenShowdown,"Golden Showdown");
   const css=read("css/rivalryLegacyV10.css");
   assert.match(css,/\.legacyCard\[data-golden="true"\]/);assert.match(css,/\.rv-goldenShowdown/);
-  assert.match(read("js/ruleBook.js"),/goldenLabel\.textContent = "GOLDEN SHOWDOWN";[\s\S]*?"Score 110 points in a 10-season Showdown \(11 in every season\) to win the gold trophy\."/,"the Rule Book gives Golden Showdown its own gold line");
+  assert.match(read("js/ruleBook.js"),/goldenLabel\.textContent = "GOLDEN SHOWDOWN";[\s\S]*?"Score 150 points in a 10-season Showdown \(15 in every season\) to win the gold trophy\. A Showdown started before Prime Pack needs 110\."/,"the Rule Book gives Golden Showdown its own gold line");
   for(const file of ["js/careerScreenSeam.js","js/careerScreensV10.js","js/rivalryLegacyV10.js","visual-assets/v10_1/trophy-room/trophy-room.js","visual-assets/v10_1/career-statistics/career-statistics.js","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js","visual-assets/v10_1/legacy/legacy.js"]){
     const source=read(file);
     assert.doesNotMatch(source,/localStorage/,`${file} never touches localStorage`);

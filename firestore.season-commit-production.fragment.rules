@@ -23,7 +23,7 @@
     function ssjrCommitResultShape(value, teamCount) {
       return teamCount >= 2
         && value is map
-        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])
+        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])
         && value.leaguePosition is int
         && value.leaguePosition >= 1
         && value.leaguePosition <= teamCount
@@ -37,7 +37,8 @@
         && value.championsLeague is bool
         && value.topScorer is bool
         && value.topAssist is bool
-        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));
+        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))
+        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));
     }
     function ssjrCommitExactKeys(root) {
       return root.keys().hasOnly([

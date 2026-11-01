@@ -196,9 +196,14 @@ function getLegacyScoring(player){
     if(player && player.scoring && Number.isFinite(Number(player.scoring.total))){
         return player.scoring;
     }
-    return typeof calculatePlayerSeasonScore === "function"
-        ? calculatePlayerSeasonScore(player || {})
-        : { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
+    if(typeof calculatePlayerSeasonScore !== "function"){
+        return { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
+    }
+    // r87 Prime Pack: js/scoring.js (startup, at its size budget) leaves the sparse primePack key (1 to 4) to the callers.
+    const scoring = calculatePlayerSeasonScore(player || {});
+    const primePack = player && [1, 2, 3, 4].includes(player.primePack) ? player.primePack : 0;
+    if(primePack && !scoring.primePack){ scoring.primePack = primePack; scoring.total += primePack; }
+    return scoring;
 }
 
 function getPlayerHonours(player){

@@ -23,6 +23,11 @@ function scripted(id,pairs){const history=pairs.map(([a,b])=>row(exact(a,a>=8&&b
   // Each manager plays their own FIFA career, so both can win their league in the same season.
   return {showdownId:id,seasons:pairs.length,league:"premier_league",clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"},teamCount:20,history};}
 
+// r87 Prime Pack: one manager a season may add 4, 3, 2 or 1 (or nobody); a season is then 0..15 and Golden is 150.
+function primePacked(f,seed){const r=rng(seed*7919);for(const h of f.history){const k=[0,1,2,3,4][Math.floor(r()*5)];if(k){const role=r()<.5?"playerOne":"playerTwo";h[role].primePack=k;h[role].scoring={...h[role].scoring,primePack:k,total:h[role].scoring.total+k};}
+  const x=h.playerOne.scoring.total,y=h.playerTwo.scoring.total;h.winner=x>y?"playerOne":y>x?"playerTwo":"draw";}f.primePack=true;return f;}
+const maxOf=f=>f.primePack===true?15:11;
+
 // ---------- independent recomputation ----------
 const NAMES={playerOne:"Daniel",playerTwo:"Nik"};
 function totalsOf(f,s){let a=0,b=0;for(const h of f.history.slice(0,s)){a+=h.playerOne.scoring.total;b+=h.playerTwo.scoring.total;}return {playerOne:a,playerTwo:b};}
@@ -32,7 +37,7 @@ const FORBIDDEN={test:text=>BAD_WORDS.test(text)||BAD_FILL.test(text)};
 // ---------- 1. fuzz: every call, every season, every length ----------
 const lengths=[1,3,5,10];let calls=0;const leadSituations=new Set(),numberIds=new Set();
 for(let seed=1;seed<=1200;seed+=1){
-  const N=lengths[seed%4],f=randomShowdown(seed,N),usedIds=new Set();
+  const N=lengths[seed%4],pp=seed%3===0,f=pp?primePacked(randomShowdown(seed,N),seed):randomShowdown(seed,N),usedIds=new Set(),MAXS=maxOf(f);
   for(let s=1;s<=N;s+=1){
     const c=V.call(f,s,L);calls+=1;
     ok(c&&(c.lead||c.numbers),`seed ${seed} season ${s}: the booth always has something true to say`);
@@ -43,11 +48,12 @@ for(let seed=1;seed<=1200;seed+=1){
       leadSituations.add(c.lead.situation);
       ok(!usedIds.has(c.lead.id),`seed ${seed}: no lead line repeats within one Showdown (${c.lead.id})`);usedIds.add(c.lead.id);
       // The lead situation is one v2 says is true for these exact facts.
-      const facts={managers:{playerOne:{name:"Daniel",club:"Arsenal",league:"premier_league"},playerTwo:{name:"Nik",club:"Liverpool",league:"premier_league"}},seasons:N,season:s,results:f.history.slice(0,s).map(h=>({...h,teamCount:20}))};
+      const facts={managers:{playerOne:{name:"Daniel",club:"Arsenal",league:"premier_league"},playerTwo:{name:"Nik",club:"Liverpool",league:"premier_league"}},seasons:N,season:s,primePack:pp,results:f.history.slice(0,s).map(h=>({...h,teamCount:20}))};
       const truth=E.situationsFor(s===N?"final":"season-result",s===N?{...facts,history:[]}:facts).map(e=>e.situation);
       ok(truth.includes(c.lead.situation),`seed ${seed} season ${s}: ${c.lead.situation} is true`);
       ok(!/^career-/.test(c.lead.situation),"the booth never claims career facts it does not hold");
       ok(!FORBIDDEN.test(c.lead.text),`lead text is clean: ${c.lead.text}`);
+      if(pp&&c.lead.situation==="season-perfect"){const T=f.history[s-1];ok(Math.max(T.playerOne.scoring.total,T.playerTwo.scoring.total)===15,`a perfect Prime Pack season is 15: ${c.lead.text}`);}
       ok(!/(^|[^\d.])1 (Showdown |league )?points\b/.test(c.lead.text),`"1 point", not "1 points": ${c.lead.text}`);
     }
     if(c.numbers){
@@ -65,10 +71,10 @@ for(let seed=1;seed<=1200;seed+=1){
       if(full){const m=full.slice(1).filter(Boolean),T=totalsOf(f,N);ok(+m[1]===T[m[0]==="Daniel"?"playerOne":"playerTwo"]&&+m[3]===T[m[2]==="Daniel"?"playerOne":"playerTwo"],`full time ${c.numbers.text}`);}
       if(c.numbers.id==="decider"){
         const t2=totalsOf(f,s),lead=t2.playerOne>t2.playerTwo?"playerOne":"playerTwo",gap=Math.abs(t2.playerOne-t2.playerTwo);
-        ok(N-s===1&&gap>0&&gap<11,"the decider maths only runs with one season left and a live race");
+        ok(N-s===1&&gap>0&&gap<MAXS,"the decider maths only runs with one season left and a live race");
         ok(c.numbers.text.includes(`${NAMES[lead==="playerOne"?"playerTwo":"playerOne"]} must win it by ${gap+1} or more`)&&c.numbers.text.includes(`by exactly ${gap}, it ends level`),c.numbers.text);
       }
-      if(c.numbers.id==="decided"){const t2=totalsOf(f,s);ok(Math.abs(t2.playerOne-t2.playerTwo)>11*(N-s)&&N>s,`decided means out of reach: ${c.numbers.text}`);}
+      if(c.numbers.id==="decided"){const t2=totalsOf(f,s);ok(Math.abs(t2.playerOne-t2.playerTwo)>MAXS*(N-s)&&N>s,`decided means out of reach: ${c.numbers.text}`);}
       if(/drawn Showdown|Showdown is drawn|ends level/.test(c.numbers.text)&&c.numbers.id!=="decider"){const T=totalsOf(f,s);ok(c.numbers.id==="decider-level"?T.playerOne===T.playerTwo:c.numbers.id==="final-level"?T.playerOne===T.playerTwo&&s===N:c.numbers.id==="draw-only",`draw words only for draws: ${c.numbers.id}`);}
     }
   }
@@ -134,12 +140,35 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
   const f=randomShowdown(9,3);f.history[1].winner="playerOne";f.history[1].playerOne.scoring.total=0;f.history[1].playerTwo.scoring.total=4;
   assert.equal(V.call(f,2,L),null);checks+=1;
   assert.equal(V.call({...randomShowdown(9,3),seasons:4},1,L),null);checks+=1;
-  // GC-01: a 12 is invalid only in a Showdown known to be without Prime Pack (with no flag, a season over 11 can only be Prime Pack).
-  const g={...randomShowdown(10,3),primePack:false};g.history[0].playerOne.scoring.total=12;assert.equal(V.call(g,1,L),null);checks+=1;
+  const g=randomShowdown(10,3);g.history[0].playerOne.scoring.total=12;assert.equal(V.call({...g,primePack:false},1,L),null);checks+=1;
+  // Prime Pack: 12 is a real season (inferred without the flag), 16 never is.
+  ok(V.call(g,1,L)!==null,"a 12-point season is read as Prime Pack");
+  g.history[0].playerOne.scoring.total=16;assert.equal(V.call({...g,primePack:true},1,L),null);checks+=1;
+}
+
+{ // Prime Pack race maths: 15 a season left, not 11.
+  const f={...scripted("pp-race",[[11,0],[2,0],[0,0]]),primePack:true};
+  const n=V.seasonNumbers(f,2);
+  ok(n.some(x=>x.id==="draw-only")===false&&n.some(x=>x.id==="decider"&&/Nik must win it by 14 or more/.test(x.text)),`13 clear with 15 left is still live: ${JSON.stringify(n)}`);
+  const g={...scripted("pp-dead",[[11,0],[2,0],[0,0]]),primePack:false};
+  ok(V.seasonNumbers(g,2).some(x=>x.id==="decided"),"the same 13 with 11 left is decided");
+  const h={...scripted("pp-clock",[[5,1],[0,0],[0,0]]),primePack:true};
+  ok(V.seasonNumbers(h,1).some(x=>x.id==="clock"&&/up to 30 points each/.test(x.text)),"Prime Pack clock counts 15 a season");
+  const d={...scripted("pp-draw-only",[[11,0],[0,0],[0,0]]),primePack:true};d.history[0].playerOne.scoring={...d.history[0].playerOne.scoring,primePack:4,total:15};
+  ok(V.seasonNumbers(d,2).some(x=>x.id==="draw-only"&&/winning the last season 15 to 0/.test(x.text)),"draw-only names 15 to 0");
+}
+{ // Prime Pack Golden Showdown: 150, not 110.
+  const g=scripted("pp-golden",Array.from({length:10},()=>[11,3]));g.primePack=true;for(const h of g.history){h.playerOne.scoring={...h.playerOne.scoring,primePack:4,total:15};}
+  const n=V.finalNumbers(g);ok(n.some(x=>x.id==="final-golden"&&x.text==="150 out of 150 for Daniel: every season won 15 points, the Golden Showdown."),JSON.stringify(n));
+  const k=scripted("pp-110",Array.from({length:10},()=>[11,3]));k.primePack=true;
+  ok(!V.finalNumbers(k).some(x=>x.topic==="golden"),"110 is not Golden in a Prime Pack Showdown");
 }
 
 // ---------- 3. wiring and rules ----------
 const src=read("js/commentaryV3.js");
+// r87 Prime Pack: the booth's boundary is js/iconGuess.js fromMs, and both browser fact builders pass it on.
+{const IG=require("../../js/iconGuess.js");ok(src.includes(`PRIME_PACK_FROM_MS=Date.parse("${new Date(IG.fromMs).toISOString().replace(".000Z","Z")}")`),"the booth's Prime Pack boundary is js/iconGuess.js fromMs");
+ ok((src.match(/primePack:Number\.isFinite\(at\)\?at>=PRIME_PACK_FROM_MS:undefined/g)||[]).length===2,"Season Results and Final Winner both pass primePack");}
 ok(/load\("ssjr-shared-setup-catalog","js\/sharedShowdownCatalog\.js"/.test(src),"Fable F5-17: the booth loads the league catalog itself");
 ok(!/getDoc|getDocs|onSnapshot|setDoc|updateDoc|runTransaction|firestore\b|fetch\(|XMLHttpRequest|localStorage|sessionStorage|indexedDB/.test(src),"the booth reads only what the screen holds: no Firebase, network or storage");
 ok(!/Math\.random|Date\.now|new Date/.test(src),"no randomness or clock: both phones show the same words");
