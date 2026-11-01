@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 10:59 AM Boston time (EST)",
+ "generated": "2026-11-01 11:03 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 182,
@@ -1661,8 +1661,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6c7e818",
-  "head_boston": "Sun 1 Nov 10:57 AM",
+  "head": "5401eb6",
+  "head_boston": "Sun 1 Nov 11:00 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1698,8 +1698,8 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1178 has waited 19 min for a machine; Showdown Gate on #1179 has waited 3 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2438,13 +2438,13 @@
     "from": "G",
     "to": "V",
     "title": "Title wipe paints a black box over photo backgrounds (r87)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-054_title-wipe-paints-a-black-box-over-photo.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 1
+    "pickup_min": 2,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
