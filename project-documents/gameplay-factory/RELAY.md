@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 6:13 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 6:18 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d61e4cb` (Sun 1 Nov 5:51 AM Boston time) · 174 messages · 52 hand-offs · 340 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `ae983fb` (Sun 1 Nov 6:16 AM Boston time) · 179 messages · 52 hand-offs · 346 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -130,8 +130,9 @@ Rules: premium black-and-gold marble, nothing covers anything at any size, no di
 
 ### HO-048 · V → G · Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 9 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 9 min after delivery
 
+- Sun 1 Nov 6:16 AM · Team G · Done · Merged into gameplay/r87 via #1110; ships in 2.0.0. Shots from gameplay/r87 f4efa199 (emulator CE2PG): season 1 of 3 paper and FINAL EDITION, desktop 1440x900 + phone 390x844.
 - Fri 30 Oct 10:01 PM · Team G · Received · r87 lead: building it now (branch claude-gameplay/r87-gazette); season edition after each Season Results, final after Final Winner (Nik 01:28 UTC). Paper text deterministic per Showdown+season so both phones match.
 - Fri 30 Oct 9:52 PM · Team V · Sent
 - Fri 30 Oct 9:53 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -1920,6 +1921,56 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-048 DONE · Team G → Team V · Sun 1 Nov 6:16 AM Boston time
+
+**Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-051 SENT · Team G → Team V · Sun 1 Nov 5:33 AM Boston time
+
+**Prime Pack page art for r87 (release waits for it)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-050 SENT · Team G → Team V · Sat 31 Oct 3:35 PM Boston time
+
+**r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-049 SENT · Team G → Team V · Fri 30 Oct 11:48 PM Boston time
+
+**r87 start screens: season chips, LED words, no-dim CTA, Career Start options** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-048 RECEIVED · Team G → Team V · Fri 30 Oct 10:01 PM Boston time
+
+**Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-040 DONE · Team V → Team G · Thu 29 Oct 8:18 PM Boston time
 

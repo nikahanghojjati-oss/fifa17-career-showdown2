@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-01 6:13 AM Boston time (EST)",
+ "generated": "2026-11-01 6:18 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 174,
+  "count": 179,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1569,6 +1569,51 @@
     "subject": "Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87)",
     "reply": "no",
     "boston": "Thu 29 Oct 8:18 PM"
+   },
+   {
+    "time": "2026-10-31 02:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-048 RECEIVED",
+    "subject": "Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)",
+    "reply": "no",
+    "boston": "Fri 30 Oct 10:01 PM"
+   },
+   {
+    "time": "2026-10-31 03:48",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-049 SENT",
+    "subject": "r87 start screens: season chips, LED words, no-dim CTA, Career Start options",
+    "reply": "yes (receive it)",
+    "boston": "Fri 30 Oct 11:48 PM"
+   },
+   {
+    "time": "2026-10-31 19:35",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-050 SENT",
+    "subject": "r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller",
+    "reply": "yes (receive it)",
+    "boston": "Sat 31 Oct 3:35 PM"
+   },
+   {
+    "time": "2026-11-01 10:33",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-051 SENT",
+    "subject": "Prime Pack page art for r87 (release waits for it)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 1 Nov 5:33 AM"
+   },
+   {
+    "time": "2026-11-01 11:16",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-048 DONE",
+    "subject": "Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)",
+    "reply": "no",
+    "boston": "Sun 1 Nov 6:16 AM"
    }
   ],
   "g2v": {
@@ -1589,8 +1634,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "d61e4cb",
-  "head_boston": "Sun 1 Nov 5:51 AM",
+  "head": "ae983fb",
+  "head_boston": "Sun 1 Nov 6:16 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2288,8 +2333,8 @@
     "from": "V",
     "to": "G",
     "title": "Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-048_touchline-gazette-full-edition-real-news.md",
     "worker": "",
@@ -2405,7 +2450,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
