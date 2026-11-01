@@ -641,7 +641,28 @@
     if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}
     return false;
   }
-  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
+  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.id==="seasonPrimaryAction"&&pstcShowdownComplete()){void pstcOpenFinalResult();return;}void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
+  // F1 (fault suite): every season of this Showdown is accepted (or it is closed), so there is no Transfer Challenge left to
+  // start. With no view of its own the dashboard fell back to "START SEASON 1 TRANSFER CHALLENGE", a button that did nothing.
+  // It now says VIEW FINAL RESULT and opens the final season's results (Final Winner follows there), or the closed Showdown's
+  // Champion screen. Decided from what this page already holds (the season count, Terminal Close); no read.
+  function pstcShowdownComplete(){
+    try{
+      const closed=root.CareerModeProductionSharedTerminalClose?.getState?.();if(closed&&closed.phase==="CLOSED"&&closed.terminal===true)return true;
+      const rivalryId=String(pstcShowdown()?.sharedJourney?.rivalryId||pstcSetupState()?.rivalryId||""),progression=root.CareerModeProductionSharedMultiSeasonProgression?.getState?.();
+      return Boolean(rivalryId&&progression?.authoritative===true&&String(progression.rivalryId||"")===rivalryId&&progression.state?.terminal===true);
+    }catch(_error){return false;}
+  }
+  function pstcOpenFinalResult(){const entry=root.CareerModeProductionSharedJourneyEntry;return typeof entry?.openFinalResult==="function"?Promise.resolve(entry.openFinalResult()).catch(error=>{pstcReport("Unable to open the final result",error);return false;}):Promise.resolve(false);}
+  const pstcDecorateLiveDashboard=pstcDecorateDashboard;
+  // The live decoration stays exactly as it is; only a complete Showdown's button and status are replaced after it.
+  pstcDecorateDashboard=function(){
+    const decorated=pstcDecorateLiveDashboard();if(!decorated||openPromise||!pstcShowdownComplete())return decorated;
+    const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus");
+    if(button){button.textContent="VIEW FINAL RESULT";button.disabled=false;}
+    if(status)status.textContent="Showdown complete";
+    return true;
+  };
   // r87: a form mistake caught on this phone is shown on the card only; a second toast covered the signing rows on phones.
   function pstcFormMistake(error){return Boolean(error)&&error.providerResult!==true&&(error.code==="TRANSFER_SIGNINGS_INVALID"||error.code==="TRANSFER_GUESSES_INVALID");}
   async function pstcTick(light=false){

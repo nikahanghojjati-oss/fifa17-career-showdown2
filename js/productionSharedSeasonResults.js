@@ -56,7 +56,10 @@
   }
   function pssrContextMatches(request){const current=pssrRequestContext();return Boolean(request&&current&&request.key===current.key);}
   function pssrTransferComplete(request){const transfer=pssrTransferState();return Boolean(request&&transfer&&Number(transfer.seasonNumber)===request.seasonNumber&&transfer.state&&transfer.state.phase==="COMPLETED");}
-  function pssrCanRoute(){const request=pssrRequestContext();return Boolean(pssrSharedMarker()&&request&&contextKey===request.key&&view&&view.managerRole&&view.rivalryId===request.rivalryId&&Number(view.seasonNumber)===request.seasonNumber&&pssrTransferComplete(request));}
+  // F1 (fault suite): after a reload or in a stale tab, a closed Showdown's Champion screen is this screen (js/seasonFinalV10.js
+  // draws Final Winner from Terminal Close's verified witness), so the route allows it while Terminal Close holds it CLOSED.
+  function pssrClosedChampion(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(pssrSharedMarker()&&t&&t.phase==="CLOSED"&&t.terminal===true&&t.terminalWitness);}catch(_error){return false;}}
+  function pssrCanRoute(){if(pssrClosedChampion())return true;const request=pssrRequestContext();return Boolean(pssrSharedMarker()&&request&&contextKey===request.key&&view&&view.managerRole&&view.rivalryId===request.rivalryId&&Number(view.seasonNumber)===request.seasonNumber&&pssrTransferComplete(request));}
   function pssrResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The Season Results request was rejected.");error.code=result&&result.code||"SEASON_RESULTS_PROVIDER_FAILED";throw error;}
   // JOB-1611: provider codes that mean "contended", not "refused": Firestore lock contention after the SDK's own retries.
   const PSSR_CONTENTION_CODES=Object.freeze(["aborted","failed-precondition","permission-denied","firestore/permission-denied","permission_denied"]);
