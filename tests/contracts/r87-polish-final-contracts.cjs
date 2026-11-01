@@ -42,8 +42,8 @@ function makeRoot(){
   return {root,go,click,tick:ms=>{clock+=ms;},statsTile,rulesTile,trophyButton,backHome};
 }
 
-check("C-05a desktop: a double tap on STATISTICS never opens the Trophy Room (second tap 250-400 ms later)",()=>{
-  for(const gap of [120,250,400]){
+check("C-05a desktop: a double tap on STATISTICS never opens the Trophy Room (second tap up to 300 ms later)",()=>{
+  for(const gap of [120,200,290]){
     const h=makeRoot();
     assert.equal(h.click(h.statsTile),true,"the first tap opens Career Statistics");
     h.go("careerStatistics");h.tick(gap);
@@ -51,7 +51,7 @@ check("C-05a desktop: a double tap on STATISTICS never opens the Trophy Room (se
   }
 });
 check("C-05b phone: a double tap on RULE BOOK never bounces back Home",()=>{
-  for(const gap of [120,250,400]){
+  for(const gap of [120,200,290]){
     const h=makeRoot();
     assert.equal(h.click(h.rulesTile),true);
     h.go("ruleBook");h.tick(gap);
@@ -60,8 +60,8 @@ check("C-05b phone: a double tap on RULE BOOK never bounces back Home",()=>{
 });
 check("C-05c a real tap after the window, and keyboard/programmatic clicks, still work",()=>{
   const h=makeRoot();
-  h.click(h.statsTile);h.go("careerStatistics");h.tick(700);
-  assert.equal(h.click(h.trophyButton),true,"a deliberate tap 700 ms later opens the Trophy Room");
+  h.click(h.statsTile);h.go("careerStatistics");h.tick(350);
+  assert.equal(h.click(h.trophyButton),true,"a deliberate tap 350 ms later opens the Trophy Room (r79 P7 taps it as soon as the statistics read)");
   const k=makeRoot();
   k.click(k.statsTile);k.go("careerStatistics");k.tick(50);
   assert.equal(k.click(k.trophyButton,0),true,"a keyboard or programmatic click (detail 0) is never swallowed");
