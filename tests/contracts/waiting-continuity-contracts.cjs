@@ -110,46 +110,50 @@ const sessionId=`session_${"b".repeat(64)}`,deviceId=`device_${"c".repeat(32)}`;
 const SETUP=`${RID}/sharedSetup/authoritative`,SESSION=`${RID}/sessions/${sessionId}`;
 const COMMIT=n=>`${RID}/seasonCommits/season_${n}`,RESULTS=`${RID}/seasonResults/season_1`;
 const slots=["playerOne","playerTwo"].map((slotId,i)=>({slotId,accountId:i?"partner":"nik",profileId:`profile_${String(i+1).repeat(24)}`,saveId:`save_${"3".repeat(24)}`,entitlementState:"active"}));
-const plan={phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerTwo",totalSeasons:3,leagueId:"premier_league",clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"}};
+const PLAN={phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerTwo",totalSeasons:3,leagueId:"premier_league",clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"}};
 const History=require("../../js/sharedHistoryConvergence.js"),Multi=require("../../js/sharedMultiSeasonProgression.js");
-function projection(count){
+function projection(count,setup=PLAN){
   if(!count)return null;
   const result={leaguePosition:1,leaguePoints:80,leagueGoals:70,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
   const score={championsLeague:0,leagueTitle:3,domesticCup:0,performanceBonus:0,individualAwardsBonus:0,total:3};
   const seasons=Array.from({length:count},(_,i)=>{const hash=`sha256:${String(i+1).repeat(64)}`,seasonNumber=i+1;return {
     commit:{ok:true,committed:true,phase:"ACKNOWLEDGED",revision:3,resultsRevision:2,resultsContentHash:hash,seasonNumber,results:{playerOne:result,playerTwo:result}},
     scoring:{ok:true,authoritative:true,phase:"SCORING_RECONCILED",revision:1,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:hash,seasonNumber,scoring:{playerOne:score,playerTwo:score},winner:"draw"}};});
-  return History.buildProjection({rivalryId,setup:plan,managerSlots:slots,seasons});
+  return History.buildProjection({rivalryId,setup,managerSlots:slots,seasons});
 }
+// options.totalSeasons / options.season (Fable job 3, F3-02): the same world for a longer Showdown, waiting on a later season.
 async function world(screen,owner,phase="results",reloaded=false,options={}){
   const w=createWorld(options),s=w.sandbox;
+  // F3-02: the final season's commit is the one a page waits on in its final season (season 3 of 3), never while still on season 1.
+  const TOTAL=options.totalSeasons||3,SEASON=options.season||(owner==="final"?TOTAL:1),SEASONS=Array.from({length:TOTAL},(_,i)=>i+1);
+  const plan={...PLAN,totalSeasons:TOTAL},RESULTS=`${RID}/seasonResults/season_${SEASON}`;
   s.setInterval=(fn,ms)=>{const id={active:true};const tick=()=>{if(id.active){fn();s.setTimeout(tick,ms);}};s.setTimeout(tick,ms);return id;};s.clearInterval=id=>{id.active=false;};
   const nodes=Object.fromEntries(["mainMenu","standings","seasonEntry"].map(id=>[id,{classList:{contains:()=>id!==screen}}]));
   w.document.getElementById=id=>nodes[id]||null;w.document.querySelector=()=>null;
-  s.currentShowdown={id:slots[0].saveId,identity:{saveId:slots[0].saveId,managerProfileIds:{playerOne:slots[0].profileId,playerTwo:slots[1].profileId}},currentRound:1,sharedJourney:{mode:"shared",rivalryId}};
-  const initial=owner==="final"?2:owner==="progression"?1:0;
+  s.currentShowdown={id:slots[0].saveId,identity:{saveId:slots[0].saveId,managerProfileIds:{playerOne:slots[0].profileId,playerTwo:slots[1].profileId}},currentRound:SEASON,sharedJourney:{mode:"shared",rivalryId}};
+  const initial=options.initial??(owner==="final"?2:owner==="progression"?1:0);
   w.serverWrite(RID,{data:{connectionState:"active"}});w.serverWrite(SESSION,{status:"ACTIVE",expires:w.clock.now+3600000});w.serverWrite(SETUP,{...plan,sessionId});
-  for(let n=1;n<=3;n++)w.serverWrite(COMMIT(n),{phase:n<=initial?"ACKNOWLEDGED":"RESULTS_READY",accepted:n<=initial,revision:n<=initial?3:1});
+  for(let n=1;n<=TOTAL;n++)w.serverWrite(COMMIT(n),{phase:n<=initial?"ACKNOWLEDGED":"RESULTS_READY",accepted:n<=initial,revision:n<=initial?3:1});
   w.serverWrite(RESULTS,{phase:phase==="results"?"COLLECTING":"RESULTS_READY",revision:phase==="results"?1:2});
   let setup={ready:true,rivalryId,sessionId,deviceId,accountId:"nik",managerRole:"playerOne",setup:plan},multi=null,history=null;
   const errors=[];s.reportApplicationError=(label,e)=>errors.push(`${label}: ${e.code||e.message}`);
   const probe=async paths=>w.services.firestoreSdk.runTransaction(w.db,async tx=>{const values=[];for(const pathName of paths)values.push((await tx.get({path:pathName})).data());return values;});
-  const accepted=()=>{let count=0;for(let n=1;n<=3;n++){if(w.server.get(COMMIT(n))?.data.accepted)count=n;else break;}return count;};
-  const historyView=()=>{const count=accepted();return {ok:true,authoritative:true,phase:"HISTORY_CONVERGED",rivalryId,throughSeason:count,projection:projection(count)};};
-  const multiView=()=>{const state=Multi.createProtocol().derive({rivalryId,setup:plan,history:projection(accepted())});return {ok:true,authoritative:true,runtimeRevision:"1.9.1-r13",phase:state.phase,rivalryId,state};};
+  const accepted=()=>{let count=0;for(let n=1;n<=TOTAL;n++){if(w.server.get(COMMIT(n))?.data.accepted)count=n;else break;}return count;};
+  const historyView=()=>{const count=accepted();return {ok:true,authoritative:true,phase:"HISTORY_CONVERGED",rivalryId,throughSeason:count,projection:projection(count,plan)};};
+  const multiView=()=>{const state=Multi.createProtocol().derive({rivalryId,setup:plan,history:projection(accepted(),plan)});return {ok:true,authoritative:true,runtimeRevision:"1.9.1-r13",phase:state.phase,rivalryId,state};};
   s.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>{const [root,session,stored]=await probe([RID,SESSION,SETUP]);setup={...setup,sessionId:stored.sessionId,ready:root.data.connectionState==="active"&&session.status==="ACTIVE"&&session.expires>w.clock.now};return setup;}};
-  s.CareerModeProductionSharedTransferChallenge={getState:()=>({seasonNumber:1,state:{phase:"COMPLETED"}}),refresh:async()=>probe([SETUP])};
+  s.CareerModeProductionSharedTransferChallenge={getState:()=>({seasonNumber:SEASON,state:{phase:"COMPLETED"}}),refresh:async()=>probe([SETUP])};
   s.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>w.services};
   for(const name of ["SharedShowdownCatalog","SharedShowdownSetup","SharedSeasonResults","SharedSeasonCommit"])s[`CareerMode${name}`]={};
   s.CareerModeProductionSharedJourneyConflicts={execute:async(_meta,run)=>run()};
   const providerReads={results:0,commit:0};
   const noWrite=async()=>{throw Error("waiting must never write");};
-  s.CareerModeSparkSharedSeasonResults={publishResult:noWrite,read:async()=>{providerReads.results++;const [data]=await probe([RESULTS]);return {ok:true,rivalryId,seasonNumber:1,managerRole:"playerOne",ownResult:{leaguePosition:1},allResults:{playerOne:{leaguePosition:1},playerTwo:{leaguePosition:2}},state:data};}};
-  s.CareerModeSparkSharedSeasonCommit={commitSeason:noWrite,acknowledgeSeason:noWrite,read:async()=>{providerReads.commit++;const [data]=await probe([COMMIT(1)]);return {ok:true,...data,rivalryId,seasonNumber:1,managerRole:"playerOne",coordinatorRole:"playerTwo",committed:false,ownAcknowledged:false};}};
+  s.CareerModeSparkSharedSeasonResults={publishResult:noWrite,read:async()=>{providerReads.results++;const [data]=await probe([RESULTS]);return {ok:true,rivalryId,seasonNumber:SEASON,managerRole:"playerOne",ownResult:{leaguePosition:1},allResults:{playerOne:{leaguePosition:1},playerTwo:{leaguePosition:2}},state:data};}};
+  s.CareerModeSparkSharedSeasonCommit={commitSeason:noWrite,acknowledgeSeason:noWrite,read:async()=>{providerReads.commit++;const [data]=await probe([COMMIT(SEASON)]);return {ok:true,...data,rivalryId,seasonNumber:SEASON,managerRole:"playerOne",coordinatorRole:"playerTwo",committed:false,ownAcknowledged:false};}};
   s.CareerModeSharedMultiSeasonProgression=Multi;
-  s.CareerModeSparkSharedMultiSeasonProgression={read:async()=>{await probe([RID,SESSION,SETUP,...[1,2,3].map(COMMIT)]);return multiView();}};
-  s.CareerModeProductionSharedHistoryConvergence={refresh:async()=>{await probe([RID,...[1,2,3].map(COMMIT)]);history=historyView();return history;},getState:()=>history};
-  s.CareerModeProductionSharedMultiSeasonProgression={refresh:async()=>{await probe([RID,SESSION,SETUP,...[1,2,3].map(COMMIT)]);multi=multiView();return multi;},getState:()=>multi,resolveSeason:()=>1};
+  s.CareerModeSparkSharedMultiSeasonProgression={read:async()=>{await probe([RID,SESSION,SETUP,...SEASONS.map(COMMIT)]);return multiView();}};
+  s.CareerModeProductionSharedHistoryConvergence={refresh:async()=>{await probe([RID,...SEASONS.map(COMMIT)]);history=historyView();return history;},getState:()=>history};
+  s.CareerModeProductionSharedMultiSeasonProgression={refresh:async()=>{await probe([RID,SESSION,SETUP,...SEASONS.map(COMMIT)]);multi=multiView();return multi;},getState:()=>multi,resolveSeason:()=>SEASON};
   const local={phase:"REMOTE_OBSERVED",canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,binding:{saveId:slots[0].saveId,profileId:slots[0].profileId,managerRole:"playerOne"}};
   s.CareerModeSaveLibraryRuntime={isReady:()=>true};
   s.CareerModeProductionSharedLocalReconciliation={refresh:()=>local,getState:()=>local};
@@ -169,6 +173,9 @@ async function world(screen,owner,phase="results",reloaded=false,options={}){
   load("productionSharedSeasonResults","pssr");load("productionSharedSeasonCommit","pssc");
   const selected={progression:["MultiSeasonProgression","pmsp"],final:["FinalReconciliation","pfr"],terminal:["TerminalClose","ptc"],session:["JourneyReconnect","pjr"],rivalry:["MultiSeasonProgression","pmsp"]}[owner];
   load(`productionShared${selected[0]}`,selected[1]);const api=s[`CareerModeProductionShared${selected[0]}`];
+  // A later season: the real progression controller's exactly-once local cursor would need every earlier season replayed on
+  // this page; the waiting screens only ask it which season is current, so that answer is the fixture's.
+  if(SEASON>1&&selected[1]==="pmsp")s.CareerModeProductionSharedMultiSeasonProgression=Object.freeze({...api,resolveSeason:()=>SEASON});
   await s.CareerModeProductionSharedSeasonResults.refresh();if(phase==="commit")await s.CareerModeProductionSharedSeasonCommit.refresh();
   await s.CareerModeProductionSharedMultiSeasonProgression.refresh();
   if(owner==="session"){
@@ -178,12 +185,12 @@ async function world(screen,owner,phase="results",reloaded=false,options={}){
   const attachStart={reads:w.meter.reads,listeners:w.meter.listenerReads};
   s.CareerModeProductionSharedSeasonResults.install();s.CareerModeProductionSharedSeasonCommit.install();api.install();
   let waitPhase=phase;
-  {const attach=()=>w.budget.watchWaitPoint("base-fixture",waitPhase==="results"?RESULTS:COMMIT(1),()=>{});attach();s.setInterval(attach,3000);}
+  {const attach=()=>w.budget.watchWaitPoint("base-fixture",waitPhase==="results"?RESULTS:COMMIT(SEASON),()=>{});attach();s.setInterval(attach,3000);}
   await w.advance(12000);
   assert.equal(w.budget.stats().watchHealthy,options.initialSnapshot!==false,"A holds a confirmed server listener");
   assert.equal(errors.length,0,errors.join("\n"));
-  const original=JSON.stringify(w.server.get(phase==="results"?RESULTS:COMMIT(1)));
-  return {...w,s,api,errors,probe,providerReads,setWaitPhase:next=>{waitPhase=next;},attachReads:w.meter.reads-attachStart.reads,attachListenerReads:w.meter.listenerReads-attachStart.listeners,setup:()=>setup,original,reloaded,watched:phase==="results"?RESULTS:COMMIT(1),remote:()=>remote,setRemote:next=>{remote=next;}};
+  const original=JSON.stringify(w.server.get(phase==="results"?RESULTS:COMMIT(SEASON)));
+  return {...w,s,api,errors,probe,providerReads,setWaitPhase:next=>{waitPhase=next;},attachReads:w.meter.reads-attachStart.reads,attachListenerReads:w.meter.listenerReads-attachStart.listeners,setup:()=>setup,original,reloaded,watched:phase==="results"?RESULTS:COMMIT(SEASON),plan,season:SEASON,remote:()=>remote,setRemote:next=>{remote=next;}};
 }
 const baselinePath=process.env.WAITING_CONTINUITY_BASELINE,base=baselinePath?JSON.parse(fs.readFileSync(baselinePath,"utf8")):null;
 const measurements={},failures=[];
@@ -198,7 +205,9 @@ async function scenario(screen,owner,phase,reloaded){
     w.serverWrite(`${RID}/transferChallenges/season_3`,{phase:"GUESS_ENTRY",revision:1});
     condition=()=>w.api.getState()?.state?.acceptedSeasons===2;
   }else if(owner==="final"){
-    w.serverWrite(COMMIT(3),{phase:"ACKNOWLEDGED",accepted:true,revision:3});condition=()=>w.api.getState()?.phase==="FINAL_SEASON_RECONCILED";
+    // F3-02: on the final season's Commit wait the final commit is the watched document, so it reaches the waiting Season
+    // Commit screen through the wait listener (the Final controller follows the screen's ACKNOWLEDGED, not an authority listener).
+    w.serverWrite(COMMIT(3),{phase:"ACKNOWLEDGED",accepted:true,revision:3});condition=phase==="commit"?()=>w.s.CareerModeProductionSharedSeasonCommit.getState()?.phase==="ACKNOWLEDGED":()=>w.api.getState()?.phase==="FINAL_SEASON_RECONCILED";
   }else if(owner==="terminal"){
     w.serverWrite(RID,{data:{connectionState:"closed"}});condition=()=>w.api.getState()?.phase==="CLOSED";
   }else if(owner==="session"){
@@ -209,7 +218,8 @@ async function scenario(screen,owner,phase,reloaded){
   }
   let latency=null;
   for(let elapsed=0;elapsed<=90000;elapsed+=100){await w.advance(elapsed?100:0);if(condition()){latency=w.clock.now-start;break;}}
-  assert.equal(JSON.stringify(w.server.get(w.watched)),w.original,"B never touches A's watched document");
+  // F3-02: on the final season's Commit wait the final commit is the watched document itself (season 3 of 3).
+  if(!(owner==="final"&&phase==="commit"))assert.equal(JSON.stringify(w.server.get(w.watched)),w.original,"B never touches A's watched document");
   measurements[label]=latency;console.log(`MEASURE ${label}: ${latency===null?">90000":latency} ms`);
   const measuredBase=base?.[label]??(["progression","final","session"].includes(owner)?3000:63000);
   const limit=Math.min(measuredBase,measuredBase<=3000?3000:90000);
@@ -217,7 +227,7 @@ async function scenario(screen,owner,phase,reloaded){
   if(owner==="session"){
     const nextSession=`session_${"d".repeat(64)}`;
     w.setRemote({...w.remote(),sessionState:"active",sessionId:nextSession,expiresAtEpochMs:w.clock.now+3600000});
-    w.serverWrite(SESSION,{status:"ACTIVE",expires:w.clock.now+3600000});w.serverWrite(SETUP,{...plan,sessionId:nextSession});
+    w.serverWrite(SESSION,{status:"ACTIVE",expires:w.clock.now+3600000});w.serverWrite(SETUP,{...w.plan,sessionId:nextSession});
     for(let n=0;n<900;n++){await w.advance(100);if(w.api.getState()?.sessionId===nextSession&&w.api.getState()?.activeAuthorization)break;}
     if(process.env.WAITING_CONTINUITY_DEBUG&&w.api.getState()?.sessionId!==nextSession)console.log("DEBUG",{setup:w.setup(),state:w.api.getState(),errors:w.errors,listeners:w.activeListeners().map(l=>l.path),events:w.events.slice(-15)});
     assert.equal(w.api.getState()?.sessionId,nextSession,"a fresh session is recovered without modifying the watched document");
@@ -355,6 +365,57 @@ async function scenario(screen,owner,phase,reloaded){
         console.log(`PASS ${label}`);
       }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}
     }
+  }
+  // Fable job 3 F3-02: in a 10-season Showdown the wait's authority listeners watch only the waited season's commit and the
+  // next one (a later commit cannot exist before this season is ACKNOWLEDGED, which needs this phone), never every season.
+  for(const season of [1,9])for(const phase of ["results","commit"]){
+    const label=`10-season season ${season}/${phase} authority listeners and billed reads`;
+    try{
+      const billed=x=>x.budget.readsToday().thisPhone;
+      const w=await world("seasonEntry","progression",phase,false,{totalSeasons:10,season,initial:season-1});
+      const commits=w.activeListeners().map(l=>l.path).filter(p=>/\/seasonCommits\/season_\d+$/.test(p)).map(p=>Number(p.split("_").pop())).sort((a,b)=>a-b);
+      const firstBilled=billed(w),firstReads=w.meter.reads,listening=w.activeListeners().length;
+      w.setVisible(false);await w.advance(20000);const before=billed(w),beforeReads=w.meter.reads;
+      w.setVisible(true);await w.advance(30000);
+      const returned=billed(w)-before,returnedReads=w.meter.reads-beforeReads;
+      console.log(`MEASURE ${label}: ${listening} listeners (commits ${commits.join(",")}), first ${firstBilled} billed / ${firstReads} reads, lock+unlock ${returned} billed / ${returnedReads} reads`);
+      assert.ok(commits.every(n=>n===season||n===season+1),`listens to season commits ${commits.join(",")} (only ${season} and ${season+1} may exist)`);
+      assert.ok(w.s.CareerModeProductionSharedSeasonCommit.waitingListenerHealthy(),"the wait is healthy after the return");
+      const paths=w.activeListeners().map(l=>l.path);assert.equal(new Set(paths).size,paths.length,"one listener per document");
+      // The partner's commit of the next season still reaches this page through its listener.
+      if(season<10){w.serverWrite(COMMIT(season+1),{phase:"COMMITTED",accepted:false,revision:2});await w.advance(0);assert.ok(w.events.some(e=>e.type==="career-mode-shared-wait-context-change"),"a next-season commit wakes the wait");}
+      console.log(`PASS ${label}`);
+    }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}
+  }
+  // Fable job 3 F3-12: this phone's own write of the watched document leaves its listener pending until the server's copy
+  // arrives. A 3 s check landing in that window kept dropping every authority listener and attaching them all again.
+  for(const phase of ["results","commit"]){
+    const label=`own-write pending window keeps the ${phase} authority listeners`;
+    try{
+      const w=await world("seasonEntry","progression",phase,false,{totalSeasons:10});
+      const context=w.activeListeners().filter(l=>l.path!==w.watched),wait=w.activeListeners().find(l=>l.path===w.watched);
+      assert.ok(context.length>=3&&wait,"the wait and its authority listeners are attached");
+      const billedBefore=w.budget.readsToday().thisPhone,attached=w.meter.listenerReads;
+      // The SDK's latency-compensated copy of this phone's own write (hasPendingWrites), then 3.5 s before the server's copy.
+      const data=w.server.get(w.watched).data;
+      wait.next({id:w.watched.split("/").pop(),ref:{path:w.watched},exists:()=>true,data:()=>JSON.parse(JSON.stringify(data)),metadata:{fromCache:false,hasPendingWrites:true}});
+      await w.advance(3500);
+      w.serverWrite(w.watched,{...data});await w.advance(6000);
+      const billed=w.budget.readsToday().thisPhone-billedBefore;
+      console.log(`MEASURE ${label}: ${billed} billed / ${w.meter.listenerReads-attached} listener reads over the window`);
+      assert.ok(context.every(l=>l.active),"no authority listener was dropped during the pending window");
+      assert.ok(w.s.CareerModeProductionSharedSeasonCommit.waitingListenerHealthy(),"the wait is healthy again once the server's copy arrives");
+      const paths=w.activeListeners().map(l=>l.path);assert.equal(new Set(paths).size,paths.length,"one listener per document");
+      console.log(`PASS ${label}`);
+    }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}
+    const lostLabel=`a lost ${phase} wait listener still drops the authority listeners`;
+    try{
+      const w=await world("seasonEntry","progression",phase,false,{totalSeasons:10});
+      const context=w.activeListeners().filter(l=>l.path!==w.watched),wait=w.activeListeners().find(l=>l.path===w.watched);
+      wait.active=false;wait.error(new Error("listen stream dropped"));await w.advance(3500);
+      assert.ok(context.every(l=>!l.active),"the authority listeners stop with the wait listener, as before");
+      console.log(`PASS ${lostLabel}`);
+    }catch(e){failures.push(`${lostLabel}: ${e.message}`);console.error(`FAIL ${lostLabel}: ${e.stack}`);}
   }
   if(process.env.WAITING_CONTINUITY_OUTPUT)fs.writeFileSync(process.env.WAITING_CONTINUITY_OUTPUT,JSON.stringify(measurements,null,2)+"\n");
   assert.equal(failures.length,0,failures.join("\n"));
