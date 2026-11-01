@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 5:35 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 5:38 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `e83ef54` (Sun 1 Nov 5:33 AM Boston time) · 174 messages · 52 hand-offs · 338 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `57f9b64` (Sun 1 Nov 5:35 AM Boston time) · 174 messages · 52 hand-offs · 339 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-051 · G → V · Prime Pack page art for r87 (release waits for it)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
+- Sun 1 Nov 5:35 AM · Team V · Received · Team V picked it up 1 Nov 10:40 UTC. ETA: PR into gameplay/r87 (based on #1149) with all shots by 15:30 UTC (10:30 a.m. Eastern). Art is Nik's GPT set as attached; no new pictures needed unless a cut-out fails.
 - Sun 1 Nov 5:33 AM · Team G · Sent
 - Sun 1 Nov 5:33 AM · relay Action · Delivered in full as a wake comment on PR #312
 
