@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 5:43 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 5:52 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `47c50df` (Sun 1 Nov 5:42 AM Boston time) · 174 messages · 52 hand-offs · 339 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d61e4cb` (Sun 1 Nov 5:51 AM Boston time) · 174 messages · 52 hand-offs · 340 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-051 · G → V · Prime Pack page art for r87 (release waits for it)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 1 min after delivery
 
+- Sun 1 Nov 5:51 AM · Team V · Done
 - Sun 1 Nov 5:35 AM · Team V · Received · Team V picked it up 1 Nov 10:40 UTC. ETA: PR into gameplay/r87 (based on #1149) with all shots by 15:30 UTC (10:30 a.m. Eastern). Art is Nik's GPT set as attached; no new pictures needed unless a cut-out fails.
 - Sun 1 Nov 5:33 AM · Team G · Sent
 - Sun 1 Nov 5:33 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -75,6 +76,7 @@ The card frame (03_prime_card_frame_transparent) has slots for overall (shield),
 - Empty and dark during the guessing (never a hint). The name fades in there at the end, with no flip.
 - Long names must fit on one line (shrink the font, never cut off). Test with "Bastian Schweinsteiger" and "Puskás".
 - Either redraw the frame with the plate or build the plate in CSS on top of it; your choice, as long as it matches the frame.
+- Split (Nik 10:44): Duet builds behaviour only, in plain marble; Team V owns the whole look. Duet adds the empty name element `#prime-card-name`, so style that as the name plate.
 
 </details>
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 5:43 AM Boston time (EST)",
+ "generated": "2026-11-01 5:52 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1589,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "47c50df",
-  "head_boston": "Sun 1 Nov 5:42 AM",
+  "head": "d61e4cb",
+  "head_boston": "Sun 1 Nov 5:51 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1626,8 +1626,8 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 3 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -1642,6 +1642,16 @@
     "total": 4,
     "pr": 381,
     "current": "Done; handed to Team G as HO-006"
+   },
+   {
+    "job": "V-HO-051",
+    "title": "Prime Pack page art (Team V skin on #1149)",
+    "worker": "worker not set",
+    "lane": "",
+    "done": 0,
+    "total": 1,
+    "pr": 1163,
+    "current": ""
    }
   ],
   "inbox": {
@@ -2317,8 +2327,8 @@
     "from": "G",
     "to": "V",
     "title": "Prime Pack page art for r87 (release waits for it)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-051_prime-pack-page-art-for-r87-release-wait.md",
     "worker": "opus",
