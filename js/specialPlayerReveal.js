@@ -36,8 +36,12 @@
     if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||!state.rivalryId||!state.managerRole)return null;
     const key=spKey(state);if(spSeen(key))return null;
     const draw=root.CareerModeMarqueePlayer,list=root.CareerModeMarqueePlayers;
-    if(!draw||!list||!Array.isArray(list.players)||!Number.isFinite(state.setupUpdatedAtMs))return null;
-    if(!draw.forShowdown(state.rivalryId,state.setupUpdatedAtMs))return null;
+    if(!draw||!list||!Array.isArray(list.players))return null;
+    // Fable F8-04: a Setup read always carries the confirm time. A confirmed state without one comes from this manager's own
+    // confirm tap on this build (spSetupState's refresh was too slow), so the Showdown was confirmed just now: the no-read draw
+    // for a new Showdown applies, instead of dropping this manager's reveal for good.
+    const pair=Number.isFinite(state.setupUpdatedAtMs)?draw.forShowdown(state.rivalryId,state.setupUpdatedAtMs):draw.forNewShowdown(state.rivalryId);
+    if(!pair)return null;
     const picks=draw.picks(state.rivalryId,list.players.length);
     return picks?{key,d:picks.playerOne,n:picks.playerTwo}:null;
   }
