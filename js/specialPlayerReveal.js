@@ -37,8 +37,7 @@
     const key=spKey(state);if(spSeen(key))return null;
     const draw=root.CareerModeMarqueePlayer,list=root.CareerModeMarqueePlayers;
     if(!draw||!list||!Array.isArray(list.players)||!Number.isFinite(state.setupUpdatedAtMs))return null;
-    if(!draw.forShowdown(state.rivalryId,state.setupUpdatedAtMs))return null;
-    const picks=draw.picks(state.rivalryId,list.players.length);
+    const picks=typeof draw.picksForShowdown==="function"?draw.picksForShowdown(state.rivalryId,state.setupUpdatedAtMs,state.setup.clubs):null;
     return picks?{key,d:picks.playerOne,n:picks.playerTwo}:null;
   }
   // The confirm time comes with every Setup read; a manager whose last Setup state came from their own confirm tap has none yet.

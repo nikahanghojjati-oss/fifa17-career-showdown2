@@ -30,16 +30,17 @@
     return Object.freeze({name:player.name,club:typeof player.club==="string"&&player.club?player.club:null,rank:player.rank,tier:player.tier,badge:`#${player.rank} ${TIERS[player.tier]}`});
   }
   // {daniel, nik} for one Showdown (Daniel is playerOne, Nik playerTwo), or null: not r86, no confirm time, data not loaded.
-  function spForShowdown(rivalryId,confirmedAt){
+  // clubs: both managers' clubs ({playerOne, playerTwo} or {daniel, nik}); from 2.0.0 the draw needs them (GC-04).
+  function spForShowdown(rivalryId,confirmedAt,clubs){
     try{
-      const draw=spDraw(),pair=draw&&typeof draw.forShowdown==="function"?draw.forShowdown(rivalryId,confirmedAt):null;
+      const draw=spDraw(),pair=draw&&typeof draw.forShowdown==="function"?draw.forShowdown(rivalryId,confirmedAt,{clubs}):null;
       if(!pair)return null;
       const daniel=spChip(pair.playerOne),nik=spChip(pair.playerTwo);
       return daniel&&nik?Object.freeze({daniel,nik}):null;
     }catch(_error){return null;}
   }
   // A History row (js/sharedCareerAnalytics.js) carries its rivalryId and setupConfirmedAt.
-  function spForRow(row){return row&&typeof row==="object"?spForShowdown(row.rivalryId,row.setupConfirmedAt):null;}
+  function spForRow(row){return row&&typeof row==="object"?spForShowdown(row.rivalryId,row.setupConfirmedAt,row.clubs):null;}
   function spState(name){try{return root[name]?.getState?.()??null;}catch(_error){return null;}}
   function spJourneyRivalry(){try{const showdown=typeof currentShowdown!=="undefined"?currentShowdown:null;return showdown?.sharedJourney?.mode==="shared"&&typeof showdown.sharedJourney.rivalryId==="string"?showdown.sharedJourney.rivalryId:null;}catch(_error){return null;}}
   function spPairedRivalry(){const pair=spState("CareerModePersistentNikDanielPair"),paired=pair?.rivalryId||pair?.closedRivalryId||null;return typeof paired==="string"&&paired?paired:null;}
@@ -52,7 +53,7 @@
     if(journey&&journey!==setup.rivalryId)return null;
     const paired=spPairedRivalry();
     if(paired&&paired!==setup.rivalryId)return null;
-    const sp=spForShowdown(setup.rivalryId,setup.setupUpdatedAtMs);
+    const sp=spForShowdown(setup.rivalryId,setup.setupUpdatedAtMs,setup.setup?.clubs);
     if(sp)lastLive={rivalryId:setup.rivalryId,sp};
     return sp;
   }
