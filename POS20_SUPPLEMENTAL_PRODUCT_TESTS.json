@@ -2677,6 +2677,16 @@
         "^tests/contracts/r87\\-gazette\\-readability\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/settings-internal-audit-surface-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^tests/browser/settings\\-offline\\-save\\-library\\-editor\\-audit\\.cjs$",
+        "^tests/browser/manager\\-identity\\-linkage\\-audit\\.cjs$",
+        "^tests/contracts/settings\\-internal\\-audit\\-surface\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
