@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-01T15:57:04Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T16:00:31Z", "by": "V", "status": "RECEIVED", "note": "V on it now: clip-path reveal, transparent cover, same 450 ms; tiny PR into gameplay/r87 before 16:40 UTC (12:40 p.m. Eastern)."}]
+ "evidence": ["https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1180"],
+ "log": [{"at": "2026-11-01T15:57:04Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T16:00:31Z", "by": "V", "status": "RECEIVED", "note": "V on it now: clip-path reveal, transparent cover, same 450 ms; tiny PR into gameplay/r87 before 16:40 UTC (12:40 p.m. Eastern)."}, {"at": "2026-11-01T16:04:28Z", "by": "V", "status": "DONE", "note": "PR #1180 into gameplay/r87 (0c35a641): ::after cover removed; title revealed by its own clip-path inset(-8px 100% -8px -8px) -> inset(-8px), same 450 ms + ease; entered = clip-path none; reduced motion never clips. sd-title-wipe-cover keyframes kept for tr2 verdict brush. Contracts: no new failures vs base (57 pre-existing). Browser: 0 dark px in title box at every frame."}]
 }
 ```
 
