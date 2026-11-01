@@ -1,7 +1,7 @@
 # Career Mode Showdown 2.0.0 (r87): release notes
 
 Draft for Nik and Daniel. Kept up to date as fix PRs land in gameplay/r87. Facts come from the merged PRs listed at the bottom.
-Status: DRAFT, last updated 2026-11-01 16:35 UTC (final app build gameplay/r87 9a9667fb). Items under "Still to land" are not in yet.
+Status: DRAFT, last updated 2026-11-01 17:45 UTC (final app build gameplay/r87 9a9667fb). Items under "Still to land" are not in yet.
 
 ## The big one: Russian Roster Roulette
 Every season, after Career Start and before the transfer window, each of you spins a seven-chamber revolver in a 3D cowboy-cafe scene. Daniel spins first.
@@ -19,7 +19,7 @@ Every season, after Career Start and before the transfer window, each of you spi
 Once a season, right after the roulette and before the transfer window, a Prime Pack opens on both phones and one masked Icon card rises.
 - Stage 1 shows his position and one real card stat; each of the next three stages adds a stat. A right name scores 4, 3, 2 or 1 points depending on the stage.
 - Each of you has 2 guesses for the whole round. The first right guess wins (by server time), so only one of you can score. Nobody right means nobody scores, and the full card is revealed.
-- A season can now score up to 15 points, and a Golden Showdown is 150. Showdowns started before 2.0.0 keep the old 11 and 110.
+- A perfect season is now 15 points, and a Golden Showdown is 150 points over ten seasons.
 - The player is never stored: both phones work him out from the Showdown, so nobody can peek.
 - If one of you taps BACK while waiting, the other can't play the round alone.
 - Team V's card art: a cream-and-gold Icon card in the Showdown's own style. With the phone keyboard open the page keeps its phone layout, and once the round is over your line gets the whole box.
@@ -40,7 +40,7 @@ A two-voice TV bar inside the SEASON SCORE box. COMMENTARY tells the biggest sto
 ## The Touchline Gazette
 A newspaper front page after each season's results, and a final edition after the Final Winner that covers the whole Showdown. Both phones print the same paper. It costs no extra Firebase reads, and CONTINUE takes you on to the next screen. The last season goes straight to the final edition.
 - THE RACE strip says who leads, by how much, and when a lead can no longer be caught.
-- A record book with streaks, best seasons and perfect 11s, and a Golden watch in ten-season Showdowns.
+- A record book with streaks, best seasons and perfect 15-point seasons, and a Golden watch (150 points) in ten-season Showdowns.
 - Every printed line is checked against what really happened. The paper is bigger, with darker ink and larger reading sizes, and fills the whole phone screen. Broken pictures and sideways phones are fixed.
 
 ## Starting a Showdown
