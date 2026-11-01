@@ -152,7 +152,13 @@
     if(status.parentNode!==actions)actions.prepend(status);
     return {status,action};
   }
+  // F1: this phone reached its final season's results (or saw every season accepted), so the Champion screen is due here. A
+  // reload, a closed tab or a cold start at the close opens it again (js/productionSharedJourneyEntry.js championAfterClose)
+  // until the player leaves it. Storage only, written once.
+  const PMSP_CHAMPION_KEY="cms.championPending.v1";
+  function pmspMarkChampionDue(rivalryId){try{if(rivalryId&&typeof root.writeStorageValue==="function"&&root.readStorageValue?.(PMSP_CHAMPION_KEY)!==rivalryId)root.writeStorageValue(PMSP_CHAMPION_KEY,rivalryId);}catch(_error){}}
   function pmspRender(){
+    {const season=pmspEnsureCursor(),state=view?.state,rivalryId=pmspRivalryId();if(season&&state&&rivalryId&&String(view.rivalryId||"")===rivalryId&&season===Number(state.totalSeasons)&&pmspScreenVisible())pmspMarkChampionDue(rivalryId);}
     const ui=pmspEnsureUi();if(!ui)return false;const season=pmspEnsureCursor(),state=view?.state,visible=Boolean(pmspSharedMarker()&&season&&state&&pmspScreenVisible()&&Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season);
     pmspHidden(ui.status,!visible);pmspHidden(ui.action,!visible);if(!visible)return false;
     if(pmspTerminalWitnessed()){
@@ -179,9 +185,7 @@
     const state=view?.state;if(!state)return;
     const key=`${request.key}|${view.phase}|${state.acceptedSeasons}|${state.totalSeasons}|${state.terminal===true}`;
     if(key===announcedKey)return;announcedKey=key;
-    // F1: this phone saw every season accepted, so the Champion screen is due here. A reload at the close opens it again
-    // (js/productionSharedJourneyEntry.js championAfterClose) until the player leaves it.
-    if(state.terminal===true)try{if(typeof root.writeStorageValue==="function")root.writeStorageValue("cms.championPending.v1",request.rivalryId);}catch(_error){}
+    if(state.terminal===true)pmspMarkChampionDue(request.rivalryId);
     const local=root.CareerModeProductionSharedLocalReconciliation;
     if(state.terminal===true&&local&&typeof local.autoCheck==="function"&&typeof root.setTimeout==="function")root.setTimeout(()=>{try{void local.autoCheck();}catch(_error){}},0);
   }
