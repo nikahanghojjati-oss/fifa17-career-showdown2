@@ -34,7 +34,7 @@ function watcher(settleMs){
     const parts=[];
     // Full-screen layers that are not .screen sections: the Gazette page and the 3D iframes (roulette, Special Player).
     const gz=document.getElementById("touchlineGazette");
-    if(gz&&visible(gz)){const h=gz.querySelector("h1,h2,.masthead,[class*=headline]");return "gazette | "+norm(h?h.innerText:"")+(gz.dataset.edition?" | "+gz.dataset.edition:"");}
+    if(gz&&visible(gz)){const t=String(gz.innerText||"");const ed=/FINAL/i.test(t.slice(0,400))?"final":((t.match(/SEASON\s+\d+\s+OF\s+\d+/i)||["season"])[0]);return "gazette | "+norm(ed);}
     const big=[...document.querySelectorAll("iframe")].filter(f=>{if(!visible(f))return false;const r=f.getBoundingClientRect();return r.width*r.height>0.5*innerWidth*innerHeight;}).pop();
     if(big){
       // A 3D scene keeps one signature while it plays, so take a frame every 4 s (up to 4) to show it moving.

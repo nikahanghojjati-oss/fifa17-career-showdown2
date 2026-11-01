@@ -1,7 +1,7 @@
 # Career Mode Showdown 2.0.0 (r87): release notes
 
 Draft for Nik and Daniel. Kept up to date as fix PRs land in gameplay/r87. Facts come from the merged PRs listed at the bottom.
-Status: DRAFT, last updated 2026-11-01 08:05 UTC (from gameplay/r87 at f4efa199, PRs up to #1148). Items under "Still to land" are not in yet.
+Status: DRAFT, last updated 2026-11-01 15:15 UTC (from gameplay/r87 at 18c09562, PRs up to #1174). Items under "Still to land" are not in yet.
 
 ## The big one: Russian Roster Roulette
 Every season, after Career Start and before the transfer window, each of you spins a seven-chamber revolver in a 3D cowboy-cafe scene. Daniel spins first.
@@ -12,7 +12,7 @@ Every season, after Career Start and before the transfer window, each of you spi
 - Both phones always see the same spin. A refresh or double tap can't spin again.
 - If the scene can't load, you still get your result on a plain panel, and the transfer window stays shut until you have seen it.
 - Each season's hit is saved online, so a reload or the other phone always shows the same player, and the roulette never spins twice.
-- A player your rival guessed comes off your board, but a club player who shares his name stays.
+- A player your rival guessed comes off your board, but a club player who shares his name stays. A player you guessed can never be signed again by you.
 - The scene looks sharper: a nickel-steel drum, the title steps aside while a turn plays, and the props keep clear of the boards.
 
 ## Transfer window
@@ -32,27 +32,28 @@ A two-voice TV bar inside the SEASON SCORE box. COMMENTARY tells the biggest sto
 A newspaper front page after each season's results, and a final edition after the Final Winner that covers the whole Showdown. Both phones print the same paper. It costs no extra Firebase reads, and CONTINUE takes you on to the next screen. The last season goes straight to the final edition.
 - THE RACE strip says who leads, by how much, and when a lead can no longer be caught.
 - A record book with streaks, best seasons and perfect 11s, and a Golden watch in ten-season Showdowns.
-- Every printed line is checked against what really happened. The paper is bigger and easier to read on laptops and fills the whole phone screen.
+- Every printed line is checked against what really happened. The paper is bigger, with darker ink and larger reading sizes, and fills the whole phone screen. Broken pictures and sideways phones are fixed.
 
 ## Starting a Showdown
 - Seasons screen: four gold chips for 1, 3, 5 and 10 seasons, plus the NEW SHOWDOWN wordmark.
 - Career Start has its own stage on the Club plate: your club crests sit inside the packs, and nothing covers the faces or wordmark.
-- Special Player reveal: smoother on phones, the LED boards show whole messages, and Continue is no longer dimmed while waiting.
+- Special Player reveal: smoother on phones, the LED boards show whole messages, the name always fits its plate, and Continue is no longer dimmed while waiting. Your Special Player is never from your own club.
 - REMATCH on the Final Winner screen. Daniel's opens the seasons screen with the same length already picked; Nik's takes him to Home to JOIN.
 
 ## Career screens
 - History opens on your newest Showdown and stays fast with hundreds of Showdowns.
 - History & Backup shows your real online career (it showed 0 before), and Standings and Rivalry no longer get stuck during a live Showdown.
 - The season history is now a clear table: season, both managers' points and the result.
-- Career Statistics and Trophy Room show TRY AGAIN if they can't load. An empty Standings tab has a button to Career Standings.
+- Career pages keep the Reus loading screen up until your career has arrived, even on a slow or offline phone, and show TRY AGAIN if they can't load. No crown for a 0-0 when no Showdown has finished, and equal points always count as a draw. An empty Standings tab has a button to Career Standings.
 - Many layout fixes: Final Winner buttons, Trophy Room headings and "NOT WON YET", drawn Showdowns shown with "=", a split face for a level Career Leaders row, and big numbers fitting on Career Statistics.
 
 ## Smoother everywhere
 - No black pause between screens. A slow screen change shows the Reus loading screen instead, and it never blinks.
-- No flash of the old top bar between Loading and Home.
+- No flash of the old top bar between Loading and Home, and a faster first load.
+- Error, offline and quota screens say what happened in plain words and always give you a way back.
 - A double tap on a Home tile no longer opens the wrong screen.
 - Music player: your chosen song stays chosen, a failed stream retries when you tap Play, and the panel says what it's doing.
-- Reloading in the middle of a Showdown on a weak signal resumes the right season instead of starting again.
+- Reloading in the middle of a Showdown on a weak signal resumes the right season instead of starting again. A reload or a stale tab at the very end of a Showdown still lands on the Champion screen.
 - Pairing: an UNPAIR that can't happen says why, Nik's Home notices when Daniel has unpaired, expired codes say so, and the JOIN wait stops polling once the code has expired.
 - A phone with a wrong clock can still connect, and tomorrow's clock change doesn't affect timers.
 - No dark box across a face on tablet Home, and the Select League waiting strip never covers its buttons.
@@ -65,8 +66,8 @@ A newspaper front page after each season's results, and a final edition after th
 Buttons and status lines name Daniel instead of "host", the Transfer Challenge shows the right season number, and empty screens say what to tap next.
 
 ## Still to land (not in yet)
-- Prime Pack (#1149): after the roulette, both of you guess a masked Icon; the first right name wins 1 extra point, so a season can score up to 12.
-- Error, offline and quota screens in plain words with a way back (#1118), and a faster first load (#1122).
+- Prime Pack (#1149, with Team V's card art #1163): after the roulette, both of you guess a masked Icon for 4, 3, 2 or 1 points depending on how early you get it. A season can then score up to 15, and a Golden Showdown becomes 150.
+- Home without the music strip on any size (#1176), and Fable job 11 roulette fixes (#1175).
 - Version 2.0.0 everywhere (Settings and the update check).
 
 ## Before and right after it goes live
@@ -75,4 +76,4 @@ Buttons and status lines name Daniel instead of "host", the Transfer Challenge s
 - Nik's real-phone check on the live game (there is no test site, and the roulette needs a Showdown started after the release): https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU
 
 ## Merged PRs in this release (into gameplay/r87)
-#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148.
+#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148, #1118, #1122, #1150, #1151, #1152, #1153, #1154, #1157, #1158, #1159, #1160, #1161, #1162, #1164, #1165, #1166, #1167, #1168, #1169, #1170, #1171, #1173, #1174.
