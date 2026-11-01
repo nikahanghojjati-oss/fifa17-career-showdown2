@@ -2659,6 +2659,14 @@
         "^tests/contracts/r87\\-career\\-load\\-gate\\-stall\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-sp-pack-fable8-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/special-player/index\\.html$",
+        "^tests/contracts/r87-sp-pack-fable8-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
