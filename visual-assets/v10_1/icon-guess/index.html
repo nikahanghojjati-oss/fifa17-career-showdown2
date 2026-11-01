@@ -221,7 +221,11 @@ html.rm .card .face::after { animation: none; }
 const OVERALL_HIDDEN_UNTIL_END = true;
 const STAT_KEYS = ["PAC","SHO","PAS","DRI","DEF","PHY"];            // FIFA layout: left column PAC SHO PAS, right DRI DEF PHY
 const ROLES = ["playerOne","playerTwo"];                            // playerOne = Daniel (left), playerTwo = Nik (right), as on the Special Player page
-const LAST_BEAT = 7;                                                // 0 position, 1..6 one stat each, 7 the flag (last chance)
+// Nik, 1 Nov 2026: four stages. Stage 1 (beat 0) shows the position and one stat, each later stage one more stat. A right
+// guess scores 4 in stage 1, 3 in stage 2, 2 in stage 3, 1 in stage 4. The flag, overall and name show only on the result.
+const LAST_BEAT = 3;
+const STAGE_POINTS = [4,3,2,1];
+const STAGGER_MS = 380;                                             // stage 1: the position flips, then its first stat
 const WINDOW_MS_DEFAULT = 8000, WINDOW_MS_MIN = 5000, WINDOW_MS_MAX = 10000;
 const CHIPS_PER_MANAGER = 2;
 const EMBED = /[?&]embed=1(&|$)/.test(location.search);
@@ -354,27 +358,33 @@ function load(round){
   render();
 }
 function setWaiting(role){ S.waitingFor = ROLES.includes(role) ? role : null; render(); }
-// reveal(index): flips every beat up to index (a phone that reloads rejoins at the current beat with no replayed animation
-// for the earlier ones) and opens that beat's guess window. remainingMs comes from the game's shared round clock.
+// reveal(index): flips every stage up to index (a phone that reloads rejoins at the current stage with no replayed animation
+// for the earlier ones) and opens that stage's guess window. remainingMs comes from the game's shared round clock, so both
+// phones flip each stage at the same server moment.
 function reveal(index, opts){
   if(!S.round || S.result) return;
   const i = Math.max(0, Math.min(LAST_BEAT, Math.floor(Number(index))));
   if(!Number.isFinite(i)) return;
   const jump = i > S.beat + 1;
   if(jump) document.documentElement.classList.add("still");
-  for(let b=0;b<=i;b++) showBeat(b);
+  for(let b=0;b<=i;b++) showBeat(b, !jump && b===i);
   if(jump){ void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still"); }
-  fresh(i>=1 && i<=6 ? statEl(S.round.statOrder[i-1]) : i===LAST_BEAT ? $("flag") : null);
+  fresh(statEl(S.round.statOrder[i]));
   S.beat = i; S.waitingFor = null;
   const remaining = opts && Number.isFinite(opts.remainingMs) ? Math.max(0, Math.min(S.windowMs, opts.remainingMs)) : S.windowMs;
   S.closesAt = now() + remaining;
   render();
 }
-function showBeat(b){
+// One stage face up. Stage 1 flips the position first and its stat a moment later (the staged reveal, like the Special
+// Player pack's beats); a jump or the test clock shows both at once.
+function showBeat(b, staged){
+  const stat = statEl(S.round.statOrder[b]);
+  if(b===0 && staged && !frozen && !REDUCED && $("pos").dataset.shown!=="1"){ show($("pos"),true); setTimeout(()=>{ if(S.round) show(stat,true); }, STAGGER_MS); return; }
   if(b===0) show($("pos"),true);
-  else if(b<=6) show(statEl(S.round.statOrder[b-1]),true);
-  else show($("flag"),true);
+  show(stat,true);
 }
+// The game's one table (js/iconGuess.js stagePoints) comes with the round; STAGE_POINTS is only the preview's copy.
+const stagePoints = (b) => ((S.round && Array.isArray(S.round.stagePoints) && S.round.stagePoints.length===4 ? S.round.stagePoints : STAGE_POINTS)[b]) || 0;
 function setChips(role, count){
   if(!ROLES.includes(role)) return;
   const n = Math.max(0, Math.min(CHIPS_PER_MANAGER, Math.floor(Number(count))));
@@ -401,14 +411,17 @@ function guessFeedback(kind){
   else if(kind==="error") note("That guess didn't go through. Try again.", true);
   render();
 }
-function showResult(winner){
+// The result: the whole card face up (all six stats, the flag, the overall and the name). points is what the game's round
+// record gives the winner (4 to 1 by stage); the page only shows it.
+function showResult(winner, points){
   if(!S.round || S.result) return;
   S.result = ROLES.includes(winner) ? winner : "draw"; S.closesAt=null; S.pending=false;
-  document.documentElement.classList.add("still"); for(let b=0;b<=LAST_BEAT;b++) showBeat(b); void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still");
-  show($("name"),true); show($("ovr"),true); fresh(null);
+  S.points = S.result==="draw" ? 0 : Math.max(1, Math.min(4, Math.floor(Number(points)) || stagePoints(Math.max(0,S.beat))));
+  document.documentElement.classList.add("still"); show($("pos"),true); STAT_KEYS.forEach(k=>show(statEl(k),true)); void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still");
+  show($("flag"),true); show($("name"),true); show($("ovr"),true); fresh(null);
   const b=$("banner"); b.hidden=false;
   if(S.result==="draw"){ b.textContent="Nobody got him"; b.classList.add("draw"); }
-  else { b.textContent=`${S.names[S.result]} +1 Showdown point`; b.classList.remove("draw"); }
+  else { b.textContent=`${S.names[S.result]} +${S.points} Showdown point${S.points===1?"":"s"}`; b.classList.remove("draw"); }
   b.dataset.winner=S.result;
   $("source").textContent = S.round.source || "";
   $("guessbar").hidden=true; $("guess").blur(); setSuggestions([]);
@@ -459,7 +472,8 @@ function render(){
   if(S.result || S.waitingFor || S.beat<0 || !S.round){ beat.textContent = !S.round||S.result||S.waitingFor ? "" : "Get ready"; ring.hidden=true; $("status").hidden=Boolean(S.result); }
   else {
     $("status").hidden=false;
-    beat.textContent = S.beat===0 ? "Position" : S.beat===LAST_BEAT ? "Last chance: nation" : `Stat ${S.beat} of 6`;
+    const pts=stagePoints(S.beat);
+    beat.textContent = `${S.beat===LAST_BEAT ? "Last chance" : `Stage ${S.beat+1} of 4`} · ${pts} point${pts===1?"":"s"}`;
     beat.classList.toggle("last", S.beat===LAST_BEAT);
     const left=Math.max(0, (S.closesAt||t)-t); ring.hidden=false;
     $("ringLeft").setAttribute("stroke-dashoffset", String(RING*(1-left/S.windowMs)));
@@ -489,7 +503,7 @@ function startPreview(){
   const step=clampWindow(round.windowMs)+REVEAL_MS, t0=now()+1500, plan=[];
   for(let b=0;b<=LAST_BEAT;b++) plan.push({ at:t0+b*step, run:()=>reveal(b) });
   const other=round.me==="playerTwo"?"playerOne":"playerTwo";
-  plan.push({ at:t0+3*step+2600, run:()=>setChips(other,1) });           // the other manager's wrong guess: only the count drops
+  plan.push({ at:t0+1*step+2600, run:()=>setChips(other,1) });           // the other manager's wrong guess: only the count drops
   plan.push({ at:t0+(LAST_BEAT+1)*step, run:()=>showResult("draw") });
   driver = { plan, other };
 }
@@ -499,7 +513,7 @@ if(!EMBED){
     if(m.type==="cms-ig-input"){ const q=m.text.trim().toLowerCase(); setSuggestions(q.length>=2?SAMPLE_NAMES.filter(n=>n.toLowerCase().includes(q)):[]); }
     else if(m.type==="cms-ig-guess"){ const hit=SAMPLE_NAMES.find(n=>n.toLowerCase()===m.text.toLowerCase());
       if(!hit) guessFeedback("not-in-list");
-      else { setChips(S.me,S.chips[S.me]-1); if(hit===SAMPLE.name) showResult(S.me); else guessFeedback("wrong"); } }
+      else { setChips(S.me,S.chips[S.me]-1); if(hit===SAMPLE.name) showResult(S.me, stagePoints(S.beat)); else guessFeedback("wrong"); } }
     else if(m.type==="cms-ig-continue"){ setTimeout(()=>{ driver=null; startPreview(); }, 600); }
   });
 }
@@ -515,13 +529,13 @@ window.addEventListener("message",(e)=>{
     else if(d.type==="cms-ig-chips") setChips(d.role, d.count);
     else if(d.type==="cms-ig-suggestions") setSuggestions(d.names);
     else if(d.type==="cms-ig-feedback") guessFeedback(d.kind);
-    else if(d.type==="cms-ig-result") showResult(d.winner);
+    else if(d.type==="cms-ig-result") showResult(d.winner, d.points);
   } catch(err) { try{ parent.postMessage({type:"cms-ig-error", message:String(err&&err.message||err)}, location.origin); }catch(_e){} }
 });
 
 /* ================= same-window API and the test clock ================= */
 window.PrimePackPage = Object.freeze({ load, setWaiting, reveal, setChips, setSuggestions, guessFeedback, showResult,
-  revealMs: REVEAL_MS, reduced: REDUCED, lastBeat: LAST_BEAT, statKeys: STAT_KEYS.slice(), windowMs: { min:WINDOW_MS_MIN, max:WINDOW_MS_MAX, default:WINDOW_MS_DEFAULT },
+  revealMs: REVEAL_MS, reduced: REDUCED, lastBeat: LAST_BEAT, stagePoints: STAGE_POINTS.slice(), statKeys: STAT_KEYS.slice(), windowMs: { min:WINDOW_MS_MIN, max:WINDOW_MS_MAX, default:WINDOW_MS_DEFAULT },
   overallHiddenUntilEnd: OVERALL_HIDDEN_UNTIL_END });
 // Deterministic test clock (like __mq on the Special Player page): freeze() stops real time and every CSS transition,
 // advance(sec) steps the page clock (countdown and preview driver), state() reads what is on screen.
@@ -530,7 +544,7 @@ window.__ig = {
   advance(sec){ if(!frozen) this.freeze(); manualMs+=Math.max(0,Number(sec)||0)*1000; tickDriver(); render(); },
   now, preview(on){ if(on===false){ driver=null; } else { driver=null; startPreview(); } render(); },
   state(){ const shown=(id)=>$(id).dataset.shown==="1";
-    return { beat:S.beat, waitingFor:S.waitingFor, result:S.result, me:S.me, chips:Object.assign({},S.chips), pending:S.pending,
+    return { beat:S.beat, stagePoints:S.beat>=0?stagePoints(S.beat):null, points:S.result?S.points:null, waitingFor:S.waitingFor, result:S.result, me:S.me, chips:Object.assign({},S.chips), pending:S.pending,
       position:shown("pos")?$("posValue").textContent:null, overall:shown("ovr")?$("ovrValue").textContent:null,
       flag:shown("flag"), name:shown("name")?$("nameValue").textContent:null,
       stats:Object.fromEntries(STAT_KEYS.map(k=>[k, statEl(k).dataset.shown==="1"?Number(statEl(k).querySelector("em").textContent):null])),

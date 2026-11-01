@@ -254,7 +254,7 @@ function accumulateRoundStats(stats, showdown, round, playerKey){
     if(leagueGoals >= 100){ stats.hundredGoalSeasons += 1; }
     if(player.topScorer){ stats.topScorerSeasons += 1; }
     if(player.topAssist){ stats.topAssistSeasons += 1; }
-    if(score === 11){ stats.perfectSeasons += 1; }
+    if(score >= 11){ stats.perfectSeasons += 1; }
 
     if(Number.isFinite(leaguePosition) && leaguePosition > 0){
         stats.bestLeaguePosition = stats.bestLeaguePosition === null

@@ -173,8 +173,8 @@
     try{const result=pssrReadForm(view.managerRole);draft={contextKey,seasonNumber:view.seasonNumber,managerRole:view.managerRole,result,fingerprint:pssrFingerprint(result),operationId:null,baseRevision:null};pssrSetError("");pssrRenderReview(result);return true;}catch(error){draft=null;pssrSetError(error.message||error.code);return false;}
   }
   function pssrEdit(){if(busy||view?.ownResult)return false;draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
-  // r87 Prime Pack: the manager who named this season's masked Icon first publishes his result with primePack:true (+1; the
-  // Rules accept it only when the round record names him). Read once from the round record, only for a Showdown that plays
+  // Prime Pack: the manager who named this season's masked Icon first publishes his result with primePack:N, N = 4, 3, 2 or 1
+  // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record, only for a Showdown that plays
   // Prime Pack; an older Showdown never loads the step or reads anything. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
   async function pssrWithPrimePack(ctx,request,result){
@@ -184,9 +184,9 @@
     if(!step)pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");
     const gameCtx={rivalryId:ctx.options.rivalryId,managerRole:ctx.setup.managerRole,season:request.seasonNumber,confirmedAtMs};
     if(!step.applies(gameCtx))return result;
-    const won=await step.wonBy({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);
-    if(!won){const{primePack:_drop,...rest}=result;return rest;}
-    return {...result,primePack:true};
+    const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);
+    const{primePack:_drop,...rest}=result;
+    return Number.isInteger(points)&&points>=1&&points<=4?{...rest,primePack:points}:rest;
   }
   async function pssrPublish(){
     if(busy||!draft||!view?.managerRole)return false;

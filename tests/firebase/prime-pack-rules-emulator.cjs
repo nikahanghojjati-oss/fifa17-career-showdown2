@@ -3,11 +3,13 @@
 // One shared round record per season, rivalries/{rid}/primePackRounds/season_N, written only by the two managers through
 // js/iconGuessStep.js (the real step code runs here against the emulator):
 //   1. Arrivals: each manager writes only his own arrival, at server time, once; the other's facts never move.
-//   2. Guesses: only after both arrived, from 1 s to 84 s after the later arrival, one chip at a time, two at most; a
-//      manager can name only himself the winner; once there is a winner nothing changes.
-//   3. The point: a Season Result with primePack:true is accepted only from the manager the round record names.
+//   2. Guesses: only after both arrived, from 2 s to 43 s after the later arrival (four stages of 9.5 s after a 3 s count-in),
+//      one chip at a time, two at most; a manager can name only himself the winner; once there is a winner nothing changes.
+//   3. The points (Nik 2026-11-01): a Season Result with primePack N (1 to 4) is accepted only from the manager the round names,
+//      and only when N is the stage of the winning write's server time (4 before 12.5 s after the later arrival, 3 before 22 s,
+//      2 before 31.5 s, then 1). The phone's clock plays no part.
 //   4. No list, no delete, reads only for the two managers.
-// The score (+1, season maximum 12) and the 10-season expression budget are in tests/firebase/europa-league-rules-emulator.cjs.
+// The score (up to +4, season maximum 15) and the 10-season expression budget are in tests/firebase/europa-league-rules-emulator.cjs.
 // Run inside the Firestore emulator:
 //   npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal \
 //     "node tests/firebase/prime-pack-rules-emulator.cjs"
@@ -110,6 +112,7 @@ async function prepareJourney(env,now){
 
 const {updateDoc,deleteDoc,getDocs,collection}=firestoreSdk;
 const Step=require("../../js/iconGuessStep.js");
+const Guess=require("../../js/iconGuess.js");
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const io=(db,deviceId)=>({firestore:db,sdk:plainSdk(),rivalryId:RID,sessionId:SID,deviceId,now:()=>Date.now()});
 const ctx=(role,season=1)=>({rivalryId:RID,managerRole:role,season,confirmedAtMs:Date.now()});
@@ -146,8 +149,8 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
     checks.push("Nik's arrival (the step) is accepted; both arrivals are server times");
 
     // 2. Guesses.
-    await assertPlainDenial(updateDoc(roundRef(dbA),{"chipsUsed.playerOne":1,revision:3,...stamp(DA)}),"a guess within 1 s of the later arrival");
-    checks.push("a guess is refused before the round can have started (later arrival + 1 s)");
+    await assertPlainDenial(updateDoc(roundRef(dbA),{"chipsUsed.playerOne":1,revision:3,...stamp(DA)}),"a guess within 2 s of the later arrival");
+    checks.push("a guess is refused before the round can have started (later arrival + 2 s)");
     await wait(3200);// past the 3 s lead: the step itself refuses a guess before the first beat
     const wrong=await Step.applyGuess(io(dbA,DA),ctx("playerOne"),false);
     assert.equal(wrong.ok,true,`Daniel's wrong guess: ${JSON.stringify(wrong)}`);
@@ -169,8 +172,8 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
     await assertPlainDenial(updateDoc(roundRef(dbB),{"chipsUsed.playerTwo":2,revision:5,...stamp(DB)}),"the winner guesses again");
     checks.push("once there is a winner nothing changes: a later right guess loses, and the winner cannot write again");
     const record=Step.record(current,1);
-    assert.equal(record.winner.role,"playerTwo");assert.ok(record.winner.beat>=0&&record.winner.beat<=7);
-    checks.push("the stored round reads back as the round logic's record (winner, beat)");
+    assert.equal(record.winner.role,"playerTwo");assert.equal(record.winner.beat,0,"named in stage 1");
+    checks.push("the stored round reads back as the round logic's record (winner, stage)");
 
     // A round whose later arrival was 100 s ago: every guess is too late.
     await env.withSecurityRulesDisabled(async context=>{
@@ -178,26 +181,47 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
       await setDoc(roundRef(context.firestore(),2),{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:2,arrived:{playerOne:old,playerTwo:old},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:2,activeSessionId:SID,updatedByDeviceId:DA,updatedAt:old});
     });
     await assertPlainDenial(updateDoc(roundRef(dbA,2),{"chipsUsed.playerOne":1,namedBy:"playerOne",revision:3,...stamp(DA)}),"a right guess 100 s after the later arrival");
-    checks.push("a guess more than 84 s after the later arrival is refused (the round is 79 s)");
+    await env.withSecurityRulesDisabled(async context=>{
+      const old=Timestamp.fromMillis(Date.now()-50_000);
+      await setDoc(roundRef(context.firestore(),2),{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:2,arrived:{playerOne:old,playerTwo:old},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:2,activeSessionId:SID,updatedByDeviceId:DA,updatedAt:old});
+    });
+    await assertPlainDenial(updateDoc(roundRef(dbA,2),{"chipsUsed.playerOne":1,revision:3,...stamp(DA)}),"a guess 50 s after the later arrival, after stage 4 closed");
+    checks.push("a guess more than 43 s after the later arrival is refused (stage 4 closes at 41 s): no guessing during the full reveal");
     await assertPlainDenial(setDoc(roundRef(dbA,"x"),{seasonNumber:1}),"a round outside season_N");
     await assertPlainDenial(setDoc(roundRef(dbA,3),{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:4,arrived:{playerOne:serverTimestamp(),playerTwo:null},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:1,...stamp(DA)}),"a round whose season does not match its id");
     checks.push("the round's id and season must match");
 
-    // 3. The point.
+    // 3. The points.
     const publish=async(db,uid,deviceId,result,n,baseRevision,t)=>Results.publishResult({...base(db,uid,deviceId,now+t),seasonNumber:1,operationId:op("season_result_op_",n),baseRevision,result});
-    const daniel=await publish(dbA,A,DA,{...SEVEN,primePack:true},31,0,900);
-    assert.equal(daniel.ok,false,`Daniel claims the Prime Pack point Nik won: ${JSON.stringify(daniel)}`);assert.equal(daniel.code,"permission-denied");
-    checks.push("a Season Result with primePack:true from the manager who did not win is refused");
-    assert.equal(await Step.wonBy({firestore:dbA,sdk:plainSdk(),rivalryId:RID},ctx("playerOne")),false);
-    assert.equal(await Step.wonBy({firestore:dbB,sdk:plainSdk(),rivalryId:RID},ctx("playerTwo")),true);
-    checks.push("the step reads the winner back for each manager (Daniel no, Nik yes)");
+    const daniel=await publish(dbA,A,DA,{...SEVEN,primePack:4},31,0,900);
+    assert.equal(daniel.ok,false,`Daniel claims the Prime Pack points Nik won: ${JSON.stringify(daniel)}`);assert.equal(daniel.code,"permission-denied");
+    checks.push("a Season Result with Prime Pack points from the manager who did not win is refused");
+    // The stage comes from the winning write's server time. Move that time through the four stages (Rules off) and claim
+    // every other value: each is refused. The real round (stage 1) is put back before the real publish.
+    const real=await read();
+    const later=Math.max(real.arrived.playerOne.toMillis(),real.arrived.playerTwo.toMillis());
+    let n=40;
+    for(const [offset,points] of [[3_000,4],[12_400,4],[12_600,3],[21_900,3],[22_100,2],[31_400,2],[31_600,1],[40_000,1]]){
+      await env.withSecurityRulesDisabled(async context=>{await setDoc(roundRef(context.firestore()),{...real,updatedAt:Timestamp.fromMillis(later+offset)});});
+      for(const wrongPoints of [1,2,3,4].filter(v=>v!==points)){
+        const claim=await publish(dbB,B,DB,{...SEVEN,leaguePosition:2,primePack:wrongPoints},n+=1,0,1000+n);
+        assert.equal(claim.ok,false,`Nik claims ${wrongPoints} for a win ${offset} ms after the later arrival: ${JSON.stringify(claim)}`);
+      }
+      const page=Step.record({...real,updatedAt:Timestamp.fromMillis(later+offset)},1);
+      assert.equal(Guess.points(page).playerTwo,points,`the step gives ${points} for ${offset} ms, as the Rules do`);
+    }
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(roundRef(context.firestore()),real);});
+    checks.push("the Rules accept only the stage's points by the winning write's server time (4, 3, 2, 1 across 12.5 s, 22 s and 31.5 s) and the step agrees at every edge");
+    assert.equal(await Step.pointsFor({firestore:dbA,sdk:plainSdk(),rivalryId:RID},ctx("playerOne")),0);
+    assert.equal(await Step.pointsFor({firestore:dbB,sdk:plainSdk(),rivalryId:RID},ctx("playerTwo")),4);
+    checks.push("the step reads the points back for each manager (Daniel 0, Nik 4 for a stage 1 win)");
     const danielPlain=await publish(dbA,A,DA,SEVEN,32,0,1000);
     assert.equal(danielPlain.ok,true,`Daniel's result without the key: ${JSON.stringify(danielPlain)}`);
-    const nik=await publish(dbB,B,DB,{...SEVEN,leaguePosition:2,primePack:true},33,1,1100);
-    assert.equal(nik.ok,true,`Nik's result with the Prime Pack point: ${JSON.stringify(nik)}`);
+    const nik=await publish(dbB,B,DB,{...SEVEN,leaguePosition:2,primePack:4},33,1,1100);
+    assert.equal(nik.ok,true,`Nik's result with the Prime Pack points: ${JSON.stringify(nik)}`);
     let stored;await env.withSecurityRulesDisabled(async context=>{stored=(await getDoc(doc(context.firestore(),"rivalries",RID,"seasonResults","season_1","roles","playerTwo"))).data();});
-    assert.equal(stored.result.primePack,true);
-    checks.push("the winner's Season Result with primePack:true is accepted and stored as exactly true; the other's plain result is accepted");
+    assert.equal(stored.result.primePack,4);
+    checks.push("the winner's Season Result with primePack 4 is accepted and stored as the integer 4; the other's plain result is accepted");
 
     // 4. Reads, lists, deletes.
     await assertAccepted(getDoc(roundRef(dbA)),"Daniel reads the round");

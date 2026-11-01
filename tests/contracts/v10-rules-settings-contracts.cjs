@@ -17,7 +17,7 @@ const doc={body,createElement:t=>new FakeNode(t),createDocumentFragment:()=>new 
 const root={document:doc,APP_VERSION:'1.9.1',window:null,HTMLElement:FakeNode,requestAnimationFrame:()=>{},addEventListener:()=>{},matchMedia:()=>({matches:false}),navigator:{onLine:true},location:{},getActiveScreenName:()=>active,showScreen:id=>{active=id;doc.getElementById(id).classList.remove('hidden');return true;}};root.window=root;let active='mainMenu';
 const ctx=vm.createContext(root);vm.runInContext(read('js/ruleBook.js'),ctx);vm.runInContext(read('js/settings.js'),ctx);
 let n=0;const check=(name,fn)=>{fn();console.log(`ok ${++n} ${name}`);};
-check('RS1 current rule constructors preserve all six sections and scoring',()=>{root.createRuleBookScreen();const h=doc.getElementById('ruleBook');assert.equal(h.querySelectorAll('.ruleSection').length,6);assert.equal(h.querySelector('.ruleScoreMaximum').textContent,'MAXIMUM PER MANAGER / SEASON12');});
+check('RS1 current rule constructors preserve all six sections and scoring',()=>{root.createRuleBookScreen();const h=doc.getElementById('ruleBook');assert.equal(h.querySelectorAll('.ruleSection').length,6);assert.equal(h.querySelector('.ruleScoreMaximum').textContent,'MAXIMUM PER MANAGER / SEASON15');});
 // Missing binder makes this contract fail before the implementation is saved.
 const api=require(path.join(ROOT,'js/rulesSettingsV10.js')).createBindings(root);
 const rules=doc.getElementById('ruleBook'),ruleText=rules.textContent,ruleBack=rules.querySelector('button');

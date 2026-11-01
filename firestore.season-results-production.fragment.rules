@@ -156,7 +156,7 @@
         && value.topScorer is bool
         && value.topAssist is bool
         && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))
-        && (!('primePack' in value) || value.primePack == true);
+        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));
     }
     function ssjrResultsPrivateExactKeys(root) {
       return root.keys().hasOnly([
@@ -217,7 +217,7 @@
       let public = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data;
       let i = public.revision - 1;
       return ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole, public.teamCount)
-        && (!('primePack' in after.result) || ssjrPackWonBy(rivalryId, seasonId, managerRole))
+        && (!('primePack' in after.result) || ssjrPackPoints(rivalryId, seasonId, managerRole, after.result.primePack))
         && public.schemaVersion == 1
         && public.objectType == 'sharedSeasonResults'
         && public.runtimeRevision == '1.9.1-r9'
@@ -238,13 +238,16 @@
         && (managerRole == ssjrActorRole(rivalryId) || public.phase == 'RESULTS_READY');
     }
     // r87 Prime Pack (Nik 2026-10-31/11-01; feature spec project-documents/r88-icon-guess): once a season, before the transfer
-    // window, both phones reveal one masked Icon card beat by beat and each manager has two guesses. The round record is
+    // window, both phones reveal one masked card in four stages and each manager has two guesses. The round record is
     // rivalries/{rid}/primePackRounds/season_N. Each manager writes only his own facts: his arrival (the server time, once),
     // then one guess at a time (his own chip count +1, at most 2, and namedBy set to himself when right), only while
-    // the round runs (from 1 s after the later arrival until 84 s after it: 3 s lead, 8 beats of 9.5 s, 5 s for the network).
+    // the round runs: the stages start 3 s after the later arrival and last 9.5 s each (1.5 s reveal + the 8 s guess window,
+    // js/iconGuess.js), so guesses count from 2 s to 43 s after the later arrival (1 s and 2 s of slack for the network).
     // Whether a guess is right is decided on the guessing phone (the answer is not stored, so it is never readable early);
-    // the Rules bind the order: namedBy is set once, never changed, the other manager's facts never touched. A season result
-    // may carry primePack:true only for the manager this record names (namedBy, ssjrPackWonBy), which is worth +1.
+    // the Rules bind the order: namedBy is set once, never changed, the other manager's facts never touched, and the record's
+    // updatedAt is the winning write's server time (no write is allowed after it). A season result may carry primePack:N only
+    // for the manager this record names, with N the points of the stage that server time falls in: 4 before 12.5 s after the
+    // later arrival, 3 before 22 s, 2 before 31.5 s, then 1 (ssjrPackPoints). Changing the guess window means changing these.
     function ssjrPackOther(role) { return role == 'playerOne' ? 'playerTwo' : 'playerOne'; }
     function ssjrPackRoleMap(value) {
       return value is map && value.keys().size() == 2 && value.keys().hasOnly(['playerOne','playerTwo']);
@@ -283,8 +286,8 @@
         && after.namedBy == null;
     }
     function ssjrPackGuessInTime(a, b) {
-      return request.time >= (a > b ? a : b) + duration.value(1, 's')
-        && request.time <= (a > b ? a : b) + duration.value(84, 's');
+      return request.time >= (a > b ? a : b) + duration.value(2, 's')
+        && request.time <= (a > b ? a : b) + duration.value(43, 's');
     }
     function ssjrPackGuess(before, after, role) {
       return before.arrived.playerOne != null
@@ -307,8 +310,15 @@
         && after.chipsUsed[other] == before.chipsUsed[other]
         && (ssjrPackArrive(before, after, role) || ssjrPackGuess(before, after, role));
     }
-    function ssjrPackWonBy(rivalryId, seasonId, managerRole) {
-      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data.namedBy == managerRole;
+    function ssjrPackStagePoints(at, a, b) {
+      return at < (a > b ? a : b) + duration.value(12500, 'ms') ? 4
+        : (at < (a > b ? a : b) + duration.value(22000, 'ms') ? 3
+        : (at < (a > b ? a : b) + duration.value(31500, 'ms') ? 2 : 1));
+    }
+    function ssjrPackPoints(rivalryId, seasonId, managerRole, points) {
+      let round = get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data;
+      return round.namedBy == managerRole
+        && points == ssjrPackStagePoints(round.updatedAt, round.arrived.playerOne, round.arrived.playerTwo);
     }
 // SSJR_SEASON_RESULTS_FUNCTIONS_END
 

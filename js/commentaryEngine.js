@@ -67,7 +67,15 @@
     "OGC Nice":"Nice","Sevilla FC":"Sevilla","Málaga CF":"Málaga","SD Eibar":"Eibar","RC Celta":"Celta Vigo","Toulouse Football Club":"Toulouse",
     "Granada CF":"Granada","AS Saint-Étienne":"Saint-Étienne","Stade Rennais FC":"Rennes"
   });
-  const MAX_SEASON_POINTS=11;
+  // The most one season can score: 11, or 15 in a Showdown that plays r87 Prime Pack (11 + up to 4; G Lead and Nik
+  // 2026-11-01). facts.primePack (true/false) says which; without it, a Prime Pack point or a season over 11 can only be Prime Pack. A season is
+  // checked against the larger maximum; every "maximum", "clinched" and Golden line uses this Showdown's own.
+  const MAX_SEASON_POINTS=11,MAX_PRIME_PACK_SEASON_POINTS=15;
+  function ceSeasonMax(facts,sd){
+    if(facts&&facts.primePack===true)return MAX_PRIME_PACK_SEASON_POINTS;
+    if(facts&&facts.primePack===false)return MAX_SEASON_POINTS;
+    return sd.seasons.some(row=>ROLES.some(role=>row.primePack[role]||row.points[role]>MAX_SEASON_POINTS))?MAX_PRIME_PACK_SEASON_POINTS:MAX_SEASON_POINTS;
+  }
   // {mpPosition} is read aloud, so it is the spoken position, never the list's code (Nik 2026-10-29). A code not listed here
   // leaves the slot out rather than reading a code.
   const POSITION_WORDS=Object.freeze({LW:"left winger",RW:"right winger",LM:"left midfielder",RM:"right midfielder",CM:"central midfielder",
@@ -109,14 +117,14 @@
   // calculatePlayerSeasonScore (js/scoring.js) is used; with neither, the facts are refused rather than re-scored here.
   function ceSeason(value,index){
     if(!value||typeof value!=="object")ceFail("COMMENTARY_SEASON_INVALID");
-    const out={number:index+1,result:{},breakdown:{},points:{},teamCount:{}};
+    const out={number:index+1,result:{},breakdown:{},points:{},teamCount:{},primePack:{}};
     for(const role of ROLES){
       const result=value.results?value.results[role]:value[role];
       if(!result||typeof result!=="object")ceFail("COMMENTARY_SEASON_INVALID");
       let breakdown=value.scoring?value.scoring[role]:result.scoring;
       if(!breakdown&&typeof root.calculatePlayerSeasonScore==="function")breakdown=root.calculatePlayerSeasonScore(result);
       if(!breakdown||typeof breakdown!=="object")ceFail("COMMENTARY_SCORING_MISSING");
-      if(!Number.isInteger(breakdown.total)||breakdown.total<0||breakdown.total>MAX_SEASON_POINTS)ceFail("COMMENTARY_SCORING_INVALID");
+      if(!Number.isInteger(breakdown.total)||breakdown.total<0||breakdown.total>MAX_PRIME_PACK_SEASON_POINTS)ceFail("COMMENTARY_SCORING_INVALID");
       const teams=value.teamCounts&&Number.isInteger(value.teamCounts[role])?value.teamCounts[role]:value.teamCount;
       if(!Number.isInteger(teams)||teams<2)ceFail("COMMENTARY_TEAM_COUNT_INVALID");
       const position=Number(result.leaguePosition);
@@ -127,6 +135,7 @@
         performance:breakdown.performanceBonus>0,award:breakdown.individualAwardsBonus>0,
         hundredPoints:triggers.hundredLeaguePoints===true,hundredGoals:triggers.hundredLeagueGoals===true,topScorer:triggers.topScorer===true,topAssist:triggers.topAssist===true};
       out.points[role]=breakdown.total;
+      out.primePack[role]=Number.isInteger(breakdown.primePack)&&breakdown.primePack>0;
       out.teamCount[role]=teams;
     }
     const a=out.points.playerOne,b=out.points.playerTwo;
@@ -210,7 +219,7 @@
     if(leader)Object.assign(values,{leader:m[leader].name,trailer:m[ceOther(leader)].name,gap:before[leader]-before[ceOther(leader)]});
     // Final-season and leader previews speak of a race both can still win: none once the trailer can no longer win
     // (the season result before already said so with clock-clinched / clock-dead-rubber).
-    const open=!leader||values.gap<MAX_SEASON_POINTS*values.seasonsLeft,out=[];
+    const open=!leader||values.gap<ceSeasonMax(facts,sd)*values.seasonsLeft,out=[];
     if(s===1)out.push(ceEntry("preview-first-season",values));
     if(s===1&&sd.length===10)out.push(ceEntry("preview-golden",values));
     if(s===sd.length&&open)out.push(ceEntry("preview-final-season",values));
@@ -221,7 +230,7 @@
 
   function ceTrophies(bd){return bd.league||bd.cl||bd.el||bd.cup;}
   function ceSeasonResult(facts){
-    const m=ceManagers(facts),sd=ceShowdown(facts),s=sd.current;
+    const m=ceManagers(facts),sd=ceShowdown(facts),s=sd.current,max=ceSeasonMax(facts,sd);
     if(sd.seasons.length<s)ceFail("COMMENTARY_SEASON_INVALID");
     const row=sd.seasons[s-1],out=[],pa=row.points.playerOne,pb=row.points.playerTwo,W=row.winner==="draw"?null:row.winner;
     // N1 margins, N2 draws and totals
@@ -237,7 +246,7 @@
     // N3-N6 one manager's season
     for(const role of ROLES){
       const bd=row.breakdown[role],result=row.result[role],values=ceManagerSlots(m,row,role),won=ceTrophies(bd),teams=row.teamCount[role],add=situation=>out.push(ceEntry(situation,values));
-      if(row.points[role]===MAX_SEASON_POINTS)add("season-perfect");
+      if(row.points[role]===max)add("season-perfect");
       if(bd.cl&&bd.league&&bd.cup)add("trophy-treble");
       if(bd.cl&&bd.league&&!bd.cup)add("trophy-cl-and-league");
       if(bd.cl&&!bd.league)add("trophy-cl-only");
@@ -286,9 +295,9 @@
     // N10 the clock (after this season)
     if((sd.length===5||sd.length===10)&&s===Math.ceil(sd.length/2))out.push(ceEntry("clock-halfway",overall));
     if(left===1)out.push(ceEntry("clock-penultimate",overall));
-    if(left===1&&gap<MAX_SEASON_POINTS)out.push(ceEntry("clock-final-open",overall));
-    if(left>0&&gap>MAX_SEASON_POINTS*left)out.push(ceEntry("clock-clinched",overall));
-    if(left===1&&gap>MAX_SEASON_POINTS)out.push(ceEntry("clock-dead-rubber",overall));
+    if(left===1&&gap<max)out.push(ceEntry("clock-final-open",overall));
+    if(left>0&&gap>max*left)out.push(ceEntry("clock-clinched",overall));
+    if(left===1&&gap>max)out.push(ceEntry("clock-dead-rubber",overall));
     return out;
   }
 
@@ -308,8 +317,9 @@
       out.push(ceEntry(margin===1?"final-won-by-1":margin<=5?"final-won-by-2-5":margin<=15?"final-won-by-6-15":"final-won-by-16-plus",values));
       if(sd.totals.slice(0,N-1).some(pair=>pair[W]<pair[L]))out.push(ceEntry("final-comeback",values));
       if(sd.totals.every(pair=>pair[W]>pair[L]))out.push(ceEntry("final-wire-to-wire",values));
-      // r86 (red team #12): the Golden Showdown is the Rule Book's 110 (11 in every season of a 10-season Showdown), not any 10-season win.
-      if(N===10&&totals[W]===MAX_SEASON_POINTS*N)out.push(ceEntry("final-golden",values));
+      // r86 (red team #12): the Golden Showdown is the Rule Book's 110 (11 in every season of a 10-season Showdown), not any
+      // 10-season win; 150 (15 in every season) in a Showdown with Prime Pack.
+      if(N===10&&totals[W]===ceSeasonMax(facts,sd)*N)out.push(ceEntry("final-golden",values));
       if(N===1)out.push(ceEntry("final-sprint",values));
       if(N>=2&&ceLeaderOf(sd.totals[N-2])===L)out.push(ceEntry("final-last-season-swing",values));
     }else{

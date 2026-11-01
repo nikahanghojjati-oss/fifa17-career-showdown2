@@ -52,7 +52,8 @@ async function inView(p){
     await ctx.route("**/*",route=>{const u=route.request().url();if(u.startsWith(base))return route.continue();outside.push(u);return route.abort();});
     const p=await ctx.newPage();const errors=[];p.on("pageerror",e=>errors.push(String(e)));p.errors=errors;return p;};
   try{
-    // I1 preview: waiting, then the position, then one stat per beat in the round's order, then the flag
+    // I1 preview: waiting, then four stages (Nik 2026-11-01): the position and the first stat, then one more stat each; the
+    // flag only comes with the full reveal after stage 4
     {
       const p=await newPage();await p.goto(base+PAGE+"?still=1");await p.waitForFunction(()=>window.__ig&&window.PrimePackPage);
       await p.evaluate(()=>document.fonts.ready);
@@ -61,21 +62,22 @@ async function inView(p){
       assert.match(await p.textContent("#waiting"),/Waiting for Daniel/);await shot(p,"0-waiting");
       await advance(p,1.5);s=await state(p);
       assert.equal(s.beat,0);assert.equal(s.position,"CAM");assert.equal(s.flag,false);assert.equal(s.name,null);assert.equal(s.overall,null,"overall hidden by default");
-      assert.ok(Object.values(s.stats).every(v=>v===null),"no stat before beat 1");assert.equal(s.secondsLeft,8);assert.equal(s.canGuess,true);
-      await shot(p,"1-position");
       const order=["DRI","PAC","PHY","PAS","DEF","SHO"],step=8+0.7;
-      for(let i=0;i<6;i++){await advance(p,step);s=await state(p);assert.equal(s.beat,i+1);
-        for(const [k,v] of Object.entries(s.stats))assert.equal(v!==null,order.indexOf(k)<=i,`beat ${i+1}: ${k}`);
-        assert.equal(s.overall,null,`overall still hidden at beat ${i+1}`);assert.equal(s.name,null);}
-      await shot(p,"2-six-stats");
+      for(const [k,v] of Object.entries(s.stats))assert.equal(v!==null,k===order[0],`stage 1 shows the position and ${order[0]} only: ${k}`);
+      assert.equal(s.secondsLeft,8);assert.equal(s.canGuess,true);assert.equal(s.stagePoints,4);assert.match(await p.textContent("#beat"),/Stage 1 of 4 · 4 points/);
+      await shot(p,"1-position");
+      for(let i=1;i<4;i++){await advance(p,step);s=await state(p);assert.equal(s.beat,i);assert.equal(s.stagePoints,4-i);
+        for(const [k,v] of Object.entries(s.stats))assert.equal(v!==null,order.indexOf(k)<=i,`stage ${i+1}: ${k}`);
+        assert.equal(s.overall,null,`overall still hidden at stage ${i+1}`);assert.equal(s.name,null);assert.equal(s.flag,false,`no flag at stage ${i+1}`);}
+      await shot(p,"2-four-stats");
       assert.equal(s.chips.playerOne,1,"the other manager's wrong guess shows only as a chip count");
-      await advance(p,step);s=await state(p);assert.equal(s.beat,7);assert.equal(s.flag,true);assert.match(await p.textContent("#beat"),/Last chance/i);
-      await shot(p,"3-flag");
+      assert.match(await p.textContent("#beat"),/Last chance · 1 point/i);
+      await shot(p,"3-last-chance");
       await advance(p,step);s=await state(p);
       assert.equal(s.result,"draw");assert.match(s.banner,/Nobody got him/i);assert.equal(s.name,"Sample Icon");assert.equal(s.overall,"94");assert.equal(s.source,"PRIME ICON · SAMPLE CARD");
       assert.equal(s.cta,true);assert.equal(await p.isHidden("#guessbar"),true);await shot(p,"4-draw");
       assert.deepEqual(p.errors,[]);
-      ok("I1","waiting, position, the six stats one per beat in the round's order, flag last, overall and name hidden until a draw shows the full card");
+      ok("I1","waiting, then four stages worth 4, 3, 2, 1 (position and one stat, then one more stat each), no flag, overall or name until a draw shows the full card");
       // I2 the guess bar: suggestions after two letters, text not in the list costs nothing, a wrong guess is shown only here
       await p.evaluate(()=>window.__ig.preview(true));await advance(p,1.5+8.7*2+1);
       s=await state(p);assert.equal(s.beat,2);
@@ -94,7 +96,7 @@ async function inView(p){
       assert.equal(s.name,"Sample Icon");assert.equal(s.overall,"94");await shot(p,"6-win");
       await p.click("#cta");await p.click("#cta",{force:true}).catch(()=>{});
       assert.equal(await p.evaluate(()=>window.__sent.filter(m=>m.type==="cms-ig-continue").length),1,"Continue is sent once");
-      ok("I2","suggestions from two letters (tap one to guess), a non-icon costs no chip, a wrong guess uses a chip and shows only here, a right one shows NIK +1 SHOWDOWN POINT, Continue once");
+      ok("I2","suggestions from two letters (tap one to guess), a non-icon costs no chip, a wrong guess uses a chip and shows only here, a right one in stage 4 shows NIK +1 SHOWDOWN POINT, Continue once");
       // I3 two guesses each, then the bar stays shut
       await p.evaluate(()=>window.__ig.preview(true));await advance(p,1.5+1);
       for(const wrong of ["Sample Striker","Sample Winger"]){await type(p,wrong);await p.click("#go");}
@@ -115,10 +117,10 @@ async function inView(p){
       assert.equal((await f.evaluate(()=>window.__ig.state())).position,null,"a message from anything but the game is ignored");
       await p.evaluate(r=>window.send({type:"cms-ig-start",round:r,waitingFor:"playerTwo"}),ROUND);
       let s=await f.evaluate(()=>window.__ig.state());assert.equal(s.waitingFor,"playerTwo");assert.equal(s.me,"playerOne");
-      await p.evaluate(()=>window.send({type:"cms-ig-reveal",index:4,remainingMs:3500}));
+      await p.evaluate(()=>window.send({type:"cms-ig-reveal",index:2,remainingMs:3500}));
       s=await f.evaluate(()=>window.__ig.state());
-      assert.equal(s.beat,4);assert.equal(s.waitingFor,null);assert.equal(s.position,"ST");assert.equal(s.secondsLeft,4);
-      assert.deepEqual(s.stats,{PAC:81,SHO:92,PAS:null,DRI:null,DEF:38,PHY:83},"a phone that rejoins shows every beat up to the current one");
+      assert.equal(s.beat,2);assert.equal(s.waitingFor,null);assert.equal(s.position,"ST");assert.equal(s.secondsLeft,4);
+      assert.deepEqual(s.stats,{PAC:81,SHO:92,PAS:null,DRI:null,DEF:null,PHY:83},"a phone that rejoins shows every stage up to the current one, with the round's own values");
       await p.evaluate(()=>window.send({type:"cms-ig-chips",role:"playerTwo",count:1}));
       s=await f.evaluate(()=>window.__ig.state());assert.deepEqual(s.chips,{playerOne:2,playerTwo:1});
       assert.equal(await f.textContent("#note"),"","the other manager's guess shows nothing but the count");
@@ -128,14 +130,14 @@ async function inView(p){
       await f.click("#suggest li");
       let got=await gotAfter(p,"cms-ig-guess");
       assert.deepEqual(got.filter(m=>m.type==="cms-ig-input").map(m=>m.text),["Test"]);
-      assert.deepEqual(got.filter(m=>m.type==="cms-ig-guess").map(m=>[m.text,m.beat,m.role]),[["Test Legend",4,"playerOne"]]);
+      assert.deepEqual(got.filter(m=>m.type==="cms-ig-guess").map(m=>[m.text,m.beat,m.role]),[["Test Legend",2,"playerOne"]]);
       assert.equal((await f.evaluate(()=>window.__ig.state())).pending,true,"one guess at a time until the game answers");
-      await p.evaluate(()=>window.send({type:"cms-ig-result",winner:"playerOne"}));
-      s=await f.evaluate(()=>window.__ig.state());assert.equal(s.result,"playerOne");assert.match(s.banner,/^Daniel \+1 Showdown point$/);assert.equal(s.name,"Test Legend");assert.equal(s.overall,"93");assert.equal(s.flag,true);
+      await p.evaluate(()=>window.send({type:"cms-ig-result",winner:"playerOne",points:2}));
+      s=await f.evaluate(()=>window.__ig.state());assert.equal(s.result,"playerOne");assert.match(s.banner,/^Daniel \+2 Showdown points$/);assert.equal(await f.isHidden("#guessbar"),true,"no guessing during the full reveal");assert.equal(s.name,"Test Legend");assert.equal(s.overall,"93");assert.equal(s.flag,true);
       await f.click("#cta");got=await gotAfter(p,"cms-ig-continue");assert.equal(got.filter(m=>m.type==="cms-ig-continue").length,1);
       await p.evaluate(()=>window.send({type:"cms-ig-start",round:{position:"ST"}}));
       got=await gotAfter(p,"cms-ig-error");assert.ok(got.some(m=>m.type==="cms-ig-error"&&/round/.test(m.message)),"a bad round is reported to the game, not drawn");
-      ok("I4","in the frame: ready, then nothing until start; rejoin shows beats 0..n at once; chips, suggestions and the result come from the game; guesses and Continue go out; bad input is an error; other senders are ignored");
+      ok("I4","in the frame: ready, then nothing until start; rejoin shows stages 1..n at once; chips, suggestions and the result come from the game; guesses and Continue go out; bad input is an error; other senders are ignored");
       // I5 the overall switch: one round field can show it during play
       await p.evaluate(r=>window.send({type:"cms-ig-start",round:{...r,overallHidden:false}}),ROUND);await p.evaluate(()=>window.send({type:"cms-ig-reveal",index:0}));
       s=await f.evaluate(()=>window.__ig.state());assert.equal(s.overall,"93");

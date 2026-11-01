@@ -39,11 +39,11 @@
         && intent.billingRequired == false;
     }
     // Canonical season score: CL +5, EL +3 (r80; the key exists only when won), league title +3, cup +1,
-    // 100 points or 100 goals +1, top scorer or top assist +1, Prime Pack +1 (r87; the key exists only when won). A season is at most 12.
+    // 100 points or 100 goals +1, top scorer or top assist +1, Prime Pack 4, 3, 2 or 1 (the key exists only when won). A season is at most 15.
     function ssjrTerminalScore(result) {
       return (result.championsLeague == true ? 5 : 0)
         + (result.get('europaLeague', false) == true ? 3 : 0)
-        + (result.get('primePack', false) == true ? 1 : 0)
+        + result.get('primePack', 0)
         + (result.leaguePosition == 1 ? 3 : 0)
         + (result.domesticCup == true ? 1 : 0)
         + ((result.leaguePoints >= 100 || result.leagueGoals >= 100) ? 1 : 0)
@@ -79,10 +79,10 @@
         && progress.managerTotals.keys().hasOnly(['playerOne','playerTwo'])
         && progress.managerTotals.playerOne is int
         && progress.managerTotals.playerOne >= 0
-        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 12
+        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 15
         && progress.managerTotals.playerTwo is int
         && progress.managerTotals.playerTwo >= 0
-        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 12
+        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 15
         && (progress.closedSessionRevision == null || (progress.closedSessionRevision is int && progress.closedSessionRevision >= 1));
     }
     function ssjrTerminalBaseRivalryPreserved(before, after) {

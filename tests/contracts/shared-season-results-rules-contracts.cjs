@@ -38,7 +38,7 @@ for(const required of [
   "ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole, public.teamCount)",
   "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",
   "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
-  "&& (!('primePack' in value) || value.primePack == true);",
+  "&& (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));",
   "value.leaguePosition >= 1",
   "value.leaguePosition <= teamCount",
   "value.leaguePoints >= 0",

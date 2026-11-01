@@ -37,7 +37,7 @@ for(const required of [
   "ssjrCommitResultShape(value, teamCount)",
   "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",
   "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
-  "&& (!('primePack' in value) || value.primePack == true);",
+  "&& (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));",
   "value.leaguePosition <= teamCount",
   "value.leaguePoints <= (teamCount - 1) * 6",
   'after.results.playerOne == p1.result',

@@ -30,6 +30,16 @@
   const OTHER=Object.freeze({playerOne:"playerTwo",playerTwo:"playerOne"});
   const LENGTHS=Object.freeze([1,3,5,10]);
   const GOLDEN=Object.freeze({seasons:10,points:110});
+  // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so
+  // its race counts 15 a season left and its Golden Showdown is 150; a Showdown confirmed before Prime Pack keeps 11 and 110.
+  // PRIME_PACK_FROM_MS is js/iconGuess.js fromMs (tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
+  const SEASON_MAX=Object.freeze({before:11,primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  // true/false when this Showdown's confirm time is known (given, or the live Setup when it is this Showdown), else null.
+  function tgPrimePack(rivalryId,confirmedAt){
+    if(Number.isFinite(confirmedAt))return confirmedAt>=PRIME_PACK_FROM_MS;
+    try{const setup=root.CareerModeProductionSharedShowdownSetup?.getState?.();if(setup&&setup.rivalryId===rivalryId&&setup.setup?.phase==="SHOWDOWN_CONFIRMED"&&Number.isFinite(setup.setupUpdatedAtMs))return setup.setupUpdatedAtMs>=PRIME_PACK_FROM_MS;}catch(_error){}
+    return null;
+  }
   const TROPHY_ART=Object.freeze({"champions-league":"TRO_CONTINENTAL","europa-league":"TRO_EUROPA","league-title":"TRO_LEAGUE_TITLE","domestic-cup":"TRO_DOMESTIC_CUP"});
   // A headline, story, quote or caption that talks about silverware is not printed for a winner whose season had no
   // trophy (a 1 or 2 point win from the bonuses alone); final pages never print "next season" lines.
@@ -108,34 +118,39 @@
     };
   }
   const trophyCount=items=>["champions-league","europa-league","league-title","domestic-cup"].filter(k=>items[k]).length;
-  // Every accepted season up to `through`, checked: scores 0-11, and the stored winner is the one the scores give (equal is a draw).
-  function readHistory(projection,through){
+  // Every accepted season up to `through`, checked: scores 0-15, and the stored winner is the one the scores give (equal is a draw).
+  // max is this Showdown's season maximum: from primePack when known, else 15 once any season has a Prime Pack point or
+  // scored over 11, else 11.
+  function readHistory(projection,through,primePack=null){
     if(!plain(projection)||!Array.isArray(projection.seasonHistory)||!LENGTHS.includes(projection.totalSeasons)||!plain(projection.managerRecords))return null;
     const T=projection.totalSeasons;if(!int(through,1,T)||projection.seasonHistory.length<through)return null;
     const clubs={};for(const role of ROLES){const club=projection.managerRecords[role]?.club;if(typeof club!=="string"||!club.trim())return null;clubs[role]=club;}
     const seasons=[];
     for(let i=0;i<through;i+=1){
       const row=projection.seasonHistory[i];if(!plain(row)||row.roundNumber!==i+1||!plain(row.playerOne)||!plain(row.playerTwo))return null;
-      const a=row.playerOne.scoring?.total,b=row.playerTwo.scoring?.total;if(!int(a,0,11)||!int(b,0,11))return null;
+      const a=row.playerOne.scoring?.total,b=row.playerTwo.scoring?.total;if(!int(a,0,SEASON_MAX.primePack)||!int(b,0,SEASON_MAX.primePack))return null;
       const winner=a>b?"playerOne":b>a?"playerTwo":"draw";if(row.winner!==winner)return null;
       seasons.push({number:i+1,score:{playerOne:a,playerTwo:b},winner,items:{playerOne:seasonItems(row.playerOne),playerTwo:seasonItems(row.playerTwo)}});
     }
-    return {rivalryId:String(projection.rivalryId||""),totalSeasons:T,clubs,seasons};
+    // unknown confirm time: a Prime Pack point, or a season over 11, can only come from a Showdown that plays Prime Pack
+    const sides=projection.seasonHistory.flatMap(row=>plain(row)?[row.playerOne,row.playerTwo].filter(plain):[]);
+    const pack=primePack===true||primePack===false?primePack:sides.some(side=>Number.isInteger(side.primePack)||Number.isInteger(side.scoring?.primePack)||(Number.isInteger(side.scoring?.total)&&side.scoring.total>SEASON_MAX.before));
+    return {rivalryId:String(projection.rivalryId||""),totalSeasons:T,clubs,seasons,max:pack?SEASON_MAX.primePack:SEASON_MAX.before};
   }
   const totalsOf=seasons=>seasons.reduce((t,s)=>({playerOne:t.playerOne+s.score.playerOne,playerTwo:t.playerTwo+s.score.playerTwo}),{playerOne:0,playerTwo:0});
   function spOf(sp){return plain(sp)&&plain(sp.daniel)&&plain(sp.nik)&&typeof sp.daniel.name==="string"&&sp.daniel.name&&typeof sp.nik.name==="string"&&sp.nik.name?{daniel:sp.daniel.name,nik:sp.nik.name}:null;}
 
   // ---------- the Gazette desk (2.0.0): plain facts worked out from the seasons, never from copy ----------
   // THE RACE: where the Showdown stands after this paper's season, with what is still possible (a season is worth at most
-  // 11 to each manager, so a lead bigger than 11 x the seasons left cannot be caught; a lead of exactly that can only be
+  // 11 to each manager, 15 with Prime Pack, so a lead bigger than that x the seasons left cannot be caught; a lead of exactly that can only be
   // levelled, and level is a draw: no tiebreak). The RECORD BOOK: seasons won, trophies, best season, streaks, perfect seasons.
   const plural=(n,word)=>`${n} ${word}${n===1?"":"s"}`;
   const both=list=>list.length===2?`${list[0]} and ${list[1]}`:list[0];
-  function recordsOf(seasons){
+  function recordsOf(seasons,max=SEASON_MAX.before){
     const rec={};
     for(const role of ROLES){
       const r={wins:0,trophies:0,perfect:0,best:0};
-      for(const s of seasons){const it=s.items[role];r.wins+=s.winner===role?1:0;r.trophies+=trophyCount(it);r.perfect+=s.score[role]===11?1:0;r.best=Math.max(r.best,s.score[role]);}
+      for(const s of seasons){const it=s.items[role];r.wins+=s.winner===role?1:0;r.trophies+=trophyCount(it);r.perfect+=s.score[role]===max?1:0;r.best=Math.max(r.best,s.score[role]);}
       rec[role]=r;
     }
     let streak=null;
@@ -148,11 +163,11 @@
   function raceFor(facts,N,final){
     const T=facts.totalSeasons,seasons=facts.seasons.slice(0,N),totals=totalsOf(seasons);
     const gap=Math.abs(totals.playerOne-totals.playerTwo),leader=totals.playerOne>totals.playerTwo?"playerOne":totals.playerTwo>totals.playerOne?"playerTwo":null;
-    const left=T-N,pointsLeft=left*11;
+    const left=T-N,pointsLeft=left*facts.max,goldenPoints=GOLDEN.seasons*facts.max;
     let line;
     if(final){
       line=leader?`${NAMES[leader]} wins the Showdown ${totals[leader]} to ${totals[OTHER[leader]]}, by ${plural(gap,"point")}.`
-        :totals.playerOne>=GOLDEN.points&&T===GOLDEN.seasons?`Level on ${totals.playerOne} points each after ${plural(T,"season")}: a drawn Showdown, and a Golden Showdown for both.`
+        :totals.playerOne>=goldenPoints&&T===GOLDEN.seasons?`Level on ${totals.playerOne} points each after ${plural(T,"season")}: a drawn Showdown, and a Golden Showdown for both.`
         :`Level on ${plural(totals.playerOne,"point")} each after ${plural(T,"season")}: a drawn Showdown, honours even.`;
     }else if(!leader){
       line=`All square on ${plural(totals.playerOne,"point")} each. ${plural(left,"season")} to go, ${pointsLeft} points still to play for on each side.`;
@@ -168,7 +183,7 @@
   }
   // One line each, most telling first; only facts that are true for this Showdown so far are printed.
   function recordBook(facts,N,final){
-    const seasons=facts.seasons.slice(0,N),r=recordsOf(seasons),out=[];
+    const seasons=facts.seasons.slice(0,N),r=recordsOf(seasons,facts.max),out=[];
     // (never beside level totals, where a seasons-won count could read as a tiebreak: level is a draw)
     const lvl=totalsOf(seasons);
     if(N>=2&&lvl.playerOne!==lvl.playerTwo)out.push(`Seasons won: ${NAMES.playerOne} ${r.playerOne.wins} · ${NAMES.playerTwo} ${r.playerTwo.wins}${r.draws?` · drawn ${r.draws}`:""}`);
@@ -177,8 +192,8 @@
     if(N>=2){const best=Math.max(r.playerOne.best,r.playerTwo.best);if(best>0)out.push(`Best season${final?"":" so far"}: ${plural(best,"point")}, ${both(ROLES.filter(x=>r[x].best===best).map(x=>NAMES[x]))}`);}
     if(N>=2&&r.biggest&&r.biggest.margin>=3)out.push(`Biggest season win: ${NAMES[r.biggest.role]} ${r.biggest.score[r.biggest.role]}–${r.biggest.score[OTHER[r.biggest.role]]} in season ${r.biggest.season}`);
     const perfect=ROLES.filter(x=>r[x].perfect>0);
-    if(perfect.length)out.push(`Perfect 11s: ${perfect.map(x=>`${NAMES[x]} ${r[x].perfect}`).join(" · ")}`);
-    // the Golden Showdown (110 over ten seasons) needs 11 in every season: it is "on" only while a manager has dropped nothing
+    if(perfect.length)out.push(`Perfect ${facts.max}s: ${perfect.map(x=>`${NAMES[x]} ${r[x].perfect}`).join(" · ")}`);
+    // the Golden Showdown (110 over ten seasons, 150 with Prime Pack) needs the maximum in every season: it is "on" only while a manager has dropped nothing
     if(!final&&facts.totalSeasons===GOLDEN.seasons){const alive=ROLES.filter(x=>r[x].perfect===N);if(alive.length)out.push(`Golden watch: ${both(alive.map(x=>NAMES[x]))} still perfect`);}
     return out;
   }
@@ -236,15 +251,15 @@
     }
     if(N>=2&&level)list.push("level-overall");
     // shown on the paper before the last season, while the trailer can still win the Showdown in it (a season is worth at
-    // most 11 and equal totals are a draw, so a gap of 11 can only be levelled, never turned)
-    if(T>=3&&N===T-1&&gap<=10)list.push("final-season-decider");
+    // most 11, or 15 with Prime Pack, and equal totals are a draw, so a gap of a full season can only be levelled, never turned)
+    if(T>=3&&N===T-1&&gap<facts.max)list.push("final-season-decider");
     return list;
   }
   // Each paper is built after the papers of the Showdown's earlier seasons (the same rows on both phones), so it can pass
   // over the rows they printed.
-  function seasonEdition({projection,seasonNumber,specialPlayers=null}={}){
+  function seasonEdition({projection,seasonNumber,specialPlayers=null,primePack=null}={}){
     const C=tgCopy(),P=tgPages();if(!C||!P)return null;
-    const N=seasonNumber,facts=readHistory(projection,N);if(!facts||N>=facts.totalSeasons)return null;
+    const N=seasonNumber,facts=readHistory(projection,N,primePack);if(!facts||N>=facts.totalSeasons)return null;
     const used=new Set();let edition=null;
     for(let k=1;k<=N;k+=1)edition=buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,k===N?specialPlayers:null,used);
     return edition;
@@ -307,16 +322,17 @@
   }
 
   // ---------- FINAL edition ----------
-  function finalEdition({projection,final=null,specialPlayers=null}={}){
+  function finalEdition({projection,final=null,specialPlayers=null,primePack=null}={}){
     const C=tgCopy(),P=tgPages();if(!C||!P||!plain(projection))return null;
-    const T=projection.totalSeasons,facts=readHistory(projection,T);if(!facts||facts.seasons.length!==T)return null;
+    const T=projection.totalSeasons,facts=readHistory(projection,T,primePack);if(!facts||facts.seasons.length!==T)return null;
     const totals=totalsOf(facts.seasons),W=totals.playerOne>totals.playerTwo?"playerOne":totals.playerTwo>totals.playerOne?"playerTwo":"draw";
     // The Final Winner frame, when given, must say the same (it reads the reconciled winner; the paper never disagrees with it).
     if(final){const fw={daniel:"playerOne",nik:"playerTwo",draw:"draw"}[final.winner];if(fw!==W)return null;if(plain(final.totals)&&(final.totals.daniel!==totals.playerOne||final.totals.nik!==totals.playerTwo))return null;}
     const draw=W==="draw",L=draw?null:OTHER[W],margin=Math.abs(totals.playerOne-totals.playerTwo);
-    // A Golden Showdown is a manager on 110 over ten seasons: the winner, or both managers on a 110-110 draw (still a draw,
-    // no tiebreak; the paper is the gold edition with the drawn copy).
-    const goldenRoles=T===GOLDEN.seasons?ROLES.filter(role=>totals[role]>=GOLDEN.points):[];
+    // A Golden Showdown is a manager on 110 over ten seasons (150 with Prime Pack): the winner, or both managers on a 110-110
+    // (150-150) draw (still a draw, no tiebreak; the paper is the gold edition with the drawn copy).
+    const goldenPoints=GOLDEN.seasons*facts.max;
+    const goldenRoles=T===GOLDEN.seasons?ROLES.filter(role=>totals[role]>=goldenPoints):[];
     const golden=goldenRoles.length>0;
     const used=new Set();for(let k=1;k<T;k+=1)buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,null,used);
     const key=`${facts.rivalryId}|final|${T}`,walk=walker(facts.rivalryId,"final",0,used);
@@ -338,7 +354,7 @@
       if(T>=3){
         const before=totalsOf(facts.seasons.slice(0,T-1));if(before[W]<=before[L])situations.push("won-on-the-final-day");
         const ledThroughout=facts.seasons.every((s,i)=>{const t=totalsOf(facts.seasons.slice(0,i+1));return t[W]>t[L];});
-        if(ledThroughout&&before[W]-before[L]>11&&margin>11)situations.push("dominant-win");
+        if(ledThroughout&&before[W]-before[L]>facts.max&&margin>facts.max)situations.push("dominant-win");
       }
     }
     // A drawn Showdown in which neither manager won a trophy prints no silverware talk (a won one has the Showdown trophy).
@@ -367,9 +383,9 @@
     numbers.push({label:"Overall",left:totals.playerOne,right:totals.playerTwo,total:true});
     // Trophy desk: the Showdown trophy for the winner (none on a draw), and each other manager's biggest prize of the Showdown.
     const showdownItems=role=>{const r=rec(role);return {"champions-league":r.cl>0,"europa-league":r.el>0,"league-title":r.league>0,"domestic-cup":r.cup>0,"performance-bonus":facts.seasons.some(s=>s.items[role]["performance-bonus"]),"awards-bonus":facts.seasons.some(s=>s.items[role]["awards-bonus"])};};
-    const briefs=draw&&golden?ROLES.map(role=>({head:"Golden Showdown",text:`${NAMES[role]} reaches ${GOLDEN.points} points over ${T} seasons: a Golden Showdown, shared.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[role],id:`golden-shared:${role}`}))
+    const briefs=draw&&golden?ROLES.map(role=>({head:"Golden Showdown",text:`${NAMES[role]} reaches ${goldenPoints} points over ${T} seasons: a Golden Showdown, shared.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[role],id:`golden-shared:${role}`}))
       :draw?ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,showdownItems(role),facts.clubs,true))
-      :[{head:golden?"Golden Showdown won":"The Showdown trophy",text:golden?`${NAMES[W]} reaches ${GOLDEN.points} points, the target that wins the Golden Showdown.`:`${NAMES[W]}'s name goes on the trophy that outranks every cup in either cabinet.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[W],id:"showdown-trophy"},briefFor(walk,"brief1",L,showdownItems(L),facts.clubs,true)];
+      :[{head:golden?"Golden Showdown won":"The Showdown trophy",text:golden?`${NAMES[W]} reaches ${goldenPoints} points, the target that wins the Golden Showdown.`:`${NAMES[W]}'s name goes on the trophy that outranks every cup in either cabinet.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[W],id:"showdown-trophy"},briefFor(walk,"brief1",L,showdownItems(L),facts.clubs,true)];
     return Object.freeze({
       kind:"final",key,rivalryId:facts.rivalryId,seasonNumber:T,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],golden,
       paper:{
@@ -401,14 +417,14 @@
     const history=states?.history,projection=history?.projection;
     if(history?.authoritative!==true||history.phase!=="HISTORY_CONVERGED"||!plain(projection))return null;
     const N=Number(history.throughSeason);if(!Number.isInteger(N)||projection.acceptedSeasons!==N)return null;
-    return {projection,seasonNumber:N,specialPlayers:states.specialPlayers||null};
+    return {projection,seasonNumber:N,specialPlayers:states.specialPlayers||null,primePack:tgPrimePack(projection.rivalryId,history.setupConfirmedAt)};
   }
   // FINAL: the Final Winner frame on screen and the verified history it was drawn from (js/seasonFinalV10.js).
   function finalInput(states){
     const final=states?.final,history=states?.history,projection=history?.projection;
     if(!plain(final)||!final.winner||!plain(projection)||history?.phase!=="HISTORY_CONVERGED")return null;
     if(Number.isInteger(final.seasonsPlayed)&&final.seasonsPlayed!==projection.totalSeasons)return null;
-    return {projection,final,specialPlayers:final.specialPlayers||states.specialPlayers||null};
+    return {projection,final,specialPlayers:final.specialPlayers||states.specialPlayers||null,primePack:tgPrimePack(projection.rivalryId,history.setupConfirmedAt)};
   }
 
   // ---------- the page (browser only) ----------

@@ -134,7 +134,7 @@ for(const required of [
   "transfer.revision == 6 || transfer.revision == 7",
   "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",
   "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
-  "&& (!('primePack' in value) || value.primePack == true);",
+  "&& (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));",
   'match /seasonCommits/{seasonId}',
   'allow create: if ssjrCommitValidCreate(rivalryId, seasonId)',
   'allow update: if ssjrCommitValidUpdate(rivalryId, seasonId)',

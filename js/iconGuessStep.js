@@ -8,14 +8,17 @@
   // r87 Prime Pack, the season step (Nik 2026-10-31, renamed and moved to r87 on 2026-11-01; spec
   // project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md). Once a season, right after Roster Roulette and before the
   // Transfer Challenge opens, both phones show one masked Icon card (the stand-in page visual-assets/v10_1/icon-guess, Team V's
-  // art later) and reveal it beat by beat: position, the six stats in a seeded order, then the flag. Each manager has two
-  // guesses; the first right one wins 1 Showdown point (the sparse primePack result key, +1, season maximum 12). Nobody by
-  // the flag is a draw. Old Showdowns never play it (js/iconGuess.js eligible, the same boundary as Roster Roulette).
+  // art later) and reveal it in four stages (Nik 2026-11-01): the position and one seeded stat, then one more stat per stage.
+  // Each manager has two guesses; the first right one the server records wins 4, 3, 2 or 1 Showdown points by its stage (the
+  // sparse primePack result key, season maximum 15). Nobody by the end of stage 4 is a draw and the whole card is shown.
+  // Old Showdowns never play it (js/iconGuess.js eligible, the same boundary as Roster Roulette).
   //
   // What the phones share is one small record, rivalries/{rid}/primePackRounds/season_N (Rules: the season-results fragment):
   // each arrival (server time), each manager's used guesses and namedBy (the winner). The start is the later arrival + 3 s, so both
-  // phones count in together and every beat follows from the server clock the Transfer Challenge already keeps (a reload
-  // lands on the current beat). Which icon it is comes from the Showdown id (no read, never stored); whether a guess is
+  // phones count in together and every stage follows from the server clock the Transfer Challenge already keeps (a reload
+  // lands on the current stage). Fair first guess: guesses are transactions on this one record, so the server orders them;
+  // the first right one to commit sets namedBy and every later write is refused. Its stage, and so its points, comes from
+  // that write's server time (updatedAt), never from a phone clock, and the Rules check the result against it. Which icon it is comes from the Showdown id (no read, never stored); whether a guess is
   // right is decided here, and the record only says who won. Wrong guesses are never stored: the other phone sees only
   // the chip count drop.
   //
@@ -72,7 +75,7 @@
     if(ROLES.includes(data.namedBy)){
       const atMs=igsMillis(data.updatedAt),startMs=arrived.playerOne&&arrived.playerTwo?Math.max(arrived.playerOne,arrived.playerTwo)+guess.leadMs:null;
       const at=startMs&&atMs?guess.beatAt(startMs,atMs,guess.windowMs):null;
-      winner={role:data.namedBy,beat:at&&at.beat>=0?Math.min(at.beat,guess.flagBeat):0,atMs:atMs||1};
+      winner={role:data.namedBy,beat:at&&at.beat>=0?Math.min(at.beat,guess.lastBeat):0,atMs:atMs||1};
     }
     const record={v:1,season,arrived,chipsUsed:{playerOne:data.chipsUsed?.playerOne,playerTwo:data.chipsUsed?.playerTwo},winner};
     return guess.outcome(record,0,guess.windowMs)?record:null;
@@ -125,17 +128,18 @@
     return ()=>{stopped=true;};
   }
 
-  // Did this manager win this season's Prime Pack? Read by the season results before they are published, so the point
-  // goes in as primePack:true (the Rules check it against the round record). io = {firestore, sdk, rivalryId}. One read,
-  // once per season, only for a Showdown the game applies to.
-  async function igsWonBy(io,ctx){
-    if(!igsApplies(ctx))return false;
+  // How many Prime Pack points this manager won this season (0, or 4 to 1 by stage). Read by the season results before they
+  // are published, so the points go in as primePack:N (the Rules check N against the round record). io = {firestore, sdk,
+  // rivalryId}. One read, once per season, only for a Showdown the game applies to.
+  async function igsPointsFor(io,ctx){
+    if(!igsApplies(ctx))return 0;
     const key=igsKey(ctx);if(wonMemo.has(key))return wonMemo.get(key);
     const ref=igsRef(io,ctx.season);
     const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});
-    const won=Boolean(data&&data.objectType==="sharedPrimePackRound"&&data.seasonNumber===ctx.season&&data.namedBy===ctx.managerRole);
-    if(data&&ROLES.includes(data.namedBy))wonMemo.set(key,won);
-    return won;
+    const record=igsRecord(data,ctx.season);
+    const points=record&&record.winner?igsGuess().points(record)[ctx.managerRole]:0;
+    if(record&&record.winner)wonMemo.set(key,points);
+    return points;
   }
 
   // ---------- the screen ----------
@@ -180,7 +184,7 @@
     if(!icon)return null;
     const source=`${String(icon.cardVersion||"").toUpperCase()} · ${icon.game}`;
     return {answerId:icon.id,round:{me:ctx.managerRole,names:{...NAMES},windowMs:guess.windowMs,position:icon.position,overall:icon.overall,name:icon.name,
-      stats:{...icon.stats},statOrder:[...draw.statOrder],nation:icon.nationCode,source,overallHidden:true}};
+      stats:{...icon.stats},statOrder:[...draw.statOrder],stagePoints:[...guess.stagePoints],nation:icon.nationCode,source,overallHidden:true}};
   }
   // A suggestion shows the card name, or the full name when two icons share that card name (typing it alone is ambiguous).
   function igsSuggestions(index,text){
@@ -227,7 +231,12 @@
         const out=guess.outcome(record,now,guess.windowMs);if(!out)return;
         for(const role of ROLES){if(sentChips[role]!==out.chips[role]){sentChips[role]=out.chips[role];igsPost(frame,"cms-ig-chips",{role,count:out.chips[role]});}}
         if(out.state==="won"||out.state==="draw"){
-          if(!resultShown){resultShown=true;back.hidden=true;igsPost(frame,"cms-ig-result",{winner:out.winner||"draw"});if(out.winner)wonMemo.set(igsKey({...ctx,managerRole:out.winner}),true);}
+          if(!resultShown){
+            resultShown=true;back.hidden=true;
+            const points=out.winner?guess.points(record)[out.winner]:0;
+            igsPost(frame,"cms-ig-result",{winner:out.winner||"draw",points});
+            if(out.winner)for(const role of ROLES)wonMemo.set(igsKey({...ctx,managerRole:role}),role===out.winner?points:0);
+          }
           return;
         }
         if(out.state==="waiting"){const waitingFor=record.arrived[other]===null?other:me;back.hidden=waitingFor!==other;if(shownBeat!==-1){shownBeat=-1;igsPost(frame,"cms-ig-waiting",{role:waitingFor});}return;}
@@ -282,5 +291,5 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-prime-pack-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,collection:COLLECTION,doneKey:DONE_KEY,
-    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,wonBy:igsWonBy,arrive:igsArrive,applyGuess:igsApplyGuess,run:igsRun,close:igsClose});
+    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,applyGuess:igsApplyGuess,run:igsRun,close:igsClose});
 });

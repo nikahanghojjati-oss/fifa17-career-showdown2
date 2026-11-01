@@ -8,10 +8,9 @@
     "bytes": 155662
   },
   "candidate": {
-    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position) plus the r87 shared reads meter (two R87-METER hunks: rivalries/{rid}/meters/{role}, get also after Terminal Close) plus the r87 roulette marks (five R87-SPINS hunks: own pre-window spun mark on transferChallenges/season_N, START from both marks) plus r87 Prime Pack (11 R87-PRIME-PACK hunks: the primePackRounds round record, the sparse primePack result key tied to it, Terminal Close +1 and the 12-point season cap). Regenerated with --print-main-delta origin/main",
-    "sha256": "a056b0bbd516a822c98bbf89ff39d425851e79d9f9148fede0a9d9899e3feade",
-    "gitBlobSha1": "0563f87d211dff467b95415e5e22fffe04506905",
-    "bytes": 167035
+    "sha256": "19e67cd2a030dce29a7236febb6f65a42cbbd049d5beef352f8a792e2414e6d6",
+    "gitBlobSha1": "d0b457ce4a17b48518708fa6cadefa7b26e6eb17",
+    "bytes": 167925
   },
   "allowedOwners": [
     "G-7",
@@ -165,20 +164,20 @@
       ],
       "added": [
         "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
-        "        && (!('primePack' in value) || value.primePack == true);"
+        "        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: primePack, when present, is exactly true (Season Results and Season Commit)."
+      "why": "Prime Pack: primePack, when present, is an int 1 to 4 (the stage points; Season Results and Season Commit result shapes)."
     },
     {
       "mainLine": 1831,
       "candidateLine": 1886,
       "removed": [],
       "added": [
-        "        && (!('primePack' in after.result) || ssjrPackWonBy(rivalryId, seasonId, managerRole))"
+        "        && (!('primePack' in after.result) || ssjrPackPoints(rivalryId, seasonId, managerRole, after.result.primePack))"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: a private Season Result may carry primePack only when the round record names this manager (one get of primePackRounds/season_N)."
+      "why": "Prime Pack: a private Season Result may carry primePack:N only when the round record names that manager and N is the points of the stage its winning write's server time falls in (ssjrPackPoints)."
     },
     {
       "mainLine": 1850,
@@ -186,13 +185,16 @@
       "removed": [],
       "added": [
         "    // r87 Prime Pack (Nik 2026-10-31/11-01; feature spec project-documents/r88-icon-guess): once a season, before the transfer",
-        "    // window, both phones reveal one masked Icon card beat by beat and each manager has two guesses. The round record is",
+        "    // window, both phones reveal one masked card in four stages and each manager has two guesses. The round record is",
         "    // rivalries/{rid}/primePackRounds/season_N. Each manager writes only his own facts: his arrival (the server time, once),",
         "    // then one guess at a time (his own chip count +1, at most 2, and namedBy set to himself when right), only while",
-        "    // the round runs (from 1 s after the later arrival until 84 s after it: 3 s lead, 8 beats of 9.5 s, 5 s for the network).",
+        "    // the round runs: the stages start 3 s after the later arrival and last 9.5 s each (1.5 s reveal + the 8 s guess window,",
+        "    // js/iconGuess.js), so guesses count from 2 s to 43 s after the later arrival (1 s and 2 s of slack for the network).",
         "    // Whether a guess is right is decided on the guessing phone (the answer is not stored, so it is never readable early);",
-        "    // the Rules bind the order: namedBy is set once, never changed, the other manager's facts never touched. A season result",
-        "    // may carry primePack:true only for the manager this record names (namedBy, ssjrPackWonBy), which is worth +1.",
+        "    // the Rules bind the order: namedBy is set once, never changed, the other manager's facts never touched, and the record's",
+        "    // updatedAt is the winning write's server time (no write is allowed after it). A season result may carry primePack:N only",
+        "    // for the manager this record names, with N the points of the stage that server time falls in: 4 before 12.5 s after the",
+        "    // later arrival, 3 before 22 s, 2 before 31.5 s, then 1 (ssjrPackPoints). Changing the guess window means changing these.",
         "    function ssjrPackOther(role) { return role == 'playerOne' ? 'playerTwo' : 'playerOne'; }",
         "    function ssjrPackRoleMap(value) {",
         "      return value is map && value.keys().size() == 2 && value.keys().hasOnly(['playerOne','playerTwo']);",
@@ -231,8 +233,8 @@
         "        && after.namedBy == null;",
         "    }",
         "    function ssjrPackGuessInTime(a, b) {",
-        "      return request.time >= (a > b ? a : b) + duration.value(1, 's')",
-        "        && request.time <= (a > b ? a : b) + duration.value(84, 's');",
+        "      return request.time >= (a > b ? a : b) + duration.value(2, 's')",
+        "        && request.time <= (a > b ? a : b) + duration.value(43, 's');",
         "    }",
         "    function ssjrPackGuess(before, after, role) {",
         "      return before.arrived.playerOne != null",
@@ -255,16 +257,23 @@
         "        && after.chipsUsed[other] == before.chipsUsed[other]",
         "        && (ssjrPackArrive(before, after, role) || ssjrPackGuess(before, after, role));",
         "    }",
-        "    function ssjrPackWonBy(rivalryId, seasonId, managerRole) {",
-        "      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data.namedBy == managerRole;",
+        "    function ssjrPackStagePoints(at, a, b) {",
+        "      return at < (a > b ? a : b) + duration.value(12500, 'ms') ? 4",
+        "        : (at < (a > b ? a : b) + duration.value(22000, 'ms') ? 3",
+        "        : (at < (a > b ? a : b) + duration.value(31500, 'ms') ? 2 : 1));",
+        "    }",
+        "    function ssjrPackPoints(rivalryId, seasonId, managerRole, points) {",
+        "      let round = get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data;",
+        "      return round.namedBy == managerRole",
+        "        && points == ssjrPackStagePoints(round.updatedAt, round.arrived.playerOne, round.arrived.playerTwo);",
         "    }"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: the round record functions (ssjrPackShape, create, arrive, guess timing, update, ssjrPackWonBy). Pure functions used only by the primePackRounds match and the private-result line below."
+      "why": "r87 Prime Pack: the round record functions (ssjrPackShape, create, arrive, guess timing, update, ssjrPackStagePoints, ssjrPackPoints). Pure functions used only by the primePackRounds match and the private-result line below."
     },
     {
       "mainLine": 1878,
-      "candidateLine": 2007,
+      "candidateLine": 2017,
       "removed": [
         "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])"
       ],
@@ -276,20 +285,20 @@
     },
     {
       "mainLine": 1892,
-      "candidateLine": 2021,
+      "candidateLine": 2031,
       "removed": [
         "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));"
       ],
       "added": [
         "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
-        "        && (!('primePack' in value) || value.primePack == true);"
+        "        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: primePack, when present, is exactly true (Season Results and Season Commit)."
+      "why": "Prime Pack: primePack, when present, is an int 1 to 4 (the stage points; Season Results and Season Commit result shapes)."
     },
     {
       "mainLine": 2015,
-      "candidateLine": 2145,
+      "candidateLine": 2155,
       "removed": [],
       "added": [
         "    // R87 shared reads meter (B2): each phone keeps ONE small document per rivalry, rivalries/{rid}/meters/{its role}, with the",
@@ -331,53 +340,53 @@
     },
     {
       "mainLine": 2059,
-      "candidateLine": 2222,
+      "candidateLine": 2232,
       "removed": [
         "    // 100 points or 100 goals +1, top scorer or top assist +1. A season stays at most 11 (an EL season at most 9)."
       ],
       "added": [
-        "    // 100 points or 100 goals +1, top scorer or top assist +1, Prime Pack +1 (r87; the key exists only when won). A season is at most 12."
+        "    // 100 points or 100 goals +1, top scorer or top assist +1, Prime Pack 4, 3, 2 or 1 (the key exists only when won). A season is at most 15."
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: Terminal Close score adds +1 for the sparse primePack key (season maximum 12)."
+      "why": "Prime Pack: Terminal Close score adds the sparse primePack points (4 to 1; season maximum 15)."
     },
     {
       "mainLine": 2063,
-      "candidateLine": 2226,
+      "candidateLine": 2236,
       "removed": [],
       "added": [
-        "        + (result.get('primePack', false) == true ? 1 : 0)"
+        "        + result.get('primePack', 0)"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: Terminal Close score adds +1 for the sparse primePack key (season maximum 12)."
+      "why": "Prime Pack: Terminal Close score adds the sparse primePack points (4 to 1; season maximum 15)."
     },
     {
       "mainLine": 2098,
-      "candidateLine": 2262,
+      "candidateLine": 2272,
       "removed": [
         "        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 11"
       ],
       "added": [
-        "        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 12"
+        "        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 15"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: Terminal Close progress cap per season 11 to 12 (the Prime Pack point)."
+      "why": "Prime Pack: Terminal Close progress cap per season 11 to 15 (up to 4 Prime Pack points)."
     },
     {
       "mainLine": 2101,
-      "candidateLine": 2265,
+      "candidateLine": 2275,
       "removed": [
         "        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 11"
       ],
       "added": [
-        "        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 12"
+        "        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 15"
       ],
       "owner": "R87-PRIME-PACK",
-      "why": "r87 Prime Pack: Terminal Close progress cap per season 11 to 12 (the Prime Pack point)."
+      "why": "Prime Pack: Terminal Close progress cap per season 11 to 15 (up to 4 Prime Pack points)."
     },
     {
       "mainLine": 3039,
-      "candidateLine": 3203,
+      "candidateLine": 3213,
       "removed": [],
       "added": [
         "        // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.",
@@ -389,7 +398,7 @@
     },
     {
       "mainLine": 3065,
-      "candidateLine": 3232,
+      "candidateLine": 3242,
       "removed": [],
       "added": [
         "      match /primePackRounds/{seasonId} {",
@@ -404,7 +413,7 @@
     },
     {
       "mainLine": 3074,
-      "candidateLine": 3247,
+      "candidateLine": 3257,
       "removed": [],
       "added": [
         "      }",

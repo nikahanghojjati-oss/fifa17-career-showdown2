@@ -19,10 +19,10 @@ assert.deepEqual({...frameFor(season(3,7,2,"playerOne")).lastSeason},{season:3,d
 assert.deepEqual({...frameFor(season(3,4,9,"playerTwo")).lastSeason},{season:3,daniel:4,nik:9,winner:"nik"});
 assert.deepEqual({...frameFor(season(3,6,6,"draw")).lastSeason},{season:3,daniel:6,nik:6,winner:"draw"});
 assert.deepEqual({...frameFor(season(3,0,11,"playerTwo")).lastSeason},{season:3,daniel:0,nik:11,winner:"nik"},"0 is a real score");
-assert.deepEqual({...frameFor(season(3,12,2,"playerOne")).lastSeason},{season:3,daniel:12,nik:2,winner:"daniel"},"12 is the r87 season maximum (Prime Pack +1)");
+assert.deepEqual({...frameFor(season(3,15,2,"playerOne")).lastSeason},{season:3,daniel:15,nik:2,winner:"daniel"},"15 is the r87 season maximum (11 plus up to 4 for Prime Pack)");
 // The record's winner is passed through even where a points comparison alone would say otherwise (tie decided on league position).
 assert.equal(frameFor(season(3,1,1,"playerOne")).lastSeason.winner,"daniel");
-for(const [label,bad] of [["no history",null],["wrong season number",season(2,7,2,"playerOne")],["points above 12 (11 plus the r87 Prime Pack point)",season(3,13,2,"playerOne")],["negative points",season(3,-1,2,"playerOne")],["missing points",{roundNumber:3,playerOne:{scoring:{}},playerTwo:{scoring:{total:2}},winner:"playerOne"}],["unknown winner",season(3,7,2,"someone")]]){
+for(const [label,bad] of [["no history",null],["wrong season number",season(2,7,2,"playerOne")],["points above 15 (11 plus up to 4 for r87 Prime Pack)",season(3,16,2,"playerOne")],["negative points",season(3,-1,2,"playerOne")],["missing points",{roundNumber:3,playerOne:{scoring:{}},playerTwo:{scoring:{total:2}},winner:"playerOne"}],["unknown winner",season(3,7,2,"someone")]]){
   const f=frameFor(bad);assert.equal(f.lastSeason,undefined,`${label}: no lastSeason`);assert.equal(f.winner,"daniel",`${label}: the final winner is unaffected`);
 }
 

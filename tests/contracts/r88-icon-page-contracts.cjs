@@ -60,7 +60,7 @@ const one=(re,label)=>{const m=re.exec(script);assert.ok(m,`${label} in the page
   ok('P3','the page sends typed text out and shows what the game answers: it never compares a guess, the other manager\'s guesses arrive only as a chip count, and sent text is never HTML');
 }
 
-// P4 the round the page takes, and the beats (position, six stats in the round's order, the flag last)
+// P4 the round the page takes, and the four stages (Nik 2026-11-01: the position and one stat, then one more stat each, worth 4, 3, 2, 1)
 {
   const ctx={};vm.runInNewContext([one(/const STAT_KEYS = [^\n]*/,'stat keys'),one(/const ROLES = [^\n]*/,'roles'),one(/function validRound\(r\)\{[\s\S]*?\n\}/,'validRound'),'this.validRound=validRound;'].join('\n'),ctx);
   const round={position:'CAM',statOrder:['DRI','PAC','PHY','PAS','DEF','SHO'],stats:{PAC:80,SHO:81,PAS:82,DRI:83,DEF:40,PHY:70},nation:'NL',name:'Made Up',overall:90,me:'playerOne'};
@@ -69,19 +69,26 @@ const one=(re,label)=>{const m=re.exec(script);assert.ok(m,`${label} in the page
     {stats:{...round.stats,PHY:100}},{stats:{...round.stats,DEF:undefined}},{nation:''},{name:'  '},{overall:'90'},{me:'referee'}];
   for(const change of bad)assert.throws(()=>ctx.validRound({...round,...change}),/round:/,JSON.stringify(change));
   assert.throws(()=>ctx.validRound(null),/round:/);
-  assert.match(script,/const LAST_BEAT = 7;/);
-  const showBeat=one(/function showBeat\(b\)\{[\s\S]*?\n\}/,'showBeat');
-  assert.match(showBeat,/if\(b===0\) show\(\$\("pos"\),true\);\s*else if\(b<=6\) show\(statEl\(S\.round\.statOrder\[b-1\]\),true\);\s*else show\(\$\("flag"\),true\);/,'0 position, 1-6 the round\'s stat order, 7 the flag');
-  assert.match(script,/for\(let b=0;b<=i;b\+\+\) showBeat\(b\);/,'a phone that rejoins shows every beat up to the current one');
+  assert.match(script,/const LAST_BEAT = 3;/);assert.match(script,/const STAGE_POINTS = \[4,3,2,1\];/);
+  const showBeat=one(/function showBeat\(b, staged\)\{[\s\S]*?\n\}/,'showBeat');
+  assert.match(showBeat,/const stat = statEl\(S\.round\.statOrder\[b\]\);/,'stage b adds the round\'s stat b');
+  assert.match(showBeat,/if\(b===0\) show\(\$\("pos"\),true\);\s*show\(stat,true\);/,'stage 1 is the position and the first stat');
+  assert.ok(!/show\(\$\("flag"\),true\)/.test(showBeat),'the flag is never a stage (Nik 2026-11-01: dropped)');
+  assert.match(script,/for\(let b=0;b<=i;b\+\+\) showBeat\(b, !jump && b===i\);/,'a phone that rejoins shows every stage up to the current one');
   assert.ok(!/Math\.random/.test(code),'the page never picks anything: the order comes with the round');
   assert.match(page,/<div class="tile nameplate nametile" id="name" data-shown="0"><div class="b">\? \? \?<\/div>/,'the name plate reads ? ? ? in play');
-  const result=one(/function showResult\(winner\)\{[\s\S]*?\n\}/,'showResult');
+  const result=one(/function showResult\(winner, points\)\{[\s\S]*?\n\}/,'showResult');
   assert.match(result,/show\(\$\("name"\),true\); show\(\$\("ovr"\),true\);/,'the name and overall show only on the result');
   assert.equal((script.match(/show\(\$\("name"\),true\)/g)||[]).length,1,'nothing else shows the name');
   assert.match(result,/S\.result = ROLES\.includes\(winner\) \? winner : "draw";/);
-  assert.match(result,/b\.textContent="Nobody got him"/);assert.match(result,/b\.textContent=`\$\{S\.names\[S\.result\]\} \+1 Showdown point`/);
-  assert.match(page,/\.banner \{[^}]*text-transform: uppercase;/,'shown as NIK +1 SHOWDOWN POINT / NOBODY GOT HIM');
-  ok('P4','a round is checked before it is drawn (six stats once each, 1-99, a name, a nation); beats are the position, the six stats in the round\'s order, then the flag; the name shows only on the result');
+  assert.match(result,/b\.textContent="Nobody got him"/);assert.match(result,/b\.textContent=`\$\{S\.names\[S\.result\]\} \+\$\{S\.points\} Showdown point\$\{S\.points===1\?"":"s"\}`/);
+  assert.match(result,/S\.points = S\.result==="draw" \? 0 : Math\.max\(1, Math\.min\(4,/,'the points come from the game (1 to 4)');
+  assert.match(result,/show\(\$\("flag"\),true\);/,'the whole card, flag included, shows on the result');
+  // Nik 2026-11-01: the flag is part of the full reveal only, after guessing has closed.
+  assert.equal((script.match(/show\(\$\("flag"\),true\)/g)||[]).length,1,'only the result shows the flag');
+  assert.match(result,/\$\("guessbar"\)\.hidden=true;/,'the result closes the guess bar: no guessing during the full reveal');
+  assert.match(page,/\.banner \{[^}]*text-transform: uppercase;/,'shown as NIK +3 SHOWDOWN POINTS / NOBODY GOT HIM');
+  ok('P4','a round is checked before it is drawn (six stats once each, 1-99, a name, a nation); four stages: the position and the round\'s first stat, then one more stat each; the result shows the whole card with the points won');
 }
 
 // P5 the overall switch (Nik, 31 Oct 2026: hidden until the end) and the timing limits

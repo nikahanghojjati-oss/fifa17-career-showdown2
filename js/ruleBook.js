@@ -140,8 +140,9 @@ function createScoringRuleSection(){
         ["Main domestic cup winner", "+1"],
         ["100 league points or 100 league goals", "+1 MAX"],
         ["League top scorer or top assist", "+1 MAX"],
-        // r88 Prime Pack (Nik 2026-10-31): once a season, before the transfer window, in Showdowns started on R88 or later.
-        ["Prime Pack: first to name the masked Icon", "+1"]
+        // Prime Pack (Nik 2026-11-01): once a season, before the transfer window, in Showdowns that play it. The first right
+        // name scores 4 with one stat showing, 3 with two, 2 with three, 1 with four.
+        ["Prime Pack: first to name the masked Icon (4, 3, 2 or 1 by stage)", "+4 MAX"]
     ].forEach(([label, value]) => {
         const row = document.createElement("div");
         const labelElement = document.createElement("span");
@@ -155,7 +156,7 @@ function createScoringRuleSection(){
 
     const maximum = document.createElement("div");
     maximum.className = "ruleScoreMaximum";
-    maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>12</strong>";
+    maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>15</strong>";
 
     // r80 Europa League (owner rules, 2026-10-19). r86 (Nik 2026-10-29): the lines FIFA 17 already enforces (no CL and EL
     // in one season, the 3rd-place drop, EL by league position, only winning scores, best season 11/9) stay in the scoring
@@ -176,7 +177,8 @@ function createScoringRuleSection(){
     const goldenLabel = document.createElement("strong");
     goldenLabel.textContent = "GOLDEN SHOWDOWN";
     const goldenText = document.createElement("span");
-    goldenText.textContent = "Score 110 points in a 10-season Showdown (11 in every season) to win the gold trophy.";
+    // r87 Prime Pack (G Lead and Nik 2026-11-01): 15 a season with Prime Pack, so 150; older Showdowns keep 110.
+    goldenText.textContent = "Score 150 points in a 10-season Showdown (15 in every season) to win the gold trophy. A Showdown started before Prime Pack needs 110.";
     golden.append(goldenLabel, goldenText);
 
     // r86 Special Player (Nik 2026-10-29): the SP chip's own rule line, in the Golden Showdown's style. The live Showdown's
@@ -197,7 +199,17 @@ function createScoringRuleSection(){
     specialLive.hidden = true;
     special.append(specialLabel, specialText, specialLive);
 
-    article.append(header, scoring, maximum, golden, special, notes);
+    // r87 Prime Pack (Nik 2026-11-01): its own line in the same style. The values shown are the Icon's real card stats from the
+    // list; only which of the six shows at each stage is random (each once). The flag comes only with the full reveal.
+    const primePack = document.createElement("p");
+    primePack.className = "ruleGoldenShowdown rulePrimePack";
+    const primePackLabel = document.createElement("strong");
+    primePackLabel.textContent = "PRIME PACK";
+    const primePackText = document.createElement("span");
+    primePackText.textContent = "A masked Icon shows his position and one real card stat, then one more real stat each stage. Which stats show is random; the values never are. Name him first for 4, 3, 2 or 1 points. Guessing ends after stage 4, then the whole card and flag are revealed.";
+    primePack.append(primePackLabel, primePackText);
+
+    article.append(header, scoring, maximum, golden, special, primePack, notes);
     return article;
 }
 

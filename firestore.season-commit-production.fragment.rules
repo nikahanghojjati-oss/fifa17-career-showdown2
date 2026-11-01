@@ -38,7 +38,7 @@
         && value.topScorer is bool
         && value.topAssist is bool
         && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))
-        && (!('primePack' in value) || value.primePack == true);
+        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));
     }
     function ssjrCommitExactKeys(root) {
       return root.keys().hasOnly([
