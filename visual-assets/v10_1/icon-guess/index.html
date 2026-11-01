@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Prime Pack</title>
 <!--
-  R88 Prime Pack: STAND-IN page (workstream C). Team V's final card art replaces the card face later; the hooks stay.
+  R87 Prime Pack page (HO-051, Team V skin on Team G's workstream C page). Art: Nik's GPT set (sealed pack, opening pack,
+  black marble Prime card frame, full/spent guess tokens, desktop and phone stage plates) in ./assets as webp. The hooks,
+  ids and messages are Team G's and unchanged; the skin only places and dresses them.
   Spec: project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md · Look: R88_ICON_CARD_TEAM_V_BRIEF.md.
   The page never picks a player and never decides whether a guess is right. The game sends the round and the beats;
   the page shows them and sends typed text out. Wrong guesses are only ever shown on the phone that made them.
@@ -15,93 +17,100 @@
 @font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
 :root {
-  --ink: #07080a; --text: #f4f1ea; --text-2: #c9c0ab;
-  --pearl-1: #fffdf6; --pearl-2: #f4ecd9; --pearl-3: #e6d7b5; --pearl-ink: #2a2110; --pearl-ink-2: #6b5a35;
+  --ink: #07080a; --text: #f4f1ea; --text-2: #d6c9a6;
   --foil-1: #fff6d2; --foil-2: #f1cf7a; --foil-3: #c4932f; --foil-4: #7d5a17;
-  --daniel: #2c7399; --nik: #f0d900;
+  --slot-ink: #fff1c9; --slot-label: #e2bf6a;
+  --daniel: #8fc6e4; --nik: #f0d900;
   --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow Condensed", system-ui, sans-serif; /* only the two condensed weights: r87 already serves them to framed pages offline */
   --flip: 700ms; --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: dark;
 }
 html.rm { --flip: 220ms; }
 html, body { height: 100%; margin: 0; }
-body { background: radial-gradient(120% 70% at 50% 18%, #2a2416 0%, #12100b 46%, var(--ink) 100%); color: var(--text); font-family: var(--body);
+body { background: #050403; color: var(--text); font-family: var(--body);
   overflow: hidden; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
-/* #app follows the visual viewport, so with the iPhone keyboard open everything sits above it (nothing behind the keyboard) */
-#app { position: fixed; left: 0; right: 0; top: 0; height: 100%; display: flex; flex-direction: column;
-  padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px calc(env(safe-area-inset-bottom, 0px) + 10px); box-sizing: border-box; gap: 8px; }
-html.kb #app { padding-bottom: 8px; }
+/* #app follows the visual viewport, so with the iPhone keyboard open everything sits above it (nothing behind the keyboard).
+   layoutStage() measures it and sets the stage numbers below; every part is placed from them, so nothing overlaps at any size. */
+#app { position: fixed; left: 0; right: 0; top: 0; height: 100%; overflow: hidden;
+  --st-l: 0px; --st-t: 0px; --st-w: 100vw; --st-h: 100vh; --ped: 60vh; --card-w: 200px; --card-h: 300px; --floor: 66vh; --top: 88px; --box-w: 300px; --box-y: 40vh; }
 
-/* ---------- managers and their two guess chips (both visible on both phones) ---------- */
-.managers { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex: none; }
-.mgr { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.mgr[data-role="playerTwo"] { flex-direction: row-reverse; }
-.mgr .who { font: 700 18px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
-.mgr[data-role="playerOne"] .who { color: #8fc6e4; }
-.mgr[data-role="playerTwo"] .who { color: var(--nik); }
-.mgr .you { font: 700 10px/1 var(--cond); letter-spacing: .14em; color: var(--ink); background: var(--foil-2); padding: 3px 5px 2px; border-radius: 2px; }
-.mgr:not([data-me="1"]) .you { display: none; }
-.chips { display: flex; gap: 5px; }
-.chip { width: 18px; height: 18px; border-radius: 50%; box-sizing: border-box; transition: opacity 300ms, transform 300ms var(--ease);
-  background: radial-gradient(circle at 35% 30%, var(--foil-1), var(--foil-2) 45%, var(--foil-3) 80%); box-shadow: 0 0 0 1.5px var(--foil-4), 0 2px 4px rgba(0,0,0,.5); }
-.chip.used { opacity: .28; transform: scale(.82); background: transparent; box-shadow: inset 0 0 0 2px var(--foil-3); }
-.vs { font: 700 13px/1 var(--cond); letter-spacing: .2em; color: var(--text-2); }
+/* ---------- Nik's stage art: marble hall, pedestal, gold arcs (desktop plate wide, phone plate tall) ---------- */
+.stage { position: absolute; left: var(--st-l); top: var(--st-t); width: var(--st-w); height: var(--st-h); z-index: 0; pointer-events: none;
+  background: #050403 url("assets/stage_desktop.webp") center / 100% 100% no-repeat; }
+#app[data-shape="tall"] .stage { background-image: url("assets/stage_phone.webp"); }
 
-/* ---------- status line: which beat, and the guess-window countdown ---------- */
-.status { flex: none; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 34px; }
-.beat { font: 700 15px/1 var(--cond); letter-spacing: .16em; text-transform: uppercase; color: var(--foil-1); }
+/* ---------- top: PRIME PACK, the stage and its timer, then the result line ---------- */
+.top { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 6px); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.packtitle { margin: 0; text-align: center; font: 700 clamp(22px, 3.2vh, 38px)/1 var(--cond); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase;
+  background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 32%, #f2c35a 52%, #a8731f 56%, #f3cf73 76%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 #1d1404); }
+.status { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; }
+.beat { font: 700 18px/1 var(--cond); letter-spacing: .16em; text-transform: uppercase; color: var(--foil-1); text-shadow: 0 2px 6px #000; }
 .beat.last { color: #ffd77a; }
-.ring { width: 34px; height: 34px; position: relative; flex: none; }
+.ring { width: 46px; height: 46px; position: relative; flex: none; border-radius: 50%; background: radial-gradient(circle, #1a150c 0 60%, #0c0a06 61%); box-shadow: 0 0 0 1.5px var(--foil-4), 0 4px 10px rgba(0,0,0,.6); }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .ring circle { fill: none; stroke-width: 3.5; }
-.ring .track { stroke: rgba(255,240,200,.18); }
+.ring .track { stroke: rgba(255,240,200,.16); }
 .ring .left { stroke: var(--foil-2); stroke-linecap: round; }
 .ring.low .left { stroke: #ff9a6a; }
-.ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 14px/1 var(--cond); color: var(--text); }
+.ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 20px/1 var(--cond); color: var(--foil-1); }
 .ring[hidden] { display: none; }
-.pill { font: 700 15px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 7px 12px 6px; border-radius: 999px;
-  background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); }
+.pill { font: 700 16px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 8px 14px 7px; border-radius: 999px;
+  background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); box-shadow: 0 3px 10px rgba(0,0,0,.55); }
+.source { text-align: center; font: 600 13px/1.2 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--foil-2); min-height: 16px; text-shadow: 0 2px 4px #000; }
+.source:empty { display: none; }
 
-/* ---------- the card (stand-in white marble with gold veins and a gold foil edge; Team V replaces the face) ---------- */
-.stagewrap { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; position: relative; container-type: size; }
-.card { width: min(100cqw, 100cqh * 5 / 7, 380px); aspect-ratio: 5 / 7; position: relative; container-type: size; }
-.card .foil, .card .face { position: absolute; inset: 0; clip-path: polygon(50% 0, 88% 3.5%, 100% 11%, 100% 89%, 88% 96.5%, 50% 100%, 12% 96.5%, 0 89%, 0 11%, 12% 3.5%); }
-.card .foil { background: linear-gradient(135deg, var(--foil-1) 0%, var(--foil-2) 22%, var(--foil-4) 38%, var(--foil-2) 52%, var(--foil-1) 64%, var(--foil-3) 82%, var(--foil-1) 100%);
-  filter: drop-shadow(0 10px 22px rgba(0,0,0,.55)); }
-.card .face { inset: 2.2cqw; background:
-  radial-gradient(90% 55% at 70% 30%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 60%),
-  linear-gradient(32deg, rgba(255,255,255,0) 44%, rgba(150,136,112,.12) 46%, rgba(255,255,255,0) 48.5%),
-  linear-gradient(151deg, rgba(255,255,255,0) 60%, rgba(196,147,47,.18) 61.6%, rgba(255,255,255,0) 63.4%),
-  linear-gradient(74deg, rgba(255,255,255,0) 70%, rgba(150,136,112,.08) 71.5%, rgba(255,255,255,0) 73%),
-  repeating-linear-gradient(118deg, rgba(196,147,47,.06) 0 2px, rgba(255,255,255,0) 2px 9px),
-  linear-gradient(170deg, var(--pearl-1) 0%, var(--pearl-2) 46%, var(--pearl-3) 100%); overflow: hidden; }
-.card .face::after { content: ""; position: absolute; inset: -40% -60%; background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,247,214,.55) 50%, rgba(255,255,255,0) 60%);
-  transform: translateX(-60%); animation: sheen 6s var(--ease) infinite 1.2s; pointer-events: none; }
-@keyframes sheen { 0%, 70% { transform: translateX(-60%); } 100% { transform: translateX(60%); } }
-.inner-line { position: absolute; inset: 1.4cqw; pointer-events: none; }
-.inner-line svg { width: 100%; height: 100%; display: block; overflow: visible; }
-.inner-line polygon { fill: none; stroke: rgba(196,147,47,.6); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+/* ---------- result line (no dimming layer: it takes the timer's place, never over the card or buttons) ---------- */
+.banner { text-align: center; font: 700 clamp(24px, 4.4vh, 44px)/1 var(--cond); letter-spacing: .06em; text-transform: uppercase;
+  background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 30%, #f2c35a 50%, #a8731f 54%, #f3cf73 74%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 #2a1c05); animation: pop 600ms var(--ease) both; }
+.banner.draw { background: none; color: var(--text); filter: none; text-shadow: 0 2px 6px #000; }
+html.rm .banner { animation: fade 220ms linear both; }
+@keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+[hidden] { display: none !important; }
 
-.side { position: absolute; left: 9cqw; top: 11cqh; width: 20cqw; display: flex; flex-direction: column; align-items: center; gap: 1.6cqh; z-index: 2; }
-.ovr { font: 700 17cqw/0.85 var(--cond); color: var(--pearl-ink); letter-spacing: -.02em; }
-.pos { font: 700 8.5cqw/1 var(--cond); color: var(--pearl-ink); letter-spacing: .04em; }
-.side .rule { width: 70%; height: .5cqw; background: linear-gradient(90deg, rgba(196,147,47,0), var(--foil-3), rgba(196,147,47,0)); }
-.flagtile canvas { width: 100%; height: 100%; display: block; box-shadow: 0 0 0 .4cqw rgba(125,90,23,.55); }
+/* ---------- the pack on the pedestal: sealed, then it bursts open and the card rises out (no flip, no flash) ---------- */
+.pack { position: absolute; z-index: 1; pointer-events: none; height: calc(var(--card-h) * 1.02); aspect-ratio: 1024 / 1420;
+  left: 50%; top: calc(var(--ped) - var(--card-h) * 1.02); transform: translateX(-50%); }
+.pack i { position: absolute; inset: 0; background: center / 100% 100% no-repeat; transition: opacity 260ms linear; }
+.pack .sealed { background-image: url("assets/pack_sealed.webp"); }
+.pack .opened { background-image: url("assets/pack_opening.webp"); opacity: 0; }
+.pack .packword { position: absolute; left: 12%; right: 10%; top: 31%; display: flex; flex-direction: column; align-items: center; gap: .02em;
+  font: 700 calc(var(--card-h) * .105)/.92 var(--cond); letter-spacing: .14em; padding-left: .14em; text-transform: uppercase;
+  background: linear-gradient(180deg, #fffdf2 0%, #ffe9a0 35%, #e0ad45 55%, #9a6a1c 60%, #f0cc70 80%, #fff1c0 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 #120c02); transition: opacity 260ms linear; }
+.pack .packword span:last-child { font-size: .78em; letter-spacing: .34em; padding-left: .34em; }
+#app[data-pack="open"] .pack .sealed, #app[data-pack="rise"] .pack .sealed { opacity: 0; }
+#app[data-pack="open"] .pack .opened { opacity: 1; }
+#app[data-pack="open"] .pack { animation: burst 450ms var(--ease) both; }
+#app[data-pack="rise"] .pack { animation: sink 700ms var(--ease) both; }
+#app[data-pack="gone"] .pack { display: none; }
+@keyframes burst { 0% { transform: translateX(-50%) scale(1); } 45% { transform: translateX(-50%) scale(1.045); } 100% { transform: translateX(-50%) scale(1.02); } }
+@keyframes sink { from { transform: translateX(-50%) scale(1.02); opacity: 1; } to { transform: translateX(-50%) translateY(6%) scale(.94); opacity: 0; } }
 
-.portrait { position: absolute; right: 4cqw; top: 6cqh; width: 66cqw; height: 50cqh; z-index: 1;
-  -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, #000 72%, transparent 100%); }
-.portrait svg { width: 100%; height: 100%; display: block; }
-.iconword { position: absolute; right: 9cqw; top: 9.5cqh; z-index: 2; font: 700 4.6cqw/1 var(--cond); letter-spacing: .42em; color: var(--foil-4);
-  padding-left: .42em; border-top: .35cqw solid var(--foil-3); border-bottom: .35cqw solid var(--foil-3); padding-block: .5cqw .35cqw; }
+/* ---------- the card: Nik's black marble Prime frame, standing on the pedestal ---------- */
+.card { position: absolute; z-index: 2; width: var(--card-w); height: var(--card-h); left: calc(50% - var(--card-w) / 2); top: calc(var(--ped) - var(--card-h)); container-type: size; }
+#app[data-pack="sealed"] .card, #app[data-pack="open"] .card { visibility: hidden; }
+#app[data-pack="rise"] .card { animation: rise 900ms var(--ease) both; }
+@keyframes rise { 0% { transform: translateY(18%) scale(.62); opacity: 0; } 35% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+/* stage 1's flips wait for the card to finish rising, so the whole reveal stays inside the game's 1.5 s reveal beat */
+#app[data-pack="open"] .tile .b, #app[data-pack="open"] .tile .f { transition-delay: 1050ms; }
+.card .foil { display: none; }
+.card .face { position: absolute; inset: 0; background: url("assets/card_frame.webp") center / 100% 100% no-repeat; overflow: hidden;
+  filter: drop-shadow(0 14px 26px rgba(0,0,0,.6)); }
+.card .face::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,240,196,.22) 50%, rgba(255,255,255,0) 60%) 0 0 / 300% 100% no-repeat;
+  -webkit-mask: url("assets/card_frame.webp") center / 100% 100% no-repeat; mask: url("assets/card_frame.webp") center / 100% 100% no-repeat;
+  animation: sheen 6s var(--ease) infinite 1.2s; }
+@keyframes sheen { 0%, 70% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+.inner-line, .portrait, .iconword, .side .rule, .underline, .stats .divider { display: none; }
 
-.tile.nameplate { position: absolute; left: 8cqw; right: 8cqw; top: 57cqh; text-align: center; z-index: 2;
-  font: 700 9.5cqw/1.05 var(--cond); letter-spacing: .06em; text-transform: uppercase; color: var(--pearl-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.underline { position: absolute; left: 14cqw; right: 14cqw; top: 66.4cqh; height: .5cqw; background: linear-gradient(90deg, rgba(196,147,47,0), var(--foil-3) 20%, var(--foil-3) 80%, rgba(196,147,47,0)); }
-
-.stats { position: absolute; left: 12cqw; right: 12cqw; top: 69.5cqh; display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(3, 7.2cqh); column-gap: 7cqw; row-gap: .8cqh; z-index: 2; }
-.stats .divider { position: absolute; left: 50%; top: 4%; bottom: 4%; width: .4cqw; background: linear-gradient(180deg, rgba(196,147,47,0), var(--foil-3), rgba(196,147,47,0)); }
-/* a slot (and the overall, flag and name) is a two-sided tile: back = hidden "??", front = the value */
+/* slots measured on Nik's frame (03_prime_card_frame, 1024x1536): shield = overall, plate under it = position,
+   six stat plates in two columns, small plate at the foot = flag; the name sits on the gold line above the stats */
+.side { position: absolute; inset: 0; z-index: 2; }
 .tile { position: relative; perspective: 60cqw; }
+.side .tile, .nameplate { position: absolute; }
 .tile .b, .tile .f { position: absolute; inset: 0; display: flex; align-items: center; backface-visibility: hidden; -webkit-backface-visibility: hidden;
   transition: transform var(--flip) var(--ease), opacity var(--flip) linear; }
 .tile .f { transform: rotateY(180deg); }
@@ -111,107 +120,172 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 html.rm .tile .f { opacity: 0; }
 html.rm .tile[data-shown="1"] .b { opacity: 0; }
 html.rm .tile[data-shown="1"] .f { opacity: 1; }
-.stat .b, .stat .f { gap: 2.4cqw; font: 700 7.4cqw/1 var(--cond); color: var(--pearl-ink); }
-.stat .b { justify-content: flex-start; }
-.stat .b i { font-style: normal; width: 11cqw; text-align: center; border-radius: .9cqw; padding: .6cqw 0 .3cqw; color: var(--foil-1);
-  background: linear-gradient(180deg, #b48a32, #7d5a17); box-shadow: inset 0 .3cqw 0 rgba(255,246,210,.45); letter-spacing: .06em; }
-.stat .b span, .stat .f span { color: var(--pearl-ink-2); font-size: 6.2cqw; letter-spacing: .05em; }
-.stat .f em { font-style: normal; width: 11cqw; text-align: center; }
-.stat.fresh .f em { color: #8a5d00; text-shadow: 0 0 2.4cqw rgba(241,207,122,.95); }
 .big .b, .big .f { justify-content: center; }
-.ovrtile { width: 20cqw; height: 15cqw; }
-.ovrtile .b { font: 700 13cqw/1 var(--cond); color: var(--foil-3); }
-.postile { width: 20cqw; height: 8.5cqw; }
-.flagtile { width: 15cqw; height: 10cqw; }
-.flagtile .b { justify-content: center; border-radius: .6cqw; background: linear-gradient(180deg, #b48a32, #7d5a17); color: var(--foil-1); font: 700 6cqw/1 var(--cond); }
-.nametile { height: 11cqw; }
-.nametile .b, .nametile .f { justify-content: center; }
-.nametile .b { color: var(--foil-3); letter-spacing: .5em; padding-left: .5em; }
-.flagtile.fresh .f canvas { box-shadow: 0 0 0 .4cqw rgba(125,90,23,.55), 0 0 4cqw rgba(241,207,122,.95); }
+.ovrtile { left: 13.9cqw; top: 13.7cqh; width: 21.5cqw; height: 13.4cqh; }
+.ovrtile .b, .ovr { font: 700 15cqw/1 var(--cond); letter-spacing: -.01em; }
+.ovrtile .b { color: var(--foil-3); }
+.ovr { color: var(--slot-ink); text-shadow: 0 0 2.4cqw rgba(241,207,122,.55); }
+.postile { left: 14.3cqw; top: 32.2cqh; width: 20.3cqw; height: 6.1cqh; }
+.postile .b, .pos { font: 700 7.4cqw/1 var(--cond); letter-spacing: .06em; }
+.postile .b { color: var(--foil-3); }
+.pos { color: var(--slot-ink); }
+.flagtile { left: 42.2cqw; top: 84.5cqh; width: 16.8cqw; height: 6.6cqh; }
+.flagtile .b { justify-content: center; color: var(--foil-3); font: 700 6.4cqw/1 var(--cond); }
+.flagtile .f { justify-content: center; }
+.flagtile canvas { width: 76%; height: 70%; display: block; border-radius: .5cqw; box-shadow: 0 0 0 .4cqw rgba(196,147,47,.7); }
+.flagtile.fresh .f canvas { box-shadow: 0 0 0 .4cqw rgba(196,147,47,.7), 0 0 4cqw rgba(241,207,122,.95); }
+/* HO-051 addendum A (Nik): the frame has no name slot, so the plate is built here in the frame's gold-rim style: one wide
+   plate (70% of the card) centred on the gold line under the silhouette. Empty and dark while guessing (never a hint);
+   the name fades in (no flip) when guessing ends, and a long name shrinks to one line (fitName), never cut off. */
+.nameplate, #prime-card-name { left: 15cqw; right: 15cqw; top: 55.3cqh; height: 6cqh; text-align: center; z-index: 2; border-radius: 1.3cqw; box-sizing: border-box;
+  background: linear-gradient(180deg, #1a150d 0%, #0b0906 100%);
+  box-shadow: inset 0 0 0 .55cqw #c99a3c, inset 0 0 0 .95cqw #3a2a0e, inset 0 0 0 1.25cqw rgba(241,207,122,.45), 0 .6cqw 1.6cqw rgba(0,0,0,.6);
+  font: 700 7.6cqw/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; color: var(--slot-ink); white-space: nowrap; }
+.nametile .b { visibility: hidden; }
+.nametile .b, .nametile .f { justify-content: center; overflow: hidden; transform: none !important; }
+.nametile .f { left: 3cqw; right: 3cqw; opacity: 0; transition: opacity 650ms linear; text-shadow: 0 0 2cqw rgba(241,207,122,.45); }
+.nametile[data-shown="1"] .f { opacity: 1; }
+.stats { position: absolute; left: 16cqw; right: 15.2cqw; top: 61.85cqh; display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column;
+  grid-template-rows: repeat(3, 5.86cqh); column-gap: 11.7cqw; row-gap: 1.43cqh; z-index: 2; }
+.stat .b, .stat .f { justify-content: center; gap: 3cqw; font: 700 6.6cqw/1 var(--cond); }
+.stat .b i { font-style: normal; color: var(--foil-3); letter-spacing: .06em; width: 8cqw; text-align: right; }
+.stat .b span, .stat .f span { color: var(--slot-label); font-size: 5.4cqw; letter-spacing: .08em; width: 9cqw; }
+.stat .f em { font-style: normal; color: var(--slot-ink); width: 8cqw; text-align: right; }
+.stat.fresh .f em { color: #ffe08a; text-shadow: 0 0 2.4cqw rgba(241,207,122,.95); }
 
-.packtitle { flex: none; margin: 0; text-align: center; font: 700 14px/1.2 var(--cond); letter-spacing: .32em; text-transform: uppercase; color: var(--foil-1); }
-.source { flex: none; text-align: center; font: 600 13px/1.2 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--foil-1); min-height: 16px; }
+/* ---------- the two boxes: Daniel's (left) and Nik's (right), each with his two guess tokens ---------- */
+.managers { position: absolute; z-index: 3; }
+#app[data-shape="wide"] .managers { inset: 0; pointer-events: none; }
+#app[data-shape="tall"] .managers { left: 10px; right: 10px; top: calc(var(--floor) + 6px); display: flex; gap: 10px; }
+.vs { display: none; }
+.mgr { pointer-events: auto; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 8px; border-radius: 6px; min-width: 0;
+  background:
+    linear-gradient(32deg, rgba(255,255,255,0) 46%, rgba(196,147,47,.16) 47.5%, rgba(255,255,255,0) 49%),
+    linear-gradient(151deg, rgba(255,255,255,0) 62%, rgba(230,196,120,.10) 63.2%, rgba(255,255,255,0) 64.6%),
+    linear-gradient(180deg, #1c170e 0%, #0e0c08 100%);
+  box-shadow: inset 0 0 0 1.5px var(--foil-3), inset 0 0 0 4px #0e0c08, inset 0 0 0 5px rgba(241,207,122,.35), 0 10px 26px rgba(0,0,0,.6); }
+#app[data-shape="tall"] .mgr { flex: 1 1 0; }
+#app[data-shape="wide"] .mgr { position: absolute; width: var(--box-w); top: var(--box-y); }
+#app[data-shape="wide"] .mgr[data-role="playerOne"] { left: calc(50% - var(--card-w) / 2 - 32px - var(--box-w)); }
+#app[data-shape="wide"] .mgr[data-role="playerTwo"] { left: calc(50% + var(--card-w) / 2 + 32px); }
+.head { display: flex; align-items: center; gap: 8px; min-height: 30px; }
+.mgr[data-role="playerTwo"] .head { flex-direction: row-reverse; }
+.mgr .who { font: 700 20px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.mgr[data-role="playerOne"] .who { color: var(--daniel); }
+.mgr[data-role="playerTwo"] .who { color: var(--nik); }
+.mgr .you { font: 700 11px/1 var(--cond); letter-spacing: .14em; color: var(--ink); background: var(--foil-2); padding: 3px 5px 2px; border-radius: 2px; flex: none; }
+.mgr:not([data-me="1"]) .you { display: none; }
+.chips { display: flex; gap: 6px; margin-inline-start: auto; flex: none; }
+.mgr[data-role="playerTwo"] .chips { margin-inline-start: 0; margin-inline-end: auto; }
+.chip { width: 30px; height: 30px; display: block; transition: transform 300ms var(--ease);
+  background: url("assets/token_full.webp") center / contain no-repeat; filter: drop-shadow(0 2px 3px rgba(0,0,0,.6)); }
+.chip.used { background-image: url("assets/token_spent.webp"); transform: scale(.9); }
+.slot { min-height: 46px; position: relative; }
+.ghost { height: 46px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8px;
+  border-radius: 4px; border: 1.5px solid rgba(196,147,47,.55); background: #0b0906; font: 600 15px/1.05 var(--body); letter-spacing: .04em; color: var(--text-2); }
 
-/* ---------- result banner (no dimming layer: it sits in the status line's place, never over the card or buttons) ---------- */
-.banner { flex: none; text-align: center; font: 700 clamp(24px, 7.4vw, 40px)/1 var(--cond); letter-spacing: .06em; text-transform: uppercase;
-  background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 30%, #f2c35a 50%, #a8731f 54%, #f3cf73 74%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 2px 0 #2a1c05); animation: pop 600ms var(--ease) both; }
-.banner.draw { background: none; color: var(--text); filter: none; }
-html.rm .banner { animation: fade 220ms linear both; }
-@keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-[hidden] { display: none !important; }
-
-/* ---------- guess bar: suggestions open upwards, so the iPhone keyboard never hides them ---------- */
-.guessbar { flex: none; position: relative; }
-.row { display: flex; gap: 8px; }
-.row input { flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.6); background: #15130e; color: var(--text);
-  font: 600 20px/1 var(--body); letter-spacing: .02em; padding: 0 14px; outline: none; }
+/* ---------- guess bar (lives in this phone's own box): suggestions open upwards, so the iPhone keyboard never hides them ---------- */
+.guessbar { position: relative; }
+.row { display: flex; gap: 6px; }
+.row input { flex: 1; min-width: 0; height: 46px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.7); background: #0b0906; color: var(--text);
+  font: 600 18px/1 var(--body); letter-spacing: .02em; padding: 0 10px; outline: none; }
+.row input::placeholder { color: #a99a76; }
 .row input:focus { border-color: var(--foil-2); box-shadow: 0 0 0 3px rgba(241,207,122,.22); }
-.row input:disabled { opacity: .5; }
-.btn { height: 48px; padding: 0 20px; border: 0; border-radius: 4px; font: 700 18px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
-  background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); box-shadow: inset 0 1px 0 #fff; cursor: pointer; }
-.btn:disabled { background: #4a4232; color: #9c927b; box-shadow: none; cursor: default; }
+.row input:disabled { border-color: rgba(196,147,47,.45); color: #b3a580; }
+.btn { height: 46px; padding: 0 14px; border: 0; border-radius: 4px; font: 700 18px/1 var(--cond); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); flex: none;
+  background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); box-shadow: inset 0 1px 0 #fff, 0 3px 8px rgba(0,0,0,.5); cursor: pointer; }
+.btn:disabled { background: linear-gradient(180deg, #4d4430, #2f2919); color: #b3a580; box-shadow: inset 0 0 0 1px rgba(196,147,47,.5); cursor: default; }
 .suggest { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810;
-  border: 1px solid rgba(241,207,122,.45); box-shadow: 0 -8px 20px rgba(0,0,0,.45); max-height: 40vh; overflow: auto; }
-.suggest li { padding: 11px 10px; font: 600 19px/1.1 var(--body); letter-spacing: .02em; color: var(--text); border-radius: 3px; cursor: pointer; }
+  border: 1px solid rgba(241,207,122,.55); box-shadow: 0 -8px 20px rgba(0,0,0,.55); max-height: 40vh; overflow: auto; z-index: 5; }
+.suggest li { padding: 11px 10px; font: 600 18px/1.1 var(--body); letter-spacing: .02em; color: var(--text); border-radius: 3px; cursor: pointer; }
 .suggest li[aria-selected="true"], .suggest li:hover { background: rgba(241,207,122,.16); }
-.note { min-height: 18px; margin-top: 6px; font: 600 16px/1.15 var(--body); letter-spacing: .03em; text-align: center; color: var(--text-2); }
+.note { min-height: 18px; margin-top: 5px; font: 600 15px/1.15 var(--body); letter-spacing: .03em; text-align: center; color: var(--text-2); }
 .note.warn { color: #ffb48a; }
-.cta { width: 100%; }
+
+/* ---------- Continue: under the boxes on a phone, under the pedestal on a wide screen ---------- */
+.cta { position: absolute; z-index: 3; height: 50px; font-size: 20px; padding: 0 34px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+#app[data-shape="wide"] .cta { top: calc((var(--floor) + 100%) / 2 - 25px); }
+#app[data-shape="tall"] .cta { left: 10px; right: 10px; transform: none; top: calc(var(--floor) + 6px + var(--boxes-h, 76px) + 12px); }
+
+/* small screens */
+#app[data-shape="tall"] .mgr { padding: 8px 8px 7px; gap: 7px; }
+#app[data-shape="tall"] .mgr .who { font-size: min(18px, 4.5vw); letter-spacing: .05em; }
+#app[data-shape="tall"] .head { gap: 5px; }
+#app[data-shape="tall"] .chips { gap: 4px; }
+#app[data-shape="tall"] .chip { width: min(28px, 6.6vw); height: min(28px, 6.6vw); }
+#app[data-shape="tall"] .btn:not(.cta) { padding: 0 10px; font-size: 16px; }
+#app[data-shape="tall"] .row input { font-size: 16px; padding: 0 8px; }
+#app[data-shape="tall"] .ghost { font-size: 14px; }
+#app.short .packtitle { font-size: 18px; }
+#app.short .status { min-height: 40px; }
+#app.short .ring { width: 40px; height: 40px; }
+#app.short .banner { font-size: 24px; }
+#app[data-shape="tall"] .banner { font-size: min(7.2vw, 34px); white-space: nowrap; }
 
 /* the test clock freezes every CSS transition and animation, so a still is the end state of each beat */
 html.still *, html.still *::before, html.still *::after { transition: none !important; animation: none !important; }
 @media (prefers-reduced-motion: reduce) { .card .face::after { animation: none; } .chip { transition: none; } }
 html.rm .card .face::after { animation: none; }
+html.rm #app[data-pack="rise"] .card { animation: fade 220ms linear both; }
 </style>
 </head>
 <body>
-<div id="app">
+<div id="app" data-pack="sealed" data-shape="tall">
+  <div class="stage" id="stage" aria-hidden="true"></div>
+
+  <div class="top">
+    <h1 class="packtitle" id="packTitle">Prime Pack</h1>
+    <div class="status" id="status">
+      <span class="pill" id="waiting" hidden></span>
+      <span class="beat" id="beat"></span>
+      <span class="ring" id="ring" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="17"/><circle class="left" id="ringLeft" cx="20" cy="20" r="17" stroke-dasharray="106.8" stroke-dashoffset="0"/></svg><b id="ringNum"></b></span>
+    </div>
+    <div class="banner" id="banner" hidden></div>
+    <div class="source" id="source"></div>
+  </div>
+
+  <div class="pack" id="pack" aria-hidden="true"><i class="sealed"></i><i class="opened"></i><div class="packword"><span>Prime</span><span>Pack</span></div></div>
+
+  <div class="card" id="card" aria-label="Prime Pack card">
+    <div class="foil"></div>
+    <div class="face">
+      <div class="inner-line"></div>
+      <div class="portrait" id="portrait"></div>
+      <div class="iconword">PRIME</div>
+      <div class="side">
+        <div class="tile big ovrtile" id="ovr" data-shown="0"><div class="b">??</div><div class="f ovr" id="ovrValue"></div></div>
+        <div class="tile big postile" id="pos" data-shown="0"><div class="b pos">??</div><div class="f pos" id="posValue"></div></div>
+        <div class="rule"></div>
+        <div class="tile big flagtile" id="flag" data-shown="0"><div class="b">?</div><div class="f"><canvas id="flagCanvas" width="180" height="120"></canvas></div></div>
+      </div>
+      <div class="tile nameplate nametile" id="name" data-shown="0"><div class="b">? ? ?</div><div class="f" id="nameValue"></div></div>
+      <div class="underline"></div>
+      <div class="stats" id="stats"><div class="divider"></div></div>
+    </div>
+  </div>
+
   <div class="managers" id="managers">
-    <div class="mgr" data-role="playerOne"><span class="who" id="nameOne">Daniel</span><span class="you">YOU</span><span class="chips" id="chipsOne" data-role="playerOne" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
+    <div class="mgr" data-role="playerOne">
+      <div class="head"><span class="who" id="nameOne">Daniel</span><span class="you">YOU</span><span class="chips" id="chipsOne" data-role="playerOne" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
+      <div class="slot" id="slotOne"><div class="ghost" id="ghostOne">His guesses stay on his phone</div></div>
+    </div>
     <span class="vs">VS</span>
-    <div class="mgr" data-role="playerTwo"><span class="who" id="nameTwo">Nik</span><span class="you">YOU</span><span class="chips" id="chipsTwo" data-role="playerTwo" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
-  </div>
-
-  <div class="status" id="status">
-    <span class="pill" id="waiting" hidden></span>
-    <span class="beat" id="beat"></span>
-    <span class="ring" id="ring" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="17"/><circle class="left" id="ringLeft" cx="20" cy="20" r="17" stroke-dasharray="106.8" stroke-dashoffset="0"/></svg><b id="ringNum"></b></span>
-  </div>
-  <h1 class="packtitle" id="packTitle">Prime Pack</h1>
-  <div class="banner" id="banner" hidden></div>
-
-  <div class="stagewrap">
-    <div class="card" id="card" aria-label="Icon card">
-      <div class="foil"></div>
-      <div class="face">
-        <div class="inner-line"><svg viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden="true"><polygon points="50,0 88,4.9 100,15.4 100,124.6 88,135.1 50,140 12,135.1 0,124.6 0,15.4 12,4.9"/></svg></div>
-        <div class="portrait" id="portrait"></div>
-        <div class="iconword">ICON</div>
-        <div class="side">
-          <div class="tile big ovrtile" id="ovr" data-shown="0"><div class="b">??</div><div class="f ovr" id="ovrValue"></div></div>
-          <div class="tile big postile" id="pos" data-shown="0"><div class="b pos">??</div><div class="f pos" id="posValue"></div></div>
-          <div class="rule"></div>
-          <div class="tile big flagtile" id="flag" data-shown="0"><div class="b">?</div><div class="f"><canvas id="flagCanvas" width="180" height="120"></canvas></div></div>
+    <div class="mgr" data-role="playerTwo">
+      <div class="head"><span class="who" id="nameTwo">Nik</span><span class="you">YOU</span><span class="chips" id="chipsTwo" data-role="playerTwo" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
+      <div class="slot" id="slotTwo">
+        <div class="ghost" id="ghostTwo" hidden>His guesses stay on his phone</div>
+        <div class="guessbar" id="guessbar">
+          <ul class="suggest" id="suggest" role="listbox" hidden></ul>
+          <form class="row" id="form" autocomplete="off">
+            <input id="guess" name="guess" type="text" inputmode="text" enterkeyhint="send" autocapitalize="words" autocorrect="off" spellcheck="false" placeholder="Who is he?" aria-label="Your guess" aria-controls="suggest" disabled>
+            <button class="btn" id="go" type="submit" disabled>Guess</button>
+          </form>
+          <div class="note" id="note" aria-live="polite"></div>
         </div>
-        <div class="tile nameplate nametile" id="name" data-shown="0"><div class="b">? ? ?</div><div class="f" id="nameValue"></div></div>
-        <div class="underline"></div>
-        <div class="stats" id="stats"><div class="divider"></div></div>
       </div>
     </div>
   </div>
 
-  <div class="source" id="source"></div>
-
-  <div class="guessbar" id="guessbar">
-    <ul class="suggest" id="suggest" role="listbox" hidden></ul>
-    <form class="row" id="form" autocomplete="off">
-      <input id="guess" name="guess" type="text" inputmode="text" enterkeyhint="send" autocapitalize="words" autocorrect="off" spellcheck="false" placeholder="Who is he?" aria-label="Your guess" aria-controls="suggest" disabled>
-      <button class="btn" id="go" type="submit" disabled>Guess</button>
-    </form>
-    <div class="note" id="note" aria-live="polite"></div>
-  </div>
   <button class="btn cta" id="cta" type="button" hidden>Continue</button>
 </div>
 
@@ -352,13 +426,14 @@ function load(round){
   S.chips = { playerOne: CHIPS_PER_MANAGER, playerTwo: CHIPS_PER_MANAGER };
   $("nameOne").textContent=S.names.playerOne; $("nameTwo").textContent=S.names.playerTwo;
   document.querySelectorAll(".mgr").forEach(m=>{ m.dataset.me = m.dataset.role===S.me ? "1" : "0"; });
+  placeBar(); setPack("sealed");
   $("posValue").textContent=round.position; $("ovrValue").textContent=String(round.overall); $("nameValue").textContent=round.name;
   STAT_KEYS.forEach(k=>{ statEl(k).querySelector("em").textContent=String(round.stats[k]); show(statEl(k),false); });
   drawFlag($("flagCanvas"), round.nation);
   [$("pos"),$("flag"),$("name"),$("ovr")].forEach(el=>show(el,false)); fresh(null);
   $("ovr").hidden = false; $("source").textContent=""; $("banner").hidden=true; $("banner").className="banner"; $("cta").hidden=true; $("guessbar").hidden=false;
   $("guess").value=""; setSuggestions([]); note("");
-  render();
+  render(); layoutStage();
 }
 function setWaiting(role){ S.waitingFor = ROLES.includes(role) ? role : null; render(); }
 // reveal(index): flips every stage up to index (a phone that reloads rejoins at the current stage with no replayed animation
@@ -369,6 +444,7 @@ function reveal(index, opts){
   const i = Math.max(0, Math.min(LAST_BEAT, Math.floor(Number(index))));
   if(!Number.isFinite(i)) return;
   const jump = i > S.beat + 1;
+  openPack(!jump && S.beat<0 && i===0);
   if(jump) document.documentElement.classList.add("still");
   for(let b=0;b<=i;b++) showBeat(b, !jump && b===i);
   if(jump){ void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still"); }
@@ -418,6 +494,7 @@ function guessFeedback(kind){
 // record gives the winner (4 to 1 by stage); the page only shows it.
 function showResult(winner, points){
   if(!S.round || S.result) return;
+  setPack("gone");
   S.result = ROLES.includes(winner) ? winner : "draw"; S.closesAt=null; S.pending=false;
   S.points = S.result==="draw" ? 0 : Math.max(1, Math.min(4, Math.floor(Number(points)) || stagePoints(Math.max(0,S.beat))));
   document.documentElement.classList.add("still"); show($("pos"),true); STAT_KEYS.forEach(k=>show(statEl(k),true)); void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still");
@@ -426,10 +503,61 @@ function showResult(winner, points){
   if(S.result==="draw"){ b.textContent="Nobody got him"; b.classList.add("draw"); }
   else { b.textContent=`${S.names[S.result]} +${S.points} Showdown point${S.points===1?"":"s"}`; b.classList.remove("draw"); }
   b.dataset.winner=S.result;
-  $("source").textContent = S.round.source || "";
+  $("source").textContent = S.round.source || ""; fitName();
   $("guessbar").hidden=true; $("guess").blur(); setSuggestions([]);
   const cta=$("cta"); cta.hidden=false; cta.disabled=false; cta.textContent="Continue";
-  render();
+  render(); layoutStage();
+}
+
+/* ================= skin: the pack, this phone's box, and the stage layout (look only; nothing here decides anything) ================= */
+// The pack: sealed until stage 1, then it bursts open (Nik's opening art) and the card rises out of it, without a flip.
+// A phone that rejoins mid-round, the test clock and reduced motion skip straight to the card.
+const PACK_BURST_MS = 450, PACK_RISE_MS = 900;
+let packTimer = 0;
+function setPack(state){ clearTimeout(packTimer); $("app").dataset.pack = state; }
+function openPack(animated){
+  if($("app").dataset.pack==="gone") return;
+  if(!animated || frozen || REDUCED){ setPack(REDUCED && animated && !frozen ? "rise" : "gone"); if(REDUCED && animated && !frozen) packTimer=setTimeout(()=>setPack("gone"), 260); return; }
+  setPack("open");
+  packTimer = setTimeout(()=>{ $("app").dataset.pack="rise"; packTimer = setTimeout(()=>setPack("gone"), PACK_RISE_MS); }, PACK_BURST_MS);
+}
+// This phone types in its own box (Daniel's on the left, Nik's on the right); the other box shows his name and tokens only.
+function placeBar(){
+  const mine = S.me==="playerOne" ? "One" : "Two", other = mine==="One" ? "Two" : "One";
+  $("slot"+mine).appendChild($("guessbar")); $("ghost"+mine).hidden = true; $("ghost"+other).hidden = false;
+}
+// Stage layout: the stage plate covers the screen and the card stands on its pedestal. Wide screens use the desktop plate
+// with the two boxes inside the gold arcs, left and right of the card; tall screens use the phone plate with the boxes side
+// by side on the floor below the pedestal. Everything is placed from these numbers, so nothing covers anything at any size.
+const STAGE_ART = { wide:{ w:2560, h:1440, ped:.705, front:.05 }, tall:{ w:1179, h:2556, ped:.428, front:.036 } };
+function layoutStage(){
+  const app=$("app"), W=app.clientWidth||innerWidth, H=app.clientHeight||innerHeight;
+  const tall = W/H < 1.05, art = tall ? STAGE_ART.tall : STAGE_ART.wide, kb = document.documentElement.classList.contains("kb");
+  let s = Math.max(W/art.w, H/art.h), ped = (H-art.h*s)/2 + art.ped*art.h*s;
+  const boxesH = tall ? Math.ceil($("managers").getBoundingClientRect().height) || 76 : 0;
+  if(tall){
+    const floorNeed = boxesH + 6 + (S.result ? 74 : 12) + 8, want = Math.min(Math.max(ped, H*.6), H - floorNeed - art.front*art.h*s);
+    ped = Math.max(want, 140);
+    s = Math.max(W/art.w, ped/(art.ped*art.h), (H-ped)/((1-art.ped)*art.h));
+  }
+  const imgW=art.w*s, imgH=art.h*s, short = H < 520;
+  const top = tall ? (short ? 62 : 92) : Math.min(132, Math.max(76, H*.16));
+  let cardH = Math.max(90, ped - top - 4), cardW = cardH*2/3;
+  const gap = 32, maxW = tall ? W*.7 : Math.min(W*.3, W - 2*(190+gap+12)); if(cardW>maxW){ cardW=Math.max(80,maxW); cardH=cardW*1.5; }
+  const floor = ped + art.front*imgH, boxW = Math.max(150, Math.min(360, (W-cardW)/2 - gap - 12));
+  const v = { "--st-l":(W-imgW)/2, "--st-t":ped-art.ped*imgH, "--st-w":imgW, "--st-h":imgH, "--ped":ped, "--card-w":cardW, "--card-h":cardH,
+    "--floor":floor, "--top":top, "--box-w":boxW, "--box-y":Math.max(top+8, ped - cardH*.55 - 60), "--boxes-h":boxesH };
+  for(const k in v) app.style.setProperty(k, Math.round(v[k])+"px");
+  app.dataset.shape = tall ? "tall" : "wide"; app.classList.toggle("short", short || (!tall && H<480));
+}
+addEventListener("resize", layoutStage);
+// One line, never cut off: shrink the name's font until it fits the plate (in card units, so it holds at every size).
+const NAME_CQW = 7.6;
+function fitName(){
+  const el=$("nameValue"); el.style.fontSize="";
+  const range=document.createRange(); range.selectNodeContents(el);
+  const room=el.clientWidth, need=range.getBoundingClientRect().width * (el.offsetWidth ? el.offsetWidth/el.getBoundingClientRect().width : 1);
+  if(room>0 && need>room) el.style.fontSize=(NAME_CQW*room/need*.97).toFixed(2)+"cqw";
 }
 
 /* ================= the guess bar ================= */
@@ -462,8 +590,10 @@ function fitViewport(){
   const vv=window.visualViewport, app=$("app"); if(!vv) return;
   app.style.height=vv.height+"px"; app.style.top=vv.offsetTop+"px";
   document.documentElement.classList.toggle("kb", window.innerHeight - vv.height > 120);
+  layoutStage();
 }
-if(window.visualViewport){ visualViewport.addEventListener("resize",fitViewport); visualViewport.addEventListener("scroll",fitViewport); fitViewport(); }
+if(window.visualViewport){ visualViewport.addEventListener("resize",fitViewport); visualViewport.addEventListener("scroll",fitViewport); fitViewport(); } else layoutStage();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(layoutStage);
 
 /* ================= render (cheap; runs on every hook and every frame of an open window) ================= */
 const RING=106.8;

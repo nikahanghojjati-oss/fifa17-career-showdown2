@@ -121,16 +121,23 @@ const one=(re,label)=>{const m=re.exec(script);assert.ok(m,`${label} in the page
 // P7 light, offline and clean: no network, no photos, no EA assets
 {
   const files=fs.readdirSync(path.join(ROOT,DIR));
-  assert.deepEqual(files,['index.html'],'one file: no images (the card, the silhouette and the flags are drawn in code)');
+  assert.deepEqual(files,['assets','index.html'],'the page and its art folder only');
+  // HO-051 (Team V, 1 Nov 2026): Nik's Prime Pack art ships as seven local webp files; the flags stay drawn in code
+  const ART=['card_frame.webp','pack_opening.webp','pack_sealed.webp','stage_desktop.webp','stage_phone.webp','token_full.webp','token_spent.webp'];
+  assert.deepEqual(fs.readdirSync(path.join(ROOT,DIR,'assets')).sort(),ART,'exactly Nik\'s seven Prime Pack pictures');
+  const artBytes=ART.reduce((n,f)=>n+fs.statSync(path.join(ROOT,DIR,'assets',f)).size,0);
+  assert.ok(artBytes<1200*1024,`art stays light (${Math.round(artBytes/1024)} KB, well under the Special Player's 8.4 MB)`);
+  for(const f of ART)assert.ok(page.includes(`url("assets/${f}")`),`${f} is used by the page`);
   assert.ok(Buffer.byteLength(page)<80*1024,'well under the Special Player page');
   assert.ok(!/\b(fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|firebase|firestore)\b/i.test(code),'no network or Firebase');
   assert.ok(!/https?:\/\//.test(page.replace(/<!--[\s\S]*?-->/g,'')),'no outside URL (no CDN, no fonts service)');
-  assert.ok(!/<script[^>]+src=|<img|<link[^>]+stylesheet|\.(jpe?g|png|webp|gif)\b/i.test(page),'no external scripts, stylesheets or pictures');
-  for(const font of page.matchAll(/url\("([^"]+)"\)/g)){assert.match(font[1],/^\.\.\/shared\/fonts\/barlow-condensed-latin-(600|700)-normal\.woff2$/,`${font[1]}: only the two fonts r87 already serves to framed pages offline`);assert.ok(fs.existsSync(path.join(ROOT,DIR,font[1])),font[1]);}
+  assert.ok(!/<script[^>]+src=|<img|<link[^>]+stylesheet|\.(jpe?g|png|gif)\b/i.test(page),'no external scripts, stylesheets or other pictures');
+  for(const m of page.matchAll(/[\w./-]+\.webp\b/g))assert.match(m[0],/^assets\/[a-z_]+\.webp$/,`${m[0]}: pictures come only from ./assets`);
+  for(const font of page.matchAll(/url\("([^"]+\.woff2)"\)/g)){assert.match(font[1],/^\.\.\/shared\/fonts\/barlow-condensed-latin-(600|700)-normal\.woff2$/,`${font[1]}: only the two fonts r87 already serves to framed pages offline`);assert.ok(fs.existsSync(path.join(ROOT,DIR,font[1])),font[1]);}
   const visible=page.replace(/<script[\s\S]*?<\/script>/g,'').replace(/<style[\s\S]*?<\/style>/g,'').replace(/<!--[\s\S]*?-->/g,'').replace(/<[^>]+>/g,' ');
   assert.ok(!/\bEA\b|EA SPORTS|Ultimate Team|\bFUT\b/i.test(visible+script),'no EA names or marks');
   assert.match(script,/const SAMPLE = \{[^}]*\}[^}]*name:"Sample Icon"/,'the preview player is made up, so the page carries no real card data');
-  ok('P7','one light file with local fonts; no network, CDN, pictures, real faces, EA marks or real card data');
+  ok('P7','the page plus Nik\'s seven local webp pictures (under 1.2 MB) and local fonts; no network, CDN, outside pictures, real faces, EA marks or real card data');
 }
 
 console.log(`PASS r88 Prime Pack page contracts: ${checks} numbered checks (hooks, messages, never decides, beats, overall switch and timing, reduced motion, offline and clean).`);
