@@ -780,6 +780,24 @@
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader { margin-bottom:5px; padding-bottom:5px; }
 }
 
+/* r87 HO-050 (F6): sideways phones keep the 1731 layout (rail, six tabs, one card) but main is the only scroller again
+   (house rule): the stage and the card grow with the chosen section and main scrolls. The rail rides along: the title
+   block stays at the top of its column and BACK TO HOME sticks to the bottom of the view above the hub bar, so it is in
+   reach at every scroll position. */
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+  #app main:has(> #ruleBook.v10RuleBook:not(.hidden)) { overflow-y:auto; overflow-x:hidden; }
+  #app #ruleBook.v10RuleBook { height:auto; min-height:100dvh; overflow:visible; }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage { height:auto; min-height:calc(100svh - var(--sd-nav-bottom-space,48px)); overflow:visible; }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--ui { height:auto; min-height:100%; }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content {
+    height:auto; min-height:calc(100svh - var(--sd-nav-bottom-space,48px)); grid-template-rows:auto 1fr; overflow:visible;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero { position:sticky; top:0; }
+  #app #ruleBook.v10RuleBook .ruleBookActions { position:sticky; bottom:0; }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { height:auto; overflow:visible; align-self:start; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { height:auto; overflow:visible; overscroll-behavior:auto; }
+}
+
 /* RULEBOOK-PLATE-V2 (ticket 1610P): desktop Rule Book on Team V's marble-library plate
    (visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_*), with the cards, numbers and Back in the picture's
    gold-bevel and polished-gold finish (NEXT_RULE_BOOK). Strictly the desktop picture range: wide landscape windows of
