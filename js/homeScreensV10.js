@@ -161,8 +161,20 @@
     if(card&&root.HomeSoundtrack&&event&&event.detail&&event.detail.connectivityLabel!=="Offline")root.HomeSoundtrack.init(MEDIA);
   }
 
+  const HM_PHONE_QUOTA="(max-width: 760px) and (orientation: portrait)",HM_PHONE_QUOTA_LINE="Online limit used up today · back at 3 am Boston";
   function hmQuotaNotice(){
     const doc=hmDoc(),budget=root.CareerModeFirestoreBudget,message=budget?.quotaMessage?.(),home=doc?.getElementById("mainMenu");
+    // r87 (Nik's pick): on a portrait phone the floating note covered both faces, so the limit is one short line inside
+    // the Continue Career tile instead; every other size keeps the note.
+    const tile=doc?.getElementById("continueCareer"),phone=root.matchMedia?.(HM_PHONE_QUOTA)?.matches===true;
+    let line=tile?.querySelector?.(".menuTileQuota");
+    if(message&&phone&&tile&&root.getActiveScreenName?.()==="mainMenu"&&!home?.closest?.("[inert]")){
+      const notice=doc.getElementById("appRuntimeNotice");
+      if(notice&&(notice.dataset.homeQuota||notice.querySelector(".runtimeNoticeText")?.textContent===budget.quotaMessageText))notice.remove();
+      if(!line){line=doc.createElement("span");line.className="menuTileQuota";tile.append(line);}
+      line.textContent=HM_PHONE_QUOTA_LINE;return;
+    }
+    line?.remove();
     if(message&&root.getActiveScreenName?.()==="mainMenu"&&!home?.closest?.("[inert]")){
       root.showAppNotice?.(message,"error",0);
       const notice=doc?.getElementById("appRuntimeNotice");
@@ -207,6 +219,7 @@
     if(typeof root.addEventListener==="function")root.addEventListener("career-mode-offline-state-change",hmOnline);
     if(typeof root.addEventListener==="function")root.addEventListener("career-mode-firestore-quota",hmQuotaNotice);
     hmDoc()?.addEventListener("career-mode-screen-shown",hmQuotaNotice);
+    root.matchMedia?.(HM_PHONE_QUOTA)?.addEventListener?.("change",hmQuotaNotice);
     const app=hmDoc()?.getElementById("app");
     if(app&&root.MutationObserver)new root.MutationObserver(hmQuotaNotice).observe(app,{subtree:true,attributes:true,attributeFilter:["inert"]});
     registered=V.show("mainMenu").catch(error=>{root.console?.warn?.("[Career Mode Showdown] Team V Home unavailable.",error);return false;});

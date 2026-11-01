@@ -1,0 +1,23 @@
+PASS F6: all six tabs at 844x390
+PASS F6: all six tabs at 740x360
+AssertionError [ERR_ASSERTION]: Remaining portrait findings
++ actual - expected
+
++ [
++   'F4 768x1024: 773>768',
++   'F4 820x1180: 823>820',
++   'F4 844x390: 846>844',
++   'F4 740x360: 746>740'
++ ]
+- []
+
+    at /workspace/fifa17-career-showdown2/tests/contracts/r87-sizes-fixes-contracts.cjs:187:12
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:502:9) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}

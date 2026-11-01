@@ -5,7 +5,8 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 process.env.CMS_CHROMIUM_MULTI_CONTEXT="1";
 const base=process.env.CMS_BASE_URL||"http://127.0.0.1:4511/";
 const out=path.resolve(process.env.CMS_TEST_RESULTS||"test-results/free-limit-layout");
-const sizes=[[360,640],[375,553],[390,844],[393,852],[430,932],[740,360],[844,390],[768,1024],[1280,800],[1920,1080]];
+// r87: on a portrait phone the limit is a line inside Continue Career, not this note (tests/contracts/r87-error-screens-contracts.cjs E8).
+const sizes=[[740,360],[844,390],[768,1024],[1280,800],[1920,1080]];
 const TEXT="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
 fs.mkdirSync(out,{recursive:true});
 
@@ -144,7 +145,7 @@ async function inspect(page,screen){
       await context.close();
     }
     fs.writeFileSync(path.join(out,"audit.json"),JSON.stringify(report,null,2));
-    assert.equal(report.filter(r=>r.home.errors.length||r.connect.errors.length).length,0,"all ten sizes must keep the notice clear of controls and hidden on Connect Players");
-    console.log("PASS free-limit notice layout audit: 10 sizes, Home and Connect Players, unchanged grid rows and direct child rectangles, painted-layer control hit tests, reachable notice, return and resume.");
+    assert.equal(report.filter(r=>r.home.errors.length||r.connect.errors.length).length,0,"every note size must keep the notice clear of controls and hidden on Connect Players");
+    console.log("PASS free-limit notice layout audit: 5 note sizes, Home and Connect Players, unchanged grid rows and direct child rectangles, painted-layer control hit tests, reachable notice, return and resume.");
   }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

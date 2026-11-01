@@ -184,3 +184,10 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
   font: 600 13px/1.3 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .04em; color: #f6e3a8;
 }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] .pcstPillar[data-room="tightest"] .pcstFallbackNote { padding: 3px 8px; font-size: 12px; }
+/* r87 sizes F4: 96vw plus the overlay's two 18px gutters was wider than
+   tablets and sideways phones. Bound the existing centred shell by its grid
+   area (including its border), without relocating the dismiss/action buttons. */
+#sparkRemoteJoiningOverlay .remoteJoiningShell { max-width:calc(100vw - 36px); min-width:0; box-sizing:border-box; }
+@media (max-width:680px) {
+  #sparkRemoteJoiningOverlay .remoteJoiningShell { max-width:calc(100vw - 16px); }
+}
