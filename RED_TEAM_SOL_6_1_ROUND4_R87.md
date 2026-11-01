@@ -62,7 +62,7 @@ Between rounds, focused Sol squad jobs 1 to 5 and Codex red teams A to D ran on 
 
 1. `ssjrResultsPrerequisites` in the results fragment is never called; the app enforces the transfer-before-results order.
 2. Pair links and abandon (persistent pair) do not check account liveness. Partner create, update and inbox do.
-3. Deployed Rules = the **composed** file the deploy workflow builds (`tests/support/composed-production-rules.cjs`). r87 adds the reads-meter docs (#1097) and the roulette spins marks (#1101). r87 also adds the persisted roulette hit (#1147), the actor-authority signing lock and season gate (#1148) and, if merged at your candidate, the Prime Pack round record (#1149). Client pin `FSB_RULES_SHA256` at `gameplay/r87` `f4efa199c`: `670ab4e63790c65c2d42f78bfbc50354cb560861a47696a4a1bc048205c2c1ef`; Prime Pack changes it again. **Neither is deployed yet.** The release PR re-pins the Rules (owner's OK) and deploys Rules before the site.
+3. Deployed Rules = the **composed** file the deploy workflow builds (`tests/support/composed-production-rules.cjs`). r87 adds the reads-meter docs (#1097) and the roulette spins marks (#1101). r87 also adds the persisted roulette hit (#1147), the actor-authority signing lock and season gate (#1148) and, if merged at your candidate, the Prime Pack round record (#1149). Client pin `FSB_RULES_SHA256` at the candidate `9a9667fb5`: `4520bfdafe645a28ae742fec770ca00548f24a1b5e1480050cecda1ea82ab432`, Prime Pack included. **Neither is deployed yet.** The release PR re-pins the Rules (owner's OK) and deploys Rules before the site.
 4. The release PR sets the version to 2.0.0-r87 and sets `RRR_FROM_MS` (the roulette start time) to the release time. Until then, `service-worker.js` still says 1.9.10-r86. That is expected on the work branch.
 5. Safari/WebKit untested in automation; Chromium only. Nik's real-phone check covers iPhone.
 6. 39 legacy contracts outside CI fail as before; historical.
@@ -96,10 +96,10 @@ Claude answers every finding as **Accepted (fixed in PR #…)**, **Accepted (own
 
 This is the last review before Nik types "merge r87". It is the biggest release yet: 2.0.0, which ships only after 10 smooth seasons and Nik's real-phone check.
 
-**Time box (1 Nov, UTC):** code freeze 15:00, your report by **16:30**, "merge r87" at 17:00. Work through the focus list in order and send what you have by 16:30. Mark anything you could not reach as NOT CHECKED rather than guessing.
+**Time box:** the code is frozen; send your report within about 75 minutes of starting, before Nik types "merge r87". Work through the focus list in order and send what you have by 16:30. Mark anything you could not reach as NOT CHECKED rather than guessing.
 
 - **Main (live 1.9.10-r86):** `5b4337fdd64aaf1e2ed8de5abf6830021f29c82e`.
-- **Candidate:** `CANDIDATE_SHA` (the frozen head of `gameplay/r87`, or of the r87 release PR into `main` if it is open). Re-resolve it. If it moved, report SOURCE_DRIFT and review the newer head.
+- **Candidate:** `9a9667fb5805433801d7347843a0f4c5e597ef5e` (the frozen 2.0.0 head of `gameplay/r87`, Prime Pack included). Composed Rules SHA-256 at the candidate: `4520bfdafe645a28ae742fec770ca00548f24a1b5e1480050cecda1ea82ab432`. Re-resolve both. If it moved, report SOURCE_DRIFT and review the newer head.
 - Compare: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/compare/main...gameplay/r87
 - Earlier r87 red-team reports are on the candidate under `audit/r87/`: READS, CONNECTIVITY, CAREER_HISTORY, RR_SP, RR_SP_ROUND2, RULES_ESTIMATE, ARCH_AUDIT and LEAK_SOAK. Do not re-report their findings unless they are still present. Say which ones you re-checked.
 
