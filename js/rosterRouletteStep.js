@@ -42,12 +42,15 @@
   async function rrsLoad(key,path,ready){if(ready())return true;if(typeof root.loadRuntimeScript!=="function")return false;await root.loadRuntimeScript(key,path,ready);return Boolean(ready());}
   // The Special Player draw (data/marqueePlayers.js + js/marqueePlayer.js), also wanted by the Transfer War signing form
   // (R87-SP-02) when this season's roulette is already done on this browser (Fable F2-06).
+  // Fable F6-05: the load wait counts only time the page is on screen (rrsVisibleWait), so a phone locked on a cold cache
+  // does not come back to "The roulette could not load".
+  function rrsLoadWait(loads){let stop=()=>{};const timeout=new Promise(resolve=>{stop=rrsVisibleWait(LOAD_WAIT_MS,()=>resolve(false));});return Promise.race([loads,timeout]).finally(()=>stop());}
   function rrsEnsureDraw(){
     const loads=Promise.all([
       rrsLoad("marquee-player-list","data/marqueePlayers.js",()=>Boolean(root.CareerModeMarqueePlayers)),
       rrsLoad("marquee-player","js/marqueePlayer.js",()=>Boolean(root.CareerModeMarqueePlayer))
     ]).then(list=>list.every(Boolean),()=>false);
-    return Promise.race([loads,rrsWait(LOAD_WAIT_MS).then(()=>false)]);
+    return rrsLoadWait(loads);
   }
   async function rrsEnsure(){
     const loads=Promise.all([
@@ -58,7 +61,7 @@
       rrsLoad("marquee-player","js/marqueePlayer.js",()=>Boolean(root.CareerModeMarqueePlayer)),
       typeof root.loadRuntimeStyle==="function"?Promise.resolve(root.loadRuntimeStyle("roulette-step","css/v10Roulette.css")).then(()=>true,()=>true):true
     ]).then(list=>list.every(Boolean),()=>false);
-    return Promise.race([loads,rrsWait(LOAD_WAIT_MS).then(()=>false)]);
+    return rrsLoadWait(loads);
   }
 
   // ctx = {rivalryId, managerRole, season, clubs:{playerOne,playerTwo}, confirmedAtMs, phase, verdicts(k)} from the Transfer
@@ -355,7 +358,9 @@
     if(running)return running;
     leftForHome=false;holding=true;
     const run=Promise.resolve().then(()=>rrsRunGuarded(ctx)).catch(()=>false).then(go=>{
-      if(go===false){leftForHome=true;holding=false;rrsRemovePanel();rrsRemoveStage();rrsLoadingOff();if(typeof root.navigateTo==="function")void Promise.resolve(root.navigateTo("mainMenu")).catch(()=>{});}
+      // Fable F6-08: the loading screen covers the way back until Showdown Home is up, so no dashboard or Career Start shows
+      // between the card and Home.
+      if(go===false){leftForHome=true;holding=false;rrsLoadingOn();rrsRemovePanel();rrsRemoveStage();const home=typeof root.navigateTo==="function"?Promise.resolve().then(()=>root.navigateTo("mainMenu")):Promise.resolve();void home.catch(()=>{}).finally(()=>rrsLoadingOff());}
       return go!==false;
     }).finally(()=>{if(running===run)running=null;});
     running=run;return run;

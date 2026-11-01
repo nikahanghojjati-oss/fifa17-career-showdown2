@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 // 2.0.0 release time: the one place the lead sets it at freeze. Every start constant that must equal the release time is
-// listed here; the release contract (tests/contracts/r87-release-contracts.cjs RX2) fails if any of them differ.
+// listed here; the release contract (tests/contracts/r86-release-contracts.cjs RR5) fails if any of them differ.
 //   node tools/set-release-time.cjs 2026-11-01T17:00:00Z   (sets them all)
 //   node tools/set-release-time.cjs                        (prints them)
 const fs=require("node:fs");
