@@ -2599,6 +2599,14 @@
         "^tests/contracts/r87\\-career\\-visuals\\-r3\\-browser\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-career-truth-contracts.cjs",
+      "patterns": [
+        "^js/(sharedHistoryConvergence|sharedCareerAnalytics|legacy|careerSummaryStore|analytics)\\.js$",
+        "^tests/contracts/r87\\-fable\\-career\\-truth\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
