@@ -1640,3 +1640,8 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-trophyLabel { font-size:11px; }
   #app #statistics[data-rivalry-legacy-v10] .rv-trophyCount { font-size:13px; }
 }
+/* r87 sizes F7: below the tablet managers' hands, above the archive. Keep the
+   title in its hero band and leave the tabs and history action where they are. */
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyWordmarkWrap { top:68%; }
+}

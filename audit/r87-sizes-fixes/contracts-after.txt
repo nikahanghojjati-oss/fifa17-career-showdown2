@@ -1,0 +1,3 @@
+PASS F6: all six tabs at 844x390
+PASS F6: all six tabs at 740x360
+PASS F5 and F7: tablet faces fit and Legacy title clears the hand at both portrait sizes

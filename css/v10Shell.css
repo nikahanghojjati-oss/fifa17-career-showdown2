@@ -712,3 +712,12 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
   #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(5) { width: 12%; }
   #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(6) { width: 14%; }
 }
+/* r87 sizes F5: the upright tablet uses the wide Home photograph. Covering the
+   whole viewport cropped Nik's face; size the photograph to the hero band.
+   The lockup, soundtrack and every tile retain their existing registration. */
+@media (min-width:761px) and (max-width:900px) and (min-height:900px) and (orientation:portrait) {
+  #app #mainMenu.v10Home .plateView {
+    background-size:auto 60svh;
+    background-position:calc(50% + 40px) top;
+  }
+}
