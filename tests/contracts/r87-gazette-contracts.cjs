@@ -422,7 +422,8 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     // Team V HO-048, origin/claude/project-thread-fyjnky 8fa67110 visual-assets/v10_1/content/{fixtures/gazetteCopy.js,fixtures/frontPages.js,frontpage.js,content.css},
     // with the Fable cloud job 1 truth edits to 26 headlines and 8 stories (G18 lists them): same rows, same ids, same counts.
     assert.equal(sha('data/gazetteCopy.js'),'2a3caf1dd4713f628e2fb39b83415a5b53b8372173148c88e482fd3715429d0d');
-    assert.equal(sha('data/frontPages.js'),'1b73a935a115c2bdb5e8e28961ad1a26282f07fd68a2e353d55d5f26433ec70a');
+    // r87 proofreading: only four marquee/billboard advertising metaphors changed.
+    assert.equal(sha('data/frontPages.js'),'7d115ee41cb85e69d22f90d6d083452c1caf92bf83284aafb4e2355f0aabdc09');
     assert.equal(sha('visual-assets/v10_1/content/frontpage.js'),'a4b8ced9ac63123795bfe1d9ee2741027df7426466b5f5b5314c3bf55a58baf6');
     assert.equal(sha('visual-assets/v10_1/content/content.css'),'cfa7f1a4227673127ad34f59f5c0c4272248846cf3a456d2c814923ad0f6f7dc');
     assert.equal(Copy.stories.length,114);assert.equal(Copy.duets.length,288);for(const k of ['briefs','captions','ears','quotes'])assert.equal(Copy.small[k].length,30,k);
