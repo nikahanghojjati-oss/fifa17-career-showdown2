@@ -187,7 +187,12 @@
         && ssjrTransferValidHash(after.operationHashes[0])
         && after.baseRevisions[0] == 0
         && after.actorRoles[0] == after.coordinatorRole
-        && after.coordinatorRole == ssjrActorRole(rivalryId);
+        && after.coordinatorRole == ssjrActorRole(rivalryId)
+        // Codex R87-E-01: a season's window opens only after the previous season was committed and acknowledged by both
+        // phones, so a wrong season number from a buggy caller can never create a future season. One lookup per START
+        // (seasons 2 to 10), never on later ledger writes or listener deliveries.
+        && (after.seasonNumber == 1
+          || get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.seasonNumber - 1))).data.phase == 'ACKNOWLEDGED');
     }
     // R87 roulette marks: a pre-window mark document (phase NOT_STARTED) is never a ledger to update (START from it is
     // ssjrTransferStartAfterSpins). The phase is tested before the ledger function's let bindings run: measured on the emulator,
@@ -328,7 +333,11 @@
         && ssjrTransferSigningsValid(after.signings)
         && after.signingLockedAt == request.time
         && after.updatedAt == request.time
-        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)
+        // Codex R87-E-04: three r87 signing rows (overall + position) took the full check past the 1,000-expression limit,
+        // so a normal three-signing lock was denied. The linked public ledger write in the same transaction (updatedAt ==
+        // request.time, same session and device, this role as the actor) already runs the full ssjrWriteAuthorityValid pair
+        // envelope; this private half keeps the actor, account, device and ACTIVE-session checks, as season commits do.
+        && ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)
         && public.operationTypes[i] == 'lock-signings'
         && public.actorRoles[i] == managerRole
         && managerRole in public.signingLockedRoles
