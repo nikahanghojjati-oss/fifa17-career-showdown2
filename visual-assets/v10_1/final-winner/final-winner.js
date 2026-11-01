@@ -151,7 +151,7 @@
     setText("nikTotal", frame.totals && frame.totals.nik);
     setText("outcomeHeadline", frame.outcomeHeadline);
     setText("resultText", frame.resultText);
-    setText("seasonsPlayed", frame.seasonsPlayed == null ? "" : `${frame.seasonsPlayed} seasons played`);
+    setText("seasonsPlayed", frame.seasonsPlayed == null ? "" : `${frame.seasonsPlayed} season${Number(frame.seasonsPlayed) === 1 ? "" : "s"} played`);
     setText("danielTrophies", trophyLine("Daniel", frame.trophies && frame.trophies.daniel, fixtures.strings.trophySummary));
     setText("nikTrophies", trophyLine("Nik", frame.trophies && frame.trophies.nik, fixtures.strings.trophySummary));
     setText("finalWinnerPartialMessage", frame.status === "partial" ? message : "");

@@ -120,6 +120,23 @@ function refreshSettingsOnlineHistory(){
     });
 }
 
+// Fable job 3 F3-03: a phone that missed the partner's meter document for the last season (locked or offline through the four
+// timed reads) shows "estimated" while the partner shows the shared total. Opening Settings reads the partner's document once (2
+// billed, counted in the meter; at most 3 such reads a season, 60 s apart, and none when it already matches) and updates the two
+// lines in place when it now matches.
+function refreshSettingsPartnerMeter(){
+    let pending = null;
+    try{ pending = window.CareerModeFirestoreBudget?.refreshPartnerMeter?.(); }catch(_error){ pending = null; }
+    if(!pending || typeof pending.then !== "function"){ return; }
+    pending.then((matched) => {
+        if(!matched || !settingsContent || !settingsOverlay || settingsOverlay.classList.contains("hidden")){ return; }
+        const reads = settingsContent.querySelector(".settingsReadsToday");
+        const seasons = settingsContent.querySelector(".settingsSeasonsLeft");
+        if(reads){ reads.textContent = getSettingsReadsTodayText(); }
+        if(seasons){ seasons.textContent = getSettingsSeasonsLeftText(); }
+    }, () => {});
+}
+
 function createSettingsElement(tagName, className = "", text = ""){
     const element = document.createElement(tagName);
     if(className){ element.className = className; }
@@ -356,9 +373,9 @@ function createApplicationPanel(){
         createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
     const readsToday = getSettingsReadsTodayText();
-    if(readsToday){ info.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday)); }
+    if(readsToday){ info.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday, "settingsReadsToday")); }
     const seasonsLeft = getSettingsSeasonsLeftText();
-    if(seasonsLeft){ info.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft)); }
+    if(seasonsLeft){ info.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft, "settingsSeasonsLeft")); }
     panel.appendChild(info);
     const updateState = getSettingsOfflineState();
     const update = createSettingsElement("button", "menuButton settingsApplicationUpdateButton", updateState.updateActionLabel || "UPDATE TO LATEST VERSION");
@@ -1084,6 +1101,7 @@ function openSettings(){
     settingsOfflineGuidance = "";
     if(isSettingsOnlineCareer()){ refreshSettingsOnlineHistory(); }
     renderSettings();
+    refreshSettingsPartnerMeter();
 
     settingsPreviousFocus = document.activeElement instanceof HTMLElement
         ? document.activeElement

@@ -78,7 +78,7 @@
       const s = frame.standings.find(x => x.manager === manager);
       const m = frame.managers[manager];
       if (!s || !m) return "";
-      return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}${spChip(frame, manager)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON WINS</small></div>`;
+      return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}${spChip(frame, manager)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON ${m.seasonWins === 1 ? "WIN" : "WINS"}</small></div>`;
     }).join("");
     return `<div class="careerRanks" data-sd-enter="panel" aria-label="Career standings">${rows}</div>`;
   }
@@ -88,7 +88,16 @@
     const dim = frame.status === "loading" || frame.status === "unavailable";
     // r80: a tab switch draws the hero again; keep the trophy risen and the spotlight on (they used to drop back onto the plinth).
     const settled = `${state.spotlightLit ? " tr-spotlight-lit" : ""}${state.heroSettled ? " tr-trophy-settled" : ""}`;
-    return `<div class="heroCeremony ${dim ? "is-muted" : ""}${settled}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>CAREER MODE SHOWDOWN</small></div></div>`;
+    return `<div class="heroCeremony ${dim ? "is-muted" : ""}${settled}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>${esc(plinthLine(frame, dim))}</small></div></div>`;
+  }
+
+  // r87 polish: the plinth names how many Showdowns each manager has won ("DANIEL ×2 · NIK ×1"); before the first finished
+  // Showdown, or with no numbers, it keeps the game's name.
+  function plinthLine(frame, dim) {
+    const counts = dim ? null : trophyCounts(TROPHIES[0], frame);
+    if (!counts || !(Number(counts.daniel) > 0 || Number(counts.nik) > 0)) return "CAREER MODE SHOWDOWN";
+    const name = manager => String(frame.managers?.[manager]?.displayName || (manager === "daniel" ? "Daniel" : "Nik")).toUpperCase();
+    return `${name("daniel")} ×${Number(counts.daniel) || 0} · ${name("nik")} ×${Number(counts.nik) || 0}`;
   }
 
   function tabs(strings, frame) {
@@ -125,7 +134,8 @@
 
   function statePanel(strings, frame) {
     if (frame.status === "loading") return `<div class="statePanel statePanel--loading" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true"></i><strong>${esc(strings.stateCopy.loading.text)}</strong></div>`;
-    if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong></div>`;
+    // r87 polish (P-07): TRY AGAIN opens the screen again the way the menu does (the same read-only career load).
+    if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong>${typeof window.openTrophyRoom === "function" ? `<button type="button" id="trophyRetryButton" class="stateRetry sd-btn">${esc(strings.retry || "TRY AGAIN")}</button>` : ""}</div>`;
     if (frame.status === "partial") return `<div class="stateNotice" data-sd-enter="panel"><span class="stateNoticeIcon" aria-hidden="true">!</span><span>${esc(frame.stateMessage || strings.stateCopy.partial.text.replace("{READABLE}", frame.coverage.readable).replace("{INDEXED}", frame.coverage.indexed))}</span><b>${frame.coverage.readable} of ${frame.coverage.indexed} Showdowns readable</b></div>`;
     return "";
   }
@@ -222,6 +232,8 @@
     content.dataset.frame = state.frameKey;
     content.dataset.category = state.activeCategory;
 
+    const retry = content.querySelector("#trophyRetryButton");
+    if (retry) retry.addEventListener("click", () => { retry.disabled = true; try { window.openTrophyRoom(); } catch (_) { retry.disabled = false; } });
     content.querySelectorAll(".trophyTab").forEach(btn => btn.addEventListener("click", () => {
       const category = btn.dataset.category;
       if (state.tabTransitioning || category === state.activeCategory) return;

@@ -52,7 +52,7 @@ async function prepare(page,{role,saveId,entry}){
       setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}
     };
     const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
-    window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
+    window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={
       read:async()=>window.__ssjrResultsAuditRead(role),

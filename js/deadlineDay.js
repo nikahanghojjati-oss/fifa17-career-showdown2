@@ -85,7 +85,7 @@
     track.replaceChildren(label,text);
   }
   function ddDetach(){
-    if(strip){const host=strip.closest?.(".tw-host")||strip.parentElement?.closest?.(".tw-host");if(host){host.classList.remove("tw-dd-world","tw-dd-fixed","tw-dd-flow","tw-dd-on");host.style.removeProperty("--tw-dd-gap");}strip.remove();strip.hidden=true;}
+    if(strip){const host=strip.closest?.(".tw-host")||strip.parentElement?.closest?.(".tw-host");if(host){host.classList.remove("tw-dd-world","tw-dd-fixed","tw-dd-flow","tw-dd-on");delete host.dataset.dd;host.style.removeProperty("--tw-dd-gap");}strip.remove();strip.hidden=true;}
     shown="";
   }
   function ddSync(stage,frame,clockText){
@@ -96,6 +96,8 @@
     if(view.mode==="off"){ddDetach();return "off";}
     const node=ddStrip(stage.ownerDocument||root.document);
     ddPlace(stage,node);stage.parentElement.classList.add("tw-dd-on");
+    // r87 polish: the window clock joins the moment (css/v10Transfer.css: hot in the ticker, a pulse in the countdown).
+    if(stage.parentElement.dataset.dd!==view.mode)stage.parentElement.dataset.dd=view.mode;
     ddRender(node,view);node.hidden=false;
     return view.mode;
   }
