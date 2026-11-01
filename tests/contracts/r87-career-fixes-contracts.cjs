@@ -395,6 +395,8 @@ check('B1 History & Backup shows the online career Settings counts, never added-
   const swapped=ctx.__totals([{managers:{playerOne:'Nik',playerTwo:'Daniel'},score:{playerOne:9,playerTwo:3},rounds:[]},{managers:{playerOne:'Manager 1',playerTwo:'Manager 2'},score:{playerOne:5,playerTwo:1},rounds:[]},{score:{playerOne:4,playerTwo:4},rounds:[]}]);
   assert.deepEqual(JSON.parse(JSON.stringify(swapped.points)),{daniel:3,nik:9},'each archive is read by its own manager names');
   assert.equal(swapped.unattributedShowdowns,2,'archives without Daniel and Nik named are counted, never guessed or added together');
+  assert.match(source,/createLegacyStat\("SHOWDOWNS NOT COUNTED IN POINTS", totals\.unattributedShowdowns\)/,'the uncounted archives tile is in plain words');
+  assert.doesNotMatch(source,/NO MANAGER NAMES/,'never the developer label');
 });
 
 (async()=>{

@@ -1747,9 +1747,9 @@
       // career arrives, then is revealed once with its numbers instead of LOADING first and a second boot. A read still
       // running after FIRST_HOLD_MS shows the loading frame, which the read then replaces. The cover is renewed for the draw,
       // so the screen's pictures still get their own decode time before the one reveal. No read is added: the same one read runs.
-      const cold=v10OnlineModel()==null&&!screens.isMounted(screen)&&screens.expect(screen)===true;
+      const cold=v10OnlineModel()==null&&!screens.isMounted(screen)&&screens.expect?.(screen)===true;
       const load=v10LoadOnline(screen).catch(v10Fail);
-      if(cold){let held;await Promise.race([load,new Promise(resolve=>{held=root.setTimeout(resolve,FIRST_HOLD_MS);})]);root.clearTimeout(held);screens.expect(screen);}
+      if(cold){let held;await Promise.race([load,new Promise(resolve=>{held=root.setTimeout(resolve,FIRST_HOLD_MS);})]);root.clearTimeout(held);screens.expect?.(screen);}
     }
     return screens.show(screen);
   }

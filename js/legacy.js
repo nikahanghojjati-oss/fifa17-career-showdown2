@@ -679,7 +679,7 @@ function renderLegacy(request = false){
             createLegacyStat("NIK · POINTS", totals.points.nik)
         );
         if(totals.unattributedShowdowns > 0){
-            stats.appendChild(createLegacyStat("SHOWDOWNS WITH NO MANAGER NAMES", totals.unattributedShowdowns));
+            stats.appendChild(createLegacyStat("SHOWDOWNS NOT COUNTED IN POINTS", totals.unattributedShowdowns));
         }
         fragment.appendChild(stats);
 
