@@ -74,7 +74,7 @@ function openSeasonPage(device,{role="playerOne",published=[]}={}){
     crypto:{getRandomValues(bytes){for(let i=0;i<bytes.length;i+=1)bytes[i]=(random+i)&255;random+=1;return bytes;}},
     reportApplicationError(){},ensureGameplayModules:async()=>true,
     loadRuntimeScript:async key=>{throw new Error(`unexpected runtime load ${key}`);},
-    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE})},
+    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-10-01T00:00:00Z")})},
     CareerModeProductionSharedTransferChallenge:{refresh:async()=>true,getState:()=>({seasonNumber:2,state:{phase:"COMPLETED"}})},
     CareerModeSharedShowdownCatalog:{catalog:{premier_league:new Array(20).fill("club")}},
     CareerModeSharedShowdownSetup:{},CareerModeSharedSeasonResults:{},CareerModeSparkSharedSeasonResults:provider,
@@ -290,7 +290,7 @@ function textLines(){
   assert.match(shell,/Champions League \+5[^<]*Europa League \+3[^<]*Season maximum 11/);
   const index=read("index.html");
   for(const p of ["p1","p2"])assert.match(index,new RegExp(`<label><input id="${p}ChampionsLeague" type="checkbox"> Champions League Winner</label>\\n<label><input id="${p}EuropaLeague" type="checkbox"> Europa League Winner</label>`));
-  assert.match(index,/Champions League \+5 or Europa League \+3 \(never both in the same season\)[^<]*Maximum season score: 11\./);
+  assert.match(index,/Champions League \+5 or Europa League \+3 \(never both in the same season\)[^<]*Prime Pack \+4, \+3, \+2 or \+1\. Maximum season score: 15\./);
   ok("E8 canonical breakdown and History trophy line name the EL only when won; scoring panel and hint list EL +3 with max 11; EL box after each CL box");
 }
 

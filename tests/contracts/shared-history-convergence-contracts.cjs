@@ -66,11 +66,24 @@ const sources=[source(1,season1,"playerOne",hash("a")),source(2,season2,"draw",h
   assert.equal(projection.trophyAttribution.playerTwo.totalTrophies,0);
   assert.equal(projection.managerRecords.playerOne.bestLeaguePosition,1);
   assert.equal(projection.managerRecords.playerTwo.bestLeaguePosition,2);
-  assert.equal(projection.managerRecords.playerOne.perfectSeasons,1);
+  assert.equal(projection.managerRecords.playerOne.perfectSeasons,0,"r87 (Nik 2026-11-01): an 11 is not a perfect season, only 15");
   assert.equal(projection.managerRecords.playerOne.averageSeasonScore,4);
   assert.ok(Object.isFrozen(projection)&&Object.isFrozen(projection.seasonHistory)&&Object.isFrozen(projection.managerRecords.playerOne),"the convergence projection must be deeply immutable");
   assert.equal(history.verifyProjection(projection),projection);
 
+  // r87: a projection saved before 2.0.0 (create-only Firebase careerSummary, phone copy) counted a season of 11 or more as
+  // perfect. When that counter is the ONLY difference, verify returns the rebuild (15s only); anything else is tampering.
+  const saved=JSON.parse(JSON.stringify(projection));saved.managerRecords.playerOne.perfectSeasons=1;
+  const loaded=history.verifyProjection(saved);
+  assert.notEqual(loaded,saved);assert.equal(loaded.managerRecords.playerOne.perfectSeasons,0,"an old saved 11 loads as 0 perfect seasons");
+  assert.equal(JSON.stringify(loaded),JSON.stringify(projection),"the rebuild is the verified history, byte for byte");
+  assert.ok(Object.isFrozen(loaded.managerRecords.playerOne));
+  const both=JSON.parse(JSON.stringify(projection));both.managerRecords.playerOne.perfectSeasons=3;both.managerRecords.playerTwo.perfectSeasons=2;
+  assert.equal(history.verifyProjection(both).managerRecords.playerTwo.perfectSeasons,0);
+  for(const tamper of [p=>{p.managerRecords.playerOne.perfectSeasons=1;p.managerRecords.playerOne.totalPoints+=1;},p=>{p.managerRecords.playerOne.perfectSeasons=1;p.managerRecords.playerOne.seasonWins+=1;},p=>{p.managerRecords.playerOne.perfectSeasons=1;p.trophyAttribution.playerOne.totalTrophies+=1;},p=>{p.managerRecords.playerOne.perfectSeasons="1";p.seasonHistory[0].playerOne.scoring.total+=1;},p=>{delete p.managerRecords.playerOne.perfectSeasons;},p=>{p.managerRecords.playerOne.extra=1;}]){
+    const bad=JSON.parse(JSON.stringify(projection));tamper(bad);
+    assert.throws(()=>history.verifyProjection(bad),/HISTORY_CONVERGENCE_(PROJECTION_TAMPERED|SCORE_MISMATCH)/,"any other difference still fails");
+  }
   const badHash=JSON.parse(JSON.stringify(projection));badHash.seasonHistory[1].acceptedResultContentHash=hash("d");
   assert.throws(()=>history.verifyProjection(badHash),/HISTORY_CONVERGENCE_PROJECTION_TAMPERED|HISTORY_CONVERGENCE/);
   const scoreMismatch=source(1,season1,"playerOne",hash("e"));scoreMismatch.scoring.scoring.playerOne.total=10;

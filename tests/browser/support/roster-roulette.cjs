@@ -37,7 +37,10 @@ async function primeNames(page){
     const pick=step.round({rivalryId:v.rivalryId,season:v.seasonNumber,managerRole:v.managerRole});
     if(!pick||!pick.round)return null;
     const wrong=list.players.filter(p=>p.id!==pick.answerId).slice(v.managerRole==="playerOne"?0:2).slice(0,2).map(p=>p.fullName);
-    return {answer:pick.round.name,wrong};
+    // Two Icons share the card name "Laudrup": the app answers that name "ambiguous" (no chip, no guess), as a phone does, and
+    // offers both full names. The guesser then names the full name, as a player picks it from the suggestions.
+    const icon=list.players.find(p=>p.id===pick.answerId),shared=list.players.filter(p=>p.name===pick.round.name).length>1;
+    return {answer:shared&&icon?icon.fullName:pick.round.name,wrong};
   }).catch(()=>null);
 }
 // One Prime Pack step on this phone: "prime-guess" (the right name), "prime-miss" (a wrong name), "prime-continue",
@@ -45,6 +48,13 @@ async function primeNames(page){
 // as soon as he can (stage 1, 4 points) and the other waits; null (the default): every phone spends both guesses on wrong
 // names, so the round is a draw at once (no points, no 95 s wait); "timeout": nobody guesses and the stages run out.
 // A fresh browser shows this season's finished round once (Continue).
+// One line each time a phone's Prime Pack reason changes (why it waits, what it typed), so a round that runs out in CI says why.
+const primeWhyLast=new WeakMap();
+function primeWhy(page,state,why){
+  const line=state?`${why} | me=${state.me} stage=${state.stage} chips=${JSON.stringify(state.chips)} waitingFor=${state.waitingFor} pending=${state.pending} result=${state.result?JSON.stringify(state.result):null} banner=${state.banner}`:`${why} | no page state`;
+  if(primeWhyLast.get(page)!==line){primeWhyLast.set(page,line);console.log(`--- prime ${new Date().toISOString().slice(11,23)} ${line}`);}
+  return "wait";
+}
 async function playPrimePack(page,{primeGuesser=null}={}){
   const panel=page.locator("#igStepPanel .rrStepPrimary");
   if(await panel.isVisible().catch(()=>false)){await panel.click({timeout:5000}).catch(()=>{});return "prime-retry";}
@@ -61,16 +71,20 @@ async function playPrimePack(page,{primeGuesser=null}={}){
   if(plan){
     if(!plan.winner)return state.result||!state.canGuess?"wait":"wait";
     primeGuesser=plan.winner==="daniel"?"playerOne":"playerTwo";
-    if(!state.result&&state.me===primeGuesser&&state.beat!==plan.beat)return "wait";
+    // Sol r4 S61-r87-01: the server stamps the guess with its own time and the phone's clock comes from a second-resolution
+    // token time (up to about 0.5 s off), so a guess typed the instant a stage appears can land in the previous stage on the
+    // server. Guess only once this stage's reveal has finished (1.5 s or more in), well clear of the stage edge.
+    if(!state.result&&state.me===primeGuesser&&(state.beat!==plan.beat||state.revealing))return "wait";
   }
-  if(state.result||!state.canGuess||primeGuesser==="timeout")return "wait";
-  if(primeGuesser&&state.me!==primeGuesser)return "wait";
-  const names=await primeNames(page);if(!names)return "wait";
+  if(state.result||!state.canGuess||primeGuesser==="timeout")return primeWhy(page,state,state.result?"result":!state.canGuess?"cannot-guess":"timeout-plan");
+  if(primeGuesser&&state.me!==primeGuesser)return primeWhy(page,state,"not-the-guesser");
+  const names=await primeNames(page);if(!names)return primeWhy(page,state,"no-names");
   const text=primeGuesser?names.answer:names.wrong[2-(state.chips[state.me]||0)];if(!text)return "wait";
   await frame.locator("#guess").fill(text,{timeout:5000}).catch(()=>{});
   // Enter sends the typed name, as the phone keyboard's send key does.
   await frame.locator("#guess").press("Enter",{timeout:5000}).catch(()=>{});
   await page.waitForTimeout(STEP_MS);
+  primeWhy(page,await frame.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null),`typed ${primeGuesser?"answer":"wrong"} "${text}"`);
   return primeGuesser?"prime-guess":"prime-miss";
 }
 

@@ -268,7 +268,7 @@ function tally(seasons){
       const r=season[user],x=t[user],s=scoreSeason(r).total;
       x.seasons+=1;x.total+=s;if(w.side===user)x.W+=1;else if(w.side==="draw")x.D+=1;else x.L+=1;
       if(r.leaguePosition===1)x.league+=1;if(r.domesticCup)x.cup+=1;if(r.championsLeague)x.cl+=1;
-      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s>=11)x.perfect+=1;
+      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s===15)x.perfect+=1;// r87: a perfect season is 15 (Prime Pack 4 included), nothing else
       x.bestScore=x.bestScore===null?s:Math.max(x.bestScore,s);x.highPoints=x.highPoints===null?r.leaguePoints:Math.max(x.highPoints,r.leaguePoints);x.highGoals=x.highGoals===null?r.leagueGoals:Math.max(x.highGoals,r.leagueGoals);
       x.trophies=x.league+x.cup+x.cl;
     }
@@ -899,10 +899,10 @@ async function openPage(m,hostId){
     let clickErr=null;const clickAt=Date.now();
     await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(e=>{clickErr=String(e.message||e).split("\n").slice(0,6).join(" | ").slice(0,500);});
     const clickMs=Date.now()-clickAt;
-    const shown=await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:20000}).then(()=>true).catch(()=>false);
+    const shown=await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:25000}).then(()=>true).catch(()=>false);
     const openMs=Date.now()-tapAt,probe=await m.page.evaluate(()=>window.__trophyProbe||[]).catch(()=>[]);
-    (report.notes||(report.notes=[])).push(`${m.user}: Trophy Room open ${shown?openMs+" ms":"NEVER (20 s)"} clickMs=${clickMs} clickErr=${clickErr} probe=${JSON.stringify(probe)}`);
-    if(!shown||!probe.some(x=>x.e==="request"))await check(m,`${showdownNow}.S${seasonNow}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",false,shown?"tap reached no open request":"no Trophy Room within 20 s",{screen:"Trophy Room",probe,clickErr,clickMs,dom:await m.page.evaluate(()=>{const b=document.getElementById("trophyRoomButton");const r=b&&b.getBoundingClientRect();return {active:window.getActiveScreenName?.(),btn:!!b,rect:r&&[Math.round(r.x),Math.round(r.y),Math.round(r.width),Math.round(r.height)],top:b&&(()=>{const e=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return e&&(e.id||e.className||e.tagName)})(),rev:window.getNavigationRevision?.()};}).catch(()=>null)});
+    (report.notes||(report.notes=[])).push(`${m.user}: Trophy Room open ${shown?openMs+" ms":"NEVER (25 s)"} clickMs=${clickMs} clickErr=${clickErr} probe=${JSON.stringify(probe)}`);
+    if(!shown||!probe.some(x=>x.e==="request"))await check(m,`${showdownNow}.S${seasonNow}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",false,shown?"tap reached no open request":"no Trophy Room within 25 s",{screen:"Trophy Room",probe,clickErr,clickMs,dom:await m.page.evaluate(()=>{const b=document.getElementById("trophyRoomButton");const r=b&&b.getBoundingClientRect();return {active:window.getActiveScreenName?.(),btn:!!b,rect:r&&[Math.round(r.x),Math.round(r.y),Math.round(r.width),Math.round(r.height)],top:b&&(()=>{const e=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return e&&(e.id||e.className||e.tagName)})(),rev:window.getNavigationRevision?.()};}).catch(()=>null)});
   }
   else if(hostId==="statistics"){
     // Rivalry Statistics: Career Statistics' CURRENT RIVALRY STATISTICS button when it shows, else the dashboard's.

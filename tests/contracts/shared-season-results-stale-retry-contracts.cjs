@@ -81,7 +81,7 @@ async function scenario(publishScript){
     reportApplicationError:(context,error)=>reports.push({context,code:error&&error.code,message:error&&error.message}),
     ensureGameplayModules:async()=>true,
     loadRuntimeScript:async key=>{throw new Error(`unexpected runtime load ${key}`);},
-    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE})},
+    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-10-01T00:00:00Z")})},
     CareerModeProductionSharedTransferChallenge:{refresh:async()=>true,getState:()=>({seasonNumber:1,state:{phase:"COMPLETED"}})},
     CareerModeSharedShowdownCatalog:{catalog:{premier_league:new Array(20).fill("club")}},
     CareerModeSharedShowdownSetup:{},CareerModeSharedSeasonResults:{},

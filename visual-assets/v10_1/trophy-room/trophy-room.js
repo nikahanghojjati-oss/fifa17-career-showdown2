@@ -11,7 +11,7 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: BASE + "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) },
     { key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE + "../shared/trophies/TRO_EUROPA_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.europaLeagues, nik:f.managers.nik.europaLeagues}) }
   ];
-  // r84 Golden Showdown: 110 points in a finished 10-season Showdown. Its gold case joins the ALL shelf only once a manager
+  // r84 Golden Showdown: 150 points (r87: 15 a season) in a finished 10-season Showdown. Its gold case joins the ALL shelf only once a manager
   // has earned it (frame.goldenShowdowns is present only then).
   const GOLDEN = { key: "goldenShowdown", category: "ALL", asset: BASE + "../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp", value: f => f.goldenShowdowns };
   // r86 Special Player chip next to the manager's name (only when the frame carries one: js/specialPlayerChip.js).

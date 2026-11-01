@@ -516,9 +516,13 @@
     primePackLoadError=false;
     try{
       if(!view||!view.managerRole||!request)return true;
-      const confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
+      if(root.CMS_PRIME_PACK==="off")return true;
+      let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
+      if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
+      // Fable F13-04: an unknown confirm time keeps the window shut (TRY AGAIN) instead of skipping a Prime Pack that may apply.
+      if(!Number.isFinite(confirmedAtMs)){primePackLoadError=true;return false;}
       // Old Showdowns never load the Prime Pack step (the boundary is js/iconGuess.js fromMs).
-      if(!Number.isFinite(confirmedAtMs)||confirmedAtMs<PRIME_PACK_FROM_MS||root.CMS_PRIME_PACK==="off")return true;
+      if(confirmedAtMs<PRIME_PACK_FROM_MS)return true;
       let timer;const step=await Promise.race([pstcLoadScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){primePackLoadError=true;return false;}
       // applies() needs the round engine (js/iconGuess.js): load it first, or an r87 Showdown would skip the Prime Pack.
@@ -529,7 +533,9 @@
       if(!provided){primePackLoadError=true;return false;}
       if(!pstcRequestMatches(request))return false;
       const options=provided.options;
-      const go=await step.run(ctx,{firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,now:()=>pstcAuthoritativeNow(request)});
+      const go=await step.run(ctx,{firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,now:()=>pstcAuthoritativeNow(request),
+        // Fable F13-03: back from a locked screen the monotonic clock may have stood still; take a fresh server anchor.
+        resync:()=>{clockRefreshPerformanceMs=Number.NaN;return pstcEnsureServerClock(options.user,request);}});
       // false without the manager choosing Showdown Home is a fault: the caller says so instead of a generic error.
       if(go!==true&&!step.wentHome?.())primePackLoadError=true;
       return go===true;

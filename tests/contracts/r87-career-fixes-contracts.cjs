@@ -40,15 +40,17 @@ const abandoned=(n,endedAt=Date.parse('2026-10-30T22:45:00Z'),seasonsPlayed=2)=>
 const unavailable=n=>({rivalryId:idFor(n),classification:'unavailable',projection:null,final:null});
 const model=showdowns=>Career.buildCareerModel({indexStatus:'ready',showdowns});
 
-// ---- B3: a 110-110 ten-season draw gets the Golden paper, told as a draw ----
-check('B3 a 110-110 Golden draw prints the Golden edition as a draw, with no winner and no tiebreak wording',()=>{
+// ---- B3: a 150-150 ten-season draw gets the Golden paper, told as a draw ----
+// r87 (Nik 2026-11-01 17:35 UTC): the Golden Showdown is 150 (15 a season with Prime Pack); there is no 110 Golden.
+const P15={...PERFECT,primePack:4}; // 15
+check('B3 a 150-150 Golden draw prints the Golden edition as a draw, with no winner and no tiebreak wording',()=>{
   const ctx={console};ctx.window=ctx;ctx.globalThis=ctx;vm.createContext(ctx);
   for(const file of ['data/gazetteCopy.js','data/frontPages.js','js/touchlineGazette.js'])if(fs.existsSync(path.join(ROOT,file)))vm.runInContext(read(file),ctx,{filename:file});
   const G=ctx.CareerModeTouchlineGazette||require(path.join(ROOT,'js/touchlineGazette.js'));
-  const p=projectionFor(idFor(1),10,Array.from({length:10},()=>[PERFECT,PERFECT]));
-  assert.equal(p.managerRecords.playerOne.totalPoints,110);assert.equal(p.managerRecords.playerTwo.totalPoints,110);
-  assert.deepEqual(Seam.goldenShowdownManagers({status:'completed',totalSeasons:10,seasonsPlayed:10,totals:{daniel:110,nik:110}}),['daniel','nik'],'the seam: Golden for both');
-  const edition=G.finalEdition({projection:p,final:{winner:'draw',totals:{daniel:110,nik:110}}});
+  const p=projectionFor(idFor(1),10,Array.from({length:10},()=>[P15,P15]));
+  assert.equal(p.managerRecords.playerOne.totalPoints,150);assert.equal(p.managerRecords.playerTwo.totalPoints,150);
+  assert.deepEqual(Seam.goldenShowdownManagers({status:'completed',totalSeasons:10,seasonsPlayed:10,totals:{daniel:150,nik:150}}),['daniel','nik'],'the seam: Golden for both');
+  const edition=G.finalEdition({projection:p,final:{winner:'draw',totals:{daniel:150,nik:150}}});
   assert.ok(edition,'the final paper prints');
   assert.equal(edition.golden,true,'the Gazette agrees with every other career screen');
   assert.equal(edition.paper.variant,'gold');assert.equal(edition.paper.photo.name,'GZ_LEAD_GOLD');
@@ -57,10 +59,10 @@ check('B3 a 110-110 Golden draw prints the Golden edition as a draw, with no win
   assert.equal(edition.paper.portrait,null,'no winner portrait');
   const words=[edition.paper.headline,edition.paper.subhead,edition.paper.kicker,...edition.paper.story.paragraphs,...edition.paper.briefs.map(b=>b.head+' '+b.text)].join(' ');
   assert.doesNotMatch(words,/tie-?break|first to|reach(es|ed)? .*first|wins the Golden/i,'a draw: no tiebreak, nobody first');
-  // a 110 win is unchanged, and a 109-109 draw is an ordinary draw
-  const win=G.finalEdition({projection:projectionFor(idFor(2),10,Array.from({length:10},(_,i)=>[PERFECT,i?PERFECT:CL]))});
+  // a 150 win is unchanged, and a 149-149 draw is an ordinary draw
+  const win=G.finalEdition({projection:projectionFor(idFor(2),10,Array.from({length:10},(_,i)=>[P15,i?P15:CL]))});
   assert.equal(win.golden,true);assert.equal(win.situation,'golden-showdown-won');
-  const nearly=G.finalEdition({projection:projectionFor(idFor(3),10,Array.from({length:10},(_,i)=>i?[PERFECT,PERFECT]:[CL,CL]))});
+  const nearly=G.finalEdition({projection:projectionFor(idFor(3),10,Array.from({length:10},(_,i)=>i?[P15,P15]:[CL,CL]))});
   assert.equal(nearly.golden,false);assert.equal(nearly.paper.variant,'draw');
 });
 
@@ -95,7 +97,7 @@ check('B5 Trophy Room shows no holder ("—") for a record nobody holds, never "
   assert.ok(frame.records.some(r=>/PERFECT/.test(r.label)&&r.value==='—'),'MOST PERFECT SEASONS reads —');
   assert.ok(frame.records.some(r=>/SEASON SCORE/.test(r.label)&&r.value==='—'),'HIGHEST SEASON SCORE reads — after a 0-0');
   // a record somebody holds is unchanged
-  const held=V10.toV10Frame(model([completed(2,1,[[PERFECT,Z]])]),'trophyRoom');
+  const held=V10.toV10Frame(model([completed(2,1,[[{...PERFECT,primePack:4},Z]])]),'trophyRoom'); // r87: a perfect season is 15
   assert.ok(held.records.some(r=>/PERFECT/.test(r.label)&&r.value===1&&r.manager==='daniel'));
 });
 

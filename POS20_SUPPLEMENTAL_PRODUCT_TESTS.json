@@ -2770,6 +2770,7 @@
         "^service-worker\\.js$",
         "^visual-assets/v10_1/icon-guess/index\\.html$",
         "^tests/contracts/r87\\-prime\\-pack\\-step\\-contracts\\.cjs$",
+        "^tests/contracts/r87\\-prime\\-pack\\-f13\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

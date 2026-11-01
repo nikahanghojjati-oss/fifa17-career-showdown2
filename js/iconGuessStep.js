@@ -30,7 +30,7 @@
   const PAGE="visual-assets/v10_1/icon-guess/index.html";
   const STAGE_ID="igStage",PANEL_ID="igStepPanel",COLLECTION="primePackRounds";
   const DONE_KEY="careerModeShowdown.primePackDone.v1",KEYS_MAX=60;
-  const LOAD_WAIT_MS=10000,READY_WAIT_MS=10000,TICK_MS=200,POLL_MS=2500;
+  const LOAD_WAIT_MS=10000,READY_WAIT_MS=10000,TICK_MS=200,POLL_MS=2500,REJOIN_MS=3000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const wonMemo=new Map();
   // wentHome: the last run ended because the manager chose Showdown Home (not a fault), so the caller shows no error.
@@ -57,8 +57,9 @@
 
   // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Prime Pack this season? It needs
   // js/iconGuess.js: a browser caller awaits ensure() first (before it, the answer is always false).
-  function igsApplies(ctx){
-    if(root.CMS_PRIME_PACK==="off"||!ctx)return false;
+  // ignoreSwitch: the season results attach a point already won even when the kill switch is on (Fable F14-02).
+  function igsApplies(ctx,{ignoreSwitch=false}={}){
+    if((root.CMS_PRIME_PACK==="off"&&!ignoreSwitch)||!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
     if(!Number.isInteger(ctx.season)||ctx.season<1||ctx.season>10)return false;
     const guess=igsGuess();
@@ -147,8 +148,8 @@
   // How many Prime Pack points this manager won this season (0, or 4 to 1 by stage). Read by the season results before they
   // are published, so the points go in as primePack:N (the Rules check N against the round record). io = {firestore, sdk,
   // rivalryId}. One read, once per season, only for a Showdown the game applies to.
-  async function igsPointsFor(io,ctx){
-    if(!igsApplies(ctx))return 0;
+  async function igsPointsFor(io,ctx,{ignoreSwitch=false}={}){
+    if(!igsApplies(ctx,{ignoreSwitch}))return 0;
     const key=igsKey(ctx);if(wonMemo.has(key))return wonMemo.get(key);
     const ref=igsRef(io,ctx.season);
     const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});
@@ -188,8 +189,8 @@
     const back=doc.createElement("button");back.type="button";back.className="backButton";back.textContent="BACK TO SHOWDOWN HOME";back.hidden=true;
     back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2";
     stage.append(frame,back);doc.body.append(stage);
-    // The roulette's result panel (z-index 96) would stand over this stage and take its taps: it goes once this stage is up.
-    try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}
+    // The roulette's result panel (z-index 96) stays over this stage until the Prime Pack page is ready (Reus Gate, Fable
+    // F13-07: a slow page never shows a plain dark screen); igsPlay closes it on cms-ig-ready, or when the step fails.
     return {stage,frame,back};
   }
   function igsPost(frame,type,data={}){try{frame.contentWindow?.postMessage({type,...data},root.location?.origin||"*");}catch(_error){}}
@@ -248,14 +249,22 @@
       const readBack=()=>io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(igsRef(io,ctx.season));return snap.exists()?snap.data():null;}).then(data=>onData(data),()=>{});
       const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.removeEventListener("message",onMessage);igsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
       // Away while the other manager has not arrived: withdraw (igsLeave); back on screen: arrive again.
-      let away=false;
+      // rejoinedAt: when this phone last sent its arrival again (Fable F13-02), at most once every REJOIN_MS.
+      let away=false,rejoinedAt=-Infinity;
       const leave=()=>igsPresence(()=>igsLeave(io,ctx)).catch(error=>{root.CareerModeFirestoreBudget?.noteError?.(error);});
+      const closeRoulette=()=>{try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}};
+      // Fable F13-03: back on screen after a lock, the phone's clock may have stood still: take a fresh server time and send
+      // the current stage and chips again, so the page never shows stage 2 while the server scores stage 3.
+      const resend=()=>{shownBeat=-2;sentChips={playerOne:null,playerTwo:null};render();};
       const onVisibility=()=>{
         if(finished)return;
-        if(igsDoc().visibilityState==="hidden"){if(record&&!record.winner&&record.arrived[other]===null){away=true;leave();}}
-        else if(away){away=false;igsPresence(()=>igsArrive(io,ctx)).catch(fail);}
+        if(igsDoc().visibilityState==="hidden"){if(record&&!record.winner&&record.arrived[other]===null){away=true;leave();}return;}
+        resend();
+        Promise.resolve().then(()=>io.resync?.()).catch(()=>{}).then(()=>{if(!finished)resend();});
+        if(away){away=false;rejoinedAt=Date.now();igsPresence(()=>igsArrive(io,ctx)).catch(fail);}
       };
-      const fail=error=>{root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"PRIME_PACK_FAILED"});};
+      // Fable F13-01: a fault withdraws this manager's arrival (if the other has not arrived), so nobody plays alone for 4.
+      const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);closeRoulette();if(ready&&!(record&&record.arrived[other]!==null))leave();end(error||{code:"PRIME_PACK_FAILED"});};
       const render=()=>{
         if(!ready||!record||finished)return;
         let now;try{now=io.now();}catch(error){return fail(error);}
@@ -270,7 +279,14 @@
           }
           return;
         }
-        if(out.state==="waiting"){const waitingFor=record.arrived[other]===null?other:me;back.hidden=waitingFor!==other;if(shownBeat!==-1){shownBeat=-1;igsPost(frame,"cms-ig-waiting",{role:waitingFor});}return;}
+        if(out.state==="waiting"){
+          // Fable F13-02: BACK always shows while waiting. This phone is on screen but its arrival is missing (a withdraw that
+          // landed late, a lost write): it arrives again, at most once every REJOIN_MS.
+          const waitingFor=record.arrived[other]===null?other:me;back.hidden=false;
+          if(record.arrived[me]===null&&!away&&igsDoc().visibilityState!=="hidden"&&Date.now()-rejoinedAt>=REJOIN_MS){rejoinedAt=Date.now();igsPresence(()=>igsArrive(io,ctx)).catch(fail);}
+          if(shownBeat!==-1){shownBeat=-1;igsPost(frame,"cms-ig-waiting",{role:waitingFor});}
+          return;
+        }
         back.hidden=true;
         const at=guess.beatAt(guess.startMs(record),now);
         if(at.phase==="waiting"){if(shownBeat!==-1.5){shownBeat=-1.5;igsPost(frame,"cms-ig-waiting",{role:null});}return;}
@@ -287,6 +303,9 @@
         if(m.type==="cms-ig-ready"){
           if(ready)return;ready=true;
           igsPost(frame,"cms-ig-start",{round:pick.round,waitingFor:other});shownBeat=-2;sentChips={playerOne:null,playerTwo:null};
+          // The page is up: the roulette panel goes (F13-07), and only now does this manager arrive, so a slow page never
+          // spends its own stage 1 (Fable F13-01).
+          closeRoulette();join();
           render();
         }else if(m.type==="cms-ig-input"){
           igsPost(frame,"cms-ig-suggestions",{names:igsSuggestions(index,String(m.text||""))});
@@ -314,7 +333,8 @@
       root.addEventListener("message",onMessage);
       timer=root.setInterval(render,TICK_MS);
       root.setTimeout(()=>{if(!ready&&!finished)fail({code:"PRIME_PACK_PAGE_TIMEOUT"});},READY_WAIT_MS);
-      Promise.resolve().then(async()=>{
+      const join=()=>Promise.resolve().then(async()=>{
+        rejoinedAt=Date.now();
         await igsPresence(()=>igsArrive(io,ctx));
         if(finished)return;
         const unsubscribe=await igsWatch(io,ctx,onData,fail);

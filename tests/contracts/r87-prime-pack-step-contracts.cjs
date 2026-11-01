@@ -170,8 +170,11 @@ const ts=ms=>({toMillis:()=>ms});
   const frames=/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[([\s\S]*?)\]\);/.exec(sw)[1];
   assert.ok(frames.includes('"visual-assets/v10_1/icon-guess/index.html"'),"the Prime Pack page is a shell frame navigation");
   const step=read("js/iconGuessStep.js"),stageFn=step.slice(step.indexOf("function igsStage("),step.indexOf("function igsStage(")+2500);
-  assert.ok(stageFn.indexOf("doc.body.append(stage)")>0&&stageFn.indexOf("doc.body.append(stage)")<stageFn.indexOf("CareerModeRosterRouletteStep?.close?.()"),"the roulette's panel is closed once the Prime Pack stage is up, so nothing covers the Prime Pack");
-  ok("S10","the service worker serves the Prime Pack files and its frame page from the shell, and no roulette panel covers its stage");
+  assert.ok(stageFn.indexOf("doc.body.append(stage)")>0&&!stageFn.slice(0,stageFn.indexOf("function igsPost(")).includes("CareerModeRosterRouletteStep?.close?.()"),"the stage alone never closes the roulette's panel (Fable F13-07: it stays over a loading page)");
+  const ready=step.slice(step.indexOf('if(m.type==="cms-ig-ready"){'),step.indexOf('}else if(m.type==="cms-ig-input")'));
+  assert.match(ready,/closeRoulette\(\);join\(\);/,"the roulette's panel goes once the page is ready, so nothing covers the Prime Pack");
+  assert.match(step,/const closeRoulette=\(\)=>\{try\{root\.CareerModeRosterRouletteStep\?\.close\?\.\(\);\}catch\(_error\)\{\}\};/);
+  ok("S10","the service worker serves the Prime Pack files and its frame page from the shell, and no roulette panel covers its ready stage");
 }
 
 // S11 Fable F12-01/03: a right guess scores the stage of the SERVER time of its write. A guess sent at 30.25 s after the later
@@ -205,9 +208,11 @@ const ts=ms=>({toMillis:()=>ms});
   assert.match(rules,/ssjrPackArrive\(before, after, role\) \|\| ssjrPackLeave\(before, after, role\) \|\| ssjrPackGuess/,"the update rule takes the leave");
   assert.match(step,/async function igsLeave\(io,ctx\)[\s\S]*?data\.arrived\[me\]!=null&&data\.arrived\[igsOther\(me\)\]===null&&data\.namedBy===null\)\{tx\.update\(ref,\{\[`arrived\.\$\{me\}`\]:null/,"the step withdraws only while the other has not arrived");
   assert.match(step,/back\.addEventListener\("click",\(\)=>\{if\(finished\)return;leave\(\);end\("back"\);\}\)/,"BACK withdraws");
-  assert.match(step,/visibilityState==="hidden"\)\{if\(record&&!record\.winner&&record\.arrived\[other\]===null\)\{away=true;leave\(\);\}\}\s*else if\(away\)\{away=false;igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
+  assert.match(step,/visibilityState==="hidden"\)\{if\(record&&!record\.winner&&record\.arrived\[other\]===null\)\{away=true;leave\(\);\}return;\}[\s\S]{0,200}?if\(away\)\{away=false;rejoinedAt=Date\.now\(\);igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
   assert.match(step,/await igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"arrive and leave run in order");
   ok("S12","leaving while the other manager has not arrived withdraws the arrival (Rules + step: BACK and a hidden phone), and coming back arrives again");
 }
 
 console.log(`PASS r87 Prime Pack step contracts: ${checks} checks.`);
+// The Fable job 13 fixes run the step itself against a fake page and record (its own file, run here so this entry covers it).
+require("node:child_process").execFileSync(process.execPath,[path.join(__dirname,"r87-prime-pack-f13-contracts.cjs")],{stdio:"inherit"});

@@ -122,7 +122,7 @@ d=IG.applyGuess(d,{role:'playerOne',correct:false,atMs:at(3)+1}).record;
 assert.deepEqual(IG.outcome(d,at(3)+1),{state:'draw',winner:null,beat:null,chips:{playerOne:0,playerTwo:0}},'all four chips spent: a draw at once');
 assert.deepEqual(IG.points(d),{playerOne:0,playerTwo:0});
 const late=IG.applyGuess(r,{role:'playerOne',correct:true,atMs:IG.endsAt(T0)});assert.equal(late.reason,'ROUND_OVER','nothing counts after the stage 4 window');
-assert.equal(IG.outcome(r,IG.endsAt(T0)-1).state,'live');assert.equal(IG.outcome(r,IG.endsAt(T0)).state,'draw','nobody by the end of stage 4: the whole card shows and nobody scores');
+assert.equal(IG.outcome(r,IG.endsAt(T0)-1).state,'live');assert.equal(IG.outcome(r,IG.endsAt(T0)+IG.drawSlackMs).state,'live','a winner may land until the Rules window closes (Fable F13-06)');assert.equal(IG.outcome(r,IG.endsAt(T0)+IG.drawSlackMs+1).state,'draw','nobody by the end of the Rules window: the whole card shows and nobody scores');
 const last=IG.applyGuess(r,{role:'playerOne',correct:true,atMs:at(3)});assert.equal(last.record.winner.beat,IG.lastBeat,'stage 4 is the last chance');assert.deepEqual(IG.points(last.record),{playerOne:1,playerTwo:0});
 ok('G6','a manager with no chips only watches; all chips spent or stage 4 closing with no right guess is a draw with no points');
 

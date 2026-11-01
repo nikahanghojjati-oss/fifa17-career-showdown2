@@ -4,8 +4,8 @@
 //
 // Product rules used (house rules, Nik): a season scores Champions League 5, Europa League 3 (never both), league title 3
 // (league position 1), domestic cup 1, performance bonus 1 (100+ league points or 100+ league goals), awards bonus 1 (top
-// scorer or top assist), so 0-11. Equal season points is a DRAW; equal Showdown totals is a DRAW; league position never decides
-// (no tiebreak anywhere). A Golden Showdown is a 10-season Showdown a manager closes on 110. Only completed Showdowns (closed
+// scorer or top assist), Prime Pack 4/3/2/1 (one manager a season at most), so 0-15; a perfect season is 15. Equal season points is a DRAW; equal Showdown totals is a DRAW; league position never decides
+// (no tiebreak anywhere). A Golden Showdown is a 10-season Showdown a manager closes on 150 (the only Golden total). Only completed Showdowns (closed
 // with a Terminal Close witness) count anywhere. An ended-early Showdown (closed without one) is one status-only History card
 // and counts nowhere. Never-joined codes, test runs (career start marker) and the live Showdown count nowhere in career totals.
 const {doc,getDoc}=require("firebase/firestore");
@@ -30,7 +30,7 @@ function tally(seasons){
       const r=season[u],x=t[u];
       x.seasons+=1;x.total+=s[u];if(w===u)x.W+=1;else if(w==="draw")x.D+=1;else x.L+=1;
       if(r.leaguePosition===1)x.league+=1;if(r.domesticCup)x.cup+=1;if(r.championsLeague)x.cl+=1;else if(r.europaLeague===true)x.el+=1;
-      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s[u]>=11)x.perfect+=1;
+      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s[u]===15)x.perfect+=1;
       x.bestScore=Math.max(x.bestScore??0,s[u]);x.highPoints=Math.max(x.highPoints??0,r.leaguePoints);x.highGoals=Math.max(x.highGoals??0,r.leagueGoals);
       x.trophies=x.league+x.cup+x.cl+x.el;
     }
@@ -80,8 +80,8 @@ async function readCareer(env,uid){
         const w=data.terminalClose?.managerTotals;
         const witness=w?{[roleOf.playerOne]:w.playerOne,[roleOf.playerTwo]:w.playerTwo}:null;
         row.witnessAgrees=Boolean(witness&&witness.daniel===row.totals.daniel&&witness.nik===row.totals.nik&&row.seasons.length===row.totalSeasons);
-        // Golden Showdown: 150 in a Prime Pack Showdown (confirmed on or after 2026-10-30, every Showdown the emulator runs), 110 before.
-        const goldenAt=10*(setup?.updatedAt?.toMillis?.()<Date.parse("2026-10-30T00:00:00Z")?11:15);
+        // Golden Showdown: 150 in a 10-season Showdown, nothing else (Nik 2026-11-01: no 110 Golden ever).
+        const goldenAt=150;
         row.golden={daniel:row.totalSeasons===10&&row.totals.daniel>=goldenAt,nik:row.totalSeasons===10&&row.totals.nik>=goldenAt};
       }
       rows.push(row);

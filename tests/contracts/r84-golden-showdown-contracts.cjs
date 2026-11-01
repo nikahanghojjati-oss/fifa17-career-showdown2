@@ -4,7 +4,8 @@ const fs=require("node:fs");
 const path=require("node:path");
 const vm=require("node:vm");
 
-// r84 Golden Showdown (owner Nik): a manager who scores 110 Showdown points in a finished 10-season Showdown (11, the most a
+// r84 Golden Showdown (owner Nik), r87 (Nik 2026-11-01 17:35 UTC: 150, no 150 record): a manager who scores 150 Showdown
+// points in a finished 10-season Showdown (15, the most a
 // season can score, in every season) earns the Golden Showdown. Each manager is judged on their own total, so both can earn it
 // in one Showdown. An ended-early, unfinished or shorter Showdown never earns it. It is read from the completed Showdowns the
 // career screens already load (no new reads, writes or documents) and shows in the Trophy Room (a gold case), Career
@@ -26,8 +27,9 @@ function loadSeam(){
 const Seam=loadSeam();
 const plain=value=>JSON.parse(JSON.stringify(value));
 
-const perfect=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,topScorer:true});
-const ten=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true}); // 10, no award
+const perfect=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,topScorer:true,primePack:4}); // 15
+const ten=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,primePack:4}); // 14, no award
+const eleven=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,topScorer:true}); // 11, no Prime Pack
 const plainSeason=()=>result({leaguePosition:4,leaguePoints:70});
 function showdown({seed,totalSeasons,seasons}){
   const p=projection({seed,totalSeasons,seasons});
@@ -39,9 +41,9 @@ const rivalry=model=>plain(RivalryLegacy.toV10Frame(model,"rivalryStatistics"));
 let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
 
 {
-  // Nik wins every season with 11; Daniel scores 0-3 a season.
+  // Nik wins every season with 15; Daniel scores 0-3 a season.
   const golden=showdown({seed:"a",totalSeasons:10,seasons:Array.from({length:10},()=>[plainSeason(),perfect()])});
-  assert.equal(golden.projection.managerRecords.playerTwo.totalPoints,110);
+  assert.equal(golden.projection.managerRecords.playerTwo.totalPoints,150);
   const model=career([golden]),row=model.history.showdowns[0];
   assert.deepEqual(plain(Seam.goldenShowdownManagers(row)),["nik"]);
   assert.deepEqual(plain(Seam.goldenShowdownCounts(model.history.showdowns)),{daniel:0,nik:1});
@@ -51,33 +53,44 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   assert.deepEqual(f.legacy.showdowns[0].goldenShowdown,["nik"],"Legacy marks that Showdown's card");
   assert.deepEqual(rivalry(model).goldenShowdown,["nik"],"Rivalry Statistics mentions it for that Showdown");
   // The live Rivalry route (no history; lifecycle from the active Showdown) uses the same rule.
-  const live={status:"ready",leagueId:"premier_league",clubs:{daniel:"club_a",nik:"club_b"},totalSeasons:10,score:{daniel:row.totals.daniel,nik:110},managers:model.managers,seasons:row.seasons,lifecycle:"completed"};
+  const live={status:"ready",leagueId:"premier_league",clubs:{daniel:"club_a",nik:"club_b"},totalSeasons:10,score:{daniel:row.totals.daniel,nik:150},managers:model.managers,seasons:row.seasons,lifecycle:"completed"};
   assert.deepEqual(rivalry(live).goldenShowdown,["nik"]);
   assert.equal(rivalry({...live,lifecycle:"completion-pending"}).goldenShowdown,undefined,"an unfinished Showdown never earns it");
-  ok("110 points in a finished 10-season Showdown earns the Golden Showdown on every career screen");
+  ok("150 points in a finished 10-season Showdown earns the Golden Showdown on every career screen");
 }
 {
-  // One season of 10 instead of 11: 109.
+  // One season of 14 instead of 15: 149.
   const near=showdown({seed:"b",totalSeasons:10,seasons:Array.from({length:10},(_,i)=>[plainSeason(),i===6?ten():perfect()])});
-  assert.equal(near.projection.managerRecords.playerTwo.totalPoints,109);
+  assert.equal(near.projection.managerRecords.playerTwo.totalPoints,149);
   const model=career([near]),f=frames(model);
   assert.deepEqual(plain(Seam.goldenShowdownManagers(model.history.showdowns[0])),[]);
-  assert.equal(f.trophyRoom.goldenShowdowns,undefined,"no gold case at 109");
+  assert.equal(f.trophyRoom.goldenShowdowns,undefined,"no gold case at 149");
   assert.equal(f.careerStatistics.goldenShowdowns,undefined);
   assert.equal(f.legacy.showdowns[0].goldenShowdown,undefined);
   assert.equal(rivalry(model).goldenShowdown,undefined);
-  ok("109 points does not earn it");
+  ok("149 points does not earn it");
 }
 {
-  // A perfect 5-season Showdown tops out at 55; even a row claiming 110 over 5 seasons never earns it.
+  // r87 (Nik 2026-11-01 17:35 UTC): 11 in every season (110, a Showdown before Prime Pack) is no Golden Showdown any more.
+  const old=showdown({seed:"9",totalSeasons:10,seasons:Array.from({length:10},()=>[plainSeason(),eleven()])});
+  assert.equal(old.projection.managerRecords.playerTwo.totalPoints,110);
+  const model=career([old]),f=frames(model);
+  assert.deepEqual(plain(Seam.goldenShowdownManagers(model.history.showdowns[0])),[]);
+  assert.equal(Seam.goldenShowdownPoints(model.history.showdowns[0]),150);
+  assert.equal(f.trophyRoom.goldenShowdowns,undefined,"no gold case at 110");
+  assert.equal(model.managers.nik.perfectSeasons,0,"an 11 is not a perfect season");
+  ok("110 (11 every season) never earns it, and an 11 is not a perfect season");
+}
+{
+  // A perfect 5-season Showdown tops out at 75; even a row claiming 150 over 5 seasons never earns it.
   const five=showdown({seed:"c",totalSeasons:5,seasons:Array.from({length:5},()=>[plainSeason(),perfect()])});
-  assert.equal(five.projection.managerRecords.playerTwo.totalPoints,55,"11 a season is the most, so 5 seasons reach 55");
+  assert.equal(five.projection.managerRecords.playerTwo.totalPoints,75,"15 a season is the most, so 5 seasons reach 75");
   const model=career([five]),f=frames(model);
   assert.equal(f.trophyRoom.goldenShowdowns,undefined);assert.equal(f.legacy.showdowns[0].goldenShowdown,undefined);
   const row=plain(model.history.showdowns[0]);
-  assert.deepEqual(plain(Seam.goldenShowdownManagers({...row,totals:{daniel:110,nik:110}})),[],"only a 10-season Showdown counts");
-  assert.deepEqual(plain(Seam.goldenShowdownManagers({...row,totals:{daniel:0,nik:110},totalSeasons:10,seasonsPlayed:5})),[],"all 10 seasons must be played");
-  ok("110 can't happen in a 5-season Showdown, and a shorter Showdown never earns it");
+  assert.deepEqual(plain(Seam.goldenShowdownManagers({...row,totals:{daniel:150,nik:150}})),[],"only a 10-season Showdown counts");
+  assert.deepEqual(plain(Seam.goldenShowdownManagers({...row,totals:{daniel:0,nik:150},totalSeasons:10,seasonsPlayed:5})),[],"all 10 seasons must be played");
+  ok("150 can't happen in a 5-season Showdown, and a shorter Showdown never earns it");
 }
 {
   // Ended early: listed in Legacy as a status-only row; never counts, whatever it claims.
@@ -87,20 +100,20 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   assert.deepEqual(plain(Seam.goldenShowdownCounts(model.history.showdowns)),{daniel:0,nik:0});
   assert.equal(f.legacy.showdowns[0].status,"abandoned");assert.equal(f.legacy.showdowns[0].goldenShowdown,undefined);
   assert.equal(f.trophyRoom.goldenShowdowns,undefined);
-  for(const status of ["abandoned","in-progress","completion-pending","unavailable"])assert.deepEqual(plain(Seam.goldenShowdownManagers({status,totalSeasons:10,seasonsPlayed:10,totals:{daniel:110,nik:110}})),[],`${status} never earns it`);
+  for(const status of ["abandoned","in-progress","completion-pending","unavailable"])assert.deepEqual(plain(Seam.goldenShowdownManagers({status,totalSeasons:10,seasonsPlayed:10,totals:{daniel:150,nik:150}})),[],`${status} never earns it`);
   ok("an ended-early (or unfinished) Showdown never earns it");
 }
 {
-  // Both managers on 110 in one Showdown: each earns it. A second golden Showdown for Nik counts again.
+  // Both managers on 150 in one Showdown: each earns it. A second golden Showdown for Nik counts again.
   const both=showdown({seed:"e",totalSeasons:10,seasons:Array.from({length:10},()=>[perfect(),perfect()])});
   const again=showdown({seed:"f",totalSeasons:10,seasons:Array.from({length:10},()=>[plainSeason(),perfect()])});
-  assert.equal(both.projection.managerRecords.playerOne.totalPoints,110);assert.equal(both.projection.managerRecords.playerTwo.totalPoints,110);
+  assert.equal(both.projection.managerRecords.playerOne.totalPoints,150);assert.equal(both.projection.managerRecords.playerTwo.totalPoints,150);
   const model=career([both,again]),f=frames(model);
   assert.deepEqual(f.trophyRoom.goldenShowdowns,{daniel:1,nik:2});
   assert.deepEqual(f.careerStatistics.goldenShowdowns,{daniel:1,nik:2});
   assert.deepEqual(f.legacy.showdowns.map(s=>s.goldenShowdown),[["daniel","nik"],["nik"]]);
   assert.deepEqual(rivalry(career([both])).goldenShowdown,["daniel","nik"]);
-  ok("both managers can earn it, each on their own 110");
+  ok("both managers can earn it, each on their own 150");
 }
 {
   // Renderers, looks, Rule Book and the data boundary.
@@ -119,7 +132,7 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   assert.equal(JSON.parse(read("visual-assets/v10_1/legacy/strings.json")).ui.goldenShowdown,"Golden Showdown");
   const css=read("css/rivalryLegacyV10.css");
   assert.match(css,/\.legacyCard\[data-golden="true"\]/);assert.match(css,/\.rv-goldenShowdown/);
-  assert.match(read("js/ruleBook.js"),/goldenLabel\.textContent = "GOLDEN SHOWDOWN";[\s\S]*?"Score 150 points in a 10-season Showdown \(15 in every season\) to win the gold trophy\. A Showdown started before Prime Pack needs 110\."/,"the Rule Book gives Golden Showdown its own gold line");
+  assert.match(read("js/ruleBook.js"),/goldenLabel\.textContent = "GOLDEN SHOWDOWN";[\s\S]*?"Score 150 points in a 10-season Showdown \(15 in every season\) to win the gold trophy\."/,"the Rule Book gives Golden Showdown its own gold line");
   for(const file of ["js/careerScreenSeam.js","js/careerScreensV10.js","js/rivalryLegacyV10.js","visual-assets/v10_1/trophy-room/trophy-room.js","visual-assets/v10_1/career-statistics/career-statistics.js","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js","visual-assets/v10_1/legacy/legacy.js"]){
     const source=read(file);
     assert.doesNotMatch(source,/localStorage/,`${file} never touches localStorage`);
@@ -128,4 +141,4 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   assert.doesNotMatch(seam,/getDoc|setDoc|firestore|fetch\(/i,"the rule reads only rows already loaded");
   ok("renderers, gold looks, Rule Book line and the no-new-data boundary are in place");
 }
-console.log(`PASS r84 Golden Showdown: ${checks} checks (110 in a finished 10-season Showdown earns it, per manager; 109, 5 seasons and ended early never do).`);
+console.log(`PASS r84 Golden Showdown: ${checks} checks (150 in a finished 10-season Showdown earns it, per manager; 149, 5 seasons and ended early never do).`);
