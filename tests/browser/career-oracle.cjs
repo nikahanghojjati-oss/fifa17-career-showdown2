@@ -77,7 +77,7 @@ const S=String,two=(d,n)=>[S(d),S(n)];
 const cell=n=>n>0?String(n):"—";
 const leaderName=(d,n)=>d>n?"Daniel":n>d?"Nik":"Level · Daniel + Nik";
 const near=(shown,want)=>Number.isFinite(Number(shown))&&Math.abs(Number(shown)-want)<=0.051;
-const holderName=h=>h==="shared"?"SHARED":h.toUpperCase();
+const holderName=h=>h==="shared"?"LEVEL":h.toUpperCase();
 const escape=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 
 // ---- 1. CE2PG base career ----
