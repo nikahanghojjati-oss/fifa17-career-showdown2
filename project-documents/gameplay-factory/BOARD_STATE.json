@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 10:38 AM Boston time (EST)",
+ "generated": "2026-11-01 10:49 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 181,
@@ -1652,8 +1652,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "eb4573a",
-  "head_boston": "Sun 1 Nov 10:37 AM",
+  "head": "892e6bb",
+  "head_boston": "Sun 1 Nov 10:42 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1689,8 +1689,8 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: POS20 on #312 has waited 6 min for a machine; Showdown Gate on #1163 has waited 6 min for a machine; Showdown Gate on #1115 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2416,8 +2416,8 @@
     "from": "G",
     "to": "V",
     "title": "Re-skin #1163 onto final Prime Pack page: quick visual sign-off",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-053_re-skin-1163-onto-final-prime-pack-page-.md",
     "worker": "",
@@ -2494,7 +2494,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,

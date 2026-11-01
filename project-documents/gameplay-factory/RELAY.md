@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 10:38 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 10:49 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `eb4573a` (Sun 1 Nov 10:37 AM Boston time) · 181 messages · 54 hand-offs · 353 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `892e6bb` (Sun 1 Nov 10:42 AM Boston time) · 181 messages · 54 hand-offs · 354 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-053 · G → V · Re-skin #1163 onto final Prime Pack page: quick visual sign-off
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 3 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 3 min after delivery
 
+- Sun 1 Nov 10:42 AM · Team V · Done
 - Sun 1 Nov 10:25 AM · Team V · Received · Team V will review G's desktop+phone shots against attachments/HO-051/V sheets as soon as they land (~16:15 UTC) and answer yes/no before 16:45 UTC.
 - Sun 1 Nov 10:21 AM · Team G · Sent
 - Sun 1 Nov 10:21 AM · relay Action · Delivered in full as a wake comment on PR #312
