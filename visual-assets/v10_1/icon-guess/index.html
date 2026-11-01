@@ -592,7 +592,9 @@ function fitViewport(){
 const STAGE_ART = { wide:{ w:2560, h:1440, ped:.705, front:.05 }, tall:{ w:1179, h:2556, ped:.428, front:.036 } };
 function layoutStage(){
   const app=$("app"), W=app.clientWidth||innerWidth, H=app.clientHeight||innerHeight;
-  const tall = W/H < 1.05, art = tall ? STAGE_ART.tall : STAGE_ART.wide;
+  // Wide only when it really fits: a card of at least 120 px plus both boxes (190 px each at least) and their gaps across the
+  // width. A phone held upright with the keyboard open (e.g. 390x350) is wider than tall but keeps the phone layout.
+  const tall = W/H < 1.05 || W < 120 + 2*(190+32+12), art = tall ? STAGE_ART.tall : STAGE_ART.wide;
   app.dataset.shape = tall ? "tall" : "wide";
   let s = Math.max(W/art.w, H/art.h), ped = (H-art.h*s)/2 + art.ped*art.h*s;
   const boxesH = tall ? Math.ceil($("guessbar").getBoundingClientRect().height) || 76 : 0;
