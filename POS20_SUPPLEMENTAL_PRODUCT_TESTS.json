@@ -2495,6 +2495,8 @@
       "patterns": [
         "^js/(app|onlinePlayerIdentity|productionSharedTransferChallenge|transferChallenge|productionSharedJourneyGuard|seasonEngine|optionalModules|footballVisuals|diagnostics|productionSharedSeasonResultsRoute|sparkRemoteJoining|productionSharedLocalReconciliation)\\.js$",
         "^css/r78-marble-surfaces\\.css$",
+        "^js/homeScreensV10\\.js$",
+        "^css/homeV10\\.css$",
         "^service-worker\\.js$",
         "^tests/contracts/r87\\-error\\-screens\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"

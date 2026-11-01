@@ -100,6 +100,9 @@ check("E7 the connection panel and the save check speak plainly (proofread W3-7)
   assert.match(srj,/function srjPlain\(error,fallback\)/);
   // Codex #1118: a lost acknowledgement is retried by the RETRY button (or an online event), not on a timer, so the line says so.
   assert.match(srj,/srjPendingFailure[^\n]*\n[^\n]*\n[^\n]*Tap the RETRY button below to try again\. Your Showdown was not changed\./);
+  // Codex #1118: closing the panel keeps the pending request, so a changed sign-in is fixed by signing back in, not by reconnecting.
+  assert.ok(!srj.includes("Close this panel and connect again"),"no dismiss-and-reconnect loop that cannot succeed");
+  assert.match(srj,/srjPendingContextMatches\(context\)\)\{\n[^\n]*Sign back in with the same Google account on the same device, then tap RETRY\./);
   assert.ok(!srj.includes("It will try again by itself"),"no promise of an automatic retry that is not scheduled");
   assert.ok(!/error&&error\.message\?error\.message:|error&&error\.message\|\|"/.test(srj),"no raw error.message reaches the panel");
   const S=new Function("error","fallback",srj.match(/function srjPlain\(error,fallback\)\{([^\n]*)\}/)[1]);
@@ -133,6 +136,31 @@ async function gate(browser,base,opts,state,quota){
   }finally{await context.close();}
 }
 
+// Nik's pick (#1118 card): on a portrait phone the free-limit note is one line inside Continue Career; elsewhere it stays a note.
+async function homeQuota(browser,base,opts,shot){
+  const context=await browser.newContext(opts);
+  await context.route("https://**/*",route=>route.abort());
+  const page=await context.newPage();
+  try{
+    await page.goto(base,{waitUntil:"domcontentloaded"});
+    await page.waitForFunction(()=>document.getElementById("loadingScreen")?.classList.contains("hidden")&&document.querySelector("#mainMenu.v10Home")&&window.CareerModeFirestoreBudget,null,{timeout:30000});
+    await page.evaluate(()=>window.CareerModeFirestoreBudget.noteError({code:"resource-exhausted"}));
+    await page.waitForFunction(()=>document.querySelector("#continueCareer .menuTileQuota")||document.querySelector("#appRuntimeNotice .runtimeNoticeText"));
+    await page.evaluate(()=>document.fonts.ready);
+    if(shot)await page.screenshot({path:shot});
+    const seen=await page.evaluate(()=>{
+      const tile=document.getElementById("continueCareer"),line=tile.querySelector(".menuTileQuota"),note=document.getElementById("appRuntimeNotice");
+      const r=e=>e.getBoundingClientRect(),inside=(a,b)=>a.left>=b.left-0.5&&a.right<=b.right+0.5&&a.top>=b.top-0.5&&a.bottom<=b.bottom+0.5;
+      const hit=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+      const lr=line&&r(line),words=[...tile.querySelectorAll(".menuTileCode,.menuTileLabel,.menuTileMeta,.tileArt")].filter(e=>e!==line&&getComputedStyle(e).visibility!=="hidden"&&r(e).height>0);
+      return {line:line?.textContent||null,inside:lr?inside(lr,r(tile)):null,overlaps:lr?words.filter(e=>hit(lr,r(e))).map(e=>e.className):[],note:note?.querySelector(".runtimeNoticeText")?.textContent||null};
+    });
+    await page.evaluate(()=>window.CareerModeFirestoreBudget.reset());
+    seen.afterReset=await page.evaluate(()=>({line:Boolean(document.querySelector("#continueCareer .menuTileQuota")),note:Boolean(document.getElementById("appRuntimeNotice"))}));
+    return seen;
+  }finally{await context.close();}
+}
+
 (async()=>{
   const {chromium}=require("playwright");
   const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
@@ -160,6 +188,22 @@ async function gate(browser,base,opts,state,quota){
       assert.equal(off.title,"CONNECTION REQUIRED",tag);assert.deepEqual(off.buttons,["TRY AGAIN"],tag);
     }
     passed+=1;console.log(`ok ${passed} E6 the real sign-in gate at 390x844 and 1440x900: plain words, a way forward, marble, no dimming`);
+    for(const opts of [{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true},{viewport:{width:360,height:640},isMobile:true,hasTouch:true},{viewport:{width:1440,height:900}}]){
+      const tag=`${opts.viewport.width}x${opts.viewport.height}`,phone=opts.viewport.width<=760;
+      const shot=process.env.R87_SHOTS?path.join(process.env.R87_SHOTS,`home-quota-${tag}.png`):null;
+      const q=await homeQuota(browser,base,opts,shot);
+      if(phone){
+        assert.equal(q.line,"Online limit used up today · back at 3 am Boston",`${tag} one line in Continue Career`);
+        assert.equal(q.note,null,`${tag} no floating note over the faces`);
+        assert.equal(q.inside,true,`${tag} the line sits inside the tile`);
+        assert.deepEqual(q.overlaps,[],`${tag} the line touches no other tile words or art`);
+      }else{
+        assert.equal(q.line,null,`${tag} desktop keeps the note`);
+        assert.equal(q.note,"Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",tag);
+      }
+      assert.deepEqual(q.afterReset,{line:false,note:false},`${tag} resume clears it`);
+    }
+    passed+=1;console.log(`ok ${passed} E8 the free-limit line lives inside Continue Career on a portrait phone, a note elsewhere`);
     console.log(`PASS r87 error screens contracts: ${passed} checks.`);
   }finally{
     if(browser)await browser.close();

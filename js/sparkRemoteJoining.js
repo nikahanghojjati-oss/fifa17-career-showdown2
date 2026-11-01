@@ -191,8 +191,8 @@
     const sessionId=srjState.sessionId;
     if(!action||!sessionId)return {ok:false,code:"REMOTE_JOINING_RECOVERY_REQUIRED",message:"No unresolved private-session operation is waiting for retry."};
     if(!srjPendingContextMatches(context)){
-      srjSetState({status:"recovery-pending",busy:false,capabilityCopyAllowed:false,message:"This sign-in changed since the last try. Close this panel and connect again."});
-      return {ok:false,code:"REMOTE_JOINING_RECOVERY_CONTEXT_CHANGED",message:"This sign-in changed since the last try. Close this panel and connect again.",recoverable:true,pendingAction:action};
+      srjSetState({status:"recovery-pending",busy:false,capabilityCopyAllowed:false,message:"You are signed in differently from the last try. Sign back in with the same Google account on the same device, then tap RETRY. Your Showdown was not changed."});
+      return {ok:false,code:"REMOTE_JOINING_RECOVERY_CONTEXT_CHANGED",message:"You are signed in differently from the last try. Sign back in with the same Google account on the same device, then tap RETRY. Your Showdown was not changed.",recoverable:true,pendingAction:action};
     }
     srjSetState({status:`retrying-${action}`,busy:true,capabilityCopyAllowed:false,message:"Connecting again…"});
     try{
