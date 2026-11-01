@@ -1,6 +1,6 @@
 {
  "title": "Showdown 2.0.0 Gallery",
- "lede": "Freeze build: gameplay/r87 18c09562 (1 Nov 14:40 UTC). Prime Pack is added once #1149 and its art land. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator from the release branch by CE2PG. Tap any picture to open it full size.",
+ "lede": "Freeze build gameplay/r87 18c09562 (1 Nov 14:40 UTC), plus Prime Pack (#1149) shot on 5dc4ffbd at 16:00 UTC. Team V's Prime Pack art (#1163), Home without the music bar (#1176) and #1177 are re-shot on the final head. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator from the release branch by CE2PG. Tap any picture to open it full size.",
  "notes": "gameplay/r87/RELEASE_NOTES_2.0.0.md",
  "checklist_url": "https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU",
  "shots_dir": "test-results/gallery-r87",
@@ -159,17 +159,23 @@
   },
   {
    "title": "Prime Pack",
-   "note": "New: after the roulette, one masked Icon card rises; each stage adds a stat; the first right name scores 4, 3, 2 or 1. Team V card art.",
+   "note": "New: after the roulette, one masked Icon card rises; each stage adds a stat; the first right name scores 4, 3, 2 or 1, and 2 guesses each. Pictures from the 5dc4ffbd build; Team V's card art (#1163) is re-shot on the final head.",
    "prs": [
     1149,
     1163
    ],
-   "desktop": {
-    "match": "(?i)prime|icon"
-   },
-   "phone": {
-    "match": "(?i)prime|icon"
-   }
+   "desktop": "/mnt/project-files/gameplay/r87/gallery-shots/prime-pack/desktop-stage.png",
+   "phone": "/mnt/project-files/gameplay/r87/gallery-shots/prime-pack/phone-stage.png",
+   "extra": [
+    {
+     "file": "/mnt/project-files/gameplay/r87/gallery-shots/prime-pack/desktop-pack.png",
+     "caption": "Desktop, the pack before the card rises"
+    },
+    {
+     "file": "/mnt/project-files/gameplay/r87/gallery-shots/prime-pack/phone-reveal.png",
+     "caption": "Phone, the reveal when nobody got him"
+    }
+   ]
   },
   {
    "title": "Transfer Challenge",
