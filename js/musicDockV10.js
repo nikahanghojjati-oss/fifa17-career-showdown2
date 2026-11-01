@@ -1,6 +1,7 @@
 // r85 (Nik 2026-10-27): the soundtrack player outside Home's own strip.
 // - Desktop: a compact dock in the top bar, after the tabs, on every screen (Home too: its strip is hidden on desktop).
-// - Phone and tablet (900px and under): a sixth MUSIC tab in the tab bar, and Home's TRACKS button, open the player sheet.
+// - Phone and tablet (900px and under): a sixth MUSIC tab in the tab bar opens the player sheet.
+// r87 (Nik 2026-11-01): Home has no music strip of its own any more; these two are the only music controls.
 // - Both open one player panel: now playing, progress, previous / play / next / mute, and a one-column tracklist with
 //   every title and artist written in full, scrolling inside itself. It is opaque and never dims the screen behind it.
 // It drives Home's one <audio> through window.HomeSoundtrack, so a song keeps playing across screens. Nothing here touches
@@ -49,7 +50,7 @@
       swapIcon(dock.toggle,s.wantPlaying?"pause":"play");
       dock.toggle.setAttribute("aria-label",(s.wantPlaying?"Pause ":"Play ")+t.title);dock.toggle.setAttribute("aria-pressed",String(Boolean(s.wantPlaying)));
       // Mute waits for the first Play, as on Home (there is no sound to mute before it).
-      dock.mute.disabled=!s.src;swapIcon(dock.mute,s.muted?"muted":"sound");
+      dock.mute.disabled=!mdAudio();swapIcon(dock.mute,s.muted?"muted":"sound");
       dock.mute.setAttribute("aria-label",s.muted?"Unmute":"Mute");dock.mute.setAttribute("aria-pressed",String(Boolean(s.muted)));
       dock.open.setAttribute("aria-expanded",String(Boolean(sheet&&!sheet.root.hidden)));
       dock.root.dataset.playing=String(playing);dock.root.dataset.failed=String(failed);
@@ -61,7 +62,7 @@
       setText(sheet.title,t.title);setText(sheet.artist,failed?"Tap Play to try again, or pick another song":t.artist);
       swapIcon(sheet.play,s.wantPlaying?"pause":"play");
       sheet.play.setAttribute("aria-label",(s.wantPlaying?"Pause ":"Play ")+t.title);
-      sheet.mute.disabled=!s.src;swapIcon(sheet.mute,s.muted?"muted":"sound");
+      sheet.mute.disabled=!mdAudio();swapIcon(sheet.mute,s.muted?"muted":"sound");
       sheet.mute.setAttribute("aria-label",s.muted?"Unmute":"Mute");sheet.mute.setAttribute("aria-pressed",String(Boolean(s.muted)));
       sheet.root.dataset.playing=String(playing);sheet.root.dataset.failed=String(failed);
       // The current song: aria-current plus a visible "now playing" icon (css), never colour alone. It is also the row
@@ -272,19 +273,6 @@
     mdRender();
   }
 
-  // Home's TRACKS button is a label for a hidden checkbox (Team V markup). Under 900px the checkbox is turned straight back
-  // off in the same task, before the old grid can paint, and the sheet opens instead.
-  function mdHomeHook(){
-    const doc=root.document,box=doc.getElementById("phoneTrackSheetToggle");
-    if(!box||box.dataset.cmsSheet)return;
-    box.dataset.cmsSheet="true";
-    box.addEventListener("change",()=>{
-      if(!box.checked||root.innerWidth>PHONE_MAX)return;
-      box.checked=false;
-      mdSheetOpen(doc.querySelector(".menuMusicTile .phoneTrackSheetOpen")||box);
-    });
-  }
-
   function mdMount(){
     const doc=root.document,top=doc.querySelector(".sd-nav-top");
     if(top&&!doc.getElementById("cmsMusicDockTop")){mdBuildDock(top,top.querySelector(".sd-nav-capsule"));mdRender();}
@@ -294,7 +282,6 @@
 
   function mdStart(){
     const api=player(),doc=root.document;
-    mdHomeHook();
     if(started||!api||typeof api.subscribe!=="function"||!api.current())return false;
     started=true;
     api.subscribe(mdRender);

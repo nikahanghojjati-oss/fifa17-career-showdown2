@@ -110,10 +110,9 @@ async function run(){
     diagnostics=await page.evaluate(()=>window.getOfflineAppDiagnostics());
     assert.equal(diagnostics.connectivity,"offline");
     assert.equal(diagnostics.offlineReady,true);
-    assert.equal(await page.locator("#menuMusicToggle").isDisabled(),true);
-    // r85/r86: Home's soundtrack strip stays in the page but out of sight (the top bar or the MUSIC tab plays it), so its
-    // status is read from the text it still carries, not from what is rendered.
-    assert.match(await page.locator("#menuMusicStatus").textContent(),/OFFLINE.*YOUTUBE/i);
+    // r87 (Nik 2026-11-01): Home has no music strip; offline, the soundtrack (MUSIC tab / top-bar dock) is not playing.
+    assert.equal(await page.locator("#mainMenu .menuMusicTile, #menuMusicToggle, #menuMusicStatus").count(),0);
+    assert.equal(await page.evaluate(()=>Boolean(window.HomeSoundtrack?.state?.().wantPlaying)),false);
     assert.deepEqual(await storage(page),fixture);
     assert.equal(await page.locator("#offlineAppRail,#offlineAppPanel,#offlineInstallAction").count(),0);
 

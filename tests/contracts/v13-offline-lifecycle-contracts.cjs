@@ -7,38 +7,25 @@ const source = fs.readFileSync("js/offlineApp.js", "utf8");
 const mediaMatch = source.match(/function setMenuMediaOfflineState\(offline\)\{[\s\S]*?\nfunction renderConnectivity/);
 assert.ok(mediaMatch, "Production offline-media lifecycle function was not found.");
 const mediaFunction = mediaMatch[0].replace(/\nfunction renderConnectivity[\s\S]*$/, "");
-const status = { textContent: "YOUTUBE · PAUSED" };
-const toggle = {
-    disabled: false,
-    attrs: new Map(),
-    setAttribute(key, value){ this.attrs.set(key, String(value)); },
-    removeAttribute(key){ this.attrs.delete(key); },
-    click(){ throw new Error("Unexpected media click while test media is already paused."); }
-};
+// r87 (Nik 2026-11-01): Home has no music strip. Going offline pauses the soundtrack (Audius needs a connection);
+// coming back online starts nothing by itself (a song plays only after a tap).
+let pauses = 0;
 const context = vm.createContext({
     console,
-    document: {
-        getElementById(id){
-            if(id === "menuMusicToggle"){ return toggle; }
-            if(id === "menuMusicStatus"){ return status; }
-            return null;
-        }
-    },
-    window: { isMenuMediaPlaying(){ return false; } },
-    menuMediaStatusBeforeOffline: ""
+    document: { getElementById(){ throw new Error("The offline media lifecycle must not read Home markup."); } },
+    window: { HomeSoundtrack: { pause(){ pauses += 1; }, toggle(){ throw new Error("Reconnect must not start music."); } } }
 });
 vm.runInContext(`${mediaFunction}\nthis.runOfflineMediaState=setMenuMediaOfflineState;`, context);
 context.runOfflineMediaState(true);
-assert.equal(status.textContent, "OFFLINE · YOUTUBE MEDIA REQUIRES A CONNECTION");
-assert.equal(toggle.disabled, true);
+assert.equal(pauses, 1, "Going offline pauses the soundtrack.");
 context.runOfflineMediaState(true);
+assert.equal(pauses, 2, "A repeated offline render pauses again (pause is a no-op when already paused).");
 context.runOfflineMediaState(false);
-assert.equal(status.textContent, "YOUTUBE · PAUSED", "Repeated offline renders must preserve the true pre-offline media status through reconnect.");
-assert.equal(toggle.disabled, false, "Reconnect must re-enable external media controls.");
-assert.equal(toggle.attrs.has("aria-disabled"), false, "Reconnect must remove aria-disabled from external media controls.");
-status.textContent = "YOUTUBE · PLAYING";
-context.runOfflineMediaState(false);
-assert.equal(status.textContent, "YOUTUBE · PLAYING", "A later online render must not overwrite live media state with a stale pre-offline snapshot.");
+assert.equal(pauses, 2, "Reconnect never touches playback.");
+const bare = vm.createContext({ console, window: {} });
+vm.runInContext(`${mediaFunction}\nthis.runOfflineMediaState=setMenuMediaOfflineState;`, bare);
+bare.runOfflineMediaState(true);
+bare.runOfflineMediaState(false);
 
 const activation = (source.match(/async function activateWaitingUpdate\([^)]*\)\{[\s\S]*?\nasync function requestPreviousRuntimeRollback/) || [""])[0];
 assert.ok(activation, "Update activation lifecycle function was not found.");

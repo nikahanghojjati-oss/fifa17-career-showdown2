@@ -279,9 +279,6 @@ const LISTED = [
            "FOOTBALL BRINGS US TOGETHER) sit wholly under the app's opaque version footer on desktop windows, so they have never " +
            "shown in the approved look; showing them means moving the footer or the strips (a design change)",
       test: f => f.view === "HOME" && desktop(f) && f.kind === "covered" && /^(span "0[12] |b "0[12]"|strong "READY"|span "FOOTBALL BRINGS US TOGETHER")/.test(f.what) && /under footer "Career Mode Showdown/.test(f.what) },
-    { why: "Home: the soundtrack artist credit ends in … on one line, the approved short-desktop look (1280x650, 1366x768) that " +
-           "r80 also uses where the credit ran into the status line and PLAY TRACK (1024x768, 1100x600, 1024x600, 1366x640)",
-      test: f => f.view === "HOME" && desktop(f) && f.kind === "clipped" && /^p\.menuMusicArtist "Behzad Leito/.test(f.what) && / ends in \.\.\. /.test(f.what) },
     { why: "Rule Book on sideways phones (844x390): JOB-1731's adopted one-viewport study shows one section card at a time and " +
            "only the inside of that card scrolls; making main the only scroller there means redesigning that layout",
       test: f => f.view.startsWith("RULE_BOOK") && f.size === "844x390" && ((f.kind === "scrollers" && /^article\.ruleSection\.sd-panel /.test(f.what)) || (f.kind === "clipped" && / cut by div#ruleBookSections\.ruleBookGrid$/.test(f.what))) }

@@ -14,11 +14,8 @@
   // Nik's locked Audius top 10, in his order (owner request 2026-10-10, JOB-1591; ids resolved on api.audius.co 2026-10-11;
   // owner swap 2026-10-12: In Da Club (San Holo Remix) replaces Tabestoon Kootahe, Fresh replaces Dideh o Del).
   // Never swap, drop or add a song without Nik's words; an unplayable id shows the stream error and plays nothing else.
+  // r87 (Nik 2026-11-01): Home has no music strip; the player is the phone MUSIC tab and the desktop top-bar dock.
   const MEDIA=Object.freeze({
-    sectionLabel:"Menu media",selectorLabel:"Choose Audius soundtrack",category:"AUDIUS SOUNDTRACK",source:"AUDIUS",
-    toggle:"PLAY TRACK",pause:"PAUSE TRACK",mute:"MUTE",unmute:"UNMUTE",
-    statusTemplate:"{TITLE} · AUDIUS · READY",statusLoading:"CONNECTING TO AUDIUS",statusPlaying:"PLAYING",
-    statusPlayingMuted:"PLAYING · MUTED",statusPaused:"PAUSED",statusError:"STREAM UNAVAILABLE · TRY AGAIN OR PICK ANOTHER TRACK",
     // Owner request 2026-10-27 (FIFA/PES handoff): Song 2 opens the game, Love Me Again second, the other new picks next with
     // the two Sweet Disposition versions apart, then the earlier ten in their order. Ids resolved on api.audius.co 2026-10-27.
     tracks:Object.freeze([
@@ -102,63 +99,19 @@
     hmTile(t.id,null,t.art);
   }
 
-  // The Audius card replaces the YouTube player in place. The product's YouTube nodes (#menuMusicPlayer and the seven
-  // YouTube choices in #menuMediaSelector) move into a hidden holder, because
-  // js/diagnostics.js and js/menuExperience.js still check them. The toggle, mute and status keep their ids;
-  // the two buttons are cloned so the YouTube click listeners are left behind.
-  function hmMusic(host){
-    const doc=hmDoc(),card=host.querySelector(".menuMusicTile"),toggle=doc.getElementById("menuMusicToggle"),mute=doc.getElementById("menuMusicMute"),status=doc.getElementById("menuMusicStatus");
-    if(!card||card.dataset.v10Media==="audius"||!toggle||!mute||!status||!root.HomeSoundtrack)return;
-    try{if(typeof root.isMenuMediaPlaying==="function"&&root.isMenuMediaPlaying()&&typeof root.toggleMenuMusic==="function")root.toggleMenuMusic();}catch(error){}
-    const retired=hmEl("div","v10HomeRetiredMedia");retired.hidden=true;retired.setAttribute("aria-hidden","true");
-    for(const id of ["menuMusicPlayer","menuMediaSelector"]){const el=doc.getElementById(id);if(el){el.querySelectorAll("iframe").forEach(frame=>frame.remove());retired.appendChild(el);}}
-    host.appendChild(retired);
-    const offlineText=toggle.disabled&&/OFFLINE/i.test(status.textContent||"")?status.textContent:null;
-    const nextToggle=toggle.cloneNode(true),nextMute=mute.cloneNode(true);
-    nextToggle.dataset.musicBound="true";nextMute.dataset.musicBound="true";
-    const first=MEDIA.tracks.find(track=>track.key===MEDIA.defaultTrack)||MEDIA.tracks[0];
-    const header=hmEl("div","menuMusicHeader",'<div><span></span><strong></strong><p class="menuMusicArtist"></p></div><small class="menuMusicSource"></small>');
-    header.querySelector("span").textContent=MEDIA.category;header.querySelector("strong").textContent=first.title;
-    header.querySelector(".menuMusicArtist").textContent=first.artist;header.querySelector(".menuMusicSource").textContent=MEDIA.source;
-    const sheet=hmEl("input","phoneSheetToggle");sheet.id="phoneTrackSheetToggle";sheet.type="checkbox";sheet.setAttribute("aria-label","Open soundtrack choices");
-    const label=(cls,text,hidden)=>{const el=hmEl("label",cls);el.htmlFor="phoneTrackSheetToggle";el.textContent=text;if(hidden)el.setAttribute("aria-hidden","true");return el;};
-    const selector=hmEl("div","menuMediaSelector sd-sheet");selector.id="menuAudiusSelector";selector.setAttribute("role","group");selector.setAttribute("aria-label",MEDIA.selectorLabel);
-    for(const track of MEDIA.tracks){
-      const choice=hmEl("button","menuMediaChoice","<strong></strong><small></small>");choice.type="button";choice.dataset.soundtrackTrack=track.key;
-      choice.querySelector("strong").textContent=track.title;choice.querySelector("small").textContent=track.artist;selector.appendChild(choice);
-    }
-    card.style.setProperty("--track-rows",String(Math.ceil(MEDIA.tracks.length/2)));
-    const deck=hmEl("div","menuMusicPlayer",'<div class="vinylDeck" aria-hidden="true"><span class="vinyl"><i></i></span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>');
-    const controls=hmEl("div","menuMusicControls");controls.append(nextToggle,nextMute);
-    card.replaceChildren(header,sheet,label("phoneTrackSheetOpen","TRACKS",true),selector,label("phoneTrackSheetBackdrop","",true),label("phoneTrackSheetClose","CLOSE",false),deck,status,controls);
-    card.dataset.mediaKind="music";card.dataset.v10Media="audius";
-    // r84: the desktop strip hides the status line until playback fails or goes offline (the line stays a live region).
-    const syncMusicAlert=()=>{const text=status.textContent||"";card.dataset.failed=String(text===MEDIA.statusError||/OFFLINE/i.test(text));};
-    if(typeof root.MutationObserver==="function")new root.MutationObserver(syncMusicAlert).observe(status,{childList:true,characterData:true,subtree:true});
-    root.HomeSoundtrack.init(MEDIA);
-    // r85: with 19 songs the open list can be taller than the room above the strip (short laptops, tablets, phones on their
-    // side). After it opens, it is capped to the space left under the top bar (or the screen edge) and scrolls inside itself.
-    const fitSheet=()=>{
-      selector.style.removeProperty("max-height");selector.style.removeProperty("overflow-y");card.style.removeProperty("--track-sheet-h");
-      if(!sheet.checked)return;
-      const box=selector.getBoundingClientRect(),limit=root.innerWidth>900?(parseFloat(root.getComputedStyle(doc.documentElement).getPropertyValue("--sd-nav-top-h"))||52)+8:8;
-      if(box.top>=limit&&box.bottom<=root.innerHeight-4&&selector.scrollHeight<=selector.clientHeight+1)return;
-      const room=Math.max(160,Math.floor(Math.min(box.bottom,root.innerHeight-4)-Math.max(limit,box.top>=limit?box.top:limit)));
-      selector.style.setProperty("max-height",`${room}px`);selector.style.setProperty("overflow-y","auto");
-      if(box.top<limit)card.style.setProperty("--track-sheet-h",`${room}px`);
-    };
-    sheet.addEventListener("change",()=>root.requestAnimationFrame(fitSheet));
-    root.addEventListener("resize",()=>{if(sheet.checked)root.requestAnimationFrame(fitSheet);});
-    // r85: the same player docked in the bars of every other screen (js/musicDockV10.js); loaded after Home is up.
-    if(typeof root.loadRuntimeScript==="function")Promise.resolve(root.loadRuntimeScript("v10-music-dock","js/musicDockV10.js",()=>Boolean(root.CareerModeMusicDockV10))).then(()=>root.CareerModeMusicDockV10?.start()).catch(()=>{});
-    if(offlineText){nextToggle.disabled=true;nextToggle.setAttribute("aria-disabled","true");status.textContent=offlineText;}
-    syncMusicAlert();
-  }
-  // js/offlineApp.js disables the toggle and writes its offline line; when it comes back online it restores the
-  // line it saved (the YouTube one), so the Audius player redraws its own status.
-  function hmOnline(event){
-    const card=hmDoc()&&hmDoc().querySelector(".menuMusicTile[data-v10-media='audius']");
-    if(card&&root.HomeSoundtrack&&event&&event.detail&&event.detail.connectivityLabel!=="Offline")root.HomeSoundtrack.init(MEDIA);
+  // The soundtrack (home/soundtrack.js) and its player (js/musicDockV10.js: phone MUSIC tab, desktop top-bar dock) start once
+  // the app has started, whatever screen it opens on (HE-06: a reload straight onto the league wheel used to have no player
+  // until Home was drawn). Home itself has no music strip (Nik, 2026-11-01).
+  let hmMusicStarted=null;
+  function hmStartMusic(){
+    if(hmMusicStarted)return hmMusicStarted;
+    const load=root.loadRuntimeScript;
+    if(typeof load!=="function")return Promise.resolve(false);
+    hmMusicStarted=Promise.resolve(load("v10-home-soundtrack",BASE+"home/soundtrack.js",()=>Boolean(root.HomeSoundtrack)))
+      .then(()=>{if(!root.HomeSoundtrack)return false;if(!root.HomeSoundtrack.current())root.HomeSoundtrack.init(MEDIA);
+        return Promise.resolve(load("v10-music-dock","js/musicDockV10.js",()=>Boolean(root.CareerModeMusicDockV10))).then(()=>root.CareerModeMusicDockV10?.start());})
+      .catch(()=>{hmMusicStarted=null;return false;});
+    return hmMusicStarted;
   }
 
   const HM_PHONE_QUOTA="(max-width: 760px) and (orientation: portrait)",HM_PHONE_QUOTA_LINE="Online limit used up today · back at 3 am Boston";
@@ -204,7 +157,7 @@
     hmTrophyTile(grid);
     // HO-004: every tile is Team V's shared cut-corner panel (Continue is the hero panel), as in Team V's Home frame.
     grid.querySelectorAll(".menuTile").forEach(tile=>tile.classList.add(...PANEL_CLASSES(tile)));
-    hmMusic(host);
+    hmStartMusic();
     host.classList.add("stage","v10Home");
     hmQuotaNotice();
     return true;
@@ -215,8 +168,8 @@
     if(registered)return registered;
     const V=root.CareerModeV10Screens;
     if(!V)return Promise.reject(new Error("V10_SCREEN_LOADER_UNAVAILABLE"));
-    V.register("mainMenu",{css:HOME_CSS.slice(),js:[["v10-home-soundtrack","home/soundtrack.js",()=>Boolean(root.HomeSoundtrack)]],frame:()=>FRAME,mount:hmDecorate,unmount:hmUnmount});
-    if(typeof root.addEventListener==="function")root.addEventListener("career-mode-offline-state-change",hmOnline);
+    V.register("mainMenu",{css:HOME_CSS.slice(),js:[],frame:()=>FRAME,mount:hmDecorate,unmount:hmUnmount});
+    hmStartMusic();
     if(typeof root.addEventListener==="function")root.addEventListener("career-mode-firestore-quota",hmQuotaNotice);
     hmDoc()?.addEventListener("career-mode-screen-shown",hmQuotaNotice);
     root.matchMedia?.(HM_PHONE_QUOTA)?.addEventListener?.("change",hmQuotaNotice);
