@@ -1711,7 +1711,8 @@
           css:[FILES[screen].style],
           js:[FILES[screen].script],
           prepare:()=>Promise.all([v10Platemap(screen),v10EnsureChip()]),
-          frame:()=>v10Source(screen),
+          // r87 H4: covered while its career is read (Reus Gate); see v10Hold.
+          frame:()=>held.has(screen)&&screens.HOLD?screens.HOLD:v10Source(screen),
           mount:frame=>{v10Render(screen,frame===UNAVAILABLE?null:frame);},
           // Job 13 leaves its markup in the hidden section; the loader switches its styles off.
           unmount(){onlineLifetimes[screen]++;}
@@ -1737,10 +1738,11 @@
         const live=Object.keys(SCREEN_IDS).filter(screen=>screens.isMounted(screen)&&getters[screen]?.()==null);
         if(!live.length)return;
         const model=v10OnlineModel();
-        if(model==null||model.status==="unavailable")v10LoadOnline(live[0]).catch(v10Fail);
+        if(model==null||model.status==="unavailable")v10Retry(live[0]).catch(v10Fail);
       };
       root.addEventListener?.("online",retryUnavailable);
       root.document?.addEventListener?.("visibilitychange",retryUnavailable);
+      v10WrapOpen("careerStatistics");v10WrapOpen("trophyRoom");
       root.addEventListener?.("career-mode-online-career-model-change",()=>{
         // r82 (Nik: panels show, vanish, then load again): this screen's own load redraws once when it ends, so a model
         // published during that load must not draw the same frame a second time.
@@ -1753,7 +1755,48 @@
     }).catch(error=>{registered=null;throw error;});
     return registered;
   }
-  const FIRST_HOLD_MS=3500;
+  // r87 H4 (Reus Gate, Nik): a career page with no career to draw yet (first open, TRY AGAIN, the connection coming back after
+  // "unavailable") stays covered under Reus while its one read runs and is revealed once, with its numbers or its unavailable
+  // state. Only a read still running after HOLD_MAX_MS shows the loading frame (inside js/v10Screens.js's LOAD_HOLD_MAX_MS, so
+  // the cover never ends first and shows the app's own page). Same one read as before; nothing is read for the hold.
+  const HOLD_MAX_MS=14000;
+  const held=new Set();
+  // No career to draw yet for this screen (online, no supplied model, none kept or the kept one "unavailable").
+  function v10NeedsCareer(screen){
+    try{
+      if(typeof getters[screen]!=="function"||getters[screen]()!=null||!v10Seam().isOnlineCareerRoute(v10Identity()))return false;
+      const model=v10OnlineModel();return model==null||model.status==="unavailable";
+    }catch(_){return false;}
+  }
+  // Holds `screen` (already covered) until `load` settles or HOLD_MAX_MS, then draws it once.
+  async function v10Hold(screen,load){
+    const screens=v10Screens();held.add(screen);
+    let timer;
+    try{await Promise.race([load,new Promise(resolve=>{timer=root.setTimeout(resolve,HOLD_MAX_MS);})]);}
+    finally{root.clearTimeout(timer);held.delete(screen);}
+    if(screens.isMounted(screen))return true;
+    // The cover is renewed for the draw, so the screen's pictures still get their own decode time before the one reveal.
+    screens.expect?.(screen);
+    return screens.show(screen);
+  }
+  // A drawn "unavailable" screen loads again under Reus: covered first, then one reveal (never LOADING, then a second boot).
+  async function v10Retry(screen){
+    const screens=v10Screens();
+    if(screens.isMounted(screen)&&v10NeedsCareer(screen)&&typeof screens.hide==="function"&&typeof screens.expect==="function"){
+      screens.hide(screen);
+      if(screens.expect(screen)===true)return v10Hold(screen,v10LoadOnline(screen).catch(v10Fail));
+      await v10LoadOnline(screen);return screens.show(screen);
+    }
+    return v10LoadOnline(screen);
+  }
+  // TRY AGAIN on the unavailable state calls window.openCareerStatistics / openTrophyRoom (Team V's file), which draws the old
+  // frame again before mount() runs. The hold starts first, so nothing is drawn until the read answers.
+  function v10WrapOpen(screen){
+    const name=screen==="careerStatistics"?"openCareerStatistics":"openTrophyRoom",original=root[name];
+    if(typeof original!=="function"||original.careerScreensV10)return;
+    const wrapped=function(){if(v10NeedsCareer(screen))held.add(screen);try{return original.apply(this,arguments);}catch(error){held.delete(screen);throw error;}};
+    wrapped.careerScreensV10=true;root[name]=wrapped;
+  }
   function v10ModelText(model){try{return model==null?null:JSON.stringify(model);}catch(_){return null;}}
   function v10OnlineModel(){try{return root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;}catch(_){return null;}}
   function v10Redraw(){
@@ -1778,14 +1821,13 @@
     getters[screen]=getModel;
     v10WrapRender(screen);
     if(getModel()==null&&v10Seam().isOnlineCareerRoute(v10Identity())){
-      // r87 career fixes (lane C C-02, Reus Gate): a cold first open (no career kept yet) stays covered (pending) while the
-      // career arrives, then is revealed once with its numbers instead of LOADING first and a second boot. A read still
-      // running after FIRST_HOLD_MS shows the loading frame, which the read then replaces. The cover is renewed for the draw,
-      // so the screen's pictures still get their own decode time before the one reveal. No read is added: the same one read runs.
-      const cold=v10OnlineModel()==null&&!screens.isMounted(screen)&&screens.expect?.(screen)===true;
+      // r87 career fixes (lane C C-02) + H4 (Reus Gate): a first open, or TRY AGAIN on "unavailable", stays covered under Reus
+      // while its career arrives, then is revealed once (v10Hold). No read is added: the same one read runs.
+      const cold=v10NeedsCareer(screen)&&!screens.isMounted(screen)&&screens.expect?.(screen)===true;
       const load=v10LoadOnline(screen).catch(v10Fail);
-      if(cold){let held;await Promise.race([load,new Promise(resolve=>{held=root.setTimeout(resolve,FIRST_HOLD_MS);})]);root.clearTimeout(held);screens.expect?.(screen);}
-    }
+      if(cold)return v10Hold(screen,load);
+      held.delete(screen);
+    }else held.delete(screen);
     return screens.show(screen);
   }
   const openCareerStatistics=getModel=>mount("careerStatistics",getModel);
