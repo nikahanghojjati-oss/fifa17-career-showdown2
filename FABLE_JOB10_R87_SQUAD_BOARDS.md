@@ -24,6 +24,27 @@ Nik's rules for the board:
 - the Special Player is never hit, and every other board player has an equal chance;
 - **a recurring bug, "a guessed player stays on the board", must have a root-cause fix.**
 
+## Nik's rule on overalls after season 1 (2026-11-01, read this first)
+- In season 1 every board player's overall matches the FIFA 17 launch database.
+- From season 2 on, players already at the club grow or decline in the real game. **The board keeps their launch overall on purpose.** Do not report that as a bug.
+- A player who joins through Transfer War is different. His overall is the number the manager types (30-99) from his real game. It will often differ from the database, and for top-100 / top-300 players (the Special Player list) it almost always will, higher or lower.
+- **That difference must never break the game logic.** Check every place where a typed overall meets the database:
+  - ranking and "replace the lowest overall";
+  - namesake matching and identity (name, number, overall);
+  - position lookup from the database for a signing;
+  - Special Player exclusion;
+  - saved shots, version hashes and the verdict copy on the phone;
+  - equal-overall ordering;
+  - both phones building the same board.
+- A signing's overall must never be swapped for the database value, or the other way round, anywhere.
+
+## Cross-feature consistency (one game logic)
+The roulette boards, the Special Player and the Transfer War must agree on who a player is and what he is worth. Check these cases:
+- The engine keeps **both** managers' Special Players off **both** boards by name. In separate FIFA saves the rival can really sign that player in Transfer War: what happens to that kept signing, and is that what a FIFA player would expect?
+- A manager signs a player who is on the Special Player list but is nobody's Special Player.
+- A manager signs his own Special Player's namesake.
+- The same player appears in the database at two clubs.
+
 ## Already checked by script (do not re-check)
 - data/rosterSquads.js rows match data/fifa17Players.js (name, shirt, overall) for all 1,764 rows in 98 clubs.
 - The scene's copy visual-assets/v10_1/roulette/assets/squads.json matches data/rosterSquads.js for all 98 clubs.
