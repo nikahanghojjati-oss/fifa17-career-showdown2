@@ -1,0 +1,23 @@
+PASS F6: all six tabs at 844x390
+PASS F6: all six tabs at 740x360
+AssertionError [ERR_ASSERTION]: Remaining portrait findings
++ actual - expected
+
++ [
++   "F5 768: Nik's face ends at 899.8087141339, outside 768",
++   'F7 768: title starts at 321.015625, hand ends at 366.08000000000004',
++   "F5 820: Nik's face ends at 1004.3889479277366, outside 820",
++   'F7 820: title starts at 369.921875, hand ends at 421.85'
++ ]
+- []
+
+    at /workspace/fifa17-career-showdown2/tests/contracts/r87-sizes-fixes-contracts.cjs:76:12
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:502:9) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
