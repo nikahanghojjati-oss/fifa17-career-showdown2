@@ -312,14 +312,17 @@ async function proveRouletteMarks(env){
   // The provider's own START with the public document hidden from its read, so the write reaches the Rules as is.
   const blind={...sdk(),runTransaction:(database,callback)=>firestoreSdk.runTransaction(database,transaction=>callback({get:async r=>r.path.endsWith("/transferChallenges/season_1")?{exists:()=>false,data:()=>undefined}:transaction.get(r),set:(r,data,o)=>o?transaction.set(r,data,o):transaction.set(r,data)}))};
 
-  await proof("RM1","a member's own mark: one merge write on the pre-window document, accepted once (F2-02: a second write is refused)",async()=>{
+  await proof("RM1","a member's own mark: one merge write on the pre-window document, accepted once (F2-02: a second write is refused by the Rules; the provider reports him spun)",async()=>{
     await assertFails(setDoc(ref(dbA),markDoc({playerTwo:true}),{merge:true}));
     assert.equal(await stored(),null,"Daniel cannot create a mark for Nik");
     const result=await provider.markSpun({...options("playerOne"),managerRole:"playerOne"});
     assert.equal(result.ok,true,JSON.stringify(result));
     assert.deepEqual((await stored()).spins,{playerOne:true});
     const again=await provider.markSpun({...options("playerOne"),managerRole:"playerOne"});
-    assert.equal(again.ok,false,"F2-02: exactly one write per role per season: the same mark again is refused");assert.equal(again.code,"permission-denied");
+    // F2-02: exactly one write per role per season. The Rules refuse the second write (raw write below); the provider reads
+    // once, finds his mark and reports him spun without writing.
+    assert.equal(again.ok,true,JSON.stringify(again));assert.equal(again.alreadyMarked,true);
+    await assertFails(setDoc(doc(dbA,"rivalries",R3,"transferChallenges","season_1"),{schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R3,seasonNumber:1,phase:"NOT_STARTED",spins:{playerOne:true},updatedAt:firestoreSdk.serverTimestamp()},{merge:true}));
     const read=await provider.read(options("playerTwo"));
     assert.equal(read.ok,true,JSON.stringify(read));assert.equal(read.state,null);assert.deepEqual([...read.spunRoles],["playerOne"]);
   });
@@ -354,8 +357,12 @@ async function proveRouletteMarks(env){
     assert.equal(started.ok,true,JSON.stringify(started));assert.equal(started.state.phase,"WINDOW_OPEN");
     const ledger=await stored();
     assert.equal(Object.hasOwn(ledger,"spins"),false,"the ledger replaces the mark document");assert.equal(ledger.revision,1);
+    // A mark after the window opened is denied by the Rules (raw write); the provider then sees the window open (START
+    // needed both marks), reports him spun and writes nothing: the ledger is untouched.
+    await assertFails(setDoc(ref(dbB),markDoc({playerTwo:true}),{merge:true}));
     const late=await provider.markSpun({...options("playerTwo"),managerRole:"playerTwo"});
-    assert.equal(late.ok,false);assert.equal(late.code,"permission-denied");
+    assert.equal(late.ok,true,JSON.stringify(late));assert.equal(late.alreadyMarked,true);
+    assert.deepEqual(JSON.parse(JSON.stringify(await stored())),JSON.parse(JSON.stringify(ledger)),"the ledger is unchanged");
     const expiry=await provider.advanceExpiredWindow({...options("playerTwo"),operationId:opId(904),baseRevision:1});
     assert.equal(expiry.ok,false,"the window that just opened cannot be expired");assert.equal(expiry.code,"TRANSFER_WINDOW_STILL_OPEN");
   });
@@ -397,7 +404,13 @@ async function proveRouletteOutcomes(env){
   await proof("RH2","Daniel's fired outcome and Nik's safe outcome are accepted, once each; the read returns both marks",async()=>{
     assert.equal((await provider.markSpun({...options("playerOne",1),managerRole:"playerOne",outcome:HIT})).ok,true);
     const twice=await provider.markSpun({...options("playerOne",1),managerRole:"playerOne",outcome:{...HIT,hitName:"S. Mané",hitSlot:9,hitNumber:19}});
-    assert.equal(twice.ok,false,"a second write of Daniel's mark (another outcome) is refused");assert.equal(twice.code,"permission-denied");
+    // The Rules refuse the second write; the provider then reads once, sees Daniel's mark and reports him spun (a retry, a
+    // reload or a second tab never fails), and the stored first outcome stands.
+    assert.equal(twice.ok,true,JSON.stringify(twice));assert.equal(twice.alreadyMarked,true,"the second mark wrote nothing");
+    assert.deepEqual(JSON.parse(JSON.stringify((await stored(db=>pub(db,1))).spins)),{playerOne:HIT},"the first outcome stands");
+    // A refused write for a role with no mark yet is still a refusal: Daniel cannot mark Nik's entry, and Nik has none.
+    const forNik=await provider.markSpun({...options("playerOne",1),managerRole:"playerTwo",outcome:SAFE});
+    assert.equal(forNik.ok,false,JSON.stringify(forNik));assert.equal(forNik.code,"permission-denied");
     await assertFails(setDoc(pub(dbA,1),markDoc(1,{playerOne:true}),{merge:true}));
     assert.equal((await provider.markSpun({...options("playerTwo",1),managerRole:"playerTwo",outcome:SAFE})).ok,true);
     await assertFails(setDoc(pub(dbB,1),markDoc(1,{playerTwo:{...SAFE,version:"rr4.2.0d0adc9d"}}),{merge:true}));

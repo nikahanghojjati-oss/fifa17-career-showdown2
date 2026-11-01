@@ -247,7 +247,19 @@
       // (no roulette ran on this phone) it is true. A malformed outcome is refused here, before any write.
       let entry=true;if(options.outcome!==undefined&&options.outcome!==null){entry=stspOutcome(options.outcome);if(!entry)stspFail("TRANSFER_SPIN_OUTCOME_INVALID");entry={...entry};}
       const sdk=options.firebaseSdk,ref=sdk.doc(options.firestore,"rivalries",rivalryId,"transferChallenges",`season_${season}`);
-      await sdk.runTransaction(options.firestore,async transaction=>{transaction.set(ref,{schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId,seasonNumber:season,phase:"NOT_STARTED",spins:{[role]:entry},updatedAt:stspServerTimestamp(sdk)},{merge:true});});
+      try{
+        await sdk.runTransaction(options.firestore,async transaction=>{transaction.set(ref,{schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId,seasonNumber:season,phase:"NOT_STARTED",spins:{[role]:entry},updatedAt:stspServerTimestamp(sdk)},{merge:true});});
+      }catch(error){
+        // The Rules accept one mark per manager and season (F2-02), so marking again (a retry after a lost ack, a reload, a
+        // second tab, or a caller that marked before an earlier START was refused) is denied. Only then, one read: if this
+        // manager's mark is already on the document, or the window already opened from both marks, he has spun. The stored
+        // mark stands (the first outcome is the season's outcome); nothing is written.
+        if(String(error&&error.code||"").replace(/^firestore\//,"")!=="permission-denied")throw error;
+        const stored=await sdk.runTransaction(options.firestore,async transaction=>stspSnapshot(await transaction.get(ref)));
+        const marked=stored&&(stored.phase!=="NOT_STARTED"||(stspPlain(stored.spins)&&Object.hasOwn(stored.spins,role)&&stored.spins[role]!==false));
+        if(!marked)throw error;
+        return Object.freeze({ok:true,managerRole:role,seasonNumber:season,alreadyMarked:true});
+      }
       return Object.freeze({ok:true,managerRole:role,seasonNumber:season});
     }catch(error){return stspResultError(error);}
   }
