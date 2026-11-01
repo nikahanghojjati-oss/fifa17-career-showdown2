@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 9:03 AM Boston time (EST)",
+ "generated": "2026-11-01 9:07 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 180,
@@ -1706,16 +1706,6 @@
     "total": 1,
     "pr": 1163,
     "current": ""
-   },
-   {
-    "job": "V-HO-052",
-    "title": "Special Player lower-third name fits its plate (F8-09)",
-    "worker": "worker not set",
-    "lane": "",
-    "done": 0,
-    "total": 1,
-    "pr": 1169,
-    "current": ""
    }
   ],
   "inbox": {
@@ -2482,7 +2472,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,

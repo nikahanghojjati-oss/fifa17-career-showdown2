@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 1 Nov, 9:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 1 Nov, 9:08 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
@@ -2138,7 +2138,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | ⬛ ? | [V-HO-051](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1163) | Prime Pack page art (Team V skin on #1149) | in progress · 0 % (0 of 1 steps) |
-| ⬛ ? | [V-HO-052](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1169) | Special Player lower-third name fits its plate (F8-09) | in progress · 0 % (0 of 1 steps) |
 
 **Up next**
 
