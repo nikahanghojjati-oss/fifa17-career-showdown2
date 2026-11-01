@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-01T10:33:09Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T10:35:16Z", "by": "V", "status": "RECEIVED", "note": "Team V picked it up 1 Nov 10:40 UTC. ETA: PR into gameplay/r87 (based on #1149) with all shots by 15:30 UTC (10:30 a.m. Eastern). Art is Nik's GPT set as attached; no new pictures needed unless a cut-out fails."}],
+ "evidence": ["PR #1163 into gameplay/r87 (head claude/project-thread-powk6g 9dcef736, based on #1149; rebase after #1149 merges). Addendum A name plate done (#name tile; use #prime-card-name instead of #name, not both). Shots attachments/HO-051/V/ (3e05a397). Page contracts 7/7, browser audit 8/8, overlap audit clean at 7 sizes. Open for G: stage table (HO-051 vs #1149), 20-25 s windows vs 5-10 s clamp, SHELL_PATHS for the 7 webp."],
+ "log": [{"at": "2026-11-01T10:33:09Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T10:35:16Z", "by": "V", "status": "RECEIVED", "note": "Team V picked it up 1 Nov 10:40 UTC. ETA: PR into gameplay/r87 (based on #1149) with all shots by 15:30 UTC (10:30 a.m. Eastern). Art is Nik's GPT set as attached; no new pictures needed unless a cut-out fails."}, {"at": "2026-11-01T10:51:33Z", "by": "V", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q5xHsv4Q8dmAPKsP5f"
 }
 ```
