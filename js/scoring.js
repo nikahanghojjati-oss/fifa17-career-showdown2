@@ -28,14 +28,12 @@ function calculatePlayerSeasonScore(result){
 
     // r80: Europa League win +3, never with CL
     if(result.europaLeague === true && !result.championsLeague){ breakdown.europaLeague = 3; }
-    if([1,2,3,4].includes(result.primePack))breakdown.primePack=result.primePack;
 
     breakdown.awardsBonus = breakdown.individualAwardsBonus;
 
     breakdown.total =
         breakdown.championsLeague +
         (breakdown.europaLeague || 0) +
-        (breakdown.primePack || 0) +
         breakdown.leagueTitle +
         breakdown.domesticCup +
         breakdown.performanceBonus +

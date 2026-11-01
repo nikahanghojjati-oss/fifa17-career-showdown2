@@ -1,0 +1,973 @@
+[
+  {
+    "size": "820x1180",
+    "phase": "before-window",
+    "shot": "shots/before-window-820x1180.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR READY \u00b7 WAITING F\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 673px in 330px"
+      }
+    ]
+  },
+  {
+    "size": "820x1180",
+    "phase": "window",
+    "shot": "shots/window-820x1180.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR TRANSFER WINDOW L\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 673px in 330px"
+      }
+    ]
+  },
+  {
+    "size": "844x390",
+    "phase": "window",
+    "shot": "shots/window-844x390.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by img \"\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 393px in 191px"
+      }
+    ]
+  },
+  {
+    "size": "820x1180",
+    "phase": "guesses",
+    "shot": "shots/guesses-820x1180.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR GUESSES HIDDEN FR\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 673px in 330px"
+      }
+    ]
+  },
+  {
+    "size": "844x390",
+    "phase": "guesses",
+    "shot": "shots/guesses-844x390.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by img \"\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 393px in 191px"
+      }
+    ]
+  },
+  {
+    "size": "820x1180",
+    "phase": "signings",
+    "shot": "shots/signings-820x1180.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR SIGNINGS ENTER YO\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 673px in 330px"
+      }
+    ]
+  },
+  {
+    "size": "844x390",
+    "phase": "signings",
+    "shot": "shots/signings-844x390.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by div.world \"TRANSFER WAR SIGNINGS ENTER YO\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 393px in 191px"
+      }
+    ]
+  },
+  {
+    "size": "768x1024",
+    "phase": "before-window",
+    "shot": "shots/before-window-768x1024.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR READY \u00b7 WAITING F\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 658px in 323px"
+      }
+    ]
+  },
+  {
+    "size": "768x1024",
+    "phase": "window",
+    "shot": "shots/window-768x1024.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR TRANSFER WINDOW L\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 538px in 323px"
+      }
+    ]
+  },
+  {
+    "size": "740x360",
+    "phase": "window",
+    "shot": "shots/window-740x360.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by img \"\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 345px in 168px"
+      }
+    ]
+  },
+  {
+    "size": "768x1024",
+    "phase": "guesses",
+    "shot": "shots/guesses-768x1024.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR GUESSES HIDDEN FR\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 613px in 323px"
+      }
+    ]
+  },
+  {
+    "size": "740x360",
+    "phase": "guesses",
+    "shot": "shots/guesses-740x360.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by img \"\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 345px in 168px"
+      }
+    ]
+  },
+  {
+    "size": "768x1024",
+    "phase": "signings",
+    "shot": "shots/signings-768x1024.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "DANIEL",
+        "detail": "covered by div.world \"TRANSFER WAR SIGNINGS ENTER YO\""
+      }
+    ]
+  },
+  {
+    "size": "740x360",
+    "phase": "signings",
+    "shot": "shots/signings-740x360.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by div.world \"TRANSFER WAR SIGNINGS ENTER YO\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 345px in 168px"
+      }
+    ]
+  },
+  {
+    "size": "1920x1080",
+    "phase": "before-window",
+    "shot": "shots/before-window-1920x1080.jpg",
+    "issues": [
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 934px in 459px"
+      }
+    ],
+    "paint": {
+      "rect": {
+        "x": 372.03125,
+        "y": 848.875,
+        "width": 401.9375,
+        "height": 46,
+        "top": 848.875,
+        "right": 773.96875,
+        "bottom": 894.875,
+        "left": 372.03125
+      },
+      "ancestors": [
+        {
+          "node": "startTransferTimer",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "end-row",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel-body window-body reg",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel own phase-window sd-is-animating",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "world",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "stage",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-host",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "transferChallenge",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "MAIN",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "app",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "BODY",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "HTML",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        }
+      ]
+    }
+  },
+  {
+    "size": "1920x1080",
+    "phase": "window",
+    "shot": "shots/window-1920x1080.jpg",
+    "issues": [
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 934px in 459px"
+      }
+    ],
+    "paint": {
+      "rect": {
+        "x": 372.03125,
+        "y": 847.875,
+        "width": 401.9375,
+        "height": 46,
+        "top": 847.875,
+        "right": 773.96875,
+        "bottom": 893.875,
+        "left": 372.03125
+      },
+      "ancestors": [
+        {
+          "node": "endTransferTimer",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "end-row",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel-body window-body reg",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel own phase-window sd-entered",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "world",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "stage",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-host",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "transferChallenge",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "MAIN",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "app",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "BODY",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "HTML",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        }
+      ]
+    }
+  },
+  {
+    "size": "844x390",
+    "phase": "window",
+    "shot": "shots/window-844x390.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by img \"\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 393px in 191px"
+      }
+    ],
+    "paint": {
+      "rect": {
+        "x": 242.4375,
+        "y": 77.140625,
+        "width": 576.5625,
+        "height": 44,
+        "top": 77.140625,
+        "right": 819,
+        "bottom": 121.140625,
+        "left": 242.4375
+      },
+      "ancestors": [
+        {
+          "node": "endTransferTimer",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "end-row",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel-body window-body reg",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel own phase-window sd-entered",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "world",
+          "opacity": "1",
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "node": "stage short fit",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-host",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "transferChallenge",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "MAIN",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "app",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "BODY",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "HTML",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        }
+      ]
+    }
+  },
+  {
+    "size": "1920x1080",
+    "phase": "guesses",
+    "shot": "shots/guesses-1920x1080.jpg",
+    "issues": [
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 934px in 459px"
+      }
+    ],
+    "paint": {
+      "rect": {
+        "x": 166.265625,
+        "y": 900,
+        "width": 158.40625,
+        "height": 44,
+        "top": 900,
+        "right": 324.671875,
+        "bottom": 944,
+        "left": 166.265625
+      },
+      "ancestors": [
+        {
+          "node": "completeTransferChallenge",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "action-row",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel-body reg",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel own phase-guess sd-entered",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-desktop-content",
+          "opacity": "1",
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "node": "stage",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-host",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "transferChallenge",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "MAIN",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "app",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "BODY",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "HTML",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        }
+      ]
+    }
+  },
+  {
+    "size": "844x390",
+    "phase": "guesses",
+    "shot": "shots/guesses-844x390.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by img \"\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 393px in 191px"
+      }
+    ],
+    "paint": {
+      "rect": {
+        "x": 242.4375,
+        "y": 209,
+        "width": 576.5625,
+        "height": 44,
+        "top": 209,
+        "right": 819,
+        "bottom": 253,
+        "left": 242.4375
+      },
+      "ancestors": [
+        {
+          "node": "completeTransferChallenge",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "action-row",
+          "opacity": "1",
+          "display": "contents",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel-body reg",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel own phase-guess sd-entered",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "world",
+          "opacity": "1",
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "node": "stage short fit",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-host",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "transferChallenge",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "MAIN",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "app",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "BODY",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "HTML",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        }
+      ]
+    }
+  },
+  {
+    "size": "1920x1080",
+    "phase": "signings",
+    "shot": "shots/signings-1920x1080.jpg",
+    "issues": [
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 934px in 459px"
+      }
+    ],
+    "paint": {
+      "rect": {
+        "x": 166.265625,
+        "y": 899,
+        "width": 162.640625,
+        "height": 44,
+        "top": 899,
+        "right": 328.90625,
+        "bottom": 943,
+        "left": 166.265625
+      },
+      "ancestors": [
+        {
+          "node": "completeTransferChallenge",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "action-row",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel-body signing-body reg",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel own phase-signing sd-entered",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-desktop-content",
+          "opacity": "1",
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "node": "stage",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-host",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "transferChallenge",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "MAIN",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "app",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "BODY",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "HTML",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        }
+      ]
+    }
+  },
+  {
+    "size": "844x390",
+    "phase": "signings",
+    "shot": "shots/signings-844x390.jpg",
+    "issues": [
+      {
+        "kind": "covered",
+        "what": "button#onlinePlayerIdentityBadge",
+        "text": "NIK",
+        "detail": "covered by div.world \"TRANSFER WAR SIGNINGS ENTER YO\""
+      },
+      {
+        "kind": "clipped",
+        "what": "h1.transfer-wordmark.sd-title--wordmark",
+        "text": "TRANSFER WAR",
+        "detail": "text 393px in 191px"
+      }
+    ],
+    "paint": {
+      "rect": {
+        "x": 242.4375,
+        "y": 221,
+        "width": 576.5625,
+        "height": 44,
+        "top": 221,
+        "right": 819,
+        "bottom": 265,
+        "left": 242.4375
+      },
+      "ancestors": [
+        {
+          "node": "completeTransferChallenge",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "action-row",
+          "opacity": "1",
+          "display": "contents",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel-body signing-body reg",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "panel own phase-signing sd-entered",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "world",
+          "opacity": "1",
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "node": "stage short",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "tw-host",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "transferChallenge",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "MAIN",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "app",
+          "opacity": "1",
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "node": "BODY",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "node": "HTML",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        }
+      ]
+    }
+  }
+]

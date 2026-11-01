@@ -405,7 +405,7 @@ function openTransferChallenge(){
         }
     }catch(error){
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Unable to open the Transfer Challenge", error);
+            window.reportApplicationError("The Transfer Challenge did not open", error);
         }else{ console.error(error); }
     }
 }
@@ -416,7 +416,7 @@ function startTransferWindow(){
     try{ challenge = getOrCreateTransferChallenge(currentShowdown.currentRound); }
     catch(error){
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Unable to start the transfer window", error);
+            window.reportApplicationError("The transfer window did not open", error);
         }
         return;
     }
@@ -755,7 +755,7 @@ function lockTransferSignings(){
         setTransferError(error.message || "The Transfer Challenge could not be completed.");
         renderTransferChallenge(challenge);
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Transfer Challenge completion failed", error);
+            window.reportApplicationError("The Transfer Challenge did not finish", error);
         }
     }finally{
         transferCompletionInProgress = false;

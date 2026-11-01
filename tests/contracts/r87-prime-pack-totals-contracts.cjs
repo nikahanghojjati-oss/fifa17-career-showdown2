@@ -33,6 +33,7 @@ const plainSeason=()=>result({leaguePosition:4,leaguePoints:70});
 // T1 one boundary: the seam and the Gazette start Prime Pack totals where the round itself starts.
 assert.equal(Seam.PRIME_PACK_FROM_MS,IG.fromMs,'the seam boundary is js/iconGuess.js fromMs');
 assert.match(read('js/touchlineGazette.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Gazette boundary is js/iconGuess.js fromMs');
+assert.match(read('js/sharedCareerAnalytics.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Career Stats boundary is js/iconGuess.js fromMs');
 assert.match(read('js/productionSharedTransferChallenge.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the transfer hook boundary is js/iconGuess.js fromMs');
 assert.deepEqual(plain(Seam.SEASON_MAX),{before:11,primePack:15});assert.equal(IG.maxPoints+11,15);
 ok('T1','the seam, the Gazette and the transfer hook use the round\'s own start boundary, and 11 + 4 = 15 a season');
@@ -65,10 +66,12 @@ assert.deepEqual(rows.map(row=>plain(Seam.goldenShowdownManagers(row))),[['nik']
 const room=plain(CareerScreens.toV10Frame(model,'trophyRoom')),stats=plain(CareerScreens.toV10Frame(model,'careerStatistics')),legacy=plain(RivalryLegacy.toV10Frame(model,'legacy'));
 assert.deepEqual(room.goldenShowdowns,{daniel:0,nik:2},'Trophy Room counts the 150 and the older 110, not a Prime Pack 110');
 assert.deepEqual(stats.goldenShowdowns,{daniel:0,nik:2},'Career Statistics agrees');
+const nikRecord=Object.values(model).map(v=>v&&v.nik).find(v=>v&&Number.isInteger(v.perfectSeasons));
+assert.equal(nikRecord.perfectSeasons,20,'a perfect season is 15 with Prime Pack (10) and 11 before it (10); an 11 with Prime Pack is not perfect');
 assert.deepEqual(legacy.showdowns.map(s=>s.goldenShowdown),[['nik'],undefined,['nik']],'Legacy marks the same Showdowns');
 assert.deepEqual(plain(RivalryLegacy.toV10Frame(career([only110]),'rivalryStatistics')).goldenShowdown,undefined,'Rivalry Statistics: 110 with Prime Pack is not Golden');
 assert.deepEqual(plain(RivalryLegacy.toV10Frame(career([golden150]),'rivalryStatistics')).goldenShowdown,['nik']);
-ok('T3','Trophy Room, Career Statistics, Legacy and Rivalry Statistics give the Golden Showdown at 150 with Prime Pack and keep 110 for older Showdowns');
+ok('T3','Trophy Room, Career Statistics, Legacy and Rivalry Statistics give the Golden Showdown at 150 with Prime Pack and keep 110 for older Showdowns; a perfect season is the Showdown\'s own maximum');
 
 // T4 the Gazette race strip and the Golden draw
 {

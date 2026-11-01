@@ -122,13 +122,15 @@ function createLegacyOnlineCareerSection(){
     const career = getLegacyOnlineCareer();
     const fragment = document.createDocumentFragment();
     const text = value => career.status === "loading" ? "Loading…" : value === null ? "—" : String(value);
+    // H2: a partial career could not read every Showdown, so its points are a floor like its count ("AT LEAST").
+    const floor = career.status === "partial" ? " (AT LEAST)" : "";
     const stats = document.createElement("div");
     stats.className = "legacyStatsGrid legacyOnlineCareer";
     stats.dataset.careerStatus = career.status;
     stats.append(
-        createLegacyStat(career.status === "partial" ? "SHOWDOWNS COMPLETED (AT LEAST)" : "SHOWDOWNS COMPLETED", text(career.completed)),
-        createLegacyStat("DANIEL · CAREER POINTS", text(career.points ? career.points.daniel : null)),
-        createLegacyStat("NIK · CAREER POINTS", text(career.points ? career.points.nik : null))
+        createLegacyStat("SHOWDOWNS COMPLETED" + floor, text(career.completed)),
+        createLegacyStat("DANIEL · CAREER POINTS" + floor, text(career.points ? career.points.daniel : null)),
+        createLegacyStat("NIK · CAREER POINTS" + floor, text(career.points ? career.points.nik : null))
     );
     fragment.appendChild(stats);
 
@@ -193,9 +195,14 @@ function getLegacyScoring(player){
     if(player && player.scoring && Number.isFinite(Number(player.scoring.total))){
         return player.scoring;
     }
-    return typeof calculatePlayerSeasonScore === "function"
-        ? calculatePlayerSeasonScore(player || {})
-        : { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
+    if(typeof calculatePlayerSeasonScore !== "function"){
+        return { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
+    }
+    // r87 Prime Pack: js/scoring.js (startup, at its size budget) leaves the sparse primePack key (1 to 4) to the callers.
+    const scoring = calculatePlayerSeasonScore(player || {});
+    const primePack = player && [1, 2, 3, 4].includes(player.primePack) ? player.primePack : 0;
+    if(primePack && !scoring.primePack){ scoring.primePack = primePack; scoring.total += primePack; }
+    return scoring;
 }
 
 function getPlayerHonours(player){

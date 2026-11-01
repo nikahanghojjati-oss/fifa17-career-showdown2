@@ -240,6 +240,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     }
     if(["ready","partial"].includes(current.status)&&!current.managerRecords)current={status:"unavailable"};
     let all={status:career&&["loading","empty","unavailable","partial","ready"].includes(career.status)&&!career.interimLabel?career.status:"unavailable"};
+    // H2 (career truth hunt, as Career Statistics B4): with no finished Showdown nothing counts, so CAREER is the empty career
+    // message, not LEVEL 0-0. A partial career may hold a finished Showdown it could not read: unavailable, never 0-0.
+    if(["ready","partial"].includes(all.status)&&["daniel","nik"].every(m=>career.managers?.[m]?.showdowns?.completed===0))all={status:all.status==="ready"?"empty":"unavailable"};
     if(["ready","partial"].includes(all.status)&&career.managers&&Array.isArray(career.trophyRoom?.standings)){
       const standings={};
       for(const m of ["daniel","nik"]){const row=career.trophyRoom.standings.find(r=>r.manager===m),rec=career.managers[m];if(!row||!rec||!["careerPoints","seasonWins"].every(k=>number(row[k]))||!COUNT_FIELDS.every(k=>number(rec[k]))){all={status:"unavailable"};break;}standings[m]={...Object.fromEntries(COUNT_FIELDS.map(k=>[k,rec[k]])),careerPoints:row.careerPoints,seasonWins:row.seasonWins};}

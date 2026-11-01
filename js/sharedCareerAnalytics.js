@@ -71,7 +71,14 @@
     const europaLeague=season.playerOne.europaLeague===true||season.playerTwo.europaLeague===true?{europaLeague:{daniel:season.playerOne.europaLeague===true,nik:season.playerTwo.europaLeague===true}}:{};
     return {season:season.roundNumber,score:{daniel:season.playerOne.scoring.total,nik:season.playerTwo.scoring.total},winner:managerFor(season.winner),tiebreak:seasonTiebreak(season),leaguePosition:pair("leaguePosition"),leaguePoints:pair("leaguePoints"),leagueGoals:pair("leagueGoals"),...europaLeague};
   }
-  function accumulate(record,season,role,sums){
+  // r87 Prime Pack: a perfect season is the Showdown's own maximum, 15 for a Showdown confirmed on or after the Prime Pack
+  // boundary (js/iconGuess.js fromMs) and 11 before it; with no confirm time, a season with Prime Pack or above 11 means 15.
+  const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  function seasonMaxOf(entry,seasons){
+    if(Number.isFinite(entry.setupConfirmedAt))return entry.setupConfirmedAt>=PRIME_PACK_FROM_MS?15:11;
+    return seasons.some(season=>ROLES.some(role=>season[role]&&(season[role].primePack!==undefined||season[role].scoring.total>11)))?15:11;
+  }
+  function accumulate(record,season,role,sums,max=11){
     const r=season[role],score=r.scoring.total;
     record.seasons+=1;record.careerPoints+=score;
     sums.points+=r.leaguePoints;sums.goals+=r.leagueGoals;
@@ -84,7 +91,7 @@
     if(r.leagueGoals>=100)record.hundredGoalSeasons+=1;
     if(r.topScorer)record.topScorerSeasons+=1;
     if(r.topAssist)record.topAssistSeasons+=1;
-    if(score>=11)record.perfectSeasons+=1;
+    if(score===max)record.perfectSeasons+=1;
     record.performanceBonuses+=r.scoring.performanceBonus;
     record.awardsBonuses+=r.scoring.individualAwardsBonus;
     for(const [key,value] of [["bestSeasonScore",score],["bestLeaguePoints",r.leaguePoints],["bestLeagueGoals",r.leagueGoals],["bestLeaguePosition",r.leaguePosition]]){
@@ -130,10 +137,11 @@
       // agrees with History/Legacy and never depends on whether this page holds the live History. An unfinished Showdown
       // keeps its row and shows on THIS SHOWDOWN / Rivalry Statistics. The labelled current-only view (interimLabel) is that
       // live Showdown on its own, so it still counts it.
+      const seasonMax=seasonMaxOf(entry,p.seasonHistory);
       if(classification==="completed"||interimLabel!==null)for(const season of p.seasonHistory){
         for(let i=0;i<ROLES.length;i+=1){
           const role=ROLES[i],manager=MANAGERS[i],r=season[role];
-          accumulate(managers[manager],season,role,sums[manager]);
+          accumulate(managers[manager],season,role,sums[manager],seasonMax);
           const ref={rivalryId:entry.rivalryId,season:season.roundNumber};
           for(const [index,value] of [r.scoring.total,r.leaguePoints,r.leagueGoals].entries())candidates[index].push({manager,value,ref});
         }

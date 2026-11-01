@@ -791,7 +791,7 @@ async function main(){
       ok("J10.1-auto","both pages keep the final winner and close without a CLOSE tap");
     }else{
     // Owner decision 2026-10-05 (BH-8): once the last season is committed each phone checks on its own poll and shows the
-    // final winner and CLOSE by itself. Nobody taps PREVIEW RESULT here; Apply stays a separate explicit tap.
+    // final winner and CLOSE by itself. Nobody taps CHECK MY SAVE here; Apply stays a separate explicit tap.
     for(const m of [daniel,nik])await m.page.evaluate(()=>{window.__bh8PreviewTaps=0;document.addEventListener("click",event=>{if(event.target?.closest?.("#sharedLocalReconciliationPreview"))window.__bh8PreviewTaps+=1;},true);});
     for(const m of [daniel,nik]){
       try{
@@ -828,7 +828,7 @@ async function main(){
       await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
       assert.equal((await m.page.locator("#sharedTerminalCloseAction").textContent()).trim(),"CLOSE SHOWDOWN");
       try{
-        await m.page.waitForFunction(()=>/PREVIEW READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
+        await m.page.waitForFunction(()=>/CHECK READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
       }catch(error){
         const diag=await m.page.evaluate(()=>({
           multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,

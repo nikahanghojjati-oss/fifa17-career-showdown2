@@ -122,7 +122,7 @@
       const result=value.results?value.results[role]:value[role];
       if(!result||typeof result!=="object")ceFail("COMMENTARY_SEASON_INVALID");
       let breakdown=value.scoring?value.scoring[role]:result.scoring;
-      if(!breakdown&&typeof root.calculatePlayerSeasonScore==="function")breakdown=root.calculatePlayerSeasonScore(result);
+      if(!breakdown&&typeof root.calculatePlayerSeasonScore==="function"){breakdown=root.calculatePlayerSeasonScore(result);const pp=[1,2,3,4].includes(result.primePack)?result.primePack:0;if(pp&&!breakdown.primePack){breakdown={...breakdown,primePack:pp,total:breakdown.total+pp};}}
       if(!breakdown||typeof breakdown!=="object")ceFail("COMMENTARY_SCORING_MISSING");
       if(!Number.isInteger(breakdown.total)||breakdown.total<0||breakdown.total>MAX_PRIME_PACK_SEASON_POINTS)ceFail("COMMENTARY_SCORING_INVALID");
       const teams=value.teamCounts&&Number.isInteger(value.teamCounts[role])?value.teamCounts[role]:value.teamCount;
