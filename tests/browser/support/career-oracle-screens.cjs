@@ -23,6 +23,7 @@ async function openFresh(browser,{base,ports,account,viewport,label}){
   });
   await context.addInitScript({path:SWITCH});
   const page=await context.newPage();
+  if(Number(process.env.ORACLE_CPU_THROTTLE)>1){const cdp=await context.newCDPSession(page);await cdp.send("Emulation.setCPUThrottlingRate",{rate:Number(process.env.ORACLE_CPU_THROTTLE)});}// slow phone: the cold first open of every career screen
   page.on("pageerror",e=>log.pageErrors.push(e.message.slice(0,300)));
   page.on("console",msg=>{if(msg.type()==="error"&&!/Failed to load resource/.test(msg.text()))log.consoleErrors.push(msg.text().slice(0,300));});
   page.on("request",r=>{try{if(FORBIDDEN_HOSTS.test(new URL(r.url()).hostname))log.forbidden.push(new URL(r.url()).hostname);}catch(_e){}});
