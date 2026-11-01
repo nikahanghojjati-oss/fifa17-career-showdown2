@@ -80,7 +80,10 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.notEqual(which.decide({role,pair:idlePair,partnerSide:"mutual",nowEpochMs:1}).action,"pair-again");
     }
     const live={initialized:true,status:"paired",rivalryId:"pair_1"+"a".repeat(63),connectionState:"pending-pair",managerRole:"playerOne"};
-    assert.equal(which.decide({role:"playerOne",pair:live,partnerSide:"unpaired",nowEpochMs:1}).action,"resume-waiting","a Showdown already under way comes first");
+    // r87 Fable F4-02: Daniel's waiting code is not a Showdown under way. Nik unpaired, so he can never join it: START goes to
+    // PAIR AGAIN (which closes that unjoined code first) instead of looping back to WAITING. A live (active) Showdown still comes first.
+    assert.equal(which.decide({role:"playerOne",pair:live,partnerSide:"unpaired",nowEpochMs:1}).action,"pair-again","Daniel's dead code leads to PAIR AGAIN");
+    assert.equal(which.decide({role:"playerOne",pair:{...live,connectionState:"active"},partnerSide:"unpaired",nowEpochMs:1}).action,"continue","a Showdown already under way comes first");
     const identity=read("js/onlinePlayerIdentity.js");
     assert.match(identity,/function pairAgainTile\(\)\{[^\n]*side\.status!=="unpaired"[^\n]*return\["PAIR",`PAIR AGAIN WITH \$\{other\.toUpperCase\(\)\}`,`\$\{other\} is no longer paired with you\. Tap to pair again\.`\];\}/,"Home says it plainly");
     assert.match(identity,/const nik=isNik\?nikHomeTile\(\):current\?\.status==="ready"\?liveHomeTile\(\)\|\|pairAgainTile\(\):null;/,"Daniel's Home START tile too");
@@ -118,7 +121,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.match(sw,/const RUNTIME_REVISION = "1\.9\.10-r86";/,"RUNTIME_REVISION is the r86 release (1.9.10-r86)");
     for(const banned of [/setTimeout|setInterval|requestAnimationFrame/,/onSnapshot|getDocs|collection\(|query\(/,/runTransaction|getDoc\(/,/localStorage|sessionStorage|indexedDB/])assert.doesNotMatch(MODES_SOURCE,banned,String(banned));
     assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("showdown-modes","js\/showdownModes\.js"/);
-    assert.ok(Buffer.byteLength(read("js/whichShowdownIsLive.js"))<7000);
+    assert.ok(Buffer.byteLength(read("js/whichShowdownIsLive.js"))<7400,"r87 Fable F4-02 added Daniel's pair-again branch");
   });
   await check("M13","gallery #5/#6: both managers read the same UNPAIR note for the same state, and a refusal goes away once the Showdown is deleted",async()=>{
     const RULE="Finish or end the current Showdown before you unpair.",IDLE="Every finished Showdown counts in your career.";

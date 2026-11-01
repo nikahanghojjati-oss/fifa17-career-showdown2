@@ -586,7 +586,17 @@ async function openSettingsDataManagement(){
 
     // Legacy is Team V's History screen; this button asks for its data tools page (backup, restore, reset) instead.
     window.careerModeLegacyDataTools = true;
-    const opened = await window.openOptionalModule("legacy");
+    // r87 Fable F4-13: a module that fails to load (offline, a script error) reopens Settings with a message instead of leaving
+    // nothing on screen.
+    let opened = false;
+    try{
+        opened = await window.openOptionalModule("legacy");
+    }catch(_error){
+        opened = false;
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("Data Management could not be opened. Check your connection, then try again.", "error");
+        }
+    }
     if(!opened){
         window.careerModeLegacyDataTools = false;
         openSettings();
