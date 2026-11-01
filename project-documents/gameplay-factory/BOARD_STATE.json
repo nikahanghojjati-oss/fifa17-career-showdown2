@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-01 10:54 AM Boston time (EST)",
+ "generated": "2026-11-01 10:59 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 181,
+  "count": 182,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1632,6 +1632,15 @@
     "subject": "Re-skin #1163 onto final Prime Pack page: quick visual sign-off",
     "reply": "yes (receive it)",
     "boston": "Sun 1 Nov 10:21 AM"
+   },
+   {
+    "time": "2026-11-01 15:57",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-054 SENT",
+    "subject": "Title wipe paints a black box over photo backgrounds (r87)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 1 Nov 10:57 AM"
    }
   ],
   "g2v": {
@@ -1652,8 +1661,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "892e6bb",
-  "head_boston": "Sun 1 Nov 10:42 AM",
+  "head": "6c7e818",
+  "head_boston": "Sun 1 Nov 10:57 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1690,7 +1699,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 6 min for a machine; Showdown Gate on #1163 has waited 6 min for a machine; Showdown Gate on #1115 has waited 2 min for a machine.",
+   "line": "Barking: Showdown Gate on #1178 has waited 19 min for a machine; Showdown Gate on #1179 has waited 3 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2423,6 +2432,19 @@
     "worker": "",
     "pickup_min": 3,
     "waiting_min": null
+   },
+   {
+    "id": "HO-054",
+    "from": "G",
+    "to": "V",
+    "title": "Title wipe paints a black box over photo backgrounds (r87)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-054_title-wipe-paints-a-black-box-over-photo.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2494,7 +2516,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,

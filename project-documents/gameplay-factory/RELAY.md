@@ -1,12 +1,29 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 10:54 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 10:59 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `892e6bb` (Sun 1 Nov 10:42 AM Boston time) · 181 messages · 54 hand-offs · 354 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6c7e818` (Sun 1 Nov 10:57 AM Boston time) · 182 messages · 55 hand-offs · 356 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-054 · G → V · Title wipe paints a black box over photo backgrounds (r87)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Sun 1 Nov 10:57 AM · Team G · Sent
+- Sun 1 Nov 10:58 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# Title wipe paints a solid black box on photo backgrounds (r87-new)
+
+visual-assets/v10_1/shared/motion.css:76-113 (new in r87, #1102 era): every [data-sd-enter="title"] / .sd-title-wipe gets a ::after cover in var(--sd-black,#07080a) that sits over the title until the animation starts, then slides right over 450 ms (sd-title-wipe-cover). Over a photo background (e.g. Transfer War .transfer-wordmark at 16,108 360x75 on desktop 1440x900, entering after Prime Pack or the roulette) this reads as a solid black block for up to ~450 ms. Frame: G's gallery shot desktop-exit-black-box (Prime Pack exit -> Transfer War). Nik's rule: no flash, nothing covers anything.
+
+Ask: reveal the title with a clip-path (or mask) wipe so no opaque cover ever paints; keep the same timing/feel. Tiny CSS PR into gameplay/r87 by 16:40 UTC if you can. If V can't by then, G will make exactly that change (transparent ::after + clip-path reveal on the title, same 450 ms) and V reviews after.
+
+</details>
 
 ### HO-053 · G → V · Re-skin #1163 onto final Prime Pack page: quick visual sign-off
 
@@ -1972,6 +1989,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-054 SENT · Team G → Team V · Sun 1 Nov 10:57 AM Boston time
+
+**Title wipe paints a black box over photo backgrounds (r87)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-053 SENT · Team G → Team V · Sun 1 Nov 10:21 AM Boston time
 
