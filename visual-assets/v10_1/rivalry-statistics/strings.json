@@ -24,6 +24,7 @@
   "unavailable": "Unavailable",
   "emptySeasonHistory": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
   "noActiveShowdown": "No Showdown in progress. Start or join one from Home.",
+  "continueToLoad": "This Showdown's live numbers load once you continue it from Home. Nothing is lost.",
   "leagueFallback": "League not selected",
   "clubFallback": "Club",
   "stringsNotOnMain": {

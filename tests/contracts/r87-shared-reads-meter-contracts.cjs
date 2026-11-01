@@ -307,7 +307,7 @@ const reads=p=>p.ops.gets.length;
     assert.deepEqual(rows.find(r=>r[0]==='rivalries/*/meters/*'),['rivalries/*/meters/*',1,2,['rivalries/{rivalryId}']]);
     const world=createPair();const p=phone(world,{uid:'u',role:'playerOne',game:0});
     assert.equal(p.budget.rulesLookups.write([`rivalries/${RID}/sharedSetup/authoritative`]),5,'Shared Setup write: the pair\'s two accounts, the device, the rivalry, the Session');
-    assert.equal(p.budget.rulesLookups.write([`rivalries/${RID}/transferChallenges/season_1`,`rivalries/${RID}/transferChallenges/season_1/roles/playerOne`]),8,'Transfer + own role in one request: the 7 of the public write once each, plus the public document the role rule looks up');
+    assert.equal(p.budget.rulesLookups.write([`rivalries/${RID}/transferChallenges/season_1`,`rivalries/${RID}/transferChallenges/season_1/roles/playerOne`]),9,'Transfer + own role in one request: the 8 of the public write once each (R87-E-01 adds the previous season commit, START only), plus the public document the role rule looks up');
     assert.equal(billedMeter.writeRequestDocs(['accounts/{@self}','accounts/{@pair0}','accounts/{@pair1}','rivalries/{after.rivalryId}','rivalries/{rivalryId}','accounts/{@self}/devices/{root.updatedByDeviceId}','accounts/{@self}/devices/{after.updatedByDeviceId}']).length,4);
     assert.equal(billedMeter.writeRequestDocs(['rivalries/{before.data.rivalryId}','rivalries/{after.data.rivalryId}']).length,2,'an update that moves a pointer can reach two rivalries: not folded');
   });

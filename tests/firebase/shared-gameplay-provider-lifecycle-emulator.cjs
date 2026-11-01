@@ -128,6 +128,14 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
     assert.equal(career.ok,true,JSON.stringify(career));
     assert.equal(career.state.phase,"CAREER_START_READY");
 
+    // Codex R87-E-01: a buggy caller asking for a later season must never open its window before the previous season is
+    // committed and acknowledged (the marks themselves carry no game state, so they may land early).
+    if(TOTAL_SEASONS>1){
+      const early=await startAfterSpins({...a(5_000),seasonNumber:2,operationId:op("transfer_op_",9001),baseRevision:0},{...b(5_000),seasonNumber:2});
+      assert.notEqual(early&&early.ok,true,`R87-E-01: season 2 must not start before season 1 is acknowledged: ${JSON.stringify(early)}`);
+      const raw=await env.withSecurityRulesDisabled(async ctx=>(await ctx.firestore().doc(`rivalries/${R}/transferChallenges/season_2`).get()).data());
+      assert.notEqual(raw&&raw.phase,"WINDOW_OPEN","R87-E-01: no season 2 ledger was written");
+    }
     let lastHistory=null,lastMulti=null;
     const expectedTotals={playerOne:0,playerTwo:0};
     for(let season=1;season<=TOTAL_SEASONS;season+=1){
@@ -155,15 +163,15 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
       assert.equal(transfer.state.phase,"SIGNING_ENTRY");
 
       transfer=await Transfer.lockSignings({...a(offset+600),seasonNumber:season,operationId:op("transfer_op_",season*10+6),baseRevision:5,signings:[
-        {slot:1,name:`Daniel S${season} A`,leagueId:"spain-primera-division",nationalityId:"england"},
-        {slot:2,name:`Daniel S${season} B`,leagueId:"australia-a-league",nationalityId:"albania"},
-        {slot:3,name:`Daniel S${season} C`,leagueId:"germany-bundesliga",nationalityId:"france"}
+        {slot:1,name:`Daniel S${season} A`,position:"ST",overall:80,leagueId:"spain-primera-division",nationalityId:"england"},
+        {slot:2,name:`Daniel S${season} B`,position:"CB",overall:74,leagueId:"australia-a-league",nationalityId:"albania"},
+        {slot:3,name:`Daniel S${season} C`,position:"LW",overall:68,leagueId:"germany-bundesliga",nationalityId:"france"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Daniel signings failed: ${JSON.stringify(transfer)}`);
       transfer=await Transfer.lockSignings({...b(offset+700),seasonNumber:season,operationId:op("transfer_op_",season*10+7),baseRevision:6,signings:[
-        {slot:1,name:`Nik S${season} A`,leagueId:"england-premier-league",nationalityId:"brazil"},
-        {slot:2,name:`Nik S${season} B`,leagueId:"italy-serie-a",nationalityId:"germany"},
-        {slot:3,name:`Nik S${season} C`,leagueId:"france-ligue-1",nationalityId:"albania"}
+        {slot:1,name:`Nik S${season} A`,position:"ST",overall:80,leagueId:"england-premier-league",nationalityId:"brazil"},
+        {slot:2,name:`Nik S${season} B`,position:"CB",overall:74,leagueId:"italy-serie-a",nationalityId:"germany"},
+        {slot:3,name:`Nik S${season} C`,position:"LW",overall:68,leagueId:"france-ligue-1",nationalityId:"albania"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Nik signings failed: ${JSON.stringify(transfer)}`);
       assert.equal(transfer.state.phase,"COMPLETED");
