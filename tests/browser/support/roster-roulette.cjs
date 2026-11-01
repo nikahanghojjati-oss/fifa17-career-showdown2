@@ -71,7 +71,10 @@ async function playPrimePack(page,{primeGuesser=null}={}){
   if(plan){
     if(!plan.winner)return state.result||!state.canGuess?"wait":"wait";
     primeGuesser=plan.winner==="daniel"?"playerOne":"playerTwo";
-    if(!state.result&&state.me===primeGuesser&&state.beat!==plan.beat)return "wait";
+    // Sol r4 S61-r87-01: the server stamps the guess with its own time and the phone's clock comes from a second-resolution
+    // token time (up to about 0.5 s off), so a guess typed the instant a stage appears can land in the previous stage on the
+    // server. Guess only once this stage's reveal has finished (1.5 s or more in), well clear of the stage edge.
+    if(!state.result&&state.me===primeGuesser&&(state.beat!==plan.beat||state.revealing))return "wait";
   }
   if(state.result||!state.canGuess||primeGuesser==="timeout")return primeWhy(page,state,state.result?"result":!state.canGuess?"cannot-guess":"timeout-plan");
   if(primeGuesser&&state.me!==primeGuesser)return primeWhy(page,state,"not-the-guesser");
