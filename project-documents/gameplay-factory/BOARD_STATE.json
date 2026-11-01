@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 8:11 PM Boston time (EDT)",
+ "generated": "2026-10-31 8:14 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1685,16 +1685,6 @@
     "total": 4,
     "pr": 381,
     "current": "Done; handed to Team G as HO-006"
-   },
-   {
-    "job": "V-HO-050",
-    "title": "League waiting strip never covers controls; sideways Rule Book scrolls in main",
-    "worker": "worker not set",
-    "lane": "",
-    "done": 0,
-    "total": 1,
-    "pr": 1140,
-    "current": ""
    }
   ],
   "inbox": {
@@ -2435,7 +2425,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 46,
+  "moving": 45,
   "next": 42,
   "nik": 2,
   "later": 21,
