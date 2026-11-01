@@ -53,6 +53,9 @@ check("E2 the runtime boundary and startup use plain words",()=>{
   const {listeners,toasts}=loadApp();
   listeners.get("error")({message:"TypeError: x is not a function",filename:"https://example.test/js/clubScreenV10.js"});
   assert.equal(toasts[0],"error:Something went wrong on this screen. Your career is safe. Try again, or reload the game.");
+  // A runtime error that happens to read like words still never reaches the toast (the boundary passes q=1).
+  toasts.length=0;listeners.get("error")({message:"First-party provenance audit failure",filename:"https://example.test/js/app.js"});
+  assert.equal(toasts[0],"error:Something went wrong on this screen. Your career is safe. Try again, or reload the game.");
   const jargon={"js/productionSharedJourneyGuard.js":["Shared Showdown polished presentation action failed","Shared Career Start action failed"],"js/transferChallenge.js":["Transfer Challenge completion failed","Unable to start the transfer window","Unable to open the Transfer Challenge"],"js/seasonEngine.js":["Season saved, but the summary screen failed"],"js/optionalModules.js":["Required football presentation could not be prepared"],"js/footballVisuals.js":["Required football photograph could not be prepared"],"js/diagnostics.js":['reportApplicationError("Application integrity check failed"'],"js/productionSharedSeasonResultsRoute.js":["Unable to open Shared Season Results"]};
   for(const [file,words] of Object.entries(jargon))for(const w of words)assert.ok(!read(file).includes(w),`${file}: ${w}`);
 });
