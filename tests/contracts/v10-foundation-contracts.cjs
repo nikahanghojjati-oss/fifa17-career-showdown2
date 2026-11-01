@@ -429,7 +429,11 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
   const targets=selector=>splitTop(selector).flatMap(branch=>{const last=lastCompound(branch),is=/^:is\((.*)\)$/.exec(last);return is?splitTop(is[1]).map(inner=>`${branch.slice(0,branch.length-last.length)}${lastCompound(inner)}`):[branch];});
   const allowed=/\.cmsMusic(?:Dock|Sheet|SheetShield|Tab)\b|\.sd-stage__layer--|^\.cmsMusicDock(?:Text|Disc|Open)\b/;
   const ownPiece=/(?:^|\s)\.cmsMusic|\.sd-stage__layer--/;
+  // Named app-element exceptions, each a reviewed decision (exact selector, so nothing broader slips in):
+  // r87 sweep P-01: Home leaves out the redundant "SHOWDOWN COMPLETE" reconnect note that sat under its chips on phones.
+  const APPROVED_APP_HIDES=new Set(['html[data-v10-screen="mainMenu"] #app > #sharedJourneyReconnectStatus[data-closed-notice="true"]']);
   for(const selector of hiding)for(const target of targets(selector)){
+    if(APPROVED_APP_HIDES.has(target))continue;
     const element=lastCompound(target);
     assert.ok(allowed.test(element)||(ownPiece.test(target)&&/^(?:\.[\w-]+|small|span)(?:\[[^\]]*\])*$/.test(element)),`the shell CSS hides only its own music pieces or Team V decoration, not: ${target} (in ${selector})`);
   }
@@ -686,7 +690,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TRANSFER_PHONE_V1.webp":"0effe0edb3159888b4417201ffafa806a3435a1f94cf2630408b7b96dd3b6bd1",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp":"739359106c586b8e98640290c5091b97008550f4bebad4919eabde3c0c9c1086",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316",
-    // r87 test gaps (2026-10-31): F9c had not run since r78, so these r84-r87 images were never listed. Pinned at gameplay/r87 73713d75.
+    // r87 test gaps (2026-10-31): F9c had not run since r78, so these r84-r87 images were never listed. Pinned at gameplay/r87 73713d75; RR_HAND (r87-only, never shipped) re-pinned at 45c01a72.
     "visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_1X.webp":"2a9b7b56dc0760ab17ba419676c45cbdd0e94d9601a9ffc32faa52b28ef1fd3c",
     "visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_2X.webp":"5762425e970db318445d1d54934a69227948387e60d3ccad9744176e5e6ee0f8",
     "visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PLATE_V2_1X.webp":"1962b2933408c959ad07ecf9ef9bf8350e52e69bb9c49c223a59531aa6719d59",
@@ -727,7 +731,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/content/gazette/GZ_THINK_NIK.webp":"e784ea13d111d71952cc1a19ce1b951728d910b8974ec1e941fd0c75dd3316d7",
     "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp":"1087e684e01ea45d1d9d4b88c65bb9a841e9f43295cbf6e8bdafff0c56d46a5c",
     "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp":"471173df754656a8d6eef7c1a6cd9a10141cc18809709b44464427775a61dab6",
-    "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"a5df1ba6ad003b749c4eb5118e88580097acb1a52bc7c8b8d947ea65221a668f",
+    "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
     "visual-assets/v10_1/roulette/assets/RR_ROOM.jpg":"c89bdab7d056dc0237959a5fd7def3d8ce8e3bacb23ef2cd19dee43632f94fc5",
     "visual-assets/v10_1/special-player/assets/board.jpg":"e5eff37ae5c37939bb82117b20ee971caae8c3be4cd74f58990f4fabfbd6788e",
     "visual-assets/v10_1/special-player/assets/card_black.jpg":"44c96b79f9b039d15c060d0a324f30ba03e25a9430f2bfab485685e3875881fb",
@@ -779,9 +783,9 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  // Re-pinned 2026-10-31 to the r87 candidate (gameplay/r87 73713d75: r87 signing OVR boxes and plain button words). This
+  // Re-pinned 2026-11-01 to the r87 candidate (gameplay/r87 45c01a72). This
   // check had not run since r78; the r87 release PR re-pins it to the shipped bytes.
-  assert.equal(sha256("index.html"),"f1ddd3638c0aa57060993de90f9b908f7ac4bb424a75166d640d8e248cfa0159","index.html byte-identical to the r87 candidate");
+  assert.equal(sha256("index.html"),"fb7b861ad165da2bc71c91ecd28ca44a8830dfc739b5a21d14e21a8b29490fa8","index.html byte-identical to the r87 candidate");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
@@ -798,8 +802,8 @@ check("F11 Team V files are copied unchanged; no docs, previews or images are co
     "visual-assets/v10_1/shared/navbar/navbar.css":"19e3aec81f0de27d2a893c1019587c3157952c9ea8801c19276ce942938c208b",
     "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
     // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream. Gameplay has edited it
-    // since r78 (r78 look, r84 release, r87 red-team fits D-04/D-05, e3df0019); re-pinned 2026-10-31 to gameplay/r87 73713d75.
-    "visual-assets/v10_1/career-statistics/career-statistics.css":"cd7d9a5657dc5e2c8747368ff8c2b9385f52881bfff47b8dc24ccac0dc430f12"
+    // since r78 (r78 look, r84 release, r87 red-team fits D-04/D-05, e3df0019); re-pinned 2026-11-01 to gameplay/r87 45c01a72.
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"6d018d8ad7abe1397997943c71ed63f4640d2686e0c8aac76f66b7e10ff2ae22"
   };
   for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals its pinned copy`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);
