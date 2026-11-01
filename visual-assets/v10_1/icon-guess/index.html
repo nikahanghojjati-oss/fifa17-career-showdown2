@@ -62,7 +62,7 @@ html.kb #app { padding-bottom: 8px; }
 .pill { font: 700 15px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 7px 12px 6px; border-radius: 999px;
   background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); }
 
-/* ---------- the card (stand-in art; Team V replaces the face) ---------- */
+/* ---------- the card (stand-in white marble with gold veins and a gold foil edge; Team V replaces the face) ---------- */
 .stagewrap { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; position: relative; container-type: size; }
 .card { width: min(100cqw, 100cqh * 5 / 7, 380px); aspect-ratio: 5 / 7; position: relative; container-type: size; }
 .card .foil, .card .face { position: absolute; inset: 0; clip-path: polygon(50% 0, 88% 3.5%, 100% 11%, 100% 89%, 88% 96.5%, 50% 100%, 12% 96.5%, 0 89%, 0 11%, 12% 3.5%); }
@@ -70,6 +70,9 @@ html.kb #app { padding-bottom: 8px; }
   filter: drop-shadow(0 10px 22px rgba(0,0,0,.55)); }
 .card .face { inset: 2.2cqw; background:
   radial-gradient(90% 55% at 70% 30%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 60%),
+  linear-gradient(32deg, rgba(255,255,255,0) 44%, rgba(150,136,112,.12) 46%, rgba(255,255,255,0) 48.5%),
+  linear-gradient(151deg, rgba(255,255,255,0) 60%, rgba(196,147,47,.18) 61.6%, rgba(255,255,255,0) 63.4%),
+  linear-gradient(74deg, rgba(255,255,255,0) 70%, rgba(150,136,112,.08) 71.5%, rgba(255,255,255,0) 73%),
   repeating-linear-gradient(118deg, rgba(196,147,47,.06) 0 2px, rgba(255,255,255,0) 2px 9px),
   linear-gradient(170deg, var(--pearl-1) 0%, var(--pearl-2) 46%, var(--pearl-3) 100%); overflow: hidden; }
 .card .face::after { content: ""; position: absolute; inset: -40% -60%; background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,247,214,.55) 50%, rgba(255,255,255,0) 60%);

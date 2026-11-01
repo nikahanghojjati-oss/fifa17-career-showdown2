@@ -12,7 +12,9 @@ function check(name,f){f();passed+=1;console.log(`ok ${passed} ${name}`);}
 check("RVT1 Home CONTINUE CAREER: Daniel with nothing live asks the START question (never opens his leftover code directly)",()=>{
   const body=fn(read("js/onlinePlayerIdentity.js"),"openCanonicalCareerContinue");
   assert.match(body,/connectionState==="active"&&next\.rivalryId\)return pair\.continuePair\(\);/,"a live game still continues");
-  assert.match(body,/if\(state\.managerId==="daniel"\)return openCanonicalStart\(\);\s*await openCanonicalShowdownJoin\(\);/,"Daniel goes through openCanonicalStart (whichShowdownIsLive + needsCareerStart), Nik keeps JOIN");
+  // r87 Fable F4-07: Nik too (his not-live CONTINUE joins Daniel's note or waits, as from Home), never a bare paste box.
+  assert.match(body,/\*\/return openCanonicalStart\(\);/,"both managers go through openCanonicalStart (whichShowdownIsLive + needsCareerStart)");
+  assert.doesNotMatch(body,/await openCanonicalShowdownJoin\(\);/);
 });
 check("RVT2 a markerless account cannot create a non-real code",()=>{
   const src=read("js/persistentNikDanielPair.js"),start=src.slice(src.indexOf("async function pairStartPairing("),src.indexOf("async function pairKnownSaveIds("));

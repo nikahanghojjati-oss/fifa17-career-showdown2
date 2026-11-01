@@ -33,8 +33,9 @@ const plainSeason=()=>result({leaguePosition:4,leaguePoints:70});
 // T1 one boundary: the seam and the Gazette start Prime Pack totals where the round itself starts.
 assert.equal(Seam.PRIME_PACK_FROM_MS,IG.fromMs,'the seam boundary is js/iconGuess.js fromMs');
 assert.match(read('js/touchlineGazette.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Gazette boundary is js/iconGuess.js fromMs');
+assert.match(read('js/productionSharedTransferChallenge.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the transfer hook boundary is js/iconGuess.js fromMs');
 assert.deepEqual(plain(Seam.SEASON_MAX),{before:11,primePack:15});assert.equal(IG.maxPoints+11,15);
-ok('T1','the seam and the Gazette use the round\'s own start boundary, and 11 + 4 = 15 a season');
+ok('T1','the seam, the Gazette and the transfer hook use the round\'s own start boundary, and 11 + 4 = 15 a season');
 
 // T2 the season maximum and the Golden total per Showdown
 const id='pair_'+'c'.repeat(64);

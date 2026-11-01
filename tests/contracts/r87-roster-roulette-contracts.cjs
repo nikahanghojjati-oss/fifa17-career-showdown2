@@ -162,6 +162,24 @@ ok('L1c','Sol job 2: outfield stopgap repair (SQ-2-01), guessed incumbent evicte
 }
 ok('L1d','Sol SQ-4-01: a guess removes only the signing, never the club namesake; 400 x 10-season oracle, nobody excluded returns');
 
+// L1e Codex R87-C2-03: a failed optional font stylesheet never aborts the 3D scene; a failed script still reports.
+{
+  const html=fs.readFileSync(path_.join(ROOT,'visual-assets/v10_1/roulette/index.html'),'utf8');
+  const start=html.indexOf('(function(){ var EMBED=');assert.ok(start>0,'scene error reporter found');
+  const code=html.slice(start,html.indexOf('</script>',start));
+  const posted=[],listeners={};
+  const ctx={location:{search:'?embed=1',origin:'https://x'},parent:{postMessage:m=>posted.push(m)},setTimeout:()=>0,THREE:{},
+    document:{},window:null};
+  ctx.window={addEventListener:(type,fn)=>{listeners[type]=fn;},THREE:{}};
+  vm.createContext(ctx);vm.runInContext(code.replace(/window\.THREE/g,'true'),ctx);
+  listeners.error({type:'error',target:{tagName:'LINK',href:'https://fonts.googleapis.com/css2'}});
+  assert.equal(posted.length,0,'C2-03: a failed font stylesheet is ignored');
+  listeners.error({type:'error',target:{tagName:'SCRIPT',src:'vendor/three-r128.min.js'}});
+  assert.equal(posted.length,1,'C2-03: a failed script still reports cms-rr-error');
+  assert.equal(posted[0].type,'cms-rr-error');
+}
+ok('L1e','Codex R87-C2-03: an optional font failure never aborts the roulette scene; script failures still report');
+
 // L2 determinism: both phones agree, a refresh or a second tap gives the same result, and nothing touches the network.
 const id=()=>`pair_${randomBytes(32).toString('hex')}`;
 const clubs={playerOne:'Liverpool',playerTwo:'Real Madrid'};
@@ -285,8 +303,8 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.ok(!/rosterBoards/.test(fs.readFileSync(path_.join(ROOT,'firestore.persistent-pair-production.fragment.rules'),'utf8')),'no board Rules');
   assert.match(pstc,/verdicts:season=>pstcRouletteVerdicts\(request,season\)/);
   assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v1/);
-  assert.match(pstc,/provider\.read\(\{\.\.\.provided\.options,seasonNumber:season\}\)/);
-  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx\):\[null\]/);
+  assert.match(pstc,/provider\.readRouletteSeason\(\{\.\.\.await pstcRouletteServices\(\),rivalryId:request\.rivalryId,seasonNumber:season,/);
+  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
   assert.match(rules,/Special Player is never on your board, so he is never hit/,'Rule Book: the Special Player is never on the board');
   ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');
@@ -859,8 +877,8 @@ async function stepWorld({loads,forSeason}){
   const sandbox={document:doc,setTimeout,clearTimeout,location:{origin:'x'},addEventListener(){},removeEventListener(){},
     readStorageValue:k=>store.get(k)||null,writeStorageValue:(k,v)=>{store.set(k,v);return true;},
     loadRuntimeScript:async(key)=>{if(key==='fifa17-players'){attempt+=1;if(!loads(attempt))throw new Error('network unavailable');}
-      sandbox.CareerModeFifa17Players={};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};
-      sandbox.CareerModeRosterRoulette={forSeason};return true;}};
+      sandbox.CareerModeFifa17Players={clubs:{Arsenal:{},Liverpool:{}}};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};
+      sandbox.CareerModeRosterRoulette={forSeason,board:()=>[{}]};return true;}};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
   const step=sandbox.CareerModeRosterRouletteStep;
   const panel=()=>doc.getElementById(step.panelId);
@@ -896,8 +914,8 @@ const stepChecks=(async()=>{
     assert.equal(await run,false,'an unexpected error never opens the window');assert.equal(calls,2,'retry rebuilds the same plan');
   }
   const pstc=fs.readFileSync(path_.join(ROOT,'js/productionSharedTransferChallenge.js'),'utf8');
-  assert.match(pstc,/if\(!step\)\{rouletteLoadError=true;return false;\}/,'the step file itself failing keeps the window shut');
-  assert.match(pstc,/\}catch\(_error\)\{rouletteLoadError=true;return false;\}/);
+  assert.match(pstc,/if\(!step\)\{rouletteError=PSTC_ROULETTE_TEXT\.load;return false;\}/,'the step file itself failing keeps the window shut');
+  assert.match(pstc,/\}catch\(_error\)\{rouletteError=PSTC_ROULETTE_TEXT\.error;return false;\}/);
   ok('L15','red team R87-B-02: roulette load failure or error asks TRY AGAIN / BACK and never opens Transfers silently; never skipped for a short squad');
 
   // L16 red team R87-B-03/04/05/06: offline scene files, two-tab signing drafts, plain connection text, quota on direct gets.
@@ -936,7 +954,7 @@ const stepChecks=(async()=>{
       const sandbox={document:doc,setTimeout:(fn,ms)=>setTimeout(fn,Math.min(ms,30)),clearTimeout,location:{origin:'x'},
         addEventListener:(t,fn)=>{if(t==='message')handlers.push(fn);},removeEventListener(){},
         readStorageValue:k=>store.get(k)||null,writeStorageValue:(k,v)=>{store.set(k,v);return true;},
-        loadRuntimeScript:async()=>{sandbox.CareerModeFifa17Players={};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};sandbox.CareerModeRosterRoulette={forSeason:()=>plan};return true;}};
+        loadRuntimeScript:async()=>{sandbox.CareerModeFifa17Players={clubs:{Arsenal:{},Liverpool:{}}};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};sandbox.CareerModeRosterRoulette={forSeason:()=>plan,board:()=>[{}]};return true;}};
       vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
       const step=sandbox.CareerModeRosterRouletteStep;
       const ctx={rivalryId:'pair_'+'b'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:Date.parse('2026-11-01T00:00:00Z'),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};

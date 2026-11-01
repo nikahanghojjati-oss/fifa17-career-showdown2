@@ -61,6 +61,7 @@
   // JOB-1611: provider codes that mean "contended", not "refused": Firestore lock contention after the SDK's own retries.
   const PSSR_CONTENTION_CODES=Object.freeze(["aborted","failed-precondition","permission-denied","firestore/permission-denied","permission_denied"]);
   const PSSR_CONTENTION_RETRY_MS=Object.freeze([500,1000,1500]);
+  const PSSR_DENIED_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied"]),PSSR_READ_RETRY_CODES=Object.freeze([...PSSR_CONTENTION_CODES,"unavailable","deadline-exceeded","SEASON_RESULTS_PROVIDER_UNAVAILABLE","SEASON_RESULTS_PROVIDER_FAILED"]);
   function pssrWait(ms){return new Promise(resolve=>{const timer=typeof root.setTimeout==="function"?root.setTimeout:setTimeout;timer(resolve,ms);});}
   // JOB-1611: the reads inside a publish meet the same contention; they get the same bounded wait before failing as before.
   async function pssrPublishRead(ctx,request){let read=await provider.read(ctx.options);for(let retry=0;read?.ok!==true&&PSSR_CONTENTION_CODES.includes(read?.code)&&retry<PSSR_CONTENTION_RETRY_MS.length&&pssrContextMatches(request);retry+=1){await pssrWait(PSSR_CONTENTION_RETRY_MS[retry]);read=await provider.read(ctx.options);}return pssrResultError(read,"Season Results could not be refreshed before publishing.");}
@@ -209,7 +210,10 @@
           // One manager then gets aborted (SDK retries spent) or permission-denied (the rival's retried write had not landed
           // by the provider's last re-read) while the rival quietly retries and wins. Wait, re-read and publish again with
           // the same operationId (an own write that did land is bound, never written twice); bounded, then surfaced as before.
-          if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(fresh?.ok===true)current=fresh;continue;}
+          // Fable job 3 F3-11: a denied publish whose re-read is refused outright (the partner ENDed the Showdown: RIVALRY_INACTIVE;
+          // the Session closed) is a refusal, not contention: it stops at once with the same message instead of three more
+          // publishes and re-reads. A re-read that is itself contended, denied or offline keeps the bounded JOB-1611 retry.
+          if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(!(fresh?.ok!==true&&PSSR_DENIED_CODES.includes(published.code)&&!PSSR_READ_RETRY_CODES.includes(fresh?.code))){if(fresh?.ok===true)current=fresh;continue;}}
           const result=pssrResultError(published,"Your Season Result could not be published.");if(!pssrContextMatches(request))return true;
           pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }

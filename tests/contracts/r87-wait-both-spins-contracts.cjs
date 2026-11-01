@@ -217,12 +217,20 @@ async function partB(){
   assert.equal(nik.start.classList.contains("hidden"),true,"Nik never sees START");
 
   // B5: an old Showdown (confirmed before the roulette) and the switched-off roulette pass by themselves: no mark, no wait.
-  for(const [label,options] of [["old Showdown",{confirmedAtMs:OLD}],["no confirm time",{confirmedAtMs:undefined}],["roulette off",{confirmedAtMs:R87,killSwitch:true}]]){
+  for(const [label,options] of [["old Showdown",{confirmedAtMs:OLD}],["roulette off",{confirmedAtMs:R87,killSwitch:true}]]){
     const s={spins:[],state:null},p=await phone({role:"playerOne",store:s,...options});
     assert.deepEqual(p.provider.calls.markSpun,[],`${label}: no mark is written`);
     assert.equal(p.start.textContent,"START 15-MINUTE WINDOW",`${label}: START is ready at once`);assert.equal(p.start.disabled,false);
     p.page.tap("startTransferTimer");await settle();
     assert.deepEqual(p.provider.calls.startWindow,["plain"],`${label}: START goes straight to the provider`);
+  }
+
+  // B5b (Fable F2-05): no confirm time after the Setup refresh means the Setup could not be read (every ledger carries
+  // updatedAt), so it is never a silent pass: the window stays shut with that reason and no mark is written.
+  {
+    const s={spins:[],state:null},p=await phone({role:"playerOne",store:s,confirmedAtMs:undefined,awaitOpen:false});
+    assert.equal(await p.api.open(),false,"no confirm time: the window stays shut");
+    assert.match(p.api.rouletteError(),/could not be read just now/);assert.deepEqual(p.provider.calls.markSpun,[]);
   }
 
   // B6: Rules on the server that do not know the marks (refused write): the window stays shut (the provider would refuse START),
@@ -232,6 +240,13 @@ async function partB(){
   await refused.api.refresh();await settle();
   assert.deepEqual(refused.provider.calls.markSpun,["playerOne"],"a refused mark is written once per page, not on every check");
   refused.page.tap("startTransferTimer");await settle();assert.equal(refused.provider.calls.startWindow.length,0);
+
+  // B6b (Codex C2-02): Nik's own refused mark is shown on his phone too, never hidden behind "READY · WAITING FOR DANIEL"; a
+  // phone whose own mark is saved keeps the normal waiting line.
+  const nikRefused=await phone({role:"playerTwo",confirmedAtMs:R87,store:{spins:["playerOne"],state:null,refuseMarks:true}});
+  assert.equal(nikRefused.status(),"READY · YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY","the non-coordinator sees his own refused mark");
+  assert.match(refused.status(),/YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY/,"the coordinator too");
+  assert.equal(nik.status(),"READY · WAITING FOR DANIEL TO START","a saved mark keeps the normal line");
 
   // B7: the gate helper follows RRR_FROM_MS exactly.
   const applies=daniel.api.rouletteAppliesTo;

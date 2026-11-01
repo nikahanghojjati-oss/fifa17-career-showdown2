@@ -94,7 +94,9 @@ function staticChecks(getCandidate){
           const r87Spins=hunk.owner==='R87-SPINS'&&['allow create: if ssjrTransferSpinCreate(rivalryId, transferId);','allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);'].includes(line.trim());
           // r87 Prime Pack (Nik 2026-10-31/11-01): exactly the round record's create and update.
           const r87Pack=hunk.owner==='R87-PRIME-PACK'&&['allow create: if ssjrPackCreateValid(rivalryId, seasonId);','allow update: if ssjrPackUpdateValid(rivalryId, seasonId);'].includes(line.trim());
-          if(methods.some(x=>['create','update'].includes(x))&&!/:\s*if false;\s*$/.test(line))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner||r86Summary||r87Meter||r87Spins||r87Pack,`only the reviewed G-7 career index block may add write rules: ${line}`);
+          // Fable job 2 F2-02 (r87 roulette hits): exactly the create-once durable record of both marks that START writes.
+          const r87Hits=hunk.owner==='R87-HITS'&&line.trim()==='allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);';
+          if(methods.some(x=>['create','update'].includes(x))&&!/:\s*if false;\s*$/.test(line))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner||r86Summary||r87Meter||r87Spins||r87Hits||r87Pack,`only the reviewed G-7 career index block may add write rules: ${line}`);
         }
       }
       return `${delta.hunks.length} hunks, -${delta.hunks.reduce((a,x)=>a+x.removed.length,0)} +${delta.hunks.reduce((a,x)=>a+x.added.length,0)} lines vs main ${delta.productionMain.commit.slice(0,7)}`;

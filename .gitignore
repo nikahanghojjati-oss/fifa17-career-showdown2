@@ -6,3 +6,4 @@ playwright-report/
 gha-creds-*.json
 firestore.spark.generated.rules
 firestore-debug.log
+firebase-debug.log

@@ -85,7 +85,7 @@ await check("W3 read() reuses the identity sidecar's own pair read (one bounded 
   assert.equal(syncs,2,"no player, no read");
   const source=read("js/whichShowdownIsLive.js");
   assert.doesNotMatch(source,/firestore|getDoc|onSnapshot|runTransaction|fetch\(/i,"the module itself never reads Firebase");
-  assert.ok(Buffer.byteLength(source)<7000,"the module stays tiny (7000 since the ended-not-closed signal; r79 PR3's note check fits inside it)");
+  assert.ok(Buffer.byteLength(source)<7400,"the module stays tiny (7000 since the ended-not-closed signal; r79 PR3's note check fits inside it; 7400 since r87 Fable F4-02's pair-again for Daniel's dead code)");
 });
 
 await check("W4 every START entry routes through the one canonical START",()=>{

@@ -36,7 +36,7 @@ assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not creat
 assert.match(adapter,/Your rival sees this only after publishing theirs/);
 // Job 33 (R8): the duplicate RESULTS_READY banners are gone; the Shared Season Commit status is the one line that directs the player onward.
 assert.match(adapter,/if\(warning\)\{pssrHidden\(warning,ready\);/,'RESULTS_READY must hand the next-step banner to Shared Season Commit instead of repeating it');
-assert.match(read('js/productionSharedSeasonCommit.js'),/BOTH RESULTS ARE IN · LOCK THE SEASON[\s\S]*BOTH RESULTS ARE IN · WAITING FOR \$\{psscManagerName\(coordinator\)\} TO LOCK/,'RESULTS_READY must direct the real player into the next authoritative capability (Shared Season Commit) instead of presenting r9 as a terminal step');
+assert.match(read('js/productionSharedSeasonCommit.js'),/BOTH RESULTS ARE IN · LOCK THE SEASON[\s\S]*BOTH RESULTS ARE IN · WAITING FOR \$\{String\(psscManagerName\(coordinator\)\)\.toUpperCase\(\)\} TO LOCK/,'RESULTS_READY must direct the real player into the next authoritative capability (Shared Season Commit) instead of presenting r9 as a terminal step');
 for(const field of ['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist'])assert.match(adapter,new RegExp(`${field}:`),`production adapter must use canonical field ${field}`);
 assert.doesNotMatch(adapter,/persistCompletedSeason\s*\(/,'shared publication adapter must not call local season persistence');
 assert.doesNotMatch(adapter,/saveCurrentShowdown\s*\(/,'shared publication adapter must not write canonical local save authority');
