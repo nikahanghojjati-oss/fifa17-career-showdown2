@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 1 Nov, 11:03 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 1 Nov, 11:10 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1163 has waited 24 min for a machine; Showdown Gate on #1180 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -1989,8 +1989,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████████░` **87.2727 %**  
-Team V hand-offs: 48 of 55 done
+`█████████░` **89.0909 %**  
+Team V hand-offs: 49 of 55 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
@@ -2132,12 +2132,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 
 ## Other Team V work
-
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| ⬛ ? | [V-HO-051](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1163) | Prime Pack page art (Team V skin on #1149) | in progress · 0 % (0 of 1 steps) |
 
 **Up next**
 

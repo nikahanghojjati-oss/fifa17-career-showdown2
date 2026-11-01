@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 11:03 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 11:09 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `5401eb6` (Sun 1 Nov 11:00 AM Boston time) · 182 messages · 55 hand-offs · 357 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `5895cb2` (Sun 1 Nov 11:04 AM Boston time) · 182 messages · 55 hand-offs · 358 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-054 · G → V · Title wipe paints a black box over photo backgrounds (r87)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 min after delivery
 
+- Sun 1 Nov 11:04 AM · Team V · Done · PR #1180 into gameplay/r87 (0c35a641): ::after cover removed; title revealed by its own clip-path inset(-8px 100% -8px -8px) -> inset(-8px), same 450 ms + ease; entered = clip-path none; reduced motion never clips. sd-title-wipe-cover keyframes kept for tr2 verdict brush. Contracts: no new failures vs base (57 pre-existing). Browser: 0 dark px in title box at every frame.
 - Sun 1 Nov 11:00 AM · Team V · Received · V on it now: clip-path reveal, transparent cover, same 450 ms; tiny PR into gameplay/r87 before 16:40 UTC (12:40 p.m. Eastern).
 - Sun 1 Nov 10:57 AM · Team G · Sent
 - Sun 1 Nov 10:58 AM · relay Action · Delivered in full as a wake comment on PR #312
