@@ -6,13 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 31 Oct, 8:46 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Sat 31 Oct, 8:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
-🩺 **All clear (from GitHub).** · POS20 #304 7/7
+🐕 **Barking: Showdown Gate has waited 34 min for a machine; Showdown Gate on #1120 has waited 28 min for a machine; Showdown Gate on #1144 has waited 22 min for a machine; Showdown Gate on #1135 has waited 20 min for a machine; Showdown Gate on #1132 has waited 18 min for a machine; Showdown Gate on #1145 has waited 17 min for a machine; Showdown Gate on #1146 has waited 5 min for a machine; Showdown Gate on #1148 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
