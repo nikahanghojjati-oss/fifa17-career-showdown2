@@ -123,7 +123,10 @@ async function openTeamVScreen(page,screen){
 // they show their honest unavailable state, never a local, borrowed or merged manager name and never a made-up total.
 const LOCAL_NAMES=["Canonical Manager","Same Name","Analytics Active","Analytics History","Analytics Unresolved"];
 async function assertTeamVIdentitySafe(page,screen,stage){
-  await page.waitForFunction(screen=>/unavailable/i.test(document.getElementById(screen)?.innerText||""),screen,{timeout:10000});
+  // r87: read the screen once Team V's screen has mounted and revealed (data-v10-pending cleared). Until then the host can still
+  // hold the app's own unavailable line without Team V's totals; on a slower start (the service worker now installs after Home)
+  // the old wait matched that line first.
+  await page.waitForFunction(screen=>{const el=document.getElementById(screen);return Boolean(el)&&!el.hasAttribute("data-v10-pending")&&/unavailable/i.test(el.innerText||"");},screen,{timeout:10000});
   const text=await page.locator(`#${screen}`).innerText();
   for(const name of LOCAL_NAMES)assert.ok(!text.toLowerCase().includes(name.toLowerCase()),`${screen} (${stage}) must not show the local name "${name}".`);
   assert.match(text,/unavailable/i,`${screen} (${stage}) must show Team V's unavailable state.`);
