@@ -67,3 +67,12 @@ Layout:
 6. Tell us your ETA as soon as you can. Nik's release time depends on it.
 
 Wake the Team G lead (session_01GU43Q5xHsv4Q8dmAPKsP5f, thread "Team G lead: r87 release") with the ETA and again when the PR is up.
+
+## Addendum A (Nik, 2026-11-01 10:41 UTC): name plate on the card
+
+The card frame (03_prime_card_frame_transparent) has slots for overall (shield), position (small plate), 6 stats and flag (bottom plate), but **no name slot**. The player's name must show on the card when the guessing ends (after stage 4, or as soon as someone guesses right).
+
+- Add one wide name plate centred on the gold divider line under the silhouette, about 70% of the card width, same gold-rim style as the stat plates.
+- Empty and dark during the guessing (never a hint). The name fades in there at the end, with no flip.
+- Long names must fit on one line (shrink the font, never cut off). Test with "Bastian Schweinsteiger" and "Puskás".
+- Either redraw the frame with the plate or build the plate in CSS on top of it; your choice, as long as it matches the frame.
