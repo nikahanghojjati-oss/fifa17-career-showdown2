@@ -156,6 +156,23 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   #touchlineGazette .cmx-fp-screen { padding-top: max(calc(100vw * 140 / 393), calc(100dvh * 140 / 698.7)); }
   #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: max(calc(100vw * 236 / 393), calc(100dvh * 236 / 698.7)); }
 }
+/* Fable job 5 F5-02: phones on their side (852x393, 844x390, 932x430, 740x360). The face-safe lines above are portrait
+   numbers (a third of the window or more), which on a 360-430px-high window pushed the paper and its CONTINUE below the
+   fold and showed only the top of the plate. On its side the paper starts just under the top edge (under the top bar where
+   the window is wide enough to have one), and the phone plate is centred. Upright phones and desktop are unchanged. */
+@media (max-height: 520px) and (max-width: 1000px) and (orientation: landscape) {
+  #touchlineGazette .cmx-fp-screen,
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: 12px; }
+  #touchlineGazette.tgzPage::before { background-position: 50% 50%; }
+}
+@media (max-height: 520px) and (min-width: 901px) and (max-width: 1000px) and (orientation: landscape) {
+  #touchlineGazette .cmx-fp-screen,
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: calc(var(--sd-nav-top-h, 52px) + 12px); }
+}
+/* F5-04: Commentary's FULL TIME bar (#commentaryV3Final, js/commentaryV3.js) sits after the Final Winner stage, outside
+   #seasonEntry: it goes with the stage while the paper is up, and comes back with it. */
+html[data-gazette] #commentaryV3Final,
+html[data-gazette] #commentaryV3Bar { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   #touchlineGazette .cmx-paper { will-change: auto; }
 }

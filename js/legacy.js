@@ -96,7 +96,8 @@ function getLegacyOnlineCareer(){
     try{
         const legacy = window.CareerModeRivalryLegacyV10;
         const model = legacy && typeof legacy.cachedCareerModel === "function" ? legacy.cachedCareerModel() : null;
-        if(model && ["ready", "partial", "empty"].includes(model.status)){
+        // r87 Fable F7-02: the labelled current-only model (interimLabel) is the live Showdown alone, never the career.
+        if(model && ["ready", "partial", "empty"].includes(model.status) && !model.interimLabel){
             const rows = model.history && Array.isArray(model.history.showdowns) ? model.history.showdowns : [];
             const completed = rows.filter(row => row && row.status === "completed").length;
             const points = manager => {

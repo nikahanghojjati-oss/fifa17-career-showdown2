@@ -51,7 +51,8 @@ check('RL8 all statistics buttons are outside online containment',()=>{
 });
 check('RL8b r80: Rivalry Statistics after END SHOWDOWN rebuilds the latest Showdown that was not ended early (an Ended early one never counts there)',()=>{
  const src=read('js/rivalryLegacyV10.js');
- assert.match(src,/entry=input\?\.showdowns\?\.filter\(item=>item\.classification!=="abandoned"\)\.at\(-1\);/);
+ // r87 Fable job 7 F7-06: the latest entry that is not ended early, live or completion-pending (behaviour in r87-career-load-gate-stall-contracts.cjs).
+ assert.match(src,/entry=input\?\.showdowns\?\.filter\(item=>!\["abandoned","active","completion-pending"\]\.includes\(item\.classification\)\)\.at\(-1\);/);
  assert.match(src,/entry\?\.classification==="completed"\?root\.CareerModeSharedCareerAnalytics\.buildCareerModel\(\{indexStatus:"ready",showdowns:\[entry\]\}\)/);
 });
 check('RL9 production entry points are lazy and never read sample fixtures',()=>{

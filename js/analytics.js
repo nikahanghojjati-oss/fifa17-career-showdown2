@@ -349,11 +349,11 @@ function calculateCareerAnalytics(history, profileNames = new Map()){
 
     const managers = Array.from(managerMap.values())
         .map(finalizeManagerCareerStats)
-        .sort((a, b) => {
-            if(b.showdownWins !== a.showdownWins){ return b.showdownWins - a.showdownWins; }
-            if(b.totalTrophies !== a.totalTrophies){ return b.totalTrophies - a.totalTrophies; }
-            return b.totalPoints - a.totalPoints;
-        });
+        // r87 Fable F7-07: ranked by career points only (no tiebreak). Equal points keep their order and are marked level.
+        .sort((a, b) => b.totalPoints - a.totalPoints);
+    managers.forEach(manager => {
+        manager.level = managers.some(other => other !== manager && other.totalPoints === manager.totalPoints);
+    });
 
     return {
         history,
