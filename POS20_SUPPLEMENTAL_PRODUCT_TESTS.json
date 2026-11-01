@@ -2603,6 +2603,16 @@
         "^tests/contracts/r87\\-dst\\-clock\\-change\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-career-visuals-r3-browser-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/(career-statistics|trophy-room|legacy|rivalry-statistics)/",
+        "^tests/contracts/r87\\-career\\-visuals\\-r3\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
