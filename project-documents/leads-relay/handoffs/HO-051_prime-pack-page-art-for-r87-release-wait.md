@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-01T10:33:09Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-01T10:33:09Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T10:35:16Z", "by": "V", "status": "RECEIVED", "note": "Team V picked it up 1 Nov 10:40 UTC. ETA: PR into gameplay/r87 (based on #1149) with all shots by 15:30 UTC (10:30 a.m. Eastern). Art is Nik's GPT set as attached; no new pictures needed unless a cut-out fails."}],
  "from_session": "session_01GU43Q5xHsv4Q8dmAPKsP5f"
 }
 ```
