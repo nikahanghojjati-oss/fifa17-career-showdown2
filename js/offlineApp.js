@@ -14,7 +14,6 @@ let installedStandalone=false;
 let offlineReady=false;
 let offlineRecoveryReady=false;
 let lastCacheStatus=null;
-let menuMediaStatusBeforeOffline="";
 let verifiedConnectivity=navigator.onLine===false?"offline":"online";
 let connectivityVerified=navigator.onLine===false;
 let connectivityProbeGeneration=0;
@@ -115,37 +114,10 @@ function dispatchOfflineState(){
 }
 
 function setMenuMediaOfflineState(offline){
-    const toggle=document.getElementById("menuMusicToggle");
-    const status=document.getElementById("menuMusicStatus");
-    const offlineStatus="OFFLINE · YOUTUBE MEDIA REQUIRES A CONNECTION";
-    if(offline){
-        try{
-            // The Team V Audius player shares this toggle; pause it too before the toggle is disabled.
-            const audius=window.HomeSoundtrack?.state?.();
-            if((window.isMenuMediaPlaying?.()||audius?.wantPlaying)&&toggle&&!toggle.disabled){ toggle.click(); }
-        }catch(error){
-            console.warn("[Career Mode Showdown] External media could not be paused while entering offline mode:",error);
-        }
-        if(status){
-            if(status.textContent!==offlineStatus){
-                menuMediaStatusBeforeOffline=status.textContent||menuMediaStatusBeforeOffline;
-            }
-            status.textContent=offlineStatus;
-        }
-        if(toggle){
-            toggle.disabled=true;
-            toggle.setAttribute("aria-disabled","true");
-        }
-        return;
-    }
-    if(toggle){
-        toggle.disabled=false;
-        toggle.removeAttribute("aria-disabled");
-    }
-    if(status&&status.textContent===offlineStatus&&menuMediaStatusBeforeOffline){
-        status.textContent=menuMediaStatusBeforeOffline;
-    }
-    menuMediaStatusBeforeOffline="";
+    // r87: Home has no music strip; the soundtrack (Audius) needs a connection, so it pauses on going offline.
+    if(!offline){ return; }
+    try{ window.HomeSoundtrack?.pause?.(); }
+    catch(error){ console.warn("[Career Mode Showdown] The soundtrack could not be paused while entering offline mode:",error); }
 }
 
 function renderConnectivity(){

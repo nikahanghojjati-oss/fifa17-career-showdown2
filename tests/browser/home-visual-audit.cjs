@@ -127,8 +127,8 @@ async function inspectTiles(page){
         return {
             viewport: { width: innerWidth, height: innerHeight },
             tiles,
-            strip: rectOf("#mainMenu .menuMusicTile"),
-            stripShown: (() => { const node = document.querySelector("#mainMenu .menuMusicTile"); return Boolean(node && node.getClientRects().length && getComputedStyle(node).visibility !== "hidden" && getComputedStyle(node).display !== "none"); })(),
+            // r87 (Nik 2026-11-01): Home has no music strip at any size (music is the MUSIC tab / top-bar dock).
+            stripInPage: Boolean(document.querySelector("#mainMenu .menuMusicTile, #menuMusicToggle, #menuMusicStatus, .phoneSheetToggle")),
             lockup: rectOf("#mainMenu .homeLockup"),
             nav: rectOf(".sd-nav-bottom"),
             scrollWidth: document.documentElement.scrollWidth,
@@ -147,11 +147,12 @@ function assertTiles(result, label, mode){
     assert.ok(result.scrollHeight <= viewport.height + 1, `${label}: Home must not scroll vertically (${result.scrollHeight} > ${viewport.height}).`);
     assert.ok(result.bodyScrollHeight <= viewport.height + 1, `${label}: the page body must not scroll vertically.`);
     assert.equal(result.tiles.length, tileIds.length, `${label}: all seven Home tiles must be present.`);
+    assert.ok(!result.stripInPage, `${label}: Home has no music strip at any size (r87: music is the MUSIC tab and the top-bar dock).`);
     for(const tile of result.tiles){
         assert.ok(!tile.missing, `${label}: ${tile.id} is missing from Home.`);
         assert.ok(tile.tile.right > tile.tile.left && tile.tile.bottom > tile.tile.top, `${label}: ${tile.id} has no size.`);
         assert.ok(inside(tile.tile, { left: 0, top: 0, right: viewport.width, bottom: viewport.height }), `${label}: ${tile.id} must be fully on screen.`);
-        assert.ok(tile.topmost, `${label}: ${tile.id} must not be covered by another element (soundtrack card, bar or logo).`);
+        assert.ok(tile.topmost, `${label}: ${tile.id} must not be covered by another element (bar or logo).`);
         assert.ok(tile.lines.length > 0, `${label}: ${tile.id} label has no text.`);
         assert.ok(tile.lines.every(line => inside(line, tile.tile)), `${label}: ${tile.id} label text must stay inside its tile (not clipped).`);
         assert.ok(tile.labelScrollWidth <= tile.labelClientWidth + 1, `${label}: ${tile.id} label has a word wider than its box (${tile.labelScrollWidth} > ${tile.labelClientWidth}).`);
@@ -167,9 +168,7 @@ function assertTiles(result, label, mode){
         }
     }
     if(mode === "portrait"){
-        // r86 (Nik 2026-10-28): no soundtrack strip on phone Home, and the last tile row ends just above the bottom bar
-        // (no empty band, no touching).
-        assert.ok(!result.stripShown, `${label}: the soundtrack strip must not show on phone Home (music is the MUSIC tab).`);
+        // r86 (Nik 2026-10-28): the last tile row ends just above the bottom bar (no empty band, no touching).
         const lowest = Math.max(...result.tiles.map(tile => tile.tile.bottom));
         if(result.nav){
             const room = result.nav.top - lowest;
@@ -177,9 +176,7 @@ function assertTiles(result, label, mode){
         }
     }
     if(mode === "landscape"){
-        // G-F15: every tile and the logo are on screen together and never overlap one another. r86 (Nik 2026-10-28):
-        // the soundtrack strip is gone from phone Home (music is the MUSIC tab), so it must not show.
-        assert.ok(!result.stripShown, `${label}: the soundtrack strip must not show on phone Home (music is the MUSIC tab).`);
+        // G-F15: every tile and the logo are on screen together and never overlap one another.
         assert.ok(result.lockup, `${label}: the logo must show on a landscape phone.`);
         for(const tile of result.tiles){
             assert.ok(!touches(tile.tile, result.lockup), `${label}: ${tile.id} must not overlap the logo.`);

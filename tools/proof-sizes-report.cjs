@@ -28,7 +28,7 @@ for(const dir of dirs){
         if(/onlinePlayerIdentityBadge/.test(i.what))return false;
         // a sheet or dialog is open: only its own controls count
         const sheetOpen=o.overlays.length||o.screens.length>1;
-        if(sheetOpen&&/menuTile|sd-nav|menuMusic|menuMedia|#continueCareer|#newShowdown/.test(i.what))return false;
+        if(sheetOpen&&/menuTile|sd-nav|#continueCareer|#newShowdown/.test(i.what))return false;
         if(/startupAthlete|loadingScreen/.test(i.detail))return false;
         if(overlayIds.length&&overlayIds.some(id=>i.detail.includes(`#${id}`)||i.detail.includes(id)))return false;
         if(overlayIds.length&&/remoteJoining|connectPlayers|Overlay/.test(i.detail)&&!overlayIds.some(id=>i.what.includes(id)))return false;

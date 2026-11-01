@@ -2,6 +2,8 @@
 "use strict";
 // JOB-25 (G-13 part 2b): Team V's Home (5e05a1f) on the app's #mainMenu, Nik's Audius playlist, and Loading left
 // as the app's own startup splash. Static checks plus Team V's real soundtrack.js run in node:vm with a small fake DOM.
+// r87 (Nik 2026-11-01): Home has no music strip; soundtrack.js owns the one <audio> and its state, and the only controls
+// are the phone MUSIC tab and the desktop top-bar dock (js/musicDockV10.js), driven here through the HomeSoundtrack API.
 
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -17,7 +19,7 @@ function test(name,fn){try{fn();console.log(`ok ${++n} - ${name}`);}catch(error)
 const html=read("index.html"),binder=read("js/homeScreensV10.js"),soundtrack=read("visual-assets/v10_1/home/soundtrack.js");
 const adapter=read("css/homeV10.css"),homeCss=read("visual-assets/v10_1/home/home.css"),sw=read("service-worker.js");
 const Home=require(path.join(ROOT,"js/homeScreensV10.js"));
-const PRODUCT_IDS=["continueCareer","newShowdown","legacyButton","careerStatisticsButton","ruleBookButton","settingsButton","menuMusicToggle","menuMusicMute","menuMusicStatus","menuMusicPlayer"];
+const PRODUCT_IDS=["continueCareer","newShowdown","legacyButton","careerStatisticsButton","ruleBookButton","settingsButton"];
 
 // ---- a small fake DOM, enough for soundtrack.js ----
 function fakeDom(){
@@ -34,18 +36,13 @@ function fakeDom(){
     };
     return el;
   };
-  const body=make("body"),card=make("section"),toggle=make("button",{id:"menuMusicToggle"}),mute=make("button",{id:"menuMusicMute"}),status=make("p",{id:"menuMusicStatus"});
-  const selector=make("div"),title=make("strong"),artist=make("p");
-  const choices=Home.MEDIA.tracks.map(t=>t.key).map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
-  card.querySelector=sel=>({".menuMusicHeader strong":title,".menuMusicArtist":artist,".menuMediaSelector":selector})[sel]||null;
-  card.querySelectorAll=sel=>sel==="[data-soundtrack-track]"?choices:[];
-  const ids={menuMusicToggle:toggle,menuMusicMute:mute,menuMusicStatus:status};
+  const body=make("body");
   const created=[];
-  const document={body,getElementById:id=>ids[id]||null,querySelector:sel=>sel===".menuMusicTile"?card:null,createElement:tag=>{const el=make(tag);created.push(el);return el;}};
+  const document={body,getElementById:()=>null,querySelector:()=>null,createElement:tag=>{const el=make(tag);created.push(el);return el;}};
   const requests=[];
   const window={document,fetch:url=>{requests.push(String(url));return Promise.reject(new Error("no network"));},Element:function(){}};
   window.window=window;
-  return {window,document,body,card,toggle,mute,status,choices,created,requests,listenerCount:(el,type)=>((listeners.get(el)||{})[type]||[]).length};
+  return {window,document,body,created,requests};
 }
 function runSoundtrack(dom){vm.runInNewContext(soundtrack,{window:dom.window,document:dom.document,Element:dom.window.Element,console},{filename:"soundtrack.js"});return dom.window.HomeSoundtrack;}
 
@@ -72,8 +69,8 @@ test("Audius makes no request before the Play tap",()=>{
   api.init(Home.MEDIA);
   assert.equal(dom.created.length,0,"no <audio> before Play");
   assert.deepEqual(dom.requests,[]);
-  assert.equal(dom.status.textContent,"SONG 2 · AUDIUS · READY");
-  dom.toggle.click();
+  assert.equal(api.current().key,"song2");assert.equal(api.state().src,null);
+  api.toggle();
   assert.equal(dom.created.length,1,"one <audio> on Play");
   const audio=dom.created[0];
   assert.equal(audio.preload,"none");
@@ -83,53 +80,48 @@ test("Audius makes no request before the Play tap",()=>{
 });
 test("one long-lived <audio> on <body> keeps playing after Home unmounts and is reused when Home mounts again",()=>{
   const dom=fakeDom(),api=runSoundtrack(dom);
-  api.init(Home.MEDIA);dom.toggle.click();
+  api.init(Home.MEDIA);api.toggle();
   const audio=dom.created[0];
   assert.equal(audio.parentNode,dom.body,"audio lives on <body>, outside #mainMenu");
   assert.equal(audio.dataset.v10PersistentMedia,"home");
   api.init(Home.MEDIA);api.init(Home.MEDIA);
-  assert.equal(dom.listenerCount(dom.toggle,"click"),1,"re-mount binds Play once");
-  assert.equal(dom.listenerCount(dom.mute,"click"),1,"re-mount binds Mute once");
-  dom.toggle.click();assert.equal(audio.paused,true,"one tap pauses (no double listener)");
-  dom.toggle.click();assert.equal(dom.created.length,1,"no second <audio>");
+  api.toggle();assert.equal(audio.paused,true,"one toggle pauses");
+  api.toggle();assert.equal(dom.created.length,1,"no second <audio>");
+  api.mute();assert.equal(audio.muted,true);api.choose("kids");assert.equal(audio.muted,true,"mute stays on across songs");
   assert.equal(dom.body.children.filter(c=>c.tagName==="AUDIO").length,1);
-  assert.match(soundtrack,/v10PersistentMedia/);assert.match(soundtrack,/document\.body\.appendChild\(persistent\)/);
-  assert.doesNotMatch(soundtrack,/ui\.card\.appendChild\(audio\)/);
+  assert.match(soundtrack,/v10PersistentMedia/);assert.match(soundtrack,/document\.body\.appendChild\(audio\)/);
+  assert.match(soundtrack,/if \(window\.HomeSoundtrack\) return;/,"a second load never replaces the playing <audio>");
 });
-test("r87: Home mounting again (or the online signal) keeps the chosen song; Song 2 is only the first pick",()=>{
+test("r87: init running again keeps the chosen song; Song 2 is only the first pick",()=>{
   const dom=fakeDom(),api=runSoundtrack(dom);
   api.init(Home.MEDIA);
   assert.equal(api.current().key,"song2","Song 2 opens the game");
-  api.choose("loveMeAgain");dom.toggle.click();
+  api.choose("loveMeAgain");api.toggle();
   const audio=dom.created[0];
   api.init(Home.MEDIA);
   assert.equal(api.current().key,"loveMeAgain","re-init never jumps the title back to Song 2 while Love Me Again plays");
-  assert.equal(dom.choices.find(b=>b.dataset.soundtrackTrack==="loveMeAgain").attributes["aria-pressed"],"true");
-  dom.toggle.click();dom.toggle.click();
+  assert.equal(api.state().selected,"loveMeAgain");
+  api.toggle();api.toggle();
   assert.match(audio.src,/GNQJ5dl/,"pause and play resume the same song, not Song 2 from the start");
 });
 test("r87: Play after a failed stream asks Audius again instead of replaying the dead <audio>",()=>{
   const dom=fakeDom(),api=runSoundtrack(dom);
-  api.init(Home.MEDIA);dom.toggle.click();
+  api.init(Home.MEDIA);api.toggle();
   const audio=dom.created[0];
   audio.paused=true;audio.fire("error");
   assert.equal(api.state().failed,true);assert.equal(api.state().wantPlaying,false);
-  assert.equal(dom.status.textContent,Home.MEDIA.statusError);
   let loads=0;audio.load=()=>{loads+=1;};audio.src="";
-  dom.toggle.click();
+  api.toggle();
   assert.match(audio.src,/6R99GRQ/,"the stream URL is set again");
   assert.equal(api.state().failed,false);assert.equal(api.state().wantPlaying,true);
   assert.equal(audio.paused,false);
 });
-test("the YouTube player is retired only by lazy Home code, and product diagnostics still see their nodes",()=>{
-  assert.match(html,/id="menuMusicPlayer"/,"index.html is unchanged");
-  assert.match(binder,/v10HomeRetiredMedia/);assert.match(binder,/retired\.hidden=true/);
-  assert.match(binder,/\["menuMusicPlayer","menuMediaSelector"\]/);
-  assert.match(binder,/iframe/);assert.match(binder,/cloneNode\(true\)/,"YouTube click listeners stay on the old buttons");
-  assert.match(binder,/dataset\.musicBound="true"/);
+test("r87 (Nik 2026-11-01): Home has no music strip; the old YouTube player and its diagnostics are gone",()=>{
+  assert.doesNotMatch(html,/menuMusicTile|menuMusic(?:Toggle|Mute|Status|Player)|menuMediaSelector/,"no strip markup in index.html");
+  assert.doesNotMatch(binder,/menuMusicTile|v10HomeRetiredMedia|phoneTrackSheet|menuMediaSelector|cloneNode\(true\)/,"Home's binder never builds a strip");
   assert.doesNotMatch(binder+soundtrack,/youtube\.com|youtube-nocookie\.com|youtu\.be/i);
-  assert.doesNotMatch(binder+soundtrack,/data-menu-media-source|menuMediaSource/,"Audius choices never count as diagnostics' seven YouTube choices");
-  assert.match(read("js/diagnostics.js"),/"bastille", "highlow", "move", "music", "shelter", "trailer", "youth"/);
+  assert.doesNotMatch(read("js/menuExperience.js"),/MENU_MEDIA_SOURCES|youtube|menuMusic|menuMedia(?:Selector|Iframe)/i);
+  assert.doesNotMatch(read("js/diagnostics.js"),/menuMusic|menuMediaSelector|"bastille"|getMenuMediaProblems/);
   assert.match(read("js/ssjr.js"),/v10-home-screens","js\/homeScreensV10\.js"/);
 });
 test("Audius is the only new network host",()=>{
@@ -137,8 +129,10 @@ test("Audius is the only new network host",()=>{
   assert.deepEqual([...hosts],["api.audius.co"]);
   assert.equal(Home.MEDIA.tracks.length,19);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["6R99GRQ","GNQJ5dl","5xdlPEJ","K9J0w8l","Nvydpr7","WGNNo","PQ28va7","3mjjB","y7Z9P","Ymgov","qZ17b","gb33l","n1zqQ","ygyOr","3RaaM","AV9dv","ryBXG","G5rXAWE","0dGWK"],"Nik's list (2026-10-27): Song 2 first, Love Me Again second, the new picks, then the earlier top 10 in order");assert.equal(Home.MEDIA.defaultTrack,"song2");
 });
-test("Home registers through job 24's loader with Team V's CSS, the adapter and the soundtrack",()=>{
-  assert.match(binder,/V\.register\("mainMenu",\{css:HOME_CSS\.slice\(\),js:\[\["v10-home-soundtrack","home\/soundtrack\.js"/);
+test("Home registers through job 24's loader with Team V's CSS and the adapter; the soundtrack starts with the app (HE-06)",()=>{
+  assert.match(binder,/V\.register\("mainMenu",\{css:HOME_CSS\.slice\(\),js:\[\],/);
+  assert.match(binder,/load\("v10-home-soundtrack",BASE\+"home\/soundtrack\.js",\(\)=>Boolean\(root\.HomeSoundtrack\)\)/);
+  assert.match(binder,/js:\[\],frame:\(\)=>FRAME,mount:hmDecorate,unmount:hmUnmount\}\);\n    hmStartMusic\(\);/,"install() starts the soundtrack and its player before Home is drawn");
   assert.deepEqual([...Home.HOME_CSS],["home/home.css","../../css/homeV10.css"]);
   assert.doesNotMatch(binder,/register\("loadingScreen"/);
 });
@@ -181,15 +175,16 @@ test("the adapter keeps the product's protected Home facts (desktop tile placeme
   assert.doesNotMatch(adapter,/#(?:legacyButton|careerStatisticsButton|rivalryStatisticsButton)[^{]*\{[^}]*display/,"the adapter never sets tile display");
   assert.match(adapter,/#mainMenu\.v10Home #continueCareer:disabled \{ opacity: 1; filter: none; \}/);
 });
-test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2; HO-027 r78: no state dimming)",()=>{
-  assert.equal(sha("visual-assets/v10_1/home/home.css"),"ba72603790119c404a32711ddc36cbb6ad4190c108d496a1193eef8bbc3dbc53");
+test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2; HO-027 r78: no state dimming; r87: no music strip)",()=>{
+  // r87 (Nik 2026-11-01): every .menuMusicTile / soundtrack strip rule left home.css.
+  assert.equal(sha("visual-assets/v10_1/home/home.css"),"f801ac76b2efa05d9371a7c34dad80c734cb1a92706d560c9994478d61d5f528");
   assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
   // r85 (app, Nik 2026-10-27): a small API (toggle, mute, choose, tracks, current, subscribe) for the docked player in js/musicDockV10.js.
   // r87 (app): init keeps the chosen song, and Play after a failed stream asks Audius again.
-  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"b65c53dbb662e99ad5929607447fc5eaa7bea94fc5db9db79ddc267dd9c19b1a");
-  assert.equal((soundtrack.match(/r85 \(app\)/g)||[]).length,2);
-  assert.equal((soundtrack.match(/r87 \(app\)/g)||[]).length,2);
-  assert.equal((soundtrack.match(/JOB-25 \(app\)/g)||[]).length,2);
+  // r87 (Nik 2026-11-01): no strip UI; the file owns only the <audio>, the playback state and the API.
+  assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"1e8c1287fcc7cbd5c4f26232ccf297db82c8fbcbdc2e075f411aa38441759ac1");
+  assert.equal((soundtrack.match(/r87 \(app\)/g)||[]).length,1);
+  assert.doesNotMatch(soundtrack,/querySelector|getElementById|menuMusic|ui\./,"soundtrack.js reads no Home markup");
 });
 
 console.log(`1..${n}`);

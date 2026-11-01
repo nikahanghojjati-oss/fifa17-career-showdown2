@@ -359,10 +359,6 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
         window.cancelClubAssignmentOperation();
     }
 
-    if(currentScreen === "mainMenu" && typeof window.handleMainMenuExit === "function"){
-        window.handleMainMenuExit();
-    }
-
     return true;
 }
 
