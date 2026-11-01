@@ -51,13 +51,13 @@ async function playPrimePack(page,{primeGuesser=null}={}){
   if(!await page.locator("#igStage").isVisible().catch(()=>false))return null;
   const frame=primeFrame(page);if(!frame)return "wait";
   const state=await frame.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null);if(!state)return "wait";
+  const planned=prime.enabled()?await page.evaluate(()=>{const v=window.CareerModeProductionSharedTransferChallenge?.getState?.();return v?{season:v.seasonNumber,role:v.managerRole}:null;}).catch(()=>null):null;
+  if(state.result&&planned)prime.observe(planned.role,planned.season,state);
   // A real tap (no forced click): anything standing over the Prime Pack would fail it.
   if(state.cta){const r=await frame.locator("#cta").click({timeout:5000}).then(()=>"",e=>process.env.CMS_ROULETTE_DEBUG==="1"?":"+String(e.message).slice(0,900):"");return "prime-continue"+r;}
   // CE2PG_PRIME=table|golden (tests/browser/support/prime-pack.cjs): the season's planned winner names the card in the planned stage
   // (4, 3, 2 or 1 points); a season with no winner runs the stages out. Seen results are kept for the end-of-run check.
-  const planned=prime.enabled()?await page.evaluate(()=>{const v=window.CareerModeProductionSharedTransferChallenge?.getState?.();return v?{season:v.seasonNumber,role:v.managerRole}:null;}).catch(()=>null):null;
   const plan=planned&&prime.planFor(planned.season);
-  if(state.result&&planned)prime.observe(planned.role,planned.season,state);
   if(plan){
     if(!plan.winner)return state.result||!state.canGuess?"wait":"wait";
     primeGuesser=plan.winner==="daniel"?"playerOne":"playerTwo";
