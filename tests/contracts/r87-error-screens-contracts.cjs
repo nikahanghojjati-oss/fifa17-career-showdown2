@@ -2,7 +2,7 @@
 "use strict";
 // r87 (2.0.0) error, offline and quota screens. Players see plain words and a way forward, never raw codes or JS errors.
 // E1  js/app.js reportApplicationError keeps plain detail and swaps technical detail (codes, JS errors, Firebase strings,
-//     camelCase API names) for "Your career is safe. Try again, or reload the game." The detail still goes to the console.
+//     camelCase API names) for "Your career is safe. Try again." The detail still goes to the console.
 // E2  The runtime boundary's words are plain ("Something went wrong on this screen"), not "A runtime error was detected".
 // E3  The Transfer Challenge error text never falls back to a raw provider code.
 // E4  The sign-in gate: offline says what to do; quota has BACK TO HOME; a technical error message becomes plain words.
@@ -34,7 +34,7 @@ function loadApp(){
 
 check("E1 toasts keep plain detail and hide technical detail",()=>{
   const {sandbox,toasts,errors}=loadApp();
-  const SAFE="Your career is safe. Try again, or reload the game.";
+  const SAFE="Your career is safe. Try again.";
   const technical=["Cannot read properties of undefined (reading 'seasons')","TRANSFER_PROVIDER_FAILED","Firebase: Error (auth/network-request-failed).","Missing or insufficient permissions.","ResizeObserver loop failed","x is not a function()",""];
   for(const detail of technical){
     toasts.length=0;sandbox.reportApplicationError("Season Results did not open",detail?new Error(detail):null);
@@ -52,10 +52,10 @@ check("E2 the runtime boundary and startup use plain words",()=>{
   for(const old of ["A runtime error was detected","An unexpected application error was detected","The application could not finish initializing"])assert.ok(!app.includes(old),old);
   const {listeners,toasts}=loadApp();
   listeners.get("error")({message:"TypeError: x is not a function",filename:"https://example.test/js/clubScreenV10.js"});
-  assert.equal(toasts[0],"error:Something went wrong on this screen. Your career is safe. Try again, or reload the game.");
+  assert.equal(toasts[0],"error:Something went wrong on this screen. Your career is safe. Try again.");
   // A runtime error that happens to read like words still never reaches the toast (the boundary passes q=1).
   toasts.length=0;listeners.get("error")({message:"First-party provenance audit failure",filename:"https://example.test/js/app.js"});
-  assert.equal(toasts[0],"error:Something went wrong on this screen. Your career is safe. Try again, or reload the game.");
+  assert.equal(toasts[0],"error:Something went wrong on this screen. Your career is safe. Try again.");
   const jargon={"js/productionSharedJourneyGuard.js":["Shared Showdown polished presentation action failed","Shared Career Start action failed"],"js/transferChallenge.js":["Transfer Challenge completion failed","Unable to start the transfer window","Unable to open the Transfer Challenge"],"js/seasonEngine.js":["Season saved, but the summary screen failed"],"js/optionalModules.js":["Required football presentation could not be prepared"],"js/footballVisuals.js":["Required football photograph could not be prepared"],"js/diagnostics.js":['reportApplicationError("Application integrity check failed"'],"js/productionSharedSeasonResultsRoute.js":["Unable to open Shared Season Results"]};
   for(const [file,words] of Object.entries(jargon))for(const w of words)assert.ok(!read(file).includes(w),`${file}: ${w}`);
 });
