@@ -142,7 +142,11 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   // r87: the roulette's sounds (.wav) follow the same runtime rule as the images.
   const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav)$/i.test(file);
+  // r87 Prime Pack: G Lead adds its page to the shell after #1149 merges (scope split 2026-11-01 10:44 UTC); remove this
+  // one exception when it does.
+  const shellLater=new Set(["visual-assets/v10_1/icon-guess/index.html"]);
   for(const file of lazy){
+    if(shellLater.has(file))continue;
     if(isImage(file)){assert.ok(imageRule.test(file),`runtime image rule covers ${file}`);assert.ok(!shell.has(file),`${file} not precached`);}
     else assert.ok(shell.has(file),`shell lists ${file}`);
   }

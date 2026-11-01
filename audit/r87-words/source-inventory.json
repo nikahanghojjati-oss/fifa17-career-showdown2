@@ -1,0 +1,774 @@
+[
+  {
+    "file": "data/clubCards.js",
+    "sha256": "2139822ab3a1716dfc74ab56aad1a686a3705971590631c35d07723f54153a55"
+  },
+  {
+    "file": "data/clubs.js",
+    "sha256": "283c5083d5dd9eec0a14a3023d0b38254f4d490d6155f62bc02d57d03f9cc1ee"
+  },
+  {
+    "file": "data/commentaryLines.js",
+    "sha256": "3d8206cf160f6873c20e1e26e54282e24822dc5828b07605729651df14419d2e"
+  },
+  {
+    "file": "data/deadlineDayLines.js",
+    "sha256": "6d19aff62e3e1d1e26fc4251ee8616faedaadf677dde5eba35f2afaa25d1adc0"
+  },
+  {
+    "file": "data/fifa17Players.js",
+    "sha256": "e9215f70739a2ae568f8b0b60f334e7c87741ecbd84a70e506c937a5cea649b2"
+  },
+  {
+    "file": "data/footballVisuals.js",
+    "sha256": "0808c5c12afe4f4f5627c7df28dbba726f5e6d1cbb6278943aa503f4ee693a51"
+  },
+  {
+    "file": "data/frontPages.js",
+    "sha256": "7d115ee41cb85e69d22f90d6d083452c1caf92bf83284aafb4e2355f0aabdc09"
+  },
+  {
+    "file": "data/gazetteCopy.js",
+    "sha256": "2a3caf1dd4713f628e2fb39b83415a5b53b8372173148c88e482fd3715429d0d"
+  },
+  {
+    "file": "data/leagues.js",
+    "sha256": "1135d8ff9d3065bb8663981c8513f90654fdc9111a4eb0d0180b935b5b3b00ac"
+  },
+  {
+    "file": "data/marqueePlayers.js",
+    "sha256": "8af303901bd266cb5fae089ff26e57dfb1069ff857fb2e3afd2312587d7d2875"
+  },
+  {
+    "file": "data/rosterSquads.js",
+    "sha256": "78d409af64efd255d6ca780accd294af117ee755eaef66d2175032abe2832523"
+  },
+  {
+    "file": "data/scoutingCards.js",
+    "sha256": "1764428ea574fb74804cd8610dd1911f4c89a5372545c8da2fc2a43a84991666"
+  },
+  {
+    "file": "data/transferOptions.js",
+    "sha256": "e31962eac2e9717dab3eb33da435514548e74e799d4397289386e2869e71ddb9"
+  },
+  {
+    "file": "index.html",
+    "sha256": "3393659ff1adb6f236ed466db837775c438101c18d840e0dd6a535ec219d9f50"
+  },
+  {
+    "file": "js/analytics.js",
+    "sha256": "d6d444a0a677f21cad258f9170136bf343ce1d94ed5880c224db208254ef1547"
+  },
+  {
+    "file": "js/app.js",
+    "sha256": "b518aa0dbc9f2168833176c6dd6496bcda5bd4ea8db0a008c255c4623b67006e"
+  },
+  {
+    "file": "js/appUpdateBootstrap.js",
+    "sha256": "1895136a114e5da48511ac4096a450f08d8df5b3f2cc4d6f6b1f00602c80cbbe"
+  },
+  {
+    "file": "js/backup.js",
+    "sha256": "ecea263366aec909640b8f820fee5bfdf798f06174739229dd78d3d7e0bb7b39"
+  },
+  {
+    "file": "js/careerScreenSeam.js",
+    "sha256": "21f4d246ff562a17edca84c50003ae8a556a4411689bbf86cb0d2094e30c3c8a"
+  },
+  {
+    "file": "js/careerScreensV10.js",
+    "sha256": "415b89ee2b89be22fb3e5fdb4a5ef1e7024c2b062fc7173175c85e4023302e1a"
+  },
+  {
+    "file": "js/careerStartMarker.js",
+    "sha256": "868dddecc567fb229b666b382f1ed5ea150aa14ee20578ae9a4f43660af93ec1"
+  },
+  {
+    "file": "js/careerSummaryStore.js",
+    "sha256": "4627e77569d61216ae104bc12a6941c0e8e6d209c1674abba2490bcdf98ec8d2"
+  },
+  {
+    "file": "js/cloudSyncRemoteContract.js",
+    "sha256": "f966f39a6e476f949b05093e79de6733909234d2f55c944ed367cbbbe3bede40"
+  },
+  {
+    "file": "js/cloudSyncRevisionModel.js",
+    "sha256": "d0148fbf406ee5278050a2ab84c28047ef5c6990200a87edcce92285748f8579"
+  },
+  {
+    "file": "js/cloudSyncTwoDeviceHarness.js",
+    "sha256": "e1b7b7d8bde3a568d9dcac3214d3b6efd9dab01dc9ee9b49bd9d2e445fb4951e"
+  },
+  {
+    "file": "js/clubAssignment.js",
+    "sha256": "6b6b832644e0230047d2e04515256e761fa572b18ce3e3e78f9771048fa3d047"
+  },
+  {
+    "file": "js/clubScreenV10.js",
+    "sha256": "dfdc7db17b6a9fabdb5ee2a37c04656bca0040cf27698b36899b1b49fe5a3f6a"
+  },
+  {
+    "file": "js/commentaryEngine.js",
+    "sha256": "a3c31bba3c8f2ecedf4ce9d54e4a834c008973055f01ac469d7d82e8a1388af4"
+  },
+  {
+    "file": "js/commentaryV3.js",
+    "sha256": "097ad11f6d5796a07c246ec6873348e6f083cee4bb19bdd78951a8ced9ac2f2b"
+  },
+  {
+    "file": "js/connectPlayersScreenV10.js",
+    "sha256": "4c70d466305c7416a386331568c6f0ebe8fb16906eac38e1792cd6edb7fba755"
+  },
+  {
+    "file": "js/dataEngine.js",
+    "sha256": "620124881c807d76f0925d03c9d7a1bcc75f99065bc7865f30c0f38e92c61622"
+  },
+  {
+    "file": "js/deadlineDay.js",
+    "sha256": "9357b3a71b5d82f3a06f1ae66d35d07c2bfd82d6341f2010a9e778c15a602571"
+  },
+  {
+    "file": "js/diagnostics.js",
+    "sha256": "de978381b9f33f519856dc8aee4b793eb34a330dcc8b507491730c4b1e44023c"
+  },
+  {
+    "file": "js/firebaseProductionPreflight.js",
+    "sha256": "6c57d1786053d68343131b0264c24022ee1d64746d9728a473c174b3b679f41f"
+  },
+  {
+    "file": "js/footballVisuals.js",
+    "sha256": "4726110bf442381d229adbdc4f3416cdb23f294139f77daa1d1acf22497abb7a"
+  },
+  {
+    "file": "js/fullMotionHonor.js",
+    "sha256": "637213ed5eede1e90c0cf3b167db82cf62296ce93e3d0045f5cddf623dc916c0"
+  },
+  {
+    "file": "js/homeScreensV10.js",
+    "sha256": "908e9e0185985a35b7439fcc73e9345cec181f11c8c2ab745bf2f8602e631c06"
+  },
+  {
+    "file": "js/importAnalysis.js",
+    "sha256": "8daa554162afb8ee0e53c86b77ff4c99b1c994bffaf10761b66044fbdba169d0"
+  },
+  {
+    "file": "js/leagueWheel.js",
+    "sha256": "c8fc3333847d6f5200e5e143d547b6aaa7a7b4c17cc30fcab4de55b67fa85dd3"
+  },
+  {
+    "file": "js/legacy.js",
+    "sha256": "2993a7dc81691144f2c149c4b1731d177261d94f6b3dfd465f20da39400b7350"
+  },
+  {
+    "file": "js/marqueePlayer.js",
+    "sha256": "b1be3798922e8f1b03a8b1273ab860e52f5f39f4b8c20fefacffd50a404f9190"
+  },
+  {
+    "file": "js/menuExperience.js",
+    "sha256": "705ee970a6ab76e46bb6e013b63c907e36a7c694188532b3644d693cce15940a"
+  },
+  {
+    "file": "js/menuFeedback.js",
+    "sha256": "621fd1043015229852f9ffaa5b446585551d3cf6329002958be468f6fe4a19b6"
+  },
+  {
+    "file": "js/musicDockV10.js",
+    "sha256": "d5b343e0236136482be6f6b68b3afc21f99270387109a0e24ded80d07a5f0a05"
+  },
+  {
+    "file": "js/offlineApp.js",
+    "sha256": "10c4644010d82f2c8129cb3d4418a9e5096d4c9623c310631b15976295ea5759"
+  },
+  {
+    "file": "js/onlinePlayerIdentity.js",
+    "sha256": "cb4299a92622cd4327e9920ae87a9bc37c8d6402565e9bd826398f9eaf7f0a08"
+  },
+  {
+    "file": "js/optionalModules.js",
+    "sha256": "1353a86dc049472de493eac016431bc8b491091a14c0f68103546bb1783d77ac"
+  },
+  {
+    "file": "js/persistentNikDanielPair.js",
+    "sha256": "dd4e758727d08f004217d2eb0932d69f910c356926ba5c69e1fdde9d082836be"
+  },
+  {
+    "file": "js/productionAppCheckBootstrap.js",
+    "sha256": "7c3a9c54df48b6e2aa02a2da666a1342a2c0d3425aeafacd2124259d82b26e3b"
+  },
+  {
+    "file": "js/productionAuthorizationAcceptance.js",
+    "sha256": "8e3b227edf5de8ccc6fb8a037f53611ee204f57ca3f5bbc75d3842fb9451fe6d"
+  },
+  {
+    "file": "js/productionFirebaseRuntime.js",
+    "sha256": "5388013f38fa08cc4356c3a913ee86365b146cc9fa2b6d52e38bf4e9f247cb98"
+  },
+  {
+    "file": "js/productionProviderAbuseAcceptance.js",
+    "sha256": "1af4e091a4033c14d7b8ee8b04bbc43db3591f225dcdb59a1e8799d83767ef20"
+  },
+  {
+    "file": "js/productionSharedCanonicalScoring.js",
+    "sha256": "e28bec7039dea92d39e3cdbadd0fe4a6849fb48e265249ed73d74d05dc9a5f0a"
+  },
+  {
+    "file": "js/productionSharedCareerStart.js",
+    "sha256": "fd9cacf909d65ada4c51cad61b4d2369b77d6720b78241c9e46273b058283d5f"
+  },
+  {
+    "file": "js/productionSharedFinalReconciliation.js",
+    "sha256": "7d9e624e0279cbcb54a9da338aae7135c3f514e37d44b9da0340c16bca9958c1"
+  },
+  {
+    "file": "js/productionSharedHistoryConvergence.js",
+    "sha256": "143aff54d379816214856182ca05207cc4ee9fe6329e5f1d4be0aa8be5323cd2"
+  },
+  {
+    "file": "js/productionSharedJourneyConflicts.js",
+    "sha256": "73daf04d056ee4a5149f7674dc4d77c3a50785eb187c5624ebc3bdb683488dd1"
+  },
+  {
+    "file": "js/productionSharedJourneyEntry.js",
+    "sha256": "3afa3ecfa87de52d552fa5836ff35967a7b8c95312a6005bf44475e322983c86"
+  },
+  {
+    "file": "js/productionSharedJourneyGuard.js",
+    "sha256": "c8b19696975e26dbf184b99ab8b8c705dfcd0eddc4c7950fd998d08139ffc1f7"
+  },
+  {
+    "file": "js/productionSharedJourneyReconnect.js",
+    "sha256": "f84b6b9a99e3377a7fd5130d76c9de2861eaf3d619d00fbefc629b1fd30449e4"
+  },
+  {
+    "file": "js/productionSharedLocalReconciliation.js",
+    "sha256": "2707541e9880bd2578c76df75ed6875a7949b4b12d3d33be7a7254cd7bd3284c"
+  },
+  {
+    "file": "js/productionSharedMultiSeasonProgression.js",
+    "sha256": "058a7f77a27c704425badfa7f996a700aa8fd033cf5c7669b28402dae8590565"
+  },
+  {
+    "file": "js/productionSharedSeasonCommit.js",
+    "sha256": "affcbce43f0867bd154e38577f77ff4483ef2f9dec5eb66df9bdcf87d3dcad4f"
+  },
+  {
+    "file": "js/productionSharedSeasonResults.js",
+    "sha256": "180a36d82178efa60bd6d9faf50e97d3ceeee5048cec656b2ed5e86c4616eb30"
+  },
+  {
+    "file": "js/productionSharedSeasonResultsRoute.js",
+    "sha256": "f71f6603925393f32136a6e690bbdb1fbd96cb898fe549324854d6726351d020"
+  },
+  {
+    "file": "js/productionSharedShowdownPresentation.js",
+    "sha256": "10f7ec94f6e8a945d0d105e81775d681dc34ad51ce710dd355771990c29ed903"
+  },
+  {
+    "file": "js/productionSharedShowdownSetup.js",
+    "sha256": "947e9fcdf95ae45da2d06ebc316aeb63be0e435be24b3bb564b6e626cea8a0c5"
+  },
+  {
+    "file": "js/productionSharedTerminalClose.js",
+    "sha256": "af53e78e4f2d8a4d3e40fe28358ceba13a36ea9cda5e57c9f8af0691953fb5c6"
+  },
+  {
+    "file": "js/productionSharedTransferChallenge.js",
+    "sha256": "c673d51cae289618a7c68d93cdacfa4a2f57bed3dd64bbb78693be6f5c73b2c2"
+  },
+  {
+    "file": "js/remoteJoiningAcceptance.js",
+    "sha256": "8d82a466956982599e7dc707033e44a3f58473f95b5aceef5fd5a71860bddf95"
+  },
+  {
+    "file": "js/restore.js",
+    "sha256": "c7042b43877fc464a3db750bf51e5fdeee7126f790ec05ddc0b730989bfbb23d"
+  },
+  {
+    "file": "js/restoreUI.js",
+    "sha256": "9a7f5fde20a7bca5907bbd50e822e94499e2217a4c60fa0e44fd601db0570268"
+  },
+  {
+    "file": "js/rivalryLegacyV10.js",
+    "sha256": "8477f25e1c15f407d66283416f77c2705fe7120786386bdb3712d31d60d79608"
+  },
+  {
+    "file": "js/rivalryLegacyV10Markup.js",
+    "sha256": "b98cfc76ac502bb884952a9411b6e0321f6643ed77d17e8c5706551d62f4b422"
+  },
+  {
+    "file": "js/rosterRoulette.js",
+    "sha256": "aa472df71572f26a07514cd2bc1488a137db8901b294417eee8a4c6bc34cd733"
+  },
+  {
+    "file": "js/rosterRouletteStep.js",
+    "sha256": "77bf6ece1719f41804b8eda65d40edaeeaab21db920b67b4c35da00712dd9745"
+  },
+  {
+    "file": "js/ruleBook.js",
+    "sha256": "a6f7932ed69ce760c0671473c93761581f13dbb39ad8f709e35628a7271175df"
+  },
+  {
+    "file": "js/rulesSettingsV10.js",
+    "sha256": "5977b4c4b154a5eb32e1b38417bc1f8a8c899d0382cea30b2c128e07b1d0ff6f"
+  },
+  {
+    "file": "js/saveLibraryCutover.js",
+    "sha256": "c518ff4dbd0864893cba6075f9867b4e5f46bdd370c7b10611d4cfd1d8525059"
+  },
+  {
+    "file": "js/saveLibraryFoundation.js",
+    "sha256": "f0ac6bd05a3a58db1718b3f5dfe937822cd549fcb8f26a24a9400c71e93dd63f"
+  },
+  {
+    "file": "js/saveLibraryPersistence.js",
+    "sha256": "99b34c65f1eab94a8a8699cc42ff29b8a570584119aa02a265f3d0e490b9a8c4"
+  },
+  {
+    "file": "js/saveLibraryRuntime.js",
+    "sha256": "3325841275d6c0265a5520b3f1cb6f012b0724362a611ca8be49a04e97be2c90"
+  },
+  {
+    "file": "js/saveLibraryUI.js",
+    "sha256": "3cfdba1a436773590b36b6fcdce063bbfa559d6cd12c16aa1577247c87c4e0cb"
+  },
+  {
+    "file": "js/scoring.js",
+    "sha256": "fc6f6f727daecac382cb2f851a0ed309b0b75349a3cb010446078413785b7159"
+  },
+  {
+    "file": "js/screens.js",
+    "sha256": "fc421f0e74c2ee72d283b9989f78fdaeaadd744b796ae41940ed54afbf2c0a31"
+  },
+  {
+    "file": "js/seasonEngine.js",
+    "sha256": "7b760a9a1dde1623108e4005f567df5e68f049336ce6abb08eff6b97f9a85afe"
+  },
+  {
+    "file": "js/seasonFinalV10.js",
+    "sha256": "3dcd4a1bc0acbd0b8276ce26242fc7c4ab00075a4c73daeb9d7a60ce00873b3f"
+  },
+  {
+    "file": "js/settings.js",
+    "sha256": "5a7930dbfad71398107c637f45219dce8bcd4e0ee93eff8bdbd2760c7a46152d"
+  },
+  {
+    "file": "js/sharedActiveShowdownAdapter.js",
+    "sha256": "5eac9076710fd5c606d6de8c077bb9b260fef414fb5e68824470015c205e71dc"
+  },
+  {
+    "file": "js/sharedCanonicalScoring.js",
+    "sha256": "86e6c3427f331c201722de146862b225e16c6538ea3dc5f9f6e7e40555b0a466"
+  },
+  {
+    "file": "js/sharedCareerAnalytics.js",
+    "sha256": "36b9a1a431cf8dcc9fc719f556dc6b1827e30728a33b047b8bcd0bc91c6255e7"
+  },
+  {
+    "file": "js/sharedCareerStart.js",
+    "sha256": "816b9231f6f536f486471363fc007712885144d8faa2faa52361a77896afe3c2"
+  },
+  {
+    "file": "js/sharedClosedShowdownAdapter.js",
+    "sha256": "91cc7b22dd513f00167cb24d4dc19c20268129b1963dfac9fb65a83c68fc577b"
+  },
+  {
+    "file": "js/sharedFinalReconciliation.js",
+    "sha256": "df54d0bcd71e615ca73b20bf674acec2b2b37113ecb22d3351f25e29276dd218"
+  },
+  {
+    "file": "js/sharedHistoryConvergence.js",
+    "sha256": "bb3279546ada021f1bb4bbdd614c20726360ae21b06a70a804157697c4fc9337"
+  },
+  {
+    "file": "js/sharedJourneyConflicts.js",
+    "sha256": "1cb9e8259cca45a687fdb7e873cd4cde48ea8ea08ce1ec044ba40c1f146deda3"
+  },
+  {
+    "file": "js/sharedJourneyReconnect.js",
+    "sha256": "c2543543aaf0c6f0e215dc8d75eebf838011341d26e579ead98973fdd95677c1"
+  },
+  {
+    "file": "js/sharedLocalReconciliation.js",
+    "sha256": "63cda09bb4521beca6e1106314904bd0011e889571266ac38849e0e4e9ac8879"
+  },
+  {
+    "file": "js/sharedMultiSeasonProgression.js",
+    "sha256": "ef7eb6b1dc7790bab821de0c125342a09eaabea36eedbc5f24269cc407775060"
+  },
+  {
+    "file": "js/sharedSeasonCommit.js",
+    "sha256": "dfed277f8347f178a55973f9a9f747e83d7ef91ac8670cf4e77de12e56f42ba7"
+  },
+  {
+    "file": "js/sharedSeasonResults.js",
+    "sha256": "7463783f93a380886c16ae8f5744eccf0aa66ef81c9ad8c4b0fb97feff33dc64"
+  },
+  {
+    "file": "js/sharedShowdownCatalog.js",
+    "sha256": "192f94bf5d1c3d28a5a29c4b9ecbc34093879b888c4d9a6d159f1cf3e1846459"
+  },
+  {
+    "file": "js/sharedShowdownSetup.js",
+    "sha256": "9628e46d7744d2a0d6b86c02625cb7de3470b437065c7cc26e6fba801c83982b"
+  },
+  {
+    "file": "js/sharedTerminalClose.js",
+    "sha256": "d96a717059da2dd9d27f1548a48b197bf97a7a24d41db2c6b0c341204bde3e0c"
+  },
+  {
+    "file": "js/sharedTransferChallenge.js",
+    "sha256": "8719a372ca0b8c4a40512c3dfc74446d591fe0ddb2afbfb849be4ba85b5b93ae"
+  },
+  {
+    "file": "js/showdown.js",
+    "sha256": "9baabeac653e0447795757080f24fd092f59fa76911e1ef76399310512819afc"
+  },
+  {
+    "file": "js/showdownConfirm.js",
+    "sha256": "e47e483b5387807259cf903324ee9a8ba15dc7c1d8dc1af9823942ff74ff935f"
+  },
+  {
+    "file": "js/showdownModes.js",
+    "sha256": "908e2f9ac1d28161065fc6f81fa14e9c9607c91e328d84213427092ab5c58c6e"
+  },
+  {
+    "file": "js/showdownUI.js",
+    "sha256": "4108cec8a381b8f6a76085147b335838904f8e7d01f8c2362374ffeb835a8e29"
+  },
+  {
+    "file": "js/sparkAccountBootstrap.js",
+    "sha256": "ac3d6c1d2a9240911671985ae39b57a855f2e6c2049e9bb56b6b9bb7ea3d2659"
+  },
+  {
+    "file": "js/sparkClosedShowdownCareerLoader.js",
+    "sha256": "9b22e2134ea4cd3abedcf32499017f19a7b550d2513a02ef8ee45f9a1f5c41a6"
+  },
+  {
+    "file": "js/sparkCompletedShowdownReader.js",
+    "sha256": "af9f9d83129b2ee544d21b36a7dfad9b4062a99ed86ce5397a465a355253820c"
+  },
+  {
+    "file": "js/sparkCompletedTransferHistoryReader.js",
+    "sha256": "93cb01c2d3f17d6ebeb63e8cf4caa05351da114f87a283e35fe004d8b7de75d1"
+  },
+  {
+    "file": "js/sparkConnectedAccount.js",
+    "sha256": "181a28489882c09c7aa5740a9bfb37f8c5bc2196f9b062c862a090f59bdf541d"
+  },
+  {
+    "file": "js/sparkConnectedRivalry.js",
+    "sha256": "a11a096ae269be7f626dcc8965eb783ccaaa3f52eb2dffa28630291142f91fb8"
+  },
+  {
+    "file": "js/sparkDeviceCredential.js",
+    "sha256": "404c578e243a525956be14465fd7c5974c2f4ff274e307d4876df8c7f8e81cfc"
+  },
+  {
+    "file": "js/sparkPrivatePairing.js",
+    "sha256": "f53d82c3f34c51a2f51632bea4b7c24e136b49e8beb90874d299c874b08dad59"
+  },
+  {
+    "file": "js/sparkPrivateSession.js",
+    "sha256": "c733270268a690d8cfe37be9ac8080fb206c42bc7e4a44778887d30b272ffadb"
+  },
+  {
+    "file": "js/sparkRemoteJoining.js",
+    "sha256": "348ffa8a771a3d2980398376bb0bc6546486cd0fcd489a8f55cfa0191dea7a40"
+  },
+  {
+    "file": "js/sparkSharedCanonicalScoring.js",
+    "sha256": "c896d834803054f653f118bdf94623df269a34b3778457347347199c02c814fc"
+  },
+  {
+    "file": "js/sparkSharedCareerStart.js",
+    "sha256": "8015c76a673b87bce28bc9483a6140f591d5ed0cf2bfd8349269517d4a78b635"
+  },
+  {
+    "file": "js/sparkSharedHistoryConvergence.js",
+    "sha256": "728e518e99e9acaf7f7c0ef17ac3a889eb0ccf46e0c913668606c2fda42003f0"
+  },
+  {
+    "file": "js/sparkSharedMultiSeasonProgression.js",
+    "sha256": "746753f9a6d56a4be8bbcfbf8ed88195b338a85baf5b44f070efa20861f66c9a"
+  },
+  {
+    "file": "js/sparkSharedSeasonCommit.js",
+    "sha256": "f6f6ade78ad369ef29eaa02d0b6852fa1b19748df23e3a00b46501af2bee54f6"
+  },
+  {
+    "file": "js/sparkSharedSeasonResults.js",
+    "sha256": "196eb5c32f1b6d16fa757c5d92c25fb47806ad313e30c3e518a76d346e2facc9"
+  },
+  {
+    "file": "js/sparkSharedShowdownSetup.js",
+    "sha256": "dc0bc72c9f8ceb062a1fac50ce7d4b3be254a1c91990f3a9b1b27b629bc6784c"
+  },
+  {
+    "file": "js/sparkSharedTransferChallenge.js",
+    "sha256": "0d3ca7c34ef069682fad13a50330b17719c6b7a0042a0e4962573d21c16f4f7e"
+  },
+  {
+    "file": "js/sparkStandardAuthPrivateSession.js",
+    "sha256": "09ab5c61d3eb0770028bf128bf328f66371513fffe540e995329063ae06c09b7"
+  },
+  {
+    "file": "js/sparkTerminalClose.js",
+    "sha256": "d9661442a1f805b1be83675873667c3403eb381ee671da7f78033c3cfafeca3b"
+  },
+  {
+    "file": "js/specialPlayerChip.js",
+    "sha256": "49f4d19ed4831d55510aee93318fc1efbd693c8e8d6564e9542bd58d30470259"
+  },
+  {
+    "file": "js/specialPlayerReveal.js",
+    "sha256": "45bffe7a9dffbc76c84d074d06350866eef43439f5f7056855431ae8877adf3d"
+  },
+  {
+    "file": "js/ssjr.js",
+    "sha256": "e7da7ef0efa5363c5decbc76b18441499b8be9a31a9c1d49c87ac3454551dbd9"
+  },
+  {
+    "file": "js/ssjrAcceptancePolishedBridge.js",
+    "sha256": "d8b532cb1a53ee62246a516b52b05754951098c3ca92bb1c4d649fba5b59ee29"
+  },
+  {
+    "file": "js/ssjrPhysicalJourneyAcceptance.js",
+    "sha256": "e515204804ce024eb92f74a4673c560d267557fe28a02cfab06bf55ed1f73107"
+  },
+  {
+    "file": "js/ssjrProductionAcceptanceRecorder.js",
+    "sha256": "743881f9ac38537a3896196fb5ab9c2ff7cd9e2e3905f1607273122642b5ddae"
+  },
+  {
+    "file": "js/ssjrProductionNegativeEvidence.js",
+    "sha256": "a83cf3395d31773e5abeda63e25d1074bbad536dd812baebffd68ec8c95bac40"
+  },
+  {
+    "file": "js/ssjrProductionNegativeProbeRunner.js",
+    "sha256": "9e179dd105a4163d7ec2eaf8d635cc264e395db0ad9f3947a1c0bcb3c5e7e0ce"
+  },
+  {
+    "file": "js/stage5fAcceptanceAccountChooser.js",
+    "sha256": "0ce422ec2fd7fdd817439b371e55b58ab625a34dc46f59da213eefaa052e0a9c"
+  },
+  {
+    "file": "js/stage5fProductionAuthenticatedNegatives.js",
+    "sha256": "bc60a242ee10f3f236cb84bc2fd625d7eaf6bf57067c7101a4e7e61ad19fe75f"
+  },
+  {
+    "file": "js/startJoinViewModel.js",
+    "sha256": "8d3428c1efb475ccf54f841705ee3e7de83c30057440e1154a7528492c76bdba"
+  },
+  {
+    "file": "js/statistics.js",
+    "sha256": "a3d8bcbeb91cb4c18fc65998be0e46bb321f82668c17077a3573682db37c6017"
+  },
+  {
+    "file": "js/storage.js",
+    "sha256": "9cbeb79cdda498ee973b502c0e0205ccffa7f1dad4dd651a60cf0c00c22471ca"
+  },
+  {
+    "file": "js/storageTransaction.js",
+    "sha256": "7768927155c07e4a4e313dd601981422daec87456458154af4293445f4b28683"
+  },
+  {
+    "file": "js/touchlineGazette.js",
+    "sha256": "3cee2923b6e0bedf1df7349b6a49c1b802fd67cc382b51353ec1f982e4d9033e"
+  },
+  {
+    "file": "js/transferChallenge.js",
+    "sha256": "3ca69ea9c9829f50a9fe3aa2703a2c07347fa768c65ccf797d0174ec6c6c895d"
+  },
+  {
+    "file": "js/transferScreenV10.js",
+    "sha256": "4ae30ea3bc9638ac429e5a9e8f29a11780b7f38b627240f22df8473153fc3818"
+  },
+  {
+    "file": "js/transferSelector.js",
+    "sha256": "ffaa2bbdf54a80c35baab9c69cefbe8f6361c4c729eb6fc70e287ff2a007f91b"
+  },
+  {
+    "file": "js/trophyRoom.js",
+    "sha256": "85fd9d3176018ef64f670a2664f275b98bf770baa8ef3fce8647ed50e3589d6c"
+  },
+  {
+    "file": "js/trustedAccountBootstrap.js",
+    "sha256": "e0aec3cdc62a7ca905f58da7ddfcb18ac397d59203c54dad0606d50b70d1f669"
+  },
+  {
+    "file": "js/trustedAccountBootstrapExecution.js",
+    "sha256": "362a8f24de30779c5de7a87a6de7dc9cd5b1cd6ef976304beff4644e2d34e628"
+  },
+  {
+    "file": "js/trustedAccountDeletionExecution.js",
+    "sha256": "c703cd631b74d659e5cf1817a782e7680c705b63cee93617b39d4c3275b865a8"
+  },
+  {
+    "file": "js/trustedAppAttestationRequest.js",
+    "sha256": "01e6d37293c8ec1e4d30fa4b51f6f7c62985d475edd2bb55db8eb28c5f744795"
+  },
+  {
+    "file": "js/trustedConnectedDataAccountExport.js",
+    "sha256": "970691615792bb429a9e43ba0c72960ed1e9a600ce8100b7bfb7141d35f91439"
+  },
+  {
+    "file": "js/trustedDeviceCredentialIssuance.js",
+    "sha256": "3027268afd0fa0f83ac03a61620561792e2dd53dd10424f1e7a363c8a7ec4de7"
+  },
+  {
+    "file": "js/trustedExecutionRuntimeIamPolicy.js",
+    "sha256": "c1ee4f3f9a934b97f77e0ef1fdb937946cd8d7c8ada2e2885026894e5d9bd2a7"
+  },
+  {
+    "file": "js/trustedRequestAuthentication.js",
+    "sha256": "b4c191682ee321e64e14109b81cbe819d62c7f219beb68073049534682d93092"
+  },
+  {
+    "file": "js/trustedSharedMutationGateway.js",
+    "sha256": "4d1fc2d053e13399a07c633fdce438666291522e7589bcb496a5f32362fc94db"
+  },
+  {
+    "file": "js/v10Screens.js",
+    "sha256": "70004d7bc0f4c0143bb767e12e08fe31b739b45b97bb651a223b2898cf928b87"
+  },
+  {
+    "file": "js/v10Setup.js",
+    "sha256": "46d7562b257fe671a5e6e2849d84f7e4c2fd2817e1597c0bd348ff4a6543abf5"
+  },
+  {
+    "file": "js/visualIdentity.js",
+    "sha256": "f513a9765f671f0a0bacbc3a4379988bf2e8b7847d5209cbbcda0e92921bbe7d"
+  },
+  {
+    "file": "js/whichShowdownIsLive.js",
+    "sha256": "7cd7532d2d125f3841b687e82c18e4da80af5a3b42268233ca12f2ba1ee26367"
+  },
+  {
+    "file": "visual-assets/v10_1/career-statistics/assets/platemap.json",
+    "sha256": "7db99b0b2d0e56e036922232ac983cbd28fb3252f9b6e1a6a18ddf39e4111755"
+  },
+  {
+    "file": "visual-assets/v10_1/career-statistics/career-statistics.js",
+    "sha256": "5376dfc7e53e73d31f102dd4e93fab66e4b187a2e88c5207baf40ac8b2575a68"
+  },
+  {
+    "file": "visual-assets/v10_1/club/assets/handmap.json",
+    "sha256": "dab8e3441e2dc2d36f3f0ae00de9d42e09d1508d8bcaac6e439a314de1c0da28"
+  },
+  {
+    "file": "visual-assets/v10_1/club/assets/platemap.json",
+    "sha256": "2d4833e60431a44796346e71abf006020bbbbd7897f6c8227a33ec44ed36a8f2"
+  },
+  {
+    "file": "visual-assets/v10_1/club/club.js",
+    "sha256": "b125ab619909ab9b8daeb6ff07afd7e103564c350f7040f14b54e680d1dacc3a"
+  },
+  {
+    "file": "visual-assets/v10_1/content/frontpage.js",
+    "sha256": "a4b8ced9ac63123795bfe1d9ee2741027df7426466b5f5b5314c3bf55a58baf6"
+  },
+  {
+    "file": "visual-assets/v10_1/final-winner/app-shell.html",
+    "sha256": "1624bc869c8ae175436fe54301a274299d8937589dd99178a3719a9feae97ff4"
+  },
+  {
+    "file": "visual-assets/v10_1/final-winner/app-strings.json",
+    "sha256": "1714ea4ba87d3842864fb3713a9abd040aafc357c649a94a59f59e3d626d8cdc"
+  },
+  {
+    "file": "visual-assets/v10_1/final-winner/final-winner.js",
+    "sha256": "91bd6ee114e3bb8f31c15c7811d3a4e37a0a926ff3f3c3f72829caee741dd1ff"
+  },
+  {
+    "file": "visual-assets/v10_1/home/soundtrack.js",
+    "sha256": "b65c53dbb662e99ad5929607447fc5eaa7bea94fc5db9db79ddc267dd9c19b1a"
+  },
+  {
+    "file": "visual-assets/v10_1/legacy/assets/platemap.json",
+    "sha256": "50f6c245a812c52dd53b14671f8cdccadc40656ce1d8da04e097bd3ec493c7ea"
+  },
+  {
+    "file": "visual-assets/v10_1/legacy/legacy.js",
+    "sha256": "c0db9a8381ff6519ac557c10b52362fc0d3d5b3c9116a183cd4a6c428562eda2"
+  },
+  {
+    "file": "visual-assets/v10_1/legacy/strings.json",
+    "sha256": "1aeac9dfa000777896550898b7526465303b80bcf0f770345ef269c111b617aa"
+  },
+  {
+    "file": "visual-assets/v10_1/rivalry-statistics/assets/platemap.json",
+    "sha256": "94d4a0e68df0458fd12fbfd3d95496052512d1aeeab291cd05661d1fb1c4313f"
+  },
+  {
+    "file": "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js",
+    "sha256": "7482666173e3cb764ba9e6703dc67e7c80070f8a1c31e5056ac5e20d66643518"
+  },
+  {
+    "file": "visual-assets/v10_1/rivalry-statistics/strings.json",
+    "sha256": "3f94b6d21867cc909d9eca830593e6e8984ad06464fe8a423fb37181c93650d0"
+  },
+  {
+    "file": "visual-assets/v10_1/roulette/assets/squads.json",
+    "sha256": "d74596aa0e14540ceb8dbccc5c77d1b974bd5c946c76b76d6363c733cda2d939"
+  },
+  {
+    "file": "visual-assets/v10_1/roulette/index.html",
+    "sha256": "7dc8f056dd05063a66ab7a474e5e0b5c4763b163dc8c071ab5d37550a5183e9a"
+  },
+  {
+    "file": "visual-assets/v10_1/roulette/platemap.json",
+    "sha256": "0acb27fe430b4d6fe6a19f2eb35971ac0f3096afce466576096cd25c719b0eee"
+  },
+  {
+    "file": "visual-assets/v10_1/season-results/app-shell.html",
+    "sha256": "d10686c58f285435508268a8edb66c75053d506f6b6060b6c8a6ab9e6cd81ebd"
+  },
+  {
+    "file": "visual-assets/v10_1/season-results/season-results.js",
+    "sha256": "3a6724c04d9b71ec4489470d82227b93f5f8b53eacb826729d02bf66544461f0"
+  },
+  {
+    "file": "visual-assets/v10_1/shared/motion.js",
+    "sha256": "897e6faf5ed4b4e882b2d42ed9ff586ae59eecc017b72f38aab768b67a4829ee"
+  },
+  {
+    "file": "visual-assets/v10_1/shared/navbar/navbar.js",
+    "sha256": "7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c"
+  },
+  {
+    "file": "visual-assets/v10_1/shared/stage.js",
+    "sha256": "995ac50d9288ff95b1018d3e64a5a8ab7234cff59fd5cffaf4f16434e70561d3"
+  },
+  {
+    "file": "visual-assets/v10_1/special-player/index.html",
+    "sha256": "3e0f8c0c596ecf3dd7a15de26c90c2090476258eeea257a912d55a606ff2f3e2"
+  },
+  {
+    "file": "visual-assets/v10_1/standings/app-shell.html",
+    "sha256": "cd1f3b64eab0fb1b10d10f556f40e8ca555e3c69d96918f9276182a1b7f01ba5"
+  },
+  {
+    "file": "visual-assets/v10_1/standings/app-strings.json",
+    "sha256": "e36c6c0bb6badc4a33338cc6df1a611a206fac495ba22b100a3b79963bf09ade"
+  },
+  {
+    "file": "visual-assets/v10_1/standings/standings.js",
+    "sha256": "392544c627716b751f7963e23682c42e6aa516150c04616aa2f528fd27011bdc"
+  },
+  {
+    "file": "visual-assets/v10_1/tr2/slice-02-plate/plate.js",
+    "sha256": "a7c9121b7a5693a566d00e59005eff0ec6e5a8aee36dfb4352da5cdb9fe6443f"
+  },
+  {
+    "file": "visual-assets/v10_1/tr2/slice-02-plate/platemap.json",
+    "sha256": "5667a6e102cbdedef8616031eda759771d585841113280e09dee1a32dff909b9"
+  },
+  {
+    "file": "visual-assets/v10_1/trophy-room/assets/platemap.json",
+    "sha256": "e268b2280fef263871e83dc743d60db3750ea725fb3e083e847c6db09d286911"
+  },
+  {
+    "file": "visual-assets/v10_1/trophy-room/trophy-room.js",
+    "sha256": "c9ed65d111816b6ca6d010e5ee5589897c83b250783222072841544fd37ca2a3"
+  }
+]

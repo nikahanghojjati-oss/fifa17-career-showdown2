@@ -206,7 +206,7 @@ function createScoringRuleSection(){
     const primePackLabel = document.createElement("strong");
     primePackLabel.textContent = "PRIME PACK";
     const primePackText = document.createElement("span");
-    primePackText.textContent = "A masked Icon shows his position and one real card stat, then one more real stat each stage. Which stats show is random; the values never are. Name him first for 4, 3, 2 or 1 points. Guessing ends after stage 4, then the whole card and flag are revealed.";
+    primePackText.textContent = "A masked Icon shows his position and one real card stat, then one more real stat each stage, up to four. Which stats show is random; the values never are. Each manager has two guesses. Name him first for 4, 3, 2 or 1 points. Nobody right after stage 4 scores 0. Then the whole card is revealed: the last two stats, his name, flag and overall.";
     primePack.append(primePackLabel, primePackText);
 
     article.append(header, scoring, maximum, golden, special, primePack, notes);

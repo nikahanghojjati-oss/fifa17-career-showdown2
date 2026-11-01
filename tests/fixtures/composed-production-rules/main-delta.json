@@ -8,8 +8,8 @@
     "bytes": 155662
   },
   "candidate": {
-    "sha256": "fd8788fb9c158ce2d39da37b82548f6366b27c16088580b8f98c4df5138ecd8d",
-    "gitBlobSha1": "c4e938829c39522006146d1e4709c534d3dc0f5d",
+    "sha256": "98a3184328c89c026823ff2f9363856867c5f327c0da15320887ce670b23495e",
+    "gitBlobSha1": "450a047bde0fee094c1c149f0aa6701318c73d96",
     "bytes": 172400
   },
   "allowedOwners": [
@@ -306,7 +306,7 @@
         "    }",
         "    function ssjrPackGuessInTime(a, b) {",
         "      return request.time >= (a > b ? a : b) + duration.value(2, 's')",
-        "        && request.time <= (a > b ? a : b) + duration.value(43, 's');",
+        "        && request.time <= (a > b ? a : b) + duration.value(97, 's');",
         "    }",
         "    function ssjrPackGuess(before, after, role) {",
         "      return before.arrived.playerOne != null",
@@ -330,9 +330,9 @@
         "        && (ssjrPackArrive(before, after, role) || ssjrPackGuess(before, after, role));",
         "    }",
         "    function ssjrPackStagePoints(at, a, b) {",
-        "      return at < (a > b ? a : b) + duration.value(12500, 'ms') ? 4",
-        "        : (at < (a > b ? a : b) + duration.value(22000, 'ms') ? 3",
-        "        : (at < (a > b ? a : b) + duration.value(31500, 'ms') ? 2 : 1));",
+        "      return at < (a > b ? a : b) + duration.value(30500, 'ms') ? 4",
+        "        : (at < (a > b ? a : b) + duration.value(52000, 'ms') ? 3",
+        "        : (at < (a > b ? a : b) + duration.value(73500, 'ms') ? 2 : 1));",
         "    }",
         "    function ssjrPackPoints(rivalryId, seasonId, managerRole, points) {",
         "      let round = get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data;",

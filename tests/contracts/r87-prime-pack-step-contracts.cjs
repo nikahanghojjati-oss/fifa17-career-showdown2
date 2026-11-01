@@ -37,8 +37,8 @@ const ts=ms=>({toMillis:()=>ms});
   const stored={schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:3,arrived:{playerOne:ts(a),playerTwo:ts(b)},chipsUsed:{playerOne:1,playerTwo:0},namedBy:null,revision:4};
   const live=Step.record(stored,3);
   assert.deepEqual(live.arrived,{playerOne:a,playerTwo:b});assert.equal(live.winner,null);
-  assert.equal(Guess.outcome(live,start+100,Guess.windowMs).state,"live");
-  const wonAt=start+2*(Guess.revealMs+Guess.windowMs)+Guess.revealMs+500;
+  assert.equal(Guess.outcome(live,start+100).state,"live");
+  const wonAt=start+Guess.stageStarts[2]+Guess.stages[2].revealMs+500;
   const won=Step.record({...stored,chipsUsed:{playerOne:1,playerTwo:1},namedBy:"playerTwo",updatedAt:ts(wonAt)},3);
   assert.deepEqual(won.winner,{role:"playerTwo",beat:2,atMs:wonAt},"the winning write's server time gives the beat");
   assert.deepEqual(Guess.points(won),{playerOne:0,playerTwo:2},"a right guess at stage 3 is worth 2 (Nik 2026-11-01: 4, 3, 2, 1)");
@@ -57,13 +57,13 @@ const ts=ms=>({toMillis:()=>ms});
   assert.equal(pick.answerId,icon.id);
   assert.equal(pick.round.me,"playerTwo");assert.deepEqual(pick.round.names,{playerOne:"Daniel",playerTwo:"Nik"});
   assert.deepEqual(pick.round.statOrder,[...draw.statOrder]);assert.deepEqual(pick.round.stats,icon.stats);
-  assert.equal(pick.round.overallHidden,true,"Nik N2: the overall stays hidden until the result");
-  assert.equal(pick.round.windowMs,Guess.windowMs);
+  assert.equal(pick.round.overallHidden,undefined,"the stages table says when the overall shows (stage 4, G Lead 2026-11-01)");
+  assert.equal(pick.round.windowMs,undefined);assert.strictEqual(pick.round.stages,Guess.stages,"the page gets the one stages table with the round");
   assert.deepEqual(pick.round.stagePoints,[...Guess.stagePoints],"the page gets the one stage-points table with the round");
   assert.equal(Step.round({...ctx,managerRole:"playerOne"}).answerId,pick.answerId,"both phones get the same icon");
   const seasons=new Set(Array.from({length:10},(_,i)=>Step.round({...ctx,season:i+1}).answerId));
   assert.equal(seasons.size,10,"no icon twice in one Showdown");
-  ok("S3","both phones draw the same icon from the Showdown id, never the same one twice in 10 seasons; the overall stays hidden");
+  ok("S3","both phones draw the same icon from the Showdown id, never the same one twice in 10 seasons; the page gets the one stages table");
 }
 
 // S3b Nik 2026-11-01 ("the stat itself always draws from real data base stats and never random; the selection of which stats
@@ -82,7 +82,7 @@ const ts=ms=>({toMillis:()=>ms});
       assert.equal(new Set(pick.round.statOrder).size,6,"each stat at most once");assert.deepEqual([...pick.round.statOrder].sort(),[...Guess.stats].sort());
       for(let stage=0;stage<Guess.beats;stage+=1){
         const shown=Guess.revealed(stage,pick.round.statOrder).stats;
-        assert.equal(shown.length,stage+1,"stage n shows n stats");
+        assert.equal(shown.length,Guess.stages[stage].stats,"each stage shows the stat count in the one table");
         for(const key of shown)assert.equal(pick.round.stats[key],player.stats[key],`${player.id} ${key} is the real value`);
       }
       orders.add(pick.round.statOrder.slice(0,4).join());rounds+=1;
@@ -123,13 +123,20 @@ const ts=ms=>({toMillis:()=>ms});
   const pssr=read("js/productionSharedSeasonResults.js");
   assert.match(pssr,/const publishedResult=await pssrWithPrimePack\(ctx,request,draft\.result\);[\s\S]{0,200}provider\.publishResult\(\{[^}]*result:publishedResult\}\)/);
   assert.match(pssr,/const points=await step\.pointsFor\(/);assert.match(pssr,/Number\.isInteger\(points\)&&points>=1&&points<=4\?\{\.\.\.rest,primePack:points\}:rest/);
-  const sw=read("service-worker.js");
-  for(const file of ["js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html"]){
-    assert.ok(sw.includes(`  "${file}",`),`${file} is in the offline shell`);
-    assert.match(sw,new RegExp(`SHELL_PATHS_ADDED_SINCE_PREVIOUS[^;]*"${file.replace(/[.\/]/g,"\\$&")}"`),`${file} offline for existing installs`);
-  }
+  // The service worker and shell lists are G Lead's after #1149 merges (scope split, 2026-11-01 10:44 UTC): the five files
+  // are listed in the handoff note for G Lead to add; this PR leaves service-worker.js as gameplay/r87 has it.
   assert.match(read("js/ruleBook.js"),/Prime Pack: first to name the masked Icon/);
-  ok("S6","the winner publishes primePack 1 to 4 (its stage's points) from the round record; the five files are offline; the Rule Book has the line");
+  ok("S6","the winner publishes primePack 1 to 4 (its stage's points) from the round record; the Rule Book has the line");
+}
+
+// S8 Nik 2026-11-01 (via G Lead): no dimming, ever. The step's own overlay (igsAsk) is solid, and the file sets no
+// translucent background anywhere.
+{
+  const step=read("js/iconGuessStep.js");
+  assert.match(step,/function igsAsk\([\s\S]{0,1200}background:#050403;/,"the igsAsk overlay is solid #050403");
+  assert.ok(!/background(?:-color)?\s*:\s*(?:rgba|hsla)\(/i.test(step),"no rgba or hsla background in js/iconGuessStep.js");
+  assert.ok(!/\.background(?:Color)?\s*=\s*["'`](?:rgba|hsla)\(/i.test(step),"no rgba or hsla background set from script");
+  ok("S8","the Prime Pack step never dims the screen: its overlay is solid #050403 and it sets no rgba background");
 }
 
 // S7 the step's own messages to the page match the page's protocol.

@@ -74,11 +74,11 @@
     let winner=null;
     if(ROLES.includes(data.namedBy)){
       const atMs=igsMillis(data.updatedAt),startMs=arrived.playerOne&&arrived.playerTwo?Math.max(arrived.playerOne,arrived.playerTwo)+guess.leadMs:null;
-      const at=startMs&&atMs?guess.beatAt(startMs,atMs,guess.windowMs):null;
+      const at=startMs&&atMs?guess.beatAt(startMs,atMs):null;
       winner={role:data.namedBy,beat:at&&at.beat>=0?Math.min(at.beat,guess.lastBeat):0,atMs:atMs||1};
     }
     const record={v:1,season,arrived,chipsUsed:{playerOne:data.chipsUsed?.playerOne,playerTwo:data.chipsUsed?.playerTwo},winner};
-    return guess.outcome(record,0,guess.windowMs)?record:null;
+    return guess.outcome(record,0)?record:null;
   }
   function igsRef(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,igsSeasonId(season));}
   function igsStamp(io){return {activeSessionId:io.sessionId,updatedByDeviceId:io.deviceId,updatedAt:io.sdk.serverTimestamp()};}
@@ -102,7 +102,7 @@
     return io.sdk.runTransaction(io.firestore,async tx=>{
       const snap=await tx.get(ref),data=snap.exists()?snap.data():null,record=igsRecord(data,ctx.season);
       if(!record)return {ok:false,reason:"BAD_RECORD"};
-      const next=guess.applyGuess(record,{role:ctx.managerRole,correct,atMs:io.now()},guess.windowMs);
+      const next=guess.applyGuess(record,{role:ctx.managerRole,correct,atMs:io.now()});
       if(!next.ok)return next;
       tx.update(ref,{[`chipsUsed.${ctx.managerRole}`]:next.record.chipsUsed[ctx.managerRole],namedBy:correct?ctx.managerRole:null,revision:data.revision+1,...igsStamp(io)});
       return next;
@@ -151,7 +151,7 @@
     return new Promise(resolve=>{
       igsRemove(PANEL_ID);
       const overlay=igsEl("div","remoteJoiningOverlay rrStepOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",heading);
-      overlay.style.cssText="position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;background:rgba(5,4,3,.82);padding:16px";
+      overlay.style.cssText="position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;background:#050403;padding:16px";
       const shell=igsEl("div","remoteJoiningShell rrStepShell");shell.style.cssText="max-width:420px;width:100%;background:#15130f;color:#f3ead7;border:1px solid #6b5a33;border-radius:12px;padding:20px";
       shell.append(igsEl("strong","","PRIME PACK"),igsEl("h2","rrStepTitle",heading));
       for(const line of lines)shell.append(igsEl("p","rrStepLine",line));
@@ -183,8 +183,8 @@
     const icon=draw&&players[draw.index];
     if(!icon)return null;
     const source=`${String(icon.cardVersion||"").toUpperCase()} · ${icon.game}`;
-    return {answerId:icon.id,round:{me:ctx.managerRole,names:{...NAMES},windowMs:guess.windowMs,position:icon.position,overall:icon.overall,name:icon.name,
-      stats:{...icon.stats},statOrder:[...draw.statOrder],stagePoints:[...guess.stagePoints],nation:icon.nationCode,source,overallHidden:true}};
+    return {answerId:icon.id,round:{me:ctx.managerRole,names:{...NAMES},stages:guess.stages,position:icon.position,overall:icon.overall,name:icon.name,
+      stats:{...icon.stats},statOrder:[...draw.statOrder],stagePoints:[...guess.stagePoints],nation:icon.nationCode,source}};
   }
   // A suggestion shows the card name, or the full name when two icons share that card name (typing it alone is ambiguous).
   function igsSuggestions(index,text){
@@ -228,7 +228,7 @@
       const render=()=>{
         if(!ready||!record||finished)return;
         let now;try{now=io.now();}catch(error){return fail(error);}
-        const out=guess.outcome(record,now,guess.windowMs);if(!out)return;
+        const out=guess.outcome(record,now);if(!out)return;
         for(const role of ROLES){if(sentChips[role]!==out.chips[role]){sentChips[role]=out.chips[role];igsPost(frame,"cms-ig-chips",{role,count:out.chips[role]});}}
         if(out.state==="won"||out.state==="draw"){
           if(!resultShown){
@@ -241,9 +241,9 @@
         }
         if(out.state==="waiting"){const waitingFor=record.arrived[other]===null?other:me;back.hidden=waitingFor!==other;if(shownBeat!==-1){shownBeat=-1;igsPost(frame,"cms-ig-waiting",{role:waitingFor});}return;}
         back.hidden=true;
-        const at=guess.beatAt(guess.startMs(record),now,guess.windowMs);
+        const at=guess.beatAt(guess.startMs(record),now);
         if(at.phase==="waiting"){if(shownBeat!==-1.5){shownBeat=-1.5;igsPost(frame,"cms-ig-waiting",{role:null});}return;}
-        if(at.beat!==shownBeat){shownBeat=at.beat;igsPost(frame,"cms-ig-reveal",{index:at.beat,remainingMs:at.phase==="reveal"?at.msLeft+guess.windowMs:at.msLeft});}
+        if(at.beat!==shownBeat){shownBeat=at.beat;igsPost(frame,"cms-ig-reveal",{index:at.beat,phase:at.phase,remainingMs:at.stageMsLeft,revealMsLeft:at.phase==="reveal"?at.msLeft:0});}
       };
       const onData=data=>{
         const next=igsRecord(data,ctx.season);

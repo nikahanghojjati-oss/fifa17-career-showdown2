@@ -7,9 +7,25 @@
 <!--
   R88 Prime Pack: STAND-IN page (workstream C). Team V's final card art replaces the card face later; the hooks stay.
   Spec: project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md · Look: R88_ICON_CARD_TEAM_V_BRIEF.md.
-  The page never picks a player and never decides whether a guess is right. The game sends the round and the beats;
+  G Lead 2026-11-01 10:30 UTC: the pack (it says PRIME PACK) opens, the card RISES (no flip) and then reveals in the
+  game's four stages (round.stages; Nik's rule, G Lead 11:08 UTC: the position + 1 stat, then one more stat each, so at most
+  4 stats in play; the flag and the overall stay ?? in every stage). Stage 5 has no guessing: the result (a right guess at
+  any stage jumps straight there, or nobody) turns up everything left: the last stats, the flag, the overall and the name.
+  One guess box each, both always on
+  screen; each manager types only in their own. G Lead 10:44 UTC (HO-051): Duet builds how the screen WORKS, Team V restyles
+  it with the real Prime Pack art in its own PR. So the styling here is deliberately plain marble, with no drawn pack art,
+  rays, glow, pieces or shake; the open and rise is a plain fade and slide on the stage clock.
+  The name (G Lead 11:12): the #name plate is empty (no placeholder) in every stage, a reload included, and #nameValue in it
+  is filled with the name only by the result (cms-ig-result: a right guess at any stage, or nobody after stage 4).
+  The page never picks a player and never decides whether a guess is right. The game sends the round and the stages;
   the page shows them and sends typed text out. Wrong guesses are only ever shown on the phone that made them.
-  No network: local fonts, no CDN, no EA assets, no photos. Flags and the silhouette are drawn in code.
+  No network: local fonts, no CDN, no EA assets, no photos. The flags and the silhouette are drawn in code.
+  Restyling hooks for Team V (ids, logic never needs touching): #pack (#packWord, .pk-frame, .pk-crown, .pk-top, .pk-rule,
+  .pk-17, #crack), #rays, #glow, #shards (empty, unstyled: the stand-in draws nothing in them), #card,
+  #pos, #flag, #ovr, #stat-PAC..#stat-PHY (.tile.stat[data-stat]), #name (#nameValue), #beat (stage label),
+  #ring (timer), #boxOne / #boxTwo (.gbox[data-role][data-me][data-out][data-won]), #chipsOne / #chipsTwo (.chip, .used),
+  #guess, #go, #other (read-only box), #suggest, #note, #banner (result), #cta (Continue), #source.
+  State to style on: [data-shown="1"] on a tile, .fresh on the parts the current stage just turned up, [hidden].
 -->
 <style>
 @font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
@@ -20,36 +36,24 @@
   --foil-1: #fff6d2; --foil-2: #f1cf7a; --foil-3: #c4932f; --foil-4: #7d5a17;
   --daniel: #2c7399; --nik: #f0d900;
   --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow Condensed", system-ui, sans-serif; /* only the two condensed weights: r87 already serves them to framed pages offline */
-  --flip: 700ms; --ease: cubic-bezier(.22, 1, .36, 1);
+  --reveal: 520ms; --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: dark;
 }
-html.rm { --flip: 220ms; }
+html.rm { --reveal: 220ms; }
 html, body { height: 100%; margin: 0; }
 body { background: radial-gradient(120% 70% at 50% 18%, #2a2416 0%, #12100b 46%, var(--ink) 100%); color: var(--text); font-family: var(--body);
   overflow: hidden; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
 /* #app follows the visual viewport, so with the iPhone keyboard open everything sits above it (nothing behind the keyboard) */
 #app { position: fixed; left: 0; right: 0; top: 0; height: 100%; display: flex; flex-direction: column;
-  padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px calc(env(safe-area-inset-bottom, 0px) + 10px); box-sizing: border-box; gap: 8px; }
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px calc(env(safe-area-inset-bottom, 0px) + 10px); box-sizing: border-box; gap: 7px; }
 html.kb #app { padding-bottom: 8px; }
+html.kb .packtitle { display: none; }
+[hidden] { display: none !important; }
 
-/* ---------- managers and their two guess chips (both visible on both phones) ---------- */
-.managers { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex: none; }
-.mgr { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.mgr[data-role="playerTwo"] { flex-direction: row-reverse; }
-.mgr .who { font: 700 18px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
-.mgr[data-role="playerOne"] .who { color: #8fc6e4; }
-.mgr[data-role="playerTwo"] .who { color: var(--nik); }
-.mgr .you { font: 700 10px/1 var(--cond); letter-spacing: .14em; color: var(--ink); background: var(--foil-2); padding: 3px 5px 2px; border-radius: 2px; }
-.mgr:not([data-me="1"]) .you { display: none; }
-.chips { display: flex; gap: 5px; }
-.chip { width: 18px; height: 18px; border-radius: 50%; box-sizing: border-box; transition: opacity 300ms, transform 300ms var(--ease);
-  background: radial-gradient(circle at 35% 30%, var(--foil-1), var(--foil-2) 45%, var(--foil-3) 80%); box-shadow: 0 0 0 1.5px var(--foil-4), 0 2px 4px rgba(0,0,0,.5); }
-.chip.used { opacity: .28; transform: scale(.82); background: transparent; box-shadow: inset 0 0 0 2px var(--foil-3); }
-.vs { font: 700 13px/1 var(--cond); letter-spacing: .2em; color: var(--text-2); }
-
-/* ---------- status line: which beat, and the guess-window countdown ---------- */
+/* ---------- title and status line: which stage, its points, and that stage's guessing timer ---------- */
+.packtitle { flex: none; margin: 0; text-align: center; font: 700 15px/1.1 var(--cond); letter-spacing: .34em; padding-left: .34em; text-transform: uppercase; color: var(--foil-1); }
 .status { flex: none; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 34px; }
-.beat { font: 700 15px/1 var(--cond); letter-spacing: .16em; text-transform: uppercase; color: var(--foil-1); }
+.beat { font: 700 17px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--foil-1); white-space: nowrap; }
 .beat.last { color: #ffd77a; }
 .ring { width: 34px; height: 34px; position: relative; flex: none; }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
@@ -58,13 +62,21 @@ html.kb #app { padding-bottom: 8px; }
 .ring .left { stroke: var(--foil-2); stroke-linecap: round; }
 .ring.low .left { stroke: #ff9a6a; }
 .ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 14px/1 var(--cond); color: var(--text); }
-.ring[hidden] { display: none; }
 .pill { font: 700 15px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 7px 12px 6px; border-radius: 999px;
   background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); }
 
+/* ---------- the stage: the PRIME PACK, and the card that rises out of it (plain: Team V restyles both, HO-051) ---------- */
+.stagewrap { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; position: relative; container-type: size; overflow: hidden; }
+.pack { position: absolute; left: 50%; top: 50%; width: min(74cqw, 100cqh * 5 / 7 * .86, 300px); aspect-ratio: 5 / 7.2; z-index: 2; box-sizing: border-box;
+  transform: translate(-50%, -50%); display: flex; flex-direction: column; gap: 14px; align-items: center; justify-content: center; border-radius: 10px;
+  background: linear-gradient(170deg, var(--pearl-1) 0%, var(--pearl-2) 46%, var(--pearl-3) 100%); border: 2px solid var(--foil-3); box-shadow: 0 10px 22px rgba(0,0,0,.5); }
+.pack .pk-word { margin: 0; text-align: center; font: 700 44px/1 var(--cond); letter-spacing: .08em; color: var(--pearl-ink); }
+.pack .pk-word span { display: block; font-size: 22px; letter-spacing: .5em; padding-left: .5em; color: var(--pearl-ink-2); }
+.pack .pk-top, .pack .pk-17 { font: 700 13px/1 var(--cond); letter-spacing: .3em; padding-left: .3em; color: var(--pearl-ink-2); }
+/* hooks Team V styles in HO-051; the stand-in leaves them empty and out of the layout */
+.rays, .glow, .shards { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
 /* ---------- the card (stand-in white marble with gold veins and a gold foil edge; Team V replaces the face) ---------- */
-.stagewrap { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; position: relative; container-type: size; }
-.card { width: min(100cqw, 100cqh * 5 / 7, 380px); aspect-ratio: 5 / 7; position: relative; container-type: size; }
+.card { width: min(100cqw, 100cqh * 5 / 7, 380px); aspect-ratio: 5 / 7; position: relative; container-type: size; z-index: 1; opacity: 0; visibility: hidden; }
 .card .foil, .card .face { position: absolute; inset: 0; clip-path: polygon(50% 0, 88% 3.5%, 100% 11%, 100% 89%, 88% 96.5%, 50% 100%, 12% 96.5%, 0 89%, 0 11%, 12% 3.5%); }
 .card .foil { background: linear-gradient(135deg, var(--foil-1) 0%, var(--foil-2) 22%, var(--foil-4) 38%, var(--foil-2) 52%, var(--foil-1) 64%, var(--foil-3) 82%, var(--foil-1) 100%);
   filter: drop-shadow(0 10px 22px rgba(0,0,0,.55)); }
@@ -75,9 +87,6 @@ html.kb #app { padding-bottom: 8px; }
   linear-gradient(74deg, rgba(255,255,255,0) 70%, rgba(150,136,112,.08) 71.5%, rgba(255,255,255,0) 73%),
   repeating-linear-gradient(118deg, rgba(196,147,47,.06) 0 2px, rgba(255,255,255,0) 2px 9px),
   linear-gradient(170deg, var(--pearl-1) 0%, var(--pearl-2) 46%, var(--pearl-3) 100%); overflow: hidden; }
-.card .face::after { content: ""; position: absolute; inset: -40% -60%; background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,247,214,.55) 50%, rgba(255,255,255,0) 60%);
-  transform: translateX(-60%); animation: sheen 6s var(--ease) infinite 1.2s; pointer-events: none; }
-@keyframes sheen { 0%, 70% { transform: translateX(-60%); } 100% { transform: translateX(60%); } }
 .inner-line { position: absolute; inset: 1.4cqw; pointer-events: none; }
 .inner-line svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .inner-line polygon { fill: none; stroke: rgba(196,147,47,.6); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
@@ -100,17 +109,13 @@ html.kb #app { padding-bottom: 8px; }
 
 .stats { position: absolute; left: 12cqw; right: 12cqw; top: 69.5cqh; display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(3, 7.2cqh); column-gap: 7cqw; row-gap: .8cqh; z-index: 2; }
 .stats .divider { position: absolute; left: 50%; top: 4%; bottom: 4%; width: .4cqw; background: linear-gradient(180deg, rgba(196,147,47,0), var(--foil-3), rgba(196,147,47,0)); }
-/* a slot (and the overall, flag and name) is a two-sided tile: back = hidden "??", front = the value */
-.tile { position: relative; perspective: 60cqw; }
-.tile .b, .tile .f { position: absolute; inset: 0; display: flex; align-items: center; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  transition: transform var(--flip) var(--ease), opacity var(--flip) linear; }
-.tile .f { transform: rotateY(180deg); }
-.tile[data-shown="1"] .b { transform: rotateY(-180deg); }
-.tile[data-shown="1"] .f { transform: rotateY(0deg); }
+/* a slot (and the overall, flag and name) shows "??" until its stage or the result; the value then rises into place. No flip. */
+.tile { position: relative; }
+.tile .b, .tile .f { position: absolute; inset: 0; display: flex; align-items: center; transition: transform var(--reveal) var(--ease), opacity var(--reveal) linear; }
+.tile .f { opacity: 0; transform: translateY(40%) scale(.9); }
+.tile[data-shown="1"] .b { opacity: 0; transform: translateY(-30%); }
+.tile[data-shown="1"] .f { opacity: 1; transform: none; }
 html.rm .tile .b, html.rm .tile .f { transform: none !important; }
-html.rm .tile .f { opacity: 0; }
-html.rm .tile[data-shown="1"] .b { opacity: 0; }
-html.rm .tile[data-shown="1"] .f { opacity: 1; }
 .stat .b, .stat .f { gap: 2.4cqw; font: 700 7.4cqw/1 var(--cond); color: var(--pearl-ink); }
 .stat .b { justify-content: flex-start; }
 .stat .b i { font-style: normal; width: 11cqw; text-align: center; border-radius: .9cqw; padding: .6cqw 0 .3cqw; color: var(--foil-1);
@@ -128,11 +133,11 @@ html.rm .tile[data-shown="1"] .f { opacity: 1; }
 .nametile .b, .nametile .f { justify-content: center; }
 .nametile .b { color: var(--foil-3); letter-spacing: .5em; padding-left: .5em; }
 .flagtile.fresh .f canvas { box-shadow: 0 0 0 .4cqw rgba(125,90,23,.55), 0 0 4cqw rgba(241,207,122,.95); }
+.ovrtile.fresh .f { text-shadow: 0 0 3cqw rgba(241,207,122,.95); }
 
-.packtitle { flex: none; margin: 0; text-align: center; font: 700 14px/1.2 var(--cond); letter-spacing: .32em; text-transform: uppercase; color: var(--foil-1); }
 .source { flex: none; text-align: center; font: 600 13px/1.2 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--foil-1); min-height: 16px; }
 
-/* ---------- result banner (no dimming layer: it sits in the status line's place, never over the card or buttons) ---------- */
+/* ---------- result banner (no dimming layer: it sits in the status line's place, never over the card or the boxes) ---------- */
 .banner { flex: none; text-align: center; font: 700 clamp(24px, 7.4vw, 40px)/1 var(--cond); letter-spacing: .06em; text-transform: uppercase;
   background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 30%, #f2c35a 50%, #a8731f 54%, #f3cf73 74%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 2px 0 #2a1c05); animation: pop 600ms var(--ease) both; }
@@ -140,49 +145,72 @@ html.rm .tile[data-shown="1"] .f { opacity: 1; }
 html.rm .banner { animation: fade 220ms linear both; }
 @keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-[hidden] { display: none !important; }
 
-/* ---------- guess bar: suggestions open upwards, so the iPhone keyboard never hides them ---------- */
-.guessbar { flex: none; position: relative; }
-.row { display: flex; gap: 8px; }
-.row input { flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.6); background: #15130e; color: var(--text);
-  font: 600 20px/1 var(--body); letter-spacing: .02em; padding: 0 14px; outline: none; }
+/* ---------- the two guess boxes: Daniel's and Nik's, both always on screen, each with its manager's 2 tokens ---------- */
+.guessbar { flex: none; position: relative; display: flex; flex-direction: column; gap: 6px; }
+.gbox { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 4px 8px 4px 10px; box-sizing: border-box; border-radius: 6px;
+  background: rgba(21,19,14,.92); border: 1.5px solid rgba(241,207,122,.28); }
+.gbox[data-me="1"] { border-color: rgba(241,207,122,.75); }
+.gbox[data-won="1"] { border-color: var(--foil-2); box-shadow: 0 0 14px rgba(241,207,122,.45); }
+.gbox .who { flex: none; width: 62px; display: flex; flex-direction: column; gap: 3px; font: 700 17px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+.gbox[data-role="playerOne"] .who { color: #8fc6e4; }
+.gbox[data-role="playerTwo"] .who { color: var(--nik); }
+.gbox .you { align-self: flex-start; font: 700 10px/1 var(--cond); letter-spacing: .14em; color: var(--ink); background: var(--foil-2); padding: 3px 5px 2px; border-radius: 2px; }
+.gbox:not([data-me="1"]) .you { display: none; }
+.gbox .slot { flex: 1; min-width: 0; display: flex; }
+.mine { flex: 1; min-width: 0; }
+.row { display: flex; gap: 6px; }
+.row input { flex: 1; min-width: 0; height: 40px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.6); background: #0f0d09; color: var(--text);
+  font: 600 19px/1 var(--body); letter-spacing: .02em; padding: 0 10px; outline: none; }
 .row input:focus { border-color: var(--foil-2); box-shadow: 0 0 0 3px rgba(241,207,122,.22); }
-.row input:disabled { opacity: .5; }
-.btn { height: 48px; padding: 0 20px; border: 0; border-radius: 4px; font: 700 18px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
+.row input:disabled { opacity: .55; }
+.ro { flex: 1; min-width: 0; height: 40px; box-sizing: border-box; display: flex; align-items: center; padding: 0 10px; border-radius: 4px;
+  border: 1.5px dashed rgba(201,192,171,.35); color: var(--text-2); font: 600 17px/1 var(--body); letter-spacing: .03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; user-select: none; }
+.gbox[data-out="1"] .ro { color: #ffb48a; border-style: solid; border-color: rgba(255,180,138,.4); }
+.gbox[data-won="1"] .ro { color: var(--foil-1); }
+.btn { height: 40px; padding: 0 14px; border: 0; border-radius: 4px; font: 700 17px/1 var(--cond); letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
   background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); box-shadow: inset 0 1px 0 #fff; cursor: pointer; }
 .btn:disabled { background: #4a4232; color: #9c927b; box-shadow: none; cursor: default; }
-.suggest { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810;
+.chips { flex: none; display: flex; gap: 5px; }
+.chip { width: 18px; height: 18px; border-radius: 50%; box-sizing: border-box; transition: opacity 300ms, transform 300ms var(--ease);
+  background: radial-gradient(circle at 35% 30%, var(--foil-1), var(--foil-2) 45%, var(--foil-3) 80%); box-shadow: 0 0 0 1.5px var(--foil-4), 0 2px 4px rgba(0,0,0,.5); }
+.chip.used { opacity: .28; transform: scale(.82); background: transparent; box-shadow: inset 0 0 0 2px var(--foil-3); }
+.suggest { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810; z-index: 5;
   border: 1px solid rgba(241,207,122,.45); box-shadow: 0 -8px 20px rgba(0,0,0,.45); max-height: 40vh; overflow: auto; }
 .suggest li { padding: 11px 10px; font: 600 19px/1.1 var(--body); letter-spacing: .02em; color: var(--text); border-radius: 3px; cursor: pointer; }
 .suggest li[aria-selected="true"], .suggest li:hover { background: rgba(241,207,122,.16); }
-.note { min-height: 18px; margin-top: 6px; font: 600 16px/1.15 var(--body); letter-spacing: .03em; text-align: center; color: var(--text-2); }
+.note { min-height: 18px; font: 600 16px/1.15 var(--body); letter-spacing: .03em; text-align: center; color: var(--text-2); }
 .note.warn { color: #ffb48a; }
-.cta { width: 100%; }
+.cta { flex: none; width: 100%; height: 48px; font-size: 18px; }
 
-/* the test clock freezes every CSS transition and animation, so a still is the end state of each beat */
+/* the test clock freezes every CSS transition and animation, so a still is the end state of each moment */
 html.still *, html.still *::before, html.still *::after { transition: none !important; animation: none !important; }
-@media (prefers-reduced-motion: reduce) { .card .face::after { animation: none; } .chip { transition: none; } }
-html.rm .card .face::after { animation: none; }
+@media (prefers-reduced-motion: reduce) { .chip { transition: none; } }
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="managers" id="managers">
-    <div class="mgr" data-role="playerOne"><span class="who" id="nameOne">Daniel</span><span class="you">YOU</span><span class="chips" id="chipsOne" data-role="playerOne" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
-    <span class="vs">VS</span>
-    <div class="mgr" data-role="playerTwo"><span class="who" id="nameTwo">Nik</span><span class="you">YOU</span><span class="chips" id="chipsTwo" data-role="playerTwo" data-count="2"><i class="chip"></i><i class="chip"></i></span></div>
-  </div>
-
+  <h1 class="packtitle" id="packTitle">Prime Pack</h1>
   <div class="status" id="status">
     <span class="pill" id="waiting" hidden></span>
     <span class="beat" id="beat"></span>
     <span class="ring" id="ring" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="17"/><circle class="left" id="ringLeft" cx="20" cy="20" r="17" stroke-dasharray="106.8" stroke-dashoffset="0"/></svg><b id="ringNum"></b></span>
   </div>
-  <h1 class="packtitle" id="packTitle">Prime Pack</h1>
   <div class="banner" id="banner" hidden></div>
 
-  <div class="stagewrap">
+  <div class="stagewrap" id="stagewrap">
+    <div class="rays" id="rays" aria-hidden="true"></div>
+    <div class="glow" id="glow" aria-hidden="true"></div>
+    <div class="pack" id="pack" aria-label="Prime Pack">
+      <div class="pk-frame"></div>
+      <div class="pk-crown"></div>
+      <div class="pk-top">FIFA 17 SHOWDOWN</div>
+      <p class="pk-word" id="packWord">PRIME<span>PACK</span></p>
+      <div class="pk-rule"></div>
+      <div class="pk-17">17</div>
+      <div class="crack" id="crack"></div>
+    </div>
+    <div class="shards" id="shards" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="card" id="card" aria-label="Icon card">
       <div class="foil"></div>
       <div class="face">
@@ -195,7 +223,7 @@ html.rm .card .face::after { animation: none; }
           <div class="rule"></div>
           <div class="tile big flagtile" id="flag" data-shown="0"><div class="b">?</div><div class="f"><canvas id="flagCanvas" width="180" height="120"></canvas></div></div>
         </div>
-        <div class="tile nameplate nametile" id="name" data-shown="0"><div class="b">? ? ?</div><div class="f" id="nameValue"></div></div>
+        <div class="tile nameplate nametile" id="name" data-shown="0"><div class="b"></div><div class="f" id="nameValue"></div></div>
         <div class="underline"></div>
         <div class="stats" id="stats"><div class="divider"></div></div>
       </div>
@@ -206,10 +234,25 @@ html.rm .card .face::after { animation: none; }
 
   <div class="guessbar" id="guessbar">
     <ul class="suggest" id="suggest" role="listbox" hidden></ul>
-    <form class="row" id="form" autocomplete="off">
-      <input id="guess" name="guess" type="text" inputmode="text" enterkeyhint="send" autocapitalize="words" autocorrect="off" spellcheck="false" placeholder="Who is he?" aria-label="Your guess" aria-controls="suggest" disabled>
-      <button class="btn" id="go" type="submit" disabled>Guess</button>
-    </form>
+    <div class="gbox" id="boxOne" data-role="playerOne" data-me="0" data-out="0" data-won="0">
+      <div class="who"><span id="nameOne">Daniel</span><span class="you">YOU</span></div>
+      <div class="slot" id="slotOne"></div>
+      <span class="chips" id="chipsOne" data-role="playerOne" data-count="2" aria-label="2 guesses left"><i class="chip"></i><i class="chip"></i></span>
+    </div>
+    <div class="gbox" id="boxTwo" data-role="playerTwo" data-me="0" data-out="0" data-won="0">
+      <div class="who"><span id="nameTwo">Nik</span><span class="you">YOU</span></div>
+      <div class="slot" id="slotTwo"></div>
+      <span class="chips" id="chipsTwo" data-role="playerTwo" data-count="2" aria-label="2 guesses left"><i class="chip"></i><i class="chip"></i></span>
+    </div>
+    <!-- this manager's own box: moved into their slot on load -->
+    <div class="mine" id="mine">
+      <form class="row" id="form" autocomplete="off">
+        <input id="guess" name="guess" type="text" inputmode="text" enterkeyhint="send" autocapitalize="words" autocorrect="off" spellcheck="false" placeholder="Who is he?" aria-label="Your guess" aria-controls="suggest" disabled>
+        <button class="btn" id="go" type="submit" disabled>Guess</button>
+      </form>
+    </div>
+    <!-- the other manager's box: read only, it shows their tokens and whether they are out, never what they typed -->
+    <div class="ro" id="other" aria-live="polite"></div>
     <div class="note" id="note" aria-live="polite"></div>
   </div>
   <button class="btn cta" id="cta" type="button" hidden>Continue</button>
@@ -218,25 +261,25 @@ html.rm .card .face::after { animation: none; }
 <script>
 (function(){
 "use strict";
-/* ================= switches and timing ================= */
-// Nik, 31 Oct 2026: the big overall rating stays hidden until the result. This is the one switch; a round may still pass
-// overallHidden:false if that decision ever changes, so the page itself never needs editing for it.
-const OVERALL_HIDDEN_UNTIL_END = true;
+/* ================= constants ================= */
 const STAT_KEYS = ["PAC","SHO","PAS","DRI","DEF","PHY"];            // FIFA layout: left column PAC SHO PAS, right DRI DEF PHY
-const ROLES = ["playerOne","playerTwo"];                            // playerOne = Daniel (left), playerTwo = Nik (right), as on the Special Player page
-// Nik, 1 Nov 2026: four stages. Stage 1 (beat 0) shows the position and one stat, each later stage one more stat. A right
-// guess scores 4 in stage 1, 3 in stage 2, 2 in stage 3, 1 in stage 4. The flag, overall and name show only on the result.
-const LAST_BEAT = 3;
-const STAGE_POINTS = [4,3,2,1];
-const STAGGER_MS = 380;                                             // stage 1: the position flips, then its first stat
-const WINDOW_MS_DEFAULT = 8000, WINDOW_MS_MIN = 5000, WINDOW_MS_MAX = 10000;
-const CHIPS_PER_MANAGER = 2;
+const ROLES = ["playerOne","playerTwo"];                            // playerOne = Daniel (top box), playerTwo = Nik (bottom box), as on the Special Player page
+const LAST_BEAT = 3;                                                // four stages, 0..3
+const CHIPS_PER_MANAGER = 2;                                        // two guesses each for the whole round
+// The page holds no timings of its own in play: every stage's points, reveal and guess time, and what it shows come with
+// round.stages (js/iconGuess.js STAGES, G Lead 2026-11-01 10:30 UTC). Only the preview (no embed) carries a copy, below.
+// Where the newly shown parts of a stage land inside its reveal (as a share of that stage's revealMs): stage 1 first opens
+// the pack and raises the card, so its parts come late.
+const PACK_OUT = .3, CARD_UP = .7;                                  // stage 1: the pack fades out, then the card slides up
+const ITEMS_FIRST = [.78, .95], ITEMS_LATER = [.15, .8];
 const EMBED = /[?&]embed=1(&|$)/.test(location.search);
 const QS = new URLSearchParams(location.search);
 const REDUCED = QS.get("rm")==="1" || (typeof matchMedia==="function" && matchMedia("(prefers-reduced-motion: reduce)").matches);
-const REVEAL_MS = REDUCED ? 220 : 700;                              // each reveal beat stays well under the 2 s the brief allows
+const NAME_AFTER_MS = REDUCED ? 300 : 900;                          // the result: who won first, then the name
 if(REDUCED) document.documentElement.classList.add("rm");
 const $ = (id) => document.getElementById(id);
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const smooth = (a, b, x) => { const k=clamp((x-a)/(b-a),0,1); return k*k*(3-2*k); };
 
 /* ================= messages to the game ================= */
 function toGame(type, data){
@@ -254,10 +297,10 @@ if(frozen) document.documentElement.classList.add("still");
 
 /* ================= state ================= */
 const S = {
-  round: null, me: "playerTwo", names: { playerOne: "Daniel", playerTwo: "Nik" },
-  beat: -1, windowMs: WINDOW_MS_DEFAULT, closesAt: null,
+  round: null, stages: null, me: "playerTwo", names: { playerOne: "Daniel", playerTwo: "Nik" },
+  beat: -1, revealEndsAt: null, closesAt: null, nameAt: null,
   chips: { playerOne: CHIPS_PER_MANAGER, playerTwo: CHIPS_PER_MANAGER },
-  waitingFor: null, result: null, pending: false, suggestions: [], active: -1, continued: false
+  waitingFor: null, countIn: false, view: { opening: 0, cardUp: false }, result: null, points: null, pending: false, suggestions: [], active: -1, continued: false
 };
 
 /* ================= art: silhouette and flags (drawn in code; generic, the same for every player) ================= */
@@ -322,14 +365,26 @@ function drawFlag(canvas, code){
 $("portrait").innerHTML = SILHOUETTE;
 const statsEl = $("stats");
 STAT_KEYS.forEach((key) => {
-  const t=document.createElement("div"); t.className="tile stat"; t.dataset.stat=key; t.dataset.shown="0";
+  const t=document.createElement("div"); t.className="tile stat"; t.id="stat-"+key; t.dataset.stat=key; t.dataset.shown="0";
   t.innerHTML=`<div class="b"><i>??</i><span>${key}</span></div><div class="f"><em></em><span>${key}</span></div>`; statsEl.appendChild(t);
 });
 const statEl = (key) => statsEl.querySelector(`[data-stat="${key}"]`);
-const show = (el, on) => { el.dataset.shown = on ? "1" : "0"; };
-function fresh(el){ statsEl.querySelectorAll(".fresh").forEach(x=>x.classList.remove("fresh")); $("flag").classList.remove("fresh"); if(el) el.classList.add("fresh"); }
+const show = (el, on) => { const v = on ? "1" : "0"; if(el.dataset.shown!==v) el.dataset.shown = v; };
 
 /* ================= validation of the round the game sends ================= */
+function validStages(st){
+  if(!Array.isArray(st) || st.length!==LAST_BEAT+1) throw new Error("round: stages must be four");
+  let prev=0;
+  st.forEach((s,i)=>{
+    if(!s || typeof s!=="object") throw new Error("round: stage "+(i+1));
+    if(!Number.isInteger(s.points) || s.points<1 || s.points>4) throw new Error("round: stage "+(i+1)+" points");
+    if(!Number.isFinite(s.revealMs) || s.revealMs<0 || !Number.isFinite(s.guessMs) || s.guessMs<=0) throw new Error("round: stage "+(i+1)+" timing");
+    if(!Number.isInteger(s.stats) || s.stats<prev || s.stats>6) throw new Error("round: stage "+(i+1)+" stats");
+    for(const k of ["position","flag","overall"]) if(typeof s[k]!=="boolean") throw new Error("round: stage "+(i+1)+" "+k);
+    prev=s.stats;
+  });
+  return st;
+}
 function validRound(r){
   if(!r || typeof r!=="object") throw new Error("round: missing");
   if(typeof r.position!=="string" || !/^[A-Z]{2,3}$/.test(r.position)) throw new Error("round: position");
@@ -339,60 +394,55 @@ function validRound(r){
   if(typeof r.name!=="string" || !r.name.trim()) throw new Error("round: name");
   if(!Number.isInteger(r.overall) || r.overall<1 || r.overall>99) throw new Error("round: overall");
   if(r.me!=null && !ROLES.includes(r.me)) throw new Error("round: me");
+  validStages(r.stages);
   return r;
 }
-const clampWindow = (ms) => Math.min(WINDOW_MS_MAX, Math.max(WINDOW_MS_MIN, Number.isFinite(ms) ? ms : WINDOW_MS_DEFAULT));
-const overallHidden = () => S.round && typeof S.round.overallHidden==="boolean" ? S.round.overallHidden : OVERALL_HIDDEN_UNTIL_END;
+const otherRole = () => S.me==="playerOne" ? "playerTwo" : "playerOne";
+const stagePoints = (b) => (S.stages && S.stages[b] ? S.stages[b].points : 0);
 
 /* ================= play hooks (the game calls these; the page never decides anything) ================= */
 function load(round){
   validRound(round);
-  S.round = round; S.me = round.me || "playerTwo"; S.names = Object.assign({ playerOne:"Daniel", playerTwo:"Nik" }, round.names || {});
-  S.windowMs = clampWindow(round.windowMs); S.beat=-1; S.closesAt=null; S.result=null; S.pending=false; S.continued=false; S.waitingFor=null;
+  S.round = round; S.stages = round.stages.map(s=>Object.assign({}, s)); S.me = round.me || "playerTwo";
+  S.names = Object.assign({ playerOne:"Daniel", playerTwo:"Nik" }, round.names || {});
+  S.beat=-1; S.revealEndsAt=null; S.closesAt=null; S.nameAt=null; S.result=null; S.points=null; S.pending=false; S.continued=false; S.waitingFor=null; S.countIn=false;
   S.chips = { playerOne: CHIPS_PER_MANAGER, playerTwo: CHIPS_PER_MANAGER };
   $("nameOne").textContent=S.names.playerOne; $("nameTwo").textContent=S.names.playerTwo;
-  document.querySelectorAll(".mgr").forEach(m=>{ m.dataset.me = m.dataset.role===S.me ? "1" : "0"; });
-  $("posValue").textContent=round.position; $("ovrValue").textContent=String(round.overall); $("nameValue").textContent=round.name;
+  // the two boxes: this manager types in their own; the other one is read only
+  const mineBox = S.me==="playerOne" ? $("boxOne") : $("boxTwo"), otherBox = S.me==="playerOne" ? $("boxTwo") : $("boxOne");
+  mineBox.dataset.me="1"; otherBox.dataset.me="0"; [mineBox, otherBox].forEach(b=>{ b.dataset.won="0"; b.dataset.out="0"; });
+  mineBox.querySelector(".slot").appendChild($("mine")); otherBox.querySelector(".slot").appendChild($("other"));
+  $("posValue").textContent=round.position; $("ovrValue").textContent=String(round.overall);
+  $("nameValue").textContent="";                                     // the name plate stays empty until the result
   STAT_KEYS.forEach(k=>{ statEl(k).querySelector("em").textContent=String(round.stats[k]); show(statEl(k),false); });
   drawFlag($("flagCanvas"), round.nation);
-  [$("pos"),$("flag"),$("name"),$("ovr")].forEach(el=>show(el,false)); fresh(null);
-  $("ovr").hidden = false; $("source").textContent=""; $("banner").hidden=true; $("banner").className="banner"; $("cta").hidden=true; $("guessbar").hidden=false;
+  [$("pos"),$("flag"),$("name"),$("ovr")].forEach(el=>show(el,false)); fresh([]);
+  $("source").textContent=""; $("banner").hidden=true; $("banner").className="banner"; $("cta").hidden=true; $("cta").disabled=false; $("cta").textContent="Continue";
   $("guess").value=""; setSuggestions([]); note("");
-  render();
+  still(()=>render());
 }
-function setWaiting(role){ S.waitingFor = ROLES.includes(role) ? role : null; render(); }
-// reveal(index): flips every stage up to index (a phone that reloads rejoins at the current stage with no replayed animation
-// for the earlier ones) and opens that stage's guess window. remainingMs comes from the game's shared round clock, so both
-// phones flip each stage at the same server moment.
+// role: the manager still to arrive; null once both are here (the game counts in before the pack opens)
+function setWaiting(role){ S.waitingFor = ROLES.includes(role) ? role : null; S.countIn = !S.waitingFor; render(); }
+// reveal(index, {phase, remainingMs, revealMsLeft}): stage `index` is on (0..3). remainingMs is what is left of the whole stage
+// (reveal plus guessing), revealMsLeft what is left of its reveal (0 once in the guessing window), both from the game's shared
+// server clock. Every earlier stage is put face up at once, and only what is left of this stage's reveal plays, so a phone
+// that reloads lands on the current state with nothing replayed. The timer counts this stage's guessing time.
 function reveal(index, opts){
   if(!S.round || S.result) return;
-  const i = Math.max(0, Math.min(LAST_BEAT, Math.floor(Number(index))));
-  if(!Number.isFinite(i)) return;
-  const jump = i > S.beat + 1;
-  if(jump) document.documentElement.classList.add("still");
-  for(let b=0;b<=i;b++) showBeat(b, !jump && b===i);
-  if(jump){ void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still"); }
-  fresh(statEl(S.round.statOrder[i]));
-  S.beat = i; S.waitingFor = null;
-  const remaining = opts && Number.isFinite(opts.remainingMs) ? Math.max(0, Math.min(S.windowMs, opts.remainingMs)) : S.windowMs;
-  S.closesAt = now() + remaining;
-  render();
+  const n = Number(index); if(!Number.isFinite(n)) return;
+  const i = clamp(Math.floor(n), 0, LAST_BEAT), st = S.stages[i], o = opts || {}, full = st.revealMs + st.guessMs;
+  const remaining = Number.isFinite(o.remainingMs) ? clamp(o.remainingMs, 0, full) : full;
+  let revealLeft = Number.isFinite(o.revealMsLeft) ? clamp(o.revealMsLeft, 0, st.revealMs) : (o.phase==="window" ? 0 : Math.max(0, remaining - st.guessMs));
+  revealLeft = Math.min(revealLeft, remaining);
+  const guessLeft = clamp(remaining - revealLeft, 0, st.guessMs), t = now();
+  S.beat = i; S.waitingFor = null; S.countIn = false;
+  S.revealEndsAt = t + revealLeft; S.closesAt = S.revealEndsAt + guessLeft;
+  still(()=>render());                                             // what is already past shows at once, with no animation
 }
-// One stage face up. Stage 1 flips the position first and its stat a moment later (the staged reveal, like the Special
-// Player pack's beats); a jump or the test clock shows both at once.
-function showBeat(b, staged){
-  const stat = statEl(S.round.statOrder[b]);
-  if(b===0 && staged && !frozen && !REDUCED && $("pos").dataset.shown!=="1"){ show($("pos"),true); setTimeout(()=>{ if(S.round) show(stat,true); }, STAGGER_MS); return; }
-  if(b===0) show($("pos"),true);
-  show(stat,true);
-}
-// The game's one table (js/iconGuess.js stagePoints) comes with the round; STAGE_POINTS is only the preview's copy.
-const stagePoints = (b) => ((S.round && Array.isArray(S.round.stagePoints) && S.round.stagePoints.length===4 ? S.round.stagePoints : STAGE_POINTS)[b]) || 0;
 function setChips(role, count){
   if(!ROLES.includes(role)) return;
-  const n = Math.max(0, Math.min(CHIPS_PER_MANAGER, Math.floor(Number(count))));
-  if(!Number.isFinite(n)) return;
-  S.chips[role] = n; if(role===S.me && S.pending){ S.pending=false; note(""); } render();
+  const n = Math.floor(Number(count)); if(!Number.isFinite(n)) return;
+  S.chips[role] = clamp(n, 0, CHIPS_PER_MANAGER); if(role===S.me && S.pending){ S.pending=false; note(""); } render();
 }
 // The game turns the typed text into names from the icon list (workstream B's matcher) and sends them back here.
 function setSuggestions(names){
@@ -402,8 +452,8 @@ function setSuggestions(names){
     li.addEventListener("pointerdown",(e)=>{ e.preventDefault(); pick(i); }); ul.appendChild(li); });
   ul.hidden = !S.suggestions.length || !canType();
 }
-// Feedback on this phone's own guess. "not-in-list": costs no chip. "wrong": shown only here; the other phone sees
-// only the chip count drop. "used": both chips gone. Anything else just clears the pending state.
+// Feedback on this phone's own guess. "not-in-list": costs no token. "wrong": shown only here; the other phone sees
+// only the token count drop. "used": both tokens gone. Anything else just clears the pending state.
 function guessFeedback(kind){
   S.pending=false;
   if(kind==="not-in-list") note("Not an icon in the list", true);
@@ -414,26 +464,29 @@ function guessFeedback(kind){
   else if(kind==="error") note("That guess didn't go through. Try again.", true);
   render();
 }
-// The result: the whole card face up (all six stats, the flag, the overall and the name). points is what the game's round
-// record gives the winner (4 to 1 by stage); the page only shows it.
+// The result (stage 5, no guessing): the winner and the points the game's round record gives (4 to 1 by stage), or nobody
+// (0 points); then the whole card is face up (paintCard: every stat left, the flag, the overall) and, a moment later, the name.
+// A right guess at any stage comes straight here.
 function showResult(winner, points){
   if(!S.round || S.result) return;
-  S.result = ROLES.includes(winner) ? winner : "draw"; S.closesAt=null; S.pending=false;
-  S.points = S.result==="draw" ? 0 : Math.max(1, Math.min(4, Math.floor(Number(points)) || stagePoints(Math.max(0,S.beat))));
-  document.documentElement.classList.add("still"); show($("pos"),true); STAT_KEYS.forEach(k=>show(statEl(k),true)); void document.body.offsetWidth; if(!frozen) document.documentElement.classList.remove("still");
-  show($("flag"),true); show($("name"),true); show($("ovr"),true); fresh(null);
+  S.result = ROLES.includes(winner) ? winner : "draw"; S.pending=false;
+  S.points = S.result==="draw" ? 0 : clamp(Math.floor(Number(points)) || stagePoints(Math.max(0,S.beat)), 1, 4);
+  S.nameAt = now() + NAME_AFTER_MS;
+  $("nameValue").textContent=S.round.name;                          // guessing has ended: the only place the name is written
   const b=$("banner"); b.hidden=false;
-  if(S.result==="draw"){ b.textContent="Nobody got him"; b.classList.add("draw"); }
+  if(S.result==="draw"){ b.textContent="Nobody got him · 0 points"; b.classList.add("draw"); }
   else { b.textContent=`${S.names[S.result]} +${S.points} Showdown point${S.points===1?"":"s"}`; b.classList.remove("draw"); }
   b.dataset.winner=S.result;
+  $("boxOne").dataset.won = S.result==="playerOne" ? "1" : "0"; $("boxTwo").dataset.won = S.result==="playerTwo" ? "1" : "0";
   $("source").textContent = S.round.source || "";
-  $("guessbar").hidden=true; $("guess").blur(); setSuggestions([]);
+  $("guess").blur(); $("guess").value=""; setSuggestions([]); note("");
   const cta=$("cta"); cta.hidden=false; cta.disabled=false; cta.textContent="Continue";
   render();
 }
 
-/* ================= the guess bar ================= */
-// Typing stays open between windows (so the iPhone keyboard never drops mid-round); only sending waits for an open window.
+/* ================= the guess box ================= */
+// Typing stays open through the stages (so the iPhone keyboard never drops mid-round); a guess counts at any moment of a
+// stage, its reveal included, until that stage's timer runs out.
 function canType(){ return Boolean(S.round) && !S.result && !S.waitingFor && S.beat>=0 && S.chips[S.me]>0; }
 function canGuess(){ return canType() && S.closesAt!==null && now()<S.closesAt && !S.pending; }
 function note(text, warn){ const n=$("note"); n.textContent=text||""; n.classList.toggle("warn",Boolean(warn)); }
@@ -465,52 +518,122 @@ function fitViewport(){
 }
 if(window.visualViewport){ visualViewport.addEventListener("resize",fitViewport); visualViewport.addEventListener("scroll",fitViewport); fitViewport(); }
 
-/* ================= render (cheap; runs on every hook and every frame of an open window) ================= */
+/* ================= the stages on the card ================= */
+// How far stage b's reveal has played (0..1). Earlier stages, and everything once the result is in, are fully played.
+function progressOf(b, t){
+  if(S.result || b<S.beat) return 1;
+  if(b>S.beat || S.revealEndsAt===null) return 0;
+  const ms = S.stages[b].revealMs; return ms>0 ? clamp(1-(S.revealEndsAt-t)/ms, 0, 1) : 1;
+}
+// The parts stage b turns face up, in order, straight from its row of round.stages: the position, the next stats in the
+// round's statOrder (stats is how many are up from that stage on), and the flag and the overall if a row ever turns them
+// up (Nik's rule, 11:08 UTC: none does; they come with the result). The name is never a stage.
+function itemsFor(b){
+  const st=S.stages[b], prev=b>0 ? S.stages[b-1] : { stats:0, position:false, flag:false, overall:false }, out=[];
+  if(st.position && !prev.position) out.push($("pos"));
+  for(let k=prev.stats;k<st.stats;k++) out.push(statEl(S.round.statOrder[k]));
+  if(st.flag && !prev.flag) out.push($("flag"));
+  if(st.overall && !prev.overall) out.push($("ovr"));
+  return out;
+}
+function fresh(list){ document.querySelectorAll(".fresh").forEach(x=>{ if(!list.includes(x)) x.classList.remove("fresh"); }); list.forEach(x=>x.classList.add("fresh")); }
+function paintCard(t){
+  if(!S.round) return;
+  const up=new Set(), latest=[];
+  for(let b=0;b<=Math.min(S.beat,LAST_BEAT);b++){
+    const p=progressOf(b,t), items=itemsFor(b), [a,z]=b===0 ? ITEMS_FIRST : ITEMS_LATER;
+    items.forEach((el,k)=>{ const at = items.length>1 ? a+(z-a)*k/(items.length-1) : a; if(p>=at){ up.add(el); if(b===S.beat) latest.push(el); } });
+  }
+  const all=[$("pos"),$("flag"),$("ovr"),...STAT_KEYS.map(statEl)];
+  all.forEach(el=>show(el, Boolean(S.result) || up.has(el)));
+  show($("name"), Boolean(S.result) && S.nameAt!==null && t>=S.nameAt);  // the name: only on the result
+  fresh(S.result ? [] : latest);
+  // stage 1's opening, plain: the pack fades and slides out, then the card fades and slides up into place. Driven from the
+  // page clock, so a reload mid-opening plays only what is left. (Team V's art replaces the look, HO-051.)
+  const pp = S.result ? 1 : S.beat<0 ? 0 : progressOf(0,t);
+  const out = smooth(0, PACK_OUT, pp), rise = smooth(PACK_OUT, CARD_UP, pp);
+  const pack=$("pack"), card=$("card");
+  S.view = { opening: pp, cardUp: pp>=CARD_UP };
+  pack.hidden = pp>=PACK_OUT;
+  if(!pack.hidden){
+    pack.style.opacity = String(1-out);
+    pack.style.transform = REDUCED ? "translate(-50%, -50%)" : `translate(-50%, ${(-50-12*out).toFixed(2)}%)`;
+  }
+  card.style.visibility = pp>=PACK_OUT ? "visible" : "hidden";
+  card.style.opacity = String(rise);
+  card.style.transform = REDUCED ? "none" : `translateY(${((1-rise)*16).toFixed(2)}%)`;
+}
+function still(fn){
+  const root=document.documentElement, was=root.classList.contains("still");
+  root.classList.add("still"); fn(); void document.body.offsetWidth; if(!was && !frozen) root.classList.remove("still");
+}
+
+/* ================= render (cheap; runs on every hook and every frame) ================= */
 const RING=106.8;
+const guessLeft = (t) => S.closesAt===null ? 0 : Math.max(0, S.closesAt - Math.max(t, S.revealEndsAt));
 function render(){
   const t=now();
-  ROLES.forEach(r=>{ const el=r==="playerOne"?$("chipsOne"):$("chipsTwo"); el.dataset.count=String(S.chips[r]); [...el.children].forEach((c,i)=>c.classList.toggle("used", i>=S.chips[r])); });
-  const w=$("waiting"); w.hidden=!S.waitingFor || Boolean(S.result); if(S.waitingFor) w.textContent=`Waiting for ${S.names[S.waitingFor]}`;
-  const beat=$("beat"), ring=$("ring");
-  if(S.result || S.waitingFor || S.beat<0 || !S.round){ beat.textContent = !S.round||S.result||S.waitingFor ? "" : "Get ready"; ring.hidden=true; $("status").hidden=Boolean(S.result); }
+  ROLES.forEach(r=>{ const el=r==="playerOne"?$("chipsOne"):$("chipsTwo"); el.dataset.count=String(S.chips[r]); el.setAttribute("aria-label", `${S.chips[r]} guess${S.chips[r]===1?"":"es"} left`);
+    [...el.children].forEach((c,i)=>c.classList.toggle("used", i>=S.chips[r])); });
+  const w=$("waiting"), beat=$("beat"), ring=$("ring");
+  w.hidden = Boolean(S.result) || !S.round || S.beat>=0 || (!S.waitingFor && !S.countIn);
+  if(S.waitingFor) w.textContent=`Waiting for ${S.names[S.waitingFor]}`; else if(S.countIn) w.textContent="Both here · Get ready";
+  $("status").hidden = Boolean(S.result);
+  if(S.result || S.beat<0 || !S.round){ beat.textContent=""; beat.hidden=true; ring.hidden=true; }
   else {
-    $("status").hidden=false;
-    const pts=stagePoints(S.beat);
-    beat.textContent = `${S.beat===LAST_BEAT ? "Last chance" : `Stage ${S.beat+1} of 4`} · ${pts} point${pts===1?"":"s"}`;
-    beat.classList.toggle("last", S.beat===LAST_BEAT);
-    const left=Math.max(0, (S.closesAt||t)-t); ring.hidden=false;
-    $("ringLeft").setAttribute("stroke-dashoffset", String(RING*(1-left/S.windowMs)));
-    $("ringNum").textContent=String(Math.ceil(left/1000)); ring.classList.toggle("low", left<3000);
+    const pts=stagePoints(S.beat), st=S.stages[S.beat], left=guessLeft(t);
+    beat.hidden=false; beat.textContent = `Stage ${S.beat+1} · ${pts} pt${pts===1?"":"s"}`; beat.classList.toggle("last", S.beat===LAST_BEAT);
+    ring.hidden=false;
+    $("ringLeft").setAttribute("stroke-dashoffset", String(RING*(1-clamp(left/st.guessMs,0,1))));
+    $("ringNum").textContent=String(Math.ceil(left/1000)); ring.classList.toggle("low", left<5000);
   }
-  if(S.round && !S.result) show($("ovr"), !overallHidden() && S.beat>=0);
-  const ok=canGuess(), mine=S.chips[S.me];
+  paintCard(t);
+  // the boxes
+  const ok=canGuess(), mine=S.chips[S.me], oth=otherRole(), otherBox = oth==="playerOne" ? $("boxOne") : $("boxTwo"), mineBox = S.me==="playerOne" ? $("boxOne") : $("boxTwo");
+  otherBox.dataset.out = S.round && S.chips[oth]<=0 ? "1" : "0"; mineBox.dataset.out = S.round && mine<=0 ? "1" : "0";
+  const o=$("other");
+  o.textContent = !S.round ? "" : S.result ? (S.result===oth ? `Named him · +${S.points}` : S.chips[oth]<=0 ? "Out of guesses" : "No luck")
+    : S.chips[oth]<=0 ? "Out of guesses" : S.waitingFor===oth ? "Not here yet" : S.beat<0 ? "Ready" : "Guessing…";
   $("guess").disabled = !canType(); $("go").disabled = !ok;
-  if(S.round && !S.result){
-    $("guess").placeholder = S.waitingFor ? "Waiting…" : S.beat<0 ? "Get ready…" : mine<=0 ? "No guesses left" : S.pending ? "Checking…" : ok ? "Who is he?" : S.beat===LAST_BEAT ? "Time's up" : "Next reveal…";
+  if(S.round){
+    $("guess").placeholder = S.result ? (S.result===S.me ? `Named him · +${S.points}` : "Round over") : S.waitingFor ? "Waiting…" : S.beat<0 ? "Get ready…" : mine<=0 ? "No guesses left" : S.pending ? "Checking…" : ok ? "Who is he?" : "Time's up";
     if(!canType()) $("suggest").hidden=true;
   }
 }
 function frame(){ tickDriver(); render(); if(!frozen) requestAnimationFrame(frame); }
 
 /* ================= preview driver (no embed): plays a made-up round so the page can be looked at on its own =================
-   The player is fictional, with made-up numbers: the page never carries real card data. */
+   The player is fictional, with made-up numbers: the page never carries real card data. SAMPLE_STAGES is a copy of the
+   game's one table (js/iconGuess.js STAGES); in the game the stages always come with the round. ?fast=1 runs it at a tenth. */
+const SAMPLE_STAGES = Object.freeze([
+  Object.freeze({points:4,revealMs:2500,guessMs:25000,stats:1,position:true,flag:false,overall:false}),
+  Object.freeze({points:3,revealMs:1500,guessMs:20000,stats:2,position:true,flag:false,overall:false}),
+  Object.freeze({points:2,revealMs:1500,guessMs:20000,stats:3,position:true,flag:false,overall:false}),
+  Object.freeze({points:1,revealMs:1500,guessMs:20000,stats:4,position:true,flag:false,overall:false})
+]);
+const FAST = QS.get("fast")==="1" ? 0.1 : 1;
 const SAMPLE = { position:"CAM", statOrder:["DRI","PAC","PHY","PAS","DEF","SHO"], stats:{PAC:88,SHO:86,PAS:90,DRI:93,DEF:41,PHY:72},
   nation:"NL", name:"Sample Icon", overall:94, source:"PRIME ICON · SAMPLE CARD", me:"playerTwo", names:{playerOne:"Daniel",playerTwo:"Nik"} };
 const SAMPLE_NAMES = ["Sample Icon","Sample Striker","Sample Winger","Simon Sample","Samuel Example"];
 let driver = null;
 function startPreview(){
-  const round=Object.assign({}, SAMPLE, { windowMs: Number(QS.get("win"))||WINDOW_MS_DEFAULT });
-  if(QS.get("overall")==="shown") round.overallHidden=false;
+  const stages=SAMPLE_STAGES.map(s=>Object.assign({}, s, { revealMs: Math.round(s.revealMs*FAST), guessMs: Math.round(s.guessMs*FAST) }));
+  const round=Object.assign({}, SAMPLE, { stages });
   if(QS.get("me")==="playerOne") round.me="playerOne";
-  load(round); setWaiting(round.me==="playerTwo"?"playerOne":"playerTwo");
-  const step=clampWindow(round.windowMs)+REVEAL_MS, t0=now()+1500, plan=[];
-  for(let b=0;b<=LAST_BEAT;b++) plan.push({ at:t0+b*step, run:()=>reveal(b) });
-  const other=round.me==="playerTwo"?"playerOne":"playerTwo";
-  plan.push({ at:t0+1*step+2600, run:()=>setChips(other,1) });           // the other manager's wrong guess: only the count drops
-  plan.push({ at:t0+(LAST_BEAT+1)*step, run:()=>showResult("draw") });
+  load(round);
+  const other=round.me==="playerTwo"?"playerOne":"playerTwo", t=now(), plan=[];
+  setWaiting(other);
+  plan.push({ at:t+1000*FAST, run:()=>setWaiting(null) });                // the other manager arrives; both count in
+  let at=t+1500*FAST;
+  stages.forEach((s,b)=>{ const start=at;
+    plan.push({ at:start, run:(late)=>reveal(b, { phase: late<s.revealMs?"reveal":"window", remainingMs:s.revealMs+s.guessMs-late, revealMsLeft:Math.max(0,s.revealMs-late) }) });
+    if(b===1) plan.push({ at:start+s.revealMs+Math.round(s.guessMs*.3), run:()=>setChips(other,1) });   // their wrong guess: only the count drops
+    at += s.revealMs+s.guessMs; });
+  plan.push({ at, run:()=>showResult("draw", 0) });
+  plan.sort((x,y)=>x.at-y.at);
   driver = { plan, other };
 }
-function tickDriver(){ if(!driver) return; const t=now(); driver.plan=driver.plan.filter(p=>{ if(t>=p.at && !S.result){ p.run(); return false; } return !S.result; }); }
+function tickDriver(){ if(!driver) return; const t=now(); while(driver && driver.plan.length && t>=driver.plan[0].at && !S.result){ const p=driver.plan.shift(); p.run(t-p.at); } }
 if(!EMBED){
   window.addEventListener("cms-ig",(e)=>{ const m=e.detail; if(!driver) return;
     if(m.type==="cms-ig-input"){ const q=m.text.trim().toLowerCase(); setSuggestions(q.length>=2?SAMPLE_NAMES.filter(n=>n.toLowerCase().includes(q)):[]); }
@@ -528,7 +651,7 @@ window.addEventListener("message",(e)=>{
   try {
     if(d.type==="cms-ig-start"){ load(d.round); if(d.waitingFor) setWaiting(d.waitingFor); }
     else if(d.type==="cms-ig-waiting") setWaiting(d.role);
-    else if(d.type==="cms-ig-reveal") reveal(d.index, { remainingMs:d.remainingMs });
+    else if(d.type==="cms-ig-reveal") reveal(d.index, { phase:d.phase, remainingMs:d.remainingMs, revealMsLeft:d.revealMsLeft });
     else if(d.type==="cms-ig-chips") setChips(d.role, d.count);
     else if(d.type==="cms-ig-suggestions") setSuggestions(d.names);
     else if(d.type==="cms-ig-feedback") guessFeedback(d.kind);
@@ -538,24 +661,29 @@ window.addEventListener("message",(e)=>{
 
 /* ================= same-window API and the test clock ================= */
 window.PrimePackPage = Object.freeze({ load, setWaiting, reveal, setChips, setSuggestions, guessFeedback, showResult,
-  revealMs: REVEAL_MS, reduced: REDUCED, lastBeat: LAST_BEAT, stagePoints: STAGE_POINTS.slice(), statKeys: STAT_KEYS.slice(), windowMs: { min:WINDOW_MS_MIN, max:WINDOW_MS_MAX, default:WINDOW_MS_DEFAULT },
-  overallHiddenUntilEnd: OVERALL_HIDDEN_UNTIL_END });
+  reduced: REDUCED, lastBeat: LAST_BEAT, chipsPerManager: CHIPS_PER_MANAGER, statKeys: STAT_KEYS.slice(), stages: SAMPLE_STAGES, fast: FAST });
 // Deterministic test clock (like __mq on the Special Player page): freeze() stops real time and every CSS transition,
-// advance(sec) steps the page clock (countdown and preview driver), state() reads what is on screen.
+// advance(sec) steps the page clock (timer, pack opening and preview driver), state() reads what is on screen.
 window.__ig = {
   freeze(){ if(!frozen){ manualMs=realNow(); frozen=true; } document.documentElement.classList.add("still"); render(); },
   advance(sec){ if(!frozen) this.freeze(); manualMs+=Math.max(0,Number(sec)||0)*1000; tickDriver(); render(); },
   now, preview(on){ if(on===false){ driver=null; } else { driver=null; startPreview(); } render(); },
-  state(){ const shown=(id)=>$(id).dataset.shown==="1";
-    return { beat:S.beat, stagePoints:S.beat>=0?stagePoints(S.beat):null, points:S.result?S.points:null, waitingFor:S.waitingFor, result:S.result, me:S.me, chips:Object.assign({},S.chips), pending:S.pending,
+  state(){ const shown=(id)=>$(id).dataset.shown==="1", t=now(), card=$("card"), box=(r)=>{ const el=r==="playerOne"?$("boxOne"):$("boxTwo"), rc=el.getBoundingClientRect();
+      return { mine:el.dataset.me==="1", visible:!el.closest("[hidden]") && rc.height>0, typeable:Boolean(el.querySelector("#guess")), out:el.dataset.out==="1", won:el.dataset.won==="1",
+        text: el.querySelector("#other") ? $("other").textContent : null, tokens:el.querySelectorAll(".chip").length, tokensLeft:el.querySelectorAll(".chip:not(.used)").length }; };
+    return { beat:S.beat, stage:S.beat>=0?S.beat+1:null, label:$("beat").hidden?null:$("beat").textContent, stagePoints:S.beat>=0?stagePoints(S.beat):null, points:S.result?S.points:null,
+      waitingFor:S.waitingFor, waitingText:$("waiting").hidden?null:$("waiting").textContent, result:S.result, me:S.me, chips:Object.assign({},S.chips), pending:S.pending,
       position:shown("pos")?$("posValue").textContent:null, overall:shown("ovr")?$("ovrValue").textContent:null,
-      flag:shown("flag"), name:shown("name")?$("nameValue").textContent:null,
+      flag:shown("flag"), name:shown("name")?$("nameValue").textContent:null, namePlate:$("name").textContent,
       stats:Object.fromEntries(STAT_KEYS.map(k=>[k, statEl(k).dataset.shown==="1"?Number(statEl(k).querySelector("em").textContent):null])),
-      secondsLeft:S.closesAt===null?null:Math.max(0,Math.ceil((S.closesAt-now())/1000)), canGuess:canGuess(),
+      revealing: S.beat>=0 && !S.result && S.revealEndsAt!==null && t<S.revealEndsAt,
+      packShown: !$("pack").hidden, opening: S.view.opening, cardUp: S.view.cardUp && card.style.visibility==="visible" && Number(card.style.opacity)>=1,
+      secondsLeft:S.closesAt===null||S.result?null:Math.ceil(guessLeft(t)/1000), canGuess:canGuess(),
+      boxes:{ playerOne:box("playerOne"), playerTwo:box("playerTwo") },
       banner:$("banner").hidden?null:$("banner").textContent, source:$("source").textContent||null, cta:!$("cta").hidden, reduced:REDUCED }; }
 };
 
-if(EMBED) toGame("cms-ig-ready", { revealMs: REVEAL_MS, reduced: REDUCED });
+if(EMBED) toGame("cms-ig-ready", { reduced: REDUCED });
 else startPreview();
 if(frozen){ manualMs=0; render(); } else requestAnimationFrame(frame);
 })();

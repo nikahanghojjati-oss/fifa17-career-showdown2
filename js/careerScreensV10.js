@@ -1571,6 +1571,35 @@
 /* the plinth's second line now carries the Showdown wins (DANIEL ×2 · NIK ×1): readable at every size (it was 6-8px) */
 #app #trophyRoom .heroPlinth small {font-size:max(9.5px,.62vw);line-height:1.15;letter-spacing:.08em;white-space:nowrap;color:#e7d39a}
 `;
+  /* r87 round 3 (career pages toward 10/10): on desktop every data word a reader needs is at least 11px (labels, table
+     heads, tabs, counts, record names); nothing moves, the rows only tighten their padding to keep the same boxes. */
+  const CAREER_POLISH_R87C_CSS=String.raw`
+@media (min-width:901px) {
+  #app #careerStatistics.careerScreenV10 .careerTable th {font-size:max(11px,.66vw);line-height:1;letter-spacing:.02em;white-space:nowrap;padding-top:2px;padding-bottom:2px}
+  #app #careerStatistics.careerScreenV10 .compareRow {padding:0}
+  #app #careerStatistics.careerScreenV10 .compareLabel {font-size:max(11px,.62vw);letter-spacing:.04em;line-height:1.05}
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue,.nValue) {font-size:max(12px,.76vw)}
+  #app #careerStatistics.careerScreenV10 .compareTrack {margin-top:2px}
+  #app #careerStatistics.careerScreenV10 .leaderLabel {font-size:max(11px,.6vw);letter-spacing:.05em}
+  #app #trophyRoom .trophyTab {font-size:max(11px,.66vw)}
+  #app #trophyRoom .managerCounts span {font-size:max(11px,.6vw)}
+  #app #trophyRoom .recordItem small {font-size:max(11px,.6vw);letter-spacing:.04em}
+  #app #trophyRoom .recordItem span {font-size:max(11px,.62vw)}
+  #app #trophyRoom .recordRibbonHeading {font-size:max(11px,.66vw)}
+  #app #trophyRoom .careerRank small {font-size:max(11px,.6vw);letter-spacing:.02em}
+}
+/* phones: the Trophy Room tabs, card titles and counts one step up (at least 10px) in the same boxes */
+@media (max-width:900px) {
+  #app #trophyRoom .trophyTab {font-size:10.5px;letter-spacing:.03em}
+  #app #trophyRoom .managerCounts span {font-size:10px}
+  #app #trophyRoom .heroPlinth span {font-size:10.5px}
+}
+/* the tile heads hold one line from 1240px; narrower laptops keep Team V's two-line heads */
+@media (min-width:1240px) {
+  #app #careerStatistics.careerScreenV10 .headlineLabel {font-size:max(11px,.72vw);letter-spacing:0;white-space:nowrap}
+  #app #careerStatistics.careerScreenV10 .headlineTogether {font-size:max(11px,.6vw);letter-spacing:.1em}
+}
+`;
   // r84 Golden Showdown looks: the shared gold tokens and the r78 black-and-gold marble tile. Nothing here dims, overlays or moves
   // another element. Trophy Room: the gold case is a sixth case on the ALL shelf, so rows that held five cases hold six; portrait
   // phones and tablets (three across, the last two centred) show two full rows of three. Career Statistics: one gold line under the
@@ -1654,11 +1683,11 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS+CAREER_POLISH_R87C_CSS;
       host.appendChild(smallPhoneStyle);
     }else{
       const careerStatsStyle=doc.createElement("style");
-      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS;
+      careerStatsStyle.textContent=CAREER_STATS_1706_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS+CAREER_POLISH_R87C_CSS;
       host.appendChild(careerStatsStyle);
     }
     v10Wire(screen,host);

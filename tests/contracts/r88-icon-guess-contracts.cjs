@@ -53,27 +53,35 @@ assert.equal(firsts.size,6,'any stat can flip first');for(const c of firsts.valu
 assert.notDeepEqual(Array.from({length:10},(_,s)=>IG.statOrder(one,s+1).join()),Array(10).fill(IG.statOrder(one,1).join()),'the order changes between seasons');
 ok('G2','the six face stats flip in a seeded random order that changes each season, and any stat can go first');
 
-// G3 the reveal clock
-const W=IG.windowMs,P=IG.revealMs+W,S=1_800_000_000_000;
-assert.deepEqual(IG.beatAt(S,S-1,W),{phase:'waiting',beat:-1,msLeft:1});
-assert.deepEqual(IG.beatAt(S,S,W),{phase:'reveal',beat:0,msLeft:IG.revealMs});
-assert.deepEqual(IG.beatAt(S,S+IG.revealMs,W),{phase:'window',beat:0,msLeft:W});
-for(let b=0;b<IG.beats;b+=1){assert.equal(IG.beatAt(S,S+b*P+10,W).beat,b);assert.equal(IG.beatAt(S,S+(b+1)*P-1,W).phase,'window');}
+// G3 the reveal clock: every timing comes from the one STAGES table (G Lead 2026-11-01 10:30 UTC)
+const S=1_800_000_000_000,ST=IG.stages,SS=IG.stageStarts;
+assert.deepEqual(ST.map(x=>[x.points,x.revealMs,x.guessMs,x.stats,x.position,x.flag,x.overall]),[
+  [4,2500,25000,1,true,false,false],[3,1500,20000,2,true,false,false],[2,1500,20000,3,true,false,false],[1,1500,20000,4,true,false,false]],'Nik\'s final stage table');
+assert.ok(Object.isFrozen(ST)&&ST.every(Object.isFrozen),'the table cannot be changed at run time');
+assert.deepEqual([...SS],[0,27500,49000,70500]);assert.equal(IG.roundMs,92000);
+assert.deepEqual(IG.beatAt(S,S-1),{phase:'waiting',beat:-1,msLeft:1,stageMsLeft:1});
+assert.deepEqual(IG.beatAt(S,S),{phase:'reveal',beat:0,msLeft:2500,stageMsLeft:27500},'stage 1: the pack opens and the card rises (2.5 s)');
+assert.deepEqual(IG.beatAt(S,S+2500),{phase:'window',beat:0,msLeft:25000,stageMsLeft:25000},'then 25 s to guess');
+for(let b=0;b<IG.beats;b+=1){
+  const end=SS[b]+ST[b].revealMs+ST[b].guessMs;
+  assert.deepEqual(IG.beatAt(S,S+SS[b]),{phase:'reveal',beat:b,msLeft:ST[b].revealMs,stageMsLeft:ST[b].revealMs+ST[b].guessMs});
+  assert.deepEqual(IG.beatAt(S,S+SS[b]+ST[b].revealMs),{phase:'window',beat:b,msLeft:ST[b].guessMs,stageMsLeft:ST[b].guessMs});
+  assert.equal(IG.beatAt(S,S+end-1).beat,b);assert.equal(IG.beatAt(S,S+end-1).phase,'window');
+}
 assert.equal(IG.beats,4);assert.equal(IG.lastBeat,3);
-assert.equal(IG.endsAt(S,W),S+4*P);assert.equal(IG.beatAt(S,S+4*P-1,W).beat,IG.lastBeat);assert.equal(IG.beatAt(S,S+4*P,W).phase,'over');
-assert.equal(IG.beatAt(S,S+86_400_000,W).phase,'over','a phone that missed the whole game lands on the end');
-assert.equal(IG.endsAt(S,5000),S+4*(IG.revealMs+5000));assert.equal(IG.endsAt(S,10000),S+4*(IG.revealMs+10000));
-for(const bad of [4999,10001,7.5,undefined,'8000'])assert.equal(IG.endsAt(S,bad),S+4*P,`window ${String(bad)} falls back to 8 s`);
+assert.equal(IG.endsAt(S),S+IG.roundMs);assert.equal(IG.beatAt(S,S+IG.roundMs-1).beat,IG.lastBeat);assert.equal(IG.beatAt(S,S+IG.roundMs).phase,'over');
+assert.equal(IG.beatAt(S,S+86_400_000).phase,'over','a phone that missed the whole game lands on the end');
+assert.equal(IG.endsAt(S,5000),S+IG.roundMs,'an old caller\'s window argument changes nothing');
 const order=['DRI','PAC','SHO','PAS','DEF','PHY'];
-const hidden={overall:false,name:false};
-assert.deepEqual(IG.revealed(-1,order),{position:false,stats:[],flag:false,...hidden});
-assert.deepEqual(IG.revealed(0,order),{position:true,stats:['DRI'],flag:false,...hidden},'stage 1: the position and one random stat');
-assert.deepEqual(IG.revealed(1,order),{position:true,stats:['DRI','PAC'],flag:false,...hidden});
-assert.deepEqual(IG.revealed(3,order),{position:true,stats:['DRI','PAC','SHO','PAS'],flag:false,...hidden},'stage 4: four stats, the flag, overall and name still hidden (Nik N2)');
-assert.deepEqual(IG.revealed(9,order),IG.revealed(3,order),'never more than four stats before the result');
+assert.deepEqual(IG.revealed(-1,order),{position:false,stats:[],flag:false,overall:false,name:false});
+assert.deepEqual(IG.revealed(0,order),{position:true,stats:['DRI'],flag:false,overall:false,name:false},'stage 1: the position and one random stat');
+assert.deepEqual(IG.revealed(1,order),{position:true,stats:['DRI','PAC'],flag:false,overall:false,name:false},'stage 2: one more stat');
+assert.deepEqual(IG.revealed(2,order),{position:true,stats:['DRI','PAC','SHO'],flag:false,overall:false,name:false},'stage 3: one more stat');
+assert.deepEqual(IG.revealed(3,order),{position:true,stats:['DRI','PAC','SHO','PAS'],flag:false,overall:false,name:false},'stage 4: four stats; flag, overall and name still hidden');
+assert.deepEqual(IG.revealed(9,order),IG.revealed(3,order),'never the last two stats, flag, overall or name before the stage 5 reveal');
 assert.deepEqual([0,1,2,3,4,-1].map(IG.stagePointsAt),[4,3,2,1,0,0],'stage points 4, 3, 2, 1 (Nik 2026-11-01)');
-assert.deepEqual(IG.resultView(order),{position:true,stats:order,flag:true,overall:true,name:true},'the result screen shows the whole card');
-ok('G3','four stages (position plus one stat, then one more stat each) each a short reveal then a guess window of 8 s (5 to 10 s allowed), computed only from the server start time, so a reloaded phone rejoins on the current beat');
+assert.deepEqual(IG.resultView(order),{position:true,stats:order,flag:true,overall:true,name:true},'stage 5 (no guessing) reveals the whole card: the last two stats, the name, the flag and the overall');
+ok('G3','four guessing stages from one table (2.5 s + 25 s, then 1.5 s + 20 s three times): position and 1, 2, 3, then 4 stats; stage 5 reveals the rest; computed only from the server start time, so a reloaded phone rejoins on the current stage');
 
 // G4 arrivals and the start
 let r=IG.newRecord(3);
@@ -88,7 +96,7 @@ assert.equal(IG.arrive(r,'nobody',S).reason,'BAD_ARRIVAL');assert.equal(IG.arriv
 ok('G4','the round starts only once both managers are on the screen, from their server arrival times; a reload never moves the start');
 
 // G5 chips, hidden wrong guesses, first right guess wins
-const T0=IG.startMs(r),at=b=>T0+b*P+IG.revealMs+100;
+const T0=IG.startMs(r),at=b=>T0+IG.stageStarts[b]+IG.stages[b].revealMs+100;
 let g=IG.applyGuess(r,{role:'playerTwo',correct:false,atMs:at(1)});assert.ok(g.ok);r=g.record;
 assert.deepEqual(r.chipsUsed,{playerOne:0,playerTwo:1});assert.equal(r.winner,null);
 assert.ok(!JSON.stringify(r).match(/guess|name|icon/i),'a wrong guess leaves only a chip count behind');
@@ -130,11 +138,11 @@ for(const bad of [{role:'playerOne',correct:'yes',atMs:at(1)},{role:'playerOne',
 assert.ok(Object.isFrozen(won)&&Object.isFrozen(won.chipsUsed)&&Object.isFrozen(won.winner),'records are immutable values');
 ok('G7','a record with an impossible chip count, winner, season or arrival is refused, and the point is only ever read from a valid record');
 
-// G8 one table (G Lead 2026-11-01): the stage points live in js/iconGuess.js; the Rules' stage edges and guess limits are the
-// same clock (count-in, then four stages of reveal + 8 s window), so a change to one without the other fails here.
+// G8 one table (G Lead 2026-11-01): every number lives in STAGES in js/iconGuess.js; the Rules' stage edges and guess
+// limits are the same clock (count-in, then the four stages), so a change to one without the other fails here.
 {
-  assert.deepEqual([...IG.stagePoints],[4,3,2,1]);assert.equal(IG.maxPoints,4);assert.equal(IG.leadMs,3000);assert.equal(IG.windowMs,8000);
-  const edge=b=>IG.leadMs+(b+1)*(IG.revealMs+IG.windowMs);
+  assert.deepEqual([...IG.stagePoints],[4,3,2,1]);assert.equal(IG.maxPoints,4);assert.equal(IG.leadMs,3000);
+  const edge=b=>IG.leadMs+(b+1<IG.beats?IG.stageStarts[b+1]:IG.roundMs);
   for(const file of ['firestore.season-results-production.fragment.rules','firestore.season-commit-production.fragment.rules']){
     const rules=fs.readFileSync(path.join(ROOT,file),'utf8');
     const stage=/function ssjrPackStagePoints\(at, a, b\) \{\s*return at < \(a > b \? a : b\) \+ duration\.value\((\d+), 'ms'\) \? 4\s*: \(at < \(a > b \? a : b\) \+ duration\.value\((\d+), 'ms'\) \? 3\s*: \(at < \(a > b \? a : b\) \+ duration\.value\((\d+), 'ms'\) \? 2 : 1\)\);/.exec(rules);
@@ -143,10 +151,9 @@ ok('G7','a record with an impossible chip count, winner, season or arrival is re
     const window=/request\.time >= \(a > b \? a : b\) \+ duration\.value\((\d+), 's'\)\s*&& request\.time <= \(a > b \? a : b\) \+ duration\.value\((\d+), 's'\)/.exec(rules);
     assert.ok(window,`${file}: the guess window`);
     assert.ok(Number(window[1])*1000<=IG.leadMs&&Number(window[2])*1000>=edge(3)&&Number(window[2])*1000-edge(3)<=2000,`${file}: guesses from the count-in to stage 4's close (+2 s grace), never during the full reveal after it`);
-    checks+=0;
   }
   assert.ok(fs.readFileSync(path.join(ROOT,'firestore.season-results-production.fragment.rules'),'utf8').includes('function ssjrPackStagePoints('),'the Rules score by stage');
-  ok('G8','the stage points are one table (4, 3, 2, 1) and the Rules use the same stage edges (12.5 s, 22 s, 31.5 s) and close guessing at stage 4\'s end');
+  ok('G8','every number is one table (4, 3, 2, 1 points) and the Rules use the same stage edges (30.5 s, 52 s, 73.5 s after the later arrival) and close guessing at stage 4\'s end (95 s)');
 }
 
 console.log(`PASS r88 icon guess round contracts (${checks} checks)`);
