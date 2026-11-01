@@ -15,6 +15,10 @@ const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
+// 2.0.0: the release-time constants (tools/set-release-time.cjs) start Prime Pack, the roulette and the own-club Special
+// Player at the release minute. The journey serves them as started (the files on disk never change), so it plays the real
+// Prime Pack round before and after the release time; CMS_JOURNEY_REAL_RELEASE_TIME=1 serves the real constants.
+const RELEASE_TIME_REWRITE=process.env.CMS_JOURNEY_REAL_RELEASE_TIME==="1"?{}:{CMS_TEST_REWRITE:JSON.stringify([[`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`,'Date.parse("2026-10-30T00:00:00Z")']])};
 const PROJECT="demo-cms-browser-journey";
 const FIRESTORE="http://127.0.0.1:8181",AUTH_PORT=9199,FIRESTORE_PORT=8181;
 const APP_PORT=Number(process.env.CMS_TEST_PORT||4173);
@@ -390,7 +394,7 @@ async function main(){
   // J0 preflight
   assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"J0 SDK pin matches the switch");
   await loadComposedRules();ok("J0.1","composed production Rules active on the emulator (open read 404 -> 403)");
-  const server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT)}});
+  const server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...RELEASE_TIME_REWRITE}});
   await new Promise(resolve=>setTimeout(resolve,800));
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
