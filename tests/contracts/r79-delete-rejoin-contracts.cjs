@@ -227,6 +227,37 @@ async function pairContracts(){
     ok("J1b2 Daniel's Home (no note watch) lets a normally finished Showdown go too");
   }
   {
+    // r87 fault suite (reload / second tab at the terminal close): the CLOSED event fired before this module loaded, or while
+    // Home was already showing, so it was missed; Home kept CONTINUE SHOWDOWN into the closed Showdown (Remote Joining / dead
+    // dashboard loop). Terminal Close's own in-memory state stands in for the missed event, and Home shown settles it. No read.
+    const closedTerminal=rivalryId=>({getState:()=>({phase:"CLOSED",rivalryId,terminal:true})});
+    const missed=pairHarness();await missed.pair.initialize({force:true});
+    const reads=missed.calls.transactions;
+    missed.sandbox.CareerModeProductionSharedTerminalClose=closedTerminal(R1);
+    missed.pair.settleOnHome();
+    assert.equal(missed.pair.getState().closedRivalryId,R1,"Home shown: Terminal Close already holds R1 CLOSED, so the missed event still lets it go");
+    assert.equal(missed.pair.getState().connectionState,null);
+    assert.equal(missed.calls.transactions,reads,"no read for it");
+    ok("J1b3 a CLOSED event this page missed: Home shown settles the finished Showdown from Terminal Close's state, no read");
+    const other=pairHarness();await other.pair.initialize({force:true});
+    other.sandbox.CareerModeProductionSharedTerminalClose=closedTerminal(R2);
+    other.pair.settleOnHome();
+    assert.equal(other.pair.getState().connectionState,"active","another rivalry's CLOSED state lets nothing go");
+    const away=pairHarness();await away.pair.initialize({force:true});
+    away.sandbox.getActiveScreenName=()=>"dashboard";
+    away.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
+    assert.equal(away.pair.getState().connectionState,"active","CLOSED away from Home still waits for Home (Final Winner runs on the pair)");
+    const onHome=pairHarness();await onHome.pair.initialize({force:true});
+    onHome.sandbox.getActiveScreenName=()=>"mainMenu";
+    onHome.fire({phase:"CLOSED",rivalryId:R1,terminal:true});
+    assert.equal(onHome.pair.getState().closedRivalryId,R1,"CLOSED while Home is already showing settles at once (no later Home-shown moment comes)");
+    const late=pairHarness();late.sandbox.getActiveScreenName=()=>"mainMenu";late.sandbox.CareerModeProductionSharedTerminalClose=closedTerminal(R1);
+    await late.pair.initialize({force:true});
+    assert.equal(late.pair.getState().connectionState,null,"the pair answering after Terminal Close knows R1 CLOSED, on Home: held closed, never live");
+    assert.equal(late.pair.getState().closedRivalryId,R1);
+    ok("J1b4 CLOSED while Home shows, or the pair read answering after it on Home, settles at once; away from Home it still waits");
+  }
+  {
     // Codex #910: DELETED that lands while a pair action is busy is kept and applied once the action settles.
     const h=pairHarness();
     await h.pair.initialize({force:true});
