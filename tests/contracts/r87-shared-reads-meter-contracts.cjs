@@ -501,6 +501,16 @@ const reads=p=>p.ops.gets.length;
     const costs=JSON.parse(store2.get(DAY_KEY)).bill.costs;
     // + A's meter write for season 5 (1 lookup), billed after its boundary as on one tab; before the fix: 150 + that write.
     assert.equal(costs[costs.length-1],Math.round(50*perDelivery)+1,'season 6 costs only B\'s own 50 reads after A\'s boundary (and the season-5 meter write)');
+    // PR #1144 review (Codex): tab A saves 100 setup reads, tab B then marks Career Start ready and plays 50: season 1 costs 50.
+    const three=createPair();const seed3={...seed,day:dayOf(three.clock.now),bill:{...seed.bill,game:400,markGame:400,costs:[]}};
+    const store3=new Map([[DAY_KEY,JSON.stringify(seed3)]]);
+    const t1=pageWithStorage(three,{uid:'daniel',storage:store3}),t2=pageWithStorage(three,{uid:'daniel',storage:store3});
+    const l1=listen(t1),l2=listen(t2);l1.onSnapshot({path:'accounts/u/careerIndex/current'},()=>{});l2.onSnapshot({path:'accounts/u/careerIndex/current'},()=>{});
+    deliver(t1,100);t1.budget.noteSeasonStart(`${RID}|0`);
+    t2.budget.noteSeasonStart(`${RID}|1`);deliver(t2,50);
+    assert.equal(t2.acknowledge(1,{role:'playerOne'}),true);
+    const c3=JSON.parse(store3.get(DAY_KEY)).bill.costs;
+    assert.equal(c3[c3.length-1],Math.round(50*perDelivery),'season 1 costs only the 50 reads after Career Start (A\'s setup reads stay setup)');
     // One tab alone: a save changes nothing (the stored day is what it saved).
     const solo=createPair();const soloStorage=new Map([[DAY_KEY,JSON.stringify({...seed,day:dayOf(solo.clock.now)})]]);
     const only=pageWithStorage(solo,{uid:'nik',storage:soloStorage});

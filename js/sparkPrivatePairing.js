@@ -880,6 +880,8 @@ async function revokePairing(options={}){
   function fsbNoteSeasonStart(key){
     if(typeof key!=="string"||!key)return false;
     const day=fsbDayState(),bill=day.bill;
+    // PR #1144 review: another tab's setup reads are taken in before the start mark, so they stay setup, not season 1.
+    fsbSyncDay();
     if(bill.startKey===key||day.seasons.includes(key))return false;
     const setup=bill.game-bill.markGame;
     if(setup>0){bill.setupCosts.push(setup);if(bill.setupCosts.length>FSB_DAY_SEASONS)bill.setupCosts.shift();}
