@@ -10,6 +10,8 @@ const html=read("index.html"),offline=read("js/offlineApp.js"),sw=read("service-
 // 1a. Registration is chained behind the handover; nothing else at startup registers the worker.
 assert.match(offline,/afterStartupHandover\(\)\.then\(registerOfflineApplication\)\.catch\(/,"startup registration waits for the handover");
 assert.equal((offline.match(/(?<!function )registerOfflineApplication\(\)/g)||[]).length,1,"only the Settings update check registers at once");
+{const handoverCatch=offline.slice(offline.indexOf("afterStartupHandover().then(registerOfflineApplication).catch("));const body=handoverCatch.slice(0,handoverCatch.indexOf("});"));
+ assert.doesNotMatch(body,/reportApplicationError|showAppNotice/,"a failed deferred registration puts no toast over Home");assert.match(body,/console\.warn\(/,"a failed deferred registration is still logged");}
 // 1b. Behaviour of the handover wait, run in a small fake page.
 const fnSrc=offline.slice(offline.indexOf("function afterStartupHandover(){"),offline.indexOf("async function registerOfflineApplication(){"));
 function run(loading,{idle=true,advance=0}={}){
@@ -69,5 +71,23 @@ function run(loading,{idle=true,advance=0}={}){
     assert.equal(safeWith({[key]:{isWaitingForRival:()=>{throw new Error("x");}}}),false,`${key} unreadable: no reload`);
   }
   assert.equal(safeWith({CareerModeProductionSharedJourneyReconnect:{isBusy:()=>true}}),false,"Reconnect busy: no reload");
-  console.log("PASS r87 first load contracts: worker registers after the handover (bounded 20 s), Barlow Condensed served and precached locally, no auto-update reload during a shared wait");
+  // harden-faults 7: a slow (timed-out) probe is not offline; real failures and the browser's signal still are.
+  const probeSrc=offline.slice(offline.indexOf("const PROBE_RETRY_MS="),offline.indexOf("async function verifyOfflineReadiness("));
+  const probeRun=async(replies,onLine=true)=>{
+    const states=[];const ctx={navigator:{onLine,serviceWorker:{controller:{}}},offlineRegistration:null,connectivityProbeGeneration:0,connectivityVerified:true,
+      document:{visibilityState:"visible"},setTimeout:()=>0,clearTimeout:()=>{},renderConnectivity:()=>{},
+      setConnectivityState:state=>{states.push(state);return state;},
+      sendWorkerMessage:async()=>{const r=replies.shift();if(r==="timeout")throw new Error("Service worker message timed out: CMS_PROBE_NETWORK");return r;}};
+    vm.createContext(ctx);vm.runInContext(probeSrc.replace(/^const /,"var ").replace(/\nlet /,"\nvar ")+";this.probe=verifyNetworkConnectivity;",ctx);
+    const n=replies.length;for(let i=0;i<n;i++)await ctx.probe();return states;};
+  const slowReply={type:"CMS_NETWORK_STATUS",ok:true,online:false,status:0,error:"AbortError"};
+  const failReply={type:"CMS_NETWORK_STATUS",ok:true,online:false,status:0,error:"TypeError"};
+  const okReply={type:"CMS_NETWORK_STATUS",ok:true,online:true,status:200};
+  assert.deepEqual(await probeRun([slowReply,slowReply]),[],"two slow probes do not show CONNECTION REQUIRED");
+  assert.deepEqual(await probeRun([slowReply,"timeout",slowReply]),[],"three timeouts (worker or message) still are not offline");
+  assert.deepEqual(await probeRun([slowReply,slowReply,okReply]),["online"],"a slow network that answers stays online");
+  assert.deepEqual(await probeRun([failReply,failReply]),["offline"],"two real failures still mean offline");
+  assert.deepEqual(await probeRun([slowReply,slowReply,slowReply,slowReply]),["offline"],"four timeouts in a row (about 15 s of no answer) mean offline");
+  assert.deepEqual(await probeRun([okReply],false),["offline"],"the browser's own offline signal is final at once");
+  console.log("PASS r87 first load contracts: worker registers after the handover (bounded 20 s), Barlow Condensed served and precached locally, no auto-update reload during a shared wait, a slow network is not offline");
 })().catch(error=>{console.error(error);process.exit(1);});

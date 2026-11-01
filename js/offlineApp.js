@@ -221,11 +221,12 @@ async function verifyNetworkConnectivity(){
         renderConnectivity();
         return false;
     }
-    let online=false;
+    let online=false,slow=false;
     try{
         const response=await sendWorkerMessage(worker,"CMS_PROBE_NETWORK");
         online=response?.type==="CMS_NETWORK_STATUS"&&response.online===true;
-    }catch(error){ online=false; }
+        slow=!online&&response?.error==="AbortError";
+    }catch(error){ online=false; slow=true; }
     if(generation!==connectivityProbeGeneration)return online;
     if(online){
         probeFailures=0;
@@ -233,7 +234,11 @@ async function verifyNetworkConnectivity(){
         setConnectivityState("online",true);
         return true;
     }
-    probeFailures+=1;
+    // r87 first load (harden-faults 7): a probe that only ran out of time (the worker's 1.8 s fetch, or this page's
+    // 4.5 s message wait) is a slow network, not a lost one, and two of them showed CONNECTION REQUIRED on slow but
+    // online phones. A timeout counts half: two real failures (or four timeouts in a row, about 15 s of no answer)
+    // still mean offline, and the browser's own offline signal above is still final at once.
+    probeFailures+=slow?0.5:1;
     if(probeFailures>=2)setConnectivityState("offline",true);
     scheduleConnectivityProbe(probeFailures>=2?OFFLINE_RECHECK_MS:PROBE_RETRY_MS);
     return false;
@@ -635,7 +640,10 @@ function initializeOfflineApplication(){
         offlineRecoveryReady=false;
         connectivityVerified=false;
         renderConnectivity();
-        window.reportApplicationError?.("Offline application support could not be prepared",error);
+        // r87 first load: this now settles after Home is up, where a 10 s error toast would sit over Home's buttons
+        // (Reus Gate: nothing covers anything). The player can't act on it and play doesn't need the worker, so it is
+        // logged and shown in Settings' offline diagnostics (renderConnectivity above) instead.
+        console.warn("[Career Mode Showdown] Offline application support could not be prepared:",error);
     });
 }
 
