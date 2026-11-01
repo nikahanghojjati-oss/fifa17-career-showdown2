@@ -59,7 +59,8 @@
   function stspEpoch(value){const n=Number(value===undefined?Date.now():value);if(!Number.isSafeInteger(n)||n<0)stspFail("TRANSFER_CLOCK_INVALID");return n;}
   // RT5-FLOW-02 eligibility, shared by this provider, the Transfer Challenge UI and (by its fromMs) js/rosterRouletteStep.js:
   // the roulette runs for a Showdown whose Setup was confirmed at or after RRR_FROM_MS, unless CMS_ROSTER_ROULETTE is "off".
-  const ROULETTE_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  // The 2.0.0 release time, set with RRR_FROM_MS by `node tools/set-release-time.cjs <UTC time>`.
+  const ROULETTE_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
   function stspRouletteEligible(confirmedAtMs){return Number.isFinite(confirmedAtMs)&&confirmedAtMs>=ROULETTE_FROM_MS&&root.CMS_ROSTER_ROULETTE!=="off";}
   function stspTimestampMillis(value){if(value&&typeof value.toMillis==="function")return value.toMillis();if(value instanceof Date)return value.getTime();return Number.NaN;}
   function stspTimestamp(sdk,epoch){if(!sdk.Timestamp||typeof sdk.Timestamp.fromMillis!=="function")stspFail("TRANSFER_PROVIDER_UNAVAILABLE");return sdk.Timestamp.fromMillis(epoch);}

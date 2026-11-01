@@ -34,7 +34,7 @@ class El{
   all(){return [this,...this.children.flatMap(c=>c.all())];}
   querySelector(sel){return sel==="button"?this.all().slice(1).find(n=>n.tagName==="button")||null:null;}
 }
-const CTX={rivalryId:"pair_"+"c".repeat(64),managerRole:"playerOne",season:1,clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"},confirmedAtMs:Date.parse("2026-11-01T00:00:00Z"),phase:"NOT_STARTED"};
+const CTX={rivalryId:"pair_"+"c".repeat(64),managerRole:"playerOne",season:1,clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"},confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:"NOT_STARTED"};
 const SAFE_PLAN={boards:{playerOne:[{pos:"GK",positions:["GK"],name:"Keeper",rating:80}],playerTwo:[{pos:"GK",positions:["GK"],name:"Other",rating:80}]},formations:{playerOne:"x",playerTwo:"y"},
   turns:[{role:"playerOne",fired:false,player:null,bulletChamber:1,stopChamber:4,hitSlot:null,aimSlot:0},{role:"playerTwo",fired:false,player:null,bulletChamber:2,stopChamber:5,hitSlot:null,aimSlot:0}]};
 function stepWorld({forSeason=()=>SAFE_PLAN,clubs={Arsenal:{},Liverpool:{}},loadGate=null,loads=()=>true}={}){

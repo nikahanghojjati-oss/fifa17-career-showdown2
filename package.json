@@ -1,6 +1,6 @@
 {
   "name": "career-mode-showdown",
-  "version": "1.9.10",
+  "version": "2.0.0",
   "private": true,
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
@@ -68,7 +68,27 @@
     "validate:ssjr-physical-journey": "node scripts/validate-ssjr-physical-journey-evidence.mjs",
     "test:persistent-pair-routing": "node tests/browser/persistent-pair-user-facing-routing-audit.cjs",
     "ssjr2:credit": "node scripts/ssjr2-physical-run-credit.mjs",
-    "test:r83-gallery-layout": "node tests/browser/r83-gallery-layout-audit.cjs"
+    "test:r83-gallery-layout": "node tests/browser/r83-gallery-layout-audit.cjs",
+    "test:r87:release": "node tests/contracts/r86-release-contracts.cjs && node tests/contracts/r87-upgrade-rollback-list-contracts.cjs && node tools/set-release-time.cjs",
+    "test:r87:upgrade": "node tests/browser/r87-upgrade-from-r86-audit.cjs",
+    "test:r87:ce2pg10": "CE2PG_PLAN=single CE2PG_SEASONS=10 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs",
+    "test:r87:lengths": "CE2PG_PLAN=single CE2PG_SEASONS=1 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs && CE2PG_PLAN=single CE2PG_SEASONS=3 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs && CE2PG_PLAN=single CE2PG_SEASONS=5 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs",
+    "test:r87:leak-soak": "CE2PG_PORT_BASE=9810 CE2PG_APP_PORT=4911 node tests/browser/ce2pg-leak-soak.cjs",
+    "test:r87:oracle": "node tests/browser/career-oracle.cjs",
+    "test:r87:finish": "R87FR_SEASONS=1 node tests/browser/r87-finish-rematch-proof.cjs && R87FR_SEASONS=1 R87FR_SCENARIO=draw node tests/browser/r87-finish-rematch-proof.cjs",
+    "test:r87:privacy": "npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-r87-guess-privacy \"node tests/firebase/r87-guess-privacy-emulator.cjs\" && node tests/browser/r87-guess-privacy-audit.cjs",
+    "test:r87:clocks": "node tests/contracts/r87-terminal-close-clock-contracts.cjs && npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-r87-clock-skew \"node tests/firebase/r87-device-clock-skew-emulator.cjs\"",
+    "test:r87:pairing": "node tests/contracts/r87-fable-pairing-fixes-contracts.cjs && CMS_CHROMIUM_MULTI_CONTEXT=1 npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey \"node tests/browser/r87-pairing-edges-audit.cjs\"",
+    "test:r87:scoring": "node tests/contracts/r87-scoring-everywhere-contracts.cjs",
+    "test:r87:sizes": "node tests/browser/r87-proof-sizes-tour.cjs",
+    "test:r87:history-scale": "node tests/contracts/r87-history-scale-contracts.cjs && node tests/support/with-static-server.cjs \"node tests/browser/r87-history-scale-audit.cjs\"",
+    "test:r87:roulette": "node tests/contracts/r87-roster-roulette-contracts.cjs && node tests/contracts/r87-roulette-board-invariants-contracts.cjs && node tests/contracts/r87-roulette-hits-contracts.cjs && node tests/contracts/r87-wait-both-spins-contracts.cjs && npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-roulette-reads \"node tests/firebase/r87-roulette-history-reads-emulator.cjs\"",
+    "test:r87:fable": "node tests/contracts/r87-fable-step-contracts.cjs && node tests/contracts/r87-fable-pairing-fixes-contracts.cjs && node tests/contracts/r87-fable3-meter-fixes-contracts.cjs && node tests/contracts/r87-reads-sp-fixes-contracts.cjs",
+    "test:r87:reads-meter": "node tests/contracts/r87-shared-reads-meter-contracts.cjs && npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-reads-meter \"node tests/firebase/shared-reads-meter-emulator.cjs\"",
+    "test:r87:career-fixes": "node tests/contracts/r87-career-fixes-contracts.cjs && node tests/contracts/r87-career-fixes-browser-contracts.cjs && node tests/contracts/r87-career-fixes-browser-nav-contracts.cjs && node tests/contracts/r87-career-fixes-lane-c-browser-contracts.cjs && node tests/contracts/r87-career-start-b-contracts.cjs && node tests/contracts/r87-rematch-contracts.cjs",
+    "test:r87:polish": "node tests/contracts/r87-polish-final-contracts.cjs && node tests/contracts/r87-polish-matchday-contracts.cjs && node tests/contracts/r87-transition-gate-contracts.cjs && node tests/support/with-static-server.cjs \"node tests/browser/r87-transition-speed-audit.cjs\"",
+    "test:r87:commentary-v3": "node tests/contracts/r87-commentary-v3-contracts.cjs && node tests/support/with-static-server.cjs \"node tests/browser/r87-commentary-v3-audit.cjs && node tests/browser/r87-commentary-v3-final-audit.cjs\"",
+    "test:r87:gazette": "node tests/contracts/r87-gazette-contracts.cjs && node tests/contracts/r87-deadline-day-contracts.cjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",

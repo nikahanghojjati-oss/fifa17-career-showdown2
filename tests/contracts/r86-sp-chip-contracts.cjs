@@ -144,8 +144,9 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   assert.match(chip,/function spEnsure\(/);
   assert.doesNotMatch(chip,/firestore|getDoc|setDoc|updateDoc|runTransaction|onSnapshot|localStorage|sessionStorage|fetch\(/i,'the chip reads only what the screens hold');
   const sw=read('service-worker.js');
-  assert.match(sw,/"data\/marqueePlayers\.js",\s*"js\/specialPlayerChip\.js"/,'shell path');
-  assert.match(sw,/SHELL_PATHS_ADDED_SINCE_PREVIOUS[\s\S]*"js\/specialPlayerChip\.js"/);
+  assert.match(sw,/\n\s+"js\/specialPlayerChip\.js",?\n/,'shell path');
+  // 2.0.0: the chip shipped in 1.9.10-r86, so it is in the retained r86 shell's own list, not the added list.
+  assert.ok(JSON.parse(read('tests/fixtures/shell-paths/1.9.10-r86.json')).paths.includes('js/specialPlayerChip.js'));
   ok('S5','each screen\'s prepare step loads the chip before its first frame (no flash); the chip module has no Firebase or storage access; offline shell lists it');
 }
 

@@ -2389,6 +2389,10 @@
         "^service-worker\\.js$",
         "^\\.github/workflows/deploy-(github-pages|firestore-rules-zero-billing)\\.yml$",
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
+        "^(index\\.html|manifest\\.webmanifest|package(-lock)?\\.json)$",
+        "^js/(app|menuExperience|rosterRouletteStep|sparkSharedTransferChallenge|ssjr|offlineApp)\\.js$",
+        "^tools/set-release-time\\.cjs$",
+        "^tests/fixtures/shell-paths/",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

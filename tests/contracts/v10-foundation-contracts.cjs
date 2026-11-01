@@ -424,8 +424,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.10-r86","RUNTIME_REVISION is the r86 release (1.9.10-r86)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.9-r85");
+  assert.equal(revision,"2.0.0-r87","RUNTIME_REVISION is the r87 release (2.0.0-r87)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.10-r86");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -466,7 +466,7 @@ function swWorld(){
   const context=vm.createContext({self,caches,fetch,URL,Request,Response,console,setTimeout,clearTimeout});
   vm.runInContext(read("service-worker.js"),context,{filename:"service-worker.js"});
   const diag=self.__CMS_SERVICE_WORKER_DIAGNOSTICS__;
-  const fill=revision=>{const m=new Map();for(const p of diag.shellPaths){const u=new URL(p,SCOPE);u.searchParams.set("v",revision);m.set(u.href,new Response(p,{status:200}));}store.set("career-mode-showdown-shell-"+revision,m);return m;};
+  const fill=revision=>{const m=new Map();for(const p of (revision===diag.previousRevision?diag.previousShellPaths:diag.shellPaths)){const u=new URL(p,SCOPE);u.searchParams.set("v",revision);m.set(u.href,new Response(p,{status:200}));}store.set("career-mode-showdown-shell-"+revision,m);return m;};
   const dispatch=async(type,event)=>{const waits=[];listeners[type]({waitUntil:p=>waits.push(p),...event});await Promise.all(waits);};
   const image=async path=>{let reply,waits=[];listeners.fetch({request:new Request(SCOPE+path),respondWith:p=>{reply=p;},waitUntil:p=>waits.push(p)});assert.ok(reply,"the worker answers "+path);const r=await reply;await Promise.all(waits);return r.type==="error"?null:{status:r.status,body:await r.text()};};
   return{SCOPE,store,net,diag,fill,dispatch,image,setOnline:v=>{online=v;}};
@@ -474,7 +474,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.10-r86");assert.equal(prev,"1.9.9-r85");
+  assert.equal(cur,"2.0.0-r87");assert.equal(prev,"1.9.10-r86");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.

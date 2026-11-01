@@ -18,7 +18,7 @@ function worker(){
   const source=fs.readFileSync(path.join(ROOT,"service-worker.js"),"utf8");
   const sandbox={self:{addEventListener(){},location:{href:"https://example.test/"},registration:{scope:"https://example.test/"}},URL,console,Response:function(){},caches:{},fetch(){},setTimeout,clearTimeout};
   vm.createContext(sandbox);
-  vm.runInContext(`${source}\n;globalThis.__w={revision:RUNTIME_REVISION,previous:PREVIOUS_RUNTIME_REVISION,shell:[...SHELL_PATHS],added:[...SHELL_PATHS_ADDED_SINCE_PREVIOUS],previousShell:[...PREVIOUS_SHELL_PATHS]};`,sandbox);
+  vm.runInContext(`${source}\n;globalThis.__w={revision:RUNTIME_REVISION,previous:PREVIOUS_RUNTIME_REVISION,shell:[...SHELL_PATHS],added:[...SHELL_PATHS_ADDED_SINCE_PREVIOUS],removed:typeof SHELL_PATHS_REMOVED_SINCE_PREVIOUS==="undefined"?[]:[...SHELL_PATHS_REMOVED_SINCE_PREVIOUS],previousShell:[...PREVIOUS_SHELL_PATHS]};`,sandbox);
   return JSON.parse(JSON.stringify(sandbox.__w));
 }
 function fixture(revision){
@@ -46,9 +46,10 @@ test("UR2 the rollback list equals the previous revision's real shell, path for 
   assert.deepEqual({missing,extra},{missing:[],extra:[]},`rollback list for ${w.previous} is wrong; SHELL_PATHS_ADDED_SINCE_PREVIOUS should be exactly: ${JSON.stringify(w.shell.filter(p=>!real.includes(p)))}`);
 });
 
-test("UR3 nothing the previous build precached was dropped from SHELL_PATHS (the derived list could not hold it)",()=>{
+test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.0.0: the D1 acceptance scripts)",()=>{
   const real=fixture(w.previous),shell=new Set(w.shell);
-  assert.deepEqual(real.filter(p=>!shell.has(p)),[]);
+  assert.deepEqual(real.filter(p=>!shell.has(p)),w.removed,"a path the previous build precached left SHELL_PATHS without being listed in SHELL_PATHS_REMOVED_SINCE_PREVIOUS");
+  assert.deepEqual(w.removed.filter(p=>shell.has(p)),[],"a removed path is still in SHELL_PATHS");
 });
 
 test("UR4 every added path is a current shell path, listed once",()=>{

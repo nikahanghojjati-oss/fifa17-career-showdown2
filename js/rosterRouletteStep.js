@@ -19,10 +19,10 @@
   const PAGE="visual-assets/v10_1/roulette/index.html";
   const STAGE_ID="rrStage",PANEL_ID="rrStepPanel";
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;
-  // RRR_FROM_MS is set to the r87 release time in the release PR (red team R87-C-07: the placeholder below is earlier than
-  // the r86 boundary, js/marqueePlayer.js MARQUEE_FROM_MS 03:00 UTC that day, so until the release PR pins it, r86
-  // Showdowns confirmed after midnight would get a roulette). Do not change it outside the release PR.
-  const RRR_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  // RRR_FROM_MS is the 2.0.0 release time (red team R87-C-07): a Showdown confirmed before it (played on 1.9.10) gets no
+  // roulette. It and js/sparkSharedTransferChallenge.js ROULETTE_FROM_MS are one value, set only by
+  // `node tools/set-release-time.cjs <UTC time>` (release contract RX2 checks they match).
+  const RRR_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
   const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=5000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
