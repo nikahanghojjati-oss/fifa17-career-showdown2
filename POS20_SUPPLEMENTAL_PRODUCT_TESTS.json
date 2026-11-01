@@ -2431,6 +2431,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
+        "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-roulette-board-invariants-contracts.cjs",
       "patterns": [
         "^js/(rosterRoulette|rosterRouletteStep|sharedTransferChallenge|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",

@@ -206,10 +206,19 @@ async function r7FailedJoinCleanup(){
     assert.deepEqual(h.deleted,[],"R7 a pre-existing local copy is never removed by a failed join");
     assert.equal(h.library.saves.length,1);
   }
-  // A different unfinished Showdown: the message points to Settings.
+  // r87 Fable F4-01: an untouched setup shell of another length that no pair link names (a JOIN whose redeem failed left it) is
+  // replaced: Settings has no END SHOWDOWN for it, so pointing there was a dead end.
   {
     const h=pairHarness({saves:[shell(SAVE_OLD,PROFILE_OLD,5)],activeSaveId:SAVE_OLD});
     await h.pair.initialize({force:true});
+    await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
+    assert.deepEqual(h.deleted.slice(0,1),[SAVE_OLD],"R7 the orphan empty shell of another length is removed");assert.equal(h.calls.provision,1,"R7 and the code's length is prepared");
+    assert.equal(h.calls.redeem.length,1,"R7 the join goes on to redeem");
+  }
+  // Unknown pair state (the pair link could not be read): the refusal and its Settings message are unchanged.
+  {
+    const h=pairHarness({saves:[shell(SAVE_OLD,PROFILE_OLD,5)],activeSaveId:SAVE_OLD});
+    h.failReads=true;await h.pair.initialize({force:true});h.failReads=false;
     const result=await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
     assert.match(result.message,/Settings \(END SHOWDOWN\)/,"R7 the season mismatch says where to delete the old Showdown");
     assert.equal(h.calls.redeem.length,0);assert.deepEqual(h.deleted,[]);
