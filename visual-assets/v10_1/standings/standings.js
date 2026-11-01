@@ -175,6 +175,15 @@
     state.hidden = !msg;
     state.textContent = msg;
     state.dataset.status = m.status || "";
+    // r87 polish (P-14): with no Showdown in progress the This Showdown view offers the Career view, which still has numbers.
+    if (m.status === "empty" && !m.score && view !== "career") {
+      const go = document.createElement("button");
+      go.type = "button";
+      go.className = "sdg-stateAction sd-btn";
+      go.textContent = S.emptyShowdownAction || "SEE CAREER STANDINGS";
+      go.addEventListener("click", () => $("sdgViewCareer").click());
+      state.appendChild(go);
+    }
   }
 
   function pickFrameFor(view) {
