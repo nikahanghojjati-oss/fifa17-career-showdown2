@@ -342,7 +342,7 @@ function renderCareerManagerComparison(container, analytics){
         ["Best Season Score", one.bestSeasonScore ?? 0, two.bestSeasonScore ?? 0],
         ["Average League Points", formatAnalyticsNumber(one.averageLeaguePoints), formatAnalyticsNumber(two.averageLeaguePoints)],
         ["Average League Goals", formatAnalyticsNumber(one.averageLeagueGoals), formatAnalyticsNumber(two.averageLeagueGoals)],
-        ["Perfect 11-Point Seasons", one.perfectSeasons, two.perfectSeasons],
+        ["Perfect 15-Point Seasons", one.perfectSeasons, two.perfectSeasons],
         ["Transfer Signings", one.signings, two.signings],
         ["Signings Released", one.releasedSignings, two.releasedSignings, false]
     ].forEach(([label, valueOne, valueTwo, higherIsBetter]) => {
@@ -450,7 +450,7 @@ function renderRivalryComparison(container, analytics){
         ["100-Goal Seasons", one.hundredGoalSeasons, two.hundredGoalSeasons],
         ["Top Scorer Seasons", one.topScorerSeasons, two.topScorerSeasons],
         ["Top Assist Seasons", one.topAssistSeasons, two.topAssistSeasons],
-        ["Perfect 11-Point Seasons", one.perfectSeasons, two.perfectSeasons],
+        ["Perfect 15-Point Seasons", one.perfectSeasons, two.perfectSeasons],
         ["Average Season Score", formatAnalyticsNumber(one.averageSeasonScore), formatAnalyticsNumber(two.averageSeasonScore)],
         ["Best Season Score", one.bestSeasonScore ?? 0, two.bestSeasonScore ?? 0],
         ["Best League Points", one.bestLeaguePoints ?? 0, two.bestLeaguePoints ?? 0],
@@ -544,7 +544,7 @@ function renderRivalryHighlights(container, analytics){
         createAnalyticsStat("SHOWDOWN POINTS", one.totalPoints + two.totalPoints),
         createAnalyticsStat("TRANSFER SIGNINGS", one.signings + two.signings),
         createAnalyticsStat("RELEASED SIGNINGS", one.releasedSignings + two.releasedSignings),
-        createAnalyticsStat("PERFECT SEASONS", one.perfectSeasons + two.perfectSeasons, "11-point seasons")
+        createAnalyticsStat("PERFECT SEASONS", one.perfectSeasons + two.perfectSeasons, "15-point seasons")
     );
     container.append(heading, grid);
 }
