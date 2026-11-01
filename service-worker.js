@@ -38,6 +38,15 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/roulette/assets/squads.json",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
     // r87: the rest of the local faces, so the offline and error screens keep the brush title and body type offline
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
@@ -52,6 +61,16 @@ const SHELL_PATHS = Object.freeze([
     "index.html",
     "manifest.webmanifest",
     "css/app.css",
+    "assets/fonts/barlow-condensed.css",
+    "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
     "css/visual-fidelity-r3.css",
     "css/offline.css",
     "css/remoteJoining.css",
@@ -310,10 +329,10 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
 // 2.0.0 (r87): PREVIOUS is 1.9.10-r86 (228 paths). Added: Deadline Day, the Russian Roster Roulette step, engine, squads,
 // styles and Team V's page with its vendored three.js, the Touchline Gazette (page script, copy, headline pack, styles, paper,
-// sheet and its seven OFL fonts with licences), Commentary v3, and the first-load files. Removed (arch audit D1): the seven
+// sheet and its seven OFL fonts with licences), Commentary v3, and the self-hosted Barlow Condensed sheet with its nine files (first load). Removed (arch audit D1): the seven
 // acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance; they are no longer precached
 // and come from the shell of the revision that asks for them, else the network (SHELL_PATHS_REMOVED_SINCE_PREVIOUS below).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/deadlineDay.js","data/deadlineDayLines.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","data/fifa17Players.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r128.min.js","visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json","js/touchlineGazette.js","js/commentaryV3.js","js/commentaryEngine.js","data/commentaryLines.js","data/gazetteCopy.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css","visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2","visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2","visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2","visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt"]);
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed.css", "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2", "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2", "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2", "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2", "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2", "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2", "assets/fonts/barlow-condensed-latin-600-normal.woff2", "assets/fonts/barlow-condensed-latin-700-normal.woff2", "assets/fonts/barlow-condensed-latin-800-normal.woff2", "js/deadlineDay.js", "data/deadlineDayLines.js", "js/rosterRouletteStep.js", "js/rosterRoulette.js", "data/rosterSquads.js", "data/fifa17Players.js", "css/v10Roulette.css", "visual-assets/v10_1/roulette/index.html", "visual-assets/v10_1/roulette/platemap.json", "visual-assets/v10_1/roulette/vendor/three-r128.min.js", "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt", "visual-assets/v10_1/roulette/assets/squads.json", "js/touchlineGazette.js", "js/commentaryV3.js", "js/commentaryEngine.js", "data/commentaryLines.js", "data/gazetteCopy.js", "data/frontPages.js", "css/v10Gazette.css", "visual-assets/v10_1/content/content.css", "visual-assets/v10_1/content/frontpage.js", "visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2", "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2", "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2", "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2", "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2", "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2", "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2", "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt", "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt", "visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze([...SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)),...SHELL_PATHS_REMOVED_SINCE_PREVIOUS]);
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }

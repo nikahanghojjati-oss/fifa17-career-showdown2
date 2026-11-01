@@ -88,8 +88,12 @@
     const a=scoring.playerOne.total,b=scoring.playerTwo.total;
     // r83: no tiebreak. Equal Showdown points is a draw.
     const expected=a>b?"playerOne":b>a?"playerTwo":"draw";
-    if(value.winner!==expected)hcFail("HISTORY_CONVERGENCE_WINNER_MISMATCH");
-    return {scoring,winner:value.winner};
+    // r87 Fable F7-01: a season scored before r83 could name a league-position winner on equal points. Equal points is a
+    // draw, so such a winner is read as "draw" (the stored results and their hashes are untouched). A winner that
+    // disagrees with unequal points is still an integrity failure, and a projection whose seasonHistory keeps the old
+    // winner still fails verifyProjection (its rebuild says "draw").
+    if(value.winner!==expected&&a!==b)hcFail("HISTORY_CONVERGENCE_WINNER_MISMATCH");
+    return {scoring,winner:expected};
   }
   function hcManagerBase(slot,club){return {role:slot.slotId,profileId:slot.profileId,saveId:slot.saveId,club,seasons:0,seasonWins:0,seasonLosses:0,seasonDraws:0,totalPoints:0,leagueTitles:0,domesticCups:0,championsLeagues:0,europaLeagues:0,totalTrophies:0,hundredPointSeasons:0,hundredGoalSeasons:0,topScorerSeasons:0,topAssistSeasons:0,perfectSeasons:0,bestLeaguePosition:null,bestLeaguePoints:null,bestLeagueGoals:null,bestSeasonScore:null,averageSeasonScore:0,averageLeaguePoints:0,averageLeagueGoals:0,totalLeaguePoints:0,totalLeagueGoals:0};}
   function hcAccumulate(record,season,role){

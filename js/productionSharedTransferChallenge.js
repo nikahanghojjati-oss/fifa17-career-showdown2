@@ -424,10 +424,13 @@
     if(phase==="NOT_STARTED"){
       // Codex C2-02: this manager's own refused spin mark (the window cannot open without it) is shown on either phone, never
       // hidden behind the partner's "waiting for Daniel" line.
-      const ownRefused=!isReplay&&Boolean(spinRefusedKey&&spinRefusedKey===pstcRequestContext()?.key&&pstcSpinsMissing().includes(role));
-      pstcText("transferPhaseStatus",ownRefused?"READY · YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY":role===view?.setup?.coordinatorRole?"READY · YOU START THE WINDOW":`READY · WAITING FOR ${String(pstcManagerName(view?.setup?.coordinatorRole||"playerOne")).toUpperCase()} TO START`);
+      // Fable F6-03: the missing marks are worked out for both roles (no read), so the partner whose own mark is still being
+      // saved sees that, not "waiting for the coordinator to start" while the coordinator's phone waits for his spin.
+      const missing=isReplay?[]:pstcSpinsMissing(),ownMissing=missing.includes(role);
+      const ownRefused=!isReplay&&Boolean(spinRefusedKey&&spinRefusedKey===pstcRequestContext()?.key&&ownMissing);
+      pstcText("transferPhaseStatus",ownRefused?"READY · YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY":role===view?.setup?.coordinatorRole?"READY · YOU START THE WINDOW":ownMissing?"READY · SAVING YOUR ROULETTE SPIN…":`READY · WAITING FOR ${String(pstcManagerName(view?.setup?.coordinatorRole||"playerOne")).toUpperCase()} TO START`);
       if(role===view?.setup?.coordinatorRole){
-        pstcHidden(start,false);const missing=isReplay?[]:pstcSpinsMissing();
+        pstcHidden(start,false);
         // RT5-FLOW-02: until both marks are on the server the button is the waiting line: full gold edge and words (HO-027,
         // never dimmed; css/transfer.css), not tappable, and it turns into START by itself when the partner's mark arrives.
         if(missing.length){const refusedHere=Boolean(spinRefusedKey&&spinRefusedKey===pstcRequestContext()?.key&&missing.includes(view.managerRole));const label=refusedHere?"YOUR SPIN WAS NOT SAVED · RELOAD TO RETRY":missing.includes(other)?`WAITING FOR ${String(pstcManagerName(other)).toUpperCase()} TO SPIN THE ROULETTE`:"SAVING YOUR ROULETTE SPIN…";start.textContent=label;start.dataset.rouletteWait="true";pstcDisable(start,true);pstcText("transferPhaseStatus",`READY · ${label}`);}
@@ -609,7 +612,28 @@
     if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}
     return false;
   }
-  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
+  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.id==="seasonPrimaryAction"&&pstcShowdownComplete()){void pstcOpenFinalResult();return;}void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
+  // F1 (fault suite): every season of this Showdown is accepted (or it is closed), so there is no Transfer Challenge left to
+  // start. With no view of its own the dashboard fell back to "START SEASON 1 TRANSFER CHALLENGE", a button that did nothing.
+  // It now says VIEW FINAL RESULT and opens the final season's results (Final Winner follows there), or the closed Showdown's
+  // Champion screen. Decided from what this page already holds (the season count, Terminal Close); no read.
+  function pstcShowdownComplete(){
+    try{
+      const closed=root.CareerModeProductionSharedTerminalClose?.getState?.();if(closed&&closed.phase==="CLOSED"&&closed.terminal===true)return true;
+      const rivalryId=String(pstcShowdown()?.sharedJourney?.rivalryId||pstcSetupState()?.rivalryId||""),progression=root.CareerModeProductionSharedMultiSeasonProgression?.getState?.();
+      return Boolean(rivalryId&&progression?.authoritative===true&&String(progression.rivalryId||"")===rivalryId&&progression.state?.terminal===true);
+    }catch(_error){return false;}
+  }
+  function pstcOpenFinalResult(){const entry=root.CareerModeProductionSharedJourneyEntry;return typeof entry?.openFinalResult==="function"?Promise.resolve(entry.openFinalResult()).catch(error=>{pstcReport("Unable to open the final result",error);return false;}):Promise.resolve(false);}
+  const pstcDecorateLiveDashboard=pstcDecorateDashboard;
+  // The live decoration stays exactly as it is; only a complete Showdown's button and status are replaced after it.
+  pstcDecorateDashboard=function(){
+    const decorated=pstcDecorateLiveDashboard();if(!decorated||openPromise||!pstcShowdownComplete())return decorated;
+    const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus");
+    if(button){button.textContent="VIEW FINAL RESULT";button.disabled=false;}
+    if(status)status.textContent="Showdown complete";
+    return true;
+  };
   // r87: a form mistake caught on this phone is shown on the card only; a second toast covered the signing rows on phones.
   function pstcFormMistake(error){return Boolean(error)&&error.providerResult!==true&&(error.code==="TRANSFER_SIGNINGS_INVALID"||error.code==="TRANSFER_GUESSES_INVALID");}
   async function pstcTick(light=false){

@@ -6,7 +6,7 @@
 // cases (Daniel wins, Nik wins, level, a 1-point and a big margin, a comeback, a lead held throughout, Golden, 0 total, Special
 // Players present and missing, clubs with an apostrophe and an accent), each over many Showdown ids so the hash walks
 // different rows. Every printed row is recorded with the facts it was printed for and sample filled texts, and every paper
-// goes through the mechanical checks (braces, undefined/NaN/null, "1 points", "marquee", foreign managers and clubs, invented
+// goes through the mechanical checks (braces, undefined/NaN/null, "1 points", "a 8-point", "marquee", foreign managers and clubs, invented
 // numbers, both phones, throws/null) and a set of truth checks keyed on the facts (a draw told as a win, a 1-point win as a
 // rout, Europe without Europe, "five seasons" in a ten-season Showdown, ...). Reports under project-documents/r87/gazette-truth/.
 //
@@ -187,6 +187,8 @@ function checkText(text,f,row,sp,skipNumbers=false){
   if(/[{}]/.test(text))out.push('braces');
   if(/\b(undefined|NaN|null)\b/.test(text))out.push('undefined/NaN/null');
   if(/\b1 points\b/.test(text))out.push('"1 points"');
+  // Fable job 5 F5-16: the article before a number follows how it is said ("an 8-point", "an 11-point", "a 7-point")
+  {const m=text.match(/\b[Aa] (8|11|18|8\d|11\d\d|18\d\d)\b|\b[Aa]n (?!8|11\b|18\b|8\d\b|11\d\d\b|18\d\d\b)\d+\b/);if(m)out.push('a/an: '+m[0]);}
   if(/marquee/i.test(text))out.push('marquee');
   const names=text.match(FOREIGN_MANAGERS);
   if(names&&!(sp&&(sp.daniel.name.includes(names[0])||sp.nik.name.includes(names[0]))))out.push('foreign name: '+names[0]);
