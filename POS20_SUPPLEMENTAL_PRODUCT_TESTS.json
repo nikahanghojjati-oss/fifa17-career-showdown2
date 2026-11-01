@@ -2781,6 +2781,14 @@
         "^tests/contracts/r87\\-prime\\-pack\\-totals\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/optional-open-same-screen-rerender-contracts.cjs",
+      "patterns": [
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/optional\\-open\\-same\\-screen\\-rerender\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
