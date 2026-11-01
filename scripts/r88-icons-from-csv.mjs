@@ -87,8 +87,9 @@ function intIn(value,lo,hi){return /^\d{1,2}$/.test(value)&&Number(value)>=lo&&N
 // Does this card version fit this game? Returns null when it does, else the reason.
 export function versionRuleProblem(version,n,lastPrime){
   if(version==='Legend')return n<=17?null:`a Legend card must be from before FIFA 18, not ${gameLabel(n)}`;
-  // FUT Heroes came in FIFA 21 (ticket R88-ICON-02 rule 1). Hall of FUT is defined by GPT's sources (ticket section 3), so any game is accepted here.
-  if(version==='Hero')return n>=21?null:`Hero cards start in FIFA 21, not ${gameLabel(n)}`;
+  // FUT Heroes: the base Hero card of each edition, FIFA 21 through FC 27 (ticket R88-ICON-02 sections 3 and 4, Nik 2026-11-01).
+  // Hall of FUT has one version per player (checked below); its game is whatever GPT's named source says, so any game is accepted.
+  if(version==='Hero')return n<21?`Hero cards start in FIFA 21, not ${gameLabel(n)}`:n>27?`Hero cards run to FC 27, not ${gameLabel(n)}`:null;
   if(version==='Hall of FUT')return null;
   if(n<18)return `${version} cards start in FIFA 18, not ${gameLabel(n)}`;
   if(version==='Icon Prime')return n<=lastPrime?null:`${gameLabel(n)} is after ${gameLabel(lastPrime)}, so only its Icon Base card is allowed`;
@@ -180,15 +181,20 @@ export function checkIcons({iconsCsv,cardsCsv,lastPrimeGame}){
   }
 
   // icon_cards_considered.csv
-  const considered=new Map(),seenCard=new Set();
+  const considered=new Map(),seenCard=new Set(),hallOfFut=new Map();
   for(const {where,record:r} of cards){
     const at=`${where} (${r.id||'no id'})`,problems=[];
     if(!ID_RE.test(r.id))problems.push(`${at}: id must be a lower-case ASCII slug`);
     const {n,overall}=checkCard(at,r,problems);
     if(n!==null&&ID_RE.test(r.id)){
-      const key=`${r.id}|${n}`;
-      if(seenCard.has(key))problems.push(`${at}: ${r.id} already has a card from ${gameLabel(n)}; only one card per game is allowed`);
+      // One card per version per game: one Legend or Icon card (as in ICON-01), and for Heroes only the base Hero card of
+      // each edition, so a second Hero card from the same game is a promo version that slipped in (Nik 2026-11-01).
+      const key=`${r.id}|${n}|${r.card_version}`;
+      if(seenCard.has(key))problems.push(`${at}: ${r.id} already has a ${r.card_version} card from ${gameLabel(n)}; only one per game is allowed${r.card_version==='Hero'?' (the base Hero card; other Hero versions are left out)':''}`);
+      else if(ICON_VERSIONS.includes(r.card_version)){const iconKey=`${r.id}|${n}|icon`;if(seenCard.has(iconKey))problems.push(`${at}: ${r.id} already has a Legend or Icon card from ${gameLabel(n)}; only one per game is allowed`);seenCard.add(iconKey);}
       seenCard.add(key);
+      // Hall of FUT has only one version per player (Nik 2026-11-01).
+      if(r.card_version==='Hall of FUT'){if(hallOfFut.has(r.id))problems.push(`${at}: ${r.id} already has a Hall of FUT card (${hallOfFut.get(r.id)}); Hall of FUT has only one version per player`);else hallOfFut.set(r.id,gameLabel(n));}
     }
     errors.push(...problems);
     if(!problems.length){

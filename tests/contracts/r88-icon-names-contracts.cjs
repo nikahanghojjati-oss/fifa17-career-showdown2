@@ -199,7 +199,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   fails('card missing from considered',{cards:CARDS_CSV.replace(/^pelao,.*\n/m,'pelao,FIFA 15,Legend,86,https://example.com/made-up/pelao-15\n')},/pelao.*is not listed in icon_cards_considered/);
   fails('player missing from considered',{cards:CARDS_CSV.replace(/^pelao,.*\n/m,'')},/pelao.*has no rows in icon_cards_considered/);
   fails('overall differs',{cards:CARDS_CSV.replace('pelao,FIFA 16,Legend,87','pelao,FIFA 16,Legend,85')},/overall 87 differs from 85/);
-  fails('two cards in one game',{cards:CARDS_CSV+'pelao,FIFA 16,Legend,80,https://example.com/made-up/pelao-16b\n'},/already has a card from FIFA 16/);
+  fails('two cards in one game',{cards:CARDS_CSV+'pelao,FIFA 16,Legend,80,https://example.com/made-up/pelao-16b\n'},/already has a Legend card from FIFA 16; only one per game/);
+  fails('legend and icon in one game',{cards:CARDS_CSV+'pelao,FIFA 16,Icon Base,80,https://example.com/made-up/pelao-16b\n'},/already has a Legend or Icon card from FIFA 16|Icon Base cards start in FIFA 18/);
   fails('considered header',{cards:CARDS_CSV.replace('card_version','version')},/missing column\(s\) card_version/);
   fails('ragged row',{icons:ICONS_CSV.replace(',card shows the Soviet Union',',card shows,the Soviet Union')},/has 20 fields, the header has 19/);
   fails('unclosed quote',{icons:ICONS_CSV+'"open'},/unclosed quote in the row starting on line 12/);
@@ -260,13 +261,19 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
     const hofRow=heroRow.replaceAll('mo-hero','ana-hall').replace('Hero|Mo Hero','Hall|Ana Hall').replace(',Hero,Mo Hero,',',Hall,Ana Hall,').replace('FC 25,Hero,88','FC 24,Hall of FUT,87');
     const hof=Loader.checkIcons({iconsCsv:ICONS_CSV+hofRow,cardsCsv:CARDS_CSV+"ana-hall,FC 24,Hall of FUT,87,https://example.com/made-up/ana-hall-24\n",lastPrimeGame:'FIFA 23'});
     assert.deepEqual(hof.errors,[],hof.errors.join(' / '));assert.equal(hof.summary.hallOfFut,1);
+    // Nik 2026-11-01: Hall of FUT has one version per player, and only the base Hero card of each edition counts.
+    fails('two hall of fut cards',{icons:ICONS_CSV+hofRow,cards:CARDS_CSV+"ana-hall,FC 24,Hall of FUT,87,https://example.com/made-up/ana-hall-24\nana-hall,FC 25,Hall of FUT,86,https://example.com/made-up/ana-hall-25\n"},/Hall of FUT has only one version per player/);
+    fails('two hero cards in one game',{icons:ICONS_CSV+heroRow,cards:CARDS_CSV+heroCards+"mo-hero,FC 25,Hero,90,https://example.com/made-up/mo-hero-25-promo\n"},/already has a Hero card from FC 25; only one per game is allowed \(the base Hero card/);
+    fails('hero after FC 27',{icons:ICONS_CSV+heroRow,cards:CARDS_CSV+heroCards+"mo-hero,FC 28,Hero,85,https://example.com/made-up/mo-hero-28\n"},/Hero cards run to FC 27/);
+    const both=Loader.checkIcons({iconsCsv:ICONS_CSV,cardsCsv:CARDS_CSV+"jean-luc-darcy,FC 25,Hero,95,https://example.com/made-up/jean-luc-darcy-hero-25\n",lastPrimeGame:'FIFA 23'});
+    assert.deepEqual(both.errors,[],'an Icon card and a base Hero card from the same game are both allowed: '+both.errors.join(' / '));
     const deltaIcons=path.join(tmp,'delta-icons.csv'),deltaCards=path.join(tmp,'delta-cards.csv'),deltaOut=path.join(tmp,'delta-icons.js');
     fs.writeFileSync(deltaIcons,header+'\n'+heroRow);fs.writeFileSync(deltaCards,CARDS_CSV.split('\n')[0]+'\n'+heroCards);
     const run=spawnSync(process.execPath,[SCRIPT,'--icons',`${path.join(FIX,'sample-icons.csv')},${deltaIcons}`,'--cards',`${path.join(FIX,'sample-icon-cards-considered.csv')},${deltaCards}`,'--last-prime-game','FIFA 23','--out',deltaOut,'--generated-on','2026-11-01'],{encoding:'utf8'});
     assert.equal(run.status,0,run.stdout+run.stderr);assert.match(run.stdout,/PASS: 11 players \(3 Legend, 4 Icon Prime, 3 Icon Base, 1 Hero, 0 Hall of FUT\)/);
     delete require.cache[deltaOut];assert.equal(require(deltaOut).players.length,11);
   }
-  ok('L8','Hero and Hall of FUT cards are accepted; the Icon card always beats a Hero card; delta files join on the command line');
+  ok('L8','Hero and Hall of FUT cards are accepted; the Icon card always beats a Hero card; one Hall of FUT card per player, one base Hero card per game, Heroes FIFA 21 to FC 27; delta files join on the command line');
 
   fs.rmSync(tmp,{recursive:true,force:true});
   console.log(`PASS r88 icon names and loader contracts (${checks} checks).`);

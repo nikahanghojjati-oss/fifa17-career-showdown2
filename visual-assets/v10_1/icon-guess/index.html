@@ -396,6 +396,9 @@ function guessFeedback(kind){
   if(kind==="not-in-list") note("Not an icon in the list", true);
   else if(kind==="wrong") { note("Not him."); $("guess").value=""; setSuggestions([]); }
   else if(kind==="used") note("No guesses left. Watch the rest.");
+  else if(kind==="late") note("Too late for that one.");
+  else if(kind==="ambiguous") note("More than one icon has that name. Type his full name.", true);
+  else if(kind==="error") note("That guess didn't go through. Try again.", true);
   render();
 }
 function showResult(winner){
