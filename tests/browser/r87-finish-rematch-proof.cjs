@@ -9,7 +9,8 @@
 //      On Final Winner, Nik taps REMATCH ("DANIEL STARTS IT"): the final Gazette, then his Showdown Home.
 //      Daniel taps REMATCH: the final Gazette, then the seasons screen with S's length already picked.
 //   R  the rematch. Daniel taps START on that preset screen; Nik's Home JOIN tile picks it up (no code typed).
-//      Checked fresh: a new rivalry (S stays closed), Season 1 / N, the roulette and the Special Player reveal run again,
+//      Checked fresh: a new rivalry (S stays closed), Season 1 / N, the roulette and the Special Player reveal (left on here,
+//      CE2PG turns it off) run again,
 //      none of S's typed transfer names on either phone, and no tap of a CLOSE button.
 //      R87FR_REMATCH=full (default for 1 and 3 seasons) plays R to the end too; end1 (default for 5 and 10) commits
 //      season 1 and Daniel taps END SHOWDOWN, so R must show as one "Ended early" History row and count nowhere.
@@ -51,6 +52,15 @@ function swap(from,to){
 }
 // 1. Own report name.
 swap("const TAG=(PLAN_NAME===","const TAG=process.env.R87FR_TAG||(PLAN_NAME===");
+// 1b. Keep the Special Player reveal on (CE2PG turns it off), so the rematch must show it again (Codex #1132).
+swap("const urlFor=user=>`${BASE}?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=${PORTS.auth}&cmsFirestorePort=${PORTS.firestore}`;",
+  "const urlFor=user=>`${BASE}?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=${PORTS.auth}&cmsFirestorePort=${PORTS.firestore}&cmsSpecialPlayer=1`;");
+// The Gate's Chromium runtime starts with --disable-webgl, so the reveal's three.js scene logs "Error creating WebGL context"
+// and the reveal goes on without its animation (the stage, its text and Continue still show; turning WebGL on in this
+// single-process runtime stops the journey at boot). Only those two exact messages are set aside from the console check and
+// listed in the report; every other page or console error still fails it.
+swap(`await check(m,"zz.pageerrors","no uncaught page errors or console errors",m.log.pageErrors.length===0&&m.log.consoleErrors.length===0,`,
+  `r87SetAsideWebgl(m);await check(m,"zz.pageerrors","no uncaught page errors or console errors",m.log.pageErrors.length===0&&m.log.consoleErrors.length===0,`);
 // 2. The plan: S then the rematch R.
 swap(`]:[{name:"S",length:SEASONS,firstRealStart:true,target:SCENARIO==="draw"?"draw":RUN===2?"nik":"daniel",seed:SEASONS}];`,
   `]:r87Specs();`);
@@ -75,7 +85,7 @@ swap("\nmain().catch(error=>{","\nconst r87Start=()=>main().catch(error=>{");
 
 const EXTENSION=String.raw`
 // ===================== r87 W3-5 extension (tests/browser/r87-finish-rematch-proof.cjs) =====================
-const R87={len:${LEN},scenario:${JSON.stringify(SCEN)},rematch:${JSON.stringify(REMATCH)},preset:{},roulette:{},special:{},final:{}};
+const R87={len:${LEN},scenario:${JSON.stringify(SCEN)},rematch:${JSON.stringify(REMATCH)},preset:{},roulette:{},special:{},reveal:{},final:{}};
 report.r87FinishRematch=R87;
 report.realUiSteps.push("Final Winner REMATCH (both phones), the final Gazette, Daniel's preset seasons screen START, Nik's Home JOIN tile");
 function r87Specs(){
@@ -104,20 +114,39 @@ rosterRoulette.waitForTransfer=async function(page,timeout){
   if(who){const key=showdownNow+".S"+(seasonNow||1);(R87.roulette[key]||(R87.roulette[key]={}))[who]=(R87.roulette[key][who]||[]).concat(seen);}
   return seen;
 };
-// The Special Player rows of the Career Start screen, read while it is up.
+// The Special Player rows of the Career Start screen, read while it is up; and whether the reveal stage was ever added
+// (without WebGL the stage can come and go between two polls).
 async function r87WatchSpecial(m){
   await m.page.evaluate(()=>{
-    window.__r87Special=null;
-    const read=()=>{const rows=[...document.querySelectorAll("#productionSharedCareerStartOverlay [data-special-player]")];if(rows.length)window.__r87Special=rows.map(r=>r.dataset.specialPlayer+": "+r.textContent.replace(/\s+/g," ").trim());};
+    window.__r87Special=null;window.__r87Reveal=false;
+    const read=()=>{if(document.getElementById("specialPlayerStage"))window.__r87Reveal=true;const rows=[...document.querySelectorAll("#productionSharedCareerStartOverlay [data-special-player]")];if(rows.length)window.__r87Special=rows.map(r=>r.dataset.specialPlayer+": "+r.textContent.replace(/\s+/g," ").trim());};
     if(window.__r87SpecialObs)window.__r87SpecialObs.disconnect();
     window.__r87SpecialObs=new MutationObserver(read);window.__r87SpecialObs.observe(document.documentElement,{subtree:true,childList:true,characterData:true});read();
   });
 }
+// The Special Player reveal stage (js/specialPlayerReveal.js) shows before Career Start: note it and tap through it
+// (the scene's #stage, then its Continue #cta), as tests/browser/r86-special-player-reveal-audit.cjs does.
+function r87PassReveal(m,key,stop){
+  return (async()=>{
+    while(!stop.done){
+      try{
+        if(await m.page.locator("#specialPlayerStage").count()){
+          R87.reveal[key]=true;
+          const frame=m.page.frameLocator("#specialPlayerStage iframe"),cta=frame.locator("#cta");
+          if(await cta.isVisible({timeout:300}).catch(()=>false)&&await cta.isEnabled().catch(()=>false))await cta.click({timeout:3000}).catch(()=>{});
+          else await m.page.locator("#specialPlayerStage iframe").evaluate(el=>el.contentDocument?.getElementById("stage")?.click()).catch(()=>{});
+        }
+      }catch(_e){}
+      await m.page.waitForTimeout(400).catch(()=>{});
+    }
+  })();
+}
 const r87PlaySetup=playSetup;
 playSetup=async function(daniel,nik){
   for(const m of [daniel,nik])await r87WatchSpecial(m);
-  const out=await r87PlaySetup(daniel,nik);
-  for(const m of [daniel,nik])R87.special[showdownNow+"."+m.user]=await m.page.evaluate(()=>{window.__r87SpecialObs?.disconnect();return window.__r87Special;});
+  const stop={done:false},passing=[daniel,nik].map(m=>r87PassReveal(m,showdownNow+"."+m.user,stop));
+  let out;try{out=await r87PlaySetup(daniel,nik);}finally{stop.done=true;await Promise.all(passing);}
+  for(const m of [daniel,nik]){const got=await m.page.evaluate(()=>{window.__r87SpecialObs?.disconnect();return {rows:window.__r87Special,reveal:window.__r87Reveal};});R87.special[showdownNow+"."+m.user]=got.rows;if(got.reveal)R87.reveal[showdownNow+"."+m.user]=true;}
   if(showdownNow==="R")await r87FreshChecks(daniel,nik);
   return out;
 };
@@ -182,11 +211,18 @@ async function r87FreshChecks(daniel,nik){
     if(tc&&tc.rivalryId)await check(m,"r87.R.transferRivalry","the Transfer Challenge runs on the rematch's rivalry",tc.rivalryId!==R87.sRivalry,tc,{screen:"Shared Transfer Challenge"});
     const sRoul=(R87.roulette["S.S1"]||{})[m.user]||[],rRoul=(R87.roulette["R.S1"]||{})[m.user]||[];
     await check(m,"r87.R.roulette","the roulette runs again before the rematch's first Transfer Challenge (when S had one)",sRoul.length===0||rRoul.length>0,{S:sRoul,R:rRoul},{screen:"Roster Roulette"});
+    await eq(m,"r87.R.revealAgain","the Special Player reveal stage shows in S and again in the rematch",[Boolean(R87.reveal["S."+m.user]),Boolean(R87.reveal["R."+m.user])],[true,true],{screen:"Special Player reveal"});
     const sSp=R87.special["S."+m.user],rSp=R87.special["R."+m.user];
     await check(m,"r87.R.specialPlayer","Career Start shows the rematch's Special Players again (when S showed them)",!sSp||Boolean(rSp&&rSp.length===sSp.length),{S:sSp,R:rSp},{screen:"Career Start"});
     await check(m,"r87.R.noCloseTap","no CLOSE tap was needed anywhere",!m.log.taps.some(t=>t.id==="sharedTerminalCloseAction"||t.id==="sharedTerminalCloseRetry"),"a CLOSE tap was needed",{screen:"Showdown Champion"});
     await shot(m,"r87-rematch-season1");
   }
+}
+function r87SetAsideWebgl(m){
+  const webgl=t=>/^(THREE\.WebGLRenderer: )?Error creating WebGL context\.$/.test(String(t&&t.message||t).trim());
+  const set=[...m.log.pageErrors.filter(webgl),...m.log.consoleErrors.filter(webgl)].map(t=>String(t&&t.message||t));
+  m.log.pageErrors=m.log.pageErrors.filter(t=>!webgl(t));m.log.consoleErrors=m.log.consoleErrors.filter(t=>!webgl(t));
+  if(set.length)report.observations.push({where:"console",user:m.user,setAside:"no WebGL in the Gate runtime (--disable-webgl): Special Player reveal without its 3D scene",messages:set});
 }
 // Words on the career pages at the very end (the numbers are CE2PG's checks).
 async function r87CareerTextChecks(ctx){
