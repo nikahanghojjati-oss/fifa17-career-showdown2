@@ -43,7 +43,10 @@ async function seed(page,snapshot){
 // ms from the call to the host's content being revealed; also whether the gate raised Reus on the way.
 const HELD=async(page,open,host)=>page.evaluate(async ({open,host})=>{
   const el=document.getElementById('loadingScreen');let gated=false;
-  const watch=new MutationObserver(()=>{if(el.dataset.v10Gate==='1')gated=true;});watch.observe(el,{attributes:true});
+  // A Reus raised for the screen before (Home, held on a busy runner) may still be leaving; wait it out so only a raise
+  // made by this open counts.
+  await new Promise(resolve=>{const k=()=>el.dataset.v10Gate?requestAnimationFrame(k):resolve();k();});
+  const watch=new MutationObserver(list=>{if(list.some(m=>m.attributeName==='data-v10-gate'&&el.dataset.v10Gate==='1'))gated=true;});watch.observe(el,{attributes:true,attributeFilter:['data-v10-gate']});
   const t0=performance.now();(0,eval)(open);
   await new Promise((resolve,reject)=>{const end=t0+10000;const k=()=>{const h=document.getElementById(host);if(h&&!h.classList.contains('hidden')&&!h.hasAttribute('data-v10-pending'))return resolve();if(performance.now()>end)return reject(new Error(host+' never revealed'));requestAnimationFrame(k);};k();});
   const ms=performance.now()-t0;watch.disconnect();return {ms,gated};
