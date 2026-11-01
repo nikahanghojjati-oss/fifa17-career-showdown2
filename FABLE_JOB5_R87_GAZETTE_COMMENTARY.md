@@ -1,6 +1,6 @@
 # Fable job 5: r87 Touchline Gazette and Commentary bug hunt (Career Mode Showdown 2.0.0)
 
-Code snapshot: gameplay/r87 @ 73713d75b, repo nikahanghojjati-oss/fifa17-career-showdown2. The full source of every code file in scope is below this brief; the three big copy files are shown as excerpts (their row shapes are complete). You cannot run code here, so reason carefully and show your trace.
+Code snapshot: gameplay/r87 @ 18802b939 (latest, after last night's Gazette and Commentary fixes), repo nikahanghojjati-oss/fifa17-career-showdown2. The full source of every code file in scope is below this brief; the three big copy files are shown as excerpts (their row shapes are complete). You cannot run code here, so reason carefully and show your trace.
 
 ## The product
 A private two-player FIFA 17 Career Mode competition web app (vanilla JS, Firebase Firestore on the free Spark plan, GitHub Pages, a service worker). Two managers, Daniel (playerOne) and Nik (playerTwo), each on his own phone or laptop, play a "Showdown" of 1, 3, 5 or 10 seasons. Each season each manager scores 0-11 Showdown points: Champions League +5 or Europa League +3 (never both in the same season), league title +3, domestic cup +1, one shared +1 for 100 league points and/or 100 league goals (performance bonus), one shared +1 for Top Scorer and/or Top Assist (awards bonus). Equal season scores are a DRAW; equal Showdown totals are level. **No tiebreak anywhere; league position never decides a winner.** A **Golden Showdown** is 110 points in a 10-season Showdown (the maximum). Each manager has one **Special Player** (always called "Special Player" or "SP" on screen, never "Marquee").
@@ -10,7 +10,7 @@ A private two-player FIFA 17 Career Mode competition web app (vanilla JS, Fireba
    - SEASON edition: after a season's Season Results, when the player taps CONTINUE TO SEASON N+1; the paper's own CONTINUE then runs exactly what that tap ran (js/productionSharedMultiSeasonProgression.js continueToNextSeason).
    - FINAL edition: after Final Winner, when the player leaves it (BACK TO SHOWDOWN HOME or REMATCH); its CONTINUE then lets that same click through.
    - It installs from js/seasonFinalV10.js. It reads nothing from Firebase and writes nothing: every word comes from the converged Shared History projection, the Final Winner frame and the Special Player chip. Text is chosen by a hash of the Showdown id, the edition and the season, so **both phones must print the identical paper**. A paper already shown on this phone is not shown again (local list careerModeShowdown.gazetteSeen.v1). If its files cannot load within a few seconds the tap goes on as before, so the Gazette can never hold anyone up.
-2. **Commentary v2** (js/commentaryEngine.js, data/commentarySituations.json with 88 exact situations, ~5,100 lines in data/commentaryLines.js). The engine decides which situations are true for a season or a Showdown and fills the line's slots. Owner rule: **every line must match what happened.** Note: on this snapshot no screen loads commentaryEngine.js yet; judge the engine as it will be wired (a thin strip under the season scores on Season Results and one line on Final Winner), and say so in a separate note if you believe something the owner expects is missing.
+2. **Commentary v3** (js/commentaryV3.js on top of the v2 engine js/commentaryEngine.js, data/commentarySituations.json with 88 exact situations, ~5,100 lines in data/commentaryLines.js). It is now wired on exactly two screens: a two-voice TV bar in the SEASON SCORE box on Season Results (a COMMENTARY line chosen from v2, plus a BY THE NUMBERS line written from the Showdown's own numbers), and one FULL TIME line below the Final Winner stage. It never repeats a line in a Showdown, and both phones must show the same words. Owner rule: **every line must match what happened**, it comes from data only, and it never covers a face, a button, a field or any game function.
 
 ## House rules (a break is a bug)
 - No tiebreak; a draw is never told as a win, a 1-point win never as a big win, a season with no trophy never talks about silverware, a final page never talks about "next season".
@@ -22,6 +22,15 @@ A private two-player FIFA 17 Career Mode competition web app (vanilla JS, Fireba
 Normal play only: two honest players, reloads, phone locks (iPhone Safari evicts pages), offline/online, slow networks, two tabs, one phone a step ahead of the other, a service-worker upgrade with one phone a build behind, old Showdowns from earlier builds (r79-r86 saves, 1/3/5/10 seasons, early-ended Showdowns). Out of scope: a modified app, the console, direct database writes.
 
 ## Already known (do not re-report)
+- Fixed since the last snapshot (verify they hold; report anything incomplete or newly broken):
+  - #1110: THE RACE strip, the record book, the desktop type, the phone plate, and 110-110 as a gold DRAW edition.
+  - #1116 (Fable cloud job): every row swept over 707,600 papers.
+    - F2-15: the season paper stays until continueToNextSeason finishes or fails.
+    - F2-16: both phones print the Special Player line identically.
+    - Four engine truth fixes and 35 text edits.
+    - No "no trophy" row on a golden draw.
+  - #1153: the next-season filter no longer drops "finished the season ahead of".
+  - #1126: Commentary v3 wiring and the 'so much so that' typo.
 - "A fast tap is held for its paper; browser journeys tap through it" was fixed in 88b67ade7 (on this snapshot). Do report any remaining way the tap is lost, doubled or run before the paper is closed.
 - The roulette, transfer window and career-screen numbers have their own hunts.
 
@@ -36,6 +45,8 @@ Reply 1 (this message):
 For each finding: ID (F5-NN), severity (P0 lost or doubled result / stuck screen, P1 wrong or different paper, wrong line, blocked tap a player will hit, P2 rare, P3 polish), file:line (quote the code so it can be found by text), exact steps on the two phones (or the exact input projection), expected vs actual, and your trace. Put anything you are not sure of in a separate "suspected" list. No style notes. End with the top 5 to fix first.
 
 Keep the visible reply under about 60,000 characters.
+
+
 
 
 ## FILE: js/touchlineGazette.js
@@ -62,6 +73,10 @@ Keep the visible reply under about 60,000 characters.
   // that are true (a 1-point win is never a big win, a draw is never a win). Screen words say "Special Player" or "SP".
   // A paper already shown on this phone is not shown again (one small local list, careerModeShowdown.gazetteSeen.v1). If its
   // files cannot load within a few seconds the tap simply goes on as before, so the Gazette can never hold anyone up.
+  // Fable job 2 F2-16: the Special Players line is read from the chip only after the chip and its data have loaded, as one of
+  // the paper's files, so a phone where the chip was still missing at the tap prints the same line as the other phone.
+  // F2-15: a SEASON paper stays up (its CONTINUE busy) until continueToNextSeason has finished or failed; no timer closes it
+  // mid-flight, and a step that fails or stays here gives Season Results back with its own working button.
   const node=typeof module!=="undefined"&&module.exports;
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
@@ -75,7 +90,9 @@ Keep the visible reply under about 60,000 characters.
   // Screen words say "Special Player" or "SP": the one pack row that uses the old word (h1-461) is never printed.
   const BANNED=/marquee/i;
   const WINNER_TAKES_ALL=/whoever wins it|whoever finishes the closing season ahead/i;
-  const FUTURE=/next season|new season|season ahead|next year|next few evenings/i;
+  const FUTURE=/next season|new season|seasons? ahead(?! of)|next year|next few evenings/i;/* r87: "finished the season ahead of" a rival is not next-season talk (h2-030) */
+  const GOLDEN_DRAW_OFF=/may not come with a trophy|trophy talk for another year/i;
+  const NEVER_LED_OFF=/pointed toward a winner|promised a winner/i;
 
   const plain=x=>Boolean(x)&&typeof x==="object"&&!Array.isArray(x);
   const int=(x,lo,hi)=>Number.isInteger(x)&&x>=lo&&x<=hi;
@@ -96,9 +113,11 @@ Keep the visible reply under about 60,000 characters.
     return out;
   }
   // `used` holds the rows earlier papers of the same Showdown printed: they are passed over while an unused row fits.
+  // walk.fresh(slot) says whether the slot's row was unused (so a paper offered several true situations prefers the ones
+  // whose headline and story are both still fresh).
   const rowKey=row=>plain(row)?String(row.id||row.text||row.head||""):null;
   function walker(rivalryId,kind,start,used){
-    const taken={};
+    const taken={},freshness={};
     const walk=(slot,list,make)=>{
       if(!list||!list.length)return null;
       const order=shuffled(`${rivalryId}|${kind}|${slot}`,list);
@@ -107,20 +126,21 @@ Keep the visible reply under about 60,000 characters.
           const row=order[(start+k)%order.length];
           if(plain(row)&&BANNED.test(words(row)))continue;
           if(fresh&&used&&used.has(rowKey(row)))continue;
-          const out=make?make(row):row;if(out){taken[slot]=rowKey(row);return out;}
+          const out=make?make(row):row;if(out){taken[slot]=rowKey(row);freshness[slot]=fresh;return out;}
         }
         if(!used)break;
       }
       return null;
     };
     walk.keep=slots=>{if(used)for(const slot of slots)if(taken[slot])used.add(taken[slot]);};
+    walk.fresh=slot=>freshness[slot]!==false;
     return walk;
   }
   // Fills {placeholders}; a row naming a value this paper does not have is refused (null), never printed with braces.
   function fill(text,vals){
     let missing=false;
     const out=String(text??"").replace(/\{(\w+)\}/g,(match,key)=>{if(vals[key]===undefined||vals[key]===null||vals[key]===""){missing=true;return match;}return String(vals[key]);});
-    return missing?null:out.replace(/\b1 points\b/g,"1 point");
+    return missing?null:out.replace(/\b1 points\b/g,"1 point").replace(/\b1 seasons\b/g,"1 season");
   }
   function fillRow(row,keys,vals){const out={...row};for(const k of keys){if(row[k]===undefined)continue;const t=fill(row[k],vals);if(t===null)return null;out[k]=t;}return out;}
   function fillStory(row,vals){
@@ -158,6 +178,64 @@ Keep the visible reply under about 60,000 characters.
   const totalsOf=seasons=>seasons.reduce((t,s)=>({playerOne:t.playerOne+s.score.playerOne,playerTwo:t.playerTwo+s.score.playerTwo}),{playerOne:0,playerTwo:0});
   function spOf(sp){return plain(sp)&&plain(sp.daniel)&&plain(sp.nik)&&typeof sp.daniel.name==="string"&&sp.daniel.name&&typeof sp.nik.name==="string"&&sp.nik.name?{daniel:sp.daniel.name,nik:sp.nik.name}:null;}
 
+  // ---------- the Gazette desk (2.0.0): plain facts worked out from the seasons, never from copy ----------
+  // THE RACE: where the Showdown stands after this paper's season, with what is still possible (a season is worth at most
+  // 11 to each manager, so a lead bigger than 11 x the seasons left cannot be caught; a lead of exactly that can only be
+  // levelled, and level is a draw: no tiebreak). The RECORD BOOK: seasons won, trophies, best season, streaks, perfect seasons.
+  const plural=(n,word)=>`${n} ${word}${n===1?"":"s"}`;
+  const both=list=>list.length===2?`${list[0]} and ${list[1]}`:list[0];
+  function recordsOf(seasons){
+    const rec={};
+    for(const role of ROLES){
+      const r={wins:0,trophies:0,perfect:0,best:0};
+      for(const s of seasons){const it=s.items[role];r.wins+=s.winner===role?1:0;r.trophies+=trophyCount(it);r.perfect+=s.score[role]===11?1:0;r.best=Math.max(r.best,s.score[role]);}
+      rec[role]=r;
+    }
+    let streak=null;
+    const last=seasons[seasons.length-1];
+    if(last&&last.winner!=="draw"){let n=0;for(let i=seasons.length-1;i>=0&&seasons[i].winner===last.winner;i-=1)n+=1;if(n>=2)streak={role:last.winner,n};}
+    let biggest=null;
+    for(const s of seasons){if(s.winner==="draw")continue;const m=Math.abs(s.score.playerOne-s.score.playerTwo);if(!biggest||m>biggest.margin)biggest={margin:m,role:s.winner,season:s.number,score:s.score};}
+    return {...rec,draws:seasons.filter(s=>s.winner==="draw").length,streak,biggest};
+  }
+  function raceFor(facts,N,final){
+    const T=facts.totalSeasons,seasons=facts.seasons.slice(0,N),totals=totalsOf(seasons);
+    const gap=Math.abs(totals.playerOne-totals.playerTwo),leader=totals.playerOne>totals.playerTwo?"playerOne":totals.playerTwo>totals.playerOne?"playerTwo":null;
+    const left=T-N,pointsLeft=left*11;
+    let line;
+    if(final){
+      line=leader?`${NAMES[leader]} wins the Showdown ${totals[leader]} to ${totals[OTHER[leader]]}, by ${plural(gap,"point")}.`
+        :totals.playerOne>=GOLDEN.points&&T===GOLDEN.seasons?`Level on ${totals.playerOne} points each after ${plural(T,"season")}: a drawn Showdown, and a Golden Showdown for both.`
+        :`Level on ${plural(totals.playerOne,"point")} each after ${plural(T,"season")}: a drawn Showdown, honours even.`;
+    }else if(!leader){
+      line=`All square on ${plural(totals.playerOne,"point")} each. ${plural(left,"season")} to go, ${pointsLeft} points still to play for on each side.`;
+    }else if(gap>pointsLeft){
+      line=`${NAMES[leader]} is ${gap} clear with only ${pointsLeft} points left to play for: the Showdown can no longer be caught.`;
+    }else if(gap===pointsLeft){
+      line=`${NAMES[leader]} leads by ${gap}. ${NAMES[OTHER[leader]]} can still draw level, but only with every one of the last ${pointsLeft} points while ${NAMES[leader]} scores none.`;
+    }else{
+      line=`${NAMES[leader]} leads by ${plural(gap,"point")}. ${plural(left,"season")} to go, ${pointsLeft} points still to play for on each side.`;
+    }
+    const chips=seasons.map(s=>({label:`S${s.number}`,left:s.score.playerOne,right:s.score.playerTwo,winner:s.winner==="draw"?"draw":s.winner==="playerOne"?"left":"right"}));
+    return {title:final?"How it was won":"The race",line,chips,totals,leader:leader?NAMES[leader]:null,seasonsLeft:left,pointsLeft};
+  }
+  // One line each, most telling first; only facts that are true for this Showdown so far are printed.
+  function recordBook(facts,N,final){
+    const seasons=facts.seasons.slice(0,N),r=recordsOf(seasons),out=[];
+    // (never beside level totals, where a seasons-won count could read as a tiebreak: level is a draw)
+    const lvl=totalsOf(seasons);
+    if(N>=2&&lvl.playerOne!==lvl.playerTwo)out.push(`Seasons won: ${NAMES.playerOne} ${r.playerOne.wins} · ${NAMES.playerTwo} ${r.playerTwo.wins}${r.draws?` · drawn ${r.draws}`:""}`);
+    out.push(`Trophies${final?"":" so far"}: ${NAMES.playerOne} ${r.playerOne.trophies} · ${NAMES.playerTwo} ${r.playerTwo.trophies}`);
+    if(r.streak)out.push(r.streak.n===N&&N>=3?`${NAMES[r.streak.role]} has won every season${final?"":" so far"}`:`${NAMES[r.streak.role]} has won ${r.streak.n} seasons in a row`);
+    if(N>=2){const best=Math.max(r.playerOne.best,r.playerTwo.best);if(best>0)out.push(`Best season${final?"":" so far"}: ${plural(best,"point")}, ${both(ROLES.filter(x=>r[x].best===best).map(x=>NAMES[x]))}`);}
+    if(N>=2&&r.biggest&&r.biggest.margin>=3)out.push(`Biggest season win: ${NAMES[r.biggest.role]} ${r.biggest.score[r.biggest.role]}–${r.biggest.score[OTHER[r.biggest.role]]} in season ${r.biggest.season}`);
+    const perfect=ROLES.filter(x=>r[x].perfect>0);
+    if(perfect.length)out.push(`Perfect 11s: ${perfect.map(x=>`${NAMES[x]} ${r[x].perfect}`).join(" · ")}`);
+    // the Golden Showdown (110 over ten seasons) needs 11 in every season: it is "on" only while a manager has dropped nothing
+    if(!final&&facts.totalSeasons===GOLDEN.seasons){const alive=ROLES.filter(x=>r[x].perfect===N);if(alive.length)out.push(`Golden watch: ${both(alive.map(x=>NAMES[x]))} still perfect`);}
+    return out;
+  }
+
   // Trophy desk: each manager's biggest item of the season (or of the Showdown on a final page). Team V's briefs cover the
   // Champions League, the Europa League and the league title; the smaller items get one plain line of fact.
   const BRIEF_ORDER=["champions-league","europa-league","league-title","domestic-cup","performance-bonus","awards-bonus"];
@@ -173,7 +251,9 @@ Keep the visible reply under about 60,000 characters.
     }[topic];
     return {...plainLine,trophy:TROPHY_ART[topic]||null,club,id:`brief:${topic}`};
   }
-  function earsFor(walk){const C=tgCopy(),first=walk("ear1",C.small.ears);const second=walk("ear2",C.small.ears.filter(e=>e!==first));return [first?.text||"",second?.text||""];}
+  // The ears (the two strap lines by the masthead) obey the same rule as the rest of the page: no silverware talk on a paper
+  // whose season had no trophy, nothing about next season on a final.
+  function earsFor(walk,keep){const C=tgCopy(),pick=r=>keep(r)?r:null,first=walk("ear1",C.small.ears,pick);const second=walk("ear2",C.small.ears.filter(e=>e!==first),pick);return [first?.text||"",second?.text||""];}
   // The pull quote: a winner or runner-up line (a draw: either manager), said by that manager.
   function quoteFor(walk,side,vals,keep){
     const C=tgCopy(),who=side==="draw"?null:side==="winner"?"{winner}":"{loser}";
@@ -208,8 +288,9 @@ Keep the visible reply under about 60,000 characters.
       if(wi["league-title"]&&!li["league-title"])list.push("league-title");
     }
     if(N>=2&&level)list.push("level-overall");
-    // shown on the paper before the last season, while the last season can still settle it (a season is worth at most 11)
-    if(T>=3&&N===T-1&&gap<=11)list.push("final-season-decider");
+    // shown on the paper before the last season, while the trailer can still win the Showdown in it (a season is worth at
+    // most 11 and equal totals are a draw, so a gap of 11 can only be levelled, never turned)
+    if(T>=3&&N===T-1&&gap<=10)list.push("final-season-decider");
     return list;
   }
   // Each paper is built after the papers of the Showdown's earlier seasons (the same rows on both phones), so it can pass
@@ -232,7 +313,7 @@ Keep the visible reply under about 60,000 characters.
     if(leader)Object.assign(base,{leader:NAMES[leader],trailer:NAMES[OTHER[leader]]});
     // {points}: the season points each on a drawn season, the overall total each when the totals are level
     const valsFor=situation=>situation==="level-overall"?{...base,points:after.playerOne}:situation==="draw"?{...base,points:season.score.playerOne}:base;
-    const noSilver=!draw&&trophyCount(season.items[W])===0;
+    const noSilver=draw?trophyCount(season.items.playerOne)+trophyCount(season.items.playerTwo)===0:trophyCount(season.items[W])===0;
     // "whoever wins the last season takes the Showdown" is only true while the totals are level
     const keep=row=>!(noSilver&&SILVER.test(words(row)))&&!(leader&&WINNER_TAKES_ALL.test(words(row)));
     const options=seasonSituations(facts,N).map(situation=>{
@@ -240,10 +321,11 @@ Keep the visible reply under about 60,000 characters.
       const heads=P.season.filter(r=>r.situation===situation),stories=C.stories.filter(s=>s.edition==="season"&&s.situation===situation);
       const head=walk(`headline:${situation}`,heads,r=>keep(r)?fillRow(r,["headline","subhead","kicker"],vals):null);
       const story=walk(`story:${situation}`,stories,r=>keep(r)?fillStory(r,vals):null);
-      return head&&story?{situation,head,story,vals}:null;
+      return head&&story?{situation,head,story,vals,fresh:walk.fresh(`headline:${situation}`)&&walk.fresh(`story:${situation}`)}:null;
     }).filter(Boolean);
     if(!options.length)return null;
-    const chosen=options[tgHash(`${key}|situation`)%options.length],{head,story}=chosen,vals=valsFor(draw?"draw":"");
+    const pool=options.some(o=>o.fresh)?options.filter(o=>o.fresh):options;
+    const chosen=pool[tgHash(`${key}|situation`)%pool.length],{head,story}=chosen,vals=valsFor(draw?"draw":"");
     const side=draw?"draw":walk("quote-side",["winner","runner-up"]);
     const quote=quoteFor(walk,side,vals,keep);
     const photo=draw?"GZ_LEAD_DRAW":walk("photo",["GZ_LEAD_SEASON","GZ_LEAD_PRESS"]);
@@ -260,7 +342,7 @@ Keep the visible reply under about 60,000 characters.
     numbers.push({label:"Season points",left:season.score.playerOne,right:season.score.playerTwo,total:true});
     if(N>1)numbers.push({label:"Showdown total",left:after.playerOne,right:after.playerTwo});
     const briefs=ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,season.items[role],facts.clubs,false));
-    const ears=earsFor(walk);
+    const ears=earsFor(walk,keep);
     walk.keep([`headline:${chosen.situation}`,`story:${chosen.situation}`,"quote","caption","brief0","brief1","ear1","ear2"]);
     return Object.freeze({
       kind:"season",key,rivalryId:facts.rivalryId,seasonNumber:N,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],
@@ -271,7 +353,7 @@ Keep the visible reply under about 60,000 characters.
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},
         story:{byline:story.byline,paragraphs:story.paragraphs},
         numbersTitle:"Season in numbers",numbers,quote:quote?{text:quote.text,who:quote.who}:null,portrait,briefs,
-        inside:[],specialPlayers:spOf(specialPlayers)
+        race:raceFor(facts,N,false),inside:recordBook(facts,N,false),specialPlayers:spOf(specialPlayers)
       },
       ids:{headline:head.id,story:story.id,briefs:briefs.map(b=>b.id)}
     });
@@ -285,30 +367,47 @@ Keep the visible reply under about 60,000 characters.
     // The Final Winner frame, when given, must say the same (it reads the reconciled winner; the paper never disagrees with it).
     if(final){const fw={daniel:"playerOne",nik:"playerTwo",draw:"draw"}[final.winner];if(fw!==W)return null;if(plain(final.totals)&&(final.totals.daniel!==totals.playerOne||final.totals.nik!==totals.playerTwo))return null;}
     const draw=W==="draw",L=draw?null:OTHER[W],margin=Math.abs(totals.playerOne-totals.playerTwo);
-    const golden=!draw&&T===GOLDEN.seasons&&totals[W]>=GOLDEN.points;
+    // A Golden Showdown is a manager on 110 over ten seasons: the winner, or both managers on a 110-110 draw (still a draw,
+    // no tiebreak; the paper is the gold edition with the drawn copy).
+    const goldenRoles=T===GOLDEN.seasons?ROLES.filter(role=>totals[role]>=GOLDEN.points):[];
+    const golden=goldenRoles.length>0;
     const used=new Set();for(let k=1;k<T;k+=1)buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,null,used);
     const key=`${facts.rivalryId}|final|${T}`,walk=walker(facts.rivalryId,"final",0,used);
     const vals={seasonsTotal:T,managerA:NAMES.playerOne,managerB:NAMES.playerTwo,clubA:facts.clubs.playerOne,clubB:facts.clubs.playerTwo};
     if(draw)vals.points=totals.playerOne;
     else Object.assign(vals,{winner:NAMES[W],loser:NAMES[L],winnerClub:facts.clubs[W],loserClub:facts.clubs[L],winnerPoints:totals[W],loserPoints:totals[L],margin,leader:NAMES[W],trailer:NAMES[L]});
+    const rec=role=>{const r={cl:0,el:0,league:0,cup:0,wins:0,best:0};for(const s of facts.seasons){const it=s.items[role];r.cl+=it["champions-league"]?1:0;r.el+=it["europa-league"]?1:0;r.league+=it["league-title"]?1:0;r.cup+=it["domestic-cup"]?1:0;r.wins+=s.winner===role?1:0;r.best=Math.max(r.best,s.score[role]);}return r;};
+    const r1=rec("playerOne"),r2=rec("playerTwo");
     // Situations: a draw only the drawn pages; the Golden Showdown (first to 110 over ten seasons); otherwise the Showdown's
     // length (ten seasons read as the long, five-season pages), decided in its last season (the winner did not lead before
-    // it), or a dominant win (already out of reach before the last season: a season is worth at most 11 points).
+    // it), or a dominant win: the winner was ahead after every season, out of reach before the last one (a season is worth
+    // at most 11 points) and still more than a season clear at the end, so the dominant pages' landslides and wire-to-wire
+    // leads are true as printed.
     let situations;
     if(draw)situations=["showdown-drawn"];
     else if(golden)situations=["golden-showdown-won"];
     else{
       situations=[T===1?"showdown-won-1-season":T===3?"showdown-won-3-seasons":"showdown-won-5-seasons"];
-      if(T>=3){const before=totalsOf(facts.seasons.slice(0,T-1));if(before[W]<=before[L])situations.push("won-on-the-final-day");if(before[W]-before[L]>11)situations.push("dominant-win");}
+      if(T>=3){
+        const before=totalsOf(facts.seasons.slice(0,T-1));if(before[W]<=before[L])situations.push("won-on-the-final-day");
+        const ledThroughout=facts.seasons.every((s,i)=>{const t=totalsOf(facts.seasons.slice(0,i+1));return t[W]>t[L];});
+        if(ledThroughout&&before[W]-before[L]>11&&margin>11)situations.push("dominant-win");
+      }
     }
-    const keep=row=>!FUTURE.test(words(row));
+    // A drawn Showdown in which neither manager won a trophy prints no silverware talk (a won one has the Showdown trophy).
+    const noSilver=draw&&r1.cl+r1.el+r1.league+r1.cup+r2.cl+r2.el+r2.league+r2.cup===0;
+    // A 110-110 Golden draw: both managers lifted everything, so no "no trophy" consolation row. A Showdown level after every
+    // season never "pointed toward a winner".
+    const neverLed=draw&&facts.seasons.every((s,i)=>{const t=totalsOf(facts.seasons.slice(0,i+1));return t.playerOne===t.playerTwo;});
+    const keep=row=>!FUTURE.test(words(row))&&!(noSilver&&SILVER.test(words(row)))&&!(draw&&golden&&GOLDEN_DRAW_OFF.test(words(row)))&&!(neverLed&&NEVER_LED_OFF.test(words(row)));
     const options=situations.map(situation=>{
       const head=walk(`headline:${situation}`,P.final.filter(r=>r.situation===situation),r=>keep(r)?fillRow(r,["headline","subhead","kicker"],vals):null);
       const story=walk(`story:${situation}`,C.stories.filter(s=>s.edition==="final"&&s.situation===situation),r=>keep(r)?fillStory(r,vals):null);
-      return head&&story?{situation,head,story}:null;
+      return head&&story?{situation,head,story,fresh:walk.fresh(`headline:${situation}`)&&walk.fresh(`story:${situation}`)}:null;
     }).filter(Boolean);
     if(!options.length)return null;
-    const chosen=options[tgHash(`${key}|situation`)%options.length],{head,story}=chosen;
+    const pool=options.some(o=>o.fresh)?options.filter(o=>o.fresh):options;
+    const chosen=pool[tgHash(`${key}|situation`)%pool.length],{head,story}=chosen;
     const side=draw?"draw":walk("quote-side",["winner","runner-up"]);
     const quote=quoteFor(walk,side,vals,keep);
     const photo=golden?"GZ_LEAD_GOLD":draw?"GZ_LEAD_DRAW":"GZ_LEAD_FINAL";
@@ -316,25 +415,24 @@ Keep the visible reply under about 60,000 characters.
     const portrait=draw?null:{name:`GZ_WIN_${W==="playerOne"?"DANIEL":"NIK"}`,caption:`${NAMES[W]}, Showdown ${golden?"Golden champion":"champion"} with ${facts.clubs[W]}.`};
     // The Showdown in numbers: every season (up to five), or the trophy count over ten seasons.
     let numbers;
-    const rec=role=>{const r={cl:0,el:0,league:0,cup:0,wins:0,best:0};for(const s of facts.seasons){const it=s.items[role];r.cl+=it["champions-league"]?1:0;r.el+=it["europa-league"]?1:0;r.league+=it["league-title"]?1:0;r.cup+=it["domestic-cup"]?1:0;r.wins+=s.winner===role?1:0;r.best=Math.max(r.best,s.score[role]);}return r;};
-    const r1=rec("playerOne"),r2=rec("playerTwo");
     if(T<=5)numbers=facts.seasons.map(s=>({label:`Season ${s.number}`,left:s.score.playerOne,right:s.score.playerTwo}));
-    else{numbers=[{label:"Champions Leagues",left:r1.cl,right:r2.cl}];if(r1.el||r2.el)numbers.push({label:"Europa Leagues",left:r1.el,right:r2.el});numbers.push({label:"League titles",left:r1.league,right:r2.league},{label:"Domestic cups",left:r1.cup,right:r2.cup},{label:"Seasons won",left:r1.wins,right:r2.wins},{label:"Best season",left:r1.best,right:r2.best});}
+    else{numbers=[{label:"Champions Leagues",left:r1.cl,right:r2.cl}];if(r1.el||r2.el)numbers.push({label:"Europa Leagues",left:r1.el,right:r2.el});numbers.push({label:"League titles",left:r1.league,right:r2.league},{label:"Domestic cups",left:r1.cup,right:r2.cup});if(!draw)numbers.push({label:"Seasons won",left:r1.wins,right:r2.wins});numbers.push({label:"Best season",left:r1.best,right:r2.best});}
     numbers.push({label:"Overall",left:totals.playerOne,right:totals.playerTwo,total:true});
     // Trophy desk: the Showdown trophy for the winner (none on a draw), and each other manager's biggest prize of the Showdown.
     const showdownItems=role=>{const r=rec(role);return {"champions-league":r.cl>0,"europa-league":r.el>0,"league-title":r.league>0,"domestic-cup":r.cup>0,"performance-bonus":facts.seasons.some(s=>s.items[role]["performance-bonus"]),"awards-bonus":facts.seasons.some(s=>s.items[role]["awards-bonus"])};};
-    const briefs=draw?ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,showdownItems(role),facts.clubs,true))
+    const briefs=draw&&golden?ROLES.map(role=>({head:"Golden Showdown",text:`${NAMES[role]} reaches ${GOLDEN.points} points over ${T} seasons: a Golden Showdown, shared.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[role],id:`golden-shared:${role}`}))
+      :draw?ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,showdownItems(role),facts.clubs,true))
       :[{head:golden?"Golden Showdown won":"The Showdown trophy",text:golden?`${NAMES[W]} reaches ${GOLDEN.points} points, the target that wins the Golden Showdown.`:`${NAMES[W]}'s name goes on the trophy that outranks every cup in either cabinet.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[W],id:"showdown-trophy"},briefFor(walk,"brief1",L,showdownItems(L),facts.clubs,true)];
     return Object.freeze({
       kind:"final",key,rivalryId:facts.rivalryId,seasonNumber:T,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],golden,
       paper:{
         variant:golden?"gold":draw?"draw":"season",kicker:draw?"DRAWN":head.kicker||"SHOWDOWN WINNER",headline:head.headline,subhead:head.subhead,
-        season:`${T} season${T===1?"":"s"}`,dateline:golden?"Golden edition":"Final edition",edition:golden?"Commemorative edition":"Price: one point",issue:golden?"Vol. I · Golden edition":"Vol. I · Final edition",ears:earsFor(walk),
+        season:`${T} season${T===1?"":"s"}`,dateline:golden?"Golden edition":"Final edition",edition:golden?"Commemorative edition":"Price: one point",issue:golden?"Vol. I · Golden edition":"Vol. I · Final edition",ears:earsFor(walk,keep),
         left:{name:NAMES.playerOne,club:facts.clubs.playerOne,score:totals.playerOne},right:{name:NAMES.playerTwo,club:facts.clubs.playerTwo,score:totals.playerTwo},
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},
         story:{byline:story.byline,paragraphs:story.paragraphs},
         numbersTitle:golden?"The Golden Showdown":"The Showdown in numbers",numbers,quote:quote?{text:quote.text,who:quote.who}:null,portrait,briefs,
-        inside:[],specialPlayers:spOf(specialPlayers)
+        race:raceFor(facts,T,true),inside:recordBook(facts,T,true),specialPlayers:spOf(specialPlayers)
       },
       ids:{headline:head.id,story:story.id,briefs:briefs.map(b=>b.id)}
     });
@@ -343,12 +441,14 @@ Keep the visible reply under about 60,000 characters.
   // Every word a paper prints (for the contracts: no braces, no "Marquee", the same on both phones).
   function paperText(edition){
     const p=edition?.paper;if(!p)return "";
-    return [p.kicker,p.headline,p.subhead,p.season,p.dateline,p.edition,p.issue,...p.ears,p.left.name,p.left.club,p.right.name,p.right.club,p.photo.caption,p.photo.credit,p.story.byline,...p.story.paragraphs,p.numbersTitle,...p.numbers.map(n=>`${n.label} ${n.left} ${n.right}`),p.quote?.text,p.quote?.who,p.portrait?.caption,...p.briefs.map(b=>`${b.head} ${b.text}`),...p.inside,p.specialPlayers?`Special Players ${p.specialPlayers.daniel} ${p.specialPlayers.nik}`:""].filter(x=>x!==null&&x!==undefined).join("\n");
+    return [p.kicker,p.headline,p.subhead,p.season,p.dateline,p.edition,p.issue,...p.ears,p.left.name,p.left.club,p.right.name,p.right.club,p.photo.caption,p.photo.credit,p.story.byline,...p.story.paragraphs,p.numbersTitle,...p.numbers.map(n=>`${n.label} ${n.left} ${n.right}`),p.quote?.text,p.quote?.who,p.portrait?.caption,...p.briefs.map(b=>`${b.head} ${b.text}`),p.race?`${p.race.title} ${p.race.line} ${p.race.chips.map(c=>`${c.label} ${c.left} ${c.right}`).join(" ")}`:"",...p.inside,p.specialPlayers?`Special Players ${p.specialPlayers.daniel} ${p.specialPlayers.nik}`:""].filter(x=>x!==null&&x!==undefined).join("\n");
   }
 
   // ---------- the inputs, read from what this screen already holds (no read, no write) ----------
   function tgState(name){try{return root[name]?.getState?.()??null;}catch(_error){return null;}}
   function tgSpecial(rivalryId){try{const chip=root.CareerModeSpecialPlayerChip;return chip&&typeof chip.liveFor==="function"?chip.liveFor(rivalryId):null;}catch(_error){return null;}}
+  // F2-16: the chip is one of the paper's files (loadAssets), so it is read when the paper is built, never at the tap.
+  function tgChip(load){return load("special-player-chip","js/specialPlayerChip.js",()=>Boolean(root.CareerModeSpecialPlayerChip)).then(()=>root.CareerModeSpecialPlayerChip?.ensure?.()).then(ready=>{if(ready===false)throw new Error("GAZETTE_SPECIAL_PLAYER_UNAVAILABLE");return true;});}
   // SEASON: the season this phone's CONTINUE TO SEASON N+1 belongs to (Shared History converged through it).
   function seasonInput(states){
     const history=states?.history,projection=history?.projection;
@@ -366,7 +466,7 @@ Keep the visible reply under about 60,000 characters.
 
   // ---------- the page (browser only) ----------
   const SEEN_KEY="careerModeShowdown.gazetteSeen.v1",SEEN_MAX=60;
-  const ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500,SEASON_SAFETY_MS=9000;
+  const ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;
   const BASE="visual-assets/v10_1/content/";
   const FONTS=Object.freeze([["Gazette Mast","normal",400,"unifrakturmaguntia-latin-400-normal"],["Gazette Head","normal",700,"playfair-display-latin-700-normal"],["Gazette Head","normal",900,"playfair-display-latin-900-normal"],["Gazette Head","italic",400,"playfair-display-latin-400-italic"],["Gazette Body","normal",400,"old-standard-tt-latin-400-normal"],["Gazette Body","italic",400,"old-standard-tt-latin-400-italic"],["Gazette Body","normal",700,"old-standard-tt-latin-700-normal"]]);
   const FONT_FILES=Object.freeze(FONTS.map(f=>`${BASE}gazette/fonts/${f[3]}.woff2`));
@@ -396,6 +496,7 @@ Keep the visible reply under about 60,000 characters.
       load("gazette-frontpage",BASE+"frontpage.js",()=>Boolean(root.ShowdownContent?.frontPage)),
       load("gazette-copy","data/gazetteCopy.js",()=>Boolean(root.CareerModeGazetteCopy)),
       load("gazette-headlines","data/frontPages.js",()=>Boolean(root.CareerModeFrontPages)),
+      tgChip(load),
       load("visual-identity","js/visualIdentity.js",()=>typeof root.getClubCrestSvg==="function").catch(()=>null)
     ]).then(()=>{tgFontRule(doc);return doc.fonts&&typeof doc.fonts.load==="function"?Promise.all(FONTS.map(f=>doc.fonts.load(`${f[1]} ${f[2]} 16px "${f[0]}"`).catch(()=>null))):null;}).then(()=>true);
     assetsPromise.catch(()=>{assetsPromise=null;});
@@ -423,6 +524,26 @@ Keep the visible reply under about 60,000 characters.
     const a=doc.createElement("span");a.textContent=`${NAMES.playerOne}: ${sp.daniel}`;
     const b=doc.createElement("span");b.textContent=`${NAMES.playerTwo}: ${sp.nik}`;
     line.append(label,a,b);strip.after(line);
+  }
+  // THE RACE strip (desktop and phone), above the trophy desk: where the Showdown stands, then every season's score with
+  // its winner in bold (a drawn season in plain type).
+  function addRace(paper,race,doc){
+    if(!race)return;
+    const box=doc.createElement("section");box.className="tgz-race";
+    const h=doc.createElement("h4");h.textContent=race.title;
+    const line=doc.createElement("p");line.className="tgz-race__line";line.textContent=race.line;
+    const list=doc.createElement("ol");list.className="tgz-race__chips";list.setAttribute("aria-label","Season by season, Daniel first");
+    for(const c of race.chips){
+      const li=doc.createElement("li");li.className=`is-${c.winner}`;
+      const b=doc.createElement("b");b.textContent=c.label;
+      const l=doc.createElement("span");l.textContent=String(c.left);
+      const r=doc.createElement("span");r.textContent=String(c.right);
+      const dash=doc.createElement("i");dash.textContent="–";
+      li.append(b,l,dash,r);list.appendChild(li);
+    }
+    box.append(h,line,list);
+    const desk=paper.querySelector(".cmx-gz__desk");
+    if(desk)desk.before(box);else paper.appendChild(box);
   }
   // The whole paper and its CONTINUE fit the window: the paper is scaled down a little on short windows (never below 72% on
   // desktop or 82% for the phone edition), after which the page scrolls as usual. CONTINUE itself is never scaled.
@@ -459,7 +580,7 @@ Keep the visible reply under about 60,000 characters.
     const compact=compactNow();
     root.ShowdownContent.frontPage.screen(page,paperFor(plan.edition,compact),()=>proceed(),{eyebrow:eyebrowFor(plan.edition),title:"Read all about it",button:"Continue",still:Boolean(previous)});
     page.querySelector(".cmx-fp-screen__title")?.remove();
-    const paper=page.querySelector(".cmx-paper");if(paper)addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);
+    const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}}
     const button=page.querySelector(".cmx-continue");if(button)button.id="touchlineGazetteContinue";
     host.dataset.gazette=plan.kind;doc.documentElement.dataset.gazette=plan.kind;
     const state=previous||{plan,host,onResize:null,safety:null,leaving:false};
@@ -470,14 +591,18 @@ Keep the visible reply under about 60,000 characters.
     fit();if(doc.fonts?.ready)doc.fonts.ready.then(()=>fit());
     return true;
   }
-  // CONTINUE: the same step the tapped button ran. If it does not leave this screen (it could not go on), the paper closes
-  // and the screen the player came from is back with its own button, so nobody is ever left on the paper.
+  // CONTINUE: the same step the tapped button ran, once (leaving). SEASON (F2-15): the paper stays, its CONTINUE busy, until
+  // continueToNextSeason has finished or failed: the screen it leaves for closes the paper (onScreen); a step that returns
+  // false, throws, or finishes still on this screen closes it here, so Season Results is back with its own working button.
+  // No timer closes a season paper while the step is in flight. FINAL: the tapped button is clicked through (its own
+  // listener leaves the screen); only if that click did not leave within FINAL_SAFETY_MS is the paper closed, so nobody
+  // is ever left on the paper.
   function proceed(){
     const state=current;if(!state||state.leaving)return;state.leaving=true;
     const button=state.page.querySelector(".cmx-continue");if(button){button.disabled=true;button.setAttribute("aria-busy","true");}
-    state.safety=root.setTimeout(()=>{if(current===state)tgClose();},state.plan.kind==="final"?FINAL_SAFETY_MS:SEASON_SAFETY_MS);
+    if(state.plan.kind==="final")state.safety=root.setTimeout(()=>{if(current===state)tgClose();},FINAL_SAFETY_MS);
     let result;try{result=state.plan.proceed();}catch(_error){result=false;}
-    Promise.resolve(result).then(value=>{if(value===false&&current===state)tgClose();},()=>{if(current===state)tgClose();});
+    Promise.resolve(result).then(value=>{if(current!==state)return;if(value===false||state.plan.kind==="season")tgClose();},()=>{if(current===state)tgClose();});
   }
   // The tapped button, let through once exactly as it was tapped (its own listeners run; this page does not touch it).
   function clickThrough(find){
@@ -502,15 +627,15 @@ Keep the visible reply under about 60,000 characters.
       const progression=root.CareerModeProductionSharedMultiSeasonProgression;
       if(button.disabled||!progression||typeof progression.canContinue!=="function"||!progression.canContinue())return null;
       const history=tgState("CareerModeProductionSharedHistoryConvergence"),rivalryId=history?.rivalryId||history?.projection?.rivalryId;
-      const input=seasonInput({history,specialPlayers:tgSpecial(rivalryId)}),key=seasonKey(input);if(!key||seen(key))return null;
-      return {kind:"season",key,button,build:()=>seasonEdition(input),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
+      const input=seasonInput({history}),key=seasonKey(input);if(!key||seen(key))return null;
+      return {kind:"season",key,button,build:()=>seasonEdition({...input,specialPlayers:tgSpecial(rivalryId)}),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
     }
     const finalStage=button.closest(".v10FinalStage");
     if(finalStage&&host.classList.contains("v10FinalMode")&&!button.disabled&&(button.id==="finalWinnerRematch"||button.classList.contains("backButton"))){
       const final=root.FINAL_WINNER_FIXTURES?.frames?.LIVE||null,history=root.CareerModeSeasonFinalV10?.gazetteHistory?.()||null;
       const input=finalInput({final,history}),key=finalKey(input);if(!key||seen(key))return null;
       const rematch=button.id==="finalWinnerRematch";
-      return {kind:"final",key,button,build:()=>finalEdition(input),proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
+      return {kind:"final",key,button,build:()=>finalEdition({...input,specialPlayers:input.specialPlayers||tgSpecial(input.projection.rivalryId)}),proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
     }
     return null;
   }
@@ -757,7 +882,31 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .55);
   text-align: center;
 }
-#touchlineGazette .cmx-fp-screen__desk { width: min(540px, 100%); }
+/* 2.0.0: the paper takes the room between the managers' faces (the plate's inner face edges sit 374px either side of its
+   centre, 48vw of the window at the narrowest crop), so the type can be read on a laptop without leaning in */
+#touchlineGazette .cmx-fp-screen__desk { width: min(clamp(540px, calc(48vw - 40px), 700px), 100%); }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { font-size: 12px; line-height: 1.36; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief p { font-size: 11.5px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums { font-size: 12px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap,
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait figcaption { font-size: 11px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { font-size: 10px; }
+/* a wider, shorter lead photo and a numbers column wide enough for one line a row keep the bigger paper inside the window */
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__front { grid-template-columns: 1fr 190px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 3 / 1; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait { width: 128px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait img { aspect-ratio: 4 / 3.6; }
+/* laptop-height windows: the story keeps its first two paragraphs (as the phone edition does), so the paper still fits */
+@media (max-height: 960px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text p + p + p { display: none; }
+}
+@media (max-height: 820px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { max-height: 1.3em; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait { display: none; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 3.6 / 1; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote { display: none; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums td { padding: 1.5px 0; }
+}
 #touchlineGazette .cmx-paper { width: 100%; will-change: transform; }
 #touchlineGazette .cmx-continue { margin-top: 18px; min-width: 274px; min-height: 52px; }
 #touchlineGazette .cmx-continue:disabled { cursor: progress; }
@@ -779,16 +928,61 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 #touchlineGazette .tgz-sp span + span::before { content: "·"; margin-right: 10px; }
 #touchlineGazette .cmx-gz--compact .tgz-sp { font-size: 9.5px; margin-top: 3px; }
 
+/* THE RACE strip (js/touchlineGazette.js addRace): the standing after this season and every season's score, winner in
+   bold; and the record book line under the trophy desk, allowed two lines (a fact that does not fit is left out whole). */
+#touchlineGazette .tgz-race {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+  align-items: baseline;
+  margin-top: 7px;
+  padding: 5px 0 0;
+  border-top: 2px solid var(--paper-rule, #1b1712);
+}
+#touchlineGazette .tgz-race h4 { margin: 0; padding: 0; border: 0; white-space: nowrap; }
+#touchlineGazette .tgz-race__line { flex: 1 1 260px; margin: 0; font: 700 13px/1.25 "Gazette Head", Georgia, serif; color: #1b1712; }
+#touchlineGazette .tgz-race__chips {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 600 11px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif);
+  font-variant-numeric: tabular-nums;
+  color: #2a241c;
+}
+#touchlineGazette .tgz-race__chips li { display: inline-flex; gap: 2px; align-items: baseline; padding: 3px 6px 2px; border: 1px solid rgba(27, 23, 18, .35); }
+#touchlineGazette .tgz-race__chips b { margin-right: 3px; font-size: 9.5px; letter-spacing: .12em; color: #6b5a3a; }
+#touchlineGazette .tgz-race__chips .is-left span:first-of-type,
+#touchlineGazette .tgz-race__chips .is-right span:last-of-type { font-weight: 800; color: #000; }
+#touchlineGazette .tgz-race__chips .is-draw { border-style: dashed; }
+#touchlineGazette .cmx-gz__inside { height: auto; max-height: 2.6em; padding: 4px 9px 3px; font-size: 10.5px; }
+
 /* Phones and narrow windows: the phone plate, the phone edition starting under the managers' faces (Team V's face-safe
    lines: 168px of 393 on a season page, 258px of 393 on the final page, where the faces sit lower). */
 @media (max-width: 700px), (max-height: 520px) and (max-width: 1000px) {
-  #touchlineGazette.tgzPage {
-    background-image: var(--tgz-plate-phone);
-    background-position: 50% 0;
-    background-size: 100% auto;
+  /* 2.0.0: the phone plate (393 x 698.7) covers the whole window, so a tall phone has no bare black band under it; it is
+     drawn once, window-high, behind the page (the page itself may scroll past it), and the face line follows its scale */
+  #touchlineGazette.tgzPage { background-image: none; }
+  #touchlineGazette.tgzPage::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100svh;
+    height: 100dvh;
+    background: var(--tgz-plate-phone) 50% 0 / cover no-repeat;
+    pointer-events: none;
   }
-  #touchlineGazette .cmx-fp-screen { padding: calc(100vw * 168 / 393) 10px 16px; }
-  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: calc(100vw * 258 / 393); }
+  #touchlineGazette .cmx-fp-screen { position: relative; padding: max(calc(100vw * 168 / 393), calc(100dvh * 168 / 698.7)) 10px 16px; }
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: max(calc(100vw * 258 / 393), calc(100dvh * 258 / 698.7)); }
+  #touchlineGazette .cmx-gz--compact .tgz-race { gap: 2px 8px; margin-top: 5px; padding-top: 4px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race h4 { font-size: 9.5px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__line { font-size: 11.5px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__chips { font-size: 10px; gap: 2px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__chips li { padding: 2px 4px 1px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__chips b { font-size: 8.5px; margin-right: 2px; }
   #touchlineGazette .cmx-fp-screen__eyebrow { display: none; }
   #touchlineGazette .cmx-fp-screen__desk { width: 100%; }
   #touchlineGazette .cmx-continue { width: 100%; min-width: 0; margin-top: 14px; }
@@ -796,8 +990,8 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 /* short phones (393x660, 360x640, 375x553): the paper starts just under the chins (not the shoulders) so the paper and
    CONTINUE stay on the screen without covering a face */
 @media (max-width: 700px) and (max-height: 680px) {
-  #touchlineGazette .cmx-fp-screen { padding-top: calc(100vw * 140 / 393); }
-  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: calc(100vw * 236 / 393); }
+  #touchlineGazette .cmx-fp-screen { padding-top: max(calc(100vw * 140 / 393), calc(100dvh * 140 / 698.7)); }
+  #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: max(calc(100vw * 236 / 393), calc(100dvh * 236 / 698.7)); }
 }
 @media (prefers-reduced-motion: reduce) {
   #touchlineGazette .cmx-paper { will-change: auto; }
@@ -864,6 +1058,14 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
     const rivalryId=pmspRivalryId();pmspEnsureCursor();const authoritative=Boolean(view&&view.ok===true&&view.authoritative===true&&view.state&&String(view.rivalryId||"")===rivalryId);
     return authoritative?(pmspEnsureCursor()||local):local;
   }
+  // r87 (lane C C-08): true while a live Showdown's season is unknown on this page. A shared Showdown's local save stays at
+  // currentRound 1 (its seasons live in the shared modules), so a browser that had not entered the game read "SEASON 1 / 3"
+  // during season 3. While the pair is active and this page has no authoritative view of that rivalry, js/menuExperience.js
+  // reads "3-Season Showdown" instead of a season. A code still waiting to be joined (pending-pair) is season 1 for certain,
+  // and so is a game screen: a page only reaches one by playing this Showdown from its START or by resuming from authority.
+  const PMSP_GAME_SCREENS=new Set(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"]);
+  function pmspSeasonUnknown(){if(!pmspSharedMarker())return false;const pair=root.CareerModePersistentNikDanielPair?.getState?.();if(!pair||pair.connectionState!=="active")return false;
+    const screen=typeof root.getActiveScreenName==="function"?root.getActiveScreenName():null;if(PMSP_GAME_SCREENS.has(screen))return false;const rivalryId=pmspRivalryId();return !(rivalryId&&view&&view.ok===true&&view.authoritative===true&&view.state&&String(view.rivalryId||"")===rivalryId);}
   function pmspRequest(){
     const rivalryId=pmspRivalryId();
     if(!pmspSharedMarker()||!rivalryId)return null;pmspEnsureCursor();return Object.freeze({rivalryId,key:pmspContextKey(rivalryId)});
@@ -895,7 +1097,7 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
     screen.dataset.sharedDashboardAuthority="true";
     pmspText(pmspField("dashboardShowdownName"),pmspShowdown()?.name||"Showdown");
     pmspText(pmspField("dashboardLeague"),pmspLeagueName(setup.leagueId));
-    pmspText(pmspField("dashboardRound"),state.terminal?`All ${total} seasons complete`:`Season ${cursor} of ${total}`);
+    pmspText(pmspField("dashboardRound"),state.terminal?(Number(total)===1?"Season complete":`All ${total} seasons complete`):`Season ${cursor} of ${total}`);
     pmspText(pmspField("seasonIndicator"),state.terminal?"Showdown Complete":`Season ${cursor} / ${total}`);
     pmspText(pmspField("dashboardStatus"),state.terminal?"SHOWDOWN COMPLETE":`${accepted} OF ${total} SEASONS PLAYED`);
     pmspText(pmspField("dashboardManagerOne"),n1);pmspText(pmspField("dashboardManagerTwo"),n2);
@@ -919,6 +1121,14 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   function pmspObserveDashboard(){
     if(dashboardObserver||!root.MutationObserver)return;const dashboard=pmspField("dashboard");if(!dashboard)return;
     dashboardObserver=new root.MutationObserver(()=>{if(!dashboard.classList.contains("hidden"))pmspDecorateDashboard();});dashboardObserver.observe(dashboard,{attributes:true,attributeFilter:["class"]});
+    // r87 C-08: Home leaves the header on "3-Season Showdown" when this page has not read the season. Entering a game screen
+    // (nothing else rewrites the header there before the dashboard) names the season again: this page is playing it.
+    const games=new root.MutationObserver(pmspNameSeason);for(const id of PMSP_GAME_SCREENS){const el=pmspField(id);if(el)games.observe(el,{attributes:true,attributeFilter:["class"]});}pmspNameSeason();
+  }
+  function pmspNameSeason(){
+    const chip=pmspField("seasonIndicator"),showdown=pmspShowdown();if(!chip||!showdown||!/-Season Showdown$/.test(chip.textContent||""))return false;
+    if(![...PMSP_GAME_SCREENS].some(id=>{const el=pmspField(id);return el&&!el.classList.contains("hidden");}))return false;
+    chip.textContent=`Season ${pmspResolveSeason()} / ${Number(showdown.totalRounds)||1}`;return true;
   }
   function pmspScreenVisible(){const screen=pmspField("seasonEntry"),review=pmspField("seasonReviewPanel");return Boolean(screen&&!screen.classList.contains("hidden")&&review&&!review.classList.contains("hidden"));}
   function pmspHistoryWitnessed(){
@@ -943,13 +1153,13 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
     const ui=pmspEnsureUi();if(!ui)return false;const season=pmspEnsureCursor(),state=view?.state,visible=Boolean(pmspSharedMarker()&&season&&state&&pmspScreenVisible()&&Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season);
     pmspHidden(ui.status,!visible);pmspHidden(ui.action,!visible);if(!visible)return false;
     if(pmspTerminalWitnessed()){
-      pmspText(ui.status,`ALL ${state.totalSeasons} SEASONS PLAYED · FINAL RESULT NEXT`);pmspText(ui.action,"ALL SEASONS PLAYED ✓");pmspDisable(ui.action,true);return true;
+      pmspText(ui.status,Number(state.totalSeasons)===1?"SEASON PLAYED · FINAL RESULT NEXT":`ALL ${state.totalSeasons} SEASONS PLAYED · FINAL RESULT NEXT`);pmspText(ui.action,"ALL SEASONS PLAYED ✓");pmspDisable(ui.action,true);return true;
     }
     if(pmspHistoryWitnessed()){
       const next=season+1;pmspText(ui.status,`SEASON ${season} SAVED · CONTINUE TO SEASON ${next}`);pmspText(ui.action,`CONTINUE TO SEASON ${next}`);pmspDisable(ui.action,!pmspCanContinue());return true;
     }
-    // Job 33 (R8): the Shared Season Commit status already says SEASON COMMITTED · SCORE BELOW; do not repeat it.
-    const commitStatus=pmspField("sharedSeasonCommitStatus"),duplicate=Boolean(commitStatus&&!commitStatus.classList.contains("hidden")&&commitStatus.textContent==="SEASON COMMITTED · SCORE BELOW");pmspHidden(ui.status,duplicate);
+    // Job 33 (R8): the Shared Season Commit status already says SEASON CONFIRMED BY BOTH MANAGERS; do not repeat it.
+    const commitStatus=pmspField("sharedSeasonCommitStatus"),duplicate=Boolean(commitStatus&&!commitStatus.classList.contains("hidden")&&commitStatus.textContent==="SEASON CONFIRMED BY BOTH MANAGERS");pmspHidden(ui.status,duplicate);
     pmspText(ui.status,`SEASON ${season} LOCKED · REVIEW IT BEFORE MOVING ON`);pmspText(ui.action,"WAITING FOR SEASON REVIEW");pmspDisable(ui.action,true);return true;
   }
   async function pmspRefreshNow(request=pmspRequest()){
@@ -1005,7 +1215,7 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   function pmspWake(){if(busy){wakePending=true;return;}if(!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
   function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())pmspWake();},POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
 
-  return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});
+  return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,seasonUnknown:pmspSeasonUnknown,nameSeason:pmspNameSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});
 });
 
 ```
@@ -1247,6 +1457,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
+    if(scope.status==="unavailable"&&scope.notice==="continue")current.notice="continue";
     if(["ready","partial","empty"].includes(scope.status)&&scope.score&&scope.managers){
       if(!["daniel","nik"].every(m=>number(scope.score[m])&&scope.managers[m]&&COUNT_FIELDS.every(k=>number(scope.managers[m][k]))))current={status:"unavailable"};
       else {current.score={...scope.score};current.managerRecords=Object.fromEntries(["daniel","nik"].map(m=>[m,Object.fromEntries(COUNT_FIELDS.map(k=>[k,scope.managers[m][k]]))]));}
@@ -1254,6 +1465,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     }
     if(["ready","partial"].includes(current.status)&&!current.managerRecords)current={status:"unavailable"};
     let all={status:career&&["loading","empty","unavailable","partial","ready"].includes(career.status)&&!career.interimLabel?career.status:"unavailable"};
+    // H2 (career truth hunt, as Career Statistics B4): with no finished Showdown nothing counts, so CAREER is the empty career
+    // message, not LEVEL 0-0. A partial career may hold a finished Showdown it could not read: unavailable, never 0-0.
+    if(["ready","partial"].includes(all.status)&&["daniel","nik"].every(m=>career.managers?.[m]?.showdowns?.completed===0))all={status:all.status==="ready"?"empty":"unavailable"};
     if(["ready","partial"].includes(all.status)&&career.managers&&Array.isArray(career.trophyRoom?.standings)){
       const standings={};
       for(const m of ["daniel","nik"]){const row=career.trophyRoom.standings.find(r=>r.manager===m),rec=career.managers[m];if(!row||!rec||!["careerPoints","seasonWins"].every(k=>number(row[k]))||!COUNT_FIELDS.every(k=>number(rec[k]))){all={status:"unavailable"};break;}standings[m]={...Object.fromEntries(COUNT_FIELDS.map(k=>[k,rec[k]])),careerPoints:row.careerPoints,seasonWins:row.seasonWins};}
@@ -1305,7 +1519,13 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function currentRivalry(){
     const snapshot=sfSnapshot(),pair=snapshot.pair;
     if(pair?.initialized===true&&pair.status==="unpaired"&&!pair.rivalryId&&snapshot.terminalClose?.phase==="CLOSED")snapshot.terminalClose=null;
-    return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+    const view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
+    // r87 career fixes (lane C C-01): out of the game the live providers never run, so THIS SHOWDOWN says how to load it
+    // instead of "Loading standings." forever (no read is made for this; in the game nothing changes).
+    return view.status==="loading"&&!sfLiveCanArrive()?{status:"unavailable",notice:"continue"}:view;
+  }
+  function sfLiveCanArrive(){
+    try{return Boolean(root.CareerModeProductionSharedHistoryConvergence?.isActive?.()&&root.CareerModeProductionSharedShowdownSetup?.getState?.()?.sessionId);}catch(_){return false;}
   }
   // A supplied model first, then the provider-backed career model shared with Stats, Trophy Room and History.
   // CE2PG: Standings only reused the model another screen last read, so opened first it said "unavailable" and
@@ -1323,7 +1543,24 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
+  // r87 (CE2PG season 3: net::ERR_FAILED on TRO_SHOWDOWN_CHAMPION_V1_512.webp on both phones): Season Results and Final
+  // Winner both draw the Showdown Champion trophy, and the last season swaps one stage for the other in the same host, so
+  // the first <img> was removed while its load was still in the service worker and the load was cancelled. The trophy is
+  // now loaded once into memory while the screen prepares (behind the loading screen, at most 2.5 s, never an error), and
+  // both stages take it from there. Same URL as the stages use, so it is the same cache entry.
+  const TROPHY_PATH="visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp";
+  let trophyWarm=null,trophyImage=null;
+  function sfWarmTrophy(){
+    if(trophyWarm)return trophyWarm;
+    if(typeof root.Image!=="function"||!root.document)return Promise.resolve(false);
+    trophyWarm=new Promise(resolve=>{
+      let settled=false;const finish=ok=>{if(settled)return;settled=true;if(!ok)trophyWarm=null;resolve(ok);};
+      try{const img=trophyImage=new root.Image();img.decoding="async";img.onload=()=>finish(true);img.onerror=()=>finish(false);img.src=new root.URL(TROPHY_PATH,root.document.baseURI).href;root.setTimeout(()=>finish(false),2500);}catch(_error){finish(false);}
+    });
+    return trophyWarm;
+  }
   async function prepare(folder){
+    if(folder==="season-results"||folder==="final-winner")await sfWarmTrophy();
     if(!templates[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-shell.html"));if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
     if(folder!=="season-results"&&!strings[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-strings.json"));if(!r.ok)throw new Error("V10_RESULTS_STRINGS");strings[folder]=(await r.json()).strings;strings[folder].previewLabel="";}
   }
@@ -3206,6 +3443,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
     // Small and loaded here with the screens it follows; its paper, sheet and copy load only when a paper is due.
+    // r87 Commentary v3: one TV bar inside Season Results' SEASON SCORE box (js/commentaryV3.js); its lines load only there.
+    Promise.resolve().then(()=>root.loadRuntimeScript("commentary-v3","js/commentaryV3.js",()=>Boolean(root.CareerModeCommentaryV3))).then(()=>root.CareerModeCommentaryV3?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error));
     Promise.resolve().then(()=>root.loadRuntimeScript("touchline-gazette","js/touchlineGazette.js",()=>Boolean(root.CareerModeTouchlineGazette))).then(()=>root.CareerModeTouchlineGazette?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Touchline Gazette unavailable.",error));
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.
@@ -3612,6 +3851,425 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 
   return Object.freeze({contractVersion:1,feature:"cms-commentary-engine",roles:ROLES,moments:MOMENTS,order:ORDER,situations:SLOTS,codeOf:CODE_OF,
     conditionalSlots:CONDITIONAL_SLOTS,leagues:LEAGUES,clubAliases:CLUB_ALIASES,positionWords:POSITION_WORDS,ordinal:ceOrdinal,vowelSound:ceVowelSound,situationsFor:ceSituationsFor,pick:cePick,seedFor:ceSeedFor,drawOnEqualTotals:true,tiebreak:false});
+});
+
+```
+
+
+## FILE: js/commentaryV3.js
+```javascript
+(function(root,factory){
+  const api=factory(root);
+  if(typeof module!=="undefined"&&module.exports)module.exports=api;
+  else root.CareerModeCommentaryV3=api;
+})(typeof globalThis!=="undefined"?globalThis:this,function(root){
+  "use strict";
+
+  // r87 Commentary v3 (Nik 2026-10-31: "a huge jump from commentary v2 ... only in selected screens that make sense ...
+  // must fit very nice in the UI and never cover any faces or any button, field or game function ... from data only").
+  //
+  // What v3 adds over v2 (js/commentaryEngine.js picks one stock line for the most specific true situation):
+  //   1. A two-voice TV booth. The COMMENTARY line (a checked v2 line) tells the story; the BY THE NUMBERS line underneath
+  //      is written here from the Showdown's own numbers: exact decider maths ("needs to win the final season by 4 or
+  //      more; by exactly 3 it ends level"), lead changes, streaks, Showdown records, trophy and season counts.
+  //   2. Story-aware choice. The lead line follows the biggest story of the season (a decided Showdown, a new leader, a
+  //      perfect season) and the numbers line never repeats the lead line's topic.
+  //   3. No repeats in a Showdown, the same on both phones. The lines used in earlier seasons are re-derived from the same
+  //      verified history (nothing stored), so no line is said twice in one Showdown and both phones show the same words.
+  //   4. The last season tells the whole Showdown: its bar carries the Showdown verdict (comeback, wire to wire, the
+  //      Golden Showdown, a drawn Showdown).
+  //
+  // Where: one Team V TV bar (visual-assets/v10_1/content/content.css .cmx-bar, Nik's FIFA 17 presentation bar) inside the
+  // SEASON SCORE box of Season Results, in the normal layout flow under the season winner line. Nothing overlays the
+  // screen, nothing dims, nothing is tappable. Shown only once the season is committed and its score is reconciled.
+  // Data: only what the screen already holds (Shared Setup, the acknowledged Season Commit, the reconciled canonical
+  // score and the converged Shared History). No Firebase read, no write, no storage.
+  // Rules: a season is 0 to 11 Showdown points; equal points is a draw (no tiebreak: league position, league points and
+  // goals never decide anything between the two managers).
+
+  const ROLES=Object.freeze(["playerOne","playerTwo"]);
+  const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
+  const LENGTHS=Object.freeze([1,3,5,10]);
+  const MAX=11;
+  const node=typeof module!=="undefined"&&module.exports;
+  const other=role=>role==="playerOne"?"playerTwo":"playerOne";
+  const int=(x,lo,hi)=>Number.isInteger(x)&&x>=lo&&x<=hi;
+  const plain=x=>Boolean(x)&&typeof x==="object"&&!Array.isArray(x);
+  function engine(){return root.CareerModeCommentaryEngine||(node?require("./commentaryEngine.js"):null);}
+
+  // ---------- words ----------
+  const WORDS=["zero","one","two","three","four","five","six","seven","eight","nine","ten"];
+  function count(n,one,many){return `${n<=10?WORDS[n]:n} ${n===1?one:many}`;}
+  function ordinal(n){const tens=n%100;if(tens>=11&&tens<=13)return `${n}th`;return `${n}${({1:"st",2:"nd",3:"rd"})[n%10]||"th"}`;}
+  const ORDINAL_WORDS=["","first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth"];
+  function nth(n){return ORDINAL_WORDS[n]||ordinal(n);}
+
+  // ---------- facts ----------
+  // facts = {showdownId, seasons (1|3|5|10), clubs:{playerOne,playerTwo}, league, teamCount, history:[row...]}
+  // row = one accepted season as Shared History stores it: {playerOne:{leaguePosition, leaguePoints, leagueGoals,
+  // championsLeague, europaLeague?, domesticCup, topScorer, topAssist, scoring:{total,...}}, playerTwo:{...}, winner}.
+  function cvRows(facts){
+    if(!plain(facts)||!LENGTHS.includes(facts.seasons)||!Array.isArray(facts.history))return null;
+    if(facts.history.length<1||facts.history.length>facts.seasons)return null;
+    const rows=[];
+    for(const row of facts.history){
+      if(!plain(row))return null;
+      const out={};
+      for(const role of ROLES){
+        const r=row[role],total=r?.scoring?.total;
+        if(!plain(r)||!int(total,0,MAX)||!int(r.leaguePosition,1,40)||!int(r.leaguePoints,0,200)||!int(r.leagueGoals,0,300))return null;
+        out[role]={points:total,position:r.leaguePosition,leaguePoints:r.leaguePoints,leagueGoals:r.leagueGoals,
+          trophies:(r.leaguePosition===1?1:0)+(r.championsLeague===true?1:0)+(r.europaLeague===true?1:0)+(r.domesticCup===true?1:0)};
+      }
+      const a=out.playerOne.points,b=out.playerTwo.points,winner=a>b?"playerOne":b>a?"playerTwo":"draw";
+      if(row.winner!==undefined&&row.winner!==winner)return null;
+      out.winner=winner;rows.push(out);
+    }
+    return rows;
+  }
+  function cvTotals(rows){let a=0,b=0;return rows.map(r=>{a+=r.playerOne.points;b+=r.playerTwo.points;return {playerOne:a,playerTwo:b};});}
+  function leaderOf(pair){return pair.playerOne>pair.playerTwo?"playerOne":pair.playerTwo>pair.playerOne?"playerTwo":null;}
+  // Lead changes after each season: the overall leader differs from the last manager who led (a level spell in between
+  // does not reset it).
+  function cvLeadChanges(totals){
+    let last=null,changes=0;const out=[];
+    for(const pair of totals){const leader=leaderOf(pair);if(leader&&last&&leader!==last)changes+=1;if(leader)last=leader;out.push(changes);}
+    return out;
+  }
+  function cvRun(rows,end,role){let n=0;for(let k=end;k>=0&&rows[k].winner===role;k-=1)n+=1;return n;}
+  function cvTally(rows){
+    const t={playerOne:0,playerTwo:0,draws:0,trophies:{playerOne:0,playerTwo:0}};
+    for(const r of rows){if(r.winner==="draw")t.draws+=1;else t[r.winner]+=1;for(const role of ROLES)t.trophies[role]+=r[role].trophies;}
+    return t;
+  }
+  function both(a,b,unit){return `${NAMES.playerOne} ${a}, ${NAMES.playerTwo} ${b}${unit||""}`;}
+
+  // ---------- BY THE NUMBERS: season ----------
+  // Every candidate is true for this season by construction; the first one whose topic the lead line does not already
+  // cover is shown. `topic` lets the booth avoid saying the same thing twice.
+  function seasonNumbers(rows,s,N,clubs){
+    const totals=cvTotals(rows),row=rows[s-1],after=totals[s-1],before=s>1?totals[s-2]:{playerOne:0,playerTwo:0};
+    const left=N-s,leader=leaderOf(after),gap=leader?after[leader]-after[other(leader)]:0,W=row.winner==="draw"?null:row.winner;
+    const L=leader?NAMES[leader]:null,T=leader?NAMES[other(leader)]:null,out=[],add=(id,topic,text)=>out.push({id,topic,text});
+    const seasonsLeft=count(left,"season","seasons");
+    // The clock: what is still possible. Most a season can swing the gap is 11 (11 to 0).
+    if(leader&&left>0&&gap>MAX*left)add("decided","math",`${L} leads by ${gap} with ${seasonsLeft} to play, and the most ${T} can win back is ${MAX*left}. The Showdown is decided.`);
+    else if(leader&&left>0&&gap===MAX*left)add("draw-only","math",`${T} can no longer win it. The best left is a level Showdown, and only by winning ${left===1?"the last season":"every season left"} 11 to 0.`);
+    else if(left===1&&leader)add("decider","math",`One season left, ${L} ${after[leader]}, ${T} ${after[other(leader)]}. ${T} must win it by ${gap+1} or more to take the Showdown; by exactly ${gap}, it ends level.`);
+    else if(left===1&&!leader)add("decider-level","math",`Level on ${after.playerOne} with one season left: whoever wins the final season wins the Showdown, and a drawn season means a drawn Showdown.`);
+    // The lead.
+    const changes=cvLeadChanges(totals),leaderBefore=leaderOf(before);
+    const changedNow=s>1&&changes[s-1]>changes[s-2];
+    if(changedNow&&changes[s-1]>=2)add("lead-change","overall",`That is the ${nth(changes[s-1])} change of lead in this Showdown. ${L} now leads ${after[leader]} to ${after[other(leader)]}.`);
+    // Runs.
+    if(s>1&&rows[s-2].winner!=="draw"&&W===other(rows[s-2].winner)){const ended=cvRun(rows,s-2,rows[s-2].winner);if(ended>=3)add("run-ended","streak",`${NAMES[W]} ends ${NAMES[rows[s-2].winner]}'s run of ${ended} straight season wins.`);}
+    if(W){const run=cvRun(rows,s-1,W);if(run>=3)add("run","streak",`${NAMES[W]} has now won ${run} seasons in a row.`);}
+    // Showdown records (only once there are two earlier seasons to beat, so a record means something).
+    if(s>2){
+      const earlier=rows.slice(0,s-1);
+      const margin=Math.abs(row.playerOne.points-row.playerTwo.points),prevMargin=Math.max(...earlier.map(r=>Math.abs(r.playerOne.points-r.playerTwo.points)));
+      if(W&&prevMargin>0&&margin>prevMargin)add("record-margin","margin",`A ${margin}-point margin: the biggest season win of this Showdown so far.`);
+      const best=Math.max(row.playerOne.points,row.playerTwo.points),prevBest=Math.max(...earlier.flatMap(r=>[r.playerOne.points,r.playerTwo.points]));
+      if(best>prevBest&&best>0){const who=ROLES.filter(role=>row[role].points===best);add("record-score","record",who.length===2?`Both managers scored ${best}, the best season score of this Showdown so far.`:`${NAMES[who[0]]}'s ${best} is the best season score of this Showdown so far.`);}
+      for(const [key,label] of [["leaguePoints","league points"],["leagueGoals","league goals"]]){
+        const top=Math.max(row.playerOne[key],row.playerTwo[key]),prev=Math.max(...earlier.flatMap(r=>[r.playerOne[key],r.playerTwo[key]])),who=ROLES.filter(role=>row[role][key]===top);
+        if(top>prev&&who.length===1){const club=plain(clubs)&&typeof clubs[who[0]]==="string"?clubs[who[0]]:null;add(`record-${key}`,"record",`${NAMES[who[0]]}'s ${top} ${label}${club?` with ${club}`:""} are the most by either manager in this Showdown.`);}
+      }
+    }
+    if(s>1){
+      if(leader&&leaderBefore!==leader&&!totals.slice(0,s-1).some(pair=>leaderOf(pair)===leader))add("first-lead","overall",`${L} leads the Showdown for the first time, ${after[leader]} to ${after[other(leader)]}.`);
+      if(W&&cvRun(rows,s-1,W)===2)add("back-to-back","streak",`Back-to-back season wins for ${NAMES[W]}. Overall: ${both(after.playerOne,after.playerTwo)}.`);
+    }
+    // Counts.
+    const tally=cvTally(rows.slice(0,s));
+    if(s>1&&(row.playerOne.trophies>0||row.playerTwo.trophies>0))add("trophy-count","trophy",`Trophies in this Showdown: ${both(tally.trophies.playerOne,tally.trophies.playerTwo)}.`);
+    if(s>1)add("season-count","tally",`Seasons won: ${both(tally.playerOne,tally.playerTwo)}${tally.draws?`, with ${count(tally.draws,"draw","draws")}`:""}. Overall: ${both(after.playerOne,after.playerTwo)}.`);
+    if(left>0)add("clock","clock",`${seasonsLeft[0].toUpperCase()+seasonsLeft.slice(1)} to go, with up to ${MAX*left} points each still to win. Overall: ${both(after.playerOne,after.playerTwo)}.`);
+    return out;
+  }
+
+  // ---------- BY THE NUMBERS: the whole Showdown (its last season) ----------
+  function finalNumbers(rows,N){
+    const totals=cvTotals(rows),end=totals[N-1],W=leaderOf(end),tally=cvTally(rows),out=[],add=(id,topic,text)=>out.push({id,topic,text});
+    if(!W){
+      // 110 each in a 10-season Showdown: level, and a Golden Showdown for both (the Rule Book's 110 is per manager).
+      if(N===10&&end.playerOne===MAX*N)add("final-golden-both","golden",`110 each: both managers won 11 points in every season, a Golden Showdown for both, and the Showdown is drawn.`);
+      add("final-level","level",`Level on ${end.playerOne} after ${count(N,"season","seasons")}, so the Showdown is drawn. Seasons won: ${both(tally.playerOne,tally.playerTwo)}.`);
+      return out;
+    }
+    const Lr=other(W),w=NAMES[W],l=NAMES[Lr],score=`${w} ${end[W]}, ${l} ${end[Lr]}`;
+    if(N===10&&end[W]===MAX*N)add("final-golden","golden",`110 out of 110 for ${w}: every season won 11 points, the Golden Showdown.`);
+    const behind=totals.filter(pair=>pair[W]<pair[Lr]).length;
+    if(behind>0)add("final-comeback","comeback",`${w} was behind after ${count(behind,"season","seasons")} of ${N} and still won the Showdown, ${end[W]} to ${end[Lr]}.`);
+    if(N>=3&&totals.every(pair=>pair[W]>pair[Lr]))add("final-wire","wire",`${w} led after every one of the ${N} seasons and finishes ${end[W]} to ${end[Lr]}.`);
+    if(N>=2){const pre=totals[N-2];if(pre[W]-pre[Lr]<MAX)add("final-late","clock",`${both(pre.playerOne,pre.playerTwo)} with one season left; ${score} at full time.`);}
+    if(N>=2)add("final-count","tally",`Full time: ${score}. Seasons won: ${both(tally.playerOne,tally.playerTwo)}${tally.draws?`, with ${count(tally.draws,"draw","draws")}`:""}.`);
+    if(N===1)add("final-sprint","tally",`One season, one verdict: ${w} ${end[W]}, ${l} ${end[Lr]}. Trophies: ${both(tally.trophies.playerOne,tally.trophies.playerTwo)}.`);
+    return out;
+  }
+
+  // ---------- the lead line (COMMENTARY) ----------
+  // v2 ranks by how specific a situation is; the booth leads with the biggest story first, then keeps v2's order.
+  const LEAD_FIRST=Object.freeze({
+    "season-result":Object.freeze(["clock-clinched","clock-dead-rubber","season-perfect","overall-lead-taken","trophy-treble","record-centurion-double","streak-broken","streak-long","clock-final-open"]),
+    "final":Object.freeze(["final-golden","final-last-season-swing","final-comeback","final-wire-to-wire","final-drawn","final-sprint"])
+  });
+  // Career situations need every earlier Showdown; the booth has only this one, so it never claims them. "Led from start to
+  // finish" means nothing in a one-season Showdown.
+  const NEEDS_CAREER=/^career-/;
+  function topicOf(situation){
+    if(/^clock-/.test(situation))return "clock";
+    if(/^overall-/.test(situation))return "overall";
+    if(/^streak-|^unbeaten-run$/.test(situation))return "streak";
+    if(/^record-/.test(situation))return "record";
+    if(/^trophy-|^both-league-titles$|^both-european$/.test(situation))return "trophy";
+    if(/^season-win-by-|^season-shutout$/.test(situation))return "margin";
+    if(situation==="final-golden")return "golden";
+    if(situation==="final-comeback"||situation==="final-last-season-swing")return "comeback";
+    if(situation==="final-wire-to-wire")return "wire";
+    if(situation==="final-drawn")return "tally";
+    return "other";
+  }
+  // A 1-0 or 2-0 "shutout" is a quiet season, not a headline: it keeps v2's place only when the winner scored 5 or more.
+  function ordered(moment,entries,avoid){
+    const first=LEAD_FIRST[moment]||[],quiet=e=>e.situation==="season-shutout"&&!(Number(e.slots.winnerPoints)>=5);
+    const rank=e=>{if(quiet(e))return first.length+1;const i=first.indexOf(e.situation);return i<0?first.length:i;};
+    return entries.filter(e=>!NEEDS_CAREER.test(e.situation)&&!(e.situation==="final-wire-to-wire"&&Number(e.slots.seasons)<3)).map((e,i)=>({e,i})).sort((x,y)=>(avoid.has(x.e.situation)-avoid.has(y.e.situation))||rank(x.e)-rank(y.e)||x.i-y.i).map(x=>x.e);
+  }
+  function v2Facts(facts,season){
+    const league=typeof facts.league==="string"?facts.league:null,clubs=plain(facts.clubs)?facts.clubs:{};
+    return {managers:{playerOne:{name:NAMES.playerOne,club:clubs.playerOne||null,league},playerTwo:{name:NAMES.playerTwo,club:clubs.playerTwo||null,league}},
+      seasons:facts.seasons,season,results:facts.history.slice(0,season).map(row=>({...row,teamCount:facts.teamCount}))};
+  }
+  // Stock lines were written for any number; "1 points" reads wrong on air, so the booth says "1 point".
+  function grammar(value){return String(value).replace(/(^|[^\d.])1 (Showdown |league )?points\b/g,"$11 $2point");}
+  function linesOf(lines){return Array.isArray(lines)?lines:Array.isArray(lines?.results)?lines.results:[];}
+
+  // One booth call per season: {season, moment, lead:{id,situation,text}|null, numbers:{id,topic,text}|null}.
+  // Earlier seasons' lead lines are re-derived first so this season never repeats one (the same on both phones).
+  function cvCall(facts,season,lines,memo){
+    const E=engine(),rows=cvRows(facts),N=facts?.seasons;
+    if(!E||!rows||!int(season,1,rows.length)||!int(facts.teamCount,2,40))return null;
+    const used=memo?.used||new Set(),last=season===N,moment=last?"final":"season-result";
+    let entries;
+    try{entries=last?E.situationsFor("final",{...v2Facts(facts,season),history:[]}):E.situationsFor("season-result",v2Facts(facts,season));}catch(_){return null;}
+    const avoid=new Set(memo?.lastSituation?[memo.lastSituation]:[]);
+    const picked=E.pick(ordered(moment,entries,avoid),linesOf(lines),E.seedFor(String(facts.showdownId||""),"v3-"+moment,season),used);
+    const lead=picked?Object.freeze({...picked,text:grammar(picked.text)}):null;
+    const pool=last?finalNumbers(rows.slice(0,N),N):seasonNumbers(rows.slice(0,season),season,N,facts.clubs);
+    const leadTopic=lead?topicOf(lead.situation):null;
+    const numbers=pool.find(item=>item.topic!==leadTopic)||null;
+    return Object.freeze({season,moment,lead,numbers});
+  }
+  function call(facts,season,lines){
+    if(!plain(facts)||!int(season,1,10))return null;
+    const used=new Set();let lastSituation=null,result=null;
+    for(let s=1;s<=season;s+=1){
+      result=cvCall(facts,s,lines,{used,lastSituation});
+      if(!result)return null;
+      if(result.lead){used.add(result.lead.id);lastSituation=result.lead.situation;}
+    }
+    return result;
+  }
+
+  // ---------- browser: Season Results ----------
+  const BAR_ID="commentaryV3Bar";
+  let installed=false,scheduled=false,observer=null,assets=null,typing=null;
+  function state(name){try{return root[name]?.getState?.()||null;}catch(_){return null;}}
+  function cvLiveFacts(){
+    const setupState=state("CareerModeProductionSharedShowdownSetup"),setup=setupState?.setup;
+    if(!setupState||setupState.ready!==true||setup?.phase!=="SHOWDOWN_CONFIRMED"||!setupState.rivalryId)return null;
+    const rivalryId=String(setupState.rivalryId),N=setup.totalSeasons;if(!LENGTHS.includes(N))return null;
+    const scoring=state("CareerModeProductionSharedCanonicalScoring");
+    if(!scoring||scoring.authoritative!==true||scoring.phase!=="SCORING_RECONCILED"||!int(scoring.seasonNumber,1,N))return null;
+    const s=scoring.seasonNumber,commit=state("CareerModeProductionSharedSeasonCommit");
+    if(!commit||commit.committed!==true||commit.seasonNumber!==s||!plain(commit.results)||(commit.rivalryId&&String(commit.rivalryId)!==rivalryId))return null;
+    const history=state("CareerModeProductionSharedHistoryConvergence"),p=history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&String(history.rivalryId)===rivalryId?history.projection:null;
+    const accepted=Array.isArray(p?.seasonHistory)?p.seasonHistory:[];
+    const rows=[];
+    for(let k=1;k<s;k+=1){const row=accepted[k-1];if(!row||row.roundNumber!==k)return null;rows.push(row);}
+    const own=accepted[s-1]&&accepted[s-1].roundNumber===s?accepted[s-1]:{playerOne:{...commit.results.playerOne,scoring:scoring.scoring?.playerOne},playerTwo:{...commit.results.playerTwo,scoring:scoring.scoring?.playerTwo},winner:scoring.winner};
+    rows.push(own);
+    const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[setup.leagueId];
+    return {showdownId:rivalryId,seasons:N,league:setup.leagueId,clubs:setup.clubs,teamCount:Array.isArray(teams)?teams.length:null,history:rows,season:s};
+  }
+  function cvLoadAssets(){
+    if(assets)return assets;
+    const load=root.loadRuntimeScript,style=root.loadRuntimeStyle;
+    if(typeof load!=="function")return Promise.reject(new Error("COMMENTARY_LOADER_UNAVAILABLE"));
+    assets=Promise.all([
+      typeof style==="function"?style("gazette-content","visual-assets/v10_1/content/content.css").catch(()=>null):null,
+      load("commentary-engine","js/commentaryEngine.js",()=>Boolean(root.CareerModeCommentaryEngine)),
+      load("commentary-lines","data/commentaryLines.js",()=>Boolean(root.CareerModeCommentaryLines))
+    ]).then(()=>true);
+    assets.catch(()=>{assets=null;});
+    return assets;
+  }
+  const MIC='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a4 4 0 0 0 4-4V5a4 4 0 1 0-8 0v6a4 4 0 0 0 4 4zm7-4a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-3.08A7 7 0 0 0 19 11z"/></svg>';
+  function cvRule(doc){
+    if(doc.getElementById("commentaryV3Rule"))return;
+    const style=doc.createElement("style");style.id="commentaryV3Rule";
+    // Booth layout inside Team V's bar: lead line + a smaller gold BY THE NUMBERS line. In flow, never on top of anything.
+    style.textContent=`
+#${BAR_ID}{display:block;margin:14px 0 2px;pointer-events:none;user-select:text}
+#${BAR_ID} .cmx-bar{margin-top:18px}
+#${BAR_ID} .cmx-bar__slab{flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 44px 10px 30px}
+#${BAR_ID} .cmv3-line{position:relative;margin:0}
+#${BAR_ID} .cmv3-lead{color:#f6f2e8;font:600 18px/1.22 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9);text-wrap:pretty}
+#${BAR_ID} .cmv3-numbers{color:#ffd34d;font:600 13px/1.25 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.03em;text-wrap:pretty}
+#${BAR_ID} .cmv3-numbers b{display:inline-block;margin-right:7px;padding:1px 6px 0;background:#e0ae3a;color:#07080a;font-weight:700;font-size:10px;letter-spacing:.18em;line-height:15px;vertical-align:1px}
+#${BAR_ID} .cmv3-ghost{color:transparent;text-shadow:none}
+#${BAR_ID} .cmv3-typed{position:absolute;inset:0}
+#${BAR_ID} .cmv3-numbers.is-waiting{opacity:0}
+#${BAR_ID} .cmv3-numbers.is-in{transition:opacity .45s ease}
+/* Desktop: the bar sits beside the score lines in the same box and is kept no taller than them, so the box does not grow and CONTINUE stays on the first view. */
+@media (min-width:901px){
+  #sharedCanonicalScoringPanel.cmv3-has{display:grid;grid-template-columns:fit-content(56%) minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;column-gap:16px}
+  #sharedCanonicalScoringPanel.cmv3-has>:not(#${BAR_ID}){grid-column:1}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID}{grid-column:2;grid-row:1/span 5;align-self:center;margin:0}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar{margin-top:0;min-height:0}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__tab{display:none}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__accent{width:46px}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__accent svg{width:18px;height:18px;margin-right:8px}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__slab{padding:4px 30px 4px 20px;gap:2px}
+  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__end{width:30px;clip-path:polygon(20px 0,100% 0,100% 100%,0 100%)}
+  #${BAR_ID} .cmv3-lead{font-size:15px;line-height:1.12}
+  #${BAR_ID} .cmv3-numbers{font-size:12px;line-height:1.2}
+}
+@media (max-width:600px){
+  #${BAR_ID}{margin:10px 0 0}
+  #${BAR_ID} .cmx-bar{margin-top:0}
+  #${BAR_ID} .cmx-bar__slab{padding:8px 26px 8px 20px;gap:4px}
+  #${BAR_ID} .cmv3-lead{font-size:15px;line-height:1.2}
+  #${BAR_ID} .cmv3-numbers{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){#${BAR_ID} .cmx-bar.is-in{animation:none}#${BAR_ID} .cmv3-numbers.is-in{transition:none}}
+`;
+    doc.head.appendChild(style);
+  }
+  function text(doc,tag,cls,value){const el=doc.createElement(tag);el.className=cls;if(value!==undefined)el.textContent=value;return el;}
+  function cvBuildBar(doc,result){
+    const wrap=doc.createElement("div");wrap.id=BAR_ID;wrap.className="cmx cmv3";wrap.setAttribute("role","note");wrap.setAttribute("aria-label","Commentary");
+    const bar=text(doc,"div","cmx-bar is-in");
+    bar.appendChild(text(doc,"span","cmx-bar__tab",result.moment==="final"?"FULL TIME":"COMMENTARY"));
+    const accent=text(doc,"span","cmx-bar__accent");accent.innerHTML=MIC;bar.appendChild(accent);
+    const slab=text(doc,"div","cmx-bar__slab");
+    let typed=null;
+    if(result.lead){
+      const lead=text(doc,"div","cmv3-line cmv3-lead");
+      // The full line is laid out once (transparent) so typing never moves anything, and screen readers read it whole.
+      lead.appendChild(text(doc,"span","cmv3-ghost",result.lead.text));
+      typed=text(doc,"span","cmv3-typed");typed.setAttribute("aria-hidden","true");lead.appendChild(typed);
+      slab.appendChild(lead);
+    }
+    let numbers=null;
+    if(result.numbers){numbers=text(doc,"div","cmv3-line cmv3-numbers");numbers.appendChild(text(doc,"b","",result.moment==="final"?"THE SHOWDOWN":"BY THE NUMBERS"));numbers.appendChild(doc.createTextNode(result.numbers.text));slab.appendChild(numbers);}
+    bar.appendChild(slab);bar.appendChild(text(doc,"span","cmx-bar__end"));wrap.appendChild(bar);
+    return {wrap,typed,numbers,full:result.lead?.text||""};
+  }
+  function cvStopTyping(){if(typing){root.clearInterval?.(typing);typing=null;}}
+  function cvPlay(parts){
+    cvStopTyping();
+    const reduce=root.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const finish=()=>{if(parts.typed){parts.typed.textContent=parts.full;}if(parts.numbers){parts.numbers.classList.remove("is-waiting");parts.numbers.classList.add("is-in");}};
+    if(reduce||!parts.typed||typeof root.setInterval!=="function"){finish();return;}
+    if(parts.numbers)parts.numbers.classList.add("is-waiting");
+    let shown=0;const step=Math.max(1,Math.round(parts.full.length/70));
+    typing=root.setInterval(()=>{shown=Math.min(parts.full.length,shown+step);parts.typed.textContent=parts.full.slice(0,shown);if(shown>=parts.full.length){cvStopTyping();finish();}},24);
+  }
+  function cvRemove(){cvStopTyping();const bar=root.document?.getElementById(BAR_ID);if(bar){bar.parentNode?.classList?.remove("cmv3-has");bar.remove();}}
+  // Final Winner (lead request 2026-10-31): Team V's stage fills the window and has no free slot, so the Showdown verdict
+  // sits BELOW the stage in the page flow (main scrolls to it). Nothing on the stage moves or is covered. Facts come from the
+  // same verified history Final Winner itself was drawn from (CareerModeSeasonFinalV10.gazetteHistory), checked against the
+  // totals the stage shows.
+  const FINAL_ID="commentaryV3Final";
+  function cvFinalFacts(){
+    const host=root.document?.getElementById("seasonEntry");
+    if(!host||host.classList.contains("hidden")||!host.classList.contains("v10FinalMode")||!host.querySelector(".v10FinalStage"))return null;
+    const history=root.CareerModeSeasonFinalV10?.gazetteHistory?.(),p=history?.projection;
+    if(!p||!Array.isArray(p.seasonHistory)||!LENGTHS.includes(p.totalSeasons)||p.seasonHistory.length!==p.totalSeasons)return null;
+    if(p.seasonHistory.some((row,i)=>row?.roundNumber!==i+1))return null;
+    const frame=root.FINAL_WINNER_FIXTURES?.frames?.LIVE;
+    let a=0,b=0;for(const row of p.seasonHistory){a+=row.playerOne?.scoring?.total;b+=row.playerTwo?.scoring?.total;}
+    if(!frame||frame.totals?.daniel!==a||frame.totals?.nik!==b)return null;
+    const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[p.leagueId];
+    return {showdownId:String(p.rivalryId||history.rivalryId||""),seasons:p.totalSeasons,league:p.leagueId,clubs:{playerOne:p.managerRecords?.playerOne?.club,playerTwo:p.managerRecords?.playerTwo?.club},
+      teamCount:Array.isArray(teams)?teams.length:null,history:p.seasonHistory,season:p.totalSeasons};
+  }
+  function cvFinalRule(doc){
+    if(doc.getElementById("commentaryV3FinalRule"))return;
+    const style=doc.createElement("style");style.id="commentaryV3FinalRule";
+    style.textContent=`
+#${FINAL_ID}{display:block;box-sizing:border-box;width:min(1040px,100%);margin:0 auto;padding:22px 16px 28px;pointer-events:none;user-select:text}
+#${FINAL_ID} .cmx-bar__slab{flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 44px 10px 30px}
+#${FINAL_ID} .cmv3-line{position:relative;margin:0}
+#${FINAL_ID} .cmv3-lead{color:#f6f2e8;font:600 18px/1.22 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9);text-wrap:pretty}
+#${FINAL_ID} .cmv3-numbers{color:#ffd34d;font:600 13px/1.25 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.03em;text-wrap:pretty}
+#${FINAL_ID} .cmv3-numbers b{display:inline-block;margin-right:7px;padding:1px 6px 0;background:#e0ae3a;color:#07080a;font-weight:700;font-size:10px;letter-spacing:.18em;line-height:15px;vertical-align:1px}
+#${FINAL_ID} .cmv3-ghost{color:transparent;text-shadow:none}
+#${FINAL_ID} .cmv3-typed{position:absolute;inset:0}
+@media (max-width:600px){
+  #${FINAL_ID}{padding:16px 16px 22px}
+  #${FINAL_ID} .cmx-bar{margin-top:0}
+  #${FINAL_ID} .cmx-bar__slab{padding:8px 26px 8px 20px;gap:4px}
+  #${FINAL_ID} .cmv3-lead{font-size:15px;line-height:1.2}
+  #${FINAL_ID} .cmv3-numbers{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){#${FINAL_ID} .cmx-bar.is-in{animation:none}}
+`;
+    doc.head.appendChild(style);
+  }
+  function cvRemoveFinal(){root.document?.getElementById(FINAL_ID)?.remove();}
+  function cvRenderFinal(doc){
+    const facts=cvFinalFacts();if(!facts||!facts.teamCount){cvRemoveFinal();return;}
+    const key=`${facts.showdownId}|final|${facts.history.map(r=>`${r.playerOne?.scoring?.total}-${r.playerTwo?.scoring?.total}`).join(",")}`;
+    const host=doc.getElementById("seasonEntry"),existing=doc.getElementById(FINAL_ID);
+    if(existing&&existing.dataset.key===key&&existing.previousElementSibling===host)return;
+    if(!root.CareerModeCommentaryEngine||!root.CareerModeCommentaryLines){cvLoadAssets().then(cvSchedule,()=>{});return;}
+    const result=call(facts,facts.season,root.CareerModeCommentaryLines);
+    cvRemoveFinal();if(!result||(!result.lead&&!result.numbers))return;
+    cvRule(doc);cvFinalRule(doc);
+    const parts=cvBuildBar(doc,result);parts.wrap.id=FINAL_ID;parts.wrap.dataset.key=key;
+    host.after(parts.wrap);
+    // Below the stage it is read after a scroll, so it is shown whole (no typing).
+    if(parts.typed)parts.typed.textContent=parts.full;if(parts.numbers)parts.numbers.classList.add("is-in");
+  }
+  function cvRender(){
+    const doc=root.document;if(!doc)return;
+    const finalMode=doc.getElementById("seasonEntry")?.classList.contains("v10FinalMode")&&root.getActiveScreenName?.()==="seasonEntry";
+    if(finalMode){cvRemove();cvRenderFinal(doc);return;}
+    cvRemoveFinal();
+    const panel=doc.getElementById("sharedCanonicalScoringPanel"),winner=doc.getElementById("sharedCanonicalScoringWinner");
+    if(!panel||!winner||panel.classList.contains("hidden")||panel.hidden){cvRemove();return;}
+    const facts=cvLiveFacts();if(!facts||!facts.teamCount){cvRemove();return;}
+    const key=`${facts.showdownId}|${facts.season}|${facts.history.map(r=>`${r.playerOne?.scoring?.total}-${r.playerTwo?.scoring?.total}`).join(",")}`;
+    const existing=doc.getElementById(BAR_ID);
+    if(existing&&existing.dataset.key===key&&existing.parentNode===panel)return;
+    if(!root.CareerModeCommentaryEngine||!root.CareerModeCommentaryLines){cvLoadAssets().then(cvSchedule,()=>{});return;}
+    const result=call(facts,facts.season,root.CareerModeCommentaryLines);
+    if(!result||(!result.lead&&!result.numbers)){cvRemove();return;}
+    cvRemove();cvRule(doc);
+    const parts=cvBuildBar(doc,result);parts.wrap.dataset.key=key;
+    panel.appendChild(parts.wrap);panel.classList.add("cmv3-has");
+    cvPlay(parts);
+  }
+  function cvSchedule(){if(scheduled)return;scheduled=true;root.setTimeout(()=>{scheduled=false;try{cvRender();}catch(error){root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error);cvRemove();}},0);}
+  function cvWatch(){
+    if(observer||typeof root.MutationObserver!=="function")return;
+    const host=root.document?.getElementById("seasonEntry");if(!host)return;
+    observer=new root.MutationObserver(list=>{const bar=root.document.getElementById(BAR_ID);if(list.every(m=>bar&&bar.contains(m.target)))return;cvSchedule();});
+    observer.observe(host,{subtree:true,childList:true,attributes:true,attributeFilter:["class","hidden"]});
+  }
+  function cvInstall(){
+    if(installed)return true;installed=true;
+    for(const e of ["career-mode-shared-history-convergence-state-change","career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change"])root.addEventListener?.(e,cvSchedule);
+    root.document?.addEventListener?.("career-mode-screen-shown",()=>{cvWatch();if(root.getActiveScreenName?.()==="seasonEntry")cvLoadAssets().then(cvSchedule,()=>{});else{cvRemove();cvRemoveFinal();}});
+    cvWatch();cvSchedule();
+    return true;
+  }
+
+  return Object.freeze({contractVersion:3,feature:"cms-commentary-v3",names:NAMES,leadFirst:LEAD_FIRST,call,seasonNumbers:(facts,season)=>{const rows=cvRows(facts);return rows&&int(season,1,rows.length)?seasonNumbers(rows.slice(0,season),season,facts.seasons,facts.clubs):null;},
+    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons):null;},topicOf,install:cvInstall,_liveFacts:cvLiveFacts,_render:cvRender,_finalFacts:cvFinalFacts});
 });
 
 ```
@@ -4892,7 +5550,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 ```
 
 
-## FILE: data/gazetteCopy.js (EXCERPT: first 30000 bytes of 188215; the rest has the same row shape)
+## FILE: data/gazetteCopy.js (EXCERPT: first 30000 bytes of 188199; the rest has the same row shape)
 ```javascript
 (function(root,factory){
   const api=factory();
@@ -4919,7 +5577,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     {"id":"s-011","situation":"comfortable-win","edition":"season","byline":"Gazette football desk","standfirst":"Calm hands won season {seasonNo} for {winner}, who steered {winnerClub} home {margin} ahead of a game and persistent {loser}.","paragraphs":["Calm is underrated in a rivalry. {winner} kept the pace sensible and the results steady, and the table rewarded {winnerClub} with {winnerPoints} and a healthy cushion.","{loserClub} finished on {loserPoints}, a total of real quality, and {loser} can hold their head high. The margin hurts only because the standard was so high.","Season {seasonNo} of {seasonsTotal} will be remembered as the one that stayed under control."],"pullquote":{"text":"Steady wins seasons, and showy wins applause.","who":"The Gazette desk"}},
     {"id":"s-012","situation":"comfortable-win","edition":"season","byline":"By our senior correspondent","standfirst":"Our senior correspondent has seen plenty of campaigns, and few have been settled as tidily as {winner} settled season {seasonNo}.","paragraphs":["The shape of the season was clear by the closing weeks. {winnerClub} led, {loserClub} chased, and the final table showed {winnerPoints} against {loserPoints}, a gap of {margin} that nobody could argue with.","{loser} produced a respectable campaign, and the Gazette does not for a moment suggest otherwise. It simply happened to meet a slightly better one.","The reply is next, and rivals of this temperament always have one."],"pullquote":{"text":"It was not a landslide. It was a very firm nudge.","who":"A senior columnist"}},
     {"id":"s-013","situation":"narrow-win","edition":"season","byline":"From our touchline desk","standfirst":"The margin was thin enough to read through, and {winner} edged season {seasonNo} by {margin} over a defiant {loser}.","paragraphs":["A season this close is decided in the margins, and the margins were kind to {winnerClub}. It ended {margin} ahead of {loserClub}, with {winnerPoints} against {loserPoints} on the board.","{loser} will replay a handful of moments for weeks. That is the lot of the runner-up in a race like this, and it is also the fuel for what comes next.","Season {seasonNo} of {seasonsTotal} ends with one very happy manager and one very close call."],"pullquote":{"text":"Thin margins make loud memories.","who":"A Gazette columnist"}},
-    {"id":"s-014","situation":"narrow-win","edition":"season","byline":"By our senior correspondent","standfirst":"It took the very last pages of season {seasonNo} to settle things, and {winner} came through by {margin} to take the honours.","paragraphs":["Nerves were on show in both camps. In the end {winnerClub} held firm, finished {margin} ahead and left {loserClub} to wonder how a season so well fought could end so narrowly.","{loser} earned {loserPoints} and the full respect of the press box. Close results sting more, but they also tend to produce the best second acts.","The rematch is already circled in red. Season {seasonNo} was merely the opening round of a long argument."],"pullquote":{"text":"Close enough to touch. Far enough to hurt.","who":"The senior desk"}},
+    {"id":"s-014","situation":"narrow-win","edition":"season","byline":"By our senior correspondent","standfirst":"It took the very last pages of season {seasonNo} to settle things, and {winner} came through by {margin} to take the honours.","paragraphs":["Nerves were on show in both camps. In the end {winnerClub} held firm, finished {margin} ahead and left {loserClub} to wonder how a season so well fought could end so narrowly.","{loser} earned {loserPoints} and the full respect of the press box. Close results sting more, but they also tend to produce the best second acts.","The rematch is already circled in red. Season {seasonNo} was merely one round of a long argument."],"pullquote":{"text":"Close enough to touch. Far enough to hurt.","who":"The senior desk"}},
     {"id":"s-015","situation":"narrow-win","edition":"season","byline":"From the press box","standfirst":"From the press box it looked like a coin toss until the end, but {winner} called it right and finished season {seasonNo} ahead by {margin}.","paragraphs":["The whole box held its breath. {winnerClub} and {loserClub} traded the lead in spirit all year, and only the closing table showed that {winner} had held on by {margin}.","No one could call {loser} unlucky, only unrewarded. The tally of {loserPoints} is a total that would please most managers, and {winnerPoints} simply pleased one more.","That is how rivalries are kept honest."],"pullquote":{"text":"Next season, the coin gets tossed again.","who":"The press box"}},
     {"id":"s-016","situation":"narrow-win","edition":"season","byline":"Our chief football writer","standfirst":"Our chief football writer calls it the closest kind of victory, where {winner} held {loser} off by {margin} and not a point more.","paragraphs":["Narrow wins have a flavour of their own. {winnerClub} did not dominate, did not coast and did not flinch, and the result was a lead of {margin} that felt larger than it looked.","{loserClub} pushed to the last, and {loser} should be proud of a total of {loserPoints}. Little separated the sides, which is just how this rivalry likes it.","Season {seasonNo} has a winner, but the argument has no end."],"pullquote":{"text":"A narrow win still counts in full. That is the cruelty of arithmetic.","who":"A Gazette columnist"}},
     {"id":"s-017","situation":"narrow-win","edition":"season","byline":"From our rivalry desk","standfirst":"The rivalry desk has rarely seen a gap so slim hold so firm, as {winner} finished season {seasonNo} just {margin} ahead of {loser}.","paragraphs":["There is a particular tension in a season that could have gone either way. {winnerClub} edged it, {loserClub} pressed to the end, and the table shows {winnerPoints} against {loserPoints} with almost nothing between.","{winner} took the honours and {loser} took the notes. Both will be better for it, and the Gazette expects the next meeting to be as tight.","Season {seasonNo} of {seasonsTotal} proves once more that the rivalry is not for the faint-hearted."],"pullquote":{"text":"A season this close deserves two trophies and one engraver.","who":"The rivalry desk"}},
@@ -4940,12 +5598,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     {"id":"s-032","situation":"europa-league","edition":"season","byline":"Our correspondent on honours","standfirst":"The Europa League victory gives {winner} something more durable than an impressive entry in the seasonal points record.","paragraphs":["An entry in the Showdown ledger can be read in a moment. What stands behind this one is larger: {winner} has guided {winnerClub} to the Europa League title, a concrete honour rather than an interpretation of form.","For {loser}, the distinction matters because the rivalry measures accomplishments, not simply competing opinions about them. A trophy provides evidence that both managers can recognise, even as they continue to value their own seasons differently.","In the archive, the figures will sit beside the title. Neither needs exaggerating, and together they explain why this European success merits the front page."],"pullquote":{"text":"Figures record the contest. The cup tells us what one campaign achieved.","who":"The Gazette archive editor"}},
     {"id":"s-033","situation":"europa-league","edition":"season","byline":"The Gazette rivalry correspondent","standfirst":"{loser} has a European triumph to measure against, after {winner} turned this season into a title-winning campaign for {winnerClub}.","paragraphs":["Respect is easiest to recognise when the achievement belongs to somebody else. {loser} has watched a rival manager claim the Europa League with {winnerClub}, an outcome that commands attention even inside a competition designed for friendly argument.","That is the particular strength of this Showdown. The managers remain opponents, yet the honours have meaning beyond their contest. {winner} takes the European title, while {loserClub} continues to stand for a separate campaign and its own ambitions.","No tribute requires a concession about the future. This edition records a deserved title and leaves the next chapter free to belong to either manager."],"pullquote":{"text":"A proper rivalry can recognise a fine achievement without losing its appetite.","who":"The press box"}},
     {"id":"s-034","situation":"europa-league","edition":"season","byline":"Our writer on European football","standfirst":"{winnerClub} has secured the Europa League, an achievement that merits recognition on its own terms rather than by comparison with another trophy.","paragraphs":["There is no need to borrow prestige from a different competition. The Europa League offers a European title in its own right, and {winner} has won it with {winnerClub} during a season that now carries that distinction.","The temptation in a rivalry is to rank every honour before the congratulations are finished. Yet {loser} and {winner} are better served by an honest account: this is a significant continental achievement, whatever else the seasonal comparison contains.","When the Gazette returns to this campaign, it will not need a grander name for the cup. Winning the Europa League is enough."],"pullquote":{"text":"Call the competition by its name, then give the champions their due.","who":"The press box"}},
-    {"id":"s-035","situation":"europa-league","edition":"season","byline":"The continental honours correspondent","standfirst":"The achievement of {win
+    {"id":"s-035","situation":"europa-league","edition":"season","byline":"The continental honours correspondent","standfirst":"The achievement of {winnerClub}
 ...[excerpt ends]
 ```
 
 
-## FILE: data/frontPages.js (EXCERPT: first 20000 bytes of 172669; the rest has the same row shape)
+## FILE: data/frontPages.js (EXCERPT: first 20000 bytes of 172678; the rest has the same row shape)
 ```javascript
 (function(root,factory){
   const api=factory();
@@ -4960,7 +5618,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   const freeze=list=>Object.freeze(list.map(row=>Object.freeze(row)));
   const SEASON=freeze([
     {"id":"h1-001","situation":"big-win","headline":"BUILT TO LAST","subhead":"{winner} took season {seasonNo} with {winnerPoints} points and finished {margin} clear of {loser}. A campaign made for keeping.","kicker":"SEASON REPORT"},
-    {"id":"h1-002","situation":"big-win","headline":"EVERY NICHE FILLED","subhead":"Not a corner was left empty as {winner} ran up {winnerPoints} points and left {loser} {margin} behind.","kicker":"CABINET WATCH"},
+    {"id":"h1-002","situation":"big-win","headline":"NICHE AFTER NICHE FILLED","subhead":"Corner after corner was filled as {winner} ran up {winnerPoints} points and left {loser} {margin} behind.","kicker":"CABINET WATCH"},
     {"id":"h1-003","situation":"big-win","headline":"ENGRAVER WORKS OVERTIME","subhead":"The craftsman barely put his tools down as {winner} closed season {seasonNo} {margin} ahead of {loser}.","kicker":"TROPHY ROOM"},
     {"id":"h1-004","situation":"big-win","headline":"ONE FOR THE DISPLAY CASE","subhead":"{winnerClub} will want this one behind glass after {winner} outscored {loser} by {margin} in season {seasonNo}.","kicker":"SEASON REPORT"},
     {"id":"h1-005","situation":"big-win","headline":"MEDALS WEIGH HEAVY","subhead":"{winner} carries a hefty haul home after finishing {margin} clear of {loser}. A rematch will be welcomed.","kicker":"VERDICT"},
@@ -4991,7 +5649,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     {"id":"h1-030","situation":"big-win","headline":"SPOTLIGHT STOLEN","subhead":"Every lamp in the house turned toward {winner}, who ended season {seasonNo} {margin} ahead of {loser}.","kicker":"MISMATCH"},
     {"id":"h1-031","situation":"big-win","headline":"TROPHY ROOM BURSTS","subhead":"The walls of {winnerClub} can barely hold it all after {winner} beat {loser} by {margin}.","kicker":"LANDSLIDE"},
     {"id":"h1-032","situation":"big-win","headline":"SILVERWARE STAMPEDE","subhead":"The prizes came thick and fast for {winner}, who closed season {seasonNo} on {winnerPoints} points to {loserPoints}.","kicker":"SILVERWARE"},
-    {"id":"h1-033","situation":"big-win","headline":"SIDEBOARD SWEPT BARE","subhead":"{winner} cleared the table of honours in season {seasonNo} and left {loser} {margin} behind and plotting a reply.","kicker":"MISMATCH"},
+    {"id":"h1-033","situation":"big-win","headline":"SIDEBOARD RAIDED","subhead":"{winner} took the pick of the honours in season {seasonNo} and left {loser} {margin} behind and plotting a reply.","kicker":"MISMATCH"},
     {"id":"h1-034","situation":"big-win","headline":"BURNISHED AND UNSTOPPABLE","subhead":"{winner} buffed a brilliant season to a high finish and ended {margin} clear of {loser}.","kicker":"POLISHED"},
     {"id":"h1-035","situation":"big-win","headline":"SHEEN MACHINE ROLLS ON","subhead":"Season {seasonNo} of {seasonsTotal} belonged to {winner}, who ran up {winnerPoints} points while {loser} managed {loserPoints}.","kicker":"ONE WAY"},
     {"id":"h1-036","situation":"big-win","headline":"RIBBONS GALORE","subhead":"Every handle at {winnerClub} wears fresh colours after {winner} finished {margin} ahead of {loser}.","kicker":"SILVERWARE"},
@@ -5043,12 +5701,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     {"id":"h1-082","situation":"narrow-win","headline":"ENGRAVED TO A WHISPER","subhead":"Only the thinnest stroke separates the season totals, but it is enough to place {winner} above {loser}.","kicker":"SEASON EDITION"},
     {"id":"h1-083","situation":"narrow-win","headline":"HONOURS IN THE BALANCE","subhead":"The difference could fit on a tiny nameplate, but it gives {winner} the season over {loser}.","kicker":"SHOWCASE REPORT"},
     {"id":"h1-084","situation":"narrow-win","headline":"SPOTLIGHT BY A SLIVER","subhead":"Between {winner} and {loser} lies barely enough distance for a spotlight, but the final season order is unmistakable.","kicker":"BACK PAGE"},
-    {"id":"h1-085","situation":"narrow-win","headline":"HOLD THE NAMEPL
+    {"id":"h1-085","situation":"narrow-win","headline":"HOLD THE N
 ...[excerpt ends]
 ```
 
 
-## FILE: data/commentaryLines.js (EXCERPT: first 20000 bytes of 965864; the rest has the same row shape)
+## FILE: data/commentaryLines.js (EXCERPT: first 20000 bytes of 965862; the rest has the same row shape)
 ```javascript
 (function(root,factory){
   const api=factory();
@@ -5322,6 +5980,91 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
   ok('G5',`${papers} papers over 400 Showdowns: all printed, every placeholder filled, no "Marquee", no headline or story repeated within a Showdown, finals never look ahead`);
 }
 
+// G14 (Fable cloud job 1) "1 seasons" is printed as "1 season": a drawn 1-season Showdown's pages say "After 1 season", never "1 seasons".
+{
+  assert.equal(G.fill('After {seasonsTotal} seasons, {points} points',{seasonsTotal:1,points:1}),'After 1 season, 1 point');
+  assert.equal(G.fill('{seasonsTotal} seasons',{seasonsTotal:3}),'3 seasons');
+  let singular=0;
+  for(const seed of '0123456789abcdef'){const f=G.finalEdition({projection:proj(seed,1,[[R.league,R.league]])});assert.equal(f.situation,'showdown-drawn');const t=G.paperText(f);assert.ok(!/\b1 seasons\b/.test(t),t);if(/\b1 season\b/.test(t))singular+=1;}
+  assert.ok(singular>0,'a row with {seasonsTotal} seasons printed for a 1-season Showdown');
+  ok('G14','"1 seasons" is printed as "1 season" (the plural fix covers seasons as well as points)');
+}
+// G15 (Fable cloud job 1) the last-season decider is offered only while the trailer can still WIN the Showdown in the last
+// season: a gap of 11 can only be levelled (equal totals are a draw), so its pages ("whoever wins it", "turn it upside down",
+// "change of monarch") are not printed then.
+{
+  const sit=(seasons,N,T=3)=>G.seasonSituations(proj('f',T,seasons),N);
+  assert.ok(!sit([[R.max,R.none],[R.none,R.none]],2).includes('final-season-decider'),'gap 11: the trailer can at best level it');
+  assert.ok(sit([[R.clLeague,R.none],[R.cupAward,R.none]],2).includes('final-season-decider'),'gap 10: still winnable');
+  assert.ok(sit([[R.cl,R.cl],[R.cup,R.cup]],2).includes('final-season-decider'),'level before the last season');
+  for(const seed of '0123456789abcdef'){const e=G.seasonEdition({projection:proj(seed,3,[[R.max,R.none],[R.none,R.none]]),seasonNumber:2});assert.notEqual(e.situation,'final-season-decider');assert.ok(!/whoever wins|upside down|change of monarch|sudden death/i.test(G.paperText(e)),e.paper.headline);}
+  ok('G15','the last-season decider needs a gap of at most 10 (a gap of 11 can only be levelled, never turned)');
+}
+// G16 (Fable cloud job 1) the dominant pages (landslides, "from start to finish", "out of sight by the end") print only when
+// the winner was ahead after every season, out of reach before the last one and still more than a season clear at the end.
+{
+  const fin=(seed,T,seasons)=>G.finalEdition({projection:proj(seed,T,seasons)});
+  const sits=(T,seasons)=>{const s=new Set();for(const seed of '0123456789abcdef')s.add(fin(seed,T,seasons).situation);return s;};
+  assert.ok(sits(3,[[R.max,R.none],[R.max,R.none],[R.none,R.cl]]).has('dominant-win'),'led throughout, out of reach before the last, 17 clear at the end');
+  assert.ok(!sits(3,[[R.max,R.none],[R.max,R.none],[R.none,R.max]]).has('dominant-win'),'out of reach before the last but only 11 clear at the end: no landslide');
+  assert.ok(!sits(5,[[R.none,R.cl],[R.max,R.none],[R.max,R.none],[R.max,R.none],[R.max,R.none]]).has('dominant-win'),'behind after season 1: not "from start to finish"');
+  assert.ok(!sits(5,[[R.cl,R.cl],[R.max,R.none],[R.max,R.none],[R.max,R.none],[R.max,R.none]]).has('dominant-win'),'level after season 1: not "from start to finish"');
+  for(const seed of '0123456789abcdef'){const f=fin(seed,3,[[R.max,R.none],[R.max,R.none],[R.none,R.max]]);assert.ok(!/landslide|ocean|laps and laps|out of sight|run away with|by a distance|enormous lead/i.test(G.paperText(f)),f.paper.headline);}
+  ok('G16','dominant pages need a lead after every season, an unreachable gap before the last season and more than a season clear at the end');
+}
+// G17 (Fable cloud job 1) no silverware talk where there is no trophy on the page: the ears obey the same rule as the headline,
+// story, quote and caption, a drawn season without a trophy either side prints none, nor does a drawn Showdown without one.
+{
+  const silver=/silver|troph|cabinet|shelf|shelves|title|crown|medal|engrav|plaque|\bcups?\b|display case|glass case/i;
+  const parts=e=>[e.paper.headline,e.paper.subhead,...e.paper.ears,e.paper.photo.caption,...e.paper.story.paragraphs,e.paper.quote?.text||''].join(' ');
+  for(const seed of '0123456789abcdef'){
+    const bonus=G.seasonEdition({projection:proj(seed,3,[[result({topScorer:true}),R.none]]),seasonNumber:1});assert.ok(!silver.test(parts(bonus)),'bonus-only win: '+parts(bonus));
+    const nil=G.seasonEdition({projection:proj(seed,10,[[R.none,R.none],[result({topScorer:true}),result({leaguePoints:100})]]),seasonNumber:2});assert.equal(nil.winner,'draw');assert.ok(!silver.test(parts(nil)),'trophy-less draw: '+parts(nil));
+    const both=G.seasonEdition({projection:proj(seed,3,[[R.cup,R.cup]]),seasonNumber:1});assert.ok(both.paper.ears.every(Boolean),'two ears');
+    const level=G.finalEdition({projection:proj(seed,3,[[result({topScorer:true}),R.none],[R.none,result({topScorer:true})],[R.none,R.none]])});assert.equal(level.situation,'showdown-drawn');assert.ok(!silver.test(parts(level)),'trophy-less drawn Showdown: '+parts(level));
+    const won=G.finalEdition({projection:proj(seed,3,[[result({topScorer:true}),R.none],[R.none,R.none],[R.none,R.none]])});assert.ok(won.paper.briefs[0].trophy==='TRO_SHOWDOWN_CHAMPION','a won Showdown has its trophy');
+  }
+  // the walker prefers a situation whose headline and story are both unused in this Showdown (nine drawn 0-0 seasons never repeat a story)
+  const zeros=Array.from({length:10},()=>[R.none,R.none]);const stories=[];for(let N=1;N<10;N+=1)stories.push(G.seasonEdition({projection:proj('7',10,zeros),seasonNumber:N}).ids.story);
+  assert.equal(new Set(stories).size,stories.length,stories.join());
+  ok('G17','no silverware talk without a trophy: ears included, trophy-less drawn seasons and Showdowns included; fresh situations preferred');
+}
+// G18 (Fable cloud job 1) the truth sweep, fixed seed: every score pair with a trophy mix as season 1, 2 and 9 of 10 and as the
+// last season of 1, 3 and 5, plus the named final cases, through the mechanical checks (braces, undefined/NaN/null, "1 points",
+// "marquee", foreign managers and clubs, invented numbers, both phones, null/throw); and the rows the full read found false,
+// each now carrying its corrected words.
+{
+  const Sweep=require('../support/gazetteTruthSweep.cjs');
+  const t0=Date.now();const report=Sweep.runFast();const secs=(Date.now()-t0)/1000;
+  assert.equal(report.failures.length,0,JSON.stringify(report.failures.slice(0,5)));
+  assert.ok(report.papers>1000&&report.summary.rowsPrinted>600,`${report.papers} papers, ${report.summary.rowsPrinted} rows`);
+  assert.ok(secs<10,`fast sweep took ${secs}s`);
+  for(const row of Object.values(report.rows)){
+    if(row.situation==='dominant-win'){assert.ok(Object.keys(row.facts.margin).every(m=>Number(m)>11),row.id+' margin');assert.deepEqual(Object.keys(row.facts.ledThroughout),['true'],row.id+' led');}
+    if(row.situation==='final-season-decider')assert.ok(Object.keys(row.facts.gap).every(g=>Number(g)<=10),row.id+' gap');
+    if(row.kind==='ear'&&/silver|troph|cabinet|shelf|shelves|title|crown|medal|engrav|plaque|\bcups?\b/i.test(row.template))assert.ok(!row.facts.winnerTrophies||!row.facts.winnerTrophies['0'],row.id+' on a trophy-less win');
+    for(const text of row.texts)assert.ok(!/\b1 seasons\b|\b1 points\b/.test(text),row.id);
+  }
+  const FALSE_ROWS={
+    'h1-002':[/Corner after corner was filled/,/Not a corner was left empty/],'h1-033':[/took the pick of the honours/,/cleared the table of honours/],'h1-110':[/NARROWLY SKETCHED ENDING/,/DRAWN/],
+    'h1-127':[/FULL TIME, FULL RESPECT/,/HALF TIME/],'h1-220':[/a contest leaning the other way/,/once leaning/],'h1-235':[/narrowed the previous gap/,/closed the previous gap/],
+    'h1-252':[/Before this season \{leader\} held/,/From the outset/],'h1-380':[/\{trailer\} is far from finished/,/The chaser is/],'h1-383':[/After the seasons of preparation/,/many seasons/],
+    'h1-387':[/This one decides who will be remembered/,/Whoever owns this one/],'h1-388':[/then the Showdown is over/,/must produce a winner/],
+    'h2-004':[/a single season that ended/,/tight season/],'h2-029':[/never allowed a second season/,/never allowed a rematch/],'h2-042':[/finished as the Showdown winners/,/clear Showdown winners/],
+    'h2-044':[/came out on top of the \{seasonsTotal\}-part saga/,/from the front/],'h2-064':[/reached the end of it first/,/without ever losing the way/],'h2-066':[/still playing the lead when the music stopped/,/best of the music for last/],
+    'h2-103':[/lasted \{seasonsTotal\} seasons/,/a great many seasons/],'h2-172':[/ends in deadlock/,/held through the whole Showdown/],'h2-189':[/TOOK HOLD AT THE FINISH/,/refused to let go/],
+    'h2-192':[/A FINISH OF NERVE/,/COMEBACK/],'h2-198':[/passed \{loser\} at the line/,/edged \{loser\}/],'h2-201':[/THE CROWN SETTLED LATE/,/wore it in turn/],
+    'h2-220':[/was in it all the way/,/chased all the way/],'h2-221':[/The question stayed open all the way/,/Margins narrowed/],'h2-246':[/The lead was built early/,/Each season added to the lead/],
+    's-014':[/merely one round of a long argument/,/opening round/],'s-097':[/spent the whole Showdown trading blows/,/spent years/],'s-101':[/traded blows, pressure and nerves/,/traded the lead/],
+    's-103':[/who came home by \{margin\}/,/edged home|sounds small/],'s-104':[/Late finishes are the stuff of memory/,/Close finishes|how near the distance/],'s-107':[/kept the question open for long stretches/,/inseparable/],
+    's-108':[/came through when \{loser\} pushed hardest/,/held on when/],'s-114':[/tilted early and stayed tilted/,/kept tilting/]
+  };
+  const rowText=id=>{const r=[...Pages.season,...Pages.final].find(r=>r.id===id);if(r)return JSON.stringify(r);const st=Copy.stories.find(s=>s.id===id);return st?JSON.stringify(st):null;};
+  for(const [id,[must,mustNot]] of Object.entries(FALSE_ROWS)){const text=rowText(id);assert.ok(text,id);assert.match(text,must,id);assert.doesNotMatch(text,mustNot,id);}
+  assert.equal(Object.keys(FALSE_ROWS).length,34);
+  ok('G18',`truth sweep (fixed seed): ${report.papers} papers, ${report.summary.rowsPrinted} printed rows, 0 mechanical failures in ${secs.toFixed(1)}s; the 34 rows the full read found false carry their corrected words`);
+}
+
 // G6 zero Firestore: the Gazette reads only what the screen already holds and writes nothing but one small local list.
 {
   assert.equal(G.firestoreReads,0);assert.equal(G.firestoreWrites,0);
@@ -5333,14 +6076,18 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
 }
 
 // ---------- a small page for the flow (just what js/touchlineGazette.js touches) ----------
-function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne'}={}){
-  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[]};
+// advance: replaces continueToNextSeason (a promise that takes its time, or fails). chipLate: the Special Player chip is not on
+// the page at the tap and arrives through loadRuntimeScript. chipFails: the chip is there but its data cannot load.
+// Timers of a second or more (safety timers, the asset cap) are captured in calls.longTimers and fired only by the test.
+function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false}={}){
+  const capture=[],docListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,shown:[],loads:[],longTimers:[]};
   let screen='seasonEntry';
   class El{
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.parent=null;this.dataset={};this.attrs={};this.listeners={};this.classes=new Set();this.id='';this.disabled=false;this.textContent='';this.scrollTop=0;this.scrollHeight=0;this.offsetHeight=100;const self=this;this.style={setProperty(k,v){self.style[k]=v;}};this.classList={add:(...c)=>c.forEach(x=>this.classes.add(x)),remove:(...c)=>c.forEach(x=>this.classes.delete(x)),contains:c=>this.classes.has(c)};}
     set className(v){this.classes=new Set(String(v).split(/\s+/).filter(Boolean));}get className(){return [...this.classes].join(' ');}
     get firstElementChild(){return this.children[0]||null;}
     appendChild(c){c.remove();c.parent=this;this.children.push(c);return c;}append(...cs){cs.forEach(c=>this.appendChild(c));}
+    before(c){const p=this.parent;c.remove();c.parent=p;p.children.splice(p.children.indexOf(this),0,c);}
     after(c){const p=this.parent;c.remove();c.parent=p;p.children.splice(p.children.indexOf(this)+1,0,c);}
     remove(){if(this.parent){this.parent.children.splice(this.parent.children.indexOf(this),1);this.parent=null;}}
     get isConnected(){let n=this;while(n.parent)n=n.parent;return n===doc.documentElement;}
@@ -5374,12 +6121,13 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     back=actions.appendChild(new El('button'));back.className='backButton';back.addEventListener('click',()=>{calls.ownBack+=1;go('mainMenu');});
   }
   const sandbox={
-    document:doc,console,Promise,URL,setTimeout,clearTimeout,innerHeight:900,
+    document:doc,console,Promise,URL,clearTimeout,innerHeight:900,
+    setTimeout:(fn,ms,...rest)=>{if(ms>=1000){calls.longTimers.push({fn,ms});return -1;}return setTimeout(fn,ms,...rest);},
     addEventListener(t,f,cap){if(t==='click'&&cap)capture.push(f);},removeEventListener(){},scrollTo(){},
     matchMedia:()=>({matches:false}),
     readStorageValue:k=>store.has(k)?store.get(k):null,writeStorageValue:(k,v)=>{store.set(k,String(v));return true;},
     getActiveScreenName:()=>screen,optionalAssetUrl:p=>p+'?v=test',
-    loadRuntimeScript:(key)=>loadFails?Promise.reject(new Error('offline')):lateFiles?new Promise(resolve=>setTimeout(()=>{if(late[key])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);resolve(true);},60)):Promise.resolve(true),loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
+    loadRuntimeScript:(key)=>{if(loadFails)return Promise.reject(new Error('offline'));const install=()=>{if(late[key]&&!sandbox[late[key][0]])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);return true;};return lateFiles?new Promise(resolve=>setTimeout(()=>resolve(install()),60)):Promise.resolve(install());},loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
     Image:class{set src(v){setTimeout(()=>this.onload&&this.onload(),0);}decode(){return Promise.resolve();}},
     ShowdownContent:{frontPage:{art:n=>`visual-assets/v10_1/content/gazette/${n}.webp`,screen(slot,p,onContinue){
       calls.shown.push(p);const s=slot.appendChild(new El('section'));s.className='cmx-fp-screen';const t=s.appendChild(new El('h2'));t.className='cmx-fp-screen__title';
@@ -5387,13 +6135,14 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
       const b=s.appendChild(new El('button'));b.className='cmx-continue';b.addEventListener('click',()=>{if(onContinue)onContinue();});}}},
     CareerModeGazetteCopy:Copy,CareerModeFrontPages:Pages,
     CareerModeProductionSharedHistoryConvergence:{getState:()=>({...history,managerRole})},
-    CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(proceedResult)go('dashboard');return proceedResult;}},
-    CareerModeSpecialPlayerChip:{liveFor:()=>sp},
+    CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(advance)return advance();if(proceedResult)go('dashboard');return proceedResult;}},
+    CareerModeSpecialPlayerChip:{liveFor:()=>sp,...(chipFails?{ensure:()=>Promise.resolve(false)}:{})},
     FINAL_WINNER_FIXTURES:final?{frames:{LIVE:final}}:undefined,CareerModeSeasonFinalV10:{gazetteHistory:()=>final?history:null}
   };
   // lateFiles: the paper, the copy and the headlines are not on the page yet when the player taps (a tap before warm() ends)
-  const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages]};
-  if(lateFiles)for(const [name] of Object.values(late))delete sandbox[name];
+  const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages],'special-player-chip':['CareerModeSpecialPlayerChip',sandbox.CareerModeSpecialPlayerChip]};
+  if(lateFiles)for(const key of ['gazette-frontpage','gazette-copy','gazette-headlines'])delete sandbox[late[key][0]];
+  if(chipLate)delete sandbox.CareerModeSpecialPlayerChip;
   vm.createContext(sandbox);vm.runInContext(read('js/touchlineGazette.js'),sandbox,{filename:'touchlineGazette.js'});
   const api=sandbox.CareerModeTouchlineGazette;api.install();
   return {api,calls,host,doc,seasonButton,back,dispatch,go,store,screen:()=>screen,page:()=>doc.getElementById('touchlineGazette'),continueButton:()=>doc.getElementById('touchlineGazetteContinue')};
@@ -5411,6 +6160,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(w.host.dataset.gazette,'season');assert.equal(w.doc.documentElement.dataset.gazette,'season');assert.equal(w.calls.continue,0);
     const expected=G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp});assert.equal(w.calls.shown[0].headline,expected.paper.headline,'the paper on screen is the pure edition');
     assert.ok(w.page().querySelector('.tgz-sp'),'the Special Players line');
+    const race=w.page().querySelector('.tgz-race');assert.ok(race,'THE RACE strip');assert.equal(race.children[1].textContent,expected.paper.race.line);
     // Nik's phone prints the same paper
     const n=world({history,managerRole:'playerTwo'});n.dispatch(n.seasonButton);await settle();assert.deepEqual(JSON.parse(JSON.stringify(n.calls.shown[0])),JSON.parse(JSON.stringify(w.calls.shown[0])));
     w.dispatch(w.continueButton());await settle();
@@ -5441,8 +6191,8 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(off.page(),null);assert.equal(off.calls.continue,1,'offline: the tap simply went on');assert.equal(off.screen(),'dashboard');
     const stuck=world({history,proceedResult:false});stuck.dispatch(stuck.seasonButton);await settle();assert.ok(stuck.page());
     stuck.dispatch(stuck.continueButton());await settle();assert.equal(stuck.calls.continue,1);assert.equal(stuck.page(),null,'Season Results is back with its own button');assert.equal(stuck.host.dataset.gazette,undefined);
-    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500,SEASON_SAFETY_MS=9000/);
-    ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper, safety timers close it regardless');
+    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;/);
+    ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper');
   }
   // G11 a fast tap: CONTINUE pressed before the paper's files are on the page (warm() not finished) is still held for its
   // paper; the files load after the tap, the paper is built and shown, and its CONTINUE runs the same step once (Codex P2).
@@ -5451,7 +6201,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     const w=world({history,lateFiles:true});
     const ev=w.dispatch(w.seasonButton);assert.equal(ev.defaultPrevented,true,'held although the copy is not loaded yet');assert.equal(w.calls.ownSeason,0);
     assert.equal(w.page(),null);await new Promise(resolve=>setTimeout(resolve,150));
-    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','visual-identity']);
+    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','special-player-chip','visual-identity']);
     assert.ok(w.page(),'the paper came up once its files arrived');assert.equal(w.calls.shown[0].headline,G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp}).paper.headline);
     w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1);assert.equal(w.screen(),'dashboard');assert.equal(w.page(),null);
     const q=proj('9',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),fr=frame(q),f=world({history:fx.history(q),final:fr,lateFiles:true});
@@ -5462,12 +6212,56 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(d.calls.shown.length,1);assert.equal(d.calls.continue,0);
     ok('G11','a tap made before the paper\'s files arrive is still held for its paper (season and final), shown once, then the same step runs once');
   }
+  // G12 (Fable job 2 F2-15) a SEASON paper stays until continueToNextSeason has finished or failed: no timer closes it while
+  // the step is in flight, a busy CONTINUE never runs the step twice, and a failed step gives Season Results back with its
+  // own working button.
+  {
+    const p=proj('a',3,[[R.clLeague,R.cupAward]]),history=fx.history(p);
+    let finish=null;const w=world({history,advance:()=>new Promise(resolve=>{finish=resolve;})});
+    w.dispatch(w.seasonButton);await settle();assert.ok(w.page());
+    w.dispatch(w.continueButton());await settle();
+    assert.equal(w.calls.continue,1);assert.ok(w.page(),'the paper stays while continueToNextSeason runs');assert.equal(w.continueButton().disabled,true);assert.equal(w.continueButton().attrs['aria-busy'],'true');
+    assert.ok(!w.calls.longTimers.some(t=>t.ms>=5000),'no long safety timer on a season paper');
+    for(const t of w.calls.longTimers.splice(0))t.fn();await settle();
+    assert.ok(w.page(),'no timer closes the paper mid-flight');assert.equal(w.host.dataset.gazette,'season');
+    w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1,'a tap on the busy CONTINUE runs nothing more');
+    w.go('dashboard');finish(true);await settle();
+    assert.equal(w.page(),null,'closed with the screen it left for');assert.equal(w.calls.continue,1);assert.equal(w.host.dataset.gazette,undefined);
+    // the step fails after a while: the paper closes, Season Results is back and its own button goes straight on, once
+    let fail=null;const f=world({history,advance:()=>new Promise((resolve,reject)=>{fail=reject;})});
+    f.dispatch(f.seasonButton);await settle();f.dispatch(f.continueButton());await settle();assert.ok(f.page());
+    fail(new Error('offline'));await settle();assert.equal(f.page(),null);assert.equal(f.host.dataset.gazette,undefined);assert.ok(f.seasonButton.isConnected);
+    const ev=f.dispatch(f.seasonButton);assert.equal(ev.defaultPrevented,false);await settle();assert.equal(f.calls.ownSeason,1);assert.equal(f.calls.continue,2);
+    // the step finished (true) without leaving this screen, or said false: the paper closes at once
+    for(const value of [true,false]){const s=world({history,advance:()=>Promise.resolve(value)});s.dispatch(s.seasonButton);await settle();s.dispatch(s.continueButton());await settle();assert.equal(s.page(),null,String(value));assert.equal(s.calls.continue,1);}
+    assert.ok(!/SEASON_SAFETY_MS/.test(read('js/touchlineGazette.js')),'no season safety timer');
+    ok('G12','F2-15: a season paper stays (CONTINUE busy) until continueToNextSeason has finished or failed, never closed by a timer mid-flight, the step never run twice, a failure hands Season Results back with a working button');
+  }
+  // G13 (Fable job 2 F2-16) both phones print the identical paper, Special Players line included: the chip and its data are
+  // loaded as one of the paper's files, and the line is read when the paper is built, not at the tap.
+  {
+    const p=proj('b',3,[[R.cl,R.league]]),history=fx.history(p);
+    const a=world({history}),b=world({history,managerRole:'playerTwo',chipLate:true});
+    a.dispatch(a.seasonButton);b.dispatch(b.seasonButton);await settle();
+    assert.ok(a.page()&&b.page());assert.ok(b.calls.loads.includes('special-player-chip'),'the chip is loaded with the paper\'s files');
+    const plain=x=>JSON.parse(JSON.stringify(x));
+    assert.deepEqual(plain(b.calls.shown[0]),plain(a.calls.shown[0]),'the same paper on the phone whose chip was missing at the tap');
+    assert.deepEqual(plain(b.calls.shown[0].specialPlayers),{daniel:'Lionel Messi',nik:'Cristiano Ronaldo'});assert.ok(b.page().querySelector('.tgz-sp'));
+    const full=proj('b',3,[[R.cl,R.league],[R.cup,R.none],[R.none,R.cup]]),fr=frame(full);assert.equal(fr.specialPlayers,undefined);
+    const fa=world({history:fx.history(full),final:fr}),fb=world({history:fx.history(full),final:fr,managerRole:'playerTwo',chipLate:true});
+    fa.dispatch(fa.back);fb.dispatch(fb.back);await settle();assert.ok(fa.page()&&fb.page());
+    assert.deepEqual(plain(fb.calls.shown[0]),plain(fa.calls.shown[0]));assert.ok(fb.page().querySelector('.tgz-sp'),'final: the Special Players line on both phones');
+    // the chip's data cannot load: no paper on this phone (the tap goes on), never a paper missing the line on one phone only
+    const c=world({history,chipFails:true});c.dispatch(c.seasonButton);await settle();assert.equal(c.page(),null);assert.equal(c.calls.continue,1);
+    ok('G13','F2-16: the Special Player chip is loaded with the paper\'s files and read when the paper is built, so both phones print the identical paper (season and final), line included');
+  }
   // G10 the files: HO-048 copy byte for byte, shell-cached, fonts licensed, images on the V10 runtime cache, wired in once.
   {
     const sha=file=>crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,file))).digest('hex');
-    // Team V HO-048, origin/claude/project-thread-fyjnky 8fa67110 visual-assets/v10_1/content/{fixtures/gazetteCopy.js,fixtures/frontPages.js,frontpage.js,content.css}
-    assert.equal(sha('data/gazetteCopy.js'),'3bc761e89b5e47c79e43df5b6da6d0585a021684c1b43870d492029cae52eb76');
-    assert.equal(sha('data/frontPages.js'),'054c60cbfd2ecde8f506014cb8b8b4f99416fb5736200cca53fc5133dfaf0bfd');
+    // Team V HO-048, origin/claude/project-thread-fyjnky 8fa67110 visual-assets/v10_1/content/{fixtures/gazetteCopy.js,fixtures/frontPages.js,frontpage.js,content.css},
+    // with the Fable cloud job 1 truth edits to 26 headlines and 8 stories (G18 lists them): same rows, same ids, same counts.
+    assert.equal(sha('data/gazetteCopy.js'),'2a3caf1dd4713f628e2fb39b83415a5b53b8372173148c88e482fd3715429d0d');
+    assert.equal(sha('data/frontPages.js'),'1b73a935a115c2bdb5e8e28961ad1a26282f07fd68a2e353d55d5f26433ec70a');
     assert.equal(sha('visual-assets/v10_1/content/frontpage.js'),'a4b8ced9ac63123795bfe1d9ee2741027df7426466b5f5b5314c3bf55a58baf6');
     assert.equal(sha('visual-assets/v10_1/content/content.css'),'cfa7f1a4227673127ad34f59f5c0c4272248846cf3a456d2c814923ad0f6f7dc');
     assert.equal(Copy.stories.length,114);assert.equal(Copy.duets.length,288);for(const k of ['briefs','captions','ears','quotes'])assert.equal(Copy.small[k].length,30,k);
@@ -5484,7 +6278,91 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     // Commentary v2 keeps its own 5,100 lines: HO-048's commentaryLines.js (24 different situations) is not swapped in.
     assert.equal(require('../../data/commentaryLines.js').results.length,5100);
     const css=read('css/v10Gazette.css');assert.ok(!/rgba\(0,\s*0,\s*0,\s*0?\.\d+\)\s*;?\s*\}?\s*$/m.test(css.replace(/box-shadow[^;]*;/g,'')),'no scrim');assert.ok(!/backdrop-filter|opacity:\s*0?\.\d/.test(css),'no dimming');
-    ok('G10','HO-048 headlines, copy, paper and sheet byte for byte; every runtime file shell-cached with its font licence; photos on the image cache; wired from Season Results; Commentary v2 lines untouched; no scrim');
+    ok('G10','HO-048 headlines and copy (with the job 1 truth edits), paper and sheet byte for byte; every runtime file shell-cached with its font licence; photos on the image cache; wired from Season Results; Commentary v2 lines untouched; no scrim');
+  }
+  // G12 (2.0.0) THE RACE and the record book come from the seasons alone and are always true: level is "All square" (never a
+  // lead), a lead beyond 11 x the seasons left cannot be caught, exactly that can only be levelled, a final draw is never a
+  // win; seasons won, trophies, streaks, perfect 11s and the Golden watch match the history; a 110-110 Showdown is a drawn
+  // Golden Showdown for both. The strip is drawn above the trophy desk on desktop and phone.
+  {
+    const pool=Object.values(R),T=[3,5,10];let seen=new Set();
+    const tro=r=>(r.championsLeague?1:0)+(r.europaLeague?1:0)+(r.leaguePosition===1?1:0)+(r.domesticCup?1:0);
+    const pts=r=>require('../support/career-fixture-helpers.cjs').score(r).total;
+    for(let i=0;i<240;i+=1){
+      const len=T[i%3],n=1+(i*7)%len,rows=[];for(let k=0;k<len;k+=1)rows.push([pool[(i*3+k*5)%pool.length],pool[(i*11+k*2+1)%pool.length]]);
+      const p=proj('0123456789abcdef'[i%16],len,rows);
+      const editions=[];if(n<len)editions.push([G.seasonEdition({projection:p,seasonNumber:n}),n,false]);editions.push([G.finalEdition({projection:p}),len,true]);
+      for(const [e,N,final] of editions){
+        assert.ok(e&&e.paper.race,'every paper carries THE RACE');const race=e.paper.race,played=rows.slice(0,N);
+        const a=played.reduce((t,r)=>t+pts(r[0]),0),b=played.reduce((t,r)=>t+pts(r[1]),0),gap=Math.abs(a-b),left=(len-N)*11,lead=a>b?'Daniel':b>a?'Nik':null;
+        assert.equal(race.chips.length,N);race.chips.forEach((c,k)=>{assert.equal(c.left,pts(played[k][0]));assert.equal(c.right,pts(played[k][1]));assert.equal(c.winner,c.left>c.right?'left':c.right>c.left?'right':'draw');});
+        assert.equal(race.leader,lead);
+        if(!lead){assert.ok(!/leads|wins|clear|caught/.test(race.line),race.line);assert.match(race.line,final?/drawn Showdown/:/All square/);}
+        else if(final){assert.equal(race.line,`${lead} wins the Showdown ${Math.max(a,b)} to ${Math.min(a,b)}, by ${gap} point${gap===1?'':'s'}.`);}
+        else if(gap>left){assert.match(race.line,/can no longer be caught/);seen.add('caught');}
+        else if(gap===left){assert.match(race.line,/can still draw level, but only/);seen.add('level-only');}
+        else{assert.ok(race.line.startsWith(`${lead} leads by ${gap} point`),race.line);assert.ok(race.line.includes(`${left} points still to play`));seen.add('open');}
+        if(final)assert.ok(!/to go|still to play|next season/i.test(race.line+e.paper.inside.join(' ')),'a final page never looks ahead');
+        const book=e.paper.inside.join('\n'),won=k=>played.filter(r=>k===0?pts(r[0])>pts(r[1]):pts(r[1])>pts(r[0])).length,draws=played.filter(r=>pts(r[0])===pts(r[1])).length;
+        assert.equal(/Seasons won/.test(book),N>=2&&a!==b,'no seasons-won count beside level totals');
+        if(N>=2&&a!==b)assert.ok(book.includes(`Seasons won: Daniel ${won(0)} · Nik ${won(1)}${draws?` · drawn ${draws}`:''}`),book);
+        assert.ok(book.includes(`Daniel ${played.reduce((t,r)=>t+tro(r[0]),0)} · Nik ${played.reduce((t,r)=>t+tro(r[1]),0)}`),book);
+        const perfect=k=>played.filter(r=>pts(r[k])===11).length;
+        assert.equal(/Golden watch/.test(book),!final&&len===10&&(perfect(0)===N||perfect(1)===N),book);
+        assert.ok(!/marquee|[{}]|undefined|NaN/i.test(book+race.line),book);
+        assert.ok(G.paperText(e).includes(race.line),'the race is part of the printed paper');
+      }
+    }
+    assert.ok(seen.has('open'),'the sweep met open races');
+    const gone=G.seasonEdition({projection:proj('a',3,[[R.max,R.none],[R.max,R.none]]),seasonNumber:2});
+    assert.equal(gone.paper.race.line,'Daniel is 22 clear with only 11 points left to play for: the Showdown can no longer be caught.');
+    // the lead of exactly 11 x seasons left, built on purpose: 3 seasons, Daniel 11-0 then 0-0 before the last season
+    const exact=G.seasonEdition({projection:proj('9',3,[[R.max,R.none],[R.none,R.none]]),seasonNumber:2});
+    assert.equal(exact.paper.race.line,'Daniel leads by 11. Nik can still draw level, but only with every one of the last 11 points while Daniel scores none.');
+    // 110-110 over ten seasons: a drawn Showdown, and the gold edition for both
+    const gold=proj('8',10,Array.from({length:10},()=>[R.max,R.max])),ge=G.finalEdition({projection:gold,final:frame(gold)});
+    assert.ok(ge);assert.equal(ge.winner,'draw');assert.equal(ge.golden,true);assert.equal(ge.paper.variant,'gold');assert.equal(ge.paper.kicker,'DRAWN');assert.equal(ge.paper.photo.name,'GZ_LEAD_GOLD');
+    assert.deepEqual(ge.paper.briefs.map(b=>b.head),['Golden Showdown','Golden Showdown']);assert.ok(!/seasons won/i.test(G.paperText(ge)),'a drawn ten-season paper prints no seasons-won count');assert.match(ge.paper.race.line,/drawn Showdown, and a Golden Showdown for both/);
+    const solo=G.finalEdition({projection:proj('7',10,Array.from({length:10},()=>[R.max,R.cl]))});assert.equal(solo.golden,true);assert.equal(solo.winner,'Daniel');
+    const plain10=G.finalEdition({projection:proj('6',10,Array.from({length:10},()=>[R.cl,R.cl]))});assert.equal(plain10.golden,false);assert.equal(plain10.paper.variant,'draw');
+    assert.equal(G.fill('used {n} seasons, {m} seasons, 1 points',{n:1,m:11}),'used 1 season, 11 seasons, 1 point','singular after 1 (seasons and points)');
+    const src=read('js/touchlineGazette.js');assert.match(src,/addSpecialPlayers\(paper,plan\.edition\.paper\.specialPlayers,doc\);try\{addRace\(paper,plan\.edition\.paper\.race,doc\);\}catch/);
+    assert.match(src,/if\(desk\)desk\.before\(box\)/);
+    const css=read('css/v10Gazette.css');assert.match(css,/#touchlineGazette\.tgzPage::before \{[^}]*background: var\(--tgz-plate-phone\) 50% 0 \/ cover no-repeat;/,'the phone plate covers a tall window');
+    ok('G12','THE RACE and the record book are true for 480 papers (level, open, uncatchable, level-only, final), 110-110 is a shared Golden Showdown, the strip sits above the trophy desk');
+  }
+  // G20: a 110-110 Golden draw never prints a "no trophy" consolation row, and a Showdown level after every season never
+  // "pointed toward a winner" (both phones, 120 Showdown ids each).
+  {
+    const Sweep=require('../support/gazetteTruthSweep.cjs');const G=require('../../js/touchlineGazette.js');
+    const cases={golden:Array.from({length:10},()=>[Sweep.M.max,Sweep.M.max]),level:Array.from({length:5},()=>[Sweep.M.title,Sweep.M.title])};
+    for(const [name,seasons] of Object.entries(cases))for(let id=0;id<120;id+=1){
+      const T=seasons.length,p=Sweep.buildProjection({seed:51000+id,totalSeasons:T,seasons});const pts=p.managerRecords.playerOne.totalPoints;
+      const ed=G.finalEdition({projection:p,final:{winner:'draw',totals:{daniel:pts,nik:pts},seasonsPlayed:T},specialPlayers:Sweep.SP});
+      assert.ok(ed,`${name} ${id}: a drawn final paper prints`);const text=G.paperText(ed);
+      if(name==='golden')assert.doesNotMatch(text,/may not come with a trophy|trophy talk for another year/i,`${name} ${id}`);
+      assert.doesNotMatch(text,/pointed toward a winner|promised a winner/i,`${name} ${id}`);
+    }
+    ok('G20','a 110-110 Golden draw prints no "no trophy" consolation row; a Showdown level after every season never "pointed toward a winner"');
+  }
+  // G21: the final page's next-season filter blocks "the season ahead", not "finished the season ahead of" a rival, so every
+  // one-season winner headline can print (h2-030 never did), and no final page talks about a season still to come.
+  {
+    const Sweep=require('../support/gazetteTruthSweep.cjs');const G=require('../../js/touchlineGazette.js');
+    const FP=require('../../data/frontPages.js');const pages=(FP.final||FP.default?.final||globalThis.CareerModeFrontPages?.final||[]);
+    const heads=new Set(pages.filter(r=>r.situation==='showdown-won-1-season').map(r=>r.headline));
+    assert.ok(heads.has('ROUND OVER, WINNER NAMED'),'fixture: h2-030 is a one-season winner headline');
+    const seen=new Set();
+    for(let id=0;id<600;id+=1){
+      const p=Sweep.buildProjection({seed:61000+id,totalSeasons:1,seasons:[[Sweep.M.title,Sweep.M.cup]]});
+      const a=p.managerRecords.playerOne.totalPoints,b=p.managerRecords.playerTwo.totalPoints;
+      const ed=G.finalEdition({projection:p,final:{winner:a>b?'daniel':'nik',totals:{daniel:a,nik:b},seasonsPlayed:1},specialPlayers:Sweep.SP});
+      const text=G.paperText(ed);for(const h of heads)if(new RegExp(h.replace(/[.*+?^$()|[\]\\]/g,'\\$&').replace(/\{[a-zA-Z]+\}/g,'.+?')).test(text))seen.add(h);
+      assert.doesNotMatch(text,/next season|new season|the season ahead|seasons ahead|next year/i,`final ${id} talks about a season to come`);
+    }
+    assert.ok(seen.has('ROUND OVER, WINNER NAMED'),'h2-030 prints on some one-season final');
+    assert.equal(seen.size,heads.size,`every one-season winner headline prints (${seen.size}/${heads.size})`);
+    ok('G21','"finished the single season ahead of" is not next-season talk: every one-season winner headline can print');
   }
   console.log(`PASS r87 Touchline Gazette contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});

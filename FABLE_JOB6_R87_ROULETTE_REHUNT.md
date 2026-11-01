@@ -1,6 +1,6 @@
 # Fable job 6: r87 roulette and season-flow re-hunt after the fixes (Career Mode Showdown 2.0.0)
 
-Code snapshot: gameplay/r87 @ 588cd508d, repo nikahanghojjati-oss/fifa17-career-showdown2. This is the code **after** the fixes for your earlier hunt (Fable job 2) merged. The full source of every file on this flow is below this brief. You cannot run code here, so reason carefully and show your trace.
+Code snapshot: gameplay/r87 @ 18802b939, repo nikahanghojjati-oss/fifa17-career-showdown2. This is the code **after** the fixes for your earlier hunt (Fable job 2) merged. The full source of every file on this flow is below this brief. You cannot run code here, so reason carefully and show your trace.
 
 ## The product
 A private two-player FIFA 17 Career Mode competition web app (vanilla JS, Firebase Firestore on the free Spark plan, GitHub Pages). Two managers, Daniel (playerOne, who taps START) and Nik (playerTwo), each on his own phone or laptop, play a "Showdown" of 1, 3, 5 or 10 seasons. Firestore reads are the scarce resource (Rules get() lookups are billed reads too).
@@ -28,6 +28,7 @@ Squad rules (Nik): squads come only from the club's own pool. The board is 11 st
   - one loading screen from START;
   - the replay flag is set before navigation.
 - **F2-02/08/10/12** were fixed by the other helper.
+- **F2-19** (#1150-#1152 batch): a signing the board rules keep off is named on the result card.
 - **#1145:** the season commit wait listens only to commits N and N+1, with a 10 s own-write grace.
 
 ## House rules (a break is a bug)
@@ -109,6 +110,10 @@ Keep the visible reply under about 60,000 characters.
   const BOARD_SIZE=15;
   const MAX_SEASONS=10;
   const OVERALL_MIN=30,OVERALL_MAX=99;
+  // F2-02 (Fable job 2): the engine revision. Bump it whenever a board or a shot can come out differently for the same
+  // Showdown, season and history (tests/contracts/r87-roulette-hits-contracts.cjs pins it to this file's text). It is part of
+  // the version string each manager's spin mark carries (rrVersion), so two phones on different builds are told so.
+  const ENGINE_REVISION=2;
   const POSITIONS=Object.freeze(["GK","SW","RWB","RB","RCB","CB","LCB","LB","LWB","RDM","CDM","LDM","RM","RCM","CM","LCM","LM","RAM","CAM","LAM","RF","CF","LF","RW","RS","ST","LS","LW","SUB"]);
 
   function rrSquads(){
@@ -399,6 +404,59 @@ Keep the visible reply under about 60,000 characters.
       .map(r=>({name:r.name.trim(),rating:r.overall,positions:Object.freeze(SIGNING_POSITIONS.has(r.position)?[r.position]:rrSigningPositions(r.name.trim(),club).slice(0,1)),signedSeason:season}))
       .sort(rrOrder);
   }
+  // ---------- F2-02: persisted hits and the version pin ----------
+  // A spin mark (js/sparkSharedTransferChallenge.js markSpun) records that season's outcome for that manager: fired, hitName,
+  // hitNumber, hitSlot and this version. The version names the engine revision and a hash of exactly the data this Showdown's
+  // boards are built from (both clubs' squad rows and database rows, and both Special Players), so a data fix for another club
+  // never stops a running Showdown, and any change that can move a board or a shot here does.
+  function rrHash(text){let h=0x811c9dc5;for(let i=0;i<text.length;i+=1){h^=text.charCodeAt(i);h=Math.imul(h,0x01000193);}return (h>>>0).toString(16).padStart(8,"0");}
+  function rrVersion(clubs,options){
+    const squads=rrSquads(),players=rrPlayers();
+    if(!squads||!players||!clubs)return null;
+    const parts=[];
+    for(const role of ROLES){
+      const club=clubs[role];
+      if(!Object.prototype.hasOwnProperty.call(squads.squads,club)||!players.clubs||!Object.prototype.hasOwnProperty.call(players.clubs,club))return null;
+      parts.push(club,squads.squads[club],players.clubs[club]);
+    }
+    const special=options&&options.special;
+    parts.push(ROLES.map(role=>rrSpecial(special,role)));
+    return `rr${4}.${ENGINE_REVISION}.${rrHash(JSON.stringify(parts))}`;
+  }
+  // A persisted outcome is used only when it is whole: fired true with a name and a board slot 0-14, or fired false with none.
+  // hitSignedSeason names which kind of person was shot (Sol SQ-4-01 identities): the season a signing was signed, or null for
+  // a club player, so the saved player is found by the same rrId the engine uses and never his namesake of the other kind.
+  function rrSavedHit(hits,season,role){
+    const h=hits&&hits[season]&&hits[season][role];
+    if(!h||typeof h!=="object"||typeof h.fired!=="boolean")return null;
+    if(!h.fired)return {fired:false};
+    if(typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>=BOARD_SIZE)return null;
+    const signedSeason=Number.isInteger(h.hitSignedSeason)&&h.hitSignedSeason>=1&&h.hitSignedSeason<=MAX_SEASONS?h.hitSignedSeason:null;
+    return {fired:true,hitName:h.hitName.trim(),hitNumber:Number.isInteger(h.hitNumber)?h.hitNumber:null,hitSlot:h.hitSlot,signedSeason};
+  }
+  // Where the saved shot player stands on this phone's board: his saved slot when that slot still holds him, else wherever he
+  // is (a later build may have moved him), else -1 (not on this board at all: he is still out, nobody else is).
+  function rrSavedAt(board,saved){
+    const shot={name:saved.hitName,number:saved.hitNumber,signedSeason:saved.signedSeason};
+    const row=board[saved.hitSlot];
+    if(row&&row.name&&rrSame(row,shot))return {shot,at:saved.hitSlot};
+    return {shot,at:board.findIndex(p=>p.name&&rrSame(p,shot))};
+  }
+  // This season's turn with a saved outcome as the authority. The chambers stay the seeded ones (they never depend on a board);
+  // the stop chamber follows the saved result so the animation agrees with it.
+  function rrSavedTurn(turn,saved,board){
+    if(!saved.fired)return {...turn,fired:false,hitSlot:null,stopChamber:turn.bulletChamber===turn.stopChamber?(turn.bulletChamber+1)%CHAMBERS:turn.stopChamber,authority:"saved",shot:null};
+    const {shot,at}=rrSavedAt(board,saved),slot=at>=0?at:saved.hitSlot;
+    return {...turn,fired:true,hitSlot:slot,aimSlot:slot,stopChamber:turn.bulletChamber,authority:"saved",shot:at>=0?null:shot};
+  }
+  // The outcome a manager's spin mark records for his own turn of this plan.
+  function rrOutcome(plan,role,version){
+    const turn=plan&&Array.isArray(plan.turns)?plan.turns.find(item=>item.role===role):null;
+    if(!turn||typeof version!=="string"||!version)return null;
+    if(!turn.fired||!turn.player||!turn.player.name)return Object.freeze({fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason:null,version});
+    const signed=turn.player.signedSeason;
+    return Object.freeze({fired:true,hitName:String(turn.player.name).trim(),hitNumber:Number.isInteger(turn.player.number)?turn.player.number:null,hitSlot:turn.hitSlot,hitSignedSeason:Number.isInteger(signed)&&signed>=1&&signed<=MAX_SEASONS?signed:null,version});
+  }
   function rrArgs(rivalryId,clubs,season){
     const match=RIVALRY_ID.exec(String(rivalryId||""));
     if(!match||!Number.isInteger(season)||season<1||season>MAX_SEASONS||!clubs)return null;
@@ -408,13 +466,15 @@ Keep the visible reply under about 60,000 characters.
   }
   // What the screen shows for one season. clubs = {playerOne, playerTwo} club names; options.special = the Special
   // Players; options.history[k] = {playerOne:[verdict rows], playerTwo:[verdict rows]} for every season k before this
-  // one (index 1..season-1). Returns null for a malformed id, an unknown club, a season outside 1..10 or a missing season
-  // of history (the screen then shows no roulette).
+  // one (index 1..season-1). options.hits[k] = {playerOne:outcome|null, playerTwo:outcome|null}: the outcomes the spin marks
+  // saved (F2-02). A saved outcome is the authority for that season and manager: the saved player is out even if this build's
+  // board would have aimed elsewhere; a season or manager without one is computed as before. Returns null for a malformed id,
+  // an unknown club, a season outside 1..10 or a missing season of history (the screen then shows no roulette).
   function rrForSeason(rivalryId,clubs,season,options){
     const args=rrArgs(rivalryId,clubs,season);
     if(!args)return null;
-    const history=options&&options.history,special=options&&options.special;
-    const boards={},turns={};
+    const history=options&&options.history,special=options&&options.special,hits=options&&options.hits;
+    const boards={},turns={},skipped={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
     // The Special Player is never on any board, bench or reserve list anywhere: both managers' draws are excluded from
     // both clubs (red team R87-C-01). One in the club's launch board is skipped and the next player takes his place.
@@ -426,6 +486,8 @@ Keep the visible reply under about 60,000 characters.
         rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club,number),signedSeason:null});
       for(let i=0;i<BOARD_SIZE;i+=1)if(rrExcluded(state,state.board[i]))rrReplace(state,i,[]);
       while(state.reserves.length<3&&rrNextReserve(state)){} // skip him in the hidden three too
+      // F2-19 (Fable job 2): names the roulette shot, for saying why a kept signing of the same name stays off the board.
+      const shotNames=new Set();skipped[role]=[];
       for(let k=1;k<season;k+=1){
         const allKept=rrKept(history&&history[k]&&history[k][role],k,state.club);
         if(!allKept)return null;
@@ -438,11 +500,22 @@ Keep the visible reply under about 60,000 characters.
         // Sol SQ-2-03: a player this manager already signed in an earlier window is not a new signing when entered again;
         // he keeps his first window and his place (board or reserves).
         const kept=allKept.filter(p=>!state.reserves.some(r=>r.signedSeason!==null&&rrSame(r,p)));
-        if(turn.fired){
-          rrExclude(state,state.board[turn.hitSlot]);
+        const saved=rrSavedHit(hits,k,role);
+        let shot=null,at=-1;
+        if(saved){if(saved.fired)({shot,at}=rrSavedAt(state.board,saved));}
+        else if(turn.fired){shot=state.board[turn.hitSlot];at=turn.hitSlot;}
+        if(shot){
+          shotNames.add(rrKey(shot.name));
+          rrExclude(state,at>=0?state.board[at]:shot);
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
           // R87-2's XI/bench signing placement run first without ever writing a blank row.
-          state.vacant=turn.hitSlot;
+          if(at>=0)state.vacant=at;
+        }
+        // F2-19: a kept signing the rules keep off (signings are known by name only, so his name is one the roulette shot, a
+        // Special Player's, or a guessed and released signing's) is listed for the season right after his window, with why.
+        if(k===season-1)for(const player of kept)if(rrExcluded(state,player)){
+          const key=rrKey(player.name);
+          skipped[role].push(Object.freeze({name:player.name,season:k,reason:specials.some(sp=>rrKey(sp.name)===key)?"special":shotNames.has(key)?"shot":"guessed"}));
         }
         for(const player of kept)rrJoin(state,player);
         if(state.vacant!==null){rrReplace(state,state.vacant,[],k);state.vacant=null;}
@@ -450,14 +523,19 @@ Keep the visible reply under about 60,000 characters.
         rrRepairStopgaps(state,k);
       }
       const board=state.board;
-      boards[role]=Object.freeze(board);
-      turns[role]=rrTurn(args.hex,season,role,board);
+      boards[role]=Object.freeze(board);skipped[role]=Object.freeze(skipped[role]);
+      const turn=rrTurn(args.hex,season,role,board),saved=rrSavedHit(hits,season,role);
+      turns[role]=saved?rrSavedTurn(turn,saved,board):{...turn,authority:"computed",shot:null};
     }
-    const order=ROLES.map(role=>{const turn=turns[role],board=boards[role];return Object.freeze({...turn,player:turn.hitSlot!==null?board[turn.hitSlot]:null});});
-    return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order)});
+    const order=ROLES.map(role=>{
+      const {shot,...turn}=turns[role],board=boards[role];
+      const player=turn.hitSlot===null?null:shot?rrRow(turn.hitSlot,board[turn.hitSlot].pos,shot.name,{number:shot.number,rating:0,positions:Object.freeze([]),special:false,signedSeason:shot.signedSeason}):board[turn.hitSlot];
+      return Object.freeze({...turn,player});
+    });
+    return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order),skipped:Object.freeze(skipped)});
   }
 
-  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,board:rrBoard,forSeason:rrForSeason});
+  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,engineRevision:ENGINE_REVISION,board:rrBoard,forSeason:rrForSeason,version:rrVersion,outcome:rrOutcome});
 });
 
 ```
@@ -477,8 +555,8 @@ Keep the visible reply under about 60,000 characters.
   // the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms the
   // release in his FIFA 17 save. The app never releases anyone itself. The boards build themselves (Nik 2026-10-30): the
   // FIFA 17 launch board excluding the Special Player, then each season's shot player out and kept signings in by position and overall, from
-  // last seasons' Transfer War verdicts (kept on this phone when they were shown; otherwise one Transfer Challenge read per
-  // missing season). No board is saved anywhere and nobody types one.
+  // last seasons' Transfer War verdicts and saved shots (kept on this phone when they were shown; otherwise plain reads of
+  // both verdict documents and the saved spins per missing season, all seasons at once; F2-12). No board is saved anywhere and nobody types one.
   // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
   // before r87. A page that fails to load skips only the animation: the result and the release still show. Anything else that
   // fails (engine, data, an error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded
@@ -595,12 +673,15 @@ Keep the visible reply under about 60,000 characters.
   function rrsSeed(ctx){return (parseInt(String(ctx.rivalryId).slice(-8),16)^Math.imul(ctx.season,0x9E3779B1))>>>0;}
   // history[k] = both managers' Transfer War verdicts of season k, for every season before this one; null when the
   // manager leaves.
-  async function rrsHistory(ctx){
+  // F2-02: also the outcomes each season's spin marks saved (hits[k], or null when that season has none): the engine replays
+  // them as the authority. F2-12: all missing seasons are asked for at once; TRY AGAIN asks again only for those that failed.
+  async function rrsHistory(ctx,hits){
     const history=[null];
+    const first=new Map();for(let k=1;k<ctx.season;k+=1)first.set(k,Promise.resolve(ctx.verdicts(k)).catch(()=>null));
     for(let k=1;k<ctx.season;k+=1){
-      for(;;){
-        const result=await ctx.verdicts(k);
-        if(result&&result.ok){history.push(result.verdicts);break;}
+      for(let attempt=0;;attempt+=1){
+        const result=attempt===0?await first.get(k):await ctx.verdicts(k);
+        if(result&&result.ok){history.push(result.verdicts);hits[k]=result.hits||null;break;}
         const choice=await rrsAsk(ctx,{heading:"Building the boards",label:"Building the boards",lines:[rrsReadError(result,k)],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
         if(choice==="back")return null;
       }
@@ -707,9 +788,19 @@ Keep the visible reply under about 60,000 characters.
     return parts.length?`${p.name} (${parts.join(", ")})`:String(p.name);
   }
   function rrsOutcomeLine(turn){return turn.fired?`${NAMES[turn.role]} lost ${rrsPlayerLabel(turn.player)}.`:`${NAMES[turn.role]}: empty chamber. Squad safe.`;}
+  // F2-19 (Fable job 2): a kept signing the board rules keep off is said in one line, never dropped silently. Signings are known
+  // by name only, so a name the roulette shot, a Special Player's, or a guessed and released signing's keeps him off the board.
+  const RRS_SKIP_WHY=Object.freeze({
+    shot:name=>`the roulette shot a ${name}, and a shot player never comes back.`,
+    special:name=>`${name} is a Special Player's name, and a Special Player is never on a board.`,
+    guessed:name=>`a ${name} was guessed and released in the Transfer War, and a released player stays off the board.`});
+  function rrsSkippedLines(plan,role){
+    const list=plan&&plan.skipped&&Array.isArray(plan.skipped[role])?plan.skipped[role]:[];
+    return list.filter(item=>item&&typeof item.name==="string"&&RRS_SKIP_WHY[item.reason]).map(item=>`${item.name} (signed in season ${item.season}) is not on your board: ${RRS_SKIP_WHY[item.reason](item.name)}`);
+  }
   async function rrsResult(ctx,plan){
     const mine=plan.turns.find(turn=>turn.role===ctx.managerRole);
-    const lines=plan.turns.map(rrsOutcomeLine);
+    const lines=[...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
         note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the transfer window. The game can't do it for you.`,
@@ -717,6 +808,30 @@ Keep the visible reply under about 60,000 characters.
       :await rrsAsk(ctx,{heading:"Your squad is safe",label:"Your squad is safe",lines,note:"Your squad stays as it is this season.",
         buttons:[{id:"go",label:"GO TO THE TRANSFER WINDOW",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
     return choice==="go";
+  }
+
+  // ---------- F2-02 / F2-10: the spin marks on the server ----------
+  // ctx.marks = this season's marks as the Transfer Challenge read them ({playerOne, playerTwo}: true, an outcome, or null), or
+  // null once the window opened (both managers had spun: START needs both marks). An outcome is {fired, hitName, hitNumber,
+  // hitSlot, hitSignedSeason, version}.
+  function rrsOutcomeOf(entry){return entry&&typeof entry==="object"&&typeof entry.fired==="boolean"&&typeof entry.version==="string"?entry:null;}
+  function rrsSpunOnServer(ctx){return ctx.windowStarted===true||Boolean(ctx.marks&&ctx.marks[ctx.managerRole]);}
+  // F2-02: the partner spun this season on a different version of the game (another build, or other squad data), so the two
+  // phones could show different players. Said plainly, never a silent desync. TRY AGAIN reads the marks again (after either
+  // phone was updated); the partner's saved spin stands for him either way, so CONTINUE goes on with it as the authority.
+  async function rrsVersionStop(ctx,version){
+    for(;;){
+      const partner=rrsOutcomeOf(ctx.marks&&ctx.marks[rrsOther(ctx.managerRole)]);
+      if(!version||!partner||partner.version===version||rrsSpunOnServer(ctx)&&ctx.marks&&ctx.marks[ctx.managerRole])return true;
+      const name=NAMES[rrsOther(ctx.managerRole)];
+      const choice=await rrsAsk(ctx,{heading:"Update the game on the other phone",label:"Update the game on the other phone",
+        lines:[`${name} spun this season's roulette on a different version of the game, so the two phones could show different players.`,`Update the game on ${name}'s phone: close it fully and open it again. If yours is the one behind, do the same on yours. Then tap TRY AGAIN.`],
+        note:`Your version: ${version} · ${name}'s spin: ${partner.version}. ${name}'s saved spin stands for him either way.`,
+        buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"continue",label:`CONTINUE WITH ${name.toUpperCase()}'S SAVED SPIN`},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+      if(choice==="back")return false;
+      if(choice==="continue")return true;
+      if(typeof ctx.refreshMarks==="function"){try{const next=await ctx.refreshMarks();if(next&&typeof next==="object"){ctx.marks=next.marks===undefined?ctx.marks:next.marks;ctx.windowStarted=next.windowStarted===true;}}catch(_error){}}
+    }
   }
 
   // Fable F2-04: why no plan could be built, in words a manager can act on (the engine only answers null).
@@ -735,24 +850,35 @@ Keep the visible reply under about 60,000 characters.
       const choice=await rrsAsk(ctx,{heading:"Loading the roulette",label:"Loading the roulette",lines:["The roulette could not load. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
       if(choice==="back")return false;
     }
-    const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx);
-    const history=ctx.season>1?await rrsHistory(ctx):[null];if(!history)return false;
+    const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx),special=rrsSpecial(ctx);
+    const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special}):null;
+    if(!await rrsVersionStop(ctx,version))return false;
+    const hits={};
+    const history=ctx.season>1?await rrsHistory(ctx,hits):[null];if(!history)return false;
+    // This season: a saved mark (this manager's own on a second browser, the partner's always) is the authority for that turn.
+    hits[ctx.season]=Object.fromEntries(ROLES.map(role=>[role,rrsOutcomeOf(ctx.marks&&ctx.marks[role])]));
     // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player. A club the data
     // does not know is named before the engine runs (Fable S4); no plan is never marked done (Fable F2-04): the window stays
     // shut and the card says why, with the way back to Showdown Home.
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
-    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special:rrsSpecial(ctx),history}):null;
+    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history);
       await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The transfer window stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
       return false;
     }
-    if(!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
+    // F2-10: the server already holds this manager's spin for this season (another browser or tab, or cleared storage): the
+    // result card shows it at once, with no second spin.
+    const spun=rrsSpunOnServer(ctx);
+    if(spun)rrsMark(WATCHED_KEY,key);
+    if(!spun&&!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
       const scene=await rrsScene(ctx,plan);
       if(scene==="watched")rrsMark(WATCHED_KEY,key);
     }
     const go=await rrsResult(ctx,plan);
     if(!go)return false;
+    // F2-02: the outcome this manager's mark records (only while the server has none for him this season).
+    if(!spun&&typeof ctx.remember==="function"&&typeof engine.outcome==="function"){try{ctx.remember(engine.outcome(plan,ctx.managerRole,version));}catch(_error){}}
     rrsMark(DONE_KEY,key);
     return true;
   }
@@ -2052,6 +2178,14 @@ Keep the visible reply under about 60,000 characters.
   // each manager adds his own role to spins (one merge write, no read) when he confirms his release. START needs both;
   // starting the window replaces the document with the normal ledger (exactly PUBLIC_KEYS, so no other reader changes).
   const SPIN_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","phase","spins","updatedAt"]);
+  // F2-02 (Fable job 2): a mark records that season's outcome for its manager (js/rosterRoulette.js outcome): fired, hitName,
+  // hitNumber, hitSlot (0-14), hitSignedSeason (1-10, or null for a club player) and the engine and data version. A mark from a
+  // phone that ran no roulette (switched off, no confirm time) is plain true. Each manager writes his own entry once (the Rules refuse a second write).
+  const OUTCOME_KEYS=Object.freeze(["fired","hitName","hitNumber","hitSlot","hitSignedSeason","version"]);
+  const OUTCOME_VERSION=/^rr[0-9]{1,3}\.[0-9]{1,4}\.[0-9a-f]{8}$/;
+  // The durable copy START makes of both marks (the mark document itself is replaced by the ledger), so later seasons replay the
+  // saved shots: rivalries/{rid}/transferChallenges/season_N/roulette/spins, written once, never changed.
+  const RECORD_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","spins"]);
   const COMMAND_TYPES=Object.freeze(["start-window","request-end-window","advance-expired-window","lock-guesses","lock-signings"]);
   const CANONICAL_LEAGUE_IDS=Object.freeze((Array.isArray(root.FIFA17_TRANSFER_LEAGUES)?root.FIFA17_TRANSFER_LEAGUES:[]).map(item=>item&&item.id).filter(Boolean));
   const CANONICAL_NATIONALITY_IDS=Object.freeze((Array.isArray(root.FIFA17_TRANSFER_NATIONALITIES)?root.FIFA17_TRANSFER_NATIONALITIES:[]).map(item=>item&&item.id).filter(Boolean));
@@ -2120,11 +2254,32 @@ Keep the visible reply under about 60,000 characters.
   }
   // The pre-window mark document: null when it is absent or the ledger has started, else the roles that have spun (in role order).
   function stspIsPreWindow(value){return stspPlain(value)&&value.phase==="NOT_STARTED";}
-  function stspSpins(value,rivalryId,seasonNumber){
-    if(!stspIsPreWindow(value))return null;stspExact(value,SPIN_KEYS);
-    if(value.schemaVersion!==1||value.objectType!=="sharedTransferChallenge"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||!stspPlain(value.spins)||Object.keys(value.spins).some(role=>!ROLES.includes(role)||value.spins[role]!==true))stspFail("TRANSFER_PROVIDER_STATE_INVALID");
-    return ROLES.filter(role=>value.spins[role]===true);
+  // A valid outcome (frozen copy), or null.
+  function stspOutcome(value){
+    if(!stspPlain(value)||Object.keys(value).length!==OUTCOME_KEYS.length||OUTCOME_KEYS.some(key=>!Object.hasOwn(value,key)))return null;
+    if(typeof value.fired!=="boolean"||typeof value.version!=="string"||!OUTCOME_VERSION.test(value.version))return null;
+    if(value.fired){
+      if(typeof value.hitName!=="string"||!value.hitName||value.hitName!==value.hitName.trim()||value.hitName.length>80||!Number.isInteger(value.hitSlot)||value.hitSlot<0||value.hitSlot>14||!(value.hitNumber===null||(Number.isInteger(value.hitNumber)&&value.hitNumber>=0&&value.hitNumber<=99))||!(value.hitSignedSeason===null||(Number.isInteger(value.hitSignedSeason)&&value.hitSignedSeason>=1&&value.hitSignedSeason<=10)))return null;
+    }else if(value.hitName!==null||value.hitNumber!==null||value.hitSlot!==null||value.hitSignedSeason!==null)return null;
+    return Object.freeze({fired:value.fired,hitName:value.hitName,hitNumber:value.hitNumber,hitSlot:value.hitSlot,hitSignedSeason:value.hitSignedSeason,version:value.version});
   }
+  // {playerOne, playerTwo}: each manager's stored entry (true, or his outcome), or null when he has none.
+  function stspSpinEntries(spins){
+    if(!stspPlain(spins)||Object.keys(spins).some(role=>!ROLES.includes(role)))stspFail("TRANSFER_PROVIDER_STATE_INVALID");
+    const entries={};
+    for(const role of ROLES){
+      if(!Object.hasOwn(spins,role)){entries[role]=null;continue;}
+      const entry=spins[role]===true?true:stspOutcome(spins[role]);
+      if(!entry)stspFail("TRANSFER_PROVIDER_STATE_INVALID");entries[role]=entry;
+    }
+    return Object.freeze(entries);
+  }
+  function stspSpinMarks(value,rivalryId,seasonNumber){
+    if(!stspIsPreWindow(value))return null;stspExact(value,SPIN_KEYS);
+    if(value.schemaVersion!==1||value.objectType!=="sharedTransferChallenge"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber)stspFail("TRANSFER_PROVIDER_STATE_INVALID");
+    return stspSpinEntries(value.spins);
+  }
+  function stspSpins(value,rivalryId,seasonNumber){const marks=stspSpinMarks(value,rivalryId,seasonNumber);return marks?ROLES.filter(role=>marks[role]!==null):null;}
   function stspPublicState(value,rivalryId,seasonNumber,setup){
     if(!value||stspIsPreWindow(value))return null;stspExact(value,PUBLIC_KEYS);
     if(value.schemaVersion!==1||value.objectType!=="sharedTransferChallenge"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||value.runtimeRevision!==protocol.runtimeRevision||value.coordinatorRole!==setup.coordinatorRole||!protocol.phases.includes(value.phase)||!Number.isInteger(value.revision)||value.revision<1||value.revision>7)stspFail("TRANSFER_PROVIDER_STATE_INVALID");
@@ -2170,12 +2325,13 @@ Keep the visible reply under about 60,000 characters.
     const baseRefs={account:sdk.doc(db,"accounts",uid),device:sdk.doc(db,"accounts",uid,"devices",deviceId),rivalry:sdk.doc(db,"rivalries",rivalryId),session:sdk.doc(db,"rivalries",rivalryId,"sessions",sessionId),setup:sdk.doc(db,"rivalries",rivalryId,"sharedSetup","authoritative"),career:sdk.doc(db,"rivalries",rivalryId,"careerStart","authoritative")};
     stspAssertAccount(stspSnapshot(await transaction.get(baseRefs.account)),uid);stspAssertDevice(stspSnapshot(await transaction.get(baseRefs.device)),deviceId);const rivalry=stspAssertRivalry(stspSnapshot(await transaction.get(baseRefs.rivalry)),rivalryId,uid);stspAssertSession(stspSnapshot(await transaction.get(baseRefs.session)),rivalryId,sessionId,rivalry.authorized,now);const setup=stspAssertSetup(stspSnapshot(await transaction.get(baseRefs.setup)),rivalryId);stspAssertCareer(stspSnapshot(await transaction.get(baseRefs.career)),rivalryId,setup);const seasonNumber=stspSeason(options.seasonNumber,setup.totalSeasons),role=rivalry.actor.slotId,opponentRole=role==="playerOne"?"playerTwo":"playerOne",transferId=`season_${seasonNumber}`;
     const refs={...baseRefs,public:sdk.doc(db,"rivalries",rivalryId,"transferChallenges",transferId),own:sdk.doc(db,"rivalries",rivalryId,"transferChallenges",transferId,"roles",role),opponent:sdk.doc(db,"rivalries",rivalryId,"transferChallenges",transferId,"roles",opponentRole)};
-    const publicValue=stspSnapshot(await transaction.get(refs.public)),state=stspPublicState(publicValue,rivalryId,seasonNumber,setup),spunRoles=state?null:(stspSpins(publicValue,rivalryId,seasonNumber)||[]),ownValue=stspSnapshot(await transaction.get(refs.own)),own=stspPrivateState(ownValue,rivalryId,seasonNumber,role,catalog);let opponent=null;
+    const publicValue=stspSnapshot(await transaction.get(refs.public)),state=stspPublicState(publicValue,rivalryId,seasonNumber,setup),spinMarks=state?null:(stspSpinMarks(publicValue,rivalryId,seasonNumber)||Object.freeze({playerOne:null,playerTwo:null})),spunRoles=spinMarks?ROLES.filter(item=>spinMarks[item]!==null):null,ownValue=stspSnapshot(await transaction.get(refs.own)),own=stspPrivateState(ownValue,rivalryId,seasonNumber,role,catalog);let opponent=null;
     if(readOpponent==="ifCompleted"&&!(state&&state.phase==="COMPLETED"))readOpponent=false;if(readOpponent){if(!state||state.phase!=="COMPLETED")stspFail("TRANSFER_PRIVATE_READ_BLOCKED");opponent=stspPrivateState(stspSnapshot(await transaction.get(refs.opponent)),rivalryId,seasonNumber,opponentRole,catalog);if(!opponent)stspFail("TRANSFER_PRIVATE_STATE_INVALID");}
-    return Object.freeze({catalog,uid,rivalryId,sessionId,deviceId,now,sdk,db,rivalry,setup,seasonNumber,role,opponentRole,state,spunRoles,own,publicValue,ownValue,opponent,refs});
+    refs.roulette=sdk.doc(db,"rivalries",rivalryId,"transferChallenges",transferId,"roulette","spins");
+    return Object.freeze({catalog,uid,rivalryId,sessionId,deviceId,now,sdk,db,rivalry,setup,seasonNumber,role,opponentRole,state,spunRoles,spinMarks,own,publicValue,ownValue,opponent,refs});
   }
   function stspProjection(ctx){
-    const state=ctx.state;if(!state)return Object.freeze({ok:true,revision:0,state:null,managerRole:ctx.role,seasonNumber:ctx.seasonNumber,spunRoles:Object.freeze([...(ctx.spunRoles||[])]),ownInputs:null,opponentInputs:null,verdicts:null});
+    const state=ctx.state;if(!state)return Object.freeze({ok:true,revision:0,state:null,managerRole:ctx.role,seasonNumber:ctx.seasonNumber,spunRoles:Object.freeze([...(ctx.spunRoles||[])]),spinMarks:ctx.spinMarks||Object.freeze({playerOne:null,playerTwo:null}),ownInputs:null,opponentInputs:null,verdicts:null});
     const ownInputs=ctx.own?{guesses:stspClone(ctx.own.guesses),signings:stspClone(ctx.own.signings)}:{guesses:null,signings:null};
     const opponentInputs=state.phase==="COMPLETED"&&ctx.opponent?{guesses:stspClone(ctx.opponent.guesses),signings:stspClone(ctx.opponent.signings)}:null;let verdicts=null;
     if(state.phase==="COMPLETED"){
@@ -2183,7 +2339,7 @@ Keep the visible reply under about 60,000 characters.
       const inputs={};inputs[ctx.role]=ctx.own;inputs[ctx.opponentRole]=ctx.opponent;const evalState={phase:"COMPLETED",inputs};
       verdicts={playerOne:stspProtocolVerdict("playerOne",evalState),playerTwo:stspProtocolVerdict("playerTwo",evalState)};
     }
-    return stspFreeze({ok:true,revision:state.revision,state:stspClone(state),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,spunRoles:null,ownInputs,opponentInputs,verdicts});
+    return stspFreeze({ok:true,revision:state.revision,state:stspClone(state),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,spunRoles:null,spinMarks:null,ownInputs,opponentInputs,verdicts});
   }
   function stspProtocolVerdict(role,state){
     const opponent=role==="playerOne"?"playerTwo":"playerOne",guesses=state.inputs[opponent].guesses||[];
@@ -2223,6 +2379,9 @@ Keep the visible reply under about 60,000 characters.
         else stspFail("TRANSFER_COMMAND_INVALID");
         next.operationIds.push(operationId);next.operationTypes.push(type);next.operationHashes.push(operationHash);next.baseRevisions.push(revision);next.actorRoles.push(ctx.role);next.revision=revision+1;
         const serverNow=stspServerTimestamp(ctx.sdk);transaction.set(ctx.refs.public,stspPublicLedger(next,ctx,serverNow,type));if(writePrivate)transaction.set(ctx.refs.own,stspPrivateLedger(own,ctx,ctx.role,serverNow,type));
+        // F2-02: START from a document holding both marks keeps them: one durable record, an exact copy (the Rules compare it with
+        // the marks being replaced), so later seasons replay each saved shot instead of recomputing it.
+        if(type==="start-window"&&ctx.spinMarks&&ROLES.every(role=>ctx.spinMarks[role]!==null))transaction.set(ctx.refs.roulette,{schemaVersion:1,objectType:"sharedTransferRouletteSpins",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,spins:stspClone(ctx.publicValue.spins)});
         return stspFreeze({ok:true,status:"accepted",replayed:false,revision:next.revision,state:stspClone(next),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,needsRefresh:type==="start-window"||next.phase==="COMPLETED"});
       });
     }catch(error){return stspResultError(error);}
@@ -2235,9 +2394,55 @@ Keep the visible reply under about 60,000 characters.
     try{
       if(!options.firestore||!options.firebaseSdk||typeof options.firebaseSdk.doc!=="function"||typeof options.firebaseSdk.runTransaction!=="function"||typeof options.firebaseSdk.serverTimestamp!=="function")stspFail("TRANSFER_PROVIDER_UNAVAILABLE");
       stspAccountId(options.user);const rivalryId=stspNormalizeRivalryId(options.rivalryId),season=stspSeason(options.seasonNumber,10),role=options.managerRole;if(!ROLES.includes(role))stspFail("TRANSFER_ROLE_INVALID");
+      // F2-02: with options.outcome (this manager's own turn, js/rosterRoulette.js outcome) the entry records it; without one
+      // (no roulette ran on this phone) it is true. A malformed outcome is refused here, before any write.
+      let entry=true;if(options.outcome!==undefined&&options.outcome!==null){entry=stspOutcome(options.outcome);if(!entry)stspFail("TRANSFER_SPIN_OUTCOME_INVALID");entry={...entry};}
       const sdk=options.firebaseSdk,ref=sdk.doc(options.firestore,"rivalries",rivalryId,"transferChallenges",`season_${season}`);
-      await sdk.runTransaction(options.firestore,async transaction=>{transaction.set(ref,{schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId,seasonNumber:season,phase:"NOT_STARTED",spins:{[role]:true},updatedAt:stspServerTimestamp(sdk)},{merge:true});});
+      try{
+        await sdk.runTransaction(options.firestore,async transaction=>{transaction.set(ref,{schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId,seasonNumber:season,phase:"NOT_STARTED",spins:{[role]:entry},updatedAt:stspServerTimestamp(sdk)},{merge:true});});
+      }catch(error){
+        // The Rules accept one mark per manager and season (F2-02), so marking again (a retry after a lost ack, a reload, a
+        // second tab, or a caller that marked before an earlier START was refused) is denied. Only then, one read: if this
+        // manager's mark is already on the document, or the window already opened from both marks, he has spun. The stored
+        // mark stands (the first outcome is the season's outcome); nothing is written.
+        if(String(error&&error.code||"").replace(/^firestore\//,"")!=="permission-denied")throw error;
+        const stored=await sdk.runTransaction(options.firestore,async transaction=>stspSnapshot(await transaction.get(ref)));
+        const marked=stored&&(stored.phase!=="NOT_STARTED"||(stspPlain(stored.spins)&&Object.hasOwn(stored.spins,role)&&stored.spins[role]!==false));
+        if(!marked)throw error;
+        return Object.freeze({ok:true,managerRole:role,seasonNumber:season,alreadyMarked:true});
+      }
       return Object.freeze({ok:true,managerRole:role,seasonNumber:season});
+    }catch(error){return stspResultError(error);}
+  }
+  // F2-12 (Fable job 2): an earlier season for the roulette boards, with plain document gets and no prerequisite transaction:
+  // this manager's own role document, the partner's (the Rules allow it only once the season's window is COMPLETED) and the
+  // durable spin record. Verdicts are computed as stspProtocolVerdict does. options.verdicts false reads the record only (the
+  // verdicts are already kept on this phone). hits is {playerOne, playerTwo} (an outcome or null), or null without a record.
+  async function stspReadRouletteSeason(options={}){
+    try{
+      const sdk=options.firebaseSdk,db=options.firestore;
+      if(!db||!sdk||typeof sdk.doc!=="function"||typeof sdk.getDoc!=="function")stspFail("TRANSFER_PROVIDER_UNAVAILABLE");
+      stspAccountId(options.user);const rivalryId=stspNormalizeRivalryId(options.rivalryId),season=stspSeason(options.seasonNumber,10),role=options.managerRole;if(!ROLES.includes(role))stspFail("TRANSFER_ROLE_INVALID");
+      const opponentRole=role==="playerOne"?"playerTwo":"playerOne",transferId=`season_${season}`,wantVerdicts=options.verdicts!==false;
+      const get=parts=>sdk.getDoc(sdk.doc(db,"rivalries",rivalryId,"transferChallenges",transferId,...parts)).then(stspSnapshot);
+      const settled=await Promise.allSettled([get(["roulette","spins"]),...(wantVerdicts?[get(["roles",role]),get(["roles",opponentRole])]:[])]);
+      if(settled[0].status==="rejected")throw settled[0].reason;
+      let hits=null;const record=settled[0].value;
+      if(record){
+        stspExact(record,RECORD_KEYS);
+        if(record.schemaVersion!==1||record.objectType!=="sharedTransferRouletteSpins"||record.rivalryId!==rivalryId||record.seasonNumber!==season)stspFail("TRANSFER_PROVIDER_STATE_INVALID");
+        const entries=stspSpinEntries(record.spins);hits=Object.freeze(Object.fromEntries(ROLES.map(item=>[item,entries[item]&&entries[item]!==true?entries[item]:null])));
+      }
+      if(!wantVerdicts)return Object.freeze({ok:true,seasonNumber:season,verdicts:null,hits});
+      const catalog=stspCatalog();
+      if(settled[1].status==="rejected")throw settled[1].reason;
+      const own=stspPrivateState(settled[1].value,rivalryId,season,role,catalog);
+      if(!own||!own.guesses||!own.signings)stspFail("TRANSFER_NOT_COMPLETED");
+      if(settled[2].status==="rejected")throw settled[2].reason;
+      const opponent=stspPrivateState(settled[2].value,rivalryId,season,opponentRole,catalog);
+      if(!opponent||!opponent.guesses||!opponent.signings)stspFail("TRANSFER_NOT_COMPLETED");
+      const inputs={[role]:own,[opponentRole]:opponent},evalState={phase:"COMPLETED",inputs};
+      return stspFreeze({ok:true,seasonNumber:season,verdicts:{playerOne:stspProtocolVerdict("playerOne",evalState),playerTwo:stspProtocolVerdict("playerTwo",evalState)},hits});
     }catch(error){return stspResultError(error);}
   }
   const stspStartWindow=options=>stspMutate(options,"start-window",{});
@@ -2246,7 +2451,7 @@ Keep the visible reply under about 60,000 characters.
   const stspLockGuesses=options=>stspMutate(options,"lock-guesses",{guesses:options.guesses});
   const stspLockSignings=options=>stspMutate(options,"lock-signings",{signings:options.signings});
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-spark-shared-transfer-challenge",runtimeRevision:protocol.runtimeRevision,read:stspRead,markSpun:stspMarkSpun,rouletteFromMs:ROULETTE_FROM_MS,rouletteEligible:stspRouletteEligible,startWindow:stspStartWindow,requestEndWindow:stspRequestEndWindow,advanceExpiredWindow:stspAdvanceExpiredWindow,lockGuesses:stspLockGuesses,lockSignings:stspLockSignings,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,canonicalStorageMutation:false,privateInputsSplit:true,serverClockAuthoritative:true,repositoryCatalogSnapshot:true,callerCatalogOverride:false});
+  return Object.freeze({contractVersion:1,feature:"ssjr-spark-shared-transfer-challenge",runtimeRevision:protocol.runtimeRevision,read:stspRead,markSpun:stspMarkSpun,readRouletteSeason:stspReadRouletteSeason,outcomeValid:value=>Boolean(stspOutcome(value)),rouletteFromMs:ROULETTE_FROM_MS,rouletteEligible:stspRouletteEligible,startWindow:stspStartWindow,requestEndWindow:stspRequestEndWindow,advanceExpiredWindow:stspAdvanceExpiredWindow,lockGuesses:stspLockGuesses,lockSignings:stspLockSignings,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,canonicalStorageMutation:false,privateInputsSplit:true,serverClockAuthoritative:true,repositoryCatalogSnapshot:true,callerCatalogOverride:false});
 });
 ```
 
@@ -2324,7 +2529,7 @@ Keep the visible reply under about 60,000 characters.
   function pstcCurrentContextKey(){const showdown=pstcShowdown(),setup=pstcSetupState(),rivalry=showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"";let season;try{season=pstcSeason();}catch(_error){return "";}return pstcBoundContextKey(rivalry,season);}
   function pstcRequestContext(){const showdown=pstcShowdown(),localKey=pstcLocalContextKey(),rivalryId=String(showdown?.sharedJourney?.rivalryId||pstcSetupState()?.rivalryId||"").trim();let seasonNumber;try{seasonNumber=pstcSeason();}catch(_error){return null;}const key=pstcBoundContextKey(rivalryId,seasonNumber,localKey);return key?Object.freeze({key,localKey,rivalryId,seasonNumber}):null;}
   function pstcRequestMatches(request,ctx=null){if(!request||pstcCurrentContextKey()!==request.key)return false;if(!ctx)return true;return String(ctx.state?.rivalryId||"").trim()===request.rivalryId&&Number(ctx.options?.seasonNumber)===request.seasonNumber;}
-  function pstcBindView(result,ctx,request){if(!pstcRequestMatches(request,ctx))return false;view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};viewContextKey=request.key;if(view.state?.phase==="COMPLETED"&&view.verdicts)pstcKeepVerdicts(request.rivalryId,request.seasonNumber,view.verdicts);return true;}
+  function pstcBindView(result,ctx,request){if(!pstcRequestMatches(request,ctx))return false;view={...result,setup:ctx.state.setup,rivalryId:ctx.state.rivalryId};viewContextKey=request.key;if(view.state?.phase==="COMPLETED"&&view.verdicts){pstcKeepVerdicts(request.rivalryId,request.seasonNumber,view.verdicts);pstcSavedClear(request.key);}if(!view.state&&view.spinMarks)pstcKeepMarks(request.rivalryId,request.seasonNumber,view.spinMarks);return true;}
   function pstcResetExpiryAttempts(){expiryAttemptContextKey="";expiryAttemptRevision=-1;expiryAttemptAt=0;expiryAttemptCount=0;expiryPermissionDenied=false;}
   function pstcExpiryPaused(){return root.document?.visibilityState==="hidden"||expiryNeedsAuthority;}
   function pstcExpiryPermissionRefused(error,request){if(["permission-denied","firestore/permission-denied","permission_denied"].includes(error?.code)&&pstcRequestMatches(request)&&view?.state?.phase==="WINDOW_OPEN"){expiryAttemptContextKey=request.key;expiryAttemptRevision=Number(view.revision);expiryPermissionDenied=true;}}
@@ -2456,7 +2661,7 @@ Keep the visible reply under about 60,000 characters.
   const PSTC_SESSION_TEXT="Your Showdown session has lapsed. Go back to Showdown Home and open the Showdown again; nothing saved is lost.";
   const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_ROULETTE_PENDING:"Both managers spin the roulette before the transfer window opens.",TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
-  function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code)return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;return code||message||fallback;}
+  function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
   async function pstcMutate(method,payload={}){
     const request=pstcRequestContext();if(!request||busy||pstcReplayPhase()||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;busy=true;pstcSetError("");pstcRender();
     try{
@@ -2464,7 +2669,7 @@ Keep the visible reply under about 60,000 characters.
         for(let attempt=0;;attempt+=1){
           if(!pstcRequestMatches(request)||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;
           const ctx=await pstcProviderOptions(request,false,method==="advanceExpiredWindow");if(!ctx||!pstcRequestMatches(request,ctx)||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;
-          const current=pstcResultError(await provider.read(ctx.options),"The Transfer Challenge could not be refreshed.");if(!pstcRequestMatches(request,ctx))return false;
+          const current=pstcResultError(await provider.read(ctx.options),"The Transfer Challenge did not refresh. Try again.");if(!pstcRequestMatches(request,ctx))return false;
           if(method==="advanceExpiredWindow"&&pstcExpiryPaused())return false;
           if(attempt>0&&pstcOutcomeShown(method,current)){if(pstcBindView(current,ctx,request)){pstcSetError("");if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}return true;}
           const options={...ctx.options,nowEpochMs:pstcAuthoritativeNow(request),operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
@@ -2476,13 +2681,38 @@ Keep the visible reply under about 60,000 characters.
             continue;
           }
           if(!pstcRequestMatches(request,ctx))return true;
-          if(!pstcBindView(result,ctx,request))return true;if(method==="lockSignings")pstcClearSigningDraft(view.managerRole);if(method==="lockGuesses")pstcClearGuessDraft(view.managerRole);pstcSetError("");
-          if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefreshNow(request);else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
+          // F2-08 (Fable job 2): the write result carries the public state only. Keep this manager's own inputs (the read at the
+          // top plus what was just locked) so the sealed rows stay on screen, and the rival's as last read.
+          if(!pstcBindView(pstcLockedView(result,current,method,payload),ctx,request))return true;if(method==="lockSignings")pstcClearSigningDraft(view.managerRole);if(method==="lockGuesses")pstcClearGuessDraft(view.managerRole);pstcSetError("");
+          if(result.needsRefresh||result.state?.phase==="COMPLETED"){
+            // F2-08: the lock is saved. A failed follow-up read is not an error and never shows an empty verdict screen or "did
+            // it save?": the screen says saved, loading verdicts, and reads again by itself.
+            if(method==="lockSignings"||method==="lockGuesses")pstcSavedPending(request);
+            try{await pstcRefreshNow(request);}catch(_error){if(pstcSavedPendingFor(request)){pstcRender();pstcDecorateDashboard();pstcSavedRetry(request);}else throw _error;}
+          }else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
           return true;
         }
       });
-    }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer Challenge update failed."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
+    }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer Challenge did not update. Try again."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
     finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
+  }
+  // ---- F2-08: a lock that is saved while its verdicts are still loading ----
+  let savedPendingKey="",savedRetryTimer=null,savedRetryCount=0;
+  const SAVED_RETRY_MS=Object.freeze([1500,4000,8000,15000]);
+  function pstcLockedView(result,current,method,payload){
+    const own=current&&current.ownInputs?{guesses:current.ownInputs.guesses??null,signings:current.ownInputs.signings??null}:{guesses:null,signings:null};
+    if(method==="lockGuesses"&&Array.isArray(payload?.guesses))own.guesses=JSON.parse(JSON.stringify(payload.guesses));
+    if(method==="lockSignings"&&Array.isArray(payload?.signings))own.signings=JSON.parse(JSON.stringify(payload.signings));
+    return {...result,ownInputs:own,opponentInputs:current?.opponentInputs||null,verdicts:null,spinMarks:null,spunRoles:null};
+  }
+  function pstcSavedPending(request){savedPendingKey=request.key;savedRetryCount=0;}
+  function pstcSavedPendingFor(request){return Boolean(request&&savedPendingKey===request.key&&view&&viewContextKey===request.key&&!view.verdicts);}
+  function pstcSavedClear(key){if(!key||savedPendingKey===key){savedPendingKey="";savedRetryCount=0;if(savedRetryTimer){root.clearTimeout?.(savedRetryTimer);savedRetryTimer=null;}}}
+  function pstcSavedRetry(request){
+    if(savedRetryTimer||typeof root.setTimeout!=="function")return;
+    const wait=SAVED_RETRY_MS[Math.min(savedRetryCount,SAVED_RETRY_MS.length-1)];savedRetryCount+=1;
+    savedRetryTimer=root.setTimeout(()=>{savedRetryTimer=null;if(!pstcSavedPendingFor(request)||!pstcRequestMatches(request))return;
+      pstcRefresh(false,false).then(fresh=>{if(!fresh&&pstcSavedPendingFor(request))pstcSavedRetry(request);},()=>{if(pstcSavedPendingFor(request))pstcSavedRetry(request);});},wait);
   }
   function pstcSetError(message=""){const node=root.document&&root.document.getElementById("transferChallengeError");if(node)node.textContent=String(message||"");}
   function pstcRolePrefix(role){return role==="playerOne"?"p1":"p2";}
@@ -2612,6 +2842,7 @@ Keep the visible reply under about 60,000 characters.
   }
   function pstcDisableRole(role,disabled){const signing=pstcRolePrefix(role),guess=pstcGuessPrefix(role);for(let i=1;i<=3;i+=1){[`${signing}Signing${i}Name`,`${signing}Signing${i}Overall`,`${signing}Signing${i}Position`,`${signing}Signing${i}League`,`${signing}Signing${i}Nationality`,`${guess}Guess${i}Type`,`${guess}Guess${i}Value`].forEach(id=>pstcDisable(pstcField(id),disabled));}}
   function pstcRenderVerdictCard(role,rows){const target=pstcField(role==="playerOne"?"transferResultsOne":"transferResultsTwo");if(!target)return;target.replaceChildren();const heading=root.document.createElement("h4");heading.textContent=`${pstcManagerName(role)} · ${pstcClubName(role)}`;target.append(heading);if(!rows||!rows.length){const empty=root.document.createElement("p");empty.textContent="No signings were entered.";target.append(empty);return;}rows.forEach(row=>{const item=root.document.createElement("p"),name=root.document.createElement("strong"),status=root.document.createElement("span");name.textContent=row.name;status.textContent=row.release?"RELEASE · MATCHED BY RIVAL GUESS":"KEEP · NO RIVAL GUESS MATCH";item.append(name,root.document.createTextNode(" — "),status);target.append(item);});}
+  function pstcRenderVerdictLoading(role){const target=pstcField(role==="playerOne"?"transferResultsOne":"transferResultsTwo");if(!target)return;target.replaceChildren();const heading=root.document.createElement("h4");heading.textContent=`${pstcManagerName(role)} · ${pstcClubName(role)}`;const line=root.document.createElement("p");line.textContent="Saved. Loading the verdicts…";target.append(heading,line);}
   function pstcRenderProgress(phase){
     const localPhase=PHASE_PROGRESS[phase]||"window",order=["window","guess_entry","signing_entry","completed"],index=order.indexOf(localPhase),screen=pstcField("transferChallenge");
     if(screen)screen.dataset.transferPhase=localPhase;
@@ -2670,13 +2901,15 @@ Keep the visible reply under about 60,000 characters.
     }else if(phase==="SIGNING_ENTRY"){
       const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · SIGNINGS":locked?"SIGNINGS LOCKED · WAITING FOR YOUR RIVAL":"SIGNINGS · ENTER YOUR FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent=isReplay?"Replay: your signings are read-only. Nothing here changes the game or your save.":"Both sets of guesses are locked. Enter your own signings; your rival still can't see them.";if(!isReplay&&!locked){const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
     }else if(phase==="COMPLETED"){
-      pstcText("transferPhaseStatus","TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);pstcRenderVerdictCard("playerOne",view?.verdicts?.playerOne||[]);pstcRenderVerdictCard("playerTwo",view?.verdicts?.playerTwo||[]);if(continueButton){continueButton.textContent="SEASON RESULTS NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
+      // F2-08: COMPLETED without its verdicts yet (the follow-up read after the lock failed): saved, loading, never "No signings".
+      const loadingVerdicts=!view?.verdicts;
+      pstcText("transferPhaseStatus",loadingVerdicts?"SAVED · LOADING VERDICTS":"TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);if(loadingVerdicts){pstcRenderVerdictLoading("playerOne");pstcRenderVerdictLoading("playerTwo");}else{pstcRenderVerdictCard("playerOne",view.verdicts.playerOne||[]);pstcRenderVerdictCard("playerTwo",view.verdicts.playerTwo||[]);}if(continueButton){continueButton.textContent="SEASON RESULTS NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
     }
     if(isReplay&&continueButton){continueButton.textContent=`CONTINUE REPLAY · ${phase.replaceAll("_"," ")}`;pstcHidden(actionBar,false);pstcHidden(continueButton,false);pstcDisable(continueButton,false);}
     pstcMarkWitness(key,phase);
     const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy||isReplay);return true;
   }
-  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge could not be refreshed."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
+  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not refresh. Try again."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
   function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER CHALLENGE…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER CHALLENGE`;status.textContent="Transfer Challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WINDOW";status.textContent="Transfer Challenge: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer Challenge: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer Challenge: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer Challenge: complete";}if(rouletteError)status.textContent=rouletteError;return true;}
   // r50: the first open loads the Transfer runtime and reads authority; show it and share one attempt.
   // r87 Russian Roster Roulette (js/rosterRouletteStep.js): before this season's Transfer Challenge opens, this manager does
@@ -2693,7 +2926,12 @@ Keep the visible reply under about 60,000 characters.
       // Every Setup read carries the confirm time (the ledger's updatedAt is a required field), so a missing one means the
       // Setup could not be read just now: the window stays shut with the reason, never opened without the roulette (Fable F2-05).
       if(!Number.isFinite(confirmedAtMs)){rouletteError=PSTC_ROULETTE_TEXT.setup;return false;}
+      // F2-02 / F2-10: this season's marks from the read just made (no new read), whether the window already opened (both
+      // managers spun), where this manager's outcome goes, and a fresh look at the marks for the version stop's TRY AGAIN.
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")},confirmedAtMs,phase:view.state?.phase||"NOT_STARTED",
+        marks:view.state?null:(view.spinMarks||null),windowStarted:Boolean(view.state),
+        remember:outcome=>pstcRememberOutcome(request,view?.managerRole,outcome),
+        refreshMarks:async()=>{const fresh=await pstcRefresh(true,false);return fresh&&viewContextKey===request.key?{marks:view.state?null:(view.spinMarks||null),windowStarted:Boolean(view.state)}:null;},
         verdicts:season=>pstcRouletteVerdicts(request,season)};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){rouletteError=PSTC_ROULETTE_TEXT.load;return false;}
@@ -2719,17 +2957,54 @@ Keep the visible reply under about 60,000 characters.
     try{const key=`${rivalryId}|${season}`,list=pstcVerdictList().filter(item=>item[0]!==key);list.push([key,value]);if(typeof root.writeStorageValue==="function")root.writeStorageValue(PSTC_ROULETTE_VERDICTS_KEY,JSON.stringify(list.slice(-PSTC_ROULETTE_VERDICTS_MAX)));}catch(_error){}
     return value;
   }
+  // F2-02: each season's saved outcomes ({playerOne, playerTwo}: an outcome or null) once both are known for good: from the
+  // durable record, or from the pre-window marks once both managers have one (the record START writes is their exact copy).
+  const PSTC_ROULETTE_HITS_KEY="careerModeShowdown.rouletteHits.v1";
+  function pstcHitList(){try{const value=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PSTC_ROULETTE_HITS_KEY)||"[]");return Array.isArray(value)?value.filter(item=>Array.isArray(item)&&item.length===2&&typeof item[0]==="string"):[];}catch(_error){return [];}}
+  function pstcOutcomeCopy(entry){return entry&&typeof entry==="object"&&provider?.outcomeValid?.(entry)?{fired:entry.fired,hitName:entry.hitName,hitNumber:entry.hitNumber,hitSlot:entry.hitSlot,hitSignedSeason:entry.hitSignedSeason,version:entry.version}:null;}
+  function pstcKeptHits(rivalryId,season){const found=pstcHitList().find(item=>item[0]===`${rivalryId}|${season}`),value=found&&found[1];return value&&typeof value==="object"&&Object.hasOwn(value,"playerOne")&&Object.hasOwn(value,"playerTwo")?value:null;}
+  function pstcKeepHits(rivalryId,season,hits){
+    const value={playerOne:pstcOutcomeCopy(hits?.playerOne),playerTwo:pstcOutcomeCopy(hits?.playerTwo)};if(!rivalryId)return value;
+    try{const key=`${rivalryId}|${season}`,list=pstcHitList().filter(item=>item[0]!==key);list.push([key,value]);if(typeof root.writeStorageValue==="function")root.writeStorageValue(PSTC_ROULETTE_HITS_KEY,JSON.stringify(list.slice(-PSTC_ROULETTE_VERDICTS_MAX)));}catch(_error){}
+    return value;
+  }
+  function pstcKeepMarks(rivalryId,season,marks){if(marks&&marks.playerOne&&marks.playerTwo)pstcKeepHits(rivalryId,season,marks);}
+  // F2-12 (Fable job 2): a season missing here is read with plain document gets (both role documents and the spin record; one
+  // record get when the verdicts are already kept), not the full prerequisite transaction with a forced token refresh.
+  async function pstcRouletteServices(){
+    const runtime=root.CareerModeProductionFirebaseRuntime;if(!runtime||typeof runtime.ensureAccountServices!=="function")pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+    const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
+    if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+    const base=services.firestoreSdk;
+    const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(s=>s))(typeof base.getDoc==="function"?base:{...base,getDoc:(await import(runtime.firebaseFirestoreModule)).getDoc});
+    return {user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:sdk};
+  }
   async function pstcRouletteVerdicts(request,season){
     try{
-      const kept=pstcKeptVerdicts(request.rivalryId,season);if(kept)return {ok:true,verdicts:kept};
-      const provided=await pstcProviderOptions(request,true);if(!provided?.options)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
-      const result=await provider.read({...provided.options,seasonNumber:season});
+      const kept=pstcKeptVerdicts(request.rivalryId,season),keptHits=pstcKeptHits(request.rivalryId,season);
+      if(kept&&keptHits)return {ok:true,verdicts:kept,hits:keptHits};
+      await pstcEnsureDependencies();
+      const role=view?.managerRole||pstcSetupState()?.managerRole;if(!role)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+      if(typeof provider.readRouletteSeason!=="function")pstcFail("TRANSFER_PROVIDER_UNAVAILABLE");
+      const result=await provider.readRouletteSeason({...await pstcRouletteServices(),rivalryId:request.rivalryId,seasonNumber:season,managerRole:role,verdicts:!kept});
       if(!result||result.ok!==true)return {ok:false,code:result?.code||"TRANSFER_PROVIDER_FAILED"};
-      if(result.state?.phase!=="COMPLETED"||!result.verdicts)return {ok:false,code:"TRANSFER_NOT_COMPLETED"};
-      const value=pstcKeepVerdicts(request.rivalryId,season,result.verdicts);
-      return value?{ok:true,verdicts:value}:{ok:false,code:"TRANSFER_PROVIDER_STATE_INVALID"};
+      const value=kept||pstcKeepVerdicts(request.rivalryId,season,result.verdicts);
+      if(!value)return {ok:false,code:"TRANSFER_PROVIDER_STATE_INVALID"};
+      return {ok:true,verdicts:value,hits:pstcKeepHits(request.rivalryId,season,result.hits)};
     }catch(error){return {ok:false,code:error?.code||"TRANSFER_PROVIDER_FAILED"};}
   }
+  // F2-02: the outcome this manager's own mark records, kept on this phone until the mark is on the server (a reload re-sends
+  // exactly the same one; the Rules accept one write per role and season).
+  const PSTC_ROULETTE_OUTCOME_KEY="careerModeShowdown.rouletteOutcome.v1";
+  function pstcOutcomeList(){try{const value=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PSTC_ROULETTE_OUTCOME_KEY)||"[]");return Array.isArray(value)?value.filter(item=>Array.isArray(item)&&item.length===2&&typeof item[0]==="string"):[];}catch(_error){return [];}}
+  const pstcOutcomeKey=(request,role)=>`${request.rivalryId}|${request.seasonNumber}|${role}`;
+  function pstcRememberOutcome(request,role,outcome){
+    const copy=pstcOutcomeCopy(outcome);if(!request||!role||!copy)return false;
+    try{const key=pstcOutcomeKey(request,role),list=pstcOutcomeList().filter(item=>item[0]!==key);list.push([key,copy]);if(typeof root.writeStorageValue==="function")root.writeStorageValue(PSTC_ROULETTE_OUTCOME_KEY,JSON.stringify(list.slice(-PSTC_ROULETTE_VERDICTS_MAX)));}catch(_error){}
+    pendingOutcome={key:pstcOutcomeKey(request,role),outcome:copy};return true;
+  }
+  let pendingOutcome=null;
+  function pstcPendingOutcome(request,role){const key=pstcOutcomeKey(request,role);if(pendingOutcome&&pendingOutcome.key===key)return pendingOutcome.outcome;const found=pstcOutcomeList().find(item=>item[0]===key);return found?pstcOutcomeCopy(found[1]):null;}
   // ---- RT5-FLOW-02: both spins before the shared window ----
   // The roulette applies to a Showdown confirmed at or after the step's RRR_FROM_MS while it is not switched off; any other
   // season (an older Showdown) passes by itself and never writes or waits for a mark.
@@ -2761,8 +3036,11 @@ Keep the visible reply under about 60,000 characters.
     if(!request||spinPendingKey!==request.key||!role||viewContextKey!==request.key||view.state||pstcSpunRoles().includes(role)){if(view?.state||pstcSpunRoles().includes(role))spinPendingKey="";return Promise.resolve(false);}
     const run=(async()=>{
       const provided=await pstcProviderOptions(request,true);if(!provided?.options||!pstcRequestMatches(request))return false;
-      const result=await provider.markSpun({...provided.options,managerRole:role});
+      const outcome=pstcPendingOutcome(request,role);
+      let result=await provider.markSpun({...provided.options,managerRole:role,...(outcome?{outcome}:{})});
       if(!pstcRequestMatches(request))return false;
+      // F2-02: a mark is written once. A refusal after an earlier write whose answer was lost: the server already holds it.
+      if(/permission/i.test(String(result?.code||""))){try{const fresh=await pstcRefreshNow(request,true);if(fresh&&!fresh.state&&pstcSpunRoles().includes(role))result={ok:true};}catch(_error){}}
       if(result&&result.ok===true){
         spinPendingKey="";spinRefusedKey="";
         if(view&&viewContextKey===request.key&&!view.state){const spun=pstcSpunRoles();view={...view,spunRoles:["playerOne","playerTwo"].filter(item=>item===role||spun.includes(item))};}
@@ -2791,7 +3069,7 @@ Keep the visible reply under about 60,000 characters.
     if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}
     return false;
   }
-  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"Shared Transfer Challenge failed."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
+  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
   // r87: a form mistake caught on this phone is shown on the card only; a second toast covered the signing rows on phones.
   function pstcFormMistake(error){return Boolean(error)&&error.providerResult!==true&&(error.code==="TRANSFER_SIGNINGS_INVALID"||error.code==="TRANSFER_GUESSES_INVALID");}
   async function pstcTick(light=false){
@@ -3224,7 +3502,29 @@ Keep the visible reply under about 60,000 characters.
         && root.phase == 'NOT_STARTED'
         && root.spins is map
         && root.spins.keys().hasOnly(['playerOne','playerTwo'])
+        && (root.spins.get('playerOne', true) == true || ssjrTransferSpinOutcomeValid(root.spins.playerOne))
+        && (root.spins.get('playerTwo', true) == true || ssjrTransferSpinOutcomeValid(root.spins.playerTwo))
         && root.updatedAt == request.time;
+    }
+    // F2-02 (Fable job 2): a mark may record its manager's outcome for the season instead of plain true: fired, the shot player's
+    // name (as a signing name: 1-80 characters, trimmed), shirt number (0-99 or null), board slot 0-14 and the season he was
+    // signed (1-10, or null for a club player: the two are different people), and the engine and data version. A safe spin has
+    // no name, number, slot or season. Exact keys; nothing else.
+    function ssjrTransferSpinOutcomeValid(value) {
+      return value is map
+        && value.keys().hasAll(['fired','hitName','hitNumber','hitSlot','hitSignedSeason','version'])
+        && value.keys().hasOnly(['fired','hitName','hitNumber','hitSlot','hitSignedSeason','version'])
+        && value.version is string
+        && value.version.size() <= 24
+        && value.version.matches('^rr[0-9]{1,3}[.][0-9]{1,4}[.][0-9a-f]{8}$')
+        && (
+          (value.fired == true
+            && ssjrTransferValidSigningName(value.hitName)
+            && value.hitSlot is int && value.hitSlot >= 0 && value.hitSlot <= 14
+            && (value.hitNumber == null || (value.hitNumber is int && value.hitNumber >= 0 && value.hitNumber <= 99))
+            && (value.hitSignedSeason == null || (value.hitSignedSeason is int && value.hitSignedSeason >= 1 && value.hitSignedSeason <= 10)))
+          || (value.fired == false && value.hitName == null && value.hitNumber == null && value.hitSlot == null && value.hitSignedSeason == null)
+        );
     }
     function ssjrTransferSpinCreate(rivalryId, transferId) {
       let after = request.resource.data;
@@ -3232,7 +3532,7 @@ Keep the visible reply under about 60,000 characters.
         && ssjrTransferSpinShape(after, rivalryId, transferId)
         && ssjrEntitled(rivalryId)
         && after.spins.keys().hasOnly([ssjrActorRole(rivalryId)])
-        && after.spins[ssjrActorRole(rivalryId)] == true;
+        && after.spins[ssjrActorRole(rivalryId)] != false;
     }
     function ssjrTransferSpinUpdate(rivalryId, transferId) {
       let before = resource.data;
@@ -3242,15 +3542,36 @@ Keep the visible reply under about 60,000 characters.
         && ssjrTransferSpinShape(after, rivalryId, transferId)
         && after.seasonNumber == before.seasonNumber
         && ssjrEntitled(rivalryId)
+        && !(ssjrActorRole(rivalryId) in before.spins)
         && after.spins.diff(before.spins).affectedKeys().hasOnly([ssjrActorRole(rivalryId)])
-        && after.spins[ssjrActorRole(rivalryId)] == true;
+        && after.spins[ssjrActorRole(rivalryId)] != false;
     }
     function ssjrTransferStartAfterSpins(rivalryId, transferId) {
       let before = resource.data;
       return before.phase == 'NOT_STARTED'
-        && before.spins.get('playerOne', false) == true
-        && before.spins.get('playerTwo', false) == true
+        && before.spins.get('playerOne', false) != false
+        && before.spins.get('playerTwo', false) != false
         && ssjrTransferValidCreate(rivalryId, transferId);
+    }
+    // F2-02 (Fable job 2): START replaces the mark document with the ledger, so it also writes one durable record of both marks:
+    // transferChallenges/season_N/roulette/spins, an exact copy of the stored spins (both present, so final: each entry is written
+    // once). Created once, never updated, listed or deleted; members read it to replay earlier seasons' saved shots. One lookup
+    // more than START itself (the mark document as it stands before this request).
+    function ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId) {
+      let after = request.resource.data;
+      let marks = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
+      return docId == 'spins'
+        && after.keys().hasAll(['schemaVersion','objectType','rivalryId','seasonNumber','spins'])
+        && after.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','spins'])
+        && after.schemaVersion == 1
+        && after.objectType == 'sharedTransferRouletteSpins'
+        && after.rivalryId == rivalryId
+        && ssjrTransferSeasonMatches(transferId, after.seasonNumber)
+        && ssjrEntitled(rivalryId)
+        && marks.phase == 'NOT_STARTED'
+        && marks.spins.get('playerOne', false) != false
+        && marks.spins.get('playerTwo', false) != false
+        && after.spins == marks.spins;
     }
     function ssjrTransferPrivateReadable(rivalryId, transferId, managerRole) {
       let public = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;
@@ -3268,6 +3589,13 @@ Keep the visible reply under about 60,000 characters.
         // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.
         allow create: if ssjrTransferSpinCreate(rivalryId, transferId);
         allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);
+
+        // F2-02: the durable record of both marks, written once by START.
+        match /roulette/{docId} {
+          allow get: if ssjrEntitled(rivalryId);
+          allow list, update, delete: if false;
+          allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);
+        }
 
         match /roles/{managerRole} {
           allow get: if ssjrTransferPrivateReadable(rivalryId, transferId, managerRole);
@@ -4103,7 +4431,7 @@ Keep the visible reply under about 60,000 characters.
     const careerStart=root.CareerModeProductionSharedCareerStart;
     if(!careerStart||typeof careerStart.openPanel!=="function")return false;
     Promise.resolve(careerStart.openPanel()).catch(error=>{
-      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Shared Career Start action failed",error);
+      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Career Start did not finish",error);
       else console.error(error);
     });
     return true;
@@ -4113,7 +4441,7 @@ Keep the visible reply under about 60,000 characters.
     if(!presentation||typeof presentation.handlesControl!=="function"||typeof presentation.handleControlClick!=="function")return false;
     if(!presentation.handlesControl(target.id))return false;
     Promise.resolve(presentation.handleControlClick(target.id)).catch(error=>{
-      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Shared Showdown polished presentation action failed",error);
+      if(typeof root.reportApplicationError==="function")root.reportApplicationError("That step did not finish",error);
       else console.error(error);
     });
     return true;
@@ -4327,7 +4655,7 @@ Keep the visible reply under about 60,000 characters.
   // A paired phone reuses its exact ACTIVE session; manual recovery waits for a different session.
   async function pjrOpenFreshSessionCode(){return pjrOpenRecovery(true);}
   function pjrRender(){
-    const node=pjrStatusElement();if(!node)return false;const visible=pjrSharedMarker()&&Boolean(state)&&!pjrShowdownEnded();node.classList.toggle("hidden",!visible);if(!visible){node.replaceChildren();return false;}const text=pjrMessage(state);node.replaceChildren(root.document.createTextNode(text));if((state.phase==="FRESH_SESSION_REQUIRED"&&!pjrShowdownClosed())||state.phase==="RECOVERY_PENDING"){const action=root.document.createElement("button");action.id=ACTION_ID;action.type="button";action.className="compactButton";action.textContent=state.phase==="FRESH_SESSION_REQUIRED"?"RECONNECT":"CHECK CONNECTION";action.disabled=busy;action.addEventListener("click",()=>{void pjrOpenSessionRecovery();});node.append(root.document.createTextNode(" "),action);}else if(state.phase==="ACTIVE_RECOVERED"){/* BH-11 (#1): this phone may still hold the session the other phone lost; let it take the other phone's new code. */const fresh=root.document.createElement("button");fresh.id=NEW_CODE_ACTION_ID;fresh.type="button";fresh.className="compactButton";fresh.textContent=pjrPermanentlyPaired()?"RECONNECT":"NEW CODE";fresh.disabled=busy;fresh.addEventListener("click",()=>{void pjrOpenFreshSessionCode();});node.append(root.document.createTextNode(" "),fresh);}node.dataset.recoveryPhase=state.phase;node.dataset.authoritative=state.activeAuthorization?"true":"false";return true;
+    const node=pjrStatusElement();if(!node)return false;const visible=pjrSharedMarker()&&Boolean(state)&&!pjrShowdownEnded();node.classList.toggle("hidden",!visible);if(!visible){node.replaceChildren();return false;}const text=pjrMessage(state);node.replaceChildren(root.document.createTextNode(text));if((state.phase==="FRESH_SESSION_REQUIRED"&&!pjrShowdownClosed())||state.phase==="RECOVERY_PENDING"){const action=root.document.createElement("button");action.id=ACTION_ID;action.type="button";action.className="compactButton";action.textContent=state.phase==="FRESH_SESSION_REQUIRED"?"RECONNECT":"CHECK CONNECTION";action.disabled=busy;action.addEventListener("click",()=>{void pjrOpenSessionRecovery();});node.append(root.document.createTextNode(" "),action);}else if(state.phase==="ACTIVE_RECOVERED"){/* BH-11 (#1): this phone may still hold the session the other phone lost; let it take the other phone's new code. */const fresh=root.document.createElement("button");fresh.id=NEW_CODE_ACTION_ID;fresh.type="button";fresh.className="compactButton";fresh.textContent=pjrPermanentlyPaired()?"RECONNECT":"NEW CODE";fresh.disabled=busy;fresh.addEventListener("click",()=>{void pjrOpenFreshSessionCode();});node.append(root.document.createTextNode(" "),fresh);}node.dataset.recoveryPhase=state.phase;/* r87 sweep P-01: Home leaves the finished-Showdown note out (css/v10Shell.css) */node.dataset.closedNotice=state.phase==="FRESH_SESSION_REQUIRED"&&pjrShowdownClosed()?"true":"false";node.dataset.authoritative=state.activeAuthorization?"true":"false";return true;
   }
   function pjrPublish(next){
     state=next||null;contextKey=state?`${state.accountId}|${state.deviceId}|${state.rivalryId}`:"";pjrRender();
@@ -4404,7 +4732,11 @@ Keep the visible reply under about 60,000 characters.
     root.addEventListener?.("career-mode-connected-account-state-change",pjrWake);
     root.addEventListener?.("career-mode-shared-terminal-close-state-change",pjrOnTerminalClose);
     root.document?.addEventListener?.("visibilitychange",pjrWake);
-    if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.()||Date.now()>=Number(root.CareerModeSparkRemoteJoining?.getState?.()?.expiresAtEpochMs))pjrWake();},POLL_MS);
+    // S6 (Fable job 2): the routine 15 s check re-reads Setup and the season progression (with its history) whenever the commit
+    // listener is not watching, about once a minute once the budget layer's quiet copies age. While the full-screen roulette is
+    // up nothing of the banner is visible and no shared state can change under it, so the check waits for the roulette to end
+    // (a session that is expiring still wakes it, and every event wake still runs).
+    if(typeof root.setInterval==="function")root.setInterval(()=>{const expiring=Date.now()>=Number(root.CareerModeSparkRemoteJoining?.getState?.()?.expiresAtEpochMs);if(!expiring&&root.CareerModeRosterRouletteStep?.active?.()===true)return;if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.()||expiring)pjrWake();},POLL_MS);
     if(typeof root.setTimeout==="function")root.setTimeout(pjrWake,0);
     return true;
   }

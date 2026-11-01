@@ -1,6 +1,6 @@
 # Fable job 7: r87 career and history truth re-audit after the fixes (Career Mode Showdown 2.0.0)
 
-Code snapshot: gameplay/r87 @ 588cd508d, repo nikahanghojjati-oss/fifa17-career-showdown2. This is the code **after** the career fixes merged (#1103). The full source of every file on the career truth chain is below this brief. You cannot run code here, so reason carefully and show the arithmetic.
+Code snapshot: gameplay/r87 @ 18802b939, repo nikahanghojjati-oss/fifa17-career-showdown2. This is the code **after** the career fixes merged (#1103). The full source of every file on the career truth chain is below this brief. You cannot run code here, so reason carefully and show the arithmetic.
 
 ## The product
 A private two-player FIFA 17 Career Mode competition web app (vanilla JS, Firebase Firestore, GitHub Pages). Two managers, Daniel (playerOne) and Nik (playerTwo), play a "Showdown" of 1, 3, 5 or 10 seasons. After each real FIFA season both enter their results. The app scores each season and keeps a lifetime career across every Showdown. The career screens are History, Career Statistics, Trophy Room, Rivalry, Legacy, Standings, Rule Book, Season Results and the Final Winner.
@@ -39,6 +39,7 @@ A private two-player FIFA 17 Career Mode competition web app (vanilla JS, Fireba
 - **C-09:** retries.
 - **LEVEL:** a level record reads LEVEL, never "Shared".
 - **LK-1:** one live stage.
+- **H2 (latest):** no 0-0 crown when no Showdown has finished; partial points are a floor.
 
 ## Threat model
 Normal play only: reloads, phone locks, offline/online, a fresh phone, cleared storage, two tabs, slow networks, and old Showdowns from earlier builds. A modified app is out of scope.
@@ -1495,7 +1496,7 @@ function confirmCurrentSeason(){
     }catch(error){
         console.error("Season was saved but the summary screen failed to render:", error);
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Season saved, but the summary screen failed", error);
+            window.reportApplicationError("The season is saved, but its summary did not open", error);
         }
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
@@ -4034,13 +4035,15 @@ function createLegacyOnlineCareerSection(){
     const career = getLegacyOnlineCareer();
     const fragment = document.createDocumentFragment();
     const text = value => career.status === "loading" ? "Loading…" : value === null ? "—" : String(value);
+    // H2: a partial career could not read every Showdown, so its points are a floor like its count ("AT LEAST").
+    const floor = career.status === "partial" ? " (AT LEAST)" : "";
     const stats = document.createElement("div");
     stats.className = "legacyStatsGrid legacyOnlineCareer";
     stats.dataset.careerStatus = career.status;
     stats.append(
-        createLegacyStat(career.status === "partial" ? "SHOWDOWNS COMPLETED (AT LEAST)" : "SHOWDOWNS COMPLETED", text(career.completed)),
-        createLegacyStat("DANIEL · CAREER POINTS", text(career.points ? career.points.daniel : null)),
-        createLegacyStat("NIK · CAREER POINTS", text(career.points ? career.points.nik : null))
+        createLegacyStat("SHOWDOWNS COMPLETED" + floor, text(career.completed)),
+        createLegacyStat("DANIEL · CAREER POINTS" + floor, text(career.points ? career.points.daniel : null)),
+        createLegacyStat("NIK · CAREER POINTS" + floor, text(career.points ? career.points.nik : null))
     );
     fragment.appendChild(stats);
 
@@ -5181,7 +5184,9 @@ window.renderLegacy = renderLegacy;
     let frame=null;
     // r87 career fixes (B4): a career whose only Showdowns ended early has no finished Showdown, so nothing counts: it is the
     // same empty state as a new career, not both managers crowned #1 on 0-0. History still lists those Showdowns.
-    if(view.status==="ready"&&!view.interimLabel&&MANAGERS.every(manager=>model.managers?.[manager]?.showdowns?.completed===0))view={...view,status:"empty"};
+    // H2 (career truth hunt): a partial career with no finished Showdown is not "#1 at 0-0" either. The Showdown that could not
+    // be read may be a finished one, so nothing can be counted or crowned: unavailable (reopening reads it again).
+    if((view.status==="ready"||view.status==="partial")&&!view.interimLabel&&MANAGERS.every(manager=>model.managers?.[manager]?.showdowns?.completed===0))view={...view,status:view.status==="ready"?"empty":"unavailable"};
     if(view.status==="ready"||view.status==="partial"){
       frame=screen==="careerStatistics"?v10CareerStatistics(model,view.status):v10TrophyRoom(model,view.status);
       if(!frame)frame=bare("unavailable");
