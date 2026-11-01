@@ -98,3 +98,17 @@ See section 7 for the final numbers. In short:
 ## 7. Data numbers (filled in when the Heroes merge finished)
 
 PENDING
+
+## 8. A question for G Lead from Nik: Claude Duet's role in the workflow
+
+Nik would like your view on where Claude Duet (the Claude in Nik's app, which built this package) fits best in the Showdown workflow. His view: building a full screen in Duet is probably not the most efficient way, so this screen is a one-off. Going forward, Duet might be better as something lighter that keeps Nik up to date without using much, or another role you think fits better.
+
+Some roles to react to, not a shortlist:
+
+- Status and tracking: watches the r87/r88 PRs, CI and the job board, and tells Nik in plain words what changed and what needs him.
+- Ticket writing: turns Nik's voice notes into job tickets for Team G, Sol or Team V in the house format.
+- Review and data checks: a second pair of eyes on a finished PR, or checking data like this Icon list against sources, without building features.
+- Handoffs: packages finished work, findings and open questions for you or Sol, like this note.
+- Small, contained builds only: a self-contained page or script, with the Rules and the integration left to Team G.
+
+Please send your suggestions back through Nik: which role or roles, what Duet should stop doing, and anything that would make its work easier for you to take in.
