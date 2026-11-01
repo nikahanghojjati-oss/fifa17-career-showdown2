@@ -51,7 +51,7 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 /* r87 scene polish: the tag line and the meta line sat on the LED board's letters ("SPECIAL PLAYER" showed between them).
    One solid black-and-gold plate now holds the whole lower third (an opaque nameplate, not a scrim: nothing is dimmed). */
 .l3 { box-sizing: border-box; padding: 12px 16px 14px 18px; background: linear-gradient(180deg, #17140e, #070605); border-left: 3px solid var(--gold); box-shadow: inset 0 1px 0 rgba(255,243,196,.22), 0 0 0 1px rgba(241,195,90,.55); }
-.l3 .name { box-shadow: none; border-left: 0; background: none; margin-left: 0; padding-left: 0; }
+.l3 .name { box-shadow: none; border-left: 0; background: none; margin-left: 0; padding-left: 0; max-width: 100%; }
 .bottom { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: auto; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 10px) max(16px, env(safe-area-inset-left, 0px)); }
 .strip { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; background: linear-gradient(180deg, #17140e, #070605); border: 1px solid rgba(241,195,90,.9); padding: 8px 12px; box-shadow: inset 0 1px 0 rgba(255,243,196,.25), 0 10px 30px rgba(0,0,0,.45); }
 .slot { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: center; min-width: 0; }
@@ -1854,7 +1854,7 @@ function settle(natural){
   
   const slot=order[idx]==="daniel"?slotD:slotN; slot.textContent=p.name; slot.className=""; $(order[idx]==="daniel"?"rkD":"rkN").textContent="#"+p.rank+" "+TIERLABEL[p.tier];
   $("l3tag").textContent=(order[idx]==="daniel"?"01 · Daniel":"02 · Nik")+" · #"+p.rank+" "+TIERLABEL[p.tier];
-  $("l3name").textContent=p.name;
+  $("l3name").textContent=p.name; fitL3();
   $("l3meta").innerHTML=`<span><i>${p.ovr}</i> ${p.pos}</span><span>${NATION[p.nation]}</span><span>${p.club||"No club"}</span><span><i>#${p.number}</i></span>`;
   l3.classList.add("on");
   live.textContent=`${order[idx]==="daniel"?"Daniel":"Nik"}'s FIFA 17 Showdown Special Player: ${p.name}, ${p.pos}, ${NATION[p.nation]}, ${p.club||"no club"}, number ${p.number}, overall ${p.ovr}, potential ${p.pot}, rank ${p.rank}.`;
@@ -2126,6 +2126,15 @@ function resize(){
   pMat.uniforms.scale.value=ph/(2*tanH); PK=W<700?.6:1; /* phones: fewer sparks in the new effects */
 }
 addEventListener("resize",resize);
+/* HO-052 (F8-09): a long name ran past the lower-third plate on tablets in landscape (the plate is 31vw wide there, the
+   name up to 66px). The name now shrinks to one line inside the plate: never cut off, never wrapped, same look otherwise. */
+function fitL3(){
+  const n=$("l3name"); n.style.fontSize="";
+  if(getComputedStyle(l3).display==="none") return;
+  const cs=getComputedStyle(l3), room=l3.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight), need=n.scrollWidth;
+  if(room>0 && need>room) n.style.fontSize=(parseFloat(getComputedStyle(n).fontSize)*room/need*.97).toFixed(1)+"px";
+}
+addEventListener("resize",fitL3);
 function render(){
   renderer.setRenderTarget(sceneRT); renderer.render(scene,camera);
   brightMat.uniforms.tex.value=sceneRT.texture; pass(brightMat,mipA[0]);
