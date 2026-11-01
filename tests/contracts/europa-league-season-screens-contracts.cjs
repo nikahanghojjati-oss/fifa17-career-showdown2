@@ -74,7 +74,7 @@ function openSeasonPage(device,{role="playerOne",published=[]}={}){
     crypto:{getRandomValues(bytes){for(let i=0;i<bytes.length;i+=1)bytes[i]=(random+i)&255;random+=1;return bytes;}},
     reportApplicationError(){},ensureGameplayModules:async()=>true,
     loadRuntimeScript:async key=>{throw new Error(`unexpected runtime load ${key}`);},
-    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE})},
+    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-10-01T00:00:00Z")})},
     CareerModeProductionSharedTransferChallenge:{refresh:async()=>true,getState:()=>({seasonNumber:2,state:{phase:"COMPLETED"}})},
     CareerModeSharedShowdownCatalog:{catalog:{premier_league:new Array(20).fill("club")}},
     CareerModeSharedShowdownSetup:{},CareerModeSharedSeasonResults:{},CareerModeSparkSharedSeasonResults:provider,
