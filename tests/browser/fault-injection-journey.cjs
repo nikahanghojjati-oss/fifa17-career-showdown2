@@ -642,6 +642,8 @@ async function main(){
     // --- end checks
     pointNow="end";
     const endCheck=(id,ok,detail)=>{report.endChecks.push({id,pass:Boolean(ok),detail:ok?undefined:String(detail).slice(0,1200)});console.log(`${ok?"ok  ":"FAIL"} end.${id}${ok?"":` -> ${String(detail).slice(0,400)}`}`);return ok;};
+    // Prime Pack points as stored with each season's result (the stage the right guess finally landed in decides them).
+    for(let k=1;k<=TOTAL;k+=1)for(const d of await adminList(R(`seasonResults/season_${k}/roles`))){const mm=/"primePack":\{?"?(?:integerValue"?:"?)?(\d)/.exec(JSON.stringify(d));if(mm)primeWon[d.name.endsWith("playerOne")?"daniel":"nik"]+=Number(mm[1]);}
     const totals={daniel:PLAN.reduce((a,s)=>a+scoreSeason(s.daniel),0)+primeWon.daniel,nik:PLAN.reduce((a,s)=>a+scoreSeason(s.nik),0)+primeWon.nik};
     const rivalry=await admin(`rivalries/${rivalryId}`),term=plain(F(rivalry,"data","terminalClose"));
     endCheck("db.closed",plain(F(rivalry,"data","connectionState"))==="closed"&&term&&term.managerTotals?.playerOne===totals.daniel&&term.managerTotals?.playerTwo===totals.nik,`connectionState ${plain(F(rivalry,"data","connectionState"))}, terminalClose ${JSON.stringify(term)}, expected totals ${JSON.stringify(totals)}`);
@@ -701,24 +703,27 @@ async function main(){
     await Promise.all([
       drive(X,async p=>(readyNow=moment(await primeState(p)))||await onTransfer(p),{label:`${point} (round)`,timeout:240000}),
       drive(O,async p=>readyNow||await onTransfer(p),{label:`${point} (partner)`,timeout:240000})]);
-    let guessed=null;
     await writePoint(ctx,point,{writer:X,ready:async p=>moment(await primeState(p)),
       tap:async p=>{
         if(point!=="prime-guess")return;
         const names=await rosterRoulette.primeNames(p);const f=p.frames().find(fr=>/\/icon-guess\//.test(fr.url()));
         if(!names||!f)throw new Error("Prime Pack: no answer or frame to guess with");
-        const st=await primeState(p);guessed={stage:st&&st.beat,points:[4,3,2,1][st&&st.beat>=0?st.beat:0]};
         await f.locator("#guess").fill(names.answer,{timeout:5000});await f.locator("#guess").press("Enter",{timeout:5000});
       },
-      settle:async(m,page)=>{PRIME=point==="prime-reveal"?"timeout":null;return drive(m,async p=>await onTransfer(p),{page,label:`season ${season} transfer window after the Prime Pack`,timeout:240000});},
+      settle:async(m,page)=>{
+        // prime-guess: a guess cut off by the fault (tab closed, network gone at once) may never reach the server; the round is
+        // still open, so the fault phone names the Icon again, as its player would. Its points are read from the stored results.
+        PRIME=point==="prime-reveal"?"timeout":point==="prime-guess"?xRole:null;return drive(m,async p=>await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} transfer window after the Prime Pack (both marks)`,timeout:240000});},
       checks:async(check)=>{
         const r=docData(await admin(R(`primePackRounds/season_${season}`)));
         await check(null,"db.primeRound",Boolean(r),`primePackRounds/season_${season} missing`);
         const want=point==="prime-guess"?xRole:null;
         await check(null,"db.primeNamedBy",r&&(r.namedBy??null)===want,`namedBy ${JSON.stringify(r&&r.namedBy)}, expected ${JSON.stringify(want)} (round ${JSON.stringify(r).slice(0,300)})`);
-        if(point==="prime-guess"&&r&&r.namedBy===xRole&&guessed)primeWon[X.user]+=guessed.points;
-        const start=await daniel.page.evaluate(()=>{const b=document.getElementById("startTransferTimer");return b?{text:b.textContent,disabled:b.disabled,hidden:b.classList.contains("hidden")}:null;});
-        await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START after the Prime Pack: ${JSON.stringify(start)}`);
+        // #1101: START waits for both spin marks. The partner's mark can reach Daniel's phone a few seconds after the window
+        // shows, so START gets up to 30 s; WAITING FOR NIK TO SPIN THE ROULETTE until then is correct.
+        const readStart=()=>daniel.page.evaluate(()=>{const b=document.getElementById("startTransferTimer");return b?{text:b.textContent,disabled:b.disabled,hidden:b.classList.contains("hidden")}:null;}).catch(()=>null);
+        let start=await readStart();for(const until=Date.now()+30000;!(start&&!start.disabled&&!start.hidden)&&Date.now()<until;){await sleep(1000);start=await readStart();}
+        await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START after the Prime Pack (30 s): ${JSON.stringify(start)}`);
       }});
     PRIME="timeout";
   }
