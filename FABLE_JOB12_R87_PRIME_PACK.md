@@ -1,4 +1,4 @@
-# Fable job 9: Prime Pack hunt (Career Mode Showdown 2.0.0)
+# Fable job 12: Prime Pack hunt (Career Mode Showdown 2.0.0)
 
 Code snapshot: PR #1149, branch claude/r88-icon-unmasked @ 28f0adee0 (Prime Pack diffs are against gameplay/r87 @ 3057aa660), repo nikahanghojjati-oss/fifa17-career-showdown2. Prime Pack is a brand-new screen shipping in r87 (2.0.0) today. Below this brief you get the full source of the Prime Pack files, the Rules fragment that guards it, the service worker, and the PR's diff for every other code file it touches (career totals, validators, the step hook). You cannot run code here, so reason carefully, show the timing arithmetic, and quote code.
 
@@ -47,7 +47,7 @@ Card art (Team V is replacing the stand-in card). Layout outside Prime Pack. Any
 
 ## Your job
 Work as the senior engineer who owns "Prime Pack is fair, synced and never stalls". Report each real bug. For each finding give:
-- ID (F9-NN) and severity: P0 = wrong points, wrong winner, both scoring, a stuck round, or a refused legitimate guess a player sees; P1 = rare or edge; P2 = cosmetic;
+- ID (F12-NN) and severity: P0 = wrong points, wrong winner, both scoring, a stuck round, or a refused legitimate guess a player sees; P1 = rare or edge; P2 = cosmetic;
 - file:line, quoting the code;
 - the exact steps or timeline (with seconds) that shows it;
 - expected vs actual;
