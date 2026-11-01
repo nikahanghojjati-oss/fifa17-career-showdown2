@@ -287,7 +287,9 @@
     white-space: normal; text-align: center; font-size: 12px; letter-spacing: .12em; line-height: 1.12; background: none;
   }
   #app #transferChallenge .tw-host .sign-status .sep { display: none; }
-  #app #transferChallenge .tw-host .sign-status .part { display: block; }
+  /* r87 (sizes follow-up): a long status ("GUESSES LOCKED — SIGNING ENTRY") wrapped as one long line and a lone "ENTRY"
+     that read as two labels run together; balanced lines split it evenly, and a dark edge keeps it clear of the marble. */
+  #app #transferChallenge .tw-host .sign-status .part { display: block; text-wrap: balance; text-shadow: 0 1px 2px #000, 0 0 6px rgba(0, 0, 0, .85); }
   #app #transferChallenge .tw-host .sign-status .part:first-child,
   #app #transferChallenge .tw-host .sign-status.full.lead .part:first-child {
     color: var(--gold-hot); font-weight: 700; font-size: 14px; letter-spacing: .1em; line-height: 1.1;

@@ -434,6 +434,15 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry .pcscBoard__verdict{grid-area:verdict}
  #app #seasonEntry .pcscBoard__rows{grid-area:rows}
  #app #seasonEntry .sharedCanonicalScoringPanel.hasPcscBoard #sharedCanonicalScoringHeading{margin:0}
+ /* Gate r83: at 1920x1080 the hero sits higher up the page, so the board is kept no taller than the three text lines
+    there too and CONTINUE stays on the first view: a slimmer score line and one-line category rows. */
+ #app #seasonEntry .sharedCanonicalScoringPanel.hasPcscBoard{padding-top:4px;padding-bottom:5px}
+ #app #seasonEntry .pcscBoard{gap:2px}
+ #app #seasonEntry .pcscBoard__total{font-size:28px}
+ #app #seasonEntry .pcscBoard__colon{font-size:24px}
+ #app #seasonEntry .pcscBoard__verdict{padding:3px 16px}
+ #app #seasonEntry .pcscBoard__rows{padding:1px 0}
+ #app #seasonEntry .pcscBoard__row{min-height:18px}
 }
 
 /* r87 match-day polish, Final Winner (sweep P-04).
