@@ -506,5 +506,24 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     }
     ok('G20','a 110-110 Golden draw prints no "no trophy" consolation row; a Showdown level after every season never "pointed toward a winner"');
   }
+  // G21: the final page's next-season filter blocks "the season ahead", not "finished the season ahead of" a rival, so every
+  // one-season winner headline can print (h2-030 never did), and no final page talks about a season still to come.
+  {
+    const Sweep=require('../support/gazetteTruthSweep.cjs');const G=require('../../js/touchlineGazette.js');
+    const FP=require('../../data/frontPages.js');const pages=(FP.final||FP.default?.final||globalThis.CareerModeFrontPages?.final||[]);
+    const heads=new Set(pages.filter(r=>r.situation==='showdown-won-1-season').map(r=>r.headline));
+    assert.ok(heads.has('ROUND OVER, WINNER NAMED'),'fixture: h2-030 is a one-season winner headline');
+    const seen=new Set();
+    for(let id=0;id<600;id+=1){
+      const p=Sweep.buildProjection({seed:61000+id,totalSeasons:1,seasons:[[Sweep.M.title,Sweep.M.cup]]});
+      const a=p.managerRecords.playerOne.totalPoints,b=p.managerRecords.playerTwo.totalPoints;
+      const ed=G.finalEdition({projection:p,final:{winner:a>b?'daniel':'nik',totals:{daniel:a,nik:b},seasonsPlayed:1},specialPlayers:Sweep.SP});
+      const text=G.paperText(ed);for(const h of heads)if(new RegExp(h.replace(/[.*+?^$()|[\]\\]/g,'\\$&').replace(/\{[a-zA-Z]+\}/g,'.+?')).test(text))seen.add(h);
+      assert.doesNotMatch(text,/next season|new season|the season ahead|seasons ahead|next year/i,`final ${id} talks about a season to come`);
+    }
+    assert.ok(seen.has('ROUND OVER, WINNER NAMED'),'h2-030 prints on some one-season final');
+    assert.equal(seen.size,heads.size,`every one-season winner headline prints (${seen.size}/${heads.size})`);
+    ok('G21','"finished the single season ahead of" is not next-season talk: every one-season winner headline can print');
+  }
   console.log(`PASS r87 Touchline Gazette contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});
