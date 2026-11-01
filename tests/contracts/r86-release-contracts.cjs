@@ -48,10 +48,12 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
     ...['unifrakturmaguntia','playfair-display','old-standard-tt'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`),
     'js/commentaryV3.js','js/commentaryEngine.js','data/commentaryLines.js',
     // r87 first load: the self-hosted Barlow Condensed sheet and its nine files.
-    'assets/fonts/barlow-condensed.css',...['vietnamese','latin-ext','latin'].flatMap(s=>[600,700,800].map(w=>`assets/fonts/barlow-condensed-${s}-${w}-normal.woff2`))]);
+    'assets/fonts/barlow-condensed.css',...['vietnamese','latin-ext','latin'].flatMap(s=>[600,700,800].map(w=>`assets/fonts/barlow-condensed-${s}-${w}-normal.woff2`)),
+    // r87 Prime Pack: its step, round engine, name matcher, Icon list and page (its pictures are runtime-cached Team V images).
+    'js/iconGuessStep.js','js/iconGuess.js','js/iconNames.js','data/icons.js','visual-assets/v10_1/icon-guess/index.html']);
   assert.ok(!added.includes('js/musicDockV10.js'),'the r85 music player is in r85\'s own list');
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(shell.length,269); // r86 228 + r87's twelve + the Gazette's sixteen + Commentary v3's three + the self-hosted Barlow Condensed ten
+  assert.equal(shell.length,274); // r86 228 + r87's twelve + the Gazette's sixteen + Commentary v3's three + the self-hosted Barlow Condensed ten + Prime Pack's five
   assert.ok(added.every(p=>shell.includes(p)));
   assert.equal(shell.filter(p=>!added.includes(p)).length,222,'r85 rollback shell is unchanged');
   ok('RR3','the retained r85 shell is verified against its own 222 paths');

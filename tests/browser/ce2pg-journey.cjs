@@ -417,7 +417,6 @@ async function openManager(browser,account,label=account){
   const context=await browser.newContext({viewport});
   const log={pageErrors:[],consoleErrors:[],failedRequests:[],httpErrors:[],forbidden:[],productionRuntime:0,taps:[]};
   await context.exposeBinding("__cmsTap",(_source,tap)=>{log.taps.push(tap);});
-  await primePack.install(context);
   await context.addInitScript(()=>{window.addEventListener("click",event=>{if(!event.isTrusted)return;const b=event.target&&event.target.closest&&event.target.closest("button,.menuTile");if(b&&typeof window.__cmsTap==="function")void window.__cmsTap({id:b.id||"",text:(b.textContent||"").replace(/\s+/g," ").trim().slice(0,60)});},true);});
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
     const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];
@@ -811,7 +810,7 @@ async function returnToGame(m,season,total){
   while(!(await m.page.locator("#transferChallenge").isVisible().catch(()=>false))){
     if(Date.now()>deadline){await check(m,`${showdownNow}.S${season-1}.return`,"CONTINUE SHOWDOWN returns to the live season",false,await describe(m),{screen:"Showdown Home"});throw new Error(`${m.user} did not return to the game`);}
     // A season's roulette not played yet on this phone (the upgrade run reloads into 2.0.0 before it) plays here.
-    if(await primePack.playPrime(m.page)||await rosterRoulette.playRoulette(m.page)){await m.page.waitForTimeout(500);continue;}
+    if(await rosterRoulette.playRoulette(m.page)){await m.page.waitForTimeout(500);continue;}
     // GET READY (both connected) opens first: START CAREER continues into the season.
     const getReady=m.page.locator("#productionSharedJourneyEntryOverlay");
     if(await getReady.isVisible().catch(()=>false)){

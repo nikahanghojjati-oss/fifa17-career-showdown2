@@ -178,11 +178,14 @@
   // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record, only for a Showdown that plays
   // Prime Pack; an older Showdown never loads the step or reads anything. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
+  const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   async function pssrWithPrimePack(ctx,request,result){
     const confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;
-    if(!Number.isFinite(confirmedAtMs)||root.CMS_PRIME_PACK==="off"||!result||typeof result!=="object")return result;
+    // Old Showdowns never load the step (the same boundary as js/iconGuess.js fromMs; a contract keeps them equal).
+    if(!Number.isFinite(confirmedAtMs)||confirmedAtMs<PRIME_PACK_FROM_MS||root.CMS_PRIME_PACK==="off"||!result||typeof result!=="object")return result;
     const step=root.CareerModeIconGuessStep||await (typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep).then(()=>root.CareerModeIconGuessStep,()=>null):null);
-    if(!step)pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");
+    // applies() needs the round engine (js/iconGuess.js): load it first, or a won Prime Pack point would be dropped.
+    if(!step||!await step.ensure())pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");
     const gameCtx={rivalryId:ctx.options.rivalryId,managerRole:ctx.setup.managerRole,season:request.seasonNumber,confirmedAtMs};
     if(!step.applies(gameCtx))return result;
     const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);

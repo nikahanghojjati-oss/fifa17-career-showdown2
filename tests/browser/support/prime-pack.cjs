@@ -8,7 +8,7 @@
 //   CE2PG_PRIME=off              the step is not played (a build without Prime Pack)
 // The guess is sent the way the stand-in page sends it ("cms-ig-guess" with the card name, posted from inside the frame to the
 // game page); the answer is the name the game itself sent to the page ("cms-ig-start" round.name). Nothing here reads production.
-const MODE=process.env.CE2PG_PRIME||"table";
+const MODE=process.env.CE2PG_PRIME||"off";
 const TABLE=[["daniel",0],["nik",1],["daniel",2],["nik",3],[null,0],["nik",0],["daniel",1],["nik",2],["daniel",3],[null,0]];
 const POINTS=[4,3,2,1];
 function planFor(season){
@@ -27,52 +27,11 @@ function decorate(entry,season){
   if(plan.winner)entry[plan.winner]={...entry[plan.winner],primePack:plan.points};
   return entry;
 }
-// In every frame: remember what the game sent to the page.
-const PROBE=()=>{window.addEventListener("message",event=>{
-  const d=event.data;if(!d||typeof d.type!=="string")return;
-  const s=window.__ig=window.__ig||{};
-  if(d.type==="cms-ig-start"){s.name=d.round&&d.round.name||null;s.beat=-2;s.result=null;}
-  else if(d.type==="cms-ig-reveal")s.beat=d.index;
-  else if(d.type==="cms-ig-result")s.result={winner:d.winner,points:d.points};
-});};
-async function install(context){if(enabled())await context.addInitScript(PROBE);}
-
-const dbg={n:0};const observed=[];const guessed=new Set(),continued=new Set();
-async function whoAndSeason(page){
-  return page.evaluate(()=>{
-    const who=(document.getElementById("onlinePlayerIdentityBadge")?.textContent||"").trim().toLowerCase();
-    const m=/Season\s+(\d+)\s*\/\s*\d+/.exec(document.getElementById("seasonIndicator")?.textContent||"");
-    return {who,season:m?Number(m[1]):0};
-  }).catch(()=>({who:"",season:0}));
-}
-// One poll. null = no Prime Pack stage on this page; otherwise a short word for what happened.
-async function playPrime(page){
-  if(!enabled())return null;
-  if(!await page.locator("#igStage").isVisible().catch(()=>false)){
-    if(process.env.CE2PG_PRIME_DEBUG&&(dbg.n+=1)<=40&&dbg.n%4===0)console.log("PRIME none",JSON.stringify(await page.evaluate(()=>({step:typeof window.CareerModeIconGuessStep,setup:window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setupUpdatedAtMs??null,off:window.CMS_PRIME_PACK||null,tc:Boolean(document.getElementById("transferChallenge")&&document.getElementById("transferChallenge").offsetParent),rr:Boolean(document.getElementById("rrStage")||document.getElementById("rrStepPanel")),ig:Boolean(document.getElementById("igStage"))})).catch(e=>String(e))));
-    return null;
-  }
-  const frame=page.frames().find(f=>/icon-guess/.test(f.url()));
-  if(process.env.CE2PG_PRIME_DEBUG)console.log("PRIME stage visible",Boolean(frame),page.frames().map(f=>f.url()).join(" "));
-  if(!frame)return "wait";
-  const {who,season}=await whoAndSeason(page);
-  if(!season||!who)return "wait";
-  const plan=planFor(season),state=await frame.evaluate(()=>window.__ig||{}).catch(()=>({}));
-  const key=`${who}|${season}|${state.name||""}`;
-  if(state.result){
-    if(!continued.has(key)){
-      continued.add(key);
-      observed.push({user:who,season,winner:state.result.winner,points:state.result.points});
-      await frame.evaluate(()=>parent.postMessage({type:"cms-ig-continue"},"*")).catch(()=>{});
-    }
-    return "continue";
-  }
-  if(plan&&plan.winner===who&&state.name&&state.beat===plan.beat&&!guessed.has(key)){
-    guessed.add(key);
-    await frame.evaluate(name=>parent.postMessage({type:"cms-ig-guess",text:name},"*"),state.name).catch(()=>{});
-    return "guess";
-  }
-  return "wait";
+const observed=[],seen=new Set();
+// Called by roster-roulette.cjs when a phone shows a finished round: state = the page's window.__ig.state().
+function observe(role,season,state){
+  const key=`${role}|${season}`;if(seen.has(key))return;seen.add(key);
+  observed.push({user:role,season,winner:state.result,points:state.points||0});
 }
 // Every observed round against the plan: who won and what it was worth (both phones must have seen the same result).
 function verify(){
@@ -85,4 +44,4 @@ function verify(){
   }
   return {seasons:[...bySeason.keys()].length,observed:observed.length,problems};
 }
-module.exports={enabled,golden,planFor,decorate,install,playPrime,verify,observed,MODE};
+module.exports={enabled,golden,planFor,decorate,observe,verify,observed,MODE};

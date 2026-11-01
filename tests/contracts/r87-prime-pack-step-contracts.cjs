@@ -148,4 +148,30 @@ const ts=ms=>({toMillis:()=>ms});
   ok("S7","every message and feedback kind the step sends is one the page handles");
 }
 
+// S9 leaving the Prime Pack for Showdown Home is not a fault; a step that could not run says so (never the generic
+// "could not be opened from this Career Start state").
+{
+  const step=read("js/iconGuessStep.js"),pstc=read("js/productionSharedTransferChallenge.js"),pcst=read("js/productionSharedCareerStart.js");
+  assert.match(step,/if\(result==="back"\)\{wentHome=true;return false;\}/,"BACK on the stage marks wentHome");
+  assert.match(step,/if\(choice==="back"\)\{wentHome=true;return false;\}/,"BACK on the error panel marks wentHome");
+  assert.match(step,/wentHome:\(\)=>wentHome/,"the step exports wentHome");
+  assert.match(pstc,/if\(go!==true&&!step\.wentHome\?\.\(\)\)primePackLoadError=true;/,"a false run that was not BACK is a Prime Pack fault");
+  assert.match(pstc,/rouletteError:\(\)=>rouletteError\|\|\(primePackLoadError\?PSTC_PRIME_PACK_TEXT:""\)/,"Career Start reads the Prime Pack reason");
+  assert.equal((pcst.match(/root\.CareerModeIconGuessStep\?\.wentHome\?\.\(\)/g)||[]).length,2,"Career Start treats BACK from the Prime Pack like BACK from the roulette (both places)");
+  ok("S9","BACK from the Prime Pack returns home quietly and a Prime Pack fault shows its own reason");
+}
+
+// S10 the service worker serves the Prime Pack: its five files are in the install shell (a versioned path outside it is
+// refused), and its page is a frame navigation served from the shell (else the frame would get the app's index.html).
+{
+  const sw=read("service-worker.js");
+  const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
+  for(const file of ["js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html"])assert.ok(shell.includes(file),`shell lists ${file}`);
+  const frames=/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[([\s\S]*?)\]\);/.exec(sw)[1];
+  assert.ok(frames.includes('"visual-assets/v10_1/icon-guess/index.html"'),"the Prime Pack page is a shell frame navigation");
+  const step=read("js/iconGuessStep.js"),stageFn=step.slice(step.indexOf("function igsStage("),step.indexOf("function igsStage(")+2500);
+  assert.ok(stageFn.indexOf("doc.body.append(stage)")>0&&stageFn.indexOf("doc.body.append(stage)")<stageFn.indexOf("CareerModeRosterRouletteStep?.close?.()"),"the roulette's panel is closed once the Prime Pack stage is up, so nothing covers the Prime Pack");
+  ok("S10","the service worker serves the Prime Pack files and its frame page from the shell, and no roulette panel covers its stage");
+}
+
 console.log(`PASS r87 Prime Pack step contracts: ${checks} checks.`);
