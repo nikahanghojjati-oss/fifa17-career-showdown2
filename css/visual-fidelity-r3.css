@@ -203,10 +203,6 @@
         grid-row:auto;
         min-height:126px;
     }
-    .menuMusicTile{
-        grid-column:1/-1;
-        grid-row:auto;
-    }
 }
 
 @media(max-width:900px){
