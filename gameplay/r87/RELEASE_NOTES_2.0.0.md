@@ -67,7 +67,7 @@ A newspaper front page after each season's results, and a final edition after th
 - Music player: your chosen song stays chosen, a failed stream retries when you tap Play, and the panel says what it's doing.
 - Reloading in the middle of a Showdown on a weak signal resumes the right season instead of starting again. A reload or a stale tab at the very end of a Showdown still lands on the Champion screen.
 - Pairing: an UNPAIR that can't happen says why, Nik's Home notices when Daniel has unpaired, expired codes say so, and the JOIN wait stops polling once the code has expired.
-- A phone with a wrong clock can still connect, and tomorrow's clock change doesn't affect timers.
+- A phone with a wrong clock can still connect, and clock changes (like the switch to winter time on 1 November) don't affect timers.
 - No dark box across a face on tablet Home, and the Select League waiting strip never covers its buttons.
 
 ## Free-tier reads
