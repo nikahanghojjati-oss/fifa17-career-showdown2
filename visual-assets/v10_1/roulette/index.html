@@ -140,7 +140,9 @@ body.embed .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 96p
 
 <script>/* preview only: show any error on screen instead of a black page; in the game (?embed=1) the error goes to the game (r87 Team G) */
 (function(){ var EMBED=/[?&]embed=1(?:&|$)/.test(location.search); function show(m){ if(EMBED){ try{ parent.postMessage({type:"cms-rr-error",message:String(m).slice(0,300)},location.origin); }catch(e){} return; } try{ var d=document.getElementById('errbox'); if(!d){ d=document.createElement('div'); d.id='errbox'; d.style.cssText='position:fixed;left:12px;right:12px;top:12px;z-index:99;background:#300;color:#fff;font:13px/1.4 monospace;padding:10px;border:1px solid #f66;white-space:pre-wrap'; (document.body||document.documentElement).appendChild(d); } d.textContent+=m+'\n'; }catch(e){} }
- window.addEventListener('error',function(e){ show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
+ // Codex R87-C2-03: a failed optional stylesheet (the Google title/stamp fonts, offline or blocked) only falls back to a
+ // local font; it must never abort the scene. Script, WebGL and setup failures still report.
+ window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
 <script src="vendor/three-r128.min.js"></script><!-- three.js r128 (MIT, vendor/THREE_LICENSE.txt), bundled so the scene works offline and never depends on a CDN -->

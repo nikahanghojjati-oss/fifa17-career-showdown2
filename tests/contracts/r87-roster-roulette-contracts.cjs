@@ -162,6 +162,24 @@ ok('L1c','Sol job 2: outfield stopgap repair (SQ-2-01), guessed incumbent evicte
 }
 ok('L1d','Sol SQ-4-01: a guess removes only the signing, never the club namesake; 400 x 10-season oracle, nobody excluded returns');
 
+// L1e Codex R87-C2-03: a failed optional font stylesheet never aborts the 3D scene; a failed script still reports.
+{
+  const html=fs.readFileSync(path_.join(ROOT,'visual-assets/v10_1/roulette/index.html'),'utf8');
+  const start=html.indexOf('(function(){ var EMBED=');assert.ok(start>0,'scene error reporter found');
+  const code=html.slice(start,html.indexOf('</script>',start));
+  const posted=[],listeners={};
+  const ctx={location:{search:'?embed=1',origin:'https://x'},parent:{postMessage:m=>posted.push(m)},setTimeout:()=>0,THREE:{},
+    document:{},window:null};
+  ctx.window={addEventListener:(type,fn)=>{listeners[type]=fn;},THREE:{}};
+  vm.createContext(ctx);vm.runInContext(code.replace(/window\.THREE/g,'true'),ctx);
+  listeners.error({type:'error',target:{tagName:'LINK',href:'https://fonts.googleapis.com/css2'}});
+  assert.equal(posted.length,0,'C2-03: a failed font stylesheet is ignored');
+  listeners.error({type:'error',target:{tagName:'SCRIPT',src:'vendor/three-r128.min.js'}});
+  assert.equal(posted.length,1,'C2-03: a failed script still reports cms-rr-error');
+  assert.equal(posted[0].type,'cms-rr-error');
+}
+ok('L1e','Codex R87-C2-03: an optional font failure never aborts the roulette scene; script failures still report');
+
 // L2 determinism: both phones agree, a refresh or a second tap gives the same result, and nothing touches the network.
 const id=()=>`pair_${randomBytes(32).toString('hex')}`;
 const clubs={playerOne:'Liverpool',playerTwo:'Real Madrid'};
