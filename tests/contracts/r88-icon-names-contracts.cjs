@@ -118,7 +118,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   ok('N9','js/iconNames.js has no IO, clock or randomness');
 
   // L1 the sample list passes and keeps the ticket's choice rule
-  assert.deepEqual(passing.summary,{players:10,legend:3,iconPrime:4,iconBase:3,cardsConsidered:16,lastPrimeGame:'FIFA 23'});
+  assert.deepEqual(passing.summary,{players:10,legend:3,iconPrime:4,iconBase:3,hero:0,hallOfFut:0,cardsConsidered:16,lastPrimeGame:'FIFA 23'});
   assert.deepEqual(rows.map(r=>r.id),[...rows.map(r=>r.id)].sort());
   const bjorn=rows.find(r=>r.id==='bjorn-odegardsen');
   assert.equal(bjorn.game,'FIFA 19','a tie on overall goes to the newer game');
@@ -136,7 +136,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const args=['--icons',path.join(FIX,'sample-icons.csv'),'--cards',path.join(FIX,'sample-icon-cards-considered.csv'),'--last-prime-game','FIFA 23','--generated-on','2026-10-31','--sample-seed','7'];
   let run=spawnSync(process.execPath,[SCRIPT,...args,'--out',out],{encoding:'utf8'});
   assert.equal(run.status,0,run.stdout+run.stderr);
-  assert.match(run.stdout,/PASS: 10 players \(3 Legend, 4 Icon Prime, 3 Icon Base\)/);
+  assert.match(run.stdout,/PASS: 10 players \(3 Legend, 4 Icon Prime, 3 Icon Base, 0 Hero, 0 Hall of FUT\)/);
   const written=require(out);
   assert.equal(written.listVersion,1);
   assert.deepEqual(JSON.parse(JSON.stringify(written.players)),rows);
@@ -239,6 +239,34 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.equal(Loader.spotCheckSample(many.slice(0,8),1).rows.length,8);
   assert.match(spawnSync(process.execPath,[SCRIPT,...args,'--check'],{encoding:'utf8'}).stdout,/Spot-check sample \(seed 7; 10 random \+ the 10 highest overalls, 10 rows\)/);
   ok('L7','the spot-check sample is the ticket size, includes the top 10 and repeats by seed');
+
+  // L8 FUT Heroes and Hall of FUT (Nik 2026-11-01, ticket R88-ICON-02): accepted card versions; the Icon card always wins.
+  {
+    const heroRow="mo-hero,Hero,Mo Hero,Hero|Mo Hero,Ghana,GH,CM,FC 25,Hero,88,80,81,85,84,79,86,https://example.com/made-up/mo-hero-25,Made-up source,\n";
+    const heroCards="mo-hero,FIFA 22,Hero,86,https://example.com/made-up/mo-hero-22\nmo-hero,FC 25,Hero,88,https://example.com/made-up/mo-hero-25\n";
+    const withHero=Loader.checkIcons({iconsCsv:ICONS_CSV+heroRow,cardsCsv:CARDS_CSV+heroCards,lastPrimeGame:'FIFA 23'});
+    assert.deepEqual(withHero.errors,[],withHero.errors.join(' / '));
+    assert.equal(withHero.summary.hero,1);assert.equal(withHero.players.find(p=>p.id==='mo-hero').cardVersion,'Hero');
+    fails('older hero card picked',{icons:ICONS_CSV+heroRow.replace('FC 25,Hero,88','FIFA 22,Hero,86'),cards:CARDS_CSV+heroCards},/the card to use is FC 25 Hero \(overall 88\)/);
+    fails('hero before FIFA 21',{icons:ICONS_CSV+heroRow,cards:CARDS_CSV+heroCards+"mo-hero,FIFA 20,Hero,85,https://example.com/made-up/mo-hero-20\n"},/Hero cards start in FIFA 21/);
+    // An Icon player with a higher Hero card keeps his Icon card...
+    const darcyHero="jean-luc-darcy,FC 26,Hero,93,https://example.com/made-up/jean-luc-darcy-hero\n";
+    const keeps=Loader.checkIcons({iconsCsv:ICONS_CSV,cardsCsv:CARDS_CSV+darcyHero,lastPrimeGame:'FIFA 23'});
+    assert.deepEqual(keeps.errors,[],keeps.errors.join(' / '));assert.equal(keeps.players.find(p=>p.id==='jean-luc-darcy').cardVersion,'Icon Base');
+    // ...and picking that Hero card instead is refused.
+    const darcyHeroRow=ICONS_CSV.split('\n').find(l=>l.startsWith('jean-luc-darcy,')).replace('FC 25,Icon Base,90','FC 26,Hero,93');
+    fails('hero over icon',{icons:ICONS_CSV.split('\n').map(l=>l.startsWith('jean-luc-darcy,')?darcyHeroRow:l).join('\n'),cards:CARDS_CSV+darcyHero},/the Icon card always wins/);
+    // Hall of FUT is a card version of its own, and delta files join the main ones on the command line.
+    const hofRow=heroRow.replaceAll('mo-hero','ana-hall').replace('Hero|Mo Hero','Hall|Ana Hall').replace(',Hero,Mo Hero,',',Hall,Ana Hall,').replace('FC 25,Hero,88','FC 24,Hall of FUT,87');
+    const hof=Loader.checkIcons({iconsCsv:ICONS_CSV+hofRow,cardsCsv:CARDS_CSV+"ana-hall,FC 24,Hall of FUT,87,https://example.com/made-up/ana-hall-24\n",lastPrimeGame:'FIFA 23'});
+    assert.deepEqual(hof.errors,[],hof.errors.join(' / '));assert.equal(hof.summary.hallOfFut,1);
+    const deltaIcons=path.join(tmp,'delta-icons.csv'),deltaCards=path.join(tmp,'delta-cards.csv'),deltaOut=path.join(tmp,'delta-icons.js');
+    fs.writeFileSync(deltaIcons,header+'\n'+heroRow);fs.writeFileSync(deltaCards,CARDS_CSV.split('\n')[0]+'\n'+heroCards);
+    const run=spawnSync(process.execPath,[SCRIPT,'--icons',`${path.join(FIX,'sample-icons.csv')},${deltaIcons}`,'--cards',`${path.join(FIX,'sample-icon-cards-considered.csv')},${deltaCards}`,'--last-prime-game','FIFA 23','--out',deltaOut,'--generated-on','2026-11-01'],{encoding:'utf8'});
+    assert.equal(run.status,0,run.stdout+run.stderr);assert.match(run.stdout,/PASS: 11 players \(3 Legend, 4 Icon Prime, 3 Icon Base, 1 Hero, 0 Hall of FUT\)/);
+    delete require.cache[deltaOut];assert.equal(require(deltaOut).players.length,11);
+  }
+  ok('L8','Hero and Hall of FUT cards are accepted; the Icon card always beats a Hero card; delta files join on the command line');
 
   fs.rmSync(tmp,{recursive:true,force:true});
   console.log(`PASS r88 icon names and loader contracts (${checks} checks).`);

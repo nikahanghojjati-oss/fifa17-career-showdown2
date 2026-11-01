@@ -183,11 +183,16 @@ for(const required of [
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
-  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",
-  "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",
+  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",
+  "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
   "+ (result.get('europaLeague', false) == true ? 3 : 0)",
-  'progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 11',
-  'progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 11',
+  'progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 12',
+  'progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 12',
+  // r87 Prime Pack: the round record (own facts only, one winner) and the sparse primePack result key tied to it.
+  'match /primePackRounds/{seasonId}',
+  'allow update: if ssjrPackUpdateValid(rivalryId, seasonId);',
+  "&& (!('primePack' in after.result) || ssjrPackWonBy(rivalryId, seasonId, managerRole))",
+  "after.chipsUsed[other] == before.chipsUsed[other]",
   'value.leaguePosition <= teamCount',
   'value.leaguePoints <= (teamCount - 1) * 6',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole))',
@@ -234,9 +239,13 @@ if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new
 // r80 Europa League: the sparse EL key and the one-manager CL-or-EL rule live in exactly the two result shapes (Season
 // Results private result, Season Commit result), and the EL +3 term in exactly the one Terminal Close score.
 for(const [needle,count,label] of [
-  ["value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",2,'Europa League result key set'],
-  ["&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",2,'Europa League CL-or-EL result rule'],
-  ["+ (result.get('europaLeague', false) == true ? 3 : 0)",1,'Europa League +3 Terminal Close score term']
+  ["value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",2,'Europa League result key set'],
+  ["&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",2,'Europa League CL-or-EL result rule'],
+  ["+ (result.get('europaLeague', false) == true ? 3 : 0)",1,'Europa League +3 Terminal Close score term'],
+  // r87 Prime Pack: the same two result shapes carry the sparse primePack key (exactly true), the Terminal Close score +1.
+  ["&& (!('primePack' in value) || value.primePack == true);",2,'Prime Pack result rule'],
+  ["+ (result.get('primePack', false) == true ? 1 : 0)",1,'Prime Pack +1 Terminal Close score term'],
+  ['match /primePackRounds/{seasonId}',1,'Prime Pack round match']
 ]){
   if(generated.split(needle).length-1!==count)throw new Error(`Generated production Rules must contain the ${label} exactly ${count} time(s).`);
 }

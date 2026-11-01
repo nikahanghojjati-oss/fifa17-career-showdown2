@@ -32,14 +32,15 @@ const source=fs.readFileSync(path.join(ROOT,'js/iconGuess.js'),'utf8');
 for(const word of ['getDoc','setDoc','runTransaction','updateDoc','onSnapshot','localStorage','indexedDB','Math.random','Date.now','performance.now','fetch('])assert.ok(!source.includes(word),`the round logic uses no ${word}`);
 ok('G1','each Showdown gets a seeded order of the whole list (no repeats, both phones agree, the season digit and the clock play no part, nothing read or written)');
 
-// G1b only Showdowns confirmed on R88 or later (Nik N1)
-assert.ok(IG.fromMs>Date.parse('2026-11-01T00:00:00Z'),'until the release PR pins it, no Showdown plays the game');
+// G1b only Showdowns confirmed on r87 or later (Nik N1; r87 since 2026-11-01)
+// Nik 2026-11-01: Prime Pack ships in r87, so its boundary is Roster Roulette's (the r87 release PR pins both together).
+assert.equal(IG.fromMs,require('../../js/rosterRouletteStep.js').fromMs,'Prime Pack starts with the same Showdowns as Roster Roulette');
 const R88=Date.parse('2026-11-05T00:00:00Z');
 assert.equal(IG.eligible(one,R88,{fromMs:R88}),true);assert.equal(IG.eligible(one,{toMillis:()=>R88+1},{fromMs:R88}),true);assert.equal(IG.eligible(one,new Date(R88),{fromMs:R88}),true);
 for(const old of [R88-1,null,undefined,'2026-11-06',NaN,{}])assert.equal(IG.eligible(one,old,{fromMs:R88}),false,`not for ${String(old)}`);
 assert.equal(IG.eligible('pair_short',R88,{fromMs:R88}),false);
-assert.equal(IG.eligible(one,Date.parse('2026-10-31T12:00:00Z')),false,'a Showdown running today never starts the game mid-way');
-ok('G1b','only a Showdown confirmed on R88 or later plays Prime Pack, so no Showdown mixes 11-point and 12-point seasons');
+assert.equal(IG.eligible(one,IG.fromMs-1),false,'a Showdown confirmed before the r87 boundary never starts the game mid-way');
+ok('G1b','only a Showdown confirmed on r87 or later (the Roster Roulette boundary) plays Prime Pack, so no Showdown mixes 11-point and 12-point seasons');
 
 // G2 the stat order: all six, varied, per season
 const firsts=new Map();

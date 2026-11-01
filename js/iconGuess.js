@@ -31,10 +31,11 @@
   const REVEAL_MS=1500; // Team V brief: each reveal beat takes at most about 2 s so the guessing time stays the focus
   const LEAD_MS=3000;   // after the second manager arrives, both phones count in together before the position shows
   const RECORD_VERSION=1;
-  // Nik 2026-10-31 (N1): the game runs only in Showdowns confirmed on R88 or later, like Special Player and Roster Roulette,
-  // so one Showdown never mixes 11-point and 12-point seasons. ICON_FROM_MS is a placeholder that no Showdown can reach;
-  // the R88 release PR pins it to the release time. Do not change it outside the release PR.
-  const ICON_FROM_MS=Date.parse("2099-01-01T00:00:00Z");
+  // Nik 2026-10-31 (N1), moved to r87 on 2026-11-01: the game runs only in Showdowns confirmed on the release that ships it,
+  // like Roster Roulette, so one Showdown never mixes 11-point and 12-point seasons. ICON_FROM_MS is the same boundary as
+  // js/rosterRouletteStep.js RRR_FROM_MS (a contract keeps them equal); the r87 release PR pins both to the release time.
+  // Do not change it outside the release PR.
+  const ICON_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
 
   // ---------- the draw ----------
   // The id's first hex digit is the season count (js/persistentNikDanielPair.js), so it is left out: a new season must

@@ -141,7 +141,7 @@
     function ssjrResultsResultShape(value, teamCount) {
       return teamCount >= 2
         && value is map
-        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])
+        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])
         && value.leaguePosition is int
         && value.leaguePosition >= 1
         && value.leaguePosition <= teamCount
@@ -155,7 +155,8 @@
         && value.championsLeague is bool
         && value.topScorer is bool
         && value.topAssist is bool
-        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));
+        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))
+        && (!('primePack' in value) || value.primePack == true);
     }
     function ssjrResultsPrivateExactKeys(root) {
       return root.keys().hasOnly([
@@ -216,6 +217,7 @@
       let public = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data;
       let i = public.revision - 1;
       return ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole, public.teamCount)
+        && (!('primePack' in after.result) || ssjrPackWonBy(rivalryId, seasonId, managerRole))
         && public.schemaVersion == 1
         && public.objectType == 'sharedSeasonResults'
         && public.runtimeRevision == '1.9.1-r9'
@@ -235,6 +237,79 @@
       return ssjrEntitled(rivalryId)
         && (managerRole == ssjrActorRole(rivalryId) || public.phase == 'RESULTS_READY');
     }
+    // r87 Prime Pack (Nik 2026-10-31/11-01; feature spec project-documents/r88-icon-guess): once a season, before the transfer
+    // window, both phones reveal one masked Icon card beat by beat and each manager has two guesses. The round record is
+    // rivalries/{rid}/primePackRounds/season_N. Each manager writes only his own facts: his arrival (the server time, once),
+    // then one guess at a time (his own chip count +1, at most 2, and the winner set to himself or left empty), only while
+    // the round runs (from 1 s after the later arrival until 84 s after it: 3 s lead, 8 beats of 9.5 s, 5 s for the network).
+    // Whether a guess is right is decided on the guessing phone (the answer is not stored, so it is never readable early);
+    // the Rules bind the order: one winner, never changed, the other manager's facts never touched. A season result may
+    // carry primePack:true only for the manager this record names as winner (ssjrPackWonBy), which is worth +1.
+    function ssjrPackOther(role) { return role == 'playerOne' ? 'playerTwo' : 'playerOne'; }
+    function ssjrPackRoleMap(value) {
+      return value is map && value.keys().size() == 2 && value.keys().hasOnly(['playerOne','playerTwo']);
+    }
+    function ssjrPackShape(root, rivalryId, seasonId) {
+      return root.keys().size() == 11
+        && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','arrived','chipsUsed','winner','revision','activeSessionId','updatedByDeviceId','updatedAt'])
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedPrimePackRound'
+        && root.rivalryId == rivalryId
+        && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
+        && ssjrPackRoleMap(root.arrived)
+        && ssjrPackRoleMap(root.chipsUsed)
+        && root.chipsUsed.playerOne is int && root.chipsUsed.playerOne >= 0 && root.chipsUsed.playerOne <= 2
+        && root.chipsUsed.playerTwo is int && root.chipsUsed.playerTwo >= 0 && root.chipsUsed.playerTwo <= 2
+        && (root.winner == null || root.winner == 'playerOne' || root.winner == 'playerTwo')
+        && root.revision is int
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+    function ssjrPackCreateValid(rivalryId, seasonId) {
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      return ssjrPackShape(after, rivalryId, seasonId)
+        && after.revision == 1
+        && after.arrived[role] == request.time
+        && after.arrived[ssjrPackOther(role)] == null
+        && after.chipsUsed.playerOne == 0
+        && after.chipsUsed.playerTwo == 0
+        && after.winner == null;
+    }
+    function ssjrPackArrive(before, after, role) {
+      return before.arrived[role] == null
+        && after.arrived[role] == request.time
+        && after.chipsUsed[role] == before.chipsUsed[role]
+        && after.winner == null;
+    }
+    function ssjrPackGuessInTime(a, b) {
+      return request.time >= (a > b ? a : b) + duration.value(1, 's')
+        && request.time <= (a > b ? a : b) + duration.value(84, 's');
+    }
+    function ssjrPackGuess(before, after, role) {
+      return before.arrived.playerOne != null
+        && before.arrived.playerTwo != null
+        && after.arrived[role] == before.arrived[role]
+        && after.chipsUsed[role] == before.chipsUsed[role] + 1
+        && (after.winner == null || after.winner == role)
+        && ssjrPackGuessInTime(before.arrived.playerOne, before.arrived.playerTwo);
+    }
+    function ssjrPackUpdateValid(rivalryId, seasonId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      let other = ssjrPackOther(role);
+      return ssjrPackShape(after, rivalryId, seasonId)
+        && after.seasonNumber == before.seasonNumber
+        && after.revision == before.revision + 1
+        && before.winner == null
+        && after.arrived[other] == before.arrived[other]
+        && after.chipsUsed[other] == before.chipsUsed[other]
+        && (ssjrPackArrive(before, after, role) || ssjrPackGuess(before, after, role));
+    }
+    function ssjrPackWonBy(rivalryId, seasonId, managerRole) {
+      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data.winner == managerRole;
+    }
 // SSJR_SEASON_RESULTS_FUNCTIONS_END
 
 // SSJR_SEASON_RESULTS_MATCH_BEGIN
@@ -249,5 +324,11 @@
           allow list, update, delete: if false;
           allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole);
         }
+      }
+      match /primePackRounds/{seasonId} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrPackCreateValid(rivalryId, seasonId);
+        allow update: if ssjrPackUpdateValid(rivalryId, seasonId);
       }
 // SSJR_SEASON_RESULTS_MATCH_END
