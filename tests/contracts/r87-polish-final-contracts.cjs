@@ -73,12 +73,13 @@ check("C-05d a pending (still invisible) Team V screen takes no taps",()=>{
 
 // js/menuExperience.js with the real js/productionSharedMultiSeasonProgression.js (no authoritative view: nothing read yet on
 // this page), or with a stub progression that already knows the season.
-function menuSandbox({shared=true,known=null,pair="active",currentRound=1,total=3,status="Created",realProgression=true}){
+function menuSandbox({shared=true,known=null,pair="active",currentRound=1,total=3,status="Created",realProgression=true,screen="mainMenu"}){
   const saved={managers:{playerOne:"Daniel",playerTwo:"Nik"},status,currentRound,totalRounds:total,sharedJourney:shared?{mode:"shared",rivalryId:"pair_r87"}:undefined};
   const window={CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:"nik"})},CareerModePersistentNikDanielPair:{getState:()=>({initialized:true,status:"paired",rivalryId:"pair_r87",connectionState:pair})}};
+  window.getActiveScreenName=()=>screen;
   window.getShowdownSeason=(s,p=window.CareerModeProductionSharedMultiSeasonProgression)=>s.sharedJourney?.mode==="shared"&&typeof p?.resolveSeason==="function"?p.resolveSeason(s.currentRound):s.currentRound;
   const ctx={window,document:{getElementById:()=>null,querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){},createElement:()=>({})},currentShowdown:saved,console,setTimeout:()=>0,clearTimeout(){},localStorage:{getItem:()=>null,setItem(){}},navigator:{},matchMedia:()=>({matches:false,addEventListener(){}})};
-  ctx.globalThis=ctx;Object.assign(ctx,{CareerModePersistentNikDanielPair:window.CareerModePersistentNikDanielPair});
+  ctx.globalThis=ctx;Object.assign(ctx,{CareerModePersistentNikDanielPair:window.CareerModePersistentNikDanielPair,getActiveScreenName:window.getActiveScreenName});
   vm.createContext(ctx);
   if(realProgression){vm.runInContext(read("js/productionSharedMultiSeasonProgression.js"),ctx,{filename:"js/productionSharedMultiSeasonProgression.js"});window.CareerModeProductionSharedMultiSeasonProgression=ctx.CareerModeProductionSharedMultiSeasonProgression;}
   else window.CareerModeProductionSharedMultiSeasonProgression={resolveSeason:()=>known,seasonUnknown:()=>false};
@@ -101,10 +102,26 @@ check("C-08c a code still waiting for Nik is season 1 for certain; a local save 
   assert.equal(menuSandbox({shared:false,currentRound:2}).indicator,"Season 2 / 3");
   assert.equal(menuSandbox({status:"Completed"}).indicator,"Showdown Complete");
 });
+check("C-08e on a game screen the page is playing this Showdown, so its season 1 header stays (r79 P8: R2's Transfer Challenge)",()=>{
+  for(const screen of ["leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"])
+    assert.equal(menuSandbox({screen}).indicator,"Season 1 / 3",`${screen}: Season 1 / 3`);
+  assert.equal(menuSandbox({screen:"legacy"}).indicator,"3-Season Showdown","a career screen on a page that has not played still names no season");
+});
+check("C-08f entering a game screen after Home renames the header from \"3-Season Showdown\" to its season (r79 R3, Nik's JOIN)",()=>{
+  const el=(hidden)=>({textContent:"",classList:{contains:c=>c==="hidden"&&hidden}});
+  const dom={seasonIndicator:el(false),mainMenu:el(false),leagueWheelScreen:el(true),transferChallenge:el(true)};dom.seasonIndicator.textContent="3-Season Showdown";
+  const saved={status:"Created",currentRound:1,totalRounds:3,sharedJourney:{mode:"shared",rivalryId:"pair_r87"}};
+  const ctx={document:{getElementById:id=>dom[id]||null},currentShowdown:saved,console};ctx.globalThis=ctx;vm.createContext(ctx);
+  vm.runInContext(read("js/productionSharedMultiSeasonProgression.js"),ctx);const pm=ctx.CareerModeProductionSharedMultiSeasonProgression;
+  assert.equal(pm.nameSeason(),false,"on Home it stays");assert.equal(dom.seasonIndicator.textContent,"3-Season Showdown");
+  dom.mainMenu=el(true);dom.leagueWheelScreen=el(false);
+  assert.equal(pm.nameSeason(),true);assert.equal(dom.seasonIndicator.textContent,"Season 1 / 3");
+  assert.match(read("js/productionSharedMultiSeasonProgression.js"),/new root\.MutationObserver\(pmspNameSeason\);for\(const id of PMSP_GAME_SCREENS\)/,"every game screen is watched");
+});
 check("C-08d progression calls a season known only from its authoritative view of the same rivalry",()=>{
   const src=read("js/productionSharedMultiSeasonProgression.js");
   assert.match(src,/seasonUnknown:pmspSeasonUnknown/,"seasonUnknown is exported");
-  assert.match(src,/function pmspSeasonUnknown\(\)\{[^\n]*connectionState!=="active"[^\n]*view\.authoritative===true[^\n]*view\.rivalryId/,"unknown = live pair without the authoritative view of its rivalry");
+  assert.match(src,/function pmspSeasonUnknown\(\)\{[^\n]*connectionState!=="active"[^}]*PMSP_GAME_SCREENS\.has\(screen\)[^}]*view\.authoritative===true[^}]*view\.rivalryId/,"unknown = live pair without the authoritative view of its rivalry");
 });
 
 
@@ -141,7 +158,10 @@ check("P-10 laptop Settings capitals never render below 11px",()=>{
   const css=read("css/rulesSettingsV10.css"),Z="min\\(calc\\(100vw / 1920px\\), calc\\(100vh / 1080px\\), 1\\.5\\)";
   for(const [sel,base] of [["\\.settingsPanel :is\\(\\.settingsPanelEyebrow, \\.settingsAudioToggle strong\\)","11px"],["\\.settingsPanel \\.settingsStatus","9px"],["\\.settingsPanel \\.settingsApplicationUpdateButton","10\\.67px"]])
     assert.match(css,new RegExp(`${sel} \\{ font-size: max\\(${base}, calc\\(11px / ${Z}\\)\\); \\}`),sel);
-  assert.match(css,new RegExp(`#photoCredit \\{ font-size: max\\(10\\.24px, calc\\(9px / ${Z}\\)\\); \\}`));
+  assert.match(css,new RegExp(`#photoCredit \\{ font-size: max\\(10\\.24px, calc\\(9px / ${Z}\\)\\); line-height: 13\\.5px; \\}`));
+  // r80 short screens (Gate L2): the bigger capitals must not make the cards taller, or #settingsContent scrolls at 1366x768
+  // (530 in 522) and 1536x864. The eyebrows and the credit keep their old line boxes.
+  assert.match(css,/#settingsContent > \.settingsPanel \.settingsPanelEyebrow \{ line-height: 13px; \}/,"eyebrow line box kept");
 });
 // Sweep P-15: Club Assignment on a phone: 01 DRAW / 05 LOCK and RIVALRY nearly vanished over the managers' dark suits.
 check("P-15 Club Assignment step labels keep a dark halo on phones",()=>{
