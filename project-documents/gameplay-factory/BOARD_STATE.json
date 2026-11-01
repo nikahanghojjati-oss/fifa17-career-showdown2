@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 7:57 AM Boston time (EST)",
+ "generated": "2026-11-01 7:59 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 180,
@@ -1643,8 +1643,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6656272",
-  "head_boston": "Sun 1 Nov 7:35 AM",
+  "head": "7a58dca",
+  "head_boston": "Sun 1 Nov 7:57 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1705,6 +1705,16 @@
     "done": 0,
     "total": 1,
     "pr": 1163,
+    "current": ""
+   },
+   {
+    "job": "V-HO-052",
+    "title": "Special Player lower-third name fits its plate (F8-09)",
+    "worker": "worker not set",
+    "lane": "",
+    "done": 0,
+    "total": 1,
+    "pr": 1169,
     "current": ""
    }
   ],
@@ -2394,8 +2404,8 @@
     "from": "G",
     "to": "V",
     "title": "SP reveal: lower-third name overflow on tablet landscape (F8-09)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-052_sp-reveal-lower-third-name-overflow-on-t.md",
     "worker": "opus",
