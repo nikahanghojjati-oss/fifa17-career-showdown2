@@ -22,6 +22,11 @@
 //   M9 a reload between the meter write and the partner read resumes the bounded read once, with no second write.
 //   M10 C-04: a missing partner document (season 1, the partner's phone locked at ACKNOWLEDGED) is read on the same bounded schedule
 //      as a behind one (+8 s, +45 s, +3 min, +10 min), so both phones end on the same shared total.
+//   M11 F3-03 (Fable job 3): a phone that missed the partner's document through all four timed reads (the partner locked > 14 min)
+//      catches up with one read when Settings opens (refreshPartnerMeter): 2 billed, counted; at most 3 a season, 60 s apart; none
+//      when the partner's document already matches.
+//   M12 F3-06 (Fable job 3): the app in two tabs of one phone: neither tab's reads vanish from the saved day, and only one tab
+//      writes the meter document for a season.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -415,6 +420,75 @@ const reads=p=>p.ops.gets.length;
     n2.acknowledge(1,{role:'playerTwo'});await slow.advance(12*60000);
     d2.acknowledge(1,{role:'playerOne'});await slow.advance(30*60000);
     assert.equal(n2.budget.readsToday().billedEstimate,d2.budget.readsToday().billedEstimate,'locked 12 min: the phones agree');
+  });
+
+
+  await check('M11 F3-03 a phone that missed the partner through all four timed reads catches up when Settings opens (bounded, counted)',async()=>{
+    const world=createPair();
+    const daniel=phone(world,{uid:'daniel',role:'playerOne',game:900,markGame:600});
+    const nik=phone(world,{uid:'nik',role:'playerTwo',game:700,markGame:500});
+    daniel.acknowledge(2,{role:'playerOne'});
+    await world.advance(20*60000);
+    assert.equal(reads(daniel),4,'the four timed reads, all missing');
+    nik.acknowledge(2,{role:'playerTwo'});
+    await world.advance(60000);
+    assert.equal(nik.budget.readsToday().estimated,false,'Nik: shared');
+    assert.equal(daniel.budget.readsToday().estimated,true,'Daniel: still estimated (the bug)');
+    const before=daniel.budget.readsToday().thisPhone;
+    const pending=daniel.budget.refreshPartnerMeter();
+    assert.ok(pending&&typeof pending.then==='function','Settings open: one catch-up read');
+    assert.equal(await pending,true,'it now matches');await settle();
+    assert.equal(reads(daniel),5);
+    assert.equal(daniel.budget.readsToday().thisPhone-before,2,'1 document + 1 lookup, counted in the meter');
+    assert.equal(daniel.budget.readsToday().billedEstimate,nik.budget.readsToday().billedEstimate,'both phones show the same total');
+    assert.equal(daniel.budget.refreshPartnerMeter(),null,'already matching: no read');
+    assert.equal(reads(daniel),5);
+    // Bounded: a partner that never writes (an older build) costs at most 3 catch-ups a season, 60 s apart.
+    const quiet=createPair();
+    const d2=phone(quiet,{uid:'daniel',role:'playerOne',game:900,markGame:600});
+    d2.acknowledge(2,{role:'playerOne'});await quiet.advance(20*60000);
+    assert.equal(reads(d2),4);
+    assert.ok(d2.budget.refreshPartnerMeter());await settle();
+    assert.equal(d2.budget.refreshPartnerMeter(),null,'within 60 s: no read');
+    for(let i=0;i<5;i+=1){await quiet.advance(61000);const p=d2.budget.refreshPartnerMeter();if(p)await p;}
+    assert.equal(reads(d2),4+3,'three catch-ups at most for the season');
+    // None while a timed read is still pending.
+    const early=createPair();
+    const d3=phone(early,{uid:'daniel',role:'playerOne',game:900,markGame:600});
+    d3.acknowledge(2,{role:'playerOne'});await early.advance(1000);
+    assert.equal(d3.budget.refreshPartnerMeter(),null,'a timed read is pending: no extra read');
+  });
+
+  await check('M12 F3-06 two tabs of one phone: no tab\'s reads vanish from the saved day, and one meter write per season',async()=>{
+    const world=createPair();
+    const seed={day:dayOf(world.clock.now),reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:{game:400,career:0,markGame:100,costs:[],lastCost:0,role:'playerOne'}};
+    const storage=new Map([[DAY_KEY,JSON.stringify(seed)]]);
+    const tabA=pageWithStorage(world,{uid:'daniel',storage}),tabB=pageWithStorage(world,{uid:'daniel',storage});
+    // Each tab makes its own career-page reads (1 document + 1 lookup each, billed 2).
+    const sdkA=tabA.budget.meterSdk({doc:(_db,...parts)=>({path:parts.join('/')}),getDoc:async()=>({exists:()=>true,data:()=>({}),metadata:{fromCache:false}})});
+    const sdkB=tabB.budget.meterSdk({doc:(_db,...parts)=>({path:parts.join('/')}),getDoc:async()=>({exists:()=>true,data:()=>({}),metadata:{fromCache:false}})});
+    for(let i=0;i<30;i+=1)await sdkA.getDoc({path:`accounts/u/careerSummary/s${i}`});
+    for(let i=0;i<50;i+=1)await sdkB.getDoc({path:`accounts/u/careerSummary/s${i}`});
+    // Both tabs save (hidden / every 20 units); the stored day must hold both tabs' reads, whichever saved last.
+    tabA.budget.noteSeasonStart(`${RID}|9`);tabB.budget.noteSeasonStart(`${RID}|9`);
+    const stored=JSON.parse(storage.get(DAY_KEY));
+    assert.equal(stored.bill.career,(30+50)*2,'the saved day has both tabs\' career reads (before: only the last saver\'s)');
+    assert.equal(Math.round(tabA.budget.readsToday().career),(30+50)*2,'and so does each tab\'s own count');
+    assert.equal(stored.reads,30+50,'and both tabs\' documents');
+    // Both tabs see the same ACKNOWLEDGED: only the first writes rivalries/{rid}/meters/playerOne.
+    assert.equal(tabA.acknowledge(9,{role:'playerOne'}),true);
+    await world.advance(100);
+    assert.equal(tabB.acknowledge(9,{role:'playerOne'}),false,'the other tab sees the season already noted');
+    await world.advance(100);
+    assert.equal(tabA.ops.sets.length+tabB.ops.sets.length,1,'one meter document written for the season');
+    // One tab alone: a save changes nothing (the stored day is what it saved).
+    const solo=createPair();const soloStorage=new Map([[DAY_KEY,JSON.stringify({...seed,day:dayOf(solo.clock.now)})]]);
+    const only=pageWithStorage(solo,{uid:'nik',storage:soloStorage});
+    const sdkO=only.budget.meterSdk({doc:(_db,...parts)=>({path:parts.join('/')}),getDoc:async()=>({exists:()=>true,data:()=>({}),metadata:{fromCache:false}})});
+    for(let i=0;i<45;i+=1)await sdkO.getDoc({path:`accounts/u/careerSummary/s${i}`});
+    only.budget.noteSeasonStart(`${RID}|4`);
+    const one=JSON.parse(soloStorage.get(DAY_KEY));
+    assert.equal(one.reads,45);assert.equal(one.bill.career,45*2);assert.equal(Math.round(only.budget.readsToday().career),45*2);
   });
 
   console.log(`PASS r87 shared reads meter contracts: ${checks} checks`);

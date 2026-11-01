@@ -6,6 +6,7 @@
 //      once the pause is over.
 //   Q3 F3-14 a season acknowledged before the Pacific reset is not noted again after it (no stale meter write with today's counts),
 //      live and after a reload; a new season after the reset is noted as usual.
+//   Q4 F3-09 a server read refused by the Rules (permission-denied) is billed: 1 + the document's lookups, like every other route.
 // The REAL budget layer runs in a VM with a fake clock. No emulator, no network.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -63,6 +64,19 @@ const quota=()=>Object.assign(new Error('Quota exceeded.'),{code:'resource-exhau
     const reloaded=page(clock,storage).budget;
     assert.equal(reloaded.noteSeasonDone(`${RID}|4`,false,{role:'playerOne',season:4}),false,'nor after a reload past the reset');
     assert.equal(reloaded.noteSeasonDone(`${RID}|5`,true,{role:'playerOne',season:5}),true,'a new season is noted as usual');
+  });
+
+
+  await check('Q4 F3-09 a read the Rules refuse is billed (1 + lookups), like a direct get or a listener error',async()=>{
+    const clock={now:Date.UTC(2026,10,1,18,0)};const {budget}=page(clock);
+    const denied=()=>Object.assign(new Error('Missing or insufficient permissions.'),{code:'permission-denied'});
+    const sdk={doc:(_db,...parts)=>({path:parts.join('/')}),runTransaction:async(_db,fn)=>fn({get:async()=>{throw denied();},set(){},update(){},delete(){}})};
+    const services=budget.services({ok:true,firestore:{},firestoreSdk:sdk,auth:{currentUser:{uid:'nik'}}});
+    const ref={path:`rivalries/${RID}/sharedSetup/authoritative`};
+    const before=budget.readsToday().thisPhone;
+    await assert.rejects(services.firestoreSdk.runTransaction(services.firestore,tx=>tx.get(ref)),error=>error.code==='permission-denied');
+    const lookups=budget.rulesLookups.read(ref.path);
+    assert.equal(budget.readsToday().thisPhone-before,1+lookups,'billed 1 + lookups');
   });
 
   console.log(`PASS r87 Fable job 3 meter fixes contracts: ${checks} checks`);
