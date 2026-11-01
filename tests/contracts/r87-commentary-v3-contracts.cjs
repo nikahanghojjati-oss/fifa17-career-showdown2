@@ -134,7 +134,8 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
   const f=randomShowdown(9,3);f.history[1].winner="playerOne";f.history[1].playerOne.scoring.total=0;f.history[1].playerTwo.scoring.total=4;
   assert.equal(V.call(f,2,L),null);checks+=1;
   assert.equal(V.call({...randomShowdown(9,3),seasons:4},1,L),null);checks+=1;
-  const g=randomShowdown(10,3);g.history[0].playerOne.scoring.total=12;assert.equal(V.call(g,1,L),null);checks+=1;
+  // GC-01: a 12 is invalid only in a Showdown known to be without Prime Pack (with no flag, a season over 11 can only be Prime Pack).
+  const g={...randomShowdown(10,3),primePack:false};g.history[0].playerOne.scoring.total=12;assert.equal(V.call(g,1,L),null);checks+=1;
 }
 
 // ---------- 3. wiring and rules ----------
