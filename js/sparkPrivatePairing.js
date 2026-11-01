@@ -807,8 +807,21 @@ async function revokePairing(options={}){
     if(stored.reads>base.reads){fsbDay.reads+=stored.reads-base.reads;changed=true;}
     if(stored.game>base.game){fsbDay.bill.game+=stored.game-base.game;changed=true;}
     if(stored.career>base.career){fsbDay.bill.career+=stored.career-base.career;changed=true;}
-    if(Array.isArray(saved.seasons))for(const key of saved.seasons)if(typeof key==="string"&&!fsbDay.seasons.includes(key)){fsbDay.seasons.push(key);changed=true;}
+    let imported=false;
+    if(Array.isArray(saved.seasons))for(const key of saved.seasons)if(typeof key==="string"&&!fsbDay.seasons.includes(key)){fsbDay.seasons.push(key);changed=true;imported=true;}
     while(fsbDay.seasons.length>FSB_DAY_SEASONS)fsbDay.seasons.shift();
+    // PR #1144 review: a season the other tab completed also moves this tab's season boundary to that tab's (its marks, start key
+    // and cost history), so the next season's cost here does not include the season the other tab already measured.
+    if(imported){
+      const costs=list=>Array.isArray(list)?list.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS):null;
+      if(Number.isFinite(saved.markReads)&&saved.markReads>fsbDay.markReads&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);
+      if(Number.isFinite(bill.markGame)&&bill.markGame>fsbDay.bill.markGame&&bill.markGame<=fsbDay.bill.game){fsbDay.bill.markGame=Math.floor(bill.markGame);fsbDay.bill.startKey=typeof bill.startKey==="string"&&bill.startKey?bill.startKey:null;}
+      const dayCosts=costs(saved.costs),billCosts=costs(bill.costs);
+      if(dayCosts&&dayCosts.length>=fsbDay.costs.length)fsbDay.costs=dayCosts;
+      if(billCosts&&billCosts.length>=fsbDay.bill.costs.length)fsbDay.bill.costs=billCosts;
+      if(Number.isFinite(bill.lastCost)&&bill.lastCost>0)fsbDay.bill.lastCost=Math.floor(bill.lastCost);
+      const role=fsbShareRole(bill.role);if(role)fsbDay.bill.role=role;
+    }
     const newer=(doc,mine)=>Boolean(doc&&doc.day===fsbDay.day&&(!mine||doc.rivalryId!==mine.rivalryId||doc.season>mine.season));
     const own=fsbShareClean(bill.own),partner=fsbShareClean(bill.partner);
     if(newer(own,fsbDay.bill.own)){fsbDay.bill.own=own;changed=true;}

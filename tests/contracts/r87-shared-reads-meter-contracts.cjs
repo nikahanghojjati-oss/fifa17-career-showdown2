@@ -481,6 +481,26 @@ const reads=p=>p.ops.gets.length;
     assert.equal(tabB.acknowledge(9,{role:'playerOne'}),false,'the other tab sees the season already noted');
     await world.advance(100);
     assert.equal(tabA.ops.sets.length+tabB.ops.sets.length,1,'one meter document written for the season');
+    // PR #1144 review (Codex): tab A completes season 5 after 100 billed game reads; tab B then plays season 6 with 50 of its own.
+    // B's season 6 must cost 50, not 150 (before: B kept its old boundary and counted A's season again).
+    const two=createPair();const seed2={...seed,day:dayOf(two.clock.now),bill:{...seed.bill,game:400,markGame:400,costs:[]}};
+    const store2=new Map([[DAY_KEY,JSON.stringify(seed2)]]);
+    const ta=pageWithStorage(two,{uid:'daniel',storage:store2}),tb=pageWithStorage(two,{uid:'daniel',storage:store2});
+    // Game reads: listener deliveries from the server (1 document, 0 lookups for the careerIndex path), counted as game reads.
+    const listen=tab=>tab.budget.meterSdk({doc:(_db,...parts)=>({path:parts.join('/')}),onSnapshot:(_ref,next)=>{tab.deliver=next;return ()=>{};}});
+    const la=listen(ta),lb=listen(tb);
+    la.onSnapshot({path:'accounts/u/careerIndex/current'},()=>{});lb.onSnapshot({path:'accounts/u/careerIndex/current'},()=>{});
+    const deliver=(tab,n)=>{for(let i=0;i<n;i+=1)tab.deliver({exists:()=>true,data:()=>({i}),metadata:{fromCache:false,hasPendingWrites:false}});};
+    ta.budget.noteSeasonStart(`${RID}|5`);
+    const g0=ta.budget.readsToday().game;deliver(ta,100);const perDelivery=(ta.budget.readsToday().game-g0)/100;
+    assert.ok(perDelivery>0,'deliveries are billed game reads');
+    assert.equal(ta.acknowledge(5,{role:'playerOne'}),true);await two.advance(100);
+    deliver(tb,50);
+    assert.equal(tb.acknowledge(5,{role:'playerOne'}),false,'B sees A noted season 5');
+    assert.equal(tb.acknowledge(6,{role:'playerOne'}),true,'B completes season 6');
+    const costs=JSON.parse(store2.get(DAY_KEY)).bill.costs;
+    // + A's meter write for season 5 (1 lookup), billed after its boundary as on one tab; before the fix: 150 + that write.
+    assert.equal(costs[costs.length-1],Math.round(50*perDelivery)+1,'season 6 costs only B\'s own 50 reads after A\'s boundary (and the season-5 meter write)');
     // One tab alone: a save changes nothing (the stored day is what it saved).
     const solo=createPair();const soloStorage=new Map([[DAY_KEY,JSON.stringify({...seed,day:dayOf(solo.clock.now)})]]);
     const only=pageWithStorage(solo,{uid:'nik',storage:soloStorage});
