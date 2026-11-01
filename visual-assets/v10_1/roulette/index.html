@@ -140,7 +140,9 @@ body.embed .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 96p
 
 <script>/* preview only: show any error on screen instead of a black page; in the game (?embed=1) the error goes to the game (r87 Team G) */
 (function(){ var EMBED=/[?&]embed=1(?:&|$)/.test(location.search); function show(m){ if(EMBED){ try{ parent.postMessage({type:"cms-rr-error",message:String(m).slice(0,300)},location.origin); }catch(e){} return; } try{ var d=document.getElementById('errbox'); if(!d){ d=document.createElement('div'); d.id='errbox'; d.style.cssText='position:fixed;left:12px;right:12px;top:12px;z-index:99;background:#300;color:#fff;font:13px/1.4 monospace;padding:10px;border:1px solid #f66;white-space:pre-wrap'; (document.body||document.documentElement).appendChild(d); } d.textContent+=m+'\n'; }catch(e){} }
- window.addEventListener('error',function(e){ show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
+ // Codex R87-C2-03: a failed optional stylesheet (the Google title/stamp fonts, offline or blocked) only falls back to a
+ // local font; it must never abort the scene. Script, WebGL and setup failures still report.
+ window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
 <script src="vendor/three-r128.min.js"></script><!-- three.js r128 (MIT, vendor/THREE_LICENSE.txt), bundled so the scene works offline and never depends on a CDN -->
@@ -800,7 +802,7 @@ function startTurn(force,targetName,planned){ if(playing) return; const who=ORDE
   const tgt=boardTargetWorld(who,pick); const dir=tgt.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
   setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
-function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+p.target.name,"lost"); } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
+function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+((typeof GAME!=="undefined"&&GAME&&GAME.turns&&GAME.turns[turn]&&GAME.turns[turn].targetLabel)||p.target.name),"lost") /* Codex C2-01: number, position and overall tell namesakes apart */; } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
   try{ window.dispatchEvent(new CustomEvent("rr:end",{detail:{who, name:NAME[who], fire:p.fire, lost:p.fire?p.target.name:null, turn}})); }catch(e){}
   turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.round.visible=false; } }
 const now=()=>manual!==null?manual:performance.now()/1000;

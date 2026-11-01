@@ -8,10 +8,9 @@
     "bytes": 155662
   },
   "candidate": {
-    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position) plus the r87 shared reads meter (two R87-METER hunks: rivalries/{rid}/meters/{role}, get also after Terminal Close) plus the r87 roulette marks (five R87-SPINS hunks: own pre-window spun mark on transferChallenges/season_N, START from both marks). Regenerated with --print-main-delta origin/main",
-    "sha256": "bffd4bff694d6fa91d97c0b943b1fd6c40f7e125db4acb53639684a31dd86e9e",
-    "gitBlobSha1": "4a7a09f604c3949c404fc22f499e4d1ba40669bf",
-    "bytes": 162066
+    "sha256": "670ab4e63790c65c2d42f78bfbc50354cb560861a47696a4a1bc048205c2c1ef",
+    "gitBlobSha1": "0e1cd3801f17eb6d0ae4f84e7b3eb59e3b94ed96",
+    "bytes": 166541
   },
   "allowedOwners": [
     "G-7",
@@ -33,7 +32,12 @@
     "R86-SUMMARY",
     "R87-RRR",
     "R87-METER",
-    "R87-SPINS"
+    "R87-SPINS",
+    "R87-E04",
+    "R87-E01",
+    "R87-SPINS+R87-E01",
+    "R87-HITS",
+    "R87-SPINS+R87-HITS"
   ],
   "hunks": [
     {
@@ -50,23 +54,31 @@
       "why": "r87 roulette marks: the existing Transfer Challenge create checks the new document's phase first (it already had to be WINDOW_OPEN), so a pre-window mark create never evaluates the ledger shape and its setup/career lookups. Same allowed set as before."
     },
     {
-      "mainLine": 1466,
-      "candidateLine": 1467,
-      "removed": [],
+      "mainLine": 1464,
+      "candidateLine": 1465,
+      "removed": [
+        "        && after.coordinatorRole == ssjrActorRole(rivalryId);"
+      ],
       "added": [
+        "        && after.coordinatorRole == ssjrActorRole(rivalryId)",
+        "        // Codex R87-E-01: a season's window opens only after the previous season was committed and acknowledged by both",
+        "        // phones, so a wrong season number from a buggy caller can never create a future season. One lookup per START",
+        "        // (seasons 2 to 10), never on later ledger writes or listener deliveries.",
+        "        && (after.seasonNumber == 1",
+        "          || get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.seasonNumber - 1))).data.phase == 'ACKNOWLEDGED');",
+        "    }",
         "    // R87 roulette marks: a pre-window mark document (phase NOT_STARTED) is never a ledger to update (START from it is",
         "    // ssjrTransferStartAfterSpins). The phase is tested before the ledger function's let bindings run: measured on the emulator,",
         "    // START from a two-mark document was refused while those bindings ran against it.",
         "    function ssjrTransferValidUpdate(rivalryId, transferId) {",
-        "      return resource.data.phase != 'NOT_STARTED' && ssjrTransferValidLedgerUpdate(rivalryId, transferId);",
-        "    }"
+        "      return resource.data.phase != 'NOT_STARTED' && ssjrTransferValidLedgerUpdate(rivalryId, transferId);"
       ],
-      "owner": "R87-SPINS",
-      "why": "r87 roulette marks: the existing Transfer Challenge update first checks that the stored document is not a pre-window mark document, then runs the unchanged ledger checks (renamed ssjrTransferValidLedgerUpdate, next hunk). Measured on the emulator: START from a two-mark document was refused while the ledger function's let bindings ran against it. Same allowed set for every ledger update."
+      "owner": "R87-SPINS+R87-E01",
+      "why": "R87-E-01 previous-season ACKNOWLEDGED check on START, followed by the unchanged R87-SPINS phase-first ssjrTransferValidUpdate (the two edits are adjacent, so the diff joins them)."
     },
     {
       "mainLine": 1467,
-      "candidateLine": 1474,
+      "candidateLine": 1479,
       "removed": [
         "    function ssjrTransferValidUpdate(rivalryId, transferId) {"
       ],
@@ -78,7 +90,7 @@
     },
     {
       "mainLine": 1506,
-      "candidateLine": 1513,
+      "candidateLine": 1518,
       "removed": [
         "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId'])"
       ],
@@ -91,8 +103,24 @@
       "why": "r87 Roster Russian Roulette (Nik 2026-10-30): each own Transfer War signing may carry its FIFA 17 overall (whole number 30-99, optional key so older rows stay valid); it decides the roulette board from season 2. No new path, read or write. r87 (Nik 2026-10-30 16:53 UTC): it may also carry the signing's FIFA 17 position (one of 15 fixed codes, optional key, own only, never guessed) so the board can place him."
     },
     {
+      "mainLine": 1597,
+      "candidateLine": 1611,
+      "removed": [
+        "        && ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"
+      ],
+      "added": [
+        "        // Codex R87-E-04: three r87 signing rows (overall + position) took the full check past the 1,000-expression limit,",
+        "        // so a normal three-signing lock was denied. The linked public ledger write in the same transaction (updatedAt ==",
+        "        // request.time, same session and device, this role as the actor) already runs the full ssjrWriteAuthorityValid pair",
+        "        // envelope; this private half keeps the actor, account, device and ACTIVE-session checks, as season commits do.",
+        "        && ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"
+      ],
+      "owner": "R87-E04",
+      "why": "Codex R87-E-04: the private signing lock uses the actor authority (account, device, ACTIVE session) so three r87 signing rows fit the 1,000-expression limit; the linked public ledger write in the same transaction still runs the full pair envelope."
+    },
+    {
       "mainLine": 1605,
-      "candidateLine": 1614,
+      "candidateLine": 1623,
       "removed": [],
       "added": [
         "    // R87 roulette marks (Nik 2026-10-31, red team RT5-FLOW-02): the shared window waits until both managers have spun this season's",
@@ -112,7 +140,29 @@
         "        && root.phase == 'NOT_STARTED'",
         "        && root.spins is map",
         "        && root.spins.keys().hasOnly(['playerOne','playerTwo'])",
+        "        && (root.spins.get('playerOne', true) == true || ssjrTransferSpinOutcomeValid(root.spins.playerOne))",
+        "        && (root.spins.get('playerTwo', true) == true || ssjrTransferSpinOutcomeValid(root.spins.playerTwo))",
         "        && root.updatedAt == request.time;",
+        "    }",
+        "    // F2-02 (Fable job 2): a mark may record its manager's outcome for the season instead of plain true: fired, the shot player's",
+        "    // name (as a signing name: 1-80 characters, trimmed), shirt number (0-99 or null), board slot 0-14 and the season he was",
+        "    // signed (1-10, or null for a club player: the two are different people), and the engine and data version. A safe spin has",
+        "    // no name, number, slot or season. Exact keys; nothing else.",
+        "    function ssjrTransferSpinOutcomeValid(value) {",
+        "      return value is map",
+        "        && value.keys().hasAll(['fired','hitName','hitNumber','hitSlot','hitSignedSeason','version'])",
+        "        && value.keys().hasOnly(['fired','hitName','hitNumber','hitSlot','hitSignedSeason','version'])",
+        "        && value.version is string",
+        "        && value.version.size() <= 24",
+        "        && value.version.matches('^rr[0-9]{1,3}[.][0-9]{1,4}[.][0-9a-f]{8}$')",
+        "        && (",
+        "          (value.fired == true",
+        "            && ssjrTransferValidSigningName(value.hitName)",
+        "            && value.hitSlot is int && value.hitSlot >= 0 && value.hitSlot <= 14",
+        "            && (value.hitNumber == null || (value.hitNumber is int && value.hitNumber >= 0 && value.hitNumber <= 99))",
+        "            && (value.hitSignedSeason == null || (value.hitSignedSeason is int && value.hitSignedSeason >= 1 && value.hitSignedSeason <= 10)))",
+        "          || (value.fired == false && value.hitName == null && value.hitNumber == null && value.hitSlot == null && value.hitSignedSeason == null)",
+        "        );",
         "    }",
         "    function ssjrTransferSpinCreate(rivalryId, transferId) {",
         "      let after = request.resource.data;",
@@ -120,7 +170,7 @@
         "        && ssjrTransferSpinShape(after, rivalryId, transferId)",
         "        && ssjrEntitled(rivalryId)",
         "        && after.spins.keys().hasOnly([ssjrActorRole(rivalryId)])",
-        "        && after.spins[ssjrActorRole(rivalryId)] == true;",
+        "        && after.spins[ssjrActorRole(rivalryId)] != false;",
         "    }",
         "    function ssjrTransferSpinUpdate(rivalryId, transferId) {",
         "      let before = resource.data;",
@@ -130,23 +180,44 @@
         "        && ssjrTransferSpinShape(after, rivalryId, transferId)",
         "        && after.seasonNumber == before.seasonNumber",
         "        && ssjrEntitled(rivalryId)",
+        "        && !(ssjrActorRole(rivalryId) in before.spins)",
         "        && after.spins.diff(before.spins).affectedKeys().hasOnly([ssjrActorRole(rivalryId)])",
-        "        && after.spins[ssjrActorRole(rivalryId)] == true;",
+        "        && after.spins[ssjrActorRole(rivalryId)] != false;",
         "    }",
         "    function ssjrTransferStartAfterSpins(rivalryId, transferId) {",
         "      let before = resource.data;",
         "      return before.phase == 'NOT_STARTED'",
-        "        && before.spins.get('playerOne', false) == true",
-        "        && before.spins.get('playerTwo', false) == true",
+        "        && before.spins.get('playerOne', false) != false",
+        "        && before.spins.get('playerTwo', false) != false",
         "        && ssjrTransferValidCreate(rivalryId, transferId);",
+        "    }",
+        "    // F2-02 (Fable job 2): START replaces the mark document with the ledger, so it also writes one durable record of both marks:",
+        "    // transferChallenges/season_N/roulette/spins, an exact copy of the stored spins (both present, so final: each entry is written",
+        "    // once). Created once, never updated, listed or deleted; members read it to replay earlier seasons' saved shots. One lookup",
+        "    // more than START itself (the mark document as it stands before this request).",
+        "    function ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId) {",
+        "      let after = request.resource.data;",
+        "      let marks = get(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)).data;",
+        "      return docId == 'spins'",
+        "        && after.keys().hasAll(['schemaVersion','objectType','rivalryId','seasonNumber','spins'])",
+        "        && after.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','spins'])",
+        "        && after.schemaVersion == 1",
+        "        && after.objectType == 'sharedTransferRouletteSpins'",
+        "        && after.rivalryId == rivalryId",
+        "        && ssjrTransferSeasonMatches(transferId, after.seasonNumber)",
+        "        && ssjrEntitled(rivalryId)",
+        "        && marks.phase == 'NOT_STARTED'",
+        "        && marks.spins.get('playerOne', false) != false",
+        "        && marks.spins.get('playerTwo', false) != false",
+        "        && after.spins == marks.spins;",
         "    }"
       ],
-      "owner": "R87-SPINS",
-      "why": "r87 roulette marks (Nik 2026-10-31 09:27 UTC, red team RT5-FLOW-02: the shared transfer window waits until both managers have spun the Russian Roster Roulette). Functions only: the pre-window document transferChallenges/season_N may hold a spins map with one true entry per manager who has spun; a member writes only his own entry (one lookup, the rivalry), never removes or changes the partner's or his own, and only while phase is NOT_STARTED; START from it needs both entries and writes the unchanged ledger in its place. No new path or read."
+      "owner": "R87-SPINS+R87-HITS",
+      "why": "r87 roulette marks (Nik 2026-10-31 09:27 UTC, red team RT5-FLOW-02: the shared transfer window waits until both managers have spun the Russian Roster Roulette). Functions only: the pre-window document transferChallenges/season_N may hold a spins map with one true entry per manager who has spun; a member writes only his own entry (one lookup, the rivalry), never removes or changes the partner's or his own, and only while phase is NOT_STARTED; START from it needs both entries and writes the unchanged ledger in its place. No new path or read. Fable job 2 F2-02 (R87-HITS): a mark may carry its manager's outcome (fired, hitName, hitNumber, hitSlot 0-14, hitSignedSeason 1-10 or null for a club player per #1107, version; exact keys, ssjrTransferSpinOutcomeValid), each manager's entry is written once (!(role in before.spins)), START accepts outcome entries (!= false), and the record-create validator."
     },
     {
       "mainLine": 2015,
-      "candidateLine": 2069,
+      "candidateLine": 2121,
       "removed": [],
       "added": [
         "    // R87 shared reads meter (B2): each phone keeps ONE small document per rivalry, rivalries/{rid}/meters/{its role}, with the",
@@ -188,7 +259,7 @@
     },
     {
       "mainLine": 3039,
-      "candidateLine": 3126,
+      "candidateLine": 3178,
       "removed": [],
       "added": [
         "        // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.",
@@ -199,8 +270,24 @@
       "why": "r87 roulette marks: exactly two write lines on the existing transferChallenges/{transferId} match, added beside the unchanged ledger create/update: a member's own pre-window mark (create or update) and START from a document holding both marks. No list, delete or new path; the ledger rules are untouched."
     },
     {
+      "mainLine": 3040,
+      "candidateLine": 3182,
+      "removed": [],
+      "added": [
+        "        // F2-02: the durable record of both marks, written once by START.",
+        "        match /roulette/{docId} {",
+        "          allow get: if ssjrEntitled(rivalryId);",
+        "          allow list, update, delete: if false;",
+        "          allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);",
+        "        }",
+        ""
+      ],
+      "owner": "R87-HITS",
+      "why": "Fable job 2 F2-02 (Nik 2026-10-31): the durable record of both roulette marks, transferChallenges/season_N/roulette/spins: member-only get; created once by START as an exact copy of the stored marks (ssjrTransferRouletteRecordCreate); never listed, updated or deleted."
+    },
+    {
       "mainLine": 3074,
-      "candidateLine": 3164,
+      "candidateLine": 3223,
       "removed": [],
       "added": [
         "      }",

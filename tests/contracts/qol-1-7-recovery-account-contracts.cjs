@@ -198,7 +198,8 @@ function q4NothingElseMoved(){
   const createButtons=(pairSource.match(/pairCreateElement\("button"/g)||[]).length;
   // r79: +1, CHOOSE SEASONS replaces CREATE CODE FOR NIK for Daniel while no seasons are chosen (no more bounce to the seasons screen).
   // r79 Codex #915: +1, PAIR AGAIN replaces CREATE CODE FOR NIK for Daniel when Nik unpaired while he chose the seasons.
-  assert.equal(createButtons,15,"Q4 only the r79 CHOOSE SEASONS and PAIR AGAIN buttons were added to the pair panel");
+  // r87 Fable F4-02: +2, PAIR AGAIN replaces NEW CODE / the expired-code hint on Daniel's waiting panel when Nik unpaired.
+  assert.equal(createButtons,17,"Q4 only the r79 CHOOSE SEASONS and PAIR AGAIN buttons were added to the pair panel");
   assert.equal((pairSource.match(/pairCreateElement\("button","menuButton","CHOOSE SEASONS"\)/g)||[]).length,1,"Q4 (r79) the one added button is CHOOSE SEASONS");
   ok("Q4 the creator guard, two-manager rule and sign-in mechanics are untouched and no control was added");
 }
