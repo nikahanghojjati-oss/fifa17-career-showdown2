@@ -426,6 +426,8 @@ async function proveRouletteOutcomes(env){
     const hitsOnly=await provider.readRouletteSeason({...options("playerTwo",1),managerRole:"playerTwo",verdicts:false});
     assert.equal(hitsOnly.ok,true,JSON.stringify(hitsOnly));assert.deepEqual(JSON.parse(JSON.stringify(hitsOnly.hits)),{playerOne:HIT,playerTwo:SAFE});
     // The old #1101 marks (plain true) still start a window; their record keeps them and reads back as no saved outcome.
+    // #1148 (Codex R87-E-01): a season 2 window opens only after season 1 was committed and acknowledged by both phones.
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",R4,"seasonCommits","season_1"),{phase:"ACKNOWLEDGED"});});
     assert.equal((await provider.markSpun({...options("playerTwo",2),managerRole:"playerTwo"})).ok,true);
     assert.equal((await provider.startWindow({...options("playerOne",2),operationId:opId(952),baseRevision:0})).ok,true);
     const legacy=await provider.readRouletteSeason({...options("playerOne",2),managerRole:"playerOne",verdicts:false});
