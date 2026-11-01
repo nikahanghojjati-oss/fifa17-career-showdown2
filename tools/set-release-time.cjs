@@ -9,9 +9,20 @@ const path=require("node:path");
 const ROOT=path.resolve(__dirname,"..");
 const RELEASE_TIME_CONSTANTS=Object.freeze([
   {file:"js/rosterRouletteStep.js",name:"RRR_FROM_MS"},
-  {file:"js/sparkSharedTransferChallenge.js",name:"ROULETTE_FROM_MS"}
+  {file:"js/sparkSharedTransferChallenge.js",name:"ROULETTE_FROM_MS"},
+  // Prime Pack (#1149): the guessing round and every 15-a-season total start with the same Showdowns as the roulette.
+  {file:"js/iconGuess.js",name:"ICON_FROM_MS"},
+  {file:"js/careerScreenSeam.js",name:"PRIME_PACK_FROM_MS"},
+  {file:"js/touchlineGazette.js",name:"PRIME_PACK_FROM_MS"},
+  {file:"js/sharedCareerAnalytics.js",name:"PRIME_PACK_FROM_MS"},
+  {file:"js/productionSharedTransferChallenge.js",name:"PRIME_PACK_FROM_MS"},
+  {file:"js/productionSharedSeasonResults.js",name:"PRIME_PACK_FROM_MS"},
+  // Special Player from the manager's own club (#1173).
+  {file:"js/marqueePlayer.js",name:"OWN_CLUB_FROM_MS"}
 ]);
-const pattern=name=>new RegExp(`(const ${name}=Date\\.parse\\(")([^"]+)("\\);)`);
+// js/marqueePlayer.js MARQUEE_FROM_MS is r86's own boundary and is never moved.
+const NOT_RELEASE_TIME=Object.freeze(["MARQUEE_FROM_MS"]);
+const pattern=name=>new RegExp(`(\\b${name}=Date\\.parse\\(")([^"]+)("\\);)`);
 function read(){return RELEASE_TIME_CONSTANTS.map(c=>{const source=fs.readFileSync(path.join(ROOT,c.file),"utf8"),m=pattern(c.name).exec(source);if(!m)throw new Error(`${c.file}: no ${c.name}=Date.parse("...") literal`);return {...c,value:m[2]};});}
 if(require.main===module){
   const at=process.argv[2];
@@ -21,4 +32,4 @@ if(require.main===module){
   }
   for(const c of read())console.log(`${c.value}  ${c.name}  ${c.file}`);
 }
-module.exports={RELEASE_TIME_CONSTANTS,read};
+module.exports={RELEASE_TIME_CONSTANTS,NOT_RELEASE_TIME,read};

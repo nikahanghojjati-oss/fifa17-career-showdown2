@@ -408,8 +408,9 @@ async function continueToSeason(daniel,nik,season,total){
     const paper=await gazette.passGazette(m.page,"season");
     if(!paper||!paper.endsWith(`|season|${season-1}`))throw new Error(`${m.user||"manager"} did not see the season-${season-1} Touchline Gazette after CONTINUE TO SEASON ${season} (${paper})`);
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await rosterRoulette.waitForTransfer(m.page,30000);
   }
+  // r87 Prime Pack: the round starts only when both managers have arrived, so both phones are driven together.
+  await rosterRoulette.waitForTransfer([daniel.page,nik.page],60000);
 }
 // One season's Transfer Challenge through the real UI: window, guesses, signings, then both open Season Results.
 async function playTransferSeason(daniel,nik,tokenD,tokenN){
@@ -454,10 +455,8 @@ async function playSetupToTransferChallenge(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
-  for(const m of [daniel,nik]){
-    await rosterRoulette.waitForTransfer(m.page,45000);
-    await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
-  }
+  await rosterRoulette.waitForTransfer([daniel.page,nik.page],60000);
+  for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   return clubs;
 }
 // r80: every text the header's season indicator takes from now on (a MutationObserver; the page is only read).
@@ -576,10 +575,8 @@ async function main(){
     for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
     await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
     await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
-    for(const m of [daniel,nik]){
-      await rosterRoulette.waitForTransfer(m.page,45000);
-      await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
-    }
+    await rosterRoulette.waitForTransfer([daniel.page,nik.page],60000);
+    for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
     meter.mark("season:transfer");
     ok("P2.2",`Daniel drew ${league} and the clubs (${clubs.join(" / ")}); both confirmed, started their careers and reached the Transfer Challenge`);
     const showdownD=await showdownOf(daniel),showdownN=await showdownOf(nik);

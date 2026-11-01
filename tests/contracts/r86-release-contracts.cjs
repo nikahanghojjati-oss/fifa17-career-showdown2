@@ -51,6 +51,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.deepEqual(r86.filter(p=>!shell.includes(p)),removed,'only the seven acceptance-only scripts left the shell');
   assert.equal(shell.length,228-removed.length+added.length);
   assert.ok(added.includes('js/commentaryV3.js')&&added.includes('js/touchlineGazette.js')&&added.includes('js/rosterRouletteStep.js'));
+  for(const p of ['js/iconGuessStep.js','js/iconGuess.js','js/iconNames.js','data/icons.js','visual-assets/v10_1/icon-guess/index.html'])assert.ok(added.includes(p),`Prime Pack's ${p} is precached`);
+  assert.ok(!shell.some(p=>p.startsWith('visual-assets/v10_1/icon-guess/')&&/\.(webp|png|jpe?g)$/.test(p)),'Prime Pack pictures stay runtime-cached (V10_IMAGE_PATH)');
   assert.ok(!added.includes('js/careerSummaryStore.js'),'r86\'s own files are in r86\'s list');
   ok('RR3','the retained 1.9.10-r86 shell is verified against its own 228 paths');
 }
@@ -74,16 +76,21 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 // RR5 (red team R87-C-07): the roulette starts at the 2.0.0 release time. Every start constant that must equal it is set by
 // tools/set-release-time.cjs and they all hold the same fixed UTC time, after r86's release.
 {
-  const {read:readTimes,RELEASE_TIME_CONSTANTS}=require('../../tools/set-release-time.cjs');
+  const {read:readTimes,RELEASE_TIME_CONSTANTS,NOT_RELEASE_TIME}=require('../../tools/set-release-time.cjs');
   const times=readTimes();
-  assert.equal(times.length,RELEASE_TIME_CONSTANTS.length);
+  assert.equal(times.length,RELEASE_TIME_CONSTANTS.length);assert.ok(times.length>=9,'roulette, Prime Pack and own-club boundaries');
+  // Every *_FROM_MS=Date.parse("...") start literal in js/ is either a release-time constant or a named older boundary.
+  const listed=new Set(RELEASE_TIME_CONSTANTS.map(c=>`${c.file}:${c.name}`));
+  for(const file of require('node:fs').readdirSync(require('node:path').join(__dirname,'../../js')).filter(f=>f.endsWith('.js')).map(f=>`js/${f}`))
+    for(const m of read(file).matchAll(/\b([A-Z][A-Z0-9_]*_FROM_MS)=Date\.parse\(/g))
+      assert.ok(listed.has(`${file}:${m[1]}`)||NOT_RELEASE_TIME.includes(m[1]),`${file} ${m[1]} is not set by tools/set-release-time.cjs`);
   assert.deepEqual([...new Set(times.map(t=>t.value))].length,1,`the release-time constants differ: ${times.map(t=>`${t.name}=${t.value}`).join(', ')}`);
   const at=Date.parse(times[0].value);
   assert.ok(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(times[0].value)&&Number.isFinite(at));
   assert.ok(at>Date.parse('2026-10-30T03:00:00Z'),'after the r86 release (MARQUEE_FROM_MS)');
   const Step=require('../../js/rosterRouletteStep.js');
   if(Step&&Number.isFinite(Step.fromMs))assert.equal(Step.fromMs,at,'the roulette step exports the release time');
-  ok('RR5',`the roulette starts at the release time ${times[0].value} (${times.map(t=>t.name).join(' = ')})`);
+  ok('RR5',`the roulette, Prime Pack and own-club SP start at the release time ${times[0].value} (${times.map(t=>t.name).join(' = ')})`);
 }
 
 // RR6 (arch audit D1): the seven acceptance-only scripts are not precached; a request for one is answered from the shell of the

@@ -27,13 +27,15 @@ function projectionFor(rivalryId,{leagueId='premier_league',clubs=['Arsenal','Li
 const finalFor=p=>{const a=p.managerRecords.playerOne.totalPoints,b=p.managerRecords.playerTwo.totalPoints;return {totals:{playerOne:a,playerTwo:b},winner:a>b?'playerOne':b>a?'playerTwo':'draw'};};
 const P=result({leaguePosition:1,leaguePoints:100,leagueGoals:100,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true});
 const E=result({europaLeague:true,domesticCup:true}),CL=result({championsLeague:true}),Z=result();
+// r87 Prime Pack: these Showdowns are confirmed after the Prime Pack boundary, so a perfect season is 15 and Golden is 150.
+const PG={...P,primePack:4};
 // Rivalry ids whose Special Players have long names (the red team's cards: "A. Oxlade-Chamberlain", "V. Nilsson Lindelöf").
 const LONG_IDS=['pair_fbe558eda8523034918228af6f26d085e8a01aca773118b3ccba3de52d71e3c8','pair_445629d75038df88a98fa21d5f8ddfe1aa85d009bebd29ad5878b384a2f78658','pair_20423019c92871b5d06d993d4bf865c884b163051f1905cfb1fb5100d5592a8a'];
 const idFor=n=>n<=LONG_IDS.length?LONG_IDS[n-1]:'pair_'+(0xd0000+n).toString(16).padStart(8,'0')+crypto.createHash('sha256').update('g'+n).digest('hex').slice(0,56);
 const CONFIRMED=Date.parse('2026-10-31T10:00:00Z');
 function entry(n,kind){
   const rivalryId=idFor(n);let spec;
-  if(kind==='golden')spec={leagueId:'bundesliga',clubs:['Borussia Mönchengladbach','Eintracht Frankfurt'],totalSeasons:10,seasons:Array.from({length:10},()=>[P,P])};
+  if(kind==='golden')spec={leagueId:'bundesliga',clubs:['Borussia Mönchengladbach','Eintracht Frankfurt'],totalSeasons:10,seasons:Array.from({length:10},()=>[PG,PG])};
   else if(kind==='draw10')spec={leagueId:'laliga',clubs:['Deportivo La Coruña','Atlético Madrid'],totalSeasons:10,seasons:[[P,P],[E,CL],[CL,E],[Z,Z],[E,E],[CL,Z],[Z,CL],[Z,Z],[P,P],[E,E]]};
   else if(kind==='el3')spec={leagueId:'ligue_1',clubs:['Paris Saint-Germain','Saint-Étienne'],totalSeasons:3,seasons:[[E,CL],[CL,E],[E,Z]]};
   else spec={leagueId:'premier_league',clubs:['West Bromwich Albion','Manchester United'],totalSeasons:1,seasons:[[CL,Z]]};
@@ -114,7 +116,7 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
     const groups=[];
 
     if(PART==='layout'){
-    // A-01 + A-07: desktop History cards, a Golden 110-110 card among long club and Special Player names.
+    // A-01 + A-07: desktop History cards, a Golden 150-150 card (Prime Pack Showdown) among long club and Special Player names.
     const golden=career(['draw10','el3','win1','golden']);
     for(const size of [[1024,768],[1100,600],[1280,650],[1366,768],[1536,864],[1920,1080]]){
       const {context,page,errors}=await openHistory(browser,base,size,golden);
@@ -124,7 +126,7 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r87 career fixes br
         assert.deepEqual(state.cards,[1,2,3,4],`${size.join('x')}: one page of four`);
         assert.deepEqual(await page.evaluate(CARD_PROBLEMS),[],`${size.join('x')}: no score, crest, name or Special Player overlaps or cuts`);
         const score=await page.evaluate(()=>document.querySelector('.legacyCard[data-showdown="4"] .legacyScore').textContent);
-        assert.equal(score,'110 – 110');
+        assert.equal(score,'150 – 150');
         assert.deepEqual(errors,[]);
       }finally{await context.close();}
     }

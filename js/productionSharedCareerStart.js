@@ -35,7 +35,7 @@
   }
   // r86 Special Player: the club he played for in FIFA 17 at launch, so each manager can sign him in-game. Only a Showdown
   // confirmed on r86 or later has one (no line otherwise).
-  function pcstSpecialPlayers(){try{const chip=root.CareerModeSpecialPlayerChip,state=pcstSetupState();return chip&&state&&Number.isFinite(state.setupUpdatedAtMs)?chip.forShowdown(state.rivalryId,state.setupUpdatedAtMs):null;}catch(_error){return null;}}
+  function pcstSpecialPlayers(){try{const chip=root.CareerModeSpecialPlayerChip,state=pcstSetupState();return chip&&state&&Number.isFinite(state.setupUpdatedAtMs)?chip.forShowdown(state.rivalryId,state.setupUpdatedAtMs,state.setup?.clubs):null;}catch(_error){return null;}}
   function pcstSetupState(){try{return setupApi&&setupApi.getState?setupApi.getState():root.CareerModeProductionSharedShowdownSetup?.getState?.()||null;}catch(_error){return null;}}
   function pcstConfirmed(){const state=pcstSetupState();return Boolean(state&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.setup.revision===6&&state.managerRole&&state.rivalryId&&state.sessionId&&state.deviceId);}
   function pcstReady(){return Boolean(view&&view.state&&view.state.phase==="CAREER_START_READY");}
@@ -140,9 +140,9 @@
       transferOpening=true;
       const opened=await transfer.open();
       transferOpening=false;
-      // r87: the manager left the Russian Roster Roulette for Showdown Home; it opens again from there. Not a failure.
-      if(opened!==true&&root.CareerModeRosterRouletteStep?.wentHome?.()){pcstClosePanel();return false;}
-      // The roulette could not start (Setup not read, its files not loaded): its own reason, not a generic one (Fable F2-05).
+      // r87: the manager left the Russian Roster Roulette or the Prime Pack for Showdown Home; it opens again from there. Not a failure.
+      if(opened!==true&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.())){pcstClosePanel();return false;}
+      // The roulette or the Prime Pack could not start (Setup not read, its files not loaded): its own reason, not a generic one (Fable F2-05).
       const reason=opened!==true&&typeof transfer.rouletteError==="function"?transfer.rouletteError():"";
       if(reason){lastError=reason;return false;}
       if(opened!==true)throw new Error("Shared Transfer Challenge could not be opened from this Career Start state.");
@@ -501,7 +501,7 @@
     // Fable F6-01: a BACK TO SHOWDOWN HOME from the roulette opened here (CONTINUE CAREER from Home) stays on Home, as it does
     // from the panel; only a roulette that could not start (its own reason) or a failed open shows Career Start below.
     if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return pcstCloseReveal();
-    if(!pcstPanelOpen()&&pcstReadyHere()&&root.CareerModeRosterRouletteStep?.wentHome?.())return pcstCloseReveal();
+    if(!pcstPanelOpen()&&pcstReadyHere()&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()))return pcstCloseReveal();
     const overlay=pcstEnsurePanel();stageRetries=0;stageFailed=false;retryFailed=false;stageFailed=!(await request.wait(pcstClubBackdrop()));overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay){overlay.classList.add("hidden");pcstStageOff(overlay);}return true;}

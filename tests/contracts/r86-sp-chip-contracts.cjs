@@ -92,7 +92,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   }finally{delete globalThis.CareerModeProductionSharedShowdownSetup;delete globalThis.CareerModePersistentNikDanielPair;}
   const rl=read('js/rivalryLegacyV10.js'),sf=read('js/seasonFinalV10.js');
   assert.match(rl,/sp=rowSpecial\(row\);\s*\}else\{[^}]*sp=liveSpecial\(\);\}/,'Rivalry: History row, else the live Showdown');
-  assert.match(sf,/chip\.liveFor\(rid\)\|\|\(rid&&read&&Number\.isFinite\(read\.setupConfirmedAt\)\?chip\.forShowdown\(rid,read\.setupConfirmedAt\):null\)/,'Final Winner / Season Results: live Setup, else the closed Showdown\'s own read');
+  assert.match(sf,/chip\.liveFor\(rid\)\|\|\(rid&&read&&Number\.isFinite\(read\.setupConfirmedAt\)\?chip\.forShowdown\(rid,read\.setupConfirmedAt,\{playerOne:read\.projection\?\.managerRecords\?\.playerOne\?\.club,playerTwo:read\.projection\?\.managerRecords\?\.playerTwo\?\.club\}\):null\)/,'Final Winner / Season Results: live Setup, else the closed Showdown\'s own read');
   assert.match(sf,/setupConfirmedAt:Number\.isFinite\(result\.setupConfirmedAt\)\?result\.setupConfirmedAt:null/,'the closed read keeps the confirm time it already returns');
   assert.match(sf,/return \{final:final\.winner\?freeze\(\{\.\.\.final,specialPlayers:sp\}\):final,specialPlayers:sp,rematch\};/);// r87 adds the Rematch frame beside the chips
   ok('S3','live Showdown: the confirmed Setup\'s rivalry and setupUpdatedAtMs on Standings, Rivalry, Final Winner and Season Results; another rivalry, an unconfirmed or pre-r86 Setup, or a failing one: none');
@@ -156,7 +156,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   assert.equal(Chip.clubLine(sp.daniel),'A. Vidal · FC Bayern München');assert.equal(Chip.clubLine(sp.nik),'C. Musonda · Real Betis');
   assert.equal(Chip.clubLine({...sp.daniel,club:null}),'A. Vidal · No club');assert.equal(Chip.clubLine(null),'');
   const pc=read('js/productionSharedCareerStart.js');
-  assert.match(pc,/chip\.forShowdown\(state\.rivalryId,state\.setupUpdatedAtMs\)/);
+  assert.match(pc,/chip\.forShowdown\(state\.rivalryId,state\.setupUpdatedAtMs,state\.setup\?\.clubs\)/);
   assert.match(pc,/\[\["YOUR SPECIAL PLAYER",role\],\["RIVAL'S SPECIAL PLAYER",otherRole\]\]/);
   assert.match(pc,/const line=chip\.clubLine\(special\[manager\(who\)\]\);if\(line\)/);
   assert.match(pc,/r==="playerOne"\?"daniel":"nik"/);
@@ -175,7 +175,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   }
   assert.match(rb,/specialName\.textContent = " SPECIAL PLAYER";/);assert.match(rb,/specialTag\.textContent = "SP";/);
   assert.match(rb,/Each manager draws one FIFA 17 player at the start of every Showdown\. Your Special Player scores no points\. Full rules in card 06\./);
-  assert.match(rb,/article\.append\(header, scoring, maximum, golden, special, notes\);/,'the rule sits right after GOLDEN SHOWDOWN');
+  assert.match(rb,/article\.append\(header, scoring, maximum, golden, special, primePack, notes\);/,'the rule sits right after GOLDEN SHOWDOWN (r87 Prime Pack follows it)');
   assert.doesNotMatch(pc.replace(/\/\/[^\n]*/g,''),/marquee/i,'Career Start stays free of the code name');
   ok('S7','every shown string (chip, badge, title, rule line, Career Start labels, CSS content) says Special Player or SP, never the code name');
 }
