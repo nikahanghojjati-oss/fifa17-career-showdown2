@@ -118,7 +118,7 @@
     if (!Array.isArray(frame.records) || !frame.records.length) return "";
     const heading = frame.status === "partial" ? strings.stateCopy.partialRecordsHeading.text : strings.recordsReadyHeading;
     return `<div class="recordRibbon" data-sd-enter="panel" aria-label="${esc(heading)}"><span class="recordRibbonHeading">${esc(heading)}</span>${frame.records.map(record => {
-      const manager = record.manager === "shared" ? "Shared" : (frame.managers?.[record.manager]?.displayName || record.manager);
+      const manager = record.manager === "shared" ? "LEVEL" : (frame.managers?.[record.manager]?.displayName || record.manager);
       return `<div class="recordItem"><small>${esc(record.label)}</small><strong>${esc(record.value)}</strong><span>${esc(manager)}</span></div>`;
     }).join("")}</div>`;
   }
@@ -265,6 +265,7 @@
     }
     state.frame = state.fixtures.frames[state.frameKey] || state.fixtures.frames.TR1;
     state.activeCategory = state.frame.activeCategory || "ALL";
+    try { state.stage?.destroy?.(); } catch (_) {}
     state.stage = window.ShowdownStage.mount(document.querySelector(".trophyRoomScene"), {
       plate:{ width:1672, height:941, src1x:BASE + "../trophy-room/assets/ENV_TR_PLATE_V1_1X.webp", src2x:BASE + "../trophy-room/assets/ENV_TR_PLATE_V1_2X.webp" },
       focal:{ x:state.map.focal[0], y:state.map.focal[1] },
@@ -281,6 +282,7 @@
     playCountUps(root);
     playWinningCardShimmer(root);
     document.documentElement.dataset.trophyReady = "1";
+    window.__trophyRoomStage = state.stage;
     window.__trophyRoomReady = true;
     window.__trophyRoomFrame = state.frame;
   }
