@@ -7,8 +7,9 @@
  "screens": [
   {
    "title": "Home",
-   "note": "Gold Continue tile and Connect buttons, no dimming. Desktop music player in the top bar. Music keeps your chosen song; a double tap no longer opens the wrong screen.",
+   "note": "Music strip removed from Home at every size (the desktop top-bar player and phone MUSIC tab stay); tiles never under the tab bar. Gold Continue tile, no dimming; a double tap no longer opens the wrong screen.",
    "prs": [
+    1176,
     1096,
     1049,
     1111,
@@ -22,7 +23,16 @@
    "phone": {
     "match": "^mainMenu$",
     "first": true
-   }
+   },
+   "extra": [
+    {
+     "file": {
+      "match": "^mainMenu @900x600",
+      "device": "desktop"
+     },
+     "caption": "Small laptop window, 900x600"
+    }
+   ]
   },
   {
    "title": "Seasons",
@@ -148,6 +158,20 @@
    }
   },
   {
+   "title": "Prime Pack",
+   "note": "New: after the roulette, one masked Icon card rises; each stage adds a stat; the first right name scores 4, 3, 2 or 1. Team V card art.",
+   "prs": [
+    1149,
+    1163
+   ],
+   "desktop": {
+    "match": "(?i)prime|icon"
+   },
+   "phone": {
+    "match": "(?i)prime|icon"
+   }
+  },
+  {
    "title": "Transfer Challenge",
    "note": "Each signing takes FIFA 17 overall and position. Official 2016-17 league names, full scrolling search lists, faces clear on laptops. Window clock is the hero on laptops; RELEASE and KEEP stamps.",
    "prs": [
@@ -202,11 +226,11 @@
     1116
    ],
    "desktop": {
-    "match": "^gazette",
+    "match": "^gazette \\| SEASON 1",
     "first": true
    },
    "phone": {
-    "match": "^gazette",
+    "match": "^gazette \\| SEASON 1",
     "first": true
    }
   },
@@ -228,16 +252,18 @@
   },
   {
    "title": "Touchline Gazette, final edition",
-   "note": "Covers the whole Showdown; the last season goes straight here. Phone picture from the 07:17 UTC build (this run missed it).",
+   "note": "Covers the whole Showdown; the last season goes straight here.",
    "prs": [
     1094,
     1110,
     1116
    ],
    "desktop": {
-    "match": "^(tap:)?gazette"
+    "match": "^gazette \\| final"
    },
-   "phone": "test-results/gallery-r87-run6/phone/134-gazette-final.png"
+   "phone": {
+    "match": "^gazette \\| final"
+   }
   },
   {
    "title": "Standings",
@@ -322,6 +348,23 @@
    },
    "phone": {
     "match": "settingsDialog"
+   }
+  },
+  {
+   "title": "Rule Book",
+   "note": "Card 03: roulette, board and guessed-player lines; scoring card shows the season maximum and Golden Showdown.",
+   "prs": [
+    1069,
+    1081,
+    1085,
+    1175,
+    1149
+   ],
+   "desktop": {
+    "match": "static:ruleBook"
+   },
+   "phone": {
+    "match": "static:ruleBook"
    }
   }
  ]

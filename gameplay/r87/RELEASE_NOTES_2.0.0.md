@@ -1,7 +1,7 @@
 # Career Mode Showdown 2.0.0 (r87): release notes
 
 Draft for Nik and Daniel. Kept up to date as fix PRs land in gameplay/r87. Facts come from the merged PRs listed at the bottom.
-Status: DRAFT, last updated 2026-11-01 15:15 UTC (from gameplay/r87 at 18c09562, PRs up to #1174). Items under "Still to land" are not in yet.
+Status: DRAFT, last updated 2026-11-01 15:15 UTC (gameplay/r87 freeze 18c09562 plus #1149 Prime Pack). Items under "Still to land" are not in yet.
 
 ## The big one: Russian Roster Roulette
 Every season, after Career Start and before the transfer window, each of you spins a seven-chamber revolver in a 3D cowboy-cafe scene. Daniel spins first.
@@ -14,6 +14,13 @@ Every season, after Career Start and before the transfer window, each of you spi
 - Each season's hit is saved online, so a reload or the other phone always shows the same player, and the roulette never spins twice.
 - A player your rival guessed comes off your board, but a club player who shares his name stays. A player you guessed can never be signed again by you.
 - The scene looks sharper: a nickel-steel drum, the title steps aside while a turn plays, and the props keep clear of the boards.
+
+## Prime Pack (new)
+Once a season, right after the roulette and before the transfer window, a Prime Pack opens on both phones and one masked Icon card rises.
+- Stage 1 shows his position and one real card stat; each of the next three stages adds a stat. A right name scores 4, 3, 2 or 1 points depending on the stage.
+- Each of you has 2 guesses for the whole round. The first right guess wins (by server time), so only one of you can score. Nobody right means nobody scores, and the full card is revealed.
+- A season can now score up to 15 points, and a Golden Showdown is 150. Showdowns started before 2.0.0 keep the old 11 and 110.
+- The player is never stored: both phones work him out from the Showdown, so nobody can peek.
 
 ## Transfer window
 - Each signing now takes the player's FIFA 17 overall (30 to 99) and his position. These feed the roulette board; they are never part of a guess.
@@ -66,7 +73,7 @@ A newspaper front page after each season's results, and a final edition after th
 Buttons and status lines name Daniel instead of "host", the Transfer Challenge shows the right season number, and empty screens say what to tap next.
 
 ## Still to land (not in yet)
-- Prime Pack (#1149, with Team V's card art #1163): after the roulette, both of you guess a masked Icon for 4, 3, 2 or 1 points depending on how early you get it. A season can then score up to 15, and a Golden Showdown becomes 150.
+- Team V's Prime Pack card art (#1163).
 - Home without the music strip on any size (#1176), and Fable job 11 roulette fixes (#1175).
 - Version 2.0.0 everywhere (Settings and the update check).
 
@@ -76,4 +83,4 @@ Buttons and status lines name Daniel instead of "host", the Transfer Challenge s
 - Nik's real-phone check on the live game (there is no test site, and the roulette needs a Showdown started after the release): https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU
 
 ## Merged PRs in this release (into gameplay/r87)
-#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148, #1118, #1122, #1150, #1151, #1152, #1153, #1154, #1157, #1158, #1159, #1160, #1161, #1162, #1164, #1165, #1166, #1167, #1168, #1169, #1170, #1171, #1173, #1174.
+#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148, #1118, #1122, #1150, #1151, #1152, #1153, #1154, #1157, #1158, #1159, #1160, #1161, #1162, #1164, #1165, #1166, #1167, #1168, #1169, #1170, #1171, #1173, #1174, #1149.

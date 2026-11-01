@@ -91,8 +91,24 @@ async function install(context,opts){
       fs.appendFileSync(LOG,JSON.stringify({id,device,sig,file:path.relative(OUT,file),url:page.url(),at:new Date().toISOString()})+"\n");}
     catch(error){fs.appendFileSync(LOG,JSON.stringify({id,device,sig,error:String(error.message).split("\n")[0]})+"\n");}
   };
-  shooters.set(context,shoot);
-  await context.exposeBinding("__galleryShot",async(source,sig)=>shoot(source.page,sig));
+  // GALLERY_EXTRA="mainMenu=900x600,..." : the first settled shot whose signature starts with a key is also taken at that
+  // window size (resize, settle, shoot, restore). Used for sizes the gallery needs beyond the two device sizes.
+  const extras=String(process.env.GALLERY_EXTRA||"").split(",").map(x=>x.split("=")).filter(x=>x.length===2&&parseSize(x[1]));
+  const extraDone=new Set();
+  const shootPlain=shoot;
+  const shootWithExtras=async(page,sig)=>{
+    await shootPlain(page,sig);
+    for(const [key,size] of extras){
+      const tag=device+":"+key+"="+size;
+      if(extraDone.has(tag)||sig.startsWith("tap:")||!sig.startsWith(key))continue;
+      extraDone.add(tag);
+      const before=page.viewportSize();
+      try{await page.setViewportSize(parseSize(size));await page.waitForTimeout(1200);await shootPlain(page,sig+" @"+size);}
+      finally{if(before)await page.setViewportSize(before).catch(()=>{});}
+    }
+  };
+  shooters.set(context,shootWithExtras);
+  await context.exposeBinding("__galleryShot",async(source,sig)=>shootWithExtras(source.page,sig));
   context.on("page",page=>patchLocator(page));
   await context.addInitScript(watcher,SETTLE_MS);
 }
