@@ -13,7 +13,7 @@
   // the flag is a draw. Old Showdowns never play it (js/iconGuess.js eligible, the same boundary as Roster Roulette).
   //
   // What the phones share is one small record, rivalries/{rid}/primePackRounds/season_N (Rules: the season-results fragment):
-  // each arrival (server time), each manager's used guesses and the winner. The start is the later arrival + 3 s, so both
+  // each arrival (server time), each manager's used guesses and namedBy (the winner). The start is the later arrival + 3 s, so both
   // phones count in together and every beat follows from the server clock the Transfer Challenge already keeps (a reload
   // lands on the current beat). Which icon it is comes from the Showdown id (no read, never stored); whether a guess is
   // right is decided here, and the record only says who won. Wrong guesses are never stored: the other phone sees only
@@ -69,10 +69,10 @@
     if(!data||data.objectType!=="sharedPrimePackRound"||data.seasonNumber!==season)return null;
     const arrived={playerOne:igsMillis(data.arrived?.playerOne),playerTwo:igsMillis(data.arrived?.playerTwo)};
     let winner=null;
-    if(ROLES.includes(data.winner)){
+    if(ROLES.includes(data.namedBy)){
       const atMs=igsMillis(data.updatedAt),startMs=arrived.playerOne&&arrived.playerTwo?Math.max(arrived.playerOne,arrived.playerTwo)+guess.leadMs:null;
       const at=startMs&&atMs?guess.beatAt(startMs,atMs,guess.windowMs):null;
-      winner={role:data.winner,beat:at&&at.beat>=0?Math.min(at.beat,guess.flagBeat):0,atMs:atMs||1};
+      winner={role:data.namedBy,beat:at&&at.beat>=0?Math.min(at.beat,guess.flagBeat):0,atMs:atMs||1};
     }
     const record={v:1,season,arrived,chipsUsed:{playerOne:data.chipsUsed?.playerOne,playerTwo:data.chipsUsed?.playerTwo},winner};
     return guess.outcome(record,0,guess.windowMs)?record:null;
@@ -86,10 +86,10 @@
       const snap=await tx.get(ref),data=snap.exists()?snap.data():null;
       if(!data){
         tx.set(ref,{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:io.rivalryId,seasonNumber:ctx.season,
-          arrived:{[me]:io.sdk.serverTimestamp(),[igsOther(me)]:null},chipsUsed:{playerOne:0,playerTwo:0},winner:null,revision:1,...igsStamp(io)});
+          arrived:{[me]:io.sdk.serverTimestamp(),[igsOther(me)]:null},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:1,...igsStamp(io)});
         return "created";
       }
-      if(data.arrived&&data.arrived[me]===null&&data.winner===null){tx.update(ref,{[`arrived.${me}`]:io.sdk.serverTimestamp(),revision:data.revision+1,...igsStamp(io)});return "arrived";}
+      if(data.arrived&&data.arrived[me]===null&&data.namedBy===null){tx.update(ref,{[`arrived.${me}`]:io.sdk.serverTimestamp(),revision:data.revision+1,...igsStamp(io)});return "arrived";}
       return "already";
     });
   }
@@ -101,7 +101,7 @@
       if(!record)return {ok:false,reason:"BAD_RECORD"};
       const next=guess.applyGuess(record,{role:ctx.managerRole,correct,atMs:io.now()},guess.windowMs);
       if(!next.ok)return next;
-      tx.update(ref,{[`chipsUsed.${ctx.managerRole}`]:next.record.chipsUsed[ctx.managerRole],winner:correct?ctx.managerRole:null,revision:data.revision+1,...igsStamp(io)});
+      tx.update(ref,{[`chipsUsed.${ctx.managerRole}`]:next.record.chipsUsed[ctx.managerRole],namedBy:correct?ctx.managerRole:null,revision:data.revision+1,...igsStamp(io)});
       return next;
     });
   }
@@ -133,8 +133,8 @@
     const key=igsKey(ctx);if(wonMemo.has(key))return wonMemo.get(key);
     const ref=igsRef(io,ctx.season);
     const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});
-    const won=Boolean(data&&data.objectType==="sharedPrimePackRound"&&data.seasonNumber===ctx.season&&data.winner===ctx.managerRole);
-    if(data&&ROLES.includes(data.winner))wonMemo.set(key,won);
+    const won=Boolean(data&&data.objectType==="sharedPrimePackRound"&&data.seasonNumber===ctx.season&&data.namedBy===ctx.managerRole);
+    if(data&&ROLES.includes(data.namedBy))wonMemo.set(key,won);
     return won;
   }
 

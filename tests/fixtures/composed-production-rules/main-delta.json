@@ -8,10 +8,10 @@
     "bytes": 155662
   },
   "candidate": {
-    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position) plus the r87 shared reads meter (two R87-METER hunks: rivalries/{rid}/meters/{role}, get also after Terminal Close) plus the r87 roulette marks (five R87-SPINS hunks: own pre-window spun mark on transferChallenges/season_N, START from both marks). Regenerated with --print-main-delta origin/main",
-    "sha256": "bffd4bff694d6fa91d97c0b943b1fd6c40f7e125db4acb53639684a31dd86e9e",
-    "gitBlobSha1": "4a7a09f604c3949c404fc22f499e4d1ba40669bf",
-    "bytes": 162066
+    "base": "main 5b4337fd (r86 live, Rules re-pinned #1077) plus r87 Roster Russian Roulette (one R87-RRR hunk: the optional signing overall and position) plus the r87 shared reads meter (two R87-METER hunks: rivalries/{rid}/meters/{role}, get also after Terminal Close) plus the r87 roulette marks (five R87-SPINS hunks: own pre-window spun mark on transferChallenges/season_N, START from both marks) plus r87 Prime Pack (11 R87-PRIME-PACK hunks: the primePackRounds round record, the sparse primePack result key tied to it, Terminal Close +1 and the 12-point season cap). Regenerated with --print-main-delta origin/main",
+    "sha256": "a056b0bbd516a822c98bbf89ff39d425851e79d9f9148fede0a9d9899e3feade",
+    "gitBlobSha1": "0563f87d211dff467b95415e5e22fffe04506905",
+    "bytes": 167035
   },
   "allowedOwners": [
     "G-7",
@@ -33,7 +33,8 @@
     "R86-SUMMARY",
     "R87-RRR",
     "R87-METER",
-    "R87-SPINS"
+    "R87-SPINS",
+    "R87-PRIME-PACK"
   ],
   "hunks": [
     {
@@ -145,8 +146,150 @@
       "why": "r87 roulette marks (Nik 2026-10-31 09:27 UTC, red team RT5-FLOW-02: the shared transfer window waits until both managers have spun the Russian Roster Roulette). Functions only: the pre-window document transferChallenges/season_N may hold a spins map with one true entry per manager who has spun; a member writes only his own entry (one lookup, the rivalry), never removes or changes the partner's or his own, and only while phase is NOT_STARTED; START from it needs both entries and writes the unchanged ledger in its place. No new path or read."
     },
     {
+      "mainLine": 1756,
+      "candidateLine": 1810,
+      "removed": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])"
+      ],
+      "added": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: the result shape allows the sparse primePack key (Season Results and Season Commit), as r80 did for europaLeague."
+    },
+    {
+      "mainLine": 1770,
+      "candidateLine": 1824,
+      "removed": [
+        "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));"
+      ],
+      "added": [
+        "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
+        "        && (!('primePack' in value) || value.primePack == true);"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: primePack, when present, is exactly true (Season Results and Season Commit)."
+    },
+    {
+      "mainLine": 1831,
+      "candidateLine": 1886,
+      "removed": [],
+      "added": [
+        "        && (!('primePack' in after.result) || ssjrPackWonBy(rivalryId, seasonId, managerRole))"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: a private Season Result may carry primePack only when the round record names this manager (one get of primePackRounds/season_N)."
+    },
+    {
+      "mainLine": 1850,
+      "candidateLine": 1906,
+      "removed": [],
+      "added": [
+        "    // r87 Prime Pack (Nik 2026-10-31/11-01; feature spec project-documents/r88-icon-guess): once a season, before the transfer",
+        "    // window, both phones reveal one masked Icon card beat by beat and each manager has two guesses. The round record is",
+        "    // rivalries/{rid}/primePackRounds/season_N. Each manager writes only his own facts: his arrival (the server time, once),",
+        "    // then one guess at a time (his own chip count +1, at most 2, and namedBy set to himself when right), only while",
+        "    // the round runs (from 1 s after the later arrival until 84 s after it: 3 s lead, 8 beats of 9.5 s, 5 s for the network).",
+        "    // Whether a guess is right is decided on the guessing phone (the answer is not stored, so it is never readable early);",
+        "    // the Rules bind the order: namedBy is set once, never changed, the other manager's facts never touched. A season result",
+        "    // may carry primePack:true only for the manager this record names (namedBy, ssjrPackWonBy), which is worth +1.",
+        "    function ssjrPackOther(role) { return role == 'playerOne' ? 'playerTwo' : 'playerOne'; }",
+        "    function ssjrPackRoleMap(value) {",
+        "      return value is map && value.keys().size() == 2 && value.keys().hasOnly(['playerOne','playerTwo']);",
+        "    }",
+        "    function ssjrPackShape(root, rivalryId, seasonId) {",
+        "      return root.keys().size() == 11",
+        "        && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','arrived','chipsUsed','namedBy','revision','activeSessionId','updatedByDeviceId','updatedAt'])",
+        "        && root.schemaVersion == 1",
+        "        && root.objectType == 'sharedPrimePackRound'",
+        "        && root.rivalryId == rivalryId",
+        "        && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)",
+        "        && ssjrPackRoleMap(root.arrived)",
+        "        && ssjrPackRoleMap(root.chipsUsed)",
+        "        && root.chipsUsed.playerOne is int && root.chipsUsed.playerOne >= 0 && root.chipsUsed.playerOne <= 2",
+        "        && root.chipsUsed.playerTwo is int && root.chipsUsed.playerTwo >= 0 && root.chipsUsed.playerTwo <= 2",
+        "        && (root.namedBy == null || root.namedBy == 'playerOne' || root.namedBy == 'playerTwo')",
+        "        && root.revision is int",
+        "        && root.updatedAt == request.time",
+        "        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);",
+        "    }",
+        "    function ssjrPackCreateValid(rivalryId, seasonId) {",
+        "      let after = request.resource.data;",
+        "      let role = ssjrActorRole(rivalryId);",
+        "      return ssjrPackShape(after, rivalryId, seasonId)",
+        "        && after.revision == 1",
+        "        && after.arrived[role] == request.time",
+        "        && after.arrived[ssjrPackOther(role)] == null",
+        "        && after.chipsUsed.playerOne == 0",
+        "        && after.chipsUsed.playerTwo == 0",
+        "        && after.namedBy == null;",
+        "    }",
+        "    function ssjrPackArrive(before, after, role) {",
+        "      return before.arrived[role] == null",
+        "        && after.arrived[role] == request.time",
+        "        && after.chipsUsed[role] == before.chipsUsed[role]",
+        "        && after.namedBy == null;",
+        "    }",
+        "    function ssjrPackGuessInTime(a, b) {",
+        "      return request.time >= (a > b ? a : b) + duration.value(1, 's')",
+        "        && request.time <= (a > b ? a : b) + duration.value(84, 's');",
+        "    }",
+        "    function ssjrPackGuess(before, after, role) {",
+        "      return before.arrived.playerOne != null",
+        "        && before.arrived.playerTwo != null",
+        "        && after.arrived[role] == before.arrived[role]",
+        "        && after.chipsUsed[role] == before.chipsUsed[role] + 1",
+        "        && (after.namedBy == null || after.namedBy == role)",
+        "        && ssjrPackGuessInTime(before.arrived.playerOne, before.arrived.playerTwo);",
+        "    }",
+        "    function ssjrPackUpdateValid(rivalryId, seasonId) {",
+        "      let before = resource.data;",
+        "      let after = request.resource.data;",
+        "      let role = ssjrActorRole(rivalryId);",
+        "      let other = ssjrPackOther(role);",
+        "      return ssjrPackShape(after, rivalryId, seasonId)",
+        "        && after.seasonNumber == before.seasonNumber",
+        "        && after.revision == before.revision + 1",
+        "        && before.namedBy == null",
+        "        && after.arrived[other] == before.arrived[other]",
+        "        && after.chipsUsed[other] == before.chipsUsed[other]",
+        "        && (ssjrPackArrive(before, after, role) || ssjrPackGuess(before, after, role));",
+        "    }",
+        "    function ssjrPackWonBy(rivalryId, seasonId, managerRole) {",
+        "      return get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data.namedBy == managerRole;",
+        "    }"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: the round record functions (ssjrPackShape, create, arrive, guess timing, update, ssjrPackWonBy). Pure functions used only by the primePackRounds match and the private-result line below."
+    },
+    {
+      "mainLine": 1878,
+      "candidateLine": 2007,
+      "removed": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])"
+      ],
+      "added": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: the result shape allows the sparse primePack key (Season Results and Season Commit), as r80 did for europaLeague."
+    },
+    {
+      "mainLine": 1892,
+      "candidateLine": 2021,
+      "removed": [
+        "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));"
+      ],
+      "added": [
+        "        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
+        "        && (!('primePack' in value) || value.primePack == true);"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: primePack, when present, is exactly true (Season Results and Season Commit)."
+    },
+    {
       "mainLine": 2015,
-      "candidateLine": 2069,
+      "candidateLine": 2145,
       "removed": [],
       "added": [
         "    // R87 shared reads meter (B2): each phone keeps ONE small document per rivalry, rivalries/{rid}/meters/{its role}, with the",
@@ -187,8 +330,54 @@
       "why": "r87 shared reads meter (B2, recommended on Nik's decision card 2026-10-31; not deployed): the validator for rivalries/{rid}/meters/{role}. Members of the live paired rivalry only (ssjrEntitled, one lookup: the rivalry), only the signed-in manager's own role, exact keys, schemaVersion 1, day YYYY-MM-DD, season 1-10, whole-number game and career counts up to 1,000,000, at most three season costs up to 100,000, updatedAt == request.time. No other path changes."
     },
     {
+      "mainLine": 2059,
+      "candidateLine": 2222,
+      "removed": [
+        "    // 100 points or 100 goals +1, top scorer or top assist +1. A season stays at most 11 (an EL season at most 9)."
+      ],
+      "added": [
+        "    // 100 points or 100 goals +1, top scorer or top assist +1, Prime Pack +1 (r87; the key exists only when won). A season is at most 12."
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: Terminal Close score adds +1 for the sparse primePack key (season maximum 12)."
+    },
+    {
+      "mainLine": 2063,
+      "candidateLine": 2226,
+      "removed": [],
+      "added": [
+        "        + (result.get('primePack', false) == true ? 1 : 0)"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: Terminal Close score adds +1 for the sparse primePack key (season maximum 12)."
+    },
+    {
+      "mainLine": 2098,
+      "candidateLine": 2262,
+      "removed": [
+        "        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 11"
+      ],
+      "added": [
+        "        && progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 12"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: Terminal Close progress cap per season 11 to 12 (the Prime Pack point)."
+    },
+    {
+      "mainLine": 2101,
+      "candidateLine": 2265,
+      "removed": [
+        "        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 11"
+      ],
+      "added": [
+        "        && progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 12"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack: Terminal Close progress cap per season 11 to 12 (the Prime Pack point)."
+    },
+    {
       "mainLine": 3039,
-      "candidateLine": 3126,
+      "candidateLine": 3203,
       "removed": [],
       "added": [
         "        // R87 roulette marks (RT5-FLOW-02): a member's own pre-window mark, and START from a document holding both marks.",
@@ -199,8 +388,23 @@
       "why": "r87 roulette marks: exactly two write lines on the existing transferChallenges/{transferId} match, added beside the unchanged ledger create/update: a member's own pre-window mark (create or update) and START from a document holding both marks. No list, delete or new path; the ledger rules are untouched."
     },
     {
+      "mainLine": 3065,
+      "candidateLine": 3232,
+      "removed": [],
+      "added": [
+        "      match /primePackRounds/{seasonId} {",
+        "        allow get: if ssjrEntitled(rivalryId);",
+        "        allow list, delete: if false;",
+        "        allow create: if ssjrPackCreateValid(rivalryId, seasonId);",
+        "        allow update: if ssjrPackUpdateValid(rivalryId, seasonId);",
+        "      }"
+      ],
+      "owner": "R87-PRIME-PACK",
+      "why": "r87 Prime Pack (Nik 2026-10-31/11-01): the round record match. get for the two managers (ssjrEntitled), no list or delete, create and update only through ssjrPackCreateValid and ssjrPackUpdateValid (own arrival at server time once, own guess one chip at a time within the round, namedBy set once to the guesser)."
+    },
+    {
       "mainLine": 3074,
-      "candidateLine": 3164,
+      "candidateLine": 3247,
       "removed": [],
       "added": [
         "      }",
