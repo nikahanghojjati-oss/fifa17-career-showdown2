@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 1 Nov, 5:14 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 1 Nov, 5:18 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
@@ -22,7 +22,7 @@ Updated Sun 1 Nov, 5:14 AM Boston time. Bug hunting only, no new features until 
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 477 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 478 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Sun 1 Nov, 5:14 AM Boston time. Bug hunting only, no new features until 
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 416 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 417 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
@@ -2117,14 +2117,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - Nothing else needs you right now.
 
 ## Other Team G work
-
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1136](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1136) | R88 Icon Unmasked: stand-in card page (workstream C) | 🔴 7 passed, 1 failed (draft) |
-| 🟧 Team G lead | [PR #1127](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1127) | R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader | 🔴 7 passed, 1 failed (draft) |
-| 🟧 Team G lead | [PR #1124](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1124) | r88 Icon Unmasked: round logic (draw, reveal clock, chips and winner) | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**
 

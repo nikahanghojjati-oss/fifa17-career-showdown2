@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 5:14 AM Boston time (EST)",
+ "generated": "2026-11-01 5:18 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1622,50 +1622,7 @@
    "revision": "1.9.10-r86",
    "when": "2026-10-30T11:17:04Z",
    "subject": "L5: re-pin the composed Rules check to main 64b6bbd6 after the r86 release (no delta) (#1077)",
-   "fixes": [
-    {
-     "pr": 1136,
-     "title": "R88 Icon Unmasked: stand-in card page (workstream C)",
-     "draft": true,
-     "branch": "claude/r88-icon-page",
-     "sha": "dd8223fa6fa211524cfe6b68a5b0401a5a6b28db",
-     "updated": "2026-10-31T19:29:05Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
-    },
-    {
-     "pr": 1127,
-     "title": "R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader",
-     "draft": true,
-     "branch": "claude/r88-icon-names",
-     "sha": "e8f1b8dca4890230b619441c8ebfe80ac6d20d14",
-     "updated": "2026-10-31T19:28:13Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
-    },
-    {
-     "pr": 1124,
-     "title": "r88 Icon Unmasked: round logic (draw, reveal clock, chips and winner)",
-     "draft": true,
-     "branch": "claude/r88-icon-core",
-     "sha": "8cc49d753b8907d7126baf8388f7eb4a7a778ba7",
-     "updated": "2026-10-31T19:19:03Z",
-     "gates": {
-      "passed": 7,
-      "running": 0,
-      "failed": 1,
-      "cancelled": 0
-     }
-    }
-   ],
+   "fixes": [],
    "today": []
   },
   "physio": {
@@ -2425,7 +2382,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 45,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3641,50 +3598,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1136,
-    "title": "R88 Icon Unmasked: stand-in card page (workstream C)",
-    "draft": true,
-    "branch": "claude/r88-icon-page",
-    "sha": "dd8223fa6fa211524cfe6b68a5b0401a5a6b28db",
-    "updated": "2026-10-31T19:29:05Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 1127,
-    "title": "R88 Icon Unmasked: guess name matching, suggestions and icon CSV loader",
-    "draft": true,
-    "branch": "claude/r88-icon-names",
-    "sha": "e8f1b8dca4890230b619441c8ebfe80ac6d20d14",
-    "updated": "2026-10-31T19:28:13Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 1124,
-    "title": "r88 Icon Unmasked: round logic (draw, reveal clock, chips and winner)",
-    "draft": true,
-    "branch": "claude/r88-icon-core",
-    "sha": "8cc49d753b8907d7126baf8388f7eb4a7a778ba7",
-    "updated": "2026-10-31T19:19:03Z",
-    "gates": {
-     "passed": 7,
-     "running": 0,
-     "failed": 1,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
