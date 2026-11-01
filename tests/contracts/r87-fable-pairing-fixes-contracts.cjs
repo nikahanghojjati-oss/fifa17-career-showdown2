@@ -266,16 +266,16 @@ const danielBinding=[{managerRole:"playerOne",saveId:SAVE,profileId:PROFILE}];
 }
 
 // ---------------------------------------------------------------- js/onlinePlayerIdentity.js in a sandbox
-function identityHarness({managerId="nik",status="ready",decision,note={note:null,checked:true,partnerActive:true,watchPaused:false},stored=null}){
+function identityHarness({managerId="nik",status="ready",decision,note={note:null,checked:true,partnerActive:true,watchPaused:false},stored=null,pairState={initialized:true,status:"unpaired",rivalryId:null,connectionState:null},puts=[]}){
   const calls={which:0,connect:0,joins:[],reads:0};
   const tileText={};const tile={dataset:{},getClientRects:()=>[1],setAttribute(){},removeAttribute(){},querySelector:sel=>{const key=sel.replace(".","");return tileText[key]||(tileText[key]={set textContent(v){this._t=v;},get textContent(){return this._t||"";}});}};
   const listeners={};
   class Element{constructor(id){this.id=id;this.disabled=false;}closest(sel){return sel==="#settingsButton"?null:this;}}
-  const document={visibilityState:"visible",getElementById:id=>id==="newShowdown"?tile:null,createElement:()=>({style:{},dataset:{},setAttribute(){},append(){},classList:{add(){},remove(){},contains:()=>false}}),querySelector:()=>null,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]||(listeners[type]=[])).push(fn);},head:{append(){},appendChild(){}},body:{append(){}},documentElement:{}};
+  const document={visibilityState:"visible",getElementById:id=>id==="newShowdown"?tile:null,createElement:()=>({style:{},dataset:{},setAttribute(){},removeAttribute(){},append(){},appendChild(){},replaceChildren(){},addEventListener(){},remove(){},focus(){},querySelector:()=>null,classList:{add(){},remove(){},toggle(){},contains:()=>false}}),querySelector:()=>null,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]||(listeners[type]=[])).push(fn);},head:{append(){},appendChild(){}},body:{append(){},appendChild(){}},documentElement:{}};
   let noteState=note;
-  const pairApi={getState:()=>({initialized:true,status:"unpaired",rivalryId:null,connectionState:null}),readPartnerRecord:async()=>{calls.reads+=1;},readPartnerSide:async()=>{calls.reads+=1;},getPartnerSideState:()=>({status:"mutual"}),getJoinNoteState:()=>noteState,readJoinNote:async()=>{noteState={...noteState,watchPaused:false};return noteState;},watchJoinNote:async()=>{noteState={...noteState,watchPaused:false};return false;},subscribe:()=>()=>{},settleOnHome(){},
+  const pairApi={getState:()=>pairState,readPartnerRecord:async()=>{calls.reads+=1;},readPartnerSide:async()=>{calls.reads+=1;},getPartnerSideState:()=>({status:"mutual"}),getJoinNoteState:()=>noteState,readJoinNote:async()=>{noteState={...noteState,watchPaused:false};return noteState;},watchJoinNote:async()=>{noteState={...noteState,watchPaused:false};return false;},subscribe:()=>()=>{},settleOnHome(){},
     buildPlayerJoinCode:id=>`CMS17-${id}`,joinPairing:async code=>{calls.joins.push(code);return{status:"paired",connectionState:"active"};}};
-  const indexedDB={open:()=>{const r={result:{objectStoreNames:{contains:()=>true},transaction:()=>({objectStore:()=>({get:()=>{const g={};setImmediate(()=>{g.result=stored;g.onsuccess?.();});return g;}})}),close(){}}};setImmediate(()=>r.onsuccess?.());return r;}};
+  const indexedDB={open:()=>{const r={result:{objectStoreNames:{contains:()=>true},transaction:()=>{const tx={oncomplete:null,objectStore:()=>({get:()=>{const g={};setImmediate(()=>{g.result=stored;g.onsuccess?.();});return g;},put:value=>{puts.push(value);setImmediate(()=>tx.oncomplete?.());return{};}})};return tx;},close(){}}};setImmediate(()=>r.onsuccess?.());return r;}};
   const ctx={console,setTimeout,clearTimeout,setImmediate,Promise,document,Element,navigator:{onLine:true},indexedDB,getActiveScreenName:()=>"mainMenu",
     CareerModePersistentNikDanielPair:pairApi,
     CareerModeWhichShowdownIsLive:{read:async()=>{calls.which+=1;return decision;}},
@@ -320,6 +320,30 @@ function identityHarness({managerId="nik",status="ready",decision,note={note:nul
   ok("F4-11","Home's START/JOIN label uses the stored player before the identity is ready (IndexedDB, no Firestore read)");
 }
 
+{
+  // F4-06 (Nik 2026-11-01: "Yes, only before pairing"): CHANGE PLAYER undoes a wrong WHO ARE YOU? tap while no pair link exists
+  const puts=[];const h=identityHarness({managerId:"nik",puts});
+  assert.equal(typeof h.identity.canChangePlayer,"function","the identity offers CHANGE PLAYER");
+  assert.equal(h.identity.canChangePlayer(),true,"no pair link (sidecar says unpaired, no code, no rivalry): CHANGE PLAYER is offered");
+  let s=await h.identity.changePlayer();
+  assert.equal(s.status,"choose-manager","CHANGE PLAYER reopens WHO ARE YOU?");assert.equal(s.managerId,null);
+  s=h.identity.keepPlayer();
+  assert.equal(s.status,"ready","KEEP NIK undoes it");assert.equal(s.managerId,"nik");assert.equal(puts.length,0,"KEEP writes nothing");
+  await h.identity.changePlayer();s=await h.identity.chooseManager("daniel");
+  assert.equal(s.status,"ready");assert.equal(s.managerId,"daniel","the new pick sticks");
+  assert.equal(puts.at(-1)?.managerId,"daniel","and is remembered on this browser");
+  for(const pairState of [
+    {initialized:true,status:"paired",rivalryId:R,connectionState:"active"},
+    {initialized:true,status:"waiting",rivalryId:R,connectionState:"pending-pair"},
+    {initialized:false,status:"loading",rivalryId:null,connectionState:null},
+    {initialized:true,status:"unavailable",rivalryId:null,connectionState:null}]){
+    const p=identityHarness({managerId:"nik",pairState});
+    assert.equal(p.identity.canChangePlayer(),false,`no CHANGE PLAYER when the pair is ${pairState.status}`);
+    const after=await p.identity.changePlayer();
+    assert.equal(after.status,"ready");assert.equal(after.managerId,"nik",`a ${pairState.status} pair keeps the player`);
+  }
+  ok("F4-06","CHANGE PLAYER (with KEEP) only while no pair link exists; a paired, waiting or unknown pair never changes the player");
+}
 // ---------------------------------------------------------------- F4-13: Data Management that fails to load reopens Settings
 {
   const calls={opened:0,notices:[]};
