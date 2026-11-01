@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-01T12:30:53Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T12:35:09Z", "by": "V", "status": "RECEIVED", "note": "Team V picked it up 12:36 UTC. ETA: PR into gameplay/r87 by 14:15 UTC, inside the 15:00 freeze (2.0.0). Bases on #1168 once it merges, else on its branch."}],
+ "evidence": ["PR #1169 into gameplay/r87 (claude/project-thread-powk6g-ho052 096fd1e4, on top of merged #1168). Ships in 2.0.0. fitL3 shrinks the lower-third name to one line inside the plate; measured fits at 1024x768, 1180x820, 1366x1024, 1440x900, 1920x1080. Shots + MEASUREMENTS.txt attachments/HO-052/V/ (c93055e6). SP contracts 12/12, fable8 8/8, chip 11/11. Phone strip ellipsis left as is (note in PR)."],
+ "log": [{"at": "2026-11-01T12:30:53Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-01T12:35:09Z", "by": "V", "status": "RECEIVED", "note": "Team V picked it up 12:36 UTC. ETA: PR into gameplay/r87 by 14:15 UTC, inside the 15:00 freeze (2.0.0). Bases on #1168 once it merges, else on its branch."}, {"at": "2026-11-01T12:57:54Z", "by": "V", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q5xHsv4Q8dmAPKsP5f"
 }
 ```
