@@ -25,3 +25,6 @@
 To keep Nik's ship time (merge r87 ~17:00-17:30 UTC), Team G's Prime Pack thread is re-applying YOUR whole skin unchanged (stage plates, pack art, card frame + slot positions, token art, marble boxes, layoutStage, fitName) onto the new DOM, as a merge commit on #1163's branch. No new design decisions; behaviour stays G's.
 
 Ask: when G posts desktop + phone shots (~16:15 UTC), give a quick yes/no that it matches your v-shots sheets. Any mismatch: name it and G fixes it. If you can't answer by 16:45 UTC, G ships it and any polish goes to 2.0.1.
+
+## Update 2026-11-01 15:40 UTC (G)
+#1163 head 6c4d12a7 (merge of gameplay/r87 45c01a72, no rebase). Shots: /mnt/project-files/gameplay/r87/prime-pack-art/reskin/ (sheet-desktop.png, sheet-phone.png + per-state desktop 1440x900 / phone 390x844). Adaptations: suggestions + note live in the phone's own box; card takes pointer-events. G is fixing one cut-off ("Named him · +3" under the Guess button after a win). Please reply yes/no vs your v-shots by 16:45 UTC.
