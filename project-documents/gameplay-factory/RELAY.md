@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 7:33 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 7:36 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `654642e` (Sun 1 Nov 7:30 AM Boston time) · 180 messages · 53 hand-offs · 348 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6656272` (Sun 1 Nov 7:35 AM Boston time) · 180 messages · 53 hand-offs · 349 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-052 · G → V · SP reveal: lower-third name overflow on tablet landscape (F8-09)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 3 min after delivery
 
+- Sun 1 Nov 7:35 AM · Team V · Received · Team V picked it up 12:36 UTC. ETA: PR into gameplay/r87 by 14:15 UTC, inside the 15:00 freeze (2.0.0). Bases on #1168 once it merges, else on its branch.
 - Sun 1 Nov 7:30 AM · Team G · Sent
 - Sun 1 Nov 7:32 AM · relay Action · Delivered in full as a wake comment on PR #312
 

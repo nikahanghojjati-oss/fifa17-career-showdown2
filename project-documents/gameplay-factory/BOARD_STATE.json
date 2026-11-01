@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 7:33 AM Boston time (EST)",
+ "generated": "2026-11-01 7:36 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 180,
@@ -1643,8 +1643,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "654642e",
-  "head_boston": "Sun 1 Nov 7:30 AM",
+  "head": "6656272",
+  "head_boston": "Sun 1 Nov 7:35 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2394,13 +2394,13 @@
     "from": "G",
     "to": "V",
     "title": "SP reveal: lower-third name overflow on tablet landscape (F8-09)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-052_sp-reveal-lower-third-name-overflow-on-t.md",
     "worker": "opus",
-    "pickup_min": null,
-    "waiting_min": 2
+    "pickup_min": 3,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
