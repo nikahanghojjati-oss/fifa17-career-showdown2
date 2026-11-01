@@ -45,7 +45,8 @@ async function page(device,role,{season=1,rivalry="pair_1",locked=false}={}){
   const sandbox={console,document,Event,CustomEvent:Event,performance:{now:()=>0},setTimeout,clearTimeout,addEventListener(){},
     localStorage:{getItem:key=>device.get(key)||null,setItem:(key,value)=>device.set(key,String(value)),removeItem:key=>device.delete(key)},
     currentShowdown:{id:"save_1",currentRound:season,sharedJourney:{mode:"shared",rivalryId:rivalry}},
-    CareerModeProductionSharedShowdownSetup:{refresh:async()=>{},getState:()=>({ready:true,managerRole:role,rivalryId:rivalry,sessionId:"session_1",deviceId:"device_1",setup:{phase:"SHOWDOWN_CONFIRMED",revision:6}})},
+    CareerModeProductionSharedShowdownSetup:{refresh:async()=>{},getState:()=>({ready:true,managerRole:role,rivalryId:rivalry,sessionId:"session_1",deviceId:"device_1",setupUpdatedAtMs:Date.parse("2026-09-01T00:00:00Z"),setup:{phase:"SHOWDOWN_CONFIRMED",revision:6}})},
+    CareerModeRosterRouletteStep:{decide:()=>false,runBeforeTransfers:async()=>true,close(){},ensureDraw:async()=>true}, // Fable F2-05: a Setup read carries the confirm time
     CareerModeProductionSharedCareerStart:{refresh:async()=>{},getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},
     CareerModeSparkSharedTransferChallenge:{read:async()=>({ok:true,revision:5,managerRole:role,seasonNumber:season,state:{phase:"SIGNING_ENTRY",guessLockedRoles:["playerOne","playerTwo"],signingLockedRoles:locked?[role]:[]},ownInputs:{signings:null}}),startWindow:forbidden,requestEndWindow:forbidden,advanceExpiredWindow:forbidden,lockGuesses:forbidden,lockSignings:forbidden},
