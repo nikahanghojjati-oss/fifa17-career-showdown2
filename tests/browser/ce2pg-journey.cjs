@@ -930,8 +930,10 @@ function extract(raw){
   const rv=corpus(raw,"statistics");
   o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);
-  const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],r[2].toUpperCase()]:null;};
-  o.recSeason=rec(/HIGHEST SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPoints=rec(/HIGHEST LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recGoals=rec(/HIGHEST LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPerfect=rec(/MOST PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|SHARED)/);
+  const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
+  // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
+  const R=label=>new RegExp(label+String.raw`\s+(\d+|\u2014)\s*(DANIEL|NIK|LEVEL)?`);
+  o.recSeason=rec(R("HIGHEST SEASON SCORE"));o.recPoints=rec(R("HIGHEST LEAGUE POINTS"));o.recGoals=rec(R("HIGHEST LEAGUE GOALS"));o.recPerfect=rec(R("MOST PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;
   o.legacyCards=(raw?.legacy?.cards||[]).map(c=>({status:c.status,text:c.text}));
@@ -941,7 +943,7 @@ function extract(raw){
   o.settings=raw?.settings||null;
   return o;
 }
-const holderName=h=>h==="shared"?"SHARED":NAMES[h].toUpperCase();
+const holderName=h=>h==="shared"?"LEVEL":NAMES[h].toUpperCase();
 const leaderName=(d,n)=>d>n?"Daniel":n>d?"Nik":"Level · Daniel + Nik";// r87: equal is level
 const near=(shown,want)=>Number.isFinite(Number(shown))&&Math.abs(Number(shown)-want)<=0.051;
 const cell=n=>n>0?String(n):"—";
@@ -991,7 +993,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
       const got=f[u==="daniel"?"rankDaniel":"rankNik"],a=ahead(u),want=[a===null?"1":a?"1":"2",S(x[u].total),S(x[u].W)];
       await eq(m,id(`trophy.rank.${u}`),`Trophy Room ranking: ${NAMES[u]} rank, career points, season wins`,got,want,scr("Trophy Room (ranking)"));
     }
-    const r=E.records,recWant=v=>v?[S(v.value),holderName(v.holder)]:null;
+    const r=E.records,recWant=v=>v?(v.value>0?[S(v.value),holderName(v.holder)]:["\u2014",""]):null;
     await eq(m,id("trophy.records"),"Trophy Room all-time records: highest season score, league points, league goals, most perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[recWant(r.season),recWant(r.points),recWant(r.goals),recWant(r.perfect),recWant(r.biggestWin)],scr("Trophy Room (records)"));
   }
   // Legacy (History): completed cards and ended-early rows, in career order, nothing else
