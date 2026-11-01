@@ -5,6 +5,7 @@
 //          coming back retries; a long read that keeps reporting progress is never cut
 //   F7-09  History: a read that fails after the pair changed loads again (never stuck on LOADING)
 //   F7-10  Career Statistics: a second pair change during the B2 retry loads again and shows the career (never UNAVAILABLE)
+//   F7-06  Rivalry Statistics after a close: a newer live or completion-pending Showdown never hides the newest finished one
 // The real rivalryLegacyV10.js and careerScreensV10.js in a vm; only the provider, screen infrastructure and clock are faked.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -15,7 +16,7 @@ const read=file=>fs.readFileSync(path.join(ROOT,file),'utf8');
 const Seam=require(path.join(ROOT,'js/careerScreenSeam.js'));
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 
-function harness({legacy=false}={}){
+function harness({legacy=false,active=null}={}){
   let pair={status:'paired',rivalryId:'pair_'+'a'.repeat(64),closedRivalryId:null};
   const loads=[],definitions=new Map(),frames=[],errors=[],timers=new Map(),listeners={},docListeners={},drawn=new Set();let now=0,nextTimer=0;
   const host={dataset:{},innerHTML:'',classList:{contains:()=>false},querySelector:()=>null,setAttribute(){}};
@@ -23,11 +24,11 @@ function harness({legacy=false}={}){
   const c=vm.createContext({console,Date:class extends Date{static now(){return now;}},
     setTimeout(fn,delay){const id=++nextTimer;timers.set(id,{fn,at:now+(delay||0)});return id;},clearTimeout:id=>timers.delete(id),
     document:{getElementById:id=>id==='legacy'?host:null,createElement(){return {style:{},addEventListener(type,fn){this[type]=fn;}};},visibilityState:'visible',addEventListener:(type,fn)=>{(docListeners[type]??=[]).push(fn);}},
-    CareerModeCareerScreenSeam:Seam,
+    CareerModeCareerScreenSeam:Seam,CareerModeSharedCareerAnalytics:require(path.join(ROOT,'js/sharedCareerAnalytics.js')),
     CareerModeOnlinePlayerIdentity:{getState:()=>({status:'ready',registered:true,managerId:'nik'})},
     CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:'acct_nik'})},
     CareerModePersistentNikDanielPair:{getState:()=>pair},
-    CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:{}})},
+    CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>active??({careerInput:{}})},
     CareerModeProductionSharedHistoryConvergence:{getState:()=>null,isActive:()=>false},CareerModeProductionSharedShowdownSetup:{getState:()=>({sessionId:null})},
     CareerModeCareerStartMarker:{readMarker:async()=>({status:'ready',hiddenRivalryIds:[]}),hiddenRivalryIds:()=>[],epoch:()=>0},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:'acct_nik'}},firestore:{},firestoreSdk:{getDoc(){}}})},
@@ -49,10 +50,13 @@ function harness({legacy=false}={}){
     pairChange(){pair=pair.rivalryId?{status:'unpaired',rivalryId:null,closedRivalryId:pair.rivalryId}:{status:'paired',rivalryId:'pair_'+'b'.repeat(64),closedRivalryId:pair.closedRivalryId};},
     online(){(listeners.online||[]).forEach(fn=>fn({}));},
     last:id=>frames.filter(f=>f.id===id).at(-1)?.frame??null,
+    resolve:async(i,value)=>{loads[i].resolve(value);await settle();},
     finish:async i=>{loads[i].resolve({model:fixture,careerInput:{indexStatus:'ready',showdowns:[]}});await settle();}};
 }
 const checks=[];
 const check=(name,run)=>checks.push([name,run]);
+const Career=require(path.join(ROOT,'js/sharedCareerAnalytics.js'));
+const F=require(path.join(ROOT,'tests/support/career-fixture-helpers.cjs'));
 const status=frame=>frame?.status??frame?.careerScreenV10??null;
 
 check('F7-04 Career Statistics: a read stalled for 15 s ends as UNAVAILABLE (never LOADING forever), and back online reads again',async()=>{
@@ -99,6 +103,19 @@ check('F7-10 Career Statistics: a second pair change during the B2 retry loads a
   assert.equal(h.loads.length,3,'a second change: loads again');
   await h.finish(2);await h.advance(100);
   assert.equal(status(h.last('careerStatistics')),'ready','the career shows, never UNAVAILABLE');
+});
+
+check('F7-06 Rivalry Statistics after a Showdown closes: a newer live or completion-pending one never hides the newest finished one',async()=>{
+  for(const pending of ['completion-pending','active']){
+    const h=harness({active:{classification:'none',rivalry:{status:'unavailable'},careerInput:{showdowns:[]}}});
+    void h.c.CareerModeRivalryLegacyV10.mount('rivalryStatistics',()=>null);await h.settle();
+    assert.equal(h.loads.length,1);
+    const p=F.projection({seed:'7',totalSeasons:1,seasons:[[F.result({championsLeague:true}),F.result()]]});
+    const done={rivalryId:p.rivalryId,classification:'completed',projection:p,final:F.finalFor(p)};
+    const careerInput={indexStatus:'ready',showdowns:[done,{rivalryId:'pair_'+'9'.repeat(64),classification:pending}]};
+    await h.resolve(0,{model:Career.buildCareerModel({indexStatus:'ready',showdowns:[done]}),careerInput});await h.advance(100);
+    assert.equal(status(h.last('statistics')),'ready',`${pending}: the finished Showdown shows, not "No season completed yet"`);
+  }
 });
 
 (async()=>{
