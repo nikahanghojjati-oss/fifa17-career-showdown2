@@ -1789,6 +1789,7 @@
   // state. Only a read still running after HOLD_MAX_MS shows the loading frame (inside js/v10Screens.js's LOAD_HOLD_MAX_MS, so
   // the cover never ends first and shows the app's own page). Same one read as before; nothing is read for the hold.
   const HOLD_MAX_MS=14000;
+  const LOAD_TIMEOUT_MS=15000;
   const held=new Set();
   // No career to draw yet for this screen (online, no supplied model, none kept or the kept one "unavailable").
   function v10NeedsCareer(screen){
@@ -1838,10 +1839,25 @@
     // frame stays (no second boot). Only a changed career is drawn again.
     // An "unavailable" career is drawn as loading while the read runs, so it is always drawn again when the read ends.
     const token=++onlineToken,lifetime=onlineLifetimes[screen],before=v10ModelText(v10OnlineModel());onlineLoading=true;v10Redraw();
+    // r87 H4 (Fable job 7 F7-04): History's inactivity deadline. A read with no progress for LOAD_TIMEOUT_MS ends here as
+    // UNAVAILABLE (with its plain toast), which TRY AGAIN and the connection coming back retry; every Showdown read re-arms it,
+    // so a long cold career keeps loading. The stalled read can no longer publish.
+    let timer=null,stalled=false,expire;
+    const deadline=new Promise(resolve=>{expire=resolve;});
+    const arm=()=>{if(typeof root.setTimeout!=="function")return;root.clearTimeout?.(timer);timer=root.setTimeout(()=>{stalled=true;expire(false);},LOAD_TIMEOUT_MS);};
+    const live=()=>!stalled&&token===onlineToken&&onlineLifetimes[screen]===lifetime&&root.document?.getElementById?.(screen)?.classList?.contains("hidden")!==true;
     try{
+      arm();
       await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
-      await root.CareerModeRivalryLegacyV10.loadCareerModel(()=>token===onlineToken&&onlineLifetimes[screen]===lifetime&&root.document?.getElementById?.(screen)?.classList?.contains("hidden")!==true);
-    }finally{if(token===onlineToken){onlineLoading=false;const after=v10OnlineModel();if(before===null||after?.status==="unavailable"||before!==v10ModelText(after))v10Redraw();}}
+      // F7-10: a pair change during the B2 retry leaves the read unpublished (no career kept for the new key). It is read again,
+      // twice at most; finished Showdowns stay in the loader's page cache, so only what changed is read.
+      for(let attempt=0;attempt<3&&live();attempt++){
+        arm();
+        const done=await Promise.race([root.CareerModeRivalryLegacyV10.loadCareerModel(live,false,()=>{if(live())arm();}).then(()=>true),deadline]);
+        if(!done||v10OnlineModel()!=null)break;
+      }
+      if(stalled&&token===onlineToken){const error=new Error("The connection was too slow. It tries again by itself when you are back online.");error.code="CAREER_SCREENS_LOAD_TIMEOUT";v10Fail(error);}
+    }finally{root.clearTimeout?.(timer);if(token===onlineToken){onlineLoading=false;const after=v10OnlineModel();if(before===null||after?.status==="unavailable"||before!==v10ModelText(after))v10Redraw();}}
   }
   // Called by statistics.js / trophyRoom.js after the old open path; getModel returns the screen's current model.
   async function mount(screen,getModel){

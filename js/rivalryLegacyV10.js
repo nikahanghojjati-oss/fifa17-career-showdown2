@@ -413,7 +413,7 @@
         // r82 (Codex JOB-B B3/B6): a reload that returns the same career keeps the frame already shown (no second boot).
         const shown=sources[screen];if(screens().isMounted(APP[screen])&&shown&&shown!==LOADING&&shown!==UNAVAILABLE&&model&&JSON.stringify(shown)===JSON.stringify(model))return true;
         sources[screen]=model;return await screens().show(APP[screen]);
-      }catch(error){if(context()!==key||flight.left)return false;sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
+      }catch(error){if(flight.left)return false;/* F7-09: the pair changed and the read failed: load again, never stay on LOADING */if(context()!==key){reload.dirty=true;return false;}sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
       finally{
         flight.alive=false;root.clearTimeout(timeout);reload.flight=null;
         // r87 H4: a covered screen is never left covered (its cover would end on the app's own page): it shows what it has.

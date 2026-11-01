@@ -2631,6 +2631,16 @@
         "^tests/contracts/r87\\-career\\-visuals\\-r3\\-browser\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-stall-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-stall\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
+
   ]
 }
