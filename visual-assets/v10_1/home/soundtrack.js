@@ -68,7 +68,8 @@
 
   function play() {
     const a = ensureAudio();
-    if (a.dataset.trackKey !== selectedKey) load(selected());
+    // r87 (app): after a failed stream, Play asks Audius again (a dead <audio> never retries by itself).
+    if (a.dataset.trackKey !== selectedKey || failed || a.error) load(selected());
     wantPlaying = true; failed = false;
     const p = a.play();
     if (p && p.catch) p.catch((e) => { if (e && e.name === "AbortError") return; wantPlaying = false; failed = e && e.name !== "NotAllowedError"; render(); });
@@ -94,7 +95,9 @@
   }
 
   function init(media) {
-    M = media; A = media.audius; tracks = media.tracks.slice(); selectedKey = media.defaultTrack;
+    M = media; A = media.audius; tracks = media.tracks.slice();
+    // r87 (app): Home mounts again and the online signal re-runs init; the chosen song stays chosen (Song 2 only first time).
+    if (!byKey(selectedKey)) selectedKey = media.defaultTrack;
     const card = document.querySelector(".menuMusicTile");
     ui = {
       card,

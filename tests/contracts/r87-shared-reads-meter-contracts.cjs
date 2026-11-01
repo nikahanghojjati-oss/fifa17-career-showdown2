@@ -9,7 +9,7 @@
 //   M2 the second acknowledger reads 8 s later; a partner later than that is read again at +45 s; until then "estimated". A
 //      partner whose document exists but is behind (a phone locked at ACKNOWLEDGED) is read again at +3 and +10 min.
 //   M3 fallback: no partner document (an older build), one from another day, or one behind this phone's season -> the B1
-//      role-share estimate, labelled "estimated"; two reads a season for a missing document, four at most otherwise.
+//      role-share estimate, labelled "estimated"; four reads at most a season (+8 s, +45 s, +3 min, +10 min), missing or behind.
 //   M4 Rules not deployed yet: the refused write never throws, stops the meter for the day, no partner read. A write or read
 //      refused after a write succeeded today (a Showdown closed under it) skips only that season.
 //   M5 RE-05: season 1 is measured from Career Start ready; what came before goes to setup; without the mark season 1 only
@@ -19,6 +19,8 @@
 //   M7 the meter's own cost: one write (1 lookup) and one read (1 document + 1 lookup) per phone per season, billed as game reads.
 //   M8 a season that crosses Pacific midnight keeps its start mark, so its whole cost is measured (live and after a reload).
 //   M9 a reload between the meter write and the partner read resumes the bounded read once, with no second write.
+//   M10 C-04: a missing partner document (season 1, the partner's phone locked at ACKNOWLEDGED) is read on the same bounded schedule
+//      as a behind one (+8 s, +45 s, +3 min, +10 min), so both phones end on the same shared total.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -183,12 +185,12 @@ const reads=p=>p.ops.gets.length;
     assert.equal(reads(n2),3,'no read after the match');
   });
 
-  await check('M3 fallback: missing (older build), another day, or behind -> B1 role-share estimate labelled "estimated"; two reads a season when missing',async()=>{
+  await check('M3 fallback: missing (older build), another day, or behind -> B1 role-share estimate labelled "estimated"; four reads at most a season when missing',async()=>{
     const world=createPair();
     const nik=phone(world,{uid:'nik',role:'playerTwo',game:1000,career:50,markGame:700,costs:[280]});
     nik.acknowledge(2,{role:'playerTwo'});
     await world.advance(60000);
-    assert.equal(reads(nik),2,'a missing partner document: one read and one retry, then nothing');
+    assert.equal(reads(nik),2,'a missing partner document: +8 s and +45 s within the first minute');
     const today=nik.budget.readsToday(),left=nik.budget.seasonsLeftToday();
     assert.equal(today.estimated,true);assert.equal(today.shared,null);
     // The write and two missing-document reads are billed too (M7): 1 + 2 x (1 + 1).
@@ -197,8 +199,10 @@ const reads=p=>p.ops.gets.length;
     assert.equal(left.estimated,true);assert.equal(left.basis,'today');
     assert.equal(left.billedPerSeason,Math.round(((280+300)/2)/0.45),'this phone\'s season cost over its share');
     assert.match(nik.settings().reads,/estimated for both phones/);assert.match(nik.settings().left,/estimated at today's pace/);
-    await world.advance(10*60000);
-    assert.equal(reads(nik),2,'no polling for a partner that never writes');
+    await world.advance(20*60000);
+    assert.equal(reads(nik),4,'then +3 and +10 min (C-04: a season-1 partner locked at ACKNOWLEDGED writes late), and no polling after that');
+    await world.advance(60*60000);
+    assert.equal(reads(nik),4,'bounded: never a fifth read that season');
     // A document from another Pacific day counts as missing.
     const world2=createPair();
     const nik2=phone(world2,{uid:'nik',role:'playerTwo',game:500,markGame:250});
@@ -363,22 +367,49 @@ const reads=p=>p.ops.gets.length;
     await world.advance(20*60000);
     again.acknowledge(2,{role:'playerOne'});await world.advance(20*60000);
     assert.equal(reads(again),1,'matched: no further reads that season');
-    // Partner never arrives after a reload: still bounded (two reads for a missing document), and only once per page.
+    // Partner never arrives after a reload: still bounded (four reads for a missing document), and only once per page.
     const world2=createPair();
     const lone=phone(world2,{uid:'daniel',role:'playerOne',game:900,markGame:600});
     lone.acknowledge(2,{role:'playerOne'});await world2.advance(1000);
     world2.timers.length=0;
     const lone2=pageWithStorage(world2,{uid:'daniel',storage:lone.storage});
     for(let i=0;i<3;i+=1){lone2.acknowledge(2,{role:'playerOne'});await world2.advance(20*60000);}
-    assert.equal(reads(lone2),2,'a missing partner document after a reload: two reads, then none');
+    assert.equal(reads(lone2),4,'a missing partner document after a reload: four reads, then none');
     assert.equal(lone2.ops.sets.length,0);
     // A page that already ran its sequence does not run another when the screen reports the season again.
     const world3=createPair();
     const d3=phone(world3,{uid:'daniel',role:'playerOne',game:900,markGame:600});
     d3.acknowledge(2,{role:'playerOne'});await world3.advance(20*60000);
-    assert.equal(reads(d3),2);
+    assert.equal(reads(d3),4);
     d3.acknowledge(2,{role:'playerOne'});await world3.advance(20*60000);
-    assert.equal(reads(d3),2,'no second sequence on the same page');
+    assert.equal(reads(d3),4,'no second sequence on the same page');
+  });
+
+  await check('M10 C-04: a phone locked as season 1 is confirmed (no partner document exists yet) still ends on the same shared total as its partner',async()=>{
+    // Lane C repro: Nik acknowledges season 1 first; Daniel's phone was locked and acknowledges 75 s later. In season 1 there is no
+    // partner document at all (rivalries/{rid}/meters/{role} is per rivalry), so before the fix Nik read it at +8 s and +53 s only,
+    // never again that season: Nik "About ... estimated", Daniel "... both phones", until season 2 (never, in a 1-season Showdown).
+    const world=createPair();
+    const daniel=phone(world,{uid:'daniel',role:'playerOne',game:900,markGame:0});
+    const nik=phone(world,{uid:'nik',role:'playerTwo',game:700,markGame:0});
+    nik.acknowledge(1,{role:'playerTwo'});
+    await world.advance(75000);
+    daniel.acknowledge(1,{role:'playerOne'});
+    await world.advance(30*60000);
+    const a=daniel.budget.readsToday(),b=nik.budget.readsToday();
+    assert.equal(a.estimated,false,'Daniel: both documents');
+    assert.equal(b.estimated,false,'Nik: both documents too (read again after the partner wrote)');
+    assert.equal(b.billedEstimate,a.billedEstimate,'the same both-phones total');
+    assert.deepEqual(plain(nik.budget.seasonsLeftToday()),plain(daniel.budget.seasonsLeftToday()),'the same seasons left');
+    assert.equal(nik.settings().reads.replace(/ · \+[\d,]+ here since$/,'').replace(/ · [\d,]+ here · partner [\d,]+/,''),daniel.settings().reads.replace(/ · \+[\d,]+ here since$/,'').replace(/ · [\d,]+ here · partner [\d,]+/,''),'Settings shows the same FREE ONLINE USE TODAY total');
+    assert.ok(reads(nik)<=4,'still bounded: at most four partner reads a season');
+    // Locked for 12 minutes: the +10 min read (13.9 min after the first write) still catches it.
+    const slow=createPair();
+    const d2=phone(slow,{uid:'daniel',role:'playerOne',game:900,markGame:0});
+    const n2=phone(slow,{uid:'nik',role:'playerTwo',game:700,markGame:0});
+    n2.acknowledge(1,{role:'playerTwo'});await slow.advance(12*60000);
+    d2.acknowledge(1,{role:'playerOne'});await slow.advance(30*60000);
+    assert.equal(n2.budget.readsToday().billedEstimate,d2.budget.readsToday().billedEstimate,'locked 12 min: the phones agree');
   });
 
   console.log(`PASS r87 shared reads meter contracts: ${checks} checks`);
