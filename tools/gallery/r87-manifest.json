@@ -1,6 +1,6 @@
 {
  "title": "Showdown 2.0.0 Gallery",
- "lede": "Final app build: gameplay/r87 9a9667fb (1 Nov 16:25 UTC), with Prime Pack and Team V's art (#1149, #1163), Home without the music bar (#1176), Trophy Room tap (#1179) and the title wipe (#1180). r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator by a 3-season CE2PG game. Tap any picture to open it full size.",
+ "lede": "Build: gameplay/r87 187a67c0 (1 Nov 18:00 UTC; every shot waits for animations to finish), with Prime Pack and Team V's art (#1149, #1163), Home without the music bar (#1176), Trophy Room tap (#1179) and the title wipe (#1180). r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator by a 3-season CE2PG game. Tap any picture to open it full size.",
  "notes": "gameplay/r87/RELEASE_NOTES_2.0.0.md",
  "checklist_url": "https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU",
  "shots_dir": "test-results/gallery-r87",
@@ -159,7 +159,7 @@
   },
   {
    "title": "Prime Pack",
-   "note": "New: after the roulette, one masked Icon card rises on a marble podium (Team V art). Each stage adds a stat; the first right name scores 4, 3, 2 or 1; 2 guesses each. Phone picture is the first second of stage 1, before its stat flips.",
+   "note": "New: after the roulette, a Prime Pack opens on a marble podium (Team V art) and one masked Icon card rises. Each stage adds a stat; the first right name scores 4, 3, 2 or 1; 2 guesses each. Main pictures: the reveal when nobody got him.",
    "prs": [
     1149,
     1163
@@ -174,8 +174,24 @@
    },
    "extra": [
     {
-     "file": "test-results/gallery-r87/phone/040-frame-prime-pack-t3.png",
-     "caption": "Phone, the reveal when nobody got him"
+     "file": {
+      "match": "^frame \\| Prime Pack \\| t0",
+      "first": true,
+      "device": "desktop"
+     },
+     "caption": "Desktop, the pack before the card rises"
+    },
+    {
+     "file": {
+      "match": "^frame \\| Prime Pack \\| t0",
+      "first": true,
+      "device": "phone"
+     },
+     "caption": "Phone, the pack before the card rises"
+    },
+    {
+     "file": "/mnt/project-files/gameplay/r87/gallery-shots/prime-pack/desktop-stage1-9a9667fb.png",
+     "caption": "Desktop, stage 1 while guessing (9a9667fb run)"
     }
    ]
   },
@@ -315,17 +331,14 @@
   },
   {
    "title": "Legacy",
-   "note": "History opens on the newest Showdown; season history is now a table (season, both managers, result); fast with hundreds of Showdowns.",
+   "note": "History opens on the newest Showdown; season history is now a table (season, both managers, result); fast with hundreds of Showdowns. Desktop picture from the 9a9667fb run (this run's desktop capture timed out).",
    "prs": [
     1103,
     1120,
     1135,
     1093
    ],
-   "desktop": {
-    "match": "^legacy",
-    "first": false
-   },
+   "desktop": "test-results/gallery-r87-run11/desktop/177-legacy-legacy.png",
    "phone": {
     "match": "^legacy"
    }
@@ -343,7 +356,7 @@
   },
   {
    "title": "Settings",
-   "note": "Shared reads meter: both phones show the same free use today and seasons left. Desktop picture from the 14:40 UTC freeze build (this run's desktop capture timed out; Settings is unchanged since).",
+   "note": "Shared reads meter: both phones show the same free use today and seasons left. Desktop picture from the 14:40 UTC freeze build (later desktop captures timed out; Settings is unchanged since).",
    "prs": [
     1097,
     1088,

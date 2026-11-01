@@ -87,8 +87,20 @@ async function install(context,opts){
     const id=String(++counter).padStart(3,"0");
     const slug=sig.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,70);
     const file=path.join(dir,`${id}-${slug}.png`);
+    // Never shoot mid-animation (e.g. the Gazette's .cmx-paper drop spin): wait in every frame until no finite
+    // animation is running (looping ones are ignored), up to GALLERY_ANIM_MAX_MS, then settle a little.
+    const busy=[];
+    for(const fr of page.frames()){
+      busy.push(await fr.evaluate(async([max,settle])=>{
+        const run=()=>document.getAnimations().filter(a=>{if(a.playState!=="running")return false;const t=a.effect&&a.effect.getComputedTiming&&a.effect.getComputedTiming();return t&&Number.isFinite(t.endTime);});
+        const t0=Date.now();while(run().length&&Date.now()-t0<max)await new Promise(r=>setTimeout(r,100));
+        await new Promise(r=>setTimeout(r,settle));
+        return run().map(a=>(a.effect&&a.effect.target&&(a.effect.target.className||a.effect.target.id))||a.animationName||"anim").map(String).slice(0,3).join(",");
+      },[Number(process.env.GALLERY_ANIM_MAX_MS||5000),Number(process.env.GALLERY_ANIM_SETTLE_MS||300)]).catch(()=>""));
+    }
+    const anim=busy.filter(Boolean).join(";");
     try{await page.screenshot({path:file,timeout:15000});
-      fs.appendFileSync(LOG,JSON.stringify({id,device,sig,file:path.relative(OUT,file),url:page.url(),at:new Date().toISOString()})+"\n");}
+      fs.appendFileSync(LOG,JSON.stringify({id,device,sig,file:path.relative(OUT,file),url:page.url(),at:new Date().toISOString(),...(anim?{anim}:{})})+"\n");}
     catch(error){fs.appendFileSync(LOG,JSON.stringify({id,device,sig,error:String(error.message).split("\n")[0]})+"\n");}
   };
   // GALLERY_EXTRA="mainMenu=900x600,..." : the first settled shot whose signature starts with a key is also taken at that
