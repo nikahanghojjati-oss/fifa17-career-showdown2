@@ -126,7 +126,7 @@
   // Online with no readable model: one fixed frame, drawn as Team V's unavailable state.
   const UNAVAILABLE=Object.freeze({careerScreenV10:"unavailable"});
   const LOADING=Object.freeze({status:"loading"});
-  let registered=null,onlineLoading=false,onlineToken=0;
+  let registered=null,onlineLoading=false,onlineToken=0,trophyTapBound=false;
   const onlineLifetimes={careerStatistics:0,trophyRoom:0};
   const v10Screens=()=>root.CareerModeV10Screens;
   // The Special Player draw loads with the screen's own files (never rejects: a chip that cannot load is not drawn).
@@ -1644,8 +1644,8 @@
     if(screen==="careerStatistics"){
       const rivalry=host.querySelector("#careerStatisticsRivalryButton");
       if(rivalry){const available=(typeof currentShowdown!=="undefined"&&currentShowdown)||v10Source(screen)?.history?.showdowns?.some(r=>r.status==="completed");rivalry.classList.toggle("hidden",!available);rivalry.addEventListener("click",()=>{if(available&&typeof root.openRivalryStatistics==="function")root.openRivalryStatistics();});}
-      const trophy=host.querySelector("#trophyRoomButton");
-      if(trophy)trophy.addEventListener("click",()=>{if(typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});
+      // One delegated listener on the document: a redraw replaces this button, and a tap on a node that is mid-replace must still open.
+      if(!trophyTapBound){trophyTapBound=true;root.document.addEventListener("click",event=>{if(event.target?.closest?.("#trophyRoomButton")&&typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});}
     }
   }
   function v10Identity(){

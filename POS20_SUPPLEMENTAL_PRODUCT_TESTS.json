@@ -2800,6 +2800,14 @@
         "^tests/contracts/r87\\-home\\-no\\-music\\-strip\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/trophy-tap-delegated-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/trophy\\-tap\\-delegated\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
