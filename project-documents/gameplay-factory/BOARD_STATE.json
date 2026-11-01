@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31 8:59 PM Boston time (EDT)",
+ "generated": "2026-10-31 9:22 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1670,7 +1670,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate has waited 34 min for a machine; Showdown Gate on #1120 has waited 28 min for a machine; Showdown Gate on #1144 has waited 22 min for a machine; Showdown Gate on #1135 has waited 20 min for a machine; Showdown Gate on #1132 has waited 18 min for a machine; Showdown Gate on #1145 has waited 17 min for a machine; Showdown Gate on #1146 has waited 5 min for a machine; Showdown Gate on #1148 has waited 1 min for a machine.",
+   "line": "Barking: Showdown Gate on #1135 has waited 48 min for a machine; Showdown Gate on #1145 has waited 45 min for a machine; Showdown Gate on #1147 has waited 7 min for a machine; Showdown Gate on #1144 has waited 7 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
