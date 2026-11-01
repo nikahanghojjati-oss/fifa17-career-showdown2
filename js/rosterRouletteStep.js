@@ -118,7 +118,7 @@
   // (red team R87-C-01) by his own squad database row: name + shirt number (R87-C-05), under the database name when it
   // differs from the display name (R87-D-01, data/marqueePlayers.js sourceNames).
   function rrsSpecial(ctx){
-    const draw=root.CareerModeMarqueePlayer,picks=draw&&draw.forShowdown(ctx.rivalryId,ctx.confirmedAtMs);
+    const draw=root.CareerModeMarqueePlayer,picks=draw&&draw.forShowdown(ctx.rivalryId,ctx.confirmedAtMs,{clubs:ctx.clubs});
     const sourceNames=(root.CareerModeMarqueePlayers&&root.CareerModeMarqueePlayers.sourceNames)||{};
     return picks?Object.fromEntries(ROLES.map(role=>[role,{name:picks[role].name,overall:picks[role].overall,number:picks[role].number,
       sourceName:Object.prototype.hasOwnProperty.call(sourceNames,picks[role].name)?sourceNames[picks[role].name]:null}])):null;
@@ -364,9 +364,9 @@
   // Red team R87-SP-02: for the Transfer War signing form, is a typed name this manager's own Special Player? The draw is
   // loaded before every window opens (ensureDraw, also when the roulette is already done here: Fable F2-06); false when the
   // Showdown has none.
-  function rrsIsOwnSpecial(rivalryId,confirmedAtMs,role,name){
+  function rrsIsOwnSpecial(rivalryId,confirmedAtMs,role,name,clubs){
     const draw=root.CareerModeMarqueePlayer;
-    try{return Boolean(draw&&typeof draw.isOwnSpecial==="function"&&draw.isOwnSpecial(rivalryId,confirmedAtMs,role,name));}catch(_error){return false;}
+    try{return Boolean(draw&&typeof draw.isOwnSpecial==="function"&&draw.isOwnSpecial(rivalryId,confirmedAtMs,role,name,clubs));}catch(_error){return false;}
   }
   // For the screens that open the Transfer Challenge: a roulette is on screen (its pace is the manager's, so no load timeout
   // may end it), and whether the last one ended with the manager going back to Showdown Home (not a failure).

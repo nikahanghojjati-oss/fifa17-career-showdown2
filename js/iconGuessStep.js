@@ -98,6 +98,20 @@
       return "already";
     });
   }
+  // Leaving (BACK, or the phone hidden) before the other manager has arrived withdraws this arrival (Fable F12-02), so the
+  // round can never start while this manager is away; coming back arrives again. Once both have arrived it stays.
+  async function igsLeave(io,ctx){
+    const ref=igsRef(io,ctx.season),me=ctx.managerRole;
+    return io.sdk.runTransaction(io.firestore,async tx=>{
+      const snap=await tx.get(ref),data=snap.exists()?snap.data():null;
+      if(data&&data.arrived&&data.arrived[me]!=null&&data.arrived[igsOther(me)]===null&&data.namedBy===null){tx.update(ref,{[`arrived.${me}`]:null,revision:data.revision+1,...igsStamp(io)});return "left";}
+      return "stays";
+    });
+  }
+  // Arrive and leave run one after the other, in the order they were asked for (a quick hide and show never leaves a
+  // withdrawn arrival behind).
+  let igsPresenceChain=Promise.resolve();
+  function igsPresence(task){const run=igsPresenceChain.then(task,task);igsPresenceChain=run.catch(()=>{});return run;}
   // One matched guess: this manager's used guesses +1, and the winner when it is right, on the latest record.
   async function igsApplyGuess(io,ctx,correct){
     const ref=igsRef(io,ctx.season),guess=igsGuess();
@@ -227,8 +241,20 @@
     return new Promise(resolve=>{
       const me=ctx.managerRole,other=igsOther(me);
       const {frame,back}=igsStage();
-      let record=null,ready=false,stop=null,timer=null,shownBeat=-2,finished=false,resultShown=false,sentChips={playerOne:null,playerTwo:null};
-      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.removeEventListener("message",onMessage);try{stop&&stop();}catch(_error){}resolve(value);};
+      // resultShown: the result on screen as "winner:points" (or "draw:0"); it follows the server's record, so a winner that
+      // lands after a shown draw (the Rules' 2 s slack) replaces it (Fable F12-03).
+      let record=null,ready=false,stop=null,timer=null,shownBeat=-2,finished=false,resultShown="",sentChips={playerOne:null,playerTwo:null};
+      // After this phone's right guess: the round record as the server stamped it (its updatedAt gives the stage and points).
+      const readBack=()=>io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(igsRef(io,ctx.season));return snap.exists()?snap.data():null;}).then(data=>onData(data),()=>{});
+      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.removeEventListener("message",onMessage);igsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
+      // Away while the other manager has not arrived: withdraw (igsLeave); back on screen: arrive again.
+      let away=false;
+      const leave=()=>igsPresence(()=>igsLeave(io,ctx)).catch(error=>{root.CareerModeFirestoreBudget?.noteError?.(error);});
+      const onVisibility=()=>{
+        if(finished)return;
+        if(igsDoc().visibilityState==="hidden"){if(record&&!record.winner&&record.arrived[other]===null){away=true;leave();}}
+        else if(away){away=false;igsPresence(()=>igsArrive(io,ctx)).catch(fail);}
+      };
       const fail=error=>{root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"PRIME_PACK_FAILED"});};
       const render=()=>{
         if(!ready||!record||finished)return;
@@ -236,9 +262,9 @@
         const out=guess.outcome(record,now);if(!out)return;
         for(const role of ROLES){if(sentChips[role]!==out.chips[role]){sentChips[role]=out.chips[role];igsPost(frame,"cms-ig-chips",{role,count:out.chips[role]});}}
         if(out.state==="won"||out.state==="draw"){
-          if(!resultShown){
-            resultShown=true;back.hidden=true;
-            const points=out.winner?guess.points(record)[out.winner]:0;
+          const points=out.winner?guess.points(record)[out.winner]:0,shown=`${out.winner||"draw"}:${points}`;
+          if(resultShown!==shown&&!(out.state==="draw"&&resultShown)){
+            resultShown=shown;back.hidden=true;
             igsPost(frame,"cms-ig-result",{winner:out.winner||"draw",points});
             if(out.winner)for(const role of ROLES)wonMemo.set(igsKey({...ctx,managerRole:role}),role===out.winner?points:0);
           }
@@ -270,9 +296,11 @@
           if(check.status==="ambiguous")return igsPost(frame,"cms-ig-feedback",{kind:"ambiguous"});
           igsApplyGuess(io,ctx,check.correct).then(next=>{
             if(!next.ok)return igsPost(frame,"cms-ig-feedback",{kind:next.reason==="NO_CHIPS"?"used":"late"});
-            record=next.record;
-            if(!check.correct)igsPost(frame,"cms-ig-feedback",{kind:"wrong"});
-            render();
+            // A right guess: its stage, and so its points, is the SERVER time of the write (updatedAt), never this phone's clock
+            // when the transaction read ran (Fable F12-01: a commit landing past a stage edge scores the later stage). Only the
+            // stamped record is shown or remembered, so both phones and the season result agree with the Rules.
+            if(check.correct)return readBack();
+            record=next.record;igsPost(frame,"cms-ig-feedback",{kind:"wrong"});render();
           },error=>{root.CareerModeFirestoreBudget?.noteError?.(error);igsPost(frame,"cms-ig-feedback",{kind:/permission/.test(String(error&&error.code))?"late":"error"});});
         }else if(m.type==="cms-ig-continue"){
           if(resultShown)end("continue");
@@ -281,12 +309,13 @@
           root.CareerModeFirestoreBudget?.noteError?.({code:"PRIME_PACK_PAGE",message:String(m.message||"")});
         }
       };
-      back.addEventListener("click",()=>end("back"));
+      back.addEventListener("click",()=>{if(finished)return;leave();end("back");});
+      igsDoc().addEventListener?.("visibilitychange",onVisibility);
       root.addEventListener("message",onMessage);
       timer=root.setInterval(render,TICK_MS);
       root.setTimeout(()=>{if(!ready&&!finished)fail({code:"PRIME_PACK_PAGE_TIMEOUT"});},READY_WAIT_MS);
       Promise.resolve().then(async()=>{
-        await igsArrive(io,ctx);
+        await igsPresence(()=>igsArrive(io,ctx));
         if(finished)return;
         const unsubscribe=await igsWatch(io,ctx,onData,fail);
         if(finished){try{unsubscribe();}catch(_error){}return;}
@@ -296,5 +325,5 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-prime-pack-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,collection:COLLECTION,doneKey:DONE_KEY,
-    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,wentHome:()=>wentHome,ensure:igsEnsure});
+    applies:igsApplies,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,leave:igsLeave,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,wentHome:()=>wentHome,ensure:igsEnsure});
 });

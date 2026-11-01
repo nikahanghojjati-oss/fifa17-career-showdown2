@@ -51,7 +51,7 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 /* r87 scene polish: the tag line and the meta line sat on the LED board's letters ("SPECIAL PLAYER" showed between them).
    One solid black-and-gold plate now holds the whole lower third (an opaque nameplate, not a scrim: nothing is dimmed). */
 .l3 { box-sizing: border-box; padding: 12px 16px 14px 18px; background: linear-gradient(180deg, #17140e, #070605); border-left: 3px solid var(--gold); box-shadow: inset 0 1px 0 rgba(255,243,196,.22), 0 0 0 1px rgba(241,195,90,.55); }
-.l3 .name { box-shadow: none; border-left: 0; background: none; margin-left: 0; padding-left: 0; }
+.l3 .name { box-shadow: none; border-left: 0; background: none; margin-left: 0; padding-left: 0; max-width: 100%; }
 .bottom { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: auto; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 10px) max(16px, env(safe-area-inset-left, 0px)); }
 .strip { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; background: linear-gradient(180deg, #17140e, #070605); border: 1px solid rgba(241,195,90,.9); padding: 8px 12px; box-shadow: inset 0 1px 0 rgba(255,243,196,.25), 0 10px 30px rgba(0,0,0,.45); }
 .slot { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: center; min-width: 0; }
@@ -1473,13 +1473,14 @@ renderer.setPixelRatio(DPR);
 renderer.outputEncoding=T.LinearEncoding; renderer.toneMapping=T.NoToneMapping;
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap;
 stage.appendChild(renderer.domElement);
-const isGL2=renderer.capabilities.isWebGL2;
-const RTO={type:T.HalfFloatType, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:false};
-const sceneRT=isGL2?new T.WebGLMultisampleRenderTarget(4,4,{type:T.HalfFloatType,format:T.RGBAFormat}):new T.WebGLRenderTarget(4,4,{type:T.HalfFloatType,format:T.RGBAFormat});
+/* Fable F8-05: render to half-float only where the GPU can; otherwise 8-bit targets (and a lower bloom threshold) instead of a black stage. */
+const isGL2=renderer.capabilities.isWebGL2, HDR=isGL2?(renderer.extensions.has("EXT_color_buffer_float")||renderer.extensions.has("EXT_color_buffer_half_float")):(renderer.extensions.has("OES_texture_half_float")&&renderer.extensions.has("EXT_color_buffer_half_float")), RT_TYPE=HDR?T.HalfFloatType:T.UnsignedByteType;
+const RTO={type:RT_TYPE, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:false};
+const sceneRT=isGL2?new T.WebGLMultisampleRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat}):new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat});
 if(isGL2) sceneRT.samples=PHONE_GPU?2:4;
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
-const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:1.5}},vertexShader:VS,depthTest:false,depthWrite:false,
+const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:HDR?1.5:.8}},vertexShader:VS,depthTest:false,depthWrite:false,
   fragmentShader:"uniform sampler2D tex; uniform float thr; varying vec2 vUv; void main(){ vec3 c=texture2D(tex,vUv).rgb; float l=max(c.r,max(c.g,c.b)); float w=smoothstep(thr,thr+.8,l); gl_FragColor=vec4(min(c*w,vec3(30.)),1.); }"});
 const blurMat=new T.ShaderMaterial({uniforms:{tex:{value:null},dir:{value:new T.Vector2()}},vertexShader:VS,depthTest:false,depthWrite:false,
   fragmentShader:"uniform sampler2D tex; uniform vec2 dir; varying vec2 vUv; void main(){ vec3 c=texture2D(tex,vUv).rgb*.2270; c+=texture2D(tex,vUv+dir*1.3846).rgb*.3162; c+=texture2D(tex,vUv-dir*1.3846).rgb*.3162; c+=texture2D(tex,vUv+dir*3.2308).rgb*.0703; c+=texture2D(tex,vUv-dir*3.2308).rgb*.0703; gl_FragColor=vec4(c,1.); }"});
@@ -1841,6 +1842,9 @@ let SCOUT_IN=scoutInFor("bronze"), SCOUT_END=scoutEndFor("bronze");
 function scoutFlip(k){ const e=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, a=SCOUT_IN, b=a+.7, c=b+SCOUT_HOLD, d=c+.7;
   if(k>=a&&!fired.sc1){ fired.sc1=1; SFX.play("flip"); } if(k>=c&&!fired.sc2){ fired.sc2=1; SFX.play("flip"); }
   return k<a?0:k<b?Math.PI*e((k-a)/.7):k<c?Math.PI:k<d?Math.PI+Math.PI*e((k-c)/.7):0; }
+/* Fable F8-01: with reduced motion the card holds for its tiered time, cuts (no turn) to the scouting card, then back; Daniel's
+   card used to give way to Nik's after .2 s, before the game had even shown the page. */
+function scoutCut(k){ if(k>=SCOUT_IN&&!fired.sc1){ fired.sc1=1; SFX.play("flip"); } return k>=SCOUT_IN+.35&&k<SCOUT_END-.35?Math.PI:0; }
 function settle(natural){
   const p=cur(); phase="settled"; if(!natural) endSig(); if(!natural||!count) finishCount(); guardUntil=0; hint(false); SFX.play("sting",tierLevel(p.tier)); SFX.bed(.05+tierLevel(p.tier)*.008); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
   drawScoutBack(back.ctx,p); back.tx.needsUpdate=true;
@@ -1850,7 +1854,7 @@ function settle(natural){
   
   const slot=order[idx]==="daniel"?slotD:slotN; slot.textContent=p.name; slot.className=""; $(order[idx]==="daniel"?"rkD":"rkN").textContent="#"+p.rank+" "+TIERLABEL[p.tier];
   $("l3tag").textContent=(order[idx]==="daniel"?"01 · Daniel":"02 · Nik")+" · #"+p.rank+" "+TIERLABEL[p.tier];
-  $("l3name").textContent=p.name;
+  $("l3name").textContent=p.name; fitL3();
   $("l3meta").innerHTML=`<span><i>${p.ovr}</i> ${p.pos}</span><span>${NATION[p.nation]}</span><span>${p.club||"No club"}</span><span><i>#${p.number}</i></span>`;
   l3.classList.add("on");
   live.textContent=`${order[idx]==="daniel"?"Daniel":"Nik"}'s FIFA 17 Showdown Special Player: ${p.name}, ${p.pos}, ${NATION[p.nation]}, ${p.club||"no club"}, number ${p.number}, overall ${p.ovr}, potential ${p.pot}, rank ${p.rank}.`;
@@ -1907,7 +1911,7 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
     const wob=ctx.createGain(); wob.gain.value=1; const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.frequency.value=.29; lg.gain.value=.25; lfo.connect(lg); lg.connect(wob.gain);
     bedG=ctx.createGain(); bedG.gain.value=.0001; s.connect(f); f.connect(lp); lp.connect(wob); wob.connect(bedG); out(bedG,0,true); s.start(); lfo.start(); }
   function bedApply(){ if(!ctx||ctx.state!=="running") return; const want=on?bedLevel:0; if(want===bedNow) return; bedNow=want; if(!bedG){ if(!want) return; bedStart(); } bedG.gain.setTargetAtTime(Math.max(.0001,want),now(),want?.8:.12); }
-  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } bedApply(); },
+  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") Promise.resolve(ctx.resume()).catch(()=>{}); } bedApply(); },
     bed(level){ bedLevel=level; bedApply(); }, tick(){ bedApply(); },
     /* A context the browser has not let start yet (no tap in this frame) would queue every cue and play them all at once on the
        first tap, so cues are only played while it runs. */
@@ -2083,7 +2087,9 @@ function stepHandover(now,dt){ const k=clamp01((now-hoAt)/hoDur), e=k*k;
   if(k>=1){ card.visible=false; startPlayer(1,true); } }
 
 /* ================= frame loop ================= */
-let last=performance.now()/1000, W=1, H=1, manual=null; const clock=()=>manual!==null?manual:performance.now()/1000; const queue=[]; function later(fn,ms){ queue.push({t:clock()+ms/1000,fn}); }
+/* Fable F8-02: phase timers run on a simulated clock that only advances while frames are drawn, so a locked phone or a hidden
+   tab (no rAF) resumes the hold where it was instead of jumping past the scouting card. A frame gap above .25 s counts as .25 s. */
+let last=performance.now()/1000, simT=last, W=1, H=1, manual=null; const clock=()=>manual!==null?manual:simT; const queue=[]; function later(fn,ms){ queue.push({t:clock()+ms/1000,fn}); }
 /* Follow-up (Nik): the card never reaches the title or the "Daniel's/Nik's Special Player" line, at any size. The turn's bob,
    the camera push, a tilt or the handover flight are clamped so the card's top edge (corners included, so a turning card's near
    corner counts) stays under the top band; while the handover line pops big, under that line. */
@@ -2120,6 +2126,15 @@ function resize(){
   pMat.uniforms.scale.value=ph/(2*tanH); PK=W<700?.6:1; /* phones: fewer sparks in the new effects */
 }
 addEventListener("resize",resize);
+/* HO-052 (F8-09): a long name ran past the lower-third plate on tablets in landscape (the plate is 31vw wide there, the
+   name up to 66px). The name now shrinks to one line inside the plate: never cut off, never wrapped, same look otherwise. */
+function fitL3(){
+  const n=$("l3name"); n.style.fontSize="";
+  if(getComputedStyle(l3).display==="none") return;
+  const cs=getComputedStyle(l3), room=l3.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight), need=n.scrollWidth;
+  if(room>0 && need>room) n.style.fontSize=(parseFloat(getComputedStyle(n).fontSize)*room/need*.97).toFixed(1)+"px";
+}
+addEventListener("resize",fitL3);
 function render(){
   renderer.setRenderTarget(sceneRT); renderer.render(scene,camera);
   brightMat.uniforms.tex.value=sceneRT.texture; pass(brightMat,mipA[0]);
@@ -2128,20 +2143,20 @@ function render(){
   compMat.uniforms.flash.value=flash*.18; pass(compMat,null);
 }
 function tick(draw){
-  const now=clock(), dt=Math.min(.05,now-last); last=now; SFX.tick();
+  const real=manual!==null?manual:performance.now()/1000, gap=Math.max(0,real-last), dt=Math.min(.05,gap); last=real; if(manual===null) simT+=Math.min(.25,gap); const now=clock(); SFX.tick();
   for(let i=queue.length-1;i>=0;i--) if(queue[i].t<=now){ const q=queue.splice(i,1)[0]; q.fn(); }
   const sc=phase==="run"?slowAt(vtt):1; if(phase==="run") vtt+=dt*sc; const tt=vtt;
   if(phase==="run") run(tt);
   else if(phase==="handover") stepHandover(now,dt);
   else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
-    card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?0:scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.scale.setScalar(1); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
+    card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?scoutCut(k):scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.scale.setScalar(1); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
     if(!REDUCED&&k<1.6&&Math.random()<.6) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),0xfff1c2,1,8.5,.9));
     /* idea 2: encore volleys while the face holds (late ones, after a tap to the report, are dropped) */
     if(!REDUCED){ const ec=encoreFor(cur().tier); for(let i=0;i<ec.length;i++){ const t=ec[i]; if(k>=t&&!fired["enc"+i]){ fired["enc"+i]=1; if(k-t<.3&&k<SCOUT_IN-ENCORE_TAIL) encore(cur(),i); } } }
-    if(idx===0&&k>(REDUCED?.2:SCOUT_END+.15)) startHandover(); }
+    if(idx===0&&k>SCOUT_END+.15) startHandover(); }
   if(camBlendAt>=0){ const b=ease.inOut(clamp01((now-camBlendAt)/.8)); camPos.lerpVectors(camFrom,camPos,b); camLook.lerpVectors(lookFrom,camLook,b); if(b>=1) camBlendAt=-1; }
   flags.forEach((f,i)=>{ if(!f.mesh.visible) return; if(f.rolling&&f.drop<.02){ f.rolling=false; f.mesh.visible=false; return; } f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
@@ -2188,7 +2203,7 @@ stage.addEventListener("click",e=>{ if(unlockPending){ unlockPending=false; unlo
   if(phase==="settled"){ if(onCard(e.clientX,e.clientY)) toScout(); return; }
   guardedSkip(); });
 /* Replay plays both reveals again here only: no message to the game (Continue still sends its one message), no network */
-function replay(){ guardUntil=0; hint(false); startPlayer(0); }
+function replay(){ queue.length=0; guardUntil=0; hint(false); startPlayer(0); } /* Fable F8-11: drop the last run's pending cues */
 $("replay").addEventListener("click",replay);
 $("again").addEventListener("click",e=>{ e.stopPropagation(); replay(); });
 /* Sound: on unless this phone turned it off (kept per device). A browser lets a frame start sound only after a tap inside it,
@@ -2199,7 +2214,9 @@ function setSound(v,save){ SFX.enable(v); const k=$("spk"); k.classList.toggle("
 $("sound").addEventListener("click",()=>{ const v=!SFX.on; setSound(v,true); if(v) startPlayer(0); });
 $("spk").addEventListener("click",e=>{ e.stopPropagation(); unlockPending=false; unlockDone=true; setSound(!SFX.on,true); });
 let unlockPending=false, unlockDone=false;
-addEventListener("pointerdown",()=>{ if(SFX.on&&!SFX.running){ SFX.enable(true); if(!unlockDone) unlockPending=true; } },true);
+/* Fable F8-06: Android lets audio start only on the end of a touch, so the unlock also listens there */
+const unlockSound=()=>{ if(SFX.on&&!SFX.running){ SFX.enable(true); if(!unlockDone) unlockPending=true; } };
+addEventListener("pointerdown",unlockSound,true); addEventListener("pointerup",unlockSound,true); addEventListener("touchend",unlockSound,true);
 { const opts=MP_LIST.map((r,i)=>`<option value="${i}">#${r[0]} ${r[1]} · ${r[3]} · ${({"black-blue-gold":"Black","blue-gold":"Blue","gold":"Gold","silver":"Silver","bronze":"Bronze"})[RANKTIER(r[0])]}</option>`).join("");
   [["pickD","Daniel",()=>pickD,(v)=>pickD=v],["pickN","Nik",()=>pickN,(v)=>pickN=v]].forEach(([id,who,get,set])=>{ const el=$(id); el.innerHTML=opts.replace(/<option value="/g,`<option value="`); el.value=String(get()); el.title=who+"'s player";
     el.addEventListener("change",()=>{ set(+el.value); pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}; loadCrests().then(()=>startPlayer(0)); }); }); }
@@ -2211,8 +2228,8 @@ cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.d
 window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } },
   get t(){ return vtt; }, get band(){ return bandDbg; }, get phase(){ return phase; }, get idx(){ return idx; } };
 
-const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
-Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left.jpg","plateL","hasL"),loadSide("assets/stand_right.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()]).then(()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); buildEnv(); startPlayer(0);
+const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))).catch(()=>null), new Promise(r=>setTimeout(r,3000))]); /* Fable F8-03: a failed font falls back, never fails the page */
+Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left.jpg","plateL","hasL"),loadSide("assets/stand_right.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()]).then(()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); buildEnv(); try{ renderer.compile(scene,camera); }catch(e){} /* Fable F8-07 */ startPlayer(0);
   /* in the game: draw the first frame, tell the game it is ready, and start once the game shows this page (its loading screen covers the wait) */
   if(EMBED){ tick(true); let started=false; addEventListener("message",e=>{ if(started||e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-sp-start") return; started=true; if(soundPref()) setSound(true,false); requestAnimationFrame(frame); }); toGame("cms-sp-ready"); }
   else requestAnimationFrame(frame); });
