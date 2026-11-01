@@ -124,7 +124,7 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   assert.ok(!refs.includes("js/clubScreenV10.js")&&!refs.includes("css/v10Club.css"),"not a startup file");
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=37495,`startup gzip ${gzip} must stay <= 37495`);
+  assert.ok(gzip<=33900,`startup gzip ${gzip} must stay <= 33900 (r87 2.0.0 candidate 9a9667fb; was 37495 before #1176 removed the Home strip)`);
   assert.match(ssjr,/load\("v10-club","js\/clubScreenV10\.js",\(\)=>root\.CareerModeClubScreenV10\)\.then\(\(\)=>root\.CareerModeClubScreenV10\.install\(\)\)/);
   assert.match(ssjr,/requestIdleCallback\(v10Club/);
   const shell=new Set([...sw.matchAll(/^\s+"([^"]+)",?$/gm)].map(m=>m[1]));

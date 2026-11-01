@@ -72,14 +72,13 @@
     const europaLeague=season.playerOne.europaLeague===true||season.playerTwo.europaLeague===true?{europaLeague:{daniel:season.playerOne.europaLeague===true,nik:season.playerTwo.europaLeague===true}}:{};
     return {season:season.roundNumber,score:{daniel:season.playerOne.scoring.total,nik:season.playerTwo.scoring.total},winner:managerFor(season.winner),tiebreak:seasonTiebreak(season),leaguePosition:pair("leaguePosition"),leaguePoints:pair("leaguePoints"),leagueGoals:pair("leagueGoals"),...europaLeague};
   }
-  // r87 Prime Pack: a perfect season is the Showdown's own maximum, 15 for a Showdown confirmed on or after the Prime Pack
-  // boundary (js/iconGuess.js fromMs) and 11 before it; with no confirm time, a season with Prime Pack or above 11 means 15.
+  // r87 Prime Pack (Nik 2026-11-01 17:35 UTC): a perfect season is 15 points (11 + a 4-point Prime Pack), in every
+  // Showdown. An older Showdown's 11 stays in its History but is not a perfect season: one meaning on every screen.
+  // PRIME_PACK_FROM_MS stays on the release-time list (tools/set-release-time.cjs) with the other Prime Pack boundaries.
   const PRIME_PACK_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
-  function seasonMaxOf(entry,seasons){
-    if(Number.isFinite(entry.setupConfirmedAt))return entry.setupConfirmedAt>=PRIME_PACK_FROM_MS?15:11;
-    return seasons.some(season=>ROLES.some(role=>season[role]&&(season[role].primePack!==undefined||season[role].scoring.total>11)))?15:11;
-  }
-  function accumulate(record,season,role,sums,max=11){
+  const PERFECT_SEASON=15;
+  function seasonMaxOf(_entry,_seasons){return PERFECT_SEASON;}
+  function accumulate(record,season,role,sums,max=PERFECT_SEASON){
     const r=season[role],score=r.scoring.total;
     record.seasons+=1;record.careerPoints+=score;
     sums.points+=r.leaguePoints;sums.goals+=r.leagueGoals;

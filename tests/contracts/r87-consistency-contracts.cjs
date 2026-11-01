@@ -64,21 +64,21 @@ const dbOverall=name=>{for(const c of Object.values(P.clubs))for(const p of c.pl
   // A Prime Pack season of 15 never silences the booth.
   ok(V.seasonNumbers(facts([[15,0]],true,3),1),"Prime Pack: a 15-point season still gets its numbers line");
   ok(V.seasonNumbers(facts([[13,2]],undefined,3),1),"no flag: a season over 11 can only be Prime Pack, the booth still speaks");
-  ok(V.seasonNumbers(facts([[13,2]],false,3),1)===null,"a 13 in a Showdown without Prime Pack is invalid data: no line rather than a wrong one");
-  // 12 clear with one season left: decided at 11 a season, still open at 15.
+  // Nik 2026-11-01 18:32 UTC: one season maximum, 15, in every Showdown; the Prime Pack flag no longer changes the maths.
+  ok(V.seasonNumbers(facts([[13,2]],false,3),1),"a 13 is a real season in every Showdown");
   const pre=[[11,0],[1,0]];
-  ok(ids(V.seasonNumbers(facts(pre,false,3),2)).includes("decided"),"before Prime Pack: 12 clear with 11 left to win is decided");
+  ok(!ids(V.seasonNumbers(facts(pre,false,3),2)).includes("decided"),"12 clear with 15 left to win is never decided, flag or not");
   const open=V.seasonNumbers(facts(pre,true,3),2);
   ok(!ids(open).includes("decided")&&!ids(open).includes("draw-only")&&ids(open).includes("decider"),"Prime Pack: 12 clear with 15 left to win is still a decider");
   ok(open.every(x=>!/\b11 to 0\b|up to 11 points/.test(x.text)),"Prime Pack: no line names 11 as the season maximum");
   ok(ids(V.seasonNumbers(facts([[15,0],[0,0]],true,3),2)).includes("draw-only"),"Prime Pack: exactly 15 clear with one left is draw-only");
   ok(V.seasonNumbers(facts([[15,0],[0,0]],true,3),2).find(x=>x.id==="draw-only").text.includes("15 to 0"),"draw-only names 15 to 0");
   ok(V.seasonNumbers(facts([[4,0]],true,3),1).find(x=>x.id==="clock").text.includes("up to 30 points"),"Prime Pack clock: 2 seasons left is up to 30 points each");
-  // Golden: 150 with Prime Pack, 110 before; a 110 in a Prime Pack Showdown is not Golden.
+  // Golden: 150 only (Nik 2026-11-01 17:35 UTC); a 110 is never Golden.
   const ten=t=>Array.from({length:10},()=>[t,0]);
   ok(ids(V.finalNumbers(facts(ten(15),true))).includes("final-golden")&&V.finalNumbers(facts(ten(15),true)).find(x=>x.id==="final-golden").text.startsWith("150 out of 150"),"Prime Pack Golden is 150");
   ok(!ids(V.finalNumbers(facts(ten(11),true))).includes("final-golden"),"Prime Pack: 110 is not a Golden Showdown");
-  ok(V.finalNumbers(facts(ten(11),false)).find(x=>x.id==="final-golden").text.startsWith("110 out of 110"),"before Prime Pack Golden stays 110");
+  ok(!ids(V.finalNumbers(facts(ten(11),false))).includes("final-golden"),"r87 (Nik 2026-11-01): no 110 Golden Showdown, even before Prime Pack");
   ok(V.finalNumbers(facts(ten(15).map(()=>[15,15]),true)).find(x=>x.id==="final-golden-both").text.startsWith("150 each"),"Prime Pack Golden draw is 150 each");
 }
 console.log(`r87 consistency contracts passed (${checks} checks)`);

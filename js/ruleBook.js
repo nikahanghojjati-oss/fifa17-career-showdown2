@@ -179,8 +179,8 @@ function createScoringRuleSection(){
     const goldenLabel = document.createElement("strong");
     goldenLabel.textContent = "GOLDEN SHOWDOWN";
     const goldenText = document.createElement("span");
-    // r87 Prime Pack (G Lead and Nik 2026-11-01): 15 a season with Prime Pack, so 150; older Showdowns keep 110.
-    goldenText.textContent = "Score 150 points in a 10-season Showdown (15 in every season) to win the gold trophy. A Showdown started before Prime Pack needs 110.";
+    // r87 Prime Pack (G Lead and Nik 2026-11-01): 15 a season, so 150 (no other Golden total).
+    goldenText.textContent = "Score 150 points in a 10-season Showdown (15 in every season) to win the gold trophy.";
     golden.append(goldenLabel, goldenText);
 
     // r86 Special Player (Nik 2026-10-29): the SP chip's own rule line, in the Golden Showdown's style. The live Showdown's

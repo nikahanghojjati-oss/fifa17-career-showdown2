@@ -183,15 +183,20 @@
   // so a won point is never dropped by a bad connection.
   const PRIME_PACK_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
   async function pssrWithPrimePack(ctx,request,result){
-    const confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;
+    if(!result||typeof result!=="object")return result;
+    let confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;
+    if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;}
+    // Fable F13-04: an unknown confirm time never publishes without the Prime Pack point (it could drop a won point): TRY AGAIN.
+    if(!Number.isFinite(confirmedAtMs))pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown's confirm time could not be read. Check the connection and try again.");
     // Old Showdowns never load the step (the same boundary as js/iconGuess.js fromMs; a contract keeps them equal).
-    if(!Number.isFinite(confirmedAtMs)||confirmedAtMs<PRIME_PACK_FROM_MS||root.CMS_PRIME_PACK==="off"||!result||typeof result!=="object")return result;
+    if(confirmedAtMs<PRIME_PACK_FROM_MS)return result;
     const step=root.CareerModeIconGuessStep||await (typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep).then(()=>root.CareerModeIconGuessStep,()=>null):null);
     // applies() needs the round engine (js/iconGuess.js): load it first, or a won Prime Pack point would be dropped.
     if(!step||!await step.ensure())pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");
     const gameCtx={rivalryId:ctx.options.rivalryId,managerRole:ctx.setup.managerRole,season:request.seasonNumber,confirmedAtMs};
-    if(!step.applies(gameCtx))return result;
-    const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);
+    // Fable F14-02: the kill switch never drops a point already won: the round record is still read (no record is 0 points).
+    if(!step.applies(gameCtx,{ignoreSwitch:true}))return result;
+    const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx,{ignoreSwitch:true});
     const{primePack:_drop,...rest}=result;
     return Number.isInteger(points)&&points>=1&&points<=4?{...rest,primePack:points}:rest;
   }

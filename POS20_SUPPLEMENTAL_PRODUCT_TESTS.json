@@ -2784,6 +2784,7 @@
         "^service-worker\\.js$",
         "^visual-assets/v10_1/icon-guess/index\\.html$",
         "^tests/contracts/r87\\-prime\\-pack\\-step\\-contracts\\.cjs$",
+        "^tests/contracts/r87\\-prime\\-pack\\-f13\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -2812,6 +2813,14 @@
         "^css/.*\\.css$",
         "^visual-assets/.*\\.(css|js)$",
         "^tests/contracts/r87\\-home\\-no\\-music\\-strip\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/trophy-tap-delegated-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/trophy\\-tap\\-delegated\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

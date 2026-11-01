@@ -46,6 +46,7 @@
   // Each stage's start, relative to the round start, and the round's end (the last moment a guess counts).
   const STAGE_STARTS=Object.freeze(STAGES.reduce((out,stage,i)=>[...out,i?out[i-1]+STAGES[i-1].revealMs+STAGES[i-1].guessMs:0],[]));
   const ROUND_MS=STAGE_STARTS[LAST_BEAT]+STAGES[LAST_BEAT].revealMs+STAGES[LAST_BEAT].guessMs;
+  const DRAW_SLACK_MS=2000; // the Rules' guess window ends at L+97 s, 2 s after the stage 4 window (L+95 s)
   const LEAD_MS=3000;   // after the second manager arrives, both phones count in together before the card rises
   const RECORD_VERSION=1;
   // Nik 2026-10-31 (N1), moved to r87 on 2026-11-01: the game runs only in Showdowns confirmed on the release that ships it,
@@ -189,7 +190,9 @@
     const startMs=igStartMs(record);
     if(startMs===null)return Object.freeze({state:"waiting",winner:null,beat:null,chips});
     if(chips.playerOne===0&&chips.playerTwo===0)return Object.freeze({state:"draw",winner:null,beat:null,chips});
-    if(Number.isFinite(nowMs)&&nowMs>=igEndsAt(startMs))return Object.freeze({state:"draw",winner:null,beat:null,chips});
+    // Fable F13-06: the Rules take a right guess until 97 s after the later arrival (the end of stage 4 plus DRAW_SLACK_MS),
+    // so a time draw shows only once that has passed; a guess from 95 s is still refused here (igApplyGuess).
+    if(Number.isFinite(nowMs)&&nowMs>igEndsAt(startMs)+DRAW_SLACK_MS)return Object.freeze({state:"draw",winner:null,beat:null,chips});
     return Object.freeze({state:"live",winner:null,beat:null,chips});
   }
   // One accepted guess (a name already matched to an icon in the list; text that matched nothing never gets here and
@@ -222,7 +225,7 @@
     contractVersion:1,feature:"cms-icon-guess",roles:ROLES,stats:STATS,maxSeasons:MAX_SEASONS,chips:CHIPS,
     beats:BEATS,lastBeat:LAST_BEAT,stagePoints:STAGE_POINTS,maxPoints:MAX_POINTS,stages:STAGES,stageStarts:STAGE_STARTS,roundMs:ROUND_MS,leadMs:LEAD_MS,
     fromMs:ICON_FROM_MS,eligible:igEligible,order:igOrder,statOrder:igStatOrder,draw:igDraw,
-    endsAt:igEndsAt,beatAt:igBeatAt,revealed:igRevealed,stagePointsAt:igStagePoints,resultView:igResultView,
+    endsAt:igEndsAt,drawSlackMs:DRAW_SLACK_MS,beatAt:igBeatAt,revealed:igRevealed,stagePointsAt:igStagePoints,resultView:igResultView,
     newRecord:igNewRecord,validRecord:igValid,startMs:igStartMs,arrive:igArrive,outcome:igOutcome,applyGuess:igApplyGuess,points:igPoints
   });
 });

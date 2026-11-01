@@ -38,7 +38,7 @@
       return {manager,rank:index<0?null:standings[index].level===true?1:index+1};
     });
   }
-  // r84 Golden Showdown: how many finished 10-season Showdowns each manager closed on the Golden total (110, or 150 with Prime Pack), counted from the completed
+  // r84 Golden Showdown: how many finished 10-season Showdowns each manager closed on the Golden total (150), counted from the completed
   // rows this model already holds (the seam owns the rule). Only a career with one carries the field.
   function v10GoldenShowdowns(model,frame){
     const counts=v10Seam().goldenShowdownCounts(model.history&&model.history.showdowns);
@@ -1644,8 +1644,8 @@
     if(screen==="careerStatistics"){
       const rivalry=host.querySelector("#careerStatisticsRivalryButton");
       if(rivalry){const available=(typeof currentShowdown!=="undefined"&&currentShowdown)||v10Source(screen)?.history?.showdowns?.some(r=>r.status==="completed");rivalry.classList.toggle("hidden",!available);rivalry.addEventListener("click",()=>{if(available&&typeof root.openRivalryStatistics==="function")root.openRivalryStatistics();});}
-      const trophy=host.querySelector("#trophyRoomButton");
-      if(trophy)trophy.addEventListener("click",()=>{if(typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});
+      // One delegated listener on the document: a redraw replaces this button, and a tap on a node that is mid-replace must still open.
+      if(!v10Wire.tapBound){v10Wire.tapBound=true;root.document?.addEventListener?.("click",event=>{if(event.target?.closest?.("#trophyRoomButton")&&typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});}
     }
   }
   function v10Identity(){
