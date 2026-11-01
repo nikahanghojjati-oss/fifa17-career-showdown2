@@ -1213,11 +1213,13 @@
     body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
     /* r87 sweep P-10: that scale took the cards' smallest words (the ACCOUNT / APPLICATION eyebrows, the STANDARD chip, the ON
        switch, UPDATE TO LATEST VERSION and the photo credit) down to 7-8px on a 1440 or 1280 laptop. Those capitals never render below
-       11px now (the one-line photo credit 9px); the cards keep their places. */
+       11px now (the one-line photo credit 9px); the cards keep their places. The eyebrows and the credit keep their old line
+       boxes, so the cards are no taller and #settingsContent never scrolls at 1366x768. */
     body #settingsOverlay.v10Settings #settingsContent > .settingsPanel :is(.settingsPanelEyebrow, .settingsAudioToggle strong) { font-size: max(11px, calc(11px / min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5))); }
+    body #settingsOverlay.v10Settings #settingsContent > .settingsPanel .settingsPanelEyebrow { line-height: 13px; }
     body #settingsOverlay.v10Settings #settingsContent > .settingsPanel .settingsStatus { font-size: max(9px, calc(11px / min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5))); }
     body #settingsOverlay.v10Settings #settingsContent > .settingsPanel .settingsApplicationUpdateButton { font-size: max(10.67px, calc(11px / min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5))); }
-    body #settingsOverlay.v10Settings #settingsContent > .settingsPanel #photoCredit { font-size: max(10.24px, calc(9px / min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5))); }
+    body #settingsOverlay.v10Settings #settingsContent > .settingsPanel #photoCredit { font-size: max(10.24px, calc(9px / min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5))); line-height: 13.5px; }
   }
 }
 
