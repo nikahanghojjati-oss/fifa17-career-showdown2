@@ -253,6 +253,7 @@ async function main(){
         const raw=await Screens.captureAll(m,shot);
         fs.writeFileSync(path.join(SHOT_DIR,`${label}-raw.json`),JSON.stringify(raw,null,1));
         facts[label]=checkBrowser(label,raw,E);
+        check(`${label}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",!(m.tapRetries&&m.tapRetries.length),m.tapRetries,{who:label,screen:"Trophy Room"});
         check(`${label}.clean`,"no page errors, no production Firebase host",m.log.pageErrors.length===0&&m.log.forbidden.length===0,{pageErrors:m.log.pageErrors.slice(0,4),forbidden:m.log.forbidden.slice(0,4)},{who:label});
       }catch(error){check(`${label}.run`,"the career screens could be opened and read",false,String(error.message).split("\n")[0],{who:label});}
       finally{if(m)await m.context.close().catch(()=>{});}

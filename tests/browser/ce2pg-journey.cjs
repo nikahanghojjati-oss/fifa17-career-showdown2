@@ -893,7 +893,7 @@ async function openPage(m,hostId){
     // The first tap on OPEN TROPHY ROOM can land before Career Statistics has loaded and do nothing (finding H3-1): tap again.
     for(let attempt=1;attempt<=4;attempt+=1){
       await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(()=>{});
-      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1)(report.notes||(report.notes=[])).push(`${m.user}: Trophy Room opened on tap ${attempt}`);break;}
+      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1){(report.notes||(report.notes=[])).push(`${m.user}: Trophy Room opened on tap ${attempt}`);await check(m,`${showdownNow}.S${seasonNow}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",false,`opened only on tap ${attempt}`,{screen:"Trophy Room"});}break;}
     }
   }
   else if(hostId==="statistics"){

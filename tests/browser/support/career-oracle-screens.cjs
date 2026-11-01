@@ -91,7 +91,7 @@ async function openPage(m,hostId){
     // nothing (seen 2 of 4 browsers at 131 Showdowns). Tap again, a few seconds apart, until Trophy Room shows; report the retries.
     for(let attempt=1;attempt<=4;attempt++){
       await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(()=>{});
-      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1)(m.notes||(m.notes=[])).push(`trophyRoom opened on tap ${attempt}`);break;}
+      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1)(m.tapRetries||(m.tapRetries=[])).push(`trophyRoom opened only on tap ${attempt}`);break;}
     }
   }
   else if(hostId==="statistics"){
