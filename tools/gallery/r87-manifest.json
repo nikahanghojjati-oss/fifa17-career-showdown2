@@ -187,10 +187,10 @@
     1130
    ],
    "desktop": {
-    "match": "cmx"
+    "match": "^seasonEntry \\| cmx"
    },
    "phone": {
-    "match": "cmx"
+    "match": "^seasonEntry \\| cmx"
    }
   },
   {
