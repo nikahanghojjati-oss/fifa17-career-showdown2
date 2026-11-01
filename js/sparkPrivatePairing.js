@@ -773,15 +773,65 @@ async function revokePairing(options={}){
   }
   const fsbReadTimes=[];let fsbDay=null,fsbDayUnsaved=0,fsbDayStoreBroken=false;
   function fsbPacificDay(at){try{return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Los_Angeles",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(at));}catch(_error){return new Date(at-8*3600000).toISOString().slice(0,10);}}
+  // The first moment of the next Pacific day after `at` (the Spark daily reset), to the minute.
+  function fsbNextPacificDayAt(at){
+    const today=fsbPacificDay(at);let t=at;
+    for(let i=0;i<30*6&&fsbPacificDay(t)===today;i+=1)t+=10*60000;
+    if(fsbPacificDay(t)===today)return at+24*3600000;
+    let lo=t-10*60000;while(t-lo>1){const mid=lo+Math.floor((t-lo)/2);if(fsbPacificDay(mid)===today)lo=mid;else t=mid;}
+    return t;
+  }
   function fsbDayState(at=fsbNow()){
     const day=fsbPacificDay(at);
-    if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:fsbBillFrom(null,day)};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");fsbDay.bill=fsbBillFrom(saved,day);if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day){if(fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);fsbDay.markReads=-fsbCarried(saved);}if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}}
-    if(fsbDay.day!==day){fsbDay={day,reads:0,markReads:-fsbCarried(fsbDay),seasons:[],costs:[],lastCost:fsbSeasonCost(fsbDay)||fsbDay.lastCost||0,bill:fsbBillNextDay(fsbDay.bill)};fsbDayUnsaved=1;}
+    if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:fsbBillFrom(null,day)};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");fsbDay.bill=fsbBillFrom(saved,day);if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day&&Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(saved&&saved.day!==day){if(fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);fsbDay.markReads=-fsbCarried(saved);}if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}fsbDayMark();}
+    // F3-14 (Fable job 3): the noted season keys carry over the Pacific reset, so a season acknowledged yesterday is not noted again
+    // (no stale meter write for it with today's near-zero counts).
+    if(fsbDay.day!==day){fsbDay={day,reads:0,markReads:-fsbCarried(fsbDay),seasons:fsbDay.seasons.slice(-FSB_DAY_SEASONS),costs:[],lastCost:fsbSeasonCost(fsbDay)||fsbDay.lastCost||0,bill:fsbBillNextDay(fsbDay.bill)};fsbDayUnsaved=1;fsbDayMark({reads:0,game:0,career:0});}
     return fsbDay;
   }
   // Saved through storage.js (the only module that touches browser storage); a failed write stops further saves so a
   // private window never repeats the storage notice. The count is a per-device convenience, never game state.
-  function fsbSaveDay(){if(!fsbDay||!fsbDayUnsaved||fsbDayStoreBroken||typeof root.writeStorageValue!=="function")return;fsbDayUnsaved=0;try{if(root.writeStorageValue(FSB_DAY_KEY,JSON.stringify(fsbDay))===false)fsbDayStoreBroken=true;}catch(_error){fsbDayStoreBroken=true;}}
+  // F3-06 (Fable job 3): the app open in two tabs of one phone. Each tab used to save its whole day over the other's, so the last
+  // saver won and the other tab's reads vanished, and both tabs wrote a meter document for the same season. Now each save (and each
+  // noted season) first adds what the stored day gained since this tab last saw it (the other tab's reads), takes its noted
+  // seasons and any newer meter documents. With one tab the stored day is what this tab saved: nothing changes.
+  let fsbDayBase=null;
+  function fsbDayMark(values){fsbDayBase=fsbDay?{day:fsbDay.day,reads:values?values.reads:fsbDay.reads,game:values?values.game:fsbDay.bill.game,career:values?values.career:fsbDay.bill.career}:null;}
+  function fsbSyncDay(){
+    if(!fsbDay||fsbDayStoreBroken||typeof root.readStorageValue!=="function")return false;
+    let saved=null;try{saved=JSON.parse(root.readStorageValue(FSB_DAY_KEY)||"null");}catch(_error){return false;}
+    const base=fsbDayBase,bill=saved&&saved.bill&&typeof saved.bill==="object"?saved.bill:null;
+    if(!saved||!bill||saved.day!==fsbDay.day||!base||base.day!==fsbDay.day)return false;
+    const whole=value=>Number.isFinite(value)&&value>=0?value:null,stored={reads:whole(saved.reads),game:whole(bill.game),career:whole(bill.career)};
+    if(stored.reads===null||stored.game===null||stored.career===null)return false;
+    let changed=false;
+    if(stored.reads>base.reads){fsbDay.reads+=stored.reads-base.reads;changed=true;}
+    if(stored.game>base.game){fsbDay.bill.game+=stored.game-base.game;changed=true;}
+    if(stored.career>base.career){fsbDay.bill.career+=stored.career-base.career;changed=true;}
+    let imported=false;
+    if(Array.isArray(saved.seasons))for(const key of saved.seasons)if(typeof key==="string"&&!fsbDay.seasons.includes(key)){fsbDay.seasons.push(key);changed=true;imported=true;}
+    while(fsbDay.seasons.length>FSB_DAY_SEASONS)fsbDay.seasons.shift();
+    // PR #1144 review: a season the other tab completed also moves this tab's season boundary to that tab's (its marks, start key
+    // and cost history), so the next season's cost here does not include the season the other tab already measured.
+    if(imported){
+      const costs=list=>Array.isArray(list)?list.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS):null;
+      if(Number.isFinite(saved.markReads)&&saved.markReads>fsbDay.markReads&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);
+      if(Number.isFinite(bill.markGame)&&bill.markGame>fsbDay.bill.markGame&&bill.markGame<=fsbDay.bill.game){fsbDay.bill.markGame=Math.floor(bill.markGame);fsbDay.bill.startKey=typeof bill.startKey==="string"&&bill.startKey?bill.startKey:null;}
+      const dayCosts=costs(saved.costs),billCosts=costs(bill.costs);
+      if(dayCosts&&dayCosts.length>=fsbDay.costs.length)fsbDay.costs=dayCosts;
+      if(billCosts&&billCosts.length>=fsbDay.bill.costs.length)fsbDay.bill.costs=billCosts;
+      if(Number.isFinite(bill.lastCost)&&bill.lastCost>0)fsbDay.bill.lastCost=Math.floor(bill.lastCost);
+      const role=fsbShareRole(bill.role);if(role)fsbDay.bill.role=role;
+    }
+    const newer=(doc,mine)=>Boolean(doc&&doc.day===fsbDay.day&&(!mine||doc.rivalryId!==mine.rivalryId||doc.season>mine.season));
+    const own=fsbShareClean(bill.own),partner=fsbShareClean(bill.partner);
+    if(newer(own,fsbDay.bill.own)){fsbDay.bill.own=own;changed=true;}
+    if(newer(partner,fsbDay.bill.partner)){fsbDay.bill.partner=partner;changed=true;}
+    fsbDayMark(stored);
+    if(changed)fsbDayUnsaved+=1;
+    return changed;
+  }
+  function fsbSaveDay(){if(!fsbDay||!fsbDayUnsaved||fsbDayStoreBroken||typeof root.writeStorageValue!=="function")return;fsbSyncDay();fsbDayUnsaved=0;try{if(root.writeStorageValue(FSB_DAY_KEY,JSON.stringify(fsbDay))===false)fsbDayStoreBroken=true;else fsbDayMark();}catch(_error){fsbDayStoreBroken=true;}}
   // brake=false: the read counts toward today's total only, not the 5-minute brake window (direct career-history gets, r85).
   // lookups: the Rules lookups this request is billed (fsbReadLookups); career: a career-page read (fsbBill).
   function fsbCountRead(count=1,brake=true,lookups=0,career=false){
@@ -831,6 +881,8 @@ async function revokePairing(options={}){
   function fsbNoteSeasonStart(key){
     if(typeof key!=="string"||!key)return false;
     const day=fsbDayState(),bill=day.bill;
+    // PR #1144 review: another tab's setup reads are taken in before the start mark, so they stay setup, not season 1.
+    fsbSyncDay();
     if(bill.startKey===key||day.seasons.includes(key))return false;
     const setup=bill.game-bill.markGame;
     if(setup>0){bill.setupCosts.push(setup);if(bill.setupCosts.length>FSB_DAY_SEASONS)bill.setupCosts.shift();}
@@ -842,6 +894,8 @@ async function revokePairing(options={}){
   function fsbNoteSeasonDone(key,live,info){
     if(typeof key!=="string"||!key)return false;
     const day=fsbDayState();
+    // F3-06: a season another tab of this phone already noted (and wrote the meter for) is not noted again here.
+    fsbSyncDay();
     // Already noted (a reload keeps the season key): no new snapshot, but a meter document written before the reload whose partner
     // read never ran gets that bounded read now (fsbShareResume, once per page).
     if(day.seasons.includes(key)){try{if(info&&typeof info==="object")fsbShareResume(info.firestore);}catch(_error){}return false;}
@@ -891,7 +945,7 @@ async function revokePairing(options={}){
   // starts, locks and commits, so his phone reads about 55%.
   const FSB_ROLE_SHARE=Object.freeze({playerOne:0.55,playerTwo:0.45});
   const FSB_SHARE_READS_MS=Object.freeze([8000,45000,180000,600000]);
-  let fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null,fsbShareStarted=null;
+  let fsbShareDeniedDay=null,fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null,fsbShareStarted=null;
   function fsbShareRole(role){return role==="playerOne"||role==="playerTwo"?role:null;}
   function fsbRoleShare(role){return FSB_ROLE_SHARE[role]||0.5;}
   function fsbShareWhole(value,max){return Number.isInteger(value)&&value>=0&&value<=max;}
@@ -931,6 +985,7 @@ async function revokePairing(options={}){
   }
   function fsbShareSeason(info,season){
     if(!info||typeof info!=="object"||!info.firestore||typeof info.rivalryId!=="string")return;
+    fsbShareDb=info.firestore;
     const day=fsbDayState(),bill=day.bill,role=fsbShareRole(info.role);
     if(!role||fsbShareOffDay===day.day||fsbPaused())return;
     const doc=fsbShareDoc(bill,day.day,info.rivalryId,season,role);
@@ -942,9 +997,11 @@ async function revokePairing(options={}){
     if(!api)return false;
     const path=`rivalries/${doc.rivalryId}/meters/${doc.role}`;
     try{await api.setDoc(api.doc(db,"rivalries",doc.rivalryId,"meters",doc.role),{...doc,costs:[...doc.costs],updatedAt:api.serverTimestamp()});}
-    // Refused before any write succeeded today: the Rules are not deployed yet, so the meter is off for the day. Refused after one
-    // succeeded (a Showdown closed under this write): only this season is skipped.
-    catch(error){if(fsbMeterFailureUnits(error))fsbBill(fsbWriteLookups([path]));const now=fsbDayState();if(fsbIsDeniedError(error)&&!(now.day===doc.day&&now.bill.own))fsbShareOffDay=doc.day;if(fsbIsQuotaError(error))fsbTrip();return false;}
+    // Refused after a write succeeded today (a Showdown closed under this write): only this season is skipped. Refused before any
+    // write succeeded today: also only this season the first time, since the day's first ACKNOWLEDGED can be a final season whose
+    // Terminal Close lands before this write (Fable job 3 F3-01); a second refusal on a later season means the Rules are not
+    // deployed, so the meter is off for the day.
+    catch(error){if(fsbMeterFailureUnits(error))fsbBill(fsbWriteLookups([path]));const now=fsbDayState();if(fsbIsDeniedError(error)&&!(now.day===doc.day&&now.bill.own)){if(fsbShareDeniedDay===doc.day)fsbShareOffDay=doc.day;else fsbShareDeniedDay=doc.day;}if(fsbIsQuotaError(error))fsbTrip();return false;}
     fsbBill(fsbWriteLookups([path]));
     const day=fsbDayState();if(day.day===doc.day){day.bill.own=doc;fsbDayUnsaved+=1;fsbSaveDay();}
     fsbShareStarted=fsbShareKey(doc);
@@ -955,6 +1012,7 @@ async function revokePairing(options={}){
   // the own document and the season key (so noteSeasonDone returns early). This restarts the same bounded read sequence for the
   // restored document, once per page, without writing it again; nothing when the partner's document already matches.
   function fsbShareResume(db){
+    if(db)fsbShareDb=db;
     if(!db||fsbShareTimer!==null)return false;
     const day=fsbDayState(),own=day.bill.own,partner=day.bill.partner;
     if(!own||own.day!==day.day||fsbShareOffDay===day.day||fsbPaused())return false;
@@ -972,6 +1030,25 @@ async function revokePairing(options={}){
       if(stop||(doc&&doc.season===own.season&&doc.rivalryId===own.rivalryId))return;
       fsbShareLater(db,own,attempt+1);
     },()=>{});},FSB_SHARE_READS_MS[attempt]);
+  }
+  // F3-03 (Fable job 3): the four timed reads above can all miss the partner's document for this season (the partner's phone locked
+  // or offline for longer than 14 minutes), leaving this phone "estimated" until the next season while the partner shows the shared
+  // total. A catch-up read (Settings opened, the page shown again) reads it once more while it is missing or behind: one read (2
+  // billed, counted like the timed ones), at most FSB_SHARE_CATCHUPS a season and FSB_SHARE_CATCHUP_MS apart, never while a timed
+  // read is pending, hidden, paused or with the meter off. Resolves true when the partner's document now matches this season.
+  const FSB_SHARE_CATCHUP_MS=60000,FSB_SHARE_CATCHUPS=3;
+  let fsbShareCatchUps={key:null,count:0,at:0},fsbShareDb=null;
+  function fsbShareCatchUp(db){
+    db=db||fsbShareDb||fsbFirestore;
+    if(!db||fsbShareTimer!==null||fsbHidden())return null;
+    const day=fsbDayState(),own=day.bill.own,partner=day.bill.partner;
+    if(!own||own.day!==day.day||fsbShareOffDay===day.day||fsbPaused())return null;
+    if(partner&&partner.rivalryId===own.rivalryId&&partner.season>=own.season)return null;
+    const key=fsbShareKey(own),at=fsbNow();
+    if(fsbShareCatchUps.key!==key)fsbShareCatchUps={key,count:0,at:0};
+    if(fsbShareCatchUps.count>=FSB_SHARE_CATCHUPS||at-fsbShareCatchUps.at<FSB_SHARE_CATCHUP_MS)return null;
+    fsbShareCatchUps.count+=1;fsbShareCatchUps.at=at;
+    return fsbShareRead(db,own).then(({doc})=>Boolean(doc&&doc.rivalryId===own.rivalryId&&doc.season===own.season),()=>false);
   }
   async function fsbShareReadPartner(db,own){return (await fsbShareRead(db,own)).doc;}
   // {doc: today's partner document or null, seen: a partner document exists (any day), stop: nothing more to read this season}.
@@ -1034,6 +1111,8 @@ async function revokePairing(options={}){
     if(typeof get!=="function"||fsbMetered.has(get))return get;
     const metered=function(...args){
       let pending;
+      // F3-13 (Fable job 3): like transactions, a direct get is refused on the phone while the quota pause holds.
+      if(fsbPaused())return Promise.reject(fsbQuotaError());
       const lookups=fsbReadLookups(fsbPathOf(args[0]),true);
       try{pending=get.apply(this,args);}catch(error){fsbGetFailed(error,lookups);throw error;}
       return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);return snapshot;},error=>{fsbGetFailed(error,lookups);throw error;});
@@ -1137,15 +1216,17 @@ async function revokePairing(options={}){
   }
   function fsbTrip(){
     if(fsbPaused())return;
-    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000;
+    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPacificDay(fsbPause.since)===fsbPacificDay(at);
     const step=recent?Math.min(fsbPause.step+1,FSB_PAUSE_STEPS_MS.length-1):0;
-    fsbPause=Object.freeze({step,since:at,until:at+FSB_PAUSE_STEPS_MS[step]});
+    // F3-07 (Fable job 3): the free reads come back at midnight Pacific, so no pause runs past the reset (+1 min).
+    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],fsbNextPacificDayAt(at)+60000);
+    fsbPause=Object.freeze({step,since:at,until});
     fsbStats.quotaTrips+=1;
     fsbEntries.clear();
     fsbDetachWait();fsbCtxDetach();
     if(fsbResumeTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(fsbResumeTimer);
     // One timer per pause, only to tell the screens that online play may resume; it reads nothing itself.
-    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},FSB_PAUSE_STEPS_MS[step]+50):null;
+    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},Math.max(0,until-at)+50):null;
     fsbPublish();
   }
   function fsbHidden(){return Boolean(root.document&&root.document.visibilityState==="hidden");}
@@ -1180,7 +1261,7 @@ async function revokePairing(options={}){
       if(root.document&&typeof root.document.addEventListener==="function"){
         // Back from hidden: forget what this page had and wake once every screen that was waiting on the partner when it
         // was hidden, so it catches up with one check now instead of on its next timer (no new timer, no repeated reads).
-        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){if(fsbCtxWatches.size)fsbCtxReturn=[...fsbCtxWatches.keys()];fsbWaitReturn=fsbWait&&fsbWait.healthy?{path:fsbWait.path,owners:[...fsbWait.owners].map(([owner,info])=>({owner,wake:info.wake,relaxed:info.relaxed}))}:null;fsbDetachWait();fsbCtxDetach();fsbWasHidden=true;return;}fsbForgetAll();fsbChainAt=fsbNow();if(fsbWasHidden){fsbListenReturning();fsbCtxReturning();fsbWaitReturning();}fsbWasHidden=false;fsbWakeReturning();});
+        root.document.addEventListener("visibilitychange",()=>{if(fsbHidden()){if(fsbCtxWatches.size)fsbCtxReturn=[...fsbCtxWatches.keys()];fsbWaitReturn=fsbWait&&fsbWait.healthy?{path:fsbWait.path,owners:[...fsbWait.owners].map(([owner,info])=>({owner,wake:info.wake,relaxed:info.relaxed}))}:null;fsbDetachWait();fsbCtxDetach();fsbWasHidden=true;return;}fsbForgetAll();fsbChainAt=fsbNow();if(fsbWasHidden){fsbListenReturning();fsbCtxReturning();fsbWaitReturning();try{fsbShareCatchUp();}catch(_error){}}fsbWasHidden=false;fsbWakeReturning();});
         // A tap or key press means someone is acting now: for the next 5 s every check reads fresh (2 s coalescing only).
         for(const type of ["pointerdown","touchstart","keydown"])root.document.addEventListener(type,()=>{fsbInputAt=fsbNow();},{capture:true,passive:true});
         root.document.addEventListener("visibilitychange",()=>{if(root.document.visibilityState==="hidden")fsbSaveDay();});root.addEventListener?.("pagehide",fsbSaveDay);
@@ -1498,6 +1579,8 @@ async function revokePairing(options={}){
     const found={};
     const request=Promise.resolve().then(()=>sdk.runTransaction(db,transaction=>Promise.resolve(transaction.get(ref)).then(snapshot=>{found.snapshot=snapshot;throw found;}))).then(()=>{throw new Error("Firestore read returned no snapshot.");},error=>{
       if(error===found){fsbStats.serverReads+=1;fsbCountRead(1,true,fsbReadLookups(path));fsbDenied.delete(path);if(fsbAccountId===account)fsbRemember(db,ref,found.snapshot);return found.snapshot;}
+      // F3-09 (Fable job 3): an answered error (a Rules refusal) is billed like any other route here (1 + the lookups).
+      fsbCountRead(fsbMeterFailureUnits(error),true,fsbReadLookups(path));
       if(fsbIsQuotaError(error))fsbTrip();
       fsbAuthorityDenied(error,path);
       throw error;
@@ -1689,6 +1772,8 @@ async function revokePairing(options={}){
     // meterDocuments() the two documents this phone holds today; readPartnerMeter() reads the partner's now (tests).
     sharedEstimate:(a,b,day)=>fsbShareFrom(a,b,typeof day==="string"?day:fsbDayState().day),
     meterDocuments:()=>{const bill=fsbDayState().bill;return Object.freeze({own:bill.own,partner:bill.partner,off:fsbShareOffDay===fsbDayState().day});},
+    // refreshPartnerMeter(): the F3-03 catch-up read (Settings open); a promise of true when the shared total now applies, else null.
+    refreshPartnerMeter:db=>fsbShareCatchUp(db),
     readPartnerMeter:db=>{const bill=fsbDayState().bill;return bill.own?fsbShareReadPartner(db||fsbFirestore,bill.own):Promise.resolve(null);},
     roleShare:fsbRoleShare,
     braking:()=>fsbBraking(),

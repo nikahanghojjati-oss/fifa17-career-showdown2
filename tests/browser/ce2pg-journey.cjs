@@ -773,7 +773,7 @@ async function checkSharedHistory(m,k,total,seasons){
   await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons played ... Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}" but saw "${summary}"`,{screen:"Shared History"});
   const wantRec=u=>new RegExp(`${NAMES[u]} \\([^)]+\\): ${t[u].W} won, ${t[u].D} drawn, ${t[u].L} lost · ${t[u].total} pts`);
   await check(m,`${showdownNow}.S${k}.history.records`,"Shared History W/D/L and points per manager",wantRec("daniel").test(records)&&wantRec("nik").test(records),`expected Daniel ${t.daniel.W}W ${t.daniel.D}D ${t.daniel.L}L ${t.daniel.total} pts, Nik ${t.nik.W}W ${t.nik.D}D ${t.nik.L}L ${t.nik.total} pts; saw "${records}"`,{screen:"Shared History"});
-  const wantTro=u=>`${NAMES[u]} ${t[u].trophies} trophies (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
+  const wantTro=u=>`${NAMES[u]} ${t[u].trophies} ${t[u].trophies===1?"trophy":"trophies"} (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
   await check(m,`${showdownNow}.S${k}.history.trophies`,"Shared History trophy attribution",trophies.includes(wantTro("daniel"))&&trophies.includes(wantTro("nik")),`expected "${wantTro("daniel")}" and "${wantTro("nik")}"; saw "${trophies}"`,{screen:"Shared History"});
 }
 async function continueToSeason(daniel,nik,next,total){
@@ -960,7 +960,7 @@ function extract(raw){
   o.compareTitles=pair(cs,/(\d+)\s+LEAGUE TITLES\s+(\d+)/);o.compareCups=pair(cs,/(\d+)\s+DOMESTIC CUPS\s+(\d+)/);o.compareCl=pair(cs,/(\d+)\s+CHAMPIONS LEAGUE WINS\s+(\d+)/);o.compareWins=pair(cs,/(\d+)\s+SEASON WINS\s+(\d+)/);
   o.compareAvgPoints=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE POINTS\s+([\d.]+)/);o.compareAvgGoals=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE GOALS\s+([\d.]+)/);
   o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
-  o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);
+  o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);
   const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
   o.standings=standings(stCareer);o.standingsFirst=standings(stFirst);
   o.standingsCareerText=stCareer;o.standingsFirstCareerText=stFirst;
@@ -970,8 +970,10 @@ function extract(raw){
   const rv=corpus(raw,"statistics");
   o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);
-  const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],r[2].toUpperCase()]:null;};
-  o.recSeason=rec(/HIGHEST SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPoints=rec(/HIGHEST LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recGoals=rec(/HIGHEST LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPerfect=rec(/MOST PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|SHARED)/);
+  const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
+  // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
+  const R=label=>new RegExp(label+String.raw`\s+(\d+|\u2014)\s*(DANIEL|NIK|LEVEL)?`);
+  o.recSeason=rec(R("HIGHEST SEASON SCORE"));o.recPoints=rec(R("HIGHEST LEAGUE POINTS"));o.recGoals=rec(R("HIGHEST LEAGUE GOALS"));o.recPerfect=rec(R("MOST PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;
   o.legacyCards=(raw?.legacy?.cards||[]).map(c=>({status:c.status,text:c.text}));
@@ -981,7 +983,7 @@ function extract(raw){
   o.settings=raw?.settings||null;
   return o;
 }
-const holderName=h=>h==="shared"?"SHARED":NAMES[h].toUpperCase();
+const holderName=h=>h==="shared"?"LEVEL":NAMES[h].toUpperCase();
 const leaderName=(d,n)=>d>n?"Daniel":n>d?"Nik":"Level · Daniel + Nik";// r87: equal is level
 const near=(shown,want)=>Number.isFinite(Number(shown))&&Math.abs(Number(shown)-want)<=0.051;
 const cell=n=>n>0?String(n):"—";
@@ -1031,7 +1033,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
       const got=f[u==="daniel"?"rankDaniel":"rankNik"],a=ahead(u),want=[a===null?"1":a?"1":"2",S(x[u].total),S(x[u].W)];
       await eq(m,id(`trophy.rank.${u}`),`Trophy Room ranking: ${NAMES[u]} rank, career points, season wins`,got,want,scr("Trophy Room (ranking)"));
     }
-    const r=E.records,recWant=v=>v?[S(v.value),holderName(v.holder)]:null;
+    const r=E.records,recWant=v=>v?(v.value>0?[S(v.value),holderName(v.holder)]:["\u2014",""]):null;
     await eq(m,id("trophy.records"),"Trophy Room all-time records: highest season score, league points, league goals, most perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[recWant(r.season),recWant(r.points),recWant(r.goals),recWant(r.perfect),recWant(r.biggestWin)],scr("Trophy Room (records)"));
   }
   // Legacy (History): completed cards and ended-early rows, in career order, nothing else
@@ -1044,8 +1046,11 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   await check(m,id("legacy.cards"),`Legacy lists exactly ${wantCards.length} row(s): ${wantCards.map(w=>w.status==="abandoned"?"ended early":`#${w.number} ${w.must[1]} ${w.must[3]}`).join(", ")||"none"}`,wantCards.length===0?(f.legacyCards.filter(c=>c.status==="completed"||c.status==="abandoned").length===0):cardsOk,`expected ${JSON.stringify(wantCards)}; shown ${JSON.stringify(f.legacyCards)}`,scr("Legacy"));
   const firstCompleted=E.rows.find(s=>s.state==="completed");
   if(firstCompleted&&f.seasonHistory){
-    const want=firstCompleted.seasons.map((p,i)=>`Season ${i+1} Daniel: ${scoreSeason(p.daniel).total} #${p.daniel.leaguePosition} · ${p.daniel.leaguePoints} league pts · ${p.daniel.leagueGoals} goals – Nik: ${scoreSeason(p.nik).total} #${p.nik.leaguePosition} · ${p.nik.leaguePoints} league pts · ${p.nik.leagueGoals} goals`);
-    const missing=want.filter(w=>!f.seasonHistory.includes(w));
+    // r87 polish: the list is a table (Season · Daniel · Nik · Result); a row reads "Season N <pts> #pos · pts league pts · goals
+    // goals [Europa League winner] <pts> ... <crown> Winner | = Draw" (case-insensitive: the labels are drawn in capitals).
+    const esc=x=>String(x).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),side=r=>esc(`${scoreSeason(r).total}`)+" "+esc(`#${r.leaguePosition} · ${r.leaguePoints} league pts · ${r.leagueGoals} goals`)+"(?: Europa League winner)?";
+    const want=firstCompleted.seasons.map((p,i)=>{const d=scoreSeason(p.daniel).total,n=scoreSeason(p.nik).total;return {label:`Season ${i+1}`,re:new RegExp(`Season ${i+1} ${side(p.daniel)} ${side(p.nik)} ${d>n?"♛ Daniel":n>d?"♛ Nik":"= Draw"}`,"i")};});
+    const missing=want.filter(w=>!w.re.test(f.seasonHistory)).map(w=>w.label);
     await check(m,id("legacy.seasonHistory"),`Legacy VIEW SEASON HISTORY (Showdown #${firstCompleted.number}) lists every season with its score, league finish, points and goals`,missing.length===0,`missing ${JSON.stringify(missing)} in: ${f.seasonHistory.slice(0,1500)}`,scr("Legacy (season history)"));
   }else if(firstCompleted)await check(m,id("legacy.seasonHistory"),"Legacy VIEW SEASON HISTORY opens",false,"no VIEW SEASON HISTORY button or no text",scr("Legacy (season history)"));
   // Standings (This Showdown) while a Showdown is live: its committed seasons only.

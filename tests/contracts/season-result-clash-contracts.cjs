@@ -114,7 +114,7 @@ async function renderContracts(){
   }
   // B3. The waiting manager never sees it either; the button is the existing waiting state (disabled by role only).
   h=harness(result({domesticCup:true,championsLeague:true,leaguePosition:1}),result({domesticCup:true,championsLeague:true,leaguePosition:1}),{role:"playerTwo"});h.api.install();await h.api.refresh();await settle();
-  assert.equal(h.status(),"BOTH RESULTS ARE IN · WAITING FOR Daniel TO LOCK THE SEASON","the waiting manager sees the unchanged waiting text");
+  assert.equal(h.status(),"BOTH RESULTS ARE IN · WAITING FOR DANIEL TO LOCK THE SEASON","the waiting manager sees the unchanged waiting text");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"the waiting manager never sees CHECK RESULTS for both managers winning");
   assert.equal(h.action().textContent,"WAITING FOR DANIEL");
   // B4. Different results: nothing extra, and top scorer on both sides is not a clash.

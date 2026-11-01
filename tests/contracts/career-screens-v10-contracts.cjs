@@ -64,8 +64,9 @@ check("V3 Trophy Room carries exactly the model's numbers",()=>{
       assert.equal(frame.managers[m].seasonWins,model.managers[m].seasonWins,`${id} ${m} seasonWins`);
       assert.equal(frame.showdowns[m].wins,model.managers[m].showdowns.wins,`${id} ${m} Showdown wins`);
     }
-    const records=model.trophyRoom.records.filter(r=>typeof r.value==="number");
-    assert.deepEqual(frame.records.map(r=>[r.manager,r.value]),records.map(r=>[r.manager,r.value]),`${id} records`);
+    // r87 career fixes (B5): a record nobody holds (no best yet, or a best of 0) is a dash with no holder, never "0 Shared".
+    const records=model.trophyRoom.records.map(r=>typeof r.value==="number"&&r.value>0?[r.manager,r.value]:["","\u2014"]);
+    assert.deepEqual(frame.records.map(r=>[r.manager,r.value]),records,`${id} records`);
   }
 });
 check("V4 partial shows the {readable} of {indexed} coverage",()=>{

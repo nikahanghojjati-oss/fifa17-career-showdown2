@@ -144,7 +144,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const store=new Map(),R=engine();
     const sandbox={document:doc,setTimeout:(fn,ms)=>setTimeout(fn,Math.min(ms,30)),clearTimeout,location:{origin:"x"},addEventListener(){},removeEventListener(){},
       readStorageValue:k=>store.get(k)||null,writeStorageValue:(k,v)=>{store.set(k,v);return true;},
-      loadRuntimeScript:async()=>{Object.assign(sandbox,{CareerModeFifa17Players:{},CareerModeRosterSquads:{},CareerModeMarqueePlayers:{},CareerModeMarqueePlayer:{forShowdown:()=>null},CareerModeRosterRoulette:R});return true;}};
+      loadRuntimeScript:async()=>{Object.assign(sandbox,{CareerModeFifa17Players:require("../../data/fifa17Players.js"),CareerModeRosterSquads:{},CareerModeMarqueePlayers:{},CareerModeMarqueePlayer:{forShowdown:()=>null},CareerModeRosterRoulette:R});return true;}};
     vm.createContext(sandbox);vm.runInContext(read("js/rosterRouletteStep.js"),sandbox);
     const step=sandbox.CareerModeRosterRouletteStep;
     const panel=async()=>{let p=null;for(let i=0;i<300&&!p;i+=1){await new Promise(r=>setTimeout(r,5));p=doc.getElementById(step.panelId);}return p;};
@@ -180,7 +180,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const lenoBoard=page2.R.forSeason(RID,CLUBS,1).boards.playerTwo,keeper=lenoBoard.find(x=>x.pos==="GK");
     const run2=page2.step.runBeforeTransfers(ctxFor({marks:{playerOne:null,playerTwo:{fired:true,hitName:keeper.name,hitNumber:keeper.number,hitSlot:keeper.slot,hitSignedSeason:null,version:"rr4.1.deadbeef"}},windowStarted:false,remember(){}}));
     let q=await page2.panel();page2.press(q,"CONTINUE WITH NIK'S SAVED SPIN");await new Promise(r=>setTimeout(r,40));
-    q=await page2.panel();assert.ok(page2.lines(q).includes(`Nik lost ${keeper.name}.`),"Nik's line is his saved spin");
+    q=await page2.panel();assert.ok(page2.lines(q).some(line=>line.startsWith(`Nik lost ${keeper.name} (#${keeper.number},`)),`Nik's line is his saved spin: ${page2.lines(q)}`);
     page2.press(q,"BACK TO SHOWDOWN HOME");assert.equal(await run2,false);
     // The same version, or a partner mark with no outcome (an older mark), never stops.
     const page3=stepPage();page3.store.set(page3.step.watchedKey,JSON.stringify([`${RID}|1|playerOne`]));
@@ -197,7 +197,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const run=page.step.runBeforeTransfers(ctxFor({marks:{playerOne:mine,playerTwo:null},windowStarted:false,remember:()=>{remembered+=1;}}));
     const p=await page.panel();
     assert.equal(page.doc.frames.length,0,"no second spin: the scene never loads");
-    assert.equal(page.title(p),"Release J. Milner","the result card for that season");
+    assert.equal(page.title(p),"Release J. Milner #7","the result card for that season");
     page.press(p,"I'VE RELEASED HIM");assert.equal(await run,true);
     assert.equal(remembered,0,"the server already holds his mark: nothing new is saved");
     assert.ok(JSON.parse(page.store.get(page.step.doneKey)).includes(`${RID}|1|playerOne`),"done on this browser now too");
