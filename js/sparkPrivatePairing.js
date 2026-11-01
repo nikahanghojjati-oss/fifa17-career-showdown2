@@ -706,9 +706,9 @@ async function revokePairing(options={}){
       ["accounts/*/partner/*",0,0,["accounts/{@self}","accounts/{accountId}/careerStart/current","rivalries/{after.pairedViaRivalryId}","rivalries/{request.resource.data.pairedViaRivalryId}"]],
       ["accounts/*/partnerInbox/*",0,0,["accounts/{@self}","accounts/{@self}/partner/current","accounts/{accountId}/partner/current","rivalries/{note.rivalryId}","rivalries/{note.rivalryId}/invites/{note.rivalryId}"]],
       ["accounts/*/careerSummary/*",1,1,["accounts/{@self}","rivalries/{rivalryId}"]],
-      ["rivalries/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/pairLinks/current","rivalries/{rivalryId}/invites/{rivalryId}","rivalries/{rivalryId}/seasonCommits/season_1","rivalries/{rivalryId}/seasonCommits/{seasonId}","rivalries/{rivalryId}/sessions/{intent.sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
+      ["rivalries/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/pairLinks/current","rivalries/{rivalryId}/invites/{rivalryId}","rivalries/{rivalryId}/seasonCommits/season_1","rivalries/{rivalryId}/seasonCommits/{seasonId}","rivalries/{rivalryId}/sessions/{intent.sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
       ["rivalries/*/state/authoritative",1,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/state/authoritative/idempotency/{receiptKey}"]],
-      ["rivalries/*/state/authoritative/idempotency/*",2,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}/state/authoritative"]],
+      ["rivalries/*/state/authoritative/idempotency/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}/state/authoritative"]],
       ["rivalries/*/invites/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}"]],
       ["rivalries/*/sharedSetup/authoritative",1,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{after.activeSessionId}"]],
       ["rivalries/*/sharedSetup/leagueProjection",1,1,["accounts/{@self}","rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
@@ -880,13 +880,16 @@ async function revokePairing(options={}){
   // lands) per phone per season, billed as game reads here. A refused first write of the day (Rules not deployed yet) stops the
   // meter for the day; a refused read, or a write refused after one succeeded, skips only that season; the partner's document missing (an older build never writes it), from another day,
   // or behind this phone's season: the B1 estimate, marked estimated. Never part of a game write, never a reason for an error.
-  // Reads of the partner's document: 8 s after this phone's write, again 45 s later; a partner whose document exists but is behind
-  // (a phone that was locked when the season was acknowledged) is read again at +3 and +10 min, then not again that season. A
-  // missing document (an older build, or Rules not deployed) is read twice only.
+  // Reads of the partner's document: 8 s after this phone's write, again 45 s later; a partner whose document is missing or behind
+  // (a phone that was locked when the season was acknowledged) is read again at +3 and +10 min, then not again that season. r87 C-04:
+  // a missing document is read on that same schedule, because in season 1 of every Showdown the partner's document does not exist
+  // until the partner writes it (per rivalry): with two reads only, a partner locked for a minute at season 1's ACKNOWLEDGED left
+  // this phone "estimated" while the partner showed the shared total, for the whole next season (forever in a 1-season Showdown).
+  // At most four reads (2 billed each) a season when the partner never writes (an older build, or Rules not deployed).
   // B1 shares of a season's reads, measured on the CE2PG harness (READS_ESTIMATE_CONSISTENCY.md): the coordinator (Daniel, playerOne)
   // starts, locks and commits, so his phone reads about 55%.
   const FSB_ROLE_SHARE=Object.freeze({playerOne:0.55,playerTwo:0.45});
-  const FSB_SHARE_READS_MS=Object.freeze([8000,45000,180000,600000]),FSB_SHARE_MISSING_READS=2;
+  const FSB_SHARE_READS_MS=Object.freeze([8000,45000,180000,600000]);
   let fsbShareTimer=null,fsbShareOffDay=null,fsbRawSdk=null,fsbShareStarted=null;
   function fsbShareRole(role){return role==="playerOne"||role==="playerTwo"?role:null;}
   function fsbRoleShare(role){return FSB_ROLE_SHARE[role]||0.5;}
@@ -966,7 +969,6 @@ async function revokePairing(options={}){
     if(typeof root.setTimeout!=="function"||attempt>=FSB_SHARE_READS_MS.length)return;
     fsbShareTimer=root.setTimeout(()=>{fsbShareTimer=null;void fsbShareRead(db,own).then(({doc,seen,stop})=>{
       if(stop||(doc&&doc.season===own.season&&doc.rivalryId===own.rivalryId))return;
-      if(!seen&&attempt+1>=FSB_SHARE_MISSING_READS)return;
       fsbShareLater(db,own,attempt+1);
     },()=>{});},FSB_SHARE_READS_MS[attempt]);
   }
