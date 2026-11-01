@@ -60,10 +60,10 @@
   // Showdown. Each manager is judged on their own total, so both can earn it in one Showdown. An ended-early, unfinished or
   // shorter Showdown never earns it. Read from the completed rows already loaded; nothing is stored.
   // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so its
-  // Golden Showdown is 150; a Showdown confirmed before Prime Pack keeps 11 a season and 110. PRIME_PACK_FROM_MS is
+  // Golden Showdown is 150 in every Showdown (Nik 2026-11-01: no 11 or 110 anywhere). PRIME_PACK_FROM_MS is
   // js/iconGuess.js fromMs (the Roster Roulette boundary; tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
-  const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:110,primePackPoints:150});
-  const SEASON_MAX=Object.freeze({before:11,primePack:15});
+  const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:150,primePackPoints:150});
+  const SEASON_MAX=Object.freeze({primePack:15});
   const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
   const PAIR_ID=/^pair_[0-9a-f]{64}$/;
   function csSeasonScores(row){
@@ -74,15 +74,12 @@
   function csLiveSetup(){try{const state=root.CareerModeProductionSharedShowdownSetup?.getState?.();return state&&state.ready===true&&state.setup?.phase==="SHOWDOWN_CONFIRMED"&&PAIR_ID.test(String(state.rivalryId))&&Number.isFinite(state.setupUpdatedAtMs)?state:null;}catch(_error){return null;}}
   // The most one season of this Showdown can score: 15 with Prime Pack, 11 before. Known from the Showdown's confirm time;
   // without one, a season over 11 can only be Prime Pack, and the live Showdown's Setup (when it is this Showdown) decides.
-  function seasonMaxFor(row){
-    const pack=SEASON_MAX.primePack,before=SEASON_MAX.before;
-    if(row&&PAIR_ID.test(String(row.rivalryId))&&Number.isFinite(row.setupConfirmedAt))return row.setupConfirmedAt>=PRIME_PACK_FROM_MS?pack:before;
-    if(csSeasonScores(row).some(score=>score>before))return pack;
-    const live=csLiveSetup();
-    if(live&&(row?.rivalryId==null||row.rivalryId===live.rivalryId))return live.setupUpdatedAtMs>=PRIME_PACK_FROM_MS?pack:before;
-    return before;
-  }
-  function goldenShowdownPoints(row){return GOLDEN_SHOWDOWN.seasons*seasonMaxFor(row);}
+  // Nik 2026-11-01 18:32 UTC: there is no 11 anywhere. A season is worth at most 15 in every Showdown (one max for the
+  // race maths, perfect seasons and Golden); a Showdown from before 2.0.0 is not kept on its own scale.
+  function seasonMaxFor(_row){return SEASON_MAX.primePack;}
+  // Nik 2026-11-01 17:35 UTC: there was never a real 10-season Showdown before Prime Pack, so no old record to keep. The
+  // Golden Showdown is 150 in every Showdown (seasonMaxFor still gives the race maths each Showdown's own season maximum).
+  function goldenShowdownPoints(_row){return GOLDEN_SHOWDOWN.primePackPoints;}
   function goldenShowdownManagers(row){
     if(!row||row.status!=="completed"||row.totalSeasons!==GOLDEN_SHOWDOWN.seasons||row.seasonsPlayed!==GOLDEN_SHOWDOWN.seasons||!row.totals)return [];
     const points=goldenShowdownPoints(row);

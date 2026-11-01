@@ -3,8 +3,10 @@
 // Nik's rules: per manager and season only winning scores (CL +5, EL +3, league title +3, domestic cup +1, 100 league points
 // and/or 100 league goals +1, top scorer and/or top assist +1), so a season is 0-11 and an EL season at most 9. One manager's
 // season is CL or EL, never both (different seasons count both). More Showdown points wins; equal points (0-0 included) is a
-// DRAW / level everywhere, and league position, points or goals never decide anything. Golden Showdown = 110 in a finished
-// 10-season Showdown, judged per manager. Lengths are 1, 3, 5 and 10 only.
+// DRAW / level everywhere, and league position, points or goals never decide anything. r87 (Nik 2026-11-01 17:35 UTC):
+// with Prime Pack a season is at most 15, a perfect season is 15 and the Golden Showdown is 150 in a finished 10-season
+// Showdown, judged per manager; there is no 110 Golden Showdown and an 11 is not a perfect season. These seeds play no
+// Prime Pack, so they score 0-11. Lengths are 1, 3, 5 and 10 only.
 //
 // Unlike the per-season parity matrix (europa-league-scoring-parity), this drives whole Showdowns through the shipped chain:
 // canonical scorer -> History projection (rebuild-verified) -> career model -> Career Statistics / Trophy Room / Legacy /
@@ -83,7 +85,7 @@ async function main(){
           if(r.europaLeague===true)assert.ok(t<=9,"a Europa League season scores at most 9");
           assert.equal(stcScore(r),t,"Terminal Close scores the season the same");
           assert.equal(local.rounds[i][ROLES[k]].scoring.total,t,"local scoring.js scores the season the same");
-          const m=expect[MANAGERS[k]];if(r.championsLeague)m.cl+=1;if(r.europaLeague===true)m.el+=1;if(r.leaguePosition===1)m.lt+=1;if(r.domesticCup)m.dc+=1;if(t===11)m.perfect+=1;
+          const m=expect[MANAGERS[k]];if(r.championsLeague)m.cl+=1;if(r.europaLeague===true)m.el+=1;if(r.leaguePosition===1)m.lt+=1;if(r.domesticCup)m.dc+=1;if(t===15)m.perfect+=1;
         });
         // No tiebreak: only the two Showdown totals decide; equal totals are a draw whatever the league table says.
         const w=pair.daniel>pair.nik?"playerOne":pair.nik>pair.daniel?"playerTwo":"draw";
@@ -101,8 +103,8 @@ async function main(){
       const fw=totals.daniel>totals.nik?"daniel":totals.nik>totals.daniel?"nik":"draw";
       assert.equal(row.winner,fw,"Showdown winner is totals-only");
       if(fw==="draw"){expect.daniel.d+=1;expect.nik.d+=1;}else{expect[fw].w+=1;expect[fw==="daniel"?"nik":"daniel"].l+=1;}
-      const golden=MANAGERS.filter(m=>totalSeasons===10&&totals[m]===110);
-      assert.deepEqual(plain(Seam.goldenShowdownManagers(row)),golden,"Golden Showdown is exactly 110 in a finished 10-season Showdown, per manager");
+      const golden=MANAGERS.filter(m=>totalSeasons===10&&totals[m]===150);
+      assert.deepEqual(plain(Seam.goldenShowdownManagers(row)),golden,"Golden Showdown is exactly 150 in a finished 10-season Showdown, per manager");
       golden.forEach(m=>{expect[m].golden+=1;});
       expect.daniel.points+=totals.daniel;expect.nik.points+=totals.nik;
     });
@@ -170,7 +172,8 @@ async function main(){
   }
   ok("CL +5 and EL +3 per manager, both managers may win either, never CL and EL in one manager's season");
 
-  // 4. Golden Showdown edges: 110 for one, 110 for both (a drawn Showdown, gold for both), 109, and 11 every season of a 5.
+  // 4. Golden Showdown edges: 11 every season (110) is never Golden now (Nik 2026-11-01), for one or both (still a DRAW);
+  // 150 for one, 150 for both, 149, and 150 over 10 seasons of a 5-season length never counts.
   {
     const ten=()=>({...perfect(),topScorer:false,topAssist:false});
     const specs=[
@@ -180,10 +183,16 @@ async function main(){
       {totalSeasons:5,seasons:Array.from({length:5},()=>[perfect(),zero()])}
     ];
     const model=verifyCareer(specs.map((s,i)=>showdown("f9a5"[i],s.totalSeasons,s.seasons)),specs);
-    assert.deepEqual(model.history.showdowns.map(r=>plain(Seam.goldenShowdownManagers(r))),[["nik"],["daniel","nik"],[],[]]);
+    assert.deepEqual(model.history.showdowns.map(r=>plain(Seam.goldenShowdownManagers(r))),[[],[],[],[]],"110 is not a Golden Showdown");
     assert.equal(model.history.showdowns[1].winner,"draw","110-110 is still a DRAW");
+    const row=(totals,totalSeasons=10)=>({status:"completed",totalSeasons,seasonsPlayed:totalSeasons,totals});
+    assert.deepEqual(plain(Seam.goldenShowdownManagers(row({daniel:40,nik:150}))),["nik"]);
+    assert.deepEqual(plain(Seam.goldenShowdownManagers(row({daniel:150,nik:150}))),["daniel","nik"]);
+    assert.deepEqual(plain(Seam.goldenShowdownManagers(row({daniel:149,nik:0}))),[]);
+    assert.deepEqual(plain(Seam.goldenShowdownManagers(row({daniel:75,nik:0},5))),[]);
+    assert.equal(Seam.goldenShowdownPoints(row({daniel:0,nik:0})),150);
   }
-  ok("Golden Showdown is 110 in a 10-season Showdown, per manager, draws included");
+  ok("Golden Showdown is 150 in a 10-season Showdown, per manager, draws included; 110 never");
 
   console.log(`PASS r87 scoring everywhere: ${checks} checks (${seeds.length} seeded careers x lengths 1/3/5/10, draws, Europe, Golden Showdown) agree from the season scorer to every career screen.`);
 }

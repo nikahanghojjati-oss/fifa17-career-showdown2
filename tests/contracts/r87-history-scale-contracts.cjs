@@ -22,8 +22,8 @@ const {score,winner,result}=require(path.join(ROOT,'tests/support/career-fixture
 
 const COUNT=300,WINDOW=3,LEAGUES=['premier_league','laliga','bundesliga','serie_a','ligue_1'];
 const hash=n=>'sha256:'+String(n).padStart(64,'0');
-// Showdown 5 is Golden (Daniel 110: 11 points every season), far from the newest, so it starts as a stand-in on a phone.
-const PERFECT=result({leaguePosition:1,leaguePoints:100,leagueGoals:100,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true});
+// Showdown 5 is Golden (Daniel 150: 15 points every season with Prime Pack), far from the newest, so it starts as a stand-in on a phone.
+const PERFECT=result({leaguePosition:1,leaguePoints:100,leagueGoals:100,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true,primePack:4});
 function projection(i){
   const seasons=i===5?Array.from({length:10},()=>[PERFECT,result()]):Array.from({length:10},(_,s)=>[
     result({leaguePosition:1+((i+s)%4),leaguePoints:70+((i*7+s)%35),championsLeague:(i+s)%5===0}),

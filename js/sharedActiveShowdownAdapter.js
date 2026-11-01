@@ -16,6 +16,8 @@
   function manager(role){return role==="playerOne"?"daniel":role==="playerTwo"?"nik":role==="draw"?"draw":null;}
   function managerId(id){return MANAGERS.includes(id)?id:null;}
   function pairValues(a,b){return {daniel:a,nik:b};}
+  const PERFECT_SEASON=15;
+  function perfectSeasons(p,role){return p.seasonHistory.filter(item=>item?.[role]?.scoring?.total===PERFECT_SEASON).length;}
   function finalFor(p){const playerOne=p.managerRecords.playerOne.totalPoints,playerTwo=p.managerRecords.playerTwo.totalPoints;return {totals:{playerOne,playerTwo},winner:playerOne>playerTwo?"playerOne":playerTwo>playerOne?"playerTwo":"draw"};}
   function inspect(snapshot){
     const s=asdPlain(snapshot)?snapshot:{},pair=asdPlain(s.pair)?s.pair:null,identity=asdPlain(s.identity)?s.identity:null;
@@ -94,7 +96,9 @@
       v.leagueId=p.leagueId;v.clubs=pairValues(p.managerRecords.playerOne.club,p.managerRecords.playerTwo.club);v.totalSeasons=p.totalSeasons;
       v.season=classification==="completed"||p.acceptedSeasons===p.totalSeasons?p.totalSeasons:multi?.state.activeSeason??p.acceptedSeasons+1;
       v.score=pairValues(p.managerRecords.playerOne.totalPoints,p.managerRecords.playerTwo.totalPoints);
-      v.managers=Object.fromEntries(ROLES.map((role,i)=>[MANAGERS[i],Object.fromEntries(COUNTERS.map(key=>[key,p.managerRecords[role][key]]))]));
+      // r87 (Nik 2026-11-01): a perfect season is 15. The History projection still counts 11 or more (its records are
+      // rebuilt and compared byte for byte, and older Firebase summaries hold them), so this view counts the 15s itself.
+      v.managers=Object.fromEntries(ROLES.map((role,i)=>[MANAGERS[i],Object.fromEntries(COUNTERS.map(key=>[key,key==="perfectSeasons"?perfectSeasons(p,role):p.managerRecords[role][key]]))]));
       v.seasons=p.seasonHistory.map(item=>({season:item.roundNumber,score:pairValues(item.playerOne.scoring.total,item.playerTwo.scoring.total),winner:manager(item.winner),leaguePosition:pairValues(item.playerOne.leaguePosition,item.playerTwo.leaguePosition),leaguePoints:pairValues(item.playerOne.leaguePoints,item.playerTwo.leaguePoints),leagueGoals:pairValues(item.playerOne.leagueGoals,item.playerTwo.leagueGoals)}));
     }else if(empty){
       v.managers=Object.fromEntries(MANAGERS.map(id=>[id,Object.fromEntries(COUNTERS.map(key=>[key,key==="bestSeasonScore"?null:0]))]));

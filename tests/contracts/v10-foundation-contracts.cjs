@@ -800,7 +800,7 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-01 to the r87 candidate (gameplay/r87 9a9667fb). This
   // check had not run since r78; the r87 release PR re-pins it to the shipped bytes.
-  assert.equal(sha256("index.html"),"2228b4894a54071ce2d7b3db5eb2f25bb0576e8afa1b06b4a41ec8b412ea8b5c","index.html byte-identical to the r87 candidate");
+  assert.equal(sha256("index.html"),"f172fdd98476a29fab881846c2984e71ff3cf4eb4eb23d24c2b527545f560b52","index.html byte-identical to the r87 candidate");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

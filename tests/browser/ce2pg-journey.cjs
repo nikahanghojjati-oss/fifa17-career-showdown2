@@ -268,7 +268,7 @@ function tally(seasons){
       const r=season[user],x=t[user],s=scoreSeason(r).total;
       x.seasons+=1;x.total+=s;if(w.side===user)x.W+=1;else if(w.side==="draw")x.D+=1;else x.L+=1;
       if(r.leaguePosition===1)x.league+=1;if(r.domesticCup)x.cup+=1;if(r.championsLeague)x.cl+=1;
-      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s>=11)x.perfect+=1;
+      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s===15)x.perfect+=1;// r87: a perfect season is 15 (Prime Pack 4 included), nothing else
       x.bestScore=x.bestScore===null?s:Math.max(x.bestScore,s);x.highPoints=x.highPoints===null?r.leaguePoints:Math.max(x.highPoints,r.leaguePoints);x.highGoals=x.highGoals===null?r.leagueGoals:Math.max(x.highGoals,r.leagueGoals);
       x.trophies=x.league+x.cup+x.cl;
     }

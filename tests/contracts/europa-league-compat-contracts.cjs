@@ -11,7 +11,8 @@
 //   * every saved Showdown in tests/fixtures/saved-showdowns*/ (the real database content r75, r76 and r79 wrote, finished or mid-game), where the
 //     stored commandHash of each private result and the stored operation hashes of each commit must be re-derived exactly.
 // and compares the digests with SNAPSHOT, which was recorded by running this same computation on the r80 base before the Europa
-// League change (origin/gameplay/r80 @ 854c797). The only output allowed to differ is the new history counter `europaLeagues`,
+// League change (origin/gameplay/r80 @ 854c797). The only outputs allowed to differ are the new history counter `europaLeagues`
+// and (r87) perfectSeasons, now 15s only, which is 0 for old data and put back to its recorded rule before the digest;
 // which must be 0 for old data (it is checked, then removed, before the history digest).
 // It also proves that every normalizer given a 7-key result returns exactly 7 keys, and that `europaLeague: false` is refused.
 const assert=require("node:assert/strict");
@@ -53,6 +54,11 @@ function oldShapeHistory(projection){
     for(const holder of [copy.managerRecords[role],copy.trophyAttribution[role]]){
       if(Object.hasOwn(holder,"europaLeagues")){assert.equal(holder.europaLeagues,0,"old data never counts a Europa League");delete holder.europaLeagues;}
     }
+    // r87 (Nik 2026-11-01): a perfect season is 15. Old data never reaches 15, so it counts 0 now; the digest keeps the
+    // counter the snapshot was recorded with (seasons of 11 or more) so every other byte is still compared.
+    const record=copy.managerRecords[role];
+    assert.equal(record.perfectSeasons,0,"old data (at most 11 a season) never counts a perfect 15");
+    record.perfectSeasons=copy.seasonHistory.filter(season=>season[role].scoring.total>=11).length;
   }
   return copy;
 }

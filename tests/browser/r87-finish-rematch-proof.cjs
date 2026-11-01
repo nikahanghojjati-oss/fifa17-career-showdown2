@@ -5,7 +5,8 @@
 //   S  a Showdown of R87FR_SEASONS (1, 3, 5 or 10) seasons played to the end. R87FR_SCENARIO picks the end:
 //        win     (default) one manager wins;
 //        draw    the totals end level: Final Winner reads DRAW, no tiebreak;
-//        golden  10 seasons only: Daniel scores 11 in every season (110 points), so career screens must show a Golden Showdown.
+//        golden  10 seasons only: Nik scores 15 in every season (11 from FIFA plus Prime Pack 4, CE2PG_PRIME=golden), 150 points,
+//                so career screens must show a Golden Showdown (150 is the only Golden total).
 //      On Final Winner, Nik taps REMATCH ("DANIEL STARTS IT"): the final Gazette, then his Showdown Home.
 //      Daniel taps REMATCH: the final Gazette, then the seasons screen with S's length already picked.
 //   R  the rematch. Daniel taps START on that preset screen; Nik's Home JOIN tile picks it up (no code typed).
@@ -35,9 +36,11 @@ const Module=require("node:module");
 const LEN=Number(process.env.R87FR_SEASONS||1);
 const SCEN=process.env.R87FR_SCENARIO||"win";
 const REMATCH=process.env.R87FR_REMATCH||(LEN<=3?"full":"end1");
-if(![1,3,5,10].includes(LEN)||!["win","draw","golden"].includes(SCEN)||!["full","end1"].includes(REMATCH)||(SCEN==="golden"&&LEN!==10)){
-  console.error(`R87FR_SEASONS 1|3|5|10, R87FR_SCENARIO win|draw|golden (golden needs 10), R87FR_REMATCH full|end1 (got ${LEN}, ${SCEN}, ${REMATCH})`);process.exit(2);
+if(![1,3,5,10].includes(LEN)||!["win","draw","golden"].includes(SCEN)||!["full","end1"].includes(REMATCH)||(SCEN==="golden"&&(LEN!==10||REMATCH!=="end1"))){
+  console.error(`R87FR_SEASONS 1|3|5|10, R87FR_SCENARIO win|draw|golden (golden needs 10 and end1), R87FR_REMATCH full|end1 (got ${LEN}, ${SCEN}, ${REMATCH})`);process.exit(2);
 }
+// r87 (Nik 2026-11-01): a Golden Showdown is 150 only, so the golden run plays Prime Pack with Nik naming the Icon every season.
+if(SCEN==="golden")process.env.CE2PG_PRIME="golden";
 process.env.CE2PG_PLAN="single";
 process.env.CE2PG_SEASONS=String(LEN);
 process.env.CE2PG_SCENARIO=SCEN==="draw"?"draw":"";
@@ -89,21 +92,18 @@ const R87={len:${LEN},scenario:${JSON.stringify(SCEN)},rematch:${JSON.stringify(
 report.r87FinishRematch=R87;
 report.realUiSteps.push("Final Winner REMATCH (both phones), the final Gazette, Daniel's preset seasons screen START, Nik's Home JOIN tile");
 function r87Specs(){
-  const target=R87.scenario==="draw"?"draw":R87.scenario==="golden"?"daniel":RUN===2?"nik":"daniel";
+  const target=R87.scenario==="draw"?"draw":R87.scenario==="golden"?"nik":RUN===2?"nik":"daniel";
   const S={name:"S",length:R87.len,firstRealStart:true,target,seed:R87.len,rematchNext:true,golden:R87.scenario==="golden"};
   const R={name:"R",length:R87.len,target:RUN===2?"daniel":"nik",seed:R87.len+50,rematchOf:"S"};
   if(R87.rematch==="end1"){R.endAfter=1;R.target=null;}
   return [S,R];
 }
-// Golden Showdown: Daniel 11 every season (Champions League 5 + title 3 + cup 1 + performance 1 + individual 1); Nik well below.
+// Golden Showdown: CE2PG_PRIME=golden makes Nik's every season Champions League 5 + title 3 + cup 1 + performance 1 + individual 1
+// + Prime Pack 4 = 15 (150 in 10 seasons); this only checks the plan says so.
 const r87BuildPlan=buildPlan;
 buildPlan=function(seasons,teamCount,target,seed){
-  if(!(R87.scenario==="golden"&&showdownNow==="S"))return r87BuildPlan(seasons,teamCount,target,seed);
-  const plan=[];
-  for(let k=1;k<=seasons;k+=1)plan.push({
-    daniel:{leaguePosition:1,leaguePoints:Math.min(100,(teamCount-1)*6),leagueGoals:100,domesticCup:true,championsLeague:true,topScorer:true,topAssist:k%2===0},
-    nik:{leaguePosition:2+(k%4),leaguePoints:40+k,leagueGoals:30+k,domesticCup:false,championsLeague:false,topScorer:false,topAssist:k%3===0}});
-  for(const s of plan)if(scoreSeason(s.daniel).total!==11)throw new Error("golden plan: Daniel's season is not 11 points");
+  const plan=r87BuildPlan(seasons,teamCount,target,seed);
+  if(R87.scenario==="golden"&&showdownNow==="S")for(const s of plan)if(scoreSeason(s.nik).total!==15)throw new Error("golden plan: Nik's season is not 15 points");
   return plan;
 };
 // The roulette steps each phone plays before every season's Transfer Challenge (CE2PG ignores them).
@@ -234,8 +234,8 @@ async function r87CareerTextChecks(ctx){
     // Career Statistics draws the gold line "GOLDEN SHOWDOWN Daniel ×1" only for a manager who earned one (the bare words
     // "Golden Showdown" are also in the Trophy Room's category copy, so only the line with a name and a count counts).
     const line=((/GOLDEN SHOWDOWN\s*((?:Daniel|Nik) ×\d+(?: · (?:Daniel|Nik) ×\d+)?)/i.exec(stats)||[])[1]||"").replace(/\b(DANIEL|NIK)\b/gi,w=>w[0].toUpperCase()+w.slice(1).toLowerCase())||null;
-    if(R87.scenario==="golden")await eq(ctx[who],"r87.golden.shown","a finished 10-season Showdown on 110 points: Career Statistics shows the gold line GOLDEN SHOWDOWN Daniel ×1",line,"Daniel ×1",{screen:"Career Statistics"});
-    else await eq(ctx[who],"r87.golden.none","no Golden Showdown line without 110 points in a 10-season Showdown",line,null,{screen:"Career Statistics"});
+    if(R87.scenario==="golden")await eq(ctx[who],"r87.golden.shown","a finished 10-season Showdown on 150 points: Career Statistics shows the gold line GOLDEN SHOWDOWN Nik ×1",line,"Nik ×1",{screen:"Career Statistics"});
+    else await eq(ctx[who],"r87.golden.none","no Golden Showdown line without 150 points in a 10-season Showdown",line,null,{screen:"Career Statistics"});
     if(R87.rematch==="end1")await check(ctx[who],"r87.R.endedEarlyRow","the ended rematch shows as an Ended early History row",/Ended early/i.test(text),"no Ended early row",{screen:"History"});
   }
 }

@@ -31,9 +31,9 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   // ---- fixture helpers ----
   const MANAGERS={playerOne:{name:'Alex',club:'Arsenal',league:'premier_league'},playerTwo:{name:'Sam',club:'Juventus',league:'serie_a'}};
   // A result from a short description: pos, pts, goals, cup, cl, el, ts (top scorer), ta (top assist).
-  const R=({pos=5,pts=60,goals=50,cup=false,cl=false,el=false,ts=false,ta=false}={})=>({leaguePosition:pos,leaguePoints:pts,leagueGoals:goals,domesticCup:cup,championsLeague:cl,topScorer:ts,topAssist:ta,...(el?{europaLeague:true}:{})});
+  const R=({pos=5,pts=60,goals=50,cup=false,cl=false,el=false,ts=false,ta=false,pp=0}={})=>({leaguePosition:pos,leaguePoints:pts,leagueGoals:goals,domesticCup:cup,championsLeague:cl,topScorer:ts,topAssist:ta,...(el?{europaLeague:true}:{}),...(pp?{primePack:pp}:{})});
   // A season total 0..11 as a typical result (only 0-2 come without a trophy).
-  const PTS=[{},{ta:true},{ta:true,goals:100},{el:true},{el:true,ta:true},{cl:true},{cl:true,ta:true},{cl:true,ta:true,goals:100},{cl:true,pos:1},{cl:true,pos:1,cup:true},{cl:true,pos:1,cup:true,ta:true},{cl:true,pos:1,cup:true,ta:true,pts:100}];
+  const PTS=[{},{ta:true},{ta:true,goals:100},{el:true},{el:true,ta:true},{cl:true},{cl:true,ta:true},{cl:true,ta:true,goals:100},{cl:true,pos:1},{cl:true,pos:1,cup:true},{cl:true,pos:1,cup:true,ta:true},{cl:true,pos:1,cup:true,ta:true,pts:100},{cl:true,pos:1,cup:true,ta:true,pts:100,pp:1},{cl:true,pos:1,cup:true,ta:true,pts:100,pp:2},{cl:true,pos:1,cup:true,ta:true,pts:100,pp:3},{cl:true,pos:1,cup:true,ta:true,pts:100,pp:4}]; // 12-15 with Prime Pack
   const desc=value=>typeof value==='number'?PTS[value]:value;
   const season=(a,b,teams=20)=>({...protocols[teams].scoreAuthoritativeResults({playerOne:R(desc(a)),playerTwo:R(desc(b))}),teamCount:teams});
   const F=({seasons=3,seq=[],s,managers=MANAGERS,history,specialPlayers,teams=20}={})=>({managers,seasons,season:s===undefined?seq.length:s,results:seq.map(([a,b,t])=>season(a,b,t||teams)),...(history?{history}:{}),...(specialPlayers?{specialPlayers}:{})});
@@ -69,7 +69,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   ok('C1',`all ${ordered.length} situations of data/commentarySituations.json with the same slots, each in exactly one of the 5 moments; pure (no clock, randomness, storage or network)`);
 
   // C2 season points come only from the canonical scoring
-  PTS.forEach((d,n)=>{const row=season(d,0);assert.equal(row.scoring.playerOne.total,n);assert.equal(legacyScore(R(d)).total,n,'js/scoring.js agrees');});
+  PTS.forEach((d,n)=>{const row=season(d,0);assert.equal(row.scoring.playerOne.total,n);if(!d.pp)assert.equal(legacyScore(R(d)).total,n,'js/scoring.js agrees');});// the local js/scoring.js has no Prime Pack
   assert.throws(()=>run('season-result',{managers:MANAGERS,seasons:1,season:1,results:[{results:{playerOne:R(),playerTwo:R()},teamCount:20}]}),/COMMENTARY_SCORING_MISSING/,'no breakdown, no guessing');
   const forged=season(5,4);assert.throws(()=>run('season-result',{managers:MANAGERS,seasons:1,season:1,results:[{...forged,winner:'playerTwo'}]}),/WINNER_MISMATCH/);
   const tied=season(4,4);assert.equal(tied.winner,'draw');assert.throws(()=>run('season-result',{managers:MANAGERS,seasons:1,season:1,results:[{...tied,winner:'playerOne'}]}),/WINNER_MISMATCH/,'equal totals can never carry a winner');
@@ -97,8 +97,8 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   for(const [a,b] of [[0,0],[3,3],[5,5],[11,11]]){x=margin(a,b);for(const sit of ['season-win-by-1','season-win-by-2-3','season-win-by-4-6','season-win-by-7-plus','season-shutout','first-season-won','won-season-no-trophy','trophy-but-lost-season','streak-two'])none(x,sit);assert.ok(x.every(e=>!('winner' in e.slots)&&!('loser' in e.slots)),'a drawn season names no winner');}
   x=margin(8,8);assert.deepEqual(one(x,'season-both-big'),{clubA:'Arsenal',clubB:'Juventus',managerA:'Alex',managerB:'Sam',pointsA:'8',pointsB:'8',season:'1'});
   one(margin(9,8),'season-both-big');none(margin(8,7),'season-both-big');none(margin(7,11),'season-both-big');
-  x=margin(11,3);s=one(x,'season-perfect','Alex');assert.deepEqual(s,{club:'Arsenal',leagueGoals:'50',leaguePoints:'100',manager:'Alex',position:'1st',rival:'Sam',rivalClub:'Juventus',season:'1',seasonPoints:'11'});none(x,'season-perfect','Sam');
-  none(margin(10,3),'season-perfect');
+  x=margin(15,3);s=one(x,'season-perfect','Alex');assert.deepEqual(s,{club:'Arsenal',leagueGoals:'50',leaguePoints:'100',manager:'Alex',position:'1st',rival:'Sam',rivalClub:'Juventus',season:'1',seasonPoints:'15'});none(x,'season-perfect','Sam');
+  none(margin(14,3),'season-perfect');none(margin(11,3),'season-perfect');// r87 (Nik 2026-11-01): perfect is 15, never 11
   ok('C3','season margins 1 | 2-3 | 4-6 | 7+ split exactly at 1/2, 3/4 and 6/7; a shutout needs a winner and a 0; draws are nil, 1-4 or 5+, and a draw never fills a winner; both-big needs 8 each; perfect needs 11');
 
   // C4 N3-N6 one manager's season (one entry per manager it is true for)
@@ -177,13 +177,13 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=after([[5,0],[0,0],[1,0],[0,0],[1,0]],10);one(x,'clock-halfway');none(after([[5,0],[0,0],[1,0],[0,0]],10),'clock-halfway');
   x=after([[5,0],[0,0],[1,0]],5);one(x,'clock-halfway');none(after([[5,0],[0,0]],5),'clock-halfway');none(after([[5,0],[0,0]],3),'clock-halfway');
   x=after([[5,0],[5,0]],3);assert.equal(one(x,'clock-penultimate').seasonsLeft,'1');assert.equal(one(x,'clock-final-open').gap,'10');none(x,'clock-clinched');none(x,'clock-dead-rubber');
-  x=after([[6,0],[5,0]],3);one(x,'clock-penultimate');none(x,'clock-final-open');none(x,'clock-clinched');none(x,'clock-dead-rubber');// 11 behind: a draw is still possible, a win is not
-  x=after([[6,0],[6,0]],3);assert.equal(one(x,'clock-clinched').gap,'12');one(x,'clock-dead-rubber');none(x,'clock-final-open');one(x,'overall-runaway');
+  x=after([[8,0],[7,0]],3);one(x,'clock-penultimate');none(x,'clock-final-open');none(x,'clock-clinched');none(x,'clock-dead-rubber');// 15 behind: a draw is still possible, a win is not
+  x=after([[8,0],[8,0]],3);assert.equal(one(x,'clock-clinched').gap,'16');one(x,'clock-dead-rubber');none(x,'clock-final-open');one(x,'overall-runaway');
   x=after([[2,2],[1,1]],3);s=one(x,'clock-final-open');assert.ok(!('leader' in s)&&!('gap' in s),'level: nobody is named as leader');
-  x=after([[11,0],[11,0],[0,0]],5);none(x,'clock-clinched');// 22 is not more than 11 x 2
-  x=after([[11,0],[11,0],[1,0]],5);assert.equal(one(x,'clock-clinched').seasonsLeft,'2');none(x,'clock-dead-rubber');
-  x=after([[11,0],[11,0],[11,0]],3);none(x,'clock-clinched');none(x,'clock-penultimate');// no season remains
-  ok('C7','halfway after 5 of 10 and 3 of 5; penultimate; final-open while the gap is 10 or less; clinched only when the gap is MORE than 11 per season left (22 of 2 left is not, 23 is); dead rubber is clinched with one season left');
+  x=after([[15,0],[15,0],[0,0]],5);none(x,'clock-clinched');// 30 is not more than 15 x 2
+  x=after([[15,0],[15,0],[1,0]],5);assert.equal(one(x,'clock-clinched').seasonsLeft,'2');none(x,'clock-dead-rubber');
+  x=after([[15,0],[15,0],[15,0]],3);none(x,'clock-clinched');none(x,'clock-penultimate');// no season remains
+  ok('C7','halfway after 5 of 10 and 3 of 5; penultimate; final-open while the gap is under 15; clinched only when the gap is MORE than 15 per season left (30 of 2 left is not, 31 is); dead rubber is clinched with one season left');
 
   // C8 N11/N12 the Final Winner and N16 career
   const fin=(seq,N=3,history)=>at('final',F({seasons:N,seq,history}));
@@ -204,7 +204,8 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=fin([[2,0],[0,1],[0,0]]);one(x,'final-wire-to-wire');none(x,'final-comeback');
   x=fin([[2,0],[0,2],[1,0]]);none(x,'final-wire-to-wire');none(x,'final-last-season-swing');// level after season 2
   x=fin([[3,0],...Array(9).fill([0,0])],10);none(x,'final-golden');none(x,'final-sprint');
-  x=fin(Array(10).fill([11,4]),10);assert.equal(one(x,'final-golden').winnerTotal,'110');none(x,'final-sprint');
+  x=fin(Array(10).fill([11,4]),10);none(x,'final-golden');none(x,'final-sprint');// r87 (Nik 2026-11-01): 110 is no Golden Showdown; 150 only
+  x=fin(Array(10).fill([{pos:1,pts:101,goals:101,cup:true,cl:true,ts:true,pp:4},4]),10);assert.equal(one(x,'final-golden').winnerTotal,'150');
   x=fin([[10,4],...Array(9).fill([11,4])],10);none(x,'final-golden');
   x=fin([[3,0]],1);one(x,'final-sprint');one(x,'final-wire-to-wire');none(x,'final-golden');none(x,'final-last-season-swing');
   x=fin([[3,3]],1);none(x,'final-sprint');one(x,'final-drawn');
@@ -258,10 +259,11 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=pre([[3,3]],3,2);s=one(x,'preview-level');assert.ok(!('leader' in s)&&!('gap' in s));none(x,'preview-leader');
   x=pre([[3,1],[0,4]],3,3);s=one(x,'preview-final-season');assert.equal(s.leader,'Sam');assert.equal(s.seasonsLeft,'1');one(x,'preview-leader');
   x=pre([],1,1);one(x,'preview-final-season');one(x,'preview-first-season');
-  x=pre([[6,0],[6,0]],3,3);assert.deepEqual(x,[],'a 12-point lead before the final season: no preview says the race is open');
-  x=pre([[11,0]],2,2);none(x,'preview-final-season');none(x,'preview-leader');
-  x=pre([[10,0]],2,2);one(x,'preview-final-season');one(x,'preview-leader');
-  x=pre([[11,0],[11,0],[1,0]],5,4);none(x,'preview-leader');x=pre([[11,0],[11,0],[0,1]],5,4);one(x,'preview-leader');
+  // r87 (Nik 2026-11-01): a season is worth up to 15 in every Showdown.
+  x=pre([[8,0],[8,0]],3,3);assert.deepEqual(x,[],'a 16-point lead before the final season: no preview says the race is open');
+  x=pre([[15,0]],2,2);none(x,'preview-final-season');none(x,'preview-leader');
+  x=pre([[14,0]],2,2);one(x,'preview-final-season');one(x,'preview-leader');
+  x=pre([[15,0],[15,0],[1,0]],5,4);none(x,'preview-leader');x=pre([[15,0],[15,0],[0,1]],5,4);one(x,'preview-leader');
   ok('C11','previews: season 1, golden (season 1 of 10), the final season, a leader by the gap after the seasons played, level (never on season 1); no final-season or leader preview once the trailer cannot win');
 
   // C12 every situation fires with every slot filled, in at least one fixture above
@@ -309,7 +311,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
         if(pa===pb){assert.ok(entries.every(e=>!('winner' in e.slots)));assert.equal(entries.filter(e=>/^season-draw/.test(e.situation)).length,1);}
         else{const band=entries.filter(e=>/^season-win-by/.test(e.situation));assert.equal(band.length,1);const m=Math.abs(pa-pb);assert.equal(band[0].slots.margin,String(m));assert.equal(band[0].situation,m===1?'season-win-by-1':m<=3?'season-win-by-2-3':m<=6?'season-win-by-4-6':'season-win-by-7-plus');assert.equal(band[0].slots.winner,pa>pb?'Alex':'Sam');}
         if(ta===tb)assert.ok(entries.every(e=>!('leader' in e.slots)),'level overall: no leader');
-        assert.equal(entries.some(e=>e.situation==='clock-clinched'),left>0&&gap>11*left);
+        assert.equal(entries.some(e=>e.situation==='clock-clinched'),left>0&&gap>15*left);
         assert.equal(entries.some(e=>e.situation==='overall-runaway'),left>0&&gap>=12);
         for(const role of ['playerOne','playerTwo']){const r=row.results[role],name=facts.managers[role].name,mine=entries.filter(e=>e.slots.manager===name).map(e=>e.situation);assert.equal(mine.includes('finish-bottom-three'),r.leaguePosition>row.teamCount-3);if(mine.includes('finish-mid-table'))assert.ok(r.leaguePosition>=5&&r.leaguePosition<=10);}
       }

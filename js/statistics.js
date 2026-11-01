@@ -486,7 +486,7 @@ function createSeasonBar(name, score, alignRight = false){
     track.className = "seasonPointTrack";
     const fill = document.createElement("div");
     fill.className = "seasonPointFill";
-    fill.style.width = `${Math.min(100, Math.max(0, (Number(score) / 11) * 100))}%`;
+    fill.style.width = `${Math.min(100, Math.max(0, (Number(score) / 15) * 100))}%`;
     track.appendChild(fill);
     wrap.append(top, track);
     return wrap;

@@ -193,7 +193,7 @@ await check("C13 scoring unchanged across lengths",()=>{
     assert.equal(m.status,"ready",String(n));
     const s=m.history.showdowns[0].seasons[0];assert.equal(s.score.daniel,11);assert.equal(s.score.nik,2,"performance 1 + awards 1, never 2 each");
     assert.equal(m.managers.daniel.careerPoints,r.terminalWitness.managerTotals.playerOne);assert.equal(m.managers.nik.careerPoints,r.terminalWitness.managerTotals.playerTwo);
-    assert.equal(m.managers.daniel.perfectSeasons,1);assert.ok(m.managers.daniel.bestSeasonScore<=11);
+    assert.equal(m.managers.daniel.perfectSeasons,0,"r87 (Nik 2026-11-01): an 11 is not a perfect season, only 15");assert.ok(m.managers.daniel.bestSeasonScore<=11);
   }
   const src=read("js/sharedClosedShowdownAdapter.js");assert.doesNotMatch(src,/\?\s*5\s*:|\?\s*3\s*:|scoring\.total\s*=/,"the adapter never computes scores");
 });

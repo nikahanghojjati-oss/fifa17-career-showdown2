@@ -18,8 +18,8 @@
   function bare(status){return {status,managerOrder:ORDER.slice()};}
   function validSeason(s){return s&&Number.isInteger(s.season)&&["daniel","nik","draw"].includes(s.winner)&&["score","leaguePosition","leaguePoints","leagueGoals"].every(k=>pair(s[k]));}
   function validRow(r){return r&&Number.isInteger(r.number)&&typeof r.leagueId==="string"&&r.clubs&&ORDER.every(k=>typeof r.clubs[k]==="string")&&finite(r.seasonsPlayed)&&finite(r.totalSeasons)&&pair(r.totals)&&["daniel","nik","draw"].includes(r.winner)&&Array.isArray(r.seasons)&&r.seasons.every(validSeason);}
-  // r84 Golden Showdown: the managers who closed this finished 10-season Showdown on the most every season can score (110, or
-  // 150 with Prime Pack; the seam owns the rule). Only a
+  // r84 Golden Showdown: the managers who closed this finished 10-season Showdown on the most every season can score (150;
+  // the seam owns the rule). Only a
   // Showdown that has one carries the field.
   function golden(row){const managers=seam().goldenShowdownManagers(row);return managers.length?{goldenShowdown:managers}:{};}
   // r86 Special Player chip (js/specialPlayerChip.js): a Showdown confirmed on r86 or later carries each manager's Special
@@ -148,7 +148,7 @@
         const selected=root.LegacyFixture?.selectedShowdown;
         const current=cards.find(card=>Number(card.dataset.showdown)===Number(selected))||cards[0];
         cards.forEach(card=>card.classList.toggle("legacyVisibleCard",card===current));
-        // r87 career fixes (A-01): a 3-digit total ("110 – 110") is wider than the score's third of a desktop card, so that
+        // r87 career fixes (A-01): a 3-digit total ("150 – 150") is wider than the score's third of a desktop card, so that
         // card puts the score on its own line above the two managers (css/rivalryLegacyV10.css). Nothing else changes.
         for(const card of cards){const row=Array.isArray(frame.showdowns)?frame.showdowns.find(item=>item&&item.number===Number(card.dataset.showdown)):null;const wide=Boolean(row?.totals&&Math.max(row.totals.daniel,row.totals.nik)>=100);if(wide!==(card.dataset.wideScore==="true")){if(wide)card.dataset.wideScore="true";else delete card.dataset.wideScore;}}
       };
