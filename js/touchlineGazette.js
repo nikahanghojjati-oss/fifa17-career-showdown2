@@ -511,8 +511,10 @@
     const desk=paper.querySelector(".cmx-gz__desk");
     if(desk)desk.before(box);else paper.appendChild(box);
   }
-  // The whole paper and its CONTINUE fit the window: the paper is scaled down a little on short windows (never below 72% on
-  // desktop or 82% for the phone edition), after which the page scrolls as usual. CONTINUE itself is never scaled.
+  // The whole paper and its CONTINUE fit the window where they can: on desktop the paper is scaled down a little on short
+  // windows, never below FIT_FLOOR (2.0.0 readability: the story stays at reading size), after which the page scrolls as
+  // usual. The phone edition is never scaled (it scrolls). CONTINUE itself is never scaled.
+  const FIT_FLOOR=Object.freeze({desktop:0.92,phone:1});
   function fit(){
     const state=current;if(!state||!state.page.isConnected)return;
     const compact=compactNow();
@@ -522,7 +524,7 @@
     const screen=state.page.querySelector(".cmx-fp-screen"),paper=desk.firstElementChild;if(!screen||!paper)return;
     const top=state.page.getBoundingClientRect().top,avail=root.innerHeight-Math.max(0,top);
     const over=screen.scrollHeight-avail;if(over<=0)return;
-    const k=Math.max(compact?0.82:0.72,Math.min(1,(paper.offsetHeight-over)/paper.offsetHeight));desk.style.zoom=String(Math.round(k*1000)/1000);
+    const k=Math.max(compact?FIT_FLOOR.phone:FIT_FLOOR.desktop,Math.min(1,(paper.offsetHeight-over)/paper.offsetHeight));desk.style.zoom=String(Math.round(k*1000)/1000);
   }
   function tgClose(){
     const state=current;current=null;if(!state)return;
@@ -677,5 +679,5 @@
   // Proof and test hook: draws an edition on the current Season Results screen exactly as a tap would.
   function showForProof(edition,proceedFn){return within(tgPrepare(edition),ASSET_CAP_MS).then(ready=>ready&&tgRender({kind:edition.kind,edition,button:null,proceed:proceedFn||(()=>false)}));}
 
-  return Object.freeze({contractVersion:1,feature:"r87-touchline-gazette",firestoreReads:0,firestoreWrites:0,SEEN_KEY,FONT_FILES,hash:tgHash,fill,seasonSituations:(projection,N)=>{const f=readHistory(projection,N);return f?seasonSituations(f,N):null;},seasonEdition,finalEdition,seasonInput,finalInput,paperText,planFor,install:tgInstall,showForProof,isOpen:()=>Boolean(current),close:tgClose});
+  return Object.freeze({contractVersion:1,feature:"r87-touchline-gazette",firestoreReads:0,firestoreWrites:0,SEEN_KEY,FIT_FLOOR,FONT_FILES,hash:tgHash,fill,seasonSituations:(projection,N)=>{const f=readHistory(projection,N);return f?seasonSituations(f,N):null;},seasonEdition,finalEdition,seasonInput,finalInput,paperText,planFor,install:tgInstall,showForProof,isOpen:()=>Boolean(current),close:tgClose});
 });
