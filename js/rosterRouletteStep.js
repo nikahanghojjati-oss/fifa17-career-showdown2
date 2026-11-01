@@ -243,9 +243,19 @@
     return parts.length?`${p.name} (${parts.join(", ")})`:String(p.name);
   }
   function rrsOutcomeLine(turn){return turn.fired?`${NAMES[turn.role]} lost ${rrsPlayerLabel(turn.player)}.`:`${NAMES[turn.role]}: empty chamber. Squad safe.`;}
+  // F2-19 (Fable job 2): a kept signing the board rules keep off is said in one line, never dropped silently. Signings are known
+  // by name only, so a name the roulette shot, a Special Player's, or a guessed and released signing's keeps him off the board.
+  const RRS_SKIP_WHY=Object.freeze({
+    shot:name=>`the roulette shot a ${name}, and a shot player never comes back.`,
+    special:name=>`${name} is a Special Player's name, and a Special Player is never on a board.`,
+    guessed:name=>`a ${name} was guessed and released in the Transfer War, and a released player stays off the board.`});
+  function rrsSkippedLines(plan,role){
+    const list=plan&&plan.skipped&&Array.isArray(plan.skipped[role])?plan.skipped[role]:[];
+    return list.filter(item=>item&&typeof item.name==="string"&&RRS_SKIP_WHY[item.reason]).map(item=>`${item.name} (signed in season ${item.season}) is not on your board: ${RRS_SKIP_WHY[item.reason](item.name)}`);
+  }
   async function rrsResult(ctx,plan){
     const mine=plan.turns.find(turn=>turn.role===ctx.managerRole);
-    const lines=plan.turns.map(rrsOutcomeLine);
+    const lines=[...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
         note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the transfer window. The game can't do it for you.`,

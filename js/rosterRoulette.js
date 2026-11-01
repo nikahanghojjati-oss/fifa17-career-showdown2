@@ -386,7 +386,7 @@
     const args=rrArgs(rivalryId,clubs,season);
     if(!args)return null;
     const history=options&&options.history,special=options&&options.special,hits=options&&options.hits;
-    const boards={},turns={};
+    const boards={},turns={},skipped={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
     // The Special Player is never on any board, bench or reserve list anywhere: both managers' draws are excluded from
     // both clubs (red team R87-C-01). One in the club's launch board is skipped and the next player takes his place.
@@ -398,6 +398,8 @@
         rrReserve(state,{name,number,rating,positions:rrPlayerPositions(name,state.club,number),signedSeason:null});
       for(let i=0;i<BOARD_SIZE;i+=1)if(rrExcluded(state,state.board[i]))rrReplace(state,i,[]);
       while(state.reserves.length<3&&rrNextReserve(state)){} // skip him in the hidden three too
+      // F2-19 (Fable job 2): names the roulette shot, for saying why a kept signing of the same name stays off the board.
+      const shotNames=new Set();skipped[role]=[];
       for(let k=1;k<season;k+=1){
         const allKept=rrKept(history&&history[k]&&history[k][role],k,state.club);
         if(!allKept)return null;
@@ -415,10 +417,17 @@
         if(saved){if(saved.fired)({shot,at}=rrSavedAt(state.board,saved));}
         else if(turn.fired){shot=state.board[turn.hitSlot];at=turn.hitSlot;}
         if(shot){
+          shotNames.add(rrKey(shot.name));
           rrExclude(state,at>=0?state.board[at]:shot);
           // Keep the old row until it can be overwritten directly. Vacancy metadata lets
           // R87-2's XI/bench signing placement run first without ever writing a blank row.
           if(at>=0)state.vacant=at;
+        }
+        // F2-19: a kept signing the rules keep off (signings are known by name only, so his name is one the roulette shot, a
+        // Special Player's, or a guessed and released signing's) is listed for the season right after his window, with why.
+        if(k===season-1)for(const player of kept)if(rrExcluded(state,player)){
+          const key=rrKey(player.name);
+          skipped[role].push(Object.freeze({name:player.name,season:k,reason:specials.some(sp=>rrKey(sp.name)===key)?"special":shotNames.has(key)?"shot":"guessed"}));
         }
         for(const player of kept)rrJoin(state,player);
         if(state.vacant!==null){rrReplace(state,state.vacant,[],k);state.vacant=null;}
@@ -426,7 +435,7 @@
         rrRepairStopgaps(state,k);
       }
       const board=state.board;
-      boards[role]=Object.freeze(board);
+      boards[role]=Object.freeze(board);skipped[role]=Object.freeze(skipped[role]);
       const turn=rrTurn(args.hex,season,role,board),saved=rrSavedHit(hits,season,role);
       turns[role]=saved?rrSavedTurn(turn,saved,board):{...turn,authority:"computed",shot:null};
     }
@@ -435,7 +444,7 @@
       const player=turn.hitSlot===null?null:shot?rrRow(turn.hitSlot,board[turn.hitSlot].pos,shot.name,{number:shot.number,rating:0,positions:Object.freeze([]),special:false,signedSeason:shot.signedSeason}):board[turn.hitSlot];
       return Object.freeze({...turn,player});
     });
-    return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order)});
+    return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order),skipped:Object.freeze(skipped)});
   }
 
   return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,engineRevision:ENGINE_REVISION,board:rrBoard,forSeason:rrForSeason,version:rrVersion,outcome:rrOutcome});

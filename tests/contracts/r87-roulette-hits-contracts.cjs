@@ -13,6 +13,7 @@
 //  H7 F2-02/F2-12 production wiring: the mark carries the outcome; an earlier season is read with plain gets
 //     (provider.readRouletteSeason), never the prerequisite transaction, and a kept copy costs nothing.
 //  H8 S6 the reconnect banner's 15 s check waits while the full-screen roulette is up.
+//  H9 F2-19 a signing the board rules keep off is listed with the reason on the result card, never dropped silently.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -119,7 +120,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     assert.equal(R.version({playerOne:"Not A Club",playerTwo:"Arsenal"},{}),null);
     // The engine revision is pinned to the engine's text: any change to js/rosterRoulette.js must decide whether a board or a
     // shot can come out differently (then bump ENGINE_REVISION) and update this pin.
-    const PIN={revision:2,sha256:"bae72f14ac9eecb9f2db241eb0eaefd01a9779acba8a0732f7e89001ac7317a2"};
+    const PIN={revision:2,sha256:"aa472df71572f26a07514cd2bc1488a137db8901b294417eee8a4c6bc34cd733"};
     const sha=crypto.createHash("sha256").update(read("js/rosterRoulette.js")).digest("hex");
     assert.equal(R.engineRevision,PIN.revision,"ENGINE_REVISION changed: update the pin below with the file's sha256");
     assert.equal(sha,PIN.sha256,"js/rosterRoulette.js changed: if a board or a shot can come out differently, bump ENGINE_REVISION; then update this pin");
@@ -207,6 +208,27 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const q=await page2.panel();assert.equal(page2.doc.frames.length,0);
     page2.press(q,q.all().find(n=>n.className==="menuButton rrStepPrimary").textContent);assert.equal(await run2,true);assert.equal(remembered,0);
     ok("H5","F2-10 a second browser or cleared storage shows the result card from the server mark, with no second spin");
+  }
+
+  // ---------- H9 ----------
+  // F2-19: a kept signing the board rules keep off (his name is a player the roulette shot, a Special Player's, or a guessed
+  // and released signing's: signings are known by name only) is never dropped silently. The plan lists him for the season
+  // after his window and the result card says why, in one line, on both phones alike.
+  {
+    const R=engine(),sp={playerOne:null,playerTwo:{name:"L. Messi",overall:93,number:10}};
+    const verdicts={playerOne:[{slot:1,name:"J. Milner",overall:80,position:"CM",release:false},{slot:2,name:"L. Messi",overall:93,position:"RW",release:false},{slot:3,name:"A. Newman",overall:99,position:"ST",release:false}],playerTwo:[]};
+    const plan=R.forSeason(RID,CLUBS,2,{special:sp,history:[null,verdicts]});
+    assert.equal(R.forSeason(RID,CLUBS,1).turns.find(t=>t.role==="playerOne").player.name,"J. Milner","(season 1 shot the club's J. Milner)");
+    assert.deepEqual(JSON.parse(JSON.stringify(plan.skipped)),{playerOne:[{name:"L. Messi",season:1,reason:"special"},{name:"J. Milner",season:1,reason:"shot"}],playerTwo:[]});
+    assert.ok(names(plan.boards.playerOne).includes("A. Newman"),"a signing the rules allow joins as before");
+    assert.deepEqual(JSON.parse(JSON.stringify(R.forSeason(RID,CLUBS,3,{special:sp,history:[null,verdicts,{playerOne:[],playerTwo:[]}]}).skipped)),{playerOne:[],playerTwo:[]},"said once: the season after his window");
+    const page=stepPage();page.store.set(page.step.watchedKey,JSON.stringify([`${RID}|2|playerOne`]));
+    const run=page.step.runBeforeTransfers(ctxFor({season:2,marks:{playerOne:null,playerTwo:null},windowStarted:false,remember(){},verdicts:async()=>({ok:true,verdicts,hits:null})}));
+    const p=await page.panel();
+    const said=page.lines(p).join(" ");
+    assert.match(said,/J\. Milner \(signed in season 1\) is not on your board: the roulette shot a J\. Milner, and a shot player never comes back\./);
+    page.press(p,"BACK TO SHOWDOWN HOME");await run;
+    ok("H9","F2-19 a signing the board rules keep off is listed with the reason, never dropped silently");
   }
 
   // ---------- production harness (H6, H7) ----------
@@ -310,5 +332,5 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     assert.equal(checksAsked,2,"an expiring session still runs the check during the roulette");
     ok("H8","S6 the reconnect banner's 15 s check waits while the full-screen roulette is up");
   }
-  console.log(`PASS r87 roulette hits (Fable job 2 F2-02, F2-08, F2-10, F2-12, S6): ${checks} groups`);
+  console.log(`PASS r87 roulette hits (Fable job 2 F2-02, F2-08, F2-10, F2-12, F2-19, S6): ${checks} groups`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
