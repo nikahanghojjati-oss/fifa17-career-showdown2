@@ -46,10 +46,12 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
     'js/touchlineGazette.js','data/gazetteCopy.js','data/frontPages.js','css/v10Gazette.css','visual-assets/v10_1/content/content.css','visual-assets/v10_1/content/frontpage.js',
     ...['unifrakturmaguntia-latin-400-normal','playfair-display-latin-700-normal','playfair-display-latin-900-normal','playfair-display-latin-400-italic','old-standard-tt-latin-400-normal','old-standard-tt-latin-400-italic','old-standard-tt-latin-700-normal'].map(f=>`visual-assets/v10_1/content/gazette/fonts/${f}.woff2`),
     ...['unifrakturmaguntia','playfair-display','old-standard-tt'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`),
-    'js/commentaryV3.js','js/commentaryEngine.js','data/commentaryLines.js']);
+    'js/commentaryV3.js','js/commentaryEngine.js','data/commentaryLines.js',
+    // r87 first load: the self-hosted Barlow Condensed sheet and its nine files.
+    'assets/fonts/barlow-condensed.css',...['vietnamese','latin-ext','latin'].flatMap(s=>[600,700,800].map(w=>`assets/fonts/barlow-condensed-${s}-${w}-normal.woff2`))]);
   assert.ok(!added.includes('js/musicDockV10.js'),'the r85 music player is in r85\'s own list');
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(shell.length,259); // r86 228 + r87's twelve + the Gazette's sixteen + Commentary v3's three
+  assert.equal(shell.length,269); // r86 228 + r87's twelve + the Gazette's sixteen + Commentary v3's three + the self-hosted Barlow Condensed ten
   assert.ok(added.every(p=>shell.includes(p)));
   assert.equal(shell.filter(p=>!added.includes(p)).length,222,'r85 rollback shell is unchanged');
   ok('RR3','the retained r85 shell is verified against its own 222 paths');
