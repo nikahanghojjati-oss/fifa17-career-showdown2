@@ -1,12 +1,37 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-01 7:29 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-01 7:33 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `ae983fb` (Sun 1 Nov 6:16 AM Boston time) · 179 messages · 52 hand-offs · 346 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `654642e` (Sun 1 Nov 7:30 AM Boston time) · 180 messages · 53 hand-offs · 348 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-052 · G → V · SP reveal: lower-third name overflow on tablet landscape (F8-09)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Sun 1 Nov 7:30 AM · Team G · Sent
+- Sun 1 Nov 7:32 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Special Player reveal page (visual-assets/v10_1/special-player/index.html): on tablets in landscape, the lower-third name plate overflows. Long player names run past the plate. Found by Fable job 8 (finding F8-09), on gameplay/r87 55a7a96f.
+
+## Where
+The lower-third name block on the SP reveal card. Check the long names in data/marqueePlayers.js (e.g. "Bastian Schweinsteiger"-length names, plus accented names).
+
+## Done when
+- At 1024x768, 1180x820 and 1366x1024 landscape (and still at phone and desktop sizes), every name fits inside the plate on one line, shrinking and never cut off or overlapping.
+- No dimming, nothing covers anything, the look is unchanged otherwise. Keep "Special Player"/"SP" wording.
+- Base your PR on gameplay/r87 after PR #1168 (Team G's SP pack fixes, same page) merges, or rebase onto it. One PR into gameplay/r87, with before/after shots at those sizes.
+
+## Timing
+The r87 (2.0.0) freeze is 15:00 UTC. If it can't be green by then, it ships in 2.0.1. Say which.
+
+</details>
 
 ### HO-051 · G → V · Prime Pack page art for r87 (release waits for it)
 
@@ -1921,6 +1946,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-052 SENT · Team G → Team V · Sun 1 Nov 7:30 AM Boston time
+
+**SP reveal: lower-third name overflow on tablet landscape (F8-09)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-048 DONE · Team G → Team V · Sun 1 Nov 6:16 AM Boston time
 
