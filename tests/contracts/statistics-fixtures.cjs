@@ -152,7 +152,9 @@ assert.strictEqual(jordan.signings, 1, 'Jordan transfer signing accumulation is 
 assert.strictEqual(career.records.highestLeaguePoints.value, 100, 'Highest league-points record is incorrect.');
 assert.strictEqual(career.records.highestLeagueGoals.value, 100, 'Highest league-goals record is incorrect.');
 assert.strictEqual(career.records.highestSeasonScore.value, 6, 'Highest season-score record is incorrect.');
-assert.strictEqual(career.managers[0].profileId, alexProfile, 'Career table tie-break should keep the profile with more trophies first.');
+// r87 Fable F7-07: ranked by career points only (Jordan 15 > Alex 12, although Alex has more trophies); no tiebreak.
+assert.strictEqual(career.managers[0].profileId, jordanProfile, 'Career table is ranked by career points only.');
+assert.strictEqual(career.managers.some(manager => manager.level), false, 'Unequal career points are not level.');
 
 const rivalry = api.buildRivalryAnalytics(history[0]);
 assert.strictEqual(rivalry.playerOne.name, 'Alex', 'Rivalry manager label changed.');
