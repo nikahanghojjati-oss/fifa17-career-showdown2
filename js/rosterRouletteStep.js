@@ -21,7 +21,7 @@
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;
   // RRR_FROM_MS is the 2.0.0 release time (red team R87-C-07): a Showdown confirmed before it (played on 1.9.10) gets no
   // roulette. It and js/sparkSharedTransferChallenge.js ROULETTE_FROM_MS are one value, set only by
-  // `node tools/set-release-time.cjs <UTC time>` (release contract RX2 checks they match).
+  // `node tools/set-release-time.cjs <UTC time>` (release contract r86-release RR5 checks they match).
   const RRR_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
   const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=5000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});

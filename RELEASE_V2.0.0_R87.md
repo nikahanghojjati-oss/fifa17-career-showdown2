@@ -1,4 +1,4 @@
-# Career Mode Showdown 2.0.0 (r87): Russian Roster Roulette, the Touchline Gazette, Commentary v3 and a full polish (v2.0.0 runtime r87)
+# Career Mode Showdown 2.0.0 (r87): Prime Pack, Russian Roster Roulette, the Touchline Gazette, Commentary v3 and a full polish (v2.0.0 runtime r87)
 
 Application version: `v2.0.0`  
 Runtime asset revision: `2.0.0-r87`  
@@ -12,7 +12,13 @@ this file is the release record.
 
 - Russian Roster Roulette before every season's transfer window, the same spin on both phones, saved online; the window opens
   only after both managers spun (#1069, #1080, #1101, #1107, #1112, #1147, #1148). It runs for Showdowns confirmed at or after
-  the 2.0.0 release time (`RRR_FROM_MS` = `ROULETTE_FROM_MS`, set by `tools/set-release-time.cjs`).
+  the 2.0.0 release time. `tools/set-release-time.cjs` sets that one time in all ten start constants (roulette, Prime Pack,
+  15-a-season totals and own-club Special Player); contract r86-release RR5 checks they match. The time is the next whole
+  hour at or after the merge + 90 min, so 2.0.0 is live on both phones first.
+- Prime Pack before every season's transfer window: one masked Icon, four timed stages (25/20/20/20 s), two guesses each;
+  the manager who names it first earns 4, 3, 2 or 1 points by stage, or nobody does, never both (#1149, Team V art #1163).
+  A season is now worth up to 15 points and a 10-season Golden Showdown 150 (11 and 110 for Showdowns confirmed before
+  2.0.0). The Special Player now comes from the manager's own club (#1173). All of these start at the release time below.
 - Transfer window: signing overall and position, official 2016-17 league names, Deadline Day finish.
 - The Touchline Gazette after each season and a final edition (#1094, #1110, #1116).
 - Commentary v3 on Season Results and below the Final Winner stage (#1126).
@@ -35,7 +41,7 @@ this file is the release record.
 ## Deploy order
 
 - Rules first, then the site. The Pages workflow's `rules-first` job holds the site until this commit's Rules deploy
-  succeeded. Old Rules refuse the new spin marks, the roulette/spins record and Prime Pack rounds.
+  succeeded (it waits up to 45 min). Old Rules refuse the new spin marks, the roulette/spins record and Prime Pack rounds.
 
 ## What did not change
 
@@ -46,8 +52,9 @@ this file is the release record.
 
 ## Firestore Rules
 
-- Composed production Rules: filled in on the release PR from the exact release head (re-pin of #1097, #1101, #1148,
-  #1147 and Prime Pack).
+- Composed production Rules SHA-256 `4520bfdafe645a28ae742fec770ca00548f24a1b5e1480050cecda1ea82ab432` (172,840 bytes):
+  r86's Rules plus #1097, #1101, #1147, #1148 and Prime Pack's rounds (#1149, with ssjrPackLeave F12-02). Pinned in
+  `js/sparkPrivatePairing.js`, `tests/fixtures/composed-production-rules/main-delta.json` and the billed-reads table.
 
 ## Checks
 

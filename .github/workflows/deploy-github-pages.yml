@@ -21,7 +21,7 @@ jobs:
   # change starts no Rules run, so after 90 s with none the site goes ahead only if the last Rules deploy on main succeeded.
   rules-first:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 50
     permissions:
       actions: read
       contents: read
@@ -35,7 +35,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for attempt in $(seq 1 110); do
+          # Up to 45 min (270 x 10 s): a slow but good Rules deploy still ships the site (Opus job 15 O15-04).
+          for attempt in $(seq 1 270); do
             runs="$(gh api "repos/$REPO/actions/workflows/deploy-firestore-rules-zero-billing.yml/runs?head_sha=$SHA&event=push&per_page=5" --jq '[.workflow_runs[] | {status, conclusion}]')"
             count="$(jq 'length' <<<"$runs")"
             if [[ "$count" == "0" ]]; then
