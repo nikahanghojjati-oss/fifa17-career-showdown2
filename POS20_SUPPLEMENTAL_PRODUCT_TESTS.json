@@ -2679,6 +2679,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-consistency-contracts.cjs",
+      "patterns": [
+        "^js/(commentaryV3|commentaryEngine|rosterRoulette|careerScreenSeam)\\.js$",
+        "^data/(fifa17Players|rosterSquads)\\.js$",
+        "^tests/contracts/r87\\-consistency\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r87-fable11-roulette-contracts.cjs",
       "patterns": [
         "^js/rosterRoulette\\.js$",
@@ -2696,6 +2705,31 @@
         "^tests/browser/settings\\-offline\\-save\\-library\\-editor\\-audit\\.cjs$",
         "^tests/browser/manager\\-identity\\-linkage\\-audit\\.cjs$",
         "^tests/contracts/settings\\-internal\\-audit\\-surface\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-upgrade-continue-hold-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/r87\\-upgrade\\-continue\\-hold\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-sp-own-club-contracts.cjs",
+      "patterns": [
+        "^js/(marqueePlayer|specialPlayerChip|specialPlayerReveal|rosterRouletteStep|productionSharedCareerStart|productionSharedTransferChallenge|commentaryEngine)\\.js$",
+        "^data/marqueePlayers\\.js$",
+        "^tests/contracts/r87\\-sp\\-own\\-club\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-guessed-no-resign-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r87\\-guessed\\-no\\-resign\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
