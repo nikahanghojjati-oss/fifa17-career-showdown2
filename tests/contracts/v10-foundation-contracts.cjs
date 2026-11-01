@@ -744,7 +744,15 @@ const V10_IMAGES={
     "visual-assets/v10_1/special-player/assets/stadium.jpg":"5162a7da9383ac7a9fcde3d6d5e8fea2c8587b0eb339f850c0e276269a9c751d",
     "visual-assets/v10_1/special-player/assets/stand.jpg":"4e4119e35177486553bac69bc149648014547147544a9c7b53db2f45337a9337",
     "visual-assets/v10_1/special-player/assets/stand_left.jpg":"c66fb757809a81c9978a418a80e59dcfb93df54d20fe3f1826aa1d7229d2bbff",
-    "visual-assets/v10_1/special-player/assets/stand_right.jpg":"4c4654b85390cb7381d73ea0975203b373486e77a12bd621e3eb103154ac7ccb"
+    "visual-assets/v10_1/special-player/assets/stand_right.jpg":"4c4654b85390cb7381d73ea0975203b373486e77a12bd621e3eb103154ac7ccb",
+    // r87 final (gameplay/r87 9a9667fb): images added after 45c01a72, bytes pinned.
+    "visual-assets/v10_1/icon-guess/assets/card_frame.webp":"03c227e9c0e67af579d396b64dc7a97df07cdde9d3e8f5dce71e053c3b29f52c",
+    "visual-assets/v10_1/icon-guess/assets/pack_opening.webp":"c45097ef594fb7385b33c77ed2fc62558c9b150408a947da04cfdf80a2cb5a14",
+    "visual-assets/v10_1/icon-guess/assets/pack_sealed.webp":"f01705c412f592eb7a8897ead38f157ba0c9b5cb417bf7109910cc37b81ca10e",
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp":"78edfb430cdfeb928f1d55790dfa713bf7f28621f2697e533330a14b5f2a1620",
+    "visual-assets/v10_1/icon-guess/assets/stage_phone.webp":"084eec9bfa563e740187ab6aa0a7f65ddd53176c0ac0ae452a6ca2cd13833e3d",
+    "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
+    "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93"
 };
 const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW.webp",
@@ -769,7 +777,14 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/special-player/assets/stadium.jpg",
   "visual-assets/v10_1/special-player/assets/stand.jpg",
   "visual-assets/v10_1/special-player/assets/stand_left.jpg",
-  "visual-assets/v10_1/special-player/assets/stand_right.jpg"
+  "visual-assets/v10_1/special-player/assets/stand_right.jpg",
+  "visual-assets/v10_1/icon-guess/assets/card_frame.webp",
+  "visual-assets/v10_1/icon-guess/assets/pack_opening.webp",
+  "visual-assets/v10_1/icon-guess/assets/pack_sealed.webp",
+  "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp",
+  "visual-assets/v10_1/icon-guess/assets/stage_phone.webp",
+  "visual-assets/v10_1/icon-guess/assets/token_full.webp",
+  "visual-assets/v10_1/icon-guess/assets/token_spent.webp"
 ]);
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
@@ -783,14 +798,14 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  // Re-pinned 2026-11-01 to the r87 candidate (gameplay/r87 45c01a72). This
+  // Re-pinned 2026-11-01 to the r87 candidate (gameplay/r87 9a9667fb). This
   // check had not run since r78; the r87 release PR re-pins it to the shipped bytes.
-  assert.equal(sha256("index.html"),"fb7b861ad165da2bc71c91ecd28ca44a8830dfc739b5a21d14e21a8b29490fa8","index.html byte-identical to the r87 candidate");
+  assert.equal(sha256("index.html"),"2228b4894a54071ce2d7b3db5eb2f25bb0576e8afa1b06b4a41ec8b412ea8b5c","index.html byte-identical to the r87 candidate");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=37495,`startup gzip ${gzip} must stay <= 37495`);
+  assert.ok(gzip<=33900,`startup gzip ${gzip} must stay <= 33900 (r87 2.0.0 candidate 9a9667fb; was 37495 before #1176 removed the Home strip)`);
   const ssjr=read("js/ssjr.js");
   assert.match(ssjr,/load\("v10-screens","js\/v10Screens\.js",\(\)=>root\.CareerModeV10Screens\)/,"loader starts lazily after start-up");
   assert.match(ssjr,/requestIdleCallback/);
