@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 1 Nov, 5:31 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 1 Nov, 5:35 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.10-r86** (main `5b4337f`, Fri 30 Oct 7:17 AM)
 
@@ -42,7 +42,7 @@ Updated Sun 1 Nov, 5:31 AM Boston time. Bug hunting only, no new features until 
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 477 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 478 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -54,7 +54,7 @@ Updated Sun 1 Nov, 5:31 AM Boston time. Bug hunting only, no new features until 
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 401 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 402 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
@@ -1989,8 +1989,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████████░` **86.2745 %**  
-Team V hand-offs: 44 of 51 done
+`████████░░` **84.6154 %**  
+Team V hand-offs: 44 of 52 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  

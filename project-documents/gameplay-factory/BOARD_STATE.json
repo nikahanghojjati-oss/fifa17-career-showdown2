@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 5:31 AM Boston time (EST)",
+ "generated": "2026-11-01 5:35 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 174,
@@ -1589,8 +1589,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b841fcd",
-  "head_boston": "Sat 31 Oct 3:48 PM",
+  "head": "e83ef54",
+  "head_boston": "Sun 1 Nov 5:33 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2311,6 +2311,19 @@
     "worker": "opus",
     "pickup_min": null,
     "waiting_min": null
+   },
+   {
+    "id": "HO-051",
+    "from": "G",
+    "to": "V",
+    "title": "Prime Pack page art for r87 (release waits for it)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-051_prime-pack-page-art-for-r87-release-wait.md",
+    "worker": "opus",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -2382,7 +2395,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
