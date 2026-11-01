@@ -141,7 +141,7 @@
     function ssjrResultsResultShape(value, teamCount) {
       return teamCount >= 2
         && value is map
-        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])
+        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])
         && value.leaguePosition is int
         && value.leaguePosition >= 1
         && value.leaguePosition <= teamCount
@@ -155,7 +155,8 @@
         && value.championsLeague is bool
         && value.topScorer is bool
         && value.topAssist is bool
-        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));
+        && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))
+        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));
     }
     function ssjrResultsPrivateExactKeys(root) {
       return root.keys().hasOnly([
@@ -216,6 +217,7 @@
       let public = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)).data;
       let i = public.revision - 1;
       return ssjrResultsPrivateBase(after, rivalryId, seasonId, managerRole, public.teamCount)
+        && (!('primePack' in after.result) || ssjrPackPoints(rivalryId, seasonId, managerRole, after.result.primePack))
         && public.schemaVersion == 1
         && public.objectType == 'sharedSeasonResults'
         && public.runtimeRevision == '1.9.1-r9'
@@ -235,6 +237,97 @@
       return ssjrEntitled(rivalryId)
         && (managerRole == ssjrActorRole(rivalryId) || public.phase == 'RESULTS_READY');
     }
+    // r87 Prime Pack (Nik 2026-10-31/11-01; feature spec project-documents/r88-icon-guess): once a season, before the transfer
+    // window, both phones reveal one masked card in four stages and each manager has two guesses. The round record is
+    // rivalries/{rid}/primePackRounds/season_N. Each manager writes only his own facts: his arrival (the server time, once),
+    // which he withdraws again only while the other manager has not arrived (he left the screen: ssjrPackLeave), then one
+    // guess at a time (his own chip count +1, at most 2, and namedBy set to himself when right), only while the round
+    // runs: the stages start 3 s after the later arrival and their guess timers are 25/20/20/20 s, each after a 1.5 s
+    // reveal (js/iconGuess.js), so guesses count from 2 s to 97 s after the later arrival (1 s and 2 s of network slack).
+    // Whether a guess is right is decided on the guessing phone (the answer is not stored, so it is never readable early);
+    // the Rules bind the order: namedBy is set once, never changed, the other manager's facts never touched, and the record's
+    // updatedAt is the winning write's server time (no write is allowed after it). A season result may carry primePack:N only
+    // for the manager this record names, with N the points of the stage that server time falls in: 4 before 30.5 s after the
+    // later arrival, 3 before 52 s, 2 before 73.5 s, then 1 (ssjrPackPoints). Changing the guess window means changing these.
+    function ssjrPackOther(role) { return role == 'playerOne' ? 'playerTwo' : 'playerOne'; }
+    function ssjrPackRoleMap(value) {
+      return value is map && value.keys().size() == 2 && value.keys().hasOnly(['playerOne','playerTwo']);
+    }
+    function ssjrPackShape(root, rivalryId, seasonId) {
+      return root.keys().size() == 11
+        && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','arrived','chipsUsed','namedBy','revision','activeSessionId','updatedByDeviceId','updatedAt'])
+        && root.schemaVersion == 1
+        && root.objectType == 'sharedPrimePackRound'
+        && root.rivalryId == rivalryId
+        && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
+        && ssjrPackRoleMap(root.arrived)
+        && ssjrPackRoleMap(root.chipsUsed)
+        && root.chipsUsed.playerOne is int && root.chipsUsed.playerOne >= 0 && root.chipsUsed.playerOne <= 2
+        && root.chipsUsed.playerTwo is int && root.chipsUsed.playerTwo >= 0 && root.chipsUsed.playerTwo <= 2
+        && (root.namedBy == null || root.namedBy == 'playerOne' || root.namedBy == 'playerTwo')
+        && root.revision is int
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+    function ssjrPackCreateValid(rivalryId, seasonId) {
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      return ssjrPackShape(after, rivalryId, seasonId)
+        && after.revision == 1
+        && after.arrived[role] == request.time
+        && after.arrived[ssjrPackOther(role)] == null
+        && after.chipsUsed.playerOne == 0
+        && after.chipsUsed.playerTwo == 0
+        && after.namedBy == null;
+    }
+    function ssjrPackArrive(before, after, role) {
+      return before.arrived[role] == null
+        && after.arrived[role] == request.time
+        && after.chipsUsed[role] == before.chipsUsed[role]
+        && after.namedBy == null;
+    }
+    function ssjrPackLeave(before, after, role) {
+      return before.arrived[role] != null
+        && before.arrived[ssjrPackOther(role)] == null
+        && after.arrived[role] == null
+        && after.chipsUsed[role] == before.chipsUsed[role]
+        && after.namedBy == null;
+    }
+    function ssjrPackGuessInTime(a, b) {
+      return request.time >= (a > b ? a : b) + duration.value(2, 's')
+        && request.time <= (a > b ? a : b) + duration.value(97, 's');
+    }
+    function ssjrPackGuess(before, after, role) {
+      return before.arrived.playerOne != null
+        && before.arrived.playerTwo != null
+        && after.arrived[role] == before.arrived[role]
+        && after.chipsUsed[role] == before.chipsUsed[role] + 1
+        && (after.namedBy == null || after.namedBy == role)
+        && ssjrPackGuessInTime(before.arrived.playerOne, before.arrived.playerTwo);
+    }
+    function ssjrPackUpdateValid(rivalryId, seasonId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      let other = ssjrPackOther(role);
+      return ssjrPackShape(after, rivalryId, seasonId)
+        && after.seasonNumber == before.seasonNumber
+        && after.revision == before.revision + 1
+        && before.namedBy == null
+        && after.arrived[other] == before.arrived[other]
+        && after.chipsUsed[other] == before.chipsUsed[other]
+        && (ssjrPackArrive(before, after, role) || ssjrPackLeave(before, after, role) || ssjrPackGuess(before, after, role));
+    }
+    function ssjrPackStagePoints(at, a, b) {
+      return at < (a > b ? a : b) + duration.value(30500, 'ms') ? 4
+        : (at < (a > b ? a : b) + duration.value(52000, 'ms') ? 3
+        : (at < (a > b ? a : b) + duration.value(73500, 'ms') ? 2 : 1));
+    }
+    function ssjrPackPoints(rivalryId, seasonId, managerRole, points) {
+      let round = get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data;
+      return round.namedBy == managerRole
+        && points == ssjrPackStagePoints(round.updatedAt, round.arrived.playerOne, round.arrived.playerTwo);
+    }
 // SSJR_SEASON_RESULTS_FUNCTIONS_END
 
 // SSJR_SEASON_RESULTS_MATCH_BEGIN
@@ -249,5 +342,11 @@
           allow list, update, delete: if false;
           allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole);
         }
+      }
+      match /primePackRounds/{seasonId} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrPackCreateValid(rivalryId, seasonId);
+        allow update: if ssjrPackUpdateValid(rivalryId, seasonId);
       }
 // SSJR_SEASON_RESULTS_MATCH_END

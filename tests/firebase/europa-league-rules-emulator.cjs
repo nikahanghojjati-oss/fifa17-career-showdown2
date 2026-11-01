@@ -208,7 +208,8 @@ async function envelopeRivalry(id){const now=Timestamp.fromMillis(Date.now()-60_
 async function envelopeSession(id,sid){const createdAt=Timestamp.fromMillis(Date.now()-120_000),lastActivityAt=Timestamp.fromMillis(Date.now()-10_000);return Sessions.buildEnvelope({sessionId:sid,revision:5,parentRevision:4,priorContentHash:`sha256:${"2".repeat(64)}`,updatedAt:lastActivityAt,accountId:uid2,deviceId:device2,data:{createdAt,expiresAt:Timestamp.fromMillis(Date.now()+20*60_000),hostAccountId:uid1,lastActivityAt,memberAccountIds:[uid1,uid2],revokedAt:null,rivalryId:id,state:"active"},cryptoImpl:crypto.webcrypto});}
 function result(overrides={}){return {leaguePosition:2,leaguePoints:80,leagueGoals:70,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false,...overrides};}
 // Nik's scoring with the EL term: the expected per-season score every Rules write is checked against.
-function score(value){return (value.championsLeague===true?5:0)+(value.europaLeague===true?3:0)+(value.leaguePosition===1?3:0)+(value.domesticCup===true?1:0)+((value.leaguePoints>=100||value.leagueGoals>=100)?1:0)+((value.topScorer===true||value.topAssist===true)?1:0);}
+// r87 Prime Pack (Nik 2026-11-01): the sparse primePack key is 4, 3, 2 or 1 by stage, so a season now scores at most 15.
+function score(value){return (Number.isInteger(value.primePack)?value.primePack:0)+(value.championsLeague===true?5:0)+(value.europaLeague===true?3:0)+(value.leaguePosition===1?3:0)+(value.domesticCup===true?1:0)+((value.leaguePoints>=100||value.leagueGoals>=100)?1:0)+((value.topScorer===true||value.topAssist===true)?1:0);}
 const EL_MAX=result({leaguePosition:1,leaguePoints:100,leagueGoals:95,domesticCup:true,topScorer:true,europaLeague:true});
 const CL_MAX=result({leaguePosition:1,leaguePoints:104,leagueGoals:101,domesticCup:true,championsLeague:true,topScorer:true,topAssist:true});
 const EL_ONLY=result({europaLeague:true});
@@ -309,6 +310,20 @@ async function terminalClose(){
       checks.push("a 10-season close with EL wins in every season (both managers win the EL in 5 of them) closes (60-100) with no write at the 1,000-expression limit");
     }finally{await env.cleanup();}
   }
+  // r87 Prime Pack: the sparse primePack key adds its own value (4, 3, 2 or 1 by stage) next to the EL and CL terms; one manager
+  // at most scores it in a season (the round names one). A CL max season with 4 Prime Pack points is the new season maximum of
+  // 15, and a close with five such seasons beside Prime Pack points of 2 for the other manager closes.
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("terminalpack"),firestore:{rules:RULES}});
+    try{
+      const PACK_MAX={...CL_MAX,primePack:4};
+      assert.equal(score(PACK_MAX),15);
+      const seasons=Array.from({length:10},(_,i)=>i%2===0?[PACK_MAX,EL_MAX]:[EL_MAX,{...EL_MAX,primePack:2}]);
+      const {totals,refused}=await closeShowdown(env,`pair_${"f".repeat(64)}`,`session_${"f".repeat(64)}`,seasons,(season,one,two)=>season===1?[["playerOne",-4,"Prime Pack 4 scored 0 is refused"],["playerOne",1,"Prime Pack 4 scored 5 is refused"]]:season===2?[["playerOne",4,"+4 for a season without Prime Pack points is refused"]]:[],"10-season Prime Pack Showdown");
+      assert.deepEqual(totals,{playerOne:5*15+5*9,playerTwo:5*9+5*11});assert.equal(refused,3);
+      checks.push("Prime Pack: the sparse primePack key scores its own 4, 3, 2 or 1 (a wrong value or points without the key refused) and a 10-season close with seasons at the new maximum of 15 (120-100) closes");
+    }finally{await env.cleanup();}
+  }
   return checks;
 }
 
@@ -342,18 +357,19 @@ async function calibrationPad(){
   },600);
 }
 async function progressPad(season){
-  const seasons=Array.from({length:10},()=>[EL_MAX,EL_MAX]);
+  const PACK_EL={...EL_MAX,primePack:4};
+  const seasons=Array.from({length:10},()=>[PACK_EL,EL_MAX]);
   return largestPassing(async n=>{
     const env=await initializeTestEnvironment({projectId:nextProject(`budget${season}`),firestore:{rules:paddedRules(n)}});
     try{
       const id=`pair_${"c".repeat(64)}`;await seedTerminal(env,id,`session_${"c".repeat(64)}`,seasons);
       if(season>1)await env.withSecurityRulesDisabled(async context=>{
         const db=context.firestore(),prior=(await getDoc(doc(db,"rivalries",id))).data();
-        const terminalProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons:10,acceptedThroughSeason:season-1,managerTotals:{playerOne:9*(season-1),playerTwo:9*(season-1)},closedSessionRevision:null};
+        const terminalProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons:10,acceptedThroughSeason:season-1,managerTotals:{playerOne:13*(season-1),playerTwo:9*(season-1)},closedSessionRevision:null};
         await setDoc(doc(db,"rivalries",id),await envelope("rivalry",id,prior.revision+1,{...prior.data,terminalProgress},{priorHash:prior.contentHash}));
       });
       const host=env.authenticatedContext(uid1).firestore(),prior=(await getDoc(doc(host,"rivalries",id))).data();
-      try{await setDoc(doc(host,"rivalries",id),await progressWrite(prior,10,{playerOne:9*season,playerTwo:9*season}));return true;}
+      try{await setDoc(doc(host,"rivalries",id),await progressWrite(prior,10,{playerOne:13*season,playerTwo:9*season}));return true;}
       catch(error){if(!LIMIT.test(String(error.message)))throw new Error(`budget probe season ${season} pad ${n}: ${error.message}`);return false;}
     }finally{await env.cleanup();}
   },600);
@@ -368,11 +384,11 @@ async function expressionBudget(){
   assert.ok(calibration>100,`calibration pad must be large (got ${calibration})`);
   const used=pad=>Math.round(1000*(1-(pad+1)/(calibration+1)));
   const initial=await progressPad(1),advance=await progressPad(10);
-  assert.ok(initial>=0,"the initial progress write with EL wins for both managers must pass without padding");
-  assert.ok(advance>=0,"the season-10 progress write with EL wins for both managers must pass without padding");
+  assert.ok(initial>=0,"the initial progress write with EL wins for both managers and 4 Prime Pack points for one must pass without padding");
+  assert.ok(advance>=0,"the season-10 progress write with EL wins for both managers and 4 Prime Pack points for one must pass without padding");
   const line=`EL_RULES_EXPRESSION_BUDGET calibration=${calibration} initialPad=${initial} advancePad=${advance} initialUsed~${used(initial)} advanceUsed~${used(advance)} (of 1000, +/-${Math.ceil(1000/(calibration+1))})`;
   process.stdout.write(`${line}\n`);
-  return [`expression budget measured: initial progress ~${used(initial)}/1000, season-10 progress ~${used(advance)}/1000 with EL wins for both managers`];
+  return [`expression budget measured: initial progress ~${used(initial)}/1000, season-10 progress ~${used(advance)}/1000 with EL wins for both managers and 4 Prime Pack points for one`];
 }
 
 (async()=>{
@@ -383,5 +399,5 @@ async function expressionBudget(){
   }
   for(const check of passed)process.stdout.write(`ok ${check}\n`);
   if(failures.length){for(const failure of failures)process.stderr.write(`FAIL ${failure}\n`);process.exitCode=1;return;}
-  process.stdout.write(`PASS r80 Europa League Rules emulator: ${passed.length} checks. The sparse europaLeague key is accepted only as true, one manager's season never has CL and EL both true (both managers may win the same trophy), the old 7-key result is unchanged, the commit binds the exact private result, Terminal Close scores EL +3 within the 11-point season cap, and a 10-season EL close stays under the 1,000-expression limit.\n`);
+  process.stdout.write(`PASS r80 Europa League Rules emulator: ${passed.length} checks. The sparse europaLeague key is accepted only as true, one manager's season never has CL and EL both true (both managers may win the same trophy), the old 7-key result is unchanged, the commit binds the exact private result, Terminal Close scores EL +3 and Prime Pack 4, 3, 2 or 1 within the 15-point season cap, and a 10-season EL close stays under the 1,000-expression limit.\n`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

@@ -165,7 +165,9 @@ async function phone({role,confirmedAtMs,store,killSwitch=false,step=null,awaitO
     CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider.api,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==="playerOne"?uid1:uid2,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
-    CareerModeRosterRouletteStep:step||{fromMs:Step.fromMs,decide:()=>false,runBeforeTransfers:async()=>true,close(){}}
+    CareerModeRosterRouletteStep:step||{fromMs:Step.fromMs,decide:()=>false,runBeforeTransfers:async()=>true,close(){}},
+    // r87 Prime Pack runs after the roulette; here it is already played on this browser (the step resolves true at once).
+    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
   };
   if(killSwitch)sandbox.CMS_ROSTER_ROULETTE="off";
   sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});

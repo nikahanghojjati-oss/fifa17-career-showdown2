@@ -2732,6 +2732,55 @@
         "^tests/contracts/r87\\-guessed\\-no\\-resign\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-guess-contracts.cjs",
+      "patterns": [
+        "^js/iconGuess\\.js$",
+        "^tests/contracts/r88\\-icon\\-guess\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-names-contracts.cjs",
+      "patterns": [
+        "^js/iconNames\\.js$",
+        "^data/icons\\.js$",
+        "^scripts/r88\\-icons\\-from\\-csv\\.mjs$",
+        "^tests/fixtures/r88\\-icons/",
+        "^tests/contracts/r88\\-icon\\-names\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-page-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^visual-assets/v10_1/shared/fonts/barlow-condensed-latin-(600|700)-normal\\.woff2$",
+        "^tests/browser/r88-icon-page-audit\\.cjs$",
+        "^tests/contracts/r88-icon-page-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-step-contracts.cjs",
+      "patterns": [
+        "^js/(iconGuessStep|productionSharedTransferChallenge|productionSharedSeasonResults|iconGuess|iconNames|ruleBook)\\.js$",
+        "^data/icons\\.js$",
+        "^service-worker\\.js$",
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^tests/contracts/r87\\-prime\\-pack\\-step\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-totals-contracts.cjs",
+      "patterns": [
+        "^js/(iconGuess|careerScreenSeam|touchlineGazette|productionSharedTransferChallenge|commentaryEngine|rivalryLegacyV10|careerScreensV10|sharedCareerAnalytics|sharedHistoryConvergence|ruleBook)\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/r87\\-prime\\-pack\\-totals\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
