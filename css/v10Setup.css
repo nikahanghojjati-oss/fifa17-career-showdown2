@@ -1723,6 +1723,22 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
   #app #leagueWheelScreen.v26Skin { --lp-kb: min(var(--lp-s), 1.05px); }
 }
+/* r87 HO-050 (A-02 / F3): while a shared dialog is open as the low strip along the bottom (css/r78-marble-surfaces.css,
+   HO-043 item 2: WAITING FOR <rival>, shared Career Start, shared setup), the strip's band is kept free: the note and the two
+   actions tuck in under the wheel (14 gap, as on short windows) and the wheel shrinks only as much as it must, so the status
+   line, SPIN WHEEL / CONTINUE CAREER and BACK all end above the strip at every desktop size. --lp-strip is the strip's band:
+   its 96px cap, the 1.2vh gap under it and 8px of air. The stack below the plinth is 14 + 51 + 12 = 77 units plus a button of
+   max(44px, 50 units). Ultrawide (21:10 and wider) is left as it was: there the plinth sits too low for any stack to fit
+   above the strip (open item, told Team G). */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 2099/1000) and (orientation: landscape) {
+  html[data-v10-setup="league"]:has(.remoteJoiningOverlay:is(#sparkRemoteJoiningOverlay, #productionSharedCareerStartOverlay, #productionSharedSetupOverlay):not(.hidden)) #app #leagueWheelScreen.v26Skin {
+    --lp-strip: calc(96px + 1.2vh + 8px);
+    --lp-g3: calc(14 * var(--lp-k));
+    --lp-k: min(var(--lp-s), calc((var(--lp-yb) - var(--lp-yd) - 2px) / 426),
+      calc((100vh - var(--lp-strip) - var(--lp-yb)) / 127), calc((100vh - var(--lp-strip) - var(--lp-yb) - 44px) / 77));
+    --lp-kb: var(--lp-k);
+  }
+}
 
 /* r78 phone marble: below the desktop picture range the Start / Join, League, Club and Showdown Home panels, notes and
    Back buttons are no longer glass (no backdrop blur); they wear desktop's black-marble face. Looks only: borders, sizes,

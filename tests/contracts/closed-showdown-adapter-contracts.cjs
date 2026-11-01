@@ -123,7 +123,8 @@ await check("C7 the live Showdown joins career history from the JOB-05 adapter",
   const input=Adapter.buildClosedCareerInput({index:index([p.rivalryId,q.rivalryId,live.rivalryId]),reads:readsOf([completedRead(p),statusRead("abandoned",q.rivalryId),statusRead("not-closed",live.rivalryId)]),current});
   assert.equal(input.showdowns[2].projection,current.showdowns[0].projection,"live projection passed by identity");
   const m=Career.buildCareerModel(input);
-  assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:3,indexed:3});
+  // r87 career fixes (A-05): coverage counts finished Showdowns only; the live one is read but History never lists it.
+  assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:2,indexed:2});
   assert.deepEqual(m.history.showdowns.map(row=>row.status),["completed","abandoned","in-progress"]);
   // r83 (JOB-4 F1): the live Showdown keeps its in-progress row but adds nothing to career totals until it is finished.
   assert.equal(m.managers.daniel.careerPoints,6);assert.equal(m.managers.nik.careerPoints,3);
@@ -146,7 +147,8 @@ await check("C9 a stale pending rivalry in one index is excluded, so both manage
   const nik=Adapter.buildClosedCareerInput({index:index([p.rivalryId,live.rivalryId]),reads:nikReads,current:Active.careerInput(liveSnap(live,{identity:F.identity("nik"),pair:F.pair(live.rivalryId,{managerId:"nik"})}))});
   assert.equal(daniel.showdowns[1].classification,"pending");
   assert.deepEqual(clone(Career.buildCareerModel(daniel)),clone(Career.buildCareerModel(nik)),"Daniel's and Nik's career models are identical");
-  assert.deepEqual(Career.buildCareerModel(daniel).coverage,{readable:2,indexed:2});
+  // r87 career fixes (A-05): the live Showdown is not in the coverage count (History does not list it).
+  assert.deepEqual(Career.buildCareerModel(daniel).coverage,{readable:1,indexed:1});
   assert.equal(Adapter.describeClosedCareer({index:index([stale]),reads,current})[0].code,"CLOSED_NOT_CURRENT");
 });
 

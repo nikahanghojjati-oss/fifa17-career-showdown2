@@ -260,7 +260,10 @@
     try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;if(current&&current.phase==="DELETED")return false;}catch(_error){}
     ptcReport(context,error);return true;
   }
-  function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:Date.now(),cryptoImpl:root.crypto};}
+  // r87 W3-6: the atomic session close is checked against server time (freshSessionActivity: server - 5 min .. + 1 min), so it
+  // uses the connection's server-anchored clock (js/sparkRemoteJoining.js clockNow); the phone clock only if that is missing.
+  function ptcNow(){try{const now=Number(root.CareerModeSparkRemoteJoining?.clockNow?.());if(Number.isFinite(now)&&now>0)return now;}catch(_error){}return Date.now();}
+  function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:ptcNow(),cryptoImpl:root.crypto};}
   function ptcAccepted(request,intent,result){
     const closed=protocol.closeResult(intent,result);if(ptcRequest()?.key!==request.key)return null;try{remoteApi?.forgetSession?.();}catch(_error){}
     return ptcPublish(request,{phase:"CLOSED",rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryRevision:closed.rivalryRevision,sessionRevision:closed.sessionRevision,terminal:true,terminalWitness:ptcClone(intent),replayed:closed.replayed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
