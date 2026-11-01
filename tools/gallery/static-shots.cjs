@@ -29,15 +29,15 @@ const server=http.createServer((req,res)=>{
     await page.locator("#ruleBookButton").click({timeout:10000});
     await page.waitForTimeout(2500);
     // Open card 03 (Transfer Challenge: the roulette and guessed-player lines) and bring it to the top.
-    const card=page.getByText(/^\s*TRANSFER CHALLENGE\s*$/i).first();
+    const card=page.getByText(new RegExp(process.env.RB_CARD||"^\\s*TRANSFER CHALLENGE\\s*$","i")).first();
     await card.click({timeout:5000}).catch(()=>{});
     await page.waitForTimeout(1200);
     await card.evaluate(el=>el.scrollIntoView({block:"start"})).catch(()=>{});
     await page.waitForTimeout(600);
     fs.mkdirSync(path.join(OUT,device),{recursive:true});
-    const file=path.join(OUT,device,"900-static-rule-book.png");
+    const file=path.join(OUT,device,""+(process.env.RB_SLUG||"900-static-rule-book")+".png");
     await page.screenshot({path:file});
-    fs.appendFileSync(log,JSON.stringify({id:"900",device,sig:"static:ruleBook",file:path.relative(OUT,file)})+"\n");
+    fs.appendFileSync(log,JSON.stringify({id:"900",device,sig:"static:"+(process.env.RB_SLUG||"ruleBook"),file:path.relative(OUT,file)})+"\n");
     await context.close();
   }
   await browser.close();server.close();

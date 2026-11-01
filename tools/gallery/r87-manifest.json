@@ -1,9 +1,9 @@
 {
  "title": "Showdown 2.0.0 Gallery",
- "lede": "Build: gameplay/r87 187a67c0 (1 Nov 18:00 UTC; every shot waits for animations to finish), with Prime Pack and Team V's art (#1149, #1163), Home without the music bar (#1176), Trophy Room tap (#1179) and the title wipe (#1180). r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator by a 3-season CE2PG game. Tap any picture to open it full size.",
+ "lede": "Build: gameplay/r87 187a67c0 (1 Nov 18:00 UTC), with Trophy Room, the final Gazette and the Rule Book scoring card re-shot on release candidate e0b7eb85 (20:00 UTC) to show the 15-point season and 150 Golden. Every shot waits for animations to finish. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator by a 3-season CE2PG game. Tap any picture to open it full size.",
  "notes": "gameplay/r87/RELEASE_NOTES_2.0.0.md",
  "checklist_url": "https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU",
- "shots_dir": "test-results/gallery-r87",
+ "shots_dir": "test-results/gallery-r87-run12",
  "screens": [
   {
    "title": "Home",
@@ -276,18 +276,15 @@
   },
   {
    "title": "Touchline Gazette, final edition",
-   "note": "Covers the whole Showdown; the last season goes straight here.",
+   "note": "Re-shot on e0b7eb85. Covers the whole Showdown; the last season goes straight here. The record lines (INSIDE TODAY: best season, seasons won, trophies) use the 15-point season.",
    "prs": [
     1094,
     1110,
-    1116
+    1116,
+    1184
    ],
-   "desktop": {
-    "match": "^gazette \\| final"
-   },
-   "phone": {
-    "match": "^(tap:)?gazette \\| final"
-   }
+   "desktop": "test-results/gallery-r87/desktop/155-gazette-final.png",
+   "phone": "test-results/gallery-r87/phone/157-gazette-final.png"
   },
   {
    "title": "Standings",
@@ -318,16 +315,22 @@
   },
   {
    "title": "Trophy Room",
-   "note": "CAREER DETAILS heading on solid marble; NOT WON YET for trophies not won.",
+   "note": "Re-shot on e0b7eb85. CAREER DETAILS heading on solid marble; NOT WON YET for trophies not won. All-time records count a perfect season as 15 points (none in this test game, so it shows a dash). The first tap on OPEN TROPHY ROOM opens it.",
    "prs": [
-    1093
+    1093,
+    1179,
+    1183,
+    1184,
+    1187
    ],
-   "desktop": {
-    "match": "^trophyRoom"
-   },
-   "phone": {
-    "match": "^trophyRoom"
-   }
+   "desktop": "test-results/gallery-r87/desktop/177-trophyroom.png",
+   "phone": "test-results/gallery-r87/phone/199-trophyroom.png",
+   "extra": [
+    {
+     "file": "test-results/gallery-r87/phone/201-tap-trophyroom.png",
+     "caption": "Phone, MORE: all-time records (most perfect seasons counts 15-point seasons only)"
+    }
+   ]
   },
   {
    "title": "Legacy",
@@ -376,15 +379,27 @@
     1069,
     1081,
     1085,
+    1149,
     1175,
-    1149
+    1183,
+    1184
    ],
    "desktop": {
     "match": "static:ruleBook"
    },
    "phone": {
     "match": "static:ruleBook"
-   }
+   },
+   "extra": [
+    {
+     "file": "test-results/gallery-rb/desktop/ruleBookScoring.png",
+     "caption": "Desktop, Scoring: maximum 15 a season, Golden Showdown 150"
+    },
+    {
+     "file": "test-results/gallery-rb2/phone/ruleBookScoring.png",
+     "caption": "Phone, card 04 Scoring: maximum 15, Golden 150"
+    }
+   ]
   }
  ]
 }
