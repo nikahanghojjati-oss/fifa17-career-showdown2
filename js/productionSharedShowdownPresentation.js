@@ -89,7 +89,7 @@
   }
   function ssjpForceScreen(id){
     if(!root.document)return false;const target=root.document.getElementById(id);if(!target)return false;
-    for(const candidate of ["mainMenu","createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","statistics","careerStatistics","trophyRoom","legacy","ruleBook"]){const el=root.document.getElementById(candidate);if(!el)continue;const show=candidate===id;el.classList.toggle("hidden",!show);el.setAttribute("aria-hidden",show?"false":"true");}
+    for(const candidate of ["mainMenu","createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","statistics","careerStatistics","trophyRoom","legacy","ruleBook","story"]){const el=root.document.getElementById(candidate);if(!el)continue;const show=candidate===id;el.classList.toggle("hidden",!show);el.setAttribute("aria-hidden",show?"false":"true");}
     const heading=target.querySelector("h2");if(heading){if(!heading.id)heading.id=`${id}ScreenTitle`;heading.setAttribute("tabindex","-1");target.setAttribute("aria-labelledby",heading.id);try{heading.focus({preventScroll:true});}catch(_error){}}
     const main=root.document.querySelector("main");if(main)main.scrollTop=0;if(typeof root.prepareFootballVisualScreen==="function")root.prepareFootballVisualScreen(id);return true;
   }

@@ -16,6 +16,7 @@ function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFI
 const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
+const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
 const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
     "production-authorization-acceptance.html"
@@ -449,6 +450,9 @@ async function unversionedShellResponse(request,path){
 }
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
+    // r88 STORY: the full history site (chronicle/) is its own static site. The worker never answers for it (no shell index.html
+    // in place of its pages, nothing cached), so it always comes from the network and the game's caches stay the game's.
+    if(CHRONICLE_PATH.test(relativeScopePath(url))){return;}
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }

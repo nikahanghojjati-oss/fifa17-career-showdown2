@@ -11,6 +11,7 @@
   // real DOM. Loading stays the app's startup splash (it shows before any lazy code can load).
   const BASE="visual-assets/v10_1/";
   const FRAME=Object.freeze({skin:"team-v-home-5e05a1f"});
+  const STORY_FRAME=Object.freeze({skin:"story-r88"});
   // Nik's locked Audius top 10, in his order (owner request 2026-10-10, JOB-1591; ids resolved on api.audius.co 2026-10-11;
   // owner swap 2026-10-12: In Da Club (San Holo Remix) replaces Tabestoon Kootahe, Fresh replaces Dideh o Del).
   // Never swap, drop or add a song without Nik's words; an unplayable id shows the stream error and plays nothing else.
@@ -53,6 +54,23 @@
   // #trophyRoomButton, because Career Statistics already owns that id.
   const TROPHY_TILE=Object.freeze({id:"homeTrophyRoomButton",after:"careerStatisticsButton",code:"HONOURS",label:"TROPHY ROOM",
     meta:"Career trophies, standings and records",art:"shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp"});
+  // r88 STORY (Nik's pick 2026-11-02: after Trophy Room): an eighth Home tile that opens a short local page about how the
+  // Showdown was built, with one link to the full history site published with the game (chronicle/). The page is drawn here,
+  // works offline, reads and sends no game data, and never touches a career, a season or Firebase.
+  const STORY_TILE=Object.freeze({id:"homeStoryButton",after:"homeTrophyRoomButton",code:"ORIGINS",label:"STORY",
+    meta:"How the Showdown was built."});
+  // The one place the full story's address lives. Same origin and same tab, so the signed-in session and the single game tab
+  // are kept; the site's own "Back to the game" link comes straight back here.
+  const STORY_URL="chronicle/";
+  const STORY_SCREEN="story";
+  const STORY_OFFLINE_LINE="Connect to the internet to read the full story.";
+  // Placeholder film-reel icon until Team V's TILE_STORY_V1.webp lands (relay ticket, r88). Decorative, no lettering.
+  const STORY_ART='<svg class="tileArt storyTileArt" aria-hidden="true" focusable="false" viewBox="0 0 120 120" preserveAspectRatio="xMaxYMax meet"><defs><linearGradient id="storyReelGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".55" stop-color="#E2B04A"/><stop offset="1" stop-color="#9A6A1C"/></linearGradient></defs><path d="M58 92c14 8 34 8 52-2v12c-18 10-38 10-52 2z" fill="#1b1d22" stroke="url(#storyReelGold)" stroke-width="2"/><g fill="url(#storyReelGold)"><rect x="66" y="96" width="5" height="4" rx="1"/><rect x="78" y="98" width="5" height="4" rx="1"/><rect x="90" y="97" width="5" height="4" rx="1"/><rect x="101" y="94" width="5" height="4" rx="1"/></g><circle cx="50" cy="56" r="40" fill="#15171b" stroke="url(#storyReelGold)" stroke-width="5"/><circle cx="50" cy="56" r="9" fill="url(#storyReelGold)"/><circle cx="50" cy="56" r="3.5" fill="#15171b"/><g fill="#0b0c0f" stroke="url(#storyReelGold)" stroke-width="2"><circle cx="50" cy="31" r="10"/><circle cx="71.7" cy="68.5" r="10"/><circle cx="28.3" cy="68.5" r="10"/><circle cx="71.7" cy="43.5" r="6"/><circle cx="28.3" cy="43.5" r="6"/><circle cx="50" cy="81" r="6"/></g></svg>';
+  const STORY_SECTIONS=Object.freeze([
+    Object.freeze(["THE BEGINNING","It started as a free way to keep score in a FIFA 17 Career Mode rivalry between two mates, Daniel and Nik: one league, two clubs kept for the whole Showdown, trophies for points and a timed Transfer War."]),
+    Object.freeze(["HOW IT GREW","The score sheet became a two-phone online game: private pairing, shared seasons on both phones, the league and club wheels, Roster Roulette, the Prime Pack and the marble look, each step tested on Daniel's and Nik's real phones before it shipped."]),
+    Object.freeze(["THE COLLABORATORS","Nik set the direction and played every test with Daniel. Claude worked in two teams, Team G for gameplay and Team V for the look, with GPT models coordinating, reviewing and writing the full history."])
+  ]);
   const CHEVRON='<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const HOME_CSS=Object.freeze(["home/home.css","../../css/homeV10.css"]);
   const PANEL_CLASSES=tile=>tile.id==="continueCareer"?["sd-panel","sd-panel--hero"]:["sd-panel"];
@@ -98,6 +116,72 @@
     if(anchor&&anchor.parentNode===grid)anchor.insertAdjacentElement("afterend",button);else grid.appendChild(button);
     hmTile(t.id,null,t.art);
   }
+
+  function hmStoryTile(grid){
+    const t=STORY_TILE;
+    if(hmDoc().getElementById(t.id))return;
+    const anchor=hmDoc().getElementById(t.after);
+    // menuTileRules: Team V's class-based secondary-tile type (home.css) applies to STORY as to Rule Book.
+    const button=hmEl("button","menuTile menuTileRules menuTileStory",'<span class="menuTileCode">'+t.code+'</span><span class="menuTileLabel">'+t.label+'</span><span class="menuTileMeta">'+t.meta+'</span>'+STORY_ART+CHEVRON);
+    button.id=t.id;button.type="button";button.dataset.routeKey=STORY_SCREEN;
+    button.setAttribute("aria-label","Story: how the Showdown was built");
+    button.addEventListener("click",()=>openStory());
+    if(anchor&&anchor.parentNode===grid)anchor.insertAdjacentElement("afterend",button);else grid.appendChild(button);
+  }
+
+  // ---- STORY page (local, offline-safe) ----
+  function hmStoryOnline(){return root.navigator?.onLine!==false;}
+  function hmStorySync(){
+    const doc=hmDoc(),page=doc?.getElementById(STORY_SCREEN);
+    if(!page)return;
+    const online=hmStoryOnline(),link=page.querySelector(".storyRead"),note=page.querySelector(".storyOffline");
+    if(link){
+      if(online){link.setAttribute("href",STORY_URL);link.removeAttribute("aria-disabled");link.removeAttribute("tabindex");}
+      else{link.removeAttribute("href");link.setAttribute("aria-disabled","true");}
+    }
+    if(note)note.hidden=online;
+  }
+  function hmStoryPage(){
+    const doc=hmDoc();
+    let page=doc?.getElementById(STORY_SCREEN);
+    if(page)return page;
+    const main=doc?.querySelector("main");
+    if(!main)return null;
+    page=doc.createElement("section");
+    page.id=STORY_SCREEN;page.className="screen hidden storyScreen";page.setAttribute("aria-hidden","true");
+    page.setAttribute("aria-labelledby","storyTitle");
+    const sections=STORY_SECTIONS.map(([title,text],i)=>'<article class="storySection sd-panel"><span class="storySectionNo" aria-hidden="true">0'+(i+1)+'</span><h3>'+title+'</h3><p>'+text+'</p></article>').join("");
+    page.innerHTML='<div class="storyInner">'+
+      '<p class="storyKicker sd-label">CAREER MODE SHOWDOWN</p>'+
+      '<h2 id="storyTitle" class="storyTitle">STORY</h2>'+
+      '<p class="storyLead">Two friends. One rivalry. A project that kept growing. Follow the people, ideas and teams that shaped Career Mode Showdown, from its first experiments to real-phone milestones and cinematic Roulette.</p>'+
+      '<div class="storySections">'+sections+'</div>'+
+      '<p class="storyOffline" role="status" hidden>'+STORY_OFFLINE_LINE+'</p>'+
+      '<div class="storyActions">'+
+        '<a class="storyRead storyButton storyButtonPrimary" href="'+STORY_URL+'">READ THE FULL STORY</a>'+
+        '<button class="storyBack storyButton" type="button">BACK TO HOME</button>'+
+      '</div>'+
+      '<p class="storyPrivacy">The full story is a separate page on this site. Nothing from your Showdown is sent to it.</p>'+
+    '</div>';
+    page.querySelector(".storyBack").addEventListener("click",()=>{
+      if(typeof root.navigateTo==="function")root.navigateTo("mainMenu");else root.showScreen?.("mainMenu");
+    });
+    page.querySelector(".storyRead").addEventListener("click",event=>{if(!hmStoryOnline()){event.preventDefault();hmStorySync();}});
+    main.appendChild(page);
+    root.addEventListener?.("online",hmStorySync);
+    root.addEventListener?.("offline",hmStorySync);
+    return page;
+  }
+  // STORY joins Team V's loader on its first open (Home's own install is untouched), keeping Home's sheets on while it shows.
+  let storyRegistered=false;
+  function openStory(){
+    if(!hmStoryPage())return false;
+    const V=root.CareerModeV10Screens;
+    if(!storyRegistered&&V?.register){try{V.register(STORY_SCREEN,{css:HOME_CSS.slice(),js:[],frame:()=>STORY_FRAME,mount:hmStoryMount});}catch(_error){}storyRegistered=true;}
+    hmStorySync();
+    return root.showScreen?.(STORY_SCREEN)===true;
+  }
+  function hmStoryMount(){hmStorySync();return true;}
 
   // The soundtrack (home/soundtrack.js) and its player (js/musicDockV10.js: phone MUSIC tab, desktop top-bar dock) start once
   // the app has started, whatever screen it opens on (HE-06: a reload straight onto the league wheel used to have no player
@@ -155,6 +239,7 @@
     }
     Object.entries(TILE_ART).forEach(([id,file])=>hmTile(id,file));
     hmTrophyTile(grid);
+    hmStoryTile(grid);
     // HO-004: every tile is Team V's shared cut-corner panel (Continue is the hero panel), as in Team V's Home frame.
     grid.querySelectorAll(".menuTile").forEach(tile=>tile.classList.add(...PANEL_CLASSES(tile)));
     hmStartMusic();
@@ -178,5 +263,5 @@
     registered=V.show("mainMenu").catch(error=>{root.console?.warn?.("[Career Mode Showdown] Team V Home unavailable.",error);return false;});
     return registered;
   }
-  return Object.freeze({MEDIA,TILE_ART,TROPHY_TILE,HOME_CSS,install,decorateHome:hmDecorate,unmountHome:hmUnmount});
+  return Object.freeze({MEDIA,TILE_ART,TROPHY_TILE,STORY_TILE,STORY_URL,HOME_CSS,install,openStory,decorateHome:hmDecorate,unmountHome:hmUnmount});
 });

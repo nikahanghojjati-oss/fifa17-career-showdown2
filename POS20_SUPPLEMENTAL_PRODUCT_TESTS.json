@@ -2842,6 +2842,18 @@
         "^tests/contracts/r87\\-screen\\-order\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-story-tile-contracts.cjs",
+      "patterns": [
+        "^js/(homeScreensV10|screens|v10Screens|productionSharedShowdownPresentation|startJoinViewModel)\\.js$",
+        "^css/homeV10\\.css$",
+        "^service-worker\\.js$",
+        "^\\.github/workflows/deploy-github-pages\\.yml$",
+        "^chronicle/",
+        "^tests/contracts/r88\\-story\\-tile\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

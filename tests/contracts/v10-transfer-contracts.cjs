@@ -144,7 +144,7 @@ check("5 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   assert.ok(!refs.includes("js/ssjr.js")&&!refs.includes("js/transferScreenV10.js"),"not a startup script");
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=33900,`startup gzip ${gzip} must stay <= 33900 (r87 2.0.0 candidate 9a9667fb; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=33910,`startup gzip ${gzip} must stay <= 33910 (r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   assert.match(ssjr,/load\("v10-transfer","js\/transferScreenV10\.js",\(\)=>root\.CareerModeTransferScreenV10\)\.then\(\(\)=>root\.CareerModeTransferScreenV10\.install\(\)\)/);
   assert.match(ssjr,/requestIdleCallback\(v10Transfer/);
   const shell=new Set([...sw.matchAll(/^\s+"([^"]+)",?$/gm)].map(m=>m[1]));
