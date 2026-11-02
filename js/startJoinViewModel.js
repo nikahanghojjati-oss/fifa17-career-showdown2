@@ -15,7 +15,7 @@
   });
   const NAV_LOCK_TEXT="Finish this step first";
   const LOCKED_SCREENS=Object.freeze({transferChallenge:"transfer-window",seasonEntry:"season-entry",leagueWheelScreen:"setup",clubWheelScreen:"setup"});
-  const sjScreenIds=Object.freeze(["mainMenu","createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","statistics","careerStatistics","trophyRoom","legacy","ruleBook"]);
+  const sjScreenIds=Object.freeze(["mainMenu","createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","statistics","careerStatistics","trophyRoom","legacy","ruleBook","story"]);
   const sjPairingNames=Object.freeze(["createCode","join","copyCode","newCode","checkStatus","retry"]);
   const sjSessionNames=Object.freeze(["host","join","refresh","revoke","close","forget"]);
 

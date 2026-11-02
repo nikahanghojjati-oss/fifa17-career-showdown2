@@ -41,7 +41,7 @@
   // NAV_CONTRACT.md: active tab per app screen, and where the phone bar shows (hub) or not (hidden).
   const NAV_SCREENS=Object.freeze({
     mainMenu:["home","hub"],createShowdown:["career","hub"],legacy:["career","hub"],trophyRoom:["career","hub"],
-    careerStatistics:["stats","hub"],statistics:["stats","hub"],standings:["standings","hub"],ruleBook:["rules","hub"],settings:["settings","hub"],
+    careerStatistics:["stats","hub"],statistics:["stats","hub"],standings:["standings","hub"],ruleBook:["rules","hub"],settings:["settings","hub"],story:["home","hub"],
     leagueWheelScreen:["career","hidden"],clubWheelScreen:["career","hidden"],dashboard:["career","hidden"],
     transferChallenge:["career","hidden"],seasonEntry:["career","hidden"],seasonSummary:["career","hidden"]
   });

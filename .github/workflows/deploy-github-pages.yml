@@ -97,6 +97,8 @@ jobs:
           cp -R acceptance assets css data js .pages-artifact/
           # Team V screens, fonts and art (precached by service-worker.js and loaded under ?v=).
           cp -R visual-assets .pages-artifact/
+          # r88 STORY: the full history site, a separate static site under chronicle/ (never precached by the worker).
+          cp -R chronicle .pages-artifact/
           cp scripts/render-production-firebase-public-config.mjs .pages-artifact/scripts/
 
       - name: Render deployment-only Firebase configuration

@@ -11,7 +11,8 @@ const screens = [
     "careerStatistics",
     "trophyRoom",
     "legacy",
-    "ruleBook"
+    "ruleBook",
+    "story"
 ];
 
 const GAMEPLAY_SCREENS = new Set([
@@ -36,10 +37,12 @@ const SAFE_BACK_TARGETS = Object.freeze({
     careerStatistics: ["mainMenu"],
     trophyRoom: ["dashboard", "careerStatistics", "mainMenu"],
     legacy: ["dashboard", "mainMenu"],
-    ruleBook: ["mainMenu"]
+    ruleBook: ["mainMenu"],
+    story: ["mainMenu"]
 });
 
-const REQUIRED_FOOTBALL_VISUAL_SCREENS=new Set(screens.filter(name=>name!=="mainMenu"&&name!=="statistics"));
+// r88 STORY is a text page with no football art, like Home.
+const REQUIRED_FOOTBALL_VISUAL_SCREENS=new Set(screens.filter(name=>name!=="mainMenu"&&name!=="statistics"&&name!=="story"));
 
 const MAX_SCREEN_HISTORY = 18;
 const ROUTE_TRANSITION_FALLBACK_MS = 260;
@@ -221,7 +224,7 @@ function getCurrentChallengeRouteState(showdown = currentShowdown){
 function isRouteStateValid(screenName){
     const showdown = typeof currentShowdown !== "undefined" ? currentShowdown : null;
 
-    if(["mainMenu", "createShowdown", "careerStatistics", "trophyRoom", "legacy", "ruleBook"].includes(screenName)){
+    if(["mainMenu", "createShowdown", "careerStatistics", "trophyRoom", "legacy", "ruleBook", "story"].includes(screenName)){
         return true;
     }
 
