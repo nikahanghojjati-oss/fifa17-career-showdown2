@@ -93,6 +93,9 @@
   }
   // A choice panel: resolves with the id of the button pressed. The card takes over from the loading screen; TRY AGAIN brings
   // the loading screen back over the card until the next card or the scene is ready (Reus Gate, Fable F2-13).
+  // The other buttons are .compactButton.rrStepBack (the .backButton look), never .backButton: the app's smart back
+  // (js/screens.js) takes every .backButton click before the button hears it, so BACK and CONTINUE WITH X'S SAVED SPIN never
+  // answered the card (2.0.1).
   function rrsAsk(ctx,{heading,label,lines=[],note="",buttons}){
     return new Promise(resolve=>{
       const {body}=rrsPanel(ctx,heading,label);rrsLoadingOff();
@@ -101,7 +104,7 @@
       const row=rrsEl("div","rrStepActions");
       // Fable F11-12: one answer per card; the buttons go quiet at once (saving the spin can take a few seconds after GO).
       const pressed=[];
-      for(const b of buttons){const button=rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"backButton",()=>{for(const other of pressed)other.disabled=true;if(b.id==="retry")rrsLoadingOn();resolve(b.id);});pressed.push(button);row.append(button);}
+      for(const b of buttons){const button=rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"compactButton rrStepBack",()=>{for(const other of pressed)other.disabled=true;if(b.id==="retry")rrsLoadingOn();resolve(b.id);});pressed.push(button);row.append(button);}
       body.append(row);row.querySelector("button")?.focus();
     });
   }

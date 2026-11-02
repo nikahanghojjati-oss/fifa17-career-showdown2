@@ -2863,6 +2863,15 @@
         "^tests/contracts/r88\\-terminal\\-close\\-dropped\\-connection\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-step-panel-buttons-browser-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRouletteStep|iconGuessStep|chamberMenStep|screens)\\.js$",
+        "^css/(v10Roulette|app)\\.css$",
+        "^tests/contracts/r88\\-step\\-panel\\-buttons\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
