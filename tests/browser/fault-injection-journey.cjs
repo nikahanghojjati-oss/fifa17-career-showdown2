@@ -142,6 +142,7 @@ const {installFirestoreMeter,createMeter}=require("./support/firestore-meter.cjs
 const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
 const rosterRoulette=require("./support/roster-roulette.cjs");
 const gazette=require("./support/touchline-gazette.cjs");
+const ICON_GUESS=require("../../js/iconGuess.js");
 
 const APP_PORT=Number(process.env.FIJ_APP_PORT||14711);
 const BASE=(process.env.CMS_BASE_URL||`http://127.0.0.1:${APP_PORT}/`).replace(/\/?$/,"/");
@@ -642,8 +643,15 @@ async function main(){
     // --- end checks
     pointNow="end";
     const endCheck=(id,ok,detail)=>{report.endChecks.push({id,pass:Boolean(ok),detail:ok?undefined:String(detail).slice(0,1200)});console.log(`${ok?"ok  ":"FAIL"} end.${id}${ok?"":` -> ${String(detail).slice(0,400)}`}`);return ok;};
-    // Prime Pack points as stored with each season's result (the stage the right guess finally landed in decides them).
-    for(let k=1;k<=TOTAL;k+=1)for(const d of await adminList(R(`seasonResults/season_${k}/roles`))){const mm=/"primePack":\{?"?(?:integerValue"?:"?)?(\d)/.exec(JSON.stringify(d));if(mm)primeWon[d.name.endsWith("playerOne")?"daniel":"nik"]+=Number(mm[1]);}
+    // Prime Pack points from each season's round record, independent of the published results under test: the winner's stage
+    // is the winning write's server time (updatedAt; no write follows a winner) against the later arrival + lead, as in
+    // js/iconGuessStep.js igsRecord. A right guess retried after a fault lands in a later stage and this follows it.
+    for(let k=1;k<=TOTAL;k+=1){
+      const r=docData(await admin(R(`primePackRounds/season_${k}`)));if(!r||!["playerOne","playerTwo"].includes(r.namedBy))continue;
+      const a1=Date.parse(r.arrived?.playerOne),a2=Date.parse(r.arrived?.playerTwo),at=Date.parse(r.updatedAt);
+      const beat=Number.isFinite(a1)&&Number.isFinite(a2)&&Number.isFinite(at)?ICON_GUESS.beatAt(Math.max(a1,a2)+ICON_GUESS.leadMs,at):null;
+      primeWon[r.namedBy==="playerOne"?"daniel":"nik"]+=ICON_GUESS.stagePointsAt(beat&&beat.beat>=0?Math.min(beat.beat,ICON_GUESS.lastBeat):0);
+    }
     const totals={daniel:PLAN.reduce((a,s)=>a+scoreSeason(s.daniel),0)+primeWon.daniel,nik:PLAN.reduce((a,s)=>a+scoreSeason(s.nik),0)+primeWon.nik};
     const rivalry=await admin(`rivalries/${rivalryId}`),term=plain(F(rivalry,"data","terminalClose"));
     endCheck("db.closed",plain(F(rivalry,"data","connectionState"))==="closed"&&term&&term.managerTotals?.playerOne===totals.daniel&&term.managerTotals?.playerTwo===totals.nik,`connectionState ${plain(F(rivalry,"data","connectionState"))}, terminalClose ${JSON.stringify(term)}, expected totals ${JSON.stringify(totals)}`);
