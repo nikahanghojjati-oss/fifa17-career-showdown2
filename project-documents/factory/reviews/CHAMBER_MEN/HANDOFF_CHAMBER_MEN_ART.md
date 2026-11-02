@@ -30,4 +30,4 @@ New (art only): `.cmKeeper[data-pose]`, `.cmPose[data-for]`, `.cmNet`, `.cmHit`,
 - `node tests/contracts/r88-chamber-men-contracts.cjs` PASS 10; `r87-roster-roulette-contracts` 28 groups, `r87-fable11-roulette-contracts`, `r87-fable-step-contracts` pass.
 - Desktop 1440x900: whole screen fits, no scroll (full time: SPIN THE CYLINDER at y 707-755).
 - Phone 390x844: full time fits (BACK at 699-747); during picks the stage scrolls ~25 px to reach BACK (allowed by the ticket). Both 7-chamber strips fit inside the board.
-- Screens: `review/` in this folder.
+- Screens: `review/` in this folder (moved here from visual-assets/v10_1/chamber-men/ so the shipped-asset lists stay exact).
