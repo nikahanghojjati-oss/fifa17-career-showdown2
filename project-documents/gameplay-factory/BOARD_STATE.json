@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 10:54 PM Boston time (EST)",
+ "generated": "2026-11-01 10:58 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 182,
@@ -1694,7 +1694,22 @@
    "revision": "2.0.0-r87",
    "when": "2026-11-01T22:44:24-05:00",
    "subject": "r87 release: 2.0.0-r87 (#1191)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1192,
+     "title": "L5: re-pin the Rules check to main after the 2.0.0 release",
+     "draft": false,
+     "branch": "claude-gameplay/r87-repin",
+     "sha": "ae445987b2ecf290cf0910218ee92f7260087927",
+     "updated": "2026-11-02T03:56:41Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 1191,
@@ -2512,7 +2527,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3728,7 +3743,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1192,
+    "title": "L5: re-pin the Rules check to main after the 2.0.0 release",
+    "draft": false,
+    "branch": "claude-gameplay/r87-repin",
+    "sha": "ae445987b2ecf290cf0910218ee92f7260087927",
+    "updated": "2026-11-02T03:56:41Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
