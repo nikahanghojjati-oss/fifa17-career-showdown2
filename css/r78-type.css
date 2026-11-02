@@ -534,3 +534,35 @@
     max-width: 52ch;
   }
 }
+
+/* 4e. Season Results (Studio Axe phase 2). Text only: no tile, picture, order or wording changes.
+   Before: 9-11px status, honour pills and score lines sat under the 12px floor on phones and on desktop. */
+@media (min-width: 901px) {
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewStatus > :is(span, strong) { font-size: var(--sa-type-eyebrow); line-height: 1.2; }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewScoreHeading { font-size: var(--sa-type-eyebrow); letter-spacing: var(--sa-track-eyebrow); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox > span { font-size: var(--sa-type-eyebrow); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions button { font-size: var(--sa-type-button); letter-spacing: var(--sa-track-button); }
+}
+@media (max-width: 760px) {
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewStatus > :is(span, strong) { font-size: var(--sa-type-eyebrow); line-height: 1.2; }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewIntro { font-size: var(--sa-type-small); line-height: 1.35; }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewResult { font-size: var(--sa-type-eyebrow); line-height: 1.3; }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewAchievements span { font-size: var(--sa-type-eyebrow); letter-spacing: .08em; }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewScoreHeading { font-size: var(--sa-type-eyebrow); letter-spacing: var(--sa-track-eyebrow); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox > span { font-size: var(--sa-type-eyebrow); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions #confirmSeasonCompletion { font-size: var(--sa-type-button); letter-spacing: var(--sa-track-button); }
+  :root #app #seasonEntry #season-results-screen .season-phone-toolbar :is(.season-phone-tab > span, .season-phone-scoring-open) { font-size: var(--sa-type-eyebrow); }
+}
+
+/* 4f. Transfer War (Studio Axe phase 2).
+   Desktop entry phases: the rules card was a short note pinned to the top of a tall empty card; it now sits centred
+   at a readable size. The step rail numbers join the 12px floor. */
+@media (min-width: 1101px) and (orientation: landscape) {
+  :root #app #transferChallenge .tw-host .tw-desktop-content .rules-card { display: flex; flex-direction: column; }
+  :root #app #transferChallenge .tw-host .tw-desktop-content .rules-inner { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 16px; gap: 16px; text-align: center; }
+  :root #app #transferChallenge .tw-host .tw-desktop-content .panel.sealed .frost { flex: 1 1 auto; }
+  :root #app #transferChallenge .tw-host .tw-desktop-content .rule-note { font-size: clamp(15px, 1.15vw, 20px); line-height: 1.35; text-wrap: balance; }
+}
+@media (min-width: 1024px) and (orientation: landscape) {
+  :root #app #transferChallenge .tw-host .rail li .num { font-size: var(--sa-type-eyebrow); }
+}
