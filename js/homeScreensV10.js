@@ -122,13 +122,11 @@
     if(hmDoc().getElementById(t.id))return;
     const anchor=hmDoc().getElementById(t.after);
     // menuTileRules: Team V's class-based secondary-tile type (home.css) applies to STORY as to Rule Book.
-    const button=hmEl("button","menuTile menuTileRules menuTileStory",'<span class="menuTileCode">'+t.code+'</span><span class="menuTileLabel">'+t.label+'</span><span class="menuTileMeta">'+t.meta+'</span>');
+    const button=hmEl("button","menuTile menuTileRules menuTileStory",'<span class="menuTileCode">'+t.code+'</span><span class="menuTileLabel">'+t.label+'</span><span class="menuTileMeta">'+t.meta+'</span>'+STORY_ART+CHEVRON);
     button.id=t.id;button.type="button";button.dataset.routeKey=STORY_SCREEN;
     button.setAttribute("aria-label","Story: how the Showdown was built");
     button.addEventListener("click",()=>openStory());
     if(anchor&&anchor.parentNode===grid)anchor.insertAdjacentElement("afterend",button);else grid.appendChild(button);
-    button.insertAdjacentHTML("beforeend",STORY_ART);
-    if(!button.querySelector(".tileChevron"))button.insertAdjacentHTML("beforeend",CHEVRON);
   }
 
   // ---- STORY page (local, offline-safe) ----
@@ -174,8 +172,12 @@
     root.addEventListener?.("offline",hmStorySync);
     return page;
   }
+  // STORY joins Team V's loader on its first open (Home's own install is untouched), keeping Home's sheets on while it shows.
+  let storyRegistered=false;
   function openStory(){
     if(!hmStoryPage())return false;
+    const V=root.CareerModeV10Screens;
+    if(!storyRegistered&&V?.register){try{V.register(STORY_SCREEN,{css:HOME_CSS.slice(),js:[],frame:()=>STORY_FRAME,mount:hmStoryMount});}catch(_error){}storyRegistered=true;}
     hmStorySync();
     return root.showScreen?.(STORY_SCREEN)===true;
   }
@@ -252,7 +254,6 @@
     const V=root.CareerModeV10Screens;
     if(!V)return Promise.reject(new Error("V10_SCREEN_LOADER_UNAVAILABLE"));
     V.register("mainMenu",{css:HOME_CSS.slice(),js:[],frame:()=>FRAME,mount:hmDecorate,unmount:hmUnmount});
-    V.register(STORY_SCREEN,{css:HOME_CSS.slice(),js:[],frame:()=>STORY_FRAME,mount:hmStoryMount});
     hmStartMusic();
     if(typeof root.addEventListener==="function")root.addEventListener("career-mode-firestore-quota",hmQuotaNotice);
     hmDoc()?.addEventListener("career-mode-screen-shown",hmQuotaNotice);

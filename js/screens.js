@@ -37,11 +37,9 @@ const SAFE_BACK_TARGETS = Object.freeze({
     careerStatistics: ["mainMenu"],
     trophyRoom: ["dashboard", "careerStatistics", "mainMenu"],
     legacy: ["dashboard", "mainMenu"],
-    ruleBook: ["mainMenu"],
-    story: ["mainMenu"]
+    ruleBook: ["mainMenu"]
 });
 
-// r88 STORY is a text page with no football art, like Home.
 const REQUIRED_FOOTBALL_VISUAL_SCREENS=new Set(screens.filter(name=>name!=="mainMenu"&&name!=="statistics"&&name!=="story"));
 
 const MAX_SCREEN_HISTORY = 18;

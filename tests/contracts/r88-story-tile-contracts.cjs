@@ -50,7 +50,7 @@ check("ST3 the STORY page is local, works offline and sends nothing", () => {
 
 check("ST4 the app routes STORY like Rule Book: Home behind it, no football art, no setup lock", () => {
   assert.match(screens, /"ruleBook",\n\s*"story"\n\];/);
-  assert.match(screens, /story: \["mainMenu"\]/);
+  assert.doesNotMatch(screens, /story: \[/, "BACK from STORY uses the default target, Home");
   assert.match(screens, /"ruleBook", "story"\]\.includes\(screenName\)/);
   assert.match(screens, /name!=="story"\)\);/, "a text page needs no football presentation");
   assert.match(read("js/v10Screens.js"), /story:\["home","hub"\]/, "HOME stays lit in the bar on STORY");
