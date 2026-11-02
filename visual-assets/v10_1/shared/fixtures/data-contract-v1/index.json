@@ -1,0 +1,179 @@
+{
+  "schema": "cms-data-contract-v1-fixture",
+  "contractVersion": "1.0",
+  "generator": "tests/support/data-contract-v1-fixtures.cjs",
+  "regenerate": "node tests/support/data-contract-v1-fixtures.cjs --write",
+  "screens": {
+    "home": "viewers.<manager>.home",
+    "startJoin": "viewers.<manager>.startJoin",
+    "seasonResults": "viewers.<manager>.seasonResults and seasonResultsBySeason[]",
+    "finalWinner": "viewers.<manager>.finalWinner",
+    "rivalryStatistics": "viewers.<manager>.rivalry",
+    "careerStatistics": "career (managers, biggestShowdownWin, coverage)",
+    "trophyRoom": "career.trophyRoom",
+    "history": "career.history",
+    "standings": "career.trophyRoom.standings and viewers.<manager>.rivalry",
+    "interim": "careerInterim (current Showdown only, before career history is wired)",
+    "nav": "nav.json"
+  },
+  "scenarios": [
+    {
+      "id": "empty-career",
+      "file": "empty-career.json",
+      "summary": "Both managers signed in, never paired: no Showdowns. Career screens are empty, Start/Join offers Daniel CREATE and Nik JOIN.",
+      "careerStatus": "empty",
+      "classification": {
+        "daniel": "none",
+        "nik": "none"
+      },
+      "sha256": "sha256:3fe95a68705a28e5be58ab780f366a36bc850f739feb98f76a6c18e48183e65e"
+    },
+    {
+      "id": "loading",
+      "file": "loading.json",
+      "summary": "The pair provider is still starting: every screen is loading.",
+      "careerStatus": "loading",
+      "classification": {
+        "daniel": "loading",
+        "nik": "loading"
+      },
+      "sha256": "sha256:c9d364adc1bb03ee4a75d3be2411600178bcfcaf73d3a6e3aa1103faff780376"
+    },
+    {
+      "id": "unavailable",
+      "file": "unavailable.json",
+      "summary": "The pair provider failed: every screen is unavailable (never drawn as empty or zero).",
+      "careerStatus": "unavailable",
+      "classification": {
+        "daniel": "unavailable",
+        "nik": "unavailable"
+      },
+      "sha256": "sha256:9e859dd6ae80e11e4f0722021ebd5f63f2aedd1d26e009312f86edfb6f15dfb0"
+    },
+    {
+      "id": "pairing-code-created",
+      "file": "pairing-code-created.json",
+      "summary": "Daniel created a pairing code and waits for Nik. Only Daniel's Start/Join view carries the code.",
+      "careerStatus": "empty",
+      "classification": {
+        "daniel": "pending",
+        "nik": "none"
+      },
+      "sha256": "sha256:05338319c1884b9f0da82c41f555fcd41dd2198423ab2a8beb3653d4e24ace7b"
+    },
+    {
+      "id": "active-first-season",
+      "file": "active-first-season.json",
+      "summary": "Paired 3-season La Liga Showdown, season 1 not yet played: 0-0, rivalry empty.",
+      "careerStatus": "empty",
+      "classification": {
+        "daniel": "active",
+        "nik": "active"
+      },
+      "sha256": "sha256:02e76363d69290474b828271ee6ee78039cd306ccf59b56d704ddfa2da01d2a5"
+    },
+    {
+      "id": "active-mid-season",
+      "file": "active-mid-season.json",
+      "summary": "Paired 5-season Premier League Showdown after 2 seasons; Daniel published season 3, Nik has not. Nik's views never contain Daniel's season 3 inputs.",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "active",
+        "nik": "active"
+      },
+      "sha256": "sha256:b9ce4bdb52050e69bf56d1f96c91e3eaf380d93cc548dc68ef802ee72c04c36e"
+    },
+    {
+      "id": "active-results-ready",
+      "file": "active-results-ready.json",
+      "summary": "Same Showdown; both managers published season 3 (RESULTS_READY): both inputs visible to both, breakdown not yet committed.",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "active",
+        "nik": "active"
+      },
+      "sha256": "sha256:882051e76a3cf11cb75617d9fc4dc187ddff56351be75fc3f387519d26f98c36"
+    },
+    {
+      "id": "completion-pending",
+      "file": "completion-pending.json",
+      "summary": "3-season Bundesliga Showdown, every season accepted and reconciled, Terminal Close not yet verified.",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "completion-pending",
+        "nik": "completion-pending"
+      },
+      "sha256": "sha256:2c473a55f6ee16aaeaec85e957adf1a2e9e3d28ecd9930206ae4a0ce7472a348"
+    },
+    {
+      "id": "finished-three-seasons",
+      "file": "finished-three-seasons.json",
+      "summary": "3-season La Liga Showdown closed by a verified Terminal Close; Daniel wins.",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "completed",
+        "nik": "completed"
+      },
+      "sha256": "sha256:c90c10fe06a92aaf333144a5bb99fafdc62deebc18066c5e5701ca0d1bd9a3ac"
+    },
+    {
+      "id": "tiebreak-finish",
+      "file": "tiebreak-finish.json",
+      "summary": "3-season Serie A Showdown, every season level on points and decided by league position; Daniel wins 2 seasons, Nik 1, but the final is a 7-7 draw (season tiebreaks never decide the final).",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "completed",
+        "nik": "completed"
+      },
+      "sha256": "sha256:9de0a3a7687f6ca6d12bcacb7d54f6508c129c3fd7b45dbefb2ee667cadbeff4"
+    },
+    {
+      "id": "equal-position-tiebreaks",
+      "file": "equal-position-tiebreaks.json",
+      "summary": "3-season Premier League Showdown with the rare equal league positions the app allows: season 1 won on league points, season 2 a draw, season 3 decides it. The only scenario where both managers share a league position.",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "completed",
+        "nik": "completed"
+      },
+      "sha256": "sha256:9627162143ff59d13367be5ade08ea6e78c18fe5dd95fb9e0ea32b8f10de4b8f"
+    },
+    {
+      "id": "abandoned",
+      "file": "abandoned.json",
+      "summary": "5-season Ligue 1 Showdown abandoned after 2 seasons (including a perfect Nik season): nothing counts, History shows a status-only row.",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "abandoned",
+        "nik": "abandoned"
+      },
+      "sha256": "sha256:90412cc82dd7c1ee9c1c50245a109b00db6fb2d5202f6ce4d4f7baa4c26d50bd"
+    },
+    {
+      "id": "partial-career",
+      "file": "partial-career.json",
+      "summary": "Career index with one readable completed Showdown and one whose seasons cannot be read (only its Terminal Close witness is known): career is partial, 1 of 2 readable. No current Showdown.",
+      "careerStatus": "partial",
+      "classification": {
+        "daniel": "none",
+        "nik": "none"
+      },
+      "sha256": "sha256:2855280c9c6f53d0d70ece79a7f3f2d9594f92444a247f4356d6ec29aab968f9"
+    },
+    {
+      "id": "multi-showdown-career",
+      "file": "multi-showdown-career.json",
+      "summary": "Four Showdowns oldest first: Daniel wins a 3-season Premier League Showdown, a Serie A Showdown is abandoned, Nik wins a 1-season La Liga Showdown with a perfect season, and a 5-season Bundesliga Showdown is in progress after 2 seasons (the current one).",
+      "careerStatus": "ready",
+      "classification": {
+        "daniel": "active",
+        "nik": "active"
+      },
+      "sha256": "sha256:9e9bf0701eae3fb64d19e727ae306dca0a2f29ea36b436646b5c28f71619a62b"
+    }
+  ],
+  "nav": {
+    "file": "nav.json",
+    "sha256": "sha256:8f50d993b3c287ca83cd51af959d61c5ba0e0023fe75d1ae5f551f6fad62fcfe"
+  }
+}

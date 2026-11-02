@@ -1,0 +1,201 @@
+{
+  "h1": true,
+  "daniel": {
+    "left": 364.796875,
+    "top": 151.1875,
+    "right": 541.421875,
+    "bottom": 373.65625,
+    "width": 176.625,
+    "height": 222.46875
+  },
+  "nik": {
+    "left": 1305.59375,
+    "top": 151.1875,
+    "right": 1482.21875,
+    "bottom": 373.65625,
+    "width": 176.625,
+    "height": 222.46875
+  },
+  "cards": [
+    "showdown",
+    "leagueTitles",
+    "domesticCups",
+    "championsLeague"
+  ],
+  "tabs": [
+    "ALL",
+    "SHOWDOWN",
+    "LEAGUE TITLES",
+    "DOMESTIC CUPS",
+    "CHAMPIONS LEAGUE"
+  ],
+  "noScroll": true,
+  "forbiddenVisible": [],
+  "resources": [
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+      "encoded": 4438,
+      "transfer": 4738
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+      "encoded": 3718,
+      "transfer": 4018
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-ui.css",
+      "encoded": 12943,
+      "transfer": 13243
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+      "encoded": 6072,
+      "transfer": 6372
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/motion.css",
+      "encoded": 10960,
+      "transfer": 11260
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/trophy-room.css",
+      "encoded": 14305,
+      "transfer": 14605
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.js",
+      "encoded": 8481,
+      "transfer": 8781
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/motion.js",
+      "encoded": 11341,
+      "transfer": 11641
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/trophy-room.js",
+      "encoded": 10203,
+      "transfer": 10503
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/fixtures.json",
+      "encoded": 35541,
+      "transfer": 35841
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/assets/platemap.json",
+      "encoded": 1492,
+      "transfer": 1792
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_1X.webp",
+      "encoded": 319404,
+      "transfer": 319704
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp",
+      "encoded": 147880,
+      "transfer": 148180
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+      "encoded": 43896,
+      "transfer": 44196
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp",
+      "encoded": 43424,
+      "transfer": 43724
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp",
+      "encoded": 45342,
+      "transfer": 45642
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp",
+      "encoded": 46772,
+      "transfer": 47072
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+      "encoded": 22444,
+      "transfer": 22744
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+      "encoded": 22308,
+      "transfer": 22608
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
+      "encoded": 22772,
+      "transfer": 23072
+    },
+    {
+      "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+      "encoded": 22196,
+      "transfer": 22496
+    }
+  ],
+  "bytes": 855932,
+  "primary": {
+    "left": 796.796875,
+    "top": 954.09375,
+    "right": 1123.1875,
+    "bottom": 1000.09375,
+    "width": 326.390625,
+    "height": 46
+  },
+  "consoleErrors": [],
+  "failedRequests": [],
+  "exactTabs": true,
+  "exactCards": true,
+  "pageWeightPass": true,
+  "focus": [
+    {
+      "id": null,
+      "cls": "trophyTab is-active",
+      "text": "ALL",
+      "outline": "solid",
+      "outlineWidth": 3
+    },
+    {
+      "id": null,
+      "cls": "trophyTab ",
+      "text": "SHOWDOWN",
+      "outline": "solid",
+      "outlineWidth": 3
+    },
+    {
+      "id": null,
+      "cls": "trophyTab ",
+      "text": "LEAGUE TITLES",
+      "outline": "solid",
+      "outlineWidth": 3
+    },
+    {
+      "id": null,
+      "cls": "trophyTab ",
+      "text": "DOMESTIC CUPS",
+      "outline": "solid",
+      "outlineWidth": 3
+    },
+    {
+      "id": null,
+      "cls": "trophyTab ",
+      "text": "CHAMPIONS LEAGUE",
+      "outline": "solid",
+      "outlineWidth": 3
+    },
+    {
+      "id": "trophyRoomBack",
+      "cls": "backButton trophyBack",
+      "text": "BACK",
+      "outline": "solid",
+      "outlineWidth": 3
+    }
+  ],
+  "keyboardPass": true,
+  "pass": true
+}

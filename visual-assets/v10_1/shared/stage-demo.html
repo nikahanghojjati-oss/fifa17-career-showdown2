@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Showdown Stage Engine Demo</title>
+<link rel="stylesheet" href="showdown-tokens.css">
+<link rel="stylesheet" href="stage.css">
+<style>
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07080a;font-family:var(--sd-font-body,Arial,sans-serif)}
+  *{box-sizing:border-box}
+  .demo-stage{width:100vw;height:100vh}
+  .demo-panel{position:absolute;left:31.5vw;top:53vh;width:min(38vw,560px);min-height:138px;padding:20px 24px 22px;background:linear-gradient(155deg,rgba(12,14,18,.90),rgba(6,7,9,.76));border:1px solid rgba(212,160,23,.72);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));box-shadow:0 18px 50px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,211,77,.16)}
+  .demo-panel::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--sd-gold-700,#d4a017),var(--sd-gold-100,#fff3b0),transparent)}
+  .demo-kicker{color:var(--sd-gold-400,#f2c45b);font:700 12px/1 var(--sd-font-condensed,Arial,sans-serif);letter-spacing:.20em;text-transform:uppercase}
+  .demo-panel h1{margin:8px 0 4px;color:var(--sd-text-primary,#f4f1ea);font:700 clamp(26px,3vw,44px)/.95 var(--sd-font-condensed,Arial,sans-serif);letter-spacing:.02em;text-transform:uppercase}
+  .demo-panel p{margin:0;max-width:36ch;color:#d7d0c2;font:400 15px/1.38 var(--sd-font-body,Arial,sans-serif)}
+  .demo-badge{position:absolute;left:24px;top:22px;padding:7px 10px;border:1px solid rgba(242,196,91,.58);background:rgba(6,7,9,.68);color:#f2c45b;font:700 11px/1 var(--sd-font-condensed,Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase}
+  .demo-phone-copy{display:none}
+  .demo-finger{filter:drop-shadow(0 2px 2px rgba(0,0,0,.28))}
+  @media(max-width:760px) and (orientation:portrait){
+    .demo-panel{position:relative;left:auto;top:auto;width:auto;min-height:0;margin:18px 14px 0;padding:18px 18px 20px}
+    .demo-panel h1{font-size:30px}.demo-panel p{font-size:15px}.demo-badge{left:12px;top:12px}.demo-phone-copy{display:block;margin:10px 14px;color:#b9b3a4;font-size:13px;line-height:1.35}
+  }
+</style>
+</head>
+<body>
+<div id="stage-demo" class="sd-stage demo-stage" data-plate-width="1536" data-plate-height="864">
+  <div class="sd-stage__layer sd-stage__layer--plate"><div class="sd-stage__registered"><div class="sd-stage__plate"></div></div></div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <div class="demo-badge">Stage engine proof</div>
+    <section class="demo-panel" aria-label="Demo panel">
+      <div class="demo-kicker">Depth sandwich</div>
+      <h1>Live UI panel</h1>
+      <p>The glass panel is below Daniel’s registered finger. The contact shadow darkens the panel while the hand remains above it.</p>
+    </section>
+    <p class="demo-phone-copy">Portrait mode uses the League face band. Responsive content starts below the registered scene.</p>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="sd-stage__contact-shadow" style="--sd-contact-x:34.25%;--sd-contact-y:52.45%;--sd-contact-w:.95%;--sd-contact-h:.62%;--sd-contact-blur:3px;--sd-contact-dx:2px;--sd-contact-dy:3px"></span>
+      <div class="sd-stage__cutout demo-finger" data-box="440 410 560 500" data-src-1x="../league/assets/OVL_DANIEL_FINGER_V1_1X.png" data-src-2x="../league/assets/OVL_DANIEL_FINGER_V1_2X.png"></div>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"></div></div>
+</div>
+<script src="stage.js"></script>
+<script>
+  const leagueMap={phone_band:[195,70,1280,400]};
+  window.stageDemo=ShowdownStage.mount(document.getElementById('stage-demo'),{
+    plate:{width:1536,height:864,src1x:'../league/assets/ENV_LEAGUE_PLATE_V1_1X.webp',src2x:'../league/assets/ENV_LEAGUE_PLATE_V1_2X.webp'},
+    focal:{x:768,y:383},platemap:leagueMap,phoneBandRatio:.46,dustCount:24
+  });
+</script>
+</body>
+</html>

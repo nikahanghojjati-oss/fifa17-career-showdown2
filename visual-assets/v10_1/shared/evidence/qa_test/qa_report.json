@@ -1,0 +1,333 @@
+{
+  "schema": "SHOWDOWN_FACTORY_QA_V1_TEST_EVIDENCE",
+  "generatedAt": "2026-10-02T12:04:14.750Z",
+  "screen": "visual-assets/v10_1/home",
+  "frames": [
+    "HM2"
+  ],
+  "runContext": {
+    "workerSmoke": "Same shared-harness measurement path; Chromium URLBlocklist prevented localhost/file navigation, so HM2 content was injected with page.setContent from a branch-aligned inline reconstruction. The committed harness retains normal base-URL navigation.",
+    "canonicalParitySource": "visual-assets/v10_1/home/evidence/qa_report.json"
+  },
+  "results": [
+    {
+      "frame": "HM2",
+      "viewport": "1366x768",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "1440x900",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "1920x1080",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "1366x640",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "393x660@3x",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "360x640",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "375x553",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "390x844",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": "430x932",
+      "scroll": {
+        "html": [
+          false,
+          false
+        ],
+        "body": [
+          false,
+          false
+        ],
+        "stage": [
+          false,
+          false
+        ]
+      },
+      "primaryVisible": true,
+      "visibleControlsInsideViewport": true,
+      "inputsBelow16px": [],
+      "consoleErrors": [],
+      "failedRequests": [],
+      "missingFixtureStrings": [],
+      "gates": {
+        "H1": "FAIL",
+        "H5": "PASS",
+        "H6": "PASS",
+        "H7": "PASS",
+        "CONTROL_BOUNDS": "PASS",
+        "CONSOLE": "PASS",
+        "REQUESTS": "PASS",
+        "FIXTURE_STRINGS": "PASS"
+      }
+    }
+  ],
+  "overall": "EXPECTED_H1_FAIL",
+  "expectedFailure": "Current Home has no data-manager=\"daniel\" / data-manager=\"nik\" marker elements. H1 therefore fails by design. All other shared gates pass in the worker smoke run.",
+  "canonicalHomeNoScroll": {
+    "1366x768": true,
+    "1440x900": true,
+    "1920x1080": true,
+    "1366x640": true,
+    "393x660": true,
+    "360x640": true,
+    "375x553": true,
+    "390x844": true,
+    "430x932": true
+  }
+}

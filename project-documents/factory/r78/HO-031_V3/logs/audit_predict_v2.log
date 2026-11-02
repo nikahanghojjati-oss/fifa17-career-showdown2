@@ -1,0 +1,69 @@
+LEAGUE 393x852: FAIL
+  - Daniel's face 63% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 63% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 44% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 44% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+LEAGUE 393x660: FAIL
+  - Daniel's face 36% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 36% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 25% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 25% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+LEAGUE 375x667: FAIL
+  - Daniel's face 33% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 33% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 24% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 24% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+LEAGUE 360x640: FAIL
+  - Daniel's face 24% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Daniel's face 24% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 17% under <div#leagueWheel class="leagueWheel"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+  - Nik's face 17% under <div class="wheelTrack"> "PREMIER LEAGUE\nLALIGA\nBUNDESLIGA\nSERIE A"
+STANDINGS 393x852: FAIL
+  - Nik's face 1% under <div class="sd-nav sd-nav-corner"> 
+  - Nik's face 0% under <button class="sd-nav-gear"> 
+STANDINGS 393x660: OK
+STANDINGS 375x667: OK
+STANDINGS 360x640: OK
+RIVALRY 393x852: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 0% under <div class="sd-nav sd-nav-corner"> 
+RIVALRY 393x660: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+RIVALRY 375x667: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+RIVALRY 360x640: FAIL
+  - Daniel's face 100% under <img class="rv-adoptedPhoneStadium"> 
+  - Nik's face 100% under <img class="rv-adoptedPhoneStadium"> 
+TROPHY_ROOM 393x852: FAIL
+  - Nik's face 8% under <section class="trophyShelf sd-entered"> "ALL\nSHOWDOWN\nLEAGUE TITLES\nDOMESTIC CUPS"
+  - Daniel's face 4% under <section class="trophyShelf sd-entered"> "ALL\nSHOWDOWN\nLEAGUE TITLES\nDOMESTIC CUPS"
+  - Nik's face 3% under <div class="trophyTabs"> "ALL\nSHOWDOWN\nLEAGUE TITLES\nDOMESTIC CUPS"
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+TROPHY_ROOM 393x660: FAIL
+  - Nik's face 13% under <section class="trophyShelf sd-entered"> "ALL\nSHOWDOWN\nLEAGUE TITLES\nDOMESTIC CUPS"
+  - Daniel's face 11% under <div class="heroSpotlight"> 
+  - Daniel's face 10% under <section class="trophyShelf sd-entered"> "ALL\nSHOWDOWN\nLEAGUE TITLES\nDOMESTIC CUPS"
+  - Nik's face 9% under <div class="heroSpotlight"> 
+  - Daniel's face 8% under <div class="heroPlinth"> "SHOWDOWN CHAMPION\nCAREER MODE SHOWDOWN"
+  - Nik's face 7% under <div class="trophyTabs"> "ALL\nSHOWDOWN\nLEAGUE TITLES\nDOMESTIC CUPS"
+  - Nik's face 5% under <div class="heroPlinth"> "SHOWDOWN CHAMPION\nCAREER MODE SHOWDOWN"
+  - Nik's face 4% under <button class="trophyTab "> "LEAGUE TITLES"
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+  note: with the tool's centred placement (not how the plate is drawn) also Nik 3% under <p class="sd-tagline trophyTagline">
+TROPHY_ROOM 375x667: FAIL
+  - Daniel's face 14% under <div class="heroSpotlight"> 
+  - Nik's face 11% under <div class="heroSpotlight"> 
+  - Daniel's face 8% under <div class="heroPlinth"> "SHOWDOWN CHAMPION\nCAREER MODE SHOWDOWN"
+  - Nik's face 5% under <div class="heroPlinth"> "SHOWDOWN CHAMPION\nCAREER MODE SHOWDOWN"
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+TROPHY_ROOM 360x640: FAIL
+  - Daniel's face 13% under <div class="heroSpotlight"> 
+  - Nik's face 10% under <div class="heroSpotlight"> 
+  - Daniel's face 8% under <div class="heroPlinth"> "SHOWDOWN CHAMPION\nCAREER MODE SHOWDOWN"
+  - Nik's face 6% under <div class="heroPlinth"> "SHOWDOWN CHAMPION\nCAREER MODE SHOWDOWN"
+  - Nik's face 3% under <section class="trophyShelf sd-entered"> "ALL\nSHOWDOWN\nLEAGUE TITLES\nDOMESTIC CUPS"
+  - FADED/CUT manager: <div class="heroSpotlight"> filter blur(3px)
+phone marble face check: FAIL (LEAGUE, STANDINGS, RIVALRY, TROPHY_ROOM)

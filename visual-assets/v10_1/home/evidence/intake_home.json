@@ -1,0 +1,199 @@
+{
+ "task": "CLOUD-HLC-INTAKE-V1-R3 (R3.2)",
+ "screen": "home",
+ "result": "PASS",
+ "base_sha": "8fbda036c1d1f7910631964e982705d0f25290c0",
+ "inputs_ref": "claude-cloud/hlc-goals",
+ "inputs": {
+  "goal": {
+   "path": "visual-assets/goals/GOAL_HOME.png",
+   "size": [
+    1672,
+    941
+   ],
+   "sha256": "9272f8921535b07841033781d024f1bf3f20647846cc89146878c999a4ca67f6"
+  },
+  "edit": {
+   "path": "visual-assets/goals/plates-in/ENV_HOME_PLATE_V1.png",
+   "size": [
+    1672,
+    941
+   ],
+   "sha256": "45e0b49b7e8fb79f4673eeca0c92b0fc20e4b84b18413887543dbdd096f9fe4a"
+  },
+  "zones": {
+   "path": "visual-assets/goals/handoffs/HLC_PLATE_ZONES_V1.json",
+   "sha256": "a626b18781c4c057c98384d9ebccfe21638f09464379fc60f2ae7a854e9938e5"
+  }
+ },
+ "framing": {
+  "global_shift_dx_dy": [
+   -0.1,
+   0.17
+  ],
+  "global_response": 0.919,
+  "per_protected_box_dx_dy_resp": {
+   "face_daniel": [
+    -0.14,
+    0.01,
+    0.996
+   ],
+   "face_nik": [
+    -0.22,
+    0.59,
+    1.02
+   ],
+   "hand_daniel": [
+    -0.12,
+    0.06,
+    1.045
+   ],
+   "hand_nik": [
+    0.39,
+    -0.01,
+    0.961
+   ]
+  },
+  "aligned_crop_error_px": 0.63,
+  "method": "lanczos_resize"
+ },
+ "framing_pass": true,
+ "tone_match": [
+  {
+   "pass": 1,
+   "zone": "rect[30,684,1640,866]",
+   "ratio_before": 1.2632,
+   "scale": 0.8533,
+   "ratio_after": 1.1
+  }
+ ],
+ "gates": {
+  "changed_px_outside_remove_zones": 0,
+  "changed_px_per_protected_box": {
+   "face_daniel": 0,
+   "face_nik": 0,
+   "hand_daniel": 0,
+   "hand_nik": 0
+  },
+  "changed_px_per_keep_rect": {},
+  "zones": [
+   {
+    "zone": "rect[0,22,968,84]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 55.66,
+    "mean_lum_ring12": 57.59,
+    "ratio": 0.9666,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1305,22,1520,88]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 48.39,
+    "mean_lum_ring12": 55.87,
+    "ratio": 0.8661,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1522,4,1662,84]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 49.27,
+    "mean_lum_ring12": 82.28,
+    "ratio": 0.5988,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[40,118,605,398]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 54.4,
+    "mean_lum_ring12": 61.54,
+    "ratio": 0.8841,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[140,398,530,540]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 67.21,
+    "mean_lum_ring12": 74.5,
+    "ratio": 0.9022,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[35,535,530,678]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 65.9,
+    "mean_lum_ring12": 63.88,
+    "ratio": 1.0316,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1068,492,1636,662]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 23.27,
+    "mean_lum_ring12": 29.44,
+    "ratio": 0.7906,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[30,684,1640,866]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 41.54,
+    "mean_lum_ring12": 37.76,
+    "ratio": 1.1,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[0,876,1672,941]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 13.98,
+    "mean_lum_ring12": 38.23,
+    "ratio": 0.3656,
+    "lum_pass": true
+   }
+  ],
+  "ref_goal_jpeg_magic_ffd8ff": true
+ },
+ "ref_goal_method": "PNG converted to real JPEG (q95, 4:4:4)",
+ "outputs_sha256": {
+  "ENV_HOME_PLATE_V1_1X.png": "9cf0239ea765cb4dfdaef63b2a9e1cc258a153e4bce882aef3a4dc73e456479b",
+  "ENV_HOME_PLATE_V1_1X.webp": "1e2aca74e00117e14b0f190b01b986111f4385fecd1fb31d226a8160b33ccd04",
+  "ENV_HOME_PLATE_V1_2X.png": "ca48638f2201c6cdce4b1e79575cd6c2b2d142e7a3cfddbeb3bf160ed96a7512",
+  "ENV_HOME_PLATE_V1_2X.webp": "d633341e8bbf843c4255dd302960b7205f43d71b55cd81754bbffbafcc853323",
+  "REF_GOAL_HOME.jpg": "48b7157cd01496e5fa248764048afffce09878b52503da09e3402944bd712819"
+ },
+ "wordmark": {
+  "source_size": [
+   2081,
+   755
+  ],
+  "source_sha256": "87b4cdb6d829b73a08457fc3f677ec7af7017a0e2f92b898a8a03df298ed9620",
+  "fully_transparent_fraction": 0.3846,
+  "alpha_gate_pass": true,
+  "note": "spelling confirmed correct by Nik and Claude (2026-10-01)",
+  "trim_box": [
+   0,
+   0,
+   2078,
+   755
+  ],
+  "trimmed_size": [
+   2078,
+   755
+  ],
+  "sha256": {
+   "LOGO_CM17_WORDMARK_V1.png": "814d2e61f80b61dc6a98626fc939cdcaff7a995f27924b41e7d207251276e669",
+   "LOGO_CM17_WORDMARK_V1.webp": "8d32911a86f2aae8b884d3b99f99ca78f3c09b0c8581dcfbfeafdfe0aec961d7"
+  }
+ },
+ "params": {
+  "feather_px": 6,
+  "ring_px": 12,
+  "guide_band_px": 6,
+  "align_tol_px": 4.0,
+  "lum_gate": 1.15,
+  "tone_target": 1.1,
+  "tone_feather_px": 24,
+  "resize": "Lanczos",
+  "x2": "Lanczos x2 + UnsharpMask(r=1, 40 %, t=2)",
+  "webp_q": 92
+ }
+}

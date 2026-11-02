@@ -1,0 +1,458 @@
+{
+  "version": "SETTINGS_V1_FIXTURES",
+  "authority": "main@2de237391e17c7de2c6deb606b102b68ee640212 + project-documents/factory/PRODUCT_TRUTH.md + DATA_CONTRACT_V1.md",
+  "strings": {
+    "shell": {
+      "eyebrow": "CAREER MODE SHOWDOWN",
+      "heading": "SETTINGS",
+      "closeGlyph": "×",
+      "closeAriaLabel": "Close Settings",
+      "done": "DONE",
+      "previewLabel": "Preview data"
+    },
+    "account": {
+      "eyebrow": "ACCOUNT",
+      "titleUnselected": "DANIEL & NIK",
+      "titleDaniel": "WELCOME DANIEL",
+      "titleNik": "WELCOME NIK",
+      "description": "Your player identity and this browser.",
+      "playerLabel": "PLAYER",
+      "playerUnselected": "Not selected",
+      "deviceLabel": "DEVICE",
+      "deviceReady": "Ready",
+      "deviceNotReady": "Not ready",
+      "actions": [
+        "SIGN IN WITH GOOGLE",
+        "DANIEL · PLAYER ONE",
+        "NIK · PLAYER TWO",
+        "TRY AGAIN",
+        "FORGET THIS DEVICE"
+      ]
+    },
+    "application": {
+      "eyebrow": "APPLICATION",
+      "title": "CAREER MODE SHOWDOWN",
+      "description": "Daniel and Nik's two-manager FIFA 17 Career Mode rivalry companion, built for the connected Showdown experience.",
+      "versionLabel": "APPLICATION VERSION",
+      "versionValue": "v1.9.1",
+      "updateDefault": "UPDATE TO LATEST VERSION",
+      "updateReady": "APPLY READY UPDATE",
+      "updateStatusDefault": "Updates keep your current Showdown and player identity.",
+      "credit": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+      "creditAuthor": "Tim Reckmann",
+      "creditLicense": "CC BY 2.0",
+      "creditAuthorUrl": "https://www.flickr.com/photos/foto_db/16204330530/",
+      "creditLicenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    },
+    "motion": {
+      "eyebrow": "ACCESSIBILITY",
+      "title": "MOTION & FEEDBACK",
+      "description": "Follow the device by default, force non-essential motion to be minimized, and control the optional menu confirmation cue.",
+      "standard": "STANDARD",
+      "reduced": "REDUCED",
+      "devicePreferenceLabel": "DEVICE PREFERENCE",
+      "effectiveLabel": "EFFECTIVE APP MOTION",
+      "standardMotion": "Standard motion",
+      "reducedMotion": "Reduced motion",
+      "groupAriaLabel": "Application motion preference",
+      "followDevice": "FOLLOW DEVICE",
+      "followDeviceDescription": "Use the browser or operating-system accessibility preference.",
+      "reduceMotion": "REDUCE MOTION",
+      "reduceMotionDescription": "Always minimize menu transitions, League Wheel delay and Club Reveal theatrics.",
+      "feedbackLabel": "MENU CLICK FEEDBACK",
+      "feedbackDescription": "A short original confirmation cue. It stays silent while Home media is playing and never blocks navigation.",
+      "feedbackOn": "ON",
+      "feedbackOff": "OFF",
+      "feedbackOnAria": "Menu click feedback on",
+      "feedbackOffAria": "Menu click feedback off"
+    },
+    "dataActions": {
+      "eyebrow": "CAREER DATA",
+      "title": "SHOWDOWN DATA",
+      "description": "Delete a broken current Showdown safely or open History & Backup. Starting over closes only the current Showdown connection; your player identity and registered device stay ready.",
+      "deleteCurrent": "DELETE CURRENT SHOWDOWN",
+      "openHistory": "OPEN HISTORY & BACKUP",
+      "activeNote": "Delete Current Showdown closes this Showdown connection for both players before removing this device's current local copy. Player identity, registered device, completed history and app settings are kept.",
+      "emptyNote": "No current Showdown is stored on this device. Completed history, backup export and full reset remain available under History & Backup.",
+      "confirmDanielNik": "Delete the current \"Daniel vs Nik\" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone."
+    },
+    "contract": {
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "statuses": [
+        "loading",
+        "empty",
+        "unavailable",
+        "partial",
+        "ready"
+      ]
+    }
+  },
+  "ids": {
+    "opener": "#settingsButton",
+    "overlay": "#settingsOverlay",
+    "dialog": "#settingsDialog",
+    "title": "#settingsTitle",
+    "close": "#settingsClose",
+    "content": "#settingsContent",
+    "accountPanel": "#onlinePlayerIdentitySettingsPanel",
+    "playerFacingClasses": {
+      "motionChoice": ".settingsMotionChoice",
+      "feedbackToggle": ".settingsAudioToggle",
+      "applicationUpdate": ".settingsApplicationUpdateButton",
+      "dataPanel": ".settingsDataPanel",
+      "deleteCurrent": ".settingsDeleteCurrentShowdown",
+      "history": ".settingsDataButton",
+      "footerButton": ".settingsFooter button"
+    },
+    "internalHidden": [
+      "#saveLibraryProductPanel",
+      "#sparkConnectedAccountPanel",
+      "#sparkPrivatePairingPanel",
+      "#sparkConnectedRivalryPanel",
+      ".settingsOfflinePanel"
+    ]
+  },
+  "frames": {
+    "ST1": {
+      "previewLabel": "Preview data",
+      "note": "Default Settings",
+      "values": {
+        "status": "ready",
+        "viewerRole": "daniel",
+        "account": {
+          "state": "ready",
+          "title": "WELCOME DANIEL",
+          "player": "Daniel",
+          "device": "Ready",
+          "actions": [
+            "FORGET THIS DEVICE"
+          ]
+        },
+        "application": {
+          "version": "v1.9.1",
+          "updateAction": "UPDATE TO LATEST VERSION",
+          "updateStatus": "Updates keep your current Showdown and player identity.",
+          "showCredit": true
+        },
+        "motion": {
+          "reducedMotionOverride": false,
+          "devicePreference": "Standard motion",
+          "effective": "Standard motion",
+          "badge": "STANDARD",
+          "selected": "FOLLOW DEVICE"
+        },
+        "menuFeedback": {
+          "enabled": true,
+          "label": "ON",
+          "ariaLabel": "Menu click feedback on"
+        },
+        "currentShowdownAction": {
+          "active": false,
+          "deleteVisible": false
+        },
+        "confirmDialog": {
+          "open": false
+        }
+      }
+    },
+    "ST2": {
+      "previewLabel": "Preview data",
+      "note": "Reduced motion on",
+      "values": {
+        "status": "ready",
+        "viewerRole": "nik",
+        "account": {
+          "state": "ready",
+          "title": "WELCOME NIK",
+          "player": "Nik",
+          "device": "Ready",
+          "actions": [
+            "FORGET THIS DEVICE"
+          ]
+        },
+        "application": {
+          "version": "v1.9.1",
+          "updateAction": "UPDATE TO LATEST VERSION",
+          "updateStatus": "Updates keep your current Showdown and player identity.",
+          "showCredit": true
+        },
+        "motion": {
+          "reducedMotionOverride": true,
+          "devicePreference": "Reduced motion",
+          "effective": "Reduced motion",
+          "badge": "REDUCED",
+          "selected": "REDUCE MOTION"
+        },
+        "menuFeedback": {
+          "enabled": false,
+          "label": "OFF",
+          "ariaLabel": "Menu click feedback off"
+        },
+        "currentShowdownAction": {
+          "active": false,
+          "deleteVisible": false
+        },
+        "confirmDialog": {
+          "open": false
+        }
+      }
+    },
+    "ST3": {
+      "previewLabel": "Preview data",
+      "note": "Destructive confirmation open",
+      "values": {
+        "status": "ready",
+        "viewerRole": "daniel",
+        "account": {
+          "state": "ready",
+          "title": "WELCOME DANIEL",
+          "player": "Daniel",
+          "device": "Ready",
+          "actions": [
+            "FORGET THIS DEVICE"
+          ]
+        },
+        "application": {
+          "version": "v1.9.1",
+          "updateAction": "UPDATE TO LATEST VERSION",
+          "updateStatus": "Updates keep your current Showdown and player identity.",
+          "showCredit": true
+        },
+        "motion": {
+          "reducedMotionOverride": false,
+          "devicePreference": "Standard motion",
+          "effective": "Standard motion",
+          "badge": "STANDARD",
+          "selected": "FOLLOW DEVICE"
+        },
+        "menuFeedback": {
+          "enabled": true,
+          "label": "ON",
+          "ariaLabel": "Menu click feedback on"
+        },
+        "currentShowdownAction": {
+          "active": true,
+          "deleteVisible": true
+        },
+        "confirmDialog": {
+          "open": true,
+          "native": true,
+          "message": "Delete the current \"Daniel vs Nik\" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone."
+        }
+      }
+    },
+    "ST4": {
+      "previewLabel": "Preview data",
+      "note": "Contract loading state",
+      "values": {
+        "status": "loading",
+        "viewerRole": "daniel",
+        "account": {
+          "state": "connecting",
+          "title": "DANIEL & NIK",
+          "player": "Not selected",
+          "device": "Not ready",
+          "actions": []
+        },
+        "application": {
+          "version": "v1.9.1",
+          "updateAction": "UPDATE TO LATEST VERSION",
+          "updateStatus": "Updates keep your current Showdown and player identity.",
+          "showCredit": true
+        },
+        "motion": {
+          "reducedMotionOverride": false,
+          "devicePreference": "Standard motion",
+          "effective": "Standard motion",
+          "badge": "STANDARD",
+          "selected": "FOLLOW DEVICE"
+        },
+        "menuFeedback": {
+          "enabled": true,
+          "label": "ON",
+          "ariaLabel": "Menu click feedback on"
+        },
+        "currentShowdownAction": {
+          "active": false,
+          "deleteVisible": false
+        },
+        "confirmDialog": {
+          "open": false
+        }
+      }
+    },
+    "ST5": {
+      "previewLabel": "Preview data",
+      "note": "New career / successful empty read",
+      "values": {
+        "status": "empty",
+        "viewerRole": "daniel",
+        "account": {
+          "state": "signed-out",
+          "title": "DANIEL & NIK",
+          "player": "Not selected",
+          "device": "Not ready",
+          "actions": [
+            "SIGN IN WITH GOOGLE"
+          ]
+        },
+        "application": {
+          "version": "v1.9.1",
+          "updateAction": "UPDATE TO LATEST VERSION",
+          "updateStatus": "Updates keep your current Showdown and player identity.",
+          "showCredit": true
+        },
+        "motion": {
+          "reducedMotionOverride": false,
+          "devicePreference": "Standard motion",
+          "effective": "Standard motion",
+          "badge": "STANDARD",
+          "selected": "FOLLOW DEVICE"
+        },
+        "menuFeedback": {
+          "enabled": true,
+          "label": "ON",
+          "ariaLabel": "Menu click feedback on"
+        },
+        "currentShowdownAction": {
+          "active": false,
+          "deleteVisible": false
+        },
+        "confirmDialog": {
+          "open": false
+        }
+      }
+    },
+    "ST6": {
+      "previewLabel": "Preview data",
+      "note": "Contract-backed data unavailable",
+      "values": {
+        "status": "unavailable",
+        "viewerRole": "nik",
+        "account": {
+          "state": "offline",
+          "title": "WELCOME NIK",
+          "player": "Nik",
+          "device": "Ready",
+          "actions": [
+            "TRY AGAIN",
+            "FORGET THIS DEVICE"
+          ]
+        },
+        "application": {
+          "version": "v1.9.1",
+          "updateAction": "UPDATE TO LATEST VERSION",
+          "updateStatus": "Connect to the internet before checking for the latest Career Mode Showdown version.",
+          "showCredit": true
+        },
+        "motion": {
+          "reducedMotionOverride": false,
+          "devicePreference": "Standard motion",
+          "effective": "Standard motion",
+          "badge": "STANDARD",
+          "selected": "FOLLOW DEVICE"
+        },
+        "menuFeedback": {
+          "enabled": true,
+          "label": "ON",
+          "ariaLabel": "Menu click feedback on"
+        },
+        "currentShowdownAction": {
+          "active": false,
+          "deleteVisible": false
+        },
+        "confirmDialog": {
+          "open": false
+        }
+      }
+    },
+    "ST7": {
+      "previewLabel": "Preview data",
+      "note": "Partial provider history / current-Showdown-only owner review",
+      "values": {
+        "status": "partial",
+        "viewerRole": "nik",
+        "interimLabel": "Current Showdown only. Career history is not yet available.",
+        "account": {
+          "state": "ready",
+          "title": "WELCOME NIK",
+          "player": "Nik",
+          "device": "Ready",
+          "actions": [
+            "FORGET THIS DEVICE"
+          ]
+        },
+        "application": {
+          "version": "v1.9.1",
+          "updateAction": "UPDATE TO LATEST VERSION",
+          "updateStatus": "Updates keep your current Showdown and player identity.",
+          "showCredit": true
+        },
+        "motion": {
+          "reducedMotionOverride": false,
+          "devicePreference": "Standard motion",
+          "effective": "Standard motion",
+          "badge": "STANDARD",
+          "selected": "FOLLOW DEVICE"
+        },
+        "menuFeedback": {
+          "enabled": true,
+          "label": "ON",
+          "ariaLabel": "Menu click feedback on"
+        },
+        "currentShowdownAction": {
+          "active": true,
+          "deleteVisible": true
+        },
+        "confirmDialog": {
+          "open": false
+        }
+      }
+    }
+  },
+  "routes": {
+    "open": {
+      "from": [
+        "#settingsButton",
+        "#onlinePlayerIdentityBadge when identity is ready"
+      ],
+      "productBinding": "js/optionalModules.js openOptionalModule('settings') -> js/settings.js openSettings()"
+    },
+    "close": {
+      "triggers": [
+        "#settingsClose",
+        "DONE",
+        "Escape",
+        "backdrop pointer-down"
+      ],
+      "destination": "restore the underlying screen and opener focus",
+      "productBinding": "js/settings.js closeSettings()"
+    },
+    "openHistoryBackup": {
+      "action": "OPEN HISTORY & BACKUP",
+      "destination": "legacy",
+      "productBinding": "js/settings.js openSettingsDataManagement() -> openOptionalModule('legacy')"
+    },
+    "deleteCurrentShowdown": {
+      "action": "DELETE CURRENT SHOWDOWN",
+      "confirmRequired": true,
+      "successDestination": "mainMenu",
+      "productBinding": "js/settings.js deleteSettingsCurrentShowdown() -> provider abandon -> local clear -> mainMenu"
+    },
+    "updateApplication": {
+      "action": "UPDATE TO LATEST VERSION / APPLY READY UPDATE",
+      "destination": "stay in Settings until update activation/reload",
+      "productBinding": "js/settings.js handleSettingsOfflineUpdate() -> js/offlineApp.js"
+    },
+    "accountActions": {
+      "productBinding": "js/onlinePlayerIdentity.js renderOnlineSettings()",
+      "actions": [
+        "SIGN IN WITH GOOGLE",
+        "DANIEL · PLAYER ONE",
+        "NIK · PLAYER TWO",
+        "TRY AGAIN",
+        "FORGET THIS DEVICE"
+      ]
+    }
+  }
+}

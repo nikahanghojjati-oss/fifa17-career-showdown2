@@ -1,0 +1,587 @@
+/* JOB-092 · Rule Book */
+
+/* Stage: the system stadium is calm, centred and darkened more heavily than action screens. */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: #050607;
+}
+
+#stage-root {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.ruleBookScrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(2, 4, 6, 0.72) 0%, rgba(2, 4, 6, 0.54) 31%, rgba(2, 4, 6, 0.74) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.08) 48%, rgba(0, 0, 0, 0.34) 100%);
+}
+
+.sd-stage__layer--ui {
+  pointer-events: none;
+}
+
+.sd-stage__layer--ui button,
+.sd-stage__layer--ui a {
+  pointer-events: auto;
+}
+
+
+/* Step 3 · title block.
+   System reference: MOCKUP_TROPHY_ROOM.png, 1672×941.
+   Measured title group: left 34.7%, top 10.8%, width 29.6%; centre x ≈ 49.5%.
+   The Rule Book uses the same title geometry with its approved brush wordmark. */
+.ruleBookHero {
+  position: absolute;
+  z-index: 9;
+  left: 34.7%;
+  /* Claude fix item 2: keep the full summary above the panel field so no clipped
+     "clubs" fragment can appear under the tagline at 1366×768. */
+  top: 7.2%;
+  width: 29.6%;
+  text-align: center;
+  pointer-events: none;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
+}
+.ruleBookWordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0.4vh auto 0.15vh;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.55));
+}
+.ruleBookHero .sd-eyebrow { font-size: clamp(10px, 0.72vw, 14px); }
+.ruleBookHero .sd-tagline {
+  margin-top: 0.15vh;
+  font-size: clamp(9px, 0.62vw, 12px);
+  letter-spacing: 0.2em;
+}
+.ruleBookSummary {
+  max-width: 34rem;
+  margin: 0.65vh auto 0;
+  color: rgba(244, 241, 234, 0.78);
+  font-size: clamp(10px, 0.68vw, 13px);
+  line-height: 1.35;
+  text-align: center;
+}
+
+
+/* Step 4 · desktop layout, system-derived because Rule Book has no dedicated mockup.
+   Reference frame: 1366×768.
+   Content field: left 6.2%, top 29.4%, width 87.9%, bottom 13.3%.
+   Left index: 4.6% of frame width. Panel field: two equal columns with a 1.2% frame gap.
+   These positions preserve the Trophy Room title band above and the hub action zone below. */
+.ruleBookScreen {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+  padding-top: 52px;
+  overflow: hidden;
+}
+
+#ruleBookFrameStatus,
+#ruleBookFrameNote,
+#ruleBookPreview {
+  display: none;
+}
+
+#ruleBookIndex {
+  position: absolute;
+  z-index: 11;
+  left: 6.2%;
+  top: 29.4%;
+  width: 4.6%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+#ruleBookIndex .ruleBookIndexChip {
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(222, 179, 79, 0.5);
+  background: rgba(5, 6, 7, 0.72);
+  color: var(--sd-text-warm);
+  font: 700 clamp(12px, 0.9vw, 15px)/1 var(--sd-font-condensed);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  box-shadow: inset 0 1px rgba(255, 230, 157, 0.06), 0 8px 22px rgba(0, 0, 0, 0.26);
+}
+
+.ruleBookBlanks,
+.ruleBookGrid {
+  position: absolute;
+  left: 12.4%;
+  right: 5.9%;
+  top: 29.4%;
+  bottom: 13.3%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+
+.ruleBookBlanks {
+  z-index: 8;
+  display: grid;
+}
+
+.ruleBookBlank {
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid rgba(222, 179, 79, 0.62);
+  background:
+    linear-gradient(180deg, rgba(16, 16, 15, 0.84), rgba(5, 6, 7, 0.9));
+  box-shadow:
+    inset 0 1px rgba(255, 231, 161, 0.08),
+    0 18px 34px rgba(0, 0, 0, 0.38);
+  clip-path: polygon(2% 0, 98% 0, 100% 7%, 100% 100%, 0 100%, 0 7%);
+}
+
+.ruleBookGrid {
+  z-index: 9;
+  display: grid;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ruleBookActions {
+  visibility: hidden;
+}
+
+
+/* Step 5 · group A: shared hub reserve, preview state and section index.
+   Rule Book has no product-owned header controls. Keep the 52px shared-nav reserve decorative
+   and expose only fixture-driven preview copy plus the six in-page section numbers. */
+.topbarReserve {
+  position: absolute;
+  z-index: 7;
+  inset: 0 0 auto;
+  height: 52px;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(2, 3, 4, 0.62), rgba(2, 3, 4, 0.16) 72%, transparent);
+  border-bottom: 1px solid rgba(217, 174, 83, 0.16);
+}
+
+#ruleBookPreview.sd-preview-tag {
+  display: inline-flex;
+  position: absolute;
+  z-index: 15;
+  top: 64px;
+  right: 2.2%;
+  min-height: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+#ruleBookPreview[hidden] {
+  display: none;
+}
+
+#ruleBookIndex::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 34px;
+  height: 2px;
+  transform: translateX(-50%);
+  background: var(--sd-gold-metal);
+  box-shadow: 0 0 12px rgba(242, 196, 91, 0.24);
+}
+
+#ruleBookIndex .ruleBookIndexChip {
+  position: relative;
+  isolation: isolate;
+  transition:
+    transform var(--sd-duration-feedback) var(--sd-ease-press),
+    border-color var(--sd-duration-feedback),
+    color var(--sd-duration-feedback),
+    background-color var(--sd-duration-feedback),
+    box-shadow var(--sd-duration-feedback);
+}
+
+#ruleBookIndex .ruleBookIndexChip::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 5px;
+  border: 1px solid rgba(255, 225, 150, 0.06);
+  pointer-events: none;
+}
+
+#ruleBookIndex .ruleBookIndexChip:hover {
+  border-color: var(--sd-gold-300);
+  color: var(--sd-gold-300);
+  background: rgba(24, 21, 13, 0.86);
+  box-shadow: 0 0 18px rgba(242, 196, 91, 0.18);
+}
+
+#ruleBookIndex .ruleBookIndexChip:active {
+  transform: translateY(1px);
+}
+
+#ruleBookIndex .ruleBookIndexChip:focus-visible {
+  outline: 2px solid var(--sd-gold-300);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--sd-black), var(--sd-shadow-glow);
+}
+
+
+/* Step 6a · live rule-card shell. */
+.ruleBookBlanks{display:none}
+.ruleBookGrid{visibility:visible;pointer-events:auto}
+.ruleSection{min-width:0;min-height:0;padding:12px 15px 11px;overflow:hidden;background:linear-gradient(180deg,rgba(17,17,17,.88),rgba(6,7,8,.91)),linear-gradient(90deg,rgba(242,196,91,.045),transparent 42%);border-color:rgba(222,179,79,.62);box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34)}
+.ruleSectionHeader{min-height:34px;display:grid;grid-template-columns:30px minmax(0,1fr);align-items:center;gap:10px;margin:0 0 8px;padding:0 0 8px;border-bottom:1px solid rgba(242,196,91,.24)}
+.ruleSectionNumber{width:28px;height:28px;display:grid;place-items:center;border:1px solid rgba(242,196,91,.78);border-radius:50%;background:radial-gradient(circle at 35% 28%,rgba(255,231,156,.22),transparent 42%),rgba(25,20,10,.9);color:var(--sd-gold-300);font:800 11px/1 var(--sd-font-condensed);font-variant-numeric:tabular-nums;letter-spacing:.04em;box-shadow:inset 0 0 0 1px rgba(255,231,161,.07),0 0 14px rgba(242,196,91,.12)}
+.ruleSectionHeader h2{margin:0;color:#f3e6c3;font:750 clamp(12px,.9vw,15px)/1 var(--sd-font-condensed);letter-spacing:.12em;text-transform:uppercase}
+.ruleSection ul{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+.ruleSection li{position:relative;margin:0;padding-left:12px;color:rgba(244,241,234,.88);font:500 clamp(10px,.72vw,12px)/1.22 var(--sd-font-body)}
+.ruleSection li::before{content:"";position:absolute;left:0;top:.52em;width:5px;height:1px;background:var(--sd-gold-300);box-shadow:0 0 6px rgba(242,196,91,.35)}
+
+/* Claude fix round · item 1: the two five-rule desktop cards need denser copy
+   so their final bullets remain inside the fixed three-row composition. */
+@media (min-width: 761px) {
+  .ruleSection:nth-child(1),
+  .ruleSection:nth-child(3) {
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+
+  .ruleSection:nth-child(1) .ruleSectionHeader,
+  .ruleSection:nth-child(3) .ruleSectionHeader {
+    min-height: 30px;
+    gap: 8px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+
+  .ruleSection:nth-child(1) ul,
+  .ruleSection:nth-child(3) ul {
+    gap: 2px;
+  }
+
+  .ruleSection:nth-child(1) li,
+  .ruleSection:nth-child(3) li {
+    font-size: clamp(9px, .68vw, 11px);
+    line-height: 1.1;
+  }
+}
+
+
+/* Step 6b · Season Results scoring material, adapted to Rule Book. */
+.scoringRuleSection{overflow:hidden;border-color:rgba(242,196,91,.86);background:linear-gradient(115deg,rgba(4,6,8,.90),rgba(13,14,15,.76)),linear-gradient(90deg,rgba(242,196,91,.09),transparent 45%);box-shadow:inset 0 0 0 1px rgba(255,224,135,.08),0 18px 40px rgba(0,0,0,.32)}
+.ruleScoreTable{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;padding-top:1px}
+.ruleScoreRow,.ruleScoreMaximum{min-width:0;display:flex;align-items:baseline;justify-content:space-between;gap:10px;color:#f4f4f2;font:650 clamp(9px,.66vw,11px)/1.12 var(--sd-font-condensed)}
+.ruleScoreRow strong,.ruleScoreMaximum strong{flex:0 0 auto;color:var(--sd-gold-300);font-size:1.18em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ruleScoreMaximum{grid-column:1/-1;margin-top:2px;padding-top:5px;border-top:1px solid rgba(242,196,91,.42);color:var(--sd-gold-300);letter-spacing:.07em;text-transform:uppercase}
+
+
+/* Step 7 · group C: the Rule Book has one real lower action, Back to Main Menu.
+   No extra mockup actions are invented. */
+.ruleBookActions {
+  position: absolute;
+  z-index: 14;
+  left: 50%;
+  bottom: 5.2%;
+  visibility: visible;
+  transform: translateX(-50%);
+}
+
+#ruleBookBack {
+  min-width: 210px;
+  min-height: 44px;
+  padding-inline: 24px;
+  border-color: rgba(237, 196, 98, 0.86);
+  background: linear-gradient(180deg, rgba(24, 23, 19, 0.96), rgba(5, 6, 7, 0.98));
+  color: #f2deab;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 230, 153, 0.08);
+}
+
+#ruleBookBack:hover:not(:disabled) {
+  background: linear-gradient(180deg, #e9c86d, #cf9f3e);
+  color: #111;
+}
+
+
+#stage-root[data-preview-mode="long-stress"] .ruleSection[data-stress-target="true"] {
+  border-color: rgba(242, 196, 91, 0.92);
+  box-shadow:
+    inset 0 1px rgba(255, 231, 161, 0.10),
+    0 0 0 1px rgba(242, 196, 91, 0.12),
+    0 18px 38px rgba(0, 0, 0, 0.38);
+}
+#stage-root[data-preview-mode="long-stress"] .ruleSection[data-stress-target="true"] .ruleSectionHeader {
+  border-bottom-color: rgba(242, 196, 91, 0.42);
+}
+
+
+/* Step 9a · phone stage and title composition. */
+.ruleBookPhonePlate { display: none; }
+
+@media (max-width: 760px) {
+  html,
+  body,
+  #stage-root {
+    width: 100%;
+    height: 100svh;
+    min-height: 100svh;
+    overflow: hidden;
+  }
+
+  .sd-stage__plate { visibility: hidden; }
+
+  .ruleBookPhonePlate {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ruleBookPhonePlate img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .ruleBookScrim {
+    background:
+      linear-gradient(180deg, rgba(2, 4, 6, .70) 0%, rgba(2, 4, 6, .48) 22%, rgba(2, 4, 6, .72) 100%),
+      linear-gradient(90deg, rgba(0, 0, 0, .20), rgba(0, 0, 0, .06) 50%, rgba(0, 0, 0, .20));
+  }
+
+  .ruleBookScreen {
+    height: 100svh;
+    min-height: 100svh;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .topbarReserve { display: none; }
+
+  #ruleBookPreview.sd-preview-tag {
+    top: 4px;
+    right: 6px;
+    min-height: 28px;
+    padding-inline: 8px;
+    font-size: 9px;
+  }
+
+  .ruleBookHero {
+    left: 12%;
+    top: 30px;
+    width: 76%;
+    height: 76px;
+  }
+
+  .ruleBookHero .sd-eyebrow {
+    font-size: 7px;
+    letter-spacing: .28em;
+  }
+
+  .ruleBookHero .sd-eyebrow::before {
+    inline-size: 16px;
+    block-size: 10px;
+    margin-bottom: 1px;
+  }
+
+  .ruleBookWordmark {
+    width: 72%;
+    max-height: 38px;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  .ruleBookHero .sd-tagline {
+    margin-top: 0;
+    font-size: 7px;
+    line-height: 1.1;
+    letter-spacing: .14em;
+  }
+
+  .ruleBookSummary {
+    display: none;
+  }
+}
+
+
+/* Step 9b · phone index, internal scroll viewport, pinned Back and bottom-bar reserve. */
+@media (max-width: 760px) {
+  #ruleBookIndex {
+    left: 10px;
+    right: 10px;
+    top: 110px;
+    width: auto;
+    height: 44px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    overflow: hidden;
+  }
+
+  #ruleBookIndex::before { display: none; }
+
+  #ruleBookIndex .ruleBookIndexChip {
+    box-sizing: border-box;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  .ruleBookGrid {
+    left: 10px;
+    right: 10px;
+    top: 160px;
+    bottom: calc(116px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    padding: 0 2px 8px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(242, 196, 91, .5) rgba(0, 0, 0, .18);
+  }
+
+  .ruleSection {
+    flex: 0 0 auto;
+    min-height: auto;
+    padding: 12px;
+    overflow: visible;
+    scroll-margin-top: 4px;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+
+  .ruleSectionHeader {
+    grid-template-columns: 30px minmax(0, 1fr);
+    min-height: 34px;
+    margin-bottom: 9px;
+  }
+
+  .ruleSectionHeader h2 {
+    font-size: 13px;
+    line-height: 1.05;
+  }
+
+  .ruleSection li {
+    font-size: 12px;
+    line-height: 1.28;
+  }
+
+  .ruleScoreTable {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .ruleScoreRow,
+  .ruleScoreMaximum {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .ruleScoreMaximum { grid-column: auto; }
+
+  .ruleBookActions {
+    left: 50%;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    width: min(72%, 280px);
+    transform: translateX(-50%);
+  }
+
+  #ruleBookBack {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .nav-reserve {
+    display: block;
+    position: absolute;
+    z-index: 13;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(56px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, rgba(4, 5, 6, .78), rgba(2, 3, 4, .96));
+    border-top: 1px solid rgba(217, 174, 83, .25);
+    pointer-events: none;
+  }
+}
+
+
+/* JOB-094 step 4 · shared entrance motion.
+   The shared kit owns timing; this screen only declares participants and reduced-motion guards. */
+.ruleBookHero[data-sd-enter="title"],
+.ruleSection[data-sd-enter="panel"],
+#ruleBookBack[data-sd-enter="button"] {
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ruleBookScreen [data-sd-enter] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .ruleBookHero.sd-glint::before,
+  .ruleBookHero[data-sd-enter="title"]::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
+html[data-motion-reduced="true"] .ruleBookScreen [data-sd-enter],
+html[data-reduced-motion="true"] .ruleBookScreen [data-sd-enter] {
+  transform: none !important;
+  transition: none !important;
+}
+
+html[data-motion-reduced="true"] .ruleBookHero.sd-glint::before,
+html[data-reduced-motion="true"] .ruleBookHero.sd-glint::before,
+html[data-motion-reduced="true"] .ruleBookHero[data-sd-enter="title"]::after,
+html[data-reduced-motion="true"] .ruleBookHero[data-sd-enter="title"]::after {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+/* CC-008 B6 · phone: the PREVIEW DATA chip sat under the shared settings button (top right). Seat it top left. */
+@media (max-width: 900px) {
+  #ruleBookPreview.sd-preview-tag { left: 12px; right: auto; }
+}
+
+/* CC-008 B4 · 1366x640: the hero started under the 52 px top bar and its tagline and summary ran under the
+   section panels. Short desktops get a smaller hero that starts below the bar. */
+@media (min-width: 761px) and (max-height: 700px) {
+  .ruleBookHero { top: 52px; left: 38%; width: 24%; }
+  .ruleBookHero .sd-eyebrow { margin-bottom: 0; }
+  .ruleBookWordmark { width: 84%; margin: 0 auto; }
+}
+/* CC-008 B7: on 1366x768 two sections, and on 1366x640 all six, cut their last rule lines (overflow hidden).
+   Let a section scroll inside its own panel rather than hide a rule. */
+@media (min-width: 761px) {
+  .ruleSection { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgba(242,196,91,.55) transparent; }
+}

@@ -1,0 +1,87 @@
+{
+  "desktop": {
+    "text": "No active showdown saved",
+    "textRect": {
+      "left": 49.78125,
+      "top": 670.4375,
+      "right": 176.78125,
+      "bottom": 704.9375,
+      "width": 127,
+      "height": 34.5
+    },
+    "artRect": {
+      "left": 206.890625,
+      "top": 571,
+      "right": 396.890625,
+      "bottom": 761,
+      "width": 190,
+      "height": 190
+    },
+    "tileRect": {
+      "left": 32.78125,
+      "top": 596,
+      "right": 345.890625,
+      "bottom": 732,
+      "width": 313.109375,
+      "height": 136
+    }
+  },
+  "phone": [
+    {
+      "id": "continueCareer",
+      "text": "CONTINUE CAREER",
+      "tileRect": {
+        "left": 12,
+        "top": 436.40625,
+        "right": 231.390625,
+        "bottom": 508.40625,
+        "width": 219.390625,
+        "height": 72
+      },
+      "lineRects": [
+        {
+          "left": 24,
+          "top": 461.203125,
+          "right": 136.5625,
+          "bottom": 481.203125,
+          "width": 112.5625,
+          "height": 20
+        }
+      ],
+      "fontSize": 17,
+      "whiteSpace": "normal"
+    },
+    {
+      "id": "newShowdown",
+      "text": "START A SHOWDOWN",
+      "tileRect": {
+        "left": 236.390625,
+        "top": 436.40625,
+        "right": 381,
+        "bottom": 508.40625,
+        "width": 144.609375,
+        "height": 72
+      },
+      "lineRects": [
+        {
+          "left": 248.390625,
+          "top": 460.203125,
+          "right": 296.515625,
+          "bottom": 479.203125,
+          "width": 48.125,
+          "height": 19
+        },
+        {
+          "left": 248.390625,
+          "top": 477.15625,
+          "right": 318.671875,
+          "bottom": 496.15625,
+          "width": 70.28125,
+          "height": 19
+        }
+      ],
+      "fontSize": 16,
+      "whiteSpace": "normal"
+    }
+  ]
+}

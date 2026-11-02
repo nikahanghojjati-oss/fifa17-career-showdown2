@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07080a">
+  <title>Showdown Showcase</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../shared/showdown-tokens.css">
+  <link rel="stylesheet" href="../shared/showdown-type.css">
+  <link rel="stylesheet" href="../shared/showdown-ui.css">
+  <link rel="stylesheet" href="showcase.css">
+</head>
+<body>
+  <main class="showcase-shell">
+    <header class="showcase-hero" aria-labelledby="showcase-title">
+      <p class="showcase-eyebrow">CAREER MODE SHOWDOWN 17</p>
+      <!-- TODO-WORDMARK: replace live title with approved SHOWDOWN SHOWCASE brush wordmark when supplied. -->
+      <h1 id="showcase-title" class="showcase-title">SHOWDOWN SHOWCASE</h1>
+      <p class="showcase-deck">Every committed state in one launch deck. Choose a screen, then open the exact frame.</p>
+      <div class="showcase-meta" aria-label="Showcase coverage">
+        <span><strong id="screen-count">15</strong> screens</span>
+        <span><strong id="frame-count">110</strong> frames</span>
+        <span>Part 5 of 5</span>
+      </div>
+    </header>
+
+    <section class="showcase-modebar sd-panel" aria-label="Preview mode">
+      <div>
+        <p class="showcase-card__kicker">Preview mode</p>
+        <p class="showcase-modebar__copy">Open a frame full size, or keep browsing here inside the exact 393 × 660 phone viewport.</p>
+      </div>
+      <button id="phone-toggle" class="showcase-phone-toggle" type="button" aria-pressed="false" aria-controls="phone-preview">
+        <span>Phone preview</span>
+        <strong>393 × 660</strong>
+      </button>
+    </section>
+
+    <section id="phone-preview" class="showcase-phone sd-panel" aria-labelledby="phone-preview-title" hidden>
+      <header class="showcase-phone__head">
+        <div>
+          <p class="showcase-card__kicker">Exact phone viewport</p>
+          <h2 id="phone-preview-title">Choose a frame</h2>
+        </div>
+        <a id="phone-open" class="showcase-phone__open" href="./index.html">Open full size</a>
+      </header>
+      <div class="showcase-phone__stage">
+        <iframe
+          id="phone-frame"
+          class="showcase-phone__frame"
+          title="Showdown phone preview"
+          width="393"
+          height="660"
+          loading="eager"
+        ></iframe>
+      </div>
+    </section>
+
+    <section class="showcase-grid" aria-label="Showdown screen routes">
+      <article class="sd-panel showcase-card" data-screen-id="home">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 01</p>
+            <h2 class="sd-panel__header">Home</h2>
+          </div>
+          <code>../home</code>
+        </div>
+        <nav class="showcase-links" aria-label="Home frames">
+          <a href="../home/index.html?frame=HM1"><span>HM1</span><small>Signed out · no save</small></a>
+          <a href="../home/index.html?frame=HM2"><span>HM2</span><small>Nik · active save</small></a>
+          <a href="../home/index.html?frame=HM3"><span>HM3</span><small>Daniel · completed</small></a>
+          <a href="../home/index.html?frame=S0"><span>S0</span><small>Plate only</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="league">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 02</p>
+            <h2 class="sd-panel__header">League</h2>
+          </div>
+          <code>../league</code>
+        </div>
+        <nav class="showcase-links" aria-label="League frames">
+          <a href="../league/index.html?frame=L1"><span>L1</span><small>Ready</small></a>
+          <a href="../league/index.html?frame=L2"><span>L2</span><small>Spinning</small></a>
+          <a href="../league/index.html?frame=L3"><span>L3</span><small>Selected</small></a>
+          <a href="../league/index.html?frame=L4"><span>L4</span><small>Clubs locked</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="club">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 03</p>
+            <h2 class="sd-panel__header">Club Assignment</h2>
+          </div>
+          <code>../club</code>
+        </div>
+        <nav class="showcase-links" aria-label="Club Assignment frames">
+          <a href="../club/index.html?frame=CL1"><span>CL1</span><small>Ready</small></a>
+          <a href="../club/index.html?frame=CL2"><span>CL2</span><small>Opening</small></a>
+          <a href="../club/index.html?frame=CL3"><span>CL3</span><small>Manager one</small></a>
+          <a href="../club/index.html?frame=CL4"><span>CL4</span><small>Manager two</small></a>
+          <a href="../club/index.html?frame=CL5"><span>CL5</span><small>Versus</small></a>
+          <a href="../club/index.html?frame=CL6"><span>CL6</span><small>Confirmation</small></a>
+          <a href="../club/index.html?frame=S0"><span>S0</span><small>Plate only</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card showcase-card--wide" data-screen-id="transfer-war">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 04</p>
+            <h2 class="sd-panel__header">Transfer War</h2>
+          </div>
+          <code>../tr2/slice-02-plate</code>
+        </div>
+        <nav class="showcase-links showcase-links--dense" aria-label="Transfer War frames">
+          <a href="../tr2/slice-02-plate/index.html?frame=F1"><span>F1</span><small>Window · Nik view</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F1D"><span>F1D</span><small>Window · Daniel view</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F1R"><span>F1R</span><small>Early-end locked · Nik</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F1DR"><span>F1DR</span><small>Early-end locked · Daniel</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=G2"><span>G2</span><small>Guess Entry · Nik</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=G3"><span>G3</span><small>Guess Entry · Daniel</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F3"><span>F3</span><small>Signing Entry · Nik</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F3D"><span>F3D</span><small>Signing Entry · Daniel</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F3L"><span>F3L</span><small>Signings locked · Nik</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F3DL"><span>F3DL</span><small>Signings locked · Daniel</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F4"><span>F4</span><small>Verdicts · Nik</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F4D"><span>F4D</span><small>Verdicts · Daniel</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F4E"><span>F4E</span><small>Verdicts · no Daniel signings</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=F4DE"><span>F4DE</span><small>Verdicts · Daniel view · empty</small></a>
+          <a href="../tr2/slice-02-plate/index.html?frame=S0"><span>S0</span><small>Plate only</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="trophy-room">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 05</p>
+            <h2 class="sd-panel__header">Trophy Room</h2>
+          </div>
+          <code>../trophy-room</code>
+        </div>
+        <nav class="showcase-links" aria-label="Trophy Room frames">
+          <a href="../trophy-room/index.html?frame=TR1"><span>TR1</span><small>Ready · all trophies</small></a>
+          <a href="../trophy-room/index.html?frame=TR2"><span>TR2</span><small>Empty career</small></a>
+          <a href="../trophy-room/index.html?frame=TR3"><span>TR3</span><small>Partial history</small></a>
+          <a href="../trophy-room/index.html?frame=TR4"><span>TR4</span><small>League titles filter</small></a>
+          <a href="../trophy-room/index.html?frame=TR5"><span>TR5</span><small>Unavailable</small></a>
+          <a href="../trophy-room/index.html?frame=TR6"><span>TR6</span><small>Loading</small></a>
+          <a href="../trophy-room/index.html?frame=TR7"><span>TR7</span><small>Ready · Nik leads</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="career-statistics">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 06</p>
+            <h2 class="sd-panel__header">Career Statistics</h2>
+          </div>
+          <code>../career-statistics</code>
+        </div>
+        <nav class="showcase-links" aria-label="Career Statistics frames">
+          <a href="../career-statistics/index.html?frame=CS1"><span>CS1</span><small>Ready · full summary</small></a>
+          <a href="../career-statistics/index.html?frame=CS2"><span>CS2</span><small>Empty career</small></a>
+          <a href="../career-statistics/index.html?frame=CS3"><span>CS3</span><small>Partial history</small></a>
+          <a href="../career-statistics/index.html?frame=CS4"><span>CS4</span><small>Unavailable</small></a>
+          <a href="../career-statistics/index.html?frame=CS5"><span>CS5</span><small>Loading</small></a>
+          <a href="../career-statistics/index.html?frame=CS6"><span>CS6</span><small>Ready · Nik leads</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="rivalry-statistics">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 07</p>
+            <h2 class="sd-panel__header">Rivalry Statistics</h2>
+          </div>
+          <code>../rivalry-statistics</code>
+        </div>
+        <nav class="showcase-links" aria-label="Rivalry Statistics frames">
+          <a href="../rivalry-statistics/index.html?frame=RV1"><span>RV1</span><small>Active · transfers ready</small></a>
+          <a href="../rivalry-statistics/index.html?frame=RV2"><span>RV2</span><small>Completed showdown</small></a>
+          <a href="../rivalry-statistics/index.html?frame=RV3"><span>RV3</span><small>First season</small></a>
+          <a href="../rivalry-statistics/index.html?frame=RV4"><span>RV4</span><small>Transfers unavailable</small></a>
+          <a href="../rivalry-statistics/index.html?frame=RV5"><span>RV5</span><small>Loading</small></a>
+          <a href="../rivalry-statistics/index.html?frame=RV6"><span>RV6</span><small>Unavailable</small></a>
+          <a href="../rivalry-statistics/index.html?frame=RV7"><span>RV7</span><small>Partial history</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card showcase-card--wide" data-screen-id="legacy">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 08</p>
+            <h2 class="sd-panel__header">Legacy (History)</h2>
+          </div>
+          <code>../legacy</code>
+        </div>
+        <nav class="showcase-links showcase-links--dense" aria-label="Legacy History frames">
+          <a href="../legacy/index.html?frame=LG1"><span>LG1</span><small>Ready · archive</small></a>
+          <a href="../legacy/index.html?frame=LG2"><span>LG2</span><small>Active + completed</small></a>
+          <a href="../legacy/index.html?frame=LG3"><span>LG3</span><small>Abandoned record</small></a>
+          <a href="../legacy/index.html?frame=LG4"><span>LG4</span><small>Empty history</small></a>
+          <a href="../legacy/index.html?frame=LG5"><span>LG5</span><small>Current Showdown only</small></a>
+          <a href="../legacy/index.html?frame=LG6"><span>LG6</span><small>Unavailable</small></a>
+          <a href="../legacy/index.html?frame=LG7"><span>LG7</span><small>Loading</small></a>
+          <a href="../legacy/index.html?frame=LG8"><span>LG8</span><small>Partial history</small></a>
+          <a href="../legacy/index.html?frame=LG9"><span>LG9</span><small>Completion pending</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="season-results">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 09</p>
+            <h2 class="sd-panel__header">Season Results</h2>
+          </div>
+          <code>../season-results</code>
+        </div>
+        <nav class="showcase-links" aria-label="Season Results frames">
+          <a href="../season-results/index.html?frame=SR1"><span>SR1</span><small>Entering · Daniel</small></a>
+          <a href="../season-results/index.html?frame=SR2"><span>SR2</span><small>Entering · Nik</small></a>
+          <a href="../season-results/index.html?frame=SR3"><span>SR3</span><small>Waiting for rival</small></a>
+          <a href="../season-results/index.html?frame=SR4"><span>SR4</span><small>Results ready</small></a>
+          <a href="../season-results/index.html?frame=SR5"><span>SR5</span><small>Committed</small></a>
+          <a href="../season-results/index.html?frame=SR6"><span>SR6</span><small>Validation error</small></a>
+          <a href="../season-results/index.html?frame=SR7"><span>SR7</span><small>Loading</small></a>
+          <a href="../season-results/index.html?frame=SR8"><span>SR8</span><small>Empty</small></a>
+          <a href="../season-results/index.html?frame=SR9"><span>SR9</span><small>Partial</small></a>
+          <a href="../season-results/index.html?frame=SR10"><span>SR10</span><small>Unavailable</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="final-winner">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 10</p>
+            <h2 class="sd-panel__header">Final Winner</h2>
+          </div>
+          <code>../final-winner</code>
+        </div>
+        <nav class="showcase-links" aria-label="Final Winner frames">
+          <a href="../final-winner/index.html?frame=FW1"><span>FW1</span><small>Daniel wins</small></a>
+          <a href="../final-winner/index.html?frame=FW2"><span>FW2</span><small>Nik wins</small></a>
+          <a href="../final-winner/index.html?frame=FW3"><span>FW3</span><small>Showdown draw</small></a>
+          <a href="../final-winner/index.html?frame=FW4"><span>FW4</span><small>Completion pending</small></a>
+          <a href="../final-winner/index.html?frame=FW5"><span>FW5</span><small>Completed</small></a>
+          <a href="../final-winner/index.html?frame=FW6"><span>FW6</span><small>Loading</small></a>
+          <a href="../final-winner/index.html?frame=FW7"><span>FW7</span><small>Empty</small></a>
+          <a href="../final-winner/index.html?frame=FW8"><span>FW8</span><small>Unavailable</small></a>
+          <a href="../final-winner/index.html?frame=FW9"><span>FW9</span><small>Partial history</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="start-join">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 11</p>
+            <h2 class="sd-panel__header">Start / Join</h2>
+          </div>
+          <code>../start-join</code>
+        </div>
+        <nav class="showcase-links" aria-label="Start Join frames">
+          <a href="../start-join/index.html?frame=SJ1"><span>SJ1</span><small>No connection</small></a>
+          <a href="../start-join/index.html?frame=SJ2"><span>SJ2</span><small>Daniel waiting for Nik</small></a>
+          <a href="../start-join/index.html?frame=SJ3"><span>SJ3</span><small>Nik entering code</small></a>
+          <a href="../start-join/index.html?frame=SJ4"><span>SJ4</span><small>Bad pairing code</small></a>
+          <a href="../start-join/index.html?frame=SJ5"><span>SJ5</span><small>Paired · career ready</small></a>
+          <a href="../start-join/index.html?frame=SJ6"><span>SJ6</span><small>Loading</small></a>
+          <a href="../start-join/index.html?frame=SJ7"><span>SJ7</span><small>Partial authority</small></a>
+          <a href="../start-join/index.html?frame=SJ8"><span>SJ8</span><small>Unavailable</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="standings">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 12</p>
+            <h2 class="sd-panel__header">Standings</h2>
+          </div>
+          <code>../standings</code>
+        </div>
+        <nav class="showcase-links" aria-label="Standings frames">
+          <a href="../standings/index.html?frame=SD1"><span>SD1</span><small>This Showdown ready</small></a>
+          <a href="../standings/index.html?frame=SD2"><span>SD2</span><small>Career ready</small></a>
+          <a href="../standings/index.html?frame=SD3"><span>SD3</span><small>First season</small></a>
+          <a href="../standings/index.html?frame=SD4"><span>SD4</span><small>Interim</small></a>
+          <a href="../standings/index.html?frame=SD5"><span>SD5</span><small>Loading</small></a>
+          <a href="../standings/index.html?frame=SD6"><span>SD6</span><small>Unavailable</small></a>
+          <a href="../standings/index.html?frame=SD7"><span>SD7</span><small>Partial</small></a>
+          <a href="../standings/index.html?frame=SD8"><span>SD8</span><small>New career</small></a>
+          <a href="../standings/index.html?frame=SD9"><span>SD9</span><small>Level</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="loading">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 13</p>
+            <h2 class="sd-panel__header">Loading</h2>
+          </div>
+          <code>../loading</code>
+        </div>
+        <nav class="showcase-links" aria-label="Loading frames">
+          <a href="../loading/index.html?frame=LD1"><span>LD1</span><small>Loading</small></a>
+          <a href="../loading/index.html?frame=LD2"><span>LD2</span><small>Ready handoff</small></a>
+          <a href="../loading/index.html?frame=LD4_EMPTY"><span>LD4_EMPTY</span><small>Empty</small></a>
+          <a href="../loading/index.html?frame=LD5_PARTIAL"><span>LD5_PARTIAL</span><small>Partial</small></a>
+          <a href="../loading/index.html?frame=LD6_UNAVAILABLE"><span>LD6_UNAVAILABLE</span><small>Unavailable</small></a>
+          <a href="../loading/index.html?frame=LD7_READY"><span>LD7_READY</span><small>Ready alias</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="rule-book">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 14</p>
+            <h2 class="sd-panel__header">Rule Book</h2>
+          </div>
+          <code>../rule-book</code>
+        </div>
+        <nav class="showcase-links" aria-label="Rule Book frames">
+          <a href="../rule-book/index.html?frame=RB1"><span>RB1</span><small>Standard Rule Book</small></a>
+          <a href="../rule-book/index.html?frame=RB2"><span>RB2</span><small>Long-section stress state</small></a>
+        </nav>
+      </article>
+
+      <article class="sd-panel showcase-card" data-screen-id="settings">
+        <div class="showcase-card__head">
+          <div>
+            <p class="showcase-card__kicker">Screen 15</p>
+            <h2 class="sd-panel__header">Settings</h2>
+          </div>
+          <code>../settings</code>
+        </div>
+        <nav class="showcase-links" aria-label="Settings frames">
+          <a href="../settings/index.html?frame=ST1"><span>ST1</span><small>Default</small></a>
+          <a href="../settings/index.html?frame=ST2"><span>ST2</span><small>Reduced motion</small></a>
+          <a href="../settings/index.html?frame=ST3"><span>ST3</span><small>Destructive confirmation</small></a>
+          <a href="../settings/index.html?frame=ST4"><span>ST4</span><small>Loading</small></a>
+          <a href="../settings/index.html?frame=ST5"><span>ST5</span><small>Empty</small></a>
+          <a href="../settings/index.html?frame=ST6"><span>ST6</span><small>Unavailable</small></a>
+          <a href="../settings/index.html?frame=ST7"><span>ST7</span><small>Partial</small></a>
+        </nav>
+      </article>
+    </section>
+
+    <footer class="showcase-footer">
+      <span>Factory integration deck</span>
+      <span id="route-status" role="status">110 frame routes ready</span>
+    </footer>
+  </main>
+  <script src="router.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{
+  "managers": { "playerOne": "Daniel", "playerTwo": "Nik" },
+  "clubs": { "playerOne": "Juventus", "playerTwo": "Borussia Dortmund" },
+  "seasonNumber": 1,
+  "cameraPresets": {
+    "KA-2S": { "scale": 1.00, "focus": [0.50, 0.50] },
+    "KA-P-NIK": { "scale": 1.10, "focus": [0.545, 0.50] },
+    "KA-P-DANIEL": { "scale": 1.10, "focus": [0.455, 0.50] }
+  },
+  "eyeTargets": {
+    "daniel": [0.33, 0.21],
+    "nik": [0.68, 0.24]
+  },
+  "worldHeadHeightTargetPx": 160,
+  "worldReferenceHeight": 768,
+  "poseSourceMeta": {
+    "file2": { "asset": "POSE_TRANSFER_DANIEL_FOCUSED_V1", "crownY": 55, "chinY": 430, "headHeight": 375, "eyeLeft": [430, 325], "eyeRight": [510, 315], "width": 1122, "height": 1402 },
+    "file3": { "asset": "POSE_TRANSFER_NIK_TACTICAL_V1", "crownY": 75, "chinY": 460, "headHeight": 385, "eyeLeft": [470, 320], "eyeRight": [590, 310], "width": 1122, "height": 1402 },
+    "file4": { "asset": "POSE_TR2_DANIEL_WINDOW_PITCH_V1", "crownY": 65, "chinY": 460, "headHeight": 395, "eyeLeft": [400, 325], "eyeRight": [490, 310], "width": 1024, "height": 1536 },
+    "file5": { "asset": "POSE_TR2_NIK_WINDOW_POINT_V1", "crownY": 45, "chinY": 445, "headHeight": 400, "eyeLeft": [430, 345], "eyeRight": [560, 330], "width": 1024, "height": 1536 }
+  },
+  "frames": {
+    "F1": {
+      "layout": "desktop", "viewport": [1366, 768], "viewer": "playerTwo",
+      "phase": "WINDOW_OPEN", "camera": "KA-2S", "cue": "CUE-WINDOW",
+      "poses": { "left": "file4", "right": "file5" },
+      "clockFixture": "11:42", "earlyEndRequested": false
+    },
+    "F2": {
+      "layout": "desktop", "viewport": [1366, 768], "viewer": "playerTwo",
+      "phase": "GUESS_ENTRY", "camera": "KA-P-NIK", "cue": "CUE-PRIVATE",
+      "poses": { "left": "file2", "right": "file3" },
+      "guessLocked": false
+    },
+    "F3": {
+      "layout": "desktop", "viewport": [1366, 768], "viewer": "playerOne",
+      "phase": "GUESS_ENTRY", "camera": "KA-P-DANIEL", "cue": "CUE-PRIVATE",
+      "poses": { "left": "file2", "right": "file3" },
+      "guessLocked": false
+    },
+    "F4": {
+      "layout": "mobile", "viewport": [390, 844], "viewer": "playerTwo",
+      "phase": "WINDOW_OPEN", "camera": "KA-2S", "cue": "CUE-WINDOW",
+      "poses": { "left": "file4", "right": "file5" },
+      "clockFixture": "11:42", "earlyEndRequested": false,
+      "stripHeight": 344
+    },
+    "F5": {
+      "layout": "mobile", "viewport": [390, 844], "viewer": "playerTwo",
+      "phase": "GUESS_ENTRY", "camera": "KA-P-NIK", "cue": "CUE-PRIVATE",
+      "poses": { "left": "file2", "right": "file3" },
+      "guessLocked": false,
+      "stripHeight": 180
+    },
+    "S1": {
+      "layout": "desktop", "viewport": [1366, 768], "viewer": null,
+      "phase": null, "camera": "KA-2S", "cue": "CUE-WINDOW",
+      "poses": null, "plateOnly": true
+    },
+    "S2": {
+      "layout": "desktop", "viewport": [1366, 768], "viewer": null,
+      "phase": null, "camera": "KA-2S", "cue": "CUE-PRIVATE",
+      "poses": null, "plateOnly": true
+    }
+  },
+  "strings": {
+    "title": "SEASON {season} SHARED TRANSFER CHALLENGE",
+    "back": "BACK TO SHOWDOWN HOME",
+    "refresh": "REFRESH SHARED CHALLENGE",
+    "rail": ["Transfer Window", "Guess Entry", "Signing Entry", "Verdicts"],
+    "railAriaLabel": "Transfer Challenge progress",
+    "f1Status": "TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD",
+    "f1Intro": "Shared Transfer Window · both managers see the same clock and may jointly end it early.",
+    "f1Action": "REQUEST EARLY END",
+    "f1RulesLine": "15 MINUTES · MAX 3 SIGNINGS EACH · 3 OPPONENT GUESSES",
+    "ruleNote": "A guess is either a league or nationality. Any signing matching a correct guess must be released before the season begins.",
+    "guessStatus": "GUESS ENTRY · YOUR RIVAL CANNOT SEE THESE BEFORE COMPLETION",
+    "guessIntro": "Private Guess Entry · enter only your guesses; your rival cannot read them yet.",
+    "guessHeadingNikViewer": "Nik guesses Daniel's signings",
+    "guessHeadingDanielViewer": "Daniel guesses Nik's signings",
+    "privacyNote": "Shared privacy: enter only your guesses. Your rival cannot read them until both managers complete the challenge.",
+    "selectPlaceholder": "Guess type",
+    "selectLeague": "League",
+    "selectNationality": "Nationality",
+    "valuePlaceholder": "Choose League or Nationality first",
+    "primary": "LOCK MY GUESSES",
+    "signWindowClosed": "WINDOW CLOSED",
+    "tagYou": "YOU",
+    "tagSealed": "SEALED",
+    "tagPrivate": "PRIVATE",
+    "nameplateOne": "MANAGER 1 · DANIEL",
+    "nameplateTwo": "MANAGER 2 · NIK",
+    "mottoOne": "Skill. Vision. Magic.",
+    "mottoTwo": "Tactics. Discipline. Progress."
+  }
+}

@@ -1,0 +1,77 @@
+LEAGUE 393x852 [V2]: FAIL
+  - Daniel's face 63% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 63% under <div class="wheelTrack">
+  - Nik's face 44% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 44% under <div class="wheelTrack">
+  pixels over faces: Daniel 10404 px changed (max diff 246), Nik 8013 px changed (max diff 248)
+LEAGUE 393x660 [V2]: FAIL
+  - Daniel's face 36% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 36% under <div class="wheelTrack">
+  - Nik's face 25% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 25% under <div class="wheelTrack">
+  pixels over faces: Daniel 1789 px changed (max diff 244), Nik 864 px changed (max diff 236)
+LEAGUE 375x667 [V2]: FAIL
+  - Daniel's face 33% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 33% under <div class="wheelTrack">
+  - Nik's face 24% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 24% under <div class="wheelTrack">
+  pixels over faces: Daniel 882 px changed (max diff 231), Nik 327 px changed (max diff 229)
+LEAGUE 360x640 [V2]: FAIL
+  - Daniel's face 24% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 24% under <div class="wheelTrack">
+  - Nik's face 17% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 17% under <div class="wheelTrack">
+  pixels over faces: Daniel 479 px changed (max diff 230), Nik 99 px changed (max diff 73)
+STANDINGS 393x852 [V2]: FAIL
+  - Nik's face 1% under <div class="sd-nav sd-nav-corner">
+  - Nik's face 0% under <button class="sd-nav-gear">
+  pixels over faces: Daniel 23444 px changed (max diff 52), Nik 33518 px changed (max diff 128)
+STANDINGS 393x660 [V2]: OK
+  pixels over faces: Daniel 16688 px changed (max diff 70), Nik 23555 px changed (max diff 73)
+STANDINGS 375x667 [V2]: OK
+  pixels over faces: Daniel 15030 px changed (max diff 63), Nik 21287 px changed (max diff 68)
+STANDINGS 360x640 [V2]: OK
+  pixels over faces: Daniel 14089 px changed (max diff 68), Nik 19937 px changed (max diff 72)
+RIVALRY 393x852 [V2]: FAIL
+  - Nik's face 0% under <div class="sd-nav sd-nav-corner">
+  pixels over faces: Daniel 25163 px changed (max diff 44), Nik 34393 px changed (max diff 67)
+RIVALRY 393x660 [V2]: OK
+  pixels over faces: Daniel 14877 px changed (max diff 35), Nik 21521 px changed (max diff 55)
+RIVALRY 375x667 [V2]: OK
+  pixels over faces: Daniel 14345 px changed (max diff 36), Nik 20212 px changed (max diff 57)
+RIVALRY 360x640 [V2]: OK
+  pixels over faces: Daniel 13326 px changed (max diff 36), Nik 18616 px changed (max diff 57)
+TROPHY_ROOM 393x852 [V2]: FAIL
+  - Nik's face 8% under <section class="trophyShelf sd-entered">
+  - Daniel's face 4% under <section class="trophyShelf sd-entered">
+  - Nik's face 3% under <div class="trophyTabs">
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 22909 px changed (max diff 216), Nik 29460 px changed (max diff 213)
+TROPHY_ROOM 393x660 [V2]: FAIL
+  - Nik's face 13% under <section class="trophyShelf sd-entered">
+  - Daniel's face 11% under <div class="heroSpotlight">
+  - Daniel's face 10% under <section class="trophyShelf sd-entered">
+  - Nik's face 9% under <div class="heroSpotlight">
+  - Daniel's face 8% under <div class="heroPlinth">
+  - Nik's face 7% under <div class="trophyTabs">
+  - Nik's face 5% under <div class="heroPlinth">
+  - Nik's face 4% under <button class="trophyTab ">
+  - Daniel's face 3% under <div class="trophyTabs">
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 15432 px changed (max diff 247), Nik 19771 px changed (max diff 249)
+TROPHY_ROOM 375x667 [V2]: FAIL
+  - Daniel's face 14% under <div class="heroSpotlight">
+  - Nik's face 11% under <div class="heroSpotlight">
+  - Daniel's face 8% under <div class="heroPlinth">
+  - Nik's face 5% under <div class="heroPlinth">
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 13567 px changed (max diff 249), Nik 17283 px changed (max diff 252)
+TROPHY_ROOM 360x640 [V2]: FAIL
+  - Daniel's face 13% under <div class="heroSpotlight">
+  - Nik's face 10% under <div class="heroSpotlight">
+  - Daniel's face 8% under <div class="heroPlinth">
+  - Nik's face 6% under <div class="heroPlinth">
+  - Nik's face 3% under <section class="trophyShelf sd-entered">
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 12719 px changed (max diff 234), Nik 16147 px changed (max diff 253)
+swap check V2: FAIL (10 screen-size runs)

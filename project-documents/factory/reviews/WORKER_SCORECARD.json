@@ -1,0 +1,179 @@
+{
+ "GPT-5.6 Sol (normal chat)": {
+  "jobs": 121,
+  "first_try": 101,
+  "first_try_pct": 83,
+  "fix_rounds": 27,
+  "scored": 48,
+  "avg_first_score": 4.01,
+  "avg_final_score": 4.24,
+  "by_kind": {
+   "other": [
+    26,
+    24
+   ],
+   "truth/data": [
+    10,
+    10
+   ],
+   "motion": [
+    17,
+    17
+   ],
+   "review": [
+    19,
+    19
+   ],
+   "phone": [
+    21,
+    12
+   ],
+   "fix round": [
+    21,
+    18
+   ],
+   "build": [
+    7,
+    1
+   ]
+  }
+ },
+ "Codex": {
+  "jobs": 7,
+  "first_try": 7,
+  "first_try_pct": 100,
+  "fix_rounds": 0,
+  "scored": 0,
+  "avg_first_score": null,
+  "avg_final_score": null,
+  "by_kind": {
+   "other": [
+    2,
+    2
+   ],
+   "truth/data": [
+    1,
+    1
+   ],
+   "fix round": [
+    4,
+    4
+   ]
+  }
+ },
+ "Image tickets (ChatGPT)": {
+  "jobs": 8,
+  "first_try": 8,
+  "first_try_pct": 100,
+  "fix_rounds": 0,
+  "scored": 0,
+  "avg_first_score": null,
+  "avg_final_score": null,
+  "by_kind": {
+   "other": [
+    8,
+    8
+   ]
+  }
+ },
+ "Claude Sonnet 5.5": {
+  "jobs": 52,
+  "first_try": 50,
+  "first_try_pct": 96,
+  "fix_rounds": 2,
+  "scored": 11,
+  "avg_first_score": 4.22,
+  "avg_final_score": 4.25,
+  "by_kind": {
+   "fix round": [
+    16,
+    16
+   ],
+   "motion": [
+    6,
+    6
+   ],
+   "phone": [
+    12,
+    10
+   ],
+   "review": [
+    15,
+    15
+   ],
+   "other": [
+    3,
+    3
+   ]
+  }
+ },
+ "Astra (Work mode)": {
+  "jobs": 9,
+  "first_try": 9,
+  "first_try_pct": 100,
+  "fix_rounds": 0,
+  "scored": 1,
+  "avg_first_score": 4.3,
+  "avg_final_score": 4.3,
+  "by_kind": {
+   "fix round": [
+    3,
+    3
+   ],
+   "motion": [
+    3,
+    3
+   ],
+   "review": [
+    3,
+    3
+   ]
+  }
+ },
+ "GPT-6.1 Sol (Work mode)": {
+  "jobs": 6,
+  "first_try": 6,
+  "first_try_pct": 100,
+  "fix_rounds": 0,
+  "scored": 3,
+  "avg_first_score": 4.3,
+  "avg_final_score": 4.3,
+  "by_kind": {
+   "motion": [
+    4,
+    4
+   ],
+   "fix round": [
+    2,
+    2
+   ]
+  }
+ },
+ "Claude Opus 5.5": {
+  "jobs": 34,
+  "first_try": 34,
+  "first_try_pct": 100,
+  "fix_rounds": 0,
+  "scored": 13,
+  "avg_first_score": 4.32,
+  "avg_final_score": 4.32,
+  "by_kind": {
+   "fix round": [
+    13,
+    13
+   ],
+   "phone": [
+    18,
+    18
+   ],
+   "review": [
+    1,
+    1
+   ],
+   "other": [
+    2,
+    2
+   ]
+  }
+ }
+}

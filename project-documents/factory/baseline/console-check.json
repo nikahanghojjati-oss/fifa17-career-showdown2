@@ -1,0 +1,182 @@
+{
+  "sourceSha": "a485975c191e4cd6a0732d06e4f541184bd0098c",
+  "capturedAt": "2026-10-02T08:19:40.070Z",
+  "screens": {
+    "home": {
+      "HM1": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "HM2": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "HM3": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      }
+    },
+    "league": {
+      "L1": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "L2": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "L3": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "L4": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      }
+    },
+    "club": {
+      "CL1": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "CL2": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "CL3": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "CL4": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "CL5": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "CL6": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      }
+    },
+    "transfer": {
+      "F1": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F1D": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F1R": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F1DR": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "G2": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "G3": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F3": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F3D": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F3L": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F3DL": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F4": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F4D": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F4E": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "F4DE": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      },
+      "S0": {
+        "consoleErrors": [],
+        "pageErrors": [],
+        "failedRequests": [],
+        "navigationError": null
+      }
+    }
+  }
+}

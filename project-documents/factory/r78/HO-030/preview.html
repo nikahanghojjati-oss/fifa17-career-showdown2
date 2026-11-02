@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Loading r78 preview</title>
+<!-- Preview of HO-030. Open from the repo on branch factory/v1-wtt5ye (python3 -m http.server at the repo root, then
+     /project-documents/factory/r78/HO-030/preview.html). ?motion=reduce shows the reduced-motion loader. -->
+<link rel="preload" as="image" href="LOADING_REUS_PHONE.webp" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="preload" as="image" href="LOADING_REUS_DESKTOP.webp" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="stylesheet" href="loading-r78.css">
+<style>
+/* preview only: the same files at their place on this branch (loading-r78.css is written for css/ on main) */
+@font-face{font-family:Startup;src:url(../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:block;}
+html,body{margin:0;background:#0a0806;}
+</style>
+<script>if(/motion=reduce/.test(location.search))document.documentElement.dataset.motionReduced="true";</script>
+</head>
+<body>
+<section id="loadingScreen" role="status" aria-live="polite" aria-busy="true" aria-label="Career Mode Showdown is starting">
+<div class="startupScene" aria-hidden="true">
+<div class="startupAthleteFrame">
+<picture>
+<source media="(max-aspect-ratio: 7/5)" srcset="LOADING_REUS_PHONE.webp" width="1179" height="2096">
+<img id="startupAthlete" src="LOADING_REUS_DESKTOP.webp" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
+</picture>
+</div>
+</div>
+<div class="startupStatus">
+<div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<p id="loadingText">PREPARING CAREER MODE SHOWDOWN</p>
+<div class="startupLoader" aria-hidden="true"><i></i></div>
+</div>
+<p class="startupSaveNote" aria-hidden="true">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE SHOWDOWN</p>
+<p class="startupPhotoCredit">Marco Reus photo: <a href="https://www.flickr.com/photos/foto_db/16204330530/" tabindex="-1" rel="noopener" target="_blank">Tim Reckmann</a> · <a href="https://creativecommons.org/licenses/by/2.0/" tabindex="-1" rel="noopener" target="_blank">CC BY 2.0</a> · Cropped and edited for display</p>
+</section>
+</body>
+</html>

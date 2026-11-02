@@ -1,0 +1,206 @@
+{
+ "task": "CLOUD-HLC-INTAKE-V1-R3 (R3.2)",
+ "screen": "league",
+ "result": "PASS",
+ "base_sha": "8fbda036c1d1f7910631964e982705d0f25290c0",
+ "inputs_ref": "claude-cloud/hlc-goals",
+ "inputs": {
+  "goal": {
+   "path": "visual-assets/goals/GOAL_LEAGUE_LOGOS_BLURRED.jpg",
+   "size": [
+    1536,
+    864
+   ],
+   "sha256": "0f5efc36a02343050a06efee4b38f24725da0cca8dccfaffe9951da99aa2b6fa"
+  },
+  "edit": {
+   "path": "visual-assets/goals/plates-in/ENV_LEAGUE_PLATE_V1.png",
+   "size": [
+    1672,
+    941
+   ],
+   "sha256": "016fdc50b70f7cd8712b2a0bceca6124bc82371d15edaea58595a27aa9f13901"
+  },
+  "zones": {
+   "path": "visual-assets/goals/handoffs/HLC_PLATE_ZONES_V1.json",
+   "sha256": "a626b18781c4c057c98384d9ebccfe21638f09464379fc60f2ae7a854e9938e5"
+  }
+ },
+ "framing": {
+  "global_shift_dx_dy": [
+   0.3,
+   -0.04
+  ],
+  "global_response": 0.767,
+  "per_protected_box_dx_dy_resp": {
+   "face_daniel": [
+    0.68,
+    -0.07,
+    0.987
+   ],
+   "face_nik": [
+    -0.01,
+    -0.16,
+    0.936
+   ],
+   "hand_daniel": [
+    0.36,
+    0.04,
+    0.995
+   ],
+   "hand_nik": [
+    -0.08,
+    -0.04,
+    0.902
+   ]
+  },
+  "aligned_crop_error_px": 0.68,
+  "method": "lanczos_resize"
+ },
+ "framing_pass": true,
+ "tone_match": [
+  {
+   "pass": 1,
+   "zone": "rect[470,88,1062,246]",
+   "ratio_before": 1.2474,
+   "scale": 0.85,
+   "ratio_after": 1.0995
+  },
+  {
+   "pass": 1,
+   "zone": "rect[36,642,290,774]",
+   "ratio_before": 1.2146,
+   "scale": 0.8836,
+   "ratio_after": 1.1
+  },
+  {
+   "pass": 1,
+   "zone": "rect[498,740,1014,808]",
+   "ratio_before": 1.2714,
+   "scale": 0.7921,
+   "ratio_after": 1.1
+  },
+  {
+   "pass": 1,
+   "zone": "circle[762,496,250]",
+   "ratio_before": 1.8467,
+   "scale": 0.5572,
+   "ratio_after": 1.1
+  },
+  {
+   "pass": 2,
+   "zone": "rect[498,740,1014,808]",
+   "ratio_before": 1.1576,
+   "scale": 0.9199,
+   "ratio_after": 1.1
+  }
+ ],
+ "gates": {
+  "changed_px_outside_remove_zones": 0,
+  "changed_px_per_protected_box": {
+   "face_daniel": 0,
+   "face_nik": 0,
+   "hand_daniel": 0,
+   "hand_nik": 0
+  },
+  "changed_px_per_keep_rect": {
+   "[440, 425, 560, 480]": 0
+  },
+  "zones": [
+   {
+    "zone": "rect[0,22,888,78]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 48.38,
+    "mean_lum_ring12": 43.43,
+    "ratio": 1.114,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1192,22,1398,78]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 37.62,
+    "mean_lum_ring12": 47.56,
+    "ratio": 0.791,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1400,6,1528,78]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 73.63,
+    "mean_lum_ring12": 75.02,
+    "ratio": 0.9815,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[470,88,1062,246]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 56.65,
+    "mean_lum_ring12": 50.67,
+    "ratio": 1.1182,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[36,642,290,774]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 35.62,
+    "mean_lum_ring12": 32.38,
+    "ratio": 1.1,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[1248,642,1502,774]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 23.71,
+    "mean_lum_ring12": 25.29,
+    "ratio": 0.9375,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[498,740,1014,808]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 72.49,
+    "mean_lum_ring12": 65.9,
+    "ratio": 1.1,
+    "lum_pass": true
+   },
+   {
+    "zone": "rect[0,812,1536,864]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 30.81,
+    "mean_lum_ring12": 31.65,
+    "ratio": 0.9735,
+    "lum_pass": true
+   },
+   {
+    "zone": "circle[762,496,250]",
+    "guide_px_border_band": 0,
+    "mean_lum_inside": 90.17,
+    "mean_lum_ring12": 81.63,
+    "ratio": 1.1047,
+    "lum_pass": true
+   }
+  ],
+  "ref_goal_jpeg_magic_ffd8ff": true
+ },
+ "ref_goal_method": "byte copy of JPEG source",
+ "outputs_sha256": {
+  "ENV_LEAGUE_PLATE_V1_1X.png": "50b33f7fba1f0836edf88d513cd5cc38429c24bfc814ed9dbe42474f77065163",
+  "ENV_LEAGUE_PLATE_V1_1X.webp": "d9fd67a604ed9e2a1e9dd202826c664aed22061fa53b127a6a6b8cd50060fae9",
+  "ENV_LEAGUE_PLATE_V1_2X.png": "25a71a8ad91ba27a3a6127e23f0eda4c628fccf75f7e906817f0f3710e66581f",
+  "ENV_LEAGUE_PLATE_V1_2X.webp": "fcb07fa4c01b07ef86b238d07d7584e476ba3e780bb76ac561cb0167661057b4",
+  "REF_GOAL_LEAGUE.jpg": "0f5efc36a02343050a06efee4b38f24725da0cca8dccfaffe9951da99aa2b6fa"
+ },
+ "wordmark": null,
+ "params": {
+  "feather_px": 6,
+  "ring_px": 12,
+  "guide_band_px": 6,
+  "align_tol_px": 4.0,
+  "lum_gate": 1.15,
+  "tone_target": 1.1,
+  "tone_feather_px": 24,
+  "resize": "Lanczos",
+  "x2": "Lanczos x2 + UnsharpMask(r=1, 40 %, t=2)",
+  "webp_q": 92
+ }
+}

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>r78 Type and Marble Preview</title>
+<!-- Static preview for HO-028 / HO-029. Open it from a checkout of factory/v1-wtt5ye (paths reach the repo's
+     visual-assets folder four levels up). Every word on this page is copied from main's source; see README. -->
+<link rel="stylesheet" href="../../../../visual-assets/v10_1/shared/showdown-tokens.css">
+<link rel="stylesheet" href="../../../../visual-assets/v10_1/shared/showdown-type.css">
+<link rel="stylesheet" href="r78-type.css">
+<link rel="stylesheet" href="r78-marble-surfaces.css">
+<style>
+  /* ---------- preview-only scaffolding (NOT part of the kit) ---------- */
+  html, body { margin: 0; background: #050505; color: #F2EBDD; }
+  body { font-family: var(--r78-font-body); }
+  .pv-frame {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #07080a center top / cover no-repeat;
+    border-bottom: 2px solid #000;
+  }
+  .pv-tag {
+    position: absolute; z-index: 200; left: 12px; top: 10px; margin: 0; padding: 4px 8px;
+    color: #07080a; background: #f2c45b; font: 700 11px/1 var(--r78-font-label); letter-spacing: .1em;
+  }
+  /* fixed layers are pinned to their frame here so several can sit on one page */
+  .pv-frame > .r78-error-screen,
+  .pv-frame > .r78-modal { position: absolute; }
+  /* the kit css points plates at css/-relative paths (production); the preview re-points them to the repo */
+  .pv-frame > .r78-error-screen--plate {
+    background-image: image-set(url("../../../../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../../../../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x);
+  }
+  .pv-plate-rules    { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_1X.webp"); }
+  .pv-plate-settings { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp"); }
+  .pv-plate-home     { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_1X.webp"); }
+  .pv-plate-transfer { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_TRANSFER_PLATE_V2_1X.webp"); }
+  @media (max-width: 760px) and (orientation: portrait) {
+    .pv-frame { background-position: center center; }
+    .pv-frame > .r78-error-screen--plate { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp"); }
+    .pv-plate-rules    { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PHONE_V2.webp"); }
+    .pv-plate-settings { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp"); }
+    .pv-plate-home     { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_HOME_PHONE_V2.webp"); }
+    .pv-plate-transfer { background-image: url("../../../../visual-assets/v10_1/plates-v2/ENV_TRANSFER_PHONE_V2.webp"); }
+  }
+
+  /* Rules sample: a minimal copy of main's Rule Book layout so r78-type.css can be judged in place.
+     The real proof is shots/after_rules_*.png (main's own Rule Book with r78-type.css injected). */
+  #ruleBook.pv-rules { padding: 64px 16px 40px; }
+  .pv-rules .ruleBookHero { width: min(640px, 100%); margin: 0 auto 18px; text-align: center; }
+  .pv-rules .ruleBookWordmark { display: block; width: min(440px, 80%); height: auto; margin: 6px auto 4px; }
+  .pv-rules .ruleBookSummary { margin: 6px auto 0; }
+  .pv-rules #ruleBookSections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; width: min(78%, 1500px); margin: 0 auto; }
+  .pv-rules .ruleSection { position: relative; isolation: isolate; box-sizing: border-box; min-width: 0; border: 1px solid #dcb65d; border-radius: 3px; }
+  .pv-rules .ruleSectionHeader { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); align-items: center; gap: 14px; min-height: 36px; padding-bottom: 8px; border-bottom: 1px solid rgba(232, 185, 74, .8); }
+  .pv-rules .ruleSectionNumber { display: grid; place-items: center; width: 34px; height: 34px; border: 2px solid #e8b94a; border-radius: 50%; background: #0a0907; color: #fff3d2; font: 700 14px/1 var(--r78-font-label); }
+  .pv-rules .ruleSectionHeader h3 { margin: 0; }
+  .pv-rules .ruleSection ul { margin: 0; padding: 0; list-style: none; }
+  .pv-rules .ruleSection li { position: relative; margin: 0; }
+  .pv-rules .ruleSection li::before { content: ""; position: absolute; left: 0; }
+  .pv-rules .ruleBookActions { display: flex; justify-content: center; margin: 28px auto 0; }
+  .pv-rules #ruleBookBack { min-width: 236px; }
+  @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+    .pv-rules .ruleSection { border: 0; }
+    .pv-rules .ruleSection::before, .pv-rules .ruleSection::after { content: ""; position: absolute; z-index: -1; pointer-events: none; }
+    .pv-rules .ruleSection::before { inset: 0; background: linear-gradient(135deg, #fff1b8 0%, #e8b94a 15%, #8a6a12 36%, #f2c45b 56%, #fff1b8 73%, #b8862a 100%);
+      clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px); }
+    .pv-rules .ruleSection::after { inset: 4px; box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 2px #d9aa3c66;
+      clip-path: polygon(7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px), 0 7px); }
+  }
+  @media (max-width: 760px) {
+    #ruleBook.pv-rules { padding: 48px 12px 32px; }
+    .pv-rules #ruleBookSections { grid-template-columns: 1fr; width: 100%; gap: 10px; }
+    .pv-rules .ruleSection { padding: 16px 16px 18px; }
+    .pv-rules .ruleBookHero .sd-eyebrow { font-size: 10px; letter-spacing: .28em; }
+    .pv-rules .ruleBookHero .sd-tagline { font-size: 10px; }
+    .pv-rules .ruleBookSummary { display: none; }
+    .pv-rules #ruleBookBack { width: 100%; }
+  }
+
+  /* notes frame */
+  .pv-stack { box-sizing: border-box; display: grid; gap: 14px; width: min(640px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0 40px; }
+  .pv-cap { justify-self: start; margin: 10px 0 -6px; padding: 3px 6px; background: #07080a; color: #C9BFA8; font: 600 12px/1.2 var(--r78-font-label); letter-spacing: .12em; text-transform: uppercase; text-shadow: 0 1px 3px #000, 0 0 8px #000; }
+  /* old-surface demos keep their own box model from the old sheets; padding added here only */
+  .pv-stack .formError, .pv-stack .seasonReviewWarning, .pv-stack .careerRestoreRecovery { margin: 0; padding: 12px 16px; }
+  .pv-stack .saveLibraryBlockedState > strong { display: block; margin: 0 0 4px; font: 800 20px/1 var(--r78-font-label); text-transform: uppercase; }
+  .pv-stack .saveLibraryBlockedState p { margin: 0; }
+
+  /* toasts frame: base position/box from css/app.css (#appRuntimeNotice) and navbar.css (.sd-nav-toast) */
+  .pv-frame #appRuntimeNotice { position: absolute; right: 16px; bottom: 45px; z-index: 50; display: flex; align-items: flex-start; }
+  .pv-frame #appRuntimeNotice.pv-second { bottom: 140px; }
+  .pv-frame #appRuntimeNotice.pv-third { bottom: 235px; }
+  .pv-frame .sd-nav-toast { position: absolute; z-index: 60; left: 50%; top: 64px; transform: translate(-50%, 0); visibility: visible; }
+  @media (max-width: 900px) {
+    /* stack the three samples (the kit lifts the single real toast above the navbar) */
+    .pv-frame #appRuntimeNotice:not([data-home-quota]) { bottom: 80px !important; }
+    .pv-frame #appRuntimeNotice.pv-second { bottom: 190px !important; }
+    .pv-frame #appRuntimeNotice.pv-third { bottom: 280px !important; }
+    .pv-frame .sd-nav-toast { top: auto; bottom: 400px; width: max-content; max-width: calc(100% - 32px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- 1 · RULES (HO-028). Text verbatim from main js/ruleBook.js. -->
+<div class="pv-frame pv-plate-rules" id="pv-rules">
+  <p class="pv-tag">HO-028 · RULES SAMPLE</p>
+  <div id="app">
+    <section id="ruleBook" class="v10RuleBook pv-rules">
+      <div class="ruleBookHero">
+        <span class="sd-eyebrow">CAREER MODE SHOWDOWN</span>
+        <img class="ruleBookWordmark" src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V1.webp" alt="" aria-hidden="true">
+        <strong class="sd-tagline">THE LOCKED COMPETITION RULES</strong>
+        <p class="sd-body ruleBookSummary">Daniel and Nik. One league. Permanent clubs. One rivalry.</p>
+      </div>
+      <div class="ruleBookGrid" id="ruleBookSections" aria-label="Competition rules">
+        <article class="ruleSection">
+          <div class="ruleSectionHeader"><span class="ruleSectionNumber">01</span><h3>SHOWDOWN FORMAT</h3></div>
+          <ul>
+            <li>Career Mode Showdown is a two-player rivalry for Daniel and Nik.</li>
+            <li>Daniel is Player One. Nik is Player Two.</li>
+            <li>Both managers compete in the same selected league.</li>
+            <li>The assigned clubs remain fixed for the entire Showdown, across every season.</li>
+            <li>A Showdown may contain 1, 3, 5, or 10 seasons.</li>
+            <li>The manager with the most Showdown points across all seasons wins; equal totals are a draw.</li>
+          </ul>
+        </article>
+        <article class="ruleSection">
+          <div class="ruleSectionHeader"><span class="ruleSectionNumber">02</span><h3>MATCH PLAY</h3></div>
+          <ul>
+            <li>Career Mode matches are simulated.</li>
+            <li>A Champions League final may be played or simulated by the manager.</li>
+            <li>The main domestic cup final may be played or simulated by the manager.</li>
+            <li>No other match-play exceptions are part of the current rules.</li>
+          </ul>
+        </article>
+        <article class="ruleSection">
+          <div class="ruleSectionHeader"><span class="ruleSectionNumber">03</span><h3>TRANSFER CHALLENGE</h3></div>
+          <ul>
+            <li>Each manager may sign a maximum of three players per season.</li>
+            <li>The transfer window challenge lasts 15 minutes.</li>
+            <li>Both managers may agree to end the transfer window early; one manager cannot end it alone.</li>
+            <li>The opponent receives three guesses.</li>
+            <li>Each guess must be either a league or a nationality.</li>
+            <li>If a signing matches a correct guess, that signing must be released before the season begins.</li>
+          </ul>
+        </article>
+        <article class="ruleSection scoringRuleSection">
+          <div class="ruleSectionHeader"><span class="ruleSectionNumber">04</span><h3>SCORING</h3></div>
+          <div class="ruleScoreTable">
+            <div class="ruleScoreRow"><span>Champions League winner</span><strong>+5</strong></div>
+            <div class="ruleScoreRow"><span>Domestic league winner</span><strong>+3</strong></div>
+            <div class="ruleScoreRow"><span>Main domestic cup winner</span><strong>+1</strong></div>
+            <div class="ruleScoreRow"><span>100 league points and/or 100 league goals</span><strong>+1 MAX</strong></div>
+            <div class="ruleScoreRow"><span>League Top Scorer and/or Top Assist</span><strong>+1 MAX</strong></div>
+          </div>
+          <div class="ruleScoreMaximum"><span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong></div>
+        </article>
+        <article class="ruleSection">
+          <div class="ruleSectionHeader"><span class="ruleSectionNumber">05</span><h3>TIEBREAK</h3></div>
+          <ul>
+            <li>If both managers finish a season with the same Showdown points, use the approved fallback.</li>
+            <li>The manager with the better league finishing position wins the season.</li>
+            <li>If both managers finish in the same league position, the manager with more league points wins.</li>
+            <li>If both managers also have the same league points, the season is a draw.</li>
+            <li>No goal-difference, goals-scored, or head-to-head tiebreak is used.</li>
+          </ul>
+        </article>
+        <article class="ruleSection">
+          <div class="ruleSectionHeader"><span class="ruleSectionNumber">06</span><h3>CONNECTION &amp; RECOVERY</h3></div>
+          <ul>
+            <li>Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.</li>
+            <li>A new or forgotten browser may need to be connected again before play continues.</li>
+            <li>Device storage may be used internally for recovery and rollback, but it does not create a separate gameplay mode.</li>
+            <li>Results are entered manually from FIFA 17; screenshots and match notes are not required.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="ruleBookActions"><button type="button" id="ruleBookBack" class="r78-btn r78-btn--primary">BACK TO MAIN MENU</button></div>
+    </section>
+  </div>
+</div>
+
+<!-- 2 · FULL-SCREEN ERROR (HO-029 A1). Wording and buttons from main js/onlinePlayerIdentity.js (offline state). -->
+<div class="pv-frame" id="pv-error">
+  <p class="pv-tag">HO-029 · FULL-SCREEN ERROR</p>
+  <div class="r78-error-screen r78-error-screen--plate" role="dialog" aria-modal="true" aria-labelledby="pvErrTitle">
+    <section class="r78-panel r78-error-screen__panel">
+      <button type="button" class="r78-close r78-error-screen__close" aria-label="Close sign-in">×</button>
+      <span class="r78-glyph" aria-hidden="true"></span>
+      <p class="r78-error-screen__eyebrow">CAREER MODE SHOWDOWN</p>
+      <h2 class="r78-error-screen__title" id="pvErrTitle">CONNECTION REQUIRED</h2>
+      <p class="r78-error-screen__body">Connection required. Reconnect to continue.</p>
+      <div class="r78-error-screen__actions"><button type="button" class="r78-btn r78-btn--primary">TRY AGAIN</button></div>
+    </section>
+  </div>
+</div>
+
+<!-- 3 · INLINE NOTES (HO-029 B). Wording from the audit / main source files named in each caption. -->
+<div class="pv-frame pv-plate-transfer" id="pv-notes">
+  <p class="pv-tag">HO-029 · INLINE NOTES</p>
+  <div class="pv-stack">
+    <p class="pv-cap">.r78-note--error · Transfer Challenge (js/transferScreenV10.js)</p>
+    <p class="r78-note r78-note--error" role="alert"><span class="r78-note__text">Complete signing 2 with player name, previous league and nationality.</span></p>
+    <p class="pv-cap">.r78-note--warn · Saves (js/saveLibraryUI.js)</p>
+    <p class="r78-note r78-note--warn" role="status"><span class="r78-note__text">Single-Save deletion is unavailable in this session.</span></p>
+    <p class="pv-cap">.r78-note--info · Settings updates (js/settings.js)</p>
+    <p class="r78-note r78-note--info" role="status"><span class="r78-note__text">Updates keep your current Showdown and player identity.</span></p>
+    <p class="pv-cap">.r78-note--success · Restore (js/restoreUI.js)</p>
+    <p class="r78-note r78-note--success" role="status"><span class="r78-note__text">Backup restore completed and verified successfully.</span></p>
+    <p class="pv-cap">Old surfaces mapped by section 7 (no markup change)</p>
+    <p class="formError" role="alert">Return to Edit Results and review it again.</p>
+    <p class="seasonReviewWarning">PUBLISHED · WAITING FOR YOUR RIVAL</p>
+    <div class="careerRestoreRecovery critical"><span>The selected file changed before Apply could start. Nothing was written. Review the current file again.</span></div>
+  </div>
+</div>
+
+<!-- 4 · CONFIRM MODAL (HO-029 C9). Body = main js/settings.js:598 confirm() text with the default name.
+     Title = the Settings button label that opens it. Button labels are Team G's call. -->
+<div class="pv-frame pv-plate-settings" id="pv-modal">
+  <p class="pv-tag">HO-029 · CONFIRM MODAL (C9)</p>
+  <div class="r78-modal" role="alertdialog" aria-modal="true" aria-labelledby="pvModalTitle" aria-describedby="pvModalBody">
+    <section class="r78-panel r78-panel--float r78-modal__panel">
+      <h2 class="r78-modal__title" id="pvModalTitle">DELETE CURRENT SHOWDOWN</h2>
+      <p class="r78-modal__body" id="pvModalBody">Delete the current "Daniel vs Nik" Showdown and start over? This closes the current Showdown connection for both players, removes this device's current local Showdown, and keeps your player identity, registered device, Legacy history and app settings. This cannot be undone.</p>
+      <div class="r78-modal__actions">
+        <button type="button" class="r78-btn r78-btn--secondary">CANCEL</button>
+        <button type="button" class="r78-btn r78-btn--danger">DELETE CURRENT SHOWDOWN</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- 5 · CONFIRM MODAL, non-destructive (HO-029 C8, js/productionSharedTransferChallenge.js:187 with 2 of 3 signings). -->
+<div class="pv-frame pv-plate-transfer" id="pv-modal2">
+  <p class="pv-tag">HO-029 · CONFIRM MODAL (C8)</p>
+  <div class="r78-modal" role="alertdialog" aria-modal="true" aria-labelledby="pvModal2Body">
+    <section class="r78-panel r78-panel--float r78-modal__panel">
+      <p class="r78-modal__body" id="pvModal2Body">Lock 2 of 3 signings? You can't change them after locking.</p>
+      <div class="r78-modal__actions">
+        <button type="button" class="r78-btn r78-btn--secondary">CANCEL</button>
+        <button type="button" class="r78-btn r78-btn--primary">LOCK</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- 6 · TOASTS (HO-029 E1 / E2). Wording: js/saveLibraryRuntime.js:614 (error), js/seasonEngine.js (success),
+     js/settings.js (info), navbar.js LOCK_TEXT (nav toast). Preview only: the app shows one #appRuntimeNotice at a time. -->
+<div class="pv-frame pv-plate-home" id="pv-toasts">
+  <p class="pv-tag">HO-029 · TOASTS</p>
+  <div class="sd-nav-toast is-on" role="status">Finish this step first</div>
+  <div id="appRuntimeNotice" class="pv-third" role="status"><span class="runtimeNoticeText">Reduced motion is enabled.</span><button type="button" aria-label="Dismiss message">×</button></div>
+  <div id="appRuntimeNotice" class="success pv-second" role="status"><span class="runtimeNoticeText">Season 2 saved successfully.</span><button type="button" aria-label="Dismiss message">×</button></div>
+  <div id="appRuntimeNotice" class="error" role="status"><span class="runtimeNoticeText">Save data changed in another tab. Reload or Continue again before making more changes.</span><button type="button" aria-label="Dismiss message">×</button></div>
+</div>
+
+</body>
+</html>

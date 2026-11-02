@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start / Join · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="../shared/navbar/navbar.css">
+<link rel="stylesheet" href="start-join.css">
+</head>
+<body>
+<div id="stage-root" class="sd-stage" data-screen="start-join" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true" data-sd-enter="scene">
+    <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+
+  <div class="sj-phoneArt" aria-hidden="true">
+    <picture class="sj-phoneBg">
+      <source media="(max-width: 900px)" srcset="assets/ENV_SJ_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <picture class="sj-phoneHero sj-phoneHero--daniel" data-sd-enter="character-left">
+      <source media="(max-width: 900px)" srcset="assets/OVL_SJ_DANIEL_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <picture class="sj-phoneHero sj-phoneHero--nik" data-sd-enter="character-right">
+      <source media="(max-width: 900px)" srcset="assets/OVL_SJ_NIK_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <span class="sj-phoneContact sj-phoneContact--daniel"></span>
+    <span class="sj-phoneContact sj-phoneContact--nik"></span>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <header class="sj-header">
+      <span id="previewTag" class="sj-preview sd-preview-tag"></span>
+      <p id="screenEyebrow" class="sj-eyebrow sd-label"></p>
+      <h1 id="screenTitle" class="sj-title sd-title" data-sd-enter="title">
+        <span class="sd-visually-hidden">CONNECT PLAYERS</span>
+        <!-- TODO-WORDMARK: replace this display-font fallback with ticket 124 TITLE_CONNECT_PLAYERS at Claude intake. -->
+        <span class="sj-title-fallback" aria-hidden="true">CONNECT PLAYERS</span>
+      </h1>
+      <p id="screenTagline" class="sj-tagline sd-tagline">Daniel and Nik must both be connected before the career begins.</p>
+    </header>
+
+    <main id="startJoinScreen" class="sj-main">
+      <section class="sj-main-panel sd-panel" aria-label="Connect players" data-tab="daniel">
+        <button id="startJoinBack" class="sj-back backButton sd-btn sd-btn--secondary" type="button"></button>
+
+        <div class="sj-tabs sd-tabs" role="tablist" aria-label="Connection steps">
+          <button type="button" role="tab" id="sjTabDaniel" data-sj-tab="daniel" aria-selected="true" aria-controls="danielRoleHeading">DANIEL · START</button>
+          <button type="button" role="tab" id="sjTabNik" data-sj-tab="nik" aria-selected="false" aria-controls="nikRoleHeading" tabindex="-1">NIK · JOIN</button>
+          <button type="button" role="tab" id="sjTabCurrent" data-sj-tab="current" aria-selected="false" aria-controls="currentHeading" tabindex="-1">CONNECTION</button>
+        </div>
+
+        <div class="sj-role-grid">
+          <section class="sj-role-panel sj-role-panel--daniel sd-panel" aria-labelledby="danielRoleHeading" data-sd-enter="panel">
+            <div class="sj-role-head">
+              <span class="sj-role-glyph sj-role-glyph--host" aria-hidden="true"></span>
+              <div>
+                <p class="sj-role-kicker">DANIEL · PLAYER ONE</p>
+                <h2 id="danielRoleHeading" class="sj-role-heading"></h2>
+              </div>
+            </div>
+            <p id="danielRoleCopy" class="sj-role-copy"></p>
+            <div id="danielSeasonLine" class="sj-season-line" hidden>
+              <span>NUMBER OF SEASONS</span>
+              <strong id="danielSeasonValue"></strong>
+            </div>
+            <div id="danielMainActions" class="sj-card-actions"></div>
+          </section>
+
+          <section class="sj-role-panel sj-role-panel--nik sd-panel" aria-labelledby="nikRoleHeading" data-sd-enter="panel">
+            <div class="sj-role-head">
+              <span class="sj-role-glyph sj-role-glyph--join" aria-hidden="true"></span>
+              <div>
+                <p class="sj-role-kicker">NIK · PLAYER TWO</p>
+                <h2 id="nikRoleHeading" class="sj-role-heading"></h2>
+              </div>
+            </div>
+            <p id="nikRoleCopy" class="sj-role-copy"></p>
+            <div id="joinCodeMainWrap" class="sj-join-field">
+              <label for="joinCodeMain">CODE</label>
+              <input id="joinCodeMain" type="text" autocomplete="off" spellcheck="false">
+            </div>
+            <div id="nikMainActions" class="sj-card-actions"></div>
+          </section>
+        </div>
+
+        <section class="sj-current-panel sd-panel" aria-labelledby="currentHeading" data-sd-enter="panel">
+          <div class="sj-current-head">
+            <div>
+              <p class="sj-role-kicker">CURRENT CONNECTION</p>
+              <h2 id="currentHeading" class="sj-role-heading"></h2>
+            </div>
+            <div class="sj-state-meta">
+              <span id="currentStateIcon" class="sj-state-icon" aria-hidden="true"></span>
+              <span id="currentStateBadge" class="sj-state-badge"></span>
+            </div>
+          </div>
+          <p id="currentStatusCopy" class="sj-current-copy" role="status" aria-live="polite"></p>
+          <div id="currentCodeRow" class="sj-code-row" hidden>
+            <output id="currentPairingCode" class="sj-code-field"></output>
+          </div>
+          <div id="currentMainActions" class="sj-current-actions"></div>
+        </section>
+
+        <div class="sj-lock-slot" data-sd-enter="panel">
+          <span class="sj-lock-icon" aria-hidden="true"></span>
+          <p id="privacyLine"></p>
+        </div>
+      </section>
+
+      <div class="sj-step1-scaffold" hidden>
+        <section aria-labelledby="stateHeading">
+          <h2 id="stateHeading"></h2>
+          <p id="stateMessage" role="status" aria-live="polite"></p>
+          <p id="stateError" role="alert"></p>
+        </section>
+        <section aria-label="Daniel fixture controls"><div id="danielActions"></div></section>
+        <section aria-label="Nik fixture controls">
+          <label for="joinCodeInput">CODE</label>
+          <input id="joinCodeInput" type="text" autocomplete="off">
+          <div id="nikActions"></div>
+        </section>
+        <section aria-label="Current fixture session">
+          <h2 id="sessionHeading">CURRENT SESSION</h2>
+          <output id="pairingCode"></output>
+          <p id="sessionStatus"></p>
+          <div id="sessionActions"></div>
+        </section>
+        <section aria-label="Fixture frame values"><dl id="frameValues"></dl></section>
+      </div>
+    </main>
+    <div class="nav-reserve" aria-hidden="true"></div>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="managerPlateMarker" data-manager="daniel" role="presentation"></span>
+      <span class="managerPlateMarker" data-manager="nik" role="presentation"></span>
+
+      <span class="sj-hand-contact" role="presentation"></span>
+      <picture class="sj-hand-cutout">
+        <source srcset="assets/OVL_SJ_DANIEL_HAND_V1_1X.webp 1x, assets/OVL_SJ_DANIEL_HAND_V1_2X.webp 2x" type="image/webp">
+        <img src="assets/OVL_SJ_DANIEL_HAND_V1_1X.webp" alt="">
+      </picture>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="sd-stage__registered"></div>
+  </div>
+</div>
+<script src="../shared/stage.js" defer></script>
+<script src="../shared/motion.js" defer></script>
+<script src="../shared/navbar/navbar.js"></script>
+<script>SDNav.mount({nav:{active:"career",locked:false,reason:null},routes:{home:"../home/index.html",career:"index.html",standings:"../standings/index.html",stats:"../career-statistics/index.html",rules:"../rule-book/index.html",settings:"../settings/index.html"}});</script>
+<script src="start-join.js" defer></script>
+<script>
+/* Phone tabs (<=900px): one step at a time. The tab follows the frame until the player picks one; desktop shows every panel and hides the tabs. */
+(function(){var stage=document.getElementById("stage-root"),panel=document.querySelector(".sj-main-panel"),tabs=[].slice.call(document.querySelectorAll("[data-sj-tab]")),manual=false;
+function pick(k,focus){panel.setAttribute("data-tab",k);tabs.forEach(function(t){var on=t.getAttribute("data-sj-tab")===k;t.setAttribute("aria-selected",on?"true":"false");t.tabIndex=on?0:-1;if(on&&focus)t.focus()})}
+function auto(){if(manual)return;var d=stage.dataset,k="daniel";if(d.stateTone==="error"||d.viewer==="nik")k="nik";else if(d.pairingState==="paired"||d.pairingState==="waiting-for-nik"||d.status==="loading"||d.status==="partial"||d.status==="unavailable")k="current";pick(k)}
+tabs.forEach(function(t,i){t.addEventListener("click",function(){manual=true;pick(t.getAttribute("data-sj-tab"))});t.addEventListener("keydown",function(e){var d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){e.preventDefault();manual=true;pick(tabs[(i+d+tabs.length)%tabs.length].getAttribute("data-sj-tab"),true)}})});
+new MutationObserver(auto).observe(stage,{attributes:true,attributeFilter:["data-viewer","data-pairing-state","data-status","data-state-tone"]});auto()})();
+</script>
+</body>
+</html>

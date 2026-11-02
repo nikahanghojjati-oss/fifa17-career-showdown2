@@ -1,0 +1,71 @@
+name: Team V board (shared data, Team V featured)
+
+# Rebuilds project-documents/factory/BOARD.md from the shared data: "V-" PR progress blocks (featured),
+# Team G's TEAM_G_PROGRESS.json on factory/gameplay-v1 (read-only, shown smaller) and the leads/relay feed.
+# Free and hands-off (Nik, 9 Oct: no Claude needed): it runs on GitHub's own events, so the board moves as soon as
+#   * a job owner opens, edits (the progress block), or closes/merges a PR into this branch, or
+#   * anything lands on this branch (job files, status files, the builder, this file).
+# It uses pull_request, not pull_request_target: GitHub now always takes a pull_request_target workflow from the
+# default branch (main), so on this branch that trigger never fired. pull_request takes the file from the PR's merge
+# with this branch; the job still checks out factory/v1-wtt5ye and runs its builder, never the PR's code.
+# (The old version re-dispatched itself every 25 minutes; its loop guard skipped those dispatches, so it only ever
+#  moved on pushes. Event triggers replace that chain.)
+# Stop switch: commit an empty project-documents/factory/BOARD_PAUSED file.
+# Factory branch only; it never runs on main and never writes to Team G's branch.
+on:
+  push:
+    branches: [factory/v1-wtt5ye]
+    paths:
+      - .github/workflows/factory-board.yml
+      - project-documents/factory/tools/shared_board.py
+      - project-documents/factory/jobs/**
+      - project-documents/factory/status/**
+  pull_request:
+    branches: [factory/v1-wtt5ye]
+    types: [opened, edited, reopened, closed, synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: factory-board
+  cancel-in-progress: true  # every run rebuilds from current state, so a newer run safely replaces an older one
+
+jobs:
+  board:
+    # Loop guard: the bot's own push never re-runs this (GITHUB_TOKEN pushes do not trigger workflows either).
+    # Only V- PRs feed the board; manual dispatches always run.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.actor != 'github-actions[bot]') ||
+      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, 'V-'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: factory/v1-wtt5ye
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Rebuild and commit the board if a job moved
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          F=project-documents/factory
+          for i in 1 2 3 4; do
+            git fetch -q --depth=1 origin factory/v1-wtt5ye
+            git reset -q --hard origin/factory/v1-wtt5ye
+            [ -f $F/BOARD_PAUSED ] && { echo "paused"; exit 0; }
+            python3 $F/tools/shared_board.py >/dev/null
+            # Commit only when more than the "Updated" line moved.
+            if ! git diff -U0 -- $F/BOARD.md | grep '^[-+][^-+]' | grep -qv '^[-+]Updated '; then echo "Board unchanged"; exit 0; fi
+            git add $F/BOARD.md
+            git commit -qm "Team V board update [skip ci]"
+            git push -q origin HEAD:factory/v1-wtt5ye && exit 0
+            sleep $((2**i))
+          done
+          exit 1

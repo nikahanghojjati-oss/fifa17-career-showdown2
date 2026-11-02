@@ -1,0 +1,128 @@
+{
+  "mends": {
+    "1": {
+      "bbox": [
+        246,
+        72,
+        1040,
+        583
+      ],
+      "sha256": "72e087be495b964da2536886422a0a1c4884e4bd732b3e0f192d15eed6ade96a"
+    },
+    "2": {
+      "bbox": [
+        492,
+        144,
+        2080,
+        1166
+      ],
+      "sha256": "dd2a0a159f3a761b59f18f2eb1cbe8711d457e08bca52477b33858a1ba074535"
+    }
+  },
+  "hands": {
+    "hand_daniel_top": {
+      "1": {
+        "bbox": [
+          222,
+          282,
+          397,
+          377
+        ],
+        "sha256": "6b2e7264b1c484fc7d6ec7eec5a77cb1b6a46eec368f321cd8e6cae4ebb8ae53"
+      },
+      "2": {
+        "bbox": [
+          445,
+          565,
+          793,
+          753
+        ],
+        "sha256": "015fa89456b6c6c125b2ecb7cdd050261e9ffbebe343ad94757a93470d1c545b"
+      }
+    },
+    "hand_daniel_side": {
+      "1": {
+        "bbox": [
+          512,
+          446,
+          585,
+          572
+        ],
+        "sha256": "54ce0dbd6971a135a1cd6ab67007b20e5fbea04a9cc7bbfe31af9b8ac502f8b7"
+      },
+      "2": {
+        "bbox": [
+          1025,
+          893,
+          1169,
+          1145
+        ],
+        "sha256": "d284f94132189b2ee55083ede31f9ffc7b109ef4286b5b665f8fbad1bbef1114"
+      }
+    },
+    "hand_nik_top": {
+      "1": {
+        "bbox": [
+          1112,
+          280,
+          1287,
+          376
+        ],
+        "sha256": "5edfd7aecb89a726c08f1df12299c567cf733b5282620bc3009caa50e6261cb4"
+      },
+      "2": {
+        "bbox": [
+          2225,
+          561,
+          2573,
+          753
+        ],
+        "sha256": "abcd458b9796d683608fcf7ab68c0023149fac98840b23231982bddd012f9efb"
+      }
+    },
+    "hand_nik_side": {
+      "1": {
+        "bbox": [
+          938,
+          456,
+          1015,
+          586
+        ],
+        "sha256": "2588b9b5b175d4ae2dcc0f0625d92fc7d74e53115632a0235a9146b8d0e36bbf"
+      },
+      "2": {
+        "bbox": [
+          1877,
+          913,
+          2029,
+          1172
+        ],
+        "sha256": "7e6042cc11dd0377c163d8b002de3a2ec87bb0d492e08f3edb9a76973d6ea7f6"
+      }
+    }
+  },
+  "contact": {
+    "1": {
+      "bbox": [
+        290,
+        335,
+        1250,
+        382
+      ],
+      "offset_px": 2,
+      "blur_px": 2.5,
+      "sha256": "51186bb24e341f5e28999b85647a6d3a4dd1664097af1bf0616c8c9af90b2fa5"
+    },
+    "2": {
+      "bbox": [
+        580,
+        670,
+        2500,
+        764
+      ],
+      "offset_px": 5,
+      "blur_px": 5.0,
+      "sha256": "5db34822e5ab8820c663fbbb3ac9a12fdca55889777c54c06ffe3bccbd039840"
+    }
+  }
+}

@@ -61,5 +61,26 @@ async function createHarness(){
   const expired=await createHarness();expired.store.get(expired.key("rivalries",rivalryId,"sessions",sessionId)).data.expiresAt=ts(1_000_000);const afterOldTtl=await Provider.commitSeason({...expired.options("playerOne",2_000_000),operationId:commitOp(12),baseRevision:0});assert.equal(afterOldTtl.ok,true);assert.equal(afterOldTtl.phase,"COMMITTED");
   const incomplete=await createHarness();incomplete.store.get(incomplete.publicPath).phase="COLLECTING";incomplete.store.get(incomplete.publicPath).revision=1;denied=await Provider.commitSeason({...incomplete.options("playerOne"),operationId:commitOp(13),baseRevision:0});assert.equal(denied.ok,false);assert.equal(denied.code,"SEASON_COMMIT_RESULTS_NOT_READY");
 
+  // r48 browser load order: the real bootstrap can execute this provider before js/sharedSeasonResults.js.
+  // Load the real file with no require/module (browser mode) while the protocol modules are absent,
+  // attach them afterwards, and prove the very next read succeeds (it failed on production r47 with
+  // SEASON_COMMIT_RESULTS_PROTOCOL_UNAVAILABLE on Daniel's device).
+  {
+    const vm=require("node:vm"),fs=require("node:fs"),path=require("node:path");
+    const sandbox={console,TextEncoder,TextDecoder,crypto:webcrypto,setTimeout,clearTimeout};sandbox.globalThis=sandbox;vm.createContext(sandbox);
+    vm.runInContext(fs.readFileSync(path.join(__dirname,"../../js/sparkSharedSeasonCommit.js"),"utf8"),sandbox,{filename:"sparkSharedSeasonCommit.js"});
+    const BrowserProvider=sandbox.CareerModeSparkSharedSeasonCommit;assert.ok(BrowserProvider&&typeof BrowserProvider.read==="function","browser-mode provider must install on the page global");
+    const early=await createHarness();const before=await BrowserProvider.read(early.options("playerOne"));assert.equal(before.ok,false,"without protocol modules a read must fail closed, never invent a view");
+    for(const file of ["sharedShowdownCatalog.js","sharedShowdownSetup.js","sharedSeasonResults.js","sharedSeasonCommit.js"])vm.runInContext(fs.readFileSync(path.join(__dirname,"../../js",file),"utf8"),sandbox,{filename:file});
+    for(const key of ["CareerModeSharedShowdownCatalog","CareerModeSharedShowdownSetup","CareerModeSharedSeasonResults","CareerModeSharedSeasonCommit"])assert.ok(sandbox[key],`${key} must install on the same page global`);
+    const late=await createHarness();const after=await BrowserProvider.read(late.options("playerOne"));
+    assert.equal(after.ok,true,`protocol modules loaded after the provider must be used on the next read (got ${after.code})`);assert.equal(after.phase,"RESULTS_READY");assert.equal(after.coordinatorRole,"playerOne");
+    const committed=await BrowserProvider.commitSeason({...late.options("playerOne"),operationId:commitOp(40),baseRevision:0});assert.equal(committed.ok,true,`late-loaded protocols must also serve the commit write (got ${committed.code})`);
+  }
+  const bootstrap=require("node:fs").readFileSync(require("node:path").join(__dirname,"../../js/ssjr.js"),"utf8"),adapter=require("node:fs").readFileSync(require("node:path").join(__dirname,"../../js/productionSharedSeasonCommit.js"),"utf8");
+  assert.ok(bootstrap.indexOf('"js/sharedSeasonResults.js"')>=0&&bootstrap.indexOf('"js/sharedSeasonResults.js"')<bootstrap.indexOf('"js/sparkSharedSeasonCommit.js"'),"bootstrap must load the Season Results protocol before the Season Commit provider");
+  assert.ok(adapter.indexOf('"js/sharedSeasonResults.js"')>=0&&adapter.indexOf('"js/sharedSeasonResults.js"')<adapter.indexOf('"js/sparkSharedSeasonCommit.js"'),"the Commit adapter must load the Season Results protocol before its provider");
+  assert.doesNotMatch(require("node:fs").readFileSync(require("node:path").join(__dirname,"../../js/sparkSharedSeasonCommit.js"),"utf8"),/const resultsModule=typeof require/,"the Commit provider must not capture the Results protocol at load time");
+
   console.log("PASS Shared Season Commit Spark provider: active account/device/two-manager rivalry/ACTIVE-session authority, authoritative r9 RESULTS_READY reconstruction, coordinator-only immutable commit, CAS/idempotency, two distinct acknowledgements, results-drift rejection, deterministic Bundesliga 103-point rejection, Spark-only zero billing, no scoring and no canonical Save mutation.");
 })().catch(error=>{console.error(error);process.exitCode=1;});

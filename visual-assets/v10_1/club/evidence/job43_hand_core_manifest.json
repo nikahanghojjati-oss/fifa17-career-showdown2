@@ -1,0 +1,24 @@
+{
+  "1": {
+    "bbox": [
+      223,
+      281,
+      1287,
+      587
+    ],
+    "grow_logical_px": 1,
+    "sha256_png": "5f202d87b77e0a79e7d6cc436bbf4e11f6a255dcf07c20d54750b3250368cf28",
+    "sha256_webp": "5bdbf18b8900bb9d6c080a9ac6fc2b42fdb417ab5af36112af68127cba134a9e"
+  },
+  "2": {
+    "bbox": [
+      446,
+      562,
+      2573,
+      1173
+    ],
+    "grow_logical_px": 1,
+    "sha256_png": "6a695dbdebcad5def101b978bcd845772172d3454f596e670cf6ab6e81d8574e",
+    "sha256_webp": "6b71c92e3fc17a06f5f0197536e0c4342afa229fdfaef32e12cddb4de59b8bb0"
+  }
+}
