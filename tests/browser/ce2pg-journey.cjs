@@ -891,6 +891,12 @@ async function openPage(m,hostId){
   else if(hostId==="legacy")await m.page.locator("#legacyButton").click({timeout:20000});
   else if(hostId==="trophyRoom"){
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
+    const tileTapAt=Date.now();
+    // js/v10Screens.js swallows any other tap within DOUBLE_TAP_MS (300 ms) of a Home tile tap, on purpose: it is the second
+    // half of a double tap (r87 C-05). When Career Statistics is already warm it shows within ~200 ms, so a tap straight away
+    // fell inside that window and was dropped (no click reached the document), failing trophy.firstTap at random. A person
+    // cannot see the new screen and tap that fast, so wait the window out before the measured tap.
+    const sinceTile=Date.now()-tileTapAt;if(sinceTile<400)await m.page.waitForTimeout(400-sinceTile);
     // The first tap on OPEN TROPHY ROOM can land before Career Statistics has loaded and do nothing (finding H3-1): tap again.
     // One tap, then wait for the real ready signal: the Trophy Room may legitimately stay under Reus up to the 14 s career load gate (H4).
     // A tap is "swallowed" only if nothing happened (no open request reached openOptionalModule) or the screen never shows within 20 s.
