@@ -9,6 +9,7 @@
   const PANEL_ID="sharedTerminalClosePanel";
   const AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
   let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null,wakePending=false;
+  let heldRefreshFailure="";
   let rivalryWakeRequested=false;
   // JOB-1038: one automatic attempt per exact Showdown, account and device in this runtime.
   // Reloads first read the durable terminal witness; provider idempotency remains the authority.
@@ -235,7 +236,12 @@
   }
   function ptcRefresh(){
     if(refreshPromise)return refreshPromise;busy=true;ptcRender();
-    const run=ptcRefreshNow().catch(error=>{ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();ptcWatchContext(ptcRequest());if(wakePending){wakePending=false;ptcWake();}});refreshPromise=run;return run;
+    // r88: a dropped connection (the SDK's UNAVAILABLE "Connection failed.", e.g. a phone offline for a few seconds) is held once,
+    // like the other shared refreshers: nothing changes (the state stays exactly as it was, never a made-up result) and the next
+    // wake reads again. While the browser itself says it is offline the hold lasts (the offline notice owns that); once online, the
+    // same ambiguous failure on the next refresh too is reported. Any other failure is reported at once.
+    const request=ptcRequest();
+    const run=ptcRefreshNow().then(value=>{heldRefreshFailure="";return value;},error=>{const key=ptcAmbiguous(error)&&request?`${request.key}|${ptcCode(error)}`:"";if(key&&(key!==heldRefreshFailure||root.navigator?.onLine===false)){heldRefreshFailure=key;root.console?.warn?.("[Career Mode Showdown] Shared Showdown Terminal Close is waiting for the connection.",ptcCode(error));return ptcCurrentState();}heldRefreshFailure="";ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();ptcWatchContext(ptcRequest());if(wakePending){wakePending=false;ptcWake();}});refreshPromise=run;return run;
   }
   // Job 31: when the 4-hour private session ends (or a reload drops it) every shared refresher fails at once. The RECONNECT
   // SESSION banner owns that state, so those failures wake the banner instead of stacking red error toasts.

@@ -2854,6 +2854,15 @@
         "^tests/contracts/r88\\-story\\-tile\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-terminal-close-dropped-connection-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^tests/contracts/r88\\-terminal\\-close\\-dropped\\-connection\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
