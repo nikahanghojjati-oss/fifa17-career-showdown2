@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-02 12:21 PM Boston time (EST)",
+ "generated": "2026-11-02 12:25 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 182,
+  "count": 184,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1641,6 +1641,24 @@
     "subject": "Title wipe paints a black box over photo backgrounds (r87)",
     "reply": "yes (receive it)",
     "boston": "Sun 1 Nov 10:57 AM"
+   },
+   {
+    "time": "2026-11-02 17:23",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-055 SENT",
+    "subject": "Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 2 Nov 12:23 PM"
+   },
+   {
+    "time": "2026-11-02 17:23",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-056 SENT",
+    "subject": "Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 2 Nov 12:23 PM"
    }
   ],
   "g2v": {
@@ -1661,8 +1679,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5895cb2",
-  "head_boston": "Sun 1 Nov 11:04 AM",
+  "head": "3745697",
+  "head_boston": "Mon 2 Nov 12:23 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2435,6 +2453,32 @@
     "worker": "",
     "pickup_min": 2,
     "waiting_min": null
+   },
+   {
+    "id": "HO-055",
+    "from": "G",
+    "to": "V",
+    "title": "Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-055_story-tile-film-reel-art.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-056",
+    "from": "G",
+    "to": "V",
+    "title": "Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-056_chamber-men-scene-art.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -2506,7 +2550,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
