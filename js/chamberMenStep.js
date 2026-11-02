@@ -164,19 +164,56 @@
     shown.el.setAttribute("aria-hidden","true");shown.el.setAttribute("aria-busy","false");shown.el.classList.add("is-exiting");
     root.setTimeout(()=>{if(loading)return;shown.el.hidden=true;shown.el.classList.add("hidden");if(shown.text)shown.text.textContent=shown.prior;},240);
   }
+  // r88 Team V scene (Chamber Men art): a marble-and-gold goal mouth drawn in code (no picture, no face, no real crest).
+  // The keeper is a faceless gold figure with four poses: ready, and a dive LEFT, MIDDLE or RIGHT (data-pose on .cmKeeper,
+  // css/chamberMen.css shows one). .cmNet bulges where the ball hits on a goal (.cmGoal.is-goal, --cm-hit-x/--cm-hit-y).
+  // Same coordinates as the stand-in: zones at ZONE_X, the keeper stands at y 92, the ball sits on the spot at y 132.
+  const CM_GOAL_ART=`<defs>
+<linearGradient id="cmGoldV" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a5612"/><stop offset=".28" stop-color="#ffe9a3"/><stop offset=".5" stop-color="#f2c45b"/><stop offset=".78" stop-color="#b8861f"/><stop offset="1" stop-color="#5c400d"/></linearGradient>
+<linearGradient id="cmGoldH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5612"/><stop offset=".3" stop-color="#ffe9a3"/><stop offset=".55" stop-color="#f2c45b"/><stop offset="1" stop-color="#6b4a12"/></linearGradient>
+<linearGradient id="cmMouth" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14100a"/><stop offset="1" stop-color="#0b0906"/></linearGradient>
+<linearGradient id="cmTurf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3a1f"/><stop offset="1" stop-color="#0d1d0f"/></linearGradient>
+<linearGradient id="cmKit" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".35" stop-color="#f2c45b"/><stop offset=".75" stop-color="#c8922f"/><stop offset="1" stop-color="#7a5612"/></linearGradient>
+<radialGradient id="cmBallG" cx=".38" cy=".34" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f2ebdd"/><stop offset="1" stop-color="#b9ae98"/></radialGradient>
+<g id="cmFig"><path d="M-6 2 L-10 23 M6 2 L10 23" stroke="#d9a83a" stroke-width="6.5" stroke-linecap="round" fill="none"/><path d="M-14 24.5 h7 M7 24.5 h7" stroke="#14100a" stroke-width="3.4" stroke-linecap="round"/><rect x="-10.5" y="-24" width="21" height="29" rx="8" fill="url(#cmKit)" stroke="#5c400d" stroke-width=".9"/><path d="M-10 -7 H10" stroke="#14100a" stroke-width="2.2"/><circle cx="0" cy="-32" r="6.6" fill="url(#cmKit)" stroke="#5c400d" stroke-width=".9"/></g>
+</defs>
+<rect x="18" y="16" width="264" height="102" fill="url(#cmMouth)"/>
+<g class="cmNet">
+<path class="cmNetBack" d="M34 28 H266 V108 H34 Z"/>
+<path class="cmNetMesh" d="M18 16 L34 28 M282 16 L266 28 M18 118 L34 108 M282 118 L266 108 M54 28 V108 M74 28 V108 M94 28 V108 M114 28 V108 M134 28 V108 M150 28 V108 M166 28 V108 M186 28 V108 M206 28 V108 M226 28 V108 M246 28 V108 M34 41 H266 M34 54 H266 M34 68 H266 M34 81 H266 M34 95 H266 M18 40 L34 49 M18 64 L34 70 M18 90 L34 89 M282 40 L266 49 M282 64 L266 70 M282 90 L266 89 M54 16 L54 28 M94 16 L94 28 M134 16 L134 28 M166 16 L166 28 M206 16 L206 28 M246 16 L246 28"/>
+</g>
+<rect x="0" y="118" width="300" height="20" fill="url(#cmTurf)"/>
+<path d="M0 118.5 H300" stroke="#f2ebdd" stroke-width="1.6"/>
+<path d="M60 138 Q150 126 240 138" fill="none" stroke="#f2ebdd" stroke-width="1.2"/>
+<circle cx="150" cy="132" r="1.6" fill="#f2ebdd"/>
+<g class="cmFrame">
+<rect x="12" y="10" width="9" height="110" rx="2" fill="url(#cmGoldV)" stroke="#4a3309" stroke-width=".8"/>
+<rect x="279" y="10" width="9" height="110" rx="2" fill="url(#cmGoldV)" stroke="#4a3309" stroke-width=".8"/>
+<rect x="12" y="10" width="276" height="9" rx="2" fill="url(#cmGoldH)" stroke="#4a3309" stroke-width=".8"/>
+<path d="M15 12.4 H285 M14.6 13 V117 M281.6 13 V117" stroke="#fff6d2" stroke-width=".9"/>
+<rect x="9" y="117" width="15" height="5" rx="1.5" fill="#1a150d" stroke="#d4a017" stroke-width=".8"/>
+<rect x="276" y="117" width="15" height="5" rx="1.5" fill="#1a150d" stroke="#d4a017" stroke-width=".8"/>
+</g>
+<circle class="cmHit" cx="0" cy="0" r="10"/>`;
+  const CM_KEEPER_ART=`<ellipse class="cmShadow" cx="0" cy="26" rx="15" ry="2.6"/>
+<g class="cmPose" data-for="ready"><path class="cmLimb" d="M-9 -18 L-23 -6 M9 -18 L23 -6"/><circle class="cmGlove" cx="-24" cy="-5" r="4.4"/><circle class="cmGlove" cx="24" cy="-5" r="4.4"/><use href="#cmFig"/></g>
+<g class="cmPose" data-for="M" transform="translate(0 -9)"><path class="cmLimb" d="M-8 -20 L-17 -46 M8 -20 L17 -46"/><circle class="cmGlove" cx="-18" cy="-48" r="4.6"/><circle class="cmGlove" cx="18" cy="-48" r="4.6"/><use href="#cmFig"/></g>
+<g class="cmPose" data-for="L" transform="translate(6 -4) rotate(-64)"><path class="cmLimb" d="M-5 -21 L-9 -50 M5 -21 L7 -50"/><circle class="cmGlove" cx="-9.5" cy="-52" r="4.6"/><circle class="cmGlove" cx="7.5" cy="-52" r="4.6"/><use href="#cmFig"/></g>
+<g class="cmPose" data-for="R" transform="translate(-6 -4) rotate(64)"><path class="cmLimb" d="M5 -21 L9 -50 M-5 -21 L-7 -50"/><circle class="cmGlove" cx="9.5" cy="-52" r="4.6"/><circle class="cmGlove" cx="-7.5" cy="-52" r="4.6"/><use href="#cmFig"/></g>`;
+  const CM_BALL_ART=`<g class="cmBallArt"><circle r="7.6" fill="url(#cmBallG)" stroke="#2a2418" stroke-width=".9"/><path d="M0 -2.8 L2.7 -.9 L1.7 2.3 H-1.7 L-2.7 -.9 Z" fill="#1a150d"/><path d="M0 -2.8 V-7.4 M2.7 -.9 L7.1 -2.2 M1.7 2.3 L4.4 6 M-1.7 2.3 L-4.4 6 M-2.7 -.9 L-7.1 -2.2" stroke="#1a150d" stroke-width=".9" fill="none"/><path d="M-1.6 -7.3 L1.6 -7.3 L0 -6 Z M6.4 -3.8 L7.5 -.6 L6 -1.4 Z M-6.4 -3.8 L-7.5 -.6 L-6 -1.4 Z M3.2 6.7 L5.6 4.6 L4 4.9 Z M-3.2 6.7 L-5.6 4.6 L-4 4.9 Z" fill="#1a150d"/></g>`;
   function cmsGoal(){
     const svg=cmsSvg("svg",{class:"cmGoal",viewBox:"0 0 300 160",role:"img","aria-label":"The goal: left, middle and right"});
-    svg.append(cmsSvg("rect",{x:0,y:0,width:300,height:160,fill:"#0b130c"}));
-    for(let x=20;x<=280;x+=20)svg.append(cmsSvg("line",{x1:x,y1:18,x2:x,y2:118,stroke:"rgba(242,235,221,.18)","stroke-width":1}));
-    for(let y=28;y<=118;y+=15)svg.append(cmsSvg("line",{x1:18,y1:y,x2:282,y2:y,stroke:"rgba(242,235,221,.18)","stroke-width":1}));
-    svg.append(cmsSvg("path",{d:"M18 118 V16 H282 V118",fill:"none",stroke:"#f2ebdd","stroke-width":5,"stroke-linejoin":"round"}));
-    for(const [side,x] of Object.entries(ZONE_X)){const t=cmsSvg("text",{x,y:154,"text-anchor":"middle",fill:"#f2c45b","font-size":12,"font-family":"Barlow Condensed, Arial Narrow, sans-serif","letter-spacing":"2"});t.textContent=SIDE_WORD[side];svg.append(t);}
-    const keeper=cmsSvg("g",{class:"cmKeeper"});
-    keeper.append(cmsSvg("rect",{x:-16,y:-34,width:32,height:52,rx:10,fill:"#c8922f",stroke:"#fff0b8","stroke-width":2}),cmsSvg("circle",{cx:0,cy:-44,r:10,fill:"#c8922f",stroke:"#fff0b8","stroke-width":2}));
-    const ball=cmsSvg("g",{class:"cmBall"});
-    ball.append(cmsSvg("circle",{cx:0,cy:0,r:8,fill:"#f2ebdd",stroke:"#050403","stroke-width":1.5}));
+    svg.innerHTML=CM_GOAL_ART;
+    for(const [side,x] of Object.entries(ZONE_X)){const t=cmsSvg("text",{class:"cmZone",x,y:153,"text-anchor":"middle"});t.textContent=SIDE_WORD[side];svg.append(t);}
+    const keeper=cmsSvg("g",{class:"cmKeeper","data-pose":"ready"});keeper.innerHTML=CM_KEEPER_ART;
+    const ball=cmsSvg("g",{class:"cmBall"});ball.innerHTML=CM_BALL_ART;
     svg.append(keeper,ball);
-    return {svg,keeper,ball};
+    return {svg,keeper,ball,hit:svg.querySelector(".cmHit")};
+  }
+  // Before a kick: keeper back in the middle and ready, ball on the spot, the net still.
+  function cmsReset(goal){
+    goal.svg.classList.remove("is-goal","is-save","is-flying");goal.keeper.dataset.pose="ready";
+    cmsPlace(goal.keeper,ZONE_X.M,92,false);cmsPlace(goal.ball,ZONE_X.M,132,false);
   }
   function cmsPlace(node,x,y,animate){node.style.transition=animate?"transform 900ms cubic-bezier(.2,.8,.2,1)":"none";node.setAttribute("transform",`translate(${x} ${y})`);node.style.transform=`translate(${x}px, ${y}px)`;}
   // The back buttons are .cmBack, never .backButton: the app's smart back (js/screens.js) takes every .backButton click
@@ -210,7 +247,7 @@
     actions.append(lock,next,back);
     const lines=cmsEl("ul","cmLines");lines.hidden=true;
     shell.append(header,title,board,goal.svg,status,picks,clock,lines,actions);stage.append(shell);doc.body.append(stage);
-    cmsPlace(goal.keeper,150,92,false);cmsPlace(goal.ball,150,132,false);
+    cmsReset(goal);
     return {stage,round:header.querySelector(".cmRound"),sides,goal,status,picks,rows,clock,lock,next,back,lines};
   }
 
@@ -288,9 +325,18 @@
         return {line:`${where} · ${keeperWords}`,result};
       };
       const showKick=(round,shooter,animate)=>{
-        const keeper=cmsOther(shooter),shot=round.picks[shooter].shot,dive=engine.dive(round.picks[keeper].dive);
-        cmsPlace(ui.goal.keeper,ZONE_X[dive],92,animate);
-        if(shot===engine.timeout)cmsPlace(ui.goal.ball,150,6,animate);else cmsPlace(ui.goal.ball,ZONE_X[shot],round.goal[shooter]?44:70,animate);
+        const keeper=cmsOther(shooter),shot=round.picks[shooter].shot,dive=engine.dive(round.picks[keeper].dive),g=ui.goal;
+        const ballX=shot===engine.timeout?150:ZONE_X[shot],ballY=shot===engine.timeout?6:round.goal[shooter]?44:70;
+        // Team V scene: reset, a short run-up, then the dive and the shot together; the net takes a goal.
+        const strike=()=>{
+          if(finished)return;
+          g.keeper.dataset.pose=dive;cmsPlace(g.keeper,ZONE_X[dive],92,animate);cmsPlace(g.ball,ballX,ballY,animate);
+          g.svg.style.setProperty("--cm-hit-x",`${ballX}px`);g.svg.style.setProperty("--cm-hit-y",`${ballY}px`);
+          g.hit.setAttribute("cx",String(ballX));g.hit.setAttribute("cy",String(ballY));
+          g.svg.classList.toggle("is-flying",animate);g.svg.classList.toggle("is-goal",Boolean(round.goal[shooter]));g.svg.classList.toggle("is-save",!round.goal[shooter]);
+        };
+        cmsReset(g);
+        if(animate){void g.svg.getBoundingClientRect?.();root.setTimeout(strike,320);}else strike();
         const words=kickWords(round,shooter);
         ui.status.className=`cmStatus ${round.goal[shooter]?"is-goal":"is-save"}`;ui.status.textContent=`${words.line} · ${words.result}`;
       };

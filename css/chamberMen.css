@@ -70,19 +70,91 @@
   letter-spacing: .16em;
   text-align: center;
 }
-#cmStage .cmCylinder { display: flex; gap: 6px; justify-content: center; flex-wrap: nowrap; }
+/* r88 Team V: the cylinder strip, cut from the roulette's drum (visual-assets/v10_1/roulette/index.html): a gunmetal bar
+   with 7 bores. Not played = steel bore with a gold dashed mark; empty = a black bore you can look down; live = the brass
+   cartridge head and primer with the roulette's red LIVE ring. */
+#cmStage .cmCylinder {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  flex-wrap: nowrap;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4a4c50 0%, #26282b 45%, #121314 100%);
+  border: 1px solid #6e5a2a;
+  box-shadow: inset 0 1px 0 #8a8d92, inset 0 -1px 0 #050505;
+}
 #cmStage .cmChamber {
-  width: 16px;
-  height: 16px;
+  flex: none;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   box-sizing: border-box;
-  border: 2px dashed rgba(242, 196, 91, .55); /* not played yet */
+  border: 2px solid #8a8d92;
+  /* not played yet: a plain steel bore with a dashed gold mark */
+  background: radial-gradient(circle, #2a2b2e 0 38%, #3d3f43 39% 100%);
+  box-shadow: inset 0 0 0 1.5px #050505, 0 0 0 1px #050505;
+  outline: 1.5px dashed #c8a24a;
+  outline-offset: -6px;
 }
-#cmStage .cmChamber.is-live { border: 2px solid #ff3b2f; background: radial-gradient(circle at 40% 35%, #ffe7a8, #c8922f 60%, #6b4a12); }
-#cmStage .cmChamber.is-empty { border: 2px solid rgba(242, 196, 91, .85); background: #050403; }
+#cmStage .cmChamber.is-live {
+  border: 2px solid #ff2a1a;
+  outline: none;
+  /* primer, brass case head, rim */
+  background: radial-gradient(circle at 50% 50%, #e9e2d0 0 14%, #8a6a2a 15% 20%, #ffe7a8 21% 34%, #d4a017 35% 58%, #8a5f12 59% 70%, #3d3f43 71% 100%);
+  box-shadow: 0 0 0 1px #050505, 0 0 7px #ff3b2f;
+}
+#cmStage .cmChamber.is-empty {
+  border: 2px solid #b9bcc2;
+  outline: none;
+  /* an empty bore: black all the way down */
+  background: radial-gradient(circle, #000 0 52%, #161718 53% 66%, #4a4c50 67% 100%);
+  box-shadow: inset 0 0 0 1px #050505, 0 0 0 1px #050505;
+}
 #cmStage .cmCylLabel { font-size: 13px; letter-spacing: .06em; color: var(--r78-ivory, #f2ebdd); white-space: nowrap; }
-/* ---------- the goal ---------- */
-#cmStage .cmGoal { width: 100%; max-width: 440px; margin: 0 auto; display: block; }
+/* ---------- the goal (r88 Team V scene; art drawn in js/chamberMenStep.js cmsGoal) ---------- */
+#cmStage .cmGoal {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  display: block;
+  box-sizing: border-box;
+  background: #0b0906 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid var(--r78-gold-edge, #d4a017);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 3px #110f0c, inset 0 0 0 4px #6b5323;
+  overflow: hidden;
+}
+#cmStage .cmGoal .cmZone { fill: #f2c45b; font: 600 11px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: 2px; }
+#cmStage .cmGoal .cmNetBack { fill: none; stroke: #c9c1ae; stroke-width: 1.1; }
+#cmStage .cmGoal .cmNetMesh { fill: none; stroke: #8f887a; stroke-width: .7; }
+#cmStage .cmGoal .cmNet { transform-box: view-box; transform-origin: var(--cm-hit-x, 150px) var(--cm-hit-y, 60px); }
+#cmStage .cmGoal .cmHit { fill: none; stroke: #ffd34d; stroke-width: 2; visibility: hidden; transform-box: fill-box; transform-origin: center; }
+#cmStage .cmKeeper .cmLimb { fill: none; stroke: #d9a83a; stroke-width: 6; stroke-linecap: round; }
+#cmStage .cmKeeper .cmGlove { fill: #f2ebdd; stroke: #5c400d; stroke-width: .9; }
+#cmStage .cmKeeper .cmShadow { fill: #050403; }
+#cmStage .cmKeeper .cmPose { display: none; }
+#cmStage .cmKeeper[data-pose="ready"] .cmPose[data-for="ready"],
+#cmStage .cmKeeper[data-pose="L"] .cmPose[data-for="L"],
+#cmStage .cmKeeper[data-pose="M"] .cmPose[data-for="M"],
+#cmStage .cmKeeper[data-pose="R"] .cmPose[data-for="R"] { display: inline; }
+#cmStage .cmBallArt { transform-box: fill-box; transform-origin: center; }
+#cmStage .cmGoal.is-flying .cmBallArt { animation: cmSpin 900ms linear; }
+#cmStage .cmGoal.is-flying.is-goal .cmNet { animation: cmNetHit 900ms cubic-bezier(.2, .8, .3, 1) 520ms; }
+#cmStage .cmGoal.is-flying.is-goal .cmHit { animation: cmHitRing 700ms ease-out 560ms; }
+@keyframes cmSpin { to { transform: rotate(720deg); } }
+@keyframes cmNetHit {
+  0% { transform: none; }
+  25% { transform: scale(1.06, 1.08); }
+  55% { transform: scale(.985, .98); }
+  80% { transform: scale(1.015, 1.02); }
+  100% { transform: none; }
+}
+@keyframes cmHitRing {
+  0% { visibility: visible; transform: scale(.4); }
+  99% { visibility: visible; transform: scale(2.4); }
+  100% { visibility: hidden; transform: scale(2.4); }
+}
 #cmStage .cmStatus {
   min-height: 1.4em;
   margin: 0;
@@ -174,12 +246,18 @@
 @media (min-width: 900px) {
   #cmStage .cmShell { padding-top: 24px; }
 }
-/* Phones: the seven chambers stay on one line under each name. */
-@media (max-width: 420px) {
-  #cmStage .cmBoard { gap: 8px; padding: 12px 10px; }
-  #cmStage .cmCylinder { gap: 4px; }
-  #cmStage .cmChamber { width: 14px; height: 14px; }
+/* Phones (up to 560 px, so big phones like 430 px fit too): the seven chambers stay on one line under each name. */
+@media (max-width: 560px) {
+  #cmStage .cmBoard { gap: 8px; padding: 12px 8px; }
+  #cmStage .cmCylinder { gap: 2px; padding: 4px 5px; }
+  #cmStage .cmChamber { width: 15px; height: 15px; border-width: 1.5px; outline-offset: -5px; }
+}
+/* Small phones (360 px): a little smaller still, so the right-hand cylinder stays inside the board. */
+@media (max-width: 380px) {
+  #cmStage .cmBoard { gap: 6px; padding: 12px 6px; }
+  #cmStage .cmChamber { width: 13px; height: 13px; outline-offset: -4px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #cmStage .cmBall, #cmStage .cmKeeper { transition: none !important; }
+  #cmStage .cmGoal .cmBallArt, #cmStage .cmGoal .cmNet, #cmStage .cmGoal .cmHit { animation: none !important; }
 }
