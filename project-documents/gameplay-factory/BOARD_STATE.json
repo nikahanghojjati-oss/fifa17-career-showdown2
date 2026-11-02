@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 10:42 PM Boston time (EST)",
+ "generated": "2026-11-01 10:45 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 182,
@@ -1690,27 +1690,18 @@
  },
  "two": {
   "live": {
-   "sha": "5b4337f",
-   "revision": "1.9.10-r86",
-   "when": "2026-10-30T11:17:04Z",
-   "subject": "L5: re-pin the composed Rules check to main 64b6bbd6 after the r86 release (no delta) (#1077)",
-   "fixes": [
+   "sha": "95d5c75",
+   "revision": "2.0.0-r87",
+   "when": "2026-11-01T22:44:24-05:00",
+   "subject": "r87 release: 2.0.0-r87 (#1191)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1191,
      "title": "r87 release: 2.0.0-r87 (Prime Pack, Squad Roulette, 15/150, Gazette, Commentary v3)",
-     "draft": false,
-     "branch": "gameplay/r87",
-     "sha": "8c2f842882293020f66f24c7dd23a2f520c69d30",
-     "updated": "2026-11-02T03:24:07Z",
-     "gates": {
-      "passed": 16,
-      "running": 1,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-11-02T03:44:25Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -2521,7 +2512,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3737,22 +3728,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1191,
-    "title": "r87 release: 2.0.0-r87 (Prime Pack, Squad Roulette, 15/150, Gazette, Commentary v3)",
-    "draft": false,
-    "branch": "gameplay/r87",
-    "sha": "8c2f842882293020f66f24c7dd23a2f520c69d30",
-    "updated": "2026-11-02T03:24:07Z",
-    "gates": {
-     "passed": 16,
-     "running": 1,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
