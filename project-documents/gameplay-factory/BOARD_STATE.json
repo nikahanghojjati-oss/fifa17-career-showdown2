@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 11:25 PM Boston time (EST)",
+ "generated": "2026-11-01 11:29 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 182,
@@ -1690,27 +1690,17 @@
  },
  "two": {
   "live": {
-   "sha": "95d5c75",
+   "sha": "00ae2b7",
    "revision": "2.0.0-r87",
-   "when": "2026-11-01T22:44:24-05:00",
-   "subject": "r87 release: 2.0.0-r87 (#1191)",
-   "fixes": [
+   "when": "2026-11-01T23:28:46-05:00",
+   "subject": "Merge pull request #1192 from nikahanghojjati-oss/claude-gameplay/r87-repin",
+   "fixes": [],
+   "today": [
     {
      "pr": 1192,
      "title": "L5: re-pin the Rules check to main after the 2.0.0 release",
-     "draft": false,
-     "branch": "claude-gameplay/r87-repin",
-     "sha": "ae445987b2ecf290cf0910218ee92f7260087927",
-     "updated": "2026-11-02T03:56:41Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-11-02T04:28:47Z"
+    },
     {
      "pr": 1191,
      "title": "r87 release: 2.0.0-r87 (Prime Pack, Squad Roulette, 15/150, Gazette, Commentary v3)",
@@ -2527,7 +2517,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3743,22 +3733,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1192,
-    "title": "L5: re-pin the Rules check to main after the 2.0.0 release",
-    "draft": false,
-    "branch": "claude-gameplay/r87-repin",
-    "sha": "ae445987b2ecf290cf0910218ee92f7260087927",
-    "updated": "2026-11-02T03:56:41Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
