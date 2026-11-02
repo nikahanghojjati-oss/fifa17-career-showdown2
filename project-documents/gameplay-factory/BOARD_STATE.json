@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02 12:26 PM Boston time (EST)",
+ "generated": "2026-11-02 12:30 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 184,
@@ -2465,7 +2465,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-055_story-tile-film-reel-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-056",
@@ -2478,7 +2478,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-056_chamber-men-scene-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    }
   ],
   "relay_ok": true
