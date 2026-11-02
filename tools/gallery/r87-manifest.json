@@ -1,6 +1,6 @@
 {
  "title": "Showdown 2.0.0 Gallery",
- "lede": "Build: gameplay/r87 187a67c0 (1 Nov 18:00 UTC), with Trophy Room, the final Gazette and the Rule Book scoring card re-shot on release candidate e0b7eb85 (20:00 UTC) to show the 15-point season and 150 Golden. Every shot waits for animations to finish. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator by a 3-season CE2PG game. Tap any picture to open it full size.",
+ "lede": "Build: gameplay/r87 187a67c0, with Trophy Room, final Gazette and Rule Book scoring re-shot on e0b7eb85, and the Transfer War wording (#1190) re-shot on release candidate bd67147a: roulette card, Prime Pack exit and Rule Book. Release: 2026-11-02 05:00 UTC. Every shot waits for animations to finish. r87, build 2.0.0. Changed screens only, one desktop (1440x900, Daniel) and one phone (390x844, Nik) shot each, played on the emulator by CE2PG. Tap any picture to open it full size.",
  "notes": "gameplay/r87/RELEASE_NOTES_2.0.0.md",
  "checklist_url": "https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU",
  "shots_dir": "test-results/gallery-r87-run12",
@@ -131,18 +131,15 @@
   },
   {
    "title": "Russian Roster Roulette, result",
-   "note": "Your result on a marble panel: release the player who was hit in FIFA 17, or your squad is safe.",
+   "note": "Re-shot on bd67147a (#1190). Your result on a marble panel: release the player who was hit in FIFA 17 \"before the Transfer War\", then I'VE RELEASED HIM; a safe squad goes straight on with GO TO THE PRIME PACK. Order is always roulette, Prime Pack, Transfer War.",
    "prs": [
     1069,
     1075,
-    1091
+    1091,
+    1190
    ],
-   "desktop": {
-    "match": "rrStepPanel"
-   },
-   "phone": {
-    "match": "rrStepPanel"
-   }
+   "desktop": null,
+   "phone": "test-results/gallery-r87/phone/032-tap-clubwheelscreen-over-rrsteppanel-release-e-mangala-5.png"
   },
   {
    "title": "Showdown Home, waiting for the spin",
@@ -150,28 +147,19 @@
    "prs": [
     1101
    ],
-   "desktop": {
-    "match": "^(tap:)?dashboard"
-   },
-   "phone": {
-    "match": "^(tap:)?dashboard"
-   }
+   "desktop": null,
+   "phone": null
   },
   {
    "title": "Prime Pack",
-   "note": "New: after the roulette, a Prime Pack opens on a marble podium (Team V art) and one masked Icon card rises. Each stage adds a stat; the first right name scores 4, 3, 2 or 1; 2 guesses each. Main pictures: the reveal when nobody got him.",
+   "note": "Re-shot on bd67147a. After the roulette, a Prime Pack opens on a marble podium (Team V art) and one masked Icon card rises. Each stage adds a stat; the first right name scores 4, 3, 2 or 1; 2 guesses each. The exit button now says GO TO THE TRANSFER WAR.",
    "prs": [
     1149,
-    1163
+    1163,
+    1190
    ],
-   "desktop": {
-    "match": "^frame \\| Prime Pack \\| t1",
-    "first": true
-   },
-   "phone": {
-    "match": "^frame \\| Prime Pack \\| t1",
-    "first": true
-   },
+   "desktop": "test-results/gallery-r87/desktop/036-frame-prime-pack-t1.png",
+   "phone": "test-results/gallery-r87/phone/037-frame-prime-pack-t2.png",
    "extra": [
     {
      "file": {
@@ -196,7 +184,7 @@
    ]
   },
   {
-   "title": "Transfer Challenge",
+   "title": "Transfer War",
    "note": "Each signing takes FIFA 17 overall and position. Official 2016-17 league names, full scrolling search lists, faces clear on laptops. Window clock is the hero on laptops; RELEASE and KEEP stamps.",
    "prs": [
     1069,
@@ -283,8 +271,9 @@
     1116,
     1184
    ],
-   "desktop": "test-results/gallery-r87/desktop/155-gazette-final.png",
-   "phone": "test-results/gallery-r87/phone/157-gazette-final.png"
+   "desktop": "test-results/gallery-r87-run13/desktop/155-gazette-final.png",
+   "phone": "test-results/gallery-r87-run13/phone/157-gazette-final.png",
+   "extra": []
   },
   {
    "title": "Standings",
@@ -323,11 +312,11 @@
     1184,
     1187
    ],
-   "desktop": "test-results/gallery-r87/desktop/177-trophyroom.png",
-   "phone": "test-results/gallery-r87/phone/199-trophyroom.png",
+   "desktop": "test-results/gallery-r87-run13/desktop/177-trophyroom.png",
+   "phone": "test-results/gallery-r87-run13/phone/199-trophyroom.png",
    "extra": [
     {
-     "file": "test-results/gallery-r87/phone/201-tap-trophyroom.png",
+     "file": "test-results/gallery-r87-run13/phone/201-tap-trophyroom.png",
      "caption": "Phone, MORE: all-time records (most perfect seasons counts 15-point seasons only)"
     }
    ]
@@ -374,7 +363,7 @@
   },
   {
    "title": "Rule Book",
-   "note": "Card 03: roulette, board and guessed-player lines; scoring card shows the season maximum and Golden Showdown.",
+   "note": "Re-shot on bd67147a. Card 03 is now TRANSFER WAR: roulette, board and guessed-player lines. The scoring card shows maximum 15 a season and Golden Showdown 150.",
    "prs": [
     1069,
     1081,
@@ -382,14 +371,11 @@
     1149,
     1175,
     1183,
-    1184
+    1184,
+    1190
    ],
-   "desktop": {
-    "match": "static:ruleBook"
-   },
-   "phone": {
-    "match": "static:ruleBook"
-   },
+   "desktop": "test-results/gallery-rb4/desktop/900-static-rule-book.png",
+   "phone": "test-results/gallery-rb4/phone/900-static-rule-book.png",
    "extra": [
     {
      "file": "test-results/gallery-rb/desktop/ruleBookScoring.png",

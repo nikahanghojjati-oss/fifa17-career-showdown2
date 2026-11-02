@@ -1,22 +1,22 @@
 # Career Mode Showdown 2.0.0 (r87): release notes
 
 Draft for Nik and Daniel. Kept up to date as fix PRs land in gameplay/r87. Facts come from the merged PRs listed at the bottom.
-Status: DRAFT, last updated 2026-11-01 20:00 UTC (release candidate gameplay/r87 e0b7eb85: every app PR merged). Items under "Still to land" are not in yet.
+Status: DRAFT, last updated 2026-11-02 03:10 UTC (release candidate gameplay/r87 bd67147a). Release time: 2026-11-02 05:00 UTC (midnight Boston). Items under "Still to land" are not in yet.
 
 ## The big one: Russian Roster Roulette
-Every season, after Career Start and before the transfer window, each of you spins a seven-chamber revolver in a 3D cowboy-cafe scene. Daniel spins first.
+Every season, after Career Start and before Transfer War, each of you spins a seven-chamber revolver in a 3D cowboy-cafe scene. Daniel spins first.
 - One chamber in seven fires. A shot hits one of the 15 players on your FIFA 17 squad board (11 starters and 4 subs), and you release that player in your real FIFA 17 save.
 - Your board starts as your club's real FIFA 17 launch squad, in its real formation. From season 2 it updates itself: the player you lost leaves, and your kept signings join if they fit the position and are better.
 - Your Special Player is never on the board, so he can never be shot.
-- The transfer window opens only after both of you have spun. Until then the button says who it is waiting for.
+- Transfer War opens only after both of you have spun and played the Prime Pack. Until then the button says who it is waiting for.
 - Both phones always see the same spin. A refresh or double tap can't spin again.
-- If the scene can't load, you still get your result on a plain panel, and the transfer window stays shut until you have seen it.
+- If the scene can't load, you still get your result on a plain panel, and Transfer War stays shut until you have seen it.
 - Each season's hit is saved online, so a reload or the other phone always shows the same player, and the roulette never spins twice.
-- A player your rival guessed comes off your board, but a club player who shares his name stays. A player your rival guessed can't be signed again in a later transfer window: the game refuses with a clear message, and the Rule Book says so.
+- A player your rival guessed comes off your board, but a club player who shares his name stays. A player your rival guessed can't be signed again in a later Transfer War window: the game refuses with a clear message, and the Rule Book says so.
 - The scene looks sharper: a nickel-steel drum, the title steps aside while a turn plays, and the props keep clear of the boards.
 
 ## Prime Pack (new)
-Once a season, right after the roulette and before the transfer window, a Prime Pack opens on both phones and one masked Icon card rises.
+Once a season, right after the roulette and before Transfer War, a Prime Pack opens on both phones and one masked Icon card rises.
 - Stage 1 shows his position and one real card stat; each of the next three stages adds a stat. A right name scores 4, 3, 2 or 1 points depending on the stage.
 - Each of you has 2 guesses for the whole round. The first right guess wins (by server time), so only one of you can score. Nobody right means nobody scores, and the full card is revealed.
 - A perfect season is now 15 points, and a Golden Showdown is 150 points over ten seasons. Trophy Room, Rivalry Statistics, History, the Gazette, commentary and the Rule Book all count the same way.
@@ -24,7 +24,8 @@ Once a season, right after the roulette and before the transfer window, a Prime 
 - If one of you taps BACK while waiting, the other can't play the round alone.
 - Team V's card art: a cream-and-gold Icon card in the Showdown's own style. With the phone keyboard open the page keeps its phone layout, and once the round is over your line gets the whole box.
 
-## Transfer window
+## Transfer War
+- One name everywhere: buttons, status lines and the Rule Book all say Transfer War. After the roulette the button says GO TO THE PRIME PACK, and the Prime Pack's Continue takes you to Transfer War, so the order is always roulette, Prime Pack, Transfer War.
 - Each signing now takes the player's FIFA 17 overall (30 to 99) and his position. These feed the roulette board; they are never part of a guess.
 - League names use the official 2016-17 names (LaLiga Santander, Serie A TIM, Sky Bet Championship and so on). Old names still work in search.
 - Search lists show every option, scroll properly, and stay clear of the phone's bottom buttons.
@@ -75,7 +76,7 @@ A newspaper front page after each season's results, and a final edition after th
 - Several cuts to background reads, including the season-commit wait (about a quarter fewer reads there) and the settings counter no longer charging lookups Firebase doesn't bill. About 580 billed reads per middle season for both phones. The game stays on the free Firebase plan.
 
 ## Wording
-Buttons and status lines name Daniel instead of "host", the Transfer Challenge shows the right season number, and empty screens say what to tap next.
+Buttons and status lines name Daniel instead of "host", Transfer War shows the right season number, and empty screens say what to tap next.
 
 ## Still to land (not in yet)
 - Version 2.0.0 everywhere (Settings and the update check).
@@ -86,4 +87,4 @@ Buttons and status lines name Daniel instead of "host", the Transfer Challenge s
 - Nik's real-phone check on the live game (there is no test site, and the roulette needs a Showdown started after the release): https://claude.ai/artifact/LDYipb4Bc6qmYg8Gg3onPU
 
 ## Merged PRs in this release (into gameplay/r87)
-#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148, #1118, #1122, #1150, #1151, #1152, #1153, #1154, #1157, #1158, #1159, #1160, #1161, #1162, #1164, #1165, #1166, #1167, #1168, #1169, #1170, #1171, #1173, #1174, #1149, #1175, #1163, #1176, #1177, #1178, #1179, #1180, #1182 (tests only), #1183, #1184, #1186, #1187.
+#1040, #1043, #1044, #1045 (board save, later removed by #1069), #1049, #1052, #1065, #1069, #1075, #1078 (r86 merged in), #1079, #1080, #1081, #1082, #1083, #1084, #1085, #1088, #1091, #1093, #1094, #1095, #1096, #1097, #1098, #1099, #1100, #1101, #1102, #1103, #1104, #1105, #1106, #1107, #1108, #1109, #1110, #1111, #1112, #1113, #1114, #1116, #1117, #1119, #1120, #1121, #1123, #1125, #1126, #1128, #1129, #1130, #1131, #1132, #1133, #1134, #1135, #1137, #1138, #1139, #1140, #1141, #1142, #1143, #1144, #1145, #1146, #1147, #1148, #1118, #1122, #1150, #1151, #1152, #1153, #1154, #1157, #1158, #1159, #1160, #1161, #1162, #1164, #1165, #1166, #1167, #1168, #1169, #1170, #1171, #1173, #1174, #1149, #1175, #1163, #1176, #1177, #1178, #1179, #1180, #1182 (tests only), #1183, #1184, #1186, #1187, #1190.
