@@ -25,12 +25,21 @@
   let rouletteError="",primePackLoadError=false;
   const PSTC_PRIME_PACK_TEXT="Prime Pack could not load. Check the connection and tap again.";
   const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
+  // r88 Chamber Men: Showdowns confirmed before it never load the step (tools/set-release-time.cjs --r88 pins it).
+  const CHAMBER_FROM_MS=Date.parse("2026-11-09T05:00:00Z");
   const PSTC_ROULETTE_TEXT=Object.freeze({
     load:"The roulette could not load. Check the connection and tap again.",
     setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",
     draw:"The Special Player list could not load, so the Transfer War stays shut. Tap again to retry.",
-    error:"The roulette hit an error before it could start. Nothing was spun or saved. Tap again to retry."
+    error:"The roulette hit an error before it could start. Nothing was spun or saved. Tap again to retry.",
+    // r88 Chamber Men: the roulette's cylinders come from this season's shootout, so the roulette never runs without it.
+    chamberLoad:"Chamber Men could not load. Check the connection and tap again. Every pick already sent is kept.",
+    chamberCylinders:"This season's Chamber Men result could not be read, and the roulette's bullets come from it. Nothing was spun. Tap again to retry."
   });
+  // r88 Chamber Men (js/chamberMenStep.js): the request whose shootout is finished on this phone and its two cylinders, for
+  // the roulette ({key, season, chambers}); null until then. CHAMBER_FROM_MS mirrors js/chamberMen.js (old Showdowns never
+  // load the step).
+  let chamberGate=null;
   // r87 RT5-FLOW-02 (Nik 2026-10-31): the shared window waits until both managers have spun this season's roulette. The gate is
   // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (confirmed on r87 or later, not
   // switched off)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
@@ -474,6 +483,39 @@
   }
   function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not refresh. Try again."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
   function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER WAR…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER WAR`;status.textContent="Transfer War: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WAR";status.textContent="Transfer War: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer War: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer War: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer War: complete";}if(rouletteError)status.textContent=rouletteError;else if(primePackLoadError)status.textContent=PSTC_PRIME_PACK_TEXT;return true;}
+  // r88 Chamber Men (Nik 2026-11-02): before this season's roulette, both managers play a 7-round shootout; each goal loads one
+  // live round in the rival's cylinder (js/chamberMen.js). Only Showdowns the step applies to load it (confirmed from the r88
+  // release on, kill switch on). false keeps the window shut: he went back to Showdown Home, or the step or its result could
+  // not load (the dashboard says so; tapping again comes back). On true, chamberGate holds this season's two cylinders.
+  async function pstcChamberMenFirst(request){
+    chamberGate=null;rouletteError="";
+    try{
+      if(!view||!view.managerRole||!request)return true;
+      if(root.CMS_CHAMBER_MEN==="off")return true;
+      let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
+      if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
+      if(!Number.isFinite(confirmedAtMs)){rouletteError=PSTC_ROULETTE_TEXT.setup;return false;}
+      if(confirmedAtMs<CHAMBER_FROM_MS)return true;
+      let timer;const step=await Promise.race([pstcLoadScript("chamber-men-step","js/chamberMenStep.js",()=>root.CareerModeChamberMenStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
+      if(!step||!await step.ensure()){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
+      const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,confirmedAtMs};
+      if(!step.applies(ctx))return true;
+      const provided=await pstcProviderOptions(request,true);
+      if(!provided){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
+      if(!pstcRequestMatches(request))return false;
+      const options=provided.options,io={firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId,now:()=>pstcAuthoritativeNow(request),
+        resync:()=>{clockRefreshPerformanceMs=Number.NaN;return pstcEnsureServerClock(options.user,request);}};
+      // The Transfer War started, so both managers spun with this season's cylinders already (their marks hold the outcome):
+      // nothing finished is shown again and the roulette is passed too.
+      if(view.state){step.markDone(ctx);return true;}
+      const go=await step.run(ctx,io);
+      if(go!==true){if(!step.wentHome?.())rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
+      const cylinders=await step.cylinders(ctx,io);
+      if(!cylinders||cylinders.ok!==true){rouletteError=PSTC_ROULETTE_TEXT.chamberCylinders;return false;}
+      chamberGate={key:request.key,season:request.seasonNumber,chambers:cylinders.chambers,score:cylinders.score};
+      return true;
+    }catch(_error){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
+  }
   // r50: the first open loads the Transfer runtime and reads authority; show it and share one attempt.
   // r87 Russian Roster Roulette (js/rosterRouletteStep.js): before this season's Transfer Challenge opens, this manager does
   // the season's roulette once (board from season 2, both spins, the release). It decides for itself whether it applies (a
@@ -498,7 +540,10 @@
         verdicts:season=>pstcRouletteVerdicts(request,season),
         // Nik 2026-11-02: the roulette's button names the next screen; and once the Transfer War has started after a Prime Pack,
         // this season's roulette and Prime Pack are both finished (nothing finished is shown again).
-        primePackNext:()=>pstcPrimePackNext(request,confirmedAtMs),passed:Boolean(view.state)&&pstcPrimePackApplies(request,confirmedAtMs)};
+        primePackNext:()=>pstcPrimePackNext(request,confirmedAtMs),passed:Boolean(view.state)&&pstcPrimePackApplies(request,confirmedAtMs),
+        // r88 Chamber Men: this season's cylinders (a Showdown that plays it never spins one bullet; earlier seasons replay
+        // their saved spin marks).
+        chamberMen:chamberGate&&chamberGate.key===request.key?{active:true,chambers:{[chamberGate.season]:chamberGate.chambers},score:chamberGate.score}:null};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){rouletteError=PSTC_ROULETTE_TEXT.load;return false;}
       // The Special Player draw for the signing form (R87-SP-02), also when the roulette is already done here (Fable F2-06).
@@ -661,12 +706,12 @@
     })().catch(()=>false).finally(()=>{if(spinWriting===run)spinWriting=null;});
     spinWriting=run;return run;
   }
-  function pstcCloseRoulette(){try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}try{root.CareerModeIconGuessStep?.close?.();}catch(_error){}}
+  function pstcCloseRoulette(){try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}try{root.CareerModeIconGuessStep?.close?.();}catch(_error){}}
   function pstcOpen(){if(openPromise)return openPromise;const run=Promise.resolve().then(pstcOpenNow);openPromise=run;run.finally(()=>{if(openPromise===run)openPromise=null;pstcDecorateDashboard();}).catch(()=>{});try{pstcDecorateDashboard();}catch(_error){}return run;}
   // Fable F2-11: an earlier BACK from the roulette is forgotten first. Fable F2-14: the replay of phases this phone did not see
   // is set before the screen shows, so it never mounts the live phase first. Fable F2-01: the roulette's card and stage come
   // down on every way out, a navigation that fails included.
-  async function pstcOpenNow(){if(!pstcSharedMarker())return false;try{root.CareerModeRosterRouletteStep?.forgetHome?.();}catch(_error){}await pstcEnsureDependencies();const request=pstcRequestContext(),result=await pstcRefresh();if(!request||!result||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");if(!await pstcRouletteFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}if(!await pstcPrimePackFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}let shown=false;try{pstcPrepareReplay();pstcRender();shown=await root.navigateTo("transferChallenge");}finally{pstcCloseRoulette();}if(shown===false||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;pstcPrepareReplay();pstcRender();return true;}
+  async function pstcOpenNow(){if(!pstcSharedMarker())return false;try{root.CareerModeRosterRouletteStep?.forgetHome?.();}catch(_error){}await pstcEnsureDependencies();const request=pstcRequestContext(),result=await pstcRefresh();if(!request||!result||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");if(!await pstcChamberMenFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}const rouletteGo=await pstcRouletteFirst(request);try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}if(!rouletteGo||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}if(!await pstcPrimePackFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}let shown=false;try{pstcPrepareReplay();pstcRender();shown=await root.navigateTo("transferChallenge");}finally{pstcCloseRoulette();}if(shown===false||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;pstcPrepareReplay();pstcRender();return true;}
   async function pstcHandleAction(id){
     if(id==="seasonPrimaryAction")return pstcOpen();
     if(id==="continueFromTransfers"&&pstcReplayPhase())return pstcAdvanceReplay();

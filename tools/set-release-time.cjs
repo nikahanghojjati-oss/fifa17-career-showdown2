@@ -23,12 +23,19 @@ const RELEASE_TIME_CONSTANTS=Object.freeze([
   // Special Player from the manager's own club (#1173).
   {file:"js/marqueePlayer.js",name:"OWN_CLUB_FROM_MS"}
 ]);
+// r88's own start time (2.1.x): Chamber Men starts with the Showdowns confirmed from the r88 release on, not with 2.0.0's.
+// The r88 release PR pins it with:  node tools/set-release-time.cjs --r88 <UTC time>  (same 90-minute rule).
+const R88_RELEASE_TIME_CONSTANTS=Object.freeze([
+  {file:"js/chamberMen.js",name:"CHAMBER_FROM_MS"},
+  {file:"js/productionSharedTransferChallenge.js",name:"CHAMBER_FROM_MS"}
+]);
 // js/marqueePlayer.js MARQUEE_FROM_MS is r86's own boundary and is never moved.
 const NOT_RELEASE_TIME=Object.freeze(["MARQUEE_FROM_MS"]);
 const pattern=name=>new RegExp(`(\\b${name}=Date\\.parse\\(")([^"]+)("\\);)`);
-function read(){return RELEASE_TIME_CONSTANTS.map(c=>{const source=fs.readFileSync(path.join(ROOT,c.file),"utf8"),m=pattern(c.name).exec(source);if(!m)throw new Error(`${c.file}: no ${c.name}=Date.parse("...") literal`);return {...c,value:m[2]};});}
+function read(list=RELEASE_TIME_CONSTANTS){return list.map(c=>{const source=fs.readFileSync(path.join(ROOT,c.file),"utf8"),m=pattern(c.name).exec(source);if(!m)throw new Error(`${c.file}: no ${c.name}=Date.parse("...") literal`);return {...c,value:m[2]};});}
 if(require.main===module){
-  const args=process.argv.slice(2),allowEarly=args.includes("--allow-early"),at=args.find(a=>a!=="--allow-early");
+  const args=process.argv.slice(2),allowEarly=args.includes("--allow-early"),r88=args.includes("--r88"),at=args.find(a=>a!=="--allow-early"&&a!=="--r88");
+  const LIST=r88?R88_RELEASE_TIME_CONSTANTS:RELEASE_TIME_CONSTANTS;
   if(at){
     if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(at)||!Number.isFinite(Date.parse(at))){console.error(`not a UTC time like 2026-11-01T17:00:00Z: ${at}`);process.exit(1);}
     const earliest=Date.now()+90*60*1000;
@@ -36,8 +43,8 @@ if(require.main===module){
       const next=new Date(Math.ceil(earliest/3600000)*3600000).toISOString().replace(".000Z","Z");
       console.error(`${at} is less than 90 min from now: 2.0.0 must be live on both phones first. Use ${next} (the next whole hour at or after now + 90 min), or pass --allow-early.`);process.exit(1);
     }
-    for(const c of RELEASE_TIME_CONSTANTS){const file=path.join(ROOT,c.file),source=fs.readFileSync(file,"utf8");if(!pattern(c.name).test(source))throw new Error(`${c.file}: no ${c.name} literal`);fs.writeFileSync(file,source.replace(pattern(c.name),`$1${at}$3`));}
+    for(const c of LIST){const file=path.join(ROOT,c.file),source=fs.readFileSync(file,"utf8");if(!pattern(c.name).test(source))throw new Error(`${c.file}: no ${c.name} literal`);fs.writeFileSync(file,source.replace(pattern(c.name),`$1${at}$3`));}
   }
-  for(const c of read())console.log(`${c.value}  ${c.name}  ${c.file}`);
+  for(const c of read(LIST))console.log(`${c.value}  ${c.name}  ${c.file}`);
 }
-module.exports={RELEASE_TIME_CONSTANTS,NOT_RELEASE_TIME,read};
+module.exports={RELEASE_TIME_CONSTANTS,R88_RELEASE_TIME_CONSTANTS,NOT_RELEASE_TIME,read};

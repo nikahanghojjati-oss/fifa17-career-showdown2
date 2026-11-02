@@ -2865,6 +2865,19 @@
       ]
     },
     {
+      "path": "tests/contracts/r88-chamber-men-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMen|chamberMenStep|rosterRoulette|rosterRouletteStep|productionSharedTransferChallenge)\\.js$",
+        "^css/chamberMen\\.css$",
+        "^service-worker\\.js$",
+        "^firestore\\.season-results-production\\.fragment\\.rules$",
+        "^tools/set-release-time\\.cjs$",
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r88\\-chamber\\-men\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r88-step-panel-buttons-browser-contracts.cjs",
       "patterns": [
         "^js/(rosterRouletteStep|iconGuessStep|chamberMenStep|screens)\\.js$",
