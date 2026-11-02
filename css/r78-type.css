@@ -580,6 +580,8 @@
   :root #app #seasonEntry .v10FinalStage #finalWinnerMetaStrip .finalWinnerMetaCell > :is(span, small) { font-size: 11px; }
   :root #app #seasonEntry .v10FinalStage #finalWinnerHeading { font-size: 11px; }
   :root #app #seasonEntry .v10FinalStage .finalWinnerTotals :is(#danielName, #nikName) { font-size: 11px; }
+}
+
 /* 4g. Home (Studio Axe phase 3). Type only: the 8-tile row, the STORY bar and CONTINUE CAREER keep their places and sizes.
    Before: the small gold words above each tile title and the READY strip were 10px. */
 @media (min-width: 1200px) and (orientation: landscape) {
