@@ -173,7 +173,7 @@
       shell.append(igsEl("strong","","PRIME PACK"),igsEl("h2","rrStepTitle",heading));
       for(const line of lines)shell.append(igsEl("p","rrStepLine",line));
       const row=igsEl("div","rrStepActions");row.style.cssText="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px";
-      for(const b of buttons){const button=igsEl("button",b.primary?"menuButton rrStepPrimary":"backButton",b.label);button.type="button";button.addEventListener("click",()=>{igsRemove(PANEL_ID);resolve(b.id);});row.append(button);}
+      for(const b of buttons){const button=igsEl("button",b.primary?"menuButton rrStepPrimary":"compactButton rrStepBack",b.label);button.type="button";button.addEventListener("click",()=>{igsRemove(PANEL_ID);resolve(b.id);});row.append(button);}
       shell.append(row);overlay.append(shell);igsDoc().body.append(overlay);row.querySelector("button")?.focus();
     });
   }
@@ -186,7 +186,7 @@
     frame.src=`${base}${base.includes("?")?"&":"?"}embed=1`;
     frame.style.cssText="display:block;width:100%;height:100%;border:0;background:#050403";
     // Leaving while the other manager has not arrived (the window then stays shut; tapping the button again comes back here).
-    const back=doc.createElement("button");back.type="button";back.className="backButton";back.textContent="BACK TO SHOWDOWN HOME";back.hidden=true;
+    const back=doc.createElement("button");back.type="button";back.className="compactButton rrStepBack";back.textContent="BACK TO SHOWDOWN HOME";back.hidden=true;
     back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2";
     stage.append(frame,back);doc.body.append(stage);
     // The roulette's result panel (z-index 96) stays over this stage until the Prime Pack page is ready (Reus Gate, Fable
