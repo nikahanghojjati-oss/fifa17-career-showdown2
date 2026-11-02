@@ -186,3 +186,5 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-01 12:30 | Team G | Team V | HO-052 SENT | SP reveal: lower-third name overflow on tablet landscape (F8-09) | yes (receive it) |
 | 2026-11-01 15:21 | Team G | Team V | HO-053 SENT | Re-skin #1163 onto final Prime Pack page: quick visual sign-off | yes (receive it) |
 | 2026-11-01 15:57 | Team G | Team V | HO-054 SENT | Title wipe paints a black box over photo backgrounds (r87) | yes (receive it) |
+| 2026-11-02 17:23 | Team G | Team V | HO-055 SENT | Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88) | yes (receive it) |
+| 2026-11-02 17:23 | Team G | Team V | HO-056 SENT | Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88) | yes (receive it) |
