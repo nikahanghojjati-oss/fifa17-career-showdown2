@@ -587,13 +587,14 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     round.visible=false; cyl.add(round); cyl.userData.round=round;
     /* LIVE mark: a red glowing ring around the loaded chamber's mouth, turns with the drum so the eye can follow the round through the spin */
     const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=-.0247; round.add(liveRing);   /* on the rear face: the brass rim and primer are what say "bullet" */
-    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; };
+    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; cyl.userData.liveCount=1; };
+    cyl.userData.liveCount=0;   /* r88 Team V: how many live rounds the drum holds now (0 to 7), for the result line's wording */
     /* r88 Chamber Men (Team G): a cylinder can hold up to 7 live rounds, one per goal the rival scored. The same cartridge is
        copied into every live chamber (no new art); an empty list leaves the drum empty. */
     const extra=[]; cyl.userData.placeRounds=(list)=>{ const live=Array.isArray(list)?list.filter(i=>Number.isInteger(i)&&i>=0&&i<n):[]; extra.forEach(r=>{ r.visible=false; });
-      if(!live.length){ round.visible=false; return; } cyl.userData.placeRound(live[0]);
+      if(!live.length){ round.visible=false; cyl.userData.liveCount=0; return; } cyl.userData.placeRound(live[0]); cyl.userData.liveCount=live.length;
       live.slice(1).forEach((i,k)=>{ let r=extra[k]; if(!r){ r=round.clone(true); cyl.add(r); extra.push(r); } const a=i/n*Math.PI*2+Math.PI/2; r.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); r.visible=true; }); };
-    cyl.userData.clearRounds=()=>{ round.visible=false; extra.forEach(r=>{ r.visible=false; }); };
+    cyl.userData.clearRounds=()=>{ round.visible=false; extra.forEach(r=>{ r.visible=false; }); cyl.userData.liveCount=0; };
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
@@ -816,6 +817,12 @@ const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
 const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,impact:3.45,end:5.2}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:13.6,aim:13.9,fire:15.0,impact:17.4,end:22.0};
 let hammerK=0, cylExtra=0, recoil=0, fxScale=1;
+/* r88 Team V: the result lines read right for 0 to 7 live rounds (Chamber Men loads one per goal; older Showdowns hold one). */
+function liveWords(){ const k=(cyl&&cyl.userData&&Number.isInteger(cyl.userData.liveCount))?cyl.userData.liveCount:1;
+  if(k<=0) return {mark:"No live rounds · Gold: fires", fired:"Stopped on a live round", safe:"No live rounds. Every chamber is empty"};
+  if(k===1) return {mark:"Red: live round · Gold: fires", fired:"Stopped on the live round", safe:"The live round passed"};
+  if(k>=7) return {mark:"Red: "+k+" live rounds · Gold: fires", fired:"Every chamber is live. Stopped on a live round", safe:"Stopped on an empty chamber"};
+  return {mark:"Red: "+k+" live rounds · Gold: fires", fired:"Stopped on a live round", safe:"Stopped on an empty chamber"}; }
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 let lastClick=0;
@@ -830,8 +837,8 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     /* b. the cylinder turns one chamber by itself, then the hammer cocks by itself */
     /* the crane swings the cylinder out, it spins fast and runs down while the camera looks into the chambers, then swings back */
     const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.62; { const pk=Math.max(0,(craneK-.35)/.65), ptr=cyl.userData.pointer; ptr.visible=pk>0; const sc=.001+ease.out(pk)*.999; ptr.scale.set(sc,sc,sc); }
-    at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent="Red: live round · Gold: fires"; });
-    at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?"Stopped on the live round":"The live round passed"; });
+    at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent=liveWords().mark; });
+    at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?liveWords().fired:liveWords().safe; });
     at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
     /* THE main event: the drum spins free for ~7 s, fast at first, then the clicks spread out, then a slow crawl to the stop with the red ring and the gold mark in view. It stops exactly where it will fire (or not) before the crane closes. */
     let showExtra=0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.45,B.inside-B.close-.85,tt); const e=1-Math.pow(1-k,2.7); showExtra=(1-e)*Math.PI*2*(REDUCED?0:14); const idx=Math.floor(showExtra/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.3*k); } }
