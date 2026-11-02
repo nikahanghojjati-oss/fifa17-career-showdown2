@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02 12:25 PM Boston time (EST)",
+ "generated": "2026-11-02 12:26 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 184,
@@ -2459,26 +2459,26 @@
     "from": "G",
     "to": "V",
     "title": "Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88)",
-    "stage": "SENT",
+    "stage": "DELIVERED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-055_story-tile-film-reel-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": null
+    "waiting_min": 1
    },
    {
     "id": "HO-056",
     "from": "G",
     "to": "V",
     "title": "Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88)",
-    "stage": "SENT",
+    "stage": "DELIVERED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-056_chamber-men-scene-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": null
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
