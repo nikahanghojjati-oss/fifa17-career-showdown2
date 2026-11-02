@@ -620,7 +620,7 @@ function getSeasonCompletionContextMessage(){
     }
 
     if(!isTransferChallengeComplete(currentShowdown.currentRound)){
-        return "Complete the current season's Transfer Challenge before submitting results.";
+        return "Complete the current season's Transfer War before submitting results.";
     }
 
     const playerOneValidation = getSeasonEntryValidationMessage("p1", currentShowdown.managers.playerOne);
@@ -824,7 +824,7 @@ function getSeasonReviewConfirmationMessage(draft){
         return "This showdown has already been completed.";
     }
     if(!isTransferChallengeComplete(draft.seasonNumber)){
-        return "The Transfer Challenge is no longer complete for this reviewed season.";
+        return "The Transfer War is no longer complete for this reviewed season.";
     }
     if(currentShowdown.rounds.some(round => Number(round.roundNumber) === Number(draft.seasonNumber))){
         return "This season has already been saved. Return to Showdown Home to continue.";
@@ -946,7 +946,7 @@ function renderSeasonSummary(roundRecord){
             ui.nextButton,
             currentShowdown.status === "Completed"
                 ? "VIEW COMPLETED SHOWDOWN"
-                : `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`
+                : `START SEASON ${currentShowdown.currentRound} TRANSFER WAR`
         );
     }
 

@@ -287,7 +287,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     // It reads again by itself; the next read brings the verdicts.
     const retry=timers.find(t=>t.ms===1500);assert.ok(retry,"a retry is scheduled");
     readsFail=false;retry.fn();await settle();
-    assert.equal(phone.text("transferPhaseStatus"),"TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED");
+    assert.equal(phone.text("transferPhaseStatus"),"TRANSFER WAR COMPLETE · VERDICTS REVEALED");
     assert.match(phone.text("transferResultsOne"),/A\. Signing/);
     assert.ok(phone.storage.get("careerModeShowdown.rouletteVerdicts.v1").includes("A. Signing"),"the kept copy for next season's boards is written");
     ok("H6","F2-08 after a saved lock a failed read shows saved, loading verdicts with the own inputs, and retries by itself");

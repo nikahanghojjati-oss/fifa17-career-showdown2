@@ -319,7 +319,7 @@ html.rm .card .face::after { animation: none; }
     <!-- the other manager's box: read only, it shows their tokens and whether they are out, never what they typed -->
     <div class="ro" id="other" aria-live="polite"></div>
   </div>
-  <button class="btn cta" id="cta" type="button" hidden>Continue</button>
+  <button class="btn cta" id="cta" type="button" hidden>Go to the Transfer War</button>
 </div>
 
 <script>
@@ -481,7 +481,7 @@ function load(round){
   STAT_KEYS.forEach(k=>{ statEl(k).querySelector("em").textContent=String(round.stats[k]); show(statEl(k),false); });
   drawFlag($("flagCanvas"), round.nation);
   [$("pos"),$("flag"),$("name"),$("ovr")].forEach(el=>show(el,false)); fresh([]);
-  $("source").textContent=""; $("banner").hidden=true; $("banner").className="banner"; $("cta").hidden=true; $("cta").disabled=false; $("cta").textContent="Continue";
+  $("source").textContent=""; $("banner").hidden=true; $("banner").className="banner"; $("cta").hidden=true; $("cta").disabled=false; $("cta").textContent="Go to the Transfer War";
   $("guess").value=""; setSuggestions([]); note(""); $("app").dataset.over="0";
   still(()=>render());  layoutStage();
 }
@@ -547,7 +547,7 @@ function showResult(winner, points){
   $("boxOne").dataset.won = S.result==="playerOne" ? "1" : "0"; $("boxTwo").dataset.won = S.result==="playerTwo" ? "1" : "0";
   $("source").textContent = S.round.source || ""; fitName();
   $("guess").blur(); $("guess").value=""; setSuggestions([]); note("");
-  const cta=$("cta"); cta.hidden=false; cta.disabled=false; cta.textContent="Continue"; $("app").dataset.over="1";
+  const cta=$("cta"); cta.hidden=false; cta.disabled=false; cta.textContent="Go to the Transfer War"; $("app").dataset.over="1";
   render();  layoutStage();
 }
 
@@ -575,7 +575,7 @@ $("guess").addEventListener("keydown",(e)=>{
     [...$("suggest").children].forEach((li,i)=>li.setAttribute("aria-selected",String(i===S.active))); }
   else if(e.key==="Escape") setSuggestions([]);
 });
-$("cta").addEventListener("click",()=>{ if(S.continued) return; S.continued=true; const c=$("cta"); c.disabled=true; c.textContent="Opening Transfer Challenge…"; toGame("cms-ig-continue"); });
+$("cta").addEventListener("click",()=>{ if(S.continued) return; S.continued=true; const c=$("cta"); c.disabled=true; c.textContent="Opening the Transfer War…"; toGame("cms-ig-continue"); });
 
 /* ================= iPhone keyboard: keep the whole screen inside the visible viewport ================= */
 function fitViewport(){

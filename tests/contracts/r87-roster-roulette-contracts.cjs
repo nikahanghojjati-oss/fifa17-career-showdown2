@@ -902,7 +902,7 @@ const stepChecks=(async()=>{
     w.store.set(w.step.watchedKey,JSON.stringify([`${w.ctx.rivalryId}|1|playerOne`]));// the scene was watched before a reload
     const run=w.step.runBeforeTransfers({...w.ctx});
     assert.equal(await w.press('TRY AGAIN'),'Loading the roulette');
-    assert.equal(await w.press('GO TO THE TRANSFER WINDOW'),'Your squad is safe','a retry that loads shows this season’s result');
+    assert.equal(await w.press('GO TO THE TRANSFER WAR'),'Your squad is safe','a retry that loads shows this season’s result');
     assert.equal(await run,true);
   }
   assert.ok(!/ROSTER_EXHAUSTED|No roulette this season/.test(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8')),'the roulette is never skipped for a short squad');

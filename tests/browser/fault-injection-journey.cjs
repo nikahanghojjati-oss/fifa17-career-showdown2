@@ -728,12 +728,12 @@ async function main(){
     else markRouletteFinished(m,season);
   }
 }
-// The last roulette tap: the result panel's GO TO THE TRANSFER WINDOW (or I'VE RELEASED HIM when it is the last).
+// The last roulette tap: the result panel's GO TO THE PRIME PACK / GO TO THE TRANSFER WAR (or I'VE RELEASED HIM when it is the last).
 async function rouletteFinalTapReady(page){
   const b=page.locator("#rrStepPanel .rrStepPrimary");
   if(!(await b.isVisible().catch(()=>false)))return false;
   const t=norm(await b.textContent().catch(()=>""));
-  return /TRANSFER WINDOW|RELEASED HIM/i.test(t);
+  return /TRANSFER WAR|PRIME PACK|RELEASED HIM/i.test(t);
 }
 async function spunBoth(page){const s=await tcState(page);return Boolean(s&&(s.state||Array.isArray(s.spunRoles)&&s.spunRoles.includes("playerOne")&&s.spunRoles.includes("playerTwo")));}
 // pathForward without playing the roulette (the Career Start settle stops at the roulette).

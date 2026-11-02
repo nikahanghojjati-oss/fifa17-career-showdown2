@@ -397,7 +397,7 @@ function updateShowdownUI(){
     if(!challenge || challenge.status === "not_started"){
         primaryLabel = `START SEASON ${season} TRANSFER WAR`;
     }else if(challenge.status === "active"){
-        primaryLabel = `RESUME SEASON ${season} TRANSFER WINDOW`;
+        primaryLabel = `RESUME SEASON ${season} TRANSFER WAR`;
     }else if(challenge.status === "recording"){
         primaryLabel = getTransferPhaseForDashboard(challenge) === "signing_entry"
             ? `ENTER SEASON ${season} SIGNINGS`

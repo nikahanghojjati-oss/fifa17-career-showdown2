@@ -799,8 +799,9 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-01 to the r87 candidate (gameplay/r87 9a9667fb). This
-  // check had not run since r78; the r87 release PR re-pins it to the shipped bytes.
-  assert.equal(sha256("index.html"),"f172fdd98476a29fab881846c2984e71ff3cf4eb4eb23d24c2b527545f560b52","index.html byte-identical to the r87 candidate");
+  // check had not run since r78; the r87 release PR re-pins it to the shipped bytes. 2026-11-02: re-pinned for the
+  // Transfer War wording (visible text only: five labels, no ids).
+  assert.equal(sha256("index.html"),"33932e09f025220a38bb97ca400ea349c194c98507e5e5be716c4635686e8839","index.html byte-identical to the r87 candidate");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

@@ -78,7 +78,7 @@
       await setupApi.refresh();if(!pssrContextMatches(request))pssrFail("SEASON_RESULTS_CONTEXT_STALE");
       try{await transferApi.refresh();}catch(error){if(!(pssrContextMatches(request)&&pssrTransferComplete(request)))throw error;}if(!pssrContextMatches(request))pssrFail("SEASON_RESULTS_CONTEXT_STALE");
     }
-    if(!pssrTransferComplete(request))pssrFail("SEASON_RESULTS_TRANSFER_NOT_COMPLETE","Finish the Transfer Challenge before publishing Season Results.");
+    if(!pssrTransferComplete(request))pssrFail("SEASON_RESULTS_TRANSFER_NOT_COMPLETE","Finish the Transfer War before publishing Season Results.");
     const setup=pssrSetupState();
     if(!setup||setup.ready!==true||!setup.setup||setup.setup.phase!=="SHOWDOWN_CONFIRMED"||setup.setup.revision!==6||!setup.managerRole||!setup.rivalryId||!setup.sessionId||!setup.deviceId)pssrFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");
     const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
