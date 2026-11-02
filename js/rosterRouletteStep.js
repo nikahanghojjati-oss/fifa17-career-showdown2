@@ -19,10 +19,10 @@
   const PAGE="visual-assets/v10_1/roulette/index.html";
   const STAGE_ID="rrStage",PANEL_ID="rrStepPanel";
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;
-  // RRR_FROM_MS is set to the r87 release time in the release PR (red team R87-C-07: the placeholder below is earlier than
-  // the r86 boundary, js/marqueePlayer.js MARQUEE_FROM_MS 03:00 UTC that day, so until the release PR pins it, r86
-  // Showdowns confirmed after midnight would get a roulette). Do not change it outside the release PR.
-  const RRR_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  // RRR_FROM_MS is the 2.0.0 release time (red team R87-C-07): a Showdown confirmed before it (played on 1.9.10) gets no
+  // roulette. It and js/sparkSharedTransferChallenge.js ROULETTE_FROM_MS are one value, set only by
+  // `node tools/set-release-time.cjs <UTC time>` (release contract r86-release RR5 checks they match).
+  const RRR_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=5000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
@@ -42,12 +42,15 @@
   async function rrsLoad(key,path,ready){if(ready())return true;if(typeof root.loadRuntimeScript!=="function")return false;await root.loadRuntimeScript(key,path,ready);return Boolean(ready());}
   // The Special Player draw (data/marqueePlayers.js + js/marqueePlayer.js), also wanted by the Transfer War signing form
   // (R87-SP-02) when this season's roulette is already done on this browser (Fable F2-06).
+  // Fable F6-05: the load wait counts only time the page is on screen (rrsVisibleWait), so a phone locked on a cold cache
+  // does not come back to "The roulette could not load".
+  function rrsLoadWait(loads){let stop=()=>{};const timeout=new Promise(resolve=>{stop=rrsVisibleWait(LOAD_WAIT_MS,()=>resolve(false));});return Promise.race([loads,timeout]).finally(()=>stop());}
   function rrsEnsureDraw(){
     const loads=Promise.all([
       rrsLoad("marquee-player-list","data/marqueePlayers.js",()=>Boolean(root.CareerModeMarqueePlayers)),
       rrsLoad("marquee-player","js/marqueePlayer.js",()=>Boolean(root.CareerModeMarqueePlayer))
     ]).then(list=>list.every(Boolean),()=>false);
-    return Promise.race([loads,rrsWait(LOAD_WAIT_MS).then(()=>false)]);
+    return rrsLoadWait(loads);
   }
   async function rrsEnsure(){
     const loads=Promise.all([
@@ -58,7 +61,7 @@
       rrsLoad("marquee-player","js/marqueePlayer.js",()=>Boolean(root.CareerModeMarqueePlayer)),
       typeof root.loadRuntimeStyle==="function"?Promise.resolve(root.loadRuntimeStyle("roulette-step","css/v10Roulette.css")).then(()=>true,()=>true):true
     ]).then(list=>list.every(Boolean),()=>false);
-    return Promise.race([loads,rrsWait(LOAD_WAIT_MS).then(()=>false)]);
+    return rrsLoadWait(loads);
   }
 
   // ctx = {rivalryId, managerRole, season, clubs:{playerOne,playerTwo}, confirmedAtMs, phase, verdicts(k)} from the Transfer
@@ -261,12 +264,16 @@
     const lines=[...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
-        note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the transfer window. The game can't do it for you.`,
+        note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the Transfer War. The game can't do it for you.`,
         buttons:[{id:"go",label:"I'VE RELEASED HIM",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]})
       :await rrsAsk(ctx,{heading:"Your squad is safe",label:"Your squad is safe",lines,note:"Your squad stays as it is this season.",
-        buttons:[{id:"go",label:"GO TO THE TRANSFER WINDOW",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+        buttons:[{id:"go",label:rrsNextLabel(ctx),primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
     return choice==="go";
   }
+
+  // Nik 2026-11-02: the button names the screen that really comes next: this season's Prime Pack when it applies here (the
+  // Transfer Challenge's own gate, ctx.primePackNext), else the Transfer War.
+  function rrsNextLabel(ctx){let prime=false;try{prime=typeof ctx.primePackNext==="function"&&ctx.primePackNext()===true;}catch(_error){}return prime?"GO TO THE PRIME PACK":"GO TO THE TRANSFER WAR";}
 
   // ---------- F2-02 / F2-10: the spin marks on the server ----------
   // ctx.marks = this season's marks as the Transfer Challenge read them ({playerOne, playerTwo}: true, an outcome, or null), or
@@ -303,6 +310,9 @@
   }
   async function rrsRun(ctx){
     if(!rrsDecide(ctx)||!rrsDoc())return true;
+    // Nik 2026-11-02 (order audit): the Transfer War already started after this season's Prime Pack, so this roulette was
+    // finished before it (both phones pass it to reach the Prime Pack): a fresh browser never shows its finished card again.
+    if(ctx.passed===true){rrsMark(DONE_KEY,rrsKey(ctx));return true;}
     rrsLoadingOn();
     while(!await rrsEnsure()){
       const choice=await rrsAsk(ctx,{heading:"Loading the roulette",label:"Loading the roulette",lines:["The roulette could not load. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
@@ -322,7 +332,7 @@
     const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history);
-      await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The transfer window stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
+      await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The Transfer War stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
       return false;
     }
     // F2-10: the server already holds this manager's spin for this season (another browser or tab, or cleared storage): the
@@ -381,5 +391,5 @@
   // Fable F2-11: a new open forgets an earlier BACK, so a later failure that never reached the roulette is not read as one.
   function rrsForgetHome(){leftForHome=false;return true;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial});
 });

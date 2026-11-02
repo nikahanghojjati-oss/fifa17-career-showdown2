@@ -77,7 +77,9 @@ function harness(){
 }
 function restore(){globalThis.setTimeout=realSetTimeout;globalThis.setInterval=realSetInterval;globalThis.clearInterval=realClearInterval;Date.now=realNow;}
 function freshStep(){delete require.cache[require.resolve("../../js/iconGuessStep.js")];return require("../../js/iconGuessStep.js");}
-const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:realNow()});
+// Confirm times one hour after the release time the tool set (contracts must not depend on today's date).
+const ELIGIBLE_MS=Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000;
+const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:Math.max(realNow(),ELIGIBLE_MS)});
 const other={playerOne:"playerTwo",playerTwo:"playerOne"};
 const arrivedOf=(h,role)=>h.stored&&h.stored.arrived[role]?h.stored.arrived[role].toMillis():null;
 
@@ -198,7 +200,7 @@ async function section(id,fn){
     assert.match(fn,/if\(!Number\.isFinite\(confirmedAtMs\)\)pssrFail\("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE"/,"an unknown confirm time stops the publish (TRY AGAIN)");
     assert.ok(fn.indexOf("setupApi.refresh()")<fn.indexOf('pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown'),"the setup is read once more first");
     // F14-02: the kill switch never drops a point already won; the round record is still read (no record is 0 points).
-    assert.doesNotMatch(fn,/CMS_PRIME_PACK/,"the season results never skip the round record for the kill switch");
+    assert.doesNotMatch(fn,/CMS_PRIME_PACK==="off"[^\n]*\)return result/,"the season results never skip the round record for the kill switch (F16-01 only stops a failed load or read from blocking)");
     assert.match(fn,/step\.applies\(gameCtx,\{ignoreSwitch:true\}\)[\s\S]*step\.pointsFor\([^\n]*gameCtx,\{ignoreSwitch:true\}\)/);
     {
       const h=harness(),Step=freshStep(),L=realNow()-200_000;
@@ -215,6 +217,27 @@ async function section(id,fn){
     assert.match(first,/if\(!Number\.isFinite\(confirmedAtMs\)\)\{primePackLoadError=true;return false;\}/,"an unknown confirm time keeps the window shut with TRY AGAIN");
     assert.match(first,/resync:\(\)=>\{clockRefreshPerformanceMs=Number\.NaN;return pstcEnsureServerClock\(options\.user,request\);\}/,"the step can take a fresh server clock (F13-03)");
     ok("F6","F13-04/F14-02: an unknown confirm time fails closed; the kill switch never drops a point already won");
+  });
+  // F7 Sol r5 R5-01: the phone locks while its first arrival is still on its way (no round record seen yet). The arrival
+  // lands while the phone is hidden: it is withdrawn, so the other manager can never start the round and win alone; back
+  // on screen, this manager arrives again.
+  await section("F7",async()=>{
+    const h=harness(),Step=freshStep();
+    const tx=h.io.sdk.runTransaction;let gate=null;
+    h.io.sdk.runTransaction=(...a)=>{if(!gate){let open;gate=new Promise(r=>{open=r;});gate.open=open;return gate.then(()=>tx(...a));}return tx(...a);};
+    const run=Step.run(ctx("playerOne"),h.io);await h.advance(50);
+    h.fromPage({type:"cms-ig-ready"});await h.advance(50);
+    assert.equal(h.stored,null,"the first arrival is still on its way");
+    h.setVisibility("hidden");await h.advance(50);
+    gate.open();await h.advance(500);
+    assert.equal(arrivedOf(h,"playerOne"),null,"an arrival that lands while the phone is hidden is withdrawn (Nik can never play alone)");
+    h.stored={...h.stored,arrived:{...h.stored.arrived,playerTwo:ts(h.serverNow)},revision:h.stored.revision+1};await h.advance(50);
+    assert.equal(Guess.startMs({arrived:{playerOne:arrivedOf(h,"playerOne"),playerTwo:arrivedOf(h,"playerTwo")}}),null,"the round does not start while Daniel is away");
+    h.setVisibility("visible");await h.advance(50);
+    assert.ok(arrivedOf(h,"playerOne"),"back on screen, Daniel arrives again");
+    h.back().hidden=false;h.back().click();await Promise.race([run,h.advance(10)]);
+    restore();
+    ok("F7","Sol r5 R5-01: a lock during the first arrival withdraws it once it lands; back on screen it arrives again");
   });
   if(failed){console.log(`FAIL r87 Prime Pack F13 contracts: ${failed} failed.`);process.exit(1);}
   console.log(`PASS r87 Prime Pack F13 contracts: ${checks} checks.`);

@@ -11,7 +11,7 @@ A new once-a-season screen in the r87 release: one package, PR #1149 into `gamep
 | Date | 2026-11-01 |
 | Branch | `claude/r88-icon-unmasked`, with `gameplay/r87` at `ca77fadf` merged in (only the POS20 registry lists conflicted: r87's lists with the five Prime Pack contracts appended at the end of both) |
 | PR | #1149 into `gameplay/r87`; it replaces #1124 (round logic), #1127 (names and data loader) and #1136 (screen page) |
-| Rules | changed and recomposed (sha `98a31843…`); not deployed |
+| Rules | changed and recomposed (sha `4520bfda…`, after ssjrPackLeave F12-02); not deployed |
 | Merge | nothing merged by Claude; the merge is G Lead's |
 
 ## 1. What Prime Pack is (Nik's decisions, 2026-10-31 and 2026-11-01)
@@ -73,7 +73,7 @@ New test files to wire into `package.json` and the gate if you want them in CI (
 
 ## 4. Needs G Lead
 
-- The Rules: recompose, re-pin and deploy (sha `98a3184328c89c026823ff2f9363856867c5f327c0da15320887ce670b23495e`, 172400 bytes). Generated files are regenerated on this head: `main-delta.json` (11 hunks owner `R87-PRIME-PACK`), the lookup table in `js/sparkPrivatePairing.js` and `billed-reads-table.json`.
+- The Rules: recompose, re-pin and deploy (sha `4520bfdafe645a28ae742fec770ca00548f24a1b5e1480050cecda1ea82ab432`, after ssjrPackLeave F12-02). Generated files are regenerated on this head: `main-delta.json` (11 hunks owner `R87-PRIME-PACK`), the lookup table in `js/sparkPrivatePairing.js` and `billed-reads-table.json`.
 - Name matching (your 11:15 rule, one table `typoRule` in `js/iconNames.js`): accents ignored; an exact name, full name or accepted name always wins; otherwise 1 slip allowed for 4 to 5 letters, 2 for 6 or more, none for 3 or fewer, and the guess needs at least 4 letters. Tightened only: the guess is refused if any other player has any name within 2 slips (a letter added, dropped, changed, or two neighbours swapped), or if it is a whole word of another player's name ("Ronald" is Koeman). A refused guess costs no token; a clean match to the wrong player is a wrong guess and spends one. "posks" → Puskás is proved in the contract.
 - The sweep, after Nik's 27 list fixes (542 names of 232 players): every 1-slip variant (333,526) and a seeded sample of 2-slip variants (81,767): none is accepted as a different player, apart from three that spell another player's exact name (pepe/pele, "nesta" from Iniesta), which are exact matches by your rule and pinned. The 2-slip guarantee for all variants comes from the 2-slip refusal itself, re-checked independently in the test.
 - Nik's 27 list fixes are in (`data/icons.js` regenerated with `scripts/r88-icons-from-csv.mjs`, LIST_VERSION still 1): Fowler SHO 83 / DRI 81, 11 full names (each old full name kept as an accepted name, so playing names stay guessable) and 15 accepted names. The script's unread twin `R88_ICON_02_heroes_icons_gpt.csv` was not updated.

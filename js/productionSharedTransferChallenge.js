@@ -24,11 +24,11 @@
   // The reason the roulette could not start on this phone (shown on the dashboard and on Career Start), or "" (Fable F2-05).
   let rouletteError="",primePackLoadError=false;
   const PSTC_PRIME_PACK_TEXT="Prime Pack could not load. Check the connection and tap again.";
-  const PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   const PSTC_ROULETTE_TEXT=Object.freeze({
     load:"The roulette could not load. Check the connection and tap again.",
     setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",
-    draw:"The Special Player list could not load, so the transfer window stays shut. Tap again to retry.",
+    draw:"The Special Player list could not load, so the Transfer War stays shut. Tap again to retry.",
     error:"The roulette hit an error before it could start. Nothing was spun or saved. Tap again to retry."
   });
   // r87 RT5-FLOW-02 (Nik 2026-10-31): the shared window waits until both managers have spun this season's roulette. The gate is
@@ -145,12 +145,12 @@
     if(expiryOnly&&pstcExpiryPaused())return null;
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     const state=setupApi.getState();
-    if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||state.setup.revision!==6)pstcFail("TRANSFER_SETUP_NOT_CONFIRMED","Both managers must finish setup before the Transfer Challenge.");
+    if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||state.setup.revision!==6)pstcFail("TRANSFER_SETUP_NOT_CONFIRMED","Both managers must finish setup before the Transfer War.");
     if(!reuse)await careerApi.refresh();
     if(expiryOnly&&pstcExpiryPaused())return null;
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     const career=careerApi.getState();
-    if(!career||!career.state||career.state.phase!=="CAREER_START_READY"||career.state.revision!==2)pstcFail("TRANSFER_CAREER_START_NOT_READY","Both managers must finish Career Start before the Transfer Challenge.");
+    if(!career||!career.state||career.state.phase!=="CAREER_START_READY"||career.state.revision!==2)pstcFail("TRANSFER_CAREER_START_NOT_READY","Both managers must finish Career Start before the Transfer War.");
     const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(expiryOnly&&pstcExpiryPaused())return null;
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE","Connected account services are unavailable.");
@@ -158,12 +158,12 @@
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,seasonNumber:request.seasonNumber,cryptoImpl:root.crypto,nowEpochMs:pstcAuthoritativeNow(request)}};
   }
-  function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";error.providerResult=true;throw error;}
+  function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The Transfer War request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";error.providerResult=true;throw error;}
   function pstcQueueProvider(task){const queued=providerChain.then(task,task);providerChain=queued.catch(()=>{});return queued;}
   async function pstcRefreshNow(request=pstcRequestContext(),light=false,expiryOnly=false){
     if(!request)return null;
     const ctx=await pstcProviderOptions(request,light,expiryOnly);if(!ctx||!pstcRequestMatches(request,ctx)||(expiryOnly&&pstcExpiryPaused()))return null;
-    const result=pstcResultError(await provider.read(ctx.options),"The Transfer Challenge could not be loaded.");if(!pstcRequestMatches(request,ctx))return null;
+    const result=pstcResultError(await provider.read(ctx.options),"The Transfer War could not be loaded.");if(!pstcRequestMatches(request,ctx))return null;
     if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
   }
   // Routine polls and concurrent-expiry reconciliation must not replenish the automatic retry budget. A poll that lands while
@@ -201,7 +201,7 @@
   // Red team R87-B-05: a dropped connection or an expired session reads as what to do next, never as a raw code.
   const PSTC_CONNECTION_TEXT="Could not confirm this step. Check the connection, tap REFRESH CHALLENGE to see if it saved, then try again if it did not.";
   const PSTC_SESSION_TEXT="Your Showdown session has lapsed. Go back to Showdown Home and open the Showdown again; nothing saved is lost.";
-  const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_ROULETTE_PENDING:"Both managers spin the roulette before the transfer window opens.",TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
+  const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_ROULETTE_PENDING:"Both managers spin the roulette before the Transfer War opens.",TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
   function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
   async function pstcMutate(method,payload={}){
@@ -211,12 +211,12 @@
         for(let attempt=0;;attempt+=1){
           if(!pstcRequestMatches(request)||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;
           const ctx=await pstcProviderOptions(request,false,method==="advanceExpiredWindow");if(!ctx||!pstcRequestMatches(request,ctx)||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;
-          const current=pstcResultError(await provider.read(ctx.options),"The Transfer Challenge did not refresh. Try again.");if(!pstcRequestMatches(request,ctx))return false;
+          const current=pstcResultError(await provider.read(ctx.options),"The Transfer War did not refresh. Try again.");if(!pstcRequestMatches(request,ctx))return false;
           if(method==="advanceExpiredWindow"&&pstcExpiryPaused())return false;
           if(attempt>0&&pstcOutcomeShown(method,current)){if(pstcBindView(current,ctx,request)){pstcSetError("");if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}return true;}
           const options={...ctx.options,nowEpochMs:pstcAuthoritativeNow(request),operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
           let result;
-          try{result=pstcResultError(await provider[method](options),"The Transfer Challenge update was rejected.");}
+          try{result=pstcResultError(await provider[method](options),"The Transfer War update was rejected.");}
           catch(error){
             if(!PSTC_RACE_CODES.includes(error&&error.code)||attempt>0)throw error;
             if(method==="advanceExpiredWindow"){try{if(!pstcExpiryPaused())await pstcRefreshNow(request,false,true);}catch(_refreshError){}pstcExpiryPermissionRefused(error,request);return true;}
@@ -235,7 +235,7 @@
           return true;
         }
       });
-    }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer Challenge did not update. Try again."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
+    }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer War did not update. Try again."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
     finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
   }
   // ---- F2-08: a lock that is saved while its verdicts are still loading ----
@@ -436,7 +436,7 @@
     const other=role==="playerOne"?"playerTwo":"playerOne",actualPhase=state?.phase||"NOT_STARTED",replayPhase=pstcReplayPhase(key),phase=replayPhase||actualPhase,isReplay=Boolean(replayPhase),own=view?.ownInputs||null,opponent=view?.opponentInputs||null,screen=pstcField("transferChallenge");
     if(screen){if(isReplay)screen.dataset.sharedTransferReplay=phase;else delete screen.dataset.sharedTransferReplay;}
     pstcRenderProgress(phase);
-    pstcText("transferChallengeTitle",`SEASON ${view?.seasonNumber||pstcSeason()} TRANSFER CHALLENGE`);pstcText("transferManagerOne",pstcManagerName("playerOne"));pstcText("transferManagerTwo",pstcManagerName("playerTwo"));pstcText("transferClubOne",pstcClubName("playerOne"));pstcText("transferClubTwo",pstcClubName("playerTwo"));pstcText("guessAgainstOneHeading",`${pstcManagerName("playerTwo")} guesses ${pstcManagerName("playerOne")}'s signings`);pstcText("guessAgainstTwoHeading",`${pstcManagerName("playerOne")} guesses ${pstcManagerName("playerTwo")}'s signings`);
+    pstcText("transferChallengeTitle",`SEASON ${view?.seasonNumber||pstcSeason()} TRANSFER WAR`);pstcText("transferManagerOne",pstcManagerName("playerOne"));pstcText("transferManagerTwo",pstcManagerName("playerTwo"));pstcText("transferClubOne",pstcClubName("playerOne"));pstcText("transferClubTwo",pstcClubName("playerTwo"));pstcText("guessAgainstOneHeading",`${pstcManagerName("playerTwo")} guesses ${pstcManagerName("playerOne")}'s signings`);pstcText("guessAgainstTwoHeading",`${pstcManagerName("playerOne")} guesses ${pstcManagerName("playerTwo")}'s signings`);
     const start=pstcField("startTransferTimer"),end=pstcField("endTransferTimer"),complete=pstcField("completeTransferChallenge"),continueButton=pstcField("continueFromTransfers"),results=pstcField("transferChallengeResults"),actionBar=pstcField("transferPhaseActionBar"),signingGrid=root.document.querySelector("#transferChallenge .transferManagersGrid"),guessGrid=root.document.querySelector("#transferChallenge .transferGuessesGrid"),privacy=pstcField("transferGuessPrivacyNote"),summary=pstcField("transferPhaseLockSummary");
     if(start)delete start.dataset.rouletteWait;pstcHidden(start,true);pstcHidden(end,true);pstcHidden(complete,true);pstcHidden(actionBar,true);pstcHidden(continueButton,true);pstcHidden(results,true);pstcHidden(signingGrid,true);pstcHidden(guessGrid,true);pstcHidden(privacy,true);pstcHidden(summary,true);pstcHidden(pstcOwnSigningCard(role),false);pstcHidden(pstcOtherSigningCard(role),true);pstcHidden(pstcOwnGuessCard(role),false);pstcHidden(pstcOtherGuessCard(role),true);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);
     if(own)pstcPopulateRole(role,own);if(actualPhase==="SIGNING_ENTRY"&&state?.signingLockedRoles?.includes(role))pstcClearSigningDraft(role);if(actualPhase==="SIGNING_ENTRY"&&!isReplay&&!state?.signingLockedRoles?.includes(role))pstcRestoreSigningDraft(role,own);
@@ -466,14 +466,14 @@
     }else if(phase==="COMPLETED"){
       // F2-08: COMPLETED without its verdicts yet (the follow-up read after the lock failed): saved, loading, never "No signings".
       const loadingVerdicts=!view?.verdicts;
-      pstcText("transferPhaseStatus",loadingVerdicts?"SAVED · LOADING VERDICTS":"TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);if(loadingVerdicts){pstcRenderVerdictLoading("playerOne");pstcRenderVerdictLoading("playerTwo");}else{pstcRenderVerdictCard("playerOne",view.verdicts.playerOne||[]);pstcRenderVerdictCard("playerTwo",view.verdicts.playerTwo||[]);}if(continueButton){continueButton.textContent="SEASON RESULTS NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
+      pstcText("transferPhaseStatus",loadingVerdicts?"SAVED · LOADING VERDICTS":"TRANSFER WAR COMPLETE · VERDICTS REVEALED");pstcHidden(signingGrid,false);pstcHidden(guessGrid,false);pstcHidden(results,false);pstcHidden(pstcOtherSigningCard(role),false);pstcHidden(pstcOtherGuessCard(role),false);pstcPopulateRole(role,own);pstcPopulateRole(other,opponent);pstcDisableRole("playerOne",true);pstcDisableRole("playerTwo",true);if(loadingVerdicts){pstcRenderVerdictLoading("playerOne");pstcRenderVerdictLoading("playerTwo");}else{pstcRenderVerdictCard("playerOne",view.verdicts.playerOne||[]);pstcRenderVerdictCard("playerTwo",view.verdicts.playerTwo||[]);}if(continueButton){continueButton.textContent="SEASON RESULTS NEXT";pstcHidden(continueButton,false);pstcDisable(continueButton,true);}
     }
     if(isReplay&&continueButton){continueButton.textContent=`CONTINUE REPLAY · ${phase.replaceAll("_"," ")}`;pstcHidden(actionBar,false);pstcHidden(continueButton,false);pstcDisable(continueButton,false);}
     pstcMarkWitness(key,phase);
     const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy||isReplay);return true;
   }
-  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not refresh. Try again."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
-  function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER CHALLENGE…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER CHALLENGE`;status.textContent="Transfer Challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WINDOW";status.textContent="Transfer Challenge: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer Challenge: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer Challenge: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer Challenge: complete";}if(rouletteError)status.textContent=rouletteError;else if(primePackLoadError)status.textContent=PSTC_PRIME_PACK_TEXT;return true;}
+  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not refresh. Try again."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
+  function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER WAR…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER WAR`;status.textContent="Transfer War: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WAR";status.textContent="Transfer War: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer War: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer War: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer War: complete";}if(rouletteError)status.textContent=rouletteError;else if(primePackLoadError)status.textContent=PSTC_PRIME_PACK_TEXT;return true;}
   // r50: the first open loads the Transfer runtime and reads authority; show it and share one attempt.
   // r87 Russian Roster Roulette (js/rosterRouletteStep.js): before this season's Transfer Challenge opens, this manager does
   // the season's roulette once (board from season 2, both spins, the release). It decides for itself whether it applies (a
@@ -495,7 +495,10 @@
         marks:view.state?null:(view.spinMarks||null),windowStarted:Boolean(view.state),
         remember:outcome=>pstcRememberOutcome(request,view?.managerRole,outcome),
         refreshMarks:async()=>{const fresh=await pstcRefresh(true,false);return fresh&&viewContextKey===request.key?{marks:view.state?null:(view.spinMarks||null),windowStarted:Boolean(view.state)}:null;},
-        verdicts:season=>pstcRouletteVerdicts(request,season)};
+        verdicts:season=>pstcRouletteVerdicts(request,season),
+        // Nik 2026-11-02: the roulette's button names the next screen; and once the Transfer War has started after a Prime Pack,
+        // this season's roulette and Prime Pack are both finished (nothing finished is shown again).
+        primePackNext:()=>pstcPrimePackNext(request,confirmedAtMs),passed:Boolean(view.state)&&pstcPrimePackApplies(request,confirmedAtMs)};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){rouletteError=PSTC_ROULETTE_TEXT.load;return false;}
       // The Special Player draw for the signing form (R87-SP-02), also when the roulette is already done here (Fable F2-06).
@@ -512,6 +515,14 @@
   // (js/iconGuessStep.js). Only Showdowns confirmed on r87 or later play it (the same boundary as the roulette); for the
   // rest nothing is loaded. false keeps the window shut: he went back to Showdown Home, or the step could not load (the
   // dashboard then says so and tapping again retries). The round runs on the Transfer Challenge's server clock.
+  // The Prime Pack's own gate (pstcPrimePackFirst + js/iconGuess.js eligible), without loading it: r87 or later, seasons 1
+  // to 10, the kill switch on. Next: also not yet passed on this phone (its done key) and the Transfer War not started.
+  const PRIME_PACK_DONE_KEY="careerModeShowdown.primePackDone.v1";
+  function pstcPrimePackApplies(request,confirmedAtMs){return root.CMS_PRIME_PACK!=="off"&&Number.isFinite(confirmedAtMs)&&confirmedAtMs>=PRIME_PACK_FROM_MS&&Number.isInteger(request?.seasonNumber)&&request.seasonNumber>=1&&request.seasonNumber<=10;}
+  function pstcPrimePackNext(request,confirmedAtMs){
+    if(!pstcPrimePackApplies(request,confirmedAtMs)||view?.state)return false;
+    try{const list=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PRIME_PACK_DONE_KEY)||"[]");return !(Array.isArray(list)&&list.includes(`${request.rivalryId}|${request.seasonNumber}|${view?.managerRole}`));}catch(_error){return true;}
+  }
   async function pstcPrimePackFirst(request){
     primePackLoadError=false;
     try{
@@ -529,6 +540,9 @@
       if(!await step.ensure()){primePackLoadError=true;return false;}
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,confirmedAtMs};
       if(!step.applies(ctx))return true;
+      // Nik 2026-11-02 (order audit): the Transfer War started, so this round is over (a manager starts it only after his
+      // Prime Pack result): a fresh browser goes on without showing the finished round again.
+      if(view.state){step.markDone?.(ctx);return true;}
       const provided=await pstcProviderOptions(request,true);
       if(!provided){primePackLoadError=true;return false;}
       if(!pstcRequestMatches(request))return false;
@@ -665,7 +679,7 @@
     if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}
     return false;
   }
-  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.id==="seasonPrimaryAction"&&pstcShowdownComplete()){void pstcOpenFinalResult();return;}void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer Challenge did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
+  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.id==="seasonPrimaryAction"&&pstcShowdownComplete()){void pstcOpenFinalResult();return;}void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
   // F1 (fault suite): every season of this Showdown is accepted (or it is closed), so there is no Transfer Challenge left to
   // start. With no view of its own the dashboard fell back to "START SEASON 1 TRANSFER CHALLENGE", a button that did nothing.
   // It now says VIEW FINAL RESULT and opens the final season's results (Final Winner follows there), or the closed Showdown's

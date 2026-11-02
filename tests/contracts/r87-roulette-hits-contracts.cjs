@@ -154,7 +154,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const press=(p,label)=>{const b=p.all().find(n=>n.tagName==="button"&&n.textContent===label);assert.ok(b,`button ${label}: ${p.all().filter(n=>n.tagName==="button").map(n=>n.textContent)}`);b.listeners.click[0]();};
     return {doc,body,store,step,R,panel,title,lines,press};
   }
-  const ctxFor=(extra)=>({rivalryId:RID,managerRole:"playerOne",season:1,clubs:CLUBS,confirmedAtMs:Date.parse("2026-11-01T00:00:00Z"),phase:"NOT_STARTED",verdicts:async()=>({ok:false}),...extra});
+  const ctxFor=(extra)=>({rivalryId:RID,managerRole:"playerOne",season:1,clubs:CLUBS,confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:"NOT_STARTED",verdicts:async()=>({ok:false}),...extra});
 
   // ---------- H4 ----------
   {
@@ -249,7 +249,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
       readStorageValue:k=>storage.has(k)?storage.get(k):null,writeStorageValue:(k,v)=>{storage.set(k,v);return true;},removeStorageValue:k=>{storage.delete(k);},
       currentShowdown:{id:"save_1",currentRound:1,sharedJourney:{mode:"shared",rivalryId},managers:{playerOne:"Daniel",playerTwo:"Nik"},clubs:{playerOne:"Liverpool",playerTwo:"Arsenal"}},
       navigateTo:async id=>{doc.getElementById(id).classList.remove("hidden");return true;},
-      CareerModeProductionSharedShowdownSetup:{refresh:async()=>null,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:CLUBS},setupUpdatedAtMs:Date.parse("2026-11-01T00:00:00Z"),managerRole:"playerOne",rivalryId,sessionId,deviceId:device1})},
+      CareerModeProductionSharedShowdownSetup:{refresh:async()=>null,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:CLUBS},setupUpdatedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),managerRole:"playerOne",rivalryId,sessionId,deviceId:device1})},
       CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
       CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider,
       CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"manager_one",getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{getDoc:async()=>null,doc:()=>null}})},
@@ -287,7 +287,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     // It reads again by itself; the next read brings the verdicts.
     const retry=timers.find(t=>t.ms===1500);assert.ok(retry,"a retry is scheduled");
     readsFail=false;retry.fn();await settle();
-    assert.equal(phone.text("transferPhaseStatus"),"TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED");
+    assert.equal(phone.text("transferPhaseStatus"),"TRANSFER WAR COMPLETE · VERDICTS REVEALED");
     assert.match(phone.text("transferResultsOne"),/A\. Signing/);
     assert.ok(phone.storage.get("careerModeShowdown.rouletteVerdicts.v1").includes("A. Signing"),"the kept copy for next season's boards is written");
     ok("H6","F2-08 after a saved lock a failed read shows saved, loading verdicts with the own inputs, and retries by itself");

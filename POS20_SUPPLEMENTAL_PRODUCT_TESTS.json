@@ -2389,6 +2389,10 @@
         "^service-worker\\.js$",
         "^\\.github/workflows/deploy-(github-pages|firestore-rules-zero-billing)\\.yml$",
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
+        "^(index\\.html|manifest\\.webmanifest|package(-lock)?\\.json)$",
+        "^js/(app|menuExperience|rosterRouletteStep|sparkSharedTransferChallenge|ssjr|offlineApp)\\.js$",
+        "^tools/set-release-time\\.cjs$",
+        "^tests/fixtures/shell-paths/",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -2587,6 +2591,16 @@
         "^visual-assets/v10_1/season-results/",
         "^visual-assets/v10_1/final-winner/",
         "^tests/contracts/r87\\-transition\\-gate\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-dst-clock-change-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^tests/contracts/r87\\-dst\\-clock\\-change\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -2799,6 +2813,33 @@
         "^css/.*\\.css$",
         "^visual-assets/.*\\.(css|js)$",
         "^tests/contracts/r87\\-home\\-no\\-music\\-strip\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/trophy-tap-delegated-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/trophy\\-tap\\-delegated\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-f16-contracts.cjs",
+      "patterns": [
+        "^js/(iconGuessStep|productionSharedSeasonResults|iconGuess|iconNames)\\.js$",
+        "^data/icons\\.js$",
+        "^tests/contracts/r87\\-prime\\-pack\\-f16\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-screen-order-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedTransferChallenge|rosterRouletteStep|iconGuessStep|showdownUI|productionSharedSeasonResultsRoute|productionSharedCareerStart|ruleBook|productionSharedMultiSeasonProgression|screens)\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^tests/contracts/r87\\-screen\\-order\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

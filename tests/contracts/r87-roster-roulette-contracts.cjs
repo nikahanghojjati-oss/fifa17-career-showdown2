@@ -884,7 +884,7 @@ async function stepWorld({loads,forSeason}){
   const panel=()=>doc.getElementById(step.panelId);
   const find=label=>panel()&&panel().all().find(n=>n.tagName==='button'&&n.textContent===label);
   const press=async label=>{for(let i=0;i<200&&!find(label);i+=1)await new Promise(r=>setTimeout(r,5));const b=panel().all().find(n=>n.tagName==='button'&&n.textContent===label);assert.ok(b,'button '+label);const title=panel().all().find(n=>n.className==='rrStepTitle').textContent;b.listeners.click[0]();await new Promise(r=>setTimeout(r,5));return title;};
-  const ctx={rivalryId:'pair_'+'a'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:Date.parse('2026-11-01T00:00:00Z'),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
+  const ctx={rivalryId:'pair_'+'a'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
   return {step,ctx,press,store};
 }
 const stepChecks=(async()=>{
@@ -902,7 +902,7 @@ const stepChecks=(async()=>{
     w.store.set(w.step.watchedKey,JSON.stringify([`${w.ctx.rivalryId}|1|playerOne`]));// the scene was watched before a reload
     const run=w.step.runBeforeTransfers({...w.ctx});
     assert.equal(await w.press('TRY AGAIN'),'Loading the roulette');
-    assert.equal(await w.press('GO TO THE TRANSFER WINDOW'),'Your squad is safe','a retry that loads shows this season’s result');
+    assert.equal(await w.press('GO TO THE TRANSFER WAR'),'Your squad is safe','a retry that loads shows this season’s result');
     assert.equal(await run,true);
   }
   assert.ok(!/ROSTER_EXHAUSTED|No roulette this season/.test(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8')),'the roulette is never skipped for a short squad');
@@ -957,7 +957,7 @@ const stepChecks=(async()=>{
         loadRuntimeScript:async()=>{sandbox.CareerModeFifa17Players={clubs:{Arsenal:{},Liverpool:{}}};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};sandbox.CareerModeRosterRoulette={forSeason:()=>plan,board:()=>[{}]};return true;}};
       vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
       const step=sandbox.CareerModeRosterRouletteStep;
-      const ctx={rivalryId:'pair_'+'b'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:Date.parse('2026-11-01T00:00:00Z'),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
+      const ctx={rivalryId:'pair_'+'b'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
       const run=step.runBeforeTransfers(ctx);
       let frame=null;for(let i=0;i<200&&!frame;i+=1){await new Promise(r=>setTimeout(r,5));frame=body.all().find(n=>n.tagName==='iframe')||null;}
       assert.ok(frame,'the roulette page is framed');

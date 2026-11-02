@@ -20,7 +20,7 @@ const ts=ms=>({toMillis:()=>ms});
 
 // S1 who plays it: Showdowns confirmed on r87 or later only (the Roster Roulette boundary), seasons 1 to 10, the kill switch.
 {
-  const now=Date.now(),ctx={rivalryId:RID,managerRole:"playerOne",season:1,confirmedAtMs:now};
+  const now=Math.max(Date.now(),Guess.fromMs+3600000),ctx={rivalryId:RID,managerRole:"playerOne",season:1,confirmedAtMs:now};
   assert.equal(Step.applies(ctx),true);
   assert.equal(Step.applies({...ctx,confirmedAtMs:Guess.fromMs-1}),false,"a Showdown confirmed before r87 never plays it");
   assert.equal(Step.applies({...ctx,confirmedAtMs:null}),false,"no confirm time, no Prime Pack");
@@ -122,7 +122,7 @@ const ts=ms=>({toMillis:()=>ms});
 {
   const pssr=read("js/productionSharedSeasonResults.js");
   assert.match(pssr,/const publishedResult=await pssrWithPrimePack\(ctx,request,draft\.result\);[\s\S]{0,200}provider\.publishResult\(\{[^}]*result:publishedResult\}\)/);
-  assert.match(pssr,/const points=await step\.pointsFor\(/);assert.match(pssr,/Number\.isInteger\(points\)&&points>=1&&points<=4\?\{\.\.\.rest,primePack:points\}:rest/);
+  assert.match(pssr,/points=await step\.pointsFor\(/);assert.match(pssr,/return withPoints\(points\);/);assert.match(pssr,/const withPoints=points=>Number\.isInteger\(points\)&&points>=1&&points<=4\?\{\.\.\.rest,primePack:points\}:rest;/);
   // The service worker and shell lists are G Lead's after #1149 merges (scope split, 2026-11-01 10:44 UTC): the five files
   // are listed in the handoff note for G Lead to add; this PR leaves service-worker.js as gameplay/r87 has it.
   assert.match(read("js/ruleBook.js"),/Prime Pack: first to name the masked Icon/);
@@ -208,7 +208,7 @@ const ts=ms=>({toMillis:()=>ms});
   assert.match(rules,/ssjrPackArrive\(before, after, role\) \|\| ssjrPackLeave\(before, after, role\) \|\| ssjrPackGuess/,"the update rule takes the leave");
   assert.match(step,/async function igsLeave\(io,ctx\)[\s\S]*?data\.arrived\[me\]!=null&&data\.arrived\[igsOther\(me\)\]===null&&data\.namedBy===null\)\{tx\.update\(ref,\{\[`arrived\.\$\{me\}`\]:null/,"the step withdraws only while the other has not arrived");
   assert.match(step,/back\.addEventListener\("click",\(\)=>\{if\(finished\)return;leave\(\);end\("back"\);\}\)/,"BACK withdraws");
-  assert.match(step,/visibilityState==="hidden"\)\{if\(record&&!record\.winner&&record\.arrived\[other\]===null\)\{away=true;leave\(\);\}return;\}[\s\S]{0,200}?if\(away\)\{away=false;rejoinedAt=Date\.now\(\);igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
+  assert.match(step,/visibilityState==="hidden"\)\{if\(ready&&\(record\?!record\.winner&&record\.arrived\[other\]===null:true\)\)\{away=true;leave\(\);\}return;\}[\s\S]{0,200}?if\(away\)\{away=false;rejoinedAt=Date\.now\(\);igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
   assert.match(step,/await igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"arrive and leave run in order");
   ok("S12","leaving while the other manager has not arrived withdraws the arrival (Rules + step: BACK and a hidden phone), and coming back arrives again");
 }

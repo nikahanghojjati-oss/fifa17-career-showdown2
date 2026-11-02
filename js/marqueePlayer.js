@@ -20,7 +20,7 @@
   // pins to the exact release time with RRR_FROM_MS (tests/contracts/r87-sp-own-club-contracts.cjs: never before the Roster
   // Roulette boundary). From it the draw needs both managers' clubs: a caller without them gets no Special Player rather
   // than a wrong one.
-  const OWN_CLUB_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
+  const OWN_CLUB_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   // Ranking badge (Nik): top 3 black-blue-gold, top 10 blue-gold, top 20 gold, top 50 silver, others bronze.

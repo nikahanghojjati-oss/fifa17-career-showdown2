@@ -142,7 +142,8 @@ const SLIM=BUDGET_MODE&&process.env.CE2PG_BUDGET_FULL!=="1";
 const UPGRADE_FROM=process.env.CE2PG_UPGRADE_FROM?path.resolve(process.env.CE2PG_UPGRADE_FROM):"";
 const UPGRADE_AFTER=Number(process.env.CE2PG_UPGRADE_AFTER||1);
 const UPGRADE_PIN=process.env.CE2PG_UPGRADE_PIN!=="0";
-const RRR_PLACEHOLDER='Date.parse("2026-10-30T00:00:00Z")';
+// The literal both start constants carry in this tree (tools/set-release-time.cjs sets them together); the upgrade run swaps it.
+const RRR_PLACEHOLDER=`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`;
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
 function startAppServer(rewrites=[]){
   appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
@@ -268,7 +269,7 @@ function tally(seasons){
       const r=season[user],x=t[user],s=scoreSeason(r).total;
       x.seasons+=1;x.total+=s;if(w.side===user)x.W+=1;else if(w.side==="draw")x.D+=1;else x.L+=1;
       if(r.leaguePosition===1)x.league+=1;if(r.domesticCup)x.cup+=1;if(r.championsLeague)x.cl+=1;
-      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s>=11)x.perfect+=1;
+      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s===15)x.perfect+=1;// r87: a perfect season is 15 (Prime Pack 4 included), nothing else
       x.bestScore=x.bestScore===null?s:Math.max(x.bestScore,s);x.highPoints=x.highPoints===null?r.leaguePoints:Math.max(x.highPoints,r.leaguePoints);x.highGoals=x.highGoals===null?r.leagueGoals:Math.max(x.highGoals,r.leagueGoals);
       x.trophies=x.league+x.cup+x.cl;
     }
@@ -891,10 +892,18 @@ async function openPage(m,hostId){
   else if(hostId==="trophyRoom"){
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
     // The first tap on OPEN TROPHY ROOM can land before Career Statistics has loaded and do nothing (finding H3-1): tap again.
-    for(let attempt=1;attempt<=4;attempt+=1){
-      await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(()=>{});
-      if(await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:6000}).then(()=>true).catch(()=>false)){if(attempt>1){(report.notes||(report.notes=[])).push(`${m.user}: Trophy Room opened on tap ${attempt}`);await check(m,`${showdownNow}.S${seasonNow}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",false,`opened only on tap ${attempt}`,{screen:"Trophy Room"});}break;}
-    }
+    // One tap, then wait for the real ready signal: the Trophy Room may legitimately stay under Reus up to the 14 s career load gate (H4).
+    // A tap is "swallowed" only if nothing happened (no open request reached openOptionalModule) or the screen never shows within 20 s.
+    await m.page.evaluate(()=>{const w=window;if(w.__trophyProbe)return;const log=w.__trophyProbe=[];document.addEventListener("click",ev=>{const t=ev.target&&ev.target.closest?ev.target.closest("#trophyRoomButton"):null;if(!t)return;const d=document.getElementById("trophyRoomButton");log.push({e:"tap",t:Math.round(performance.now()),same:t===d,connected:t.isConnected,optFn:typeof w.openOptionalModule,screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()});setTimeout(()=>log.push({e:"tap+300",stale:!t.isConnected||t!==document.getElementById("trophyRoomButton"),screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()}),300);},true);const o=w.openOptionalModule;if(typeof o==="function")w.openOptionalModule=function(n){const t0=performance.now();log.push({e:"request",n,t:Math.round(t0),screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()});return o.apply(this,arguments).then(r=>{log.push({e:"settled",n,r,ms:Math.round(performance.now()-t0),screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()});return r;});};}).catch(()=>{});
+    const tapAt=Date.now();
+    await m.page.evaluate(()=>{(window.__trophyProbe||[]).length=0;}).catch(()=>{});
+    let clickErr=null;const clickAt=Date.now();
+    await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(e=>{clickErr=String(e.message||e).split("\n").slice(0,6).join(" | ").slice(0,500);});
+    const clickMs=Date.now()-clickAt;
+    const shown=await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:25000}).then(()=>true).catch(()=>false);
+    const openMs=Date.now()-tapAt,probe=await m.page.evaluate(()=>window.__trophyProbe||[]).catch(()=>[]);
+    (report.notes||(report.notes=[])).push(`${m.user}: Trophy Room open ${shown?openMs+" ms":"NEVER (25 s)"} clickMs=${clickMs} clickErr=${clickErr} probe=${JSON.stringify(probe)}`);
+    if(!shown||!probe.some(x=>x.e==="request"))await check(m,`${showdownNow}.S${seasonNow}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",false,shown?"tap reached no open request":"no Trophy Room within 25 s",{screen:"Trophy Room",probe,clickErr,clickMs,dom:await m.page.evaluate(()=>{const b=document.getElementById("trophyRoomButton");const r=b&&b.getBoundingClientRect();return {active:window.getActiveScreenName?.(),btn:!!b,rect:r&&[Math.round(r.x),Math.round(r.y),Math.round(r.width),Math.round(r.height)],top:b&&(()=>{const e=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return e&&(e.id||e.className||e.tagName)})(),rev:window.getNavigationRevision?.()};}).catch(()=>null)});
   }
   else if(hostId==="statistics"){
     // Rivalry Statistics: Career Statistics' CURRENT RIVALRY STATISTICS button when it shows, else the dashboard's.
@@ -1516,7 +1525,9 @@ async function main(){
     report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,pinned:UPGRADE_PIN,switchedAt:null};
     console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree${UPGRADE_PIN?" (roulette start pinned to the switch time)":" (roulette start left at the placeholder)"}`);
   }
-  if(!process.env.CMS_BASE_URL)await startAppServer();
+  // The roulette starts at the 2.0.0 release time (tools/set-release-time.cjs). A run before that time still plays it: the
+  // server sends the r87 placeholder start (2026-10-30) unless CE2PG_REAL_RELEASE_TIME=1 (or this is the upgrade run).
+  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]);
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[],retired=[];

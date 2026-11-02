@@ -61,18 +61,20 @@ const pacificDay=ms=>new Intl.DateTimeFormat("en-CA",{timeZone:"America/Los_Ange
   ok("DST-5","fsbPacificDay fallback (UTC-8) is an hour off during PDT; unreachable on browsers with Intl time zones");
 }
 
-// 5. History "Ended early" date (js/careerScreenSeam.js endedEarlyText) is formatted in the phone's own time zone. Across the
-// change in Boston it is right; two phones in different time zones can show different dates near midnight.
+// 5. History "Ended early" date (js/careerScreenSeam.js endedEarlyText) is formatted in UTC (r87 career fixes), so both phones
+// print the same date whatever their own time zone, across the change too. Each run pins its own TZ, so the result never
+// depends on the machine running the test.
 {
   const run=(tz,endedAt)=>execFileSync(process.execPath,["-e",
     `const s=require(${JSON.stringify(path.join(__dirname,"../../js/careerScreenSeam.js"))});process.stdout.write(s.endedEarlyText({endedAt:${endedAt},seasonsPlayed:1}))`],
     {env:{...process.env,TZ:tz}}).toString();
   for(const iso of ["2026-11-01T05:30:00Z","2026-11-01T06:30:00Z"])assert.match(run("America/New_York",Date.parse(iso)),/1 Nov 2026/);
-  ok("DST-6","Ended early date reads 1 Nov in Boston for both 01:30 EDT and 01:30 EST");
+  ok("DST-6","Ended early date reads 1 Nov in Boston for both 01:30 EDT and 01:30 EST (UTC date)");
   const late=Date.parse("2026-11-01T03:30:00Z");
   const boston=run("America/New_York",late),london=run("Europe/London",late);
-  assert.match(boston,/31 Oct 2026/);assert.match(london,/1 Nov 2026/);
-  ok("DST-7","same Showdown ended 23:30 Boston shows 31 Oct in Boston and 1 Nov in London (only matters if phones are in different zones)");
+  assert.match(boston,/1 Nov 2026/);assert.equal(boston,london,"both zones print the same UTC date");
+  assert.equal(run("Asia/Tokyo",late),boston);assert.equal(run("UTC",late),boston);
+  ok("DST-7","same Showdown ended 23:30 Boston prints the same date (1 Nov, UTC) in Boston, London, Tokyo and UTC");
 }
 
 // 6. Wrong phone clock on the transfer timer: the production clock helpers (extracted as in job-1058-transfer-clock-contracts)

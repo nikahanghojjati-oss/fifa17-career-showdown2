@@ -56,7 +56,7 @@ function releaseWorker(source){
 const BUMP=`${TO_APP}-r87-next`;let bumped=false;
 function bumpText(rel,text){
   let out=text.split(TO).join(BUMP);
-  if(rel==="service-worker.js"){out=out.replace(/const PREVIOUS_RUNTIME_REVISION = "[^"]*";/,`const PREVIOUS_RUNTIME_REVISION = "${TO}";`);out=out.replace(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\([^;]*\);/,"const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);");}
+  if(rel==="service-worker.js"){out=out.replace(/const PREVIOUS_RUNTIME_REVISION = "[^"]*";/,`const PREVIOUS_RUNTIME_REVISION = "${TO}";`);out=out.replace(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\([^;]*\);/,"const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);");out=out.replace(/const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set\([^;]*\);/,"const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);");}
   return out;
 }
 function releaseText(rel,text){
@@ -188,8 +188,11 @@ async function run(){
     const keys=await page.evaluate(()=>caches.keys());
     assert.ok(keys.some(k=>k.endsWith(TO)),"no 2.0.0 shell cache");assert.ok(keys.some(k=>k.endsWith(FROM)),"the r86 shell cache was dropped");
     assert.ok(!keys.some(k=>/1\.9\.9-r85/.test(k)),`an r85 cache was kept: ${keys.join(", ")}`);
-    assert.equal(removedSinceR86.length,0,`r87 dropped shell paths r86 has (${removedSinceR86.join(", ")}): the rollback list cannot be r87's list minus the added paths`);
-    pass(`U4 rollback shell ${FROM} verified whole (${releaseFacts.previousShell.length} paths = r86's ${r86Facts.shell.length}); caches: ${keys.join(", ")}`);
+    // 2.0.0 drops seven acceptance-only scripts from the precache (arch D1, SHELL_PATHS_REMOVED_SINCE_PREVIOUS): the rollback
+    // shell must still be exactly r86's own list, every path once, nothing more and nothing less.
+    assert.equal(new Set(releaseFacts.previousShell).size,releaseFacts.previousShell.length,"the r86 rollback list repeats a path");
+    assert.deepEqual([...releaseFacts.previousShell].sort(),[...r86Facts.shell].sort(),`the r86 rollback list is not r86's real shell (r87 removed: ${removedSinceR86.join(", ")||"none"})`);
+    pass(`U4 rollback shell ${FROM} verified whole (${releaseFacts.previousShell.length} paths = r86's ${r86Facts.shell.length}, ${removedSinceR86.length} no longer precached by 2.0.0); caches: ${keys.join(", ")}`);
 
     // U5 -------------------------------------------------------------------------------------------------------------------
     const after=await phoneData(page);

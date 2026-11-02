@@ -30,11 +30,13 @@
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const OTHER=Object.freeze({playerOne:"playerTwo",playerTwo:"playerOne"});
   const LENGTHS=Object.freeze([1,3,5,10]);
-  const GOLDEN=Object.freeze({seasons:10,points:110});
+  // Nik 2026-11-01 17:35 UTC: a perfect season is 15 and the Golden Showdown is 150 in every Showdown (there was never a
+  // real 10-season Showdown before Prime Pack, so no old record to keep). One season maximum, 15, everywhere.
+  const GOLDEN=Object.freeze({seasons:10,points:150}),PERFECT=15;
   // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so
-  // its race counts 15 a season left and its Golden Showdown is 150; a Showdown confirmed before Prime Pack keeps 11 and 110.
+  // its race counts 15 a season left (every Showdown, Nik 2026-11-01 18:32 UTC).
   // PRIME_PACK_FROM_MS is js/iconGuess.js fromMs (tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
-  const SEASON_MAX=Object.freeze({before:11,primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-10-30T00:00:00Z");
+  const SEASON_MAX=Object.freeze({primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   // true/false when this Showdown's confirm time is known (given, or the live Setup when it is this Showdown), else null.
   function tgPrimePack(rivalryId,confirmedAt){
     if(Number.isFinite(confirmedAt))return confirmedAt>=PRIME_PACK_FROM_MS;
@@ -143,10 +145,8 @@
       const winner=a>b?"playerOne":b>a?"playerTwo":"draw";if(row.winner!==winner)return null;
       seasons.push({number:i+1,score:{playerOne:a,playerTwo:b},winner,items:{playerOne:seasonItems(row.playerOne),playerTwo:seasonItems(row.playerTwo)}});
     }
-    // unknown confirm time: a Prime Pack point, or a season over 11, can only come from a Showdown that plays Prime Pack
-    const sides=projection.seasonHistory.flatMap(row=>plain(row)?[row.playerOne,row.playerTwo].filter(plain):[]);
-    const pack=primePack===true||primePack===false?primePack:sides.some(side=>Number.isInteger(side.primePack)||Number.isInteger(side.scoring?.primePack)||(Number.isInteger(side.scoring?.total)&&side.scoring.total>SEASON_MAX.before));
-    return {rivalryId:String(projection.rivalryId||""),totalSeasons:T,clubs,seasons,max:pack?SEASON_MAX.primePack:SEASON_MAX.before};
+    // Nik 2026-11-01 18:32 UTC: one season maximum, 15, in every Showdown (no 11 anywhere).
+    return {rivalryId:String(projection.rivalryId||""),totalSeasons:T,clubs,seasons,max:SEASON_MAX.primePack};
   }
   const totalsOf=seasons=>seasons.reduce((t,s)=>({playerOne:t.playerOne+s.score.playerOne,playerTwo:t.playerTwo+s.score.playerTwo}),{playerOne:0,playerTwo:0});
   function spOf(sp){return plain(sp)&&plain(sp.daniel)&&plain(sp.nik)&&typeof sp.daniel.name==="string"&&sp.daniel.name&&typeof sp.nik.name==="string"&&sp.nik.name?{daniel:sp.daniel.name,nik:sp.nik.name}:null;}
@@ -157,7 +157,7 @@
   // levelled, and level is a draw: no tiebreak). The RECORD BOOK: seasons won, trophies, best season, streaks, perfect seasons.
   const plural=(n,word)=>`${n} ${word}${n===1?"":"s"}`;
   const both=list=>list.length===2?`${list[0]} and ${list[1]}`:list[0];
-  function recordsOf(seasons,max=SEASON_MAX.before){
+  function recordsOf(seasons,max=PERFECT){
     const rec={};
     for(const role of ROLES){
       const r={wins:0,trophies:0,perfect:0,best:0};
@@ -174,7 +174,7 @@
   function raceFor(facts,N,final){
     const T=facts.totalSeasons,seasons=facts.seasons.slice(0,N),totals=totalsOf(seasons);
     const gap=Math.abs(totals.playerOne-totals.playerTwo),leader=totals.playerOne>totals.playerTwo?"playerOne":totals.playerTwo>totals.playerOne?"playerTwo":null;
-    const left=T-N,pointsLeft=left*facts.max,goldenPoints=GOLDEN.seasons*facts.max;
+    const left=T-N,pointsLeft=left*facts.max,goldenPoints=GOLDEN.points;
     let line;
     if(final){
       line=leader?`${NAMES[leader]} wins the Showdown ${totals[leader]} to ${totals[OTHER[leader]]}, by ${plural(gap,"point")}.`
@@ -194,7 +194,7 @@
   }
   // One line each, most telling first; only facts that are true for this Showdown so far are printed.
   function recordBook(facts,N,final){
-    const seasons=facts.seasons.slice(0,N),r=recordsOf(seasons,facts.max),out=[];
+    const seasons=facts.seasons.slice(0,N),r=recordsOf(seasons),out=[];
     // (never beside level totals, where a seasons-won count could read as a tiebreak: level is a draw)
     const lvl=totalsOf(seasons);
     if(N>=2&&lvl.playerOne!==lvl.playerTwo)out.push(`Seasons won: ${NAMES.playerOne} ${r.playerOne.wins} · ${NAMES.playerTwo} ${r.playerTwo.wins}${r.draws?` · drawn ${r.draws}`:""}`);
@@ -203,8 +203,8 @@
     if(N>=2){const best=Math.max(r.playerOne.best,r.playerTwo.best);if(best>0)out.push(`Best season${final?"":" so far"}: ${plural(best,"point")}, ${both(ROLES.filter(x=>r[x].best===best).map(x=>NAMES[x]))}`);}
     if(N>=2&&r.biggest&&r.biggest.margin>=3)out.push(`Biggest season win: ${NAMES[r.biggest.role]} ${r.biggest.score[r.biggest.role]}–${r.biggest.score[OTHER[r.biggest.role]]} in season ${r.biggest.season}`);
     const perfect=ROLES.filter(x=>r[x].perfect>0);
-    if(perfect.length)out.push(`Perfect ${facts.max}s: ${perfect.map(x=>`${NAMES[x]} ${r[x].perfect}`).join(" · ")}`);
-    // the Golden Showdown (110 over ten seasons, 150 with Prime Pack) needs the maximum in every season: it is "on" only while a manager has dropped nothing
+    if(perfect.length)out.push(`Perfect ${PERFECT}s: ${perfect.map(x=>`${NAMES[x]} ${r[x].perfect}`).join(" · ")}`);
+    // the Golden Showdown (150 over ten seasons) needs a perfect 15 in every season: it is "on" only while a manager has dropped nothing
     if(!final&&facts.totalSeasons===GOLDEN.seasons){const alive=ROLES.filter(x=>r[x].perfect===N);if(alive.length)out.push(`Golden watch: ${both(alive.map(x=>NAMES[x]))} still perfect`);}
     return out;
   }
@@ -340,9 +340,9 @@
     // The Final Winner frame, when given, must say the same (it reads the reconciled winner; the paper never disagrees with it).
     if(final){const fw={daniel:"playerOne",nik:"playerTwo",draw:"draw"}[final.winner];if(fw!==W)return null;if(plain(final.totals)&&(final.totals.daniel!==totals.playerOne||final.totals.nik!==totals.playerTwo))return null;}
     const draw=W==="draw",L=draw?null:OTHER[W],margin=Math.abs(totals.playerOne-totals.playerTwo);
-    // A Golden Showdown is a manager on 110 over ten seasons (150 with Prime Pack): the winner, or both managers on a 110-110
-    // (150-150) draw (still a draw, no tiebreak; the paper is the gold edition with the drawn copy).
-    const goldenPoints=GOLDEN.seasons*facts.max;
+    // A Golden Showdown is a manager on 150 over ten seasons: the winner, or both managers on a 150-150 draw (still a
+    // draw, no tiebreak; the paper is the gold edition with the drawn copy).
+    const goldenPoints=GOLDEN.points;
     const goldenRoles=T===GOLDEN.seasons?ROLES.filter(role=>totals[role]>=goldenPoints):[];
     const golden=goldenRoles.length>0;
     const used=new Set();for(let k=1;k<T;k+=1)buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,null,used);
@@ -352,10 +352,10 @@
     else Object.assign(vals,{winner:NAMES[W],loser:NAMES[L],winnerClub:facts.clubs[W],loserClub:facts.clubs[L],winnerPoints:totals[W],loserPoints:totals[L],margin,leader:NAMES[W],trailer:NAMES[L]});
     const rec=role=>{const r={cl:0,el:0,league:0,cup:0,wins:0,best:0};for(const s of facts.seasons){const it=s.items[role];r.cl+=it["champions-league"]?1:0;r.el+=it["europa-league"]?1:0;r.league+=it["league-title"]?1:0;r.cup+=it["domestic-cup"]?1:0;r.wins+=s.winner===role?1:0;r.best=Math.max(r.best,s.score[role]);}return r;};
     const r1=rec("playerOne"),r2=rec("playerTwo");
-    // Situations: a draw only the drawn pages; the Golden Showdown (first to 110 over ten seasons); otherwise the Showdown's
+    // Situations: a draw only the drawn pages; the Golden Showdown (first to 150 over ten seasons); otherwise the Showdown's
     // length (ten seasons read as the long, five-season pages), decided in its last season (the winner did not lead before
     // it), or a dominant win: the winner was ahead after every season, out of reach before the last one (a season is worth
-    // at most 11 points) and still more than a season clear at the end, so the dominant pages' landslides and wire-to-wire
+    // at most 15 points) and still more than a season clear at the end, so the dominant pages' landslides and wire-to-wire
     // leads are true as printed.
     let situations;
     if(draw)situations=["showdown-drawn"];
@@ -370,7 +370,7 @@
     }
     // A drawn Showdown in which neither manager won a trophy prints no silverware talk (a won one has the Showdown trophy).
     const noSilver=draw&&r1.cl+r1.el+r1.league+r1.cup+r2.cl+r2.el+r2.league+r2.cup===0;
-    // A 110-110 Golden draw: both managers lifted everything, so no "no trophy" consolation row. A Showdown level after every
+    // A 150-150 Golden draw: both managers lifted everything, so no "no trophy" consolation row. A Showdown level after every
     // season never "pointed toward a winner".
     const neverLed=draw&&facts.seasons.every((s,i)=>{const t=totalsOf(facts.seasons.slice(0,i+1));return t.playerOne===t.playerTwo;});
     const keep=row=>!FUTURE.test(words(row))&&!(noSilver&&SILVER.test(words(row)))&&!(draw&&golden&&GOLDEN_DRAW_OFF.test(words(row)))&&!(neverLed&&NEVER_LED_OFF.test(words(row)));

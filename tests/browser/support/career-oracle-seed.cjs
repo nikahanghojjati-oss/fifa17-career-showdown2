@@ -25,6 +25,12 @@ const TerminalProvider=require("../../../js/sparkTerminalClose.js");
 const Sessions=require("../../../js/sparkPrivateSession.js");
 const PersistentPair=require("../../../js/persistentNikDanielPair.js");
 const Catalog=require("../../../js/sharedShowdownCatalog.js");
+// r87 Prime Pack: a season worth 15 needs the real round (the Rules accept primePack only from the round record).
+const Step=require("../../../js/iconGuessStep.js");
+const Guess=require("../../../js/iconGuess.js");
+const Icons=require("../../../data/icons.js");
+const Names=require("../../../js/iconNames.js");
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 
 const ROLES=["playerOne","playerTwo"];
 function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp:firestoreSdk.serverTimestamp};}
@@ -42,6 +48,7 @@ function storedResult(r,teamCount){
   const maxPoints=(teamCount-1)*6;
   const out={leaguePosition:Math.min(Math.max(1,r.pos),teamCount),leaguePoints:Math.min(r.pts,maxPoints),leagueGoals:Math.min(r.gls,300),domesticCup:Boolean(r.cup),championsLeague:Boolean(r.cl),topScorer:Boolean(r.ts),topAssist:Boolean(r.ta)};
   if(r.el&&!r.cl)out.europaLeague=true;
+  if(r.pack)out.primePack=4;// stage 1 Prime Pack win (playPrimePack below plays the round first)
   return out;
 }
 
@@ -122,6 +129,7 @@ async function playShowdown(env,who,spec){
   must("career start guest",await Career.acknowledge({...g(),operationId:op("career_start_op_"),baseRevision:1}));
   const roleCtx={[host.role]:h,[guest.role]:g};
   const played=Math.min(spec.endAfter??total,spec.seasons.length);
+  await playPrimePack({spec,played,rivalryId,sessionId,roleCtx,dbOf:{[host.role]:dbH,[guest.role]:dbG},deviceOf:{[host.role]:host.deviceId,[guest.role]:guest.deviceId},must});
   const stored=[];let lastHistory=null,lastMulti=null;
   for(let season=1;season<=played;season+=1){
     for(const role of ROLES)must(`S${season} spin ${role}`,await Transfer.markSpun({...roleCtx[role](),seasonNumber:season,managerRole:role}));
@@ -157,8 +165,37 @@ async function playShowdown(env,who,spec){
   return {rivalryId,totalSeasons:total,played,leagueId:setup.state.leagueId,teamCount,stored,ended:played!==total};
 }
 
+// r87 Prime Pack: for every season where a manager's spec has pack:true, the real round step (js/iconGuessStep.js) plays it under
+// the Rules: both arrive, the other manager guesses wrong, the winner names the Icon inside stage 1 (4 points). All rounds run at
+// once (each waits for its own stage 1). At most one manager a season can win it.
+async function playPrimePack({spec,played,rivalryId,sessionId,dbOf,deviceOf}){
+  const seasons=[];
+  for(let season=1;season<=played;season+=1){
+    const entry=spec.seasons[season-1],winners=ROLES.filter(role=>entry[role]?.pack);
+    if(winners.length>1)throw new Error(`${spec.name||"spec"} S${season}: only one manager can win the Prime Pack`);
+    if(winners.length)seasons.push({season,winner:winners[0]});
+  }
+  if(!seasons.length)return;
+  const index=Names.defaultIndex();
+  const io=role=>({firestore:dbOf[role],sdk:sdk(),rivalryId,sessionId,deviceId:deviceOf[role],now:()=>Date.now()});
+  const ctx=(role,season)=>({rivalryId,managerRole:role,season,confirmedAtMs:Date.now()});
+  await Promise.all(seasons.map(async({season,winner})=>{
+    const draw=Guess.draw(rivalryId,season,Icons.players.length,Icons.listVersion);
+    const answer=Icons.players[draw.index],decoy=Icons.players[(draw.index+1)%Icons.players.length];
+    const right=Names.check(index,answer.name,answer.id),wrong=Names.check(index,decoy.name,answer.id);
+    for(const role of ROLES)await Step.arrive(io(role),ctx(role,season));
+    const round=(await getDoc(doc(dbOf[winner],"rivalries",rivalryId,"primePackRounds",`season_${season}`))).data();
+    const later=Math.max(...ROLES.map(role=>round.arrived[role].toMillis()));
+    await wait(Math.max(0,later+3300-Date.now()));// inside stage 1 (3 to 30.5 s after the later arrival)
+    const loser=ROLES.find(role=>role!==winner);
+    const missed=await Step.applyGuess(io(loser),ctx(loser,season),wrong.correct);if(!missed||missed.ok!==true)throw new Error(`S${season} Prime Pack wrong guess: ${JSON.stringify(missed)}`);
+    const named=await Step.applyGuess(io(winner),ctx(winner,season),right.correct);if(!named||named.ok!==true)throw new Error(`S${season} Prime Pack right guess: ${JSON.stringify(named)}`);
+  }));
+}
+
 // Season helpers for specs.
-const R=(pos,pts,gls,flags="")=>({pos,pts,gls,cup:flags.includes("c"),cl:flags.includes("C"),el:flags.includes("E"),ts:flags.includes("s"),ta:flags.includes("a")});
-const PERFECT=R(1,100,105,"cCs");// 5 + 3 + 1 + 1 + 1 = 11
+const R=(pos,pts,gls,flags="")=>({pos,pts,gls,cup:flags.includes("c"),cl:flags.includes("C"),el:flags.includes("E"),ts:flags.includes("s"),ta:flags.includes("a"),pack:flags.includes("p")});
+// r87: a perfect season is 15 = Champions League 5 + title 3 + cup 1 + performance 1 + awards 1 + Prime Pack 4 (stage 1).
+const PERFECT=R(1,100,105,"cCsp");
 
 module.exports={connect,readCareerAccounts,playShowdown,R,PERFECT,storedResult};

@@ -103,7 +103,7 @@
       tr.innerHTML=`<td>${rr.rank}</td><td><span class="managerName">${rr.rank===1?'<span class="rankCrown" aria-label="Career leader">♛</span>':''}${NAMES[role]}</span>${spChip(frame, role)}</td><td>${s.completed}</td><td>${m.seasonWins}-${m.seasonDraws}-${m.seasonLosses}</td><td>${m.careerPoints}</td><td>${m.totalTrophies}</td>`;
       body.appendChild(tr);
     }); t.appendChild(body); panel.appendChild(t);
-    // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 110 points.
+    // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 150 points (r87: 15 a season).
     const golden=frame.goldenShowdowns;
     if (golden && (golden.daniel>0 || golden.nik>0)) {
       const note=document.createElement("p"); note.className="goldenShowdownNote"; note.dataset.goldenShowdown="true";

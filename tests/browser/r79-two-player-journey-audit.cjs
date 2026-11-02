@@ -588,12 +588,12 @@ async function main(){
     await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
     // Reload only once the shared window is open on the server (both pages read WINDOW_OPEN), so the reload tests the resume.
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitSharedTransferPhase(nik,"WINDOW_OPEN");
-    const reloadD=await reloadMidShowdown(daniel,{expectSession:session1,expectShowdown:showdownD,landing:"#transferChallenge",button:"^OPEN TRANSFER WINDOW$"});
+    const reloadD=await reloadMidShowdown(daniel,{expectSession:session1,expectShowdown:showdownD,landing:"#transferChallenge",button:"^OPEN TRANSFER WAR$"});
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitTransferPhase(daniel,"window");
     await daniel.page.locator("#endTransferTimer").waitFor({state:"visible",timeout:30000});
     ok("P3",`Daniel's reload mid-Showdown: same Showdown and session, back on the live transfer window, no Home frame (${reloadD.frames} frames, first: ${reloadD.firstScreens})`);
     // ---------- R80a Daniel continues the same season in a fresh browser ----------
-    daniel=await moveToFreshBrowser(browser,managers,retired,daniel,"Daniel",{width:393,height:660},{expectSession:session1,expectSaveId:showdownD.saveId,screens:"#dashboard, #transferChallenge",button:"^OPEN TRANSFER WINDOW$",landing:"#transferChallenge"});
+    daniel=await moveToFreshBrowser(browser,managers,retired,daniel,"Daniel",{width:393,height:660},{expectSession:session1,expectSaveId:showdownD.saveId,screens:"#dashboard, #transferChallenge",button:"^OPEN TRANSFER WAR$",landing:"#transferChallenge"});
     await waitSharedTransferPhase(daniel,"WINDOW_OPEN");await waitTransferPhase(daniel,"window");
     await daniel.page.locator("#endTransferTimer").waitFor({state:"visible",timeout:30000});
     assert.equal(await nik.page.locator("#transferChallenge").isVisible(),true,"Nik stayed on the live transfer window meanwhile");

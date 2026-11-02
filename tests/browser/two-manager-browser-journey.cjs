@@ -15,6 +15,10 @@ const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
+// 2.0.0: the release-time constants (tools/set-release-time.cjs) start Prime Pack, the roulette and the own-club Special
+// Player at the release minute. The journey serves them as started (the files on disk never change), so it plays the real
+// Prime Pack round before and after the release time; CMS_JOURNEY_REAL_RELEASE_TIME=1 serves the real constants.
+const RELEASE_TIME_REWRITE=process.env.CMS_JOURNEY_REAL_RELEASE_TIME==="1"?{}:{CMS_TEST_REWRITE:JSON.stringify([[`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`,'Date.parse("2026-10-30T00:00:00Z")']])};
 const PROJECT="demo-cms-browser-journey";
 const FIRESTORE="http://127.0.0.1:8181",AUTH_PORT=9199,FIRESTORE_PORT=8181;
 const APP_PORT=Number(process.env.CMS_TEST_PORT||4173);
@@ -40,7 +44,7 @@ const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
 // r79 one start flow: START makes the pair code itself and both managers continue by themselves once connected, so
 // CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (GET READY) and CREATE CODE FOR NIK are no longer taps either.
-const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH CHALLENGE","#refreshSharedTransferChallenge"]);
+const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH CHALLENGE","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
   assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
@@ -390,7 +394,7 @@ async function main(){
   // J0 preflight
   assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"J0 SDK pin matches the switch");
   await loadComposedRules();ok("J0.1","composed production Rules active on the emulator (open read 404 -> 403)");
-  const server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT)}});
+  const server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...RELEASE_TIME_REWRITE}});
   await new Promise(resolve=>setTimeout(resolve,800));
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
@@ -724,7 +728,7 @@ async function main(){
       }
       ok("J9.4","a closed and reopened tab re-attaches to the same session with one CONTINUE CAREER tap and no code");
       for(const m of [daniel,nik]){
-        await m.page.waitForFunction(()=>/TRANSFER CHALLENGE|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
+        await m.page.waitForFunction(()=>/TRANSFER WAR|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
         await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
         await m.page.locator("#transferChallenge, #seasonEntry").filter({visible:true}).first().waitFor({state:"visible",timeout:30000});
         if(await m.page.locator("#transferChallenge").isVisible()){

@@ -11,6 +11,7 @@
 // Run inside the Firestore emulator:
 //   npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal \
 //     "node tests/firebase/prime-pack-three-season-emulator.cjs"
+require("../support/release-time-started.cjs");
 const assert=require("node:assert/strict");
 const crypto=require("node:crypto");
 const fs=require("node:fs");

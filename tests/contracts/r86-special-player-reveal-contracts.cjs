@@ -100,7 +100,8 @@ function api_page(){return revealWorld().api.page;}
   const sw=read('service-worker.js');
   for(const file of ['js/specialPlayerReveal.js','visual-assets/v10_1/special-player/index.html','js/marqueePlayer.js','data/marqueePlayers.js']){
     assert.ok(new RegExp(`^\\s+"${file.replace(/[.\/]/g,m=>'\\'+m)}",?$`,'m').test(sw),`${file} is shell-cached`);
-    assert.ok(/const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/.exec(sw)[1].includes(`"${file}"`),`${file} is new since the rollback shell`);
+    // 2.0.0: these shipped in 1.9.10-r86, the retained rollback shell, so they are in its own list.
+    assert.ok(JSON.parse(read('tests/fixtures/shell-paths/1.9.10-r86.json')).paths.includes(file),`${file} is in the r86 rollback shell`);
   }
   assert.match(sw,/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[\s*"visual-assets\/v10_1\/special-player\/index\.html",\s*"visual-assets\/v10_1\/roulette\/index\.html",\s*\/\/[^\n]*\n\s*"visual-assets\/v10_1\/icon-guess\/index\.html"\s*\]\);/,"the Special Player page (and r87's roulette and Prime Pack pages) are frame navigations");
   assert.match(sw,/if\(SHELL_FRAME_NAVIGATION_PATHS\.has\(path\)\)\{ event\.respondWith\(\(async\(\)=>\{ const selected=await chooseNavigationRuntime\(\); const cached=selected\?await cachedShellResponse\(path,selected\.revision\):null; return cached\|\|fetch\(request\); \}\)\(\)\); return; \}/,'the frame gets its own page, never index.html');

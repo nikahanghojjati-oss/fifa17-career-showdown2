@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="1.9.10-r86">
+<meta name="app-asset-revision" content="2.0.0-r87">
 <title>Career Mode Showdown</title>
-<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=1.9.10-r86" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=1.9.10-r86" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
-<link rel="stylesheet" href="assets/fonts/barlow-condensed.css?v=1.9.10-r86">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.9.10-r86">
+<link rel="preload" as="image" href="assets/LOADING_REUS_PHONE.webp?v=2.0.0-r87" media="(max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/LOADING_REUS_DESKTOP.webp?v=2.0.0-r87" media="not all and (max-aspect-ratio: 7/5)" fetchpriority="high">
+<link rel="stylesheet" href="assets/fonts/barlow-condensed.css?v=2.0.0-r87">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=2.0.0-r87">
 </head>
 <body>
 <div id="background"></div>
@@ -18,8 +18,8 @@
 <div class="startupScene" aria-hidden="true">
 <div class="startupAthleteFrame">
 <picture>
-<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=1.9.10-r86" width="1179" height="2096">
-<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=1.9.10-r86" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
+<source media="(max-aspect-ratio: 7/5)" srcset="assets/LOADING_REUS_PHONE.webp?v=2.0.0-r87" width="1179" height="2096">
+<img id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=2.0.0-r87" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
 </picture>
 </div>
 </div>
@@ -210,7 +210,7 @@
 <p id="dashboardLeague">League</p>
 <p id="dashboardRound">Season 1 of 1</p>
 <p class="overviewStatus" id="dashboardStatus">Ready</p>
-<p class="transferOverviewStatus" id="dashboardTransferStatus">Transfer challenge: not started</p>
+<p class="transferOverviewStatus" id="dashboardTransferStatus">Transfer War: not started</p>
 </div>
 
 <div class="showdownScoreboard" id="dashboardScoreboard">
@@ -241,14 +241,14 @@
 </div>
 </div>
 <div class="dashboardActions">
-<button class="menuButton" id="seasonPrimaryAction" type="button">START TRANSFER CHALLENGE</button>
+<button class="menuButton" id="seasonPrimaryAction" type="button">START TRANSFER WAR</button>
 <button class="menuButton hidden" id="remoteJoiningButton" type="button" hidden aria-hidden="true" tabindex="-1">CONNECTION</button>
 <button class="backButton" data-smart-back type="button">BACK TO HOME</button>
 </div>
 </section>
 
 <section id="transferChallenge" class="screen hidden">
-<h2 id="transferChallengeTitle">SEASON 1 TRANSFER CHALLENGE</h2>
+<h2 id="transferChallengeTitle">SEASON 1 TRANSFER WAR</h2>
 <div class="transferHero">
 <p class="transferRulesLine">15 MINUTES · MAX 3 SIGNINGS EACH · 3 OPPONENT GUESSES</p>
 <p id="transferPhaseStatus" role="status" aria-live="polite">READY</p>
@@ -304,7 +304,7 @@
 </div>
 
 <p id="transferChallengeError" class="formError" aria-live="polite"></p>
-<button class="menuButton hidden" id="completeTransferChallenge" type="button">LOCK TRANSFER CHALLENGE RESULTS</button>
+<button class="menuButton hidden" id="completeTransferChallenge" type="button">LOCK TRANSFER WAR RESULTS</button>
 
 <div id="transferChallengeResults" class="transferChallengeResults hidden">
 <h3>TRANSFER VERDICTS</h3>
@@ -322,7 +322,7 @@
 
 <section id="seasonEntry" class="screen hidden">
 <h2 id="seasonEntryTitle">SEASON RESULTS</h2>
-<p class="seasonEntryHint">Scoring: Champions League +5 or Europa League +3 (never both in the same season), league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.</p>
+<p class="seasonEntryHint">Scoring: Champions League +5 or Europa League +3 (never both in the same season), league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Prime Pack +4, +3, +2 or +1. Maximum season score: 15.</p>
 <div class="seasonEntryGrid">
 <div class="seasonResultCard">
 <div class="seasonManagerHeader"><h3 id="seasonManagerOne">DANIEL</h3><p id="seasonClubOne">Club</p></div>
@@ -371,7 +371,7 @@
 <strong id="seasonOverallScore">0 • 0</strong>
 </div>
 <div class="seasonEntryActions">
-<button class="menuButton" id="nextSeasonAction" type="button">START NEXT SEASON TRANSFER CHALLENGE</button>
+<button class="menuButton" id="nextSeasonAction" type="button">START NEXT SEASON TRANSFER WAR</button>
 <button class="backButton" data-smart-back type="button">SHOWDOWN HOME</button>
 </div>
 </section>
@@ -382,15 +382,15 @@
 <button class="backButton" data-smart-back type="button">BACK TO HOME</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v1.9.10</footer>
+<footer>Career Mode Showdown<br>v2.0.0</footer>
 </div>
 
-<script defer src="js/storage.js?v=1.9.10-r86"></script>
-<script defer src="js/showdown.js?v=1.9.10-r86"></script>
-<script defer src="js/scoring.js?v=1.9.10-r86"></script>
-<script defer src="js/screens.js?v=1.9.10-r86"></script>
-<script defer src="js/menuExperience.js?v=1.9.10-r86"></script>
-<script defer src="js/optionalModules.js?v=1.9.10-r86"></script>
-<script defer src="js/app.js?v=1.9.10-r86"></script>
+<script defer src="js/storage.js?v=2.0.0-r87"></script>
+<script defer src="js/showdown.js?v=2.0.0-r87"></script>
+<script defer src="js/scoring.js?v=2.0.0-r87"></script>
+<script defer src="js/screens.js?v=2.0.0-r87"></script>
+<script defer src="js/menuExperience.js?v=2.0.0-r87"></script>
+<script defer src="js/optionalModules.js?v=2.0.0-r87"></script>
+<script defer src="js/app.js?v=2.0.0-r87"></script>
 </body>
 </html>
