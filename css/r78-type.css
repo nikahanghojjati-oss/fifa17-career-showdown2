@@ -580,6 +580,7 @@
   :root #app #seasonEntry .v10FinalStage #finalWinnerMetaStrip .finalWinnerMetaCell > :is(span, small) { font-size: 11px; }
   :root #app #seasonEntry .v10FinalStage #finalWinnerHeading { font-size: 11px; }
   :root #app #seasonEntry .v10FinalStage .finalWinnerTotals :is(#danielName, #nikName) { font-size: 11px; }
+}
 
 /* 4j. Studio Axe phase 5: Showdown Home and New Showdown.
    Showdown Home: js/showdownUI.js lays the two scores out side by side (1fr auto 1fr), but app.css's
