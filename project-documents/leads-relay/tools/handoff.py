@@ -89,7 +89,7 @@ def coordinator_line(to, text):
     except Exception:
         c = {}
     if c.get("session_id"):
-        print(f"ALSO WAKE (best effort; skip if get_session says archived) Team {to}'s coordinator: same create_trigger call with persistent_session_id={c['session_id']} and prompt:")
+        print(f"ALSO WAKE (best effort; skip if get_session says archived) Team {to}'s coordinator: same create_trigger + fire_trigger with persistent_session_id={c['session_id']} and prompt:")
         print(f"  For Team {to}'s coordinator: {text} Make sure your current lead picks this up; start a lead thread if none is active.")
     else:
         print(f"Team {to}'s coordinator id is missing from INBOX.json 'coordinators'. Ask your own coordinator (message_coordinator) to reach it, and tell Nik in one line.")
@@ -119,7 +119,9 @@ def wake_line(to, text, session=None):
     print(f"WAKE NOW (CONTRACT.md §9): one claude-code-remote create_trigger per session below,")
     for x in targets:
         print(f"  persistent_session_id={x}")
-    print(f"  run_once_at = 1-2 minutes from now, initiation human_request, and prompt:")
+    print(f"  NO schedule (leave cron_expression and run_once_at empty), initiation human_request, and the prompt below;")
+    print(f"  THEN call fire_trigger on each new trig_ id at once (2026-11-02: run_once_at wakes sat undelivered; fire_trigger delivers in seconds).")
+    print(f"  Prompt:")
     print(f"  Relay for Team {to}: {text} Fetch leads/relay (+refs/heads/leads/relay:refs/remotes/origin/leads/relay) and act per CONTRACT.md.")
     print(f"  (create_trigger works from every lead thread; send_message with session_id={sid} also works where that tool exists.)")
     coordinator_line(to, text)

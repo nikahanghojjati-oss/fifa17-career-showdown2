@@ -115,6 +115,8 @@ comments work; the relay threads were simply not subscribed.
    - Every ticket keeps `sessions: {G: ..., V: ...}`, the last thread of each team that touched it. Wakes go to that
      thread first, then to the INBOX lead if different (one create_trigger each).
    - Coordinator wakes are best effort: coordinators are archived between turns, so check get_session and skip archived.
+   - Delivery: create_trigger with no schedule, then fire_trigger on it at once. Two run_once_at wakes on 2026-11-02 never
+     fired by themselves; fire_trigger delivered in seconds.
    - Any thread that does relay work (also a one-task thread such as "Make Story film reel Home tile") writes its status with
      handoff.py itself. Nik never relays.
 
