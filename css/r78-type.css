@@ -502,10 +502,13 @@
   font-size: var(--sa-type-body-2);
   line-height: 1.45;
 }
-:root #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel {
-  font-size: var(--sa-type-button);
-  line-height: 1.2;
-  letter-spacing: var(--sa-track-button);
+/* desktop only: on phones the half-width buttons hold two words per line, so 15px would wrap "CURRENT RIVALRY STATISTICS" */
+@media (min-width: 1024px) and (orientation: landscape) {
+  :root #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel {
+    font-size: var(--sa-type-button);
+    line-height: 1.2;
+    letter-spacing: var(--sa-track-button);
+  }
 }
 :root #careerStatistics.careerScreenV10 .titleBlock > :is(.sd-eyebrow, .sd-tagline) { font-size: var(--sa-type-eyebrow); }
 
