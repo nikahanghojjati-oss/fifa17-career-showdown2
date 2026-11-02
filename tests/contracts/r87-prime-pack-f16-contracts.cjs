@@ -74,7 +74,9 @@ function harness({holdSnapshots=false}={}){
 }
 function restore(){globalThis.setTimeout=realSetTimeout;globalThis.setInterval=realSetInterval;globalThis.clearInterval=realClearInterval;Date.now=realNow;}
 function freshStep(){delete require.cache[require.resolve("../../js/iconGuessStep.js")];return require("../../js/iconGuessStep.js");}
-const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:realNow()});
+// Confirm times one hour after the release time the tool set (contracts must not depend on today's date).
+const ELIGIBLE_MS=Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000;
+const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:Math.max(realNow(),ELIGIBLE_MS)});
 const other={playerOne:"playerTwo",playerTwo:"playerOne"};
 const arrivedOf=(h,role)=>h.stored&&h.stored.arrived[role]?h.stored.arrived[role].toMillis():null;
 // PRIME_PACK_F16_ALL=1 runs every section and lists each failure (used to show each one fails on the code before the fix).
@@ -84,7 +86,7 @@ async function section(id,fn){
 }
 
 // pssrWithPrimePack from the shipped file, run in a sandbox with a fake setup, loader and step.
-function seasonResultsPack({off=false,step=null,loadFails=false,confirmedAtMs=Date.parse("2026-11-01T18:00:00Z")}={}){
+function seasonResultsPack({off=false,step=null,loadFails=false,confirmedAtMs=ELIGIBLE_MS}={}){
   const src=read("js/productionSharedSeasonResults.js");
   const from=src.indexOf("  const PRIME_PACK_FROM_MS="),to=src.indexOf("  async function pssrPublish()");
   assert.ok(from>0&&to>from,"pssrWithPrimePack is where it was");

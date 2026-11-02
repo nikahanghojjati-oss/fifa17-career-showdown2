@@ -77,7 +77,9 @@ function harness(){
 }
 function restore(){globalThis.setTimeout=realSetTimeout;globalThis.setInterval=realSetInterval;globalThis.clearInterval=realClearInterval;Date.now=realNow;}
 function freshStep(){delete require.cache[require.resolve("../../js/iconGuessStep.js")];return require("../../js/iconGuessStep.js");}
-const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:realNow()});
+// Confirm times one hour after the release time the tool set (contracts must not depend on today's date).
+const ELIGIBLE_MS=Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000;
+const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:Math.max(realNow(),ELIGIBLE_MS)});
 const other={playerOne:"playerTwo",playerTwo:"playerOne"};
 const arrivedOf=(h,role)=>h.stored&&h.stored.arrived[role]?h.stored.arrived[role].toMillis():null;
 

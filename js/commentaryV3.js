@@ -32,7 +32,7 @@
   const LENGTHS=Object.freeze([1,3,5,10]);
   const PACK_MAX=15;
   // The Prime Pack boundary is js/iconGuess.js fromMs: a Showdown confirmed on or after it plays Prime Pack.
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
+  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T04:00:00Z");
   const node=typeof module!=="undefined"&&module.exports;
   const other=role=>role==="playerOne"?"playerTwo":"playerOne";
   const int=(x,lo,hi)=>Number.isInteger(x)&&x>=lo&&x<=hi;

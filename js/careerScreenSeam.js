@@ -64,7 +64,7 @@
   // js/iconGuess.js fromMs (the Roster Roulette boundary; tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
   const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:150,primePackPoints:150});
   const SEASON_MAX=Object.freeze({primePack:15});
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
+  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T04:00:00Z");
   const PAIR_ID=/^pair_[0-9a-f]{64}$/;
   function csSeasonScores(row){
     const out=[];

@@ -181,7 +181,7 @@
   // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record, only for a Showdown that plays
   // Prime Pack; an older Showdown never loads the step or reads anything. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
+  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T04:00:00Z");
   async function pssrWithPrimePack(ctx,request,result){
     if(!result||typeof result!=="object")return result;
     let confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;

@@ -75,7 +75,7 @@
   // r87 Prime Pack (Nik 2026-11-01 17:35 UTC): a perfect season is 15 points (11 + a 4-point Prime Pack), in every
   // Showdown. An older Showdown's 11 stays in its History but is not a perfect season: one meaning on every screen.
   // PRIME_PACK_FROM_MS stays on the release-time list (tools/set-release-time.cjs) with the other Prime Pack boundaries.
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-01T17:00:00Z");
+  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T04:00:00Z");
   const PERFECT_SEASON=15;
   function seasonMaxOf(_entry,_seasons){return PERFECT_SEASON;}
   function accumulate(record,season,role,sums,max=PERFECT_SEASON){
