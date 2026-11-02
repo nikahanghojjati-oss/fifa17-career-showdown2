@@ -143,7 +143,7 @@ body {
 }
 
 /* Reserved score treatment for the live DOM added in the manager-content step.
-   The fill is always a ratio of the computed score to the immutable 11-point maximum. */
+   The fill is always a ratio of the computed score to the 15-point season maximum (Prime Pack included). */
 .season-score-value {
   color: var(--manager-accent);
   font-size: 56px;
