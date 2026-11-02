@@ -256,9 +256,12 @@
       // Fable F13-03: back on screen after a lock, the phone's clock may have stood still: take a fresh server time and send
       // the current stage and chips again, so the page never shows stage 2 while the server scores stage 3.
       const resend=()=>{shownBeat=-2;sentChips={playerOne:null,playerTwo:null};render();};
+      // Sol r5 R5-01: hidden before this phone has seen the round record (its first arrival may still be on its way) counts as
+      // away too. The withdraw runs on the presence chain, after that arrival, and an arrival that lands while hidden is
+      // withdrawn when its record arrives (onData), so the other manager can never start the round alone.
       const onVisibility=()=>{
         if(finished)return;
-        if(igsDoc().visibilityState==="hidden"){if(record&&!record.winner&&record.arrived[other]===null){away=true;leave();}return;}
+        if(igsDoc().visibilityState==="hidden"){if(ready&&(record?!record.winner&&record.arrived[other]===null:true)){away=true;leave();}return;}
         resend();
         Promise.resolve().then(()=>io.resync?.()).catch(()=>{}).then(()=>{if(!finished)resend();});
         if(away){away=false;rejoinedAt=Date.now();igsPresence(()=>igsArrive(io,ctx)).catch(fail);}
@@ -295,7 +298,9 @@
       const onData=data=>{
         const next=igsRecord(data,ctx.season);
         if(!next)return;
-        record=next;render();
+        record=next;
+        if(away&&igsDoc().visibilityState==="hidden"&&!record.winner&&record.arrived[me]!==null&&record.arrived[other]===null)leave();
+        render();
       };
       const onMessage=event=>{
         if(event.source!==frame.contentWindow||!event.data||typeof event.data.type!=="string")return;
