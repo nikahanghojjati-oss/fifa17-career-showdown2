@@ -26,6 +26,30 @@ jobs:
       actions: read
       contents: read
     steps:
+      # Sol/Astra r5 R5-02: a manual "Run workflow" must prove its Rules are live too. The last Rules deploy on main must have
+      # succeeded, none may be running, and the Rules source at this commit must be the source that deploy published.
+      - name: Check out for the Rules comparison (manual run)
+        if: github.event_name != 'push'
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Require live Rules for this commit (manual run)
+        if: github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          busy="$(gh api "repos/$REPO/actions/workflows/deploy-firestore-rules-zero-billing.yml/runs?branch=main&per_page=20" --jq '[.workflow_runs[] | select(.status != "completed")] | length')"
+          if [[ "$busy" != "0" ]]; then echo "::error::A Rules deploy is still running; run this again when it has finished. The site is not deployed ahead of its Rules."; exit 1; fi
+          last="$(gh api "repos/$REPO/actions/workflows/deploy-firestore-rules-zero-billing.yml/runs?branch=main&status=completed&per_page=1" --jq '.workflow_runs[0] // {} | [.conclusion // "none", .head_sha // ""] | @tsv')"
+          conclusion="${last%%$'\t'*}"; rules_sha="${last#*$'\t'}"
+          if [[ "$conclusion" != "success" || -z "$rules_sha" ]]; then echo "::error::The last Rules deploy on main ended '$conclusion'. Re-run it first; the site is not deployed ahead of its Rules."; exit 1; fi
+          rules_paths=(firestore.spark.rules 'firestore.*-production.fragment.rules' scripts/assert-firestore-zero-billing-boundary.mjs scripts/build-production-firestore-rules.mjs scripts/build-production-firestore-rules-with-persistent-pair.mjs scripts/inject-persistent-pair-rules.mjs scripts/publish-firestore-rules-zero-billing.mjs firebase.production.rules.json)
+          if ! git diff --quiet "$rules_sha" "$SHA" -- "${rules_paths[@]}"; then echo "::error::The Rules source at $SHA differs from the last deployed Rules ($rules_sha). Deploy the Rules for this commit first; the site is not deployed ahead of its Rules."; exit 1; fi
+          echo "The last Rules deploy on main ($rules_sha) succeeded with this commit's Rules source; the site goes ahead."
       - name: Wait for this commit's Rules deploy
         if: github.event_name == 'push'
         env:
