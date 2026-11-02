@@ -492,10 +492,14 @@
 
 /* 4c · Career Statistics: readable labels on the headline tiles (were 11px), state line (was 13.7px), and the two big
    actions get labels that match their 59px buttons (were 12.5px). */
-:root #careerStatistics.careerScreenV10 .headlineTile .headlineLabel {
-  font-size: var(--sa-type-eyebrow);
-  line-height: 1.25;
-  letter-spacing: .08em;
+/* Only where the stage is tall enough: on short landscape screens (1100x600) the tile is too short for a two-line
+   12px label and the number was clipped, so those keep the kit's own size. */
+@media (min-height: 800px), (orientation: portrait) {
+  :root #careerStatistics.careerScreenV10 .headlineTile .headlineLabel {
+    font-size: var(--sa-type-eyebrow);
+    line-height: 1.25;
+    letter-spacing: .08em;
+  }
 }
 :root #careerStatistics.careerScreenV10 #statePanel > p {
   max-width: 54ch;
