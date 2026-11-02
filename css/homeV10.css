@@ -1210,3 +1210,8 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 }
 /* The app moves focus to the page title on arrival (screen reader landmark); it is not a control, so no ring. */
 #story .storyTitle:focus { outline: none; }
+/* r88 STORY: with eight tiles in the row, narrow desktop windows give Continue the extra room its label needs beside
+   the player (it never runs under him). */
+@media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
+  #mainMenu.v10Home .fifaMenuGrid:has(> #homeStoryButton) > #continueCareer { flex-grow: 2.7; }
+}

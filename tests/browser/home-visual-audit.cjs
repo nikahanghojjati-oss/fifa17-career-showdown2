@@ -26,7 +26,7 @@ const cases = [
         { name: `phone-landscape-${width}x${height}`, viewport: { width, height }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, tiles: "landscape" }
     ))
 ];
-const tileIds = ["continueCareer", "newShowdown", "legacyButton", "careerStatisticsButton", "homeTrophyRoomButton", "ruleBookButton", "settingsButton"];
+const tileIds = ["continueCareer", "newShowdown", "legacyButton", "careerStatisticsButton", "homeTrophyRoomButton", "homeStoryButton", "ruleBookButton", "settingsButton"];
 
 fs.mkdirSync(resultsDirectory, { recursive: true });
 
@@ -146,7 +146,7 @@ function assertTiles(result, label, mode){
     assert.ok(result.scrollWidth <= viewport.width + 1, `${label}: Home must not scroll sideways (${result.scrollWidth} > ${viewport.width}).`);
     assert.ok(result.scrollHeight <= viewport.height + 1, `${label}: Home must not scroll vertically (${result.scrollHeight} > ${viewport.height}).`);
     assert.ok(result.bodyScrollHeight <= viewport.height + 1, `${label}: the page body must not scroll vertically.`);
-    assert.equal(result.tiles.length, tileIds.length, `${label}: all seven Home tiles must be present.`);
+    assert.equal(result.tiles.length, tileIds.length, `${label}: all eight Home tiles must be present.`);
     assert.ok(!result.stripInPage, `${label}: Home has no music strip at any size (r87: music is the MUSIC tab and the top-bar dock).`);
     for(const tile of result.tiles){
         assert.ok(!tile.missing, `${label}: ${tile.id} is missing from Home.`);

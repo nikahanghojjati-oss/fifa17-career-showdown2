@@ -57,7 +57,7 @@
   // r88 STORY (Nik's pick 2026-11-02: after Trophy Room): an eighth Home tile that opens a short local page about how the
   // Showdown was built, with one link to the full history site published with the game (chronicle/). The page is drawn here,
   // works offline, reads and sends no game data, and never touches a career, a season or Firebase.
-  const STORY_TILE=Object.freeze({id:"homeStoryButton",after:"homeTrophyRoomButton",code:"CHRONICLE",label:"STORY",
+  const STORY_TILE=Object.freeze({id:"homeStoryButton",after:"homeTrophyRoomButton",code:"ORIGINS",label:"STORY",
     meta:"How the Showdown was built."});
   // The one place the full story's address lives. Same origin and same tab, so the signed-in session and the single game tab
   // are kept; the site's own "Back to the game" link comes straight back here.
