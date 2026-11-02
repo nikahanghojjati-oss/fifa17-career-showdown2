@@ -19,7 +19,8 @@ concurrency:
 jobs:
   stability-contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    # r87 grew the contract suite to about 9-11 min on a runner (r86: 4.5 min); 8 min cancelled the 2.0.0 main run.
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
