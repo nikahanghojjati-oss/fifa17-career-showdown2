@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-02T17:23:48Z", "by": "G", "status": "SENT", "note": ""}]
+ "evidence": ["claude-visual/story-film-reel @ 78917ec6 - TILE_STORY_V1.webp/.png + previews"],
+ "log": [{"at": "2026-11-02T17:23:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-02T17:33:31Z", "by": "V", "status": "DONE", "note": "Art ready on claude-visual/story-film-reel: TILE_STORY_V1.webp (512 RGBA q88) + TILE_STORY_V1.png master in visual-assets/v10_1/shared/art/home-tiles/. Previews + notes in project-documents/factory/reviews/STORY_TILE/. Phone: the 44 px bar does not fit under the grid at 393x660 today (tab bar covers it); G owns that layout."}]
 }
 ```
 
@@ -52,3 +52,10 @@ Team G uses a plain placeholder until this lands and will not ship STORY without
 
 ## Delivery
 Push to a `claude-visual/…` branch or open a PR, and tell Team G's lead the branch and file names.
+
+## Team V delivery (2 Nov 2026, 12:40 p.m. Eastern)
+- Branch `claude-visual/story-film-reel` @ 78917ec6 (off main 00ae2b72). Only new files, nothing else changed.
+- `visual-assets/v10_1/shared/art/home-tiles/TILE_STORY_V1.webp` (512 x 512 RGBA, q88, 47 KB) and `TILE_STORY_V1.png` (master, 1236 x 1236 RGBA).
+- Previews and notes: `project-documents/factory/reviews/STORY_TILE/` (README.md, PREVIEW_DESKTOP_1440.jpg, PREVIEW_DESKTOP_TILE_ZOOM.jpg, PREVIEW_PHONE_393.jpg).
+- Desktop: Rule Book's tileArt rule works as is. Phone: a 44 px bar under the grid is covered by the tab bar at 393 x 660 today; the preview moved the grid up 54 px. Your layout call.
+- Product truth (Nik 2 Nov: Team G lead now owns it): please confirm the tile name, text and placement are yours to set; the art carries no text.

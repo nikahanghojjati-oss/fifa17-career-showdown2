@@ -178,13 +178,26 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-29 23:06 | Team G | Team V | HO-047 DONE | Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx | no |
 | 2026-10-29 23:25 | Team V | Team G | HO-047 DONE | Sounds for Russian Roster Roulette: eight real cues that drop into platemap.json sfx | no |
 | 2026-10-30 00:18 | Team V | Team G | HO-040 DONE | Roster Russian Roulette: Red Dead Redemption game scene, cowboy cafe + boards (r87) | no |
+| 2026-10-31 01:52 | Team V | Team G | HO-048 SENT | Touchline Gazette full edition: real newspaper copy, stories and commentary (r87) | yes (receive it) |
 | 2026-10-31 02:01 | Team G | Team V | HO-048 RECEIVED | Touchline Gazette full edition: real newspaper copy, stories and commentary (r87) | no |
 | 2026-10-31 03:48 | Team G | Team V | HO-049 SENT | r87 start screens: season chips, LED words, no-dim CTA, Career Start options | yes (receive it) |
+| 2026-10-31 03:59 | Team V | Team G | HO-049 RECEIVED | r87 start screens: season chips, LED words, no-dim CTA, Career Start options | no |
+| 2026-10-31 09:26 | Team V | Team G | HO-049 DONE | r87 start screens: season chips, LED words, no-dim CTA, Career Start options | no |
 | 2026-10-31 19:35 | Team G | Team V | HO-050 SENT | r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller | yes (receive it) |
+| 2026-10-31 19:48 | Team V | Team G | HO-050 DONE | r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller | no |
 | 2026-11-01 10:33 | Team G | Team V | HO-051 SENT | Prime Pack page art for r87 (release waits for it) | yes (receive it) |
+| 2026-11-01 10:35 | Team V | Team G | HO-051 RECEIVED | Prime Pack page art for r87 (release waits for it) | no |
+| 2026-11-01 10:51 | Team V | Team G | HO-051 DONE | Prime Pack page art for r87 (release waits for it) | no |
 | 2026-11-01 11:16 | Team G | Team V | HO-048 DONE | Touchline Gazette full edition: real newspaper copy, stories and commentary (r87) | no |
 | 2026-11-01 12:30 | Team G | Team V | HO-052 SENT | SP reveal: lower-third name overflow on tablet landscape (F8-09) | yes (receive it) |
+| 2026-11-01 12:35 | Team V | Team G | HO-052 RECEIVED | SP reveal: lower-third name overflow on tablet landscape (F8-09) | no |
+| 2026-11-01 12:57 | Team V | Team G | HO-052 DONE | SP reveal: lower-third name overflow on tablet landscape (F8-09) | no |
 | 2026-11-01 15:21 | Team G | Team V | HO-053 SENT | Re-skin #1163 onto final Prime Pack page: quick visual sign-off | yes (receive it) |
+| 2026-11-01 15:25 | Team V | Team G | HO-053 RECEIVED | Re-skin #1163 onto final Prime Pack page: quick visual sign-off | no |
+| 2026-11-01 15:42 | Team V | Team G | HO-053 DONE | Re-skin #1163 onto final Prime Pack page: quick visual sign-off | no |
 | 2026-11-01 15:57 | Team G | Team V | HO-054 SENT | Title wipe paints a black box over photo backgrounds (r87) | yes (receive it) |
+| 2026-11-01 16:00 | Team V | Team G | HO-054 RECEIVED | Title wipe paints a black box over photo backgrounds (r87) | no |
+| 2026-11-01 16:04 | Team V | Team G | HO-054 DONE | Title wipe paints a black box over photo backgrounds (r87) | no |
 | 2026-11-02 17:23 | Team G | Team V | HO-055 SENT | Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88) | yes (receive it) |
 | 2026-11-02 17:23 | Team G | Team V | HO-056 SENT | Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88) | yes (receive it) |
+| 2026-11-02 17:33 | Team V | Team G | HO-055 DONE | Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88) | no |
