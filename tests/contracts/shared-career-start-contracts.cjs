@@ -92,7 +92,7 @@ assert.match(production,/if\(pcstReady\(\)\)\{pcstStopPolling\(\);pcstScheduleAu
 assert.match(production,/CareerModeProductionSharedShowdownPresentation;[\s\S]*presentation\.deactivate\(\)/,'Career Start must deactivate the completed Shared Setup presentation so its provider polling cannot continue after handoff');
 assert.match(production,/serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true/,'Career Start diagnostics must expose shared serialization, terminal polling shutdown and setup-presentation deactivation');
 assert.match(production,/ssjr-production-transfer-challenge","js\/productionSharedTransferChallenge\.js"/,'Career Start must load the production Shared Transfer Challenge as its next gameplay capability');
-assert.match(production,/ready\?"CONTINUE TO TRANSFER CHALLENGE"/,'Career Start ready state must expose a real gameplay continuation instead of a disabled terminal badge');
+assert.match(production,/ready\?"CONTINUE TO THE TRANSFER WAR"/,'Career Start ready state must expose a real gameplay continuation instead of a disabled terminal badge');
 assert.match(production,/ready\?pcstOpenTransferChallenge\(\):pcstAcknowledge\(\)/,'the Career Start primary action must route ready state into Shared Transfer Challenge and non-ready state into acknowledgement');
 assert.match(production,/const opened=await transfer\.open\(\);/,'Career Start must delegate navigation to the authoritative Shared Transfer Challenge adapter');
 assert.match(production,/routesReadyStateToTransferChallenge:true/,'Career Start diagnostics must expose the gameplay handoff contract');

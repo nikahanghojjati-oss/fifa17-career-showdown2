@@ -44,7 +44,7 @@ const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
 // r79 one start flow: START makes the pair code itself and both managers continue by themselves once connected, so
 // CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (GET READY) and CREATE CODE FOR NIK are no longer taps either.
-const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH CHALLENGE","#refreshSharedTransferChallenge"]);
+const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH CHALLENGE","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
   assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
@@ -728,7 +728,7 @@ async function main(){
       }
       ok("J9.4","a closed and reopened tab re-attaches to the same session with one CONTINUE CAREER tap and no code");
       for(const m of [daniel,nik]){
-        await m.page.waitForFunction(()=>/TRANSFER CHALLENGE|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
+        await m.page.waitForFunction(()=>/TRANSFER WAR|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
         await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
         await m.page.locator("#transferChallenge, #seasonEntry").filter({visible:true}).first().waitFor({state:"visible",timeout:30000});
         if(await m.page.locator("#transferChallenge").isVisible()){

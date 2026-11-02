@@ -264,12 +264,16 @@
     const lines=[...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
-        note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the transfer window. The game can't do it for you.`,
+        note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the Transfer War. The game can't do it for you.`,
         buttons:[{id:"go",label:"I'VE RELEASED HIM",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]})
       :await rrsAsk(ctx,{heading:"Your squad is safe",label:"Your squad is safe",lines,note:"Your squad stays as it is this season.",
-        buttons:[{id:"go",label:"GO TO THE TRANSFER WINDOW",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+        buttons:[{id:"go",label:rrsNextLabel(ctx),primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
     return choice==="go";
   }
+
+  // Nik 2026-11-02: the button names the screen that really comes next: this season's Prime Pack when it applies here (the
+  // Transfer Challenge's own gate, ctx.primePackNext), else the Transfer War.
+  function rrsNextLabel(ctx){let prime=false;try{prime=typeof ctx.primePackNext==="function"&&ctx.primePackNext()===true;}catch(_error){}return prime?"GO TO THE PRIME PACK":"GO TO THE TRANSFER WAR";}
 
   // ---------- F2-02 / F2-10: the spin marks on the server ----------
   // ctx.marks = this season's marks as the Transfer Challenge read them ({playerOne, playerTwo}: true, an outcome, or null), or
@@ -306,6 +310,9 @@
   }
   async function rrsRun(ctx){
     if(!rrsDecide(ctx)||!rrsDoc())return true;
+    // Nik 2026-11-02 (order audit): the Transfer War already started after this season's Prime Pack, so this roulette was
+    // finished before it (both phones pass it to reach the Prime Pack): a fresh browser never shows its finished card again.
+    if(ctx.passed===true){rrsMark(DONE_KEY,rrsKey(ctx));return true;}
     rrsLoadingOn();
     while(!await rrsEnsure()){
       const choice=await rrsAsk(ctx,{heading:"Loading the roulette",label:"Loading the roulette",lines:["The roulette could not load. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
@@ -325,7 +332,7 @@
     const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history);
-      await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The transfer window stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
+      await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The Transfer War stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
       return false;
     }
     // F2-10: the server already holds this manager's spin for this season (another browser or tab, or cleared storage): the
@@ -384,5 +391,5 @@
   // Fable F2-11: a new open forgets an earlier BACK, so a later failure that never reached the roulette is not read as one.
   function rrsForgetHome(){leftForHome=false;return true;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial});
 });

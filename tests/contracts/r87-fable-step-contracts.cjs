@@ -78,7 +78,7 @@ async function partA(){
     assert.equal(w.panel(),null,"no stale TRY AGAIN card over the scene");
     assert.equal(w.loadingUp(),false,"the loading screen made way for the scene");
     w.pageSays("cms-rr-continue");
-    assert.equal(await w.press("GO TO THE TRANSFER WINDOW"),"Your squad is safe","the spin's CONTINUE reaches the result");
+    assert.equal(await w.press("GO TO THE TRANSFER WAR"),"Your squad is safe","the spin's CONTINUE reaches the result");
     assert.equal(await run,true);
     ok("F2-03","a TRY AGAIN card is removed before the scene shows; the spin's CONTINUE reaches the result card");
   }
@@ -138,7 +138,7 @@ async function partA(){
     await until(()=>w.title()==="Your squad is safe","the result card");
     assert.equal(w.loadingUp(),false,"the result card takes over from the loading screen");
     // F2-17: the roulette counts as on screen from START until close(), across the release save and the navigation.
-    await w.press("GO TO THE TRANSFER WINDOW");assert.equal(await run,true);
+    await w.press("GO TO THE TRANSFER WAR");assert.equal(await run,true);
     assert.equal(w.step.active(),true,"still on screen after GO, until the Transfer Challenge closes it");
     assert.ok(w.panel(),"the card stays until close() (nothing shows between it and the next screen)");
     w.step.close();
@@ -168,10 +168,10 @@ async function partA(){
     assert.ok(w.stage(),"the armed wait does not run out while locked");
     w.setVisibility("visible");w.pageSays("cms-rr-armed");
     await until(()=>w.stage()&&w.stage().style.visibility==="visible","the stage to show after the lock");
-    w.pageSays("cms-rr-continue");await w.press("GO TO THE TRANSFER WINDOW");assert.equal(await run,true);
+    w.pageSays("cms-rr-continue");await w.press("GO TO THE TRANSFER WAR");assert.equal(await run,true);
     const v=stepWorld();const run2=v.step.runBeforeTransfers({...CTX,verdicts:async()=>({ok:false})});
     await until(()=>v.title()==="Your squad is safe","a page that never answers on screen still falls back to the result card");
-    await v.press("GO TO THE TRANSFER WINDOW");assert.equal(await run2,true);
+    await v.press("GO TO THE TRANSFER WAR");assert.equal(await run2,true);
     ok("F2-07","the scene's load and armed waits count only on-screen time, so a lock mid-load never skips a scene that would have worked");
   }
   // Codex C2-01: namesakes (Alavés has a Manu García #19 and #26) are told apart on the release card and in the scene payload by
