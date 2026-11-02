@@ -246,11 +246,16 @@
 @media (min-width: 900px) {
   #cmStage .cmShell { padding-top: 24px; }
 }
-/* Phones: the seven chambers stay on one line under each name. */
-@media (max-width: 420px) {
+/* Phones (up to 560 px, so big phones like 430 px fit too): the seven chambers stay on one line under each name. */
+@media (max-width: 560px) {
   #cmStage .cmBoard { gap: 8px; padding: 12px 8px; }
   #cmStage .cmCylinder { gap: 2px; padding: 4px 5px; }
   #cmStage .cmChamber { width: 15px; height: 15px; border-width: 1.5px; outline-offset: -5px; }
+}
+/* Small phones (360 px): a little smaller still, so the right-hand cylinder stays inside the board. */
+@media (max-width: 380px) {
+  #cmStage .cmBoard { gap: 6px; padding: 12px 6px; }
+  #cmStage .cmChamber { width: 13px; height: 13px; outline-offset: -4px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #cmStage .cmBall, #cmStage .cmKeeper { transition: none !important; }
