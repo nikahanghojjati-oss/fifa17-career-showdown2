@@ -32,7 +32,7 @@
    - Draw shown only after 97 s.
 3. **#1187: Trophy Room tap.** `js/careerScreensV10.js` `v10Wire`: one delegated document listener for OPEN TROPHY ROOM. Does any tap open nothing or open twice? Is there a black screen without the loading gate?
 4. **Release items (#1156, commit 6a575de1).** `tools/set-release-time.cjs`, `.github/workflows/deploy-github-pages.yml` (the site waits up to 45 min for this commit's Rules deploy), `service-worker.js`, `js/app.js` (2.0.0), `RELEASE_V2.0.0_R87.md`.
-   - **Check the release-time constants** listed in `tools/set-release-time.cjs` (`RRR_FROM_MS`, `ROULETTE_FROM_MS`, `ICON_FROM_MS`, every `PRIME_PACK_FROM_MS`, `OWN_CLUB_FROM_MS`) against the actual release. At the pinned SHA they read `2026-11-01T17:00:00Z`. What happens to a Showdown confirmed on 1.9.10 after that time once the phones update to 2.0.0 mid-Showdown? Are all ten equal?
+   - Release-time constants: at the pinned SHA they read `2026-11-01T17:00:00Z`. That is a known placeholder: the lead re-runs `node tools/set-release-time.cjs` in the final commit (next whole hour at or after merge + 90 min), and no Showdown was started after 17:00Z. Do not report the placeholder itself. Do check that the tool sets all ten constants listed in it (`RRR_FROM_MS`, `ROULETTE_FROM_MS`, `ICON_FROM_MS`, every `PRIME_PACK_FROM_MS`, `OWN_CLUB_FROM_MS`), that the release contract RR5 fails if any differ, and that no other start constant was missed.
    - Can the site go live before its Rules?
 
 ## Already proven (do not redo; challenge only if you see a concrete hole)
