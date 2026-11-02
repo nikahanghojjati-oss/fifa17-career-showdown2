@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-02 12:47 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-02 12:54 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `7d350c2` (Mon 2 Nov 12:33 PM Boston time) · 197 messages · 57 hand-offs · 376 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `5d93a54` (Mon 2 Nov 12:50 PM Boston time) · 198 messages · 57 hand-offs · 378 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-056 · G → V · Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Mon 2 Nov 12:50 PM · Team V · Done · recorded by G lead from PR #1207 (V thread did not write the relay)
 - Mon 2 Nov 12:23 PM · Team G · Sent
 - Mon 2 Nov 12:25 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -2077,6 +2078,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-056 DONE · Team V → Team G · Mon 2 Nov 12:50 PM Boston time
+
+**Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-055 DONE · Team V → Team G · Mon 2 Nov 12:33 PM Boston time
 
