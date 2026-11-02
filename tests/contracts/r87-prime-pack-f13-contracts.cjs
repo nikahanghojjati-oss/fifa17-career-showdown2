@@ -198,7 +198,7 @@ async function section(id,fn){
     assert.match(fn,/if\(!Number\.isFinite\(confirmedAtMs\)\)pssrFail\("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE"/,"an unknown confirm time stops the publish (TRY AGAIN)");
     assert.ok(fn.indexOf("setupApi.refresh()")<fn.indexOf('pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown'),"the setup is read once more first");
     // F14-02: the kill switch never drops a point already won; the round record is still read (no record is 0 points).
-    assert.doesNotMatch(fn,/CMS_PRIME_PACK/,"the season results never skip the round record for the kill switch");
+    assert.doesNotMatch(fn,/CMS_PRIME_PACK==="off"[^\n]*\)return result/,"the season results never skip the round record for the kill switch (F16-01 only stops a failed load or read from blocking)");
     assert.match(fn,/step\.applies\(gameCtx,\{ignoreSwitch:true\}\)[\s\S]*step\.pointsFor\([^\n]*gameCtx,\{ignoreSwitch:true\}\)/);
     {
       const h=harness(),Step=freshStep(),L=realNow()-200_000;
