@@ -1215,3 +1215,8 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 @media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
   #mainMenu.v10Home .fifaMenuGrid:has(> #homeStoryButton) > #continueCareer { flex-grow: 2.7; }
 }
+/* r88 STORY: at 1001-1199px the eight-tile row leaves each tile about 60-84px of text room, so the 17-20px tile names
+   ("SHOWDOWN", "STATISTICS") ran out of their tiles. Scale them with the window instead; nothing is clipped or covered. */
+@media (min-width: 1001px) and (max-width: 1199px) {
+  #app #mainMenu.v10Home .fifaMenuGrid:has(> #homeStoryButton) > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(17px, 1.33vw); }
+}
