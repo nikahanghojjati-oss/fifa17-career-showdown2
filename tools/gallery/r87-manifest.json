@@ -131,24 +131,31 @@
   },
   {
    "title": "Russian Roster Roulette, result",
-   "note": "Re-shot on bd67147a (#1190). Your result on a marble panel: release the player who was hit in FIFA 17 \"before the Transfer War\", then I'VE RELEASED HIM; a safe squad goes straight on with GO TO THE PRIME PACK. Order is always roulette, Prime Pack, Transfer War.",
+   "note": "Re-shot on bd67147a (#1190). Safe card: GO TO THE PRIME PACK. Hit card: release the player in FIFA 17 before the Transfer War, then I'VE RELEASED HIM. Order is always roulette, Prime Pack, Transfer War.",
    "prs": [
     1069,
     1075,
     1091,
     1190
    ],
-   "desktop": null,
-   "phone": "test-results/gallery-r87/phone/032-tap-clubwheelscreen-over-rrsteppanel-release-e-mangala-5.png"
+   "desktop": "test-results/gallery-r87-run15/desktop/133-dashboard-showdown-home-over-rrsteppanel-your-squad-is-safe.png",
+   "phone": "test-results/gallery-r87-run15/phone/032-clubwheelscreen-over-rrsteppanel-your-squad-is-safe.png",
+   "extra": [
+    {
+     "file": "test-results/gallery-r87-run14/phone/032-tap-clubwheelscreen-over-rrsteppanel-release-e-mangala-5.png",
+     "caption": "Phone, hit card: release him before the Transfer War"
+    }
+   ]
   },
   {
-   "title": "Showdown Home, waiting for the spin",
-   "note": "The transfer window waits until both managers have spun; the button names who it waits for.",
+   "title": "Showdown Home, Transfer War entry",
+   "note": "Re-shot on bd67147a (#1190). START SEASON 2 TRANSFER WAR and the status line TRANSFER WAR: READY (on phone the button sits further down the page). Transfer War opens only after both managers have spun and played the Prime Pack. The RESUME state (coming back mid-window) is not reached by the test game, so it has no picture.",
    "prs": [
-    1101
+    1101,
+    1190
    ],
-   "desktop": null,
-   "phone": null
+   "desktop": "test-results/gallery-r87-run15/desktop/079-dashboard-showdown-home.png",
+   "phone": "test-results/gallery-r87-run15/phone/122-dashboard-showdown-home.png"
   },
   {
    "title": "Prime Pack",
@@ -158,8 +165,8 @@
     1163,
     1190
    ],
-   "desktop": "test-results/gallery-r87/desktop/036-frame-prime-pack-t1.png",
-   "phone": "test-results/gallery-r87/phone/037-frame-prime-pack-t2.png",
+   "desktop": "test-results/gallery-r87-run14/desktop/036-frame-prime-pack-t1.png",
+   "phone": "test-results/gallery-r87-run14/phone/037-frame-prime-pack-t2.png",
    "extra": [
     {
      "file": {
