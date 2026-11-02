@@ -67,7 +67,7 @@
 /* Polish RR-4: the panel's buttons in the v10 marble black-and-gold (the values of css/r78-marble-surfaces.css .r78-btn,
    copied so this sheet stands alone): primary = polished gold, back = black face with a gold edge. They replace the legacy
    slate .menuButton and the near-white .backButton inside this panel only. */
-#rrStepPanel .rrStepActions > button.menuButton, #rrStepPanel .rrStepActions > button.backButton {
+#rrStepPanel .rrStepActions > button.menuButton, #rrStepPanel .rrStepActions > button.rrStepBack {
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -91,7 +91,7 @@
   box-shadow: inset 0 1px 0 rgba(255, 248, 214, .8), inset 0 -2px 0 rgba(138, 106, 18, .6);
   text-shadow: 0 1px 0 rgba(255, 241, 184, .45);
 }
-#rrStepPanel .rrStepActions > button.backButton {
+#rrStepPanel .rrStepActions > button.rrStepBack {
   color: var(--r78-gold-strong, #ffd34d);
   background: linear-gradient(180deg, #17140e, #070605);
   border-color: var(--r78-gold-edge, #d4a017);
