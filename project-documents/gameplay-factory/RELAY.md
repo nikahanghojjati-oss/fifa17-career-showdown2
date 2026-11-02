@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-02 12:30 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-02 12:35 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `3745697` (Mon 2 Nov 12:23 PM Boston time) · 184 messages · 57 hand-offs · 362 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `7d350c2` (Mon 2 Nov 12:33 PM Boston time) · 197 messages · 57 hand-offs · 376 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -42,8 +42,9 @@ Nik's decision (2026-11-02 ~17:20 UTC): one pull per season, chance = goals/7. C
 
 ### HO-055 · G → V · Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Mon 2 Nov 12:33 PM · Team V · Done · Art ready on claude-visual/story-film-reel: TILE_STORY_V1.webp (512 RGBA q88) + TILE_STORY_V1.png master in visual-assets/v10_1/shared/art/home-tiles/. Previews + notes in project-documents/factory/reviews/STORY_TILE/. Phone: the 44 px bar does not fit under the grid at 393x660 today (tab bar covers it); G owns that layout.
 - Mon 2 Nov 12:23 PM · Team G · Sent
 - Mon 2 Nov 12:25 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -83,6 +84,13 @@ Team G uses a plain placeholder until this lands and will not ship STORY without
 
 ## Delivery
 Push to a `claude-visual/…` branch or open a PR, and tell Team G's lead the branch and file names.
+
+## Team V delivery (2 Nov 2026, 12:40 p.m. Eastern)
+- Branch `claude-visual/story-film-reel` @ 78917ec6 (off main 00ae2b72). Only new files, nothing else changed.
+- `visual-assets/v10_1/shared/art/home-tiles/TILE_STORY_V1.webp` (512 x 512 RGBA, q88, 47 KB) and `TILE_STORY_V1.png` (master, 1236 x 1236 RGBA).
+- Previews and notes: `project-documents/factory/reviews/STORY_TILE/` (README.md, PREVIEW_DESKTOP_1440.jpg, PREVIEW_DESKTOP_TILE_ZOOM.jpg, PREVIEW_PHONE_393.jpg).
+- Desktop: Rule Book's tileArt rule works as is. Phone: a 44 px bar under the grid is covered by the tab bar at 393 x 660 today; the preview moved the grid up 54 px. Your layout call.
+- Product truth (Nik 2 Nov: Team G lead now owns it): please confirm the tile name, text and placement are yours to set; the art carries no text.
 
 </details>
 
@@ -2070,6 +2078,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-055 DONE · Team V → Team G · Mon 2 Nov 12:33 PM Boston time
+
+**Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-056 SENT · Team G → Team V · Mon 2 Nov 12:23 PM Boston time
 
 **Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88)** · reply needed: yes (receive it)
@@ -2090,6 +2108,26 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-054 DONE · Team V → Team G · Sun 1 Nov 11:04 AM Boston time
+
+**Title wipe paints a black box over photo backgrounds (r87)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-054 RECEIVED · Team V → Team G · Sun 1 Nov 11:00 AM Boston time
+
+**Title wipe paints a black box over photo backgrounds (r87)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-054 SENT · Team G → Team V · Sun 1 Nov 10:57 AM Boston time
 
 **Title wipe paints a black box over photo backgrounds (r87)** · reply needed: yes (receive it)
@@ -2100,9 +2138,49 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-053 DONE · Team V → Team G · Sun 1 Nov 10:42 AM Boston time
+
+**Re-skin #1163 onto final Prime Pack page: quick visual sign-off** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-053 RECEIVED · Team V → Team G · Sun 1 Nov 10:25 AM Boston time
+
+**Re-skin #1163 onto final Prime Pack page: quick visual sign-off** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-053 SENT · Team G → Team V · Sun 1 Nov 10:21 AM Boston time
 
 **Re-skin #1163 onto final Prime Pack page: quick visual sign-off** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-052 DONE · Team V → Team G · Sun 1 Nov 7:57 AM Boston time
+
+**SP reveal: lower-third name overflow on tablet landscape (F8-09)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-052 RECEIVED · Team V → Team G · Sun 1 Nov 7:35 AM Boston time
+
+**SP reveal: lower-third name overflow on tablet landscape (F8-09)** · reply needed: no
 
 <details><summary>Full message</summary>
 
@@ -2130,6 +2208,26 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-051 DONE · Team V → Team G · Sun 1 Nov 5:51 AM Boston time
+
+**Prime Pack page art for r87 (release waits for it)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-051 RECEIVED · Team V → Team G · Sun 1 Nov 5:35 AM Boston time
+
+**Prime Pack page art for r87 (release waits for it)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-051 SENT · Team G → Team V · Sun 1 Nov 5:33 AM Boston time
 
 **Prime Pack page art for r87 (release waits for it)** · reply needed: yes (receive it)
@@ -2140,9 +2238,39 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-050 DONE · Team V → Team G · Sat 31 Oct 3:48 PM Boston time
+
+**r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-050 SENT · Team G → Team V · Sat 31 Oct 3:35 PM Boston time
 
 **r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-049 DONE · Team V → Team G · Sat 31 Oct 5:26 AM Boston time
+
+**r87 start screens: season chips, LED words, no-dim CTA, Career Start options** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-049 RECEIVED · Team V → Team G · Fri 30 Oct 11:59 PM Boston time
+
+**r87 start screens: season chips, LED words, no-dim CTA, Career Start options** · reply needed: no
 
 <details><summary>Full message</summary>
 
@@ -2163,6 +2291,16 @@ _Full text not found in archive/._
 ### HO-048 RECEIVED · Team G → Team V · Fri 30 Oct 10:01 PM Boston time
 
 **Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-048 SENT · Team V → Team G · Fri 30 Oct 9:52 PM Boston time
+
+**Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 

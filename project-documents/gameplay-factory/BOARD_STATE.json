@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-02 12:30 PM Boston time (EST)",
+ "generated": "2026-11-02 12:35 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 184,
+  "count": 197,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1571,6 +1571,15 @@
     "boston": "Thu 29 Oct 8:18 PM"
    },
    {
+    "time": "2026-10-31 01:52",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-048 SENT",
+    "subject": "Touchline Gazette full edition: real newspaper copy, stories and commentary (r87)",
+    "reply": "yes (receive it)",
+    "boston": "Fri 30 Oct 9:52 PM"
+   },
+   {
     "time": "2026-10-31 02:01",
     "from": "Team G",
     "to": "Team V",
@@ -1589,6 +1598,24 @@
     "boston": "Fri 30 Oct 11:48 PM"
    },
    {
+    "time": "2026-10-31 03:59",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-049 RECEIVED",
+    "subject": "r87 start screens: season chips, LED words, no-dim CTA, Career Start options",
+    "reply": "no",
+    "boston": "Fri 30 Oct 11:59 PM"
+   },
+   {
+    "time": "2026-10-31 09:26",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-049 DONE",
+    "subject": "r87 start screens: season chips, LED words, no-dim CTA, Career Start options",
+    "reply": "no",
+    "boston": "Sat 31 Oct 5:26 AM"
+   },
+   {
     "time": "2026-10-31 19:35",
     "from": "Team G",
     "to": "Team V",
@@ -1598,6 +1625,15 @@
     "boston": "Sat 31 Oct 3:35 PM"
    },
    {
+    "time": "2026-10-31 19:48",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-050 DONE",
+    "subject": "r87 layout: Select League waiting strip covers controls; sideways Rule Book scroller",
+    "reply": "no",
+    "boston": "Sat 31 Oct 3:48 PM"
+   },
+   {
     "time": "2026-11-01 10:33",
     "from": "Team G",
     "to": "Team V",
@@ -1605,6 +1641,24 @@
     "subject": "Prime Pack page art for r87 (release waits for it)",
     "reply": "yes (receive it)",
     "boston": "Sun 1 Nov 5:33 AM"
+   },
+   {
+    "time": "2026-11-01 10:35",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-051 RECEIVED",
+    "subject": "Prime Pack page art for r87 (release waits for it)",
+    "reply": "no",
+    "boston": "Sun 1 Nov 5:35 AM"
+   },
+   {
+    "time": "2026-11-01 10:51",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-051 DONE",
+    "subject": "Prime Pack page art for r87 (release waits for it)",
+    "reply": "no",
+    "boston": "Sun 1 Nov 5:51 AM"
    },
    {
     "time": "2026-11-01 11:16",
@@ -1625,6 +1679,24 @@
     "boston": "Sun 1 Nov 7:30 AM"
    },
    {
+    "time": "2026-11-01 12:35",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-052 RECEIVED",
+    "subject": "SP reveal: lower-third name overflow on tablet landscape (F8-09)",
+    "reply": "no",
+    "boston": "Sun 1 Nov 7:35 AM"
+   },
+   {
+    "time": "2026-11-01 12:57",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-052 DONE",
+    "subject": "SP reveal: lower-third name overflow on tablet landscape (F8-09)",
+    "reply": "no",
+    "boston": "Sun 1 Nov 7:57 AM"
+   },
+   {
     "time": "2026-11-01 15:21",
     "from": "Team G",
     "to": "Team V",
@@ -1634,6 +1706,24 @@
     "boston": "Sun 1 Nov 10:21 AM"
    },
    {
+    "time": "2026-11-01 15:25",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-053 RECEIVED",
+    "subject": "Re-skin #1163 onto final Prime Pack page: quick visual sign-off",
+    "reply": "no",
+    "boston": "Sun 1 Nov 10:25 AM"
+   },
+   {
+    "time": "2026-11-01 15:42",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-053 DONE",
+    "subject": "Re-skin #1163 onto final Prime Pack page: quick visual sign-off",
+    "reply": "no",
+    "boston": "Sun 1 Nov 10:42 AM"
+   },
+   {
     "time": "2026-11-01 15:57",
     "from": "Team G",
     "to": "Team V",
@@ -1641,6 +1731,24 @@
     "subject": "Title wipe paints a black box over photo backgrounds (r87)",
     "reply": "yes (receive it)",
     "boston": "Sun 1 Nov 10:57 AM"
+   },
+   {
+    "time": "2026-11-01 16:00",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-054 RECEIVED",
+    "subject": "Title wipe paints a black box over photo backgrounds (r87)",
+    "reply": "no",
+    "boston": "Sun 1 Nov 11:00 AM"
+   },
+   {
+    "time": "2026-11-01 16:04",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-054 DONE",
+    "subject": "Title wipe paints a black box over photo backgrounds (r87)",
+    "reply": "no",
+    "boston": "Sun 1 Nov 11:04 AM"
    },
    {
     "time": "2026-11-02 17:23",
@@ -1659,6 +1767,15 @@
     "subject": "Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88)",
     "reply": "yes (receive it)",
     "boston": "Mon 2 Nov 12:23 PM"
+   },
+   {
+    "time": "2026-11-02 17:33",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-055 DONE",
+    "subject": "Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88)",
+    "reply": "no",
+    "boston": "Mon 2 Nov 12:33 PM"
    }
   ],
   "g2v": {
@@ -1679,8 +1796,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "3745697",
-  "head_boston": "Mon 2 Nov 12:23 PM",
+  "head": "7d350c2",
+  "head_boston": "Mon 2 Nov 12:33 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2459,13 +2576,13 @@
     "from": "G",
     "to": "V",
     "title": "Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88)",
-    "stage": "DELIVERED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-055_story-tile-film-reel-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5
+    "waiting_min": null
    },
    {
     "id": "HO-056",
@@ -2478,7 +2595,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-056_chamber-men-scene-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5
+    "waiting_min": 10
    }
   ],
   "relay_ok": true
@@ -2550,7 +2667,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
