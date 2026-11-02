@@ -47,7 +47,7 @@ A newspaper front page after each season's results, and a final edition after th
 ## Starting a Showdown
 - Seasons screen: four gold chips for 1, 3, 5 and 10 seasons, plus the NEW SHOWDOWN wordmark.
 - Career Start has its own stage on the Club plate: your club crests sit inside the packs, and nothing covers the faces or wordmark.
-- Special Player reveal: smoother on phones, the LED boards show whole messages, the name always fits its plate, and Continue is no longer dimmed while waiting. From 2.0.0 Showdowns on, neither manager's Special Player is ever from their own club.
+- Special Player reveal: smoother on phones, the LED boards show whole messages, the name always fits its plate, and Continue is no longer dimmed while waiting. The Special Player is a random top-300 player who is never from the manager's own club (#1173).
 - REMATCH on the Final Winner screen. Daniel's opens the seasons screen with the same length already picked; Nik's takes him to Home to JOIN.
 
 ## Career screens
