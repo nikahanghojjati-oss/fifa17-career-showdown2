@@ -208,7 +208,7 @@ const ts=ms=>({toMillis:()=>ms});
   assert.match(rules,/ssjrPackArrive\(before, after, role\) \|\| ssjrPackLeave\(before, after, role\) \|\| ssjrPackGuess/,"the update rule takes the leave");
   assert.match(step,/async function igsLeave\(io,ctx\)[\s\S]*?data\.arrived\[me\]!=null&&data\.arrived\[igsOther\(me\)\]===null&&data\.namedBy===null\)\{tx\.update\(ref,\{\[`arrived\.\$\{me\}`\]:null/,"the step withdraws only while the other has not arrived");
   assert.match(step,/back\.addEventListener\("click",\(\)=>\{if\(finished\)return;leave\(\);end\("back"\);\}\)/,"BACK withdraws");
-  assert.match(step,/visibilityState==="hidden"\)\{if\(record&&!record\.winner&&record\.arrived\[other\]===null\)\{away=true;leave\(\);\}return;\}[\s\S]{0,200}?if\(away\)\{away=false;rejoinedAt=Date\.now\(\);igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
+  assert.match(step,/visibilityState==="hidden"\)\{if\(ready&&\(record\?!record\.winner&&record\.arrived\[other\]===null:true\)\)\{away=true;leave\(\);\}return;\}[\s\S]{0,200}?if\(away\)\{away=false;rejoinedAt=Date\.now\(\);igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"a hidden phone withdraws and arrives again when shown");
   assert.match(step,/await igsPresence\(\(\)=>igsArrive\(io,ctx\)\)/,"arrive and leave run in order");
   ok("S12","leaving while the other manager has not arrived withdraws the arrival (Rules + step: BACK and a hidden phone), and coming back arrives again");
 }
