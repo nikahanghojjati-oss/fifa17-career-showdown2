@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 11:59 PM Boston time (EST)",
+ "generated": "2026-11-02 12:03 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 182,
@@ -1695,18 +1695,7 @@
    "when": "2026-11-01T23:28:46-05:00",
    "subject": "Merge pull request #1192 from nikahanghojjati-oss/claude-gameplay/r87-repin",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1192,
-     "title": "L5: re-pin the Rules check to main after the 2.0.0 release",
-     "merged": "2026-11-02T04:28:47Z"
-    },
-    {
-     "pr": 1191,
-     "title": "r87 release: 2.0.0-r87 (Prime Pack, Squad Roulette, 15/150, Gazette, Commentary v3)",
-     "merged": "2026-11-02T03:44:25Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
