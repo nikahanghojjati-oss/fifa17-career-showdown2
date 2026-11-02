@@ -435,3 +435,98 @@
     font-size: max(var(--r78-size-input), 1em);
   }
 }
+
+
+/* =====================================================================================================
+   4 · STUDIO AXE (r88 pilot, Team G, Nik 2026-11-02): craft layer for Settings, Career Statistics and Legacy.
+   Playbook: https://claude.ai/artifact/NXqs6veYmGkn7YyRLPkiRp. CSS only: no picture, wording, order or data changes.
+   One type scale (12 / 13 / 15 / 16 / 18 / 20 px on screen), labels tracked .1-.16em, nothing under 12px.
+   Panels in one row share their top and bottom edges; error and empty states use one centred pattern.
+   ===================================================================================================== */
+:root {
+  --sa-type-eyebrow: 12px;
+  --sa-type-small: 13px;
+  --sa-type-body-2: 15px;
+  --sa-type-title-3: 18px;
+  --sa-type-button: 15px;
+  --sa-track-eyebrow: .14em;
+  --sa-track-button: .1em;
+}
+
+/* 4a · Settings, big landscape desktops (same zoomed composition as 3d+): a real heading step between the gold
+   eyebrow (12px) and the intro line (14px): panel titles were 13.6px on screen, below their own intro text.
+   Panel buttons share one label size (they were 10.5 / 11 / 12.75px). */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanelEyebrow {
+      font-size: calc(var(--sa-type-eyebrow) / var(--r78-settings-zoom));
+      line-height: 1;
+      letter-spacing: .16em;
+    }
+    /* the bigger title is paid for inside the heading (tight eyebrow and title lines, intro set right under the title), so the
+       composition keeps its no-scroll fit from 1280x800 up */
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading h3 {
+      margin-top: calc(2px / var(--r78-settings-zoom));
+      font-size: calc(17px / var(--r78-settings-zoom));
+      line-height: 1.05;
+    }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading p { margin-top: 0; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanel .menuButton {
+      font-size: calc(var(--sa-type-small) / var(--r78-settings-zoom));
+      letter-spacing: .12em;
+    }
+  }
+}
+/* 4b · Settings desktop grid: the account card stretches to its row like the application and motion cards, so the three
+   upper cards end on one line (the account card stopped halfway, leaving an empty marble hole above Showdown Data).
+   The account and motion cards keep their controls at their foot. Grid columns, rows and order are unchanged. */
+@media (min-width: 1024px) and (min-height: 600px) and (orientation: landscape) {
+  :root #settingsOverlay.v10Settings #settingsDialog #settingsContent > :is(.settingsConnectedAccountPanel, .settingsPanel--motion) {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+  :root #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsConnectedAccountPanel > .settingsConnectedAccountActions,
+  :root #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsAudioRow { margin-top: auto; }
+}
+
+/* 4c · Career Statistics: readable labels on the headline tiles (were 11px), state line (was 13.7px), and the two big
+   actions get labels that match their 59px buttons (were 12.5px). */
+:root #careerStatistics.careerScreenV10 .headlineTile .headlineLabel {
+  font-size: var(--sa-type-eyebrow);
+  line-height: 1.25;
+  letter-spacing: .08em;
+}
+:root #careerStatistics.careerScreenV10 #statePanel > p {
+  max-width: 54ch;
+  font-size: var(--sa-type-body-2);
+  line-height: 1.45;
+}
+:root #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel {
+  font-size: var(--sa-type-button);
+  line-height: 1.2;
+  letter-spacing: var(--sa-track-button);
+}
+:root #careerStatistics.careerScreenV10 .titleBlock > :is(.sd-eyebrow, .sd-tagline) { font-size: var(--sa-type-eyebrow); }
+
+/* 4d · Legacy: the state line was 12px. On desktop, when no cards are shown (empty, loading, unavailable), the state
+   card spans the archive area beside the side menu (the hidden card rows left an empty band) and centres icon, line and action, like the Career Statistics state card. */
+:root #app #legacy[data-rivalry-legacy-v10] .legacyStateCopy {
+  font-size: var(--sa-type-body-2);
+  line-height: 1.45;
+}
+:root #legacy .legacyTitleBlock > :is(.legacyEyebrow, .legacyTagline) { font-size: var(--sa-type-eyebrow); }
+@media (min-width: 1024px) and (min-height: 701px) and (orientation: landscape) {
+  :root #app #legacy #stage-root:is([data-frame-state="empty"], [data-frame-state="loading"], [data-frame-state="unavailable"]) .legacyStateBanner:not([data-compact="true"]) {
+    grid-row: 1 / -1;
+    align-self: stretch;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-content: center;
+    gap: 16px;
+    text-align: center;
+  }
+  :root #app #legacy #stage-root:is([data-frame-state="empty"], [data-frame-state="loading"], [data-frame-state="unavailable"]) .legacyStateBanner:not([data-compact="true"]) .legacyStateCopy {
+    max-width: 52ch;
+  }
+}
