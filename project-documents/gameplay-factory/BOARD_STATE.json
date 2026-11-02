@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02 12:43 PM Boston time (EST)",
+ "generated": "2026-11-02 12:47 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 197,
@@ -2605,7 +2605,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-056_chamber-men-scene-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 18
+    "waiting_min": 22
    }
   ],
   "relay_ok": true
