@@ -13,6 +13,8 @@
 //   CM8 screen: no dimming, no rgba scrim, nothing invented (no Math.random), every button reachable on a scrolling stage.
 //   CM9 hand-off: BACK TO SHOWDOWN HOME runs the step's own handler (the app's smart-back delegation leaves it alone), and
 //       after SPIN THE CYLINDER the screen stays until the roulette has run, so the dashboard never shows in between.
+//   CM10 a pick is bound to its round (Codex #1205): a send for round k that reaches the server after this manager's round k
+//       is already in (a second tab, a transaction retry) is refused, never stored as round k+1.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -164,4 +166,25 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
   assert.match(read("tests/browser/support/roster-roulette.cjs"),/async function playChamberMen\(page\)/,"browser journeys play it (CMS_CHAMBER_MEN_NOW=1)");
   ok("CM9","BACK TO SHOWDOWN HOME leaves the step; after SPIN THE CYLINDER the screen holds until the roulette has run");
 }
-console.log(`PASS r88 Chamber Men contracts: ${results.length} checks.`);
+// CM10
+(async()=>{
+  const Step=require("../../js/chamberMenStep.js");
+  const rid=`pair_${"ab".repeat(32)}`,ctx={rivalryId:rid,managerRole:"playerOne",season:1};
+  const io=data=>{
+    const writes=[];
+    const sdk={doc:()=>({}),serverTimestamp:()=>"ts",runTransaction:async(_fs,fn)=>fn({get:async()=>({exists:()=>Boolean(data),data:()=>data}),set:(_r,d)=>writes.push(["set",d]),update:(_r,d)=>writes.push(["update",d])})};
+    return {io:{firestore:{},sdk,rivalryId:rid,sessionId:"s",deviceId:"d"},writes};
+  };
+  const doc=(p1,p2)=>({schemaVersion:1,objectType:"sharedChamberMenRound",rivalryId:rid,seasonNumber:1,kicks:{playerOne:p1,playerTwo:p2},revision:3});
+  // Daniel's round 1 ("LR") and Nik's round 1 are in; a late round-1 send from Daniel's other tab must not become round 2.
+  {const {io:a,writes}=io(doc("LR","RL"));const r=await Step.send(a,ctx,"MM",1);
+    assert.equal(r.ok,false,"a late round-1 pick is refused");assert.equal(writes.length,0,"nothing is written");}
+  {const {io:a,writes}=io(doc("LR","RL"));const r=await Step.send(a,ctx,"MM",2);
+    assert.equal(r.ok,true,"the round-2 pick goes in");assert.equal(writes[0][1]["kicks.playerOne"],"LRMM");}
+  // The first pick of all (no record yet) is round 1 only.
+  {const {io:a,writes}=io(null);assert.equal((await Step.send(a,ctx,"LL",2)).ok,false);assert.equal(writes.length,0);
+    const r=await Step.send(a,ctx,"LL",1);assert.equal(r.ok,true);assert.equal(writes[0][1].kicks.playerOne,"LL");}
+  assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(sel\.shot,sel\.dive\),round\)/,"the screen sends the round it is showing");
+  ok("CM10","a pick goes in only as the round it was made for; a late or repeated send is refused");
+  console.log(`PASS r88 Chamber Men contracts: ${results.length} checks.`);
+})().catch(error=>{console.error(error);process.exitCode=1;});

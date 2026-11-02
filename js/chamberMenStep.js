@@ -81,12 +81,15 @@
   function cmsStamp(io){return {activeSessionId:io.sessionId,updatedByDeviceId:io.deviceId,updatedAt:io.sdk.serverTimestamp()};}
   // This manager's next round, on the latest record: created with his first round, or his string grown by one round.
   // {ok:true, record} once written; {ok:false, reason} when the record does not allow it (already sent, waiting for the
-  // rival: the listener then shows the true state).
-  async function cmsSend(io,ctx,pick){
+  // rival: the listener then shows the true state). round: the round this pick was made for (Codex #1205): a send that
+  // reaches the server after that round is already in (a second tab, a transaction retry) is refused, never stored as the
+  // next round.
+  async function cmsSend(io,ctx,pick,round){
     const ref=cmsRef(io,ctx.season),me=ctx.managerRole,engine=cmsEngine();
     return io.sdk.runTransaction(io.firestore,async tx=>{
       const snap=await tx.get(ref),data=snap.exists()?snap.data():null;
       if(!data){
+        if(round!==1)return {ok:false,reason:"NOT_THIS_ROUND"};
         const next=engine.send({playerOne:"",playerTwo:""},me,pick);
         if(!next)return {ok:false,reason:"BAD_PICK"};
         tx.set(ref,{schemaVersion:1,objectType:OBJECT_TYPE,rivalryId:io.rivalryId,seasonNumber:ctx.season,kicks:{playerOne:next.playerOne,playerTwo:next.playerTwo},revision:1,...cmsStamp(io)});
@@ -94,6 +97,7 @@
       }
       const record=cmsRecord(data,ctx.season);
       if(!record)return {ok:false,reason:"BAD_RECORD"};
+      if(!Number.isInteger(round)||record[me].length!==(round-1)*2)return {ok:false,reason:"NOT_THIS_ROUND",record};
       const next=engine.send(record,me,pick);
       if(!next)return {ok:false,reason:"NOT_YOUR_ROUND",record};
       tx.update(ref,{[`kicks.${me}`]:next[me],revision:data.revision+1,...cmsStamp(io)});
@@ -361,7 +365,7 @@
         if(engine.nextRound(record,me)!==round)return;
         if(!timedOut&&(!sel.shot||!sel.dive))return;
         sending=true;setChoices(false,null);
-        cmsSend(io,ctx,engine.pick(sel.shot,sel.dive)).then(result=>{
+        cmsSend(io,ctx,engine.pick(sel.shot,sel.dive),round).then(result=>{
           sending=false;
           if(result&&result.ok){record=result.record;render();return;}
           if(result&&result.record){record=result.record;}
