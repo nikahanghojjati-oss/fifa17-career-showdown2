@@ -24,7 +24,7 @@
   // The reason the roulette could not start on this phone (shown on the dashboard and on Career Start), or "" (Fable F2-05).
   let rouletteError="",primePackLoadError=false;
   const PSTC_PRIME_PACK_TEXT="Prime Pack could not load. Check the connection and tap again.";
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T04:00:00Z");
+  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   const PSTC_ROULETTE_TEXT=Object.freeze({
     load:"The roulette could not load. Check the connection and tap again.",
     setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",

@@ -16,7 +16,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 let failed=0;
 function section(id,fn){try{fn();}catch(error){if(!process.env.SCREEN_ORDER_ALL)throw error;failed+=1;console.log(`not ok ${id} ${error.message.split("\n")[0]}`);}}
 
-const RID=`pair_${"7".repeat(64)}`,CONFIRMED=Date.parse("2026-11-01T18:00:00Z");
+// Confirmed one hour after the release time the tool set (contracts must not depend on a fixed date).
+const RID=`pair_${"7".repeat(64)}`,CONFIRMED=Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000;
 const store=new Map();
 global.window=globalThis;
 globalThis.readStorageValue=key=>store.has(key)?store.get(key):null;

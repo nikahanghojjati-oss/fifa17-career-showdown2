@@ -53,7 +53,7 @@
   // like Roster Roulette, so one Showdown never mixes 11-point and 15-point seasons. ICON_FROM_MS is the same boundary as
   // js/rosterRouletteStep.js RRR_FROM_MS (a contract keeps them equal); the r87 release PR pins both to the release time.
   // Do not change it outside the release PR.
-  const ICON_FROM_MS=Date.parse("2026-11-02T04:00:00Z");
+  const ICON_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
 
   // ---------- the draw ----------
   // The id's first hex digit is the season count (js/persistentNikDanielPair.js), so it is left out: a new season must

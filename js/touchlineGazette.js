@@ -36,7 +36,7 @@
   // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so
   // its race counts 15 a season left (every Showdown, Nik 2026-11-01 18:32 UTC).
   // PRIME_PACK_FROM_MS is js/iconGuess.js fromMs (tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
-  const SEASON_MAX=Object.freeze({primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-11-02T04:00:00Z");
+  const SEASON_MAX=Object.freeze({primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   // true/false when this Showdown's confirm time is known (given, or the live Setup when it is this Showdown), else null.
   function tgPrimePack(rivalryId,confirmedAt){
     if(Number.isFinite(confirmedAt))return confirmedAt>=PRIME_PACK_FROM_MS;

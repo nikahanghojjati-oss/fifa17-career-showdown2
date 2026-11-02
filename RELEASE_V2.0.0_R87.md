@@ -14,7 +14,7 @@ this file is the release record.
   only after both managers spun (#1069, #1080, #1101, #1107, #1112, #1147, #1148). It runs for Showdowns confirmed at or after
   the 2.0.0 release time. `tools/set-release-time.cjs` sets that one time in all ten start constants (roulette, Prime Pack,
   15-a-season totals and own-club Special Player); contract r86-release RR5 checks they match. The time is the next whole
-  hour at or after the merge + 90 min, so 2.0.0 is live on both phones first: **2026-11-02T04:00:00Z** (11 pm Boston, 1 Nov).
+  hour at or after the merge + 90 min, so 2.0.0 is live on both phones first: **2026-11-02T05:00:00Z** (midnight Boston, 2 Nov).
 - Prime Pack before every season's transfer window: one masked Icon, four timed stages (25/20/20/20 s), two guesses each;
   the manager who names it first earns 4, 3, 2 or 1 points by stage, or nobody does, never both (#1149, Team V art #1163).
   A season is now worth up to 15 points and a 10-season Golden Showdown 150, on every screen, in History and in
