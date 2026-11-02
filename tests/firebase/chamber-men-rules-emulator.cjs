@@ -73,13 +73,16 @@ const fresh=(season,kicks,revision=1)=>({schemaVersion:1,objectType:"sharedChamb
     await assertPlainDenial(setDoc(ref(dbA,"x"),{...fresh(1,{playerOne:"LR",playerTwo:""}),...stamp(DA)}),"a record outside season_N");
     await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"LR",playerTwo:""}),extra:true,...stamp(DA)}),"a record with an extra field");
     checks.push("a round is created only by its manager, with exactly his own first round, server time, a matching season and nothing else");
-    const first=await Step.send(io(dbA,DA),ctx("playerOne"),"LR");
+    const first=await Step.send(io(dbA,DA),ctx("playerOne"),"LR",1);
     assert.equal(first.ok,true,`Daniel's first round (the step): ${JSON.stringify(first)}`);
     assert.deepEqual((await read()).kicks,{playerOne:"LR",playerTwo:""});
     checks.push("Daniel's first round (the step) creates the record");
 
     // No running ahead, no rewriting, no touching the other string.
-    const ahead=await Step.send(io(dbA,DA),ctx("playerOne"),"MM");
+    // A late or repeated round-1 send (a second tab, a transaction retry) is refused, never stored as round 2 (Codex #1205).
+    const repeat=await Step.send(io(dbA,DA),ctx("playerOne"),"MM",1);
+    assert.equal(repeat.ok,false);assert.equal(repeat.reason,"NOT_THIS_ROUND");assert.deepEqual((await read()).kicks,{playerOne:"LR",playerTwo:""});
+    const ahead=await Step.send(io(dbA,DA),ctx("playerOne"),"MM",2);
     assert.equal(ahead.ok,false);assert.equal(ahead.reason,"NOT_YOUR_ROUND");
     await assertPlainDenial(updateDoc(ref(dbA),{"kicks.playerOne":"LRMM",revision:2,...stamp(DA)}),"Daniel sends round 2 before Nik sent round 1");
     checks.push("a manager cannot send round k+1 before the other has sent round k (step and Rules)");
@@ -89,15 +92,17 @@ const fresh=(season,kicks,revision=1)=>({schemaVersion:1,objectType:"sharedChamb
     await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"RL",revision:3,...stamp(DB)}),"a write that skips the revision");
     await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"Rx",revision:2,...stamp(DB)}),"a bad letter");
     checks.push("a manager cannot write the other's picks, send two rounds at once, skip the revision or send a bad letter");
-    const second=await Step.send(io(dbB,DB),ctx("playerTwo"),"RL");
+    const second=await Step.send(io(dbB,DB),ctx("playerTwo"),"RL",1);
     assert.equal(second.ok,true,`Nik's first round (the step): ${JSON.stringify(second)}`);
     await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"MMLL",revision:3,...stamp(DB)}),"Nik changes his round 1 while sending round 2");
     checks.push("a sent round is never changed");
 
     // The other 6 rounds, in either order, through the step; a timed-out round is "--".
     const plan=[["playerTwo","LM"],["playerOne","RR"],["playerOne","--"],["playerTwo","MR"],["playerOne","ML"],["playerTwo","RR"],["playerTwo","LL"],["playerOne","LM"],["playerOne","RM"],["playerTwo","MM"],["playerTwo","R-"],["playerOne","LR"]];
+    const sent={playerOne:1,playerTwo:1};
     for(const [role,pick] of plan){
-      const result=await Step.send(io(role==="playerOne"?dbA:dbB,role==="playerOne"?DA:DB),ctx(role),pick);
+      sent[role]+=1;
+      const result=await Step.send(io(role==="playerOne"?dbA:dbB,role==="playerOne"?DA:DB),ctx(role),pick,sent[role]);
       assert.equal(result.ok,true,`${role} ${pick}: ${JSON.stringify(result)}`);
     }
     const done=await read();
@@ -121,7 +126,7 @@ const fresh=(season,kicks,revision=1)=>({schemaVersion:1,objectType:"sharedChamb
     checks.push("only the two managers read the round; nobody lists or deletes it");
 
     // A second season starts clean, and the step refuses an unfinished one for the roulette.
-    assert.equal((await Step.send(io(dbB,DB),ctx("playerTwo",2),"ML")).ok,true,"Nik may start season 2 first");
+    assert.equal((await Step.send(io(dbB,DB),ctx("playerTwo",2),"ML",1)).ok,true,"Nik may start season 2 first");
     const unfinished=await Step.cylinders(ctx("playerOne",2),io(dbA,DA));
     assert.equal(unfinished.ok,false);assert.equal(unfinished.reason,"NOT_FINISHED");
     checks.push("each season has its own record, and the roulette never takes the cylinders of an unfinished shootout");
