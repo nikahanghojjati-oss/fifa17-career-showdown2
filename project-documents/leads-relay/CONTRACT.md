@@ -105,6 +105,18 @@ comments work; the relay threads were simply not subscribed.
 8. (2026-10-29, Nik: "leads always change, try to have habit of reach coordinator all the time") Every wake also goes to
    the other team's coordinator (INBOX.json `coordinators`), which outlives lead threads and makes sure a live lead
    picks the ticket up. Each coordinator keeps its own entry current. If the id is missing, ask your own coordinator.
+9. (v1.4, 2026-11-02, Nik: "make the relay automatic like early October, no copy paste for me") What broke: the r88
+   Team G lead never registered, so Team V's HO-055 DONE wake went to the retired r87 lead; INBOX V pointed at an old
+   HO-051 thread, so HO-056 never reached the thread that did the art, and both coordinator ids were archived sessions.
+   Nik had to paste by hand. Fix, all inside `handoff.py`, so no lead can skip it:
+   - The writer's own session is read from the cloud environment (CLAUDE_CODE_REMOTE_SESSION_ID), no `--session` needed.
+   - Every `new`, `set`, `register` and `wake --by X` makes the writer its team's INBOX entry (self-healing). Commit INBOX.json
+     in the same push.
+   - Every ticket keeps `sessions: {G: ..., V: ...}`, the last thread of each team that touched it. Wakes go to that
+     thread first, then to the INBOX lead if different (one create_trigger each).
+   - Coordinator wakes are best effort: coordinators are archived between turns, so check get_session and skip archived.
+   - Any thread that does relay work (also a one-task thread such as "Make Story film reel Home tile") writes its status with
+     handoff.py itself. Nik never relays.
 
 ## 10. Shared job numbers (Nik, 2026-10-05)
 - Team G and Team V share one job counter, starting at 1001. A number is used once, ever, by one team.

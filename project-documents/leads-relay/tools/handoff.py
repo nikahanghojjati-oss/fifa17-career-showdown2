@@ -48,14 +48,48 @@ def inbox():
     return os.path.join(D, "..", "INBOX.json")
 
 
+def my_session(given=None):
+    """v1.4 (2026-11-02): the writer's own session id. --session wins; otherwise it is read from the cloud session's
+    environment (CLAUDE_CODE_REMOTE_SESSION_ID = cse_<id>, the same id as session_<id>), so no lead can forget it."""
+    if given:
+        return given
+    raw = os.environ.get("CLAUDE_CODE_REMOTE_SESSION_ID", "")
+    return ("session_" + raw[4:]) if raw.startswith("cse_") else (raw or None)
+
+
+def touch(team, sid, thread=None):
+    """v1.4 self-healing INBOX: every relay write (new/set/wake/register) makes the writer its team's current lead.
+    What broke on 2026-11-02: neither r88 lead registered, so every wake went to retired threads and Nik had to paste."""
+    if not sid:
+        print(f"NOTE: no session id found, so INBOX {team} was not refreshed. Pass --session session_... next time.")
+        return
+    p = inbox()
+    j = json.load(open(p))
+    e = j.setdefault(team, {})
+    if e.get("session_id") != sid or e.get("state") != "active":
+        same = e.get("session_id") == sid
+        e["session_id"], e["state"], e["updated"] = sid, "active", now()
+        e["thread"] = thread or (e.get("thread", "") if same else "(auto: last relay writer)")
+        json.dump(j, open(p, "w"), indent=1, ensure_ascii=False)
+        open(p, "a").write("\n")
+        print(f"INBOX {team} = {sid} (auto, this writer). Commit INBOX.json with the ticket.")
+
+
+def stamp(t, team, sid):
+    """Each ticket remembers the last thread of each team that touched it; wakes go there first."""
+    if sid:
+        t.setdefault("sessions", {})[team] = sid
+
+
 def coordinator_line(to, text):
-    """Nik 2026-10-29: leads rotate, coordinators stay. Every wake also goes to the other team's coordinator."""
+    """Nik 2026-10-29: leads rotate, coordinators stay. Every wake also goes to the other team's coordinator.
+    v1.4 note: project coordinators are archived between turns (seen 2026-11-02), so this wake is best effort only."""
     try:
         c = json.load(open(inbox())).get("coordinators", {}).get(to, {})
     except Exception:
         c = {}
     if c.get("session_id"):
-        print(f"ALSO WAKE Team {to}'s coordinator: same create_trigger call with persistent_session_id={c['session_id']} and prompt:")
+        print(f"ALSO WAKE (best effort; skip if get_session says archived) Team {to}'s coordinator: same create_trigger call with persistent_session_id={c['session_id']} and prompt:")
         print(f"  For Team {to}'s coordinator: {text} Make sure your current lead picks this up; start a lead thread if none is active.")
     else:
         print(f"Team {to}'s coordinator id is missing from INBOX.json 'coordinators'. Ask your own coordinator (message_coordinator) to reach it, and tell Nik in one line.")
@@ -69,24 +103,32 @@ def wake_line(to, text, session=None):
     except Exception:
         e = {}
     sid, state = e.get("session_id"), e.get("state", "active")
+    targets = []
     if session:
-        sid, state = session, "active"
+        targets.append(session)
+    if sid and state == "active" and sid not in targets:
+        targets.append(sid)
+    if targets:
+        sid, state = targets[0], "active"
     if not sid or state != "active":
         # CONTRACT.md §11: a lead between threads never acknowledges work. Nothing will happen until the new lead registers.
         print(f"WAKE BLOCKED: Team {to}'s lead is '{state if sid else 'unregistered'}' in INBOX.json, so nobody will act on this.")
         print(f"  Tell Nik now, in one line, to paste project-documents/leads-relay/NEW_LEAD_START.md's box into the new Team {to} lead thread.")
         coordinator_line(to, text)
         return
-    print(f"WAKE NOW (CONTRACT.md §9): call claude-code-remote create_trigger with persistent_session_id={sid},")
+    print(f"WAKE NOW (CONTRACT.md §9): one claude-code-remote create_trigger per session below,")
+    for x in targets:
+        print(f"  persistent_session_id={x}")
     print(f"  run_once_at = 1-2 minutes from now, initiation human_request, and prompt:")
     print(f"  Relay for Team {to}: {text} Fetch leads/relay (+refs/heads/leads/relay:refs/remotes/origin/leads/relay) and act per CONTRACT.md.")
     print(f"  (create_trigger works from every lead thread; send_message with session_id={sid} also works where that tool exists.)")
     coordinator_line(to, text)
-    print(f"  Then (CONTRACT.md §11) call get_session on {sid}: if it is idle asking for a new lead, or archived, tell Nik the same paste line.")
+    print(f"  Then (CONTRACT.md §11) call get_session on each: skip any that is archived; if none is live, tell Nik the paste line.")
 
 
 def register(a):
     """CONTRACT.md §11: the outgoing lead marks itself rotating; the new lead's first act is to register itself active."""
+    a.session = my_session(a.session)
     p = inbox()
     j = json.load(open(p))
     e = j.setdefault(a.team, {})
@@ -117,8 +159,11 @@ def new(a):
     t = {"id": tid, "from": a.frm, "to": a.to, "title": a.title, "kind": a.kind, "priority": a.priority, "worker": a.worker,
          "parent": a.parent, "job": None, "status": "SENT", "steps": [{"name": s, "done": False} for s in a.step],
          "evidence": [], "log": [{"at": now(), "by": a.frm, "status": "SENT", "note": ""}]}
+    a.session = my_session(a.session)
     if a.session:
         t["from_session"] = a.session
+    stamp(t, a.frm, a.session)
+    touch(a.frm, a.session)
     path = os.path.join(D, f"{tid}_{slug}.md")
     head = dump(t)
     open(path, "w").write(f"# {tid} · Team {a.frm} → Team {a.to} · {a.title}\n\n{head}\n\n{brief}\n")
@@ -128,8 +173,8 @@ def new(a):
         save(pp, ptxt, pm, pt)
     print(path)
     print("Commit and push leads/relay first, then:")
-    wake_line(a.to, f"new hand-off {tid} from Team {a.frm}: {a.title}. Acknowledge with handoff.py set {tid} RECEIVED --by {a.to}."
-              + (f" Wake the sender's lead at session {a.session} (in the ticket as from_session), not INBOX.json." if a.session else ""))
+    wake_line(a.to, f"new hand-off {tid} from Team {a.frm}: {a.title}. Acknowledge with handoff.py set {tid} RECEIVED --by {a.to}"
+              + " (handoff.py records your session itself and wakes the sender's thread; no paste needed).")
 
 
 def set_(a):
@@ -152,11 +197,15 @@ def set_(a):
             s["done"] = True
     t["status"] = st
     t["log"].append({"at": now(), "by": a.by, "status": st, "note": a.note or ""})
+    sid = my_session(a.session)
+    stamp(t, a.by, sid)
+    touch(a.by, sid)
     save(path, txt, m, t)
     print(path, st)
     print("Commit and push leads/relay first, then:")
     back = a.by == t["to"]
-    wake_line(t["from"] if back else t["to"], session=t.get("from_session") if back else None, text=f"hand-off {a.id} is now {st} (by Team {a.by}){': ' + a.note if a.note else ''}.")
+    other = t["from"] if back else t["to"]
+    wake_line(other, session=t.get("sessions", {}).get(other) or (t.get("from_session") if back else None), text=f"hand-off {a.id} is now {st} (by Team {a.by}){': ' + a.note if a.note else ''}.")
 
 
 p = argparse.ArgumentParser()
@@ -176,6 +225,7 @@ w = sp.add_parser("wake")
 w.add_argument("--to", choices=TEAMS, required=True)
 w.add_argument("--text", required=True)
 w.add_argument("--session", default=None, help="wake this session instead of the INBOX.json one")
+w.add_argument("--by", choices=TEAMS, default=None, help="your team: refreshes your own INBOX entry (v1.4)")
 s = sp.add_parser("set")
 s.add_argument("id")
 s.add_argument("status")
@@ -184,6 +234,7 @@ s.add_argument("--note", default="")
 s.add_argument("--job", default=None, help="the job PR id that does the work, e.g. V-012 or 41; its progress block then drives the bar")
 s.add_argument("--evidence", default=None)
 s.add_argument("--done-step", type=int, action="append", default=[])
+s.add_argument("--session", default=None, help="your session id (default: read from the cloud session environment)")
 r = sp.add_parser("register", help="CONTRACT.md §11 lead rotation: set your own INBOX.json entry")
 r.add_argument("--team", choices=TEAMS, required=True)
 r.add_argument("--session", default=None, help="this thread's session id (new lead)")
@@ -197,4 +248,6 @@ elif a.cmd == "set":
 elif a.cmd == "register":
     register(a)
 else:
+    if a.by:
+        touch(a.by, my_session())
     wake_line(a.to, a.text, session=a.session)

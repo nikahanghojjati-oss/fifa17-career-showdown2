@@ -11,10 +11,11 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-02T17:23:48Z", "by": "G", "status": "SENT", "note": ""}]
+ "evidence": ["PR #1207 claude-visual/chamber-men-scene @ e043df81"],
+ "log": [{"at": "2026-11-02T17:23:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-02T17:50:23Z", "by": "V", "status": "DONE", "note": "recorded by G lead from PR #1207 (V thread did not write the relay)"}],
+ "sessions": {"V": "session_01GU43Q8gGoJs9nuiZXwTBGA"}
 }
 ```
 

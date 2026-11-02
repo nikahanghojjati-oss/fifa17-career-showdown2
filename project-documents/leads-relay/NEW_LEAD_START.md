@@ -6,7 +6,7 @@ Any new Team G or Team V lead thread does these three steps **first**, before an
 2. Team V only: `subscribe_pr_activity` on PR #312 (owner nikahanghojjati-oss, repo fifa17-career-showdown2).
 3. Start every listed ticket now: `handoff.py set HO-NNN WORKING --by <team>`, then wake the other lead as the script prints. Never leave a ticket RECEIVED for "a later thread".
 
-Find your session id with claude-code-remote `get_session` (no session_id = this session).
+Since v1.4 (CONTRACT §9.9) handoff.py finds your session id itself, and every relay write re-registers you, so a missed step 1 heals on your first ticket. `get_session` (no session_id) still shows it.
 
 ## Paste for Nik (only if a lead stalls)
 
