@@ -566,3 +566,18 @@
 @media (min-width: 1024px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host .rail li .num { font-size: var(--sa-type-eyebrow); }
 }
+
+/* 4i. Showdown Champion (Studio Axe phase 4). Type only. Before: the result strip labels (FINAL SEASON, SEASONS PLAYED,
+   MARGIN POINTS), the honours labels and the SHOWDOWN CLOSED line were 9-11px on the one screen both managers keep. */
+@media (min-width: 1024px) and (orientation: landscape) {
+  :root #app #seasonEntry .v10FinalStage #finalWinnerMetaStrip .finalWinnerMetaCell > :is(span, small) { font-size: var(--sa-type-eyebrow); }
+  :root #app #seasonEntry .v10FinalStage #finalWinnerHonours .finalWinnerHonoursHead > :is(span, strong) { font-size: var(--sa-type-eyebrow); }
+  :root #app #seasonEntry .v10FinalStage #finalWinnerHonours .finalWinnerTrophyMetric > span:not(.finalWinnerTotalMark) { font-size: var(--sa-type-eyebrow); }
+  :root #app #seasonEntry .v10FinalStage #finalWinnerHeading { font-size: var(--sa-type-eyebrow); }
+  :root #app #seasonEntry .v10FinalStage .finalWinnerTotals :is(#danielName, #nikName) { font-size: var(--sa-type-small); }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  :root #app #seasonEntry .v10FinalStage #finalWinnerMetaStrip .finalWinnerMetaCell > :is(span, small) { font-size: 11px; }
+  :root #app #seasonEntry .v10FinalStage #finalWinnerHeading { font-size: 11px; }
+  :root #app #seasonEntry .v10FinalStage .finalWinnerTotals :is(#danielName, #nikName) { font-size: 11px; }
+}
