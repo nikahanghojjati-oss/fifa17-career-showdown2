@@ -2823,6 +2823,15 @@
         "^tests/contracts/trophy\\-tap\\-delegated\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-f16-contracts.cjs",
+      "patterns": [
+        "^js/(iconGuessStep|productionSharedSeasonResults|iconGuess|iconNames)\\.js$",
+        "^data/icons\\.js$",
+        "^tests/contracts/r87\\-prime\\-pack\\-f16\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -190,15 +190,24 @@
     if(!Number.isFinite(confirmedAtMs))pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown's confirm time could not be read. Check the connection and try again.");
     // Old Showdowns never load the step (the same boundary as js/iconGuess.js fromMs; a contract keeps them equal).
     if(confirmedAtMs<PRIME_PACK_FROM_MS)return result;
-    const step=root.CareerModeIconGuessStep||await (typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep).then(()=>root.CareerModeIconGuessStep,()=>null):null);
-    // applies() needs the round engine (js/iconGuess.js): load it first, or a won Prime Pack point would be dropped.
-    if(!step||!await step.ensure())pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");
+    // Fable F16-01: with the kill switch off the Prime Pack can never block a publish (it is the rescue for a 2.0.0
+    // Showdown): a load or read that fails scores 0, but a point this phone already saw won still counts (F14-02).
+    const off=root.CMS_PRIME_PACK==="off";
     const gameCtx={rivalryId:ctx.options.rivalryId,managerRole:ctx.setup.managerRole,season:request.seasonNumber,confirmedAtMs};
+    const{primePack:_drop,...rest}=result;
+    const withPoints=points=>Number.isInteger(points)&&points>=1&&points<=4?{...rest,primePack:points}:rest;
+    const loaded=root.CareerModeIconGuessStep||await (typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep).then(()=>root.CareerModeIconGuessStep,()=>null):null);
+    const memo=off?loaded?.wonPoints?.(gameCtx):null;
+    if(off&&Number.isInteger(memo))return withPoints(memo);
+    // applies() needs the round engine (js/iconGuess.js): load it first, or a won Prime Pack point would be dropped.
+    const step=loaded&&await Promise.resolve(loaded.ensure()).catch(()=>false)?loaded:null;
+    if(!step){if(off)return rest;pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");}
     // Fable F14-02: the kill switch never drops a point already won: the round record is still read (no record is 0 points).
     if(!step.applies(gameCtx,{ignoreSwitch:true}))return result;
-    const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx,{ignoreSwitch:true});
-    const{primePack:_drop,...rest}=result;
-    return Number.isInteger(points)&&points>=1&&points<=4?{...rest,primePack:points}:rest;
+    let points;
+    try{points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx,{ignoreSwitch:true});}
+    catch(error){if(!off)throw error;root.CareerModeFirestoreBudget?.noteError?.(error);points=0;}
+    return withPoints(points);
   }
   async function pssrPublish(){
     if(busy||!draft||!view?.managerRole)return false;
