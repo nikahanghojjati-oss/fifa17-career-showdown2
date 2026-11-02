@@ -651,3 +651,49 @@
 @media (max-width: 420px) {
   :root #app #createShowdown.v26Skin .v26Season span { font-size: 11px; letter-spacing: .1em; }
 }
+
+/* 4l. Studio Axe phase 7: even spacing, clear of the heroes (Nik 2026-11-02). Transfer War on desktop.
+   The status board hung 44 plate-px left of centre, so it touched Daniel's hair while leaving a wide gap to Nik. Its centre
+   now sits on the midpoint between the two heads (plate x 5 right of the old anchor), giving equal gaps on both sides.
+   The three entry/verdict boxes get equal gutters within the same 1405 plate-px row. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(calc(var(--k) * 5px), calc(var(--k) * 24px)) !important; }
+}
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 11/5) and (orientation: landscape) {
+  :root #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(calc(var(--k) * 5px), calc(var(--k) * 140px)) !important; }
+}
+@media (min-width: 1101px) {
+  /* Equal gutters as fractions of the plate row, so the row can also narrow. On squarer windows (1200x900, 1366x1024) the
+     plate is wider than the window and the row began off-screen (own card at x -92); it now stays 24px inside both edges.
+     Height is unchanged: Nik is fine with the cards over the hands (2026-11-02); faces stay clear. */
+  :root #app #transferChallenge .tw-host .tw-desktop-content {
+    --sa-tw-g: 24px; --sa-tw-w: min(calc(1405 * var(--tw-k)), calc(100% - 2 * var(--sa-tw-g)));
+    width: var(--sa-tw-w);
+    margin-left: clamp(var(--sa-tw-g), calc(var(--tw-x0) + 130 * var(--tw-k)), calc(100% - var(--sa-tw-g) - var(--sa-tw-w)));
+    grid-template-columns: minmax(0, 605fr) minmax(0, 67.5fr) minmax(0, 415fr) minmax(0, 67.5fr) minmax(0, 250fr);
+  }
+  :root #app #transferChallenge .tw-host .tw-desktop-content:has(.panel.own[data-panel="A"]) {
+    grid-template-columns: minmax(0, 460fr) minmax(0, 30fr) minmax(0, 635fr) minmax(0, 30fr) minmax(0, 250fr);
+  }
+  :root #app #transferChallenge .tw-host .tw-desktop-content:has(.verdict) {
+    grid-template-columns: minmax(0, 540fr) minmax(0, 37.5fr) minmax(0, 540fr) minmax(0, 37.5fr) minmax(0, 250fr);
+  }
+  :root #app #transferChallenge .tw-host .tw-desktop-content:has(.rules-card.with-summary) {
+    grid-template-columns: minmax(0, 860fr) minmax(0, 30fr) minmax(0, 515fr) 0 0;
+  }
+  :root #app #transferChallenge .tw-host .tw-desktop-content:has(.rules-card.with-summary):has(.panel.own[data-panel="A"]) {
+    grid-template-columns: minmax(0, 515fr) minmax(0, 30fr) minmax(0, 860fr) 0 0;
+  }
+}
+/* Season Results review board (desktop up to 1000px tall, where it starts at chin height). At 56% of the window it ran
+   over Daniel's cheek and Nik's beard; the faces sit at ~23.3% and ~76% of the window on every desktop size, so the board
+   now spans 25.3%-72.3%, clear of both faces from 1280 to 1440 wide. */
+@media (min-width: 901px) and (max-height: 1000px) {
+  :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { width: 47%; margin-left: 25.3%; margin-right: auto; }
+}
+/* Transfer War guess entry: the board said WINDOW CLOSED twice (the closed sign, then the status "Window closed - Guess
+   entry"). Hierarchy: one message, as the signing phase already does. */
+:root #app #transferChallenge .tw-host .sign-screen:not(.is-live):not(.status-board) .sign-main.closed { display: none; }
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #app #transferChallenge .tw-host .sign-status.reg:not(.full):not(.two-line) { justify-content: center; white-space: normal; text-align: center; }
+}
