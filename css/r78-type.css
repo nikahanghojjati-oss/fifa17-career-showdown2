@@ -628,3 +628,26 @@
   :root #app #clubWheelScreen.cl-on #clubConfirmationMeta { font-size: var(--sa-type-eyebrow); }
   :root #app #leagueWheelScreen .wheelItem { font-size: 10px; }
 }
+
+/* 4j. Studio Axe phase 5: Showdown Home and New Showdown.
+   Showdown Home: js/showdownUI.js lays the two scores out side by side (1fr auto 1fr), but app.css's
+   ".showdownScoreboard div:not(.scoreDivider)" also matches .scoreboardScores and stacks it into a column, so
+   Daniel's and Nik's totals read top and bottom with nothing saying whose is whose. Restore the side-by-side row:
+   Daniel left, Nik right, the same sides as their photos and cards. Labels move up from 8 to 11px to the eyebrow size.
+   New Showdown: the season chips' small-caps sub-label rendered at about 9px; real capitals at the eyebrow size. */
+:root #app #dashboard.v26Skin .showdownScoreboard > .scoreboardScores {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(16px, 4vw, 48px);
+}
+:root #app #dashboard.v26Skin .scoreboardScores small {
+  margin-top: 6px; font-size: var(--sa-type-eyebrow); line-height: 1.2; letter-spacing: var(--sa-track-eyebrow);
+}
+:root #app #dashboard.v26Skin .scoreboardScores .scoreDivider { font-size: var(--sa-type-small); letter-spacing: var(--sa-track-eyebrow); }
+:root #app #dashboard.v26Skin :is(.overviewStatus, .transferOverviewStatus, .lastSeasonLabel) {
+  font-size: var(--sa-type-eyebrow); line-height: 1.25; letter-spacing: var(--sa-track-eyebrow);
+}
+:root #app #createShowdown.v26Skin .v26Season span {
+  font-size: var(--sa-type-eyebrow); font-variant-caps: normal; text-transform: uppercase; letter-spacing: var(--sa-track-eyebrow);
+}
+@media (max-width: 420px) {
+  :root #app #createShowdown.v26Skin .v26Season span { font-size: 11px; letter-spacing: .1em; }
+}
