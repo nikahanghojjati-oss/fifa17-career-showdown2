@@ -189,6 +189,7 @@ function census(){
     'ssjrPhysicalJourneyAcceptance.js':'SSJR test panel closed-Showdown check (index + one exact read): getDoc via meterSdk',
     'sparkSharedSeasonResults.js':'uses sdk.getDoc only when the given (budget-wrapped, metered) services expose it; else a counted transaction',
     'iconGuessStep.js':'r87 Prime Pack round listener: onSnapshot via meterSdk; its other reads are counted transactions',
+    'chamberMenStep.js':'r88 Chamber Men round listener: onSnapshot via meterSdk; its other reads are counted transactions',
     'productionSharedTransferChallenge.js':'Fable job 2 F2-12 roulette history: budget services, getDoc via meterSdk (taken from the Firestore module when absent)',
     'sparkSharedTransferChallenge.js':'readRouletteSeason uses the firebaseSdk.getDoc it is given (metered by its caller)'
   };
@@ -201,7 +202,7 @@ function census(){
   const pattern=/\b(?:getDocs?|getDocFromServer|getDocsFromServer|onSnapshot)\b/;
   const found=fs.readdirSync(path.join(ROOT,'js')).filter(f=>f.endsWith('.js')&&pattern.test(read('js/'+f).replace(/captureCareerModeRawSaveLibraryMigrationSnapshot|captureLibraryMigrationSnapshot/g,'')));
   assert.deepEqual(found.sort(),Object.keys({...covered,...excluded}).sort(),'a new Firestore read call site must be metered and listed here');
-  for(const file of ['rivalryLegacyV10.js','seasonFinalV10.js','careerStartMarker.js','productionSharedSeasonCommit.js','persistentNikDanielPair.js','ssjrPhysicalJourneyAcceptance.js','productionSharedTransferChallenge.js','iconGuessStep.js']){
+  for(const file of ['rivalryLegacyV10.js','seasonFinalV10.js','careerStartMarker.js','productionSharedSeasonCommit.js','persistentNikDanielPair.js','ssjrPhysicalJourneyAcceptance.js','productionSharedTransferChallenge.js','iconGuessStep.js','chamberMenStep.js']){
     const source=read('js/'+file);
     assert.ok(source.includes('CareerModeFirestoreBudget?.meterSdk')||source.includes('budget?.meterSdk'),`${file} meters the SDK it takes`);
     assert.ok(!/countListenerRead/.test(source),`${file} no longer counts listener deliveries by hand (would count twice)`);

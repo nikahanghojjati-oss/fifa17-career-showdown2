@@ -80,12 +80,22 @@
   // when they match (exactly 1 in 7). The animation must settle on stopChamber. A fired turn hits one target slot.
   // aimSlot is where the barrel points when it stops (red team R87-C-06): the hit slot, or for a safe turn the same
   // third draw on the same target list, so both phones aim at the same player with no extra randomness.
-  function rrTurn(hex,season,role,board){
+  // r88 Chamber Men (js/chamberMen.js): in a Showdown that plays it, loaded is this manager's own cylinder for the season,
+  // 7 booleans (chamber k live when the rival's kick k went in). The stream is drawn exactly as before (so aimSlot never
+  // changes); the bullet chamber is then unused and it fires when the cylinder stops on any live chamber: rival's goals
+  // out of 7. loadedChambers lists the live chambers for the scene (null in a one-bullet Showdown).
+  function rrTurn(hex,season,role,board,loaded=null){
     const next=rrStream(hex,season,role);
-    const bulletChamber=next()%CHAMBERS,stopChamber=next()%CHAMBERS,pick=next(),targets=rrTargets(board);
-    const fired=bulletChamber===stopChamber&&targets.length>0,aimSlot=targets.length?targets[pick%targets.length]:null;
-    return {role,season,bulletChamber,stopChamber,fired,hitSlot:fired?aimSlot:null,aimSlot};
+    const seededBullet=next()%CHAMBERS,stopChamber=next()%CHAMBERS,pick=next(),targets=rrTargets(board);
+    const live=rrLoaded(loaded),loadedChambers=live?live.map((on,i)=>on?i:-1).filter(i=>i>=0):null;
+    const bulletChamber=live?(live[stopChamber]?stopChamber:(loadedChambers.length?loadedChambers[0]:seededBullet)):seededBullet;
+    const fired=(live?live[stopChamber]:seededBullet===stopChamber)&&targets.length>0,aimSlot=targets.length?targets[pick%targets.length]:null;
+    return {role,season,bulletChamber,stopChamber,fired,hitSlot:fired?aimSlot:null,aimSlot,loadedChambers:loadedChambers?Object.freeze(loadedChambers):null};
   }
+  // A Chamber Men cylinder: exactly 7 booleans, else null.
+  function rrLoaded(value){return Array.isArray(value)&&value.length===CHAMBERS&&value.every(item=>typeof item==="boolean")?value:null;}
+  // options.chambers[k][role] for season k (a Chamber Men Showdown), or null.
+  function rrCylinder(chambers,season,role){const c=chambers&&chambers[season];return c?rrLoaded(c[role]):null;}
   // Player positions travel with the player; pos remains the formation slot even after a substitution.
   // Name ambiguity: prefer the same shirt at the manager's launch club, then the club, then catalog/source order.
   // Preserve the source's short_name.
@@ -358,10 +368,19 @@
   }
   // This season's turn with a saved outcome as the authority. The chambers stay the seeded ones (they never depend on a board);
   // the stop chamber follows the saved result so the animation agrees with it.
+  // Chamber Men: a safe saved turn stops on the next empty chamber, a fired one on a live chamber (when the cylinder has none,
+  // the saved result still stands and the drum stops where it was drawn).
   function rrSavedTurn(turn,saved,board){
-    if(!saved.fired)return {...turn,fired:false,hitSlot:null,stopChamber:turn.bulletChamber===turn.stopChamber?(turn.bulletChamber+1)%CHAMBERS:turn.stopChamber,authority:"saved",shot:null};
+    const live=turn.loadedChambers?new Set(turn.loadedChambers):null;
+    if(!saved.fired){
+      let stop=turn.stopChamber;
+      if(live){for(let i=0;i<CHAMBERS&&live.has(stop);i+=1)stop=(stop+1)%CHAMBERS;}
+      else if(turn.bulletChamber===stop)stop=(stop+1)%CHAMBERS;
+      return {...turn,fired:false,hitSlot:null,stopChamber:stop,authority:"saved",shot:null};
+    }
     const {shot,at}=rrSavedAt(board,saved),slot=at>=0?at:saved.hitSlot;
-    return {...turn,fired:true,hitSlot:slot,aimSlot:slot,stopChamber:turn.bulletChamber,authority:"saved",shot:at>=0?null:shot};
+    const stop=live?(live.has(turn.stopChamber)||!live.size?turn.stopChamber:turn.loadedChambers[0]):turn.bulletChamber;
+    return {...turn,fired:true,hitSlot:slot,aimSlot:slot,stopChamber:stop,bulletChamber:live&&live.size?stop:turn.bulletChamber,authority:"saved",shot:at>=0?null:shot};
   }
   // The outcome a manager's spin mark records for his own turn of this plan.
   function rrOutcome(plan,role,version){
@@ -388,6 +407,10 @@
     const args=rrArgs(rivalryId,clubs,season);
     if(!args)return null;
     const history=options&&options.history,special=options&&options.special,hits=options&&options.hits;
+    // r88 Chamber Men: options.chamberMen marks a Showdown that plays it; options.chambers[k] = {playerOne, playerTwo} its
+    // cylinders per season. Such a Showdown never falls back to one bullet: a season with neither a saved outcome nor its
+    // cylinders gives no plan (the screen says so and nothing is spun).
+    const chamberMen=Boolean(options&&options.chamberMen),chambers=options&&options.chambers;
     const boards={},turns={},skipped={};
     const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
     // The Special Player is never on any board, bench or reserve list anywhere: both managers' draws are excluded from
@@ -405,7 +428,7 @@
       for(let k=1;k<season;k+=1){
         const allKept=rrKept(history&&history[k]&&history[k][role],k,state.club);
         if(!allKept)return null;
-        const turn=rrTurn(args.hex,k,role,state.board);
+        const turn=rrTurn(args.hex,k,role,state.board,chamberMen?rrCylinder(chambers,k,role):null);
         // A guessed signing must not sneak in later through the club database refill. Applied after this season's turn
         // was drawn (the board it aimed at is the one the screen showed); a guessed player already on the board is
         // evicted below (Sol SQ-2-02).
@@ -415,6 +438,7 @@
         // he keeps his first window and his place (board or reserves).
         const kept=allKept.filter(p=>!state.reserves.some(r=>r.signedSeason!==null&&rrSame(r,p)));
         const saved=rrSavedHit(hits,k,role);
+        if(chamberMen&&!saved&&!turn.loadedChambers)return null;
         let shot=null,at=-1;
         if(saved){if(saved.fired)({shot,at}=rrSavedAt(state.board,saved));}
         else if(turn.fired){shot=state.board[turn.hitSlot];at=turn.hitSlot;}
@@ -442,7 +466,8 @@
       }
       const board=state.board;
       boards[role]=Object.freeze(board);skipped[role]=Object.freeze(skipped[role]);
-      const turn=rrTurn(args.hex,season,role,board),saved=rrSavedHit(hits,season,role);
+      const turn=rrTurn(args.hex,season,role,board,chamberMen?rrCylinder(chambers,season,role):null),saved=rrSavedHit(hits,season,role);
+      if(chamberMen&&!saved&&!turn.loadedChambers)return null;
       turns[role]=saved?rrSavedTurn(turn,saved,board):{...turn,authority:"computed",shot:null};
     }
     const order=ROLES.map(role=>{

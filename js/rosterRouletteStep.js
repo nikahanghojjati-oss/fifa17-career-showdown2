@@ -218,7 +218,7 @@
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
       // The whole spin plan (red team R87-C-06): the scene loads bulletChamber, stops on stopChamber and aims at hitSlot
       // (a safe turn at aimSlot), so both phones show the same chambers and the same player.
-      const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null,targetLabel:turn.player?rrsPlayerLabel(turn.player):null,targetNumber:turn.player?rrsPlayerFacts(turn.player).number:null,targetPosition:turn.player?rrsPlayerFacts(turn.player).position:null,targetRating:turn.player?rrsPlayerFacts(turn.player).rating:null,bulletChamber:turn.bulletChamber,stopChamber:turn.stopChamber,hitSlot:turn.hitSlot,aimSlot:turn.aimSlot}));
+      const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null,targetLabel:turn.player?rrsPlayerLabel(turn.player):null,targetNumber:turn.player?rrsPlayerFacts(turn.player).number:null,targetPosition:turn.player?rrsPlayerFacts(turn.player).position:null,targetRating:turn.player?rrsPlayerFacts(turn.player).rating:null,bulletChamber:turn.bulletChamber,stopChamber:turn.stopChamber,hitSlot:turn.hitSlot,aimSlot:turn.aimSlot,loadedChambers:Array.isArray(turn.loadedChambers)?[...turn.loadedChambers]:null}));
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns,seed:rrsSeed(ctx)},root.location.origin);
       // Red team RT5-FLOW-01: the stage stays hidden until the page says it took the setup ("cms-rr-armed"). A page that
       // drops it (its squads file failed) or never answers is removed after ARMED_WAIT_MS and the result panel shows.
@@ -248,6 +248,11 @@
     return parts.length?`${p.name} (${parts.join(", ")})`:String(p.name);
   }
   function rrsOutcomeLine(turn){return turn.fired?`${NAMES[turn.role]} lost ${rrsPlayerLabel(turn.player)}.`:`${NAMES[turn.role]}: empty chamber. Squad safe.`;}
+  // r88 Chamber Men: how many live rounds each cylinder held, and whose goals loaded them.
+  function rrsChamberLine(turn){
+    const live=Array.isArray(turn.loadedChambers)?turn.loadedChambers.length:null;if(live===null)return null;
+    return `${NAMES[turn.role]}'s cylinder held ${live} live ${live===1?"round":"rounds"} of 7 (${NAMES[rrsOther(turn.role)]}'s Chamber Men goals).`;
+  }
   // F2-19 (Fable job 2): a kept signing the board rules keep off is said in one line, never dropped silently. Signings are known
   // by name only, so a name the roulette shot, a Special Player's, or a guessed and released signing's keeps him off the board.
   const RRS_SKIP_WHY=Object.freeze({
@@ -261,7 +266,7 @@
   }
   async function rrsResult(ctx,plan){
     const mine=plan.turns.find(turn=>turn.role===ctx.managerRole);
-    const lines=[...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
+    const lines=[...plan.turns.map(rrsChamberLine).filter(Boolean),...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
         note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the Transfer War. The game can't do it for you.`,
@@ -329,7 +334,9 @@
     // does not know is named before the engine runs (Fable S4); no plan is never marked done (Fable F2-04): the window stays
     // shut and the card says why, with the way back to Showdown Home.
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
-    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits}):null;
+    // r88 Chamber Men: this season's two cylinders from the shootout (ctx.chamberMen), never one bullet in such a Showdown.
+    const chamber=ctx.chamberMen&&ctx.chamberMen.active===true?ctx.chamberMen:null;
+    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chamber.chambers:null}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history);
       await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The Transfer War stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});

@@ -588,6 +588,12 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     /* LIVE mark: a red glowing ring around the loaded chamber's mouth, turns with the drum so the eye can follow the round through the spin */
     const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=-.0247; round.add(liveRing);   /* on the rear face: the brass rim and primer are what say "bullet" */
     cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; };
+    /* r88 Chamber Men (Team G): a cylinder can hold up to 7 live rounds, one per goal the rival scored. The same cartridge is
+       copied into every live chamber (no new art); an empty list leaves the drum empty. */
+    const extra=[]; cyl.userData.placeRounds=(list)=>{ const live=Array.isArray(list)?list.filter(i=>Number.isInteger(i)&&i>=0&&i<n):[]; extra.forEach(r=>{ r.visible=false; });
+      if(!live.length){ round.visible=false; return; } cyl.userData.placeRound(live[0]);
+      live.slice(1).forEach((i,k)=>{ let r=extra[k]; if(!r){ r=round.clone(true); cyl.add(r); extra.push(r); } const a=i/n*Math.PI*2+Math.PI/2; r.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); r.visible=true; }); };
+    cyl.userData.clearRounds=()=>{ round.visible=false; extra.forEach(r=>{ r.visible=false; }); };
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
@@ -787,11 +793,11 @@ function setBusy(b){ cta.classList.toggle("busy",b); document.body.classList.tog
 function rrPlanTurn(o,free){ if(!o||!Number.isInteger(o.bulletChamber)||!Number.isInteger(o.stopChamber)) return null;
   const at=Number.isInteger(o.hitSlot)?o.hitSlot:o.aimSlot;
   const pick=(Number.isInteger(at)&&free.find(x=>x.slot===at))||(o.target&&free.find(x=>x.name===o.target))||free[0];
-  return {bulletAt:((o.bulletChamber%7)+7)%7, chamber:((o.stopChamber%7)+7)%7, pick, fire:o.fire===true}; }
+  return {bulletAt:((o.bulletChamber%7)+7)%7, chamber:((o.stopChamber%7)+7)%7, pick, fire:o.fire===true, loadedChambers:Array.isArray(o.loadedChambers)?o.loadedChambers:null}; }
 /* rrPlanTurn end */
 function startTurn(force,targetName,planned){ if(playing) return; const who=ORDER[turn%2];
   const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const plan=rrPlanTurn(planned,free); let pick, fire;
-  if(plan){ bulletAt=plan.bulletAt; loaded=true; cyl.userData.placeRound(bulletAt); chamber=plan.chamber; pick=plan.pick; fire=plan.fire; }
+  if(plan){ bulletAt=plan.bulletAt; loaded=true; if(plan.loadedChambers) cyl.userData.placeRounds(plan.loadedChambers); else cyl.userData.placeRound(bulletAt); chamber=plan.chamber; pick=plan.pick; fire=plan.fire; }
   else{
     if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; cyl.userData.placeRound(bulletAt); }
     const fireQ=qs.get("fire"); const want=force!==undefined?force:(fireQ==="1"?true:fireQ==="0"?false:null);
@@ -805,7 +811,7 @@ function startTurn(force,targetName,planned){ if(playing) return; const who=ORDE
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
 function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+((typeof GAME!=="undefined"&&GAME&&GAME.turns&&GAME.turns[turn]&&GAME.turns[turn].targetLabel)||p.target.name),"lost") /* Codex C2-01: number, position and overall tell namesakes apart */; } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
   try{ window.dispatchEvent(new CustomEvent("rr:end",{detail:{who, name:NAME[who], fire:p.fire, lost:p.fire?p.target.name:null, turn}})); }catch(e){}
-  turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.round.visible=false; } }
+  turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.clearRounds(); } }
 const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
 const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,impact:3.45,end:5.2}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:13.6,aim:13.9,fire:15.0,impact:17.4,end:22.0};
@@ -983,6 +989,9 @@ function buildEnv(){ const pm=new T.PMREMGenerator(renderer); pm.compileEquirect
    viewer's own tap inside this frame); the switch at the top turns it off. A board keeps the launch kit, and the launch rating
    and bench position of any player still on it; a new name shows no rating. */
 const EMBED=qs.get("embed")==="1"; let GAME=null;
+/* r88 Chamber Men: each turn's loadedChambers (the live chambers its manager's cylinder holds) names the bullet counts. */
+function chamberCaption(g){ const t=g&&Array.isArray(g.turns)?g.turns:[]; if(t.length!==2||!t.every(x=>x&&Array.isArray(x.loadedChambers))) return "";
+  const word=k=>k===1?"1 bullet":k+" bullets"; return "Daniel "+word(t[0].loadedChambers.length)+" · Nik "+word(t[1].loadedChambers.length)+" · Seven chambers"; }
 const toGame=(type,extra)=>{ try{ parent.postMessage(Object.assign({type},extra||{}),location.origin); }catch(e){} };
 function embedLabel(){ if(!GAME||playing) return; cta.disabled=false; cta.classList.remove("busy"); cta.textContent=turn<2?(NAME[ORDER[turn%2]]+" spins"):"Continue"; }
 if(EMBED){ document.body.classList.add("embed");
@@ -996,7 +1005,7 @@ if(EMBED){ document.body.classList.add("embed");
       return Object.assign({},base,{club:clubName,xi,subs,formation:typeof formation==="string"?formation:null}); };
     const dEntry=merge(g.d,g.boards.D,g.formations&&g.formations.D), nEntry=merge(g.n,g.boards.N,g.formations&&g.formations.N);
     if(Number.isInteger(g.seed)) seed=g.seed>>>0;   /* cosmetic draws (sparks, smoke) start from the Showdown's seed on both phones */
-    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent="One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
+    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent=chamberCaption(g)||"One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
   addEventListener("rr:end",e=>{ toGame("cms-rr-end",{detail:e.detail}); setTimeout(embedLabel,0); }); }
 cta.addEventListener("click",()=>{ if(playing) return;
   if(EMBED){ if(!GAME) return; if(turn>=2){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; toGame("cms-rr-continue"); return; }

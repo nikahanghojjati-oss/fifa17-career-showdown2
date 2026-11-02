@@ -9,6 +9,10 @@
 // (waitForTransfer([daniel.page, nik.page])); it also drives every other open page of the same browser and any page
 // registered with track().
 // See playPrimePack for the primeGuesser option. Every phone then taps Continue on the result.
+//
+// r88 Chamber Men (js/chamberMenStep.js, #cmStage) runs before the roulette in Showdowns confirmed from CHAMBER_FROM_MS on
+// (journeys run it now with CMS_CHAMBER_MEN_NOW=1). Each phone picks a shot and a dive and taps LOCK IN for each of the seven
+// rounds, then SPIN THE CYLINDER. The picks follow a fixed pattern by round and role, so a run gives a mix of goals and saves.
 const prime=require("./prime-pack.cjs");
 const STEP_MS=500;
 const tracked=new Set();
@@ -17,6 +21,7 @@ async function playRoulette(page,opts={}){
   // The Prime Pack first: while it runs, the roulette's panel can still sit underneath its stage.
   track(page);
   const prime=await playPrimePack(page,opts);if(prime)return prime;
+  const chamber=await playChamberMen(page);if(chamber)return chamber;
   const stage=page.locator("#rrStage");
   if(await stage.isVisible().catch(()=>false)){
     const cta=page.frameLocator("#rrStage iframe").locator("#cta");
@@ -26,6 +31,38 @@ async function playRoulette(page,opts={}){
   const primary=page.locator("#rrStepPanel .rrStepPrimary");
   if(await primary.isVisible().catch(()=>false)){const label=process.env.CMS_ROULETTE_DEBUG==="1"?`:${(await primary.textContent().catch(()=>"")||"").trim()}`:"";await primary.click({timeout:5000}).catch(()=>{});return `panel${label}`;}
   return null;
+}
+
+// One Chamber Men step on this phone: "chamber-kick" (picked and locked in), "chamber-continue" (SPIN THE CYLINDER),
+// "chamber-retry" (TRY AGAIN on a fault), "wait" or null (no Chamber Men on screen). Real taps: anything standing over the
+// buttons fails them.
+const CHAMBER_SIDES=["L","M","R"];
+async function playChamberMen(page){
+  const stage=page.locator("#cmStage");
+  if(!await stage.isVisible().catch(()=>false))return null;
+  const next=stage.locator(".cmNext");
+  if(await next.isVisible().catch(()=>false)){
+    // Pressed: the screen stays under the roulette until the roulette is on screen.
+    if(!await next.isEnabled().catch(()=>false))return null;
+    await next.click({timeout:5000}).catch(()=>{});return "chamber-continue";
+  }
+  const lock=stage.locator(".cmLock");
+  if(!await lock.isVisible().catch(()=>false)){
+    const retry=stage.locator(".menuButton",{hasText:"TRY AGAIN"});
+    if(await retry.isVisible().catch(()=>false)){await retry.click({timeout:5000}).catch(()=>{});return "chamber-retry";}
+    return "wait";
+  }
+  const shotButton=stage.locator('.cmChoice[data-kind="shot"]').first();
+  if(!await shotButton.isEnabled().catch(()=>false))return "wait";
+  const round=Number(((await stage.locator(".cmRound").textContent().catch(()=>""))||"").replace(/\D+/g," ").trim().split(" ")[0])||1;
+  const role=await page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.managerRole||"playerOne").catch(()=>"playerOne");
+  const one=role==="playerOne"?0:1;
+  const shot=CHAMBER_SIDES[(round+one)%3],dive=CHAMBER_SIDES[(round*2+one)%3];
+  await stage.locator(`.cmChoice[data-kind="shot"][data-side="${shot}"]`).click({timeout:5000}).catch(()=>{});
+  await stage.locator(`.cmChoice[data-kind="dive"][data-side="${dive}"]`).click({timeout:5000}).catch(()=>{});
+  if(!await lock.isEnabled().catch(()=>false))return "wait";
+  await lock.click({timeout:5000}).catch(()=>{});
+  return "chamber-kick";
 }
 
 function primeFrame(page){return page.frames().find(frame=>/\/icon-guess\//.test(frame.url()))||null;}
@@ -92,13 +129,14 @@ async function playPrimePack(page,{primeGuesser=null}={}){
 function browserPages(pages){const out=[];for(const page of pages){try{for(const context of page.context().browser()?.contexts()||[])out.push(...context.pages());}catch(_error){}}return out;}
 function track(...pages){for(const page of pages.flat())if(page)tracked.add(page);}
 async function onTransfer(page){
-  return await page.locator("#transferChallenge").isVisible().catch(()=>false)&&!(await page.locator("#rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
+  return await page.locator("#transferChallenge").isVisible().catch(()=>false)&&!(await page.locator("#cmStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
 }
 // Plays every roulette and Prime Pack step on the given phones (and any tracked partner phone) until each given phone shows
 // the Transfer Challenge. Returns the steps seen.
 async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   const targets=(Array.isArray(pages)?pages:[pages]).filter(Boolean);track(targets);
-  const until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout),seen=[];// a planned round can run its four stages out (~95 s)
+  // A planned Prime Pack round can run its four stages out (~95 s); Chamber Men's seven rounds replay for about 31 s.
+  const until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout)+(process.env.CMS_CHAMBER_MEN_NOW==="1"?90000:0),seen=[];
   for(;;){
     const drive=[...new Set([...targets,...tracked,...browserPages(targets)])].filter(page=>!page.isClosed());
     const done=[];for(const page of targets)done.push(await onTransfer(page));
@@ -107,11 +145,11 @@ async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
     for(const page of drive){
       if(targets.includes(page)&&done[targets.indexOf(page)])continue;
       const step=await playRoulette(page,{primeGuesser});
-      if(step&&step!=="wait")seen.push(step);
+      if(step&&step!=="wait"){seen.push(step);if(process.env.CMS_ROULETTE_DEBUG==="1")console.log(`--- step ${new Date().toISOString().slice(11,23)} ${step}`);}
     }
     await targets[0].waitForTimeout(STEP_MS);
   }
   throw new Error(`Transfer Challenge did not open within ${timeout} ms (roulette steps: ${seen.join(",")||"none"})`);
 }
 
-module.exports={playRoulette,playPrimePack,primeNames,track,waitForTransfer};
+module.exports={playRoulette,playPrimePack,playChamberMen,primeNames,track,waitForTransfer};

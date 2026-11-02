@@ -144,6 +144,9 @@ const UPGRADE_AFTER=Number(process.env.CE2PG_UPGRADE_AFTER||1);
 const UPGRADE_PIN=process.env.CE2PG_UPGRADE_PIN!=="0";
 // The literal both start constants carry in this tree (tools/set-release-time.cjs sets them together); the upgrade run swaps it.
 const RRR_PLACEHOLDER=`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`;
+// r88 Chamber Men starts at its own release time (CHAMBER_FROM_MS); CMS_CHAMBER_MEN_NOW=1 moves it into the past too.
+const CHAMBER_PLACEHOLDER=(()=>{const t=require("../../tools/set-release-time.cjs");return `Date.parse("${t.read(t.R88_RELEASE_TIME_CONSTANTS)[0].value}")`;})();
+const CHAMBER_NOW=process.env.CMS_CHAMBER_MEN_NOW==="1"?[[CHAMBER_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]:[];
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
 function startAppServer(rewrites=[]){
   appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
@@ -1533,7 +1536,7 @@ async function main(){
   }
   // The roulette starts at the 2.0.0 release time (tools/set-release-time.cjs). A run before that time still plays it: the
   // server sends the r87 placeholder start (2026-10-30) unless CE2PG_REAL_RELEASE_TIME=1 (or this is the upgrade run).
-  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]);
+  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")'],...CHAMBER_NOW]);
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[],retired=[];
