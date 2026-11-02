@@ -566,3 +566,36 @@
 @media (min-width: 1024px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host .rail li .num { font-size: var(--sa-type-eyebrow); }
 }
+
+/* 4g. Home (Studio Axe phase 3). Type only: the 8-tile row, the STORY bar and CONTINUE CAREER keep their places and sizes.
+   Before: the small gold words above each tile title and the READY strip were 10px. */
+@media (min-width: 1200px) and (orientation: landscape) {
+  :root #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode { font-size: var(--sa-type-eyebrow); }
+  :root #app #mainMenu.v10Home .menuBottomStrip > strong { font-size: var(--sa-type-eyebrow); }
+}
+@media (max-width: 760px) {
+  :root #app #mainMenu.v10Home .fifaMenuGrid > #continueCareer .menuTileCode { font-size: var(--sa-type-eyebrow); }
+}
+
+/* 4h. Trophy Room (Studio Axe phase 3). Before: tabs, cabinet names, the Daniel/Nik counts and the records ribbon were
+   10-11px, and "Not won yet" was 7-8px. Everything moves to the 12px floor (13px for tabs and cabinet names). */
+/* Desktop and upright screens only: sideways phones (844x390) pack six tabs in one short row and keep the kit's sizes. */
+@media (min-width: 1024px) and (orientation: landscape), (orientation: portrait) {
+  :root #app #trophyRoom .trophyShelf .trophyTab { font-size: var(--sa-type-small); }
+  :root #app #trophyRoom .trophyCard > h3 { font-size: var(--sa-type-small); }
+  :root #app #trophyRoom .trophyCard .managerCounts span { font-size: var(--sa-type-eyebrow); }
+  :root #app #trophyRoom .trophyCard .notWonYet { font-size: var(--sa-type-eyebrow); }
+  :root #app #trophyRoom .heroPlinth > small { font-size: var(--sa-type-eyebrow); }
+}
+/* The title lockup is a fixed band over the wordmark: on short screens (360x640) a 12px tagline runs into it. */
+@media (min-height: 700px) and (min-width: 1024px) and (orientation: landscape), (min-height: 700px) and (orientation: portrait) {
+  :root #app #trophyRoom .trophyTitleBlock > :is(.sd-eyebrow, .sd-tagline) { font-size: var(--sa-type-eyebrow); }
+}
+@media (min-width: 1024px) and (orientation: landscape) {
+  :root #app #trophyRoom .recordRibbon :is(.recordRibbonHeading, .recordItem > small, .recordItem > span) { font-size: var(--sa-type-eyebrow); }
+  :root #app #trophyRoom .careerRanks .careerRank > small { font-size: var(--sa-type-eyebrow); }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  /* phones: three cabinets per row are ~107px wide; 12px with tight tracking keeps "SHOWDOWN CHAMPION" on one line */
+  :root #app #trophyRoom .trophyCard > h3 { font-size: var(--sa-type-eyebrow); letter-spacing: .02em; }
+}
