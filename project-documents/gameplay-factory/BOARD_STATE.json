@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 10:24 PM Boston time (EST)",
+ "generated": "2026-11-01 10:28 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 182,
@@ -1694,7 +1694,22 @@
    "revision": "1.9.10-r86",
    "when": "2026-10-30T11:17:04Z",
    "subject": "L5: re-pin the composed Rules check to main 64b6bbd6 after the r86 release (no delta) (#1077)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1191,
+     "title": "r87 release: 2.0.0-r87 (Prime Pack, Squad Roulette, 15/150, Gazette, Commentary v3)",
+     "draft": false,
+     "branch": "gameplay/r87",
+     "sha": "8c2f842882293020f66f24c7dd23a2f520c69d30",
+     "updated": "2026-11-02T03:24:07Z",
+     "gates": {
+      "passed": 8,
+      "running": 8,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -2506,7 +2521,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3722,7 +3737,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1191,
+    "title": "r87 release: 2.0.0-r87 (Prime Pack, Squad Roulette, 15/150, Gazette, Commentary v3)",
+    "draft": false,
+    "branch": "gameplay/r87",
+    "sha": "8c2f842882293020f66f24c7dd23a2f520c69d30",
+    "updated": "2026-11-02T03:24:07Z",
+    "gates": {
+     "passed": 8,
+     "running": 8,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
