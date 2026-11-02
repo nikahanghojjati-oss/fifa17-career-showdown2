@@ -14,7 +14,8 @@
  "status": "DONE",
  "steps": [],
  "evidence": ["claude-visual/story-film-reel @ 78917ec6 - TILE_STORY_V1.webp/.png + previews"],
- "log": [{"at": "2026-11-02T17:23:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-02T17:33:31Z", "by": "V", "status": "DONE", "note": "Art ready on claude-visual/story-film-reel: TILE_STORY_V1.webp (512 RGBA q88) + TILE_STORY_V1.png master in visual-assets/v10_1/shared/art/home-tiles/. Previews + notes in project-documents/factory/reviews/STORY_TILE/. Phone: the 44 px bar does not fit under the grid at 393x660 today (tab bar covers it); G owns that layout."}]
+ "log": [{"at": "2026-11-02T17:23:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-02T17:33:31Z", "by": "V", "status": "DONE", "note": "Art ready on claude-visual/story-film-reel: TILE_STORY_V1.webp (512 RGBA q88) + TILE_STORY_V1.png master in visual-assets/v10_1/shared/art/home-tiles/. Previews + notes in project-documents/factory/reviews/STORY_TILE/. Phone: the 44 px bar does not fit under the grid at 393x660 today (tab bar covers it); G owns that layout."}, {"at": "2026-11-02T18:34:56Z", "by": "G", "status": "DONE", "note": "Art merged into gameplay/r88 via PR #1208; phone bar fits above the tab bar at 393x660 in r88's layout"}],
+ "sessions": {"G": "session_01GU43Q5K146UxtLxFthrm2k"}
 }
 ```
 
