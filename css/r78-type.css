@@ -615,6 +615,20 @@
   :root #app #trophyRoom .trophyCard > h3 { font-size: var(--sa-type-eyebrow); letter-spacing: .02em; }
 }
 
+/* 4k. Studio Axe phase 6: Club Assignment and the league wheel on upright phones. Type only.
+   Before: the five step labels, the card labels (ASSIGNED CLUB, SEALED/REVEALED) and RIVALRY were 10px, and the
+   status line (CLUBS READY . CONFIRM TO BEGIN) sat at 11px straight on the stadium floodlights with nothing behind it.
+   The league names on the wheel were 9px. A text shadow is not dimming: nothing behind the words changes. */
+@media (max-width: 760px) and (orientation: portrait) {
+  :root #app #clubWheelScreen.cl-on .clubRevealProgress > span { font-size: 11px; }
+  :root #app #clubWheelScreen.cl-on .clubCardFace > :is(.clubCardLabel, .clubCardState) { font-size: 11px; }
+  :root #app #clubWheelScreen.cl-on .clubVs > span { font-size: 11px; }
+  :root #app #clubWheelScreen.cl-on #clubPackStatus { font-size: var(--sa-type-eyebrow); text-shadow: 0 1px 2px #000, 0 0 10px rgba(0, 0, 0, .95); }
+  :root #app #clubWheelScreen.cl-on :is(.clubAssignmentEyebrow, .clubRevealProgress > span) { text-shadow: 0 1px 2px #000, 0 0 8px rgba(0, 0, 0, .9); }
+  :root #app #clubWheelScreen.cl-on #clubConfirmationMeta { font-size: var(--sa-type-eyebrow); }
+  :root #app #leagueWheelScreen .wheelItem { font-size: 10px; }
+}
+
 /* 4j. Studio Axe phase 5: Showdown Home and New Showdown.
    Showdown Home: js/showdownUI.js lays the two scores out side by side (1fr auto 1fr), but app.css's
    ".showdownScoreboard div:not(.scoreDivider)" also matches .scoreboardScores and stacks it into a column, so
