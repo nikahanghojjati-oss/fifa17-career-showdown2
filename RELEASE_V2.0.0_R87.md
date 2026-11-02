@@ -18,7 +18,7 @@ this file is the release record.
 - Prime Pack before every season's transfer window: one masked Icon, four timed stages (25/20/20/20 s), two guesses each;
   the manager who names it first earns 4, 3, 2 or 1 points by stage, or nobody does, never both (#1149, Team V art #1163).
   A season is now worth up to 15 points and a 10-season Golden Showdown 150, on every screen, in History and in
-  Firebase. The Special Player now comes from the manager's own club (#1173). All of these start at the release time below.
+  Firebase. The Special Player is still a random top-300 pick, but never from the manager's own club (#1173). All of these start at the release time below.
 - Transfer window: signing overall and position, official 2016-17 league names, Deadline Day finish.
 - The Touchline Gazette after each season and a final edition (#1094, #1110, #1116).
 - Commentary v3 on Season Results and below the Final Winner stage (#1126).
