@@ -286,8 +286,9 @@ function textLines(){
   assert.equal(trophy("playerTwo",{totalTrophies:2,leagueTitles:0,domesticCups:1,championsLeagues:0,europaLeagues:1}),"Nik 2 trophies (0 league, 1 cup, 0 Champions League, 1 Europa League)");
   const shell=read("visual-assets/v10_1/season-results/app-shell.html");
   assert.match(shell,/<span>Europa League Winner<\/span><strong>\+3<\/strong>/);
-  // Nik 2026-11-01: no 11 anywhere; a perfect season is 15 with the Prime Pack (Rule Book wording).
-  assert.match(shell,/<span>Prime Pack: first to name the masked Icon \(4, 3, 2 or 1 by stage\)<\/span><strong>\+4<\/strong>/);
+  // Nik 2026-11-01: no 11 anywhere; a perfect season is 15 with the Prime Pack (short label on screen, full rule in the
+  // screen-reader text, so the panel keeps its height and CONTINUE stays on the first view).
+  assert.match(shell,/<span>Prime Pack \(4, 3, 2 or 1\)<\/span><strong>\+4<\/strong>/);
   assert.match(shell,/<span>Maximum Season Score<\/span><strong>15<\/strong>/);
   assert.match(shell,/Champions League \+5[^<]*Europa League \+3[^<]*Prime Pack \+4, \+3, \+2 or \+1[^<]*Season maximum 15\./);
   assert.doesNotMatch(shell,/maximum 11|<strong>11<\/strong>/i,"no 11-point maximum left on Season Results");

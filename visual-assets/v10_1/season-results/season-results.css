@@ -275,7 +275,9 @@ body {
 }
 
 .scoring-rule--max {
-  grid-column: 1 / -1;
+  /* r88: the Prime Pack row is the seventh rule, so the maximum takes the free cell beside it instead of a row of its own
+     (keeps the panel its old height, so CONTINUE stays on the first view at 1920x1080). */
+  grid-column: auto;
   padding-top: 5px;
   border-top: 1px solid rgb(242 196 91 / .42);
   color: var(--sd-gold, #f2c45b);
