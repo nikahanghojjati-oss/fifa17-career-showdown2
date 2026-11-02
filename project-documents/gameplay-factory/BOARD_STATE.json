@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02 12:39 PM Boston time (EST)",
+ "generated": "2026-11-02 12:43 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 197,
@@ -1849,6 +1849,16 @@
     "total": 4,
     "pr": 381,
     "current": "Done; handed to Team G as HO-006"
+   },
+   {
+    "job": "V-r88",
+    "title": "Chamber Men scene art: gold goal, keeper dives, cylinder strip, 0-7 round wording",
+    "worker": "worker not set",
+    "lane": "",
+    "done": 0,
+    "total": 1,
+    "pr": 1207,
+    "current": ""
    }
   ],
   "inbox": {
@@ -2595,7 +2605,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-056_chamber-men-scene-art.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 14
+    "waiting_min": 18
    }
   ],
   "relay_ok": true
@@ -2667,7 +2677,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
