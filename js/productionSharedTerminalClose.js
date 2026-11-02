@@ -26,7 +26,8 @@
       if(!ptcHistoryConverged(request.rivalryId)&&polls<HISTORY_WAIT_POLLS){polls++;root.setTimeout(attempt,HISTORY_POLL_MS);return;}
       automaticAttempts.set(key,{failed:false});
       ptcPublish(request,{...ptcCurrentState(),automaticSaving:true,automaticCloseFailed:false});
-      void ptcClose(key).then(result=>{
+      // r87 arch S-05: a throw before the close's own try (intent check) is a failed save too, never "Saving..." forever.
+      void ptcClose(key).catch(error=>{ptcReport("Shared Showdown Terminal Close failed",error);return null;}).then(result=>{
         if(result?.ok===true)return;
         automaticAttempts.set(key,{failed:true});
         if(ptcStillCurrent(request,generation)&&ptcCurrentState()?.phase!=="CLOSED")ptcPublish(request,{...ptcCurrentState(),automaticSaving:false,automaticCloseFailed:true});
@@ -234,7 +235,7 @@
   }
   function ptcRefresh(){
     if(refreshPromise)return refreshPromise;busy=true;ptcRender();
-    const run=ptcRefreshNow().catch(error=>{ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();if(wakePending){wakePending=false;ptcWake();}});refreshPromise=run;return run;
+    const run=ptcRefreshNow().catch(error=>{ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();ptcWatchContext(ptcRequest());if(wakePending){wakePending=false;ptcWake();}});refreshPromise=run;return run;
   }
   // Job 31: when the 4-hour private session ends (or a reload drops it) every shared refresher fails at once. The RECONNECT
   // SESSION banner owns that state, so those failures wake the banner instead of stacking red error toasts.
@@ -259,7 +260,10 @@
     try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;if(current&&current.phase==="DELETED")return false;}catch(_error){}
     ptcReport(context,error);return true;
   }
-  function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:Date.now(),cryptoImpl:root.crypto};}
+  // r87 W3-6: the atomic session close is checked against server time (freshSessionActivity: server - 5 min .. + 1 min), so it
+  // uses the connection's server-anchored clock (js/sparkRemoteJoining.js clockNow); the phone clock only if that is missing.
+  function ptcNow(){try{const now=Number(root.CareerModeSparkRemoteJoining?.clockNow?.());if(Number.isFinite(now)&&now>0)return now;}catch(_error){}return Date.now();}
+  function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:ptcNow(),cryptoImpl:root.crypto};}
   function ptcAccepted(request,intent,result){
     const closed=protocol.closeResult(intent,result);if(ptcRequest()?.key!==request.key)return null;try{remoteApi?.forgetSession?.();}catch(_error){}
     return ptcPublish(request,{phase:"CLOSED",rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryRevision:closed.rivalryRevision,sessionRevision:closed.sessionRevision,terminal:true,terminalWitness:ptcClone(intent),replayed:closed.replayed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
@@ -350,7 +354,10 @@
   function ptcContextWake(){ptcWake({type:"career-mode-shared-wait-context-change"});}
   function ptcWatchContext(request){
     const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchContext!=="function")return;
-    const id=request&&root.document?.visibilityState!=="hidden"?request.rivalryId:"";
+    // A verified CLOSED (or deleted) Showdown never changes again: no context watch for it, so a phone unlock on the Champion
+    // screen restores nothing for it (red team r87 A-03). The watch stays while the close can still be finished.
+    const ended=request?ptcCurrentState():null,settled=ended?.phase==="DELETED"||(ended?.phase==="CLOSED"&&ended.terminal===true&&ended.rivalryId===request?.rivalryId);
+    const id=request&&!settled&&root.document?.visibilityState!=="hidden"?request.rivalryId:"";
     if(id===contextWatchKey&&!id)return;
     contextWatchKey=id;try{budget.watchContext(id||null,ptcContextWake);}catch(_error){}
   }

@@ -65,10 +65,10 @@
 }
 .menuTilePrimary:disabled .menuTileLabel,
 .menuTilePrimary:disabled .menuTileMeta{
-    opacity:.68;
+    opacity:1; /* HO-027: no dimming; "No Showdown live" already says why it is disabled */
 }
 .menuTilePrimary:disabled .menuTileCode{
-    opacity:.82;
+    opacity:1;
 }
 
 /* Reus now behaves like FIFA 17's player tile photography: a clean rectangular
@@ -202,10 +202,6 @@
         grid-column:5/7;
         grid-row:auto;
         min-height:126px;
-    }
-    .menuMusicTile{
-        grid-column:1/-1;
-        grid-row:auto;
     }
 }
 

@@ -26,14 +26,14 @@
   // Team V's approved copy (fixtures.json "strings" at 5e05a1f, f1Action as factory/v1-wtt5ye 273115c) for the labels Team V draws itself. Production keeps
   // every text it renders (status, buttons, timer, lock summary, errors): those elements are the production ones.
   const STRINGS=Object.freeze({
-    title:"SEASON {season} · TRANSFER CHALLENGE",back:"HOME",refresh:"REFRESH",rail:Object.freeze(["Window","Guesses","Signings","Verdicts"]),railAriaLabel:"Transfer Challenge progress",
+    title:"SEASON {season} · TRANSFER WAR",back:"HOME",refresh:"REFRESH",rail:Object.freeze(["Window","Guesses","Signings","Verdicts"]),railAriaLabel:"Transfer War progress",
     f1Intro:"Ends early only if you both agree.",f1RulesLine:"15 MIN · 3 SIGNINGS · 3 GUESSES",f1Action:"REQUEST EARLY END",f1ActionRequested:"EARLY END REQUESTED ✓",
     ruleNote:"Guess a league or nationality. A matching signing must be released.",
     guessHeading:"Guess {RIVAL}'s signings",privacyNote:"Hidden from {RIVAL} until you both lock.",
     selectPlaceholder:"Guess type",selectLeague:"League",selectNationality:"Nationality",valuePlaceholder:"Pick a type first",primary:"LOCK GUESSES",
     signWindowClosed:"WINDOW CLOSED",tagYou:"YOU",tagSealed:"SEALED",tagPrivate:"PRIVATE",
-    signingPrimary:"LOCK MY SIGNINGS",signingInvalid:"Complete signing {n} with player name, previous league and nationality.",
-    signingPlaceholderName:"Player name",signingPlaceholderLeague:"Previous league",signingPlaceholderNationality:"Nationality",
+    signingPrimary:"LOCK MY SIGNINGS",signingInvalid:"Complete signing {n} with player name, position, overall (30-99), previous league and nationality.",
+    signingPlaceholderName:"Player name",signingPlaceholderLeague:"Previous league",signingPlaceholderNationality:"Nationality",signingPlaceholderOverall:"OVR",signingPlaceholderPosition:"POS",
     verdictHeading:"{MANAGER} · {CLUB}",verdictEmpty:"No signings were entered.",verdictRelease:"RELEASE · MATCHED BY RIVAL GUESS",verdictKeep:"KEEP · NO RIVAL GUESS MATCH",
     continueLabel:"SEASON RESULTS NEXT",guessRevealHeading:"{GUESSER} guesses {OWNER}'s signings"
   });
@@ -48,7 +48,7 @@
     return value;
   }
   function tfSigningRows(rows,label){
-    return (Array.isArray(rows)?rows:[]).filter(row=>row&&Number.isInteger(row.slot)).map(row=>({slot:row.slot,name:tfText(row.name),league:tfLabel(label,"league",row.leagueId),nationality:tfLabel(label,"nationality",row.nationalityId)})).sort((a,b)=>a.slot-b.slot);
+    return (Array.isArray(rows)?rows:[]).filter(row=>row&&Number.isInteger(row.slot)).map(row=>({slot:row.slot,name:tfText(row.name),league:tfLabel(label,"league",row.leagueId),nationality:tfLabel(label,"nationality",row.nationalityId),overall:Number.isInteger(row.overall)?row.overall:null,position:typeof row.position==="string"?row.position:null})).sort((a,b)=>a.slot-b.slot);
   }
   function tfGuessRows(rows,label){
     return (Array.isArray(rows)?rows:[]).filter(row=>row&&(row.type==="league"||row.type==="nationality")).slice().sort((a,b)=>(a.slot||0)-(b.slot||0)).map(row=>({type:row.type,value:tfLabel(label,row.type,row.valueId)}));
@@ -131,7 +131,7 @@
     if(frame.phase==="WINDOW_OPEN"){ids.push("transferTimerDisplay","endTransferTimer");extras.push("startTransferTimer","continueFromTransfers");}
     else if(frame.phase==="GUESS_ENTRY"){for(let i=1;i<=3;i+=1)ids.push(`${guess}Guess${i}Type`,`${guess}Guess${i}Value`);ids.push("completeTransferChallenge");extras.push("continueFromTransfers");}
     else if(frame.phase==="SIGNING_ENTRY"){
-      if(!frame.signingsLocked){for(let i=1;i<=3;i+=1)ids.push(`${own}Signing${i}Name`,`${own}Signing${i}League`,`${own}Signing${i}Nationality`);ids.push("completeTransferChallenge");}
+      if(!frame.signingsLocked){for(let i=1;i<=3;i+=1)ids.push(`${own}Signing${i}Name`,`${own}Signing${i}Position`,`${own}Signing${i}Overall`,`${own}Signing${i}League`,`${own}Signing${i}Nationality`);ids.push("completeTransferChallenge");}
       ids.push("transferPhaseLockSummary");extras.push("continueFromTransfers");
     }else ids.push("continueFromTransfers");
     return tfFreeze({ids,extras});
@@ -141,7 +141,7 @@
   const BASE="visual-assets/v10_1/";
   const ASSET_BASE=BASE+DIR;
   const ACTION_CLASSES=Object.freeze({start:"btn-end sd-btn sd-btn--secondary",continueReplay:"btn-continue sd-btn sd-btn--secondary",error:"error-line"});
-  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
+  let nameCells=[],installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
   const v10Screens=()=>root.CareerModeV10Screens;
   const tfDoc=()=>root.document||null;
   function tfWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -181,6 +181,21 @@
     adopted.push(record);
     return true;
   }
+  // r87 (Nik 2026-10-30): the signing's position and overall have no slot in Team V's plate. They join the adopted
+  // player name in one name cell (name, POS, OVR), so each breakpoint's four-column row keeps its shape
+  // (css/v10Transfer.css). Own signings only.
+  function tfOverallCells(plan){
+    const doc=tfDoc();
+    for(const id of plan.ids){
+      if(!/Signing\dOverall$/.test(id))continue;
+      const node=tfProduction(id),name=stage.querySelector(`[id="${id.replace(/Overall$/,"Name")}"]`),pos=tfProduction(id.replace(/Overall$/,"Position"));
+      if(!node||!name||!tfIsAdopted(name)||!name.parentNode)continue;
+      const cell=doc.createElement("div");cell.className="signing-name-cell";
+      name.parentNode.insertBefore(cell,name);cell.appendChild(name);nameCells.push(cell);
+      if(pos)tfAdopt(pos,cell,"append");
+      tfAdopt(node,cell,"append");
+    }
+  }
   function tfRestore(){
     for(const {card,name,className} of cardSwaps.splice(0)){
       const now=card.getAttribute("class")||"";
@@ -193,6 +208,7 @@
       if(node.id==="transferTimerDisplay"){const clock=node.querySelector(".timer-clock");if(clock)clock.remove();}
       if(marker.parentNode){marker.parentNode.insertBefore(tfUnit(node),marker);marker.remove();}
     }
+    for(const cell of nameCells.splice(0))cell.remove();
   }
   // A production node, or anything inside one (e.g. the selector's listbox inside its .transferCombobox wrapper).
   const tfIsAdopted=node=>adopted.some(record=>record.node===node||(record.node.contains&&record.node.contains(node)));
@@ -213,6 +229,13 @@
     if(!clock){const doc=tfDoc();clock=doc.createElement("span");clock.className="timer-clock";clock.setAttribute("aria-hidden","true");const hand=doc.createElement("span");hand.className="timer-hand";hand.setAttribute("aria-hidden","true");clock.appendChild(hand);node.appendChild(clock);}
     const match=/^(\d{1,2}):(\d{2})$/.exec(text),hand=clock.firstChild;
     if(hand&&match){const angle=(Number(match[2])%60)*6;hand.style.transform=`translate(-50%, -100%) rotate(${angle}deg)`;}
+    tfDeadline(text);
+  }
+  // r87 Deadline Day (js/deadlineDay.js): the last minute of a live window, from this same clock text. Loaded with the skin.
+  function tfDeadline(text){
+    const deadline=root.CareerModeDeadlineDay;
+    if(!deadline||typeof deadline.sync!=="function"||!stage)return;
+    try{deadline.sync(stage,mountedFrame,text);}catch(error){tfWarn("Deadline Day strip skipped.",error);}
   }
   function tfAdoptAll(frame,section){
     const plan=adoptionPlan(frame);
@@ -226,6 +249,7 @@
       const node=tfProduction(id),place=tfPlace(id);
       if(node&&place)tfAdopt(node,place,"replace");
     }
+    tfOverallCells(plan);
     // The production card whose fields moved hands its card class to the Team V block while they are there, so one card
     // per manager carries it (production's own/rival lookups and the replay's one-visible-card guard stay exact).
     for(const name of ["transferGuessCard","transferManagerCard"]){
@@ -246,7 +270,8 @@
       tfAdopt(node,anchor,"append",id==="startTransferTimer"?ACTION_CLASSES.start:ACTION_CLASSES.continueReplay);
     }
     // Errors always stay on screen (the verdict layout has no error line of its own).
-    const error=tfProduction("transferChallengeError"),rules=stage.querySelector(".rules-inner")||stage;
+    // Signing entry: beside LOCK MY SIGNINGS, since laptops hide the status card then (css/v10Transfer.css, Nik 2026-10-30).
+    const error=tfProduction("transferChallengeError"),rules=(frame.phase==="SIGNING_ENTRY"&&!frame.signingsLocked&&stage.querySelector(".panel.own .action-row"))||stage.querySelector(".rules-inner")||stage;
     if(error&&!tfIsAdopted(error))tfAdopt(error,rules,"append",ACTION_CLASSES.error);
     // Guess entry: production's status has two parts (phase · privacy line) where Team V's guess sign has room for the
     // phase name only, so the sign uses Team V's own signing-phase status board for it (css/v10Transfer.css: band).
@@ -268,7 +293,7 @@
     const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${file.includes("/")?BASE+file:a+file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
     // r78 HO-031: the phone plate is Team V's ENV_TRANSFER_PHONE_V2 with both managers painted in (css/v10Transfer.css),
     // so the phone cut-outs (OVL_TRANSFER_*_PHONE_V2) are gone.
-    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","plates-v2/ENV_TRANSFER_PHONE_V2.webp","",' width="1179" height="2096"')}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
+    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","plates-v2/ENV_TRANSFER_PHONE_V2.webp","",' width="1179" height="2096"')}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer War"></div>`;
   }
   // JOB-1699: on desktop the entry and verdict phases need more room than Team V's painted frames give them.
   // Only those phases move the existing panels (same nodes, ids, copy and listeners) as one ordered group beside the
@@ -327,6 +352,7 @@
     sync();
   }
   function tfTeardown(section){
+    try{root.CareerModeDeadlineDay?.detach?.();}catch(_error){}
     if(desktopLayout){desktopLayout.dispose();desktopLayout=null;}
     tfRestore();
     if(stage&&stage.__tw&&typeof stage.__tw.dispose==="function"){try{stage.__tw.dispose();}catch(_error){}}
@@ -412,6 +438,8 @@
         unmount:host=>tfTeardown(host)
       });
       tfObserve();
+      // r87 Deadline Day: a small static script, fetched with the skin (no Firebase); the clock drives it.
+      Promise.resolve(root.loadRuntimeScript("deadline-day","js/deadlineDay.js",()=>Boolean(root.CareerModeDeadlineDay))).catch(error=>tfWarn("Deadline Day strip unavailable.",error));
       if(typeof root.getActiveScreenName==="function"&&root.getActiveScreenName()===SCREEN)tfSchedule();
       return screens;
     }).catch(error=>{registered=null;installed=false;tfWarn("Transfer War visuals unavailable.",error);return null;});

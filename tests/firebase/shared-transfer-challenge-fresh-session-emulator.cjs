@@ -290,6 +290,183 @@ async function proveSaltsAndCatalogIds(env){
   process.stdout.write(`PASS JOB-1051 and JOB-1052 Rules emulator proofs: ${proofChecks} numbered checks (salt shapes, immutability, rival cannot read the salt before COMPLETED, r66 compatibility, catalog ids, signing names, max-size transaction, exhaustive probe).\n`);
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// r87 RT5-FLOW-02 (Nik 2026-10-31): the shared window waits until both managers have spun the roulette. Each member writes only
+// his own pre-window mark on transferChallenges/season_N (provider.markSpun, one merge write); it cannot be unset, written for
+// the partner, written by a stranger or written once the window opened; START from the marks needs both.
+// ---------------------------------------------------------------------------------------------------------------------
+// Fresh ids per run: the composed regression runs this file in Phase A and Phase B on the same emulator.
+const R3=`pair_${crypto.randomBytes(32).toString("hex")}`,S3=`session_${crypto.randomBytes(32).toString("hex")}`,STRANGER="acct_transfer_stranger";
+async function proveRouletteMarks(env){
+  const now=Date.now();
+  await env.withSecurityRulesDisabled(async context=>{
+    const db=context.firestore(),d=baseDocs(R3,S3,now);
+    await setDoc(doc(db,"rivalries",R3),d.rv);await setDoc(doc(db,"rivalries",R3,"sessions",S3),d.ss);
+    await setDoc(doc(db,"rivalries",R3,"sharedSetup","authoritative"),d.su);await setDoc(doc(db,"rivalries",R3,"careerStart","authoritative"),d.cs);
+  });
+  const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore(),dbC=env.authenticatedContext(STRANGER).firestore();
+  const ref=db=>doc(db,"rivalries",R3,"transferChallenges","season_1");
+  const stored=async()=>{let value=null;await env.withSecurityRulesDisabled(async context=>{const snap=await getDoc(ref(context.firestore()));value=snap.exists()?snap.data():null;});return value;};
+  const markDoc=spins=>({schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R3,seasonNumber:1,phase:"NOT_STARTED",spins,updatedAt:firestoreSdk.serverTimestamp()});
+  const options=(role,extra={})=>({user:{uid:role==="playerOne"?A:B},firestore:role==="playerOne"?dbA:dbB,firebaseSdk:sdk(),rivalryId:R3,sessionId:S3,deviceId:role==="playerOne"?DA:DB,seasonNumber:1,cryptoImpl:crypto.webcrypto,nowEpochMs:Date.now(),...extra});
+  // The provider's own START with the public document hidden from its read, so the write reaches the Rules as is.
+  const blind={...sdk(),runTransaction:(database,callback)=>firestoreSdk.runTransaction(database,transaction=>callback({get:async r=>r.path.endsWith("/transferChallenges/season_1")?{exists:()=>false,data:()=>undefined}:transaction.get(r),set:(r,data,o)=>o?transaction.set(r,data,o):transaction.set(r,data)}))};
+
+  await proof("RM1","a member's own mark: one merge write on the pre-window document, accepted once (F2-02: a second write is refused by the Rules; the provider reports him spun)",async()=>{
+    await assertFails(setDoc(ref(dbA),markDoc({playerTwo:true}),{merge:true}));
+    assert.equal(await stored(),null,"Daniel cannot create a mark for Nik");
+    const result=await provider.markSpun({...options("playerOne"),managerRole:"playerOne"});
+    assert.equal(result.ok,true,JSON.stringify(result));
+    assert.deepEqual((await stored()).spins,{playerOne:true});
+    const again=await provider.markSpun({...options("playerOne"),managerRole:"playerOne"});
+    // F2-02: exactly one write per role per season. The Rules refuse the second write (raw write below); the provider reads
+    // once, finds his mark and reports him spun without writing.
+    assert.equal(again.ok,true,JSON.stringify(again));assert.equal(again.alreadyMarked,true);
+    await assertFails(setDoc(doc(dbA,"rivalries",R3,"transferChallenges","season_1"),{schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R3,seasonNumber:1,phase:"NOT_STARTED",spins:{playerOne:true},updatedAt:firestoreSdk.serverTimestamp()},{merge:true}));
+    const read=await provider.read(options("playerTwo"));
+    assert.equal(read.ok,true,JSON.stringify(read));assert.equal(read.state,null);assert.deepEqual([...read.spunRoles],["playerOne"]);
+  });
+  await proof("RM2","the partner's mark is denied; a stranger's mark is denied",async()=>{
+    await assertFails(setDoc(ref(dbA),markDoc({playerTwo:true}),{merge:true}));
+    const forPartner=await provider.markSpun({...options("playerOne"),managerRole:"playerTwo"});
+    assert.equal(forPartner.ok,false);assert.equal(forPartner.code,"permission-denied");
+    await assertFails(setDoc(ref(dbC),markDoc({playerOne:true}),{merge:true}));
+    await assertFails(setDoc(ref(dbC),markDoc({playerTwo:true}),{merge:true}));
+    assert.deepEqual((await stored()).spins,{playerOne:true});
+  });
+  await proof("RM3","START with one mark is denied by the Rules (provider check bypassed)",async()=>{
+    const started=await provider.startWindow({...options("playerOne",{firebaseSdk:blind}),operationId:opId(901),baseRevision:0});
+    assert.equal(started.ok,false,JSON.stringify(started));assert.equal(started.code,"permission-denied");
+    const refused=await provider.startWindow({...options("playerOne"),operationId:opId(902),baseRevision:0});
+    assert.equal(refused.ok,false);assert.equal(refused.code,"TRANSFER_ROULETTE_PENDING");
+    assert.equal((await stored()).phase,"NOT_STARTED");
+  });
+  await proof("RM4","Nik's own mark is accepted; unsetting a mark (his own or Daniel's) and deleting the document are denied",async()=>{
+    assert.equal((await provider.markSpun({...options("playerTwo"),managerRole:"playerTwo"})).ok,true);
+    assert.deepEqual((await stored()).spins,{playerOne:true,playerTwo:true});
+    await assertFails(setDoc(ref(dbB),markDoc({playerTwo:false}),{merge:true}));
+    await assertFails(setDoc(ref(dbB),markDoc({playerTwo:true})));
+    await assertFails(setDoc(ref(dbB),{spins:{playerOne:firestoreSdk.deleteField()},updatedAt:firestoreSdk.serverTimestamp()},{merge:true}));
+    await assertFails(setDoc(ref(dbA),{spins:{playerOne:firestoreSdk.deleteField()},updatedAt:firestoreSdk.serverTimestamp()},{merge:true}));
+    await assertFails(deleteDoc(ref(dbA)));
+    await assertFails(setDoc(ref(dbC),markDoc({playerOne:true,playerTwo:true}),{merge:true}));
+    assert.deepEqual((await stored()).spins,{playerOne:true,playerTwo:true});
+  });
+  await proof("RM5","START with both marks is accepted and writes the unchanged ledger; a mark after the window opened is denied",async()=>{
+    const started=await provider.startWindow({...options("playerOne"),operationId:opId(903),baseRevision:0});
+    assert.equal(started.ok,true,JSON.stringify(started));assert.equal(started.state.phase,"WINDOW_OPEN");
+    const ledger=await stored();
+    assert.equal(Object.hasOwn(ledger,"spins"),false,"the ledger replaces the mark document");assert.equal(ledger.revision,1);
+    // A mark after the window opened is denied by the Rules (raw write); the provider then sees the window open (START
+    // needed both marks), reports him spun and writes nothing: the ledger is untouched.
+    await assertFails(setDoc(ref(dbB),markDoc({playerTwo:true}),{merge:true}));
+    const late=await provider.markSpun({...options("playerTwo"),managerRole:"playerTwo"});
+    assert.equal(late.ok,true,JSON.stringify(late));assert.equal(late.alreadyMarked,true);
+    assert.deepEqual(JSON.parse(JSON.stringify(await stored())),JSON.parse(JSON.stringify(ledger)),"the ledger is unchanged");
+    const expiry=await provider.advanceExpiredWindow({...options("playerTwo"),operationId:opId(904),baseRevision:1});
+    assert.equal(expiry.ok,false,"the window that just opened cannot be expired");assert.equal(expiry.code,"TRANSFER_WINDOW_STILL_OPEN");
+  });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// F2-02 (Fable job 2): each mark records its manager's outcome (fired, hitName, hitNumber, hitSlot 0-14, hitSignedSeason, version), written once;
+// START keeps both marks in one durable record (transferChallenges/season_N/roulette/spins, an exact copy, created once).
+// F2-12: an earlier season is read with plain gets (both role documents and the record), allowed only once COMPLETED.
+// ---------------------------------------------------------------------------------------------------------------------
+const R4=`pair_${crypto.randomBytes(32).toString("hex")}`,S4=`session_${crypto.randomBytes(32).toString("hex")}`;
+async function proveRouletteOutcomes(env){
+  const now=Date.now();
+  await env.withSecurityRulesDisabled(async context=>{
+    const db=context.firestore(),d=baseDocs(R4,S4,now);d.su.totalSeasons=3;d.cs.totalSeasons=3;
+    await setDoc(doc(db,"rivalries",R4),d.rv);await setDoc(doc(db,"rivalries",R4,"sessions",S4),d.ss);
+    await setDoc(doc(db,"rivalries",R4,"sharedSetup","authoritative"),d.su);await setDoc(doc(db,"rivalries",R4,"careerStart","authoritative"),d.cs);
+  });
+  const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore(),dbC=env.authenticatedContext(STRANGER).firestore();
+  const pub=(db,season)=>doc(db,"rivalries",R4,"transferChallenges",`season_${season}`);
+  const record=(db,season)=>doc(db,"rivalries",R4,"transferChallenges",`season_${season}`,"roulette","spins");
+  const stored=async r=>{let value=null;await env.withSecurityRulesDisabled(async context=>{const snap=await getDoc(r(context.firestore()));value=snap.exists()?snap.data():null;});return value;};
+  const markDoc=(season,spins)=>({schemaVersion:1,objectType:"sharedTransferChallenge",rivalryId:R4,seasonNumber:season,phase:"NOT_STARTED",spins,updatedAt:firestoreSdk.serverTimestamp()});
+  const withGet={...sdk(),getDoc};
+  const options=(role,season,extra={})=>({user:{uid:role==="playerOne"?A:B},firestore:role==="playerOne"?dbA:dbB,firebaseSdk:withGet,rivalryId:R4,sessionId:S4,deviceId:role==="playerOne"?DA:DB,seasonNumber:season,cryptoImpl:crypto.webcrypto,nowEpochMs:Date.now(),...extra});
+  const V="rr4.2.0d0adc9d",HIT={fired:true,hitName:"J. Milner",hitNumber:7,hitSlot:7,hitSignedSeason:null,version:V},SAFE={fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason:null,version:V};
+
+  await proof("RH1","malformed outcomes are refused by the Rules (raw writes): slot outside 0-14, bad name, number, version, keys, types",async()=>{
+    const bad=[{...HIT,hitSlot:15},{...HIT,hitSlot:-1},{...HIT,hitSlot:1.5},{...HIT,hitSlot:"7"},{...HIT,hitName:""},{...HIT,hitName:" J. Milner"},{...HIT,hitName:"x".repeat(81)},{...HIT,hitName:7},
+      {...HIT,hitNumber:100},{...HIT,hitNumber:-1},{...HIT,hitNumber:"7"},{...HIT,version:"v1"},{...HIT,version:`rr4.1.${"a".repeat(9)}`},{...HIT,version:7},{...HIT,fired:"yes"},{...HIT,extra:1},
+      (({version,...rest})=>rest)(HIT),{...SAFE,hitName:"J. Milner"},{...SAFE,hitSlot:0},{...SAFE,hitNumber:7},{...HIT,hitSlot:null},
+      {...HIT,hitSignedSeason:0},{...HIT,hitSignedSeason:11},{...HIT,hitSignedSeason:"1"},{...HIT,hitSignedSeason:1.5},{...SAFE,hitSignedSeason:1},(({hitSignedSeason,...rest})=>rest)(HIT),false,"spun",1,{}];
+    for(const outcome of bad)await assertFails(setDoc(pub(dbA,1),markDoc(1,{playerOne:outcome}),{merge:true}));
+    assert.equal(await stored(db=>pub(db,1)),null,"nothing was written");
+    for(const outcome of bad.filter(item=>item&&typeof item==="object"))assert.equal(provider.outcomeValid(outcome),false,`the provider refuses the same outcome: ${JSON.stringify(outcome)}`);
+    const refused=await provider.markSpun({...options("playerOne",1),managerRole:"playerOne",outcome:{...HIT,hitSlot:15}});
+    assert.equal(refused.ok,false);assert.equal(refused.code,"TRANSFER_SPIN_OUTCOME_INVALID","the provider refuses before any write");
+  });
+  await proof("RH2","Daniel's fired outcome and Nik's safe outcome are accepted, once each; the read returns both marks",async()=>{
+    assert.equal((await provider.markSpun({...options("playerOne",1),managerRole:"playerOne",outcome:HIT})).ok,true);
+    const twice=await provider.markSpun({...options("playerOne",1),managerRole:"playerOne",outcome:{...HIT,hitName:"S. Mané",hitSlot:9,hitNumber:19}});
+    // The Rules refuse the second write; the provider then reads once, sees Daniel's mark and reports him spun (a retry, a
+    // reload or a second tab never fails), and the stored first outcome stands.
+    assert.equal(twice.ok,true,JSON.stringify(twice));assert.equal(twice.alreadyMarked,true,"the second mark wrote nothing");
+    assert.deepEqual(JSON.parse(JSON.stringify((await stored(db=>pub(db,1))).spins)),{playerOne:HIT},"the first outcome stands");
+    // A refused write for a role with no mark yet is still a refusal: Daniel cannot mark Nik's entry, and Nik has none.
+    const forNik=await provider.markSpun({...options("playerOne",1),managerRole:"playerTwo",outcome:SAFE});
+    assert.equal(forNik.ok,false,JSON.stringify(forNik));assert.equal(forNik.code,"permission-denied");
+    await assertFails(setDoc(pub(dbA,1),markDoc(1,{playerOne:true}),{merge:true}));
+    assert.equal((await provider.markSpun({...options("playerTwo",1),managerRole:"playerTwo",outcome:SAFE})).ok,true);
+    await assertFails(setDoc(pub(dbB,1),markDoc(1,{playerTwo:{...SAFE,version:"rr4.2.0d0adc9d"}}),{merge:true}));
+    assert.deepEqual((await stored(db=>pub(db,1))).spins,{playerOne:HIT,playerTwo:SAFE});
+    const read=await provider.read(options("playerTwo",1));
+    assert.equal(read.ok,true,JSON.stringify(read));assert.deepEqual(JSON.parse(JSON.stringify(read.spinMarks)),{playerOne:HIT,playerTwo:SAFE});assert.deepEqual([...read.spunRoles],["playerOne","playerTwo"]);
+  });
+  await proof("RH3","the record cannot be made before both marks, by a stranger, or with spins that differ from the marks",async()=>{
+    const rec=spins=>({schemaVersion:1,objectType:"sharedTransferRouletteSpins",rivalryId:R4,seasonNumber:1,spins});
+    await assertFails(setDoc(record(dbA,1),rec({playerOne:{...HIT,hitName:"S. Mané"},playerTwo:SAFE})));
+    await assertFails(setDoc(record(dbA,1),rec({playerOne:HIT})));
+    await assertFails(setDoc(record(dbC,1),rec({playerOne:HIT,playerTwo:SAFE})));
+    await assertFails(setDoc(doc(dbA,"rivalries",R4,"transferChallenges","season_1","roulette","other"),rec({playerOne:HIT,playerTwo:SAFE})));
+    // season 2: only Daniel has marked, so no record (even an exact copy) can exist yet.
+    assert.equal((await provider.markSpun({...options("playerOne",2),managerRole:"playerOne",outcome:SAFE})).ok,true);
+    await assertFails(setDoc(record(dbA,2),{...rec({playerOne:SAFE}),seasonNumber:2}));
+    assert.equal(await stored(db=>record(db,1)),null);
+  });
+  await proof("RH4","START with both outcome marks writes the ledger and the exact durable record; the record is final and members-only",async()=>{
+    const started=await provider.startWindow({...options("playerOne",1),operationId:opId(951),baseRevision:0});
+    assert.equal(started.ok,true,JSON.stringify(started));
+    assert.equal(Object.hasOwn(await stored(db=>pub(db,1)),"spins"),false,"the ledger still has exactly its old keys");
+    assert.deepEqual(await stored(db=>record(db,1)),{schemaVersion:1,objectType:"sharedTransferRouletteSpins",rivalryId:R4,seasonNumber:1,spins:{playerOne:HIT,playerTwo:SAFE}});
+    await assertSucceeds(getDoc(record(dbA,1)));await assertSucceeds(getDoc(record(dbB,1)));await assertFails(getDoc(record(dbC,1)));
+    await assertFails(setDoc(record(dbA,1),{spins:{playerOne:SAFE}},{merge:true}));await assertFails(deleteDoc(record(dbB,1)));
+    const hitsOnly=await provider.readRouletteSeason({...options("playerTwo",1),managerRole:"playerTwo",verdicts:false});
+    assert.equal(hitsOnly.ok,true,JSON.stringify(hitsOnly));assert.deepEqual(JSON.parse(JSON.stringify(hitsOnly.hits)),{playerOne:HIT,playerTwo:SAFE});
+    // The old #1101 marks (plain true) still start a window; their record keeps them and reads back as no saved outcome.
+    // #1148 (Codex R87-E-01): a season 2 window opens only after season 1 was committed and acknowledged by both phones.
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",R4,"seasonCommits","season_1"),{phase:"ACKNOWLEDGED"});});
+    assert.equal((await provider.markSpun({...options("playerTwo",2),managerRole:"playerTwo"})).ok,true);
+    assert.equal((await provider.startWindow({...options("playerOne",2),operationId:opId(952),baseRevision:0})).ok,true);
+    const legacy=await provider.readRouletteSeason({...options("playerOne",2),managerRole:"playerOne",verdicts:false});
+    assert.deepEqual(JSON.parse(JSON.stringify(legacy.hits)),{playerOne:SAFE,playerTwo:null});
+  });
+  await proof("RH5","F2-12: an earlier COMPLETED season reads with plain gets (both roles and the record); before COMPLETED the partner's role is refused",async()=>{
+    // Season 1 is played out (written with the Rules off: the window flow itself is proven above and in the journey suites).
+    const role=(r,season,guesses,signings)=>({schemaVersion:1,objectType:"sharedTransferChallengeRole",rivalryId:R4,seasonNumber:season,managerRole:r,guesses,signings,guessLockedAt:Timestamp.fromMillis(now-60000),signingLockedAt:Timestamp.fromMillis(now-30000),activeSessionId:S4,updatedAt:Timestamp.fromMillis(now-30000),updatedByDeviceId:r==="playerOne"?DA:DB,guessSalt:"a".repeat(64),signingSalt:"b".repeat(64)});
+    const g=[{slot:1,type:"league",valueId:leagueIds[0]}],sg=[{slot:1,name:"A. Signing",leagueId:leagueIds[0],nationalityId:nationalityIds[0],overall:70,position:"CM"},{slot:2,name:"B. Signing",leagueId:leagueIds[1],nationalityId:nationalityIds[1]}];
+    await env.withSecurityRulesDisabled(async context=>{const db=context.firestore();
+      await setDoc(doc(db,"rivalries",R4,"transferChallenges","season_1","roles","playerOne"),role("playerOne",1,g,sg));
+      await setDoc(doc(db,"rivalries",R4,"transferChallenges","season_1","roles","playerTwo"),role("playerTwo",1,g,sg));});
+    const early=await provider.readRouletteSeason({...options("playerOne",1),managerRole:"playerOne"});
+    assert.equal(early.ok,false,"the window is not COMPLETED: the partner's role document stays private");assert.equal(early.code,"permission-denied");
+    await env.withSecurityRulesDisabled(async context=>{const db=context.firestore();const value=(await getDoc(pub(db,1))).data();
+      await setDoc(pub(db,1),{...value,phase:"COMPLETED",endedAt:Timestamp.fromMillis(now-50000),guessLockedRoles:["playerOne","playerTwo"],signingLockedRoles:["playerOne","playerTwo"]});});
+    const full=await provider.readRouletteSeason({...options("playerOne",1),managerRole:"playerOne"});
+    assert.equal(full.ok,true,JSON.stringify(full));
+    assert.deepEqual(full.verdicts.playerOne.map(row=>[row.name,row.release]),[["A. Signing",true],["B. Signing",false]]);
+    assert.deepEqual(full.verdicts.playerTwo.map(row=>[row.name,row.release]),[["A. Signing",true],["B. Signing",false]]);
+    assert.deepEqual(JSON.parse(JSON.stringify(full.hits)),{playerOne:HIT,playerTwo:SAFE});
+    const stranger=await provider.readRouletteSeason({...options("playerOne",1),user:{uid:STRANGER},firestore:dbC,managerRole:"playerOne"});
+    assert.equal(stranger.ok,false);
+  });
+}
+
 (async()=>{
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
   try{
@@ -346,6 +523,8 @@ async function proveSaltsAndCatalogIds(env){
     assert.ok(endedAtMs<=Date.now()+5000,"timeout endedAt must be the Firestore request/server time, not an invented future value.");
 
     await proveSaltsAndCatalogIds(env);
+    await proveRouletteMarks(env);
+    await proveRouletteOutcomes(env);
 
     process.stdout.write("PASS Shared Transfer fresh-session expiry emulator: fresh-session read + authority migration both succeed, then an old-session WINDOW_OPEN at 00:00 advances under the fresh ACTIVE session, preserves exact startedAt, writes timeout completion at server request time, and reaches GUESS_ENTRY without redraw or reset.\\n");
   }finally{await env.cleanup();}

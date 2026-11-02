@@ -1,4 +1,6 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // G-2b: Daniel and Nik play through the real app screens in two Chromium contexts against the
 // Auth + Firestore emulators (composed production Rules). Test database only; project demo-cms-browser-journey.
 // Run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
@@ -13,6 +15,10 @@ const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
+// 2.0.0: the release-time constants (tools/set-release-time.cjs) start Prime Pack, the roulette and the own-club Special
+// Player at the release minute. The journey serves them as started (the files on disk never change), so it plays the real
+// Prime Pack round before and after the release time; CMS_JOURNEY_REAL_RELEASE_TIME=1 serves the real constants.
+const RELEASE_TIME_REWRITE=process.env.CMS_JOURNEY_REAL_RELEASE_TIME==="1"?{}:{CMS_TEST_REWRITE:JSON.stringify([[`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`,'Date.parse("2026-10-30T00:00:00Z")']])};
 const PROJECT="demo-cms-browser-journey";
 const FIRESTORE="http://127.0.0.1:8181",AUTH_PORT=9199,FIRESTORE_PORT=8181;
 const APP_PORT=Number(process.env.CMS_TEST_PORT||4173);
@@ -22,8 +28,14 @@ const SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const ARTIFACTS=process.env.CMS_BROWSER_JOURNEY_ARTIFACTS||path.join(os.tmpdir(),"cms-browser-journey");
 const LENGTH=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
 // JOB-1040: the final totals the scripted seasons produce. The 3-season row is the original expectation; the 1-season row is the
-// season-1 result alone (9-3, Daniel wins), so the journey can also be run with CMS_SHOWDOWN_LENGTH=1 without changing any check.
-const FINAL_EXPECTED={3:{daniel:10,nik:15,winner:"playerTwo",winnerName:"Nik"},1:{daniel:9,nik:3,winner:"playerOne",winnerName:"Daniel"}}[LENGTH]||{daniel:10,nik:15,winner:"playerTwo",winnerName:"Nik"};
+// season-1 result alone (13-3 with Daniel's Prime Pack 4, Daniel wins), so the journey can also be run with CMS_SHOWDOWN_LENGTH=1 without changing any check.
+// r87 Prime Pack (Nik 2026-11-01): each season's round is played for real on both phones before the window. Season 1 Daniel
+// names the card in stage 1 (+4), season 2 Nik does (+4), season 3 both spend their two guesses on wrong names (a Prime Pack
+// draw at once), so the season scores are
+// 13-3, 0-15 and 1-1 and the totals 14-19.
+const PRIME_WAIT_MS=150000; // room for a whole Prime Pack round (stages 25/20/20/20 s plus reveals, about 95 s)
+const PRIME_GUESSER={1:"playerOne",2:"playerTwo",3:null};
+const FINAL_EXPECTED={3:{daniel:14,nik:19,winner:"playerTwo",winnerName:"Nik"},1:{daniel:13,nik:3,winner:"playerOne",winnerName:"Daniel"}}[LENGTH]||{daniel:14,nik:19,winner:"playerTwo",winnerName:"Nik"};
 const FINAL_NO_CLOSE_TAP=process.env.CMS_FINAL_NO_CLOSE_TAP==="1";
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 let checks=0;
@@ -32,7 +44,7 @@ const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
 // r79 one start flow: START makes the pair code itself and both managers continue by themselves once connected, so
 // CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (GET READY) and CREATE CODE FOR NIK are no longer taps either.
-const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH CHALLENGE","#refreshSharedTransferChallenge"]);
+const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH CHALLENGE","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
   assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
@@ -199,8 +211,8 @@ async function prepareSeasonReview(m){
 }
 async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seasonNumber=null}={}){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="WAITING FOR HOST"||document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR HOST")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="WAITING FOR DANIEL"||document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR DANIEL")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
   // R7 (owner decision 2026-10-04): Daniel's one tap commits, then records his own acknowledgement; Nik still acknowledges himself.
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
@@ -256,10 +268,15 @@ async function continueToSeason(daniel,nik,season,total){
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
+    const paper=await gazette.passGazette(m.page,"season");
+    assert.ok(paper&&paper.endsWith(`|season|${season-1}`),`${m.user} saw the season-${season-1} Touchline Gazette after CONTINUE TO SEASON ${season} (${paper})`);
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
-    assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
   }
+  // Both phones at once: the Prime Pack round starts only when both managers have arrived.
+  const steps=await rosterRoulette.waitForTransfer([daniel.page,nik.page],PRIME_WAIT_MS,{primeGuesser:PRIME_GUESSER[season]});
+  assert.ok(steps.filter(step=>step.startsWith("prime-continue")).length>=2&&(PRIME_GUESSER[season]===null?steps.filter(step=>step==="prime-miss").length>=4&&!steps.includes("prime-guess"):steps.includes("prime-guess")),`season ${season} played the real Prime Pack round on both phones (steps: ${steps.join(",")})`);
+  for(const m of [daniel,nik])assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
 }
 async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
@@ -277,13 +294,13 @@ async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
 
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy`);
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy after Nik read the lock`);
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
   await assertPrivateTokenAbsent(daniel,tokenN.split(" ")[0],`season ${season} Nik signing privacy`);
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
@@ -305,7 +322,9 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return;
-    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
+    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
     }
@@ -375,7 +394,7 @@ async function main(){
   // J0 preflight
   assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"J0 SDK pin matches the switch");
   await loadComposedRules();ok("J0.1","composed production Rules active on the emulator (open read 404 -> 403)");
-  const server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT)}});
+  const server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...RELEASE_TIME_REWRITE}});
   await new Promise(resolve=>setTimeout(resolve,800));
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
@@ -464,7 +483,7 @@ async function main(){
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
 
     // J4 shared setup through the real league wheel and club-pack screens.
-    assert.match(await nik.page.locator("#spinLeague").textContent(),/WAITING FOR HOST/i,"Nik waits for Daniel on the league wheel");
+    assert.match(await nik.page.locator("#spinLeague").textContent(),/WAITING FOR DANIEL/i,"Nik waits for Daniel on the league wheel");
     assert.equal(await nik.page.locator("#spinLeague").isDisabled(),true,"Nik cannot draw shared setup authority");
     ok("J4.1","Nik is visibly waiting for the host and cannot draw the shared league");
 
@@ -484,7 +503,7 @@ async function main(){
       assert.equal(await m.page.locator("#leagueWheelScreen").isVisible(),false,`${m.user}: the witnessed league screen advanced to the club packs without a tap`);
       assert.equal((await m.page.locator("#clubAssignmentLeague").textContent()).trim(),sharedLeague,`${m.user}: the club screen names the shared league`);
     }
-    assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR HOST/i,"Nik waits for host pack reveal");
+    assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR DANIEL/i,"Nik waits for host pack reveal");
     assert.equal(await nik.page.locator("#openClubPack").isDisabled(),true,"Nik cannot draw the clubs");
     await daniel.page.locator("#openClubPack").click({timeout:30000});
     await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
@@ -531,10 +550,9 @@ async function main(){
     for(const m of [daniel,nik])await m.page.waitForFunction(()=>window.CareerModeProductionSharedCareerStart?.getState?.()?.state?.phase==="CAREER_START_READY",null,{timeout:30000});
     ok("J5.2","both private Career Start acknowledgements converged to ready");
 
-    for(const m of [daniel,nik]){
-      await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
-      await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
-    }
+    const primeSteps1=await rosterRoulette.waitForTransfer([daniel.page,nik.page],PRIME_WAIT_MS,{primeGuesser:PRIME_GUESSER[1]});
+    assert.ok(primeSteps1.some(step=>step.startsWith("prime-guess"))&&primeSteps1.some(step=>step.startsWith("prime-continue")),`season 1 played the real Prime Pack round (steps: ${primeSteps1.join(",")})`);
+    for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
     ok("J5.3","both managers reached the real Shared Transfer Challenge through the UI");
     await shot(daniel,"j5-career-start");await shot(nik,"j5-career-start");
 
@@ -575,7 +593,7 @@ async function main(){
     await waitTransferPhase(daniel,"signing_entry");
     ok("J6.3","both managers entered and locked their private guesses through the real controls");
 
-    await daniel.page.locator("#p1Signing1Name").fill("QWX Daniel Signing");
+    await daniel.page.locator("#p1Signing1Name").fill("QWX Daniel Signing");await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");
     await fillTransferCombo(daniel,"p1Signing1League","Premier League");
     await fillTransferCombo(daniel,"p1Signing1Nationality","England");
     await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
@@ -585,8 +603,8 @@ async function main(){
     await waitTransferPhase(nik,"signing_entry");
     await assertPrivateTokenAbsent(nik,"QWX","after Daniel signing lock but before COMPLETED");
 
-    await nik.page.locator("#p2Signing1Name").fill("ZPV Nik Signing");
-    await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");
+    await nik.page.locator("#p2Signing1Name").fill("ZPV Nik Signing");await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");
+    await fillTransferCombo(nik,"p2Signing1League","Serie A TIM");
     await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
     await assertPrivateTokenAbsent(daniel,"ZPV","before transfer completion on Daniel");
     ok("J6.4","unfinished rival signings remain absent from rendered text and every input value");
@@ -640,17 +658,17 @@ async function main(){
     ok("J7.2","RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit");
 
     // J8 season 1 commit + canonical scoring, then seasons 2 and 3.
-    await commitSeasonViaUi(daniel,nik,9,3,"Daniel",{finalSeason:LENGTH===1,seasonNumber:1});
-    ok("J7.3","after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner");
+    await commitSeasonViaUi(daniel,nik,13,3,"Daniel",{finalSeason:LENGTH===1,seasonNumber:1});
+    ok("J7.3","after the immutable season-1 commit both pages show canonical 13-3 (9-3 plus Daniel's 4 Prime Pack points) and Daniel as season winner");
 
     if(LENGTH>1){
       await continueToSeason(daniel,nik,2,LENGTH);
       for(const m of [daniel,nik]){
-        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"13");
         assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"3");
         assert.match((await m.page.locator("#dashboardRound").textContent()).trim(),/Season 2 of 3/);
       }
-      ok("J8.1","both dashboards show 9-3 and Season 2 of 3 after season-1 commit");
+      ok("J8.1","both dashboards show 13-3 and Season 2 of 3 after season-1 commit");
 
       await playTransferSeason(daniel,nik,2,"QWX2 Daniel Signing","ZPV2 Nik Signing");
       ok("J8.2","season 2 repeated the shared transfer flow with rendered privacy before completion");
@@ -681,11 +699,11 @@ async function main(){
           throw new Error(`J9_RESUME_NOT_AT_SEASON_2 ${m.user} ${await describe(m)} ${JSON.stringify(diag).slice(0,3000)}`,{cause:error});
         }
         assert.equal(await m.page.locator("#productionSharedCareerStartOverlay").isVisible().catch(()=>false),false,`${m.user}: resume must not replay Career Start`);
-        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"13");
         assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"3");
         assert.equal(await m.page.locator("#seasonIndicator").textContent(),"Season 2 / 3");
       }
-      ok("J9.2","after a fresh exact session both managers resume on the Season 2 of 3 dashboard at 9-3 (no Career Start, no season-1 replay)");
+      ok("J9.2","after a fresh exact session both managers resume on the Season 2 of 3 dashboard at 13-3 (no Career Start, no season-1 replay)");
       // Studio Z4: Nik closes his tab and opens the game again. The new tab signs in again (session-only sign-in), and one
       // CONTINUE CAREER tap re-attaches to the pair's current session through the shared pointer: still no code.
       {
@@ -710,7 +728,7 @@ async function main(){
       }
       ok("J9.4","a closed and reopened tab re-attaches to the same session with one CONTINUE CAREER tap and no code");
       for(const m of [daniel,nik]){
-        await m.page.waitForFunction(()=>/TRANSFER CHALLENGE|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
+        await m.page.waitForFunction(()=>/TRANSFER WAR|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
         await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
         await m.page.locator("#transferChallenge, #seasonEntry").filter({visible:true}).first().waitFor({state:"visible",timeout:30000});
         if(await m.page.locator("#transferChallenge").isVisible()){
@@ -743,14 +761,14 @@ async function main(){
         assert.equal((await m.page.locator("#seasonReviewError").textContent()).trim(),"","simultaneous publish must not leave an error banner");
       }
       ok("J8.3","season-2 simultaneous publish converged to RESULTS_READY with no error banner");
-      await commitSeasonViaUi(daniel,nik,0,11,"Nik",{finalSeason:LENGTH===2,seasonNumber:2});
-      ok("J8.4","season 2 canonical score is 0-11 and Nik wins");
+      await commitSeasonViaUi(daniel,nik,0,15,"Nik",{finalSeason:LENGTH===2,seasonNumber:2});
+      ok("J8.4","season 2 canonical score is 0-15 (11 plus Nik's 4 Prime Pack points, the new season maximum) and Nik wins");
 
       if(LENGTH>2){
         await continueToSeason(daniel,nik,3,LENGTH);
         for(const m of [daniel,nik]){
-          assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
-          assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"14");
+          assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"13");
+          assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"18");
           assert.match((await m.page.locator("#dashboardRound").textContent()).trim(),/Season 3 of 3/);
         }
         await playTransferSeason(daniel,nik,3,"QWX3 Daniel Signing","ZPV3 Nik Signing");
@@ -784,7 +802,7 @@ async function main(){
       ok("J10.1-auto","both pages keep the final winner and close without a CLOSE tap");
     }else{
     // Owner decision 2026-10-05 (BH-8): once the last season is committed each phone checks on its own poll and shows the
-    // final winner and CLOSE by itself. Nobody taps PREVIEW RESULT here; Apply stays a separate explicit tap.
+    // final winner and CLOSE by itself. Nobody taps CHECK MY SAVE here; Apply stays a separate explicit tap.
     for(const m of [daniel,nik])await m.page.evaluate(()=>{window.__bh8PreviewTaps=0;document.addEventListener("click",event=>{if(event.target?.closest?.("#sharedLocalReconciliationPreview"))window.__bh8PreviewTaps+=1;},true);});
     for(const m of [daniel,nik]){
       try{
@@ -821,7 +839,7 @@ async function main(){
       await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
       assert.equal((await m.page.locator("#sharedTerminalCloseAction").textContent()).trim(),"CLOSE SHOWDOWN");
       try{
-        await m.page.waitForFunction(()=>/PREVIEW READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
+        await m.page.waitForFunction(()=>/CHECK READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
       }catch(error){
         const diag=await m.page.evaluate(()=>({
           multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,
@@ -876,6 +894,13 @@ async function main(){
     // JOB-1040: after a finished online Showdown both devices open Career Statistics, Trophy Room and Legacy from Showdown Home
     // (real buttons) and must see the just-completed Showdown, before and after a reload. Every wait is bounded to 20 s.
     await assertCareerScreensShowCompletedShowdown([daniel,nik],"J10.3");
+    // r87 Touchline Gazette: each phone showed every season paper and the final paper exactly once, for the same Showdown.
+    for(const m of [daniel,nik]){
+      const seen=await gazette.gazetteSeen(m.page),rid=seen[0]?.split("|")[0];
+      assert.deepEqual(seen.map(k=>k.slice(k.indexOf("|")+1)),[...Array.from({length:LENGTH-1},(x,i)=>`season|${i+1}`),`final|${LENGTH}`],`${m.user} Gazette papers ${JSON.stringify(seen)}`);
+      assert.ok(rid&&seen.every(k=>k.startsWith(rid+"|")),`${m.user} papers belong to one Showdown`);
+    }
+    ok("J10.3g",`both devices showed the Touchline Gazette once per season (${LENGTH-1}) and once after Final Winner, and CONTINUE went on to the same screens`);
     for(const m of [daniel,nik]){
       await m.page.reload({waitUntil:"domcontentloaded"});
       await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});

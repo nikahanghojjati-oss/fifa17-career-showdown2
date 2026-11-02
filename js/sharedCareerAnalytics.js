@@ -39,7 +39,8 @@
       if(classification!=="active"){
         const a=p.managerRecords.playerOne.totalPoints,b=p.managerRecords.playerTwo.totalPoints;
         const winner=a>b?"playerOne":b>a?"playerTwo":"draw";
-        if(entry.final?.totals?.playerOne!==a||entry.final?.totals?.playerTwo!==b||entry.final?.winner!==winner)throw new Error("CAREER_FINAL_MISMATCH");
+        // r87 Fable F7-01: equal career points is a draw even when an older final named a winner; unequal must agree.
+        if(entry.final?.totals?.playerOne!==a||entry.final?.totals?.playerTwo!==b||entry.final?.winner!==winner&&!(a===b&&["playerOne","playerTwo"].includes(entry.final?.winner)))throw new Error("CAREER_FINAL_MISMATCH");
         final={totals:{playerOne:a,playerTwo:b},winner};
       }
       // r86 (red team #13): the Setup confirm time rides along, so a row can say whether this Showdown has Special Players.
@@ -71,7 +72,13 @@
     const europaLeague=season.playerOne.europaLeague===true||season.playerTwo.europaLeague===true?{europaLeague:{daniel:season.playerOne.europaLeague===true,nik:season.playerTwo.europaLeague===true}}:{};
     return {season:season.roundNumber,score:{daniel:season.playerOne.scoring.total,nik:season.playerTwo.scoring.total},winner:managerFor(season.winner),tiebreak:seasonTiebreak(season),leaguePosition:pair("leaguePosition"),leaguePoints:pair("leaguePoints"),leagueGoals:pair("leagueGoals"),...europaLeague};
   }
-  function accumulate(record,season,role,sums){
+  // r87 Prime Pack (Nik 2026-11-01 17:35 UTC): a perfect season is 15 points (11 + a 4-point Prime Pack), in every
+  // Showdown. An older Showdown's 11 stays in its History but is not a perfect season: one meaning on every screen.
+  // PRIME_PACK_FROM_MS stays on the release-time list (tools/set-release-time.cjs) with the other Prime Pack boundaries.
+  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
+  const PERFECT_SEASON=15;
+  function seasonMaxOf(_entry,_seasons){return PERFECT_SEASON;}
+  function accumulate(record,season,role,sums,max=PERFECT_SEASON){
     const r=season[role],score=r.scoring.total;
     record.seasons+=1;record.careerPoints+=score;
     sums.points+=r.leaguePoints;sums.goals+=r.leagueGoals;
@@ -84,7 +91,7 @@
     if(r.leagueGoals>=100)record.hundredGoalSeasons+=1;
     if(r.topScorer)record.topScorerSeasons+=1;
     if(r.topAssist)record.topAssistSeasons+=1;
-    if(score===11)record.perfectSeasons+=1;
+    if(score===max)record.perfectSeasons+=1;
     record.performanceBonuses+=r.scoring.performanceBonus;
     record.awardsBonuses+=r.scoring.individualAwardsBonus;
     for(const [key,value] of [["bestSeasonScore",score],["bestLeaguePoints",r.leaguePoints],["bestLeagueGoals",r.leagueGoals],["bestLeaguePosition",r.leaguePosition]]){
@@ -94,6 +101,8 @@
   function bestRecord(label,candidates){
     if(!candidates.length)return {label,manager:"shared",value:null,ref:null};
     const value=Math.max(...candidates.map(candidate=>candidate.value));
+    // r87 career fixes (B5): a best of 0 (no perfect season, a 0-0 season) is a record nobody holds, never "0 Shared".
+    if(!(value>0))return {label,manager:"shared",value:null,ref:null};
     const tied=candidates.filter(candidate=>candidate.value===value);
     const managers=new Set(tied.map(candidate=>candidate.manager));
     const places=new Set(tied.map(candidate=>caCanonical(candidate.ref)));
@@ -128,10 +137,11 @@
       // agrees with History/Legacy and never depends on whether this page holds the live History. An unfinished Showdown
       // keeps its row and shows on THIS SHOWDOWN / Rivalry Statistics. The labelled current-only view (interimLabel) is that
       // live Showdown on its own, so it still counts it.
+      const seasonMax=seasonMaxOf(entry,p.seasonHistory);
       if(classification==="completed"||interimLabel!==null)for(const season of p.seasonHistory){
         for(let i=0;i<ROLES.length;i+=1){
           const role=ROLES[i],manager=MANAGERS[i],r=season[role];
-          accumulate(managers[manager],season,role,sums[manager]);
+          accumulate(managers[manager],season,role,sums[manager],seasonMax);
           const ref={rivalryId:entry.rivalryId,season:season.roundNumber};
           for(const [index,value] of [r.scoring.total,r.leaguePoints,r.leagueGoals].entries())candidates[index].push({manager,value,ref});
         }
@@ -165,7 +175,11 @@
     const records=LABELS.map((label,index)=>bestRecord(label,candidates[index]));
     // A cross-manager tie for the biggest win is shared, as in the Trophy Room record.
     if(biggestShowdownWin&&records[3].manager==="shared")biggestShowdownWin={manager:"shared",margin:biggestShowdownWin.margin,showdownRef:null};
-    return caFreeze({status:entries.length===0?"empty":readable<entries.length?"partial":"ready",interimLabel,coverage:{readable,indexed:entries.length},managers,biggestShowdownWin,trophyRoom:trophyRoom(managers,records,false),history:{showdowns:rows}});
+    // r87 career fixes (A-05): the coverage line counts finished Showdowns only. The live (or completion-pending) Showdown is
+    // read but History never lists it, so "Showing 3 of 4" above 2 cards counted a game that is not there. The labelled
+    // current-only view is that live Showdown, so it keeps counting it. The status is unchanged (the same entry leaves both).
+    const live=interimLabel!==null?0:rows.filter(row=>!["completed","abandoned","unavailable"].includes(row.status)).length;
+    return caFreeze({status:entries.length===0?"empty":readable<entries.length?"partial":"ready",interimLabel,coverage:{readable:readable-live,indexed:entries.length-live},managers,biggestShowdownWin,trophyRoom:trophyRoom(managers,records,false),history:{showdowns:rows}});
   }
   return Object.freeze({buildCareerModel,seasonTiebreak});
 });

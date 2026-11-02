@@ -61,7 +61,7 @@
     const careerStart=root.CareerModeProductionSharedCareerStart;
     if(!careerStart||typeof careerStart.openPanel!=="function")return false;
     Promise.resolve(careerStart.openPanel()).catch(error=>{
-      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Shared Career Start action failed",error);
+      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Career Start did not finish",error);
       else console.error(error);
     });
     return true;
@@ -71,7 +71,7 @@
     if(!presentation||typeof presentation.handlesControl!=="function"||typeof presentation.handleControlClick!=="function")return false;
     if(!presentation.handlesControl(target.id))return false;
     Promise.resolve(presentation.handleControlClick(target.id)).catch(error=>{
-      if(typeof root.reportApplicationError==="function")root.reportApplicationError("Shared Showdown polished presentation action failed",error);
+      if(typeof root.reportApplicationError==="function")root.reportApplicationError("That step did not finish",error);
       else console.error(error);
     });
     return true;

@@ -92,9 +92,9 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   }finally{delete globalThis.CareerModeProductionSharedShowdownSetup;delete globalThis.CareerModePersistentNikDanielPair;}
   const rl=read('js/rivalryLegacyV10.js'),sf=read('js/seasonFinalV10.js');
   assert.match(rl,/sp=rowSpecial\(row\);\s*\}else\{[^}]*sp=liveSpecial\(\);\}/,'Rivalry: History row, else the live Showdown');
-  assert.match(sf,/chip\.liveFor\(rid\)\|\|\(rid&&read&&Number\.isFinite\(read\.setupConfirmedAt\)\?chip\.forShowdown\(rid,read\.setupConfirmedAt\):null\)/,'Final Winner / Season Results: live Setup, else the closed Showdown\'s own read');
+  assert.match(sf,/chip\.liveFor\(rid\)\|\|\(rid&&read&&Number\.isFinite\(read\.setupConfirmedAt\)\?chip\.forShowdown\(rid,read\.setupConfirmedAt,\{playerOne:read\.projection\?\.managerRecords\?\.playerOne\?\.club,playerTwo:read\.projection\?\.managerRecords\?\.playerTwo\?\.club\}\):null\)/,'Final Winner / Season Results: live Setup, else the closed Showdown\'s own read');
   assert.match(sf,/setupConfirmedAt:Number\.isFinite\(result\.setupConfirmedAt\)\?result\.setupConfirmedAt:null/,'the closed read keeps the confirm time it already returns');
-  assert.match(sf,/return \{final:final\.winner\?freeze\(\{\.\.\.final,specialPlayers:sp\}\):final,specialPlayers:sp\};/);
+  assert.match(sf,/return \{final:final\.winner\?freeze\(\{\.\.\.final,specialPlayers:sp\}\):final,specialPlayers:sp,rematch\};/);// r87 adds the Rematch frame beside the chips
   ok('S3','live Showdown: the confirmed Setup\'s rivalry and setupUpdatedAtMs on Standings, Rivalry, Final Winner and Season Results; another rivalry, an unconfirmed or pre-r86 Setup, or a failing one: none');
 }
 
@@ -144,8 +144,9 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   assert.match(chip,/function spEnsure\(/);
   assert.doesNotMatch(chip,/firestore|getDoc|setDoc|updateDoc|runTransaction|onSnapshot|localStorage|sessionStorage|fetch\(/i,'the chip reads only what the screens hold');
   const sw=read('service-worker.js');
-  assert.match(sw,/"data\/marqueePlayers\.js",\s*"js\/specialPlayerChip\.js"/,'shell path');
-  assert.match(sw,/SHELL_PATHS_ADDED_SINCE_PREVIOUS[\s\S]*"js\/specialPlayerChip\.js"/);
+  assert.match(sw,/\n\s+"js\/specialPlayerChip\.js",?\n/,'shell path');
+  // 2.0.0: the chip shipped in 1.9.10-r86, so it is in the retained r86 shell's own list, not the added list.
+  assert.ok(JSON.parse(read('tests/fixtures/shell-paths/1.9.10-r86.json')).paths.includes('js/specialPlayerChip.js'));
   ok('S5','each screen\'s prepare step loads the chip before its first frame (no flash); the chip module has no Firebase or storage access; offline shell lists it');
 }
 
@@ -155,7 +156,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   assert.equal(Chip.clubLine(sp.daniel),'A. Vidal · FC Bayern München');assert.equal(Chip.clubLine(sp.nik),'C. Musonda · Real Betis');
   assert.equal(Chip.clubLine({...sp.daniel,club:null}),'A. Vidal · No club');assert.equal(Chip.clubLine(null),'');
   const pc=read('js/productionSharedCareerStart.js');
-  assert.match(pc,/chip\.forShowdown\(state\.rivalryId,state\.setupUpdatedAtMs\)/);
+  assert.match(pc,/chip\.forShowdown\(state\.rivalryId,state\.setupUpdatedAtMs,state\.setup\?\.clubs\)/);
   assert.match(pc,/\[\["YOUR SPECIAL PLAYER",role\],\["RIVAL'S SPECIAL PLAYER",otherRole\]\]/);
   assert.match(pc,/const line=chip\.clubLine\(special\[manager\(who\)\]\);if\(line\)/);
   assert.match(pc,/r==="playerOne"\?"daniel":"nik"/);
@@ -174,7 +175,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   }
   assert.match(rb,/specialName\.textContent = " SPECIAL PLAYER";/);assert.match(rb,/specialTag\.textContent = "SP";/);
   assert.match(rb,/Each manager draws one FIFA 17 player at the start of every Showdown\. Your Special Player scores no points\. Full rules in card 06\./);
-  assert.match(rb,/article\.append\(header, scoring, maximum, golden, special, notes\);/,'the rule sits right after GOLDEN SHOWDOWN');
+  assert.match(rb,/article\.append\(header, scoring, maximum, golden, special, primePack, notes\);/,'the rule sits right after GOLDEN SHOWDOWN (r87 Prime Pack follows it)');
   assert.doesNotMatch(pc.replace(/\/\/[^\n]*/g,''),/marquee/i,'Career Start stays free of the code name');
   ok('S7','every shown string (chip, badge, title, rule line, Career Start labels, CSS content) says Special Player or SP, never the code name');
 }
@@ -215,6 +216,32 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   const sr=read('js/productionSharedSeasonResults.js');
   assert.match(sr,/function pssrSpecialPlayerSlot\(role\)/);assert.match(sr,/fragment\.append\(heading\);if\(special\)fragment\.append\(special\);fragment\.append\(club\);/,'published Season Results cards: chip under the name');
   ok('S9','just after the close the same Showdown keeps its chips; Rivalry chips and clubs line up; published Season Results cards and long phone names');
+}
+
+// S10 red team R87-SP-01: with no live Setup, an in-progress Showdown whose row has no confirm time owns the current
+// Special Players; the career screens show no chip rather than the previous Showdown's pair.
+{
+  const finished={rivalryId:r86.rivalryId,status:'completed',setupConfirmedAt:AT};
+  const live={rivalryId:'pair_'+'c'.repeat(64),status:'in-progress',setupConfirmedAt:null};
+  assert.deepEqual(plain(Chip.latest([finished])),r86Sp,'no Showdown in progress: the latest confirmed one');
+  assert.equal(Chip.latest([finished,live]),null,'an in-progress Showdown without its confirm time: no chip, never an older pair');
+  assert.deepEqual(plain(Chip.latest([finished,{...live,setupConfirmedAt:AT+1}])),plain(Chip.forShowdown(live.rivalryId,AT+1)),'with its confirm time: its own pair');
+  ok('S10','red team R87-SP-01: an in-progress Showdown without a confirm time shows no chip, never the previous Showdown\'s');
+}
+
+// S11 a11y A-04 (r87): the chip's text sits on its tier colour (the SP tag and ranking badge everywhere, the whole chip in
+// tight spots and on phones), at 10.5-12px. Every tier's ink must reach 4.5:1 on both stops of its tier gradient.
+{
+  const lum=hex=>{const c=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(x=>x<=.03928?x/12.92:((x+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2];};
+  const ratio=(a,b)=>{const [x,y]=[lum(a),lum(b)].sort((p,q)=>q-p);return (x+.05)/(y+.05);};
+  const tokens={'var(--sd-gold-300,#ffd34d)':'#ffd34d'};
+  const tiers=[...Chip.css.matchAll(/\.spChip--([a-z-]+)\{--sp-tier-bg:linear-gradient\([^,]+,(#[0-9a-f]{6})[^,]*,(#[0-9a-f]{6})[^)]*\);--sp-tier-ink:([^;]+);/g)];
+  assert.equal(tiers.length,5,'five tiers');
+  for(const [,tier,top,bottom,inkRaw] of tiers){const ink=tokens[inkRaw]||inkRaw;
+    for(const stop of [top,bottom])assert.ok(ratio(ink,stop)>=4.5,`${tier}: ${ink} on ${stop} is ${ratio(ink,stop).toFixed(2)}:1, needs 4.5:1`);}
+  const base=/#app \.spChip\{--sp-tier-bg:linear-gradient\(180deg,(#[0-9a-f]{6}),(#[0-9a-f]{6})\);--sp-tier-ink:(#[0-9a-f]{6});/.exec(Chip.css);
+  assert.ok(base,'the default tier');for(const stop of [base[1],base[2]])assert.ok(ratio(base[3],stop)>=4.5,`default tier: ${base[3]} on ${stop}`);
+  ok('S11','a11y A-04: every tier\'s chip text reaches 4.5:1 on its tier colour');
 }
 
 console.log(`r86 Special Player chip contracts: ${checks} groups passed`);

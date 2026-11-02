@@ -90,6 +90,9 @@ async function openScreen(page,screen){
         await window.loadRuntimeScript(key,file,()=>Boolean(window[api]));
         if(id==='statistics')await window[api].mount('rivalryStatistics',()=>null);
         else await window[api].install();
+        // r87 BUG-6: with no live showdown, Club Assignment only draws its marble frame when a presentation role is set;
+        // without it the Gate captured the legacy grey layout.
+        if(id==='clubWheelScreen'&&!host.dataset.sharedPresentationRole)host.dataset.sharedPresentationRole='playerOne';
         await window.CareerModeV10Screens.show(id);
       }
     }

@@ -182,8 +182,8 @@
     "status": "ready",
     "interimLabel": null,
     "coverage": {
-      "readable": 4,
-      "indexed": 4
+      "readable": 3,
+      "indexed": 3
     },
     "managers": {
       "daniel": {
@@ -233,7 +233,7 @@
         "hundredGoalSeasons": 1,
         "topScorerSeasons": 1,
         "topAssistSeasons": 1,
-        "perfectSeasons": 1,
+        "perfectSeasons": 0,
         "performanceBonuses": 1,
         "awardsBonuses": 1,
         "bestSeasonScore": 11,
@@ -323,8 +323,8 @@
         },
         {
           "label": "Most perfect seasons",
-          "manager": "nik",
-          "value": 1,
+          "manager": "shared",
+          "value": null,
           "ref": null
         }
       ]
@@ -672,7 +672,7 @@
         {
           "label": "Most perfect seasons",
           "manager": "shared",
-          "value": 0,
+          "value": null,
           "ref": null
         }
       ]

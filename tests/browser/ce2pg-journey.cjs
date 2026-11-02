@@ -1,4 +1,7 @@
 "use strict";
+const rosterRoulette=require("./support/roster-roulette.cjs");
+const primePack=require("./support/prime-pack.cjs");
+const gazette=require("./support/touchline-gazette.cjs");
 // CE2PG: "Cloud Emulator 2-player Journey" (r80 flow).
 // Daniel and Nik play the real Career Mode Showdown in two Chromium contexts against the Firebase Auth + Firestore emulators
 // with the composed production Rules (the same production adapter path as tests/browser/r79-two-player-journey-audit.cjs).
@@ -23,9 +26,21 @@
 //   Firestore +1, hub +2, logging +3, websocket +4), CE2PG_APP_PORT (default 4611; or CMS_BASE_URL for a server you started),
 //   CE2PG_PAGES_EVERY (career pages after every Nth season; default 1, 3 for 10 seasons; the first, last and every Showdown end are
 //   always checked), CE2PG_RELOAD_EVERY (both players reload before the page check of every Nth season; default 2),
-//   CE2PG_DEBUG=1 (print raw screen text).
+//   CE2PG_DEBUG=1 (print raw screen text),
+//   CE2PG_OUTAGES=1 (r87 connectivity: every season one phone loses its connection at a different step, in turn: the
+//   transfer window, the moment it taps PUBLISH, while the partner commits, a tab killed right after CONFIRM SEASON, and the
+//   CONTINUE tap; see OUTAGE_KINDS. The page goes offline and hidden like a locked phone, then comes back online and visible).
 // Run: npm run test:ce2pg   (or CE2PG_PLAN=single CE2PG_SEASONS=10 npm run test:ce2pg)
 //   It starts its own emulators (firebase emulators:exec) and static server and builds the composed Rules if they are missing.
+// Upgrade run (release proof for 2.0.0; CE2PG_PLAN=single only): CE2PG_UPGRADE_FROM=<r86 tree> (for example `git worktree add ../r86 origin/main`) serves
+//   that tree first; the Showdown starts and plays CE2PG_UPGRADE_AFTER (default 1) season(s) on it, then, right after CONTINUE
+//   TO SEASON k+1, the server switches to this tree, both phones drop their service worker and caches (the update the phone
+//   applies on Home, proven on its own by tests/browser/r87-upgrade-from-r86-audit.cjs) and reload into the new build in the
+//   middle of the live Showdown, which then plays to the end with every check. CE2PG_UPGRADE_PIN=1 (default) also serves the
+//   roulette start time (RRR_FROM_MS / ROULETTE_FROM_MS) as the switch time, as the release PR pins it; 0 leaves the
+//   placeholder, so an r86 Showdown gets the roulette from the next season. The seasons played on r86 skip the r87-only
+//   checks (Gazette, signing overall/position, r87 Shared History wording); Daniel's emulator runs with the composed Rules of
+//   THIS tree throughout (the Rules deploy goes first).
 // Output: test-results/<tag>.json (every check, problem, raw screen text and the meter) and screenshots in test-results/<tag>/.
 // Test database only (demo project on the local emulators). Never touches production Firebase. Not a Gate lane (main about 20 min,
 // 10 seasons about 19 min on a 4-core runner; over the ~15 min Gate budget).
@@ -124,6 +139,16 @@ const BUDGET_MODE=process.env.CE2PG_BUDGET==="1";
 // The budget run needs the play, not the career-page, reload, storage-wipe and fresh-browser checks (about 10 of the 21 minutes of a
 // 3-season run); CE2PG_BUDGET_FULL=1 keeps them.
 const SLIM=BUDGET_MODE&&process.env.CE2PG_BUDGET_FULL!=="1";
+const UPGRADE_FROM=process.env.CE2PG_UPGRADE_FROM?path.resolve(process.env.CE2PG_UPGRADE_FROM):"";
+const UPGRADE_AFTER=Number(process.env.CE2PG_UPGRADE_AFTER||1);
+const UPGRADE_PIN=process.env.CE2PG_UPGRADE_PIN!=="0";
+// The literal both start constants carry in this tree (tools/set-release-time.cjs sets them together); the upgrade run swaps it.
+const RRR_PLACEHOLDER=`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`;
+let servingOld=Boolean(UPGRADE_FROM),appServer=null;
+function startAppServer(rewrites=[]){
+  appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
+  return new Promise(resolve=>setTimeout(resolve,800));
+}
 const num=(name,fallback)=>{const v=Number(process.env[name]);return Number.isFinite(v)&&process.env[name]!==""&&process.env[name]!==undefined?v:fallback;};
 // The only place real-play waiting times live (slow, mid and fast pace; the gate checks all three).
 const WAIT_PROFILES=Object.freeze({
@@ -226,7 +251,8 @@ const norm=s=>String(s||"").replace(/\s+/g," ").trim();
 // ---------------------------------------------------------------------------------------------------------------------------
 function scoreSeason(r){
   const cl=r.championsLeague?5:0,title=r.leaguePosition===1?3:0,cup=r.domesticCup?1:0,perf=(r.leaguePoints>=100||r.leagueGoals>=100)?1:0,indiv=(r.topScorer||r.topAssist)?1:0;
-  return {championsLeague:cl,leagueTitle:title,domesticCup:cup,performanceBonus:perf,individualAwardsBonus:indiv,total:cl+title+cup+perf+indiv};
+  const pack=Number.isInteger(r.primePack)?r.primePack:0;
+  return {championsLeague:cl,leagueTitle:title,domesticCup:cup,performanceBonus:perf,individualAwardsBonus:indiv,...(pack?{primePack:pack}:{}),total:cl+title+cup+perf+indiv+pack};
 }
 function seasonWinner(d,n){
   const sd=scoreSeason(d).total,sn=scoreSeason(n).total;
@@ -243,7 +269,7 @@ function tally(seasons){
       const r=season[user],x=t[user],s=scoreSeason(r).total;
       x.seasons+=1;x.total+=s;if(w.side===user)x.W+=1;else if(w.side==="draw")x.D+=1;else x.L+=1;
       if(r.leaguePosition===1)x.league+=1;if(r.domesticCup)x.cup+=1;if(r.championsLeague)x.cl+=1;
-      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s===11)x.perfect+=1;
+      x.points+=r.leaguePoints;x.goals+=r.leagueGoals;if(s===15)x.perfect+=1;// r87: a perfect season is 15 (Prime Pack 4 included), nothing else
       x.bestScore=x.bestScore===null?s:Math.max(x.bestScore,s);x.highPoints=x.highPoints===null?r.leaguePoints:Math.max(x.highPoints,r.leaguePoints);x.highGoals=x.highGoals===null?r.leagueGoals:Math.max(x.highGoals,r.leagueGoals);
       x.trophies=x.league+x.cup+x.cl;
     }
@@ -304,6 +330,7 @@ function buildPlanOnce(N,teamCount,target,seed,attempt){
   const intents=[];
   for(let k=1;k<=N;k+=1){
     let intent="any";
+    if(primePack.golden()){intents.push(intent);continue;}
     if(N>=3&&RUN===3&&k===Math.ceil(N/2))intent="tie";
     if(N>=10&&RUN===1&&k===7)intent="tie";
     if(N>=3&&k===1&&target!=="draw")intent=target==="daniel"?"nik":"daniel";// the eventual winner trails after season 1
@@ -314,7 +341,7 @@ function buildPlanOnce(N,teamCount,target,seed,attempt){
   for(let k=1;k<=N;k+=1){
     let chosen=null;
     for(let tries=0;tries<4000&&!chosen;tries+=1){
-      const c=candidate(),w=seasonWinner(c.daniel,c.nik),i=intents[k-1];
+      const c=primePack.decorate(candidate(),k),w=seasonWinner(c.daniel,c.nik),i=intents[k-1];
       if(c.daniel.leaguePosition===c.nik.leaguePosition)continue;// two clubs never share a league position
       if(i==="tie"&&scoreSeason(c.daniel).total!==scoreSeason(c.nik).total)continue;
       if(i==="daniel"&&w.side!=="daniel")continue;if(i==="nik"&&w.side!=="nik")continue;
@@ -368,13 +395,13 @@ function wirePage(m){
     if(type==="error"||type==="warning"){
       const text=message.text().slice(0,400);
       report.console[m.account].push({who:m.user,showdown:showdownNow,season:seasonNow,type,text});
-      if(type==="error"&&!/Failed to load resource/.test(text))m.log.consoleErrors.push(text);
+      if(type==="error"&&!/Failed to load resource/.test(text)){if(inOutage(m)){(report.outageNoise||=[]).push({who:m.user,season:seasonNow,text:text.slice(0,200)});}else m.log.consoleErrors.push(text);}
     }
   });
   page.on("requestfailed",request=>{
     const failure=request.failure()?.errorText||"failed";
     const entry={who:m.user,showdown:showdownNow,season:seasonNow,kind:"requestfailed",method:request.method(),url:request.url().slice(0,200),error:failure};
-    entry.class=classifyNetwork(entry);report.network[m.account].push(entry);if(!NOISE_ABORT.test(failure)&&entry.class==="unexpected")m.log.failedRequests.push(entry);
+    entry.class=inOutage(m)&&/ERR_INTERNET_DISCONNECTED|ERR_NETWORK_CHANGED|ERR_FAILED/.test(failure)?"outage":classifyNetwork(entry);report.network[m.account].push(entry);if(!NOISE_ABORT.test(failure)&&entry.class==="unexpected")m.log.failedRequests.push(entry);
   });
   page.on("response",async response=>{
     if(response.status()>=400){
@@ -462,7 +489,9 @@ async function backToShowdownHome(m){
   const deadline=Date.now()+20000;
   while(Date.now()<deadline){
     if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return true;
-    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
+    // r87: leaving Final Winner opens the Touchline Gazette's final paper first; its CONTINUE goes on to Showdown Home.
+    if(await gazette.tapGazetteIfShown(m.page)){await m.page.waitForTimeout(500);continue;}
+    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
       const back=m.page.locator("button:visible").filter({hasText:label}).first();
       if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
     }
@@ -538,10 +567,8 @@ async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
-  for(const m of [daniel,nik]){
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:45000});
-    await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
-  }
+  await rosterRoulette.waitForTransfer([daniel.page,nik.page],45000);
+  for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   const teamCount=await daniel.page.evaluate(()=>window.CareerModeProductionSharedSeasonResults?.getState?.()?.state?.teamCount??null).catch(()=>null)
     ||await daniel.page.evaluate(l=>{const cat=window.CareerModeSharedShowdownCatalog?.catalog;if(!cat)return null;const key=Object.keys(cat).find(k=>k.replace(/_/g," ").toLowerCase()===String(l).toLowerCase());return key?cat[key].length:null;},league).catch(()=>null)||20;
   return {league,clubs,teamCount};
@@ -557,8 +584,15 @@ async function playTransfers(daniel,nik,tag){
   await daniel.page.locator("#startTransferTimer").click({timeout:30000});
   await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
   await budgetWait("transfer-window");
+  const dark=outageKind(seasonNow)==="transfer";
+  if(dark)await goDark(nik);
   await daniel.page.locator("#endTransferTimer").click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
+  if(dark){
+    await daniel.page.waitForTimeout(OUTAGE_MS);await comeBack(nik);
+    try{await nik.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:45000});}
+    catch(_e){await check(nik,`${showdownNow}.S${seasonNow}.outage.transfer`,"back online, Nik's phone sees Daniel's early end without a reload",false,await describe(nik),{screen:"Shared Transfer Challenge"});}
+  }
   await nik.page.locator("#endTransferTimer").click({timeout:30000});
   await waitTransferPhase(nik,"guess_entry");await waitTransferPhase(daniel,"guess_entry");
   await daniel.page.locator("#p2Guess1Type").selectOption("league");await fillCombo(daniel,"p2Guess1Value","Premier League");
@@ -568,13 +602,13 @@ async function playTransfers(daniel,nik,tag){
   await budgetWait("transfer-guesses");
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);if(!servingOld){await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");}await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await privateTokenAbsent(nik,tokenD.split(" ")[0],`${showdownNow}.S${seasonNow}.transfer.privacy`,"Daniel's locked signing stays hidden from Nik before completion");
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await budgetWait("transfer-signings");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillCombo(nik,"p2Signing1League","TIM Serie A");await fillCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);if(!servingOld){await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");}await fillCombo(nik,"p2Signing1League",servingOld?"TIM Serie A":"Serie A TIM");await fillCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
 }
@@ -593,6 +627,36 @@ async function publish(m){
   await m.page.locator("#confirmSeasonCompletion").click({timeout:30000});
   await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
 }
+// The publish tap with no connection (outage "publish"). While offline the screen may show progress or an error, never
+// "published" unless Firebase really has the result; back online the same typed result publishes with at most one more tap.
+async function publishThroughOutage(m,k){
+  const role=m.account==="daniel"?"playerOne":"playerTwo",rid=ctxRef.entry?.rivalryId;
+  await prepareReview(m);
+  // The signal drops as the tap lands (offline first would put CONNECTION REQUIRED over the screen before the tap).
+  await Promise.all([m.page.locator("#confirmSeasonCompletion").click({timeout:30000}),m.page.waitForTimeout(40).then(()=>goDark(m,{hidden:false}))]);
+  const end=Date.now()+OUTAGE_MS;let fake=null;
+  while(Date.now()<end){
+    const heading=(await m.page.locator("#seasonReviewHeading").textContent().catch(()=>""))||"";
+    if(/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(heading)&&rid&&!(await admin(`rivalries/${rid}/seasonResults/season_${k}/roles/${role}`)))fake=heading;
+    await m.page.waitForTimeout(1000);
+  }
+  const offlineText=await describe(m);
+  await comeBack(m);
+  await check(m,`${showdownNow}.S${k}.outage.publish.noFake`,"offline, the screen never says the result is published while Firebase does not have it",!fake,`showed "${fake}"`,{screen:"Shared Season Results"});
+  // Back online: wait for the publish to land; if the screen offers PUBLISH again (the offline attempt failed), tap it once.
+  const isPublished=()=>m.page.evaluate(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||"")).catch(()=>false);
+  const button=()=>m.page.evaluate(()=>{const b=document.getElementById("confirmSeasonCompletion");return b?{text:(b.textContent||"").trim(),disabled:b.disabled===true||b.getAttribute("aria-disabled")==="true",shown:b.getClientRects().length>0,error:(document.querySelector("#seasonReviewPanel .seasonReviewError, #seasonEntry [role=alert]")?.textContent||"").trim().slice(0,160)}:null;}).catch(()=>null);
+  let taps=0,ok=false;const trail=[];const by=Date.now()+60000;
+  while(Date.now()<by){
+    if(await isPublished()){ok=true;break;}
+    const b=await button();trail.push(b);
+    if(taps===0&&b&&b.shown&&!b.disabled&&Date.now()-(m.backAt||0)>3000){taps+=1;await m.page.locator("#confirmSeasonCompletion").click({timeout:10000}).catch(()=>{});}
+    await m.page.waitForTimeout(1000);
+  }
+  const last=[...outageRuns].reverse().find(o=>o.user===m.user);if(last){last.extraTaps=taps;last.offlineScreen=offlineText.slice(0,300);last.buttonTrail=trail.filter((b,i)=>i===0||JSON.stringify(b)!==JSON.stringify(trail[i-1])).slice(0,12);}
+  await check(m,`${showdownNow}.S${k}.outage.publish.recovers`,"back online, the typed result publishes within 60 s (at most one more tap, nothing typed again)",ok,`${await describe(m)} | button ${JSON.stringify(trail.slice(-1)[0])}`,{screen:"Shared Season Results"});
+  if(!ok)throw new Error(`${m.user}: the result did not publish after the connection came back`);
+}
 async function playSeasonResults(daniel,nik,k,planSeason){
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
@@ -607,7 +671,8 @@ async function playSeasonResults(daniel,nik,k,planSeason){
   }else{
     const [first,second]=mode==="daniel-first"?[daniel,nik]:[nik,daniel];
     const prefix=first.account==="daniel"?"p1":"p2",res=planSeason[first.account];
-    await fill[first.account]();await publish(first);
+    await fill[first.account]();
+    if(outageKind(k)==="publish")await publishThroughOutage(first,k);else await publish(first);
     const leaked=await second.page.evaluate(([p,r])=>{const card=document.getElementById(p==="p1"?"seasonReviewOne":"seasonReviewTwo");return {review:Boolean(card&&!card.classList.contains("hidden")&&getComputedStyle(card).display!=="none"&&card.getClientRects().length>0),points:document.getElementById(`${p}LeaguePoints`)?.value===String(r.leaguePoints)&&r.leaguePoints!==0};},[prefix,res]);
     await check(second,`${showdownNow}.S${k}.results.privacy`,`${NAMES[first.account]}'s published numbers stay hidden from ${NAMES[second.account]} until ${NAMES[second.account]} publishes`,!leaked.review&&!leaked.points,leaked,{screen:"Shared Season Results"});
     await budgetWait("results-published");
@@ -618,23 +683,37 @@ async function playSeasonResults(daniel,nik,k,planSeason){
 }
 async function commitSeason(daniel,nik,k,planSeason,final){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
-  await nik.page.waitForFunction(()=>["WAITING FOR HOST","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR HOST")await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
+  await nik.page.waitForFunction(()=>["WAITING FOR DANIEL","WAITING FOR HOST","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()===(servingOld?"WAITING FOR HOST":"WAITING FOR DANIEL"))await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
   await budgetWait("commit");
+  const kind=outageKind(k);
+  if(kind==="commit")await goDark(nik);
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  if(kind==="commit"){
+    await daniel.page.waitForTimeout(OUTAGE_MS);await comeBack(nik);
+    const seen=await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000}).then(()=>true).catch(()=>false);
+    await check(nik,`${showdownNow}.S${k}.outage.commit`,"back online, Nik's phone offers CONFIRM SEASON by itself (no reload)",seen,await describe(nik),{screen:"Shared Season Commit"});
+  }
   await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="CONFIRM SEASON",null,{timeout:45000});
   await budgetWait("ack");
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  if(kind==="ack-kill"){
+    await nik.page.waitForTimeout(300);
+    outageRuns.push({showdown:showdownNow,season:k,user:nik.user,kind,at:Date.now()});report.outages=outageRuns;
+    await killTab(nik);
+    await nikBackAfterKill(nik,k,final);
+  }
   const exp={d:scoreSeason(planSeason.daniel),n:scoreSeason(planSeason.nik),w:seasonWinner(planSeason.daniel,planSeason.nik)};
   const winnerText=exp.w.side==="draw"?"Season result: Draw":`Season winner: ${NAMES[exp.w.side]}`;
   for(const m of [daniel,nik]){
+    if(m.ahead===k+1)continue;// resumed on the next season after a killed tab (outage "ack-kill")
     await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON CONFIRMED ✓"||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"||document.getElementById("finalWinnerScreen")&&getComputedStyle(document.getElementById("finalWinnerScreen")).visibility!=="hidden"&&document.getElementById("finalWinnerScreen").getClientRects().length>0,null,{timeout:45000});
     if(!final){
       await m.page.waitForFunction(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},k,{timeout:60000});
       await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:15000});
       const state=await m.page.evaluate(()=>{const v=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return v?{authoritative:v.authoritative,p1:v.scoring?.playerOne,p2:v.scoring?.playerTwo,winner:v.winner}:null;});
-      const pick=s=>s&&{championsLeague:s.championsLeague,leagueTitle:s.leagueTitle,domesticCup:s.domesticCup,performanceBonus:s.performanceBonus,individualAwardsBonus:s.individualAwardsBonus,total:s.total};
+      const pick=s=>s&&{championsLeague:s.championsLeague,leagueTitle:s.leagueTitle,domesticCup:s.domesticCup,performanceBonus:s.performanceBonus,individualAwardsBonus:s.individualAwardsBonus,...(s.primePack?{primePack:s.primePack}:{}),total:s.total};
       await eq(m,`${showdownNow}.S${k}.scoring.state`,"canonical scoring equals the recomputed breakdown",{authoritative:state?.authoritative,d:pick(state?.p1),n:pick(state?.p2),winner:state?.winner},{authoritative:true,d:exp.d,n:exp.n,winner:exp.w.side==="draw"?"draw":ROLE[exp.w.side]},{screen:"Season scoring"});
       await eq(m,`${showdownNow}.S${k}.scoring.totals`,"season totals on screen",await textOf(m,"#sharedCanonicalScoringTotals"),`Daniel: ${exp.d.total} · Nik: ${exp.n.total}`,{screen:"Season scoring"});
       await eq(m,`${showdownNow}.S${k}.scoring.winner`,"season winner on screen",await textOf(m,"#sharedCanonicalScoringWinner"),winnerText,{screen:"Season scoring"});
@@ -642,32 +721,84 @@ async function commitSeason(daniel,nik,k,planSeason,final){
   }
   return exp;
 }
+// After a killed tab (outage "ack-kill") Nik opens the app again: Showdown Home, CONTINUE SHOWDOWN, and he must land on the
+// confirmed season (or the Showdown Champion screen after the final season) with no second CONFIRM and no duplicate commit.
+async function nikBackAfterKill(nik,k,final){
+  const deadline=Date.now()+90000;let landed=false;
+  while(Date.now()<deadline&&!landed){
+    landed=await nik.page.evaluate(([n,fin])=>{
+      const vis=id=>{const e=document.getElementById(id);return Boolean(e&&!e.classList.contains("hidden")&&getComputedStyle(e).display!=="none"&&getComputedStyle(e).visibility!=="hidden"&&e.getClientRects().length>0);};
+      if(fin)return vis("finalWinnerScreen")||window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED";
+      const btn=document.getElementById("sharedSeasonCommitAction")?.textContent||"";
+      const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();
+      if(btn==="SEASON CONFIRMED ✓"||(s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n))return "confirmed";
+      // The app may resume straight at the next season (its roulette or transfer window): the confirmed season is done.
+      const rr=document.getElementById("rrStepPanel")||document.getElementById("rrStage");
+      const ind=document.getElementById("seasonIndicator")?.textContent||"";
+      if((rr&&rr.getClientRects().length>0&&new RegExp(`SEASON ${n+1}\\b`,"i").test(rr.textContent||"SEASON "+(n+1)))||(vis("transferChallenge")&&ind.startsWith(`Season ${n+1} /`)))return "next";
+      return false;
+    },[k,final]).catch(()=>false);
+    if(landed)break;
+    const confirm=nik.page.locator("#sharedSeasonCommitAction");
+    if((await confirm.textContent().catch(()=>""))==="CONFIRM SEASON"&&await confirm.isVisible().catch(()=>false)){
+      // The acknowledgement did reach Firebase before the kill only if the commit doc says so; a second tap is then a bug.
+      const commit=await admin(`rivalries/${ctxRef.entry.rivalryId}/seasonCommits/season_${k}`);
+      const acked=JSON.stringify(commit||{}).includes("ACKNOWLEDGED");
+      await check(nik,`${showdownNow}.S${k}.outage.ackKill.noSecondTap`,"after the killed tab, CONFIRM SEASON is offered again only if the acknowledgement never reached Firebase",!acked,"Firebase has the acknowledgement but the screen asks again",{screen:"Shared Season Commit"});
+      await confirm.click({timeout:10000}).catch(()=>{});
+    }else if(await nik.page.locator("#mainMenu").isVisible().catch(()=>false)){
+      const tile=nik.page.locator("#newShowdown");if(await tile.isVisible().catch(()=>false))await tile.click({timeout:5000}).catch(()=>{});
+    }else{
+      const getReady=nik.page.locator("#productionSharedJourneyEntryOverlay");
+      if(await getReady.isVisible().catch(()=>false)){const go=getReady.getByRole("button",{name:/^(START CAREER|CONTINUE CAREER)$/});if(await go.first().isVisible().catch(()=>false)&&await go.first().isEnabled().catch(()=>false))await go.first().click({timeout:5000}).catch(()=>{});}
+      else if(await nik.page.locator("#dashboard").isVisible().catch(()=>false)){const label=await textOf(nik,"#seasonPrimaryAction");if(/SEASON|RESULT|CONFIRM/i.test(label)&&await nik.page.locator("#seasonPrimaryAction").isEnabled().catch(()=>false))await nik.page.locator("#seasonPrimaryAction").click({timeout:5000}).catch(()=>{});}
+    }
+    await nik.page.waitForTimeout(1000);
+  }
+  await check(nik,`${showdownNow}.S${k}.outage.ackKill`,"after a killed tab, the app reopens on the confirmed season, or straight on the next season, by itself (Home > CONTINUE SHOWDOWN at most)",Boolean(landed),await describe(nik),{screen:"Shared Season Commit"});
+  if(!landed)throw new Error(`Nik did not get back to season ${k} after the killed tab`);
+  nik.ahead=landed==="next"?k+1:0;
+  const last=[...outageRuns].reverse().find(o=>o.user===nik.user);if(last)last.landed=landed;
+}
 // Shared History panel (after every non-final season) against this Showdown's running tally.
 async function checkSharedHistory(m,k,total,seasons){
+  if(servingOld){report.observations.push({where:"shared history",user:m.user,season:k,skipped:"r86 build (its own wording); checked again on 2.0.0"});return;}
   const t=tally(seasons.slice(0,k));
   try{await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});}
   catch(_e){await check(m,`${showdownNow}.S${k}.history.visible`,"Shared History panel appears",false,"panel never became visible",{screen:"Shared History"});return;}
   await m.page.waitForFunction(n=>new RegExp(`^${n} of `).test((document.getElementById("sharedHistoryConvergenceSummary")?.textContent||"").trim()),k,{timeout:30000}).catch(()=>{});
   const heading=await textOf(m,"#sharedHistoryConvergenceHeading"),summary=await textOf(m,"#sharedHistoryConvergenceSummary"),records=await textOf(m,"#sharedHistoryConvergenceRecords"),trophies=await textOf(m,"#sharedHistoryConvergenceTrophies");
   debug(`${showdownNow} S${k} history ${m.user}`,`${heading} | ${summary} | ${records} | ${trophies}`);
-  const lead=t.daniel.total===t.nik.total?"TIED":t.daniel.total>t.nik.total?`Daniel +${t.daniel.total-t.nik.total}`:`Nik +${t.nik.total-t.daniel.total}`;
-  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"HISTORY UP TO DATE",{screen:"Shared History"});
-  const wantSummary=new RegExp(`^${k} of ${total} seasons? accepted · [A-Z0-9 ]+ · Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead.replace("+","\\+")}$`);
-  await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons accepted ... Overall: Daniel ${t.daniel.total} · Nik ${t.nik.total} · Lead: ${lead}" but saw "${summary}"`,{screen:"Shared History"});
-  const wantRec=u=>new RegExp(`${NAMES[u]} · .+ · ${t[u].W}W ${t[u].D}D ${t[u].L}L · ${t[u].total} showdown pts`);
+  const lead=t.daniel.total===t.nik.total?"Level":t.daniel.total>t.nik.total?`Daniel leads by ${t.daniel.total-t.nik.total}`:`Nik leads by ${t.nik.total-t.daniel.total}`;
+  await eq(m,`${showdownNow}.S${k}.history.heading`,"Shared History heading",heading,"SHOWDOWN SO FAR",{screen:"Shared History"});
+  const wantSummary=new RegExp(`^${k} of ${total} seasons? played · [A-Z0-9 ]+ · Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}$`);
+  await check(m,`${showdownNow}.S${k}.history.summary`,"Shared History overall totals and lead",wantSummary.test(summary),`expected "${k} of ${total} seasons played ... Daniel ${t.daniel.total} - ${t.nik.total} Nik · ${lead}" but saw "${summary}"`,{screen:"Shared History"});
+  const wantRec=u=>new RegExp(`${NAMES[u]} \\([^)]+\\): ${t[u].W} won, ${t[u].D} drawn, ${t[u].L} lost · ${t[u].total} pts`);
   await check(m,`${showdownNow}.S${k}.history.records`,"Shared History W/D/L and points per manager",wantRec("daniel").test(records)&&wantRec("nik").test(records),`expected Daniel ${t.daniel.W}W ${t.daniel.D}D ${t.daniel.L}L ${t.daniel.total} pts, Nik ${t.nik.W}W ${t.nik.D}D ${t.nik.L}L ${t.nik.total} pts; saw "${records}"`,{screen:"Shared History"});
-  const wantTro=u=>`${NAMES[u]} ${t[u].trophies} trophies (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
+  const wantTro=u=>`${NAMES[u]} ${t[u].trophies} ${t[u].trophies===1?"trophy":"trophies"} (${t[u].league} league, ${t[u].cup} cup, ${t[u].cl} Champions League)`;
   await check(m,`${showdownNow}.S${k}.history.trophies`,"Shared History trophy attribution",trophies.includes(wantTro("daniel"))&&trophies.includes(wantTro("nik")),`expected "${wantTro("daniel")}" and "${wantTro("nik")}"; saw "${trophies}"`,{screen:"Shared History"});
 }
 async function continueToSeason(daniel,nik,next,total){
-  for(const m of [daniel,nik])await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
+  for(const m of [daniel,nik])if(m.ahead!==next)await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
   await budgetWait("continue");
+  const dark=outageKind(next-1)==="continue";
+  const toRoulette=[];// Prime Pack's round starts only when BOTH phones are in it, so both are driven together at the end
   for(const m of [daniel,nik]){
+    if(m.ahead===next){m.ahead=0;toRoulette.push(m.page);continue;}
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
-    await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    if(dark&&m===daniel){
+      // The signal drops as CONTINUE is tapped and the phone is locked a moment later.
+      await Promise.all([m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000}),m.page.waitForTimeout(40).then(()=>goDark(m,{hidden:false}))]);
+      await m.page.waitForTimeout(2000);await setHidden(m,true);
+      await m.page.waitForTimeout(OUTAGE_MS);await comeBack(m);
+    }else await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
+    // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
+    const paper=await gazette.passGazette(m.page,"season");
+    if(!servingOld&&(!paper||!paper.endsWith(`|season|${next-1}`)))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
-    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    toRoulette.push(m.page);
   }
+  if(toRoulette.length)await rosterRoulette.waitForTransfer(toRoulette,toRoulette.length>1?60000:30000);
 }
 // Back into the live Showdown from Showdown Home: CONTINUE SHOWDOWN, then (on the season dashboard) its primary action, until the
 // season's Shared Transfer Challenge shows.
@@ -679,6 +810,8 @@ async function returnToGame(m,season,total){
   const deadline=Date.now()+60000;
   while(!(await m.page.locator("#transferChallenge").isVisible().catch(()=>false))){
     if(Date.now()>deadline){await check(m,`${showdownNow}.S${season-1}.return`,"CONTINUE SHOWDOWN returns to the live season",false,await describe(m),{screen:"Showdown Home"});throw new Error(`${m.user} did not return to the game`);}
+    // A season's roulette not played yet on this phone (the upgrade run reloads into 2.0.0 before it) plays here.
+    if(await rosterRoulette.playRoulette(m.page)){await m.page.waitForTimeout(500);continue;}
     // GET READY (both connected) opens first: START CAREER continues into the season.
     const getReady=m.page.locator("#productionSharedJourneyEntryOverlay");
     if(await getReady.isVisible().catch(()=>false)){
@@ -692,6 +825,25 @@ async function returnToGame(m,season,total){
   }
   await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${season} / ${total}`,{timeout:20000}).catch(()=>{});
   await eq(m,`${showdownNow}.S${season-1}.return.indicator`,`back in the game on Season ${season} / ${total}`,await textOf(m,"#seasonIndicator"),`Season ${season} / ${total}`,{screen:"Shared Transfer Challenge"});
+}
+// The 2.0.0 update in the middle of a live Showdown: the server now sends this tree (with the release pin when asked),
+// each phone drops the old worker and caches and reloads on the screen it was on, then must be back in the same session
+// on the new build (its Transfer Challenge has r87's signing overall field) at season k+1.
+async function upgradeBoth(daniel,nik,sessionCode,k){
+  const at=new Date().toISOString();
+  appServer.kill();await new Promise(resolve=>setTimeout(resolve,300));
+  servingOld=false;
+  await startAppServer(UPGRADE_PIN?[[RRR_PLACEHOLDER,`Date.parse("${at}")`]]:[]);
+  report.upgrade.switchedAt=at;report.upgrade.switchedAfterSeason=k;
+  for(const m of [daniel,nik])await m.page.evaluate(async()=>{try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();}catch(_e){}try{for(const k of await caches.keys())await caches.delete(k);}catch(_e){}});
+  await reloadBoth(daniel,nik,sessionCode);
+  for(const m of [daniel,nik]){
+    const fresh=await m.page.evaluate(()=>Boolean(document.getElementById("p1Signing1Overall")));
+    await check(m,`${showdownNow}.S${k}.upgrade.build`,"after the update the phone runs the new build",fresh,"still the r86 page",{screen:"Update"});
+    const screen=await m.page.evaluate(()=>typeof window.getActiveScreenName==="function"?window.getActiveScreenName():null);
+    report.observations.push({where:"upgrade",user:m.user,season:k,screen});
+  }
+  console.log(`UPGRADE switched to this tree after season ${k} at ${at}`);
 }
 async function reloadBoth(daniel,nik,sessionCode){
   for(const m of [daniel,nik])await reload(m);
@@ -737,7 +889,22 @@ async function openPage(m,hostId){
   await backToShowdownHome(m);
   if(hostId==="careerStatistics")await m.page.locator("#careerStatisticsButton").click({timeout:20000});
   else if(hostId==="legacy")await m.page.locator("#legacyButton").click({timeout:20000});
-  else if(hostId==="trophyRoom"){await m.page.locator("#careerStatisticsButton").click({timeout:20000});await m.page.locator("#trophyRoomButton").click({timeout:20000});}
+  else if(hostId==="trophyRoom"){
+    await m.page.locator("#careerStatisticsButton").click({timeout:20000});
+    // The first tap on OPEN TROPHY ROOM can land before Career Statistics has loaded and do nothing (finding H3-1): tap again.
+    // One tap, then wait for the real ready signal: the Trophy Room may legitimately stay under Reus up to the 14 s career load gate (H4).
+    // A tap is "swallowed" only if nothing happened (no open request reached openOptionalModule) or the screen never shows within 20 s.
+    await m.page.evaluate(()=>{const w=window;if(w.__trophyProbe)return;const log=w.__trophyProbe=[];document.addEventListener("click",ev=>{const t=ev.target&&ev.target.closest?ev.target.closest("#trophyRoomButton"):null;if(!t)return;const d=document.getElementById("trophyRoomButton");log.push({e:"tap",t:Math.round(performance.now()),same:t===d,connected:t.isConnected,optFn:typeof w.openOptionalModule,screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()});setTimeout(()=>log.push({e:"tap+300",stale:!t.isConnected||t!==document.getElementById("trophyRoomButton"),screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()}),300);},true);const o=w.openOptionalModule;if(typeof o==="function")w.openOptionalModule=function(n){const t0=performance.now();log.push({e:"request",n,t:Math.round(t0),screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()});return o.apply(this,arguments).then(r=>{log.push({e:"settled",n,r,ms:Math.round(performance.now()-t0),screen:w.getActiveScreenName?.(),rev:w.getNavigationRevision?.()});return r;});};}).catch(()=>{});
+    const tapAt=Date.now();
+    await m.page.evaluate(()=>{(window.__trophyProbe||[]).length=0;}).catch(()=>{});
+    let clickErr=null;const clickAt=Date.now();
+    await m.page.locator("#trophyRoomButton").click({timeout:20000}).catch(e=>{clickErr=String(e.message||e).split("\n").slice(0,6).join(" | ").slice(0,500);});
+    const clickMs=Date.now()-clickAt;
+    const shown=await m.page.locator("#trophyRoom").waitFor({state:"visible",timeout:25000}).then(()=>true).catch(()=>false);
+    const openMs=Date.now()-tapAt,probe=await m.page.evaluate(()=>window.__trophyProbe||[]).catch(()=>[]);
+    (report.notes||(report.notes=[])).push(`${m.user}: Trophy Room open ${shown?openMs+" ms":"NEVER (25 s)"} clickMs=${clickMs} clickErr=${clickErr} probe=${JSON.stringify(probe)}`);
+    if(!shown||!probe.some(x=>x.e==="request"))await check(m,`${showdownNow}.S${seasonNow}.trophy.firstTap`,"OPEN TROPHY ROOM opens on the first tap (a swallowed tap is a player-facing bug)",false,shown?"tap reached no open request":"no Trophy Room within 25 s",{screen:"Trophy Room",probe,clickErr,clickMs,dom:await m.page.evaluate(()=>{const b=document.getElementById("trophyRoomButton");const r=b&&b.getBoundingClientRect();return {active:window.getActiveScreenName?.(),btn:!!b,rect:r&&[Math.round(r.x),Math.round(r.y),Math.round(r.width),Math.round(r.height)],top:b&&(()=>{const e=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return e&&(e.id||e.className||e.tagName)})(),rev:window.getNavigationRevision?.()};}).catch(()=>null)});
+  }
   else if(hostId==="statistics"){
     // Rivalry Statistics: Career Statistics' CURRENT RIVALRY STATISTICS button when it shows, else the dashboard's.
     await m.page.locator("#careerStatisticsButton").click({timeout:20000});
@@ -811,19 +978,21 @@ function extract(raw){
   for(const u of ["daniel","nik"]){const row=new RegExp(`${NAMES[u]}\\s+(\\d+)\\s+(\\d+)-(\\d+)-(\\d+)\\s+(\\d+)\\s+(\\d+)`).exec(cs.slice(Math.max(0,cs.indexOf("CAREER TABLE"))));o[`table_${u}`]=row?row.slice(1):null;}
   o.compareTitles=pair(cs,/(\d+)\s+LEAGUE TITLES\s+(\d+)/);o.compareCups=pair(cs,/(\d+)\s+DOMESTIC CUPS\s+(\d+)/);o.compareCl=pair(cs,/(\d+)\s+CHAMPIONS LEAGUE WINS\s+(\d+)/);o.compareWins=pair(cs,/(\d+)\s+SEASON WINS\s+(\d+)/);
   o.compareAvgPoints=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE POINTS\s+([\d.]+)/);o.compareAvgGoals=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE GOALS\s+([\d.]+)/);
-  o.leadWins=lead(cs,/MOST SEASON WINS\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
-  o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);
-  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
+  o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
+  o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);
+  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
   o.standings=standings(stCareer);o.standingsFirst=standings(stFirst);
-  o.standingsCareerText=stCareer;o.standingsFirstCareerText=stFirst;
+  o.standingsCareerText=stCareer.toUpperCase();o.standingsFirstCareerText=stFirst.toUpperCase();
   const live=raw?.standings?.["THIS SHOWDOWN"]||"";o.thisShowdownText=live;
   o.thisShowdown={season:pair(live,/SEASON (\d+) OF (\d+)/),points:pair(live,/SHOWDOWN POINTS\s+(\d+)\s*:\s*(\d+)/)};
-  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));
+  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
   const rv=corpus(raw,"statistics");
   o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
-  o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS/i.exec(tr)||[]).slice(1);
-  const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],r[2].toUpperCase()]:null;};
-  o.recSeason=rec(/HIGHEST SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPoints=rec(/HIGHEST LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recGoals=rec(/HIGHEST LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recPerfect=rec(/MOST PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|SHARED)/);
+  o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
+  const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
+  // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
+  const R=label=>new RegExp(label+String.raw`\s+(\d+|\u2014)\s*(DANIEL|NIK|LEVEL)?`);
+  o.recSeason=rec(R("HIGHEST SEASON SCORE"));o.recPoints=rec(R("HIGHEST LEAGUE POINTS"));o.recGoals=rec(R("HIGHEST LEAGUE GOALS"));o.recPerfect=rec(R("MOST PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;
   o.legacyCards=(raw?.legacy?.cards||[]).map(c=>({status:c.status,text:c.text}));
@@ -833,8 +1002,8 @@ function extract(raw){
   o.settings=raw?.settings||null;
   return o;
 }
-const holderName=h=>h==="shared"?"SHARED":NAMES[h].toUpperCase();
-const leaderName=(d,n)=>d>n?"Daniel":n>d?"Nik":"Daniel + Nik";
+const holderName=h=>h==="shared"?"LEVEL":NAMES[h].toUpperCase();
+const leaderName=(d,n)=>d>n?"Daniel":n>d?"Nik":"Level · Daniel + Nik";// r87: equal is level
 const near=(shown,want)=>Number.isFinite(Number(shown))&&Math.abs(Number(shown)-want)<=0.051;
 const cell=n=>n>0?String(n):"—";
 // live: the Showdown being played right now (its committed seasons), or null. lastCompleted: the newest completed Showdown.
@@ -869,7 +1038,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
     const got={points:s.points,W:s.W,D:s.D,L:s.L,cl:s.cl,league:s.league,cup:s.cup,trophies:s.trophies};
     const withLive=Boolean(wantWithLive)&&JSON.stringify(got)===JSON.stringify(wantWithLive);
     if(withLive){const note=`${label} ${m.user}: Standings (Career, ${which}) counted the live Showdown's ${liveEntry.seasons.length} played season(s) (shared history in memory)`;report.notes=(report.notes||[]).concat(note);console.log(`NOTE ${note}`);}
-    if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after the first recorded season|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
+    if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after your first finished Showdown|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
     await check(m,id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions Leagues, league titles, cups, trophies (D / N)`,withLive||JSON.stringify(got)===JSON.stringify(wantStandings),`expected ${JSON.stringify(wantStandings)}${wantWithLive?` (or with the live seasons ${JSON.stringify(wantWithLive)})`:""} but the screen shows ${JSON.stringify(got)}`,scr("Standings (Career)"));
   }
   // Trophy Room
@@ -877,12 +1046,13 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   const champs={daniel:winners.filter(w=>w==="daniel").length,nik:winners.filter(w=>w==="nik").length};
   await eq(m,id("trophy.cabinet"),"Trophy Room cabinet: Showdown Champion, league titles, cups, Champions League (D / N)",[f.cabChampion,f.cabLeague,f.cabCup,f.cabCl],[[cell(champs.daniel),cell(champs.nik)],[cell(x.daniel.league),cell(x.nik.league)],[cell(x.daniel.cup),cell(x.nik.cup)],[cell(x.daniel.cl),cell(x.nik.cl)]],scr("Trophy Room (cabinet)"));
   if(E.completedCount>0){
-    const ahead=u=>{const o=u==="daniel"?"nik":"daniel";return x[u].total!==x[o].total?x[u].total>x[o].total:x[u].W!==x[o].W?x[u].W>x[o].W:null;};
+    // No tiebreak anywhere (Nik): equal career points share #1; season wins never decide the rank.
+    const ahead=u=>{const o=u==="daniel"?"nik":"daniel";return x[u].total!==x[o].total?x[u].total>x[o].total:null;};
     for(const u of ["daniel","nik"]){
       const got=f[u==="daniel"?"rankDaniel":"rankNik"],a=ahead(u),want=[a===null?"1":a?"1":"2",S(x[u].total),S(x[u].W)];
       await eq(m,id(`trophy.rank.${u}`),`Trophy Room ranking: ${NAMES[u]} rank, career points, season wins`,got,want,scr("Trophy Room (ranking)"));
     }
-    const r=E.records,recWant=v=>v?[S(v.value),holderName(v.holder)]:null;
+    const r=E.records,recWant=v=>v?(v.value>0?[S(v.value),holderName(v.holder)]:["\u2014",""]):null;
     await eq(m,id("trophy.records"),"Trophy Room all-time records: highest season score, league points, league goals, most perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[recWant(r.season),recWant(r.points),recWant(r.goals),recWant(r.perfect),recWant(r.biggestWin)],scr("Trophy Room (records)"));
   }
   // Legacy (History): completed cards and ended-early rows, in career order, nothing else
@@ -895,8 +1065,11 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   await check(m,id("legacy.cards"),`Legacy lists exactly ${wantCards.length} row(s): ${wantCards.map(w=>w.status==="abandoned"?"ended early":`#${w.number} ${w.must[1]} ${w.must[3]}`).join(", ")||"none"}`,wantCards.length===0?(f.legacyCards.filter(c=>c.status==="completed"||c.status==="abandoned").length===0):cardsOk,`expected ${JSON.stringify(wantCards)}; shown ${JSON.stringify(f.legacyCards)}`,scr("Legacy"));
   const firstCompleted=E.rows.find(s=>s.state==="completed");
   if(firstCompleted&&f.seasonHistory){
-    const want=firstCompleted.seasons.map((p,i)=>`Season ${i+1} Daniel: ${scoreSeason(p.daniel).total} #${p.daniel.leaguePosition} · ${p.daniel.leaguePoints} league pts · ${p.daniel.leagueGoals} goals – Nik: ${scoreSeason(p.nik).total} #${p.nik.leaguePosition} · ${p.nik.leaguePoints} league pts · ${p.nik.leagueGoals} goals`);
-    const missing=want.filter(w=>!f.seasonHistory.includes(w));
+    // r87 polish: the list is a table (Season · Daniel · Nik · Result); a row reads "Season N <pts> #pos · pts league pts · goals
+    // goals [Europa League winner] <pts> ... <crown> Winner | = Draw" (case-insensitive: the labels are drawn in capitals).
+    const esc=x=>String(x).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),side=r=>esc(`${scoreSeason(r).total}`)+" "+esc(`#${r.leaguePosition} · ${r.leaguePoints} league pts · ${r.leagueGoals} goals`)+"(?: Europa League winner)?";
+    const want=firstCompleted.seasons.map((p,i)=>{const d=scoreSeason(p.daniel).total,n=scoreSeason(p.nik).total;return {label:`Season ${i+1}`,re:new RegExp(`Season ${i+1} ${side(p.daniel)} ${side(p.nik)} ${d>n?"♛ Daniel":n>d?"♛ Nik":"= Draw"}`,"i")};});
+    const missing=want.filter(w=>!w.re.test(f.seasonHistory)).map(w=>w.label);
     await check(m,id("legacy.seasonHistory"),`Legacy VIEW SEASON HISTORY (Showdown #${firstCompleted.number}) lists every season with its score, league finish, points and goals`,missing.length===0,`missing ${JSON.stringify(missing)} in: ${f.seasonHistory.slice(0,1500)}`,scr("Legacy (season history)"));
   }else if(firstCompleted)await check(m,id("legacy.seasonHistory"),"Legacy VIEW SEASON HISTORY opens",false,"no VIEW SEASON HISTORY button or no text",scr("Legacy (season history)"));
   // Standings (This Showdown) while a Showdown is live: its committed seasons only.
@@ -907,7 +1080,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
       {season:two(live.seasons.length+1,live.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),D:two(t.daniel.D,t.nik.D),L:two(t.daniel.L,t.nik.L),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup),trophies:two(t.daniel.trophies,t.nik.trophies)},scr("Standings (This Showdown)"));
   }
   // With no live Showdown, THIS SHOWDOWN is empty on every browser (the one that played the last Showdown too).
-  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
+  else await check(m,id("standings.thisShowdown"),"Standings (This Showdown) says there is no active Showdown",/No active showdown|No Showdown in progress/i.test(f.thisShowdownText||""),(f.thisShowdownText||"").slice(0,300),scr("Standings (This Showdown)"));
   // Rivalry Statistics: the live Showdown while one is played, else the newest completed one (never an ended-early one).
   const rivalrySource=live||[...career].reverse().find(s=>s.state==="completed")||null;
   if(rivalrySource&&rivalrySource.seasons.length){
@@ -919,7 +1092,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   // Settings
   const st=f.settings,ended=st&&st.buttons.includes("END SHOWDOWN");
   await check(m,id("settings.end"),settingsLive?"Settings offers END SHOWDOWN while the Showdown is live":"Settings shows no END SHOWDOWN when no Showdown is live",settingsLive?ended:!ended,JSON.stringify(st),scr("Settings"));
-  await check(m,id("settings.mode"),"Settings: MODE REAL CAREER and PARTNER Paired with the other manager",st&&/^REAL CAREER/.test(st.rows.MODE||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
+  await check(m,id("settings.mode"),"Settings: CAREER saved online and PARTNER Paired with the other manager",st&&/^Saved online/.test(st.rows.CAREER||"")&&st.rows.PARTNER===`Paired with ${m.account==="daniel"?"Nik":"Daniel"}`&&!st.buttons.includes("START TEST RUN"),JSON.stringify(st),scr("Settings"));
   await check(m,id("settings.current"),settingsLive?"Settings: CURRENT SHOWDOWN names the live Showdown":"Settings: CURRENT SHOWDOWN is None",st&&(settingsLive?st.rows["CURRENT SHOWDOWN"]&&st.rows["CURRENT SHOWDOWN"]!=="None":st.rows["CURRENT SHOWDOWN"]==="None"),JSON.stringify(st?.rows),scr("Settings"));
   await check(m,id("settings.history"),`Settings: HISTORY counts ${E.completedCount} completed Showdown${E.completedCount===1?"":"s"}`,st&&st.rows.HISTORY===`${E.completedCount} completed showdown${E.completedCount===1?"":"s"}`,JSON.stringify(st?.rows),scr("Settings"));
   return f;
@@ -1032,6 +1205,73 @@ async function unlockProbe(point){
     for(const r of cycles[0].byPath)console.log(`   ${r.key}  docs=${r.docs} rules=${r.rules}`);
     for(const r of cycles[0].byModule)console.log(`   MOD ${r.key}  docs=${r.docs} rules=${r.rules}`);
   }
+}
+// ---------------------------------------------------------------------------------------------------------------------------
+// r87 connectivity (CE2PG_OUTAGES=1): one phone drops off every season, at a different step each season.
+//   transfer   Nik's phone is offline and locked while Daniel ends the transfer window; it comes back and finishes the season.
+//   publish    the first manager taps PUBLISH with no connection: the screen must not claim it published (Firebase has nothing);
+//              back online, the same draft publishes (one more tap at most) and nothing is typed again.
+//   commit     Nik's phone is offline and locked while Daniel locks the season; back online it offers CONFIRM SEASON by itself.
+//   ack-kill   Nik's tab is killed right after CONFIRM SEASON; a fresh tab of the app opens on the confirmed season.
+//   continue   Daniel taps CONTINUE TO SEASON n offline (phone locked a moment before); back online the next season opens.
+// Every outage lasts OUTAGE_MS. Firebase is checked directly (admin) for exactly one result per role and one commit per season.
+const OUTAGES=process.env.CE2PG_OUTAGES==="1";
+const OUTAGE_KINDS=Object.freeze(["transfer","publish","commit","ack-kill","continue"]);
+const OUTAGE_MS=Number(process.env.CE2PG_OUTAGE_MS||20000);
+const outageRuns=[];
+const outageKind=k=>OUTAGES?OUTAGE_KINDS[(k-1)%OUTAGE_KINDS.length]:null;
+// While a phone is dark (and for OUTAGE_GRACE_MS after it is back) its failed requests and the app's own "connection failed"
+// reports are the outage itself: they are kept in report.outageNoise, not counted as zz.network / zz.pageerrors failures.
+const OUTAGE_GRACE_MS=15000;
+const inOutage=m=>Boolean(m&&(m.dark||(m.backAt&&Date.now()-m.backAt<OUTAGE_GRACE_MS)));
+async function goDark(m,{hidden=true}={}){
+  if(hidden)await setHidden(m,true);
+  m.dark=true;
+  await m.context.setOffline(true);
+  outageRuns.push({showdown:showdownNow,season:seasonNow,user:m.user,kind:outageKind(seasonNow),at:Date.now()});report.outages=outageRuns;
+}
+async function comeBack(m){
+  await m.context.setOffline(false);
+  m.dark=false;m.backAt=Date.now();
+  await setHidden(m,false,"online");
+  const last=[...outageRuns].reverse().find(o=>o.user===m.user&&!o.back);if(last){last.back=Date.now();last.ms=last.back-last.at;}
+  // CONNECTION REQUIRED (the online identity gate) may cover a game screen while offline; online again, it must clear by itself.
+  const cleared=await m.page.waitForFunction(()=>!document.getElementById("onlinePlayerIdentityOverlay")||document.getElementById("onlinePlayerIdentityOverlay").getClientRects().length===0,null,{timeout:20000}).then(()=>true).catch(()=>false);
+  await check(m,`${showdownNow}.S${seasonNow}.outage.gateClears`,"back online, CONNECTION REQUIRED clears by itself (no TRY AGAIN tap)",cleared,await describe(m),{screen:"Connection required"});
+}
+// A killed tab: the page is closed without unload work finishing, and the manager opens the app again in a new tab (same
+// browser profile, so the same sign-in and local storage).
+async function killTab(m){
+  await m.page.close({runBeforeUnload:false});
+  m.page=await m.context.newPage();
+  wirePage(m);
+  await installMarbleConfirmAnswers(m.page,{answer:true});
+  await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
+  await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:45000});
+  const last=[...outageRuns].reverse().find(o=>o.user===m.user);if(last)last.killed=true;
+  // Sign-in is session-only by design (browserSessionPersistence, checked by firebaseProductionPreflight.js), so a new tab
+  // asks for SIGN IN WITH GOOGLE once; the player is then known from the Google account.
+  const label=NAMES[m.account];
+  const sign=m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"});
+  if(!(await sign.isVisible().catch(()=>false)))await m.page.locator("#newShowdown").click({timeout:10000}).catch(()=>{});
+  if(await sign.isVisible({timeout:10000}).catch(()=>false)){
+    if(last)last.signInAgain=true;
+    await sign.click({timeout:10000});
+    const choose=m.page.getByRole("button",{name:new RegExp(`^${label} · PLAYER`,"i")});
+    const by=Date.now()+30000;
+    while(await m.page.evaluate(()=>document.getElementById("onlinePlayerIdentityBadge")?.textContent||"")!==label.toUpperCase()){
+      if(Date.now()>by)throw new Error(`${m.user}: after the killed tab the player ${label} never came back: ${await describe(m)}`);
+      if(await choose.isVisible().catch(()=>false))await choose.click({timeout:3000}).catch(()=>{});
+      await m.page.waitForTimeout(500);
+    }
+  }
+}
+// The authoritative documents of one season, read directly: one published result per role, at most one commit.
+async function seasonDocs(rivalryId,k){
+  const results=await admin(`rivalries/${rivalryId}/seasonResults/season_${k}`);
+  const roles={};for(const r of ["playerOne","playerTwo"])roles[r]=await admin(`rivalries/${rivalryId}/seasonResults/season_${k}/roles/${r}`);
+  const commit=await admin(`rivalries/${rivalryId}/seasonCommits/season_${k}`);
+  return {results,roles,commit};
 }
 let ctxRef=null;const publishedRates=[];const playWindows=[];
 const sumBy=(evs,user)=>evs.filter(e=>!user||e.user===user);
@@ -1177,6 +1417,7 @@ async function playShowdown(ctx,spec){
   const {daniel,nik,career}=ctx;
   showdownNow=spec.name;seasonNow=0;
   const entry={name:spec.name,state:"live",seasons:[],totalSeasons:spec.length,clubs:null,league:null,rivalryId:null,test:false};
+  if(ctxRef)ctxRef.entry=entry;
   const startMark=mark(`${spec.name}:start`);
   const code=await phase(`${spec.name}-start`,()=>danielStartsShowdown(daniel,spec.length,{firstRealStart:spec.firstRealStart}));
   if(spec.firstRealStart)await check(daniel,`${spec.name}.code`,"the first real START makes the one-time CMS17R- code",/^CMS17R-pair_[0-9a-f]{64}$/.test(code),code,{screen:"Connect Players"});
@@ -1200,9 +1441,14 @@ async function playShowdown(ctx,spec){
     const mode=await phase(`${spec.name}-S${k}-results`,()=>playSeasonResults(daniel,nik,k,plan[k-1]));
     await phase(`${spec.name}-S${k}-commit`,()=>commitSeason(daniel,nik,k,plan[k-1],final));
     entry.seasons.push(plan[k-1]);
+    if(OUTAGES){
+      const d=await seasonDocs(entry.rivalryId,k);
+      await check(null,`${spec.name}.S${k}.outage.db`,`database after the ${outageKind(k)} outage: both results and one commit for season ${k}, nothing for season ${k+1}`,Boolean(d.roles.playerOne&&d.roles.playerTwo&&d.commit)&&!(await admin(`rivalries/${entry.rivalryId}/seasonCommits/season_${k+1}`)),{roles:Object.keys(d.roles).filter(r=>d.roles[r]),commit:Boolean(d.commit)},{screen:"Database"});
+    }
     if(!final){
-      for(const m of [daniel,nik])await checkSharedHistory(m,k,spec.length,plan);
+      for(const m of [daniel,nik])if(m.ahead!==k+1)await checkSharedHistory(m,k,spec.length,plan);
       await phase(`${spec.name}-S${k}-continue`,()=>continueToSeason(daniel,nik,k+1,spec.length));
+      if(servingOld&&k===UPGRADE_AFTER)await phase(`${spec.name}-S${k}-upgrade`,()=>upgradeBoth(daniel,nik,sessionCode,k));
       const playEnd=mark(`${spec.name}:S${k}:play`);
       const pagesDue=!SLIM&&(k%PAGES_EVERY===0||k===1||k===playedTo);
       if(pagesDue){
@@ -1231,8 +1477,8 @@ async function playShowdown(ctx,spec){
       }
       entry.state="completed";billedModel?.markFinished(entry.rivalryId);
       for(const m of [daniel,nik]){
-        let landed=false;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});landed=await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
-        await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen opens Showdown Home",landed,await describe(m),{screen:"Showdown Champion"});
+        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final");landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
+        await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home",landed,`${paper||"no Gazette paper"} ${await describe(m)}`,{screen:"Showdown Champion"});
       }
       if(!SLIM)await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
       const end=mark(`${spec.name}:S${k}:end`);
@@ -1271,8 +1517,17 @@ async function playShowdown(ctx,spec){
 async function main(){
   fs.rmSync(SHOT_DIR,{recursive:true,force:true});fs.mkdirSync(SHOT_DIR,{recursive:true});
   await loadComposedRules();
-  let server=null;
-  if(!process.env.CMS_BASE_URL){server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT)}});await new Promise(resolve=>setTimeout(resolve,800));}
+  if(UPGRADE_FROM&&process.env.CMS_BASE_URL)throw new Error("CE2PG_UPGRADE_FROM needs the harness's own server (no CMS_BASE_URL)");
+  // The upgrade happens after a non-final season of ONE Showdown: plan single, with more seasons than CE2PG_UPGRADE_AFTER.
+  if(UPGRADE_FROM&&(PLAN_NAME!=="single"||!(Number.isInteger(UPGRADE_AFTER)&&UPGRADE_AFTER>=1&&UPGRADE_AFTER<SEASONS)))throw new Error("CE2PG_UPGRADE_FROM needs CE2PG_PLAN=single and 1 <= CE2PG_UPGRADE_AFTER < CE2PG_SEASONS");
+  if(UPGRADE_FROM){
+    const old=fs.readFileSync(path.join(UPGRADE_FROM,"service-worker.js"),"utf8").match(/const RUNTIME_REVISION = "([^"]+)"/)?.[1];
+    report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,pinned:UPGRADE_PIN,switchedAt:null};
+    console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree${UPGRADE_PIN?" (roulette start pinned to the switch time)":" (roulette start left at the placeholder)"}`);
+  }
+  // The roulette starts at the 2.0.0 release time (tools/set-release-time.cjs). A run before that time still plays it: the
+  // server sends the r87 placeholder start (2026-10-30) unless CE2PG_REAL_RELEASE_TIME=1 (or this is the upgrade run).
+  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]);
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[],retired=[];
@@ -1296,6 +1551,11 @@ async function main(){
       await playShowdown(ctx,spec);
     }
     showdownNow="end";seasonNow=0;
+    if(primePack.enabled()){
+      // Prime Pack: every round the phones played ended as the plan says (who named the Icon, and what it was worth).
+      const pv=primePack.verify();report.prime={mode:primePack.MODE,...pv,observed:primePack.observed};
+      await check(null,"prime.rounds","Prime Pack: every round ended as planned on both phones",pv.seasons>0&&pv.problems.length===0,pv.problems.join("; ")||"no round seen",{screen:"Prime Pack"});
+    }
     // Every completed real Showdown remains in the career, including the first one.
     if(PLAN_NAME==="main"){
       const marker=await admin(`accounts/${daniel.uid}/careerStart/current`);
@@ -1385,7 +1645,7 @@ async function main(){
     const failed=report.checks.some(c=>!c.pass)||Boolean(failure);
     report.verdict=failed?"FAIL":"PASS";
     writeReport();
-    await browser.close().catch(()=>{});if(server)server.kill();
+    await browser.close().catch(()=>{});if(appServer)appServer.kill();
     console.log(`METER summary: ${report.meter.map(e=>`${e.label}: ${e.reads}r/${e.writes}w${e.play?` (play ${e.play.reads}r/${e.play.writes}w)`:""}`).join(" | ")}`);
     console.log(`${report.verdict} ${TAG}: ${report.summary.passed}/${report.summary.checks} checks, ${report.problems.length} problem(s), ${Math.round(report.timings.totalMs/1000)} s -> ${rel(REPORT_PATH)}; screenshots in ${rel(SHOT_DIR)}`);
   }

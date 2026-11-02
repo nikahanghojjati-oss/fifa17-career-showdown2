@@ -93,7 +93,7 @@ function ensureCompletionHub(){
         createCompletionAction("NEW SHOWDOWN", () => typeof window.CareerModeOnlinePlayerIdentity?.openStart === "function"
             ? window.CareerModeOnlinePlayerIdentity.openStart()
             : window.navigateTo && window.navigateTo("createShowdown")),
-        createCompletionAction("MAIN MENU", () => window.navigateTo && window.navigateTo("mainMenu", { addToHistory: false }), "backButton")
+        createCompletionAction("HOME", () => window.navigateTo && window.navigateTo("mainMenu", { addToHistory: false }), "backButton")
     );
 
     hub.append(title, result, meta, hubActions);
@@ -207,15 +207,16 @@ function getTransferPhaseForDashboard(challenge){
 
 function getCurrentTransferStatusLabel(){
     if(!currentShowdown || currentShowdown.status === "Completed"){ return ""; }
-    const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
-    if(!challenge || challenge.status === "not_started"){ return "Transfer challenge: not started"; }
-    if(challenge.status === "active"){ return "Transfer challenge: window live"; }
+    // Polish pass (r87): the season the dashboard shows (a shared Showdown's local round can lag one season behind).
+    const challenge = getTransferChallengeForSeason(window.getShowdownSeason(currentShowdown));
+    if(!challenge || challenge.status === "not_started"){ return "Transfer War: ready"; }
+    if(challenge.status === "active"){ return "Transfer War: window live"; }
     if(challenge.status === "recording"){
         return getTransferPhaseForDashboard(challenge) === "signing_entry"
-            ? "Transfer challenge: signing entry"
-            : "Transfer challenge: guess entry";
+            ? "Transfer War: signing entry"
+            : "Transfer War: guess entry";
     }
-    return "Transfer challenge: complete";
+    return "Transfer War: complete";
 }
 
 function renderDashboardIntegrityStatus(){
@@ -388,19 +389,21 @@ function updateShowdownUI(){
         return;
     }
 
-    const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+    // Polish pass (r87): label the season shown above (getShowdownSeason), never a lagging local round ("SEASON 1" in season 3).
+    const season = window.getShowdownSeason(currentShowdown);
+    const challenge = getTransferChallengeForSeason(season);
     let primaryLabel;
 
     if(!challenge || challenge.status === "not_started"){
-        primaryLabel = `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
+        primaryLabel = `START SEASON ${season} TRANSFER WAR`;
     }else if(challenge.status === "active"){
-        primaryLabel = `RESUME SEASON ${currentShowdown.currentRound} TRANSFER WINDOW`;
+        primaryLabel = `RESUME SEASON ${season} TRANSFER WAR`;
     }else if(challenge.status === "recording"){
         primaryLabel = getTransferPhaseForDashboard(challenge) === "signing_entry"
-            ? `ENTER SEASON ${currentShowdown.currentRound} SIGNINGS`
-            : `ENTER SEASON ${currentShowdown.currentRound} GUESSES`;
+            ? `ENTER SEASON ${season} SIGNINGS`
+            : `ENTER SEASON ${season} GUESSES`;
     }else{
-        primaryLabel = `ENTER SEASON ${currentShowdown.currentRound} RESULTS`;
+        primaryLabel = `ENTER SEASON ${season} RESULTS`;
     }
 
     // r86 (red team #21): once the shared Transfer Challenge owns this button it writes the label from the shared season; the

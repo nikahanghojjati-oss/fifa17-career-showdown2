@@ -54,7 +54,7 @@
     const dashboardButton=routeButton("seasonPrimaryAction"),status=routeButton("dashboardTransferStatus"),results=routeResults(),resultView=results&&typeof results.getState==="function"?results.getState():null;
     if(dashboardButton&&openPromise){routeSetText(dashboardButton,"OPENING SEASON RESULTS…");if(!dashboardButton.disabled)dashboardButton.disabled=true;dashboardButton.setAttribute("aria-busy","true");dashboardButton.dataset.sharedSeasonResultsRoute="true";}
     else if(dashboardButton){if(dashboardButton.hasAttribute("aria-busy"))dashboardButton.removeAttribute("aria-busy");const label=resultView?.state?.phase==="RESULTS_READY"?"VIEW SEASON RESULTS":resultView?.ownResult?"VIEW MY PUBLISHED RESULT":"ENTER SEASON RESULTS";routeSetText(dashboardButton,label);routeEnable(dashboardButton);dashboardButton.dataset.sharedSeasonResultsRoute="true";}
-    if(status){const label=resultView?.state?.phase==="RESULTS_READY"?"Season Results: both published":resultView?.ownResult?"Season Results: waiting for your rival":"Transfer Challenge complete · Season Results ready";routeSetText(status,label);}
+    if(status){const label=resultView?.state?.phase==="RESULTS_READY"?"Season Results: both published":resultView?.ownResult?"Season Results: waiting for your rival":"Transfer War complete · Season Results ready";routeSetText(status,label);}
     return true;
   }
   // r50: opening Results loads the Results, Commit and Scoring runtime and may wait on the Commit
@@ -85,7 +85,7 @@
     const target=event.target&&event.target.closest&&event.target.closest("button");
     if(!target||!CONTROL_IDS.includes(target.id)||!routeReady())return;
     event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();
-    void routeOpen().catch(error=>{if(typeof root.reportApplicationError==="function")root.reportApplicationError("Unable to open Shared Season Results",error);else root.console?.error?.(error);});
+    void routeOpen().catch(error=>{if(typeof root.reportApplicationError==="function")root.reportApplicationError("Season Results did not open",error);else root.console?.error?.(error);});
   }
   function routeInstall(){
     if(installed){routeDecorate();return true;}

@@ -64,8 +64,9 @@ check("V3 Trophy Room carries exactly the model's numbers",()=>{
       assert.equal(frame.managers[m].seasonWins,model.managers[m].seasonWins,`${id} ${m} seasonWins`);
       assert.equal(frame.showdowns[m].wins,model.managers[m].showdowns.wins,`${id} ${m} Showdown wins`);
     }
-    const records=model.trophyRoom.records.filter(r=>typeof r.value==="number");
-    assert.deepEqual(frame.records.map(r=>[r.manager,r.value]),records.map(r=>[r.manager,r.value]),`${id} records`);
+    // r87 career fixes (B5): a record nobody holds (no best yet, or a best of 0) is a dash with no holder, never "0 Shared".
+    const records=model.trophyRoom.records.map(r=>typeof r.value==="number"&&r.value>0?[r.manager,r.value]:["","\u2014"]);
+    assert.deepEqual(frame.records.map(r=>[r.manager,r.value]),records,`${id} records`);
   }
 });
 check("V4 partial shows the {readable} of {indexed} coverage",()=>{
@@ -139,7 +140,8 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   walk("visual-assets/v10_1");
   // Job 24: Team V images moved from the install precache to the SW runtime image cache keyed by RUNTIME_REVISION.
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
-  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg)$/i.test(file);
+  // r87: the roulette's sounds (.wav) follow the same runtime rule as the images.
+  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav)$/i.test(file);
   for(const file of lazy){
     if(isImage(file)){assert.ok(imageRule.test(file),`runtime image rule covers ${file}`);assert.ok(!shell.has(file),`${file} not precached`);}
     else assert.ok(shell.has(file),`shell lists ${file}`);

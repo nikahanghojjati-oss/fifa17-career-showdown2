@@ -28,7 +28,7 @@
 #persistentNikDanielPairPanel span{flex-basis:100%;font:600 11px/1.25 var(--f17-display);letter-spacing:.06em;color:#d9c489;}
 #connectPlayersScreen .menuButton,#connectPlayersScreen .connectPlayersBack{width:auto;min-height:44px;margin:0;padding:8px 13px;border:1px solid #f0c84b80;border-radius:2px;background:#0b0f12eb;color:#fff1ae;font:700 15px/1.1 var(--f17-display);letter-spacing:.05em;}
 /* Primary actions are solid yellow (Team V sd-btn--primary); COPY CODE, NEW CODE, CHECK STATUS, MORE and the rest stay outlined. */
-#connectPlayersScreen #connectPlayersSetup,#connectPlayersScreen .menuButton.connectPlayersPrimary{background:#f5c518;border-color:#f5c518;color:#1a1305;box-shadow:0 4px 18px #f5c51833;}
+#connectPlayersScreen #connectPlayersSetup,#connectPlayersScreen .menuButton.connectPlayersPrimary{background:linear-gradient(#fff0ad,#f2c45b 45%,#c38b29);border-color:#fff1b8;color:#1a1305;box-shadow:inset 0 0 0 2px #e3b550,0 4px 18px #f5c51833;}
 #connectPlayersScreen #connectPlayersSetup:hover:not(:disabled),#connectPlayersScreen .menuButton.connectPlayersPrimary:hover:not(:disabled){filter:brightness(1.08);}
 #connectPlayersScreen .connectPlayersBack{position:absolute;z-index:4;top:-1px;right:-1px;width:58px;min-width:58px;height:44px;min-height:44px;padding:0 10px;border-radius:0 0 0 8px;font-size:15px;letter-spacing:.1em;}
 #connectPlayersSetup{margin-top:10px!important;}

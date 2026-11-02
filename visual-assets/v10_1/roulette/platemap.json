@@ -1,0 +1,120 @@
+{
+  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. Edit these numbers when a picture layer drops into assets/; no code change needed.",
+  "room": {
+    "file": "assets/RR_ROOM.jpg",
+    "ticket": "1851-5",
+    "z": -3.9,
+    "height": 5.2,
+    "floorCut": 0.405,
+    "note": "16:9 marble cafe plate (Nik 29 Oct); replaces the 3D back wall. floorCut = fraction of the picture height hidden under the 3D floor so the counter base meets the floor line"
+  },
+  "gunTop": {
+    "file": "assets/RR_GUN_TOP.png",
+    "ticket": "1853-1",
+    "length": 0.3,
+    "offsetZ": 0.05,
+    "rotation": 0,
+    "note": "top-down revolver photo with alpha, barrel pointing UP in the picture; laid flat on the felt for the top-down spin shots and cross-faded with the 3D model at the camera cut. length = barrel-to-grip size in metres, offsetZ shifts the picture along the barrel so the muzzle lines up with the model's muzzle (0.19 m ahead of the cylinder axis), rotation in radians if the picture is not straight"
+  },
+  "flash": {
+    "file": "assets/RR_FLASH.png",
+    "ticket": "1851-4",
+    "note": "additive sprite at the muzzle; procedural flash until it exists"
+  },
+  "boards": {
+    "daniel": {
+      "x": -1.08,
+      "y": 1.0,
+      "z": -0.05,
+      "yaw": 0.55,
+      "width": 0.62,
+      "height": 0.62
+    },
+    "nik": {
+      "x": 1.08,
+      "y": 1.0,
+      "z": -0.05,
+      "yaw": -0.55,
+      "width": 0.62,
+      "height": 0.62
+    },
+    "phone": {
+      "x": 0.5,
+      "y": 1.02,
+      "z": 0.12,
+      "yaw": 0.48,
+      "scale": 0.78
+    }
+  },
+  "revolver": {
+    "rest": [
+      0,
+      0.751,
+      0.02
+    ],
+    "muzzle_ahead": 0.192,
+    "note": "spins on the world Y axis; stops with the barrel on the target bubble (horizontal aim), slides back along the barrel line on a shot"
+  },
+  "cameras": {
+    "desktop": {
+      "rest": [
+        0,
+        1.62,
+        2.5
+      ],
+      "look": [
+        0,
+        0.86,
+        -0.1
+      ],
+      "fov": 36,
+      "top": [
+        0,
+        2.25,
+        0.3
+      ],
+      "closeFov": 12
+    },
+    "phone": {
+      "rest": [
+        0,
+        1.8,
+        2.75
+      ],
+      "look": [
+        0,
+        0.92,
+        -0.1
+      ],
+      "fov": 54,
+      "top": [
+        0,
+        2.5,
+        0.22
+      ],
+      "closeFov": 16
+    }
+  },
+  "hand": {
+    "file": "assets/RR_HAND.webp",
+    "ticket": "1854",
+    "muzzle": [
+      0.1,
+      0.92
+    ],
+    "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom)"
+  },
+  "sfx_note": "HO-047 (Team G r87 lead, 29 Oct 2026): made in-house, synthesised by assets/sfx/make_sfx.py (numpy; no samples or third-party recordings). WAV, not MP3, so every cue lands on its frame (MP3 adds ~25 ms of encoder silence). handUp and roomTone are the two extras; roomTone is a seamless 24 s loop at 22.05 kHz. A listed file replaces the synthesized cue of that name; the page loads every entry, so keep only sound names in \"sfx\".",
+  "sfx": {
+    "spinStart": "assets/sfx/spin_start.wav",
+    "felt": "assets/sfx/felt.wav",
+    "click": "assets/sfx/click.wav",
+    "cock": "assets/sfx/cock.wav",
+    "heart": "assets/sfx/heart.wav",
+    "dry": "assets/sfx/dry.wav",
+    "bang": "assets/sfx/bang.wav",
+    "splinter": "assets/sfx/splinter.wav",
+    "handUp": "assets/sfx/hand_up.wav",
+    "roomTone": "assets/sfx/room_tone.wav"
+  }
+}

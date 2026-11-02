@@ -58,7 +58,7 @@ function ensureTransferPhaseLayout(){
         const navigator = document.createElement("div");
         navigator.id = "transferPhaseNavigator";
         navigator.className = "transferPhaseNavigator";
-        navigator.setAttribute("aria-label", "Transfer Challenge progress");
+        navigator.setAttribute("aria-label", "Transfer War progress");
         [
             ["01", "Transfer Window", TRANSFER_PHASES.WINDOW],
             ["02", "Guess Entry", TRANSFER_PHASES.GUESS],
@@ -324,7 +324,7 @@ function initializeTransferChallenge(){
 function handleSeasonPrimaryAction(){
     if(!currentShowdown){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("No active showdown is available.", "error");
+            window.showAppNotice("No Showdown in progress. Start or join one from Home.", "error");
         }
         return;
     }
@@ -369,7 +369,7 @@ function getOrCreateTransferChallenge(seasonNumber){
     currentShowdown.transferChallenges.push(challenge);
     if(!saveCurrentShowdown()){
         currentShowdown.transferChallenges = currentShowdown.transferChallenges.filter(item => item !== challenge);
-        throw new Error("The season transfer challenge could not be created.");
+        throw new Error("The season Transfer War could not be created.");
     }
     return challenge;
 }
@@ -405,7 +405,7 @@ function openTransferChallenge(){
         }
     }catch(error){
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Unable to open the Transfer Challenge", error);
+            window.reportApplicationError("The Transfer War did not open", error);
         }else{ console.error(error); }
     }
 }
@@ -416,7 +416,7 @@ function startTransferWindow(){
     try{ challenge = getOrCreateTransferChallenge(currentShowdown.currentRound); }
     catch(error){
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Unable to start the transfer window", error);
+            window.reportApplicationError("The transfer window did not open", error);
         }
         return;
     }
@@ -740,22 +740,22 @@ function lockTransferSignings(){
         challenge.signingsLockedAt = Date.now();
         challenge.completedAt = challenge.signingsLockedAt;
         currentShowdown.status = "Ready";
-        if(!saveCurrentShowdown()){ throw new Error("The transfer challenge verdicts could not be saved."); }
+        if(!saveCurrentShowdown()){ throw new Error("The Transfer War verdicts could not be saved."); }
         transferDraftDirty = false;
         lastPersistedTransferDraftSignature = getTransferDraftSignature(challenge);
         if(typeof window.updateShowdownUI === "function"){ window.updateShowdownUI(); }
         renderTransferChallenge(challenge);
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Transfer Challenge locked successfully.", "success", 3500);
+            window.showAppNotice("Transfer War locked successfully.", "success", 3500);
         }
     }catch(error){
         restoreChallengeSnapshot(challenge, previous);
         currentShowdown.status = previousShowdownStatus;
         transferDraftDirty = getTransferDraftSignature(challenge) !== lastPersistedTransferDraftSignature;
-        setTransferError(error.message || "The Transfer Challenge could not be completed.");
+        setTransferError(error.message || "The Transfer War could not be completed.");
         renderTransferChallenge(challenge);
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Transfer Challenge completion failed", error);
+            window.reportApplicationError("The Transfer War did not finish", error);
         }
     }finally{
         transferCompletionInProgress = false;
@@ -907,7 +907,7 @@ function renderTransferChallenge(challenge){
     challenge.phase = phase;
     if(ui.screen){ ui.screen.dataset.transferPhase = phase; }
 
-    setTransferText(ui.title, `SEASON ${challenge.seasonNumber} TRANSFER CHALLENGE`);
+    setTransferText(ui.title, `SEASON ${challenge.seasonNumber} TRANSFER WAR`);
     setTransferText(ui.managerOne, currentShowdown.managers.playerOne);
     setTransferText(ui.managerTwo, currentShowdown.managers.playerTwo);
     setTransferText(ui.clubOne, currentShowdown.clubs.playerOne);
@@ -923,13 +923,13 @@ function renderTransferChallenge(challenge){
         active: "TRANSFER WINDOW LIVE",
         recording_guess: "WINDOW CLOSED — GUESS ENTRY",
         recording_signing: "GUESSES LOCKED — SIGNING ENTRY",
-        completed: "TRANSFER CHALLENGE COMPLETE"
+        completed: "TRANSFER WAR COMPLETE"
     };
     let statusKey = challenge.status;
     if(challenge.status === "recording"){
         statusKey = phase === TRANSFER_PHASES.SIGNING ? "recording_signing" : "recording_guess";
     }
-    setTransferText(ui.phase, statusLabels[statusKey] || "TRANSFER CHALLENGE");
+    setTransferText(ui.phase, statusLabels[statusKey] || "TRANSFER WAR");
 
     setTransferHidden(ui.startButton, challenge.status !== "not_started");
     setTransferHidden(ui.endButton, challenge.status !== "active");

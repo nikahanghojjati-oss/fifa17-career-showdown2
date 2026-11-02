@@ -177,7 +177,7 @@ let tileChecks=Promise.reject(new Error("R4b did not run"));tileChecks.catch(()=
 check("R4b the marble tile is served from the precached shell without a ?v= query (offline too)",()=>{
   const w=swWorld(),diag=w.diag,TILE="css/r78-marble-tile.webp";
   tileChecks=(async()=>{
-    w.fill(diag.revision,diag.shellPaths,p=>p===TILE?"current-tile":p);w.fill(diag.previousRevision,diag.shellPaths,p=>p===TILE?"previous-tile":p);
+    w.fill(diag.revision,diag.shellPaths,p=>p===TILE?"current-tile":p);w.fill(diag.previousRevision,diag.previousShellPaths,p=>p===TILE?"previous-tile":p);
     w.net.set("/app/"+TILE,"network-tile");w.setOnline(false);
     assert.equal(await w.get(TILE),"current-tile","offline: the tile comes from the current precached shell");
     assert.equal(await w.get("css/r78-marble-tile.webp?v="+diag.revision),"current-tile","a versioned request still works");
@@ -194,15 +194,16 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 // The r79 shell on an installed phone was filled by the r79 worker with r79's own 221 paths. Activating r80 must keep it (and its
 // image cache) as the recovery target instead of deleting it. r80 adds and removes no shell path, so both lists are the same 221.
 // r86: the retained shell is now r85's, filled by the r85 worker with its own 222 paths (the r79 cases below run on it).
-const R79_SHELL_PATHS_SHA256="1e8c63be868fa7c51a07b31958ab5aca4290061af5a1ffabd2ca94893d8d861c";// sorted JSON of r85's SHELL_PATHS (main a8a5b372)
+// 2.0.0: the retained shell is r86's, filled by the r86 worker with its own 228 paths (tests/fixtures/shell-paths/1.9.10-r86.json).
+const R79_SHELL_PATHS_SHA256="64baacfa891986a6ae1806af085beb95f542ec77d200a9fb67463335958c3de1";// sorted JSON of r86's SHELL_PATHS (main 5b4337fd)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"1.9.9-r85");
-  assert.equal(diag.previousShellPaths.length,222,"r85 shipped 222 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r85's");
-  assert.ok(diag.previousShellPaths.every(p=>diag.shellPaths.includes(p)),"r86 removed no shell path");
+  assert.equal(diag.previousRevision,"1.9.10-r86");
+  assert.equal(diag.previousShellPaths.length,228,"r86 shipped 228 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r86's");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"],"2.0.0 removed only the seven acceptance-only scripts (arch D1)");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover

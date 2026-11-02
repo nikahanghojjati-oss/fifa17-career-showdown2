@@ -55,15 +55,33 @@ const commit=read("firestore.season-commit-production.fragment.rules");
     [career,"ssjrCareerWriteValid","ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)"],
     [career,"ssjrCareerValidUpdate","ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"],
     [transfer,"ssjrTransferPublicShape","ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)"],
-    [transfer,"ssjrTransferValidUpdate","ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"],
+    [transfer,"ssjrTransferValidLedgerUpdate","ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"],
     [transfer,"ssjrTransferPrivateBase","ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)"],
-    [transfer,"ssjrTransferPrivateUpdateValid","ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"],
+    // Codex R87-E-04: the private signing lock keeps the actor authority (account, device, ACTIVE Session); the pair
+    // envelope runs on the linked public ledger write in the same transaction (asserted below).
+    [transfer,"ssjrTransferPrivateUpdateValid","ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"],
     [results,"ssjrResultsPublicShape","ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)"],
     [results,"ssjrResultsValidUpdate","ssjrWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"],
     [commit,"ssjrCommitValidCreate","ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"],
     [commit,"ssjrCommitValidUpdate","ssjrActorWriteAuthorityValid(rivalryId, after.updatedByDeviceId, after.activeSessionId)"]
   ];
   for(const [source,name,call] of writers)assert.ok(functionBody(source,name).includes(call),`${name} must call ${call}`);
+  {
+    const body=functionBody(transfer,"ssjrTransferPrivateUpdateValid");
+    for(const needle of ["let public = ssjrTransferPublicAfter(rivalryId, transferId);","public.operationTypes[i] == 'lock-signings'","public.actorRoles[i] == managerRole",
+      "public.activeSessionId == after.activeSessionId","public.updatedByDeviceId == after.updatedByDeviceId","public.updatedAt == request.time","managerRole == ssjrActorRole(rivalryId)"])
+      assert.ok(body.includes(needle),`ssjrTransferPrivateUpdateValid must stay bound to its public ledger write: ${needle}`);
+  }
+  // R87 roulette marks (RT5-FLOW-02): every ledger update still goes through the ledger function above;
+  // the only other transfer write is a member's own pre-window spun mark, which is membership-only by decision
+  // (one lookup, the rivalry; it carries no game state and START from it runs the full ledger create).
+  assert.match(functionBody(transfer,"ssjrTransferValidUpdate"),/return resource\.data\.phase != 'NOT_STARTED' && ssjrTransferValidLedgerUpdate\(rivalryId, transferId\);/,"every non-mark transfer update must run the ledger update with its authority");
+  assert.match(functionBody(transfer,"ssjrTransferStartAfterSpins"),/ssjrTransferValidCreate\(rivalryId, transferId\)/,"START from the mark document must run the full ledger create (with its authority)");
+  for(const name of ["ssjrTransferSpinCreate","ssjrTransferSpinUpdate"]){
+    const body=functionBody(transfer,name);
+    assert.equal(/get\(/.test(body),false,`${name} must not add a lookup beyond the rivalry`);
+    assert.ok(body.includes("ssjrEntitled(rivalryId)")&&body.includes("ssjrActorRole(rivalryId)"),`${name} must be a member writing his own role`);
+  }
   assert.match(functionBody(setup,"ssjrLeagueProjectionCreateValid"),/return activeActor\(\)\n/,"the league projection create must require the acting account to be active");
   // The role-private Season Results create is valid only together with its public document in the same batch
   // (getAfter + publishedAt == request.time), and that public write carries the authority above.

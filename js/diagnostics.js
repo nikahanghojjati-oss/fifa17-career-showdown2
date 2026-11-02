@@ -21,10 +21,6 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "ruleBookButton",
     "settingsButton",
     "rivalryStatisticsButton",
-    "menuMediaSelector",
-    "menuMusicToggle",
-    "menuMusicMute",
-    "menuMusicPlayer",
     "startShowdown",
     "spinLeague",
     "openClubPack",
@@ -52,8 +48,6 @@ const CORE_REQUIRED_FUNCTIONS = [
     "isReducedMotionPreferred",
     "initializeMenuExperience",
     "refreshMainMenuExperience",
-    "selectMenuMedia",
-    "handleMainMenuExit",
     "isMenuMediaPlaying",
     "consumeMenuFeedbackCue",
     "initializeOptionalModules",
@@ -128,8 +122,6 @@ function getControlBindingProblems(gameplayReady){
         ["ruleBookButton", "ruleBookBound"],
         ["settingsButton", "settingsBound"],
         ["rivalryStatisticsButton", "statisticsLazyBound"],
-        ["menuMusicToggle", "musicBound"],
-        ["menuMusicMute", "musicBound"],
         ["startShowdown", "navigationBound"]
     ];
 
@@ -184,17 +176,6 @@ function getSeasonReviewProblems(gameplayReady){
         integrity.bindingProblems.forEach(problem => problems.push(`Season Review ${problem}`));
     }
     return problems;
-}
-
-function getMenuMediaProblems(){
-    const choices = Array.from(document.querySelectorAll("[data-menu-media-source]"));
-    if(choices.length !== 7){
-        return [`menu media selector contains ${choices.length} choices instead of 7`];
-    }
-
-    const expected = ["bastille", "highlow", "move", "music", "shelter", "trailer", "youth"];
-    const keys = choices.map(button => button.dataset.menuMediaSource).sort();
-    return keys.join(",") === expected.join(",") ? [] : ["menu media choices are invalid"];
 }
 
 function getMenuFeedbackProblems(){
@@ -379,7 +360,6 @@ function runApplicationDiagnostics(){
         ...getControlBindingProblems(gameplayReady),
         ...getTransferInputBindingProblems(gameplayReady),
         ...getSeasonReviewProblems(gameplayReady),
-        ...getMenuMediaProblems(),
         ...getMenuFeedbackProblems(),
         ...getOptionalModuleProblems(),
         ...getVisualSystemProblems(),
@@ -428,7 +408,6 @@ function runApplicationDiagnostics(){
         transferFieldsChecked: gameplayReady
             ? document.querySelectorAll("[data-transfer-field]").length
             : 0,
-        menuMediaChoicesChecked: document.querySelectorAll("[data-menu-media-source]").length,
         checkedAt: new Date().toISOString()
     };
 
@@ -444,7 +423,7 @@ function runApplicationDiagnostics(){
         if(!storageAvailable){ problems.push("storage unavailable"); }
 
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError("Application integrity check failed", new Error(problems.join("; ")));
+            window.reportApplicationError("Some game files did not load. Reload the game", new Error(problems.join("; ")));
         }else{
             console.error("Application integrity check failed:", problems.join("; "));
         }

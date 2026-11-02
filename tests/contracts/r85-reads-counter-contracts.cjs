@@ -74,7 +74,7 @@ function page(docs){
     try{await new Promise(resolve=>setImmediate(resolve));const value=docs[ref];return {exists:()=>value!==undefined,data:()=>value,metadata:{fromCache:false,hasPendingWrites:false}};}
     finally{active--;}
   }};
-  const c=vm.createContext({console,TextEncoder,crypto:webcrypto,setTimeout,clearTimeout});
+  const c=vm.createContext({console,TextEncoder,crypto:webcrypto,setTimeout:(fn,ms)=>{const t=setTimeout(fn,ms);t.unref?.();return t;},clearTimeout});// unref: a quota pause's resume timer must not hold the test open
   vm.runInContext(read('js/persistentNikDanielPair.js'),c);
   for(const [key,file] of Object.entries({CareerModeSparkCompletedShowdownReader:'sparkCompletedShowdownReader',CareerModeSharedClosedShowdownAdapter:'sharedClosedShowdownAdapter',CareerModeSharedCareerAnalytics:'sharedCareerAnalytics'}))c[key]=require(path.join(ROOT,'js',file+'.js'));
   vm.runInContext(read('js/sparkClosedShowdownCareerLoader.js'),c);
@@ -149,6 +149,7 @@ async function units(){
   await assert.rejects(sdk.getDoc('x'));assert.equal(b.readsToday().reads-start,6,'denied get counts 1, as Firestore bills it');
   for(let i=0;i<4;i++)await assert.rejects(sdk.getDoc('x'));
   assert.equal(b.readsToday().reads-start,6,'unanswered (offline, quota, cancelled) or client-side failures count 0');
+  assert.equal(b.paused(),true,'a quota answer on a direct get trips the online-play pause (red team R87-B-06)');
   checks++;
 }
 
@@ -186,7 +187,10 @@ function census(){
     'sparkCompletedShowdownReader.js':'uses options.firebaseSdk.getDoc (metered by callers)',
     'careerSummaryStore.js':'r86 career summary: uses the firebaseSdk.getDoc the loader gives it (metered by callers)',
     'ssjrPhysicalJourneyAcceptance.js':'SSJR test panel closed-Showdown check (index + one exact read): getDoc via meterSdk',
-    'sparkSharedSeasonResults.js':'uses sdk.getDoc only when the given (budget-wrapped, metered) services expose it; else a counted transaction'
+    'sparkSharedSeasonResults.js':'uses sdk.getDoc only when the given (budget-wrapped, metered) services expose it; else a counted transaction',
+    'iconGuessStep.js':'r87 Prime Pack round listener: onSnapshot via meterSdk; its other reads are counted transactions',
+    'productionSharedTransferChallenge.js':'Fable job 2 F2-12 roulette history: budget services, getDoc via meterSdk (taken from the Firestore module when absent)',
+    'sparkSharedTransferChallenge.js':'readRouletteSeason uses the firebaseSdk.getDoc it is given (metered by its caller)'
   };
   const excluded={
     'sparkSharedShowdownSetup.js':'mentions getDoc in a comment only; its preflight read is a counted transaction',
@@ -197,7 +201,7 @@ function census(){
   const pattern=/\b(?:getDocs?|getDocFromServer|getDocsFromServer|onSnapshot)\b/;
   const found=fs.readdirSync(path.join(ROOT,'js')).filter(f=>f.endsWith('.js')&&pattern.test(read('js/'+f).replace(/captureCareerModeRawSaveLibraryMigrationSnapshot|captureLibraryMigrationSnapshot/g,'')));
   assert.deepEqual(found.sort(),Object.keys({...covered,...excluded}).sort(),'a new Firestore read call site must be metered and listed here');
-  for(const file of ['rivalryLegacyV10.js','seasonFinalV10.js','careerStartMarker.js','productionSharedSeasonCommit.js','persistentNikDanielPair.js','ssjrPhysicalJourneyAcceptance.js']){
+  for(const file of ['rivalryLegacyV10.js','seasonFinalV10.js','careerStartMarker.js','productionSharedSeasonCommit.js','persistentNikDanielPair.js','ssjrPhysicalJourneyAcceptance.js','productionSharedTransferChallenge.js','iconGuessStep.js']){
     const source=read('js/'+file);
     assert.ok(source.includes('CareerModeFirestoreBudget?.meterSdk')||source.includes('budget?.meterSdk'),`${file} meters the SDK it takes`);
     assert.ok(!/countListenerRead/.test(source),`${file} no longer counts listener deliveries by hand (would count twice)`);

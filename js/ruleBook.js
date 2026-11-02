@@ -48,14 +48,21 @@ function createRuleBookScreen(){
             "1- and 3-season Showdowns: only your Special Player can be trained.",
             "5- and 10-season Showdowns: all players can be trained."
         ]),
-        createRuleSection("03", "TRANSFER CHALLENGE", [
+        createRuleSection("03", "TRANSFER WAR", [
             "Each of you may sign up to three players a season.",
             "The transfer window lasts 15 minutes.",
             "In FIFA 17, you can sign players up to the transfer deadline.",
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
             "Your opponent gets three guesses. Each guess is a league or a nationality.",
             "If a guess matches one of your signings, release that player before the season starts.",
-            "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him."
+            "A player your rival guesses is released and can never be signed again.",
+            "Type each signing's FIFA 17 overall. Only you see it, and it is never part of a guess.",
+            "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him.",
+            // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
+            "Before each Transfer War, Daniel and then Nik spin the Roster Roulette. One spin in seven fires and hits one player on your starting XI or 4 best subs: release him in FIFA 17.",
+            "Your Special Player is never on your board, so he is never hit. Every player on your board has the same chance.",
+            "Your board builds itself: your FIFA 17 launch squad. From season 2, a lost player is replaced by a kept signing or the bench, with reserves filling in, so your board shows 11 starters and 4 subs. Only if your club runs out of players does a place stay empty: the roulette still spins, and the bullet only ever hits a real player.",
+            "A guessed player never joins your board. A signing weaker than every starter in his line and every sub waits in your reserves."
         ]),
         createScoringRuleSection(),
         createRuleSection("05", "CONNECTION & RECOVERY", [
@@ -74,7 +81,7 @@ function createRuleBookScreen(){
     back.type = "button";
     back.className = "backButton";
     back.setAttribute("data-smart-back", "");
-    back.textContent = "BACK TO MAIN MENU";
+    back.textContent = "BACK TO HOME";
 
     actions.appendChild(back);
     section.append(heading, intro, grid, actions);
@@ -134,7 +141,10 @@ function createScoringRuleSection(){
         ["Domestic league winner", "+3"],
         ["Main domestic cup winner", "+1"],
         ["100 league points or 100 league goals", "+1 MAX"],
-        ["League top scorer or top assist", "+1 MAX"]
+        ["League top scorer or top assist", "+1 MAX"],
+        // Prime Pack (Nik 2026-11-01): once a season, before the transfer window, in Showdowns that play it. The first right
+        // name scores 4 with one stat showing, 3 with two, 2 with three, 1 with four.
+        ["Prime Pack: first to name the masked Icon (4, 3, 2 or 1 by stage)", "+4 MAX"]
     ].forEach(([label, value]) => {
         const row = document.createElement("div");
         const labelElement = document.createElement("span");
@@ -148,7 +158,7 @@ function createScoringRuleSection(){
 
     const maximum = document.createElement("div");
     maximum.className = "ruleScoreMaximum";
-    maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong>";
+    maximum.innerHTML = "<span>MAXIMUM PER MANAGER / SEASON</span><strong>15</strong>";
 
     // r80 Europa League (owner rules, 2026-10-19). r86 (Nik 2026-10-29): the lines FIFA 17 already enforces (no CL and EL
     // in one season, the 3rd-place drop, EL by league position, only winning scores, best season 11/9) stay in the scoring
@@ -169,7 +179,8 @@ function createScoringRuleSection(){
     const goldenLabel = document.createElement("strong");
     goldenLabel.textContent = "GOLDEN SHOWDOWN";
     const goldenText = document.createElement("span");
-    goldenText.textContent = "Score 110 points in a 10-season Showdown (11 in every season) to win the gold trophy.";
+    // r87 Prime Pack (G Lead and Nik 2026-11-01): 15 a season, so 150 (no other Golden total).
+    goldenText.textContent = "Score 150 points in a 10-season Showdown (15 in every season) to win the gold trophy.";
     golden.append(goldenLabel, goldenText);
 
     // r86 Special Player (Nik 2026-10-29): the SP chip's own rule line, in the Golden Showdown's style. The live Showdown's
@@ -190,7 +201,17 @@ function createScoringRuleSection(){
     specialLive.hidden = true;
     special.append(specialLabel, specialText, specialLive);
 
-    article.append(header, scoring, maximum, golden, special, notes);
+    // r87 Prime Pack (Nik 2026-11-01): its own line in the same style. The values shown are the Icon's real card stats from the
+    // list; only which of the six shows at each stage is random (each once). The flag comes only with the full reveal.
+    const primePack = document.createElement("p");
+    primePack.className = "ruleGoldenShowdown rulePrimePack";
+    const primePackLabel = document.createElement("strong");
+    primePackLabel.textContent = "PRIME PACK";
+    const primePackText = document.createElement("span");
+    primePackText.textContent = "A masked Icon shows his position and one real card stat, then one more real stat each stage, up to four. Which stats show is random; the values never are. Each manager has two guesses. Name him first for 4, 3, 2 or 1 points. Nobody right after stage 4 scores 0. Then the whole card is revealed: the last two stats, his name, flag and overall.";
+    primePack.append(primePackLabel, primePackText);
+
+    article.append(header, scoring, maximum, golden, special, primePack, notes);
     return article;
 }
 

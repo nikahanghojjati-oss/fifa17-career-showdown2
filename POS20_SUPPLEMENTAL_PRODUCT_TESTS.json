@@ -2259,6 +2259,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-roster-roulette-contracts.cjs",
+      "patterns": [
+        "^data/(rosterSquads|clubs)\\.js$",
+        "^js/rosterRoulette\\.js$",
+        "^tests/contracts/r87-roster-roulette-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r86-special-player-reveal-contracts.cjs",
       "patterns": [
         "^js/(specialPlayerReveal|productionSharedCareerStart|productionSharedShowdownSetup|sparkSharedShowdownSetup|marqueePlayer)\\.js$",
@@ -2289,11 +2298,56 @@
       ]
     },
     {
+      "path": "tests/contracts/r87-rematch-contracts.cjs",
+      "patterns": [
+        "^js/(seasonFinalV10|onlinePlayerIdentity|productionSharedJourneyEntry|sharedHistoryConvergence)\\.js$",
+        "^firestore\\.rules$",
+        "^tests/support/(active-showdown-fixtures|career-fixture-helpers)\\.cjs$",
+        "^tests/contracts/r87-rematch-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r84-billed-budget-contracts.cjs",
       "patterns": [
         "^tests/browser/(ce2pg-journey\\.cjs|support/(billed-meter|rules-lookups|firestore-meter)\\.cjs|support/billed-reads-table\\.json)$",
         "^(firestore\\.[a-z0-9-]+\\.rules|scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs)$",
         "^tests/contracts/r84\\-billed\\-budget\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-deadline-day-contracts.cjs",
+      "patterns": [
+        "^js/(deadlineDay|transferScreenV10)\\.js$",
+        "^data/deadlineDayLines\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r87-deadline-day-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-polish-matchday-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedCanonicalScoring|productionSharedSeasonCommit|productionSharedMultiSeasonProgression|productionSharedFinalReconciliation|productionSharedHistoryConvergence|seasonFinalV10|seasonEngine|deadlineDay)\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^visual-assets/v10_1/(season-results/app\\.css|final-winner/final-winner\\.js)$",
+        "^index\\.html$",
+        "^tests/contracts/r87\\-polish\\-matchday\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-gazette-contracts.cjs",
+      "patterns": [
+        "^js/(touchlineGazette|seasonFinalV10)\\.js$",
+        "^data/(gazetteCopy|frontPages|commentaryLines)\\.js$",
+        "^css/v10Gazette\\.css$",
+        "^visual-assets/v10_1/content/",
+        "^service-worker\\.js$",
+        "^tests/support/(career-fixture-helpers|active-showdown-fixtures)\\.cjs$",
+        "^tests/contracts/r87-gazette-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -2335,6 +2389,457 @@
         "^service-worker\\.js$",
         "^\\.github/workflows/deploy-(github-pages|firestore-rules-zero-billing)\\.yml$",
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
+        "^(index\\.html|manifest\\.webmanifest|package(-lock)?\\.json)$",
+        "^js/(app|menuExperience|rosterRouletteStep|sparkSharedTransferChallenge|ssjr|offlineApp)\\.js$",
+        "^tools/set-release-time\\.cjs$",
+        "^tests/fixtures/shell-paths/",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-shared-reads-meter-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|settings|productionSharedSeasonCommit|productionSharedCareerStart)\\.js$",
+        "^tests/browser/support/(billed-meter|rules-lookups)\\.cjs$",
+        "^(firestore\\.[a-z0-9-]+\\.rules|scripts/(build-production-firestore-rules(-with-persistent-pair)?|inject-persistent-pair-rules)\\.mjs)$",
+        "^tests/contracts/r87\\-shared\\-reads\\-meter\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-reads-sp-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(sparkPrivatePairing|productionSharedCareerStart|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^tests/contracts/r87\\-reads\\-sp\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-wait-both-spins-contracts.cjs",
+      "patterns": [
+        "^js/(sparkSharedTransferChallenge|productionSharedTransferChallenge|rosterRouletteStep|sparkPrivatePairing)\\.js$",
+        "^css/transfer\\.css$",
+        "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
+        "^tests/contracts/r87\\-wait\\-both\\-spins\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-start-b-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^css/(remoteJoining|v10Club)\\.css$",
+        "^tests/browser/career-start-b-fits-audit\\.cjs$",
+        "^tests/contracts/r87\\-career\\-start\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
+        "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-roulette-board-invariants-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRoulette|rosterRouletteStep|sharedTransferChallenge|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^data/(fifa17Players|rosterSquads|clubs)\\.js$",
+        "^tests/contracts/r87\\-roulette\\-board\\-invariants\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(legacy|settings|rivalryLegacyV10|careerScreensV10|careerScreenSeam|careerSummaryStore|sharedCareerAnalytics|touchlineGazette|seasonFinalV10)\\.js$",
+        "^visual-assets/v10_1/(standings|rivalry-statistics|trophy-room)/",
+        "^tests/contracts/r87\\-career\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-browser-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/legacy/",
+        "^js/specialPlayerChip\\.js$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-contracts\\.cjs$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-nav\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-browser-nav-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/legacy/",
+        "^js/specialPlayerChip\\.js$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-contracts\\.cjs$",
+        "^tests/contracts/r87\\-career\\-fixes\\-browser\\-nav\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-fixes-lane-c-browser-contracts.cjs",
+      "patterns": [
+        "^css/v10Shell\\.css$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^js/careerScreensV10\\.js$",
+        "^js/specialPlayerChip\\.js$",
+        "^visual-assets/v10_1/(career-statistics|legacy)/",
+        "^tests/contracts/r87\\-career\\-fixes\\-lane\\-c\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable3-meter-fixes-contracts.cjs",
+      "patterns": [
+        "^js/sparkPrivatePairing\\.js$",
+        "^tests/contracts/r87\\-fable3\\-meter\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-scoring-everywhere-contracts.cjs",
+      "patterns": [
+        "^js/(scoring|sharedCanonicalScoring|sharedSeasonCommit|sharedHistoryConvergence|sharedCareerAnalytics|careerScreenSeam|careerScreensV10|rivalryLegacyV10|sparkTerminalClose)\\.js$",
+        "^tests/contracts/r87\\-scoring\\-everywhere\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-upgrade-rollback-list-contracts.cjs",
+      "patterns": [
+        "^service-worker\\.js$",
+        "^tests/fixtures/shell-paths/",
+        "^tests/contracts/r87\\-upgrade\\-rollback\\-list\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-step-contracts.cjs",
+      "patterns": [
+        "^js/rosterRouletteStep\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^tests/contracts/r87\\-fable\\-step\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-history-scale-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/legacy/",
+        "^tests/contracts/r87\\-history\\-scale\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-polish-final-contracts.cjs",
+      "patterns": [
+        "^js/(v10Screens|menuExperience|productionSharedMultiSeasonProgression|productionSharedJourneyReconnect)\\.js$",
+        "^css/(v10Shell|rulesSettingsV10|v10Club)\\.css$",
+        "^tests/contracts/r87\\-polish\\-final\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-roulette-hits-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRoulette|rosterRouletteStep|sparkSharedTransferChallenge|productionSharedTransferChallenge|productionSharedJourneyReconnect|sparkPrivatePairing)\\.js$",
+        "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
+        "^tests/contracts/r87\\-roulette\\-hits\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-error-screens-contracts.cjs",
+      "patterns": [
+        "^js/(app|onlinePlayerIdentity|productionSharedTransferChallenge|transferChallenge|productionSharedJourneyGuard|seasonEngine|optionalModules|footballVisuals|diagnostics|productionSharedSeasonResultsRoute|sparkRemoteJoining|productionSharedLocalReconciliation)\\.js$",
+        "^css/r78-marble-surfaces\\.css$",
+        "^js/homeScreensV10\\.js$",
+        "^css/homeV10\\.css$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r87\\-error\\-screens\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-commentary-v3-contracts.cjs",
+      "patterns": [
+        "^js/(commentaryV3|commentaryEngine|seasonFinalV10)\\.js$",
+        "^data/commentaryLines\\.js$",
+        "^visual-assets/v10_1/content/content\\.css$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r87\\-commentary\\-v3\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-transition-gate-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^css/v10Shell\\.css$",
+        "^visual-assets/v10_1/season-results/",
+        "^visual-assets/v10_1/final-winner/",
+        "^tests/contracts/r87\\-transition\\-gate\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-dst-clock-change-contracts.cjs",
+      "patterns": [
+        "^js/careerScreenSeam\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^tests/contracts/r87\\-dst\\-clock\\-change\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-visuals-r3-browser-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^visual-assets/v10_1/(career-statistics|trophy-room|legacy|rivalry-statistics)/",
+        "^tests/contracts/r87\\-career\\-visuals\\-r3\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-first-load-contracts.cjs",
+      "patterns": [
+        "^js/offlineApp\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^assets/fonts/",
+        "^tests/contracts/r87\\-first\\-load\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable-career-truth-contracts.cjs",
+      "patterns": [
+        "^js/(sharedHistoryConvergence|sharedCareerAnalytics|legacy|careerSummaryStore|analytics)\\.js$",
+        "^tests/contracts/r87\\-fable\\-career\\-truth\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-browser-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-retry-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-retry\\-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-edges-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-edges\\-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-career-load-gate-stall-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^tests/contracts/r87\\-career\\-load\\-gate\\-stall\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-sp-pack-fable8-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/special-player/index\\.html$",
+        "^tests/contracts/r87-sp-pack-fable8-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-gazette-readability-contracts.cjs",
+      "patterns": [
+        "^js/touchlineGazette\\.js$",
+        "^css/v10Gazette\\.css$",
+        "^visual-assets/v10_1/content/content\\.css$",
+        "^tests/contracts/r87\\-gazette\\-readability\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-consistency-contracts.cjs",
+      "patterns": [
+        "^js/(commentaryV3|commentaryEngine|rosterRoulette|careerScreenSeam)\\.js$",
+        "^data/(fifa17Players|rosterSquads)\\.js$",
+        "^tests/contracts/r87\\-consistency\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-fable11-roulette-contracts.cjs",
+      "patterns": [
+        "^js/rosterRoulette\\.js$",
+        "^js/rosterRouletteStep\\.js$",
+        "^js/ruleBook\\.js$",
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r87\\-fable11\\-roulette\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/settings-internal-audit-surface-contracts.cjs",
+      "patterns": [
+        "^js/onlinePlayerIdentity\\.js$",
+        "^tests/browser/settings\\-offline\\-save\\-library\\-editor\\-audit\\.cjs$",
+        "^tests/browser/manager\\-identity\\-linkage\\-audit\\.cjs$",
+        "^tests/contracts/settings\\-internal\\-audit\\-surface\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-upgrade-continue-hold-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/r87\\-upgrade\\-continue\\-hold\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-sp-own-club-contracts.cjs",
+      "patterns": [
+        "^js/(marqueePlayer|specialPlayerChip|specialPlayerReveal|rosterRouletteStep|productionSharedCareerStart|productionSharedTransferChallenge|commentaryEngine)\\.js$",
+        "^data/marqueePlayers\\.js$",
+        "^tests/contracts/r87\\-sp\\-own\\-club\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-guessed-no-resign-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r87\\-guessed\\-no\\-resign\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-guess-contracts.cjs",
+      "patterns": [
+        "^js/iconGuess\\.js$",
+        "^tests/contracts/r88\\-icon\\-guess\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-names-contracts.cjs",
+      "patterns": [
+        "^js/iconNames\\.js$",
+        "^data/icons\\.js$",
+        "^scripts/r88\\-icons\\-from\\-csv\\.mjs$",
+        "^tests/fixtures/r88\\-icons/",
+        "^tests/contracts/r88\\-icon\\-names\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-icon-page-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^visual-assets/v10_1/shared/fonts/barlow-condensed-latin-(600|700)-normal\\.woff2$",
+        "^tests/browser/r88-icon-page-audit\\.cjs$",
+        "^tests/contracts/r88-icon-page-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-step-contracts.cjs",
+      "patterns": [
+        "^js/(iconGuessStep|productionSharedTransferChallenge|productionSharedSeasonResults|iconGuess|iconNames|ruleBook)\\.js$",
+        "^data/icons\\.js$",
+        "^service-worker\\.js$",
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^tests/contracts/r87\\-prime\\-pack\\-step\\-contracts\\.cjs$",
+        "^tests/contracts/r87\\-prime\\-pack\\-f13\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-totals-contracts.cjs",
+      "patterns": [
+        "^js/(iconGuess|careerScreenSeam|touchlineGazette|productionSharedTransferChallenge|commentaryEngine|rivalryLegacyV10|careerScreensV10|sharedCareerAnalytics|sharedHistoryConvergence|ruleBook)\\.js$",
+        "^tests/support/career-fixture-helpers\\.cjs$",
+        "^tests/contracts/r87\\-prime\\-pack\\-totals\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/optional-open-same-screen-rerender-contracts.cjs",
+      "patterns": [
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/optional\\-open\\-same\\-screen\\-rerender\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-home-no-music-strip-contracts.cjs",
+      "patterns": [
+        "^index\\.html$",
+        "^js/(homeScreensV10|menuExperience|musicDockV10|diagnostics|offlineApp|screens)\\.js$",
+        "^css/.*\\.css$",
+        "^visual-assets/.*\\.(css|js)$",
+        "^tests/contracts/r87\\-home\\-no\\-music\\-strip\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/trophy-tap-delegated-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/trophy\\-tap\\-delegated\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-f16-contracts.cjs",
+      "patterns": [
+        "^js/(iconGuessStep|productionSharedSeasonResults|iconGuess|iconNames)\\.js$",
+        "^data/icons\\.js$",
+        "^tests/contracts/r87\\-prime\\-pack\\-f16\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-screen-order-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedTransferChallenge|rosterRouletteStep|iconGuessStep|showdownUI|productionSharedSeasonResultsRoute|productionSharedCareerStart|ruleBook|productionSharedMultiSeasonProgression|screens)\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^tests/contracts/r87\\-screen\\-order\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

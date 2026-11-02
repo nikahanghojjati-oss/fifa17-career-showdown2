@@ -98,7 +98,7 @@ function createManagerCabinet(manager, rank){
     supporting.append(
         createAnalyticsStat("TOTAL TROPHIES", manager.totalTrophies),
         createAnalyticsStat("SEASON WINS", manager.seasonWins),
-        createAnalyticsStat("PERFECT SEASONS", manager.perfectSeasons, "11 points"),
+        createAnalyticsStat("PERFECT SEASONS", manager.perfectSeasons, "15 points"),
         createAnalyticsStat("100-POINT SEASONS", manager.hundredPointSeasons),
         createAnalyticsStat("100-GOAL SEASONS", manager.hundredGoalSeasons),
         createAnalyticsStat("SAFE SIGNINGS", manager.safeSignings)
@@ -131,6 +131,7 @@ function managerLeaderText(record, suffix = ""){
 }
 
 function seasonRecordText(record, suffix = ""){
+    if(record && record.value === 1) suffix = suffix === " pts" ? " pt" : suffix === " goals" ? " goal" : suffix;
     if(!record || record.value === null || !record.holders || !record.holders.length){
         return { value: "—", detail: "No completed record yet" };
     }
@@ -169,14 +170,14 @@ function renderAllTimeRecords(container, analytics){
         createRecordCard("MOST CHAMPIONS LEAGUES", managerLeaderText(records.championsLeagues)),
         createRecordCard("MOST LEAGUE TITLES", managerLeaderText(records.leagueTitles)),
         createRecordCard("MOST DOMESTIC CUPS", managerLeaderText(records.domesticCups)),
-        createRecordCard("PERFECT 11-POINT SEASONS", managerLeaderText(records.perfectSeasons)),
+        createRecordCard("PERFECT 15-POINT SEASONS", managerLeaderText(records.perfectSeasons)),
         createRecordCard("HIGHEST SEASON SCORE", seasonRecordText(records.highestSeasonScore, " pts")),
         createRecordCard("HIGHEST LEAGUE POINTS", seasonRecordText(records.highestLeaguePoints, " pts")),
         createRecordCard("MOST LEAGUE GOALS", seasonRecordText(records.highestLeagueGoals, " goals"))
     );
     if(records.biggestShowdownMargin){
         grid.appendChild(createRecordCard("BIGGEST SHOWDOWN WIN", {
-            value: `${records.biggestShowdownMargin.value} pts`,
+            value: `${records.biggestShowdownMargin.value} pt${records.biggestShowdownMargin.value === 1 ? "" : "s"}`,
             detail: `${records.biggestShowdownMargin.manager} · ${records.biggestShowdownMargin.score} · ${records.biggestShowdownMargin.showdown}`
         }));
     }

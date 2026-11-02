@@ -104,5 +104,7 @@ function render(snapshot){
   const final=F.projection({totalSeasons:5,seasons:[...seasons,[F.result(),F.result()],[F.result(),F.result()],[F.result(),F.result()]]});
   const closed={...snapshot,multiSeason:{...F.multiFor(final),projection:final},history:F.history(final),terminalClose:F.closed(final)};
   const {frames}=render(closed);assert.equal(frames.SHOWDOWN.model.status,"ready");assert.equal(frames.SHOWDOWN.model.score.daniel,final.managerRecords.playerOne.totalPoints);assert.equal(frames.SHOWDOWN.model.score.nik,final.managerRecords.playerTwo.totalPoints);
+  // Sol r86 #03: career totals count completed Showdowns only, so the empty Career tab after season 1 says exactly that.
+  assert.equal(JSON.parse(read("visual-assets/v10_1/standings/app-strings.json")).strings.emptyCareer,"Career standings appear after your first finished Showdown.");
   console.log("PASS midway THIS SHOWDOWN: both managers render correct 2/5 committed standings and enabled HEAD-TO-HEAD scope with lagging/missing History; one existing progression read, invalid proof fails closed, terminal totals preserved.");
 })().catch(error=>{console.error(error);process.exitCode=1;});

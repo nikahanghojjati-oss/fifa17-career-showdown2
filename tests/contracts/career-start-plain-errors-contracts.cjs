@@ -10,8 +10,8 @@ assert.equal(typeof careerStart.errorText,"function","Career Start must expose t
 
 for(const {step,error,fallback} of [
   {step:"I STARTED AT",error:{code:"CAREER_START_STALE_BASE_REVISION",message:"CAREER_START_STALE_BASE_REVISION"},fallback:"Your Career Start was not recorded."},
-  {step:"CONTINUE TO TRANSFER CHALLENGE",error:{code:"permission-denied",message:"permission-denied"},fallback:"The Transfer Challenge could not be opened."},
-  {step:"CONTINUE TO TRANSFER CHALLENGE",error:{code:"firestore/permission-denied",message:"Unable to open: firestore/permission-denied"},fallback:"The Transfer Challenge could not be opened."}
+  {step:"CONTINUE TO THE TRANSFER WAR",error:{code:"permission-denied",message:"permission-denied"},fallback:"The Transfer War could not be opened."},
+  {step:"CONTINUE TO THE TRANSFER WAR",error:{code:"firestore/permission-denied",message:"Unable to open: firestore/permission-denied"},fallback:"The Transfer War could not be opened."}
 ]){
   const shown=careerStart.errorText(error,fallback);
   assert.match(shown,/try again/i,`${step} must show a retry hint`);
@@ -19,6 +19,6 @@ for(const {step,error,fallback} of [
   assert.match(shown,/^[A-Za-z ]+[.](?: [A-Za-z ]+[.])?$/,`${step} must show plain sentences`);
 }
 assert.match(source,/lastError=pcstErrorText\(error,"Your Career Start was not recorded\."\)/,"the acknowledgement failure must show formatted text");
-assert.match(source,/lastError=pcstErrorText\(error,"The Transfer Challenge could not be opened\."\)/,"the continue failure must show formatted text");
+assert.match(source,/lastError=pcstErrorText\(error,"The Transfer War could not be opened\."\)/,"the continue failure must show formatted text");
 
 console.log("PASS Career Start failures show plain retry hints without raw codes.");

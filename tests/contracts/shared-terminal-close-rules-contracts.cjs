@@ -26,12 +26,13 @@ assert.match(fragment,/terminalProgress/);
 assert.match(fragment,/acceptedThroughSeason/);
 assert.match(fragment,/ssjrTerminalScore\(commit\.results\.playerOne\)/);
 assert.match(fragment,/ssjrTerminalScore\(commit\.results\.playerTwo\)/);
-// r80 Europa League: EL +3 in the one Rules score, next to the unchanged terms; the 11-point season cap stays.
+// r80 Europa League: EL +3 in the one Rules score, next to the unchanged terms. Prime Pack: + the sparse primePack key (4 to 1), so the season cap is 15.
 const scoreBody=(fragment.match(/function ssjrTerminalScore\(result\) \{([\s\S]*?)\n    \}/)||[])[1]||"";
-for(const term of ["(result.championsLeague == true ? 5 : 0)","+ (result.get('europaLeague', false) == true ? 3 : 0)","+ (result.leaguePosition == 1 ? 3 : 0)","+ (result.domesticCup == true ? 1 : 0)","+ ((result.leaguePoints >= 100 || result.leagueGoals >= 100) ? 1 : 0)","+ ((result.topScorer == true || result.topAssist == true) ? 1 : 0);"])assert.ok(scoreBody.includes(term),`ssjrTerminalScore missing term: ${term}`);
-assert.equal((scoreBody.match(/\? [0-9]+ : 0\)/g)||[]).length,6,"ssjrTerminalScore has exactly six scoring terms (CL, EL, league, cup, performance, awards)");
-assert.match(fragment,/progress\.managerTotals\.playerOne <= progress\.acceptedThroughSeason \* 11/,"the season cap stays 11 (an EL season scores at most 9)");
-assert.match(fragment,/progress\.managerTotals\.playerTwo <= progress\.acceptedThroughSeason \* 11/,"the season cap stays 11 (an EL season scores at most 9)");
+for(const term of ["(result.championsLeague == true ? 5 : 0)","+ (result.get('europaLeague', false) == true ? 3 : 0)","+ (result.leaguePosition == 1 ? 3 : 0)","+ (result.domesticCup == true ? 1 : 0)","+ ((result.leaguePoints >= 100 || result.leagueGoals >= 100) ? 1 : 0)","+ ((result.topScorer == true || result.topAssist == true) ? 1 : 0)","+ result.get('primePack', 0)"])assert.ok(scoreBody.includes(term),`ssjrTerminalScore missing term: ${term}`);
+assert.equal((scoreBody.match(/\? [0-9]+ : 0\)/g)||[]).length,6,"ssjrTerminalScore has six fixed scoring terms (CL, EL, league, cup, performance, awards)");
+assert.equal((scoreBody.match(/result\.get\('primePack', 0\)/g)||[]).length,1,"plus the Prime Pack points, once");
+assert.match(fragment,/progress\.managerTotals\.playerOne <= progress\.acceptedThroughSeason \* 15/,"the season cap is 15 (11 plus up to 4 Prime Pack points)");
+assert.match(fragment,/progress\.managerTotals\.playerTwo <= progress\.acceptedThroughSeason \* 15/,"the season cap is 15 (11 plus up to 4 Prime Pack points)");
 assert.match(fragment,/setup\.phase == 'SHOWDOWN_CONFIRMED'/);
 assert.match(fragment,/setup\.totalSeasons == progress\.totalSeasons/);
 assert.match(fragment,/before\.data\.connectionState == 'active'/);

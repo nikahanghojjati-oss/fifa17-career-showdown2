@@ -5,7 +5,8 @@ const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 process.env.CMS_CHROMIUM_MULTI_CONTEXT="1";
 const base=process.env.CMS_BASE_URL||"http://127.0.0.1:4511/";
 const out=path.resolve(process.env.CMS_TEST_RESULTS||"test-results/free-limit-layout");
-const sizes=[[360,640],[375,553],[390,844],[393,852],[430,932],[740,360],[844,390],[768,1024],[1280,800],[1920,1080]];
+// r87: on a portrait phone the limit is a line inside Continue Career, not this note (tests/contracts/r87-error-screens-contracts.cjs E8).
+const sizes=[[740,360],[844,390],[768,1024],[1280,800],[1920,1080]];
 const TEXT="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
 fs.mkdirSync(out,{recursive:true});
 
@@ -25,8 +26,7 @@ async function inspect(page,screen){
       if(n&&n.left<r.right&&n.right>r.left&&n.top<r.bottom&&n.bottom>r.top)errors.push(`notice overlaps ${id}`);
       const x=r.left+r.width/2,y=r.top+r.height/2;
       if(x<0||x>=innerWidth||y<0||y>=innerHeight)continue;
-      // The native soundtrack checkbox is intentionally behind its visible TRACKS label.
-      if(e.matches(".phoneSheetToggle")||e.closest("[inert]"))continue;
+      if(e.closest("[inert]"))continue;
       const hit=document.elementFromPoint(x,y);
       if(screen==="connect"&&!e.closest("#connectPlayersScreen")&&hit?.closest("#connectPlayersScreen"))continue;
       if(screen==="home"&&["homeTrophyRoomButton","ruleBookButton","settingsButton"].includes(e.id)){
@@ -51,7 +51,7 @@ async function inspect(page,screen){
         hits.push({id,stack:stack.map(layer=>layer.id||layer.className||layer.tagName)});
         if(target<0||above.length)errors.push(`${id} centre covered by ${above.map(layer=>layer.id||layer.className||layer.tagName).join(", ")||"missing button"}`);
       }
-      if(e.closest(".menuMusicTile,.sd-nav")){
+      if(e.closest(".sd-nav")){
         hits.push(id);
         if(hit!==e&&!e.contains(hit)&&!(e.matches("label[for]")&&hit?.id===e.htmlFor))errors.push(`${id} centre hits ${hit?.id||hit?.className||hit?.tagName}`);
       }
@@ -71,9 +71,10 @@ async function inspect(page,screen){
       const page=await context.newPage();
       await page.goto(base,{waitUntil:"domcontentloaded"});
       await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:20000});
-      // r85: desktop Home moved its music strip into the top-bar dock (inside .sd-nav, so inspect() still checks it); the
-      // strip stays in the page but hidden there, so only its presence is awaited.
-      await page.locator("#mainMenu.v10Home #menuMusicToggle").waitFor({state:"attached"});
+      // r87 (Nik 2026-11-01): Home has no music strip; the player is the MUSIC tab / top-bar dock (inside .sd-nav, so
+      // inspect() checks their buttons). The MUSIC tab is built at every size (shown only up to 900px).
+      await page.locator("#mainMenu.v10Home").waitFor({state:"attached"});
+      await page.locator("#cmsMusicTab").waitFor({state:"attached"});
       await page.waitForFunction(()=>window.CareerModeProductionSharedJourneyEntry);
       await page.evaluate(async()=>{
         await CareerModeHomeScreensV10.install();await document.fonts.ready;
@@ -112,11 +113,7 @@ async function inspect(page,screen){
       const reached=await inspect(page,"home");
       if(!reached.notice||reached.notice.top<0||reached.notice.bottom>height)home.errors.push("Home notice is not fully reachable");
       home.errors.push(...reached.errors);
-      for(const id of ["menuMusicToggle","menuMusicMute"]){
-        if(!await page.locator(`#${id}`).isVisible())continue;
-        await page.locator(`#${id}`).scrollIntoViewIfNeeded();
-        home.errors.push(...(await inspect(page,"home")).errors);
-      }
+      if(await page.locator("#mainMenu .menuMusicTile, #menuMusicToggle, #menuMusicMute").count())home.errors.push("Home still has a music strip");
       await page.evaluate(async()=>{
         if(!window.CareerModeConnectPlayersScreenV10)await loadRuntimeScript("layout-connect","js/connectPlayersScreenV10.js",()=>Boolean(window.CareerModeConnectPlayersScreenV10));
         await CareerModeConnectPlayersScreenV10.open({sync:false});
@@ -144,7 +141,7 @@ async function inspect(page,screen){
       await context.close();
     }
     fs.writeFileSync(path.join(out,"audit.json"),JSON.stringify(report,null,2));
-    assert.equal(report.filter(r=>r.home.errors.length||r.connect.errors.length).length,0,"all ten sizes must keep the notice clear of controls and hidden on Connect Players");
-    console.log("PASS free-limit notice layout audit: 10 sizes, Home and Connect Players, unchanged grid rows and direct child rectangles, painted-layer control hit tests, reachable notice, return and resume.");
+    assert.equal(report.filter(r=>r.home.errors.length||r.connect.errors.length).length,0,"every note size must keep the notice clear of controls and hidden on Connect Players");
+    console.log("PASS free-limit notice layout audit: 5 note sizes, Home and Connect Players, unchanged grid rows and direct child rectangles, painted-layer control hit tests, reachable notice, return and resume.");
   }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

@@ -417,7 +417,7 @@ function getOptionalModuleButton(name){
 if(name === "careerStatistics"){ return document.getElementById("careerStatisticsButton"); }
 if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
 if(name === "trophyRoom"){
-return document.getElementById("careerStatisticsTrophyButton");
+return document.getElementById("trophyRoomButton") || document.getElementById("careerStatisticsTrophyButton");
 }
 if(name === "legacy"){ return document.getElementById("legacyButton"); }
 if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
@@ -462,13 +462,9 @@ function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
 const currentScreen = typeof window.getActiveScreenName === "function"
 ? window.getActiveScreenName()
 : originScreen;
-const currentRevision = typeof window.getNavigationRevision === "function"
-? window.getNavigationRevision()
-: originRevision;
 
 return requestId === optionalOpenRequestId
-&& currentScreen === originScreen
-&& currentRevision === originRevision;
+&& currentScreen === originScreen;
 }
 
 async function openOptionalModule(name){
@@ -490,7 +486,7 @@ window.openCareerStatistics();
 }else if(name === "statistics"){
 if(!currentShowdown){
 if(typeof window.showAppNotice === "function"){
-window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
+window.showAppNotice("No Showdown in progress. Start or join one from Home.", "error");
 }
 return false;
 }
@@ -552,8 +548,8 @@ bindOptionalModuleButton(document.getElementById("settingsButton"), "settings", 
 
 ensureRequiredFootballVisualExperience().catch(error => {
 if(typeof window.reportApplicationError === "function"){
-window.reportApplicationError("Required football presentation could not be prepared", error);
-}else{ console.error("Required football presentation could not be prepared", error); }
+window.reportApplicationError("The match art did not load", error);
+}else{ console.error("The match art did not load", error); }
 });
 optionalModulesInitialized = true;
 }

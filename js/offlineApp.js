@@ -14,7 +14,6 @@ let installedStandalone=false;
 let offlineReady=false;
 let offlineRecoveryReady=false;
 let lastCacheStatus=null;
-let menuMediaStatusBeforeOffline="";
 let verifiedConnectivity=navigator.onLine===false?"offline":"online";
 let connectivityVerified=navigator.onLine===false;
 let connectivityProbeGeneration=0;
@@ -115,37 +114,10 @@ function dispatchOfflineState(){
 }
 
 function setMenuMediaOfflineState(offline){
-    const toggle=document.getElementById("menuMusicToggle");
-    const status=document.getElementById("menuMusicStatus");
-    const offlineStatus="OFFLINE · YOUTUBE MEDIA REQUIRES A CONNECTION";
-    if(offline){
-        try{
-            // The Team V Audius player shares this toggle; pause it too before the toggle is disabled.
-            const audius=window.HomeSoundtrack?.state?.();
-            if((window.isMenuMediaPlaying?.()||audius?.wantPlaying)&&toggle&&!toggle.disabled){ toggle.click(); }
-        }catch(error){
-            console.warn("[Career Mode Showdown] External media could not be paused while entering offline mode:",error);
-        }
-        if(status){
-            if(status.textContent!==offlineStatus){
-                menuMediaStatusBeforeOffline=status.textContent||menuMediaStatusBeforeOffline;
-            }
-            status.textContent=offlineStatus;
-        }
-        if(toggle){
-            toggle.disabled=true;
-            toggle.setAttribute("aria-disabled","true");
-        }
-        return;
-    }
-    if(toggle){
-        toggle.disabled=false;
-        toggle.removeAttribute("aria-disabled");
-    }
-    if(status&&status.textContent===offlineStatus&&menuMediaStatusBeforeOffline){
-        status.textContent=menuMediaStatusBeforeOffline;
-    }
-    menuMediaStatusBeforeOffline="";
+    // r87: Home has no music strip; the soundtrack (Audius) needs a connection, so it pauses on going offline.
+    if(!offline){ return; }
+    try{ window.HomeSoundtrack?.pause?.(); }
+    catch(error){ console.warn("[Career Mode Showdown] The soundtrack could not be paused while entering offline mode:",error); }
 }
 
 function renderConnectivity(){
@@ -221,11 +193,12 @@ async function verifyNetworkConnectivity(){
         renderConnectivity();
         return false;
     }
-    let online=false;
+    let online=false,slow=false;
     try{
         const response=await sendWorkerMessage(worker,"CMS_PROBE_NETWORK");
         online=response?.type==="CMS_NETWORK_STATUS"&&response.online===true;
-    }catch(error){ online=false; }
+        slow=!online&&response?.error==="AbortError";
+    }catch(error){ online=false; slow=true; }
     if(generation!==connectivityProbeGeneration)return online;
     if(online){
         probeFailures=0;
@@ -233,7 +206,11 @@ async function verifyNetworkConnectivity(){
         setConnectivityState("online",true);
         return true;
     }
-    probeFailures+=1;
+    // r87 first load (harden-faults 7): a probe that only ran out of time (the worker's 1.8 s fetch, or this page's
+    // 4.5 s message wait) is a slow network, not a lost one, and two of them showed CONNECTION REQUIRED on slow but
+    // online phones. A timeout counts half: two real failures (or four timeouts in a row, about 15 s of no answer)
+    // still mean offline, and the browser's own offline signal above is still final at once.
+    probeFailures+=slow?0.5:1;
     if(probeFailures>=2)setConnectivityState("offline",true);
     scheduleConnectivityProbe(probeFailures>=2?OFFLINE_RECHECK_MS:PROBE_RETRY_MS);
     return false;
@@ -274,6 +251,12 @@ let autoUpdateTried=false,autoUpdateTimer=null;
 function autoUpdateSafe(){
     if(getActiveApplicationScreen()!=="mainMenu"||!getUpdateBoundaryStatus().safe)return false;
     if(document.getElementById("onlinePlayerIdentityOverlay"))return false;
+    // Fable F3-08: Home is also where a phone waits for the partner's Season Results, Commit or Transfer step (the wait screens
+    // include mainMenu). A reload then would drop the session, the wait listener and the read-budget copies (RECONNECT, 20-40
+    // billed reads), so the update waits, re-checking every 15 s, until no shared wait or Reconnect is under way.
+    const shared=[window.CareerModeProductionSharedSeasonResults,window.CareerModeProductionSharedSeasonCommit,window.CareerModeProductionSharedTransferChallenge];
+    try{ if(shared.some(m=>typeof m?.isWaitingForRival==="function"&&m.isWaitingForRival()))return false; }catch(_error){ return false; }
+    try{ if(window.CareerModeProductionSharedJourneyReconnect?.isBusy?.())return false; }catch(_error){ return false; }
     return ![...document.querySelectorAll('[id$="Overlay"]')].some(o=>!o.classList.contains("hidden")&&!o.hidden&&getComputedStyle(o).display!=="none");
 }
 function scheduleAutoApplyUpdate(){
@@ -509,6 +492,19 @@ function observeRegistration(registration){
     });
 }
 
+function afterStartupHandover(){
+    return new Promise(resolve=>{
+        const started=Date.now();
+        const idle=()=>typeof requestIdleCallback==="function"?requestIdleCallback(()=>resolve(),{timeout:3000}):setTimeout(resolve,300);
+        const check=()=>{
+            const loading=document.getElementById("loadingScreen");
+            if(!loading||loading.hidden||Date.now()-started>=20000){ idle(); return; }
+            setTimeout(check,250);
+        };
+        check();
+    });
+}
+
 async function registerOfflineApplication(){
     if(!isServiceWorkerSupported()){
         renderConnectivity();
@@ -607,12 +603,19 @@ function initializeOfflineApplication(){
         void verifyOfflineReadiness(navigator.serviceWorker.controller);
     });
 
-    registerOfflineApplication().catch(error=>{
+    // r87 first load: the worker's install precaches the whole shell (about 4 MB, and again on every release), which shared
+    // the phone's link with Home and held the Reus loading screen about 4 s longer on a slow phone. Registration and the update
+    // check now start once the loading screen has handed over to the first screen (bounded at 20 s), on idle. A page the
+    // worker already controls is served by it either way; an update check from Settings registers at once.
+    afterStartupHandover().then(registerOfflineApplication).catch(error=>{
         offlineReady=false;
         offlineRecoveryReady=false;
         connectivityVerified=false;
         renderConnectivity();
-        window.reportApplicationError?.("Offline application support could not be prepared",error);
+        // r87 first load: this now settles after Home is up, where a 10 s error toast would sit over Home's buttons
+        // (Reus Gate: nothing covers anything). The player can't act on it and play doesn't need the worker, so it is
+        // logged and shown in Settings' offline diagnostics (renderConnectivity above) instead.
+        console.warn("[Career Mode Showdown] Offline application support could not be prepared:",error);
     });
 }
 

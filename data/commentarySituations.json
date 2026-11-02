@@ -130,7 +130,7 @@
    ]
   },
   "season-perfect": {
-   "when": "a manager scored the maximum 11 points this season (league, Champions League, cup, 100+ points or goals, an award)",
+   "when": "a manager scored the season maximum, 15 points (league, Champions League, cup, 100+ points or goals, an award, a 4-point Prime Pack)",
    "count": 60,
    "slots": [
     "club",
@@ -720,7 +720,7 @@
    ]
   },
   "clock-clinched": {
-   "when": "the leader can no longer be caught (the gap is bigger than 11 points per season left), but seasons remain",
+   "when": "the leader can no longer be caught (the gap is bigger than 15 points per season left), but seasons remain",
    "count": 60,
    "slots": [
     "gap",

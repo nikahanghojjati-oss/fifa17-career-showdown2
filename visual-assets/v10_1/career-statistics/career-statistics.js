@@ -35,6 +35,7 @@
     if (arm && a.arm1x) { arm.dataset.src1x=a.arm1x; arm.dataset.src2x=a.arm2x || a.arm1x; }
     if (rim && a.rim1x) { rim.dataset.src1x=a.rim1x; rim.dataset.src2x=a.rim2x || a.rim1x; }
     const focal=Array.isArray(map.focal)?{x:Number(map.focal[0]),y:Number(map.focal[1])}:{x:836,y:340};
+    try { window.__careerStageEngine?.destroy?.(); } catch (_) {}
     window.__careerStageEngine=ShowdownStage.mount(scene,{
       plate:{width:1672,height:941,src1x:a.plate1x || "assets/ENV_CS_PLATE_V1_1X.webp",src2x:a.plate2x || "assets/ENV_CS_PLATE_V1_2X.webp"},
       focal, platemap:map, dustCount:18, phoneBandRatio:.46
@@ -83,7 +84,7 @@
       const card=document.createElement("article"); card.className="headlineTile"; card.setAttribute("data-sd-enter","panel");
       const val=vals[i];
       const valueHtml = val ? (val.pair
-        ? `<div class="headlinePair" data-digits="${Math.min(6,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
+        ? `<div class="headlinePair" data-digits="${Math.min(8,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
         : `<div class="headlineNumber" data-count-value="${fmt(val.combined)}">${fmt(val.combined)}</div><div class="headlineTogether">Together</div>`)
         : '<div class="headlinePair"><b aria-hidden="true">—</b></div>';
       card.innerHTML=`<div class="headlineIcon">${iconSvgs[i]}</div><div class="headlineCopy"><div class="headlineLabel">${label}</div>${valueHtml}</div>`;
@@ -102,7 +103,7 @@
       tr.innerHTML=`<td>${rr.rank}</td><td><span class="managerName">${rr.rank===1?'<span class="rankCrown" aria-label="Career leader">♛</span>':''}${NAMES[role]}</span>${spChip(frame, role)}</td><td>${s.completed}</td><td>${m.seasonWins}-${m.seasonDraws}-${m.seasonLosses}</td><td>${m.careerPoints}</td><td>${m.totalTrophies}</td>`;
       body.appendChild(tr);
     }); t.appendChild(body); panel.appendChild(t);
-    // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 110 points.
+    // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 150 points (r87: 15 a season).
     const golden=frame.goldenShowdowns;
     if (golden && (golden.daniel>0 || golden.nik>0)) {
       const note=document.createElement("p"); note.className="goldenShowdownNote"; note.dataset.goldenShowdown="true";
@@ -126,17 +127,22 @@
       body.appendChild(row);
     }); panel.appendChild(body);
   }
-  const leader = (d,n,key) => d[key]===n[key] ? {role:"shared",name:"Daniel + Nik",value:d[key]} : (d[key]>n[key]?{role:"daniel",name:"Daniel",value:d[key]}:{role:"nik",name:"Nik",value:n[key]});
+  // r87 (house rule: equal is level, no tiebreak): a shared lead reads "Level · Daniel + Nik" and shows both managers' faces.
+  const leader = (d,n,key) => d[key]===n[key] ? {role:"shared",name:"Level · Daniel + Nik",value:d[key]} : (d[key]>n[key]?{role:"daniel",name:"Daniel",value:d[key]}:{role:"nik",name:"Nik",value:n[key]});
   function renderLeaders(frame, fx) {
     const panel=document.getElementById("leadersPanel"); panel.replaceChildren();
     const h=document.createElement("h2"); h.id="leadersHeading"; h.className="panelTitle"; h.textContent=fx.strings.sections.careerLeaders; panel.appendChild(h);
     const D=frame.managers.daniel,N=frame.managers.nik;
-    const specs=[[fx.strings.leaderLabels[0],"seasonWins","wins"],[fx.strings.leaderLabels[1],"totalTrophies","trophies"],[fx.strings.leaderLabels[2],"careerPoints","pts"],[fx.strings.leaderLabels[3],"bestSeasonScore","pts"]];
+    const specs=[[fx.strings.leaderLabels[0],"seasonWins",["win","wins"]],[fx.strings.leaderLabels[1],"totalTrophies",["trophy","trophies"]],[fx.strings.leaderLabels[2],"careerPoints",["pt","pts"]],[fx.strings.leaderLabels[3],"bestSeasonScore",["pt","pts"]]];
     const grid=document.createElement("div"); grid.className="leaderGrid";
     specs.forEach(([label,key,suffix])=>{
-      const x=leader(D,N,key), portraitRole=x.role==="shared"?"daniel":x.role;
-      const card=document.createElement("article"); card.className="leaderCard";
-      card.innerHTML=`<span class="managerPortrait ${portraitRole}" role="img" aria-label="${x.name} portrait crop"></span><div><div class="leaderLabel">${label}</div><div class="leaderName">${x.name}</div><div class="leaderValue">${fmt(x.value)} ${suffix}</div></div>`;
+      const x=leader(D,N,key);
+      // a shared lead: one split face, Daniel's half on the left and Nik's on the right, in the same box as a single face
+      const portrait=x.role==="shared"
+        ? `<span class="managerPortrait managerPortraitSplit" role="img" aria-label="Daniel and Nik portrait crops"><span class="managerPortrait daniel"></span><span class="managerPortrait nik"></span></span>`
+        : `<span class="managerPortrait ${x.role}" role="img" aria-label="${x.name} portrait crop"></span>`;
+      const card=document.createElement("article"); card.className="leaderCard"; card.dataset.leader=x.role;
+      card.innerHTML=`${portrait}<div><div class="leaderLabel">${label}</div><div class="leaderName">${x.name}</div><div class="leaderValue">${fmt(x.value)} ${Number(x.value)===1?suffix[0]:suffix[1]}</div></div>`;
       grid.appendChild(card);
     }); panel.appendChild(grid);
   }
@@ -158,9 +164,17 @@
     }
     panels.forEach(x=>x.hidden=true); state.hidden=false; state.replaceChildren();
     let heading="", body="", icon="◇";
-    if(frame.status==="empty") { heading=fx.strings.noCompletedRecord || "No completed record yet"; body="Career Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home."; icon="0"; }
+    if(frame.status==="empty") { heading=fx.strings.noCompletedRecord || "No completed record yet"; body="Career Statistics fill in after your first finished Showdown. The live Showdown's numbers are on Standings and Rivalry Statistics."; icon="0"; }
     else { const c=fx.strings.stateCopy[frame.status]; heading=c.heading; body=c.body; icon=frame.status==="loading"?"…":"!"; }
     state.innerHTML=`<div class="stateIcon" aria-hidden="true">${icon}</div><h2>${heading}</h2><p>${body}</p>`;
+    // r87 polish (P-07): an unavailable career offers TRY AGAIN, which opens the screen again the way the menu does (the same
+    // read-only career load; nothing is written).
+    if(frame.status==="unavailable" && typeof window.openCareerStatistics==="function") {
+      const retry=document.createElement("button"); retry.type="button"; retry.id="careerRetryButton"; retry.className="stateRetry sd-btn";
+      retry.textContent=fx.strings.retry || "TRY AGAIN";
+      retry.addEventListener("click",()=>{ retry.disabled=true; try { window.openCareerStatistics(); } catch (_) { retry.disabled=false; } });
+      state.appendChild(retry);
+    }
   }
   // JOB-152 signature moment: headline numbers count up once with the tiles (kit sdCountUp).
   // r80: the app can mount this screen twice in a row (first visit after a reload), and both boots reach this

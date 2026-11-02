@@ -3,7 +3,8 @@
    Lightweight accessible Transfer Challenge comboboxes
 ===================================================== */
 
-const TRANSFER_SELECTOR_RESULT_LIMIT = 14;
+// Every match is listed (the list scrolls), so an empty box browses the whole FIFA 17 list (Nik 2026-10-30).
+const TRANSFER_SELECTOR_RESULT_LIMIT = 400;
 const transferSelectorStates = new WeakMap();
 let transferSelectorDocumentBound = false;
 
@@ -56,6 +57,31 @@ function closeAllTransferSelectors(exceptInput = null){
     });
 }
 
+// r87 sizes F2: the open list sits in the page's flow, so closing it moves what is under it (LOCK MY GUESSES rose ~64 px at
+// 1920x1080 and the tap landed on the empty panel). A press outside the box keeps the list open until that press has ended
+// and its click has landed; then the list closes. The control under the finger never moves mid-tap.
+let transferSelectorPressActive = false;
+let transferSelectorCloseAfterPress = false;
+
+function finishTransferSelectorPress(){
+    if(!transferSelectorPressActive){ return; }
+    // The click follows pointerup in the same task, so a zero timer runs after it.
+    window.setTimeout(() => {
+        transferSelectorPressActive = false;
+        if(transferSelectorCloseAfterPress){
+            transferSelectorCloseAfterPress = false;
+            closeAllTransferSelectors();
+        }
+    }, 0);
+}
+
+function closeTransferSelectorAfterBlur(input){
+    window.setTimeout(() => {
+        if(transferSelectorPressActive){ transferSelectorCloseAfterPress = true; return; }
+        closeTransferSelector(input);
+    }, 120);
+}
+
 function bindTransferSelectorDocumentDismiss(){
     if(transferSelectorDocumentBound){ return; }
     transferSelectorDocumentBound = true;
@@ -64,8 +90,11 @@ function bindTransferSelectorDocumentDismiss(){
         if(target && target.closest && target.closest(".transferCombobox")){
             return;
         }
-        closeAllTransferSelectors();
+        transferSelectorPressActive = true;
+        transferSelectorCloseAfterPress = true;
     });
+    window.addEventListener("pointerup", finishTransferSelectorPress, true);
+    window.addEventListener("pointercancel", finishTransferSelectorPress, true);
 }
 
 function filterTransferSelectorOptions(kind, query){
@@ -153,7 +182,8 @@ function renderTransferSelectorList(input){
                 item.appendChild(meta);
             }
 
-            item.addEventListener("pointerdown", event => {
+            // A tap picks (click); a finger that drags scrolls the list without picking (Nik 2026-10-30).
+            item.addEventListener("click", event => {
                 event.preventDefault();
                 chooseTransferSelectorOption(input, option, true);
             });
@@ -165,6 +195,8 @@ function renderTransferSelectorList(input){
     state.list.classList.remove("hidden");
     input.setAttribute("aria-expanded", "true");
     updateTransferSelectorActiveDescendant(input);
+    // The open list is brought fully into view (clear of a phone's bottom buttons: its scroll-margin, css/v10Transfer.css).
+    if(typeof state.list.scrollIntoView === "function"){ state.list.scrollIntoView({ block: "nearest" }); }
 }
 
 function updateTransferSelectorActiveDescendant(input){
@@ -251,6 +283,8 @@ function enhanceTransferSelector(input, kind){
     list.className = "transferComboboxList hidden";
     list.setAttribute("role", "listbox");
     wrapper.appendChild(list);
+    // Pressing or scrolling inside the list keeps focus in the box, so the list stays open until a pick.
+    list.addEventListener("pointerdown", event => event.preventDefault());
 
     input.dataset.transferCombobox = "true";
     input.dataset.selectorContextLabel = input.getAttribute("aria-label") || "";
@@ -270,9 +304,7 @@ function enhanceTransferSelector(input, kind){
         closeAllTransferSelectors(input);
         renderTransferSelectorList(input);
     });
-    input.addEventListener("blur", () => {
-        window.setTimeout(() => closeTransferSelector(input), 120);
-    });
+    input.addEventListener("blur", () => closeTransferSelectorAfterBlur(input));
 
     bindTransferSelectorDocumentDismiss();
     updateTransferSelectorKind(input, kind);

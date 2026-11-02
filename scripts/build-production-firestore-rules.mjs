@@ -183,11 +183,16 @@ for(const required of [
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
-  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",
-  "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",
+  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",
+  "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
   "+ (result.get('europaLeague', false) == true ? 3 : 0)",
-  'progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 11',
-  'progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 11',
+  'progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 15',
+  'progress.managerTotals.playerTwo <= progress.acceptedThroughSeason * 15',
+  // Prime Pack: the round record (own facts only, one winner) and the sparse primePack result key (4 to 1) tied to it.
+  'match /primePackRounds/{seasonId}',
+  'allow update: if ssjrPackUpdateValid(rivalryId, seasonId);',
+  "&& (!('primePack' in after.result) || ssjrPackPoints(rivalryId, seasonId, managerRole, after.result.primePack))",
+  "after.chipsUsed[other] == before.chipsUsed[other]",
   'value.leaguePosition <= teamCount',
   'value.leaguePoints <= (teamCount - 1) * 6',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole))',
@@ -209,7 +214,23 @@ for(const required of [
   "after.phase == 'CAREER_START_READY'",
   "request.time >= before.startedAt + duration.value(15, 'm')",
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
-  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))'
+  'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
+  // R87 shared reads meter: member-only get, own-role write, never list or delete.
+  'match /meters/{managerRole}',
+  'allow create, update: if ssjrMeterValidWrite(rivalryId, managerRole);',
+  // R87 roulette marks (RT5-FLOW-02): own pre-window mark only, never removed, START needs both.
+  'allow create: if ssjrTransferSpinCreate(rivalryId, transferId);',
+  'allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);',
+  "after.spins.diff(before.spins).affectedKeys().hasOnly([ssjrActorRole(rivalryId)])",
+  "before.spins.get('playerTwo', false) != false",
+  // F2-02 (Fable job 2): each mark is written once and may carry its outcome; START keeps both in one durable record.
+  "!(ssjrActorRole(rivalryId) in before.spins)",
+  'match /roulette/{docId}',
+  'allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);',
+  'allow list, update, delete: if false;',
+  "value.hitSlot is int && value.hitSlot >= 0 && value.hitSlot <= 14",
+  "value.hitSignedSeason is int && value.hitSignedSeason >= 1 && value.hitSignedSeason <= 10",
+  "ssjrRivalryData(rivalryId).managerSlots[managerRole == 'playerOne' ? 0 : 1].accountId == request.auth.uid"
 ]){
   if(!generated.includes(required))throw new Error(`Generated production Rules missing required Shared Journey boundary: ${required}`);
 }
@@ -218,15 +239,20 @@ if((generated.match(/match \/careerStart\/authoritative/g)||[]).length!==1)throw
 if((generated.match(/match \/transferChallenges\/\{transferId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Transfer Challenge authority match.');
 if((generated.match(/match \/seasonResults\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Results authority match.');
 if((generated.match(/match \/seasonCommits\/\{seasonId\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Shared Season Commit authority match.');
+if((generated.match(/match \/meters\/\{managerRole\}/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one shared reads meter match.');
 if((generated.match(/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close rivalry authority function.');
 if((generated.match(/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/g)||[]).length!==1)throw new Error('Generated production Rules must contain exactly one Terminal Close session authority function.');
 if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new Error('Generated production Rules must contain exactly two role-private matches: Transfer Challenge and Season Results.');
 // r80 Europa League: the sparse EL key and the one-manager CL-or-EL rule live in exactly the two result shapes (Season
 // Results private result, Season Commit result), and the EL +3 term in exactly the one Terminal Close score.
 for(const [needle,count,label] of [
-  ["value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague'])",2,'Europa League result key set'],
-  ["&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false));",2,'Europa League CL-or-EL result rule'],
-  ["+ (result.get('europaLeague', false) == true ? 3 : 0)",1,'Europa League +3 Terminal Close score term']
+  ["value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",2,'Europa League result key set'],
+  ["&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",2,'Europa League CL-or-EL result rule'],
+  ["+ (result.get('europaLeague', false) == true ? 3 : 0)",1,'Europa League +3 Terminal Close score term'],
+  // Prime Pack: the same two result shapes carry the sparse primePack key (an int 1 to 4), the Terminal Close score adds it.
+  ["&& (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));",2,'Prime Pack result rule'],
+  ["+ result.get('primePack', 0)",1,'Prime Pack Terminal Close score term'],
+  ['match /primePackRounds/{seasonId}',1,'Prime Pack round match']
 ]){
   if(generated.split(needle).length-1!==count)throw new Error(`Generated production Rules must contain the ${label} exactly ${count} time(s).`);
 }

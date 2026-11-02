@@ -88,7 +88,8 @@ function setupSandbox(mutate){
   const progression=read("js/productionSharedMultiSeasonProgression.js");
   assert.match(progression,/role==="playerOne"\?"Manager 1":"Manager 2"/);
   assert.match(progression,/pmspShowdown\(\)\?\.name\|\|"Showdown"/);
-  assert.doesNotMatch(progression.replace(/\/\/.*$/gm,""),/Daniel|"Nik"|Nik\b/,"no hard-coded manager names in the progression module");
+  // r87 C-08: the pair module's global name (CareerModePersistentNikDanielPair) is an API name, not a manager name shown on screen.
+  assert.doesNotMatch(progression.replace(/\/\/.*$/gm,"").replace(/CareerModePersistentNikDanielPair/g,""),/Daniel|"Nik"|Nik\b/,"no hard-coded manager names in the progression module");
 
   // BUG-3: signing name inputs are capped at the provider limit (80), and the visible transfer error shows message before code.
   const transfer=read("js/productionSharedTransferChallenge.js");
@@ -110,7 +111,7 @@ function setupSandbox(mutate){
   const shown=sandbox.text(providerRejected,"x");
   assert.doesNotMatch(shown,/TRANSFER_SIGNINGS_INVALID/,"a provider signings rejection is no longer a bare code");
   assert.match(shown,/80 characters/);
-  assert.equal(sandbox.text(Object.assign(new Error("TRANSFER_X"),{code:"TRANSFER_X",providerResult:true}),"x"),"TRANSFER_X","unmapped provider codes are unchanged");
+  assert.equal(sandbox.text(Object.assign(new Error("TRANSFER_X"),{code:"TRANSFER_X",providerResult:true}),"x"),"x","r87: an unmapped provider code is never shown raw; the plain fallback is");
   assert.equal(sandbox.text({},"fallback sentence"),"fallback sentence");
 
   console.log("PASS bug-batch-1 contracts: plain Setup/tap errors, neutral manager fallbacks, 80-character signing names.");

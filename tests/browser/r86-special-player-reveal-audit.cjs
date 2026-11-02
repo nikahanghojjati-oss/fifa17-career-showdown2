@@ -74,7 +74,7 @@ function loadingUp(page){
       const frameUrl=await page.locator("#specialPlayerStage iframe").evaluate(el=>el.contentWindow.location.pathname+"|"+el.contentDocument.title);
       assert.equal(frameUrl,"/visual-assets/v10_1/special-player/index.html|Special Player Big Jump",`${label}: the frame got the Special Player page`);
       await page.waitForFunction(()=>document.getElementById("loadingScreen").hidden,null,{timeout:10000});
-      const names=await page.evaluate(rivalry=>{const p=window.CareerModeMarqueePlayer.forShowdown(rivalry,Date.now());return [p.playerOne.name,p.playerTwo.name];},RIVALRY);
+      const names=await page.evaluate(rivalry=>{const p=window.CareerModeMarqueePlayer.forShowdown(rivalry,Date.now(),{clubs:window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setup?.clubs});return [p.playerOne.name,p.playerTwo.name];},RIVALRY);
       await page.waitForTimeout(2500);
       if(shots)await page.screenshot({path:path.join(shots,`special-player-${label}-reveal.png`)});
       // Software WebGL here draws a few frames a second, so the walkout runs slow: tap the pitch to skip each reveal, as a

@@ -48,7 +48,7 @@ async function prepare(page,{role,saveId,failInitialRead=false}){
     const setup={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,deviceId:'device_'+(role==='playerOne'?'1':'2').repeat(32),managerRole:role,setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}};
     const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
     const readyResults={ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:1,ownResult:role==='playerOne'?resultOne:resultTwo,opponentResult:role==='playerOne'?resultTwo:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}};
-    window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
+    window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={read:async()=>readyResults,publishResult:async()=>({ok:false,code:'AUDIT_RESULTS_ALREADY_READY'})};
     window.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==='playerOne'?'account_one':'account_two'}},firestore:{},firestoreSdk:{}})};
@@ -90,7 +90,7 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'coordinator must experience the complete shared Season Review before commit');
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true);assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true,'peer must experience the same complete shared Season Review before commit');
     assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'LOCK & CONFIRM SEASON');assert.equal(await host.locator('#sharedSeasonCommitAction').isEnabled(),true);
-    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR HOST');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
+    assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR DANIEL');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
     await peer.evaluate(()=>{window.__forceCommitReadFailure=true;});
     await peer.evaluate(()=>window.__ssjrCommitAudit.refresh().catch(()=>{}));
     await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='CHECK AGAIN');
@@ -98,7 +98,7 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     assert.equal(server.calls.length,0,'failed polling after an earlier successful read must not mutate Commit');
     await peer.evaluate(()=>{window.__forceCommitReadFailure=false;});
     await peer.locator('#sharedSeasonCommitAction').click();
-    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST');
+    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR DANIEL');
     assert.equal(server.calls.length,0,'recovering a later failed read must remain read-only');
     await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>/could not be locked/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
     assert.equal(server.revision,0,'rejected commit must not advance provider state');
@@ -115,7 +115,7 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     await refresh(peer);assert.equal(await peer.locator('#seasonReviewError').textContent(),'','authoritatively accepted acknowledgement must clear the obsolete error');
     assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'SEASON CONFIRMED ✓');assert.deepEqual(server.acknowledgedRoles,['playerOne','playerTwo']);
     const peerAckCalls=server.calls.filter(call=>call.type==='acknowledge'&&call.role==='playerTwo');assert.equal(peerAckCalls.length,2,'peer acknowledgement must retry exactly once after injected stale CAS');
-    await refresh(host);assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'SEASON CONFIRMED ✓');assert.match(await host.locator('#sharedSeasonCommitStatus').textContent(),/SEASON COMMITTED · SCORE BELOW/);assert.match(await peer.locator('#sharedSeasonCommitStatus').textContent(),/SEASON COMMITTED · SCORE BELOW/);
+    await refresh(host);assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'SEASON CONFIRMED ✓');assert.match(await host.locator('#sharedSeasonCommitStatus').textContent(),/SEASON CONFIRMED BY BOTH MANAGERS/);assert.match(await peer.locator('#sharedSeasonCommitStatus').textContent(),/SEASON CONFIRMED BY BOTH MANAGERS/);
     for(const page of [host,peer]){assert.deepEqual(await page.evaluate(()=>window.__ssjrCommitAudit.storageAfter()),await page.evaluate(()=>window.__ssjrCommitAudit.storageBefore),'r10 shared commit must not mutate canonical local storage');assert.deepEqual(await page.evaluate(()=>window.__ssjrCommitAudit.localState()),unchanged,'r10 shared commit must not mutate local setup, transfer, history or scoring authority');}
     assert.deepEqual(errors,[],'Shared Season Commit browser audit emitted page errors.');
     process.stdout.write('PASS Shared Season Commit desktop/mobile production flow: both managers experience the complete r9 Season Review; only the coordinator creates the immutable shared commit; both managers independently acknowledge it; one injected stale CAS is retried exactly once; both converge on terminal ACKNOWLEDGED; shared scoring remains locked; and canonical local storage/history/scoring stay untouched.\n');

@@ -35,7 +35,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       const audit=window.__secondPublisherAudit={resultsReads:0,publishCalls:0,commitReads:0,commitWrites:0,failResultsRead:false,published:false,season2Published:false,acknowledgedSeasons:[],committedSeasons:[],hangNextCommitRead:false,releaseHungRead:null};
       const waiting=n=>({ok:true,revision:1,state:{phase:'WAITING_FOR_RIVAL',revision:1,publishedRoles:['playerOne']},managerRole:role,seasonNumber:n,ownResult:null,opponentResult:null,allResults:null});
       const ready=n=>({ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:n,ownResult:resultTwo,opponentResult:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}});
-      window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
+      window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
       window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer(),refresh:async()=>transfer()};
       window.CareerModeSparkSharedSeasonResults={
         read:async options=>{audit.resultsReads+=1;if(audit.failResultsRead)return {ok:false,code:'unavailable'};const n=options.seasonNumber;return (n===1?audit.published:audit.season2Published)?ready(n):waiting(n);},
@@ -90,7 +90,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.evaluate(()=>{window.__secondPublisherAudit.failResultsRead=false;});
     await page.waitForFunction(()=>!document.getElementById('sharedSeasonCommitAction')?.disabled,null,{timeout:8000});
     await page.locator('#sharedSeasonCommitAction').click();
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST',null,{timeout:8000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR DANIEL',null,{timeout:8000});
     assert.equal(await page.locator('#sharedSeasonCommitAction').isDisabled(),true,'the non-coordinator must never receive commit authority');
     assert.equal(await page.locator('#seasonReviewOne').isVisible(),true,'the healed Results read must reveal the rival result');
     assert.equal(await page.locator('#seasonReviewTwo').isVisible(),true);
@@ -104,7 +104,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     // Rival publishes season 2 while this manager's Results screen is already open; no tap, no reload.
     await page.evaluate(()=>{window.__secondPublisherAudit.season2Published=true;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
     await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED'&&document.getElementById('seasonEntryTitle')?.textContent==='SEASON 2 RESULTS',null,{timeout:20000});
-    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR HOST',null,{timeout:35000});
+    await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR DANIEL',null,{timeout:35000});
     assert.ok(await page.evaluate(()=>window.__secondPublisherAudit.commitReads)>commitReadsBeforeSeason2,'season 2 must perform its own automatic authoritative Commit read');
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.seasonNumber),2,'season 2 must bind only season-2 Commit authority');
     // r48: a Commit check that hangs must time out visibly, and when it finally resolves it must not

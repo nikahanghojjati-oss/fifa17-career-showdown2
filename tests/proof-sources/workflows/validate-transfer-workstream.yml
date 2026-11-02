@@ -176,7 +176,7 @@ jobs:
             assert.ok(selector.includes(token), `Accessible combobox contract missing: ${token}`);
           });
           ['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].forEach(key => assert.ok(selector.includes(key), `Keyboard selector support missing: ${key}`));
-          assert.ok(selector.includes('TRANSFER_SELECTOR_RESULT_LIMIT = 14'), 'Selector result cap must remain bounded.');
+          assert.ok(/TRANSFER_SELECTOR_RESULT_LIMIT = (\d+);/.test(selector) && Number(selector.match(/TRANSFER_SELECTOR_RESULT_LIMIT = (\d+);/)[1]) <= 400, 'Selector result cap must remain bounded (r87: the whole FIFA 17 list, in a scrolling box).');
           assert.ok(css.includes('max-height:min(300px,42vh)'), 'Desktop selector viewport cap is missing.');
           assert.ok(css.includes('@media(max-width:760px)'), 'Transfer UI mobile breakpoint is missing.');
           assert.ok(css.includes('max-height:48vh'), 'Mobile selector popover must remain viewport constrained.');

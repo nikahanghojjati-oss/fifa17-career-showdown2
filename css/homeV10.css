@@ -14,11 +14,9 @@
 #mainMenu.v10Home .menuTile::before { content: none; }
 #mainMenu.v10Home .menuTile::after { height: auto; }
 #mainMenu.v10Home .v10HomeCutouts { display: contents; }
-#mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl { animation: home-vinyl-spin var(--home-vinyl-rotation, 2400ms) linear infinite; }
 /* Continue's art is Team V's number-17 player (owner, 2026-10-05): the old Reus cover and its credit stay in the DOM
    for the product code that builds them, but are not shown on this Home. */
 #mainMenu.v10Home #continueCareer .menuCoverAthlete, #mainMenu.v10Home .menuAthleteCredit { display: none; }
-#mainMenu.v10Home .menuMediaChoice { min-width: 0; }
 #mainMenu.v10Home .fifaMenuHeading { display: block; min-height: 0; text-align: left; }
 #mainMenu.v10Home .fifaMenuHeadingMeta { max-width: none; text-align: left; }
 #mainMenu.v10Home .fifaMenuHeadingMeta > span { display: block; }
@@ -43,11 +41,6 @@
 #mainMenu.v10Home .menuBottomStrip { min-height: 0; padding: 0; margin: 0; background: none; border: 0; box-shadow: none; }
 /* The product footer is outside the Home stage, so its band is drawn inside the stage and the footer text sits on top. */
 #app > footer { background: none; border-top: 0; z-index: 7; }
-#mainMenu.v10Home .menuMusicHeader { align-self: center; }
-/* HO-004 (V-245): the soundtrack card takes Team V's cream ink and transparent player well; the old app.css YouTube
-   well (#1f262c, white left rule, 36-88px minimum) and its pure white tile ink stay off this Home. */
-#mainMenu.v10Home .menuMusicTile { color: var(--cream); }
-#mainMenu.v10Home .menuMusicPlayer { min-height: 0; background: none; border-left: 0; overflow: visible; }
 #mainMenu.v10Home .menuAthleteCredit {
   position: absolute; z-index: 6; margin: 0; padding: 0; max-width: none; text-align: right;
   font: 400 11px/1.3 var(--text); color: var(--meta); text-shadow: 0 1px 6px rgba(0,0,0,.95); background: none; border: 0;
@@ -112,7 +105,6 @@
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
   #mainMenu.v10Home #ruleBookButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
   #mainMenu.v10Home #settingsButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
-  #mainMenu.v10Home .menuMusicTile { margin: 0; }
   #mainMenu.v10Home .scriptLine { top: calc(var(--hdr) + 70px); }
   #mainMenu.v10Home .menuAthleteCredit { right: var(--gutter); top: calc(var(--tile-top) - 20px); }
   #mainMenu.v10Home > .nav-reserve {
@@ -122,9 +114,6 @@
 }
 @media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
   #mainMenu.v10Home .fifaMenuGrid > .menuTile { padding-right: 12px; }
-  /* 11 soundtrack tracks: the track list stays below the header chips and scrolls instead of growing upward. */
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { max-height: min(260px, calc(100dvh - 220px)); overflow-y: auto; }
-  #mainMenu.v10Home .menuMediaSelector .menuMediaChoice :is(strong, small) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   /* narrow desktops: Continue keeps room for its player art, and the six other tiles keep their labels whole */
   #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.2 1 0; padding-right: 120px; }
   #mainMenu.v10Home .menuTileLabel { font-size: 15px; }
@@ -167,19 +156,26 @@
     background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%);
   }
   #mainMenu.v10Home > .nav-reserve { grid-row: 3; }
-  /* Team V's phone frame: Continue, then two rows of three tiles, then the soundtrack strip. */
+  /* Team V's phone frame: Continue, then two rows of three tiles. */
   #mainMenu.v10Home .fifaMenuGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 52px;
   }
   #mainMenu.v10Home #continueCareer { grid-column: 1 / -1; grid-row: 1; }
+  /* r87 start-polish: the phone Continue tile wears the desktop's metallic gold plate (and its top sheen), not flat yellow. */
+  #mainMenu.v10Home #continueCareer,
+  #mainMenu.v10Home #continueCareer:disabled {
+    background: linear-gradient(180deg, rgba(255,255,255,.42) 0, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 50%),
+      linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%);
+  }
+  /* r87 (Nik's pick): the free online limit is one short line inside Continue Career on a portrait phone (js/homeScreensV10.js). */
+  #mainMenu.v10Home #continueCareer .menuTileQuota { position: relative; z-index: 2; display: block; margin-top: 3px; color: #5A1A0E; font-size: 10.5px; font-weight: 700; line-height: 1.15; letter-spacing: .02em; }
   #mainMenu.v10Home #newShowdown { grid-column: 1; grid-row: 2; }
   #mainMenu.v10Home #legacyButton { grid-column: 2; grid-row: 2; }
   #mainMenu.v10Home #careerStatisticsButton { grid-column: 3; grid-row: 2; }
   #mainMenu.v10Home #homeTrophyRoomButton { grid-column: 1; grid-row: 3; }
   #mainMenu.v10Home #ruleBookButton { grid-column: 2; grid-row: 3; }
   #mainMenu.v10Home #settingsButton { grid-column: 3; grid-row: 3; }
-  #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
   /* V-247 (HO-006) on the seven-tile phone grid: Team V's icons are large and fully inside each tile. G-F16 (r62): the
      label and its icon never touch, at any phone width. Each tile is a size container, so the icon is sized from the
      tile itself. Tall tiles (the common case): the label keeps the top (up to two lines, START A SHOWDOWN) and the icon
@@ -196,14 +192,6 @@
     }
     #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt { width: min(76px, 40cqw, 100cqh); height: min(76px, 40cqw, 100cqh); }
   }
-  #mainMenu.v10Home .menuMusicTile { overflow: visible; }
-  /* The phone track sheet grows with the track list (two per row), so CLOSE sits in its top padding for any row count. */
-  /* The sheet never grows past the hero (where the logo and tagline sit); with more rows it scrolls. */
-  #mainMenu.v10Home .menuMusicTile { --track-sheet-h: min(calc(56px + var(--track-rows, 2) * 54px), calc(100dvh - var(--phone-hero) - var(--phone-nav) - 20px)); }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-auto-rows: 46px; max-height: var(--track-sheet-h); box-sizing: border-box; overflow-y: auto; overscroll-behavior: contain; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
-  #mainMenu.v10Home .menuMediaSelector .menuMediaChoice :is(strong, small) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose { bottom: calc(var(--phone-nav) - 40px + var(--track-sheet-h)); }
   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
@@ -270,43 +258,6 @@
   #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: clamp(15px, 2.2vw, 19px); line-height: 1; }
   #mainMenu.v10Home #continueCareer .menuTileMeta { font-size: 10.5px; line-height: 1.15; max-width: 100%; }
   #mainMenu.v10Home #continueCareer .tileArt, #mainMenu.v10Home #continueCareer:disabled .tileArt { top: 4px; right: 8px; height: calc(var(--land-tile-h) * 1.25); width: auto; }
-
-  /* the soundtrack as one strip between the logo and the tiles */
-  #mainMenu.v10Home .menuMusicTile, #mainMenu.v10Home .menuMusicTile.side {
-    position: fixed; left: var(--gutter) !important; right: var(--gutter) !important; width: auto !important; top: auto !important;
-    bottom: calc(100dvh - var(--land-strip-top) - var(--land-strip-h)) !important; height: var(--land-strip-h) !important; min-height: 0 !important; max-height: none !important;
-    padding: 3px 8px; overflow: visible; align-items: center; column-gap: 8px; row-gap: 0;
-    grid-template-columns: minmax(0, 1fr) auto auto; grid-template-rows: minmax(0, 1fr); grid-template-areas: "head ctrl tracks";
-  }
-  #mainMenu.v10Home .menuMusicPlayer, #mainMenu.v10Home .menuMusicSource { display: none; }
-  #mainMenu.v10Home .menuMusicHeader > div { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
-  #mainMenu.v10Home .menuMusicHeader span { flex: none; font-weight: 700; color: var(--gold); letter-spacing: .08em; white-space: nowrap; }
-  #mainMenu.v10Home .menuMusicHeader strong { display: block; min-width: 0; font-size: 15px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #mainMenu.v10Home .menuMusicArtist { display: none; }
-  #mainMenu.v10Home .menuMusicStatus {
-    position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
-  }
-  #mainMenu.v10Home .menuMusicControls { align-self: center; gap: 6px; }
-  #mainMenu.v10Home .menuMusicControl { height: 32px; padding: 0 12px; font-size: 13px; }
-  #mainMenu.v10Home .phoneSheetToggle {
-    grid-area: tracks; align-self: center; justify-self: end; position: relative; z-index: 3; display: block; width: 64px; height: 32px; margin: 0; padding: 0; opacity: 0; cursor: pointer; border: 0;
-  }
-  #mainMenu.v10Home .phoneTrackSheetOpen {
-    grid-area: tracks; align-self: center; justify-self: end; pointer-events: none; display: inline-flex; width: 64px; height: 32px; box-sizing: border-box; align-items: center; justify-content: center;
-    border: 1px solid rgba(242,196,91,.72); background: rgba(255,255,255,.04); color: var(--cream);
-    font: 700 12px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:hover + .phoneTrackSheetOpen, #mainMenu.v10Home .phoneSheetToggle:checked + .phoneTrackSheetOpen { border-color: var(--gold); background: rgba(242,196,91,.16); }
-  #mainMenu.v10Home .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
-  /* the track list opens above the strip, four to a row, and scrolls if the window is shorter than the list */
-  #mainMenu.v10Home .menuMediaSelector { display: none; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    display: grid; position: absolute; z-index: 8; left: 0; right: 0; bottom: calc(100% + 8px); grid-area: auto; width: auto; box-sizing: border-box;
-    grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 42px; gap: 6px; padding: 8px 10px;
-    max-height: calc(var(--land-strip-top) - 8px - var(--land-lock-top)); overflow-y: auto; overscroll-behavior: contain;
-    background: rgba(8,10,13,.97); border: 1px solid var(--gold); box-shadow: 0 -12px 40px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,241,184,.5);
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
   #mainMenu.v10Home .menuBottomStrip { z-index: 6; }
 }
 
@@ -322,20 +273,6 @@
 
   /* Keep the identity action at the 44px touch minimum. */
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
-
-  /* Eleven tracks make six 46px rows. All rows fit on a 640px phone
-     as one overlay, so this picker must not create an inner scroll area. */
-  #mainMenu.v10Home .menuMusicTile {
-    --full-sheet-height: calc(56px + var(--track-rows, 2) * 54px);
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    max-height: none;
-    overflow: visible;
-    overscroll-behavior: auto;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    bottom: calc(var(--phone-nav) + 10px + var(--full-sheet-height) - 48px);
-  }
 }
 
 /* JOB-1062: 390x844 upright Home only. The 11-track, six-row picker must
@@ -344,42 +281,12 @@
 @media (min-width: 376px) and (max-width: 410px) and (min-height: 820px) and (max-height: 860px) and (orientation: portrait) {
   /* The identity chip is an action, unlike the adjacent season indicator. */
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
-
-  /* Six 44px rows + five 4px gaps + 54px padding/borders = 338px at 390x844. */
-  #mainMenu.v10Home .menuMusicTile { --track-sheet-h: calc(54px + var(--track-rows, 2) * 48px); }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    grid-auto-rows: 44px;
-    gap: 4px;
-    padding: 44px 10px 8px;
-    max-height: none;
-    overflow-y: visible;
-    overscroll-behavior: auto;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    bottom: calc(var(--phone-nav) + 10px + var(--track-sheet-h) - 48px);
-  }
 }
 
-/* JOB-1063: 430x932 upright Home only. With a bottom safe-area inset,
-   the six-row soundtrack picker otherwise exceeds its available height and
-   becomes a nested scroll box. Keep the complete list and CLOSE together. */
+/* JOB-1063: 430x932 upright Home only. */
 @media (min-width: 411px) and (max-width: 450px) and (min-height: 900px) and (max-height: 960px) and (orientation: portrait) {
   /* This identity chip is actionable; the adjacent season indicator is not. */
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
-
-  /* Six 44px rows, five 4px gaps and 54px of padding/borders fit on one sheet. */
-  #mainMenu.v10Home .menuMusicTile { --track-sheet-h: calc(54px + var(--track-rows, 2) * 48px); }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    grid-auto-rows: 44px;
-    gap: 4px;
-    padding: 44px 10px 8px;
-    max-height: none;
-    overflow-y: visible;
-    overscroll-behavior: auto;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    bottom: calc(var(--phone-nav) + 10px + var(--track-sheet-h) - 48px);
-  }
 }
 
 /* JOB-1064: the 844x390 landscape Home range only. Keep touch controls
@@ -387,41 +294,7 @@
 @media (min-width: 820px) and (max-width: 870px) and (min-height: 370px) and (max-height: 410px) and (orientation: landscape) {
   #mainMenu.v10Home { --land-strip-h: 50px; }
   /* Blur/transform would make fixed sheet children use the 50px card as their containing block. */
-  #mainMenu.v10Home .menuMusicTile:has(.phoneSheetToggle:checked) {
-    -webkit-backdrop-filter: none; backdrop-filter: none;
-    filter: none; transform: none; animation: none; will-change: auto;
-  }
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
-  #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
-  #mainMenu.v10Home .phoneSheetToggle,
-  #mainMenu.v10Home .phoneTrackSheetOpen { height: 44px; }
-
-  /* Three 44px rows, two 6px gaps and 58px padding/borders = 202px.
-     A bottom-anchored sheet fits above the 56px navigation at this height. */
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    position: fixed;
-    z-index: 52;
-    left: var(--gutter);
-    right: var(--gutter);
-    bottom: calc(var(--land-bot) + 10px);
-    grid-auto-rows: 44px;
-    padding: 48px 10px 8px;
-    max-height: none;
-    overflow: visible;
-    overscroll-behavior: auto;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 44px; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
-    position: fixed; z-index: 50; inset: 0; display: block;
-    cursor: pointer; background: rgba(0,0,0,.58);
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    position: fixed; z-index: 53; right: calc(var(--gutter) + 10px);
-    bottom: calc(var(--land-bot) + 10px + 202px - 48px);
-    display: inline-flex; min-width: 44px; height: 44px;
-    align-items: center; justify-content: center; cursor: pointer;
-    color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em;
-  }
 }
 
 /* JOB-1065: the 932x430 landscape Home range only. Keep touch controls
@@ -429,41 +302,7 @@
 @media (min-width: 910px) and (max-width: 960px) and (min-height: 415px) and (max-height: 450px) and (orientation: landscape) {
   #mainMenu.v10Home { --land-strip-h: 50px; }
   /* Blur/transform would make fixed sheet children use the 50px card as their containing block. */
-  #mainMenu.v10Home .menuMusicTile:has(.phoneSheetToggle:checked) {
-    -webkit-backdrop-filter: none; backdrop-filter: none;
-    filter: none; transform: none; animation: none; will-change: auto;
-  }
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
-  #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
-  #mainMenu.v10Home .phoneSheetToggle,
-  #mainMenu.v10Home .phoneTrackSheetOpen { height: 44px; }
-
-  /* Three 44px rows, two 6px gaps and 58px padding/borders = 202px.
-     A bottom-anchored sheet fits above the 28px footer at this height. */
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    position: fixed;
-    z-index: 52;
-    left: var(--gutter);
-    right: var(--gutter);
-    bottom: calc(var(--land-bot) + 10px);
-    grid-auto-rows: 44px;
-    padding: 48px 10px 8px;
-    max-height: none;
-    overflow: visible;
-    overscroll-behavior: auto;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 44px; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
-    position: fixed; z-index: 50; inset: 0; display: block;
-    cursor: pointer; background: rgba(0,0,0,.58);
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    position: fixed; z-index: 53; right: calc(var(--gutter) + 10px);
-    bottom: calc(var(--land-bot) + 10px + 202px - 48px);
-    display: inline-flex; min-width: 44px; height: 44px;
-    align-items: center; justify-content: center; cursor: pointer;
-    color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em;
-  }
 }
 /* JOB-1066: 768x1024 upright tablet Home. The desktop seven-across tile dock
    crushes labels and artwork at this width. Keep the desktop hero, but use
@@ -545,36 +384,6 @@
     object-position: right bottom;
   }
   /* The card occupies the right-hand portion of the hero, not the tile dock. */
-  #mainMenu.v10Home .menuMusicTile,
-  #mainMenu.v10Home .menuMusicTile.side {
-    left: 51vw !important;
-    top: 56vh !important;
-    width: calc(49vw - var(--gutter)) !important;
-    height: 154px !important;
-    min-height: 0;
-    max-height: none;
-  }
-  #mainMenu.v10Home .menuMusicControl {
-    min-width: 44px;
-    min-height: 44px;
-    padding-inline: 8px;
-  }
-  #mainMenu.v10Home .phoneSheetToggle,
-  #mainMenu.v10Home .phoneTrackSheetOpen {
-    min-width: 64px;
-    height: 44px;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    grid-auto-rows: 44px;
-    gap: 6px;
-    padding: 8px;
-    max-height: none;
-    overflow: visible;
-    overscroll-behavior: auto;
-  }
-  #mainMenu.v10Home .menuMediaChoice {
-    min-height: 44px;
-  }
   #app #topHeader #onlinePlayerIdentityBadge {
     min-height: 44px;
   }
@@ -638,11 +447,6 @@
   }
 }
 @media (min-width: 1200px) and (max-width: 1350px) and (min-height: 620px) and (max-height: 690px) and (orientation: landscape) and (pointer: coarse) {
-  #mainMenu.v10Home .menuMusicControl {
-    min-width: 44px;
-    height: 44px;
-    padding-inline: 10px;
-  }
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
 }
 
@@ -703,16 +507,6 @@
   }
   /* Three columns keep eleven choices in four 44px rows above the card,
      rather than a six-row nested scroller under the identity chips. */
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    max-height: none;
-    overflow: visible;
-    overscroll-behavior: auto;
-  }
-  #mainMenu.v10Home .menuMediaChoice { min-height: 44px; }
-  #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
-  #mainMenu.v10Home .phoneSheetToggle,
-  #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 44px; height: 44px; }
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
 }
 
@@ -721,10 +515,6 @@
    navigation tabs already meet the 44px touch target. Keep the change
    to this full-HD range, leaving pointer-fine desktop and phone alone. */
 @media (min-width: 1850px) and (max-width: 1999px) and (min-height: 1040px) and (max-height: 1120px) and (orientation: landscape) and (pointer: coarse) {
-  #mainMenu.v10Home .menuMusicControl {
-    min-width: 44px;
-    min-height: 44px;
-  }
   #app #topHeader #onlinePlayerIdentityBadge {
     min-height: 44px;
   }
@@ -735,10 +525,6 @@
    touch. Keep their hit areas at least 44px on coarse-pointer devices;
    the popover already fits above the soundtrack card without scrolling. */
 @media (min-width: 2500px) and (max-width: 2640px) and (min-height: 1040px) and (max-height: 1120px) and (orientation: landscape) and (pointer: coarse) {
-  #mainMenu.v10Home .menuMusicControl,
-  #mainMenu.v10Home .menuMediaChoice { min-height: 44px; }
-  #mainMenu.v10Home .phoneSheetToggle,
-  #mainMenu.v10Home .phoneTrackSheetOpen { height: 44px; min-height: 44px; }
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
 }
 
@@ -790,21 +576,6 @@
 @media (pointer: coarse), (max-width: 760px) {
   #mainMenu.v10Home .fifaMenuGrid { gap: 8px; }
   #mainMenu.v10Home .fifaMenuGrid > .menuTile { min-width: 44px; min-height: 44px; }
-  #mainMenu.v10Home .menuMusicControls { gap: 8px; }
-  #mainMenu.v10Home .menuMusicControl { box-sizing: border-box; min-width: 44px; min-height: 44px; }
-  #mainMenu.v10Home .phoneSheetToggle,
-  #mainMenu.v10Home .phoneTrackSheetOpen {
-    box-sizing: border-box; min-width: 44px; min-height: 44px;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    gap: 8px; grid-auto-rows: minmax(44px, auto);
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice {
-    box-sizing: border-box; min-width: 44px; min-height: 44px;
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    box-sizing: border-box; min-width: 44px; min-height: 44px;
-  }
   #app #topHeader #onlinePlayerIdentityBadge { min-width: 44px; min-height: 44px; }
   body:has(#mainMenu.v10Home) .topBarNav { gap: 8px; }
   body:has(#mainMenu.v10Home) .topBarTab,
@@ -815,45 +586,21 @@
 @media (max-height: 600px) {
   #mainMenu.v10Home .fifaMenuGrid { gap: 4px; }
 }
-/* Portrait's expanded eleven-track sheet needs a larger close-header reserve
-   and accurate height when the six rows are separated by eight pixels. */
-@media (min-width: 376px) and (max-width: 450px) and (min-height: 820px) and (orientation: portrait) {
-  #mainMenu.v10Home .menuMusicTile {
-    --track-sheet-h: calc(62px + var(--track-rows, 2) * 52px - 8px);
-  }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { padding-top: 52px; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    bottom: calc(var(--phone-nav) + 10px + var(--track-sheet-h) - 44px);
-  }
-}
 /* A 44px button cannot fit inside the former 44px landscape strip with 3px
    vertical padding; seat the strip and sheet above the tile dock instead. */
 @media (orientation: landscape) and (max-height: 480px) and (pointer: coarse),
        (orientation: landscape) and (max-height: 480px) and (max-width: 760px) {
   #mainMenu.v10Home { --land-gap: 8px; --land-strip-h: 52px; }
 }
-/* These two existing landscape-sheet layouts include a visible CLOSE target;
-   reserve eight pixels below it as well as between all track choices. */
-@media (min-width: 820px) and (max-width: 960px) and (min-height: 370px) and (max-height: 450px) and (orientation: landscape) and (pointer: coarse) {
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { padding-top: 52px; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    bottom: calc(var(--land-bot) + 10px + 210px - 44px);
-  }
-}
-
 
 /* JOB-1074: Home keyboard focus must stay visible over gold and smoked panels.
    The invisible track-sheet checkbox paints focus on its visible sibling. */
-#mainMenu.v10Home :is(button,a[href],[role="button"],.menuTile,.menuMusicControl,.menuMediaChoice):focus-visible,
+
 body:has(#mainMenu.v10Home) .topBarNav :is(button,a[href]):focus-visible,
 #app:has(#mainMenu.v10Home) #onlinePlayerIdentityBadge:focus-visible {
   outline:3px solid #f2c45b !important;
   outline-offset:3px;
   box-shadow:0 0 0 2px #060709,0 0 0 5px rgb(242 196 91 / .35);
-}
-#mainMenu.v10Home .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen {
-  outline:3px solid #f2c45b !important;
-  outline-offset:3px;
 }
 
 /* System or in-app reduced motion: stop the runtime data-playing vinyl spin,
@@ -864,7 +611,6 @@ body:has(#mainMenu.v10Home) .topBarNav :is(button,a[href]):focus-visible,
     animation-iteration-count:1 !important;
     transition-duration:.01ms !important;
   }
-  #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl {animation:none !important;}
 }
 html[data-motion-reduced="true"] #mainMenu.v10Home *,
 html[data-motion-reduced="true"] #mainMenu.v10Home *::before,
@@ -876,23 +622,16 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
   animation-iteration-count:1 !important;
   transition-duration:.01ms !important;
 }
-html[data-motion-reduced="true"] #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl,
-html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl {
-  animation:none !important;
-}
-
 
 /* JOB-1075: protect small Home captions on 78%-opaque glass over bright art.
    The six secondary tile codes share this pair; Continue's dark-on-gold stays intact. */
-#mainMenu.v10Home .menuTile:not(#continueCareer) .menuTileCode,
-#mainMenu.v10Home .menuMusicHeader span {
+#mainMenu.v10Home .menuTile:not(#continueCareer) .menuTileCode{
   color:#FFF1B8;
 }
 /* Footer's muted ink can dip below 4.5:1 when the 86%-dark overlay crosses bright art. */
 #app:has(#mainMenu.v10Home:not(.hidden)) > footer {
   color:#CFC6B4;
 }
-
 
 /* JOB-1695: adopted Home studies 1627 / 1629 (and tablet 1085), applied to the live
    controls. NEXT_HOME and PHONE_HOME are the targets; frozen artwork is intact.
@@ -919,12 +658,8 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home #continueCareer .menuTileLabel {
     overflow-wrap: normal; word-break: normal;
   }
-  #app #mainMenu.v10Home .menuTile:not(:disabled):active,
-  #app #mainMenu.v10Home .menuMusicControl:not(:disabled):active {
+  #app #mainMenu.v10Home .menuTile:not(:disabled):active{
     transform: translateY(1px); filter: brightness(1.08);
-  }
-  #app #mainMenu.v10Home :is(button, a[href], .phoneSheetToggle):focus-visible {
-    outline: 3px solid #fff1b8 !important; outline-offset: -4px;
   }
   body:has(#app #mainMenu.v10Home:not(.hidden)) .sd-nav :is(button, a[href]):focus-visible {
     outline: 3px solid #fff1b8; outline-offset: -4px;
@@ -1039,68 +774,8 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important;
   }
   #app #mainMenu.v10Home .tileChevron { display: none; }
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    grid-column: 1 / -1; grid-row: 4; position: static;
-    inset: auto !important; width: auto !important; height: var(--home-music-h) !important;
-    min-height: 0; max-height: none; margin: 0; padding: 3px 6px;
-    grid-template-columns: 30px minmax(0, 1fr) auto 44px;
-    grid-template-rows: minmax(0, 1fr); grid-template-areas: "player head ctrl tracks";
-    gap: 6px; align-items: center; overflow: visible;
-    --vinyl: 28px; --home-sheet-h: calc(54px + var(--track-rows, 5) * 50px - 6px);
-    -webkit-backdrop-filter: none; backdrop-filter: none;
-  }
-  #app #mainMenu.v10Home .menuMusicPlayer { display: block; }
-  #app #mainMenu.v10Home .eq,
-  #app #mainMenu.v10Home .menuMusicSource,
-  #app #mainMenu.v10Home .menuMusicArtist { display: none; }
-  #app #mainMenu.v10Home .menuMusicHeader > div { display: block; min-width: 0; }
-  #app #mainMenu.v10Home .menuMusicHeader span {
-    font: 700 11px/1.1 var(--cond); letter-spacing: .04em; white-space: normal;
-  }
-  #app #mainMenu.v10Home .menuMusicHeader strong {
-    display: block; margin-top: 2px; font: 600 10px/1.1 var(--cond);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  #app #mainMenu.v10Home .menuMusicControls { align-self: center; gap: 6px; }
-  #app #mainMenu.v10Home .menuMusicControls > .menuMusicControl {
-    flex: initial; width: 44px; height: 44px; min-width: 44px; min-height: 44px;
-    padding: 0 4px; font-size: 11px; line-height: 1; white-space: normal;
-  }
-  #app #mainMenu.v10Home #menuMusicToggle { width: 56px; }
-  #app #mainMenu.v10Home #menuMusicMute { display: inline-flex; align-items: center; justify-content: center; }
-  #app #mainMenu.v10Home .menuMusicStatus {
-    position: absolute !important; width: 1px; height: 1px; margin: -1px;
-    overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
-  }
-  #app #mainMenu.v10Home .phoneSheetToggle,
-  #app #mainMenu.v10Home .phoneTrackSheetOpen {
-    grid-area: tracks; display: inline-flex; position: relative !important;
-    width: 44px; height: 44px; min-width: 44px; min-height: 44px; align-self: center;
-    align-items: center; justify-content: center; box-sizing: border-box; margin: 0;
-  }
-  #app #mainMenu.v10Home .menuMediaSelector { display: none; }
-  #app #mainMenu.v10Home .menuMusicTile:has(.phoneSheetToggle:checked) {
-    transform: none; filter: none; animation: none; will-change: auto;
-  }
-  #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
-    position: fixed; z-index: 52; left: 10px; right: 10px;
-    bottom: calc(var(--phone-nav) + 8px); top: auto;
-    display: grid; grid-area: auto; width: auto; height: var(--home-sheet-h);
-    max-height: none; box-sizing: border-box; grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 44px; gap: 6px; padding: 46px 10px 6px;
-    overflow: visible; overscroll-behavior: auto;
-  }
-  #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 44px; }
-  #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
-    position: fixed; z-index: 50; inset: 0; display: block; background: rgba(0,0,0,.58);
-  }
-  #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
-    position: fixed; z-index: 53; right: 20px;
-    bottom: calc(var(--phone-nav) + 8px + var(--home-sheet-h) - 46px);
-    display: inline-flex; min-width: 44px; height: 44px; align-items: center; justify-content: center;
-    color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em; cursor: pointer;
-  }
+  /* HO-043 item 1 / HO-027 (Team V, 29 Oct 2026): the open track sheet darkened the whole Home behind it (58% black). The
+     backdrop stays (a tap on it closes the sheet) but is now clear: nothing on Home is ever dimmed. */
   #app #mainMenu.v10Home > .nav-reserve {
     position: static; grid-column: 1 / -1; grid-row: 3;
     height: var(--phone-nav); min-height: 0; width: 100%;
@@ -1151,8 +826,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home #continueCareer .tileArt,
   #app #mainMenu.v10Home #continueCareer:disabled .tileArt { top: 0; height: 100%; }
   #app #mainMenu.v10Home > .nav-reserve { grid-row: 2; }
-  #app #mainMenu.v10Home .menuMusicTile { --home-sheet-h: calc(54px + 3 * 50px - 6px); }
-  #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   body:has(#app #mainMenu.v10Home:not(.hidden)) .sd-nav-bottom .sd-nav-tab {
     flex-direction: row; gap: 6px;
   }
@@ -1192,18 +865,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     width: 52%; max-width: 52%; font-size: clamp(20px, 3vw, 24px); line-height: 1.06;
   }
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt { right: 3%; width: 42%; height: 82%; }
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    padding: 4px 12px; gap: 14px; --vinyl: 44px;
-    grid-template-columns: 52px minmax(0, 1fr) auto 56px;
-  }
-  #app #mainMenu.v10Home .menuMusicHeader span { font-size: 14px; }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 18px; }
-  #app #mainMenu.v10Home .menuMusicControls { gap: 10px; }
-  #app #mainMenu.v10Home .menuMusicControls > .menuMusicControl { width: 64px; font-size: 13px; }
-  #app #mainMenu.v10Home #menuMusicToggle { width: 84px; }
-  #app #mainMenu.v10Home .phoneSheetToggle,
-  #app #mainMenu.v10Home .phoneTrackSheetOpen { width: 56px; }
 }
 
 /* Both upright tablets: avoid the unhandled 820x1180 seven-across dock and
@@ -1242,21 +903,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home #continueCareer .menuTileLabel { max-width: 100%; font-size: 23px; line-height: 1.05; }
   #app #mainMenu.v10Home #continueCareer .tileArt,
   #app #mainMenu.v10Home #continueCareer:disabled .tileArt { top: 4px; right: 8px; width: auto; height: calc((var(--tile-h) - 8px) / 2 - 8px); }
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    left: 51vw !important; right: var(--gutter) !important;
-    top: calc(var(--tile-top) - var(--home-card-h) - 28px) !important; bottom: auto !important;
-    width: auto !important; height: var(--home-card-h) !important; min-height: 0; max-height: none;
-  }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 22px; }
-  #app #mainMenu.v10Home .menuMusicArtist,
-  #app #mainMenu.v10Home .menuMusicStatus { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicControl,
-  #app #mainMenu.v10Home .phoneSheetToggle,
-  #app #mainMenu.v10Home .phoneTrackSheetOpen { min-width: 44px; height: 44px; min-height: 44px; }
-  #app #mainMenu.v10Home .menuMusicControl { padding-inline: 8px; }
-  #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-auto-rows: 44px; gap: 6px; padding: 8px; max-height: none; overflow: visible; }
-  #app #mainMenu.v10Home .menuMediaChoice { min-height: 44px; }
   #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
   #app #mainMenu.v10Home .menuBottomStrip,
   #app #mainMenu.v10Home .footDeco { display: none; }
@@ -1269,11 +915,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 @media (pointer: coarse) and (max-width: 760px) and (orientation: portrait),
        (pointer: coarse) and (max-width: 900px) and (max-height: 480px) and (orientation: landscape),
        (pointer: coarse) and (min-width: 761px) and (max-width: 900px) and (min-height: 900px) and (orientation: portrait) {
-  #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #onlinePlayerIdentityBadge,
-  #app #mainMenu.v10Home .menuMusicControl,
-  #app #mainMenu.v10Home .menuMediaChoice,
-  #app #mainMenu.v10Home .phoneSheetToggle,
-  #app #mainMenu.v10Home .phoneTrackSheetOpen { min-width: 44px; min-height: 44px; }
+  #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #onlinePlayerIdentityBadge{ min-width: 44px; min-height: 44px; }
 }
 /* JOB-1086 (study desktop-a-1086, adopted by Team V): Home desktop for a mouse-driven window of at least 1200x700.
    Phones, sideways phones, tablets, touch laptops and the 1200-1350 x 620-690 small laptop keep the rules above.
@@ -1286,12 +928,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     background: linear-gradient(120deg, #F8D872 0%, #EFC24E 46%, #D9A332 100%);
     border-color: #FFF1B8;
     box-shadow: inset 0 2px 0 rgba(255,255,255,.55), inset 0 0 0 1px rgba(255,241,184,.45), 0 10px 28px rgba(0,0,0,.45);
-  }
-  /* Soundtrack card: keeps its top-right place and bottom edge, but grows upward to fit a long artist line, so the
-     AUDIUS SOUNDTRACK caption is never cut off by the card's top edge. */
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    top: auto !important; bottom: calc(100vh - 70.3vh) !important; height: auto !important; min-height: min(17vh, 184px) !important;
   }
 }
 @media (min-width: 1200px) and (max-width: 1849px) and (min-height: 700px) and (pointer: fine) {
@@ -1366,15 +1002,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     border-color: rgba(255,255,255,.5); border-bottom-color: rgba(138,106,18,.35);
     background: linear-gradient(180deg, rgba(255,255,255,.46) 0, rgba(255,255,255,.14) 30%, transparent 50%), linear-gradient(100deg, rgba(255,255,255,.3) 0, transparent 38%);
   }
-  /* ---- soundtrack card: the same gold frame around dark glass ---- */
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    border: 2px solid transparent; border-image: var(--bevel-gold) 1; border-radius: 0;
-    background: linear-gradient(180deg, rgba(28,25,20,.88) 0%, rgba(9,9,11,.92) 50%, rgba(4,4,6,.94) 100%);
-    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-    box-shadow: 0 14px 32px rgba(0,0,0,.62), 0 0 0 1px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.7), inset 0 1px 0 3px rgba(255,241,184,.22), inset 0 0 26px rgba(242,196,91,.08);
-  }
-  #app #mainMenu.v10Home #menuMusicToggle { background: linear-gradient(180deg, #FFE48A, #EBB93B 55%, #CF9726); border-color: #FFF1B8; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 2px 8px rgba(0,0,0,.45); }
 }
 
 /* HOME-PLATE-V2 placement: keep the soundtrack card and the headline off the managers' faces and hands. The plate is
@@ -1382,35 +1009,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
    Nik's watch ends at plate y 462 and his hand at plate x 1222; Daniel's pointing hand starts at plate x 585. */
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
   #app #mainMenu.v10Home { --plate-s: max(100vw / 1536, 100vh / 864); --col-w: min(36vw, 560px, calc(50vw - 183 * var(--plate-s) - 14px - var(--gutter))); }
-}
-/* Short windows (1280x650, 1366x768): the card becomes one slim 80px strip below Nik's watch, over his jacket, so the
-   watch and hand stay clear. The same nodes, the same words and the same tap order; only the box changes. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 820px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 21/10) and (orientation: landscape) {
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    left: calc(50vw + 32 * var(--plate-s)) !important; right: 2vw !important; width: auto !important;
-    top: auto !important; bottom: min(29.7vh, calc(100vh - 462 * var(--plate-s) - 84px)) !important;
-    height: 80px !important; min-height: 0 !important; max-height: none !important;
-    padding: 5px 10px; column-gap: 10px; row-gap: 1px; align-items: center;
-    grid-template-columns: 48px minmax(0, 1fr) auto auto; grid-template-rows: auto auto;
-    grid-template-areas: "player head ctrl tracks" "player status ctrl tracks";
-  }
-  #app #mainMenu.v10Home .menuMusicHeader span { font-size: 10px; letter-spacing: .18em; }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 20px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicArtist { font-size: 12px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicSource { font-size: 10px; }
-  #app #mainMenu.v10Home .menuMusicStatus { font-size: 11px; align-self: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicControls { align-self: center; }
-  #app #mainMenu.v10Home .menuMusicPlayer { align-self: center; }
-}
-/* Ultrawide (2560x1080): the plate is scaled so large that Nik's hand and watch reach the tile row's height, so the card
-   moves right of his hand and sits just above the tiles instead. */
-@media (min-width: 1200px) and (min-height: 801px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    left: calc(50vw + 454 * var(--plate-s) + 14px) !important; right: 2vw !important; width: auto !important;
-    top: auto !important; bottom: calc(100vh - var(--tile-top) + 10px) !important;
-  }
 }
 
 /* On short mouse windows the plate is small and its banner script ("More Than A Game") starts right under the nav bar,
@@ -1424,8 +1022,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
    backdrop blur); they wear the same black-marble face as the desktop tiles. CONTINUE CAREER keeps its gold. Looks only:
    frames, sizes, places, words and tap order are unchanged. */
 @media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
-  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer),
-  #app #mainMenu.v10Home .menuMusicTile {
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer){
     background: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
@@ -1440,23 +1037,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .plateView { height: 100%; }
   #app #mainMenu.v10Home > .fifaMenuShell { background: transparent; }
 }
-
-/* r80 short screens: between the sideways phones and the desktop picture range (1024x768, 1100x600, 1024x600) and on
-   short windows wider than 21:10 (1366x640), which fall between Team V's slim-strip and ultrawide placements, the
-   soundtrack card's artist credit wrapped to two or three lines and ran into BUSINESS · AUDIUS · READY and PLAY TRACK, and
-   the card (17vh, at least 116px) was shorter than its own content, so AUDIUS SOUNDTRACK was cut at its top edge; at
-   600px tall the card also ran 8px over STATISTICS to SETTINGS. There the credit keeps one line, ending in "…" as on the
-   short desktop windows (1280x650, 1366x768), and the card keeps Team V's bottom edge (53.3vh + 17vh, or 116px), never
-   lower than 8px above the tile row (which starts 172px above the window's bottom), growing upward just enough to fit. */
-@media (min-width: 901px) and (max-width: 1199px) and (min-height: 501px) and (max-height: 775px) and (orientation: landscape),
-       (min-width: 1200px) and (min-height: 600px) and (max-height: 800px) and (min-aspect-ratio: 2101/1000) and (orientation: landscape) {
-  #app #mainMenu.v10Home .menuMusicArtist { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    top: auto !important; bottom: max(180px, calc(46.7vh - max(17vh, 116px))) !important;
-    height: auto !important; min-height: max(17vh, 116px);
-  }
-}
 /* r80 short screens: at 1024x600 RIVALRY HEADQUARTERS wrapped to two lines in its 36vw column, which lifted HOME into TWO
    MANAGERS · ONE LEGACY under the wordmark. On these short windows the headline keeps one line (4vw is just under the
    column; at 1100px wide and over it stays 44px), so the heading starts below the lockup as it does at 1100x600. */
@@ -1469,46 +1049,8 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 @media (min-width: 1001px) and (max-width: 1099px) and (min-height: 501px) and (orientation: landscape) {
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(20px, 1.68vw); }
 }
-
-/* r84 look fix (Nik 2026-10-26: keep the card on the right): on desktop the soundtrack is one slim strip in the bottom-right
-   corner, just above the photo credit and the tile row, so it only crosses the lower part of Nik's jacket. It stays clear
-   of the faces, Daniel's hand, the banner, the title, the credit and the tiles at every desktop size. Same nodes, words and
-   tap order. */
-@media (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    left: auto !important; right: var(--gutter, 32px) !important; width: min(540px, 40vw) !important;
-    top: auto !important; bottom: calc(100vh - var(--tile-top) + 28px) !important;
-    height: 46px !important; min-height: 0 !important; max-height: none !important;
-    padding: 4px 10px; column-gap: 10px; row-gap: 0; align-items: center;
-    grid-template-columns: 32px minmax(0, 1fr) auto auto; grid-template-rows: auto;
-    grid-template-areas: "player head ctrl tracks";
-  }
-  #app #mainMenu.v10Home .menuMusicHeader { grid-area: head; min-width: 0; }
-  #app #mainMenu.v10Home .menuMusicHeader span, #app #mainMenu.v10Home .menuMusicSource { display: none; }
-  /* the status line stays a live region for screen readers; it is shown in place of the title only when playback fails */
-  #app #mainMenu.v10Home .menuMusicStatus { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
-  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] { grid-template-areas: "player status ctrl tracks"; }
-  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicHeader { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  #app #mainMenu.v10Home .menuMusicTile[data-failed="true"] .menuMusicStatus { grid-area: status; position: static; width: auto; height: auto; clip-path: none; min-width: 0; overflow: hidden; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; line-height: 1.25; color: var(--cream); }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 15px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicArtist { font-size: 11px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .menuMusicPlayer { grid-area: player; align-self: center; --vinyl: 28px; }
-  #app #mainMenu.v10Home .menuMusicPlayer .eq { display: none; }
-  #app #mainMenu.v10Home .menuMusicControls { grid-area: ctrl; align-self: center; gap: 6px; }
-  #app #mainMenu.v10Home .menuMusicControls .menuMusicControl, #app #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 34px; height: 34px; }
-  #app #mainMenu.v10Home .phoneTrackSheetOpen { grid-area: tracks; align-self: center; }
-}
-
-/* r85: the open song list is opaque (the Home wordmark showed through it on phone) and scrolls inside itself; its height
-   is capped to the room on screen by js/homeScreensV10.js (19 songs). */
-#mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { background-color: #0a0b0e; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
-/* r85 (Nik 2026-10-27): on desktop Home's player lives in the top bar (js/musicDockV10.js), so the strip is hidden there. It
-   stays in the page (its buttons and status are still the product's), out of sight, focus and the accessibility tree. */
-@media (min-width: 901px) { #mainMenu.v10Home .menuMusicTile { visibility: hidden !important; } }
-/* r86 (Nik 2026-10-28, phone Home): the soundtrack strip leaves phone Home; music is the MUSIC tab in the bottom bar
-   (js/musicDockV10.js). The strip stays in the page, out of sight, focus and the accessibility tree, as on desktop (r85).
-   Continue and the six tiles move down into its room and end 8px above the bar. Home is sized to the dynamic viewport
+/* r86 (Nik 2026-10-28, phone Home): the soundtrack strip left phone Home (r87, 2026-11-01: it is gone at every size); music
+   is the MUSIC tab in the bottom bar (js/musicDockV10.js). Continue and the six tiles take its room and end 8px above the bar. Home is sized to the dynamic viewport
    (dvh), the same box the fixed bottom bar sits in: with 100svh, iPhone Safari's floating toolbar left an empty band
    between the tiles and the bar (svh is shorter than the area the bar is pinned to). */
 @media (max-width: 760px) and (orientation: portrait) {
@@ -1519,10 +1061,9 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     --phone-control: calc(var(--home-continue-h) + 2 * var(--home-tile-h) + 2 * var(--home-gap) + 16px);
   }
   #app #mainMenu.v10Home .fifaMenuGrid { grid-template-rows: var(--home-continue-h) var(--home-tile-h) var(--home-tile-h); }
-  #app #mainMenu.v10Home .menuMusicTile { position: absolute !important; visibility: hidden !important; pointer-events: none; }
 }
 /* r86 (Nik 2026-10-28): the same on a phone on its side. The strip's room goes to the two tile rows, so the settings row
-   still ends 8px above the bar; tablets and desktop already hide the strip. */
+   still ends 8px above the bar. */
 @media (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
   #app:has(#mainMenu.v10Home:not(.hidden)) { height: 100svh; height: 100dvh; }
   #app #mainMenu.v10Home {
@@ -1531,7 +1072,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     --home-tile-h: max(44px, calc((var(--home-vh) - var(--phone-nav) - 54px - var(--home-continue-h) - 2 * var(--home-gap) - 8px) / 2));
   }
   #app #mainMenu.v10Home .fifaMenuGrid { grid-template-rows: var(--home-continue-h) var(--home-tile-h) var(--home-tile-h); }
-  #app #mainMenu.v10Home .menuMusicTile { position: absolute !important; visibility: hidden !important; pointer-events: none; }
 }
 
 /* iOS 26 Safari (Nik 2026-10-29): with the floating bottom toolbar, 100svh measures the whole screen while the fixed
@@ -1561,4 +1101,29 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     overflow: visible !important; clip: auto !important; clip-path: none !important; white-space: normal !important;
     visibility: visible !important; font-size: 11px; line-height: 1.2;
   }
+}
+
+/* r87 F5 (tablet portrait, 761-1199px wide): the lockup's two line scrims (Team V home.css ::before/::after, 37px bands
+   ~345px wide) and the strong top scrim made a dark box across the left manager's cheek. Nothing may cover a face: the
+   bands go (as on phone and wide desktop) and the top scrim takes the desktop's light values; the kicker and tagline keep
+   their contrast with the desktop's text shadow. */
+@media (min-width: 761px) and (max-width: 1199px) and (orientation: portrait) {
+  #app #mainMenu.v10Home .homeLockup::before, #app #mainMenu.v10Home .homeLockup::after { display: none; }
+  #app #mainMenu.v10Home .scrimTop { background: linear-gradient(90deg, rgba(6,7,9,.34) 0, rgba(6,7,9,.14) 70%, rgba(6,7,9,0)); }
+  #app #mainMenu.v10Home .lockupKicker, #app #mainMenu.v10Home .lockupLegacy { color: #FFF6D8; text-shadow: 0 1px 3px #000, 0 0 10px rgba(0,0,0,.95), 0 0 22px rgba(0,0,0,.8); }
+}
+
+/* r87 (Nik 2026-11-01): the tab bar never covers a Home tile. Landscape windows 761-900px wide and taller than 480px
+   (narrow desktop windows, small tablets) used the desktop camera, which ends the tile row 36px above the window
+   bottom, so the 56px bottom bar covered the lowest 20px of all seven tiles. Here Home is a page in <main> (the one
+   scroller) that ends at the bar: the tiles end 8px above the bar, and a window too short for the logo, the headline
+   and the tiles (under 525px of room) makes Home 525px tall so <main> scrolls. The desktop footer band and its
+   backdrop sat under the bar at these sizes; on this page they would lie over the tiles, so they stay out. */
+@media (min-width: 761px) and (max-width: 900px) and (min-height: 481px) and (orientation: landscape) {
+  main:has(> #mainMenu.v10Home:not(.hidden)) { padding: 0; }
+  #app #mainMenu.v10Home {
+    position: relative; inset: auto; height: max(100%, 525px); min-height: 0;
+    --tile-top: calc(100% - 8px - var(--tile-h));
+  }
+  #app #mainMenu.v10Home > .nav-reserve, #app #mainMenu.v10Home .menuBottomStrip { display: none; }
 }

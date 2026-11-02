@@ -116,7 +116,13 @@ async function run(){
         assert.equal(await install.count(), 1, "Internal Settings architecture must retain one install action for recovery/testing.");
         assert.equal(await page.locator(".settingsOfflineInstallButton").count(), 1, "Install action must not be duplicated globally.");
         assert.equal(await install.isHidden(), true, "Install action must not reappear as a normal product control.");
-        assert.equal(await install.evaluate(el => Boolean(el.closest("#settingsOverlay"))), true, "Install action must remain owned by Settings overlay.");
+        // r87 first load: the service worker now registers after the loading handover, so its
+        // offline-state events can redraw the internal panel while Settings is open. Check the
+        // ownership in one page turn so a redraw between resolve and read can't detach the node.
+        assert.equal(await page.evaluate(() => {
+            const actions = [...document.querySelectorAll(".settingsOfflineInstallButton")];
+            return actions.length === 1 && actions.every(el => Boolean(el.closest("#settingsOverlay")));
+        }), true, "Install action must remain owned by Settings overlay.");
 
         const state = await page.evaluate(() => window.getOfflineAppSettingsState());
         assert.ok(state.installationLabel && state.shellLabel && state.connectivityLabel, "Internal Settings state must retain installation, shell and connectivity diagnostics.");

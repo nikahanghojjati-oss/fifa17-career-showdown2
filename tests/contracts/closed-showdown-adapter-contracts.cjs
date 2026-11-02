@@ -123,7 +123,8 @@ await check("C7 the live Showdown joins career history from the JOB-05 adapter",
   const input=Adapter.buildClosedCareerInput({index:index([p.rivalryId,q.rivalryId,live.rivalryId]),reads:readsOf([completedRead(p),statusRead("abandoned",q.rivalryId),statusRead("not-closed",live.rivalryId)]),current});
   assert.equal(input.showdowns[2].projection,current.showdowns[0].projection,"live projection passed by identity");
   const m=Career.buildCareerModel(input);
-  assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:3,indexed:3});
+  // r87 career fixes (A-05): coverage counts finished Showdowns only; the live one is read but History never lists it.
+  assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:2,indexed:2});
   assert.deepEqual(m.history.showdowns.map(row=>row.status),["completed","abandoned","in-progress"]);
   // r83 (JOB-4 F1): the live Showdown keeps its in-progress row but adds nothing to career totals until it is finished.
   assert.equal(m.managers.daniel.careerPoints,6);assert.equal(m.managers.nik.careerPoints,3);
@@ -146,7 +147,8 @@ await check("C9 a stale pending rivalry in one index is excluded, so both manage
   const nik=Adapter.buildClosedCareerInput({index:index([p.rivalryId,live.rivalryId]),reads:nikReads,current:Active.careerInput(liveSnap(live,{identity:F.identity("nik"),pair:F.pair(live.rivalryId,{managerId:"nik"})}))});
   assert.equal(daniel.showdowns[1].classification,"pending");
   assert.deepEqual(clone(Career.buildCareerModel(daniel)),clone(Career.buildCareerModel(nik)),"Daniel's and Nik's career models are identical");
-  assert.deepEqual(Career.buildCareerModel(daniel).coverage,{readable:2,indexed:2});
+  // r87 career fixes (A-05): the live Showdown is not in the coverage count (History does not list it).
+  assert.deepEqual(Career.buildCareerModel(daniel).coverage,{readable:1,indexed:1});
   assert.equal(Adapter.describeClosedCareer({index:index([stale]),reads,current})[0].code,"CLOSED_NOT_CURRENT");
 });
 
@@ -191,7 +193,7 @@ await check("C13 scoring unchanged across lengths",()=>{
     assert.equal(m.status,"ready",String(n));
     const s=m.history.showdowns[0].seasons[0];assert.equal(s.score.daniel,11);assert.equal(s.score.nik,2,"performance 1 + awards 1, never 2 each");
     assert.equal(m.managers.daniel.careerPoints,r.terminalWitness.managerTotals.playerOne);assert.equal(m.managers.nik.careerPoints,r.terminalWitness.managerTotals.playerTwo);
-    assert.equal(m.managers.daniel.perfectSeasons,1);assert.ok(m.managers.daniel.bestSeasonScore<=11);
+    assert.equal(m.managers.daniel.perfectSeasons,0,"r87 (Nik 2026-11-01): an 11 is not a perfect season, only 15");assert.ok(m.managers.daniel.bestSeasonScore<=11);
   }
   const src=read("js/sharedClosedShowdownAdapter.js");assert.doesNotMatch(src,/\?\s*5\s*:|\?\s*3\s*:|scoring\.total\s*=/,"the adapter never computes scores");
 });

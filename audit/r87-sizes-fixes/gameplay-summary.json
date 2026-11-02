@@ -1,0 +1,44 @@
+[
+  {
+    "run": 1,
+    "sizes": [
+      "820x1180",
+      "844x390"
+    ],
+    "verdict": "PASS",
+    "summary": {
+      "checks": 37,
+      "passed": 37,
+      "failed": 0,
+      "problems": 0
+    }
+  },
+  {
+    "run": 2,
+    "sizes": [
+      "768x1024",
+      "740x360"
+    ],
+    "verdict": "PASS",
+    "summary": {
+      "checks": 37,
+      "passed": 37,
+      "failed": 0,
+      "problems": 0
+    }
+  },
+  {
+    "run": 3,
+    "sizes": [
+      "1920x1080",
+      "844x390"
+    ],
+    "verdict": "PASS",
+    "summary": {
+      "checks": 37,
+      "passed": 37,
+      "failed": 0,
+      "problems": 0
+    }
+  }
+]

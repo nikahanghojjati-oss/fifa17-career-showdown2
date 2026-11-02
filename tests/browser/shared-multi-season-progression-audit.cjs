@@ -1,6 +1,7 @@
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 const {resolveChromiumRuntime}=require('../support/chromium-runtime.cjs');
+const {passGazette}=require('./support/touchline-gazette.cjs');
 
 const baseUrl=new URL(process.env.CMS_BASE_URL||'http://127.0.0.1:4173/');
 const canonicalKeys=['careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'];
@@ -32,7 +33,7 @@ async function installHarness(page,{role,saveId,totalSeasons,rivalrySeed}){
     window.__r13HistorySeason=0;
     window.__r13ProviderCalls=[];
     window.__r13CursorEvents=[];
-    window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup};
+    window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedHistoryConvergence={
       refresh:async()=>window.CareerModeProductionSharedHistoryConvergence.getState(),
       getState:()=>window.__r13HistorySeason>0?{authoritative:true,phase:'HISTORY_CONVERGED',throughSeason:window.__r13HistorySeason,projection:{acceptedSeasons:window.__r13HistorySeason,totalSeasons,leagueId:'premier_league',fixedClubs:{playerOne:'Arsenal',playerTwo:'Liverpool'}}}:null
@@ -90,6 +91,7 @@ async function runPlan(page,{role,saveId,totalSeasons,rivalrySeed}){
       assert.equal(await action.isEnabled(),true,`Season ${season} must allow exactly one witnessed advance.`);
       assert.equal(await action.textContent(),`CONTINUE TO SEASON ${season+1}`);
       await action.click();
+      await passGazette(page,'season'); // r87 Touchline Gazette: its CONTINUE runs the same step
       await page.waitForFunction(expected=>window.CareerModeProductionSharedMultiSeasonProgression.resolveSeason()===expected,season+1,{timeout:5000});
       assert.equal(await page.evaluate(()=>currentShowdown.currentRound),7,'shared progression must not mutate canonical local currentRound.');
       assert.equal(await page.locator('#dashboard').getAttribute('data-shared-dashboard-authority'),'true','Showdown Home must be decorated from shared provider authority instead of stale local Save totals.');

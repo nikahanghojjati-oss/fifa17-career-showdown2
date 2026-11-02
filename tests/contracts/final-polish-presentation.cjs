@@ -24,7 +24,9 @@ assert.ok(screens.includes('setAttribute("aria-hidden"'), 'Route commits must sy
 assert.ok(screens.includes('heading.setAttribute("tabindex", "-1")'), 'Route headings must be programmatically focusable.');
 assert.ok(screens.includes('heading.focus({ preventScroll: true })'), 'Route focus must avoid viewport jumps.');
 assert.ok(settings.includes('setAttribute("role", "switch")'), 'Feedback preference needs native switch semantics.');
-assert.ok(css.includes('.backButton:focus-visible') && css.includes('.menuMusicControl:focus-visible'), 'Primary non-tile controls need explicit focus visibility.');
+assert.ok(css.includes('.backButton:focus-visible'), 'Primary non-tile controls need explicit focus visibility.');
+// r87 (Nik 2026-11-01): the Home music strip (and its .menuMusicControl buttons) is gone; music is the MUSIC tab / top-bar dock.
+assert.ok(!css.includes('.menuMusicControl'), 'No Home music strip controls remain in app.css.');
 const clubRevealIndex = (css.match(/\.clubRevealIndex\{[^}]+\}/) || [])[0] || '';
 assert.ok(clubRevealIndex.includes('color:rgba(255,255,255,.66)'), 'Club reveal sequence indices must retain readable contrast.');
 assert.ok(css.includes('.transferOverviewStatus{color:#596873;}'), 'Showdown Home transfer status must retain readable contrast.');

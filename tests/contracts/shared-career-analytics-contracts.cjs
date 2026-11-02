@@ -14,13 +14,25 @@ const labels=["Highest season score","Highest league points","Highest league goa
 let cases=0;
 function check(name,fn){try{fn();cases+=1;}catch(error){error.message=name+": "+error.message;throw error;}}
 
+check("0. A summary saved before 2.0.0 still loads (r87)",()=>{
+  // A Firebase careerSummary is create-only, so a finished Showdown saved by r86 keeps its old projection, which counted an
+  // 11 as a perfect season. It must load as completed (never "unavailable"), with 0 perfect seasons and the same totals.
+  const fresh=projection({totalSeasons:3,seasons:[[perfect,result()],[result(),result({leaguePosition:1})],[result(),result()]]});
+  const saved=JSON.parse(JSON.stringify(fresh));saved.managerRecords.playerOne.perfectSeasons=1;
+  const m=model([entry(saved)]);
+  assert.equal(m.status,"ready");assert.equal(m.history.showdowns.length,1);assert.equal(m.history.showdowns[0].status,"completed","the old summary is a finished Showdown, not unavailable");
+  assert.equal(m.managers.daniel.perfectSeasons,0);assert.equal(m.managers.daniel.careerPoints,fresh.managerRecords.playerOne.totalPoints);
+  const forged=JSON.parse(JSON.stringify(saved));forged.managerRecords.playerOne.totalPoints+=1;
+  assert.notEqual(model([entry(forged)]).history.showdowns[0]?.status,"completed","any other difference is still refused");
+});
 check("1. Bonus caps",()=>{
   const p=projection({totalSeasons:1,seasons:[[perfect,result()]]}),m=model([entry(p)]);
   assert.equal(m.managers.daniel.performanceBonuses,1,"both thresholds award one bonus");
   assert.equal(m.managers.daniel.awardsBonuses,1,"both awards award one bonus");
   assert.equal(m.history.showdowns[0].seasons[0].score.daniel,11,"maximum score is eleven");
   assert.equal(m.managers.daniel.careerPoints,11);
-  assert.equal(m.managers.daniel.perfectSeasons,1);
+  assert.equal(m.managers.daniel.perfectSeasons,0,"r87 (Nik 2026-11-01): an 11 is not a perfect season; only 15 is");
+  {const pack=projection({totalSeasons:1,seasons:[[{...perfect,primePack:4},result()]]}),mp=model([entry(pack)]);assert.equal(mp.history.showdowns[0].seasons[0].score.daniel,15);assert.equal(mp.managers.daniel.perfectSeasons,1,"15 is a perfect season");}
   assert.equal(m.managers.daniel.hundredPointSeasons,1);
   assert.equal(m.managers.daniel.hundredGoalSeasons,1);
   assert.equal(m.managers.daniel.topScorerSeasons,1);
@@ -66,7 +78,10 @@ check("4. Final is totals only",()=>{
   assert.equal(m.history.showdowns[0].winner,"draw");
   for(const manager of Object.values(m.managers))assert.deepEqual(manager.showdowns,{completed:1,wins:0,draws:1,losses:0});
   const invalid=entry(p,"completed",{...finalFor(p),winner:"playerOne"});
-  assert.equal(model([invalid]).status,"partial","season wins cannot break a final draw");
+  // r87 Fable F7-01: a level final that names a winner (pre-r83 shape) still counts, and only as a DRAW.
+  const levelNamed=model([invalid]);
+  assert.equal(levelNamed.status,"ready");assert.equal(levelNamed.history.showdowns[0].winner,"draw","season wins cannot break a final draw");
+  for(const manager of Object.values(levelNamed.managers))assert.deepEqual(manager.showdowns,{completed:1,wins:0,draws:1,losses:0});
 });
 check("5. Once only",()=>{
   const p=projection({totalSeasons:1,seasons:[[perfect,result()]]}),e=entry(p),m=model([e,clone(e)]);
@@ -236,9 +251,11 @@ check("17. Agreement with sharedHistoryConvergence",()=>{
   const m=model([entry(p)]);
   const sharedFields=["seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"];
   for(const [role,manager] of [["playerOne","daniel"],["playerTwo","nik"]]){
-    for(const field of sharedFields)assert.equal(m.managers[manager][field],p.managerRecords[role][field],`${manager}.${field} agrees with verified history`);
+    // r87 (Nik 2026-11-01): perfect is 15. The History projection keeps counting 11 or more (rebuilt byte for byte, and
+    // stored Firebase summaries hold it), so the career model counts the 15s in the verified seasons instead.
+    for(const field of sharedFields)assert.equal(m.managers[manager][field],field==="perfectSeasons"?p.seasonHistory.filter(row=>row[role].scoring.total===15).length:p.managerRecords[role][field],`${manager}.${field} agrees with verified history`);
     assert.equal(m.managers[manager].careerPoints,p.managerRecords[role].totalPoints,`${manager}.careerPoints equals totalPoints`);
   }
 });
 
-console.log(`PASS Shared Career Analytics contracts (${cases}/18 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.`);
+console.log(`PASS Shared Career Analytics contracts (${cases}/19 cases): capped scoring, verified deduplication, lifecycle exclusion, final integrity, weighted averages, role mapping, records, status, pure frozen outputs and history agreement.`);

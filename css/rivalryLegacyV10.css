@@ -1283,7 +1283,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel { min-height:clamp(232px,39.4svh,440px); }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyCardGrid { grid-area:1 / 2 / 3 / 3; grid-auto-rows:1fr; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager { position:relative; z-index:2; pointer-events:none; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager button { pointer-events:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager :is(button,.legacyPageScrub) { pointer-events:auto; }
   /* side tabs */
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel {
     border:0; border-right:1px solid #d9aa3c99; border-radius:0; background:linear-gradient(180deg,#0a0a0bf2,#050506f5); box-shadow:none;
@@ -1443,3 +1443,216 @@
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown { grid-column:1 / -1; justify-self:center; align-self:start; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:2px 8px; margin:4px 0 0; }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img { width:18px; height:18px; object-fit:contain; filter:drop-shadow(0 0 6px rgba(255,211,77,.6)); }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown strong { color:var(--sd-gold-300,#ffd34d); letter-spacing:.1em; }
+
+/* HO-043 (Team V, 29 Oct 2026) · item 3: desktop Legacy. The archive frame's second pane was empty marble and VIEW SEASON HISTORY
+   opened the season list in a fourth grid row, below the window (CLOSE SEASON HISTORY under the fold). The list now opens
+   inside the frame, in that empty pane (the grid area of the archive panel, inset to the pane's edges), and scrolls inside it
+   when a Showdown has many seasons. It stops above the pager row (the < . > controls keep their place and stay tappable).
+   Nothing else moves; the list keeps its own words, rows and the close button. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
+    position:absolute; z-index:4; grid-area:2 / 1 / 3 / -1; box-sizing:border-box;
+    inset:12px 12px 30% calc(17.5% + 14px + (100% - 17.5% - 24px) / 4 + 10px); width:auto; height:auto; max-height:none;
+    margin:0; padding:10px 14px; transform:none; overflow:auto; overscroll-behavior:contain;
+    border:1px solid #d9aa3cb0; border-radius:2px;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat;
+    box-shadow:inset 0 0 0 1px #000a,0 10px 28px #000b;
+  }
+  /* Inside the pane the list is compact so a normal Showdown (3 seasons) fits without an inner scroll: the close button
+     sits in flow (no sticky bar over the frame), one line per season with the details and a Europa League win inline. */
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn { position:static !important; min-height:32px !important; padding:4px 12px; font-size:12px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryHeading { margin:6px 0 4px; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRows { gap:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow { min-height:0; padding:3px 8px; gap:8px; font-size:12px; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow :is(.daniel,.nik) > span { display:inline !important; line-height:16px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow :is(.daniel,.nik) > span::before { content:" · "; color:#8f8775; }
+  /* r87: the list sits over the second to fourth card slots. While it is open the other Showdown cards step aside (hidden in
+     their slots, so nothing moves or peeks out above and below the list) and the chosen Showdown's card takes the first slot. */
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid > .legacyCard:not([data-selected="true"]) { visibility:hidden; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid > .legacyCard[data-selected="true"] { order:-1; }
+  /* the pane under the list keeps its edge; the pager dots stay below it */
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager { z-index:1; }
+}
+/* r87: phones and tablets. When VIEW SEASON HISTORY opens the list, js scrolls it into view; it stops 12px above the tab bar
+   (the list opened below the fold, behind the bar). */
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory { scroll-margin-top:12px; scroll-margin-bottom:calc(var(--sd-nav-bottom-space,56px) + 12px); }
+}
+/* r87 career fixes (red team lane A).
+   A-01: on desktop a 3-digit total ("110 – 110", every Golden Showdown) is wider than the score's third of the card and ran
+   over Nik's crest and name. Only that card (data-wide-score, set by js/rivalryLegacyV10.js) gives the score the width it
+   needs and sizes it to the card (container units), so the card keeps its height; a long club word may break inside its
+   own column instead of running into the next.
+   A-07: Special Player names on History cards were cut short ("A. Oxla…"). On desktop a long name wraps inside its chip
+   (the R87-D-04 Career Table rule), each chip still under its own manager's side. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard { container-type:inline-size; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-wide-score="true"] .legacyCardBody { grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-wide-score="true"] .legacyScore { white-space:nowrap; font-size:min(clamp(22px,1.9vw,56px),9cqi); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyClubName { overflow-wrap:anywhere; hyphens:auto; -webkit-hyphens:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial { align-items:flex-start; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { align-items:flex-start; border-radius:.7em; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip .spChipName {
+    max-width:none; overflow:visible; text-overflow:clip; white-space:normal; overflow-wrap:break-word;
+  }
+  /* a narrow card (four across on a window up to about 1150 wide): each chip takes its own line, Daniel's left and Nik's right, so a
+     name breaks only between words */
+  @container (max-width:175px) {
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial { flex-direction:column; align-items:stretch; gap:3px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { max-width:100%; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip:nth-child(1) { align-self:flex-start; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip:nth-child(2) { align-self:flex-end; }
+  }
+}
+/* the big desktop score (36px and up) drew its glyphs 4px into the draw "=" above it (line-height 1); a little more line
+   keeps them apart */
+@media (min-width:1600px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyScore { line-height:1.2; }
+}
+/* A-06: on phones the sticky VIEW SEASON HISTORY button sat over the pager (‹ › and the dots) until the player scrolled.
+   It now stays in its own row under the pager, so nothing covers anything. */
+@media (max-width:600px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction { position:relative; bottom:auto; }
+}
+/* r87 career fixes (Nik 2026-10-31): long careers. More than ten positions swap the dots for a "‹ 37 / 100 ›" counter,
+   « » jumps to the oldest and newest Showdown, and a gold scrubber on its own line under them (in the pager's own row, so
+   nothing moves elsewhere and nothing covers anything). */
+#app #legacy[data-rivalry-legacy-v10] .legacyPager[data-compact="true"] {
+  flex-wrap:wrap; height:auto; min-height:44px; row-gap:2px; column-gap:6px; align-content:center;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyPageCounter {
+  flex:0 0 auto; min-width:96px; padding:0 4px; text-align:center; white-space:nowrap;
+  font-variant-numeric:tabular-nums; font-weight:700; font-size:15px; line-height:20px; letter-spacing:.06em;
+  color:#fff1b8; text-shadow:0 1px 2px #000;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyPager[data-compact="true"] button { color:#f2c45b; font-size:22px; line-height:1; }
+#app #legacy[data-rivalry-legacy-v10] .legacyPager button:disabled { opacity:1; color:#6f6a5c; cursor:default; }
+#app #legacy[data-rivalry-legacy-v10] .legacyPageScrub {
+  flex:1 1 100%; order:9; box-sizing:border-box; width:100%; max-width:520px; height:28px; margin:0 auto; padding:0;
+  background:transparent; accent-color:#e4b032; cursor:pointer;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyPageScrub:focus-visible { outline:2px solid #ffe36c; outline-offset:2px; }
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyPageScrub { height:36px; }
+}
+/* r87 career fixes (A-06 with the compact pager): VIEW SEASON HISTORY is no longer sticky, so on phones the hero picture
+   gives up the room the longer content needs (the scrubber line, a Golden Showdown line) and the button still shows above
+   the tab bar on first paint. Both are fixed for the visit (career size, any Golden card), so nothing jumps while paging. */
+@media (max-width:600px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] {
+    --lg-hero:clamp(44px,calc(100svh - 476px - var(--lg-trim-pager,0px) - var(--lg-trim-golden,0px) - env(safe-area-inset-bottom)),350px);
+  }
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyPager[data-compact="true"]) { --lg-trim-pager:46px; }
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyCard[data-golden="true"]) { --lg-trim-golden:64px; }
+}
+
+/* r87 career polish: History season list as a table (Season · Daniel · Nik · Result). The heading and the close button share one
+   line, each manager cell shows the season's Showdown points large with the league finish below, and the Result column names
+   the winner with the crown, or "=" and Draw for equal points (no tiebreak). The season winner's points are gold; a draw keeps
+   both white. Every size; nothing here moves the list out of the place earlier rules give it. */
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
+  display:grid; grid-template-columns:minmax(0,1fr) auto; align-content:start; column-gap:12px;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > * { grid-column:1 / -1; }
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryHeading { grid-column:1; grid-row:1; align-self:center; margin:0 !important; font-size:13px !important; letter-spacing:.12em; color:var(--sd-gold-300,#ffd34d); }
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryClose {
+  grid-column:2; grid-row:1; position:static !important; min-height:36px !important; padding:4px 14px !important;
+  border:1px solid rgba(242,196,91,.55) !important; border-radius:2px; background:rgba(8,9,11,.9) !important;
+  color:#f4f1ea !important; font-size:11px !important; letter-spacing:.12em; text-transform:uppercase;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistorySpecialPlayers { margin:8px 0 0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable {
+  width:100%; margin-top:8px; border-collapse:collapse; table-layout:fixed; font-variant-numeric:tabular-nums; color:#f4f1ea;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable th,
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td { padding:6px 8px; vertical-align:middle; text-align:center; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th {
+  padding-top:4px; padding-bottom:6px; border-bottom:1px solid rgba(242,196,91,.55);
+  color:#c9b98f; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonHead,
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonLabel { width:18%; text-align:left; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResultHead,
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResult { width:18%; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable tbody tr { border-top:1px solid rgba(255,255,255,.09); }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable tbody tr:first-child { border-top:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable tbody tr:nth-child(even) { background:rgba(255,255,255,.025); }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel { color:#e9dfc6; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:block; font-size:20px; line-height:22px; font-weight:800; color:#f4f1ea; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td[data-won="true"] .legacyHistoryPoints { color:var(--sd-gold-300,#ffd34d); text-shadow:0 0 10px rgba(255,211,77,.35); }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:block; margin-top:2px; color:#b9b3a4; font-size:11px; line-height:14px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { display:block; margin-top:2px; color:#f3ce6a; font-size:11px; line-height:14px; font-weight:700; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryResult { white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryMark { display:inline-block; min-width:1.1em; margin-right:4px; color:var(--sd-gold-300,#ffd34d); font-size:14px; font-weight:800; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { color:#f4f1ea; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistorySeason[data-winner="draw"] .legacyHistoryWinner { color:#c9b98f; }
+/* Desktop pane: compact enough that a 3-season Showdown fits the pane at 1366x768 with no inner scroll and no sticky bar
+   (main stays the only scroller there; a long Showdown still scrolls inside the pane as HO-043 allows). */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding:8px 14px; row-gap:4px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { bottom:calc(22% + 6px); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th { padding-top:2px; padding-bottom:3px; }
+  /* one line per season: the points sit beside the league line (a Europa League win wraps under it) */
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable :is(th,td) { padding-top:2px; padding-bottom:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:inline-block; min-width:1.6em; margin-right:8px; vertical-align:middle; font-size:18px; line-height:19px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:inline-block; margin:0; vertical-align:middle; line-height:13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { margin-top:0; line-height:13px; }
+}
+/* Short desktop windows (1280x650, 1366x640): a 3-season Showdown still fits the pane with no inner scroll. */
+@media (min-width:1200px) and (min-height:600px) and (max-height:700px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:6px; padding-bottom:6px; row-gap:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryClose { min-height:28px !important; padding:2px 12px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable :is(th,td) { padding-top:1px; padding-bottom:1px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { font-size:16px; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { line-height:12px; }
+}
+@media (min-width:1700px) and (min-height:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { font-size:24px; line-height:26px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { font-size:13px; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { font-size:14px; }
+}
+/* Phones: four narrow columns; "Season 3" shortens to its number column, the details wrap under the points. */
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable th,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td { padding:7px 4px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonHead,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonLabel { width:19%; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResultHead,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistoryResult { width:21%; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel { font-size:11px; white-space:normal; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { font-size:10.5px; line-height:13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { font-size:11px; letter-spacing:.04em; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryHeading { font-size:12px !important; }
+}
+
+/* r87 career polish, round 2. History: with no finished Showdown the disabled VIEW SEASON HISTORY reads as disabled (muted
+   ink on plain marble, no gold face). Rivalry Statistics desktop: the trophy cabinet's names and "D n · N n" counts were 9-10px
+   (a11y A-06); they are 11px and 13px. */
+#app #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction:disabled {
+  background:#0d0c0a url("r78-marble-tile.webp") 0 0/256px 256px repeat !important; color:#8f8775 !important;
+  border-color:rgba(242,196,91,.28) !important; box-shadow:none !important; text-shadow:none !important; cursor:default; filter:none;
+}
+@media (min-width:901px) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-trophyLabel { font-size:11px; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-trophyCount { font-size:13px; }
+}
+
+/* r87 round 3 (career pages toward 10/10): on desktop the data words are at least 11px; nothing moves. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardFooter { font-size:max(11px,.6vw); }
+  #app #statistics[data-rivalry-legacy-v10] .rv-progress { font-size:max(11px,.62vw); }
+  #app #statistics[data-rivalry-legacy-v10] .rv-seasonTable th { font-size:max(11px,.62vw); letter-spacing:.06em; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-seasonTable td { font-size:max(13px,.8vw); }
+}
+@media (max-width:900px) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-progress { font-size:10px; width:auto; min-width:92px; max-width:40%; }
+}
+/* r87 sizes F7: below the tablet managers' hands, above the archive. Keep the
+   title in its hero band and leave the tabs and history action where they are. */
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyWordmarkWrap { top:68%; }
+}

@@ -90,7 +90,7 @@ async function transferContracts(){
     h.scripts.requestEndWindow.push(denied("permission-denied"),denied("permission-denied"),denied("permission-denied"));
     h.api.install();await h.tap("endTransferTimer");
     assert.equal(h.calls.mutations.length,2,"a real denial must be tried at most twice (one retry), never looped");
-    assert.equal(h.error(),"permission-denied","a real denial must still be visible after the one retry");
+    assert.match(h.error(),/session has lapsed\. Go back to Showdown Home/,"a real denial must still be visible after the one retry, in plain words (red team R87-B-05)");
   }
   // A4. The refreshed state already shows the outcome (partner already moved the phase on): silent, no second write.
   {
@@ -130,12 +130,13 @@ async function transferContracts(){
     assert.match(h.error(),/^Complete guess 1 with a FIFA 17 league or nationality\.$/,"the validation sentence must be shown, not TRANSFER_GUESSES_INVALID");
     assert.equal(h.calls.mutations.length,0,"an invalid form must not reach the provider");
   }
-  // D2. Provider codes are still shown as codes (the generic wrapper sentence is not more useful than the code).
+  // D2. r87 (2.0.0, Nik's plain-words sweep): an unmapped provider code is never shown raw; the player gets the plain
+  // fallback sentence with a way forward (the code stays in the console).
   {
     const h=transferHarness(windowOpen());await h.api.refresh();
     h.scripts.requestEndWindow.push(denied("TRANSFER_COORDINATOR_REQUIRED"));
     h.api.install();await h.tap("endTransferTimer");
-    assert.equal(h.error(),"TRANSFER_COORDINATOR_REQUIRED");
+    assert.equal(h.error(),"The Transfer War did not update. Try again.");
   }
   // D3. Signing name inputs are capped at the provider's 80 characters (set from this lazy module; index.html is in the startup budget).
   {
@@ -147,7 +148,7 @@ async function transferContracts(){
     const guessState=()=>({revision:3,state:{...windowOpen().state,phase:"GUESS_ENTRY",revision:3}});
     const signingState=()=>({revision:3,state:{...windowOpen().state,phase:"SIGNING_ENTRY",revision:3}});
     const fillGuesses=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p2Guess${i}Type`).value="league";const v=h.node(`p2Guess${i}Value`);v.value=`League ${i}`;v.dataset.canonicalId=`league_${i}`;}};
-    const fillSignings=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p1Signing${i}Name`).value=`Player ${i}`;h.node(`p1Signing${i}League`).value=`League ${i}`;h.node(`p1Signing${i}League`).dataset.canonicalId=`league_${i}`;h.node(`p1Signing${i}Nationality`).value=`Nation ${i}`;h.node(`p1Signing${i}Nationality`).dataset.canonicalId=`nation_${i}`;}};
+    const fillSignings=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p1Signing${i}Name`).value=`Player ${i}`;h.node(`p1Signing${i}Overall`).value=`7${i}`;if(h.node(`p1Signing${i}Position`))h.node(`p1Signing${i}Position`).value="ST";h.node(`p1Signing${i}League`).value=`League ${i}`;h.node(`p1Signing${i}League`).dataset.canonicalId=`league_${i}`;h.node(`p1Signing${i}Nationality`).value=`Nation ${i}`;h.node(`p1Signing${i}Nationality`).dataset.canonicalId=`nation_${i}`;}};
     for(const kind of ["guesses","signings"]){
       const method=kind==="guesses"?"lockGuesses":"lockSignings",initial=kind==="guesses"?guessState:signingState,fill=kind==="guesses"?fillGuesses:fillSignings;
       // E1. Partial lock, confirm returns false: no provider call, no error.
@@ -301,7 +302,7 @@ async function setupContracts(){
 function sourceContracts(){
   const commit=read("js/productionSharedSeasonCommit.js");
   assert.ok(!/SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY/.test(commit),"stale 'scoring remains locked' copy must be gone");
-  assert.ok(commit.includes('"SEASON COMMITTED · SCORE BELOW"'),"after both acknowledged the commit panel must point at the score below");
+  assert.ok(commit.includes('"SEASON CONFIRMED BY BOTH MANAGERS"'),"after both acknowledged the commit panel says both managers confirmed (r87 proofread: one verb, no COMMITTED)");
   for(const file of ["js/productionSharedTransferChallenge.js","js/productionSharedCareerStart.js","js/productionSharedShowdownSetup.js"])assert.ok(/permission-denied/.test(read(file)),`${file} must handle a lost-race permission-denied`);
 }
 

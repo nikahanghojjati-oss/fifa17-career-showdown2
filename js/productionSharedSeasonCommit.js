@@ -105,7 +105,7 @@
     }
     const role=view.managerRole,coordinator=view.coordinatorRole,phase=view.phase||"RESULTS_READY";
     if(phase==="ACKNOWLEDGED"){
-      psscText(ui.status,"SEASON COMMITTED · SCORE BELOW");psscText(ui.action,"SEASON CONFIRMED ✓");psscDisable(ui.action,true);return true;
+      psscText(ui.status,"SEASON CONFIRMED BY BOTH MANAGERS");psscText(ui.action,"SEASON CONFIRMED ✓");psscDisable(ui.action,true);return true;
     }
     if(view.committed){
       if(view.ownAcknowledged){psscText(ui.status,"YOU CONFIRMED THIS SEASON · WAITING FOR YOUR RIVAL");psscText(ui.action,"CONFIRMED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
@@ -113,10 +113,13 @@
       return true;
     }
     if(role===coordinator){psscText(ui.status,`BOTH RESULTS ARE IN · LOCK THE SEASON${psscClashWarning("You")}`);psscText(ui.action,"LOCK & CONFIRM SEASON");psscDisable(ui.action,busy);}
-    else{psscText(ui.status,`BOTH RESULTS ARE IN · WAITING FOR ${psscManagerName(coordinator)} TO LOCK THE SEASON${psscClashWarning("The host")}`);psscText(ui.action,"WAITING FOR HOST");psscDisable(ui.action,true);}
+    else{psscText(ui.status,`BOTH RESULTS ARE IN · WAITING FOR ${String(psscManagerName(coordinator)).toUpperCase()} TO LOCK THE SEASON${psscClashWarning(psscManagerName(coordinator))}`);psscText(ui.action,`WAITING FOR ${String(psscManagerName(coordinator)).toUpperCase()}`);psscDisable(ui.action,true);}
     return true;
   }
-  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;const before=view&&contextKey===request.key?view.phase:null;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();if(before&&before!=="ACKNOWLEDGED"&&view.phase==="ACKNOWLEDGED")psscNudgeHistory();if(view.phase==="ACKNOWLEDGED"){try{root.CareerModeFirestoreBudget?.noteSeasonDone?.(`${view.rivalryId}|${request.seasonNumber}`,Boolean(before&&before!=="ACKNOWLEDGED"));}catch(_error){}}return true;}
+  // r87 shared reads meter: the season's ACKNOWLEDGED also tells the reads meter this phone's role and Firestore, so it writes this
+  // phone's meter document once and reads the partner's (js/sparkPrivatePairing.js, fsbShareSeason). Season 1 is measured from
+  // its Career Start (noteSeasonStart), never from the setup before it.
+  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;const before=view&&contextKey===request.key?view.phase:null;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();if(before&&before!=="ACKNOWLEDGED"&&view.phase==="ACKNOWLEDGED")psscNudgeHistory();if(view.phase==="ACKNOWLEDGED"){try{root.CareerModeFirestoreBudget?.noteSeasonDone?.(`${view.rivalryId}|${request.seasonNumber}`,Boolean(before&&before!=="ACKNOWLEDGED"),{role:ctx.setup.managerRole,season:request.seasonNumber,rivalryId:view.rivalryId,firestore:ctx.options?.firestore||null});}catch(_error){}}return true;}
   // r75: the moment this page sees the season commit become ACKNOWLEDGED, Canonical Scoring and then Shared History check
   // once, in that order (History needs the reconciled score), instead of each waiting for its next 3 s check: nothing else
   // announces the commit change to them. The next season, the history screens and Final Winner follow from History's event.
@@ -155,7 +158,7 @@
   function psscSatisfied(kind,current){if(kind==="commit")return Boolean(current.committed);return Boolean(current.ownAcknowledged||current.phase==="ACKNOWLEDGED");}
   async function psscWrite(kind,ctx,request,current){
     const operationId=psscRandomOperationId(),method=kind==="commit"?"commitSeason":"acknowledgeSeason";
-    if(kind==="commit"&&current.managerRole!==current.coordinatorRole)psscFail("SEASON_COMMIT_COORDINATOR_REQUIRED","Only the host can lock the season.");
+    if(kind==="commit"&&current.managerRole!==current.coordinatorRole)psscFail("SEASON_COMMIT_COORDINATOR_REQUIRED",`Only ${psscManagerName(current.coordinatorRole)} can lock the season.`);
     for(let attempt=0;attempt<2;attempt+=1){
       const baseRevision=Number(current.revision||0);
       const providerRequest={...ctx.options,operationId,baseRevision};
@@ -194,13 +197,17 @@
   // A hidden page stops them (keep=true) and the same wait attaches them again when it returns (psscWaitReturn); their first
   // server delivery is the new baseline and answers the return check's reads of the same documents (one read each).
   // An ACKNOWLEDGED revision-3 commit can never change again (Rules), so the next attach leaves it out.
-  let waitContext=null,waitReturn=null;const waitSettled=new Set();
+  // Fable job 3 F3-02: only the waited season's commit and the next one are watched. An earlier season is ACKNOWLEDGED before
+  // this one starts, and a commit after the next cannot exist before the next is ACKNOWLEDGED, which needs this phone. Before,
+  // a 10-season Showdown attached one listener per season on each new wait (measured on season 1: 58 billed to 42).
+  // The season is part of the key, so a wait on the next season attaches its own pair.
+  let waitContext=null,waitReturn=null;const waitSettled=new Set(),WAIT_PENDING_GRACE_MS=10000;
   function psscDropWaitContext(keep=false){const held=waitContext,budget=root.CareerModeFirestoreBudget;waitContext=null;if(keep===true&&held&&!held.failed)waitReturn={key:held.key,watching:held.watching};else if(keep!==true||held){waitReturn=null;budget?.returnListen?.([]);}if(!held)return;for(const stop of held.stops.values())try{stop();}catch(_error){}held.stops.clear();budget?.listened?.();}
   function psscWaitReturn(){const back=waitReturn,request=psscRequestContext();waitReturn=null;if(back&&request&&psscWaitScreen()&&!root.CareerModeFirestoreBudget?.paused?.())psscWaitContext(request,back.watching,back.key);else root.CareerModeFirestoreBudget?.returnListen?.([]);}
   function psscContextWake(){try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-wait-context-change"));}catch(_error){}}
   function psscWaitContext(request,watching,returnKey){
     const setup=psscSetupState(),runtime=root.CareerModeProductionFirebaseRuntime,budget=root.CareerModeFirestoreBudget;
-    const key=`${request.rivalryId}|${setup?.accountId}|${setup?.deviceId}|${setup?.sessionId}`;
+    const key=`${request.rivalryId}|${setup?.accountId}|${setup?.deviceId}|${setup?.sessionId}|season_${request.seasonNumber}`;
     if(returnKey!==undefined&&returnKey!==key){budget?.returnListen?.([]);return false;}
     if(waitContext?.key===key){
       const held=waitContext;
@@ -230,7 +237,7 @@
       if(waitContext!==held)return;
       const base=`rivalries/${request.rivalryId}`,paths=[base,`${base}/sharedSetup/authoritative`,`${base}/sessions/${setup.sessionId}`];
       const total=Number(setup.setup?.totalSeasons);
-      if([1,3,5,10].includes(total))for(let n=1;n<=total;n++)paths.push(`${base}/seasonCommits/season_${n}`);
+      if([1,3,5,10].includes(total))for(let n=request.seasonNumber;n<=Math.min(total,request.seasonNumber+1);n++)paths.push(`${base}/seasonCommits/season_${n}`);
       held.paths=paths;
       const pending=held.pending=new Set(paths.filter(path=>path!==held.watching&&!waitSettled.has(path)));let queued=false,sessionChanged=false,dirty=false,notified=false;
       budget?.returnListen?.([...pending]);
@@ -254,7 +261,10 @@
     }).catch(fail);
     return false;
   }
-  function psscWaitHealthy(){const request=psscRequestContext(),live=root.CareerModeFirestoreBudget?.stats?.();const healthy=Boolean(request&&root.document?.visibilityState!=="hidden"&&!root.CareerModeFirestoreBudget?.paused?.()&&live?.watchHealthy&&["seasonResults","seasonCommits"].some(collection=>live.watching===`rivalries/${request.rivalryId}/${collection}/season_${request.seasonNumber}`));if(!healthy){const hidden=root.document?.visibilityState==="hidden";if(!(request&&!hidden&&!root.CareerModeFirestoreBudget?.paused?.()&&waitContext?.returnUntil>Date.now()))psscDropWaitContext(hidden);return false;}return ![root.CareerModeProductionSharedMultiSeasonProgression,root.CareerModeProductionSharedFinalReconciliation,root.CareerModeProductionSharedJourneyReconnect,root.CareerModeProductionSharedTerminalClose].some(api=>api?.productionEnabled===true)||psscWaitContext(request,live.watching);}
+  // Fable job 3 F3-12: this phone's own write of the watched document leaves the same wait listener attached but not live
+  // (pending writes, dirty) until the server's copy arrives. For up to WAIT_PENDING_GRACE_MS the authority listeners are kept
+  // (the wait still reports not healthy, so every fallback check runs as before); a lost or replaced wait listener drops them at once.
+  function psscWaitHealthy(){const request=psscRequestContext(),live=root.CareerModeFirestoreBudget?.stats?.();const waited=Boolean(request&&["seasonResults","seasonCommits"].some(collection=>live?.watching===`rivalries/${request.rivalryId}/${collection}/season_${request.seasonNumber}`));const healthy=Boolean(request&&root.document?.visibilityState!=="hidden"&&!root.CareerModeFirestoreBudget?.paused?.()&&live?.watchHealthy&&waited);if(!healthy){const hidden=root.document?.visibilityState==="hidden",now=Date.now(),held=waitContext,usable=Boolean(request&&!hidden&&!root.CareerModeFirestoreBudget?.paused?.());if(held&&usable&&waited&&held.watching===live.watching&&!held.failed&&!held.pendingSince)held.pendingSince=now;if(!(usable&&held&&(held.returnUntil>now||waited&&held.watching===live.watching&&!held.failed&&now-held.pendingSince<WAIT_PENDING_GRACE_MS)))psscDropWaitContext(hidden);return false;}if(waitContext)waitContext.pendingSince=0;return ![root.CareerModeProductionSharedMultiSeasonProgression,root.CareerModeProductionSharedFinalReconciliation,root.CareerModeProductionSharedJourneyReconnect,root.CareerModeProductionSharedTerminalClose].some(api=>api?.productionEnabled===true)||psscWaitContext(request,live.watching);}
 
   function psscWaitingKey(){
     const screen=psscField("seasonEntry"),request=psscRequestContext();if(!psscWaitScreen()||!view||!request||contextKey!==request.key||!psscResultsReady(request))return "";

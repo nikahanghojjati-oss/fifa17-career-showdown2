@@ -1,6 +1,7 @@
 // r85 (Nik 2026-10-27): the soundtrack player outside Home's own strip.
 // - Desktop: a compact dock in the top bar, after the tabs, on every screen (Home too: its strip is hidden on desktop).
-// - Phone and tablet (900px and under): a sixth MUSIC tab in the tab bar, and Home's TRACKS button, open the player sheet.
+// - Phone and tablet (900px and under): a sixth MUSIC tab in the tab bar opens the player sheet.
+// r87 (Nik 2026-11-01): Home has no music strip of its own any more; these two are the only music controls.
 // - Both open one player panel: now playing, progress, previous / play / next / mute, and a one-column tracklist with
 //   every title and artist written in full, scrolling inside itself. It is opaque and never dims the screen behind it.
 // It drives Home's one <audio> through window.HomeSoundtrack, so a song keeps playing across screens. Nothing here touches
@@ -43,22 +44,25 @@
     const api=player(),t=api&&api.current&&api.current();
     if(!t)return;
     const s=api.state(),failed=Boolean(s.failed),playing=Boolean(s.playing&&s.wantPlaying);
-    const artist=failed?"STREAM UNAVAILABLE · PICK ANOTHER":t.artist;
+    const artist=failed?"STREAM UNAVAILABLE · TRY AGAIN":t.artist;
     if(dock){
       setText(dock.title,t.title);setText(dock.artist,artist);
       swapIcon(dock.toggle,s.wantPlaying?"pause":"play");
       dock.toggle.setAttribute("aria-label",(s.wantPlaying?"Pause ":"Play ")+t.title);dock.toggle.setAttribute("aria-pressed",String(Boolean(s.wantPlaying)));
       // Mute waits for the first Play, as on Home (there is no sound to mute before it).
-      dock.mute.disabled=!s.src;swapIcon(dock.mute,s.muted?"muted":"sound");
+      dock.mute.disabled=!mdAudio();swapIcon(dock.mute,s.muted?"muted":"sound");
       dock.mute.setAttribute("aria-label",s.muted?"Unmute":"Mute");dock.mute.setAttribute("aria-pressed",String(Boolean(s.muted)));
       dock.open.setAttribute("aria-expanded",String(Boolean(sheet&&!sheet.root.hidden)));
       dock.root.dataset.playing=String(playing);dock.root.dataset.failed=String(failed);
     }
     if(sheet){
-      setText(sheet.title,t.title);setText(sheet.artist,artist);
+      // r87: the kicker says what the player is doing, so a Play tap never looks dead while Audius connects.
+      const a=mdAudio(),begun=Boolean(a&&s.src&&a.currentTime>0),sounding=playing&&Boolean(a)&&a.readyState>=3;
+      setText(sheet.kicker,failed?"STREAM UNAVAILABLE":s.wantPlaying&&!sounding?"CONNECTING":sounding?(s.muted?"NOW PLAYING · MUTED":"NOW PLAYING"):begun?"PAUSED":"READY TO PLAY");
+      setText(sheet.title,t.title);setText(sheet.artist,failed?"Tap Play to try again, or pick another song":t.artist);
       swapIcon(sheet.play,s.wantPlaying?"pause":"play");
       sheet.play.setAttribute("aria-label",(s.wantPlaying?"Pause ":"Play ")+t.title);
-      sheet.mute.disabled=!s.src;swapIcon(sheet.mute,s.muted?"muted":"sound");
+      sheet.mute.disabled=!mdAudio();swapIcon(sheet.mute,s.muted?"muted":"sound");
       sheet.mute.setAttribute("aria-label",s.muted?"Unmute":"Mute");sheet.mute.setAttribute("aria-pressed",String(Boolean(s.muted)));
       sheet.root.dataset.playing=String(playing);sheet.root.dataset.failed=String(failed);
       // The current song: aria-current plus a visible "now playing" icon (css), never colour alone. It is also the row
@@ -73,13 +77,36 @@
     }
     const tab=root.document.getElementById("cmsMusicTab");
     if(tab){tab.dataset.playing=String(playing);tab.setAttribute("aria-expanded",String(Boolean(sheet&&!sheet.root.hidden&&sheet.root.dataset.mode==="phone")));}
+    mdSession(t,s,playing);
     // A longer title or artist widens the dock, so the fit beside the account chips is worked out again (Codex, PR #1010).
     mdFitTop();
+  }
+
+  // r87: the phone lock screen and the Chromebook media controls name the song and drive this player (no artwork request).
+  let sessionKey=null;
+  function mdSession(t,s,playing){
+    const ms=root.navigator&&root.navigator.mediaSession;
+    if(!ms||!s.src)return;
+    try{
+      if(sessionKey!==t.key&&typeof root.MediaMetadata==="function"){sessionKey=t.key;ms.metadata=new root.MediaMetadata({title:t.title,artist:t.artist,album:"Career Mode Showdown"});}
+      ms.playbackState=playing||s.wantPlaying?"playing":"paused";
+    }catch(_){}
+  }
+  function mdSessionActions(){
+    const ms=root.navigator&&root.navigator.mediaSession;
+    if(!ms||typeof ms.setActionHandler!=="function")return;
+    const set=(action,fn)=>{try{ms.setActionHandler(action,fn);}catch(_){}};
+    set("play",()=>{if(!player().state().wantPlaying)player().toggle();});
+    set("pause",()=>{if(player().state().wantPlaying)player().toggle();});
+    set("previoustrack",()=>mdStep(-1));
+    set("nexttrack",()=>mdStep(1));
   }
 
   function mdTime(){
     if(!sheet||sheet.root.hidden)return;
     const a=mdAudio(),cur=a?a.currentTime:0,dur=a?a.duration:NaN;
+    // r87: the clock shows once the song has a length (no "0:00 … -:--" before the first Play); the bar stays.
+    sheet.root.dataset.timed=String(Number.isFinite(dur)&&dur>0);
     sheet.bar.style.transform=`scaleX(${Number.isFinite(dur)&&dur>0?Math.min(1,cur/dur):0})`;
     setText(sheet.times[0],mdClock(cur||0));setText(sheet.times[1],mdClock(dur));
   }
@@ -114,7 +141,7 @@
     const shield=doc.createElement("div");shield.className="cmsMusicSheetShield";shield.hidden=true;shield.setAttribute("aria-hidden","true");
     doc.body.append(shield,el);
     const q=c=>el.querySelector(c);
-    sheet={root:el,shield,list,title:q(".cmsMusicSheetText strong"),artist:q(".cmsMusicSheetText small"),play:q(".cmsMusicSheetPlay"),mute:q(".cmsMusicSheetMute"),
+    sheet={root:el,shield,list,kicker:q(".cmsMusicSheetText span"),title:q(".cmsMusicSheetText strong"),artist:q(".cmsMusicSheetText small"),play:q(".cmsMusicSheetPlay"),mute:q(".cmsMusicSheetMute"),
       bar:q(".cmsMusicSheetBar i"),times:el.querySelectorAll(".cmsMusicSheetTime small"),songs:Array.from(list.querySelectorAll(".cmsMusicSheetSong")),close:q(".cmsMusicSheetClose"),opener:null};
     sheet.play.addEventListener("click",()=>player().toggle());
     sheet.mute.addEventListener("click",()=>player().mute());
@@ -246,19 +273,6 @@
     mdRender();
   }
 
-  // Home's TRACKS button is a label for a hidden checkbox (Team V markup). Under 900px the checkbox is turned straight back
-  // off in the same task, before the old grid can paint, and the sheet opens instead.
-  function mdHomeHook(){
-    const doc=root.document,box=doc.getElementById("phoneTrackSheetToggle");
-    if(!box||box.dataset.cmsSheet)return;
-    box.dataset.cmsSheet="true";
-    box.addEventListener("change",()=>{
-      if(!box.checked||root.innerWidth>PHONE_MAX)return;
-      box.checked=false;
-      mdSheetOpen(doc.querySelector(".menuMusicTile .phoneTrackSheetOpen")||box);
-    });
-  }
-
   function mdMount(){
     const doc=root.document,top=doc.querySelector(".sd-nav-top");
     if(top&&!doc.getElementById("cmsMusicDockTop")){mdBuildDock(top,top.querySelector(".sd-nav-capsule"));mdRender();}
@@ -268,10 +282,10 @@
 
   function mdStart(){
     const api=player(),doc=root.document;
-    mdHomeHook();
     if(started||!api||typeof api.subscribe!=="function"||!api.current())return false;
     started=true;
     api.subscribe(mdRender);
+    mdSessionActions();
     mdMount();
     // The bars can be built (or rebuilt) after Home: mount into them as they appear.
     if(typeof root.MutationObserver==="function"){
