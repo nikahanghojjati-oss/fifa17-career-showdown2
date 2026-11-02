@@ -136,7 +136,7 @@ async function transferContracts(){
     const h=transferHarness(windowOpen());await h.api.refresh();
     h.scripts.requestEndWindow.push(denied("TRANSFER_COORDINATOR_REQUIRED"));
     h.api.install();await h.tap("endTransferTimer");
-    assert.equal(h.error(),"The Transfer Challenge did not update. Try again.");
+    assert.equal(h.error(),"The Transfer War did not update. Try again.");
   }
   // D3. Signing name inputs are capped at the provider's 80 characters (set from this lazy module; index.html is in the startup budget).
   {
