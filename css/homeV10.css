@@ -1134,7 +1134,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 /* ---------- r88 STORY (Nik's pick 2026-11-02: after Trophy Room) ----------
    Desktop and wide windows: an eighth tile in the row, between Trophy Room and Rule Book (DOM order; the flex row and the
    Rule Book icon rules above already cover it). Phones and upright tablets: a slim full-width STORY bar under the six
-   tiles, in its own grid row, so the six tiles keep their size. The film-reel icon is a placeholder until Team V's art. */
+   tiles, in its own grid row, so the six tiles keep their size. The film-reel icon is Team V's TILE_STORY_V1.webp (HO-055). */
 #mainMenu.v10Home #homeStoryButton .storyTileArt { position: absolute; display: block; pointer-events: none; }
 #mainMenu.v10Home #homeStoryButton .menuTileCode { color: #E8B93F; }
 @media (max-width: 760px) and (orientation: portrait) {
