@@ -187,3 +187,8 @@ Current club emblems are original procedural SVG compositions generated locally 
 ## Menu click feedback
 
 The optional menu-confirmation cue is synthesized at runtime by `js/menuFeedback.js` with Web Audio. No recorded EA/FIFA sound file is bundled or copied.
+
+## 3D engine and lighting (r89, 2.2.0)
+
+- `visual-assets/v10_1/roulette/vendor/three-r187.min.js`: three.js r187 (MIT, `vendor/THREE_LICENSE.txt`), with its EXRLoader and post-processing add-ons, bundled by `tools/three-vendor/build.mjs`. Both 3D pages (Roster Russian Roulette, Special Player) load this one copy; no CDN.
+- `visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr`: a Poly Haven HDRI (CC0, polyhaven.com) as resized to 512x256 EXR in `@pmndrs/assets` 1.7.0 ("hall", CC0-1.0). Used only for reflections and soft fill light in the roulette room.

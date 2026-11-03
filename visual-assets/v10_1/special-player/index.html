@@ -165,7 +165,7 @@ body.game #spk { display: grid; }
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  document.addEventListener('webglcontextlost',function(){ show('3D graphics were reset by the phone. Close the tab and open the link again.'); },true);
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="../roulette/vendor/three-r128.min.js"></script><!-- red team R87-SP-03: the same r128 build, shell-cached by the service worker, so the reveal also plays offline -->
+<script src="../roulette/vendor/three-r187.min.js"></script><!-- red team R87-SP-03: the same three.js build as the roulette (r187 since r89), shell-cached by the service worker, so the reveal also plays offline -->
 <script>/* r85 crest collection (js/visualIdentity.js, claude-gameplay/r85-crests) */
 /* =====================================================
    Career Mode Showdown
@@ -1168,6 +1168,8 @@ window.applyLeagueMark = applyLeagueMark;
 (function(){
 "use strict";
 const T = THREE;
+/* r89 engine upgrade (r128 -> r187): colours stay as written (L() converts by hand) and the lights keep their r128 maths */
+T.ColorManagement.enabled = false; T.cmsLegacyLights();
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const L = (hex) => new T.Color(hex).convertSRGBToLinear();
 
@@ -1460,7 +1462,7 @@ function drawLed(c){
   ["FIFA 17 SHOWDOWN","SPECIAL PLAYER"].forEach((s,i)=>{ c.fillText(s,i*1024+512,34); c.fillRect(i*1024+60,30,40,4); c.fillRect(i*1024+924,30,40,4); });
   c.fillStyle="rgba(0,0,0,.35)"; for(let x=0;x<2048;x+=4) c.fillRect(x,0,1,64); for(let y=0;y<64;y+=4) c.fillRect(0,y,2048,1);
 }
-function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c.width=w; c.height=h; const ctx=c.getContext("2d"); draw&&draw(ctx); const tx=new T.CanvasTexture(c); if(!linear) tx.encoding=T.sRGBEncoding; tx.anisotropy=8; return {c,ctx,tx}; }
+function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c.width=w; c.height=h; const ctx=c.getContext("2d"); draw&&draw(ctx); const tx=new T.CanvasTexture(c); if(!linear) tx.colorSpace=T.SRGBColorSpace; tx.anisotropy=8; return {c,ctx,tx}; }
 
 /* ================= renderer + bloom ================= */
 const stage=document.getElementById("stage");
@@ -1470,14 +1472,13 @@ const renderer=new T.WebGLRenderer({antialias:false, powerPreference:"high-perfo
 const PHONE_GPU=matchMedia("(pointer: coarse)").matches && Math.min(innerWidth,innerHeight)<=600;
 const DPR=Math.min(devicePixelRatio||1, PHONE_GPU?1.5:2);
 renderer.setPixelRatio(DPR);
-renderer.outputEncoding=T.LinearEncoding; renderer.toneMapping=T.NoToneMapping;
-renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap;
+renderer.outputColorSpace=T.LinearSRGBColorSpace; renderer.toneMapping=T.NoToneMapping;
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap;
 stage.appendChild(renderer.domElement);
 /* Fable F8-05: render to half-float only where the GPU can; otherwise 8-bit targets (and a lower bloom threshold) instead of a black stage. */
-const isGL2=renderer.capabilities.isWebGL2, HDR=isGL2?(renderer.extensions.has("EXT_color_buffer_float")||renderer.extensions.has("EXT_color_buffer_half_float")):(renderer.extensions.has("OES_texture_half_float")&&renderer.extensions.has("EXT_color_buffer_half_float")), RT_TYPE=HDR?T.HalfFloatType:T.UnsignedByteType;
+const HDR=renderer.extensions.has("EXT_color_buffer_float")||renderer.extensions.has("EXT_color_buffer_half_float"), RT_TYPE=HDR?T.HalfFloatType:T.UnsignedByteType;
 const RTO={type:RT_TYPE, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:false};
-const sceneRT=isGL2?new T.WebGLMultisampleRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat}):new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat});
-if(isGL2) sceneRT.samples=PHONE_GPU?2:4;
+const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:PHONE_GPU?2:4}); /* r89: WebGL 2 only, so the scene target is always multisampled */
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
 const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:HDR?1.5:.8}},vertexShader:VS,depthTest:false,depthWrite:false,
@@ -1708,8 +1709,11 @@ cardBody.geometry.translate(0,0,-.03); cardBody.castShadow=true; card.add(cardBo
 const front=canvasTex(CW*SC,CH*SC,null), back=canvasTex(CW*SC,CH*SC,null);
 [front,back].forEach(f=>{ f.tx.repeat.set(1/2.2,1/3.2); f.tx.offset.set(.5,.5); });
 const faceGeo=new T.ShapeGeometry(shape);
-const frontMat=new T.MeshStandardMaterial({map:front.tx, metalness:.25, roughness:.38, envMapIntensity:.7});
-const backMat=new T.MeshStandardMaterial({map:back.tx, metalness:.25, roughness:.38, envMapIntensity:.7});
+/* r89: a real card is laminated: a thin clear gloss over the print, which catches the stadium as the card turns (three.js clearcoat) */
+const SPLOOK=!/[?&]look=0(?:&|$)/.test(location.search);
+const CARD_GLOSS=SPLOOK?{clearcoat:.55, clearcoatRoughness:.14}:{};
+const frontMat=new T.MeshPhysicalMaterial(Object.assign({map:front.tx, metalness:.25, roughness:.38, envMapIntensity:.7},CARD_GLOSS));
+const backMat=new T.MeshPhysicalMaterial(Object.assign({map:back.tx, metalness:.25, roughness:.38, envMapIntensity:.7},CARD_GLOSS));
 const frontMesh=new T.Mesh(faceGeo,frontMat); frontMesh.position.z=.058; card.add(frontMesh);
 const backMesh=new T.Mesh(faceGeo,backMat); backMesh.position.z=-.058; backMesh.rotation.y=Math.PI; card.add(backMesh);
 /* foil layer on both faces: angle-dependent holographic tint, tiny glints, and the light sweep */
@@ -1770,13 +1774,13 @@ grassMat.onBeforeCompile=(sh)=>{
    .replace("#include <map_fragment>","#include <map_fragment>\n float st=smoothstep(.46,.54,abs(fract(vWp.x/11.+.25)-.5)*2.); diffuseColor.rgb*=mix(1.07,.88,st); float dd=length(vWp.xz-cameraPosition.xz); diffuseColor.a*=1.-smoothstep(26.,46.,dd);")
    .replace("#include <dithering_fragment>","#include <dithering_fragment>\n gl_FragColor.a=diffuseColor.a;"); };
 const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGround.rotation.x=-Math.PI/2; shadowGround.position.y=0; shadowGround.receiveShadow=true;
-function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.encoding=T.sRGBEncoding; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
-function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.encoding=T.sRGBEncoding; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
+function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
+function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
 /* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
    (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
 const boards=new T.Group(); let boardTex=null, boardTex2=null;
-function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.encoding=T.sRGBEncoding; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=8; boardTex=t;
+function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=8; boardTex=t;
   boardTex2=t.clone(); boardTex2.needsUpdate=true;
   const face=new T.MeshBasicMaterial({map:t, fog:false}); face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
   const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
@@ -1792,7 +1796,7 @@ function buildEnv(){
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
   scene.fog=null; scene.add(panoSphere,shadowGround,boards);
   panoMat.uniforms.tex.value=pano;
-  const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.encoding=T.sRGBEncoding; scene.environment=pmrem.fromEquirectangular(e).texture;
+  const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.colorSpace=T.SRGBColorSpace; scene.environment=pmrem.fromEquirectangular(e).texture;
 }
 /* r86 (red team #2): the stadium is the one image the scene cannot draw without, so a failed load ends the page at once (the game skips the reveal) instead of waiting out the 15 s limit */
 function loadPano(){ return new Promise((res,rej)=>new T.TextureLoader().load("assets/stadium.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>rej(new Error("The stadium image did not load.")))); }

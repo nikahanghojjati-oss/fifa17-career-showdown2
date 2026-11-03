@@ -174,7 +174,7 @@ ok('L1d','Sol SQ-4-01: a guess removes only the signing, never the club namesake
   vm.createContext(ctx);vm.runInContext(code.replace(/window\.THREE/g,'true'),ctx);
   listeners.error({type:'error',target:{tagName:'LINK',href:'https://fonts.googleapis.com/css2'}});
   assert.equal(posted.length,0,'C2-03: a failed font stylesheet is ignored');
-  listeners.error({type:'error',target:{tagName:'SCRIPT',src:'vendor/three-r128.min.js'}});
+  listeners.error({type:'error',target:{tagName:'SCRIPT',src:'vendor/three-r187.min.js'}});
   assert.equal(posted.length,1,'C2-03: a failed script still reports cms-rr-error');
   assert.equal(posted[0].type,'cms-rr-error');
 }
@@ -921,7 +921,7 @@ const stepChecks=(async()=>{
   // L16 red team R87-B-03/04/05/06: offline scene files, two-tab signing drafts, plain connection text, quota on direct gets.
   const swSource=fs.readFileSync(path_.join(ROOT,'service-worker.js'),'utf8');
   const unversioned=swSource.slice(swSource.indexOf('const UNVERSIONED_SHELL_ASSET_PATHS'),swSource.indexOf(']);',swSource.indexOf('const UNVERSIONED_SHELL_ASSET_PATHS')));
-  for(const file of ['visual-assets/v10_1/roulette/vendor/three-r128.min.js','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/assets/squads.json'])
+  for(const file of ['visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/assets/squads.json'])
     assert.ok(unversioned.includes(`"${file}"`),'offline scene file '+file);
   assert.match(pstc,/root\.addEventListener\("storage",pstcSigningDraftStorage\)/,'a newer draft from another tab is taken over');
   assert.match(pstc,/pstcRestoreSigningDraft\(role,view\.ownInputs\|\|null,true\)/);

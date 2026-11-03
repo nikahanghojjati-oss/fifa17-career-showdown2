@@ -146,18 +146,22 @@ body.embed .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 96p
  window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="vendor/three-r128.min.js"></script><!-- three.js r128 (MIT, vendor/THREE_LICENSE.txt), bundled so the scene works offline and never depends on a CDN -->
+<script src="vendor/three-r187.min.js"></script><!-- three.js r187 (MIT, vendor/THREE_LICENSE.txt; built by tools/three-vendor), bundled so the scene works offline and never depends on a CDN -->
 <script>
 (function(){
 "use strict";
 // r87 (Team G): a browser without WebGL (switched off, old GPU, some headless runs) cannot draw the stage. Say so once
 // instead of letting three.js throw: in the game the result and the release still show without the scene.
-if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGLRenderingContext&&(c.getContext("webgl2")||c.getContext("webgl"))); }catch(e){ return false; } })()){
+if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGL2RenderingContext&&c.getContext("webgl2")); /* r89: three.js r187 draws with WebGL 2 only */ }catch(e){ return false; } })()){
   if(/[?&]embed=1(?:&|$)/.test(location.search)){ try{ parent.postMessage({type:"cms-rr-error",message:"WebGL is not available"},location.origin); }catch(e){} }
   else document.body.insertAdjacentText("beforeend","This browser can't draw the 3D revolver (WebGL is off).");
   return;
 }
 const T=THREE, $=(id)=>document.getElementById(id), qs=new URLSearchParams(location.search);
+/* r89 engine upgrade (r128 -> r187): colours stay as written (L() converts by hand) and the lights keep their r128 maths */
+T.ColorManagement.enabled=false; T.cmsLegacyLights();
+/* r89 look (?look=0 shows the r88 look, for side-by-side checks; ?bloom=0 turns bloom off) */
+const LOOK={on:qs.get("look")!=="0", hdri:null, post:null, bloom:null};
 const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const clamp01=(x)=>x<0?0:x>1?1:x, lerp=(a,b,k)=>a+(b-a)*k, S=(at,dur,tt)=>clamp01((tt-at)/dur);
 const ease={ out:(k)=>1-Math.pow(1-k,3), inOut:(k)=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2, in:(k)=>k*k*k, back:(k)=>{ const c=1.70158; return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2); } };
@@ -168,8 +172,8 @@ const LAYOUT={ danielClub: qs.get("d")||"Manchester United", nikClub: qs.get("n"
 /* ================= renderer ================= */
 const stage=$("stage");
 const renderer=new T.WebGLRenderer({antialias:true, powerPreference:"high-performance"});
-renderer.outputEncoding=T.sRGBEncoding; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
-renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap; renderer.physicallyCorrectLights=false;
+renderer.outputColorSpace=T.SRGBColorSpace; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap;
 stage.appendChild(renderer.domElement);
 const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new T.FogExp2(0x0a0705,.075);
 const camera=new T.PerspectiveCamera(38,1,.05,60);
@@ -211,10 +215,10 @@ function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}; const [c,ctx]
       const off=Math.random()*900; for(let i=0;i<(o.lines||60);i++){ const y=y0+Math.random()*ph; ctx.strokeStyle=`rgba(${Math.random()<.5?"0,0,0":"255,215,165"},${.05+Math.random()*.12})`; ctx.lineWidth=.6+Math.random()*2.2; ctx.beginPath(); for(let xx=x;xx<=x+len;xx+=18){ ctx.lineTo(xx,y+Math.sin((xx+off)*.011)*5+Math.sin((xx+off)*.031)*2.4); } ctx.stroke(); }
       if(len<w){ ctx.fillStyle=dark; ctx.fillRect(x+len-2,y0,3,ph); ctx.fillStyle="rgba(255,225,180,.1)"; ctx.fillRect(x+len+1,y0,1,ph); } x+=len; }
     ctx.fillStyle=dark; ctx.fillRect(0,y0,w,3); ctx.fillStyle="rgba(255,230,190,.14)"; ctx.fillRect(0,y0+3,w,1); ctx.fillStyle="rgba(0,0,0,.22)"; ctx.fillRect(0,y0+ph-2,w,2); }
-  grain(ctx,w,h,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  grain(ctx,w,h,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function feltTex(){ const [c,ctx]=cv(1024,1024); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
   ctx.globalAlpha=.06; for(let i=0;i<1024;i+=2){ ctx.fillStyle=i%4?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024,1024,26);
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* dark lacquered mahogany with two tall raised panels, stepped mouldings, a beaded gold frame, carved quatrefoil corners and a medallion */
 function panelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,"#26130a"); g.addColorStop(.5,"#30190d"); g.addColorStop(1,"#1f0f07"); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
   for(let i=0;i<220;i++){ ctx.strokeStyle=`rgba(${Math.random()<.5?"0,0,0":"175,105,55"},${.025+Math.random()*.05})`; ctx.lineWidth=1+Math.random()*3; const x=Math.random()*w; ctx.beginPath(); ctx.moveTo(x,0); ctx.bezierCurveTo(x+Math.random()*24-12,h*.3,x+Math.random()*24-12,h*.7,x,h); ctx.stroke(); }
@@ -226,7 +230,7 @@ function panelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const g=ctx.createLine
     ctx.fillStyle="#efcb6c"; for(let k=0;k<=14;k++){ const t=k/14; [[x+30+t*(pw-60),y+30],[x+30+t*(pw-60),y+ph-30]].forEach(([cx,cy])=>{ ctx.beginPath(); ctx.arc(cx,cy,4.2,0,7); ctx.fill(); }); } for(let k=0;k<=26;k++){ const t=k/26; [[x+30,y+30+t*(ph-60)],[x+pw-30,y+30+t*(ph-60)]].forEach(([cx,cy])=>{ ctx.beginPath(); ctx.arc(cx,cy,4.2,0,7); ctx.fill(); }); }
     [[x+66,y+66],[x+pw-66,y+66],[x+66,y+ph-66],[x+pw-66,y+ph-66]].forEach(([cx,cy])=>leaf(cx,cy,24)); leaf(x+pw/2,y+ph/2,52); ctx.strokeStyle="rgba(236,196,110,.55)"; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(x+pw/2,y+ph/2,78,0,7); ctx.stroke(); ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(x+pw/2,y+ph/2,84,0,7); ctx.stroke(); }
   const sh=ctx.createLinearGradient(0,0,w,h); sh.addColorStop(0,"rgba(255,230,190,.08)"); sh.addColorStop(.5,"rgba(255,230,190,0)"); sh.addColorStop(1,"rgba(255,230,190,.05)"); ctx.fillStyle=sh; ctx.fillRect(0,0,w,h);
-  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
 /* floor marble: cream slabs with strong grey veins and a few warm ones, like the cafe picture's floor */
 function floorMarbleTex(){ const w=2048,h=2048,[c,ctx]=cv(w,h); ctx.fillStyle="#e6dfd3"; ctx.fillRect(0,0,w,h);
@@ -235,35 +239,35 @@ function floorMarbleTex(){ const w=2048,h=2048,[c,ctx]=cv(w,h); ctx.fillStyle="#
   vein(()=>`rgba(90,88,92,${.18+Math.random()*.3})`,26,()=>1.5+Math.random()*4,18);
   vein(()=>`rgba(120,118,124,${.1+Math.random()*.2})`,70,()=>.5+Math.random()*1.5,10);
   vein(()=>`rgba(170,140,90,${.08+Math.random()*.14})`,14,()=>1+Math.random()*2,12);
-  grain(ctx,w,h,6); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=16; return t; }
+  grain(ctx,w,h,6); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=16; return t; }
 function marbleTex(){ const w=512,h=512,[c,ctx]=cv(w,h); ctx.fillStyle="#e8e0d2"; ctx.fillRect(0,0,w,h);
   for(let i=0;i<34;i++){ const warm=Math.random()<.35; ctx.strokeStyle=warm?`rgba(190,160,110,${.15+Math.random()*.2})`:`rgba(80,78,84,${.1+Math.random()*.22})`; ctx.lineWidth=.6+Math.random()*2.4; const x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); ctx.bezierCurveTo(x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*400-200,y+Math.random()*400-200); ctx.stroke(); }
   for(let i=0;i<8;i++){ ctx.fillStyle=`rgba(200,190,170,${.1+Math.random()*.15})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,40+Math.random()*120,20+Math.random()*60,Math.random()*3,0,7); ctx.fill(); }
-  grain(ctx,w,h,8); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  grain(ctx,w,h,8); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* pressed-tin coffers: a grid of recessed squares with a gold fillet and a stamped rosette */
 function ceilingTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); ctx.fillStyle="#1d130c"; ctx.fillRect(0,0,w,h); const n=4, s=w/n;
   for(let i=0;i<n;i++) for(let j=0;j<n;j++){ const x=i*s, y=j*s; ctx.fillStyle="#140d08"; ctx.fillRect(x+34,y+34,s-68,s-68); ctx.strokeStyle="#8a6a2c"; ctx.lineWidth=5; ctx.strokeRect(x+26,y+26,s-52,s-52); ctx.strokeStyle="#3a2a14"; ctx.lineWidth=2; ctx.strokeRect(x+40,y+40,s-80,s-80);
     const cx=x+s/2, cy=y+s/2; for(let r=18;r<70;r+=16){ ctx.strokeStyle=`rgba(150,115,55,${.5-r*.004})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke(); } ctx.fillStyle="#9c7a34"; for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; ctx.beginPath(); ctx.ellipse(cx+Math.cos(a)*48,cy+Math.sin(a)*48,16,7,a,0,7); ctx.fill(); } ctx.fillStyle="#c9a24a"; ctx.beginPath(); ctx.arc(cx,cy,9,0,7); ctx.fill(); }
-  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(5,4); t.encoding=T.sRGBEncoding; t.anisotropy=4; return t; }
+  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(5,4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=4; return t; }
 /* warm lamp glass: amber at the burner fading to cream at the lip */
-function lampGlassTex(){ const [c,ctx]=cv(32,128); const g=ctx.createLinearGradient(0,128,0,0); g.addColorStop(0,"#ff9a3a"); g.addColorStop(.45,"#ffcf8a"); g.addColorStop(1,"#fff2d8"); ctx.fillStyle=g; ctx.fillRect(0,0,32,128); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
-function softTex(stops){ const [c,ctx]=cv(128,128); const g=ctx.createRadialGradient(64,64,0,64,64,64); stops.forEach(([k,col])=>g.addColorStop(k,col)); ctx.fillStyle=g; ctx.fillRect(0,0,128,128); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+function lampGlassTex(){ const [c,ctx]=cv(32,128); const g=ctx.createLinearGradient(0,128,0,0); g.addColorStop(0,"#ff9a3a"); g.addColorStop(.45,"#ffcf8a"); g.addColorStop(1,"#fff2d8"); ctx.fillStyle=g; ctx.fillRect(0,0,32,128); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
+function softTex(stops){ const [c,ctx]=cv(128,128); const g=ctx.createRadialGradient(64,64,0,64,64,64); stops.forEach(([k,col])=>g.addColorStop(k,col)); ctx.fillStyle=g; ctx.fillRect(0,0,128,128); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 function flashTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128); const g=ctx.createRadialGradient(0,0,0,0,0,128); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.18,"rgba(255,240,180,.95)"); g.addColorStop(.42,"rgba(255,160,60,.55)"); g.addColorStop(1,"rgba(255,90,20,0)"); ctx.fillStyle=g; ctx.fillRect(-128,-128,256,256);
   ctx.globalCompositeOperation="lighter"; for(let i=0;i<9;i++){ const a=i/9*Math.PI*2+Math.random()*.4, l=60+Math.random()*68; ctx.strokeStyle="rgba(255,230,160,.9)"; ctx.lineWidth=2+Math.random()*4; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*l,Math.sin(a)*l); ctx.stroke(); }
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 const smokeT=softTex([[0,"rgba(255,255,255,.55)"],[.4,"rgba(255,255,255,.25)"],[1,"rgba(255,255,255,0)"]]);
 const glowT=softTex([[0,"rgba(255,235,190,1)"],[.3,"rgba(255,190,90,.6)"],[1,"rgba(255,120,30,0)"]]);
 /* a real lamp flame: blue root, white-yellow body, orange tip, soft edge */
 function flameTex(){ const [c,ctx]=cv(128,256); const g=ctx.createRadialGradient(64,150,4,64,140,90); g.addColorStop(0,"rgba(255,255,245,1)"); g.addColorStop(.25,"rgba(255,236,160,.95)"); g.addColorStop(.55,"rgba(255,160,50,.55)"); g.addColorStop(1,"rgba(255,90,10,0)");
   ctx.save(); ctx.translate(64,128); ctx.scale(.42,1); ctx.translate(-64,-128); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(64,10); ctx.bezierCurveTo(120,90,118,190,64,236); ctx.bezierCurveTo(10,190,8,90,64,10); ctx.fill(); ctx.restore();
   const b=ctx.createRadialGradient(64,214,2,64,214,26); b.addColorStop(0,"rgba(120,170,255,.8)"); b.addColorStop(1,"rgba(60,90,255,0)"); ctx.fillStyle=b; ctx.fillRect(0,180,128,76);
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
-function sparkTex(){ const [c,ctx]=cv(64,64); const g=ctx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.3,"rgba(255,220,150,.9)"); g.addColorStop(1,"rgba(255,140,40,0)"); ctx.fillStyle=g; ctx.fillRect(0,0,64,64); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
+function sparkTex(){ const [c,ctx]=cv(64,64); const g=ctx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.3,"rgba(255,220,150,.9)"); g.addColorStop(1,"rgba(255,140,40,0)"); ctx.fillStyle=g; ctx.fillRect(0,0,64,64); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 function petalTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128);
   for(let i=0;i<7;i++){ const a=i/7*Math.PI*2+rnd()*.5, l=72+rnd()*54, w=14+rnd()*16; const g=ctx.createLinearGradient(0,0,Math.cos(a)*l,Math.sin(a)*l); g.addColorStop(0,"rgba(255,246,220,1)"); g.addColorStop(.45,"rgba(255,170,60,1)"); g.addColorStop(.8,"rgba(230,80,20,.7)"); g.addColorStop(1,"rgba(200,50,10,0)"); ctx.fillStyle=g;
     ctx.beginPath(); ctx.moveTo(Math.cos(a+Math.PI/2)*w*.5,Math.sin(a+Math.PI/2)*w*.5); ctx.lineTo(Math.cos(a)*l,Math.sin(a)*l); ctx.lineTo(Math.cos(a-Math.PI/2)*w*.5,Math.sin(a-Math.PI/2)*w*.5); ctx.closePath(); ctx.fill(); }
   const g=ctx.createRadialGradient(0,0,0,0,0,46); g.addColorStop(0,"rgba(255,255,250,1)"); g.addColorStop(.6,"rgba(255,220,150,1)"); g.addColorStop(1,"rgba(255,150,50,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,46,0,7); ctx.fill();
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"rgba(255,240,200,0)"]]);
 
 /* ================= materials ================= */
@@ -280,7 +284,7 @@ function marblePanelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); ctx.fillStyle="#
   const sh=ctx.createLinearGradient(px,py,px+pw,py+ph); sh.addColorStop(0,"rgba(255,255,255,.06)"); sh.addColorStop(.5,"rgba(255,255,255,0)"); sh.addColorStop(1,"rgba(255,255,255,.05)"); ctx.fillStyle=sh; ctx.fillRect(px,py,pw,ph);
   ctx.strokeStyle="#d9b25a"; ctx.lineWidth=5; ctx.strokeRect(px+22,py+22,pw-44,ph-44); ctx.strokeStyle="#8a6a22"; ctx.lineWidth=2; ctx.strokeRect(px+34,py+34,pw-68,ph-68);
   ctx.strokeStyle="#b48a3a"; ctx.lineWidth=4; ctx.strokeRect(px-6,py-6,pw+12,ph+12);
-  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 const wallTex=marblePanelTex(); wallTex.repeat.set(7,2); wallTex.offset.y=-.476; /* a panel row seam lands on the dado rail at y=1.1 */
 const lampTex=lampGlassTex();
 const M={
@@ -289,7 +293,7 @@ const M={
   darkWood:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.32, metalness:.05, color:0x6e4a32, clearcoat:.7, clearcoatRoughness:.2}),
   lacquer:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.26, metalness:.06, color:0x3e2416, clearcoat:.95, clearcoatRoughness:.14}),
   lacquerHi:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.3, metalness:.06, color:0x6a3c26, clearcoat:.9, clearcoatRoughness:.18}),
-  felt:new T.MeshStandardMaterial({map:feltTex(), roughness:.96, metalness:0, color:0x7c9c7a}),
+  felt:new T.MeshPhysicalMaterial({map:feltTex(), roughness:.96, metalness:0, color:0x7c9c7a, sheen:LOOK.on?.35:0, sheenRoughness:.62, sheenColor:new T.Color(.06,.12,.06)}),   /* r89: cloth sheen, the soft bright rim baize gets at a low angle */
   brass:new T.MeshStandardMaterial({color:L("#c99c46"), roughness:.26, metalness:1}),
   brassDark:new T.MeshStandardMaterial({color:L("#6f4e1c"), roughness:.4, metalness:1}),
   gold:new T.MeshPhysicalMaterial({color:L("#e6bd5e"), roughness:.2, metalness:1, clearcoat:.5, clearcoatRoughness:.2}),
@@ -305,7 +309,7 @@ const M={
   glove:new T.MeshStandardMaterial({color:L("#3d2316"), roughness:.7}),
   shirt:new T.MeshStandardMaterial({color:L("#d9c7a0"), roughness:.9}),
   scarf:new T.MeshStandardMaterial({color:L("#4a1612"), roughness:.95}),
-  velvet:new T.MeshStandardMaterial({color:L("#5c161c"), roughness:.96, metalness:0, bumpMap:clothTex, bumpScale:.002}),
+  velvet:new T.MeshPhysicalMaterial({color:L("#5c161c"), roughness:.96, metalness:0, bumpMap:clothTex, bumpScale:.002, sheen:LOOK.on?.5:0, sheenRoughness:.45, sheenColor:new T.Color(.22,.03,.04)}),
   marble:new T.MeshPhysicalMaterial({map:marbleTex(), roughness:.16, metalness:0, clearcoat:1, clearcoatRoughness:.05}),
   mirror:new T.MeshPhysicalMaterial({color:L("#e2e8ee"), roughness:.02, metalness:1}),
   ceiling:new T.MeshStandardMaterial({map:ceilingTex(), roughness:.55, metalness:.45}),
@@ -506,7 +510,7 @@ function engraveTex(withFrame){ const w=1024,h=1024,[c,ctx]=cv(w,h); const [bx0,
       ctx.save(); ctx.filter="blur(5px)"; ctx.strokeStyle="rgba(150,165,190,.55)"; ctx.lineWidth=26; ctx.stroke(); ctx.strokeStyle="rgba(205,215,232,.75)"; ctx.lineWidth=12; ctx.stroke(); ctx.restore(); });
     /* a few honest scratches and a handling-wear patch where the thumb sits over the recoil shield */
     ctx.strokeStyle="rgba(200,210,225,.18)"; ctx.lineWidth=1; for(let i=0;i<60;i++){ const x=Math.random()*w,y=Math.random()*h,a=Math.random()*Math.PI*2,l=10+Math.random()*60; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l); ctx.stroke(); } }
-  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function roughTex(){ const w=512,h=512,[c,ctx]=cv(w,h); ctx.fillStyle="#707070"; ctx.fillRect(0,0,w,h); for(let i=0;i<700;i++){ ctx.fillStyle=`rgba(${Math.random()<.5?"255,255,255":"0,0,0"},${.04+Math.random()*.09})`; ctx.fillRect(Math.random()*w,Math.random()*h,3+Math.random()*40,1+Math.random()*2); } grain(ctx,w,h,22); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; return t; }
 const engT=engraveTex(true), engBarT=engraveTex(false), rghT=roughTex();
 /* shape-space UVs run in metres; this maps a box of the silhouette plane onto a texture once */
@@ -630,7 +634,7 @@ const boards={ D:null, N:null };
 const BOARD_W=.84, BOARD_H=.64;
 function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
 const lacquer=new T.MeshPhysicalMaterial({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05, clearcoat:1, clearcoatRoughness:.08});
-function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
   const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
 /* board: a black-lacquer moulded frame with a gold fillet, the squad screen under glass; easel: walnut A-frame with gold ferrules, caps, a ledge rail and a finial */
@@ -640,7 +644,7 @@ function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=
   const filletG=new T.ExtrudeGeometry(ringShape(BOARD_W+.03,BOARD_H+.03,.004,BOARD_W+.004,BOARD_H+.004),{depth:.006, bevelEnabled:true, bevelThickness:.003, bevelSize:.003, bevelSegments:3}); filletG.translate(0,0,-.004); inner.add(new T.Mesh(filletG,GM.gold));
   const beadG=new T.ExtrudeGeometry(ringShape(BOARD_W+FW*2+.022,BOARD_H+FW*2+.022,.03,BOARD_W+FW*2+.002,BOARD_H+FW*2+.002),{depth:.014, bevelEnabled:true, bevelThickness:.004, bevelSize:.004, bevelSegments:3}); beadG.translate(0,0,-.024); inner.add(new T.Mesh(beadG,GM.gold));
   const backing=new T.Mesh(new T.BoxGeometry(BOARD_W+FW*2,BOARD_H+FW*2,.02),lacquer); backing.position.z=-.04; inner.add(backing);
-  const [c,ctx]=cv(2048,1560); const tex=new T.CanvasTexture(c); tex.encoding=T.sRGBEncoding; tex.anisotropy=16;
+  const [c,ctx]=cv(2048,1560); const tex=new T.CanvasTexture(c); tex.colorSpace=T.SRGBColorSpace; tex.anisotropy=16;
   /* r87 (Nik 2026-10-30: boards and players clearer): the squad screen glows a little by itself (emissive from its own picture), so it reads in the dim room, and a softer clearcoat keeps the lamp glare off the names */
   const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, emissiveMap:tex, emissive:new T.Color(1,1,1), emissiveIntensity:.42, roughness:.45, metalness:0, clearcoat:.45, clearcoatRoughness:.22})); face.position.z=-.006; inner.add(face);
   /* easel */
@@ -778,7 +782,7 @@ function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspe
   const bx=PH?.5:1.1, by=PH?1.2:1.0, bz=PH?-1.05:-.45, yaw=PH?.3:.55, sc=PH?.8:.92;
   [["D",-1],["N",1]].forEach(([k,s])=>{ const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.12,-yaw*s,0); b.scale.setScalar(sc); });
   if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.7); lookRest.set(0,.86,-.1); }
-  renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?2.5:3)); renderer.setSize(w,h,false); }
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?(LOOK.post?2:2.5):3)); renderer.setSize(w,h,false); sizePost(); }
 addEventListener("resize",layout);
 
 /* ================= the turn: the gun spins on the felt, cocks itself, fires or clicks ================= */
@@ -940,7 +944,7 @@ function tick(draw){ const t=now();
   splinters.forEach(p=>{ if(p.life<=0){ p.m.visible=false; return; } p.life-=dtF; p.m.position.addScaledVector(p.v,dtF); p.v.y-=dtF*5.5; p.v.multiplyScalar(Math.pow(.5,dtF)); p.m.rotation.x+=p.w.x*dtF; p.m.rotation.y+=p.w.y*dtF; if(p.m.position.y<.76&&Math.abs(p.m.position.x)<.75&&Math.abs(p.m.position.z)<.75){ p.m.position.y=.76; p.v.y*=-.25; p.v.x*=.6; p.v.z*=.6; p.w.multiplyScalar(.3); } if(p.m.position.y<0) p.life=0; });
   ["D","N"].forEach(k=>{ const b=boards[k].userData; b.joltV.addScaledVector(b.jolt,-dtF*90); b.joltV.multiplyScalar(Math.pow(.002,dtF)); b.jolt.addScaledVector(b.joltV,dtF); b.inner.rotation.set(b.jolt.z*.12,b.jolt.x*.18,b.jolt.x*.08); b.inner.position.set(0,0,-Math.abs(b.jolt.z)*.015); });
   { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
-  if(draw){ renderer.render(scene,camera); frames++; if(manual===null){ const pt=performance.now(); if(pt-fpsT>1000){ fps=frames*1000/(pt-fpsT); frames=0; fpsT=pt; } } } }
+  if(draw){ if(LOOK.post) LOOK.post.render(); else renderer.render(scene,camera); frames++; if(manual===null){ const pt=performance.now(); if(pt-fpsT>1000){ fps=frames*1000/(pt-fpsT); frames=0; fpsT=pt; } } } }
 function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
 
 /* ================= sound (Web Audio, synthesized; off until turned on) ================= */
@@ -974,19 +978,53 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
 async function loadAssets(){ const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx);
-  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp")]);
-  { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.encoding=T.sRGBEncoding; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
+  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),loadLookEnv()]);
+  { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq;
-  if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.encoding=T.sRGBEncoding; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; const cut=(PLATEMAP.room&&PLATEMAP.room.floorCut)||0; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-cut*H,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
-  if(top){ hasGunTop=true; const g=PLATEMAP.gunTop||{length:.3,offsetZ:.05,rotation:0}; gunTop.material.map=new T.Texture(top); gunTop.material.map.encoding=T.sRGBEncoding; gunTop.material.map.needsUpdate=true; gunTop.scale.set(g.length*top.width/top.height,g.length,1); gunTop.position.z=g.offsetZ; gunTop.rotation.z=g.rotation||0; gunTop.visible=true; }
-  if(flash){ flashSprite.material.map=new T.Texture(flash); flashSprite.material.map.encoding=T.sRGBEncoding; flashSprite.material.map.needsUpdate=true; }
+  if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.colorSpace=T.SRGBColorSpace; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; const cut=(PLATEMAP.room&&PLATEMAP.room.floorCut)||0; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-cut*H,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
+  if(top){ hasGunTop=true; const g=PLATEMAP.gunTop||{length:.3,offsetZ:.05,rotation:0}; gunTop.material.map=new T.Texture(top); gunTop.material.map.colorSpace=T.SRGBColorSpace; gunTop.material.map.needsUpdate=true; gunTop.scale.set(g.length*top.width/top.height,g.length,1); gunTop.position.z=g.offsetZ; gunTop.rotation.z=g.rotation||0; gunTop.visible=true; }
+  if(flash){ flashSprite.material.map=new T.Texture(flash); flashSprite.material.map.colorSpace=T.SRGBColorSpace; flashSprite.material.map.needsUpdate=true; }
   setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }
 /* PMREM environment from the room itself, so the steel reflects the lamps and the wood */
 function buildEnv(){ const pm=new T.PMREMGenerator(renderer); pm.compileEquirectangularShader(); const sc=new T.Scene(); sc.background=new T.Color(0x0b0705);
   const lampM=new T.MeshBasicMaterial({color:0xffd9a0}); for(let i=0;i<8;i++){ const a=i/8*Math.PI*2; const s=new T.Mesh(new T.SphereGeometry(.4,12,8),lampM); s.position.set(Math.cos(a)*5,2.2+(i%2)*.6,Math.sin(a)*5); sc.add(s); }
   const fl=new T.Mesh(new T.PlaneGeometry(20,20),new T.MeshBasicMaterial({color:0x3a2412})); fl.rotation.x=-Math.PI/2; fl.position.y=-.5; sc.add(fl);
   const warm=new T.Mesh(new T.SphereGeometry(.6,12,8),new T.MeshBasicMaterial({color:0xffb060})); warm.position.set(-.5,.2,.2); sc.add(warm);
-  const env=pm.fromScene(sc,.04).texture; scene.environment=env; pm.dispose(); }
+  const room=pm.fromScene(sc,.04).texture, env=LOOK.hdri?pm.fromEquirectangular(LOOK.hdri).texture:room; scene.environment=env; pm.dispose(); if(LOOK.hdri){ LOOK.hdri.dispose(); LOOK.hdri=null; lookLights(room); }
+  LOOK.post=makePost(); if(LOOK.post) layout(); }
+/* ================= r89 look: real interior light, soft shadows, bloom on what is truly bright ================= */
+/* Light: a Poly Haven ballroom HDRI (CC0, polyhaven.com), the 512x256 EXR "hall" from @pmndrs/assets 1.7.0 (CC0-1.0). Dark ceiling,
+   rows of crystal chandeliers, warm parquet: the steel and nickel read as real silver, brass and lacquer pick up chandelier sparkle,
+   and the room stays moody. It adds reflections and a soft fill only: the seven lamps stay the key light. If it fails to load, the
+   old room-built reflections draw instead (it loads with the room picture, under the same loading screen). */
+function loadLookEnv(){ if(!LOOK.on||!T.EXRLoader) return Promise.resolve(null); return new T.EXRLoader().setDataType(T.FloatType).loadAsync("assets/ENV_LOUNGE_V1.exr").then(t=>{ const d=t.image&&t.image.data; if(d) for(let i=0;i<d.length;i++){ if(d[i]>LOOK_ENV_MAX) d[i]=LOOK_ENV_MAX; } t.needsUpdate=true; t.mapping=T.EquirectangularReflectionMapping; LOOK.hdri=t; }).catch(()=>null); }
+/* the sunlit window in the picture is hundreds of times brighter than the room; capped, so polished steel shows a bright window, not a white blaze that blooms */
+const LOOK_ENV_MAX=4;
+function lookLights(room){ scene.environmentIntensity=.5; scene.environmentRotation.set(0,0,0); key.shadow.radius=2.5;
+  /* the mirror-polished marble floor and the walls keep the room-built reflections: in the ballroom light the floor showed the
+     ballroom's windows as a blurred white shape by the right easel */
+  [M.floor,M.wall].forEach(m=>{ m.envMap=room; m.envMapIntensity=1/scene.environmentIntensity; m.needsUpdate=true; }); }
+/* Bloom: three.js post chain scene -> bloom -> ACES tone mapping. Only light well above white blooms (flames, the muzzle flash, hot
+   glints on gold and nickel), at half resolution. The pictures that must keep their exact colours (the room picture, the hand, the
+   top-down gun photo, the tracer) get the exact inverse of three.js ACES in their shader, so the last step gives back their own
+   pixels, and they stay under the bloom threshold. A phone gets 2x MSAA and a pixel ratio of at most 2. Any failure: plain render. */
+const INV_ACES=`uniform float cmsExpo;
+vec3 cmsInvAces(vec3 c){
+  mat3 inM=mat3(vec3(0.59719,0.07600,0.02840),vec3(0.35458,0.90834,0.13383),vec3(0.04823,0.01566,0.83777));
+  mat3 outM=mat3(vec3(1.60475,-0.10208,-0.00327),vec3(-0.53108,1.10813,-0.07276),vec3(-0.07367,-0.00605,1.07602));
+  vec3 y=clamp(inverse(outM)*clamp(c,0.,1.),0.,.92);
+  vec3 A=y*0.983729-1., B=y*0.4329510-0.0245786, C=y*0.238081+0.000090537;
+  vec3 v=(-B-sqrt(max(B*B-4.*A*C,0.)))/(2.*A);
+  return inverse(inM)*v/(cmsExpo/0.6); }`;
+function untoned(m){ m.onBeforeCompile=(sh)=>{ sh.uniforms.cmsExpo={get value(){ return renderer.toneMappingExposure; }}; sh.fragmentShader=sh.fragmentShader.replace("void main() {",INV_ACES+"\nvoid main() {").replace("#include <fog_fragment>","#include <fog_fragment>\n\tgl_FragColor.rgb=cmsInvAces(gl_FragColor.rgb);"); }; m.customProgramCacheKey=()=>"cmsInvAces"; m.needsUpdate=true; }
+function makePost(){ if(!LOOK.on||!T.EffectComposer||qs.get("bloom")==="0") return null;
+  try{ const c=new T.EffectComposer(renderer); c.readBuffer.samples=PH?2:4; c.addPass(new T.RenderPass(scene,camera)); const b=new T.UnrealBloomPass(new T.Vector2(256,256),.28,.45,1.8); c.addPass(b);
+    /* a pin-point highlight on polished steel is physically hundreds of times brighter than white; capped before the glow, so it adds a soft sheen, never a white blaze */
+    { const hp=b.materialHighPassFilter; hp.fragmentShader=hp.fragmentShader.replace("vec4 texel = texture2D( tDiffuse, vUv );","vec4 texel = texture2D( tDiffuse, vUv ); texel.rgb = min( texel.rgb, vec3( 2.2 ) );"); hp.needsUpdate=true; } c.addPass(new T.OutputPass());
+    scene.traverse(o=>{ const m=o.material; if(m&&m.isMeshBasicMaterial&&m.toneMapped===false) untoned(m); });
+    LOOK.bloom=b; return c; }catch(e){ return null; } }
+function sizePost(){ if(!LOOK.post) return; LOOK.post.setPixelRatio(renderer.getPixelRatio()); const s=renderer.getSize(new T.Vector2()); LOOK.post.setSize(s.x,s.y); }
+
 
 /* ================= controls, hooks ================= */
 /* r87 Team G embed (?embed=1, HO040-M1): the game sends {type:"cms-rr-setup", d, n, boards:{D,N}, seed,

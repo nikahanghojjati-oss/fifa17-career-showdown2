@@ -787,6 +787,29 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/icon-guess/assets/token_full.webp",
   "visual-assets/v10_1/icon-guess/assets/token_spent.webp"
 ]);
+// r89 3D engine (2.2.0): both 3D pages (roulette, Special Player) load one vendored three.js r187 build (tools/three-vendor) and
+// the roulette lights its metal with one CC0 HDRI. Both are fetched without ?v, so both are shell-cached and unversioned-served,
+// and their bytes are pinned: a change ships under a new name (three-r<N>.min.js, ENV_LOUNGE_V<n>.exr), never over these.
+check("F9d r89 3D engine files: one pinned three.js build and one pinned CC0 lounge HDRI, both shell-cached for offline play",()=>{
+  const pins={"visual-assets/v10_1/roulette/vendor/three-r187.min.js":"3de1ee8f56696ad2de9e6d3573820bbf86017cda1df0c74a7994644471d7462a",
+    "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr":"205a84e0108d40fb207e077db9bc68a15f329a8af8ee1f82c28524e967963b81"};
+  const sw=fs.readFileSync(path.join(ROOT,"service-worker.js"),"utf8");
+  const unversioned=sw.slice(sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS"),sw.indexOf("]);",sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS")));
+  const shell=sw.slice(sw.indexOf("const SHELL_PATHS = Object.freeze(["),sw.indexOf("]);",sw.indexOf("const SHELL_PATHS = Object.freeze([")));
+  for(const [file,hash] of Object.entries(pins)){
+    assert.equal(sha256(file),hash,`${file} bytes changed: ship it under a new name instead`);
+    assert.ok(shell.includes(`"${file}"`),`${file} is precached`);
+    assert.ok(unversioned.includes(`"${file}"`),`${file} is served from the shell without ?v`);
+  }
+  const vendor=fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/roulette/vendor")).filter(f=>/^three-.*\.js$/.test(f));
+  assert.deepEqual(vendor,["three-r187.min.js"],"one three.js build ships");
+  for(const page of ["visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/special-player/index.html"]){
+    const html=fs.readFileSync(path.join(ROOT,page),"utf8");
+    assert.ok(/<script src="(?:\.\.\/roulette\/)?vendor\/three-r187\.min\.js"><\/script>/.test(html),`${page} loads the vendored r187 build`);
+    assert.ok(html.includes("T.cmsLegacyLights()"),`${page} keeps the lights it was tuned with`);
+  }
+  assert.ok(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt"),"utf8").includes("MIT License"));
+});
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
   const walk=dir=>{for(const entry of fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true})){const rel=dir+"/"+entry.name;if(entry.isDirectory())walk(rel);else if(/\.(?:webp|png|jpe?g|avif|gif|svg)$/i.test(entry.name))found.push(rel);}};
