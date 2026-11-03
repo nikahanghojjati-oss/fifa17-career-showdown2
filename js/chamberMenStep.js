@@ -25,7 +25,7 @@
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
   const DONE_KEY="careerModeShowdown.chamberMenDone.v1",KEPT_KEY="careerModeShowdown.chamberMenKicks.v1",KEYS_MAX=60;
-  const PICK_MS=10000,KICK_MS=2200,REPLAY_MS=KICK_MS*2,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500;
+  const PICK_MS=10000,KICK_MS=2200,REPLAY_MS=KICK_MS*2,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
   const SIDE_WORD=Object.freeze({L:"LEFT",M:"MIDDLE",R:"RIGHT"});
   const memo=new Map();// `${rid}|${season}` -> finished {playerOne, playerTwo} pick strings
   let running=null,wentHome=false;
@@ -246,7 +246,11 @@
     const back=cmsEl("button","cmBack","BACK TO SHOWDOWN HOME");back.type="button";
     actions.append(lock,next,back);
     const lines=cmsEl("ul","cmLines");lines.hidden=true;
-    shell.append(header,title,board,goal.svg,status,picks,clock,lines,actions);stage.append(shell);doc.body.append(stage);
+    // Fable F17-07: the pitch (score and goal) and the controls (status, clock, picks, LOCK IN) are two columns on a wide
+    // screen, so the 10-second clock and LOCK IN are on screen from the first view at 1280x800 and 1366x768.
+    const play=cmsEl("div","cmPlay"),pitch=cmsEl("div","cmPitch"),controls=cmsEl("div","cmControls");
+    pitch.append(board,goal.svg);controls.append(status,clock,picks,lines,actions);play.append(pitch,controls);
+    shell.append(header,title,play);stage.append(shell);doc.body.append(stage);
     cmsReset(goal);
     return {stage,round:header.querySelector(".cmRound"),sides,goal,status,picks,rows,clock,lock,next,back,lines};
   }
@@ -297,7 +301,7 @@
       const ui=cmsBuild(ctx);
       // record: the latest from the server. shown: how many rounds are replayed or drawn on screen. clock: {round, deadline}
       // in server ms. sel: this manager's choices for his next round. replayUntil: the server time the running replay ends.
-      let record=null,shown=0,clock=null,selRound=0,sel={shot:null,dive:null},replayUntil=0,replaying=null,sending=false,lastSendFail=0,finished=false,stop=null,first=true,resultShown=false;
+      let record=null,shown=0,clock=null,selRound=0,sel={shot:null,dive:null},replayUntil=0,replaying=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false;
       const now=()=>{try{return io.now();}catch(_error){return Date.now();}};
       const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(replaying);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
       const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"CHAMBER_MEN_FAILED"});};
@@ -364,7 +368,9 @@
         const score=drawBoard(7),chambers=engine.cylinders(record);
         cmsKeep(ctx,record);
         ui.round.textContent="Full time";ui.picks.hidden=true;ui.clock.hidden=true;ui.lock.hidden=true;ui.next.hidden=false;
-        ui.status.className="cmStatus";ui.status.textContent=score.playerOne===score.playerTwo?`Level, ${score.playerOne}-${score.playerTwo}`:`${NAMES.playerOne} ${score.playerOne}-${score.playerTwo} ${NAMES.playerTwo}`;
+        // Fable F17-06: one shape for every full time, like the GOALS board (names and goals, no tiebreak).
+        const line=`${NAMES.playerOne} ${score.playerOne} · ${NAMES.playerTwo} ${score.playerTwo}`;
+        ui.status.className="cmStatus";ui.status.textContent=score.playerOne===score.playerTwo?`Level · ${line}`:line;
         ui.lines.replaceChildren(...ROLES.map(role=>cmsEl("li","",`${NAMES[role]}'s cylinder holds ${engine.bullets(chambers[role])} live ${engine.bullets(chambers[role])===1?"round":"rounds"} of 7: ${NAMES[cmsOther(role)]} scored ${score[cmsOther(role)]}.`)));
         ui.lines.hidden=false;ui.next.focus();
       };
@@ -398,7 +404,9 @@
         if(!clock){const starts=round===1?(theirsSent>=1?now():null):Math.max(now(),replayUntil);if(starts!==null)clock={round,deadline:starts+PICK_MS};}
         setChoices(!sending,null);
         ui.status.className="cmStatus";
-        ui.status.textContent=theirsSent>=round?`Pick your shot and your dive. ${NAMES[other]} has locked in.`:"Pick your shot and your dive, then lock in.";
+        // Fable F17-03: round 1 has no clock until the rival locks in, and says so. Fable F17-02: a failed send's notice stays
+        // up for NOTICE_MS instead of being written over by the next tick.
+        ui.status.textContent=notice&&Date.now()<notice.until?notice.text:theirsSent>=round?`Pick your shot and your dive. ${NAMES[other]} has locked in.`:round===1?`Pick your shot and your dive, then lock in. No clock until ${NAMES[other]} locks in.`:"Pick your shot and your dive, then lock in.";
         if(clock){
           const left=Math.max(0,clock.deadline-now());
           ui.clock.textContent=`0:${String(Math.ceil(left/1000)).padStart(2,"0")}`;
@@ -413,13 +421,13 @@
         sending=true;setChoices(false,null);
         cmsSend(io,ctx,engine.pick(sel.shot,sel.dive),round).then(result=>{
           sending=false;
-          if(result&&result.ok){record=result.record;render();return;}
+          if(result&&result.ok){notice=null;record=result.record;render();return;}
           if(result&&result.record){record=result.record;}
           render();
         },error=>{
           sending=false;lastSendFail=Date.now();root.CareerModeFirestoreBudget?.noteError?.(error);
           // A refused write means the record moved (the listener brings it); anything else is shown and retried by the clock.
-          if(!/permission|aborted|failed-precondition/i.test(String(error&&error.code||"")))ui.status.textContent="The pick did not go through. Trying again.";
+          if(!/permission|aborted|failed-precondition/i.test(String(error&&error.code||"")))notice={text:"The pick did not go through. Tap LOCK IN again.",until:Date.now()+NOTICE_MS};
           render();
         });
       };
