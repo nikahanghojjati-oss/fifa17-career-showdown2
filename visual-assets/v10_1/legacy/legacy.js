@@ -289,7 +289,10 @@ window.ShowdownLegacyBoot = function () {
     if (returnFocus) document.getElementById("viewSeasonHistory").focus();
   }
 
-  function renderSeasonHistory(frame, showdownNumber, strings) {
+  // Studio Small Axe Wave 2: auto=true opens the list beside a lone archive card on desktop (the newest Showdown's
+  // seasons fill the pane that used to stand empty). It reuses the frame Legacy already holds: no new read, no focus
+  // move and no scroll, and it never blocks the archive keys.
+  function renderSeasonHistory(frame, showdownNumber, strings, auto = false) {
     const drawer = document.getElementById("legacySeasonHistory");
     const action = document.getElementById("viewSeasonHistory");
     const showdown = (frame.showdowns || []).find((item) => item.number === showdownNumber);
@@ -362,7 +365,9 @@ window.ShowdownLegacyBoot = function () {
       if (event.key === "Escape") { event.preventDefault(); closeHistory(true); }
     };
     drawer.hidden = false;
+    drawer.dataset.auto = String(auto);
     action.setAttribute("aria-expanded", "true");
+    if (auto) return;
     close.focus({ preventScroll: true });
     // r87: on a phone the list opens below the fold, under the tab bar; bring it into view (its scroll-margin clears the bar).
     drawer.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reducedMotion() ? "instant" : "smooth" });
@@ -546,6 +551,10 @@ window.ShowdownLegacyBoot = function () {
       }
       }
       select(selected, phone.matches);
+      // Only on the plate layout, where the list sits in the archive's empty pane (css/rivalryLegacyV10.css); smaller
+      // desktops would place it below the fold, so they keep the closed archive.
+      const plate = window.matchMedia("(min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape)");
+      if (!phone.matches && plate.matches && visible.length === 1 && canDisclose(visible[0])) renderSeasonHistory(frame, visible[0].number, strings, true);
       if (focusCard) {
         const target = grid.querySelector('[data-selected="true"]') || grid.querySelector("button");
         if (target) target.focus({ preventScroll: true });
@@ -582,7 +591,7 @@ window.ShowdownLegacyBoot = function () {
       const t = event.target;
       if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
       const drawer = document.getElementById("legacySeasonHistory");
-      if (drawer && !drawer.hidden) return;
+      if (drawer && !drawer.hidden && drawer.dataset.auto !== "true") return;
       event.preventDefault();
       const total = phone.matches ? records.length : pages;
       if (event.key === "Home") goTo(1);
@@ -730,6 +739,11 @@ window.ShowdownLegacyBoot = function () {
     historyAction.addEventListener("click", () => {
       const selected = window.LegacyFixture && window.LegacyFixture.selectedShowdown;
       const drawer = document.getElementById("legacySeasonHistory");
+      if (!drawer.hidden && drawer.dataset.auto === "true") {
+        // Already showing beside the lone card: VIEW takes the reader into it, as a manual open would.
+        renderSeasonHistory(frame, selected, fixtures.strings);
+        return;
+      }
       if (!drawer.hidden) {
         drawer.hidden = true;
         historyAction.setAttribute("aria-expanded", "false");
