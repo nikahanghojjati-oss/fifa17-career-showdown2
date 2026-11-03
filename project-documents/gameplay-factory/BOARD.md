@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 3 Nov, 10:00 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 3 Nov, 10:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.0.0-r87** (main `00ae2b7`, Sun 1 Nov 11:28 PM)
 
@@ -70,7 +70,7 @@ Updated Tue 3 Nov, 10:00 AM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 427 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 428 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1209](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1209) | r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish) | 🔴 15 passed, 1 running, 1 failed |
+| 🟧 Team G lead | [PR #1209](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1209) | r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish) | 🔴 16 passed, 1 failed |
 
 **Up next**
 
