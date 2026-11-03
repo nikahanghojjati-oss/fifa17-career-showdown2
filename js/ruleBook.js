@@ -48,24 +48,51 @@ function createRuleBookScreen(){
             "1- and 3-season Showdowns: only your Special Player can be trained.",
             "5- and 10-season Showdowns: all players can be trained."
         ]),
-        createRuleSection("03", "TRANSFER WAR", [
+        // r88 (Nik 2026-11-03): every season step has its own card, in season order: Chamber Men, Roster Russian Roulette,
+        // Prime Pack, then the Transfer War. Chamber Men is turn by turn (js/chamberMen.js); the Prime Pack lines match
+        // js/iconGuess.js (STAGES, CHIPS) and the roulette lines js/rosterRoulette.js.
+        createRuleSection("03", "CHAMBER MEN", [
+            "Every season, before the Roster Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in Showdowns started on version 2.1.0 or later.",
+            "It goes turn by turn: Daniel shoots and Nik keeps, then Nik shoots and Daniel keeps, for 7 rounds. Nobody shoots and keeps on the same kick.",
+            "The shooter picks LEFT, MIDDLE or RIGHT for his shot. The keeper picks where to dive. Neither sees the other's pick until both have locked in.",
+            "The shot goes in when the keeper dives the other way. Both phones show the kick, then the next one starts.",
+            "Once your rival has locked in, you have 10 seconds. Out of time, a shot is a miss and a keeper stays in the middle.",
+            "Each goal you score loads one live round into your rival's roulette cylinder for that season. 0 or 7 goals still spin.",
+            "Chamber Men scores no Showdown points."
+        ]),
+        // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
+        createRuleSection("04", "ROSTER RUSSIAN ROULETTE", [
+            "Every season, before the Transfer War, Daniel and then Nik spin the roulette: one trigger pull each.",
+            "Your cylinder has seven chambers. In a Chamber Men Showdown it holds one live round for each goal your rival scored, so your chance of a hit is his goals out of 7: 0 goals never fires, 7 always does. In older Showdowns it holds one bullet.",
+            "A hit releases one player from your starting XI or 4 subs: release him in FIFA 17. A player the roulette shot never comes back and can't be signed back. Your Special Player is never on your board, so he is never hit.",
+            "Your board starts as your FIFA 17 launch squad. Kept signings, at the overall you typed, replace any weaker starter or sub, even when nobody was lost.",
+            "A lost player's place goes first to that window's signing in his line, however weak, then to your best sub. No keeper left: your best outfielder goes in goal until you sign one.",
+            "Replaced players wait in hidden reserves, off the board, and come back when better players are lost. A signing your rival guessed never joins your board: you can never sign him again.",
+            "Only if your club runs out of players does a place stay empty: the roulette still spins, and the bullet only ever hits a real player."
+        ]),
+        createRuleSection("05", "PRIME PACK", [
+            "Every season, after the roulette and before the Transfer War, you both race to name one masked Icon.",
+            "Stage 1 shows his position and one real card stat. A right name in stage 1 scores 4.",
+            "Each later stage adds one more stat and is worth 1 point less: 3, then 2, then 1.",
+            "You have 25 seconds to guess in stage 1 and 20 seconds in stages 2, 3 and 4.",
+            "Each manager has two guesses for the whole card.",
+            "Which stats show is random; the values never are.",
+            "Only the first right name scores, so one manager wins 4, 3, 2 or 1 points, or nobody does. Never both.",
+            "Stage 5 is the reveal, with no guessing: the last two stats, his name, flag and overall."
+        ]),
+        createRuleSection("06", "TRANSFER WAR", [
             "Each of you may sign up to three players a season.",
             "The transfer window lasts 15 minutes.",
             "In FIFA 17, you can sign players up to the transfer deadline.",
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
             "Your opponent gets three guesses. Each guess is a league or a nationality.",
             "If a guess matches one of your signings, release that player before the season starts.",
-            "A player your rival guesses is released and can never be signed again.",
+            "A player your rival guesses is released, and you can never sign him again.",
             "Type each signing's FIFA 17 overall. Only you see it, and it is never part of a guess.",
-            "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him.",
-            // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
-            "Before each Transfer War, Daniel and then Nik spin the Roster Roulette. One spin in seven fires and hits one player on your starting XI or 4 best subs: release him in FIFA 17.",
-            "Your Special Player is never on your board, so he is never hit. Every player on your board has the same chance.",
-            "Your board builds itself: your FIFA 17 launch squad. From season 2, a lost player is replaced by a kept signing or the bench, with reserves filling in, so your board shows 11 starters and 4 subs. Only if your club runs out of players does a place stay empty: the roulette still spins, and the bullet only ever hits a real player.",
-            "A guessed player never joins your board. A signing weaker than every starter in his line and every sub waits in your reserves."
+            "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him."
         ]),
         createScoringRuleSection(),
-        createRuleSection("05", "CONNECTION & RECOVERY", [
+        createRuleSection("08", "CONNECTION & RECOVERY", [
             "Connect once before your first Showdown. After that, the same account and browser stay connected.",
             "A new browser may need to connect again.",
             "The browser keeps a backup copy for recovery. You can't play from it.",
@@ -124,7 +151,7 @@ function createScoringRuleSection(){
     header.className = "ruleSectionHeader";
 
     const number = document.createElement("span");
-    number.textContent = "04";
+    number.textContent = "07";
 
     const heading = document.createElement("h3");
     heading.textContent = "SCORING";
@@ -195,7 +222,7 @@ function createScoringRuleSection(){
     specialName.textContent = " SPECIAL PLAYER";
     specialLabel.append(specialTag, specialName);
     const specialText = document.createElement("span");
-    specialText.textContent = "Each manager draws one FIFA 17 player at the start of every Showdown. Your Special Player scores no points. Full rules in card 06.";
+    specialText.textContent = "Each manager draws one FIFA 17 player at the start of every Showdown. Your Special Player scores no points. Full rules in card 09.";
     const specialLive = document.createElement("span");
     specialLive.className = "ruleSpecialPlayerLive spChipPair";
     specialLive.hidden = true;
@@ -208,7 +235,7 @@ function createScoringRuleSection(){
     const primePackLabel = document.createElement("strong");
     primePackLabel.textContent = "PRIME PACK";
     const primePackText = document.createElement("span");
-    primePackText.textContent = "A masked Icon shows his position and one real card stat, then one more real stat each stage, up to four. Which stats show is random; the values never are. Each manager has two guesses. Name him first for 4, 3, 2 or 1 points. Nobody right after stage 4 scores 0. Then the whole card is revealed: the last two stats, his name, flag and overall.";
+    primePackText.textContent = "Name the masked Icon first for 4, 3, 2 or 1 points. Nobody right after stage 4 scores 0. Full rules in card 05.";
     primePack.append(primePackLabel, primePackText);
 
     article.append(header, scoring, maximum, golden, special, primePack, notes);
@@ -218,7 +245,7 @@ function createScoringRuleSection(){
 // r86 Special Player rules (Nik 2026-10-29 15:24 UTC): the full card, last, with the training rule by length.
 // The draws card is gone (Nik 2026-10-29 21:10 UTC): the no-tiebreak rules stay in scoring.js, not on the page.
 function createSpecialPlayerRuleSection(){
-    const article = createRuleSection("06", "SPECIAL PLAYER", [
+    const article = createRuleSection("09", "SPECIAL PLAYER", [
         "At the start of every Showdown, after Club Assignment, each manager draws one Special Player.",
         "The draw picks from the top 300 FIFA 17 players by potential. You and your rival never draw the same player.",
         "Both draws are shown on the reveal screen, and each Special Player stays with his manager for the whole Showdown.",

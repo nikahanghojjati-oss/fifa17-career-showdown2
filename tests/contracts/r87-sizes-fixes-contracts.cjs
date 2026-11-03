@@ -177,7 +177,7 @@ const root = path.resolve(__dirname, "../..");
         .waitFor({ state: "hidden", timeout: 30000 });
       await page.evaluate(() => window.openOptionalModule("ruleBook"));
       await page.locator(".ruleBookTabs").waitFor();
-      for (let tab = 0; tab < 6; tab++) {
+      for (let tab = 0; tab < 9; tab++) {
         await page.locator(".ruleBookTab").nth(tab).click();
         const geometry = await page.evaluate(() => {
           const card = document.querySelector(
