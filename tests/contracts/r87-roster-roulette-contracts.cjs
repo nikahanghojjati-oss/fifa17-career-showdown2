@@ -487,7 +487,8 @@ function fullBoard(board,label){
   assert.equal(src.split('rrEmpty').length-1,2,'empty rows come only from the rrPlace fallback');
   assert.ok(!/name:\s*""/.test(src),'no blank-name rows');
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
-  assert.match(rules,/lost player is replaced by a kept signing or the bench/);
+  assert.match(rules,/A lost player's place goes first to that window's signing in his line, however weak, then to your best sub/);
+  assert.match(rules,/Replaced players wait in hidden reserves, off the board, and come back when better players are lost/);
   assert.match(rules,/the roulette still spins, and the bullet only ever hits a real player/);
 }
 ok('L11','every club: 10 forced firing seasons, no kept signing, full 11 + 4 with one GK, permanent losses and identical replay');

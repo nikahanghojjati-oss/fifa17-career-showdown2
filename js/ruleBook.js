@@ -67,7 +67,8 @@ function createRuleBookScreen(){
             "A hit releases one player from your starting XI or 4 subs: release him in FIFA 17. A player the roulette shot never comes back and can't be signed back. Your Special Player is never on your board, so he is never hit.",
             "Your board starts as your FIFA 17 launch squad. Kept signings, at the overall you typed, replace any weaker starter or sub, even when nobody was lost.",
             "A lost player's place goes first to that window's signing in his line, however weak, then to your best sub. No keeper left: your best outfielder goes in goal until you sign one.",
-            "Replaced players wait in hidden reserves, off the board, and come back when better players are lost. A signing your rival guessed never joins your board: you can never sign him again."
+            "Replaced players wait in hidden reserves, off the board, and come back when better players are lost. A signing your rival guessed never joins your board: you can never sign him again.",
+            "Only if your club runs out of players does a place stay empty: the roulette still spins, and the bullet only ever hits a real player."
         ]),
         createRuleSection("05", "PRIME PACK", [
             "Every season, after the roulette and before the Transfer War, you both race to name one masked Icon.",
