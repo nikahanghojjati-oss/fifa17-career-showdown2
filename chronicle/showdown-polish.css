@@ -19,6 +19,9 @@
   .hero-copy h1{font-size:62px}
   /* nothing under 10px on a phone */
   .hero-copy .eyebrow{font-size:10px;letter-spacing:1.2px}
+  /* the edition label sat on Nik's hair: start the picture below the top labels, on the dark page colour */
+  .hero{background:#090b0e}
+  .hero-art{top:62px;height:363px}
   .fact-strip span,.chapter-tab small,.gallery-caption .eyebrow,.physio .eyebrow,.now-note .small-label{font-size:10px}
   footer p,footer>a{font-size:10px}
 }
