@@ -18,10 +18,11 @@
   // fragment): each manager's pick string, one letter per kick (his shot on a kick he takes, his dive on a kick he keeps),
   // which only ever grows by his own letter for the kick on now, and only while he is not ahead of the other manager. A
   // kick shows only once both letters are in, so nobody sees the other's pick first. One phone never sends the other
-  // manager's pick: when this manager's own clock runs out, his own phone sends his letter with whatever he had chosen ("-"
-  // when nothing: a "-" shot misses, a "-" dive stays in the middle).
+  // manager's pick: when this manager's own clock runs out, his own phone sends "-" for that kick, even
+  // when a side was chosen but not locked in (Codex #1232): a "-" shot misses, a "-" dive stays in the middle.
   // Clock: 10 s on the Transfer Challenge's server clock, started on a manager's phone when the rival has locked in for that
   // kick (and that phone has finished showing the last kick), so nobody is timed out while the other is still on his way.
+  // The deadline is tied to the rival's lock-in time on the server, so reopening the screen never resets it.
   //
   // Reads: one listener on the round record while the screen is open (each of the 28 letters is one delivery per phone),
   // one transaction read per letter this phone sends (14 a season). A finished shootout is kept on this phone, so the
@@ -77,6 +78,8 @@
   }
 
   // ---------- the record: Firestore <-> js/chamberMen.js ----------
+  // Server time of a record's last write (Firestore Timestamp, {seconds,nanoseconds}, Date or millis), or null.
+  function cmsMillis(value){if(!value)return null;if(typeof value==="number")return value;if(typeof value.toMillis==="function")return value.toMillis();if(value instanceof Date)return value.getTime();if(Number.isFinite(value.seconds))return value.seconds*1000+Math.floor((value.nanoseconds||0)/1e6);return null;}
   function cmsRecord(data,season){
     if(!data||data.schemaVersion!==SCHEMA||data.objectType!==OBJECT_TYPE||data.seasonNumber!==season||!data.kicks)return null;
     return cmsEngine().record({playerOne:data.kicks.playerOne,playerTwo:data.kicks.playerTwo});
@@ -326,7 +329,7 @@
       // record: the latest from the server. shown: how many kicks are shown (drawn or replayed) on screen. clock: {kick,
       // deadline} in server ms. sel: this manager's choice for the kick on now. revealUntil: the server time the kick on
       // screen stops being shown.
-      let record=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false;
+      let record=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false;
       const now=()=>{try{return io.now();}catch(_error){return Date.now();}};
       const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(revealing);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
       const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"CHAMBER_MEN_FAILED"});};
@@ -428,7 +431,10 @@
         // A new kick clears the choice. The clock starts once the rival has locked in for this kick (and the last kick has
         // been shown on this phone); a screen opened mid-kick starts its clock now.
         if(selKick!==n){selKick=n;sel=null;clock=null;}
-        if(!clock&&theirsSent>=n)clock={kick:n,deadline:Math.max(now(),revealUntil)+PICK_MS};
+        // Codex #1232: the clock runs from the rival's lock-in on the server (the record's updatedAt: while he is one kick ahead,
+        // the last write is his), so leaving and reopening the screen never restarts it. The last kick's reveal on this phone
+        // still gets its time, never more than KICK_MS on top of the shared deadline.
+        if(!clock&&theirsSent>=n){const local=Math.max(now(),revealUntil)+PICK_MS;clock={kick:n,deadline:Number.isFinite(lastWriteMs)?Math.min(local,lastWriteMs+PICK_MS+KICK_MS):local};}
         setChoices(!sending,sel);
         ui.status.className="cmStatus";
         // Fable F17-02: a failed send's notice stays up for NOTICE_MS instead of being written over by the next tick. Fable
@@ -447,7 +453,7 @@
         if(engine.nextKick(record,me)!==kick)return;
         if(!timedOut&&!sel)return;
         sending=true;setChoices(false,sel);
-        cmsSend(io,ctx,engine.pick(sel),kick).then(result=>{
+        cmsSend(io,ctx,engine.pick(timedOut?null:sel),kick).then(result=>{
           sending=false;
           if(result&&result.ok){notice=null;record=result.record;render();return;}
           if(result&&result.record){record=result.record;}
@@ -464,7 +470,7 @@
         if(!next)return fail({code:"CHAMBER_MEN_BAD_RECORD"});
         // Never step back: a late delivery older than what this phone already wrote is ignored.
         if(record&&(next.playerOne.length<record.playerOne.length||next.playerTwo.length<record.playerTwo.length))return;
-        record=next;
+        record=next;lastWriteMs=cmsMillis(data&&data.updatedAt);
         if(ui.stage.style.visibility==="hidden"){ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}}
         render();
       };

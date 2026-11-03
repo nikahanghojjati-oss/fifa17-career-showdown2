@@ -214,7 +214,7 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
     const r=await Step.send(a,ctx,"L",1);assert.equal(r.ok,true);assert.equal(writes[0][1].kicks.playerOne,"L");assert.equal(writes[0][1].schemaVersion,2);}
   // An old two-letters-a-round record (schemaVersion 1) is never read as kicks.
   assert.equal(Step.record({...doc("LR","RL"),schemaVersion:1},1),null);
-  assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(sel\),kick\)/,"the screen sends the kick it is showing");
+  assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(timedOut\?null:sel\),kick\)/,"the screen sends the kick it is showing; out of time it sends \"-\" (Codex #1232)");
   // Both lock in at once: the Rules refuse the loser against the record the winner just changed; one retry on the record as
   // it is now puts his letter in; a second refusal is passed on (no loop of billed reads).
   {
@@ -236,7 +236,7 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
     assert.match(step,/\[\["shot","Pick your shot"\],\["dive","Pick your dive"\]\]/);
     assert.match(step,/const showRow=kind=>\{for\(const k of \["shot","dive"\]\)ui\.rows\[k\]\.row\.hidden=k!==kind;\};/,"only this manager's row shows");
     assert.match(step,/return `Round \$\{k\.round\} of 7 · \$\{NAMES\[k\.shooter\]\} shoots`;/,"the kick counter");
-    assert.match(step,/if\(!clock&&theirsSent>=n\)clock=\{kick:n,deadline:Math\.max\(now\(\),revealUntil\)\+PICK_MS\};/,"the clock starts when the rival has locked in");
+    assert.match(step,/if\(!clock&&theirsSent>=n\)\{const local=Math\.max\(now\(\),revealUntil\)\+PICK_MS;clock=\{kick:n,deadline:Number\.isFinite\(lastWriteMs\)\?Math\.min\(local,lastWriteMs\+PICK_MS\+KICK_MS\):local\};\}/,"the clock starts when the rival has locked in, tied to his lock-in on the server (Codex #1232)");
     ok("CM11","the shooter sees YOU SHOOT and only his shot row, the keeper YOU KEEP and only his dive row; the kick is named; the clock waits for the rival");
   }
   console.log(`PASS r88 Chamber Men contracts: ${results.length} checks.`);

@@ -12,6 +12,8 @@
 //       Nik's name and only the "Pick your shot" row; mounted at kick 8 (Nik shoots, Nik has locked in) Daniel sees YOU KEEP
 //       and only "Pick your dive"; both with the clock and LOCK IN on the first view (FD1/FD2 hold for both).
 //   FD5 the 10 s clock runs out with nothing picked: the phone sends its own "-" once (a shot misses, a dive stays middle).
+//   FD6 (Codex #1232) a side chosen but not locked in still times out as "-"; the clock runs from the rival's lock-in on the
+//       server, so a screen reopened after that deadline sends "-" at once instead of starting a fresh 10 s.
 const assert=require('node:assert/strict');
 const net=require('node:net');
 const path=require('node:path');
@@ -25,19 +27,19 @@ process.on('exit',code=>{if(!finished&&!code){console.error('r88 Fable 17 Chambe
 const SIZES=[[1366,768],[1280,800],[393,852]];
 
 // Runs in the page: mounts the step mid-shootout (round 4, the rival locked in, so the clock runs) and measures it.
-async function mount({fail,keeper,timeout}){
+async function mount({fail,keeper,timeout,picked,stale}){
   const load=src=>new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error(src));document.head.append(s);});
   await load('js/chamberMen.js');await load('js/chamberMenStep.js');
   const step=window.CareerModeChamberMenStep,CM=window.CareerModeChamberMen;
   try{localStorage.clear();}catch(_error){}
   if(!await step.ensure())throw new Error('step did not load');
   const rid=`pair_${'ab'.repeat(32)}`;
-  const doc={schemaVersion:2,objectType:'sharedChamberMenRound',rivalryId:rid,seasonNumber:2,kicks:keeper?{playerOne:'LRMMRLM',playerTwo:'RLLMRRML'}:{playerOne:'LRMMRL',playerTwo:'RLLMRRM'},revision:13};
+  const doc={schemaVersion:2,objectType:'sharedChamberMenRound',rivalryId:rid,seasonNumber:2,kicks:keeper?{playerOne:'LRMMRLM',playerTwo:'RLLMRRML'}:{playerOne:'LRMMRL',playerTwo:'RLLMRRM'},revision:13,updatedAt:stale?{seconds:(Date.now()-30000)/1000,nanoseconds:0}:{seconds:Date.now()/1000,nanoseconds:0}};
   const sdk={doc:()=>({}),serverTimestamp:()=>'ts',
     runTransaction:async(_f,fn)=>window.__failSend?Promise.reject(Object.assign(new Error('offline'),{code:'unavailable'})):fn({get:async()=>({exists:()=>true,data:()=>doc}),set(){},update(_r,d){(window.__writes=window.__writes||[]).push(d);}}),
     onSnapshot:(_r,_o,cb)=>{setTimeout(()=>cb({metadata:{},exists:()=>true,data:()=>doc}),50);return ()=>{};}};
   void step.run({rivalryId:rid,managerRole:'playerOne',season:2,confirmedAtMs:CM.fromMs},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
-  const stage=await new Promise((resolve,reject)=>{const t0=Date.now();const tick=()=>{const s=document.getElementById('cmStage');if(s&&s.style.visibility!=='hidden'&&s.querySelector('.cmClock').textContent)return resolve(s);if(Date.now()-t0>8000)return reject(new Error('stage did not show'));setTimeout(tick,50);};tick();});
+  const stage=await new Promise((resolve,reject)=>{const t0=Date.now();const tick=()=>{const s=document.getElementById('cmStage');if(s&&s.style.visibility!=='hidden'&&(stale||s.querySelector('.cmClock').textContent))return resolve(s);if(Date.now()-t0>8000)return reject(new Error('stage did not show'));setTimeout(tick,50);};tick();});
   const rect=sel=>{const r=stage.querySelector(sel).getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};};
   const hit=sel=>{const el=stage.querySelector(sel),r=el.getBoundingClientRect(),at=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return Boolean(at&&(at===el||el.contains(at)));};
   const scrollers=[...document.querySelectorAll('*')].filter(el=>{const cs=getComputedStyle(el);return el.id!=='cmStage'&&/(auto|scroll)/.test(cs.overflowY+cs.overflowX)&&(el.scrollHeight>el.clientHeight+1||el.scrollWidth>el.clientWidth+1)&&el.getClientRects().length&&stage.contains(el);}).map(el=>el.className||el.tagName);
@@ -50,9 +52,11 @@ async function mount({fail,keeper,timeout}){
     await new Promise(r=>setTimeout(r,900));
     out.failStatus=stage.querySelector('.cmStatus').textContent;
   }
-  if(timeout){
-    // Nothing picked: the clock runs out and this phone sends its own "-" (a shot misses, a dive stays in the middle).
-    await new Promise(r=>setTimeout(r,11500));
+  if(timeout||stale){
+    // Codex #1232: a side chosen but never locked in is not sent; out of time is always "-" (a shot misses, a dive stays
+    // in the middle). A screen reopened after the rival's lock-in long ran out (stale) times out at once: no fresh 10 s.
+    if(picked)stage.querySelector(`.cmChoice[data-kind="${keeper?'dive':'shot'}"]`).click();
+    await new Promise(r=>setTimeout(r,stale?1500:11500));
     out.timeoutWrites=(window.__writes||[]).map(d=>d['kicks.playerOne']);
   }
   return out;
@@ -78,7 +82,7 @@ const overlaps=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bo
       await page.route(url=>!String(url).startsWith(base),route=>route.abort());
       await page.goto(`${base}index.html`,{waitUntil:'load'});
       await page.waitForFunction(()=>typeof window.loadRuntimeScript==='function',null,{timeout:20000});
-      results.push({size:`${width}x${height}`,...await page.evaluate(mount,{fail:width===1280,keeper:false,timeout:width===393})});
+      results.push({size:`${width}x${height}`,...await page.evaluate(mount,{fail:width===1280,keeper:false,timeout:width===393,picked:true})});
       await context.close();
       const context2=await browser.newContext({viewport:{width,height},serviceWorkers:'block',hasTouch:width<900,isMobile:width<900});
       const page2=await context2.newPage();
@@ -87,6 +91,16 @@ const overlaps=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bo
       await page2.waitForFunction(()=>typeof window.loadRuntimeScript==='function',null,{timeout:20000});
       results.push({size:`${width}x${height} keeper`,...await page2.evaluate(mount,{fail:false,keeper:true,timeout:width===1366})});
       await context2.close();
+    }
+    let staleOut;
+    {
+      const context3=await browser.newContext({viewport:{width:1366,height:768},serviceWorkers:'block'});
+      const page3=await context3.newPage();
+      await page3.route(url=>!String(url).startsWith(base),route=>route.abort());
+      await page3.goto(`${base}index.html`,{waitUntil:'load'});
+      await page3.waitForFunction(()=>typeof window.loadRuntimeScript==='function',null,{timeout:20000});
+      staleOut=await page3.evaluate(mount,{fail:false,keeper:true,stale:true,picked:true});
+      await context3.close();
     }
     for(const m of results){
       assert.match(m.clockText,/^0:\d\d$/,`${m.size}: the clock runs`);
@@ -110,8 +124,10 @@ const overlaps=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bo
       else{assert.equal(m.turn,'YOU SHOOT',m.size);assert.equal(m.sub,'Nik is in goal');assert.deepEqual(m.rows,['Pick your shot'],`${m.size}: only the shot row`);assert.equal(m.count,'Round 4 of 7 · Daniel shoots');}
     }
     const shotOut=results.find(m=>m.size==='393x852'),diveOut=results.find(m=>m.size==='1366x768 keeper');
-    assert.deepEqual(shotOut.timeoutWrites,['LRMMRL-'],'a shot out of time is sent as "-" (a miss), once');
+    assert.deepEqual(shotOut.timeoutWrites,['LRMMRL-'],'a shot chosen but not locked in, out of time, is sent as "-" (a miss), once');
     assert.deepEqual(diveOut.timeoutWrites,['LRMMRLM-'],'a dive out of time is sent as "-" (stays in the middle), once');
+    assert.deepEqual(staleOut.timeoutWrites,['LRMMRLM-'],'reopened after the shared deadline: "-" goes in at once, no fresh clock');
+    ok('FD6','the clock runs from the rival\'s lock-in on the server: reopening never restarts it; a chosen side that was never locked in is sent as "-"');
     ok('FD5','out of time with nothing picked, this phone sends its own "-" for the kick, once (shot = miss, dive = middle)');
     ok('FD4','turn by turn: YOU SHOOT with only the shot row, YOU KEEP with only the dive row, the kick named, at every size');
     finished=true;
