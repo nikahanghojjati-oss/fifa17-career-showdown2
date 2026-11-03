@@ -204,6 +204,43 @@ a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.upda
 .prologue-text .prologue-turn{text-indent:0;margin-top:1.6em;text-align:center;font-family:var(--ed-serif);font-style:italic;font-size:22px;color:var(--ed-gold)}
 .prologue-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:40px}
 
+/* ---------- 6c · The dedication: Studio Small Axe, whose motto became the game's mentality ---------------------------- */
+.dedication{padding:0 clamp(16px,4vw,40px) clamp(88px,10vw,140px)}
+.dedication-leaf{position:relative;max-width:940px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(22px,6vw,84px);text-align:center;
+  background:var(--ed-marble) center/560px auto,var(--ed-stone);border:1px solid var(--ed-hair-2);border-radius:3px;
+  box-shadow:inset 0 0 0 6px rgba(15,14,11,.92),inset 0 0 0 7px rgba(228,191,108,.3),0 30px 70px rgba(0,0,0,.55)}
+.dedication-mark{display:flex;align-items:center;justify-content:center;gap:18px;margin:0 0 18px;color:var(--ed-gold)}
+.dedication-mark:before,.dedication-mark:after{content:"";width:72px;height:1px;background:linear-gradient(90deg,transparent,var(--ed-hair-2))}
+.dedication-mark:after{transform:scaleX(-1)}
+.dedication-mark svg{display:block;flex:none}
+.dedication .eyebrow{font-size:14px;letter-spacing:.42em;margin:0 0 26px;justify-content:center}
+.dedication .eyebrow:before{display:none}
+.dedication-motto{margin:0 auto 44px;padding:0}
+.dedication-motto p{margin:0 0 18px;font-family:var(--ed-serif);font-weight:900;font-style:italic;font-size:clamp(40px,6.4vw,82px);line-height:1.04;letter-spacing:-.015em;
+  background:var(--ed-foil);-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance}
+.dedication-motto cite{font-family:var(--ed-label);font-weight:600;font-style:normal;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--ed-gold)}
+.dedication-motto cite:before{content:"— "}
+.dedication h2{font-size:clamp(30px,3.6vw,46px);line-height:1.08;margin:0 auto 40px;max-width:20em;text-wrap:balance}
+.dedication-text{text-align:left;max-width:62ch;margin:0 auto}
+.dedication-text p{font-family:var(--ed-text);font-size:20px;line-height:1.85;color:var(--ed-ivory);margin:0;hyphens:auto;-webkit-hyphens:auto}
+.dedication-text p+p{text-indent:1.6em}
+.dedication-text p:first-child:first-letter{float:left;font-family:var(--ed-serif);font-weight:900;font-size:4.4em;line-height:.78;padding:.1em .12em 0 0;color:var(--ed-gold)}
+.dedication-text p:first-child:first-line{font-variant:small-caps;letter-spacing:.05em}
+.dedication-strokes{list-style:none;margin:48px auto 0;padding:26px 0 0;max-width:760px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--ed-hair)}
+.dedication-strokes li{display:grid;gap:8px;align-content:start;padding:0 14px;border-right:1px solid var(--ed-hair)}
+.dedication-strokes li:last-child{border-right:0}
+.dedication-strokes strong{font-family:var(--ed-serif);font-weight:900;font-size:46px;line-height:1;background:var(--ed-foil);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dedication-strokes span{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ed-ivory-3);line-height:1.4}
+.dedication-thanks{margin:44px 0 0;font-family:var(--ed-serif);font-style:italic;font-size:24px;color:var(--ed-gold)}
+@media(max-width:620px){
+  .dedication-leaf{box-shadow:inset 0 0 0 4px rgba(15,14,11,.92),inset 0 0 0 5px rgba(228,191,108,.3),0 20px 50px rgba(0,0,0,.55)}
+  .dedication-text p{font-size:18.5px;line-height:1.8}
+  .dedication-strokes{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px}
+  .dedication-strokes li:nth-child(2){border-right:0}
+  .dedication-strokes strong{font-size:40px}
+  .dedication-thanks{font-size:21px}
+}
+
 /* ---------- 7 · Sections, headings, and the gold thread between them ----------------------------------------------- */
 .section{max-width:1320px;padding:clamp(80px,9vw,128px) clamp(24px,4.4vw,64px)}
 .section-heading{margin-bottom:56px}
@@ -677,7 +714,7 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
   /* a slow light across the gold foil numerals */
   @keyframes ed-sheen{0%{background-position:0% 50%}100%{background-position:200% 50%}}
   .fact-strip strong,.latest-overview-grid strong,.portal-counts strong,.research-metrics strong,.factory-snapshot strong,.cohort-rate,
-  .big-number,.book-counts strong,.number-value,.score-total output,.monogram,.volume-number{
+  .big-number,.book-counts strong,.number-value,.score-total output,.monogram,.volume-number,.dedication-motto p,.dedication-strokes strong{
     background-image:linear-gradient(100deg,#c9973c 0%,#f0cd7c 20%,#fff3cf 30%,#f0cd7c 40%,#c9973c 60%,#f0cd7c 80%,#c9973c 100%);
     background-size:200% 100%;animation:ed-sheen 9s linear infinite}
   /* buttons: a glint passes when touched */
@@ -698,7 +735,7 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
   /* headings rise into place as they scroll in (Chrome; other browsers simply show them) */
   @supports (animation-timeline:view()){
     @keyframes ed-rise{from{opacity:.4;transform:translateY(26px)}to{opacity:1;transform:none}}
-    .section-heading,.scoring-intro,.book-portal-copy,.prologue h2,.prologue-text p,.design-notes>div,.research-metrics article,.factory-snapshot article,
+    .section-heading,.scoring-intro,.book-portal-copy,.prologue h2,.prologue-text p,.dedication-motto,.dedication h2,.dedication-text p,.design-notes>div,.research-metrics article,.factory-snapshot article,
     .milestone-ledger article,.closing>div,.volume-head{animation:ed-rise linear backwards;animation-timeline:view();animation-range:entry 0% entry 55%}
   }
   /* the spines settle on the shelf one after another as the shelf scrolls in */
