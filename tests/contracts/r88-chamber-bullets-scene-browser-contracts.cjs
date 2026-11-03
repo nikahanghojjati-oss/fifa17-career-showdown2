@@ -105,18 +105,18 @@ const CASES=[[7,0],[0,7],[3,5]];
         if(msgs.includes('cms-rr-error'))throw new Error('scene error');
         w.postMessage(setup,location.origin);
         await until(()=>msgs.includes('cms-rr-armed')||msgs.includes('cms-rr-error'),15000,'armed');
-        const caption=result.textContent,stops=[],marks=[];
+        const caption=result.textContent,stops=[],marks=[],drum=[];
         for(let i=0;i<2;i+=1){
           await until(()=>!cta.disabled&&/spins/.test(cta.textContent),30000,`turn ${i+1} ready`);
-          const from=lines.length;cta.click();
+          const from=lines.length,z0=w.__rr.cylZ;cta.click();w.__rr.advance(0.5);const zStart=w.__rr.cylZ;
           // Software WebGL draws a frame in well over 0.25 s, and the scene pauses its turn clock across such gaps (F11-01), so
           // the turn is stepped on the scene's own test clock (window.__rr.advance, 30 ticks a second, drawing the last one).
           for(let s=0;s<200&&msgs.filter(m=>m==='cms-rr-end').length<=i;s+=1){const seen=lines.slice(from).some(l=>/live round/.test(l.text));w.__rr.advance(seen?2:0.5);await new Promise(r=>setTimeout(r,0));}
           await until(()=>msgs.filter(m=>m==='cms-rr-end').length>i,10000,`turn ${i+1} end`);
           const mine=lines.slice(from),mark=mine.find(l=>/No live rounds|Red: (\d+ )?live round/.test(l.text)),stop=mine.filter(l=>/\bresult (bang|safe)\b/.test(l.cls)&&!/live round/.test(l.text)).pop();
-          marks.push(mark?/No live rounds/.test(mark.text)?0:/Red: (\d+) live rounds/.test(mark.text)?Number(/Red: (\d+)/.exec(mark.text)[1]):1:null);stops.push(stop?/bang/.test(stop.cls):null);
+          drum.push({z0,zStart,zEnd:w.__rr.cylZ});marks.push(mark?/No live rounds/.test(mark.text)?0:/Red: (\d+) live rounds/.test(mark.text)?Number(/Red: (\d+)/.exec(mark.text)[1]):1:null);stops.push(stop?/bang/.test(stop.cls):null);
         }
-        return {caption,lines,msgs,stops,marks,T};
+        return {caption,lines,msgs,stops,marks,drum,T};
       },{src:`${base}visual-assets/v10_1/roulette/index.html?embed=1&d=${encodeURIComponent(pair.playerOne)}&n=${encodeURIComponent(pair.playerTwo)}`,setup}).catch(e=>{throw new Error(`${e.message} :: ${errors.slice(0,8).join(' | ')}`);});
       await context.close();
       const marks=out.marks;
@@ -125,6 +125,9 @@ const CASES=[[7,0],[0,7],[3,5]];
       // Daniel's cylinder holds Nik's goals (n), Nik's holds Daniel's (d).
       assert.equal(out.caption,`Daniel ${word(n)} · Nik ${word(d)} · Seven chambers`,`${d}-${n}: setup caption`);
       assert.deepEqual(marks,[n,d],`${d}-${n}: the scene drew the live rounds of each cylinder (${JSON.stringify(out.lines)})`);
+      // Nik 2026-11-03: the drum starts where it rested (no jump onto the stop hole) and runs down to the plan's stop chamber.
+      const TAU=Math.PI*2,same=(a,b)=>{const d=(((a-b)%TAU)+TAU)%TAU;return d<1e-3||TAU-d<1e-3;};
+      out.drum.forEach((r,i)=>{assert.ok(same(r.zStart,r.z0),`${d}-${n} turn ${i+1}: the drum starts from where it rested`);assert.ok(same(r.zEnd,-plan.turns[i].stopChamber*TAU/7),`${d}-${n} turn ${i+1}: the drum stops on chamber ${plan.turns[i].stopChamber}`);});
       assert.deepEqual(stops,plan.turns.map(t=>t.fired),`${d}-${n}: the scene stopped on a live round exactly when the plan fired`);
       if(n===0)assert.equal(stops[0],false,'0 goals: the empty cylinder spins and never fires');
       if(n===7)assert.equal(stops[0],true,'7 goals: a sure hit');
