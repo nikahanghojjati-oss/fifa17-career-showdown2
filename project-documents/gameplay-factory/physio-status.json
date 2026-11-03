@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-03T14:53:11.807Z",
+  "at": "2026-11-03T14:56:45.711Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -10,7 +10,7 @@
     "lanes": [
       {
         "name": "L1 core",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L2 browser full",
@@ -34,7 +34,7 @@
       },
       {
         "name": "L6 browser journey",
-        "state": "running"
+        "state": "pass"
       }
     ],
     "seal": "PENDING"
