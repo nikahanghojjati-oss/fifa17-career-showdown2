@@ -819,3 +819,37 @@
 :root #app #seasonEntry .seasonSummaryCard {
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
+
+/* 4q. Studio Small Axe 40/40, shared stroke 1: the 12 px text floor on desktop (craft rule "nothing under 12px").
+   Measured on r88 d9eaafbb at 1280x720 to 1920x1080: these were the visible texts under 12 px. Sizes only, no layout
+   moves; !important because several are set inline by screen scripts or by later-loaded screen sheets. Settings is left
+   out: its dialog is zoomed, so its labels already show at 12 px or more on screen. Short landscape screens (under 700 px
+   tall, such as 1200x600) keep the kit sizes, because there the cards and tiles have no height to spare. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  :root #app > footer,
+  :root #photoCredit :is(a, span),
+  :root #cmsMusicDockTop span,
+  :root #app :is(#rvSeasonBody, #legacySeasonHistory) th,
+  :root #commentaryV3Final :is(b, .cmx-bar__tab),
+  :root #app :is(.compareLabel, .headlineTogether, .leaderLabel, .leaderName),
+  :root #app #headlineTiles small,
+  :root #app :is(.connectPlayersTagline, .menuTileMeta, .finalWinnerRematchSub, .finalWinnerRematchMain, .finalWinnerTotalMark),
+  :root #app :is(.legacyCardFooter, .legacyClubName, .legacyWinner, .legacyWinnerCrown),
+  :root #app #legacy #legacySeasonHistory :is(.legacyHistoryClose, .legacyHistoryDetail, .legacyHistoryEuropa),
+  :root #app .ruleSpecialPlayerTag,
+  :root #app :is(.rv-headCaption, .rv-progress, .rv-trophyLabel, #rvClubDaniel, #rvClubNik),
+  :root #app :is(#fixtureEyebrow, #fixtureTagline),
+  :root #app :is(#rvTitleBlock, #v10RuleBookStage, #standings) :is(.sd-eyebrow, .sd-tagline),
+  :root #app #v10ExitSlot :is(.menuButton, .backButton),
+  :root #app #connectPlayersScreen .connectPlayersRole > span,
+  :root #app #trophyRoom :is(.careerRank, .recordItem) > span { font-size: 12px !important; }
+  /* The Career Table heads keep their column widths: a touch less tracking pays for the extra size. */
+  :root #app #careerTablePanel th { font-size: 12px !important; letter-spacing: .02em !important; }
+  /* The headline tile label ("COMPLETED SHOWDOWNS") stays at the kit size here: at 12 px it outgrows its tile from
+     1280 to 1440 wide. The Career Statistics finish gives that tile a new label layout. */
+  /* The Manager column had room to spare; Showdowns and Season W-D-L get it, so their 12 px heads fit (this also ends
+     the "Showdowns" clip the base showed at 1280x720). */
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 24%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 20%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 24%; }
+}
