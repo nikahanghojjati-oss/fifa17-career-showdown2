@@ -982,3 +982,16 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
   #app #clubWheelScreen.cl-on .clubRevealProgress span,
   #app #clubWheelScreen.cl-on .clubVs > span { color: #e6dcc4; text-shadow: 0 1px 2px #000, 0 0 6px #000, 0 0 10px rgba(0, 0, 0, .85); }
 }
+
+/* r88 continue-career B: CONTINUE TO CAREER START and BACK both show once the packs are revealed (Shared Career Start), but
+   Team V's sheet centres CONTINUE on the deck where BACK sits too, and the phone rules span CONTINUE across BACK's column, so
+   BACK covered the end of CONTINUE. While BACK shows, CONTINUE keeps its own row and order and only ends where OPEN CLUB
+   PACKS ends (desktop: left of BACK; phone and sideways phone: the column beside BACK). Without BACK nothing changes. */
+@media (min-width: 961px) and (orientation: landscape), (min-width: 761px) and (min-height: 501px) and (orientation: landscape) {
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubAssignmentShell:not(:has(> #clubAssignmentBack.hidden)) > #continueClubAssignment {
+    left: calc(var(--btnCx) - var(--s) * 430px);
+  }
+}
+@media (max-width: 760px) and (orientation: portrait), (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell:not(:has(> #clubAssignmentBack.hidden)) > #continueClubAssignment { grid-column: 2; }
+}
