@@ -96,7 +96,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const sw=read('service-worker.js');
   for(const file of ['js/deadlineDay.js','data/deadlineDayLines.js']){
     assert.ok(sw.includes(`  "${file}",`),`${file} in SHELL_PATHS`);
-    assert.match(sw,new RegExp(`SHELL_PATHS_ADDED_SINCE_PREVIOUS[^;]*"${file.replace(/[.\/]/g,'\\$&')}"`),`${file} offline for existing installs`);
+    // 2.1.0: shipped in 2.0.0-r87, so it is in the retained r87 shell's own list (tests/fixtures/shell-paths/2.0.0-r87.json).
+    assert.ok(JSON.parse(read('tests/fixtures/shell-paths/2.0.0-r87.json')).paths.includes(file),`${file} offline for existing installs (in the retained r87 shell)`);
   }
   ok('D6','tfSyncClock drives it; torn down with the skin; offline shell has both files');
 }
