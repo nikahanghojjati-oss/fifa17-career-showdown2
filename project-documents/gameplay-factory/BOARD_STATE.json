@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 12:41 PM Boston time (EST)",
+ "generated": "2026-11-03 12:46 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1867,9 +1867,9 @@
   },
   "physio": {
    "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "Gate #1209: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1209 9/9",
-   "source": "github"
+   "line": "All clear: every check has a machine.",
+   "gate": "Gate #1209: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1209 0/16",
+   "source": "physio"
   },
   "v_headline": "Queued next",
   "v_jobs": [
