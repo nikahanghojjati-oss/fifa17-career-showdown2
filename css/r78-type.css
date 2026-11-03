@@ -819,3 +819,20 @@
 :root #app #seasonEntry .seasonSummaryCard {
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
+
+/* 4s. Studio Small Axe 40/40, shared stroke 3: designed waiting state on Connect Players. While the connection is
+   being checked the panel holds only its line of text ("Getting your Showdown ready…"); it now reads as a state, with
+   the Lucide loader in gold before it. The loader turns slowly and stands still under Reduce Motion. */
+@keyframes sa-spin { to { transform: rotate(360deg); } }
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p {
+  display: flex; align-items: center; gap: 12px; font-size: 15px; letter-spacing: .02em; color: #f3ead3;
+}
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p::before {
+  content: ""; flex: 0 0 20px; width: 20px; height: 20px; background: #e4b032;
+  -webkit-mask: var(--sa-ic-loader-circle) center / contain no-repeat; mask: var(--sa-ic-loader-circle) center / contain no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p::before {
+    animation: sa-spin 1.2s linear infinite;
+  }
+}
