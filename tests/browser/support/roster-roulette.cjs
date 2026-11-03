@@ -39,6 +39,20 @@ async function playRoulette(page,opts={}){
 // "Pick your shot" row or YOU KEEP with the "Pick your dive" row; the bot taps a side in the visible row only and checks
 // the other row is hidden (nobody shoots and dives on the same kick).
 const CHAMBER_SIDES=["L","M","R"];
+// Where this phone shoots or dives on kick n. The bot drives both phones, so it can steer the score (CE2PG_CHAMBER_PLAN):
+//   "extremes" (the default): season 1 Daniel scores all 7 and Nik none (Daniel's own cylinder empty, Nik's full: a sure hit),
+//   season 2 the other way round, later seasons a mix; "mix": every season a mix (shooter and keeper sides from the kick).
+// A goal: the keeper dives one side over from the shot; a save: he dives where the shot goes.
+function chamberSide(kind,kick,role,season){
+  const shooter=kick%2===1?"playerOne":"playerTwo",shot=CHAMBER_SIDES[(kick*7+(season||0))%3];
+  const plan=process.env.CE2PG_CHAMBER_PLAN||"extremes";
+  let goal;
+  if(plan==="extremes"&&season===1)goal=shooter==="playerOne";
+  else if(plan==="extremes"&&season===2)goal=shooter==="playerTwo";
+  else goal=((kick*5+(season||0)*3)%7)<(1+((season||0)+(shooter==="playerOne"?0:2))%6);
+  if(kind==="shot")return shot;
+  return goal?CHAMBER_SIDES[(CHAMBER_SIDES.indexOf(shot)+1)%3]:shot;
+}
 async function playChamberMen(page){
   const stage=page.locator("#cmStage");
   if(!await stage.isVisible().catch(()=>false))return null;
@@ -61,9 +75,8 @@ async function playChamberMen(page){
   const first=stage.locator(`.cmChoice[data-kind="${kind}"]`).first();
   if(!await first.isEnabled().catch(()=>false))return "wait";
   const kick=Number(((await stage.locator(".cmTurnCount").textContent().catch(()=>""))||"").replace(/\D+/g," ").trim().split(" ")[0])||1;
-  const role=await page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.managerRole||"playerOne").catch(()=>"playerOne");
-  const one=role==="playerOne"?0:1;
-  const side=kind==="shot"?CHAMBER_SIDES[(kick+one)%3]:CHAMBER_SIDES[(kick*2+one)%3];
+  const who=await page.evaluate(()=>{const v=window.CareerModeProductionSharedTransferChallenge?.getState?.();return {role:v?.managerRole||"playerOne",season:v?.seasonNumber||null};}).catch(()=>({role:"playerOne",season:null}));
+  const side=chamberSide(kind,kick,who.role,who.season);
   await stage.locator(`.cmChoice[data-kind="${kind}"][data-side="${side}"]`).click({timeout:5000}).catch(()=>{});
   if(!await lock.isEnabled().catch(()=>false))return "wait";
   await lock.click({timeout:5000}).catch(()=>{});
@@ -157,4 +170,4 @@ async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   throw new Error(`Transfer Challenge did not open within ${timeout} ms (roulette steps: ${seen.join(",")||"none"})`);
 }
 
-module.exports={playRoulette,playPrimePack,playChamberMen,primeNames,track,waitForTransfer};
+module.exports={playRoulette,playPrimePack,playChamberMen,chamberSide,primeNames,track,waitForTransfer};
