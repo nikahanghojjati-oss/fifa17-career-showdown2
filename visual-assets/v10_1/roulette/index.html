@@ -615,6 +615,29 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     round.visible=false; cyl.add(round); cyl.userData.round=round;
     /* LIVE mark: a red glowing ring around the loaded chamber's mouth, turns with the drum so the eye can follow the round through the spin */
     const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=-.0247; round.add(liveRing);   /* on the rear face: the brass rim and primer are what say "bullet" */
+    /* r89 (Nik 2026-11-03: "does the cylinder really spin ... smoothly"): at full speed the eye can't follow seven holes, and a frame rate
+       can't either (the holes strobe and seem to turn backwards). A spin-blur disc on the rear face carries the speed: the chambers smear into
+       a dark ring (with a red streak while a round is in), and it fades out as the drum slows, so every hole is sharp again for the stop */
+    { const [bc,bx]=cv(512,512); const f=r=>r/(R+.0004)*256;
+      /* what the rear face looks like in a long exposure: the drum's own steel, with the seven bores smeared into one dark band (the bores
+         cover about three quarters of that circle, so the band is dark but not black) and the star a soft bright hub. It is lit with the
+         drum's own material, so it sits in the scene's light instead of reading as a sticker */
+      /* each ring is painted with the share of it that is bore: at the chamber circle 7 bores cover about three quarters, at the bore edges
+         almost none. Bore share mixes the warm dark of the bores into the steel, which is how a real long exposure of the drum reads */
+      for(let px=Math.ceil(f(R+.0004));px>=0;px--){ const r=px/256*(R+.0004), d=r-CR, c=Math.abs(d)<HR&&r>0?Math.min(.92,7*2*Math.sqrt(HR*HR-d*d)/(2*Math.PI*r)):0;
+        const hub=r<.0088?.06*(1-r/.0088):0, edge=r>R-.0012?.1*(r-(R-.0012))/.0016:0, m=(a,b)=>Math.round(a+(b-a)*c);
+        bx.fillStyle=`rgb(${m(255*(1-edge)+0*hub,92)},${m(255*(1-edge),70)},${m(255*(1-edge),58)})`; bx.beginPath(); bx.arc(256,256,px+.5,0,7); bx.fill(); }
+      /* faint fine rings, like the lathe lines a spinning face throws back */
+      let sd=91; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+      for(let i=0;i<60;i++){ const r=rnd()*f(R); bx.strokeStyle=`rgba(${rnd()<.5?"255,255,255":"0,0,0"},${(.03+rnd()*.05).toFixed(3)})`; bx.lineWidth=.6+rnd()*1.2; bx.beginPath(); bx.arc(256,256,r,0,7); bx.stroke(); }
+      const bt=new T.CanvasTexture(bc); bt.colorSpace=T.SRGBColorSpace; bt.anisotropy=8;
+      const bm=GM.drumFace.clone(); bm.color=L("#b8c0cc"); bm.map=bt; bm.transparent=true; bm.depthWrite=false; bm.opacity=0;
+      const blur=new T.Mesh(new T.CircleGeometry(R+.0004,96),bm); blur.position.z=-.0262; blur.rotation.y=Math.PI; blur.renderOrder=2; blur.visible=false; cyl.add(blur);
+      /* the live round's red mark, smeared: one faint warm thread along the band's outer edge (1 chamber in 7, so it stays faint) */
+      const [rc,rx]=cv(512,512); rx.strokeStyle="rgba(255,50,30,1)"; rx.lineWidth=f(.0008); rx.beginPath(); rx.arc(256,256,f(CR+HR*.98),0,7); rx.stroke();
+      const rt=new T.CanvasTexture(rc); rt.colorSpace=T.SRGBColorSpace;
+      const streak=new T.Mesh(new T.CircleGeometry(R+.0004,96),new T.MeshBasicMaterial({map:rt, transparent:true, depthWrite:false, opacity:0})); streak.position.z=-.0264; streak.rotation.y=Math.PI; streak.renderOrder=3; streak.visible=false; cyl.add(streak);
+      cyl.userData.blur=(k)=>{ blur.visible=streak.visible=k>.003; bm.opacity=Math.min(1,k*1.15); streak.material.opacity=(cyl.userData.liveCount>0?k:0)*Math.min(.4,.12+.04*cyl.userData.liveCount); }; }
     cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; cyl.userData.liveCount=1; };
     cyl.userData.liveCount=0;   /* r88 Team V: how many live rounds the drum holds now (0 to 7), for the result line's wording */
     /* r88 Chamber Men (Team G): a cylinder can hold up to 7 live rounds, one per goal the rival scored. The same cartridge is
@@ -933,6 +956,12 @@ const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
 const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,impact:3.45,end:5.2}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:13.6,aim:13.9,fire:15.0,impact:17.4,end:22.0};
 let hammerK=0, cylExtra=0, recoil=0, fxScale=1;
+/* r89 (Nik 2026-11-03: "spin very smoothly and nicely, and add dramatic speed while stopping"): the drum's spin as one smooth speed curve:
+   0.4 s spin-up, a short flat-out run, then a friction slow-down (near-even braking, so the last ticks spread out: tick, tick, tick ... tick ... clunk);
+   exactly 11 turns, so it ends on the planned chamber. v(k) is the speed shape,
+   rem(k) how much of the 9 turns is still to go (read from a table built once) */
+const SPIN=(()=>{ const T9=11*Math.PI*2, v=k=>{ const up=Math.min(1,k/.06), r=up*up*(3-2*up); return k<.16?r:Math.pow(Math.max(0,1-(k-.16)/.84),1.1); }; const n=600, cum=new Float64Array(n+1); for(let i=1;i<=n;i++) cum[i]=cum[i-1]+(v((i-.5)/n))/n; const area=cum[n];
+  return { T:T9, v, area, rem:k=>{ const x=Math.min(1,Math.max(0,k))*n, i=Math.floor(x), f=x-i, c=i>=n?cum[n]:cum[i]+(cum[i+1]-cum[i])*f; return T9*(1-c/area); } }; })();
 /* r88 Team V: the result lines read right for 0 to 7 live rounds (Chamber Men loads one per goal; older Showdowns hold one). */
 function liveWords(){ const k=(cyl&&cyl.userData&&Number.isInteger(cyl.userData.liveCount))?cyl.userData.liveCount:1;
   if(k<=0) return {mark:"No live rounds · Gold: fires", fired:"Stopped on a live round", safe:"No live rounds. Every chamber is empty"};
@@ -957,7 +986,13 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?liveWords().fired:liveWords().safe; });
     at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
     /* THE main event: the drum spins free for ~7 s, fast at first, then the clicks spread out, then a slow crawl to the stop with the red ring and the gold mark in view. It stops exactly where it will fire (or not) before the crane closes. */
-    let showExtra=0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.45,B.inside-B.close-.85,tt); const e=1-Math.pow(1-k,2.7); showExtra=(1-e)*Math.PI*2*(REDUCED?0:14); const idx=Math.floor(showExtra/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.3*k); } }
+    let showExtra=0, spinW=0; if(tt>=B.close&&tt<B.inside&&!REDUCED){ const dur=B.inside-B.close-1.3, k=S(B.close+.45,dur,tt); const rem=SPIN.rem(k); spinW=SPIN.T*SPIN.v(k)/(SPIN.area*dur);
+      /* the detent: as the drum slows, it lingers on each chamber and hops to the next (tick ... tick ... tick), the last hops slow and heavy;
+         the term is zero at every chamber line, so the drum still stops exactly on the planned chamber */
+      const a=.82*(1-ease.inOut(Math.min(1,Math.max(0,(spinW-2.5)/7)))); showExtra=rem-a*Math.sin(7*rem)/7;
+      if(k>=1){ const u=tt-(B.close+.45+dur); showExtra-=.035*Math.exp(-7*u)*Math.sin(u*22); } /* the last click: a small overshoot that settles */
+      const idx=Math.floor((showExtra+.0001)/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.5*Math.max(0,1-spinW/14)); } }
+    if(cyl.userData.blur) cyl.userData.blur(Math.min(1,Math.max(0,(spinW-7)/9)));
     at(tt,B.inside-3.2,"heart0",()=>SFX.play("heart")); at(tt,B.inside-2.0,"slowing",()=>{ result.textContent="Slowing down…"; });
     at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); cyl.rotation.z=cylTarget()+showExtra;
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
