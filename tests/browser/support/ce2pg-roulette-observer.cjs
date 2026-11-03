@@ -72,8 +72,9 @@ function install(){
   };
   const orig=rr.waitForTransfer;
   rr.waitForTransfer=async(page,...rest)=>{
-    try{return await orig(page,...rest);}finally{await pull(page);
-      if(!page.__rrObsClose){page.__rrObsClose=true;page.on("close",()=>{});}}
+    // CE2PG passes one page or both managers' pages (an array); pull each one's log.
+    try{return await orig(page,...rest);}finally{for(const p of [].concat(page).filter(Boolean)){await pull(p);
+      if(!p.__rrObsClose&&typeof p.on==="function"){p.__rrObsClose=true;p.on("close",()=>{});}}}
   };
   process.on("exit",()=>{
     const problems=[],ok=[];

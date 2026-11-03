@@ -8,6 +8,12 @@ A private two-manager FIFA Career Mode companion, built with HTML, CSS and JavaS
 
 On 2026-10-29 the game earned **Shared Showdown Journey Readiness 100/100** and launched as fully playable. Daniel (Chromebook, Wi-Fi) and Nik (iPhone, mobile data) played a real 3-season Shared Showdown on live production r85 (`1.9.9-r85`). It went from setup through every season, offline and back online, reload, and the closed Showdown confirmed after a reload. Both device exports passed the validator with zero issues, and Nik confirmed the run and accepted the build as stable. The run took 54 days from the first SSJR model (2026-09-05). Record: `SHARED_SHOWDOWN_JOURNEY_READINESS_SSJR2.json`, evidence in `acceptance/ssjr2-runs/2026-10-29/`, full story in `SSJR100_OFFICIAL_LAUNCH_2026-10-29.md`.
 
+## Studio Small Axe
+
+> Only a small axe can take a big tree.
+
+UI and UX work on this game is done by **Studio Small Axe**: many small, exact, proven strokes that raise the game to a premium finish without breaking its flow. Read [STUDIO_SMALL_AXE.md](STUDIO_SMALL_AXE.md) for the mentality, the house rules (marble and gold, faces clear, no dimming, nothing covering anything, no flash) and the /40 yardstick every screen is scored on.
+
 ## Development
 
 Start with 00_DEVELOPER_START_HERE.md and POS10_CURRENT_FILE_INDEX.json. POS10 is the sole process authority. The current index identifies the active recovery packet and exact next action. NEXT_TASK.md owns the current product dependency. Recorded release notes are historical; verify current source and live deployment when release authority matters.

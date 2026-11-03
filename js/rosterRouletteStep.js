@@ -307,13 +307,35 @@
     }
   }
 
+  // Fable F17-01: an earlier season of a Chamber Men Showdown whose spin marks hold no saved outcome for a manager (the roulette
+  // was switched off that day, or the outcome was lost before the mark went in) replays from that season's own shootout: its
+  // cylinders (this phone's kept copy, else one read), or one bullet when that season has no finished shootout (Chamber Men was
+  // switched off then, so its roulette spun one bullet). Seasons with both outcomes saved read nothing. Returns the chambers for
+  // the engine; null when he went back to Showdown Home from a failed read.
+  async function rrsEarlierChambers(ctx,engine,hits,chamber){
+    const chambers={...(chamber.chambers||{})};
+    for(let k=1;k<ctx.season;k+=1){
+      if(chambers[k]||ROLES.every(role=>engine.savedHit(hits,k,role))||typeof chamber.earlier!=="function")continue;
+      for(;;){
+        let result=null;try{result=await chamber.earlier(k);}catch(_error){result=null;}
+        if(result&&result.ok===true&&result.chambers){chambers[k]=result.chambers;break;}
+        if(result&&result.reason==="NOT_FINISHED"){chambers[k]=Object.freeze({oneBullet:true});break;}
+        if(result&&result.reason==="BAD_RECORD")break;// no plan: the card names the season
+        const choice=await rrsAsk(ctx,{heading:"Building the boards",label:"Building the boards",lines:[`Season ${k}'s Chamber Men result could not be read, and this season's boards replay Season ${k}'s spin from it. Try again when the connection is back.`],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+        if(choice==="back")return null;
+      }
+    }
+    return chambers;
+  }
   // Fable F2-04: why no plan could be built, in words a manager can act on (the engine only answers null).
-  function rrsNoPlanReason(ctx,engine,history){
+  function rrsNoPlanReason(ctx,engine,history,earlier){
     for(const role of ROLES){
       const club=ctx.clubs[role];
       if(!engine.board(club)||!root.CareerModeFifa17Players?.clubs?.[club])return `There is no FIFA 17 squad for ${club} in this version of the app, so this season's boards cannot be built. Nothing was spun or saved.`;
     }
     for(let k=1;k<ctx.season;k+=1)if(!history[k]||!ROLES.every(role=>Array.isArray(history[k][role])))return `Season ${k}'s Transfer War verdicts could not be used to build this season's boards. Nothing was spun or saved.`;
+    // Fable F17-01: a Chamber Men season with neither a saved spin nor a usable shootout.
+    if(earlier)for(let k=1;k<ctx.season;k+=1)if(!earlier.chambers[k]&&!ROLES.every(role=>engine.savedHit(earlier.hits,k,role)))return `Season ${k}'s roulette spin was not saved and its Chamber Men result could not be used to replay it, so this season's boards cannot be built. Nothing was spun or saved.`;
     return "This season's boards could not be built. Nothing was spun or saved.";
   }
   async function rrsRun(ctx){
@@ -339,9 +361,10 @@
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
     // r88 Chamber Men: this season's two cylinders from the shootout (ctx.chamberMen), never one bullet in such a Showdown.
     const chamber=ctx.chamberMen&&ctx.chamberMen.active===true?ctx.chamberMen:null;
-    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chamber.chambers:null}):null;
+    const chambers=chamber&&known?await rrsEarlierChambers(ctx,engine,hits,chamber):null;if(chamber&&known&&!chambers)return false;
+    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chambers:null}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
-      const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history);
+      const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history,chamber?{chambers,hits}:null);
       await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The Transfer War stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
       return false;
     }
@@ -401,5 +424,5 @@
   // Fable F2-11: a new open forgets an earlier BACK, so a later failure that never reached the roulette is not read as one.
   function rrsForgetHome(){leftForHome=false;return true;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
 });

@@ -110,7 +110,8 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
   assert.match(pstc,/const cylinders=await step\.cylinders\(ctx,io\);\s*if\(!cylinders\|\|cylinders\.ok!==true\)\{rouletteError=PSTC_ROULETTE_TEXT\.chamberCylinders;return false;\}/,"no cylinders: the roulette stays shut");
   assert.match(pstc,/function pstcCloseRoulette\(\)\{try\{root\.CareerModeChamberMenStep\?\.close\?\.\(\);/,"the step closes with the others");
   const step=read("js/rosterRouletteStep.js");
-  assert.match(step,/chamberMen:Boolean\(chamber\),chambers:chamber\?chamber\.chambers:null/);
+  assert.match(step,/chamberMen:Boolean\(chamber\),chambers:chamber\?chambers:null/);
+  assert.match(step,/const chambers=chamber&&known\?await rrsEarlierChambers\(ctx,engine,hits,chamber\):null;/,"earlier seasons without a saved spin replay their own shootout (F17-01)");
   assert.match(step,/loadedChambers:Array\.isArray\(turn\.loadedChambers\)/,"the scene gets the live chambers");
   const page=read("visual-assets/v10_1/roulette/index.html");
   assert.match(page,/cyl\.userData\.placeRounds=/);assert.match(page,/if\(plan\.loadedChambers\) cyl\.userData\.placeRounds\(plan\.loadedChambers\)/);

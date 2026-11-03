@@ -1,11 +1,12 @@
-# Career Mode Showdown 2.1.0 (r88): Chamber Men, the STORY tile and the Studio Axe polish (v2.1.0 runtime r88)
+# Career Mode Showdown 2.1.0 (r88): Chamber Men, the STORY tile and Studio Small Axe (v2.1.0 runtime r88)
 
 Application version: `v2.1.0`  
 Runtime asset revision: `2.1.0-r88`  
 Previous known-good runtime: `2.0.0-r87`
 
-r88 is 2.1.0. It adds Chamber Men in front of the Russian Roster Roulette, the STORY tile on Home and the Studio Axe UI
-polish, plus fixes found on the live 2.0.0. This file is the release record.
+r88 is 2.1.0. It adds Chamber Men in front of the Russian Roster Roulette, the STORY tile on Home with a redesigned Story
+site, and the Studio Small Axe UI polish, plus fixes found on the live 2.0.0 and in Fable job 17. This file is the release
+record.
 
 ## What changed
 
@@ -17,8 +18,24 @@ polish, plus fixes found on the live 2.0.0. This file is the release record.
   Release time: **set at merge**.
 - STORY tile on Home, after Trophy Room, opening the Chronicle site (`chronicle/`), which the service worker never answers
   for or caches (#1193, Team V art #1208).
-- Studio Axe UI polish, phases 1 to 7 (#1194, #1196, #1197, #1198, #1199, #1200, #1201, #1203), including Showdown Home
-  showing both managers' scores side by side.
+- The Story site redesigned: chapters read like a novel (book type, chapter titles in words, drop caps, turn-the-page,
+  reading progress), a new Prologue on the Story home, and Edition 12 (3 November 2026) with the 2.0.0 and 2.1.0 facts and
+  a release history. On a phone the hero picture starts below the edition label so no text sits on a face (#1212, #1213,
+  #1214). All of it lives in `chronicle/`, so nothing in the game shell changes for it.
+- Studio Small Axe (the Studio Axe UI studio, renamed by Nik on 2026-11-03):
+  - UI polish phases 1 to 7 (#1194, #1196, #1197, #1198, #1199, #1200, #1201, #1203), including Showdown Home showing
+    both managers' scores side by side.
+  - Real line icons (Lucide, self-hosted, ISC licence) instead of text symbols for the crowns, star, gear, rivalry rows and
+    empty states, drawn inside `css/r78-type.css`; and the studio's manifesto, `STUDIO_SMALL_AXE.md` (#1215).
+  - Wave 1: buttons press in when tapped, a gold sheen, and gilded panel edges with more depth; all off under Reduce
+    Motion (#1216).
+- Fable job 17 fixes (#1219):
+  - The roulette for an earlier season now comes back after a missing earlier hit: it replays that season's own shootout
+    (or one bullet if that season never finished one) instead of saying "No roulette board" for ever.
+  - Chamber Men on a laptop shows the pitch and the controls in two columns, so the 10-second clock and LOCK IN are on
+    the first view without scrolling (Nik's pick, 2026-11-03 13:38 UTC).
+  - The "could not send" notice stays up long enough to read; round 1 says the clock waits for the rival; full time reads
+    "Daniel 4 · Nik 3" or "Level · ...".
 - Fixes: Terminal Close shows a plain notice when the connection drops (#1202); Season Results scoring help says 15 points a
   season (#1204); the step panels' BACK buttons (#1206); the fault-injection test's Prime Pack points (#1188); the CE2PG
   observer (#1210).
@@ -54,7 +71,8 @@ polish, plus fixes found on the live 2.0.0. This file is the release record.
 
 ## Checks
 
-- So far: a 10-season CE2PG with Chamber Men passed 467/467 and a 3-season CE2PG 281/281 on gameplay/r88 ce0e5d4b.
+- So far: a 10-season CE2PG with Chamber Men passed 467/467 and a 3-season CE2PG 281/281 on gameplay/r88 ce0e5d4b
+  (before the Story redesign, Studio Small Axe icons and wave 1, and the Fable 17 fixes).
 - The rest is filled in on the release PR from the exact release head.
 
 ## SSJR status

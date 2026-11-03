@@ -535,7 +535,7 @@
   }
 }
 
-/* 4e. Season Results (Studio Axe phase 2). Text only: no tile, picture, order or wording changes.
+/* 4e. Season Results (Studio Small Axe phase 2). Text only: no tile, picture, order or wording changes.
    Before: 9-11px status, honour pills and score lines sat under the 12px floor on phones and on desktop. */
 @media (min-width: 901px) {
   :root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewStatus > :is(span, strong) { font-size: var(--sa-type-eyebrow); line-height: 1.2; }
@@ -554,7 +554,7 @@
   :root #app #seasonEntry #season-results-screen .season-phone-toolbar :is(.season-phone-tab > span, .season-phone-scoring-open) { font-size: var(--sa-type-eyebrow); }
 }
 
-/* 4f. Transfer War (Studio Axe phase 2).
+/* 4f. Transfer War (Studio Small Axe phase 2).
    Desktop entry phases: the rules card was a short note pinned to the top of a tall empty card; it now sits centred
    at a readable size. The step rail numbers join the 12px floor. */
 @media (min-width: 1101px) and (orientation: landscape) {
@@ -567,7 +567,7 @@
   :root #app #transferChallenge .tw-host .rail li .num { font-size: var(--sa-type-eyebrow); }
 }
 
-/* 4i. Showdown Champion (Studio Axe phase 4). Type only. Before: the result strip labels (FINAL SEASON, SEASONS PLAYED,
+/* 4i. Showdown Champion (Studio Small Axe phase 4). Type only. Before: the result strip labels (FINAL SEASON, SEASONS PLAYED,
    MARGIN POINTS), the honours labels and the SHOWDOWN CLOSED line were 9-11px on the one screen both managers keep. */
 @media (min-width: 1024px) and (orientation: landscape) {
   :root #app #seasonEntry .v10FinalStage #finalWinnerMetaStrip .finalWinnerMetaCell > :is(span, small) { font-size: var(--sa-type-eyebrow); }
@@ -582,7 +582,7 @@
   :root #app #seasonEntry .v10FinalStage .finalWinnerTotals :is(#danielName, #nikName) { font-size: 11px; }
 }
 
-/* 4g. Home (Studio Axe phase 3). Type only: the 8-tile row, the STORY bar and CONTINUE CAREER keep their places and sizes.
+/* 4g. Home (Studio Small Axe phase 3). Type only: the 8-tile row, the STORY bar and CONTINUE CAREER keep their places and sizes.
    Before: the small gold words above each tile title and the READY strip were 10px. */
 @media (min-width: 1200px) and (orientation: landscape) {
   :root #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode { font-size: var(--sa-type-eyebrow); }
@@ -592,7 +592,7 @@
   :root #app #mainMenu.v10Home .fifaMenuGrid > #continueCareer .menuTileCode { font-size: var(--sa-type-eyebrow); }
 }
 
-/* 4h. Trophy Room (Studio Axe phase 3). Before: tabs, cabinet names, the Daniel/Nik counts and the records ribbon were
+/* 4h. Trophy Room (Studio Small Axe phase 3). Before: tabs, cabinet names, the Daniel/Nik counts and the records ribbon were
    10-11px, and "Not won yet" was 7-8px. Everything moves to the 12px floor (13px for tabs and cabinet names). */
 /* Desktop and upright screens only: sideways phones (844x390) pack six tabs in one short row and keep the kit's sizes. */
 @media (min-width: 1024px) and (orientation: landscape), (orientation: portrait) {
@@ -615,7 +615,7 @@
   :root #app #trophyRoom .trophyCard > h3 { font-size: var(--sa-type-eyebrow); letter-spacing: .02em; }
 }
 
-/* 4k. Studio Axe phase 6: Club Assignment and the league wheel on upright phones. Type only.
+/* 4k. Studio Small Axe phase 6: Club Assignment and the league wheel on upright phones. Type only.
    Before: the five step labels, the card labels (ASSIGNED CLUB, SEALED/REVEALED) and RIVALRY were 10px, and the
    status line (CLUBS READY . CONFIRM TO BEGIN) sat at 11px straight on the stadium floodlights with nothing behind it.
    The league names on the wheel were 9px. A text shadow is not dimming: nothing behind the words changes. */
@@ -629,7 +629,7 @@
   :root #app #leagueWheelScreen .wheelItem { font-size: 10px; }
 }
 
-/* 4j. Studio Axe phase 5: Showdown Home and New Showdown.
+/* 4j. Studio Small Axe phase 5: Showdown Home and New Showdown.
    Showdown Home: js/showdownUI.js lays the two scores out side by side (1fr auto 1fr), but app.css's
    ".showdownScoreboard div:not(.scoreDivider)" also matches .scoreboardScores and stacks it into a column, so
    Daniel's and Nik's totals read top and bottom with nothing saying whose is whose. Restore the side-by-side row:
@@ -652,7 +652,7 @@
   :root #app #createShowdown.v26Skin .v26Season span { font-size: 11px; letter-spacing: .1em; }
 }
 
-/* 4l. Studio Axe phase 7: even spacing, clear of the heroes (Nik 2026-11-02). Transfer War on desktop.
+/* 4l. Studio Small Axe phase 7: even spacing, clear of the heroes (Nik 2026-11-02). Transfer War on desktop.
    The status board hung 44 plate-px left of centre, so it touched Daniel's hair while leaving a wide gap to Nik. Its centre
    now sits on the midpoint between the two heads (plate x 5 right of the old anchor), giving equal gaps on both sides.
    The three entry/verdict boxes get equal gutters within the same 1405 plate-px row. */
@@ -696,4 +696,126 @@
 :root #app #transferChallenge .tw-host .sign-screen:not(.is-live):not(.status-board) .sign-main.closed { display: none; }
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host .sign-status.reg:not(.full):not(.two-line) { justify-content: center; white-space: normal; text-align: center; }
+}
+
+/* 4m. Studio Small Axe: real icons instead of text glyphs (lucide.dev, Nik 2026-11-03).
+   Text glyphs (♛ ★ ⚙ ◇ ◌ ◐ ✦ ⬡ ♜) stood in for icons and drew differently on every device. They are now Lucide 0.460.0 line
+   icons, self-hosted as CSS masks painted in currentColor, so they keep each place's gold or ivory and size with its type.
+   The glyph text stays in the DOM (screen readers and tests read the same words); only its drawing changes.
+
+   Lucide icons: ISC License. Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT).
+   All other copyright (c) for Lucide are held by Lucide Contributors 2022. Permission to use, copy, modify, and/or distribute
+   this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this
+   permission notice appear in all copies. THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
+   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+   ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+   WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+   PERFORMANCE OF THIS SOFTWARE. */
+:root {
+  --sa-ic-settings: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z%22/%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%223%22/%3E%3C/svg%3E");
+  --sa-ic-crown: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z%22/%3E%3Cpath d=%22M5 21h14%22/%3E%3C/svg%3E");
+  --sa-ic-star: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z%22/%3E%3C/svg%3E");
+  --sa-ic-chart-column: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M3 3v16a2 2 0 0 0 2 2h16%22/%3E%3Cpath d=%22M18 17V9%22/%3E%3Cpath d=%22M13 17V5%22/%3E%3Cpath d=%22M8 17v-3%22/%3E%3C/svg%3E");
+  --sa-ic-flag: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z%22/%3E%3Cline x1=%224%22 x2=%224%22 y1=%2222%22 y2=%2215%22/%3E%3C/svg%3E");
+  --sa-ic-trophy: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M6 9H4.5a2.5 2.5 0 0 1 0-5H6%22/%3E%3Cpath d=%22M18 9h1.5a2.5 2.5 0 0 0 0-5H18%22/%3E%3Cpath d=%22M4 22h16%22/%3E%3Cpath d=%22M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22%22/%3E%3Cpath d=%22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22%22/%3E%3Cpath d=%22M18 2H6v7a6 6 0 0 0 12 0V2Z%22/%3E%3C/svg%3E");
+  --sa-ic-award: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526%22/%3E%3Ccircle cx=%2212%22 cy=%228%22 r=%226%22/%3E%3C/svg%3E");
+  --sa-ic-medal: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15%22/%3E%3Cpath d=%22M11 12 5.12 2.2%22/%3E%3Cpath d=%22m13 12 5.88-9.8%22/%3E%3Cpath d=%22M8 7h8%22/%3E%3Ccircle cx=%2212%22 cy=%2217%22 r=%225%22/%3E%3Cpath d=%22M12 18v-2h-.5%22/%3E%3C/svg%3E");
+  --sa-ic-loader-circle: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M21 12a9 9 0 1 1-6.219-8.56%22/%3E%3C/svg%3E");
+  --sa-ic-inbox: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpolyline points=%2222 12 16 12 14 15 10 15 8 12 2 12%22/%3E%3Cpath d=%22M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z%22/%3E%3C/svg%3E");
+  --sa-ic-circle-dashed: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 %3E%3Cpath d=%22M10.1 2.182a10 10 0 0 1 3.8 0%22/%3E%3Cpath d=%22M13.9 21.818a10 10 0 0 1-3.8 0%22/%3E%3Cpath d=%22M17.609 3.721a10 10 0 0 1 2.69 2.7%22/%3E%3Cpath d=%22M2.182 13.9a10 10 0 0 1 0-3.8%22/%3E%3Cpath d=%22M20.279 17.609a10 10 0 0 1-2.7 2.69%22/%3E%3Cpath d=%22M21.818 10.1a10 10 0 0 1 0 3.8%22/%3E%3Cpath d=%22M3.721 6.391a10 10 0 0 1 2.7-2.69%22/%3E%3Cpath d=%22M6.391 20.279a10 10 0 0 1-2.69-2.7%22/%3E%3C/svg%3E");
+}
+/* A glyph span keeps its glyph (same box, same words for screen readers and tests) but paints it transparent; a 1em icon
+   centred on the glyph is drawn in its place with the span's own colour. */
+:root #app :is(.manager-crown, .legacyWinnerCrown, .rankCrown, .legacyGoldenShowdownStar, .rv-icon) { position: relative; -webkit-text-fill-color: transparent; }
+:root #app :is(.manager-crown, .legacyWinnerCrown, .rankCrown, .legacyGoldenShowdownStar, .rv-icon)::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 1em; height: 1em; transform: translate(-50%, -50%); pointer-events: none;
+  background-color: currentColor; -webkit-mask: var(--sa-ic) center / contain no-repeat; mask: var(--sa-ic) center / contain no-repeat;
+}
+:root #app :is(.manager-crown, .legacyWinnerCrown, .rankCrown) { --sa-ic: var(--sa-ic-crown); }
+:root #app .legacyGoldenShowdownStar { --sa-ic: var(--sa-ic-star); }
+:root #app .rv-row:nth-child(1) .rv-icon { --sa-ic: var(--sa-ic-chart-column); }
+:root #app .rv-row:nth-child(2) .rv-icon { --sa-ic: var(--sa-ic-flag); }
+:root #app .rv-row:nth-child(3) .rv-icon { --sa-ic: var(--sa-ic-trophy); }
+:root #app .rv-row:nth-child(4) .rv-icon { --sa-ic: var(--sa-ic-star); }
+:root #app .rv-row:nth-child(5) .rv-icon { --sa-ic: var(--sa-ic-award); }
+:root #app .rv-row:nth-child(6) .rv-icon { --sa-ic: var(--sa-ic-crown); }
+:root #app .rv-row:nth-child(7) .rv-icon { --sa-ic: var(--sa-ic-medal); }
+/* The Legacy Settings button is a full-height bar cell: the icon sits centred inside it at 20px. */
+:root #app .legacySettings { position: relative; overflow: hidden; color: transparent; }
+:root #app .legacySettings::after { content: ""; position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; margin: -10px 0 0 -10px;
+  background-color: var(--sd-gold, #f2c45b); -webkit-mask: var(--sa-ic-settings) center / contain no-repeat; mask: var(--sa-ic-settings) center / contain no-repeat; }
+/* Loading, empty and partial placeholders: one icon set across Standings, Settings, Rivalry and Season Results. */
+:root #app :is(.rv-readState, .sdg-state[data-status], .season-review-panel.is-contract-state:not(.is-unavailable))::before,
+:root #settingsOverlay.v10Settings #v10SettingsStage:is([data-status="loading"], [data-status="empty"], [data-status="partial"]) #contractState::before {
+  content: ""; display: block; width: 1em; height: 1em; background-color: currentColor;
+  -webkit-mask: var(--sa-ic-state, var(--sa-ic-inbox)) center / contain no-repeat; mask: var(--sa-ic-state, var(--sa-ic-inbox)) center / contain no-repeat;
+}
+:root #settingsOverlay.v10Settings #v10SettingsStage #contractState::before { display: inline-block; vertical-align: -.14em; }
+:root #app :is(.rv-readState.loading, .sdg-state[data-status="loading"], .season-review-panel.is-contract-state:not(.is-empty):not(.is-partial):not(.is-unavailable)),
+:root #settingsOverlay.v10Settings #v10SettingsStage[data-status="loading"] #contractState { --sa-ic-state: var(--sa-ic-loader-circle); }
+:root #app .season-review-panel.is-partial,
+:root #settingsOverlay.v10Settings #v10SettingsStage[data-status="partial"] #contractState { --sa-ic-state: var(--sa-ic-circle-dashed); }
+:root #app .sdg-state[data-status="unavailable"] { --sa-ic-state: var(--sa-ic-circle-dashed); }
+
+/* ── 4n · Studio Small Axe Wave 1: press feedback and the gold sheen ──
+   One press for every button family that had none: a 120 ms ease-out dip to
+   98% with a little extra light. Gold calls to action catch one sheen of light
+   on hover or keyboard focus. Nothing darkens, nothing moves the layout, and
+   all of it is off under Reduce Motion. */
+:root {
+  --sa-press-ease: cubic-bezier(.2, 0, .2, 1);
+  --sa-press-ms: 120ms;
+}
+:root #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season),
+:root #onlinePlayerIdentityBadge {
+  transition: transform var(--sa-press-ms) var(--sa-press-ease), filter var(--sa-press-ms) linear, opacity var(--sa-press-ms) linear, background-color 90ms linear, border-color 90ms linear, color 90ms linear, box-shadow var(--sa-press-ms) linear;
+}
+:root #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season):active:not(:disabled):not([aria-disabled="true"]),
+:root #onlinePlayerIdentityBadge:active {
+  transform: scale(.98);
+  filter: brightness(1.08);
+}
+:root #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary) {
+  position: relative;
+  isolation: isolate;
+}
+:root #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 253, 240, .55) 50%, transparent 60%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  opacity: 0;
+}
+@keyframes sa-sheen {
+  0% { background-position: 100% 0; opacity: 1; }
+  100% { background-position: 0% 0; opacity: 1; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :root #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary):is(:hover, :focus-visible):not(:disabled)::after {
+    animation: sa-sheen 900ms cubic-bezier(.45, 0, .25, 1) 1 both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season):active,
+  :root #onlinePlayerIdentityBadge:active { transform: none; }
+}
+:root:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season):active { transform: none; }
+:root:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary)::after { animation: none !important; }
+
+/* Panel depth: the Showdown Home boards and the Season Results summary cards get
+   the same gilded top light and inner bevel that the newer marble panels
+   already carry. Light only on the edge, never darker inside. */
+:root #app #dashboard :is(.showdownOverview, .playerCard) {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
+}
+:root #app #dashboard .showdownScoreboard {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .5), 0 0 22px rgba(245, 197, 24, .12), inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
+}
+:root #app #seasonEntry .seasonSummaryCard {
+  box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }

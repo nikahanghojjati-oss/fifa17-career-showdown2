@@ -2885,6 +2885,23 @@
         "^tests/contracts/r88\\-step\\-panel\\-buttons\\-browser\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-fable17-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMenStep|rosterRoulette|rosterRouletteStep|productionSharedTransferChallenge)\\.js$",
+        "^tests/contracts/r88\\-fable17\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-fable17-chamber-fold-browser-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMen|chamberMenStep)\\.js$",
+        "^css/(chamberMen|app)\\.css$",
+        "^tests/contracts/r88\\-fable17\\-chamber\\-fold\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
