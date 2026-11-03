@@ -26,6 +26,8 @@
 @font-face{font-family:"Barlow Condensed";src:url("assets/barlow-condensed-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:"Barlow Condensed";src:url("assets/barlow-condensed-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
 
+@property --ed-turn{syntax:"<angle>";inherits:false;initial-value:0deg}
+
 @media screen{
 
 /* ---------- 1 · Tokens ---------------------------------------------------------------------------------- */
@@ -43,6 +45,7 @@
   --ed-hair-2:rgba(228,191,108,.5);
   --ed-foil:linear-gradient(176deg,#fff0c4 0%,#f0cd7c 34%,#c9973c 66%,#efce80 100%);
   --ed-marble:url("assets/marble.webp");
+  --ed-diamond:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 0 10 5 5 10 0 5z' fill='%23e4bf6c'/%3E%3C/svg%3E");
   --ed-serif:"Playfair Display",Georgia,"Times New Roman",serif;
   --ed-text:"Old Standard TT",Georgia,"Times New Roman",serif;
   --ed-label:"Barlow Condensed",Condensed,"Arial Narrow",sans-serif;
@@ -55,14 +58,18 @@
 .book-body{--paper:var(--ed-stone);--ink:var(--ed-ivory);--sub:var(--ed-ivory-2);--rule:rgba(228,191,108,.2)}
 .book-body[data-theme=light]{
   --paper:#f8f2e4;--ink:#1d1a14;--sub:#55503f;--rule:#d8caa9;--gold:#83601d;--text:#1d1a14;--muted:#55503f;
-  --ed-ivory:#1d1a14;--ed-ivory-2:#55503f;--ed-ivory-3:#6d6656;--ed-gold:#83601d;--ed-hair:rgba(131,96,29,.28);--ed-hair-2:rgba(131,96,29,.55);
+  --ed-ivory:#1d1a14;--ed-ivory-2:#55503f;--ed-ivory-3:#6d6656;--ed-gold:#83601d;--ed-gold-hi:#5e420f;--ed-hair:rgba(131,96,29,.28);--ed-hair-2:rgba(131,96,29,.55);
   --ed-foil:linear-gradient(176deg,#9b7228 0%,#6f4e12 60%,#8d671f 100%);--line:#d8caa9;
   background:#efe6d3;
 }
 
+/* the header bar stays black marble in the light reading theme */
+.book-body[data-theme=light] .book-header{--ed-ivory:#f3ecdc;--ed-ivory-2:#cfc5ae;--ed-ivory-3:#a99f88;--ed-gold:#e4bf6c;--ed-gold-hi:#f8e2a6;--gold:#e4bf6c;
+  --ed-hair:rgba(228,191,108,.24);--ed-hair-2:rgba(228,191,108,.5);--ed-foil:linear-gradient(176deg,#fff0c4 0%,#f0cd7c 34%,#c9973c 66%,#efce80 100%);color:#f3ecdc}
+
 /* ---------- 2 · Page, type and the reading voice ------------------------------------------------------------ */
 html{scroll-padding-top:96px}
-body{background:var(--ed-page);color:var(--ed-ivory);font-family:var(--ed-sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-kerning:normal}
+body{background:var(--ed-page);color:var(--ed-ivory);font-family:var(--ed-sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-kerning:normal;font-variant-numeric:lining-nums}
 ::selection{background:#e4bf6c;color:#120f08}
 h1,h2,h3{font-family:var(--ed-serif);font-weight:900;letter-spacing:-.012em;color:var(--ed-ivory);font-feature-settings:"lnum" 1,"kern" 1}
 h2{font-size:clamp(40px,4.6vw,68px);line-height:1.04;letter-spacing:-.018em}
@@ -74,8 +81,7 @@ h1 em,h2 span,h3 span,h2 em,.sidebar-title em,.book-main h1 span{font-family:var
 .section-heading .eyebrow:before,.scoring-intro>.eyebrow:before,.book-portal-copy>.eyebrow:before,.latest-overview>div>.eyebrow:first-child:before,.current-home-evidence>div>.eyebrow:first-child:before{
   content:"";flex:0 0 auto;width:34px;height:7px;
   background:linear-gradient(var(--ed-gold),var(--ed-gold)) left center/26px 1px no-repeat,
-             linear-gradient(45deg,transparent 42%,var(--ed-gold) 42% 58%,transparent 58%) right center/7px 7px no-repeat,
-             linear-gradient(-45deg,transparent 42%,var(--ed-gold) 42% 58%,transparent 58%) right center/7px 7px no-repeat}
+             var(--ed-diamond) right center/7px 7px no-repeat}
 p{margin:0 0 22px}
 .lead,.intro,.book-intro{font-family:var(--ed-text);font-size:20px;line-height:1.7;color:var(--ed-ivory-2);max-width:40em}
 .origin-copy p,.history-essay p{font-family:var(--ed-text);font-size:18.5px;line-height:1.78;color:var(--ed-ivory-2)}
@@ -139,7 +145,9 @@ a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.upda
 .brand-name,.book-brand>span:last-child{font-family:var(--ed-label);font-weight:700;font-size:15px;letter-spacing:.2em;color:var(--ed-ivory)}
 .brand-name>span,.book-brand small{font-family:var(--ed-label);font-weight:600;font-size:11px;letter-spacing:.22em;color:var(--ed-ivory-3)}
 .nav nav{gap:clamp(16px,1.8vw,30px);min-width:0}
+@media(max-width:1520px){.nav .nav-repo{display:none}}
 @media(max-width:1280px) and (min-width:761px){.nav nav a:nth-child(n+4){display:none}}
+@media(max-width:1000px) and (min-width:761px){.nav nav a:nth-child(n+3){display:none}.nav{gap:24px}}
 .nav nav a{position:relative;white-space:nowrap;font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ed-ivory-2)}
 .nav nav a:after{content:"";position:absolute;left:0;right:0;bottom:6px;height:1px;background:var(--ed-gold);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ed-ease)}
 .nav nav a:hover:after,.nav nav a.active:after{transform:scaleX(1)}
@@ -176,9 +184,30 @@ a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.upda
   border-top:1px solid var(--ed-hair);font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.24em;color:var(--ed-ivory-3)}
 .hero-bottom b{color:var(--ed-gold)}
 
+/* ---------- 6b · The prologue: the first page of the novel ----------------------------------------------------------- */
+.prologue{max-width:820px;margin:0 auto;padding:clamp(88px,10vw,140px) clamp(20px,4vw,40px) clamp(72px,8vw,112px);text-align:center}
+.prologue-mark{width:160px;height:11px;margin:0 auto 22px;
+  background:var(--ed-diamond) center/11px 11px no-repeat,
+             linear-gradient(90deg,transparent,var(--ed-hair-2)) calc(50% - 40px) center/56px 1px no-repeat,
+             linear-gradient(90deg,var(--ed-hair-2),transparent) calc(50% + 40px) center/56px 1px no-repeat}
+.prologue .eyebrow{font-size:14px;letter-spacing:.42em;margin-bottom:18px}
+.prologue h2{font-size:clamp(44px,5.6vw,76px);line-height:1.02;text-wrap:balance}
+.prologue-epigraph{margin:40px auto 52px;max-width:30em;padding:0}
+.prologue-epigraph p{font-family:var(--ed-serif);font-style:italic;font-size:21px;line-height:1.55;color:var(--ed-ivory-2);margin:0 0 10px}
+.prologue-epigraph cite{font-family:var(--ed-label);font-weight:600;font-style:normal;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ed-gold)}
+.prologue-epigraph cite:before{content:"— "}
+.prologue-text{text-align:left;max-width:64ch;margin:0 auto}
+.prologue-text p{font-family:var(--ed-text);font-size:21px;line-height:1.85;color:var(--ed-ivory);margin:0;hyphens:auto;-webkit-hyphens:auto}
+.prologue-text p+p{text-indent:1.6em}
+.prologue-text p:first-child:first-letter{float:left;font-family:var(--ed-serif);font-weight:900;font-size:4.4em;line-height:.78;padding:.1em .12em 0 0;color:var(--ed-gold)}
+.prologue-text p:first-child:first-line{font-variant:small-caps;letter-spacing:.05em}
+.prologue-text .prologue-turn{text-indent:0;margin-top:1.6em;text-align:center;font-family:var(--ed-serif);font-style:italic;font-size:22px;color:var(--ed-gold)}
+.prologue-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:40px}
+
 /* ---------- 7 · Sections, headings, and the gold thread between them ----------------------------------------------- */
 .section{max-width:1320px;padding:clamp(80px,9vw,128px) clamp(24px,4.4vw,64px)}
 .section-heading{margin-bottom:56px}
+h2+p,h2+.lead,h2+.intro{margin-top:26px}
 .section-heading h2,.scoring-intro h2,.book-portal-copy h2,.latest-overview h2,.current-home-evidence h2{margin-top:6px}
 .timeline-section,.milestone-section,.lessons-section,.factory-data-section,.architecture-section,.factory-section,.evidence-section,.archive-section,.origin,.observatory,.scoring-section,.current-home-evidence,.complete-book{
   border-top:0;position:relative}
@@ -186,8 +215,7 @@ a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.upda
 .factory-section:before,.evidence-section:before,.archive-section:before,.origin:before,.observatory:before,.scoring-section:before,.current-home-evidence:before,.complete-book:before{
   content:"";position:absolute;top:0;left:clamp(24px,4.4vw,64px);right:clamp(24px,4.4vw,64px);height:9px;
   background:linear-gradient(90deg,transparent,var(--ed-hair-2) 30%,var(--ed-hair-2) 70%,transparent) center/100% 1px no-repeat,
-             linear-gradient(45deg,transparent 40%,var(--ed-gold) 40% 60%,transparent 60%) center/9px 9px no-repeat,
-             linear-gradient(-45deg,transparent 40%,var(--ed-gold) 40% 60%,transparent 60%) center/9px 9px no-repeat}
+             var(--ed-diamond) center/9px 9px no-repeat}
 .status-pill{background:transparent;border:1px solid var(--ed-hair-2);color:var(--ed-gold);font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;border-radius:2px}
 
 /* latest overview + model evidence on the home page */
@@ -211,7 +239,7 @@ a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.upda
 .fact-strip strong{display:block;font-size:clamp(30px,3vw,44px);line-height:1.08}
 
 /* the jacket: a bound book with its plate above the title, never a title over the picture */
-.chronicle-jacket{display:flex;flex-direction:column;overflow:hidden;padding:14px;min-height:0;height:auto;isolation:isolate;
+.chronicle-jacket{background:var(--ed-stone) var(--ed-marble) 0 0/320px 320px;border:1px solid var(--ed-hair-2);display:flex;flex-direction:column;overflow:hidden;padding:14px;min-height:0;height:auto;isolation:isolate;
   box-shadow:inset 0 0 0 3px rgba(15,14,11,.92),inset 0 0 0 4px rgba(228,191,108,.16),18px 22px 0 -10px #050504,18px 22px 0 -9px var(--ed-hair),0 30px 60px rgba(0,0,0,.55);
   transition:transform .3s var(--ed-ease)}
 .chronicle-jacket:hover{transform:translateY(-4px) rotate(-.4deg)}
@@ -224,7 +252,7 @@ a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.upda
 .jacket-foot{order:3;display:flex;justify-content:space-between;gap:16px;margin:22px 10px 8px;padding-top:12px;border-top:1px solid var(--ed-hair);font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;color:var(--ed-ivory-3)}
 .jacket-foot span{color:var(--ed-gold)}
 .portal-counts strong{font-size:clamp(36px,3.4vw,52px);line-height:1.05}
-.portal-archives{gap:12px}
+.portal-archives{gap:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
 .portal-archives a{padding:16px 18px;font-family:var(--ed-label);font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ed-ivory-2)}
 .portal-archives b{font-size:26px;margin-right:6px;letter-spacing:0}
 .portal-volumes{gap:0;border-top:1px solid var(--ed-hair)}
@@ -332,7 +360,7 @@ a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.upda
 .gate-section{background:transparent}
 .gate-lanes>*{border-radius:2px}
 .physio{padding:clamp(24px,3vw,40px)}
-.physio-icon{color:#140f05;background:var(--ed-foil);border-radius:2px}
+.physio-icon{color:#140f05;background:var(--ed-foil);border-radius:2px;align-self:start;width:56px;height:56px;min-height:0;display:grid;place-items:center;font-size:26px;line-height:1}
 .physio-states span{border-color:var(--ed-hair-2);color:var(--ed-gold);font-family:var(--ed-label);font-weight:600;letter-spacing:.16em}
 .big-number{font-size:clamp(96px,11vw,168px);line-height:.86}
 .big-number>span{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.24em}
@@ -450,6 +478,32 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
 .factory-stat-card>.eyebrow{font-size:11px!important}
 .record-id,.record-state,.latest-step small,.timeline-day,.chart-unit,.bar-caption{font-size:max(11px,1em)}
 
+/* every title the GPT sheets set in condensed sans now speaks in the book's serif */
+.book-body :is(.acceptance-domain summary strong,.archive-row .record-id,.method-grid h3,.reading-path strong,.search-result strong,.timeline-day time,
+  .chart-total,.current-donut figcaption,.current-growth-chart figcaption,.current-score-chart figcaption,.latest-checkpoint>strong,.latest-metrics h2,
+  .latest-paths .number-card h3,.latest-reader h1,.latest-reader h2,.latest-reader h3,.latest-step,.latest-timeline h3,.book-main h2,.book-main h3){
+  font-family:var(--ed-serif);font-weight:700;letter-spacing:-.01em}
+.book-body :is(.latest-reader h1,.book-main h2,.latest-checkpoint>strong,.chart-total,.latest-step){font-weight:900}
+.reading-path{border-top:1px solid var(--ed-hair)}
+.reading-path small{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em}
+.reading-path p{font-family:var(--ed-text);font-size:16px;line-height:1.6}
+
+/* the volumes on the home page stand on a shelf as bound spines */
+.portal-volumes{display:flex;align-items:flex-end;gap:8px;overflow-x:auto;padding:36px 4px 22px;border-top:0;scrollbar-width:thin;scrollbar-color:var(--ed-gold-lo) transparent;
+  background:linear-gradient(var(--ed-hair-2),var(--ed-hair-2)) bottom/100% 1px no-repeat}
+.portal-volumes a{flex:0 0 auto;position:relative;width:62px;height:300px;padding:44px 0 50px;border:1px solid var(--ed-hair);border-bottom:0;border-radius:2px 2px 0 0;
+  writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:flex-start;
+  font-family:var(--ed-serif);font-weight:700;font-size:17px;letter-spacing:.01em;color:var(--ed-ivory);white-space:nowrap;
+  background:var(--ed-stone) var(--ed-marble) 0 0/320px 320px;
+  box-shadow:inset 0 0 0 3px rgba(15,14,11,.9),inset 0 0 0 4px rgba(228,191,108,.18),inset 8px 0 14px -8px rgba(0,0,0,.9);
+  transition:transform .3s var(--ed-ease),border-color .3s,color .3s}
+.portal-volumes a:nth-child(3n+2){height:282px;width:56px}
+.portal-volumes a:nth-child(4n+3){height:318px;width:66px}
+.portal-volumes a:before,.portal-volumes a:after{content:"";position:absolute;left:10px;right:10px;height:5px;border-top:1px solid var(--ed-hair-2);border-bottom:1px solid var(--ed-hair-2)}
+.portal-volumes a:before{top:16px}
+.portal-volumes a:after{bottom:16px}
+.portal-volumes a:hover,.portal-volumes a:focus-visible{transform:rotate(180deg) translateY(14px);border-color:var(--ed-gold);color:var(--ed-gold-hi)}
+
 /* ---------- 12 · Reading mode: a chapter is a page of a novel (novel.js adds body.is-reading) ------------------------------ */
 .novel-progress{position:fixed;z-index:60;top:0;left:0;right:0;height:2px;background:var(--ed-foil);transform:scaleX(0);transform-origin:left;pointer-events:none}
 /* the contents slide away while reading; the ☰ button brings them back */
@@ -463,8 +517,7 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
 .book-body.is-reading .chapter-kicker a{color:var(--gold)}
 .novel-opener{display:flex;flex-direction:column;align-items:center;gap:10px;margin:clamp(40px,7vh,72px) 0 18px;text-align:center}
 .novel-fleuron,.novel-break,.novel-end{display:block;height:11px;font-size:0!important;color:transparent;
-  background:linear-gradient(45deg,transparent 40%,var(--gold) 40% 60%,transparent 60%) center/11px 11px no-repeat,
-             linear-gradient(-45deg,transparent 40%,var(--gold) 40% 60%,transparent 60%) center/11px 11px no-repeat,
+  background:var(--ed-diamond) center/11px 11px no-repeat,
              linear-gradient(90deg,transparent,var(--ed-hair-2)) calc(50% - 30px) center/36px 1px no-repeat,
              linear-gradient(90deg,var(--ed-hair-2),transparent) calc(50% + 30px) center/36px 1px no-repeat}
 .novel-fleuron{width:120px;margin-bottom:8px}
@@ -514,9 +567,15 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
   .hero{display:flex;flex-direction:column;padding:20px 20px 32px}
   .hero-top{order:1;margin-bottom:18px;padding-bottom:10px}
   .hero-top>.eyebrow,.hero-top .edition{font-size:11px;letter-spacing:.18em}
+}
+@media(max-width:560px){
+  .hero-top{flex-direction:column;align-items:flex-start;gap:4px}
+  .hero-top .edition{text-align:left}
+}
+@media(max-width:900px){
   .hero-art{order:2;position:relative;top:auto;width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:4/3;object-position:64% 24%;
     box-shadow:0 0 0 5px var(--ed-page),0 0 0 6px rgba(228,191,108,.32),0 22px 44px rgba(0,0,0,.6)}
-  .hero-copy{order:3;margin-top:34px;max-width:none;padding:0}
+  .hero-copy{order:3;margin-top:34px;max-width:none;padding:0;align-self:stretch}
   .hero-bottom{order:4;margin-top:28px;font-size:11px;letter-spacing:.16em}
   .hero-copy h1{font-size:clamp(50px,13vw,76px)}
   .gallery{grid-template-columns:minmax(0,1fr);gap:0}
@@ -565,6 +624,9 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
   .milestone-ledger article:before{left:68px}
   .milestone-ledger time{font-size:19px}
   .milestone-ledger h3{font-size:21px}
+  .prologue-text p{font-size:18.5px;line-height:1.8}
+  .prologue-epigraph p{font-size:18px}
+  .prologue-text .prologue-turn{font-size:19px}
   .closing{padding:72px 20px 52px}
   .closing>img{aspect-ratio:16/10;object-position:50% 22%}
   .closing>div{margin-top:40px}
@@ -594,9 +656,56 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
   .book-brand small{font-size:10px;letter-spacing:.14em}
   .book-counts>div{padding:18px 16px}
   .chapter-entry b{font-size:17px}
+  .book-body.is-reading .chapter-kicker{flex-direction:column;align-items:center;gap:6px;text-align:center}
+  .book-body.is-reading .book-main>h1{font-size:clamp(34px,10vw,48px)}
+  .book-body.is-reading .book-main>.book-intro{font-size:18px}
+  .book-body.is-reading .chapter-prose{font-size:19px}
+  .chapter-footer.novel-turn{grid-template-columns:1fr}
+  .novel-turn a.novel-next{grid-column:1}
+  .portal-volumes a{height:250px}
+  .portal-volumes a:nth-child(3n+2){height:236px}
+  .portal-volumes a:nth-child(4n+3){height:264px}
 }
 @media(prefers-reduced-motion:reduce){
   .button,.book-button,.chronicle-jacket,.research-metrics article,a.number-card,.latest-overview-grid>a,.portal-archives a,.nav nav a:after{transition:none}
   .button:hover,.book-button.gold:hover,.chronicle-jacket:hover,.research-metrics article:hover,.latest-overview-grid>a:hover,.portal-archives a:hover{transform:none}
 }
+
+/* ---------- 14 · Motion (ideas from reactbits / magicui, rebuilt in plain CSS; off for reduced motion) ------------------
+   Nothing ever starts hidden: reveals begin at 40% and finish fully visible, foil sheens move light, not content. */
+@media(prefers-reduced-motion:no-preference){
+  /* a slow light across the gold foil numerals */
+  @keyframes ed-sheen{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+  .fact-strip strong,.latest-overview-grid strong,.portal-counts strong,.research-metrics strong,.factory-snapshot strong,.cohort-rate,
+  .big-number,.book-counts strong,.number-value,.score-total output,.monogram,.volume-number{
+    background-image:linear-gradient(100deg,#c9973c 0%,#f0cd7c 20%,#fff3cf 30%,#f0cd7c 40%,#c9973c 60%,#f0cd7c 80%,#c9973c 100%);
+    background-size:200% 100%;animation:ed-sheen 9s linear infinite}
+  /* buttons: a glint passes when touched */
+  .button,.book-button.gold,.game-return{position:relative;overflow:hidden}
+  .button:after,.book-button.gold:after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,252,235,.55),transparent);transform:skewX(-18deg);transition:left .6s var(--ed-ease)}
+  .button.secondary:after{background:linear-gradient(100deg,transparent,rgba(228,191,108,.25),transparent)}
+  .button:hover:after,.book-button.gold:hover:after{left:130%}
+  /* the bound jacket and the book cover: a thread of light runs round the gold edge */
+  @keyframes ed-orbit{to{--ed-turn:360deg}}
+  .chronicle-jacket:before,.book-cover:before{content:"";position:absolute;inset:0;border-radius:3px;padding:1px;pointer-events:none;z-index:2;
+    background:conic-gradient(from var(--ed-turn),transparent 0 78%,rgba(255,236,180,.95) 88%,transparent 96%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+    animation:ed-orbit 7s linear infinite}
+  .book-cover{position:relative}
+  .book-body[data-theme=light] :is(.book-counts strong,.number-value,.volume-number,.monogram){background-image:var(--ed-foil);animation:none}
+  .book-body[data-theme=light] .book-header .monogram{background-image:linear-gradient(100deg,#c9973c 0%,#f0cd7c 20%,#fff3cf 30%,#f0cd7c 40%,#c9973c 60%,#f0cd7c 80%,#c9973c 100%)}
+  /* headings rise into place as they scroll in (Chrome; other browsers simply show them) */
+  @supports (animation-timeline:view()){
+    @keyframes ed-rise{from{opacity:.4;transform:translateY(26px)}to{opacity:1;transform:none}}
+    .section-heading,.scoring-intro,.book-portal-copy,.prologue h2,.prologue-text p,.design-notes>div,.research-metrics article,.factory-snapshot article,
+    .milestone-ledger article,.closing>div,.volume-head{animation:ed-rise linear backwards;animation-timeline:view();animation-range:entry 0% entry 55%}
+  }
+  /* the spines settle on the shelf one after another as the shelf scrolls in */
+  @supports (animation-timeline:view()){
+    @keyframes ed-shelve{from{transform:rotate(180deg) translateY(-26px)}to{transform:rotate(180deg)}}
+    .portal-volumes a{animation:ed-shelve linear backwards;animation-timeline:view();animation-range:entry 10% entry 70%}
+  }
+}
+
 }
