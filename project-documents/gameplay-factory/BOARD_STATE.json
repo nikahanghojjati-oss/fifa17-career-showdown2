@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02 8:17 PM Boston time (EST)",
+ "generated": "2026-11-02 8:21 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1847,7 +1847,22 @@
    "revision": "2.0.0-r87",
    "when": "2026-11-01T23:28:46-05:00",
    "subject": "Merge pull request #1192 from nikahanghojjati-oss/claude-gameplay/r87-repin",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1209,
+     "title": "r88 release (draft): Chamber Men, Story tile, Studio Axe polish",
+     "draft": true,
+     "branch": "gameplay/r88",
+     "sha": "ce0e5d4b9c389e468ae3f2ff1e575ee10c7029bc",
+     "updated": "2026-11-03T01:20:10Z",
+     "gates": {
+      "passed": 8,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -2685,7 +2700,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3901,7 +3916,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1209,
+    "title": "r88 release (draft): Chamber Men, Story tile, Studio Axe polish",
+    "draft": true,
+    "branch": "gameplay/r88",
+    "sha": "ce0e5d4b9c389e468ae3f2ff1e575ee10c7029bc",
+    "updated": "2026-11-03T01:20:10Z",
+    "gates": {
+     "passed": 8,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
