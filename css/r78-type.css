@@ -819,3 +819,21 @@
 :root #app #seasonEntry .seasonSummaryCard {
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
+
+/* ── 4o · Studio Small Axe Wave 2: Showdown Home boards join the marble panel family ──
+   The overview, the scoreboard and the two manager cards were the last see-through r61 glass boards. They now wear the
+   same black-gold marble as the Legacy archive and Chamber Men (r78-marble-tile.webp, precached): one gold edge, a
+   2px gold top rule and the Wave 1 gilded top light. On the desktop picture the overview row narrows to the
+   scoreboard-and-cards column and sits one gap below the title plate, so it no longer reaches Daniel's and Nik's faces. */
+:root #app #dashboard.v26Skin :is(.showdownOverview, .showdownScoreboard, .playerCard) {
+  background: linear-gradient(180deg, rgba(242, 196, 91, .06), transparent 42%), #0e0c09 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(217, 170, 60, .62);
+  border-top: 2px solid var(--v26-gold-deep, #c99b45);
+  border-radius: 4px;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root #app #dashboard.v26Skin .showdownScoreboard { border-bottom: 2px solid var(--v26-gold, #f5c518); }
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #app #dashboard.v26Skin .showdownOverview { width: min(680px, 92vw); margin-top: 12px; }
+}
