@@ -674,20 +674,70 @@ makeBoard("D","DANIEL"); makeBoard("N","NIK");
    spread evenly down the pitch, so a name never meets the shirt below it; a long surname shrinks, then ends in "…". */
 const POS_XY={ GK:[.5,.9], LB:[.12,.72], LWB:[.1,.62], LCB:[.34,.76], CB:[.5,.76], RCB:[.66,.76], RB:[.88,.72], RWB:[.9,.62], LDM:[.33,.58], CDM:[.5,.6], RDM:[.67,.58], LCM:[.3,.48], CM:[.5,.5], RCM:[.7,.48], LM:[.1,.42], RM:[.9,.42], LAM:[.3,.34], CAM:[.5,.36], RAM:[.7,.34], LW:[.14,.22], RW:[.86,.22], LF:[.32,.16], CF:[.5,.25], RF:[.68,.16], LS:[.36,.1], ST:[.5,.1], RS:[.64,.1] };
 function lum(hex){ const n=parseInt(String(hex).replace("#",""),16); if(isNaN(n)) return .5; return ((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255; }
-/* a kit shirt like the game's: body, sleeves in the second colour with cuffs, a V collar, a chest badge and sponsor panel, cloth shading */
-function shirt(ctx,x,y,s,kit){ const [p,sec,acc]=kit; ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
+/* r89 (Nik 2026-11-03: "make sure all 98 teams' boards have the right kit colours and patterns"): every club's 2016-17 HOME shirt as FIFA 17
+   shows it: [pattern, body, second colour, sleeves (null: the pattern runs over the sleeves), trim]. Patterns: solid, stripes (vertical),
+   twin (two front stripes), hoops, halves, band (chest band; Sampdoria's four bands), centre (centre stripe edged in trim), diag (diagonal
+   halves), vee (chevron). The squad file's colours stay the club palette for everything else; only the board's shirts read this table. */
+const KIT17={
+  "Arsenal":["solid","#db0007",null,"#ffffff","#ffffff"], "Bournemouth":["stripes","#d71920","#141414","#141414","#141414"], "Burnley":["solid","#6c1d45",null,"#99d6ea","#99d6ea"],
+  "Chelsea":["solid","#034694",null,null,"#ffffff"], "Crystal Palace":["stripes","#1b458f","#c4122e","#1b458f","#ffffff"], "Everton":["solid","#003399",null,null,"#ffffff"],
+  "Hull City":["stripes","#f5a12d","#141414","#f5a12d","#141414"], "Leicester City":["solid","#003090",null,null,"#fdbe11"], "Liverpool":["solid","#c8102e",null,null,"#ffffff"],
+  "Manchester City":["solid","#6cabdd",null,null,"#1c2c5b"], "Manchester United":["solid","#da291c",null,null,"#141414"], "Middlesbrough":["band","#e2001a","#ffffff",null,"#ffffff"],
+  "Southampton":["stripes","#d71920","#ffffff","#d71920","#141414"], "Stoke City":["stripes","#e03a3e","#ffffff",null,"#ffffff"], "Sunderland":["stripes","#eb172b","#ffffff",null,"#141414"],
+  "Swansea City":["solid","#ffffff",null,null,"#141414"], "Tottenham Hotspur":["solid","#ffffff",null,null,"#132257"], "Watford":["solid","#fbee23",null,null,"#141414"],
+  "West Bromwich Albion":["stripes","#122f67","#ffffff","#122f67","#ffffff"], "West Ham United":["solid","#7a263a",null,"#4fb4e0","#4fb4e0"],
+  "Alavés":["stripes","#0761af","#ffffff",null,"#0761af"], "Athletic Club":["stripes","#ee2523","#ffffff",null,"#141414"], "Atlético Madrid":["stripes","#cb3524","#ffffff",null,"#272e61"],
+  "Barcelona":["stripes","#a50044","#004d98",null,"#edbb00"], "Celta Vigo":["solid","#8ac3ee",null,null,"#c8102e"], "Deportivo La Coruña":["stripes","#1a5aa8","#ffffff","#1a5aa8","#ffffff"],
+  "Eibar":["stripes","#0c3b8c","#8a1538",null,"#ffffff"], "Espanyol":["stripes","#007fc8","#ffffff","#007fc8","#ffffff"], "Granada":["hoops","#c8102e","#ffffff",null,"#ffffff"],
+  "Las Palmas":["solid","#ffe400",null,null,"#0060a8"], "Leganés":["stripes","#ffffff","#0049a0","#0049a0","#0049a0"], "Málaga":["stripes","#6cace4","#ffffff",null,"#1d3c6e"],
+  "Osasuna":["solid","#d91a21",null,null,"#0a346f"], "Real Betis":["stripes","#00954c","#ffffff",null,"#ffffff"], "Real Madrid":["solid","#ffffff",null,null,"#3a2f6b"],
+  "Real Sociedad":["stripes","#0067b1","#ffffff",null,"#ffffff"], "Sevilla":["solid","#ffffff",null,null,"#d8002f"], "Sporting Gijón":["stripes","#d9282f","#ffffff",null,"#141414"],
+  "Valencia":["solid","#ffffff",null,null,"#141414"], "Villarreal":["solid","#ffe667",null,null,"#005187"],
+  "Bayern Munich":["solid","#dc052d",null,null,"#ffffff"], "Borussia Dortmund":["solid","#fde100",null,null,"#141414"], "Bayer Leverkusen":["solid","#141414",null,null,"#e32221"],
+  "Borussia Mönchengladbach":["hoops","#ffffff","#141414","#ffffff","#141414"], "Schalke 04":["solid","#004d9d",null,null,"#ffffff"], "Mainz 05":["solid","#c3141e",null,null,"#ffffff"],
+  "Hertha BSC":["twin","#ffffff","#004d9e","#004d9e","#004d9e"], "Wolfsburg":["solid","#65b32e",null,null,"#ffffff"], "Hoffenheim":["solid","#1961b5",null,null,"#ffffff"],
+  "Eintracht Frankfurt":["stripes","#141414","#ffffff","#141414","#e1000f"], "Werder Bremen":["hoops","#1d9053","#e9f5ee","#1d9053","#f18400"], "Hamburg":["solid","#ffffff",null,null,"#e2001a"],
+  "FC Augsburg":["solid","#ffffff",null,null,"#ba3733"], "SC Freiburg":["solid","#e2001a",null,null,"#141414"], "RB Leipzig":["solid","#ffffff",null,null,"#dd0741"],
+  "FC Ingolstadt":["solid","#c8102e",null,null,"#ffffff"], "Darmstadt 98":["solid","#004e9f",null,null,"#ffffff"], "1. FC Köln":["solid","#ffffff",null,null,"#ed1c24"],
+  "Atalanta":["stripes","#1e71b8","#141414",null,"#141414"], "Bologna":["stripes","#a21c26","#1a2f48",null,"#ffffff"], "Cagliari":["halves","#a6192e","#002350",null,"#ffffff"],
+  "Chievo":["solid","#ffe500",null,"#00427f","#00427f"], "Crotone":["stripes","#e2001a","#0b3c8c",null,"#ffffff"], "Empoli":["solid","#005bab",null,null,"#ffffff"],
+  "Fiorentina":["solid","#5b2d8e",null,null,"#ffffff"], "Genoa":["halves","#b0102c","#001e43",null,"#ffffff"], "Inter Milan":["stripes","#0068a8","#141414",null,"#d7b536"],
+  "Juventus":["stripes","#ffffff","#141414",null,"#141414"], "Lazio":["solid","#87d8f7",null,null,"#ffffff"], "Milan":["stripes","#fb090b","#141414",null,"#141414"],
+  "Napoli":["solid","#12a0d7",null,null,"#ffffff"], "Palermo":["solid","#f5a9c8",null,null,"#141414"], "Pescara":["stripes","#ffffff","#3d8fd6",null,"#3d8fd6"],
+  "Roma":["solid","#8e1f2f",null,null,"#f0bc42"], "Sampdoria":["band","#1b5497",["#ffffff","#d6001c","#141414","#ffffff"],null,"#ffffff"], "Sassuolo":["stripes","#00a752","#141414",null,"#141414"],
+  "Torino":["solid","#881f19",null,null,"#ffffff"], "Udinese":["stripes","#ffffff","#141414",null,"#141414"],
+  "Angers":["stripes","#ffffff","#141414",null,"#141414"], "Bastia":["solid","#00529f",null,null,"#ffffff"], "Bordeaux":["vee","#001c50","#ffffff",null,"#ffffff"],
+  "Caen":["stripes","#0b4ea2","#da291c",null,"#ffffff"], "Dijon":["solid","#d7172f",null,null,"#ffffff"], "Guingamp":["halves","#c8102e","#141414",null,"#ffffff"],
+  "Lille":["solid","#e01e13",null,null,"#20325f"], "Lorient":["solid","#f58113",null,null,"#141414"], "Lyon":["solid","#ffffff",null,null,"#da291c"],
+  "Marseille":["solid","#ffffff",null,null,"#2faee0"], "Metz":["solid","#7a1b2c",null,null,"#ffffff"], "Monaco":["diag","#e51b24","#ffffff",null,"#ffffff"],
+  "Montpellier":["solid","#00214e",null,null,"#f37021"], "Nancy":["stripes","#e2001a","#ffffff","#e2001a","#ffffff"], "Nantes":["solid","#fce300",null,null,"#00733d"],
+  "Nice":["stripes","#e3001b","#141414",null,"#141414"], "Paris Saint-Germain":["centre","#0d1b45","#e30613",null,"#ffffff"], "Rennes":["solid","#e30613",null,null,"#141414"],
+  "Saint-Étienne":["solid","#009a44",null,null,"#ffffff"], "Toulouse":["solid","#4b2a85",null,null,"#ffffff"] };
+function kitOf(club){ const k=KIT17[club.club]; if(k) return {pat:k[0],p:k[1],s:k[2],sl:k[3],t:k[4]}; const a=club.kit||["#888888","#ffffff","#ffffff"]; return {pat:"solid",p:a[0],s:null,sl:a[1],t:a[2]}; }
+/* keepers: FIFA 17's keeper kits are not in the data, so a keeper wears a plain kit that never matches his outfield shirt (teal, or amber when the club plays in green or teal) */
+function gkKitOf(club){ if(club.gk) return {pat:"solid",p:club.gk,s:null,sl:null,t:"#ffffff"}; const p=kitOf(club).p, n=parseInt(p.slice(1),16), r=n>>16&255, g=n>>8&255, bl=n&255; const greenish=g>r+30&&g>=bl-40; return greenish?{pat:"solid",p:"#f2a91f",s:null,sl:"#c47f0c",t:"#141414"}:{pat:"solid",p:"#2fb0a8",s:null,sl:"#1c6e69",t:"#ffffff"}; }
+/* a kit shirt like the game's: body in its pattern, sleeves, cuffs and V collar in the trim, a chest badge and sponsor panel, cloth shading */
+function shirt(ctx,x,y,s,kit){ const k=Array.isArray(kit)?{pat:"solid",p:kit[0],s:null,sl:kit[1],t:kit[2]}:kit; ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
   const body=new Path2D(); body.moveTo(-.2,-.5); body.quadraticCurveTo(0,-.42,.2,-.5); body.lineTo(.46,-.42); body.lineTo(.66,-.1); body.lineTo(.41,0); body.lineTo(.39,.5); body.quadraticCurveTo(0,.55,-.39,.5); body.lineTo(-.41,0); body.lineTo(-.66,-.1); body.lineTo(-.46,-.42); body.closePath();
-  ctx.fillStyle=p; ctx.fill(body);
-  ctx.save(); ctx.clip(body);
-  ctx.fillStyle=sec; ctx.beginPath(); ctx.moveTo(-.46,-.42); ctx.lineTo(-.7,-.08); ctx.lineTo(-.41,.04); ctx.lineTo(-.33,-.34); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(.46,-.42); ctx.lineTo(.7,-.08); ctx.lineTo(.41,.04); ctx.lineTo(.33,-.34); ctx.closePath(); ctx.fill();
-  ctx.strokeStyle=acc; ctx.lineWidth=.07; ctx.beginPath(); ctx.moveTo(-.68,-.13); ctx.lineTo(-.43,-.03); ctx.moveTo(.68,-.13); ctx.lineTo(.43,-.03); ctx.stroke();
-  const dark=lum(p)<.45; ctx.fillStyle=dark?"rgba(255,255,255,.34)":"rgba(0,0,0,.2)"; roundRect(ctx,-.17,-.12,.34,.11,.03); ctx.fill();
-  ctx.fillStyle=acc; ctx.beginPath(); ctx.arc(.18,-.27,.055,0,7); ctx.fill();
+  ctx.fillStyle=k.p; ctx.fill(body);
+  ctx.save(); ctx.clip(body); ctx.fillStyle=Array.isArray(k.s)?k.s[0]:k.s;
+  if(k.pat==="stripes"){ for(let i=0;i<7;i++) if(i%2) ctx.fillRect(-.7+i*.2,-.6,.2,1.2); }
+  else if(k.pat==="twin"){ ctx.fillRect(-.22,-.6,.1,1.2); ctx.fillRect(.12,-.6,.1,1.2); }
+  else if(k.pat==="hoops"){ for(let i=0;i<8;i++) if(i%2) ctx.fillRect(-.8,-.5+i*.13,1.6,.13); }
+  else if(k.pat==="halves"){ ctx.fillRect(0,-.6,.8,1.2); }
+  else if(k.pat==="band"){ const bs=Array.isArray(k.s)?k.s:[k.s]; const h=bs.length>1?.055:.16; bs.forEach((c,i)=>{ ctx.fillStyle=c; ctx.fillRect(-.8,-.24+i*h,1.6,h); }); }
+  else if(k.pat==="centre"){ ctx.fillStyle=k.t; ctx.fillRect(-.12,-.6,.24,1.2); ctx.fillStyle=k.s; ctx.fillRect(-.085,-.6,.17,1.2); }
+  else if(k.pat==="diag"){ ctx.beginPath(); ctx.moveTo(-.8,.62); ctx.lineTo(.8,-.62); ctx.lineTo(.8,.7); ctx.closePath(); ctx.fill(); }
+  else if(k.pat==="vee"){ ctx.beginPath(); ctx.moveTo(-.44,-.44); ctx.lineTo(-.28,-.44); ctx.lineTo(0,-.12); ctx.lineTo(.28,-.44); ctx.lineTo(.44,-.44); ctx.lineTo(0,.02); ctx.closePath(); ctx.fill(); }
+  if(k.sl){ ctx.fillStyle=k.sl; ctx.beginPath(); ctx.moveTo(-.46,-.42); ctx.lineTo(-.7,-.08); ctx.lineTo(-.41,.04); ctx.lineTo(-.33,-.34); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(.46,-.42); ctx.lineTo(.7,-.08); ctx.lineTo(.41,.04); ctx.lineTo(.33,-.34); ctx.closePath(); ctx.fill(); }
+  ctx.strokeStyle=k.t; ctx.lineWidth=.07; ctx.beginPath(); ctx.moveTo(-.68,-.13); ctx.lineTo(-.43,-.03); ctx.moveTo(.68,-.13); ctx.lineTo(.43,-.03); ctx.stroke();
+  if(k.pat!=="band"){ const dark=lum(k.p)<.45; ctx.fillStyle=dark?"rgba(255,255,255,.3)":"rgba(0,0,0,.16)"; roundRect(ctx,-.17,-.12,.34,.11,.03); ctx.fill(); }
+  ctx.fillStyle=k.t; ctx.beginPath(); ctx.arc(.18,-.27,.055,0,7); ctx.fill(); ctx.lineWidth=.015; ctx.strokeStyle="rgba(0,0,0,.35)"; ctx.stroke();
   const g=ctx.createLinearGradient(-.66,0,.66,0); g.addColorStop(0,"rgba(0,0,0,.36)"); g.addColorStop(.3,"rgba(255,255,255,.12)"); g.addColorStop(.55,"rgba(255,255,255,.03)"); g.addColorStop(1,"rgba(0,0,0,.4)"); ctx.fillStyle=g; ctx.fillRect(-.8,-.6,1.6,1.2);
   const v=ctx.createLinearGradient(0,-.5,0,.55); v.addColorStop(0,"rgba(255,255,255,.14)"); v.addColorStop(1,"rgba(0,0,0,.26)"); ctx.fillStyle=v; ctx.fillRect(-.8,-.6,1.6,1.2);
   ctx.strokeStyle="rgba(0,0,0,.14)"; ctx.lineWidth=.025; ctx.beginPath(); ctx.moveTo(-.32,-.28); ctx.quadraticCurveTo(-.27,.1,-.33,.46); ctx.moveTo(.32,-.28); ctx.quadraticCurveTo(.27,.1,.33,.46); ctx.stroke();
   ctx.restore();
-  ctx.fillStyle=sec; ctx.beginPath(); ctx.moveTo(-.21,-.5); ctx.lineTo(0,-.31); ctx.lineTo(.21,-.5); ctx.lineTo(.13,-.51); ctx.lineTo(0,-.4); ctx.lineTo(-.13,-.51); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=k.t; ctx.beginPath(); ctx.moveTo(-.21,-.5); ctx.lineTo(0,-.31); ctx.lineTo(.21,-.5); ctx.lineTo(.13,-.51); ctx.lineTo(0,-.4); ctx.lineTo(-.13,-.51); ctx.closePath(); ctx.fill();
   ctx.lineWidth=.035; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(body); ctx.restore(); }
 function formationOf(xi){ const D=xi.filter(([p])=>/B$/.test(p)).length, A=xi.filter(([p])=>/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(p)).length; const M=xi.length-1-D-A; return `${D}-${M}-${A}`; }
 function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
@@ -710,7 +760,7 @@ function playerCard(ctx,sp,kit,sel){ const {x,y,s}=sp;
   const ny=by+bh+s*.36; ctx.textAlign="center";
   if(sel){ const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); const w=ctx.measureText(t).width+s*.5, h=s*.52; roundRect(ctx,x-w/2,ny-h/2,w,h,h*.22); ctx.fillStyle="#f6d13a"; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="rgba(0,0,0,.45)"; ctx.stroke(); ctx.fillStyle="#15171b"; ctx.fillText(t,x,ny+1); }
   else { const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); textShadow(ctx,true); ctx.fillStyle="#fff"; ctx.fillText(t,x,ny+1); textShadow(ctx,false); } }
-function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; const kit=club.kit, gkKit=[club.gk||"#2fb0a8","#1c6e69","#ffffff"]; b.bubbles.length=0; b.club=club;
+function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; const kit=kitOf(club), gkKit=gkKitOf(club); b.bubbles.length=0; b.club=club;
   const form=(club.formation||formationOf(club.xi));
   ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H); ctx.textBaseline="middle";
   { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b1e24"); g.addColorStop(1,"#101216"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
