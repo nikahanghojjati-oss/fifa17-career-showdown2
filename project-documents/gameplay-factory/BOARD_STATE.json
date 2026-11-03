@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 9:12 AM Boston time (EST)",
+ "generated": "2026-11-03 9:16 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1853,12 +1853,12 @@
      "title": "r88 release (draft): Chamber Men, Story tile, Studio Axe polish",
      "draft": true,
      "branch": "gameplay/r88",
-     "sha": "d9eaafbbb041f20f331dd7f59730cf82ff18aee3",
-     "updated": "2026-11-03T13:39:59Z",
+     "sha": "82f928d1799d31b9b420ca5ccf43ce0ecc321334",
+     "updated": "2026-11-03T14:16:10Z",
      "gates": {
-      "passed": 8,
+      "passed": 0,
       "running": 0,
-      "failed": 1,
+      "failed": 0,
       "cancelled": 0
      }
     }
@@ -3922,12 +3922,12 @@
     "title": "r88 release (draft): Chamber Men, Story tile, Studio Axe polish",
     "draft": true,
     "branch": "gameplay/r88",
-    "sha": "d9eaafbbb041f20f331dd7f59730cf82ff18aee3",
-    "updated": "2026-11-03T13:39:59Z",
+    "sha": "82f928d1799d31b9b420ca5ccf43ce0ecc321334",
+    "updated": "2026-11-03T14:16:10Z",
     "gates": {
-     "passed": 8,
+     "passed": 0,
      "running": 0,
-     "failed": 1,
+     "failed": 0,
      "cancelled": 0
     }
    }
