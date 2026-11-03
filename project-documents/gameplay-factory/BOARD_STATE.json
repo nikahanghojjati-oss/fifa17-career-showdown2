@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 11:59 AM Boston time (EST)",
+ "generated": "2026-11-03 12:03 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1853,11 +1853,11 @@
      "title": "r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish)",
      "draft": false,
      "branch": "gameplay/r88",
-     "sha": "e2a2657b6cf84a04c1f3587719ed7e9669b0d12d",
-     "updated": "2026-11-03T16:23:47Z",
+     "sha": "1719d21dbcd8e66ec9504f47a57b1430ca49e78b",
+     "updated": "2026-11-03T16:59:43Z",
      "gates": {
-      "passed": 9,
-      "running": 0,
+      "passed": 0,
+      "running": 8,
       "failed": 0,
       "cancelled": 0
      }
@@ -3922,11 +3922,11 @@
     "title": "r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish)",
     "draft": false,
     "branch": "gameplay/r88",
-    "sha": "e2a2657b6cf84a04c1f3587719ed7e9669b0d12d",
-    "updated": "2026-11-03T16:23:47Z",
+    "sha": "1719d21dbcd8e66ec9504f47a57b1430ca49e78b",
+    "updated": "2026-11-03T16:59:43Z",
     "gates": {
-     "passed": 9,
-     "running": 0,
+     "passed": 0,
+     "running": 8,
      "failed": 0,
      "cancelled": 0
     }
