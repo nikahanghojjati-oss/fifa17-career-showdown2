@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-03T17:17:54.082Z",
+  "at": "2026-11-03T17:22:52.531Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -37,7 +37,7 @@
         "state": "pass"
       }
     ],
-    "seal": "PENDING"
+    "seal": "PASS"
   },
   "pos20": {
     "pr": 1209,
