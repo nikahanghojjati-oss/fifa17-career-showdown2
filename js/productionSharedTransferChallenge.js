@@ -512,7 +512,8 @@
       if(go!==true){if(!step.wentHome?.())rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
       const cylinders=await step.cylinders(ctx,io);
       if(!cylinders||cylinders.ok!==true){rouletteError=PSTC_ROULETTE_TEXT.chamberCylinders;return false;}
-      chamberGate={key:request.key,season:request.seasonNumber,chambers:cylinders.chambers,score:cylinders.score};
+      // Fable F17-01: an earlier season's cylinders, only for a season whose spin marks lost an outcome (kept copy, else one read).
+      chamberGate={key:request.key,season:request.seasonNumber,chambers:cylinders.chambers,score:cylinders.score,earlier:k=>step.cylinders({...ctx,season:k},io)};
       return true;
     }catch(_error){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
   }
@@ -543,7 +544,7 @@
         primePackNext:()=>pstcPrimePackNext(request,confirmedAtMs),passed:Boolean(view.state)&&pstcPrimePackApplies(request,confirmedAtMs),
         // r88 Chamber Men: this season's cylinders (a Showdown that plays it never spins one bullet; earlier seasons replay
         // their saved spin marks).
-        chamberMen:chamberGate&&chamberGate.key===request.key?{active:true,chambers:{[chamberGate.season]:chamberGate.chambers},score:chamberGate.score}:null};
+        chamberMen:chamberGate&&chamberGate.key===request.key?{active:true,chambers:{[chamberGate.season]:chamberGate.chambers},score:chamberGate.score,earlier:chamberGate.earlier}:null};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){rouletteError=PSTC_ROULETTE_TEXT.load;return false;}
       // The Special Player draw for the signing form (R87-SP-02), also when the roulette is already done here (Fable F2-06).
