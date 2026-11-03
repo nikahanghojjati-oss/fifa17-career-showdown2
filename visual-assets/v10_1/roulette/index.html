@@ -236,14 +236,32 @@ function panelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const g=ctx.createLine
   const sh=ctx.createLinearGradient(0,0,w,h); sh.addColorStop(0,"rgba(255,230,190,.08)"); sh.addColorStop(.5,"rgba(255,230,190,0)"); sh.addColorStop(1,"rgba(255,230,190,.05)"); ctx.fillStyle=sh; ctx.fillRect(0,0,w,h);
   grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
-/* floor marble: cream slabs with strong grey veins and a few warm ones, like the cafe picture's floor */
-function floorMarbleTex(){ const w=2048,h=2048,[c,ctx]=cv(w,h); ctx.fillStyle="#e6dfd3"; ctx.fillRect(0,0,w,h);
-  for(let i=0;i<40;i++){ ctx.fillStyle=`rgba(${205+Math.random()*25},${195+Math.random()*25},${180+Math.random()*25},${.25+Math.random()*.3})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,150+Math.random()*500,80+Math.random()*300,Math.random()*3,0,7); ctx.fill(); }
-  const vein=(col,n,wid,len)=>{ for(let i=0;i<n;i++){ ctx.strokeStyle=col(); ctx.lineWidth=wid(); let x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); let a=Math.random()*6.28; for(let k=0;k<len;k++){ a+=(Math.random()-.5)*1.1; x+=Math.cos(a)*(30+Math.random()*60); y+=Math.sin(a)*(30+Math.random()*60); ctx.lineTo(x,y); } ctx.stroke(); } };
-  vein(()=>`rgba(90,88,92,${.18+Math.random()*.3})`,26,()=>1.5+Math.random()*4,18);
-  vein(()=>`rgba(120,118,124,${.1+Math.random()*.2})`,70,()=>.5+Math.random()*1.5,10);
-  vein(()=>`rgba(170,140,90,${.08+Math.random()*.14})`,14,()=>1+Math.random()*2,12);
-  grain(ctx,w,h,6); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=16; return t; }
+/* floor marble (r89, Nik 2026-11-03: "match the tile style of the background picture's flooring"): the cafe picture's floor is a bright
+   Calacatta-like white with a dense crackle web of grey veins and a few warm ones. The web is a seamless cellular pattern (cell edges
+   from the two nearest seed points, wrapped so the tile repeats without a seam), its lines wobbled by a periodic warp, with a few heavier
+   veins and cloudy whites under it; slab joints are hair-thin like polished slabs laid tight */
+function floorMarbleTex(){ const w=2048,h=2048,[c,ctx]=cv(w,h), q=(typeof portrait==='function'&&portrait())?768:1024, qs=w/q, [qc,qx]=cv(q,q); const N=15, cs=q/N, P1=new Float32Array(N*N*3);
+  for(let j=0;j<N;j++) for(let i=0;i<N;i++){ const o=(j*N+i)*3; P1[o]=(i+.15+Math.random()*.7)*cs; P1[o+1]=(j+.15+Math.random()*.7)*cs; P1[o+2]=Math.random(); }
+  const N2=36, cs2=q/N2, P2=new Float32Array(N2*N2*3); for(let j=0;j<N2;j++) for(let i=0;i<N2;i++){ const o=(j*N2+i)*3; P2[o]=(i+.1+Math.random()*.8)*cs2; P2[o+1]=(j+.1+Math.random()*.8)*cs2; }
+  /* the web is worked out at 1024 (768 on a phone) and drawn up to 2048: fast at load, and the veins stay crisp at floor distance */
+  let E=0, I=0; const edge=(P,n,s,wx,wy)=>{ const gi=Math.floor(wx/s), gj=Math.floor(wy/s); let f1=1e9,f2=1e9,i1=0; for(let dj=-1;dj<=1;dj++) for(let di=-1;di<=1;di++){ const ii=gi+di, jj=gj+dj, mi=(ii%n+n)%n, mj=(jj%n+n)%n, o=(mj*n+mi)*3; const dx=wx-(P[o]+(ii-mi)*s), dy=wy-(P[o+1]+(jj-mj)*s), dd=dx*dx+dy*dy; if(dd<f1){ f2=f1; f1=dd; i1=o; } else if(dd<f2) f2=dd; } E=Math.sqrt(f2)-Math.sqrt(f1); I=i1; };
+  const img=qx.createImageData(q,q), d=img.data, TAU=Math.PI*2, ph=[Math.random()*6,Math.random()*6,Math.random()*6,Math.random()*6];
+  for(let y=0;y<q;y++){ for(let x=0;x<q;x++){
+      const wx=x+Math.sin(y/q*TAU*3+ph[0])*13+Math.sin(y/q*TAU*11+ph[1])*3.5+Math.sin((x+y)/q*TAU*7)*2.5, wy=y+Math.sin(x/q*TAU*4+ph[2])*12+Math.sin(x/q*TAU*13+ph[3])*3;
+      edge(P1,N,cs,wx,wy); const e=E, s1=P1[I+2]; edge(P2,N2,cs2,wx+Math.sin(wy/q*TAU*9)*4.5,wy+Math.sin(wx/q*TAU*8)*4.5); const e2=E;
+      const cloud=.5+.5*Math.sin(x/q*TAU*2+Math.sin(y/q*TAU*2)*1.5)*Math.sin(y/q*TAU*3+ph[1]); const wob=.55+.45*Math.sin(x/q*TAU*17+y/q*TAU*5+ph[0])*Math.sin(y/q*TAU*13+ph[2]);
+      let r=240-cloud*9, g=238-cloud*9, b=235-cloud*8; const width=((s1<.16?4.6:2.6)*wob+.4)/qs, v=Math.max(0,1-e/width); let k=v*(s1<.16?.9:.78); const v2=Math.max(0,1-e2/((.9+wob*.8)/qs)); k=Math.max(k,v2*.3*wob); const warm=s1>.93;
+      r=r*(1-k)+(warm?150:70)*k; g=g*(1-k)+(warm?122:70)*k; b=b*(1-k)+(warm?84:76)*k;
+      const o=(y*q+x)*4; d[o]=r; d[o+1]=g; d[o+2]=b; d[o+3]=255; } }
+  qx.putImageData(img,0,0); ctx.imageSmoothingQuality="high"; ctx.drawImage(qc,0,0,w,h);
+  ctx.globalAlpha=.35; for(let i=0;i<60;i++){ ctx.strokeStyle=`rgba(110,108,112,${.2+Math.random()*.4})`; ctx.lineWidth=.6+Math.random()*1.2; let x=Math.random()*w, y=Math.random()*h, a=Math.random()*6.28; ctx.beginPath(); ctx.moveTo(x,y); for(let k=0;k<8;k++){ a+=(Math.random()-.5)*1.4; x+=Math.cos(a)*(14+Math.random()*30); y+=Math.sin(a)*(14+Math.random()*30); ctx.lineTo(x,y); } ctx.stroke(); } ctx.globalAlpha=1;
+  ctx.strokeStyle="rgba(120,112,100,.28)"; ctx.lineWidth=1.5; ctx.strokeRect(.75,.75,w-1.5,h-1.5); ctx.beginPath(); ctx.moveTo(w/2,0); ctx.lineTo(w/2,h); ctx.moveTo(0,h/2); ctx.lineTo(w,h/2); ctx.stroke();
+  grain(ctx,w,h,5); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=16; return t; }
+/* the border band: black marble with fine white veins, a gold inlay line along each edge (the picture's foreground band) */
+function bandMarbleTex(){ const w=1024,h=128,[c,ctx]=cv(w,h); ctx.fillStyle="#0d0c0e"; ctx.fillRect(0,0,w,h);
+  for(let i=0;i<22;i++){ ctx.strokeStyle=`rgba(${200+Math.random()*40},${195+Math.random()*40},${190+Math.random()*40},${.12+Math.random()*.3})`; ctx.lineWidth=.5+Math.random()*1.4; let x=Math.random()*w, y=Math.random()*h, a=(Math.random()-.5)*1.2; ctx.beginPath(); ctx.moveTo(x,y); for(let k=0;k<10;k++){ a+=(Math.random()-.5)*1.2; x+=Math.cos(a)*(20+Math.random()*40); y+=Math.sin(a)*(10+Math.random()*16); ctx.lineTo(x,y); } ctx.stroke(); }
+  const gold=ctx.createLinearGradient(0,0,w,0); gold.addColorStop(0,"#b8913f"); gold.addColorStop(.5,"#ecd08a"); gold.addColorStop(1,"#b8913f"); ctx.fillStyle=gold; ctx.fillRect(0,9,w,5); ctx.fillRect(0,h-14,w,5);
+  grain(ctx,w,h,6); const t=new T.CanvasTexture(c); t.wrapS=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=16; return t; }
 function marbleTex(){ const w=512,h=512,[c,ctx]=cv(w,h); ctx.fillStyle="#e8e0d2"; ctx.fillRect(0,0,w,h);
   for(let i=0;i<34;i++){ const warm=Math.random()<.35; ctx.strokeStyle=warm?`rgba(190,160,110,${.15+Math.random()*.2})`:`rgba(80,78,84,${.1+Math.random()*.22})`; ctx.lineWidth=.6+Math.random()*2.4; const x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); ctx.bezierCurveTo(x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*400-200,y+Math.random()*400-200); ctx.stroke(); }
   for(let i=0;i<8;i++){ ctx.fillStyle=`rgba(200,190,170,${.1+Math.random()*.15})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,40+Math.random()*120,20+Math.random()*60,Math.random()*3,0,7); ctx.fill(); }
@@ -292,7 +310,7 @@ function marblePanelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); ctx.fillStyle="#
 const wallTex=marblePanelTex(); wallTex.repeat.set(7,2); wallTex.offset.y=-.476; /* a panel row seam lands on the dado rail at y=1.1 */
 const lampTex=lampGlassTex();
 const M={
-  floor:new T.MeshPhysicalMaterial({map:(()=>{ const t=floorMarbleTex(); t.repeat.set(2.5,2.5); return t; })(), roughness:.08, metalness:0, color:0xf2ece2, clearcoat:1, clearcoatRoughness:.03, reflectivity:1}),   /* cream marble floor, the website's marble look */
+  floor:new T.MeshPhysicalMaterial({map:(()=>{ const t=floorMarbleTex(); t.repeat.set(5.5,5.5); return t; })(), roughness:.05, metalness:0, color:0xf1f5fc, clearcoat:1, clearcoatRoughness:.02, reflectivity:1}),   /* cream marble floor, the website's marble look */
   wall:new T.MeshPhysicalMaterial({map:wallTex, roughness:.22, metalness:.05, color:0xffffff, clearcoat:.8, clearcoatRoughness:.12}),
   darkWood:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.32, metalness:.05, color:0x6e4a32, clearcoat:.7, clearcoatRoughness:.2}),
   lacquer:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.26, metalness:.06, color:0x3e2416, clearcoat:.95, clearcoatRoughness:.14}),
@@ -336,9 +354,11 @@ function merged(parts,mat,parent){ const pos=[],nor=[],uv=[]; const m=new T.Matr
   const geo=new T.BufferGeometry(); geo.setAttribute('position',new T.Float32BufferAttribute(pos,3)); geo.setAttribute('normal',new T.Float32BufferAttribute(nor,3)); geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2)); const o=new T.Mesh(geo,mat); (parent||room).add(o); return o; }
 const haloM=new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffa850, opacity:.5});
 { const floor=mesh(new T.PlaneGeometry(14,14),M.floor,0,0,0); floor.rotation.x=-Math.PI/2; floor.receiveShadow=true;
-  /* inlay border: a black marble band with a thin gold line, framing the table area as in the cafe picture */
-  { const bm=new T.MeshPhysicalMaterial({color:0x0c0c10, roughness:.12, clearcoat:1, clearcoatRoughness:.04}); const gm=new T.MeshPhysicalMaterial({color:L("#d6b25a"), metalness:1, roughness:.25, clearcoat:.6});
-    const W=5.6, D=4.6, bw=.09; [[0,D/2,W,bw],[0,-D/2,W,bw],[W/2,0,bw,D],[-W/2,0,bw,D]].forEach(([x,z,sx,sz])=>{ const b=mesh(new T.PlaneGeometry(sx,sz),bm,x,.002,z); b.rotation.x=-Math.PI/2; const g=mesh(new T.PlaneGeometry(sx>sz?sx:.014,sx>sz?.014:sz),gm,x+(sx>sz?0:(x>0?-.07:.07)),.003,z+(sx>sz?(z>0?-.07:.07):0)); g.rotation.x=-Math.PI/2; }); }
+  /* inlay border (r89): the cafe picture's band, a wide black-marble strip with a gold inlay line on each edge, framing the table area */
+  { const bt=bandMarbleTex(); const W=4.4, D=5.2, bw=.3, cz=-.95;
+    [[0,cz+D/2,W+bw,bw,0],[0,cz-D/2,W+bw,bw,0],[W/2,cz,D-bw,bw,Math.PI/2],[-W/2,cz,D-bw,bw,Math.PI/2]].forEach(([x,z,len,wid,rot])=>{ const t=bt.clone(); t.repeat.set(len/1.6,1); t.needsUpdate=true;
+      const m=new T.MeshPhysicalMaterial({map:t, roughness:.08, clearcoat:1, clearcoatRoughness:.03, polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2});
+      const b=mesh(new T.PlaneGeometry(len,wid),m,x,.002,z); b.rotation.set(-Math.PI/2,0,rot); b.receiveShadow=true; }); }
   const back=mesh(new T.PlaneGeometry(14,4.2),M.wall,0,2.1,-4.2); back.name="backWall";
   const sideM=M.wall.clone(); sideM.map=wallTex.clone(); sideM.map.needsUpdate=true; sideM.map.repeat.set(5,2); sideM.map.offset.y=wallTex.offset.y;
   const left=mesh(new T.PlaneGeometry(10,4.2),sideM,-5,2.1,0); left.rotation.y=Math.PI/2;
@@ -1112,7 +1132,7 @@ const LOOK_ENV_MAX=4;
 function lookLights(room){ scene.environmentIntensity=.5; scene.environmentRotation.set(0,0,0); key.shadow.radius=2.5;
   /* the mirror-polished marble floor and the walls keep the room-built reflections: in the ballroom light the floor showed the
      ballroom's windows as a blurred white shape by the right easel */
-  [M.floor,M.wall].forEach(m=>{ m.envMap=room; m.envMapIntensity=1/scene.environmentIntensity; m.needsUpdate=true; }); }
+  [M.floor,M.wall].forEach(m=>{ m.envMap=room; m.envMapIntensity=(m===M.floor?1.8:1)/scene.environmentIntensity; m.needsUpdate=true; }); } /* r89: the floor mirrors the room's lamps a little more, like the picture's polished floor */
 /* Bloom: three.js post chain scene -> bloom -> ACES tone mapping. Only light well above white blooms (flames, the muzzle flash, hot
    glints on gold and nickel), at half resolution. The pictures that must keep their exact colours (the room picture, the hand, the
    top-down gun photo, the tracer) get the exact inverse of three.js ACES in their shader, so the last step gives back their own
