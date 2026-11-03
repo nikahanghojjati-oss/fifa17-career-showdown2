@@ -819,3 +819,32 @@
 :root #app #seasonEntry .seasonSummaryCard {
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
+
+/* 4u Studio Small Axe 40/40, motion set: the Golden Showdown light sweep. A Golden Showdown (150 points over 10 seasons) is
+   the rarest thing in the game, so its card, trophy, note and badge catch one slow sweep of light when they appear. Light
+   only: it passes behind the content, never darkens, never covers, ends invisible and is off under Reduce Motion. */
+:root #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown) {
+  isolation: isolate;
+}
+:root #app :is(#careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown) { position: relative; }
+:root #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 236, 170, .42) 50%, transparent 62%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  opacity: 0;
+}
+@keyframes sa-golden-sweep {
+  0% { background-position: 100% 0; opacity: 1; }
+  100% { background-position: 0% 0; opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown)::after {
+    animation: sa-golden-sweep 1400ms cubic-bezier(.45, 0, .25, 1) 500ms 1 both;
+  }
+}
