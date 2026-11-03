@@ -185,7 +185,9 @@
     const base=typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(PAGE):PAGE;
     frame.src=`${base}${base.includes("?")?"&":"?"}embed=1`;
     frame.style.cssText="display:block;width:100%;height:100%;border:0;background:#050403";
-    // Leaving while the other manager has not arrived (the window then stays shut; tapping the button again comes back here).
+    // Leaving: before the other manager has arrived it withdraws this arrival; during the round (r88 continue-career C) it
+    // shows too, so a manager is never shut in. The round goes on by the server clock and START comes back to it; only the
+    // result hides it (its CONTINUE is the way on).
     const back=doc.createElement("button");back.type="button";back.className="compactButton rrStepBack";back.textContent="BACK TO SHOWDOWN HOME";back.hidden=true;
     back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2";
     stage.append(frame,back);doc.body.append(stage);
@@ -219,7 +221,9 @@
     if(running)return running;
     wentHome=false;
     // On true the stage stays up until the Transfer Challenge is on screen (the caller closes it), so nothing flashes between.
-    running=igsRunNow(ctx,io).then(go=>{if(!go)igsClose();return go;},error=>{igsClose();throw error;}).finally(()=>{running=null;});
+    // BACK TO SHOWDOWN HOME opens Showdown Home, as the roulette's and Chamber Men's do: closing the stage alone left the screen
+    // underneath (Club Assignment in season 1, the season dashboard later) and the tap seemed to do nothing.
+    running=igsRunNow(ctx,io).then(go=>{if(!go)igsClose();return go;},error=>{igsClose();throw error;}).then(go=>{if(!go&&wentHome&&typeof root.navigateTo==="function")return Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).then(()=>go);return go;}).finally(()=>{running=null;});
     return running;
   }
   async function igsRunNow(ctx,io){
@@ -290,7 +294,7 @@
           if(shownBeat!==-1){shownBeat=-1;igsPost(frame,"cms-ig-waiting",{role:waitingFor});}
           return;
         }
-        back.hidden=true;
+        back.hidden=false;
         const at=guess.beatAt(guess.startMs(record),now);
         if(at.phase==="waiting"){if(shownBeat!==-1.5){shownBeat=-1.5;igsPost(frame,"cms-ig-waiting",{role:null});}return;}
         if(at.beat!==shownBeat){shownBeat=at.beat;igsPost(frame,"cms-ig-reveal",{index:at.beat,phase:at.phase,remainingMs:at.stageMsLeft,revealMsLeft:at.phase==="reveal"?at.msLeft:0});}

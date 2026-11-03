@@ -193,12 +193,14 @@ for(const required of [
   'allow update: if ssjrPackUpdateValid(rivalryId, seasonId);',
   "&& (!('primePack' in after.result) || ssjrPackPoints(rivalryId, seasonId, managerRole, after.result.primePack))",
   "after.chipsUsed[other] == before.chipsUsed[other]",
-  // r88 Chamber Men: the round record (own pick string only, one round at a time, never ahead of the other manager).
+  // r88 Chamber Men: the round record (own pick string only, one letter a kick, never ahead of the other manager).
   'match /chamberMenRounds/{seasonId}',
   'allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);',
   "after.kicks[other] == before.kicks[other]",
   "before.kicks[role].size() <= before.kicks[other].size()",
-  "after.kicks[role].matches(before.kicks[role] + '[LMR-]{2}')",
+  "after.kicks[role].matches(before.kicks[role] + '[LMR-]')",
+  "after.kicks[role].matches('[LMR-]')",
+  "root.kicks.playerOne is string && root.kicks.playerOne.size() <= 14",
   'value.leaguePosition <= teamCount',
   'value.leaguePoints <= (teamCount - 1) * 6',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole))',

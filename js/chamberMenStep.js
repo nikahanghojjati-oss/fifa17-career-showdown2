@@ -7,25 +7,30 @@
 
   // r88 Chamber Men, the season step (Nik 2026-11-02; design https://claude.ai/artifact/KzN1uypy5EZhLx8C4AiQMK; rules in
   // js/chamberMen.js). Every season of a Showdown confirmed from the r88 release on, before Roster Russian Roulette, both
-  // phones play a 7-round shootout. Each round both managers pick a shot and a dive (Left, Middle, Right) and lock in;
-  // when both are in, both phones replay the round: Daniel's kick at Nik's keeper, then Nik's kick at Daniel's keeper.
-  // Kick k of a manager fills chamber k of the rival's cylinder (goal = live round). The roulette then spins with those
-  // cylinders (js/rosterRoulette.js loaded chambers). This screen is the plain marble stand-in until Team V's scene lands.
+  // phones play a 7-round shootout, turn by turn (Nik 2026-11-03: "No one does both at the same time"). Each round has two
+  // kicks: kick A Daniel shoots and Nik keeps, kick B Nik shoots and Daniel keeps. On each kick the shooter's phone shows
+  // only YOU SHOOT and "Pick your shot", the keeper's only YOU KEEP and "Pick your dive" (Left, Middle, Right); each locks
+  // in; once both are in, both phones show that kick (the shot, the dive, GOAL or SAVED), then the next kick. Each manager
+  // takes exactly 7 shots. His k-th shot fills chamber k of the rival's cylinder (goal = live round). The roulette then
+  // spins with those cylinders (js/rosterRoulette.js loaded chambers).
   //
   // What the phones share is one small record, rivalries/{rid}/chamberMenRounds/season_N (Rules: the season-results
-  // fragment): each manager's pick string, two letters per round, which only ever grows by his own next round, and only
-  // while he is not ahead of the other manager. A round shows only once both picks are in, so nobody sees the other's pick
-  // first. One phone never sends the other manager's pick: when this manager's own clock runs out, his own phone sends his
-  // round with whatever he had chosen ("-" for a missing shot: a miss; "-" for a missing dive: he stays in the middle).
-  // Clocks: round 1 starts when the rival has locked in (nobody is timed out while the other is still on his way); rounds
-  // 2 to 7 start when the last round's replay ends, 10 s each, on the Transfer Challenge's server clock.
+  // fragment): each manager's pick string, one letter per kick (his shot on a kick he takes, his dive on a kick he keeps),
+  // which only ever grows by his own letter for the kick on now, and only while he is not ahead of the other manager. A
+  // kick shows only once both letters are in, so nobody sees the other's pick first. One phone never sends the other
+  // manager's pick: when this manager's own clock runs out, his own phone sends "-" for that kick, even
+  // when a side was chosen but not locked in (Codex #1232): a "-" shot misses, a "-" dive stays in the middle.
+  // Clock: 10 s on the Transfer Challenge's server clock, started on a manager's phone when the rival has locked in for that
+  // kick (and that phone has finished showing the last kick), so nobody is timed out while the other is still on his way.
+  // The deadline is tied to the rival's lock-in time on the server, so reopening the screen never resets it.
   //
-  // Reads: one listener on the round record while the screen is open (each of the 14 picks is one delivery per phone),
-  // one transaction read per pick. A finished shootout is kept on this phone, so the roulette needs no read for it.
+  // Reads: one listener on the round record while the screen is open (each of the 28 letters is one delivery per phone),
+  // one transaction read per letter this phone sends (14 a season). A finished shootout is kept on this phone, so the
+  // roulette needs no read for it.
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
-  const DONE_KEY="careerModeShowdown.chamberMenDone.v1",KEPT_KEY="careerModeShowdown.chamberMenKicks.v1",KEYS_MAX=60;
-  const PICK_MS=10000,KICK_MS=2200,REPLAY_MS=KICK_MS*2,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
+  const DONE_KEY="careerModeShowdown.chamberMenDone.v2",KEPT_KEY="careerModeShowdown.chamberMenKicks.v2",KEYS_MAX=60,SCHEMA=2;
+  const PICK_MS=10000,KICK_MS=2600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
   const SIDE_WORD=Object.freeze({L:"LEFT",M:"MIDDLE",R:"RIGHT"});
   const memo=new Map();// `${rid}|${season}` -> finished {playerOne, playerTwo} pick strings
   let running=null,wentHome=false;
@@ -40,7 +45,7 @@
   function cmsWrite(key,list){try{if(typeof root.writeStorageValue==="function")root.writeStorageValue(key,JSON.stringify(list.slice(-KEYS_MAX)));}catch(_error){}}
   function cmsIsDone(ctx){return cmsRead(DONE_KEY).includes(cmsKey(ctx));}
   function cmsMarkDone(ctx){cmsWrite(DONE_KEY,[...cmsRead(DONE_KEY).filter(item=>item!==cmsKey(ctx)),cmsKey(ctx)]);return true;}
-  // A finished shootout (all 7 rounds both ways) is kept here, so the roulette never reads it again on this phone.
+  // A finished shootout (all 14 kicks) is kept here, so the roulette never reads it again on this phone.
   function cmsKeep(ctx,record){
     const key=cmsSeasonKey(ctx);memo.set(key,record);
     cmsWrite(KEPT_KEY,[...cmsRead(KEPT_KEY).filter(item=>!(Array.isArray(item)&&item[0]===key)),[key,{playerOne:record.playerOne,playerTwo:record.playerTwo}]]);
@@ -73,33 +78,46 @@
   }
 
   // ---------- the record: Firestore <-> js/chamberMen.js ----------
+  // Server time of a record's last write (Firestore Timestamp, {seconds,nanoseconds}, Date or millis), or null.
+  function cmsMillis(value){if(!value)return null;if(typeof value==="number")return value;if(typeof value.toMillis==="function")return value.toMillis();if(value instanceof Date)return value.getTime();if(Number.isFinite(value.seconds))return value.seconds*1000+Math.floor((value.nanoseconds||0)/1e6);return null;}
   function cmsRecord(data,season){
-    if(!data||data.objectType!==OBJECT_TYPE||data.seasonNumber!==season||!data.kicks)return null;
+    if(!data||data.schemaVersion!==SCHEMA||data.objectType!==OBJECT_TYPE||data.seasonNumber!==season||!data.kicks)return null;
     return cmsEngine().record({playerOne:data.kicks.playerOne,playerTwo:data.kicks.playerTwo});
   }
   function cmsRef(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,cmsSeasonId(season));}
   function cmsStamp(io){return {activeSessionId:io.sessionId,updatedByDeviceId:io.deviceId,updatedAt:io.sdk.serverTimestamp()};}
-  // This manager's next round, on the latest record: created with his first round, or his string grown by one round.
-  // {ok:true, record} once written; {ok:false, reason} when the record does not allow it (already sent, waiting for the
-  // rival: the listener then shows the true state). round: the round this pick was made for (Codex #1205): a send that
-  // reaches the server after that round is already in (a second tab, a transaction retry) is refused, never stored as the
-  // next round.
-  async function cmsSend(io,ctx,pick,round){
+  // This manager's letter for kick n, on the latest record: created with the first letter of all, or his string grown by
+  // one letter. {ok:true, record} once written; {ok:false, reason} when the record does not allow it (already sent, waiting
+  // for the rival: the listener then shows the true state). kick: the kick this letter was picked for (Codex #1205): a send
+  // that reaches the server after that kick is already in (a second tab, a transaction retry) is refused, never stored as
+  // the next kick, so a shot never lands as a dive or the other way round.
+  // Both managers locking in at the same moment write the same record at once. The Rules see the second write against the
+  // record the first one just changed (kick 1: both create it; later kicks: a stale revision) and refuse it before the
+  // transaction can retry, so a refused send is tried once more, on the record as it is now (one more transaction read,
+  // only in that race). A second refusal is passed on (the clock or LOCK IN tries again).
+  async function cmsSend(io,ctx,letter,kick){
+    try{return await cmsSendOnce(io,ctx,letter,kick);}
+    catch(error){
+      if(!/permission/i.test(String(error&&error.code||"")))throw error;
+      return cmsSendOnce(io,ctx,letter,kick);
+    }
+  }
+  async function cmsSendOnce(io,ctx,letter,kick){
     const ref=cmsRef(io,ctx.season),me=ctx.managerRole,engine=cmsEngine();
     return io.sdk.runTransaction(io.firestore,async tx=>{
       const snap=await tx.get(ref),data=snap.exists()?snap.data():null;
       if(!data){
-        if(round!==1)return {ok:false,reason:"NOT_THIS_ROUND"};
-        const next=engine.send({playerOne:"",playerTwo:""},me,pick);
+        if(kick!==1)return {ok:false,reason:"NOT_THIS_KICK"};
+        const next=engine.send({playerOne:"",playerTwo:""},me,letter);
         if(!next)return {ok:false,reason:"BAD_PICK"};
-        tx.set(ref,{schemaVersion:1,objectType:OBJECT_TYPE,rivalryId:io.rivalryId,seasonNumber:ctx.season,kicks:{playerOne:next.playerOne,playerTwo:next.playerTwo},revision:1,...cmsStamp(io)});
+        tx.set(ref,{schemaVersion:SCHEMA,objectType:OBJECT_TYPE,rivalryId:io.rivalryId,seasonNumber:ctx.season,kicks:{playerOne:next.playerOne,playerTwo:next.playerTwo},revision:1,...cmsStamp(io)});
         return {ok:true,record:next};
       }
       const record=cmsRecord(data,ctx.season);
       if(!record)return {ok:false,reason:"BAD_RECORD"};
-      if(!Number.isInteger(round)||record[me].length!==(round-1)*2)return {ok:false,reason:"NOT_THIS_ROUND",record};
-      const next=engine.send(record,me,pick);
-      if(!next)return {ok:false,reason:"NOT_YOUR_ROUND",record};
+      if(!Number.isInteger(kick)||record[me].length!==kick-1)return {ok:false,reason:"NOT_THIS_KICK",record};
+      const next=engine.send(record,me,letter);
+      if(!next)return {ok:false,reason:"NOT_YOUR_KICK",record};
       tx.update(ref,{[`kicks.${me}`]:next[me],revision:data.revision+1,...cmsStamp(io)});
       return {ok:true,record:next};
     });
@@ -129,7 +147,7 @@
     void poll();
     return ()=>{stopped=true;};
   }
-  // The two cylinders for the roulette: {ok:true, chambers:{playerOne, playerTwo}, score} once all 7 rounds are in, from this
+  // The two cylinders for the roulette: {ok:true, chambers:{playerOne, playerTwo}, score} once all 14 kicks are in, from this
   // phone's kept copy or one read; {ok:false, reason} otherwise (the roulette then stays shut: it never spins on a part).
   async function cmsCylinders(ctx,io){
     const engine=cmsEngine();if(!engine)return {ok:false,reason:"NOT_LOADED"};
@@ -222,7 +240,8 @@
     const doc=cmsDoc();cmsRemove();
     const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Chamber Men");stage.style.visibility="hidden";
     const shell=cmsEl("div","cmShell");
-    const header=cmsEl("div","cmHeader");header.append(cmsEl("span","",`Season ${ctx.season}`),cmsEl("span","cmRound","Round 1 of 7"));
+    // The kick counter: "Round 3 of 7 · Daniel shoots".
+    const header=cmsEl("div","cmHeader");header.append(cmsEl("span","",`Season ${ctx.season}`),cmsEl("span","cmRound","Round 1 of 7 · Daniel shoots"));
     const title=cmsEl("h2","cmTitle","Chamber Men");
     const board=cmsEl("div","cmBoard"),sides={};
     for(const role of ROLES){
@@ -233,12 +252,18 @@
     }
     board.append(sides.playerOne.side,cmsEl("div","cmVs","GOALS"),sides.playerTwo.side);
     const goal=cmsGoal(),status=cmsEl("p","cmStatus","");status.setAttribute("aria-live","polite");
+    // Whose turn it is, in big letters: YOU SHOOT / YOU KEEP (GOAL, SAVED or MISSED while a kick is shown), the rival's part
+    // and the kick counter. data-turn is shoot, keep, reveal or done.
+    const turn=cmsEl("div","cmTurn"),turnHead=cmsEl("div","cmTurnHead","YOU SHOOT"),turnSub=cmsEl("div","cmTurnSub",""),turnCount=cmsEl("div","cmTurnCount","");
+    turn.append(turnHead,turnSub,turnCount);turn.dataset.turn="shoot";
+    // Only the row of this manager's part is shown: "Pick your shot" when he shoots, "Pick your dive" when he keeps.
     const picks=cmsEl("div","cmPicks"),rows={};
-    for(const [kind,label] of [["shot","Your shot"],["dive","Your dive"]]){
-      const row=cmsEl("div","cmRow"),choices=cmsEl("div","cmChoices"),buttons={};
+    for(const [kind,label] of [["shot","Pick your shot"],["dive","Pick your dive"]]){
+      const row=cmsEl("div","cmRow"),choices=cmsEl("div","cmChoices"),buttons={};row.dataset.kind=kind;
       for(const side of ["L","M","R"]){const b=cmsEl("button","cmChoice",SIDE_WORD[side]);b.type="button";b.setAttribute("aria-pressed","false");b.dataset.kind=kind;b.dataset.side=side;buttons[side]=b;choices.append(b);}
       row.append(cmsEl("div","cmRowLabel",label),choices);rows[kind]={row,buttons};picks.append(row);
     }
+    rows.dive.row.hidden=true;
     const clock=cmsEl("div","cmClock","");
     const actions=cmsEl("div","cmActions");
     const lock=cmsEl("button","menuButton cmLock","LOCK IN");lock.type="button";
@@ -246,25 +271,27 @@
     const back=cmsEl("button","cmBack","BACK TO SHOWDOWN HOME");back.type="button";
     actions.append(lock,next,back);
     const lines=cmsEl("ul","cmLines");lines.hidden=true;
-    // Fable F17-07: the pitch (score and goal) and the controls (status, clock, picks, LOCK IN) are two columns on a wide
-    // screen, so the 10-second clock and LOCK IN are on screen from the first view at 1280x800 and 1366x768.
+    // Fable F17-07: the pitch (score and goal) and the controls (turn, status, clock, picks, LOCK IN) are two columns on a
+    // wide screen, so the 10-second clock and LOCK IN are on screen from the first view at 1280x800 and 1366x768.
     const play=cmsEl("div","cmPlay"),pitch=cmsEl("div","cmPitch"),controls=cmsEl("div","cmControls");
-    pitch.append(board,goal.svg);controls.append(status,clock,picks,lines,actions);play.append(pitch,controls);
+    pitch.append(board,goal.svg);controls.append(turn,status,clock,picks,lines,actions);play.append(pitch,controls);
     shell.append(header,title,play);stage.append(shell);doc.body.append(stage);
     cmsReset(goal);
-    return {stage,round:header.querySelector(".cmRound"),sides,goal,status,picks,rows,clock,lock,next,back,lines};
+    return {stage,round:header.querySelector(".cmRound"),sides,goal,status,turn,turnHead,turnSub,turnCount,picks,rows,clock,lock,next,back,lines};
   }
 
   // On true the screen stays (SPIN THE CYLINDER held down) until the caller has the roulette on screen and closes it, so the
   // dashboard never shows in between; the roulette's loading screen and stage stand above it.
   // Runs this season's Chamber Men for this manager. io = {firestore, sdk (doc, runTransaction, serverTimestamp, onSnapshot?),
-  // rivalryId, sessionId, deviceId, now() (server time), resync?}. Resolves true when the roulette may run (all 7 rounds are in
+  // rivalryId, sessionId, deviceId, now() (server time), resync?}. Resolves true when the roulette may run (all 14 kicks are in
   // and this manager pressed SPIN THE CYLINDER, or the game does not apply), false when he went back to Showdown Home or the
   // step could not run (the window stays shut and the dashboard says why; tapping again comes back here).
   function cmsRun(ctx,io){
     if(running)return running;
     wentHome=false;
-    running=cmsRunNow(ctx,io).then(go=>{if(!go)cmsClose();return go;},error=>{cmsClose();throw error;}).finally(()=>{running=null;});
+    // BACK TO SHOWDOWN HOME opens Showdown Home, as the roulette's does (rrsRunBeforeTransfers). Closing the stage alone left the
+    // screen underneath (Club Assignment in season 1, from Career Start) with HOME locked, so CONTINUE CAREER was out of reach.
+    running=cmsRunNow(ctx,io).then(go=>{if(!go)cmsClose();return go;},error=>{cmsClose();throw error;}).then(go=>{if(!go&&wentHome&&typeof root.navigateTo==="function")return Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).then(()=>go);return go;}).finally(()=>{running=null;});
     return running;
   }
   async function cmsRunNow(ctx,io){
@@ -296,23 +323,22 @@
   // One screen session: "continue", "back", or an error object.
   function cmsPlay(ctx,io){
     return new Promise(resolve=>{
-      const engine=cmsEngine(),me=ctx.managerRole,other=cmsOther(me);
+      const engine=cmsEngine(),me=ctx.managerRole,other=cmsOther(me),KICKS=engine.kicks;
       cmsLoadingOn();
       const ui=cmsBuild(ctx);
-      // record: the latest from the server. shown: how many rounds are replayed or drawn on screen. clock: {round, deadline}
-      // in server ms. sel: this manager's choices for his next round. replayUntil: the server time the running replay ends.
-      let record=null,shown=0,clock=null,selRound=0,sel={shot:null,dive:null},replayUntil=0,replaying=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false;
+      // record: the latest from the server. shown: how many kicks are shown (drawn or replayed) on screen. clock: {kick,
+      // deadline} in server ms. sel: this manager's choice for the kick on now. revealUntil: the server time the kick on
+      // screen stops being shown.
+      let record=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false;
       const now=()=>{try{return io.now();}catch(_error){return Date.now();}};
-      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(replaying);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
+      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(revealing);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
       const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"CHAMBER_MEN_FAILED"});};
       // ---- drawing ----
-      // upTo rounds drawn whole; withDaniel also draws Daniel's kick of the next round (the replay between the two kicks).
-      const drawBoard=(upTo,withDaniel=false)=>{
-        const rounds=engine.roundsOf(record)||[];const score={playerOne:0,playerTwo:0};
+      // The first upTo kicks drawn: goals, and each shot's chamber in the rival's cylinder (a manager's k-th shot is chamber k).
+      const drawBoard=upTo=>{
+        const kicks=(engine.kicksOf(record)||[]).slice(0,upTo),score={playerOne:0,playerTwo:0};
         for(const role of ROLES)for(const c of ui.sides[role].chambers)c.className="cmChamber";
-        const mark=(round,role)=>{if(round.goal[role])score[role]+=1;ui.sides[cmsOther(role)].chambers[round.round-1].className=`cmChamber ${round.goal[role]?"is-live":"is-empty"}`;};
-        for(const round of rounds.slice(0,upTo))for(const role of ROLES)mark(round,role);
-        if(withDaniel&&rounds[upTo])mark(rounds[upTo],"playerOne");
+        for(const kick of kicks){if(kick.goal)score[kick.shooter]+=1;ui.sides[kick.keeper].chambers[kick.shot-1].className=`cmChamber ${kick.goal?"is-live":"is-empty"}`;}
         for(const role of ROLES){
           ui.sides[role].goals.textContent=String(score[role]);
           // A manager's own cylinder is loaded by the rival's goals.
@@ -321,53 +347,54 @@
         }
         return score;
       };
-      const kickWords=(round,shooter)=>{
-        const keeper=cmsOther(shooter),shot=round.picks[shooter].shot,dive=engine.dive(round.picks[keeper].dive);
-        const where=shot===engine.timeout?`${NAMES[shooter]} ran out of time`:`${NAMES[shooter]} shoots ${SIDE_WORD[shot]}`;
-        const keeperWords=round.picks[keeper].dive===engine.timeout?`${NAMES[keeper]} stays in the middle`:`${NAMES[keeper]} dives ${SIDE_WORD[dive]}`;
-        const result=shot===engine.timeout?"Missed":round.goal[shooter]?"Goal":"Saved";
+      const counter=n=>{const k=engine.kick(n);return `Round ${k.round} of 7 · ${NAMES[k.shooter]} shoots`;};
+      const setTurn=(mode,head,sub,count)=>{ui.turn.dataset.turn=mode;ui.turnHead.textContent=head;ui.turnSub.textContent=sub;ui.turnCount.textContent=count;};
+      const kickWords=kick=>{
+        const where=kick.shotSide===engine.timeout?`${NAMES[kick.shooter]} ran out of time`:`${NAMES[kick.shooter]} shoots ${SIDE_WORD[kick.shotSide]}`;
+        const keeperWords=kick.dive===engine.timeout?`${NAMES[kick.keeper]} stays in the middle`:`${NAMES[kick.keeper]} dives ${SIDE_WORD[kick.dive]}`;
+        const result=kick.shotSide===engine.timeout?"Missed":kick.goal?"Goal":"Saved";
         return {line:`${where} · ${keeperWords}`,result};
       };
-      const showKick=(round,shooter,animate)=>{
-        const keeper=cmsOther(shooter),shot=round.picks[shooter].shot,dive=engine.dive(round.picks[keeper].dive),g=ui.goal;
-        const ballX=shot===engine.timeout?150:ZONE_X[shot],ballY=shot===engine.timeout?6:round.goal[shooter]?44:70;
+      const showKick=(kick,animate)=>{
+        const shot=kick.shotSide,dive=engine.dive(kick.dive),g=ui.goal;
+        const ballX=shot===engine.timeout?150:ZONE_X[shot],ballY=shot===engine.timeout?6:kick.goal?44:70;
         // Team V scene: reset, a short run-up, then the dive and the shot together; the net takes a goal.
         const strike=()=>{
           if(finished)return;
           g.keeper.dataset.pose=dive;cmsPlace(g.keeper,ZONE_X[dive],92,animate);cmsPlace(g.ball,ballX,ballY,animate);
           g.svg.style.setProperty("--cm-hit-x",`${ballX}px`);g.svg.style.setProperty("--cm-hit-y",`${ballY}px`);
           g.hit.setAttribute("cx",String(ballX));g.hit.setAttribute("cy",String(ballY));
-          g.svg.classList.toggle("is-flying",animate);g.svg.classList.toggle("is-goal",Boolean(round.goal[shooter]));g.svg.classList.toggle("is-save",!round.goal[shooter]);
+          g.svg.classList.toggle("is-flying",animate);g.svg.classList.toggle("is-goal",Boolean(kick.goal));g.svg.classList.toggle("is-save",!kick.goal);
         };
         cmsReset(g);
         if(animate){void g.svg.getBoundingClientRect?.();root.setTimeout(strike,320);}else strike();
-        const words=kickWords(round,shooter);
-        ui.status.className=`cmStatus ${round.goal[shooter]?"is-goal":"is-save"}`;ui.status.textContent=`${words.line} · ${words.result}`;
+        const words=kickWords(kick);
+        ui.round.textContent=counter(kick.kick);
+        const mine=kick.shooter===me;
+        setTurn("reveal",words.result.toUpperCase(),mine?(kick.goal?"You scored":`${NAMES[other]} kept it out`):(kick.goal?`${NAMES[other]} scored`:"You kept it out"),`Kick ${kick.kick} of ${KICKS} · ${NAMES[kick.shooter]}'s shot ${kick.shot} of 7`);
+        ui.status.className=`cmStatus ${kick.goal?"is-goal":"is-save"}`;ui.status.textContent=`${words.line} · ${words.result}`;
+        // The row of this manager's part on that kick, his own pick pressed, nothing to tap.
+        showRow(mine?"shot":"dive");setChoices(false,mine?kick.shotSide:kick.dive);
       };
-      // Replays the newly finished rounds one after the other (both kicks each), then carries on.
-      const replayFrom=(from,rounds)=>{
-        if(from>=rounds.length){replaying=null;render();return;}
-        const round=rounds[from];shown=Math.max(shown,from);
-        ui.round.textContent=`Round ${round.round} of 7`;
-        drawBoard(from);showKick(round,"playerOne",true);
-        replaying=root.setTimeout(()=>{
-          if(finished)return;
-          drawBoard(from,true);showKick(round,"playerTwo",true);
-          replaying=root.setTimeout(()=>{if(finished)return;shown=from+1;drawBoard(shown);replayFrom(from+1,rounds);},KICK_MS);
-        },KICK_MS);
+      // Shows the newly finished kicks one after the other, then carries on.
+      const revealFrom=(from,kicks)=>{
+        if(from>=kicks.length){revealing=null;render();return;}
+        drawBoard(from+1);showKick(kicks[from],true);
+        revealing=root.setTimeout(()=>{if(finished)return;shown=from+1;revealFrom(from+1,kicks);},KICK_MS);
       };
-      const setChoices=(enabled,mine)=>{
+      const showRow=kind=>{for(const k of ["shot","dive"])ui.rows[k].row.hidden=k!==kind;};
+      const setChoices=(enabled,picked)=>{
         for(const kind of ["shot","dive"])for(const [side,b] of Object.entries(ui.rows[kind].buttons)){
-          const picked=mine?mine[kind]===side:sel[kind]===side;
-          b.setAttribute("aria-pressed",picked?"true":"false");b.disabled=!enabled;
+          b.setAttribute("aria-pressed",picked===side?"true":"false");b.disabled=!enabled;
         }
-        ui.lock.disabled=!enabled||!sel.shot||!sel.dive;
+        ui.lock.disabled=!enabled||!sel;
       };
       const showResult=()=>{
         if(resultShown)return;resultShown=true;
-        const score=drawBoard(7),chambers=engine.cylinders(record);
+        const score=drawBoard(KICKS),chambers=engine.cylinders(record);
         cmsKeep(ctx,record);
         ui.round.textContent="Full time";ui.picks.hidden=true;ui.clock.hidden=true;ui.lock.hidden=true;ui.next.hidden=false;
+        setTurn("done","FULL TIME","7 shots each","");
         // Fable F17-06: one shape for every full time, like the GOALS board (names and goals, no tiebreak).
         const line=`${NAMES.playerOne} ${score.playerOne} · ${NAMES.playerTwo} ${score.playerTwo}`;
         ui.status.className="cmStatus";ui.status.textContent=score.playerOne===score.playerTwo?`Level · ${line}`:line;
@@ -376,37 +403,44 @@
       };
       // ---- the state machine ----
       const render=()=>{
-        if(finished||!record||replaying)return;
-        const progress=engine.progress(record),rounds=engine.roundsOf(record);
+        if(finished||!record||revealing)return;
+        const progress=engine.progress(record),kicks=engine.kicksOf(record);
         if(shown<progress.done){
-          // Rounds that finished before this screen opened are drawn at once; only rounds that finish while it is open replay.
+          // Kicks that finished before this screen opened are drawn at once; only kicks that finish while it is open are shown.
           if(first){shown=progress.done;}
-          else{replayUntil=now()+REPLAY_MS*(progress.done-shown);replayFrom(shown,rounds);return;}
+          else{revealUntil=now()+KICK_MS*(progress.done-shown);revealFrom(shown,kicks);return;}
         }
         first=false;
         drawBoard(shown);
         if(progress.complete){showResult();return;}
-        const round=progress.done+1,mineSent=progress.sent[me],theirsSent=progress.sent[other];
-        ui.round.textContent=`Round ${round} of 7`;
-        const myTurn=engine.nextRound(record,me)===round&&mineSent<round;
-        if(!myTurn){
+        const n=progress.done+1,kick=engine.kick(n),part=engine.roleOn(n,me),shooting=part==="shot";
+        const mineSent=progress.sent[me],theirsSent=progress.sent[other];
+        ui.round.textContent=counter(n);
+        if(ui.status.dataset.kick!==String(n)){ui.status.dataset.kick=String(n);cmsReset(ui.goal);}
+        setTurn(shooting?"shoot":"keep",shooting?"YOU SHOOT":"YOU KEEP",shooting?`${NAMES[other]} is in goal`:`${NAMES[other]} shoots at you`,`Kick ${n} of ${KICKS} · ${shooting?"your":`${NAMES[other]}'s`} shot ${kick.shot} of 7`);
+        showRow(part);
+        if(mineSent>=n){
+          // Locked in: his own pick stays pressed, hidden from the rival until the rival's is in.
           clock=null;ui.clock.textContent="";
-          const mine=mineSent>=round?{shot:record[me][(round-1)*2],dive:record[me][(round-1)*2+1]}:null;
-          setChoices(false,mine);
-          if(ui.status.dataset.wait!==String(round)){ui.status.dataset.wait=String(round);ui.status.className="cmStatus";}
-          ui.status.textContent=`Locked in. Waiting for ${NAMES[other]}.`;
+          const letter=record[me][n-1];
+          setChoices(false,letter);
+          ui.status.className="cmStatus";
+          ui.status.textContent=letter===engine.timeout?`Time is up. Waiting for ${NAMES[other]}.`:`Locked in: ${shooting?"you shoot":"you dive"} ${SIDE_WORD[letter]}. Waiting for ${NAMES[other]}.`;
           return;
         }
-        ui.status.dataset.wait="";
-        // A new round clears the choices. The clock: round 1 once the rival has locked in, rounds 2 to 7 from the end of the
-        // last replay (a screen opened mid-shootout starts its clock now).
-        if(selRound!==round){selRound=round;sel={shot:null,dive:null};clock=null;}
-        if(!clock){const starts=round===1?(theirsSent>=1?now():null):Math.max(now(),replayUntil);if(starts!==null)clock={round,deadline:starts+PICK_MS};}
-        setChoices(!sending,null);
+        // A new kick clears the choice. The clock starts once the rival has locked in for this kick (and the last kick has
+        // been shown on this phone); a screen opened mid-kick starts its clock now.
+        if(selKick!==n){selKick=n;sel=null;clock=null;}
+        // Codex #1232: the clock runs from the rival's lock-in on the server (the record's updatedAt: while he is one kick ahead,
+        // the last write is his), so leaving and reopening the screen never restarts it. The last kick's reveal on this phone
+        // still gets its time, never more than KICK_MS on top of the shared deadline.
+        if(!clock&&theirsSent>=n){const local=Math.max(now(),revealUntil)+PICK_MS;clock={kick:n,deadline:Number.isFinite(lastWriteMs)?Math.min(local,lastWriteMs+PICK_MS+KICK_MS):local};}
+        setChoices(!sending,sel);
         ui.status.className="cmStatus";
-        // Fable F17-03: round 1 has no clock until the rival locks in, and says so. Fable F17-02: a failed send's notice stays
-        // up for NOTICE_MS instead of being written over by the next tick.
-        ui.status.textContent=notice&&Date.now()<notice.until?notice.text:theirsSent>=round?`Pick your shot and your dive. ${NAMES[other]} has locked in.`:round===1?`Pick your shot and your dive, then lock in. No clock until ${NAMES[other]} locks in.`:"Pick your shot and your dive, then lock in.";
+        // Fable F17-02: a failed send's notice stays up for NOTICE_MS instead of being written over by the next tick. Fable
+        // F17-03: no clock until the rival locks in, and it says so.
+        const theirPart=shooting?"dive":"shot";
+        ui.status.textContent=notice&&Date.now()<notice.until?notice.text:theirsSent>=n?`${NAMES[other]} has picked his ${theirPart}. Lock in your ${part}.`:`Pick your ${part}, then lock in. No clock until ${NAMES[other]} locks in his ${theirPart}.`;
         if(clock){
           const left=Math.max(0,clock.deadline-now());
           ui.clock.textContent=`0:${String(Math.ceil(left/1000)).padStart(2,"0")}`;
@@ -415,11 +449,11 @@
       };
       const send=timedOut=>{
         if(sending||finished||Date.now()-lastSendFail<SEND_RETRY_MS)return;
-        const round=engine.progress(record).done+1;
-        if(engine.nextRound(record,me)!==round)return;
-        if(!timedOut&&(!sel.shot||!sel.dive))return;
-        sending=true;setChoices(false,null);
-        cmsSend(io,ctx,engine.pick(sel.shot,sel.dive),round).then(result=>{
+        const kick=engine.progress(record).done+1;
+        if(engine.nextKick(record,me)!==kick)return;
+        if(!timedOut&&!sel)return;
+        sending=true;setChoices(false,sel);
+        cmsSend(io,ctx,engine.pick(timedOut?null:sel),kick).then(result=>{
           sending=false;
           if(result&&result.ok){notice=null;record=result.record;render();return;}
           if(result&&result.record){record=result.record;}
@@ -436,13 +470,13 @@
         if(!next)return fail({code:"CHAMBER_MEN_BAD_RECORD"});
         // Never step back: a late delivery older than what this phone already wrote is ignored.
         if(record&&(next.playerOne.length<record.playerOne.length||next.playerTwo.length<record.playerTwo.length))return;
-        record=next;
+        record=next;lastWriteMs=cmsMillis(data&&data.updatedAt);
         if(ui.stage.style.visibility==="hidden"){ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}}
         render();
       };
       const onVisibility=()=>{if(finished||cmsDoc().visibilityState==="hidden")return;Promise.resolve().then(()=>io.resync?.()).catch(()=>{}).then(()=>{if(!finished)render();});};
       // ---- input ----
-      for(const kind of ["shot","dive"])for(const b of Object.values(ui.rows[kind].buttons))b.addEventListener("click",()=>{if(b.disabled)return;sel={...sel,[kind]:b.dataset.side};setChoices(true,null);});
+      for(const kind of ["shot","dive"])for(const b of Object.values(ui.rows[kind].buttons))b.addEventListener("click",()=>{if(b.disabled||ui.rows[kind].row.hidden)return;sel=b.dataset.side;setChoices(true,sel);});
       ui.lock.addEventListener("click",()=>send(false));
       ui.next.addEventListener("click",()=>{if(resultShown){ui.next.disabled=true;end("continue");}});
       ui.back.addEventListener("click",()=>end("back"));
@@ -459,6 +493,6 @@
   function cmsActive(){return Boolean(running);}
 
   return Object.freeze({contractVersion:1,feature:"cms-chamber-men-step",stageId:STAGE_ID,collection:COLLECTION,objectType:OBJECT_TYPE,doneKey:DONE_KEY,keptKey:KEPT_KEY,
-    pickMs:PICK_MS,replayMs:REPLAY_MS,applies:cmsApplies,ensure:cmsEnsure,record:cmsRecord,send:cmsSend,readRecord:cmsReadRecord,cylinders:cmsCylinders,
+    pickMs:PICK_MS,kickMs:KICK_MS,applies:cmsApplies,ensure:cmsEnsure,record:cmsRecord,send:cmsSend,readRecord:cmsReadRecord,cylinders:cmsCylinders,
     run:cmsRun,close:cmsClose,active:cmsActive,wentHome:()=>wentHome,markDone:cmsMarkDone,isDone:cmsIsDone});
 });
