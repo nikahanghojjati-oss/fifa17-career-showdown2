@@ -1544,6 +1544,11 @@
   }
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyPager[data-compact="true"]) { --lg-trim-pager:46px; }
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyCard[data-golden="true"]) { --lg-trim-golden:64px; }
+  /* Studio Small Axe History finder: the one-row CARDS / LIST / FIND bar. */
+  #app #legacy[data-rivalry-legacy-v10] {
+    --lg-hero:clamp(44px,calc(100svh - 476px - var(--lg-trim-pager,0px) - var(--lg-trim-golden,0px) - var(--lg-trim-tools,0px) - env(safe-area-inset-bottom)),350px);
+  }
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyTools) { --lg-trim-tools:68px; }
 }
 
 /* r87 career polish: History season list as a table (Season · Daniel · Nik · Result). The heading and the close button share one
@@ -1678,6 +1683,7 @@
 #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools input:focus-visible,
 #app #legacy[data-rivalry-legacy-v10] .legacyListRow:focus-visible { outline:2px solid #ffe58f; outline-offset:2px; }
 #app #legacy[data-rivalry-legacy-v10] .legacyViewToggle { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyFindToggle { display:none; }
 #app #legacy[data-rivalry-legacy-v10] .legacyJump {
   display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:6px; margin:0;
 }
@@ -1759,7 +1765,11 @@
 
 @media (max-width:900px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) { height:auto !important; min-height:0 !important; grid-template-rows:auto auto; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); padding:8px 0; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { grid-template-columns:minmax(0,2fr) minmax(0,1fr); padding:8px 0; gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyFindToggle { display:block; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyFindToggle[aria-expanded="true"] { border-color:#f2c45b; color:#ffe58f; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyTools:not([data-find-open="true"]) :is(.legacyJump,.legacyFilters) { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyTools .legacyJump { grid-column:1 / -1; }
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button { min-height:44px; font-size:12px; letter-spacing:.06em; }
   #app #legacy[data-rivalry-legacy-v10] .legacyJump input { height:44px; font-size:16px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyFilters { grid-column:1 / -1; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; }

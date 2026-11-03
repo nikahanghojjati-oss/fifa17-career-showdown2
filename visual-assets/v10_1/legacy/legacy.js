@@ -582,7 +582,18 @@ window.ShowdownLegacyBoot = function () {
         button.addEventListener("click", () => { if (prefs.filter !== key) { prefs.filter = key; rebuild(selected); } });
         filters.appendChild(button);
       });
-      tools.append(views, jump, filters);
+      // Phones: the Go to # box and the filters fold under one FIND button, so the hero and the pager keep their room.
+      const find = document.createElement("button");
+      find.type = "button";
+      find.className = "legacyFindToggle";
+      find.setAttribute("aria-expanded", "false");
+      find.addEventListener("click", () => {
+        const open = tools.dataset.findOpen !== "true";
+        tools.dataset.findOpen = String(open);
+        find.setAttribute("aria-expanded", String(open));
+        if (open) input.focus({ preventScroll: true });
+      });
+      tools.append(views, find, jump, filters);
       menu.appendChild(tools);
       syncTools();
     }
@@ -590,6 +601,8 @@ window.ShowdownLegacyBoot = function () {
       if (!tools) return;
       tools.querySelectorAll("[data-archive-view]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.archiveView === prefs.view)));
       tools.querySelectorAll("[data-archive-filter]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.archiveFilter === prefs.filter)));
+      const find = tools.querySelector(".legacyFindToggle");
+      if (find) find.textContent = prefs.filter === "all" ? "FIND" : "FIND · " + ARCHIVE_FILTERS.find(([key]) => key === prefs.filter)[1].split(" ")[0];
       const input = tools.querySelector("#legacyJumpInput");
       if (input) input.max = String(Math.max(...allRecords.map((item) => Number(item.number) || 0)));
       const host = document.getElementById("legacy");
