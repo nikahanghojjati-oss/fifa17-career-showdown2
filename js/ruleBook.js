@@ -63,11 +63,11 @@ function createRuleBookScreen(){
         // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
         createRuleSection("04", "ROSTER RUSSIAN ROULETTE", [
             "Every season, before the Transfer War, Daniel and then Nik spin the roulette: one trigger pull each.",
-            "Your cylinder has seven chambers. In a Chamber Men Showdown it holds one live round for each goal your rival scored. In older Showdowns it holds one bullet.",
-            "A hit releases one player from your starting XI or 4 best subs: release him in FIFA 17.",
-            "Your Special Player is never on your board, so he is never hit. Every player on your board has the same chance.",
-            "Your board builds itself: your FIFA 17 launch squad. From season 2, a lost player is replaced by a kept signing or the bench, with reserves filling in, so your board shows 11 starters and 4 subs. Only if your club runs out of players does a place stay empty: the roulette still spins, and the bullet only ever hits a real player.",
-            "A guessed player never joins your board. A signing weaker than every starter in his line and every sub waits in your reserves."
+            "Your cylinder has seven chambers. In a Chamber Men Showdown it holds one live round for each goal your rival scored, so your chance of a hit is his goals out of 7: 0 goals never fires, 7 always does. In older Showdowns it holds one bullet.",
+            "A hit releases one player from your starting XI or 4 subs: release him in FIFA 17. A player the roulette shot never comes back and can't be signed back. Your Special Player is never on your board, so he is never hit.",
+            "Your board starts as your FIFA 17 launch squad. Kept signings, at the overall you typed, replace any weaker starter or sub, even when nobody was lost.",
+            "A lost player's place goes first to that window's signing in his line, however weak, then to your best sub. No keeper left: your best outfielder goes in goal until you sign one.",
+            "Replaced players wait in hidden reserves, off the board, and come back when better players are lost. A signing your rival guessed never joins your board: you can never sign him again."
         ]),
         createRuleSection("05", "PRIME PACK", [
             "Every season, after the roulette and before the Transfer War, you both race to name one masked Icon.",
@@ -86,7 +86,7 @@ function createRuleBookScreen(){
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
             "Your opponent gets three guesses. Each guess is a league or a nationality.",
             "If a guess matches one of your signings, release that player before the season starts.",
-            "A player your rival guesses is released and can never be signed again.",
+            "A player your rival guesses is released, and you can never sign him again.",
             "Type each signing's FIFA 17 overall. Only you see it, and it is never part of a guess.",
             "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him."
         ]),
