@@ -2885,6 +2885,18 @@
         "^tests/contracts/r88\\-step\\-panel\\-buttons\\-browser\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r89-chamber-men-3d-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMenScene3d|chamberMenStep)\\.js$",
+        "^css/chamberMen\\.css$",
+        "^service-worker\\.js$",
+        "^visual-assets/v10_1/roulette/vendor/three-r187\\.min\\.js$",
+        "^tools/three-vendor/entry\\.mjs$",
+        "^tests/contracts/r89\\-chamber\\-men\\-3d\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

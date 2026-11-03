@@ -1,4 +1,5 @@
-// Career Mode Showdown: the one three.js build both 3D pages load (Roster Russian Roulette and Special Player).
+// Career Mode Showdown: the one three.js build every 3D scene loads (Roster Russian Roulette, Special Player, and the
+// Chamber Men goal, js/chamberMenScene3d.js, which loads it into the app page itself).
 // Built by tools/three-vendor/build.mjs into visual-assets/v10_1/roulette/vendor/three-r187.min.js as a classic script that sets
 // window.THREE, so the pages keep loading it with a plain <script src> before their own code (no module loading order to change,
 // no CDN, shell-cached by the service worker for offline play). three.js is MIT (vendor/THREE_LICENSE.txt).
@@ -6,10 +7,10 @@
 import { ShaderChunk } from 'three';
 export {
 	ACESFilmicToneMapping, AdditiveBlending, AgXToneMapping, AmbientLight, BackSide, Box3, BoxGeometry, BufferAttribute,
-	BufferGeometry, CanvasTexture, CatmullRomCurve3, CircleGeometry, ClampToEdgeWrapping, Clock, Color, ColorManagement,
+	BufferGeometry, CanvasTexture, CapsuleGeometry, CatmullRomCurve3, CircleGeometry, ClampToEdgeWrapping, Clock, Color, ColorManagement,
 	ConeGeometry, CylinderGeometry, DataTexture, DirectionalLight, DoubleSide, DynamicDrawUsage, EquirectangularReflectionMapping, Euler,
 	ExtrudeGeometry, Float32BufferAttribute, FloatType, Fog, FogExp2, Group, HalfFloatType, HemisphereLight,
-	InstancedMesh, LatheGeometry, LinearFilter, LinearMipmapLinearFilter, LinearSRGBColorSpace, MathUtils, Matrix4, Mesh,
+	IcosahedronGeometry, InstancedMesh, LatheGeometry, LineBasicMaterial, LineSegments, LinearFilter, LinearMipmapLinearFilter, LinearSRGBColorSpace, MathUtils, Matrix4, Mesh,
 	MeshBasicMaterial, MeshDepthMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, NeutralToneMapping, NoColorSpace,
 	NoToneMapping, NormalBlending, Object3D, OrthographicCamera, PCFShadowMap, PMREMGenerator, Path, PerspectiveCamera, PlaneGeometry,
 	PointLight, Points, PointsMaterial, Quaternion, REVISION, RGBAFormat, Raycaster, RepeatWrapping,

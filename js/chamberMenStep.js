@@ -208,11 +208,27 @@
     const keeper=cmsSvg("g",{class:"cmKeeper","data-pose":"ready"});keeper.innerHTML=CM_KEEPER_ART;
     const ball=cmsSvg("g",{class:"cmBall"});ball.innerHTML=CM_BALL_ART;
     svg.append(keeper,ball);
-    return {svg,keeper,ball,hit:svg.querySelector(".cmHit")};
+    // r89: the box the 3D goal (js/chamberMenScene3d.js) shares with the SVG; scene stays null when the SVG plays alone.
+    const box=cmsEl("div","cmGoalBox");box.append(svg);
+    return {box,svg,keeper,ball,hit:svg.querySelector(".cmHit"),scene:null};
+  }
+  // r89 Chamber Men in 3D: mounted under the loading screen (Reus Gate), so the stage shows with the 3D goal already drawn.
+  // Not in time (SCENE_WAIT_MS), no WebGL2 or a fault: the SVG goal plays for this screen, and a late scene is thrown away,
+  // never swapped in while the stage is on screen. The kill switch CMS_CHAMBER_MEN_3D="off" keeps the SVG goal.
+  const SCENE_WAIT_MS=6000;
+  function cmsScene(goal){
+    if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
+    let late=false;
+    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok?root.CareerModeChamberMen3d.mount(goal.svg):null).then(scene=>{
+      if(!scene)return null;
+      if(late){try{scene.dispose();}catch(_error){}return null;}
+      goal.scene=scene;return scene;
+    },()=>null);
+    return Promise.race([made,cmsWait(SCENE_WAIT_MS).then(()=>{late=true;return null;})]);
   }
   // Before a kick: keeper back in the middle and ready, ball on the spot, the net still.
   function cmsReset(goal){
-    goal.svg.classList.remove("is-goal","is-save","is-flying");goal.keeper.dataset.pose="ready";
+    goal.svg.classList.remove("is-goal","is-save","is-flying");goal.keeper.dataset.pose="ready";goal.scene?.reset();
     cmsPlace(goal.keeper,ZONE_X.M,92,false);cmsPlace(goal.ball,ZONE_X.M,132,false);
   }
   function cmsPlace(node,x,y,animate){node.style.transition=animate?"transform 900ms cubic-bezier(.2,.8,.2,1)":"none";node.setAttribute("transform",`translate(${x} ${y})`);node.style.transform=`translate(${x}px, ${y}px)`;}
@@ -246,7 +262,7 @@
     const back=cmsEl("button","cmBack","BACK TO SHOWDOWN HOME");back.type="button";
     actions.append(lock,next,back);
     const lines=cmsEl("ul","cmLines");lines.hidden=true;
-    shell.append(header,title,board,goal.svg,status,picks,clock,lines,actions);stage.append(shell);doc.body.append(stage);
+    shell.append(header,title,board,goal.box,status,picks,clock,lines,actions);stage.append(shell);doc.body.append(stage);
     cmsReset(goal);
     return {stage,round:header.querySelector(".cmRound"),sides,goal,status,picks,rows,clock,lock,next,back,lines};
   }
@@ -294,7 +310,7 @@
     return new Promise(resolve=>{
       const engine=cmsEngine(),me=ctx.managerRole,other=cmsOther(me);
       cmsLoadingOn();
-      const ui=cmsBuild(ctx);
+      const ui=cmsBuild(ctx),sceneReady=cmsScene(ui.goal);let revealing=false;
       // record: the latest from the server. shown: how many rounds are replayed or drawn on screen. clock: {round, deadline}
       // in server ms. sel: this manager's choices for his next round. replayUntil: the server time the running replay ends.
       let record=null,shown=0,clock=null,selRound=0,sel={shot:null,dive:null},replayUntil=0,replaying=null,sending=false,lastSendFail=0,finished=false,stop=null,first=true,resultShown=false;
@@ -334,6 +350,7 @@
           g.svg.style.setProperty("--cm-hit-x",`${ballX}px`);g.svg.style.setProperty("--cm-hit-y",`${ballY}px`);
           g.hit.setAttribute("cx",String(ballX));g.hit.setAttribute("cy",String(ballY));
           g.svg.classList.toggle("is-flying",animate);g.svg.classList.toggle("is-goal",Boolean(round.goal[shooter]));g.svg.classList.toggle("is-save",!round.goal[shooter]);
+          g.scene?.kick({shot:shot===engine.timeout?null:shot,dive,goal:Boolean(round.goal[shooter]),animate,round:round.round});
         };
         cmsReset(g);
         if(animate){void g.svg.getBoundingClientRect?.();root.setTimeout(strike,320);}else strike();
@@ -429,7 +446,8 @@
         // Never step back: a late delivery older than what this phone already wrote is ignored.
         if(record&&(next.playerOne.length<record.playerOne.length||next.playerTwo.length<record.playerTwo.length))return;
         record=next;
-        if(ui.stage.style.visibility==="hidden"){ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}}
+        // The stage shows once the goal is drawn (the 3D scene, or the SVG when the scene cannot come in time).
+        if(ui.stage.style.visibility==="hidden"&&!revealing){revealing=true;sceneReady.then(()=>{if(finished)return;ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}});}
         render();
       };
       const onVisibility=()=>{if(finished||cmsDoc().visibilityState==="hidden")return;Promise.resolve().then(()=>io.resync?.()).catch(()=>{}).then(()=>{if(!finished)render();});};

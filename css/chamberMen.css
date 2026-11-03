@@ -261,3 +261,9 @@
   #cmStage .cmBall, #cmStage .cmKeeper { transition: none !important; }
   #cmStage .cmGoal .cmBallArt, #cmStage .cmGoal .cmNet, #cmStage .cmGoal .cmHit { animation: none !important; }
 }
+/* ---------- r89 the 3D goal (js/chamberMenScene3d.js): the canvas under the SVG, the SVG keeps its frame and zone words ---------- */
+#cmStage .cmGoalBox { position: relative; }
+#cmStage .cmGoal3d { position: absolute; display: block; pointer-events: none; z-index: 0; border-radius: 3px; background: #0a0806; }
+#cmStage .cmGoal.cm3d-on { position: relative; z-index: 1; background: transparent; }
+#cmStage .cmGoal.cm3d-on > :not(.cmZone) { display: none; }
+#cmStage .cmGoal.cm3d-on .cmZone { paint-order: stroke; stroke: #050403; stroke-width: 3px; stroke-linejoin: round; }

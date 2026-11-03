@@ -787,11 +787,12 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/icon-guess/assets/token_full.webp",
   "visual-assets/v10_1/icon-guess/assets/token_spent.webp"
 ]);
-// r89 3D engine (2.2.0): both 3D pages (roulette, Special Player) load one vendored three.js r187 build (tools/three-vendor) and
+// r89 3D engine (2.2.0): every 3D scene (roulette, Special Player, the Chamber Men goal) loads one vendored three.js r187 build
+// (tools/three-vendor; the Chamber Men goal loads it into the app page, js/chamberMenScene3d.js) and
 // the roulette lights its metal with one CC0 HDRI. Both are fetched without ?v, so both are shell-cached and unversioned-served,
 // and their bytes are pinned: a change ships under a new name (three-r<N>.min.js, ENV_LOUNGE_V<n>.exr), never over these.
 check("F9d r89 3D engine files: one pinned three.js build and one pinned CC0 lounge HDRI, both shell-cached for offline play",()=>{
-  const pins={"visual-assets/v10_1/roulette/vendor/three-r187.min.js":"3de1ee8f56696ad2de9e6d3573820bbf86017cda1df0c74a7994644471d7462a",
+  const pins={"visual-assets/v10_1/roulette/vendor/three-r187.min.js":"f46e27a7c9117739f081d22ffcda86ef1b6e1893e345fc208e0a617a62c4b2d3",
     "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr":"205a84e0108d40fb207e077db9bc68a15f329a8af8ee1f82c28524e967963b81"};
   const sw=fs.readFileSync(path.join(ROOT,"service-worker.js"),"utf8");
   const unversioned=sw.slice(sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS"),sw.indexOf("]);",sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS")));
