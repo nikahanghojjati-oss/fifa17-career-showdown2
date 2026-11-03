@@ -1,12 +1,15 @@
 "use strict";
-// r88 Chamber Men (Nik 2026-11-02) in the composed production Rules (firestore.spark.generated.rules).
+// r88 Chamber Men (Nik 2026-11-02, turn by turn 2026-11-03) in the composed production Rules (firestore.spark.generated.rules).
 // One shared round record per season, rivalries/{rid}/chamberMenRounds/season_N, written only by the two managers through
-// js/chamberMenStep.js (the real step code runs here against the emulator):
-//   1. Each manager owns only his own pick string (two letters a round: shot, dive; L M R or - for his own timeout).
-//   2. A write adds exactly one round to his own string and never changes what is there; the other string never moves.
-//   3. Nobody runs ahead: a manager sends round k+1 only once the other has sent round k. At most 7 rounds.
-//   4. No list, no delete; the record's id and season match; reads only for the two managers.
-// The full 7 rounds then give the two roulette cylinders (js/chamberMen.js).
+// js/chamberMenStep.js (the real step code runs here against the emulator). 14 kicks: Daniel shoots / Nik keeps, then Nik
+// shoots / Daniel keeps, 7 times.
+//   1. Each manager owns only his own pick string: one letter a kick (his shot on his kick, his dive on the rival's; L M R
+//      or - for his own timeout).
+//   2. A write adds exactly one letter to his own string and never changes what is there; the other string never moves.
+//   3. Nobody runs ahead: a manager sends kick n+1 only once the other has sent kick n. At most 14 letters each.
+//   4. No list, no delete; the record's id and season match; reads only for the two managers; the old two-letters-a-round
+//      record (schemaVersion 1) is refused.
+// The full 14 kicks then give the two roulette cylinders (js/chamberMen.js).
 // Run inside the Firestore emulator:
 //   npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-chamber-men \
 //     "node tests/firebase/chamber-men-rules-emulator.cjs"
@@ -46,7 +49,7 @@ const plainSdk=()=>({Timestamp,doc,runTransaction:firestoreSdk.runTransaction,se
 const io=(db,deviceId)=>({firestore:db,sdk:plainSdk(),rivalryId:RID,sessionId:SID,deviceId,now:()=>Date.now()});
 const ctx=(role,season=1)=>({rivalryId:RID,managerRole:role,season,confirmedAtMs:Date.now()});
 const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt:serverTimestamp()});
-const fresh=(season,kicks,revision=1)=>({schemaVersion:1,objectType:"sharedChamberMenRound",rivalryId:RID,seasonNumber:season,kicks,revision});
+const fresh=(season,kicks,revision=1,schemaVersion=2)=>({schemaVersion,objectType:"sharedChamberMenRound",rivalryId:RID,seasonNumber:season,kicks,revision});
 
 (async()=>{
   const checks=[];
@@ -64,53 +67,65 @@ const fresh=(season,kicks,revision=1)=>({schemaVersion:1,objectType:"sharedChamb
     const read=async(season=1)=>{let data;await env.withSecurityRulesDisabled(async context=>{data=(await getDoc(ref(context.firestore(),season))).data();});return data;};
 
     // Creation.
-    await assertPlainDenial(setDoc(ref(dbB),{...fresh(1,{playerOne:"LR",playerTwo:""}),...stamp(DB)}),"Nik creates the round with Daniel's pick");
+    await assertPlainDenial(setDoc(ref(dbB),{...fresh(1,{playerOne:"L",playerTwo:""}),...stamp(DB)}),"Nik creates the round with Daniel's shot");
     await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"",playerTwo:""}),...stamp(DA)}),"a round created with no pick");
-    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"LRMM",playerTwo:""}),...stamp(DA)}),"a round created with two rounds");
-    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"LX",playerTwo:""}),...stamp(DA)}),"a pick that is not L, M, R or -");
-    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"LR",playerTwo:""}),activeSessionId:SID,updatedByDeviceId:DA,updatedAt:Timestamp.fromMillis(Date.now()-60_000)}),"a phone-clock updatedAt");
-    await assertPlainDenial(setDoc(ref(dbA,2),{...fresh(3,{playerOne:"LR",playerTwo:""}),...stamp(DA)}),"a record whose season does not match its id");
-    await assertPlainDenial(setDoc(ref(dbA,"x"),{...fresh(1,{playerOne:"LR",playerTwo:""}),...stamp(DA)}),"a record outside season_N");
-    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"LR",playerTwo:""}),extra:true,...stamp(DA)}),"a record with an extra field");
-    checks.push("a round is created only by its manager, with exactly his own first round, server time, a matching season and nothing else");
-    const first=await Step.send(io(dbA,DA),ctx("playerOne"),"LR",1);
-    assert.equal(first.ok,true,`Daniel's first round (the step): ${JSON.stringify(first)}`);
-    assert.deepEqual((await read()).kicks,{playerOne:"LR",playerTwo:""});
-    checks.push("Daniel's first round (the step) creates the record");
+    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"LR",playerTwo:""}),...stamp(DA)}),"a round created with two letters (a shot and a dive at once)");
+    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"X",playerTwo:""}),...stamp(DA)}),"a pick that is not L, M, R or -");
+    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"L",playerTwo:""},1,1),...stamp(DA)}),"the old two-letters-a-round record (schemaVersion 1)");
+    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"L",playerTwo:""}),activeSessionId:SID,updatedByDeviceId:DA,updatedAt:Timestamp.fromMillis(Date.now()-60_000)}),"a phone-clock updatedAt");
+    await assertPlainDenial(setDoc(ref(dbA,2),{...fresh(3,{playerOne:"L",playerTwo:""}),...stamp(DA)}),"a record whose season does not match its id");
+    await assertPlainDenial(setDoc(ref(dbA,"x"),{...fresh(1,{playerOne:"L",playerTwo:""}),...stamp(DA)}),"a record outside season_N");
+    await assertPlainDenial(setDoc(ref(dbA),{...fresh(1,{playerOne:"L",playerTwo:""}),extra:true,...stamp(DA)}),"a record with an extra field");
+    checks.push("a round is created only by its manager, with exactly one letter of his own, server time, a matching season, schemaVersion 2 and nothing else");
+    // Kick 1: Daniel shoots, Nik keeps. Either may lock in first; here Daniel's shot creates the record.
+    assert.equal(Engine.roleOn(1,"playerOne"),"shot");assert.equal(Engine.roleOn(1,"playerTwo"),"dive");
+    const first=await Step.send(io(dbA,DA),ctx("playerOne"),"L",1);
+    assert.equal(first.ok,true,`Daniel's shot on kick 1 (the step): ${JSON.stringify(first)}`);
+    assert.deepEqual((await read()).kicks,{playerOne:"L",playerTwo:""});
+    checks.push("Daniel's shot on kick 1 (the step) creates the record");
 
     // No running ahead, no rewriting, no touching the other string.
-    // A late or repeated round-1 send (a second tab, a transaction retry) is refused, never stored as round 2 (Codex #1205).
-    const repeat=await Step.send(io(dbA,DA),ctx("playerOne"),"MM",1);
-    assert.equal(repeat.ok,false);assert.equal(repeat.reason,"NOT_THIS_ROUND");assert.deepEqual((await read()).kicks,{playerOne:"LR",playerTwo:""});
-    const ahead=await Step.send(io(dbA,DA),ctx("playerOne"),"MM",2);
-    assert.equal(ahead.ok,false);assert.equal(ahead.reason,"NOT_YOUR_ROUND");
-    await assertPlainDenial(updateDoc(ref(dbA),{"kicks.playerOne":"LRMM",revision:2,...stamp(DA)}),"Daniel sends round 2 before Nik sent round 1");
-    checks.push("a manager cannot send round k+1 before the other has sent round k (step and Rules)");
-    await assertPlainDenial(updateDoc(ref(dbA),{"kicks.playerTwo":"RL",revision:2,...stamp(DA)}),"Daniel writes Nik's pick");
-    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerOne":"MM",revision:2,...stamp(DB)}),"Nik rewrites Daniel's pick");
-    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"RLRL",revision:2,...stamp(DB)}),"Nik sends two rounds at once");
-    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"RL",revision:3,...stamp(DB)}),"a write that skips the revision");
-    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"Rx",revision:2,...stamp(DB)}),"a bad letter");
-    checks.push("a manager cannot write the other's picks, send two rounds at once, skip the revision or send a bad letter");
-    const second=await Step.send(io(dbB,DB),ctx("playerTwo"),"RL",1);
-    assert.equal(second.ok,true,`Nik's first round (the step): ${JSON.stringify(second)}`);
-    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"MMLL",revision:3,...stamp(DB)}),"Nik changes his round 1 while sending round 2");
-    checks.push("a sent round is never changed");
+    // A late or repeated kick-1 send (a second tab, a transaction retry) is refused, never stored as kick 2 (Codex #1205).
+    const repeat=await Step.send(io(dbA,DA),ctx("playerOne"),"M",1);
+    assert.equal(repeat.ok,false);assert.equal(repeat.reason,"NOT_THIS_KICK");assert.deepEqual((await read()).kicks,{playerOne:"L",playerTwo:""});
+    const ahead=await Step.send(io(dbA,DA),ctx("playerOne"),"M",2);
+    assert.equal(ahead.ok,false);assert.equal(ahead.reason,"NOT_YOUR_KICK");
+    await assertPlainDenial(updateDoc(ref(dbA),{"kicks.playerOne":"LM",revision:2,...stamp(DA)}),"Daniel dives on kick 2 before Nik's dive on kick 1 is in");
+    checks.push("a manager cannot send kick n+1 before the other has sent kick n (step and Rules)");
+    await assertPlainDenial(updateDoc(ref(dbA),{"kicks.playerTwo":"R",revision:2,...stamp(DA)}),"Daniel writes Nik's dive");
+    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerOne":"M",revision:2,...stamp(DB)}),"Nik rewrites Daniel's shot");
+    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"RL",revision:2,...stamp(DB)}),"Nik sends his dive on kick 1 and his shot on kick 2 at once");
+    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"R",revision:3,...stamp(DB)}),"a write that skips the revision");
+    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"x",revision:2,...stamp(DB)}),"a bad letter");
+    checks.push("a manager cannot write the other's picks, send two kicks at once, skip the revision or send a bad letter");
+    const second=await Step.send(io(dbB,DB),ctx("playerTwo"),"R",1);
+    assert.equal(second.ok,true,`Nik's dive on kick 1 (the step): ${JSON.stringify(second)}`);
+    let kick1=Engine.kicksOf(Step.record(await read(),1));
+    assert.equal(kick1.length,1);assert.deepEqual({shooter:kick1[0].shooter,shot:kick1[0].shotSide,dive:kick1[0].dive,goal:kick1[0].goal},{shooter:"playerOne",shot:"L",dive:"R",goal:true});
+    await assertPlainDenial(updateDoc(ref(dbB),{"kicks.playerTwo":"ML",revision:3,...stamp(DB)}),"Nik changes his kick-1 dive while sending his kick-2 shot");
+    checks.push("kick 1 is Daniel's shot against Nik's dive, and a sent letter is never changed");
 
-    // The other 6 rounds, in either order, through the step; a timed-out round is "--".
-    const plan=[["playerTwo","LM"],["playerOne","RR"],["playerOne","--"],["playerTwo","MR"],["playerOne","ML"],["playerTwo","RR"],["playerTwo","LL"],["playerOne","LM"],["playerOne","RM"],["playerTwo","MM"],["playerTwo","R-"],["playerOne","LR"]];
+    // The other 13 kicks, either manager locking in first, through the step; a timed-out shot or dive is "-".
+    // Kick n: the shooter's letter is his shot, the keeper's his dive.
+    const shots="LMRL-RMLLRMRM",dives="RMLMLRRLMRLR-";
     const sent={playerOne:1,playerTwo:1};
-    for(const [role,pick] of plan){
-      sent[role]+=1;
-      const result=await Step.send(io(role==="playerOne"?dbA:dbB,role==="playerOne"?DA:DB),ctx(role),pick,sent[role]);
-      assert.equal(result.ok,true,`${role} ${pick}: ${JSON.stringify(result)}`);
+    for(let i=0;i<13;i+=1){
+      const n=i+2,k=Engine.kick(n),order=i%3===0?[k.keeper,k.shooter]:[k.shooter,k.keeper];
+      for(const role of order){
+        sent[role]+=1;assert.equal(sent[role],n);
+        const letter=role===k.shooter?shots[i]:dives[i];
+        const result=await Step.send(io(role==="playerOne"?dbA:dbB,role==="playerOne"?DA:DB),ctx(role),letter,n);
+        assert.equal(result.ok,true,`kick ${n} ${role} ${letter}: ${JSON.stringify(result)}`);
+      }
     }
     const done=await read();
-    assert.equal(done.kicks.playerOne.length,14);assert.equal(done.kicks.playerTwo.length,14);assert.equal(done.revision,14);
-    checks.push("all 7 rounds both ways go in through the step, one round per write, including a timed-out round");
-    await assertPlainDenial(updateDoc(ref(dbA),{"kicks.playerOne":done.kicks.playerOne+"LR",revision:15,...stamp(DA)}),"an 8th round");
-    checks.push("there is no 8th round");
-    const record=Step.record(done,1),cylinders=Engine.cylinders(record),score=Engine.score(record);
+    assert.equal(done.kicks.playerOne.length,14);assert.equal(done.kicks.playerTwo.length,14);assert.equal(done.revision,28);
+    checks.push("all 14 kicks go in through the step, one letter per write, either manager first, including a timed-out shot and dive");
+    await assertPlainDenial(updateDoc(ref(dbA),{"kicks.playerOne":done.kicks.playerOne+"L",revision:29,...stamp(DA)}),"a 15th letter");
+    checks.push("there is no 15th kick: 7 shots and 7 dives each");
+    const record=Step.record(done,1),cylinders=Engine.cylinders(record),score=Engine.score(record),kicks=Engine.kicksOf(record);
+    assert.deepEqual(kicks.map(k=>k.shooter),Array.from({length:14},(_,i)=>i%2?"playerTwo":"playerOne"),"Daniel, Nik, Daniel, ... (turn by turn)");
+    for(const role of ["playerOne","playerTwo"])assert.equal(kicks.filter(k=>k.shooter===role).length,7,"exactly 7 shots each");
     assert.ok(cylinders&&Engine.validCylinder(cylinders.playerOne)&&Engine.validCylinder(cylinders.playerTwo));
     assert.equal(Engine.bullets(cylinders.playerOne),score.playerTwo,"Daniel's cylinder holds Nik's goals");
     assert.equal(Engine.bullets(cylinders.playerTwo),score.playerOne,"Nik's cylinder holds Daniel's goals");
@@ -126,7 +141,7 @@ const fresh=(season,kicks,revision=1)=>({schemaVersion:1,objectType:"sharedChamb
     checks.push("only the two managers read the round; nobody lists or deletes it");
 
     // A second season starts clean, and the step refuses an unfinished one for the roulette.
-    assert.equal((await Step.send(io(dbB,DB),ctx("playerTwo",2),"ML",1)).ok,true,"Nik may start season 2 first");
+    assert.equal((await Step.send(io(dbB,DB),ctx("playerTwo",2),"M",1)).ok,true,"Nik may lock in his kick-1 dive first in season 2");
     const unfinished=await Step.cylinders(ctx("playerOne",2),io(dbA,DA));
     assert.equal(unfinished.ok,false);assert.equal(unfinished.reason,"NOT_FINISHED");
     checks.push("each season has its own record, and the roulette never takes the cylinders of an unfinished shootout");

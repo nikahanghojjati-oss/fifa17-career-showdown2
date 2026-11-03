@@ -35,7 +35,9 @@ async function playRoulette(page,opts={}){
 
 // One Chamber Men step on this phone: "chamber-kick" (picked and locked in), "chamber-continue" (SPIN THE CYLINDER),
 // "chamber-retry" (TRY AGAIN on a fault), "wait" or null (no Chamber Men on screen). Real taps: anything standing over the
-// buttons fails them.
+// buttons fails them. Turn by turn (Nik 2026-11-03): on each kick this phone shows only its own part, YOU SHOOT with the
+// "Pick your shot" row or YOU KEEP with the "Pick your dive" row; the bot taps a side in the visible row only and checks
+// the other row is hidden (nobody shoots and dives on the same kick).
 const CHAMBER_SIDES=["L","M","R"];
 async function playChamberMen(page){
   const stage=page.locator("#cmStage");
@@ -52,14 +54,17 @@ async function playChamberMen(page){
     if(await retry.isVisible().catch(()=>false)){await retry.click({timeout:5000}).catch(()=>{});return "chamber-retry";}
     return "wait";
   }
-  const shotButton=stage.locator('.cmChoice[data-kind="shot"]').first();
-  if(!await shotButton.isEnabled().catch(()=>false))return "wait";
-  const round=Number(((await stage.locator(".cmRound").textContent().catch(()=>""))||"").replace(/\D+/g," ").trim().split(" ")[0])||1;
+  const turn=await stage.locator(".cmTurn").getAttribute("data-turn").catch(()=>null);
+  if(turn!=="shoot"&&turn!=="keep")return "wait";
+  const kind=turn==="shoot"?"shot":"dive",otherKind=kind==="shot"?"dive":"shot";
+  if(await stage.locator(`.cmRow[data-kind="${otherKind}"]`).isVisible().catch(()=>false))throw new Error(`Chamber Men: the ${otherKind} row shows on a ${turn} turn`);
+  const first=stage.locator(`.cmChoice[data-kind="${kind}"]`).first();
+  if(!await first.isEnabled().catch(()=>false))return "wait";
+  const kick=Number(((await stage.locator(".cmTurnCount").textContent().catch(()=>""))||"").replace(/\D+/g," ").trim().split(" ")[0])||1;
   const role=await page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.managerRole||"playerOne").catch(()=>"playerOne");
   const one=role==="playerOne"?0:1;
-  const shot=CHAMBER_SIDES[(round+one)%3],dive=CHAMBER_SIDES[(round*2+one)%3];
-  await stage.locator(`.cmChoice[data-kind="shot"][data-side="${shot}"]`).click({timeout:5000}).catch(()=>{});
-  await stage.locator(`.cmChoice[data-kind="dive"][data-side="${dive}"]`).click({timeout:5000}).catch(()=>{});
+  const side=kind==="shot"?CHAMBER_SIDES[(kick+one)%3]:CHAMBER_SIDES[(kick*2+one)%3];
+  await stage.locator(`.cmChoice[data-kind="${kind}"][data-side="${side}"]`).click({timeout:5000}).catch(()=>{});
   if(!await lock.isEnabled().catch(()=>false))return "wait";
   await lock.click({timeout:5000}).catch(()=>{});
   return "chamber-kick";
@@ -135,8 +140,8 @@ async function onTransfer(page){
 // the Transfer Challenge. Returns the steps seen.
 async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   const targets=(Array.isArray(pages)?pages:[pages]).filter(Boolean);track(targets);
-  // A planned Prime Pack round can run its four stages out (~95 s); Chamber Men's seven rounds replay for about 31 s.
-  const until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout)+(process.env.CMS_CHAMBER_MEN_NOW==="1"?90000:0),seen=[];
+  // A planned Prime Pack round can run its four stages out (~95 s); Chamber Men's 14 kicks (turn by turn) show for about 37 s.
+  const until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout)+(process.env.CMS_CHAMBER_MEN_NOW==="1"?150000:0),seen=[];
   for(;;){
     const drive=[...new Set([...targets,...tracked,...browserPages(targets)])].filter(page=>!page.isClosed());
     const done=[];for(const page of targets)done.push(await onTransfer(page));
