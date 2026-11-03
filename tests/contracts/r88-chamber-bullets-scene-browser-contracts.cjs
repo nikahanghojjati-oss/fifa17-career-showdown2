@@ -79,13 +79,14 @@ const CASES=[[7,0],[0,7],[3,5]];
   try{
     await waitForServer(port);
     const runtime=await resolveChromiumRuntime();
-    // WebGL through SwiftShader (the bundled runtime switches WebGL off for the app journeys).
-    const args=runtime.args.filter(a=>a!=='--single-process'&&!/^--(disable-webgl|disable-gpu|use-gl|use-angle)/.test(a)).concat(['--use-angle=swiftshader','--enable-unsafe-swiftshader']);
+    // WebGL through SwiftShader (the bundled runtime switches WebGL off for the app journeys). The page itself composites
+    // and rasters in software: with SwiftShader doing that too, the scene takes over a minute to load instead of seconds.
+    const args=runtime.args.filter(a=>a!=='--single-process'&&!/^--(disable-webgl|disable-gpu|use-gl|use-angle)/.test(a)).concat(['--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-gpu-compositing','--disable-gpu-rasterization']);
     browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args});
     const base=`http://127.0.0.1:${port}/`;
-    const seen=[];
+    const seen=[],T0=Date.now();
     for(const {d,n,rid,plan} of plans){
-      const context=await browser.newContext({viewport:{width:1280,height:800},serviceWorkers:'block',reducedMotion:'reduce'});
+      const context=await browser.newContext({viewport:{width:480,height:300},serviceWorkers:'block',reducedMotion:'reduce'});
       const page=await context.newPage();
       const errors=[];page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});page.on('pageerror',e=>errors.push(String(e)));page.on('requestfailed',r=>errors.push('failed '+r.url()));
       await page.route(url=>!String(url).startsWith(base),route=>route.abort());
@@ -95,8 +96,8 @@ const CASES=[[7,0],[0,7],[3,5]];
       const setup={type:'cms-rr-setup',d:pair.playerOne,n:pair.playerTwo,boards:{D:boardOf('playerOne'),N:boardOf('playerTwo')},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns,seed:(parseInt(rid.slice(-8),16)^Math.imul(1,0x9E3779B1))>>>0};
       const out=await page.evaluate(async({src,setup})=>{
         document.body.innerHTML='';const msgs=[];addEventListener('message',e=>{if(e.data&&e.data.type)msgs.push(e.data.type);});
-        const f=document.createElement('iframe');f.style.cssText='width:1280px;height:800px;border:0';f.src=src;document.body.append(f);
-        const until=async(fn,ms,what)=>{const t0=Date.now();for(;;){const v=fn();if(v)return v;if(Date.now()-t0>ms)throw new Error(`timed out: ${what} (messages ${msgs.join(',')})`);await new Promise(r=>setTimeout(r,50));}};
+        const f=document.createElement('iframe');f.style.cssText='width:480px;height:300px;border:0';f.src=src;document.body.append(f);
+        const T=[],t00=Date.now();const until=async(fn,ms,what)=>{const t0=Date.now();for(;;){const v=fn();if(v){T.push(what+':'+(Date.now()-t00));return v;}if(Date.now()-t0>ms)throw new Error(`timed out: ${what} (messages ${msgs.join(',')})`);await new Promise(r=>setTimeout(r,50));}};
         await until(()=>f.contentWindow&&f.contentWindow.__rrReady,120000,'scene ready');
         const w=f.contentWindow,doc=w.document,result=doc.getElementById('result'),cta=doc.getElementById('cta'),lines=[];
         new w.MutationObserver(()=>{const v={cls:result.className,text:result.textContent};const last=lines[lines.length-1];if(!last||last.cls!==v.cls||last.text!==v.text)lines.push(v);}).observe(result,{childList:true,characterData:true,subtree:true,attributes:true});
@@ -104,20 +105,21 @@ const CASES=[[7,0],[0,7],[3,5]];
         if(msgs.includes('cms-rr-error'))throw new Error('scene error');
         w.postMessage(setup,location.origin);
         await until(()=>msgs.includes('cms-rr-armed')||msgs.includes('cms-rr-error'),15000,'armed');
-        const caption=result.textContent,stops=[];
+        const caption=result.textContent,stops=[],marks=[];
         for(let i=0;i<2;i+=1){
           await until(()=>!cta.disabled&&/spins/.test(cta.textContent),30000,`turn ${i+1} ready`);
           const from=lines.length;cta.click();
           // Software WebGL draws a frame in well over 0.25 s, and the scene pauses its turn clock across such gaps (F11-01), so
           // the turn is stepped on the scene's own test clock (window.__rr.advance, 30 ticks a second, drawing the last one).
-          for(let s=0;s<240&&msgs.filter(m=>m==='cms-rr-end').length<=i;s+=1){w.__rr.advance(0.5);await new Promise(r=>setTimeout(r,0));}
+          for(let s=0;s<200&&msgs.filter(m=>m==='cms-rr-end').length<=i;s+=1){const seen=lines.slice(from).some(l=>/live round/.test(l.text));w.__rr.advance(seen?2:0.5);await new Promise(r=>setTimeout(r,0));}
           await until(()=>msgs.filter(m=>m==='cms-rr-end').length>i,10000,`turn ${i+1} end`);
-          const stop=lines.slice(from).find(l=>/\bresult (bang|safe)\b/.test(l.cls));stops.push(stop?/bang/.test(stop.cls):null);
+          const mine=lines.slice(from),mark=mine.find(l=>/No live rounds|Red: (\d+ )?live round/.test(l.text)),stop=mine.filter(l=>/\bresult (bang|safe)\b/.test(l.cls)&&!/live round/.test(l.text)).pop();
+          marks.push(mark?/No live rounds/.test(mark.text)?0:/Red: (\d+) live rounds/.test(mark.text)?Number(/Red: (\d+)/.exec(mark.text)[1]):1:null);stops.push(stop?/bang/.test(stop.cls):null);
         }
-        return {caption,lines,msgs,stops};
+        return {caption,lines,msgs,stops,marks,T};
       },{src:`${base}visual-assets/v10_1/roulette/index.html?embed=1&d=${encodeURIComponent(pair.playerOne)}&n=${encodeURIComponent(pair.playerTwo)}`,setup}).catch(e=>{throw new Error(`${e.message} :: ${errors.slice(0,8).join(' | ')}`);});
       await context.close();
-      const marks=out.lines.filter(l=>/Gold: fires/.test(l.text)).map(l=>/No live rounds/.test(l.text)?0:/Red: (\d+) live rounds/.test(l.text)?Number(/Red: (\d+)/.exec(l.text)[1]):/Red: live round/.test(l.text)?1:null);
+      const marks=out.marks;
       const stops=out.stops;
       const word=k=>k===1?'1 bullet':`${k} bullets`;
       // Daniel's cylinder holds Nik's goals (n), Nik's holds Daniel's (d).
@@ -127,7 +129,7 @@ const CASES=[[7,0],[0,7],[3,5]];
       if(n===0)assert.equal(stops[0],false,'0 goals: the empty cylinder spins and never fires');
       if(n===7)assert.equal(stops[0],true,'7 goals: a sure hit');
       if(d===0)assert.equal(stops[1],false);if(d===7)assert.equal(stops[1],true);
-      seen.push(`${d}-${n}: drew ${JSON.stringify(marks)} live, stopped ${JSON.stringify(stops.map(b=>b?'bang':'safe'))}`);
+      if(process.env.SB_TIME)console.log('case',d,n,Date.now()-T0,out.T.join(' '));seen.push(`${d}-${n}: drew ${JSON.stringify(marks)} live, stopped ${JSON.stringify(stops.map(b=>b?'bang':'safe'))}`);
     }
     ok('SB2',`the real 3D scene draws each cylinder's live rounds and fires exactly as planned: ${seen.join('; ')}`);
     finished=true;
