@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 3 Nov, 9:39 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 3 Nov, 9:43 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.0.0-r87** (main `00ae2b7`, Sun 1 Nov 11:28 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · Gate #1209: L1– L2– L3A– L3B– L4– L5– L6– · seal draft · POS20 #1209 0/16
 
 ## Jobs
 
@@ -50,7 +50,7 @@ Updated Tue 3 Nov, 9:39 AM Boston time. Bug hunting only, no new features until 
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 457 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 458 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1209](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1209) | r88 release (draft): Chamber Men, Story tile, Studio Axe polish | 🔴 7 passed, 1 failed (draft) |
+| 🟧 Team G lead | [PR #1209](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1209) | r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish) | 🔴 7 passed, 8 running, 1 failed |
 
 **Up next**
 

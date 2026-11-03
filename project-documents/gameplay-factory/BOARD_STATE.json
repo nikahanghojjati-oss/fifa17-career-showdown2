@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 9:38 AM Boston time (EST)",
+ "generated": "2026-11-03 9:42 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1850,14 +1850,14 @@
    "fixes": [
     {
      "pr": 1209,
-     "title": "r88 release (draft): Chamber Men, Story tile, Studio Axe polish",
-     "draft": true,
+     "title": "r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish)",
+     "draft": false,
      "branch": "gameplay/r88",
-     "sha": "82f928d1799d31b9b420ca5ccf43ce0ecc321334",
-     "updated": "2026-11-03T14:16:10Z",
+     "sha": "7f1b7ab0d40e48b64d1d841224be05531f02df64",
+     "updated": "2026-11-03T14:42:06Z",
      "gates": {
       "passed": 7,
-      "running": 0,
+      "running": 8,
       "failed": 1,
       "cancelled": 0
      }
@@ -1868,7 +1868,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #1209: L1– L2– L3A– L3B– L4– L5– L6– · seal draft · POS20 #1209 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3919,14 +3919,14 @@
   "fixes": [
    {
     "pr": 1209,
-    "title": "r88 release (draft): Chamber Men, Story tile, Studio Axe polish",
-    "draft": true,
+    "title": "r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish)",
+    "draft": false,
     "branch": "gameplay/r88",
-    "sha": "82f928d1799d31b9b420ca5ccf43ce0ecc321334",
-    "updated": "2026-11-03T14:16:10Z",
+    "sha": "7f1b7ab0d40e48b64d1d841224be05531f02df64",
+    "updated": "2026-11-03T14:42:06Z",
     "gates": {
      "passed": 7,
-     "running": 0,
+     "running": 8,
      "failed": 1,
      "cancelled": 0
     }
