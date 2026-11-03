@@ -264,7 +264,9 @@
   function cmsRun(ctx,io){
     if(running)return running;
     wentHome=false;
-    running=cmsRunNow(ctx,io).then(go=>{if(!go)cmsClose();return go;},error=>{cmsClose();throw error;}).finally(()=>{running=null;});
+    // BACK TO SHOWDOWN HOME opens Showdown Home, as the roulette's does (rrsRunBeforeTransfers). Closing the stage alone left the
+    // screen underneath (Club Assignment in season 1, from Career Start) with HOME locked, so CONTINUE CAREER was out of reach.
+    running=cmsRunNow(ctx,io).then(go=>{if(!go)cmsClose();return go;},error=>{cmsClose();throw error;}).then(go=>{if(!go&&wentHome&&typeof root.navigateTo==="function")return Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).then(()=>go);return go;}).finally(()=>{running=null;});
     return running;
   }
   async function cmsRunNow(ctx,io){
