@@ -88,7 +88,18 @@
   // for the rival: the listener then shows the true state). kick: the kick this letter was picked for (Codex #1205): a send
   // that reaches the server after that kick is already in (a second tab, a transaction retry) is refused, never stored as
   // the next kick, so a shot never lands as a dive or the other way round.
+  // Both managers locking in at the same moment write the same record at once. The Rules see the second write against the
+  // record the first one just changed (kick 1: both create it; later kicks: a stale revision) and refuse it before the
+  // transaction can retry, so a refused send is tried once more, on the record as it is now (one more transaction read,
+  // only in that race). A second refusal is passed on (the clock or LOCK IN tries again).
   async function cmsSend(io,ctx,letter,kick){
+    try{return await cmsSendOnce(io,ctx,letter,kick);}
+    catch(error){
+      if(!/permission/i.test(String(error&&error.code||"")))throw error;
+      return cmsSendOnce(io,ctx,letter,kick);
+    }
+  }
+  async function cmsSendOnce(io,ctx,letter,kick){
     const ref=cmsRef(io,ctx.season),me=ctx.managerRole,engine=cmsEngine();
     return io.sdk.runTransaction(io.firestore,async tx=>{
       const snap=await tx.get(ref),data=snap.exists()?snap.data():null;

@@ -145,6 +145,18 @@ const fresh=(season,kicks,revision=1,schemaVersion=2)=>({schemaVersion,objectTyp
     const unfinished=await Step.cylinders(ctx("playerOne",2),io(dbA,DA));
     assert.equal(unfinished.ok,false);assert.equal(unfinished.reason,"NOT_FINISHED");
     checks.push("each season has its own record, and the roulette never takes the cylinders of an unfinished shootout");
+
+    // Both managers lock in at the same moment on every kick (both phones' transactions race on one record): the loser's
+    // write is refused by the Rules against the record the winner just changed, and the step tries it once more on the
+    // record as it is now. All 14 kicks go in, each letter once, in its own place.
+    for(let n=1;n<=14;n+=1){
+      const k=Engine.kick(n);
+      const both=await Promise.all([Step.send(io(dbA,DA),ctx("playerOne",3),k.shooter==="playerOne"?"L":"M",n),Step.send(io(dbB,DB),ctx("playerTwo",3),k.shooter==="playerTwo"?"R":"M",n)]);
+      assert.ok(both.every(r=>r.ok),`kick ${n} with both locking in at once: ${JSON.stringify(both)}`);
+    }
+    const raced=await read(3);
+    assert.deepEqual(raced.kicks,{playerOne:"LM".repeat(7),playerTwo:"MR".repeat(7)});assert.equal(raced.revision,28);
+    checks.push("both managers locking in at the same moment on every kick: every letter goes in once, in its own place (kick 1's double create included)");
   }finally{await env.cleanup();}
   for(const [i,check] of checks.entries())console.log(`ok ${i+1} ${check}`);
   console.log(`PASS Chamber Men Rules emulator: ${checks.length} checks.`);

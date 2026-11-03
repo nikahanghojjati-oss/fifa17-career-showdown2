@@ -215,6 +215,19 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
   // An old two-letters-a-round record (schemaVersion 1) is never read as kicks.
   assert.equal(Step.record({...doc("LR","RL"),schemaVersion:1},1),null);
   assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(sel\),kick\)/,"the screen sends the kick it is showing");
+  // Both lock in at once: the Rules refuse the loser against the record the winner just changed; one retry on the record as
+  // it is now puts his letter in; a second refusal is passed on (no loop of billed reads).
+  {
+    const race=(fails)=>{let calls=0;const writes=[];const sdk={doc:()=>({}),serverTimestamp:()=>"ts",runTransaction:async(_f,fn)=>{calls+=1;
+      const r=await fn({get:async()=>({exists:()=>true,data:()=>doc("L","R")}),set(){},update:(_r,d)=>writes.push(d)});
+      if(calls<=fails)throw Object.assign(new Error("denied"),{code:"permission-denied"});return r;}};
+      return {io:{firestore:{},sdk,rivalryId:rid,sessionId:"s",deviceId:"d"},calls:()=>calls,writes};};
+    const once=race(1);const r1=await Step.send(once.io,ctx,"M",2);
+    assert.equal(r1.ok,true);assert.equal(once.calls(),2,"one retry after a refused race");
+    const twice=race(2);await assert.rejects(Step.send(twice.io,ctx,"M",2),e=>e.code==="permission-denied");assert.equal(twice.calls(),2,"never more than one retry");
+    const offline=race(0);offline.io.sdk.runTransaction=async()=>{throw Object.assign(new Error("x"),{code:"unavailable"});};
+    await assert.rejects(Step.send(offline.io,ctx,"M",2),e=>e.code==="unavailable");
+  }
   ok("CM10","a pick goes in only as the kick it was made for; a late or repeated send is refused");
   // CM11
   {
