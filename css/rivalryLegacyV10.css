@@ -1656,3 +1656,144 @@
 @media (min-width:601px) and (max-width:900px) and (orientation:portrait) {
   #app #legacy[data-rivalry-legacy-v10] .legacyWordmarkWrap { top:68%; }
 }
+
+/* Studio Small Axe History finder (Nik 2026-11-03): CARDS / LIST, "Go to #" and result filters under the three tabs,
+   and a compact list of 12 Showdowns per page. Rows are not .legacyCard, so the one-card phone rules never hide them. */
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools {
+  grid-column:1 / -1; display:grid; gap:8px; align-content:start; margin:4px 0 0; padding:10px 0 0;
+  border-top:1px solid #d9aa3c59; min-width:0;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button {
+  position:relative; width:100%; min-width:0; min-height:36px; height:auto; margin:0; padding:6px 10px;
+  font-size:12px; line-height:16px; letter-spacing:.1em; color:#f6efd8; text-align:center; cursor:pointer;
+  border:1px solid #d9aa3c66; border-radius:2px; background:linear-gradient(180deg,#121214,#050506);
+  box-shadow:inset 0 1px 0 #fff1b814,inset 0 0 0 1px #000a; text-shadow:none;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button::after { content:none; display:none; }
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button[aria-pressed="true"] {
+  color:#1a1305; border-color:#fff1b8; background:var(--lg-gold,linear-gradient(180deg,#ffe58f,#d9aa3c));
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -2px 0 #a87a1288,0 0 0 1px #000a;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button:focus-visible,
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools input:focus-visible,
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow:focus-visible { outline:2px solid #ffe58f; outline-offset:2px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyViewToggle { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJump {
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:6px; margin:0;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyJump label { font-size:11px; letter-spacing:.14em; color:#f2c45b; white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJump input {
+  box-sizing:border-box; width:100%; min-width:0; height:36px; margin:0; padding:4px 8px; font:inherit; font-size:14px;
+  color:#f6efd8; background:#050506; border:1px solid #d9aa3c80; border-radius:2px; -moz-appearance:textfield;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyJump input::-webkit-inner-spin-button,
+#app #legacy[data-rivalry-legacy-v10] .legacyJump input::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyJump button { width:auto; padding:6px 12px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote { grid-column:1 / -1; font-size:11px; line-height:14px; color:#f2c45b; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote:empty { display:none; }
+#app #legacy[data-rivalry-legacy-v10] .legacyFilters { display:grid; gap:4px; }
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button {
+  display:flex; justify-content:space-between; align-items:center; gap:8px; text-align:left;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyFilters button b { font-weight:700; font-variant-numeric:tabular-nums; opacity:.85; }
+/* Desktop: the three tabs and the tools share the side column, so both step down to keep the panel its usual height. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) { gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) > button[data-route] { min-height:40px; padding:8px 12px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { gap:6px; padding-top:8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button { min-height:30px; padding:4px 10px; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyJump input { height:30px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilters { grid-template-columns:1fr 1fr; gap:3px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilters > [data-archive-filter="all"] { grid-column:1 / -1; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button { min-height:28px; padding:3px 8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilterTail { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid:not([data-view="list"]) { align-self:start; }
+}
+
+/* The list. */
+#app #legacy[data-rivalry-legacy-v10] .legacyCardGrid[data-view="list"] {
+  display:grid !important; grid-template-columns:minmax(0,1fr) !important; grid-auto-flow:row !important;
+  grid-auto-columns:auto !important; grid-auto-rows:auto; align-content:start; gap:4px;
+  overflow:visible !important; scroll-snap-type:none !important; touch-action:auto !important;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow {
+  box-sizing:border-box; display:grid; grid-template-columns:64px minmax(0,1fr) minmax(112px,150px) 96px 18px;
+  align-items:center; gap:12px; width:100%; min-width:0; min-height:36px; margin:0; padding:4px 14px;
+  font:inherit; font-size:13px; line-height:16px; text-align:left; color:#efe6d0; cursor:pointer;
+  border:1px solid #d9aa3c40; border-radius:2px;
+  background:linear-gradient(90deg,#141416f2,#08090af5); box-shadow:inset 0 1px 0 #fff1b80d;
+}
+#app #legacy[data-rivalry-legacy-v10] div.legacyListRow { cursor:default; color:#a89f8a; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow[data-row-selected="true"] {
+  border-color:#f2c45b; background:linear-gradient(90deg,#2a2210f2,#0d0c09f5);
+  box-shadow:inset 3px 0 0 #f2c45b,inset 0 1px 0 #fff1b833;
+}
+@media (hover:hover) {
+  #app #legacy[data-rivalry-legacy-v10] button.legacyListRow:hover { border-color:#d9aa3cb3; }
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListNumber { font-weight:700; letter-spacing:.06em; color:#f2c45b; font-variant-numeric:tabular-nums; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListMatch {
+  display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:12px; min-width:0;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide { display:flex; align-items:baseline; gap:8px; min-width:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide--daniel { justify-content:flex-start; flex-direction:row-reverse; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide b { font-weight:700; letter-spacing:.06em; white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide small {
+  min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; color:#a89f8a;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListScore {
+  font-size:17px; font-weight:700; letter-spacing:.04em; color:#fff3cf; font-variant-numeric:tabular-nums; white-space:nowrap;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListResult { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:12px; letter-spacing:.06em; color:#f2c45b; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListResult[data-winner="draw"],
+#app #legacy[data-rivalry-legacy-v10] .legacyListResult[data-winner=""] { color:#c9c0aa; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSeasons { white-space:nowrap; font-size:12px; color:#c9c0aa; text-align:right; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListGolden { color:#ffd34d; font-size:15px; text-align:center; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListEnded { grid-column:2 / -1; font-size:12px; letter-spacing:.06em; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListEmpty {
+  margin:0; padding:24px 12px; text-align:center; font-size:14px; letter-spacing:.08em; color:#f2c45b;
+  border:1px dashed #d9aa3c59; border-radius:2px;
+}
+/* While a Showdown's seasons are open, the list steps aside for them like the other cards do. */
+#app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid[data-view="list"] > .legacyListRow:not([data-row-selected="true"]) { display:none; }
+
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) { height:auto !important; min-height:0 !important; grid-template-rows:auto auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); padding:8px 0; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button { min-height:44px; font-size:12px; letter-spacing:.06em; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyJump input { height:44px; font-size:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilters { grid-column:1 / -1; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button { flex-direction:column; justify-content:center; gap:2px; padding:4px 2px; text-align:center; line-height:14px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilterTail { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListRow {
+    grid-template-columns:48px minmax(0,1fr) 16px; grid-template-areas:"no match gold" "no meta gold";
+    row-gap:2px; column-gap:10px; min-height:52px; padding:6px 10px;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListNumber { grid-area:no; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListMatch { grid-area:match; gap:8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListSide small { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListResult { grid-area:meta; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListSeasons { grid-area:meta; justify-self:end; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListGolden { grid-area:gold; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListEnded { grid-column:2 / -1; grid-row:1 / 3; }
+}
+/* In the list the page is taller, so VIEW SEASON HISTORY and BACK sit in flow under it instead of floating over rows. */
+#app #legacy[data-rivalry-legacy-v10][data-history-view="list"] :is(.legacyPrimaryAction,.legacyBackV10) { position:relative !important; bottom:auto !important; }
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyListRow { min-height:32px; padding:2px 14px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid[data-view="list"] { gap:3px; }
+}
+@media (min-width:901px) {
+  /* With the seasons open beside it, the chosen row becomes a small card: number, score, result, seasons. */
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid[data-view="list"] > .legacyListRow[data-row-selected="true"] {
+    width:calc((100% - 24px) / 4); justify-self:start; min-height:160px;
+    grid-template-columns:minmax(0,1fr); justify-items:center; align-content:center; gap:6px; padding:14px 10px; text-align:center;
+  }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] .legacyListMatch { grid-template-columns:minmax(0,1fr); justify-items:center; gap:4px; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] .legacyListSide { justify-content:center; flex-direction:row; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] .legacyListScore { order:-1; font-size:24px; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] :is(.legacyListSeasons,.legacyListResult) { text-align:center; }
+}
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyViewToggle { align-self:start; }
+}
