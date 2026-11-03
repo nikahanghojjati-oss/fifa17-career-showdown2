@@ -58,7 +58,7 @@ async function c3d2(){
   assert.match(step,/goal\.keeper\.dataset\.pose="ready";goal\.scene\?\.reset\(\);/,"reset with the step's own reset");
   assert.match(step,/g\.keeper\.dataset\.pose=dive;[\s\S]*?g\.scene\?\.kick\(\{shot:shot===engine\.timeout\?null:shot,dive,goal:Boolean\(round\.goal\[shooter\]\),animate,round:round\.round\}\);/,"kick with what the step draws");
   for(const hook of ['class:"cmGoal"','cmsSvg("g",{class:"cmKeeper","data-pose":"ready"})','cmsSvg("g",{class:"cmBall"})','class:"cmZone"'])assert.ok(step.includes(hook),`the SVG goal keeps ${hook}`);
-  assert.match(step,/shell\.append\(header,title,board,goal\.box,status,picks,clock,lines,actions\);/,"same place in the screen");
+  assert.match(step,/pitch\.append\(board,goal\.box\);/,"same place in the screen (the pitch column, Fable F17-07)");
   ok("C3D3","the step stays the owner: SVG hooks unchanged, the scene follows reset and kick");
 }
 // C3D4

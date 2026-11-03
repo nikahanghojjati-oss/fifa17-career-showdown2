@@ -756,3 +756,66 @@
 :root #app .season-review-panel.is-partial,
 :root #settingsOverlay.v10Settings #v10SettingsStage[data-status="partial"] #contractState { --sa-ic-state: var(--sa-ic-circle-dashed); }
 :root #app .sdg-state[data-status="unavailable"] { --sa-ic-state: var(--sa-ic-circle-dashed); }
+
+/* ── 4n · Studio Small Axe Wave 1: press feedback and the gold sheen ──
+   One press for every button family that had none: a 120 ms ease-out dip to
+   98% with a little extra light. Gold calls to action catch one sheen of light
+   on hover or keyboard focus. Nothing darkens, nothing moves the layout, and
+   all of it is off under Reduce Motion. */
+:root {
+  --sa-press-ease: cubic-bezier(.2, 0, .2, 1);
+  --sa-press-ms: 120ms;
+}
+:root #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season),
+:root #onlinePlayerIdentityBadge {
+  transition: transform var(--sa-press-ms) var(--sa-press-ease), filter var(--sa-press-ms) linear, opacity var(--sa-press-ms) linear, background-color 90ms linear, border-color 90ms linear, color 90ms linear, box-shadow var(--sa-press-ms) linear;
+}
+:root #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season):active:not(:disabled):not([aria-disabled="true"]),
+:root #onlinePlayerIdentityBadge:active {
+  transform: scale(.98);
+  filter: brightness(1.08);
+}
+:root #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary) {
+  position: relative;
+  isolation: isolate;
+}
+:root #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 253, 240, .55) 50%, transparent 60%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  opacity: 0;
+}
+@keyframes sa-sheen {
+  0% { background-position: 100% 0; opacity: 1; }
+  100% { background-position: 0% 0; opacity: 1; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :root #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary):is(:hover, :focus-visible):not(:disabled)::after {
+    animation: sa-sheen 900ms cubic-bezier(.45, 0, .25, 1) 1 both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season):active,
+  :root #onlinePlayerIdentityBadge:active { transform: none; }
+}
+:root:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #app :is(button.menuButton, button.backButton, button.compactButton, button.v26Season):active { transform: none; }
+:root:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #app :is(#seasonPrimaryAction, #startShowdown, #confirmSeasonCompletion, #completeTransferChallenge, button.sd-btn--primary)::after { animation: none !important; }
+
+/* Panel depth: the Showdown Home boards and the Season Results summary cards get
+   the same gilded top light and inner bevel that the newer marble panels
+   already carry. Light only on the edge, never darker inside. */
+:root #app #dashboard :is(.showdownOverview, .playerCard) {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
+}
+:root #app #dashboard .showdownScoreboard {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .5), 0 0 22px rgba(245, 197, 24, .12), inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
+}
+:root #app #seasonEntry .seasonSummaryCard {
+  box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
+}

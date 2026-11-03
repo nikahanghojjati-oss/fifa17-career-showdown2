@@ -96,6 +96,9 @@
   function rrLoaded(value){return Array.isArray(value)&&value.length===CHAMBERS&&value.every(item=>typeof item==="boolean")?value:null;}
   // options.chambers[k][role] for season k (a Chamber Men Showdown), or null.
   function rrCylinder(chambers,season,role){const c=chambers&&chambers[season];return c?rrLoaded(c[role]):null;}
+  // Fable F17-01: options.chambers[k] = {oneBullet:true} for an earlier season of a Chamber Men Showdown that has no finished
+  // shootout (the screen was switched off that season), so its roulette spun one bullet and replays from the seed.
+  function rrOneBullet(chambers,season){const c=chambers&&chambers[season];return Boolean(c&&c.oneBullet===true);}
   // Player positions travel with the player; pos remains the formation slot even after a substitution.
   // Name ambiguity: prefer the same shirt at the manager's launch club, then the club, then catalog/source order.
   // Preserve the source's short_name.
@@ -438,7 +441,7 @@
         // he keeps his first window and his place (board or reserves).
         const kept=allKept.filter(p=>!state.reserves.some(r=>r.signedSeason!==null&&rrSame(r,p)));
         const saved=rrSavedHit(hits,k,role);
-        if(chamberMen&&!saved&&!turn.loadedChambers)return null;
+        if(chamberMen&&!saved&&!turn.loadedChambers&&!rrOneBullet(chambers,k))return null;
         let shot=null,at=-1;
         if(saved){if(saved.fired)({shot,at}=rrSavedAt(state.board,saved));}
         else if(turn.fired){shot=state.board[turn.hitSlot];at=turn.hitSlot;}
@@ -478,5 +481,5 @@
     return Object.freeze({contractVersion:4,season,chambers:CHAMBERS,order:ROLES,formations,boards:Object.freeze(boards),turns:Object.freeze(order),skipped:Object.freeze(skipped)});
   }
 
-  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,engineRevision:ENGINE_REVISION,board:rrBoard,forSeason:rrForSeason,version:rrVersion,outcome:rrOutcome});
+  return Object.freeze({contractVersion:4,feature:"cms-roster-russian-roulette",chambers:CHAMBERS,boardSize:BOARD_SIZE,xiSize:XI_SIZE,overallMin:OVERALL_MIN,overallMax:OVERALL_MAX,positions:POSITIONS,roles:ROLES,engineRevision:ENGINE_REVISION,board:rrBoard,forSeason:rrForSeason,version:rrVersion,outcome:rrOutcome,savedHit:rrSavedHit});
 });
