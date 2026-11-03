@@ -819,3 +819,15 @@
 :root #app #seasonEntry .seasonSummaryCard {
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
+
+/* 4p. Studio Small Axe: desktop Settings layout (Nik approved 2026-11-03).
+   At the desktop plate only: Application and Motion side by side on top,
+   Account and Data below, Application facts in two columns so the panels
+   carry no empty space. Phones and tablets keep their layout. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--application { grid-column: 1 / 7 !important; grid-row: 1 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--motion { grid-column: 7 / 13 !important; grid-row: 1 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanel--account, .settingsConnectedAccountPanel) { grid-column: 1 / 5 !important; grid-row: 2 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--data { grid-column: 5 / 13 !important; grid-row: 2 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--application .settingsInfoGrid { grid-template-columns: 1fr 1fr !important; column-gap: 8px; }
+}
