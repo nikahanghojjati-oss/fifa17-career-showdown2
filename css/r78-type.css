@@ -860,3 +860,12 @@
   :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 20%; }
   :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 24%; }
 }
+/* 4q (cont.) Career Statistics headline tiles, where the tile is roomy enough (1440-1679px wide, 800px+ tall; from 1680 the kit sizes are already 12px+): the label
+   ("COMPLETED SHOWDOWNS" was 11px) and the D / N markers (10px) reach the 12px floor. Four-digit totals still fit
+   (Lane C C-03). Narrower or shorter windows keep the kit's sizes, where 12px would cut a total. */
+@media (min-width:1440px) and (max-width:1679px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles .headlineLabel { font-size:12px !important; }
+}
+@media (min-width:1440px) and (max-width:1919px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles small { font-size:12px !important; }
+}
