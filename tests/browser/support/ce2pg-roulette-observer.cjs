@@ -238,7 +238,7 @@ function install(){
           }else{
             const noGl=scene.some(e=>e.kind==="error"&&/WebGL/i.test(e.message));
             const card=scene.filter(e=>e.kind==="panel"&&/cylinder held/.test(e.text)).map(e=>e.text);
-            const text=card.find(t=>call.result.turns.every(turn=>new RegExp(`${NAMES[turn.role]}'s cylinder held ${turn.loadedChambers.length} live`).test(t)));
+            const text=card.filter(t=>new RegExp(`^\\s*SEASON ${s} `).test(t)).reverse().find(t=>call.result.turns.every(turn=>new RegExp(`${NAMES[turn.role]}'s cylinder held ${turn.loadedChambers.length} live`).test(t)));
             if(!text)problems.push(`C5 season ${s} ${NAMES[phone]}'s phone: neither the scene nor the result card showed this season's live rounds (${noGl?"no WebGL; ":""}card: ${JSON.stringify(card.slice(-1))})`);
             else{
               for(const turn of call.result.turns){
