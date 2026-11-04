@@ -47,7 +47,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r87.length,267);
   assert.deepEqual(added,shell.filter(p=>!r87.includes(p)),'the added list is this shell minus r87\'s');
-  assert.deepEqual(added,['js/chamberMenStep.js','js/chamberMen.js','css/chamberMen.css'],'2.1.0 adds Chamber Men\'s step, rules and styles');
+  // r89 Sacked (2.2.0 branch, before its version bump resets the list against 2.1.0): the Final Gazette's sacked lines.
+  assert.deepEqual(added,['data/gazetteSacked.js','js/chamberMenStep.js','js/chamberMen.js','css/chamberMen.css'],'2.1.0 adds Chamber Men\'s step, rules and styles (and the r89 branch the Gazette\'s sacked lines)');
   assert.deepEqual(removed,[],'2.1.0 removes no shell path');
   assert.deepEqual(r87.filter(p=>!shell.includes(p)),removed,'every r87 shell path is still precached');
   assert.equal(shell.length,267-removed.length+added.length);

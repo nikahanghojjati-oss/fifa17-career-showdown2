@@ -344,7 +344,7 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // is never precached (CHRONICLE_PATH above).
 // r89 Sacked (2.2.0 branch): data/gazetteSacked.js (the Final Gazette sacked lines) is new since 2.0.0-r87 too; the 2.2.0
 // version bump resets this set against 2.1.0-r88.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css","data/gazetteSacked.js"]);
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["data/gazetteSacked.js","js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (neither 2.0.0 nor 2.1.0 lists them). A request for one comes from the shell of the revision that asks
