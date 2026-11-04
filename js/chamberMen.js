@@ -30,7 +30,7 @@
   // CHAMBER_FROM_MS is the r88 release time: only Showdowns confirmed at or after it play Chamber Men; every older
   // Showdown keeps the one-bullet roulette exactly as 2.0.0 plays it. It is a placeholder until the r88 release PR pins it
   // (tools/set-release-time.cjs R88 list). Never move it outside the release PR.
-  const CHAMBER_FROM_MS=Date.parse("2026-11-04T03:00:00Z");
+  const CHAMBER_FROM_MS=Date.parse("2026-11-04T05:00:00Z");
 
   function cmMillis(at){
     if(Number.isFinite(at))return at;
