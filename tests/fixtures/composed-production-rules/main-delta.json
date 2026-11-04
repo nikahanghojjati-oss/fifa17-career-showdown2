@@ -8,9 +8,9 @@
     "bytes": 172840
   },
   "candidate": {
-    "sha256": "887b7e758ba6929d911ca92b18b3621fb53219a287e2666892ce91b4949a3a64",
-    "gitBlobSha1": "ba8db193dd7a31b463eabfd40b791e9448dd8213",
-    "bytes": 175666
+    "sha256": "1eded7041ce57a15310ac04c187f1bbee9c7e5db0d9946b3a81a0231ed878fdb",
+    "gitBlobSha1": "d5f6e86c68725a5568cfcdf58a85dcb79ac327ee",
+    "bytes": 175915
   },
   "allowedOwners": [
     "G-7",
@@ -47,17 +47,19 @@
       "candidateLine": 2049,
       "removed": [],
       "added": [
-        "    // r88 Chamber Men (Nik 2026-11-02; js/chamberMen.js, js/chamberMenStep.js): once a season, before Roster Russian Roulette,",
-        "    // a 7-round penalty shootout. The round record is rivalries/{rid}/chamberMenRounds/season_N. Each manager owns only his",
-        "    // own pick string kicks[role]: two letters per round (shot, dive: L, M, R, or - when his own clock ran out). A write adds",
-        "    // exactly one round to his own string and never changes what is there, and only while he is not ahead of the other",
-        "    // manager (he sends round k+1 only once the other has sent round k), so nobody runs ahead and nothing is taken back.",
-        "    // The other manager's string never moves. Scoring and the cylinders are worked out on both phones from the two strings;",
-        "    // no lookup beyond the shared write authority, no list, no delete.",
+        "    // r88 Chamber Men (Nik 2026-11-02, turn by turn 2026-11-03; js/chamberMen.js, js/chamberMenStep.js): once a season,",
+        "    // before Roster Russian Roulette, a 7-round penalty shootout of 14 kicks: Daniel shoots and Nik keeps, then Nik shoots and",
+        "    // Daniel keeps, and so on. The round record is rivalries/{rid}/chamberMenRounds/season_N. Each manager owns only his own",
+        "    // pick string kicks[role]: one letter per kick (his shot on a kick he takes, his dive on a kick he keeps: L, M, R, or -",
+        "    // when his own clock ran out), 14 at most (7 shots and 7 dives). A write adds exactly one letter to his own string and",
+        "    // never changes what is there, and only while he is not ahead of the other manager (he sends kick n+1 only once the",
+        "    // other has sent kick n), so nobody runs ahead, nothing is taken back, and the letter at place n is always his part on",
+        "    // kick n. The other manager's string never moves. Scoring and the cylinders are worked out on both phones from the two",
+        "    // strings; no lookup beyond the shared write authority, no list, no delete.",
         "    function ssjrChamberShape(root, rivalryId, seasonId) {",
         "      return root.keys().size() == 9",
         "        && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','kicks','revision','activeSessionId','updatedByDeviceId','updatedAt'])",
-        "        && root.schemaVersion == 1",
+        "        && root.schemaVersion == 2",
         "        && root.objectType == 'sharedChamberMenRound'",
         "        && root.rivalryId == rivalryId",
         "        && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)",
@@ -73,7 +75,7 @@
         "      let role = ssjrActorRole(rivalryId);",
         "      return ssjrChamberShape(after, rivalryId, seasonId)",
         "        && after.revision == 1",
-        "        && after.kicks[role].matches('[LMR-]{2}')",
+        "        && after.kicks[role].matches('[LMR-]')",
         "        && after.kicks[ssjrPackOther(role)] == '';",
         "    }",
         "    function ssjrChamberUpdateValid(rivalryId, seasonId) {",
@@ -86,15 +88,15 @@
         "        && after.revision == before.revision + 1",
         "        && after.kicks[other] == before.kicks[other]",
         "        && before.kicks[role].size() <= before.kicks[other].size()",
-        "        && after.kicks[role].matches(before.kicks[role] + '[LMR-]{2}');",
+        "        && after.kicks[role].matches(before.kicks[role] + '[LMR-]');",
         "    }"
       ],
       "owner": "R88-CHAMBER-MEN",
-      "why": "r88 Chamber Men (Nik 2026-11-02): per-season shootout round record rivalries/{rid}/chamberMenRounds/season_N; each manager appends one round to his own pick string, never ahead of the other."
+      "why": "r88 Chamber Men (Nik 2026-11-02; turn by turn 2026-11-03, one letter a kick, schemaVersion 2): per-season shootout round record rivalries/{rid}/chamberMenRounds/season_N; each manager appends one letter a kick (his shot or his dive) to his own pick string, never ahead of the other."
     },
     {
       "mainLine": 3314,
-      "candidateLine": 3355,
+      "candidateLine": 3357,
       "removed": [],
       "added": [
         "      }",
@@ -105,7 +107,7 @@
         "        allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);"
       ],
       "owner": "R88-CHAMBER-MEN",
-      "why": "r88 Chamber Men (Nik 2026-11-02): per-season shootout round record rivalries/{rid}/chamberMenRounds/season_N; each manager appends one round to his own pick string, never ahead of the other."
+      "why": "r88 Chamber Men (Nik 2026-11-02): per-season shootout round record rivalries/{rid}/chamberMenRounds/season_N; each manager appends one letter a kick (his shot or his dive) to his own pick string, never ahead of the other."
     }
   ]
 }

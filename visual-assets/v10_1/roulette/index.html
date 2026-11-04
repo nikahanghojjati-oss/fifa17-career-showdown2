@@ -944,7 +944,7 @@ function startTurn(force,targetName,planned){ if(playing) return; const who=ORDE
     chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
     pick=(targetName&&free.find(x=>x.name===targetName))||free[Math.floor(rnd()*free.length)];   /* the gallery (no plan) picks one */
     fire=chamber===bulletAt; }
-  playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
+  playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, cyl0:cyl.rotation.z, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const tgt=boardTargetWorld(who,pick); const dir=tgt.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
   setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
@@ -986,12 +986,16 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?liveWords().fired:liveWords().safe; });
     at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
     /* THE main event: the drum spins free for ~7 s, fast at first, then the clicks spread out, then a slow crawl to the stop with the red ring and the gold mark in view. It stops exactly where it will fire (or not) before the crane closes. */
-    let showExtra=0, spinW=0; if(tt>=B.close&&tt<B.inside&&!REDUCED){ const dur=B.inside-B.close-1.3, k=S(B.close+.45,dur,tt); const rem=SPIN.rem(k); spinW=SPIN.T*SPIN.v(k)/(SPIN.area*dur);
-      /* the detent: as the drum slows, it lingers on each chamber and hops to the next (tick ... tick ... tick), the last hops slow and heavy;
-         the term is zero at every chamber line, so the drum still stops exactly on the planned chamber */
-      const a=.82*(1-ease.inOut(Math.min(1,Math.max(0,(spinW-2.5)/7)))); showExtra=rem-a*Math.sin(7*rem)/7;
-      if(k>=1){ const u=tt-(B.close+.45+dur); showExtra-=.035*Math.exp(-7*u)*Math.sin(u*22); } /* the last click: a small overshoot that settles */
-      const idx=Math.floor((showExtra+.0001)/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.5*Math.max(0,1-spinW/14)); } }
+    /* Nik 2026-11-03: the drum starts from wherever it rested and runs down to the planned stop chamber (any of the 7, as the
+       engine drew it), so it never just spins whole turns back onto the hole it started on. r89: the run-down follows the SPIN
+       speed curve (spin-up, flat out, even braking), so its 11 turns plus the way back end exactly on the planned chamber. */
+    const TAU=Math.PI*2; let back=(playing.cyl0-cylTarget())%TAU; if(back<0) back+=TAU; const runDown=(REDUCED?0:SPIN.T)+back;
+    let showExtra=tt<B.close?runDown:0, spinW=0; if(tt>=B.close&&tt<B.inside){ const dur=B.inside-B.close-1.3, k=S(B.close+.45,dur,tt); const rem=SPIN.rem(k)/SPIN.T*runDown; spinW=runDown*SPIN.v(k)/(SPIN.area*dur);
+      /* the detent while braking: the drum lingers on each chamber and hops to the next (tick ... tick ... tick), the last hops slow
+         and heavy; the term is zero on every chamber line, so the drum still stops exactly on the planned chamber */
+      const a=k>.16&&!REDUCED?.82*(1-ease.inOut(Math.min(1,Math.max(0,(spinW-2.5)/7)))):0; showExtra=rem-a*Math.sin(7*rem)/7;
+      if(k>=1&&!REDUCED){ const u=tt-(B.close+.45+dur); showExtra-=.035*Math.exp(-7*u)*Math.sin(u*22); } /* the last click: a small overshoot that settles */
+      const idx=Math.floor((showExtra+.0001)/(TAU/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.5*Math.max(0,1-spinW/14)); } }
     if(cyl.userData.blur) cyl.userData.blur(Math.min(1,Math.max(0,(spinW-7)/9)));
     at(tt,B.inside-3.2,"heart0",()=>SFX.play("heart")); at(tt,B.inside-2.0,"slowing",()=>{ result.textContent="Slowing down…"; });
     at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); cyl.rotation.z=cylTarget()+showExtra;
@@ -1225,7 +1229,7 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
+window.__rr={ get cylZ(){ return cyl.rotation.z; }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardTargetWorld(playing.who,playing.target).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, hasGunTop, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, fps, pixelRatio:prNow, hasRoom, bulletAt, chamber}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);

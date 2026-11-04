@@ -111,7 +111,22 @@ const SCREENS = {
     TROPHY_ROOM: { host: "trophyRoom", open: careerOpen("trophyRoom", "openTrophyRoom") },
     RIVALRY: { host: "statistics", open: async page => { await seed(page, "finished"); await page.evaluate(async () => { await ensureOptionalModule("statistics"); window.openRivalryStatistics({ model: window.__cmsRivalryFixture }); }); } },
     STANDINGS: { host: "standings", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.CareerModeV10Screens.navigate("standings")); } },
-    FINAL_WINNER: { host: "seasonEntry", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.openSeasonEntry()); } },
+    // As in the real game: Daniel's closed Showdown gives the exit row its REMATCH (js/seasonFinalV10.js rematchFrame), and
+    // Season Results marks the screen "review" (js/productionSharedSeasonResults.js), whose route style sets every exit row to
+    // flex!important (js/productionSharedSeasonResultsRoute.js). r88 S1: that squeezed REMATCH to 18px on phones and tablets.
+    FINAL_WINNER: { host: "seasonEntry", open: async page => { await seed(page, "finished"); await page.evaluate(() => { window.openSeasonEntry(); document.getElementById("seasonEntry").dataset.sharedSeasonResults = "review"; }); },
+        check: () => {
+            const host = document.getElementById("seasonEntry"), rematch = document.getElementById("finalWinnerRematch");
+            if(host.dataset.sharedSeasonResults !== "review") return [`#seasonEntry is not in Season Results' review mode (${host.dataset.sharedSeasonResults})`];
+            if(!rematch || !rematch.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) return ["REMATCH is missing from the Final Winner exits"];
+            const r = rematch.getBoundingClientRect(), out = [];
+            if(r.width < 80) out.push(`REMATCH is ${Math.round(r.width)}px wide (at least 80px)`);
+            for(const el of rematch.parentElement.children){ if(!el.checkVisibility()) continue;
+                const name = el.id || el.className, o = el.getBoundingClientRect();
+                if(el.scrollWidth > el.clientWidth + 1) out.push(`${name} label runs out of its button (${el.scrollWidth}px in ${el.clientWidth}px)`);
+                if(el !== rematch && Math.min(r.right, o.right) - Math.max(r.left, o.left) > 0.5 && Math.min(r.bottom, o.bottom) - Math.max(r.top, o.top) > 0.5) out.push(`REMATCH overlaps ${name}`); }
+            return out;
+        } },
     SEASON_ENTRY: { host: "seasonEntry", open: async page => { await seed(page, "entry"); await page.evaluate(() => window.openSeasonEntry()); } },
     SEASON_REVIEW: { host: "seasonEntry", open: async page => { await seed(page, "ready"); await page.evaluate(() => window.openSeasonEntry()); await fillSeason(page); await page.evaluate(() => window.completeCurrentSeason()); } }
 };
@@ -305,6 +320,7 @@ if(require.main === module){
                     if(tab){ await page.evaluate(({ host, i, sel }) => { const el = document.getElementById(host).querySelectorAll(sel)[i]; (el.labels && el.labels[0] || el).click(); }, { host: SCREENS[key].host, i: tab.i, sel: TAB_SELECTOR }); await page.waitForTimeout(900); }
                     if(shotDir){ fs.mkdirSync(shotDir, { recursive: true }); await page.screenshot({ path: path.join(shotDir, `${view.replace(/[^A-Z0-9_-]+/gi, "_")}-${w}x${h}.png`) }); }
                     const d = await page.evaluate(pageDiag, { host: SCREENS[key].host, touch });
+                    if(SCREENS[key].check) d.screen = await page.evaluate(SCREENS[key].check);
                     if(errors.length) d.pageErrors = errors.splice(0);
                     const bad = Object.entries(d).filter(([k, v]) => v.length);
                     for(const [kind, list] of bad) for(const what of list) report.push({ view, size: `${w}x${h}`, kind, what });

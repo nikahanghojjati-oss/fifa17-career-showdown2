@@ -71,8 +71,16 @@ assert.match(scene,/const surW=cw-24; const sur=fitText\(ctx,surname\(name\),700
 assert.match(scene,/function fitText\(ctx,text,weight,size,minSize,maxW\)\{[^\n]*\n\s*while\(fs>minSize&&ctx\.measureText\(t\)\.width>maxW\)\{ fs--; font\(\); \}\n\s*if\(ctx\.measureText\(t\)\.width>maxW\)\{ while\(t\.length>2&&ctx\.measureText\(t\+"…"\)\.width>maxW\) t=t\.slice\(0,-1\); t\+="…"; \}/);
 ok("A7","F11-19 long bench surnames are fitted");
 const rules=read("js/ruleBook.js");
-assert.match(rules,/"A player your rival guesses is released and can never be signed again\."/);
-assert.match(rules,/A guessed player never joins your board\. A signing weaker than every starter in his line and every sub waits in your reserves\./);
+assert.match(rules,/"A player your rival guesses is released, and you can never sign him again\."/);
+// Owner 2026-11-03: the Rule Book's roulette card says how the board fills (the old "a signing weaker than every starter
+// ... waits in your reserves" line was wrong: a lost player's place goes first to that window's signing in his line).
+assert.match(rules,/A signing your rival guessed never joins your board: you can never sign him again\./);
+assert.match(rules,/Kept signings, at the overall you typed, replace any weaker starter or sub, even when nobody was lost\./);
+assert.match(rules,/A lost player's place goes first to that window's signing in his line, however weak, then to your best sub\. No keeper left: your best outfielder goes in goal until you sign one\./);
+assert.match(rules,/Replaced players wait in hidden reserves, off the board, and come back when better players are lost\./);
+assert.match(rules,/A player the roulette shot never comes back and can't be signed back\./);
+assert.match(rules,/your chance of a hit is his goals out of 7: 0 goals never fires, 7 always does/);
+assert.doesNotMatch(rules,/waits in your reserves|one in seven/i);
 // The board keeps a guessed player off for good (Nik's pick 2026-11-01 14:02 UTC): a re-signed Kanté stays off.
 {
   const v1={playerOne:[{slot:1,name:"N. Kanté",position:"CDM",overall:87,release:true}],playerTwo:[]};

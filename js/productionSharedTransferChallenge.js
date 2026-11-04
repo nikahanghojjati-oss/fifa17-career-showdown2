@@ -26,7 +26,7 @@
   const PSTC_PRIME_PACK_TEXT="Prime Pack could not load. Check the connection and tap again.";
   const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   // r88 Chamber Men: Showdowns confirmed before it never load the step (tools/set-release-time.cjs --r88 pins it).
-  const CHAMBER_FROM_MS=Date.parse("2026-11-09T05:00:00Z");
+  const CHAMBER_FROM_MS=Date.parse("2026-11-04T03:00:00Z");
   const PSTC_ROULETTE_TEXT=Object.freeze({
     load:"The roulette could not load. Check the connection and tap again.",
     setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",
@@ -212,7 +212,7 @@
   const PSTC_SESSION_TEXT="Your Showdown session has lapsed. Go back to Showdown Home and open the Showdown again; nothing saved is lost.";
   const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_ROULETTE_PENDING:"Both managers spin the roulette before the Transfer War opens.",TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
-  function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
+  function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.plain===true&&message)return message;if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
   async function pstcMutate(method,payload={}){
     const request=pstcRequestContext();if(!request||busy||pstcReplayPhase()||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;busy=true;pstcSetError("");pstcRender();
     try{
@@ -309,27 +309,57 @@
       return Boolean(step&&typeof step.isOwnSpecial==="function"&&request&&Number.isFinite(at)&&step.isOwnSpecial(request.rivalryId,at,role,name,setup?.setup?.clubs));}
     catch(_error){return false;}
   }
-  // r87 house rule (Nik 2026-11-01): a signing the rival guessed is released and can never be signed again by that manager.
-  // Same scope as js/rosterRoulette.js, which keeps that role's guessed (release:true) signings off later boards: only this
-  // manager's own earlier guessed signings are refused, matched by the roulette's name key. Pure: earlier is the kept
-  // verdicts ({playerOne, playerTwo} rows) of this Showdown's earlier seasons.
+  // r88 LOCK refusals (Nik 2026-11-03): LOCK refuses every signing the board engine (js/rosterRoulette.js rrExclude) keeps off
+  // this manager's later boards because of the Transfer War or the roulette, so a refusal is exactly an engine exclusion:
+  //  - guessed: his own signing the rival guessed in an earlier season (release:true). Only that manager: the rival may sign him,
+  //    and a club player with the same name is not blocked (the engine's guess exclusion is the signing's only).
+  //  - shot: anyone the roulette shot on this manager's board in any season up to this one, club player or signing. The engine
+  //    excludes "s|name" for both, so no signing of that name ever joins his board again.
+  // Names match by the roulette's name key (rrKey). Pure: earlier[k] = {playerOne, playerTwo} verdict rows of season k
+  // (1..season-1); hits[k] = {playerOne, playerTwo} saved spin outcomes (or null) of season k (1..season), as the engine replays
+  // them. Returns Map nameKey -> {name, reason:"shot"|"guessed", season}; shot wins when both apply (the engine's own order).
   function pstcNameKey(name){return String(name||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();}
-  function pstcGuessedBefore(earlier,role,name){
-    const key=pstcNameKey(name);if(!key||(role!=="playerOne"&&role!=="playerTwo")||!Array.isArray(earlier))return false;
-    return earlier.some(verdicts=>Array.isArray(verdicts?.[role])&&verdicts[role].some(row=>row&&row.release===true&&pstcNameKey(row.name)===key));
+  function pstcSavedShot(hits,k,role){const h=hits&&hits[k]&&hits[k][role];if(!h||typeof h!=="object"||h.fired!==true||typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>14)return null;return h.hitName.trim();}
+  function pstcRouletteBlocked(earlier,hits,season,role){
+    const out=new Map();if((role!=="playerOne"&&role!=="playerTwo")||!Number.isInteger(season)||season<1)return out;
+    for(let k=1;k<=season;k+=1){const name=pstcSavedShot(hits,k,role),key=pstcNameKey(name);if(key&&!out.has(key))out.set(key,Object.freeze({name,reason:"shot",season:k}));}
+    for(let k=1;k<season;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];if(Array.isArray(rows))for(const row of rows){const name=row&&row.release===true&&typeof row.name==="string"?row.name.trim():"",key=pstcNameKey(name);if(key&&!out.has(key))out.set(key,Object.freeze({name,reason:"guessed",season:k}));}}
+    return out;
   }
-  // The earlier seasons' verdicts already kept on this phone for the roulette boards (no read). A Showdown from before
-  // Roster Roulette, or a season not kept here, refuses nothing.
-  function pstcIsGuessedBefore(role,name){
-    try{const step=root.CareerModeRosterRouletteStep,request=pstcRequestContext(),at=pstcSetupState()?.setupUpdatedAtMs;
-      if(!step||!Number.isFinite(step.fromMs)||!request||!Number.isFinite(at)||at<step.fromMs)return false;
-      const earlier=[];for(let season=1;season<request.seasonNumber;season+=1){const kept=pstcKeptVerdicts(request.rivalryId,season);if(kept)earlier.push(kept);}
-      return pstcGuessedBefore(earlier,role,name);}
-    catch(_error){return false;}
+  // The data for it, from this phone first: the verdicts and saved spins the roulette kept here, and this manager's own outcome
+  // of this season's spin. A phone that never ran this Showdown's roulette (a fresh browser after the window opened) reads what
+  // it misses with the roulette's own plain gets (pstcRouletteVerdicts; for this season the spin record only) and keeps it, so
+  // the next LOCK reads nothing. A Showdown from before Roster Roulette refuses nothing and reads nothing.
+  const PSTC_BLOCKED_CHECK_TEXT="Your signings could not be checked against the roulette. Check the connection and tap LOCK again.";
+  let blockedMemo=null;
+  async function pstcCurrentHits(request,role){
+    const kept=pstcKeptHits(request.rivalryId,request.seasonNumber);if(kept)return kept;
+    const own=pstcPendingOutcome(request,role);if(own)return {[role]:own};
+    if(typeof provider?.readRouletteSeason!=="function")pstcFail("TRANSFER_ROULETTE_CHECK_FAILED",PSTC_BLOCKED_CHECK_TEXT);
+    const result=await provider.readRouletteSeason({...await pstcRouletteServices(),rivalryId:request.rivalryId,seasonNumber:request.seasonNumber,managerRole:role,verdicts:false});
+    if(!result||result.ok!==true)pstcFail("TRANSFER_ROULETTE_CHECK_FAILED",PSTC_BLOCKED_CHECK_TEXT);
+    return pstcKeepHits(request.rivalryId,request.seasonNumber,result.hits);
   }
-  function pstcBuildSignings(role){
+  async function pstcLoadBlocked(request,role){
+    const earlier=[null],hits=[null];
+    const results=await Promise.all(Array.from({length:request.seasonNumber-1},(_,i)=>pstcRouletteVerdicts(request,i+1)));
+    for(const result of results){if(!result||result.ok!==true)pstcFail("TRANSFER_ROULETTE_CHECK_FAILED",PSTC_BLOCKED_CHECK_TEXT);earlier.push(result.verdicts);hits.push(result.hits||null);}
+    hits[request.seasonNumber]=await pstcCurrentHits(request,role);
+    return pstcRouletteBlocked(earlier,hits,request.seasonNumber,role);
+  }
+  function pstcBlockedNow(request=pstcRequestContext(),role=view?.managerRole){
+    const at=pstcSetupState()?.setupUpdatedAtMs,from=provider?.rouletteFromMs;
+    if(!request||!role||!Number.isInteger(request.seasonNumber)||!Number.isFinite(at)||!Number.isFinite(from)||at<from)return Promise.resolve(new Map());
+    const key=`${request.key}|${role}`;if(blockedMemo&&blockedMemo.key===key)return blockedMemo.run;
+    const run=pstcLoadBlocked(request,role);blockedMemo={key,run};
+    run.catch(()=>{if(blockedMemo&&blockedMemo.run===run)blockedMemo=null;});
+    return run;
+  }
+  // A refusal the manager can act on: shown word for word (a hyphenated name never turns it into the generic error).
+  function pstcRefuse(code,message){const error=new Error(message);error.code=code;error.plain=true;throw error;}
+  function pstcBuildSignings(role,blocked=null){
     const prefix=pstcRolePrefix(role),rows=[];
-    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player. He is a free extra signing that a guess can never release, so don't enter him here.`);if(pstcIsGuessedBefore(role,player))pstcFail("TRANSFER_SIGNING_GUESSED_BEFORE",`Signing ${i}: ${player} was guessed by your rival in an earlier season and released. A guessed player can never be signed again.`);const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;rows.push(row);}
+    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He can't come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player. He is a free extra signing that a guess can never release, so don't enter him here.`);const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;rows.push(row);}
     return rows;
   }
   function pstcSyncGuessValue(type,value,editable){
@@ -720,7 +750,7 @@
     if(id==="startTransferTimer"){if(pstcSpinsMissing().length)return false;return pstcMutate("startWindow");}
     if(id==="endTransferTimer")return pstcMutate("requestEndWindow");
     if(id==="completeTransferChallenge"){
-      const phase=view?.state?.phase,role=view?.managerRole;if(phase==="GUESS_ENTRY"){const guesses=pstcBuildGuesses(role);if(!await pstcConfirmPartialLock(guesses.length,"guesses"))return false;return pstcMutate("lockGuesses",{guesses});}if(phase==="SIGNING_ENTRY"){const signings=pstcBuildSignings(role);if(!await pstcConfirmPartialLock(signings.length,"signings"))return false;return pstcMutate("lockSignings",{signings});}pstcFail("TRANSFER_PHASE_INVALID");
+      const phase=view?.state?.phase,role=view?.managerRole;if(phase==="GUESS_ENTRY"){const guesses=pstcBuildGuesses(role);if(!await pstcConfirmPartialLock(guesses.length,"guesses"))return false;return pstcMutate("lockGuesses",{guesses});}if(phase==="SIGNING_ENTRY"){const signings=pstcBuildSignings(role,await pstcBlockedNow(pstcRequestContext(),role));if(!await pstcConfirmPartialLock(signings.length,"signings"))return false;return pstcMutate("lockSignings",{signings});}pstcFail("TRANSFER_PHASE_INVALID");
     }
     if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}
     return false;
@@ -748,7 +778,7 @@
     return true;
   };
   // r87: a form mistake caught on this phone is shown on the card only; a second toast covered the signing rows on phones.
-  function pstcFormMistake(error){return Boolean(error)&&error.providerResult!==true&&(error.code==="TRANSFER_SIGNINGS_INVALID"||error.code==="TRANSFER_GUESSES_INVALID");}
+  function pstcFormMistake(error){return Boolean(error)&&error.providerResult!==true&&(error.code==="TRANSFER_SIGNINGS_INVALID"||error.code==="TRANSFER_GUESSES_INVALID"||error.plain===true);}
   async function pstcTick(light=false){
     if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;
     const currentKey=pstcCurrentContextKey();if(viewContextKey&&(!currentKey||viewContextKey!==currentKey))pstcClearCachedContext();
@@ -807,5 +837,5 @@
   }
   function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange);root.document.addEventListener("change",pstcSigningDraftChange);if(typeof root.addEventListener==="function")root.addEventListener("storage",pstcSigningDraftStorage);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("online",pstcVisibilityChange);root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",guessedBefore:pstcGuessedBefore,productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",rouletteBlocked:pstcRouletteBlocked,nameKey:pstcNameKey,blockedSignings:async()=>[...(await pstcBlockedNow()).values()],productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView});
 });

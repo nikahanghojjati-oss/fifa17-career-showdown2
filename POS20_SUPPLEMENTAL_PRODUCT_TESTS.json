@@ -2914,6 +2914,35 @@
         "^tests/contracts/r89\\-chamber\\-men\\-3d\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-continue-career-browser-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMenStep|iconGuessStep|menuExperience|clubAssignment|onlinePlayerIdentity)\\.js$",
+        "^css/v10Club\\.css$",
+        "^visual-assets/v10_1/club/club\\.css$",
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^tests/contracts/r88\\-continue\\-career\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-chamber-bullets-scene-browser-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMen|rosterRoulette|rosterRouletteStep)\\.js$",
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r88\\-chamber\\-bullets\\-scene\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-lock-refusals-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedTransferChallenge|rosterRoulette)\\.js$",
+        "^data/(fifa17Players|rosterSquads)\\.js$",
+        "^tests/contracts/r88\\-lock\\-refusals\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

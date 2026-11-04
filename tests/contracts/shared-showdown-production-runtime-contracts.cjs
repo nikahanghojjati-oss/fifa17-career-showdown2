@@ -29,7 +29,8 @@ const runtimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[
 const previousRuntimeRevision=(worker.match(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/)||[])[1];
 const packageVersion=JSON.parse(fs.readFileSync('package.json','utf8')).version;
 assert.match(runtimeRevision||'',new RegExp(`^${packageVersion.replace(/\./g,'\\.')}-r[1-9]\\d*$`),'SSJR production runtime must use the current application version as its whole-shell identity.');
-assert.match(previousRuntimeRevision||'',/^1\.9\.[1-9]\d*-r[1-9]\d*$/,'SSJR production runtime must retain one v1.9.x previous whole-shell identity.');
+// 2.1.0 (r88): the retained previous whole shell is 2.0.0-r87, so the recovery identity is no longer a v1.9.x one.
+assert.match(previousRuntimeRevision||'',/^\d+\.\d+\.\d+-r[1-9]\d*$/,'SSJR production runtime must retain one previous whole-shell identity.');
 const runtimeGeneration=Number(runtimeRevision.match(/-r(\d+)$/)[1]);
 const previousGeneration=Number(previousRuntimeRevision.match(/-r(\d+)$/)[1]);
 const releasePath=runtimeGeneration===1?`RELEASE_V${packageVersion}.md`:`RELEASE_V${packageVersion}_R${runtimeGeneration}.md`;
