@@ -633,7 +633,9 @@ async function fillSeasonResult(m,prefix,result){
     const tick=m.page.locator(`#${prefix}Sacked`);
     const shown=await tick.isVisible().catch(()=>false);
     await check(m,`${showdownNow}.S${seasonNow}.sacked.tick`,"the \"I was sacked this season\" tick is on the manager's own Season Results card",shown,"tick not visible",{screen:"Shared Season Results"});
+    if(shown&&SACKED){await tick.scrollIntoViewIfNeeded().catch(()=>{});await shot(m,`${showdownNow}-S${seasonNow}-sacked-entry-unticked`);}
     if(shown)await tick.setChecked(result.sacked===true);
+    if(shown&&SACKED&&result.sacked===true)await shot(m,`${showdownNow}-S${seasonNow}-sacked-entry-ticked`);
   }
 }
 // PUBLISH: one tap, or for a sacked result two (the first only asks again; nothing is published until the second).
@@ -659,6 +661,7 @@ async function publish(m){
   await prepareReview(m);
   await tapPublish(m);
   await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
+  if(SACKED){await m.page.waitForTimeout(800);await shot(m,`${showdownNow}-S${seasonNow}-sacked-published`);}
 }
 // The publish tap with no connection (outage "publish"). While offline the screen may show progress or an error, never
 // "published" unless Firebase really has the result; back online the same typed result publishes with at most one more tap.
