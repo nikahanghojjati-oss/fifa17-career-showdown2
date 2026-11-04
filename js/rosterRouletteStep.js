@@ -93,6 +93,9 @@
   }
   // A choice panel: resolves with the id of the button pressed. The card takes over from the loading screen; TRY AGAIN brings
   // the loading screen back over the card until the next card or the scene is ready (Reus Gate, Fable F2-13).
+  // The other buttons are .compactButton.rrStepBack (the .backButton look), never .backButton: the app's smart back
+  // (js/screens.js) takes every .backButton click before the button hears it, so BACK and CONTINUE WITH X'S SAVED SPIN never
+  // answered the card (2.0.1).
   function rrsAsk(ctx,{heading,label,lines=[],note="",buttons}){
     return new Promise(resolve=>{
       const {body}=rrsPanel(ctx,heading,label);rrsLoadingOff();
@@ -101,7 +104,7 @@
       const row=rrsEl("div","rrStepActions");
       // Fable F11-12: one answer per card; the buttons go quiet at once (saving the spin can take a few seconds after GO).
       const pressed=[];
-      for(const b of buttons){const button=rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"backButton",()=>{for(const other of pressed)other.disabled=true;if(b.id==="retry")rrsLoadingOn();resolve(b.id);});pressed.push(button);row.append(button);}
+      for(const b of buttons){const button=rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"compactButton rrStepBack",()=>{for(const other of pressed)other.disabled=true;if(b.id==="retry")rrsLoadingOn();resolve(b.id);});pressed.push(button);row.append(button);}
       body.append(row);row.querySelector("button")?.focus();
     });
   }
@@ -218,7 +221,7 @@
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
       // The whole spin plan (red team R87-C-06): the scene loads bulletChamber, stops on stopChamber and aims at hitSlot
       // (a safe turn at aimSlot), so both phones show the same chambers and the same player.
-      const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null,targetLabel:turn.player?rrsPlayerLabel(turn.player):null,targetNumber:turn.player?rrsPlayerFacts(turn.player).number:null,targetPosition:turn.player?rrsPlayerFacts(turn.player).position:null,targetRating:turn.player?rrsPlayerFacts(turn.player).rating:null,bulletChamber:turn.bulletChamber,stopChamber:turn.stopChamber,hitSlot:turn.hitSlot,aimSlot:turn.aimSlot}));
+      const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null,targetLabel:turn.player?rrsPlayerLabel(turn.player):null,targetNumber:turn.player?rrsPlayerFacts(turn.player).number:null,targetPosition:turn.player?rrsPlayerFacts(turn.player).position:null,targetRating:turn.player?rrsPlayerFacts(turn.player).rating:null,bulletChamber:turn.bulletChamber,stopChamber:turn.stopChamber,hitSlot:turn.hitSlot,aimSlot:turn.aimSlot,loadedChambers:Array.isArray(turn.loadedChambers)?[...turn.loadedChambers]:null}));
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns,seed:rrsSeed(ctx)},root.location.origin);
       // Red team RT5-FLOW-01: the stage stays hidden until the page says it took the setup ("cms-rr-armed"). A page that
       // drops it (its squads file failed) or never answers is removed after ARMED_WAIT_MS and the result panel shows.
@@ -248,6 +251,11 @@
     return parts.length?`${p.name} (${parts.join(", ")})`:String(p.name);
   }
   function rrsOutcomeLine(turn){return turn.fired?`${NAMES[turn.role]} lost ${rrsPlayerLabel(turn.player)}.`:`${NAMES[turn.role]}: empty chamber. Squad safe.`;}
+  // r88 Chamber Men: how many live rounds each cylinder held, and whose goals loaded them.
+  function rrsChamberLine(turn){
+    const live=Array.isArray(turn.loadedChambers)?turn.loadedChambers.length:null;if(live===null)return null;
+    return `${NAMES[turn.role]}'s cylinder held ${live} live ${live===1?"round":"rounds"} of 7 (${NAMES[rrsOther(turn.role)]}'s Chamber Men goals).`;
+  }
   // F2-19 (Fable job 2): a kept signing the board rules keep off is said in one line, never dropped silently. Signings are known
   // by name only, so a name the roulette shot, a Special Player's, or a guessed and released signing's keeps him off the board.
   const RRS_SKIP_WHY=Object.freeze({
@@ -261,7 +269,7 @@
   }
   async function rrsResult(ctx,plan){
     const mine=plan.turns.find(turn=>turn.role===ctx.managerRole);
-    const lines=[...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
+    const lines=[...plan.turns.map(rrsChamberLine).filter(Boolean),...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
         note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the Transfer War. The game can't do it for you.`,
@@ -299,13 +307,35 @@
     }
   }
 
+  // Fable F17-01: an earlier season of a Chamber Men Showdown whose spin marks hold no saved outcome for a manager (the roulette
+  // was switched off that day, or the outcome was lost before the mark went in) replays from that season's own shootout: its
+  // cylinders (this phone's kept copy, else one read), or one bullet when that season has no finished shootout (Chamber Men was
+  // switched off then, so its roulette spun one bullet). Seasons with both outcomes saved read nothing. Returns the chambers for
+  // the engine; null when he went back to Showdown Home from a failed read.
+  async function rrsEarlierChambers(ctx,engine,hits,chamber){
+    const chambers={...(chamber.chambers||{})};
+    for(let k=1;k<ctx.season;k+=1){
+      if(chambers[k]||ROLES.every(role=>engine.savedHit(hits,k,role))||typeof chamber.earlier!=="function")continue;
+      for(;;){
+        let result=null;try{result=await chamber.earlier(k);}catch(_error){result=null;}
+        if(result&&result.ok===true&&result.chambers){chambers[k]=result.chambers;break;}
+        if(result&&result.reason==="NOT_FINISHED"){chambers[k]=Object.freeze({oneBullet:true});break;}
+        if(result&&result.reason==="BAD_RECORD")break;// no plan: the card names the season
+        const choice=await rrsAsk(ctx,{heading:"Building the boards",label:"Building the boards",lines:[`Season ${k}'s Chamber Men result could not be read, and this season's boards replay Season ${k}'s spin from it. Try again when the connection is back.`],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+        if(choice==="back")return null;
+      }
+    }
+    return chambers;
+  }
   // Fable F2-04: why no plan could be built, in words a manager can act on (the engine only answers null).
-  function rrsNoPlanReason(ctx,engine,history){
+  function rrsNoPlanReason(ctx,engine,history,earlier){
     for(const role of ROLES){
       const club=ctx.clubs[role];
       if(!engine.board(club)||!root.CareerModeFifa17Players?.clubs?.[club])return `There is no FIFA 17 squad for ${club} in this version of the app, so this season's boards cannot be built. Nothing was spun or saved.`;
     }
     for(let k=1;k<ctx.season;k+=1)if(!history[k]||!ROLES.every(role=>Array.isArray(history[k][role])))return `Season ${k}'s Transfer War verdicts could not be used to build this season's boards. Nothing was spun or saved.`;
+    // Fable F17-01: a Chamber Men season with neither a saved spin nor a usable shootout.
+    if(earlier)for(let k=1;k<ctx.season;k+=1)if(!earlier.chambers[k]&&!ROLES.every(role=>engine.savedHit(earlier.hits,k,role)))return `Season ${k}'s roulette spin was not saved and its Chamber Men result could not be used to replay it, so this season's boards cannot be built. Nothing was spun or saved.`;
     return "This season's boards could not be built. Nothing was spun or saved.";
   }
   async function rrsRun(ctx){
@@ -329,9 +359,12 @@
     // does not know is named before the engine runs (Fable S4); no plan is never marked done (Fable F2-04): the window stays
     // shut and the card says why, with the way back to Showdown Home.
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
-    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits}):null;
+    // r88 Chamber Men: this season's two cylinders from the shootout (ctx.chamberMen), never one bullet in such a Showdown.
+    const chamber=ctx.chamberMen&&ctx.chamberMen.active===true?ctx.chamberMen:null;
+    const chambers=chamber&&known?await rrsEarlierChambers(ctx,engine,hits,chamber):null;if(chamber&&known&&!chambers)return false;
+    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chambers:null}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
-      const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history);
+      const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history,chamber?{chambers,hits}:null);
       await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The Transfer War stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
       return false;
     }
@@ -391,5 +424,5 @@
   // Fable F2-11: a new open forgets an earlier BACK, so a later failure that never reached the roulette is not read as one.
   function rrsForgetHome(){leftForHome=false;return true;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
 });

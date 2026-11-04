@@ -1,0 +1,748 @@
+/* =====================================================================================================
+   THE CHRONICLE · CLAUDE EDITION (Team G, r88 / 2.1.0)
+   One design layer for both pages of the Story site (index.html, book.html). Loaded last, screen only, so the
+   original GPT-built sheets stay untouched and printing keeps its own rules.
+
+   The idea: a museum monograph bound in black-and-gold marble. Serif display type set like a printed book,
+   condensed small-caps labels like a match programme, gold leaf used sparingly as hairlines and foil numerals,
+   and every photograph shown as a framed plate with its caption beside it. Nothing is laid over a face and
+   nothing is dimmed: no scrims, no shades, no see-through panels.
+
+   Type      Playfair Display 900/700 (titles, numerals) · Playfair 400 italic (gold accent lines)
+             Old Standard TT (reading prose) · Barlow Condensed 600/700 (labels) · Barlow 400/600 (interface)
+   Surface   near-black page, marble panels (assets/marble.webp) with the house 1px gold edge and the
+             thin hairline 3px inside, like the game's r78 marble panel
+   Rhythm    8px grid · sections 128/96/72px · reading measure 66 characters
+   Owner     layout, type and styles only. Words and data stay in the content files.
+   ===================================================================================================== */
+
+@font-face{font-family:"Playfair Display";src:url("assets/playfair-display-latin-900-normal.woff2") format("woff2");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("assets/playfair-display-latin-700-normal.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url("assets/playfair-display-latin-400-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Old Standard TT";src:url("assets/old-standard-tt-latin-400-normal.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Old Standard TT";src:url("assets/old-standard-tt-latin-400-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Old Standard TT";src:url("assets/old-standard-tt-latin-700-normal.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+/* book.css asks for 'Barlow Condensed' but style.css only declared "Condensed": the book fell back to Arial */
+@font-face{font-family:"Barlow Condensed";src:url("assets/barlow-condensed-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Barlow Condensed";src:url("assets/barlow-condensed-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+
+@property --ed-turn{syntax:"<angle>";inherits:false;initial-value:0deg}
+
+@media screen{
+
+/* ---------- 1 · Tokens ---------------------------------------------------------------------------------- */
+:root{
+  --ed-page:#080807;
+  --ed-page-2:#0c0b09;
+  --ed-stone:#0f0e0b;
+  --ed-ivory:#f3ecdc;
+  --ed-ivory-2:#cfc5ae;
+  --ed-ivory-3:#a99f88;
+  --ed-gold:#e4bf6c;
+  --ed-gold-hi:#f8e2a6;
+  --ed-gold-lo:#9b7834;
+  --ed-hair:rgba(228,191,108,.24);
+  --ed-hair-2:rgba(228,191,108,.5);
+  --ed-foil:linear-gradient(176deg,#fff0c4 0%,#f0cd7c 34%,#c9973c 66%,#efce80 100%);
+  --ed-marble:url("assets/marble.webp");
+  --ed-diamond:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 0 10 5 5 10 0 5z' fill='%23e4bf6c'/%3E%3C/svg%3E");
+  --ed-serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --ed-text:"Old Standard TT",Georgia,"Times New Roman",serif;
+  --ed-label:"Barlow Condensed",Condensed,"Arial Narrow",sans-serif;
+  --ed-sans:Barlow,system-ui,sans-serif;
+  --ed-ease:cubic-bezier(.22,1,.36,1);
+  /* the original sheets read these */
+  --bg:var(--ed-page);--panel:var(--ed-stone);--gold:var(--ed-gold);--gold-soft:#cfa95c;--text:var(--ed-ivory);
+  --muted:var(--ed-ivory-2);--line:rgba(228,191,108,.18);--display:var(--ed-serif);--body:var(--ed-sans);
+}
+.book-body{--paper:var(--ed-stone);--ink:var(--ed-ivory);--sub:var(--ed-ivory-2);--rule:rgba(228,191,108,.2)}
+.book-body[data-theme=light]{
+  --paper:#f8f2e4;--ink:#1d1a14;--sub:#55503f;--rule:#d8caa9;--gold:#83601d;--text:#1d1a14;--muted:#55503f;
+  --ed-ivory:#1d1a14;--ed-ivory-2:#55503f;--ed-ivory-3:#6d6656;--ed-gold:#83601d;--ed-gold-hi:#5e420f;--ed-hair:rgba(131,96,29,.28);--ed-hair-2:rgba(131,96,29,.55);
+  --ed-foil:linear-gradient(176deg,#9b7228 0%,#6f4e12 60%,#8d671f 100%);--line:#d8caa9;
+  background:#efe6d3;
+}
+
+/* the header bar stays black marble in the light reading theme */
+.book-body[data-theme=light] .book-header{--ed-ivory:#f3ecdc;--ed-ivory-2:#cfc5ae;--ed-ivory-3:#a99f88;--ed-gold:#e4bf6c;--ed-gold-hi:#f8e2a6;--gold:#e4bf6c;
+  --ed-hair:rgba(228,191,108,.24);--ed-hair-2:rgba(228,191,108,.5);--ed-foil:linear-gradient(176deg,#fff0c4 0%,#f0cd7c 34%,#c9973c 66%,#efce80 100%);color:#f3ecdc}
+
+/* ---------- 2 · Page, type and the reading voice ------------------------------------------------------------ */
+html{scroll-padding-top:96px}
+body{background:var(--ed-page);color:var(--ed-ivory);font-family:var(--ed-sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-kerning:normal;font-variant-numeric:lining-nums}
+::selection{background:#e4bf6c;color:#120f08}
+h1,h2,h3{font-family:var(--ed-serif);font-weight:900;letter-spacing:-.012em;color:var(--ed-ivory);font-feature-settings:"lnum" 1,"kern" 1}
+h2{font-size:clamp(40px,4.6vw,68px);line-height:1.04;letter-spacing:-.018em}
+h3{font-weight:700;font-size:28px;line-height:1.18}
+/* the second, gold line of every title becomes a gold italic voice */
+h1 em,h2 span,h3 span,h2 em,.sidebar-title em,.book-main h1 span{font-family:var(--ed-serif);font-style:italic;font-weight:400;color:var(--ed-gold);letter-spacing:-.01em}
+.eyebrow,.small-label,.book-main .eyebrow{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--ed-gold);line-height:1.5}
+.section-heading .eyebrow,.section>.eyebrow,.scoring-intro>.eyebrow,.book-portal-copy>.eyebrow,.latest-overview .eyebrow:first-child,.current-home-evidence .eyebrow:first-child{display:flex;align-items:center;gap:14px}
+.section-heading .eyebrow:before,.scoring-intro>.eyebrow:before,.book-portal-copy>.eyebrow:before,.latest-overview>div>.eyebrow:first-child:before,.current-home-evidence>div>.eyebrow:first-child:before{
+  content:"";flex:0 0 auto;width:34px;height:7px;
+  background:linear-gradient(var(--ed-gold),var(--ed-gold)) left center/26px 1px no-repeat,
+             var(--ed-diamond) right center/7px 7px no-repeat}
+p{margin:0 0 22px}
+.lead,.intro,.book-intro{font-family:var(--ed-text);font-size:20px;line-height:1.7;color:var(--ed-ivory-2);max-width:40em}
+.origin-copy p,.history-essay p{font-family:var(--ed-text);font-size:18.5px;line-height:1.78;color:var(--ed-ivory-2)}
+.origin-copy .lead,.history-essay .lead{color:var(--ed-ivory);font-size:21px}
+.origin-copy .lead:first-letter,.history-essay .lead:first-letter{float:left;font-family:var(--ed-serif);font-weight:900;font-size:4.1em;line-height:.8;padding:.08em .12em 0 0;color:var(--ed-gold)}
+.section-aside,.scope-note,.portal-scope,.archive-note,.asset-note{color:var(--ed-ivory-3);font-size:14px;line-height:1.6}
+a:hover{color:var(--ed-gold-hi)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--ed-gold);outline-offset:4px}
+.book-main:focus,.book-main:focus-visible{outline:none}
+.source-link{font-family:var(--ed-label);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--ed-gold);border-bottom:1px solid var(--ed-hair-2);padding-bottom:3px}
+.source-link:hover{color:var(--ed-gold-hi);border-color:var(--ed-gold)}
+.reading-progress{height:2px;background:var(--ed-foil)}
+strong{font-weight:600;color:var(--ed-ivory)}
+
+/* ---------- 3 · Buttons --------------------------------------------------------------------------------------- */
+.button,.book-button.gold{
+  display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:52px;padding:0 24px;
+  background:var(--ed-foil);color:#140f05;border:1px solid #f4d993;border-radius:2px;
+  font-family:var(--ed-label);font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;
+  box-shadow:inset 0 1px 0 rgba(255,250,230,.75),inset 0 0 0 3px rgba(255,240,200,.18),0 10px 24px rgba(0,0,0,.4);
+  transition:transform .18s var(--ed-ease),box-shadow .18s var(--ed-ease),filter .18s}
+.button:hover,.book-button.gold:hover{background:var(--ed-foil);color:#140f05;transform:translateY(-2px);filter:saturate(1.08) brightness(1.05);box-shadow:inset 0 1px 0 rgba(255,250,230,.8),inset 0 0 0 3px rgba(255,240,200,.22),0 14px 30px rgba(0,0,0,.5)}
+.button.secondary,.book-button,.text-button.bordered{
+  background:transparent;color:var(--ed-gold);border:1px solid var(--ed-hair-2);box-shadow:none;filter:none}
+.button.secondary:hover,.book-button:hover{background:rgba(228,191,108,.08);color:var(--ed-gold-hi);border-color:var(--ed-gold)}
+.book-button{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:0 18px;border-radius:2px;font-family:var(--ed-label);font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+.book-body[data-theme=light] .button,.book-body[data-theme=light] .book-button.gold{color:#fff8e6;border-color:#6f4e12;box-shadow:inset 0 1px 0 rgba(255,240,200,.35)}
+
+/* ---------- 4 · Marble panels (one treatment everywhere) -------------------------------------------------------- */
+.fact-strip,.timeline,.safety-line,.score-demo,.factory-detail,.physio,.now-note,.fact-sheet,.research-metrics article,
+.factory-snapshot article,.cohort-limits,.job-controls,.latest-overview-grid>a,.lesson-table-wrap,.worker-table-wrap,
+.architecture,.case-studies details,.origin-note,.reasoning-loop span,.gate-lanes>*,.repository-cadence>div:last-child,
+.current-home-evidence>div:last-child,.portal-archives a,.design-notes>div,
+.book-sidebar,.reading-path,.book-callout,.atlas-box,.invariant-card,.acceptance-domain,.record-excerpt,.stat-callout,
+.factory-stat-card,.method-grid article,.latest-metrics article,.latest-checkpoint,.historical-snapshot,.current-three article,
+.current-progress,.deep-event,.glossary-card,.train-jobs article,.current-donut,.current-score-chart,.current-growth-chart,
+.update-mini-timeline a,.update-budget,.update-evolution article,.book-counts>div,.number-card{
+  background-color:var(--ed-stone);background-image:var(--ed-marble);background-size:320px 320px;background-repeat:repeat;
+  border:1px solid var(--ed-hair);border-radius:2px;
+  box-shadow:inset 0 0 0 3px rgba(15,14,11,.92),inset 0 0 0 4px rgba(228,191,108,.16)}
+.book-body[data-theme=light] :is(.book-sidebar,.reading-path,.book-callout,.atlas-box,.invariant-card,.acceptance-domain,.record-excerpt,.stat-callout,
+.factory-stat-card,.method-grid article,.latest-metrics article,.latest-checkpoint,.historical-snapshot,.current-three article,
+.current-progress,.deep-event,.glossary-card,.train-jobs article,.current-donut,.current-score-chart,.current-growth-chart,
+.update-mini-timeline a,.update-budget,.update-evolution article,.book-counts>div,.number-card){
+  background-color:var(--paper);background-image:none;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px rgba(131,96,29,.18)}
+a.number-card,.latest-overview-grid>a,.portal-archives a,.update-mini-timeline a,.reading-path{transition:transform .2s var(--ed-ease),border-color .2s}
+a.number-card:hover,.latest-overview-grid>a:hover,.portal-archives a:hover,.update-mini-timeline a:hover,a.reading-path:hover{transform:translateY(-3px);border-color:var(--ed-hair-2)}
+
+/* foil numerals */
+.fact-strip strong,.latest-overview-grid strong,.portal-counts strong,.research-metrics strong,.factory-snapshot strong,.cohort-rate,
+.big-number,.book-counts strong,.number-value,.update-budget-number,.score-total output,.current-three h3,.portal-archives b{
+  font-family:var(--ed-serif);font-weight:900;letter-spacing:-.01em;font-feature-settings:"lnum" 1;
+  background:var(--ed-foil);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.cohort-rate>span,.big-number>span{-webkit-text-fill-color:var(--ed-ivory-3);color:var(--ed-ivory-3)}
+
+/* ---------- 5 · Navigation and the dispatch ribbon ----------------------------------------------------------------- */
+.nav,.book-header{background:var(--ed-page);border-bottom:1px solid var(--ed-hair);box-shadow:0 3px 0 -2px rgba(228,191,108,.12)}
+.nav{height:80px;padding:0 clamp(24px,4vw,56px)}
+.monogram{font-family:var(--ed-serif);font-weight:900;font-style:normal;letter-spacing:-.04em;font-size:30px;background:var(--ed-foil);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.monogram span{font-size:15px;margin-left:1px}
+.brand-name,.book-brand>span:last-child{font-family:var(--ed-label);font-weight:700;font-size:15px;letter-spacing:.2em;color:var(--ed-ivory)}
+.brand-name>span,.book-brand small{font-family:var(--ed-label);font-weight:600;font-size:11px;letter-spacing:.22em;color:var(--ed-ivory-3)}
+.nav nav{gap:clamp(16px,1.8vw,30px);min-width:0}
+@media(max-width:1520px){.nav .nav-repo{display:none}}
+@media(max-width:1280px) and (min-width:761px){.nav nav a:nth-child(n+4){display:none}}
+@media(max-width:1000px) and (min-width:761px){.nav nav a:nth-child(n+3){display:none}.nav{gap:24px}}
+.nav nav a{position:relative;white-space:nowrap;font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ed-ivory-2)}
+.nav nav a:after{content:"";position:absolute;left:0;right:0;bottom:6px;height:1px;background:var(--ed-gold);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ed-ease)}
+.nav nav a:hover:after,.nav nav a.active:after{transform:scaleX(1)}
+.nav-repo{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ed-ivory-3)}
+.game-return{font-family:var(--ed-label);font-weight:700;font-size:13px;letter-spacing:.18em;border-color:var(--ed-hair-2);border-radius:2px;min-height:42px}
+.game-return:hover,.game-return:focus-visible{background:var(--ed-foil);border-color:#f4d993;color:#140f05}
+/* the release line under the bar becomes a dispatch ribbon */
+.nav+p{margin:0;display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;
+  background:var(--ed-page-2) var(--ed-marble) 0 0/320px 320px;border-bottom:1px solid var(--ed-hair)}
+.nav+p:before{content:"Latest dispatch";font-family:var(--ed-label);font-weight:700;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#140f05;background:var(--ed-foil);padding:3px 10px 2px;border-radius:1px}
+.nav+p>a{font-variant-numeric:lining-nums;font-family:var(--ed-serif);font-style:italic;font-weight:400;font-size:18px;line-height:1.45;color:var(--ed-ivory)}
+.nav+p>a:hover{color:var(--ed-gold-hi)}
+
+/* ---------- 6 · Frontispiece (the hero): text on marble, the managers in a framed plate ---------------------------- */
+.hero{height:auto;min-height:0;overflow:visible;isolation:auto;display:grid;
+  grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-rows:auto 1fr auto;column-gap:clamp(40px,5vw,88px);
+  max-width:1440px;margin:0 auto;padding:36px clamp(24px,4.4vw,64px) 44px;background:transparent}
+.hero:before{content:"";position:absolute;left:0;right:0;z-index:-1;height:0}
+.hero-shade,.hero-grain{display:none}
+.hero-top{position:static;grid-column:1/-1;grid-row:1;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+  padding-bottom:14px;margin-bottom:clamp(28px,4vh,48px);border-bottom:1px solid var(--ed-hair)}
+.hero-top>.eyebrow,.hero-top .edition{margin:0;font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.24em;color:var(--ed-ivory-3);text-align:right}
+.hero-top>.eyebrow{color:var(--ed-gold);text-align:left}
+.hero-art{position:relative;z-index:auto;grid-column:2;grid-row:2;width:100%;height:100%;min-height:420px;max-height:640px;align-self:stretch;
+  object-fit:cover;object-position:62% 28%;border:1px solid var(--ed-hair-2);border-radius:1px;
+  box-shadow:0 0 0 7px var(--ed-page),0 0 0 8px rgba(228,191,108,.34),0 34px 70px rgba(0,0,0,.65)}
+.hero-copy{position:static;grid-column:1;grid-row:2;align-self:center;width:auto;max-width:560px;padding:8px 0}
+.hero-copy .eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:26px;font-size:13px;letter-spacing:.24em}
+.hero-copy .gold-line{width:40px;height:1px;background:var(--ed-gold)}
+.hero-copy h1{font-size:clamp(58px,6.4vw,108px);line-height:.96;letter-spacing:-.025em;margin:0}
+.hero-copy h1 em{display:inline-block;font-size:1em;margin-top:.04em;letter-spacing:-.02em}
+.hero-copy>p:not(.eyebrow){font-family:var(--ed-text);font-size:19px;line-height:1.7;color:var(--ed-ivory-2);max-width:30em;margin:30px 0 34px}
+.hero-bottom{position:static;grid-column:1/-1;grid-row:3;display:flex;justify-content:space-between;gap:20px;margin-top:34px;padding-top:14px;
+  border-top:1px solid var(--ed-hair);font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.24em;color:var(--ed-ivory-3)}
+.hero-bottom b{color:var(--ed-gold)}
+
+/* ---------- 6b · The prologue: the first page of the novel ----------------------------------------------------------- */
+.prologue{max-width:820px;margin:0 auto;padding:clamp(88px,10vw,140px) clamp(20px,4vw,40px) clamp(72px,8vw,112px);text-align:center}
+.prologue-mark{width:160px;height:11px;margin:0 auto 22px;
+  background:var(--ed-diamond) center/11px 11px no-repeat,
+             linear-gradient(90deg,transparent,var(--ed-hair-2)) calc(50% - 40px) center/56px 1px no-repeat,
+             linear-gradient(90deg,var(--ed-hair-2),transparent) calc(50% + 40px) center/56px 1px no-repeat}
+.prologue .eyebrow{font-size:14px;letter-spacing:.42em;margin-bottom:18px}
+.prologue h2{font-size:clamp(44px,5.6vw,76px);line-height:1.02;text-wrap:balance}
+.prologue-epigraph{margin:40px auto 52px;max-width:30em;padding:0}
+.prologue-epigraph p{font-family:var(--ed-serif);font-style:italic;font-size:21px;line-height:1.55;color:var(--ed-ivory-2);margin:0 0 10px}
+.prologue-epigraph cite{font-family:var(--ed-label);font-weight:600;font-style:normal;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ed-gold)}
+.prologue-epigraph cite:before{content:"— "}
+.prologue-text{text-align:left;max-width:64ch;margin:0 auto}
+.prologue-text p{font-family:var(--ed-text);font-size:21px;line-height:1.85;color:var(--ed-ivory);margin:0;hyphens:auto;-webkit-hyphens:auto}
+.prologue-text p+p{text-indent:1.6em}
+.prologue-text p:first-child:first-letter{float:left;font-family:var(--ed-serif);font-weight:900;font-size:4.4em;line-height:.78;padding:.1em .12em 0 0;color:var(--ed-gold)}
+.prologue-text p:first-child:first-line{font-variant:small-caps;letter-spacing:.05em}
+.prologue-text .prologue-turn{text-indent:0;margin-top:1.6em;text-align:center;font-family:var(--ed-serif);font-style:italic;font-size:22px;color:var(--ed-gold)}
+.prologue-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:40px}
+
+/* ---------- 6c · The dedication: Studio Small Axe, whose motto became the game's mentality ---------------------------- */
+.dedication{padding:0 clamp(16px,4vw,40px) clamp(88px,10vw,140px)}
+.dedication-leaf{position:relative;max-width:940px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(22px,6vw,84px);text-align:center;
+  background:var(--ed-marble) center/560px auto,var(--ed-stone);border:1px solid var(--ed-hair-2);border-radius:3px;
+  box-shadow:inset 0 0 0 6px rgba(15,14,11,.92),inset 0 0 0 7px rgba(228,191,108,.3),0 30px 70px rgba(0,0,0,.55)}
+.dedication-mark{display:flex;align-items:center;justify-content:center;gap:18px;margin:0 0 18px;color:var(--ed-gold)}
+.dedication-mark:before,.dedication-mark:after{content:"";width:72px;height:1px;background:linear-gradient(90deg,transparent,var(--ed-hair-2))}
+.dedication-mark:after{transform:scaleX(-1)}
+.dedication-mark svg{display:block;flex:none}
+.dedication .eyebrow{font-size:14px;letter-spacing:.42em;margin:0 0 26px;justify-content:center}
+.dedication .eyebrow:before{display:none}
+.dedication-motto{margin:0 auto 44px;padding:0}
+.dedication-motto p{margin:0 0 18px;font-family:var(--ed-serif);font-weight:900;font-style:italic;font-size:clamp(40px,6.4vw,82px);line-height:1.04;letter-spacing:-.015em;
+  background:var(--ed-foil);-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance}
+.dedication-motto cite{font-family:var(--ed-label);font-weight:600;font-style:normal;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--ed-gold)}
+.dedication-motto cite:before{content:"— "}
+.dedication h2{font-size:clamp(30px,3.6vw,46px);line-height:1.08;margin:0 auto 40px;max-width:20em;text-wrap:balance}
+.dedication-text{text-align:left;max-width:62ch;margin:0 auto}
+.dedication-text p{font-family:var(--ed-text);font-size:20px;line-height:1.85;color:var(--ed-ivory);margin:0;hyphens:auto;-webkit-hyphens:auto}
+.dedication-text p+p{text-indent:1.6em}
+.dedication-text p:first-child:first-letter{float:left;font-family:var(--ed-serif);font-weight:900;font-size:4.4em;line-height:.78;padding:.1em .12em 0 0;color:var(--ed-gold)}
+.dedication-text p:first-child:first-line{font-variant:small-caps;letter-spacing:.05em}
+.dedication-strokes{list-style:none;margin:48px auto 0;padding:26px 0 0;max-width:760px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--ed-hair)}
+.dedication-strokes li{display:grid;gap:8px;align-content:start;padding:0 14px;border-right:1px solid var(--ed-hair)}
+.dedication-strokes li:last-child{border-right:0}
+.dedication-strokes strong{font-family:var(--ed-serif);font-weight:900;font-size:46px;line-height:1;background:var(--ed-foil);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dedication-strokes span{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ed-ivory-3);line-height:1.4}
+.dedication-thanks{margin:44px 0 0;font-family:var(--ed-serif);font-style:italic;font-size:24px;color:var(--ed-gold)}
+@media(max-width:620px){
+  .dedication-leaf{box-shadow:inset 0 0 0 4px rgba(15,14,11,.92),inset 0 0 0 5px rgba(228,191,108,.3),0 20px 50px rgba(0,0,0,.55)}
+  .dedication-text p{font-size:18.5px;line-height:1.8}
+  .dedication-strokes{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px}
+  .dedication-strokes li:nth-child(2){border-right:0}
+  .dedication-strokes strong{font-size:40px}
+  .dedication-thanks{font-size:21px}
+}
+
+/* ---------- 7 · Sections, headings, and the gold thread between them ----------------------------------------------- */
+.section{max-width:1320px;padding:clamp(80px,9vw,128px) clamp(24px,4.4vw,64px)}
+.section-heading{margin-bottom:56px}
+h2+p,h2+.lead,h2+.intro{margin-top:26px}
+.section-heading h2,.scoring-intro h2,.book-portal-copy h2,.latest-overview h2,.current-home-evidence h2{margin-top:6px}
+.timeline-section,.milestone-section,.lessons-section,.factory-data-section,.architecture-section,.factory-section,.evidence-section,.archive-section,.origin,.observatory,.scoring-section,.current-home-evidence,.complete-book{
+  border-top:0;position:relative}
+.timeline-section:before,.milestone-section:before,.lessons-section:before,.factory-data-section:before,.architecture-section:before,
+.factory-section:before,.evidence-section:before,.archive-section:before,.origin:before,.observatory:before,.scoring-section:before,.current-home-evidence:before,.complete-book:before{
+  content:"";position:absolute;top:0;left:clamp(24px,4.4vw,64px);right:clamp(24px,4.4vw,64px);height:9px;
+  background:linear-gradient(90deg,transparent,var(--ed-hair-2) 30%,var(--ed-hair-2) 70%,transparent) center/100% 1px no-repeat,
+             var(--ed-diamond) center/9px 9px no-repeat}
+.status-pill{background:transparent;border:1px solid var(--ed-hair-2);color:var(--ed-gold);font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;border-radius:2px}
+
+/* latest overview + model evidence on the home page */
+.latest-overview,.complete-book{background:transparent}
+.latest-overview-grid{gap:14px}
+.latest-overview-grid>a{padding:26px 24px}
+.latest-overview-grid strong{font-size:clamp(46px,4.4vw,64px);line-height:1}
+.latest-overview-grid span,.fact-strip span,.portal-counts span,.book-counts span{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;color:var(--ed-ivory-3)}
+.current-home-evidence>div:last-child{padding:28px}
+.current-home-links a{font-family:var(--ed-text);font-size:17px;color:var(--ed-ivory);border-bottom:1px solid var(--ed-hair)}
+.current-home-links a:hover{color:var(--ed-gold-hi)}
+.home-worker-controls select,.archive-toolbar input,.job-controls select,.job-controls input,.book-header input,.book-header form button,
+.atlas-control select,.archive-controls select,.archive-controls input{background:#0a0907;border:1px solid var(--ed-hair);color:var(--ed-ivory);border-radius:2px}
+.home-worker-controls label,.job-controls label,.archive-toolbar label{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;color:var(--ed-gold)}
+.home-worker-row em,.cadence-row i,.bar-track span,.stat-bar-row>i em,.task-summary-row em,.current-progress-track i{background:var(--ed-foil)}
+
+/* fact strip: a stone plinth with four engraved figures */
+.fact-strip{max-width:1192px;margin:0 auto;padding:30px 36px;gap:0;border-radius:2px}
+.fact-strip>div{padding:6px 26px;border-right:1px solid var(--ed-hair)}
+.fact-strip>div:first-child{padding-left:0}
+.fact-strip strong{display:block;font-size:clamp(30px,3vw,44px);line-height:1.08}
+
+/* the jacket: a bound book with its plate above the title, never a title over the picture */
+.chronicle-jacket{background:var(--ed-stone) var(--ed-marble) 0 0/320px 320px;border:1px solid var(--ed-hair-2);display:flex;flex-direction:column;overflow:hidden;padding:14px;min-height:0;height:auto;isolation:isolate;
+  box-shadow:inset 0 0 0 3px rgba(15,14,11,.92),inset 0 0 0 4px rgba(228,191,108,.16),18px 22px 0 -10px #050504,18px 22px 0 -9px var(--ed-hair),0 30px 60px rgba(0,0,0,.55);
+  transition:transform .3s var(--ed-ease)}
+.chronicle-jacket:hover{transform:translateY(-4px) rotate(-.4deg)}
+.chronicle-jacket:after{display:none}
+.chronicle-jacket>img{position:relative;inset:auto;z-index:auto;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:50% 30%;border:1px solid var(--ed-hair)}
+.chronicle-jacket>span{position:static;transform:none}
+.jacket-eyebrow{order:1;margin:20px 10px 0;font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.24em;color:var(--ed-gold)}
+.jacket-title{order:2;margin:10px 10px 0;font-family:var(--ed-serif);font-weight:900;font-size:clamp(38px,3.6vw,54px);line-height:.98;letter-spacing:-.02em;color:var(--ed-ivory)}
+.jacket-title em{font-style:italic;font-weight:400;color:var(--ed-gold);font-family:var(--ed-serif)}
+.jacket-foot{order:3;display:flex;justify-content:space-between;gap:16px;margin:22px 10px 8px;padding-top:12px;border-top:1px solid var(--ed-hair);font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;color:var(--ed-ivory-3)}
+.jacket-foot span{color:var(--ed-gold)}
+.portal-counts strong{font-size:clamp(36px,3.4vw,52px);line-height:1.05}
+.portal-archives{gap:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+.portal-archives a{padding:16px 18px;font-family:var(--ed-label);font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ed-ivory-2)}
+.portal-archives b{font-size:26px;margin-right:6px;letter-spacing:0}
+.portal-volumes{gap:0;border-top:1px solid var(--ed-hair)}
+.portal-volumes a{font-family:var(--ed-serif);font-size:17px;font-weight:700;color:var(--ed-ivory-2);border-bottom:1px solid var(--ed-hair);padding:14px 0}
+.portal-volumes a:hover{color:var(--ed-gold-hi)}
+.chapter-links{border-top:1px solid var(--ed-hair);border-bottom:1px solid var(--ed-hair);background:var(--ed-page-2)}
+.chapter-links a,.chapter-links span{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+.chapter-links span{color:var(--ed-gold)}
+
+/* origin note */
+.origin-note{padding:28px 30px}
+.origin-note p{font-family:var(--ed-text);font-size:17px;color:var(--ed-ivory-2)}
+
+/* history tabs */
+.timeline{border-radius:2px;overflow:hidden}
+.chapter-tab{border-bottom:1px solid var(--ed-hair);color:var(--ed-ivory-2);transition:background .2s,color .2s}
+.chapter-tab .chapter-number{font-family:var(--ed-serif);font-weight:900;color:var(--ed-ivory-3)}
+.chapter-tab b{font-family:var(--ed-serif);font-weight:700;font-size:20px}
+.chapter-tab small{font-family:var(--ed-label);font-weight:600;font-size:11px;letter-spacing:.18em}
+.chapter-tab.active{background:linear-gradient(90deg,rgba(228,191,108,.14),rgba(228,191,108,.02));box-shadow:inset 3px 0 0 var(--ed-gold);color:var(--ed-ivory)}
+.chapter-tab:hover{background:rgba(228,191,108,.06)}
+.chapter-detail h3{font-size:clamp(30px,3vw,44px)}
+.chapter-detail p{font-family:var(--ed-text);font-size:18px;line-height:1.75}
+.chapter-detail blockquote{font-family:var(--ed-serif);font-style:italic;font-size:20px;line-height:1.55;border-left:2px solid var(--ed-gold)}
+
+/* repository numbers */
+.research-metrics{gap:14px}
+.research-metrics article{padding:26px 24px;transition:transform .2s var(--ed-ease)}
+.research-metrics article:hover{transform:translateY(-3px)}
+.research-metrics strong{font-size:clamp(40px,3.6vw,56px);line-height:1}
+.research-metrics span,.research-metrics small{font-family:var(--ed-label);font-weight:600;letter-spacing:.16em}
+.repository-cadence>div:last-child{padding:26px}
+.methodology{border-top:1px solid var(--ed-hair);border-bottom:1px solid var(--ed-hair)}
+.methodology summary{font-family:var(--ed-serif);font-weight:700;font-size:20px}
+
+/* the milestone ledger: one gold thread with a jewel at every moment */
+.ledger-filters button{background:transparent;border:1px solid var(--ed-hair);border-radius:2px;font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ed-ivory-2);min-height:44px}
+.ledger-filters button.active{background:var(--ed-foil);border-color:#f4d993;color:#140f05}
+.milestone-ledger{position:relative}
+.milestone-ledger:before{content:"";position:absolute;top:8px;bottom:8px;left:104px;width:1px;background:linear-gradient(var(--ed-hair-2),var(--ed-hair) 90%,transparent)}
+.milestone-ledger article{position:relative;grid-template-columns:82px 1fr 118px;gap:44px;border-bottom:1px solid rgba(228,191,108,.1)}
+.milestone-ledger article:before{content:"";position:absolute;left:100px;top:32px;width:9px;height:9px;transform:rotate(45deg);background:var(--ed-page);border:1px solid var(--ed-gold);box-shadow:0 0 0 3px var(--ed-page)}
+.milestone-ledger article:hover:before{background:var(--ed-gold)}
+.milestone-ledger time{font-family:var(--ed-serif);font-weight:900;font-size:22px;color:var(--ed-gold)}
+.milestone-ledger time>span{font-family:var(--ed-label);font-weight:600;font-size:11px;letter-spacing:.2em;color:var(--ed-ivory-3)}
+.milestone-category{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em}
+.milestone-ledger h3{font-size:24px;margin:4px 0 8px}
+.milestone-ledger p{font-size:15px;color:var(--ed-ivory-2)}
+.milestone-ledger article>a{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+
+/* tables: a printed ledger */
+.lesson-table-wrap,.worker-table-wrap{padding:8px 4px}
+.lesson-table,.worker-table,.book-table{border-collapse:collapse}
+.lesson-table th,.worker-table thead th,.book-table th{background:transparent;font-family:var(--ed-label);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ed-gold);border-bottom:1px solid var(--ed-hair-2)}
+.lesson-table td,.worker-table td,.book-table td{border-bottom:1px solid rgba(228,191,108,.1);font-size:15px}
+.lesson-table td:first-child{font-family:var(--ed-serif);font-weight:700;font-size:16px;color:var(--ed-ivory)}
+.lesson-table caption,.worker-table caption{font-family:var(--ed-text);font-style:italic;color:var(--ed-ivory-3)}
+
+/* ---------- 8 · The exhibition (artwork) ------------------------------------------------------------------------------ */
+.experience{background:transparent;position:relative;padding-bottom:clamp(60px,7vw,100px)}
+.gallery{height:auto;max-width:1320px;margin:0 auto;padding:0 clamp(24px,4.4vw,64px);overflow:visible;isolation:auto;
+  display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:0 clamp(28px,3.6vw,56px);align-items:end}
+.gallery-shade{display:none}
+#gallery-img,.gallery>img{position:relative;inset:auto;z-index:auto;grid-column:1;grid-row:1/3;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:50% 40%;
+  border:1px solid var(--ed-hair-2);box-shadow:0 0 0 7px var(--ed-page),0 0 0 8px rgba(228,191,108,.3),0 30px 60px rgba(0,0,0,.6)}
+.gallery-caption{position:static;grid-column:2;grid-row:2;max-width:none;padding:0 0 6px;transform:none}
+.gallery-caption .eyebrow{font-size:12px;margin-bottom:16px}
+.gallery-caption h3{font-size:clamp(34px,3.4vw,50px);line-height:1.02;margin-bottom:16px}
+.gallery-caption p{font-family:var(--ed-text);font-size:17px;line-height:1.7;color:var(--ed-ivory-2)}
+.gallery-index{position:static;grid-column:2;grid-row:1;align-self:start;justify-self:end;font-family:var(--ed-serif);font-weight:900;font-size:22px;color:var(--ed-gold);letter-spacing:.02em}
+.gallery-controls{max-width:1320px;margin:40px auto 0;padding:0 clamp(24px,4.4vw,64px);gap:0;border-top:1px solid var(--ed-hair)}
+.gallery-controls button{background:transparent;border:0;border-top:2px solid transparent;margin-top:-1px;padding:16px 4px;text-align:left;font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ed-ivory-3);min-height:52px}
+.gallery-controls button.active{color:var(--ed-gold);border-top-color:var(--ed-gold)}
+.gallery-controls button:hover{color:var(--ed-ivory)}
+.design-notes{gap:14px}
+.design-notes>div{padding:28px 26px}
+.design-notes h3{font-size:24px}
+.design-notes p{font-size:15px;color:var(--ed-ivory-2)}
+
+/* ---------- 9 · Architecture, scoring, factory, gate, evidence -------------------------------------------------------- */
+.architecture{overflow:hidden}
+.architecture-tab{border-color:var(--ed-hair);color:var(--ed-ivory-2)}
+.architecture-tab.active{background:linear-gradient(90deg,rgba(228,191,108,.14),rgba(228,191,108,.02));box-shadow:inset 3px 0 0 var(--ed-gold);color:var(--ed-ivory)}
+.architecture-tab b,.architecture-tab strong{font-family:var(--ed-serif);font-weight:700}
+.safety-line{padding:28px 30px}
+.score-demo{padding:30px}
+.score-total output{font-size:88px;line-height:1}
+.score-demo label{border-color:var(--ed-hair)}
+.score-demo input[type=checkbox]{accent-color:#e4bf6c}
+.demo-tag,.bonus-label{font-family:var(--ed-label);font-weight:600;letter-spacing:.16em}
+.factory-tabs{background:transparent;gap:0;border-bottom:1px solid var(--ed-hair)}
+.factory-tabs button{background:transparent;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--ed-label);font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--ed-ivory-3);min-height:54px}
+.factory-tabs button.active{background:transparent;color:var(--ed-gold);border-bottom-color:var(--ed-gold)}
+.factory-tabs button:hover:not(.active){background:rgba(228,191,108,.06);color:var(--ed-ivory)}
+.factory-detail{padding:clamp(24px,3vw,40px);margin-top:18px}
+.reasoning-loop{gap:10px}
+.reasoning-loop span{padding:16px 18px;font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.14em;color:var(--ed-gold)}
+.reasoning-loop b{display:block;font-family:var(--ed-serif);font-weight:700;font-size:20px;letter-spacing:0;text-transform:none;color:var(--ed-ivory);margin-top:2px}
+.factory-snapshot{gap:14px}
+.factory-snapshot article{padding:28px}
+.factory-snapshot strong{font-size:clamp(52px,5vw,78px);line-height:1}
+.cohort-rate{font-size:clamp(64px,7vw,104px);line-height:.9}
+.cohort-limits{padding:28px 30px}
+.job-controls{padding:18px}
+.gate-section{background:transparent}
+.gate-lanes>*{border-radius:2px}
+.physio{padding:clamp(24px,3vw,40px)}
+.physio-icon{color:#140f05;background:var(--ed-foil);border-radius:2px;align-self:start;width:56px;height:56px;min-height:0;display:grid;place-items:center;font-size:26px;line-height:1}
+.physio-states span{border-color:var(--ed-hair-2);color:var(--ed-gold);font-family:var(--ed-label);font-weight:600;letter-spacing:.16em}
+.big-number{font-size:clamp(96px,11vw,168px);line-height:.86}
+.big-number>span{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.24em}
+.case-studies{display:grid;gap:12px}
+.case-studies details{padding:0 26px}
+.case-studies summary{min-height:72px}
+.case-studies summary span{font-family:var(--ed-serif);font-weight:900;color:var(--ed-gold);font-size:22px}
+.case-studies summary strong{font-family:var(--ed-serif);font-weight:700;font-size:21px}
+.case-studies details>div p{font-family:var(--ed-text);font-size:17px;line-height:1.75;color:var(--ed-ivory-2)}
+.now-note{padding:clamp(26px,3vw,44px)}
+.now-note h3{font-size:clamp(28px,2.8vw,38px)}
+
+/* fact sheet: a museum label card */
+.fact-sheet{padding:clamp(20px,2.6vw,36px)}
+.fact-sheet dl>div{border-color:rgba(228,191,108,.12)}
+.fact-sheet dt{font-family:var(--ed-label);font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ed-gold)}
+.fact-sheet dd{font-family:var(--ed-text);font-size:17px;color:var(--ed-ivory)}
+.source-index a{border-color:rgba(228,191,108,.12)}
+.source-index a:hover{background:rgba(228,191,108,.05)}
+
+/* ---------- 10 · Closing plate and colophon --------------------------------------------------------------------------- */
+.closing{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;min-height:0;overflow:visible;isolation:auto;
+  max-width:1320px;margin:0 auto;padding:clamp(80px,9vw,128px) clamp(24px,4.4vw,64px) clamp(56px,6vw,88px)}
+.closing-shade{display:none}
+.closing>img{position:relative;inset:auto;z-index:auto;width:100%;height:auto;aspect-ratio:21/9;object-fit:cover;object-position:50% 26%;
+  border:1px solid var(--ed-hair-2);box-shadow:0 0 0 7px var(--ed-page),0 0 0 8px rgba(228,191,108,.3),0 30px 60px rgba(0,0,0,.6)}
+.closing>div{position:static;max-width:720px;margin-top:56px}
+.closing .eyebrow{justify-content:center}
+.closing h2{font-size:clamp(48px,6vw,92px);line-height:.98}
+.closing h2 em{font-family:var(--ed-serif);font-style:italic;font-weight:400;color:var(--ed-gold);font-size:1em}
+.closing p:not(.eyebrow){font-family:var(--ed-text);font-size:19px;color:var(--ed-ivory-2);margin:26px auto 32px;max-width:34em}
+footer{flex-direction:column;flex-wrap:nowrap;text-align:center;gap:14px;padding:48px clamp(24px,4.4vw,64px) 64px;border-top:1px solid var(--ed-hair)}
+footer .monogram{font-size:40px}
+footer p{flex:none;max-width:100%;font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;color:var(--ed-ivory-3);margin:0}
+footer p>span{font-family:var(--ed-text);font-size:14px;letter-spacing:0;color:var(--ed-ivory-3)}
+footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-size:13px;letter-spacing:.22em;color:var(--ed-gold)}
+
+/* ---------- 11 · The book ----------------------------------------------------------------------------------------------- */
+.book-body{background:var(--ed-page)}
+.book-header{height:76px}
+.book-header form{border:1px solid var(--ed-hair);border-radius:2px}
+.book-header input{border:0;font-family:var(--ed-sans)}
+.book-header form button{border:0;color:var(--ed-gold)}
+.icon-button{border:1px solid var(--ed-hair-2);color:var(--ed-gold);border-radius:2px}
+.book-sidebar{border-top:0;border-left:0;border-bottom:0;border-right:1px solid var(--ed-hair);border-radius:0;box-shadow:inset -4px 0 0 -3px rgba(228,191,108,.12)}
+.sidebar-title{font-family:var(--ed-serif);font-weight:900;font-size:38px;line-height:1;letter-spacing:-.02em;color:var(--ed-ivory)}
+.sidebar-title em{font-size:1em;font-family:var(--ed-serif)}
+.book-primary a{font-family:var(--ed-sans);font-size:14px;border-bottom-color:rgba(228,191,108,.12);color:var(--ed-ivory-2)}
+.book-primary a>span{font-family:var(--ed-label);font-weight:700;font-size:13px;letter-spacing:.12em;color:var(--ed-gold)}
+.book-primary a.current,.book-primary a:hover{color:var(--ed-gold-hi)}
+.sidebar-label{font-family:var(--ed-label);font-weight:700;font-size:12px;letter-spacing:.24em;color:var(--ed-gold)}
+#volume-nav a{font-size:14px;color:var(--ed-ivory-2)}
+#volume-nav a>span{font-family:var(--ed-serif);font-weight:900;font-size:15px;color:var(--ed-gold)}
+#volume-nav a.current{color:var(--ed-ivory)}
+.sidebar-foot{border-top-color:var(--ed-hair);font-size:13px;color:var(--ed-ivory-3)}
+.book-main h1{font-family:var(--ed-serif);font-weight:900;font-size:clamp(46px,5.2vw,86px);line-height:1;letter-spacing:-.022em}
+.book-main h2{font-family:var(--ed-serif);font-weight:900;font-size:clamp(30px,2.8vw,40px);line-height:1.1;letter-spacing:-.012em}
+.book-main h3{font-family:var(--ed-serif);font-weight:700;font-size:24px;line-height:1.2}
+.book-main p{color:var(--sub)}
+.book-intro{font-size:20px}
+
+/* the book cover: frontispiece again (text on marble, plate beside it) */
+.book-cover{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:auto auto auto auto 1fr;column-gap:clamp(28px,4vw,60px);align-content:start;
+  min-height:0;padding:clamp(24px,3vw,44px);isolation:auto;overflow:visible;
+  background:var(--ed-stone) var(--ed-marble) 0 0/320px 320px;border:1px solid var(--ed-hair);border-radius:2px;
+  box-shadow:inset 0 0 0 3px rgba(15,14,11,.92),inset 0 0 0 4px rgba(228,191,108,.16)}
+.book-cover:after{display:none}
+.book-cover>img{position:relative;inset:auto;z-index:auto;grid-column:2;grid-row:1/6;width:100%;height:100%;min-height:380px;object-fit:cover;object-position:64% 26%;
+  border:1px solid var(--ed-hair-2);box-shadow:0 0 0 6px var(--ed-stone),0 0 0 7px rgba(228,191,108,.3)}
+.book-cover>*:not(img){grid-column:1}
+.book-cover .eyebrow{color:var(--ed-gold);align-self:end}
+.book-cover h1{font-size:clamp(52px,5vw,84px);line-height:.96;margin:14px 0 22px}
+.book-cover h1 em{font-family:var(--ed-serif);font-style:italic;font-weight:400;font-size:1em;color:var(--ed-gold)}
+.book-cover p:not(.eyebrow){font-family:var(--ed-text);font-size:18px;line-height:1.7;color:var(--ed-ivory-2)}
+.book-cover .cover-footer small{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.18em;color:var(--ed-ivory-3)}
+.book-body[data-theme=light] .book-cover{background:var(--paper);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px rgba(131,96,29,.18)}
+.book-body[data-theme=light] .book-cover>img{box-shadow:0 0 0 6px var(--paper),0 0 0 7px rgba(131,96,29,.3)}
+.book-counts{gap:14px}
+.book-counts>div{padding:22px 22px 20px}
+.book-counts strong{font-size:clamp(38px,3.4vw,54px);line-height:1.02}
+
+/* contents: volumes and chapter entries */
+.volume-number{font-family:var(--ed-serif);font-weight:900;background:var(--ed-foil);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.volume-head h2{font-size:clamp(30px,2.8vw,42px)}
+.chapter-entry{border-top-color:rgba(228,191,108,.14);transition:background .2s}
+.chapter-entry:hover{background:rgba(228,191,108,.04)}
+.entry-number{font-family:var(--ed-serif);font-weight:900;color:var(--ed-gold);font-feature-settings:"lnum" 1}
+.chapter-entry b{font-family:var(--ed-serif);font-weight:700;font-size:18px;line-height:1.3;letter-spacing:-.005em}
+.chapter-entry small,.chapter-entry span>span{color:var(--ed-ivory-3)}
+.reading-path h3{font-size:24px}
+
+/* a chapter: set like a printed page */
+.chapter-banner{height:auto;overflow:visible;border:0;margin:34px 0 44px}
+.chapter-banner:after{display:none}
+.chapter-banner img{height:auto;aspect-ratio:21/8;object-position:60% 28%;border:1px solid var(--ed-hair-2);box-shadow:0 0 0 6px var(--ed-page),0 0 0 7px rgba(228,191,108,.28)}
+.book-body[data-theme=light] .chapter-banner img{box-shadow:0 0 0 6px #efe6d3,0 0 0 7px rgba(131,96,29,.3)}
+.chapter-banner span{position:static;display:block;margin-top:18px;font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.22em;color:var(--ed-ivory-3)}
+.chapter-kicker{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em}
+.chapter-prose{font-family:var(--ed-text);font-size:20px;line-height:1.8;color:var(--ink);max-width:68ch}
+.chapter-prose p{color:var(--ink);font-family:var(--ed-text);font-size:inherit;line-height:inherit;margin-bottom:1.15em}
+.chapter-prose>p:first-of-type:first-letter{float:left;font-family:var(--ed-serif);font-weight:900;font-size:4.3em;line-height:.78;padding:.1em .12em 0 0;color:var(--gold)}
+.chapter-prose h2,.chapter-prose h3{margin:1.6em 0 .6em}
+.chapter-prose blockquote{margin:1.6em 0;padding:4px 0 4px 28px;border-left:2px solid var(--gold);font-family:var(--ed-serif);font-style:italic;font-size:1.12em;line-height:1.55;color:var(--ink)}
+.chapter-prose ul,.chapter-prose ol{padding-left:1.2em}
+.chapter-prose li::marker{color:var(--gold)}
+.chapter-aside{font-size:15px}
+.chapter-aside .eyebrow{font-size:12px}
+.chapter-footer a{border-color:var(--ed-hair);border-radius:2px;transition:border-color .2s,background .2s}
+.chapter-footer a:hover{border-color:var(--ed-hair-2);background:rgba(228,191,108,.05)}
+.chapter-footer small{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.18em;color:var(--gold)}
+.book-callout{border-left:2px solid var(--gold)}
+.book-toast{background:var(--ed-foil);color:#140f05;font-family:var(--ed-label);font-weight:700;letter-spacing:.12em}
+.view-switcher a,.stats-jump a,.state-chips button,.deep-chip{border-radius:2px;font-family:var(--ed-label);font-weight:600;letter-spacing:.1em}
+/* the GPT book used 7-9px type in places; nothing reads under 11px here */
+.factory-stat-card>.eyebrow{font-size:11px!important}
+.record-id,.record-state,.latest-step small,.timeline-day,.chart-unit,.bar-caption{font-size:max(11px,1em)}
+
+/* every title the GPT sheets set in condensed sans now speaks in the book's serif */
+.book-body :is(.acceptance-domain summary strong,.archive-row .record-id,.method-grid h3,.reading-path strong,.search-result strong,.timeline-day time,
+  .chart-total,.current-donut figcaption,.current-growth-chart figcaption,.current-score-chart figcaption,.latest-checkpoint>strong,.latest-metrics h2,
+  .latest-paths .number-card h3,.latest-reader h1,.latest-reader h2,.latest-reader h3,.latest-step,.latest-timeline h3,.book-main h2,.book-main h3){
+  font-family:var(--ed-serif);font-weight:700;letter-spacing:-.01em}
+.book-body :is(.latest-reader h1,.book-main h2,.latest-checkpoint>strong,.chart-total,.latest-step){font-weight:900}
+.reading-path{border-top:1px solid var(--ed-hair)}
+.reading-path small{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em}
+.reading-path p{font-family:var(--ed-text);font-size:16px;line-height:1.6}
+
+/* the volumes on the home page stand on a shelf as bound spines */
+.portal-volumes{display:flex;align-items:flex-end;gap:8px;overflow-x:auto;padding:36px 4px 22px;border-top:0;scrollbar-width:thin;scrollbar-color:var(--ed-gold-lo) transparent;
+  background:linear-gradient(var(--ed-hair-2),var(--ed-hair-2)) bottom/100% 1px no-repeat}
+.portal-volumes a{flex:0 0 auto;position:relative;width:62px;height:300px;padding:44px 0 50px;border:1px solid var(--ed-hair);border-bottom:0;border-radius:2px 2px 0 0;
+  writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:flex-start;
+  font-family:var(--ed-serif);font-weight:700;font-size:17px;letter-spacing:.01em;color:var(--ed-ivory);white-space:nowrap;
+  background:var(--ed-stone) var(--ed-marble) 0 0/320px 320px;
+  box-shadow:inset 0 0 0 3px rgba(15,14,11,.9),inset 0 0 0 4px rgba(228,191,108,.18),inset 8px 0 14px -8px rgba(0,0,0,.9);
+  transition:transform .3s var(--ed-ease),border-color .3s,color .3s}
+.portal-volumes a:nth-child(3n+2){height:282px;width:56px}
+.portal-volumes a:nth-child(4n+3){height:318px;width:66px}
+.portal-volumes a:before,.portal-volumes a:after{content:"";position:absolute;left:10px;right:10px;height:5px;border-top:1px solid var(--ed-hair-2);border-bottom:1px solid var(--ed-hair-2)}
+.portal-volumes a:before{top:16px}
+.portal-volumes a:after{bottom:16px}
+.portal-volumes a:hover,.portal-volumes a:focus-visible{transform:rotate(180deg) translateY(14px);border-color:var(--ed-gold);color:var(--ed-gold-hi)}
+
+/* ---------- 12 · Reading mode: a chapter is a page of a novel (novel.js adds body.is-reading) ------------------------------ */
+.novel-progress{position:fixed;z-index:60;top:0;left:0;right:0;height:2px;background:var(--ed-foil);transform:scaleX(0);transform-origin:left;pointer-events:none}
+/* the contents slide away while reading; the ☰ button brings them back */
+.book-body.is-reading #menu-toggle{display:block}
+.book-body.is-reading .book-sidebar{transform:translateX(-100%);transition:transform .3s var(--ed-ease);box-shadow:none}
+.book-body.is-reading.drawer-open .book-sidebar{transform:translateX(0);box-shadow:24px 0 48px rgba(0,0,0,.55)}
+.book-body.is-reading .book-main{margin-left:auto;margin-right:auto;max-width:880px;padding-left:clamp(20px,5vw,48px);padding-right:clamp(20px,5vw,48px)}
+.book-body.is-reading .book-main>.historical-snapshot{font-size:14px;padding:12px 18px}
+.book-body.is-reading .chapter-kicker{display:flex;justify-content:space-between;gap:16px}
+.book-body.is-reading .chapter-kicker span,.book-body.is-reading .chapter-kicker a{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ed-ivory-3)}
+.book-body.is-reading .chapter-kicker a{color:var(--gold)}
+.novel-opener{display:flex;flex-direction:column;align-items:center;gap:10px;margin:clamp(40px,7vh,72px) 0 18px;text-align:center}
+.novel-fleuron,.novel-break,.novel-end{display:block;height:11px;font-size:0!important;color:transparent;
+  background:var(--ed-diamond) center/11px 11px no-repeat,
+             linear-gradient(90deg,transparent,var(--ed-hair-2)) calc(50% - 30px) center/36px 1px no-repeat,
+             linear-gradient(90deg,var(--ed-hair-2),transparent) calc(50% + 30px) center/36px 1px no-repeat}
+.novel-fleuron{width:120px;margin-bottom:8px}
+.novel-break{background:radial-gradient(circle,var(--gold) 0 2px,transparent 2.5px) center/22px 11px repeat-x;width:66px;margin-left:auto!important;margin-right:auto!important}
+.novel-volume{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--ed-ivory-3)}
+.novel-number{font-family:var(--ed-serif);font-style:italic;font-weight:400;font-size:clamp(22px,2.4vw,28px);color:var(--gold)}
+.book-body.is-reading .book-main>.eyebrow{display:none}
+.book-body.is-reading .book-main>h1{text-align:center;font-size:clamp(40px,5.4vw,72px);line-height:1.04;margin:6px auto 22px;max-width:15em;text-wrap:balance}
+.book-body.is-reading .book-main>.book-intro{text-align:center;margin:0 auto 30px;max-width:34em;font-style:italic;font-size:21px;color:var(--ed-ivory-2);text-wrap:balance}
+.book-body.is-reading .book-main>.book-actions{justify-content:center;gap:10px}
+.book-body.is-reading .book-main>.book-actions .book-button{min-height:40px;font-size:12px;border-color:var(--ed-hair)}
+.book-body.is-reading .chapter-banner{margin:44px 0 54px}
+.book-body.is-reading .chapter-banner span{text-align:center}
+.book-body.is-reading .reader-layout{display:block}
+.book-body.is-reading .chapter-prose{max-width:none;font-size:21px;line-height:1.82;hyphens:auto;-webkit-hyphens:auto;text-align:left}
+.book-body.is-reading .chapter-prose>p:first-of-type:first-line{font-variant:small-caps;letter-spacing:.05em}
+.book-body.is-reading .chapter-prose>p+p{text-indent:1.6em;margin-top:-.4em}
+.novel-break{margin-top:1.8em!important;margin-bottom:1.6em!important;text-indent:0!important}
+.book-body.is-reading .book-callout{margin:0 0 1.6em;padding:24px 28px;border-left:1px solid var(--ed-hair)}
+.book-body.is-reading .book-callout strong{display:block;font-family:var(--ed-label);font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.book-body.is-reading .book-callout p{font-family:var(--ed-serif);font-style:italic;font-size:19px;line-height:1.6;color:var(--ink);margin:0;text-indent:0}
+.novel-end{margin:2.4em auto 1.6em!important;width:160px;text-indent:0!important}
+.chapter-footer.novel-turn{display:grid;grid-template-columns:1fr 1fr;gap:14px;border:0;padding:0;margin:0}
+.novel-turn>span:empty{display:none}
+.novel-turn a{display:flex;flex-direction:column;gap:6px;padding:22px 24px;border:1px solid var(--ed-hair);border-radius:2px;font-family:var(--ed-serif);font-weight:700;font-size:20px;line-height:1.3;color:var(--ink);text-align:left;
+  background:var(--ed-stone) var(--ed-marble) 0 0/320px 320px;box-shadow:inset 0 0 0 3px rgba(15,14,11,.92),inset 0 0 0 4px rgba(228,191,108,.16);transition:transform .2s var(--ed-ease),border-color .2s}
+.novel-turn a:hover{transform:translateY(-3px);border-color:var(--ed-hair-2);color:var(--ink)}
+.novel-turn a.novel-next{grid-column:2;text-align:right;align-items:flex-end}
+.novel-turn a.novel-next:only-child,.novel-turn>span:empty+a.novel-next{grid-column:1/-1}
+.novel-turn-cue{font-family:var(--ed-serif);font-style:italic;font-weight:400;font-size:15px;color:var(--ed-ivory-3)}
+.book-body[data-theme=light] .novel-turn a{background:var(--paper);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px rgba(131,96,29,.18)}
+.novel-notes{margin-top:64px;padding-top:30px;border-top:1px solid var(--ed-hair);display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 28px;position:static}
+.novel-notes>.eyebrow,.novel-notes>.novel-notes-title,.novel-notes>p,.novel-notes>.tag-row{grid-column:1/-1}
+.novel-notes-title{font-size:26px!important;margin:0 0 6px!important}
+.novel-notes>p{font-family:var(--ed-text);font-style:italic;font-size:16px}
+.novel-notes .source-note{font-size:15px}
+#drawer-backdrop{background:transparent!important}
+.book-body.is-reading #drawer-backdrop{position:fixed;inset:76px 0 0;z-index:35}
+
+/* ---------- 13 · Upright tablets and below ------------------------------------------------------------------------------ */
+@media(max-width:1100px){
+  .hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .hero-copy h1{font-size:clamp(52px,7vw,84px)}
+}
+@media(max-width:900px){
+  /* phone and upright tablet frontispiece: plate first, the title under it, never over a face */
+  .hero{display:flex;flex-direction:column;padding:20px 20px 32px}
+  .hero-top{order:1;margin-bottom:18px;padding-bottom:10px}
+  .hero-top>.eyebrow,.hero-top .edition{font-size:11px;letter-spacing:.18em}
+}
+@media(max-width:560px){
+  .hero-top{flex-direction:column;align-items:flex-start;gap:4px}
+  .hero-top .edition{text-align:left}
+}
+@media(max-width:900px){
+  .hero-art{order:2;position:relative;top:auto;width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:4/3;object-position:64% 24%;
+    box-shadow:0 0 0 5px var(--ed-page),0 0 0 6px rgba(228,191,108,.32),0 22px 44px rgba(0,0,0,.6)}
+  .hero-copy{order:3;margin-top:34px;max-width:none;padding:0;align-self:stretch}
+  .hero-bottom{order:4;margin-top:28px;font-size:11px;letter-spacing:.16em}
+  .hero-copy h1{font-size:clamp(50px,13vw,76px)}
+  .gallery{grid-template-columns:minmax(0,1fr);gap:0}
+  #gallery-img,.gallery>img{grid-row:2}
+  .gallery-index{grid-column:1;grid-row:1;justify-self:start;margin-bottom:16px}
+  .gallery-caption{grid-column:1;grid-row:3;margin-top:30px}
+  .book-cover{grid-template-columns:minmax(0,1fr);grid-template-rows:none}
+  .book-cover>img{grid-column:1;grid-row:1;min-height:0;height:auto;aspect-ratio:4/3;margin-bottom:26px}
+  .book-cover>*:not(img){grid-column:1}
+  .milestone-ledger:before{left:88px}
+  .milestone-ledger article{grid-template-columns:70px 1fr;gap:36px}
+  .milestone-ledger article:before{left:84px}
+  .milestone-ledger article>a{grid-column:2}
+}
+@media(max-width:760px){
+  .nav{height:auto;min-height:64px;padding:10px 16px;gap:12px}
+  .nav nav{gap:22px}
+  .nav nav a{font-size:13px;letter-spacing:.1em}
+  .nav nav a:after{bottom:4px}
+  .brand-name{font-size:13px;letter-spacing:.16em}
+  .brand-name>span{font-size:10px;letter-spacing:.16em}
+  .nav+p{gap:10px;padding:14px 16px!important}
+  .nav+p>a{font-size:16px}
+  .nav+p:before{font-size:11px}
+  .section{padding:72px 20px}
+  .timeline-section:before,.milestone-section:before,.lessons-section:before,.factory-data-section:before,.architecture-section:before,
+  .factory-section:before,.evidence-section:before,.archive-section:before,.origin:before,.observatory:before,.scoring-section:before,.current-home-evidence:before,.complete-book:before{left:20px;right:20px}
+  h2{font-size:clamp(36px,10vw,48px)}
+  .lead,.intro,.book-intro{font-size:18px}
+  .origin-copy p,.history-essay p{font-size:17px}
+  .origin-copy .lead,.history-essay .lead{font-size:19px}
+  .eyebrow,.small-label,.book-main .eyebrow{font-size:12px;letter-spacing:.18em}
+  .hero-copy .eyebrow{font-size:11px;letter-spacing:.16em}
+  .hero-copy>p:not(.eyebrow){font-size:17px}
+  .fact-strip{grid-template-columns:1fr 1fr;padding:22px 20px;gap:22px 0;margin:0 20px}
+  .fact-strip>div{padding:0 14px}
+  .fact-strip>div:nth-child(odd){padding-left:0}
+  .fact-strip>div:nth-child(even){border-right:0}
+  .fact-strip span,.latest-overview-grid span,.portal-counts span,.book-counts span{font-size:11px;letter-spacing:.14em}
+  .latest-overview-grid>a{padding:20px 18px}
+  .gallery,.gallery-controls{padding:0 20px}
+  .gallery-controls{grid-template-columns:1fr 1fr;margin-top:28px}
+  .gallery-controls button{font-size:12px;letter-spacing:.12em;padding:14px 4px}
+  .milestone-ledger:before{left:72px}
+  .milestone-ledger article{grid-template-columns:56px 1fr;gap:32px}
+  .milestone-ledger article:before{left:68px}
+  .milestone-ledger time{font-size:19px}
+  .milestone-ledger h3{font-size:21px}
+  .prologue-text p{font-size:18.5px;line-height:1.8}
+  .prologue-epigraph p{font-size:18px}
+  .prologue-text .prologue-turn{font-size:19px}
+  .closing{padding:72px 20px 52px}
+  .closing>img{aspect-ratio:16/10;object-position:50% 22%}
+  .closing>div{margin-top:40px}
+  .closing h2{font-size:clamp(44px,12vw,64px)}
+  .closing p:not(.eyebrow){font-size:17px}
+  .chapter-links a,.chapter-links span{font-size:12px}
+  .big-number{font-size:clamp(88px,26vw,128px)}
+  .jacket-title{font-size:clamp(34px,10vw,46px)}
+  .jacket-foot,.hero-bottom{font-size:11px}
+  .case-studies details{padding:0 18px}
+  .case-studies summary strong{font-size:18px}
+  .lesson-table td:first-child{font-size:15px}
+  footer p,footer>a{font-size:11px}
+}
+@media(max-width:620px){
+  .book-header{height:64px;padding:0 14px;gap:10px}
+  .book-main{padding-top:28px}
+  .book-main h1{font-size:clamp(40px,11.4vw,56px)}
+  .book-cover{padding:16px}
+  .book-cover h1{font-size:clamp(46px,13vw,60px)}
+  .book-cover p:not(.eyebrow){font-size:16px}
+  .book-cover .cover-footer small{font-size:11px;letter-spacing:.14em}
+  .chapter-banner{margin:24px 0 30px}
+  .chapter-banner img{aspect-ratio:4/3;object-position:64% 26%;box-shadow:0 0 0 5px var(--ed-page),0 0 0 6px rgba(228,191,108,.28)}
+  .chapter-banner span{font-size:11px;letter-spacing:.16em}
+  .chapter-prose{font-size:18px;line-height:1.75}
+  .book-brand small{font-size:10px;letter-spacing:.14em}
+  .book-counts>div{padding:18px 16px}
+  .chapter-entry b{font-size:17px}
+  .book-body.is-reading .chapter-kicker{flex-direction:column;align-items:center;gap:6px;text-align:center}
+  .book-body.is-reading .book-main>h1{font-size:clamp(34px,10vw,48px)}
+  .book-body.is-reading .book-main>.book-intro{font-size:18px}
+  .book-body.is-reading .chapter-prose{font-size:19px}
+  .chapter-footer.novel-turn{grid-template-columns:1fr}
+  .novel-turn a.novel-next{grid-column:1}
+  .portal-volumes a{height:250px}
+  .portal-volumes a:nth-child(3n+2){height:236px}
+  .portal-volumes a:nth-child(4n+3){height:264px}
+}
+@media(prefers-reduced-motion:reduce){
+  .button,.book-button,.chronicle-jacket,.research-metrics article,a.number-card,.latest-overview-grid>a,.portal-archives a,.nav nav a:after{transition:none}
+  .button:hover,.book-button.gold:hover,.chronicle-jacket:hover,.research-metrics article:hover,.latest-overview-grid>a:hover,.portal-archives a:hover{transform:none}
+}
+
+/* ---------- 14 · Motion (ideas from reactbits / magicui, rebuilt in plain CSS; off for reduced motion) ------------------
+   Nothing ever starts hidden: reveals begin at 40% and finish fully visible, foil sheens move light, not content. */
+@media(prefers-reduced-motion:no-preference){
+  /* a slow light across the gold foil numerals */
+  @keyframes ed-sheen{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+  .fact-strip strong,.latest-overview-grid strong,.portal-counts strong,.research-metrics strong,.factory-snapshot strong,.cohort-rate,
+  .big-number,.book-counts strong,.number-value,.score-total output,.monogram,.volume-number,.dedication-motto p,.dedication-strokes strong{
+    background-image:linear-gradient(100deg,#c9973c 0%,#f0cd7c 20%,#fff3cf 30%,#f0cd7c 40%,#c9973c 60%,#f0cd7c 80%,#c9973c 100%);
+    background-size:200% 100%;animation:ed-sheen 9s linear infinite}
+  /* buttons: a glint passes when touched */
+  .button,.book-button.gold,.game-return{position:relative;overflow:hidden}
+  .button:after,.book-button.gold:after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,252,235,.55),transparent);transform:skewX(-18deg);transition:left .6s var(--ed-ease)}
+  .button.secondary:after{background:linear-gradient(100deg,transparent,rgba(228,191,108,.25),transparent)}
+  .button:hover:after,.book-button.gold:hover:after{left:130%}
+  /* the bound jacket and the book cover: a thread of light runs round the gold edge */
+  @keyframes ed-orbit{to{--ed-turn:360deg}}
+  .chronicle-jacket:before,.book-cover:before{content:"";position:absolute;inset:0;border-radius:3px;padding:1px;pointer-events:none;z-index:2;
+    background:conic-gradient(from var(--ed-turn),transparent 0 78%,rgba(255,236,180,.95) 88%,transparent 96%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+    animation:ed-orbit 7s linear infinite}
+  .book-cover{position:relative}
+  .book-body[data-theme=light] :is(.book-counts strong,.number-value,.volume-number,.monogram){background-image:var(--ed-foil);animation:none}
+  .book-body[data-theme=light] .book-header .monogram{background-image:linear-gradient(100deg,#c9973c 0%,#f0cd7c 20%,#fff3cf 30%,#f0cd7c 40%,#c9973c 60%,#f0cd7c 80%,#c9973c 100%)}
+  /* headings rise into place as they scroll in (Chrome; other browsers simply show them) */
+  @supports (animation-timeline:view()){
+    @keyframes ed-rise{from{opacity:.4;transform:translateY(26px)}to{opacity:1;transform:none}}
+    .section-heading,.scoring-intro,.book-portal-copy,.prologue h2,.prologue-text p,.dedication-motto,.dedication h2,.dedication-text p,.design-notes>div,.research-metrics article,.factory-snapshot article,
+    .milestone-ledger article,.closing>div,.volume-head{animation:ed-rise linear backwards;animation-timeline:view();animation-range:entry 0% entry 55%}
+  }
+  /* the spines settle on the shelf one after another as the shelf scrolls in */
+  @supports (animation-timeline:view()){
+    @keyframes ed-shelve{from{transform:rotate(180deg) translateY(-26px)}to{transform:rotate(180deg)}}
+    .portal-volumes a{animation:ed-shelve linear backwards;animation-timeline:view();animation-range:entry 10% entry 70%}
+  }
+}
+
+}

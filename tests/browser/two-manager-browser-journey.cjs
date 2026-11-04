@@ -18,7 +18,10 @@ const ROOT=path.resolve(__dirname,"../..");
 // 2.0.0: the release-time constants (tools/set-release-time.cjs) start Prime Pack, the roulette and the own-club Special
 // Player at the release minute. The journey serves them as started (the files on disk never change), so it plays the real
 // Prime Pack round before and after the release time; CMS_JOURNEY_REAL_RELEASE_TIME=1 serves the real constants.
-const RELEASE_TIME_REWRITE=process.env.CMS_JOURNEY_REAL_RELEASE_TIME==="1"?{}:{CMS_TEST_REWRITE:JSON.stringify([[`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`,'Date.parse("2026-10-30T00:00:00Z")']])};
+// r88 Chamber Men starts at its own release time; CMS_CHAMBER_MEN_NOW=1 moves it into the past too.
+const RELEASE_TIMES=require("../../tools/set-release-time.cjs");
+const CHAMBER_NOW=process.env.CMS_CHAMBER_MEN_NOW==="1"?[[`Date.parse("${RELEASE_TIMES.read(RELEASE_TIMES.R88_RELEASE_TIME_CONSTANTS)[0].value}")`,'Date.parse("2026-10-30T00:00:00Z")']]:[];
+const RELEASE_TIME_REWRITE=process.env.CMS_JOURNEY_REAL_RELEASE_TIME==="1"?{}:{CMS_TEST_REWRITE:JSON.stringify([[`Date.parse("${RELEASE_TIMES.read()[0].value}")`,'Date.parse("2026-10-30T00:00:00Z")'],...CHAMBER_NOW])};
 const PROJECT="demo-cms-browser-journey";
 const FIRESTORE="http://127.0.0.1:8181",AUTH_PORT=9199,FIRESTORE_PORT=8181;
 const APP_PORT=Number(process.env.CMS_TEST_PORT||4173);

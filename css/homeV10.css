@@ -103,7 +103,7 @@
   #mainMenu.v10Home #legacyButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
   #mainMenu.v10Home #careerStatisticsButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
-  #mainMenu.v10Home #ruleBookButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
+  #mainMenu.v10Home #ruleBookButton .tileArt, #mainMenu.v10Home #homeStoryButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
   #mainMenu.v10Home #settingsButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); object-position:right bottom; }
   #mainMenu.v10Home .scriptLine { top: calc(var(--hdr) + 70px); }
   #mainMenu.v10Home .menuAthleteCredit { right: var(--gutter); top: calc(var(--tile-top) - 20px); }
@@ -123,7 +123,7 @@
   #mainMenu.v10Home #legacyButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); }
   #mainMenu.v10Home #careerStatisticsButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); }
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt { top:79px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 85px); }
-  #mainMenu.v10Home #ruleBookButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); }
+  #mainMenu.v10Home #ruleBookButton .tileArt, #mainMenu.v10Home #homeStoryButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); }
   #mainMenu.v10Home #settingsButton .tileArt { top:58px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 64px); }
 }
 @media (min-width: 761px) and (max-width: 1000px), (orientation: landscape) and (max-width: 1000px) {
@@ -134,7 +134,7 @@
   #mainMenu.v10Home #legacyButton .tileArt { top:51px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 57px); }
   #mainMenu.v10Home #careerStatisticsButton .tileArt { top:51px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 57px); }
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt { top:51px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 57px); }
-  #mainMenu.v10Home #ruleBookButton .tileArt { top:51px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 57px); }
+  #mainMenu.v10Home #ruleBookButton .tileArt, #mainMenu.v10Home #homeStoryButton .tileArt { top:51px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 57px); }
   #mainMenu.v10Home #settingsButton .tileArt { top:51px; left:14px; right:6px; bottom:6px; width:calc(100% - 20px); height:calc(100% - 57px); }
 }
 
@@ -144,7 +144,7 @@
   #mainMenu.v10Home #legacyButton .tileArt { top:14px; left:77px; width:calc(100% - 83px); height:calc(100% - 20px); }
   #mainMenu.v10Home #careerStatisticsButton .tileArt { top:14px; left:104px; width:calc(100% - 110px); height:calc(100% - 20px); }
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt { top:14px; left:120px; width:calc(100% - 126px); height:calc(100% - 20px); }
-  #mainMenu.v10Home #ruleBookButton .tileArt { top:14px; left:101px; width:calc(100% - 107px); height:calc(100% - 20px); }
+  #mainMenu.v10Home #ruleBookButton .tileArt, #mainMenu.v10Home #homeStoryButton .tileArt { top:14px; left:101px; width:calc(100% - 107px); height:calc(100% - 20px); }
   #mainMenu.v10Home #settingsButton .tileArt { top:14px; left:92px; width:calc(100% - 98px); height:calc(100% - 20px); }
 }
 
@@ -374,6 +374,7 @@
   #mainMenu.v10Home #careerStatisticsButton .tileArt,
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt,
   #mainMenu.v10Home #ruleBookButton .tileArt,
+  #mainMenu.v10Home #homeStoryButton .tileArt,
   #mainMenu.v10Home #settingsButton .tileArt {
     top: 72px;
     right: 6px;
@@ -436,6 +437,7 @@
   #mainMenu.v10Home #careerStatisticsButton .tileArt,
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt,
   #mainMenu.v10Home #ruleBookButton .tileArt,
+  #mainMenu.v10Home #homeStoryButton .tileArt,
   #mainMenu.v10Home #settingsButton .tileArt {
     top: 67px;
     left: 7px;
@@ -496,6 +498,7 @@
   #mainMenu.v10Home #careerStatisticsButton .tileArt,
   #mainMenu.v10Home #homeTrophyRoomButton .tileArt,
   #mainMenu.v10Home #ruleBookButton .tileArt,
+  #mainMenu.v10Home #homeStoryButton .tileArt,
   #mainMenu.v10Home #settingsButton .tileArt {
     top: 72px;
     left: 7px;
@@ -938,7 +941,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
     justify-content: flex-start; gap: 3px; padding: 10px 8px 8px 10px; overflow: hidden;
   }
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode { font-size: 10px; letter-spacing: .14em; }
-  #app #mainMenu.v10Home :is(#newShowdown, #legacyButton, #careerStatisticsButton, #homeTrophyRoomButton, #ruleBookButton, #settingsButton) .tileArt {
+  #app #mainMenu.v10Home :is(#newShowdown, #legacyButton, #careerStatisticsButton, #homeTrophyRoomButton, #ruleBookButton, #homeStoryButton, #settingsButton) .tileArt {
     position: static; flex: 1 1 0; min-height: 0; width: auto; height: auto; align-self: stretch;
     margin: 2px 20px 0 0; object-position: right bottom;
   }
@@ -1126,4 +1129,94 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
     --tile-top: calc(100% - 8px - var(--tile-h));
   }
   #app #mainMenu.v10Home > .nav-reserve, #app #mainMenu.v10Home .menuBottomStrip { display: none; }
+}
+
+/* ---------- r88 STORY (Nik's pick 2026-11-02: after Trophy Room) ----------
+   Desktop and wide windows: an eighth tile in the row, between Trophy Room and Rule Book (DOM order; the flex row and the
+   Rule Book icon rules above already cover it). Phones and upright tablets: a slim full-width STORY bar under the six
+   tiles, in its own grid row, so the six tiles keep their size. The film-reel icon is Team V's TILE_STORY_V1.webp (HO-055). */
+#mainMenu.v10Home #homeStoryButton .storyTileArt { position: absolute; display: block; pointer-events: none; }
+#mainMenu.v10Home #homeStoryButton .menuTileCode { color: #E8B93F; }
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #mainMenu.v10Home {
+    --home-story-h: 44px;
+    --phone-control: calc(var(--home-continue-h) + 2 * var(--home-tile-h) + var(--home-story-h) + 3 * var(--home-gap) + 16px);
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid { grid-template-rows: var(--home-continue-h) var(--home-tile-h) var(--home-tile-h) var(--home-story-h); }
+}
+@media (min-width: 761px) and (max-width: 900px) and (min-height: 900px) and (orientation: portrait) {
+  #app #mainMenu.v10Home { --home-story-h: 48px; }
+  #app #mainMenu.v10Home .fifaMenuGrid { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) var(--home-story-h); }
+}
+@media (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
+  #app #mainMenu.v10Home {
+    --home-story-h: 40px;
+    --home-tile-h: max(44px, calc((var(--home-vh) - var(--phone-nav) - 54px - var(--home-continue-h) - var(--home-story-h) - 3 * var(--home-gap) - 8px) / 2));
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid { grid-template-rows: var(--home-continue-h) var(--home-tile-h) var(--home-tile-h) var(--home-story-h); }
+}
+@media (max-width: 760px) and (orientation: portrait),
+       (max-width: 900px) and (max-height: 480px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 900px) and (min-height: 900px) and (orientation: portrait) {
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile {
+    grid-column: 1 / -1; grid-row: 4; height: 100%; min-height: 40px;
+    display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 10px;
+    padding: 0 40px 0 12px;
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileCode { position: static; margin: 0; font-size: 10px; letter-spacing: .14em; }
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileLabel { position: static; flex: 0 0 auto; width: max-content; max-width: none; margin: 0; font-size: 17px; line-height: 1; }
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileMeta {
+    position: static !important; display: block !important; width: auto !important; height: auto !important; clip: auto !important;
+    clip-path: none !important; margin: 0 0 0 auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    font-size: 11px; color: rgba(244,236,220,.82);
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .tileArt { top: 50%; bottom: auto; left: auto; right: 12px; width: 34px; height: 34px; max-width: none; aspect-ratio: auto; translate: 0 -50%; }
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileMeta { flex: 0 1 auto; min-width: 0; margin-right: 46px; }
+}
+@media (min-width: 761px) and (max-width: 900px) and (min-height: 900px) and (orientation: portrait) {
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile { grid-row: 3; }
+}
+
+/* ---------- r88 STORY page: the app's own screen, black-and-gold marble, never covered, never dimmed ---------- */
+#story.storyScreen {
+  box-sizing: border-box; min-height: 100%; padding: clamp(24px, 6vh, 64px) 16px calc(var(--sd-nav-bottom-space, 0px) + 32px);
+  background: radial-gradient(120% 80% at 50% 0%, #1a1712 0%, #0b0c0f 55%, #060709 100%); color: #F4ECDC;
+}
+#story .storyInner { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+#story .storyKicker { margin: 0; color: #E8B93F; font-size: 12px; letter-spacing: .28em; }
+#story .storyTitle { margin: 0; font: 800 clamp(48px, 9vw, 88px)/.95 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .02em;
+  background: linear-gradient(180deg, #FFE98F 0%, #F4CB5A 45%, #CD9526 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+#story .storyLead { margin: 0; max-width: 64ch; font-size: clamp(16px, 2vw, 19px); line-height: 1.55; color: #F4ECDC; }
+#story .storySections { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 6px; }
+#story .storySection { position: relative; margin: 0; padding: 18px 18px 20px; border: 1px solid rgba(201,155,69,.45);
+  background: linear-gradient(180deg, rgba(28,26,22,.96), rgba(12,13,16,.96)); }
+#story .storySectionNo { display: block; margin-bottom: 8px; color: #E8B93F; font: 700 14px/1 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .12em; }
+#story .storySection h3 { margin: 0 0 8px; font: 700 20px/1.1 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .06em; color: #FFE38A; }
+#story .storySection p { margin: 0; font-size: 15px; line-height: 1.55; color: rgba(244,236,220,.9); }
+#story .storyOffline { margin: 0; padding: 12px 14px; border: 1px solid rgba(232,185,63,.6); background: #15130f; color: #FFE38A; font-size: 15px; }
+#story .storyOffline[hidden] { display: none; }
+#story .storyActions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+#story .storyButton { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; box-sizing: border-box;
+  border: 1px solid #C99B45; font: 700 16px/1 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .12em; text-decoration: none; cursor: pointer;
+  background: #0d0e11; color: #FFE38A; }
+#story .storyButtonPrimary { border-color: #E8B93F; color: #1a1205;
+  background: linear-gradient(180deg, rgba(255,255,255,.42) 0, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 50%), linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%); }
+#story .storyButtonPrimary[aria-disabled="true"] { cursor: not-allowed; color: #6b5a33; border-color: #6b5a33; background: #1a1712; }
+#story .storyButton:focus-visible { outline: 3px solid #FFE38A; outline-offset: 3px; }
+#story .storyPrivacy { margin: 0; font-size: 13px; color: rgba(244,236,220,.72); }
+@media (max-width: 760px) {
+  #story .storySections { grid-template-columns: minmax(0, 1fr); }
+  #story .storyActions .storyButton { flex: 1 1 100%; }
+}
+/* The app moves focus to the page title on arrival (screen reader landmark); it is not a control, so no ring. */
+#story .storyTitle:focus { outline: none; }
+/* r88 STORY: with eight tiles in the row, narrow desktop windows give Continue the extra room its label needs beside
+   the player (it never runs under him). */
+@media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
+  #mainMenu.v10Home .fifaMenuGrid:has(> #homeStoryButton) > #continueCareer { flex-grow: 2.7; }
+}
+/* r88 STORY: at 1001-1199px the eight-tile row leaves each tile about 60-84px of text room, so the 17-20px tile names
+   ("SHOWDOWN", "STATISTICS") ran out of their tiles. Scale them with the window instead; nothing is clipped or covered. */
+@media (min-width: 1001px) and (max-width: 1199px) {
+  #app #mainMenu.v10Home .fifaMenuGrid:has(> #homeStoryButton) > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(17px, 1.33vw); }
 }

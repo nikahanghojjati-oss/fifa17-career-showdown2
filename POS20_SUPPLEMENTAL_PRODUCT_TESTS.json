@@ -2842,6 +2842,95 @@
         "^tests/contracts/r87\\-screen\\-order\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r88-story-tile-contracts.cjs",
+      "patterns": [
+        "^js/(homeScreensV10|screens|v10Screens|productionSharedShowdownPresentation|startJoinViewModel)\\.js$",
+        "^css/homeV10\\.css$",
+        "^service-worker\\.js$",
+        "^\\.github/workflows/deploy-github-pages\\.yml$",
+        "^chronicle/",
+        "^tests/contracts/r88\\-story\\-tile\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-terminal-close-dropped-connection-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^tests/contracts/r88\\-terminal\\-close\\-dropped\\-connection\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-chamber-men-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMen|chamberMenStep|rosterRoulette|rosterRouletteStep|productionSharedTransferChallenge)\\.js$",
+        "^css/chamberMen\\.css$",
+        "^service-worker\\.js$",
+        "^firestore\\.season-results-production\\.fragment\\.rules$",
+        "^tools/set-release-time\\.cjs$",
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r88\\-chamber\\-men\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-step-panel-buttons-browser-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRouletteStep|iconGuessStep|chamberMenStep|screens)\\.js$",
+        "^css/(v10Roulette|app)\\.css$",
+        "^tests/contracts/r88\\-step\\-panel\\-buttons\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-fable17-fixes-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMenStep|rosterRoulette|rosterRouletteStep|productionSharedTransferChallenge)\\.js$",
+        "^tests/contracts/r88\\-fable17\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-fable17-chamber-fold-browser-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMen|chamberMenStep)\\.js$",
+        "^css/(chamberMen|app)\\.css$",
+        "^tests/contracts/r88\\-fable17\\-chamber\\-fold\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-continue-career-browser-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMenStep|iconGuessStep|menuExperience|clubAssignment|onlinePlayerIdentity)\\.js$",
+        "^css/v10Club\\.css$",
+        "^visual-assets/v10_1/club/club\\.css$",
+        "^visual-assets/v10_1/icon-guess/index\\.html$",
+        "^tests/contracts/r88\\-continue\\-career\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-chamber-bullets-scene-browser-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMen|rosterRoulette|rosterRouletteStep)\\.js$",
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r88\\-chamber\\-bullets\\-scene\\-browser\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r88-lock-refusals-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedTransferChallenge|rosterRoulette)\\.js$",
+        "^data/(fifa17Players|rosterSquads)\\.js$",
+        "^tests/contracts/r88\\-lock\\-refusals\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

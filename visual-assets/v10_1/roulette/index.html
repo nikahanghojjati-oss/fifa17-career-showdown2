@@ -587,7 +587,14 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     round.visible=false; cyl.add(round); cyl.userData.round=round;
     /* LIVE mark: a red glowing ring around the loaded chamber's mouth, turns with the drum so the eye can follow the round through the spin */
     const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=-.0247; round.add(liveRing);   /* on the rear face: the brass rim and primer are what say "bullet" */
-    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; };
+    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; cyl.userData.liveCount=1; };
+    cyl.userData.liveCount=0;   /* r88 Team V: how many live rounds the drum holds now (0 to 7), for the result line's wording */
+    /* r88 Chamber Men (Team G): a cylinder can hold up to 7 live rounds, one per goal the rival scored. The same cartridge is
+       copied into every live chamber (no new art); an empty list leaves the drum empty. */
+    const extra=[]; cyl.userData.placeRounds=(list)=>{ const live=Array.isArray(list)?list.filter(i=>Number.isInteger(i)&&i>=0&&i<n):[]; extra.forEach(r=>{ r.visible=false; });
+      if(!live.length){ round.visible=false; cyl.userData.liveCount=0; return; } cyl.userData.placeRound(live[0]); cyl.userData.liveCount=live.length;
+      live.slice(1).forEach((i,k)=>{ let r=extra[k]; if(!r){ r=round.clone(true); cyl.add(r); extra.push(r); } const a=i/n*Math.PI*2+Math.PI/2; r.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); r.visible=true; }); };
+    cyl.userData.clearRounds=()=>{ round.visible=false; extra.forEach(r=>{ r.visible=false; }); cyl.userData.liveCount=0; };
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
@@ -787,29 +794,35 @@ function setBusy(b){ cta.classList.toggle("busy",b); document.body.classList.tog
 function rrPlanTurn(o,free){ if(!o||!Number.isInteger(o.bulletChamber)||!Number.isInteger(o.stopChamber)) return null;
   const at=Number.isInteger(o.hitSlot)?o.hitSlot:o.aimSlot;
   const pick=(Number.isInteger(at)&&free.find(x=>x.slot===at))||(o.target&&free.find(x=>x.name===o.target))||free[0];
-  return {bulletAt:((o.bulletChamber%7)+7)%7, chamber:((o.stopChamber%7)+7)%7, pick, fire:o.fire===true}; }
+  return {bulletAt:((o.bulletChamber%7)+7)%7, chamber:((o.stopChamber%7)+7)%7, pick, fire:o.fire===true, loadedChambers:Array.isArray(o.loadedChambers)?o.loadedChambers:null}; }
 /* rrPlanTurn end */
 function startTurn(force,targetName,planned){ if(playing) return; const who=ORDER[turn%2];
   const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const plan=rrPlanTurn(planned,free); let pick, fire;
-  if(plan){ bulletAt=plan.bulletAt; loaded=true; cyl.userData.placeRound(bulletAt); chamber=plan.chamber; pick=plan.pick; fire=plan.fire; }
+  if(plan){ bulletAt=plan.bulletAt; loaded=true; if(plan.loadedChambers) cyl.userData.placeRounds(plan.loadedChambers); else cyl.userData.placeRound(bulletAt); chamber=plan.chamber; pick=plan.pick; fire=plan.fire; }
   else{
     if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; cyl.userData.placeRound(bulletAt); }
     const fireQ=qs.get("fire"); const want=force!==undefined?force:(fireQ==="1"?true:fireQ==="0"?false:null);
     chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
     pick=(targetName&&free.find(x=>x.name===targetName))||free[Math.floor(rnd()*free.length)];   /* the gallery (no plan) picks one */
     fire=chamber===bulletAt; }
-  playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
+  playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, cyl0:cyl.rotation.z, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const tgt=boardTargetWorld(who,pick); const dir=tgt.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
   setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
 function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+((typeof GAME!=="undefined"&&GAME&&GAME.turns&&GAME.turns[turn]&&GAME.turns[turn].targetLabel)||p.target.name),"lost") /* Codex C2-01: number, position and overall tell namesakes apart */; } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
   try{ window.dispatchEvent(new CustomEvent("rr:end",{detail:{who, name:NAME[who], fire:p.fire, lost:p.fire?p.target.name:null, turn}})); }catch(e){}
-  turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.round.visible=false; } }
+  turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.clearRounds(); } }
 const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
 const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,impact:3.45,end:5.2}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:13.6,aim:13.9,fire:15.0,impact:17.4,end:22.0};
 let hammerK=0, cylExtra=0, recoil=0, fxScale=1;
+/* r88 Team V: the result lines read right for 0 to 7 live rounds (Chamber Men loads one per goal; older Showdowns hold one). */
+function liveWords(){ const k=(cyl&&cyl.userData&&Number.isInteger(cyl.userData.liveCount))?cyl.userData.liveCount:1;
+  if(k<=0) return {mark:"No live rounds · Gold: fires", fired:"Stopped on a live round", safe:"No live rounds. Every chamber is empty"};
+  if(k===1) return {mark:"Red: live round · Gold: fires", fired:"Stopped on the live round", safe:"The live round passed"};
+  if(k>=7) return {mark:"Red: "+k+" live rounds · Gold: fires", fired:"Every chamber is live. Stopped on a live round", safe:"Stopped on an empty chamber"};
+  return {mark:"Red: "+k+" live rounds · Gold: fires", fired:"Stopped on a live round", safe:"Stopped on an empty chamber"}; }
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 let lastClick=0;
@@ -824,11 +837,14 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     /* b. the cylinder turns one chamber by itself, then the hammer cocks by itself */
     /* the crane swings the cylinder out, it spins fast and runs down while the camera looks into the chambers, then swings back */
     const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.62; { const pk=Math.max(0,(craneK-.35)/.65), ptr=cyl.userData.pointer; ptr.visible=pk>0; const sc=.001+ease.out(pk)*.999; ptr.scale.set(sc,sc,sc); }
-    at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent="Red: live round · Gold: fires"; });
-    at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?"Stopped on the live round":"The live round passed"; });
+    at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent=liveWords().mark; });
+    at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?liveWords().fired:liveWords().safe; });
     at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
     /* THE main event: the drum spins free for ~7 s, fast at first, then the clicks spread out, then a slow crawl to the stop with the red ring and the gold mark in view. It stops exactly where it will fire (or not) before the crane closes. */
-    let showExtra=0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.45,B.inside-B.close-.85,tt); const e=1-Math.pow(1-k,2.7); showExtra=(1-e)*Math.PI*2*(REDUCED?0:14); const idx=Math.floor(showExtra/(Math.PI*2/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.3*k); } }
+    /* Nik 2026-11-03: the drum starts from wherever it rested and runs down to the planned stop chamber (any of the 7, as the
+       engine drew it), so it never just spins whole turns back onto the hole it started on. */
+    const TAU=Math.PI*2; let back=(playing.cyl0-cylTarget())%TAU; if(back<0) back+=TAU; const runDown=TAU*(REDUCED?0:14)+back;
+    let showExtra=tt<B.close?runDown:0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.45,B.inside-B.close-.85,tt); const e=1-Math.pow(1-k,2.7); showExtra=(1-e)*runDown; const idx=Math.floor(showExtra/(TAU/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.3*k); } }
     at(tt,B.inside-3.2,"heart0",()=>SFX.play("heart")); at(tt,B.inside-2.0,"slowing",()=>{ result.textContent="Slowing down…"; });
     at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); cyl.rotation.z=cylTarget()+showExtra;
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
@@ -983,6 +999,9 @@ function buildEnv(){ const pm=new T.PMREMGenerator(renderer); pm.compileEquirect
    viewer's own tap inside this frame); the switch at the top turns it off. A board keeps the launch kit, and the launch rating
    and bench position of any player still on it; a new name shows no rating. */
 const EMBED=qs.get("embed")==="1"; let GAME=null;
+/* r88 Chamber Men: each turn's loadedChambers (the live chambers its manager's cylinder holds) names the bullet counts. */
+function chamberCaption(g){ const t=g&&Array.isArray(g.turns)?g.turns:[]; if(t.length!==2||!t.every(x=>x&&Array.isArray(x.loadedChambers))) return "";
+  const word=k=>k===1?"1 bullet":k+" bullets"; return "Daniel "+word(t[0].loadedChambers.length)+" · Nik "+word(t[1].loadedChambers.length)+" · Seven chambers"; }
 const toGame=(type,extra)=>{ try{ parent.postMessage(Object.assign({type},extra||{}),location.origin); }catch(e){} };
 function embedLabel(){ if(!GAME||playing) return; cta.disabled=false; cta.classList.remove("busy"); cta.textContent=turn<2?(NAME[ORDER[turn%2]]+" spins"):"Continue"; }
 if(EMBED){ document.body.classList.add("embed");
@@ -991,12 +1010,12 @@ if(EMBED){ document.body.classList.add("embed");
        once, so the game shows the result panel instead of a black stage with a dead button */
     if(!SQUADS||!g.boards||!Array.isArray(g.boards.D)||!Array.isArray(g.boards.N)||!Array.isArray(g.turns)||g.turns.length!==2){ toGame("cms-rr-error",{message:SQUADS?"setup":"squads"}); return; }
     const merge=(clubName,rows,formation)=>{ const base=clubByName(clubName), launch=[...base.xi,...base.subs]; const known=nm=>launch.find(r=>r[1]===nm);
-      const rate=(r,k)=>Number.isInteger(r.rating)?r.rating:(k?k[2]:""); /* a signing or Special Player shows the overall the game sent */
+      const rate=(r,k)=>Number.isInteger(r.rating)?r.rating:(k?k[2]:""); /* a signing shows the overall the game sent (a Special Player is never on a board: js/rosterRoulette.js specials) */
       const xi=rows.slice(0,11).map(r=>[r.pos,r.name,rate(r,known(r.name))]), subs=rows.slice(11,15).map(r=>{ const k=known(r.name); return [r.position||(k?k[0]:"SUB"),r.name,rate(r,k)]; });
       return Object.assign({},base,{club:clubName,xi,subs,formation:typeof formation==="string"?formation:null}); };
     const dEntry=merge(g.d,g.boards.D,g.formations&&g.formations.D), nEntry=merge(g.n,g.boards.N,g.formations&&g.formations.N);
     if(Number.isInteger(g.seed)) seed=g.seed>>>0;   /* cosmetic draws (sparks, smoke) start from the Showdown's seed on both phones */
-    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent="One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
+    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent=chamberCaption(g)||"One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
   addEventListener("rr:end",e=>{ toGame("cms-rr-end",{detail:e.detail}); setTimeout(embedLabel,0); }); }
 cta.addEventListener("click",()=>{ if(playing) return;
   if(EMBED){ if(!GAME) return; if(turn>=2){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; toGame("cms-rr-continue"); return; }
@@ -1005,9 +1024,9 @@ cta.addEventListener("click",()=>{ if(playing) return;
   startTurn(); });
 $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sound").textContent="Sound: "+(v?"on":"off"); $("sound").setAttribute("aria-pressed",String(v)); });
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
-$("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent="One bullet. Seven chambers."; });
+$("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
+window.__rr={ get cylZ(){ return cyl.rotation.z; }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardTargetWorld(playing.who,playing.target).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, hasGunTop, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, fps, hasRoom, bulletAt, chamber}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);

@@ -46,8 +46,9 @@
     // r87: the Russian Roster Roulette between Career Start and the Transfer Challenge runs at the manager's pace, so the 25 s
     // limit waits while it is on screen (js/rosterRouletteStep.js active()). Fable F6-09: it also waits while the Transfer
     // Challenge open is still in flight before the roulette shows (a cold cache loads its files), up to 2 minutes in all.
+    // r88: Chamber Men, before the roulette, is at the managers' pace too (each kick's clock waits for the rival to lock in).
     const began=Date.now();
-    const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()||(transferOpening&&Date.now()-began<TRANSFER_OPEN_LIMIT_MS)){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
+    const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()||root.CareerModeChamberMenStep?.active?.()||(transferOpening&&Date.now()-began<TRANSFER_OPEN_LIMIT_MS)){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
     let active=true;request={wait:promise=>Promise.race([promise,timeout]).then(value=>{if(!active)throw error;return value;})};
     return Promise.race([Promise.resolve().then(()=>task(request)),timeout]).catch(failure=>{if(failure===error){lastError=error.message;if(task===pcstOpenPanelNow)pcstEnsurePanel();pcstRender();pcstDecorateControl();}throw failure;}).finally(()=>{active=false;root.clearTimeout(timer);});
   }
@@ -141,7 +142,7 @@
       const opened=await transfer.open();
       transferOpening=false;
       // r87: the manager left the Russian Roster Roulette or the Prime Pack for Showdown Home; it opens again from there. Not a failure.
-      if(opened!==true&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.())){pcstClosePanel();return false;}
+      if(opened!==true&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()||root.CareerModeChamberMenStep?.wentHome?.())){pcstClosePanel();return false;}
       // The roulette or the Prime Pack could not start (Setup not read, its files not loaded): its own reason, not a generic one (Fable F2-05).
       const reason=opened!==true&&typeof transfer.rouletteError==="function"?transfer.rouletteError():"";
       if(reason){lastError=reason;return false;}
@@ -501,7 +502,7 @@
     // Fable F6-01: a BACK TO SHOWDOWN HOME from the roulette opened here (CONTINUE CAREER from Home) stays on Home, as it does
     // from the panel; only a roulette that could not start (its own reason) or a failed open shows Career Start below.
     if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return pcstCloseReveal();
-    if(!pcstPanelOpen()&&pcstReadyHere()&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()))return pcstCloseReveal();
+    if(!pcstPanelOpen()&&pcstReadyHere()&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()||root.CareerModeChamberMenStep?.wentHome?.()))return pcstCloseReveal();
     const overlay=pcstEnsurePanel();stageRetries=0;stageFailed=false;retryFailed=false;stageFailed=!(await request.wait(pcstClubBackdrop()));overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay){overlay.classList.add("hidden");pcstStageOff(overlay);}return true;}

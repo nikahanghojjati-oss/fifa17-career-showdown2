@@ -27,7 +27,7 @@ function world(opts={}){
   async function advance(ms){await flush();now+=ms;for(const [id,t] of [...timers])if(t.at<=now){timers.delete(id);t.fn();await flush();}await flush();}
   const action=text=>body.descendants().find(n=>n.tagName==='button'&&n.textContent.startsWith(text));
   const status=()=>body.descendants().find(n=>n.dataset.careerStatus)?.textContent;
-  return {api,controls,calls,button,result,advance,action,status,timers,sandbox,state,panel:()=>sandbox.document.getElementById('productionSharedCareerStartOverlay')};
+  return {api,controls,calls,button,result,advance,action,status,timers,sandbox,state,clock:()=>now,panel:()=>sandbox.document.getElementById('productionSharedCareerStartOverlay')};
 }
 async function timedOpen(stage){
   const w=world(),late=deferred();w.controls[stage]=()=>late.promise;
@@ -99,4 +99,33 @@ async function fable6(){
     console.log('PASS F6-09 the 25 s limit waits while the Transfer Challenge open is in flight');
   }
 }
-main().then(fable6).catch(error=>{console.error(error);process.exitCode=1;});
+// r88 Chamber Men (Codex #1205): the shootout runs before the roulette inside the same Transfer Challenge open. It is at the
+// managers' pace (round 1 waits for the rival to lock in), so the Career Start limit waits while it is on screen, and its
+// BACK TO SHOWDOWN HOME is a choice, not a failure, exactly as the roulette's and the Prime Pack's are.
+async function r88Chamber(){
+  const chamberWorld=()=>{
+    const w=rouletteWorld(),chamber={home:false,on:false,active:()=>chamber.on,wentHome:()=>chamber.home};
+    w.sandbox.CareerModeChamberMenStep=chamber;
+    // The 2-minute open limit reads Date.now(): run it on this world's clock.
+    const RealDate=Date;w.sandbox.Date=class extends RealDate{static now(){return w.clock();}};
+    return {...w,chamber};
+  };
+  {
+    const w=chamberWorld();w.transfer.next=()=>{w.chamber.home=true;return false;};
+    const back=await w.api.openPanel();await w.advance(0);
+    assert.equal(w.transfer.opens,1);assert.equal(w.shown(),false,'CM-CS1 BACK from Chamber Men closes Career Start');
+    assert.notEqual(back,false,'CM-CS1 leaving for Home is not a failure');assert.doesNotMatch(String(w.status()),/took too long|could not|unavailable/i,'CM-CS1 no error line');
+    console.log('PASS CM-CS1 BACK TO SHOWDOWN HOME from Chamber Men stays on Home, no error');
+  }
+  {
+    const w=chamberWorld();await w.api.openPanel();await w.advance(0);w.api.closePanel();
+    w.transfer.gate=deferred();w.chamber.on=true;
+    let settled=null;const run=w.api.openPanel().then(v=>{settled=v;},()=>{settled='rejected';});
+    for(let i=0;i<8;i+=1)await w.advance(25000);// 200 s: past the 2-minute open limit
+    assert.notEqual(w.status(),ERROR,'CM-CS2 no "took too long" while Chamber Men is on screen');assert.equal(settled,null,'CM-CS2 the open is still running');
+    w.chamber.on=false;w.transfer.gate.resolve();await w.advance(0);await run;
+    assert.equal(settled,true,'CM-CS2 the open succeeds after the shootout');assert.equal(w.shown(),false);
+    console.log('PASS CM-CS2 the Career Start limit waits while Chamber Men is on screen');
+  }
+}
+main().then(fable6).then(r88Chamber).catch(error=>{console.error(error);process.exitCode=1;});

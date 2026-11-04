@@ -124,7 +124,7 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   assert.ok(!refs.includes("js/clubScreenV10.js")&&!refs.includes("css/v10Club.css"),"not a startup file");
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=33900,`startup gzip ${gzip} must stay <= 33900 (r87 2.0.0 candidate 9a9667fb; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=33910,`startup gzip ${gzip} must stay <= 33910 (r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   assert.match(ssjr,/load\("v10-club","js\/clubScreenV10\.js",\(\)=>root\.CareerModeClubScreenV10\)\.then\(\(\)=>root\.CareerModeClubScreenV10\.install\(\)\)/);
   assert.match(ssjr,/requestIdleCallback\(v10Club/);
   const shell=new Set([...sw.matchAll(/^\s+"([^"]+)",?$/gm)].map(m=>m[1]));
@@ -135,7 +135,7 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
     if(/\.webp$/.test(full)){assert.ok(imageRule.test(full),full);assert.ok(!shell.has(full),`${full} not precached`);}
     else if(/\.woff2$/.test(full))assert.ok(shell.has(full),`${full} shell cached`);
   }
-  assert.match(sw,/const RUNTIME_REVISION = "2\.0\.0-r87";/,"RUNTIME_REVISION is the current release (r87, 2.0.0-r87)");
+  assert.match(sw,/const RUNTIME_REVISION = "2\.1\.0-r88";/,"RUNTIME_REVISION is the current release (r88, 2.1.0-r88)");
   // The glue loads before club.css, so club.css wins every tie with it while the glue's resets still beat the app.
   assert.deepEqual([...CL.FILES.css],["../../css/v10Club.css","club/club.css"]);
   assert.deepEqual(CL.FILES.script.slice(0,2),["v10-club-plate","club/club.js"]);

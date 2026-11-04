@@ -269,8 +269,8 @@ function ruleBook(){
   // r86 (Nik 2026-10-29): rules FIFA 17 enforces by itself are no longer printed; the scoring engine still applies them.
   for(const gone of [/same season/,/3rd in its Champions League group/,/by its league position/,/Only winning scores/,/Best possible season/])assert.doesNotMatch(notes,gone);
   assert.ok(items.includes("Skip pre-season in FIFA 17."),"r86 (Nik 2026-10-29): pre-season is skipped in FIFA 17");
-  assert.equal(book.all().filter(n=>/^ruleSection( scoringRuleSection| specialPlayerRuleSection)?$/.test(n.className)).length,6,"six rule cards (r86 adds Special Player, drops the draws card)");
-  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, six cards");
+  assert.equal(book.all().filter(n=>/^ruleSection( scoringRuleSection| specialPlayerRuleSection)?$/.test(n.className)).length,9,"nine rule cards (r86 adds Special Player, drops the draws card; r88 adds Chamber Men, Roster Russian Roulette and Prime Pack cards)");
+  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, nine cards");
 }
 
 function textLines(){
@@ -286,12 +286,16 @@ function textLines(){
   assert.equal(trophy("playerTwo",{totalTrophies:2,leagueTitles:0,domesticCups:1,championsLeagues:0,europaLeagues:1}),"Nik 2 trophies (0 league, 1 cup, 0 Champions League, 1 Europa League)");
   const shell=read("visual-assets/v10_1/season-results/app-shell.html");
   assert.match(shell,/<span>Europa League Winner<\/span><strong>\+3<\/strong>/);
-  assert.match(shell,/<span>Maximum Season Score<\/span><strong>11<\/strong>/);
-  assert.match(shell,/Champions League \+5[^<]*Europa League \+3[^<]*Season maximum 11/);
+  // Nik 2026-11-01: no 11 anywhere; a perfect season is 15 with the Prime Pack (short label on screen, full rule in the
+  // screen-reader text, so the panel keeps its height and CONTINUE stays on the first view).
+  assert.match(shell,/<span>Prime Pack \(4, 3, 2 or 1\)<\/span><strong>\+4<\/strong>/);
+  assert.match(shell,/<span>Maximum Season Score<\/span><strong>15<\/strong>/);
+  assert.match(shell,/Champions League \+5[^<]*Europa League \+3[^<]*Prime Pack \+4, \+3, \+2 or \+1[^<]*Season maximum 15\./);
+  assert.doesNotMatch(shell,/maximum 11|<strong>11<\/strong>/i,"no 11-point maximum left on Season Results");
   const index=read("index.html");
   for(const p of ["p1","p2"])assert.match(index,new RegExp(`<label><input id="${p}ChampionsLeague" type="checkbox"> Champions League Winner</label>\\n<label><input id="${p}EuropaLeague" type="checkbox"> Europa League Winner</label>`));
   assert.match(index,/Champions League \+5 or Europa League \+3 \(never both in the same season\)[^<]*Prime Pack \+4, \+3, \+2 or \+1\. Maximum season score: 15\./);
-  ok("E8 canonical breakdown and History trophy line name the EL only when won; scoring panel and hint list EL +3 with max 11; EL box after each CL box");
+  ok("E8 canonical breakdown and History trophy line name the EL only when won; scoring panel and hint list EL +3 and Prime Pack +4 with max 15; EL box after each CL box");
 }
 
 (async()=>{

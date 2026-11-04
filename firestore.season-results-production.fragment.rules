@@ -328,6 +328,49 @@
       return round.namedBy == managerRole
         && points == ssjrPackStagePoints(round.updatedAt, round.arrived.playerOne, round.arrived.playerTwo);
     }
+    // r88 Chamber Men (Nik 2026-11-02, turn by turn 2026-11-03; js/chamberMen.js, js/chamberMenStep.js): once a season,
+    // before Roster Russian Roulette, a 7-round penalty shootout of 14 kicks: Daniel shoots and Nik keeps, then Nik shoots and
+    // Daniel keeps, and so on. The round record is rivalries/{rid}/chamberMenRounds/season_N. Each manager owns only his own
+    // pick string kicks[role]: one letter per kick (his shot on a kick he takes, his dive on a kick he keeps: L, M, R, or -
+    // when his own clock ran out), 14 at most (7 shots and 7 dives). A write adds exactly one letter to his own string and
+    // never changes what is there, and only while he is not ahead of the other manager (he sends kick n+1 only once the
+    // other has sent kick n), so nobody runs ahead, nothing is taken back, and the letter at place n is always his part on
+    // kick n. The other manager's string never moves. Scoring and the cylinders are worked out on both phones from the two
+    // strings; no lookup beyond the shared write authority, no list, no delete.
+    function ssjrChamberShape(root, rivalryId, seasonId) {
+      return root.keys().size() == 9
+        && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','kicks','revision','activeSessionId','updatedByDeviceId','updatedAt'])
+        && root.schemaVersion == 2
+        && root.objectType == 'sharedChamberMenRound'
+        && root.rivalryId == rivalryId
+        && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)
+        && ssjrPackRoleMap(root.kicks)
+        && root.kicks.playerOne is string && root.kicks.playerOne.size() <= 14
+        && root.kicks.playerTwo is string && root.kicks.playerTwo.size() <= 14
+        && root.revision is int
+        && root.updatedAt == request.time
+        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+    }
+    function ssjrChamberCreateValid(rivalryId, seasonId) {
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      return ssjrChamberShape(after, rivalryId, seasonId)
+        && after.revision == 1
+        && after.kicks[role].matches('[LMR-]')
+        && after.kicks[ssjrPackOther(role)] == '';
+    }
+    function ssjrChamberUpdateValid(rivalryId, seasonId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let role = ssjrActorRole(rivalryId);
+      let other = ssjrPackOther(role);
+      return ssjrChamberShape(after, rivalryId, seasonId)
+        && after.seasonNumber == before.seasonNumber
+        && after.revision == before.revision + 1
+        && after.kicks[other] == before.kicks[other]
+        && before.kicks[role].size() <= before.kicks[other].size()
+        && after.kicks[role].matches(before.kicks[role] + '[LMR-]');
+    }
 // SSJR_SEASON_RESULTS_FUNCTIONS_END
 
 // SSJR_SEASON_RESULTS_MATCH_BEGIN
@@ -348,5 +391,11 @@
         allow list, delete: if false;
         allow create: if ssjrPackCreateValid(rivalryId, seasonId);
         allow update: if ssjrPackUpdateValid(rivalryId, seasonId);
+      }
+      match /chamberMenRounds/{seasonId} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, delete: if false;
+        allow create: if ssjrChamberCreateValid(rivalryId, seasonId);
+        allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);
       }
 // SSJR_SEASON_RESULTS_MATCH_END

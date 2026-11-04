@@ -444,8 +444,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.0.0-r87","RUNTIME_REVISION is the r87 release (2.0.0-r87)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.10-r86");
+  assert.equal(revision,"2.1.0-r88","RUNTIME_REVISION is the r88 release (2.1.0-r88)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.0.0-r87");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -494,7 +494,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.0.0-r87");assert.equal(prev,"1.9.10-r86");
+  assert.equal(cur,"2.1.0-r88");assert.equal(prev,"2.0.0-r87");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -586,6 +586,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1.webp":"37ec183f8f282b0314fed20b1ee48cfc7c6c35b40cd88676ff7ee12bda3f7d68",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp":"3ad7b30b692ad37f4f366357a7515c7765ec7a11302bcce186b468a7772a68c5",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp":"e185a67497b0ce0340043ee5bc0e8efd35e8143679b806ad0a48d197885d7cf7",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_STORY_V1.webp":"41744296918d43d6f3ed2ea51781afe6ef821a74cf823b47b3786649a01c8ff0",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp":"92364b627bfb2f42dc62610e69c548eef6f51b3a465fc036d962e6cb6f4aa3ff",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1.webp":"e331ed59ebd2d9e8512299a31b4f47b13cc685fd1eb037259a97eca9ec8abac0",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1.webp":"148683d7a6ff038176c0f8a9cf599a36645a08f4361e59be25ded2095f5ae153",
@@ -800,12 +801,13 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-02 by the 2.0.0 release PR to the shipped index.html (2.0.0-r87 pins on gameplay/r87 bd67147a, after
   // the Transfer War wording #1190). This check had not run since r78 (#1115).
-  assert.equal(sha256("index.html"),"76b4c25c7184ac0da00f22ab5aefc80d40b72cd9eb4c4c6b019ab0283ef08281","index.html byte-identical to the 2.0.0 release");
+  // Re-pinned 2026-11-03 by the 2.1.0 release PR: the 2.0.0 file with its 2.1.0-r88 pins and v2.1.0 footer, nothing else.
+  assert.equal(sha256("index.html"),"81cac99932215ec26828e25e2e1a90f15aaf5c755d284038e6ecda737b6ca5cf","index.html byte-identical to the 2.1.0 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=33900,`startup gzip ${gzip} must stay <= 33900 (r87 2.0.0 candidate 9a9667fb; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=33910,`startup gzip ${gzip} must stay <= 33910 (r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   const ssjr=read("js/ssjr.js");
   assert.match(ssjr,/load\("v10-screens","js\/v10Screens\.js",\(\)=>root\.CareerModeV10Screens\)/,"loader starts lazily after start-up");
   assert.match(ssjr,/requestIdleCallback/);

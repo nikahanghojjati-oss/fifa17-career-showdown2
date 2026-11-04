@@ -188,6 +188,7 @@ ok(/loadRuntimeScript\("commentary-v3","js\/commentaryV3\.js"/.test(sf),"Season 
 const sw=read("service-worker.js"),added=new Set(JSON.parse(sw.match(/SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\((\[[^\]]*\])\)/)[1]));
 for(const file of ["js/commentaryV3.js","js/commentaryEngine.js","data/commentaryLines.js"]){
   ok(sw.includes(`"${file}",`),`${file} is in the offline shell (the service worker refuses files it does not know)`);
-  ok(added.has(file),`${file} is marked new since the previous release`);
+  // 2.1.0: shipped in 2.0.0-r87, so it is in the retained r87 shell's own list, not the added list.
+  ok(!added.has(file)&&JSON.parse(read("tests/fixtures/shell-paths/2.0.0-r87.json")).paths.includes(file),`${file} is in the retained 2.0.0-r87 shell`);
 }
 console.log(`r87 Commentary v3 contracts passed (${checks} checks, ${calls} booth calls)`);

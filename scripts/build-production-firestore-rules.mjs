@@ -193,6 +193,14 @@ for(const required of [
   'allow update: if ssjrPackUpdateValid(rivalryId, seasonId);',
   "&& (!('primePack' in after.result) || ssjrPackPoints(rivalryId, seasonId, managerRole, after.result.primePack))",
   "after.chipsUsed[other] == before.chipsUsed[other]",
+  // r88 Chamber Men: the round record (own pick string only, one letter a kick, never ahead of the other manager).
+  'match /chamberMenRounds/{seasonId}',
+  'allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);',
+  "after.kicks[other] == before.kicks[other]",
+  "before.kicks[role].size() <= before.kicks[other].size()",
+  "after.kicks[role].matches(before.kicks[role] + '[LMR-]')",
+  "after.kicks[role].matches('[LMR-]')",
+  "root.kicks.playerOne is string && root.kicks.playerOne.size() <= 14",
   'value.leaguePosition <= teamCount',
   'value.leaguePoints <= (teamCount - 1) * 6',
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole))',
@@ -252,7 +260,8 @@ for(const [needle,count,label] of [
   // Prime Pack: the same two result shapes carry the sparse primePack key (an int 1 to 4), the Terminal Close score adds it.
   ["&& (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));",2,'Prime Pack result rule'],
   ["+ result.get('primePack', 0)",1,'Prime Pack Terminal Close score term'],
-  ['match /primePackRounds/{seasonId}',1,'Prime Pack round match']
+  ['match /primePackRounds/{seasonId}',1,'Prime Pack round match'],
+  ['match /chamberMenRounds/{seasonId}',1,'Chamber Men round match']
 ]){
   if(generated.split(needle).length-1!==count)throw new Error(`Generated production Rules must contain the ${label} exactly ${count} time(s).`);
 }
