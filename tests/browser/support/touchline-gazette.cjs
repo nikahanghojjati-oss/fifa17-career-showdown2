@@ -8,7 +8,7 @@
 //   gazetteSeen(page)        the papers this phone has shown, in order.
 const SEEN_KEY="careerModeShowdown.gazetteSeen.v1";
 
-async function passGazette(page,kind,timeout=20000){
+async function passGazette(page,kind,timeout=20000,beforeContinue=null){
   const handle=await page.waitForFunction(()=>{
     const b=document.getElementById("touchlineGazetteContinue");
     if(b&&b.getClientRects().length&&!b.disabled)return "paper";
@@ -19,6 +19,7 @@ async function passGazette(page,kind,timeout=20000){
   const shown=await page.evaluate(()=>({kind:document.documentElement.dataset.gazette||null,key:document.getElementById("touchlineGazette")?.dataset.gazetteKey||null,headline:document.querySelector("#touchlineGazette .cmx-paper__headline")?.textContent||""}));
   if(kind&&shown.kind!==kind)throw new Error(`expected the ${kind} Gazette, saw ${shown.kind}`);
   if(!shown.headline.trim()||/[{}]/.test(shown.headline))throw new Error(`the Gazette printed no real headline: "${shown.headline}"`);
+  if(beforeContinue)await beforeContinue(shown);
   await page.locator("#touchlineGazetteContinue").click({timeout:10000});
   await page.waitForFunction(()=>!document.getElementById("touchlineGazette")||document.getElementById("touchlineGazetteContinue")?.disabled,null,{timeout:10000});
   return shown.key;
