@@ -820,6 +820,272 @@
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
 
+/* 4q. Studio Small Axe 40/40, shared stroke 1: the 12 px text floor on desktop (craft rule "nothing under 12px").
+   Measured on r88 d9eaafbb from 1280x720 to 1920x1080. A floor never lowers a size: the first group is under 12 px at
+   every desktop width, so it takes 12 px everywhere; the second group grows with the window and passes 12 px on its
+   own on wide screens, so it takes 12 px only up to 1699 px wide. Sizes only, no layout moves; !important because
+   several are set inline by screen scripts or by later-loaded screen sheets. Settings is left out: its dialog is
+   zoomed, so its labels already show at 12 px or more on screen. Short landscape screens (under 700 px tall, such as
+   1200x600) keep the kit sizes, because there the cards and tiles have no height to spare. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  :root #app > footer,
+  :root #photoCredit :is(a, span),
+  :root #cmsMusicDockTop span,
+  :root #app :is(#rvSeasonBody, #legacySeasonHistory) th,
+  :root #commentaryV3Final :is(b, .cmx-bar__tab),
+  :root #app :is(.compareLabel, .headlineTogether, .leaderLabel),
+  :root #app :is(.menuTileMeta, .finalWinnerRematchSub),
+  :root #app :is(.legacyCardFooter, .legacyClubName, .legacyWinner, .legacyWinnerCrown),
+  :root #app #legacy #legacySeasonHistory .legacyHistoryClose,
+  :root #app .ruleSpecialPlayerTag,
+  :root #app :is(.rv-progress, .rv-trophyLabel) { font-size: 12px !important; }
+}
+@media (min-width: 1200px) and (max-width: 1699px) and (min-height: 700px) {
+  :root #app :is(.connectPlayersTagline, .finalWinnerRematchMain, .finalWinnerTotalMark, .leaderName),
+  :root #app #legacy #legacySeasonHistory :is(.legacyHistoryDetail, .legacyHistoryEuropa),
+  :root #app :is(.rv-headCaption, #rvClubDaniel, #rvClubNik),
+  :root #app :is(#fixtureEyebrow, #fixtureTagline),
+  :root #app :is(#rvTitleBlock, #v10RuleBookStage, #standings) :is(.sd-eyebrow, .sd-tagline),
+  :root #app #v10ExitSlot :is(.menuButton, .backButton),
+  :root #app #connectPlayersScreen .connectPlayersRole > span,
+  :root #app #trophyRoom :is(.careerRank, .recordItem) > span { font-size: 12px !important; }
+}
+@media (min-width: 1200px) and (max-width: 1919px) and (min-height: 700px) {
+  /* The Career Table heads keep their column widths: a touch less tracking pays for the extra size, and the Manager
+     column gives its spare width to Showdowns and Season W-D-L (this also ends the "Showdowns" clip the base showed at
+     1280x720). The headline tiles (the "COMPLETED SHOWDOWNS" label and the D/N totals under the numbers) stay at the kit
+     size: at 12 px they outgrow their tiles. The Career Statistics finish gives those tiles a new layout. */
+  :root #app #careerTablePanel th { font-size: 12px !important; letter-spacing: .02em !important; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 24%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 20%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 24%; }
+}
+/* 4q (cont.) Career Statistics headline tiles, where the tile is roomy enough (1440-1679px wide, 800px+ tall; from 1680 the kit sizes are already 12px+): the label
+   ("COMPLETED SHOWDOWNS" was 11px) and the D / N markers (10px) reach the 12px floor. Four-digit totals still fit
+   (Lane C C-03). Narrower or shorter windows keep the kit's sizes, where 12px would cut a total. */
+@media (min-width:1440px) and (max-width:1679px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles .headlineLabel { font-size:12px !important; }
+}
+@media (min-width:1440px) and (max-width:1919px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles small { font-size:12px !important; }
+}
+/* 4q.1 (Fable job 20) Desktop type floor, the last lines under 12px:
+   - Career Statistics: COMPLETED SHOWDOWNS kept 11px at 1280x720 and 1280x800 (the 4q label rule is height-gated) and the
+     D / N prefixes were 10px; both hold 12px on every desktop now.
+   - Season Results: the intro, honour pills and the "confirming is final" line are fluid (vw) and fell to 10.4-11.2px at
+     1600 wide; they keep their fluid size but never drop under 12px.
+   - Career Leaders: "Level · Daniel + Nik" balanced over two lines instead of three. */
+@media (min-width: 1200px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineLabel { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlinePair small { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .leaderCard .leaderName { text-wrap: balance; }
+}
+/* At 1200-1439 wide the tiles are 158px: a 28px icon column and 6px side padding give COMPLETED SHOWDOWNS its 12px line. */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns: 28px minmax(0, 1fr); padding-inline: 6px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineIcon { max-width: 28px; }
+}
+@media (min-width: 901px) {
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro, .seasonReviewResult) { font-size: max(12px, .7vw); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewAchievements span, .seasonReviewWarning) { font-size: max(12px, .65vw); }
+}
+/* Career Statistics phone tabs (TABLE / COMPARE / LEADERS) answer a tap with the standard 120ms press. */
+:root #app #careerStatistics .phoneTabs > label { transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out); }
+:root #app #careerStatistics .phoneTabs > label:active { transform: scale(.97); }
+@media (prefers-reduced-motion: reduce) { :root #app #careerStatistics .phoneTabs > label:active { transform: none; } }
+:root[data-motion-reduced="true"] #app #careerStatistics .phoneTabs > label:active { transform: none; }
+/* 4r. Studio Small Axe 40/40, shared stroke 2: score reveal on Showdown Home and Standings (Final Winner, Season
+   Review, Rivalry, Career Statistics and Trophy Room already count up). The number never changes: it settles in with a
+   short scale and a gold glow each time the screen opens (320ms, the long step of the 120/200/320 motion scale, 1.02 overshoot), so it is the first thing the eye lands on. Opacity stays 1
+   (no flash), and Reduce Motion turns it off. */
+@keyframes sa-score-settle {
+  0% { transform: scale(.92); text-shadow: 0 0 0 rgba(255, 214, 120, 0); }
+  60% { transform: scale(1.02); text-shadow: 0 0 18px rgba(255, 214, 120, .5); }
+  100% { transform: none; text-shadow: 0 0 0 rgba(255, 214, 120, 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard:not(.hidden) :is(#dashboardScoreOne, #dashboardScoreTwo),
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #standings .sdg-scoreNumbers b {
+    display: inline-block;
+    animation: sa-score-settle 320ms cubic-bezier(.2, .8, .2, 1) both;
+  }
+}
+/* 4s. Studio Small Axe 40/40, shared stroke 3: designed waiting state on Connect Players. While the connection is
+   being checked the panel holds only its line of text ("Getting your Showdown ready…"); it now reads as a state, with
+   the Lucide loader in gold before it. The loader turns slowly and stands still under Reduce Motion. */
+@keyframes sa-spin { to { transform: rotate(360deg); } }
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p {
+  display: flex; align-items: center; gap: 12px; font-size: 15px; letter-spacing: .02em; color: #f3ead3;
+}
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p::before {
+  content: ""; flex: 0 0 20px; width: 20px; height: 20px; background: #e4b032;
+  -webkit-mask: var(--sa-ic-loader-circle) center / contain no-repeat; mask: var(--sa-ic-loader-circle) center / contain no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p::before {
+    animation: sa-spin 1.2s linear infinite;
+  }
+}
+/* 4s.1 (Fable job 20, Panels): the waiting row is one marble strip in the panel family (hairline gold border, inner light),
+   not a flat dark strip with a heavier border inside the card. */
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) {
+  border: 1px solid rgba(217, 170, 60, .55) !important; border-radius: 4px;
+  background: linear-gradient(180deg, rgba(24, 22, 19, .94), rgba(7, 7, 8, .94));
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12), 0 10px 22px rgba(0, 0, 0, .35);
+}
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p {
+  background: none; padding: 12px 16px; margin: 0; min-height: 44px; box-sizing: border-box;
+}
+
+/* 4t Studio Small Axe 40/40, panels and even spacing (desktop only; phones unchanged).
+   Rivalry: the three bottom panels sat 8-9px apart while the board above sat 12px over them; one 12px gap both ways
+   (8px both ways on short windows, where the rows already close up to 8px).
+   Season Results review board: it spanned 25.3%-72.3%, 2% from Daniel's face (23.3%) and 3.7% from Nik's (76%).
+   Same width, moved to 26.1% so both faces get the same ~2.85% gap. */
+@media (min-width:1024px) and (orientation:landscape) {
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-shell { column-gap:12px; }
+}
+@media (min-width:1024px) and (max-height:700px) and (orientation:landscape) {
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-shell { column-gap:8px; }
+}
+@media (min-width:901px) and (max-height:1000px) {
+  :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { margin-left:26.1%; }
+}
+/* 4t.1 (Fable job 20) Season Results: one gold primary. The SHOWDOWN SCORE AFTER THIS SEASON strip was gold-filled like
+   CONFIRM & SAVE SEASON and read as a second button; it is now a marble strip with gold type. The season outlook line
+   ("SEASON 3 IS HEADING FOR A DRAW") sits in a status pill of the panel family instead of plain text. */
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall {
+  background: linear-gradient(180deg, rgba(24, 22, 19, .96), rgba(7, 7, 8, .96)) !important;
+  border: 1px solid rgba(217, 170, 60, .55) !important; border-radius: 4px;
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12), 0 0 14px rgba(242, 196, 91, .12) !important;
+}
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall > span { color: #e4b032 !important; }
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall > strong { color: #ffd34d !important; }
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel #seasonReviewResult.seasonReviewResult:not(:empty) {
+  display: table; margin-inline: auto; padding: 5px 16px; border-radius: 999px;
+  border: 1px solid rgba(217, 170, 60, .55); background: linear-gradient(180deg, rgba(24, 22, 19, .94), rgba(7, 7, 8, .94));
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12); color: #f3ead3; font-size: 13px; letter-spacing: .08em;
+}
+/* Rivalry type floor (Fable job 20): kicker, tagline, club names, progress line, head-to-head caption, season table headers
+   and trophy labels drew at 10.2-11.5px on desktop; all hold 12px. */
+@media (min-width: 901px) {
+  :root #app #statistics :is(#rvTitleBlock > .sd-eyebrow, #rvTitleBlock > .sd-tagline, #rvClubDaniel, #rvClubNik, #rvProgress, #rvPanelHead > .rv-headCaption, .rv-seasonTable > thead th, .rv-trophyLabel) { font-size: 12px; }
+}
+
+/* 4u Studio Small Axe 40/40, motion set: the Golden Showdown light sweep. A Golden Showdown (150 points over 10 seasons) is
+   the rarest thing in the game, so its card, trophy, note and badge catch one sweep of light when they appear (640ms, no delay;
+   the Rivalry badge lives in the HEAD-TO-HEAD tab and sweeps when that tab opens). Light
+   only: it passes behind the content, never darkens, never covers, ends invisible and is off under Reduce Motion. */
+:root #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown) {
+  isolation: isolate;
+}
+:root #app :is(#careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown) { position: relative; }
+:root #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 236, 170, .42) 50%, transparent 62%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  opacity: 0;
+}
+@keyframes sa-golden-sweep {
+  0% { background-position: 100% 0; opacity: 1; }
+  100% { background-position: 0% 0; opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown)::after {
+    animation: sa-golden-sweep 640ms cubic-bezier(.45, 0, .25, 1) 1 both;
+  }
+}
+/* 4u.1 (Fable job 20, Type): the GOLDEN SHOWDOWN tags on Legacy, Rivalry and Career Statistics drew at 11px; 12px floor. */
+:root #app :is(#legacy .legacyGoldenShowdown, #statistics .rv-goldenShowdown, #careerStatistics .goldenShowdownNote) { font-size: 12px; line-height: 16px; }
+
+/* 4v Studio Small Axe 40/40, per-screen finishes (desktop plate layout only; phones unchanged).
+   Rule Book: the brush wordmark's top strokes touched the CAREER MODE SHOWDOWN kicker above it. 6 more units of air so
+   kicker and title read as two lines. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 14); }
+}
+@media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 11); }
+}
+/* Season Results review: the two SEASON SCORE plaques are the answer of the whole board, but they sat as quietly as the
+   rows above them. They now light up once as the board appears (a 320 ms gold glow, the second plaque 120 ms later, that settles to a visible resting glow),
+   so the eye lands on the two scores first. Light only, no size or layout change; off under Reduce Motion. */
+@keyframes sa-plaque-light {
+  0% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28); text-shadow: none; }
+  45% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), inset 0 0 18px rgb(255 214 120 / .35), 0 0 26px rgb(242 196 91 / .55); text-shadow: 0 0 12px rgb(255 214 120 / .8); }
+  100% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28); text-shadow: none; }
+}
+/* Resting glow (Fable job 20): the plaques keep a visible gold halo after the light passes, with or without motion. */
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewTotal {
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28);
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden) .seasonReviewTotal {
+    animation: sa-plaque-light 320ms cubic-bezier(.2, .8, .2, 1) 1 both;
+  }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden) #seasonReviewTwo .seasonReviewTotal {
+    animation-delay: 120ms;
+  }
+}
+/* 4v.1 Rule Book type floor (Fable job 20): the CAREER MODE SHOWDOWN kicker and THE RULES tagline drew at 10.3-11.5px on
+   desktops under 1920 wide, and the SP tag at 11px; all three now hold 12px. */
+@media (min-width:1200px) and (max-width:1919px) {
+  :root #app #ruleBook.v10RuleBook .ruleBookHero > :is(.sd-eyebrow, .sd-tagline) { font-size:12px; }
+}
+@media (min-width:1200px) {
+  :root #app #ruleBook.v10RuleBook .ruleSpecialPlayerTag { font-size:12px; }
+}
+
+/* ── 4o · Studio Small Axe Wave 2: Showdown Home boards join the marble panel family ──
+   The overview, the scoreboard and the two manager cards were the last see-through r61 glass boards. They now wear the
+   same black-gold marble as the Legacy archive and Chamber Men (r78-marble-tile.webp, precached): one gold edge, a
+   2px gold top rule and the Wave 1 gilded top light. On the desktop picture the overview row narrows to the
+   scoreboard-and-cards column and sits one gap below the title plate, so it no longer reaches Daniel's and Nik's faces. */
+:root #app #dashboard.v26Skin :is(.showdownOverview, .showdownScoreboard, .playerCard) {
+  background: linear-gradient(180deg, rgba(242, 196, 91, .06), transparent 42%), #0e0c09 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(217, 170, 60, .62);
+  border-top: 2px solid var(--v26-gold-deep, #c99b45);
+  border-radius: 4px;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root #app #dashboard.v26Skin .showdownScoreboard { border-bottom: 2px solid var(--v26-gold, #f5c518); }
+/* 4o.1 (Fable job 20 lines under 5, 2026-11-04).
+   Type: the READY / TRANSFER WAR: READY eyebrows and the POINTS labels come up from 11 to the 12px floor.
+   States: "No season completed" was plain text on the manager card. While no season has finished (data-sd-empty, set by
+   js/showdownUI.js and js/productionSharedMultiSeasonProgression.js) it is an empty-state row in the board family: a
+   dashed gold hairline, a Lucide circle-dashed icon in gold and the same one line of words.
+   Motion: the four boards rise 6px into place on the 200 ms step, 40 ms apart (transform only, so opacity never dips and the
+   flash test stays clean). Off under OS Reduce Motion and the in-app Reduce Motion switch. */
+:root #app #dashboard.v26Skin :is(.overviewStatus, .transferOverviewStatus, .lastSeasonLabel, .scoreboardScores small) { font-size: max(12px, var(--sa-type-eyebrow)); }
+:root #app #dashboard.v26Skin .playerCard p[data-sd-empty] {
+  display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 10px;
+  border: 1px dashed rgba(217, 170, 60, .45); border-radius: 3px; background: rgba(0, 0, 0, .28);
+  color: #d8cebb; font-size: 13px; line-height: 1.3; letter-spacing: .02em;
+}
+:root #app #dashboard.v26Skin .playerCard p[data-sd-empty]::before {
+  content: ""; flex: 0 0 16px; width: 16px; height: 16px; background: var(--v26-gold-deep, #c99b45);
+  -webkit-mask: var(--sa-ic-circle-dashed) center / contain no-repeat; mask: var(--sa-ic-circle-dashed) center / contain no-repeat;
+}
+@keyframes sa-board-rise { from { transform: translateY(6px); } to { transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) :is(.showdownOverview, .showdownScoreboard, .playerCard) {
+    animation: sa-board-rise 200ms var(--sa-press-ease, cubic-bezier(.2, .8, .2, 1)) both;
+  }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .showdownScoreboard { animation-delay: 40ms; }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(1) { animation-delay: 80ms; }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(2) { animation-delay: 120ms; }
+}
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #app #dashboard.v26Skin .showdownOverview { width: min(680px, 92vw); margin-top: 12px; }
+}
+
 /* 4p. Studio Small Axe: desktop Settings layout (Nik approved 2026-11-03).
    At the desktop plate only: Application and Motion side by side on top,
    Account and Data below, Application facts in two columns so the panels
