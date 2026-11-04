@@ -1924,3 +1924,11 @@
     animation:sa-pane-rise 200ms cubic-bezier(.2,.8,.2,1) both;
   }
 }
+/* Studio Small Axe Legacy pane, Fable re-score: on phones the season label ("SEASON 1" to "SEASON 10") stays on one line.
+   Its column takes a quarter of the table, with tighter tracking and side padding; the scores keep the rest. */
+@media (max-width:480px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonHead,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonLabel {
+    width:25%; white-space:nowrap; letter-spacing:.04em; padding-left:6px; padding-right:2px;
+  }
+}
