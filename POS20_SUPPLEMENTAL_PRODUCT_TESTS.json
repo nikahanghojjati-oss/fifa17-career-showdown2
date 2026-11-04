@@ -2943,6 +2943,15 @@
         "^tests/contracts/r88\\-lock\\-refusals\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r89-rrr-scene-polish-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^visual-assets/v10_1/roulette/platemap\\.json$",
+        "^tests/contracts/r89\\-rrr\\-scene\\-polish\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
