@@ -1179,3 +1179,11 @@
 @media (min-width: 1200px) and (min-height: 600px) and (max-height: 740px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
   :root body #settingsOverlay.v10Settings .settingsFooter { bottom: max(20px, 3.5%); }
 }
+/* 4p.3 Nik 2026-11-04 ("Move both", Fable's spot): on the desktop plate DONE sits in the panel grid's last row,
+   right-aligned with the cards' right edge, one grid gap under them. js/settings.js moves the footer into #settingsContent here. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root body #settingsOverlay.v10Settings #settingsContent > .settingsFooter[data-sa-in-grid] {
+    position: static; inset: auto; grid-column: 1 / -1; grid-row: 3; justify-self: end; align-self: start;
+    width: auto; margin: 0; transform: none;
+  }
+}
