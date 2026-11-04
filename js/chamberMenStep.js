@@ -30,7 +30,7 @@
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
   const DONE_KEY="careerModeShowdown.chamberMenDone.v2",KEPT_KEY="careerModeShowdown.chamberMenKicks.v2",KEYS_MAX=60,SCHEMA=2;
-  const PICK_MS=10000,KICK_MS=2600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
+  const PICK_MS=10000,KICK_MS=4600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
   const SIDE_WORD=Object.freeze({L:"LEFT",M:"MIDDLE",R:"RIGHT"});
   const memo=new Map();// `${rid}|${season}` -> finished {playerOne, playerTwo} pick strings
   let running=null,wentHome=false;
@@ -226,12 +226,49 @@
     const keeper=cmsSvg("g",{class:"cmKeeper","data-pose":"ready"});keeper.innerHTML=CM_KEEPER_ART;
     const ball=cmsSvg("g",{class:"cmBall"});ball.innerHTML=CM_BALL_ART;
     svg.append(keeper,ball);
-    return {svg,keeper,ball,hit:svg.querySelector(".cmHit")};
+    // r89: the box the 3D goal (js/chamberMenScene3d.js) shares with the SVG; scene stays null when the SVG plays alone.
+    const box=cmsEl("div","cmGoalBox");box.append(svg);
+    return {box,svg,keeper,ball,hit:svg.querySelector(".cmHit"),scene:null};
+  }
+  // r89 Chamber Men in 3D: mounted under the loading screen (Reus Gate), so the stage shows with the 3D goal already drawn.
+  // Not in time (SCENE_WAIT_MS), no WebGL2 or a fault: the SVG goal plays for this screen, and a late scene is thrown away,
+  // never swapped in while the stage is on screen. The kill switch CMS_CHAMBER_MEN_3D="off" keeps the SVG goal.
+  const SCENE_WAIT_MS=6000;
+  // Codex C2 (#1244): goal.dropScene() gives up a scene still loading (the SVG goal shows at once and the late scene is thrown
+  // away); a scene that does mount is first brought to what the SVG shows now (cmsSync), so a kick revealed while it loaded
+  // is never lost.
+  function cmsScene(goal){
+    if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
+    let late=false,cut=null;
+    const dropped=new Promise(resolve=>{cut=resolve;});
+    goal.dropScene=()=>{if(!goal.scene)late=true;cut(null);};
+    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs}):null).then(scene=>{
+      if(!scene)return null;
+      if(late){try{scene.dispose();}catch(_error){}return null;}
+      goal.scene=scene;cmsSync(goal);return scene;
+    },()=>null);
+    return Promise.race([made,dropped,cmsWait(SCENE_WAIT_MS).then(()=>{late=true;return null;})]);
+  }
+  // A scene that mounts late takes the lineup on screen and, when a kick was revealed while it loaded, that kick at its end
+  // pose (its words are already up), never a fresh run-up.
+  function cmsSync(goal){
+    const st=goal.state||{},scene=goal.scene;if(!scene)return;
+    try{
+      if(st.lineup&&goal.clubs&&scene.lineup)scene.lineup({taker:goal.clubs[st.lineup.shooter],keeper:goal.clubs[cmsOther(st.lineup.shooter)],round:st.lineup.round});
+      if(st.kick)scene.kick({...st.kick,animate:false});
+    }catch(_error){}
   }
   // Before a kick: keeper back in the middle and ready, ball on the spot, the net still.
   function cmsReset(goal){
-    goal.svg.classList.remove("is-goal","is-save","is-flying");goal.keeper.dataset.pose="ready";
+    goal.svg.classList.remove("is-goal","is-save","is-flying");goal.keeper.dataset.pose="ready";goal.scene?.reset();
+    goal.state={...goal.state,kick:null};
     cmsPlace(goal.keeper,ZONE_X.M,92,false);cmsPlace(goal.ball,ZONE_X.M,132,false);
+  }
+  // r89 broadcast: who is on the pitch for kick n (the shooter's club takes it, the rival's keeper is in goal).
+  function cmsLineup(goal,shooter,round){
+    goal.state={...goal.state,lineup:{shooter,round}};
+    const c=goal.clubs;if(!c||!goal.scene?.lineup)return;
+    goal.scene.lineup({taker:c[shooter],keeper:c[cmsOther(shooter)],round});
   }
   function cmsPlace(node,x,y,animate){node.style.transition=animate?"transform 900ms cubic-bezier(.2,.8,.2,1)":"none";node.setAttribute("transform",`translate(${x} ${y})`);node.style.transform=`translate(${x}px, ${y}px)`;}
   // The back buttons are .cmBack, never .backButton: the app's smart back (js/screens.js) takes every .backButton click
@@ -241,8 +278,9 @@
     const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Chamber Men");stage.style.visibility="hidden";
     const shell=cmsEl("div","cmShell");
     // The kick counter: "Round 3 of 7 · Daniel shoots".
-    const header=cmsEl("div","cmHeader");header.append(cmsEl("span","",`Season ${ctx.season}`),cmsEl("span","cmRound","Round 1 of 7 · Daniel shoots"));
-    const title=cmsEl("h2","cmTitle","Chamber Men");
+    // r89 broadcast layout (Nik 2026-11-04, option A): the title sits in the header line, so the pitch gets the height.
+    const header=cmsEl("div","cmHeader"),title=cmsEl("h2","cmTitle","Chamber Men");
+    header.append(cmsEl("span","",`Season ${ctx.season}`),title,cmsEl("span","cmRound","Round 1 of 7 · Daniel shoots"));
     const board=cmsEl("div","cmBoard"),sides={};
     for(const role of ROLES){
       const side=cmsEl("div","cmSide"),goals=cmsEl("div","cmGoals","0"),cyl=cmsEl("div","cmCylinder"),chambers=[];
@@ -251,7 +289,7 @@
       side.append(cmsEl("div","cmName",NAMES[role]),goals,cyl,label);sides[role]={side,goals,chambers,label};
     }
     board.append(sides.playerOne.side,cmsEl("div","cmVs","GOALS"),sides.playerTwo.side);
-    const goal=cmsGoal(),status=cmsEl("p","cmStatus","");status.setAttribute("aria-live","polite");
+    const goal=cmsGoal();goal.clubs=ctx.clubs||null;const status=cmsEl("p","cmStatus","");status.setAttribute("aria-live","polite");
     // Whose turn it is, in big letters: YOU SHOOT / YOU KEEP (GOAL, SAVED or MISSED while a kick is shown), the rival's part
     // and the kick counter. data-turn is shoot, keep, reveal or done.
     const turn=cmsEl("div","cmTurn"),turnHead=cmsEl("div","cmTurnHead","YOU SHOOT"),turnSub=cmsEl("div","cmTurnSub",""),turnCount=cmsEl("div","cmTurnCount","");
@@ -271,11 +309,12 @@
     const back=cmsEl("button","cmBack","BACK TO SHOWDOWN HOME");back.type="button";
     actions.append(lock,next,back);
     const lines=cmsEl("ul","cmLines");lines.hidden=true;
-    // Fable F17-07: the pitch (score and goal) and the controls (turn, status, clock, picks, LOCK IN) are two columns on a
-    // wide screen, so the 10-second clock and LOCK IN are on screen from the first view at 1280x800 and 1366x768.
+    // r89 broadcast layout (Nik 2026-11-04, option A): the score, then the pitch across the whole width, then the controls (turn,
+    // status, clock, picks, LOCK IN) underneath, laid out so the clock and LOCK IN are on screen from the first view on a phone
+    // with its browser bars and at 1280x800 and 1366x768 (Fable F17-07): nobody scrolls during a kick, and nothing covers anything.
     const play=cmsEl("div","cmPlay"),pitch=cmsEl("div","cmPitch"),controls=cmsEl("div","cmControls");
-    pitch.append(board,goal.svg);controls.append(turn,status,clock,picks,lines,actions);play.append(pitch,controls);
-    shell.append(header,title,play);stage.append(shell);doc.body.append(stage);
+    pitch.append(board,goal.box);controls.append(turn,status,clock,picks,lines,actions);play.append(pitch,controls);
+    shell.append(header,play);stage.append(shell);doc.body.append(stage);
     cmsReset(goal);
     return {stage,round:header.querySelector(".cmRound"),sides,goal,status,turn,turnHead,turnSub,turnCount,picks,rows,clock,lock,next,back,lines};
   }
@@ -325,11 +364,11 @@
     return new Promise(resolve=>{
       const engine=cmsEngine(),me=ctx.managerRole,other=cmsOther(me),KICKS=engine.kicks;
       cmsLoadingOn();
-      const ui=cmsBuild(ctx);
+      const ui=cmsBuild(ctx),sceneReady=cmsScene(ui.goal);let sceneShown=false;
       // record: the latest from the server. shown: how many kicks are shown (drawn or replayed) on screen. clock: {kick,
       // deadline} in server ms. sel: this manager's choice for the kick on now. revealUntil: the server time the kick on
       // screen stops being shown.
-      let record=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false;
+      let record=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false,kickToken=0;
       const now=()=>{try{return io.now();}catch(_error){return Date.now();}};
       const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(revealing);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
       const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"CHAMBER_MEN_FAILED"});};
@@ -365,14 +404,29 @@
           g.svg.style.setProperty("--cm-hit-x",`${ballX}px`);g.svg.style.setProperty("--cm-hit-y",`${ballY}px`);
           g.hit.setAttribute("cx",String(ballX));g.hit.setAttribute("cy",String(ballY));
           g.svg.classList.toggle("is-flying",animate);g.svg.classList.toggle("is-goal",Boolean(kick.goal));g.svg.classList.toggle("is-save",!kick.goal);
+          // The scene runs up only when it was there when this kick began (its words wait for it); one that mounted since
+          // shows the kick's end pose, as the words already say.
+          const k3={shot:shot===engine.timeout?null:shot,dive,goal:Boolean(kick.goal),round:kick.kick};g.state={...g.state,kick:k3};
+          g.scene?.kick({...k3,animate:animate&&sceneAtStart});
         };
-        cmsReset(g);
+        const sceneAtStart=Boolean(g.scene);
+        cmsReset(g);cmsLineup(g,kick.shooter,kick.kick);
         if(animate){void g.svg.getBoundingClientRect?.();root.setTimeout(strike,320);}else strike();
         const words=kickWords(kick);
+        // r89 broadcast: the taker runs up first, so the result words wait until the ball is there (never told early).
+        const wait=animate&&g.scene?.runUpMs?320+g.scene.runUpMs+520:0;
         ui.round.textContent=counter(kick.kick);
-        const mine=kick.shooter===me;
-        setTurn("reveal",words.result.toUpperCase(),mine?(kick.goal?"You scored":`${NAMES[other]} kept it out`):(kick.goal?`${NAMES[other]} scored`:"You kept it out"),`Kick ${kick.kick} of ${KICKS} · ${NAMES[kick.shooter]}'s shot ${kick.shot} of 7`);
-        ui.status.className=`cmStatus ${kick.goal?"is-goal":"is-save"}`;ui.status.textContent=`${words.line} · ${words.result}`;
+        const mine=kick.shooter===me,count=`Kick ${kick.kick} of ${KICKS} · ${NAMES[kick.shooter]}'s shot ${kick.shot} of 7`,token=++kickToken;
+        const tell=()=>{
+          if(finished||token!==kickToken)return;
+          setTurn("reveal",words.result.toUpperCase(),mine?(kick.goal?"You scored":`${NAMES[other]} kept it out`):(kick.goal?`${NAMES[other]} scored`:"You kept it out"),count);
+          ui.status.className=`cmStatus ${kick.goal?"is-goal":"is-save"}`;ui.status.textContent=`${words.line} · ${words.result}`;
+        };
+        if(wait){
+          setTurn("reveal",`${NAMES[kick.shooter].toUpperCase()} STEPS UP`,mine?"You shoot":"You keep",count);
+          ui.status.className="cmStatus";ui.status.textContent=`${NAMES[kick.shooter]} steps up · ${NAMES[kick.keeper]} in goal`;
+          root.setTimeout(tell,wait);
+        }else tell();
         // The row of this manager's part on that kick, his own pick pressed, nothing to tap.
         showRow(mine?"shot":"dive");setChoices(false,mine?kick.shotSide:kick.dive);
       };
@@ -416,7 +470,7 @@
         const n=progress.done+1,kick=engine.kick(n),part=engine.roleOn(n,me),shooting=part==="shot";
         const mineSent=progress.sent[me],theirsSent=progress.sent[other];
         ui.round.textContent=counter(n);
-        if(ui.status.dataset.kick!==String(n)){ui.status.dataset.kick=String(n);cmsReset(ui.goal);}
+        if(ui.status.dataset.kick!==String(n)){ui.status.dataset.kick=String(n);cmsReset(ui.goal);cmsLineup(ui.goal,kick.shooter,n);}
         setTurn(shooting?"shoot":"keep",shooting?"YOU SHOOT":"YOU KEEP",shooting?`${NAMES[other]} is in goal`:`${NAMES[other]} shoots at you`,`Kick ${n} of ${KICKS} · ${shooting?"your":`${NAMES[other]}'s`} shot ${kick.shot} of 7`);
         showRow(part);
         if(mineSent>=n){
@@ -441,6 +495,7 @@
         // F17-03: no clock until the rival locks in, and it says so.
         const theirPart=shooting?"dive":"shot";
         ui.status.textContent=notice&&Date.now()<notice.until?notice.text:theirsSent>=n?`${NAMES[other]} has picked his ${theirPart}. Lock in your ${part}.`:`Pick your ${part}, then lock in. No clock until ${NAMES[other]} locks in his ${theirPart}.`;
+        if(clock&&!stageShown){ui.goal.dropScene?.();showStage();}
         if(clock){
           const left=Math.max(0,clock.deadline-now());
           ui.clock.textContent=`0:${String(Math.ceil(left/1000)).padStart(2,"0")}`;
@@ -465,13 +520,18 @@
           render();
         });
       };
+      // The stage shows once the goal is drawn: the 3D scene, or the SVG when the scene cannot come in time. Codex C2 (#1244):
+      // a running pick clock never waits on the scene; the SVG shows at once and the deadline stays the shared one.
+      let stageShown=false;
+      const showStage=()=>{if(stageShown||finished)return;stageShown=true;ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}};
       const onData=data=>{
         const next=data?cmsRecord(data,ctx.season):engine.record({playerOne:"",playerTwo:""});
         if(!next)return fail({code:"CHAMBER_MEN_BAD_RECORD"});
         // Never step back: a late delivery older than what this phone already wrote is ignored.
         if(record&&(next.playerOne.length<record.playerOne.length||next.playerTwo.length<record.playerTwo.length))return;
         record=next;lastWriteMs=cmsMillis(data&&data.updatedAt);
-        if(ui.stage.style.visibility==="hidden"){ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}}
+        // r89: the stage shows once the goal is drawn (the 3D scene, or the SVG when the scene cannot come in time).
+        if(!stageShown&&!sceneShown){sceneShown=true;sceneReady.then(showStage);}
         render();
       };
       const onVisibility=()=>{if(finished||cmsDoc().visibilityState==="hidden")return;Promise.resolve().then(()=>io.resync?.()).catch(()=>{}).then(()=>{if(!finished)render();});};

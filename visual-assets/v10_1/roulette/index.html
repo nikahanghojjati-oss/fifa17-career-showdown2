@@ -146,18 +146,22 @@ body.embed .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 96p
  window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="vendor/three-r128.min.js"></script><!-- three.js r128 (MIT, vendor/THREE_LICENSE.txt), bundled so the scene works offline and never depends on a CDN -->
+<script src="vendor/three-r187.min.js"></script><!-- three.js r187 (MIT, vendor/THREE_LICENSE.txt; built by tools/three-vendor), bundled so the scene works offline and never depends on a CDN -->
 <script>
 (function(){
 "use strict";
 // r87 (Team G): a browser without WebGL (switched off, old GPU, some headless runs) cannot draw the stage. Say so once
 // instead of letting three.js throw: in the game the result and the release still show without the scene.
-if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGLRenderingContext&&(c.getContext("webgl2")||c.getContext("webgl"))); }catch(e){ return false; } })()){
+if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGL2RenderingContext&&c.getContext("webgl2")); /* r89: three.js r187 draws with WebGL 2 only */ }catch(e){ return false; } })()){
   if(/[?&]embed=1(?:&|$)/.test(location.search)){ try{ parent.postMessage({type:"cms-rr-error",message:"WebGL is not available"},location.origin); }catch(e){} }
   else document.body.insertAdjacentText("beforeend","This browser can't draw the 3D revolver (WebGL is off).");
   return;
 }
 const T=THREE, $=(id)=>document.getElementById(id), qs=new URLSearchParams(location.search);
+/* r89 engine upgrade (r128 -> r187): colours stay as written (L() converts by hand) and the lights keep their r128 maths */
+T.ColorManagement.enabled=false; T.cmsLegacyLights();
+/* r89 look (?look=0 shows the r88 look, for side-by-side checks; ?bloom=0 turns bloom off) */
+const LOOK={on:qs.get("look")!=="0", hdri:null, post:null, bloom:null};
 const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const clamp01=(x)=>x<0?0:x>1?1:x, lerp=(a,b,k)=>a+(b-a)*k, S=(at,dur,tt)=>clamp01((tt-at)/dur);
 const ease={ out:(k)=>1-Math.pow(1-k,3), inOut:(k)=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2, in:(k)=>k*k*k, back:(k)=>{ const c=1.70158; return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2); } };
@@ -168,8 +172,8 @@ const LAYOUT={ danielClub: qs.get("d")||"Manchester United", nikClub: qs.get("n"
 /* ================= renderer ================= */
 const stage=$("stage");
 const renderer=new T.WebGLRenderer({antialias:true, powerPreference:"high-performance"});
-renderer.outputEncoding=T.sRGBEncoding; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
-renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap; renderer.physicallyCorrectLights=false;
+renderer.outputColorSpace=T.SRGBColorSpace; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap; renderer.shadowMap.autoUpdate=false; /* r89 polish: the one shadow map is drawn only while something in it moves (a turn, and a moment after); at rest the frame skips that whole depth pass */
 stage.appendChild(renderer.domElement);
 const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new T.FogExp2(0x0a0705,.075);
 const camera=new T.PerspectiveCamera(38,1,.05,60);
@@ -178,17 +182,21 @@ let handHold=false, handK=0, handRecoil=0, handSide=-1, handAspect=16/9, hasHand
 const hand=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transparent:true, depthTest:false, depthWrite:false, toneMapped:false, opacity:0})); hand.renderOrder=20; hand.frustumCulled=false; camera.add(hand);
 function keyOutBlack(img){ const c=document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); const d=x.getImageData(0,0,c.width,c.height), a=d.data; let hasAlpha=false; for(let i=3;i<a.length;i+=4*97){ if(a[i]<250){ hasAlpha=true; break; } }
   if(!hasAlpha){ for(let i=0;i<a.length;i+=4){ const m=Math.max(a[i],a[i+1],a[i+2]); a[i+3]=m<7?0:m<22?Math.round((m-7)/15*255):255; } x.putImageData(d,0,0); } return c; }
+const HAND_Z=.42;
 function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect; const ph=fh*(PH?.56:.68)*(handAimAt?AIM_SCALE():1), pw=ph*handAspect; hand.scale.set(pw*handSide,ph,1);
-  const lift=(1-handK)*ph*1.1; const rx=handRecoil; const low=PH&&handAimAt?fh*.13:0; /* r87 polish: on the phone the aimed hand sits lower, so the muzzle stays under the board instead of across the squad */ hand.position.set(handSide*(fw/2-pw*.40)+rx*handSide*.01, -fh/2+ph*.42-lift-low+rx*.025, -1);
-  hand.rotation.z=handAim(fw,fh,pw,ph)*Math.min(1,handK)+handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; }
+  const lift=(1-handK)*ph*1.1; const rx=handRecoil; const low=PH&&handAimAt?-fh*.2:0; /* r87 polish: on the phone the aimed hand sits apart from the squad; r89: it rides above the result line and the button, between them and the board, with the glove on screen */
+  /* r89 (Nik 2026-11-03: "placement of the gun relative to the board ... like a real game"): the hand is laid out on the unit plane, then held at arm's length
+     (HAND_Z in front of the eye, scaled to match), so it looks the same but its muzzle is where a real muzzle would be and the shot crosses the room to the board */
+  const px=handSide*(fw/2-pw*(PH&&handAimAt?.22:.40))+rx*handSide*.01, py=-fh/2+ph*.42-lift-low+rx*.025; hand.position.set(px*HAND_Z,py*HAND_Z,-HAND_Z); hand.scale.set(pw*handSide*HAND_Z,ph*HAND_Z,1);
+  hand.rotation.z=handAim(fw,fh,pw,ph,px,py)*Math.min(1,handK)+handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; }
 /* r87 (Nik 2026-10-30: "gun should face the board it's shooting"): while a turn aims, the hand sits a little smaller in its
    corner, so the muzzle is below and beside the board instead of in the middle of the frame, and the picture turns about its
    centre until the line from the cylinder (HAND_REAR) through the muzzle runs through the target (projected onto the hand's
    plane, z -1). A few passes, because the turn moves the muzzle too; clamped so the wrist stays natural. */
 /* phones: the frame is narrow and the barrel long, so the hand is smaller and may turn further (the barrel rises toward the board) */
-const AIM_SCALE=()=>PH?.6:.8, AIM_MAX=()=>PH?1.0:.38;
-function handAim(fw,fh,pw,ph){ if(!handAimAt) return 0; camera.updateMatrixWorld(); const n=handAimAt.clone().project(camera); if(!(n.z<1)) return 0;
-  const tx=n.x*fw/2, ty=n.y*fh/2, px=hand.position.x, py=hand.position.y, sx=pw*handSide;
+const AIM_SCALE=()=>PH?.52:.64, AIM_MAX=()=>PH?1.0:.38;
+function handAim(fw,fh,pw,ph,px,py){ if(!handAimAt) return 0; camera.updateMatrixWorld(); const n=handAimAt.clone().project(camera); if(!(n.z<1)) return 0;
+  const tx=n.x*fw/2, ty=n.y*fh/2, sx=pw*handSide;
   const mx=(HAND_MUZZLE.u-.5)*sx, my=(HAND_MUZZLE.v-.5)*ph, bx=mx-(HAND_REAR.u-.5)*sx, by=my-(HAND_REAR.v-.5)*ph, base=Math.atan2(by,bx);
   let th=0; for(let i=0;i<5;i++){ const c=Math.cos(th), s=Math.sin(th); const qx=px+mx*c-my*s, qy=py+mx*s+my*c; th=Math.atan2(ty-qy,tx-qx)-base; th=Math.atan2(Math.sin(th),Math.cos(th)); th=Math.max(-AIM_MAX(),Math.min(AIM_MAX(),th)); }
   return th; }
@@ -211,10 +219,10 @@ function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}; const [c,ctx]
       const off=Math.random()*900; for(let i=0;i<(o.lines||60);i++){ const y=y0+Math.random()*ph; ctx.strokeStyle=`rgba(${Math.random()<.5?"0,0,0":"255,215,165"},${.05+Math.random()*.12})`; ctx.lineWidth=.6+Math.random()*2.2; ctx.beginPath(); for(let xx=x;xx<=x+len;xx+=18){ ctx.lineTo(xx,y+Math.sin((xx+off)*.011)*5+Math.sin((xx+off)*.031)*2.4); } ctx.stroke(); }
       if(len<w){ ctx.fillStyle=dark; ctx.fillRect(x+len-2,y0,3,ph); ctx.fillStyle="rgba(255,225,180,.1)"; ctx.fillRect(x+len+1,y0,1,ph); } x+=len; }
     ctx.fillStyle=dark; ctx.fillRect(0,y0,w,3); ctx.fillStyle="rgba(255,230,190,.14)"; ctx.fillRect(0,y0+3,w,1); ctx.fillStyle="rgba(0,0,0,.22)"; ctx.fillRect(0,y0+ph-2,w,2); }
-  grain(ctx,w,h,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  grain(ctx,w,h,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function feltTex(){ const [c,ctx]=cv(1024,1024); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
   ctx.globalAlpha=.06; for(let i=0;i<1024;i+=2){ ctx.fillStyle=i%4?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024,1024,26);
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* dark lacquered mahogany with two tall raised panels, stepped mouldings, a beaded gold frame, carved quatrefoil corners and a medallion */
 function panelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,"#26130a"); g.addColorStop(.5,"#30190d"); g.addColorStop(1,"#1f0f07"); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
   for(let i=0;i<220;i++){ ctx.strokeStyle=`rgba(${Math.random()<.5?"0,0,0":"175,105,55"},${.025+Math.random()*.05})`; ctx.lineWidth=1+Math.random()*3; const x=Math.random()*w; ctx.beginPath(); ctx.moveTo(x,0); ctx.bezierCurveTo(x+Math.random()*24-12,h*.3,x+Math.random()*24-12,h*.7,x,h); ctx.stroke(); }
@@ -226,44 +234,62 @@ function panelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const g=ctx.createLine
     ctx.fillStyle="#efcb6c"; for(let k=0;k<=14;k++){ const t=k/14; [[x+30+t*(pw-60),y+30],[x+30+t*(pw-60),y+ph-30]].forEach(([cx,cy])=>{ ctx.beginPath(); ctx.arc(cx,cy,4.2,0,7); ctx.fill(); }); } for(let k=0;k<=26;k++){ const t=k/26; [[x+30,y+30+t*(ph-60)],[x+pw-30,y+30+t*(ph-60)]].forEach(([cx,cy])=>{ ctx.beginPath(); ctx.arc(cx,cy,4.2,0,7); ctx.fill(); }); }
     [[x+66,y+66],[x+pw-66,y+66],[x+66,y+ph-66],[x+pw-66,y+ph-66]].forEach(([cx,cy])=>leaf(cx,cy,24)); leaf(x+pw/2,y+ph/2,52); ctx.strokeStyle="rgba(236,196,110,.55)"; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(x+pw/2,y+ph/2,78,0,7); ctx.stroke(); ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(x+pw/2,y+ph/2,84,0,7); ctx.stroke(); }
   const sh=ctx.createLinearGradient(0,0,w,h); sh.addColorStop(0,"rgba(255,230,190,.08)"); sh.addColorStop(.5,"rgba(255,230,190,0)"); sh.addColorStop(1,"rgba(255,230,190,.05)"); ctx.fillStyle=sh; ctx.fillRect(0,0,w,h);
-  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
-/* floor marble: cream slabs with strong grey veins and a few warm ones, like the cafe picture's floor */
-function floorMarbleTex(){ const w=2048,h=2048,[c,ctx]=cv(w,h); ctx.fillStyle="#e6dfd3"; ctx.fillRect(0,0,w,h);
-  for(let i=0;i<40;i++){ ctx.fillStyle=`rgba(${205+Math.random()*25},${195+Math.random()*25},${180+Math.random()*25},${.25+Math.random()*.3})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,150+Math.random()*500,80+Math.random()*300,Math.random()*3,0,7); ctx.fill(); }
-  const vein=(col,n,wid,len)=>{ for(let i=0;i<n;i++){ ctx.strokeStyle=col(); ctx.lineWidth=wid(); let x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); let a=Math.random()*6.28; for(let k=0;k<len;k++){ a+=(Math.random()-.5)*1.1; x+=Math.cos(a)*(30+Math.random()*60); y+=Math.sin(a)*(30+Math.random()*60); ctx.lineTo(x,y); } ctx.stroke(); } };
-  vein(()=>`rgba(90,88,92,${.18+Math.random()*.3})`,26,()=>1.5+Math.random()*4,18);
-  vein(()=>`rgba(120,118,124,${.1+Math.random()*.2})`,70,()=>.5+Math.random()*1.5,10);
-  vein(()=>`rgba(170,140,90,${.08+Math.random()*.14})`,14,()=>1+Math.random()*2,12);
-  grain(ctx,w,h,6); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=16; return t; }
+/* floor marble (r89, Nik 2026-11-03: "match the tile style of the background picture's flooring"): the cafe picture's floor is a bright
+   Calacatta-like white with a dense crackle web of grey veins and a few warm ones. The web is a seamless cellular pattern (cell edges
+   from the two nearest seed points, wrapped so the tile repeats without a seam), its lines wobbled by a periodic warp, with a few heavier
+   veins and cloudy whites under it; slab joints are hair-thin like polished slabs laid tight */
+function floorMarbleTex(){ const w=2048,h=2048,[c,ctx]=cv(w,h), q=(typeof portrait==='function'&&portrait())?768:1024, qs=w/q, [qc,qx]=cv(q,q); const N=15, cs=q/N, P1=new Float32Array(N*N*3);
+  for(let j=0;j<N;j++) for(let i=0;i<N;i++){ const o=(j*N+i)*3; P1[o]=(i+.15+Math.random()*.7)*cs; P1[o+1]=(j+.15+Math.random()*.7)*cs; P1[o+2]=Math.random(); }
+  const N2=36, cs2=q/N2, P2=new Float32Array(N2*N2*3); for(let j=0;j<N2;j++) for(let i=0;i<N2;i++){ const o=(j*N2+i)*3; P2[o]=(i+.1+Math.random()*.8)*cs2; P2[o+1]=(j+.1+Math.random()*.8)*cs2; }
+  /* the web is worked out at 1024 (768 on a phone) and drawn up to 2048: fast at load, and the veins stay crisp at floor distance */
+  let E=0, I=0; const edge=(P,n,s,wx,wy)=>{ const gi=Math.floor(wx/s), gj=Math.floor(wy/s); let f1=1e9,f2=1e9,i1=0; for(let dj=-1;dj<=1;dj++) for(let di=-1;di<=1;di++){ const ii=gi+di, jj=gj+dj, mi=(ii%n+n)%n, mj=(jj%n+n)%n, o=(mj*n+mi)*3; const dx=wx-(P[o]+(ii-mi)*s), dy=wy-(P[o+1]+(jj-mj)*s), dd=dx*dx+dy*dy; if(dd<f1){ f2=f1; f1=dd; i1=o; } else if(dd<f2) f2=dd; } E=Math.sqrt(f2)-Math.sqrt(f1); I=i1; };
+  const img=qx.createImageData(q,q), d=img.data, TAU=Math.PI*2, ph=[Math.random()*6,Math.random()*6,Math.random()*6,Math.random()*6];
+  for(let y=0;y<q;y++){ for(let x=0;x<q;x++){
+      const wx=x+Math.sin(y/q*TAU*3+ph[0])*13+Math.sin(y/q*TAU*11+ph[1])*3.5+Math.sin((x+y)/q*TAU*7)*2.5, wy=y+Math.sin(x/q*TAU*4+ph[2])*12+Math.sin(x/q*TAU*13+ph[3])*3;
+      edge(P1,N,cs,wx,wy); const e=E, s1=P1[I+2]; edge(P2,N2,cs2,wx+Math.sin(wy/q*TAU*9)*4.5,wy+Math.sin(wx/q*TAU*8)*4.5); const e2=E;
+      const cloud=.5+.5*Math.sin(x/q*TAU*2+Math.sin(y/q*TAU*2)*1.5)*Math.sin(y/q*TAU*3+ph[1]); const wob=.55+.45*Math.sin(x/q*TAU*17+y/q*TAU*5+ph[0])*Math.sin(y/q*TAU*13+ph[2]);
+      let r=240-cloud*9, g=238-cloud*9, b=235-cloud*8; const width=((s1<.16?4.6:2.6)*wob+.4)/qs, v=Math.max(0,1-e/width); let k=v*(s1<.16?.9:.78); const v2=Math.max(0,1-e2/((.9+wob*.8)/qs)); k=Math.max(k,v2*.3*wob); const warm=s1>.93;
+      r=r*(1-k)+(warm?150:70)*k; g=g*(1-k)+(warm?122:70)*k; b=b*(1-k)+(warm?84:76)*k;
+      const o=(y*q+x)*4; d[o]=r; d[o+1]=g; d[o+2]=b; d[o+3]=255; } }
+  qx.putImageData(img,0,0); ctx.imageSmoothingQuality="high"; ctx.drawImage(qc,0,0,w,h);
+  ctx.globalAlpha=.35; for(let i=0;i<60;i++){ ctx.strokeStyle=`rgba(110,108,112,${.2+Math.random()*.4})`; ctx.lineWidth=.6+Math.random()*1.2; let x=Math.random()*w, y=Math.random()*h, a=Math.random()*6.28; ctx.beginPath(); ctx.moveTo(x,y); for(let k=0;k<8;k++){ a+=(Math.random()-.5)*1.4; x+=Math.cos(a)*(14+Math.random()*30); y+=Math.sin(a)*(14+Math.random()*30); ctx.lineTo(x,y); } ctx.stroke(); } ctx.globalAlpha=1;
+  ctx.strokeStyle="rgba(120,112,100,.28)"; ctx.lineWidth=1.5; ctx.strokeRect(.75,.75,w-1.5,h-1.5); ctx.beginPath(); ctx.moveTo(w/2,0); ctx.lineTo(w/2,h); ctx.moveTo(0,h/2); ctx.lineTo(w,h/2); ctx.stroke();
+  grain(ctx,w,h,5); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=16; return t; }
+/* the border band: black marble with fine white veins, a gold inlay line along each edge (the picture's foreground band) */
+function bandMarbleTex(){ const w=1024,h=128,[c,ctx]=cv(w,h); ctx.fillStyle="#0d0c0e"; ctx.fillRect(0,0,w,h);
+  for(let i=0;i<22;i++){ ctx.strokeStyle=`rgba(${200+Math.random()*40},${195+Math.random()*40},${190+Math.random()*40},${.12+Math.random()*.3})`; ctx.lineWidth=.5+Math.random()*1.4; let x=Math.random()*w, y=Math.random()*h, a=(Math.random()-.5)*1.2; ctx.beginPath(); ctx.moveTo(x,y); for(let k=0;k<10;k++){ a+=(Math.random()-.5)*1.2; x+=Math.cos(a)*(20+Math.random()*40); y+=Math.sin(a)*(10+Math.random()*16); ctx.lineTo(x,y); } ctx.stroke(); }
+  const gold=ctx.createLinearGradient(0,0,w,0); gold.addColorStop(0,"#b8913f"); gold.addColorStop(.5,"#ecd08a"); gold.addColorStop(1,"#b8913f"); ctx.fillStyle=gold; ctx.fillRect(0,9,w,5); ctx.fillRect(0,h-14,w,5);
+  grain(ctx,w,h,6); const t=new T.CanvasTexture(c); t.wrapS=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=16; return t; }
 function marbleTex(){ const w=512,h=512,[c,ctx]=cv(w,h); ctx.fillStyle="#e8e0d2"; ctx.fillRect(0,0,w,h);
   for(let i=0;i<34;i++){ const warm=Math.random()<.35; ctx.strokeStyle=warm?`rgba(190,160,110,${.15+Math.random()*.2})`:`rgba(80,78,84,${.1+Math.random()*.22})`; ctx.lineWidth=.6+Math.random()*2.4; const x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); ctx.bezierCurveTo(x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*400-200,y+Math.random()*400-200); ctx.stroke(); }
   for(let i=0;i<8;i++){ ctx.fillStyle=`rgba(200,190,170,${.1+Math.random()*.15})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,40+Math.random()*120,20+Math.random()*60,Math.random()*3,0,7); ctx.fill(); }
-  grain(ctx,w,h,8); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  grain(ctx,w,h,8); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* pressed-tin coffers: a grid of recessed squares with a gold fillet and a stamped rosette */
 function ceilingTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); ctx.fillStyle="#1d130c"; ctx.fillRect(0,0,w,h); const n=4, s=w/n;
   for(let i=0;i<n;i++) for(let j=0;j<n;j++){ const x=i*s, y=j*s; ctx.fillStyle="#140d08"; ctx.fillRect(x+34,y+34,s-68,s-68); ctx.strokeStyle="#8a6a2c"; ctx.lineWidth=5; ctx.strokeRect(x+26,y+26,s-52,s-52); ctx.strokeStyle="#3a2a14"; ctx.lineWidth=2; ctx.strokeRect(x+40,y+40,s-80,s-80);
     const cx=x+s/2, cy=y+s/2; for(let r=18;r<70;r+=16){ ctx.strokeStyle=`rgba(150,115,55,${.5-r*.004})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke(); } ctx.fillStyle="#9c7a34"; for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; ctx.beginPath(); ctx.ellipse(cx+Math.cos(a)*48,cy+Math.sin(a)*48,16,7,a,0,7); ctx.fill(); } ctx.fillStyle="#c9a24a"; ctx.beginPath(); ctx.arc(cx,cy,9,0,7); ctx.fill(); }
-  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(5,4); t.encoding=T.sRGBEncoding; t.anisotropy=4; return t; }
+  grain(ctx,w,h,14); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(5,4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=4; return t; }
 /* warm lamp glass: amber at the burner fading to cream at the lip */
-function lampGlassTex(){ const [c,ctx]=cv(32,128); const g=ctx.createLinearGradient(0,128,0,0); g.addColorStop(0,"#ff9a3a"); g.addColorStop(.45,"#ffcf8a"); g.addColorStop(1,"#fff2d8"); ctx.fillStyle=g; ctx.fillRect(0,0,32,128); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
-function softTex(stops){ const [c,ctx]=cv(128,128); const g=ctx.createRadialGradient(64,64,0,64,64,64); stops.forEach(([k,col])=>g.addColorStop(k,col)); ctx.fillStyle=g; ctx.fillRect(0,0,128,128); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+function lampGlassTex(){ const [c,ctx]=cv(32,128); const g=ctx.createLinearGradient(0,128,0,0); g.addColorStop(0,"#ff9a3a"); g.addColorStop(.45,"#ffcf8a"); g.addColorStop(1,"#fff2d8"); ctx.fillStyle=g; ctx.fillRect(0,0,32,128); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
+function softTex(stops){ const [c,ctx]=cv(128,128); const g=ctx.createRadialGradient(64,64,0,64,64,64); stops.forEach(([k,col])=>g.addColorStop(k,col)); ctx.fillStyle=g; ctx.fillRect(0,0,128,128); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 function flashTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128); const g=ctx.createRadialGradient(0,0,0,0,0,128); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.18,"rgba(255,240,180,.95)"); g.addColorStop(.42,"rgba(255,160,60,.55)"); g.addColorStop(1,"rgba(255,90,20,0)"); ctx.fillStyle=g; ctx.fillRect(-128,-128,256,256);
   ctx.globalCompositeOperation="lighter"; for(let i=0;i<9;i++){ const a=i/9*Math.PI*2+Math.random()*.4, l=60+Math.random()*68; ctx.strokeStyle="rgba(255,230,160,.9)"; ctx.lineWidth=2+Math.random()*4; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*l,Math.sin(a)*l); ctx.stroke(); }
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 const smokeT=softTex([[0,"rgba(255,255,255,.55)"],[.4,"rgba(255,255,255,.25)"],[1,"rgba(255,255,255,0)"]]);
 const glowT=softTex([[0,"rgba(255,235,190,1)"],[.3,"rgba(255,190,90,.6)"],[1,"rgba(255,120,30,0)"]]);
 /* a real lamp flame: blue root, white-yellow body, orange tip, soft edge */
 function flameTex(){ const [c,ctx]=cv(128,256); const g=ctx.createRadialGradient(64,150,4,64,140,90); g.addColorStop(0,"rgba(255,255,245,1)"); g.addColorStop(.25,"rgba(255,236,160,.95)"); g.addColorStop(.55,"rgba(255,160,50,.55)"); g.addColorStop(1,"rgba(255,90,10,0)");
   ctx.save(); ctx.translate(64,128); ctx.scale(.42,1); ctx.translate(-64,-128); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(64,10); ctx.bezierCurveTo(120,90,118,190,64,236); ctx.bezierCurveTo(10,190,8,90,64,10); ctx.fill(); ctx.restore();
   const b=ctx.createRadialGradient(64,214,2,64,214,26); b.addColorStop(0,"rgba(120,170,255,.8)"); b.addColorStop(1,"rgba(60,90,255,0)"); ctx.fillStyle=b; ctx.fillRect(0,180,128,76);
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
-function sparkTex(){ const [c,ctx]=cv(64,64); const g=ctx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.3,"rgba(255,220,150,.9)"); g.addColorStop(1,"rgba(255,140,40,0)"); ctx.fillStyle=g; ctx.fillRect(0,0,64,64); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
+function sparkTex(){ const [c,ctx]=cv(64,64); const g=ctx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.3,"rgba(255,220,150,.9)"); g.addColorStop(1,"rgba(255,140,40,0)"); ctx.fillStyle=g; ctx.fillRect(0,0,64,64); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 function petalTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128);
   for(let i=0;i<7;i++){ const a=i/7*Math.PI*2+rnd()*.5, l=72+rnd()*54, w=14+rnd()*16; const g=ctx.createLinearGradient(0,0,Math.cos(a)*l,Math.sin(a)*l); g.addColorStop(0,"rgba(255,246,220,1)"); g.addColorStop(.45,"rgba(255,170,60,1)"); g.addColorStop(.8,"rgba(230,80,20,.7)"); g.addColorStop(1,"rgba(200,50,10,0)"); ctx.fillStyle=g;
     ctx.beginPath(); ctx.moveTo(Math.cos(a+Math.PI/2)*w*.5,Math.sin(a+Math.PI/2)*w*.5); ctx.lineTo(Math.cos(a)*l,Math.sin(a)*l); ctx.lineTo(Math.cos(a-Math.PI/2)*w*.5,Math.sin(a-Math.PI/2)*w*.5); ctx.closePath(); ctx.fill(); }
   const g=ctx.createRadialGradient(0,0,0,0,0,46); g.addColorStop(0,"rgba(255,255,250,1)"); g.addColorStop(.6,"rgba(255,220,150,1)"); g.addColorStop(1,"rgba(255,150,50,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,46,0,7); ctx.fill();
-  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t; }
+  const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"rgba(255,240,200,0)"]]);
 
 /* ================= materials ================= */
@@ -280,16 +306,16 @@ function marblePanelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); ctx.fillStyle="#
   const sh=ctx.createLinearGradient(px,py,px+pw,py+ph); sh.addColorStop(0,"rgba(255,255,255,.06)"); sh.addColorStop(.5,"rgba(255,255,255,0)"); sh.addColorStop(1,"rgba(255,255,255,.05)"); ctx.fillStyle=sh; ctx.fillRect(px,py,pw,ph);
   ctx.strokeStyle="#d9b25a"; ctx.lineWidth=5; ctx.strokeRect(px+22,py+22,pw-44,ph-44); ctx.strokeStyle="#8a6a22"; ctx.lineWidth=2; ctx.strokeRect(px+34,py+34,pw-68,ph-68);
   ctx.strokeStyle="#b48a3a"; ctx.lineWidth=4; ctx.strokeRect(px-6,py-6,pw+12,ph+12);
-  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 const wallTex=marblePanelTex(); wallTex.repeat.set(7,2); wallTex.offset.y=-.476; /* a panel row seam lands on the dado rail at y=1.1 */
 const lampTex=lampGlassTex();
 const M={
-  floor:new T.MeshPhysicalMaterial({map:(()=>{ const t=floorMarbleTex(); t.repeat.set(2.5,2.5); return t; })(), roughness:.08, metalness:0, color:0xf2ece2, clearcoat:1, clearcoatRoughness:.03, reflectivity:1}),   /* cream marble floor, the website's marble look */
+  floor:new T.MeshPhysicalMaterial({map:(()=>{ const t=floorMarbleTex(); t.repeat.set(5.5,5.5); return t; })(), roughness:.05, metalness:0, color:0xf1f5fc, clearcoat:1, clearcoatRoughness:.02, reflectivity:1}),   /* cream marble floor, the website's marble look */
   wall:new T.MeshPhysicalMaterial({map:wallTex, roughness:.22, metalness:.05, color:0xffffff, clearcoat:.8, clearcoatRoughness:.12}),
   darkWood:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.32, metalness:.05, color:0x6e4a32, clearcoat:.7, clearcoatRoughness:.2}),
   lacquer:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.26, metalness:.06, color:0x3e2416, clearcoat:.95, clearcoatRoughness:.14}),
   lacquerHi:new T.MeshPhysicalMaterial({map:tableWoodTex, roughness:.3, metalness:.06, color:0x6a3c26, clearcoat:.9, clearcoatRoughness:.18}),
-  felt:new T.MeshStandardMaterial({map:feltTex(), roughness:.96, metalness:0, color:0x7c9c7a}),
+  felt:new T.MeshPhysicalMaterial({map:feltTex(), roughness:.96, metalness:0, color:0x7c9c7a, sheen:LOOK.on?.35:0, sheenRoughness:.62, sheenColor:new T.Color(.06,.12,.06)}),   /* r89: cloth sheen, the soft bright rim baize gets at a low angle */
   brass:new T.MeshStandardMaterial({color:L("#c99c46"), roughness:.26, metalness:1}),
   brassDark:new T.MeshStandardMaterial({color:L("#6f4e1c"), roughness:.4, metalness:1}),
   gold:new T.MeshPhysicalMaterial({color:L("#e6bd5e"), roughness:.2, metalness:1, clearcoat:.5, clearcoatRoughness:.2}),
@@ -305,7 +331,7 @@ const M={
   glove:new T.MeshStandardMaterial({color:L("#3d2316"), roughness:.7}),
   shirt:new T.MeshStandardMaterial({color:L("#d9c7a0"), roughness:.9}),
   scarf:new T.MeshStandardMaterial({color:L("#4a1612"), roughness:.95}),
-  velvet:new T.MeshStandardMaterial({color:L("#5c161c"), roughness:.96, metalness:0, bumpMap:clothTex, bumpScale:.002}),
+  velvet:new T.MeshPhysicalMaterial({color:L("#5c161c"), roughness:.96, metalness:0, bumpMap:clothTex, bumpScale:.002, sheen:LOOK.on?.5:0, sheenRoughness:.45, sheenColor:new T.Color(.22,.03,.04)}),
   marble:new T.MeshPhysicalMaterial({map:marbleTex(), roughness:.16, metalness:0, clearcoat:1, clearcoatRoughness:.05}),
   mirror:new T.MeshPhysicalMaterial({color:L("#e2e8ee"), roughness:.02, metalness:1}),
   ceiling:new T.MeshStandardMaterial({map:ceilingTex(), roughness:.55, metalness:.45}),
@@ -328,9 +354,11 @@ function merged(parts,mat,parent){ const pos=[],nor=[],uv=[]; const m=new T.Matr
   const geo=new T.BufferGeometry(); geo.setAttribute('position',new T.Float32BufferAttribute(pos,3)); geo.setAttribute('normal',new T.Float32BufferAttribute(nor,3)); geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2)); const o=new T.Mesh(geo,mat); (parent||room).add(o); return o; }
 const haloM=new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffa850, opacity:.5});
 { const floor=mesh(new T.PlaneGeometry(14,14),M.floor,0,0,0); floor.rotation.x=-Math.PI/2; floor.receiveShadow=true;
-  /* inlay border: a black marble band with a thin gold line, framing the table area as in the cafe picture */
-  { const bm=new T.MeshPhysicalMaterial({color:0x0c0c10, roughness:.12, clearcoat:1, clearcoatRoughness:.04}); const gm=new T.MeshPhysicalMaterial({color:L("#d6b25a"), metalness:1, roughness:.25, clearcoat:.6});
-    const W=5.6, D=4.6, bw=.09; [[0,D/2,W,bw],[0,-D/2,W,bw],[W/2,0,bw,D],[-W/2,0,bw,D]].forEach(([x,z,sx,sz])=>{ const b=mesh(new T.PlaneGeometry(sx,sz),bm,x,.002,z); b.rotation.x=-Math.PI/2; const g=mesh(new T.PlaneGeometry(sx>sz?sx:.014,sx>sz?.014:sz),gm,x+(sx>sz?0:(x>0?-.07:.07)),.003,z+(sx>sz?(z>0?-.07:.07):0)); g.rotation.x=-Math.PI/2; }); }
+  /* inlay border (r89): the cafe picture's band, a wide black-marble strip with a gold inlay line on each edge, framing the table area */
+  { const bt=bandMarbleTex(); const W=4.4, D=5.2, bw=.3, cz=-.95;
+    [[0,cz+D/2,W+bw,bw,0],[0,cz-D/2,W+bw,bw,0],[W/2,cz,D-bw,bw,Math.PI/2],[-W/2,cz,D-bw,bw,Math.PI/2]].forEach(([x,z,len,wid,rot])=>{ const t=bt.clone(); t.repeat.set(len/1.6,1); t.needsUpdate=true;
+      const m=new T.MeshPhysicalMaterial({map:t, roughness:.08, clearcoat:1, clearcoatRoughness:.03, polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2});
+      const b=mesh(new T.PlaneGeometry(len,wid),m,x,.002,z); b.rotation.set(-Math.PI/2,0,rot); b.receiveShadow=true; }); }
   const back=mesh(new T.PlaneGeometry(14,4.2),M.wall,0,2.1,-4.2); back.name="backWall";
   const sideM=M.wall.clone(); sideM.map=wallTex.clone(); sideM.map.needsUpdate=true; sideM.map.repeat.set(5,2); sideM.map.offset.y=wallTex.offset.y;
   const left=mesh(new T.PlaneGeometry(10,4.2),sideM,-5,2.1,0); left.rotation.y=Math.PI/2;
@@ -506,7 +534,7 @@ function engraveTex(withFrame){ const w=1024,h=1024,[c,ctx]=cv(w,h); const [bx0,
       ctx.save(); ctx.filter="blur(5px)"; ctx.strokeStyle="rgba(150,165,190,.55)"; ctx.lineWidth=26; ctx.stroke(); ctx.strokeStyle="rgba(205,215,232,.75)"; ctx.lineWidth=12; ctx.stroke(); ctx.restore(); });
     /* a few honest scratches and a handling-wear patch where the thumb sits over the recoil shield */
     ctx.strokeStyle="rgba(200,210,225,.18)"; ctx.lineWidth=1; for(let i=0;i<60;i++){ const x=Math.random()*w,y=Math.random()*h,a=Math.random()*Math.PI*2,l=10+Math.random()*60; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l); ctx.stroke(); } }
-  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function roughTex(){ const w=512,h=512,[c,ctx]=cv(w,h); ctx.fillStyle="#707070"; ctx.fillRect(0,0,w,h); for(let i=0;i<700;i++){ ctx.fillStyle=`rgba(${Math.random()<.5?"255,255,255":"0,0,0"},${.04+Math.random()*.09})`; ctx.fillRect(Math.random()*w,Math.random()*h,3+Math.random()*40,1+Math.random()*2); } grain(ctx,w,h,22); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; return t; }
 const engT=engraveTex(true), engBarT=engraveTex(false), rghT=roughTex();
 /* shape-space UVs run in metres; this maps a box of the silhouette plane onto a texture once */
@@ -587,6 +615,29 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     round.visible=false; cyl.add(round); cyl.userData.round=round;
     /* LIVE mark: a red glowing ring around the loaded chamber's mouth, turns with the drum so the eye can follow the round through the spin */
     const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=-.0247; round.add(liveRing);   /* on the rear face: the brass rim and primer are what say "bullet" */
+    /* r89 (Nik 2026-11-03: "does the cylinder really spin ... smoothly"): at full speed the eye can't follow seven holes, and a frame rate
+       can't either (the holes strobe and seem to turn backwards). A spin-blur disc on the rear face carries the speed: the chambers smear into
+       a dark ring (with a red streak while a round is in), and it fades out as the drum slows, so every hole is sharp again for the stop */
+    { const [bc,bx]=cv(512,512); const f=r=>r/(R+.0004)*256;
+      /* what the rear face looks like in a long exposure: the drum's own steel, with the seven bores smeared into one dark band (the bores
+         cover about three quarters of that circle, so the band is dark but not black) and the star a soft bright hub. It is lit with the
+         drum's own material, so it sits in the scene's light instead of reading as a sticker */
+      /* each ring is painted with the share of it that is bore: at the chamber circle 7 bores cover about three quarters, at the bore edges
+         almost none. Bore share mixes the warm dark of the bores into the steel, which is how a real long exposure of the drum reads */
+      for(let px=Math.ceil(f(R+.0004));px>=0;px--){ const r=px/256*(R+.0004), d=r-CR, c=Math.abs(d)<HR&&r>0?Math.min(.92,7*2*Math.sqrt(HR*HR-d*d)/(2*Math.PI*r)):0;
+        const hub=r<.0088?.06*(1-r/.0088):0, edge=r>R-.0012?.1*(r-(R-.0012))/.0016:0, m=(a,b)=>Math.round(a+(b-a)*c);
+        bx.fillStyle=`rgb(${m(255*(1-edge)+0*hub,92)},${m(255*(1-edge),70)},${m(255*(1-edge),58)})`; bx.beginPath(); bx.arc(256,256,px+.5,0,7); bx.fill(); }
+      /* faint fine rings, like the lathe lines a spinning face throws back */
+      let sd=91; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+      for(let i=0;i<60;i++){ const r=rnd()*f(R); bx.strokeStyle=`rgba(${rnd()<.5?"255,255,255":"0,0,0"},${(.03+rnd()*.05).toFixed(3)})`; bx.lineWidth=.6+rnd()*1.2; bx.beginPath(); bx.arc(256,256,r,0,7); bx.stroke(); }
+      const bt=new T.CanvasTexture(bc); bt.colorSpace=T.SRGBColorSpace; bt.anisotropy=8;
+      const bm=GM.drumFace.clone(); bm.color=L("#b8c0cc"); bm.map=bt; bm.transparent=true; bm.depthWrite=false; bm.opacity=0;
+      const blur=new T.Mesh(new T.CircleGeometry(R+.0004,96),bm); blur.position.z=-.0262; blur.rotation.y=Math.PI; blur.renderOrder=2; blur.visible=false; cyl.add(blur);
+      /* the live round's red mark, smeared: one faint warm thread along the band's outer edge (1 chamber in 7, so it stays faint) */
+      const [rc,rx]=cv(512,512); rx.strokeStyle="rgba(255,50,30,1)"; rx.lineWidth=f(.0008); rx.beginPath(); rx.arc(256,256,f(CR+HR*.98),0,7); rx.stroke();
+      const rt=new T.CanvasTexture(rc); rt.colorSpace=T.SRGBColorSpace;
+      const streak=new T.Mesh(new T.CircleGeometry(R+.0004,96),new T.MeshBasicMaterial({map:rt, transparent:true, depthWrite:false, opacity:0})); streak.position.z=-.0264; streak.rotation.y=Math.PI; streak.renderOrder=3; streak.visible=false; cyl.add(streak);
+      cyl.userData.blur=(k)=>{ blur.visible=streak.visible=k>.003; bm.opacity=Math.min(1,k*1.15); streak.material.opacity=(cyl.userData.liveCount>0?k:0)*Math.min(.4,.12+.04*cyl.userData.liveCount); }; }
     cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; cyl.userData.liveCount=1; };
     cyl.userData.liveCount=0;   /* r88 Team V: how many live rounds the drum holds now (0 to 7), for the result line's wording */
     /* r88 Chamber Men (Team G): a cylinder can hold up to 7 live rounds, one per goal the rival scored. The same cartridge is
@@ -630,7 +681,7 @@ const boards={ D:null, N:null };
 const BOARD_W=.84, BOARD_H=.64;
 function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
 const lacquer=new T.MeshPhysicalMaterial({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05, clearcoat:1, clearcoatRoughness:.08});
-function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; t.anisotropy=8; return t; }
+function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
   const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
 /* board: a black-lacquer moulded frame with a gold fillet, the squad screen under glass; easel: walnut A-frame with gold ferrules, caps, a ledge rail and a finial */
@@ -640,9 +691,11 @@ function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=
   const filletG=new T.ExtrudeGeometry(ringShape(BOARD_W+.03,BOARD_H+.03,.004,BOARD_W+.004,BOARD_H+.004),{depth:.006, bevelEnabled:true, bevelThickness:.003, bevelSize:.003, bevelSegments:3}); filletG.translate(0,0,-.004); inner.add(new T.Mesh(filletG,GM.gold));
   const beadG=new T.ExtrudeGeometry(ringShape(BOARD_W+FW*2+.022,BOARD_H+FW*2+.022,.03,BOARD_W+FW*2+.002,BOARD_H+FW*2+.002),{depth:.014, bevelEnabled:true, bevelThickness:.004, bevelSize:.004, bevelSegments:3}); beadG.translate(0,0,-.024); inner.add(new T.Mesh(beadG,GM.gold));
   const backing=new T.Mesh(new T.BoxGeometry(BOARD_W+FW*2,BOARD_H+FW*2,.02),lacquer); backing.position.z=-.04; inner.add(backing);
-  const [c,ctx]=cv(2048,1560); const tex=new T.CanvasTexture(c); tex.encoding=T.sRGBEncoding; tex.anisotropy=16;
-  /* r87 (Nik 2026-10-30: boards and players clearer): the squad screen glows a little by itself (emissive from its own picture), so it reads in the dim room, and a softer clearcoat keeps the lamp glare off the names */
-  const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, emissiveMap:tex, emissive:new T.Color(1,1,1), emissiveIntensity:.42, roughness:.45, metalness:0, clearcoat:.45, clearcoatRoughness:.22})); face.position.z=-.006; inner.add(face);
+  const [c,ctx]=cv(2048,1560); const tex=new T.CanvasTexture(c); tex.colorSpace=T.SRGBColorSpace; tex.anisotropy=16;
+  /* r87 (Nik 2026-10-30: boards and players clearer): the squad screen glows a little by itself (emissive from its own picture), so it reads in the dim room.
+     r89 (Nik 2026-11-03: "the board's lighting, quality and readability need a huge improvement"): it is lit mostly from within, like the game's screen,
+     so the lamps no longer wash one corner and darken the other; a thin satin glass keeps a soft sheen without a glare spot over the names */
+  const face=new T.Mesh(new T.PlaneGeometry(BOARD_W,BOARD_H),new T.MeshPhysicalMaterial({map:tex, emissiveMap:tex, color:new T.Color(.42,.42,.42), emissive:new T.Color(1,1,1), emissiveIntensity:.66, roughness:.75, metalness:0, clearcoat:.22, clearcoatRoughness:.42, envMapIntensity:.25})); face.position.z=-.006; inner.add(face);
   /* easel */
   const easel=new T.Group(); g.add(easel); const walnut=lacquer;
   const leg=(x,z,tiltZ,tiltX,len)=>{ const m=new T.Mesh(new T.CylinderGeometry(.014,.02,len,14),walnut); m.position.set(x,-len/2+BOARD_H/2+.12,z); m.rotation.z=tiltZ; m.rotation.x=tiltX; m.castShadow=true; easel.add(m);
@@ -657,92 +710,186 @@ function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=
   g.userData={inner, ctx, canvas:c, tex, face, bubbles:[], hit:null, jolt:new T.Vector3(), joltV:new T.Vector3()}; boards[key]=g; return g; }
 makeBoard("D","DANIEL"); makeBoard("N","NIK");
 
-/* FIFA 17 squad screen look: position -> pitch spot (x 0-1 across, y 0-1 down; GK bottom) */
+/* r89 (Nik 2026-11-03: "the players on the board should read like a FIFA 17 squad screen"): the board is drawn like the game's
+   squad screen. A dark tab bar (SQUAD lit in yellow), a light header with the club and its best player, the pitch in perspective
+   with a thick turf edge, every starter a shaded kit shirt with the overall beside it, a green bar and a bold white surname under
+   it, and the substitutes as four cards in a strip under the pitch. Starters stand on lines (keeper, back line, ... front line)
+   spread evenly down the pitch, so a name never meets the shirt below it; a long surname shrinks, then ends in "…". */
 const POS_XY={ GK:[.5,.9], LB:[.12,.72], LWB:[.1,.62], LCB:[.34,.76], CB:[.5,.76], RCB:[.66,.76], RB:[.88,.72], RWB:[.9,.62], LDM:[.33,.58], CDM:[.5,.6], RDM:[.67,.58], LCM:[.3,.48], CM:[.5,.5], RCM:[.7,.48], LM:[.1,.42], RM:[.9,.42], LAM:[.3,.34], CAM:[.5,.36], RAM:[.7,.34], LW:[.14,.22], RW:[.86,.22], LF:[.32,.16], CF:[.5,.25], RF:[.68,.16], LS:[.36,.1], ST:[.5,.1], RS:[.64,.1] };
-function shirt(ctx,x,y,s,kit){ const [p,sec,acc]=kit; ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
-  ctx.beginPath(); ctx.moveTo(-.5,-.42); ctx.lineTo(-.22,-.5); ctx.quadraticCurveTo(0,-.36,.22,-.5); ctx.lineTo(.5,-.42); ctx.lineTo(.62,-.1); ctx.lineTo(.36,0); ctx.lineTo(.36,.5); ctx.lineTo(-.36,.5); ctx.lineTo(-.36,0); ctx.lineTo(-.62,-.1); ctx.closePath();
-  ctx.fillStyle=p; ctx.fill(); ctx.lineWidth=.05; ctx.strokeStyle="rgba(0,0,0,.55)"; ctx.stroke();
-  ctx.save(); ctx.clip(); ctx.fillStyle=sec; ctx.fillRect(-.62,-.5,.14,1); ctx.fillRect(.48,-.5,.14,1); ctx.fillStyle=acc; ctx.fillRect(-.36,.42,.72,.08); ctx.restore();
-  ctx.fillStyle=sec; ctx.beginPath(); ctx.moveTo(-.22,-.5); ctx.quadraticCurveTo(0,-.3,.22,-.5); ctx.quadraticCurveTo(0,-.44,-.22,-.5); ctx.fill(); ctx.restore(); }
+function lum(hex){ const n=parseInt(String(hex).replace("#",""),16); if(isNaN(n)) return .5; return ((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255; }
+/* r89 (Nik 2026-11-03: "make sure all 98 teams' boards have the right kit colours and patterns"): every club's 2016-17 HOME shirt as FIFA 17
+   shows it: [pattern, body, second colour, sleeves (null: the pattern runs over the sleeves), trim]. Patterns: solid, stripes (vertical),
+   twin (two front stripes), hoops, halves, band (chest band; Sampdoria's four bands), centre (centre stripe edged in trim), diag (diagonal
+   halves), vee (chevron). The squad file's colours stay the club palette for everything else; only the board's shirts read this table. */
+const KIT17={
+  "Arsenal":["solid","#db0007",null,"#ffffff","#ffffff"], "Bournemouth":["stripes","#d71920","#141414","#141414","#141414"], "Burnley":["solid","#6c1d45",null,"#99d6ea","#99d6ea"],
+  "Chelsea":["solid","#034694",null,null,"#ffffff"], "Crystal Palace":["stripes","#1b458f","#c4122e","#1b458f","#ffffff"], "Everton":["solid","#003399",null,null,"#ffffff"],
+  "Hull City":["stripes","#f5a12d","#141414","#f5a12d","#141414"], "Leicester City":["solid","#003090",null,null,"#fdbe11"], "Liverpool":["solid","#c8102e",null,null,"#ffffff"],
+  "Manchester City":["solid","#6cabdd",null,null,"#1c2c5b"], "Manchester United":["solid","#da291c",null,null,"#141414"], "Middlesbrough":["band","#e2001a","#ffffff",null,"#ffffff"],
+  "Southampton":["stripes","#d71920","#ffffff","#d71920","#141414"], "Stoke City":["stripes","#e03a3e","#ffffff",null,"#ffffff"], "Sunderland":["stripes","#eb172b","#ffffff",null,"#141414"],
+  "Swansea City":["solid","#ffffff",null,null,"#141414"], "Tottenham Hotspur":["solid","#ffffff",null,null,"#132257"], "Watford":["solid","#fbee23",null,null,"#141414"],
+  "West Bromwich Albion":["stripes","#122f67","#ffffff","#122f67","#ffffff"], "West Ham United":["solid","#7a263a",null,"#4fb4e0","#4fb4e0"],
+  "Alavés":["stripes","#0761af","#ffffff",null,"#0761af"], "Athletic Club":["stripes","#ee2523","#ffffff",null,"#141414"], "Atlético Madrid":["stripes","#cb3524","#ffffff",null,"#272e61"],
+  "Barcelona":["stripes","#a50044","#004d98",null,"#edbb00"], "Celta Vigo":["solid","#8ac3ee",null,null,"#c8102e"], "Deportivo La Coruña":["stripes","#1a5aa8","#ffffff","#1a5aa8","#ffffff"],
+  "Eibar":["stripes","#0c3b8c","#8a1538",null,"#ffffff"], "Espanyol":["stripes","#007fc8","#ffffff","#007fc8","#ffffff"], "Granada":["hoops","#c8102e","#ffffff",null,"#ffffff"],
+  "Las Palmas":["solid","#ffe400",null,null,"#0060a8"], "Leganés":["stripes","#ffffff","#0049a0","#0049a0","#0049a0"], "Málaga":["stripes","#6cace4","#ffffff",null,"#1d3c6e"],
+  "Osasuna":["solid","#d91a21",null,null,"#0a346f"], "Real Betis":["stripes","#00954c","#ffffff",null,"#ffffff"], "Real Madrid":["solid","#ffffff",null,null,"#3a2f6b"],
+  "Real Sociedad":["stripes","#0067b1","#ffffff",null,"#ffffff"], "Sevilla":["solid","#ffffff",null,null,"#d8002f"], "Sporting Gijón":["stripes","#d9282f","#ffffff",null,"#141414"],
+  "Valencia":["solid","#ffffff",null,null,"#141414"], "Villarreal":["solid","#ffe667",null,null,"#005187"],
+  "Bayern Munich":["solid","#dc052d",null,null,"#ffffff"], "Borussia Dortmund":["solid","#fde100",null,null,"#141414"], "Bayer Leverkusen":["solid","#141414",null,null,"#e32221"],
+  "Borussia Mönchengladbach":["hoops","#ffffff","#141414","#ffffff","#141414"], "Schalke 04":["solid","#004d9d",null,null,"#ffffff"], "Mainz 05":["solid","#c3141e",null,null,"#ffffff"],
+  "Hertha BSC":["twin","#ffffff","#004d9e","#004d9e","#004d9e"], "Wolfsburg":["solid","#65b32e",null,null,"#ffffff"], "Hoffenheim":["solid","#1961b5",null,null,"#ffffff"],
+  "Eintracht Frankfurt":["stripes","#141414","#ffffff","#141414","#e1000f"], "Werder Bremen":["hoops","#1d9053","#e9f5ee","#1d9053","#f18400"], "Hamburg":["solid","#ffffff",null,null,"#e2001a"],
+  "FC Augsburg":["solid","#ffffff",null,null,"#ba3733"], "SC Freiburg":["solid","#e2001a",null,null,"#141414"], "RB Leipzig":["solid","#ffffff",null,null,"#dd0741"],
+  "FC Ingolstadt":["solid","#c8102e",null,null,"#ffffff"], "Darmstadt 98":["solid","#004e9f",null,null,"#ffffff"], "1. FC Köln":["solid","#ffffff",null,null,"#ed1c24"],
+  "Atalanta":["stripes","#1e71b8","#141414",null,"#141414"], "Bologna":["stripes","#a21c26","#1a2f48",null,"#ffffff"], "Cagliari":["halves","#a6192e","#002350",null,"#ffffff"],
+  "Chievo":["solid","#ffe500",null,"#00427f","#00427f"], "Crotone":["stripes","#e2001a","#0b3c8c",null,"#ffffff"], "Empoli":["solid","#005bab",null,null,"#ffffff"],
+  "Fiorentina":["solid","#5b2d8e",null,null,"#ffffff"], "Genoa":["halves","#b0102c","#001e43",null,"#ffffff"], "Inter Milan":["stripes","#0068a8","#141414",null,"#d7b536"],
+  "Juventus":["stripes","#ffffff","#141414",null,"#141414"], "Lazio":["solid","#87d8f7",null,null,"#ffffff"], "Milan":["stripes","#fb090b","#141414",null,"#141414"],
+  "Napoli":["solid","#12a0d7",null,null,"#ffffff"], "Palermo":["solid","#f5a9c8",null,null,"#141414"], "Pescara":["stripes","#ffffff","#3d8fd6",null,"#3d8fd6"],
+  "Roma":["solid","#8e1f2f",null,null,"#f0bc42"], "Sampdoria":["band","#1b5497",["#ffffff","#d6001c","#141414","#ffffff"],null,"#ffffff"], "Sassuolo":["stripes","#00a752","#141414",null,"#141414"],
+  "Torino":["solid","#881f19",null,null,"#ffffff"], "Udinese":["stripes","#ffffff","#141414",null,"#141414"],
+  "Angers":["stripes","#ffffff","#141414",null,"#141414"], "Bastia":["solid","#00529f",null,null,"#ffffff"], "Bordeaux":["vee","#001c50","#ffffff",null,"#ffffff"],
+  "Caen":["stripes","#0b4ea2","#da291c",null,"#ffffff"], "Dijon":["solid","#d7172f",null,null,"#ffffff"], "Guingamp":["halves","#c8102e","#141414",null,"#ffffff"],
+  "Lille":["solid","#e01e13",null,null,"#20325f"], "Lorient":["solid","#f58113",null,null,"#141414"], "Lyon":["solid","#ffffff",null,null,"#da291c"],
+  "Marseille":["solid","#ffffff",null,null,"#2faee0"], "Metz":["solid","#7a1b2c",null,null,"#ffffff"], "Monaco":["diag","#e51b24","#ffffff",null,"#ffffff"],
+  "Montpellier":["solid","#00214e",null,null,"#f37021"], "Nancy":["stripes","#e2001a","#ffffff","#e2001a","#ffffff"], "Nantes":["solid","#fce300",null,null,"#00733d"],
+  "Nice":["stripes","#e3001b","#141414",null,"#141414"], "Paris Saint-Germain":["centre","#0d1b45","#e30613",null,"#ffffff"], "Rennes":["solid","#e30613",null,null,"#141414"],
+  "Saint-Étienne":["solid","#009a44",null,null,"#ffffff"], "Toulouse":["solid","#4b2a85",null,null,"#ffffff"] };
+function kitOf(club){ const k=KIT17[club.club]; if(k) return {pat:k[0],p:k[1],s:k[2],sl:k[3],t:k[4]}; const a=club.kit||["#888888","#ffffff","#ffffff"]; return {pat:"solid",p:a[0],s:null,sl:a[1],t:a[2]}; }
+/* keepers: FIFA 17's keeper kits are not in the data, so a keeper wears a plain kit that never matches his outfield shirt (teal, or amber when the club plays in green or teal) */
+function gkKitOf(club){ if(club.gk) return {pat:"solid",p:club.gk,s:null,sl:null,t:"#ffffff"}; const p=kitOf(club).p, n=parseInt(p.slice(1),16), r=n>>16&255, g=n>>8&255, bl=n&255; const greenish=g>r+30&&g>=bl-40; return greenish?{pat:"solid",p:"#f2a91f",s:null,sl:"#c47f0c",t:"#141414"}:{pat:"solid",p:"#2fb0a8",s:null,sl:"#1c6e69",t:"#ffffff"}; }
+/* a kit shirt like the game's: body in its pattern, sleeves, cuffs and V collar in the trim, a chest badge and sponsor panel, cloth shading */
+function shirt(ctx,x,y,s,kit){ const k=Array.isArray(kit)?{pat:"solid",p:kit[0],s:null,sl:kit[1],t:kit[2]}:kit; ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
+  const body=new Path2D(); body.moveTo(-.2,-.5); body.quadraticCurveTo(0,-.42,.2,-.5); body.lineTo(.46,-.42); body.lineTo(.66,-.1); body.lineTo(.41,0); body.lineTo(.39,.5); body.quadraticCurveTo(0,.55,-.39,.5); body.lineTo(-.41,0); body.lineTo(-.66,-.1); body.lineTo(-.46,-.42); body.closePath();
+  ctx.fillStyle=k.p; ctx.fill(body);
+  ctx.save(); ctx.clip(body); ctx.fillStyle=Array.isArray(k.s)?k.s[0]:k.s;
+  if(k.pat==="stripes"){ for(let i=0;i<7;i++) if(i%2) ctx.fillRect(-.7+i*.2,-.6,.2,1.2); }
+  else if(k.pat==="twin"){ ctx.fillRect(-.22,-.6,.1,1.2); ctx.fillRect(.12,-.6,.1,1.2); }
+  else if(k.pat==="hoops"){ for(let i=0;i<8;i++) if(i%2) ctx.fillRect(-.8,-.5+i*.13,1.6,.13); }
+  else if(k.pat==="halves"){ ctx.fillRect(0,-.6,.8,1.2); }
+  else if(k.pat==="band"){ const bs=Array.isArray(k.s)?k.s:[k.s]; const h=bs.length>1?.055:.16; bs.forEach((c,i)=>{ ctx.fillStyle=c; ctx.fillRect(-.8,-.24+i*h,1.6,h); }); }
+  else if(k.pat==="centre"){ ctx.fillStyle=k.t; ctx.fillRect(-.12,-.6,.24,1.2); ctx.fillStyle=k.s; ctx.fillRect(-.085,-.6,.17,1.2); }
+  else if(k.pat==="diag"){ ctx.beginPath(); ctx.moveTo(-.8,.62); ctx.lineTo(.8,-.62); ctx.lineTo(.8,.7); ctx.closePath(); ctx.fill(); }
+  else if(k.pat==="vee"){ ctx.beginPath(); ctx.moveTo(-.44,-.44); ctx.lineTo(-.28,-.44); ctx.lineTo(0,-.12); ctx.lineTo(.28,-.44); ctx.lineTo(.44,-.44); ctx.lineTo(0,.02); ctx.closePath(); ctx.fill(); }
+  if(k.sl){ ctx.fillStyle=k.sl; ctx.beginPath(); ctx.moveTo(-.46,-.42); ctx.lineTo(-.7,-.08); ctx.lineTo(-.41,.04); ctx.lineTo(-.33,-.34); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(.46,-.42); ctx.lineTo(.7,-.08); ctx.lineTo(.41,.04); ctx.lineTo(.33,-.34); ctx.closePath(); ctx.fill(); }
+  ctx.strokeStyle=k.t; ctx.lineWidth=.07; ctx.beginPath(); ctx.moveTo(-.68,-.13); ctx.lineTo(-.43,-.03); ctx.moveTo(.68,-.13); ctx.lineTo(.43,-.03); ctx.stroke();
+  if(k.pat!=="band"){ const dark=lum(k.p)<.45; ctx.fillStyle=dark?"rgba(255,255,255,.3)":"rgba(0,0,0,.16)"; roundRect(ctx,-.17,-.12,.34,.11,.03); ctx.fill(); }
+  ctx.fillStyle=k.t; ctx.beginPath(); ctx.arc(.18,-.27,.055,0,7); ctx.fill(); ctx.lineWidth=.015; ctx.strokeStyle="rgba(0,0,0,.35)"; ctx.stroke();
+  const g=ctx.createLinearGradient(-.66,0,.66,0); g.addColorStop(0,"rgba(0,0,0,.36)"); g.addColorStop(.3,"rgba(255,255,255,.12)"); g.addColorStop(.55,"rgba(255,255,255,.03)"); g.addColorStop(1,"rgba(0,0,0,.4)"); ctx.fillStyle=g; ctx.fillRect(-.8,-.6,1.6,1.2);
+  const v=ctx.createLinearGradient(0,-.5,0,.55); v.addColorStop(0,"rgba(255,255,255,.14)"); v.addColorStop(1,"rgba(0,0,0,.26)"); ctx.fillStyle=v; ctx.fillRect(-.8,-.6,1.6,1.2);
+  ctx.strokeStyle="rgba(0,0,0,.14)"; ctx.lineWidth=.025; ctx.beginPath(); ctx.moveTo(-.32,-.28); ctx.quadraticCurveTo(-.27,.1,-.33,.46); ctx.moveTo(.32,-.28); ctx.quadraticCurveTo(.27,.1,.33,.46); ctx.stroke();
+  ctx.restore();
+  ctx.fillStyle=k.t; ctx.beginPath(); ctx.moveTo(-.21,-.5); ctx.lineTo(0,-.31); ctx.lineTo(.21,-.5); ctx.lineTo(.13,-.51); ctx.lineTo(0,-.4); ctx.lineTo(-.13,-.51); ctx.closePath(); ctx.fill();
+  ctx.lineWidth=.035; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(body); ctx.restore(); }
+/* r89 Kits 17 (Nik 2026-11-04: "the same kit can be used in Russian Roulette as well"): the board's shirts are painted by js/kits17.js (every club's
+   2016-17 home kit with its crest, collar and sleeves; the keeper in a kit that never clashes with either side). The module and the crest drawings
+   (js/visualIdentity.js) are loaded with the scene's assets; if either is missing the board keeps the flat KIT17 shirt above, so the page never blanks. */
+let KITS=null;
+function kitShirt(ctx,x,y,s,club,pos,vsClub){ if(KITS){ try{ KITS.drawFlat(ctx,club.club,x,y,s,{role:pos==="GK"?"gk":"outfield",vsClub}); return; }catch(e){} } shirt(ctx,x,y,s,pos==="GK"?gkKitOf(club):kitOf(club)); }
+function loadScript(src){ return new Promise(res=>{ const el=document.createElement("script"); el.onload=()=>res(true); el.onerror=()=>res(false); el.src=src; document.head.appendChild(el); }); }
+async function loadKits(){ if(KITS||window.CareerModeKits17) return KITS=window.CareerModeKits17||KITS; const v=qs.get("v"), ver=v?"?v="+encodeURIComponent(v):"";
+  /* the game serves these two with its own version (same ?v as this page), so the service worker hands out the cached shell copies offline */
+  const ok=await Promise.race([Promise.all([loadScript("../../../js/visualIdentity.js"+ver),loadScript("../../../js/kits17.js"+ver)]).then(r=>r.every(Boolean)),new Promise(r=>setTimeout(()=>r(false),6000))]);
+  KITS=ok&&window.CareerModeKits17||null; return KITS; }
 function formationOf(xi){ const D=xi.filter(([p])=>/B$/.test(p)).length, A=xi.filter(([p])=>/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(p)).length; const M=xi.length-1-D-A; return `${D}-${M}-${A}`; }
 function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-/* FIFA 17 squad screen look: graphite panel, lit pitch, chemistry links, kit + gold rating plate + name pill per player, subs bench */
 const POS_COL=(pos)=>pos==="GK"?"#f2d23c":/B$/.test(pos)?"#3f86e8":/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(pos)?"#e8502f":"#4fc74d";
-/* FIFA 17 squad screen player: kit shirt, white rating at the shirt's top-left, name on a dark band under it, coloured position tag on the left */
-/* Polish RR-3: the name band never grows past its slot (s*1.2, or bandW when a neighbour's band shares the row): the surname shrinks to fit (down to 65%), then ends in "…" */
-function fitName(ctx,name,s,bandW){ let sur=(name.includes(". ")?name.slice(name.indexOf(". ")+2):name); const maxW=Math.min(s*1.2,bandW||Infinity), pad=s*.16; let fs=Math.round(s*.3);
-  ctx.font=`600 ${fs}px 'Barlow Condensed'`; while(fs>Math.round(s*.3*.65)&&ctx.measureText(sur).width>maxW-pad){ fs-=1; ctx.font=`600 ${fs}px 'Barlow Condensed'`; }
-  if(ctx.measureText(sur).width>maxW-pad){ while(sur.length>2&&ctx.measureText(sur+"…").width>maxW-pad) sur=sur.slice(0,-1); sur+="…"; }
-  return {sur, tw:Math.min(maxW,Math.max(s*1.0,ctx.measureText(sur).width+pad))}; }
-/* RT5-SCENE-03: drawBoard calls this once per pass over the whole XI (phase 0 every shirt, 1 every rating and tag, 2 every name band),
-   so no neighbour's shirt, rating or tag ever paints over a name. The rating and the position chip sit on the chest, clear of the
-   band of the row above (rows are 47-66 px apart). No phase draws the whole card at once. */
-function playerCard(ctx,x,y,s,kit,pos,name,rating,num,tagLeft,phase,bandW){ const all=phase===undefined;
-  if(all||phase===0){ ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=12; ctx.shadowOffsetY=5; shirt(ctx,x,y,s,kit); ctx.restore(); }
-  ctx.textAlign="center"; ctx.textBaseline="middle";
-  if(all||phase===2){ const {sur,tw}=fitName(ctx,name,s,bandW); const nx=x-tw/2, ny=y+s*.5, nh=s*.36;
-    ctx.fillStyle="rgba(8,10,14,.78)"; ctx.fillRect(nx,ny,tw,nh); ctx.fillStyle="#fff"; ctx.fillText(sur,x,ny+nh/2+1); }
-  if(!(all||phase===1)) return;
-  /* rating: bold white on the shirt's chest (inside the shirt, below the band of the row above) */
-  ctx.font=`800 ${Math.round(s*.3)}px 'Barlow Condensed'`; ctx.textAlign="center"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.7)"; ctx.strokeText(String(rating),x,y+s*.06); ctx.fillStyle="#fff"; ctx.fillText(String(rating),x,y+s*.06);
-  /* position tag: a small chip in the position colour under the rating (inside the shirt, so no neighbour's band reaches it) */
-  if(tagLeft!==false){ ctx.font=`700 ${Math.round(s*.19)}px 'Barlow Condensed'`; const pw=ctx.measureText(pos).width+s*.14, ph=s*.19, py=y+s*.31; roundRect(ctx,x-pw/2,py-ph/2,pw,ph,ph*.3); ctx.fillStyle=POS_COL(pos); ctx.fill(); ctx.lineWidth=1.5; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(); ctx.textAlign="center"; ctx.fillStyle="#0d1015"; ctx.fillText(pos,x,py+1); } }
-function lum(hex){ const n=parseInt(String(hex).replace("#",""),16); if(isNaN(n)) return .5; return ((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255; }
-function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; const kit=club.kit; b.bubbles.length=0; b.club=club;
-  ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H);
-  /* FIFA 17 squad screen, landscape: tab bar, club and formation, the pitch on the left, the bench as a list on the right */
-  { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#2a2d33"); g.addColorStop(.12,"#1b1d22"); g.addColorStop(1,"#121317"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
-  ctx.textBaseline="middle"; ctx.textAlign="left"; const tabs=["SQUAD","FORMATIONS","ROLES","INSTRUCTIONS","TACTICS"]; let tx=30; tabs.forEach((t,i)=>{ ctx.font=`${i?600:800} 24px 'Barlow Condensed'`; ctx.fillStyle=i?"#c9ccd3":"#fff"; ctx.fillText(t,tx,30); const w=ctx.measureText(t).width; if(!i){ ctx.fillStyle="#f1c35a"; ctx.fillRect(tx-4,46,w+8,4); } tx+=w+40; });
-  ctx.fillStyle="rgba(255,255,255,.08)"; ctx.fillRect(0,56,W,2);
-  ctx.font="800 42px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(club.club.toUpperCase(),30,92); ctx.font="600 22px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("STARTING XI · "+(club.formation||formationOf(club.xi)),32,122);
-  ctx.textAlign="right"; ctx.font="800 40px 'Barlow Condensed'"; ctx.fillStyle="#f1c35a"; ctx.fillText((club.formation||formationOf(club.xi)),W-30,92); ctx.textAlign="left";
-  const PT=146, PB=H-24, PL=30, PR=560, IN=36; ctx.save(); ctx.beginPath(); ctx.moveTo(PL+IN,PT); ctx.lineTo(PR-IN,PT); ctx.lineTo(PR,PB); ctx.lineTo(PL,PB); ctx.closePath(); ctx.clip();
-  { const g=ctx.createLinearGradient(0,PT,0,PB); g.addColorStop(0,"#6fbf53"); g.addColorStop(1,"#3f9a3d"); ctx.fillStyle=g; ctx.fillRect(PL,PT,PR-PL,PB-PT);
-    for(let i=0;i<9;i++){ ctx.fillStyle=i%2?"rgba(255,255,255,.07)":"rgba(0,0,0,.05)"; ctx.fillRect(PL,PT+i*(PB-PT)/9,PR-PL,(PB-PT)/9); }
-    const v=ctx.createRadialGradient((PL+PR)/2,(PT+PB)/2,140,(PL+PR)/2,(PT+PB)/2,560); v.addColorStop(0,"rgba(255,255,255,.06)"); v.addColorStop(1,"rgba(0,0,0,.22)"); ctx.fillStyle=v; ctx.fillRect(PL,PT,PR-PL,PB-PT);
-    const X=(u,y)=>{ const k=(y-PT)/(PB-PT); const l=PL+IN*(1-k), r=PR-IN*(1-k); return l+u*(r-l); }; const cx=(PL+PR)/2;
-    ctx.strokeStyle="rgba(255,255,255,.92)"; ctx.lineWidth=3; const line=(u0,y0,u1,y1)=>{ ctx.beginPath(); ctx.moveTo(X(u0,y0),y0); ctx.lineTo(X(u1,y1),y1); ctx.stroke(); };
-    const mid=(PT+PB)/2; line(.03,PT+12,.97,PT+12); line(.03,PB-12,.97,PB-12); line(.03,PT+12,.03,PB-12); line(.97,PT+12,.97,PB-12); line(.03,mid,.97,mid);
-    ctx.beginPath(); ctx.ellipse(cx,mid,66,56,0,0,7); ctx.stroke();
-    line(.28,PT+12,.28,PT+108); line(.72,PT+12,.72,PT+108); line(.28,PT+108,.72,PT+108); line(.41,PT+12,.41,PT+46); line(.59,PT+12,.59,PT+46); line(.41,PT+46,.59,PT+46);
-    line(.28,PB-108,.28,PB-12); line(.72,PB-108,.72,PB-12); line(.28,PB-108,.72,PB-108); line(.41,PB-46,.41,PB-12); line(.59,PB-46,.59,PB-12); line(.41,PB-46,.59,PB-46); }
-  ctx.restore();
-  const used={}, has=p=>club.xi.some(r=>r[0]===p), wide={LCB:has("CB")?.27:0, RCB:has("CB")?.73:0, LCM:has("CM")?.27:0, RCM:has("CM")?.73:0}; const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; if(wide[pos]) xy=[wide[pos],xy[1]]; /* RT5-SCENE-03: a back three or a midfield three spreads out so three names fit on one row */ let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; const x=PL+62+xy[0]*(PR-PL-124), y=PT+58+xy[1]*(PB-PT-136); return {x,y,pos,name,rating,num:i+1}; });
-  spots.sort((a,c)=>a.y-c.y).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); });
-  /* RT5-SCENE-03: a name band is only as wide as the gap to the nearest card whose band shares its row;
-     two bands on one row share the gap: a short name keeps its width and the long one takes the rest */
-  const CS=72, gkKit=[club.gk||"#2fb0a8","#1c6e69","#ffffff"]; spots.forEach(sp=>{ sp.natW=fitName(ctx,sp.name,CS).tw; sp.bandW=Infinity; });
-  spots.forEach(sp=>spots.forEach(o=>{ if(o===sp||Math.abs(o.y-sp.y)>=CS*.36+4) return; const gap=Math.abs(o.x-sp.x)-3; sp.bandW=Math.min(sp.bandW,2*gap-Math.min(o.natW,gap)); }));
-  for(const phase of [0,1,2]) spots.forEach(sp=>playerCard(ctx,sp.x,sp.y-6,CS,sp.pos==="GK"?gkKit:kit,sp.pos,sp.name,sp.rating,sp.num,true,phase,sp.bandW));
-  /* bench list on the right */
-  const BL=590, BR=W-30; ctx.fillStyle="#17181c"; ctx.fillRect(BL,PT,BR-BL,PB-PT); ctx.fillStyle="#2a2d33"; ctx.fillRect(BL,PT,BR-BL,44); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",BL+18,PT+22); ctx.textAlign="right"; ctx.fillStyle="#9ea4b0"; ctx.font="600 20px 'Barlow Condensed'"; ctx.fillText("BENCH · "+club.subs.length,BR-18,PT+22);
-  const subs=club.subs.slice(0,6); const rowH=(PB-PT-44)/Math.max(6,subs.length);
-  subs.forEach(([pos,name,rating],i)=>{ const y=PT+44+rowH*(i+.5), x=BL+70; b.bubbles.push({slot:11+i,x,y,name,pos,rating,u:x/W,v:1-y/H}); ctx.fillStyle=i%2?"rgba(255,255,255,.03)":"rgba(255,255,255,0)"; ctx.fillRect(BL,PT+44+rowH*i,BR-BL,rowH);
-    ctx.save(); ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=8; ctx.shadowOffsetY=3; shirt(ctx,x,y,52,pos==="GK"?[club.gk||"#2fb0a8","#1c6e69","#ffffff"]:kit); ctx.restore();
-    ctx.fillStyle=POS_COL(pos); ctx.fillRect(BL+118,y-14,5,28); ctx.textAlign="left"; ctx.font="700 20px 'Barlow Condensed'"; ctx.fillStyle="#c9ccd3"; ctx.fillText(pos,BL+132,y-10); ctx.font="700 26px 'Barlow Condensed'"; ctx.fillStyle="#fff"; let sur=name.includes(". ")?name.slice(name.indexOf(". ")+2):name; const surW=BR-BL-132-70; /* Fable F11-19: a long bench surname shrinks, then ends in an ellipsis, and never runs under the rating */ for(let fs=26;fs>18&&ctx.measureText(sur).width>surW;fs--) ctx.font=`700 ${fs-1}px 'Barlow Condensed'`; if(ctx.measureText(sur).width>surW){ while(sur.length>2&&ctx.measureText(sur+"…").width>surW) sur=sur.slice(0,-1); sur+="…"; } ctx.fillText(sur,BL+132,y+14);
-    ctx.textAlign="right"; ctx.font="800 36px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),BR-22,y); });
-  ctx.textAlign="left"; ctx.font="800 28px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.lineWidth=4; ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.strokeText((club.formation||formationOf(club.xi)),PL+12,PB-28); ctx.fillText((club.formation||formationOf(club.xi)),PL+12,PB-28);
+const surname=(name)=>name.includes(". ")?name.slice(name.indexOf(". ")+2):name;
+/* Polish RR-3 / Fable F11-19: a text never grows past its slot: it shrinks (down to minSize), then ends in "…" */
+function fitText(ctx,text,weight,size,minSize,maxW){ let fs=size, t=String(text); const font=()=>{ ctx.font=`${weight} ${fs}px 'Barlow Condensed'`; }; font();
+  while(fs>minSize&&ctx.measureText(t).width>maxW){ fs--; font(); }
+  if(ctx.measureText(t).width>maxW){ while(t.length>2&&ctx.measureText(t+"…").width>maxW) t=t.slice(0,-1); t+="…"; } return t; }
+function textShadow(ctx,on){ ctx.shadowColor=on?"rgba(0,0,0,.85)":"transparent"; ctx.shadowBlur=on?5:0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=on?2:0; }
+/* one starter: shadow on the grass, shirt, overall at the shirt's left, a green bar (overall out of 99) and the surname; the selected
+   player (the one the barrel is on) gets the game's yellow name plate and a glow under the shirt */
+function playerCard(ctx,sp,club,vsClub,sel){ const {x,y,s}=sp;
+  if(sel){ const g=ctx.createRadialGradient(x,y+s*.45,4,x,y+s*.45,s*.95); g.addColorStop(0,"rgba(255,226,80,.85)"); g.addColorStop(1,"rgba(255,226,80,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(x,y+s*.45,s*.95,s*.42,0,0,7); ctx.fill(); }
+  ctx.fillStyle="rgba(0,0,0,.28)"; ctx.beginPath(); ctx.ellipse(x,y+s*.52,s*.46,s*.1,0,0,7); ctx.fill();
+  kitShirt(ctx,x,y,s,club,sp.pos,vsClub);
+  ctx.textBaseline="middle"; ctx.textAlign="right"; textShadow(ctx,true); ctx.font=`800 ${Math.round(s*.54)}px 'Barlow Condensed'`; ctx.fillStyle="#fff"; ctx.fillText(String(sp.rating),x-s*.6,y+s*.16);
+  ctx.font=`700 ${Math.round(s*.3)}px 'Barlow Condensed'`; ctx.fillStyle="#fff"; ctx.fillText("↗",x-s*.66,y-s*.24); textShadow(ctx,false);
+  const bw=s*1.34, bh=Math.max(4,s*.1), by=y+s*.6; ctx.fillStyle="rgba(8,22,10,.8)"; ctx.fillRect(x-bw/2,by,bw,bh); ctx.fillStyle="#46cf3a"; ctx.fillRect(x-bw/2+1,by+1,(bw-2)*Math.min(1,sp.rating/99),bh-2);
+  const ny=by+bh+s*.36; ctx.textAlign="center";
+  if(sel){ const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); const w=ctx.measureText(t).width+s*.5, h=s*.52; roundRect(ctx,x-w/2,ny-h/2,w,h,h*.22); ctx.fillStyle="#f6d13a"; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="rgba(0,0,0,.45)"; ctx.stroke(); ctx.fillStyle="#15171b"; ctx.fillText(t,x,ny+1); }
+  else { const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); textShadow(ctx,true); ctx.fillStyle="#fff"; ctx.fillText(t,x,ny+1); textShadow(ctx,false); } }
+function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; b.bubbles.length=0; b.club=club; const other=boards[key==="D"?"N":"D"].userData.club, vsClub=other&&other!==club?other.club:undefined;
+  const form=(club.formation||formationOf(club.xi));
+  ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H); ctx.textBaseline="middle";
+  { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b1e24"); g.addColorStop(1,"#101216"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
+  /* tab bar */
+  { const tabs=["SQUAD","FORMATIONS","ROLES","INSTRUCTIONS","TACTICS"], tw=W/tabs.length; ctx.fillStyle="#22262d"; ctx.fillRect(0,0,W,50);
+    tabs.forEach((t,i)=>{ const cx=tw*(i+.5); if(!i){ ctx.fillStyle="#2f343d"; ctx.fillRect(0,0,tw,50); ctx.fillStyle="#f6d13a"; ctx.fillRect(14,45,tw-28,5); } ctx.font="700 27px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.fillStyle=i?"#e4e6ea":"#f6d13a"; ctx.fillText(t,cx,26); }); }
+  /* header: the club's best player on the left (shirt, position, overall, bar, surname), the club and its XI on the right */
+  const best=club.xi.reduce((a,r)=>r[2]>a[2]?r:a,club.xi[0]), avg=Math.round(club.xi.reduce((a,r)=>a+r[2],0)/club.xi.length);
+  { const g=ctx.createLinearGradient(0,50,0,162); g.addColorStop(0,"#f2f4f6"); g.addColorStop(1,"#d6dade"); ctx.fillStyle=g; ctx.fillRect(0,50,W,112);
+    ctx.save(); ctx.beginPath(); ctx.arc(150,104,48,0,7); ctx.clip(); ctx.strokeStyle="rgba(240,196,48,.75)"; ctx.lineWidth=3; for(let i=-6;i<8;i++){ ctx.beginPath(); ctx.moveTo(100+i*12,160); ctx.lineTo(160+i*12,48); ctx.stroke(); } ctx.restore();
+    ctx.fillStyle=POS_COL(best[0]); ctx.beginPath(); ctx.arc(30,88,8,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 32px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(best[0],44,89);
+    kitShirt(ctx,150,98,62,club,best[0],vsClub);
+    ctx.font="800 76px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(String(best[2]),196,96);
+    ctx.fillStyle="#2b3038"; ctx.fillRect(24,129,270,8); ctx.fillStyle="#46cf3a"; ctx.fillRect(25,130,268*Math.min(1,best[2]/99),6);
+    ctx.textAlign="center"; ctx.fillStyle="#22252b"; ctx.fillText(fitText(ctx,surname(best[1]),700,30,22,270),159,150);
+    ctx.textAlign="right"; ctx.fillStyle="#1d2026"; ctx.fillText(fitText(ctx,club.club.toUpperCase(),800,46,30,600),W-30,88);
+    ctx.font="600 25px 'Barlow Condensed'"; ctx.fillStyle="#4f5560"; ctx.fillText("STARTING XI · "+form+" · OVR "+avg,W-30,130); }
+  /* the pitch in perspective (one half: halfway line at the top, our box at the bottom) with a thick turf edge */
+  const PT=174, PB=616, TL=98, TR=926, BLx=28, BRx=996; const kOf=y=>(y-PT)/(PB-PT); const X=(u,y)=>{ const k=kOf(y), l=TL+(BLx-TL)*k, r=TR+(BRx-TR)*k; return l+u*(r-l); };
+  { ctx.beginPath(); ctx.moveTo(BLx,PB); ctx.lineTo(BRx,PB); ctx.lineTo(BRx-3,PB+12); ctx.lineTo(BLx+3,PB+12); ctx.closePath(); const e=ctx.createLinearGradient(0,PB,0,PB+12); e.addColorStop(0,"#2e7426"); e.addColorStop(1,"#1d4a18"); ctx.fillStyle=e; ctx.fill();
+    ctx.save(); ctx.beginPath(); ctx.moveTo(TL,PT); ctx.lineTo(TR,PT); ctx.lineTo(BRx,PB); ctx.lineTo(BLx,PB); ctx.closePath(); ctx.clip();
+    const g=ctx.createLinearGradient(0,PT,0,PB); g.addColorStop(0,"#62b74b"); g.addColorStop(1,"#3f9a30"); ctx.fillStyle=g; ctx.fillRect(0,PT,W,PB-PT);
+    for(let i=0;i<10;i++){ const y0=PT+(PB-PT)*Math.pow(i/10,1.12), y1=PT+(PB-PT)*Math.pow((i+1)/10,1.12); ctx.fillStyle=i%2?"rgba(255,255,255,.07)":"rgba(0,0,0,.035)"; ctx.fillRect(0,y0,W,y1-y0); }
+    const lg=ctx.createRadialGradient(W/2,PT-60,40,W/2,PT+120,620); lg.addColorStop(0,"rgba(255,255,240,.12)"); lg.addColorStop(1,"rgba(0,0,0,.14)"); ctx.fillStyle=lg; ctx.fillRect(0,PT,W,PB-PT);
+    ctx.strokeStyle="rgba(255,255,255,.9)"; ctx.lineWidth=3; const line=(u0,y0,u1,y1)=>{ ctx.beginPath(); ctx.moveTo(X(u0,y0),y0); ctx.lineTo(X(u1,y1),y1); ctx.stroke(); };
+    const t=PT+9, bt=PB-9; line(.012,t,.988,t); line(.012,bt,.988,bt); line(.012,t,.012,bt); line(.988,t,.988,bt);
+    ctx.beginPath(); ctx.ellipse(W/2,t,104,58,0,0,Math.PI); ctx.stroke();
+    const bx=PB-128, sx=PB-52; line(.2,bt,.2,bx); line(.8,bt,.8,bx); line(.2,bx,.8,bx); line(.37,bt,.37,sx); line(.63,bt,.63,sx); line(.37,sx,.63,sx);
+    ctx.save(); ctx.beginPath(); ctx.rect(0,PT,W,bx-PT); ctx.clip(); ctx.beginPath(); ctx.ellipse(W/2,bx+20,82,40,0,Math.PI,Math.PI*2); ctx.stroke(); ctx.restore();
+    ctx.restore(); }
+  /* starters: lines from the position map, spread evenly down the pitch */
+  const used={}, has=p=>club.xi.some(r=>r[0]===p), wide={LCB:has("CB")?.27:0, RCB:has("CB")?.73:0, LCM:has("CM")?.27:0, RCM:has("CM")?.73:0};
+  const spots=club.xi.map(([pos,name,rating],i)=>{ let xy=POS_XY[pos]||[.5,.5]; if(wide[pos]) xy=[wide[pos],xy[1]]; /* RT5-SCENE-03: a back three or a midfield three spreads out so three names fit on one row */ let k=pos; while(used[k]){ k+="'"; xy=[xy[0]+.1,xy[1]]; } used[k]=1; return {pos,name,rating,num:i+1,u:xy[0],fy:xy[1]}; });
+  const ys=[...new Set(spots.map(s=>s.fy))].sort((a,c)=>a-c), lines=[]; ys.forEach(v=>{ const L=lines[lines.length-1]; if(L&&v-L[0]<=.075) L.push(v); else lines.push([v]); });
+  const yTop=PT+46, yBot=PB-74, step=(yBot-yTop)/Math.max(1,lines.length-1), S0=Math.min(54,step/1.82);
+  spots.forEach(sp=>{ const li=lines.findIndex(L=>L.includes(sp.fy)); sp.y=lines.length>1?yTop+li*step:yBot; sp.s=S0*(.92+.14*kOf(sp.y)); sp.x=X(.07+sp.u*.86,sp.y+sp.s*.5); sp.li=li; });
+  spots.forEach(sp=>{ let gap=Infinity; spots.forEach(o=>{ if(o!==sp&&o.li===sp.li) gap=Math.min(gap,Math.abs(o.x-sp.x)); }); sp.nameW=Math.min(sp.s*3.4,gap-10); });
+  spots.sort((a,c)=>a.y-c.y||a.x-c.x).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); });
+  spots.forEach(sp=>{ const i=b.bubbles.findIndex(q=>q.slot===sp.num-1); playerCard(ctx,sp,club,vsClub,b.sel===i&&!(b.hit&&b.hit.i===i)); });
+  /* the bench: a strip of cards under the pitch */
+  const BT=636; ctx.fillStyle="#23272e"; ctx.fillRect(0,BT,W,32); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",22,BT+17); ctx.textAlign="right"; ctx.font="600 21px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("BENCH · "+club.subs.length,W-22,BT+17);
+  const subs=club.subs.slice(0,4), gapC=10, cw=(W-44-gapC*3)/4, cy=BT+38, ch=H-cy-6;
+  subs.forEach(([pos,name,rating],i)=>{ const cx=22+i*(cw+gapC); const g=ctx.createLinearGradient(0,cy,0,cy+ch); g.addColorStop(0,"#262a32"); g.addColorStop(1,"#1a1d22"); roundRect(ctx,cx,cy,cw,ch,6); ctx.fillStyle=g; ctx.fill(); ctx.strokeStyle="rgba(255,255,255,.07)"; ctx.lineWidth=1.5; ctx.stroke();
+    const idx=11+i, bi=b.bubbles.length, sx=cx+cw*.5, sy=cy+38; b.bubbles.push({slot:idx,x:sx,y:sy,name,pos,rating,u:sx/W,v:1-sy/H}); const sel=b.sel===bi&&!(b.hit&&b.hit.i===bi);
+    if(sel){ roundRect(ctx,cx,cy,cw,ch,6); ctx.lineWidth=3; ctx.strokeStyle="#f6d13a"; ctx.stroke(); }
+    ctx.fillStyle=POS_COL(pos); ctx.beginPath(); ctx.arc(cx+18,cy+22,6,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 23px 'Barlow Condensed'"; ctx.fillStyle="#d9dce1"; ctx.fillText(pos,cx+29,cy+23);
+    kitShirt(ctx,sx,sy,44,club,pos,vsClub);
+    ctx.textAlign="right"; ctx.font="800 42px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),cx+cw-14,cy+36);
+    ctx.fillStyle="rgba(8,22,10,.8)"; ctx.fillRect(cx+14,cy+66,cw-28,5); ctx.fillStyle="#46cf3a"; ctx.fillRect(cx+15,cy+67,(cw-30)*Math.min(1,rating/99),3);
+    /* Fable F11-19: a long bench surname shrinks, then ends in an ellipsis, and never runs past its card */
+    const surW=cw-24; const sur=fitText(ctx,surname(name),700,25,18,surW); ctx.textAlign="center"; ctx.fillStyle=sel?"#f6d13a":"#fff"; ctx.fillText(sur,sx,cy+ch-16); });
   if(b.hit) drawHit(key,b.hit); b.tex.needsUpdate=true; }
 function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=hit; ctx.setTransform(2,0,0,2,0,0);
-  /* red RELEASED stamp on the player, then a burnt hole with a charred rim and torn paper */
-  ctx.save(); ctx.translate(x,y-2); ctx.rotate(-.12); ctx.fillStyle="rgba(190,20,20,.92)"; ctx.fillRect(-92,-20,184,40); ctx.strokeStyle="#ffd0c0"; ctx.lineWidth=3; ctx.strokeRect(-88,-16,176,32); ctx.fillStyle="#fff"; ctx.font="900 28px 'Big Shoulders Display'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore();
-  const r=30; const g=ctx.createRadialGradient(x,y,r*.3,x,y,r*2.4); g.addColorStop(0,"rgba(0,0,0,1)"); g.addColorStop(.35,"rgba(25,10,4,.95)"); g.addColorStop(.6,"rgba(70,35,10,.7)"); g.addColorStop(1,"rgba(60,30,10,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.4,0,7); ctx.fill();
-  ctx.fillStyle="#050302"; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, rr=r*(.7+Math.random()*.5); ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill();
-  ctx.strokeStyle="rgba(255,120,40,.6)"; ctx.lineWidth=2; ctx.stroke(); }
+  /* a burnt hole with a charred rim through the shirt, then the red RELEASED stamp across it; the rim is the same on every redraw */
+  let s=Math.floor(x*131+y*977)>>>0; const R=()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; };
+  const r=19; const g=ctx.createRadialGradient(x,y,r*.3,x,y,r*2.3); g.addColorStop(0,"rgba(0,0,0,1)"); g.addColorStop(.35,"rgba(25,10,4,.92)"); g.addColorStop(.6,"rgba(70,35,10,.6)"); g.addColorStop(1,"rgba(60,30,10,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.3,0,7); ctx.fill();
+  ctx.fillStyle="#050302"; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, rr=r*(.7+R()*.5); ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill();
+  ctx.strokeStyle="rgba(255,120,40,.55)"; ctx.lineWidth=2; ctx.stroke();
+  ctx.save(); ctx.translate(x,y+10); ctx.rotate(-.1); /* across the shirt: the surname under it stays readable */ ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=6; ctx.fillStyle="rgba(196,22,22,.95)"; ctx.fillRect(-78,-17,156,34); ctx.shadowColor="transparent"; ctx.strokeStyle="#ffd6c8"; ctx.lineWidth=2.5; ctx.strokeRect(-74,-13,148,26); ctx.fillStyle="#fff"; ctx.font="900 24px 'Big Shoulders Display'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore(); }
 function boardHitPoint(key,bubble){ const g=boards[key]; const p=new T.Vector3((bubble.u-.5)*BOARD_W,(bubble.v-.5)*BOARD_H,.012); g.updateMatrixWorld(true); return g.userData.inner.localToWorld(p); }
 function boardTargetWorld(key,bubble){ return boardHitPoint(key,bubble); }
 
 /* squads */
 let SQUADS=null; const clubByName=(n)=>SQUADS&&SQUADS.clubs.find(c=>c.club.toLowerCase()===String(n).toLowerCase())||SQUADS&&SQUADS.clubs[0];
-function setBoards(dClub,nClub){ if(!SQUADS) return; const d=clubByName(dClub), n=clubByName(nClub); boards.D.userData.hit=null; boards.N.userData.hit=null; drawBoard("D",d); drawBoard("N",n); }
+function setBoards(dClub,nClub){ if(!SQUADS) return; const d=clubByName(dClub), n=clubByName(nClub); boards.D.userData.hit=null; boards.N.userData.hit=null; boards.D.userData.sel=null; boards.N.userData.sel=null; boards.D.userData.club=d; boards.N.userData.club=n; drawBoard("D",d); drawBoard("N",n);
+  /* r89 Kits 17: the crests decode in a moment; the boards are drawn again with them unless a turn has started or the clubs changed meanwhile */
+  if(KITS) KITS.prepare([d.club,n.club]).then(()=>{ if(playing||boards.D.userData.club!==d||boards.N.userData.club!==n) return; drawBoard("D",d); drawBoard("N",n); }).catch(()=>{}); }
 
 /* ================= particles: smoke, splinters, dust, flash ================= */
 const smokes=[]; const smokeMat=new T.SpriteMaterial({map:smokeT, transparent:true, depthWrite:false, opacity:.5, color:0xd8d0c0});
 for(let i=0;i<36;i++){ const s=new T.Sprite(smokeMat.clone()); s.visible=false; scene.add(s); smokes.push({s, life:0, v:new T.Vector3(), rot:0}); }
 function puff(pos,dir,n,size,speed,life){ for(let i=0;i<n;i++){ const p=smokes.find(q=>q.life<=0); if(!p) return; p.life=life*(.7+rnd()*.6); p.max=p.life; p.s.visible=true; p.s.position.copy(pos).add(new T.Vector3((rnd()-.5)*.02,(rnd()-.5)*.02,(rnd()-.5)*.02)); p.v.copy(dir).multiplyScalar(speed*(.5+rnd())).add(new T.Vector3((rnd()-.5)*.3,.12+rnd()*.2,(rnd()-.5)*.3)); p.size=size*(.6+rnd()*.8); p.s.material.rotation=rnd()*6.28; p.rot=(rnd()-.5)*1.5; } }
-const splinters=[]; const splGeo=new T.BoxGeometry(.012,.004,.03); const splMat=new T.MeshStandardMaterial({color:L("#e8d8b0"),roughness:.9});
+const splinters=[]; const splGeo=new T.BoxGeometry(.012,.004,.03); const splMat=new T.MeshStandardMaterial({color:L("#b9c6c9"),roughness:.12,metalness:.55,transparent:true,opacity:.75});
 for(let i=0;i<40;i++){ const m=new T.Mesh(i%3?splGeo:new T.BoxGeometry(.02,.001,.02),i%3?splMat:M.card); m.visible=false; scene.add(m); splinters.push({m, life:0, v:new T.Vector3(), w:new T.Vector3()}); }
-function burst(pos,normal){ splinters.forEach((p,i)=>{ p.life=.9+rnd()*.8; p.m.visible=true; p.m.position.copy(pos); p.v.copy(normal).multiplyScalar(.8+rnd()*2.2).add(new T.Vector3((rnd()-.5)*2.2,(rnd()-.2)*2.4,(rnd()-.5)*2.2)); p.w.set(rnd()*20,rnd()*20,rnd()*20); p.m.scale.setScalar(.25+rnd()*.45); }); }
+/* r89: glass from the board's cover and a few paper flecks, small and fast, thrown out of the hole toward the camera side, not a cloud across the frame */
+function burst(pos,normal){ splinters.forEach((p,i)=>{ if(i>=22){ p.life=0; p.m.visible=false; return; } p.life=.6+rnd()*.6; p.m.visible=true; p.m.position.copy(pos); p.v.copy(normal).multiplyScalar(.6+rnd()*1.4).add(new T.Vector3((rnd()-.5)*1.4,(rnd()-.15)*1.5,(rnd()-.5)*1.4)); p.w.set(rnd()*20,rnd()*20,rnd()*20); p.m.scale.setScalar(.14+rnd()*.26); }); }
 const flashSprite=new T.Sprite(new T.SpriteMaterial({map:flashTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0})); flashSprite.scale.set(.001,.001,1); scene.add(flashSprite);
 const flashSide=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xffb060})); scene.add(flashSide);
 /* muzzle flash layers: hot white core, two petal stars at different angles, one wide warm glow; sparks fly out in a cone */
@@ -778,7 +925,11 @@ function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspe
   const bx=PH?.5:1.1, by=PH?1.2:1.0, bz=PH?-1.05:-.45, yaw=PH?.3:.55, sc=PH?.8:.92;
   [["D",-1],["N",1]].forEach(([k,s])=>{ const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.12,-yaw*s,0); b.scale.setScalar(sc); });
   if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.7); lookRest.set(0,.86,-.1); }
-  renderer.setPixelRatio(Math.min(devicePixelRatio||1,PH?2.5:3)); renderer.setSize(w,h,false); }
+  /* r89 (Nik 2026-11-03: "high frame rate and high resolution"): a laptop screen renders at least 1.5x (supersampled, so the board's names stay crisp); the frame
+     governor in tick() steps the resolution down a notch whenever a second runs under 50 frames, so the motion stays smooth on a slower device */
+  prCap=PH?Math.min(devicePixelRatio||1,LOOK.post?2:2.5):Math.min(Math.max(devicePixelRatio||1,1.5),3); prNow=prNow?Math.min(prNow,prCap):prCap;
+  renderer.setPixelRatio(prNow); renderer.setSize(w,h,false); sizePost(); shadowCool=2; }
+let prCap=0, prNow=0; const PR_FLOOR=()=>Math.min(devicePixelRatio||1,1.25);
 addEventListener("resize",layout);
 
 /* ================= the turn: the gun spins on the felt, cocks itself, fires or clicks ================= */
@@ -805,18 +956,26 @@ function startTurn(force,targetName,planned){ if(playing) return; const who=ORDE
     chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
     pick=(targetName&&free.find(x=>x.name===targetName))||free[Math.floor(rnd()*free.length)];   /* the gallery (no plan) picks one */
     fire=chamber===bulletAt; }
-  playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, cyl0:cyl.rotation.z, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0 }; fired={};
+  const frames=boardFrames(who,pick,fire); if(frames) pick=b.bubbles[frames.i];   /* drawBoard rebuilds the bubble list: point at the live entry */
+  playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, cyl0:cyl.rotation.z, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0, frames }; fired={}; shadowCool=3;
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const tgt=boardTargetWorld(who,pick); const dir=tgt.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
   setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
 function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+((typeof GAME!=="undefined"&&GAME&&GAME.turns&&GAME.turns[turn]&&GAME.turns[turn].targetLabel)||p.target.name),"lost") /* Codex C2-01: number, position and overall tell namesakes apart */; } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
   try{ window.dispatchEvent(new CustomEvent("rr:end",{detail:{who, name:NAME[who], fire:p.fire, lost:p.fire?p.target.name:null, turn}})); }catch(e){}
-  turn++; playing=null; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.clearRounds(); } }
+  turn++; playing=null; shadowCool=2.5; const next=ORDER[turn%2]; setBusy(false); $("chipWho").textContent=NAME[next]; $("pchipWho").textContent=NAME[next]; if(turn%2===1) slot(next==="D"?slotD:slotN,"At the table","wait"); if(p.fire){ loaded=false; cyl.userData.clearRounds(); } }
 const now=()=>manual!==null?manual:performance.now()/1000;
 /* beats (seconds from the start of a turn); reduced motion shortens them */
-const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,impact:3.45,end:5.2}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.2,cock:13.6,aim:13.9,fire:15.0,impact:17.4,end:22.0};
+const B=REDUCED?{spin:.2,spinEnd:1.6,close:1.8,inside:1.8,turnC:2.2,hand:2.3,cock:2.6,aim:2.7,fire:3.3,impact:3.45,end:5.2}:{spin:.35,spinEnd:3.0,close:3.3,inside:11.4,turnC:11.9,hand:12.65,cock:13.6,aim:13.9,fire:15.0,impact:17.4,end:22.0};
+/* r89 polish: the hand comes up (12.65) as the eye pans from the revolver on the felt to the board, so the gun is never in the hand and on the table in one frame */
 let hammerK=0, cylExtra=0, recoil=0, fxScale=1;
+/* r89 (Nik 2026-11-03: "spin very smoothly and nicely, and add dramatic speed while stopping"): the drum's spin as one smooth speed curve:
+   0.4 s spin-up, a short flat-out run, then a friction slow-down (near-even braking, so the last ticks spread out: tick, tick, tick ... tick ... clunk);
+   11 whole turns plus the angle left from the rest position to the planned chamber, so it ends exactly there. v(k) is the speed shape,
+   rem(k) the share of the run still to go (read from a table built once); T is the whole-turn part in radians */
+const SPIN=(()=>{ const T9=11*Math.PI*2, v=k=>{ const up=Math.min(1,k/.06), r=up*up*(3-2*up); return k<.16?r:Math.pow(Math.max(0,1-(k-.16)/.84),1.1); }; const n=600, cum=new Float64Array(n+1); for(let i=1;i<=n;i++) cum[i]=cum[i-1]+(v((i-.5)/n))/n; const area=cum[n];
+  return { T:T9, v, area, rem:k=>{ const x=Math.min(1,Math.max(0,k))*n, i=Math.floor(x), f=x-i, c=i>=n?cum[n]:cum[i]+(cum[i+1]-cum[i])*f; return 1-c/area; } }; })();
 /* r88 Team V: the result lines read right for 0 to 7 live rounds (Chamber Men loads one per goal; older Showdowns hold one). */
 function liveWords(){ const k=(cyl&&cyl.userData&&Number.isInteger(cyl.userData.liveCount))?cyl.userData.liveCount:1;
   if(k<=0) return {mark:"No live rounds · Gold: fires", fired:"Stopped on a live round", safe:"No live rounds. Every chamber is empty"};
@@ -825,6 +984,21 @@ function liveWords(){ const k=(cyl&&cyl.userData&&Number.isInteger(cyl.userData.
   return {mark:"Red: "+k+" live rounds · Gold: fires", fired:"Stopped on a live round", safe:"Stopped on an empty chamber"}; }
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
+/* r89 polish (sound sync): a sound beat is scheduled CUE_LA seconds early on the audio clock for its exact time, so at 30, 60 or 120 frames a second it lands on the same instant as the picture */
+const CUE_LA=.06; function cue(tt,t,k,name,vol){ if(tt>=t-CUE_LA&&!fired[k]){ fired[k]=1; SFX.play(name,vol,Math.max(0,t-tt)); } }
+/* r89 polish (Nik 2026-11-03: the camera "settles into the shooter's perspective ... seamless"): one critically damped settle, the step response of a
+   third-order damped chain (1-(1+x+x^2/2)e^(-x), x=a u): it starts with neither a jolt nor a jerk (speed AND acceleration begin at zero, so the drum
+   stays large in the frame while the crane seats), is fastest a third of the way in, then eases into place with a speed that only ever falls and never
+   reaches zero before the shot. Normalised so it reaches exactly 1 at u=1 */
+const SETTLE_A=9, SETTLE_F=(u)=>{ const x=SETTLE_A*u; return 1-(1+x+x*x/2)*Math.exp(-x); }, SETTLE_N=SETTLE_F(1), SETTLE=(u)=>SETTLE_F(u)/SETTLE_N;
+/* r89 polish (frame rate): the board's later looks of this turn (the marked player; the hole and the RELEASED stamp) are drawn before the spin starts, into
+   spare canvases of the same size, and the turn only swaps the finished picture in. A 2048-px redraw used to run in the middle of the camera glide and
+   again in the slow-motion impact, and each one held a frame. The pool of three canvases per board is reused turn after turn. */
+function boardFrames(key,pick,fire){ const b=boards[key].userData, i=b.bubbles.indexOf(pick); if(i<0) return null; if(!b.pool) b.pool=[b.canvas]; const plain=b.canvas; const used=[plain];
+  const draw=(sel,hit)=>{ let c=b.pool.find(x=>!used.includes(x)); if(!c){ c=cv(2048,1560)[0]; b.pool.push(c); } used.push(c); const keep={ctx:b.ctx,canvas:b.canvas,sel:b.sel,hit:b.hit,tex:b.tex};
+    b.ctx=c.getContext("2d"); b.canvas=c; b.sel=sel; b.hit=hit; b.tex={}; try{ drawBoard(key,b.club); } finally{ Object.assign(b,keep); } return c; };
+  const sel=draw(i,b.hit), hit=fire?draw(i,{x:pick.x,y:pick.y,i}):null; return {i,plain,sel,hit}; }
+function showFrame(key,canvas,sel,hit){ const b=boards[key].userData; b.canvas=canvas; b.ctx=canvas.getContext("2d"); b.tex.image=canvas; b.tex.needsUpdate=true; b.sel=sel; b.hit=hit; }
 let lastClick=0;
 function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
   const muzzleW=new T.Vector3(); muzzle.getWorldPosition(muzzleW);
@@ -832,35 +1006,52 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
   else {
     const tgt=boardTargetWorld(p.who,p.target);
     /* a. the spin: fast, friction slows it, stops on the target with a small overshoot and settle */
-    if(tt>=B.spin&&tt<B.spinEnd+.5){ const k=S(B.spin,B.spinEnd-B.spin,tt); const turns=REDUCED?2:4; let delta=(p.yawTarget-p.yaw0)%(Math.PI*2); if(delta<0) delta+=Math.PI*2; const total=turns*Math.PI*2+delta; const e=1-Math.pow(1-k,2.6); const over=Math.sin(Math.min(1,k)*Math.PI)*0; const settle=tt>B.spinEnd?Math.sin((tt-B.spinEnd)*14)*Math.exp(-(tt-B.spinEnd)*6)*.09:0; const prev=spin.rotation.y; spin.rotation.y=p.yaw0+total*e+(k>.8?Math.sin((k-.8)/.2*Math.PI)*.12:0)+settle; p.spinV=(spin.rotation.y-prev)/Math.max(dt,1e-3); if(Math.floor(spin.rotation.y/.9)!==lastClick){ lastClick=Math.floor(spin.rotation.y/.9); SFX.play("felt",Math.min(1,Math.abs(p.spinV)/14)); } }
-    else if(tt>=B.spinEnd+.5&&tt<B.fire){ spin.rotation.y=p.yawTarget; }
+    /* r89 polish: sliding friction is a constant brake, so the yaw runs down as 1-(1-k)^2 (its speed falls in a straight line to zero exactly on the aim)
+       and the gun simply comes to rest pointing at the board: no hop, no wobble, no snap half a second later */
+    if(tt>=B.spin&&tt<B.spinEnd){ const k=S(B.spin,B.spinEnd-B.spin,tt); const turns=REDUCED?2:4; let delta=(p.yawTarget-p.yaw0)%(Math.PI*2); if(delta<0) delta+=Math.PI*2; const total=turns*Math.PI*2+delta; const e=1-Math.pow(1-k,2); const prev=spin.rotation.y; spin.rotation.y=p.yaw0+total*e; p.spinV=(spin.rotation.y-prev)/Math.max(dt,1e-3); if(Math.floor(spin.rotation.y/.9)!==lastClick){ lastClick=Math.floor(spin.rotation.y/.9); SFX.play("felt",Math.min(1,Math.abs(p.spinV)/14)); } }
+    else if(tt>=B.spinEnd&&tt<B.fire){ spin.rotation.y=p.yawTarget; }
     /* b. the cylinder turns one chamber by itself, then the hammer cocks by itself */
     /* the crane swings the cylinder out, it spins fast and runs down while the camera looks into the chambers, then swings back */
     const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.62; { const pk=Math.max(0,(craneK-.35)/.65), ptr=cyl.userData.pointer; ptr.visible=pk>0; const sc=.001+ease.out(pk)*.999; ptr.scale.set(sc,sc,sc); }
     at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent=liveWords().mark; });
     at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?liveWords().fired:liveWords().safe; });
-    at(tt,B.close,"craneOpen",()=>SFX.play("cock",.6)); at(tt,B.inside,"craneShut",()=>SFX.play("click",1));
+    cue(tt,B.close,"craneOpen","cock",.6); cue(tt,B.inside+.42,"craneShut","click",1);   /* r89 polish: the shut click lands when the crane seats (the swing takes .45 s), not when it starts to move */
     /* THE main event: the drum spins free for ~7 s, fast at first, then the clicks spread out, then a slow crawl to the stop with the red ring and the gold mark in view. It stops exactly where it will fire (or not) before the crane closes. */
     /* Nik 2026-11-03: the drum starts from wherever it rested and runs down to the planned stop chamber (any of the 7, as the
-       engine drew it), so it never just spins whole turns back onto the hole it started on. */
-    const TAU=Math.PI*2; let back=(playing.cyl0-cylTarget())%TAU; if(back<0) back+=TAU; const runDown=TAU*(REDUCED?0:14)+back;
-    let showExtra=tt<B.close?runDown:0; if(tt>=B.close&&tt<B.inside){ const k=S(B.close+.45,B.inside-B.close-.85,tt); const e=1-Math.pow(1-k,2.7); showExtra=(1-e)*runDown; const idx=Math.floor(showExtra/(TAU/7)); if(idx!==lastClick){ lastClick=idx; SFX.play("click",.22+.3*k); } }
-    at(tt,B.inside-3.2,"heart0",()=>SFX.play("heart")); at(tt,B.inside-2.0,"slowing",()=>{ result.textContent="Slowing down…"; });
-    at(tt,B.turnC,"turnC",()=>SFX.play("click",1)); cyl.rotation.z=cylTarget()+showExtra;
+       engine drew it), so it never just spins whole turns back onto the hole it started on: the run is SPIN.T whole turns plus
+       the true remaining angle from the rest position (cyl0) to the planned stop. Reduced motion: that remaining angle only. */
+    const TAU=Math.PI*2; let back=(p.cyl0-cylTarget())%TAU; if(back<0) back+=TAU; const runDown=(REDUCED?0:SPIN.T)+back;
+    let showExtra=tt<B.close?runDown:0, spinW=0; if(tt>=B.close&&tt<B.inside&&!REDUCED){ const dur=B.inside-B.close-1.3, t0=B.close+.45, kOf=(t)=>S(t0,dur,t), k=kOf(tt); spinW=runDown*SPIN.v(k)/(SPIN.area*dur);
+      /* the detent: as the drum slows, it lingers on each chamber and hops to the next (tick ... tick ... tick), the last hops slow and heavy;
+         the term is zero at every chamber line, so the drum still stops exactly on the planned chamber (and it fades in with the spin-up, so the first frame never hops).
+         angle(q) is the drum's smooth angle still to go at share q of the run: it only ever falls, so the moment it crosses a chamber line can be solved for */
+      const angle=(q)=>{ const r=SPIN.rem(q)*runDown, w=runDown*SPIN.v(q)/(SPIN.area*dur), a=.82*Math.min(1,q*25)*(1-ease.inOut(Math.min(1,Math.max(0,(w-2.5)/7)))); return r-a*Math.sin(7*r)/7; };
+      showExtra=angle(k); if(k>=1){ const u=tt-(t0+dur); showExtra-=.035*Math.exp(-7*u)*Math.sin(u*22); } /* the last click: a small overshoot that settles */
+      /* r89 polish (sound sync): every chamber line the drum crosses within the next CUE_LA seconds is found now (bisection on the smooth angle) and its tick is
+         put on the audio clock for that exact instant, so the ticks sit on the hops at any frame rate; the last tick is the seat on the planned chamber */
+      if(p.tickLine===undefined) p.tickLine=Math.ceil(runDown/(TAU/7)-1e-6)-1;
+      while(p.tickLine>=0&&angle(kOf(tt+CUE_LA))<p.tickLine*(TAU/7)+1e-6){ const goal=p.tickLine*(TAU/7)+1e-6; let lo=tt-dt, hi=tt+CUE_LA; for(let i=0;i<14;i++){ const m=(lo+hi)/2; if(angle(kOf(m))>goal) lo=m; else hi=m; }
+        SFX.play("click",.22+.5*Math.max(0,1-spinW/14),Math.max(0,hi-tt)); p.tickLine--; } }
+    if(cyl.userData.blur) cyl.userData.blur(Math.min(1,Math.max(0,(spinW-7)/9)));
+    cue(tt,B.inside-3.2,"heart0","heart"); at(tt,B.inside-2.0,"slowing",()=>{ result.textContent="Slowing down…"; });
+    cyl.rotation.z=cylTarget()+showExtra;   /* r89 polish: the old extra click right after the crane shut is gone; the seat click above is the one the eye sees */
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
     /* the hand: rises from the dark once the drum is shut, holds and breathes, fires or clicks, then sinks away */
-    handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?1:-1; handAimAt=tgt;   /* the hand sits on the side away from the board, so the gun crosses the frame toward it */
+    handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?-1:1; handAimAt=tgt;   /* r89: the hand sits on the board's outer side (Daniel's board left, Nik's right), the board fills the rest of the frame */
     { const up=ease.out(S(B.hand,1.1,tt)); const down=tt<B.fire+(p.fire?.35:1.0)?0:ease.inOut(S(B.fire+(p.fire?.35:1.0),p.fire?.9:.6,tt)); const breathe=Math.sin(tt*2.1)*.004+Math.sin(tt*5.3)*.0015; handK=Math.max(0,up-down)+(handHold?breathe:0);
       if(tt>=B.fire){ const a=tt<B.fire+.06?S(B.fire,.06,tt):1-ease.out(S(B.fire+.06,.55,tt)); handRecoil=(p.fire?1:.12)*Math.max(0,a); } else handRecoil=0; }
-    at(tt,B.hand,"handUp",()=>SFX.play("handUp")); at(tt,B.cock,"cock",()=>SFX.play("cock")); at(tt,B.aim,"heart",()=>SFX.play("heart")); at(tt,B.aim+1.0,"heart2",()=>SFX.play("heart"));
+    /* r89: while the barrel is on a player, the board marks him like the game marks the selected player (yellow plate, glow); the turn keeps the redrawn entry */
+    at(tt,B.aim,"select",()=>{ const bu=boards[p.who].userData, i=bu.bubbles.indexOf(p.target); if(i<0) return; bu.sel=i; if(p.frames&&p.frames.i===i) showFrame(p.who,p.frames.sel,i,bu.hit); else drawBoard(p.who,bu.club); p.target=bu.bubbles[i]; });
+    cue(tt,B.hand,"handUp","handUp"); cue(tt,B.cock,"cock","cock"); cue(tt,B.aim,"heart","heart");   /* r89 polish: one heartbeat run (three beats) whose last beat falls just before the hammer; the second run used to carry on over the bang */
+    cue(tt,B.fire,"shot",p.fire?"bang":"dry"); if(p.fire) cue(tt,B.impact,"splinterCue","splinter");
     /* c/d. hammer falls */
-    if(tt>=B.fire&&!fired.fire){ fired.fire=1; if(p.fire){ fireShot(p,tgt); } else { SFX.play("dry"); const fl=muzzleW.clone(); if(!handHold) fl.y=.76; puff(fl,new T.Vector3(0,.4,0),4,.07,.25,.9); result.className="result safe"; result.textContent=`Click. ${NAME[p.who]} is safe.`; live.textContent=result.textContent; } }
+    if(tt>=B.fire&&!fired.fire){ fired.fire=1; if(p.fire){ fireShot(p,tgt); } else { const fl=muzzleW.clone(); if(!handHold) fl.y=.76; puff(fl,new T.Vector3(0,.4,0),4,.07,.25,.9); result.className="result safe"; result.textContent=`Click. ${NAME[p.who]} is safe.`; live.textContent=result.textContent; } }
     /* the bullet: leaves at full speed for the first 8 cm, then the world slows and the camera rides beside it to the board */
     if(p.fire&&tt>=B.fire){ const fl=S(B.fire,B.impact-B.fire,tt); const k=Math.min(1,.04+ease.in(fl)*.96); const impact=tt>=B.impact; const dir=p.dir;
       if(!impact){ bullet.visible=true; bullet.position.copy(slugAt(p,tgt,k)); bullet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),dir); bullet.rotateZ(tt*40); p.bulletK=k; const sp=.5+fl*1.2; bullet.userData.streak.scale.set(sp,1,1); fxScale=lerp(fxScale,.16,Math.min(1,dt*6)); }
       else { bullet.visible=false; if(!p.hitDone){ p.hitDone=true; hitBoard(p,tgt); } fxScale=lerp(fxScale,tt<B.impact+1.2?.22:1,Math.min(1,dt*(tt<B.impact+1.2?8:1.5))); } }
     else fxScale=lerp(fxScale,1,Math.min(1,dt*4));
-    if(tt>=(p.fire?B.impact+1.6:B.fire+.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"+(p.target.name.length>14?" long":""); result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } }
+    if(tt>=(p.fire?B.impact+1.6:B.fire+.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"+(p.target.name.length>14?" long":""); result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } else { const bu=boards[p.who].userData; if(bu.sel!=null){ bu.sel=null; if(p.frames) showFrame(p.who,p.frames.plain,null,bu.hit); else drawBoard(p.who,bu.club); } } }
     /* recoil: the gun kicks and slides back across the felt, turning a little */
     if(p.slideV.lengthSq()>1e-6||p.slide.lengthSq()>1e-8){ p.slideV.multiplyScalar(Math.pow(.02,dt)); p.slide.addScaledVector(p.slideV,dt); spin.position.set(p.slide.x,.751,.02+p.slide.z); spin.rotation.y=p.yawTarget+p.slideSpin*(1-Math.exp(-(tt-B.fire)*3))*.001; if(p.spinKick){ spin.rotation.y=p.yawTarget+p.spinKick*(1-Math.pow(.02,tt-B.fire)); } }
     if(tt>=B.end) endTurn();
@@ -871,16 +1062,18 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
 /* the flash layers ride on the muzzle, so the recoil slide does not leave them behind */
 function placeFlash(mz,dir){ flashSprite.position.copy(mz).addScaledVector(dir,.03); flashCore.position.copy(mz).addScaledVector(dir,.015); petals.forEach((sp,i)=>sp.position.copy(mz).addScaledVector(dir,.025+i*.02)); flashSide.position.copy(mz).addScaledVector(dir,.02); }
 function fireShot(p,tgt){ const mz=new T.Vector3(); if(handHold){ camera.updateMatrixWorld(); placeHand(); hand.updateMatrixWorld(); mz.copy(handMuzzleWorld()); } else muzzle.getWorldPosition(mz); p.mz=mz.clone(); const dir=tgt.clone().sub(mz).normalize();
-  p.dir=dir.clone(); placeFlash(mz,dir); flashSprite.material.opacity=.6; flashSprite.scale.set(.09,.09,1); flashSprite.material.rotation=rnd()*6;
-  flashCore.material.opacity=1; flashCore.scale.set(.055,.055,1);
-  petals.forEach((sp,i)=>{ sp.material.opacity=1; const z=.12+i*.07; sp.scale.set(z,z,1); sp.material.rotation=rnd()*6; });
+  /* r89: the hand holds the gun at arm's length, close to the eye, so its flash and smoke are drawn smaller (fz) to read the same size as before and leave the board clear */
+  const fz=handHold?.62:1;
+  p.dir=dir.clone(); placeFlash(mz,dir); flashSprite.material.opacity=.6; flashSprite.scale.set(.09*fz,.09*fz,1); flashSprite.material.rotation=rnd()*6;
+  flashCore.material.opacity=1; flashCore.scale.set(.055*fz,.055*fz,1);
+  petals.forEach((sp,i)=>{ sp.material.opacity=1; const z=(.12+i*.07)*fz; sp.scale.set(z,z,1); sp.material.rotation=rnd()*6; });
   flashSide.material.opacity=.4; flashSide.scale.set(.25,.25,1);
   flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.22)).add(new T.Vector3(0,.1,0)); flashLight.intensity=REDUCED?2.5:PH?3.5:6; flashLight.color.set(L("#ffd6a8"));
   spray(mz.clone().add(dir.clone().multiplyScalar(.03)),dir,REDUCED?10:34,4.5);
-  puff(mz,dir,14,.11,2.0,1.9); puff(mz,new T.Vector3(0,1,0),10,.09,.35,3.0); puff(mz.clone().add(dir.clone().multiplyScalar(.08)),dir,8,.07,2.8,1.2);
+  puff(mz,dir,14,.11*fz,2.0,1.9); puff(mz,new T.Vector3(0,1,0),10,.09*fz,.35,3.0); puff(mz.clone().add(dir.clone().multiplyScalar(.08)),dir,8,.07*fz,2.8,1.2);
   const flat=new T.Vector3(dir.x,0,dir.z).normalize(); p.slideV.copy(flat).multiplyScalar(REDUCED?-.5:-1.3); p.slide.set(0,0,0); p.slideSpin=0; p.spinKick=(rnd()-.5)*.6; recoil=1;
-  shake=REDUCED?0:.025; SFX.play("bang"); }
-function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); hitFlash.position.copy(tgt).addScaledVector(n,.02); hitFlash.material.opacity=1; hitFlash.scale.set(.12,.12,1); hitLight.position.copy(tgt).addScaledVector(n,.12); hitLight.intensity=REDUCED?1.5:4; spray(tgt,n,REDUCED?6:18,2.2); /* r87: no board kick on the hit (Nik: the boards never move); the splinters, flash and hole carry the impact */ const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; drawBoard(p.who,b.userData.club); SFX.play("splinter"); puff(tgt,n,5,.08,.5,1.3); }
+  shake=REDUCED?0:.025; }
+function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); hitFlash.position.copy(tgt).addScaledVector(n,.02); hitFlash.material.opacity=.75; hitFlash.scale.set(.05,.05,1); hitLight.position.copy(tgt).addScaledVector(n,.12); hitLight.intensity=REDUCED?.6:1.1; spray(tgt,n,REDUCED?4:9,1.8); /* r89: a tight flash and a few sparks, so the hole and the stamp stay in sight through the hit (it used to white out the frame) */ /* r87: no board kick on the hit (Nik: the boards never move); the splinters, flash and hole carry the impact */ const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; if(p.frames&&p.frames.hit&&p.frames.i===i) showFrame(p.who,p.frames.hit,i,b.userData.hit); else drawBoard(p.who,b.userData.club); puff(tgt,n,5,.08,.5,1.3); }
 
 /* ================= camera ================= */
 function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new T.Vector3(Math.sin(t*.23)*.05,Math.sin(t*.31)*.02,Math.cos(t*.19)*.04);
@@ -890,38 +1083,56 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
     const yaw=p.yawTarget; const back=new T.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)); const side=new T.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
     const closePos=gw.clone().add(back.clone().multiplyScalar(.5)).add(side.clone().multiplyScalar(PH?-.26:-.3)).add(new T.Vector3(0,.5,0)), closeLook=gw.clone().add(new T.Vector3(0,.02,0)).add(back.clone().multiplyScalar(.03)); const closeFov=PH?22:18;
-    gun.updateWorldMatrix(true,false); const inK=S(B.close+.5,B.inside-B.close-.5,tt); const insidePos=gun.localToWorld(new T.Vector3(-.078,.05,-.25).lerp(new T.Vector3(-.064,.034,-.215),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.045,.0,-.012)); if(!PH) insideLook.y-=.0055; /* r87 polish: on a laptop the drum sits higher and a touch smaller, so the result line and the button never cover its lower chambers or the live round */ const insideFov=PH?26:22;
+    gun.updateWorldMatrix(true,false); const GL0=REDUCED?B.inside:B.inside+.15; const inK=S(B.close+.5,Math.max(.1,GL0-B.close-.5),tt);   /* the glide away from the drum begins (GL0) while the crane swings shut: the drum has stopped and been read, the shut is the cue to leave */ const insidePos=gun.localToWorld(new T.Vector3(-.078,.05,-.25).lerp(new T.Vector3(-.064,.034,-.215),ease.inOut(inK))), insideLook=gun.localToWorld(new T.Vector3(-.045,.0,-.012)); if(!PH) insideLook.y-=.0055; /* r87 polish: on a laptop the drum sits higher and a touch smaller, so the result line and the button never cover its lower chambers or the live round */ const insideFov=PH?26:22;
     /* a soft key light rides above the camera for the cylinder and hammer close-ups, so the steel has something to reflect */
     const keyOn=tt>=B.close&&tt<B.fire?1:0; closeKey.intensity=lerp(closeKey.intensity,keyOn*.5,Math.min(1,dt*6)); closeKey.position.copy(camPos).add(new T.Vector3(0,.09,0)); closeFill.intensity=lerp(closeFill.intensity,keyOn*.22,Math.min(1,dt*6)); closeFill.position.copy(camPos).add(new T.Vector3(-.12,-.02,0));
     const tensePos=gw.clone().add(back.clone().multiplyScalar(.26)).add(side.clone().multiplyScalar(PH?-.2:-.24)).add(new T.Vector3(0,.14,0));
     const hitPos=PH?new T.Vector3(sx*.25,1.5,2.1):new T.Vector3(sx*.6,1.35,1.9), hitLook=bw.clone().lerp(gw,.35);
-    /* shooter's view: across the table from the target board, the hand and gun in the lower corner, the board ahead */
-    const away=gw.clone().sub(bw); away.y=0; if(PH) away.multiplyScalar(.55).add(new T.Vector3(0,0,1)); away.normalize(); /* on the phone the shooter stands more in front of the board so the squad reads, not the frame edge */ const povPos=gw.clone().addScaledVector(away,PH?1.15:.95).add(new T.Vector3(0,.62,0)), povLook=bw.clone().add(new T.Vector3(0,PH?-.1:.04,0)); /* r87 polish: on the phone the board rides higher in the frame, so the raised gun sits under the squad instead of across it */ const povFov=PH?44:34;
-    if(tt<B.spin+.3){ const k=ease.inOut(S(0,.6,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }
+    /* r89 (Nik 2026-11-03: "camera movement, the angle of shooting and the placement of the gun relative to the board should look like a real game scene"):
+       the shooter stands square in front of the board (along its normal, a little toward the table), eye level with it, so the squad reads flat and level
+       like the game's screen; the gun hand sits in the lower corner on the open side and the board leaves it room. On the phone the frame is narrow, so
+       the shooter stands closer and the frame follows the target player across the board. */
+    const bq=boards[who].quaternion, bn=new T.Vector3(0,0,1).applyQuaternion(bq), bR=new T.Vector3(1,0,0).applyQuaternion(bq), bU=new T.Vector3(0,1,0).applyQuaternion(bq);
+    const toGun=gw.clone().sub(bw); toGun.y=0; toGun.normalize(); const away=bn.clone().multiplyScalar(PH?.94:.9).addScaledVector(toGun,PH?.06:-.25).normalize(); /* desktop: a touch to the outer side, so the line of sight passes beside the table lamp, never through it */
+    const tl=tgt.clone().sub(bw), tx=tl.dot(bR), ty=tl.dot(bU), hs=who==="D"?-1:1;   /* the hand on the board's outer side: the shooter stands off the table's edge, the lamp stays out of the frame */
+    /* desktop: the whole board sits in the upper two thirds, clear of the result line and the button, and leaves the hand's corner open */
+    const lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12+ty*.35:-.16+ty*.05;
+    const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=PH?44:34;
+    const holdLook=tgt.clone().addScaledVector(bU,-.06), holdPos=holdLook.clone().addScaledVector(bn,PH?.56:.62), holdFov=PH?42:30;   /* the hit player rides high in the frame, above the result line */
+    if(tt<1){ const k=.5-.5*Math.cos(Math.PI*S(0,1,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }   /* r89 polish: the rise to the top shot is a 1 s sine crane-up (peak 4 m/s) instead of a .6 s cubic whip (12 m/s) */
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
-    else if(tt<B.inside){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
-      const k=ease.inOut(S(B.close,.7,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }
-    else if(tt<B.hand+1.4){ /* one glide, no cut: from the drum close-up the camera rises and swings round behind the shooter while the hand comes up with the gun */
-      const k=ease.inOut(S(B.inside,B.hand+1.4-B.inside,tt)); const mid=insidePos.clone().lerp(povPos,.5).add(new T.Vector3(0,PH?.55:.35,PH?.4:0)); const a=insidePos.clone().lerp(mid,k), b2=mid.clone().lerp(povPos,k); pos.lerpVectors(a,b2,k); look.lerpVectors(insideLook,povLook,ease.inOut(S(B.inside+.3,B.hand+1.0-B.inside,tt))); fov=lerp(insideFov,povFov,k); }
-    else if(tt<B.fire+.25){ /* the shooter's view: a slow creep forward builds the tension until the shot */
-      const k=ease.in(S(B.hand+1.4,B.fire-B.hand-1.4,tt)); pos.copy(povPos).addScaledVector(away,-k*.12); look.copy(povLook); fov=povFov-k*3; }
-    else if(p.fire&&tt<B.impact){ /* ride the bullet: the camera leaves the shoulder and settles beside and behind the slug, looking along its path to the board */
-      const dir=p.dir, sideB=new T.Vector3().crossVectors(dir,new T.Vector3(0,1,0)).normalize(); const bp=slugAt(p,tgt,p.bulletK||0); const chasePos=bp.clone().addScaledVector(dir,-.16).addScaledVector(sideB,sx*-.09).add(new T.Vector3(0,.05,0)); const chaseLook=bp.clone().addScaledVector(dir,.35);
-      const k=ease.inOut(S(B.fire+.25,.9,tt)); const from=povPos.clone().addScaledVector(away,-.12); pos.lerpVectors(from,chasePos,k); look.lerpVectors(povLook,chaseLook,k); fov=lerp(povFov-3,PH?40:30,k); }
-    else if(p.fire){ /* through the impact the camera keeps drifting forward and eases to a stop on the hole, then floats home */
-      const dir=p.dir; const stop=tgt.clone().addScaledVector(dir,-.42).add(new T.Vector3(0,.06,0)); const arrive=tgt.clone().addScaledVector(dir,-.16).add(new T.Vector3(0,.05,0)); const k1=ease.out(S(B.impact,1.6,tt)); const holdPos=arrive.clone().lerp(stop,k1), holdLook=tgt.clone();
-      const k2=ease.inOut(S(B.impact+2.2,B.end-B.impact-2.4,tt)); pos.lerpVectors(holdPos,camRest.clone().add(drift),k2); look.lerpVectors(holdLook,lookRest,k2); fov=lerp(PH?40:30,fovRest,k2); }
-    else { const k2=ease.inOut(S(B.fire+1.2,B.end-B.fire-1.4,tt)); const pp=povPos.clone().addScaledVector(away,-.12); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(povLook,lookRest,k2); fov=lerp(povFov-3,fovRest,k2); }
+    else if(tt<GL0){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
+      const k=.5-.5*Math.cos(Math.PI*S(B.close,1,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }   /* r89 polish: a 1 s sine dive to the drum (peak 2 m/s) instead of a .7 s cubic one (6 m/s); it arrives as the drum spins up */
+    else if(tt<B.fire+.12){ /* r89 polish (Nik: "when the cylinder stops spinning, the camera settles into the shooter's perspective, and the shot happens ... seamless"):
+         ONE motion from the drum close-up to the shot. The camera leaves as the crane shuts, rises and swings round behind the shooter on a smooth curve
+         (through a high mid point, into the shooter's eye, then straight on along the line of sight), with the critically damped settle as its clock: fastest
+         while the hand comes up, then ever slower, and still creeping toward the board when the hammer falls. The look, the lens and the path share the one clock. */
+      const u=S(GL0,B.fire-GL0,tt), K=SETTLE(u); const P3=povPos.clone().addScaledVector(away,-.1), mid=insidePos.clone().lerp(povPos,.55).add(new T.Vector3(0,PH?.7:.55,PH?.4:0)).addScaledVector(away,PH?.25:.8);   /* the high point sits behind the shooter's side of the table, so the descent keeps well clear of the table lamp */
+      pos.copy(new T.CatmullRomCurve3([insidePos,mid,povPos,P3],false,"centripetal").getPointAt(K));
+      /* the eye stays on the revolver while the camera rises over it (the gun lies aimed at the board, seen from above), then pans up to the board as the camera
+         comes down behind the shooter; the pan is done before the hammer cocks, and the last of the glide is the slow push toward the board */
+      const gunLook=gw.clone().add(new T.Vector3(0,.03,0)); const lookA=insideLook.clone().lerp(gunLook,ease.out(Math.min(1,K/.2))); look.lerpVectors(lookA,povLook,ease.inOut(S(.4,.5,K))); fov=lerp(insideFov,povFov-2,K); }
+    else if(p.fire&&tt<B.impact){ /* ride the bullet: the camera drops in right behind the slug and follows it down the line to the board, stopping a
+         little short of the board while the slug flies on into the player (a bullet-cam, never closer than the hold distance) */
+      const dir=p.dir, bp=slugAt(p,tgt,p.bulletK||0); const stand=Math.max(bp.distanceTo(tgt)+.24,PH?.56:.62); const chasePos=tgt.clone().addScaledVector(dir,-stand).add(new T.Vector3(0,.035,0));
+      const k=ease.inOut(S(B.fire+.12,.7,tt)); const from=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(from,chasePos,k); look.lerpVectors(povLook,holdLook,k); fov=lerp(povFov-2,holdFov,k); }
+    else if(p.fire){ /* the impact: the camera settles square on the hole (the stamp and the neighbours in frame), holds, then floats home */
+      const dir=p.dir; const arrive=tgt.clone().addScaledVector(dir,-(PH?.56:.62)).add(new T.Vector3(0,.035,0)); const k1=ease.inOut(S(B.impact,1.4,tt)); const hp=arrive.clone().lerp(holdPos,k1), hl=holdLook;
+      const k2=.5-.5*Math.cos(Math.PI*S(B.impact+2.2,B.end-B.impact-2.4,tt)); pos.lerpVectors(hp,camRest.clone().add(drift),k2);   /* r89 polish: the float home is a sine ease (half the peak speed of the cubic) */ look.lerpVectors(hl,lookRest,k2); fov=lerp(holdFov,fovRest,k2); }
+    else { const k2=.5-.5*Math.cos(Math.PI*S(B.fire+1.2,B.end-B.fire-1.4,tt)); const pp=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(povLook,lookRest,k2); fov=lerp(povFov-2,fovRest,k2); }
     /* top-down photo layer (if present) shows in the top shots, the model in the rest */
     const topK=tt<B.close?1:1-ease.inOut(S(B.close,.5,tt)); crossFade(topK); }
   else { crossFade(0); closeKey.intensity=lerp(closeKey.intensity,0,Math.min(1,dt*6)); closeFill.intensity=lerp(closeFill.intensity,0,Math.min(1,dt*6)); }
-  fovNow=lerp(fovNow,fov,Math.min(1,dt*(p?12:3))); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); }
-  camPos.lerp(pos,Math.min(1,dt*(p?14:2))); camLook.lerp(look,Math.min(1,dt*(p?14:2)));
-  camera.position.copy(camPos).add(camTmp.set((rnd()-.5)*shake,(rnd()-.5)*shake,0)); camera.lookAt(camLook); placeHand(); }
+  /* r89 (Nik 2026-11-03: "camera movement throughout RRR should look consistent"): the follow is exponential in time, so the glide is the same at 30, 60 or 120 frames
+     a second, and the shot's shake is a smooth damped tremor instead of a new random jump every frame */
+  const fk=1-Math.exp(-dt*(p?12:3)), pk=1-Math.exp(-dt*(p?14:2));
+  fovNow=lerp(fovNow,fov,fk); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); }
+  camPos.lerp(pos,pk); camLook.lerp(look,pk);
+  camera.position.copy(camPos).add(camTmp.set((Math.sin(t*71)+Math.sin(t*43.7))*.5*shake,(Math.sin(t*59.3+1.3)+Math.sin(t*37.1))*.5*shake,0)); camera.lookAt(camLook); placeHand(); }
 function crossFade(k){ if(gunTop.visible){ gunTop.material.opacity=k; } gun.visible=(!gunTop.visible||k<.98)&&!(handHold&&handK>.55); }
 
 /* ================= tick ================= */
-let frames=0, fpsT=0, fps=0; const bubbleTmp=new T.Vector3();
+let frames=0, fpsT=0, fps=0, shadowCool=3, govAt=0, govUpAt=-1, govLock=false; const bubbleTmp=new T.Vector3();
 function tick(draw){ const t=now();
   /* Fable F11-01: no frame runs while the page is hidden (phone locked, app switched). The turn clock pauses for that gap, so the spin resumes where it stopped instead of jumping to the end with every cue at once. */
   if(manual===null&&playing&&last>0&&t-last>.25) playing.t0+=t-last-.016;
@@ -943,15 +1154,24 @@ function tick(draw){ const t=now();
   splinters.forEach(p=>{ if(p.life<=0){ p.m.visible=false; return; } p.life-=dtF; p.m.position.addScaledVector(p.v,dtF); p.v.y-=dtF*5.5; p.v.multiplyScalar(Math.pow(.5,dtF)); p.m.rotation.x+=p.w.x*dtF; p.m.rotation.y+=p.w.y*dtF; if(p.m.position.y<.76&&Math.abs(p.m.position.x)<.75&&Math.abs(p.m.position.z)<.75){ p.m.position.y=.76; p.v.y*=-.25; p.v.x*=.6; p.v.z*=.6; p.w.multiplyScalar(.3); } if(p.m.position.y<0) p.life=0; });
   ["D","N"].forEach(k=>{ const b=boards[k].userData; b.joltV.addScaledVector(b.jolt,-dtF*90); b.joltV.multiplyScalar(Math.pow(.002,dtF)); b.jolt.addScaledVector(b.joltV,dtF); b.inner.rotation.set(b.jolt.z*.12,b.jolt.x*.18,b.jolt.x*.08); b.inner.position.set(0,0,-Math.abs(b.jolt.z)*.015); });
   { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
-  if(draw){ renderer.render(scene,camera); frames++; if(manual===null){ const pt=performance.now(); if(pt-fpsT>1000){ fps=frames*1000/(pt-fpsT); frames=0; fpsT=pt; } } } }
+  renderer.shadowMap.needsUpdate=!!playing||shadowCool>0; shadowCool=Math.max(0,shadowCool-dt);
+  if(draw){ if(LOOK.post) LOOK.post.render(); else renderer.render(scene,camera); frames++; if(manual===null){ const pt=performance.now(); if(pt-fpsT>500){ fps=frames*1000/(pt-fpsT); frames=0;
+      /* r89 polish (frame rate): the resolution governor watches half-second windows from 2.5 s after load (a turn often starts well before the old 8 s), steps the
+         pixel ratio down a notch when a window runs under 50 frames a second, and, between turns, steps it back up once a window holds 58 or more for 6 s;
+         a step up that is undone within 3 s locks the governor at the lower setting, so it never see-saws during play */
+      const setPR=(v)=>{ prNow=v; renderer.setPixelRatio(prNow); renderer.setSize(innerWidth,innerHeight,false); sizePost(); };
+      if(pt>2500&&!document.hidden&&pt-fpsT<900){ if(fps<50&&prNow>PR_FLOOR()+.01){ setPR(Math.max(PR_FLOOR(),prNow-.25)); if(govUpAt>=0&&pt-govUpAt<3000) govLock=true; govAt=pt; govUpAt=-1; }
+        else if(!playing&&!govLock&&fps>=58&&pt-govAt>6000&&prNow<prCap-.01){ setPR(Math.min(prCap,prNow+.25)); govAt=pt; govUpAt=pt; } }
+      fpsT=pt; } } } }
 function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
 
 /* ================= sound (Web Audio, synthesized; off until turned on) ================= */
-const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
+const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, lead=0;
   function init(){ if(ctx) return; const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; ctx=new AC(); master=ctx.createGain(); master.gain.value=.8; const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-12; comp.ratio.value=5; master.connect(comp); comp.connect(ctx.destination);
     noiseBuf=ctx.createBuffer(1,ctx.sampleRate*3,ctx.sampleRate); const d=noiseBuf.getChannelData(0); let b=0; for(let i=0;i<d.length;i++){ const w=Math.random()*2-1; b=.97*b+.03*w; d[i]=w*.6+b*3; }
     verb=ctx.createConvolver(); const Ln=ctx.sampleRate*1.6, ir=ctx.createBuffer(2,Ln,ctx.sampleRate); for(let c=0;c<2;c++){ const x=ir.getChannelData(c); for(let i=0;i<Ln;i++) x[i]=(Math.random()*2-1)*Math.pow(1-i/Ln,2.6); } verb.buffer=ir; const vg=ctx.createGain(); vg.gain.value=.3; verb.connect(vg); vg.connect(master); }
-  const nowT=()=>ctx.currentTime;
+  /* r89 polish (sound sync): a cue can be put on the audio clock a little ahead (lead), so it sounds at the exact instant of its beat instead of on whichever frame first passes it */
+  const nowT=()=>ctx.currentTime+lead;
   function out(node,wet){ node.connect(master); if(wet) node.connect(verb); }
   function env(g,t,a,peak,d){ g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(peak,t+a); g.gain.exponentialRampToValueAtTime(0.0001,t+a+d); }
   function noise(t,dur,type,f0,f1,q,peak,a,wet){ const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true; const f=ctx.createBiquadFilter(); f.type=type; f.Q.value=q; f.frequency.setValueAtTime(f0,t); f.frequency.exponentialRampToValueAtTime(f1,t+dur); const g=ctx.createGain(); env(g,t,a,peak,Math.max(.03,dur-a)); s.connect(f); f.connect(g); out(g,wet); s.start(t,Math.random()*2); s.stop(t+dur+.1); }
@@ -972,24 +1192,58 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null;
   async function loadFiles(map){ if(!map) return; init(); if(!ctx) return; for(const [name,src] of Object.entries(map)){ try{ const buf=await fetch(src).then(r=>r.ok?r.arrayBuffer():null); if(buf) loaded[name]=await ctx.decodeAudioData(buf); }catch(e){} } if(on) roomTone(true); }
   function playFile(name,v){ const b=loaded[name]; if(!b) return false; const s=ctx.createBufferSource(); s.buffer=b; const g=ctx.createGain(); g.gain.value=(typeof v==="number"?v:1); s.connect(g); out(g,name==="bang"||name==="splinter"||name==="cock"); s.start(nowT()); return true; }
   let bed=null; function roomTone(v){ if(!ctx) return; if(v&&!bed&&loaded.roomTone){ bed=ctx.createBufferSource(); bed.buffer=loaded.roomTone; bed.loop=true; const g=ctx.createGain(); g.gain.value=.5; bed.connect(g); out(g,false); bed.start(nowT()); } if(!v&&bed){ try{ bed.stop(); }catch(e){} bed=null; } }
-  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } roomTone(v); }, loadFiles, play(name,...a){ if(!on||!ctx) return; try{ if(!playFile(name,a[0])) fx[name](...a); }catch(e){} } }; })();
+  return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } roomTone(v); }, loadFiles, play(name,vol,delay){ if(!on||!ctx) return; lead=delay>0?delay:0; try{ if(!playFile(name,vol)) fx[name](vol); }catch(e){} lead=0; } }; })();
 
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
-async function loadAssets(){ const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx);
-  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp")]);
-  { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.encoding=T.sRGBEncoding; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
+async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
+  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),loadLookEnv()]);
+  { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq;
-  if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.encoding=T.sRGBEncoding; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; const cut=(PLATEMAP.room&&PLATEMAP.room.floorCut)||0; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-cut*H,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
-  if(top){ hasGunTop=true; const g=PLATEMAP.gunTop||{length:.3,offsetZ:.05,rotation:0}; gunTop.material.map=new T.Texture(top); gunTop.material.map.encoding=T.sRGBEncoding; gunTop.material.map.needsUpdate=true; gunTop.scale.set(g.length*top.width/top.height,g.length,1); gunTop.position.z=g.offsetZ; gunTop.rotation.z=g.rotation||0; gunTop.visible=true; }
-  if(flash){ flashSprite.material.map=new T.Texture(flash); flashSprite.material.map.encoding=T.sRGBEncoding; flashSprite.material.map.needsUpdate=true; }
+  if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.colorSpace=T.SRGBColorSpace; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; const cut=(PLATEMAP.room&&PLATEMAP.room.floorCut)||0; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-cut*H,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
+  if(top){ hasGunTop=true; const g=PLATEMAP.gunTop||{length:.3,offsetZ:.05,rotation:0}; gunTop.material.map=new T.Texture(top); gunTop.material.map.colorSpace=T.SRGBColorSpace; gunTop.material.map.needsUpdate=true; gunTop.scale.set(g.length*top.width/top.height,g.length,1); gunTop.position.z=g.offsetZ; gunTop.rotation.z=g.rotation||0; gunTop.visible=true; }
+  if(flash){ flashSprite.material.map=new T.Texture(flash); flashSprite.material.map.colorSpace=T.SRGBColorSpace; flashSprite.material.map.needsUpdate=true; }
   setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }
 /* PMREM environment from the room itself, so the steel reflects the lamps and the wood */
 function buildEnv(){ const pm=new T.PMREMGenerator(renderer); pm.compileEquirectangularShader(); const sc=new T.Scene(); sc.background=new T.Color(0x0b0705);
   const lampM=new T.MeshBasicMaterial({color:0xffd9a0}); for(let i=0;i<8;i++){ const a=i/8*Math.PI*2; const s=new T.Mesh(new T.SphereGeometry(.4,12,8),lampM); s.position.set(Math.cos(a)*5,2.2+(i%2)*.6,Math.sin(a)*5); sc.add(s); }
   const fl=new T.Mesh(new T.PlaneGeometry(20,20),new T.MeshBasicMaterial({color:0x3a2412})); fl.rotation.x=-Math.PI/2; fl.position.y=-.5; sc.add(fl);
   const warm=new T.Mesh(new T.SphereGeometry(.6,12,8),new T.MeshBasicMaterial({color:0xffb060})); warm.position.set(-.5,.2,.2); sc.add(warm);
-  const env=pm.fromScene(sc,.04).texture; scene.environment=env; pm.dispose(); }
+  const room=pm.fromScene(sc,.04).texture, env=LOOK.hdri?pm.fromEquirectangular(LOOK.hdri).texture:room; scene.environment=env; pm.dispose(); if(LOOK.hdri){ LOOK.hdri.dispose(); LOOK.hdri=null; lookLights(room); }
+  LOOK.post=makePost(); if(LOOK.post) layout(); }
+/* ================= r89 look: real interior light, soft shadows, bloom on what is truly bright ================= */
+/* Light: a Poly Haven ballroom HDRI (CC0, polyhaven.com), the 512x256 EXR "hall" from @pmndrs/assets 1.7.0 (CC0-1.0). Dark ceiling,
+   rows of crystal chandeliers, warm parquet: the steel and nickel read as real silver, brass and lacquer pick up chandelier sparkle,
+   and the room stays moody. It adds reflections and a soft fill only: the seven lamps stay the key light. If it fails to load, the
+   old room-built reflections draw instead (it loads with the room picture, under the same loading screen). */
+function loadLookEnv(){ if(!LOOK.on||!T.EXRLoader) return Promise.resolve(null); return new T.EXRLoader().setDataType(T.FloatType).loadAsync("assets/ENV_LOUNGE_V1.exr").then(t=>{ const d=t.image&&t.image.data; if(d) for(let i=0;i<d.length;i++){ if(d[i]>LOOK_ENV_MAX) d[i]=LOOK_ENV_MAX; } t.needsUpdate=true; t.mapping=T.EquirectangularReflectionMapping; LOOK.hdri=t; }).catch(()=>null); }
+/* the sunlit window in the picture is hundreds of times brighter than the room; capped, so polished steel shows a bright window, not a white blaze that blooms */
+const LOOK_ENV_MAX=4;
+function lookLights(room){ scene.environmentIntensity=.5; scene.environmentRotation.set(0,0,0); key.shadow.radius=2.5;
+  /* the mirror-polished marble floor and the walls keep the room-built reflections: in the ballroom light the floor showed the
+     ballroom's windows as a blurred white shape by the right easel */
+  [M.floor,M.wall].forEach(m=>{ m.envMap=room; m.envMapIntensity=(m===M.floor?1.8:1)/scene.environmentIntensity; m.needsUpdate=true; }); } /* r89: the floor mirrors the room's lamps a little more, like the picture's polished floor */
+/* Bloom: three.js post chain scene -> bloom -> ACES tone mapping. Only light well above white blooms (flames, the muzzle flash, hot
+   glints on gold and nickel), at half resolution. The pictures that must keep their exact colours (the room picture, the hand, the
+   top-down gun photo, the tracer) get the exact inverse of three.js ACES in their shader, so the last step gives back their own
+   pixels, and they stay under the bloom threshold. A phone gets 2x MSAA and a pixel ratio of at most 2. Any failure: plain render. */
+const INV_ACES=`uniform float cmsExpo;
+vec3 cmsInvAces(vec3 c){
+  mat3 inM=mat3(vec3(0.59719,0.07600,0.02840),vec3(0.35458,0.90834,0.13383),vec3(0.04823,0.01566,0.83777));
+  mat3 outM=mat3(vec3(1.60475,-0.10208,-0.00327),vec3(-0.53108,1.10813,-0.07276),vec3(-0.07367,-0.00605,1.07602));
+  vec3 y=clamp(inverse(outM)*clamp(c,0.,1.),0.,.92);
+  vec3 A=y*0.983729-1., B=y*0.4329510-0.0245786, C=y*0.238081+0.000090537;
+  vec3 v=(-B-sqrt(max(B*B-4.*A*C,0.)))/(2.*A);
+  return inverse(inM)*v/(cmsExpo/0.6); }`;
+function untoned(m){ m.onBeforeCompile=(sh)=>{ sh.uniforms.cmsExpo={get value(){ return renderer.toneMappingExposure; }}; sh.fragmentShader=sh.fragmentShader.replace("void main() {",INV_ACES+"\nvoid main() {").replace("#include <fog_fragment>","#include <fog_fragment>\n\tgl_FragColor.rgb=cmsInvAces(gl_FragColor.rgb);"); }; m.customProgramCacheKey=()=>"cmsInvAces"; m.needsUpdate=true; }
+function makePost(){ if(!LOOK.on||!T.EffectComposer||qs.get("bloom")==="0") return null;
+  try{ const c=new T.EffectComposer(renderer); c.readBuffer.samples=PH?2:4; c.addPass(new T.RenderPass(scene,camera)); const b=new T.UnrealBloomPass(new T.Vector2(256,256),.28,.45,1.8); c.addPass(b);
+    /* a pin-point highlight on polished steel is physically hundreds of times brighter than white; capped before the glow, so it adds a soft sheen, never a white blaze */
+    { const hp=b.materialHighPassFilter; hp.fragmentShader=hp.fragmentShader.replace("vec4 texel = texture2D( tDiffuse, vUv );","vec4 texel = texture2D( tDiffuse, vUv ); texel.rgb = min( texel.rgb, vec3( 2.2 ) );"); hp.needsUpdate=true; } c.addPass(new T.OutputPass());
+    scene.traverse(o=>{ const m=o.material; if(m&&m.isMeshBasicMaterial&&m.toneMapped===false) untoned(m); });
+    LOOK.bloom=b; return c; }catch(e){ return null; } }
+function sizePost(){ if(!LOOK.post) return; LOOK.post.setPixelRatio(renderer.getPixelRatio()); const s=renderer.getSize(new T.Vector2()); LOOK.post.setSize(s.x,s.y); }
+
 
 /* ================= controls, hooks ================= */
 /* r87 Team G embed (?embed=1, HO040-M1): the game sends {type:"cms-rr-setup", d, n, boards:{D,N}, seed,
@@ -1026,8 +1280,8 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ get cylZ(){ return cyl.rotation.z; }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
-  clock(){ manual=performance.now()/1000; last=manual; }, advance(sec){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardTargetWorld(playing.who,playing.target).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, hasGunTop, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, fps, hasRoom, bulletAt, chamber}; } };
+window.__rr={ get cylZ(){ return cyl.rotation.z; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
+  clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardTargetWorld(playing.who,playing.target).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, hasGunTop, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, fps, pixelRatio:prNow, hasRoom, bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
 Promise.all([fontsReady,loadAssets()]).then(()=>{ layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }

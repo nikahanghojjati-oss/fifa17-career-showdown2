@@ -66,7 +66,9 @@ ok("A5","F11-08 the roulette stays up until Showdown Home is on screen");
 assert.match(step,/if\(end!=="continue"\)\{sceneFailedHere\.add\(rrsKey\(ctx\)\);rrsRemoveStage\(\);return "skipped";\}/);
 assert.match(step,/for\(const other of pressed\)other\.disabled=true;/);
 ok("A6","F11-11 no dead frame under the card; F11-12 one answer per card");
-assert.match(scene,/const surW=BR-BL-132-70;[^\n]*sur\+="…";/);
+// r89: the bench is a strip of FIFA 17 cards; each surname is fitted to its card by fitText (shrink to 18 px, then "…").
+assert.match(scene,/const surW=cw-24; const sur=fitText\(ctx,surname\(name\),700,25,18,surW\);/);
+assert.match(scene,/function fitText\(ctx,text,weight,size,minSize,maxW\)\{[^\n]*\n\s*while\(fs>minSize&&ctx\.measureText\(t\)\.width>maxW\)\{ fs--; font\(\); \}\n\s*if\(ctx\.measureText\(t\)\.width>maxW\)\{ while\(t\.length>2&&ctx\.measureText\(t\+"…"\)\.width>maxW\) t=t\.slice\(0,-1\); t\+="…"; \}/);
 ok("A7","F11-19 long bench surnames are fitted");
 const rules=read("js/ruleBook.js");
 assert.match(rules,/"A player your rival guesses is released, and you can never sign him again\."/);
