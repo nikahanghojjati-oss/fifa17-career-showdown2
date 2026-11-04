@@ -144,12 +144,14 @@ async function run(env){
   const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
 
   await check("I0","composed Rules carry the completed-only grant on exactly setup, season results, result roles, season commits and the r87 reads meter",async()=>{
-    assert.equal((RULES.match(/allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedShowdownReadable\(rivalryId\);/g)||[]).length,2);
-    assert.match(RULES,/match \/meters\/\{managerRole\} \{\n\s+allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedShowdownReadable\(rivalryId\);/);
-    assert.equal((RULES.match(/allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedSeasonReadable\(rivalryId, seasonId\);/g)||[]).length,2);
-    assert.match(RULES,/allow get: if ssjrResultsPrivateReadable\(rivalryId, seasonId, managerRole\)\n\s+\|\| \(managerRole in \['playerOne', 'playerTwo'\] && cmsCompletedSeasonReadable\(rivalryId, seasonId\)\);/);
+    assert.equal((RULES.match(/allow get: if ssjrEntitled\((rivalryId)?\) \|\| cmsCompletedShowdownReadable\((rivalryId)?\);/g)||[]).length,2);
+    // (the localize build step declares the meter write validator at the top of this block, before the get)
+    assert.match(RULES,/match \/meters\/\{managerRole\} \{\n(?:\s+function ssjrMeterValidWrite\(\) \{[\s\S]*?\n\s+\}\n)?\s+allow get: if ssjrEntitled\((rivalryId)?\) \|\| cmsCompletedShowdownReadable\((rivalryId)?\);/);
+    assert.equal((RULES.match(/allow get: if ssjrEntitled\((rivalryId)?\) \|\| cmsCompletedSeasonReadable\((rivalryId, )?seasonId\);/g)||[]).length,2);
+    assert.match(RULES,/allow get: if ssjrResultsPrivateReadable\((rivalryId, seasonId, managerRole)?\)\n\s+\|\| \(managerRole in \['playerOne', 'playerTwo'\] && cmsCompletedSeasonReadable\((rivalryId, )?seasonId\)\);/);
     assert.equal(/allow (create|update|delete|list|write)[^\n]*cmsCompleted/.test(RULES),false);
-    for(const marker of ["match /accounts/{accountId}/pairLinks/{pairId}","match /accounts/{accountId}/careerIndex/{indexId}","function ssjrTerminalValidIntent(rivalryId, intent)"])assert.ok(RULES.includes(marker),marker);
+    for(const marker of ["match /accounts/{accountId}/pairLinks/{pairId}","match /accounts/{accountId}/careerIndex/{indexId}"])assert.ok(RULES.includes(marker),marker);
+    assert.match(RULES,/function ssjrTerminalValidIntent\((rivalryId, )?intent\)/,"the Terminal Close intent validator (localized form drops rivalryId)");
   });
 
   // A. Completed Showdown X: both managers read the final, already-shared results without a session.
