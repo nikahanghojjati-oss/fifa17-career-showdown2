@@ -779,8 +779,7 @@ service cloud.firestore {
     function validSessionJoin(rivalryId, sessionId) {
       let before = resource.data;
       let after = request.resource.data;
-      return validSessionCasUpdate(rivalryId, sessionId)
-        && before.data.state == "open"
+      return before.data.state == "open"
         && before.data.expiresAt > request.time
         && before.data.memberAccountIds.size() == 1
         && before.data.memberAccountIds[0] == before.data.hostAccountId
@@ -795,8 +794,7 @@ service cloud.firestore {
     function validSessionRevoke(rivalryId, sessionId) {
       let before = resource.data;
       let after = request.resource.data;
-      return validSessionCasUpdate(rivalryId, sessionId)
-        && (before.data.state == "open" || before.data.state == "active")
+      return (before.data.state == "open" || before.data.state == "active")
         && before.data.expiresAt > request.time
         && request.auth.uid == before.data.hostAccountId
         && after.data.state == "revoked"
@@ -807,8 +805,7 @@ service cloud.firestore {
     function validSessionClose(rivalryId, sessionId) {
       let before = resource.data;
       let after = request.resource.data;
-      return validSessionCasUpdate(rivalryId, sessionId)
-        && before.data.state == "active"
+      return before.data.state == "active"
         && before.data.expiresAt > request.time
         && request.auth.uid in before.data.memberAccountIds
         && after.data.state == "closed"
@@ -819,8 +816,7 @@ service cloud.firestore {
     function validSessionExpire(rivalryId, sessionId) {
       let before = resource.data;
       let after = request.resource.data;
-      return validSessionCasUpdate(rivalryId, sessionId)
-        && (before.data.state == "open" || before.data.state == "active")
+      return (before.data.state == "open" || before.data.state == "active")
         && request.time >= before.data.expiresAt
         && request.auth.uid in before.data.memberAccountIds
         && after.data.state == "expired"
@@ -828,22 +824,18 @@ service cloud.firestore {
         && after.data.revokedAt == null;
     }
 
+    // r88 Rules slimming (Fable job 19): the shared CAS/authority check runs once here, not inside each of the four
+    // transitions. Same conjunction per transition, so the same writes are allowed and denied; the Rules compiler expands
+    // every helper chain into every function that calls it, and this one hoist takes about 6,800 expanded tokens off the
+    // compile (the session update was the single largest expansion in the file).
     function validSessionUpdate(rivalryId, sessionId) {
-      return (
-          request.resource.data.data.state == "active"
-          && validSessionJoin(rivalryId, sessionId)
-        )
-        || (
-          request.resource.data.data.state == "revoked"
-          && validSessionRevoke(rivalryId, sessionId)
-        )
-        || (
-          request.resource.data.data.state == "closed"
-          && validSessionClose(rivalryId, sessionId)
-        )
-        || (
-          request.resource.data.data.state == "expired"
-          && validSessionExpire(rivalryId, sessionId)
+      let state = request.resource.data.data.state;
+      return validSessionCasUpdate(rivalryId, sessionId)
+        && (
+          (state == "active" && validSessionJoin(rivalryId, sessionId))
+          || (state == "revoked" && validSessionRevoke(rivalryId, sessionId))
+          || (state == "closed" && validSessionClose(rivalryId, sessionId))
+          || (state == "expired" && validSessionExpire(rivalryId, sessionId))
         );
     }
 

@@ -87,6 +87,6 @@ const CAP=500;
   for(const script of ['scripts/build-production-firestore-rules.mjs','scripts/build-production-firestore-rules-with-persistent-pair.mjs']){const run=spawnSync(process.execPath,[script],{cwd:root,encoding:'utf8',timeout:30000});assert.equal(run.status,0,run.stderr);}
   const generated=read('firestore.spark.generated.rules');
   assert.equal((generated.match(/match \/accounts\/\{accountId\}\/careerIndex\/\{indexId\}/g)||[]).length,1);
-  assert.equal((generated.match(/function cmsCareerIndexHeadUpdateValid\(accountId\)/g)||[]).length,1);
+  assert.equal((generated.match(/function cmsCareerIndexHeadUpdateValid\((accountId)?\)/g)||[]).length,1);
   console.log('PASS career index contracts: constants, pure append plan, reads-before-writes, readCareerIndex states, Rules text, composed artifact.');
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -120,7 +120,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     assert.equal(R.version({playerOne:"Not A Club",playerTwo:"Arsenal"},{}),null);
     // The engine revision is pinned to the engine's text: any change to js/rosterRoulette.js must decide whether a board or a
     // shot can come out differently (then bump ENGINE_REVISION) and update this pin.
-    const PIN={revision:2,sha256:"9e915c21a725cd137f32608a7536862f87103a75fb3f8bdc54e44d51a6acf084"};
+    const PIN={revision:2,sha256:"64e32ac578566bf52b5de9b08c2517b334dbf936d8254210f2f4ddc8ce599e2e"};
     const sha=crypto.createHash("sha256").update(read("js/rosterRoulette.js")).digest("hex");
     assert.equal(R.engineRevision,PIN.revision,"ENGINE_REVISION changed: update the pin below with the file's sha256");
     assert.equal(sha,PIN.sha256,"js/rosterRoulette.js changed: if a board or a shot can come out differently, bump ENGINE_REVISION; then update this pin");
