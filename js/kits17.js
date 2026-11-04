@@ -142,14 +142,14 @@
     if(typeof OffscreenCanvas!=="undefined"&&!(root.document))return new OffscreenCanvas(w,h);
     const c=root.document.createElement("canvas");c.width=w;c.height=h;return c;
   }
-  function seeded(seed){let s=seed>>>0||1;return ()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return (s>>>0)/4294967296;};}
+  function kitRandom(seed){let s=seed>>>0||1;return ()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return (s>>>0)/4294967296;};}
   const hashOf=(t)=>{let h=2166136261;for(const ch of String(t)){h^=ch.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;};
 
   // A tiny knit tile, painted once, laid over every albedo at low strength so a flat colour reads as cloth in close-up.
   let knitTile=null;
   function knit(){
     if(knitTile)return knitTile;
-    const c=canvas(64,64),g=c.getContext("2d"),img=g.createImageData(64,64),d=img.data,rnd=seeded(17);
+    const c=canvas(64,64),g=c.getContext("2d"),img=g.createImageData(64,64),d=img.data,rnd=kitRandom(17);
     for(let y=0;y<64;y++)for(let x=0;x<64;x++){
       const cx=(x%8)-3.5,cy=(y%8)-3.5,row=(Math.floor(y/8)%2)*4,cx2=((x+row)%8)-3.5;
       const hole=Math.hypot(cx2,cy)<1.6?1:0,rib=Math.abs(cx)<.6?.4:0,n=(rnd()-.5)*.6;
@@ -347,7 +347,7 @@
 
   // ---------- flat views for 2D boards ----------
   const flatCache=new Map();
-  function prepare(clubs){return Promise.all([].concat(clubs||[]).map(c=>crestFor(String(c&&c.club||c))));}
+  function prepareCrests(clubs){return Promise.all([].concat(clubs||[]).map(c=>crestFor(String(c&&c.club||c))));}
   function drawFlat(ctx,club,x,y,s,opts){
     // A front (or back) view of the shirt from the same painted textures: body from the wrap's front (or back) half, sleeves from
     // the sleeve wraps, then cloth shading. s is the shirt's height in px; (x,y) its centre.
@@ -376,6 +376,6 @@
     return t.ready;
   }
 
-  return Object.freeze({version:"r89-kits17-1",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare,deltaE,
+  return Object.freeze({version:"r89-kits17-1",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,
     layout:Object.freeze({uv:"wrap",frontU:.5,backU:0,leftOfWearer:"u rises",vHem:0,vNeck:1,crestU:.575,crestV:.75})});
 });
