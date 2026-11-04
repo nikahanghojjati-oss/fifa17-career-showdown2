@@ -10,6 +10,7 @@
           'schemaVersion','runtimeRevision','phase','rivalryId','sessionId','totalSeasons','completedSeason',
           'managerTotals','winner','terminal','finalSeasonReconciled','nextSeason','extraSeasonAllowed',
           'rivalryConnectionState','sessionTargetState','terminalReadAllowed','canonicalStorageMutation','providerWriteRequired',
+          'endedBy','sacked',
           'listPermissionRequired','billingRequired'
         ])
         && intent.schemaVersion == 1
@@ -18,7 +19,12 @@
         && intent.rivalryId == rivalryId
         && validSessionId(intent.sessionId)
         && intent.totalSeasons in [1,3,5,10]
-        && intent.completedSeason == intent.totalSeasons
+        // r89 Sacked: a Showdown with a sacking ends after that season (endedBy 'sacked', completedSeason <= totalSeasons);
+        // the close below ties completedSeason and the sacked map to the Terminal Progress. Without endedBy it is full length.
+        && intent.completedSeason is int
+        && (intent.completedSeason == intent.totalSeasons
+          || (intent.get('endedBy', null) == 'sacked' && intent.completedSeason >= 1 && intent.completedSeason < intent.totalSeasons))
+        && (!('endedBy' in intent) || (intent.endedBy == 'sacked' && 'sacked' in intent))
         && intent.managerTotals is map
         && intent.managerTotals.keys().hasOnly(['playerOne','playerTwo'])
         && intent.managerTotals.playerOne is int
@@ -63,12 +69,20 @@
         && root.results.playerOne is map
         && root.results.playerTwo is map;
     }
+    // r89 Sacked: the Terminal Progress carries sacked:{playerOne,playerTwo} exactly when the season it accepts has a
+    // sacked result (either manager); its bools equal the commit's. No further season is accepted after it. No extra read:
+    // the commit is the one the progress step already gets.
+    function ssjrTerminalSackedMatches(progress, commit) {
+      let p1 = commit.results.playerOne.get('sacked', false) == true;
+      let p2 = commit.results.playerTwo.get('sacked', false) == true;
+      return (p1 || p2) ? progress.get('sacked', null) == {'playerOne': p1, 'playerTwo': p2} : !('sacked' in progress);
+    }
     function ssjrTerminalSeasonId(seasonNumber) {
       return 'season_' + string(seasonNumber);
     }
     function ssjrTerminalProgressShape(progress) {
       return progress is map
-        && progress.keys().hasOnly(['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'])
+        && progress.keys().hasOnly(['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])
         && progress.schemaVersion == 1
         && progress.runtimeRevision == '1.9.1-r18'
         && progress.totalSeasons in [1,3,5,10]
@@ -114,6 +128,9 @@
         && setup.revision == 6
         && setup.phase == 'SHOWDOWN_CONFIRMED'
         && setup.totalSeasons == progress.totalSeasons
+        // r89 Sacked: checked before the commit and score terms, so a wrong or missing map is refused early (a refusal
+        // at the end of this path runs into the 1,000-expression limit; measured on the emulator).
+        && ssjrTerminalSackedMatches(progress, commit)
         && ssjrTerminalCommitAccepted(commit, rivalryId, 1)
         && progress.managerTotals.playerOne == ssjrTerminalScore(commit.results.playerOne)
         && progress.managerTotals.playerTwo == ssjrTerminalScore(commit.results.playerTwo);
@@ -130,7 +147,9 @@
         && progress.closedSessionRevision == null
         && progress.totalSeasons == prior.totalSeasons
         && nextSeason <= prior.totalSeasons
+        && !('sacked' in prior)
         && progress.acceptedThroughSeason == nextSeason
+        && ssjrTerminalSackedMatches(progress, commit)
         && ssjrTerminalCommitAccepted(commit, rivalryId, nextSeason)
         && progress.managerTotals.playerOne == prior.managerTotals.playerOne + ssjrTerminalScore(commit.results.playerOne)
         && progress.managerTotals.playerTwo == prior.managerTotals.playerTwo + ssjrTerminalScore(commit.results.playerTwo);
@@ -222,7 +241,9 @@
         && activeDevice(after.updatedByDeviceId)
         && after.updatedByAccountId == request.auth.uid
         && priorProgress.runtimeRevision == '1.9.1-r18'
-        && priorProgress.acceptedThroughSeason == priorProgress.totalSeasons
+        && (('sacked' in priorProgress)
+          ? (intent.get('endedBy', null) == 'sacked' && intent.get('sacked', null) == priorProgress.sacked && intent.completedSeason == priorProgress.acceptedThroughSeason)
+          : (priorProgress.acceptedThroughSeason == priorProgress.totalSeasons && !('endedBy' in intent) && !('sacked' in intent)))
         && priorProgress.closedSessionRevision == null
         && progress.diff(priorProgress).affectedKeys().hasOnly(['closedSessionRevision'])
         && progress.closedSessionRevision is int

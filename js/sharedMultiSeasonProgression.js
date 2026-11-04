@@ -40,15 +40,20 @@
   }
   function mspBuildState({rivalryId,setup,history=null}={},historyModule){
     const id=mspRivalry(rivalryId),confirmed=mspSetup(setup,id),accepted=mspHistory(history,{historyModule,rivalryId:id,setup:confirmed});
-    const acceptedSeasons=accepted?accepted.acceptedSeasons:0,totalSeasons=confirmed.totalSeasons,terminal=acceptedSeasons===totalSeasons;
-    const state={schemaVersion:1,runtimeRevision:RUNTIME_REVISION,phase:terminal?"SHOWDOWN_COMPLETE":"SEASON_READY",revision:acceptedSeasons,rivalryId:id,setupRevision:6,leagueId:confirmed.leagueId,totalSeasons,acceptedSeasons,activeSeason:terminal?null:acceptedSeasons+1,completedSeason:acceptedSeasons||null,fixedClubs:{playerOne:confirmed.clubs.playerOne,playerTwo:confirmed.clubs.playerTwo},acceptedRevisionKey:accepted?accepted.acceptedRevisionKey:"",terminal,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false};
+    // r89 Sacked: a season with a sacked result is the last one (the history refuses any season after it). The state then
+    // carries the optional sackedSeason key; a state without it is the unchanged pre-r89 shape.
+    const sackedSeason=accepted&&historyModule.showdownEnd?historyModule.showdownEnd.ofProjection(accepted).sackedSeason:null;
+    const acceptedSeasons=accepted?accepted.acceptedSeasons:0,totalSeasons=confirmed.totalSeasons,terminal=acceptedSeasons===totalSeasons||sackedSeason===acceptedSeasons;
+    const state={schemaVersion:1,runtimeRevision:RUNTIME_REVISION,phase:terminal?"SHOWDOWN_COMPLETE":"SEASON_READY",revision:acceptedSeasons,rivalryId:id,setupRevision:6,leagueId:confirmed.leagueId,totalSeasons,acceptedSeasons,activeSeason:terminal?null:acceptedSeasons+1,completedSeason:acceptedSeasons||null,fixedClubs:{playerOne:confirmed.clubs.playerOne,playerTwo:confirmed.clubs.playerTwo},acceptedRevisionKey:accepted?accepted.acceptedRevisionKey:"",terminal,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,...(sackedSeason?{sackedSeason}:{})};
     return mspFreeze(state);
   }
   function mspVerifyState(value){
-    mspExact(value,STATE_KEYS,"MULTI_SEASON_STATE_INVALID");
+    const sacked=mspPlain(value)&&Object.hasOwn(value,"sackedSeason");
+    mspExact(value,sacked?[...STATE_KEYS,"sackedSeason"]:STATE_KEYS,"MULTI_SEASON_STATE_INVALID");
+    if(sacked&&(!Number.isInteger(value.sackedSeason)||value.sackedSeason<1||value.sackedSeason!==value.acceptedSeasons))mspFail("MULTI_SEASON_STATE_INVALID");
     if(value.schemaVersion!==1||value.runtimeRevision!==RUNTIME_REVISION||!PHASES.includes(value.phase)||!SUPPORTED_LENGTHS.includes(value.totalSeasons)||value.setupRevision!==6||typeof value.leagueId!=="string"||!value.leagueId.trim()||!Number.isInteger(value.revision)||value.revision<0||value.revision>value.totalSeasons||value.acceptedSeasons!==value.revision||!mspPlain(value.fixedClubs)||typeof value.fixedClubs.playerOne!=="string"||!value.fixedClubs.playerOne||typeof value.fixedClubs.playerTwo!=="string"||!value.fixedClubs.playerTwo||value.fixedClubs.playerOne===value.fixedClubs.playerTwo||value.canonicalStorageMutation!==false||value.providerWriteRequired!==false||value.listPermissionRequired!==false)mspFail("MULTI_SEASON_STATE_INVALID");
     mspRivalry(value.rivalryId);
-    const terminal=value.acceptedSeasons===value.totalSeasons;
+    const terminal=value.acceptedSeasons===value.totalSeasons||sacked;
     if(value.terminal!==terminal||value.phase!==(terminal?"SHOWDOWN_COMPLETE":"SEASON_READY")||value.activeSeason!==(terminal?null:value.acceptedSeasons+1)||value.completedSeason!==(value.acceptedSeasons||null))mspFail("MULTI_SEASON_STATE_INVALID");
     if(value.acceptedSeasons===0&&value.acceptedRevisionKey!=="")mspFail("MULTI_SEASON_STATE_INVALID");
     if(value.acceptedSeasons>0){const parts=String(value.acceptedRevisionKey||"").split("|");if(parts.length!==value.acceptedSeasons||parts.some((part,index)=>!new RegExp(`^${index+1}:2:sha256:[0-9a-f]{64}$`).test(part)))mspFail("MULTI_SEASON_STATE_INVALID");}

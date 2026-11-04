@@ -26,8 +26,8 @@
   function hcRivalry(value){const id=String(value||"").trim().toLowerCase();if(!RIVALRY_ID.test(id))hcFail("HISTORY_CONVERGENCE_RIVALRY_INVALID");return id;}
   function hcSeason(value){const n=Number(value);if(!Number.isInteger(n)||n<1||n>10)hcFail("HISTORY_CONVERGENCE_SEASON_INVALID");return n;}
   function hcTeamCount(leagueId){const n=LEAGUE_TEAM_COUNTS[String(leagueId||"").trim()];if(!Number.isInteger(n))hcFail("HISTORY_CONVERGENCE_LEAGUE_INVALID");return n;}
-  function hcEuropaLeague(value){if(!hcPlain(value))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");const won=Object.hasOwn(value,EUROPA_LEAGUE);hcExact(value,hcResultKeys(value),"HISTORY_CONVERGENCE_RESULTS_INVALID");if(won&&(value.europaLeague!==true||value.championsLeague!==false))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");if(Object.hasOwn(value,"primePack")&&!(Number.isInteger(value.primePack)&&value.primePack>=1&&value.primePack<=4))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");return won;}
-  function hcResultKeys(value){return [...RESULT_KEYS,...(Object.hasOwn(value,EUROPA_LEAGUE)?[EUROPA_LEAGUE]:[]),...(Object.hasOwn(value,"primePack")?["primePack"]:[])];}
+  function hcEuropaLeague(value){if(!hcPlain(value))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");const won=Object.hasOwn(value,EUROPA_LEAGUE);hcExact(value,hcResultKeys(value),"HISTORY_CONVERGENCE_RESULTS_INVALID");if(won&&(value.europaLeague!==true||value.championsLeague!==false))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");if(Object.hasOwn(value,"primePack")&&!(Number.isInteger(value.primePack)&&value.primePack>=1&&value.primePack<=4))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");if(Object.hasOwn(value,"sacked")&&value.sacked!==true)hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");return won;}
+  function hcResultKeys(value){return [...RESULT_KEYS,...(Object.hasOwn(value,EUROPA_LEAGUE)?[EUROPA_LEAGUE]:[]),...(Object.hasOwn(value,"primePack")?["primePack"]:[]),...(Object.hasOwn(value,"sacked")?["sacked"]:[])];}
   function hcResult(value,teamCount){
     hcEuropaLeague(value);
     const maxPoints=(teamCount-1)*2*3;
@@ -115,6 +115,8 @@
       const commit=hcCommit(source.commit,id,seasonNumber,teamCount),canonical=hcScoring(source.scoring,id,seasonNumber,commit);
       history.push({roundNumber:seasonNumber,acceptedResultRevision:commit.resultsRevision,acceptedResultContentHash:commit.resultsContentHash,seasonCommitRevision:3,canonicalScoringRevision:1,playerOne:{...commit.results.playerOne,scoring:canonical.scoring.playerOne},playerTwo:{...commit.results.playerTwo,scoring:canonical.scoring.playerTwo},winner:canonical.winner});
     }
+    // r89 Sacked: a sacked season is the Showdown's last; a history that goes on past one is invalid.
+    if(sackedBeforeLast(history))hcFail("HISTORY_CONVERGENCE_SEASONS_INVALID");
     const managerRecords={playerOne:hcManagerBase(slots[0],finalSetup.clubs.playerOne),playerTwo:hcManagerBase(slots[1],finalSetup.clubs.playerTwo)};
     for(const season of history){for(const role of ROLES)hcAccumulate(managerRecords[role],season,role);}
     for(const role of ROLES)hcFinalize(managerRecords[role]);
@@ -122,6 +124,36 @@
     const acceptedRevisionKey=history.map(item=>`${item.roundNumber}:${item.acceptedResultRevision}:${item.acceptedResultContentHash}`).join("|");
     return hcFreeze({schemaVersion:1,runtimeRevision:RUNTIME_REVISION,phase:"HISTORY_CONVERGED",revision:1,rivalryId:id,setupRevision:6,leagueId:finalSetup.leagueId,totalSeasons:finalSetup.totalSeasons,acceptedSeasons:history.length,acceptedRevisionKey,managerSlots:slots,seasonHistory:history,managerRecords,trophyAttribution,canonicalStorageMutation:false,providerWriteRequired:false});
   }
+  // r89 Sacked (Nik 2026-11-03): each manager may tick "I was sacked" on his own Season Results card. Any sacking ends the
+  // Showdown after that season: the points so far decide (equal = DRAW) and it is a COMPLETED Showdown on every career
+  // screen, never the hidden "ended early" kind. The fact is the sparse result key sacked:true; everything else is derived
+  // here from the verified history, so every screen agrees on one number, the final season:
+  //   finalSeason = the first season with any sacked result, else totalSeasons.
+  // totalSeasons keeps its meaning (the planned length: "X of N", REMATCH, Golden Showdown).
+  const NONE=Object.freeze({playerOne:false,playerTwo:false});
+  function seFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(seFreeze);Object.freeze(value);}return value;}
+  function sackedIn(season){const s={playerOne:season?.playerOne?.sacked===true,playerTwo:season?.playerTwo?.sacked===true};return s.playerOne||s.playerTwo?s:null;}
+  // seasonHistory: [{playerOne:{...result},playerTwo:{...result}}, ...] in season order (the shared history projection rows,
+  // the season commits' results, or the career rows: anything whose playerOne/playerTwo carry the result keys).
+  function hcEndOf(seasonHistory,totalSeasons){
+    const list=Array.isArray(seasonHistory)?seasonHistory:[];
+    for(let index=0;index<list.length;index+=1){const sacked=sackedIn(list[index]);if(sacked)return seFreeze({finalSeason:index+1,endedBy:"sacked",sackedSeason:index+1,sacked,fullLength:index+1===totalSeasons});}
+    return seFreeze({finalSeason:totalSeasons,endedBy:"full",sackedSeason:null,sacked:{...NONE},fullLength:true});
+  }
+  function ofProjection(projection){return hcEndOf(projection?.seasonHistory,projection?.totalSeasons);}
+  // A sacked season must be the last one: a history with a season after a sacked one is not a valid Showdown.
+  function sackedBeforeLast(seasonHistory){const list=Array.isArray(seasonHistory)?seasonHistory:[];return list.slice(0,-1).some(season=>sackedIn(season)!==null);}
+  // The Terminal Close witness (rivalries/{rid}.data.terminalClose): endedBy:'sacked' + sacked:{playerOne,playerTwo} only for a
+  // sacked Showdown; completedSeason is the seasons actually played (equal to totalSeasons for a full-length one).
+  function ofWitness(witness){
+    if(!witness||typeof witness!=="object")return null;
+    const sacked=witness.endedBy==="sacked"&&witness.sacked&&typeof witness.sacked==="object"?{playerOne:witness.sacked.playerOne===true,playerTwo:witness.sacked.playerTwo===true}:null;
+    const played=Number.isInteger(witness.completedSeason)?witness.completedSeason:witness.totalSeasons;
+    return seFreeze(sacked?{finalSeason:played,endedBy:"sacked",sackedSeason:played,sacked,fullLength:played===witness.totalSeasons}:{finalSeason:played,endedBy:"full",sackedSeason:null,sacked:{...NONE},fullLength:true});
+  }
+  function sackedRoles(end){return end&&end.endedBy==="sacked"?ROLES.filter(role=>end.sacked[role]===true):[];}
+  const SHOWDOWN_END=Object.freeze({contractVersion:1,feature:"r89-showdown-end",endOf:hcEndOf,ofProjection,ofWitness,sackedIn,sackedBeforeLast,sackedRoles});
+  if(root&&typeof root==="object"&&!root.CareerModeShowdownEnd)root.CareerModeShowdownEnd=SHOWDOWN_END;
   function hcVerify(projection){
     if(!hcPlain(projection)||projection.schemaVersion!==1||projection.runtimeRevision!==RUNTIME_REVISION||projection.phase!=="HISTORY_CONVERGED"||projection.revision!==1||projection.canonicalStorageMutation!==false||projection.providerWriteRequired!==false)hcFail("HISTORY_CONVERGENCE_PROJECTION_INVALID");
     const rebuilt=hcBuild({rivalryId:projection.rivalryId,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",totalSeasons:projection.totalSeasons,leagueId:projection.leagueId,clubs:{playerOne:projection.managerRecords?.playerOne?.club,playerTwo:projection.managerRecords?.playerTwo?.club}},managerSlots:projection.managerSlots.map(slot=>({...slot,entitlementState:"active"})),seasons:projection.seasonHistory.map(season=>({commit:{ok:true,committed:true,phase:"ACKNOWLEDGED",revision:3,resultsRevision:season.acceptedResultRevision,resultsContentHash:season.acceptedResultContentHash,seasonNumber:season.roundNumber,results:{playerOne:Object.fromEntries(hcResultKeys(season.playerOne).map(key=>[key,season.playerOne[key]])),playerTwo:Object.fromEntries(hcResultKeys(season.playerTwo).map(key=>[key,season.playerTwo[key]]))}},scoring:{ok:true,authoritative:true,phase:"SCORING_RECONCILED",revision:1,seasonCommitRevision:3,resultsRevision:season.acceptedResultRevision,resultsContentHash:season.acceptedResultContentHash,seasonNumber:season.roundNumber,scoring:{playerOne:season.playerOne.scoring,playerTwo:season.playerTwo.scoring},winner:season.winner}}))});
@@ -135,5 +167,5 @@
     return rebuilt;
   }
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-shared-history-convergence",runtimeRevision:RUNTIME_REVISION,buildProjection:hcBuild,verifyProjection:hcVerify,canonicalStorageMutation:false,providerWriteRequired:false,requiresCanonicalScoring:true,exactSeasonAddressing:true,identitySafe:true});
+  return Object.freeze({contractVersion:1,feature:"ssjr-shared-history-convergence",runtimeRevision:RUNTIME_REVISION,buildProjection:hcBuild,verifyProjection:hcVerify,showdownEnd:SHOWDOWN_END,canonicalStorageMutation:false,providerWriteRequired:false,requiresCanonicalScoring:true,exactSeasonAddressing:true,identitySafe:true});
 });

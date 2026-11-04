@@ -183,7 +183,7 @@ for(const required of [
   "career.setupOperationIds == setup.operationIds",
   "transfer.phase == 'COMPLETED'",
   "transfer.revision == 6 || transfer.revision == 7",
-  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",
+  "value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack','sacked'])",
   "&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",
   "+ (result.get('europaLeague', false) == true ? 3 : 0)",
   'progress.managerTotals.playerOne <= progress.acceptedThroughSeason * 15',
@@ -254,11 +254,15 @@ if((generated.match(/match \/roles\/\{managerRole\}/g)||[]).length!==2)throw new
 // r80 Europa League: the sparse EL key and the one-manager CL-or-EL rule live in exactly the two result shapes (Season
 // Results private result, Season Commit result), and the EL +3 term in exactly the one Terminal Close score.
 for(const [needle,count,label] of [
-  ["value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])",2,'Europa League result key set'],
+  ["value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack','sacked'])",2,'Europa League result key set'],
   ["&& (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))",2,'Europa League CL-or-EL result rule'],
   ["+ (result.get('europaLeague', false) == true ? 3 : 0)",1,'Europa League +3 Terminal Close score term'],
   // Prime Pack: the same two result shapes carry the sparse primePack key (an int 1 to 4), the Terminal Close score adds it.
-  ["&& (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));",2,'Prime Pack result rule'],
+  ["&& (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4))",2,'Prime Pack result rule'],
+  // r89 Sacked: the same two result shapes carry the sparse sacked key (exactly true); Terminal Progress and Close tie it.
+  ["&& (!('sacked' in value) || value.sacked == true);",2,'Sacked result rule'],
+  ['function ssjrTerminalSackedMatches(progress, commit)',1,'Sacked Terminal Progress helper'],
+  ['function ssjrTransferPreviousSeasonOpen(commit)',1,'Sacked Transfer START gate'],
   ["+ result.get('primePack', 0)",1,'Prime Pack Terminal Close score term'],
   ['match /primePackRounds/{seasonId}',1,'Prime Pack round match'],
   ['match /chamberMenRounds/{seasonId}',1,'Chamber Men round match']
