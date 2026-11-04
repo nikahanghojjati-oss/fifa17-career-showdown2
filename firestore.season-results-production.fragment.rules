@@ -369,7 +369,9 @@
         && after.revision == before.revision + 1
         && after.kicks[other] == before.kicks[other]
         && before.kicks[role].size() <= before.kicks[other].size()
-        && after.kicks[role].matches(before.kicks[role] + '[LMR-]');
+        && after.kicks[role].size() == before.kicks[role].size() + 1
+        && (before.kicks[role] == '' || after.kicks[role][0:before.kicks[role].size()] == before.kicks[role])
+        && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]');
     }
 // SSJR_SEASON_RESULTS_FUNCTIONS_END
 

@@ -165,7 +165,9 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
   for(const file of ["js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"])assert.match(sw,new RegExp(`"${file.replace(/[.]/g,"\\.")}"`),`${file} is precached`);
   const rules=read("firestore.season-results-production.fragment.rules");
   assert.match(rules,/match \/chamberMenRounds\/\{seasonId\} \{\s*allow get: if ssjrEntitled\(rivalryId\);\s*allow list, delete: if false;/);
-  assert.match(rules,/after\.kicks\[other\] == before\.kicks\[other\]\s*&& before\.kicks\[role\]\.size\(\) <= before\.kicks\[other\]\.size\(\)\s*&& after\.kicks\[role\]\.matches\(before\.kicks\[role\] \+ '\[LMR-\]'\);/);
+  assert.match(rules,/after\.kicks\[other\] == before\.kicks\[other\]\s*&& before\.kicks\[role\]\.size\(\) <= before\.kicks\[other\]\.size\(\)\s*&& after\.kicks\[role\]\.size\(\) == before\.kicks\[role\]\.size\(\) \+ 1\s*&& \(before\.kicks\[role\] == '' \|\| after\.kicks\[role\]\[0:before\.kicks\[role\]\.size\(\)\] == before\.kicks\[role\]\)\s*&& after\.kicks\[role\]\[before\.kicks\[role\]\.size\(\):after\.kicks\[role\]\.size\(\)\]\.matches\('\[LMR-\]'\);/,"one more letter, the old ones unchanged, the new one L/M/R/-");
+  // The Firebase Rules API refused (HTTP 503) every ruleset whose regex was built from stored data: literals only.
+  assert.doesNotMatch(rules,/\.matches\([^')]*\+/,"no regex built from data");
   assert.match(rules,/after\.revision == 1\s*&& after\.kicks\[role\]\.matches\('\[LMR-\]'\)\s*&& after\.kicks\[ssjrPackOther\(role\)\] == '';/,"created with one letter of his own");
   assert.match(rules,/root\.schemaVersion == 2\s*&& root\.objectType == 'sharedChamberMenRound'/,"the per-kick record is schemaVersion 2");
   assert.match(rules,/root\.kicks\.playerOne is string && root\.kicks\.playerOne\.size\(\) <= 14/);
