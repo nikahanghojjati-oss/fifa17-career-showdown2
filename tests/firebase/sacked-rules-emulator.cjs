@@ -367,8 +367,11 @@ function padFunctions(n,prefix){
   for(let depth=0;leaves.length>1;depth++){const next=[];for(let j=0;j<leaves.length;j+=10){const name=`${prefix}N${depth}x${j}`;functions.push(`    function ${name}() { return ${leaves.slice(j,j+10).join(" && ")}; }`);next.push(`${name}()`);}leaves=next;}
   return {functions:functions.join("\n"),call:leaves[0]||"true"};
 }
-const PAD_NEEDLE="    function ssjrTerminalValidRivalryUpdate(rivalryId) {\n      return (";
+// The entry point is parameterized in the reviewed fragment and parameterless once the localize build step has moved it
+// into its match block (r88 Rules slimming); the needle takes either form at any indentation (as the Europa League test).
+const PAD_NEEDLE=(RULES.match(/^ *function ssjrTerminalValidRivalryUpdate\([^)]*\) \{\n *return \(/m)||[""])[0];
 function paddedRules(n){
+  assert.ok(PAD_NEEDLE,"the Terminal Close rivalry update entry point must be found");
   assert.equal(RULES.split(PAD_NEEDLE).length,2,"the Terminal Close rivalry update entry point must exist exactly once");
   const pad=padFunctions(n,"sackedBudgetPad");
   return RULES.replace(PAD_NEEDLE,`${pad.functions}\n${PAD_NEEDLE.replace("return (",`return ${pad.call} && (`)}`);

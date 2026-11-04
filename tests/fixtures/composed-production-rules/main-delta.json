@@ -8,9 +8,9 @@
     "bytes": 176125
   },
   "candidate": {
-    "sha256": "3c0e2e3e41ed3da886b02988d0b84394fa45cf8f393f1616bce97b086d1e2cb8",
-    "gitBlobSha1": "4928f4c57ed333ce1301b63d7192d50838f7f993",
-    "bytes": 180528
+    "sha256": "fb7fabc0ea3864870779dc3e8a6a4909d132e917d5cd58164353b16bfb3660aa",
+    "gitBlobSha1": "fa69e9d0481e5165e4590a4485d9ebaaf3e6d8c6",
+    "bytes": 183935
   },
   "allowedOwners": [
     "G-7",
@@ -40,7 +40,9 @@
     "R87-SPINS+R87-HITS",
     "R87-PRIME-PACK",
     "R88-CHAMBER-MEN",
-    "R88-SLIM"
+    "R88-SLIM",
+    "R89-SACKED",
+    "R88-SLIM+R89-SACKED"
   ],
   "hunks": [
     {
@@ -1603,8 +1605,20 @@
         "        && ssjrTransferSpinShape(after, rivalryId, transferId)",
         "        && ssjrEntitled(rivalryId)",
         "        && after.spins.keys().hasOnly([ssjrActorRole(rivalryId)])",
-        "        && after.spins[ssjrActorRole(rivalryId)] != false;",
-        "    }",
+        "        && after.spins[ssjrActorRole(rivalryId)] != false;"
+      ],
+      "added": [
+        "    function ssjrTransferPreviousSeasonOpen(commit) {",
+        "      return commit.results.playerOne.get('sacked', false) == false",
+        "        && commit.results.playerTwo.get('sacked', false) == false;"
+      ],
+      "owner": "R88-SLIM+R89-SACKED",
+      "why": "localize build step: validSelfAccountBootstrap(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone). | r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
+      "mainLine": 1672,
+      "candidateLine": 532,
+      "removed": [
         "    function ssjrTransferSpinUpdate(rivalryId, transferId) {",
         "      let before = resource.data;",
         "      let after = request.resource.data;",
@@ -1651,12 +1665,12 @@
         "    }"
       ],
       "added": [],
-      "owner": "R88-SLIM",
-      "why": "localize build step: ssjrTransferSpinCreate(...), ssjrTransferSpinUpdate(...), ssjrTransferStartAfterSpins(...), ssjrTransferRouletteRecordCreate(...), ssjrTransferPrivateReadable(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone)."
+      "owner": "R88-SLIM+R89-SACKED",
+      "why": "localize build step: validSelfAccountBootstrap(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone). | r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 1730,
-      "candidateLine": 542,
+      "candidateLine": 546,
       "removed": [
         "    function ssjrResultsProjectedTeamCount(rivalryId) { return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/leagueProjection).data.teamCount; }"
       ],
@@ -1666,7 +1680,7 @@
     },
     {
       "mainLine": 1791,
-      "candidateLine": 602,
+      "candidateLine": 606,
       "removed": [
         "    function ssjrResultsPublicShape(root, rivalryId, seasonId) {",
         "      let n = root.revision;",
@@ -1730,7 +1744,7 @@
     },
     {
       "mainLine": 1853,
-      "candidateLine": 609,
+      "candidateLine": 613,
       "removed": [
         "    function ssjrResultsPrivateAfter(rivalryId, seasonId, managerRole) {",
         "      return getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonResults/$(seasonId)/roles/$(managerRole)).data;",
@@ -1741,8 +1755,34 @@
       "why": "localize build step: ssjrResultsPrivateAfter(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone)."
     },
     {
+      "mainLine": 1862,
+      "candidateLine": 619,
+      "removed": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])"
+      ],
+      "added": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack','sacked'])"
+      ],
+      "owner": "R89-SACKED",
+      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
+      "mainLine": 1877,
+      "candidateLine": 634,
+      "removed": [
+        "        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));"
+      ],
+      "added": [
+        "        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4))",
+        "        // r89 Sacked: present only when that manager was sacked this season, and then exactly true (one encoding).",
+        "        && (!('sacked' in value) || value.sacked == true);"
+      ],
+      "owner": "R89-SACKED",
+      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
       "mainLine": 1885,
-      "candidateLine": 638,
+      "candidateLine": 644,
       "removed": [
         "    function ssjrResultsPrivateBase(root, rivalryId, seasonId, managerRole, teamCount) {",
         "      return ssjrResultsPrivateExactKeys(root)",
@@ -1824,7 +1864,7 @@
     },
     {
       "mainLine": 1974,
-      "candidateLine": 654,
+      "candidateLine": 660,
       "removed": [
         "    function ssjrPackShape(root, rivalryId, seasonId) {",
         "      return root.keys().size() == 11",
@@ -1860,7 +1900,7 @@
     },
     {
       "mainLine": 2026,
-      "candidateLine": 679,
+      "candidateLine": 685,
       "removed": [
         "    function ssjrPackUpdateValid(rivalryId, seasonId) {",
         "      let before = resource.data;",
@@ -1882,7 +1922,7 @@
     },
     {
       "mainLine": 2044,
-      "candidateLine": 684,
+      "candidateLine": 690,
       "removed": [
         "    function ssjrPackPoints(rivalryId, seasonId, managerRole, points) {",
         "      let round = get(/databases/$(database)/documents/rivalries/$(rivalryId)/primePackRounds/$(seasonId)).data;",
@@ -1941,7 +1981,7 @@
     },
     {
       "mainLine": 2101,
-      "candidateLine": 691,
+      "candidateLine": 697,
       "removed": [
         "    function ssjrCommitSeasonMatches(seasonId, seasonNumber) {",
         "      return seasonNumber is int",
@@ -1964,8 +2004,34 @@
       "why": "localize build step: ssjrCommitSeasonMatches(...), ssjrCommitSetup(...), ssjrCommitPublicResults(...), ssjrCommitPrivateResult(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone)."
     },
     {
+      "mainLine": 2122,
+      "candidateLine": 703,
+      "removed": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])"
+      ],
+      "added": [
+        "        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack','sacked'])"
+      ],
+      "owner": "R89-SACKED",
+      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
+      "mainLine": 2137,
+      "candidateLine": 718,
+      "removed": [
+        "        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));"
+      ],
+      "added": [
+        "        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4))",
+        "        // r89 Sacked: present only when that manager was sacked this season, and then exactly true (one encoding).",
+        "        && (!('sacked' in value) || value.sacked == true);"
+      ],
+      "owner": "R89-SACKED",
+      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
       "mainLine": 2145,
-      "candidateLine": 720,
+      "candidateLine": 728,
       "removed": [
         "    // Audit R84 F02 (r85): create and acknowledge both require the shared actor write authority (rivalry live and active",
         "    // with the actor as a member, the named Session in this rivalry, state 'active' with both members, the acting account",
@@ -2034,7 +2100,7 @@
     },
     {
       "mainLine": 2213,
-      "candidateLine": 728,
+      "candidateLine": 736,
       "removed": [
         "    function ssjrCommitValidUpdate(rivalryId, seasonId) {",
         "      let before = resource.data;",
@@ -2090,7 +2156,7 @@
     },
     {
       "mainLine": 2268,
-      "candidateLine": 736,
+      "candidateLine": 744,
       "removed": [
         "    function ssjrMeterValidWrite(rivalryId, managerRole) {",
         "      let meter = request.resource.data;",
@@ -2124,7 +2190,7 @@
     },
     {
       "mainLine": 2302,
-      "candidateLine": 745,
+      "candidateLine": 753,
       "removed": [
         "    function ssjrTerminalValidIntent(rivalryId, intent) {",
         "      return intent is map",
@@ -2167,7 +2233,7 @@
     },
     {
       "mainLine": 2347,
-      "candidateLine": 756,
+      "candidateLine": 764,
       "removed": [
         "    function ssjrTerminalCommitAccepted(root, rivalryId, seasonNumber) {",
         "      return root is map",
@@ -2181,16 +2247,35 @@
         "        && root.results is map",
         "        && root.results.keys().hasOnly(['playerOne','playerTwo'])",
         "        && root.results.playerOne is map",
-        "        && root.results.playerTwo is map;",
-        "    }"
+        "        && root.results.playerTwo is map;"
       ],
-      "added": [],
-      "owner": "R88-SLIM",
-      "why": "localize build step: ssjrTerminalCommitAccepted(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone)."
+      "added": [
+        "    // r89 Sacked: the Terminal Progress carries sacked:{playerOne,playerTwo} exactly when the season it accepts has a",
+        "    // sacked result (either manager); its bools equal the commit's. No further season is accepted after it. No extra read:",
+        "    // the commit is the one the progress step already gets.",
+        "    function ssjrTerminalSackedMatches(progress, commit) {",
+        "      let p1 = commit.results.playerOne.get('sacked', false) == true;",
+        "      let p2 = commit.results.playerTwo.get('sacked', false) == true;",
+        "      return (p1 || p2) ? progress.get('sacked', null) == {'playerOne': p1, 'playerTwo': p2} : !('sacked' in progress);"
+      ],
+      "owner": "R88-SLIM+R89-SACKED",
+      "why": "localize build step: validSelfAccountBootstrap(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone). | r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
+      "mainLine": 2366,
+      "candidateLine": 777,
+      "removed": [
+        "        && progress.keys().hasOnly(['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'])"
+      ],
+      "added": [
+        "        && progress.keys().hasOnly(['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])"
+      ],
+      "owner": "R89-SACKED",
+      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 2399,
-      "candidateLine": 794,
+      "candidateLine": 810,
       "removed": [
         "    function ssjrTerminalInitialProgress(rivalryId, before, after) {",
         "      let progress = after.data.terminalProgress;",
@@ -2252,7 +2337,7 @@
     },
     {
       "mainLine": 2469,
-      "candidateLine": 811,
+      "candidateLine": 827,
       "removed": [
         "    function ssjrTerminalParentCloseRequested(rivalryId, sessionId) {",
         "      let parentAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;",
@@ -2331,7 +2416,7 @@
     },
     {
       "mainLine": 2573,
-      "candidateLine": 845,
+      "candidateLine": 861,
       "removed": [
         "    function cmsPersistentPairCreationWitnessValid(rivalryId) {",
         "      let pair = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);",
@@ -2350,7 +2435,7 @@
     },
     {
       "mainLine": 2584,
-      "candidateLine": 846,
+      "candidateLine": 862,
       "removed": [
         "    function cmsPersistentPairRedemptionWitnessValid(rivalryId, role) {",
         "      let pairData = getAfter(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current).data.data;",
@@ -2365,7 +2450,7 @@
     },
     {
       "mainLine": 2591,
-      "candidateLine": 847,
+      "candidateLine": 863,
       "removed": [
         "    function cmsPersistentPairDataValid(accountId, pairData) {",
         "      return pairData.keys().hasOnly([",
@@ -2390,7 +2475,7 @@
     },
     {
       "mainLine": 2633,
-      "candidateLine": 873,
+      "candidateLine": 889,
       "removed": [
         "    function cmsPersistentPairAbandonActorValid(before, rivalryId) {",
         "      let pair = get(/databases/$(database)/documents/accounts/$(request.auth.uid)/pairLinks/current);",
@@ -2424,7 +2509,7 @@
     },
     {
       "mainLine": 2659,
-      "candidateLine": 874,
+      "candidateLine": 890,
       "removed": [
         "    function cmsPersistentPairAbandonValid(rivalryId) {",
         "      let before = resource.data;",
@@ -2453,7 +2538,7 @@
     },
     {
       "mainLine": 2692,
-      "candidateLine": 887,
+      "candidateLine": 903,
       "removed": [
         "    function cmsPersistentPairCreateValid(accountId, pairId) {",
         "      let root = request.resource.data;",
@@ -2472,7 +2557,7 @@
     },
     {
       "mainLine": 2703,
-      "candidateLine": 888,
+      "candidateLine": 904,
       "removed": [
         "    function cmsPersistentPairUpdateValid(accountId, pairId) {",
         "      let before = resource.data;",
@@ -2494,7 +2579,7 @@
     },
     {
       "mainLine": 2726,
-      "candidateLine": 898,
+      "candidateLine": 914,
       "removed": [
         "    function cmsCareerIndexRecordsNewRivalry(accountId, rivalryId) {",
         "      let ids = getAfter(/databases/$(database)/documents/accounts/$(accountId)/careerIndex/current).data.data.rivalryIds;",
@@ -2509,7 +2594,7 @@
     },
     {
       "mainLine": 2733,
-      "candidateLine": 899,
+      "candidateLine": 915,
       "removed": [
         "    // Pair-link coupling (first creation AND replacement): when this commit makes the account a member of",
         "    // the linked rivalry (creation by Daniel, redemption by Nik), the same commit must end the account's",
@@ -2528,7 +2613,7 @@
     },
     {
       "mainLine": 2754,
-      "candidateLine": 910,
+      "candidateLine": 926,
       "removed": [
         "    function cmsCareerIndexCreationEligible(accountId, rivalryId) {",
         "      let after = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;",
@@ -2544,7 +2629,7 @@
     },
     {
       "mainLine": 2762,
-      "candidateLine": 911,
+      "candidateLine": 927,
       "removed": [
         "    function cmsCareerIndexRedemptionEligible(accountId, rivalryId) {",
         "      let before = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data;",
@@ -2563,7 +2648,7 @@
     },
     {
       "mainLine": 2773,
-      "candidateLine": 912,
+      "candidateLine": 928,
       "removed": [
         "    function cmsCareerIndexAppendEligible(accountId, rivalryId) {",
         "      let pair = getAfter(/databases/$(database)/documents/accounts/$(accountId)/pairLinks/current);",
@@ -2590,7 +2675,7 @@
     },
     {
       "mainLine": 2792,
-      "candidateLine": 913,
+      "candidateLine": 929,
       "removed": [
         "    function cmsCareerIndexPageSealedFrom(accountId, pageNumber, ids) {",
         "      let page = getAfter(/databases/$(database)/documents/accounts/$(accountId)/careerIndex/$('page_' + string(pageNumber))).data;",
@@ -2605,7 +2690,7 @@
     },
     {
       "mainLine": 2799,
-      "candidateLine": 914,
+      "candidateLine": 930,
       "removed": [
         "    function cmsCareerIndexHeadCreateValid(accountId) {",
         "      let root = request.resource.data;",
@@ -2626,7 +2711,7 @@
     },
     {
       "mainLine": 2812,
-      "candidateLine": 915,
+      "candidateLine": 931,
       "removed": [
         "    function cmsCareerIndexHeadUpdateValid(accountId) {",
         "      let before = resource.data;",
@@ -2666,7 +2751,7 @@
     },
     {
       "mainLine": 2844,
-      "candidateLine": 916,
+      "candidateLine": 932,
       "removed": [
         "    function cmsCareerIndexPageCreateValid(accountId, pageId) {",
         "      let root = request.resource.data;",
@@ -2694,7 +2779,7 @@
     },
     {
       "mainLine": 2877,
-      "candidateLine": 930,
+      "candidateLine": 946,
       "removed": [
         "    function cmsCareerStartMatchesIndex(accountId, ids) {",
         "      let indexPath = /databases/$(database)/documents/accounts/$(accountId)/careerIndex/current;",
@@ -2710,7 +2795,7 @@
     },
     {
       "mainLine": 2885,
-      "candidateLine": 931,
+      "candidateLine": 947,
       "removed": [
         "    function cmsCareerStartCreateValid(accountId, startId) {",
         "      let root = request.resource.data;",
@@ -2732,7 +2817,7 @@
     },
     {
       "mainLine": 2899,
-      "candidateLine": 932,
+      "candidateLine": 948,
       "removed": [
         "    function cmsCareerStartUpdateValid(accountId, startId) {",
         "      let before = resource.data;",
@@ -2753,7 +2838,7 @@
     },
     {
       "mainLine": 2942,
-      "candidateLine": 963,
+      "candidateLine": 979,
       "removed": [
         "    // The pairing rivalry must belong to the real career: never one the account's career-start marker hid",
         "    // (pre-career test games), and created after the marker (playerOne made it after pressing START REAL",
@@ -2787,7 +2872,7 @@
     },
     {
       "mainLine": 2968,
-      "candidateLine": 964,
+      "candidateLine": 980,
       "removed": [
         "    function cmsPartnerCreateValid(accountId, partnerId) {",
         "      return signedIn()",
@@ -2803,7 +2888,7 @@
     },
     {
       "mainLine": 2976,
-      "candidateLine": 965,
+      "candidateLine": 981,
       "removed": [
         "    function cmsPartnerUpdateValid(accountId, partnerId) {",
         "      let before = resource.data;",
@@ -2832,7 +2917,7 @@
     },
     {
       "mainLine": 3010,
-      "candidateLine": 979,
+      "candidateLine": 995,
       "removed": [
         "    function cmsPartnerInboxWriteValid(accountId, noteId) {",
         "      let note = request.resource.data;",
@@ -2916,7 +3001,7 @@
     },
     {
       "mainLine": 3086,
-      "candidateLine": 980,
+      "candidateLine": 996,
       "removed": [
         "    // CMS_COMPLETED_READ (D2, JOB-08): read-only grant for a Showdown closed by a verified",
         "    // Terminal Close. Get only; no write, list or delete rule refers to these functions.",
@@ -2956,7 +3041,7 @@
     },
     {
       "mainLine": 3118,
-      "candidateLine": 981,
+      "candidateLine": 997,
       "removed": [
         "    function cmsCompletedSeasonReadable(rivalryId, seasonId) {",
         "      let total = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.terminalProgress.totalSeasons;",
@@ -2970,7 +3055,7 @@
     },
     {
       "mainLine": 3124,
-      "candidateLine": 982,
+      "candidateLine": 998,
       "removed": [
         "    // CMS_COMPLETED_TRANSFER_READ (JOB-10): a transfer role of a Terminal-Closed Showdown, for season_1..season_N,",
         "    // only when that season's challenge is publicly COMPLETED (both guesses and both signings locked).",
@@ -2999,7 +3084,7 @@
     },
     {
       "mainLine": 3146,
-      "candidateLine": 984,
+      "candidateLine": 1000,
       "removed": [
         "        function capabilityCanReadPendingRivalry(rivalryId) {",
         "      let invite = get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId));",
@@ -3017,7 +3102,7 @@
     },
     {
       "mainLine": 3157,
-      "candidateLine": 986,
+      "candidateLine": 1002,
       "removed": [],
       "added": [
         "      function validSelfAccountBootstrap() {",
@@ -3039,7 +3124,7 @@
     },
     {
       "mainLine": 3158,
-      "candidateLine": 1000,
+      "candidateLine": 1016,
       "removed": [
         "      allow create: if validSelfAccountBootstrap(accountId);"
       ],
@@ -3051,7 +3136,7 @@
     },
     {
       "mainLine": 3167,
-      "candidateLine": 1009,
+      "candidateLine": 1025,
       "removed": [],
       "added": [
         "        function validDeviceData(deviceData) {",
@@ -3111,7 +3196,7 @@
     },
     {
       "mainLine": 3168,
-      "candidateLine": 1061,
+      "candidateLine": 1077,
       "removed": [
         "        allow create: if validDeviceCreate(accountId, deviceId);",
         "        allow update: if validDeviceRevoke(accountId, deviceId);"
@@ -3125,7 +3210,7 @@
     },
     {
       "mainLine": 3181,
-      "candidateLine": 1074,
+      "candidateLine": 1090,
       "removed": [],
       "added": [
         "  function cmsCareerIndexRecordsNewRivalry(rivalryId) {",
@@ -3189,7 +3274,7 @@
     },
     {
       "mainLine": 3182,
-      "candidateLine": 1130,
+      "candidateLine": 1146,
       "removed": [
         "      allow create: if cmsPersistentPairCreateValid(accountId, pairId);",
         "      allow update: if cmsPersistentPairUpdateValid(accountId, pairId);"
@@ -3203,7 +3288,7 @@
     },
     {
       "mainLine": 3188,
-      "candidateLine": 1136,
+      "candidateLine": 1152,
       "removed": [],
       "added": [
         "      function cmsCareerIndexPageCreateValid() {",
@@ -3315,7 +3400,7 @@
     },
     {
       "mainLine": 3191,
-      "candidateLine": 1242,
+      "candidateLine": 1258,
       "removed": [
         "      allow create: if (indexId == 'current' && cmsCareerIndexHeadCreateValid(accountId))",
         "        || (indexId.matches('^page_[1-9][0-9]*$') && cmsCareerIndexPageCreateValid(accountId, indexId));",
@@ -3331,7 +3416,7 @@
     },
     {
       "mainLine": 3198,
-      "candidateLine": 1249,
+      "candidateLine": 1265,
       "removed": [],
       "added": [
         "      function cmsCareerStartUpdateValid() {",
@@ -3372,7 +3457,7 @@
     },
     {
       "mainLine": 3202,
-      "candidateLine": 1285,
+      "candidateLine": 1301,
       "removed": [
         "      allow create: if cmsCareerStartCreateValid(accountId, startId);",
         "      allow update: if cmsCareerStartUpdateValid(accountId, startId);"
@@ -3386,7 +3471,7 @@
     },
     {
       "mainLine": 3207,
-      "candidateLine": 1290,
+      "candidateLine": 1306,
       "removed": [],
       "added": [
         "      // The pairing rivalry must belong to the real career: never one the account's career-start marker hid",
@@ -3447,7 +3532,7 @@
     },
     {
       "mainLine": 3210,
-      "candidateLine": 1345,
+      "candidateLine": 1361,
       "removed": [
         "      allow create: if cmsPartnerCreateValid(accountId, partnerId);",
         "      allow update: if cmsPartnerUpdateValid(accountId, partnerId);"
@@ -3461,7 +3546,7 @@
     },
     {
       "mainLine": 3216,
-      "candidateLine": 1351,
+      "candidateLine": 1367,
       "removed": [],
       "added": [
         "      function cmsPartnerInboxWriteValid() {",
@@ -3511,7 +3596,7 @@
     },
     {
       "mainLine": 3217,
-      "candidateLine": 1393,
+      "candidateLine": 1409,
       "removed": [
         "      allow create, update: if cmsPartnerInboxWriteValid(accountId, noteId);"
       ],
@@ -3523,7 +3608,7 @@
     },
     {
       "mainLine": 3221,
-      "candidateLine": 1397,
+      "candidateLine": 1413,
       "removed": [],
       "added": [
         "      // r86 reads at scale (Nik 2026-10-27): one create-only career summary per finished Showdown under the reading",
@@ -3566,7 +3651,7 @@
     },
     {
       "mainLine": 3224,
-      "candidateLine": 1434,
+      "candidateLine": 1450,
       "removed": [
         "      allow create: if cmsCareerSummaryCreateValid(accountId, rivalryId);"
       ],
@@ -3578,7 +3663,7 @@
     },
     {
       "mainLine": 3230,
-      "candidateLine": 1440,
+      "candidateLine": 1456,
       "removed": [
         "      allow get: if currentlyEntitled(rivalryId) || capabilityCanReadPendingRivalry(rivalryId);",
         "      allow create: if validInitialRivalryCreate(rivalryId);"
@@ -3599,6 +3684,7 @@
         "                'schemaVersion','runtimeRevision','phase','rivalryId','sessionId','totalSeasons','completedSeason',",
         "                'managerTotals','winner','terminal','finalSeasonReconciled','nextSeason','extraSeasonAllowed',",
         "                'rivalryConnectionState','sessionTargetState','terminalReadAllowed','canonicalStorageMutation','providerWriteRequired',",
+        "                'endedBy','sacked',",
         "                'listPermissionRequired','billingRequired'",
         "              ])",
         "              && intent.schemaVersion == 1",
@@ -3607,7 +3693,12 @@
         "              && intent.rivalryId == rivalryId",
         "              && validSessionId(intent.sessionId)",
         "              && intent.totalSeasons in [1,3,5,10]",
-        "              && intent.completedSeason == intent.totalSeasons",
+        "              // r89 Sacked: a Showdown with a sacking ends after that season (endedBy 'sacked', completedSeason <= totalSeasons);",
+        "              // the close below ties completedSeason and the sacked map to the Terminal Progress. Without endedBy it is full length.",
+        "              && intent.completedSeason is int",
+        "              && (intent.completedSeason == intent.totalSeasons",
+        "                || (intent.get('endedBy', null) == 'sacked' && intent.completedSeason >= 1 && intent.completedSeason < intent.totalSeasons))",
+        "              && (!('endedBy' in intent) || (intent.endedBy == 'sacked' && 'sacked' in intent))",
         "              && intent.managerTotals is map",
         "              && intent.managerTotals.keys().hasOnly(['playerOne','playerTwo'])",
         "              && intent.managerTotals.playerOne is int",
@@ -3653,13 +3744,14 @@
         "              && 'terminalClose' in data",
         "              && ssjrTerminalValidIntent(data.terminalClose)",
         "              && ssjrTerminalProgressShape(progress)",
-        "              && progress.acceptedThroughSeason == progress.totalSeasons",
+        "              && (progress.acceptedThroughSeason == progress.totalSeasons || 'sacked' in progress)",
         "              && progress.closedSessionRevision is int",
         "              && data.terminalClose.totalSeasons == progress.totalSeasons",
         "              && data.terminalClose.managerTotals == progress.managerTotals;",
         "          }",
         "          function cmsCompletedSeasonReadable(seasonId) {",
-        "            let total = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.terminalProgress.totalSeasons;",
+        "            // r89 Sacked: the seasons actually played (equal to totalSeasons for a full-length Showdown).",
+        "            let total = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.terminalProgress.acceptedThroughSeason;",
         "            return cmsCompletedShowdownReadable()",
         "              && seasonId in ['season_1','season_2','season_3','season_4','season_5','season_6','season_7','season_8','season_9','season_10'][0:total];",
         "          }",
@@ -3744,7 +3836,9 @@
         "              && activeDevice(after.updatedByDeviceId)",
         "              && after.updatedByAccountId == request.auth.uid",
         "              && priorProgress.runtimeRevision == '1.9.1-r18'",
-        "              && priorProgress.acceptedThroughSeason == priorProgress.totalSeasons",
+        "              && (('sacked' in priorProgress)",
+        "                ? (intent.get('endedBy', null) == 'sacked' && intent.get('sacked', null) == priorProgress.sacked && intent.completedSeason == priorProgress.acceptedThroughSeason)",
+        "                : (priorProgress.acceptedThroughSeason == priorProgress.totalSeasons && !('endedBy' in intent) && !('sacked' in intent)))",
         "              && priorProgress.closedSessionRevision == null",
         "              && progress.diff(priorProgress).affectedKeys().hasOnly(['closedSessionRevision'])",
         "              && progress.closedSessionRevision is int",
@@ -3784,7 +3878,9 @@
         "              && progress.closedSessionRevision == null",
         "              && progress.totalSeasons == prior.totalSeasons",
         "              && nextSeason <= prior.totalSeasons",
+        "              && !('sacked' in prior)",
         "              && progress.acceptedThroughSeason == nextSeason",
+        "              && ssjrTerminalSackedMatches(progress, commit)",
         "              && ssjrTerminalCommitAccepted(commit, nextSeason)",
         "              && progress.managerTotals.playerOne == prior.managerTotals.playerOne + ssjrTerminalScore(commit.results.playerOne)",
         "              && progress.managerTotals.playerTwo == prior.managerTotals.playerTwo + ssjrTerminalScore(commit.results.playerTwo);",
@@ -3801,6 +3897,9 @@
         "              && setup.revision == 6",
         "              && setup.phase == 'SHOWDOWN_CONFIRMED'",
         "              && setup.totalSeasons == progress.totalSeasons",
+        "              // r89 Sacked: checked before the commit and score terms, so a wrong or missing map is refused early (a refusal",
+        "              // at the end of this path runs into the 1,000-expression limit; measured on the emulator).",
+        "              && ssjrTerminalSackedMatches(progress, commit)",
         "              && ssjrTerminalCommitAccepted(commit, 1)",
         "              && progress.managerTotals.playerOne == ssjrTerminalScore(commit.results.playerOne)",
         "              && progress.managerTotals.playerTwo == ssjrTerminalScore(commit.results.playerTwo);",
@@ -4047,12 +4146,12 @@
         "      allow get: if currentlyEntitled() || capabilityCanReadPendingRivalry();",
         "      allow create: if validInitialRivalryCreate();"
       ],
-      "owner": "R88-SLIM",
-      "why": "localize build step: capabilityCanReadPendingRivalry(), ssjrTerminalValidIntent(intent), cmsCompletedShowdownReadable(), cmsCompletedSeasonReadable(seasonId), cmsPersistentPairAbandonActorValid(before), cmsPersistentPairAbandonValid(), cmsPersistentPairRedemptionWitnessValid(role), cmsPersistentPairCreationWitnessValid(), ssjrTerminalValidCloseUpdate(), ssjrTerminalCommitAccepted(root, seasonNumber), ssjrTerminalAdvanceProgress(before, after), ssjrTerminalInitialProgress(before, after), ssjrTerminalValidProgressUpdate(), ssjrTerminalValidRivalryUpdate(), livePairedRivalryMember(), ssjrEntitled(), ssjrActorWriteAuthorityValid(deviceId, sessionId), ssjrWriteAuthorityValid(deviceId, sessionId), activePairedRivalry(), currentlyEntitled(), validRedeemedManagerSlots(beforeSlots, afterSlots, creatorId, joinSlotId), validRivalryRedeem(), validInitialManagerSlots(slots), validInitialRivalryCreate() declared at the top of this match block; body unchanged, each dropped parameter bound to the wildcard or request/resource chain of its call sites, every other parameter still passed as before; call sites in the same hunk drop those arguments."
+      "owner": "R88-SLIM+R89-SACKED",
+      "why": "localize build step: validSelfAccountBootstrap(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone). | r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 3234,
-      "candidateLine": 1904,
+      "candidateLine": 1934,
       "removed": [
         "          && cmsPersistentPairAbandonValid(rivalryId))",
         "        || ssjrTerminalValidRivalryUpdate(rivalryId)",
@@ -4068,7 +4167,7 @@
     },
     {
       "mainLine": 3240,
-      "candidateLine": 1910,
+      "candidateLine": 1940,
       "removed": [
         "        allow get: if currentlyEntitled(rivalryId)"
       ],
@@ -4149,7 +4248,7 @@
     },
     {
       "mainLine": 3248,
-      "candidateLine": 1987,
+      "candidateLine": 2017,
       "removed": [
         "        allow create: if validSharedStateCreate(rivalryId);",
         "        allow update: if validSharedStateUpdate(rivalryId);"
@@ -4163,7 +4262,7 @@
     },
     {
       "mainLine": 3253,
-      "candidateLine": 1992,
+      "candidateLine": 2022,
       "removed": [
         "          allow get: if currentlyEntitled(rivalryId)"
       ],
@@ -4228,7 +4327,7 @@
     },
     {
       "mainLine": 3259,
-      "candidateLine": 2051,
+      "candidateLine": 2081,
       "removed": [
         "          allow create: if validIdempotencyCreate(rivalryId, idempotencyKeyHash);"
       ],
@@ -4240,7 +4339,7 @@
     },
     {
       "mainLine": 3265,
-      "candidateLine": 2057,
+      "candidateLine": 2087,
       "removed": [],
       "added": [
         "        function validInviteRevoke() {",
@@ -4331,7 +4430,7 @@
     },
     {
       "mainLine": 3274,
-      "candidateLine": 2148,
+      "candidateLine": 2178,
       "removed": [
         "        allow create: if validInitialInviteCreate(rivalryId, inviteId);"
       ],
@@ -4343,7 +4442,7 @@
     },
     {
       "mainLine": 3277,
-      "candidateLine": 2151,
+      "candidateLine": 2181,
       "removed": [
         "          && validInviteRedeem(rivalryId, inviteId)"
       ],
@@ -4355,7 +4454,7 @@
     },
     {
       "mainLine": 3280,
-      "candidateLine": 2154,
+      "candidateLine": 2184,
       "removed": [
         "          && validInviteRevoke(inviteId)"
       ],
@@ -4367,7 +4466,7 @@
     },
     {
       "mainLine": 3288,
-      "candidateLine": 2162,
+      "candidateLine": 2192,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId) || cmsCompletedShowdownReadable(rivalryId);"
       ],
@@ -4436,7 +4535,7 @@
     },
     {
       "mainLine": 3290,
-      "candidateLine": 2221,
+      "candidateLine": 2251,
       "removed": [
         "        allow create: if ssjrValidCreateLedger(rivalryId);",
         "        allow update: if ssjrValidUpdateLedger(rivalryId);"
@@ -4450,7 +4549,7 @@
     },
     {
       "mainLine": 3295,
-      "candidateLine": 2226,
+      "candidateLine": 2256,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId);"
       ],
@@ -4515,7 +4614,7 @@
     },
     {
       "mainLine": 3297,
-      "candidateLine": 2281,
+      "candidateLine": 2311,
       "removed": [
         "        allow create: if ssjrLeagueProjectionCreateValid(rivalryId);"
       ],
@@ -4527,7 +4626,7 @@
     },
     {
       "mainLine": 3304,
-      "candidateLine": 2288,
+      "candidateLine": 2318,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId);"
       ],
@@ -4618,7 +4717,7 @@
     },
     {
       "mainLine": 3306,
-      "candidateLine": 2369,
+      "candidateLine": 2399,
       "removed": [
         "        allow create: if ssjrCareerValidCreate(rivalryId);",
         "        allow update: if ssjrCareerValidUpdate(rivalryId);"
@@ -4632,7 +4731,7 @@
     },
     {
       "mainLine": 3314,
-      "candidateLine": 2377,
+      "candidateLine": 2407,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, transferId);"
       ],
@@ -4763,6 +4862,14 @@
         "        function ssjrTransferSpinCreate() {",
         "          let after = request.resource.data;",
         "          return after.phase == 'NOT_STARTED'",
+        "            // r89 Sacked: no Transfer War after a season in which either manager was sacked. Checked here, on the first mark of",
+        "            // the next season (one lookup, seasons 2 to 10), because START from the marks has no expression headroom left",
+        "            // (measured on the emulator: one more term there hits the 1,000-expression limit). The second mark is an update",
+        "            // of this document and START needs both, so a refused first mark keeps the window shut. Early in the check, so the",
+        "            // refusal is an ordinary denial.",
+        "            && after.seasonNumber is int",
+        "            && (after.seasonNumber == 1",
+        "              || ssjrTransferPreviousSeasonOpen(get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.seasonNumber - 1))).data))",
         "            && ssjrTransferSpinShape(after)",
         "            && ssjrEntitled()",
         "            && after.spins.keys().hasOnly([ssjrActorRole(rivalryId)])",
@@ -4844,12 +4951,12 @@
         "        }",
         "        allow get: if ssjrEntitled() || cmsCompletedSeasonReadable(transferId);"
       ],
-      "owner": "R88-SLIM",
-      "why": "localize build step: ssjrTransferSeasonMatches(seasonNumber), ssjrTransferCareer(), ssjrTransferSetup(), ssjrTransferPrerequisites(seasonNumber), ssjrTransferPublicShape(root), ssjrTransferValidCreate(), ssjrTransferStartAfterSpins(), ssjrTransferSpinShape(root), ssjrTransferSpinUpdate(), ssjrTransferSpinCreate(), ssjrTransferOwnRoleAfter(), ssjrTransferPrivatePayloadLinked(after, operationType), ssjrTransferSigningLockTransition(before, after, actorRole), ssjrTransferGuessLockTransition(before, after, actorRole), ssjrTransferValidLedgerUpdate(), ssjrTransferValidUpdate() declared at the top of this match block; body unchanged, each dropped parameter bound to the wildcard or request/resource chain of its call sites, every other parameter still passed as before; call sites in the same hunk drop those arguments."
+      "owner": "R88-SLIM+R89-SACKED",
+      "why": "localize build step: validSelfAccountBootstrap(...) removed from the shared helper area (declared again inside the match block that uses it, with the wildcard and request/resource parameters gone). | r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 3316,
-      "candidateLine": 2584,
+      "candidateLine": 2622,
       "removed": [
         "        allow create: if ssjrTransferValidCreate(rivalryId, transferId);",
         "        allow update: if ssjrTransferValidUpdate(rivalryId, transferId);"
@@ -4863,7 +4970,7 @@
     },
     {
       "mainLine": 3319,
-      "candidateLine": 2587,
+      "candidateLine": 2625,
       "removed": [
         "        allow create: if ssjrTransferSpinCreate(rivalryId, transferId);",
         "        allow update: if ssjrTransferSpinUpdate(rivalryId, transferId) || ssjrTransferStartAfterSpins(rivalryId, transferId);"
@@ -4877,7 +4984,7 @@
     },
     {
       "mainLine": 3324,
-      "candidateLine": 2592,
+      "candidateLine": 2630,
       "removed": [
         "          allow get: if ssjrEntitled(rivalryId);"
       ],
@@ -4909,7 +5016,7 @@
     },
     {
       "mainLine": 3326,
-      "candidateLine": 2614,
+      "candidateLine": 2652,
       "removed": [
         "          allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);"
       ],
@@ -4921,7 +5028,7 @@
     },
     {
       "mainLine": 3330,
-      "candidateLine": 2618,
+      "candidateLine": 2656,
       "removed": [
         "          allow get: if ssjrTransferPrivateReadable(rivalryId, transferId, managerRole)",
         "            || (managerRole in ['playerOne', 'playerTwo'] && cmsCompletedTransferRoleReadable(rivalryId, transferId));"
@@ -5030,7 +5137,7 @@
     },
     {
       "mainLine": 3333,
-      "candidateLine": 2716,
+      "candidateLine": 2754,
       "removed": [
         "          allow create: if ssjrTransferPrivateCreateValid(rivalryId, transferId, managerRole);",
         "          allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole);"
@@ -5044,7 +5151,7 @@
     },
     {
       "mainLine": 3342,
-      "candidateLine": 2725,
+      "candidateLine": 2763,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);"
       ],
@@ -5148,7 +5255,7 @@
     },
     {
       "mainLine": 3344,
-      "candidateLine": 2819,
+      "candidateLine": 2857,
       "removed": [
         "        allow create: if ssjrResultsValidCreate(rivalryId, seasonId);",
         "        allow update: if ssjrResultsValidUpdate(rivalryId, seasonId);"
@@ -5162,7 +5269,7 @@
     },
     {
       "mainLine": 3348,
-      "candidateLine": 2823,
+      "candidateLine": 2861,
       "removed": [
         "          allow get: if ssjrResultsPrivateReadable(rivalryId, seasonId, managerRole)",
         "            || (managerRole in ['playerOne', 'playerTwo'] && cmsCompletedSeasonReadable(rivalryId, seasonId));"
@@ -5221,7 +5328,7 @@
     },
     {
       "mainLine": 3351,
-      "candidateLine": 2871,
+      "candidateLine": 2909,
       "removed": [
         "          allow create: if ssjrResultsPrivateCreateValid(rivalryId, seasonId, managerRole);"
       ],
@@ -5233,7 +5340,7 @@
     },
     {
       "mainLine": 3355,
-      "candidateLine": 2875,
+      "candidateLine": 2913,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId);"
       ],
@@ -5285,7 +5392,7 @@
     },
     {
       "mainLine": 3357,
-      "candidateLine": 2917,
+      "candidateLine": 2955,
       "removed": [
         "        allow create: if ssjrPackCreateValid(rivalryId, seasonId);",
         "        allow update: if ssjrPackUpdateValid(rivalryId, seasonId);"
@@ -5299,7 +5406,7 @@
     },
     {
       "mainLine": 3361,
-      "candidateLine": 2921,
+      "candidateLine": 2959,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId);"
       ],
@@ -5356,7 +5463,7 @@
     },
     {
       "mainLine": 3363,
-      "candidateLine": 2968,
+      "candidateLine": 3006,
       "removed": [
         "        allow create: if ssjrChamberCreateValid(rivalryId, seasonId);",
         "        allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);"
@@ -5370,7 +5477,7 @@
     },
     {
       "mainLine": 3371,
-      "candidateLine": 2976,
+      "candidateLine": 3014,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId) || cmsCompletedSeasonReadable(rivalryId, seasonId);"
       ],
@@ -5504,7 +5611,7 @@
     },
     {
       "mainLine": 3373,
-      "candidateLine": 3100,
+      "candidateLine": 3138,
       "removed": [
         "        allow create: if ssjrCommitValidCreate(rivalryId, seasonId);",
         "        allow update: if ssjrCommitValidUpdate(rivalryId, seasonId);"
@@ -5518,7 +5625,7 @@
     },
     {
       "mainLine": 3377,
-      "candidateLine": 3104,
+      "candidateLine": 3142,
       "removed": [
         "        allow get: if ssjrEntitled(rivalryId) || cmsCompletedShowdownReadable(rivalryId);"
       ],
@@ -5555,7 +5662,7 @@
     },
     {
       "mainLine": 3379,
-      "candidateLine": 3131,
+      "candidateLine": 3169,
       "removed": [
         "        allow create, update: if ssjrMeterValidWrite(rivalryId, managerRole);"
       ],
@@ -5567,7 +5674,7 @@
     },
     {
       "mainLine": 3385,
-      "candidateLine": 3137,
+      "candidateLine": 3175,
       "removed": [
         "        allow get: if sessionCanRead(rivalryId, sessionId);",
         "        allow create: if validOpenSessionCreate(rivalryId, sessionId);",
@@ -5802,7 +5909,7 @@
     },
     {
       "mainLine": 3394,
-      "candidateLine": 3363,
+      "candidateLine": 3401,
       "removed": [
         "        allow get: if offerId == \"current\" && livePairedRivalryMember(rivalryId);",
         "        allow create, update: if validSessionOfferWrite(rivalryId, offerId);"
