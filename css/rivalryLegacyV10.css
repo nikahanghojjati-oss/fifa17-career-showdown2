@@ -1807,3 +1807,66 @@
 @media (max-width:900px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyViewToggle { align-self:start; }
 }
+
+/* Studio Small Axe History finder, Fable job 20 lines under 5 (2026-11-04).
+   Type: every toolbar label, the GO TO note, the list's club names and the phone result/seasons cells are 12px.
+   Buttons: CARDS / LIST is the one segmented control style the game already uses (Career Statistics' TABLE / COMPARE /
+   LEADERS: one gold edge, hairline dividers, the chosen segment gold). Filter chips are the quiet rank and show their
+   choice with a gold outline, so gold fill stays with the primary. GO is the secondary rank (gold outline, gold text).
+   Panels: list rows are marble strips with the panel border. States: the GO TO note reads as an inline error (warm red
+   rule); an empty filter shows an icon and "No draws yet." in the middle of the panel. Motion: the list body fades in
+   over 120 ms when the filter or view changes (opacity from .4, never 0), off under both Reduce Motion settings. */
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button,
+#app #legacy[data-rivalry-legacy-v10] .legacyJump label,
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote,
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide small { font-size:12px; }
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] :is(.legacyListResult,.legacyListSeasons) { font-size:12px; }
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle {
+  gap:0; border:1px solid rgba(245,197,24,.58); background:rgba(7,8,10,.82);
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle button {
+  border:0; border-right:1px solid rgba(245,197,24,.24); border-radius:0; background:transparent; box-shadow:none; color:#b9b3a4;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle button:last-child { border-right:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle button[aria-pressed="true"] {
+  color:#07080a; border-color:rgba(245,197,24,.24); background:linear-gradient(135deg,#ffe07e,#f5c518 58%,#d4a017); box-shadow:none;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button { color:#d8cebb; background:rgba(7,8,10,.72); border-color:#d9aa3c40; }
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button[aria-pressed="true"] {
+  color:#ffe58f; background:rgba(7,8,10,.72); border-color:#f2c45b; box-shadow:inset 0 0 0 1px #f2c45b;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyJump button {
+  color:var(--sd-gold-300,#ffe58f); background:rgba(8,9,12,.9); border:1px solid #d9aa3c; box-shadow:none;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote:not(:empty) {
+  padding:2px 0 2px 8px; border-left:2px solid #d9603c; color:#ffb4a0; line-height:16px;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow {
+  background:linear-gradient(180deg,rgba(24,22,19,.94),rgba(7,7,8,.94)); border:1px solid rgba(217,170,60,.55);
+  box-shadow:inset 0 1px rgba(255,236,170,.12);
+}
+@media (hover:hover) {
+  #app #legacy[data-rivalry-legacy-v10] button.legacyListRow:hover { border-color:#f2c45b; }
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyCardGrid:has(> .legacyListEmpty:only-child) { align-content:center; min-height:100%; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListEmpty {
+  display:flex; flex-direction:column; align-items:center; gap:10px; justify-self:center; width:min(420px,100%);
+  border:1px dashed rgba(217,170,60,.45); background:rgba(0,0,0,.28); color:#d8cebb; font-size:14px; letter-spacing:.06em;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListEmpty::before {
+  content:""; width:24px; height:24px; background:#d9aa3c;
+  -webkit-mask:var(--sa-ic-circle-dashed) center / contain no-repeat; mask:var(--sa-ic-circle-dashed) center / contain no-repeat;
+}
+@keyframes sa-list-fade { from { opacity:.4; } to { opacity:1; } }
+@media (prefers-reduced-motion:no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid[data-view="list"] > :is(.legacyListRow,.legacyListEmpty) {
+    animation:sa-list-fade 120ms ease-out both;
+  }
+}
+@media (max-width:900px) {
+  /* the toolbar's GO TO label and the CARDS segment sat 2px inside the panel's gold edge */
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { padding-inline:8px; }
+}

@@ -387,6 +387,9 @@ window.ShowdownLegacyBoot = function () {
   function archiveFilterLabel(filter) {
     return ({ daniel: "Daniel wins", nik: "Nik wins", draw: "Draws", golden: "Golden" })[filter] || "this filter";
   }
+  function archiveEmptyLine(filter) {
+    return ({ daniel: "No Daniel wins yet.", nik: "No Nik wins yet.", draw: "No draws yet.", golden: "No Golden Showdowns yet." })[filter] || "No Showdowns here yet.";
+  }
   const PHONE_CARD_WINDOW = 3;
   function renderArchive(frame, strings) {
     const grid = document.getElementById("legacyCardGrid");
@@ -547,6 +550,7 @@ window.ShowdownLegacyBoot = function () {
       note.id = "legacyJumpNote";
       note.className = "legacyJumpNote";
       note.setAttribute("role", "status");
+      note.setAttribute("role", "status");
       note.setAttribute("aria-live", "polite");
       jump.append(label, input, go, note);
       jump.addEventListener("submit", (event) => {
@@ -702,7 +706,7 @@ window.ShowdownLegacyBoot = function () {
           const empty = document.createElement("p");
           empty.className = "legacyListEmpty";
           empty.setAttribute("role", "status");
-          empty.textContent = "No Showdowns match " + archiveFilterLabel(prefs.filter) + ".";
+          empty.textContent = archiveEmptyLine(prefs.filter);
           grid.appendChild(empty);
         }
         visible.forEach((item) => grid.appendChild(listRow(item)));
