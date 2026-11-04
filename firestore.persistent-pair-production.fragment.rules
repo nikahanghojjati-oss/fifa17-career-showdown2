@@ -569,7 +569,7 @@
         && activeAccount(request.auth.uid)
         && 'terminalClose' in data
         && ssjrTerminalValidIntent(rivalryId, data.terminalClose)
-        && ssjrTerminalProgressShape(progress)
+        && ssjrTerminalProgressShape(progress, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])
         && (progress.acceptedThroughSeason == progress.totalSeasons || 'sacked' in progress)
         && progress.closedSessionRevision is int
         && data.terminalClose.totalSeasons == progress.totalSeasons

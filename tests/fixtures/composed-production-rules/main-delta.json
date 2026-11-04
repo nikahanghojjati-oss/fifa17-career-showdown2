@@ -8,9 +8,9 @@
     "bytes": 180528
   },
   "candidate": {
-    "sha256": "3133403098c72ed2482f8a338abd2550c8f1203cc9e3454ccd2438f673e64ffc",
-    "gitBlobSha1": "647f4c3c33e3a44735adb8bff3d4857017f08874",
-    "bytes": 184265
+    "sha256": "7c01bc45c9b535548f0431931e5133114193ec8e361339d26a956ff75a7c285a",
+    "gitBlobSha1": "755e3b8b5bcebc22a2299e47c7e1e2e578743b0d",
+    "bytes": 185260
   },
   "allowedOwners": [
     "R89-SACKED"
@@ -88,31 +88,48 @@
       "added": [
         "    // r89 Sacked: the Terminal Progress carries sacked:{playerOne,playerTwo} exactly when the season it accepts has a",
         "    // sacked result (either manager); its bools equal the commit's. No further season is accepted after it. No extra read:",
-        "    // the commit is the one the progress step already gets.",
+        "    // the commit is the one the progress step already gets. A committed result holds 'sacked' only as true (the commit",
+        "    // rules), so 'sacked' in a result is the tick. The progress record's own key is the guard: a Showdown nobody was",
+        "    // sacked in pays only the two key tests (the 1,000-expression budget of the last progress write).",
         "    function ssjrTerminalSackedMatches(progress, commit) {",
-        "      let p1 = commit.results.playerOne.get('sacked', false) == true;",
-        "      let p2 = commit.results.playerTwo.get('sacked', false) == true;",
-        "      return (p1 || p2) ? progress.get('sacked', null) == {'playerOne': p1, 'playerTwo': p2} : !('sacked' in progress);",
+        "      return ('sacked' in progress)",
+        "        ? progress.sacked == {'playerOne': 'sacked' in commit.results.playerOne, 'playerTwo': 'sacked' in commit.results.playerTwo}",
+        "          && progress.sacked != {'playerOne': false, 'playerTwo': false}",
+        "        : !('sacked' in commit.results.playerOne) && !('sacked' in commit.results.playerTwo);",
         "    }"
       ],
       "owner": "R89-SACKED",
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
+      "mainLine": 759,
+      "candidateLine": 778,
+      "removed": [
+        "    function ssjrTerminalProgressShape(progress) {"
+      ],
+      "added": [
+        "    // r89 Sacked: the caller names the keys a record may hold, so a prior record (the one being advanced) may not hold",
+        "    // 'sacked' (no season is accepted after a sacked one) at no extra test.",
+        "    function ssjrTerminalProgressShape(progress, keys) {"
+      ],
+      "owner": "R89-SACKED",
+      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
       "mainLine": 761,
-      "candidateLine": 777,
+      "candidateLine": 782,
       "removed": [
         "        && progress.keys().hasOnly(['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'])"
       ],
       "added": [
-        "        && progress.keys().hasOnly(['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])"
+        "        && progress.keys().hasOnly(keys)"
       ],
       "owner": "R89-SACKED",
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 1455,
-      "candidateLine": 1471,
+      "candidateLine": 1476,
       "removed": [],
       "added": [
         "                'endedBy','sacked',"
@@ -122,7 +139,7 @@
     },
     {
       "mainLine": 1463,
-      "candidateLine": 1480,
+      "candidateLine": 1485,
       "removed": [
         "              && intent.completedSeason == intent.totalSeasons"
       ],
@@ -138,12 +155,14 @@
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
-      "mainLine": 1509,
-      "candidateLine": 1531,
+      "mainLine": 1508,
+      "candidateLine": 1535,
       "removed": [
+        "              && ssjrTerminalProgressShape(progress)",
         "              && progress.acceptedThroughSeason == progress.totalSeasons"
       ],
       "added": [
+        "              && ssjrTerminalProgressShape(progress, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])",
         "              && (progress.acceptedThroughSeason == progress.totalSeasons || 'sacked' in progress)"
       ],
       "owner": "R89-SACKED",
@@ -151,7 +170,7 @@
     },
     {
       "mainLine": 1515,
-      "candidateLine": 1537,
+      "candidateLine": 1542,
       "removed": [
         "            let total = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.terminalProgress.totalSeasons;"
       ],
@@ -164,7 +183,7 @@
     },
     {
       "mainLine": 1600,
-      "candidateLine": 1623,
+      "candidateLine": 1628,
       "removed": [
         "              && priorProgress.acceptedThroughSeason == priorProgress.totalSeasons"
       ],
@@ -177,40 +196,54 @@
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
-      "mainLine": 1640,
+      "mainLine": 1635,
       "candidateLine": 1665,
-      "removed": [],
+      "removed": [
+        "            return ssjrTerminalProgressShape(prior)"
+      ],
       "added": [
-        "              && !('sacked' in prior)"
+        "            return ssjrTerminalProgressShape(prior, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'])"
       ],
       "owner": "R89-SACKED",
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 1641,
-      "candidateLine": 1667,
+      "candidateLine": 1671,
       "removed": [],
       "added": [
-        "              && ssjrTerminalSackedMatches(progress, commit)"
+        "              && (('sacked' in progress) ? ssjrTerminalSackedMatches(progress, commit) : (!('sacked' in commit.results.playerOne) && !('sacked' in commit.results.playerTwo)))"
       ],
       "owner": "R89-SACKED",
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 1657,
-      "candidateLine": 1684,
+      "candidateLine": 1688,
       "removed": [],
       "added": [
         "              // r89 Sacked: checked before the commit and score terms, so a wrong or missing map is refused early (a refusal",
         "              // at the end of this path runs into the 1,000-expression limit; measured on the emulator).",
-        "              && ssjrTerminalSackedMatches(progress, commit)"
+        "              && (('sacked' in progress) ? ssjrTerminalSackedMatches(progress, commit) : (!('sacked' in commit.results.playerOne) && !('sacked' in commit.results.playerTwo)))"
+      ],
+      "owner": "R89-SACKED",
+      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
+    },
+    {
+      "mainLine": 1677,
+      "candidateLine": 1711,
+      "removed": [
+        "              && ssjrTerminalProgressShape(after.data.terminalProgress)"
+      ],
+      "added": [
+        "              && ssjrTerminalProgressShape(after.data.terminalProgress, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])"
       ],
       "owner": "R89-SACKED",
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played."
     },
     {
       "mainLine": 2503,
-      "candidateLine": 2533,
+      "candidateLine": 2537,
       "removed": [],
       "added": [
         "            // r89 Sacked: no Transfer War after a season in which either manager was sacked. Checked here, on the first mark of",

@@ -122,6 +122,12 @@ const SESSION="session_"+"c".repeat(64);
   assert.match(read("js/commentaryV3.js"),/sacked===true\)return null;/);
   const builder=read("scripts/build-production-firestore-rules.mjs");
   for(const needle of ["ssjrTerminalSackedMatches","ssjrTransferPreviousSeasonOpen","'sacked'"])assert.ok(builder.includes(needle),`builder needle ${needle}`);
+  // Expression budget (1,000 per request): a Showdown nobody was sacked in pays only the key tests on the progress write,
+  // the full map check runs only when the new record carries 'sacked', and the prior record's key list (no 'sacked') is
+  // what refuses a season after a sacked one. Measured on the emulator: season-10 progress ~929 against ~904 without Sacked.
+  const terminal=read("firestore.terminal-close-production.fragment.rules");
+  assert.equal(terminal.split("&& (('sacked' in progress) ? ssjrTerminalSackedMatches(progress, commit) : (!('sacked' in commit.results.playerOne) && !('sacked' in commit.results.playerTwo)))").length,3,"both progress paths guard the Sacked check on the record's own key");
+  assert.ok(/return ssjrTerminalProgressShape\(prior, \['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'\]\)/.test(terminal),"the prior record may not hold 'sacked'");
   const sacked=require("../../data/gazetteSacked.js");
   assert.ok(sacked.stories.length>=20&&sacked.headlines.length>=10&&sacked.banter.length>=20,"the sacked Gazette lines are loaded");
   for(const file of ["js/productionSharedSeasonResults.js","js/seasonFinalV10.js","js/touchlineGazette.js","js/careerScreenSeam.js"])assert.doesNotMatch(read(file).split("SACKED")[1]||"",/onSnapshot\(/,`${file}: no new listener for Sacked`);
