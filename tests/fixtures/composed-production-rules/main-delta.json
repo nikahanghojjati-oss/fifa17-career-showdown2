@@ -1,16 +1,47 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. After the 2.1.0 deploy (main ae808444, ruleset b603ae60) the two are identical, so there are no hunks. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.2.0: main e6485d7d (2.1.0 Rules, ruleset b603ae60) plus the Chamber Men late-pick check (R89-CHAMBER-LATE). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "ae80844400a3ae90a11c1921d4095c8dcebb0c2e",
+    "commit": "e6485d7dca90ac1af096e9c87554089eebedb26a",
     "sha256": "3c0e2e3e41ed3da886b02988d0b84394fa45cf8f393f1616bce97b086d1e2cb8",
     "gitBlobSha1": "4928f4c57ed333ce1301b63d7192d50838f7f993",
     "bytes": 180528
   },
   "candidate": {
-    "sha256": "3c0e2e3e41ed3da886b02988d0b84394fa45cf8f393f1616bce97b086d1e2cb8",
-    "gitBlobSha1": "4928f4c57ed333ce1301b63d7192d50838f7f993",
-    "bytes": 180528
+    "sha256": "c7319417201f8cec300ae6009766e61ff2efa79a943d3d3678479a1ced6bebc8",
+    "gitBlobSha1": "2df25dd44fe2e2881f61efbb94b9e98a900c4b93",
+    "bytes": 181132
   },
-  "hunks": []
+  "allowedOwners": [
+    "R89-CHAMBER-LATE"
+  ],
+  "hunks": [
+    {
+      "mainLine": 2930,
+      "candidateLine": 2930,
+      "removed": [],
+      "added": [
+        "        // Codex C2 (2.2.0): a kick's clock runs from the rival's lock-in (the record's updatedAt while the rival is one letter",
+        "        // ahead): 10 s to pick plus the 4.6 s the last kick is shown, plus 2 s for the network. A letter that lands after that is",
+        "        // the timeout '-' (a shot misses, a dive stays in the middle), never a side picked late."
+      ],
+      "owner": "R89-CHAMBER-LATE",
+      "why": "Codex C2 on #1244 (r89 lead's request 2026-11-04): explains the Chamber Men late-pick check below; comment lines only."
+    },
+    {
+      "mainLine": 2956,
+      "candidateLine": 2959,
+      "removed": [
+        "            && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]');"
+      ],
+      "added": [
+        "            && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]')",
+        "            && (before.kicks[role].size() == before.kicks[other].size()",
+        "              || request.time <= before.updatedAt + duration.value(16600, 'ms')",
+        "              || after.kicks[role][before.kicks[role].size():after.kicks[role].size()] == '-');"
+      ],
+      "owner": "R89-CHAMBER-LATE",
+      "why": "Codex C2 on #1244 (r89 lead's request 2026-11-04): once the rival has locked in (his string one letter ahead), a Chamber Men letter that lands more than 16.6 s after his lock-in (10 s clock + 4.6 s reveal + 2 s network) may only be the timeout '-'. Narrows an existing update rule; no new grant, no lookup."
+    }
+  ]
 }
