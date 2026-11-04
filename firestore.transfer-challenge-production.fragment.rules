@@ -395,7 +395,10 @@
         // of this document and START needs both, so a refused first mark keeps the window shut. Early in the check, so the
         // refusal is an ordinary denial.
         && after.seasonNumber is int
+        // A missing previous commit keeps the older behaviour (no sacking can exist without one); the existence check and
+        // the read of the same document are one lookup.
         && (after.seasonNumber == 1
+          || !exists(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.seasonNumber - 1)))
           || ssjrTransferPreviousSeasonOpen(get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.seasonNumber - 1))).data))
         && ssjrTransferSpinShape(after, rivalryId, transferId)
         && ssjrEntitled(rivalryId)

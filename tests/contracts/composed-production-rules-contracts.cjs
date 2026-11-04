@@ -82,13 +82,10 @@ function staticChecks(getCandidate){
         // an allow line may change only by dropping call arguments: the same line, calls stripped to name(), must be
         // added back in the same hunk (and vice versa). Nothing else about a write rule may move under this owner.
         const stripCalls=line=>line.trim().replace(/\b([A-Za-z_]\w*)\((?:[^()]|\([^()]*\))*\)/g,'$1()');
-        // r89 Sacked: a hunk where a localized block also carries a Sacked line is owned 'R88-SLIM+R89-SACKED'; the slim
-        // pairing and moves still apply to it, and its new (non-moved) lines are still checked below.
-        const slimOwner=hunk.owner.split('+').includes('R88-SLIM');
-        const slimPair=(line,others)=>slimOwner&&others.some(o=>stripCalls(o)===stripCalls(line));
+        const slimPair=(line,others)=>hunk.owner==='R88-SLIM'&&others.some(o=>stripCalls(o)===stripCalls(line));
         for(const line of hunk.removed)assert.ok(!/allow\s+(create|update|list|delete|read|write)/.test(line)||slimPair(line,hunk.added),`delta removes a non-get rule: ${line}`);
         for(const line of hunk.added){
-          const moved=slimOwner&&movedLines.has(line.trim());
+          const moved=hunk.owner==='R88-SLIM'&&movedLines.has(line.trim());
           for(const [name,re] of h.BILLING_STRICT)assert.ok(moved||!re.test(line),`delta adds ${name}`);
           assert.ok(moved||!/billing/i.test(line),'delta adds a billing token');
           const m=line.match(/allow\s+([a-z, ]+?)\s*:/);
