@@ -782,6 +782,16 @@ function shirt(ctx,x,y,s,kit){ const k=Array.isArray(kit)?{pat:"solid",p:kit[0],
   ctx.restore();
   ctx.fillStyle=k.t; ctx.beginPath(); ctx.moveTo(-.21,-.5); ctx.lineTo(0,-.31); ctx.lineTo(.21,-.5); ctx.lineTo(.13,-.51); ctx.lineTo(0,-.4); ctx.lineTo(-.13,-.51); ctx.closePath(); ctx.fill();
   ctx.lineWidth=.035; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(body); ctx.restore(); }
+/* r89 Kits 17 (Nik 2026-11-04: "the same kit can be used in Russian Roulette as well"): the board's shirts are painted by js/kits17.js (every club's
+   2016-17 home kit with its crest, collar and sleeves; the keeper in a kit that never clashes with either side). The module and the crest drawings
+   (js/visualIdentity.js) are loaded with the scene's assets; if either is missing the board keeps the flat KIT17 shirt above, so the page never blanks. */
+let KITS=null;
+function kitShirt(ctx,x,y,s,club,pos,vsClub){ if(KITS){ try{ KITS.drawFlat(ctx,club.club,x,y,s,{role:pos==="GK"?"gk":"outfield",vsClub}); return; }catch(e){} } shirt(ctx,x,y,s,pos==="GK"?gkKitOf(club):kitOf(club)); }
+function loadScript(src){ return new Promise(res=>{ const el=document.createElement("script"); el.onload=()=>res(true); el.onerror=()=>res(false); el.src=src; document.head.appendChild(el); }); }
+async function loadKits(){ if(KITS||window.CareerModeKits17) return KITS=window.CareerModeKits17||KITS; const v=qs.get("v"), ver=v?"?v="+encodeURIComponent(v):"";
+  /* the game serves these two with its own version (same ?v as this page), so the service worker hands out the cached shell copies offline */
+  const ok=await Promise.race([Promise.all([loadScript("../../../js/visualIdentity.js"+ver),loadScript("../../../js/kits17.js"+ver)]).then(r=>r.every(Boolean)),new Promise(r=>setTimeout(()=>r(false),6000))]);
+  KITS=ok&&window.CareerModeKits17||null; return KITS; }
 function formationOf(xi){ const D=xi.filter(([p])=>/B$/.test(p)).length, A=xi.filter(([p])=>/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(p)).length; const M=xi.length-1-D-A; return `${D}-${M}-${A}`; }
 function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 const POS_COL=(pos)=>pos==="GK"?"#f2d23c":/B$/.test(pos)?"#3f86e8":/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(pos)?"#e8502f":"#4fc74d";
@@ -793,17 +803,17 @@ function fitText(ctx,text,weight,size,minSize,maxW){ let fs=size, t=String(text)
 function textShadow(ctx,on){ ctx.shadowColor=on?"rgba(0,0,0,.85)":"transparent"; ctx.shadowBlur=on?5:0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=on?2:0; }
 /* one starter: shadow on the grass, shirt, overall at the shirt's left, a green bar (overall out of 99) and the surname; the selected
    player (the one the barrel is on) gets the game's yellow name plate and a glow under the shirt */
-function playerCard(ctx,sp,kit,sel){ const {x,y,s}=sp;
+function playerCard(ctx,sp,club,vsClub,sel){ const {x,y,s}=sp;
   if(sel){ const g=ctx.createRadialGradient(x,y+s*.45,4,x,y+s*.45,s*.95); g.addColorStop(0,"rgba(255,226,80,.85)"); g.addColorStop(1,"rgba(255,226,80,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(x,y+s*.45,s*.95,s*.42,0,0,7); ctx.fill(); }
   ctx.fillStyle="rgba(0,0,0,.28)"; ctx.beginPath(); ctx.ellipse(x,y+s*.52,s*.46,s*.1,0,0,7); ctx.fill();
-  shirt(ctx,x,y,s,kit);
+  kitShirt(ctx,x,y,s,club,sp.pos,vsClub);
   ctx.textBaseline="middle"; ctx.textAlign="right"; textShadow(ctx,true); ctx.font=`800 ${Math.round(s*.54)}px 'Barlow Condensed'`; ctx.fillStyle="#fff"; ctx.fillText(String(sp.rating),x-s*.6,y+s*.16);
   ctx.font=`700 ${Math.round(s*.3)}px 'Barlow Condensed'`; ctx.fillStyle="#fff"; ctx.fillText("↗",x-s*.66,y-s*.24); textShadow(ctx,false);
   const bw=s*1.34, bh=Math.max(4,s*.1), by=y+s*.6; ctx.fillStyle="rgba(8,22,10,.8)"; ctx.fillRect(x-bw/2,by,bw,bh); ctx.fillStyle="#46cf3a"; ctx.fillRect(x-bw/2+1,by+1,(bw-2)*Math.min(1,sp.rating/99),bh-2);
   const ny=by+bh+s*.36; ctx.textAlign="center";
   if(sel){ const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); const w=ctx.measureText(t).width+s*.5, h=s*.52; roundRect(ctx,x-w/2,ny-h/2,w,h,h*.22); ctx.fillStyle="#f6d13a"; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="rgba(0,0,0,.45)"; ctx.stroke(); ctx.fillStyle="#15171b"; ctx.fillText(t,x,ny+1); }
   else { const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); textShadow(ctx,true); ctx.fillStyle="#fff"; ctx.fillText(t,x,ny+1); textShadow(ctx,false); } }
-function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; const kit=kitOf(club), gkKit=gkKitOf(club); b.bubbles.length=0; b.club=club;
+function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; b.bubbles.length=0; b.club=club; const other=boards[key==="D"?"N":"D"].userData.club, vsClub=other&&other!==club?other.club:undefined;
   const form=(club.formation||formationOf(club.xi));
   ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H); ctx.textBaseline="middle";
   { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b1e24"); g.addColorStop(1,"#101216"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
@@ -815,7 +825,7 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   { const g=ctx.createLinearGradient(0,50,0,162); g.addColorStop(0,"#f2f4f6"); g.addColorStop(1,"#d6dade"); ctx.fillStyle=g; ctx.fillRect(0,50,W,112);
     ctx.save(); ctx.beginPath(); ctx.arc(150,104,48,0,7); ctx.clip(); ctx.strokeStyle="rgba(240,196,48,.75)"; ctx.lineWidth=3; for(let i=-6;i<8;i++){ ctx.beginPath(); ctx.moveTo(100+i*12,160); ctx.lineTo(160+i*12,48); ctx.stroke(); } ctx.restore();
     ctx.fillStyle=POS_COL(best[0]); ctx.beginPath(); ctx.arc(30,88,8,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 32px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(best[0],44,89);
-    shirt(ctx,150,98,62,best[0]==="GK"?gkKit:kit);
+    kitShirt(ctx,150,98,62,club,best[0],vsClub);
     ctx.font="800 76px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(String(best[2]),196,96);
     ctx.fillStyle="#2b3038"; ctx.fillRect(24,129,270,8); ctx.fillStyle="#46cf3a"; ctx.fillRect(25,130,268*Math.min(1,best[2]/99),6);
     ctx.textAlign="center"; ctx.fillStyle="#22252b"; ctx.fillText(fitText(ctx,surname(best[1]),700,30,22,270),159,150);
@@ -842,7 +852,7 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   spots.forEach(sp=>{ const li=lines.findIndex(L=>L.includes(sp.fy)); sp.y=lines.length>1?yTop+li*step:yBot; sp.s=S0*(.92+.14*kOf(sp.y)); sp.x=X(.07+sp.u*.86,sp.y+sp.s*.5); sp.li=li; });
   spots.forEach(sp=>{ let gap=Infinity; spots.forEach(o=>{ if(o!==sp&&o.li===sp.li) gap=Math.min(gap,Math.abs(o.x-sp.x)); }); sp.nameW=Math.min(sp.s*3.4,gap-10); });
   spots.sort((a,c)=>a.y-c.y||a.x-c.x).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); });
-  spots.forEach(sp=>{ const i=b.bubbles.findIndex(q=>q.slot===sp.num-1); playerCard(ctx,sp,sp.pos==="GK"?gkKit:kit,b.sel===i&&!(b.hit&&b.hit.i===i)); });
+  spots.forEach(sp=>{ const i=b.bubbles.findIndex(q=>q.slot===sp.num-1); playerCard(ctx,sp,club,vsClub,b.sel===i&&!(b.hit&&b.hit.i===i)); });
   /* the bench: a strip of cards under the pitch */
   const BT=636; ctx.fillStyle="#23272e"; ctx.fillRect(0,BT,W,32); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",22,BT+17); ctx.textAlign="right"; ctx.font="600 21px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("BENCH · "+club.subs.length,W-22,BT+17);
   const subs=club.subs.slice(0,4), gapC=10, cw=(W-44-gapC*3)/4, cy=BT+38, ch=H-cy-6;
@@ -850,7 +860,7 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
     const idx=11+i, bi=b.bubbles.length, sx=cx+cw*.5, sy=cy+38; b.bubbles.push({slot:idx,x:sx,y:sy,name,pos,rating,u:sx/W,v:1-sy/H}); const sel=b.sel===bi&&!(b.hit&&b.hit.i===bi);
     if(sel){ roundRect(ctx,cx,cy,cw,ch,6); ctx.lineWidth=3; ctx.strokeStyle="#f6d13a"; ctx.stroke(); }
     ctx.fillStyle=POS_COL(pos); ctx.beginPath(); ctx.arc(cx+18,cy+22,6,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 23px 'Barlow Condensed'"; ctx.fillStyle="#d9dce1"; ctx.fillText(pos,cx+29,cy+23);
-    shirt(ctx,sx,sy,44,pos==="GK"?gkKit:kit);
+    kitShirt(ctx,sx,sy,44,club,pos,vsClub);
     ctx.textAlign="right"; ctx.font="800 42px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),cx+cw-14,cy+36);
     ctx.fillStyle="rgba(8,22,10,.8)"; ctx.fillRect(cx+14,cy+66,cw-28,5); ctx.fillStyle="#46cf3a"; ctx.fillRect(cx+15,cy+67,(cw-30)*Math.min(1,rating/99),3);
     /* Fable F11-19: a long bench surname shrinks, then ends in an ellipsis, and never runs past its card */
@@ -868,7 +878,9 @@ function boardTargetWorld(key,bubble){ return boardHitPoint(key,bubble); }
 
 /* squads */
 let SQUADS=null; const clubByName=(n)=>SQUADS&&SQUADS.clubs.find(c=>c.club.toLowerCase()===String(n).toLowerCase())||SQUADS&&SQUADS.clubs[0];
-function setBoards(dClub,nClub){ if(!SQUADS) return; const d=clubByName(dClub), n=clubByName(nClub); boards.D.userData.hit=null; boards.N.userData.hit=null; boards.D.userData.sel=null; boards.N.userData.sel=null; drawBoard("D",d); drawBoard("N",n); }
+function setBoards(dClub,nClub){ if(!SQUADS) return; const d=clubByName(dClub), n=clubByName(nClub); boards.D.userData.hit=null; boards.N.userData.hit=null; boards.D.userData.sel=null; boards.N.userData.sel=null; boards.D.userData.club=d; boards.N.userData.club=n; drawBoard("D",d); drawBoard("N",n);
+  /* r89 Kits 17: the crests decode in a moment; the boards are drawn again with them unless a turn has started or the clubs changed meanwhile */
+  if(KITS) KITS.prepare([d.club,n.club]).then(()=>{ if(playing||boards.D.userData.club!==d||boards.N.userData.club!==n) return; drawBoard("D",d); drawBoard("N",n); }).catch(()=>{}); }
 
 /* ================= particles: smoke, splinters, dust, flash ================= */
 const smokes=[]; const smokeMat=new T.SpriteMaterial({map:smokeT, transparent:true, depthWrite:false, opacity:.5, color:0xd8d0c0});
@@ -1184,7 +1196,7 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
 
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
-async function loadAssets(){ const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx);
+async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
   const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),loadLookEnv()]);
   { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq;
@@ -1268,7 +1280,7 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ get cylZ(){ return cyl.rotation.z; }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
+window.__rr={ get cylZ(){ return cyl.rotation.z; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardTargetWorld(playing.who,playing.target).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, hasGunTop, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, fps, pixelRatio:prNow, hasRoom, bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
