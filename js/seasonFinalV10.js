@@ -407,10 +407,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // button) and "OF N · SACKED" under the seasons played. The winner still comes only from the totals.
   function sfSackedMarks(final,frame){
     const sacked=frame?.sacked;final.dataset.endedBy=sacked?"sacked":"full";
-    final.querySelectorAll?.(".v10SackedStamp")?.forEach?.(node=>node.remove());if(!sacked)return;
-    for(const manager of ["daniel","nik"]){if(sacked[manager]!==true)continue;const host=final.querySelector(`.finalWinnerManager--${manager}`),name=final.querySelector(`#${manager}Name`);if(!host||!name)continue;const stamp=root.document.createElement("em");stamp.className="v10SackedStamp";stamp.textContent="SACKED";name.after(stamp);}
+    final.querySelectorAll?.(".v10SackedStamp")?.forEach?.(node=>node.remove());final.querySelectorAll?.(".v10SackedManager")?.forEach?.(node=>node.classList.remove("v10SackedManager"));if(!sacked)return;
+    for(const manager of ["daniel","nik"]){if(sacked[manager]!==true)continue;const host=final.querySelector(`.finalWinnerManager--${manager}`),name=final.querySelector(`#${manager}Name`);if(!host||!name)continue;const stamp=root.document.createElement("em");stamp.className="v10SackedStamp";stamp.textContent="SACKED";name.after(stamp);host.classList.add("v10SackedManager");}
     const played=final.querySelector("#panelSeasons")?.parentElement?.querySelector?.("small");if(played)played.textContent=`OF ${sacked.totalSeasons} · SACKED`;
-    const line=final.querySelector("#seasonsPlayed");if(line)line.textContent=`Ended after season ${sacked.season} of ${sacked.totalSeasons} · sacked`;
   }
   // Open the phone tab on the signed-in manager's own card. The provider view can load after the skin mounts,
   // so fall back to the one card the provider left visible, and re-check whenever a card's class changes.
@@ -427,8 +426,13 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     const parent=doc?.head||doc?.documentElement;if(!parent||typeof doc.createElement!=="function"||doc.getElementById?.("v10SeasonCardRule"))return;
     const style=doc.createElement("style");style.id="v10SeasonCardRule";
     style.textContent="@media(max-width:900px){#app #seasonEntry.seasonScreenV10>.v10SeasonStage :is(#daniel-entry-panel,#nik-entry-panel):not(.hidden){display:grid!important}}" + `
-/* r89 Sacked: a stamp in the totals band under the manager's name (never over a face or a button; no dimming). */
-#app .v10FinalStage .finalWinnerManager .v10SackedStamp{display:inline-block;margin:3px 0 2px;padding:2px 7px;font:800 10px/1.15 var(--sd-font-condensed,inherit);font-style:normal;letter-spacing:.2em;color:#fff4f1;background:#9b2530;border:1px solid #f2c45b;border-radius:2px;text-shadow:none}
+/* r89 Sacked: a stamp on the manager's name row, beside the name, so it adds no height and the totals never move under
+   the results panel (never over a face or a button; no dimming). */
+#app .v10FinalStage .finalWinnerManager.v10SackedManager{grid-template-columns:auto auto;column-gap:5px;justify-content:center}
+#app .v10FinalStage .finalWinnerManager.v10SackedManager>*{grid-column:1/-1}
+#app .v10FinalStage .finalWinnerManager.v10SackedManager>small{grid-column:1;grid-row:1;justify-self:end;align-self:center}
+#app .v10FinalStage .finalWinnerManager.v10SackedManager>.v10SackedStamp{grid-column:2;grid-row:1;justify-self:start;align-self:center}
+#app .v10FinalStage .finalWinnerManager .v10SackedStamp{display:inline-block;margin:0;padding:1px 5px;font:800 9px/1 var(--sd-font-condensed,inherit);font-style:normal;letter-spacing:.18em;color:#fff4f1;background:#9b2530;border:1px solid #f2c45b;border-radius:2px;text-shadow:none;white-space:nowrap}
 /* JOB-1206/1207/1208: upright 360x640, 390x844 and 430x932 entry + review; main remains the only scroll owner. */
 @media (min-width:340px) and (max-width:370px) and (min-height:600px) and (max-height:680px) and (orientation:portrait),
        (min-width:380px) and (max-width:400px) and (min-height:810px) and (max-height:870px) and (orientation:portrait),
