@@ -830,18 +830,30 @@
   :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 11); }
 }
 /* Season Results review: the two SEASON SCORE plaques are the answer of the whole board, but they sat as quietly as the
-   rows above them. They now light up once as the board appears (a 900 ms gold glow that settles to their resting glow),
+   rows above them. They now light up once as the board appears (a 320 ms gold glow, the second plaque 120 ms later, that settles to a visible resting glow),
    so the eye lands on the two scores first. Light only, no size or layout change; off under Reduce Motion. */
 @keyframes sa-plaque-light {
-  0% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 0 rgb(242 196 91 / 0); text-shadow: none; }
+  0% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28); text-shadow: none; }
   45% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), inset 0 0 18px rgb(255 214 120 / .35), 0 0 26px rgb(242 196 91 / .55); text-shadow: 0 0 12px rgb(255 214 120 / .8); }
-  100% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 12px rgb(242 196 91 / .18); text-shadow: none; }
+  100% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28); text-shadow: none; }
+}
+/* Resting glow (Fable job 20): the plaques keep a visible gold halo after the light passes, with or without motion. */
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewTotal {
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28);
 }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden) .seasonReviewTotal {
-    animation: sa-plaque-light 900ms cubic-bezier(.2, .8, .2, 1) 350ms 1 both;
+    animation: sa-plaque-light 320ms cubic-bezier(.2, .8, .2, 1) 1 both;
   }
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden) #seasonReviewTwo .seasonReviewTotal {
-    animation-delay: 470ms;
+    animation-delay: 120ms;
   }
+}
+/* 4v.1 Rule Book type floor (Fable job 20): the CAREER MODE SHOWDOWN kicker and THE RULES tagline drew at 10.3-11.5px on
+   desktops under 1920 wide, and the SP tag at 11px; all three now hold 12px. */
+@media (min-width:1200px) and (max-width:1919px) {
+  :root #app #ruleBook.v10RuleBook .ruleBookHero > :is(.sd-eyebrow, .sd-tagline) { font-size:12px; }
+}
+@media (min-width:1200px) {
+  :root #app #ruleBook.v10RuleBook .ruleSpecialPlayerTag { font-size:12px; }
 }
