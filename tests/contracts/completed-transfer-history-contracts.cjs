@@ -214,11 +214,14 @@ function structuredCloneWithTs(value){if(value&&typeof value.toMillis==='functio
   // K10. Composed artifact: both builds pass; the transfer grant sits on exactly two get lines, roles are phase-gated
   for(const script of ['scripts/build-production-firestore-rules.mjs','scripts/build-production-firestore-rules-with-persistent-pair.mjs']){const run=spawnSync(process.execPath,[script],{cwd:root,encoding:'utf8',timeout:30000});assert.equal(run.status,0,run.stderr);}
   const generated=read('firestore.spark.generated.rules');
-  assert.equal((generated.match(/allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedSeasonReadable\(rivalryId, transferId\);/g)||[]).length,1,'public challenge get');
-  assert.match(generated,/allow get: if ssjrTransferPrivateReadable\(rivalryId, transferId, managerRole\)\n\s+\|\| \(managerRole in \['playerOne', 'playerTwo'\] && cmsCompletedTransferRoleReadable\(rivalryId, transferId\)\);/);
+  assert.equal((generated.match(/allow get: if ssjrEntitled\((rivalryId)?\) \|\| cmsCompletedSeasonReadable\((rivalryId, )?transferId\);/g)||[]).length,1,'public challenge get');
+  assert.match(generated,/allow get: if ssjrTransferPrivateReadable\((rivalryId, transferId, managerRole)?\)\n\s+\|\| \(managerRole in \['playerOne', 'playerTwo'\] && cmsCompletedTransferRoleReadable\((rivalryId, transferId)?\)\);/);
   const transferAt=generated.indexOf('match /transferChallenges/{transferId}'),rolesAt=generated.indexOf('match /roles/{managerRole}',transferAt),transferEnd=generated.indexOf('// SSJR_TRANSFER_CHALLENGE_MATCH_END');
   assert.ok(transferAt>0&&rolesAt>transferAt&&transferEnd>rolesAt);
-  assert.doesNotMatch(generated.slice(rolesAt,transferEnd),/cmsCompleted(Showdown|Season)Readable/,'roles never get the blanket season grant (S2C-005R2 §4)');
+  // Only the allow lines: the localize build step declares cmsCompletedTransferRoleReadable (whose body names the season
+  // grant behind the COMPLETED condition) inside this block.
+  const rolesAllows=generated.slice(rolesAt,transferEnd).split('\n').filter(line=>/\ballow\b/.test(line)).join('\n');
+  assert.doesNotMatch(rolesAllows,/cmsCompleted(Showdown|Season)Readable/,'roles never get the blanket season grant (S2C-005R2 §4)');
   assert.equal(/allow (create|update|delete|list|write)[^\n]*cmsCompleted/.test(generated),false,'no write, list or delete rule mentions a completed grant');
   for(const [match,granted] of [['match /sharedSetup/leagueProjection',false],['match /careerStart/authoritative',false],['match /sessions/{sessionId}',false],['match /invites/{inviteId}',false],['match /state/authoritative',false],['match /transferChallenges/{transferId}',true]]){
     const at=generated.indexOf(match);assert.ok(at>=0,match);const getLine=generated.slice(at).split('\n').find(line=>line.includes('allow get'));assert.equal(/cmsCompleted/.test(getLine),granted,match);

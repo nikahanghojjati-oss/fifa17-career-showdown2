@@ -105,8 +105,7 @@
       let progress = after.data.terminalProgress;
       let setup = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sharedSetup/authoritative).data;
       let commit = get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/season_1).data;
-      return ssjrTerminalProgressShape(progress)
-        && progress.acceptedThroughSeason == 1
+      return progress.acceptedThroughSeason == 1
         && progress.closedSessionRevision == null
         && setup.schemaVersion == 1
         && setup.objectType == 'sharedSetupLedger'
@@ -125,7 +124,6 @@
       let seasonId = ssjrTerminalSeasonId(nextSeason);
       let commit = get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$(seasonId)).data;
       return ssjrTerminalProgressShape(prior)
-        && ssjrTerminalProgressShape(progress)
         && prior.closedSessionRevision == null
         && progress.closedSessionRevision == null
         && progress.totalSeasons == prior.totalSeasons
@@ -149,6 +147,9 @@
         && ((after.revision == before.revision + 1) ? (ssjrTerminalFinalEnvelopeCas(before, after, 'rivalry', rivalryId)
         && after.data.diff(before.data).affectedKeys().hasOnly(['terminalProgress'])
         && ssjrTerminalProgressActorValid(before, after)
+        // r88 Rules slimming: the new progress record's shape is checked once here for both branches (it was the first
+        // conjunct of each); same conjunction per branch, same writes allowed and denied, one expansion fewer per branch.
+        && ssjrTerminalProgressShape(after.data.terminalProgress)
         && (
           (!('terminalProgress' in before.data) && ssjrTerminalInitialProgress(rivalryId, before, after))
           || ('terminalProgress' in before.data && ssjrTerminalAdvanceProgress(rivalryId, before, after))
