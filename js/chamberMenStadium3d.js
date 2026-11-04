@@ -147,6 +147,7 @@
     const boards=[];
     const boardMat=t=>{t.wrapS=T.RepeatWrapping;t.colorSpace=T.SRGBColorSpace;const m=keep(new T.MeshBasicMaterial({map:t,color:new T.Color(1.15,1.15,1.15),toneMapped:true}));boards.push(m);return m;};
     const bA=boardMat(tex.boardA),bB=boardMat(tex.boardB),bC=boardMat(tex.boardC);
+    const boardTex=[tex.boardA,tex.boardB,tex.boardC];let boardStep=-1;
     const backBoardMat=keep(new T.MeshStandardMaterial({color:new T.Color(.05,.05,.055),roughness:.6}));
     // A run of 8 m boards along local x, facing local +z, leaning back a little; parent places and turns the run.
     const boardRun=(parent,x0,x1,mats)=>{
@@ -241,7 +242,7 @@
       aCell[i]=Math.floor(rnd()*96);aPhase[i]=rnd()*6.283;
       // Behind the goal is the home end; the away end sits in one corner of the left stand.
       const awayEnd=f.si===3||(f.si===1&&f.p.z>75);// the away fans: the far end and the far corner of the left stand
-      const c=awayEnd?away:(rnd()<.85?home:new T.Color(.92,.92,.92));
+      const c=awayEnd?away:(rnd()<.85?home:new T.Color(.7,.7,.72));// neutral shirts in soft grey, not paper white
       // Vary the shade a little so the shirts do not read as one flat block.
       const k=.82+rnd()*.3;aTint[i*3]=c.r*k;aTint[i*3+1]=c.g*k;aTint[i*3+2]=c.b*k;
       aOff[i*4]=f.p.x;aOff[i*4+1]=f.p.y;aOff[i*4+2]=f.p.z;aOff[i*4+3]=f.yaw;
@@ -252,11 +253,11 @@
     for(let i=0;i<N;i+=1){dummy.position.set(aOff[i*4],aOff[i*4+1],aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.updateMatrix();
       const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=0;inst.setMatrixAt(i,dummy.matrix);
       inst.setColorAt(i,new T.Color(aTint[i*3],aTint[i*3+1],aTint[i*3+2]));}
-    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)}};
+    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.055,.055,.065)}};
     const crowdMat=keep(new T.ShaderMaterial({
       uniforms:{...crowdUniforms,fogColor:{value:new T.Color(0,0,0)},fogNear:{value:1},fogFar:{value:2000},fogDensity:{value:.00025}},fog:true,
       vertexShader:[
-        "uniform float uTime;uniform float uExcite;varying vec2 vUv;varying vec3 vTint;varying float vShade;",
+        "uniform float uTime;uniform float uExcite;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;",
         "#include <fog_pars_vertex>",
         "void main(){",
         " mat4 m=instanceMatrix;float cell=m[0][3],phase=m[1][3];m[0][3]=0.0;m[1][3]=0.0;m[2][3]=0.0;",
@@ -272,14 +273,19 @@
         // Floodlit at the front, darker toward the back under the roof; a little light-to-light variation per fan.
         " vec3 wp=(m*vec4(0.0,0.0,0.0,1.0)).xyz;float back=length(wp.xz-vec2(0.0,52.5))-50.0;",
         " vShade=mix(1.05,.55,smoothstep(0.0,32.0,back+wp.y*.6))*(.85+.3*h);",
-        " vec4 mvPosition=modelViewMatrix*m*vec4(p,1.0);gl_Position=projectionMatrix*mvPosition;",
+        " vec4 mvPosition=modelViewMatrix*m*vec4(p,1.0);gl_Position=projectionMatrix*mvPosition;vDist=-mvPosition.z;",
         " #include <fog_vertex>",
         "}"].join("\n"),
       fragmentShader:[
-        "uniform sampler2D uAtlas;uniform sampler2D uTint;uniform vec3 uLight;varying vec2 vUv;varying vec3 vTint;varying float vShade;",
+        "uniform sampler2D uAtlas;uniform sampler2D uTint;uniform vec3 uLight;uniform vec3 uHaze;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;",
         "#include <fog_pars_fragment>",
-        "void main(){vec4 c=texture2D(uAtlas,vUv);if(c.a<.5)discard;float k=texture2D(uTint,vUv).r;",
-        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade;gl_FragColor=vec4(rgb,1.0);",
+        // A slightly softer mip (bias .7): a TV stand reads as soft texture, not sharp speckle.
+        "void main(){vec4 c=texture2D(uAtlas,vUv,.7);if(c.a<.5)discard;float k=texture2D(uTint,vUv,.7).r;",
+        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade;",
+        // FIFA 17 stands are soft: less saturation and contrast, highlights held down, and a floodlight haze that grows with
+        // distance so the back rows melt into the stand.
+        " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.7);rgb=rgb*.8/(1.0+rgb*.6);",
+        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.55);gl_FragColor=vec4(rgb,1.0);",
         " #include <tonemapping_fragment>",
         " #include <colorspace_fragment>",
         " #include <fog_fragment>",
@@ -323,8 +329,9 @@
     function hitNet(x,y,speed){net.x=x;net.y=y;net.t0=crowdUniforms.uTime.value;net.amp=Math.min(1,(speed||20)/25);}
     function update(t,excite){
       crowdUniforms.uTime.value=t;crowdUniforms.uExcite.value=Math.max(0,Math.min(1,excite||0));
-      // Boards scroll slowly, the way LED boards cycle.
-      for(let i=0;i<boards.length;i+=1)boards[i].map.offset.x=(t*.02*(i%2?1:-1))%1;
+      // LED boards change picture together every 9 s (a hard cut, the way real ones flip), never scroll: scrolling slid
+      // the words across the joins between boards.
+      const step=Math.floor(t/9);if(step!==boardStep){boardStep=step;for(let i=0;i<boards.length;i+=1)boards[i].map=boardTex[(i+step)%boardTex.length];}
       // Net bulge: a damped push at the hit point.
       const pos=backGeo.attributes.position,arr=pos.array;const e=t-net.t0;
       if(net.t0<0||e>2.5){if(arr.__moved){arr.set(backBase);pos.needsUpdate=true;arr.__moved=false;}return;}
