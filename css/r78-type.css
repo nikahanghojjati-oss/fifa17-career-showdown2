@@ -1110,7 +1110,8 @@
   :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
   :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel :is(.settingsPanelEyebrow, .settingsStatus, .settingsAudioToggle strong) { font-size: 12px; }
   :root #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionCopy small, .settingsAudioCopy small) { font-size: 12px; }
-  :root #settingsOverlay.v10Settings #photoCredit, :root #settingsOverlay.v10Settings #photoCredit :is(span, a) { font-size: 12px; }
+  :root #settingsOverlay.v10Settings #photoCredit, :root #settingsOverlay.v10Settings #photoCredit :is(span, a),
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit, :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit :is(span, a) { font-size: 12px !important; }
 }
 :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow:has(> small.settingsInfoHint) {
   display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; align-items: baseline;
@@ -1132,7 +1133,9 @@
     }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanel .menuButton { font-size: max(calc(12px / var(--sa-settings-tz)), calc(var(--sa-type-small) / var(--r78-settings-zoom))); }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow small.settingsInfoHint { font-size: calc(12px / var(--sa-settings-tz)); }
-    :root #settingsOverlay.v10Settings #photoCredit, :root #settingsOverlay.v10Settings #photoCredit :is(span, a) { font-size: calc(12px / var(--sa-settings-tz)); }
+    /* The Reus credit: the panel selector outranks rulesSettingsV10's zoomed 9px credit rule and the unzoomed 12px desktop floor (4q), so it shows at 12px on screen. */
+    :root #settingsOverlay.v10Settings #photoCredit, :root #settingsOverlay.v10Settings #photoCredit :is(span, a),
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit, :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit :is(span, a) { font-size: calc(12px / var(--sa-settings-tz)) !important; }
     :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanel--account, .settingsConnectedAccountPanel) { grid-column: 1 / 7 !important; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--data { grid-column: 7 / 13 !important; }
   }
