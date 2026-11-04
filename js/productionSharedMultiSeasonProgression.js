@@ -15,7 +15,7 @@
   function pmspShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pmspSharedMarker(){const showdown=pmspShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
   function pmspField(id){return root.document&&root.document.getElementById(id);}
-  function pmspEmpty(empty){["dashboardPositionOne","dashboardPositionTwo"].forEach(id=>{const node=pmspField(id);if(node)node.toggleAttribute("data-sd-empty",empty);});}
+  function pmspEmpty(empty){["dashboardPositionOne","dashboardPositionTwo"].forEach(id=>{const node=pmspField(id);node?.toggleAttribute?.("data-sd-empty",empty);});}
   function pmspText(node,value){if(node&&node.textContent!==String(value??""))node.textContent=String(value??"");}
   function pmspHidden(node,hidden){if(node)node.classList.toggle("hidden",Boolean(hidden));}
   function pmspDisable(node,disabled){if(!node)return;node.disabled=Boolean(disabled);node.setAttribute("aria-disabled",disabled?"true":"false");}

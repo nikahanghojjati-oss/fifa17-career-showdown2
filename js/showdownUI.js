@@ -371,8 +371,8 @@ function updateShowdownUI(){
     setDashboardTextIfChanged(ui.scoreTwo, currentShowdown.score.playerTwo);
     setDashboardTextIfChanged(ui.lastPositionOne, latestCompletedRound ? `Last league finish: ${latestCompletedRound.playerOne.leaguePosition}` : "No season completed");
     setDashboardTextIfChanged(ui.lastPositionTwo, latestCompletedRound ? `Last league finish: ${latestCompletedRound.playerTwo.leaguePosition}` : "No season completed");
-    ui.lastPositionOne?.toggleAttribute("data-sd-empty", !latestCompletedRound);
-    ui.lastPositionTwo?.toggleAttribute("data-sd-empty", !latestCompletedRound);
+    ui.lastPositionOne?.toggleAttribute?.("data-sd-empty", !latestCompletedRound);
+    ui.lastPositionTwo?.toggleAttribute?.("data-sd-empty", !latestCompletedRound);
 
     if(typeof window.refreshClubVisualIdentity === "function"){
         window.refreshClubVisualIdentity(currentShowdown);
