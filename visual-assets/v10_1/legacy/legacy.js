@@ -289,7 +289,10 @@ window.ShowdownLegacyBoot = function () {
     if (returnFocus) document.getElementById("viewSeasonHistory").focus();
   }
 
-  function renderSeasonHistory(frame, showdownNumber, strings) {
+  // Studio Small Axe Wave 2: auto=true opens the list beside a lone archive card on desktop (the newest Showdown's
+  // seasons fill the pane that used to stand empty). It reuses the frame Legacy already holds: no new read, no focus
+  // move and no scroll, and it never blocks the archive keys.
+  function renderSeasonHistory(frame, showdownNumber, strings, auto = false) {
     const drawer = document.getElementById("legacySeasonHistory");
     const action = document.getElementById("viewSeasonHistory");
     const showdown = (frame.showdowns || []).find((item) => item.number === showdownNumber);
@@ -362,7 +365,9 @@ window.ShowdownLegacyBoot = function () {
       if (event.key === "Escape") { event.preventDefault(); closeHistory(true); }
     };
     drawer.hidden = false;
+    drawer.dataset.auto = String(auto);
     action.setAttribute("aria-expanded", "true");
+    if (auto) return;
     close.focus({ preventScroll: true });
     // r87: on a phone the list opens below the fold, under the tab bar; bring it into view (its scroll-margin clears the bar).
     drawer.scrollIntoView({ block: "nearest", inline: "nearest", behavior: reducedMotion() ? "instant" : "smooth" });
@@ -370,6 +375,26 @@ window.ShowdownLegacyBoot = function () {
 
   // r87 (transitions): phone History draws the selected card and this many on each side; a career of hundreds of
   // Showdowns used to build every card (three crests each) before the screen could open.
+  // Studio Small Axe History finder: the list shows this many Showdowns per page on every size.
+  const LIST_PAGE_SIZE = 12;
+  const ARCHIVE_FILTERS = [["all", "ALL"], ["daniel", "DANIEL WINS"], ["nik", "NIK WINS"], ["draw", "DRAWS"], ["golden", "GOLDEN"]];
+  function archiveWinner(item) {
+    return item && ["completed", "completion-pending"].includes(item.status) ? item.winner || "" : "";
+  }
+  function archiveGolden(item) {
+    return Boolean(item && Array.isArray(item.goldenShowdown) && item.goldenShowdown.some((manager) => manager === "daniel" || manager === "nik"));
+  }
+  function archiveMatches(item, filter) {
+    if (filter === "golden") return archiveGolden(item);
+    if (filter === "daniel" || filter === "nik" || filter === "draw") return archiveWinner(item) === filter;
+    return true;
+  }
+  function archiveFilterLabel(filter) {
+    return ({ daniel: "Daniel wins", nik: "Nik wins", draw: "Draws", golden: "Golden" })[filter] || "this filter";
+  }
+  function archiveEmptyLine(filter) {
+    return ({ daniel: "No Daniel wins yet.", nik: "No Nik wins yet.", draw: "No draws yet.", golden: "No Golden Showdowns yet." })[filter] || "No Showdowns here yet.";
+  }
   const PHONE_CARD_WINDOW = 3;
   function renderArchive(frame, strings) {
     const grid = document.getElementById("legacyCardGrid");
@@ -378,10 +403,30 @@ window.ShowdownLegacyBoot = function () {
     const phone = window.matchMedia("(max-width: 900px)");
     frame.ui = frame.ui || {};
     let page = Math.max(1, Number(frame.ui.page) || 1);
-    const records = frame.showdowns || [];
-    const pageSize = Math.max(1, Number(frame.ui.pageSize) || 4);
-    const pages = Math.max(1, Math.ceil(records.length / pageSize));
+    // Studio Small Axe (Nik 2026-11-03): a CARDS / LIST view, a "Go to #" box and result filters, all over the rows this
+    // frame already holds (no new reads). The choice lasts while the app is open.
+    const prefs = window.CareerModeLegacyArchivePrefs || (window.CareerModeLegacyArchivePrefs = { view: "cards", filter: "all" });
+    if (!ARCHIVE_FILTERS.some(([key]) => key === prefs.filter)) prefs.filter = "all";
+    if (prefs.view !== "list") prefs.view = "cards";
+    const allRecords = frame.showdowns || [];
+    const cardPageSize = Math.max(1, Number(frame.ui.pageSize) || 4);
+    let records = allRecords.filter((item) => archiveMatches(item, prefs.filter));
+    let pageSize = prefs.view === "list" ? LIST_PAGE_SIZE : cardPageSize;
+    let pages = Math.max(1, Math.ceil(records.length / pageSize));
+    // The phone's one-card-at-a-time carousel applies to cards only; the list pages on every size.
+    const single = () => phone.matches && prefs.view !== "list";
+    // The list counts its pages back from the newest Showdown, so the page it opens on is always full (the oldest page
+    // holds the remainder). Cards keep their pages from the oldest.
+    const pageStart = (p) => prefs.view === "list" ? Math.max(0, records.length - (pages - p + 1) * pageSize) : (p - 1) * pageSize;
+    const pageEnd = (p) => prefs.view === "list" ? Math.max(0, records.length - (pages - p) * pageSize) : Math.min(records.length, p * pageSize);
+    const pageOf = (index) => prefs.view === "list" ? pages - Math.floor((records.length - 1 - Math.max(0, index)) / pageSize) : Math.floor(Math.max(0, index) / pageSize) + 1;
     let selected = frame.ui.selectedShowdown;
+    if (prefs.view === "list" || prefs.filter !== "all") {
+      let index = records.findIndex((item) => item.number === selected);
+      if (index < 0) index = records.length - 1;
+      selected = index >= 0 ? records[index].number : undefined;
+      page = single() ? index + 1 : pageOf(index);
+    }
     let visible = [];
     let settling = 0;
     let pagerBuiltFor = null;
@@ -403,9 +448,191 @@ window.ShowdownLegacyBoot = function () {
       card.setAttribute("aria-hidden", "true");
       return card;
     }
+    function listRow(item) {
+      const statusOnly = item.status === "abandoned" || item.status === "unavailable";
+      const row = document.createElement(statusOnly ? "div" : "button");
+      if (!statusOnly) row.type = "button";
+      row.className = "legacyListRow";
+      row.dataset.showdown = String(item.number);
+      row.dataset.status = item.status || "completed";
+      const number = document.createElement("span");
+      number.className = "legacyListNumber";
+      number.textContent = "#" + item.number;
+      row.appendChild(number);
+      if (statusOnly) {
+        const ended = document.createElement("span");
+        ended.className = "legacyListEnded";
+        ended.textContent = item.status === "abandoned" ? String(item.endedLabel || strings.states.abandoned) : strings.states.unavailable;
+        row.appendChild(ended);
+        return row;
+      }
+      const winner = archiveWinner(item);
+      row.dataset.winner = winner || "";
+      const match = document.createElement("span");
+      match.className = "legacyListMatch";
+      ["daniel", "nik"].forEach((manager, index) => {
+        const side = document.createElement("span");
+        side.className = "legacyListSide legacyListSide--" + manager;
+        const who = document.createElement("b");
+        who.textContent = strings.ui.managers[manager];
+        const club = document.createElement("small");
+        club.textContent = item.clubs ? item.clubs[manager] || "" : "";
+        side.append(who, club);
+        if (index === 1) {
+          const score = document.createElement("span");
+          score.className = "legacyListScore";
+          score.textContent = item.totals ? copy(strings, "score", item.totals) : "–";
+          match.appendChild(score);
+        }
+        match.appendChild(side);
+      });
+      const result = document.createElement("span");
+      result.className = "legacyListResult";
+      result.dataset.winner = winner || "";
+      if (winner === "draw") result.textContent = "= " + strings.ui.draw;
+      else if (winner === "daniel" || winner === "nik") result.textContent = "♛ " + copy(strings, "winner", { manager: strings.ui.managers[winner] });
+      else result.textContent = strings.ui.inProgress;
+      const seasons = document.createElement("span");
+      seasons.className = "legacyListSeasons";
+      seasons.textContent = copy(strings, "seasons", { played: item.seasonsPlayed, total: item.totalSeasons });
+      const golden = document.createElement("span");
+      golden.className = "legacyListGolden";
+      if (archiveGolden(item)) {
+        golden.textContent = "★";
+        golden.title = strings.ui.goldenShowdown;
+        golden.setAttribute("aria-label", strings.ui.goldenShowdown);
+        row.dataset.golden = "true";
+      } else golden.setAttribute("aria-hidden", "true");
+      row.append(match, result, seasons, golden);
+      row.setAttribute("aria-pressed", String(item.number === selected));
+      row.dataset.rowSelected = String(item.number === selected);
+      row.addEventListener("click", () => select(item.number));
+      return row;
+    }
+    // The finding tools sit under the three tabs: view, "Go to #", filters with counts.
+    const menu = document.getElementById("legacySideMenu");
+    let tools = null;
+    function renderTools() {
+      if (!menu) return;
+      menu.querySelectorAll(".legacyTools").forEach((node) => node.remove());
+      tools = null;
+      if (!allRecords.length) return;
+      tools = document.createElement("div");
+      tools.className = "legacyTools";
+      tools.setAttribute("role", "group");
+      tools.setAttribute("aria-label", "Find a Showdown");
+      const views = document.createElement("div");
+      views.className = "legacyViewToggle";
+      views.setAttribute("role", "group");
+      views.setAttribute("aria-label", "Archive view");
+      [["cards", "CARDS"], ["list", "LIST"]].forEach(([key, label]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.archiveView = key;
+        button.textContent = label;
+        button.addEventListener("click", () => { if (prefs.view !== key) { prefs.view = key; rebuild(selected); } });
+        views.appendChild(button);
+      });
+      const jump = document.createElement("form");
+      jump.className = "legacyJump";
+      jump.noValidate = true;
+      const label = document.createElement("label");
+      label.htmlFor = "legacyJumpInput";
+      label.textContent = "GO TO #";
+      const input = document.createElement("input");
+      input.id = "legacyJumpInput";
+      input.type = "number";
+      input.inputMode = "numeric";
+      input.min = "1";
+      input.step = "1";
+      input.placeholder = String(allRecords[allRecords.length - 1].number);
+      input.setAttribute("aria-describedby", "legacyJumpNote");
+      const go = document.createElement("button");
+      go.type = "submit";
+      go.textContent = "GO";
+      go.setAttribute("aria-label", "Go to Showdown");
+      const note = document.createElement("span");
+      note.id = "legacyJumpNote";
+      note.className = "legacyJumpNote";
+      note.setAttribute("role", "status");
+      note.setAttribute("role", "status");
+      note.setAttribute("aria-live", "polite");
+      jump.append(label, input, go, note);
+      jump.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const wanted = Number(String(input.value).trim());
+        const found = Number.isInteger(wanted) ? allRecords.find((item) => item.number === wanted) : null;
+        if (!found) { note.textContent = input.value ? "No Showdown #" + input.value : "Type a Showdown number"; return; }
+        note.textContent = "";
+        if (!archiveMatches(found, prefs.filter)) prefs.filter = "all";
+        rebuild(found.number, true);
+      });
+      const filters = document.createElement("div");
+      filters.className = "legacyFilters";
+      filters.setAttribute("role", "group");
+      filters.setAttribute("aria-label", "Show Showdowns");
+      ARCHIVE_FILTERS.forEach(([key, label]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.archiveFilter = key;
+        const name = document.createElement("span");
+        const [first, ...rest] = label.split(" ");
+        name.textContent = first;
+        if (rest.length) {
+          const tail = document.createElement("span");
+          tail.className = "legacyFilterTail";
+          tail.textContent = " " + rest.join(" ");
+          name.appendChild(tail);
+        }
+        const count = document.createElement("b");
+        count.textContent = String(allRecords.filter((item) => archiveMatches(item, key)).length);
+        button.append(name, count);
+        button.setAttribute("aria-label", archiveFilterLabel(key) === "this filter" ? "All Showdowns" : archiveFilterLabel(key));
+        button.addEventListener("click", () => { if (prefs.filter !== key) { prefs.filter = key; rebuild(selected); } });
+        filters.appendChild(button);
+      });
+      // Phones: the Go to # box and the filters fold under one FIND button, so the hero and the pager keep their room.
+      const find = document.createElement("button");
+      find.type = "button";
+      find.className = "legacyFindToggle";
+      find.setAttribute("aria-expanded", "false");
+      find.addEventListener("click", () => {
+        const open = tools.dataset.findOpen !== "true";
+        tools.dataset.findOpen = String(open);
+        find.setAttribute("aria-expanded", String(open));
+        if (open) input.focus({ preventScroll: true });
+      });
+      tools.append(views, find, jump, filters);
+      menu.appendChild(tools);
+      syncTools();
+    }
+    function syncTools() {
+      if (!tools) return;
+      tools.querySelectorAll("[data-archive-view]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.archiveView === prefs.view)));
+      tools.querySelectorAll("[data-archive-filter]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.archiveFilter === prefs.filter)));
+      const find = tools.querySelector(".legacyFindToggle");
+      if (find) find.textContent = prefs.filter === "all" ? "FIND" : "FIND · " + ARCHIVE_FILTERS.find(([key]) => key === prefs.filter)[1].split(" ")[0];
+      const input = tools.querySelector("#legacyJumpInput");
+      if (input) input.max = String(Math.max(...allRecords.map((item) => Number(item.number) || 0)));
+      const host = document.getElementById("legacy");
+      if (host) { host.dataset.historyView = prefs.view; host.dataset.historyFilter = prefs.filter; }
+    }
+    // Re-filters and redraws around one Showdown (kept when it is still shown, otherwise the newest shown).
+    function rebuild(target, focus = false) {
+      records = allRecords.filter((item) => archiveMatches(item, prefs.filter));
+      pageSize = prefs.view === "list" ? LIST_PAGE_SIZE : cardPageSize;
+      pages = Math.max(1, Math.ceil(records.length / pageSize));
+      pagerBuiltFor = null;
+      let index = records.findIndex((item) => item.number === target);
+      if (index < 0) index = records.length - 1;
+      selected = index >= 0 ? records[index].number : undefined;
+      page = single() ? Math.max(0, index) + 1 : pageOf(index);
+      paint(focus);
+      syncTools();
+    }
     // Draws the real cards within PHONE_CARD_WINDOW of the given Showdown (a stand-in becomes its card in place).
     function drawNear(number) {
-      if (!phone.matches) return;
+      if (!single()) return;
       const index = records.findIndex((item) => item.number === number);
       if (index < 0) return;
       for (let i = Math.max(0, index - PHONE_CARD_WINDOW); i <= Math.min(records.length - 1, index + PHONE_CARD_WINDOW); i++) {
@@ -424,6 +651,11 @@ window.ShowdownLegacyBoot = function () {
       const record = records.find((item) => item.number === selected);
       action.disabled = !canDisclose(record);
       closeHistory();
+      grid.querySelectorAll(".legacyListRow").forEach((row) => {
+        const active = Number(row.dataset.showdown) === selected;
+        if (row.dataset.rowSelected !== String(active)) row.dataset.rowSelected = String(active);
+        if (row.tagName === "BUTTON" && row.getAttribute("aria-pressed") !== String(active)) row.setAttribute("aria-pressed", String(active));
+      });
       grid.querySelectorAll(".legacyCard").forEach((card) => {
         const active = Number(card.dataset.showdown) === selected;
         // r87 (transitions): only cards whose state changes are written, so a long career restyles two cards per step, not all.
@@ -438,16 +670,16 @@ window.ShowdownLegacyBoot = function () {
       const index = records.findIndex((item) => item.number === selected);
       const prev = pager.querySelector('[data-direction="-1"]');
       const next = pager.querySelector('[data-direction="1"]');
-      if (prev) prev.disabled = phone.matches ? index <= 0 : page <= 1;
-      if (next) next.disabled = phone.matches ? index >= records.length - 1 : page >= pages;
-      const currentPage = phone.matches ? Math.max(0, index) + 1 : page;
+      if (prev) prev.disabled = single() ? index <= 0 : page <= 1;
+      if (next) next.disabled = single() ? index >= records.length - 1 : page >= pages;
+      const currentPage = single() ? Math.max(0, index) + 1 : page;
       frame.ui.page = currentPage;
       // r87 career fixes (Nik 2026-10-31): long careers use a compact counter and a scrubber instead of one dot per item.
-      const total = phone.matches ? records.length : pages;
+      const total = single() ? records.length : pages;
       const counter = pager.querySelector(".legacyPageCounter");
       if (counter) {
-        const firstShown = (page - 1) * pageSize + 1, lastShown = Math.min(records.length, page * pageSize);
-        counter.textContent = phone.matches ? currentPage + " / " + total : (firstShown === lastShown ? String(firstShown) : firstShown + "–" + lastShown) + " / " + records.length;
+        const firstShown = pageStart(page) + 1, lastShown = pageEnd(page);
+        counter.textContent = single() ? currentPage + " / " + total : (firstShown === lastShown ? String(firstShown) : firstShown + "–" + lastShown) + " / " + records.length;
         counter.setAttribute("aria-label", copy(strings, "page", { number: currentPage, total }));
       }
       const scrub = pager.querySelector(".legacyPageScrub");
@@ -457,36 +689,48 @@ window.ShowdownLegacyBoot = function () {
       if (newest) newest.disabled = currentPage >= total;
       const dots = pager.querySelector(".legacyPageDots");
       if (dots) {
-        dots.setAttribute("aria-label", copy(strings, "page", { number: currentPage, total: phone.matches ? records.length : pages }));
+        dots.setAttribute("aria-label", copy(strings, "page", { number: currentPage, total: single() ? records.length : pages }));
         dots.querySelectorAll(".legacyPageDot").forEach((dot, dotIndex) => {
           dot.dataset.active = String(dotIndex + 1 === currentPage);
         });
       }
-      if (phone.matches && changed) pageMotion(index > previousIndex ? 1 : -1, scroll);
+      if (single() && changed) pageMotion(index > previousIndex ? 1 : -1, scroll);
     }
 
     function paint(focusCard = false) {
       page = Math.max(1, Math.min(pages, page));
-      visible = phone.matches ? records : records.slice((page - 1) * pageSize, page * pageSize);
+      visible = single() ? records : records.slice(pageStart(page), pageEnd(page));
       if (!visible.some((item) => item.number === selected)) {
         selected = (visible.find(canDisclose) || visible[0] || {}).number;
       }
       frame.ui.page = page;
       grid.replaceChildren();
+      grid.dataset.view = prefs.view;
+      if (prefs.view === "list" || !records.length) {
+        if (!records.length && allRecords.length) {
+          const empty = document.createElement("p");
+          empty.className = "legacyListEmpty";
+          empty.setAttribute("role", "status");
+          empty.textContent = archiveEmptyLine(prefs.filter);
+          grid.appendChild(empty);
+        }
+        visible.forEach((item) => grid.appendChild(listRow(item)));
+      } else {
       // r87 (transitions): the phone shows one card at a time, so only the cards near the selected Showdown are drawn;
       // the rest are light stand-ins (same class, hidden like any unselected phone card) drawn when they come near.
-      const at = phone.matches ? Math.max(0, visible.findIndex((item) => item.number === selected)) : 0;
+      const at = single() ? Math.max(0, visible.findIndex((item) => item.number === selected)) : 0;
       visible.forEach((item, index) => {
-        grid.appendChild(phone.matches && Math.abs(index - at) > PHONE_CARD_WINDOW ? standIn(item) : liveCard(item));
+        grid.appendChild(single() && Math.abs(index - at) > PHONE_CARD_WINDOW ? standIn(item) : liveCard(item));
       });
+      }
       // Codex #1103: the pager is built once per layout (phone or desktop) and kept while the cards change, so a scrubber
       // drag or a keyboard step on it is never cut short by its own element being replaced; select() updates it.
-      const pagerKey = records.length ? (phone.matches ? "phone:" : "desktop:") + (phone.matches ? records.length : pages) : "empty";
+      const pagerKey = records.length ? (single() ? "phone:" + records.length : "desktop:" + pageSize + ":" + pages) : "empty";
       if (pagerKey !== pagerBuiltFor) {
       pagerBuiltFor = pagerKey;
       pager.replaceChildren();
       if (records.length) {
-        const total = phone.matches ? records.length : pages;
+        const total = single() ? records.length : pages;
         // Up to 10 positions keep the dots; more use "‹ 37 / 100 ›", jumps to the oldest and newest Showdown and a
         // scrubber, so a career of hundreds of Showdowns is a few taps (or one drag) from end to end.
         const compact = total > 10;
@@ -539,22 +783,27 @@ window.ShowdownLegacyBoot = function () {
           scrub.min = "1";
           scrub.max = String(total);
           scrub.step = "1";
-          scrub.setAttribute("aria-label", phone.matches ? "Choose a Showdown" : "Choose an archive page");
+          scrub.setAttribute("aria-label", single() ? "Choose a Showdown" : "Choose an archive page");
           scrub.addEventListener("input", () => goTo(Number(scrub.value), false));
           pager.appendChild(scrub);
         }
       }
       }
-      select(selected, phone.matches);
+      select(selected, single());
+      // Only on the plate layout, where the list sits in the archive's empty pane (css/rivalryLegacyV10.css); smaller
+      // desktops would place it below the fold, so they keep the closed archive. Cards view only: the list view has its
+      // own one-row layout.
+      const plate = window.matchMedia("(min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape)");
+      if (!phone.matches && plate.matches && prefs.view !== "list" && visible.length === 1 && canDisclose(visible[0])) renderSeasonHistory(frame, visible[0].number, strings, true);
       if (focusCard) {
-        const target = grid.querySelector('[data-selected="true"]') || grid.querySelector("button");
+        const target = grid.querySelector('[data-selected="true"], [data-row-selected="true"]') || grid.querySelector("button");
         if (target) target.focus({ preventScroll: true });
       }
     }
     // r87 career fixes: one way to move for the arrows, the jumps, the scrubber, the keyboard and a swipe.
     function goTo(position, focusCard = true) {
       if (!records.length) return;
-      if (phone.matches) {
+      if (single()) {
         const target = records[Math.max(0, Math.min(records.length - 1, position - 1))];
         if (target && target.number !== selected) select(target.number, true);
       } else {
@@ -567,7 +816,7 @@ window.ShowdownLegacyBoot = function () {
       }
     }
     function step(direction) {
-      if (phone.matches) {
+      if (single()) {
         const index = records.findIndex((item) => item.number === selected);
         goTo(Math.max(0, index) + 1 + direction);
       } else goTo(page + direction);
@@ -582,9 +831,9 @@ window.ShowdownLegacyBoot = function () {
       const t = event.target;
       if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
       const drawer = document.getElementById("legacySeasonHistory");
-      if (drawer && !drawer.hidden) return;
+      if (drawer && !drawer.hidden && drawer.dataset.auto !== "true") return;
       event.preventDefault();
-      const total = phone.matches ? records.length : pages;
+      const total = single() ? records.length : pages;
       if (event.key === "Home") goTo(1);
       else if (event.key === "End") goTo(total);
       else step(event.key === "ArrowRight" ? 1 : -1);
@@ -595,7 +844,7 @@ window.ShowdownLegacyBoot = function () {
     const onTouchStart = (event) => { const p = event.changedTouches && event.changedTouches[0]; touch = p ? { x: p.clientX, y: p.clientY } : null; };
     const onTouchEnd = (event) => {
       const p = event.changedTouches && event.changedTouches[0];
-      if (!touch || !p || !phone.matches) { touch = null; return; }
+      if (!touch || !p || !single()) { touch = null; return; }
       const dx = p.clientX - touch.x, dy = p.clientY - touch.y;
       touch = null;
       if (Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
@@ -605,13 +854,13 @@ window.ShowdownLegacyBoot = function () {
     grid.addEventListener("scroll", () => {
       clearTimeout(settling);
       settling = setTimeout(() => {
-        if (!phone.matches || !grid.children.length) return;
+        if (!single() || !grid.children.length) return;
         const index = Math.max(0, Math.min(records.length - 1, Math.round(grid.scrollLeft / Math.max(1, grid.clientWidth))));
         select(records[index].number);
       }, 100);
     }, { passive: true });
     grid.addEventListener("keydown", (event) => {
-      if (!phone.matches || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      if (!single() || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
       event.preventDefault();
       const index = records.findIndex((item) => item.number === selected);
       const next = records[Math.max(0, Math.min(records.length - 1, index + (event.key === "ArrowRight" ? 1 : -1)))];
@@ -623,10 +872,11 @@ window.ShowdownLegacyBoot = function () {
     });
     const onPhoneChange = () => {
       const index = Math.max(0, records.findIndex(item => item.number === selected));
-      page = Math.floor(index / pageSize) + 1;
+      page = pageOf(index);
       paint();
     };
     phone.addEventListener("change", onPhoneChange);
+    renderTools();
     window.LEGACY_BOOT.cleanup = () => { phone.removeEventListener("change", onPhoneChange); clearTimeout(settling); if (typeof document.removeEventListener === "function") document.removeEventListener("keydown", onKey); if (typeof grid.removeEventListener === "function") { grid.removeEventListener("touchstart", onTouchStart); grid.removeEventListener("touchend", onTouchEnd); } };
     paint();
   }
@@ -730,6 +980,11 @@ window.ShowdownLegacyBoot = function () {
     historyAction.addEventListener("click", () => {
       const selected = window.LegacyFixture && window.LegacyFixture.selectedShowdown;
       const drawer = document.getElementById("legacySeasonHistory");
+      if (!drawer.hidden && drawer.dataset.auto === "true") {
+        // Already showing beside the lone card: VIEW takes the reader into it, as a manual open would.
+        renderSeasonHistory(frame, selected, fixtures.strings);
+        return;
+      }
       if (!drawer.hidden) {
         drawer.hidden = true;
         historyAction.setAttribute("aria-expanded", "false");
