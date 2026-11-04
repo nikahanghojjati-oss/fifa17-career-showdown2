@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 3 Nov, 8:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 3 Nov, 8:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 2.0.0-r87** (main `00ae2b7`, Sun 1 Nov 11:28 PM)
+🌐 **Live: 2.1.0-r88** (main `3da99a4`, Tue 3 Nov 8:29 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #1209: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1209 0/16
 
@@ -74,7 +74,7 @@ Updated Tue 3 Nov, 8:28 PM Boston time. Bug hunting only, no new features until 
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 435 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 436 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2118,12 +2118,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1209](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1209) | r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish) | 🟢 9 passed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2144,4 +2138,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 8:29 PM · #1209 r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish)
 
