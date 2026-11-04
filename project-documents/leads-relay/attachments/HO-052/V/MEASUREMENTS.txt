@@ -1,0 +1,24 @@
+before.log:BEFORE 1024x768 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":280,"text":449,"font":"47.104px","l3":321} OVERFLOW
+before.log:BEFORE 1024x768 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":280,"text":368,"font":"47.104px","l3":333} OVERFLOW
+before.log:BEFORE 1180x820 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":329,"text":518,"font":"54.28px","l3":370} OVERFLOW
+before.log:BEFORE 1180x820 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":329,"text":425,"font":"54.28px","l3":394} OVERFLOW
+before.log:BEFORE 1366x1024 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":386,"text":599,"font":"62.836px","l3":430} OVERFLOW
+before.log:BEFORE 1366x1024 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":386,"text":491,"font":"62.836px","l3":451} OVERFLOW
+before.log:BEFORE 1440x900 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":403,"text":630,"font":"66px","l3":447} OVERFLOW
+before.log:BEFORE 1440x900 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":403,"text":516,"font":"66px","l3":468} OVERFLOW
+before.log:BEFORE 1920x1080 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":403,"text":630,"font":"66px","l3":444} OVERFLOW
+before.log:BEFORE 1920x1080 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":403,"text":516,"font":"66px","l3":468} OVERFLOW
+before.log:BEFORE 390x844 0 true {"name":"A. Oxlade-Chamberlain","disp":"none","room":-34,"text":0,"font":"44px","l3":0} fits
+before.log:BEFORE 390x844 1 true {"name":"V. Nilsson Lindelöf","disp":"none","room":-34,"text":0,"font":"44px","l3":0} fits
+after.log:AFTER 1024x768 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":280,"text":272,"font":"28.5px","l3":321,"slots":["ok:","wait"]} fits
+after.log:AFTER 1024x768 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":280,"text":272,"font":"34.8px","l3":345,"slots":["ok:","ok:"]} fits
+after.log:AFTER 1180x820 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":329,"text":319,"font":"33.4px","l3":394,"slots":["ok:","wait"]} fits
+after.log:AFTER 1180x820 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":329,"text":319,"font":"40.8px","l3":392,"slots":["ok:","ok:"]} fits
+after.log:AFTER 1366x1024 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":386,"text":375,"font":"39.3px","l3":427,"slots":["ok:","wait"]} fits
+after.log:AFTER 1366x1024 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":386,"text":375,"font":"47.9px","l3":451,"slots":["ok:","ok:"]} fits
+after.log:AFTER 1440x900 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":403,"text":391,"font":"41px","l3":444,"slots":["ok:","wait"]} fits
+after.log:AFTER 1440x900 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":403,"text":391,"font":"50px","l3":468,"slots":["ok:","ok:"]} fits
+after.log:AFTER 1920x1080 0 true {"name":"A. Oxlade-Chamberlain","disp":"block","room":403,"text":391,"font":"41px","l3":468,"slots":["ok:","wait"]} fits
+after.log:AFTER 1920x1080 1 true {"name":"V. Nilsson Lindelöf","disp":"block","room":403,"text":391,"font":"50px","l3":468,"slots":["ok:","ok:"]} fits
+after.log:AFTER 390x844 0 true {"name":"A. Oxlade-Chamberlain","disp":"none","room":-34,"text":0,"font":"44px","l3":0,"slots":["CUT:12.4px","wait"]} OVERFLOW
+after.log:AFTER 390x844 1 true {"name":"V. Nilsson Lindelöf","disp":"none","room":-34,"text":0,"font":"44px","l3":0,"slots":["CUT:12.4px","ok:14.3px"]} OVERFLOW
