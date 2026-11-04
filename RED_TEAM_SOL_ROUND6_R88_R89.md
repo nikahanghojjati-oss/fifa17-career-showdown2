@@ -17,7 +17,7 @@
   - Changes since round 5 (2.0.0 head ae3f3c47): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/compare/ae3f3c473107b4156770e3448209216b553063eb...e6485d7dca90ac1af096e9c87554089eebedb26a
 - **Part B, 2.2.0 candidates.** gameplay/r89 is still `e6485d7d`, the same as main.
   - PR #1244 (`claude-gameplay/r89-3d-engine`, head `0762951510e604a83da0b4b5ea4f96f9b994cdee`): Chamber Men 3D broadcast penalty, three.js r128 to r187, RRR polish, Kits 17. It sets `KICK_MS` to 4600.
-  - The Sacked branch `claude-gameplay/r89-sacked`, head `9353c7ee0b935fa2ff4ab22f4d50d4f2760c4356`. It is still based on 2.1.0's base `3da99a4c` and has no PR yet; it will be rebased onto gameplay/r89 with the slim-Rules localize step. Diff: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/compare/3da99a4c...9353c7ee0b935fa2ff4ab22f4d50d4f2760c4356
+  - Sacked PR #1246 (`claude-gameplay/r89-sacked-v3`, head `4ed97194451184e7b694dd8c534f0c9ed68f964e`), rebased on e6485d7d with the slim Rules. Diff: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/compare/e6485d7d...4ed97194451184e7b694dd8c534f0c9ed68f964e
 - If a branch moves while you work, keep reviewing the pinned SHA and just note the drift.
 
 ## Part A scope: live 2.1.0
