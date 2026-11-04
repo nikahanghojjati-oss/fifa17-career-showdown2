@@ -85,7 +85,7 @@ const readWith=(docs,opts={},uid=A)=>{const f=fakeSdk(docs,opts);return Reader.r
   // K7. Rules text: get-only grant on exactly four seams, witness-keyed, no billing words
   const fragment=read('firestore.persistent-pair-production.fragment.rules');
   const grant=fragment.slice(fragment.indexOf('function cmsCompletedShowdownReadable'),fragment.indexOf('// CMS_PERSISTENT_PAIR_FUNCTIONS_END'));
-  for(const needle of ["data.connectionState == 'closed'","'terminalClose' in data",'ssjrTerminalValidIntent(rivalryId, data.terminalClose)','ssjrTerminalProgressShape(progress)','progress.acceptedThroughSeason == progress.totalSeasons','progress.closedSessionRevision is int','data.terminalClose.managerTotals == progress.managerTotals','request.auth.uid in data.authorizedAccountIds','activeAccount(request.auth.uid)',"[0:total]"])assert.ok(grant.includes(needle),needle);
+  for(const needle of ["data.connectionState == 'closed'","'terminalClose' in data",'ssjrTerminalValidIntent(rivalryId, data.terminalClose)',"ssjrTerminalProgressShape(progress, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])",'progress.acceptedThroughSeason == progress.totalSeasons','progress.closedSessionRevision is int','data.terminalClose.managerTotals == progress.managerTotals','request.auth.uid in data.authorizedAccountIds','activeAccount(request.auth.uid)',"[0:total]"])assert.ok(grant.includes(needle),needle);
   assert.doesNotMatch(grant,/getAfter|request\.resource/,'read grant never inspects a write');
   assert.doesNotMatch(fragment,/billing|blaze|cloud[\s_-]*functions|cloud[\s_-]*run/i);
   const inject=read('scripts/inject-persistent-pair-rules.mjs');

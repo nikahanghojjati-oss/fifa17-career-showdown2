@@ -46,9 +46,11 @@
     const projection=History.verifyProjection(read.projection);
     const totals=witness.managerTotals,final=read.final;
     if(witness.rivalryId!==rivalryId||projection.rivalryId!==rivalryId)throw new Error("CLOSED_RIVALRY_MISMATCH");
-    if(projection.totalSeasons!==witness.totalSeasons||projection.acceptedSeasons!==witness.totalSeasons||projection.seasonHistory.length!==witness.totalSeasons)throw new Error("CLOSED_COVERAGE_MISMATCH");
+    // r89 Sacked: the seasons played are the witness's completedSeason (equal to totalSeasons unless sacked earlier).
+    const played=witness.completedSeason;
+    if(projection.totalSeasons!==witness.totalSeasons||projection.acceptedSeasons!==played||projection.seasonHistory.length!==played||History.showdownEnd.ofProjection(projection).finalSeason!==played)throw new Error("CLOSED_COVERAGE_MISMATCH");
     if(projection.managerRecords.playerOne.totalPoints!==totals.playerOne||projection.managerRecords.playerTwo.totalPoints!==totals.playerTwo)throw new Error("CLOSED_TOTALS_MISMATCH");
-    if(!cadPlain(final)||!cadPlain(final.totals)||final.totals.playerOne!==totals.playerOne||final.totals.playerTwo!==totals.playerTwo||final.winner!==witness.winner||final.winner!==cadWinner(totals.playerOne,totals.playerTwo)||final.margin!==Math.abs(totals.playerOne-totals.playerTwo)||final.seasonsPlayed!==witness.totalSeasons)throw new Error("CLOSED_FINAL_MISMATCH");
+    if(!cadPlain(final)||!cadPlain(final.totals)||final.totals.playerOne!==totals.playerOne||final.totals.playerTwo!==totals.playerTwo||final.winner!==witness.winner||final.winner!==cadWinner(totals.playerOne,totals.playerTwo)||final.margin!==Math.abs(totals.playerOne-totals.playerTwo)||final.seasonsPlayed!==played)throw new Error("CLOSED_FINAL_MISMATCH");
     const entry=cadEntry(rivalryId,"completed",read.projection,{totals:{playerOne:totals.playerOne,playerTwo:totals.playerTwo},winner:witness.winner});
     // r86 Special Player: the Setup's confirm time, display metadata only (missing on older reads: null, never an error).
     entry.setupConfirmedAt=Number.isFinite(read.setupConfirmedAt)?read.setupConfirmedAt:null;

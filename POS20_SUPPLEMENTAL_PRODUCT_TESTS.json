@@ -2973,6 +2973,19 @@
         "^tests/contracts/r89\\-chamber\\-men\\-scene\\-load\\-browser\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r89-sacked-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedSeasonResults|sharedHistoryConvergence|sharedMultiSeasonProgression|sharedFinalReconciliation|sharedTerminalClose|sparkTerminalClose|careerScreenSeam|sharedCareerAnalytics|touchlineGazette|seasonFinalV10|rivalryLegacyV10|commentaryV3|ruleBook)\\.js$",
+        "^data/gazetteSacked\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^scripts/build-production-firestore-rules\\.mjs$",
+        "^tools/set-release-time\\.cjs$",
+        "^tests/contracts/r89\\-sacked\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

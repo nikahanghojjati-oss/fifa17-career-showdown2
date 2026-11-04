@@ -108,7 +108,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const s=read("js/settings.js");
     assert.doesNotMatch(s,/DELETE CURRENT SHOWDOWN|deleteSettingsCurrentShowdown/,"no separate DELETE");
     const i=s.indexOf("async function runSettingsEndShowdown(");assert.ok(i>=0);
-    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"3b073e5f40fb84023e74e442d395bf3d086fede5f2e773b21816b44602664231");// r80 wording sweep: "it could not be closed here"
+    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"40a7f1b3fda9b1dac4011c3f84afd679da0606860e1931acbe473f255bf8b52c");// r80 wording sweep: "it could not be closed here"; r89 Sacked (Codex C3): a sacked Showdown goes to Terminal Close (finishSettingsSackedShowdown)
     const a=s.indexOf("    if(active){\n        const endCurrent"),end="actions.appendChild(endCurrent);\n    }\n",b=s.indexOf(end,a)+end.length;
     assert.ok(a>=0);assert.equal(sha(s.slice(a,b)),"8a4f90656a5d2eec26a478bc84dff8dcf59e66b46f3c0b2eb36e501abbcc1820");
     assert.doesNotMatch(MODES_SOURCE,/DELETE CURRENT SHOWDOWN|END SHOWDOWN|deleteSettingsCurrentShowdown|endSettingsCurrentShowdown/);
