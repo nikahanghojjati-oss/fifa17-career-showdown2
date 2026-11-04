@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04 8:52 AM Boston time (EST)",
+ "generated": "2026-11-04 8:53 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -2646,7 +2646,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-057_4k-page-title-wordmarks-all-titles.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 2
    }
   ],
   "relay_ok": true
