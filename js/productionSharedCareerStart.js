@@ -46,7 +46,7 @@
     // r87: the Russian Roster Roulette between Career Start and the Transfer Challenge runs at the manager's pace, so the 25 s
     // limit waits while it is on screen (js/rosterRouletteStep.js active()). Fable F6-09: it also waits while the Transfer
     // Challenge open is still in flight before the roulette shows (a cold cache loads its files), up to 2 minutes in all.
-    // r88: Chamber Men, before the roulette, is at the managers' pace too (round 1 waits for the rival to lock in).
+    // r88: Chamber Men, before the roulette, is at the managers' pace too (each kick's clock waits for the rival to lock in).
     const began=Date.now();
     const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()||root.CareerModeChamberMenStep?.active?.()||(transferOpening&&Date.now()-began<TRANSFER_OPEN_LIMIT_MS)){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
     let active=true;request={wait:promise=>Promise.race([promise,timeout]).then(value=>{if(!active)throw error;return value;})};

@@ -4,7 +4,7 @@
 //          shootout (its cylinders; one bullet when that season has no finished shootout), instead of "No roulette board"
 //          for ever; a season that still cannot be rebuilt names itself and Chamber Men in the card's reason.
 //   F17-02 "The pick did not go through" stays on screen (render() no longer writes over it at the next tick).
-//   F17-03 round 1 says its clock starts only when the rival locks in.
+//   F17-03 a kick says its clock starts only when the rival locks in (turn by turn: every kick).
 //   F17-06 full time reads "Daniel 4 · Nik 3" / "Level · Daniel 3 · Nik 3".
 //   F17-07 (layout) is checked in the browser: tests/contracts/r88-fable17-chamber-fold-browser-contracts.cjs.
 const assert=require("node:assert/strict");
@@ -81,8 +81,9 @@ const names=board=>board.map(row=>row&&row.name);
   assert.match(cm,/ui\.status\.textContent=notice&&Date\.now\(\)<notice\.until\?notice\.text:/,"render() keeps the notice up");
   assert.ok(!/ui\.status\.textContent="The pick did not go through/.test(cm),"no longer written straight over by the next tick");
   ok("F17-02","a failed lock-in says so and stays on screen");
-  assert.match(cm,/round===1\?`Pick your shot and your dive, then lock in\. No clock until \$\{NAMES\[other\]\} locks in\.`/);
-  ok("F17-03","round 1 says the clock waits for the rival");
+  // Turn by turn (Nik 2026-11-03): every kick's clock waits for the rival's lock-in, and the screen says so.
+  assert.match(cm,/`Pick your \$\{part\}, then lock in\. No clock until \$\{NAMES\[other\]\} locks in his \$\{theirPart\}\.`/);
+  ok("F17-03","each kick says the clock waits for the rival");
   assert.match(cm,/const line=`\$\{NAMES\.playerOne\} \$\{score\.playerOne\} · \$\{NAMES\.playerTwo\} \$\{score\.playerTwo\}`;/);
   assert.match(cm,/score\.playerOne===score\.playerTwo\?`Level · \$\{line\}`:line;/);
   assert.ok(!/`Level, \$\{/.test(cm));
