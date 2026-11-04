@@ -29,7 +29,7 @@ Licence for the files themselves: same as the rest of the Career Mode Showdown r
 
 ## Players (../players/)
 
-`player_desktop.glb`, `player_phone.glb`: the "Remy" character and animation clips from Adobe Mixamo, downloaded by Nik
+`anims_*.glb`, `body_*.glb` (players/): the "Remy", "Ch38" and "Ch42" characters and animation clips from Adobe Mixamo, downloaded by Nik
 with his own free Adobe account (2026-11-04) and converted by `tools/chamber-men-players`. Mixamo's terms allow the
 characters and animations to be used royalty-free inside a game or project; they must not be redistributed as stand-alone
 assets, so the source FBX files are not kept in the repository. Socks mesh, kit material names, keyframe reduction and

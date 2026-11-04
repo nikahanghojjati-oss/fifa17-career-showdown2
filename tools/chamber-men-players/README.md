@@ -1,4 +1,4 @@
-# Chamber Men players: Mixamo FBX to one glTF
+# Chamber Men players: Mixamo FBX to glTF (v1 `convert.cjs` wrote the retired single-file player_*.glb; use v2 below)
 
 Inputs (not in the repo: Mixamo's terms allow the character and clips inside the game, not as loose source files):
 Nik's Mixamo downloads, "Remy", FBX Binary, 30 fps; the first file with skin, the rest without. Put them in `in/`
