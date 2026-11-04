@@ -2,15 +2,15 @@
   "schemaVersion": 1,
   "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules on gameplay/recovery-v1 differ from what production main deploys. The main gate must see exactly these changes and nothing else. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "00ae2b72da4f4a1924895db6257caf1999a0d3ef",
-    "sha256": "4520bfdafe645a28ae742fec770ca00548f24a1b5e1480050cecda1ea82ab432",
-    "gitBlobSha1": "90c7bbb91e6fa170579ee1e07c23b57c256bbfa6",
-    "bytes": 172840
-  },
-  "candidate": {
+    "commit": "3da99a4cf8025113a3724c73af722ced6d35bf69",
     "sha256": "1eded7041ce57a15310ac04c187f1bbee9c7e5db0d9946b3a81a0231ed878fdb",
     "gitBlobSha1": "d5f6e86c68725a5568cfcdf58a85dcb79ac327ee",
     "bytes": 175915
+  },
+  "candidate": {
+    "sha256": "81e1ca6751a8b32143abd51f7bc858e21e049d845a03d85c03f434f4bad63cb8",
+    "gitBlobSha1": "e1b1eaa4fb6f28eff3b3d61c7b7aec3eea403221",
+    "bytes": 176125
   },
   "allowedOwners": [
     "G-7",
@@ -43,71 +43,18 @@
   ],
   "hunks": [
     {
-      "mainLine": 2049,
-      "candidateLine": 2049,
-      "removed": [],
+      "mainLine": 2090,
+      "candidateLine": 2090,
+      "removed": [
+        "        && after.kicks[role].matches(before.kicks[role] + '[LMR-]');"
+      ],
       "added": [
-        "    // r88 Chamber Men (Nik 2026-11-02, turn by turn 2026-11-03; js/chamberMen.js, js/chamberMenStep.js): once a season,",
-        "    // before Roster Russian Roulette, a 7-round penalty shootout of 14 kicks: Daniel shoots and Nik keeps, then Nik shoots and",
-        "    // Daniel keeps, and so on. The round record is rivalries/{rid}/chamberMenRounds/season_N. Each manager owns only his own",
-        "    // pick string kicks[role]: one letter per kick (his shot on a kick he takes, his dive on a kick he keeps: L, M, R, or -",
-        "    // when his own clock ran out), 14 at most (7 shots and 7 dives). A write adds exactly one letter to his own string and",
-        "    // never changes what is there, and only while he is not ahead of the other manager (he sends kick n+1 only once the",
-        "    // other has sent kick n), so nobody runs ahead, nothing is taken back, and the letter at place n is always his part on",
-        "    // kick n. The other manager's string never moves. Scoring and the cylinders are worked out on both phones from the two",
-        "    // strings; no lookup beyond the shared write authority, no list, no delete.",
-        "    function ssjrChamberShape(root, rivalryId, seasonId) {",
-        "      return root.keys().size() == 9",
-        "        && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','kicks','revision','activeSessionId','updatedByDeviceId','updatedAt'])",
-        "        && root.schemaVersion == 2",
-        "        && root.objectType == 'sharedChamberMenRound'",
-        "        && root.rivalryId == rivalryId",
-        "        && ssjrResultsSeasonMatches(seasonId, root.seasonNumber)",
-        "        && ssjrPackRoleMap(root.kicks)",
-        "        && root.kicks.playerOne is string && root.kicks.playerOne.size() <= 14",
-        "        && root.kicks.playerTwo is string && root.kicks.playerTwo.size() <= 14",
-        "        && root.revision is int",
-        "        && root.updatedAt == request.time",
-        "        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);",
-        "    }",
-        "    function ssjrChamberCreateValid(rivalryId, seasonId) {",
-        "      let after = request.resource.data;",
-        "      let role = ssjrActorRole(rivalryId);",
-        "      return ssjrChamberShape(after, rivalryId, seasonId)",
-        "        && after.revision == 1",
-        "        && after.kicks[role].matches('[LMR-]')",
-        "        && after.kicks[ssjrPackOther(role)] == '';",
-        "    }",
-        "    function ssjrChamberUpdateValid(rivalryId, seasonId) {",
-        "      let before = resource.data;",
-        "      let after = request.resource.data;",
-        "      let role = ssjrActorRole(rivalryId);",
-        "      let other = ssjrPackOther(role);",
-        "      return ssjrChamberShape(after, rivalryId, seasonId)",
-        "        && after.seasonNumber == before.seasonNumber",
-        "        && after.revision == before.revision + 1",
-        "        && after.kicks[other] == before.kicks[other]",
-        "        && before.kicks[role].size() <= before.kicks[other].size()",
-        "        && after.kicks[role].matches(before.kicks[role] + '[LMR-]');",
-        "    }"
+        "        && after.kicks[role].size() == before.kicks[role].size() + 1",
+        "        && (before.kicks[role] == '' || after.kicks[role][0:before.kicks[role].size()] == before.kicks[role])",
+        "        && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]');"
       ],
       "owner": "R88-CHAMBER-MEN",
-      "why": "r88 Chamber Men (Nik 2026-11-02; turn by turn 2026-11-03, one letter a kick, schemaVersion 2): per-season shootout round record rivalries/{rid}/chamberMenRounds/season_N; each manager appends one letter a kick (his shot or his dive) to his own pick string, never ahead of the other."
-    },
-    {
-      "mainLine": 3314,
-      "candidateLine": 3357,
-      "removed": [],
-      "added": [
-        "      }",
-        "      match /chamberMenRounds/{seasonId} {",
-        "        allow get: if ssjrEntitled(rivalryId);",
-        "        allow list, delete: if false;",
-        "        allow create: if ssjrChamberCreateValid(rivalryId, seasonId);",
-        "        allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);"
-      ],
-      "owner": "R88-CHAMBER-MEN",
-      "why": "r88 Chamber Men (Nik 2026-11-02): per-season shootout round record rivalries/{rid}/chamberMenRounds/season_N; each manager appends one letter a kick (his shot or his dive) to his own pick string, never ahead of the other."
+      "why": "2.1.0 Rules deploy: the Firebase Rules API answered 503 to every create of the ruleset whose Chamber Men update rule built a regex from stored data (matches(before + '[LMR-]')), the only non-literal regex in the Rules. Same check with literals: one more letter, the old letters unchanged, the new letter L/M/R/-."
     }
   ]
 }
