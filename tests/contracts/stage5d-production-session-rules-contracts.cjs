@@ -38,7 +38,7 @@ for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntim
 }
 assert.match(worker,/"js\/sparkStandardAuthPrivateSession\.js"/,"The session adapter may remain a lazy precached runtime asset without executing at startup.");
 assert.match(rulesPublisher,/RULES_API_RETRYABLE_STATUS=new Set\(\[408,425,429,500,502,503,504\]\)/,"Production Rules publication must retry transient provider and throttling failures.");
-assert.match(rulesPublisher,/RULES_API_RETRY_DELAYS_MS=\[1000,2000,4000,8000,16000\]/,"Rules publication retries must be bounded with finite backoff.");
+assert.match(rulesPublisher,/RULES_API_RETRY_DELAYS_MS=\[1000,2000,4000,8000,16000,30000,45000,60000,60000,60000,60000,60000\]/,"Rules publication retries must be bounded with finite backoff.");
 assert.match(rulesPublisher,/if\(!retryable\|\|attempt>=RULES_API_RETRY_DELAYS_MS\.length\)throw lastFailure/,"Non-retryable Firebase Rules failures must still fail closed.");
 assert.match(rulesPublisher,/FIREBASE_RULES_API_RETRY/,"Transient publication retries must remain visible in deployment evidence.");
 

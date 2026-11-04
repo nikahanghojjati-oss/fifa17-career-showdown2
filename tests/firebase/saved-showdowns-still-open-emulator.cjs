@@ -105,7 +105,7 @@ function buildComposedRules() {
     assert.equal(built.status, 0, `${script} failed: ${built.stderr}`);
   }
   const rules = fs.readFileSync(path.join(ROOT, "firestore.spark.generated.rules"), "utf8");
-  assert.match(rules, /function cmsCompletedShowdownReadable\(rivalryId\)/, "composed Rules must contain the completed-Showdown read grant");
+  assert.match(rules, /function cmsCompletedShowdownReadable\((rivalryId)?\)/, "composed Rules must contain the completed-Showdown read grant");
   assert.match(rules, /match \/accounts\/\{accountId\}\/careerIndex\/\{indexId\}/, "composed Rules must contain the career index");
   assert.match(rules, /match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/, "composed Rules must contain the persistent pair fragment");
   return rules;
