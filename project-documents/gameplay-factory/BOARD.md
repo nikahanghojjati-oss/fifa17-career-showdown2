@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 4 Nov, 2:17 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 4 Nov, 2:22 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.1.0-r88** (main `666df32`, Tue 3 Nov 10:39 PM)
 
@@ -62,7 +62,7 @@ Updated Wed 4 Nov, 2:17 AM Boston time. Bug hunting only, no new features until 
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 482 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 483 h ago
 
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1242](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1242) | Rules: compile inside the Rules service deadline (2.1.0 ruleset create 503s) | ⏳ 1 passed, 7 running |
+| 🟧 Team G lead | [PR #1242](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1242) | Rules: compile inside the Rules service deadline (2.1.0 ruleset create 503s) | ⏳ 3 passed, 5 running |
 | 🟧 Team G lead | [PR #1241](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1241) | Studio Small Axe: phone pass (league wheel, big sideways phones, Transfer War, Club Assignment) | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**
