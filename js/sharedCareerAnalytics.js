@@ -65,11 +65,16 @@
   // r80 Ended early: an abandoned row read from its closed root also carries its close time and seasons played (null when
   // unknown); it never counts.
   function endedOf(ended){const at=ended?.endedAt,played=ended?.seasonsPlayed;return {endedAt:Number.isFinite(at)&&at>0?at:null,seasonsPlayed:Number.isInteger(played)&&played>=0&&played<=10?played:null};}
+  // r89 Sacked: a Showdown that ended because a manager was sacked is a completed Showdown like any other (counted on every
+  // career screen); its row also says so: endedBy 'sacked', the season it ended after, and who was sacked.
+  function sackedRow(p){const end=History.showdownEnd?.ofProjection(p);return end&&end.endedBy==="sacked"?{endedBy:"sacked",sackedSeason:end.sackedSeason,sacked:{daniel:end.sacked.playerOne,nik:end.sacked.playerTwo}}:{};}
   function statusRow(entry,number){const ended=entry.ended||null;return {number,rivalryId:entry.rivalryId,status:entry.classification,leagueId:null,clubs:null,seasonsPlayed:ended?ended.seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[],setupConfirmedAt:null,...(ended?{endedAt:ended.endedAt}:{})};}
   function seasonRow(season){
     const pair=field=>({daniel:season.playerOne[field],nik:season.playerTwo[field]});
     // r80: a season with a Europa League win also names who won it (History shows it); other seasons keep the r79 row shape.
     const europaLeague=season.playerOne.europaLeague===true||season.playerTwo.europaLeague===true?{europaLeague:{daniel:season.playerOne.europaLeague===true,nik:season.playerTwo.europaLeague===true}}:{};
+    // r89 Sacked: the season row says who was sacked (only when someone was).
+    if(season.playerOne.sacked===true||season.playerTwo.sacked===true)europaLeague.sacked={daniel:season.playerOne.sacked===true,nik:season.playerTwo.sacked===true};
     return {season:season.roundNumber,score:{daniel:season.playerOne.scoring.total,nik:season.playerTwo.scoring.total},winner:managerFor(season.winner),tiebreak:seasonTiebreak(season),leaguePosition:pair("leaguePosition"),leaguePoints:pair("leaguePoints"),leagueGoals:pair("leagueGoals"),...europaLeague};
   }
   // r87 Prime Pack (Nik 2026-11-01 17:35 UTC): a perfect season is 15 points (11 + a 4-point Prime Pack), in every
@@ -148,7 +153,7 @@
       }
       const totals={daniel:p.managerRecords.playerOne.totalPoints,nik:p.managerRecords.playerTwo.totalPoints};
       const finalWinner=classification==="active"?null:managerFor(entry.final.winner);
-      rows.push({number:rows.length+1,rivalryId:entry.rivalryId,status:classification==="active"?"in-progress":classification,leagueId:p.leagueId,clubs:{daniel:p.managerRecords.playerOne.club,nik:p.managerRecords.playerTwo.club},seasonsPlayed:p.acceptedSeasons,totalSeasons:p.totalSeasons,totals,winner:finalWinner,seasons:p.seasonHistory.map(seasonRow),setupConfirmedAt:Number.isFinite(entry.setupConfirmedAt)?entry.setupConfirmedAt:null});
+      rows.push({number:rows.length+1,rivalryId:entry.rivalryId,status:classification==="active"?"in-progress":classification,leagueId:p.leagueId,clubs:{daniel:p.managerRecords.playerOne.club,nik:p.managerRecords.playerTwo.club},seasonsPlayed:p.acceptedSeasons,totalSeasons:p.totalSeasons,totals,winner:finalWinner,seasons:p.seasonHistory.map(seasonRow),setupConfirmedAt:Number.isFinite(entry.setupConfirmedAt)?entry.setupConfirmedAt:null,...sackedRow(p)});
       if(classification==="completed"){
         for(const manager of MANAGERS){
           const outcomes=managers[manager].showdowns;outcomes.completed+=1;

@@ -693,7 +693,7 @@ async function revokePairing(options={}){
   // pricing, "Listeners and rules"), so every server delivery is billed its document plus its lookups. A write is priced at
   // every document its create or update rule can reach, once per request (a transaction is one request): an upper bound.
   // tests/contracts/r86-billed-counter-contracts.cjs fails when the Rules change and this table is not regenerated.
-  const FSB_RULES_SHA256="c7319417201f8cec300ae6009766e61ff2efa79a943d3d3678479a1ced6bebc8";
+  const FSB_RULES_SHA256="ae3fc31879b7a8ca3ee1c007b5bd0a82c17cc0c39db9d8b4cd24312ed934dc7f";
   // BEGIN generated Rules lookup table (paths are priced here, never read or written by this module).
   const FSB_RULES_LOOKUPS=Object.freeze([
       ["accounts/*",0,0,[]],
@@ -706,7 +706,7 @@ async function revokePairing(options={}){
       ["accounts/*/partner/*",0,0,["accounts/{@self}","accounts/{accountId}/careerStart/current","rivalries/{after.pairedViaRivalryId}","rivalries/{request.resource.data.pairedViaRivalryId}"]],
       ["accounts/*/partnerInbox/*",0,0,["accounts/{@self}","accounts/{@self}/partner/current","accounts/{accountId}/partner/current","rivalries/{note.rivalryId}","rivalries/{note.rivalryId}/invites/{note.rivalryId}"]],
       ["accounts/*/careerSummary/*",1,1,["accounts/{@self}","rivalries/{rivalryId}"]],
-      ["rivalries/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/pairLinks/current","rivalries/{rivalryId}/invites/{rivalryId}","rivalries/{rivalryId}/seasonCommits/season_1","rivalries/{rivalryId}/seasonCommits/{seasonId}","rivalries/{rivalryId}/sessions/{intent.sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
+      ["rivalries/*",0,0,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","accounts/{@self}/pairLinks/current","rivalries/{rivalryId}/invites/{rivalryId}","rivalries/{rivalryId}/seasonCommits/season_1","rivalries/{rivalryId}/seasonCommits/{'season_'+stringafter.data.endedEarly.seasonsPlayed+1}","rivalries/{rivalryId}/seasonCommits/{'season_'+stringafter.data.endedEarly.seasonsPlayed}","rivalries/{rivalryId}/seasonCommits/{seasonId}","rivalries/{rivalryId}/sessions/{intent.sessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
       ["rivalries/*/state/authoritative",1,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/state/authoritative/idempotency/{receiptKey}"]],
       ["rivalries/*/state/authoritative/idempotency/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}/state/authoritative"]],
       ["rivalries/*/invites/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}"]],

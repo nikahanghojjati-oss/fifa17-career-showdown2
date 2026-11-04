@@ -235,6 +235,8 @@
     if(!scoring||scoring.authoritative!==true||scoring.phase!=="SCORING_RECONCILED"||!int(scoring.seasonNumber,1,N))return null;
     const s=scoring.seasonNumber,commit=state("CareerModeProductionSharedSeasonCommit");
     if(!commit||commit.committed!==true||commit.seasonNumber!==s||!plain(commit.results)||(commit.rivalryId&&String(commit.rivalryId)!==rivalryId))return null;
+    // r89 Sacked: a sacking ends the Showdown after this season, so the "seasons left" lines would be false. The booth stays quiet.
+    if(commit.results.playerOne?.sacked===true||commit.results.playerTwo?.sacked===true)return null;
     const history=state("CareerModeProductionSharedHistoryConvergence"),p=history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&String(history.rivalryId)===rivalryId?history.projection:null;
     const accepted=Array.isArray(p?.seasonHistory)?p.seasonHistory:[];
     const rows=[];

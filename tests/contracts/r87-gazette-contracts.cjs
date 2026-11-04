@@ -368,7 +368,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     const w=world({history,lateFiles:true});
     const ev=w.dispatch(w.seasonButton);assert.equal(ev.defaultPrevented,true,'held although the copy is not loaded yet');assert.equal(w.calls.ownSeason,0);
     assert.equal(w.page(),null);await new Promise(resolve=>setTimeout(resolve,150));
-    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','special-player-chip','visual-identity']);
+    assert.deepEqual([...w.calls.loads].sort(),['gazette-copy','gazette-frontpage','gazette-headlines','gazette-sacked','special-player-chip','visual-identity']);
     assert.ok(w.page(),'the paper came up once its files arrived');assert.equal(w.calls.shown[0].headline,G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp}).paper.headline);
     w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1);assert.equal(w.screen(),'dashboard');assert.equal(w.page(),null);
     const q=proj('9',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),fr=frame(q),f=world({history:fx.history(q),final:fr,lateFiles:true});

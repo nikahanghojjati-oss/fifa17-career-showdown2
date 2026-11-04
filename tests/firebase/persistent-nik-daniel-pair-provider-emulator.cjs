@@ -69,7 +69,8 @@ async function abandonCurrentPairRivalry(db,{uid,device,target,nowMs,tamperCreat
   return runTransaction(db,async transaction=>{
     const snapshot=await transaction.get(rivalryRef);
     const before=snapshot.data(),at=Timestamp.fromMillis(nowMs+2500);
-    const data={...before.data,connectionState:'closed'};
+    // r89: an active Showdown's END names its exact accepted count (none here), as the pair provider writes it.
+    const data={...before.data,connectionState:'closed',...(before.data.connectionState==='active'?{endedEarly:{seasonsPlayed:0}}:{})};
     if(tamperCreatedBy)data.createdByAccountId='acct_tampered';
     const after=envelope({
       objectType:'rivalry',

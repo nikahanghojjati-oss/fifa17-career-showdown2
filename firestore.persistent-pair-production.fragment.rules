@@ -126,13 +126,28 @@
         && before.objectType == 'rivalry'
         && before.objectId == rivalryId
         && before.lifecycleState == 'live'
+        && (before.data.connectionState == 'pending-pair' || before.data.connectionState == 'active')
+        // r89 Sacked (Codex C3 + re-check): a Showdown whose last accepted season has a sacking has finished. It closes only
+        // through the proven Terminal Close (completed, sacked), never as Ended early, whether or not Terminal Progress has
+        // recorded that season yet. Checked early, so a refusal stays far from the 1,000-expression limit. An active Showdown's END names the accepted seasons (seasonsPlayed = k): commit k is
+        // ACKNOWLEDGED with nobody sacked (k = 0: none), and commit k + 1 is not ACKNOWLEDGED, so k is exactly the accepted
+        // prefix. Two lookups on this rare write; the season writes are untouched.
+        && (!('terminalProgress' in before.data) || !('sacked' in before.data.terminalProgress))
+        && (before.data.connectionState == 'pending-pair'
+          || (after.data.get('endedEarly', null) is map
+            && after.data.endedEarly.get('seasonsPlayed', null) is int
+            && (after.data.endedEarly.seasonsPlayed == 0
+              || (get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.data.endedEarly.seasonsPlayed))).data.phase == 'ACKNOWLEDGED'
+                && !('sacked' in get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.data.endedEarly.seasonsPlayed))).data.results.playerOne)
+                && !('sacked' in get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.data.endedEarly.seasonsPlayed))).data.results.playerTwo)))
+            && (!exists(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.data.endedEarly.seasonsPlayed + 1)))
+              || get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.data.endedEarly.seasonsPlayed + 1))).data.phase != 'ACKNOWLEDGED')))
         && activeDevice(after.updatedByDeviceId)
         && validCasEnvelope(before, after, 'rivalry', rivalryId)
         && after.updatedByAccountId == request.auth.uid
         && cmsPersistentPairAbandonActorValid(before, rivalryId)
         && before.data.authorizedAccountIds is list
         && request.auth.uid in before.data.authorizedAccountIds
-        && (before.data.connectionState == 'pending-pair' || before.data.connectionState == 'active')
         && after.data.connectionState == 'closed'
         && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState', 'endedEarly'])
         && (!('endedEarly' in after.data) || cmsPersistentPairEndedEarlyValid(after.data.endedEarly));
@@ -569,15 +584,16 @@
         && activeAccount(request.auth.uid)
         && 'terminalClose' in data
         && ssjrTerminalValidIntent(rivalryId, data.terminalClose)
-        && ssjrTerminalProgressShape(progress)
-        && progress.acceptedThroughSeason == progress.totalSeasons
+        && ssjrTerminalProgressShape(progress, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])
+        && (progress.acceptedThroughSeason == progress.totalSeasons || 'sacked' in progress)
         && progress.closedSessionRevision is int
         && data.terminalClose.totalSeasons == progress.totalSeasons
         && data.terminalClose.managerTotals == progress.managerTotals;
     }
 
     function cmsCompletedSeasonReadable(rivalryId, seasonId) {
-      let total = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.terminalProgress.totalSeasons;
+      // r89 Sacked: the seasons actually played (equal to totalSeasons for a full-length Showdown).
+      let total = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.terminalProgress.acceptedThroughSeason;
       return cmsCompletedShowdownReadable(rivalryId)
         && seasonId in ['season_1','season_2','season_3','season_4','season_5','season_6','season_7','season_8','season_9','season_10'][0:total];
     }
