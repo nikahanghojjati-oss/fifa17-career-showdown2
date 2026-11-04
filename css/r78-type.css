@@ -821,7 +821,8 @@
 }
 
 /* 4u Studio Small Axe 40/40, motion set: the Golden Showdown light sweep. A Golden Showdown (150 points over 10 seasons) is
-   the rarest thing in the game, so its card, trophy, note and badge catch one slow sweep of light when they appear. Light
+   the rarest thing in the game, so its card, trophy, note and badge catch one sweep of light when they appear (640ms, no delay;
+   the Rivalry badge lives in the HEAD-TO-HEAD tab and sweeps when that tab opens). Light
    only: it passes behind the content, never darkens, never covers, ends invisible and is off under Reduce Motion. */
 :root #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown) {
   isolation: isolate;
@@ -845,6 +846,8 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown)::after {
-    animation: sa-golden-sweep 1400ms cubic-bezier(.45, 0, .25, 1) 500ms 1 both;
+    animation: sa-golden-sweep 640ms cubic-bezier(.45, 0, .25, 1) 1 both;
   }
 }
+/* 4u.1 (Fable job 20, Type): the GOLDEN SHOWDOWN tags on Legacy, Rivalry and Career Statistics drew at 11px; 12px floor. */
+:root #app :is(#legacy .legacyGoldenShowdown, #statistics .rv-goldenShowdown, #careerStatistics .goldenShowdownNote) { font-size: 12px; line-height: 16px; }
