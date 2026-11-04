@@ -389,10 +389,22 @@
     function ssjrTransferSpinCreate(rivalryId, transferId) {
       let after = request.resource.data;
       return after.phase == 'NOT_STARTED'
+        // r89 Sacked: no Transfer War after a season in which either manager was sacked. Checked here, on the first mark of
+        // the next season (one lookup, seasons 2 to 10), because START from the marks has no expression headroom left
+        // (measured on the emulator: one more term there hits the 1,000-expression limit). The second mark is an update
+        // of this document and START needs both, so a refused first mark keeps the window shut. Early in the check, so the
+        // refusal is an ordinary denial.
+        && after.seasonNumber is int
+        && (after.seasonNumber == 1
+          || ssjrTransferPreviousSeasonOpen(get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.seasonNumber - 1))).data))
         && ssjrTransferSpinShape(after, rivalryId, transferId)
         && ssjrEntitled(rivalryId)
         && after.spins.keys().hasOnly([ssjrActorRole(rivalryId)])
         && after.spins[ssjrActorRole(rivalryId)] != false;
+    }
+    function ssjrTransferPreviousSeasonOpen(commit) {
+      return commit.results.playerOne.get('sacked', false) == false
+        && commit.results.playerTwo.get('sacked', false) == false;
     }
     function ssjrTransferSpinUpdate(rivalryId, transferId) {
       let before = resource.data;

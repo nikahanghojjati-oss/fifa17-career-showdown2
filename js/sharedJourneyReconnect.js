@@ -92,6 +92,9 @@
       durableKey:progression?jrDurableKey(progression):previous?.durableKey||"",
       canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false
     };
+    // r89 Sacked: the optional sackedSeason key (the progression's) says the Showdown ended at that season; absent otherwise.
+    const sackedSeason=progression?(Number.isInteger(progression.sackedSeason)?progression.sackedSeason:null):(Number.isInteger(previous?.sackedSeason)?previous.sackedSeason:null);
+    if(sackedSeason)state.sackedSeason=sackedSeason;
     return jrFreeze(state);
   }
   function jrVerifyAcceptedRevisionKey(value,count){
@@ -105,7 +108,9 @@
     return true;
   }
   function jrVerifyState(value){
-    jrExact(value,STATE_KEYS);
+    const sacked=jrPlain(value)&&Object.hasOwn(value,"sackedSeason");
+    jrExact(value,sacked?[...STATE_KEYS,"sackedSeason"]:STATE_KEYS);
+    if(sacked&&(value.setupRevision===null||!Number.isInteger(value.sackedSeason)||value.sackedSeason<1||value.sackedSeason!==value.acceptedSeasons))jrFail("JOURNEY_RECONNECT_STATE_INVALID");
     if(value.schemaVersion!==1||value.runtimeRevision!==RUNTIME_REVISION||!PHASES.includes(value.phase))jrFail("JOURNEY_RECONNECT_STATE_INVALID");
     const authority=jrAuthority(value);
     for(const key of ["networkOnline","activeAuthorization","sessionChanged","freshSessionRequired","resumable","recovered","terminal"]){if(typeof value[key]!=="boolean")jrFail("JOURNEY_RECONNECT_STATE_INVALID");}
@@ -124,7 +129,7 @@
     }
     if(value.setupRevision!==6||value.setupPhase!=="SHOWDOWN_CONFIRMED"||typeof value.leagueId!=="string"||!value.leagueId.trim()||![1,3,5,10].includes(value.totalSeasons)||!jrPlain(value.fixedClubs)||typeof value.fixedClubs.playerOne!=="string"||!value.fixedClubs.playerOne||typeof value.fixedClubs.playerTwo!=="string"||!value.fixedClubs.playerTwo||value.fixedClubs.playerOne===value.fixedClubs.playerTwo)jrFail("JOURNEY_RECONNECT_STATE_INVALID");
     if(!Number.isInteger(value.acceptedSeasons)||value.acceptedSeasons<0||value.acceptedSeasons>value.totalSeasons)jrFail("JOURNEY_RECONNECT_STATE_INVALID");
-    const terminal=value.acceptedSeasons===value.totalSeasons;
+    const terminal=value.acceptedSeasons===value.totalSeasons||sacked;
     if(value.terminal!==terminal||value.activeSeason!==(terminal?null:value.acceptedSeasons+1))jrFail("JOURNEY_RECONNECT_STATE_INVALID");
     jrVerifyAcceptedRevisionKey(value.acceptedRevisionKey,value.acceptedSeasons);
     const expectedPlan=`${value.setupRevision}|${value.leagueId}|${value.totalSeasons}|${value.fixedClubs.playerOne}|${value.fixedClubs.playerTwo}`;
