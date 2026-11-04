@@ -34,6 +34,8 @@ below is the 2.2.0 queue; it is confirmed against the merged tree at the r89 fre
 - The seven acceptance-only scripts stay `ACCEPTANCE_ONLY_SCRIPT_PATHS`: they load on demand from the asking revision's
   shell, else the network.
 - An installed phone takes the update on Home, never in the middle of a game screen.
+- Startup budget: the startup gzip cap moves from 33910 to 33913 bytes (lead OK 2026-11-04 18:10 UTC). The new
+  `2.2.0-r89` pins are as long as the old ones but gzip 3 bytes larger (js/menuExperience.js +2, js/app.js +1); no code changed.
 - After 2.2.0 is live, open the app on both phones and wait on Home until it reloads itself.
 
 ## Deploy order
