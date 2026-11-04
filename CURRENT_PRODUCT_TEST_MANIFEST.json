@@ -63,7 +63,8 @@
     "tests/contracts/offline-hotfix-contracts.cjs",
     "tests/contracts/v13-offline-lifecycle-contracts.cjs",
     "tests/contracts/ci-orchestration-contracts.cjs",
-    "tests/contracts/final-release-hardening.cjs"
+    "tests/contracts/final-release-hardening.cjs",
+    "tests/contracts/rules-compile-budget-contracts.cjs"
   ],
   "heavyProofGroups": {
     "shared-showdown": [

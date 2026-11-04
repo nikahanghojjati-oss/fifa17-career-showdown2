@@ -147,7 +147,7 @@ async function main(env){
   await seedAccounts(env);
   await ok("I0","composed Rules carry the career index and the completed-only grant",async()=>{
     assert.match(RULES,/match \/accounts\/\{accountId\}\/careerIndex\/\{indexId\}/,"career index match");
-    assert.equal((RULES.match(/cmsCompletedSeasonReadable\(rivalryId, seasonId\)/g)||[]).length,4,"completed grant");
+    assert.equal((RULES.match(/cmsCompletedSeasonReadable\((rivalryId, )?seasonId\)/g)||[]).length,4,"completed grant");
   });
 
   // Showdown 1: 3 seasons, real Terminal Close.

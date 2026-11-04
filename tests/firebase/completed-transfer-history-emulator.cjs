@@ -175,11 +175,14 @@ async function run(env){
   const T=(db,id,k,role)=>role?doc(db,"rivalries",id,"transferChallenges",`season_${k}`,"roles",role):doc(db,"rivalries",id,"transferChallenges",`season_${k}`);
 
   await check("I0","composed Rules carry the transfer grant on exactly the challenge get and the COMPLETED-gated role get",async()=>{
-    assert.equal((RULES.match(/allow get: if ssjrEntitled\(rivalryId\) \|\| cmsCompletedSeasonReadable\(rivalryId, transferId\);/g)||[]).length,1);
-    assert.match(RULES,/allow get: if ssjrTransferPrivateReadable\(rivalryId, transferId, managerRole\)\n\s+\|\| \(managerRole in \['playerOne', 'playerTwo'\] && cmsCompletedTransferRoleReadable\(rivalryId, transferId\)\);/);
-    assert.ok(RULES.includes("function cmsCompletedTransferRoleReadable(rivalryId, transferId)"));
+    assert.equal((RULES.match(/allow get: if ssjrEntitled\((rivalryId)?\) \|\| cmsCompletedSeasonReadable\((rivalryId, )?transferId\);/g)||[]).length,1);
+    assert.match(RULES,/allow get: if ssjrTransferPrivateReadable\((rivalryId, transferId, managerRole)?\)\n\s+\|\| \(managerRole in \['playerOne', 'playerTwo'\] && cmsCompletedTransferRoleReadable\((rivalryId, transferId)?\)\);/);
+    assert.match(RULES,/function cmsCompletedTransferRoleReadable\((rivalryId, transferId)?\)/);
     assert.equal(/allow (create|update|delete|list|write)[^\n]*cmsCompleted/.test(RULES),false);
-    for(const marker of ["match /accounts/{accountId}/pairLinks/{pairId}","match /accounts/{accountId}/careerIndex/{indexId}","function cmsCompletedSeasonReadable(rivalryId, seasonId)","function ssjrTransferPrivateReadable(rivalryId, transferId, managerRole)"])assert.ok(RULES.includes(marker),marker);
+    for(const marker of ["match /accounts/{accountId}/pairLinks/{pairId}","match /accounts/{accountId}/careerIndex/{indexId}"])assert.ok(RULES.includes(marker),marker);
+    // declarations in the reviewed form or the localized form (the localize build step drops the wildcard parameters)
+    assert.match(RULES,/function cmsCompletedSeasonReadable\((rivalryId, )?seasonId\)/);
+    assert.match(RULES,/function ssjrTransferPrivateReadable\((rivalryId, transferId, managerRole)?\)/);
   });
 
   // A. Completed Showdown X: both managers read the finished transfer history without a session.
