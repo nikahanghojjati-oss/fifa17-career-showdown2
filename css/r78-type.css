@@ -839,26 +839,7 @@
   }
   :root #app #leagueWheelScreen.v26Skin #leagueWheel { box-shadow: 0 12px 26px rgba(0, 0, 0, .55); }
 }
-/* 3. Upright phones: Team V's phone plates paint Daniel and Nik standing behind a marble plinth. The wheel sat high, over
-      their chests, so the men read as heads that fade out halfway down, and the plinth and floor below the buttons were an
-      empty dark band. The wheel now stands in front of the plinth (its top about a third of the wheel above the plinth's
-      rim), as it does on desktop, and SPIN WHEEL / BACK sit on the floor below it: both men show down to the plinth and the
-      lower half of the screen is used. Plinth rim: plate y 1195 of 2096 (V5) and 1100 of 2620 (TALL V5), cover-scaled from
-      the top (on the TALL plate the plinth stands higher, so the wheel's top sits level with its rim). With the faces now well above it, the wheel also gets back its full size (the HO-032 15% cut was there
-      to keep it clear of the faces); on the TALL plate the men stand higher and closer, so it keeps the cut there. Only on screens at least 740px tall, so short phones (393x660, 360x640) keep
-      their first-view buttons. */
-@media (min-width: 340px) and (max-width: 430px) and (min-height: 740px) and (max-height: 960px) and (min-aspect-ratio: 59/128) and (orientation: portrait) {
-  :root #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) { --v26-wheel: var(--v26-wheel-full); --v26-wheel-cut: 0px; }
-  :root #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 8px; }
-  :root #app #leagueWheelScreen.v26Skin .wheelPointer {
-    margin-top: calc(var(--v26-wheel-cut) * .5695 + max(0px, max(100vw * 1195 / 1179, 100svh * 1195 / 2096) - var(--v26-wheel) * .36 - 220px));
-  }
-}
-@media (min-width: 340px) and (max-width: 430px) and (min-height: 740px) and (max-height: 960px) and (min-aspect-ratio: 17/48) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
-  :root #app #leagueWheelScreen.v26Skin .wheelPointer {
-    margin-top: calc(var(--v26-wheel-cut) * .5695 + max(0px, max(100vw * 1100 / 1179, 100svh * 1100 / 2620) - var(--v26-wheel) * .05 - 220px));
-  }
-}
+/* 3. (Nik 2026-11-04 13:42 UTC) the wheel keeps its HO-032 place, sitting on the plinth in perspective; no upright-phone move. */
 /* 4. "SPIN TO SELECT LEAGUE" broke onto two lines on upright phones; one line, with shorter side rules. */
 @media (max-width: 430px) and (orientation: portrait) {
   :root #app #leagueWheelScreen.v26Skin #selectedLeague { white-space: nowrap; letter-spacing: .1em; gap: 10px; }
@@ -893,3 +874,8 @@
   :root #app .ruleBookV10Content .ruleBookTabs { padding-right: 9px; box-sizing: border-box; }
   :root #app #trophyRoom .trophyShelf .trophyTabs { margin-right: 55px; }
 }
+/* 4w.10 (Nik 2026-11-04 13:45 UTC) No box around page titles, on any screen at any size. Each screen moves focus to its title
+   (tabindex -1, for screen readers); browsers drew a focus outline round it, and iPhone Safari shows it after every screen change.
+   Titles are not buttons and are not reachable by Tab, so the outline goes everywhere; screen readers still announce the title. */
+:root #app [data-route-focus-target="true"]:is(:focus, :focus-visible),
+:root [data-route-focus-target="true"]:is(:focus, :focus-visible) { outline: none !important; }
