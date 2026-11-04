@@ -880,3 +880,16 @@
 @media (orientation: landscape) and (max-height: 500px) {
   :root #app #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel { font-size: 12px; line-height: 1.08; letter-spacing: .02em; text-wrap: balance; min-width: 0; }
 }
+/* 4w.8 Sideways phones: the Rule Book summary and the Transfer War window status sit straight on busy photos; same dark marble strip as the upright info line. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root #app .ruleBookHero .ruleBookSummary,
+  :root #app #transferChallenge #tw-transferPhaseStatus.sign-status {
+    background: rgba(8, 8, 10, .82); border: 1px solid rgba(212, 175, 55, .35); border-radius: 4px; padding: 4px 10px; box-sizing: border-box;
+  }
+  :root #app .ruleBookHero .ruleBookSummary { margin-inline: 8px; }
+}
+/* 4w.9 Sideways phones: the Rule Book section tiles and Trophy Room tabs ran to 3px and 7px from the corner gear; both now stop 12px short of it. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root #app .ruleBookV10Content .ruleBookTabs { padding-right: 9px; box-sizing: border-box; }
+  :root #app #trophyRoom .trophyShelf .trophyTabs { margin-right: 55px; }
+}
