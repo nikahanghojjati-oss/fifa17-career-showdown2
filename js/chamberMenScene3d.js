@@ -461,6 +461,409 @@
     return api;
   }
 
+  // ---------- r89 broadcast: the FIFA 17 penalty (Nik 2026-11-04) ----------
+  // The camera sits behind and above the taker, as on TV; the taker (in his manager's club kit, js/kits17.js) runs up and
+  // strikes, the keeper (his rival's club keeper kit, never clashing) dives; the stadium kit (js/chamberMenStadium3d.js)
+  // gives the goal, net, pitch, stands and crowd. Players: the rigged Mixamo body with its own clips
+  // (visual-assets/v10_1/chamber-men/players, tools/chamber-men-players). Everything is a function of the time since the
+  // strike, so a frame can be drawn at any moment, and both phones show the same kick.
+  const STADIUM_JS="js/chamberMenStadium3d.js",KITS_JS="js/kits17.js",CREST_JS="js/visualIdentity.js";
+  const PLAYER_PATH="visual-assets/v10_1/chamber-men/players/";
+  // Seconds from kick() to the strike. The step waits for it before it shows the result words.
+  const RUNUP=2.15,EXTRAS_WAIT_MS=4200,DISSOLVE=.55;
+  // penaltyKick: the right foot meets the ball 0.74 s in; the ball's centre then, in the clip's own frame (faces +z).
+  const KICK_HIT=.74,KICK_BALL=[-.99,BALL_R,2.42];
+  // jog: the frame whose feet match the first frame of penaltyKick (left foot down, right foot pushing off).
+  const JOG_JOIN=1.933;
+  // Run-ups, one per kick in turn: a jog, a longer, slower jog, and two steps from a standstill (FIFA 17's "still").
+  const RUNUPS=[{jog:1.1,rate:1},{jog:1.3,rate:.82},{jog:0,rate:1}];
+  // Keeper moves by the side he goes to (world -x is the keeper's right; "m" mirrors a clip to the other side). tc is the
+  // clip time of full stretch (the glove meets the ball there), s the speed it plays at so the dive starts on the strike.
+  const KEEPS={
+    L:[{c:"gkDive1",m:0,tc:.9,s:1.35},{c:"gkDive",m:1,tc:1.1,s:1.6},{c:"gkBlock1",m:0,tc:.7,s:1.15},{c:"gkBlock",m:1,tc:.8,s:1.25},{c:"gkBlock2",m:1,tc:.7,s:1.15}],
+    R:[{c:"gkDive",m:0,tc:1.1,s:1.6},{c:"gkDive1",m:1,tc:.9,s:1.35},{c:"gkBlock",m:0,tc:.8,s:1.25},{c:"gkBlock1",m:1,tc:.7,s:1.15},{c:"gkBlock2",m:0,tc:.7,s:1.15}],
+    M:[{c:"gkCatch1",m:0,tc:.4,s:1,hold:1},{c:"gkCatch2",m:0,tc:.8,s:1.2,hold:1}]
+  };
+  // Goals: where in the zone the ball goes (heights), by kick.
+  const GOAL_SPOTS={side:[[2.75,.32],[2.6,1.05],[2.85,1.85],[2.95,.6]],mid:[[.35,1.55],[-.3,.95],[.15,1.95]]};
+
+  function cm3Script(key,path,ready){
+    if(ready())return Promise.resolve(true);
+    if(typeof root.loadRuntimeScript==="function")return Promise.resolve(root.loadRuntimeScript(key,path,ready)).then(()=>Boolean(ready()),()=>false);
+    return new Promise(resolve=>{const s=doc().createElement("script");s.src=path;s.async=true;s.onload=()=>resolve(Boolean(ready()));s.onerror=()=>resolve(false);doc().head.append(s);});
+  }
+  // The stadium textures, the kits and two players (taker and keeper: one file, parsed twice). null when any part cannot come
+  // in time: the hall scene plays instead.
+  // Started before the engine arrives: the two scripts and the players file come down while three.js loads.
+  function cm3Prefetch(phone){
+    const scripts=Promise.all([cm3Script("chamber-men-stadium",STADIUM_JS,()=>Boolean(root.CareerModeChamberMenStadium)),cm3Script("kits17",KITS_JS,()=>Boolean(root.CareerModeKits17)),
+      cm3Script("visual-identity",CREST_JS,()=>typeof root.getClubCrestSvg==="function").catch(()=>false)]).then(([okS,okK])=>Boolean(okS&&okK),()=>false);
+    const buf=typeof root.fetch!=="function"?Promise.resolve(null):root.fetch(PLAYER_PATH+(phone?"player_phone.glb":"player_desktop.glb")).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null);
+    return {scripts,buf};
+  }
+  function cm3Extras(T,phone,pre){
+    if(typeof T.GLTFLoader!=="function"||typeof T.AnimationMixer!=="function"||!pre)return Promise.resolve(null);
+    let late=false;
+    const work=(async()=>{
+      if(!await pre.scripts)return null;
+      const S=root.CareerModeChamberMenStadium;
+      const [tex,buf]=await Promise.all([S.load(T,{phone}),pre.buf]);
+      if(!buf){for(const t of Object.values(tex||{}))t.dispose?.();return null;}
+      const parse=()=>new T.GLTFLoader().parseAsync(buf.slice(0),PLAYER_PATH);
+      const [taker,keeper]=await Promise.all([parse(),parse()]);
+      const out={S,tex,K:root.CareerModeKits17,taker,keeper};
+      if(late){cm3FreeExtras(out);return null;}
+      return out;
+    })().catch(error=>{try{root.console?.warn?.("Chamber Men 3D: no stadium or players; the hall plays.",error);}catch(_error){}return null;});
+    return Promise.race([work,new Promise(resolve=>root.setTimeout(()=>{late=true;resolve(null);},EXTRAS_WAIT_MS))]);
+  }
+  function cm3FreeExtras(x){
+    try{for(const t of Object.values(x.tex||{}))t.dispose?.();}catch(_error){}
+    for(const g of [x.taker,x.keeper])try{g?.scene?.traverse(o=>{o.geometry?.dispose?.();for(const m of [].concat(o.material||[])){for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();m.dispose?.();}});}catch(_error){}
+  }
+
+  function buildBroadcast(T,svg,x,opts){
+    const d=doc(),canvas=d.createElement("canvas");
+    canvas.className="cmGoal3d";canvas.setAttribute("aria-hidden","true");
+    const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
+    const phone=Math.min(root.screen?.width||1e4,root.screen?.height||1e4)<700;
+    // Sharpness steps: the scene starts at the screen's own pixel ratio (capped) and steps down when frames run long.
+    const prMax=Math.min(root.devicePixelRatio||1,phone?2:2.25),prSteps=[prMax,Math.max(1,prMax*.85),Math.max(1,prMax*.72),Math.max(1,prMax*.6),1].filter((v,i,a)=>i===0||v<a[i-1]-.01);
+    let prStep=0;renderer.setPixelRatio(prSteps[0]);
+    renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
+    renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFShadowMap;
+    const aniso=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+    const scene=new T.Scene();scene.background=new T.Color(0x05070b);scene.fog=new T.FogExp2(0x0a0d14,.0045);
+    const own=[];const keep=v=>{own.push(v);return v;};
+    const clubs=(opts&&opts.clubs)||{};
+    const K=x.K,colourOf=club=>{try{return parseInt(String(K.kit(club).dominant).replace("#",""),16);}catch(_error){return 0x888888;}};
+    // Stadium: white posts like FIFA 17, the crowd in each club's colour.
+    const S=x.S.build(T,x.tex,{phone,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),aniso});
+    scene.add(S.group);
+    const ball=S.ball;
+    // Night match light: floodlights from high over both corners of the box, a cool sky, a soft rim behind the goal.
+    scene.add(new T.HemisphereLight(0xdde6ff,0x15200f,.55));
+    const key=new T.DirectionalLight(0xfff3e2,2.7);key.position.set(9,30,24);key.target.position.set(0,0,6);
+    key.castShadow=true;key.shadow.mapSize.set(phone?1024:2048,phone?1024:2048);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=2;
+    Object.assign(key.shadow.camera,{left:-11,right:11,top:13,bottom:-11,near:10,far:70});key.shadow.camera.updateProjectionMatrix();
+    scene.add(key,key.target);
+    const fill=new T.DirectionalLight(0xe4ecff,.75);fill.position.set(-14,20,18);scene.add(fill);
+    const rim=new T.DirectionalLight(0xfff0d0,.9);rim.position.set(-4,12,-24);scene.add(rim);
+    // Reflections: the stadium itself, once (the ball and posts see the stands and lights).
+    {const pm=new T.PMREMGenerator(renderer);scene.environment=keep(pm.fromScene(scene,.04,.1,300).texture);pm.dispose();scene.environmentIntensity=.55;}
+
+    // ---------- players ----------
+    const sample=new T.Vector3(),sampleQ=new T.Quaternion(),fwd=new T.Vector3();
+    const actor=(gltf,name)=>{
+      const model=gltf.scene,holder=new T.Group();holder.name=name;holder.add(model);scene.add(holder);
+      const mats={},bones={};
+      model.traverse(o=>{
+        if(o.isMesh){o.castShadow=true;o.receiveShadow=true;o.frustumCulled=false;for(const m of [].concat(o.material)){if(m&&m.name)mats[m.name]=m;keep(m);}}
+        if(o.isBone&&!bones[o.name])bones[o.name]=o;
+      });
+      const clips={};for(const c of gltf.animations)clips[c.name]=c;
+      const mixer=new T.AnimationMixer(model),actions=new Map();
+      const act=clip=>{let a=actions.get(clip);if(!a){a=mixer.clipAction(clip);a.setLoop(T.LoopRepeat,Infinity);a.play();a.enabled=false;actions.set(clip,a);}return a;};
+      // layers: [{clip, time, w}] (weights are normalised, so a blend never shows the bind pose).
+      const pose=layers=>{
+        for(const a of actions.values())a.enabled=false;
+        let sum=0;for(const l of layers)if(l.clip&&l.w>0)sum+=l.w;
+        for(const l of layers){if(!l.clip||l.w<=0)continue;const a=act(l.clip);a.enabled=true;a.setEffectiveWeight(l.w/sum);a.time=Math.max(0,Math.min(l.clip.duration-1e-3,l.time));}
+        mixer.update(0);holder.updateMatrixWorld(true);
+      };
+      return {holder,model,mats,bones,clips,mixer,pose,hips:bones.mixamorigHips};
+    };
+    const taker=actor(x.taker,"cmTaker"),keeper=actor(x.keeper,"cmKeeper");
+    // Root motion. A clip's hips track is in the hips' parent space; we move it in world space (the model at rest at the
+    // origin): optionally drop its travel along x/z, then turn it by yaw about `from` and carry `from` to `to`.
+    const hipsOf=(a,clip,time)=>{a.pose([{clip,time,w:1}]);a.hips.getWorldPosition(sample);a.hips.getWorldQuaternion(sampleQ);fwd.set(0,0,1).applyQuaternion(sampleQ);return {x:sample.x,z:sample.z,face:Math.atan2(fwd.x,fwd.z)};};
+    const rebase=(a,clip,name,{zero,from,to})=>{
+      const P=a.hips.parent;a.holder.updateMatrixWorld(true);
+      const M=P.matrixWorld.clone(),Mi=M.clone().invert(),Pq=new T.Quaternion(),Ps=new T.Vector3(),Pp=new T.Vector3();M.decompose(Pp,Pq,Ps);
+      const yaw=to&&from?to.face-from.face:0,Q=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),yaw);
+      const Lq=Pq.clone().invert().multiply(Q).multiply(Pq);
+      const tracks=clip.tracks.map(t=>{
+        const n=t.name;if(!n.startsWith(`${a.hips.name}.`))return t.clone();
+        const c=t.clone(),v=c.values;
+        if(n.endsWith(".position")){
+          const w0=new T.Vector3(v[0],v[1],v[2]).applyMatrix4(M),w=new T.Vector3();
+          for(let i=0;i<v.length;i+=3){
+            w.set(v[i],v[i+1],v[i+2]).applyMatrix4(M);
+            if(zero&&zero.includes("x"))w.x=w0.x;if(zero&&zero.includes("z"))w.z=w0.z;
+            if(from&&to){w.x-=from.x;w.z-=from.z;w.applyAxisAngle(new T.Vector3(0,1,0),yaw);w.x+=to.x;w.z+=to.z;}
+            w.applyMatrix4(Mi);v[i]=w.x;v[i+1]=w.y;v[i+2]=w.z;
+          }
+        }else if(n.endsWith(".quaternion")&&yaw){
+          const q=new T.Quaternion();
+          for(let i=0;i<v.length;i+=4){q.fromArray(v,i).premultiply(Lq);q.toArray(v,i);}
+        }
+        return c;
+      });
+      return new T.AnimationClip(name,clip.duration,tracks);
+    };
+    const need=(a,names)=>names.every(n=>a.clips[n]);
+    if(!need(taker,["penaltyKick","jog","offensiveIdle","victory","disappointed"])||!need(keeper,["gkIdle","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"]))throw new Error("player clips missing");
+    // Taker clips, all in penaltyKick's frame.
+    const TK=taker.clips,kick0=hipsOf(taker,TK.penaltyKick,0),kickEnd=hipsOf(taker,TK.penaltyKick,TK.penaltyKick.duration-.034);
+    const jogJoin=hipsOf(taker,TK.jog,JOG_JOIN);
+    const jog=rebase(taker,TK.jog,"cmJog",{from:jogJoin,to:kick0});
+    const styles=RUNUPS.map((r,i)=>{
+      let start=kick0;
+      if(r.jog){const h=hipsOf(taker,jog,JOG_JOIN-r.jog*r.rate);start=h;}
+      const idle0=hipsOf(taker,TK.offensiveIdle,0);
+      return {...r,start,idle:rebase(taker,TK.offensiveIdle,`cmIdle${i}`,{zero:"xz",from:idle0,to:start})};
+    });
+    const react={victory:rebase(taker,TK.victory,"cmVictory",{zero:"xz",from:hipsOf(taker,TK.victory,0),to:kickEnd}),
+      disappointed:rebase(taker,TK.disappointed,"cmDown",{zero:"xz",from:hipsOf(taker,TK.disappointed,0),to:kickEnd})};
+    // Keeper clips stay on his line (no travel toward the taker).
+    const KC={gkIdle:rebase(keeper,keeper.clips.gkIdle,"cmGkIdle",{zero:"xz"})};
+    for(const n of ["gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
+    // Where they stand: the taker so that his foot meets the ball on the spot; the keeper on his line facing out.
+    const TAKER_YAW=Math.PI,cosY=Math.cos(TAKER_YAW),sinY=Math.sin(TAKER_YAW);
+    taker.holder.rotation.y=TAKER_YAW;
+    taker.holder.position.set(0-(KICK_BALL[0]*cosY+KICK_BALL[2]*sinY),0,SPOT_Z-(-KICK_BALL[0]*sinY+KICK_BALL[2]*cosY));
+    keeper.holder.position.set(0,0,.25);
+
+    // Kits: the taker in his club's home kit, the keeper in his own club's keeper kit picked against the taker's.
+    let lineup={taker:null,keeper:null,round:1};
+    const kitSize=phone?"phone":"full";
+    // Looks: one body, many men. Skin tone and hair come from the club and role (the same man for a club's kicks and
+    // keeps), from a fixed list (nothing random).
+    // Skin and hair go together in pairs checked to look natural on this body (Nik 2026-11-04: never an unnatural mix).
+    const LOOKS=[[[1,1,1],[1,1,1]],[[.92,.84,.78],[.32,.22,.13]],[[.86,.76,.68],[.16,.11,.07]],[[.7,.56,.46],[.07,.05,.04]],[[.52,.39,.31],[.05,.04,.035]],[[.38,.27,.21],[.04,.035,.03]]];
+    const hashOf=s=>{let h=2166136261;for(const ch of String(s))h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0;return h;};
+    const look=(a,club,role)=>{
+      const [sk,hr]=LOOKS[hashOf(`${club}|${role}`)%LOOKS.length];
+      a.model.traverse(o=>{if(!o.isMesh)return;const m=o.material;if(!m||Array.isArray(m))return;
+        if(o.name==="Body"&&m.name==="Bodymat")m.color.setRGB(sk[0],sk[1],sk[2]);
+        if(o.name==="Hair"||m.name==="Hairmat")m.color.setRGB(hr[0],hr[1],hr[2]);});
+    };
+    const dress=(a,club,role,vs)=>{
+      look(a,club,role);
+      let t;try{t=K.textures(club,{layout:"remy",role,vsClub:vs,size:kitSize});}catch(_error){return;}
+      const put=()=>{for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
+        const mat=a.mats[m],c=t[k];if(!mat||!c)continue;
+        const tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;
+        const old=mat.map;mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;if(old&&old.userData?.cmKit)old.dispose();tex.userData.cmKit=true;
+      }};
+      put();Promise.resolve(t.ready).then(()=>{if(disposed)return;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
+    };
+
+    // ---------- the kick ----------
+    let plan=null,frozenAt=null,frozenClock=null,raf=0,alive=true,disposed=false;
+    const clockNow=()=>frozenClock!==null?frozenClock:cm3Clock();
+    const t0=cm3Clock();
+    const ballFree={p:new T.Vector3(),v:new T.Vector3(),t:0,on:false};
+    const v3=(a,b,c)=>new T.Vector3(a,b,c);
+    const bez=(a,b,c,u)=>{const w=1-u;return v3(w*w*a.x+2*w*u*b.x+u*u*c.x,w*w*a.y+2*w*u*b.y+u*u*c.y,w*w*a.z+2*w*u*b.z+u*u*c.z);};
+    const pick=(list,n)=>list[((n%list.length)+list.length)%list.length];
+    const gloveL=new T.Vector3(),gloveR=new T.Vector3();
+    const keeperAt=(move,time)=>{keeper.holder.scale.x=move.m?-1:1;keeper.pose([{clip:KC[move.c],time,w:1}]);keeper.bones.mixamorigLeftHand.getWorldPosition(gloveL);keeper.bones.mixamorigRightHand.getWorldPosition(gloveR);};
+    const makePlan=k=>{
+      const round=k.round||1,side=k.dive||"M",move=pick(KEEPS[side]||KEEPS.M,round*3+(k.shot==="R"?1:0));
+      const start=v3(0,BALL_R,SPOT_Z);let target,after,hold=false;
+      // Where the keeper's gloves are at full stretch: a save meets them there.
+      keeperAt(move,move.tc);
+      const hand=side==="M"?gloveL.clone().add(gloveR).multiplyScalar(.5):(side==="L"?(gloveL.x<gloveR.x?gloveL:gloveR):(gloveL.x>gloveR.x?gloveL:gloveR)).clone();
+      if(!k.shot){target=v3(.7,GOAL_H+1.4,-.6);after={v:v3(.5,1.4,-14)};}
+      else if(k.goal){
+        const s=k.shot==="M"?pick(GOAL_SPOTS.mid,round):pick(GOAL_SPOTS.side,round),sx=k.shot==="L"?-1:k.shot==="R"?1:1;
+        target=v3(k.shot==="M"?s[0]:sx*s[0],s[1],0);after={net:true};
+      }else{
+        target=hand.clone();target.y=Math.max(BALL_R+.02,target.y);target.z=Math.max(target.z+.1,.25);
+        hold=Boolean(move.hold);const out=side==="M"?(round%2?1:-1):(side==="L"?-1:1);
+        after={v:v3(out*1.6,1.6,3.4)};
+      }
+      const ctrl=v3(target.x*.45,Math.max(target.y,.3)*.85+.35,5.4);
+      return {...k,round,move,style:pick(RUNUPS.map((_r,i)=>i),round),start,target,ctrl,after,hold,kStart:FLIGHT-move.tc/move.s,netHit:false};
+    };
+    const cm3Easy=u=>u<=0?0:u>=1?1:u*u*(3-2*u);
+    // The taker at time t (seconds from the strike); idle while waiting.
+    const takerAt=(t,live)=>{
+      const st=styles[plan?plan.style:lineup.style||0];
+      if(!plan){taker.pose([{clip:st.idle,time:live%st.idle.duration,w:1}]);return;}
+      const kickT=t+KICK_HIT,jogLen=st.jog,runStart=-KICK_HIT-jogLen;
+      const idle={clip:st.idle,time:(live)%st.idle.duration,w:1};
+      if(kickT>=0){
+        const end=TK.penaltyKick.duration-.034;
+        if(kickT<end){
+          const k={clip:TK.penaltyKick,time:kickT,w:1};
+          if(st.jog&&kickT<.12){const j=cm3Easy(kickT/.12);taker.pose([{clip:jog,time:JOG_JOIN+kickT*st.rate,w:1-j},{...k,w:j}]);return;}
+          if(!st.jog&&kickT<.001){taker.pose([idle]);return;}
+          taker.pose([k]);return;
+        }
+        const r=plan.goal&&plan.shot?react.victory:react.disappointed,rt=kickT-end,b=cm3Easy(rt/.4);
+        taker.pose([{clip:TK.penaltyKick,time:end,w:1-b},{clip:r,time:rt,w:b}]);return;
+      }
+      if(!st.jog){
+        // Two steps from a standstill: he waits, then goes.
+        const b=cm3Easy((kickT+.28)/.28);taker.pose([idle,{clip:TK.penaltyKick,time:0,w:b}]);return;
+      }
+      if(t<runStart){taker.pose([idle]);return;}
+      const jt=JOG_JOIN-(-KICK_HIT-t)*st.rate,b=cm3Easy((t-runStart)/.3);
+      taker.pose([{...idle,w:1-b},{clip:jog,time:jt,w:b}]);
+    };
+    const keeperPose=(t,live)=>{
+      const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
+      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;keeper.pose([idle]);return;}
+      const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*.12));
+      keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
+    };
+    const stepFree=dt=>{
+      const s=ballFree;s.v.y+=GRAVITY*dt;s.p.addScaledVector(s.v,dt);
+      if(s.p.y<BALL_R){s.p.y=BALL_R;if(s.v.y<0)s.v.y=-s.v.y*.45;s.v.x*=.8;s.v.z*=.8;if(Math.abs(s.v.y)<.4)s.v.y=0;}
+      if(s.p.y<=BALL_R+1e-4&&s.v.y===0){const f=Math.max(0,1-1.5*dt);s.v.x*=f;s.v.z*=f;}
+      if(plan&&plan.goal&&plan.shot){const back=-2.0+Math.max(0,s.p.y-1.4)*.5;if(s.p.z<back){s.p.z=back;s.v.z=Math.abs(s.v.z)*.12;s.v.x*=.5;}}
+      ball.position.copy(s.p);ball.rotation.x+=s.v.z*dt/BALL_R;ball.rotation.z-=s.v.x*dt/BALL_R;
+    };
+    const ballAt=t=>{
+      if(!plan||t<=0){ball.position.set(0,BALL_R,SPOT_Z);ball.rotation.set(.3,.6,0);ballFree.on=false;return;}
+      if(t<FLIGHT){const u=t/FLIGHT;ball.position.copy(bez(plan.start,plan.ctrl,plan.target,u*.7+(1-(1-u)*(1-u))*.3));ball.rotation.set(-t*36,t*8,0);ballFree.on=false;return;}
+      if(plan.hold){// caught: the ball stays in his hands
+        ball.position.copy(gloveL).add(gloveR).multiplyScalar(.5);ball.position.z+=.12;ball.position.y=Math.max(BALL_R,ball.position.y);return;}
+      if(!ballFree.on||ballFree.t>t+1e-6){
+        ballFree.on=true;ballFree.t=FLIGHT;ballFree.p.copy(plan.target);
+        if(plan.after.net){ballFree.v.set(plan.target.x*.12,-.6,-11);}else ballFree.v.copy(plan.after.v);
+      }
+      while(ballFree.t<t){const dt=Math.min(1/120,t-ballFree.t);stepFree(dt);ballFree.t+=dt;}
+      ball.position.copy(ballFree.p);
+    };
+    // Camera: behind and above the taker. Waiting: a slow drift; run-up: a push-in; after the strike it leans after the ball.
+    const camera=new T.PerspectiveCamera(30,16/9,.1,400);
+    const CAMB={pos:v3(0,3.9,SPOT_Z+17),look:v3(0,.5,5.5),hfov:40,vmin:21};
+    const CAMP={pos:v3(.3,3.2,SPOT_Z+13),look:v3(0,.75,3)};
+    const camLook=new T.Vector3();
+    const cameraAt=(t,live)=>{
+      const drift=reducedMotion()?0:1;
+      const w=live*.22;let p=CAMB.pos.clone(),l=CAMB.look.clone();
+      p.x+=Math.sin(w)*.18*drift;p.y+=Math.sin(w*.7)*.05*drift;
+      if(plan&&!reducedMotion()){
+        const k=cm3Easy((t+RUNUP)/(RUNUP+.4));p.lerp(CAMP.pos,k);l.lerp(CAMP.look,k);
+        if(t>0){const f=cm3Easy(t/1.1);l.x+=ball.position.x*.22*f;l.y+=Math.max(-.2,ball.position.y-1)*.12*f;}
+      }
+      camera.position.copy(p);camLook.copy(l);camera.lookAt(camLook);camera.updateMatrixWorld();
+    };
+    const excitement=t=>{if(!plan)return .2;if(t<0)return .2+.4*cm3Easy((t+RUNUP)/RUNUP);if(t<FLIGHT)return .6;
+      if(plan.goal&&plan.shot)return Math.max(.45,1-Math.max(0,t-1.6)*.2);return Math.max(.3,.7-(t-FLIGHT)*.35);};
+
+    // ---------- the dissolve between kicks ----------
+    // A new taker and keeper come in under a short broadcast dissolve: the last frame fades out over the new one (never
+    // to black, never dimmed).
+    let snap=null,snapAt=-1e9;
+    const overlay=new T.Scene(),overlayCam=new T.OrthographicCamera(-1,1,1,-1,0,1);
+    const overlayMat=keep(new T.MeshBasicMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:true}));
+    const overlayGeo=keep(new T.PlaneGeometry(2,2));overlay.add(new T.Mesh(overlayGeo,overlayMat));
+    const dissolveFrom=()=>{
+      if(!cssW)return;
+      const size=renderer.getDrawingBufferSize(new T.Vector2());
+      if(!snap||snap.width!==size.x||snap.height!==size.y){snap?.dispose();snap=new T.WebGLRenderTarget(size.x,size.y,{type:T.HalfFloatType,samples:phone?0:4});}
+      renderer.setRenderTarget(snap);renderer.render(scene,camera);renderer.setRenderTarget(null);
+      overlayMat.map=snap.texture;overlayMat.needsUpdate=true;snapAt=clockNow();
+    };
+
+    // ---------- size, labels, drawing ----------
+    let cssW=0,cssH=0;
+    const fit=()=>{
+      const box=svg.parentNode;if(!box||!box.getBoundingClientRect)return;
+      const r=svg.getBoundingClientRect(),o=box.getBoundingClientRect(),w=Math.round(r.width),h=Math.round(r.height);if(!w||!h)return;
+      canvas.style.left=`${(r.left-o.left).toFixed(2)}px`;canvas.style.top=`${(r.top-o.top).toFixed(2)}px`;canvas.style.width=`${w}px`;canvas.style.height=`${h}px`;
+      if(w!==cssW||h!==cssH){cssW=w;cssH=h;renderer.setSize(w,h,false);}
+      // The goal's width sets the lens; a very wide box keeps at least vmin degrees of height, so the taker stays whole.
+      camera.aspect=w/h;
+      camera.fov=Math.max(CAMB.vmin,T.MathUtils.radToDeg(2*Math.atan(Math.tan(T.MathUtils.degToRad(CAMB.hfov)/2)/camera.aspect)));
+      camera.updateProjectionMatrix();
+      try{
+        const ctm=svg.getScreenCTM(),rect=svg.getBoundingClientRect();
+        if(ctm){const inv=ctm.inverse(),pt=svg.createSVGPoint(),sides=["L","M","R"];
+          camera.position.copy(CAMB.pos);camera.lookAt(CAMB.look);camera.updateMatrixWorld();
+          // Over the three zones of the goal, spread so the words never touch on a small goal.
+          const nodes=[...svg.querySelectorAll(".cmZone")].slice(0,3),xs=nodes.map((node,i)=>{if(!node.dataset.cm2d)node.dataset.cm2d=`${node.getAttribute("x")} ${node.getAttribute("y")}`;const v=v3(ZONE[sides[i]],1.2,0).project(camera);pt.x=rect.left+(v.x+1)/2*rect.width;pt.y=rect.top;return pt.matrixTransform(inv).x;});
+          if(nodes.length===3){const wd=nodes.map(n=>{try{return n.getComputedTextLength();}catch(_error){return 40;}}),gap=Math.max(xs[1]-xs[0],xs[2]-xs[1],(wd[0]+wd[1])/2+14,(wd[1]+wd[2])/2+14);
+            [xs[1]-gap,xs[1],xs[1]+gap].forEach((xv,i)=>{nodes[i].setAttribute("x",xv.toFixed(1));nodes[i].setAttribute("y","20");});}
+        }
+      }catch(_error){}
+    };
+    const paint=()=>{
+      const now=clockNow(),live=(now-t0)/1000;
+      const t=frozenAt!==null?frozenAt:plan?(now-plan.startAt)/1000:0;
+      keeperPose(t,live);takerAt(t,live);ballAt(t);
+      // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
+      const stadiumT=plan?(plan.startAt-t0)/1000+t:live;
+      if(plan&&plan.goal&&plan.shot&&!plan.netHit&&t>=FLIGHT+.04){plan.netHit=true;S.update((plan.startAt-t0)/1000+FLIGHT+.04,1);S.hitNet(plan.target.x,plan.target.y*.85,24);}
+      S.update(stadiumT,excitement(t));
+      cameraAt(t,live);
+      renderer.render(scene,camera);
+      const fade=1-(now-snapAt)/(DISSOLVE*1000);
+      if(fade>0&&snap){overlayMat.opacity=cm3Easy(fade);renderer.autoClear=false;renderer.render(overlay,overlayCam);renderer.autoClear=true;}
+    };
+    // Smoothness first (Nik 2026-11-04): frame times are watched; when the average runs past ~20 ms (under 50 fps) for a
+    // second, sharpness steps down, then the shadow map; a step that ran slow is never taken again on this screen, so the
+    // picture never pumps. Motion never depends on the frame rate: every pose is read from the clock.
+    let lastFrame=0,avg=16.7,slowFor=0;
+    const govern=time=>{
+      const dt=lastFrame?Math.min(100,time-lastFrame):16.7;lastFrame=time;avg+=(dt-avg)*.08;
+      slowFor=avg>20.5?slowFor+dt:0;
+      if(slowFor<1000)return;
+      slowFor=0;avg=16.7;
+      if(prStep<prSteps.length-1){prStep+=1;renderer.setPixelRatio(prSteps[prStep]);cssW=0;fit();}
+      else if(key.shadow.mapSize.x>512){key.shadow.mapSize.set(512,512);key.shadow.map?.dispose();key.shadow.map=null;}
+    };
+    const tick=time=>{
+      raf=0;if(disposed)return;
+      if(!canvas.isConnected||!svg.isConnected){free();return;}
+      if(d.visibilityState!=="hidden"){govern(time);fit();paint();}else lastFrame=0;
+      raf=root.requestAnimationFrame(tick);
+    };
+    const ro=typeof root.ResizeObserver==="function"?new root.ResizeObserver(()=>{if(!disposed)fit();}):null;
+    const free=()=>{
+      if(disposed)return;disposed=true;alive=false;if(raf)root.cancelAnimationFrame(raf);ro?.disconnect();
+      for(const a of [taker,keeper])try{a.mixer.stopAllAction();a.mixer.uncacheRoot(a.model);}catch(_error){}
+      scene.traverse(o=>{if(o.geometry)o.geometry.dispose();for(const m of [].concat(o.material||[]))for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();});
+      try{S.dispose();}catch(_error){}
+      for(const v of own)try{v.dispose&&v.dispose();}catch(_error){}
+      snap?.dispose();
+      renderer.dispose();try{renderer.forceContextLoss();}catch(_error){}
+      canvas.remove();svg.classList.remove("cm3d-on");
+      svg.querySelectorAll(".cmZone").forEach(node=>{const xy=(node.dataset.cm2d||"").split(" ");if(xy.length===2){node.setAttribute("x",xy[0]);node.setAttribute("y",xy[1]);}delete node.dataset.cm2d;});
+    };
+    const setLineup=(takerClub,keeperClub,round)=>{
+      const next={taker:String(takerClub||""),keeper:String(keeperClub||""),round:round||1};
+      next.style=pick(RUNUPS.map((_r,i)=>i),next.round);
+      if(next.taker===lineup.taker&&next.keeper===lineup.keeper&&next.style===lineup.style)return false;
+      lineup=next;dress(taker,next.taker,"outfield",next.keeper);dress(keeper,next.keeper,"gk",next.taker);
+      return true;
+    };
+    const api={
+      mode:"broadcast",
+      reset(){if(plan&&clockNow()-snapAt>120)dissolveFrom();plan=null;frozenAt=null;ballFree.on=false;},
+      // Who is on the pitch for the coming kick: the shooter's club takes it, the other club keeps goal.
+      lineup(k){const fresh=k&&(String(k.taker||"")!==lineup.taker||String(k.keeper||"")!==lineup.keeper||pick(RUNUPS.map((_r,i)=>i),k.round||1)!==lineup.style);
+        if(fresh&&!plan&&clockNow()-snapAt>120&&lineup.taker!==null)dissolveFrom();if(k)setLineup(k.taker,k.keeper,k.round);},
+      // k = {shot: "L"|"M"|"R"|null (clock ran out), dive: "L"|"M"|"R", goal: boolean, animate: boolean, round}
+      kick(k){
+        plan=makePlan({shot:k.shot||null,dive:k.dive||"M",goal:Boolean(k.goal),round:k.round||1});
+        ballFree.on=false;
+        const still=!k.animate||reducedMotion();
+        plan.startAt=clockNow()+(still?-SETTLE*1000:RUNUP*1000);frozenAt=null;
+      },
+      runUpMs:RUNUP*1000,
+      // clock (ms, optional) also freezes the scene clock, so a proof can step through a dissolve frame by frame.
+      at(t,clock){frozenAt=typeof t==="number"?t:null;frozenClock=typeof clock==="number"?clock:null;fit();paint();},
+      dispose:free,
+      lit:Boolean(scene.environment),
+      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:+avg.toFixed(1),kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null};},
+      get alive(){return alive;}
+    };
+    setLineup(clubs.playerOne,clubs.playerTwo,1);
+    svg.parentNode.insertBefore(canvas,svg);
+    svg.classList.add("cm3d-on");
+    fit();cameraAt(0,0);renderer.compile(scene,camera);paint();
+    ro?.observe(svg);
+    raf=root.requestAnimationFrame(tick);
+    return api;
+  }
+  function cm3Clock(){return root.performance?.now?.()??Date.now();}
+
   function loadImage(src){
     return new Promise(resolve=>{const img=new root.Image();img.decoding="async";img.onload=()=>resolve(img);img.onerror=()=>resolve(null);img.src=src;});
   }
@@ -469,13 +872,21 @@
     return new T.EXRLoader().setDataType(T.HalfFloatType).loadAsync(ENV_PATH).then(tex=>{tex.mapping=T.EquirectangularReflectionMapping;return tex;},error=>{try{root.console?.warn?.("Chamber Men 3D: no hall light",error);}catch(_error){}return null;});
   }
   // mount(svg) (cm3Mount): the 3D goal in place of the SVG art, resolved once its first frame is drawn; null when it cannot run here.
-  async function cm3Mount(svg){
+  // opts = {clubs:{playerOne, playerTwo}}: with the stadium and players it is the broadcast scene, else the hall.
+  async function cm3Mount(svg,opts){
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2())return null;
     try{
+      const phone=Math.min(root.screen?.width||1e4,root.screen?.height||1e4)<700;
+      const broadcast=root.CMS_CHAMBER_MEN_BROADCAST!=="off",pre=broadcast?cm3Prefetch(phone):null;
       const T=await loadEngine();
-      const [env,marble]=await Promise.all([loadEnv(T),loadImage(MARBLE_PATH)]);
-      if(!svg.isConnected){env?.dispose();return null;}
-      const api=build(T,svg,env,marble);
+      const [env,marble,extras]=await Promise.all([loadEnv(T),loadImage(MARBLE_PATH),broadcast?cm3Extras(T,phone,pre):null]);
+      if(!svg.isConnected){env?.dispose();if(extras)cm3FreeExtras(extras);return null;}
+      let api=null;
+      if(extras){
+        try{api=buildBroadcast(T,svg,extras,opts);env?.dispose();}
+        catch(error){try{root.console?.warn?.("Chamber Men broadcast scene failed; the hall plays.",error);}catch(_error){}cm3FreeExtras(extras);svg.parentNode?.querySelector?.(":scope > canvas.cmGoal3d")?.remove();svg.classList.remove("cm3d-on");api=null;}
+      }
+      if(!api)api=build(T,svg,env,marble);
       CareerModeChamberMen3d.last=api;
       return api;
     }catch(error){

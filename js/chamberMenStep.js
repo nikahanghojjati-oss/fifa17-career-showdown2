@@ -30,7 +30,7 @@
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
   const DONE_KEY="careerModeShowdown.chamberMenDone.v2",KEPT_KEY="careerModeShowdown.chamberMenKicks.v2",KEYS_MAX=60,SCHEMA=2;
-  const PICK_MS=10000,KICK_MS=2600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
+  const PICK_MS=10000,KICK_MS=4600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
   const SIDE_WORD=Object.freeze({L:"LEFT",M:"MIDDLE",R:"RIGHT"});
   const memo=new Map();// `${rid}|${season}` -> finished {playerOne, playerTwo} pick strings
   let running=null,wentHome=false;
@@ -237,7 +237,7 @@
   function cmsScene(goal){
     if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
     let late=false;
-    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok?root.CareerModeChamberMen3d.mount(goal.svg):null).then(scene=>{
+    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs}):null).then(scene=>{
       if(!scene)return null;
       if(late){try{scene.dispose();}catch(_error){}return null;}
       goal.scene=scene;return scene;
@@ -248,6 +248,11 @@
   function cmsReset(goal){
     goal.svg.classList.remove("is-goal","is-save","is-flying");goal.keeper.dataset.pose="ready";goal.scene?.reset();
     cmsPlace(goal.keeper,ZONE_X.M,92,false);cmsPlace(goal.ball,ZONE_X.M,132,false);
+  }
+  // r89 broadcast: who is on the pitch for kick n (the shooter's club takes it, the rival's keeper is in goal).
+  function cmsLineup(goal,shooter,round){
+    const c=goal.clubs;if(!c||!goal.scene?.lineup)return;
+    goal.scene.lineup({taker:c[shooter],keeper:c[cmsOther(shooter)],round});
   }
   function cmsPlace(node,x,y,animate){node.style.transition=animate?"transform 900ms cubic-bezier(.2,.8,.2,1)":"none";node.setAttribute("transform",`translate(${x} ${y})`);node.style.transform=`translate(${x}px, ${y}px)`;}
   // The back buttons are .cmBack, never .backButton: the app's smart back (js/screens.js) takes every .backButton click
@@ -268,7 +273,7 @@
       side.append(cmsEl("div","cmName",NAMES[role]),goals,cyl,label);sides[role]={side,goals,chambers,label};
     }
     board.append(sides.playerOne.side,cmsEl("div","cmVs","GOALS"),sides.playerTwo.side);
-    const goal=cmsGoal(),status=cmsEl("p","cmStatus","");status.setAttribute("aria-live","polite");
+    const goal=cmsGoal();goal.clubs=ctx.clubs||null;const status=cmsEl("p","cmStatus","");status.setAttribute("aria-live","polite");
     // Whose turn it is, in big letters: YOU SHOOT / YOU KEEP (GOAL, SAVED or MISSED while a kick is shown), the rival's part
     // and the kick counter. data-turn is shoot, keep, reveal or done.
     const turn=cmsEl("div","cmTurn"),turnHead=cmsEl("div","cmTurnHead","YOU SHOOT"),turnSub=cmsEl("div","cmTurnSub",""),turnCount=cmsEl("div","cmTurnCount","");
@@ -347,7 +352,7 @@
       // record: the latest from the server. shown: how many kicks are shown (drawn or replayed) on screen. clock: {kick,
       // deadline} in server ms. sel: this manager's choice for the kick on now. revealUntil: the server time the kick on
       // screen stops being shown.
-      let record=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false;
+      let record=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false,kickToken=0;
       const now=()=>{try{return io.now();}catch(_error){return Date.now();}};
       const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(revealing);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
       const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"CHAMBER_MEN_FAILED"});};
@@ -385,13 +390,23 @@
           g.svg.classList.toggle("is-flying",animate);g.svg.classList.toggle("is-goal",Boolean(kick.goal));g.svg.classList.toggle("is-save",!kick.goal);
           g.scene?.kick({shot:shot===engine.timeout?null:shot,dive,goal:Boolean(kick.goal),animate,round:kick.kick});
         };
-        cmsReset(g);
+        cmsReset(g);cmsLineup(g,kick.shooter,kick.kick);
         if(animate){void g.svg.getBoundingClientRect?.();root.setTimeout(strike,320);}else strike();
         const words=kickWords(kick);
+        // r89 broadcast: the taker runs up first, so the result words wait until the ball is there (never told early).
+        const wait=animate&&g.scene?.runUpMs?320+g.scene.runUpMs+520:0;
         ui.round.textContent=counter(kick.kick);
-        const mine=kick.shooter===me;
-        setTurn("reveal",words.result.toUpperCase(),mine?(kick.goal?"You scored":`${NAMES[other]} kept it out`):(kick.goal?`${NAMES[other]} scored`:"You kept it out"),`Kick ${kick.kick} of ${KICKS} · ${NAMES[kick.shooter]}'s shot ${kick.shot} of 7`);
-        ui.status.className=`cmStatus ${kick.goal?"is-goal":"is-save"}`;ui.status.textContent=`${words.line} · ${words.result}`;
+        const mine=kick.shooter===me,count=`Kick ${kick.kick} of ${KICKS} · ${NAMES[kick.shooter]}'s shot ${kick.shot} of 7`,token=++kickToken;
+        const tell=()=>{
+          if(finished||token!==kickToken)return;
+          setTurn("reveal",words.result.toUpperCase(),mine?(kick.goal?"You scored":`${NAMES[other]} kept it out`):(kick.goal?`${NAMES[other]} scored`:"You kept it out"),count);
+          ui.status.className=`cmStatus ${kick.goal?"is-goal":"is-save"}`;ui.status.textContent=`${words.line} · ${words.result}`;
+        };
+        if(wait){
+          setTurn("reveal",`${NAMES[kick.shooter].toUpperCase()} STEPS UP`,mine?"You shoot":"You keep",count);
+          ui.status.className="cmStatus";ui.status.textContent=`${NAMES[kick.shooter]} steps up · ${NAMES[kick.keeper]} in goal`;
+          root.setTimeout(tell,wait);
+        }else tell();
         // The row of this manager's part on that kick, his own pick pressed, nothing to tap.
         showRow(mine?"shot":"dive");setChoices(false,mine?kick.shotSide:kick.dive);
       };
@@ -435,7 +450,7 @@
         const n=progress.done+1,kick=engine.kick(n),part=engine.roleOn(n,me),shooting=part==="shot";
         const mineSent=progress.sent[me],theirsSent=progress.sent[other];
         ui.round.textContent=counter(n);
-        if(ui.status.dataset.kick!==String(n)){ui.status.dataset.kick=String(n);cmsReset(ui.goal);}
+        if(ui.status.dataset.kick!==String(n)){ui.status.dataset.kick=String(n);cmsReset(ui.goal);cmsLineup(ui.goal,kick.shooter,n);}
         setTurn(shooting?"shoot":"keep",shooting?"YOU SHOOT":"YOU KEEP",shooting?`${NAMES[other]} is in goal`:`${NAMES[other]} shoots at you`,`Kick ${n} of ${KICKS} · ${shooting?"your":`${NAMES[other]}'s`} shot ${kick.shot} of 7`);
         showRow(part);
         if(mineSent>=n){

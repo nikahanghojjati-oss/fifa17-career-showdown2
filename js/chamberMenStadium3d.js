@@ -7,7 +7,7 @@
   // side stands with a moving card crowd, the roof with its floodlights, and a night sky.
   //
   // Every texture is drawn by code in tools/chamber-men-assets (numpy + Pillow, rebuilt with `python3 build_all.py`), so the
-  // whole kit is ours: no third-party licence, no real brand. Files: visual-assets/v10_1/chamber-men/assets/ (LICENSES.md).
+  // whole kit is ours: no third-party licence, no real brand. Files: visual-assets/v10_1/chamber-men/assets/ (licences: tools/chamber-men-assets/LICENSES.md).
   //
   // Units and axes match js/chamberMenScene3d.js: metres, Y up, goal line on z 0, goal centred on x 0, posts 7.32 apart,
   // bar 2.44 high, ball radius .11, penalty spot at z +11, the pitch runs toward +z.

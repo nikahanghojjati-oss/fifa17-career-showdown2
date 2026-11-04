@@ -10,6 +10,11 @@
 //   C3D4 Reus Gate: the stage shows only once the goal is drawn (the 3D first frame, or the SVG when the scene cannot come).
 //   C3D5 screen rules: no dimming or scrim, the canvas never takes a tap, nothing invented (no Math.random), reduced motion
 //        shows the end of a kick without the flight, and the scene frees its WebGL context when the stage goes.
+//   C3D6 broadcast (Nik 2026-11-04, FIFA 17 penalty): with the stadium and the rigged players it plays from behind the taker;
+//        the taker wears the kicking manager's assigned club kit and the keeper his rival club's keeper kit (js/kits17.js,
+//        "remy" layout, never clashing); the step passes both clubs and names who is on the pitch for every kick; the result
+//        words wait for the run-up and the flight, and a kick's reveal (KICK_MS) holds the run-up, the flight and the result.
+//        Without the stadium or players in time the hall scene plays (still no network address, nothing random).
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -79,5 +84,23 @@ async function c3d2(){
   assert.match(scene,/if\(!canvas\.isConnected\|\|!svg\.isConnected\)\{dispose\(\);return;\}/,"stops drawing when the stage goes");
   assert.match(scene,/renderer\.dispose\(\);try\{renderer\.forceContextLoss\(\);\}catch\(_error\)\{\}/,"frees its WebGL context for the roulette");
   ok("C3D5","no dimming, no taps on the canvas, nothing invented, reduced motion, context freed");
+}
+// C3D6
+{
+  const pstc=read("js/productionSharedTransferChallenge.js");
+  assert.ok(pstc.includes('confirmedAtMs,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")}};'),"Chamber Men gets both assigned clubs");
+  assert.match(step,/goal\.clubs=ctx\.clubs\|\|null;/,"the goal keeps the clubs");
+  assert.match(step,/mount\(goal\.svg,\{clubs:goal\.clubs\}\)/,"the scene mounts with the clubs");
+  assert.match(step,/goal\.scene\.lineup\(\{taker:c\[shooter\],keeper:c\[cmsOther\(shooter\)\],round\}\);/,"the shooter's club takes the kick, the rival's keeps");
+  assert.match(step,/cmsReset\(ui\.goal\);cmsLineup\(ui\.goal,kick\.shooter,n\);/,"every new kick names its taker and keeper");
+  assert.match(step,/cmsReset\(g\);cmsLineup\(g,kick\.shooter,kick\.kick\);/,"and so does every reveal");
+  assert.match(step,/const wait=animate&&g\.scene\?\.runUpMs\?320\+g\.scene\.runUpMs\+520:0;/,"the result waits for the run-up and the flight");
+  const runup=Number(/const RUNUP=([0-9.]+),/.exec(scene)[1])*1000,kickMs=Number(/KICK_MS=(\d+)/.exec(step)[1]);
+  assert.ok(kickMs>=320+runup+520+1200,`a reveal holds the run-up, flight and at least 1.2 s of result (${kickMs} ms)`);
+  assert.match(scene,/K\.textures\(club,\{layout:"remy",role,vsClub:vs,size:kitSize\}\)/,"kits17 paints the player's own kit layout");
+  assert.match(scene,/dress\(taker,next\.taker,"outfield",next\.keeper\);dress\(keeper,next\.keeper,"gk",next\.taker\);/,"taker in his club kit, keeper in his club's keeper kit against it");
+  assert.match(scene,/if\(!api\)api=build\(T,svg,env,marble\);/,"no stadium or players: the hall scene");
+  assert.ok(scene.includes('const PLAYER_PATH="visual-assets/v10_1/chamber-men/players/";'),"players from the repo");
+  ok("C3D6","broadcast penalty: taker in his manager's club kit, keeper never clashing, words after the ball, hall fallback");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
