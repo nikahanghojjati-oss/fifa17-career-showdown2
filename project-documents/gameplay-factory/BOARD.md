@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 3 Nov, 10:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 3 Nov, 10:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.1.0-r88** (main `3da99a4`, Tue 3 Nov 8:29 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #1237: L1… L2… L3A… L3B✓ L4… L5… L6✗ · seal pending · POS20 #1237 0/16
+🩺 **All clear: every check has a machine.** · Gate #1237: L1… L2… L3A✓ L3B✓ L4✓ L5✓ L6✗ · seal pending · POS20 #1237 0/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Tue 3 Nov, 10:01 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 439 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 440 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1237](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1237) | 2.1.0 Rules fix: Chamber Men check without a data-built regex (unblocks the deploy) | 🔴 2 passed, 4 running, 1 failed |
+| 🟧 Team G lead | [PR #1237](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1237) | 2.1.0 Rules fix: Chamber Men check without a data-built regex (unblocks the deploy) | 🔴 4 passed, 2 running, 1 failed |
 
 **Up next**
 
