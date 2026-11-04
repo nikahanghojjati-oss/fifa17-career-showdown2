@@ -1189,10 +1189,10 @@
   :root #app #leagueWheelScreen.v26Skin #selectedLeague::before,
   :root #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 28px; }
 }
-/* 4w.5 Transfer War phones: the rule note and lock summary sit straight on the plate photo; give them a dark marble strip and a gold heading so they read. */
+/* 4w.5 Transfer War phones: the rule note and lock summary sit straight on the plate photo; give them a dark marble strip (the shared marble tile under a dark veil) and a gold heading so they read. */
 @media (max-width: 900px) {
   :root #app #transferChallenge :is(.transferRuleNote, #transferPhaseLockSummary .lock-summary, .lock-summary.transferPhaseLockSummary) {
-    background: linear-gradient(180deg, rgba(24, 22, 19, .94), rgba(7, 7, 8, .94)); border: 1px solid rgba(217, 170, 60, .55); box-shadow: inset 0 1px rgba(255, 236, 170, .12); border-radius: 4px; padding: 4px 8px;
+    background: linear-gradient(180deg, rgba(24, 22, 19, .62), rgba(7, 7, 8, .78)), #0b0a08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat; border: 1px solid rgba(217, 170, 60, .55); box-shadow: inset 0 1px rgba(255, 236, 170, .12); border-radius: 4px; padding: 4px 8px;
   }
   :root #app #transferChallenge :is(#transferPhaseLockSummary, .lock-summary) strong { color: #ffd34d; }
 }
@@ -1208,7 +1208,7 @@
 @media (orientation: landscape) and (max-height: 500px) {
   :root #app .ruleBookHero .ruleBookSummary,
   :root #app #transferChallenge #tw-transferPhaseStatus.sign-status {
-    background: linear-gradient(180deg, rgba(24, 22, 19, .94), rgba(7, 7, 8, .94)); border: 1px solid rgba(217, 170, 60, .55); box-shadow: inset 0 1px rgba(255, 236, 170, .12); border-radius: 4px; padding: 4px 10px; box-sizing: border-box;
+    background: linear-gradient(180deg, rgba(24, 22, 19, .62), rgba(7, 7, 8, .78)), #0b0a08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat; border: 1px solid rgba(217, 170, 60, .55); box-shadow: inset 0 1px rgba(255, 236, 170, .12); border-radius: 4px; padding: 4px 10px; box-sizing: border-box;
   }
   :root #app .ruleBookHero .ruleBookSummary { margin-inline: 8px; }
 }
@@ -1494,10 +1494,10 @@
   :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.nik > span.legacyHistoryEuropa,
   :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tr > td > span.rv-seasonWinner > b.rv-drawMark { font-size: 12px !important; }
 }
-/* 4w.12 Phone fit (Fable job 20): "SPIN TO SELECT LEAGUE" stays on one line inside its own box (the side rules shrink first and
-   the tracking comes in), and short upright phones (under 700px tall) get an 8% smaller wheel so it clears Daniel's pointing hand. */
+/* 4w.12 Phone fit (Fable job 20): "SPIN TO SELECT LEAGUE" stays on one line inside its own box (the box takes the line's own
+   width instead of the 36% plate slot, the side rules shrink first and the tracking comes in), and short upright phones (under 700px tall) get an 8% smaller wheel so it clears Daniel's pointing hand. */
 @media (max-width: 480px) and (orientation: portrait) {
-  :root #app #leagueWheelScreen.v26Skin #selectedLeague { letter-spacing: .06em; gap: 8px; padding-inline: 4px; }
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague { letter-spacing: .06em; gap: 8px; padding-inline: 4px; width: max-content; max-width: 100%; justify-self: center; }
   :root #app #leagueWheelScreen.v26Skin #selectedLeague::before,
   :root #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 24px; min-width: 0; }
 }
