@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04 12:44 PM Boston time (EST)",
+ "generated": "2026-11-04 12:49 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1823,8 +1823,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "7df6257",
-  "head_boston": "Wed 4 Nov 9:03 AM",
+  "head": "6d45d36",
+  "head_boston": "Wed 4 Nov 12:47 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2640,7 +2640,7 @@
     "from": "G",
     "to": "V",
     "title": "4K page title wordmarks (all titles)",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-057_4k-page-title-wordmarks-all-titles.md",
