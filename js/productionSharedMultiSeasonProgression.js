@@ -15,6 +15,7 @@
   function pmspShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pmspSharedMarker(){const showdown=pmspShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
   function pmspField(id){return root.document&&root.document.getElementById(id);}
+  function pmspEmpty(empty){["dashboardPositionOne","dashboardPositionTwo"].forEach(id=>{const node=pmspField(id);if(node)node.toggleAttribute("data-sd-empty",empty);});}
   function pmspText(node,value){if(node&&node.textContent!==String(value??""))node.textContent=String(value??"");}
   function pmspHidden(node,hidden){if(node)node.classList.toggle("hidden",Boolean(hidden));}
   function pmspDisable(node,disabled){if(!node)return;node.disabled=Boolean(disabled);node.setAttribute("aria-disabled",disabled?"true":"false");}
@@ -120,10 +121,10 @@
       pmspText(pmspField("dashboardLastSeasonLabel"),accepted===1?"LAST SEASON":`AFTER ${accepted} SEASONS`);
       pmspText(pmspField("dashboardLastSeasonResult"),`Season ${last.seasonNumber} · ${n1} ${last.playerOne.score} - ${n2} ${last.playerTwo.score} · ${winner}`);
       pmspText(pmspField("dashboardPositionOne"),`Last league finish: ${last.playerOne.leaguePosition}`);
-      pmspText(pmspField("dashboardPositionTwo"),`Last league finish: ${last.playerTwo.leaguePosition}`);
+      pmspText(pmspField("dashboardPositionTwo"),`Last league finish: ${last.playerTwo.leaguePosition}`);pmspEmpty(false);
       pmspHidden(summary,false);
     }else{
-      pmspText(pmspField("dashboardPositionOne"),"No season completed");pmspText(pmspField("dashboardPositionTwo"),"No season completed");pmspText(pmspField("dashboardLastSeasonResult"),"—");pmspHidden(summary,true);
+      pmspText(pmspField("dashboardPositionOne"),"No season completed");pmspText(pmspField("dashboardPositionTwo"),"No season completed");pmspEmpty(true);pmspText(pmspField("dashboardLastSeasonResult"),"—");pmspHidden(summary,true);
     }
     return true;
   }
