@@ -802,7 +802,9 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-02 by the 2.0.0 release PR to the shipped index.html (2.0.0-r87 pins on gameplay/r87 bd67147a, after
   // the Transfer War wording #1190). This check had not run since r78 (#1115).
   // Re-pinned 2026-11-03 by the 2.1.0 release PR: the 2.0.0 file with its 2.1.0-r88 pins and v2.1.0 footer, nothing else.
-  assert.equal(sha256("index.html"),"81cac99932215ec26828e25e2e1a90f15aaf5c755d284038e6ecda737b6ca5cf","index.html byte-identical to the 2.1.0 release");
+  // Re-pinned 2026-11-04 by r89 Sacked (2.2.0 branch): the 2.1.0 file plus the two "I was sacked this season" ticks on the
+  // Season Results cards, nothing else. The 2.2.0 release PR re-pins it with its own revision pins and footer.
+  assert.equal(sha256("index.html"),"d0ef64dc9fa4ef9ab4ef8e29346222097b5f44fe2b19c23515e5bec1904faa8f","index.html byte-identical to the 2.1.0 release plus the r89 Sacked ticks");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

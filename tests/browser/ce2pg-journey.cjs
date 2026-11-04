@@ -79,7 +79,7 @@ const PORT_BASE=Number(process.env.CE2PG_PORT_BASE||9510);
 const PORTS={auth:PORT_BASE,firestore:PORT_BASE+1,hub:PORT_BASE+2,logging:PORT_BASE+3,websocket:PORT_BASE+4};
 const PROJECT="demo-cms-browser-journey";// the emulator switch is pinned to this demo project id
 const OUT_DIR=path.join(ROOT,"test-results");
-const TAG=(PLAN_NAME==="main"?`ce2pg-main-${RUN}`:`ce2pg-single-${SEASONS}-${RUN}${SCENARIO?`-${SCENARIO}`:""}`)+(process.env.CE2PG_BUDGET==="1"?"-budget":"");
+const TAG=(PLAN_NAME==="main"?`ce2pg-main-${RUN}`:`ce2pg-single-${SEASONS}-${RUN}${SCENARIO?`-${SCENARIO}`:""}${process.env.CE2PG_SACKED?`-sacked-${process.env.CE2PG_SACKED.replace(":","-")}`:""}`)+(process.env.CE2PG_BUDGET==="1"?"-budget":"");
 const REPORT_PATH=path.join(OUT_DIR,`${TAG}.json`);
 const SHOT_DIR=path.join(OUT_DIR,TAG);
 
@@ -147,6 +147,12 @@ const RRR_PLACEHOLDER=`Date.parse("${require("../../tools/set-release-time.cjs")
 // r88 Chamber Men starts at its own release time (CHAMBER_FROM_MS); CMS_CHAMBER_MEN_NOW=1 moves it into the past too.
 const CHAMBER_PLACEHOLDER=(()=>{const t=require("../../tools/set-release-time.cjs");return `Date.parse("${t.read(t.R88_RELEASE_TIME_CONSTANTS)[0].value}")`;})();
 const CHAMBER_NOW=process.env.CMS_CHAMBER_MEN_NOW==="1"?[[CHAMBER_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]:[];
+// r89 Sacked: CE2PG_SACKED="K:daniel|nik|both" ticks "I was sacked this season" for that manager in season K of the single
+// Showdown, which then ends after season K. The tick shows only from SACKED_FROM_MS; a sacked run (or CMS_SACKED_NOW=1)
+// moves that start into the past like the Chamber Men one.
+const SACKED=(()=>{const raw=process.env.CE2PG_SACKED||"";if(!raw)return null;const m=/^(\d+):(daniel|nik|both)$/.exec(raw);if(!m)throw new Error(`CE2PG_SACKED must be "K:daniel|nik|both", got "${raw}"`);return {season:Number(m[1]),who:m[2]==="both"?["daniel","nik"]:[m[2]]};})();
+const SACKED_PLACEHOLDER=(()=>{const t=require("../../tools/set-release-time.cjs");return `Date.parse("${t.read(t.R89_RELEASE_TIME_CONSTANTS)[0].value}")`;})();
+const SACKED_NOW=SACKED||process.env.CMS_SACKED_NOW==="1"?[[SACKED_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]:[];
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
 function startAppServer(rewrites=[]){
   appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
@@ -222,6 +228,8 @@ function writeReport(){
   fs.mkdirSync(OUT_DIR,{recursive:true});fs.writeFileSync(REPORT_PATH,JSON.stringify(report,null,2));
 }
 const rel=p=>path.relative(ROOT,p);
+// Wait (at most 6 s) until no finite animation is still running, so a proof shot shows the settled screen.
+const settled=m=>m.page.waitForFunction(()=>document.getAnimations().every(a=>a.playState!=="running"||a.effect?.getComputedTiming?.().iterations===Infinity),null,{timeout:6000}).catch(()=>{}).then(()=>m.page.waitForSelector(".fwSettled",{state:"attached",timeout:6000}).catch(()=>{})).then(()=>m.page.waitForTimeout(300));
 async function shot(m,name){
   try{fs.mkdirSync(SHOT_DIR,{recursive:true});const file=path.join(SHOT_DIR,`${name}-${m.user}.png`.replace(/[^\w.\-]+/g,"_"));await m.page.screenshot({path:file,timeout:15000});return rel(file);}
   catch(error){return `(screenshot failed: ${String(error.message).split("\n")[0]})`;}
@@ -620,6 +628,30 @@ async function fillSeasonResult(m,prefix,result){
   await m.page.locator(`#${prefix}LeaguePoints`).fill(String(result.leaguePoints));
   await m.page.locator(`#${prefix}LeagueGoals`).fill(String(result.leagueGoals));
   for(const [suffix,key] of [["DomesticCup","domesticCup"],["ChampionsLeague","championsLeague"],["TopScorer","topScorer"],["TopAssist","topAssist"]])await m.page.locator(`#${prefix}${suffix}`).setChecked(Boolean(result[key]));
+  if(SACKED_NOW.length){
+    // r89 Sacked: the manager's own tick is on his own card, shown and unticked until he ticks it.
+    const tick=m.page.locator(`#${prefix}Sacked`);
+    const shown=await tick.isVisible().catch(()=>false);
+    await check(m,`${showdownNow}.S${seasonNow}.sacked.tick`,"the \"I was sacked this season\" tick is on the manager's own Season Results card",shown,"tick not visible",{screen:"Shared Season Results"});
+    if(shown&&SACKED){await tick.scrollIntoViewIfNeeded().catch(()=>{});await shot(m,`${showdownNow}-S${seasonNow}-sacked-entry-unticked`);}
+    if(shown)await tick.setChecked(result.sacked===true);
+    if(shown&&SACKED&&result.sacked===true)await shot(m,`${showdownNow}-S${seasonNow}-sacked-entry-ticked`);
+  }
+}
+// PUBLISH: one tap, or for a sacked result two (the first only asks again; nothing is published until the second).
+async function tapPublish(m){
+  const button=m.page.locator("#confirmSeasonCompletion");
+  const first=norm(await button.textContent().catch(()=>""));
+  await button.click({timeout:30000});
+  if(first!=="PUBLISH · I WAS SACKED")return;
+  await m.page.waitForFunction(()=>document.getElementById("confirmSeasonCompletion")?.textContent==="YES, I WAS SACKED · PUBLISH",null,{timeout:15000});
+  const role=m.account==="daniel"?"playerOne":"playerTwo",rid=ctxRef.entry?.rivalryId;
+  const early=rid?await admin(`rivalries/${rid}/seasonResults/season_${seasonNow}/roles/${role}`):null;
+  const warning=norm(await m.page.locator("#seasonReviewPanel .seasonReviewWarning, #seasonReviewWarning").first().textContent().catch(()=>""));
+  await check(m,`${showdownNow}.S${seasonNow}.sacked.confirm`,"a sacked result asks once more (YES, I WAS SACKED · PUBLISH) and publishes nothing on the first tap",!early,`published on the first tap; warning "${warning}"`,{screen:"Shared Season Results"});
+  report.observations.push({showdown:showdownNow,season:seasonNow,user:m.user,sackedWarning:warning});
+  await shot(m,`${showdownNow}-S${seasonNow}-sacked-confirm`);
+  await button.click({timeout:30000});
 }
 async function prepareReview(m){
   await m.page.locator("#completeSeason").click({timeout:30000});
@@ -627,8 +659,9 @@ async function prepareReview(m){
 }
 async function publish(m){
   await prepareReview(m);
-  await m.page.locator("#confirmSeasonCompletion").click({timeout:30000});
+  await tapPublish(m);
   await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
+  if(SACKED){await m.page.waitForTimeout(800);await shot(m,`${showdownNow}-S${seasonNow}-sacked-published`);}
 }
 // The publish tap with no connection (outage "publish"). While offline the screen may show progress or an error, never
 // "published" unless Firebase really has the result; back online the same typed result publishes with at most one more tap.
@@ -670,7 +703,7 @@ async function playSeasonResults(daniel,nik,k,planSeason){
   const fill={daniel:()=>fillSeasonResult(daniel,"p1",planSeason.daniel),nik:()=>fillSeasonResult(nik,"p2",planSeason.nik)};
   if(mode==="simultaneous"){
     await fill.daniel();await fill.nik();await prepareReview(daniel);await prepareReview(nik);
-    await Promise.all([daniel.page.locator("#confirmSeasonCompletion").click({timeout:30000}),nik.page.locator("#confirmSeasonCompletion").click({timeout:30000})]);
+    await Promise.all([tapPublish(daniel),tapPublish(nik)]);
   }else{
     const [first,second]=mode==="daniel-first"?[daniel,nik]:[nik,daniel];
     const prefix=first.account==="daniel"?"p1":"p2",res=planSeason[first.account];
@@ -1113,7 +1146,11 @@ async function checkIdentical(raws,label,{liveCareer=false}={}){
   const names=Object.keys(raws),facts=Object.fromEntries(names.map(n=>{const f=extract(raws[n]);delete f.settings;delete f.rivalry;delete f.seasonHistory;if(liveCareer){delete f.standingsFirst;delete f.standings;delete f.standingsCareerText;delete f.standingsFirstCareerText;}return [n,f];}));
   for(const other of names.slice(1)){
     const a=facts[names[0]],b=facts[other];
-    const diffs=Object.keys(a).filter(k=>JSON.stringify(a[k])!==JSON.stringify(b[k])&&!(/^(rank|rec)/.test(k)&&(!a[k]?.length||!b[k]?.length))).map(k=>`${k}: ${JSON.stringify(a[k]).slice(0,300)} vs ${JSON.stringify(b[k]).slice(0,300)}`);
+    // Raw screen text differs by layout (desktop title case with club names such as "Mainz 05", phone upper case without
+    // them), so the *Text keys compare upper case, in order, the words both layouts show; structured keys compare exactly.
+    const shared=(x,y)=>{const a=x.toUpperCase().split(/\s+/),b=new Set(y.toUpperCase().split(/\s+/));return a.filter(w=>b.has(w)).join(" ");};
+    const same=(k,x,y)=>/Text$/.test(k)&&typeof x==="string"&&typeof y==="string"?shared(x,y)===shared(y,x):JSON.stringify(x)===JSON.stringify(y);
+    const diffs=Object.keys(a).filter(k=>!same(k,a[k],b[k])&&!(/^(rank|rec)/.test(k)&&(!a[k]?.length||!b[k]?.length))).map(k=>`${k}: ${JSON.stringify(a[k]).slice(0,300)} vs ${JSON.stringify(b[k]).slice(0,300)}`);
     await check(null,`${label}.identical.${names[0]}-${other}`,`every career figure reads the same on ${names[0]} and ${other}`,diffs.length===0,diffs.join("; "),{screen:"Career pages (all browsers)"});
   }
 }
@@ -1437,15 +1474,19 @@ async function playShowdown(ctx,spec){
   const setup=await phase(`${spec.name}-setup`,()=>playSetup(daniel,nik));
   entry.clubs=setup.clubs;entry.league=setup.league;
   const target=spec.target;
-  const plan=buildPlan(spec.length,setup.teamCount,target,spec.seed);
+  // r89 Sacked: the Showdown ends after the sacked season, so the plan (and the target winner) covers the seasons played.
+  const sackedAt=spec.sacked?spec.sacked.season:null;
+  const plan=buildPlan(sackedAt||spec.length,setup.teamCount,target,spec.seed);
+  if(spec.sacked)for(const who of spec.sacked.who)plan[sackedAt-1][who]={...plan[sackedAt-1][who],sacked:true};
+  entry.sacked=spec.sacked||null;
   entry.plan=plan;
   career.push(entry);
   report.showdowns.push({name:spec.name,rivalryId:entry.rivalryId,league:setup.league,teamCount:setup.teamCount,clubs:setup.clubs,length:spec.length,stopAfter:spec.endAfter||null,target,plan:plan.map((s,i)=>({season:i+1,daniel:s.daniel,nik:s.nik,score:{daniel:scoreSeason(s.daniel).total,nik:scoreSeason(s.nik).total},winner:seasonWinner(s.daniel,s.nik)}))});
   console.log(`PLAN ${spec.name}: ${setup.league} (${setup.teamCount} teams), ${setup.clubs.join(" v ")}, ${spec.length} season(s), target ${target}${spec.endAfter?`, END after season ${spec.endAfter}`:""}`);
   let seasonStart=startMark;
-  const playedTo=spec.endAfter||spec.length;
+  const playedTo=spec.endAfter||sackedAt||spec.length;
   for(let k=1;k<=playedTo;k+=1){
-    seasonNow=k;const final=k===spec.length;
+    seasonNow=k;const final=k===(sackedAt||spec.length);
     await phase(`${spec.name}-S${k}-transfers`,()=>playTransfers(daniel,nik,`${spec.name}${k}`));
     const mode=await phase(`${spec.name}-S${k}-results`,()=>playSeasonResults(daniel,nik,k,plan[k-1]));
     await phase(`${spec.name}-S${k}-commit`,()=>commitSeason(daniel,nik,k,plan[k-1],final));
@@ -1480,13 +1521,30 @@ async function playShowdown(ctx,spec){
       const playEnd=mark(`${spec.name}:S${k}:play`);
       const rivalry=await admin(`rivalries/${entry.rivalryId}`),w=field(rivalry,"data","terminalClose"),t=tally(plan),win=overallWinner(t);
       await check(null,`${spec.name}.db.closed`,"database: the rivalry is closed with the right winner and totals",field(rivalry,"data","connectionState")?.stringValue==="closed"&&field(w,"winner")?.stringValue===(win==="draw"?"draw":ROLE[win])&&field(w,"managerTotals","playerOne")?.integerValue===String(t.daniel.total)&&field(w,"managerTotals","playerTwo")?.integerValue===String(t.nik.total),{state:field(rivalry,"data","connectionState"),terminal:w},{screen:"Database"});
+      if(spec.sacked){
+        const sackedMap={playerOne:spec.sacked.who.includes("daniel"),playerTwo:spec.sacked.who.includes("nik")};
+        const short=sackedAt<spec.length,progress=field(rivalry,"data","terminalProgress");
+        await eq(null,`${spec.name}.db.sacked`,`database: the close ends after season ${sackedAt} of ${spec.length} with the sacked map`,
+          [field(w,"totalSeasons")?.integerValue,field(w,"completedSeason")?.integerValue??null,field(w,"endedBy")?.stringValue??null,field(w,"sacked","playerOne")?.booleanValue??null,field(w,"sacked","playerTwo")?.booleanValue??null,field(progress,"acceptedThroughSeason")?.integerValue,field(progress,"sacked","playerOne")?.booleanValue,field(progress,"sacked","playerTwo")?.booleanValue],
+          [String(spec.length),String(sackedAt),"sacked",sackedMap.playerOne,sackedMap.playerTwo,String(sackedAt),sackedMap.playerOne,sackedMap.playerTwo],{screen:"Database"});
+        await check(null,`${spec.name}.db.noNextSeason`,`database: nothing exists for season ${sackedAt+1} (no Transfer War, no results)`,!(await admin(`rivalries/${entry.rivalryId}/transferChallenges/season_${sackedAt+1}`))&&!(await admin(`rivalries/${entry.rivalryId}/seasonResults/season_${sackedAt+1}`)),"a next-season document exists",{screen:"Database"});
+        for(const m of [daniel,nik]){
+          const stamps=await m.page.evaluate(()=>[...document.querySelectorAll("#finalWinnerScreen .v10SackedStamp")].map(n=>n.previousElementSibling?.id||"")).catch(()=>[]);
+          await eq(m,`${spec.name}.final.sackedStamp`,"Showdown Champion stamps SACKED beside each sacked manager",stamps.sort(),spec.sacked.who.map(u=>`${u}Name`).sort(),{screen:"Showdown Champion"});
+          // The figures count up from 0 on entry; wait for the count to land before reading it.
+          await m.page.waitForFunction(n=>document.querySelector("#finalWinnerScreen #panelSeasons")?.textContent===String(n),sackedAt,{timeout:10000}).catch(()=>{});
+          const seasonsLine=await m.page.evaluate(()=>{const v=document.querySelector("#finalWinnerScreen #panelSeasons");return v?`${v.textContent} ${v.parentElement?.querySelector("small")?.textContent||""}`:"";}).catch(()=>"");
+          await eq(m,`${spec.name}.final.sackedSeasons`,"Showdown Champion shows the seasons played out of the planned length, marked SACKED",norm(seasonsLine),`${sackedAt} OF ${spec.length} · SACKED`,{screen:"Showdown Champion"});
+          await settled(m);await shot(m,`${spec.name}-final-winner-sacked`);
+        }
+      }
       for(const m of [daniel,nik]){
         await checkFinalWinnerScreen(m,plan);
         await check(m,`${spec.name}.noCloseTap`,"the automatic close needs no CLOSE tap",!m.log.taps.some(t=>t.id==="sharedTerminalCloseAction"||t.id==="sharedTerminalCloseRetry"),"a CLOSE tap was needed",{screen:"Showdown Champion"});
       }
       entry.state="completed";billedModel?.markFinished(entry.rivalryId);
       for(const m of [daniel,nik]){
-        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final");landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
+        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final",20000,SACKED?async()=>{await settled(m);return shot(m,`${spec.name}-gazette-final-sacked`);}:null);landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
         await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home",landed,`${paper||"no Gazette paper"} ${await describe(m)}`,{screen:"Showdown Champion"});
       }
       if(!SLIM)await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
@@ -1536,7 +1594,7 @@ async function main(){
   }
   // The roulette starts at the 2.0.0 release time (tools/set-release-time.cjs). A run before that time still plays it: the
   // server sends the r87 placeholder start (2026-10-30) unless CE2PG_REAL_RELEASE_TIME=1 (or this is the upgrade run).
-  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")'],...CHAMBER_NOW]);
+  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")'],...CHAMBER_NOW,...SACKED_NOW]);
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[],retired=[];
@@ -1555,7 +1613,8 @@ async function main(){
       {name:"A",length:3,target:RUN===2?"nik":"daniel",seed:11},
       {name:"B",length:1,target:RUN===2?"daniel":"nik",seed:23},
       {name:"C",length:3,endAfter:1,target:null,seed:37}
-    ]:[{name:"S",length:SEASONS,firstRealStart:true,target:SCENARIO==="draw"?"draw":RUN===2?"nik":"daniel",seed:SEASONS}];
+    ]:[{name:"S",length:SEASONS,firstRealStart:true,target:SCENARIO==="draw"?"draw":RUN===2?"nik":"daniel",seed:SEASONS,...(SACKED?{sacked:SACKED}:{})}];
+    if(SACKED&&(PLAN_NAME!=="single"||SACKED.season<1||SACKED.season>SEASONS))throw new Error("CE2PG_SACKED needs CE2PG_PLAN=single and a season from 1 to CE2PG_SEASONS");
     for(const spec of specs){
       await playShowdown(ctx,spec);
     }

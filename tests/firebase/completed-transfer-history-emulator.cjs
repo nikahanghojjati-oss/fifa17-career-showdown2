@@ -117,7 +117,8 @@ async function seasonResults(game,season,{danielOnly=false}={}){
 async function abandonAsDaniel(env,rivalryId){
   await setPairLink(env,rivalryId);
   const db=env.authenticatedContext(A).firestore(),before=(await getDoc(doc(db,"rivalries",rivalryId))).data();
-  const after=await envelope("rivalry",rivalryId,before.revision+1,{...before.data,connectionState:"closed"},{accountId:A,deviceId:DA,priorHash:before.contentHash});
+  // r89: an active Showdown's END names its exact accepted count (no season of Y or W was accepted).
+  const after=await envelope("rivalry",rivalryId,before.revision+1,{...before.data,connectionState:"closed",endedEarly:{seasonsPlayed:0}},{accountId:A,deviceId:DA,priorHash:before.contentHash});
   await assertSucceeds(setDoc(doc(db,"rivalries",rivalryId),after));
 }
 async function forge(env,id,mutate){
