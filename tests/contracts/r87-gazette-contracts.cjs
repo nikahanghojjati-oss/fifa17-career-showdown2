@@ -435,8 +435,9 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(Copy.stories.length,114);assert.equal(Copy.duets.length,288);for(const k of ['briefs','captions','ears','quotes'])assert.equal(Copy.small[k].length,30,k);
     assert.equal(Pages.contentVersion,2);assert.equal(Pages.season.length,477);assert.equal(Pages.final.length,258);
     const sw=read('service-worker.js'),added=new Set(JSON.parse(sw.match(/SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\((\[[^\]]*\])\)/)[1]));
+    const r87Shell=JSON.parse(read('tests/fixtures/shell-paths/2.0.0-r87.json')).paths;
     const files=['js/touchlineGazette.js','data/gazetteCopy.js','data/frontPages.js','css/v10Gazette.css','visual-assets/v10_1/content/content.css','visual-assets/v10_1/content/frontpage.js',...G.FONT_FILES,...['unifrakturmaguntia','playfair-display','old-standard-tt'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`)];
-    for(const f of files){assert.ok(fs.existsSync(path.join(ROOT,f)),f);assert.ok(sw.includes(`  "${f}",`)&&added.has(f),`shell lists ${f} (and as added since r86)`);}
+    for(const f of files){assert.ok(fs.existsSync(path.join(ROOT,f)),f);assert.ok(sw.includes(`  "${f}",`)&&!added.has(f)&&r87Shell.includes(f),`shell lists ${f} (and, from 2.1.0, the retained r87 shell does too)`);}
     assert.ok(!/content\/gazette\/GZ_[A-Z_]+\.webp/.test(sw),'press photos ride the V10 image runtime cache, not the shell');
     for(const f of G.FONT_FILES)assert.ok(/LICENSE|SIL Open Font License/i.test(read(`visual-assets/v10_1/content/gazette/fonts/LICENSE-${path.basename(f).split('-latin')[0]}.txt`)),f);
     assert.ok(!fs.readdirSync(path.join(ROOT,'visual-assets/v10_1/content')).some(f=>/\.(md|html|json)$/.test(f)),'reference files live in project-documents/r87/touchline-gazette');

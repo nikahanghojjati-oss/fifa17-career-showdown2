@@ -1,6 +1,6 @@
 {
   "name": "career-mode-showdown",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {

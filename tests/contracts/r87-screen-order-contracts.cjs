@@ -72,7 +72,7 @@ section("O2",()=>{
   for(const [file,olds] of Object.entries(files)){const src=read(file);for(const old of olds)assert.ok(!src.includes(old),`${file} still shows "${old}"`);}
   assert.match(pstcSrc,/"OPEN TRANSFER WAR"/);assert.match(pstcSrc,/`START SEASON \$\{season\} TRANSFER WAR`/);assert.match(pstcSrc,/`SEASON \$\{view\?\.seasonNumber\|\|pstcSeason\(\)\} TRANSFER WAR`/);
   assert.match(read("js/showdownUI.js"),/`RESUME SEASON \$\{season\} TRANSFER WAR`/);
-  assert.match(read("js/ruleBook.js"),/createRuleSection\("03", "TRANSFER WAR",/,"the Rule Book card is the Transfer War");
+  assert.match(read("js/ruleBook.js"),/createRuleSection\("06", "TRANSFER WAR",/,"the Rule Book card is the Transfer War");
   assert.match(read("js/ruleBook.js"),/"The transfer window lasts 15 minutes\."/,"the 15-minute clock is still the transfer window");
   assert.match(pstcSrc,/"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD"/,"TRANSFER WINDOW LIVE (the clock) stays");
   const page=read("visual-assets/v10_1/icon-guess/index.html");

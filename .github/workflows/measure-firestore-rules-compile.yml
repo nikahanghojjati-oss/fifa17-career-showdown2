@@ -1,0 +1,94 @@
+name: Measure Firestore Rules compile time
+
+# Fable job 19 (r88 Rules slimming). Compile-only probe of the Firebase Rules service: it builds the composed
+# production Rules of this checkout and of a few reference commits, then times `projects/{project}:test` for each.
+# Nothing is published: no ruleset is created, no release changes. It exists because the 2.1.0 deploy got HTTP 503
+# after about 5.3 s on every ruleset create (the compile deadline), and the token proxy alone cannot say how close
+# a candidate is to that deadline.
+
+on:
+  workflow_dispatch:
+    inputs:
+      refs:
+        description: Space-separated reference commits to compile next to this checkout
+        required: false
+        default: "origin/main 95d5c75a 64b6bbd6 5b0ab3ee d956bf4e f4481e15"
+      repeat:
+        description: Compiles per source (1-10)
+        required: false
+        default: "3"
+  push:
+    branches:
+      - claude-gameplay/r88-rules-slim
+
+permissions:
+  contents: read
+
+concurrency:
+  group: measure-firestore-rules-compile
+  cancel-in-progress: false
+
+env:
+  FIREBASE_PROJECT_ID: fifa17-career-showdown-prod
+
+jobs:
+  measure:
+    if: github.repository == 'nikahanghojjati-oss/fifa17-career-showdown2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source with history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Build the candidate and the reference Rules
+        shell: bash
+        env:
+          REFS: ${{ github.event.inputs.refs || 'origin/main' }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rules-compile
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+          cp firestore.spark.generated.rules /tmp/rules-compile/candidate.rules
+          targets="candidate=/tmp/rules-compile/candidate.rules"
+          for ref in ${REFS}; do
+            label="$(echo "${ref}" | tr '/' '_')"
+            dir="/tmp/rules-compile/wt-${label}"
+            git worktree add --detach "${dir}" "${ref}"
+            (cd "${dir}" && node scripts/build-production-firestore-rules-with-persistent-pair.mjs)
+            cp "${dir}/firestore.spark.generated.rules" "/tmp/rules-compile/${label}.rules"
+            targets="${targets} ${label}=/tmp/rules-compile/${label}.rules"
+          done
+          # Ablation variants checked in under gameplay/r88/rules-slim/probes (never deployed): one label per file.
+          for probe in gameplay/r88/rules-slim/probes/*.rules; do
+            [ -f "${probe}" ] || continue
+            label="$(basename "${probe}" .rules)"
+            cp "${probe}" "/tmp/rules-compile/${label}.rules"
+            targets="${targets} ${label}=/tmp/rules-compile/${label}.rules"
+          done
+          echo "RULES_COMPILE_TARGETS=${targets}" >> "${GITHUB_ENV}"
+          wc -c /tmp/rules-compile/*.rules
+
+      - name: Authenticate permanent Firebase Rules service account
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.FIREBASE_RULES_SERVICE_ACCOUNT_JSON }}
+          create_credentials_file: true
+          export_environment_variables: true
+
+      # Compile only: https://firebaserules.googleapis.com/v1/projects/{project}:test with no test suite.
+      - name: Time the Rules compile for every source
+        shell: bash
+        env:
+          REPEAT: ${{ github.event.inputs.repeat || '3' }}
+        run: |
+          set -euo pipefail
+          node scripts/time-firestore-rules-compile.mjs --repeat "${REPEAT}" ${RULES_COMPILE_TARGETS}
