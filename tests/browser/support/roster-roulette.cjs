@@ -154,7 +154,10 @@ async function onTransfer(page){
 async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   const targets=(Array.isArray(pages)?pages:[pages]).filter(Boolean);track(targets);
   // A planned Prime Pack round can run its four stages out (~95 s); Chamber Men's 14 kicks (turn by turn) show for about 37 s.
-  const until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout)+(process.env.CMS_CHAMBER_MEN_NOW==="1"?150000:0),seen=[];
+  // Chamber Men also runs without CMS_CHAMBER_MEN_NOW once CHAMBER_FROM_MS has passed, so the first chamber step seen
+  // grants the same extra time.
+  const chamberNow=process.env.CMS_CHAMBER_MEN_NOW==="1",seen=[];
+  let until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout)+(chamberNow?150000:0),chamberTime=chamberNow;
   for(;;){
     const drive=[...new Set([...targets,...tracked,...browserPages(targets)])].filter(page=>!page.isClosed());
     const done=[];for(const page of targets)done.push(await onTransfer(page));
@@ -163,7 +166,7 @@ async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
     for(const page of drive){
       if(targets.includes(page)&&done[targets.indexOf(page)])continue;
       const step=await playRoulette(page,{primeGuesser});
-      if(step&&step!=="wait"){seen.push(step);if(process.env.CMS_ROULETTE_DEBUG==="1")console.log(`--- step ${new Date().toISOString().slice(11,23)} ${step}`);}
+      if(step&&step!=="wait"){if(!chamberTime&&step.startsWith("chamber-")){chamberTime=true;until+=150000;}seen.push(step);if(process.env.CMS_ROULETTE_DEBUG==="1")console.log(`--- step ${new Date().toISOString().slice(11,23)} ${step}`);}
     }
     await targets[0].waitForTimeout(STEP_MS);
   }
