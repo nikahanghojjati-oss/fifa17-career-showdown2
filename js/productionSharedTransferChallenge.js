@@ -26,7 +26,7 @@
   const PSTC_PRIME_PACK_TEXT="Prime Pack could not load. Check the connection and tap again.";
   const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   // r88 Chamber Men: Showdowns confirmed before it never load the step (tools/set-release-time.cjs --r88 pins it).
-  const CHAMBER_FROM_MS=Date.parse("2026-11-04T05:00:00Z");
+  const CHAMBER_FROM_MS=Date.parse("2026-11-04T17:00:00Z");
   const PSTC_ROULETTE_TEXT=Object.freeze({
     load:"The roulette could not load. Check the connection and tap again.",
     setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",
