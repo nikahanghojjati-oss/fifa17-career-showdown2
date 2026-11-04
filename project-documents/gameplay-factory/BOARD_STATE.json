@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 10:38 PM Boston time (EST)",
+ "generated": "2026-11-03 10:42 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1843,27 +1843,17 @@
  },
  "two": {
   "live": {
-   "sha": "3da99a4",
+   "sha": "666df32",
    "revision": "2.1.0-r88",
-   "when": "2026-11-03T20:29:43-05:00",
-   "subject": "Merge pull request #1209 from nikahanghojjati-oss/gameplay/r88",
-   "fixes": [
+   "when": "2026-11-03T22:39:26-05:00",
+   "subject": "Merge pull request #1237 from nikahanghojjati-oss/claude-gameplay/r88-rules-static-regex",
+   "fixes": [],
+   "today": [
     {
      "pr": 1237,
      "title": "2.1.0 Rules fix: Chamber Men check without a data-built regex (unblocks the deploy)",
-     "draft": false,
-     "branch": "claude-gameplay/r88-rules-static-regex",
-     "sha": "430305bc646913643c7402b4678a946d6aa3ea98",
-     "updated": "2026-11-04T03:10:48Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-11-04T03:39:26Z"
+    },
     {
      "pr": 1209,
      "title": "r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish)",
@@ -2706,7 +2696,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3922,22 +3912,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1237,
-    "title": "2.1.0 Rules fix: Chamber Men check without a data-built regex (unblocks the deploy)",
-    "draft": false,
-    "branch": "claude-gameplay/r88-rules-static-regex",
-    "sha": "430305bc646913643c7402b4678a946d6aa3ea98",
-    "updated": "2026-11-04T03:10:48Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
