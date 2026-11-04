@@ -1870,6 +1870,13 @@
   /* the toolbar's GO TO label and the CARDS segment sat 2px inside the panel's gold edge */
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { padding-inline:8px; }
 }
+/* Studio Small Axe History finder, Fable re-check: a short list page (a filter with few rows) keeps its pager straight under
+   the last row; the spare height sits below the pager instead of between the rows and the pager. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) { grid-template-rows:auto minmax(0,1fr); align-content:stretch; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) > .legacyCardGrid { align-self:start; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) > #legacyPager { align-self:start; }
+}
 
 /* Studio Small Axe Legacy pane, Fable job 20 lines under 5 (2026-11-04).
    Type: card club names, results, SP chips, "10 / 10 Seasons", the Golden line, the table heads and details and CLOSE come up
