@@ -113,7 +113,7 @@ for(const required of [
   'provider.read(ctx.options)',
   'provider[method](options)',
   'const guesses=pstcBuildGuesses(role);if(!await pstcConfirmPartialLock(guesses.length,"guesses"))return false;return pstcMutate("lockGuesses",{guesses});',
-  'const signings=pstcBuildSignings(role);if(!await pstcConfirmPartialLock(signings.length,"signings"))return false;return pstcMutate("lockSignings",{signings});',
+  'const signings=pstcBuildSignings(role,await pstcBlockedNow(pstcRequestContext(),role));if(!await pstcConfirmPartialLock(signings.length,"signings"))return false;return pstcMutate("lockSignings",{signings});',
   'root.navigateTo("transferChallenge")',
   'view?.opponentInputs||null',
   'phase==="COMPLETED"',

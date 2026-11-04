@@ -1,9 +1,12 @@
 "use strict";
 // r88 Chamber Men (Nik 2026-11-02 13:53 UTC: name and rule; design https://claude.ai/artifact/KzN1uypy5EZhLx8C4AiQMK).
-//   CM1 rule: 7 rounds, both managers pick a shot and a dive (L M R); a goal when the shot and the rival's dive differ;
-//       a "-" shot (own clock out) is a miss, a "-" dive stays in the middle.
-//   CM2 record: one pick string per manager, two letters a round, never ahead of the other, never more than 7 rounds.
-//   CM3 cylinders: kick k of a manager loads chamber k of the RIVAL's cylinder; a manager's cylinder holds the rival's goals.
+//   CM1 rule (turn by turn, Nik 2026-11-03): 7 rounds of two kicks; kick A Daniel shoots and Nik keeps, kick B Nik shoots
+//       and Daniel keeps; nobody shoots and dives on the same kick. A goal when the shot and the keeper's dive differ; a "-"
+//       shot (own clock out) is a miss, a "-" dive stays in the middle.
+//   CM2 record: one pick string per manager, one letter a kick (shot on his kick, dive on the rival's), never more than one
+//       kick ahead of the other, never more than 14 letters (7 shots, 7 dives).
+//   CM3 cylinders: the k-th shot of a manager loads chamber k of the RIVAL's cylinder; a manager's cylinder holds the rival's
+//       goals; exactly 7 shots each, never an early finish.
 //   CM4 roulette: in a Chamber Men Showdown the spin fires exactly when the cylinder stops on a live chamber (goals out of 7),
 //       aims at the same player as before, never falls back to one bullet, and a one-bullet Showdown plays exactly as 2.0.0.
 //   CM5 order: Chamber Men -> Roster Russian Roulette -> Prime Pack -> Transfer War, the roulette fed by this season's cylinders.
@@ -13,8 +16,10 @@
 //   CM8 screen: no dimming, no rgba scrim, nothing invented (no Math.random), every button reachable on a scrolling stage.
 //   CM9 hand-off: BACK TO SHOWDOWN HOME runs the step's own handler (the app's smart-back delegation leaves it alone), and
 //       after SPIN THE CYLINDER the screen stays until the roulette has run, so the dashboard never shows in between.
-//   CM10 a pick is bound to its round (Codex #1205): a send for round k that reaches the server after this manager's round k
-//       is already in (a second tab, a transaction retry) is refused, never stored as round k+1.
+//   CM10 a pick is bound to its kick (Codex #1205): a send for kick n that reaches the server after this manager's kick n
+//       is already in (a second tab, a transaction retry) is refused, never stored as kick n+1 (a shot never lands as a dive).
+//   CM11 the screen (turn by turn): the shooter sees YOU SHOOT and only "Pick your shot", the keeper YOU KEEP and only "Pick
+//       your dive"; the header names the kick ("Round 3 of 7 · Daniel shoots"); the clock waits for the rival's lock-in.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -27,42 +32,60 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
 
 // CM1
 {
-  assert.equal(CM.rounds,7);assert.equal(CM.chambers,7);assert.deepEqual([...CM.sides],["L","M","R"]);
+  assert.equal(CM.rounds,7);assert.equal(CM.kicks,14);assert.equal(CM.chambers,7);assert.deepEqual([...CM.sides],["L","M","R"]);
+  for(let n=1;n<=14;n+=1){
+    const k=CM.kick(n);
+    assert.equal(k.round,Math.ceil(n/2));assert.equal(k.half,n%2?"A":"B");
+    assert.equal(k.shooter,n%2?"playerOne":"playerTwo",`kick ${n}: ${n%2?"Daniel":"Nik"} shoots`);
+    assert.equal(k.keeper,n%2?"playerTwo":"playerOne");
+    assert.equal(CM.roleOn(n,k.shooter),"shot");assert.equal(CM.roleOn(n,k.keeper),"dive","the other manager only keeps");
+  }
+  assert.equal(CM.kick(0),null);assert.equal(CM.kick(15),null);
   for(const shot of ["L","M","R"])for(const dive of ["L","M","R"])assert.equal(CM.goal(shot,dive),shot!==dive,`${shot} vs ${dive}`);
   assert.equal(CM.goal("-","L"),false,"no shot in time is a miss");
   assert.equal(CM.goal("L","-"),true,"a keeper out of time stays in the middle: a side shot goes in");
   assert.equal(CM.goal("M","-"),false,"a keeper out of time stays in the middle: a middle shot is saved");
-  assert.equal(CM.pick("L",null),"L-");assert.equal(CM.pick(undefined,"R"),"-R");assert.equal(CM.pick("X","M"),"-M");
-  ok("CM1","a goal is a shot the keeper did not go to; a timed-out shot misses, a timed-out keeper stays in the middle");
+  assert.equal(CM.pick("L"),"L");assert.equal(CM.pick(null),"-");assert.equal(CM.pick("X"),"-");
+  ok("CM1","turn by turn: Daniel shoots and Nik keeps, then Nik shoots and Daniel keeps; a timed-out shot misses, a timed-out keeper stays in the middle");
 }
 // CM2
 {
   let r=CM.record({playerOne:"",playerTwo:""});
-  assert.equal(CM.nextRound(r,"playerOne"),1);assert.equal(CM.nextRound(r,"playerTwo"),1);
-  r=CM.send(r,"playerOne","LR");assert.deepEqual({...r},{playerOne:"LR",playerTwo:""});
-  assert.equal(CM.nextRound(r,"playerOne"),null,"Daniel waits for Nik's round 1");
-  assert.equal(CM.send(r,"playerOne","MM"),null,"no running ahead");
-  assert.equal(CM.roundsOf(r).length,0,"a round shows only once both picks are in");
-  r=CM.send(r,"playerTwo","RL");assert.equal(CM.roundsOf(r).length,1);
-  assert.equal(CM.record({playerOne:"LRMM",playerTwo:""}),null,"two rounds ahead is never a valid record");
-  assert.equal(CM.record({playerOne:"LRX",playerTwo:""}),null);assert.equal(CM.record({playerOne:"LZ",playerTwo:""}),null);
-  assert.equal(CM.record({playerOne:"LR".repeat(8),playerTwo:"LR".repeat(7)}),null,"never more than 7 rounds");
-  assert.equal(CM.send(r,"playerOne","LRM"),null,"exactly two letters a round");
-  ok("CM2","one pick string each, one round at a time, never ahead, at most 7, hidden until both are in");
+  assert.equal(CM.nextKick(r,"playerOne"),1);assert.equal(CM.nextKick(r,"playerTwo"),1,"the keeper may lock in his dive first");
+  r=CM.send(r,"playerOne","L");assert.deepEqual({...r},{playerOne:"L",playerTwo:""});
+  assert.equal(CM.nextKick(r,"playerOne"),null,"Daniel waits for Nik's dive on kick 1");
+  assert.equal(CM.send(r,"playerOne","M"),null,"no running ahead");
+  assert.equal(CM.kicksOf(r).length,0,"a kick shows only once both letters are in");
+  r=CM.send(r,"playerTwo","R");const k1=CM.kicksOf(r);
+  assert.equal(k1.length,1);assert.deepEqual({s:k1[0].shooter,shot:k1[0].shotSide,dive:k1[0].dive,goal:k1[0].goal},{s:"playerOne",shot:"L",dive:"R",goal:true});
+  assert.equal(CM.nextKick(r,"playerTwo"),2,"kick 2: Nik's shot");
+  assert.equal(CM.record({playerOne:"LR",playerTwo:""}),null,"two kicks ahead is never a valid record");
+  assert.equal(CM.record({playerOne:"LX",playerTwo:"R"}),null);assert.equal(CM.record({playerOne:"Z",playerTwo:""}),null);
+  assert.equal(CM.record({playerOne:"L".repeat(15),playerTwo:"R".repeat(14)}),null,"never more than 14 letters");
+  assert.equal(CM.send(r,"playerOne","LR"),null,"exactly one letter a kick (never a shot and a dive at once)");
+  ok("CM2","one pick string each, one letter a kick, never ahead, at most 14 (7 shots and 7 dives), hidden until both are in");
 }
 // CM3
 {
+  // Kick n: the shooter's letter n is his shot, the keeper's letter n his dive.
   const r=CM.record({playerOne:"LRMMRL-LLRRMMR",playerTwo:"RLLMRRMMLRLLR-"});
-  const rounds=CM.roundsOf(r),score=CM.score(r),cyl=CM.cylinders(r);
-  assert.equal(rounds.length,7);
-  for(const round of rounds){
-    assert.equal(cyl.playerTwo[round.round-1],round.goal.playerOne,"Daniel's kick k loads chamber k of Nik's cylinder");
-    assert.equal(cyl.playerOne[round.round-1],round.goal.playerTwo,"Nik's kick k loads chamber k of Daniel's cylinder");
+  const kicks=CM.kicksOf(r),score=CM.score(r),cyl=CM.cylinders(r);
+  assert.equal(kicks.length,14);assert.equal(CM.progress(r).complete,true);
+  for(const role of ["playerOne","playerTwo"])assert.equal(kicks.filter(k=>k.shooter===role).length,7,"7 shots each");
+  for(const kick of kicks){
+    assert.equal(kick.shotSide,r[kick.shooter][kick.kick-1]);assert.equal(kick.dive,r[kick.keeper][kick.kick-1]);
+    assert.equal(cyl[kick.keeper][kick.shot-1],kick.goal,`${kick.shooter}'s shot ${kick.shot} loads chamber ${kick.shot} of the rival's cylinder`);
   }
   assert.equal(CM.bullets(cyl.playerOne),score.playerTwo);assert.equal(CM.bullets(cyl.playerTwo),score.playerOne);
   assert.equal(CM.cylinders(CM.record({playerOne:"LR",playerTwo:"RL"})),null,"no cylinder from an unfinished shootout");
-  assert.equal(CM.cylinders(CM.record({playerOne:"LL".repeat(7),playerTwo:"RR".repeat(7)})).playerOne.filter(Boolean).length,7,"Nik shoots right 7 times, Daniel dives left: 7 live rounds");
-  ok("CM3","each manager's cylinder holds the rival's goals, chamber k = kick k; nothing before all 7 rounds");
+  assert.equal(CM.cylinders(CM.record({playerOne:"L".repeat(13),playerTwo:"R".repeat(13)})),null,"13 kicks is not full time: never an early finish");
+  // Nik always shoots right (his letters on even kicks), Daniel always dives left (his letters on even kicks): 7 live rounds.
+  const nikRight=CM.record({playerOne:"RL".repeat(7),playerTwo:"LR".repeat(7)});
+  assert.equal(CM.cylinders(nikRight).playerOne.filter(Boolean).length,7,"Nik scores 7: Daniel's cylinder is full");
+  assert.equal(CM.score(nikRight).playerOne,7,"Daniel shoots right, Nik dives left: 7 for Daniel too");
+  const zero=CM.record({playerOne:"LL".repeat(7),playerTwo:"LL".repeat(7)});
+  assert.deepEqual(CM.score(zero),{playerOne:0,playerTwo:0});assert.equal(CM.bullets(CM.cylinders(zero).playerOne),0,"0 goals: an empty cylinder still spins (CM4)");
+  ok("CM3","each manager's cylinder holds the rival's goals, chamber k = his k-th shot; 7 shots each, nothing before all 14 kicks");
 }
 // CM4
 {
@@ -142,9 +165,13 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
   for(const file of ["js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"])assert.match(sw,new RegExp(`"${file.replace(/[.]/g,"\\.")}"`),`${file} is precached`);
   const rules=read("firestore.season-results-production.fragment.rules");
   assert.match(rules,/match \/chamberMenRounds\/\{seasonId\} \{\s*allow get: if ssjrEntitled\(rivalryId\);\s*allow list, delete: if false;/);
-  assert.match(rules,/after\.kicks\[other\] == before\.kicks\[other\]\s*&& before\.kicks\[role\]\.size\(\) <= before\.kicks\[other\]\.size\(\)\s*&& after\.kicks\[role\]\.matches\(before\.kicks\[role\] \+ '\[LMR-\]\{2\}'\);/);
+  assert.match(rules,/after\.kicks\[other\] == before\.kicks\[other\]\s*&& before\.kicks\[role\]\.size\(\) <= before\.kicks\[other\]\.size\(\)\s*&& after\.kicks\[role\]\.size\(\) == before\.kicks\[role\]\.size\(\) \+ 1\s*&& \(before\.kicks\[role\] == '' \|\| after\.kicks\[role\]\[0:before\.kicks\[role\]\.size\(\)\] == before\.kicks\[role\]\)\s*&& after\.kicks\[role\]\[before\.kicks\[role\]\.size\(\):after\.kicks\[role\]\.size\(\)\]\.matches\('\[LMR-\]'\);/,"one more letter, the old ones unchanged, the new one L/M/R/-");
+  // The Firebase Rules API refused (HTTP 503) every ruleset whose regex was built from stored data: literals only.
+  assert.doesNotMatch(rules,/\.matches\([^')]*\+/,"no regex built from data");
+  assert.match(rules,/after\.revision == 1\s*&& after\.kicks\[role\]\.matches\('\[LMR-\]'\)\s*&& after\.kicks\[ssjrPackOther\(role\)\] == '';/,"created with one letter of his own");
+  assert.match(rules,/root\.schemaVersion == 2\s*&& root\.objectType == 'sharedChamberMenRound'/,"the per-kick record is schemaVersion 2");
   assert.match(rules,/root\.kicks\.playerOne is string && root\.kicks\.playerOne\.size\(\) <= 14/);
-  ok("CM7","the step, rules and styles are precached; the Rules allow only one own round at a time, never ahead");
+  ok("CM7","the step, rules and styles are precached; the Rules allow only one own letter a kick, never ahead, 14 at most");
 }
 // CM8
 {
@@ -176,16 +203,43 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
     const sdk={doc:()=>({}),serverTimestamp:()=>"ts",runTransaction:async(_fs,fn)=>fn({get:async()=>({exists:()=>Boolean(data),data:()=>data}),set:(_r,d)=>writes.push(["set",d]),update:(_r,d)=>writes.push(["update",d])})};
     return {io:{firestore:{},sdk,rivalryId:rid,sessionId:"s",deviceId:"d"},writes};
   };
-  const doc=(p1,p2)=>({schemaVersion:1,objectType:"sharedChamberMenRound",rivalryId:rid,seasonNumber:1,kicks:{playerOne:p1,playerTwo:p2},revision:3});
-  // Daniel's round 1 ("LR") and Nik's round 1 are in; a late round-1 send from Daniel's other tab must not become round 2.
-  {const {io:a,writes}=io(doc("LR","RL"));const r=await Step.send(a,ctx,"MM",1);
-    assert.equal(r.ok,false,"a late round-1 pick is refused");assert.equal(writes.length,0,"nothing is written");}
-  {const {io:a,writes}=io(doc("LR","RL"));const r=await Step.send(a,ctx,"MM",2);
-    assert.equal(r.ok,true,"the round-2 pick goes in");assert.equal(writes[0][1]["kicks.playerOne"],"LRMM");}
-  // The first pick of all (no record yet) is round 1 only.
-  {const {io:a,writes}=io(null);assert.equal((await Step.send(a,ctx,"LL",2)).ok,false);assert.equal(writes.length,0);
-    const r=await Step.send(a,ctx,"LL",1);assert.equal(r.ok,true);assert.equal(writes[0][1].kicks.playerOne,"LL");}
-  assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(sel\.shot,sel\.dive\),round\)/,"the screen sends the round it is showing");
-  ok("CM10","a pick goes in only as the round it was made for; a late or repeated send is refused");
+  const doc=(p1,p2)=>({schemaVersion:2,objectType:"sharedChamberMenRound",rivalryId:rid,seasonNumber:1,kicks:{playerOne:p1,playerTwo:p2},revision:3});
+  // Kick 1 is in (Daniel's shot "L", Nik's dive "R"); a late kick-1 send from Daniel's other tab must not become his kick-2 dive.
+  {const {io:a,writes}=io(doc("L","R"));const r=await Step.send(a,ctx,"M",1);
+    assert.equal(r.ok,false,"a late kick-1 shot is refused");assert.equal(r.reason,"NOT_THIS_KICK");assert.equal(writes.length,0,"nothing is written");}
+  {const {io:a,writes}=io(doc("L","R"));const r=await Step.send(a,ctx,"M",2);
+    assert.equal(r.ok,true,"the kick-2 dive goes in");assert.equal(writes[0][1]["kicks.playerOne"],"LM");}
+  {const {io:a,writes}=io(doc("LM","R"));const r=await Step.send(a,ctx,"L",3);
+    assert.equal(r.ok,false,"Daniel never runs ahead of Nik's kick-2 shot");assert.equal(r.reason,"NOT_YOUR_KICK");assert.equal(writes.length,0);}
+  // The first pick of all (no record yet) is kick 1 only.
+  {const {io:a,writes}=io(null);assert.equal((await Step.send(a,ctx,"L",2)).ok,false);assert.equal(writes.length,0);
+    const r=await Step.send(a,ctx,"L",1);assert.equal(r.ok,true);assert.equal(writes[0][1].kicks.playerOne,"L");assert.equal(writes[0][1].schemaVersion,2);}
+  // An old two-letters-a-round record (schemaVersion 1) is never read as kicks.
+  assert.equal(Step.record({...doc("LR","RL"),schemaVersion:1},1),null);
+  assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(timedOut\?null:sel\),kick\)/,"the screen sends the kick it is showing; out of time it sends \"-\" (Codex #1232)");
+  // Both lock in at once: the Rules refuse the loser against the record the winner just changed; one retry on the record as
+  // it is now puts his letter in; a second refusal is passed on (no loop of billed reads).
+  {
+    const race=(fails)=>{let calls=0;const writes=[];const sdk={doc:()=>({}),serverTimestamp:()=>"ts",runTransaction:async(_f,fn)=>{calls+=1;
+      const r=await fn({get:async()=>({exists:()=>true,data:()=>doc("L","R")}),set(){},update:(_r,d)=>writes.push(d)});
+      if(calls<=fails)throw Object.assign(new Error("denied"),{code:"permission-denied"});return r;}};
+      return {io:{firestore:{},sdk,rivalryId:rid,sessionId:"s",deviceId:"d"},calls:()=>calls,writes};};
+    const once=race(1);const r1=await Step.send(once.io,ctx,"M",2);
+    assert.equal(r1.ok,true);assert.equal(once.calls(),2,"one retry after a refused race");
+    const twice=race(2);await assert.rejects(Step.send(twice.io,ctx,"M",2),e=>e.code==="permission-denied");assert.equal(twice.calls(),2,"never more than one retry");
+    const offline=race(0);offline.io.sdk.runTransaction=async()=>{throw Object.assign(new Error("x"),{code:"unavailable"});};
+    await assert.rejects(Step.send(offline.io,ctx,"M",2),e=>e.code==="unavailable");
+  }
+  ok("CM10","a pick goes in only as the kick it was made for; a late or repeated send is refused");
+  // CM11
+  {
+    const step=read("js/chamberMenStep.js");
+    assert.match(step,/setTurn\(shooting\?"shoot":"keep",shooting\?"YOU SHOOT":"YOU KEEP",shooting\?`\$\{NAMES\[other\]\} is in goal`:`\$\{NAMES\[other\]\} shoots at you`/,"big YOU SHOOT / YOU KEEP with the rival's name");
+    assert.match(step,/\[\["shot","Pick your shot"\],\["dive","Pick your dive"\]\]/);
+    assert.match(step,/const showRow=kind=>\{for\(const k of \["shot","dive"\]\)ui\.rows\[k\]\.row\.hidden=k!==kind;\};/,"only this manager's row shows");
+    assert.match(step,/return `Round \$\{k\.round\} of 7 · \$\{NAMES\[k\.shooter\]\} shoots`;/,"the kick counter");
+    assert.match(step,/if\(!clock&&theirsSent>=n\)\{const local=Math\.max\(now\(\),revealUntil\)\+PICK_MS;clock=\{kick:n,deadline:Number\.isFinite\(lastWriteMs\)\?Math\.min\(local,lastWriteMs\+PICK_MS\+KICK_MS\):local\};\}/,"the clock starts when the rival has locked in, tied to his lock-in on the server (Codex #1232)");
+    ok("CM11","the shooter sees YOU SHOOT and only his shot row, the keeper YOU KEEP and only his dive row; the kick is named; the clock waits for the rival");
+  }
   console.log(`PASS r88 Chamber Men contracts: ${results.length} checks.`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

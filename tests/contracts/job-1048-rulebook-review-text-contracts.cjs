@@ -24,7 +24,7 @@ vm.runInContext(read("js/ruleBook.js"), context);
 context.createRuleBookScreen();
 
 const sections = main.findByClass("ruleSection");
-assert.equal(sections.length, 6, "Six-section Rule Book (r86 adds 06 SPECIAL PLAYER and drops the draws card)");
+assert.equal(sections.length, 9, "Nine-section Rule Book (r86 adds SPECIAL PLAYER and drops the draws card; r88 gives Chamber Men, the roulette and Prime Pack their own cards)");
 const section = number => {
   const found = sections.find(node => node.children[0]?.children[0]?.textContent === number);
   assert.ok(found, `Rule Book section ${number} exists`);
@@ -37,7 +37,8 @@ assert.match(format, /most Showdown points.*across all seasons.*wins/i,
 assert.match(format, /equal totals.*draw/i,
   "An equal final Showdown points total must be a draw");
 
-const transfer = section("03");
+const transfer = section("06");
+assert.match(transfer, /^06TRANSFER WAR/, "card 06 is the Transfer War");
 assert.match(transfer, /both managers.*end.*transfer window early/i,
   "Both managers can agree to end the shared transfer window early");
 assert.match(transfer, /one manager.*cannot.*alone/i,
@@ -47,7 +48,9 @@ assert.match(transfer, /one manager.*cannot.*alone/i,
 assert.ok(!sections.some(node => /DRAWS/.test(node.children[0]?.textContent || "")), "no DRAWS card on the page");
 assert.doesNotMatch(main.textContent, /There is no tiebreak|Same Showdown points in a season/, "the draws lines are off the page");
 assert.match(read("js/scoring.js"), /no tiebreak/i, "the no-tiebreak rule stays in the scoring engine");
-assert.match(section("05"), /^05CONNECTION & RECOVERY/, "card 05 is Connection & Recovery");
+assert.match(section("08"), /^08CONNECTION & RECOVERY/, "card 08 is Connection & Recovery");
+// r88 (Nik 2026-11-03): the season steps in season order, each on its own card.
+assert.match(section("03"), /^03CHAMBER MEN/);assert.match(section("04"), /^04ROSTER RUSSIAN ROULETTE/);assert.match(section("05"), /^05PRIME PACK/);assert.match(section("07"), /^07SCORING/);
 
 assert.match(transfer, /Special Player is a free extra signing: he never counts toward the three, and guesses never release him\./,
   "r86 (Nik 2026-10-29 15:29 UTC): the Special Player is a free extra signing that guesses never release");
@@ -59,8 +62,8 @@ assert.match(matchPlay, /5- and 10-season Showdowns: all players can be trained\
   "r86 (Nik 2026-10-29): in 5- and 10-season Showdowns all players can be trained");
 assert.doesNotMatch(matchPlay, /allowed only in 5- and 10-season/i, "the old no-training-in-short-Showdowns line is gone");
 
-const special = section("06");
-assert.match(special, /^06SPECIAL PLAYER/, "card 06 is the Special Player card");
+const special = section("09");
+assert.match(special, /^09SPECIAL PLAYER/, "card 09, the last, is the Special Player card");
 for (const pattern of [/after Club Assignment, each manager draws one Special Player/, /top 300 FIFA 17 players by potential/,
   /never draw the same player/, /free extra signing\. He doesn't count toward your three signings, and your rival's guesses can never release him\./, /Career Start shows each Special Player's FIFA 17 club/,
   /1- and 3-season Showdowns: your Special Player is the only player you can train\./,
