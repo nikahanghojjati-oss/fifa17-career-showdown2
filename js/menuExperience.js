@@ -1,5 +1,5 @@
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=2.0.0-r87",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=2.1.0-r88",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
@@ -68,7 +68,7 @@ function isPairClosedSave(s){
 function noLiveShowdownMeta(){
     let id = "";
     try{ id = window.CareerModeOnlinePlayerIdentity?.getState?.()?.managerId || ""; }catch(_error){}
-    return "No Showdown live" + (id === "daniel" ? " · tap to start" : id === "nik" ? " · tap to join Daniel's" : "");
+    return "No Showdown live" + (id === "daniel" ? " · START A SHOWDOWN" : id === "nik" ? " · JOIN DANIEL'S SHOWDOWN" : "");
 }
 
 function getSavedShowdownMenuMeta(){

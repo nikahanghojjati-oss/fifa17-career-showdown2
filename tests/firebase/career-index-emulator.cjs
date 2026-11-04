@@ -107,7 +107,7 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
   // I0: the COMPOSED production Rules (both build scripts), never a single fragment.
   assert.match(RULES,/match \/accounts\/\{accountId\}\/careerIndex\/\{indexId\}/,'I0 composed Rules must contain the career index match');
   assert.match(RULES,/match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/,'I0 composed Rules must contain the persistent pair fragment');
-  assert.match(RULES,/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/,'I0 composed Rules must contain the Shared Journey fragments');
+  assert.match(RULES,/function ssjrTerminalValidRivalryUpdate\((rivalryId)?\)/,'I0 composed Rules must contain the Shared Journey fragments');
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
   try{
     await env.clearFirestore();

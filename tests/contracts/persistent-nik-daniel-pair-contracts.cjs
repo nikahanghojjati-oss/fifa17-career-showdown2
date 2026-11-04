@@ -303,17 +303,19 @@ const pairBuild=spawnSync(process.execPath,['scripts/build-production-firestore-
 assert.equal(pairBuild.status,0,`persistent-pair production rules build failed: ${pairBuild.stderr||pairBuild.stdout}`);
 const generated=read('firestore.spark.generated.rules');
 assert.equal((generated.match(/match \/accounts\/\{accountId\}\/pairLinks\/\{pairId\}/g)||[]).length,1);
-assert.equal((generated.match(/function cmsPersistentPairCreateValid\(accountId, pairId\)/g)||[]).length,1);
-assert.equal((generated.match(/function cmsPersistentPairUpdateValid\(accountId, pairId\)/g)||[]).length,1);
+// r88 Rules slimming: the pair build's localize step re-declares both validators without parameters inside the pairLinks
+// match block (the reviewed fragment keeps the parameterized form); exactly one declaration of each either way.
+assert.equal((generated.match(/function cmsPersistentPairCreateValid\((accountId, pairId)?\)/g)||[]).length,1);
+assert.equal((generated.match(/function cmsPersistentPairUpdateValid\((accountId, pairId)?\)/g)||[]).length,1);
 assert.match(generated,/allow get: if signedIn\(\) && request\.auth\.uid == accountId && pairId == 'current'/);
-assert.match(generated,/cmsPersistentPairCreationWitnessValid\(rivalryId\)/,'Generated production Rules must reject creation without the exact creator account current-pair witness.');
-assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\(rivalryId, inviteBefore\.data\.slotId\)/,'Generated production Rules must reject redemption without the exact joiner account current-pair witness.');
-assert.match(generated,/function cmsPersistentPairAbandonValid\(rivalryId\)/,'Generated production Rules must contain one explicit current-Showdown abandonment authority.');
-assert.match(generated,/allow update: if \(request\.resource\.data\.data\.connectionState == 'closed'[\s\S]*!\('terminalClose' in request\.resource\.data\.data\)[\s\S]*&& cmsPersistentPairAbandonValid\(rivalryId\)\)[\s\S]*\|\| ssjrTerminalValidRivalryUpdate\(rivalryId\)/,'Generated production rivalry updates must evaluate bounded non-terminal start-over abandonment before terminal-close authority, preserving both paths within Firestore expression budget.');
+assert.match(generated,/cmsPersistentPairCreationWitnessValid\((rivalryId)?\)/,'Generated production Rules must reject creation without the exact creator account current-pair witness.');
+assert.match(generated,/cmsPersistentPairRedemptionWitnessValid\((rivalryId, )?inviteBefore\.data\.slotId\)/,'Generated production Rules must reject redemption without the exact joiner account current-pair witness.');
+assert.match(generated,/function cmsPersistentPairAbandonValid\((rivalryId)?\)/,'Generated production Rules must contain one explicit current-Showdown abandonment authority.');
+assert.match(generated,/allow update: if \(request\.resource\.data\.data\.connectionState == 'closed'[\s\S]*!\('terminalClose' in request\.resource\.data\.data\)[\s\S]*&& cmsPersistentPairAbandonValid\((rivalryId)?\)\)[\s\S]*\|\| ssjrTerminalValidRivalryUpdate\((rivalryId)?\)/,'Generated production rivalry updates must evaluate bounded non-terminal start-over abandonment before terminal-close authority, preserving both paths within Firestore expression budget.');
 
 assert.match(generated,/priorRivalry\.data\.data\.connectionState == 'closed'/);
 assert.match(generated,/allow list, delete: if false/);
 assert.match(generated,/match \/sharedSetup\/authoritative/);
-assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\(rivalryId, sessionId\)/);
+assert.match(generated,/function ssjrTerminalValidAtomicSessionClose\((rivalryId, sessionId)?\)/);
 
 console.log('PASS fresh single-Showdown product: Daniel is Player One, Nik is Player Two, noncanonical historical mappings are rejected, no legacy pair migration exists, one-use pairing partial commits retain a deterministic retry path without refresh loss, active careers cannot redeem or create a second pair, provider membership selects the exact cached Save/Profile on reconnect, a fresh browser rebuilds the exact shell of the live Showdown from the pair link (recovery only when that rebuild fails, never divergent setup), explicit start-over closes only the exact remembered provider Showdown before local deletion, closed test Showdowns become safely replaceable while active careers remain protected, the test-only Forget Device path is absent, a provider-closed Showdown permits the same Google account to choose the other canonical manager on the next Showdown while active or pending authority remains protected, Connect Players reuses the same bounded stale-role reconciliation sidecar as Continue Career, and provider authority remains private and zero-billing.');

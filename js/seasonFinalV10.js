@@ -2074,6 +2074,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    SHOWDOWN HOME). Two short lines (REMATCH over the length, or DANIEL STARTS IT on Nik's phone) keep it as narrow as the
    others, so the row keeps its height and place at every size; phones split the row in three equal cells. */
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions:has(> #finalWinnerRematch) { grid-template-columns:repeat(3,minmax(0,1fr)); }
+/* r88 S1: Season Results' review route sets every exit row to flex!important, which squeezed REMATCH to 18px on phones and
+   tablets. Below 1280 the three equal cells win again; 1280+ keeps its approved flex row. */
+@media (max-width:1279px) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions:has(> #finalWinnerRematch) { display:grid!important; }
+}
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch {
  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:.78 1 0;line-height:1.05;white-space:nowrap;
 }
