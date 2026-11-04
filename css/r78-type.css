@@ -834,3 +834,23 @@
 @media (min-width:901px) and (max-height:1000px) {
   :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { margin-left:26.1%; }
 }
+/* 4t.1 (Fable job 20) Season Results: one gold primary. The SHOWDOWN SCORE AFTER THIS SEASON strip was gold-filled like
+   CONFIRM & SAVE SEASON and read as a second button; it is now a marble strip with gold type. The season outlook line
+   ("SEASON 3 IS HEADING FOR A DRAW") sits in a status pill of the panel family instead of plain text. */
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall {
+  background: linear-gradient(180deg, rgba(24, 22, 19, .96), rgba(7, 7, 8, .96)) !important;
+  border: 1px solid rgba(217, 170, 60, .55) !important; border-radius: 4px;
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12), 0 0 14px rgba(242, 196, 91, .12) !important;
+}
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall > span { color: #e4b032 !important; }
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall > strong { color: #ffd34d !important; }
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel #seasonReviewResult.seasonReviewResult:not(:empty) {
+  display: table; margin-inline: auto; padding: 5px 16px; border-radius: 999px;
+  border: 1px solid rgba(217, 170, 60, .55); background: linear-gradient(180deg, rgba(24, 22, 19, .94), rgba(7, 7, 8, .94));
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12); color: #f3ead3; font-size: 13px; letter-spacing: .08em;
+}
+/* Rivalry type floor (Fable job 20): kicker, tagline, club names, progress line, head-to-head caption, season table headers
+   and trophy labels drew at 10.2-11.5px on desktop; all hold 12px. */
+@media (min-width: 901px) {
+  :root #app #statistics :is(#rvTitleBlock > .sd-eyebrow, #rvTitleBlock > .sd-tagline, #rvClubDaniel, #rvClubNik, #rvProgress, #rvPanelHead > .rv-headCaption, .rv-seasonTable > thead th, .rv-trophyLabel) { font-size: 12px; }
+}
