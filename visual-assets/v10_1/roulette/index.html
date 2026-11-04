@@ -1004,8 +1004,9 @@ function beatWords(p){ const N=NAME[p.who], T=p.target.name, L=liveWords(), long
     [B.fire,         "wFire",    p.fire?{st:"Bang!", cls:"bang", cta:"Shot fired", slot:"Fires!", slotCls:"lost"}:{st:`Click. ${N} is safe.`, cls:"safe", cta:"Click. Safe", slot:"Safe", slotCls:"safe", live:`Click. ${N} is safe.`}],
     [B.impact,       "wImpact",  p.fire?{st:T+" is hit", cls:"bang"+longName, cta:"Hit!", slot:"Hits "+T, slotCls:"lost"}:{}],
     [p.fire?B.impact+1.6:B.fire+.7, "line", p.fire?{st:`Bang! ${T} is released.`, cls:"bang"+longName, cta:"Released", slot:"Releases "+T, slotCls:"lost", live:`Bang! ${T} is released.`}:{}] ]
-    /* reduced motion: no free spin and no run-down, so no "cylinder out", "spinning" mark or "slowing"; the stop is read once the crane is open */
-    .filter(([t,k])=>!(REDUCED&&(k==="wOut"||k==="mark"||k==="slowing"))).map(([t,k,w])=>[REDUCED&&k==="stopped"?B.close+.4:t,k,w]).sort((a,b)=>a[0]-b[0]); }
+    /* reduced motion: no free spin and no run-down, so no "spinning", "cylinder out" or "slowing"; the live-round line (the game's observer reads it)
+       opens the turn and the stop is read before the hand comes up */
+    .filter(([t,k])=>!(REDUCED&&(k==="wSpin"||k==="wOut"||k==="slowing"))).map(([t,k,w])=>[REDUCED&&k==="mark"?B.spin:REDUCED&&k==="stopped"?B.close-.2:t,k,w]).sort((a,b)=>a[0]-b[0]); }
 /* r89 polish (sound sync): a sound beat is scheduled CUE_LA seconds early on the audio clock for its exact time, so at 30, 60 or 120 frames a second it lands on the same instant as the picture */
 const CUE_LA=.06; function cue(tt,t,k,name,vol){ if(tt>=t-CUE_LA&&!fired[k]){ fired[k]=1; SFX.play(name,vol,Math.max(0,t-tt)); } }
 /* r89 polish (Nik 2026-11-03: the camera "settles into the shooter's perspective ... seamless"): one critically damped settle, the step response of a
