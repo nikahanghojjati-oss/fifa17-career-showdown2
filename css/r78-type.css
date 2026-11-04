@@ -1008,7 +1008,11 @@
    between the two managers so it never covers a face, the title or a button. It is a gold line in the tagline's own
    type, with no box, so the title row keeps its height and nothing boxes the title. Same 12px tag and the
    320ms sweep (4u, off under Reduce Motion). Phones keep it in HEAD-TO-HEAD, so the title copy is desktop only. */
-:root #app #statistics #rvTitleBlock .sd-tagline:has(> .rv-goldenTitle) { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 4px 16px; }
+:root #app #statistics #rvTitleBlock .sd-tagline:has(> .rv-goldenTitle) { display: flex; justify-content: center; align-items: center; flex-wrap: nowrap; gap: 16px; white-space: nowrap; width: max-content; max-width: none; position: relative; left: 50%; transform: translateX(-50%); }
+:root #app #statistics #rvTitleBlock .sd-tagline > .rv-goldenTitle { flex: none; }
+/* Fable job 20 (1100x600): a wrapped line dropped the badge under the totals card. It stays on the tagline's one line at every
+   desktop size; below 1280 the gap steps down to 8px and the line may run past the narrow title block, centred between the faces. */
+@media (max-width: 1279px) { :root #app #statistics #rvTitleBlock .sd-tagline:has(> .rv-goldenTitle) { gap: 8px; } }
 :root #app #statistics #rvTitleBlock .rv-goldenTitle {
   display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 0 6px; position: relative; isolation: isolate; overflow: hidden;
   letter-spacing: .06em; white-space: nowrap; border: 0; background: none; box-shadow: none; color: var(--sd-cream, #f4f1ea);
@@ -1017,6 +1021,13 @@
 :root #app #statistics #rvTitleBlock .rv-goldenTitle img { width: 14px; height: 14px; object-fit: contain; }
 :root #app #statistics #rvTitleBlock .rv-goldenTitle strong { color: var(--sd-gold-300, #ffd34d); letter-spacing: .1em; }
 @media (max-width: 900px) { :root #app #statistics #rvTitleBlock .rv-goldenTitle { display: none; } }
+/* 4u.3 (Fable job 20, 901x700): from 901px to 1023px the base art put the totals card's bottom edge 5px into the three lower
+   panels (their titles sat under it). The panels now start 6px under the card and still end where they did, above BACK. */
+@media (min-width: 901px) and (max-width: 1023px) {
+  :root #app #statistics .rv-stage .rv-bottom { top: calc(63.8% + 6px); height: calc(24.2% - 6px); }
+  /* "CHAMPION" at 12px ran 2px past its 51px trophy column; no letter-spacing here keeps it inside. */
+  :root #app #statistics .rv-stage .rv-trophyLabel { letter-spacing: 0; }
+}
 
 /* 4v Studio Small Axe 40/40, per-screen finishes (desktop plate layout only; phones unchanged).
    Rule Book: the brush wordmark's top strokes touched the CAREER MODE SHOWDOWN kicker above it. 6 more units of air so
@@ -1178,4 +1189,12 @@
    DONE keeps its bottom-right corner and drops 34px closer to the window edge, 30px clear of the Showdown Data card. */
 @media (min-width: 1200px) and (min-height: 600px) and (max-height: 740px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
   :root body #settingsOverlay.v10Settings .settingsFooter { bottom: max(20px, 3.5%); }
+}
+/* 4p.3 Nik 2026-11-04 ("Move both", Fable's spot): on the desktop plate DONE sits in the panel grid's last row,
+   right-aligned with the cards' right edge, one grid gap under them. js/settings.js moves the footer into #settingsContent here. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root body #settingsOverlay.v10Settings #settingsContent > .settingsFooter[data-sa-in-grid] {
+    position: static; inset: auto; grid-column: 1 / -1; grid-row: 3; justify-self: end; align-self: start;
+    width: auto; margin: 0; transform: none;
+  }
 }
