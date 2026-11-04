@@ -58,7 +58,7 @@ const LABELS=Object.freeze({
   "tests/firebase/terminal-close-stale-write-emulator.cjs":"Terminal Close stale-write race",
   "tests/firebase/europa-league-rules-emulator.cjs":"Europa League result key, CL-or-EL rule and EL +3 Terminal Close score (r80)",
   "tests/firebase/prime-pack-rules-emulator.cjs":"Prime Pack round record and its result point (r87)",
-  "tests/firebase/chamber-men-rules-emulator.cjs":"Chamber Men round record: own pick string, one round a write, never ahead (r88)",
+  "tests/firebase/chamber-men-rules-emulator.cjs":"Chamber Men round record: own pick string, one letter a kick (turn by turn), never ahead (r88)",
   "tests/firebase/saved-showdowns-still-open-emulator.cjs":"Saved Showdowns still open (JOB-1841)",
   "tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs":"Season Commit concurrent acknowledge (r52)",
   "tests/firebase/shared-season-commit-ack-race-emulator.cjs":"Season Commit two-page acknowledgement race (r80)",
