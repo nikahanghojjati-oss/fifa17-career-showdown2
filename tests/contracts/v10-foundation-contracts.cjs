@@ -444,8 +444,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.0.0-r87","RUNTIME_REVISION is the r87 release (2.0.0-r87)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.10-r86");
+  assert.equal(revision,"2.1.0-r88","RUNTIME_REVISION is the r88 release (2.1.0-r88)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.0.0-r87");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -494,7 +494,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.0.0-r87");assert.equal(prev,"1.9.10-r86");
+  assert.equal(cur,"2.1.0-r88");assert.equal(prev,"2.0.0-r87");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -801,7 +801,8 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-02 by the 2.0.0 release PR to the shipped index.html (2.0.0-r87 pins on gameplay/r87 bd67147a, after
   // the Transfer War wording #1190). This check had not run since r78 (#1115).
-  assert.equal(sha256("index.html"),"76b4c25c7184ac0da00f22ab5aefc80d40b72cd9eb4c4c6b019ab0283ef08281","index.html byte-identical to the 2.0.0 release");
+  // Re-pinned 2026-11-03 by the 2.1.0 release PR: the 2.0.0 file with its 2.1.0-r88 pins and v2.1.0 footer, nothing else.
+  assert.equal(sha256("index.html"),"81cac99932215ec26828e25e2e1a90f15aaf5c755d284038e6ecda737b6ca5cf","index.html byte-identical to the 2.1.0 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

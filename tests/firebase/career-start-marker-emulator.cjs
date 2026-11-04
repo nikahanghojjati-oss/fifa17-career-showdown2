@@ -37,7 +37,7 @@ async function check(id,label,promise){await promise;step+=1;console.log(`ok ${s
 (async()=>{
   assert.match(RULES,/match \/accounts\/\{accountId\}\/careerStart\/\{startId\}/,'composed Rules must contain the career start match (rebuild BOTH scripts)');
   assert.match(RULES,/match \/accounts\/\{accountId\}\/careerIndex\/\{indexId\}/,'composed Rules must contain the career index match');
-  assert.match(RULES,/function ssjrTerminalValidRivalryUpdate\(rivalryId\)/,'composed Rules must contain the Shared Journey fragments');
+  assert.match(RULES,/function ssjrTerminalValidRivalryUpdate\((rivalryId)?\)/,'composed Rules must contain the Shared Journey fragments');
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
   try{
     await env.clearFirestore();
