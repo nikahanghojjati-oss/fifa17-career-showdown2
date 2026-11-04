@@ -116,7 +116,7 @@ ok('P5','shadow pass only while the gun moves; board looks pre-rendered and swap
     const base=`http://127.0.0.1:${port}/`;
     const context=await browser.newContext({viewport:{width:640,height:400},serviceWorkers:'block'});
     const page=await context.newPage();
-    const errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+    const errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error'&&!/Failed to load resource/.test(m.text()))errors.push(m.text());});   /* the Google title fonts are blocked here on purpose; the page falls back to local faces */
     await page.route(url=>!String(url).startsWith(base),route=>route.abort());
     await page.goto(`${base}visual-assets/v10_1/roulette/index.html?embed=1&seed=7&bloom=0`,{waitUntil:'commit'});
     await page.waitForFunction(()=>window.__rrReady,null,{timeout:180000});
@@ -135,8 +135,9 @@ ok('P5','shadow pass only while the gun moves; board looks pre-rendered and swap
     assert.ok(out.ended,'the turn ended');
     const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
     const steps=rows.slice(1).map((r,i)=>({tt:r.tt,d:dist(r.cam,rows[i].cam)}));
-    const worst=steps.reduce((m,s)=>s.d>m.d?s:m,{d:0});
-    assert.ok(worst.d<.09,`no cut: the largest camera step in a tick is ${worst.d.toFixed(3)} m at ${worst.tt.toFixed(2)} s (limit .09)`);
+    const worst=steps.reduce((m,s)=>s.d>m.d?s:m,{d:0}),worstLate=steps.filter(s=>s.tt>=3).reduce((m,s)=>s.d>m.d?s:m,{d:0});
+    assert.ok(worst.d<.16,`no cut: the largest camera step in a tick is ${worst.d.toFixed(3)} m at ${worst.tt.toFixed(2)} s (the 1 s crane up to the top shot; limit .16)`);
+    assert.ok(worstLate.d<.09,`no cut after the top shot: the largest step is ${worstLate.d.toFixed(3)} m at ${worstLate.tt.toFixed(2)} s (limit .09)`);
     // From the crane shut to the shot: one speed peak, then only falling (a little smoothing noise allowed), still moving at the shot.
     const win=steps.filter(s=>s.tt>=B.inside+.25&&s.tt<=B.fire-.05);
     const sm=win.map((s,i)=>{const a=win.slice(Math.max(0,i-2),i+3);return a.reduce((x,y)=>x+y.d,0)/a.length;});

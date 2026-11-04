@@ -1087,10 +1087,10 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12+ty*.35:-.16+ty*.05;
     const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=PH?44:34;
     const holdLook=tgt.clone().addScaledVector(bU,-.06), holdPos=holdLook.clone().addScaledVector(bn,PH?.56:.62), holdFov=PH?42:30;   /* the hit player rides high in the frame, above the result line */
-    if(tt<B.spin+.3){ const k=ease.inOut(S(0,.6,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }
+    if(tt<1){ const k=.5-.5*Math.cos(Math.PI*S(0,1,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }   /* r89 polish: the rise to the top shot is a 1 s sine crane-up (peak 4 m/s) instead of a .6 s cubic whip (12 m/s) */
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
     else if(tt<GL0){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
-      const k=ease.inOut(S(B.close,.7,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }
+      const k=.5-.5*Math.cos(Math.PI*S(B.close,1,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }   /* r89 polish: a 1 s sine dive to the drum (peak 2 m/s) instead of a .7 s cubic one (6 m/s); it arrives as the drum spins up */
     else if(tt<B.fire+.12){ /* r89 polish (Nik: "when the cylinder stops spinning, the camera settles into the shooter's perspective, and the shot happens ... seamless"):
          ONE motion from the drum close-up to the shot. The camera leaves as the crane shuts, rises and swings round behind the shooter on a smooth curve
          (through a high mid point, into the shooter's eye, then straight on along the line of sight), with the critically damped settle as its clock: fastest
@@ -1106,8 +1106,8 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
       const k=ease.inOut(S(B.fire+.12,.7,tt)); const from=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(from,chasePos,k); look.lerpVectors(povLook,holdLook,k); fov=lerp(povFov-2,holdFov,k); }
     else if(p.fire){ /* the impact: the camera settles square on the hole (the stamp and the neighbours in frame), holds, then floats home */
       const dir=p.dir; const arrive=tgt.clone().addScaledVector(dir,-(PH?.56:.62)).add(new T.Vector3(0,.035,0)); const k1=ease.inOut(S(B.impact,1.4,tt)); const hp=arrive.clone().lerp(holdPos,k1), hl=holdLook;
-      const k2=ease.inOut(S(B.impact+2.2,B.end-B.impact-2.4,tt)); pos.lerpVectors(hp,camRest.clone().add(drift),k2); look.lerpVectors(hl,lookRest,k2); fov=lerp(holdFov,fovRest,k2); }
-    else { const k2=ease.inOut(S(B.fire+1.2,B.end-B.fire-1.4,tt)); const pp=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(povLook,lookRest,k2); fov=lerp(povFov-2,fovRest,k2); }
+      const k2=.5-.5*Math.cos(Math.PI*S(B.impact+2.2,B.end-B.impact-2.4,tt)); pos.lerpVectors(hp,camRest.clone().add(drift),k2);   /* r89 polish: the float home is a sine ease (half the peak speed of the cubic) */ look.lerpVectors(hl,lookRest,k2); fov=lerp(holdFov,fovRest,k2); }
+    else { const k2=.5-.5*Math.cos(Math.PI*S(B.fire+1.2,B.end-B.fire-1.4,tt)); const pp=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(povLook,lookRest,k2); fov=lerp(povFov-2,fovRest,k2); }
     /* top-down photo layer (if present) shows in the top shots, the model in the rest */
     const topK=tt<B.close?1:1-ease.inOut(S(B.close,.5,tt)); crossFade(topK); }
   else { crossFade(0); closeKey.intensity=lerp(closeKey.intensity,0,Math.min(1,dt*6)); closeFill.intensity=lerp(closeFill.intensity,0,Math.min(1,dt*6)); }
