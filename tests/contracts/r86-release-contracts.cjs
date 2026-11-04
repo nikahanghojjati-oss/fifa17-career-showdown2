@@ -47,8 +47,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r87.length,267);
   assert.deepEqual(added,shell.filter(p=>!r87.includes(p)),'the added list is this shell minus r87\'s');
-  assert.deepEqual(added,['js/chamberMenStep.js','js/chamberMen.js','css/chamberMen.css'],'2.1.0 adds Chamber Men\'s step, rules and styles');
-  assert.deepEqual(removed,[],'2.1.0 removes no shell path');
+  assert.deepEqual(added,['visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr','js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMen.js','css/chamberMen.css'],'2.1.0 adds Chamber Men\'s step, rules and styles; r89 (3D engine) adds three.js r187, the lounge HDRI and the Chamber Men 3D scene');
+  assert.deepEqual(removed,['visual-assets/v10_1/roulette/vendor/three-r128.min.js'],'2.1.0 removed no shell path; r89 (3D engine) removes only the old three.js r128 file');
   assert.deepEqual(r87.filter(p=>!shell.includes(p)),removed,'every r87 shell path is still precached');
   assert.equal(shell.length,267-removed.length+added.length);
   for(const p of ['js/iconGuessStep.js','js/iconGuess.js','js/iconNames.js','data/icons.js','visual-assets/v10_1/icon-guess/index.html','js/commentaryV3.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r87.includes(p)&&!added.includes(p),`r87's ${p} is in r87's own list`);

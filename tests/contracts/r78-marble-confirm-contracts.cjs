@@ -204,7 +204,7 @@ check("R4c an r79-only shell cache survives r80 activation and stays the rollbac
   assert.equal(diag.previousRevision,"2.0.0-r87");
   assert.equal(diag.previousShellPaths.length,267,"r87 shipped 267 shell paths");
   assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r87's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],[],"2.1.0 removes no shell path");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["visual-assets/v10_1/roulette/vendor/three-r128.min.js"],"2.1.0 removed no shell path; r89 (3D engine) removes only the old three.js r128 file, replaced by r187");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover
