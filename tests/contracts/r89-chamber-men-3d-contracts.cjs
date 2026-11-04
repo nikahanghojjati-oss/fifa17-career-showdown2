@@ -97,10 +97,26 @@ async function c3d2(){
   assert.match(step,/const wait=animate&&g\.scene\?\.runUpMs\?320\+g\.scene\.runUpMs\+520:0;/,"the result waits for the run-up and the flight");
   const runup=Number(/const RUNUP=([0-9.]+),/.exec(scene)[1])*1000,kickMs=Number(/KICK_MS=(\d+)/.exec(step)[1]);
   assert.ok(kickMs>=320+runup+520+1200,`a reveal holds the run-up, flight and at least 1.2 s of result (${kickMs} ms)`);
-  assert.match(scene,/K\.textures\(club,\{layout:"remy",role,vsClub:vs,size:kitSize\}\)/,"kits17 paints the player's own kit layout");
+  assert.match(scene,/K\.textures\(club,\{layout:a\.body,role,vsClub:vs,size:kitSize\}\)/,"kits17 paints the kit on each body's own layout");
   assert.match(scene,/dress\(taker,next\.taker,"outfield",next\.keeper\);dress\(keeper,next\.keeper,"gk",next\.taker\);/,"taker in his club kit, keeper in his club's keeper kit against it");
   assert.match(scene,/if\(!api\)api=build\(T,svg,env,marble\);/,"no stadium or players: the hall scene");
   assert.ok(scene.includes('const PLAYER_PATH="visual-assets/v10_1/chamber-men/players/";'),"players from the repo");
   ok("C3D6","broadcast penalty: taker in his manager's club kit, keeper never clashing, words after the ball, hall fallback");
+}
+// C3D7
+{
+  const fs=require("fs"),path=require("path");
+  const bodies=JSON.parse(/const BODIES=(\[[^\]]*\])/.exec(scene)[1]);
+  assert.deepStrictEqual(bodies,["remy","ch38","ch42"],"three bodies");
+  for(const b of bodies)for(const t of ["desktop","phone"])assert.ok(fs.existsSync(path.join(__dirname,"../../visual-assets/v10_1/chamber-men/players",`body_${b}_${t}.glb`)),`body_${b}_${t}.glb is in the repo`);
+  for(const t of ["desktop","phone"])assert.ok(fs.existsSync(path.join(__dirname,"../../visual-assets/v10_1/chamber-men/players",`anims_${t}.glb`)),`anims_${t}.glb is in the repo`);
+  assert.match(scene,/const ok=K&&Array\.isArray\(K\.layouts\)\?K\.layouts:\["remy"\];const list=BODIES\.filter\(b=>ok\.includes\(b\)\)/,"a body plays only when kits17 can dress it");
+  assert.match(scene,/function cm3BodyOf\(club,list\)\{return list\[cm3Hash\(`body\|\$\{club\|\|""\}`\)%list\.length\];\}/,"one body per club, from its name");
+  assert.ok(!/Math\.random/.test(scene),"nothing random in the scene");
+  // Only the approved natural skin and hair pairs (players thread, Nik 2026-11-04): Remy's darkest skin is out.
+  assert.ok(!scene.includes("[.38,.27,.21]"),"no unapproved skin tone");
+  assert.match(scene,/const pairs=BODY_LOOKS\[a\.body\]\|\|BODY_LOOKS\.remy,\[sk,hr\]=pairs\[cm3Hash\(`\$\{club\}\|\$\{role\}`\)%pairs\.length\];/,"skin and hair as a pair, per body");
+  assert.match(scene,/const k=c\.clone\(\);for\(const t of k\.tracks\)if\(t\.name\.endsWith\("\.position"\)\)/,"clips retargeted by the body's hips scale");
+  ok("C3D7","several bodies: shared clips, one body per club, only natural skin and hair pairs, only bodies kits17 can dress");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

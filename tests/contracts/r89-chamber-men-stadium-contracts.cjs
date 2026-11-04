@@ -64,18 +64,28 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
 {
   const glb=f=>{const b=fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/chamber-men/players/"+f));assert.equal(b.toString("ascii",0,4),"glTF");
     const n=b.readUInt32LE(12);return {size:b.length,json:JSON.parse(b.toString("utf8",20,20+n))};};
-  for(const [tier,max] of [["desktop",4.5e6],["phone",3.5e6]]){
-    const {size,json}=glb(`player_${tier}.glb`);
-    assert.ok(size<=max,`player_${tier}.glb ${size} <= ${max}`);
-    const clips=json.animations.map(a=>a.name);
-    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog","strikeJog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch","gkCatch1","gkCatch2"])assert.ok(clips.includes(c),`${tier} has clip ${c}`);
-    const mats=json.materials.map(m=>m.name);
-    for(const m of ["kitShirt","kitShorts","kitSocks","kitBoots"])assert.ok(mats.includes(m),`${tier} has material ${m}`);
-    assert.ok(json.skins&&json.skins.length>=1,"skinned");
+  for(const tier of ["desktop","phone"]){
+    const clips=glb(`anims_${tier}.glb`).json.animations.map(a=>a.name);
+    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog","strikeJog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch","gkCatch1","gkCatch2"])assert.ok(clips.includes(c),`anims_${tier} has clip ${c}`);
+    assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
+  }
+  // v2: one shared clip file per tier plus one light body file per body; same bones, kit materials, hips scale for clips
+  for(const [tier,amax,bmax] of [["desktop",1.6e6,4.8e6],["phone",1.4e6,2.4e6]]){
+    const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
+    assert.equal(a.json.animations.length,18,`anims_${tier} has the 18 clips`);
+    for(const id of ["remy","ch38","ch42"]){
+      const {size,json}=glb(`body_${id}_${tier}.glb`);
+      assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
+      const mats=json.materials.map(m=>m.name);
+      for(const m of ["Bodymat","Hairmat","kitShirt","kitShorts","kitSocks","kitBoots"])assert.ok(mats.includes(m),`body_${id}_${tier} has ${m}`);
+      assert.ok(json.skins&&json.skins.length>=1,`body_${id}_${tier} skinned`);
+      assert.ok(json.nodes.some(n=>n.name==="mixamorigHips"),`body_${id}_${tier} on the shared skeleton`);
+      assert.ok(json.nodes.some(n=>n.extras&&typeof n.extras.cmHipsScale==="number"),`body_${id}_${tier} carries cmHipsScale`);
+    }
   }
   const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read(ENGINE),sandbox);
   const T=sandbox.THREE||sandbox.window.THREE;
   for(const k of ["GLTFLoader","SkinnedMesh","AnimationMixer","LoopOnce","LoopRepeat"])assert.ok(k in T,`engine has ${k}`);
-  ok("S5","player glTF (desktop and phone) with every clip and the kit meshes; the engine can load and play it");
+  ok("S5","players: shared clip file with every clip and three light bodies with the kit meshes (desktop and phone); the engine can load and play it");
 }
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);
