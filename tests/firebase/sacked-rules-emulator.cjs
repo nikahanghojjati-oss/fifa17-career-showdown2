@@ -1,0 +1,434 @@
+"use strict";
+// r89 Sacked (Nik 2026-11-03) in the composed production Rules (firestore.spark.generated.rules).
+// Nik's rule: on Season Results either manager may tick "I was sacked" for himself. Any sacking ends the Showdown after
+// that season; the points so far decide (equal = DRAW) and it counts everywhere as a COMPLETED Showdown.
+// Storage: the private result carries `sacked` only when that manager was sacked, and then exactly `true` (sparse key).
+// The Terminal Progress records sacked:{playerOne,playerTwo} for the season that had a sacking; nothing is accepted after it,
+// and the close then carries endedBy:'sacked', the same map and completedSeason = that season.
+// Proven here:
+//   1. Season Results: sacked:true is accepted (real provider, beside EL); false, "true", 1 and null are refused.
+//      Season Commit binds the key: dropping it or adding it against the private result is refused.
+//   2. Transfer War: the first roulette mark of the season after a sacked season is refused (START needs both marks); the
+//      control, the same commit without the key, marks and starts.
+//   3. Terminal Close, a 3-season Showdown with Nik sacked in season 2: progress without the map, with a wrong map, or a
+//      map on a season with no sacking is refused; the exact map is accepted; season 3 is never accepted after it; a
+//      full-length close, a sacked close with a wrong map or a wrong completedSeason are refused; the provider closes it as
+//      endedBy 'sacked' after 2 seasons; completed reads give seasons 1-2 and refuse season 3; the career summary create
+//      binds the witness. Also both managers sacked in season 1 of 1 (full length, no endedBy needed: the Golden case) and
+//      Daniel sacked in season 1 of 10.
+//   4. Every write stays under the 1,000-expression limit (every refusal is an ordinary permission-denied).
+// Run inside the Firestore emulator (after both Rules build steps, as the deploy runs them):
+//   node scripts/build-production-firestore-rules.mjs && node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+//   npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-sacked-rules \
+//     "node tests/firebase/sacked-rules-emulator.cjs"
+const assert=require("node:assert/strict");
+const crypto=require("node:crypto");
+const fs=require("node:fs");
+const firestoreSdk=require("firebase/firestore");
+const {Timestamp,doc,getDoc,setDoc,serverTimestamp,writeBatch}=firestoreSdk;
+const {initializeTestEnvironment,assertSucceeds}=require("@firebase/rules-unit-testing");
+
+global.window=globalThis;
+require("../../data/transferOptions.js");
+const Setup=require("../../js/sparkSharedShowdownSetup.js");
+const Career=require("../../js/sparkSharedCareerStart.js");
+const Transfer=require("../../js/sparkSharedTransferChallenge.js");
+const Results=require("../../js/sparkSharedSeasonResults.js");
+const Commit=require("../../js/sparkSharedSeasonCommit.js");
+const Terminal=require("../../js/sharedTerminalClose.js");
+const Provider=require("../../js/sparkTerminalClose.js");
+const Sessions=require("../../js/sparkPrivateSession.js");
+
+const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
+const LIMIT=/maximum of 1000 expressions/;
+const PROJECT="demo-cms-sacked-rules";
+let projectSeq=0;
+const nextProject=label=>`${PROJECT}-${label}-${projectSeq++}`;
+function op(prefix,n){return prefix+Number(n).toString(16).padStart(32,"0");}
+const hex64=seed=>crypto.createHash("sha256").update(String(seed)).digest("hex");
+
+async function assertPlainDenial(promise,label){
+  let error=null;
+  try{await promise;}catch(caught){error=caught;}
+  assert.ok(error,`${label}: must be refused`);
+  assert.equal(error.code,"permission-denied",`${label}: expected permission-denied, got ${error.code}: ${error.message}`);
+  assert.doesNotMatch(String(error.message||""),LIMIT,`${label}: refused by the Rules evaluation limit, not by the Rules`);
+}
+async function assertAccepted(promise,label){
+  try{return await promise;}
+  catch(error){throw new assert.AssertionError({message:`${label}: must be accepted, got ${error.code}: ${String(error.message||"").trim().split("\n")[0]}`});}
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// 1 + 2. Season Results, Season Commit and the next Transfer War START (rivalry built by the real providers).
+// ---------------------------------------------------------------------------------------------------------------
+const A="acct_sacked_daniel",B="acct_sacked_nik";// playerOne = Daniel (coordinator), playerTwo = Nik
+const RID=`pair_${"6".repeat(64)}`;
+const SID=`session_${"e".repeat(64)}`;
+const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`;
+function plainSdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp};}
+// Swaps the result inside the private role document the provider writes, so the Rules alone judge a bad value.
+function injectingSdk(result){
+  return {Timestamp,doc,serverTimestamp,runTransaction:(db,callback)=>firestoreSdk.runTransaction(db,transaction=>callback(new Proxy(transaction,{
+    get(target,property){
+      if(property==="set")return (ref,data,...rest)=>{
+        if(/\/seasonResults\/season_[0-9]+\/roles\/(playerOne|playerTwo)$/.test(ref.path))data={...data,result:JSON.parse(JSON.stringify(result))};
+        return target.set(ref,data,...rest);
+      };
+      const value=target[property];
+      return typeof value==="function"?value.bind(target):value;
+    }
+  })))};
+}
+function account(id){return {objectType:"account",objectId:id,lifecycleState:"live",data:{status:"active"}};}
+function device(id){return {objectType:"device",objectId:id,lifecycleState:"live",data:{deviceId:id,state:"active"}};}
+function rivalryDoc(){return {objectType:"rivalry",objectId:RID,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[A,B],managerSlots:[
+  {slotId:"playerOne",accountId:A,profileId:`profile_${"1".repeat(24)}`,saveId:`save_${"3".repeat(24)}`,entitlementState:"active"},
+  {slotId:"playerTwo",accountId:B,profileId:`profile_${"2".repeat(24)}`,saveId:`save_${"4".repeat(24)}`,entitlementState:"active"}
+]}};}
+function sessionDoc(now){
+  const createdAt=Timestamp.fromMillis(now-60_000),lastActivityAt=Timestamp.fromMillis(now-1_000),expiresAt=Timestamp.fromMillis(now+4*60*60*1000);
+  return {schemaVersion:1,objectType:"session",objectId:SID,revision:1,parentRevision:0,lifecycleState:"live",contentHash:`sha256:${"0".repeat(64)}`,priorContentHash:`sha256:${"1".repeat(64)}`,updatedAt:lastActivityAt,updatedByAccountId:A,updatedByDeviceId:DA,data:{rivalryId:RID,state:"active",hostAccountId:A,memberAccountIds:[A,B],createdAt,expiresAt,lastActivityAt,revokedAt:null},tombstone:null};
+}
+function base(db,uid,deviceId,now,sdk=plainSdk()){return {user:{uid},firestore:db,firebaseSdk:sdk,rivalryId:RID,sessionId:SID,deviceId,nowEpochMs:now,cryptoImpl:crypto.webcrypto};}
+const DANIEL={leaguePosition:1,leaguePoints:102,leagueGoals:92,domesticCup:true,championsLeague:false,topScorer:true,topAssist:false};
+const NIK_SACKED={leaguePosition:17,leaguePoints:31,leagueGoals:28,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false,europaLeague:true,sacked:true};
+
+async function prepareJourney(env,now){
+  await env.withSecurityRulesDisabled(async context=>{
+    const db=context.firestore();
+    await setDoc(doc(db,"accounts",A),account(A));await setDoc(doc(db,"accounts",B),account(B));
+    await setDoc(doc(db,"accounts",A,"devices",DA),device(DA));await setDoc(doc(db,"accounts",B,"devices",DB),device(DB));
+    await setDoc(doc(db,"rivalries",RID),rivalryDoc());await setDoc(doc(db,"rivalries",RID,"sessions",SID),sessionDoc(now));
+  });
+  const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
+  const a=t=>base(dbA,A,DA,now+t),b=t=>base(dbB,B,DB,now+t);
+  const must=(label,value)=>{if(!value||!value.ok)throw new Error(`${label} failed: ${JSON.stringify(value)}`);};
+  for(const [type,baseRevision,n,extra] of [["open",0,1,{}],["commit-league",1,2,{}],["commit-clubs",2,3,{}],["commit-length",3,4,{totalSeasons:3}]])must(`setup ${type}`,await Setup.mutate({...a(n*10),type,baseRevision,operationId:op("setup_op_",n),...extra}));
+  must("setup confirm A",await Setup.mutate({...a(50),type:"confirm",baseRevision:4,operationId:op("setup_op_",5)}));
+  must("setup confirm B",await Setup.mutate({...b(60),type:"confirm",baseRevision:5,operationId:op("setup_op_",6)}));
+  must("career A",await Career.acknowledge({...a(70),operationId:op("career_start_op_",1),baseRevision:0}));
+  must("career B",await Career.acknowledge({...b(80),operationId:op("career_start_op_",2),baseRevision:1}));
+  for(const role of ["playerOne","playerTwo"])must(`spun ${role}`,await Transfer.markSpun({...(role==="playerOne"?a(90):b(90)),seasonNumber:1,managerRole:role}));
+  must("transfer start",await Transfer.startWindow({...a(100),seasonNumber:1,operationId:op("transfer_op_",11),baseRevision:0}));
+  must("transfer end A",await Transfer.requestEndWindow({...a(200),seasonNumber:1,operationId:op("transfer_op_",12),baseRevision:1}));
+  must("transfer end B",await Transfer.requestEndWindow({...b(300),seasonNumber:1,operationId:op("transfer_op_",13),baseRevision:2}));
+  must("guess A",await Transfer.lockGuesses({...a(400),seasonNumber:1,operationId:op("transfer_op_",14),baseRevision:3,guesses:[{slot:1,type:"league",valueId:"england-premier-league"},{slot:2,type:"nationality",valueId:"brazil"}]}));
+  must("guess B",await Transfer.lockGuesses({...b(500),seasonNumber:1,operationId:op("transfer_op_",15),baseRevision:4,guesses:[{slot:1,type:"league",valueId:"spain-primera-division"},{slot:2,type:"nationality",valueId:"germany"}]}));
+  must("signing A",await Transfer.lockSignings({...a(600),seasonNumber:1,operationId:op("transfer_op_",16),baseRevision:5,signings:[{slot:1,name:"Daniel Sacked",leagueId:"spain-primera-division",nationalityId:"england"}]}));
+  must("signing B",await Transfer.lockSignings({...b(700),seasonNumber:1,operationId:op("transfer_op_",17),baseRevision:6,signings:[{slot:1,name:"Nik Sacked",leagueId:"england-premier-league",nationalityId:"brazil"}]}));
+  return {dbA,dbB,a,b,must};
+}
+
+async function seasonResultsCommitAndTransfer(){
+  const env=await initializeTestEnvironment({projectId:nextProject("results"),firestore:{rules:RULES}});
+  const checks=[];
+  try{
+    const now=Date.now(),{dbA,dbB,a,b,must}=await prepareJourney(env,now);
+    const publicRef=db=>doc(db,"rivalries",RID,"seasonResults","season_1");
+    let n=20;
+    const publishAs=(db,uid,deviceId,result,baseRevision,t,inject)=>Results.publishResult({...base(db,uid,deviceId,now+t,inject?injectingSdk(result):plainSdk()),seasonNumber:1,operationId:op("season_result_op_",n++),baseRevision,result:inject?DANIEL:result});
+
+    for(const [label,value] of [["sacked false",false],["sacked as the string \"true\"","true"],["sacked as the number 1",1],["sacked null",null]]){
+      const out=await publishAs(dbB,B,DB,{...NIK_SACKED,sacked:value},0,800,true);
+      assert.equal(out.ok,false,`${label}: ${JSON.stringify(out)}`);
+      assert.equal(out.code,"permission-denied",`${label}: expected a Rules denial, got ${JSON.stringify(out)}`);
+      assert.equal((await getDoc(publicRef(dbB))).exists(),false,`${label}: nothing may be written`);
+      checks.push(`Season Results: ${label} is refused (only true is ever stored)`);
+    }
+    const first=await publishAs(dbB,B,DB,NIK_SACKED,0,900,false);
+    assert.equal(first.ok,true,`Nik's sacked result (real provider): ${JSON.stringify(first)}`);
+    const second=await publishAs(dbA,A,DA,DANIEL,1,1000,false);
+    assert.equal(second.ok,true,`Daniel's plain result: ${JSON.stringify(second)}`);
+    let storedOne,storedTwo;
+    await env.withSecurityRulesDisabled(async context=>{
+      const db=context.firestore();
+      storedOne=(await getDoc(doc(db,"rivalries",RID,"seasonResults","season_1","roles","playerOne"))).data().result;
+      storedTwo=(await getDoc(doc(db,"rivalries",RID,"seasonResults","season_1","roles","playerTwo"))).data().result;
+    });
+    assert.deepEqual(storedTwo,NIK_SACKED);assert.equal("sacked" in storedOne,false);
+    checks.push("Season Results: Nik's own sacked:true (beside an EL win) is accepted through the real provider; Daniel's plain result has no sacked key");
+
+    const commitRef=season=>doc(dbA,"rivalries",RID,"seasonCommits",`season_${season}`);
+    const forged=(results,k)=>({schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId:RID,seasonNumber:1,runtimeRevision:"1.9.1-r10",phase:"COMMITTED",revision:1,resultsRevision:2,results,acknowledgedRoles:[],operationIds:[op("season_commit_op_",k)],operationHashes:[`sha256:${hex64(`sacked-${k}`)}`],baseRevisions:[0],actorRoles:["playerOne"],activeSessionId:SID,updatedAt:serverTimestamp(),updatedByDeviceId:DA});
+    const {sacked:_drop,...nikPlain}=storedTwo;
+    await assertPlainDenial(setDoc(commitRef(1),forged({playerOne:storedOne,playerTwo:nikPlain},1)),"a commit that drops Nik's sacked key");
+    await assertPlainDenial(setDoc(commitRef(1),forged({playerOne:{...storedOne,sacked:true},playerTwo:storedTwo},2)),"a commit that sacks Daniel too");
+    checks.push("Season Commit: dropping the sacked key, or adding one the manager never ticked, is refused");
+    let commit=await Commit.commitSeason({...a(1100),seasonNumber:1,operationId:op("season_commit_op_",11),baseRevision:0});
+    assert.equal(commit.ok,true,`commit: ${JSON.stringify(commit)}`);
+    commit=await Commit.acknowledgeSeason({...b(1200),seasonNumber:1,operationId:op("season_commit_op_",12),baseRevision:1});
+    assert.equal(commit.ok,true,`Nik acknowledges: ${JSON.stringify(commit)}`);
+    commit=await Commit.acknowledgeSeason({...a(1300),seasonNumber:1,operationId:op("season_commit_op_",13),baseRevision:2});
+    assert.equal(commit.ok,true,`Daniel acknowledges: ${JSON.stringify(commit)}`);
+    const stored=(await getDoc(commitRef(1))).data();
+    assert.equal(stored.phase,"ACKNOWLEDGED");assert.deepEqual(stored.results,{playerOne:DANIEL,playerTwo:NIK_SACKED});
+    checks.push("Season Commit: the real commit and both acknowledgements carry Nik's sacked:true exactly");
+
+    // 2. Transfer War for season 2 never opens after a sacked season: the first roulette mark of season 2 is refused (START
+    // needs both marks). Control: the same commit without the key lets both marks and START through.
+    const refusedMark=await Transfer.markSpun({...a(1400),seasonNumber:2,managerRole:"playerOne"});
+    assert.equal(refusedMark.ok,false,`season 2 first mark after a sacking must be refused: ${JSON.stringify(refusedMark)}`);
+    assert.equal(refusedMark.code,"permission-denied",`season 2 first mark: expected a Rules denial, got ${JSON.stringify(refusedMark)}`);
+    const refusedNik=await Transfer.markSpun({...b(1400),seasonNumber:2,managerRole:"playerTwo"});
+    assert.equal(refusedNik.ok,false,`season 2 first mark by Nik after a sacking must be refused: ${JSON.stringify(refusedNik)}`);
+    assert.equal((await getDoc(doc(dbA,"rivalries",RID,"transferChallenges","season_2"))).exists(),false,"no season 2 Transfer War document exists");
+    checks.push("Transfer War: after a season with a sacking, neither manager can write the first roulette mark of season 2, so no season 2 window can open");
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",RID,"seasonCommits","season_1"),{...stored,results:{playerOne:DANIEL,playerTwo:nikPlain}});});
+    for(const role of ["playerOne","playerTwo"])must(`control: season 2 mark ${role}`,await Transfer.markSpun({...(role==="playerOne"?a(1500):b(1500)),seasonNumber:2,managerRole:role}));
+    must("control: season 2 START with the same commit minus the sacked key",await Transfer.startWindow({...a(1600),seasonNumber:2,operationId:op("transfer_op_",22),baseRevision:0}));
+    checks.push("Transfer War control: the same acknowledged commit without the sacked key lets both marks and START through");
+  }finally{await env.cleanup();}
+  return checks;
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// 3. Terminal Close (envelope documents, as the r18 Terminal Close matrix builds them).
+// ---------------------------------------------------------------------------------------------------------------
+const uid1="terminal_host",uid2="terminal_peer";
+const device1=`device_${"1".repeat(32)}`,device2=`device_${"2".repeat(32)}`;
+function canonical(value){if(value===undefined||value===null)return null;if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};if(Array.isArray(value))return value.map(canonical);if(typeof value==="object"){const out={};for(const key of Object.keys(value).sort())out[key]=canonical(value[key]);return out;}return value;}
+async function digest(value){const hash=await crypto.webcrypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify(canonical(value))));return `sha256:${Buffer.from(hash).toString("hex")}`;}
+async function envelope(objectType,objectId,revision,data,{accountId=uid1,deviceId=device1,updatedAt=Timestamp.fromMillis(Date.now()),priorHash=null}={}){return {schemaVersion:1,objectType,objectId,revision,parentRevision:revision===0?null:revision-1,lifecycleState:"live",contentHash:await digest({objectType,objectId,revision,data}),priorContentHash:revision===0?null:(priorHash||`sha256:${"0".repeat(64)}`),updatedAt,updatedByAccountId:accountId,updatedByDeviceId:deviceId,data,tombstone:null};}
+async function envelopeAccount(uid){const now=Timestamp.fromMillis(Date.now());return envelope("account",uid,0,{status:"active",createdAt:now,deletionRequestedAt:null},{accountId:uid,deviceId:null,updatedAt:now});}
+async function envelopeDevice(uid,id,seed){const now=Timestamp.fromMillis(Date.now());return envelope("device",id,0,{deviceId:id,installationId:`installation_${seed.repeat(32).slice(0,32)}`,displayLabel:null,state:"active",registeredAt:now,lastSeenAt:now,revokedAt:null},{accountId:uid,deviceId:id,updatedAt:now});}
+async function envelopeRivalry(id){const now=Timestamp.fromMillis(Date.now()-60_000);return envelope("rivalry",id,2,{connectionState:"active",connectionStateBeforeDeletion:null,managerSlots:[{slotId:"playerOne",accountId:uid1,profileId:`profile_${"4".repeat(24)}`,saveId:`save_${"6".repeat(24)}`,displayLabel:"Manager One",entitlementState:"active",deletionConsent:false},{slotId:"playerTwo",accountId:uid2,profileId:`profile_${"5".repeat(24)}`,saveId:`save_${"7".repeat(24)}`,displayLabel:"Manager Two",entitlementState:"active",deletionConsent:false}],authorizedAccountIds:[uid1,uid2],createdByAccountId:uid1,createdAt:now},{updatedAt:now});}
+async function envelopeSession(id,sid){const createdAt=Timestamp.fromMillis(Date.now()-120_000),lastActivityAt=Timestamp.fromMillis(Date.now()-10_000);return Sessions.buildEnvelope({sessionId:sid,revision:5,parentRevision:4,priorContentHash:`sha256:${"2".repeat(64)}`,updatedAt:lastActivityAt,accountId:uid2,deviceId:device2,data:{createdAt,expiresAt:Timestamp.fromMillis(Date.now()+20*60_000),hostAccountId:uid1,lastActivityAt,memberAccountIds:[uid1,uid2],revokedAt:null,rivalryId:id,state:"active"},cryptoImpl:crypto.webcrypto});}
+function result(overrides={}){return {leaguePosition:2,leaguePoints:80,leagueGoals:70,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false,...overrides};}
+function score(value){return (Number.isInteger(value.primePack)?value.primePack:0)+(value.championsLeague===true?5:0)+(value.europaLeague===true?3:0)+(value.leaguePosition===1?3:0)+(value.domesticCup===true?1:0)+((value.leaguePoints>=100||value.leagueGoals>=100)?1:0)+((value.topScorer===true||value.topAssist===true)?1:0);}
+function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction};}
+function sackedMap(one,two){return {playerOne:one.sacked===true,playerTwo:two.sacked===true};}
+// The Final Reconciliation projection the app builds (completedSeason = the seasons played; endedBy only when short).
+function projection(id,totalSeasons,played,managerTotals,sacked){return {schemaVersion:1,runtimeRevision:"1.9.1-r17",phase:"FINAL_SEASON_RECONCILED",rivalryId:id,leagueId:"premier-league",totalSeasons,acceptedSeasons:played,completedSeason:played,acceptedRevisionKey:Array.from({length:played},(_,i)=>`${i+1}:2:sha256:${hex64(i)}`).join("|"),fixedClubs:{playerOne:"Arsenal",playerTwo:"Chelsea"},managerTotals,winner:managerTotals.playerOne>managerTotals.playerTwo?"playerOne":managerTotals.playerTwo>managerTotals.playerOne?"playerTwo":"draw",terminal:true,finalSeasonReconciled:true,nextSeason:null,extraSeasonAllowed:false,terminalCloseRequired:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,...(sacked?{endedBy:"sacked",sacked}:{})};}
+
+async function seedTerminal(env,id,sid,totalSeasons,seasons){
+  await env.withSecurityRulesDisabled(async context=>{
+    const db=context.firestore();
+    for(const uid of [uid1,uid2])await setDoc(doc(db,"accounts",uid),await envelopeAccount(uid));
+    await setDoc(doc(db,"accounts",uid1,"devices",device1),await envelopeDevice(uid1,device1,"1"));await setDoc(doc(db,"accounts",uid2,"devices",device2),await envelopeDevice(uid2,device2,"2"));
+    await setDoc(doc(db,"rivalries",id),await envelopeRivalry(id));
+    await setDoc(doc(db,"rivalries",id,"sharedSetup","authoritative"),{schemaVersion:1,objectType:"sharedSetupLedger",rivalryId:id,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",totalSeasons,confirmedRoles:["playerOne","playerTwo"]});
+    await setDoc(doc(db,"rivalries",id,"sessions",sid),await envelopeSession(id,sid));
+    for(let i=0;i<seasons.length;i++)await setDoc(doc(db,"rivalries",id,"seasonCommits",`season_${i+1}`),{schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId:id,seasonNumber:i+1,runtimeRevision:"1.9.1-r10",phase:"ACKNOWLEDGED",revision:3,results:{playerOne:seasons[i][0],playerTwo:seasons[i][1]},acknowledgedRoles:["playerOne","playerTwo"]});
+  });
+}
+// The exact rivalry write stcAdvanceProgress makes for the next season; `extra` adds (or, with sacked:undefined, omits) keys.
+async function progressWrite(prior,totalSeasons,managerTotals,extra={}){
+  const before=prior.data.terminalProgress,season=before?before.acceptedThroughSeason+1:1;
+  const terminalProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons,acceptedThroughSeason:season,managerTotals,closedSessionRevision:null,...extra};
+  for(const key of Object.keys(terminalProgress))if(terminalProgress[key]===undefined)delete terminalProgress[key];
+  return envelope("rivalry",prior.objectId,prior.revision+1,{...prior.data,terminalProgress},{priorHash:prior.contentHash});
+}
+// What stcFinalize writes in one commit (session + rivalry).
+async function finalClose(id,sid,rivalryPrior,sessionPrior,intent){
+  const now=Timestamp.fromMillis(Date.now());
+  const nextSession=await Sessions.buildEnvelope({sessionId:sid,revision:sessionPrior.revision+1,parentRevision:sessionPrior.revision,priorContentHash:sessionPrior.contentHash,updatedAt:now,accountId:uid1,deviceId:device1,data:{...sessionPrior.data,state:"closed",lastActivityAt:now,revokedAt:null},cryptoImpl:crypto.webcrypto});
+  const data={...rivalryPrior.data,connectionState:"closed",terminalProgress:{...rivalryPrior.data.terminalProgress,closedSessionRevision:nextSession.revision},terminalClose:JSON.parse(JSON.stringify(intent))};
+  return {session:nextSession,rivalry:await envelope("rivalry",id,rivalryPrior.revision+1,data,{updatedAt:now,priorHash:rivalryPrior.contentHash})};
+}
+
+async function terminalClose(){
+  const checks=[];
+  // 3a. 3 seasons, Nik sacked in season 2 (Daniel ahead): ends after season 2 of 3.
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("terminal3"),firestore:{rules:RULES}});
+    const id=`pair_${"a".repeat(64)}`,sid=`session_${"b".repeat(64)}`;
+    try{
+      const seasons=[[result({championsLeague:true}),result({domesticCup:true})],[result({leaguePosition:1}),result({leaguePosition:18,sacked:true})],[result(),result()]];
+      await seedTerminal(env,id,sid,3,seasons);
+      const host=env.authenticatedContext(uid1).firestore(),peer=env.authenticatedContext(uid2).firestore();
+      const rivalryRef=doc(host,"rivalries",id),sessionRef=doc(host,"rivalries",id,"sessions",sid);
+      const read=async()=>(await assertSucceeds(getDoc(rivalryRef))).data();
+      // Season 1 (no sacking): a sacked map is refused, the plain progress is accepted.
+      let prior=await read();
+      const s1={playerOne:score(seasons[0][0]),playerTwo:score(seasons[0][1])};
+      await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s1,{sacked:{playerOne:false,playerTwo:true}})),"season 1 progress with a sacked map although nobody was sacked");
+      await assertAccepted(setDoc(rivalryRef,await progressWrite(prior,3,s1)),"season 1 plain progress");
+      checks.push("progress: a sacked map on a season with no sacking is refused; the plain progress is accepted");
+      // Season 2 (Nik sacked): no map, a wrong map, or a non-bool map is refused; the exact map is accepted.
+      prior=await read();
+      const s2={playerOne:s1.playerOne+score(seasons[1][0]),playerTwo:s1.playerTwo+score(seasons[1][1])};
+      await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s2)),"season 2 progress without the sacked map");
+      await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s2,{sacked:{playerOne:true,playerTwo:true}})),"season 2 progress that sacks Daniel too");
+      await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s2,{sacked:{playerOne:false,playerTwo:"yes"}})),"season 2 progress with a non-bool map");
+      await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s2,{sacked:{playerTwo:true}})),"season 2 progress with a half map");
+      await assertAccepted(setDoc(rivalryRef,await progressWrite(prior,3,s2,{sacked:{playerOne:false,playerTwo:true}})),"season 2 progress with the exact sacked map");
+      checks.push("progress: the sacked season needs the exact map (missing, wrong, half or non-bool maps are refused)");
+      // Season 3 is never accepted after a sacking, with or without the map.
+      prior=await read();
+      const s3={playerOne:s2.playerOne+score(seasons[2][0]),playerTwo:s2.playerTwo+score(seasons[2][1])};
+      await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s3,{sacked:undefined})),"season 3 progress after a sacked season (map dropped)");
+      await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s3)),"season 3 progress after a sacked season (map kept)");
+      checks.push("progress: no season is accepted after the sacked season (map kept or dropped)");
+      // Close: a full-length witness, a wrong map, a wrong completedSeason, or endedBy without a map is refused.
+      prior=await read();const sessionPrior=(await assertSucceeds(getDoc(sessionRef))).data();
+      const sackedNik={playerOne:false,playerTwo:true};
+      const good=Terminal.prepare(projection(id,3,2,s2,sackedNik),{sessionId:sid});
+      assert.equal(good.completedSeason,2);assert.equal(good.endedBy,"sacked");
+      const fullLength={...Terminal.prepare(projection(id,3,3,s2,null),{sessionId:sid})};
+      const bad=[
+        ["a full-length close (completedSeason 3, no endedBy)",fullLength],
+        ["a full-length close that keeps completedSeason 2 but drops endedBy",(()=>{const {endedBy:_e,sacked:_s,...rest}=good;return {...rest,completedSeason:2};})()],
+        ["a sacked close with the wrong map",{...good,sacked:{playerOne:true,playerTwo:false}}],
+        ["a sacked close with completedSeason 1",{...good,completedSeason:1}],
+        ["a sacked close with completedSeason 3",{...good,completedSeason:3}],
+        ["a close with endedBy but no map",(()=>{const {sacked:_s,...rest}=good;return rest;})()],
+        ["a close with endedBy 'quit'",{...good,endedBy:"quit"}]
+      ];
+      for(const [label,intent] of bad){
+        const w=await finalClose(id,sid,prior,sessionPrior,intent);
+        await assertPlainDenial((()=>{const batch=writeBatch(host);batch.set(sessionRef,w.session);batch.set(rivalryRef,w.rivalry);return batch.commit();})(),label);
+      }
+      checks.push(`close: ${bad.length} wrong witnesses (full length, endedBy dropped, wrong map, wrong completedSeason, map missing, other endedBy) are refused`);
+      const closed=await Provider.close({user:{uid:uid1},firestore:host,firebaseSdk:sdk(),rivalryId:id,sessionId:sid,deviceId:device1,intent:good,nowEpochMs:Date.now(),cryptoImpl:crypto.webcrypto});
+      assert.equal(closed.ok,true,`the sacked close is accepted: ${JSON.stringify(closed)}`);assert.equal(closed.rivalryState,"closed");
+      const after=(await assertSucceeds(getDoc(doc(peer,"rivalries",id)))).data();
+      assert.equal(after.data.connectionState,"closed");assert.equal(after.data.terminalClose.endedBy,"sacked");assert.deepEqual(after.data.terminalClose.sacked,sackedNik);
+      assert.equal(after.data.terminalClose.completedSeason,2);assert.equal(after.data.terminalClose.totalSeasons,3);assert.deepEqual(after.data.terminalClose.managerTotals,s2);
+      const witnessRead=await Provider.read({user:{uid:uid2},firestore:peer,firebaseSdk:sdk(),rivalryId:id,deviceId:device2,cryptoImpl:crypto.webcrypto});
+      assert.equal(witnessRead.ok,true,JSON.stringify(witnessRead));assert.equal(witnessRead.terminal,true);assert.equal(witnessRead.terminalWitness.endedBy,"sacked");
+      checks.push(`close: the provider closes it as endedBy 'sacked' after 2 of 3 seasons (${s2.playerOne}-${s2.playerTwo}); the partner reads the same witness`);
+      // Completed reads: seasons 1-2 are readable to the members, season 3 (never played) is not.
+      for(const db of [host,peer])for(const season of [1,2])await assertAccepted(getDoc(doc(db,"rivalries",id,"seasonCommits",`season_${season}`)),`completed read of season ${season}`);
+      for(const db of [host,peer])await assertPlainDenial(getDoc(doc(db,"rivalries",id,"seasonCommits","season_3")),"completed read of season 3 (never played)");
+      checks.push("completed reads: seasons 1 and 2 are readable by both managers, season 3 is refused");
+      // Career summary: the create binds to the witness (planned length 3, the totals and winner).
+      const payload=JSON.stringify({status:"completed",rivalryId:id});
+      const summary=extra=>({schemaVersion:1,objectType:"careerSummary",rivalryId:id,status:"completed",totalSeasons:3,managerTotals:s2,winner:after.data.terminalClose.winner,payload,payloadHash:`sha256:${hex64(payload)}`,...extra});
+      await assertPlainDenial(setDoc(doc(peer,"accounts",uid2,"careerSummary",id),summary({totalSeasons:2})),"a career summary with the played count as totalSeasons");
+      await assertAccepted(setDoc(doc(peer,"accounts",uid2,"careerSummary",id),summary({})),"the career summary of the sacked Showdown");
+      checks.push("career summary: the create is accepted with the witness's planned length, totals and winner (a changed length is refused)");
+    }finally{await env.cleanup();}
+  }
+  // 3b. 1 season, both managers sacked in it: full length (Golden is possible), endedBy is optional and both map bools true.
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("terminal1"),firestore:{rules:RULES}});
+    const id=`pair_${"c".repeat(64)}`,sid=`session_${"d".repeat(64)}`;
+    try{
+      const seasons=[[result({leaguePosition:1,sacked:true}),result({leaguePosition:1,sacked:true})]];
+      await seedTerminal(env,id,sid,1,seasons);
+      const host=env.authenticatedContext(uid1).firestore(),peer=env.authenticatedContext(uid2).firestore();
+      const totals={playerOne:score(seasons[0][0]),playerTwo:score(seasons[0][1])},both={playerOne:true,playerTwo:true};
+      const intent=Terminal.prepare(projection(id,1,1,totals,both),{sessionId:sid});
+      const closed=await Provider.close({user:{uid:uid1},firestore:host,firebaseSdk:sdk(),rivalryId:id,sessionId:sid,deviceId:device1,intent,nowEpochMs:Date.now(),cryptoImpl:crypto.webcrypto});
+      assert.equal(closed.ok,true,`both sacked in season 1 of 1: ${JSON.stringify(closed)}`);
+      const after=(await assertSucceeds(getDoc(doc(peer,"rivalries",id)))).data();
+      assert.deepEqual(after.data.terminalProgress.sacked,both);assert.equal(after.data.terminalClose.completedSeason,1);assert.equal(after.data.terminalClose.winner,"draw");
+      checks.push("both managers sacked in season 1 of 1: the close (full length, level = DRAW) is accepted with both bools true");
+    }finally{await env.cleanup();}
+  }
+  // 3c. 10 seasons, Daniel sacked in season 1: ends after 1 of 10 through the provider, no write at the expression limit.
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("terminal10"),firestore:{rules:RULES}});
+    const id=`pair_${"e".repeat(64)}`,sid=`session_${"f".repeat(64)}`;
+    try{
+      const max={leaguePosition:1,leaguePoints:104,leagueGoals:101,domesticCup:true,championsLeague:true,topScorer:true,topAssist:true,primePack:4};
+      const seasons=[[{...result({europaLeague:true}),sacked:true},max],...Array.from({length:9},()=>[max,max])];
+      await seedTerminal(env,id,sid,10,seasons);
+      const host=env.authenticatedContext(uid1).firestore();
+      const totals={playerOne:score(seasons[0][0]),playerTwo:score(seasons[0][1])};
+      const intent=Terminal.prepare(projection(id,10,1,totals,{playerOne:true,playerTwo:false}),{sessionId:sid});
+      const closed=await Provider.close({user:{uid:uid1},firestore:host,firebaseSdk:sdk(),rivalryId:id,sessionId:sid,deviceId:device1,intent,nowEpochMs:Date.now(),cryptoImpl:crypto.webcrypto});
+      assert.equal(closed.ok,true,`Daniel sacked in season 1 of 10: ${JSON.stringify(closed)}`);
+      const after=(await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data();
+      assert.equal(after.data.terminalProgress.acceptedThroughSeason,1);assert.equal(after.data.terminalClose.completedSeason,1);assert.equal(after.data.terminalClose.totalSeasons,10);
+      assert.deepEqual(after.data.terminalClose.managerTotals,{playerOne:3,playerTwo:15});assert.equal(after.data.terminalClose.winner,"playerTwo");
+      checks.push("Daniel sacked in season 1 of 10 (EL beside the sacking, Nik at the 15 maximum): the provider closes after 1 of 10 (3-15)");
+    }finally{await env.cleanup();}
+  }
+  // 3d. Control: a normal full-length 3-season close is unchanged (no map, no endedBy).
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("control"),firestore:{rules:RULES}});
+    const id=`pair_${"9".repeat(64)}`,sid=`session_${"8".repeat(64)}`;
+    try{
+      const seasons=[[result({championsLeague:true}),result()],[result(),result({domesticCup:true})],[result({leaguePosition:1}),result()]];
+      await seedTerminal(env,id,sid,3,seasons);
+      const host=env.authenticatedContext(uid1).firestore();
+      const totals={playerOne:seasons.reduce((n,[one])=>n+score(one),0),playerTwo:seasons.reduce((n,[,two])=>n+score(two),0)};
+      const intent=Terminal.prepare(projection(id,3,3,totals,null),{sessionId:sid});
+      assert.equal("endedBy" in intent,false);
+      const closed=await Provider.close({user:{uid:uid1},firestore:host,firebaseSdk:sdk(),rivalryId:id,sessionId:sid,deviceId:device1,intent,nowEpochMs:Date.now(),cryptoImpl:crypto.webcrypto});
+      assert.equal(closed.ok,true,`control close: ${JSON.stringify(closed)}`);
+      const after=(await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data();
+      assert.equal("sacked" in after.data.terminalProgress,false);assert.equal("endedBy" in after.data.terminalClose,false);
+      checks.push("control: a normal 3-season close is unchanged (no sacked map, no endedBy)");
+    }finally{await env.cleanup();}
+  }
+  return checks;
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------
+// 4. Expression budget of the sacked progress writes (the same calibrated padding as the Europa League emulator).
+// ---------------------------------------------------------------------------------------------------------------
+function padFunctions(n,prefix){
+  const functions=[];let leaves=[];
+  for(let left=n,i=0;left>0;left-=10,i++){const k=Math.min(10,left);functions.push(`    function ${prefix}L${i}() { return ${Array.from({length:k},()=>"true").join(" && ")}; }`);leaves.push(`${prefix}L${i}()`);}
+  for(let depth=0;leaves.length>1;depth++){const next=[];for(let j=0;j<leaves.length;j+=10){const name=`${prefix}N${depth}x${j}`;functions.push(`    function ${name}() { return ${leaves.slice(j,j+10).join(" && ")}; }`);next.push(`${name}()`);}leaves=next;}
+  return {functions:functions.join("\n"),call:leaves[0]||"true"};
+}
+const PAD_NEEDLE="    function ssjrTerminalValidRivalryUpdate(rivalryId) {\n      return (";
+function paddedRules(n){
+  assert.equal(RULES.split(PAD_NEEDLE).length,2,"the Terminal Close rivalry update entry point must exist exactly once");
+  const pad=padFunctions(n,"sackedBudgetPad");
+  return RULES.replace(PAD_NEEDLE,`${pad.functions}\n${PAD_NEEDLE.replace("return (",`return ${pad.call} && (`)}`);
+}
+async function largestPassing(attempt,high){
+  let low=0;
+  if(!await attempt(0))return -1;
+  while(low<high){const mid=Math.ceil((low+high)/2);if(await attempt(mid))low=mid;else high=mid-1;}
+  return low;
+}
+async function calibrationPad(){
+  return largestPassing(async n=>{
+    const pad=padFunctions(n,"calibrationPad");
+    const rules=`rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n${pad.functions}\n    match /budget/{id} { allow get: if ${pad.call}; }\n  }\n}\n`;
+    const env=await initializeTestEnvironment({projectId:nextProject("calibrate"),firestore:{rules}});
+    try{try{await getDoc(doc(env.unauthenticatedContext().firestore(),"budget","probe"));return true;}catch(error){if(!LIMIT.test(String(error.message)))throw error;return false;}}
+    finally{await env.cleanup();}
+  },600);
+}
+// The heaviest sacked progress: every season at the 15 maximum with an EL win beside it, the sacking in `season`.
+async function progressPad(season){
+  const heavy={leaguePosition:1,leaguePoints:104,leagueGoals:101,domesticCup:true,championsLeague:false,topScorer:true,topAssist:true,europaLeague:true,primePack:4};
+  const seasons=Array.from({length:10},(_,i)=>i+1===season?[{...heavy,sacked:true},{...heavy,sacked:true}]:[heavy,heavy]);
+  const per=score(heavy);
+  return largestPassing(async n=>{
+    const env=await initializeTestEnvironment({projectId:nextProject(`budget${season}`),firestore:{rules:paddedRules(n)}});
+    try{
+      const id=`pair_${"c".repeat(64)}`;await seedTerminal(env,id,`session_${"c".repeat(64)}`,10,seasons);
+      if(season>1)await env.withSecurityRulesDisabled(async context=>{
+        const db=context.firestore(),prior=(await getDoc(doc(db,"rivalries",id))).data();
+        const terminalProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons:10,acceptedThroughSeason:season-1,managerTotals:{playerOne:per*(season-1),playerTwo:per*(season-1)},closedSessionRevision:null};
+        await setDoc(doc(db,"rivalries",id),await envelope("rivalry",id,prior.revision+1,{...prior.data,terminalProgress},{priorHash:prior.contentHash}));
+      });
+      const host=env.authenticatedContext(uid1).firestore(),prior=(await getDoc(doc(host,"rivalries",id))).data();
+      try{await setDoc(doc(host,"rivalries",id),await progressWrite(prior,10,{playerOne:per*season,playerTwo:per*season},{sacked:{playerOne:true,playerTwo:true}}));return true;}
+      catch(error){if(!LIMIT.test(String(error.message)))throw new Error(`budget probe season ${season} pad ${n}: ${error.message}`);return false;}
+    }finally{await env.cleanup();}
+  },600);
+}
+async function expressionBudget(){
+  // The padded probes hit the limit on purpose, on a padded copy of the Rules that is never deployed; the SDK log is
+  // silenced so the composed regression's 1,000-expression gate sees the phrase only where a real suite reaches it.
+  firestoreSdk.setLogLevel("silent");
+  const calibration=await calibrationPad();
+  assert.ok(calibration>100,`calibration pad must be large (got ${calibration})`);
+  const used=pad=>Math.round(1000*(1-(pad+1)/(calibration+1)));
+  const initial=await progressPad(1),advance=await progressPad(10);
+  process.stdout.write(`SACKED_RULES_EXPRESSION_BUDGET calibration=${calibration} initialPad=${initial} advancePad=${advance} initialUsed~${initial<0?">1000":used(initial)} advanceUsed~${advance<0?">1000":used(advance)} (of 1000, +/-${Math.ceil(1000/(calibration+1))})\n`);
+  assert.ok(initial>=0,"the season-1 sacked progress write (both sacked, 15-point seasons with EL) must pass without padding");
+  assert.ok(advance>=0,"the season-10 sacked progress write (both sacked, 15-point seasons with EL) must pass without padding");
+  return [`expression budget measured: sacked season-1 progress ~${used(initial)}/1000, sacked season-10 progress ~${used(advance)}/1000 (both managers sacked, 15-point seasons with EL)`];
+}
+
+(async()=>{
+  const failures=[],passed=[];
+  for(const [name,section] of [["Season Results, Commit and Transfer War",seasonResultsCommitAndTransfer],["Terminal Close",terminalClose],["Expression budget",expressionBudget]]){
+    try{passed.push(...(await section()));}
+    catch(error){failures.push(`${name}: ${error.stack||error.message}`);}
+  }
+  for(const check of passed)process.stdout.write(`ok ${check}\n`);
+  if(failures.length){for(const failure of failures)process.stderr.write(`FAIL ${failure}\n`);process.exitCode=1;return;}
+  process.stdout.write(`PASS r89 Sacked Rules emulator: ${passed.length} checks. sacked is stored only as true and bound by the commit, Transfer War never opens after a sacked season, the Terminal Progress records the exact map and accepts nothing after it, only the matching sacked close is accepted, completed reads and the career summary follow the seasons played, and every refusal is an ordinary Rules denial.\n`);
+})().catch(error=>{console.error(error);process.exitCode=1;});

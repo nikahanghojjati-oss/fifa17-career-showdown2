@@ -77,12 +77,12 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 // RR5 (red team R87-C-07): the roulette starts at the 2.0.0 release time. Every start constant that must equal it is set by
 // tools/set-release-time.cjs and they all hold the same fixed UTC time, after r86's release.
 {
-  const {read:readTimes,RELEASE_TIME_CONSTANTS,R88_RELEASE_TIME_CONSTANTS=[],NOT_RELEASE_TIME}=require('../../tools/set-release-time.cjs');
+  const {read:readTimes,RELEASE_TIME_CONSTANTS,R88_RELEASE_TIME_CONSTANTS=[],R89_RELEASE_TIME_CONSTANTS=[],NOT_RELEASE_TIME}=require('../../tools/set-release-time.cjs');
   const times=readTimes();
   assert.equal(times.length,RELEASE_TIME_CONSTANTS.length);assert.ok(times.length>=10,'roulette, Prime Pack and own-club boundaries');
   // Every *_FROM_MS=Date.parse("...") start literal in js/ is either a release-time constant or a named older boundary.
   // r88's own start constants (Chamber Men) are set by the same tool's --r88 list (tests/contracts/r88-chamber-men-contracts.cjs checks them).
-  const listed=new Set([...RELEASE_TIME_CONSTANTS,...R88_RELEASE_TIME_CONSTANTS].map(c=>`${c.file}:${c.name}`));
+  const listed=new Set([...RELEASE_TIME_CONSTANTS,...R88_RELEASE_TIME_CONSTANTS,...R89_RELEASE_TIME_CONSTANTS].map(c=>`${c.file}:${c.name}`));
   for(const file of require('node:fs').readdirSync(require('node:path').join(__dirname,'../../js')).filter(f=>f.endsWith('.js')).map(f=>`js/${f}`))
     for(const m of read(file).matchAll(/\b([A-Z][A-Z0-9_]*_FROM_MS)=Date\.parse\(/g))
       assert.ok(listed.has(`${file}:${m[1]}`)||NOT_RELEASE_TIME.includes(m[1]),`${file} ${m[1]} is not set by tools/set-release-time.cjs`);

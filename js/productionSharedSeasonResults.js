@@ -13,7 +13,13 @@
   // r80: EuropaLeague is a check like the others (index >= 3). One manager plays the Champions League or the Europa League in a
   // season, never both: ticking one unticks the other (pssrContinental), and the read refuses both. The two managers play different
   // FIFA saves, so nothing is ever compared across them.
-  const RESULT_SUFFIXES=Object.freeze(["LeaguePosition","LeaguePoints","LeagueGoals","DomesticCup","ChampionsLeague","EuropaLeague","TopScorer","TopAssist"]);
+  // r89 Sacked (Nik 2026-11-03): each manager ticks only his own "I was sacked" (his card is the only one he can edit). Any
+  // sacking ends the Showdown after this season; the points so far decide. Stored as the sparse result key sacked:true (an
+  // unticked box leaves the result unchanged), shown only for Showdowns confirmed from the r89 release on (SACKED_FROM_MS),
+  // and PUBLISH asks once more before a sacked result goes in (it is final).
+  const RESULT_SUFFIXES=Object.freeze(["LeaguePosition","LeaguePoints","LeagueGoals","DomesticCup","ChampionsLeague","EuropaLeague","TopScorer","TopAssist","Sacked"]);
+  const SPARSE_CHECKS=Object.freeze(["EuropaLeague","Sacked"]);
+  const SACKED_FROM_MS=Date.parse("2026-11-05T03:00:00Z");
   let formContextKey="",installed=false,busy=false,provider=null,setupApi=null,transferApi=null,catalogApi=null,view=null,draft=null,pollTimer=null,providerChain=Promise.resolve(),refreshPromise=null,contextKey="",renderedContextKey="",errorNode=null,errorMessage="";
 
   function pssrFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -45,6 +51,9 @@
   function pssrOtherRole(role){return role==="playerOne"?"playerTwo":"playerOne";}
   function pssrManagerName(role){const showdown=pssrShowdown();return showdown?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function pssrSetupState(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
+  // r89 Sacked: only a Showdown confirmed at or after the r89 release time shows the tick (an older phone could not verify the end).
+  function pssrSackedApplies(){const at=pssrSetupState()?.setupUpdatedAtMs;return root.CMS_SACKED!=="off"&&Number.isFinite(at)&&at>=SACKED_FROM_MS;}
+  function pssrShowSackedChecks(){const show=pssrSackedApplies();root.document?.querySelectorAll?.("#seasonEntry .sackedCheck")?.forEach?.(label=>pssrHidden(label,!show));if(!show)for(const prefix of ["p1","p2"]){const input=pssrField(`${prefix}Sacked`);if(input)input.checked=false;}return show;}
   function pssrTransferState(){try{return transferApi?.getState?.()||null;}catch(_error){return null;}}
   function pssrClubName(role){const setup=pssrSetupState()?.setup||pssrTransferState()?.setup;return setup?.clubs?.[role]||pssrShowdown()?.clubs?.[role]||"Club";}
   function pssrRequestContext(){
@@ -102,14 +111,15 @@
     const result={leaguePosition:Number(position.value),leaguePoints:Number(points.value),leagueGoals:Number(goals.value),domesticCup:Boolean(pssrField(`${prefix}DomesticCup`)?.checked),championsLeague:Boolean(pssrField(`${prefix}ChampionsLeague`)?.checked),topScorer:Boolean(pssrField(`${prefix}TopScorer`)?.checked),topAssist:Boolean(pssrField(`${prefix}TopAssist`)?.checked)};
     // The stored result carries europaLeague only when it is true (the sparse key; an unticked box leaves the 7-key r79 shape).
     if(pssrField(`${prefix}EuropaLeague`)?.checked===true){if(result.championsLeague)pssrFail("SEASON_RESULTS_CONTINENTAL_CONFLICT",`${pssrManagerName(role)}: pick Champions League or Europa League, not both.`);result.europaLeague=true;}
+    if(pssrSackedApplies()&&pssrField(`${prefix}Sacked`)?.checked===true)result.sacked=true;
     const teamCount=pssrTeamCount(),maxPoints=(teamCount-1)*2*3;
     if(!Number.isInteger(result.leaguePosition)||result.leaguePosition<1||result.leaguePosition>teamCount)pssrFail("SEASON_RESULTS_POSITION_INVALID",`${pssrManagerName(role)}'s league position must be a whole number from 1 to ${teamCount}.`);
     if(!Number.isInteger(result.leaguePoints)||result.leaguePoints<0||result.leaguePoints>maxPoints)pssrFail("SEASON_RESULTS_POINTS_INVALID",`${pssrManagerName(role)}'s league points must be a whole number from 0 to ${maxPoints}.`);
     if(!Number.isInteger(result.leagueGoals)||result.leagueGoals<0||result.leagueGoals>300)pssrFail("SEASON_RESULTS_GOALS_INVALID",`${pssrManagerName(role)}'s league goals must be a whole number from 0 to 300.`);
     return Object.freeze(result);
   }
-  function pssrFingerprint(result){return JSON.stringify({leaguePosition:Number(result.leaguePosition),leaguePoints:Number(result.leaguePoints),leagueGoals:Number(result.leagueGoals),domesticCup:Boolean(result.domesticCup),championsLeague:Boolean(result.championsLeague),topScorer:Boolean(result.topScorer),topAssist:Boolean(result.topAssist),europaLeague:result.europaLeague===true});}
-  function pssrPopulate(role,result){if(!result)return;const prefix=pssrRolePrefix(role);pssrField(`${prefix}LeaguePosition`).value=String(result.leaguePosition);pssrField(`${prefix}LeaguePoints`).value=String(result.leaguePoints);pssrField(`${prefix}LeagueGoals`).value=String(result.leagueGoals);for(const [suffix,key] of [["DomesticCup","domesticCup"],["ChampionsLeague","championsLeague"],["EuropaLeague","europaLeague"],["TopScorer","topScorer"],["TopAssist","topAssist"]]){const input=pssrField(`${prefix}${suffix}`);if(input)input.checked=result[key]===true;}}
+  function pssrFingerprint(result){return JSON.stringify({leaguePosition:Number(result.leaguePosition),leaguePoints:Number(result.leaguePoints),leagueGoals:Number(result.leagueGoals),domesticCup:Boolean(result.domesticCup),championsLeague:Boolean(result.championsLeague),topScorer:Boolean(result.topScorer),topAssist:Boolean(result.topAssist),europaLeague:result.europaLeague===true,sacked:result.sacked===true});}
+  function pssrPopulate(role,result){if(!result)return;const prefix=pssrRolePrefix(role);pssrField(`${prefix}LeaguePosition`).value=String(result.leaguePosition);pssrField(`${prefix}LeaguePoints`).value=String(result.leaguePoints);pssrField(`${prefix}LeagueGoals`).value=String(result.leagueGoals);for(const [suffix,key] of [["DomesticCup","domesticCup"],["ChampionsLeague","championsLeague"],["EuropaLeague","europaLeague"],["TopScorer","topScorer"],["TopAssist","topAssist"],["Sacked","sacked"]]){const input=pssrField(`${prefix}${suffix}`);if(input)input.checked=result[key]===true;}}
   function pssrDisableRole(role,disabled){const prefix=pssrRolePrefix(role);RESULT_SUFFIXES.forEach(suffix=>pssrDisable(pssrField(`${prefix}${suffix}`),disabled));}
   // QoL 3: a half-typed result survives a reload. Own manager only, this device only, through the js/storage.js draft helpers; removed on publish.
   function pssrDraftFieldIds(role){const prefix=pssrRolePrefix(role);return RESULT_SUFFIXES.map(suffix=>`${prefix}${suffix}`);}
@@ -119,7 +129,7 @@
     const request=pssrRequestContext(),role=view?.managerRole;
     const key=pssrDraftKey(role,request);if(!key||contextKey!==request.key||view.ownResult||view.state?.phase==="RESULTS_READY"||typeof root.writeStorageValue!=="function")return false;
     const prefix=pssrRolePrefix(role),values={},checks={};let any=false;
-    RESULT_SUFFIXES.forEach((suffix,index)=>{const input=pssrField(`${prefix}${suffix}`);if(!input)return;if(index<3){values[suffix]=String(input.value||"");if(values[suffix])any=true;}else if(suffix!=="EuropaLeague"||input.checked){checks[suffix]=Boolean(input.checked);if(checks[suffix])any=true;}});
+    RESULT_SUFFIXES.forEach((suffix,index)=>{const input=pssrField(`${prefix}${suffix}`);if(!input)return;if(index<3){values[suffix]=String(input.value||"");if(values[suffix])any=true;}else if(!SPARSE_CHECKS.includes(suffix)||input.checked){checks[suffix]=Boolean(input.checked);if(checks[suffix])any=true;}});
     if(!any){pssrDraftClear(role,request);return true;}
     return root.writeStorageValue(key,JSON.stringify({version:1,rivalryId:request.rivalryId,seasonNumber:request.seasonNumber,role,values,checks}))===true;
   }
@@ -143,7 +153,7 @@
   function pssrAppendLine(container,label,value){const row=root.document.createElement("div"),name=root.document.createElement("span"),data=root.document.createElement("strong");row.className="summaryLine seasonReviewLine";name.textContent=label;data.textContent=String(value);row.append(name,data);container.append(row);}
   // r86: the published card shows the manager's Special Player under the name, as the entry card does (none before r86).
   function pssrSpecialPlayerSlot(role){try{const api=root.CareerModeSpecialPlayerChip,sp=api?.live?.(),chip=sp?api.element(root.document,sp[role==="playerOne"?"daniel":"nik"]):null;if(!chip)return null;const slot=root.document.createElement("span");slot.className="seasonSpecialPlayer";slot.appendChild(chip);return slot;}catch(_error){return null;}}
-  function pssrRenderReviewCard(container,role,result){if(!container||!result)return;const fragment=root.document.createDocumentFragment(),heading=root.document.createElement("h3"),club=root.document.createElement("p"),special=pssrSpecialPlayerSlot(role);heading.textContent=pssrManagerName(role);club.className="summaryClub";club.textContent=pssrClubName(role);fragment.append(heading);if(special)fragment.append(special);fragment.append(club);pssrAppendLine(fragment,"League Position",result.leaguePosition);pssrAppendLine(fragment,"League Points",result.leaguePoints);pssrAppendLine(fragment,"League Goals",result.leagueGoals);const achievements=root.document.createElement("div");achievements.className="seasonReviewAchievements";[["Champions League",result.championsLeague],["Europa League",result.europaLeague===true],["Domestic Cup",result.domesticCup],["Top Scorer",result.topScorer],["Top Assist",result.topAssist]].forEach(([label,active])=>{const item=root.document.createElement("span");item.className=active?"isEarned":"isNotEarned";item.textContent=`${active?"✓":"—"} ${label}`;achievements.append(item);});fragment.append(achievements);container.replaceChildren(fragment);}
+  function pssrRenderReviewCard(container,role,result){if(!container||!result)return;const fragment=root.document.createDocumentFragment(),heading=root.document.createElement("h3"),club=root.document.createElement("p"),special=pssrSpecialPlayerSlot(role);heading.textContent=pssrManagerName(role);club.className="summaryClub";club.textContent=pssrClubName(role);fragment.append(heading);if(special)fragment.append(special);fragment.append(club);pssrAppendLine(fragment,"League Position",result.leaguePosition);pssrAppendLine(fragment,"League Points",result.leaguePoints);pssrAppendLine(fragment,"League Goals",result.leagueGoals);const achievements=root.document.createElement("div");achievements.className="seasonReviewAchievements";[["Champions League",result.championsLeague],["Europa League",result.europaLeague===true],["Domestic Cup",result.domesticCup],["Top Scorer",result.topScorer],["Top Assist",result.topAssist]].forEach(([label,active])=>{const item=root.document.createElement("span");item.className=active?"isEarned":"isNotEarned";item.textContent=`${active?"✓":"—"} ${label}`;achievements.append(item);});fragment.append(achievements);if(result.sacked===true){const stamp=root.document.createElement("p");stamp.className="seasonReviewSacked";stamp.textContent="SACKED THIS SEASON";fragment.append(stamp);}container.replaceChildren(fragment);}
   function pssrEntryMode(reviewing){const panel=pssrField("seasonReviewPanel"),grid=root.document?.querySelector?.("#seasonEntry .seasonEntryGrid"),hint=root.document?.querySelector?.("#seasonEntry .seasonEntryHint"),actions=pssrField("completeSeason")?.closest?.(".seasonEntryActions");pssrHidden(panel,!reviewing);pssrHidden(grid,reviewing);pssrHidden(hint,reviewing);pssrHidden(actions,reviewing);if(pssrField("seasonEntry"))pssrField("seasonEntry").dataset.sharedSeasonResults=reviewing?"review":"entry";}
   function pssrRenderReview(result,{waiting=false,ready=false}={}){
     const role=view?.managerRole,other=pssrOtherRole(role),one=pssrField("seasonReviewOne"),two=pssrField("seasonReviewTwo"),ownCard=role==="playerOne"?one:two,otherCard=role==="playerOne"?two:one,confirm=pssrField("confirmSeasonCompletion"),edit=pssrField("editSeasonResults"),overall=pssrField("seasonReviewOverallScore")?.closest?.(".seasonReviewOverall"),warning=root.document?.querySelector?.("#seasonReviewPanel .seasonReviewWarning");
@@ -152,8 +162,9 @@
     if(ready&&view?.opponentResult){pssrRenderReviewCard(otherCard,other,view.opponentResult);pssrHidden(otherCard,false);pssrText("seasonReviewResult","Both managers published their FIFA 17 season results.");}
     else{pssrHidden(otherCard,true);pssrText("seasonReviewResult",waiting?"Your rival sees this only after publishing theirs. This screen updates by itself.":"Check your results. Once published, they are final.");}
     // Job 33 (R8): once both published, the Shared Season Commit status below is the one banner that says what to tap next.
-    if(warning){pssrHidden(warning,ready);if(!ready)warning.textContent="PUBLISHING IS FINAL";}
-    if(confirm){pssrHidden(confirm,ready);pssrDisable(confirm,busy||waiting);confirm.textContent=waiting?"PUBLISHED ✓":"PUBLISH MY SEASON RESULT";}
+    const sacked=!waiting&&!ready&&result?.sacked===true,armed=sacked&&draft?.sackedConfirmed===true,total=Number(view?.setup?.totalSeasons||pssrSetupState()?.setup?.totalSeasons)||null,season=view?.seasonNumber||pssrSeason();
+    if(warning){pssrHidden(warning,ready);if(!ready)warning.textContent=sacked?`SACKED: THIS SHOWDOWN ENDS AFTER SEASON ${season}${total?` OF ${total}`:""} · THE POINTS SO FAR DECIDE · PUBLISHING IS FINAL`:"PUBLISHING IS FINAL";}
+    if(confirm){pssrHidden(confirm,ready);pssrDisable(confirm,busy||waiting);confirm.textContent=waiting?"PUBLISHED ✓":armed?"YES, I WAS SACKED · PUBLISH":sacked?"PUBLISH · I WAS SACKED":"PUBLISH MY SEASON RESULT";confirm.classList.toggle("isSackedConfirm",armed);}
     if(edit){pssrHidden(edit,ready||waiting);pssrDisable(edit,busy);edit.textContent="EDIT MY RESULT";}
   }
   function pssrRenderEntry(){
@@ -162,7 +173,7 @@
     if(own)pssrPopulate(role,own);if(ready&&view?.opponentResult)pssrPopulate(other,view.opponentResult);
     if(own||ready){pssrDraftClear(role);pssrDisableRole(role,true);pssrDisableRole(other,true);pssrRenderReview(own||view?.allResults?.[role],{waiting:!ready,ready});return;}
     if(draft&&draft.contextKey===contextKey&&draft.seasonNumber===view.seasonNumber&&draft.managerRole===role){pssrDisableRole(role,true);pssrDisableRole(other,true);pssrRenderReview(draft.result);return;}
-    pssrEntryMode(false);pssrHidden(pssrCard(role),false);pssrHidden(pssrCard(other),true);pssrDraftRestore(role);pssrDisableRole(role,false);pssrDisableRole(other,true);const complete=pssrField("completeSeason");if(complete){complete.textContent="REVIEW MY SEASON RESULT";pssrDisable(complete,busy);}const hint=root.document?.querySelector?.("#seasonEntry .seasonEntryHint");if(hint)hint.textContent=`Enter ${pssrManagerName(role)}'s FIFA 17 season result. Your rival enters theirs on their own device.`;
+    pssrEntryMode(false);pssrHidden(pssrCard(role),false);pssrHidden(pssrCard(other),true);pssrShowSackedChecks();pssrDraftRestore(role);if(!pssrSackedApplies()){const input=pssrField(`${pssrRolePrefix(role)}Sacked`);if(input)input.checked=false;}pssrDisableRole(role,false);pssrDisableRole(other,true);const complete=pssrField("completeSeason");if(complete){complete.textContent="REVIEW MY SEASON RESULT";pssrDisable(complete,busy);}const hint=root.document?.querySelector?.("#seasonEntry .seasonEntryHint");if(hint)hint.textContent=`Enter ${pssrManagerName(role)}'s FIFA 17 season result. Your rival enters theirs on their own device.`;
   }
   // H1017-4: a new shared season or manager role starts from an empty form for both managers. Same-context polls keep typed input.
   // formContextKey is the last context the form was rendered for; the tick's context reset leaves it alone so the change is still seen.
@@ -211,6 +222,8 @@
   }
   async function pssrPublish(){
     if(busy||!draft||!view?.managerRole)return false;
+    // r89 Sacked: the confirm step. A sacked result ends the Showdown and is final, so the first PUBLISH tap only asks again.
+    if(draft.result?.sacked===true&&draft.sackedConfirmed!==true){draft.sackedConfirmed=true;pssrSetError("");pssrRenderReview(draft.result);return false;}
     if(draft.contextKey!==contextKey||draft.seasonNumber!==view.seasonNumber||draft.managerRole!==view.managerRole){pssrSetError("The shared season context changed. Review your result again.");draft=null;return false;}
     let currentResult;try{currentResult=pssrReadForm(view.managerRole);}catch(error){pssrSetError(error.message||error.code);return false;}
     if(pssrFingerprint(currentResult)!==draft.fingerprint){pssrSetError("Your season result changed after review. Choose Edit My Result and review it again before publishing.");return false;}

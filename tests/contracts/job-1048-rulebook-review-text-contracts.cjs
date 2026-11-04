@@ -24,7 +24,7 @@ vm.runInContext(read("js/ruleBook.js"), context);
 context.createRuleBookScreen();
 
 const sections = main.findByClass("ruleSection");
-assert.equal(sections.length, 9, "Nine-section Rule Book (r86 adds SPECIAL PLAYER and drops the draws card; r88 gives Chamber Men, the roulette and Prime Pack their own cards)");
+assert.equal(sections.length, 10, "Ten-section Rule Book (r86 adds SPECIAL PLAYER and drops the draws card; r88 gives Chamber Men, the roulette and Prime Pack their own cards; r89 adds SACKED)");
 const section = number => {
   const found = sections.find(node => node.children[0]?.children[0]?.textContent === number);
   assert.ok(found, `Rule Book section ${number} exists`);
