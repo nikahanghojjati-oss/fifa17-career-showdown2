@@ -56,15 +56,15 @@ async function c3d2(){
 // C3D3
 {
   assert.match(step,/goal\.keeper\.dataset\.pose="ready";goal\.scene\?\.reset\(\);/,"reset with the step's own reset");
-  assert.match(step,/g\.keeper\.dataset\.pose=dive;[\s\S]*?g\.scene\?\.kick\(\{shot:shot===engine\.timeout\?null:shot,dive,goal:Boolean\(round\.goal\[shooter\]\),animate,round:round\.round\}\);/,"kick with what the step draws");
+  assert.match(step,/g\.keeper\.dataset\.pose=dive;[\s\S]*?g\.scene\?\.kick\(\{shot:shot===engine\.timeout\?null:shot,dive,goal:Boolean\(kick\.goal\),animate,round:kick\.kick\}\);/,"kick with what the step draws");
   for(const hook of ['class:"cmGoal"','cmsSvg("g",{class:"cmKeeper","data-pose":"ready"})','cmsSvg("g",{class:"cmBall"})','class:"cmZone"'])assert.ok(step.includes(hook),`the SVG goal keeps ${hook}`);
   assert.match(step,/pitch\.append\(board,goal\.box\);/,"same place in the screen (the pitch column, Fable F17-07)");
   ok("C3D3","the step stays the owner: SVG hooks unchanged, the scene follows reset and kick");
 }
 // C3D4
 {
-  assert.match(step,/const ui=cmsBuild\(ctx\),sceneReady=cmsScene\(ui\.goal\);/,"the scene starts with the screen, under the loading screen");
-  assert.match(step,/if\(ui\.stage\.style\.visibility==="hidden"&&!revealing\)\{revealing=true;sceneReady\.then\(\(\)=>\{if\(finished\)return;ui\.stage\.style\.visibility="visible";cmsLoadingOff\(\);/,"the stage shows once the goal is drawn");
+  assert.match(step,/const ui=cmsBuild\(ctx\),sceneReady=cmsScene\(ui\.goal\);let sceneShown=false;/,"the scene starts with the screen, under the loading screen");
+  assert.match(step,/if\(ui\.stage\.style\.visibility==="hidden"&&!sceneShown\)\{sceneShown=true;sceneReady\.then\(\(\)=>\{if\(finished\)return;ui\.stage\.style\.visibility="visible";cmsLoadingOff\(\);/,"the stage shows once the goal is drawn");
   assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*layout\(\);renderer\.compile\(scene,camera\);cm3Draw\(\);/,"mount resolves after the first frame is drawn");
   ok("C3D4","Reus Gate: the stage shows with the goal already drawn");
 }

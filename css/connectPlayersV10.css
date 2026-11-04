@@ -903,7 +903,8 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
 @media (min-width:700px) and (max-width:900px) and (min-height:701px) and (orientation:portrait) {
  :root:has(#connectPlayersScreen:not(.hidden)) { --sd-nav-bottom-h:68px; }
  body:has(#connectPlayersScreen:not(.hidden)) .sd-nav-bottom { padding:0 6px env(safe-area-inset-bottom); border-top-width:2px; }
- body:has(#connectPlayersScreen:not(.hidden)) .sd-nav-bottom .sd-nav-tab { gap:5px; font-size:15px; letter-spacing:.12em; }
+ /* r88 L1: the tabs fit inside the bar's 2px top edge (they ended 2px below the screen) */
+ body:has(#connectPlayersScreen:not(.hidden)) .sd-nav-bottom .sd-nav-tab { gap:5px; font-size:15px; letter-spacing:.12em; height:calc(var(--sd-nav-bottom-h) - 2px); }
  body:has(#connectPlayersScreen:not(.hidden)) .sd-nav-bottom .sd-nav-tab svg { width:24px; height:24px; }
  body:has(#connectPlayersScreen:not(.hidden)) .sd-nav-bottom .sd-nav-tab::after { left:28%; right:28%; height:3px; }
  #app #connectPlayersScreen {
