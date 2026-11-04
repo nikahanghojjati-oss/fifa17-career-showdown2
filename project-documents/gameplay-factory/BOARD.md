@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 4 Nov, 2:26 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 4 Nov, 2:30 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.1.0-r88** (main `666df32`, Tue 3 Nov 10:39 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #1242: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1242 0/16
+🩺 **All clear: every check has a machine.** · Gate #1242: L1… L2… L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #1242 0/16
 
 ## Jobs
 
@@ -26,11 +26,11 @@ Updated Wed 4 Nov, 2:26 AM Boston time. Bug hunting only, no new features until 
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 546 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 547 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 546 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 547 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -38,7 +38,7 @@ Updated Wed 4 Nov, 2:26 AM Boston time. Bug hunting only, no new features until 
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 546 h ago
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 547 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Wed 4 Nov, 2:26 AM Boston time. Bug hunting only, no new features until 
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 441 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 442 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1242](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1242) | Rules: compile inside the Rules service deadline (2.1.0 ruleset create 503s) | ⏳ 5 passed, 3 running |
+| 🟧 Team G lead | [PR #1242](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1242) | Rules: compile inside the Rules service deadline (2.1.0 ruleset create 503s) | ⏳ 6 passed, 2 running |
 | 🟧 Team G lead | [PR #1241](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1241) | Studio Small Axe: phone pass (league wheel, big sideways phones, Transfer War, Club Assignment) | 🔴 7 passed, 1 failed (draft) |
 
 **Up next**
