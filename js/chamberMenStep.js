@@ -31,6 +31,9 @@
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
   const DONE_KEY="careerModeShowdown.chamberMenDone.v2",KEPT_KEY="careerModeShowdown.chamberMenKicks.v2",KEYS_MAX=60,SCHEMA=2;
   const PICK_MS=10000,KICK_MS=2600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
+  // Codex C2: past the rival's lock-in by the pick clock, the last kick's reveal and 2 s for the network, a pick lands as the
+  // timeout '-'. The Rules hold 16.6 s (the 2.2.0 reveal); this phone's own limit is never longer.
+  const LATE_MS=PICK_MS+KICK_MS+2000;
   const SIDE_WORD=Object.freeze({L:"LEFT",M:"MIDDLE",R:"RIGHT"});
   const memo=new Map();// `${rid}|${season}` -> finished {playerOne, playerTwo} pick strings
   let running=null,wentHome=false;
@@ -84,6 +87,7 @@
     if(!data||data.schemaVersion!==SCHEMA||data.objectType!==OBJECT_TYPE||data.seasonNumber!==season||!data.kicks)return null;
     return cmsEngine().record({playerOne:data.kicks.playerOne,playerTwo:data.kicks.playerTwo});
   }
+  function cmsNow(io){try{return io.now();}catch(_error){return Date.now();}}
   function cmsRef(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,cmsSeasonId(season));}
   function cmsStamp(io){return {activeSessionId:io.sessionId,updatedByDeviceId:io.deviceId,updatedAt:io.sdk.serverTimestamp()};}
   // This manager's letter for kick n, on the latest record: created with the first letter of all, or his string grown by
@@ -116,7 +120,10 @@
       const record=cmsRecord(data,ctx.season);
       if(!record)return {ok:false,reason:"BAD_RECORD"};
       if(!Number.isInteger(kick)||record[me].length!==kick-1)return {ok:false,reason:"NOT_THIS_KICK",record};
-      const next=engine.send(record,me,letter);
+      // Codex C2: checked on every try of the transaction (a retry can run long after LOCK IN). Once the rival has locked in,
+      // a letter that lands past his lock-in + LATE_MS is the timeout '-', as the Rules require.
+      const rivalAt=cmsMillis(data.updatedAt),late=record[cmsOther(me)].length>=kick&&Number.isFinite(rivalAt)&&cmsNow(io)>rivalAt+LATE_MS;
+      const next=engine.send(record,me,late?engine.timeout:letter);
       if(!next)return {ok:false,reason:"NOT_YOUR_KICK",record};
       tx.update(ref,{[`kicks.${me}`]:next[me],revision:data.revision+1,...cmsStamp(io)});
       return {ok:true,record:next};

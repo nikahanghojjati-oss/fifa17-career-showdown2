@@ -157,6 +157,26 @@ const fresh=(season,kicks,revision=1,schemaVersion=2)=>({schemaVersion,objectTyp
     const raced=await read(3);
     assert.deepEqual(raced.kicks,{playerOne:"LM".repeat(7),playerTwo:"MR".repeat(7)});assert.equal(raced.revision,28);
     checks.push("both managers locking in at the same moment on every kick: every letter goes in once, in its own place (kick 1's double create included)");
+
+    // Codex C2 (2.2.0): once the rival has locked in, a kick's clock runs from his lock-in on the server. A letter that lands
+    // more than 16.6 s later (10 s clock, 4.6 s reveal, 2 s network) is the timeout '-' only: a side picked late is refused,
+    // and the step (checking again inside its transaction) stores '-' instead. Before the rival locks in there is no clock.
+    const seed=async(season,kicks,agoMs)=>env.withSecurityRulesDisabled(async context=>{await setDoc(ref(context.firestore(),season),{...fresh(season,kicks,kicks.playerOne.length+kicks.playerTwo.length),activeSessionId:SID,updatedByDeviceId:DA,updatedAt:Timestamp.fromMillis(Date.now()-agoMs)});});
+    await seed(4,{playerOne:"L",playerTwo:""},20_000);
+    await assertPlainDenial(updateDoc(ref(dbB,4),{"kicks.playerTwo":"R",revision:2,...stamp(DB)}),"Nik's dive lands 20 s after Daniel locked in");
+    const lateSend=await Step.send(io(dbB,DB),ctx("playerTwo",4),"R",1);
+    assert.equal(lateSend.ok,true,`the step's late send goes in as the timeout: ${JSON.stringify(lateSend)}`);
+    assert.deepEqual((await read(4)).kicks,{playerOne:"L",playerTwo:"-"},"stored as '-', not the side picked late");
+    await seed(5,{playerOne:"L",playerTwo:""},20_000);
+    await updateDoc(ref(dbB,5),{"kicks.playerTwo":"-",revision:2,...stamp(DB)});
+    checks.push("a pick that lands past the rival's lock-in + 16.6 s is the timeout '-': a late side is refused by the Rules, and the step stores '-'");
+    await seed(6,{playerOne:"L",playerTwo:""},3_000);
+    await updateDoc(ref(dbB,6),{"kicks.playerTwo":"R",revision:2,...stamp(DB)});
+    const onTime=await Step.send(io(dbA,DA),ctx("playerOne",7),"M",1);assert.equal(onTime.ok,true);
+    await seed(8,{playerOne:"L",playerTwo:"R"},60_000);
+    await updateDoc(ref(dbB,8),{"kicks.playerTwo":"RL",revision:3,...stamp(DB)});
+    assert.deepEqual((await read(8)).kicks,{playerOne:"L",playerTwo:"RL"});
+    checks.push("in time (3 s after the rival) a side goes in; with no rival lock-in yet there is no clock, however old the record");
   }finally{await env.cleanup();}
   for(const [i,check] of checks.entries())console.log(`ok ${i+1} ${check}`);
   console.log(`PASS Chamber Men Rules emulator: ${checks.length} checks.`);
