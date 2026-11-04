@@ -869,3 +869,28 @@
 @media (min-width:1440px) and (max-width:1919px) and (min-height:800px) {
   :root #app #careerStatistics.careerScreenV10 #headlineTiles small { font-size:12px !important; }
 }
+/* 4q.1 (Fable job 20) Desktop type floor, the last lines under 12px:
+   - Career Statistics: COMPLETED SHOWDOWNS kept 11px at 1280x720 and 1280x800 (the 4q label rule is height-gated) and the
+     D / N prefixes were 10px; both hold 12px on every desktop now.
+   - Season Results: the intro, honour pills and the "confirming is final" line are fluid (vw) and fell to 10.4-11.2px at
+     1600 wide; they keep their fluid size but never drop under 12px.
+   - Career Leaders: "Level · Daniel + Nik" balanced over two lines instead of three. */
+@media (min-width: 1200px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineLabel { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlinePair small { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .leaderCard .leaderName { text-wrap: balance; }
+}
+/* At 1200-1439 wide the tiles are 158px: a 28px icon column and 6px side padding give COMPLETED SHOWDOWNS its 12px line. */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns: 28px minmax(0, 1fr); padding-inline: 6px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineIcon { max-width: 28px; }
+}
+@media (min-width: 901px) {
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro, .seasonReviewResult) { font-size: max(12px, .7vw); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewAchievements span, .seasonReviewWarning) { font-size: max(12px, .65vw); }
+}
+/* Career Statistics phone tabs (TABLE / COMPARE / LEADERS) answer a tap with the standard 120ms press. */
+:root #app #careerStatistics .phoneTabs > label { transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out); }
+:root #app #careerStatistics .phoneTabs > label:active { transform: scale(.97); }
+@media (prefers-reduced-motion: reduce) { :root #app #careerStatistics .phoneTabs > label:active { transform: none; } }
+:root[data-motion-reduced="true"] #app #careerStatistics .phoneTabs > label:active { transform: none; }
