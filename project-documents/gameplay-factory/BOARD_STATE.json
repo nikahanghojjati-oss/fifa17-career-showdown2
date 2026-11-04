@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 11:58 PM Boston time (EST)",
+ "generated": "2026-11-04 12:06 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1848,18 +1848,7 @@
    "when": "2026-11-03T22:39:26-05:00",
    "subject": "Merge pull request #1237 from nikahanghojjati-oss/claude-gameplay/r88-rules-static-regex",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1237,
-     "title": "2.1.0 Rules fix: Chamber Men check without a data-built regex (unblocks the deploy)",
-     "merged": "2026-11-04T03:39:26Z"
-    },
-    {
-     "pr": 1209,
-     "title": "r88 release: 2.1.0 (Chamber Men, Story redesign, Studio Small Axe polish)",
-     "merged": "2026-11-04T01:29:43Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
