@@ -1004,3 +1004,16 @@
 /* 4u.1 (Fable job 20, Type): the GOLDEN SHOWDOWN tags on Legacy, Rivalry and Career Statistics drew at 11px; 12px floor.
    !important because the screen sheets load later and set these tags to 11px at equal or higher specificity. */
 :root #app :is(#legacy .legacyGoldenShowdown, #statistics .rv-goldenShowdown, #careerStatistics .goldenShowdownNote) { font-size: 12px !important; line-height: 16px !important; }
+/* 4u.2 (Nik 2026-11-04) Desktop Rivalry: the Golden Showdown line sits beside the title, in the tagline row, centred
+   between the two managers so it never covers a face, the title or a button. It is a gold line in the tagline's own
+   type, with no box, so the title row keeps its height and nothing boxes the title. Same 12px tag and the
+   320ms sweep (4u, off under Reduce Motion). Phones keep it in HEAD-TO-HEAD, so the title copy is desktop only. */
+:root #app #statistics #rvTitleBlock .sd-tagline:has(> .rv-goldenTitle) { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 4px 16px; }
+:root #app #statistics #rvTitleBlock .rv-goldenTitle {
+  display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 0 6px; position: relative; isolation: isolate; overflow: hidden;
+  letter-spacing: .06em; white-space: nowrap; border: 0; background: none; box-shadow: none; color: var(--sd-cream, #f4f1ea);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .85);
+}
+:root #app #statistics #rvTitleBlock .rv-goldenTitle img { width: 14px; height: 14px; object-fit: contain; }
+:root #app #statistics #rvTitleBlock .rv-goldenTitle strong { color: var(--sd-gold-300, #ffd34d); letter-spacing: .1em; }
+@media (max-width: 900px) { :root #app #statistics #rvTitleBlock .rv-goldenTitle { display: none; } }
