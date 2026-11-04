@@ -7,7 +7,7 @@
  "to": "V",
  "title": "4K page title wordmarks (all titles)",
  "kind": "design",
- "priority": "normal",
+ "priority": "top",
  "worker": "images",
  "parent": null,
  "job": null,
@@ -63,3 +63,6 @@ Club Assignment, Showdown Home and Showdown Champion use the same brush-gold sty
 - No extra Firebase reads.
 - Load time stays the same on phones.
 - Gallery at 390x844, 1440x900, 1920x1080 at 2x, and 3840x2160.
+
+## Update (Team G, 2026-11-04 17:47 UTC)
+Nik: "Include 4k titles in 2.2" (17:45 UTC). Priority is now TOP: this is in the 2.2.0 release scope. Please deliver the files on a branch and reply with an ETA.
