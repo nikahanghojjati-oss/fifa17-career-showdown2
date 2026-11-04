@@ -215,6 +215,9 @@
         if(!slot||slot.slotId!==link.managerRole)throw pairErrorWithCode("PERSISTENT_PAIR_MEMBERSHIP_MISSING","This account is not part of the remembered Showdown.");
         if(expectedSaveId&&slot.saveId!==expectedSaveId)throw pairErrorWithCode("PERSISTENT_PAIR_CONTEXT_MISMATCH","This Showdown's save does not match the remembered online Showdown. Nothing was deleted.");
         if(rivalryValue.data?.connectionState==="closed")return{ok:true,status:"already-closed",rivalryId:link.rivalryId,managerRole:link.managerRole};
+        // r89 Sacked (Codex C3): a season with a sacking was accepted, so this Showdown has finished. It is never ended early; the
+        // caller finishes it through Terminal Close (completed, sacked). The Rules refuse this write too. Same read, no extra one.
+        if(rivalryValue.data?.terminalProgress&&typeof rivalryValue.data.terminalProgress==="object"&&Object.hasOwn(rivalryValue.data.terminalProgress,"sacked"))throw pairErrorWithCode("PERSISTENT_PAIR_SACKED_FINISHED","This Showdown has finished: a manager was sacked. It is saved as completed, not ended early.");
         // r80 (Codex #936): Daniel's first real START closes his leftover code only while nobody has joined it (read here, in the
         // close itself): a code Nik has joined is a Showdown being played and is never ended from that START.
         if(options.unjoinedOnly===true&&(link.managerRole!=="playerOne"||rivalryValue.data?.connectionState!=="pending-pair"))throw pairErrorWithCode("PERSISTENT_PAIR_CODE_JOINED","Nik has already joined your earlier code, so that Showdown is being played. Finish or end it first. Nothing was changed.");

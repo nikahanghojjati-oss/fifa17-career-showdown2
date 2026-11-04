@@ -134,4 +134,21 @@ const SESSION="session_"+"c".repeat(64);
   ok("S7","Rule Book card 10 SACKED, the Gazette sacked lines precached, the booth stays quiet on a sacked season, the Rules builder pins the sacked rules, no new listener");
 }
 
+// S8 Codex C3: a sacked Showdown is never ended early, and the 2.2.0 phone that published a sacking says how a 2.1.0 rival updates.
+{
+  const pair=read("firestore.persistent-pair-production.fragment.rules");
+  const abandon=pair.slice(pair.indexOf("function cmsPersistentPairAbandonValid("),pair.indexOf("function cmsPersistentPairEndedEarlyValid("));
+  assert.ok(abandon.includes("&& (!('terminalProgress' in before.data) || !('sacked' in before.data.terminalProgress))"),"END SHOWDOWN is refused once a sacked season is accepted");
+  assert.match(read("js/persistentNikDanielPair.js"),/Object\.hasOwn\(rivalryValue\.data\.terminalProgress,"sacked"\)\)throw pairErrorWithCode\("PERSISTENT_PAIR_SACKED_FINISHED"/);
+  const settings=read("js/settings.js");
+  assert.match(settings,/error\.code === "PERSISTENT_PAIR_SACKED_FINISHED"\)\{ return finishSettingsSackedShowdown\(name\); \}/);
+  assert.match(settings,/async function finishSettingsSackedShowdown\(name\)\{[\s\S]*?close\.refresh\(\)[\s\S]*?close\.retry\(\)/);
+  const results=read("js/productionSharedSeasonResults.js"),commit=read("js/productionSharedSeasonCommit.js");
+  assert.ok(results.includes("BOTH PHONES NEED VERSION 2.2.0"),"the sacked confirm step names the version both phones need");
+  assert.ok(results.includes("opens Settings and taps UPDATE TO LATEST VERSION (2.2.0)"),"the published sacked result names the Settings button");
+  assert.ok(read("js/settings.js").includes('"UPDATE TO LATEST VERSION"'),"the Settings button label the hint names exists");
+  assert.equal((commit.match(/\$\{sackedHint\}/g)||[]).length,2,"both commit wait lines carry the update hint");
+  ok("S8","END SHOWDOWN never ends a sacked Showdown early (Rules + pair provider + Settings hands it to Terminal Close); the update hint names the rival and the Settings button");
+}
+
 console.log(`PASS r89 Sacked contracts: ${checks} numbered checks (history, progression, final and witness, Golden, career labels, the tick, release wiring).`);

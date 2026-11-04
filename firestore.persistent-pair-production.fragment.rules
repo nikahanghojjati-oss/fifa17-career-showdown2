@@ -133,6 +133,9 @@
         && before.data.authorizedAccountIds is list
         && request.auth.uid in before.data.authorizedAccountIds
         && (before.data.connectionState == 'pending-pair' || before.data.connectionState == 'active')
+        // r89 Sacked (Codex C3): a Showdown whose accepted progress records a sacking has finished. It closes only through
+        // the proven Terminal Close (completed, sacked), never as Ended early.
+        && (!('terminalProgress' in before.data) || !('sacked' in before.data.terminalProgress))
         && after.data.connectionState == 'closed'
         && after.data.diff(before.data).affectedKeys().hasOnly(['connectionState', 'endedEarly'])
         && (!('endedEarly' in after.data) || cmsPersistentPairEndedEarlyValid(after.data.endedEarly));

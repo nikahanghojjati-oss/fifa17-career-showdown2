@@ -816,6 +816,38 @@ function sweepSettingsShowdownDrafts(){
     }
 }
 
+/* r89 Sacked (Codex C3): a Showdown with an accepted sacked season has finished, so END SHOWDOWN never ends it early (the Rules
+   refuse that too). Settings closes and hands it to Terminal Close, the same proven close the Champion screen runs: it saves the
+   Showdown as completed (sacked) for both players. When this phone has no live session for it, the Champion screen's own
+   close panel says what to do (reconnect, then it saves). The active Showdown and its drafts stay until that close lands. */
+async function finishSettingsSackedShowdown(name){
+    closeSettings(false);
+    const close = window.CareerModeProductionSharedTerminalClose;
+    let phase = null;
+    try{
+        if(close && typeof close.refresh === "function"){
+            const current = await close.refresh();
+            phase = current && current.phase ? current.phase : null;
+            if(phase === "RECOVERY_PENDING" && typeof close.retry === "function"){
+                const retried = await close.retry();
+                phase = retried && retried.ok === true ? "CLOSED" : phase;
+            }
+        }
+    }catch(_error){
+        phase = null;
+    }
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(
+            phase === "CLOSED"
+                ? `The "${name}" Showdown is saved to History as completed (sacked).`
+                : `The "${name}" Showdown has already finished: a manager was sacked. It is not ended early. It saves to History as completed when it closes; open it with CONTINUE CAREER on Home if it has not.`,
+            "success",
+            8000
+        );
+    }
+    return false;
+}
+
 /* r80: a double tap (or a second tap while the first END is still running) joins the END already in flight. */
 let settingsEndShowdownInFlight = null;
 function endSettingsCurrentShowdown(button){
@@ -868,7 +900,13 @@ async function runSettingsEndShowdown(button){
             throw new Error("The active Showdown changed after you confirmed. Nothing was ended. Review the current Showdown and confirm again.");
         }
 
-        const released = await releaseSettingsCurrentShowdownConnection(authoritative);
+        let released;
+        try{
+            released = await releaseSettingsCurrentShowdownConnection(authoritative);
+        }catch(error){
+            if(error && error.code === "PERSISTENT_PAIR_SACKED_FINISHED"){ return finishSettingsSackedShowdown(name); }
+            throw error;
+        }
 
         if(!runtime.clearActiveShowdown()){
             throw new Error("The Showdown was ended, but it could not be closed here. Tap END SHOWDOWN again; nothing new will be created.");

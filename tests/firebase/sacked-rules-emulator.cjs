@@ -207,6 +207,7 @@ async function seedTerminal(env,id,sid,totalSeasons,seasons){
     for(const uid of [uid1,uid2])await setDoc(doc(db,"accounts",uid),await envelopeAccount(uid));
     await setDoc(doc(db,"accounts",uid1,"devices",device1),await envelopeDevice(uid1,device1,"1"));await setDoc(doc(db,"accounts",uid2,"devices",device2),await envelopeDevice(uid2,device2,"2"));
     await setDoc(doc(db,"rivalries",id),await envelopeRivalry(id));
+    for(const [uid,role,managerId,deviceId] of [[uid1,"playerOne","daniel",device1],[uid2,"playerTwo","nik",device2]]){const at=Timestamp.fromMillis(Date.now()-80_000);await setDoc(doc(db,"accounts",uid,"pairLinks","current"),await envelope("pairLink","current",0,{rivalryId:id,managerRole:role,managerId,linkedAt:at,lastConfirmedAt:at},{accountId:uid,deviceId,updatedAt:at}));}
     await setDoc(doc(db,"rivalries",id,"sharedSetup","authoritative"),{schemaVersion:1,objectType:"sharedSetupLedger",rivalryId:id,revision:6,phase:"SHOWDOWN_CONFIRMED",coordinatorRole:"playerOne",totalSeasons,confirmedRoles:["playerOne","playerTwo"]});
     await setDoc(doc(db,"rivalries",id,"sessions",sid),await envelopeSession(id,sid));
     for(let i=0;i<seasons.length;i++)await setDoc(doc(db,"rivalries",id,"seasonCommits",`season_${i+1}`),{schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId:id,seasonNumber:i+1,runtimeRevision:"1.9.1-r10",phase:"ACKNOWLEDGED",revision:3,results:{playerOne:seasons[i][0],playerTwo:seasons[i][1]},acknowledgedRoles:["playerOne","playerTwo"]});
@@ -218,6 +219,11 @@ async function progressWrite(prior,totalSeasons,managerTotals,extra={}){
   const terminalProgress={schemaVersion:1,runtimeRevision:"1.9.1-r18",totalSeasons,acceptedThroughSeason:season,managerTotals,closedSessionRevision:null,...extra};
   for(const key of Object.keys(terminalProgress))if(terminalProgress[key]===undefined)delete terminalProgress[key];
   return envelope("rivalry",prior.objectId,prior.revision+1,{...prior.data,terminalProgress},{priorHash:prior.contentHash});
+}
+// The END SHOWDOWN write (pairAbandonCurrentShowdown): the rivalry closed, optionally with the ended-early mark, by uid's own device.
+async function abandonWrite(prior,uid,endedEarly){
+  const data={...prior.data,connectionState:"closed",...(endedEarly?{endedEarly}:{})};
+  return envelope("rivalry",prior.objectId,prior.revision+1,data,{accountId:uid,deviceId:uid===uid1?device1:device2,priorHash:prior.contentHash});
 }
 // What stcFinalize writes in one commit (session + rivalry).
 async function finalClose(id,sid,rivalryPrior,sessionPrior,intent){
@@ -260,6 +266,14 @@ async function terminalClose(){
       await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s3,{sacked:undefined})),"season 3 progress after a sacked season (map dropped)");
       await assertPlainDenial(setDoc(rivalryRef,await progressWrite(prior,3,s3)),"season 3 progress after a sacked season (map kept)");
       checks.push("progress: no season is accepted after the sacked season (map kept or dropped)");
+      // Codex C3: once a sacked season is accepted, END SHOWDOWN can no longer end it early (with or without the mark, either manager).
+      prior=await read();
+      for(const [uid,label] of [[uid1,"Daniel"],[uid2,"Nik"]]){
+        const db=uid===uid1?host:peer;
+        await assertPlainDenial(setDoc(doc(db,"rivalries",id),await abandonWrite(prior,uid,{seasonsPlayed:2})),`${label} ends the sacked Showdown early (with the mark)`);
+        await assertPlainDenial(setDoc(doc(db,"rivalries",id),await abandonWrite(prior,uid,null)),`${label} ends the sacked Showdown early (no mark)`);
+      }
+      checks.push("END SHOWDOWN: after the sacked season is accepted, neither manager can end it early (with or without the mark)");
       // Close: a full-length witness, a wrong map, a wrong completedSeason, or endedBy without a map is refused.
       prior=await read();const sessionPrior=(await assertSucceeds(getDoc(sessionRef))).data();
       const sackedNik={playerOne:false,playerTwo:true};
@@ -352,6 +366,21 @@ async function terminalClose(){
       const after=(await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data();
       assert.equal("sacked" in after.data.terminalProgress,false);assert.equal("endedBy" in after.data.terminalClose,false);
       checks.push("control: a normal 3-season close is unchanged (no sacked map, no endedBy)");
+    }finally{await env.cleanup();}
+  }
+  // 3e. Control: END SHOWDOWN still ends a Showdown early after an accepted season with no sacking (Ended early, as before).
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("endearly"),firestore:{rules:RULES}});
+    const id=`pair_${"7".repeat(64)}`,sid=`session_${"6".repeat(64)}`;
+    try{
+      const seasons=[[result({championsLeague:true}),result()],[result(),result()],[result(),result()]];
+      await seedTerminal(env,id,sid,3,seasons);
+      const host=env.authenticatedContext(uid1).firestore(),peer=env.authenticatedContext(uid2).firestore();
+      let prior=(await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data();
+      await assertAccepted(setDoc(doc(host,"rivalries",id),await progressWrite(prior,3,{playerOne:score(seasons[0][0]),playerTwo:score(seasons[0][1])})),"season 1 plain progress");
+      prior=(await assertSucceeds(getDoc(doc(peer,"rivalries",id)))).data();
+      await assertAccepted(setDoc(doc(peer,"rivalries",id),await abandonWrite(prior,uid2,{seasonsPlayed:1})),"Nik ends a Showdown with no sacking early after season 1");
+      checks.push("control: END SHOWDOWN still ends a Showdown with accepted, unsacked progress early (Ended early)");
     }finally{await env.cleanup();}
   }
   return checks;

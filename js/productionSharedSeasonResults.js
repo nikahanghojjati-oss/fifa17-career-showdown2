@@ -53,6 +53,9 @@
   function pssrSetupState(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
   // r89 Sacked: only a Showdown confirmed at or after the r89 release time shows the tick (an older phone could not verify the end).
   function pssrSackedApplies(){const at=pssrSetupState()?.setupUpdatedAtMs;return root.CMS_SACKED!=="off"&&Number.isFinite(at)&&at>=SACKED_FROM_MS;}
+  // r89 Sacked (Codex C3): a 2.1.0 phone cannot read a sacked result (it stops with its own error until it updates; nothing is
+  // lost). Only a 2.2.0 phone can tick, so the phone that published the sacking says what the rival must do while it waits.
+  function pssrSackedUpdateHint(rivalRole){return ` If ${pssrManagerName(rivalRole)}'s phone shows an error, ${pssrManagerName(rivalRole)} opens Settings and taps UPDATE TO LATEST VERSION (2.2.0); play then carries on.`;}
   function pssrShowSackedChecks(){const show=pssrSackedApplies();root.document?.querySelectorAll?.("#seasonEntry .sackedCheck")?.forEach?.(label=>pssrHidden(label,!show));if(!show)for(const prefix of ["p1","p2"]){const input=pssrField(`${prefix}Sacked`);if(input)input.checked=false;}return show;}
   function pssrTransferState(){try{return transferApi?.getState?.()||null;}catch(_error){return null;}}
   function pssrClubName(role){const setup=pssrSetupState()?.setup||pssrTransferState()?.setup;return setup?.clubs?.[role]||pssrShowdown()?.clubs?.[role]||"Club";}
@@ -160,10 +163,10 @@
     pssrEntryMode(true);pssrHidden(overall,true);pssrText("seasonEntryTitle",`SEASON ${view?.seasonNumber||pssrSeason()} RESULTS`);pssrText("seasonReviewHeading",ready?"BOTH MANAGERS PUBLISHED":waiting?"YOUR RESULT IS PUBLISHED":"REVIEW YOUR SEASON RESULT");pssrText("seasonReviewStatusMeta",ready?"":waiting?"PUBLISHED · WAITING FOR YOUR RIVAL":"NOT PUBLISHED YET");pssrHidden(pssrField("seasonReviewStatusMeta")?.closest?.(".seasonReviewStatus"),ready);
     pssrRenderReviewCard(ownCard,role,result);pssrHidden(ownCard,false);
     if(ready&&view?.opponentResult){pssrRenderReviewCard(otherCard,other,view.opponentResult);pssrHidden(otherCard,false);pssrText("seasonReviewResult","Both managers published their FIFA 17 season results.");}
-    else{pssrHidden(otherCard,true);pssrText("seasonReviewResult",waiting?"Your rival sees this only after publishing theirs. This screen updates by itself.":"Check your results. Once published, they are final.");}
+    else{pssrHidden(otherCard,true);pssrText("seasonReviewResult",waiting?`Your rival sees this only after publishing theirs. This screen updates by itself.${result?.sacked===true?pssrSackedUpdateHint(other):""}`:"Check your results. Once published, they are final.");}
     // Job 33 (R8): once both published, the Shared Season Commit status below is the one banner that says what to tap next.
     const sacked=!waiting&&!ready&&result?.sacked===true,armed=sacked&&draft?.sackedConfirmed===true,total=Number(view?.setup?.totalSeasons||pssrSetupState()?.setup?.totalSeasons)||null,season=view?.seasonNumber||pssrSeason();
-    if(warning){pssrHidden(warning,ready);if(!ready)warning.textContent=sacked?`SACKED: THIS SHOWDOWN ENDS AFTER SEASON ${season}${total?` OF ${total}`:""} · THE POINTS SO FAR DECIDE · PUBLISHING IS FINAL`:"PUBLISHING IS FINAL";}
+    if(warning){pssrHidden(warning,ready);if(!ready)warning.textContent=sacked?`SACKED: THIS SHOWDOWN ENDS AFTER SEASON ${season}${total?` OF ${total}`:""} · THE POINTS SO FAR DECIDE · BOTH PHONES NEED VERSION 2.2.0 · PUBLISHING IS FINAL`:"PUBLISHING IS FINAL";}
     if(confirm){pssrHidden(confirm,ready);pssrDisable(confirm,busy||waiting);confirm.textContent=waiting?"PUBLISHED ✓":armed?"YES, I WAS SACKED · PUBLISH":sacked?"PUBLISH · I WAS SACKED":"PUBLISH MY SEASON RESULT";confirm.classList.toggle("isSackedConfirm",armed);}
     if(edit){pssrHidden(edit,ready||waiting);pssrDisable(edit,busy);edit.textContent="EDIT MY RESULT";}
   }
