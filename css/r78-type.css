@@ -820,6 +820,80 @@
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
 
+/* 4q. Studio Small Axe 40/40, shared stroke 1: the 12 px text floor on desktop (craft rule "nothing under 12px").
+   Measured on r88 d9eaafbb from 1280x720 to 1920x1080. A floor never lowers a size: the first group is under 12 px at
+   every desktop width, so it takes 12 px everywhere; the second group grows with the window and passes 12 px on its
+   own on wide screens, so it takes 12 px only up to 1699 px wide. Sizes only, no layout moves; !important because
+   several are set inline by screen scripts or by later-loaded screen sheets. Settings is left out: its dialog is
+   zoomed, so its labels already show at 12 px or more on screen. Short landscape screens (under 700 px tall, such as
+   1200x600) keep the kit sizes, because there the cards and tiles have no height to spare. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  :root #app > footer,
+  :root #photoCredit :is(a, span),
+  :root #cmsMusicDockTop span,
+  :root #app :is(#rvSeasonBody, #legacySeasonHistory) th,
+  :root #commentaryV3Final :is(b, .cmx-bar__tab),
+  :root #app :is(.compareLabel, .headlineTogether, .leaderLabel),
+  :root #app :is(.menuTileMeta, .finalWinnerRematchSub),
+  :root #app :is(.legacyCardFooter, .legacyClubName, .legacyWinner, .legacyWinnerCrown),
+  :root #app #legacy #legacySeasonHistory .legacyHistoryClose,
+  :root #app .ruleSpecialPlayerTag,
+  :root #app :is(.rv-progress, .rv-trophyLabel) { font-size: 12px !important; }
+}
+@media (min-width: 1200px) and (max-width: 1699px) and (min-height: 700px) {
+  :root #app :is(.connectPlayersTagline, .finalWinnerRematchMain, .finalWinnerTotalMark, .leaderName),
+  :root #app #legacy #legacySeasonHistory :is(.legacyHistoryDetail, .legacyHistoryEuropa),
+  :root #app :is(.rv-headCaption, #rvClubDaniel, #rvClubNik),
+  :root #app :is(#fixtureEyebrow, #fixtureTagline),
+  :root #app :is(#rvTitleBlock, #v10RuleBookStage, #standings) :is(.sd-eyebrow, .sd-tagline),
+  :root #app #v10ExitSlot :is(.menuButton, .backButton),
+  :root #app #connectPlayersScreen .connectPlayersRole > span,
+  :root #app #trophyRoom :is(.careerRank, .recordItem) > span { font-size: 12px !important; }
+}
+@media (min-width: 1200px) and (max-width: 1919px) and (min-height: 700px) {
+  /* The Career Table heads keep their column widths: a touch less tracking pays for the extra size, and the Manager
+     column gives its spare width to Showdowns and Season W-D-L (this also ends the "Showdowns" clip the base showed at
+     1280x720). The headline tiles (the "COMPLETED SHOWDOWNS" label and the D/N totals under the numbers) stay at the kit
+     size: at 12 px they outgrow their tiles. The Career Statistics finish gives those tiles a new layout. */
+  :root #app #careerTablePanel th { font-size: 12px !important; letter-spacing: .02em !important; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 24%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 20%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 24%; }
+}
+/* 4q (cont.) Career Statistics headline tiles, where the tile is roomy enough (1440-1679px wide, 800px+ tall; from 1680 the kit sizes are already 12px+): the label
+   ("COMPLETED SHOWDOWNS" was 11px) and the D / N markers (10px) reach the 12px floor. Four-digit totals still fit
+   (Lane C C-03). Narrower or shorter windows keep the kit's sizes, where 12px would cut a total. */
+@media (min-width:1440px) and (max-width:1679px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles .headlineLabel { font-size:12px !important; }
+}
+@media (min-width:1440px) and (max-width:1919px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles small { font-size:12px !important; }
+}
+/* 4q.1 (Fable job 20) Desktop type floor, the last lines under 12px:
+   - Career Statistics: COMPLETED SHOWDOWNS kept 11px at 1280x720 and 1280x800 (the 4q label rule is height-gated) and the
+     D / N prefixes were 10px; both hold 12px on every desktop now.
+   - Season Results: the intro, honour pills and the "confirming is final" line are fluid (vw) and fell to 10.4-11.2px at
+     1600 wide; they keep their fluid size but never drop under 12px.
+   - Career Leaders: "Level · Daniel + Nik" balanced over two lines instead of three. */
+@media (min-width: 1200px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineLabel { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlinePair small { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .leaderCard .leaderName { text-wrap: balance; }
+}
+/* At 1200-1439 wide the tiles are 158px: a 28px icon column and 6px side padding give COMPLETED SHOWDOWNS its 12px line. */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns: 28px minmax(0, 1fr); padding-inline: 6px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineIcon { max-width: 28px; }
+}
+@media (min-width: 901px) {
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro, .seasonReviewResult) { font-size: max(12px, .7vw); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewAchievements span, .seasonReviewWarning) { font-size: max(12px, .65vw); }
+}
+/* Career Statistics phone tabs (TABLE / COMPARE / LEADERS) answer a tap with the standard 120ms press. */
+:root #app #careerStatistics .phoneTabs > label { transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out); }
+:root #app #careerStatistics .phoneTabs > label:active { transform: scale(.97); }
+@media (prefers-reduced-motion: reduce) { :root #app #careerStatistics .phoneTabs > label:active { transform: none; } }
+:root[data-motion-reduced="true"] #app #careerStatistics .phoneTabs > label:active { transform: none; }
 /* 4r. Studio Small Axe 40/40, shared stroke 2: score reveal on Showdown Home and Standings (Final Winner, Season
    Review, Rivalry, Career Statistics and Trophy Room already count up). The number never changes: it settles in with a
    short scale and a gold glow each time the screen opens (320ms, the long step of the 120/200/320 motion scale, 1.02 overshoot), so it is the first thing the eye lands on. Opacity stays 1
