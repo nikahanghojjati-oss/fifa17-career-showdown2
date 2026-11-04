@@ -139,7 +139,13 @@ const SESSION="session_"+"c".repeat(64);
   const pair=read("firestore.persistent-pair-production.fragment.rules");
   const abandon=pair.slice(pair.indexOf("function cmsPersistentPairAbandonValid("),pair.indexOf("function cmsPersistentPairEndedEarlyValid("));
   assert.ok(abandon.includes("&& (!('terminalProgress' in before.data) || !('sacked' in before.data.terminalProgress))"),"END SHOWDOWN is refused once a sacked season is accepted");
-  assert.match(read("js/persistentNikDanielPair.js"),/Object\.hasOwn\(rivalryValue\.data\.terminalProgress,"sacked"\)\)throw pairErrorWithCode\("PERSISTENT_PAIR_SACKED_FINISHED"/);
+  // Codex C3 re-check: Terminal Progress may not have recorded the sacked season yet, so an active Showdown's END names the exact
+  // accepted count, the last accepted commit must have no sacking, and the next commit must not be accepted (two lookups).
+  for(const needle of ["after.data.endedEarly.get('seasonsPlayed', null) is int","!('sacked' in get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.data.endedEarly.seasonsPlayed))).data.results.playerTwo)","!exists(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$('season_' + string(after.data.endedEarly.seasonsPlayed + 1)))"])assert.ok(abandon.includes(needle),`abandon needle ${needle}`);
+  assert.ok(abandon.indexOf("seasonsPlayed + 1")<abandon.indexOf("cmsPersistentPairAbandonActorValid(before, rivalryId)"),"the sacked checks run before the actor checks (a refusal stays cheap)");
+  const pairProvider=read("js/persistentNikDanielPair.js");
+  assert.match(pairProvider,/Object\.hasOwn\(rivalryValue\.data\.terminalProgress,"sacked"\)\)throw sackedFinished\(\);/);
+  assert.match(pairProvider,/if\(rivalryValue\.data\?\.connectionState==="active"\)\{[\s\S]*?transaction\.get\(sdk\.doc\(context\.services\.firestore,"rivalries",link\.rivalryId,"seasonCommits",`season_\$\{seasonNumber\}`\)\)[\s\S]*?if\(lastSacked\)throw sackedFinished\(\);\s*endedEarlyMark=\{seasonsPlayed:accepted\};/);
   const settings=read("js/settings.js");
   assert.match(settings,/error\.code === "PERSISTENT_PAIR_SACKED_FINISHED"\)\{ return finishSettingsSackedShowdown\(name\); \}/);
   assert.match(settings,/async function finishSettingsSackedShowdown\(name\)\{[\s\S]*?close\.refresh\(\)[\s\S]*?close\.retry\(\)/);

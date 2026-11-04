@@ -215,15 +215,32 @@
         if(!slot||slot.slotId!==link.managerRole)throw pairErrorWithCode("PERSISTENT_PAIR_MEMBERSHIP_MISSING","This account is not part of the remembered Showdown.");
         if(expectedSaveId&&slot.saveId!==expectedSaveId)throw pairErrorWithCode("PERSISTENT_PAIR_CONTEXT_MISMATCH","This Showdown's save does not match the remembered online Showdown. Nothing was deleted.");
         if(rivalryValue.data?.connectionState==="closed")return{ok:true,status:"already-closed",rivalryId:link.rivalryId,managerRole:link.managerRole};
-        // r89 Sacked (Codex C3): a season with a sacking was accepted, so this Showdown has finished. It is never ended early; the
-        // caller finishes it through Terminal Close (completed, sacked). The Rules refuse this write too. Same read, no extra one.
-        if(rivalryValue.data?.terminalProgress&&typeof rivalryValue.data.terminalProgress==="object"&&Object.hasOwn(rivalryValue.data.terminalProgress,"sacked"))throw pairErrorWithCode("PERSISTENT_PAIR_SACKED_FINISHED","This Showdown has finished: a manager was sacked. It is saved as completed, not ended early.");
         // r80 (Codex #936): Daniel's first real START closes his leftover code only while nobody has joined it (read here, in the
         // close itself): a code Nik has joined is a Showdown being played and is never ended from that START.
         if(options.unjoinedOnly===true&&(link.managerRole!=="playerOne"||rivalryValue.data?.connectionState!=="pending-pair"))throw pairErrorWithCode("PERSISTENT_PAIR_CODE_JOINED","Nik has already joined your earlier code, so that Showdown is being played. Finish or end it first. Nothing was changed.");
         const membership=pairAssertRivalryMembership(rivalryValue,link.rivalryId,context.accountId,link.managerRole),providerBinding=pairProviderBindingFromMembership(membership);
         if(expectedSaveId&&providerBinding.saveId!==expectedSaveId)throw pairErrorWithCode("PERSISTENT_PAIR_CONTEXT_MISMATCH","This Showdown's save does not match the remembered online Showdown. Nothing was deleted.");
-        const now=sdk.Timestamp.fromMillis(Date.now()),next=await pairBuildRivalryClosureEnvelope(rivalryValue,context,now,options.cryptoImpl||root.crypto,endedEarly);
+        // r89 Sacked (Codex C3 + re-check): a Showdown whose last accepted season has a sacking has finished. It is never ended
+        // early; the caller finishes it through Terminal Close (completed, sacked). The Rules refuse this write too.
+        const sackedFinished=()=>pairErrorWithCode("PERSISTENT_PAIR_SACKED_FINISHED","This Showdown has finished: a manager was sacked. It is saved as completed, not ended early.");
+        if(rivalryValue.data?.terminalProgress&&typeof rivalryValue.data.terminalProgress==="object"&&Object.hasOwn(rivalryValue.data.terminalProgress,"sacked"))throw sackedFinished();
+        // An active Showdown's END names its accepted seasons, counted here in the same transaction from the Season Commits
+        // (ACKNOWLEDGED, revision 3, up to the first season not yet accepted: at most 11 reads on this rare action). The Rules
+        // check that count against the same commits, so the count is never a guess: a failed read fails the END (nothing changes).
+        let endedEarlyMark=endedEarly;
+        if(rivalryValue.data?.connectionState==="active"){
+          let accepted=0,lastSacked=false;
+          for(let seasonNumber=1;seasonNumber<=10;seasonNumber+=1){
+            const commitSnapshot=await transaction.get(sdk.doc(context.services.firestore,"rivalries",link.rivalryId,"seasonCommits",`season_${seasonNumber}`));
+            const commit=commitSnapshot&&typeof commitSnapshot.exists==="function"&&commitSnapshot.exists()?commitSnapshot.data():null;
+            if(!commit||commit.phase!=="ACKNOWLEDGED")break;
+            if(commit.revision!==3||commit.seasonNumber!==seasonNumber||!commit.results||typeof commit.results!=="object")throw pairErrorWithCode("PERSISTENT_PAIR_SEASONS_UNREADABLE","The seasons played could not be checked, so nothing was changed. Try again.");
+            accepted=seasonNumber;lastSacked=["playerOne","playerTwo"].some(role=>commit.results[role]&&Object.hasOwn(commit.results[role],"sacked"));
+          }
+          if(lastSacked)throw sackedFinished();
+          endedEarlyMark={seasonsPlayed:accepted};
+        }
+        const now=sdk.Timestamp.fromMillis(Date.now()),next=await pairBuildRivalryClosureEnvelope(rivalryValue,context,now,options.cryptoImpl||root.crypto,endedEarlyMark);
         transaction.set(rivalryRef,next);
         return{ok:true,status:"closed",rivalryId:link.rivalryId,managerRole:link.managerRole,revision:next.revision};
       });

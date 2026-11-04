@@ -41,6 +41,18 @@ const Sessions=require("../../js/sparkPrivateSession.js");
 
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const LIMIT=/maximum of 1000 expressions/;
+// A refused rivalry close made before any Terminal Progress exists also falls through to the redeem branch of the rivalry's
+// update rule (it is only skipped once 'terminalProgress' is present), which can reach the 1,000-expression limit: still a
+// refusal (permission-denied), but not a plain one. To show the END SHOWDOWN rule itself refuses, those cases are run again
+// on a test-only copy whose redeem branch is skipped for closing writes (redeem only ever writes 'active').
+const REDEEM_BRANCH="|| (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem())";
+const RULES_REDEEM_GATED=RULES.replace(REDEEM_BRANCH,"|| (request.resource.data.data.connectionState == 'active' && !('terminalProgress' in request.resource.data.data) && validRivalryRedeem())");
+async function assertDenied(promise,label){
+  let error=null;
+  try{await promise;}catch(caught){error=caught;}
+  assert.ok(error,`${label}: must be refused`);
+  assert.equal(error.code,"permission-denied",`${label}: expected permission-denied, got ${error.code}: ${error.message}`);
+}
 const PROJECT="demo-cms-sacked-rules";
 let projectSeq=0;
 const nextProject=label=>`${PROJECT}-${label}-${projectSeq++}`;
@@ -368,19 +380,64 @@ async function terminalClose(){
       checks.push("control: a normal 3-season close is unchanged (no sacked map, no endedBy)");
     }finally{await env.cleanup();}
   }
-  // 3e. Control: END SHOWDOWN still ends a Showdown early after an accepted season with no sacking (Ended early, as before).
+  // 3e. Control: END SHOWDOWN still ends a Showdown early after an accepted season with no sacking (Ended early, as before),
+  // and only with the exact accepted count (k = 1 here); a wrong, missing or null count is refused.
   {
     const env=await initializeTestEnvironment({projectId:nextProject("endearly"),firestore:{rules:RULES}});
     const id=`pair_${"7".repeat(64)}`,sid=`session_${"6".repeat(64)}`;
     try{
-      const seasons=[[result({championsLeague:true}),result()],[result(),result()],[result(),result()]];
+      const seasons=[[result({championsLeague:true}),result()]];
       await seedTerminal(env,id,sid,3,seasons);
       const host=env.authenticatedContext(uid1).firestore(),peer=env.authenticatedContext(uid2).firestore();
       let prior=(await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data();
       await assertAccepted(setDoc(doc(host,"rivalries",id),await progressWrite(prior,3,{playerOne:score(seasons[0][0]),playerTwo:score(seasons[0][1])})),"season 1 plain progress");
       prior=(await assertSucceeds(getDoc(doc(peer,"rivalries",id)))).data();
+      for(const [mark,label] of [[{seasonsPlayed:0},"0 (season 1 is accepted)"],[{seasonsPlayed:2},"2 (season 2 was never played)"],[{seasonsPlayed:null},"null"],[null,"no mark"]])
+        await assertPlainDenial(setDoc(doc(peer,"rivalries",id),await abandonWrite(prior,uid2,mark)),`END with seasonsPlayed ${label}`);
       await assertAccepted(setDoc(doc(peer,"rivalries",id),await abandonWrite(prior,uid2,{seasonsPlayed:1})),"Nik ends a Showdown with no sacking early after season 1");
-      checks.push("control: END SHOWDOWN still ends a Showdown with accepted, unsacked progress early (Ended early)");
+      checks.push("control: END SHOWDOWN still ends an unsacked Showdown early, only with the exact accepted count (0, 2, null or no mark are refused)");
+    }finally{await env.cleanup();}
+  }
+  // 3f. Codex C3 re-check: the sacked season is ACKNOWLEDGED but Terminal Progress has not recorded it yet (absent, or covering
+  // only the earlier unsacked season). END SHOWDOWN is refused for any count, so Settings hands the Showdown to Terminal Close.
+  assert.ok(RULES.includes(REDEEM_BRANCH)&&RULES_REDEEM_GATED!==RULES,"the redeem branch is where this suite expects it");
+  for(const [rules,gated] of [[RULES,false],[RULES_REDEEM_GATED,true]]){
+    const env=await initializeTestEnvironment({projectId:nextProject(gated?"sackedgapplain":"sackedgap"),firestore:{rules}});
+    const id=`pair_${"5".repeat(64)}`,sid=`session_${"4".repeat(64)}`;
+    try{
+      const seasons=[[result(),result({domesticCup:true})],[result({leaguePosition:1}),result({leaguePosition:18,sacked:true})]];
+      await seedTerminal(env,id,sid,3,seasons);
+      const host=env.authenticatedContext(uid1).firestore(),peer=env.authenticatedContext(uid2).firestore();
+      const refuseAll=async(prior,stage,plain)=>{for(const [uid,db,who] of [[uid1,host,"Daniel"],[uid2,peer,"Nik"]])for(const [mark,label] of [[{seasonsPlayed:2},"2"],[{seasonsPlayed:1},"1"],[{seasonsPlayed:0},"0"],[{seasonsPlayed:null},"null"],[null,"no mark"]])
+        await (plain?assertPlainDenial:assertDenied)(setDoc(doc(db,"rivalries",id),await abandonWrite(prior,uid,mark)),`${who} ends the sacked Showdown early (${stage}, seasonsPlayed ${label})`);};
+      // Before any Terminal Progress exists, every refused closing write (this one too) also evaluates the redeem branch and
+      // reaches the 1,000-expression limit (pre-existing; still permission-denied). On the real Rules the SDK log is silenced
+      // for that stage so the composed gate sees the phrase only where a suite reaches it unexpectedly; the gated copy run
+      // shows the same cases as plain refusals of the END SHOWDOWN rule.
+      if(!gated)firestoreSdk.setLogLevel("silent");
+      try{await refuseAll((await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data(),"no Terminal Progress",gated);}
+      finally{if(!gated)firestoreSdk.setLogLevel("warn");}
+      const prior=(await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data();
+      await assertAccepted(setDoc(doc(host,"rivalries",id),await progressWrite(prior,3,{playerOne:score(seasons[0][0]),playerTwo:score(seasons[0][1])})),"season 1 plain progress");
+      await refuseAll((await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data(),"progress covers only season 1",true);
+      checks.push(gated
+        ?"END SHOWDOWN (redeem branch skipped, test-only copy): the same cases are plain Rules refusals"
+        :"END SHOWDOWN: a sacked season ACKNOWLEDGED with no Terminal Progress yet, or with progress covering only the earlier unsacked season, is never ended early (either manager, counts 0-2, null, no mark)");
+    }finally{await env.cleanup();}
+  }
+  // 3g. Control: before any Terminal Progress exists, END SHOWDOWN with the exact count still ends an unsacked Showdown early.
+  {
+    const env=await initializeTestEnvironment({projectId:nextProject("endearlyfresh"),firestore:{rules:RULES}});
+    const id=`pair_${"3".repeat(64)}`,sid=`session_${"2".repeat(64)}`;
+    try{
+      await seedTerminal(env,id,sid,3,[[result(),result()],[result(),result({championsLeague:true})]]);
+      const host=env.authenticatedContext(uid1).firestore();
+      const prior=(await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data();
+      firestoreSdk.setLogLevel("silent");
+      try{await assertDenied(setDoc(doc(host,"rivalries",id),await abandonWrite(prior,uid1,{seasonsPlayed:1})),"END with seasonsPlayed 1 when 2 seasons are accepted");}
+      finally{firestoreSdk.setLogLevel("warn");}
+      await assertAccepted(setDoc(doc(host,"rivalries",id),await abandonWrite(prior,uid1,{seasonsPlayed:2})),"Daniel ends an unsacked Showdown early after season 2 with no Terminal Progress");
+      checks.push("control: with no Terminal Progress yet, END SHOWDOWN ends an unsacked Showdown early with the exact count (a lower count is refused)");
     }finally{await env.cleanup();}
   }
   return checks;
