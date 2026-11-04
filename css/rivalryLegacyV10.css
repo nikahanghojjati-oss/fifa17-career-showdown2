@@ -1664,26 +1664,26 @@
 
 /* Studio Small Axe History finder (Nik 2026-11-03): CARDS / LIST, "Go to #" and result filters under the three tabs,
    and a compact list of 12 Showdowns per page. Rows are not .legacyCard, so the one-card phone rules never hide them. */
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools {
   grid-column:1 / -1; display:grid; gap:8px; align-content:start; margin:4px 0 0; padding:10px 0 0;
   border-top:1px solid #d9aa3c59; min-width:0;
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button {
   position:relative; width:100%; min-width:0; min-height:36px; height:auto; margin:0; padding:6px 10px;
   font-size:12px; line-height:16px; letter-spacing:.1em; color:#f6efd8; text-align:center; cursor:pointer;
   border:1px solid #d9aa3c66; border-radius:2px; background:linear-gradient(180deg,#121214,#050506);
   box-shadow:inset 0 1px 0 #fff1b814,inset 0 0 0 1px #000a; text-shadow:none;
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button::after { content:none; display:none; }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button[aria-pressed="true"] {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button::after { content:none; display:none; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button[aria-pressed="true"] {
   color:#1a1305; border-color:#fff1b8; background:var(--lg-gold,linear-gradient(180deg,#ffe58f,#d9aa3c));
   box-shadow:inset 0 1px 0 #fffbe0,inset 0 -2px 0 #a87a1288,0 0 0 1px #000a;
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button:focus-visible,
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools input:focus-visible,
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button:focus-visible,
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools input:focus-visible,
 #app #legacy[data-rivalry-legacy-v10] .legacyListRow:focus-visible { outline:2px solid #ffe58f; outline-offset:2px; }
 #app #legacy[data-rivalry-legacy-v10] .legacyViewToggle { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyFindToggle { display:none; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyFindToggle { display:none; }
 #app #legacy[data-rivalry-legacy-v10] .legacyJump {
   display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:6px; margin:0;
 }
@@ -1694,11 +1694,11 @@
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyJump input::-webkit-inner-spin-button,
 #app #legacy[data-rivalry-legacy-v10] .legacyJump input::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyJump button { width:auto; padding:6px 12px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyJump button { width:auto; padding:6px 12px; }
 #app #legacy[data-rivalry-legacy-v10] .legacyJumpNote { grid-column:1 / -1; font-size:11px; line-height:14px; color:#f2c45b; }
 #app #legacy[data-rivalry-legacy-v10] .legacyJumpNote:empty { display:none; }
 #app #legacy[data-rivalry-legacy-v10] .legacyFilters { display:grid; gap:4px; }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button {
   display:flex; justify-content:space-between; align-items:center; gap:8px; text-align:left;
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyFilters button b { font-weight:700; font-variant-numeric:tabular-nums; opacity:.85; }
@@ -1706,12 +1706,12 @@
 @media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) { gap:6px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) > button[data-route] { min-height:40px; padding:8px 12px; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { gap:6px; padding-top:8px; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button { min-height:30px; padding:4px 10px; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools { gap:6px; padding-top:8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button { min-height:30px; padding:4px 10px; font-size:11px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyJump input { height:30px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyFilters { grid-template-columns:1fr 1fr; gap:3px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyFilters > [data-archive-filter="all"] { grid-column:1 / -1; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button { min-height:28px; padding:3px 8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button { min-height:28px; padding:3px 8px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyFilterTail { display:none; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid:not([data-view="list"]) { align-self:start; }
 }
@@ -1765,15 +1765,15 @@
 
 @media (max-width:900px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) { height:auto !important; min-height:0 !important; grid-template-rows:auto auto; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { grid-template-columns:minmax(0,2fr) minmax(0,1fr); padding:8px 0; gap:6px; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyFindToggle { display:block; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyFindToggle[aria-expanded="true"] { border-color:#f2c45b; color:#ffe58f; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools { grid-template-columns:minmax(0,2fr) minmax(0,1fr); padding:8px 0; gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyFindToggle { display:block; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyFindToggle[aria-expanded="true"] { border-color:#f2c45b; color:#ffe58f; }
   #app #legacy[data-rivalry-legacy-v10] .legacyTools:not([data-find-open="true"]) :is(.legacyJump,.legacyFilters) { display:none; }
   #app #legacy[data-rivalry-legacy-v10] .legacyTools .legacyJump { grid-column:1 / -1; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button { min-height:44px; font-size:12px; letter-spacing:.06em; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button { min-height:44px; font-size:12px; letter-spacing:.06em; }
   #app #legacy[data-rivalry-legacy-v10] .legacyJump input { height:44px; font-size:16px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyFilters { grid-column:1 / -1; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button { flex-direction:column; justify-content:center; gap:2px; padding:4px 2px; text-align:center; line-height:14px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button { flex-direction:column; justify-content:center; gap:2px; padding:4px 2px; text-align:center; line-height:14px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyFilterTail { display:none; }
   #app #legacy[data-rivalry-legacy-v10] .legacyListRow {
     grid-template-columns:48px minmax(0,1fr) 16px; grid-template-areas:"no match gold" "no meta gold";
@@ -1816,29 +1816,29 @@
    Panels: list rows are marble strips with the panel border. States: the GO TO note reads as an inline error (warm red
    rule); an empty filter shows an icon and "No draws yet." in the middle of the panel. Motion: the list body fades in
    over 120 ms when the filter or view changes (opacity from .4, never 0), off under both Reduce Motion settings. */
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools button,
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button,
 #app #legacy[data-rivalry-legacy-v10] .legacyJump label,
 #app #legacy[data-rivalry-legacy-v10] .legacyJumpNote,
 #app #legacy[data-rivalry-legacy-v10] .legacyListSide small { font-size:12px; }
 @media (max-width:900px) {
   #app #legacy[data-rivalry-legacy-v10] :is(.legacyListResult,.legacyListSeasons) { font-size:12px; }
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle {
   gap:0; border:1px solid rgba(245,197,24,.58); background:rgba(7,8,10,.82);
   clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle button {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle button {
   border:0; border-right:1px solid rgba(245,197,24,.24); border-radius:0; background:transparent; box-shadow:none; color:#b9b3a4;
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle button:last-child { border-right:0; }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools .legacyViewToggle button[aria-pressed="true"] {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle button:last-child { border-right:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle button[aria-pressed="true"] {
   color:#07080a; border-color:rgba(245,197,24,.24); background:linear-gradient(135deg,#ffe07e,#f5c518 58%,#d4a017); box-shadow:none;
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button { color:#d8cebb; background:rgba(7,8,10,.72); border-color:#d9aa3c40; }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyFilters button[aria-pressed="true"] {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button { color:#d8cebb; background:rgba(7,8,10,.72); border-color:#d9aa3c40; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button[aria-pressed="true"] {
   color:#ffe58f; background:rgba(7,8,10,.72); border-color:#f2c45b; box-shadow:inset 0 0 0 1px #f2c45b;
 }
-#app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyJump button {
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyJump button {
   color:var(--sd-gold-300,#ffe58f); background:rgba(8,9,12,.9); border:1px solid #d9aa3c; box-shadow:none;
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyJumpNote:not(:empty) {
@@ -1868,7 +1868,7 @@
 }
 @media (max-width:900px) {
   /* the toolbar's GO TO label and the CARDS segment sat 2px inside the panel's gold edge */
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyTools { padding-inline:8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools { padding-inline:8px; }
 }
 /* Studio Small Axe History finder, Fable re-check: a short list page (a filter with few rows) keeps its pager straight under
    the last row; the spare height sits below the pager instead of between the rows and the pager. */
@@ -1876,4 +1876,39 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) { grid-template-rows:auto minmax(0,1fr); align-content:stretch; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) > .legacyCardGrid { align-self:start; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) > #legacyPager { align-self:start; }
+}
+/* Studio Small Axe History finder (Nik 2026-11-04, "Move both", Fable's spot): on desktop CARDS / LIST, GO TO # and the five
+   filters are one toolbar row above the archive, and the side column keeps only LEGACY ARCHIVE, TROPHY ROOM and RECORDS.
+   legacy.js moves .legacyTools in front of the grid there (data-toolbar="true"); phones keep it under the tabs behind FIND. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) { grid-template-rows:auto minmax(0,1fr) auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) > .legacySidePanel { grid-row:1 / 4; align-self:start; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) > .legacyCardGrid { grid-row:2; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) > #legacyPager { grid-row:3; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) { grid-template-rows:auto auto minmax(0,1fr) auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > .legacySidePanel { grid-row:1 / 5; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > .legacyTools { grid-row:2; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > .legacyCardGrid { grid-row:3; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > #legacyPager { grid-row:4; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools {
+    grid-column:2; grid-row:1; display:grid; grid-template-columns:minmax(150px,180px) minmax(200px,260px) minmax(0,1fr);
+    align-items:center; gap:12px; margin:0 0 6px; padding:0; border:0;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters { grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters > [data-archive-filter="all"] { grid-column:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools button { min-height:30px; padding-block:3px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJump input { height:30px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJumpNote:not(:empty) {
+    position:absolute; z-index:3; margin-top:4px; white-space:nowrap; background:rgba(7,8,10,.94);
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJump { position:relative; grid-template-rows:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJumpNote { top:100%; left:0; grid-column:auto; }
+  /* The toolbar row makes the archive taller, so VIEW SEASON HISTORY and BACK sit in flow under it in both views (as the list
+     already did) instead of floating over the pager; main scrolls the rest on short laptops. */
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) :is(.legacyPrimaryAction,.legacyBackV10) { position:relative !important; bottom:auto !important; }
+}
+/* With the toolbar above the archive, the season list opens under it (12px pane inset + 30px toolbar + its 6px gap), so the
+   GO TO box and the filters stay visible and tappable. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) .legacySeasonHistory:not([hidden]) { top:48px; }
 }

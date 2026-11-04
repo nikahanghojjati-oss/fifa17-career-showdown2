@@ -510,12 +510,21 @@ window.ShowdownLegacyBoot = function () {
       row.addEventListener("click", () => select(item.number));
       return row;
     }
-    // The finding tools sit under the three tabs: view, "Go to #", filters with counts.
+    // The finding tools: view, "Go to #", filters with counts. Desktop (Nik 2026-11-04, "Move both"): one toolbar row above
+    // the archive, so the side column keeps only the three tabs. Phones keep them under the tabs, folded under FIND.
     const menu = document.getElementById("legacySideMenu");
     let tools = null;
+    function placeTools() {
+      if (!tools) return;
+      const host = !phone.matches && grid && grid.parentElement && typeof grid.before === "function" ? grid.parentElement : menu;
+      if (host === menu) { if (tools.parentElement !== menu) menu.appendChild(tools); }
+      else if (tools.parentElement !== host || tools.nextElementSibling !== grid) grid.before(tools);
+      tools.dataset.toolbar = String(host !== menu);
+    }
     function renderTools() {
       if (!menu) return;
       menu.querySelectorAll(".legacyTools").forEach((node) => node.remove());
+      if (grid && grid.parentElement && typeof grid.parentElement.querySelectorAll === "function") grid.parentElement.querySelectorAll(":scope > .legacyTools").forEach((node) => node.remove());
       tools = null;
       if (!allRecords.length) return;
       tools = document.createElement("div");
@@ -605,6 +614,7 @@ window.ShowdownLegacyBoot = function () {
       });
       tools.append(views, find, jump, filters);
       menu.appendChild(tools);
+      placeTools();
       syncTools();
     }
     function syncTools() {
@@ -904,6 +914,7 @@ window.ShowdownLegacyBoot = function () {
       }
     });
     const onPhoneChange = () => {
+      placeTools();
       const index = Math.max(0, records.findIndex(item => item.number === selected));
       page = pageOf(index);
       paint();
