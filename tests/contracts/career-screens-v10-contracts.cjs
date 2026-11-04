@@ -158,6 +158,8 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   assert.ok(!lazy.some(f=>/\.md$|_SRC\.png$|GUIDE_|PHONE_PROOF/.test(f)),"no docs or review sources copied");
   // Job 27: Transfer War ships three runtime PNGs (alpha overlays Team V delivers only as PNG); none elsewhere.
   const runtimePng=new Set(["DER_TR2_PLATE_G_GLASS_C_V1.png","OVL_NIK_FINGERTIP_V1_1672.png","OVL_NIK_FINGERTIP_V1_3344.png"].map(f=>"visual-assets/v10_1/tr2/slice-02-plate/assets/"+f));
+  // r89: the Chamber Men kit maps are lossless data (wrap u, v and part per texel, read by kits17), so they stay PNG.
+  for(const b of ["ch38","ch42"])runtimePng.add(`visual-assets/v10_1/chamber-men/players/kitmap/${b}.png`);
   assert.ok(!lazy.some(f=>/\.png$/.test(f)&&!runtimePng.has(f)),"no png copied");
 });
 check("V10 production never reads fixtures",()=>{

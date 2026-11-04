@@ -539,7 +539,10 @@
       const clips=await parse(anims);
       const bodies={};
       await Promise.all(Object.entries(bufs).map(async([n,buf])=>{const [taker,keeper]=await Promise.all([parse(buf),parse(buf)]);bodies[n]={taker,keeper};}));
-      const out={S,tex,K:root.CareerModeKits17,clips,bodies};
+      // Warm each body's kit map (kits17 caches it), so the first kit goes on with the first frame.
+      const K=root.CareerModeKits17;
+      await Promise.all(Object.keys(bufs).map(n=>{try{return Promise.resolve(K.textures("",{layout:n,size:"small"}).ready).catch(()=>null);}catch(_error){return null;}}));
+      const out={S,tex,K,clips,bodies};
       if(late){cm3FreeExtras(out);return null;}
       return out;
     })().catch(error=>{try{root.console?.warn?.("Chamber Men 3D: no stadium or players; the hall plays.",error);}catch(_error){}return null;});
@@ -724,12 +727,16 @@
     const dress=(a,club,role,vs)=>{
       look(a,club,role);
       let t;try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize});}catch(_error){return;}
-      const put=()=>{for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
+      // One texture per canvas: on Ch38 and Ch42 the shirt, shorts (and Ch38's socks) share one atlas.
+      const put=()=>{const made=new Map(),olds=new Set();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
         const mat=a.mats[m],c=t[k];if(!mat||!c)continue;
-        const tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;
-        const old=mat.map;mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;if(old&&old.userData?.cmKit)old.dispose();tex.userData.cmKit=true;
-      }};
-      put();Promise.resolve(t.ready).then(()=>{if(disposed)return;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
+        let tex=made.get(c);if(!tex){tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;tex.userData.cmKit=true;made.set(c,tex);}
+        if(mat.map&&mat.map.userData?.cmKit&&mat.map!==tex)olds.add(mat.map);mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;
+      }for(const o of olds)o.dispose();};
+      const token=a.kitToken=(a.kitToken||0)+1;
+      // A body-mapped kit is blank until its kit map has loaded: it goes on only when painted (the last kit stays meanwhile).
+      if(t.shirt===t.shorts){Promise.resolve(t.ready).then(()=>{if(!disposed&&a.kitToken===token)put();},()=>{});return;}
+      put();Promise.resolve(t.ready).then(()=>{if(disposed||a.kitToken!==token)return;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
     };
 
     // ---------- the kick ----------
