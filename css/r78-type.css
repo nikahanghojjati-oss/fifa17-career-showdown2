@@ -822,17 +822,17 @@
 
 /* 4r. Studio Small Axe 40/40, shared stroke 2: score reveal on Showdown Home and Standings (Final Winner, Season
    Review, Rivalry, Career Statistics and Trophy Room already count up). The number never changes: it settles in with a
-   short scale and a gold glow each time the screen opens, so it is the first thing the eye lands on. Opacity stays 1
+   short scale and a gold glow each time the screen opens (320ms, the long step of the 120/200/320 motion scale, 1.02 overshoot), so it is the first thing the eye lands on. Opacity stays 1
    (no flash), and Reduce Motion turns it off. */
 @keyframes sa-score-settle {
-  0% { transform: scale(.84); text-shadow: 0 0 0 rgba(255, 214, 120, 0); }
-  55% { transform: scale(1.05); text-shadow: 0 0 22px rgba(255, 214, 120, .55); }
+  0% { transform: scale(.92); text-shadow: 0 0 0 rgba(255, 214, 120, 0); }
+  60% { transform: scale(1.02); text-shadow: 0 0 18px rgba(255, 214, 120, .5); }
   100% { transform: none; text-shadow: 0 0 0 rgba(255, 214, 120, 0); }
 }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard:not(.hidden) :is(#dashboardScoreOne, #dashboardScoreTwo),
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #standings .sdg-scoreNumbers b {
     display: inline-block;
-    animation: sa-score-settle 640ms cubic-bezier(.2, .8, .2, 1) 160ms both;
+    animation: sa-score-settle 320ms cubic-bezier(.2, .8, .2, 1) both;
   }
 }
