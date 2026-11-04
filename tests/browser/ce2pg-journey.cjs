@@ -228,6 +228,8 @@ function writeReport(){
   fs.mkdirSync(OUT_DIR,{recursive:true});fs.writeFileSync(REPORT_PATH,JSON.stringify(report,null,2));
 }
 const rel=p=>path.relative(ROOT,p);
+// Wait (at most 6 s) until no finite animation is still running, so a proof shot shows the settled screen.
+const settled=m=>m.page.waitForFunction(()=>document.getAnimations().every(a=>a.playState!=="running"||a.effect?.getComputedTiming?.().iterations===Infinity),null,{timeout:6000}).catch(()=>{}).then(()=>m.page.waitForSelector(".fwSettled",{state:"attached",timeout:6000}).catch(()=>{})).then(()=>m.page.waitForTimeout(300));
 async function shot(m,name){
   try{fs.mkdirSync(SHOT_DIR,{recursive:true});const file=path.join(SHOT_DIR,`${name}-${m.user}.png`.replace(/[^\w.\-]+/g,"_"));await m.page.screenshot({path:file,timeout:15000});return rel(file);}
   catch(error){return `(screenshot failed: ${String(error.message).split("\n")[0]})`;}
@@ -1141,7 +1143,11 @@ async function checkIdentical(raws,label,{liveCareer=false}={}){
   const names=Object.keys(raws),facts=Object.fromEntries(names.map(n=>{const f=extract(raws[n]);delete f.settings;delete f.rivalry;delete f.seasonHistory;if(liveCareer){delete f.standingsFirst;delete f.standings;delete f.standingsCareerText;delete f.standingsFirstCareerText;}return [n,f];}));
   for(const other of names.slice(1)){
     const a=facts[names[0]],b=facts[other];
-    const diffs=Object.keys(a).filter(k=>JSON.stringify(a[k])!==JSON.stringify(b[k])&&!(/^(rank|rec)/.test(k)&&(!a[k]?.length||!b[k]?.length))).map(k=>`${k}: ${JSON.stringify(a[k]).slice(0,300)} vs ${JSON.stringify(b[k]).slice(0,300)}`);
+    // Raw screen text differs by layout (desktop title case with club names such as "Mainz 05", phone upper case without
+    // them), so the *Text keys compare upper case, in order, the words both layouts show; structured keys compare exactly.
+    const shared=(x,y)=>{const a=x.toUpperCase().split(/\s+/),b=new Set(y.toUpperCase().split(/\s+/));return a.filter(w=>b.has(w)).join(" ");};
+    const same=(k,x,y)=>/Text$/.test(k)&&typeof x==="string"&&typeof y==="string"?shared(x,y)===shared(y,x):JSON.stringify(x)===JSON.stringify(y);
+    const diffs=Object.keys(a).filter(k=>!same(k,a[k],b[k])&&!(/^(rank|rec)/.test(k)&&(!a[k]?.length||!b[k]?.length))).map(k=>`${k}: ${JSON.stringify(a[k]).slice(0,300)} vs ${JSON.stringify(b[k]).slice(0,300)}`);
     await check(null,`${label}.identical.${names[0]}-${other}`,`every career figure reads the same on ${names[0]} and ${other}`,diffs.length===0,diffs.join("; "),{screen:"Career pages (all browsers)"});
   }
 }
@@ -1522,8 +1528,11 @@ async function playShowdown(ctx,spec){
         for(const m of [daniel,nik]){
           const stamps=await m.page.evaluate(()=>[...document.querySelectorAll("#finalWinnerScreen .v10SackedStamp")].map(n=>n.previousElementSibling?.id||"")).catch(()=>[]);
           await eq(m,`${spec.name}.final.sackedStamp`,"Showdown Champion stamps SACKED beside each sacked manager",stamps.sort(),spec.sacked.who.map(u=>`${u}Name`).sort(),{screen:"Showdown Champion"});
-          if(short)await eq(m,`${spec.name}.final.sackedLine`,"Showdown Champion says when the Showdown ended",await textOf(m,"#seasonsPlayed"),`Ended after season ${sackedAt} of ${spec.length} · sacked`,{screen:"Showdown Champion"});
-          await shot(m,`${spec.name}-final-winner-sacked`);
+          // The figures count up from 0 on entry; wait for the count to land before reading it.
+          await m.page.waitForFunction(n=>document.querySelector("#finalWinnerScreen #panelSeasons")?.textContent===String(n),sackedAt,{timeout:10000}).catch(()=>{});
+          const seasonsLine=await m.page.evaluate(()=>{const v=document.querySelector("#finalWinnerScreen #panelSeasons");return v?`${v.textContent} ${v.parentElement?.querySelector("small")?.textContent||""}`:"";}).catch(()=>"");
+          await eq(m,`${spec.name}.final.sackedSeasons`,"Showdown Champion shows the seasons played out of the planned length, marked SACKED",norm(seasonsLine),`${sackedAt} OF ${spec.length} · SACKED`,{screen:"Showdown Champion"});
+          await settled(m);await shot(m,`${spec.name}-final-winner-sacked`);
         }
       }
       for(const m of [daniel,nik]){
@@ -1532,7 +1541,7 @@ async function playShowdown(ctx,spec){
       }
       entry.state="completed";billedModel?.markFinished(entry.rivalryId);
       for(const m of [daniel,nik]){
-        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final");landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
+        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final",20000,SACKED?async()=>{await settled(m);return shot(m,`${spec.name}-gazette-final-sacked`);}:null);landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
         await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home",landed,`${paper||"no Gazette paper"} ${await describe(m)}`,{screen:"Showdown Champion"});
       }
       if(!SLIM)await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
