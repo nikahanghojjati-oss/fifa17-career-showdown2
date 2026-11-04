@@ -277,9 +277,11 @@
     const W=c.width,H=c.height,g=c.getContext("2d");
     paintPattern(g,W,H,k);
     seams(g,W,H);collar(g,W,H,k);
-    if(k.role!=="gk"&&opts.badge!==false)drawCrest(g,im,W*.575,H*.25,H*.15,k);
-    if(k.role==="gk"&&opts.badge!==false)drawCrest(g,im,W*.575,H*.25,H*.13,k);
-    if(opts.number!=null||opts.name)backPrint(g,W,H,k,opts.number,opts.name);
+    // aspect: how much shorter a texel is than it is wide on the body (a wrap is 2:1 but a torso is not), so crest and numbers
+    // stay true to shape on a mapped body.
+    const a=opts.aspect||1,squash=(cy,fn)=>{g.save();g.translate(0,cy);g.scale(1,a);g.translate(0,-cy);fn();g.restore();};
+    if(opts.badge!==false)squash(H*.25,()=>drawCrest(g,im,W*.575,H*.25,H*(k.role==="gk"?.13:.15),k));
+    if(opts.number!=null||opts.name)squash(H*.4,()=>backPrint(g,W,H,k,opts.number,opts.name));
     overlayKnit(g,W,H,.22,Math.max(1,W/1024));
   }
   function paintSleeve(c,k,side){
@@ -301,7 +303,7 @@
     g.fillStyle=accent;for(const c0 of [.25,.75])g.fillRect((c0-.012)*W,H*.12,W*.024,H*.88);
     g.fillStyle=shade(k.shorts,-.12);g.fillRect(0,0,W,H*.12);
     g.strokeStyle="rgba(0,0,0,.25)";g.lineWidth=Math.max(1,W/512);g.setLineDash([W/200,W/300]);g.beginPath();g.moveTo(0,H*.12);g.lineTo(W,H*.12);g.moveTo(0,H*.95);g.lineTo(W,H*.95);g.stroke();g.setLineDash([]);
-    if(k.role!=="gk"&&badge!==false)drawCrest(g,im,W*.6,H*.72,H*.16,k);
+    if(k.role!=="gk"&&badge!==false)drawCrest(g,im,W*.6,H*.34,H*.16,k);
     overlayKnit(g,W,H,.18,Math.max(1,W/512));
   }
   function paintSocks(c,k){
@@ -365,17 +367,54 @@
     g.drawImage(P,PW*.5,0,PW*.5,PH,r2[0],r2[1],(r2[2]-r2[0])/2,r2[3]-r2[1]);g.drawImage(P,0,0,PW*.5,PH,r2[0]+(r2[2]-r2[0])/2,r2[1],(r2[2]-r2[0])/2,r2[3]-r2[1]);
     if(k.role!=="gk"){const [cx,cy,cs]=REMY.shortsCrest;drawCrest(g,im,cx*M,cy*M,cs*M,k);}
     flipInto(out.shorts,c);
-    // Socks: one sock per half, sock top at the image top.
-    const Q=out.socks.width;c=canvas(Q,Q);g=c.getContext("2d");g.drawImage(w.socks,0,0,Q/2,Q);g.drawImage(w.socks,Q/2,0,Q/2,Q);
-    flipInto(out.socks,c);
+    paintRemySocks(out.socks,w.socks);
+  }
+  // Socks on the generated sock (Remy, Ch42): one sock per half, sock top at the image top, flipped for flipY=false.
+  function paintRemySocks(target,socks){const Q=target.width,c=canvas(Q,Q),g=c.getContext("2d");g.drawImage(socks,0,0,Q/2,Q);g.drawImage(socks,Q/2,0,Q/2,Q);flipInto(target,c);}
+
+  // ---------- mapped bodies (Ch38, Ch42): a baked kit map per body ----------
+  // visual-assets/v10_1/chamber-men/players/kitmap/<body>.png, baked from the body's glTF by tools/kits17/bake_kitmap.py: per
+  // atlas texel R = wrap u, G = wrap v, B = part<<5 | distance to the neck rim in mm (parts: 1 torso, 2 left sleeve, 3 right
+  // sleeve, 4 shorts, 5 left sock, 6 right sock). Shirt, shorts (and Ch38's socks) share the body's atlas, so one canvas serves
+  // every kit material; texels outside the kit get the body colour so mipmaps never bleed skin into the kit.
+  const MAPPED={ch38:{socks:"map",aspect:.77},ch42:{socks:"remy",aspect:.77}};
+  const mapCache=new Map();
+  function loadKitMap(name,base){
+    const url=(base||"visual-assets/v10_1/chamber-men/players/kitmap/")+name+".png";
+    if(!mapCache.has(url))mapCache.set(url,new Promise((res,rej)=>{const im=new Image();im.onload=()=>{
+      const c=canvas(im.naturalWidth,im.naturalHeight),g=c.getContext("2d",{willReadFrequently:true});g.drawImage(im,0,0);
+      res({w:c.width,h:c.height,d:g.getImageData(0,0,c.width,c.height).data});};im.onerror=()=>rej(new Error("kit map "+url));im.src=url;}));
+    return mapCache.get(url);
+  }
+  const pixels=(c)=>({w:c.width,h:c.height,d:c.getContext("2d",{willReadFrequently:true}).getImageData(0,0,c.width,c.height).data});
+  function paintMapped(target,map,w,k){
+    const S=pixels(w.shirt),L=pixels(w.sleeveL),R=pixels(w.sleeveR),P=pixels(w.shorts),Q=pixels(w.socks);
+    const src=[null,S,L,R,P,Q,Q],N=map.w,img=new ImageData(N,N),o=img.data,m=map.d;
+    const trim=hex(k.trim),rib=hex(shade(k.trim,lum(k.trim)>.5?-.25:.25)),base=hex(k.body),top=.06;
+    for(let i=0,n=N*N;i<n;i++){
+      const j=i*4,b=m[j+2],part=b>>5;let r,g2,bl;
+      if(!part){r=base[0];g2=base[1];bl=base[2];}
+      else {
+        const dist=b&31;
+        if(part===1&&dist<9){const c=dist>=5&&dist<=5?rib:trim;r=c[0];g2=c[1];bl=c[2];}
+        else {
+          const t=src[part],u=m[j]/255,v=m[j+1]/255,x=Math.min(t.w-1,(u*t.w)|0);
+          const y=Math.min(t.h-1,(part===1?(top+(1-v)*(1-top))*t.h:(1-v)*t.h)|0),q=(y*t.w+x)*4;
+          r=t.d[q];g2=t.d[q+1];bl=t.d[q+2];
+        }
+      }
+      o[j]=r;o[j+1]=g2;o[j+2]=bl;o[j+3]=255;
+    }
+    const c=canvas(N,N);c.getContext("2d").putImageData(img,0,0);
+    const g=target.getContext("2d");g.imageSmoothingEnabled=true;g.imageSmoothingQuality="high";g.drawImage(c,0,0,target.width,target.height);
   }
 
   function textures(club,opts){
     opts=opts||{};
     const size=SIZES[opts.size]||SIZES.full,name=String(club&&club.club||club||"");
     const k=opts.role==="gk"?keeperKit(name,opts.vsClub):kit(name);
-    const remy=opts.layout==="remy";
-    const out={kit:k,layout:remy?"remy":"wrap",shirt:canvas(...size.shirt),sleeveL:canvas(...size.sleeve),sleeveR:canvas(...size.sleeve),shorts:canvas(...size.shorts),socks:canvas(...size.socks),
+    const remy=opts.layout==="remy"||(MAPPED[opts.layout]&&MAPPED[opts.layout].socks==="remy"),mapped=MAPPED[opts.layout]||null;
+    const out={kit:k,layout:mapped?opts.layout:remy?"remy":"wrap",shirt:canvas(...size.shirt),sleeveL:canvas(...size.sleeve),sleeveR:canvas(...size.sleeve),shorts:canvas(...size.shorts),socks:canvas(...size.socks),
       normal:normalMap(size.normal),normalRepeat:[24,12],
       material:{roughness:k.role==="gk"?.7:.62,metalness:0,sheen:.5,sheenRoughness:.5,normalScale:.35}};
     let wrap=out;
@@ -386,14 +425,26 @@
       Object.assign(out,{wrap,shirt:canvas(A,A),shorts:canvas(A/2,A/2),socks:canvas(A/4,A/4),flipY:false});
       delete out.sleeveL;delete out.sleeveR;
     }
-    const paint=(im)=>{
-      paintShirt(wrap.shirt,k,im,remy?Object.assign({},opts,{badge:false}):opts);paintSleeve(wrap.sleeveL,k,"L");paintSleeve(wrap.sleeveR,k,"R");
-      paintShorts(wrap.shorts,k,im,!remy);paintSocks(wrap.socks,k);
-      if(remy)paintRemy(out,wrap,k,im);
+    if(mapped&&wrap===out)wrap={shirt:out.shirt,sleeveL:out.sleeveL,sleeveR:out.sleeveR,shorts:out.shorts,socks:out.socks};
+    if(mapped){
+      out.wrap=wrap;delete out.sleeveL;delete out.sleeveR;out.flipY=false;
+      // One atlas canvas for every kit material that shares the body's texture (shirt, shorts, and Ch38's socks).
+      const A=opts.size==="phone"?1024:opts.size==="small"?512:2048,atlas=canvas(A,A);out.shirt=atlas;out.shorts=atlas;
+      if(mapped.socks==="map")out.socks=atlas;
+    }
+    const paint=(im,map)=>{
+      const shirtOpts=remy&&!mapped?Object.assign({},opts,{badge:false}):mapped?Object.assign({},opts,{aspect:mapped.aspect}):opts;
+      paintShirt(wrap.shirt,k,im,shirtOpts);paintSleeve(wrap.sleeveL,k,"L");paintSleeve(wrap.sleeveR,k,"R");
+      paintShorts(wrap.shorts,k,im,!remy||Boolean(mapped));paintSocks(wrap.socks,k);
+      if(remy&&!mapped)paintRemy(out,wrap,k,im);
+      if(mapped&&mapped.socks==="remy")paintRemySocks(out.socks,wrap.socks);
+      if(mapped&&map)paintMapped(out.shirt,map,wrap,k);
     };
-    const now=crestNow(name);
-    if(now||typeof root.getClubCrestSvg!=="function"){paint(now);out.ready=Promise.resolve(out);}
-    else {paint(null);out.ready=crestFor(name).then(im=>{if(im)paint(im);return out;});}
+    const now=crestNow(name),crest=now||typeof root.getClubCrestSvg!=="function"?Promise.resolve(now):crestFor(name);
+    if(mapped){
+      out.ready=Promise.all([crest,loadKitMap(opts.layout,opts.kitMapBase)]).then(([im,map])=>{paint(im,map);return out;});
+    } else if(now||typeof root.getClubCrestSvg!=="function"){paint(now);out.ready=Promise.resolve(out);}
+    else {paint(null);out.ready=crest.then(im=>{if(im)paint(im);return out;});}
     return out;
   }
 
@@ -429,5 +480,5 @@
   }
 
   return Object.freeze({version:"r89-kits17-1",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,
-    layouts:Object.freeze(["wrap","remy"]),layout:Object.freeze({uv:"wrap",frontU:.5,backU:0,leftOfWearer:"u rises",vHem:0,vNeck:1,crestU:.575,crestV:.75})});
+    layouts:Object.freeze(["wrap","remy","ch38","ch42"]),layout:Object.freeze({uv:"wrap",frontU:.5,backU:0,leftOfWearer:"u rises",vHem:0,vNeck:1,crestU:.575,crestV:.75})});
 });
