@@ -134,6 +134,7 @@ const SHELL_PATHS = Object.freeze([
   "js/commentaryEngine.js",
   "data/commentaryLines.js",
   "data/gazetteCopy.js",
+  "data/gazetteSacked.js",
   "data/frontPages.js",
   "css/v10Gazette.css",
   "visual-assets/v10_1/content/content.css",
@@ -346,7 +347,10 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // 2.1.0 (r88): PREVIOUS is 2.0.0-r87 (267 paths, tests/fixtures/shell-paths/2.0.0-r87.json). Added: Chamber Men's step,
 // rules and styles, and r89 adds its 3D scene (js/chamberMenScene3d.js) and its stadium (js/chamberMenStadium3d.js); r89 also swaps the roulette's three.js r128 for r187 and adds the lounge HDRI (ENV_LOUNGE_V1.exr) and the Kits 17 painter (js/kits17.js, the roulette boards' shirts) (its pictures are Team V images, V10_IMAGE_PATH runtime cache). Removed: none. The STORY site (chronicle/)
 // is never precached (CHRONICLE_PATH above).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/chamberMenStep.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css"]);
+// r89 Sacked (2.2.0 branch): data/gazetteSacked.js (the Final Gazette sacked lines) is new since 2.0.0-r87 too; the 2.2.0
+// version bump resets this set against 2.1.0-r88.
+// r89 3D engine: three.js r187, the lounge HDRI, kits17 and the Chamber Men 3D scene; removes three.js r128.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","data/gazetteSacked.js","js/chamberMenStep.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (neither 2.0.0 nor 2.1.0 lists them). A request for one comes from the shell of the revision that asks

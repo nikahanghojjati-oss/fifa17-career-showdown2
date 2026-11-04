@@ -52,7 +52,7 @@ async function c3d2(){
   assert.equal(await make({WebGL2RenderingContext:function(){},CMS_CHAMBER_MEN_3D:"off"}).CareerModeChamberMen3d.mount(svg),null,"kill switch: null");
   assert.equal(await make({WebGL2RenderingContext:function(){}}).CareerModeChamberMen3d.mount(svg),null,"no WebGL2 context: null");
   assert.match(step,/function cmsScene\(goal\)\{\s*if\(root\.CMS_CHAMBER_MEN_3D==="off"\)return Promise\.resolve\(null\);/,"the step honours the kill switch too");
-  assert.match(step,/return Promise\.race\(\[made,cmsWait\(SCENE_WAIT_MS\)\.then\(\(\)=>\{late=true;return null;\}\)\]\);/,"a slow scene does not hold the screen");
+  assert.match(step,/return Promise\.race\(\[made,dropped,cmsWait\(SCENE_WAIT_MS\)\.then\(\(\)=>\{late=true;return null;\}\)\]\);/,"a slow scene does not hold the screen");
   assert.match(step,/if\(late\)\{try\{scene\.dispose\(\);\}catch\(_error\)\{\}return null;\}/,"a late scene is thrown away, never swapped in");
   assert.match(step,/\.then\(scene=>\{[\s\S]*?\},\(\)=>null\);/,"a load fault leaves the SVG goal");
   assert.match(scene,/catch\(error\)\{[\s\S]*?return null;\s*\}/,"a fault while building the scene leaves the SVG goal");
@@ -61,7 +61,7 @@ async function c3d2(){
 // C3D3
 {
   assert.match(step,/goal\.keeper\.dataset\.pose="ready";goal\.scene\?\.reset\(\);/,"reset with the step's own reset");
-  assert.match(step,/g\.keeper\.dataset\.pose=dive;[\s\S]*?g\.scene\?\.kick\(\{shot:shot===engine\.timeout\?null:shot,dive,goal:Boolean\(kick\.goal\),animate,round:kick\.kick\}\);/,"kick with what the step draws");
+  assert.match(step,/g\.keeper\.dataset\.pose=dive;[\s\S]*?const k3=\{shot:shot===engine\.timeout\?null:shot,dive,goal:Boolean\(kick\.goal\),round:kick\.kick\};g\.state=\{\.\.\.g\.state,kick:k3\};\s*g\.scene\?\.kick\(\{\.\.\.k3,animate:animate&&sceneAtStart\}\);/,"kick with what the step draws (a scene mounted since shows the end pose)");
   for(const hook of ['class:"cmGoal"','cmsSvg("g",{class:"cmKeeper","data-pose":"ready"})','cmsSvg("g",{class:"cmBall"})','class:"cmZone"'])assert.ok(step.includes(hook),`the SVG goal keeps ${hook}`);
   assert.match(step,/pitch\.append\(board,goal\.box\);/,"same place in the screen (the pitch column, Fable F17-07)");
   ok("C3D3","the step stays the owner: SVG hooks unchanged, the scene follows reset and kick");
@@ -69,7 +69,9 @@ async function c3d2(){
 // C3D4
 {
   assert.match(step,/const ui=cmsBuild\(ctx\),sceneReady=cmsScene\(ui\.goal\);let sceneShown=false;/,"the scene starts with the screen, under the loading screen");
-  assert.match(step,/if\(ui\.stage\.style\.visibility==="hidden"&&!sceneShown\)\{sceneShown=true;sceneReady\.then\(\(\)=>\{if\(finished\)return;ui\.stage\.style\.visibility="visible";cmsLoadingOff\(\);/,"the stage shows once the goal is drawn");
+  assert.match(step,/if\(!stageShown&&!sceneShown\)\{sceneShown=true;sceneReady\.then\(showStage\);\}/,"the stage shows once the goal is drawn");
+  assert.match(step,/const showStage=\(\)=>\{if\(stageShown\|\|finished\)return;stageShown=true;ui\.stage\.style\.visibility="visible";cmsLoadingOff\(\);/,"one way to show the stage");
+  assert.match(step,/if\(clock&&!stageShown\)\{ui\.goal\.dropScene\?\.\(\);showStage\(\);\}/,"Codex C2: a running pick clock never waits on the scene");
   assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*layout\(\);renderer\.compile\(scene,camera\);cm3Draw\(\);/,"mount resolves after the first frame is drawn");
   ok("C3D4","Reus Gate: the stage shows with the goal already drawn");
 }

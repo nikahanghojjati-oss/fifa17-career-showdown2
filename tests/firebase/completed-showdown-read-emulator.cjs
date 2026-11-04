@@ -75,6 +75,8 @@ async function seed(env,now){await env.withSecurityRulesDisabled(async context=>
   for(const [id,sid] of [[X,SX],[Y,SY],[Z,SZ]]){await setDoc(doc(db,"rivalries",id),await rivalry(id));await setDoc(doc(db,"rivalries",id,"sessions",sid),await session(id,sid,now));}
   await setDoc(doc(db,"accounts",A,"pairLinks","current"),await pairLink(A,Y,"playerOne","daniel",DA));
   await setDoc(doc(db,"rivalries",V),await rivalry(V));
+  // r89: an active Showdown's END names its exact accepted count, checked against the Season Commits (phase and result keys).
+  await setDoc(doc(db,"rivalries",V,"seasonCommits","season_1"),{schemaVersion:1,objectType:"sharedSeasonCommit",rivalryId:V,seasonNumber:1,phase:"ACKNOWLEDGED",revision:3,results:{playerOne:{leaguePosition:2},playerTwo:{leaguePosition:3}}});
   await setDoc(doc(db,"accounts",B,"pairLinks","current"),await pairLink(B,V,"playerTwo","nik",DB));
 });}
 
@@ -115,6 +117,14 @@ async function abandonAsDaniel(db,rivalryId){
   const after=await envelope("rivalry",rivalryId,before.revision+1,data,{accountId:A,deviceId:DA,priorHash:before.contentHash});
   await assertSucceeds(setDoc(doc(db,"rivalries",rivalryId),after));
 }
+// r89: an ACTIVE Showdown can no longer be closed without the exact count, so Y (a Showdown abandoned by an earlier client,
+// with no ended-early mark) is history written by 2.1.0 or before: it is placed with the Rules off, exactly as that write was.
+async function legacyAbandonAsDaniel(env,rivalryId){
+  await env.withSecurityRulesDisabled(async context=>{
+    const db=context.firestore(),before=(await getDoc(doc(db,"rivalries",rivalryId))).data();
+    await setDoc(doc(db,"rivalries",rivalryId),await envelope("rivalry",rivalryId,before.revision+1,{...before.data,connectionState:"closed"},{accountId:A,deviceId:DA,priorHash:before.contentHash}));
+  });
+}
 async function endEarlyAsNik(db,rivalryId,seasonsPlayed,updatedAt){
   const before=(await getDoc(doc(db,"rivalries",rivalryId))).data();
   const data={...before.data,connectionState:"closed",endedEarly:{seasonsPlayed}};
@@ -139,7 +149,7 @@ async function run(env){
 
   // Showdown X: completed with a real Terminal Close. Showdown Y: abandoned mid-season. Showdown Z: active, season COLLECTING.
   const gameX=await playToCollecting(env,X,SX,now);const {sessionHistory}=await finishAndClose(gameX,SX);
-  const gameY=await playToCollecting(env,Y,SY,now+1000);await abandonAsDaniel(gameY.dbA,Y);
+  const gameY=await playToCollecting(env,Y,SY,now+1000);await legacyAbandonAsDaniel(env,Y);
   await playToCollecting(env,Z,SZ,now+2000);
   const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
 
