@@ -231,10 +231,11 @@
   }
   function backPrint(g,W,H,k,number,name){
     // Number and surname on the back (back centre is u=0 and u=1, so each is drawn at both edges and the seam meets in the middle).
-    const solidBack=k.pattern==="solid"||k.pattern==="gk"||k.pattern==="band";
+    const solidBack=k.pattern==="solid"||k.pattern==="gk";
     // Striped and hooped backs carry a plain panel in the body colour behind the name and number, as the real shirts do.
     const panel=!solidBack;
-    const plain=lum(k.body)>.4?"#141414":"#f4f4f2",ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+    const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+    const plain=ratio("#141414",k.body)>=ratio("#f4f4f2",k.body)?"#141414":"#f4f4f2";
     const ink=solidBack&&ratio(k.trim,k.body)>=4?k.trim:plain;
     if(panel){g.fillStyle=k.body;for(const cx of [0,W]){g.beginPath();const pw=W*.13,top=H*.13,bot=H*.7,r=W*.012;
       g.moveTo(cx-pw+r,top);g.lineTo(cx+pw-r,top);g.quadraticCurveTo(cx+pw,top,cx+pw,top+r);g.lineTo(cx+pw,bot-r);g.quadraticCurveTo(cx+pw,bot,cx+pw-r,bot);
