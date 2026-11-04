@@ -6,19 +6,21 @@
 // Only the parts the two pages use, so phones download less (the build tree-shakes the rest of three.js away).
 import { ShaderChunk } from 'three';
 export {
-	ACESFilmicToneMapping, AdditiveBlending, AgXToneMapping, AmbientLight, BackSide, Box3, BoxGeometry, BufferAttribute,
+	ACESFilmicToneMapping, AdditiveBlending, AnimationClip, AnimationMixer, AnimationUtils, Bone, AgXToneMapping, AmbientLight, BackSide, Box3, BoxGeometry, BufferAttribute,
 	BufferGeometry, CanvasTexture, CapsuleGeometry, CatmullRomCurve3, CircleGeometry, ClampToEdgeWrapping, Clock, Color, ColorManagement,
 	ConeGeometry, CylinderGeometry, DataTexture, DirectionalLight, DoubleSide, DynamicDrawUsage, EquirectangularReflectionMapping, Euler,
 	ExtrudeGeometry, Float32BufferAttribute, FloatType, Fog, FogExp2, Group, HalfFloatType, HemisphereLight,
-	IcosahedronGeometry, InstancedMesh, LatheGeometry, LineBasicMaterial, LineSegments, LinearFilter, LinearMipmapLinearFilter, LinearSRGBColorSpace, MathUtils, Matrix4, Mesh,
+	IcosahedronGeometry, InstancedMesh, LatheGeometry, LineBasicMaterial, LineSegments, LinearFilter, LinearMipmapLinearFilter, LinearSRGBColorSpace, LoopOnce, LoopPingPong, LoopRepeat, MathUtils, Matrix3, Matrix4, Mesh,
 	MeshBasicMaterial, MeshDepthMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MirroredRepeatWrapping, NearestFilter, NeutralToneMapping, NoColorSpace,
 	NoToneMapping, NormalBlending, Object3D, OrthographicCamera, PCFShadowMap, PMREMGenerator, Path, PerspectiveCamera, PlaneGeometry,
-	PointLight, Points, PointsMaterial, Quaternion, REVISION, RGBAFormat, Raycaster, RepeatWrapping,
+	PointLight, Points, PointsMaterial, Quaternion, REVISION, RGBAFormat, Raycaster, RepeatWrapping, Skeleton, SkinnedMesh,
 	SRGBColorSpace, Scene, ShaderChunk, ShaderMaterial, Shape, ShapeGeometry, Sphere, SphereGeometry,
 	SpotLight, Sprite, SpriteMaterial, Texture, TextureLoader, TorusGeometry, TubeGeometry, UnsignedByteType,
 	VSMShadowMap, Vector2, Vector3, Vector4, WebGLRenderTarget, WebGLRenderer
 } from 'three';
 export { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
+// r89 Chamber Men players (Mixamo rig converted to one .glb with every clip, visual-assets/v10_1/chamber-men/players/).
+export { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 export { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 export { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 export { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';

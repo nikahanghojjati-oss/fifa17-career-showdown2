@@ -59,4 +59,23 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   for(const s of ["GOAL_W=7.32","GOAL_H=2.44","BALL_R=.11","SPOT_Z=11","PITCH_L=105","PITCH_HALF_W=34"])assert.ok(kit.includes(s),s);
   ok("S4","real pitch and goal sizes, same axes as the 3D goal");
 }
+// S5 players: one glTF per tier on the shared Mixamo skeleton with the named clips and the kit meshes; the engine build can
+//    load and play it (GLTFLoader, SkinnedMesh, AnimationMixer); phone file <= 3 MB, desktop <= 4 MB.
+{
+  const glb=f=>{const b=fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/chamber-men/players/"+f));assert.equal(b.toString("ascii",0,4),"glTF");
+    const n=b.readUInt32LE(12);return {size:b.length,json:JSON.parse(b.toString("utf8",20,20+n))};};
+  for(const [tier,max] of [["desktop",4e6],["phone",3e6]]){
+    const {size,json}=glb(`player_${tier}.glb`);
+    assert.ok(size<=max,`player_${tier}.glb ${size} <= ${max}`);
+    const clips=json.animations.map(a=>a.name);
+    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog"])assert.ok(clips.includes(c),`${tier} has clip ${c}`);
+    const mats=json.materials.map(m=>m.name);
+    for(const m of ["kitShirt","kitShorts","kitSocks","kitBoots"])assert.ok(mats.includes(m),`${tier} has material ${m}`);
+    assert.ok(json.skins&&json.skins.length>=1,"skinned");
+  }
+  const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read(ENGINE),sandbox);
+  const T=sandbox.THREE||sandbox.window.THREE;
+  for(const k of ["GLTFLoader","SkinnedMesh","AnimationMixer","LoopOnce","LoopRepeat"])assert.ok(k in T,`engine has ${k}`);
+  ok("S5","player glTF (desktop and phone) with every clip and the kit meshes; the engine can load and play it");
+}
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);

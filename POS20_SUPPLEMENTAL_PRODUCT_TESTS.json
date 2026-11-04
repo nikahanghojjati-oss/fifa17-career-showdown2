@@ -2958,7 +2958,9 @@
       "patterns": [
         "^js/chamberMenStadium3d\\.js$",
         "^visual-assets/v10_1/chamber-men/assets/",
+        "^visual-assets/v10_1/chamber-men/players/",
         "^tools/chamber-men-assets/",
+        "^tools/three-vendor/entry\\.mjs$",
         "^visual-assets/v10_1/roulette/vendor/three-r187\\.min\\.js$",
         "^tests/contracts/r89\\-chamber\\-men\\-stadium\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"

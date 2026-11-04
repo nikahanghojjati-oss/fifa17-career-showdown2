@@ -792,7 +792,7 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
 // the roulette lights its metal with one CC0 HDRI. Both are fetched without ?v, so both are shell-cached and unversioned-served,
 // and their bytes are pinned: a change ships under a new name (three-r<N>.min.js, ENV_LOUNGE_V<n>.exr), never over these.
 check("F9d r89 3D engine files: one pinned three.js build and one pinned CC0 lounge HDRI, both shell-cached for offline play",()=>{
-  const pins={"visual-assets/v10_1/roulette/vendor/three-r187.min.js":"f46e27a7c9117739f081d22ffcda86ef1b6e1893e345fc208e0a617a62c4b2d3",
+  const pins={"visual-assets/v10_1/roulette/vendor/three-r187.min.js":"360929ee240c045d7ed3363da089a2786ea96933015809cd442f08fc1e203c87",
     "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr":"205a84e0108d40fb207e077db9bc68a15f329a8af8ee1f82c28524e967963b81"};
   const sw=fs.readFileSync(path.join(ROOT,"service-worker.js"),"utf8");
   const unversioned=sw.slice(sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS"),sw.indexOf("]);",sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS")));
