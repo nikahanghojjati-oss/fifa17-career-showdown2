@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-04T02:59:11.085Z",
+  "at": "2026-11-04T03:04:29.588Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -18,7 +18,7 @@
       },
       {
         "name": "L3A storage gameplay",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L3B visual",
@@ -26,11 +26,11 @@
       },
       {
         "name": "L4 remote",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L5 rules regression",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L6 browser journey",
