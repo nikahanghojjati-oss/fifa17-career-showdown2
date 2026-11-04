@@ -819,3 +819,64 @@
 :root #app #seasonEntry .seasonSummaryCard {
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
+
+/* 4w Studio Small Axe phone pass (Nik 2026-11-04): Select League on phones and tablets (below 1200px wide).
+   1. Wheel face: the league marks and names sat out to 0.94 of the radius, under the gold rim and its studs. They now use
+      the desktop plate geometry (every mark and name inside about 0.66 of the radius, clear of the rim).
+   2. The 7px near-black ring drawn around the rim read as a dark slab behind the wheel; the wheel keeps only its soft drop
+      shadow, as on desktop. */
+@media (max-width: 1199px) {
+  :root #app #leagueWheelScreen.v26Skin .wheelItem {
+    width: calc(var(--R) * .62); margin-left: calc(var(--R) * -.31);
+    padding: 0; gap: calc(var(--R) * .025);
+    font-size: max(10px, calc(var(--v26-wheel) * 16 / 480));
+    line-height: 1.1; letter-spacing: .01em; overflow-wrap: normal;
+    transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.465))
+      rotate(calc(0deg - var(--v26-a))) translateY(calc(var(--R) * -.18));
+  }
+  :root #app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+    flex: none; width: calc(var(--R) * .18); height: calc(var(--R) * .18);
+  }
+  :root #app #leagueWheelScreen.v26Skin #leagueWheel { box-shadow: 0 12px 26px rgba(0, 0, 0, .55); }
+}
+/* 3. Upright phones: Team V's phone plates paint Daniel and Nik standing behind a marble plinth. The wheel sat high, over
+      their chests, so the men read as heads that fade out halfway down, and the plinth and floor below the buttons were an
+      empty dark band. The wheel now stands in front of the plinth (its top about a third of the wheel above the plinth's
+      rim), as it does on desktop, and SPIN WHEEL / BACK sit on the floor below it: both men show down to the plinth and the
+      lower half of the screen is used. Plinth rim: plate y 1195 of 2096 (V5) and 1100 of 2620 (TALL V5), cover-scaled from
+      the top (on the TALL plate the plinth stands higher, so the wheel's top sits level with its rim). With the faces now well above it, the wheel also gets back its full size (the HO-032 15% cut was there
+      to keep it clear of the faces); on the TALL plate the men stand higher and closer, so it keeps the cut there. Only on screens at least 740px tall, so short phones (393x660, 360x640) keep
+      their first-view buttons. */
+@media (min-width: 340px) and (max-width: 430px) and (min-height: 740px) and (max-height: 960px) and (min-aspect-ratio: 59/128) and (orientation: portrait) {
+  :root #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) { --v26-wheel: var(--v26-wheel-full); --v26-wheel-cut: 0px; }
+  :root #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 8px; }
+  :root #app #leagueWheelScreen.v26Skin .wheelPointer {
+    margin-top: calc(var(--v26-wheel-cut) * .5695 + max(0px, max(100vw * 1195 / 1179, 100svh * 1195 / 2096) - var(--v26-wheel) * .36 - 220px));
+  }
+}
+@media (min-width: 340px) and (max-width: 430px) and (min-height: 740px) and (max-height: 960px) and (min-aspect-ratio: 17/48) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  :root #app #leagueWheelScreen.v26Skin .wheelPointer {
+    margin-top: calc(var(--v26-wheel-cut) * .5695 + max(0px, max(100vw * 1100 / 1179, 100svh * 1100 / 2620) - var(--v26-wheel) * .05 - 220px));
+  }
+}
+/* 4. "SPIN TO SELECT LEAGUE" broke onto two lines on upright phones; one line, with shorter side rules. */
+@media (max-width: 430px) and (orientation: portrait) {
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague { white-space: nowrap; letter-spacing: .1em; gap: 10px; }
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 28px; }
+}
+/* 4w.5 Transfer War phones: the rule note and lock summary sit straight on the plate photo; give them a dark marble strip and a gold heading so they read. */
+@media (max-width: 900px) {
+  :root #app #transferChallenge :is(.transferRuleNote, #transferPhaseLockSummary .lock-summary, .lock-summary.transferPhaseLockSummary) {
+    background: rgba(8, 8, 10, .82); border: 1px solid rgba(212, 175, 55, .35); border-radius: 4px; padding: 4px 8px;
+  }
+  :root #app #transferChallenge :is(#transferPhaseLockSummary, .lock-summary) strong { color: #ffd34d; }
+}
+/* 4w.6 Club Assignment upright phones: give the LEAGUE CONFIRMED / league name row clear air under the step labels (04 VS, 05 LOCK). */
+@media (max-width: 430px) and (orientation: portrait) {
+  :root #app #clubWheelScreen.cl-on .clubAssignmentHeader { margin-top: 8px; row-gap: 4px; }
+}
+/* 4w.7 Career Statistics on sideways phones: the three action buttons wrapped to three lines and cut "STATISTICS" and "ROOM"; two lines at the 12px floor fit the 44px buttons. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root #app #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel { font-size: 12px; line-height: 1.08; letter-spacing: .02em; text-wrap: balance; min-width: 0; }
+}
