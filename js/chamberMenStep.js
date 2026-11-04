@@ -257,8 +257,9 @@
     const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Chamber Men");stage.style.visibility="hidden";
     const shell=cmsEl("div","cmShell");
     // The kick counter: "Round 3 of 7 · Daniel shoots".
-    const header=cmsEl("div","cmHeader");header.append(cmsEl("span","",`Season ${ctx.season}`),cmsEl("span","cmRound","Round 1 of 7 · Daniel shoots"));
-    const title=cmsEl("h2","cmTitle","Chamber Men");
+    // r89 broadcast layout (Nik 2026-11-04, option A): the title sits in the header line, so the pitch gets the height.
+    const header=cmsEl("div","cmHeader"),title=cmsEl("h2","cmTitle","Chamber Men");
+    header.append(cmsEl("span","",`Season ${ctx.season}`),title,cmsEl("span","cmRound","Round 1 of 7 · Daniel shoots"));
     const board=cmsEl("div","cmBoard"),sides={};
     for(const role of ROLES){
       const side=cmsEl("div","cmSide"),goals=cmsEl("div","cmGoals","0"),cyl=cmsEl("div","cmCylinder"),chambers=[];
@@ -287,11 +288,12 @@
     const back=cmsEl("button","cmBack","BACK TO SHOWDOWN HOME");back.type="button";
     actions.append(lock,next,back);
     const lines=cmsEl("ul","cmLines");lines.hidden=true;
-    // Fable F17-07: the pitch (score and goal) and the controls (turn, status, clock, picks, LOCK IN) are two columns on a
-    // wide screen, so the 10-second clock and LOCK IN are on screen from the first view at 1280x800 and 1366x768.
+    // r89 broadcast layout (Nik 2026-11-04, option A): the score, then the pitch across the whole width, then the controls (turn,
+    // status, clock, picks, LOCK IN) underneath, laid out so the clock and LOCK IN are on screen from the first view on a phone
+    // with its browser bars and at 1280x800 and 1366x768 (Fable F17-07): nobody scrolls during a kick, and nothing covers anything.
     const play=cmsEl("div","cmPlay"),pitch=cmsEl("div","cmPitch"),controls=cmsEl("div","cmControls");
     pitch.append(board,goal.box);controls.append(turn,status,clock,picks,lines,actions);play.append(pitch,controls);
-    shell.append(header,title,play);stage.append(shell);doc.body.append(stage);
+    shell.append(header,play);stage.append(shell);doc.body.append(stage);
     cmsReset(goal);
     return {stage,round:header.querySelector(".cmRound"),sides,goal,status,turn,turnHead,turnSub,turnCount,picks,rows,clock,lock,next,back,lines};
   }
