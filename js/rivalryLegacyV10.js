@@ -54,7 +54,7 @@
       if(status==="loading"||status==="unavailable")return bare(status);
       const row=model.history.showdowns[0];
       if(!row||["abandoned","unavailable"].includes(row.status))return bare(status==="empty"?"empty":"unavailable");
-      source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers,rivalryId:row.rivalryId,setupConfirmedAt:row.setupConfirmedAt};lifecycle=row.status;sp=rowSpecial(row);sackedEnd=row.endedBy==="sacked";
+      source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers,rivalryId:row.rivalryId,setupConfirmedAt:row.setupConfirmedAt};lifecycle=row.status;sackedEnd=row.endedBy==="sacked";sp=rowSpecial(row);
     }else{source=model;status=STATES.includes(source?.status)?source.status:"unavailable";lifecycle=source?.lifecycle??null;sp=liveSpecial();}
     if(status==="unavailable"&&source?.notice==="continue")return {...bare("unavailable"),notice:"continue"};
     if(status==="loading"||status==="unavailable")return bare(status);

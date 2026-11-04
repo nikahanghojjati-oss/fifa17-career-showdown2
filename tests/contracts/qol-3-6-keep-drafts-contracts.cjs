@@ -298,7 +298,7 @@ function wiringChecks(){
   assert.ok(results.includes("`cms.draft.v1:${request.rivalryId}:${request.seasonNumber}:${role}:seasonResult`"),"season key: rivalry, season, role");
   assert.ok(transfer.includes("`cms.draft.v1:${ref.rivalryId}:${ref.seasonNumber}:${ref.role}:transferGuess`"),"guess key: rivalry, season, role");
   // Season result: restore only in the editable entry state, clear on a published or ready result and on publish.
-  assert.ok(results.includes("pssrEntryMode(false);pssrHidden(pssrCard(role),false);pssrHidden(pssrCard(other),true);pssrDraftRestore(role);"));
+  assert.ok(results.includes("pssrEntryMode(false);pssrHidden(pssrCard(role),false);pssrHidden(pssrCard(other),true);pssrShowSackedChecks();pssrDraftRestore(role);"));
   assert.ok(results.includes("if(own||ready){pssrDraftClear(role);"));
   assert.equal((results.match(/pssrDraftClear\(publishRole,request\);view=\{/g)||[]).length,2,"both publish outcomes clear the draft");
   assert.ok(results.includes('root.document.addEventListener("input",pssrDraftChange,true)')&&results.includes('root.document.addEventListener("change",pssrDraftChange,true)'));

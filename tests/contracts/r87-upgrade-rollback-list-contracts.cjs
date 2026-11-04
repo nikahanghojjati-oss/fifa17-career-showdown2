@@ -69,7 +69,7 @@ test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven a
   assert.equal(r87.length,267);
   assert.deepEqual(r86.filter(p=>!r87.includes(p)),["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
   assert.ok(["js/rosterRouletteStep.js","js/touchlineGazette.js","js/iconGuessStep.js"].every(p=>r87.includes(p)&&!r86.includes(p)));
-  assert.deepEqual(w.added,["js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"]);
+  assert.deepEqual(w.added,["data/gazetteSacked.js","js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"]);// + r89 Sacked until the 2.2.0 bump
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);
