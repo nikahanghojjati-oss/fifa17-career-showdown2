@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04 12:53 PM Boston time (EST)",
+ "generated": "2026-11-04 12:57 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1823,8 +1823,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6d45d36",
-  "head_boston": "Wed 4 Nov 12:47 PM",
+  "head": "4b4f05a",
+  "head_boston": "Wed 4 Nov 12:53 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1871,8 +1871,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1246 has waited 21 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2640,8 +2640,8 @@
     "from": "G",
     "to": "V",
     "title": "4K page title wordmarks (all titles)",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-057_4k-page-title-wordmarks-all-titles.md",
     "worker": "images",
@@ -2718,7 +2718,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 42,
   "nik": 2,
   "later": 21,
