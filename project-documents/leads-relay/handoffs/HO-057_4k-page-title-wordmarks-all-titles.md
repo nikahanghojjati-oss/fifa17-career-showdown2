@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-04T13:50:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-04T14:03:32Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-04T17:47:27Z", "by": "V", "status": "WORKING", "note": "Files DELIVERED: branch claude/project-thread-m5zk5e commit 2b58eae0, visual-assets/v10_1/shared/wordmarks/v2/README.md (60 WebP, TITLE_<NAME>_V2_<w>.webp next to each V1 file; 960 lighter than V1). Ready for Studio Small Axe to wire now. Waiting only on Nik's look OK before DONE."}],
+ "evidence": ["Nik OK 2026-11-04 17:53 UTC. Files: branch claude/project-thread-m5zk5e commit 2b58eae0, 60 WebP TITLE_<NAME>_V2_{3840,1920,960,480}.webp next to each V1 file; README visual-assets/v10_1/shared/wordmarks/v2/README.md"],
+ "log": [{"at": "2026-11-04T13:50:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-04T14:03:32Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-04T17:47:27Z", "by": "V", "status": "WORKING", "note": "Files DELIVERED: branch claude/project-thread-m5zk5e commit 2b58eae0, visual-assets/v10_1/shared/wordmarks/v2/README.md (60 WebP, TITLE_<NAME>_V2_<w>.webp next to each V1 file; 960 lighter than V1). Ready for Studio Small Axe to wire now. Waiting only on Nik's look OK before DONE."}, {"at": "2026-11-04T17:53:20Z", "by": "V", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q6WqUCB8eiX9yuy7EJ",
  "sessions": {"G": "session_01GU43Q6WqUCB8eiX9yuy7EJ", "V": "session_01GU43Q5ntLXNoYTmkYPBfdu"}
 }
