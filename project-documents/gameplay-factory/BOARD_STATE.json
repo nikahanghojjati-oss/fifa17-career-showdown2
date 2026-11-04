@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04 12:53 AM Boston time (EST)",
+ "generated": "2026-11-04 12:56 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 199,
@@ -1847,7 +1847,22 @@
    "revision": "2.1.0-r88",
    "when": "2026-11-03T22:39:26-05:00",
    "subject": "Merge pull request #1237 from nikahanghojjati-oss/claude-gameplay/r88-rules-static-regex",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1241,
+     "title": "Studio Small Axe: phone pass (league wheel, big sideways phones, Transfer War, Club Assignment)",
+     "draft": true,
+     "branch": "claude-gameplay/studio-axe-phone-pass",
+     "sha": "3d7494727690f1829b7b2878eb777d1210b8fdff",
+     "updated": "2026-11-04T05:54:47Z",
+     "gates": {
+      "passed": 7,
+      "running": 0,
+      "failed": 1,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -2685,7 +2700,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3901,7 +3916,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1241,
+    "title": "Studio Small Axe: phone pass (league wheel, big sideways phones, Transfer War, Club Assignment)",
+    "draft": true,
+    "branch": "claude-gameplay/studio-axe-phone-pass",
+    "sha": "3d7494727690f1829b7b2878eb777d1210b8fdff",
+    "updated": "2026-11-04T05:54:47Z",
+    "gates": {
+     "passed": 7,
+     "running": 0,
+     "failed": 1,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
