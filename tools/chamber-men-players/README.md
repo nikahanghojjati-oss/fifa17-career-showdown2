@@ -14,3 +14,16 @@ MeshStandardMaterial; merges the repeated body atlas; adds a Socks mesh (the low
 left sock u 0..0.5, right 0.5..1, front of the shin at the middle of each half, v 0 at the boot, 1 under the knee); renames
 Tops/Bottoms/Shoes to Shirt/Shorts/Boots with materials kitShirt/kitShorts/kitSocks/kitBoots; welds and (phone) simplifies
 with meshoptimizer; writes WebP textures (2048 desktop, 1024 phone) via EXT_texture_webp; draws the uv layouts.
+
+## Keeper clips (measured on the converted rig: keeper faces +z, so the keeper's left is +x; times from the clip start)
+
+| clip | way | gloves at full stretch | lands |
+|---|---|---|---|
+| gkDive | keeper's left, mid height, comes ~2 m forward | 1.1 s: x +2.1, y 0.8 (z +2.0) | 1.3 s |
+| gkDive1 | keeper's right, high, ~1 m forward | 0.9 s: x -2.45, y 1.2; 1.1 s: x -2.9, y 0.9 | 1.3 s |
+| gkBlock | keeper's left, low | 0.8 s: x +1.4, y 0.4 | 0.9 s |
+| gkBlock1 | keeper's right, along the ground | 0.7 s: x -1.3, y 0.05 | 0.7 s |
+| gkBlock2 | keeper's left, low | 0.7 s: x +1.2, y 0.2 | 0.8 s |
+| gkCatch | step right, waist-height catch | 1.6 s: x -0.9, y 0.9 | stays up |
+| gkCatch1 | middle, chest-high catch | 0.4 s: x -0.2, y 1.4 | stays up |
+| gkCatch2 | jump, catch over the head | 0.8 s: x -0.65, y 2.25 | stays up |

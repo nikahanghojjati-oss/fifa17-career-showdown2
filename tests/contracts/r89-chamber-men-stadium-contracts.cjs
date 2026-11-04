@@ -60,15 +60,15 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   ok("S4","real pitch and goal sizes, same axes as the 3D goal");
 }
 // S5 players: one glTF per tier on the shared Mixamo skeleton with the named clips and the kit meshes; the engine build can
-//    load and play it (GLTFLoader, SkinnedMesh, AnimationMixer); phone file <= 3 MB, desktop <= 4 MB.
+//    load and play it (GLTFLoader, SkinnedMesh, AnimationMixer); phone file <= 3.5 MB, desktop <= 4.5 MB.
 {
   const glb=f=>{const b=fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/chamber-men/players/"+f));assert.equal(b.toString("ascii",0,4),"glTF");
     const n=b.readUInt32LE(12);return {size:b.length,json:JSON.parse(b.toString("utf8",20,20+n))};};
-  for(const [tier,max] of [["desktop",4e6],["phone",3e6]]){
+  for(const [tier,max] of [["desktop",4.5e6],["phone",3.5e6]]){
     const {size,json}=glb(`player_${tier}.glb`);
     assert.ok(size<=max,`player_${tier}.glb ${size} <= ${max}`);
     const clips=json.animations.map(a=>a.name);
-    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog"])assert.ok(clips.includes(c),`${tier} has clip ${c}`);
+    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog","strikeJog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch","gkCatch1","gkCatch2"])assert.ok(clips.includes(c),`${tier} has clip ${c}`);
     const mats=json.materials.map(m=>m.name);
     for(const m of ["kitShirt","kitShorts","kitSocks","kitBoots"])assert.ok(mats.includes(m),`${tier} has material ${m}`);
     assert.ok(json.skins&&json.skins.length>=1,"skinned");

@@ -33,10 +33,10 @@ for(const [file,name] of clipList){
   const c=a.clone();c.name=name;
   // FBX clips move the hips in the file's own units: those tracks live under the scaled root, so they scale with it.
   c.optimize();
-  // Keyframe reduction: drop a key when the line between its neighbours already gives it (quaternions within 0.0015,
-  // hips position within 2 mm in metres after scaling).
+  // Keyframe reduction: drop a key when the line between its neighbours already gives it (quaternions within 0.0015, phone
+  // 0.0025, fingers 0.005; hips position within 2 mm, phone 3 mm, in metres after scaling).
   for(const tr of c.tracks){const n=tr.getValueSize(),T0=tr.times,V=tr.values,keepT=[T0[0]],keepV=[...V.slice(0,n)];
-    const tol=tr.name.endsWith('.position')?.002/s:.0015;let last=0;
+    const tol=tr.name.endsWith('.position')?(tier==='phone'?.003:.002)/s:/Hand(Thumb|Index|Middle|Ring|Pinky)/.test(tr.name)?.005:tier==='phone'?.0025:.0015;let last=0;
     for(let i=1;i<T0.length-1;i++){const t=(T0[i+1]-T0[last])>0?(T0[i]-T0[last])/(T0[i+1]-T0[last]):0;let bad=false;
       for(let k=0;k<n;k++){const a=V[last*n+k],b=V[(i+1)*n+k];if(Math.abs(a+(b-a)*t-V[i*n+k])>tol){bad=true;break;}}
       if(bad){keepT.push(T0[i]);keepV.push(...V.slice(i*n,i*n+n));last=i;}}
