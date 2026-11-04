@@ -234,23 +234,39 @@
   // Not in time (SCENE_WAIT_MS), no WebGL2 or a fault: the SVG goal plays for this screen, and a late scene is thrown away,
   // never swapped in while the stage is on screen. The kill switch CMS_CHAMBER_MEN_3D="off" keeps the SVG goal.
   const SCENE_WAIT_MS=6000;
+  // Codex C2 (#1244): goal.dropScene() gives up a scene still loading (the SVG goal shows at once and the late scene is thrown
+  // away); a scene that does mount is first brought to what the SVG shows now (cmsSync), so a kick revealed while it loaded
+  // is never lost.
   function cmsScene(goal){
     if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
-    let late=false;
+    let late=false,cut=null;
+    const dropped=new Promise(resolve=>{cut=resolve;});
+    goal.dropScene=()=>{if(!goal.scene)late=true;cut(null);};
     const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs}):null).then(scene=>{
       if(!scene)return null;
       if(late){try{scene.dispose();}catch(_error){}return null;}
-      goal.scene=scene;return scene;
+      goal.scene=scene;cmsSync(goal);return scene;
     },()=>null);
-    return Promise.race([made,cmsWait(SCENE_WAIT_MS).then(()=>{late=true;return null;})]);
+    return Promise.race([made,dropped,cmsWait(SCENE_WAIT_MS).then(()=>{late=true;return null;})]);
+  }
+  // A scene that mounts late takes the lineup on screen and, when a kick was revealed while it loaded, that kick at its end
+  // pose (its words are already up), never a fresh run-up.
+  function cmsSync(goal){
+    const st=goal.state||{},scene=goal.scene;if(!scene)return;
+    try{
+      if(st.lineup&&goal.clubs&&scene.lineup)scene.lineup({taker:goal.clubs[st.lineup.shooter],keeper:goal.clubs[cmsOther(st.lineup.shooter)],round:st.lineup.round});
+      if(st.kick)scene.kick({...st.kick,animate:false});
+    }catch(_error){}
   }
   // Before a kick: keeper back in the middle and ready, ball on the spot, the net still.
   function cmsReset(goal){
     goal.svg.classList.remove("is-goal","is-save","is-flying");goal.keeper.dataset.pose="ready";goal.scene?.reset();
+    goal.state={...goal.state,kick:null};
     cmsPlace(goal.keeper,ZONE_X.M,92,false);cmsPlace(goal.ball,ZONE_X.M,132,false);
   }
   // r89 broadcast: who is on the pitch for kick n (the shooter's club takes it, the rival's keeper is in goal).
   function cmsLineup(goal,shooter,round){
+    goal.state={...goal.state,lineup:{shooter,round}};
     const c=goal.clubs;if(!c||!goal.scene?.lineup)return;
     goal.scene.lineup({taker:c[shooter],keeper:c[cmsOther(shooter)],round});
   }
@@ -388,8 +404,12 @@
           g.svg.style.setProperty("--cm-hit-x",`${ballX}px`);g.svg.style.setProperty("--cm-hit-y",`${ballY}px`);
           g.hit.setAttribute("cx",String(ballX));g.hit.setAttribute("cy",String(ballY));
           g.svg.classList.toggle("is-flying",animate);g.svg.classList.toggle("is-goal",Boolean(kick.goal));g.svg.classList.toggle("is-save",!kick.goal);
-          g.scene?.kick({shot:shot===engine.timeout?null:shot,dive,goal:Boolean(kick.goal),animate,round:kick.kick});
+          // The scene runs up only when it was there when this kick began (its words wait for it); one that mounted since
+          // shows the kick's end pose, as the words already say.
+          const k3={shot:shot===engine.timeout?null:shot,dive,goal:Boolean(kick.goal),round:kick.kick};g.state={...g.state,kick:k3};
+          g.scene?.kick({...k3,animate:animate&&sceneAtStart});
         };
+        const sceneAtStart=Boolean(g.scene);
         cmsReset(g);cmsLineup(g,kick.shooter,kick.kick);
         if(animate){void g.svg.getBoundingClientRect?.();root.setTimeout(strike,320);}else strike();
         const words=kickWords(kick);
@@ -475,6 +495,7 @@
         // F17-03: no clock until the rival locks in, and it says so.
         const theirPart=shooting?"dive":"shot";
         ui.status.textContent=notice&&Date.now()<notice.until?notice.text:theirsSent>=n?`${NAMES[other]} has picked his ${theirPart}. Lock in your ${part}.`:`Pick your ${part}, then lock in. No clock until ${NAMES[other]} locks in his ${theirPart}.`;
+        if(clock&&!stageShown){ui.goal.dropScene?.();showStage();}
         if(clock){
           const left=Math.max(0,clock.deadline-now());
           ui.clock.textContent=`0:${String(Math.ceil(left/1000)).padStart(2,"0")}`;
@@ -499,6 +520,10 @@
           render();
         });
       };
+      // The stage shows once the goal is drawn: the 3D scene, or the SVG when the scene cannot come in time. Codex C2 (#1244):
+      // a running pick clock never waits on the scene; the SVG shows at once and the deadline stays the shared one.
+      let stageShown=false;
+      const showStage=()=>{if(stageShown||finished)return;stageShown=true;ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}};
       const onData=data=>{
         const next=data?cmsRecord(data,ctx.season):engine.record({playerOne:"",playerTwo:""});
         if(!next)return fail({code:"CHAMBER_MEN_BAD_RECORD"});
@@ -506,7 +531,7 @@
         if(record&&(next.playerOne.length<record.playerOne.length||next.playerTwo.length<record.playerTwo.length))return;
         record=next;lastWriteMs=cmsMillis(data&&data.updatedAt);
         // r89: the stage shows once the goal is drawn (the 3D scene, or the SVG when the scene cannot come in time).
-        if(ui.stage.style.visibility==="hidden"&&!sceneShown){sceneShown=true;sceneReady.then(()=>{if(finished)return;ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}});}
+        if(!stageShown&&!sceneShown){sceneShown=true;sceneReady.then(showStage);}
         render();
       };
       const onVisibility=()=>{if(finished||cmsDoc().visibilityState==="hidden")return;Promise.resolve().then(()=>io.resync?.()).catch(()=>{}).then(()=>{if(!finished)render();});};
