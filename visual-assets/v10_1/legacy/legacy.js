@@ -375,8 +375,10 @@ window.ShowdownLegacyBoot = function () {
 
   // r87 (transitions): phone History draws the selected card and this many on each side; a career of hundreds of
   // Showdowns used to build every card (three crests each) before the screen could open.
-  // Studio Small Axe History finder: the list shows this many Showdowns per page on every size.
+  // Studio Small Axe History finder: the list shows up to this many Showdowns per page. On desktop the page size is then
+  // fitted to the window (never under LIST_MIN_PAGE_SIZE), so VIEW SEASON HISTORY and the pager stay on screen.
   const LIST_PAGE_SIZE = 12;
+  const LIST_MIN_PAGE_SIZE = 5;
   const ARCHIVE_FILTERS = [["all", "ALL"], ["daniel", "DANIEL WINS"], ["nik", "NIK WINS"], ["draw", "DRAWS"], ["golden", "GOLDEN"]];
   function archiveWinner(item) {
     return item && ["completed", "completion-pending"].includes(item.status) ? item.winner || "" : "";
@@ -410,8 +412,12 @@ window.ShowdownLegacyBoot = function () {
     if (prefs.view !== "list") prefs.view = "cards";
     const allRecords = frame.showdowns || [];
     const cardPageSize = Math.max(1, Number(frame.ui.pageSize) || 4);
+    let listSize = LIST_PAGE_SIZE;
+    let fitFrame = 0;
+    const nextFrame = (fn) => (typeof requestAnimationFrame === "function" ? requestAnimationFrame(fn) : 0);
+    const dropFrame = (id) => { if (id && typeof cancelAnimationFrame === "function") cancelAnimationFrame(id); };
     let records = allRecords.filter((item) => archiveMatches(item, prefs.filter));
-    let pageSize = prefs.view === "list" ? LIST_PAGE_SIZE : cardPageSize;
+    let pageSize = prefs.view === "list" ? listSize : cardPageSize;
     let pages = Math.max(1, Math.ceil(records.length / pageSize));
     // The phone's one-card-at-a-time carousel applies to cards only; the list pages on every size.
     const single = () => phone.matches && prefs.view !== "list";
@@ -620,7 +626,7 @@ window.ShowdownLegacyBoot = function () {
     // Re-filters and redraws around one Showdown (kept when it is still shown, otherwise the newest shown).
     function rebuild(target, focus = false) {
       records = allRecords.filter((item) => archiveMatches(item, prefs.filter));
-      pageSize = prefs.view === "list" ? LIST_PAGE_SIZE : cardPageSize;
+      pageSize = prefs.view === "list" ? listSize : cardPageSize;
       pages = Math.max(1, Math.ceil(records.length / pageSize));
       pagerBuiltFor = null;
       let index = records.findIndex((item) => item.number === target);
@@ -697,6 +703,40 @@ window.ShowdownLegacyBoot = function () {
       if (single() && changed) pageMotion(index > previousIndex ? 1 : -1, scroll);
     }
 
+    // Desktop list: when the rows would push VIEW SEASON HISTORY under the window's bottom edge, the page holds fewer rows
+    // (one measured row pitch at a time, never fewer than LIST_MIN_PAGE_SIZE). Layout reads only, no data reads.
+    function fitList() {
+      if (prefs.view !== "list" || phone.matches || !action || typeof action.getBoundingClientRect !== "function" || typeof getComputedStyle !== "function") return;
+      const rows = grid.querySelectorAll(".legacyListRow");
+      if (rows.length < 2 || rows.length < listSize) return;
+      const pitch = rows[1].getBoundingClientRect().top - rows[0].getBoundingClientRect().top;
+      if (!(pitch > 0)) return;
+      // Two limits, the smaller wins: VIEW SEASON HISTORY stays above the window's bottom edge, and the rows plus a
+      // natural-height pager fill the archive panel's own height (the height the cards use, or the side column's when that
+      // is taller), so the panel never grows past it and the pager is not stretched over empty marble.
+      const gridTop = rows[0].getBoundingClientRect().top;
+      const pagerBox = pager.getBoundingClientRect();
+      const lead = pagerBox.top - rows[rows.length - 1].getBoundingClientRect().bottom;
+      const pagerMin = parseFloat(getComputedStyle(pager).minHeight) || 44;
+      const rowGap = pitch - rows[0].getBoundingClientRect().height;
+      let next = listSize;
+      const viewOver = action.getBoundingClientRect().bottom + 8 - window.innerHeight;
+      if (viewOver > 0) next = Math.min(next, listSize - Math.ceil(viewOver / pitch));
+      const panel = grid.closest(".legacyArchivePanel");
+      const panelMin = panel ? parseFloat(getComputedStyle(panel).minHeight) : 0;
+      const side = document.querySelector("#legacy .legacySidePanel");
+      const kids = side ? [...side.children].filter((kid) => kid.getClientRects().length) : [];
+      const sideBottom = kids.length ? Math.max(...kids.map((kid) => kid.getBoundingClientRect().bottom)) : 0;
+      if (panelMin > 0 || sideBottom > 0) {
+        const panelBox = panel ? panel.getBoundingClientRect() : pagerBox;
+        const bottom = Math.max(panelMin > 0 ? panelBox.top + panelMin - (panelBox.bottom - pagerBox.bottom) : 0, sideBottom);
+        next = Math.min(next, Math.floor((bottom - pagerMin - lead - gridTop + rowGap) / pitch));
+      }
+      next = Math.max(LIST_MIN_PAGE_SIZE, next);
+      if (next >= listSize) return;
+      listSize = next;
+      rebuild(selected);
+    }
     function paint(focusCard = false) {
       page = Math.max(1, Math.min(pages, page));
       visible = single() ? records : records.slice(pageStart(page), pageEnd(page));
@@ -799,6 +839,9 @@ window.ShowdownLegacyBoot = function () {
         const target = grid.querySelector('[data-selected="true"], [data-row-selected="true"]') || grid.querySelector("button");
         if (target) target.focus({ preventScroll: true });
       }
+      // Measured once the new rows, pager and tools have laid out (two frames), so the fit sees the final page.
+      dropFrame(fitFrame);
+      fitFrame = nextFrame(() => { fitFrame = nextFrame(fitList); });
     }
     // r87 career fixes: one way to move for the arrows, the jumps, the scrubber, the keyboard and a swipe.
     function goTo(position, focusCard = true) {
@@ -876,8 +919,16 @@ window.ShowdownLegacyBoot = function () {
       paint();
     };
     phone.addEventListener("change", onPhoneChange);
+    // A taller or shorter window re-fits the desktop list from the full page size.
+    let refit = 0;
+    const onListResize = () => {
+      if (prefs.view !== "list" || phone.matches) return;
+      dropFrame(refit);
+      refit = nextFrame(() => { listSize = LIST_PAGE_SIZE; rebuild(selected); });
+    };
+    if (typeof window.addEventListener === "function") window.addEventListener("resize", onListResize);
     renderTools();
-    window.LEGACY_BOOT.cleanup = () => { phone.removeEventListener("change", onPhoneChange); clearTimeout(settling); if (typeof document.removeEventListener === "function") document.removeEventListener("keydown", onKey); if (typeof grid.removeEventListener === "function") { grid.removeEventListener("touchstart", onTouchStart); grid.removeEventListener("touchend", onTouchEnd); } };
+    window.LEGACY_BOOT.cleanup = () => { phone.removeEventListener("change", onPhoneChange); if (typeof window.removeEventListener === "function") window.removeEventListener("resize", onListResize); dropFrame(refit); dropFrame(fitFrame); cancelAnimationFrame(fitFrame); clearTimeout(settling); if (typeof document.removeEventListener === "function") document.removeEventListener("keydown", onKey); if (typeof grid.removeEventListener === "function") { grid.removeEventListener("touchstart", onTouchStart); grid.removeEventListener("touchend", onTouchEnd); } };
     paint();
   }
 
