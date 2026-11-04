@@ -141,7 +141,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   white-space: nowrap;
   text-indent: 150%;
   color: transparent;
-  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp") center / 100% 100% no-repeat;
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp") center / 100% 100% no-repeat;
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp") 2x);
   -webkit-background-clip: border-box;
   background-clip: border-box;
   filter: none;
@@ -271,7 +272,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   color: transparent;
   border: 0;
   box-shadow: none;
-  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V1.webp") center / 100% 100% no-repeat;
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp") center / 100% 100% no-repeat;
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_1920.webp") 2x);
   -webkit-background-clip: border-box;
   background-clip: border-box;
   filter: drop-shadow(0 3px 2px rgba(0, 0, 0, .9));

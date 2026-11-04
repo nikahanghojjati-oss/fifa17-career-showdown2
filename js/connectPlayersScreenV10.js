@@ -17,7 +17,7 @@
     "<header class=\"connectPlayersHeader\">",
     "<p class=\"connectPlayersKicker\">CAREER MODE SHOWDOWN // 17</p>",
     // r80 (Team V HO-033): the title is the TITLE_CONNECT_PLAYERS_V1 picture; the words stay as visually hidden text.
-    "<h2 id=\"connectPlayersTitle\"><img class=\"connectPlayersWordmark\" src=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V1.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"connectPlayersTitleText\">CONNECT PLAYERS</span></h2>",
+    "<h2 id=\"connectPlayersTitle\"><img class=\"connectPlayersWordmark\" src=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_1920.webp\" srcset=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_480.webp 480w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_960.webp 960w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_1920.webp 1920w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_3840.webp 3840w\" sizes=\"(max-width: 900px) 92vw, 60vw\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"connectPlayersTitleText\">CONNECT PLAYERS</span></h2>",
     "<p class=\"connectPlayersTagline\">Connect Daniel and Nik before the career starts.</p>",
     "</header>",
     "<div class=\"connectPlayersWorkspace\">",

@@ -44,7 +44,11 @@ const TEAM_V={
   "assets/fonts/barlow-condensed-latin-700-normal.woff2":"3787a5a419171630e6890cfa47c4da067474d005cd0ff8dc11ec090fdc3ee2b8",
   "assets/fonts/barlow-latin-400-normal.woff2":"b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b",
   "assets/fonts/barlow-latin-600-normal.woff2":"4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3",
-  "../../shared/wordmarks/TITLE_TRANSFER_V1.webp":"692130a00695e41554036cd20061adcb9e1cf51c9384eda1ec108dfa86b8263d"
+  "../../shared/wordmarks/TITLE_TRANSFER_V1.webp":"692130a00695e41554036cd20061adcb9e1cf51c9384eda1ec108dfa86b8263d",
+  "../../shared/wordmarks/TITLE_TRANSFER_V2_480.webp":"a73a62485c52d482916228d99280fe70e6c2fef91fc676686b0f465759f23b57",
+  "../../shared/wordmarks/TITLE_TRANSFER_V2_960.webp":"d40abf2d4f45ad9f6e831526fdd116a61049bb9d924d3815c7d76e2b7b34d0fe",
+  "../../shared/wordmarks/TITLE_TRANSFER_V2_1920.webp":"349af044418b7473f73439b0370a646065269ba1c90e2c5e4114dee60ed0c9c6",
+  "../../shared/wordmarks/TITLE_TRANSFER_V2_3840.webp":"cd04c11532a03e26cc54548ba6d88ec2082eabfbd256a8dec83115fdd8d48730"
 };
 
 // ---- the provider view shapes (js/productionSharedTransferChallenge.js getState()) ----
@@ -66,7 +70,8 @@ check("1 Team V files are 5e05a1f bytes; plate.js differs only by the four marke
   }
   const plate=read(DIR+"plate.js"),marked=plate.split("\n").filter(line=>/App \(JOB-27\)|ASSET_BASE \+/.test(line));
   assert.equal(marked.length,4,"four edited lines");
-  const original=plate.split("\n").filter(line=>!line.includes('var ASSET_BASE = window.TRANSFER_WAR_BASE || ""; // App (JOB-27)')).join("\n")
+  // HO-057 (Studio Small Axe): the title line picks the 4K V2 widths; undo it before comparing with Team V's plate.js.
+  const original=plate.replace(`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V2_1920.webp", srcset: [480, 960, 1920, 3840].map(function (w) { return ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V2_" + w + ".webp " + w + "w"; }).join(", "), sizes: "(max-width: 900px) 92vw, 60vw", alt: "", "aria-hidden": "true", decoding: "async" })); // App (HO-057): 4K title widths`,`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));`).split("\n").filter(line=>!line.includes('var ASSET_BASE = window.TRANSFER_WAR_BASE || ""; // App (JOB-27)')).join("\n")
     .replace('ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp"','"../../shared/wordmarks/TITLE_TRANSFER_V1.webp"')
     .replace('ASSET_BASE + "assets/ENV_TR2_PLATE_G_LOCKED_V1_"','"assets/ENV_TR2_PLATE_G_LOCKED_V1_"')
     .replace(' || window.TRANSFER_WAR_APP) return; // App (JOB-27): the app passes the frame',') return;');

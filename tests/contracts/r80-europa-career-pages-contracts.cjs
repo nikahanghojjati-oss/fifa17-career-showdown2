@@ -105,8 +105,8 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
 }
 {
   const screen=read("js/connectPlayersScreenV10.js").replace(/\\"/g,"\"");
-  assert.match(screen,/<h2 id="connectPlayersTitle"><img class="connectPlayersWordmark" src="visual-assets\/v10_1\/shared\/wordmarks\/TITLE_CONNECT_PLAYERS_V1\.webp" alt="" aria-hidden="true"[^>]*><span class="connectPlayersTitleText">CONNECT PLAYERS<\/span><\/h2>/);
-  const bytes=fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V1.webp"));
+  assert.match(screen,/<h2 id="connectPlayersTitle"><img class="connectPlayersWordmark" src="visual-assets\/v10_1\/shared\/wordmarks\/TITLE_CONNECT_PLAYERS_V2_1920\.webp"[^>]* alt="" aria-hidden="true"[^>]*><span class="connectPlayersTitleText">CONNECT PLAYERS<\/span><\/h2>/);
+  const bytes=fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_1920.webp"));
   assert.equal(bytes.subarray(8,12).toString(),"WEBP");
   const css=read("css/connectPlayersV10.css");
   const hidden=/\.connectPlayersTitleText\{([^}]*)\}/.exec(css);

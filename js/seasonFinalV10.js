@@ -582,7 +582,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}"); }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { background-image:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}"); }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { background-image:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_1920.webp")}") 2x); }
 
  /* Leave 430px for the live card, tabs, actions, gaps and bottom inset. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
@@ -710,7 +710,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   background-position:left bottom 24%,right bottom 24%; background-size:55% 70%,55% 70%;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
-  inset:73% 2% 4%; background:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}") center/contain no-repeat;
+  inset:73% 2% 4%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_1920.webp")}") 2x) center/contain no-repeat;
  }
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
@@ -827,7 +827,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before {
   inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); background-position:left bottom 13%,right bottom 13%; background-size:49% 85%,49% 85%;
  }
-#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; background:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}") center/contain no-repeat; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_1920.webp")}") 2x) center/contain no-repeat; }
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
