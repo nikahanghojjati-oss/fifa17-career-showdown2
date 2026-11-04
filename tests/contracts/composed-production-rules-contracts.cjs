@@ -56,8 +56,10 @@ function staticChecks(getCandidate){
     }],
     ['T8','completed-only grant is get-only on exactly four lines, and candidate minus the reviewed delta is production main',()=>{
       const text=artifact();
-      assert.equal((text.match(/cmsCompletedShowdownReadable\(rivalryId\)/g)||[]).length,4,'definition, the season grant, setup and the reads meter');
-      assert.equal((text.match(/cmsCompletedSeasonReadable\(rivalryId, seasonId\)/g)||[]).length,4);
+      // r88 Rules slimming: the localize build step declares both grants inside the rivalry match block, so rivalryId is in
+      // scope and no longer passed (the reviewed source keeps the parameterized form).
+      assert.equal((text.match(/cmsCompletedShowdownReadable\((rivalryId)?\)/g)||[]).length,4,'definition, the season grant, setup and the reads meter');
+      assert.equal((text.match(/cmsCompletedSeasonReadable\((rivalryId, )?seasonId\)/g)||[]).length,4);
       for(const s of h.allowStatements(text)){
         if(/cmsCompleted/.test(s.condition))assert.deepEqual(s.methods,['get'],`completed grant on ${s.methods.join(',')}`);
         if(/cmsCareerIndex/.test(s.condition))assert.ok(s.methods.every(x=>['get','create','update'].includes(x)),`career index grant on ${s.methods.join(',')}`);
@@ -69,14 +71,23 @@ function staticChecks(getCandidate){
       const main=h.identity(h.reverseApply(text,delta.hunks));
       assert.deepEqual({sha256:main.sha256,gitBlobSha1:main.gitBlobSha1,bytes:main.bytes},{sha256:delta.productionMain.sha256,gitBlobSha1:delta.productionMain.gitBlobSha1,bytes:delta.productionMain.bytes});
       let last=0;
+      // r88 Rules slimming: a line a localized function carries with it (removed in one hunk, added in another) is a move,
+      // not a new grant or a new billing token; only the R88-SLIM owner may rely on this.
+      const movedLines=new Set(delta.hunks.flatMap(x=>x.removed.map(l=>l.trim())));
       for(const hunk of delta.hunks){
         assert.ok(delta.allowedOwners.includes(hunk.owner),`hunk owner ${hunk.owner}`);
         assert.ok(typeof hunk.why==='string'&&hunk.why.length>20,'every hunk says why');
         assert.ok(hunk.candidateLine>last,'hunks ascend');last=hunk.candidateLine+hunk.added.length-1;
-        for(const line of hunk.removed)assert.ok(!/allow\s+(create|update|list|delete|read|write)/.test(line),`delta removes a non-get rule: ${line}`);
+        // r88 Rules slimming (R88-SLIM): the localize build step re-declares single-use validators without parameters, so
+        // an allow line may change only by dropping call arguments: the same line, calls stripped to name(), must be
+        // added back in the same hunk (and vice versa). Nothing else about a write rule may move under this owner.
+        const stripCalls=line=>line.trim().replace(/\b([A-Za-z_]\w*)\((?:[^()]|\([^()]*\))*\)/g,'$1()');
+        const slimPair=(line,others)=>hunk.owner==='R88-SLIM'&&others.some(o=>stripCalls(o)===stripCalls(line));
+        for(const line of hunk.removed)assert.ok(!/allow\s+(create|update|list|delete|read|write)/.test(line)||slimPair(line,hunk.added),`delta removes a non-get rule: ${line}`);
         for(const line of hunk.added){
-          for(const [name,re] of h.BILLING_STRICT)assert.ok(!re.test(line),`delta adds ${name}`);
-          assert.ok(!/billing/i.test(line),'delta adds a billing token');
+          const moved=hunk.owner==='R88-SLIM'&&movedLines.has(line.trim());
+          for(const [name,re] of h.BILLING_STRICT)assert.ok(moved||!re.test(line),`delta adds ${name}`);
+          assert.ok(moved||!/billing/i.test(line),'delta adds a billing token');
           const m=line.match(/allow\s+([a-z, ]+?)\s*:/);
           if(!m)continue;
           const methods=m[1].split(',').map(x=>x.trim());
@@ -96,9 +107,9 @@ function staticChecks(getCandidate){
           const r87Pack=hunk.owner==='R87-PRIME-PACK'&&['allow create: if ssjrPackCreateValid(rivalryId, seasonId);','allow update: if ssjrPackUpdateValid(rivalryId, seasonId);'].includes(line.trim());
           // Fable job 2 F2-02 (r87 roulette hits): exactly the create-once durable record of both marks that START writes.
           const r87Hits=hunk.owner==='R87-HITS'&&line.trim()==='allow create: if ssjrTransferRouletteRecordCreate(rivalryId, transferId, docId);';
-          // r88 Chamber Men (Nik 2026-11-02): exactly the round record's create and update (own pick string, one round a write).
+          // r88 Chamber Men (Nik 2026-11-02, turn by turn 2026-11-03): exactly the round record's create and update (own pick string, one letter a kick).
           const r88Chamber=hunk.owner==='R88-CHAMBER-MEN'&&['allow create: if ssjrChamberCreateValid(rivalryId, seasonId);','allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);'].includes(line.trim());
-          if(methods.some(x=>['create','update'].includes(x))&&!/:\s*if false;\s*$/.test(line))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner||r86Summary||r87Meter||r87Spins||r87Hits||r87Pack||r88Chamber,`only the reviewed G-7 career index block may add write rules: ${line}`);
+          if(methods.some(x=>['create','update'].includes(x))&&!/:\s*if false;\s*$/.test(line))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer||r79Partner||r86Summary||r87Meter||r87Spins||r87Hits||r87Pack||r88Chamber||slimPair(line,hunk.removed),`only the reviewed G-7 career index block may add write rules: ${line}`);
         }
       }
       return `${delta.hunks.length} hunks, -${delta.hunks.reduce((a,x)=>a+x.removed.length,0)} +${delta.hunks.reduce((a,x)=>a+x.added.length,0)} lines vs main ${delta.productionMain.commit.slice(0,7)}`;

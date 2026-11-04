@@ -26,7 +26,10 @@ async function mintAccessToken(){
   const body=JSON.parse(text);if(!body.access_token)throw new Error('Google OAuth token exchange returned no access_token.');return body.access_token;
 }
 const RULES_API_RETRYABLE_STATUS=new Set([408,425,429,500,502,503,504]);
-const RULES_API_RETRY_DELAYS_MS=[1000,2000,4000,8000,16000];
+// r88 (Fable job 19): the 2.1.0 ruleset create got HTTP 503 on every attempt because the compile ran past the
+// service's ~5 s deadline, and the service's speed swings by about 1.6x within twenty minutes. A longer, still finite
+// schedule (about 6.5 minutes in all) gives one deploy several speed windows instead of 31 seconds of them.
+const RULES_API_RETRY_DELAYS_MS=[1000,2000,4000,8000,16000,30000,45000,60000,60000,60000,60000,60000];
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 
 async function rulesRequest(method,path,token,body=null,allow404=false){
