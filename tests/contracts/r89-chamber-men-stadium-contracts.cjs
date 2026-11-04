@@ -73,9 +73,23 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     for(const m of ["kitShirt","kitShorts","kitSocks","kitBoots"])assert.ok(mats.includes(m),`${tier} has material ${m}`);
     assert.ok(json.skins&&json.skins.length>=1,"skinned");
   }
+  // v2: one shared clip file per tier plus one light body file per body; same bones, kit materials, hips scale for clips
+  for(const [tier,amax,bmax] of [["desktop",1.6e6,4.8e6],["phone",1.4e6,2.4e6]]){
+    const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
+    assert.equal(a.json.animations.length,18,`anims_${tier} has the 18 clips`);
+    for(const id of ["remy","ch38","ch42"]){
+      const {size,json}=glb(`body_${id}_${tier}.glb`);
+      assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
+      const mats=json.materials.map(m=>m.name);
+      for(const m of ["Bodymat","Hairmat","kitShirt","kitShorts","kitSocks","kitBoots"])assert.ok(mats.includes(m),`body_${id}_${tier} has ${m}`);
+      assert.ok(json.skins&&json.skins.length>=1,`body_${id}_${tier} skinned`);
+      assert.ok(json.nodes.some(n=>n.name==="mixamorigHips"),`body_${id}_${tier} on the shared skeleton`);
+      assert.ok(json.nodes.some(n=>n.extras&&typeof n.extras.cmHipsScale==="number"),`body_${id}_${tier} carries cmHipsScale`);
+    }
+  }
   const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read(ENGINE),sandbox);
   const T=sandbox.THREE||sandbox.window.THREE;
   for(const k of ["GLTFLoader","SkinnedMesh","AnimationMixer","LoopOnce","LoopRepeat"])assert.ok(k in T,`engine has ${k}`);
-  ok("S5","player glTF (desktop and phone) with every clip and the kit meshes; the engine can load and play it");
+  ok("S5","player glTF (desktop and phone) with every clip and the kit meshes; shared clip file and three light bodies; the engine can load and play it");
 }
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);
