@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04 8:14 PM Boston time (EST)",
+ "generated": "2026-11-04 8:18 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1871,8 +1871,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: a check is waiting for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
