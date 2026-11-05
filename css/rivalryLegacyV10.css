@@ -1933,3 +1933,9 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyCardGrid[data-view="list"]) { grid-template-rows:auto auto auto minmax(0,1fr); }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyCardGrid[data-view="list"]) > .legacySidePanel { grid-row:1 / 5; }
 }
+/* Codex P2 (901x650): below 1200px the five filters did not fit beside CARDS / LIST and GO TO #, so the toolbar takes two
+   rows there: view and GO TO # on the first, the five filters across the archive's full width on the second. */
+@media (min-width:901px) and (max-width:1199px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools { grid-template-columns:minmax(140px,180px) minmax(0,260px); row-gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters { grid-column:1 / -1; }
+}
