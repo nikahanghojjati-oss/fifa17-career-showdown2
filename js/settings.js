@@ -994,7 +994,8 @@ function placeSettingsFooter(){
         else if(typeof settingsFooterQuery.addListener === "function"){ settingsFooterQuery.addListener(onChange); }
     }
     const inGrid = Boolean(settingsFooterQuery?.matches);
-    footer.toggleAttribute("data-sa-in-grid", inGrid);
+    footer.toggleAttribute?.("data-sa-in-grid", inGrid);
+    if(typeof settingsContent.append !== "function" || typeof settingsDialog.append !== "function"){ return; }
     if(inGrid){
         if(footer.parentElement !== settingsContent || footer !== settingsContent.lastElementChild){ settingsContent.append(footer); }
     }else if(footer.parentElement !== settingsDialog || footer !== settingsDialog.lastElementChild){
