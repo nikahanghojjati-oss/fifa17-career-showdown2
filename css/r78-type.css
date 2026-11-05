@@ -1021,12 +1021,14 @@
 :root #app #statistics #rvTitleBlock .rv-goldenTitle img { width: 14px; height: 14px; object-fit: contain; }
 :root #app #statistics #rvTitleBlock .rv-goldenTitle strong { color: var(--sd-gold-300, #ffd34d); letter-spacing: .1em; }
 @media (max-width: 900px) { :root #app #statistics #rvTitleBlock .rv-goldenTitle { display: none; } }
-/* 4u.3 (Fable job 20, 901x700): from 901px to 1023px the base art put the totals card's bottom edge 5px into the three lower
-   panels (their titles sat under it). The panels now start 6px under the card and still end where they did, above BACK. */
-@media (min-width: 901px) and (max-width: 1023px) {
-  :root #app #statistics .rv-stage .rv-bottom { top: calc(63.8% + 6px); height: calc(24.2% - 6px); }
-  /* "CHAMPION" at 12px ran 2px past its 51px trophy column; no letter-spacing here keeps it inside. */
-  :root #app #statistics .rv-stage .rv-trophyLabel { letter-spacing: 0; }
+/* 4u.3 (Fable job 20, 901-1023px): these windows now use the approved desktop Rivalry layout (the 1024px rules also cover
+   901-1023 in rivalryLegacyV10.css and rivalry-statistics.css), so a long season table grows its panel instead of running
+   under BACK. Here BACK always ends the content (never docked over a panel), and the five trophies share the full cabinet
+   width with no letter-spacing so CHAMPION and CHAMPIONS stay inside their columns at 12px. */
+@media (min-width: 901px) and (max-width: 1023px) and (orientation: landscape) {
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-shell .rv-actions { position: relative; top: auto; bottom: auto; }
+  :root #app #statistics[data-rivalry-legacy-v10] #rvTrophyBody .rv-trophyGrid { width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: 2px; padding-left: 0; padding-right: 0; }
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-trophyLabel { letter-spacing: 0; }
 }
 
 /* 4v Studio Small Axe 40/40, per-screen finishes (desktop plate layout only; phones unchanged).
