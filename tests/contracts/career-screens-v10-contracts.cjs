@@ -141,7 +141,8 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   // Job 24: Team V images moved from the install precache to the SW runtime image cache keyed by RUNTIME_REVISION.
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   // r87: the roulette's sounds (.wav) follow the same runtime rule as the images.
-  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav)$/i.test(file);
+  // r89: the Chamber Men player models (.glb) too.
+  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav|glb)$/i.test(file);
   for(const file of lazy){
     if(isImage(file)){assert.ok(imageRule.test(file),`runtime image rule covers ${file}`);assert.ok(!shell.has(file),`${file} not precached`);}
     else assert.ok(shell.has(file),`shell lists ${file}`);
@@ -157,6 +158,8 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   assert.ok(!lazy.some(f=>/\.md$|_SRC\.png$|GUIDE_|PHONE_PROOF/.test(f)),"no docs or review sources copied");
   // Job 27: Transfer War ships three runtime PNGs (alpha overlays Team V delivers only as PNG); none elsewhere.
   const runtimePng=new Set(["DER_TR2_PLATE_G_GLASS_C_V1.png","OVL_NIK_FINGERTIP_V1_1672.png","OVL_NIK_FINGERTIP_V1_3344.png"].map(f=>"visual-assets/v10_1/tr2/slice-02-plate/assets/"+f));
+  // r89: the Chamber Men kit maps are lossless data (wrap u, v and part per texel, read by kits17), so they stay PNG.
+  for(const b of ["ch38","ch42"])runtimePng.add(`visual-assets/v10_1/chamber-men/players/kitmap/${b}.png`);
   assert.ok(!lazy.some(f=>/\.png$/.test(f)&&!runtimePng.has(f)),"no png copied");
 });
 check("V10 production never reads fixtures",()=>{
