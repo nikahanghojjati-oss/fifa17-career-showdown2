@@ -6,13 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 5 Nov, 1:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Thu 5 Nov, 1:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.1.0-r88** (main `e6485d7`, Wed 4 Nov 8:36 AM)
 
-🩺 **All clear (from GitHub).** · POS20 #304 7/7
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -44,7 +42,7 @@ Updated Thu 5 Nov, 1:29 PM Boston time. Bug hunting only, no new features until 
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 581 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 582 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -56,7 +54,7 @@ Updated Thu 5 Nov, 1:29 PM Boston time. Bug hunting only, no new features until 
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 505 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 506 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
