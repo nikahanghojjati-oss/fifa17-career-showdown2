@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04 11:57 PM Boston time (EST)",
+ "generated": "2026-11-05 12:01 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1857,18 +1857,7 @@
    "when": "2026-11-04T08:36:07-05:00",
    "subject": "Merge pull request #1243 from nikahanghojjati-oss/claude-gameplay/r88-main-delta-repin",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1243,
-     "title": "2.1.0 live: re-pin Rules main-delta to main",
-     "merged": "2026-11-04T13:36:07Z"
-    },
-    {
-     "pr": 1242,
-     "title": "Rules: compile inside the Rules service deadline (2.1.0 ruleset create 503s)",
-     "merged": "2026-11-04T11:50:25Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
