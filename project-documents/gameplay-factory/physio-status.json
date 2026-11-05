@@ -1,8 +1,18 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-05T00:55:10.546Z",
-  "state": "ALL_CLEAR",
-  "checks": [],
+  "at": "2026-11-05T01:03:15.956Z",
+  "state": "BARKING",
+  "checks": [
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "4166ddec07e428ed5e885790eb23fb3daea65ca5",
+      "pr": 1247,
+      "queued_minutes": 0,
+      "action": "rerun",
+      "attempt": 1,
+      "max_attempts": 2
+    }
+  ],
   "helpers_paused": [],
   "gate": null,
   "pos20": {
