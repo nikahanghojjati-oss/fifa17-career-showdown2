@@ -973,6 +973,9 @@ function renderSettings(){
         createOfflinePanel(),
         createDataPanel()
     );
+    // DONE may live in the content grid (placeSettingsFooter); hand it back to the dialog first so the rebuild keeps it.
+    const keptFooter = settingsDialog?.querySelector?.(".settingsFooter");
+    if(keptFooter && keptFooter.parentElement === settingsContent && typeof settingsDialog.append === "function"){ settingsDialog.append(keptFooter); }
     settingsContent.replaceChildren(fragment);
     window.CareerModeRulesSettingsV10?.refreshSettings();
     placeSettingsFooter();
