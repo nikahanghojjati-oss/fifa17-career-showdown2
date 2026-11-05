@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 5 Nov, 11:09 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 5 Nov, 11:13 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.1.0-r88** (main `e6485d7`, Wed 4 Nov 8:36 AM)
 
@@ -22,7 +22,7 @@ Updated Thu 5 Nov, 11:09 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 579 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -30,7 +30,7 @@ Updated Thu 5 Nov, 11:09 AM Boston time. Bug hunting only, no new features until
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 579 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -38,7 +38,7 @@ Updated Thu 5 Nov, 11:09 AM Boston time. Bug hunting only, no new features until
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #778
+🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 579 h ago
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -54,15 +54,15 @@ Updated Thu 5 Nov, 11:09 AM Boston time. Bug hunting only, no new features until
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 503 h ago
+⚪ Team white · model not set · worker working, draft PR #855
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 518 h ago
+⚪ Team white · model not set · worker working, draft PR #851
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 515 h ago
 
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Thu 5 Nov, 11:09 AM Boston time. Bug hunting only, no new features until
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #877
+⚪ Team white · model not set · worker working, draft PR #877 · CI 7 of 8 passed · last move 473 h ago
 
 ### 👉 Next for you, in this order
 
