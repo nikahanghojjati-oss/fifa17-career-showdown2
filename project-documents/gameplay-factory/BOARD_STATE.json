@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-05 1:21 PM Boston time (EST)",
+ "generated": "2026-11-05 1:25 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1861,9 +1861,9 @@
   },
   "physio": {
    "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
