@@ -1926,6 +1926,10 @@
   /* The scene makes the page taller than the window, so BACK ends the content instead of docking over the cards. */
   #app #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab] .rv-actions { position:relative; inset:auto; }
 }
+/* A single Showdown spans the card and pager rows; with the toolbar it starts under the toolbar instead of over it. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(.legacyCardGrid > .legacyCard:only-child) .legacyCardGrid { grid-area:2 / 2 / 4 / 3; }
+}
 
 /* Studio Small Axe Legacy pane, Fable job 20 lines under 5 (2026-11-04).
    Type: card club names, results, SP chips, "10 / 10 Seasons", the Golden line, the table heads and details and CLOSE come up
