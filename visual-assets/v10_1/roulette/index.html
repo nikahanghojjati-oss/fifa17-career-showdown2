@@ -960,7 +960,7 @@ function startTurn(force,targetName,planned){ if(playing) return; const who=ORDE
   playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, cyl0:cyl.rotation.z, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0, frames }; fired={}; shadowCool=3;
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const tgt=boardTargetWorld(who,pick); const dir=tgt.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
-  setBusy(true); result.className="result"; result.textContent=""; slot(who==="D"?slotD:slotN,"Spinning…","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
+  setBusy(true); result.className="result"; result.textContent=NAME[who]+"'s turn"; cta.textContent=NAME[who]+"'s turn…"; slot(who==="D"?slotD:slotN,"At the table","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
 function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+((typeof GAME!=="undefined"&&GAME&&GAME.turns&&GAME.turns[turn]&&GAME.turns[turn].targetLabel)||p.target.name),"lost") /* Codex C2-01: number, position and overall tell namesakes apart */; } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
   try{ window.dispatchEvent(new CustomEvent("rr:end",{detail:{who, name:NAME[who], fire:p.fire, lost:p.fire?p.target.name:null, turn}})); }catch(e){}
@@ -984,6 +984,29 @@ function liveWords(){ const k=(cyl&&cyl.userData&&Number.isInteger(cyl.userData.
   return {mark:"Red: "+k+" live rounds · Gold: fires", fired:"Stopped on a live round", safe:"Stopped on an empty chamber"}; }
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
+/* r89 (Nik 2026-11-04): every label on the screen names the action of the beat it is shown in, never one word for the whole turn. The status
+   line under the board, the gold button and the shooter's slot in the bottom strip all follow this one table (times are the turn's beats). The
+   "Bang! … is released." and "Click. … is safe." lines stay word for word: the game's observer reads them. */
+function say(w){ if(w.st!==undefined){ result.textContent=w.st; if(w.cls!==undefined) result.className="result"+(w.cls?" "+w.cls:""); }
+  if(w.cta!==undefined) cta.textContent=w.cta; if(w.slot!==undefined) slot(playing.who==="D"?slotD:slotN,w.slot,w.slotCls||"wait"); if(w.live!==undefined) live.textContent=w.live; }
+function beatWords(p){ const N=NAME[p.who], T=p.target.name, L=liveWords(), longName=T.length>14?" long":"";
+  return [
+    [0,              "wStart",   {st:N+"'s turn", cls:"", cta:N+"'s turn…", slot:"At the table"}],
+    [B.spin,         "wSpin",    {st:"The revolver spins on the felt", cta:"Spinning…", slot:"Spinning…"}],
+    [B.spinEnd,      "wOut",     {st:"The cylinder swings out", cta:"Cylinder out…", slot:"Cylinder out"}],
+    [B.close+.4,     "mark",     {st:L.mark, cls:"", cta:"Spinning…", slot:"Spinning…"}],
+    [B.inside-2.0,   "slowing",  {st:"Slowing down…", cta:"Slowing…", slot:"Slowing"}],
+    [B.inside-.6,    "stopped",  {st:p.fire?L.fired:L.safe, cls:p.fire?"bang":"safe", cta:"Stopped", slot:"Stopped"}],
+    [B.inside+.42,   "wLocked",  {cta:"Cylinder locked", slot:"Locked in"}],
+    [B.hand,         "wHand",    {st:N+" takes the revolver", cls:"", cta:"Taking aim…", slot:"Takes aim"}],
+    [B.cock,         "wCock",    {st:"Hammer cocked", cta:"Hammer cocked", slot:"Hammer cocked"}],
+    [B.aim,          "wAim",     {st:"Aimed at "+T, cls:longName.trim(), cta:"Aiming…", slot:"Aims"}],
+    [B.fire,         "wFire",    p.fire?{st:"Bang!", cls:"bang", cta:"Shot fired", slot:"Fires!", slotCls:"lost"}:{st:`Click. ${N} is safe.`, cls:"safe", cta:"Click. Safe", slot:"Safe", slotCls:"safe", live:`Click. ${N} is safe.`}],
+    [B.impact,       "wImpact",  p.fire?{st:T+" is hit", cls:"bang"+longName, cta:"Hit!", slot:"Hits "+T, slotCls:"lost"}:{}],
+    [p.fire?B.impact+1.6:B.fire+.7, "line", p.fire?{st:`Bang! ${T} is released.`, cls:"bang"+longName, cta:"Released", slot:"Releases "+T, slotCls:"lost", live:`Bang! ${T} is released.`}:{}] ]
+    /* reduced motion: no free spin and no run-down, so no "spinning", "cylinder out" or "slowing"; the live-round line (the game's observer reads it)
+       opens the turn and the stop is read before the hand comes up */
+    .filter(([t,k])=>!(REDUCED&&(k==="wSpin"||k==="wOut"||k==="slowing"))).map(([t,k,w])=>[REDUCED&&k==="mark"?B.spin:REDUCED&&k==="stopped"?B.close-.2:t,k,w]).sort((a,b)=>a[0]-b[0]); }
 /* r89 polish (sound sync): a sound beat is scheduled CUE_LA seconds early on the audio clock for its exact time, so at 30, 60 or 120 frames a second it lands on the same instant as the picture */
 const CUE_LA=.06; function cue(tt,t,k,name,vol){ if(tt>=t-CUE_LA&&!fired[k]){ fired[k]=1; SFX.play(name,vol,Math.max(0,t-tt)); } }
 /* r89 polish (Nik 2026-11-03: the camera "settles into the shooter's perspective ... seamless"): one critically damped settle, the step response of a
@@ -1013,8 +1036,7 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     /* b. the cylinder turns one chamber by itself, then the hammer cocks by itself */
     /* the crane swings the cylinder out, it spins fast and runs down while the camera looks into the chambers, then swings back */
     const craneK=tt<B.close?0:tt<B.inside?ease.inOut(S(B.close,.5,tt)):1-ease.inOut(S(B.inside,.45,tt)); crane.rotation.z=craneK*1.62; { const pk=Math.max(0,(craneK-.35)/.65), ptr=cyl.userData.pointer; ptr.visible=pk>0; const sc=.001+ease.out(pk)*.999; ptr.scale.set(sc,sc,sc); }
-    at(tt,B.close+.4,"mark",()=>{ result.className="result"; result.textContent=liveWords().mark; });
-    at(tt,B.inside-.6,"stopped",()=>{ result.className=p.fire?"result bang":"result safe"; result.textContent=p.fire?liveWords().fired:liveWords().safe; });
+    if(!p.words) p.words=beatWords(p); for(const [t,k,w] of p.words) at(tt,t,k,()=>say(w));
     cue(tt,B.close,"craneOpen","cock",.6); cue(tt,B.inside+.42,"craneShut","click",1);   /* r89 polish: the shut click lands when the crane seats (the swing takes .45 s), not when it starts to move */
     /* THE main event: the drum spins free for ~7 s, fast at first, then the clicks spread out, then a slow crawl to the stop with the red ring and the gold mark in view. It stops exactly where it will fire (or not) before the crane closes. */
     /* Nik 2026-11-03: the drum starts from wherever it rested and runs down to the planned stop chamber (any of the 7, as the
@@ -1033,7 +1055,7 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
       while(p.tickLine>=0&&angle(kOf(tt+CUE_LA))<p.tickLine*(TAU/7)+1e-6){ const goal=p.tickLine*(TAU/7)+1e-6; let lo=tt-dt, hi=tt+CUE_LA; for(let i=0;i<14;i++){ const m=(lo+hi)/2; if(angle(kOf(m))>goal) lo=m; else hi=m; }
         SFX.play("click",.22+.5*Math.max(0,1-spinW/14),Math.max(0,hi-tt)); p.tickLine--; } }
     if(cyl.userData.blur) cyl.userData.blur(Math.min(1,Math.max(0,(spinW-7)/9)));
-    cue(tt,B.inside-3.2,"heart0","heart"); at(tt,B.inside-2.0,"slowing",()=>{ result.textContent="Slowing down…"; });
+    cue(tt,B.inside-3.2,"heart0","heart");
     cyl.rotation.z=cylTarget()+showExtra;   /* r89 polish: the old extra click right after the crane shut is gone; the seat click above is the one the eye sees */
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
     /* the hand: rises from the dark once the drum is shut, holds and breathes, fires or clicks, then sinks away */
@@ -1045,13 +1067,13 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     cue(tt,B.hand,"handUp","handUp"); cue(tt,B.cock,"cock","cock"); cue(tt,B.aim,"heart","heart");   /* r89 polish: one heartbeat run (three beats) whose last beat falls just before the hammer; the second run used to carry on over the bang */
     cue(tt,B.fire,"shot",p.fire?"bang":"dry"); if(p.fire) cue(tt,B.impact,"splinterCue","splinter");
     /* c/d. hammer falls */
-    if(tt>=B.fire&&!fired.fire){ fired.fire=1; if(p.fire){ fireShot(p,tgt); } else { const fl=muzzleW.clone(); if(!handHold) fl.y=.76; puff(fl,new T.Vector3(0,.4,0),4,.07,.25,.9); result.className="result safe"; result.textContent=`Click. ${NAME[p.who]} is safe.`; live.textContent=result.textContent; } }
+    if(tt>=B.fire&&!fired.fire){ fired.fire=1; if(p.fire){ fireShot(p,tgt); } else { const fl=muzzleW.clone(); if(!handHold) fl.y=.76; puff(fl,new T.Vector3(0,.4,0),4,.07,.25,.9); } }
     /* the bullet: leaves at full speed for the first 8 cm, then the world slows and the camera rides beside it to the board */
     if(p.fire&&tt>=B.fire){ const fl=S(B.fire,B.impact-B.fire,tt); const k=Math.min(1,.04+ease.in(fl)*.96); const impact=tt>=B.impact; const dir=p.dir;
       if(!impact){ bullet.visible=true; bullet.position.copy(slugAt(p,tgt,k)); bullet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),dir); bullet.rotateZ(tt*40); p.bulletK=k; const sp=.5+fl*1.2; bullet.userData.streak.scale.set(sp,1,1); fxScale=lerp(fxScale,.16,Math.min(1,dt*6)); }
       else { bullet.visible=false; if(!p.hitDone){ p.hitDone=true; hitBoard(p,tgt); } fxScale=lerp(fxScale,tt<B.impact+1.2?.22:1,Math.min(1,dt*(tt<B.impact+1.2?8:1.5))); } }
     else fxScale=lerp(fxScale,1,Math.min(1,dt*4));
-    if(tt>=(p.fire?B.impact+1.6:B.fire+.7)&&!fired.line){ fired.line=1; if(p.fire){ result.className="result bang"+(p.target.name.length>14?" long":""); result.textContent=`Bang! ${p.target.name} is released.`; live.textContent=result.textContent; } else { const bu=boards[p.who].userData; if(bu.sel!=null){ bu.sel=null; if(p.frames) showFrame(p.who,p.frames.plain,null,bu.hit); else drawBoard(p.who,bu.club); } } }
+    if(tt>=(p.fire?B.impact+1.6:B.fire+.7)&&!fired.unmark){ fired.unmark=1; if(!p.fire){ const bu=boards[p.who].userData; if(bu.sel!=null){ bu.sel=null; if(p.frames) showFrame(p.who,p.frames.plain,null,bu.hit); else drawBoard(p.who,bu.club); } } }
     /* recoil: the gun kicks and slides back across the felt, turning a little */
     if(p.slideV.lengthSq()>1e-6||p.slide.lengthSq()>1e-8){ p.slideV.multiplyScalar(Math.pow(.02,dt)); p.slide.addScaledVector(p.slideV,dt); spin.position.set(p.slide.x,.751,.02+p.slide.z); spin.rotation.y=p.yawTarget+p.slideSpin*(1-Math.exp(-(tt-B.fire)*3))*.001; if(p.spinKick){ spin.rotation.y=p.yawTarget+p.spinKick*(1-Math.pow(.02,tt-B.fire)); } }
     if(tt>=B.end) endTurn();
