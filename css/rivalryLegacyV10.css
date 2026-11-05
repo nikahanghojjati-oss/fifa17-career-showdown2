@@ -1930,3 +1930,9 @@
 @media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(.legacyCardGrid > .legacyCard:only-child) .legacyCardGrid { grid-area:2 / 2 / 4 / 3; }
 }
+/* Fable re-check (toolbar layout): a short filtered list keeps its pager straight under the last row again; the spare
+   height goes to an empty fourth row under the pager. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyCardGrid[data-view="list"]) { grid-template-rows:auto auto auto minmax(0,1fr); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyCardGrid[data-view="list"]) > .legacySidePanel { grid-row:1 / 5; }
+}
