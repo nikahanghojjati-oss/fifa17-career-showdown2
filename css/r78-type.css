@@ -1203,6 +1203,11 @@
     width: auto; margin: 0; transform: none;
   }
 }
+/* 4p.4 Phones (upright and sideways): the PLAYER and THIS DEVICE hints sit under the value at full row width instead of a
+   narrow column beside it, so the sticky ACCOUNT card stays about its old height and does not slide over the page tagline. */
+@media (max-width: 900px), (max-height: 500px) and (orientation: landscape) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow:has(> small.settingsInfoHint) > small.settingsInfoHint { grid-column: 1 / -1; margin-top: 2px; }
+}
 
 /* 4w Studio Small Axe phone pass (Nik 2026-11-04): Select League on phones and tablets (below 1200px wide).
    1. Wheel face: the league marks and names sat out to 0.94 of the radius, under the gold rim and its studs. They now use
