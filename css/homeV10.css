@@ -1178,6 +1178,9 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 }
 
 /* ---------- r88 STORY page: the app's own screen, black-and-gold marble, never covered, never dimmed ---------- */
+/* r89 fix (Nik 2026-11-06): Team V's home.css stays loaded after Home and locks main (overflow hidden) on phones,
+   so the STORY page could not scroll. While STORY is shown, main is the one scroller again. */
+#app:has(#story:not(.hidden)) > main { overflow-x: clip; overflow-y: auto; }
 #story.storyScreen {
   box-sizing: border-box; min-height: 100%; padding: clamp(24px, 6vh, 64px) 16px calc(var(--sd-nav-bottom-space, 0px) + 32px);
   background: radial-gradient(120% 80% at 50% 0%, #1a1712 0%, #0b0c0f 55%, #060709 100%); color: #F4ECDC;
