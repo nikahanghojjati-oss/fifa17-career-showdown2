@@ -29,13 +29,18 @@ const R88_RELEASE_TIME_CONSTANTS=Object.freeze([
   {file:"js/chamberMen.js",name:"CHAMBER_FROM_MS"},
   {file:"js/productionSharedTransferChallenge.js",name:"CHAMBER_FROM_MS"}
 ]);
+// r89's own start time (2.2.x): the Sacked tick on Season Results starts with the Showdowns confirmed from the r89 release on.
+// The r89 release PR pins it with:  node tools/set-release-time.cjs --r89 <UTC time>  (same 90-minute rule).
+const R89_RELEASE_TIME_CONSTANTS=Object.freeze([
+  {file:"js/productionSharedSeasonResults.js",name:"SACKED_FROM_MS"}
+]);
 // js/marqueePlayer.js MARQUEE_FROM_MS is r86's own boundary and is never moved.
 const NOT_RELEASE_TIME=Object.freeze(["MARQUEE_FROM_MS"]);
 const pattern=name=>new RegExp(`(\\b${name}=Date\\.parse\\(")([^"]+)("\\);)`);
 function read(list=RELEASE_TIME_CONSTANTS){return list.map(c=>{const source=fs.readFileSync(path.join(ROOT,c.file),"utf8"),m=pattern(c.name).exec(source);if(!m)throw new Error(`${c.file}: no ${c.name}=Date.parse("...") literal`);return {...c,value:m[2]};});}
 if(require.main===module){
-  const args=process.argv.slice(2),allowEarly=args.includes("--allow-early"),r88=args.includes("--r88"),at=args.find(a=>a!=="--allow-early"&&a!=="--r88");
-  const LIST=r88?R88_RELEASE_TIME_CONSTANTS:RELEASE_TIME_CONSTANTS;
+  const args=process.argv.slice(2),allowEarly=args.includes("--allow-early"),r88=args.includes("--r88"),r89=args.includes("--r89"),at=args.find(a=>a!=="--allow-early"&&a!=="--r88"&&a!=="--r89");
+  const LIST=r89?R89_RELEASE_TIME_CONSTANTS:r88?R88_RELEASE_TIME_CONSTANTS:RELEASE_TIME_CONSTANTS;
   if(at){
     if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(at)||!Number.isFinite(Date.parse(at))){console.error(`not a UTC time like 2026-11-01T17:00:00Z: ${at}`);process.exit(1);}
     const earliest=Date.now()+90*60*1000;
@@ -47,4 +52,4 @@ if(require.main===module){
   }
   for(const c of read(LIST))console.log(`${c.value}  ${c.name}  ${c.file}`);
 }
-module.exports={RELEASE_TIME_CONSTANTS,R88_RELEASE_TIME_CONSTANTS,NOT_RELEASE_TIME,read};
+module.exports={RELEASE_TIME_CONSTANTS,R88_RELEASE_TIME_CONSTANTS,R89_RELEASE_TIME_CONSTANTS,NOT_RELEASE_TIME,read};
