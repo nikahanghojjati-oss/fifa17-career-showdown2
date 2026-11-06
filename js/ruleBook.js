@@ -51,12 +51,15 @@ function createRuleBookScreen(){
         // r88 (Nik 2026-11-03): every season step has its own card, in season order: Chamber Men, Roster Russian Roulette,
         // Prime Pack, then the Transfer War. Chamber Men is turn by turn (js/chamberMen.js); the Prime Pack lines match
         // js/iconGuess.js (STAGES, CHIPS) and the roulette lines js/rosterRoulette.js.
+        // r89: a real pick that lands past the rival's lock-in + LATE_MS (10 s clock + the 4.6 s reveal + 2 s) is stored as
+        // the timeout '-' (js/chamberMenStep.js; the Rules hold the same 16.6 s).
         createRuleSection("03", "CHAMBER MEN", [
             "Every season, before the Roster Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in Showdowns started on version 2.1.0 or later.",
             "It goes turn by turn: Daniel shoots and Nik keeps, then Nik shoots and Daniel keeps, for 7 rounds. Nobody shoots and keeps on the same kick.",
             "The shooter picks LEFT, MIDDLE or RIGHT for his shot. The keeper picks where to dive. Neither sees the other's pick until both have locked in.",
             "The shot goes in when the keeper dives the other way. Both phones show the kick, then the next one starts.",
             "Once your rival has locked in, you have 10 seconds. Out of time, a shot is a miss and a keeper stays in the middle.",
+            "A pick that reaches the game more than 16.6 seconds after your rival locked in (10 seconds to pick, 4.6 for the last kick to show, 2 for the network) is stored as out of time: a miss, or a keeper in the middle.",
             "Each goal you score loads one live round into your rival's roulette cylinder for that season. 0 or 7 goals still spin.",
             "Chamber Men scores no Showdown points."
         ]),
@@ -98,7 +101,15 @@ function createRuleBookScreen(){
             "The browser keeps a backup copy for recovery. You can't play from it.",
             "Type in results by hand from FIFA 17. No screenshots or notes needed."
         ]),
-        createSpecialPlayerRuleSection()
+        createSpecialPlayerRuleSection(),
+        // r89 Sacked (Nik 2026-11-03): a sacking ends the Showdown after that season; the points so far decide.
+        createRuleSection("10", "SACKED", [
+            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final. It is on the card in Showdowns started on version 2.2.0 or later.",
+            "Either manager, or both, can be sacked. Any sacking ends the Showdown after that season: no more seasons are played.",
+            "Every point up to then counts. Most Showdown points wins, even for a sacked manager. Equal totals are a draw.",
+            "A sacked Showdown is a completed Showdown: it counts on History, Legacy, the Trophy Room and every stats screen, marked SACKED.",
+            "Sacked in the last season still counts as the full length, so a Golden Showdown is still possible."
+        ])
     );
 
     const actions = document.createElement("div");

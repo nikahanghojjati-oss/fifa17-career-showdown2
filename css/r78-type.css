@@ -819,3 +819,778 @@
 :root #app #seasonEntry .seasonSummaryCard {
   box-shadow: inset 0 1px 0 rgba(255, 240, 190, .55), inset 0 28px 32px -28px rgba(255, 214, 120, .2), inset 0 -1px 0 rgba(0, 0, 0, .45);
 }
+
+/* 4q. Studio Small Axe 40/40, shared stroke 1: the 12 px text floor on desktop (craft rule "nothing under 12px").
+   Measured on r88 d9eaafbb from 1280x720 to 1920x1080. A floor never lowers a size: the first group is under 12 px at
+   every desktop width, so it takes 12 px everywhere; the second group grows with the window and passes 12 px on its
+   own on wide screens, so it takes 12 px only up to 1699 px wide. Sizes only, no layout moves; !important because
+   several are set inline by screen scripts or by later-loaded screen sheets. Settings is left out: its dialog is
+   zoomed, so its labels already show at 12 px or more on screen. Short landscape screens (under 700 px tall, such as
+   1200x600) keep the kit sizes, because there the cards and tiles have no height to spare. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  :root #app > footer,
+  :root #photoCredit :is(a, span),
+  :root #cmsMusicDockTop span,
+  :root #app :is(#rvSeasonBody, #legacySeasonHistory) th,
+  :root #commentaryV3Final :is(b, .cmx-bar__tab),
+  :root #app :is(.compareLabel, .headlineTogether, .leaderLabel),
+  :root #app :is(.menuTileMeta, .finalWinnerRematchSub),
+  :root #app :is(.legacyCardFooter, .legacyClubName, .legacyWinner, .legacyWinnerCrown),
+  :root #app #legacy #legacySeasonHistory .legacyHistoryClose,
+  :root #app .ruleSpecialPlayerTag,
+  :root #app :is(.rv-progress, .rv-trophyLabel) { font-size: 12px !important; }
+}
+@media (min-width: 1200px) and (max-width: 1699px) and (min-height: 700px) {
+  :root #app :is(.connectPlayersTagline, .finalWinnerRematchMain, .finalWinnerTotalMark, .leaderName),
+  :root #app #legacy #legacySeasonHistory :is(.legacyHistoryDetail, .legacyHistoryEuropa),
+  :root #app :is(.rv-headCaption, #rvClubDaniel, #rvClubNik),
+  :root #app :is(#fixtureEyebrow, #fixtureTagline),
+  :root #app :is(#rvTitleBlock, #v10RuleBookStage, #standings) :is(.sd-eyebrow, .sd-tagline),
+  :root #app #v10ExitSlot :is(.menuButton, .backButton),
+  :root #app #connectPlayersScreen .connectPlayersRole > span,
+  :root #app #trophyRoom :is(.careerRank, .recordItem) > span { font-size: 12px !important; }
+}
+@media (min-width: 1200px) and (max-width: 1919px) and (min-height: 700px) {
+  /* The Career Table heads keep their column widths: a touch less tracking pays for the extra size, and the Manager
+     column gives its spare width to Showdowns and Season W-D-L (this also ends the "Showdowns" clip the base showed at
+     1280x720). The headline tiles (the "COMPLETED SHOWDOWNS" label and the D/N totals under the numbers) stay at the kit
+     size: at 12 px they outgrow their tiles. The Career Statistics finish gives those tiles a new layout. */
+  :root #app #careerTablePanel th { font-size: 12px !important; letter-spacing: .02em !important; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(2) { width: 24%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(3) { width: 20%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(4) { width: 24%; }
+}
+/* 4q (cont.) Career Statistics headline tiles, where the tile is roomy enough (1440-1679px wide, 800px+ tall; from 1680 the kit sizes are already 12px+): the label
+   ("COMPLETED SHOWDOWNS" was 11px) and the D / N markers (10px) reach the 12px floor. Four-digit totals still fit
+   (Lane C C-03). Narrower or shorter windows keep the kit's sizes, where 12px would cut a total. */
+@media (min-width:1440px) and (max-width:1679px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles .headlineLabel { font-size:12px !important; }
+}
+@media (min-width:1440px) and (max-width:1919px) and (min-height:800px) {
+  :root #app #careerStatistics.careerScreenV10 #headlineTiles small { font-size:12px !important; }
+}
+/* 4q.1 (Fable job 20) Desktop type floor, the last lines under 12px:
+   - Career Statistics: COMPLETED SHOWDOWNS kept 11px at 1280x720 and 1280x800 (the 4q label rule is height-gated) and the
+     D / N prefixes were 10px; both hold 12px on every desktop now.
+   - Season Results: the intro, honour pills and the "confirming is final" line are fluid (vw) and fell to 10.4-11.2px at
+     1600 wide; they keep their fluid size but never drop under 12px.
+   - Career Leaders: "Level · Daniel + Nik" balanced over two lines instead of three. */
+@media (min-width: 1200px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineLabel { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlinePair small { font-size: 12px; }
+  :root #app #careerStatistics.careerScreenV10 .leaderCard .leaderName { text-wrap: balance; }
+}
+/* At 1200-1439 wide the tiles are 158px: a 28px icon column and 6px side padding give COMPLETED SHOWDOWNS its 12px line. */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  :root #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns: 28px minmax(0, 1fr); padding-inline: 6px; }
+  :root #app #careerStatistics.careerScreenV10 .headlineTile .headlineIcon { max-width: 28px; }
+}
+@media (min-width: 901px) {
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro, .seasonReviewResult) { font-size: max(12px, .7vw); }
+  :root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewAchievements span, .seasonReviewWarning) { font-size: max(12px, .65vw); }
+}
+/* Career Statistics phone tabs (TABLE / COMPARE / LEADERS) answer a tap with the standard 120ms press. */
+:root #app #careerStatistics .phoneTabs > label { transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out); }
+:root #app #careerStatistics .phoneTabs > label:active { transform: scale(.97); }
+@media (prefers-reduced-motion: reduce) { :root #app #careerStatistics .phoneTabs > label:active { transform: none; } }
+:root[data-motion-reduced="true"] #app #careerStatistics .phoneTabs > label:active { transform: none; }
+/* 4r. Studio Small Axe 40/40, shared stroke 2: score reveal on Showdown Home and Standings (Final Winner, Season
+   Review, Rivalry, Career Statistics and Trophy Room already count up). The number never changes: it settles in with a
+   short scale and a gold glow each time the screen opens (320ms, the long step of the 120/200/320 motion scale, 1.02 overshoot), so it is the first thing the eye lands on. Opacity stays 1
+   (no flash), and Reduce Motion turns it off. */
+@keyframes sa-score-settle {
+  0% { transform: scale(.92); text-shadow: 0 0 0 rgba(255, 214, 120, 0); }
+  60% { transform: scale(1.02); text-shadow: 0 0 18px rgba(255, 214, 120, .5); }
+  100% { transform: none; text-shadow: 0 0 0 rgba(255, 214, 120, 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard:not(.hidden) :is(#dashboardScoreOne, #dashboardScoreTwo),
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #standings .sdg-scoreNumbers b {
+    display: inline-block;
+    animation: sa-score-settle 320ms cubic-bezier(.2, .8, .2, 1) both;
+  }
+}
+/* 4s. Studio Small Axe 40/40, shared stroke 3: designed waiting state on Connect Players. While the connection is
+   being checked the panel holds only its line of text ("Getting your Showdown ready…"); it now reads as a state, with
+   the Lucide loader in gold before it. The loader turns slowly and stands still under Reduce Motion. */
+@keyframes sa-spin { to { transform: rotate(360deg); } }
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p {
+  display: flex; align-items: center; gap: 12px; font-size: 15px; letter-spacing: .02em; color: #f3ead3;
+}
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p::before {
+  content: ""; flex: 0 0 20px; width: 20px; height: 20px; background: #e4b032;
+  -webkit-mask: var(--sa-ic-loader-circle) center / contain no-repeat; mask: var(--sa-ic-loader-circle) center / contain no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p::before {
+    animation: sa-spin 1.2s linear infinite;
+  }
+}
+/* 4s.1 (Fable job 20, Panels): the waiting row is one marble strip in the panel family (hairline gold border, inner light),
+   not a flat dark strip with a heavier border inside the card. */
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) {
+  border: 1px solid rgba(217, 170, 60, .55) !important; border-radius: 4px;
+  background: linear-gradient(180deg, rgba(24, 22, 19, .94), rgba(7, 7, 8, .94));
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12), 0 10px 22px rgba(0, 0, 0, .35);
+}
+:root #app #connectPlayersScreen #persistentNikDanielPairPanel:not(:has(button, code, input)) > p {
+  background: none; padding: 12px 16px; margin: 0; min-height: 44px; box-sizing: border-box;
+}
+
+/* 4t Studio Small Axe 40/40, panels and even spacing (desktop only; phones unchanged).
+   Rivalry: the three bottom panels sat 8-9px apart while the board above sat 12px over them; one 12px gap both ways
+   (8px both ways on short windows, where the rows already close up to 8px).
+   Season Results review board: it spanned 25.3%-72.3%, 2% from Daniel's face (23.3%) and 3.7% from Nik's (76%).
+   Same width, moved to 26.1% so both faces get the same ~2.85% gap. */
+@media (min-width:1024px) and (orientation:landscape) {
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-shell { column-gap:12px; }
+}
+@media (min-width:1024px) and (max-height:700px) and (orientation:landscape) {
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-shell { column-gap:8px; }
+}
+@media (min-width:901px) and (max-height:1000px) {
+  :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { margin-left:26.1%; }
+}
+/* 4t.1 (Fable job 20) Season Results: one gold primary. The SHOWDOWN SCORE AFTER THIS SEASON strip was gold-filled like
+   CONFIRM & SAVE SEASON and read as a second button; it is now a marble strip with gold type. The season outlook line
+   ("SEASON 3 IS HEADING FOR A DRAW") sits in a status pill of the panel family instead of plain text. The pill keeps the
+   line's old 18px height so CONTINUE stays on the first view at 1920x1080 and 1366x768 (r83 gallery audit). */
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall {
+  background: linear-gradient(180deg, rgba(24, 22, 19, .96), rgba(7, 7, 8, .96)) !important;
+  border: 1px solid rgba(217, 170, 60, .55) !important; border-radius: 4px;
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12), 0 0 14px rgba(242, 196, 91, .12) !important;
+}
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall > span { color: #e4b032 !important; }
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox.seasonReviewOverall > strong { color: #ffd34d !important; }
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel #seasonReviewResult.seasonReviewResult:not(:empty) {
+  display: table; margin-inline: auto; padding: 1px 16px; line-height: 14px; border-radius: 999px;
+  border: 1px solid rgba(217, 170, 60, .55); background: linear-gradient(180deg, rgba(24, 22, 19, .94), rgba(7, 7, 8, .94));
+  box-shadow: inset 0 1px rgba(255, 236, 170, .12); color: #f3ead3; font-size: 13px; letter-spacing: .08em;
+}
+/* Rivalry type floor (Fable job 20): kicker, tagline, club names, progress line, head-to-head caption, season table headers
+   and trophy labels drew at 10.2-11.5px on desktop; all hold 12px. */
+@media (min-width: 901px) {
+  :root #app #statistics :is(#rvTitleBlock > .sd-eyebrow, #rvTitleBlock > .sd-tagline, #rvClubDaniel, #rvClubNik, #rvProgress, #rvPanelHead > .rv-headCaption, .rv-seasonTable > thead th, .rv-trophyLabel) { font-size: 12px; }
+}
+
+/* 4u Studio Small Axe 40/40, motion set: the Golden Showdown light sweep. A Golden Showdown (150 points over 10 seasons) is
+   the rarest thing in the game, so its card, trophy, note and badge catch one sweep of light when they appear (320ms, the long step of the 120/200/320 motion scale, no delay;
+   the Rivalry badge lives in the HEAD-TO-HEAD tab and sweeps when that tab opens). Light
+   only: it passes behind the content, never darkens, never covers, ends invisible and is off under Reduce Motion. */
+:root #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown) {
+  isolation: isolate;
+}
+:root #app :is(#careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown) { position: relative; }
+:root #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 236, 170, .42) 50%, transparent 62%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  opacity: 0;
+}
+@keyframes sa-golden-sweep {
+  0% { background-position: 100% 0; opacity: 1; }
+  100% { background-position: 0% 0; opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app :is(#legacy .legacyCard[data-golden="true"], #trophyRoom .trophyCard--golden, #careerStatistics .goldenShowdownNote, #statistics .rv-goldenShowdown)::after {
+    animation: sa-golden-sweep 320ms cubic-bezier(.45, 0, .25, 1) 1 both;
+  }
+}
+/* 4u.1 (Fable job 20, Type): the GOLDEN SHOWDOWN tags on Legacy, Rivalry and Career Statistics drew at 11px; 12px floor.
+   !important because the screen sheets load later and set these tags to 11px at equal or higher specificity. */
+:root #app :is(#legacy .legacyGoldenShowdown, #statistics .rv-goldenShowdown, #careerStatistics .goldenShowdownNote) { font-size: 12px !important; line-height: 16px !important; }
+/* 4u.2 (Nik 2026-11-04) Desktop Rivalry: the Golden Showdown line sits beside the title, in the tagline row, centred
+   between the two managers so it never covers a face, the title or a button. It is a gold line in the tagline's own
+   type, with no box, so the title row keeps its height and nothing boxes the title. Same 12px tag and the
+   320ms sweep (4u, off under Reduce Motion). Phones keep it in HEAD-TO-HEAD, so the title copy is desktop only. */
+:root #app #statistics #rvTitleBlock .sd-tagline:has(> .rv-goldenTitle) { display: flex; justify-content: center; align-items: center; flex-wrap: nowrap; gap: 16px; white-space: nowrap; width: max-content; max-width: none; position: relative; left: 50%; transform: translateX(-50%); }
+:root #app #statistics #rvTitleBlock .sd-tagline > .rv-goldenTitle { flex: none; }
+/* Fable job 20 (1100x600): a wrapped line dropped the badge under the totals card. It stays on the tagline's one line at every
+   desktop size; below 1280 the gap steps down to 8px and the line may run past the narrow title block, centred between the faces. */
+@media (max-width: 1279px) { :root #app #statistics #rvTitleBlock .sd-tagline:has(> .rv-goldenTitle) { gap: 8px; } }
+:root #app #statistics #rvTitleBlock .rv-goldenTitle {
+  display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 0 6px; position: relative; isolation: isolate; overflow: hidden;
+  letter-spacing: .06em; white-space: nowrap; border: 0; background: none; box-shadow: none; color: var(--sd-cream, #f4f1ea);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .85);
+}
+:root #app #statistics #rvTitleBlock .rv-goldenTitle img { width: 14px; height: 14px; object-fit: contain; }
+:root #app #statistics #rvTitleBlock .rv-goldenTitle strong { color: var(--sd-gold-300, #ffd34d); letter-spacing: .1em; }
+@media (max-width: 900px) { :root #app #statistics #rvTitleBlock .rv-goldenTitle { display: none; } }
+/* 4u.3 (Fable job 20, 901-1023px): these windows now use the approved desktop Rivalry layout (the 1024px rules also cover
+   901-1023 in rivalryLegacyV10.css and rivalry-statistics.css), so a long season table grows its panel instead of running
+   under BACK. Here BACK always ends the content (never docked over a panel), and the five trophies share the full cabinet
+   width with no letter-spacing so CHAMPION and CHAMPIONS stay inside their columns at 12px. */
+@media (min-width: 901px) and (max-width: 1023px) and (orientation: landscape) {
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-shell .rv-actions { position: relative; top: auto; bottom: auto; }
+  :root #app #statistics[data-rivalry-legacy-v10] #rvTrophyBody .rv-trophyGrid { width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: 2px; padding-left: 0; padding-right: 0; }
+  :root #app #statistics[data-rivalry-legacy-v10] .rv-trophyLabel { letter-spacing: 0; }
+}
+
+/* 4v Studio Small Axe 40/40, per-screen finishes (desktop plate layout only; phones unchanged).
+   Rule Book: the brush wordmark's top strokes touched the CAREER MODE SHOWDOWN kicker above it. 6 more units of air so
+   kicker and title read as two lines. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 14); }
+}
+@media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 11); }
+}
+/* Season Results review: the two SEASON SCORE plaques are the answer of the whole board, but they sat as quietly as the
+   rows above them. They now light up once as the board appears (a 320 ms gold glow, the second plaque 120 ms later, that settles to a visible resting glow),
+   so the eye lands on the two scores first. Light only, no size or layout change; off under Reduce Motion. */
+@keyframes sa-plaque-light {
+  0% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28); text-shadow: none; }
+  45% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), inset 0 0 18px rgb(255 214 120 / .35), 0 0 26px rgb(242 196 91 / .55); text-shadow: 0 0 12px rgb(255 214 120 / .8); }
+  100% { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28); text-shadow: none; }
+}
+/* Resting glow (Fable job 20): the plaques keep a visible gold halo after the light passes, with or without motion. */
+:root #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewTotal {
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), 0 0 14px rgb(242 196 91 / .28);
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden) .seasonReviewTotal {
+    animation: sa-plaque-light 320ms cubic-bezier(.2, .8, .2, 1) 1 both;
+  }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden) #seasonReviewTwo .seasonReviewTotal {
+    animation-delay: 120ms;
+  }
+}
+/* 4v.1 Rule Book type floor (Fable job 20): the CAREER MODE SHOWDOWN kicker and THE RULES tagline drew at 10.3-11.5px on
+   desktops under 1920 wide, and the SP tag at 11px; all three now hold 12px. */
+@media (min-width:1200px) and (max-width:1919px) {
+  :root #app #ruleBook.v10RuleBook .ruleBookHero > :is(.sd-eyebrow, .sd-tagline) { font-size:12px; }
+}
+@media (min-width:1200px) {
+  :root #app #ruleBook.v10RuleBook .ruleSpecialPlayerTag { font-size:12px; }
+}
+
+/* ── 4o · Studio Small Axe Wave 2: Showdown Home boards join the marble panel family ──
+   The overview, the scoreboard and the two manager cards were the last see-through r61 glass boards. They now wear the
+   same black-gold marble as the Legacy archive and Chamber Men (r78-marble-tile.webp, precached): one gold edge, a
+   2px gold top rule and the Wave 1 gilded top light. On the desktop picture the overview row narrows to the
+   scoreboard-and-cards column and sits one gap below the title plate, so it no longer reaches Daniel's and Nik's faces. */
+:root #app #dashboard.v26Skin :is(.showdownOverview, .showdownScoreboard, .playerCard) {
+  background: linear-gradient(180deg, rgba(242, 196, 91, .06), transparent 42%), #0e0c09 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  border: 1px solid rgba(217, 170, 60, .62);
+  border-top: 2px solid var(--v26-gold-deep, #c99b45);
+  border-radius: 4px;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root #app #dashboard.v26Skin .showdownScoreboard { border-bottom: 2px solid var(--v26-gold, #f5c518); }
+/* 4o.1 (Fable job 20 lines under 5, 2026-11-04).
+   Type: the READY / TRANSFER WAR: READY eyebrows and the POINTS labels come up from 11 to the 12px floor.
+   States: "No season completed" was plain text on the manager card. While no season has finished (data-sd-empty, set by
+   js/showdownUI.js and js/productionSharedMultiSeasonProgression.js) it is an empty-state row in the board family: a
+   dashed gold hairline, a Lucide circle-dashed icon in gold and the same one line of words.
+   Motion: the four boards rise 6px into place on the 200 ms step, 40 ms apart (transform only, so opacity never dips and the
+   flash test stays clean). Off under OS Reduce Motion and the in-app Reduce Motion switch. */
+:root #app #dashboard.v26Skin :is(.overviewStatus, .transferOverviewStatus, .lastSeasonLabel, .scoreboardScores small) { font-size: max(12px, var(--sa-type-eyebrow)); }
+:root #app #dashboard.v26Skin .playerCard p[data-sd-empty] {
+  display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 10px;
+  border: 1px dashed rgba(217, 170, 60, .45); border-radius: 3px; background: rgba(0, 0, 0, .28);
+  color: #d8cebb; font-size: 13px; line-height: 1.3; letter-spacing: .02em;
+}
+:root #app #dashboard.v26Skin .playerCard p[data-sd-empty]::before {
+  content: ""; flex: 0 0 16px; width: 16px; height: 16px; background: var(--v26-gold-deep, #c99b45);
+  -webkit-mask: var(--sa-ic-circle-dashed) center / contain no-repeat; mask: var(--sa-ic-circle-dashed) center / contain no-repeat;
+}
+@keyframes sa-board-rise { from { transform: translateY(6px); } to { transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) :is(.showdownOverview, .showdownScoreboard, .playerCard) {
+    animation: sa-board-rise 200ms var(--sa-press-ease, cubic-bezier(.2, .8, .2, 1)) both;
+  }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .showdownScoreboard { animation-delay: 40ms; }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(1) { animation-delay: 80ms; }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(2) { animation-delay: 120ms; }
+}
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #app #dashboard.v26Skin .showdownOverview { width: min(680px, 92vw); margin-top: 12px; }
+}
+
+/* 4p. Studio Small Axe: desktop Settings layout (Nik approved 2026-11-03).
+   At the desktop plate only: Application and Motion side by side on top,
+   Account and Data below, Application facts in two columns so the panels
+   carry no empty space. Phones and tablets keep their layout. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--application { grid-column: 1 / 7 !important; grid-row: 1 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--motion { grid-column: 7 / 13 !important; grid-row: 1 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanel--account, .settingsConnectedAccountPanel) { grid-column: 1 / 5 !important; grid-row: 2 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--data { grid-column: 5 / 13 !important; grid-row: 2 !important; }
+  :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--application .settingsInfoGrid { grid-template-columns: 1fr 1fr !important; column-gap: 8px; }
+}
+/* 4p.1 (Fable job 20 lines under 5, 2026-11-04).
+   Type: the zoomed desktop Settings drew eyebrows, row labels, helpers, button labels, STANDARD, ON and the Marco Reus credit
+   at 9-11.7px on screen at 1280x720-1440x900, because the zoom divisor has a floor there. Each of those now shows at least
+   12px: the floor divides by the real zoom (--sa-settings-tz), the existing sizes stay where they were already bigger.
+   Away from the zoomed plate (tablets, 1100x600) the same lines take a plain 12px floor.
+   Spacing: row 2 splits evenly (Account | Showdown Data), so the short Account card no longer sits beside a long one.
+   Buttons: MENU CLICK FEEDBACK's ON/OFF is a switch (gold track and knob), no longer a fourth button shape.
+   States: "Not selected" / "Not ready" carry one quiet helper line saying what to do.
+   Motion: the three motion tiles and the switch press in (scale .97, 120 ms), off under both Reduce Motion settings. */
+@media (min-width: 481px) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel :is(.settingsPanelEyebrow, .settingsStatus, .settingsAudioToggle strong) { font-size: 12px; }
+  :root #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionCopy small, .settingsAudioCopy small) { font-size: 12px; }
+  :root #settingsOverlay.v10Settings #photoCredit, :root #settingsOverlay.v10Settings #photoCredit :is(span, a),
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit, :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit :is(span, a) { font-size: 12px !important; }
+}
+:root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow:has(> small.settingsInfoHint) {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; align-items: baseline;
+}
+:root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow:has(> small.settingsInfoHint) > span { grid-column: 1 / -1; }
+:root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow small.settingsInfoHint {
+  display: block; margin-top: 0; color: #c1b9aa; font: 400 12px/1.3 var(--sd-font-body, inherit); letter-spacing: 0; text-transform: none;
+}
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root #settingsOverlay.v10Settings { --sa-settings-tz: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel :is(.settingsPanelEyebrow, .settingsStatus, .settingsAudioToggle strong) {
+      font-size: max(calc(12px / var(--sa-settings-tz)), calc(var(--sa-type-eyebrow) / var(--r78-settings-zoom)));
+    }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: max(calc(12px / var(--sa-settings-tz)), calc(12px / var(--r78-settings-zoom))); }
+    /* The STANDARD chip sits in the band above DEVICE PREFERENCE; its text grows as the plate shrinks, so the band grows with it
+       (22px at 1920x1080, about 30px on 1366x640 where it ran onto DEVICE PREFERENCE). */
+    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionSummary { padding-top: max(22px, calc(max(calc(12px / var(--sa-settings-tz)), calc(var(--sa-type-eyebrow) / var(--r78-settings-zoom))) + 10px)); }
+    :root #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionCopy small, .settingsAudioCopy small) { font-size: max(calc(12px / var(--sa-settings-tz)), calc(13px / var(--r78-settings-zoom))); }
+    :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanelHeading p, .settingsDataNote, .settingsOfflineNote, .settingsApplicationUpdateStatus, .settingsInfoRow strong, .settingsMotionCopy strong, .settingsAudioCopy strong) {
+      font-size: max(calc(12px / var(--sa-settings-tz)), calc(14px / var(--r78-settings-zoom)));
+    }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanel .menuButton { font-size: max(calc(12px / var(--sa-settings-tz)), calc(var(--sa-type-small) / var(--r78-settings-zoom))); }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow small.settingsInfoHint { font-size: calc(12px / var(--sa-settings-tz)); }
+    /* The Reus credit: the panel selector outranks rulesSettingsV10's zoomed 9px credit rule and the unzoomed 12px desktop floor (4q), so it shows at 12px on screen. */
+    :root #settingsOverlay.v10Settings #photoCredit, :root #settingsOverlay.v10Settings #photoCredit :is(span, a),
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit, :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel #photoCredit :is(span, a) { font-size: calc(12px / var(--sa-settings-tz)) !important; }
+    :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanel--account, .settingsConnectedAccountPanel) { grid-column: 1 / 7 !important; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--data { grid-column: 7 / 13 !important; }
+  }
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 4px;
+  border: 0; border-image: none; background: none; box-shadow: none; clip-path: none; color: #f5f1e8;
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle .settingsAudioToggleTrack {
+  display: block; position: relative; flex: 0 0 auto; width: 40px; height: 22px; border-radius: 11px;
+  background: rgba(0, 0, 0, .6); border: 1px solid rgba(219, 178, 94, .55);
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle .settingsAudioToggleTrack::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #c1b9aa;
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle.enabled .settingsAudioToggleTrack { background: var(--sd-gold-500, #f5c518); border-color: var(--sd-gold-500, #f5c518); }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle.enabled .settingsAudioToggleTrack::after { left: 20px; background: #15120c; }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionChoice, .settingsAudioToggle) {
+    transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out);
+  }
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionChoice, .settingsAudioToggle):active { transform: scale(.97); }
+}
+/* 4p.2 Short 16:9 laptops (1280x720): with the 12px floor the panel grid ends at 621px, under DONE's top edge (617px).
+   DONE keeps its bottom-right corner and drops 34px closer to the window edge, 30px clear of the Showdown Data card. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 740px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root body #settingsOverlay.v10Settings .settingsFooter { bottom: max(20px, 3.5%); }
+}
+/* 4p.3 Nik 2026-11-04 ("Move both", Fable's spot): on the desktop plate DONE sits in the panel grid's last row,
+   right-aligned with the cards' right edge, one grid gap under them. js/settings.js moves the footer into #settingsContent here. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root body #settingsOverlay.v10Settings #settingsContent > .settingsFooter[data-sa-in-grid] {
+    position: static; inset: auto; grid-column: 1 / -1; grid-row: 3; justify-self: end; align-self: start;
+    width: auto; margin: 0; transform: none;
+  }
+}
+/* 4p.4 Upright phones: the PLAYER and THIS DEVICE hints sit under the value at full row width instead of a narrow column
+   beside it. Sideways phones (under 500px tall) keep the card as it was without the hints: the sticky ACCOUNT card has to fit
+   the short scroller under the title rail (about 200px at 740x360), or at the end of the page it is pushed up over the title.
+   The value (Not selected, Not ready) and SIGN IN WITH GOOGLE stay right there. */
+@media (max-width: 900px) and (orientation: portrait) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow:has(> small.settingsInfoHint) > small.settingsInfoHint { grid-column: 1 / -1; margin-top: 2px; }
+}
+@media (max-width: 1199px) and (max-height: 500px) and (orientation: landscape) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow > small.settingsInfoHint { display: none; }
+}
+
+/* 4w Studio Small Axe phone pass (Nik 2026-11-04): Select League on phones and tablets (below 1200px wide).
+   1. Wheel face: the league marks and names sat out to 0.94 of the radius, under the gold rim and its studs. They now use
+      the desktop plate geometry (every mark and name inside about 0.66 of the radius, clear of the rim).
+   2. The 7px near-black ring drawn around the rim read as a dark slab behind the wheel; the wheel keeps only its soft drop
+      shadow, as on desktop. */
+@media (max-width: 1199px) {
+  :root #app #leagueWheelScreen.v26Skin .wheelItem {
+    width: calc(var(--R) * .62); margin-left: calc(var(--R) * -.31);
+    padding: 0; gap: calc(var(--R) * .025);
+    font-size: max(10px, calc(var(--v26-wheel) * 16 / 480));
+    line-height: 1.1; letter-spacing: .01em; overflow-wrap: normal;
+    transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.465))
+      rotate(calc(0deg - var(--v26-a))) translateY(calc(var(--R) * -.18));
+  }
+  :root #app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+    flex: none; width: calc(var(--R) * .18); height: calc(var(--R) * .18);
+  }
+  :root #app #leagueWheelScreen.v26Skin #leagueWheel { box-shadow: 0 12px 26px rgba(0, 0, 0, .55); }
+}
+/* 3. (Nik 2026-11-04 13:42 UTC) the wheel keeps its HO-032 place, sitting on the plinth in perspective; no upright-phone move. */
+/* 4. "SPIN TO SELECT LEAGUE" broke onto two lines on upright phones; one line, with shorter side rules. */
+@media (max-width: 430px) and (orientation: portrait) {
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague { white-space: nowrap; letter-spacing: .1em; gap: 10px; }
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 28px; }
+}
+/* 4w.5 Transfer War phones: the rule note and lock summary sit straight on the plate photo; give them a dark marble strip (the shared marble tile under a dark veil) and a gold heading so they read. */
+@media (max-width: 900px) {
+  :root #app #transferChallenge :is(.transferRuleNote, #transferPhaseLockSummary .lock-summary, .lock-summary.transferPhaseLockSummary) {
+    background: linear-gradient(180deg, rgba(24, 22, 19, .62), rgba(7, 7, 8, .78)), #0b0a08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat; border: 1px solid rgba(217, 170, 60, .55); box-shadow: inset 0 1px rgba(255, 236, 170, .12); border-radius: 4px; padding: 4px 8px;
+  }
+  :root #app #transferChallenge :is(#transferPhaseLockSummary, .lock-summary) strong { color: #ffd34d; }
+}
+/* 4w.6 Club Assignment upright phones: give the LEAGUE CONFIRMED / league name row clear air under the step labels (04 VS, 05 LOCK). */
+@media (max-width: 430px) and (orientation: portrait) {
+  :root #app #clubWheelScreen.cl-on .clubAssignmentHeader { margin-top: 8px; row-gap: 4px; }
+}
+/* 4w.7 Career Statistics on sideways phones: the three action buttons wrapped to three lines and cut "STATISTICS" and "ROOM"; two lines at the 12px floor fit the 44px buttons. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root #app #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel { font-size: 12px; line-height: 1.08; letter-spacing: .02em; text-wrap: balance; min-width: 0; }
+}
+/* 4w.8 Sideways phones: the Rule Book summary and the Transfer War window status sit straight on busy photos; same dark marble strip as the upright info line. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root #app .ruleBookHero .ruleBookSummary,
+  :root #app #transferChallenge #tw-transferPhaseStatus.sign-status {
+    background: linear-gradient(180deg, rgba(24, 22, 19, .62), rgba(7, 7, 8, .78)), #0b0a08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat; border: 1px solid rgba(217, 170, 60, .55); box-shadow: inset 0 1px rgba(255, 236, 170, .12); border-radius: 4px; padding: 4px 10px; box-sizing: border-box;
+  }
+  :root #app .ruleBookHero .ruleBookSummary { margin-inline: 8px; }
+}
+/* 4w.9 Sideways phones: the Rule Book section tiles and Trophy Room tabs ran to 3px and 7px from the corner gear; both now stop 12px short of it. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root #app .ruleBookV10Content .ruleBookTabs { padding-right: 9px; box-sizing: border-box; }
+  :root #app #trophyRoom .trophyShelf .trophyTabs { margin-right: 55px; }
+}
+/* 4w.10 (Nik 2026-11-04 13:45 UTC) No box around page titles, on any screen at any size. Each screen moves focus to its title
+   (tabindex -1, for screen readers); browsers drew a focus outline round it, and iPhone Safari shows it after every screen change.
+   Titles are not buttons and are not reachable by Tab, so the outline goes everywhere; screen readers still announce the title. */
+:root #app [data-route-focus-target="true"]:is(:focus, :focus-visible),
+:root [data-route-focus-target="true"]:is(:focus, :focus-visible) { outline: none !important; }
+/* 4w.11 Phone type floor (Fable job 20, Nik's 12px floor): every text line on upright and sideways phones that drew under 12px,
+   found by walking each screen's text at 390x844, 360x780, 393x660, 844x390 and 880x410 (big phones held sideways). Each
+   selector matches only text that was under 12px (nothing 12px or larger changes); the :root:not(#id) prefix weighs four ids and the size
+   is !important, so the floor outranks each screen's own phone sizes (some are !important) inside and outside #app. */
+@media (max-width: 480px) and (orientation: portrait) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) article.headlineTile > div.headlineCopy > div.headlinePair > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#cmsMusicTab > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#completeSeason,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#continueCareer > span.menuTileMeta,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#finalWinnerRematch > small.finalWinnerRematchSub,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#finalWinnerRematch > span.finalWinnerRematchMain,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#homeStoryButton > span.menuTileCode,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#homeStoryButton > span.menuTileMeta,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#onlinePlayerIdentityBadge,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#rvTabHead,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#rvTabSeasons,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#rvTabTotals,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#rvTabTrophies,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#trophyRoomBack,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button.legacyCard.legacyVisibleCard > span.legacyCardBody > span.legacyScoreBlock > span.legacyWinner,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) details.ruleBookDisclosure > p.ruleGoldenShowdown.ruleSpecialPlayer > strong > span.ruleSpecialPlayerTag,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#app > footer,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubCardOne > div.clubPackStage > div.clubCardFace > span.clubCardLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubCardTwo > div.clubPackStage > div.clubCardFace > span.clubCardLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubRivalryConfirmation > div.clubRivalryHeadline > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#daniel-entry-panel > div.achievementChecks.achievement-fields > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#daniel-entry-panel > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerHonoursHead > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerHonoursHead > strong.finalWinnerHonoursManager.finalWinnerHonoursManager--daniel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerHonoursHead > strong.finalWinnerHonoursManager.finalWinnerHonoursManager--nik,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric.finalWinnerTrophyMetric--europa > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric.finalWinnerTrophyMetric--total > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric.finalWinnerTrophyMetric--total > span.finalWinnerTotalMark,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerScreen > header.finalWinnerTitleBlock > p.finalWinnerEyebrow.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerScreen > header.finalWinnerTitleBlock > p.finalWinnerTagline.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerScreen > section.finalWinnerResultsPanel.sd-panel > div.finalWinnerPhoneTabs > label,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#leagueWheel > div.wheelTrack > div.wheelItem,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#leagueWheel > div.wheelTrack > div.wheelItem.v26-top,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#legacyPager > button,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#nik-entry-panel > div.achievementChecks.achievement-fields > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#nik-entry-panel > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvHeadBody > div.rv-headGrid.sd-reveal-target > div.rv-headStat > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvProgress,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvRows > div.rv-row.rv-motion-deal > span.rv-label,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvTrophyBody > div.rv-trophyGrid > div.rv-trophy > span.rv-trophyLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#season-results-screen > section.season-layout > div.seasonEntryActions.season-action-row > button.backButton,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#seasonIndicator,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.sd-panel > div.settingsMotionSummary > strong.settingsStatus.standard,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.sd-panel > div.settingsPanelHeading > span.settingsPanelEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.settingsDataPanel > div.settingsPanelHeading > span.settingsPanelEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#stage-root > div.sd-stage__layer.sd-stage__layer--ui > header.sdg-header > p.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#stage-root > div.sd-stage__layer.sd-stage__layer--ui > header.sdg-header > p.sd-tagline.sdg-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > div.heroCeremony.tr-spotlight-lit > div.heroPlinth > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > header.trophyTitleBlock > p.sd-eyebrow.trophyEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > header.trophyTitleBlock > p.sd-tagline.trophyTagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#v10ExitSlot > div.seasonEntryActions.season-action-row > button.backButton,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.clubRevealArena > div.clubRevealArea > div.clubVs > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.cmx-bar > div.cmx-bar__slab > div.cmv3-line.cmv3-numbers > b,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.connectPlayersTabRow > div.connectPlayersTabs > label > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.sd-stage.trophyRoomScene > div.sd-stage__layer.sd-stage__layer--ui > label.trophyPhoneMoreButton > span.trophyPhoneMoreOpen,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.sd-stage__layer.sd-stage__layer--ui > div.ruleBookV10Content > div.ruleBookHero > span.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.sd-stage__layer.sd-stage__layer--ui > div.ruleBookV10Content > div.ruleBookHero > strong.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.settingsMotionChoices > button.settingsMotionChoice > span.settingsMotionCopy > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.settingsMotionChoices > button.settingsMotionChoice.selected > span.settingsMotionCopy > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.setupBox > div.v26Seasons > button.v26Season > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.world > section.panel.own > div.panel-title.reg > span.chip.chip-private,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.world > section.panel.own > div.panel-title.reg > span.chip.chip-you,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.world > section.panel.sealed > div.panel-title.reg > span.chip.chip-sealed,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) h2#finalWinnerHeading,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) h2#tw-transferChallengeTitle,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#rvTitleBlock > p.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#rvTitleBlock > p.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand > p,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) main.connectPlayersPhoneFlow > div.connectPlayersWorkspace > div.connectPlayersTabRow > button.connectPlayersBack,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) nav.sd-nav.sd-nav-bottom > button.sd-nav-tab > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) nav.sd-nav.sd-nav-bottom > button.sd-nav-tab.isActive > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) ol#tw-transferPhaseNavigator > li > span.num,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) ol#tw-transferPhaseNavigator > li.done > span.num,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) ol#tw-transferPhaseNavigator > li.upcoming > span.num,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#fixtureEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#fixtureTagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#photoCredit > a,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#photoCredit > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#clubWheelScreen > div.clubAssignmentShell > div.clubRevealProgress > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#clubWheelScreen > div.clubAssignmentShell > div.clubRevealProgress > span.done,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#connectPlayersScreen > main.connectPlayersPhoneFlow > header.connectPlayersHeader > p.connectPlayersKicker,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#connectPlayersScreen > main.connectPlayersPhoneFlow > header.connectPlayersHeader > p.connectPlayersTagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#legacySeasonHistory > button.sd-btn.legacyHistoryClose,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#mainMenu > div.fifaMenuShell > div.homeLockup > p.lockupKicker.sd-label,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#mainMenu > div.fifaMenuShell > div.homeLockup > p.lockupLegacy.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#onlinePlayerIdentitySettingsPanel > div.settingsInfoGrid > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#onlinePlayerIdentitySettingsPanel > div.settingsPanelHeading > span.settingsPanelEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#persistentNikDanielPairPanel > p,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#settingsDialog > header.settingsHeader > div.settingsHeading.settingsTitleBlock > p.sd-kicker.settingsTagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#settingsDialog > header.settingsHeader > div.settingsHeading.settingsTitleBlock > span.settingsEyebrow.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsAudioRow > button.settingsAudioToggle.enabled > strong,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsAudioRow > div.settingsAudioCopy > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsInfoGrid > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsMotionSummary > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.settingsDataPanel > div.settingsInfoGrid > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#clubCardStateOne,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#clubCardStateTwo,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#danielName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#nikName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#panelLastSeasonResult,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#panelLastSeasonLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#rvClubDaniel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#rvClubNik,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#sdgScoreLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span.legacyCardBody > span.legacyScoreBlock > span.legacyWinner > span.legacyWinnerCrown,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > tbody > tr.legacyHistorySeason > th.legacyHistorySeasonLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.daniel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.legacyHistoryResultHead,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.legacyHistorySeasonHead,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.nik,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.rv-seasonTable > thead > tr > th,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.daniel > span.legacyHistoryDetail,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.daniel > span.legacyHistoryEuropa,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.legacyHistoryResult > span.legacyHistoryWinner,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.nik > span.legacyHistoryDetail,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.nik > span.legacyHistoryEuropa { font-size: 12px !important; }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) article.headlineTile > div.headlineCopy > div.headlinePair > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) article.trophyCard.sd-glint > div.managerCounts > div > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) article.trophyCard.tr-card-revealed > div.managerCounts > div > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#cmsMusicTab > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#completeSeason,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#continueCareer > span.menuTileCode,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#continueCareer > span.menuTileMeta,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#finalWinnerRematch > small.finalWinnerRematchSub,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#finalWinnerRematch > span.finalWinnerRematchMain,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#homeStoryButton > span.menuTileCode,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#homeStoryButton > span.menuTileMeta,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#onlinePlayerIdentityBadge,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button.legacyCard.legacyVisibleCard > span.legacyCardBody > span.legacyScoreBlock > span.legacyWinner,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#app > footer,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubCardOne > div.clubPackStage > div.clubCardFace > span.clubCardLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubCardTwo > div.clubPackStage > div.clubCardFace > span.clubCardLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubPackStatus,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubRivalryConfirmation > div.clubRivalryHeadline > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#clubRivalryConfirmation > p.clubRivalryLockNote,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#commentaryV3Final > div.cmx-bar > span.cmx-bar__tab,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#daniel-entry-panel > div.achievementChecks.achievement-fields > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#daniel-entry-panel > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerHonoursHead > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerHonoursHead > strong.finalWinnerHonoursManager.finalWinnerHonoursManager--daniel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerHonoursHead > strong.finalWinnerHonoursManager.finalWinnerHonoursManager--nik,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric.finalWinnerTrophyMetric--europa > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric.finalWinnerTrophyMetric--total > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerHonours > div.finalWinnerTrophyMetric.finalWinnerTrophyMetric--total > span.finalWinnerTotalMark,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerScreen > header.finalWinnerTitleBlock > p.finalWinnerEyebrow.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerScreen > header.finalWinnerTitleBlock > p.finalWinnerTagline.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerScreen > section.finalWinnerResultsPanel.sd-panel > div.finalWinnerPhoneTabs > label,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#leagueWheel > div.wheelTrack > div.wheelItem,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#leagueWheel > div.wheelTrack > div.wheelItem.v26-top,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#nik-entry-panel > div.achievementChecks.achievement-fields > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#nik-entry-panel > label.field-row,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#ruleBookSections > article.ruleSection.sd-panel > div.ruleSectionHeader > span.ruleSectionNumber,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvHeadBody > div.rv-headGrid.sd-reveal-target > div.rv-headStat > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvProgress,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvRows > div.rv-row.rv-motion-deal > span.rv-label,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#rvTrophyBody > div.rv-trophyGrid > div.rv-trophy > span.rv-trophyLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#season-results-screen > section.season-layout > div.season-phone-toolbar > label.season-phone-scoring-open,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#season-results-screen > section.season-layout > div.seasonEntryActions.season-action-row > button.backButton,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#seasonReviewOne > div.seasonReviewAchievements > span.isEarned,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#seasonReviewOne > div.seasonReviewAchievements > span.isNotEarned,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#seasonReviewOne > p.seasonReviewScoreHeading,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#seasonReviewTwo > div.seasonReviewAchievements > span.isEarned,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#seasonReviewTwo > div.seasonReviewAchievements > span.isNotEarned,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#seasonReviewTwo > p.seasonReviewScoreHeading,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.sd-panel > div.settingsMotionSummary > strong.settingsStatus.standard,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.sd-panel > div.settingsPanelHeading > p,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.sd-panel > div.settingsPanelHeading > span.settingsPanelEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.settingsDataPanel > div.settingsPanelHeading > p,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#settingsContent > section.settingsPanel.settingsDataPanel > div.settingsPanelHeading > span.settingsPanelEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#stage-root > div.sd-stage__layer.sd-stage__layer--ui > header.sdg-header > p.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#stage-root > div.sd-stage__layer.sd-stage__layer--ui > header.sdg-header > p.sd-tagline.sdg-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > div.heroCeremony.tr-spotlight-lit > div.heroPlinth > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > div.heroCeremony.tr-spotlight-lit > div.heroPlinth > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > header.trophyTitleBlock > p.sd-eyebrow.trophyEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > header.trophyTitleBlock > p.sd-tagline.trophyTagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#trophyRoomContent > section.trophyShelf > div.trophyTabs > button.trophyTab,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#v10ExitSlot > div.seasonEntryActions.season-action-row > button.backButton,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.careerScreen > section.phoneFaceBand > header.titleBlock > p.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.clubRevealArena > div.clubRevealArea > div.clubVs > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.cmx-bar > div.cmx-bar__slab > div.cmv3-line.cmv3-numbers > b,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.connectPlayersWorkspace > div.connectPlayersRoles > section.connectPlayersRole.connectPlayersRoleDaniel > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.ruleBookV10Content > div.ruleBookTabs > label.ruleBookTab > b,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.ruleBookV10Content > div.ruleBookTabs > label.ruleBookTab > i,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.sd-stage.trophyRoomScene > div.sd-stage__layer.sd-stage__layer--ui > label.trophyPhoneMoreButton > span.trophyPhoneMoreOpen,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.sd-stage__layer.sd-stage__layer--ui > div.ruleBookV10Content > div.ruleBookHero > span.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.sd-stage__layer.sd-stage__layer--ui > div.ruleBookV10Content > div.ruleBookHero > strong.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.settingsMotionChoices > button.settingsMotionChoice > span.settingsMotionCopy > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.settingsMotionChoices > button.settingsMotionChoice.selected > span.settingsMotionCopy > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.shelfGlass > div.trophyGrid > article.trophyCard.sd-glint > h3,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.shelfGlass > div.trophyGrid > article.trophyCard.tr-card-revealed > h3,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.shelfGlass > div.trophyGrid > article.trophyCard.tr-card-revealed > p.notWonYet,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.world > section.panel.own > div.panel-title.reg > span.chip.chip-private,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.world > section.panel.own > div.panel-title.reg > span.chip.chip-you,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.world > section.panel.sealed > div.panel-title.reg > span.chip.chip-sealed,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) h2#finalWinnerHeading,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) h2#tw-transferChallengeTitle,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#rvTitleBlock > p.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#rvTitleBlock > p.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand > p,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) nav.sd-nav.sd-nav-bottom > button.sd-nav-tab > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) nav.sd-nav.sd-nav-bottom > button.sd-nav-tab.isActive > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) ol#tw-transferPhaseNavigator > li > span.num,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) ol#tw-transferPhaseNavigator > li.done > span.num,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) ol#tw-transferPhaseNavigator > li.upcoming > span.num,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#fixtureEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#fixtureTagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#photoCredit > a,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#photoCredit > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#sdgProgress,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) p#seasonReviewResult,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#clubWheelScreen > div.clubAssignmentShell > div.clubRevealProgress > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#clubWheelScreen > div.clubAssignmentShell > div.clubRevealProgress > span.done,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#connectPlayersScreen > main.connectPlayersPhoneFlow > header.connectPlayersHeader > p.connectPlayersKicker,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#legacySeasonHistory > button.sd-btn.legacyHistoryClose,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#mainMenu > div.fifaMenuShell > div.homeLockup > p.lockupKicker.sd-label,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#mainMenu > div.fifaMenuShell > div.homeLockup > p.lockupLegacy.sd-tagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#onlinePlayerIdentitySettingsPanel > div.settingsInfoGrid > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#onlinePlayerIdentitySettingsPanel > div.settingsPanelHeading > p,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#onlinePlayerIdentitySettingsPanel > div.settingsPanelHeading > span.settingsPanelEyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#seasonReviewPanel > div.overallScoreBox.seasonReviewOverall > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#seasonReviewPanel > div.seasonReviewStatus > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#seasonReviewPanel > p.seasonReviewIntro,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#settingsDialog > header.settingsHeader > div.settingsHeading.settingsTitleBlock > p.sd-kicker.settingsTagline,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section#settingsDialog > header.settingsHeader > div.settingsHeading.settingsTitleBlock > span.settingsEyebrow.sd-eyebrow,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.season-layout > div.season-phone-toolbar > label.season-phone-tab.season-phone-tab--daniel > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.season-layout > div.season-phone-toolbar > label.season-phone-tab.season-phone-tab--nik > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsAudioRow > button.settingsAudioToggle.enabled > strong,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsAudioRow > div.settingsAudioCopy > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsInfoGrid > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.sd-panel > div.settingsMotionSummary > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.settingsPanel.settingsDataPanel > div.settingsInfoGrid > div.settingsInfoRow > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#clubCardStateOne,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#clubCardStateTwo,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#clubConfirmationMeta,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#danielName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#nikName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#panelLastSeasonResult,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#panelLastSeasonLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#rvClubDaniel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#rvClubNik,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#sdgLeader,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#sdgScoreLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span.legacyCardBody > span.legacyScoreBlock > span.legacyWinner > span.legacyWinnerCrown,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) strong#seasonReviewStatusMeta,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > tbody > tr.legacyHistorySeason > th.legacyHistorySeasonLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.daniel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.legacyHistoryResultHead,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.legacyHistorySeasonHead,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.legacyHistoryTable > thead > tr > th.nik,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.rv-seasonTable > tbody > tr > td,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) table.rv-seasonTable > thead > tr > th,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr > td > span.rv-seasonWinner,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.daniel > span.legacyHistoryDetail,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.daniel > span.legacyHistoryEuropa,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.legacyHistoryResult > span.legacyHistoryWinner,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.nik > span.legacyHistoryDetail,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tbody > tr.legacyHistorySeason > td.nik > span.legacyHistoryEuropa,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) tr > td > span.rv-seasonWinner > b.rv-drawMark { font-size: 12px !important; }
+}
+/* 4w.12 Phone fit (Fable job 20): "SPIN TO SELECT LEAGUE" stays on one line inside its own box (the box takes the line's own
+   width instead of the 36% plate slot, the side rules shrink first and the tracking comes in), and short upright phones (under 700px tall) get an 8% smaller wheel so it clears Daniel's pointing hand. */
+@media (max-width: 480px) and (orientation: portrait) {
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague { letter-spacing: .06em; gap: 8px; padding-inline: 4px; width: max-content; max-width: 100%; justify-self: center; }
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  :root #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 24px; min-width: 0; }
+}
+@media (max-width: 480px) and (max-height: 699px) and (orientation: portrait) {
+  :root #app #leagueWheelScreen.v26Skin { --v26-wheel: clamp(184px, min(57vw, 31svh), 258px); }
+}
+/* 4w.13 Sideways phones, after the 12px floor: the Home lockup's TWO MANAGERS line reached under the bottom bar and Trophy
+   Room's tagline was cut by its title block. The Home lockup sits 12px higher; the Trophy title block lets its tagline show. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root #app #mainMenu .fifaMenuShell > .homeLockup { translate: 0 -12px; }
+  :root #app #trophyRoom header.trophyTitleBlock { overflow: visible; }
+  :root #app #trophyRoom header.trophyTitleBlock > .trophyTagline { line-height: 1.15; }
+}
+/* 4w.14 After the floor re-probe: the 360px History table's result cell clipped DANIEL by 3px (the 12px floor plus .04em
+   tracking in a 21% column); the Career Statistics "Season Wins" label on short upright phones and Connect Players'
+   PLAYER TWO tag on sideways phones still drew at 11px. */
+@media (max-width: 380px) and (orientation: portrait) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #legacy .legacyHistoryTable .legacyHistoryResult { width: 24%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #legacy .legacyHistoryWinner { letter-spacing: 0; }
+}
+@media (max-width: 480px) and (orientation: portrait) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#sdgRows > div.sdg-row > span.sdg-label { font-size: 12px !important; }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.connectPlayersRole.connectPlayersRoleNik > span { font-size: 12px !important; }
+}
+/* 4w.20 (lead, 2026-11-06: short screens at 901x650): three base screens clipped a label at the narrowest desktop widths.
+   Home: START A SHOWDOWN ran 1-3px out of its tile label. Career Statistics: a headline tile cut its count and the SHOWDOWNS
+   header by 1-2px. Final Winner: the three equal action columns are 128px at 901 and BACK TO SHOWDOWN HOME needs 147px with
+   its letter-spacing, which made the action row an inner scroller (up to 1099px wide). Each keeps its size and words; the
+   labels lose letter-spacing and a little inner padding. */
+@media (min-width: 901px) and (max-width: 1023px) {
+  :root #app #mainMenu.v10Home .menuTile .menuTileLabel { letter-spacing: -0.2px; }
+  :root #app #careerStatistics .headlineTile { padding-left: max(0px, calc(var(--sa-ht-pad, 8px) - 4px)); padding-right: max(0px, calc(var(--sa-ht-pad, 8px) - 4px)); }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th { letter-spacing: 0; padding-inline: 2px; }
+}
+@media (min-width: 901px) and (max-width: 1099px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #seasonEntry .finalWinnerActionsSlot .season-action-row > :is(.backButton, .menuButton) { letter-spacing: 0; padding-inline: 8px; }
+}
+/* 4w.21 Sideways phones: the 12px type floor (4w.11) made the Settings tagline 16px tall, so it ended 2px below the 78px title
+   rail and the sticky ACCOUNT card under it touched TWO MANAGERS. ONE LEGACY. The rail grows 6px; nothing else moves. */
+@media (max-width:1199px) and (max-height:500px) and (orientation:landscape) {
+  :root :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) { --settings-touch-rail: 84px; }
+}

@@ -1178,6 +1178,9 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 }
 
 /* ---------- r88 STORY page: the app's own screen, black-and-gold marble, never covered, never dimmed ---------- */
+/* r89 fix (Nik 2026-11-06): Team V's home.css stays loaded after Home and locks main (overflow hidden) on phones,
+   so the STORY page could not scroll. While STORY is shown, main is the one scroller again. */
+#app:has(#story:not(.hidden)) > main { overflow-x: clip; overflow-y: auto; }
 #story.storyScreen {
   box-sizing: border-box; min-height: 100%; padding: clamp(24px, 6vh, 64px) 16px calc(var(--sd-nav-bottom-space, 0px) + 32px);
   background: radial-gradient(120% 80% at 50% 0%, #1a1712 0%, #0b0c0f 55%, #060709 100%); color: #F4ECDC;
@@ -1219,4 +1222,11 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
    ("SHOWDOWN", "STATISTICS") ran out of their tiles. Scale them with the window instead; nothing is clipped or covered. */
 @media (min-width: 1001px) and (max-width: 1199px) {
   #app #mainMenu.v10Home .fifaMenuGrid:has(> #homeStoryButton) > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(17px, 1.33vw); }
+}
+/* Studio Small Axe (lead, 2026-11-06): on desktop the shell's opaque footer band (v10Shell.css, z 7) was painted over the
+   "01 TWO MANAGER CAREER COMPETITION" strip once the page settled, hiding it. As the rule at the top of this sheet intends,
+   the Home footer draws no band of its own (the stage draws it), so the strip shows through and the footer's text stays at
+   the left edge, clear of the centred strip. Nothing is covered and nothing moves. */
+@media (min-width: 901px) {
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app:has(#mainMenu.v10Home:not(.hidden)) > footer { background: transparent; border-top-color: transparent; }
 }

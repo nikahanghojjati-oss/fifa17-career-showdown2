@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.1.0-r88";
-const PREVIOUS_RUNTIME_REVISION = "2.0.0-r87";
+const RUNTIME_REVISION = "2.2.0-r89";
+const PREVIOUS_RUNTIME_REVISION = "2.1.0-r88";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -13,7 +13,7 @@ const V10_IMAGE_CACHE_NAME = `${V10_IMAGE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFIX}${revision}` : ""; }
 // r87: the Russian Roster Roulette sounds (visual-assets/v10_1/roulette/assets/sfx/*.wav, 1.8 MB) follow the same cache-first
 // runtime rule as Team V's images instead of the install precache.
-const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav)$/i;
+const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav|glb)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
@@ -36,9 +36,10 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 // precached copies of the shell it runs (red team R87-B-03).
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
-    "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
+    "visual-assets/v10_1/roulette/vendor/three-r187.min.js",
     "visual-assets/v10_1/roulette/platemap.json",
     "visual-assets/v10_1/roulette/assets/squads.json",
+    "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
     "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
@@ -123,14 +124,17 @@ const SHELL_PATHS = Object.freeze([
   "css/v10Roulette.css",
   "visual-assets/v10_1/roulette/index.html",
   "visual-assets/v10_1/roulette/platemap.json",
-  "visual-assets/v10_1/roulette/vendor/three-r128.min.js",
+  "visual-assets/v10_1/roulette/vendor/three-r187.min.js",
   "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt",
   "visual-assets/v10_1/roulette/assets/squads.json",
+  "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr",
+  "js/kits17.js",
   "js/touchlineGazette.js",
   "js/commentaryV3.js",
   "js/commentaryEngine.js",
   "data/commentaryLines.js",
   "data/gazetteCopy.js",
+  "data/gazetteSacked.js",
   "data/frontPages.js",
   "css/v10Gazette.css",
   "visual-assets/v10_1/content/content.css",
@@ -151,6 +155,8 @@ const SHELL_PATHS = Object.freeze([
   "data/icons.js",
   "visual-assets/v10_1/icon-guess/index.html",
   "js/chamberMenStep.js",
+  "js/chamberMenScene3d.js",
+  "js/chamberMenStadium3d.js",
   "js/chamberMen.js",
   "css/chamberMen.css",
   "js/specialPlayerChip.js",
@@ -338,13 +344,14 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.1.0 (r88): PREVIOUS is 2.0.0-r87 (267 paths, tests/fixtures/shell-paths/2.0.0-r87.json). Added: Chamber Men's step,
-// rules and styles (its pictures are Team V images, V10_IMAGE_PATH runtime cache). Removed: none. The STORY site (chronicle/)
-// is never precached (CHRONICLE_PATH above).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
+// 2.2.0 (r89): PREVIOUS is 2.1.0-r88 (270 paths, tests/fixtures/shell-paths/2.1.0-r88.json). Added: three.js r187 and the
+// lounge HDRI for the roulette and Chamber Men, the Kits 17 painter, the Final Gazette's sacked lines, and Chamber Men's 3D
+// scene and stadium (players and stadium GLBs are Team V images, V10_IMAGE_PATH runtime cache). Removed: three.js r128, which
+// a page rolled back to 2.1.0 still finds in its own retained shell. The STORY site (chronicle/) is never precached.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js"]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
-// are not precached (neither 2.0.0 nor 2.1.0 lists them). A request for one comes from the shell of the revision that asks
+// are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
 const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze([...SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)),...SHELL_PATHS_REMOVED_SINCE_PREVIOUS]);

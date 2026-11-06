@@ -1983,3 +1983,24 @@ html[data-motion-reduced="true"] .finalWinnerActionsSlot button, html[data-reduc
   .finalWinnerMetaCell--lastSeason strong { font-size: 24px; }
   .finalWinnerMetaCell--lastSeason small { white-space: normal; text-align: center; }
 }
+
+/* Gallery 2026-11-06 · desktop and tablet: the trophy's crown touched or crossed the WINS headline (by up to 41 px at
+   800x600). The trophy now shrinks from its base, so the base stays where it was and the crown clears the headline by
+   8 px or more at every landscape size from 761 px wide. Phones keep their own trophy seat above. */
+@media (min-width: 761px) {
+  #app .v10FinalStage .winnerTrophyPicture { transform-origin: 50% 100%; scale: .945; }
+  #app .v10FinalStage .winnerTrophyPicture img { object-position: 50% 100%; }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+  #app .v10FinalStage .winnerTrophyPicture { scale: .89; }
+}
+/* 761 to 999 px: a little smaller again, so the Special Player chips either side of it never touch it. */
+@media (min-width: 900px) and (max-width: 999px) {
+  #app .v10FinalStage .winnerTrophyPicture { scale: .8; }
+}
+@media (min-width: 761px) and (max-width: 899px) {
+  #app .v10FinalStage .winnerTrophyPicture { scale: .68; }
+}
+@media (min-width: 761px) and (max-width: 819px) {
+  #app .v10FinalStage .winnerTrophyPicture { scale: .62; }
+}

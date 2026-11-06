@@ -15,6 +15,7 @@
   function pmspShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function pmspSharedMarker(){const showdown=pmspShowdown();return Boolean(showdown&&showdown.sharedJourney&&showdown.sharedJourney.mode==="shared");}
   function pmspField(id){return root.document&&root.document.getElementById(id);}
+  function pmspEmpty(empty){["dashboardPositionOne","dashboardPositionTwo"].forEach(id=>{const node=pmspField(id);node?.toggleAttribute?.("data-sd-empty",empty);});}
   function pmspText(node,value){if(node&&node.textContent!==String(value??""))node.textContent=String(value??"");}
   function pmspHidden(node,hidden){if(node)node.classList.toggle("hidden",Boolean(hidden));}
   function pmspDisable(node,disabled){if(!node)return;node.disabled=Boolean(disabled);node.setAttribute("aria-disabled",disabled?"true":"false");}
@@ -99,6 +100,9 @@
     if(dashboard.acceptedSeasons>0&&Number(dashboard.lastSeason?.seasonNumber)!==dashboard.acceptedSeasons)return null;
     return dashboard;
   }
+  // r89 Sacked: the final season is the sacked one when a manager was sacked (state.sackedSeason), else the planned length.
+  function pmspFinalSeason(state){return Number.isInteger(state?.sackedSeason)?state.sackedSeason:Number(state?.totalSeasons);}
+  function pmspSackedNames(){const last=view?.projection?.seasonHistory?.[view.projection.seasonHistory.length-1];return ["playerOne","playerTwo"].filter(role=>last?.[role]?.sacked===true).map(role=>pmspManagerName(role).toUpperCase());}
   function pmspDecorateDashboard(){
     if(!pmspSharedMarker()||!pmspEnsureCursor()||!view?.authoritative||!view?.state)return false;
     const setup=pmspSetupState()?.setup,dashboard=pmspDashboardProjection(),state=view.state,screen=pmspField("dashboard");if(!setup||setup.phase!=="SHOWDOWN_CONFIRMED"||!dashboard||!screen)return false;
@@ -106,7 +110,8 @@
     screen.dataset.sharedDashboardAuthority="true";
     pmspText(pmspField("dashboardShowdownName"),pmspShowdown()?.name||"Showdown");
     pmspText(pmspField("dashboardLeague"),pmspLeagueName(setup.leagueId));
-    pmspText(pmspField("dashboardRound"),state.terminal?(Number(total)===1?"Season complete":`All ${total} seasons complete`):`Season ${cursor} of ${total}`);
+    const sackedEnd=state.terminal&&Number.isInteger(state.sackedSeason)&&state.sackedSeason<total;
+    pmspText(pmspField("dashboardRound"),state.terminal?(sackedEnd?`Ended after season ${state.sackedSeason} of ${total}`:Number(total)===1?"Season complete":`All ${total} seasons complete`):`Season ${cursor} of ${total}`);
     pmspText(pmspField("seasonIndicator"),state.terminal?"Showdown Complete":`Season ${cursor} / ${total}`);
     pmspText(pmspField("dashboardStatus"),state.terminal?"SHOWDOWN COMPLETE":`${accepted} OF ${total} SEASONS PLAYED`);
     pmspText(pmspField("dashboardManagerOne"),n1);pmspText(pmspField("dashboardManagerTwo"),n2);
@@ -120,10 +125,10 @@
       pmspText(pmspField("dashboardLastSeasonLabel"),accepted===1?"LAST SEASON":`AFTER ${accepted} SEASONS`);
       pmspText(pmspField("dashboardLastSeasonResult"),`Season ${last.seasonNumber} · ${n1} ${last.playerOne.score} - ${n2} ${last.playerTwo.score} · ${winner}`);
       pmspText(pmspField("dashboardPositionOne"),`Last league finish: ${last.playerOne.leaguePosition}`);
-      pmspText(pmspField("dashboardPositionTwo"),`Last league finish: ${last.playerTwo.leaguePosition}`);
+      pmspText(pmspField("dashboardPositionTwo"),`Last league finish: ${last.playerTwo.leaguePosition}`);pmspEmpty(false);
       pmspHidden(summary,false);
     }else{
-      pmspText(pmspField("dashboardPositionOne"),"No season completed");pmspText(pmspField("dashboardPositionTwo"),"No season completed");pmspText(pmspField("dashboardLastSeasonResult"),"—");pmspHidden(summary,true);
+      pmspText(pmspField("dashboardPositionOne"),"No season completed");pmspText(pmspField("dashboardPositionTwo"),"No season completed");pmspEmpty(true);pmspText(pmspField("dashboardLastSeasonResult"),"—");pmspHidden(summary,true);
     }
     return true;
   }
@@ -146,9 +151,9 @@
   }
   function pmspCanContinue(){
     const season=pmspEnsureCursor(),state=view?.state;if(!season||!state||state.terminal||!pmspHistoryWitnessed())return false;
-    return Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season&&season<state.totalSeasons;
+    return Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season&&season<pmspFinalSeason(state);
   }
-  function pmspTerminalWitnessed(){const season=pmspEnsureCursor(),state=view?.state;return Boolean(season&&state?.terminal===true&&state.acceptedSeasons===state.totalSeasons&&season===state.totalSeasons&&pmspHistoryWitnessed());}
+  function pmspTerminalWitnessed(){const season=pmspEnsureCursor(),state=view?.state;return Boolean(season&&state?.terminal===true&&state.acceptedSeasons===pmspFinalSeason(state)&&season===pmspFinalSeason(state)&&pmspHistoryWitnessed());}
   function pmspEnsureUi(){
     const review=pmspField("seasonReviewPanel"),actions=review?.querySelector?.(".seasonReviewActions");if(!review||!actions)return null;
     // r80: the status line belongs to CONTINUE, so it sits inside the action row, first: on phones and at 1920x1080 that row
@@ -164,9 +169,12 @@
   const PMSP_CHAMPION_KEY="cms.championPending.v1";
   function pmspMarkChampionDue(rivalryId){try{if(rivalryId&&typeof root.writeStorageValue==="function"&&root.readStorageValue?.(PMSP_CHAMPION_KEY)!==rivalryId)root.writeStorageValue(PMSP_CHAMPION_KEY,rivalryId);}catch(_error){}}
   function pmspRender(){
-    {const season=pmspEnsureCursor(),state=view?.state,rivalryId=pmspRivalryId();if(season&&state&&rivalryId&&String(view.rivalryId||"")===rivalryId&&season===Number(state.totalSeasons)&&pmspScreenVisible())pmspMarkChampionDue(rivalryId);}
+    {const season=pmspEnsureCursor(),state=view?.state,rivalryId=pmspRivalryId();if(season&&state&&rivalryId&&String(view.rivalryId||"")===rivalryId&&season===pmspFinalSeason(state)&&pmspScreenVisible())pmspMarkChampionDue(rivalryId);}
     const ui=pmspEnsureUi();if(!ui)return false;const season=pmspEnsureCursor(),state=view?.state,visible=Boolean(pmspSharedMarker()&&season&&state&&pmspScreenVisible()&&Number.isInteger(state.acceptedSeasons)&&state.acceptedSeasons>=season);
     pmspHidden(ui.status,!visible);pmspHidden(ui.action,!visible);if(!visible)return false;
+    if(pmspTerminalWitnessed()&&Number.isInteger(state.sackedSeason)){
+      const names=pmspSackedNames();pmspText(ui.status,`SEASON ${state.sackedSeason} PLAYED · ${names.length?names.join(" AND "):"A MANAGER"} SACKED · FINAL RESULT NEXT`);pmspText(ui.action,"SHOWDOWN OVER ✓");pmspDisable(ui.action,true);return true;
+    }
     if(pmspTerminalWitnessed()){
       pmspText(ui.status,Number(state.totalSeasons)===1?"SEASON PLAYED · FINAL RESULT NEXT":`ALL ${state.totalSeasons} SEASONS PLAYED · FINAL RESULT NEXT`);pmspText(ui.action,"ALL SEASONS PLAYED ✓");pmspDisable(ui.action,true);return true;
     }
@@ -199,7 +207,7 @@
   async function pmspAdvance(){
     if(busy&&refreshPromise){try{await refreshPromise;}catch(_error){}}
     if(busy||!pmspCanContinue())return false;const request=pmspRequest();if(!request)return false;const state=view.state,season=pmspEnsureCursor();
-    if(season>=state.totalSeasons)return false;exposedSeason=season+1;pmspMarkContinued(request.rivalryId,exposedSeason);pmspRender();
+    if(season>=pmspFinalSeason(state))return false;exposedSeason=season+1;pmspMarkContinued(request.rivalryId,exposedSeason);pmspRender();
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-season-cursor-change",{detail:{rivalryId:request.rivalryId,previousSeason:season,activeSeason:exposedSeason,acceptedSeasons:state.acceptedSeasons}}));}catch(_error){}
     if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false});pmspDecorateDashboard();
     // Job 33 (R2): go straight on to the new season's Shared Transfer Challenge (the same open() the dashboard button runs).
@@ -220,7 +228,7 @@
     if(!result||!request||!view||view.authoritative!==true||!state||String(view.rivalryId||"")!==request.rivalryId)return null;
     const total=Number(state.totalSeasons),accepted=Number(state.acceptedSeasons);
     const held=options?.holdForReview===true&&pmspHoldsForReview(request.rivalryId,accepted,total,state.terminal);
-    const target=state.terminal===true?total:held?accepted:accepted+1;
+    const target=state.terminal===true?pmspFinalSeason(state):held?accepted:accepted+1;
     heldSeason=held?Object.freeze({key:request.key,rivalryId:request.rivalryId,season:accepted}):null;
     if(!Number.isInteger(total)||!Number.isInteger(accepted)||accepted<0||!Number.isInteger(target)||target<1||target>total)return null;
     const previous=pmspEnsureCursor();

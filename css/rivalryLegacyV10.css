@@ -316,7 +316,7 @@
 /* JOB-1601: adopted 1375, upright tablets only. Persistent totals on the left;
    TOTALS pairs with head-to-head; other tabs choose the supporting right pane.
    Scene shrinks around the live title, 300px cards, 52px action and hub reserve. */
-@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) {
     box-sizing:border-box; position:fixed; inset:0; display:block; width:100%; max-width:none;
     padding:0; margin:0; height:100svh; max-height:100svh; overflow:auto; background:#07090c;
@@ -469,7 +469,7 @@
    and the empty/loading/unavailable notice covers the card's body instead of a tiny grid area. */
 @media (max-width:600px) and (orientation:portrait),
   (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape),
-  (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+  (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-rows { position:static; inset:auto; }
   #app #statistics[data-rivalry-legacy-v10] .rv-coverage {
     position:static; inset:auto; transform:none; z-index:auto; grid-area:auto; grid-column:1 / -1;
@@ -485,10 +485,7 @@
 /* JOB-1703: approved NEXT_RIVALRY geometry; adopted 1372/1374/1375
    remain the touch compositions. Only main scrolls, including long histories.
    #app keeps the adapter ahead of the later-loaded frozen screen sheets. */
-@media (max-width:600px) and (orientation:portrait),
-  (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape),
-  (min-width:700px) and (max-width:900px) and (orientation:portrait),
-  (min-width:1024px) and (orientation:landscape) {
+@media (max-width:600px) and (orientation:portrait), (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape), (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:1024px) and (orientation:landscape), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (orientation:landscape) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) {
     box-sizing:border-box; position:fixed; inset:0; z-index:30;
     width:100%; height:100svh; max-height:100svh; min-height:0;
@@ -586,7 +583,7 @@
 
 /* Tablet: keep the adopted side-by-side panes. A selected long history
    yields hero space to rows, rather than introducing a panel scrollbar. */
-@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { scrollbar-gutter:auto; }
   #app #statistics[data-rivalry-legacy-v10] .rv-titleBlock { left:auto; top:auto; }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
@@ -613,7 +610,7 @@
    960/1050px absolute shells and #statistics overflow:auto. The stage
    camera stays viewport-height, preserving the live manager plate;
    shell overflow contributes directly to main's scrollable content. */
-@media (min-width:1024px) and (orientation:landscape) {
+@media (min-width:1024px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-stage {
     position:relative; width:100%; height:100svh; min-height:0;
     margin:0; aspect-ratio:auto; overflow:visible;
@@ -689,13 +686,13 @@
   }
   #app #statistics[data-rivalry-legacy-v10] .nav-reserve { display:none; }
 }
-@media (min-width:1024px) and (max-height:700px) and (orientation:landscape) {
+@media (min-width:1024px) and (max-height:700px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (max-height:700px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-titleBlock { top:74px; left:33%; width:34%; }
 }
 /* r80 Europa League (seven comparison rows, five trophies): on short desktop windows (1280x650) the docked BACK TO SHOWDOWN HOME
    sat 21px over the bottom of the Season-by-Season panel. The comparison keeps its 240px floor and the three bottom panels
    lose some padding, so the panels end above the docked action and nothing sits under it. */
-@media (min-width:1024px) and (max-height:700px) and (orientation:landscape) {
+@media (min-width:1024px) and (max-height:700px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (max-height:700px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-shell { row-gap:8px; }
   #app #statistics[data-rivalry-legacy-v10] .rv-comparison { height:240px; }
   #app #statistics[data-rivalry-legacy-v10] .rv-bottom { grid-template-rows:30px minmax(96px,1fr); padding:0 8px 4px; min-height:0; }
@@ -707,7 +704,7 @@
 /* r80 short screens: on 600px-tall desktop windows (1100x600, 1024x600) the panels still ended 19px under the docked BACK
    TO SHOWDOWN HOME. There the action joins the flow under the panels (as it does from 5-6 season rows), so it never sits
    on a panel; main scrolls the few pixels to reach it. */
-@media (min-width:1024px) and (max-height:630px) and (orientation:landscape) {
+@media (min-width:1024px) and (max-height:630px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (max-height:630px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-actions { position:static; margin:6px 0 0; }
 }
 
@@ -716,7 +713,7 @@
 /* JOB-1703 claude check: desktop long histories. The floating action covered season rows at 1366x768 and 1920x1080 once the
    history reaches 10 rows (button laid over row text). Only main scrolls, so from 6 rows the action joins the grid flow
    under the panels and the stage grows with the rows. Shorter histories keep the docked action (no row sits under it). */
-@media (min-width:1024px) and (orientation:landscape) {
+@media (min-width:1024px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-shell:has(.rv-seasonTable tbody tr:nth-child(6)) .rv-actions {
     position:static; margin:14px 0 0;
   }
@@ -724,7 +721,7 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-shell:has(.rv-seasonTable tbody tr:nth-child(6)) .rv-trophyGrid { align-items:center; }
 }
 /* Chromebook-height windows (1280x650): five rows already reach under the docked action, so it joins the flow from 5 rows. */
-@media (min-width:1024px) and (max-height:700px) and (orientation:landscape) {
+@media (min-width:1024px) and (max-height:700px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (max-height:700px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-shell:has(.rv-seasonTable tbody tr:nth-child(5)) .rv-actions {
     position:static; margin:14px 0 0;
   }
@@ -739,13 +736,13 @@
 }
 /* The title block sat at 8% of the grid shell. The shell grows with the season rows, so at 10 seasons on a 1366x768 window the
    tagline slid under the comparison panel. Anchor it to the viewport height instead (same place for 1 to 5 seasons). */
-@media (min-width:1024px) and (min-height:701px) and (orientation:landscape) {
+@media (min-width:1024px) and (min-height:701px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (min-height:701px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-titleBlock { top:8svh; }
 }
 /* Tablets (1375 'fills both tablet sizes'): the hero budget reserved 764px under the art, but the card stack, action and hub
    reserve measure about 660px, which left ~100px of empty floor above the hub bar at 820x1180. Give the art that space and
    keep ~30px of slack so a wrapped label never pushes the action into main's scroll. Long season tables keep their own 850px. */
-@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
     height:clamp(0px,calc(100svh - 690px - env(safe-area-inset-bottom)),520px);
   }
@@ -980,7 +977,7 @@
 @media (max-width:600px) and (orientation:portrait),
        (min-width:601px) and (max-width:900px) and (orientation:portrait),
        (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape),
-       (min-width:901px) {
+       (min-width:901px), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app > main:has(> #legacy[data-rivalry-legacy-v10]:not(.hidden)) {
     position:fixed; inset:0; z-index:30; display:block; box-sizing:border-box;
     width:100%; height:100svh; max-height:100svh; margin:0; padding:0;
@@ -1207,7 +1204,7 @@
 
 /* Unadopted tablets retain the live 55% hero/title and tabs/card/pager
    composition. Only remove clipping/nested scrolling and repair targets. */
-@media (min-width:601px) and (max-width:900px) and (orientation:portrait) {
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { display:block; padding:0; }
   #app #legacy[data-rivalry-legacy-v10] .legacyV10Screen {
     display:block; position:relative; height:auto; min-height:100svh;
@@ -1544,6 +1541,11 @@
   }
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyPager[data-compact="true"]) { --lg-trim-pager:46px; }
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyCard[data-golden="true"]) { --lg-trim-golden:64px; }
+  /* Studio Small Axe History finder: the one-row CARDS / LIST / FIND bar. */
+  #app #legacy[data-rivalry-legacy-v10] {
+    --lg-hero:clamp(44px,calc(100svh - 476px - var(--lg-trim-pager,0px) - var(--lg-trim-golden,0px) - var(--lg-trim-tools,0px) - env(safe-area-inset-bottom)),350px);
+  }
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyTools) { --lg-trim-tools:68px; }
 }
 
 /* r87 career polish: History season list as a table (Season · Daniel · Nik · Result). The heading and the close button share one
@@ -1653,6 +1655,353 @@
 }
 /* r87 sizes F7: below the tablet managers' hands, above the archive. Keep the
    title in its hero band and leave the tabs and history action where they are. */
-@media (min-width:601px) and (max-width:900px) and (orientation:portrait) {
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] .legacyWordmarkWrap { top:68%; }
+}
+
+/* Studio Small Axe History finder (Nik 2026-11-03): CARDS / LIST, "Go to #" and result filters under the three tabs,
+   and a compact list of 12 Showdowns per page. Rows are not .legacyCard, so the one-card phone rules never hide them. */
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools {
+  grid-column:1 / -1; display:grid; gap:8px; align-content:start; margin:4px 0 0; padding:10px 0 0;
+  border-top:1px solid #d9aa3c59; min-width:0;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button {
+  position:relative; width:100%; min-width:0; min-height:36px; height:auto; margin:0; padding:6px 10px;
+  font-size:12px; line-height:16px; letter-spacing:.1em; color:#f6efd8; text-align:center; cursor:pointer;
+  border:1px solid #d9aa3c66; border-radius:2px; background:linear-gradient(180deg,#121214,#050506);
+  box-shadow:inset 0 1px 0 #fff1b814,inset 0 0 0 1px #000a; text-shadow:none;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button::after { content:none; display:none; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button[aria-pressed="true"] {
+  color:#1a1305; border-color:#fff1b8; background:var(--lg-gold,linear-gradient(180deg,#ffe58f,#d9aa3c));
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -2px 0 #a87a1288,0 0 0 1px #000a;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button:focus-visible,
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools input:focus-visible,
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow:focus-visible { outline:2px solid #ffe58f; outline-offset:2px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyViewToggle { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyFindToggle { display:none; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJump {
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:6px; margin:0;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyJump label { font-size:11px; letter-spacing:.14em; color:#f2c45b; white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJump input {
+  box-sizing:border-box; width:100%; min-width:0; height:36px; margin:0; padding:4px 8px; font:inherit; font-size:14px;
+  color:#f6efd8; background:#050506; border:1px solid #d9aa3c80; border-radius:2px; -moz-appearance:textfield;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyJump input::-webkit-inner-spin-button,
+#app #legacy[data-rivalry-legacy-v10] .legacyJump input::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyJump button { width:auto; padding:6px 12px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote { grid-column:1 / -1; font-size:11px; line-height:14px; color:#f2c45b; }
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote:empty { display:none; }
+#app #legacy[data-rivalry-legacy-v10] .legacyFilters { display:grid; gap:4px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button {
+  display:flex; justify-content:space-between; align-items:center; gap:8px; text-align:left;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyFilters button b { font-weight:700; font-variant-numeric:tabular-nums; opacity:.85; }
+/* Desktop: the three tabs and the tools share the side column, so both step down to keep the panel its usual height. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) { gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) > button[data-route] { min-height:40px; padding:8px 12px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools { gap:6px; padding-top:8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button { min-height:30px; padding:4px 10px; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyJump input { height:30px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilters { grid-template-columns:1fr 1fr; gap:3px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilters > [data-archive-filter="all"] { grid-column:1 / -1; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button { min-height:28px; padding:3px 8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilterTail { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid:not([data-view="list"]) { align-self:start; }
+}
+
+/* The list. */
+#app #legacy[data-rivalry-legacy-v10] .legacyCardGrid[data-view="list"] {
+  display:grid !important; grid-template-columns:minmax(0,1fr) !important; grid-auto-flow:row !important;
+  grid-auto-columns:auto !important; grid-auto-rows:auto; align-content:start; gap:4px;
+  overflow:visible !important; scroll-snap-type:none !important; touch-action:auto !important;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow {
+  box-sizing:border-box; display:grid; grid-template-columns:64px minmax(0,1fr) minmax(112px,150px) 96px 18px;
+  align-items:center; gap:12px; width:100%; min-width:0; min-height:36px; margin:0; padding:4px 14px;
+  font:inherit; font-size:13px; line-height:16px; text-align:left; color:#efe6d0; cursor:pointer;
+  border:1px solid #d9aa3c40; border-radius:2px;
+  background:linear-gradient(90deg,#141416f2,#08090af5); box-shadow:inset 0 1px 0 #fff1b80d;
+}
+#app #legacy[data-rivalry-legacy-v10] div.legacyListRow { cursor:default; color:#a89f8a; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow[data-row-selected="true"] {
+  border-color:#f2c45b; background:linear-gradient(90deg,#2a2210f2,#0d0c09f5);
+  box-shadow:inset 3px 0 0 #f2c45b,inset 0 1px 0 #fff1b833;
+}
+@media (hover:hover) {
+  #app #legacy[data-rivalry-legacy-v10] button.legacyListRow:hover { border-color:#d9aa3cb3; }
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListNumber { font-weight:700; letter-spacing:.06em; color:#f2c45b; font-variant-numeric:tabular-nums; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListMatch {
+  display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:12px; min-width:0;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide { display:flex; align-items:baseline; gap:8px; min-width:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide--daniel { justify-content:flex-start; flex-direction:row-reverse; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide b { font-weight:700; letter-spacing:.06em; white-space:nowrap; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide small {
+  min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; color:#a89f8a;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListScore {
+  font-size:17px; font-weight:700; letter-spacing:.04em; color:#fff3cf; font-variant-numeric:tabular-nums; white-space:nowrap;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListResult { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:12px; letter-spacing:.06em; color:#f2c45b; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListResult[data-winner="draw"],
+#app #legacy[data-rivalry-legacy-v10] .legacyListResult[data-winner=""] { color:#c9c0aa; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListSeasons { white-space:nowrap; font-size:12px; color:#c9c0aa; text-align:right; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListGolden { color:#ffd34d; font-size:15px; text-align:center; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListEnded { grid-column:2 / -1; font-size:12px; letter-spacing:.06em; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListEmpty {
+  margin:0; padding:24px 12px; text-align:center; font-size:14px; letter-spacing:.08em; color:#f2c45b;
+  border:1px dashed #d9aa3c59; border-radius:2px;
+}
+/* While a Showdown's seasons are open, the list steps aside for them like the other cards do. */
+#app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid[data-view="list"] > .legacyListRow:not([data-row-selected="true"]) { display:none; }
+
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel:has(.legacyTools) { height:auto !important; min-height:0 !important; grid-template-rows:auto auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools { grid-template-columns:minmax(0,2fr) minmax(0,1fr); padding:8px 0; gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyFindToggle { display:block; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyFindToggle[aria-expanded="true"] { border-color:#f2c45b; color:#ffe58f; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyTools:not([data-find-open="true"]) :is(.legacyJump,.legacyFilters) { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyTools .legacyJump { grid-column:1 / -1; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button { min-height:44px; font-size:12px; letter-spacing:.06em; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyJump input { height:44px; font-size:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilters { grid-column:1 / -1; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button { flex-direction:column; justify-content:center; gap:2px; padding:4px 2px; text-align:center; line-height:14px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyFilterTail { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListRow {
+    grid-template-columns:48px minmax(0,1fr) 16px; grid-template-areas:"no match gold" "no meta gold";
+    row-gap:2px; column-gap:10px; min-height:52px; padding:6px 10px;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListNumber { grid-area:no; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListMatch { grid-area:match; gap:8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListSide small { display:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListResult { grid-area:meta; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListSeasons { grid-area:meta; justify-self:end; font-size:11px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListGolden { grid-area:gold; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListEnded { grid-column:2 / -1; grid-row:1 / 3; }
+}
+/* In the list the page is taller, so VIEW SEASON HISTORY and BACK sit in flow under it instead of floating over rows. */
+#app #legacy[data-rivalry-legacy-v10][data-history-view="list"] :is(.legacyPrimaryAction,.legacyBackV10) { position:relative !important; bottom:auto !important; }
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyListRow { min-height:32px; padding:2px 14px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid[data-view="list"] { gap:3px; }
+}
+@media (min-width:901px) {
+  /* With the seasons open beside it, the chosen row becomes a small card: number, score, result, seasons. */
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyCardGrid[data-view="list"] > .legacyListRow[data-row-selected="true"] {
+    width:calc((100% - 24px) / 4); justify-self:start; min-height:160px;
+    grid-template-columns:minmax(0,1fr); justify-items:center; align-content:center; gap:6px; padding:14px 10px; text-align:center;
+  }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] .legacyListMatch { grid-template-columns:minmax(0,1fr); justify-items:center; gap:4px; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] .legacyListSide { justify-content:center; flex-direction:row; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] .legacyListScore { order:-1; font-size:24px; }
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyListRow[data-row-selected="true"] :is(.legacyListSeasons,.legacyListResult) { text-align:center; }
+}
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel .legacyViewToggle { align-self:start; }
+}
+
+/* Studio Small Axe History finder, Fable job 20 lines under 5 (2026-11-04).
+   Type: every toolbar label, the GO TO note, the list's club names and the phone result/seasons cells are 12px.
+   Buttons: CARDS / LIST is the one segmented control style the game already uses (Career Statistics' TABLE / COMPARE /
+   LEADERS: one gold edge, hairline dividers, the chosen segment gold). Filter chips are the quiet rank and show their
+   choice with a gold outline, so gold fill stays with the primary. GO is the secondary rank (gold outline, gold text).
+   Panels: list rows are marble strips with the panel border. States: the GO TO note reads as an inline error (warm red
+   rule); an empty filter shows an icon and "No draws yet." in the middle of the panel. Motion: the list body fades in
+   over 120 ms when the filter or view changes (opacity from .4, never 0), off under both Reduce Motion settings. */
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button,
+#app #legacy[data-rivalry-legacy-v10] .legacyJump label,
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote,
+#app #legacy[data-rivalry-legacy-v10] .legacyListSide small { font-size:12px; }
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] :is(.legacyListResult,.legacyListSeasons) { font-size:12px; }
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle {
+  gap:0; border:1px solid rgba(245,197,24,.58); background:rgba(7,8,10,.82);
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle button {
+  border:0; border-right:1px solid rgba(245,197,24,.24); border-radius:0; background:transparent; box-shadow:none; color:#b9b3a4;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle button:last-child { border-right:0; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools .legacyViewToggle button[aria-pressed="true"] {
+  color:#07080a; border-color:rgba(245,197,24,.24); background:linear-gradient(135deg,#ffe07e,#f5c518 58%,#d4a017); box-shadow:none;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button { color:#d8cebb; background:rgba(7,8,10,.72); border-color:#d9aa3c40; }
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyFilters button[aria-pressed="true"] {
+  color:#ffe58f; background:rgba(7,8,10,.72); border-color:#f2c45b; box-shadow:inset 0 0 0 1px #f2c45b;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyJump button {
+  color:var(--sd-gold-300,#ffe58f); background:rgba(8,9,12,.9); border:1px solid #d9aa3c; box-shadow:none;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyJumpNote:not(:empty) {
+  padding:2px 0 2px 8px; border-left:2px solid #d9603c; color:#ffb4a0; line-height:16px;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListRow {
+  background:linear-gradient(180deg,rgba(24,22,19,.94),rgba(7,7,8,.94)); border:1px solid rgba(217,170,60,.55);
+  box-shadow:inset 0 1px rgba(255,236,170,.12);
+}
+@media (hover:hover) {
+  #app #legacy[data-rivalry-legacy-v10] button.legacyListRow:hover { border-color:#f2c45b; }
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyCardGrid:has(> .legacyListEmpty:only-child) { align-content:center; min-height:100%; }
+#app #legacy[data-rivalry-legacy-v10] .legacyListEmpty {
+  display:flex; flex-direction:column; align-items:center; gap:10px; justify-self:center; width:min(420px,100%);
+  border:1px dashed rgba(217,170,60,.45); background:rgba(0,0,0,.28); color:#d8cebb; font-size:14px; letter-spacing:.06em;
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyListEmpty::before {
+  content:""; width:24px; height:24px; background:#d9aa3c;
+  -webkit-mask:var(--sa-ic-circle-dashed) center / contain no-repeat; mask:var(--sa-ic-circle-dashed) center / contain no-repeat;
+}
+@keyframes sa-list-fade { from { opacity:.4; } to { opacity:1; } }
+@media (prefers-reduced-motion:no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid[data-view="list"] > :is(.legacyListRow,.legacyListEmpty) {
+    animation:sa-list-fade 120ms ease-out both;
+  }
+}
+@media (max-width:900px) {
+  /* the toolbar's GO TO label and the CARDS segment sat 2px inside the panel's gold edge */
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools { padding-inline:8px; }
+}
+/* Studio Small Axe History finder, Fable re-check: a short list page (a filter with few rows) keeps its pager straight under
+   the last row; the spare height sits below the pager instead of between the rows and the pager. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) { grid-template-rows:auto minmax(0,1fr); align-content:stretch; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) > .legacyCardGrid { align-self:start; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyCardGrid[data-view="list"]) > #legacyPager { align-self:start; }
+}
+/* Studio Small Axe History finder (Nik 2026-11-04, "Move both", Fable's spot): on desktop CARDS / LIST, GO TO # and the five
+   filters are one toolbar row above the archive, and the side column keeps only LEGACY ARCHIVE, TROPHY ROOM and RECORDS.
+   legacy.js moves .legacyTools in front of the grid there (data-toolbar="true"); phones keep it under the tabs behind FIND. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) { grid-template-rows:auto minmax(0,1fr) auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) > .legacySidePanel { grid-row:1 / 4; align-self:start; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) > .legacyCardGrid { grid-row:2; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools) > #legacyPager { grid-row:3; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) { grid-template-rows:auto auto minmax(0,1fr) auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > .legacySidePanel { grid-row:1 / 5; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > .legacyTools { grid-row:2; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > .legacyCardGrid { grid-row:3; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyStateBanner:not([hidden])) > #legacyPager { grid-row:4; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools {
+    grid-column:2; grid-row:1; display:grid; grid-template-columns:minmax(150px,180px) minmax(200px,260px) minmax(0,1fr);
+    align-items:center; gap:12px; margin:0 0 6px; padding:0; border:0;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters { grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters > [data-archive-filter="all"] { grid-column:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools button { min-height:30px; padding-block:3px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJump input { height:30px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJumpNote:not(:empty) {
+    position:absolute; z-index:3; margin-top:4px; white-space:nowrap; background:rgba(7,8,10,.94);
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJump { position:relative; grid-template-rows:auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJumpNote { top:100%; left:0; grid-column:auto; }
+  /* The toolbar row makes the archive taller, so VIEW SEASON HISTORY and BACK sit in flow under it in both views (as the list
+     already did) instead of floating over the pager; main scrolls the rest on short laptops. */
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) :is(.legacyPrimaryAction,.legacyBackV10) { position:relative !important; bottom:auto !important; }
+}
+/* With the toolbar above the archive, the season list opens under it (12px pane inset + 30px toolbar + its 6px gap), so the
+   GO TO box and the filters stay visible and tappable. On windows taller than 700px it gives those rows back by ending 18px lower,
+   down to the pager's top edge, so a 3-season Showdown fits with no inner scroll at 1366x768. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) .legacySeasonHistory:not([hidden]) { top:48px; }
+}
+@media (min-width:1200px) and (min-height:701px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) .legacySeasonHistory:not([hidden]) { bottom:calc(22% - 12px); }
+}
+/* Studio Small Axe (Fable job 20, 900x700): sideways tablets taller than 500px fell through to the old absolute phone layers,
+   where the totals rows, head-to-head and trophy bodies became inner scrollers and the trophy names were cut. They now use the
+   upright tablet layout above; the scene keeps a fixed share so both faces stay on screen and main is the only scroller. */
+@media (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene,
+  #app #statistics[data-rivalry-legacy-v10]:has(.rv-shell[data-tab="seasons"] .rv-seasonTable tr:nth-child(5)) .rv-adoptedPhoneScene {
+    height:clamp(220px,calc(100svh - 440px),320px);
+  }
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager { height:118%; max-height:none; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager--daniel { left:14%; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager--nik { left:56%; }
+  /* The scene makes the page taller than the window, so BACK ends the content instead of docking over the cards. */
+  #app #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab] .rv-actions { position:relative; inset:auto; }
+}
+/* A single Showdown spans the card and pager rows; with the toolbar it starts under the toolbar instead of over it. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(.legacyCardGrid > .legacyCard:only-child) .legacyCardGrid { grid-area:2 / 2 / 4 / 3; }
+}
+/* Fable re-check (toolbar layout): a short filtered list keeps its pager straight under the last row again; the spare
+   height goes to an empty fourth row under the pager. */
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyCardGrid[data-view="list"]) { grid-template-rows:auto auto auto minmax(0,1fr); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(> .legacyTools):has(> .legacyCardGrid[data-view="list"]) > .legacySidePanel { grid-row:1 / 5; }
+}
+/* Codex P2 (901x650): below 1200px the five filters did not fit beside CARDS / LIST and GO TO #, so the toolbar takes two
+   rows there: view and GO TO # on the first, the five filters across the archive's full width on the second. */
+@media (min-width:901px) and (max-width:1199px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools { grid-template-columns:minmax(140px,180px) minmax(0,260px); row-gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters { grid-column:1 / -1; }
+}
+
+/* Studio Small Axe Legacy pane, Fable job 20 lines under 5 (2026-11-04).
+   Type: card club names, results, SP chips, "10 / 10 Seasons", the Golden line, the table heads and details and CLOSE come up
+   from 11 to 12px on desktop; the pane's heading is 13px. Spacing: the pane follows its rows (top-anchored, no fixed bottom),
+   so 3 seasons leave no empty marble and a 10-season Showdown fits (a 15px line per season) without an inner scroller;
+   the archive pager moves under the chosen card's slot while the pane is open, so the pane never covers it. Buttons: CLOSE is the secondary rank (gold outline,
+   gold text, 12px) and, while the pane is open, VIEW SEASON HISTORY steps down to the quiet rank so one gold call remains.
+   Panels: the pane wears the archive's border and the 2px gold top rule; its heading is the gold eyebrow. Motion: the pane
+   rises 8px over 200 ms (opacity from .6, never 0), off under both Reduce Motion settings. No loading row: the seasons come
+   from the frame Legacy already holds, so the pane never waits on a read. */
+/* The floor never lowers a size: the season detail already shows at 13px or more from 1700px wide, and short windows
+   (under 700px tall) keep the kit sizes, where the cards have no height to spare (the result line would meet the club
+   name). The History eyebrow and tagline over the title join the floor too. */
+@media (min-width:901px) and (min-height:700px) {
+  #app #legacy[data-rivalry-legacy-v10] :is(.legacyClubName,.legacyWinner,.spChipTag,.spChipName,.spChipRank,.legacyCardFooter,.legacyGoldenShowdown,.legacyGoldenShowdownStar,.legacyHistoryTable th,.legacyEyebrow,.legacyTagline) { font-size:12px !important; }
+}
+@media (min-width:901px) and (max-width:1699px) and (min-height:700px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { font-size:12px !important; }
+}
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
+    bottom:auto; height:max-content; max-height:calc(100% - 24px); grid-template-rows:auto auto auto;
+    border:1px solid rgba(217,170,60,.62); border-top:2px solid var(--v26-gold-deep,#c99b45);
+  }
+  /* the pager stays with the archive: while the pane is open it sits under the chosen card's slot, not under the pane */
+  #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyPager { justify-self:start; width:calc((100% - 24px) / 4); min-width:0; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryHeading { font-size:13px !important; letter-spacing:.16em; color:var(--sd-gold-300,#ffd34d); }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(td,th) { padding-top:1px !important; padding-bottom:1px !important; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable td :is(strong,b,.legacyHistoryScore) { font-size:16px; line-height:16px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:8px; padding-bottom:8px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn.legacyHistoryClose {
+    font-size:12px !important; color:var(--sd-gold-300,#ffe58f); background:rgba(8,9,12,.9); border:1px solid #d9aa3c; box-shadow:none;
+  }
+}
+#app #legacy[data-rivalry-legacy-v10]:has(#legacySeasonHistory:not([hidden])) #viewSeasonHistory {
+  color:#d8cebb; background:rgba(7,8,10,.72); border-color:rgba(217,170,60,.4); box-shadow:none; text-shadow:none;
+}
+/* A long Showdown (7-10 seasons) tightens the pane once more so all of its seasons fit without the inner scroller at
+   1280x720 and up: 15px points on a 15px line, 1px cell padding, the close button and the gaps trimmed. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) { padding-top:4px; padding-bottom:4px; row-gap:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) > .legacyHistoryClose { min-height:28px !important; padding:2px 12px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) > .legacyHistorySpecialPlayers { margin-top:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) .legacyHistoryTable { margin-top:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) .legacyHistoryTable :is(th,td) { padding-top:0 !important; padding-bottom:0 !important; line-height:15px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) .legacyHistoryPoints { font-size:15px; line-height:15px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) :is(.legacyHistoryDetail,.legacyHistoryWinner) { line-height:15px; }
+}
+@keyframes sa-pane-rise { from { transform:translateY(8px); opacity:.6; } to { transform:none; opacity:1; } }
+@media (prefers-reduced-motion:no-preference) {
+  :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
+    animation:sa-pane-rise 200ms cubic-bezier(.2,.8,.2,1) both;
+  }
+}
+/* Studio Small Axe Legacy pane, Fable re-score: on phones the season label ("SEASON 1" to "SEASON 10") stays on one line.
+   Its column takes a quarter of the table, with tighter tracking and side padding; the scores keep the rest. */
+@media (max-width:480px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonHead,
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable .legacyHistorySeasonLabel {
+    width:25%; white-space:nowrap; letter-spacing:.04em; padding-left:6px; padding-right:2px;
+  }
 }
