@@ -1562,3 +1562,16 @@
 @media (orientation: landscape) and (max-height: 500px) {
   :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) section.connectPlayersRole.connectPlayersRoleNik > span { font-size: 12px !important; }
 }
+/* 4w.20 (lead, 2026-11-06: short screens at 901x650): three base screens clipped a label at the narrowest desktop widths.
+   Home: START A SHOWDOWN ran 1-3px out of its tile label. Career Statistics: a headline tile cut its count and the SHOWDOWNS
+   header by 1-2px. Final Winner: the three equal action columns are 128px at 901 and BACK TO SHOWDOWN HOME needs 147px with
+   its letter-spacing, which made the action row an inner scroller (up to 1099px wide). Each keeps its size and words; the
+   labels lose letter-spacing and a little inner padding. */
+@media (min-width: 901px) and (max-width: 1023px) {
+  :root #app #mainMenu.v10Home .menuTile .menuTileLabel { letter-spacing: -0.2px; }
+  :root #app #careerStatistics .headlineTile { padding-left: max(0px, calc(var(--sa-ht-pad, 8px) - 4px)); padding-right: max(0px, calc(var(--sa-ht-pad, 8px) - 4px)); }
+  :root #app #careerStatistics.careerScreenV10 .careerTable thead th { letter-spacing: 0; padding-inline: 2px; }
+}
+@media (min-width: 901px) and (max-width: 1099px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #seasonEntry .finalWinnerActionsSlot .season-action-row > :is(.backButton, .menuButton) { letter-spacing: 0; padding-inline: 8px; }
+}
