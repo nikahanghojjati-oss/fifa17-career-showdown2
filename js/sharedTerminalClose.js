@@ -13,11 +13,15 @@
   function tcFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(tcFreeze);Object.freeze(value);}return value;}
   function tcStable(value){if(value===null||typeof value!=="object")return JSON.stringify(value);if(Array.isArray(value))return `[${value.map(tcStable).join(",")}]`;return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${tcStable(value[key])}`).join(",")}}`;}
   function tcVerifyIntent(value){
-    if(!tcPlain(value)||Object.keys(value).length!==INTENT_KEYS.length||INTENT_KEYS.some(key=>!Object.hasOwn(value,key)))tcFail("TERMINAL_CLOSE_INTENT_INVALID");
+    // r89 Sacked: optional endedBy:'sacked' + sacked:{playerOne,playerTwo} (at least one true); completedSeason is then the
+    // sacked season, at most totalSeasons. A witness without them is the unchanged full-length shape (old witnesses verify).
+    const sacked=tcPlain(value)&&(Object.hasOwn(value,"endedBy")||Object.hasOwn(value,"sacked")),keys=sacked?[...INTENT_KEYS,"endedBy","sacked"]:INTENT_KEYS;
+    if(!tcPlain(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))tcFail("TERMINAL_CLOSE_INTENT_INVALID");
+    if(sacked&&(value.endedBy!=="sacked"||!tcPlain(value.sacked)||Object.keys(value.sacked).length!==2||typeof value.sacked.playerOne!=="boolean"||typeof value.sacked.playerTwo!=="boolean"||!(value.sacked.playerOne||value.sacked.playerTwo)))tcFail("TERMINAL_CLOSE_INTENT_INVALID");
     if(value.schemaVersion!==1||value.runtimeRevision!==RUNTIME_REVISION||value.phase!==READY_PHASE)tcFail("TERMINAL_CLOSE_INTENT_INVALID");
     if(!/^pair_[0-9a-f]{64}$/.test(String(value.rivalryId||"")))tcFail("TERMINAL_CLOSE_RIVALRY_INVALID");
     if(!/^session_[0-9a-f]{64}$/.test(String(value.sessionId||"")))tcFail("TERMINAL_CLOSE_SESSION_INVALID");
-    if(![1,3,5,10].includes(value.totalSeasons)||value.completedSeason!==value.totalSeasons)tcFail("TERMINAL_CLOSE_SEASON_BOUNDARY_INVALID");
+    if(![1,3,5,10].includes(value.totalSeasons)||(sacked?!(Number.isInteger(value.completedSeason)&&value.completedSeason>=1&&value.completedSeason<=value.totalSeasons):value.completedSeason!==value.totalSeasons))tcFail("TERMINAL_CLOSE_SEASON_BOUNDARY_INVALID");
     if(!tcPlain(value.managerTotals)||!Number.isInteger(value.managerTotals.playerOne)||value.managerTotals.playerOne<0||!Number.isInteger(value.managerTotals.playerTwo)||value.managerTotals.playerTwo<0)tcFail("TERMINAL_CLOSE_SCORE_AUTHORITY_INVALID");
     const winner=value.managerTotals.playerOne>value.managerTotals.playerTwo?"playerOne":value.managerTotals.playerTwo>value.managerTotals.playerOne?"playerTwo":"draw";
     if(value.winner!==winner||(!ROLES.includes(value.winner)&&value.winner!=="draw"))tcFail("TERMINAL_CLOSE_WINNER_MISMATCH");
@@ -29,7 +33,7 @@
   function tcPrepare(finalReconciliation,{sessionId}={}){
     if(!finalModule||typeof finalModule.verifyProjection!=="function")tcFail("TERMINAL_CLOSE_FINAL_PROTOCOL_UNAVAILABLE");
     let final;try{final=finalModule.verifyProjection(finalReconciliation);}catch(_error){tcFail("TERMINAL_CLOSE_FINAL_RECONCILIATION_REQUIRED");}
-    return tcVerifyIntent({schemaVersion:1,runtimeRevision:RUNTIME_REVISION,phase:READY_PHASE,rivalryId:final.rivalryId,sessionId:String(sessionId||"").trim().toLowerCase(),totalSeasons:final.totalSeasons,completedSeason:final.completedSeason,managerTotals:tcClone(final.managerTotals),winner:final.winner,terminal:true,finalSeasonReconciled:true,nextSeason:null,extraSeasonAllowed:false,rivalryConnectionState:"closed",sessionTargetState:"closed",terminalReadAllowed:true,canonicalStorageMutation:false,providerWriteRequired:true,listPermissionRequired:false,billingRequired:false});
+    return tcVerifyIntent({schemaVersion:1,runtimeRevision:RUNTIME_REVISION,phase:READY_PHASE,rivalryId:final.rivalryId,sessionId:String(sessionId||"").trim().toLowerCase(),totalSeasons:final.totalSeasons,completedSeason:final.completedSeason,managerTotals:tcClone(final.managerTotals),winner:final.winner,terminal:true,finalSeasonReconciled:true,nextSeason:null,extraSeasonAllowed:false,rivalryConnectionState:"closed",sessionTargetState:"closed",terminalReadAllowed:true,canonicalStorageMutation:false,providerWriteRequired:true,listPermissionRequired:false,billingRequired:false,...(final.endedBy==="sacked"?{endedBy:"sacked",sacked:tcClone(final.sacked)}:{})});
   }
   function tcWitnessKey(value){return tcStable(tcVerifyIntent(value));}
   function tcSameWitness(left,right){try{return tcWitnessKey(left)===tcWitnessKey(right);}catch(_error){return false;}}
@@ -37,7 +41,7 @@
     const verified=tcVerifyIntent(intent);
     if(!tcPlain(providerResult)||providerResult.ok!==true||!Number.isInteger(providerResult.rivalryRevision)||providerResult.rivalryRevision<1||!Number.isInteger(providerResult.sessionRevision)||providerResult.sessionRevision<1)tcFail("TERMINAL_CLOSE_PROVIDER_RESULT_INVALID");
     if(String(providerResult.rivalryId||"")!==verified.rivalryId||String(providerResult.sessionId||"")!==verified.sessionId||providerResult.sessionState!=="closed"||providerResult.rivalryState!=="closed")tcFail("TERMINAL_CLOSE_PROVIDER_RESULT_INVALID");
-    return tcFreeze({schemaVersion:1,runtimeRevision:RUNTIME_REVISION,phase:CLOSED_PHASE,rivalryId:verified.rivalryId,sessionId:verified.sessionId,totalSeasons:verified.totalSeasons,winner:verified.winner,managerTotals:tcClone(verified.managerTotals),rivalryRevision:providerResult.rivalryRevision,sessionRevision:providerResult.sessionRevision,replayed:providerResult.replayed===true,terminal:true,nextSeason:null,extraSeasonAllowed:false,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
+    return tcFreeze({schemaVersion:1,runtimeRevision:RUNTIME_REVISION,phase:CLOSED_PHASE,rivalryId:verified.rivalryId,sessionId:verified.sessionId,totalSeasons:verified.totalSeasons,...(verified.endedBy==="sacked"?{completedSeason:verified.completedSeason,endedBy:"sacked",sacked:tcClone(verified.sacked)}:{}),winner:verified.winner,managerTotals:tcClone(verified.managerTotals),rivalryRevision:providerResult.rivalryRevision,sessionRevision:providerResult.sessionRevision,replayed:providerResult.replayed===true,terminal:true,nextSeason:null,extraSeasonAllowed:false,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
   }
   return Object.freeze({contractVersion:1,feature:"ssjr-shared-terminal-close",runtimeRevision:RUNTIME_REVISION,readyPhase:READY_PHASE,closedPhase:CLOSED_PHASE,prepare:tcPrepare,verifyIntent:tcVerifyIntent,witnessKey:tcWitnessKey,sameWitness:tcSameWitness,closeResult:tcClosed,createsAdditionalSeason:false,preservesAccumulatedScoring:true,terminalReadAllowed:true,persistedWitnessProviderVerifiableOnly:true,canonicalStorageMutation:false,providerWriteRequired:true,listPermissionRequired:false,billingRequired:false});
 });
