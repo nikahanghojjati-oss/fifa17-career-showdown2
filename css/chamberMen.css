@@ -345,8 +345,8 @@
 #cmStage .cmPlay { align-items: stretch; }
 #cmStage .cmControls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center;
   grid-template-areas: "turn clock" "status status" "picks picks" "lines lines" "actions actions"; }
-#cmStage .cmTurn { grid-template-columns: auto auto; justify-content: center; column-gap: 10px; }
-#cmStage .cmTurn .cmTurnHead { grid-column: 1 / -1; }
+/* The rival's part and the kick count each take their own line, so they never read as one run of words (gallery 2026-11-06). */
+#cmStage .cmTurn { grid-template-columns: minmax(0, 1fr); }
 #cmStage .cmControls > .cmTurn { grid-area: turn; padding: 6px 10px; gap: 2px; }
 #cmStage .cmControls > .cmStatus { grid-area: status; text-align: center; font-size: 15px; min-height: 0; }
 #cmStage .cmControls > .cmClock { grid-area: clock; font-size: 30px; min-width: 2.6em; }
