@@ -123,4 +123,16 @@ async function c3d2(){
   assert.match(scene,/let tex=made\.get\(c\);/,"one texture per kit canvas (shared atlas uploads once)");
   ok("C3D7","several bodies: shared clips, one body per club, only natural skin and hair pairs, only bodies kits17 can dress");
 }
+// C3D8 Reduce Motion (Codex on #1254 at 9bd35452): the broadcast scene's clocks stand still, the kick shows its settled
+// end, the net never bulges and lineup changes cut instead of dissolving. (Browser proof on the PR: probe() identical
+// 900 ms apart, idle and after a kick, with reducedMotion "reduce"; moving with "no-preference".)
+{
+  assert.ok(scene.includes("const still=frozenClock===null&&reducedMotion();"),"one Reduce Motion switch in paint");
+  assert.ok(scene.includes("live=still?0:(now-t0)/1000;"),"idle poses hold");
+  assert.ok(scene.includes("plan?(still?SETTLE:(now-plan.startAt)/1000):0;"),"a kick shows its settled end");
+  assert.ok(scene.includes("const stadiumT=still?0:")&&scene.includes("S.update(stadiumT,still?.2:excitement(t));"),"the crowd stands still");
+  assert.ok(scene.includes("if(!still&&plan&&plan.after.kind===\"net\""),"no net bulge");
+  assert.ok(scene.includes("const fade=still?0:")&&scene.includes("if(!cssW||(frozenClock===null&&reducedMotion()))return;"),"no dissolve");
+  ok("C3D8","Reduce Motion: players, crowd, net, camera and dissolve stand still; lineup and result still change");
+}
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

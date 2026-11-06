@@ -873,7 +873,7 @@
     const overlayMat=keep(new T.MeshBasicMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:true}));
     const overlayGeo=keep(new T.PlaneGeometry(2,2));overlay.add(new T.Mesh(overlayGeo,overlayMat));
     const dissolveFrom=()=>{
-      if(!cssW)return;
+      if(!cssW||(frozenClock===null&&reducedMotion()))return;
       const size=renderer.getDrawingBufferSize(new T.Vector2());
       if(!snap||snap.width!==size.x||snap.height!==size.y){snap?.dispose();snap=new T.WebGLRenderTarget(size.x,size.y,{type:T.HalfFloatType,samples:phone?0:4});}
       renderer.setRenderTarget(snap);renderer.render(scene,camera);renderer.setRenderTarget(null);
@@ -903,16 +903,20 @@
       }catch(_error){}
     };
     const paint=()=>{
-      const now=clockNow(),live=(now-t0)/1000;
-      const t=frozenAt!==null?frozenAt:plan?(now-plan.startAt)/1000:0;
+      // Reduce Motion (Codex on #1254): every clock stands still. The players hold their pose, the crowd stops swaying, the
+      // net never bulges and a kick shows only its settled end (kick() already skips the run-up); the lineup and the
+      // result still change. Proofs that freeze the scene clock keep their own clocks.
+      const still=frozenClock===null&&reducedMotion();
+      const now=clockNow(),live=still?0:(now-t0)/1000;
+      const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
       keeperPose(t,live);takerAt(t,live);ballAt(t);
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
-      const stadiumT=plan?(plan.startAt-t0)/1000+t:live;
-      if(plan&&plan.after.kind==="net"&&!plan.netHit&&t>=FLIGHT+.07){plan.netHit=true;S.update((plan.startAt-t0)/1000+FLIGHT+.07,1);S.hitNet(plan.target.x,plan.target.y*.9,plan.v0.length());}
-      S.update(stadiumT,excitement(t));
+      const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
+      if(!still&&plan&&plan.after.kind==="net"&&!plan.netHit&&t>=FLIGHT+.07){plan.netHit=true;S.update((plan.startAt-t0)/1000+FLIGHT+.07,1);S.hitNet(plan.target.x,plan.target.y*.9,plan.v0.length());}
+      S.update(stadiumT,still?.2:excitement(t));
       cameraAt(t,live);
       renderer.render(scene,camera);
-      const fade=1-(now-snapAt)/(DISSOLVE*1000);
+      const fade=still?0:1-(now-snapAt)/(DISSOLVE*1000);
       if(fade>0&&snap){overlayMat.opacity=cm3Easy(fade);renderer.autoClear=false;renderer.render(overlay,overlayCam);renderer.autoClear=true;}
     };
     // Smoothness first (Nik 2026-11-04): frame times are watched; when the average runs past ~20 ms (under 50 fps) for a
