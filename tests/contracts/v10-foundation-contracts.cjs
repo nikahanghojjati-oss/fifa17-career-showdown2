@@ -753,9 +753,82 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp":"78edfb430cdfeb928f1d55790dfa713bf7f28621f2697e533330a14b5f2a1620",
     "visual-assets/v10_1/icon-guess/assets/stage_phone.webp":"084eec9bfa563e740187ab6aa0a7f65ddd53176c0ac0ae452a6ca2cd13833e3d",
     "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
-    "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93"
+    "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
+    // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
+    "visual-assets/v10_1/chamber-men/assets/ball_color_2k.webp":"f8a5fb848f208eff8180a298872e5dff37028ea62642ebdb5a6951db2d1499e1",
+    "visual-assets/v10_1/chamber-men/assets/ball_color_4k.webp":"b4317c92c288fbdaf7135a7e030bc19605b66e33983ee1a53f79c5019dd12c27",
+    "visual-assets/v10_1/chamber-men/assets/ball_normal_2k.webp":"22de8987b5bbce2605098d35eabf81451da4d1415880ddce8f301c0e10fee4b9",
+    "visual-assets/v10_1/chamber-men/assets/ball_normal_4k.webp":"806594bd2ce0ef51311f1af398b2f70f3e4854d03b84c12d8c548df563bd7202",
+    "visual-assets/v10_1/chamber-men/assets/ball_orm_2k.webp":"247c351caf5f319e2b38ca0c72283119075e9d0d13f42709ddc31720208e81af",
+    "visual-assets/v10_1/chamber-men/assets/ball_orm_4k.webp":"8673495f770998cb71968ee497c4854426cd4b759a57e3c4522541fe5552c920",
+    "visual-assets/v10_1/chamber-men/assets/board_chamber_men.webp":"99011e7b3adc93b68847f8389da8db5014ab69b7a6ff0b4af3197768edf3c324",
+    "visual-assets/v10_1/chamber-men/assets/board_chevrons.webp":"f6582dca55edc2b26c22d5e88cafc9a7406092d1817dc19e42044a8332a3f1d9",
+    "visual-assets/v10_1/chamber-men/assets/board_cms.webp":"1b2ae9f26d97bef8df6aeef6b13bf7a375bf787db8e7174f537b276614b5886c",
+    "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
+    "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
+    "visual-assets/v10_1/chamber-men/assets/crowd_atlas_2k.webp":"5aee1df9df63e7a0b41cedc2afc6c1ecb4f0f205628161b6b4ac473b20e4f7c4",
+    "visual-assets/v10_1/chamber-men/assets/crowd_tint_1k.webp":"9e861b1b92da282b5f18f2f0f140e845307a93e466260d23bdef21b485f2639d",
+    "visual-assets/v10_1/chamber-men/assets/flare_256.webp":"12570cfc16f86f1369119886d212fe46bdf6473c26c710748ad78fa69ee1bd85",
+    "visual-assets/v10_1/chamber-men/assets/grass_color_1k.webp":"6c513a7a4ff7c34f134a6fa8fa395dda79d4b0c2969840600c2697ac9f67331d",
+    "visual-assets/v10_1/chamber-men/assets/grass_normal_1k.webp":"1f67da732b2d01f0a55bad39262399c7ddecf170908ab82d7a96c93d56464949",
+    "visual-assets/v10_1/chamber-men/assets/grass_normal_512.webp":"50baa68eb769955d0fdabcf4bb3a3d1f3917f06ac2a3ae1155e152eb79a0b852",
+    "visual-assets/v10_1/chamber-men/assets/net_cell_512.webp":"afbb689637ab87b186b9c94dba1f19f3cbe08c52cd7c00e6a68705ef8ada83e5",
+    "visual-assets/v10_1/chamber-men/assets/seats_512.webp":"7d9300f95c3395f037324002b79bbdae8111267cc41fa17459efebc91341ac76",
+    "visual-assets/v10_1/chamber-men/players/kitmap/ch38.png":"dfd546fcb9e66ae3b9b0b7e95acfe70f093fc9e114cc0bc47f1fef17614d302f",
+    "visual-assets/v10_1/chamber-men/players/kitmap/ch42.png":"1e6e8988585dffae4bedf23384f3af933f8d75185189487d020892ecd404647e",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Boots.webp":"4943b6bcfa625b98df2f317b30dc6acfadf940d6c021560ba3a52dbda7d0e043",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Shirt.webp":"351c83b7eff6157addc3e5169ec36aca479df6241cc9d40e4b0c692f1bb22431",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Shorts.webp":"cc81716c55ebbb66c0b0d10598e098461efeba5c43c79c94ec2a73f8c2c74f42",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Socks.webp":"d46d608202e9dc1d8b6fafbe45da624f72bf5d494fa2038ca861e4de2050bbc1",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Body.webp":"c70c712e364ae79081daee6b50bf579a81ecb28e7b8a9da22086727a3bc3c9b8",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Boots.webp":"650bab72bf1e02c2998682166af1565b7e92656debdcbc50a9f10fc88beb2f06",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shirt.webp":"173aab84407049661a9dd3103fa653ba6142884a4eb281cb5db9a8333ad7c85c",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shorts.webp":"060ff7ed1bc6272a936731d533503ad029cebe0bdf84962b5a7115fc2fe24656",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Socks.webp":"6c22e842c648d2d37aad88d85735df5c5d8e966a6161c3e6fdec57ea3ec0b33c",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Body.webp":"01b6827e129fb0a55fc540481d22e97826e1387e2b2773077e7fa7c2a6a69c0b",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Boots.webp":"8019b6e39605ac7d11c95ffa6653652b126c388b73b95341aefc2acd21246f21",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shirt.webp":"70f92dd04458b5bd37d9153ce2e087917574f1624596b64f726b0fe593335782",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shorts.webp":"34a62c138ff8811462c489ebe12bfbe16265c95e1f6a97c9876d1ab1295507b1",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Socks.webp":"4576a46e30a2136cbe4133f4bcf8173bcf3ab9ca62e20af0c5ec82cb73533b07",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_remy_Body.webp":"ba8ca7f33938ff0a8fdee3dcddc59d0d428766b847c64cafe77792760f090451",
 };
 const V10_UNVERSIONED_FIRST_GENERATION=new Set([
+  "visual-assets/v10_1/chamber-men/assets/ball_color_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_color_4k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_normal_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_normal_4k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_orm_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_orm_4k.webp",
+  "visual-assets/v10_1/chamber-men/assets/board_chamber_men.webp",
+  "visual-assets/v10_1/chamber-men/assets/board_chevrons.webp",
+  "visual-assets/v10_1/chamber-men/assets/board_cms.webp",
+  "visual-assets/v10_1/chamber-men/assets/concrete_512.webp",
+  "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/crowd_atlas_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/crowd_tint_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/flare_256.webp",
+  "visual-assets/v10_1/chamber-men/assets/grass_color_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/grass_normal_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/grass_normal_512.webp",
+  "visual-assets/v10_1/chamber-men/assets/net_cell_512.webp",
+  "visual-assets/v10_1/chamber-men/assets/seats_512.webp",
+  "visual-assets/v10_1/chamber-men/players/kitmap/ch38.png",
+  "visual-assets/v10_1/chamber-men/players/kitmap/ch42.png",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Boots.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Shirt.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Shorts.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Socks.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Body.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Boots.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shirt.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shorts.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Socks.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Body.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Boots.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shirt.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shorts.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Socks.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_remy_Body.webp",
   "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW.webp",
   "visual-assets/v10_1/content/gazette/GZ_LEAD_FINAL.webp",
   "visual-assets/v10_1/content/gazette/GZ_LEAD_GOLD.webp",
@@ -787,6 +860,30 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/icon-guess/assets/token_full.webp",
   "visual-assets/v10_1/icon-guess/assets/token_spent.webp"
 ]);
+// r89 3D engine (2.2.0): every 3D scene (roulette, Special Player, the Chamber Men goal) loads one vendored three.js r187 build
+// (tools/three-vendor; the Chamber Men goal loads it into the app page, js/chamberMenScene3d.js) and
+// the roulette lights its metal with one CC0 HDRI. Both are fetched without ?v, so both are shell-cached and unversioned-served,
+// and their bytes are pinned: a change ships under a new name (three-r<N>.min.js, ENV_LOUNGE_V<n>.exr), never over these.
+check("F9d r89 3D engine files: one pinned three.js build and one pinned CC0 lounge HDRI, both shell-cached for offline play",()=>{
+  const pins={"visual-assets/v10_1/roulette/vendor/three-r187.min.js":"360929ee240c045d7ed3363da089a2786ea96933015809cd442f08fc1e203c87",
+    "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr":"205a84e0108d40fb207e077db9bc68a15f329a8af8ee1f82c28524e967963b81"};
+  const sw=fs.readFileSync(path.join(ROOT,"service-worker.js"),"utf8");
+  const unversioned=sw.slice(sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS"),sw.indexOf("]);",sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS")));
+  const shell=sw.slice(sw.indexOf("const SHELL_PATHS = Object.freeze(["),sw.indexOf("]);",sw.indexOf("const SHELL_PATHS = Object.freeze([")));
+  for(const [file,hash] of Object.entries(pins)){
+    assert.equal(sha256(file),hash,`${file} bytes changed: ship it under a new name instead`);
+    assert.ok(shell.includes(`"${file}"`),`${file} is precached`);
+    assert.ok(unversioned.includes(`"${file}"`),`${file} is served from the shell without ?v`);
+  }
+  const vendor=fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/roulette/vendor")).filter(f=>/^three-.*\.js$/.test(f));
+  assert.deepEqual(vendor,["three-r187.min.js"],"one three.js build ships");
+  for(const page of ["visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/special-player/index.html"]){
+    const html=fs.readFileSync(path.join(ROOT,page),"utf8");
+    assert.ok(/<script src="(?:\.\.\/roulette\/)?vendor\/three-r187\.min\.js"><\/script>/.test(html),`${page} loads the vendored r187 build`);
+    assert.ok(html.includes("T.cmsLegacyLights()"),`${page} keeps the lights it was tuned with`);
+  }
+  assert.ok(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt"),"utf8").includes("MIT License"));
+});
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
   const walk=dir=>{for(const entry of fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true})){const rel=dir+"/"+entry.name;if(entry.isDirectory())walk(rel);else if(/\.(?:webp|png|jpe?g|avif|gif|svg)$/i.test(entry.name))found.push(rel);}};

@@ -69,7 +69,7 @@ test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven a
   assert.equal(r87.length,267);
   assert.deepEqual(r86.filter(p=>!r87.includes(p)),["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
   assert.ok(["js/rosterRouletteStep.js","js/touchlineGazette.js","js/iconGuessStep.js"].every(p=>r87.includes(p)&&!r86.includes(p)));
-  assert.deepEqual(w.added,["data/gazetteSacked.js","js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"]);// + r89 Sacked until the 2.2.0 bump
+  assert.deepEqual(w.added,["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","data/gazetteSacked.js","js/chamberMenStep.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css"]);   // 2.1.0 added the three Chamber Men files; r89 adds Sacked's gazette lines and (3D engine) the 3D scene, three.js r187 and the lounge HDRI
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);

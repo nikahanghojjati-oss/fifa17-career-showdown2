@@ -2904,6 +2904,18 @@
       ]
     },
     {
+      "path": "tests/contracts/r89-chamber-men-3d-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMenScene3d|chamberMenStep)\\.js$",
+        "^css/chamberMen\\.css$",
+        "^service-worker\\.js$",
+        "^visual-assets/v10_1/roulette/vendor/three-r187\\.min\\.js$",
+        "^tools/three-vendor/entry\\.mjs$",
+        "^tests/contracts/r89\\-chamber\\-men\\-3d\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r88-continue-career-browser-contracts.cjs",
       "patterns": [
         "^js/(chamberMenStep|iconGuessStep|menuExperience|clubAssignment|onlinePlayerIdentity)\\.js$",
@@ -2929,6 +2941,36 @@
         "^js/(productionSharedTransferChallenge|rosterRoulette)\\.js$",
         "^data/(fifa17Players|rosterSquads)\\.js$",
         "^tests/contracts/r88\\-lock\\-refusals\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r89-rrr-scene-polish-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^visual-assets/v10_1/roulette/platemap\\.json$",
+        "^tests/contracts/r89\\-rrr\\-scene\\-polish\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r89-chamber-men-stadium-contracts.cjs",
+      "patterns": [
+        "^js/chamberMenStadium3d\\.js$",
+        "^visual-assets/v10_1/chamber-men/assets/",
+        "^visual-assets/v10_1/chamber-men/players/",
+        "^tools/chamber-men-assets/",
+        "^tools/three-vendor/entry\\.mjs$",
+        "^visual-assets/v10_1/roulette/vendor/three-r187\\.min\\.js$",
+        "^tests/contracts/r89\\-chamber\\-men\\-stadium\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r89-chamber-men-scene-load-browser-contracts.cjs",
+      "patterns": [
+        "^js/(chamberMen|chamberMenStep|chamberMenScene3d)\\.js$",
+        "^tests/contracts/r89\\-chamber\\-men\\-scene\\-load\\-browser\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
