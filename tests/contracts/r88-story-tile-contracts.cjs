@@ -91,4 +91,8 @@ check("ST7 phones and upright tablets: STORY is a full-width bar in its own row,
   assert.doesNotMatch(block, /opacity:\s*0?\.[0-9]|filter:\s*brightness/, "no dimming");
 });
 
+check("ST8 phones: the STORY page scrolls in main even though Home's Team V sheet locks main (Nik 2026-11-06)", () => {
+  assert.match(css, /#app:has\(#story:not\(\.hidden\)\) > main \{ overflow-x: clip; overflow-y: auto; \}/);
+});
+
 console.log(`r88 STORY tile contracts: ${passed} checks passed`);
