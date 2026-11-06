@@ -39,10 +39,10 @@
   function csrEnvelopeCanonical(value){if(value===undefined||value===null)return null;if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};if(value instanceof Date)return {$timestamp:value.getTime()};if(Array.isArray(value))return value.map(csrEnvelopeCanonical);if(typeof value==="object"){const out={};for(const key of Object.keys(value).sort())out[key]=csrEnvelopeCanonical(value[key]);return out;}return value;}
   async function csrDigest(text,cryptoImpl){if(!cryptoImpl?.subtle||typeof TextEncoder==="undefined")csrFail("COMPLETED_CRYPTO_UNAVAILABLE");const digest=await cryptoImpl.subtle.digest("SHA-256",new TextEncoder().encode(text));return `sha256:${Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,"0")).join("")}`;}
   function csrSnapshot(snapshot){return snapshot&&typeof snapshot.exists==="function"&&snapshot.exists()?snapshot.data():null;}
-  function csrEuropaLeague(value,code){if(!csrPlain(value))csrFail(code);const won=Object.hasOwn(value,"europaLeague");csrExact(value,[...RESULT_KEYS,...(won?["europaLeague"]:[]),...(Object.hasOwn(value,"primePack")?["primePack"]:[])],code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))csrFail(code);if(Object.hasOwn(value,"primePack")&&!(Number.isInteger(value.primePack)&&value.primePack>=1&&value.primePack<=4))csrFail(code);return won;}
+  function csrEuropaLeague(value,code){if(!csrPlain(value))csrFail(code);const won=Object.hasOwn(value,"europaLeague");csrExact(value,[...RESULT_KEYS,...(won?["europaLeague"]:[]),...(Object.hasOwn(value,"primePack")?["primePack"]:[]),...(Object.hasOwn(value,"sacked")?["sacked"]:[])],code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))csrFail(code);if(Object.hasOwn(value,"primePack")&&!(Number.isInteger(value.primePack)&&value.primePack>=1&&value.primePack<=4))csrFail(code);if(Object.hasOwn(value,"sacked")&&value.sacked!==true)csrFail(code);return won;}
   // r82: live Firestore returns map fields in its own order (the emulator keeps the written order), so every result is
   // rebuilt in one fixed key order before any comparison, projection or replay. Order never changes a hash (sorted canonical).
-  function csrOrdered(value){const out={};for(const key of RESULT_KEYS)out[key]=value[key];if(Object.hasOwn(value,"europaLeague"))out.europaLeague=value.europaLeague;if(Object.hasOwn(value,"primePack"))out.primePack=value.primePack;return out;}
+  function csrOrdered(value){const out={};for(const key of RESULT_KEYS)out[key]=value[key];if(Object.hasOwn(value,"europaLeague"))out.europaLeague=value.europaLeague;if(Object.hasOwn(value,"primePack"))out.primePack=value.primePack;if(Object.hasOwn(value,"sacked"))out.sacked=value.sacked;return out;}
   function csrResult(value,teamCount){csrEuropaLeague(value,"COMPLETED_SEASON_INVALID");const maxPoints=(teamCount-1)*2*3;if(!Number.isInteger(value.leaguePosition)||value.leaguePosition<1||value.leaguePosition>teamCount||!Number.isInteger(value.leaguePoints)||value.leaguePoints<0||value.leaguePoints>maxPoints||!Number.isInteger(value.leagueGoals)||value.leagueGoals<0||value.leagueGoals>300)csrFail("COMPLETED_SEASON_INVALID");for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")csrFail("COMPLETED_SEASON_INVALID");}return csrOrdered(value);}
 
   function csrState(status,fields={}){
@@ -83,8 +83,12 @@
     let intent;
     try{intent=csrModules.terminal.verifyIntent(data.terminalClose);}catch(_error){csrFail("COMPLETED_TERMINAL_WITNESS_INVALID");}
     const progress=data.terminalProgress;
-    if(!csrPlain(progress)||Object.keys(progress).length!==PROGRESS_KEYS.length||PROGRESS_KEYS.some(key=>!Object.hasOwn(progress,key)))csrFail("COMPLETED_TERMINAL_WITNESS_INVALID");
-    if(intent.rivalryId!==rivalryId||progress.schemaVersion!==1||progress.runtimeRevision!=="1.9.1-r18"||progress.totalSeasons!==intent.totalSeasons||progress.acceptedThroughSeason!==progress.totalSeasons||!Number.isInteger(progress.closedSessionRevision)||progress.closedSessionRevision<1||!csrPlain(progress.managerTotals)||progress.managerTotals.playerOne!==intent.managerTotals.playerOne||progress.managerTotals.playerTwo!==intent.managerTotals.playerTwo)csrFail("COMPLETED_TERMINAL_WITNESS_INVALID");
+    // r89 Sacked: a sacked Showdown's progress carries sacked:{playerOne,playerTwo} and stops at the sacked season, which the
+    // witness names (endedBy:'sacked', completedSeason); a full-length one is unchanged.
+    const keys=csrPlain(progress)&&Object.hasOwn(progress,"sacked")?[...PROGRESS_KEYS,"sacked"]:PROGRESS_KEYS,sackedIntent=intent.endedBy==="sacked";
+    if(!csrPlain(progress)||Object.keys(progress).length!==keys.length||keys.some(key=>!Object.hasOwn(progress,key)))csrFail("COMPLETED_TERMINAL_WITNESS_INVALID");
+    if((keys!==PROGRESS_KEYS)!==sackedIntent||(sackedIntent&&(!csrPlain(progress.sacked)||progress.sacked.playerOne!==intent.sacked.playerOne||progress.sacked.playerTwo!==intent.sacked.playerTwo)))csrFail("COMPLETED_TERMINAL_WITNESS_INVALID");
+    if(intent.rivalryId!==rivalryId||progress.schemaVersion!==1||progress.runtimeRevision!=="1.9.1-r18"||progress.totalSeasons!==intent.totalSeasons||progress.acceptedThroughSeason!==intent.completedSeason||!Number.isInteger(progress.closedSessionRevision)||progress.closedSessionRevision<1||!csrPlain(progress.managerTotals)||progress.managerTotals.playerOne!==intent.managerTotals.playerOne||progress.managerTotals.playerTwo!==intent.managerTotals.playerTwo)csrFail("COMPLETED_TERMINAL_WITNESS_INVALID");
     return intent;
   }
   function csrAssertLedger(value,rivalryId,totalSeasons){
@@ -176,12 +180,12 @@
       // Abandoned (closed without a Terminal Close witness): status only, nothing else is read or counted.
       // r80: Ended early: the close time and the seasons played come from this same root (old closes carry no mark: null).
       if(!Object.hasOwn(value.data,"terminalClose"))return csrState("abandoned",{rivalryId,managerRole,ended:csrEnded(value)});
-      const intent=csrVerifyWitness(value.data,rivalryId),total=intent.totalSeasons;
+      const intent=csrVerifyWitness(value.data,rivalryId),total=intent.totalSeasons,played=intent.completedSeason;
       const ledger=csrAssertLedger(await csrGet(sdk,db,["rivalries",rivalryId,"sharedSetup","authoritative"]),rivalryId,total);
       const setup=await csrRebuildSetup(ledger,rivalry,rivalryId,cryptoImpl),teamCount=csrTeamCount(setup);
       const scoringProtocol=await csrModules.scoring.createProtocol({teamCount,cryptoImpl,seasonCommitModule:csrModules.commit});
       const seasons=[];
-      for(let seasonNumber=1;seasonNumber<=total;seasonNumber+=1){
+      for(let seasonNumber=1;seasonNumber<=played;seasonNumber+=1){
         const seasonId=`season_${seasonNumber}`;
         // Four independent immutable documents; verification below still requires every one.
         const documents=await Promise.allSettled([
@@ -208,11 +212,12 @@
       csrModules.history.verifyProjection(projection);
       const a=projection.managerRecords.playerOne.totalPoints,b=projection.managerRecords.playerTwo.totalPoints,winner=a>b?"playerOne":b>a?"playerTwo":"draw";
       // Full coverage and both reconstructed totals must equal the Terminal Close witness; totals-only final winner.
-      if(projection.acceptedSeasons!==total||projection.totalSeasons!==total||a!==intent.managerTotals.playerOne||b!==intent.managerTotals.playerTwo||winner!==intent.winner)csrFail("COMPLETED_TOTALS_MISMATCH");
+      const end=csrModules.history.showdownEnd.ofProjection(projection);
+      if(projection.acceptedSeasons!==played||projection.totalSeasons!==total||end.finalSeason!==played||(end.endedBy==="sacked")!==(intent.endedBy==="sacked")||(end.endedBy==="sacked"&&(end.sacked.playerOne!==intent.sacked.playerOne||end.sacked.playerTwo!==intent.sacked.playerTwo))||a!==intent.managerTotals.playerOne||b!==intent.managerTotals.playerTwo||winner!==intent.winner)csrFail("COMPLETED_TOTALS_MISMATCH");
       // r86 Special Player: the Setup's confirm time (Rules: updatedAt == request.time at SHOWDOWN_CONFIRMED) says whether
       // this Showdown was set up on r86 or later; it is display metadata only and changes no verdict.
       const confirmedAt=ledger.updatedAt&&typeof ledger.updatedAt.toMillis==="function"?ledger.updatedAt.toMillis():null;
-      return csrState("completed",{rivalryId,managerRole,terminalWitness:csrClone(intent),projection,final:{totals:{playerOne:a,playerTwo:b},winner,margin:Math.abs(a-b),seasonsPlayed:total},setupConfirmedAt:confirmedAt});
+      return csrState("completed",{rivalryId,managerRole,terminalWitness:csrClone(intent),projection,final:{totals:{playerOne:a,playerTwo:b},winner,margin:Math.abs(a-b),seasonsPlayed:played,...(end.endedBy==="sacked"?{endedBy:"sacked",sackedSeason:played,sacked:{playerOne:end.sacked.playerOne,playerTwo:end.sacked.playerTwo}}:{})},setupConfirmedAt:confirmedAt});
     }catch(error){
       return csrState("unavailable",{rivalryId,managerRole,code:error&&typeof error.code==="string"&&error.code?error.code:"COMPLETED_READ_FAILED"});
     }

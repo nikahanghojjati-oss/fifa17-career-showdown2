@@ -244,6 +244,8 @@ window.ShowdownLegacyBoot = function () {
     const footer = document.createElement("span");
     footer.className = "legacyCardFooter";
     footer.textContent = copy(strings, "seasons", { played: showdown.seasonsPlayed, total: showdown.totalSeasons });
+    // r89 Sacked (gameplay seam): a Showdown that ended on a sacking says so on its footer; it counts like any completed one.
+    if (showdown.endedBy === "sacked") { card.dataset.endedBy = "sacked"; footer.textContent += " · SACKED"; if (showdown.sackedLabel) footer.title = showdown.sackedLabel; }
     // r86: each manager's Special Player, on one line under that manager's side of the card (none before r86).
     const chips = ["daniel", "nik"].map((manager) => specialPlayerChip(showdown, manager));
     const special = chips[0] && chips[1] ? document.createElement("span") : null;

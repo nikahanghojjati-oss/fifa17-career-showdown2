@@ -80,7 +80,9 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   assert.match(pmsp,/Number\(total\)===1\?"Season complete":`All \$\{total\} seasons complete`/);
   assert.match(pmsp,/Number\(state\.totalSeasons\)===1\?"SEASON PLAYED · FINAL RESULT NEXT"/);
   const pfr=read('js/productionSharedFinalReconciliation.js');
-  assert.equal((pfr.match(/===1\?"SEASON PLAYED":"SEASONS PLAYED"\}/g)||[]).length,2,'both final summary lines');
+  // r89 Sacked: both final summary lines share pfrPlayedText ("X OF N SEASONS PLAYED", plus " · SACKED" when a sacking ended it).
+  assert.equal((pfr.match(/===1\?"SEASON PLAYED":"SEASONS PLAYED"\}/g)||[]).length,1,'one shared final summary line');
+  assert.equal((pfr.match(/pfrText\(ui\.summary,pfrPlayedText\(/g)||[]).length,2,'both final summary lines');
   assert.match(read('visual-assets/v10_1/final-winner/final-winner.js'),/season\$\{Number\(frame\.seasonsPlayed\) === 1 \? "" : "s"\} played/);
   const commit=read('js/productionSharedSeasonCommit.js');
   assert.match(commit,/WAITING FOR \$\{String\(psscManagerName\(coordinator\)\)\.toUpperCase\(\)\} TO LOCK THE SEASON/);
