@@ -54,7 +54,7 @@
       try{
         if(close.terminal!==true||invalid)throw new Error("CLOSE_INVALID");
         witness=Terminal.verifyIntent(close.terminalWitness);
-        if(witness.rivalryId!==rid||(p&&(p.acceptedSeasons!==witness.totalSeasons||p.totalSeasons!==witness.totalSeasons||p.managerRecords.playerOne.totalPoints!==witness.managerTotals.playerOne||p.managerRecords.playerTwo.totalPoints!==witness.managerTotals.playerTwo)))throw new Error("CLOSE_AUTHORITY_MISMATCH");
+        if(witness.rivalryId!==rid||(p&&(p.acceptedSeasons!==witness.completedSeason||p.totalSeasons!==witness.totalSeasons||p.managerRecords.playerOne.totalPoints!==witness.managerTotals.playerOne||p.managerRecords.playerTwo.totalPoints!==witness.managerTotals.playerTwo)))throw new Error("CLOSE_AUTHORITY_MISMATCH");
         classification="completed";
       }catch(_error){witness=null;classification="unavailable";}
     }else if(!pair||pair.initialized!==true||TRANSIENT.includes(pair.status))classification="loading";
@@ -65,7 +65,8 @@
     else if(pair.connectionState==="closed")classification="abandoned";
     else if(pair.connectionState!=="active")classification="unavailable";
     else if(invalid)classification="unavailable";
-    else if(p&&p.acceptedSeasons===p.totalSeasons&&(!multi||multi.phase==="SHOWDOWN_COMPLETE")){
+    // r89 Sacked: the history's final season is the sacked one when a manager was sacked, else the planned length.
+    else if(p&&p.acceptedSeasons===History.showdownEnd.ofProjection(p).finalSeason&&(!multi||multi.phase==="SHOWDOWN_COMPLETE")){
       classification="completion-pending";
       const final=s.finalReconciliation;
       if(asdPlain(final)&&final.rivalryId===rid&&final.phase==="FINAL_SEASON_RECONCILED"){
@@ -85,7 +86,7 @@
     const state=pair?.connectionState==="closed"?"unpaired":["paired","waiting","recovery-required","unpaired"].includes(pair?.status)?pair.status:null;
     const m=["paired","recovery-required"].includes(state)?multi?.state:null;
     const text=x=>typeof x==="string"?x:null,num=x=>Number.isInteger(x)?x:null;
-    return {status:classification==="loading"?"loading":classification==="unavailable"?"unavailable":"ready",viewerRole:viewer,continue:{state,leagueId:text(m?.leagueId),clubs:m&&typeof m.fixedClubs?.playerOne==="string"&&typeof m.fixedClubs?.playerTwo==="string"?pairValues(m.fixedClubs.playerOne,m.fixedClubs.playerTwo):null,season:num(m?.activeSeason??(m?.terminal?m.totalSeasons:null)),totalSeasons:num(m?.totalSeasons),score:COUNTED.includes(classification)&&p?pairValues(p.managerRecords.playerOne.totalPoints,p.managerRecords.playerTwo.totalPoints):zero?pairValues(0,0):null}};
+    return {status:classification==="loading"?"loading":classification==="unavailable"?"unavailable":"ready",viewerRole:viewer,continue:{state,leagueId:text(m?.leagueId),clubs:m&&typeof m.fixedClubs?.playerOne==="string"&&typeof m.fixedClubs?.playerTwo==="string"?pairValues(m.fixedClubs.playerOne,m.fixedClubs.playerTwo):null,season:num(m?.activeSeason??(m?.terminal?m.completedSeason:null)),totalSeasons:num(m?.totalSeasons),score:COUNTED.includes(classification)&&p?pairValues(p.managerRecords.playerOne.totalPoints,p.managerRecords.playerTwo.totalPoints):zero?pairValues(0,0):null}};
   }
   function rivalry(c){
     const {classification,p,multi,zero}=c;
@@ -94,7 +95,8 @@
     const v={status,leagueId:null,clubs:null,season:null,totalSeasons:null,score:null,managers:null,seasons:[],transfers:{status:"unavailable"}};
     if(ready){
       v.leagueId=p.leagueId;v.clubs=pairValues(p.managerRecords.playerOne.club,p.managerRecords.playerTwo.club);v.totalSeasons=p.totalSeasons;
-      v.season=classification==="completed"||p.acceptedSeasons===p.totalSeasons?p.totalSeasons:multi?.state.activeSeason??p.acceptedSeasons+1;
+      const end=History.showdownEnd.ofProjection(p);
+      v.season=classification==="completed"||p.acceptedSeasons===end.finalSeason?end.finalSeason:multi?.state.activeSeason??p.acceptedSeasons+1;
       v.score=pairValues(p.managerRecords.playerOne.totalPoints,p.managerRecords.playerTwo.totalPoints);
       // r87 (Nik 2026-11-01): a perfect season is 15. The History projection still counts 11 or more (its records are
       // rebuilt and compared byte for byte, and older Firebase summaries hold them), so this view counts the 15s itself.
@@ -140,7 +142,7 @@
     const v={status:["none","pending","active","abandoned"].includes(classification)?"empty":classification==="loading"?"loading":"unavailable",state:null,totals:null,winner:null,margin:null,seasonsPlayed:null,trophies:null};
     if(!["completion-pending","completed"].includes(classification))return v;
     const totals=classification==="completed"?witness.managerTotals:finalFor(p).totals;
-    v.status=p?"ready":"partial";v.state=classification;v.totals=pairValues(totals.playerOne,totals.playerTwo);v.winner=totals.playerOne>totals.playerTwo?"daniel":totals.playerTwo>totals.playerOne?"nik":"draw";v.margin=Math.abs(totals.playerOne-totals.playerTwo);v.seasonsPlayed=p?p.acceptedSeasons:witness.totalSeasons;
+    v.status=p?"ready":"partial";v.state=classification;v.totals=pairValues(totals.playerOne,totals.playerTwo);v.winner=totals.playerOne>totals.playerTwo?"daniel":totals.playerTwo>totals.playerOne?"nik":"draw";v.margin=Math.abs(totals.playerOne-totals.playerTwo);v.seasonsPlayed=p?p.acceptedSeasons:witness.completedSeason;
     if(p)v.trophies=Object.fromEntries(ROLES.map((role,i)=>{const r=p.managerRecords[role];return [MANAGERS[i],{championsLeague:r.championsLeagues,europaLeague:r.europaLeagues,leagueTitles:r.leagueTitles,domesticCups:r.domesticCups,total:r.totalTrophies}];}));
     return v;
   }

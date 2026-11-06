@@ -5,6 +5,8 @@ const {initializeTestEnvironment,assertSucceeds,assertFails}=require('@firebase/
 
 // r80 END SHOWDOWN: the abandon write (cmsPersistentPairAbandonValid) may carry endedEarly:{seasonsPlayed}
 // with seasonsPlayed an int 0..10 or null (count unknown). Nothing else about the abandon write loosens.
+// r89 Sacked (Codex C3 re-check): an ACTIVE Showdown's END must name the exact accepted count (commit k ACKNOWLEDGED with no
+// sacking, commit k + 1 not ACKNOWLEDGED), so null and the old unmarked abandon now apply only to a pending-pair code.
 const PROJECT_ID='demo-career-mode-showdown-ended-early';
 const RULES=fs.readFileSync('firestore.spark.generated.rules','utf8');
 const hash=seed=>`sha256:${String(seed).repeat(64).slice(0,64)}`;
@@ -32,10 +34,12 @@ const pairEnvelope=(uid,id,role,managerId,device,now)=>envelope({objectType:'pai
     let next=0;
     const freshId=()=>{next+=1;return `pair_${next.toString(16).padStart(64,'0')}`;};
     // A fresh live Showdown between Daniel and Nik, with Daniel's (and Nik's) current pair link on it.
-    async function seedLive(state='active'){
+    async function seedLive(state='active',acceptedSeasons=0){
       const id=freshId();
       await testEnv.withSecurityRulesDisabled(async context=>{
         const db=context.firestore();
+        // r89: the accepted Season Commits the END count is checked against (only phase and the result keys are read).
+        for(let season=1;season<=acceptedSeasons;season+=1)await setDoc(doc(db,'rivalries',id,'seasonCommits',`season_${season}`),{schemaVersion:1,objectType:'sharedSeasonCommit',rivalryId:id,seasonNumber:season,phase:'ACKNOWLEDGED',revision:3,results:{playerOne:{leaguePosition:2},playerTwo:{leaguePosition:3}}});
         const p2=state==='pending-pair'?openSlot('playerTwo'):managerSlot('playerTwo','acct_n','2');
         await setDoc(doc(db,'rivalries',id),rivalryEnvelope(id,now,managerSlot('playerOne','acct_d','1'),p2,state));
         await setDoc(doc(db,'accounts','acct_d','pairLinks','current'),pairEnvelope('acct_d',id,'playerOne','daniel',ids.d,now));
@@ -71,8 +75,8 @@ const pairEnvelope=(uid,id,role,managerId,device,now)=>envelope({objectType:'pai
     const asDaniel=(id,options={})=>abandon(dbD,{uid:'acct_d',device:ids.d,id,...options});
 
     console.log('CHECKPOINT valid-mark-accepted');
-    for(const seasonsPlayed of [0,1,10,null]){
-      const id=await seedLive();
+    for(const seasonsPlayed of [0,1,10]){
+      const id=await seedLive('active',seasonsPlayed);
       await assertSucceeds(asDaniel(id,{extra:{endedEarly:{seasonsPlayed}}}));
       const closed=await read(id);
       assert.equal(closed.data.connectionState,'closed');
@@ -80,7 +84,7 @@ const pairEnvelope=(uid,id,role,managerId,device,now)=>envelope({objectType:'pai
       assert.equal(closed.revision,1);
     }
     {
-      const id=await seedLive();
+      const id=await seedLive('active',2);
       await assertSucceeds(abandon(dbN,{uid:'acct_n',device:ids.n,id,extra:{endedEarly:{seasonsPlayed:2}}}));
       assert.deepEqual((await read(id)).data.endedEarly,{seasonsPlayed:2},'Nik (playerTwo) may END too');
     }
@@ -92,11 +96,20 @@ const pairEnvelope=(uid,id,role,managerId,device,now)=>envelope({objectType:'pai
 
     console.log('CHECKPOINT old-abandon-path');
     {
-      const id=await seedLive();
+      const id=await seedLive('pending-pair');
       await assertSucceeds(asDaniel(id));
       const closed=await read(id);
       assert.equal(closed.data.connectionState,'closed');
-      assert.equal('endedEarly' in closed.data,false,'the old abandon write without the mark still closes');
+      assert.equal('endedEarly' in closed.data,false,'the old abandon write without the mark still closes a pending-pair code');
+      const unknown=await seedLive('pending-pair');
+      await assertSucceeds(asDaniel(unknown,{extra:{endedEarly:{seasonsPlayed:null}}}));
+    }
+
+    console.log('CHECKPOINT r89-exact-count');
+    for(const [label,options] of [['no mark',{}],['null count',{extra:{endedEarly:{seasonsPlayed:null}}}],['count 1 of 2',{extra:{endedEarly:{seasonsPlayed:1}}}],['count 3 of 2',{extra:{endedEarly:{seasonsPlayed:3}}}]]){
+      const id=await seedLive('active',2);
+      await assertFails(asDaniel(id,options));
+      assert.equal((await read(id)).data.connectionState,'active',`active END with ${label}: refused, the Showdown stays active`);
     }
 
     console.log('CHECKPOINT bad-shapes-refused');
@@ -123,7 +136,7 @@ const pairEnvelope=(uid,id,role,managerId,device,now)=>envelope({objectType:'pai
 
     console.log('CHECKPOINT protections-kept');
     {
-      const id=await seedLive();
+      const id=await seedLive('active',1);
       // Stranger, unregistered device, other field changed alongside the mark, wrong final state.
       await assertFails(abandon(dbX,{uid:'acct_x',device:ids.x,id,extra:{endedEarly:{seasonsPlayed:1}}}));
       await assertFails(asDaniel(id,{device:deviceId('z'),extra:{endedEarly:{seasonsPlayed:1}}}));
@@ -136,12 +149,13 @@ const pairEnvelope=(uid,id,role,managerId,device,now)=>envelope({objectType:'pai
     console.log('CHECKPOINT mark-only-on-abandon');
     {
       // On a live Showdown without closing it.
-      const id=await seedLive();
+      const id=await seedLive('active',1);
       await assertFails(asDaniel(id,{state:'active',extra:{endedEarly:{seasonsPlayed:1}}}));
       // On an already closed Showdown (with or without a mark): no second write, no rewrite of the mark.
-      await assertSucceeds(asDaniel(id));
+      await assertSucceeds(asDaniel(id,{extra:{endedEarly:{seasonsPlayed:1}}}));
+      await assertFails(asDaniel(id));
       await assertFails(asDaniel(id,{extra:{endedEarly:{seasonsPlayed:1}}}));
-      const marked=await seedLive();
+      const marked=await seedLive('active',3);
       await assertSucceeds(asDaniel(marked,{extra:{endedEarly:{seasonsPlayed:3}}}));
       await assertFails(asDaniel(marked,{extra:{endedEarly:{seasonsPlayed:4}}}));
       await assertFails(asDaniel(marked,{omit:['endedEarly']}));
@@ -150,15 +164,15 @@ const pairEnvelope=(uid,id,role,managerId,device,now)=>envelope({objectType:'pai
 
     console.log('CHECKPOINT closed-marked-rivalry-reads');
     {
-      const id=await seedLive();
-      await assertSucceeds(asDaniel(id,{extra:{endedEarly:{seasonsPlayed:null}}}));
-      assert.deepEqual((await assertSucceeds(getDoc(doc(dbD,'rivalries',id)))).data().data.endedEarly,{seasonsPlayed:null});
-      assert.deepEqual((await assertSucceeds(getDoc(doc(dbN,'rivalries',id)))).data().data.endedEarly,{seasonsPlayed:null});
+      const id=await seedLive('active',0);
+      await assertSucceeds(asDaniel(id,{extra:{endedEarly:{seasonsPlayed:0}}}));
+      assert.deepEqual((await assertSucceeds(getDoc(doc(dbD,'rivalries',id)))).data().data.endedEarly,{seasonsPlayed:0});
+      assert.deepEqual((await assertSucceeds(getDoc(doc(dbN,'rivalries',id)))).data().data.endedEarly,{seasonsPlayed:0});
       await assertFails(getDoc(doc(dbX,'rivalries',id)));
       await assertFails(getDoc(doc(testEnv.unauthenticatedContext().firestore(),'rivalries',id)));
     }
 
-    process.stdout.write('PASS ended-early Rules emulator: the abandon write may carry endedEarly {seasonsPlayed: 0..10 or null} (Daniel or Nik, active or pending-pair); the old abandon without the mark still closes; string, out-of-range, float, bool, extra/missing/wrong key and non-map marks are refused; stranger, unregistered device, other changed fields and terminalClose stay refused; the mark cannot be added without closing, nor added or rewritten on a closed Showdown; members still read the closed marked rivalry and strangers cannot.\n');
+    process.stdout.write('PASS ended-early Rules emulator: the abandon write may carry endedEarly {seasonsPlayed: 0..10 or null} (Daniel or Nik, active or pending-pair); an active END names the exact accepted count (r89), the old abandon without the mark still closes a pending-pair code; string, out-of-range, float, bool, extra/missing/wrong key and non-map marks are refused; stranger, unregistered device, other changed fields and terminalClose stay refused; the mark cannot be added without closing, nor added or rewritten on a closed Showdown; members still read the closed marked rivalry and strangers cannot.\n');
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();

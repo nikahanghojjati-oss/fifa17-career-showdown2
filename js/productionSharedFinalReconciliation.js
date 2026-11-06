@@ -54,15 +54,17 @@
     const witness=closed?.phase==="CLOSED"?closed.terminalWitness:null,totals=witness?.managerTotals;
     if(!pfrShared()||!witness||!closed.rivalryId||String(witness.rivalryId||"")!==String(closed.rivalryId)||!totals||!Number.isInteger(totals.playerOne)||!Number.isInteger(totals.playerTwo)||!["playerOne","playerTwo","draw"].includes(witness.winner))return false;
     pfrText(ui.heading,"SHOWDOWN FINAL RESULT");
-    if(Number.isInteger(witness.totalSeasons))pfrText(ui.summary,`${witness.totalSeasons} OF ${witness.totalSeasons} ${witness.totalSeasons===1?"SEASON PLAYED":"SEASONS PLAYED"}`);
+    if(Number.isInteger(witness.totalSeasons))pfrText(ui.summary,pfrPlayedText(witness));
     pfrText(ui.winner,`${pfrManagerName("playerOne")} ${totals.playerOne} · ${pfrManagerName("playerTwo")} ${totals.playerTwo} · ${witness.winner==="draw"?"DRAW":`${pfrManagerName(witness.winner)} WINS`}`);
     return true;
   }
+  // r89 Sacked: "2 OF 3 SEASONS PLAYED · SACKED" (the seasons played are completedSeason; equal to the length otherwise).
+  function pfrPlayedText(value){const played=Number.isInteger(value.completedSeason)?value.completedSeason:value.totalSeasons;return `${played} OF ${value.totalSeasons} ${Number(value.totalSeasons)===1?"SEASON PLAYED":"SEASONS PLAYED"}${value.endedBy==="sacked"?" · SACKED":""}`;}
   function pfrRender(){
     const ui=pfrEnsureUi();if(!ui)return false;const current=pfrCurrentView(),active=Boolean(current&&current.phase==="FINAL_SEASON_RECONCILED"&&current.finalSeasonReconciled===true);
     pfrHidden(ui.panel,!active);if(!active){pfrClosedText(ui);return false;}
     pfrText(ui.heading,"SHOWDOWN FINAL RESULT");
-    pfrText(ui.summary,`${current.acceptedSeasons} OF ${current.totalSeasons} ${Number(current.totalSeasons)===1?"SEASON PLAYED":"SEASONS PLAYED"}`);
+    pfrText(ui.summary,pfrPlayedText(current));
     const winner=current.winner==="draw"?"DRAW":`${pfrManagerName(current.winner)} WINS`;
     pfrText(ui.winner,`${pfrManagerName("playerOne")} ${current.managerTotals.playerOne} · ${pfrManagerName("playerTwo")} ${current.managerTotals.playerTwo} · ${winner}`);
     pfrText(ui.close,"FINAL RESULTS ARE LOCKED · CLOSE THE SHOWDOWN WHEN READY");

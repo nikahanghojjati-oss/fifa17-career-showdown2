@@ -79,7 +79,11 @@ const commit=read("firestore.season-commit-production.fragment.rules");
   assert.match(functionBody(transfer,"ssjrTransferStartAfterSpins"),/ssjrTransferValidCreate\(rivalryId, transferId\)/,"START from the mark document must run the full ledger create (with its authority)");
   for(const name of ["ssjrTransferSpinCreate","ssjrTransferSpinUpdate"]){
     const body=functionBody(transfer,name);
-    assert.equal(/get\(/.test(body),false,`${name} must not add a lookup beyond the rivalry`);
+    // r89 Sacked: the first mark of a season (create) reads the previous season's commit, its one extra lookup, so no Transfer
+    // War opens after a season with a sacking (START from the marks has no expression headroom for it). Nothing else.
+    const gets=body.match(/get\(/g)||[];
+    if(name==="ssjrTransferSpinCreate"){assert.equal(gets.length,1,`${name} adds exactly one lookup (the previous season's commit)`);assert.equal((body.match(/exists\(/g)||[]).length,1,`${name}: one exists() of that same commit (a missing commit keeps the older behaviour)`);assert.ok(body.includes("seasonCommits/$('season_' + string(after.seasonNumber - 1))")&&body.includes("ssjrTransferPreviousSeasonOpen("),`${name}: its one lookup is the previous season's commit`);}
+    else assert.equal(gets.length,0,`${name} must not add a lookup beyond the rivalry`);
     assert.ok(body.includes("ssjrEntitled(rivalryId)")&&body.includes("ssjrActorRole(rivalryId)"),`${name} must be a member writing his own role`);
   }
   assert.match(functionBody(setup,"ssjrLeagueProjectionCreateValid"),/return activeActor\(\)\n/,"the league projection create must require the acting account to be active");
