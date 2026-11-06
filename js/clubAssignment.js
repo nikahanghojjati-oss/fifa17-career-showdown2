@@ -230,7 +230,7 @@ function renderReadyAssignmentState(){
     setClubRevealStage("ready");
     resetClubRevealCards();
     if(ui.confirmation){ ui.confirmation.classList.add("hidden"); }
-    setClubText(ui.status, "LEAGUE CONFIRMED · TWO SEALED CLUB PACKS READY");
+    setClubText(ui.status, "TWO SEALED CLUB PACKS READY");
     setClubText(ui.revealButton, "OPEN CLUB PACKS");
     setClubText(ui.continueButton, "CONFIRM & START SHOWDOWN");
     setRevealControls({
