@@ -98,7 +98,15 @@ function createRuleBookScreen(){
             "The browser keeps a backup copy for recovery. You can't play from it.",
             "Type in results by hand from FIFA 17. No screenshots or notes needed."
         ]),
-        createSpecialPlayerRuleSection()
+        createSpecialPlayerRuleSection(),
+        // r89 Sacked (Nik 2026-11-03): a sacking ends the Showdown after that season; the points so far decide.
+        createRuleSection("10", "SACKED", [
+            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final.",
+            "Either manager, or both, can be sacked. Any sacking ends the Showdown after that season: no more seasons are played.",
+            "Every point up to then counts. Most Showdown points wins, even for a sacked manager. Equal totals are a draw.",
+            "A sacked Showdown is a completed Showdown: it counts on History, Legacy, the Trophy Room and every stats screen, marked SACKED.",
+            "Sacked in the last season still counts as the full length, so a Golden Showdown is still possible."
+        ])
     );
 
     const actions = document.createElement("div");

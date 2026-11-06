@@ -1,0 +1,133 @@
+<!doctype html><meta charset=utf-8><body style="margin:0"><canvas id=c width=900 height=900></canvas>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
+import {GLTFExporter} from 'three/addons/exporters/GLTFExporter.js';
+import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
+import {MeshoptSimplifier} from './node_modules/meshoptimizer/meshopt_simplifier.module.js';
+const log=(...a)=>console.log(a.map(x=>typeof x==='string'?x:JSON.stringify(x)).join(' '));
+const q=new URLSearchParams(location.search),tier=q.get('tier')||'desktop';
+const RATIO=tier==='phone'?{Body:.6,Hair:.5,Shoes:.5,Tops:.7,Bottoms:.7,Eyes:.6,Socks:1}:{Body:1,Hair:1,Shoes:1,Tops:1,Bottoms:1,Eyes:1,Socks:1};
+const TEX=tier==='phone'?1024:2048,H=1.83;
+const clipList=await (await fetch('clips.json?'+Date.now())).json();
+const loader=new FBXLoader();
+const base=await loader.loadAsync('in/'+clipList[0][0]);
+// Wait for the embedded textures to decode.
+const maps=[];base.traverse(o=>{if(o.isMesh)for(const m of [].concat(o.material))for(const k of ['map','normalMap'])if(m[k])maps.push(m[k]);});
+for(let i=0;i<200&&maps.some(t=>!(t.image&&t.image.width));i++)await new Promise(r=>setTimeout(r,50));
+log('maps',maps.map(t=>t.name+' '+t.image?.width));
+
+// ---- scale to a 1.83 m player, feet on y 0
+base.updateMatrixWorld(true);
+const meshes=[];base.traverse(o=>{if(o.isSkinnedMesh)meshes.push(o);});
+const bb=new THREE.Box3();for(const m of meshes){m.geometry.computeBoundingBox();bb.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld));}
+const s=H/(bb.max.y-bb.min.y);base.scale.multiplyScalar(s);base.position.y=-bb.min.y*s;base.updateMatrixWorld(true);
+log('bind height',bb.max.y-bb.min.y,'scale',s);
+
+// ---- clips
+const clips=[];
+for(const [file,name] of clipList){
+  const src=file===clipList[0][0]?base:await loader.loadAsync('in/'+file);
+  const a=src.animations.find(x=>x.tracks.length);if(!a){log('NO CLIP',file);continue;}
+  const c=a.clone();c.name=name;
+  // FBX clips move the hips in the file's own units: those tracks live under the scaled root, so they scale with it.
+  c.optimize();
+  // Keyframe reduction: drop a key when the line between its neighbours already gives it (quaternions within 0.0015, phone
+  // 0.0025, fingers 0.005; hips position within 2 mm, phone 3 mm, in metres after scaling).
+  for(const tr of c.tracks){const n=tr.getValueSize(),T0=tr.times,V=tr.values,keepT=[T0[0]],keepV=[...V.slice(0,n)];
+    const tol=tr.name.endsWith('.position')?(tier==='phone'?.003:.002)/s:/Hand(Thumb|Index|Middle|Ring|Pinky)/.test(tr.name)?.005:tier==='phone'?.0025:.0015;let last=0;
+    for(let i=1;i<T0.length-1;i++){const t=(T0[i+1]-T0[last])>0?(T0[i]-T0[last])/(T0[i+1]-T0[last]):0;let bad=false;
+      for(let k=0;k<n;k++){const a=V[last*n+k],b=V[(i+1)*n+k];if(Math.abs(a+(b-a)*t-V[i*n+k])>tol){bad=true;break;}}
+      if(bad){keepT.push(T0[i]);keepV.push(...V.slice(i*n,i*n+n));last=i;}}
+    const L=T0.length-1;keepT.push(T0[L]);keepV.push(...V.slice(L*n,L*n+n));
+    tr.times=new Float32Array(keepT);tr.values=new Float32Array(keepV);}
+  clips.push(c);log('clip',name,c.duration.toFixed(2),c.tracks.length);
+}
+
+// ---- helpers
+const bone=n=>{let b=null;base.traverse(o=>{if(o.isBone&&o.name===n&&!b)b=o;});return b;};
+const wy=n=>bone(n).getWorldPosition(new THREE.Vector3());
+function compact(geo,index){
+  const used=new Map(),order=[];for(const i of index)if(!used.has(i)){used.set(i,order.length);order.push(i);}
+  const g=new THREE.BufferGeometry();
+  for(const [k,a] of Object.entries(geo.attributes)){const n=a.itemSize,arr=new a.array.constructor(order.length*n);order.forEach((src,dst)=>{for(let j=0;j<n;j++)arr[dst*n+j]=a.array[src*n+j];});g.setAttribute(k,new THREE.BufferAttribute(arr,n,a.normalized));}
+  g.setIndex(Array.from(index,i=>used.get(i)));return g;
+}
+function simplify(geo,ratio){
+  let g=geo.index?geo:mergeVertices(geo,1e-6);
+  if(ratio>=1)return g;
+  const idx=new Uint32Array(g.index.array),pos=new Float32Array(g.attributes.position.array);
+  const target=Math.floor(idx.length*ratio/3)*3;
+  const [out,err]=MeshoptSimplifier.simplify(idx,pos,3,target,0.01,[]);
+  return compact(g,out);
+}
+await MeshoptSimplifier.ready;
+
+// ---- kit pieces
+const byName=n=>meshes.find(m=>m.name===n);
+const body=byName('Body');
+const knee=wy('mixamorigLeftLeg').y,ankle=wy('mixamorigLeftFoot').y,hipsY=wy('mixamorigHips').y;
+log('knee',knee,'ankle',ankle,'hips',hipsY);
+// Socks: the skin of the lower legs from inside the boot to just under the knee, pushed out 4 mm, with its own uv:
+// u = around the leg (left sock 0..0.5, right 0.5..1, front of the shin at the centre of each half), v = 0 at the boot, 1 at the top.
+{
+  const g=mergeVertices(body.geometry.clone(),1e-6),P=g.attributes.position,N=g.attributes.normal,ix=g.index.array;
+  const M=body.matrixWorld,inv=M.clone().invert(),w=new THREE.Vector3();
+  const top=ankle+(knee-ankle)*.86,bot=ankle-.03;
+  const yw=i=>w.fromBufferAttribute(P,i).applyMatrix4(M).y;
+  const keep=[];for(let t=0;t<ix.length;t+=3){const a=ix[t],b=ix[t+1],c=ix[t+2];if([a,b,c].every(i=>{const y=yw(i);return y>bot&&y<top;}))keep.push(a,b,c);}
+  const sg=compact(g,keep);const sp=sg.attributes.position,sn=sg.attributes.normal,uv=new Float32Array(sp.count*2);
+  // leg centres (world x of each knee)
+  const lx=wy('mixamorigLeftLeg').x,rx=wy('mixamorigRightLeg').x,lz=wy('mixamorigLeftLeg').z;
+  const nrmM=new THREE.Matrix3().getNormalMatrix(M),nn=new THREE.Vector3();
+  for(let i=0;i<sp.count;i++){
+    w.fromBufferAttribute(sp,i).applyMatrix4(M);nn.fromBufferAttribute(sn,i).applyMatrix3(nrmM).normalize();
+    w.addScaledVector(nn,.004);
+    const left=Math.abs(w.x-lx)<Math.abs(w.x-rx),cx=left?lx:rx;
+    const ang=Math.atan2(w.x-cx,w.z-lz);// 0 = front of the shin
+    uv[i*2]=(left?0:.5)+(ang/(2*Math.PI)+.5)*.5;uv[i*2+1]=(w.y-bot)/(top-bot);
+    const l=w.clone().applyMatrix4(inv);sp.setXYZ(i,l.x,l.y,l.z);
+  }
+  sg.setAttribute('uv',new THREE.BufferAttribute(uv,2));
+  const socks=new THREE.SkinnedMesh(sg,new THREE.MeshStandardMaterial({name:'kitSocks',color:0xffffff,roughness:.8}));
+  socks.name='Socks';body.parent.add(socks);socks.bind(body.skeleton,body.bindMatrix);meshes.push(socks);
+  log('socks verts',sg.attributes.position.count);
+}
+// ---- one texture per picture (the FBX repeats the body atlas for the eyes and lashes)
+const texByName=new Map();const one=t=>{if(!t)return null;const k=t.name.replace(/\d+$/,'');if(!texByName.has(k))texByName.set(k,t);return texByName.get(k);};
+// ---- materials: Phong to Standard, kit names, webp textures
+const KIT={Tops:'kitShirt',Bottoms:'kitShorts',Shoes:'kitBoots'},RENAME={Tops:'Shirt',Bottoms:'Shorts',Shoes:'Boots'};
+for(const m of meshes){
+  const old=m.material;if(old.isMeshStandardMaterial)continue;
+  const mat=new THREE.MeshStandardMaterial({name:KIT[m.name]||old.name,map:one(old.map),normalMap:one(old.normalMap),roughness:m.name==='Body'?.55:m.name==='Eyes'?.15:m.name==='Hair'?.6:.78,metalness:0});
+  if(m.name==='Hair'||m.name==='Eyelashes'){mat.alphaTest=.4;mat.side=THREE.DoubleSide;}
+  for(const t of [mat.map,mat.normalMap])if(t)t.userData.mimeType='image/webp';
+  if(mat.map)mat.map.colorSpace=THREE.SRGBColorSpace;
+  m.material=mat;if(RENAME[m.name])m.name=RENAME[m.name];
+}
+// ---- decimate
+let vt=0;for(const m of meshes){const key=Object.entries(RENAME).find(([k,v])=>v===m.name)?.[0]||m.name;const r=RATIO[key]??1;
+  const before=m.geometry.index?m.geometry.index.count/3:m.geometry.attributes.position.count/3;
+  m.geometry=simplify(m.geometry,r);vt+=m.geometry.attributes.position.count;log('mesh',m.name,'tris',before,'->',m.geometry.index.count/3,'verts',m.geometry.attributes.position.count);}
+log('total verts',vt);
+
+// ---- UV layouts for the kits thread
+function uvSheet(mesh,size){const cv=document.createElement('canvas');cv.width=cv.height=size;const g=cv.getContext('2d');
+  const map=mesh.material.map;if(map&&map.image)g.drawImage(map.image,0,0,size,size);else{g.fillStyle='#333';g.fillRect(0,0,size,size);}
+  g.strokeStyle='rgba(255,220,80,.7)';g.lineWidth=.6;const uv=mesh.geometry.attributes.uv,ix=mesh.geometry.index.array;g.beginPath();
+  for(let t=0;t<ix.length;t+=3){for(let k=0;k<3;k++){const i=ix[t+k];const x=uv.getX(i)*size,y=(1-uv.getY(i))*size;k?g.lineTo(x,y):g.moveTo(x,y);}g.closePath();}
+  g.stroke();return cv.toDataURL('image/png');}
+window.uv={};for(const n of ['Shirt','Shorts','Socks','Boots'])window.uv[n]=uvSheet(meshes.find(m=>m.name===n),1024);
+
+// ---- export
+base.animations=clips;
+const glb=await new GLTFExporter().parseAsync(base,{binary:true,animations:clips,maxTextureSize:TEX,onlyVisible:true});
+const bytes=new Uint8Array(glb);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));
+window.glb=btoa(bin);window.out={bytes:bytes.length,verts:vt,clips:clips.map(c=>[c.name,+c.duration.toFixed(2)])};
+// preview frame
+const r=new THREE.WebGLRenderer({canvas:c,antialias:true});r.outputColorSpace=THREE.SRGBColorSpace;const sc=new THREE.Scene();sc.background=new THREE.Color(0x404850);
+sc.add(new THREE.HemisphereLight(0xffffff,0x444444,2));const d=new THREE.DirectionalLight(0xffffff,2);d.position.set(1,2,3);sc.add(d);sc.add(base);
+const cam=new THREE.PerspectiveCamera(30,1,.1,50);cam.position.set(0,1,4.2);cam.lookAt(0,.95,0);r.render(sc,cam);
+window.done=true;
+</script>

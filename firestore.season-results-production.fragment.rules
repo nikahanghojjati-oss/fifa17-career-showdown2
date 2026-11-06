@@ -141,7 +141,7 @@
     function ssjrResultsResultShape(value, teamCount) {
       return teamCount >= 2
         && value is map
-        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack'])
+        && value.keys().hasOnly(['leaguePosition','leaguePoints','leagueGoals','domesticCup','championsLeague','topScorer','topAssist','europaLeague','primePack','sacked'])
         && value.leaguePosition is int
         && value.leaguePosition >= 1
         && value.leaguePosition <= teamCount
@@ -156,7 +156,9 @@
         && value.topScorer is bool
         && value.topAssist is bool
         && (!('europaLeague' in value) || (value.europaLeague == true && value.championsLeague == false))
-        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4));
+        && (!('primePack' in value) || (value.primePack is int && value.primePack >= 1 && value.primePack <= 4))
+        // r89 Sacked: present only when that manager was sacked this season, and then exactly true (one encoding).
+        && (!('sacked' in value) || value.sacked == true);
     }
     function ssjrResultsPrivateExactKeys(root) {
       return root.keys().hasOnly([
@@ -337,6 +339,9 @@
     // other has sent kick n), so nobody runs ahead, nothing is taken back, and the letter at place n is always his part on
     // kick n. The other manager's string never moves. Scoring and the cylinders are worked out on both phones from the two
     // strings; no lookup beyond the shared write authority, no list, no delete.
+    // Codex C2 (2.2.0): a kick's clock runs from the rival's lock-in (the record's updatedAt while the rival is one letter
+    // ahead): 10 s to pick plus the 4.6 s the last kick is shown, plus 2 s for the network. A letter that lands after that is
+    // the timeout '-' (a shot misses, a dive stays in the middle), never a side picked late.
     function ssjrChamberShape(root, rivalryId, seasonId) {
       return root.keys().size() == 9
         && root.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','kicks','revision','activeSessionId','updatedByDeviceId','updatedAt'])
@@ -371,7 +376,10 @@
         && before.kicks[role].size() <= before.kicks[other].size()
         && after.kicks[role].size() == before.kicks[role].size() + 1
         && (before.kicks[role] == '' || after.kicks[role][0:before.kicks[role].size()] == before.kicks[role])
-        && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]');
+        && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]')
+        && (before.kicks[role].size() == before.kicks[other].size()
+          || request.time <= before.updatedAt + duration.value(16600, 'ms')
+          || after.kicks[role][before.kicks[role].size():after.kicks[role].size()] == '-');
     }
 // SSJR_SEASON_RESULTS_FUNCTIONS_END
 

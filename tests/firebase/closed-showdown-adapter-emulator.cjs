@@ -285,9 +285,10 @@ async function main(env){
     const {value}=await load(env,A,await liveCareerInput(env,A));
     assert.equal(value.status,"ready");assert.deepEqual(value.model.coverage,{readable:3,indexed:3});assert.deepEqual(classes(value),["completed","abandoned","abandoned"]);assert.deepEqual(rows(value),["completed","abandoned","abandoned"]);
     assert.equal(value.model.managers.daniel.careerPoints,11);assert.equal(value.model.managers.nik.careerPoints,4);
-    // r80: Showdown 3 was closed without the mark (as before END SHOWDOWN): its row shows a dash for the seasons.
-    assert.deepEqual(value.model.history.showdowns.map(row=>row.seasonsPlayed),[3,1,null]);
-    assert.match(Seam.careerScreenView("legacy",value.model).sections[0].rows[2].value,/^Ended early · \d{1,2} [A-Z][a-z]{2} \d{4} · - seasons$/);
+    // r89 (Codex C3 re-check): the provider now counts the accepted seasons inside its own closing transaction, so even the
+    // start-over path (no count passed, as before END SHOWDOWN) records Showdown 3's one accepted season.
+    assert.deepEqual(value.model.history.showdowns.map(row=>row.seasonsPlayed),[3,1,1]);
+    assert.match(Seam.careerScreenView("legacy",value.model).sections[0].rows[2].value,/^Ended early · \d{1,2} [A-Z][a-z]{2} \d{4} · 1 season$/);
   });
   await ok("E2","abandoning the never-joined code still leaves a ready, unpoisoned career",async()=>{
     const db=env.authenticatedContext(A).firestore();
