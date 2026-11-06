@@ -59,7 +59,7 @@ function createRuleBookScreen(){
             "The shooter picks LEFT, MIDDLE or RIGHT for his shot. The keeper picks where to dive. Neither sees the other's pick until both have locked in.",
             "The shot goes in when the keeper dives the other way. Both phones show the kick, then the next one starts.",
             "Once your rival has locked in, you have 10 seconds. Out of time, a shot is a miss and a keeper stays in the middle.",
-            "A pick that reaches the game after the time is up (it allows 2 seconds for the network) is stored as out of time: a miss, or a keeper in the middle.",
+            "A pick that reaches the game more than 16.6 seconds after your rival locked in (10 seconds to pick, 4.6 for the last kick to show, 2 for the network) is stored as out of time: a miss, or a keeper in the middle.",
             "Each goal you score loads one live round into your rival's roulette cylinder for that season. 0 or 7 goals still spin.",
             "Chamber Men scores no Showdown points."
         ]),
@@ -104,7 +104,7 @@ function createRuleBookScreen(){
         createSpecialPlayerRuleSection(),
         // r89 Sacked (Nik 2026-11-03): a sacking ends the Showdown after that season; the points so far decide.
         createRuleSection("10", "SACKED", [
-            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final.",
+            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final. It is on the card in Showdowns started on version 2.2.0 or later.",
             "Either manager, or both, can be sacked. Any sacking ends the Showdown after that season: no more seasons are played.",
             "Every point up to then counts. Most Showdown points wins, even for a sacked manager. Equal totals are a draw.",
             "A sacked Showdown is a completed Showdown: it counts on History, Legacy, the Trophy Room and every stats screen, marked SACKED.",

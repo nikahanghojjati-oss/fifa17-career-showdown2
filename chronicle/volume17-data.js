@@ -34,7 +34,7 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "So 2.2.0 adds a single line to Season Results, on each manager’s own card: “I was sacked this season.” Only he can tick it, and only for himself. Daniel cannot sack Nik and Nik cannot sack Daniel; the card belongs to the man who lived the season."
+     "text": "So 2.2.0 adds a single line to Season Results, on each manager’s own card: “I was sacked this season.” Only he can tick it, and only for himself. Daniel cannot sack Nik and Nik cannot sack Daniel; the card belongs to the man who lived the season. The line appears in Showdowns started once 2.2.0 is released. A Showdown already under way when the update arrives keeps the cards it began with, so a sacking there can only be handled the old way, by ending the Showdown early."
     },
     {
      "type": "p",
@@ -142,7 +142,7 @@ window.CHRONICLE_VOLUME17={
     "Rules",
     "2.2.0"
    ],
-   "words": 890,
+   "words": 931,
    "minutes": 4
   },
   {
@@ -328,5 +328,5 @@ window.CHRONICLE_VOLUME17={
    "minutes": 2
   }
  ],
- "wordCount": 1880
+ "wordCount": 1921
 };
