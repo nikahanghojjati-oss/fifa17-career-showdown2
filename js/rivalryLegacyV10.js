@@ -39,20 +39,22 @@
     // r87 career fixes (Nik 2026-10-31): the list stays oldest to newest (‹ older, › newer), but History opens on the newest
     // Showdown: its page on desktop, its card on a phone.
     const listed=rows.filter(r=>r.status==="completed"||(r.status==="abandoned"&&Number.isInteger(r.number)));
-    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons),...golden(r),...rowSpecial(r)}),ui:{page:Math.max(1,Math.ceil(listed.length/4)),pageSize:4,selectedShowdown:listed.at(-1)?.number??null}};
+    const frame={...bare(status==="ready"&&!listed.length?"empty":status),showdowns:listed.map(r=>r.status==="abandoned"?{number:r.number,status:"abandoned",endedAt:r.endedAt??null,seasonsPlayed:r.seasonsPlayed??null,endedLabel:seam().endedEarlyText(r)}:{number:r.number,status:"completed",leagueId:r.leagueId,clubs:copy(r.clubs),seasonsPlayed:r.seasonsPlayed,totalSeasons:r.totalSeasons,totals:copy(r.totals),winner:r.winner,seasons:copy(r.seasons),...golden(r),...rowSpecial(r),...rowSacked(r)}),ui:{page:Math.max(1,Math.ceil(listed.length/4)),pageSize:4,selectedShowdown:listed.at(-1)?.number??null}};
     if(status==="partial")frame.coverage=copy(model.coverage);
     // Current-only projections are never offered as an archive or backfilled.
     if(model.interimLabel){frame.status="unavailable";return bare("unavailable");}
     return frame;
   }
+  // r89 Sacked: a Showdown that ended on a sacking is a completed card like the rest, with its ending named on it.
+  function rowSacked(r){return r.endedBy==="sacked"&&Number.isInteger(r.sackedSeason)?{endedBy:"sacked",sackedSeason:r.sackedSeason,sacked:{daniel:r.sacked?.daniel===true,nik:r.sacked?.nik===true},sackedLabel:seam().sackedText(r)}:{};}
   function rivalryFrame(model){
-    let status,source,lifecycle=null,sp={};
+    let status,source,lifecycle=null,sp={},sackedEnd=false;
     if(model?.history){
       status=seam().careerScreenView("rivalryStatistics",model).status;
       if(status==="loading"||status==="unavailable")return bare(status);
       const row=model.history.showdowns[0];
       if(!row||["abandoned","unavailable"].includes(row.status))return bare(status==="empty"?"empty":"unavailable");
-      source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers,rivalryId:row.rivalryId,setupConfirmedAt:row.setupConfirmedAt};lifecycle=row.status;sp=rowSpecial(row);
+      source={status,leagueId:row.leagueId,clubs:row.clubs,score:row.totals,totalSeasons:row.totalSeasons,seasons:row.seasons,managers:model.managers,rivalryId:row.rivalryId,setupConfirmedAt:row.setupConfirmedAt};lifecycle=row.status;sackedEnd=row.endedBy==="sacked";sp=rowSpecial(row);
     }else{source=model;status=STATES.includes(source?.status)?source.status:"unavailable";lifecycle=source?.lifecycle??null;sp=liveSpecial();}
     if(status==="unavailable"&&source?.notice==="continue")return {...bare("unavailable"),notice:"continue"};
     if(status==="loading"||status==="unavailable")return bare(status);
@@ -61,6 +63,7 @@
     if(!Array.isArray(source.seasons)||!source.seasons.every(validSeason))return bare("unavailable");
     if(status!=="empty"&&(!pair(source.score)||!finite(source.totalSeasons)||!source.clubs||!ORDER.every(k=>typeof source.clubs[k]==="string")))return bare("unavailable");
     const frame={...bare(status),leagueId:source.leagueId??null,clubs:source.clubs?{daniel:source.clubs.daniel,nik:source.clubs.nik}:null,totalSeasons:source.totalSeasons??null,score:source.score?{daniel:source.score.daniel,nik:source.score.nik}:null,managerRecords:Object.fromEntries(ORDER.map(k=>[k,Object.fromEntries([...FIELDS,...(finite(source.managers[k].europaLeagues)?["europaLeagues"]:[])].map(f=>[f,source.managers[k][f]]))])),seasons:copy(source.seasons),transfers:{status:"unavailable"},ui:{lifecycle},...golden({status:lifecycle,totalSeasons:source.totalSeasons,seasonsPlayed:source.seasons.length,totals:source.score,seasons:source.seasons,rivalryId:source.rivalryId,setupConfirmedAt:source.setupConfirmedAt}),...sp};
+    if(sackedEnd)frame.endedBy="sacked";
     if(status==="partial"){
       if(!source.coverage||!Number.isInteger(source.coverage.readable)||!Number.isInteger(source.coverage.indexed))return bare("unavailable");
       frame.coverage=copy(source.coverage);
