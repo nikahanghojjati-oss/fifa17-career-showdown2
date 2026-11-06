@@ -332,9 +332,10 @@
       // LED boards change picture together every 9 s (a hard cut, the way real ones flip), never scroll: scrolling slid
       // the words across the joins between boards.
       const step=Math.floor(t/9);if(step!==boardStep){boardStep=step;for(let i=0;i<boards.length;i+=1)boards[i].map=boardTex[(i+step)%boardTex.length];}
-      // Net bulge: a damped push at the hit point.
+      // Net bulge: a damped push at the hit point. A clock before the hit (Reduce Motion turned on after a goal sets the
+      // scene clock to 0) restores the flat net, never an inverted bulge.
       const pos=backGeo.attributes.position,arr=pos.array;const e=t-net.t0;
-      if(net.t0<0||e>2.5){if(arr.__moved){arr.set(backBase);pos.needsUpdate=true;arr.__moved=false;}return;}
+      if(net.t0<0||e<0||e>2.5){if(arr.__moved){arr.set(backBase);pos.needsUpdate=true;arr.__moved=false;}return;}
       const amp=(e<.08?e/.08:Math.exp(-(e-.08)*3.4)*Math.cos((e-.08)*12))*net.amp;
       for(let i=0;i<arr.length;i+=3){const dx=backBase[i]-net.x,dy=backBase[i+1]-net.y,w=Math.exp(-(dx*dx+dy*dy)/.5);
         arr[i]=backBase[i];arr[i+1]=backBase[i+1]-w*amp*.06;arr[i+2]=backBase[i+2]-w*amp*.5;}
