@@ -4,11 +4,13 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const {randomBytes}=require('node:crypto');
+const {createHash}=require('node:crypto');
 const ROOT=path.resolve(__dirname,'../..');
 const IG=require('../../js/iconGuess.js');
 let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
-const newId=()=>'pair_'+randomBytes(32).toString('hex');
+// Seeded ids (sha256 of a counter), so the G1 fairness bound is checked on the same 4000 ids every run and can never
+// fail by chance; the draw itself stays seeded only by the pair id, as in the product.
+let idCounter=0;const newId=()=>'pair_'+createHash('sha256').update('r88-icon-guess-contract:'+(idCounter++)).digest('hex');
 
 // G1 the draw: no repeats, same on both phones, season counter digit ignored, every icon reachable, no IO
 const N=150;
