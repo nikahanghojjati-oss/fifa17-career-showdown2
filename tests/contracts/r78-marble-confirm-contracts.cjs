@@ -196,15 +196,16 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 // r86: the retained shell is now r85's, filled by the r85 worker with its own 222 paths (the r79 cases below run on it).
 // 2.0.0: the retained shell is r86's, filled by the r86 worker with its own 228 paths (tests/fixtures/shell-paths/1.9.10-r86.json).
 // 2.1.0: the retained shell is r87's, filled by the 2.0.0 worker with its own 267 paths (tests/fixtures/shell-paths/2.0.0-r87.json).
-const R79_SHELL_PATHS_SHA256="671bcb73337e9fa63044441d8c2dc253ebba05daafd0cf164835efbda963acbb";// sorted JSON of r87's SHELL_PATHS (main 00ae2b72)
+// 2.2.0: the retained shell is r88's, filled by the 2.1.0 worker with its own 270 paths (tests/fixtures/shell-paths/2.1.0-r88.json).
+const R79_SHELL_PATHS_SHA256="c65457a7a04ce61a65ef92f2f12c5e3fbb785a2aaeeb3fe51f4380d0dfea83bf";// sorted JSON of r88's SHELL_PATHS (main e6485d7d)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"2.0.0-r87");
-  assert.equal(diag.previousShellPaths.length,267,"r87 shipped 267 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r87's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["visual-assets/v10_1/roulette/vendor/three-r128.min.js"],"2.1.0 removed no shell path; r89 (3D engine) removes only the old three.js r128 file, replaced by r187");
+  assert.equal(diag.previousRevision,"2.1.0-r88");
+  assert.equal(diag.previousShellPaths.length,270,"r88 shipped 270 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r88's");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["visual-assets/v10_1/roulette/vendor/three-r128.min.js"],"2.2.0 removes only three.js r128 (replaced by r187)");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover
