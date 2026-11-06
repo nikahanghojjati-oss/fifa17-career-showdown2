@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. After the 2.1.0 deploy (main ae808444, ruleset b603ae60) the two are identical, so every hunk below is a reviewed change on top of live main (r89: Sacked, R89-SACKED; Chamber Men late-pick check, R89-CHAMBER-LATE). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. After the 2.1.0 deploy (main ae808444, ruleset b603ae60) the two are identical, so every hunk below is a reviewed change on top of live main (r89: Sacked, R89-SACKED; Chamber Men late-pick check, R89-CHAMBER-LATE; Rules headroom, R89-HEADROOM). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "commit": "ae80844400a3ae90a11c1921d4095c8dcebb0c2e",
     "sha256": "3c0e2e3e41ed3da886b02988d0b84394fa45cf8f393f1616bce97b086d1e2cb8",
@@ -8,13 +8,14 @@
     "bytes": 180528
   },
   "candidate": {
-    "sha256": "ae3fc31879b7a8ca3ee1c007b5bd0a82c17cc0c39db9d8b4cd24312ed934dc7f",
-    "gitBlobSha1": "d340643a384faa3e83e5c810538c8e2a13b47200",
-    "bytes": 187856
+    "sha256": "6d410197714d4c3d906e4f5115bf5c0c45e844b7dee63911f91d9b75eb942cc3",
+    "gitBlobSha1": "26aba53456213c74b3ba0d535a75f19b3adaf203",
+    "bytes": 188177
   },
   "allowedOwners": [
     "R89-SACKED",
-    "R89-CHAMBER-LATE"
+    "R89-CHAMBER-LATE",
+    "R89-HEADROOM"
   ],
   "hunks": [
     {
@@ -109,12 +110,12 @@
         "    function ssjrTerminalProgressShape(progress) {"
       ],
       "added": [
-        "    // r89 Sacked: the caller names the keys a record may hold, so a prior record (the one being advanced) may not hold",
-        "    // 'sacked' (no season is accepted after a sacked one) at no extra test.",
+        "    // The shape of a Terminal Progress record (the new record of every progress write and the closing check in the pair",
+        "    // fragment both name the seven keys it may hold).",
         "    function ssjrTerminalProgressShape(progress, keys) {"
       ],
-      "owner": "R89-SACKED",
-      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played. END SHOWDOWN can no longer end a Showdown early once a sacked season is accepted, whether or not Terminal Progress has recorded it: an active Showdown's END names the exact accepted count and the last accepted commit must have no sacking (Codex C3 + re-check)."
+      "owner": "R89-HEADROOM",
+      "why": "Rules headroom (r89, after Sacked): the advance of Terminal Progress tests only that the stored prior record holds no 'sacked' (and no close yet); the prior record's shape was proven by the full shape check when it was written, and the new record is still shape-checked in full. Same allow/deny for every record these Rules can write; season-10 progress about 804 of 1000 expressions instead of 929."
     },
     {
       "mainLine": 761,
@@ -238,14 +239,18 @@
         "            return ssjrTerminalProgressShape(prior)"
       ],
       "added": [
-        "            return ssjrTerminalProgressShape(prior, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'])"
+        "            // Rules headroom (r89): the prior record is the stored Terminal Progress, which these Rules (and every earlier r18 version)",
+        "            // only ever accept through the full shape check below (ValidProgressUpdate), so its shape is not proven again here.",
+        "            // What the advance needs from it is tested directly: no season after a sacked one, no close yet, and its numbers",
+        "            // carry into the new record, whose own shape is checked in full.",
+        "            return !('sacked' in prior)"
       ],
-      "owner": "R89-SACKED",
-      "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played. END SHOWDOWN can no longer end a Showdown early once a sacked season is accepted, whether or not Terminal Progress has recorded it: an active Showdown's END names the exact accepted count and the last accepted commit must have no sacking (Codex C3 + re-check)."
+      "owner": "R89-HEADROOM",
+      "why": "Rules headroom (r89, after Sacked): the advance of Terminal Progress tests only that the stored prior record holds no 'sacked' (and no close yet); the prior record's shape was proven by the full shape check when it was written, and the new record is still shape-checked in full. Same allow/deny for every record these Rules can write; season-10 progress about 804 of 1000 expressions instead of 929."
     },
     {
       "mainLine": 1641,
-      "candidateLine": 1686,
+      "candidateLine": 1690,
       "removed": [],
       "added": [
         "              && (('sacked' in progress) ? ssjrTerminalSackedMatches(progress, commit) : (!('sacked' in commit.results.playerOne) && !('sacked' in commit.results.playerTwo)))"
@@ -255,7 +260,7 @@
     },
     {
       "mainLine": 1657,
-      "candidateLine": 1703,
+      "candidateLine": 1707,
       "removed": [],
       "added": [
         "              // r89 Sacked: checked before the commit and score terms, so a wrong or missing map is refused early (a refusal",
@@ -267,7 +272,7 @@
     },
     {
       "mainLine": 1677,
-      "candidateLine": 1726,
+      "candidateLine": 1730,
       "removed": [
         "              && ssjrTerminalProgressShape(after.data.terminalProgress)"
       ],
@@ -279,7 +284,7 @@
     },
     {
       "mainLine": 2503,
-      "candidateLine": 2552,
+      "candidateLine": 2556,
       "removed": [],
       "added": [
         "            // r89 Sacked: no Transfer War after a season in which either manager was sacked. Checked here, on the first mark of",
@@ -299,7 +304,7 @@
     },
     {
       "mainLine": 2930,
-      "candidateLine": 2990,
+      "candidateLine": 2994,
       "removed": [],
       "added": [
         "        // Codex C2 (2.2.0): a kick's clock runs from the rival's lock-in (the record's updatedAt while the rival is one letter",
@@ -311,7 +316,7 @@
     },
     {
       "mainLine": 2956,
-      "candidateLine": 3019,
+      "candidateLine": 3023,
       "removed": [
         "            && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]');"
       ],

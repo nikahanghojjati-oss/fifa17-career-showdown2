@@ -693,7 +693,7 @@ async function revokePairing(options={}){
   // pricing, "Listeners and rules"), so every server delivery is billed its document plus its lookups. A write is priced at
   // every document its create or update rule can reach, once per request (a transaction is one request): an upper bound.
   // tests/contracts/r86-billed-counter-contracts.cjs fails when the Rules change and this table is not regenerated.
-  const FSB_RULES_SHA256="ae3fc31879b7a8ca3ee1c007b5bd0a82c17cc0c39db9d8b4cd24312ed934dc7f";
+  const FSB_RULES_SHA256="6d410197714d4c3d906e4f5115bf5c0c45e844b7dee63911f91d9b75eb942cc3";
   // BEGIN generated Rules lookup table (paths are priced here, never read or written by this module).
   const FSB_RULES_LOOKUPS=Object.freeze([
       ["accounts/*",0,0,[]],
