@@ -959,8 +959,39 @@ function renderSettings(){
         createOfflinePanel(),
         createDataPanel()
     );
+    // DONE may live in the content grid (placeSettingsFooter); hand it back to the dialog first so the rebuild keeps it.
+    const keptFooter = settingsDialog?.querySelector?.(".settingsFooter");
+    if(keptFooter && keptFooter.parentElement === settingsContent && typeof settingsDialog.append === "function"){ settingsDialog.append(keptFooter); }
     settingsContent.replaceChildren(fragment);
     window.CareerModeRulesSettingsV10?.refreshSettings();
+    placeSettingsFooter();
+}
+
+// Studio Small Axe (Nik 2026-11-04, "Move both"): on the desktop Settings plate DONE sits in the panel grid's
+// last row, right-aligned under the cards, instead of floating in the screen corner. Other layouts keep it in the dialog.
+// Under 700px tall (1366x640, 1280x650) the extra grid row made the panels an inner scroller and squeezed the motion card,
+// so short desktops keep DONE where it was.
+const SETTINGS_FOOTER_IN_GRID_QUERY = "(min-width: 1200px) and (min-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape)";
+let settingsFooterQuery = null;
+
+function placeSettingsFooter(){
+    if(!settingsDialog || !settingsContent){ return; }
+    const footer = settingsDialog.querySelector(".settingsFooter");
+    if(!footer){ return; }
+    if(!settingsFooterQuery && typeof window.matchMedia === "function"){
+        settingsFooterQuery = window.matchMedia(SETTINGS_FOOTER_IN_GRID_QUERY);
+        const onChange = () => placeSettingsFooter();
+        if(typeof settingsFooterQuery.addEventListener === "function"){ settingsFooterQuery.addEventListener("change", onChange); }
+        else if(typeof settingsFooterQuery.addListener === "function"){ settingsFooterQuery.addListener(onChange); }
+    }
+    const inGrid = Boolean(settingsFooterQuery?.matches);
+    footer.toggleAttribute?.("data-sa-in-grid", inGrid);
+    if(typeof settingsContent.append !== "function" || typeof settingsDialog.append !== "function"){ return; }
+    if(inGrid){
+        if(footer.parentElement !== settingsContent || footer !== settingsContent.lastElementChild){ settingsContent.append(footer); }
+    }else if(footer.parentElement !== settingsDialog || footer !== settingsDialog.lastElementChild){
+        settingsDialog.append(footer);
+    }
 }
 
 function getSettingsFocusRestoreSelector(){

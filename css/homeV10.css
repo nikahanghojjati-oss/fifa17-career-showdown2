@@ -1223,3 +1223,10 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 @media (min-width: 1001px) and (max-width: 1199px) {
   #app #mainMenu.v10Home .fifaMenuGrid:has(> #homeStoryButton) > .menuTile:not(#continueCareer) .menuTileLabel { font-size: min(17px, 1.33vw); }
 }
+/* Studio Small Axe (lead, 2026-11-06): on desktop the shell's opaque footer band (v10Shell.css, z 7) was painted over the
+   "01 TWO MANAGER CAREER COMPETITION" strip once the page settled, hiding it. As the rule at the top of this sheet intends,
+   the Home footer draws no band of its own (the stage draws it), so the strip shows through and the footer's text stays at
+   the left edge, clear of the centred strip. Nothing is covered and nothing moves. */
+@media (min-width: 901px) {
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app:has(#mainMenu.v10Home:not(.hidden)) > footer { background: transparent; border-top-color: transparent; }
+}
