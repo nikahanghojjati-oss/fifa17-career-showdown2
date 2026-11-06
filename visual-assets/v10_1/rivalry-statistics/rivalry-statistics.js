@@ -58,6 +58,9 @@ function signatureMotion(){
     }
   }
 }
-function boot(d,m){window.rvStage?.destroy?.();window.RivalryFixtures=d;mount(m);render(d);if(typeof window.sdEnter==="function")window.sdEnter(document.getElementById("stage-root"));signatureMotion()}
+/* Studio Small Axe (Nik 2026-11-04): on desktop the head-to-head grid is not shown, so the same Golden Showdown line also
+   sits beside the title, in the tagline row (between the managers, never over a face). Built from the same frame. */
+function titleGolden(d){const t=document.querySelector?.("#rvTitleBlock .sd-tagline");if(!t)return;t.querySelector?.(".rv-goldenTitle")?.remove?.();const f=d.frames?.[F]||d.frames?.RV1||fallback.frames.RV1,h=golden(f||{});if(!h||typeof t.insertAdjacentHTML!=="function")return;t.insertAdjacentHTML("beforeend",h.replace('<p class="rv-goldenShowdown" data-golden-showdown="true">','<span class="rv-goldenShowdown rv-goldenTitle" data-golden-showdown="title">').replace(/<\/p>$/,"</span>"))}
+function boot(d,m){window.rvStage?.destroy?.();window.RivalryFixtures=d;mount(m);render(d);titleGolden(d);if(typeof window.sdEnter==="function")window.sdEnter(document.getElementById("stage-root"));signatureMotion()}
 window.ShowdownRivalryStatisticsBoot=()=>boot(window.RIVALRY_BOOT.fixtures,window.RIVALRY_BOOT.platemap);
 })();
