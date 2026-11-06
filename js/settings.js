@@ -983,7 +983,9 @@ function renderSettings(){
 
 // Studio Small Axe (Nik 2026-11-04, "Move both"): on the desktop Settings plate DONE sits in the panel grid's
 // last row, right-aligned under the cards, instead of floating in the screen corner. Other layouts keep it in the dialog.
-const SETTINGS_FOOTER_IN_GRID_QUERY = "(min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape)";
+// Under 700px tall (1366x640, 1280x650) the extra grid row made the panels an inner scroller and squeezed the motion card,
+// so short desktops keep DONE where it was.
+const SETTINGS_FOOTER_IN_GRID_QUERY = "(min-width: 1200px) and (min-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape)";
 let settingsFooterQuery = null;
 
 function placeSettingsFooter(){

@@ -1154,6 +1154,9 @@
       font-size: max(calc(12px / var(--sa-settings-tz)), calc(var(--sa-type-eyebrow) / var(--r78-settings-zoom)));
     }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: max(calc(12px / var(--sa-settings-tz)), calc(12px / var(--r78-settings-zoom))); }
+    /* The STANDARD chip sits in the band above DEVICE PREFERENCE; its text grows as the plate shrinks, so the band grows with it
+       (22px at 1920x1080, about 30px on 1366x640 where it ran onto DEVICE PREFERENCE). */
+    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionSummary { padding-top: max(22px, calc(max(calc(12px / var(--sa-settings-tz)), calc(var(--sa-type-eyebrow) / var(--r78-settings-zoom))) + 10px)); }
     :root #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionCopy small, .settingsAudioCopy small) { font-size: max(calc(12px / var(--sa-settings-tz)), calc(13px / var(--r78-settings-zoom))); }
     :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanelHeading p, .settingsDataNote, .settingsOfflineNote, .settingsApplicationUpdateStatus, .settingsInfoRow strong, .settingsMotionCopy strong, .settingsAudioCopy strong) {
       font-size: max(calc(12px / var(--sa-settings-tz)), calc(14px / var(--r78-settings-zoom)));
