@@ -105,7 +105,7 @@
 
   function buildWordmark() {
     var h = el("h1", { class: "transfer-wordmark sd-title--wordmark", "data-sd-enter": "title" });
-    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));
+    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V2_1920.webp", srcset: [480, 960, 1920, 3840].map(function (w) { return ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V2_" + w + ".webp " + w + "w"; }).join(", "), sizes: "(max-width: 900px) 92vw, 60vw", alt: "", "aria-hidden": "true", decoding: "async" })); // App (HO-057): 4K title widths
     h.appendChild(el("span", { class: "sd-visually-hidden", text: "TRANSFER WAR" }));
     return h;
   }

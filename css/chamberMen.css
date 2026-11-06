@@ -313,3 +313,73 @@
   #cmStage .cmBall, #cmStage .cmKeeper { transition: none !important; }
   #cmStage .cmGoal .cmBallArt, #cmStage .cmGoal .cmNet, #cmStage .cmGoal .cmHit { animation: none !important; }
 }
+/* ---------- r89 the 3D goal (js/chamberMenScene3d.js): the canvas under the SVG, the SVG keeps its frame and zone words ---------- */
+#cmStage .cmGoalBox { position: relative; }
+#cmStage .cmGoal3d { position: absolute; display: block; pointer-events: none; z-index: 0; border-radius: 3px; background: #0a0806; }
+#cmStage .cmGoal.cm3d-on { position: relative; z-index: 1; background: transparent; }
+#cmStage .cmGoal.cm3d-on > :not(.cmZone) { display: none; }
+#cmStage .cmGoal.cm3d-on .cmZone { paint-order: stroke; stroke: #050403; stroke-width: 3px; stroke-linejoin: round; }
+
+/* ---------- r89 broadcast layout (Nik 2026-11-04, option A): the score, the pitch across the whole width, the controls under it ----------
+   The pitch is a TV picture of the penalty (js/chamberMenScene3d.js). Its height is what the screen has left once the score and
+   the controls fit, so the clock and LOCK IN are on screen during a kick without scrolling (a phone with its browser bars too).
+   Nothing covers anything; on a very short screen the stage still scrolls (#cmStage overflow) rather than hide a button. */
+#cmStage .cmShell { gap: 8px; }
+#cmStage .cmHeader { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-bottom: 6px; }
+#cmStage .cmHeader > :last-child { justify-self: end; text-align: right; }
+#cmStage .cmHeader .cmTitle { font-size: clamp(20px, 5.4vw, 30px); letter-spacing: .06em; }
+@media (max-width: 560px) {
+  #cmStage .cmHeader { grid-template-columns: 1fr auto; row-gap: 2px; font-size: 11px; letter-spacing: .12em; }
+  #cmStage .cmHeader .cmTitle { grid-column: 1 / -1; grid-row: 1; }
+  #cmStage .cmSide .cmGoals { font-size: 28px; }
+}
+#cmStage .cmPlay, #cmStage .cmPitch { display: flex; flex-direction: column; gap: 8px; }
+#cmStage .cmBoard { gap: 8px; padding: 6px 10px; }
+#cmStage .cmSide { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 8px; row-gap: 3px; }
+#cmStage .cmSide .cmGoals { font-size: 32px; line-height: 1; }
+#cmStage .cmSide .cmCylinder { flex-basis: auto; }
+#cmStage .cmSide .cmCylLabel { flex-basis: 100%; font-size: 11px; }
+#cmStage .cmGoalBox { container-type: inline-size; margin: 0 -16px; }
+#cmStage .cmGoal { max-width: none; width: 100%; height: clamp(180px, calc(100dvh - 430px), 66.7cqw); border-left: 0; border-right: 0; border-radius: 0; }
+#cmStage .cmGoal3d { border-radius: 0; }
+#cmStage .cmPlay { align-items: stretch; }
+#cmStage .cmControls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center;
+  grid-template-areas: "turn clock" "status status" "picks picks" "lines lines" "actions actions"; }
+#cmStage .cmTurn { grid-template-columns: auto auto; justify-content: center; column-gap: 10px; }
+#cmStage .cmTurn .cmTurnHead { grid-column: 1 / -1; }
+#cmStage .cmControls > .cmTurn { grid-area: turn; padding: 6px 10px; gap: 2px; }
+#cmStage .cmControls > .cmStatus { grid-area: status; text-align: center; font-size: 15px; min-height: 0; }
+#cmStage .cmControls > .cmClock { grid-area: clock; font-size: 30px; min-width: 2.6em; }
+#cmStage .cmControls > .cmPicks { grid-area: picks; gap: 6px; }
+#cmStage .cmControls > .cmLines { grid-area: lines; }
+#cmStage .cmControls > .cmActions { grid-area: actions; }
+#cmStage .cmTurnHead { font-size: clamp(26px, 7vw, 34px); }
+#cmStage .cmTurnSub, #cmStage .cmTurnCount { font-size: 13px; }
+#cmStage .cmRowLabel { font-size: 12px; }
+#cmStage .cmChoice { min-height: 46px; }
+#cmStage .cmActions > button.menuButton, #cmStage .cmActions > button.cmBack { min-height: 46px; }
+#cmStage .cmActions > button.cmLock { flex: 1 1 100%; }
+@media (max-width: 560px) and (max-height: 760px) {
+  #cmStage .cmGoal { height: clamp(170px, calc(100dvh - 410px), 66.7cqw); }
+  #cmStage .cmHeader .cmTitle { font-size: 20px; }
+  #cmStage .cmTurnHead { font-size: 26px; }
+}
+@media (max-width: 560px) and (max-height: 660px) {
+  #cmStage .cmGoal { height: clamp(160px, calc(100dvh - 426px), 66.7cqw); }
+}
+@media (min-width: 900px) {
+  #cmStage .cmShell { width: min(1180px, 100%); padding-top: 14px; gap: 10px; }
+  #cmStage .cmPlay { display: flex; gap: 10px; }
+  #cmStage .cmGoalBox { margin: 0; }
+  #cmStage .cmGoal { height: clamp(260px, calc(100dvh - 300px), 56.25cqw); border: 1px solid var(--r78-gold-edge, #d4a017); border-radius: 3px; }
+  #cmStage .cmGoal3d { border-radius: 3px; }
+  #cmStage .cmTurn { grid-template-columns: 1fr; }
+  #cmStage .cmControls { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, .8fr); gap: 8px 16px; align-items: stretch;
+    grid-template-areas: "turn picks clock" "turn actions status" "lines lines lines"; padding-top: 0; }
+  #cmStage .cmControls > .cmClock { align-self: center; font-size: 34px; }
+  #cmStage .cmControls > .cmStatus { align-self: center; text-align: center; }
+  #cmStage .cmActions { flex-wrap: nowrap; }
+  #cmStage .cmActions > button.menuButton, #cmStage .cmActions > button.cmBack { min-width: 0; }
+  #cmStage .cmActions > button.cmLock, #cmStage .cmActions > button.cmNext { flex: 1 1 auto; }
+  #cmStage .cmActions > button.cmBack { flex: 0 0 auto; padding: 10px 14px; font-size: 14px; }
+}

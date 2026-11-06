@@ -26,7 +26,7 @@
     if(link.sheet){link.sheet.disabled=off;return;}
     if(off)link.addEventListener?.("load",()=>{if(link.sheet)link.sheet.disabled=oldSheetOff.has(name);},{once:true});
   }
-  function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";return n;}
+  function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";/* HO-057 4K titles: a _V2 wordmark ships at 480/960/1920/3840 px (same frame ratio as V1), so the browser picks the width it needs. */const v2=/_V2_1920\.webp$/.test(path)?BASE+path.replace(/_1920\.webp$/,""):"";if(v2){n.srcset=[480,960,1920,3840].map(w=>`${v2}_${w}.webp ${w}w`).join(", ");n.sizes="(max-width: 900px) 92vw, 60vw";}return n;}
   function stage(id,host,content){
     const s=element("div","sd-stage v10SystemStage");s.id=id;
     const plate=element("div","sd-stage__layer sd-stage__layer--plate");plate.setAttribute("aria-hidden","true");
@@ -144,7 +144,7 @@
     const original=Array.from(host.children),content=element("div","ruleBookV10Content");
     original.forEach(n=>content.append(n));host.classList.add("v10RuleBook");
     const hero=content.querySelector('.ruleBookHero');hero.dataset.sdEnter="title";
-    hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V1.webp"),hero.querySelector("strong"));
+    hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V2_1920.webp"),hero.querySelector("strong"));
     content.querySelector('h2').classList.add('sd-visually-hidden');
     hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong').classList.add('sd-tagline');hero.querySelector('p').classList.add('sd-body','ruleBookSummary');
     const grid=content.querySelector('.ruleBookGrid');grid.id='ruleBookSections';grid.setAttribute('aria-label','Competition rules');
@@ -224,7 +224,7 @@
     if(states.has(host)){refreshSettings();return;}
     const dialog=doc().getElementById('settingsDialog');host.classList.add('v10Settings');
     const heading=dialog.querySelector('.settingsHeading');heading.classList.add('settingsTitleBlock');
-    const wrap=element('span','settingsWordmarkWrap');wrap.dataset.sdEnter='title';wrap.append(image('settingsWordmark','shared/wordmarks/TITLE_SETTINGS_V1.webp'));heading.append(wrap);
+    const wrap=element('span','settingsWordmarkWrap');wrap.dataset.sdEnter='title';wrap.append(image('settingsWordmark','shared/wordmarks/TITLE_SETTINGS_V2_1920.webp'));heading.append(wrap);
     // Team V's Settings frame: shared eyebrow type and the "TWO MANAGERS. ONE LEGACY." line under the wordmark.
     heading.querySelector('.settingsEyebrow')?.classList.add('sd-eyebrow');heading.append(element('p','sd-kicker settingsTagline','TWO MANAGERS. ONE LEGACY.'));
     doc().getElementById('settingsTitle').classList.add('settingsVisuallyHidden');
