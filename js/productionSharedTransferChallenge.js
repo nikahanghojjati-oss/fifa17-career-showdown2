@@ -528,7 +528,7 @@
       if(confirmedAtMs<CHAMBER_FROM_MS)return true;
       let timer;const step=await Promise.race([pstcLoadScript("chamber-men-step","js/chamberMenStep.js",()=>root.CareerModeChamberMenStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step||!await step.ensure()){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
-      const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,confirmedAtMs};
+      const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,confirmedAtMs,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")}};
       if(!step.applies(ctx))return true;
       const provided=await pstcProviderOptions(request,true);
       if(!provided){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}

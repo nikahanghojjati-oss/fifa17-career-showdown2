@@ -547,9 +547,25 @@ const V10_IMAGES={
     "visual-assets/v10_1/season-results/assets/OVL_SR_NIK_HAND_V1_2X.webp":"80417b11c23b06b911b01c0f3c802bcf5cc7ad519a815522f9f652eea1e1def2",
     "visual-assets/v10_1/season-results/assets/OVL_SR_NIK_PHONE_V1.webp":"b49c2e29e327d4cf5c747f64fa4ae18df31ee001c5c297febe08a03a77850bcb",
     "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V1.webp":"90dc95cb4abca3a06c2f08f0468befb2dfb60b49bd98fec8a92aac8bd0620bc4",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V2_480.webp":"8a5de0e115201c4510d684093122e63156d801bbe01f12165baa66378253ed2a",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V2_960.webp":"08eedb7acbd087c39dd767579b31fd1d121a732d42b56650e74e6fe84760c7fd",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V2_1920.webp":"5a8922474e840816782fadc531be3f3763cc7fac38ca23186b25f607d9eb0f08",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V2_3840.webp":"ffd51c8ce1a6d2cce6aea29c7ca515ff5f31217d193f448d3d74f0edca84f90b",
     "visual-assets/v10_1/season-results/assets/TITLE_SR_V1.webp":"2f81e4b2f188c98e60d8dbc3c8ba1ff90e6d8a8129b766fe655efc877dcabcfa",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V2_480.webp":"9964a3f13d7705d7a798794e58838c9cd4395077f340b983d39c77519f67b6b3",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V2_960.webp":"05baba7fd092da3b8c77d9afd37f82a480a5f3394e24f986a0d45d1cb84d8415",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V2_1920.webp":"71c37edaefc0dd3d20085d7d30c50a8a4f63d246c8e5237dd0288e8a3ee637fe",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V2_3840.webp":"1f52478bf22fde2d07ca2828f38ae7c2d69a9114c6e3a170752829c254d4fbd4",
     "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V1.webp":"c200cad34fccb43d27492037e8a56fb754f30dfee216ac605ae7e5771ba77b71",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V2_480.webp":"7ecfef6cd984e4f9e8b2ce680d68caa72c5193febf3b01e37f6666993a32942c",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V2_960.webp":"b9093ab7e8ae3daa3251d88a99305c2a7a592ba9d3d8c42b782679dd4828b880",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V2_1920.webp":"9be2f90620d00aa0ff046a34eb30be174eacb0a7a39cabb20e7bba63530d6a12",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V2_3840.webp":"7395ea62ffe2e4d3294e1a7628679b8f458e6801895d8ec875458e9bd8a19be0",
     "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V1.webp":"adbf6ee3214a535b2d96cd12bd40110178ecae0e01cf53cd5eb17dde646e3807",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V2_480.webp":"0d0a949a8b8cb9f1872a000d9f8eb63dd96a6d4a515e5d8cb861741c9fed3ee8",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V2_960.webp":"73801e04bc0cabb7e2268facefa530993e53d608c597c688fe88c575edd2c6bc",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V2_1920.webp":"6bcef865ae294623ed41b865f0125b788fb30e847ae7700d47c00165e4173fca",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V2_3840.webp":"6c96f4601ba6ee09f681d93c0a0725708ac9ed4ffcc6da6b35759efd13ed8282",
 
     "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp":"77759cb0ff818bb674ae45f5431f6e5976b3724de98923f47521b0f59fcec352",
     "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_2X.webp":"740e753cd4a6360a42658f5a1cd7c70ba848c05ed580a906f0333ecbd29149b9",
@@ -558,6 +574,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp":"e51ce1190a73458dfab2c51e8663834be8e1ff831e8e915c9e3061fea732775a",
     "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp":"a64f2bfebadef2966c59b1f598d0d5abe955888aa5b22c6c17116ee04c936148",
     "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V1.webp":"7dbc3041a3b79684b5d28babfce2bb3aaf51138be820b4f7a4d4fcd7a68b4a04",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V2_480.webp":"a58df0fab83e2c777c81498d511046b4ba50754965e693f82ddf4dae44299b01",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V2_960.webp":"06b707f708e5eb58dd661261478078c97455ae13051a883ed233f9dcf2774a71",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V2_1920.webp":"6805859a771c0433f5bad7fcc47adec46805051f78fab8b81c3a02bec7e6cd5e",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V2_3840.webp":"615f4a8b7a2ed0a22a4c234682e98b7ee326c01f4bd760fe2289c0b97b1c1991",
     "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp":"15f47694e512f5f1555f3f1b919b0ab0203edd8544cd65b249c98277a28c2175",
     "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_1536.webp":"ab2cebbb5913bbe4ac39c4117c86a8f2261a8c23dfbaa5a5a79c886e0f5e760a",
     "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp":"78280e1c2ef82e1945d029f5bccb537c28670fbb92ae19a662fd3611af377d08",
@@ -565,6 +585,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_512.webp":"8dd3147c1100ece7289ab7569a1cbbd20d823193c8ee255eb63cf91fb73d2030",
     "visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_1536.webp":"9bdfbee3a11c2d725ec477601e58050da5e955d4805eadeff14a1cdf408069c7",
     "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V1.webp":"38213f962b9db6ae748eb3becce92f0dc08da7f76a3da2ae886c358d1cbaaf99",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_480.webp":"492ee6110c62fa8bc616638855d47f4682ea11b06af1c2d611c75e1b330843d5",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_960.webp":"73be40e929d82541f4956dd022b6a0da567d196d159de4f704f20c0258f185d5",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_1920.webp":"a778c761aba635d62aaebf5d80f11cdcb4c878f8d1fb6c1e436e5b896e296144",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_3840.webp":"fd93dce4143d4c315c8ac29ba79ea06ecdc432df0a264cddf0b9a56fc41c179f",
     "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_1536.webp":"7c34ab65edc761bdea2f34a0b562c5c6296bf224be46ab82dad3ba58d49f1c34",
     "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp":"39c65012fa627c67371fa5676a6d696a81dbb54b80621730d83b2b15ae5b6796",
     "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_1536.webp":"863b4a6352de12bfa8e5e3965331b179e5f1890d5f242451088e152ef6f8ac57",
@@ -576,6 +600,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp":"ba883f14116d1257ba8876fd18b92847b7955536e31c6e3154b743089036d7d6",
     "visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp":"850352f3eb1db2f79c0ba8e5df447cde9b5a3371e7fa29e14dee1e3e989e3959",
     "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp":"735bc4f176181b418becb54d699c2f19e80ac2e257b541cd5a1f4ebb39637b0c",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V2_480.webp":"49e0178b0128d431fd8a2104ea00f9ca69612219dbe47546d8b84c2a2108d43b",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V2_960.webp":"6ceceb76590eae3cad5a495894e5a18639fb88bb560397446d3c8eee9c08eccc",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V2_1920.webp":"2fef444748d61e3db6f471d395a82080d8fea98c34b56e2ad6dec6944d116344",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V2_3840.webp":"d9554a6378676bb5f823e52994f55f0f3d61d05963eb97167e230e40ef22caee",
     // job 25: Team V Home (5e05a1f)
     "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp":"3c35391805507bf8910f36f98147cd8383e4944eeb999021661d6d7030d30c39",
     "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp":"aed61ed9d6e10cbaead7251539e188101bc1371d83639b2ab6953dae875274f9",
@@ -640,10 +668,26 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp":"0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_2X.webp":"005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd",
     "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_480.webp":"b95f97b9f3cdabc9824bac8566d416145e55df3f9ac30a5b0ec4a04791cf6ca4",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp":"6bb7cabdc7dca0006dc46f5b05165e353eef5afdb9e565b2cdf252d82b1ab35e",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp":"78ec9b7fc62fc6c07732c18a5c0541b71ea122956a0030bbebf4f78b1e0d970b",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_3840.webp":"abe1adeb700677e9c6da1d201f060cb6a376413f55935c0c5c035a0445565afa",
     "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V1.webp":"5624230fbfa10a80a144a730970de12a7510c5f9e71c53f2e59e315eed57daad",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V2_480.webp":"66651c584b091c456d0b85e359a7c72236a3358cf642d58c8ef604ddbcd9b4f1",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V2_960.webp":"f111b21bc4db4489ccedaf84de7a111f8ab63e54382a37c7e7b46df49ab594c7",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V2_1920.webp":"a42765c1f946a7cbda42737f224d4778260f333e75aab201381d6b0d1739d18b",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V2_3840.webp":"05c76ad422c2a9fa124c6b53d10e3d93833ddc2e342da5d0f8317f0fa58acd9d",
     "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V1.webp":"c4ad45bc0e39c2c38f3257a47e41e1bff657f672a4345a45cf1fb7ed9481dd44",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V2_480.webp":"704e95dad0396ce51f9903757f0029d530f6667ae1a8fbddd4038a9af48ca8d0",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V2_960.webp":"3341d5ff00de9569f772c704a516a52d81197dff233bd123b0d17f0cbf70965a",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V2_1920.webp":"b22d6f9bf94e91fc2a36ca33706d4b5ec128bf5f145e431669a2c4487681949e",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V2_3840.webp":"44a0b06a99611960df683656a11d6129511c0ee739fff05a772f76ea1b7539e6",
     // Job 27: Transfer War (tr2/slice-02-plate, Team V 5e05a1f).
     "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V1.webp":"692130a00695e41554036cd20061adcb9e1cf51c9384eda1ec108dfa86b8263d",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V2_480.webp":"a73a62485c52d482916228d99280fe70e6c2fef91fc676686b0f465759f23b57",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V2_960.webp":"d40abf2d4f45ad9f6e831526fdd116a61049bb9d924d3815c7d76e2b7b34d0fe",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V2_1920.webp":"349af044418b7473f73439b0370a646065269ba1c90e2c5e4114dee60ed0c9c6",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V2_3840.webp":"cd04c11532a03e26cc54548ba6d88ec2082eabfbd256a8dec83115fdd8d48730",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/DER_TR2_PLATE_G_GLASS_C_V1.png":"b5c16f7491e9c30bf2e44478e552a26b3ef827df9d8d6787f8b47374910bc753",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.webp":"fc982425ed87ed54ccf4d8da1daa3a8530b026a17beb2d7bc4e4262ac967e494",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_3344.webp":"bde994738d4ad3dd78c2cfa05621b780772150e1406304e33175d11916bd0443",
@@ -661,6 +705,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp":"6fdfde884721c092c8ab5409b2a9121a9de0168f766529495c6dbef80f452019",
     "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp":"633993683aa5a1eba32a8587520df3edcc5751d85f3fe449b961c1b026e5d777",
     "visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp":"e480352898b4e30aa42817e005cf3f46ca66fc5716aec9926231d58e82d5f7f6",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V2_480.webp":"7df088b3478c36c1f560cf69622260a4ebe52c0197af0e8fe90ade4d87ef429d",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V2_960.webp":"71598dc23f6a9121e2c839d55ba744eb007e77c0246318d1500e27d763581777",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V2_1920.webp":"977690ed96dd692186397e326bfa5f07cf8968485a7340b47aff319b858bf83e",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V2_3840.webp":"763605fb8fc17be5c8488cfdbafbf8d9b798dece9c89e5b776189a6ec402292f",
     "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp":"e6ed2862c6afd5861cd2962b856c2e41b0e7499848bf98d19fb017e8968572d0",
     "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp":"c207d7a0dce3bc176b1b88b8903ab35bf772acf71c5b30ca4ef92be88e6f4c0c",
     "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_2X.webp":"a599c8e67e8b1c68add7d71a7425b9ddfacc11fb67a420e59624b661e3fca98f",
@@ -675,7 +723,15 @@ const V10_IMAGES={
     "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp":"474affc7f39d8239b24c8df81b09f6afd9a7568762588a1ae8375d7f122a0d2f",
     "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp":"9791dbb9ab97188cce419c0543302e2e36ba53da717a141e757febc00e48282d",
     "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1.webp":"eae320e0604e221f749f9bff6d7c044bfde2fb1d9dbaa4f16a9321211fd3d554",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V2_480.webp":"34f10b5d1a3d42dacfdda196fd4b33acce7c842e3c364d60be5212d04deaf1ed",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V2_960.webp":"b1884abe8b06577760e2ad33f6a54c755cf04f1a7e9e44ad6e61b402cac8555c",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V2_1920.webp":"ddd6d62e4b9e1b0ae8c036321f0b27cd142534979c8cddb5effa26cd0ea01b03",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V2_3840.webp":"034a0d5ef0214bf0f0c8b5f8ddfcc5dc1affdf61eac5ee63a2c9e0ffba82bee2",
     "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp":"ea8f4bd02533596680121dacbcf7cc35ec3be75aadb3c0dd0271d3b0fa16be81",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V2_480.webp":"0582d484298012903fd22747d1661ec4373ddb40527780ea4f9b0f104e2866bf",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V2_960.webp":"f6a08976080c6f1f43419918e6df4d904b727280ca2adee8aa7294a7d55f1f46",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V2_1920.webp":"9eeff4e6fca3ea420ea5e84beac3ed6e0eb71669068f0e573e7f9ff0c7ec5711",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V2_3840.webp":"6c1b568b9d8284dc445e98c0a3a3234cfb1de02b19d7cf8b221ff477a946cecf",
     // r78 release: the r77 shell still draws these phone images. It runs (from its own cache) on every installed phone until
     // the r78 worker takes over on Home, and it is the rollback copy afterwards, so they stay deployed for one release.
     // r78's own code no longer uses them; remove them in r79, once r78 is the retained previous runtime.
@@ -721,6 +777,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_1X.webp":"45444347a7f63e51e7f24e9deeb7f2c2af3017f0bf82ad8fb498436c564bb7c6",
     "visual-assets/v10_1/plates-v2/ENV_TROPHY_ROOM_PLATE_V2_2X.webp":"886e0bec255f61619f8aeb33c38ddb6d4d7ad427527561528d3a900c5898e960",
     "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V1.webp":"a07b1e11254b36b7347b8f98e9682fa8a610d09713fcce8f028ca9ff4f024a85",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_480.webp":"f012186945878fdf66eaf6a642a47d300ce7af2aaa9434b15d5f2fe88bb2239e",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp":"2af3ae7e8086a619e9e507e109b035e932e0b87c51d559111e5f239697cbaebb",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_1920.webp":"fb4fbeaa32a5f14cae68037c27768ef1e4582861769b76bab1e8e3f4105fa91b",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_3840.webp":"fbc03feb159b81838c76d0f4bd55c85e8e3f00b8288a35b33680ae222ddb7244",
     // Unversioned names shipped while F9c was not running (r86 Special Player, r87 roulette room, r87 Gazette). Their bytes are
     // pinned; they are first generations, so nothing older is cached under the same name. A change ships under a new _V<n> name.
     "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW.webp":"54534295ea82979d7cccee5feb69830a290f29f6bc9f1a2ba8f8860a94b4fead",
@@ -753,9 +813,82 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp":"78edfb430cdfeb928f1d55790dfa713bf7f28621f2697e533330a14b5f2a1620",
     "visual-assets/v10_1/icon-guess/assets/stage_phone.webp":"084eec9bfa563e740187ab6aa0a7f65ddd53176c0ac0ae452a6ca2cd13833e3d",
     "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
-    "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93"
+    "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
+    // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
+    "visual-assets/v10_1/chamber-men/assets/ball_color_2k.webp":"f8a5fb848f208eff8180a298872e5dff37028ea62642ebdb5a6951db2d1499e1",
+    "visual-assets/v10_1/chamber-men/assets/ball_color_4k.webp":"b4317c92c288fbdaf7135a7e030bc19605b66e33983ee1a53f79c5019dd12c27",
+    "visual-assets/v10_1/chamber-men/assets/ball_normal_2k.webp":"22de8987b5bbce2605098d35eabf81451da4d1415880ddce8f301c0e10fee4b9",
+    "visual-assets/v10_1/chamber-men/assets/ball_normal_4k.webp":"806594bd2ce0ef51311f1af398b2f70f3e4854d03b84c12d8c548df563bd7202",
+    "visual-assets/v10_1/chamber-men/assets/ball_orm_2k.webp":"247c351caf5f319e2b38ca0c72283119075e9d0d13f42709ddc31720208e81af",
+    "visual-assets/v10_1/chamber-men/assets/ball_orm_4k.webp":"8673495f770998cb71968ee497c4854426cd4b759a57e3c4522541fe5552c920",
+    "visual-assets/v10_1/chamber-men/assets/board_chamber_men.webp":"99011e7b3adc93b68847f8389da8db5014ab69b7a6ff0b4af3197768edf3c324",
+    "visual-assets/v10_1/chamber-men/assets/board_chevrons.webp":"f6582dca55edc2b26c22d5e88cafc9a7406092d1817dc19e42044a8332a3f1d9",
+    "visual-assets/v10_1/chamber-men/assets/board_cms.webp":"1b2ae9f26d97bef8df6aeef6b13bf7a375bf787db8e7174f537b276614b5886c",
+    "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
+    "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
+    "visual-assets/v10_1/chamber-men/assets/crowd_atlas_2k.webp":"5aee1df9df63e7a0b41cedc2afc6c1ecb4f0f205628161b6b4ac473b20e4f7c4",
+    "visual-assets/v10_1/chamber-men/assets/crowd_tint_1k.webp":"9e861b1b92da282b5f18f2f0f140e845307a93e466260d23bdef21b485f2639d",
+    "visual-assets/v10_1/chamber-men/assets/flare_256.webp":"12570cfc16f86f1369119886d212fe46bdf6473c26c710748ad78fa69ee1bd85",
+    "visual-assets/v10_1/chamber-men/assets/grass_color_1k.webp":"6c513a7a4ff7c34f134a6fa8fa395dda79d4b0c2969840600c2697ac9f67331d",
+    "visual-assets/v10_1/chamber-men/assets/grass_normal_1k.webp":"1f67da732b2d01f0a55bad39262399c7ddecf170908ab82d7a96c93d56464949",
+    "visual-assets/v10_1/chamber-men/assets/grass_normal_512.webp":"50baa68eb769955d0fdabcf4bb3a3d1f3917f06ac2a3ae1155e152eb79a0b852",
+    "visual-assets/v10_1/chamber-men/assets/net_cell_512.webp":"afbb689637ab87b186b9c94dba1f19f3cbe08c52cd7c00e6a68705ef8ada83e5",
+    "visual-assets/v10_1/chamber-men/assets/seats_512.webp":"7d9300f95c3395f037324002b79bbdae8111267cc41fa17459efebc91341ac76",
+    "visual-assets/v10_1/chamber-men/players/kitmap/ch38.png":"dfd546fcb9e66ae3b9b0b7e95acfe70f093fc9e114cc0bc47f1fef17614d302f",
+    "visual-assets/v10_1/chamber-men/players/kitmap/ch42.png":"1e6e8988585dffae4bedf23384f3af933f8d75185189487d020892ecd404647e",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Boots.webp":"4943b6bcfa625b98df2f317b30dc6acfadf940d6c021560ba3a52dbda7d0e043",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Shirt.webp":"351c83b7eff6157addc3e5169ec36aca479df6241cc9d40e4b0c692f1bb22431",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Shorts.webp":"cc81716c55ebbb66c0b0d10598e098461efeba5c43c79c94ec2a73f8c2c74f42",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_Socks.webp":"d46d608202e9dc1d8b6fafbe45da624f72bf5d494fa2038ca861e4de2050bbc1",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Body.webp":"c70c712e364ae79081daee6b50bf579a81ecb28e7b8a9da22086727a3bc3c9b8",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Boots.webp":"650bab72bf1e02c2998682166af1565b7e92656debdcbc50a9f10fc88beb2f06",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shirt.webp":"173aab84407049661a9dd3103fa653ba6142884a4eb281cb5db9a8333ad7c85c",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shorts.webp":"060ff7ed1bc6272a936731d533503ad029cebe0bdf84962b5a7115fc2fe24656",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Socks.webp":"6c22e842c648d2d37aad88d85735df5c5d8e966a6161c3e6fdec57ea3ec0b33c",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Body.webp":"01b6827e129fb0a55fc540481d22e97826e1387e2b2773077e7fa7c2a6a69c0b",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Boots.webp":"8019b6e39605ac7d11c95ffa6653652b126c388b73b95341aefc2acd21246f21",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shirt.webp":"70f92dd04458b5bd37d9153ce2e087917574f1624596b64f726b0fe593335782",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shorts.webp":"34a62c138ff8811462c489ebe12bfbe16265c95e1f6a97c9876d1ab1295507b1",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Socks.webp":"4576a46e30a2136cbe4133f4bcf8173bcf3ab9ca62e20af0c5ec82cb73533b07",
+    "visual-assets/v10_1/chamber-men/players/uv/uv_remy_Body.webp":"ba8ca7f33938ff0a8fdee3dcddc59d0d428766b847c64cafe77792760f090451",
 };
 const V10_UNVERSIONED_FIRST_GENERATION=new Set([
+  "visual-assets/v10_1/chamber-men/assets/ball_color_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_color_4k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_normal_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_normal_4k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_orm_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/ball_orm_4k.webp",
+  "visual-assets/v10_1/chamber-men/assets/board_chamber_men.webp",
+  "visual-assets/v10_1/chamber-men/assets/board_chevrons.webp",
+  "visual-assets/v10_1/chamber-men/assets/board_cms.webp",
+  "visual-assets/v10_1/chamber-men/assets/concrete_512.webp",
+  "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/crowd_atlas_2k.webp",
+  "visual-assets/v10_1/chamber-men/assets/crowd_tint_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/flare_256.webp",
+  "visual-assets/v10_1/chamber-men/assets/grass_color_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/grass_normal_1k.webp",
+  "visual-assets/v10_1/chamber-men/assets/grass_normal_512.webp",
+  "visual-assets/v10_1/chamber-men/assets/net_cell_512.webp",
+  "visual-assets/v10_1/chamber-men/assets/seats_512.webp",
+  "visual-assets/v10_1/chamber-men/players/kitmap/ch38.png",
+  "visual-assets/v10_1/chamber-men/players/kitmap/ch42.png",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Boots.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Shirt.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Shorts.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_Socks.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Body.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Boots.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shirt.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Shorts.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch38_Socks.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Body.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Boots.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shirt.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shorts.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Socks.webp",
+  "visual-assets/v10_1/chamber-men/players/uv/uv_remy_Body.webp",
   "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW.webp",
   "visual-assets/v10_1/content/gazette/GZ_LEAD_FINAL.webp",
   "visual-assets/v10_1/content/gazette/GZ_LEAD_GOLD.webp",
@@ -787,6 +920,30 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/icon-guess/assets/token_full.webp",
   "visual-assets/v10_1/icon-guess/assets/token_spent.webp"
 ]);
+// r89 3D engine (2.2.0): every 3D scene (roulette, Special Player, the Chamber Men goal) loads one vendored three.js r187 build
+// (tools/three-vendor; the Chamber Men goal loads it into the app page, js/chamberMenScene3d.js) and
+// the roulette lights its metal with one CC0 HDRI. Both are fetched without ?v, so both are shell-cached and unversioned-served,
+// and their bytes are pinned: a change ships under a new name (three-r<N>.min.js, ENV_LOUNGE_V<n>.exr), never over these.
+check("F9d r89 3D engine files: one pinned three.js build and one pinned CC0 lounge HDRI, both shell-cached for offline play",()=>{
+  const pins={"visual-assets/v10_1/roulette/vendor/three-r187.min.js":"360929ee240c045d7ed3363da089a2786ea96933015809cd442f08fc1e203c87",
+    "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr":"205a84e0108d40fb207e077db9bc68a15f329a8af8ee1f82c28524e967963b81"};
+  const sw=fs.readFileSync(path.join(ROOT,"service-worker.js"),"utf8");
+  const unversioned=sw.slice(sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS"),sw.indexOf("]);",sw.indexOf("const UNVERSIONED_SHELL_ASSET_PATHS")));
+  const shell=sw.slice(sw.indexOf("const SHELL_PATHS = Object.freeze(["),sw.indexOf("]);",sw.indexOf("const SHELL_PATHS = Object.freeze([")));
+  for(const [file,hash] of Object.entries(pins)){
+    assert.equal(sha256(file),hash,`${file} bytes changed: ship it under a new name instead`);
+    assert.ok(shell.includes(`"${file}"`),`${file} is precached`);
+    assert.ok(unversioned.includes(`"${file}"`),`${file} is served from the shell without ?v`);
+  }
+  const vendor=fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/roulette/vendor")).filter(f=>/^three-.*\.js$/.test(f));
+  assert.deepEqual(vendor,["three-r187.min.js"],"one three.js build ships");
+  for(const page of ["visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/special-player/index.html"]){
+    const html=fs.readFileSync(path.join(ROOT,page),"utf8");
+    assert.ok(/<script src="(?:\.\.\/roulette\/)?vendor\/three-r187\.min\.js"><\/script>/.test(html),`${page} loads the vendored r187 build`);
+    assert.ok(html.includes("T.cmsLegacyLights()"),`${page} keeps the lights it was tuned with`);
+  }
+  assert.ok(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt"),"utf8").includes("MIT License"));
+});
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
   const walk=dir=>{for(const entry of fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true})){const rel=dir+"/"+entry.name;if(entry.isDirectory())walk(rel);else if(/\.(?:webp|png|jpe?g|avif|gif|svg)$/i.test(entry.name))found.push(rel);}};
@@ -802,7 +959,9 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-02 by the 2.0.0 release PR to the shipped index.html (2.0.0-r87 pins on gameplay/r87 bd67147a, after
   // the Transfer War wording #1190). This check had not run since r78 (#1115).
   // Re-pinned 2026-11-03 by the 2.1.0 release PR: the 2.0.0 file with its 2.1.0-r88 pins and v2.1.0 footer, nothing else.
-  assert.equal(sha256("index.html"),"81cac99932215ec26828e25e2e1a90f15aaf5c755d284038e6ecda737b6ca5cf","index.html byte-identical to the 2.1.0 release");
+  // Re-pinned 2026-11-04 by r89 Sacked (2.2.0 branch): the 2.1.0 file plus the two "I was sacked this season" ticks on the
+  // Season Results cards, nothing else. The 2.2.0 release PR re-pins it with its own revision pins and footer.
+  assert.equal(sha256("index.html"),"d0ef64dc9fa4ef9ab4ef8e29346222097b5f44fe2b19c23515e5bec1904faa8f","index.html byte-identical to the 2.1.0 release plus the r89 Sacked ticks");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

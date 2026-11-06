@@ -1,0 +1,107 @@
+<!doctype html><meta charset=utf-8><body style="margin:0"><canvas id=c width=900 height=900></canvas>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+// Chamber Men players, v2: one shared animation file (Remy's skeleton + every clip) and light body files.
+//   ?mode=anims&tier=desktop|phone          -> anims_<tier>.glb (bones only, all clips; hips moves in Remy units)
+//   ?mode=body&body=remy|Ch38|Ch42&tier=... -> body_<id>_<tier>.glb (meshes + skeleton, no clips; extras cmHipsScale)
+import * as THREE from 'three';
+import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
+import {GLTFExporter} from 'three/addons/exporters/GLTFExporter.js';
+import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
+import {MeshoptSimplifier} from './node_modules/meshoptimizer/meshopt_simplifier.module.js';
+const log=(...a)=>console.log(a.map(x=>typeof x==='string'?x:JSON.stringify(x)).join(' '));
+const q=new URLSearchParams(location.search),tier=q.get('tier')||'desktop',mode=q.get('mode')||'body',id=q.get('body')||'remy';
+const TEX=tier==='phone'?1024:2048;
+const BODIES={
+  remy:{file:'soccer_idle.fbx',height:1.83,mesh:{Body:'Body',Hair:'Hair',Eyelashes:'Eyelashes',Eyes:'Eyes',Tops:'Shirt',Bottoms:'Shorts',Shoes:'Boots'},socks:true},
+  Ch38:{file:'Ch38.fbx',mesh:{Ch38_Body:'Body',Ch38_Hair:'Hair',Ch38_Eyelashes:'Eyelashes',Ch38_Shirt:'Shirt',Ch38_Shorts:'Shorts',Ch38_Socks:'Socks',Ch38_Shoes:'Boots'},socks:false},
+  Ch42:{file:'Ch42.fbx',mesh:{Ch42_Body1:'Body',Ch42_Hair1:'Hair',Ch42__Eyelashes:'Eyelashes',Ch42_Shirt:'Shirt',Ch42_Shorts:'Shorts',Ch42_Sneakers:'Boots'},socks:true}
+};
+const MAT={Body:'Bodymat',Hair:'Hairmat',Eyelashes:'Eyelashmat',Eyes:'Eyesmat',Shirt:'kitShirt',Shorts:'kitShorts',Socks:'kitSocks',Boots:'kitBoots'};
+const RATIO=tier==='phone'?{Body:.6,Hair:.5,Boots:.5,Shirt:.7,Shorts:.7,Eyes:.6,Socks:1,Eyelashes:1}:{};
+const loader=new FBXLoader();
+const remyRaw=await loader.loadAsync('in/soccer_idle.fbx');
+const REMY_HIPS=remyRaw.getObjectByName('mixamorigHips').position.y;
+function fixBones(o){o.traverse(x=>{if(x.isBone)x.name=x.name.replace(/^mixamorig\d+/,'mixamorig');});}
+function reduce(c,s){// keyframe reduction (see README)
+  for(const tr of c.tracks){const n=tr.getValueSize(),T0=tr.times,V=tr.values,keepT=[T0[0]],keepV=[...V.slice(0,n)];
+    const tol=tr.name.endsWith('.position')?(tier==='phone'?.003:.002)/s:/Hand(Thumb|Index|Middle|Ring|Pinky)/.test(tr.name)?.005:tier==='phone'?.0025:.0015;let last=0;
+    for(let i=1;i<T0.length-1;i++){const t=(T0[i+1]-T0[last])>0?(T0[i]-T0[last])/(T0[i+1]-T0[last]):0;let bad=false;
+      for(let k=0;k<n;k++){const a=V[last*n+k],b=V[(i+1)*n+k];if(Math.abs(a+(b-a)*t-V[i*n+k])>tol){bad=true;break;}}
+      if(bad){keepT.push(T0[i]);keepV.push(...V.slice(i*n,i*n+n));last=i;}}
+    const L=T0.length-1;keepT.push(T0[L]);keepV.push(...V.slice(L*n,L*n+n));tr.times=new Float32Array(keepT);tr.values=new Float32Array(keepV);}
+}
+async function save(root,clips,extra){
+  const glb=await new GLTFExporter().parseAsync(root,{binary:true,animations:clips||[],maxTextureSize:TEX,onlyVisible:true});
+  const bytes=new Uint8Array(glb);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));
+  window.glb=btoa(bin);window.out={bytes:bytes.length,...extra};
+}
+// Remy's metres-per-unit (his FBX is in odd units: 1.83 m tall)
+function remyScale(o){o.updateMatrixWorld(true);const bb=new THREE.Box3();o.traverse(m=>{if(m.isSkinnedMesh){m.geometry.computeBoundingBox();bb.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld));}});return {s:1.83/(bb.max.y-bb.min.y),minY:bb.min.y};}
+
+if(mode==='anims'){
+  const list=await (await fetch('clips.json?'+Date.now())).json();
+  const {s,minY}=remyScale(remyRaw);
+  const clips=[];
+  for(const [file,name] of list){const src=file==='soccer_idle.fbx'?remyRaw:await loader.loadAsync('in/'+file);
+    const a=src.animations.find(x=>x.tracks.length);const c=a.clone();c.name=name;c.optimize();reduce(c,s);clips.push(c);log('clip',name);}
+  // bones only: drop the meshes
+  const rig=remyRaw;for(const m of [...rig.children].filter(x=>x.isMesh))rig.remove(m);
+  rig.scale.setScalar(s);rig.position.y=-minY*s;rig.userData={cmRig:'remy',cmHipsScale:1};
+  await save(rig,clips,{clips:clips.map(c=>c.name)});
+}else{
+  const B=BODIES[id];const base=id==='remy'?remyRaw:await loader.loadAsync('in/'+B.file);fixBones(base);
+  const maps=[];base.traverse(o=>{if(o.isMesh)for(const m of [].concat(o.material))for(const k of ['map','normalMap'])if(m[k])maps.push(m[k]);});
+  for(let i=0;i<200&&maps.some(t=>!(t.image&&t.image.width));i++)await new Promise(r=>setTimeout(r,50));
+  // drop meshes we do not map (none expected), rename the rest
+  const meshes=[];for(const m of [...base.children].filter(x=>x.isSkinnedMesh)){if(!B.mesh[m.name]){log('DROP mesh',m.name);base.remove(m);continue;}m.name=B.mesh[m.name];meshes.push(m);}
+  // scale: Remy to 1.83 m; Mixamo library characters are in centimetres (their real heights)
+  let s,minY;if(id==='remy')({s,minY}=remyScale(base));else{s=.01;base.updateMatrixWorld(true);const bb=new THREE.Box3();for(const m of meshes){m.geometry.computeBoundingBox();bb.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld));}minY=bb.min.y;}
+  base.scale.setScalar(s);base.position.y=-minY*s;base.updateMatrixWorld(true);
+  const hipsScale=base.getObjectByName('mixamorigHips').position.y/REMY_HIPS;
+  const wy=n=>base.getObjectByName(n).getWorldPosition(new THREE.Vector3());
+  // socks for bodies without them (same recipe as before: lower-leg skin pushed out 4 mm, own uv)
+  const body=meshes.find(m=>m.name==='Body');
+  if(B.socks){
+    const knee=wy('mixamorigLeftLeg').y,ankle=wy('mixamorigLeftFoot').y;
+    const g=mergeVertices(body.geometry.clone(),1e-6),P=g.attributes.position,ix=g.index.array,M=body.matrixWorld,inv=M.clone().invert(),w=new THREE.Vector3();
+    const top=ankle+(knee-ankle)*.86,bot=ankle-.03,yw=i=>w.fromBufferAttribute(P,i).applyMatrix4(M).y;
+    const keep=[];for(let t=0;t<ix.length;t+=3){const a=ix[t],b=ix[t+1],c=ix[t+2];if([a,b,c].every(i=>{const y=yw(i);return y>bot&&y<top;}))keep.push(a,b,c);}
+    const sg=compact(g,keep),sp=sg.attributes.position,sn=sg.attributes.normal,uv=new Float32Array(sp.count*2);
+    const lx=wy('mixamorigLeftLeg').x,rx=wy('mixamorigRightLeg').x,lz=wy('mixamorigLeftLeg').z,nrmM=new THREE.Matrix3().getNormalMatrix(M),nn=new THREE.Vector3();
+    for(let i=0;i<sp.count;i++){w.fromBufferAttribute(sp,i).applyMatrix4(M);nn.fromBufferAttribute(sn,i).applyMatrix3(nrmM).normalize();w.addScaledVector(nn,.004);
+      const left=Math.abs(w.x-lx)<Math.abs(w.x-rx),cx=left?lx:rx,ang=Math.atan2(w.x-cx,w.z-lz);
+      uv[i*2]=(left?0:.5)+(ang/(2*Math.PI)+.5)*.5;uv[i*2+1]=(w.y-bot)/(top-bot);const l=w.clone().applyMatrix4(inv);sp.setXYZ(i,l.x,l.y,l.z);}
+    sg.setAttribute('uv',new THREE.BufferAttribute(uv,2));
+    const socks=new THREE.SkinnedMesh(sg,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.8}));socks.name='Socks';body.parent.add(socks);socks.bind(body.skeleton,body.bindMatrix);meshes.push(socks);
+  }
+  // materials: one per mesh, fixed names, one texture per picture
+  const texBy=new Map(),one=t=>{if(!t)return null;const k=!t.name||/^file\d+$/.test(t.name)?t.uuid:t.name.replace(/\d+$/,'');/* Remy repeats X as X1; library characters name maps file2, file6 */if(!texBy.has(k))texBy.set(k,t);return texBy.get(k);};
+  for(const m of meshes){const old=[].concat(m.material)[0];
+    const mat=new THREE.MeshStandardMaterial({name:MAT[m.name],map:one(old.map),normalMap:one(old.normalMap),color:old.color&&m.name!=='Socks'?0xffffff:0xffffff,
+      roughness:m.name==='Body'?.55:m.name==='Eyes'?.15:m.name==='Hair'?.6:.78,metalness:0});
+    if(m.name==='Hair'||m.name==='Eyelashes'){mat.alphaTest=.4;mat.side=THREE.DoubleSide;}
+    for(const t of [mat.map,mat.normalMap])if(t)t.userData.mimeType='image/webp';if(mat.map)mat.map.colorSpace=THREE.SRGBColorSpace;
+    m.material=mat;m.frustumCulled=false;}
+  // weld and (phone) simplify
+  await MeshoptSimplifier.ready;let vt=0;
+  for(const m of meshes){const r=RATIO[m.name]??1;let g=m.geometry.index?m.geometry:mergeVertices(m.geometry,1e-6);
+    if(r<1){const [out]=MeshoptSimplifier.simplify(new Uint32Array(g.index.array),new Float32Array(g.attributes.position.array),3,Math.floor(g.index.count*r/3)*3,.01,[]);g=compact(g,out);}
+    m.geometry=g;vt+=g.attributes.position.count;}
+  // uv sheets
+  window.uv={};for(const n of ['Shirt','Shorts','Socks','Boots','Body']){const m=meshes.find(x=>x.name===n);if(m)window.uv[n]=uvSheet(m,1024);}
+  base.userData={cmBody:id,cmHipsScale:hipsScale,cmHeight:+((wy('mixamorigHead').y)).toFixed(3)};
+  window.preview=()=>{const r=new THREE.WebGLRenderer({canvas:c,antialias:true});r.outputColorSpace=THREE.SRGBColorSpace;const sc=new THREE.Scene();sc.background=new THREE.Color(0x404850);
+    sc.add(new THREE.HemisphereLight(0xffffff,0x444444,2));const d=new THREE.DirectionalLight(0xffffff,2);d.position.set(1,2,3);sc.add(d);sc.add(base);const cam=new THREE.PerspectiveCamera(30,1,.1,50);cam.position.set(0,1,4.2);cam.lookAt(0,.95,0);r.render(sc,cam);};
+  await save(base,[],{verts:vt,hipsScale,meshes:meshes.map(m=>[m.name,m.material.name,m.geometry.attributes.position.count])});
+  window.preview();
+}
+function compact(geo,index){const used=new Map(),order=[];for(const i of index)if(!used.has(i)){used.set(i,order.length);order.push(i);}
+  const g=new THREE.BufferGeometry();for(const [k,a] of Object.entries(geo.attributes)){const n=a.itemSize,arr=new a.array.constructor(order.length*n);order.forEach((src,dst)=>{for(let j=0;j<n;j++)arr[dst*n+j]=a.array[src*n+j];});g.setAttribute(k,new THREE.BufferAttribute(arr,n,a.normalized));}
+  g.setIndex(Array.from(index,i=>used.get(i)));return g;}
+function uvSheet(mesh,size){const cv=document.createElement('canvas');cv.width=cv.height=size;const g=cv.getContext('2d');const map=mesh.material.map;
+  if(map&&map.image)g.drawImage(map.image,0,0,size,size);else{g.fillStyle='#333';g.fillRect(0,0,size,size);}
+  g.strokeStyle='rgba(255,220,80,.7)';g.lineWidth=.6;const uv=mesh.geometry.attributes.uv,ix=mesh.geometry.index.array;g.beginPath();
+  for(let t=0;t<ix.length;t+=3){for(let k=0;k<3;k++){const i=ix[t+k];const x=uv.getX(i)*size,y=(1-uv.getY(i))*size;k?g.lineTo(x,y):g.moveTo(x,y);}g.closePath();}g.stroke();return cv.toDataURL('image/png');}
+window.done=true;
+</script>
