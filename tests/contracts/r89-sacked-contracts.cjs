@@ -123,11 +123,15 @@ const SESSION="session_"+"c".repeat(64);
   const builder=read("scripts/build-production-firestore-rules.mjs");
   for(const needle of ["ssjrTerminalSackedMatches","ssjrTransferPreviousSeasonOpen","'sacked'"])assert.ok(builder.includes(needle),`builder needle ${needle}`);
   // Expression budget (1,000 per request): a Showdown nobody was sacked in pays only the key tests on the progress write,
-  // the full map check runs only when the new record carries 'sacked', and the prior record's key list (no 'sacked') is
-  // what refuses a season after a sacked one. Measured on the emulator: season-10 progress ~929 against ~904 without Sacked.
+  // the full map check runs only when the new record carries 'sacked', and the prior record's own 'sacked' key is what
+  // refuses a season after a sacked one (Rules headroom: the stored prior record is not shape-checked again; the new record
+  // is). Measured on the emulator: plain season-10 progress about 804 (it was about 929, and about 904 before Sacked).
   const terminal=read("firestore.terminal-close-production.fragment.rules");
   assert.equal(terminal.split("&& (('sacked' in progress) ? ssjrTerminalSackedMatches(progress, commit) : (!('sacked' in commit.results.playerOne) && !('sacked' in commit.results.playerTwo)))").length,3,"both progress paths guard the Sacked check on the record's own key");
-  assert.ok(/return ssjrTerminalProgressShape\(prior, \['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'\]\)/.test(terminal),"the prior record may not hold 'sacked'");
+  const advance=terminal.slice(terminal.indexOf("function ssjrTerminalAdvanceProgress("),terminal.indexOf("function ssjrTerminalValidProgressUpdate("));
+  assert.ok(/return !\('sacked' in prior\)\n\s*&& prior\.closedSessionRevision == null/.test(advance),"the prior record may not hold 'sacked'");
+  assert.ok(!advance.includes("ssjrTerminalProgressShape(prior"),"the stored prior record is not shape-checked again");
+  assert.ok(terminal.includes("&& ssjrTerminalProgressShape(after.data.terminalProgress, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision','sacked'])"),"every new record is shape-checked in full");
   const sacked=require("../../data/gazetteSacked.js");
   assert.ok(sacked.stories.length>=20&&sacked.headlines.length>=10&&sacked.banter.length>=20,"the sacked Gazette lines are loaded");
   for(const file of ["js/productionSharedSeasonResults.js","js/seasonFinalV10.js","js/touchlineGazette.js","js/careerScreenSeam.js"])assert.doesNotMatch(read(file).split("SACKED")[1]||"",/onSnapshot\(/,`${file}: no new listener for Sacked`);

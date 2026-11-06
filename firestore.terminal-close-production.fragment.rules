@@ -83,8 +83,8 @@
     function ssjrTerminalSeasonId(seasonNumber) {
       return 'season_' + string(seasonNumber);
     }
-    // r89 Sacked: the caller names the keys a record may hold, so a prior record (the one being advanced) may not hold
-    // 'sacked' (no season is accepted after a sacked one) at no extra test.
+    // The shape of a Terminal Progress record (the new record of every progress write and the closing check in the pair
+    // fragment both name the seven keys it may hold).
     function ssjrTerminalProgressShape(progress, keys) {
       return progress is map
         && progress.keys().hasOnly(keys)
@@ -145,7 +145,11 @@
       let nextSeason = prior.acceptedThroughSeason + 1;
       let seasonId = ssjrTerminalSeasonId(nextSeason);
       let commit = get(/databases/$(database)/documents/rivalries/$(rivalryId)/seasonCommits/$(seasonId)).data;
-      return ssjrTerminalProgressShape(prior, ['schemaVersion','runtimeRevision','totalSeasons','acceptedThroughSeason','managerTotals','closedSessionRevision'])
+      // Rules headroom (r89): the prior record is the stored Terminal Progress, which these Rules (and every earlier r18 version)
+      // only ever accept through the full shape check below (ValidProgressUpdate), so its shape is not proven again here.
+      // What the advance needs from it is tested directly: no season after a sacked one, no close yet, and its numbers
+      // carry into the new record, whose own shape is checked in full.
+      return !('sacked' in prior)
         && prior.closedSessionRevision == null
         && progress.closedSessionRevision == null
         && progress.totalSeasons == prior.totalSeasons
