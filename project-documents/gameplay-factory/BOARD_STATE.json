@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-05 6:17 PM Boston time (EST)",
+ "generated": "2026-11-06 5:02 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1856,14 +1856,29 @@
    "revision": "2.1.0-r88",
    "when": "2026-11-04T08:36:07-05:00",
    "subject": "Merge pull request #1243 from nikahanghojjati-oss/claude-gameplay/r88-main-delta-repin",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1254,
+     "title": "Release 2.2.0 (r89): Sacked, Chamber Men 3D, Studio Small Axe",
+     "draft": false,
+     "branch": "gameplay/r89",
+     "sha": "f8a17d79f7465fc512ee124cea4d77803d1c01f1",
+     "updated": "2026-11-06T08:02:28Z",
+     "gates": {
+      "passed": 9,
+      "running": 0,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
    "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "line": "All clear (from GitHub).",
+   "gate": "Gate #1254: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1254 9/9",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -2707,7 +2722,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -3923,7 +3938,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1254,
+    "title": "Release 2.2.0 (r89): Sacked, Chamber Men 3D, Studio Small Axe",
+    "draft": false,
+    "branch": "gameplay/r89",
+    "sha": "f8a17d79f7465fc512ee124cea4d77803d1c01f1",
+    "updated": "2026-11-06T08:02:28Z",
+    "gates": {
+     "passed": 9,
+     "running": 0,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
