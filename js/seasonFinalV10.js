@@ -427,11 +427,13 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     const style=doc.createElement("style");style.id="v10SeasonCardRule";
     style.textContent="@media(max-width:900px){#app #seasonEntry.seasonScreenV10>.v10SeasonStage :is(#daniel-entry-panel,#nik-entry-panel):not(.hidden){display:grid!important}}" + `
 /* r89 Sacked: a stamp on the manager's name row, beside the name, so it adds no height and the totals never move under
-   the results panel (never over a face or a button; no dimming). */
-#app .v10FinalStage .finalWinnerManager.v10SackedManager{grid-template-columns:auto auto;column-gap:5px;justify-content:center}
+   the results panel (never over a face or a button; no dimming). The name and stamp sit in the two middle tracks and the
+   outer 1fr tracks keep the column its full width, so the Special Player chip below keeps its room (gallery 2026-11-06:
+   the chip had shrunk to the name row, clipped its rank and touched the trophy). */
+#app .v10FinalStage .finalWinnerManager.v10SackedManager{grid-template-columns:minmax(0,1fr) auto auto minmax(0,1fr);column-gap:5px}
 #app .v10FinalStage .finalWinnerManager.v10SackedManager>*{grid-column:1/-1}
-#app .v10FinalStage .finalWinnerManager.v10SackedManager>small{grid-column:1;grid-row:1;justify-self:end;align-self:center}
-#app .v10FinalStage .finalWinnerManager.v10SackedManager>.v10SackedStamp{grid-column:2;grid-row:1;justify-self:start;align-self:center}
+#app .v10FinalStage .finalWinnerManager.v10SackedManager>small{grid-column:2;grid-row:1;justify-self:end;align-self:center}
+#app .v10FinalStage .finalWinnerManager.v10SackedManager>.v10SackedStamp{grid-column:3;grid-row:1;justify-self:start;align-self:center}
 #app .v10FinalStage .finalWinnerManager .v10SackedStamp{display:inline-block;margin:0;padding:1px 5px;font:800 9px/1 var(--sd-font-condensed,inherit);font-style:normal;letter-spacing:.18em;color:#fff4f1;background:#9b2530;border:1px solid #f2c45b;border-radius:2px;text-shadow:none;white-space:nowrap}
 /* JOB-1206/1207/1208: upright 360x640, 390x844 and 430x932 entry + review; main remains the only scroll owner. */
 @media (min-width:340px) and (max-width:370px) and (min-height:600px) and (max-height:680px) and (orientation:portrait),

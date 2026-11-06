@@ -1994,6 +1994,13 @@ html[data-motion-reduced="true"] .finalWinnerActionsSlot button, html[data-reduc
 @media (min-width: 900px) and (max-width: 1199px) {
   #app .v10FinalStage .winnerTrophyPicture { scale: .89; }
 }
-@media (min-width: 761px) and (max-width: 899px) {
+/* 761 to 999 px: a little smaller again, so the Special Player chips either side of it never touch it. */
+@media (min-width: 900px) and (max-width: 999px) {
   #app .v10FinalStage .winnerTrophyPicture { scale: .8; }
+}
+@media (min-width: 761px) and (max-width: 899px) {
+  #app .v10FinalStage .winnerTrophyPicture { scale: .68; }
+}
+@media (min-width: 761px) and (max-width: 819px) {
+  #app .v10FinalStage .winnerTrophyPicture { scale: .62; }
 }
