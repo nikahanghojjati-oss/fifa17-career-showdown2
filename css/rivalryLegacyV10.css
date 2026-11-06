@@ -1905,9 +1905,13 @@
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) :is(.legacyPrimaryAction,.legacyBackV10) { position:relative !important; bottom:auto !important; }
 }
 /* With the toolbar above the archive, the season list opens under it (12px pane inset + 30px toolbar + its 6px gap), so the
-   GO TO box and the filters stay visible and tappable. */
+   GO TO box and the filters stay visible and tappable. On windows taller than 700px it gives those rows back by ending 18px lower,
+   down to the pager's top edge, so a 3-season Showdown fits with no inner scroll at 1366x768. */
 @media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) .legacySeasonHistory:not([hidden]) { top:48px; }
+}
+@media (min-width:1200px) and (min-height:701px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) .legacySeasonHistory:not([hidden]) { bottom:calc(22% - 12px); }
 }
 /* Studio Small Axe (Fable job 20, 900x700): sideways tablets taller than 500px fell through to the old absolute phone layers,
    where the totals rows, head-to-head and trophy bodies became inner scrollers and the trophy names were cut. They now use the
