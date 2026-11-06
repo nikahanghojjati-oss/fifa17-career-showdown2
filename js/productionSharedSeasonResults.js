@@ -19,7 +19,7 @@
   // and PUBLISH asks once more before a sacked result goes in (it is final).
   const RESULT_SUFFIXES=Object.freeze(["LeaguePosition","LeaguePoints","LeagueGoals","DomesticCup","ChampionsLeague","EuropaLeague","TopScorer","TopAssist","Sacked"]);
   const SPARSE_CHECKS=Object.freeze(["EuropaLeague","Sacked"]);
-  const SACKED_FROM_MS=Date.parse("2026-11-05T03:00:00Z");
+  const SACKED_FROM_MS=Date.parse("2026-11-06T15:00:00Z");
   let formContextKey="",installed=false,busy=false,provider=null,setupApi=null,transferApi=null,catalogApi=null,view=null,draft=null,pollTimer=null,providerChain=Promise.resolve(),refreshPromise=null,contextKey="",renderedContextKey="",errorNode=null,errorMessage="";
 
   function pssrFail(code,message){const error=new Error(message||code);error.code=code;throw error;}

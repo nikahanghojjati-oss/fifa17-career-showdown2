@@ -16,7 +16,7 @@ below is gameplay/r89 at the freeze (94438bee, 2026-11-06).
   every stats screen, marked SACKED, and never goes into the hidden "ended early" pile. Screen order is unchanged (Results,
   Final Winner, Gazette). It runs for Showdowns confirmed at or after the 2.2.0 release time; an older Showdown shows no tick.
   `tools/set-release-time.cjs --r89` sets the r89 start constants (`SACKED_FROM_MS`); contract r86-release RR7 checks them.
-  Release time: **set at merge**.
+  Release time: **2026-11-06T15:00:00Z** (11:00 Boston), the next whole hour after the merge plus 90 minutes.
 - Chamber Men 3D (#1244): a broadcast penalty camera behind the taker with taker and keeper on screen, a stadium with crowd
   and ad boards, the taker in his manager's club kit and the keeper in a kit that never clashes (Kits 17, all 98 clubs).
   If the stadium or players cannot arrive in time the hall scene plays, and without WebGL2 the drawn goal plays.
