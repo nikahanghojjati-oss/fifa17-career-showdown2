@@ -959,9 +959,9 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-02 by the 2.0.0 release PR to the shipped index.html (2.0.0-r87 pins on gameplay/r87 bd67147a, after
   // the Transfer War wording #1190). This check had not run since r78 (#1115).
   // Re-pinned 2026-11-03 by the 2.1.0 release PR: the 2.0.0 file with its 2.1.0-r88 pins and v2.1.0 footer, nothing else.
-  // Re-pinned 2026-11-04 by the 2.2.0 release PR: the 2.1.0 file with its 2.2.0-r89 pins and v2.2.0 footer (re-pinned again at
-  // the r89 freeze for the index.html changes r89's feature PRs make).
-  assert.equal(sha256("index.html"),"7eacdcd030ce29e46d28592a512523dcb2a3fcba9cc514fba98de249c8a58b58","index.html byte-identical to the 2.2.0 release");
+  // Re-pinned 2026-11-06 at the r89 freeze by the 2.2.0 release PR: gameplay/r89 94438bee's file (2.1.0 plus r89's Sacked
+  // ticks and the other r89 feature changes) with its 2.2.0-r89 pins and v2.2.0 footer, nothing else.
+  assert.equal(sha256("index.html"),"a384fe2221734243206856760241b5d59639e0973d832d7d62cb9ed0269b9735","index.html byte-identical to the 2.2.0 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

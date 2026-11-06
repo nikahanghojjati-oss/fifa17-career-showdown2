@@ -6,7 +6,7 @@ Previous known-good runtime: `2.1.0-r88`
 
 r89 is 2.2.0. It adds Sacked on Season Results, the Chamber Men 3D broadcast penalty with three.js r187 and the RRR polish,
 and the next Studio Small Axe screens, plus fixes found on the live 2.1.0. This file is the release record. The feature list
-below is the 2.2.0 queue; it is confirmed against the merged tree at the r89 freeze.
+below is gameplay/r89 at the freeze (94438bee, 2026-11-06).
 
 ## What changed
 
@@ -21,9 +21,16 @@ below is the 2.2.0 queue; it is confirmed against the merged tree at the r89 fre
   and ad boards, the taker in his manager's club kit and the keeper in a kit that never clashes (Kits 17, all 98 clubs).
   If the stadium or players cannot arrive in time the hall scene plays, and without WebGL2 the drawn goal plays.
 - The Russian Roster Roulette and Chamber Men move from three.js r128 to r187, with the RRR polish (#1235) and every RRR label
-  naming the action of its beat (#1245).
-- Studio Small Axe 2.2.0 screens, as picked by Nik: the History list view with Go to # and four filters, the desktop Settings
-  layout, and the wave 2 and 40/40 screen finishes that pass their gallery.
+  naming the action of its beat (#1245). Chamber Men's late pick is fixed (#1247).
+- Rules headroom (#1250): the season-10 Terminal Progress write drops from about 929 to 804 of the 1,000-expression budget
+  (823 when sacked), with every allow/deny unchanged.
+- Studio Small Axe 2.2.0 (all eleven drafts): the 12px desktop type floor (#1226), the score settle (#1227), the designed
+  waiting state (#1228), panels and even spacing (#1229), the Golden Showdown light sweep (#1230), the Rule Book and Season
+  Results finishes (#1231), Showdown Home boards in marble (#1218), the desktop Settings layout (#1221), the History list
+  view with Go to # and four filters (#1223), Legacy filling its empty pane (#1217) and the phone pass (#1241); plus the 4K
+  page-title wordmarks (#1249).
+- Story Edition 13 and the Rule Book with Sacked and Chamber Men 3D (#1251); the STORY page scrolls on phones (#1252); the
+  Prime Pack fairness contract is seeded (#1253).
 
 ## Update safety
 
@@ -54,11 +61,29 @@ below is the 2.2.0 queue; it is confirmed against the merged tree at the r89 fre
 
 ## Firestore Rules
 
-- Composed production Rules SHA-256: filled in at the freeze from the release head (Sacked, #1246, re-pins it).
+- Composed production Rules SHA-256 `6d410197714d4c3d906e4f5115bf5c0c45e844b7dee63911f91d9b75eb942cc3` (188,177 bytes):
+  2.1.0's Rules plus Sacked (#1246) and the headroom trim (#1250). Pinned in `js/sparkPrivatePairing.js`,
+  `tests/fixtures/composed-production-rules/main-delta.json` and the billed-reads table.
+- Compile probe (`measure-firestore-rules-compile.yml` run 42149876668 on gameplay/r89 1e6489a8, Rules unchanged since):
+  3/3 at 2,776 / 2,640 / 2,991 ms; live main in the same run 3/3 at 3,181 / 3,079 / 2,886 ms.
+
+## Reads and writes (emulator CE2PG on gameplay/r89 1e6489a8; nothing that reads or writes Firestore changed after it)
+
+Billed = document reads + Security Rules lookups, both phones together. Spark allows 50,000 billed reads and 20,000 writes a day.
+
+| Run | Result | Billed reads a season | Writes a season |
+|---|---|---|---|
+| 10 seasons, Chamber Men every season, play pace | 467/467 | 1,072 (season 1 with setup 2,094; middle 986) | 61 |
+| 3 seasons, Nik sacked in season 2 | 242/242, ends after season 2 | 1,709 then 515 | 117 then 27 |
+| 3 seasons, real waits priced (slow / mid / fast) | 72/72, budget gate PASS | middle season 1,119 / 1,079 / 1,059 | 57 |
+
+So the reads allow about 45-47 middle seasons a day (about 39-41 averaged over a 3-season Showdown with setup); a season
+takes 57-136 minutes, so the clock runs out first. 2.2.0 costs about 60% more than r86 (~670 billed a season), mostly
+Chamber Men's rounds. Full table: project file gameplay/r89/measure/READS_WRITES_2.2.0.md.
 
 ## Checks
 
-- Filled in on the release PR from the exact release head.
+- Contract census on the release head: see the release-items PR (#1248).
 
 ## SSJR status
 
