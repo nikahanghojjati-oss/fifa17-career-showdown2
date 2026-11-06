@@ -1203,8 +1203,13 @@
     width: auto; margin: 0; transform: none;
   }
 }
-/* 4p.4 Phones (upright and sideways): the PLAYER and THIS DEVICE hints sit under the value at full row width instead of a
-   narrow column beside it, so the sticky ACCOUNT card stays about its old height and does not slide over the page tagline. */
-@media (max-width: 900px), (max-height: 500px) and (orientation: landscape) {
+/* 4p.4 Upright phones: the PLAYER and THIS DEVICE hints sit under the value at full row width instead of a narrow column
+   beside it. Sideways phones (under 500px tall) keep the card as it was without the hints: the sticky ACCOUNT card has to fit
+   the short scroller under the title rail (about 200px at 740x360), or at the end of the page it is pushed up over the title.
+   The value (Not selected, Not ready) and SIGN IN WITH GOOGLE stay right there. */
+@media (max-width: 900px) and (orientation: portrait) {
   :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow:has(> small.settingsInfoHint) > small.settingsInfoHint { grid-column: 1 / -1; margin-top: 2px; }
+}
+@media (max-width: 1199px) and (max-height: 500px) and (orientation: landscape) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow > small.settingsInfoHint { display: none; }
 }
