@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. After the 2.1.0 deploy (main ae808444, ruleset b603ae60) the two are identical, so every hunk below is a reviewed change on top of live main (r89: Sacked). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. After the 2.1.0 deploy (main ae808444, ruleset b603ae60) the two are identical, so every hunk below is a reviewed change on top of live main (r89: Sacked, R89-SACKED; Chamber Men late-pick check, R89-CHAMBER-LATE). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "commit": "ae80844400a3ae90a11c1921d4095c8dcebb0c2e",
     "sha256": "3c0e2e3e41ed3da886b02988d0b84394fa45cf8f393f1616bce97b086d1e2cb8",
@@ -8,12 +8,13 @@
     "bytes": 180528
   },
   "candidate": {
-    "sha256": "0bc265d006e94b0298fdfaef85199b8bdab810e0daf744d9674de266b7b7c1a7",
-    "gitBlobSha1": "5b89bf7b9e97d71bd406aa542d2eacadbb2b6307",
-    "bytes": 187252
+    "sha256": "ae3fc31879b7a8ca3ee1c007b5bd0a82c17cc0c39db9d8b4cd24312ed934dc7f",
+    "gitBlobSha1": "d340643a384faa3e83e5c810538c8e2a13b47200",
+    "bytes": 187856
   },
   "allowedOwners": [
-    "R89-SACKED"
+    "R89-SACKED",
+    "R89-CHAMBER-LATE"
   ],
   "hunks": [
     {
@@ -295,6 +296,33 @@
       ],
       "owner": "R89-SACKED",
       "why": "r89 Sacked (Nik 2026-11-03): a manager may tick 'I was sacked' on Season Results (optional sacked:true, one encoding); any sacking ends the Showdown after that season, so the Terminal Progress records the sacked map, the next season's first Transfer War roulette mark is refused, and the close and career reads accept completedSeason = the seasons played. END SHOWDOWN can no longer end a Showdown early once a sacked season is accepted, whether or not Terminal Progress has recorded it: an active Showdown's END names the exact accepted count and the last accepted commit must have no sacking (Codex C3 + re-check)."
+    },
+    {
+      "mainLine": 2930,
+      "candidateLine": 2990,
+      "removed": [],
+      "added": [
+        "        // Codex C2 (2.2.0): a kick's clock runs from the rival's lock-in (the record's updatedAt while the rival is one letter",
+        "        // ahead): 10 s to pick plus the 4.6 s the last kick is shown, plus 2 s for the network. A letter that lands after that is",
+        "        // the timeout '-' (a shot misses, a dive stays in the middle), never a side picked late."
+      ],
+      "owner": "R89-CHAMBER-LATE",
+      "why": "Codex C2 on #1244 (r89 lead's request 2026-11-04): explains the Chamber Men late-pick check below; comment lines only."
+    },
+    {
+      "mainLine": 2956,
+      "candidateLine": 3019,
+      "removed": [
+        "            && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]');"
+      ],
+      "added": [
+        "            && after.kicks[role][before.kicks[role].size():after.kicks[role].size()].matches('[LMR-]')",
+        "            && (before.kicks[role].size() == before.kicks[other].size()",
+        "              || request.time <= before.updatedAt + duration.value(16600, 'ms')",
+        "              || after.kicks[role][before.kicks[role].size():after.kicks[role].size()] == '-');"
+      ],
+      "owner": "R89-CHAMBER-LATE",
+      "why": "Codex C2 on #1244 (r89 lead's request 2026-11-04): once the rival has locked in (his string one letter ahead), a Chamber Men letter that lands more than 16.6 s after his lock-in (10 s clock + 4.6 s reveal + 2 s network) may only be the timeout '-'. Narrows an existing update rule; no new grant, no lookup."
     }
   ]
 }
