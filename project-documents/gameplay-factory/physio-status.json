@@ -1,8 +1,99 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-06T02:46:40.156Z",
-  "state": "ALL_CLEAR",
-  "checks": [],
+  "at": "2026-11-06T03:08:35.314Z",
+  "state": "BARKING",
+  "checks": [
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "71b62805d9734e91891777558f420e50f3011956",
+      "pr": 1227,
+      "queued_minutes": 20.9,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "3b7908e7e517024f0dd33818b35db3c214e5a5ca",
+      "pr": 1226,
+      "queued_minutes": 20.9,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "b1e32eb459bd2e0244914e83fb7673758e546cc5",
+      "pr": 1231,
+      "queued_minutes": 20.8,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "d4344d3bc4793d4f69749cb7017992f9e5b9e759",
+      "pr": 1228,
+      "queued_minutes": 20.8,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "2cc42c60762c6ff768783344afc53785a8090b4a",
+      "pr": 1241,
+      "queued_minutes": 20.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "cec98a7dbe45d17ff0389103cae39101a37bac02",
+      "pr": 1217,
+      "queued_minutes": 20.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "18c6fd38978941400df8be65affbd8034e0f011f",
+      "pr": 1223,
+      "queued_minutes": 20.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "c523da52db4942625f1de90ba493992d67529716",
+      "pr": 1221,
+      "queued_minutes": 20.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "57325fbe44c4f54f830844ccfe74ec73d881b88b",
+      "pr": 1218,
+      "queued_minutes": 20.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "1b3e44704be5731f571c67364ee8a6e0f0e93336",
+      "pr": 1251,
+      "queued_minutes": 15.3,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    }
+  ],
   "helpers_paused": [],
   "gate": null,
   "pos20": {
