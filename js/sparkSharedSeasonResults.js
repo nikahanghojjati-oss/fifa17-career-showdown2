@@ -26,7 +26,7 @@
   function ssrpSnapshot(value){return value&&typeof value.exists==="function"&&value.exists()?value.data():null;}
   function ssrpPlain(value){return !!value&&typeof value==="object"&&!Array.isArray(value);}
   function ssrpExact(value,keys,code="SEASON_RESULTS_PROVIDER_STATE_INVALID"){if(!ssrpPlain(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))ssrpFail(code);return value;}
-  function ssrpEuropaLeague(value,code){if(!ssrpPlain(value))ssrpFail(code);const won=Object.hasOwn(value,"europaLeague");ssrpExact(value,[...RESULT_KEYS,...(won?["europaLeague"]:[]),...(Object.hasOwn(value,"primePack")?["primePack"]:[])],code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))ssrpFail(code);if(Object.hasOwn(value,"primePack")&&!(Number.isInteger(value.primePack)&&value.primePack>=1&&value.primePack<=4))ssrpFail(code);return won;}
+  function ssrpEuropaLeague(value,code){if(!ssrpPlain(value))ssrpFail(code);const won=Object.hasOwn(value,"europaLeague");ssrpExact(value,[...RESULT_KEYS,...(won?["europaLeague"]:[]),...(Object.hasOwn(value,"primePack")?["primePack"]:[]),...(Object.hasOwn(value,"sacked")?["sacked"]:[])],code);if(won&&(value.europaLeague!==true||value.championsLeague!==false))ssrpFail(code);if(Object.hasOwn(value,"primePack")&&!(Number.isInteger(value.primePack)&&value.primePack>=1&&value.primePack<=4))ssrpFail(code);if(Object.hasOwn(value,"sacked")&&value.sacked!==true)ssrpFail(code);return won;}
   function ssrpClone(value){return JSON.parse(JSON.stringify(value));}
   function ssrpFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(ssrpFreeze);Object.freeze(value);}return value;}
   function ssrpCanonical(value){if(Array.isArray(value))return `[${value.map(ssrpCanonical).join(",")}]`;if(value&&typeof value==="object"&&Object.getPrototypeOf(value)===Object.prototype)return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${ssrpCanonical(value[key])}`).join(",")}}`;return JSON.stringify(value);}
@@ -48,7 +48,7 @@
     const position=ssrpNumber(value.leaguePosition),points=ssrpNumber(value.leaguePoints),goals=ssrpNumber(value.leagueGoals),maxPoints=(teamCount-1)*2*3;
     if(!Number.isInteger(position)||position<1||position>teamCount||!Number.isInteger(points)||points<0||points>maxPoints||!Number.isInteger(goals)||goals<0||goals>300)ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");
     for(const key of ["domesticCup","championsLeague","topScorer","topAssist"]){if(typeof value[key]!=="boolean")ssrpFail("SEASON_RESULTS_PRIVATE_STATE_INVALID");}
-    return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist,...(europaLeague?{europaLeague:true}:{}),...(Object.hasOwn(value,"primePack")?{primePack:value.primePack}:{})};
+    return {leaguePosition:position,leaguePoints:points,leagueGoals:goals,domesticCup:value.domesticCup,championsLeague:value.championsLeague,topScorer:value.topScorer,topAssist:value.topAssist,...(europaLeague?{europaLeague:true}:{}),...(Object.hasOwn(value,"primePack")?{primePack:value.primePack}:{}),...(value.sacked===true?{sacked:true}:{})};
   }
 
   function ssrpAssertAccount(value,uid){if(!value||value.objectType!=="account"||value.objectId!==uid||value.lifecycleState!=="live"||!value.data||value.data.status!=="active")ssrpFail("SEASON_RESULTS_MANAGER_INACTIVE");}
