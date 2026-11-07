@@ -116,7 +116,8 @@ has(/function prepareHits\(\)\{ if\(!GAME\|\|turn>0\) return;/,'the game\'s plan
 has(/try\{ renderer\.initTexture\(c\.__tex\); \}catch\(e\)\{\} return \{i,plain,hit:c\}; \}/,'and sent to the GPU then, on its own texture');
 has(/if\(p\.frames&&p\.frames\.hit&&p\.frames\.i===i\) showFrame\(p\.who,p\.frames\.hit,b\.userData\.hit\); else drawBoard/,'the hole and stamp are a texture swap');
 has(/addEventListener\("pagehide",e=>\{ if\(e\.persisted\)\{ cancelAnimationFrame\(rafId\); rafId=0; return; \} disposeAll\(\); \}\);/,'leaving the page frees the GPU at once; a page kept in the back-forward cache only pauses');
-has(/addEventListener\("pageshow",e=>\{ if\(e\.persisted&&window\.__rrReady&&!rafId\)\{ last=now\(\); rafId=requestAnimationFrame\(frame\); \} \}\);/,'and a page restored from that cache picks up its frame loop again');
+has(/addEventListener\("pageshow",e=>\{ if\(e\.persisted&&window\.__rrReady&&!rafId\) rafId=requestAnimationFrame\(frame\); \}\);/,'and a page restored from that cache picks up its frame loop again');
+has(/if\(manual===null&&playing&&last>0&&t-last>\.25\) playing\.t0\+=t-last-\.016;/,'with the turn clock moved past the pause, so the turn resumes where it stopped');
 ok('P5','lean frame: static shadow, no bloom chain, standard materials, two point lights, no hall, shared quality governor held during turns, warm-up before ready, baked props, pre-uploaded hit frame, dispose on exit');
 
 // P7 no spoiler (r90, Nik 2026-11-07: "never reveal who the gun is aiming at while it is locking on; only say the target when hit/removed").
@@ -165,6 +166,23 @@ ok('P7','until the hit no line, board look, barrel, hand or camera names or poin
       return {B,rest,chamber,rows,ended:!__rr.state.playing};
     }).catch(e=>{throw new Error(`${e.message} :: ${errors.slice(0,6).join(' | ')}`);});
     await context.close();
+    // P8 (Codex P2 on #1261) Back/Forward cache: a turn paused in the cache for 30 s resumes where it stopped on the way back.
+    // The page clock is skewed by 30 s while it sits in the cache (no frames run there); the turn must not count that time.
+    const bfc=await browser.newContext({viewport:{width:640,height:400},serviceWorkers:'block'});
+    const bp=await bfc.newPage();bp.on('pageerror',e=>errors.push(String(e)));
+    await bp.route(url=>!String(url).startsWith(base),route=>route.abort());
+    await bp.addInitScript(()=>{window.__skew=0;const pn=performance.now.bind(performance);performance.now=()=>pn()+window.__skew;});
+    await bp.goto(`${base}visual-assets/v10_1/roulette/index.html?seed=7`,{waitUntil:'commit'});
+    await bp.waitForFunction(()=>window.__rrReady,null,{timeout:180000});
+    await bp.evaluate(()=>__rr.play({fire:true}));await bp.waitForTimeout(1500);
+    const tt0=await bp.evaluate(()=>{const tt=__rr.state.tt;dispatchEvent(new PageTransitionEvent('pagehide',{persisted:true}));window.__skew+=30000;return tt;});
+    await bp.waitForTimeout(300);
+    // Two animation frames after pageshow: the page's own frame (queued first) has run its tick on the way back.
+    await bp.evaluate(()=>{dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
+    const back=await bp.evaluate(()=>({tt:__rr.state.tt,playing:__rr.state.playing}));
+    await bfc.close();
+    assert.ok(back.playing&&back.tt-tt0<5,`after 30 s in the back-forward cache the turn resumes where it stopped (turn time ${tt0.toFixed(2)} s -> ${back.tt==null?'ended':back.tt.toFixed(2)+' s'})`);
+    ok('P8',`back-forward cache: 30 s away, turn time ${tt0.toFixed(2)} s -> ${back.tt.toFixed(2)} s, still playing`);
     const {B,rows}=out;
     assert.ok(out.ended,'the turn ended');
     const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
