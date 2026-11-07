@@ -38,21 +38,24 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.equal(typeof K.load,"function");assert.equal(typeof K.build,"function");
   assert.equal(K.base,DIR);
   const size=set=>Object.values(set).reduce((n,f)=>{const p=path.join(ROOT,DIR,f);assert.ok(fs.existsSync(p),`${f} exists`);return n+fs.statSync(p).size;},0);
-  const phone=size({...K.files.phone,...K.files.both}),desktop=size({...K.files.desktop,...K.files.both});
-  assert.ok(phone<=1.6e6,`phone first load ${phone} <= 1.6 MB`);
-  assert.ok(desktop<=3.2e6,`desktop first load ${desktop} <= 3.2 MB`);
-  ok("S2",`textures present; phone ${(phone/1e6).toFixed(2)} MB, desktop ${(desktop/1e6).toFixed(2)} MB`);
+  // r90: the grass comes in one size per device level (js/gfxTier.js); a light device loads the least.
+  const grass=l=>({grass:K.grass[l][0],grassNormal:K.grass[l][1]});
+  const phone=size({...K.files.phone,...K.files.both,...grass(0)}),desktop=size({...K.files.desktop,...K.files.both,...grass(2)}),extra=size({...K.files.desktop,...K.files.both,...grass(3)});
+  assert.ok(phone<=1.6e6,`phone / light first load ${phone} <= 1.6 MB`);
+  assert.ok(desktop<=4e6,`desktop first load ${desktop} <= 4 MB`);
+  assert.ok(extra<=7.5e6,`extra / ultra first load ${extra} <= 7.5 MB`);
+  ok("S2",`textures present; light ${(phone/1e6).toFixed(2)} MB, high ${(desktop/1e6).toFixed(2)} MB, extra ${(extra/1e6).toFixed(2)} MB`);
 }
 // S3
 {
   const lic=read("tools/chamber-men-assets/LICENSES.md");// docs live with the generators: everything under visual-assets/v10_1 is served (images by the runtime rule, the rest from the shell)
   const files=fs.readdirSync(path.join(ROOT,DIR)).filter(f=>f.endsWith(".webp"));
   for(const f of files)assert.ok(lic.includes(f),`${f} is listed in LICENSES.md`);
-  const gens=["build_all.py","common.py","gen_ball.py","gen_stadium.py"].map(f=>"tools/chamber-men-assets/"+f);
+  const gens=["build_all.py","common.py","gen_ball.py","gen_stadium.py","gen_grass.py"].map(f=>"tools/chamber-men-assets/"+f);
   for(const g of gens)assert.ok(fs.existsSync(path.join(ROOT,g)),`${g} exists`);
   const src=gens.map(read).join("\n");
   for(const f of files){const stem=f.replace(/_(4k|2k|1k|512|256)\.webp$/,"").replace(/\.webp$/,"");assert.ok(src.includes(stem),`${f} is made by a generator`);}
-  ok("S3","every texture is ours, listed and rebuildable");
+  ok("S3","every texture is listed with its licence and rebuildable");
 }
 // S4
 {
