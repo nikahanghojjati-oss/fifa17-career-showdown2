@@ -20,7 +20,7 @@
   // normal,material,ready}; await ready before uploading (the crest is an SVG image); drawFlat(ctx,club,x,y,s,opts) draws a
   // front-view (or back-view, opts.back) shirt for 2D boards; prepare(clubs) preloads crests for drawFlat.
 
-  // [pattern, body, second colour, sleeves (null: the pattern runs over the sleeves), trim] (the KIT17 table from the roulette)
+  // [pattern, body, second colour, sleeves (null: the pattern runs over the sleeves), trim] (r90: the only kit table; the roulette and SP copies are gone)
   // + [shorts, socks, sock top, collar]. Colour tokens: p body, s second, t trim, w white, k black, or a hex.
   const SHIRT={
     "Arsenal":["solid","#db0007",null,"#ffffff","#ffffff"], "Bournemouth":["stripes","#d71920","#141414","#141414","#141414"], "Burnley":["solid","#6c1d45",null,"#99d6ea","#99d6ea"],
@@ -107,8 +107,10 @@
   const deltaE=(a,b)=>{const x=lab(a),y=lab(b);return Math.hypot(x[0]-y[0],x[1]-y[1],x[2]-y[2]);};
 
   const cache=new Map();
+  // Game names ("FC Barcelona") and squad names ("Barcelona") meet in one table: CLUB_IDENTITY_ALIASES in js/visualIdentity.js.
+  const canonical=(n)=>{const raw=String(n||"").trim();try{return typeof root.getClubCanonicalName==="function"?root.getClubCanonicalName(raw):raw;}catch(e){return raw;}};
   function kit(club){
-    const name=String(club&&club.club||club||"");
+    const name=canonical(club&&club.club||club);
     if(cache.has(name))return cache.get(name);
     const k=SHIRT[name]||FALLBACK,l=LOWER[name]||["w","p","t","crew"];
     const second=Array.isArray(k[2])?k[2]:(k[2]?[k[2]]:[]);

@@ -918,9 +918,14 @@ function getClubCrestSvg(clubName){
     return buildCrestSvgMarkup(identity.recipe, identity, nextCrestIdPrefix());
 }
 
-function getClubIdentity(clubName){
+/* r90 W7: the one club-name table for crests and kits (js/kits17.js reads it through window.getClubCanonicalName). */
+function getClubCanonicalName(clubName){
     const rawName = String(clubName || "").trim();
-    const name = Object.prototype.hasOwnProperty.call(CLUB_IDENTITY_ALIASES, rawName) ? CLUB_IDENTITY_ALIASES[rawName] : rawName;
+    return Object.prototype.hasOwnProperty.call(CLUB_IDENTITY_ALIASES, rawName) ? CLUB_IDENTITY_ALIASES[rawName] : rawName;
+}
+
+function getClubIdentity(clubName){
+    const name = getClubCanonicalName(clubName);
     if(clubIdentityCache.has(name)){
         return clubIdentityCache.get(name);
     }
@@ -1019,5 +1024,6 @@ window.getClubIdentity = getClubIdentity;
 window.applyClubIdentity = applyClubIdentity;
 window.refreshClubVisualIdentity = refreshClubVisualIdentity;
 window.getClubCrestSvg = getClubCrestSvg;
+window.getClubCanonicalName = getClubCanonicalName;
 window.getLeagueMark = getLeagueMark;
 window.applyLeagueMark = applyLeagueMark;
