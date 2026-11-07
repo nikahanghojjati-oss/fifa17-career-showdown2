@@ -1495,7 +1495,14 @@ stage.appendChild(renderer.domElement);
 /* Fable F8-05: render to half-float only where the GPU can; otherwise 8-bit targets (and a lower bloom threshold) instead of a black stage. */
 const HDR=renderer.extensions.has("EXT_color_buffer_float")||renderer.extensions.has("EXT_color_buffer_half_float"), RT_TYPE=HDR?T.HalfFloatType:T.UnsignedByteType;
 const RTO={type:RT_TYPE, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:false};
-const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:Math.min(PHONE_GPU?2:GQ.samples,renderer.capabilities.maxSamples||4)}); /* r89: WebGL 2 only, so the scene target is always multisampled; r90: samples by quality level */
+/* r90 (Codex P2 #1265): the sample count must be one the GPU supports for BOTH the colour format (RGBA16F, or RGBA8 without
+   half-float targets) and the depth format; MAX_SAMPLES alone is not enough, and some GPUs leave an 8x RGBA16F framebuffer
+   incomplete, which loses the whole scene. MSAA_OK is that shared list (highest first); fitSamples picks the highest count at
+   or under the wish, and without the query it falls back to 4, then 0. */
+const MSAA_OK=(()=>{ try{ const gl=renderer.getContext(), q=(f)=>Array.from(gl.getInternalformatParameter(gl.RENDERBUFFER,f,gl.SAMPLES)||[]);
+  const c=q(HDR?gl.RGBA16F:gl.RGBA8), d=q(gl.DEPTH_COMPONENT24), both=c.filter(n=>d.includes(n)).sort((a,b)=>b-a); return both.length?both:null; }catch(e){ return null; } })();
+const fitSamples=(want)=>{ if(want<=0) return 0; const list=MSAA_OK||[4]; return list.find(n=>n<=want)??list[list.length-1]; }; /* none at or under (a GPU that lists only 4): its lowest */
+const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:fitSamples(PHONE_GPU?2:GQ.samples)}); /* r89: WebGL 2 only, so the scene target is always multisampled; r90: samples by quality level */
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
 const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:HDR?1.5:.8}},vertexShader:VS,depthTest:false,depthWrite:false,
@@ -2188,13 +2195,18 @@ function startGfx(){ if(!GFX) return;
   gov=GFX.governor(renderer,{key:"sp",draw:render,onChange(p){ PR=p.pixelRatio; resize(); }});
   GFX.overlay(()=>({extra:`${renderer.domElement.width}x${renderer.domElement.height} · card ${SC}x`}));
   addEventListener("resize",()=>gov.resize()); addEventListener("pagehide",()=>gov.end()); }
+/* allocate the scene target now and check it once; an incomplete framebuffer steps down (8 -> 4 -> 0 samples) instead of a black stage */
+function checkSceneRT(){ const gl=renderer.getContext(); for(let k=0;k<3;k++){ let ok=true;
+    try{ renderer.setRenderTarget(sceneRT); ok=gl.checkFramebufferStatus(gl.FRAMEBUFFER)===gl.FRAMEBUFFER_COMPLETE; }catch(e){ ok=false; } renderer.setRenderTarget(null);
+    if(ok||sceneRT.samples===0) break; sceneRT.samples=sceneRT.samples>4?4:0; sceneRT.dispose(); }
+  sceneRT.__checked=true; }
 function resize(){
   W=innerWidth; H=innerHeight; renderer.setPixelRatio(PR); renderer.setSize(W,H,false);
   const pw=Math.floor(W*PR), ph=Math.floor(H*PR);
   /* r90 lean: 8x edges only up to a 2560x1440 buffer; past it (a 4K draw) the pixels are already fine enough, and 8 samples of a
      half-float 4K target would hold about half a gigabyte, so it keeps 4 */
-  const smp=Math.min(PHONE_GPU?2:(pw*ph>2560*1440?Math.min(4,GQ.samples):GQ.samples),renderer.capabilities.maxSamples||4); if(sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
-  sceneRT.setSize(pw,ph); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
+  const smp=fitSamples(PHONE_GPU?2:(pw*ph>2560*1440?Math.min(4,GQ.samples):GQ.samples)), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
+  sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
   const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
