@@ -87,7 +87,7 @@ ok('P4','drum close-up to shot is one motion on the settle clock; the gun yaw st
 
 // P5 frame rate (r90, Nik 2026-11-07: the first open crashed his Chromebook; choppy after). The page draws lean and never stalls mid-turn.
 has(/renderer\.shadowMap\.autoUpdate=false;/,'the shadow map is not redrawn every frame');
-has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; \}/,'the one static shadow map is drawn when the room is laid out');
+has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(GOV\) GOV\.resize\(\); \}/,'the one static shadow map is drawn when the room is laid out');
 lacks(/shadowCool/,'the per-turn shadow redraw');
 has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving revolver casts no map shadow (its contact shadow is a picture)');
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
@@ -97,10 +97,11 @@ lacks(/RR_ROOM\.jpg|backWall|wallLamp|chandelier|cafeTable|function dado/,'the m
 lacks(/const floorTex=woodTex\(2048/,'the unused 2048 px wood floor texture');
 lacks(/for\(let i=0;i<d\.length;i\+=4\)\{ const n=\(Math\.random\(\)-\.5\)\*a;/,'the per-pixel grain loop');
 lacks(/Math\.max\(devicePixelRatio\|\|1,1\.5\)/,'the forced 1.5x resolution');
-has(/const GFXT=window\.CareerModeGfxTier\|\|/,'quality comes from the shared js/gfxTier.js (stand-in until it is on the page)');
+has(/const GFXT=window\.CareerModeGfxTier;/,'quality comes from the shared js/gfxTier.js (no local stand-in)');
+has(/<script src="\.\.\/\.\.\/\.\.\/js\/gfxTier\.js"><\/script>/,'gfxTier.js is a required script, so a missing file shows the error screen');
 has(/new T\.WebGLRenderer\(\{antialias:GFX\.antialias,/,'antialiasing is the quality level\'s choice');
 has(/renderer\.setPixelRatio\(GFX\.pixelRatio\);/,'the start resolution is the quality level\'s');
-has(/GOV=GFXT\.governor\(renderer,\{key:"rrr"\}\);/,'the shared governor keeps the frames smooth');
+has(/GOV=GFXT\.governor\(renderer,\{key:"rrr",draw:/,'the shared governor keeps the frames smooth');
 has(/if\(GOV\) GOV\.hold\(true\);/,'it holds during a turn');
 has(/if\(GOV\) GOV\.hold\(false\);/,'and lets go between turns');
 has(/await renderer\.compileAsync\(scene,camera\);/,'every shader compiles behind the loading screen');

@@ -143,10 +143,10 @@ body.embed .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 96p
 (function(){ var EMBED=/[?&]embed=1(?:&|$)/.test(location.search); function show(m){ if(EMBED){ try{ parent.postMessage({type:"cms-rr-error",message:String(m).slice(0,300)},location.origin); }catch(e){} return; } try{ var d=document.getElementById('errbox'); if(!d){ d=document.createElement('div'); d.id='errbox'; d.style.cssText='position:fixed;left:12px;right:12px;top:12px;z-index:99;background:#300;color:#fff;font:13px/1.4 monospace;padding:10px;border:1px solid #f66;white-space:pre-wrap'; (document.body||document.documentElement).appendChild(d); } d.textContent+=m+'\n'; }catch(e){} }
  // Codex R87-C2-03: a failed optional stylesheet (the Google title/stamp fonts, offline or blocked) only falls back to a
  // local font; it must never abort the scene. Script, WebGL and setup failures still report.
- window.addEventListener('error',function(e){ if(e&&e.target&&(e.target.tagName==='LINK'||(e.target.dataset&&e.target.dataset.optional))) return; /* r90: an optional helper script that is missing falls back in code */ show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
+ window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="../../../js/gfxTier.js" data-optional="1"></script><!-- r90: the shared device-quality picker (Auto / Medium / High / Extra high / 4K) for every 3D screen; the page has a stand-in if it is missing -->
+<script src="../../../js/gfxTier.js"></script><!-- r90: the shared device-quality picker (Auto / Medium / High / Extra high / 4K) for every 3D screen -->
 <script src="vendor/three-r187.min.js"></script><!-- three.js r187 (MIT, vendor/THREE_LICENSE.txt; built by tools/three-vendor), bundled so the scene works offline and never depends on a CDN -->
 <script>
 (function(){
@@ -172,15 +172,8 @@ const LAYOUT={ danielClub: qs.get("d")||"Manchester United", nikClub: qs.get("n"
 /* ================= quality (r90, Nik 2026-11-07: "you should really adapt to your computer ... a Chromebook should run great, a
    high-end PC much more quality, 4K"): js/gfxTier.js (shared by every 3D screen) reads the device and the Settings choice before the
    renderer exists, the warm-up render behind the loading screen checks it, and its governor keeps the frames smooth during play.
-   Until that file is on the page the stand-in below gives the same calls the safest behaviour: never above the screen's own
-   sharpness, start light, step down once if frames slip, never back up. ================= */
-const GFXT=window.CareerModeGfxTier||(()=>{ const dpr=Math.max(1,devicePixelRatio||1), pick=Number(qs.get("gfx")), lv=Number.isInteger(pick)&&pick>=0&&pick<=4?pick:1;
-  const P={level:lv, name:["light","medium","high","extra","ultra"][lv], choice:"auto", pixelRatio:Math.min(dpr,lv>=3?dpr:1), maxPixelRatio:lv>=4?Math.min(2*dpr,3):Math.min(dpr,2), minPixelRatio:.75, antialias:dpr<2, shadowSize:lv>=3?2048:1024, density:[.4,.6,.8,1,1][lv], bloom:false};
-  return { profile:()=>P, calibrate:async(r,draw)=>{ draw(); return P; },
-    governor:(r,o)=>{ let n=0, t0=0, held=false, stepped=false; return { hold(v){ held=!!v; }, level:()=>P.level, pixelRatio:()=>r.getPixelRatio(), end(){},
-      frame(now){ if(!t0){ t0=now; n=0; return; } n++; if(now-t0<1000) return; const fps=n*1000/(now-t0); t0=now; n=0; if(!stepped&&fps<50&&r.getPixelRatio()>P.minPixelRatio+.01){ stepped=true; r.setPixelRatio(Math.max(P.minPixelRatio,r.getPixelRatio()-.25)); o&&o.onChange&&o.onChange(P); } } }; },
-    overlay:(info)=>{ if(qs.get("fps")!=="1") return {stop(){}}; const d=document.createElement("div"); d.style.cssText="position:fixed;left:8px;bottom:8px;z-index:50;font:12px/1.3 monospace;color:#9f9;background:rgba(0,0,0,.6);padding:4px 6px;pointer-events:none;white-space:pre"; document.body.appendChild(d);
-      let n=0, t0=performance.now(), raf=0; const loop=(t)=>{ n++; if(t-t0>500){ const i=info()||{}; d.textContent=`${Math.round(n*1000/(t-t0))} fps  ${((t-t0)/n).toFixed(1)} ms  pr ${renderer.getPixelRatio().toFixed(2)}  ${P.name}\ncalls ${i.calls} tris ${i.tris} ${i.extra||""}`; n=0; t0=t; } raf=requestAnimationFrame(loop); }; raf=requestAnimationFrame(loop); return {stop(){ cancelAnimationFrame(raf); d.remove(); }}; } }; })();
+   ================= */
+const GFXT=window.CareerModeGfxTier;
 const GFX=GFXT.profile();
 
 /* ================= renderer ================= */
@@ -839,7 +832,7 @@ function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspe
   if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.7); lookRest.set(0,.86,-.1); }
   /* r90: the resolution belongs to the quality level (js/gfxTier.js and its governor), never forced above the screen's own sharpness;
      a new layout moves the boards, so the one static shadow map is drawn again */
-  renderer.setSize(w,h,false); renderer.shadowMap.needsUpdate=true; }
+  renderer.setSize(w,h,false); renderer.shadowMap.needsUpdate=true; if(GOV) GOV.resize(); }
 addEventListener("resize",layout);
 
 /* ================= the turn: the gun spins on the felt, cocks itself, fires or clicks ================= */
@@ -1188,7 +1181,7 @@ const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 3
 Promise.all([fontsReady,loadAssets()]).then(async()=>{ layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
   camPos.copy(camRest); camLook.copy(lookRest); last=now(); if(EMBED){ cta.disabled=true; cta.textContent="Loading…"; }
   await warmUp(); last=now();
-  GOV=GFXT.governor(renderer,{key:"rrr"}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights 2pt+1spot"}; });
+  GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights 2pt+1spot"}; });
   window.__rrReady=true; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
   /* r90 Device check (?bench=1&gfx=N): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
      no Firestore; js/gfxTier.js times the frames through the governor and posts the result to the Device check page */
