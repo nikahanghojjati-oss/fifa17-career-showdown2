@@ -62,7 +62,10 @@ async function c3d2(){
 {
   assert.match(step,/goal\.keeper\.dataset\.pose="ready";goal\.scene\?\.reset\(\);/,"reset with the step's own reset");
   assert.match(step,/g\.keeper\.dataset\.pose=dive;[\s\S]*?const k3=\{shot:shot===engine\.timeout\?null:shot,dive,goal:Boolean\(kick\.goal\),round:kick\.kick\};g\.state=\{\.\.\.g\.state,kick:k3\};\s*g\.scene\?\.kick\(\{\.\.\.k3,animate:animate&&sceneAtStart\}\);/,"kick with what the step draws (a scene mounted since shows the end pose)");
-  for(const hook of ['class:"cmGoal"','cmsSvg("g",{class:"cmKeeper","data-pose":"ready"})','cmsSvg("g",{class:"cmBall"})','class:"cmZone"'])assert.ok(step.includes(hook),`the SVG goal keeps ${hook}`);
+  for(const hook of ['class:"cmGoal"','cmsSvg("g",{class:"cmKeeper","data-pose":"ready"})','cmsSvg("g",{class:"cmBall"})'])assert.ok(step.includes(hook),`the SVG goal keeps ${hook}`);
+  // r90 (Nik 2026-11-07): no yellow LEFT / MIDDLE / RIGHT words over the goal; the choice buttons still name the sides.
+  assert.ok(!/cmZone/.test(step)&&!/cmZone/.test(scene),"no zone words drawn over the goal");
+  assert.match(step,/const b=cmsEl\("button","cmChoice",SIDE_WORD\[side\]\);/,"the choice buttons keep LEFT / MIDDLE / RIGHT");
   assert.match(step,/pitch\.append\(board,goal\.box\);/,"same place in the screen (the pitch column, Fable F17-07)");
   ok("C3D3","the step stays the owner: SVG hooks unchanged, the scene follows reset and kick");
 }

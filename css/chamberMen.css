@@ -128,7 +128,6 @@
   box-shadow: inset 0 0 0 3px #110f0c, inset 0 0 0 4px #6b5323;
   overflow: hidden;
 }
-#cmStage .cmGoal .cmZone { fill: #f2c45b; font: 600 11px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: 2px; }
 #cmStage .cmGoal .cmNetBack { fill: none; stroke: #c9c1ae; stroke-width: 1.1; }
 #cmStage .cmGoal .cmNetMesh { fill: none; stroke: #8f887a; stroke-width: .7; }
 #cmStage .cmGoal .cmNet { transform-box: view-box; transform-origin: var(--cm-hit-x, 150px) var(--cm-hit-y, 60px); }
@@ -313,12 +312,11 @@
   #cmStage .cmBall, #cmStage .cmKeeper { transition: none !important; }
   #cmStage .cmGoal .cmBallArt, #cmStage .cmGoal .cmNet, #cmStage .cmGoal .cmHit { animation: none !important; }
 }
-/* ---------- r89 the 3D goal (js/chamberMenScene3d.js): the canvas under the SVG, the SVG keeps its frame and zone words ---------- */
+/* ---------- r89 the 3D goal (js/chamberMenScene3d.js): the canvas under the SVG, the SVG keeps its frame ---------- */
 #cmStage .cmGoalBox { position: relative; }
 #cmStage .cmGoal3d { position: absolute; display: block; pointer-events: none; z-index: 0; border-radius: 3px; background: #0a0806; }
 #cmStage .cmGoal.cm3d-on { position: relative; z-index: 1; background: transparent; }
-#cmStage .cmGoal.cm3d-on > :not(.cmZone) { display: none; }
-#cmStage .cmGoal.cm3d-on .cmZone { paint-order: stroke; stroke: #050403; stroke-width: 3px; stroke-linejoin: round; }
+#cmStage .cmGoal.cm3d-on > * { display: none; }
 
 /* ---------- r89 broadcast layout (Nik 2026-11-04, option A): the score, the pitch across the whole width, the controls under it ----------
    The pitch is a TV picture of the penalty (js/chamberMenScene3d.js). Its height is what the screen has left once the score and
