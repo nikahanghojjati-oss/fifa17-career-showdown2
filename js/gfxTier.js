@@ -89,7 +89,8 @@
     const max=level===4?Math.max(dpr,2*dpr):Math.min(L.max,dpr);
     const min=Math.min(1,dpr,max);
     return {level,name:NAMES[level],choice:base.choice,gpu:base.gpu,software:base.software,dpr,
-      pixelRatio:Math.max(min,Math.min(L.pr,max)),maxPixelRatio:max,minPixelRatio:min,
+      // Ultra starts at native at least (a 3x phone or 8K screen); the governor keeps anything past native within the buffer.
+      pixelRatio:Math.max(min,Math.min(level===4?Math.max(L.pr,dpr):L.pr,max)),maxPixelRatio:max,minPixelRatio:min,
       antialias:!base.software,shadowSize:L.shadowSize,density:L.density,bloom:L.bloom};
   }
   function gfxProfile(){

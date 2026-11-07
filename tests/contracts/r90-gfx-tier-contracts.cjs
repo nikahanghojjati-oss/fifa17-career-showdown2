@@ -4,7 +4,8 @@
 // great. If someone is on a high-end PC, it should be like much quality, 4K"). The module runs in a sandbox with a fake
 // screen, GPU name, storage and clock:
 //   G1 the auto level from the GPU name, held down by memory, cores and phone screens; software GL is level 0
-//   G2 auto and the named levels never draw above devicePixelRatio; ultra draws native (4K/8K) and up to 2x within a 3840x2160
+//   G2 auto and the named levels never draw above devicePixelRatio; ultra starts and stays at native on any screen (4K/8K, 3x
+//      phones) and draws up to 2x within a 3840x2160
 //      buffer; Settings: suggested(), choice(), setChoice();
 //      the Settings key picks the level, anything unknown is auto, ?gfx=N forces one
 //   G3 the governor steps down after a second of slow frames, never goes back to a step that ran slow (no see-saw), holds
@@ -94,6 +95,14 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   // Ultra on an 8K screen (2x over 3840x2160 css): native size, never held under the screen.
   const s8=sandbox({gpu:strong,dpr:2,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'ultra'}});
   const g8=s8.G.governor(fakeRenderer(s8.clock,()=>1,[3840,2160]),{});assert.ok(g8.pixelRatio()>=2,`8K screens draw native (${g8.pixelRatio()})`);
+  // Codex on #1260: a picked level never adapts, so on a screen above 2x Ultra must start at native, not at 2.
+  for(const [dpr,css] of [[2.5,[1536,864]],[3,[1280,720]],[3,[430,932]],[4,[1920,1080]]]){
+    const su=sandbox({gpu:strong,dpr,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'ultra'}});
+    assert.ok(su.G.profile().pixelRatio>=dpr,`ultra at dpr ${dpr} starts native (${su.G.profile().pixelRatio})`);
+    const gu=su.G.governor(fakeRenderer(su.clock,()=>1,css),{});
+    assert.ok(gu.pixelRatio()>=dpr,`ultra at dpr ${dpr} on ${css.join('x')} draws native (${gu.pixelRatio()})`);
+    const past=gu.pixelRatio()>dpr+1e-9;assert.ok(!past||gu.pixelRatio()**2*css[0]*css[1]<=3840*2160+1,'past native only within the 4K buffer');
+  }
   assert.equal(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G.profile().level,0,'light can be picked');
   const sg=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G;
   assert.deepEqual({...sg.suggested()},{level:3,name:'extra'},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
