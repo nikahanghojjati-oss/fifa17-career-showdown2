@@ -13,12 +13,13 @@
   //   each frame: gov.frame(now);  between beats: gov.hold(false);  on dispose: gov.end();
   //   CareerModeGfxTier.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles}));  // ?fps=1 only
   //
-  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (only when picked: renders up to 2x the screen,
-  // never past a 3840x2160 drawing buffer). Auto never renders above devicePixelRatio. Scene knobs (crowd, bloom, shadow
+  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (only when picked: always the screen's native
+  // size, so a 4K or 8K screen is sharp, and up to 2x past it while the buffer stays within 3840x2160). Auto never renders
+  // above devicePixelRatio. A picked level is held as picked (the governor moves only Auto). Scene knobs (crowd, bloom, shadow
   // size) read the profile; the governor only moves the pixel ratio, steps down when frames run long, steps up only after
   // a timed frame shows room, and never goes back to a step that ran slow (no see-saw).
   const KEY="careerModeShowdown.gfxQuality.v1";
-  const CHOICES=["auto","medium","high","extra","ultra"];
+  const CHOICES=["auto","light","medium","high","extra","ultra"];
   const NAMES=["light","medium","high","extra","ultra"];
   // Per level: the pixel ratio it starts at and may reach (both capped by the screen), shadow map size, crowd density, bloom.
   const LEVELS=[
@@ -47,6 +48,8 @@
     return null;
   }
   function gfxChoice(){const c=String(gfxRead(KEY)||"auto").toLowerCase();return CHOICES.includes(c)?c:"auto";}
+  // A picked choice is its level: light 0 .. ultra 4.
+  function gfxChoiceLevel(c){return CHOICES.indexOf(c)-1;}
 
   // The GPU's own name, from a throwaway context (released at once).
   function gfxGpuName(){
@@ -81,8 +84,9 @@
   }
   function gfxBuild(level,base){
     const L=LEVELS[level],dpr=base.dpr;
-    // Auto and the named levels stay at or under the screen's own ratio; ultra may draw past it (capped by buffer size later).
-    const max=level===4?Math.min(L.max,2*dpr):Math.min(L.max,dpr);
+    // Auto and the named levels stay at or under the screen's own ratio; ultra always reaches it (a 4K or 8K screen draws
+    // at native size) and may draw past it up to 2x, as long as the buffer stays within 3840x2160 (the governor checks).
+    const max=level===4?Math.max(dpr,2*dpr):Math.min(L.max,dpr);
     const min=Math.min(1,dpr,max);
     return {level,name:NAMES[level],choice:base.choice,gpu:base.gpu,software:base.software,dpr,
       pixelRatio:Math.max(min,Math.min(L.pr,max)),maxPixelRatio:max,minPixelRatio:min,
@@ -92,7 +96,7 @@
     if(cached)return cached;
     const env=gfxScreenEnv(),gpu=gfxGpuName(),c=gfxChoice(),auto=gfxClassify(gpu,env);
     const forced=gfxQuery("gfx"),forcedLevel=forced!==null&&/^[0-4]$/.test(forced)?Number(forced):null;
-    let level=forcedLevel!==null?forcedLevel:c==="auto"?auto.level:CHOICES.indexOf(c);
+    let level=forcedLevel!==null?forcedLevel:c==="auto"?auto.level:gfxChoiceLevel(c);
     cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,choice:forcedLevel!==null?`gfx=${forcedLevel}`:c});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=auto.level;
     return cached;
@@ -139,7 +143,7 @@
     const o=opts||{},key=o.key?String(o.key):"",p=gfxProfile();
     const size=()=>{const c=renderer.domElement;return {w:c?.clientWidth||0,h:c?.clientHeight||0};};
     // Ultra's buffer cap comes from the live canvas size.
-    const capOf=()=>{const s=size();return s.w&&s.h?Math.max(p.minPixelRatio,Math.sqrt(BUFFER_CAP/(s.w*s.h))):p.maxPixelRatio;};
+    const capOf=()=>{const s=size();return s.w&&s.h?Math.max(p.minPixelRatio,p.level===4?Math.max(p.dpr,Math.sqrt(BUFFER_CAP/(s.w*s.h))):p.maxPixelRatio):p.maxPixelRatio;};
     let list=gfxSteps(p,capOf());
     const nearest=v=>{let i=0,d=1e9;list.forEach((x,k)=>{const e=Math.abs(x-v);if(e<d){d=e;i=k;}});return i;};
     let at=nearest(p.pixelRatio);
@@ -154,7 +158,8 @@
         if(ended)return;
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
         if(avg>20.5){slowFor+=dt;smoothFor=0;}else{slowFor=0;smoothFor=avg<17.6?smoothFor+dt:0;}
-        if(held)return;
+        // A level the player picked stays as picked: no steps either way.
+        if(held||!p.auto)return;
         // Too slow for a second: one step down, and that step is never tried again here.
         if(slowFor>=1000&&at<list.length-1){bad.add(at);slowFor=0;avg=BUDGET_MS;apply(at+1);return;}
         // Smooth for 3 s: time one real frame; step up only if the next step would still leave a third of the frame free.
@@ -205,7 +210,9 @@
 
   root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),
     profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,overlay:gfxOverlay,classify:gfxClassify,
-    // Settings: a new pick takes effect on the next 3D screen.
-    choice:gfxChoice,setChoice(c){const v=CHOICES.includes(c)?c:"auto";gfxWrite(KEY,v);cached=null;return v;},
+    // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
+    // saves a pick for this device; it takes effect on the next 3D screen.
+    suggested(){const p=gfxProfile();return {level:p.autoLevel,name:NAMES[p.autoLevel]};},
+    choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);cached=null;return v;},
     reset(){cached=null;}};
 })(typeof globalThis!=="undefined"?globalThis:this);

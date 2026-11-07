@@ -4,7 +4,8 @@
 // great. If someone is on a high-end PC, it should be like much quality, 4K"). The module runs in a sandbox with a fake
 // screen, GPU name, storage and clock:
 //   G1 the auto level from the GPU name, held down by memory, cores and phone screens; software GL is level 0
-//   G2 auto and the named levels never draw above devicePixelRatio; ultra may draw up to 2x but never past a 3840x2160 buffer;
+//   G2 auto and the named levels never draw above devicePixelRatio; ultra draws native (4K/8K) and up to 2x within a 3840x2160
+//      buffer; Settings: suggested(), choice(), setChoice();
 //      the Settings key picks the level, anything unknown is auto, ?gfx=N forces one
 //   G3 the governor steps down after a second of slow frames, never goes back to a step that ran slow (no see-saw), holds
 //      still while held, steps up only after a timed frame shows room, and remembers where it settled
@@ -90,6 +91,13 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'ultra'}});
   const r=fakeRenderer(s.clock,()=>1,[1920,1080]);const gov=s.G.governor(r,{});
   assert.ok(gov.pixelRatio()*gov.pixelRatio()*1920*1080<=3840*2160+1,`ultra buffer cap (${gov.pixelRatio()})`);
+  // Ultra on an 8K screen (2x over 3840x2160 css): native size, never held under the screen.
+  const s8=sandbox({gpu:strong,dpr:2,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'ultra'}});
+  const g8=s8.G.governor(fakeRenderer(s8.clock,()=>1,[3840,2160]),{});assert.ok(g8.pixelRatio()>=2,`8K screens draw native (${g8.pixelRatio()})`);
+  assert.equal(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G.profile().level,0,'light can be picked');
+  const sg=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G;
+  assert.deepEqual({...sg.suggested()},{level:3,name:'extra'},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
+  assert.equal(sg.setChoice('bogus'),'auto');assert.equal(sg.profile().level,3,'a new pick applies to the next screen');
   ok('G2','auto and named levels never above devicePixelRatio; ultra up to 2x within a 4K buffer; Settings key, unknown is auto, ?gfx forces');
 }
 // G3
@@ -119,6 +127,10 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   const r3=fakeRenderer(s3.clock,()=>12);const g3=s3.G.governor(r3,{key:'x',draw(){}});
   let t3=0;while(t3<15000){t3+=16.7;s3.clock.t=t3;g3.frame(t3);}
   assert.equal(g3.pixelRatio(),1,'a frame without room keeps the step');
+  // A level the player picked is held as picked: slow frames change nothing.
+  const s5=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8,storage:{'careerModeShowdown.gfxQuality.v1':'extra'}});
+  const g5=s5.G.governor(fakeRenderer(s5.clock,()=>30),{key:'z',draw(){}});const p5=g5.pixelRatio();let t5=0;while(t5<5000){t5+=40;s5.clock.t=t5;g5.frame(t5);}
+  assert.equal(g5.pixelRatio(),p5,'a picked level never steps');
   // Without draw, the governor only steps down.
   const s4=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8,storage:{'careerModeShowdown.gfxSettled.v1.y':'1'}});
   const g4=s4.G.governor(fakeRenderer(s4.clock,()=>1),{key:'y'});let t4=0;while(t4<15000){t4+=16.7;g4.frame(t4);}
