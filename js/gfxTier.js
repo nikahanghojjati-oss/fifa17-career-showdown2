@@ -31,6 +31,10 @@
   ];
   const BUDGET_MS=16.7,BUFFER_CAP=3840*2160;
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
+  // The Device check (device-check.html) saves the best level this device held at 60 fps; Auto starts there.
+  const MEASURED_KEY="careerModeShowdown.gfxMeasured.v1";
+  // ?bench=1 (Device check frames): no adapting; frame times are recorded for BENCH_MS after BENCH_SETTLE_MS and posted once.
+  const BENCH_SETTLE_MS=500,BENCH_MS=10000;
   let cached=null,active=null;
 
   // Saved through the app's own storage helpers (js/storage.js); the roulette page is a same-origin frame and uses its parent's.
@@ -50,6 +54,9 @@
   function gfxChoice(){const c=String(gfxRead(KEY)||"auto").toLowerCase();return CHOICES.includes(c)?c:"auto";}
   // A picked choice is its level: light 0 .. ultra 4.
   function gfxChoiceLevel(c){return CHOICES.indexOf(c)-1;}
+  function gfxMeasured(){
+    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=4?m:null;}catch(_error){return null;}
+  }
 
   // The GPU's own name, from a throwaway context (released at once).
   function gfxGpuName(){
@@ -97,9 +104,10 @@
     if(cached)return cached;
     const env=gfxScreenEnv(),gpu=gfxGpuName(),c=gfxChoice(),auto=gfxClassify(gpu,env);
     const forced=gfxQuery("gfx"),forcedLevel=forced!==null&&/^[0-4]$/.test(forced)?Number(forced):null;
-    let level=forcedLevel!==null?forcedLevel:c==="auto"?auto.level:gfxChoiceLevel(c);
+    const measured=gfxMeasured(),autoLevel=measured?measured.level:auto.level;
+    let level=forcedLevel!==null?forcedLevel:c==="auto"?autoLevel:gfxChoiceLevel(c);
     cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,choice:forcedLevel!==null?`gfx=${forcedLevel}`:c});
-    cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=auto.level;
+    cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;
     return cached;
   }
   function gfxSetLevel(level){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,choice:p.choice});
@@ -119,6 +127,8 @@
     const p=gfxProfile(),frames=Math.max(3,(opts&&opts.frames)||5);
     // Software GL is already the lightest level and never goes up: no timed frames to wait for.
     if(!renderer||typeof draw!=="function"||p.software)return p;
+    // A level the Device check measured on this device is not second-guessed by five frames.
+    if(p.auto&&p.measured)return p;
     const times=[];
     for(let i=0;i<frames;i+=1){times.push(gfxTimedDraw(renderer,draw));if(i<frames-1)await new Promise(r=>root.setTimeout(r,0));}
     const settle=times.slice(2).sort((a,b)=>a-b),ms=settle[Math.floor(settle.length/2)]??times[times.length-1];
@@ -153,12 +163,15 @@
     const settled=key?Number(gfxRead(MEMORY_KEY(key))):NaN;
     if(p.auto&&Number.isFinite(settled)&&settled>0)at=Math.max(at,nearest(settled));
     const bad=new Set();let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
+    const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,p,()=>list[at]):null;
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}try{o.onChange?.({...p,pixelRatio:list[at]});}catch(_error){}};
     apply(at);
     const api={
       renderer,
       frame(t){
         if(ended)return;
+        // Device check: the level stays as forced and every frame counts, held or not.
+        if(bench){bench(t);return;}
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
         if(avg>20.5){slowFor+=dt;smoothFor=0;}else{slowFor=0;smoothFor=avg<17.6?smoothFor+dt:0;}
         // A level the player picked stays as picked: no steps either way.
@@ -185,6 +198,33 @@
     };
     active=api;
     return api;
+  }
+
+  // Device check recorder: frame-to-frame times from the scene's own loop for BENCH_MS (after a short settle), then a few
+  // timed draws (the GPU cost, which a 60 Hz screen hides), posted once to the parent page and fired as an event here.
+  function gfxBenchStats(dts){
+    const n=dts.length;if(!n)return {frames:0,avg:0,p1low:0,ms:0};
+    const total=dts.reduce((a,b)=>a+b,0),sorted=dts.slice().sort((a,b)=>b-a),worst=sorted.slice(0,Math.max(1,Math.ceil(n/100)));
+    const ms=total/n,worstMs=worst.reduce((a,b)=>a+b,0)/worst.length;
+    return {frames:n,avg:+(1000/ms).toFixed(1),p1low:+(1000/worstMs).toFixed(1),ms:+ms.toFixed(2)};
+  }
+  function gfxBench(renderer,draw,key,p,pr){
+    let start=0,last=0,done=false;const dts=[];
+    return t=>{
+      if(done)return;
+      if(!start){start=t;last=t;return;}
+      const dt=t-last;last=t;
+      if(t-start<BENCH_SETTLE_MS)return;
+      dts.push(dt);
+      if(t-start<BENCH_SETTLE_MS+BENCH_MS)return;
+      done=true;
+      const draws=[];if(typeof draw==="function")for(let i=0;i<5;i+=1){try{draws.push(gfxTimedDraw(renderer,draw));}catch(_error){}}
+      draws.sort((a,b)=>a-b);
+      const result={type:"cms-gfx-bench",scene:key||"scene",level:p.level,name:p.name,pixelRatio:pr(),software:Boolean(p.software),gpu:p.gpu,
+        ...gfxBenchStats(dts),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null};
+      try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-bench",{detail:result}));}catch(_error){}
+      try{if(root.parent&&root.parent!==root)root.parent.postMessage(result,root.location.origin);}catch(_error){}
+    };
   }
 
   // ?fps=1 only: a small corner readout, four times a second, with its own frame clock.
@@ -218,7 +258,12 @@
     profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.
-    suggested(){const p=gfxProfile();return {level:p.autoLevel,name:NAMES[p.autoLevel]};},
+    suggested(){const p=gfxProfile();return {level:p.autoLevel,name:NAMES[p.autoLevel],measured:Boolean(p.measured)};},
+    // Device check: the best level this device held, saved as its Auto; clearMeasured() goes back to the GPU-name guess.
+    measured:gfxMeasured,benchStats:gfxBenchStats,
+    setMeasured(level,detail){const l=Math.max(0,Math.min(4,Math.round(Number(level))));if(!Number.isFinite(l))return null;
+      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;return l;},
+    clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;},
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);cached=null;return v;},
     reset(){cached=null;}};
 })(typeof globalThis!=="undefined"?globalThis:this);

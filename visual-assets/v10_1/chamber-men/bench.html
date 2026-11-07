@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- r90 Device check frame (device-check.html): the real Chamber Men scene on demo data, kicks on a loop. With ?gfx=N&bench=1
+     js/gfxTier.js holds level N and posts the frame times to the parent. No game state, no Firestore, no app scripts. -->
+<base href="../../../">
+<title>Chamber Men bench</title>
+<style>html,body{margin:0;height:100%;background:#050505;overflow:hidden}#cmStage,.cmGoalBox{position:absolute;inset:0}.cmGoal{display:block;width:100%;height:100%}</style>
+</head>
+<body>
+<div id="cmStage"><div class="cmGoalBox"><svg class="cmGoal" viewBox="0 0 300 160" aria-hidden="true"></svg></div></div>
+<script src="js/chamberMenScene3d.js"></script>
+<script>
+(function(){
+  "use strict";
+  const CLUBS={playerOne:"Barcelona",playerTwo:"Chelsea"};
+  // Every side, both keepers' guesses, saves and goals (some go in off the wood): the same list on every device.
+  const KICKS=[["L","R",true],["R","R",false],["M","L",true],["R","L",true],["L","L",false],["M","M",false],["R","M",true],["L","M",true]];
+  const tell=msg=>{try{if(parent!==window)parent.postMessage({type:"cms-gfx-bench",scene:"chamber-men",...msg},location.origin);}catch(_error){}};
+  async function start(){
+    const svg=document.querySelector(".cmGoal");
+    let api=null;
+    try{api=await window.CareerModeChamberMen3d.mount(svg,{clubs:CLUBS});}catch(_error){api=null;}
+    if(!api){tell({error:"The 3D scene did not start on this device (no WebGL2, or it loaded too slowly)."});return;}
+    window.__cmBenchReady=true;
+    let n=0;
+    const next=()=>{
+      const [shot,dive,goal]=KICKS[n%KICKS.length],round=1+(n%7),odd=n%2===1;
+      const taker=odd?CLUBS.playerTwo:CLUBS.playerOne,keeper=odd?CLUBS.playerOne:CLUBS.playerTwo;
+      try{api.reset();api.lineup({taker,keeper,round});api.kick({shot,dive,goal,round,animate:true});}catch(_error){}
+      n+=1;
+    };
+    next();setInterval(next,4500);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
+})();
+</script>
+</body>
+</html>

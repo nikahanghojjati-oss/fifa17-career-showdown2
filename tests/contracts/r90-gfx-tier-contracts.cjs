@@ -38,7 +38,7 @@ function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), Ope
     performance:{now:()=>clock.t},setTimeout:(f)=>{f();return 0;},requestAnimationFrame:()=>1,cancelAnimationFrame(){},URLSearchParams};
   ctx.globalThis=ctx;ctx.parent=ctx;
   vm.createContext(ctx);vm.runInContext(SRC,ctx);
-  return {G:ctx.CareerModeGfxTier,clock,store,appended};
+  return {G:ctx.CareerModeGfxTier,clock,store,appended,ctx};
 }
 // A renderer stand-in: records the pixel ratio; a draw costs `cost(pr)` ms on the fake clock.
 function fakeRenderer(clock,cost,css=[1280,720]){
@@ -107,7 +107,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   }
   assert.equal(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G.profile().level,0,'light can be picked');
   const sg=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G;
-  assert.deepEqual({...sg.suggested()},{level:3,name:'extra'},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
+  assert.deepEqual({...sg.suggested()},{level:3,name:'extra',measured:false},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
   assert.equal(sg.setChoice('bogus'),'auto');assert.equal(sg.profile().level,3,'a new pick applies to the next screen');
   ok('G2','auto and named levels never above devicePixelRatio; ultra up to 2x within a 4K buffer; Settings key, unknown is auto, ?gfx forces');
 }
@@ -184,7 +184,8 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     // MENU CLICK FEEDBACK line (the plate has no height to spare at 1366x640; browser sweep on the PR).
     const set=fs.readFileSync(path.join(ROOT,'js/settings.js'),'utf8'),css=fs.readFileSync(path.join(ROOT,'css/r78-type.css'),'utf8');
     assert.ok(set.includes('const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra"]];'),'the six choices, in order');
-    assert.ok(set.includes('select.options[0].textContent = suggested ? `Auto (suggests ${suggested})` : "Auto";'),'Auto names its suggestion');
+    assert.ok(set.includes('select.options[0].textContent = suggested ? `Auto (${measured ? "measured" : "suggests"} ${suggested})` : "Auto";'),'Auto names its suggestion (or the measured level)');
+    assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');
     assert.ok(set.includes('const saved = tier.setChoice(select.value);')&&set.includes('"Applies from the next 3D screen."'),'saved through the module, applies next screen');
     assert.ok(set.includes('window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)'),'Settings loads the module on demand, under the scene\'s key');
     assert.ok(set.includes('panel.append(summary, choices, createMenuFeedbackControl(), createGfxQualityControl());'),'in MOTION & FEEDBACK, under the menu click');
@@ -192,6 +193,30 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(!/localStorage/.test(set.slice(set.indexOf('const SETTINGS_GFX_CHOICES'),set.indexOf('function createGfxQualityControl'))),'no storage of its own');
     assert.ok(css.includes('@media (min-width: 1200px) and (orientation: landscape) {\n  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap;'),'one shared line on landscape desktops');
     const names=CHOICES_FROM_SRC();assert.deepEqual(names,['auto','light','medium','high','extra','ultra'],'Settings values match the module');
+    // G7 Device check (lead, from Nik 2026-11-07): device-check.html times each scene's ?gfx=N&bench=1 frame for 10 s and saves
+    // the best level that holds 60 fps as this device's Auto; it loads no game, no sign-in and no Firestore.
+    const dc=fs.readFileSync(path.join(ROOT,'device-check.html'),'utf8'),bench=fs.readFileSync(path.join(ROOT,'visual-assets/v10_1/chamber-men/bench.html'),'utf8');
+    const scripts=html=>[...html.matchAll(/<script[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1]);
+    assert.deepEqual(scripts(dc),['js/storage.js','js/gfxTier.js'],'the Device check loads only storage and the quality module');
+    assert.deepEqual(scripts(bench),['js/chamberMenScene3d.js'],'the Chamber Men frame loads only the scene');
+    assert.ok(!/firebase|firestore|onlineSync|app\.js/i.test((dc+bench).replace(/<!--[\s\S]*?-->/g,'')),'no game, sign-in or Firestore');
+    assert.ok(dc.includes('const SMOOTH_AVG=57,SMOOTH_LOW=45')&&dc.includes('T.setMeasured(level,'),'60 fps rule, saved as Auto');
+    assert.ok(dc.includes('visual-assets/v10_1/roulette/index.html')&&dc.includes('frame.src=`${scene.path}?gfx=${level}&bench=1`;'),'both scenes, each level forced, bench mode');
+    assert.ok(dc.includes('e.origin!==location.origin||e.source!==frame.contentWindow'),'only its own frame\'s message counts');
+    // The recorder: forced level, no adapting, held or not; one post with avg, 1% low and ms.
+    {const s7=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2&bench=1'});
+     const posted=[];s7.ctx.parent={postMessage:m=>posted.push(m),location:{search:''}};s7.ctx.location.origin='http://x';
+     const r7=fakeRenderer(s7.clock,()=>3);const g7=s7.G.governor(r7,{key:'chamber-men',draw(){}});g7.hold(true);
+     let t=0;const pr0=g7.pixelRatio();while(t<12000){t+=t<6000?16.7:40;s7.clock.t=t;g7.frame(t);}
+     assert.equal(posted.length,1,'one result');const m=posted[0];
+     assert.deepEqual([m.type,m.scene,m.level,m.name],['cms-gfx-bench','chamber-men',2,'high']);assert.equal(g7.pixelRatio(),pr0,'no adapting in bench mode');
+     assert.ok(m.avg>25&&m.avg<60&&m.p1low<=26&&m.ms>16&&m.frames>200&&m.drawMs===3,`stats ${JSON.stringify(m)}`);
+     const st=s7.G.benchStats([10,10,10,10,50]);assert.deepEqual([st.frames,st.avg,st.p1low],[5,55.6,20]);}
+    {const s8=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8});
+     assert.equal(s8.G.profile().level,2);s8.G.setMeasured(0);assert.deepEqual([s8.G.profile().level,s8.G.suggested().measured],[0,true],'a measured level is Auto');
+     s8.G.setChoice('ultra');assert.equal(s8.G.profile().level,4,'a picked level still wins');s8.G.setChoice('auto');
+     s8.G.clearMeasured();assert.equal(s8.G.profile().level,2,'forgetting goes back to the guess');}
+    ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');
     ok('G6','Settings: 3D QUALITY with Auto (suggests X) and five levels, saved through the module, next 3D screen');
     console.log(`PASS r90 gfx tier contracts (${checks} checks)`);
   })().catch(e=>{console.error(e);process.exitCode=1;});
