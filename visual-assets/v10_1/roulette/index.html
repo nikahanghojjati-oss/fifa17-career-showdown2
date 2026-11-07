@@ -1137,7 +1137,9 @@ async function warmUp(){ const all=new Set(); scene.traverse(o=>{ (Array.isArray
    the garbage collector, so the next 3D screen starts with the memory free */
 function disposeAll(){ cancelAnimationFrame(rafId); if(GOV) GOV.end(); const seen=new Set(); scene.traverse(o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(!m||seen.has(m)) return; seen.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } } m.dispose(); }); });
   if(scene.environment) scene.environment.dispose(); ["D","N"].forEach(k=>{ const b=boards[k].userData; [b.first,b.spare].forEach(c=>{ if(c){ c.width=c.height=0; } }); }); renderer.dispose(); try{ renderer.forceContextLoss(); }catch(e){} }
-addEventListener("pagehide",disposeAll);
+/* back-forward cache (Codex P2 on #1261): a page kept for Back is only paused and picks up again on pageshow; a real unload frees everything */
+addEventListener("pagehide",e=>{ if(e.persisted){ cancelAnimationFrame(rafId); rafId=0; return; } disposeAll(); });
+addEventListener("pageshow",e=>{ if(e.persisted&&window.__rrReady&&!rafId){ last=now(); rafId=requestAnimationFrame(frame); } });
 
 /* ================= controls, hooks ================= */
 /* r87 Team G embed (?embed=1, HO040-M1): the game sends {type:"cms-rr-setup", d, n, boards:{D,N}, seed,

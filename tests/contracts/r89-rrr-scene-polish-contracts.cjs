@@ -115,7 +115,8 @@ has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFram
 has(/function prepareHits\(\)\{ if\(!GAME\|\|turn>0\) return;/,'the game\'s planned shots are drawn while the screen is read');
 has(/try\{ renderer\.initTexture\(c\.__tex\); \}catch\(e\)\{\} return \{i,plain,hit:c\}; \}/,'and sent to the GPU then, on its own texture');
 has(/if\(p\.frames&&p\.frames\.hit&&p\.frames\.i===i\) showFrame\(p\.who,p\.frames\.hit,b\.userData\.hit\); else drawBoard/,'the hole and stamp are a texture swap');
-has(/addEventListener\("pagehide",disposeAll\);/,'leaving the page frees the GPU at once');
+has(/addEventListener\("pagehide",e=>\{ if\(e\.persisted\)\{ cancelAnimationFrame\(rafId\); rafId=0; return; \} disposeAll\(\); \}\);/,'leaving the page frees the GPU at once; a page kept in the back-forward cache only pauses');
+has(/addEventListener\("pageshow",e=>\{ if\(e\.persisted&&window\.__rrReady&&!rafId\)\{ last=now\(\); rafId=requestAnimationFrame\(frame\); \} \}\);/,'and a page restored from that cache picks up its frame loop again');
 ok('P5','lean frame: static shadow, no bloom chain, standard materials, two point lights, no hall, shared quality governor held during turns, warm-up before ready, baked props, pre-uploaded hit frame, dispose on exit');
 
 // P7 no spoiler (r90, Nik 2026-11-07: "never reveal who the gun is aiming at while it is locking on; only say the target when hit/removed").
