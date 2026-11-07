@@ -159,6 +159,13 @@ async function c3d2(){
   assert.ok(wood>0&&goalAt>0&&save>wood&&scene.slice(goalAt,wood).indexOf("}else{")<0,"woodwork only inside the goal branch");
   assert.ok(scene.includes("luck%3===0){target=v3(s[0],BAR_Y-"),"high middle goals can come down off the bar");
   assert.ok(scene.includes("const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);"),"the net bulges after the wood");
+  // Codex on #1263: the hash is unsigned, so its bits are read with >>> (a signed shift went negative: a post shot under the
+  // pitch, a curl the wrong way). Every post height and curl from the hash stays in range for any lineup and kick.
+  assert.ok(!/luck>>[0-9]/.test(scene)&&scene.includes("(luck>>>3)%9")&&scene.includes("(luck>>>4)%7"),"unsigned shifts on the kick hash");
+  {const h=s=>{let v=2166136261;for(const ch of s)v=Math.imul(v^ch.charCodeAt(0),16777619)>>>0;return v;};
+   for(const club of ["Arsenal","Barcelona","Chelsea","Real Madrid","Juventus"])for(let round=1;round<=7;round+=1)for(const shot of "LMR")for(const dive of "LMR")for(const goal of [1,0]){
+     const luck=h(`ball|${club}|${round}|${shot}|${dive}|${goal}`),y=.55+(luck>>>3)%9*.12,c=1.4+(luck>>>4)%7*.35;
+     assert.ok(y>=.55&&y<=1.52&&c>=1.4&&c<=3.5,`${club} r${round} ${shot}/${dive}: post height ${y}, curl ${c}`);}}
   ok("C3D9","r90: device quality, steady level during a kick, six run-ups, curl, in off the post or the bar on goals only");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

@@ -161,7 +161,16 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     const sws=sandbox({gpu:'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)'});let swDraws=0;
     const sw0=await sws.G.calibrate(fakeRenderer(sws.clock,()=>1),()=>{swDraws+=1;});assert.deepEqual([sw0.level,swDraws],[0,0],'software GL: no timed frames, stays light');
     const cb2s=sandbox();const cb2=await cb2s.G.calibrate(fakeRenderer(cb2s.clock,()=>1),()=>{});assert.ok(cb2.level<=1,'never more than one above what its GPU name allows');
-    ok('G4','calibrate: auto moves at most one level, a picked level never moves');
+    // Codex on #1263: a governor made before calibrate() follows the new level (a step down never raises the ratio).
+    for(const [cost,dir] of [[20,'down'],[2,'up']]){
+      const {s:sg,r:rg}=mk(cost);const gov=sg.G.governor(rg,{key:'order'});const before=gov.pixelRatio();
+      const after=await sg.G.calibrate(rg,()=>{});
+      assert.equal(gov.level(),after.level,`governor follows calibrate ${dir}`);assert.equal(gov.pixelRatio(),rg.pr,'governor and renderer agree');
+      assert.ok(dir==='down'?gov.pixelRatio()<before:gov.pixelRatio()>before,`${dir}: ${before} -> ${gov.pixelRatio()}`);
+      let t=0;while(t<6000){t+=16.7;sg.clock.t=t;gov.frame(t);}
+      assert.ok(gov.pixelRatio()<=after.maxPixelRatio+1e-9,'never past the new level');
+    }
+    ok('G4','calibrate: auto moves at most one level, a picked level never moves; a governor made first follows it');
     // G5
     const off=sandbox();const o=off.G.overlay(()=>({calls:1}));assert.equal(off.appended.length,0,'no counter without ?fps=1');o.stop();
     const on=sandbox({search:'?fps=1'});on.G.overlay(()=>({calls:1}));assert.equal(on.appended.length,1,'?fps=1 shows the counter');

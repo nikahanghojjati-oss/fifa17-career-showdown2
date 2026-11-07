@@ -130,6 +130,7 @@
     if(level===p.level)return p;
     const next=gfxSetLevel(level);next.calibratedMs=p.calibratedMs;
     renderer.setPixelRatio(next.pixelRatio);
+    if(active&&active.renderer===renderer)active.sync();
     return next;
   }
 
@@ -141,7 +142,7 @@
     return [...new Set(out)];
   }
   function gfxGovernor(renderer,opts){
-    const o=opts||{},key=o.key?String(o.key):"",p=gfxProfile();
+    const o=opts||{},key=o.key?String(o.key):"";let p=gfxProfile();
     const size=()=>{const c=renderer.domElement;return {w:c?.clientWidth||0,h:c?.clientHeight||0};};
     // Ultra's buffer cap comes from the live canvas size.
     const capOf=()=>{const s=size();return s.w&&s.h?Math.max(p.minPixelRatio,p.level===4?Math.max(p.dpr,Math.sqrt(BUFFER_CAP/(s.w*s.h))):p.maxPixelRatio):p.maxPixelRatio;};
@@ -155,6 +156,7 @@
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}try{o.onChange?.({...p,pixelRatio:list[at]});}catch(_error){}};
     apply(at);
     const api={
+      renderer,
       frame(t){
         if(ended)return;
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
@@ -171,7 +173,10 @@
       },
       // Between beats only: a held governor never changes the picture mid-shot.
       hold(v){held=Boolean(v);if(!held){slowFor=0;smoothFor=0;}},
-      resize(){const cur=list[at];list=gfxSteps(p,capOf());at=nearest(cur);bad.clear();if(list[at]!==cur)apply(at);},
+      resize(){const cur=list[at];p=gfxProfile();list=gfxSteps(p,capOf());at=nearest(cur);bad.clear();if(list[at]!==cur)apply(at);},
+      // Codex on #1263: calibrate() may move Auto after the governor was made. Take the new profile's steps and ratio, so a
+      // step down never comes back as a higher ratio (calibrate calls this itself; scenes need not).
+      sync(){if(ended)return;p=gfxProfile();list=gfxSteps(p,capOf());bad.clear();slowFor=0;smoothFor=0;avg=BUDGET_MS;apply(nearest(p.pixelRatio));},
       level(){return p.level;},
       name(){return p.name;},
       pixelRatio(){return list[at];},

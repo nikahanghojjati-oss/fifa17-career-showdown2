@@ -357,7 +357,7 @@
         // r90 woodwork: now and then a goal goes in off the inside of the post, or a high one down off the bar. The ball
         // arrives touching the wood (centres 17 cm apart) and glances in; nothing changes the result.
         const touch=WOOD_R+BALL_R,phi=.17;
-        if(k.shot!=="M"&&luck%4===0){const y=.55+(luck>>3)%9*.12;target=v3(sx*(HALF-touch*Math.cos(phi)),y,touch*Math.sin(phi));after={kind:"net",wood:v3(-sx*Math.cos(phi),0,Math.sin(phi))};}
+        if(k.shot!=="M"&&luck%4===0){const y=.55+(luck>>>3)%9*.12;target=v3(sx*(HALF-touch*Math.cos(phi)),y,touch*Math.sin(phi));after={kind:"net",wood:v3(-sx*Math.cos(phi),0,Math.sin(phi))};}
         else if(k.shot==="M"&&s[1]>1.8&&luck%3===0){target=v3(s[0],BAR_Y-touch*Math.cos(phi),touch*Math.sin(phi));after={kind:"net",wood:v3(0,-Math.cos(phi),Math.sin(phi))};}
       }else{
         // A save: the ball's surface meets the leading palm (both palms on a catch), on the side the shot comes from.
@@ -370,7 +370,7 @@
       // Real flight (about 90 km/h): gravity plus the side spin's Magnus pull. A placed side shot curls out toward its corner,
       // a middle one barely bends; one launch velocity is solved so the ball still reaches its target at the arrival time.
       const sideSign=target.x<-.3?-1:target.x>.3?1:(luck&1?1:-1);
-      const curl=v3(sideSign*(Math.abs(target.x)>.3?1.4+(luck>>4)%7*.35:.25+(luck>>4)%3*.15),0,0);
+      const curl=v3(sideSign*(Math.abs(target.x)>.3?1.4+(luck>>>4)%7*.35:.25+(luck>>>4)%3*.15),0,0);
       const acc=G.clone().add(curl);
       const v0=target.clone().sub(start).addScaledVector(acc,-.5*FLIGHT*FLIGHT).multiplyScalar(1/FLIGHT);
       // The ball turns the way that makes the curl (v x a) with a little topspin, ~10 turns a second.
