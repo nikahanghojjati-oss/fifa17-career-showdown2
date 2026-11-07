@@ -19,7 +19,9 @@ const STANDALONE_ROOTS={
   "production-authorization-acceptance.html":"Stage 5F production acceptance page (manual, outside the game); it is also the network-only update entry that serves js/appUpdateBootstrap.js to old r29 service workers."
 };
 // js/ files allowed to exist without a page loading them. Keep empty unless a file truly has no page; give the reason.
-const ALLOWED_UNLOADED={};
+const ALLOWED_UNLOADED={
+  "js/gfxTier.js":"r90 device-quality system (PR #1260) landed ahead of its users; the RRR, Chamber Men and pack threads wire it in. D2 fails once it is loaded, so this entry is dropped then."
+};
 
 const pageRoots=["index.html",...walk("visual-assets").filter(file=>file.endsWith(".html")),...Object.keys(STANDALONE_ROOTS)];
 const frameScripts=walk("visual-assets").filter(file=>file.endsWith(".js")&&!/\/vendor\//.test(file));
@@ -63,7 +65,7 @@ check("D3 the service worker precaches no js file that nothing loads",()=>{
   const shell=(worker.match(/const SHELL_PATHS = Object\.freeze\(\[([\s\S]*?)\]\);/)||[])[1]||"";
   const listed=[...shell.matchAll(/"(js\/[^"]+\.js)"/g)].map(match=>match[1]);
   assert.ok(listed.length>20,"the shell list was found");
-  const stale=listed.filter(file=>!jsSet.has(file)||!reached.has(file));
+  const stale=listed.filter(file=>!jsSet.has(file)||(!reached.has(file)&&!Object.hasOwn(ALLOWED_UNLOADED,file)));
   assert.deepEqual(stale,[],`shell paths for missing or never-loaded js: ${stale.join(", ")}`);
 });
 

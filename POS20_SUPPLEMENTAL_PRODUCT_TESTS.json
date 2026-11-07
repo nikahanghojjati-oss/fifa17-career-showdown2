@@ -621,6 +621,7 @@
     {
       "path": "tests/contracts/completed-transfer-history-contracts.cjs",
       "patterns": [
+        "^js/sparkCompletedTransferHistoryReader\\.js$",
         "^js/sparkCompletedShowdownReader\\.js$",
         "^js/sharedTransferChallenge\\.js$",
         "^js/sharedTerminalClose\\.js$",
@@ -1123,6 +1124,7 @@
       "path": "tests/contracts/job-1051-transfer-ledger-privacy-contracts.cjs",
       "patterns": [
         "^js/sparkSharedTransferChallenge\\.js$",
+        "^js/sparkCompletedTransferHistoryReader\\.js$",
         "^firestore\\.transfer-challenge-production\\.fragment\\.rules$",
         "^tests/contracts/job-1051-transfer-ledger-privacy-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -2982,6 +2984,15 @@
         "^scripts/build-production-firestore-rules\\.mjs$",
         "^tools/set-release-time\\.cjs$",
         "^tests/contracts/r89\\-sacked\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-gfx-tier-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r90\\-gfx\\-tier\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

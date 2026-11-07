@@ -8,8 +8,8 @@
   //
   // The step stays the one owner of the game: it still builds the SVG goal, keeps its classes and poses, and calls
   // scene.reset() and scene.kick() next to its own drawing. The SVG stays in the page on top of the canvas with its art
-  // hidden (.cmGoal.cm3d-on), so its gold border and the LEFT / MIDDLE / RIGHT words stay; the words are moved over the
-  // three zones of the 3D goal. No WebGL2, a load fault or a slow load: mount() gives null and the SVG goal plays as before.
+  // hidden (.cmGoal.cm3d-on), so its gold border stays (r90: no LEFT / MIDDLE / RIGHT words over the goal; the choice
+  // buttons name the sides). No WebGL2, a load fault or a slow load: mount() gives null and the SVG goal plays as before.
   //
   // Loads the shared engine (visual-assets/v10_1/roulette/vendor/three-r187.min.js) with its plain path, the one the
   // service worker keeps for offline play and the roulette's own page asks for. Draws only while the canvas is in the page;
@@ -402,15 +402,6 @@
       camera.aspect=w/h;
       camera.fov=T.MathUtils.radToDeg(2*Math.atan(Math.tan(T.MathUtils.degToRad(CAM.hfov)/2)/camera.aspect));
       camera.position.copy(CAM.pos);camera.lookAt(CAM.look);camera.updateProjectionMatrix();camera.updateMatrixWorld();
-      // The LEFT / MIDDLE / RIGHT words over the three zones of the goal mouth.
-      try{
-        const ctm=svg.getScreenCTM(),rect=svg.getBoundingClientRect();
-        if(ctm){const inv=ctm.inverse(),pt=svg.createSVGPoint();
-          const words=svg.querySelectorAll(".cmZone"),sides=["L","M","R"];
-          // Over the dark hall at the top, clear of the ball on the spot at the bottom.
-          words.forEach((node,i)=>{const s=sides[i];if(!s)return;if(!node.dataset.cm2d)node.dataset.cm2d=`${node.getAttribute("x")} ${node.getAttribute("y")}`;const v=v3(ZONE[s],1.2,0).project(camera);pt.x=rect.left+(v.x+1)/2*rect.width;pt.y=rect.top;const p=pt.matrixTransform(inv);node.setAttribute("x",p.x.toFixed(1));node.setAttribute("y","20");});
-        }
-      }catch(_error){}
     }
     function cm3Draw(){
       const t=frozenAt!==null?frozenAt:plan?(cm3Now()-plan.startAt)/1000:0;
@@ -434,7 +425,6 @@
       for(const x of own)try{x.dispose&&x.dispose();}catch(_error){}
       renderer.dispose();try{renderer.forceContextLoss();}catch(_error){}
       canvas.remove();svg.classList.remove("cm3d-on");
-      svg.querySelectorAll(".cmZone").forEach(node=>{const xy=(node.dataset.cm2d||"").split(" ");if(xy.length===2){node.setAttribute("x",xy[0]);node.setAttribute("y",xy[1]);}delete node.dataset.cm2d;});
     }
     const api={
       reset(){plan=null;frozenAt=null;ballState.free=false;},
@@ -891,16 +881,6 @@
       camera.aspect=w/h;
       camera.fov=Math.max(CAMB.vmin,T.MathUtils.radToDeg(2*Math.atan(Math.tan(T.MathUtils.degToRad(CAMB.hfov)/2)/camera.aspect)));
       camera.updateProjectionMatrix();
-      try{
-        const ctm=svg.getScreenCTM(),rect=svg.getBoundingClientRect();
-        if(ctm){const inv=ctm.inverse(),pt=svg.createSVGPoint(),sides=["L","M","R"];
-          camera.position.copy(CAMB.pos);camera.lookAt(CAMB.look);camera.updateMatrixWorld();
-          // Over the three zones of the goal, spread so the words never touch on a small goal.
-          const nodes=[...svg.querySelectorAll(".cmZone")].slice(0,3),xs=nodes.map((node,i)=>{if(!node.dataset.cm2d)node.dataset.cm2d=`${node.getAttribute("x")} ${node.getAttribute("y")}`;const v=v3(ZONE[sides[i]],1.2,0).project(camera);pt.x=rect.left+(v.x+1)/2*rect.width;pt.y=rect.top;return pt.matrixTransform(inv).x;});
-          if(nodes.length===3){const wd=nodes.map(n=>{try{return n.getComputedTextLength();}catch(_error){return 40;}}),gap=Math.max(xs[1]-xs[0],xs[2]-xs[1],(wd[0]+wd[1])/2+14,(wd[1]+wd[2])/2+14);
-            [xs[1]-gap,xs[1],xs[1]+gap].forEach((xv,i)=>{nodes[i].setAttribute("x",xv.toFixed(1));nodes[i].setAttribute("y","20");});}
-        }
-      }catch(_error){}
     };
     const paint=()=>{
       // Reduce Motion (Codex on #1254): every clock stands still. The players hold their pose, the crowd stops swaying, the
@@ -947,7 +927,6 @@
       snap?.dispose();
       renderer.dispose();try{renderer.forceContextLoss();}catch(_error){}
       canvas.remove();svg.classList.remove("cm3d-on");
-      svg.querySelectorAll(".cmZone").forEach(node=>{const xy=(node.dataset.cm2d||"").split(" ");if(xy.length===2){node.setAttribute("x",xy[0]);node.setAttribute("y",xy[1]);}delete node.dataset.cm2d;});
     };
     const setLineup=(takerClub,keeperClub,round)=>{
       const next={taker:String(takerClub||""),keeper:String(keeperClub||""),round:round||1};
