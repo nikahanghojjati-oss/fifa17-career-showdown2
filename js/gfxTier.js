@@ -7,7 +7,7 @@
   //
   //   const p=CareerModeGfxTier.profile();                 // before the WebGLRenderer: antialias is fixed at context creation
   //   const renderer=new THREE.WebGLRenderer({antialias:p.antialias,...});renderer.setPixelRatio(p.pixelRatio);
-  //   await CareerModeGfxTier.calibrate(renderer,()=>renderer.render(scene,camera));   // behind the loading screen
+  //   await CareerModeGfxTier.calibrate(renderer,()=>renderer.render(scene,camera));   // behind the loading screen (skipped on software GL)
   //   const gov=CareerModeGfxTier.governor(renderer,{key:"chamber",draw:()=>renderer.render(scene,camera),onChange(p){...}});
   //     (draw is optional: without it the governor only steps down)
   //   each frame: gov.frame(now);  between beats: gov.hold(false);  on dispose: gov.end();
@@ -111,8 +111,9 @@
   // frames cost more than ~80% of a 60 Hz frame steps down one; one under a quarter of it steps up one (never past what the
   // GPU name allows plus one, never to ultra). Returns the profile the scene should use.
   async function gfxCalibrate(renderer,draw,opts){
-    const p=gfxProfile(),frames=Math.max(3,(opts&&opts.frames)||6);
-    if(!renderer||typeof draw!=="function")return p;
+    const p=gfxProfile(),frames=Math.max(3,(opts&&opts.frames)||5);
+    // Software GL is already the lightest level and never goes up: no timed frames to wait for.
+    if(!renderer||typeof draw!=="function"||p.software)return p;
     const times=[];
     for(let i=0;i<frames;i+=1){times.push(gfxTimedDraw(renderer,draw));if(i<frames-1)await new Promise(r=>root.setTimeout(r,0));}
     const settle=times.slice(2).sort((a,b)=>a-b),ms=settle[Math.floor(settle.length/2)]??times[times.length-1];

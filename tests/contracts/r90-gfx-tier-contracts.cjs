@@ -135,6 +135,8 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     const mid=await run(8);assert.equal(mid.after,mid.before,'in between: stays');
     const picked=await run(40,{'careerModeShowdown.gfxQuality.v1':'extra'});assert.deepEqual([picked.before,picked.after],[3,3],'a picked level never moves');
     const cbs=sandbox();const cbr=fakeRenderer(cbs.clock,()=>1);const cb=await cbs.G.calibrate(cbr,()=>{});assert.equal(cb.level,1,'a fast Chromebook may go one up');
+    const sws=sandbox({gpu:'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)'});let swDraws=0;
+    const sw0=await sws.G.calibrate(fakeRenderer(sws.clock,()=>1),()=>{swDraws+=1;});assert.deepEqual([sw0.level,swDraws],[0,0],'software GL: no timed frames, stays light');
     const cb2s=sandbox();const cb2=await cb2s.G.calibrate(fakeRenderer(cb2s.clock,()=>1),()=>{});assert.ok(cb2.level<=1,'never more than one above what its GPU name allows');
     ok('G4','calibrate: auto moves at most one level, a picked level never moves');
     // G5
