@@ -317,6 +317,55 @@ function createMenuFeedbackControl(){
     return row;
 }
 
+// r90 W4 (Nik 2026-11-07: "the player can pick a level ... 8K"): one 3D quality pick for this device, shared by every 3D
+// screen through js/gfxTier.js. Auto names the level it suggests here; a new pick applies from the next 3D screen (a
+// screen never changes quality mid-scene).
+const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra"]];
+function settingsGfxLabel(name){
+    const found = SETTINGS_GFX_CHOICES.find(([value]) => value === name);
+    return found ? found[1] : "";
+}
+function fillSettingsGfxSelect(select){
+    const tier = window.CareerModeGfxTier;
+    if(!tier || !select.isConnected){ return; }
+    let suggested = "";
+    try{ suggested = settingsGfxLabel(tier.suggested().name); }catch(_error){ suggested = ""; }
+    select.options[0].textContent = suggested ? `Auto (suggests ${suggested})` : "Auto";
+    select.value = tier.choice();
+    select.disabled = false;
+}
+function setSettingsGfxChoice(select){
+    const tier = window.CareerModeGfxTier;
+    if(!tier){ return; }
+    const saved = tier.setChoice(select.value);
+    select.value = saved;
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(`3D quality: ${select.options[select.selectedIndex].textContent}. Applies from the next 3D screen.`, "success", 3000);
+    }
+}
+function createGfxQualityControl(){
+    const row = createSettingsElement("div", "settingsAudioRow settingsGfxRow");
+    const copy = createSettingsElement("div", "settingsAudioCopy");
+    const label = createSettingsElement("strong", "", "3D QUALITY");
+    label.id = "settingsGfxLabel";
+    copy.append(label, createSettingsElement("small", "", "Applies from the next 3D screen."));
+    const select = createSettingsElement("select", "settingsGfxSelect");
+    select.setAttribute("aria-labelledby", "settingsGfxLabel");
+    select.disabled = true;
+    for(const [value, text] of SETTINGS_GFX_CHOICES){
+        const option = createSettingsElement("option", "", text);
+        option.value = value;
+        select.append(option);
+    }
+    select.addEventListener("change", () => setSettingsGfxChoice(select));
+    row.append(copy, select);
+    const ready = () => Boolean(window.CareerModeGfxTier);
+    const load = ready() ? Promise.resolve(true)
+        : typeof window.loadRuntimeScript === "function" ? Promise.resolve(window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)) : Promise.resolve(false);
+    load.then(() => fillSettingsGfxSelect(select), () => {});
+    return row;
+}
+
 // r86: today's free Firebase reads as Google bills them (documents plus the security-check lookups, priced per document).
 // r87 shared reads meter: once both phones have confirmed a season today, the total is the two phones' own meters added up, the same
 // number on both phones ("both phones after season N"), with this phone's part ("here"), the partner's and what this phone has
@@ -394,7 +443,7 @@ function createMotionPanel(){
     const panel = createSettingsPanel(
         "ACCESSIBILITY",
         "MOTION & FEEDBACK",
-        "Follow your device, cut motion, or turn the menu click on or off."
+        "Follow your device, cut motion, set 3D quality, or turn the menu click on or off."
     );
 
     const summary = createSettingsElement("div", "settingsMotionSummary");
@@ -433,7 +482,7 @@ function createMotionPanel(){
         )
     );
 
-    panel.append(summary, choices, createMenuFeedbackControl());
+    panel.append(summary, choices, createMenuFeedbackControl(), createGfxQualityControl());
     return panel;
 }
 
