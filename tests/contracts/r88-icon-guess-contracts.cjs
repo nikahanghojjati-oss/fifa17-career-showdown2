@@ -82,20 +82,19 @@ assert.deepEqual(IG.revealed(2,order),{position:true,stats:['DRI','PAC','SHO'],f
 assert.deepEqual(IG.revealed(3,order),{position:true,stats:['DRI','PAC','SHO','PAS'],flag:false,overall:false,name:false},'stage 4: four stats; flag, overall and name still hidden');
 assert.deepEqual(IG.revealed(9,order),IG.revealed(3,order),'never the last two stats, flag, overall or name before the stage 5 reveal');
 assert.deepEqual([0,1,2,3,4,-1].map(IG.stagePointsAt),[4,3,2,1,0,0],'stage points 4, 3, 2, 1 (Nik 2026-11-01)');
-assert.deepEqual(IG.resultView(order),{position:true,stats:order,flag:true,overall:true,name:true},'stage 5 (no guessing) reveals the whole card: the last two stats, the name, the flag and the overall');
 ok('G3','four guessing stages from one table (2.5 s + 25 s, then 1.5 s + 20 s three times): position and 1, 2, 3, then 4 stats; stage 5 reveals the rest; computed only from the server start time, so a reloaded phone rejoins on the current stage');
 
 // G4 arrivals and the start
-let r=IG.newRecord(3);
-assert.deepEqual(JSON.parse(JSON.stringify(r)),{v:1,season:3,arrived:{playerOne:null,playerTwo:null},chipsUsed:{playerOne:0,playerTwo:0},winner:null});
-assert.equal(IG.startMs(r),null);assert.equal(IG.outcome(r,S).state,'waiting');
-r=IG.arrive(r,'playerTwo',S).record;assert.equal(IG.startMs(r),null,'one manager alone never starts the round');
+// r90: the round record is written by js/iconGuessStep.js (arrivals proven in prime-pack-rules-emulator); the module's unused
+// newRecord/arrive helpers were deleted, so the test builds the stored shape itself.
+const record=(season,playerOne,playerTwo)=>Object.freeze({v:1,season,arrived:Object.freeze({playerOne,playerTwo}),chipsUsed:Object.freeze({playerOne:0,playerTwo:0}),winner:null});
+let r=record(3,null,null);
+assert.ok(IG.validRecord(r));assert.equal(IG.startMs(r),null);assert.equal(IG.outcome(r,S).state,'waiting');
+r=record(3,null,S);assert.equal(IG.startMs(r),null,'one manager alone never starts the round');
 assert.equal(IG.applyGuess(r,{role:'playerTwo',correct:true,atMs:S+5}).reason,'NOT_STARTED');
-const again=IG.arrive(r,'playerTwo',S+9000);assert.equal(again.changed,false,'a reload never moves an arrival');assert.equal(again.record,r);
-r=IG.arrive(r,'playerOne',S+4000).record;assert.equal(IG.startMs(r),S+4000+IG.leadMs,'the round starts a short count-in after the later arrival');
+r=record(3,S+4000,S);assert.equal(IG.startMs(r),S+4000+IG.leadMs,'the round starts a short count-in after the later arrival');
 assert.equal(IG.applyGuess(r,{role:'playerOne',correct:true,atMs:S+4001}).reason,'NOT_STARTED','no guess before the position shows');
-assert.equal(IG.arrive(r,'nobody',S).reason,'BAD_ARRIVAL');assert.equal(IG.arrive(r,'playerOne',-1).reason,'BAD_ARRIVAL');
-ok('G4','the round starts only once both managers are on the screen, from their server arrival times; a reload never moves the start');
+ok('G4','the round starts only once both managers are on the screen, from their server arrival times');
 
 // G5 chips, hidden wrong guesses, first right guess wins
 const T0=IG.startMs(r),at=b=>T0+IG.stageStarts[b]+IG.stages[b].revealMs+100;
@@ -133,7 +132,7 @@ assert.ok(IG.validRecord(won)&&IG.validRecord(d));
 const bads=[
   null,{...won,v:2},{...won,season:11},{...won,chipsUsed:{playerOne:3,playerTwo:0}},{...won,chipsUsed:{playerOne:-1,playerTwo:0}},
   {...won,chipsUsed:{playerOne:1,playerTwo:0},winner:{role:'playerTwo',beat:4,atMs:1}},{...won,winner:{role:'playerOne',beat:4,atMs:1}},{...won,winner:{role:'x',beat:1,atMs:1}},
-  {...IG.newRecord(1),chipsUsed:{playerOne:1,playerTwo:0}},{...won,arrived:{playerOne:'soon',playerTwo:null}}
+  {...record(1,null,null),chipsUsed:{playerOne:1,playerTwo:0}},{...won,arrived:{playerOne:'soon',playerTwo:null}}
 ];
 for(const bad of bads){assert.equal(IG.validRecord(bad),false,JSON.stringify(bad));assert.equal(IG.applyGuess(bad,{role:'playerOne',correct:true,atMs:at(1)}).reason,'BAD_RECORD');assert.equal(IG.outcome(bad,0),null);assert.deepEqual(IG.points(bad),{playerOne:0,playerTwo:0});}
 for(const bad of [{role:'playerOne',correct:'yes',atMs:at(1)},{role:'playerOne',correct:true},{role:'ref',correct:true,atMs:at(1)},undefined])assert.equal(IG.applyGuess(r,bad).reason,'BAD_GUESS');

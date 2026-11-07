@@ -300,7 +300,7 @@ const Setup=require(path.join(ROOT,"js/v10Setup.js"));
 const V10=require(path.join(ROOT,"js/v10Screens.js"));
 
 check("S1 the skin API is small, frozen and points at Team V's copied files",()=>{
-  for(const name of ["install","mount","unmount","syncLeague","announceScreen","leagueFromText","topIndex","packResult"])assert.equal(typeof Setup[name],"function",name);
+  for(const name of ["install","mount","unmount","syncLeague","announceScreen","leagueFromText","topIndex"])assert.equal(typeof Setup[name],"function",name);
   assert.ok(Object.isFrozen(Setup));
   assert.equal(Setup.BASE,V10.BASE);
   assert.equal(Setup.EVENT,V10.EVENT);
@@ -332,10 +332,6 @@ check("S2 pure helpers: league from shown text, pointer index, pack result",()=>
     assert.equal(Setup.topIndex(`rotate(${-(1800+index*72)}deg)`),index,"after full turns");
   });
   assert.equal(Setup.topIndex(""),null);assert.equal(Setup.topIndex("none"),null);
-  const card=(revealed)=>({classList:{contains:token=>revealed&&token==="is-revealed"}});
-  assert.deepEqual({...Setup.packResult(card(false),{textContent:"?"},card(false),{textContent:"?"})},{playerOne:null,playerTwo:null});
-  assert.deepEqual({...Setup.packResult(card(true),{textContent:"Barcelona"},card(false),{textContent:"?"})},{playerOne:"Barcelona",playerTwo:null});
-  assert.deepEqual({...Setup.packResult(card(true),{textContent:" Barcelona "},card(true),{textContent:"Real Madrid"})},{playerOne:"Barcelona",playerTwo:"Real Madrid"});
 });
 
 check("S3 install registers the two setup screens with the loader (not the Club screen) and loads one stylesheet, once",async()=>{
@@ -454,8 +450,6 @@ check("S6 the Club packs are no longer skinned here (JOB-34): revealing both pac
   assert.equal(byId(root,"clubPlayerOne").textContent,"Daniel");
   assert.equal(byId(root,"clubPlayerTwo").textContent,"Nik");
   assert.equal(host.dataset.clubRevealStage,"ready","the reveal stage stays the product's");
-  // The pure pack helper stays available (and exact) for callers.
-  assert.deepEqual({...Setup.packResult(byId(root,"clubCardOne"),byId(root,"clubNameOne"),byId(root,"clubCardTwo"),byId(root,"clubNameTwo"))},provider);
   root.showScreen("mainMenu");await flush();
   assert.ok(!/v26/.test(host.className));
 });

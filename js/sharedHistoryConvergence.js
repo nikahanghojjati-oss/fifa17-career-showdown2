@@ -24,7 +24,6 @@
   function hcFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(hcFreeze);Object.freeze(value);}return value;}
   function hcExact(value,keys,code){if(!hcPlain(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key)))hcFail(code);return value;}
   function hcRivalry(value){const id=String(value||"").trim().toLowerCase();if(!RIVALRY_ID.test(id))hcFail("HISTORY_CONVERGENCE_RIVALRY_INVALID");return id;}
-  function hcSeason(value){const n=Number(value);if(!Number.isInteger(n)||n<1||n>10)hcFail("HISTORY_CONVERGENCE_SEASON_INVALID");return n;}
   function hcTeamCount(leagueId){const n=LEAGUE_TEAM_COUNTS[String(leagueId||"").trim()];if(!Number.isInteger(n))hcFail("HISTORY_CONVERGENCE_LEAGUE_INVALID");return n;}
   function hcEuropaLeague(value){if(!hcPlain(value))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");const won=Object.hasOwn(value,EUROPA_LEAGUE);hcExact(value,hcResultKeys(value),"HISTORY_CONVERGENCE_RESULTS_INVALID");if(won&&(value.europaLeague!==true||value.championsLeague!==false))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");if(Object.hasOwn(value,"primePack")&&!(Number.isInteger(value.primePack)&&value.primePack>=1&&value.primePack<=4))hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");if(Object.hasOwn(value,"sacked")&&value.sacked!==true)hcFail("HISTORY_CONVERGENCE_RESULTS_INVALID");return won;}
   function hcResultKeys(value){return [...RESULT_KEYS,...(Object.hasOwn(value,EUROPA_LEAGUE)?[EUROPA_LEAGUE]:[]),...(Object.hasOwn(value,"primePack")?["primePack"]:[]),...(Object.hasOwn(value,"sacked")?["sacked"]:[])];}
@@ -143,16 +142,8 @@
   function ofProjection(projection){return hcEndOf(projection?.seasonHistory,projection?.totalSeasons);}
   // A sacked season must be the last one: a history with a season after a sacked one is not a valid Showdown.
   function sackedBeforeLast(seasonHistory){const list=Array.isArray(seasonHistory)?seasonHistory:[];return list.slice(0,-1).some(season=>sackedIn(season)!==null);}
-  // The Terminal Close witness (rivalries/{rid}.data.terminalClose): endedBy:'sacked' + sacked:{playerOne,playerTwo} only for a
-  // sacked Showdown; completedSeason is the seasons actually played (equal to totalSeasons for a full-length one).
-  function ofWitness(witness){
-    if(!witness||typeof witness!=="object")return null;
-    const sacked=witness.endedBy==="sacked"&&witness.sacked&&typeof witness.sacked==="object"?{playerOne:witness.sacked.playerOne===true,playerTwo:witness.sacked.playerTwo===true}:null;
-    const played=Number.isInteger(witness.completedSeason)?witness.completedSeason:witness.totalSeasons;
-    return seFreeze(sacked?{finalSeason:played,endedBy:"sacked",sackedSeason:played,sacked,fullLength:played===witness.totalSeasons}:{finalSeason:played,endedBy:"full",sackedSeason:null,sacked:{...NONE},fullLength:true});
-  }
   function sackedRoles(end){return end&&end.endedBy==="sacked"?ROLES.filter(role=>end.sacked[role]===true):[];}
-  const SHOWDOWN_END=Object.freeze({contractVersion:1,feature:"r89-showdown-end",endOf:hcEndOf,ofProjection,ofWitness,sackedIn,sackedBeforeLast,sackedRoles});
+  const SHOWDOWN_END=Object.freeze({contractVersion:1,feature:"r89-showdown-end",endOf:hcEndOf,ofProjection,sackedIn,sackedBeforeLast,sackedRoles});
   if(root&&typeof root==="object"&&!root.CareerModeShowdownEnd)root.CareerModeShowdownEnd=SHOWDOWN_END;
   function hcVerify(projection){
     if(!hcPlain(projection)||projection.schemaVersion!==1||projection.runtimeRevision!==RUNTIME_REVISION||projection.phase!=="HISTORY_CONVERGED"||projection.revision!==1||projection.canonicalStorageMutation!==false||projection.providerWriteRequired!==false)hcFail("HISTORY_CONVERGENCE_PROJECTION_INVALID");

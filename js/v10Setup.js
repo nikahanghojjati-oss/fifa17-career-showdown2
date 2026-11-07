@@ -54,17 +54,6 @@
     const step=360/count,angle=((Number(match[1])%360)+360)%360;
     return ((count-Math.round(angle/step))%count+count)%count;
   }
-  // The clubs the product has revealed on the two packs (Daniel left/playerOne, Nik right/playerTwo), or null per side
-  // while that pack is still sealed. Read from the product's own DOM state only. (Pure helper; the Club screen's look
-  // is js/clubScreenV10.js since job 34.)
-  function v26PackResult(cardOne,nameOne,cardTwo,nameTwo){
-    const side=(card,name)=>{
-      const text=name?String(name.textContent||"").trim():"";
-      return card&&card.classList&&card.classList.contains("is-revealed")&&text&&text!=="?"?text:null;
-    };
-    return Object.freeze({playerOne:side(cardOne,nameOne),playerTwo:side(cardTwo,nameTwo)});
-  }
-
   // ---- browser binding ----
   const v26Doc=()=>root.document||null;
   const v26Byid=id=>{const doc=v26Doc();return doc?doc.getElementById(id):null;};
@@ -268,7 +257,7 @@
 
   const api=Object.freeze({
     contractVersion:1,BASE,EVENT,STYLE,SCREENS,HEROES,TRUTH_IDS,SETUP_IDS,SKIN_CLASS,
-    leagueFromText:v26LeagueFromText,topIndex:v26TopIndex,packResult:v26PackResult,
+    leagueFromText:v26LeagueFromText,topIndex:v26TopIndex,
     install:v26Install,mount:v26Mount,unmount:v26Unmount,syncLeague:host=>{const state=live.get(host);if(state)v26SyncLeague(state);},
     announceScreen:v26AnnounceScreen
   });

@@ -6,10 +6,6 @@
 
 let dashboardUI = null;
 
-// r78 (HO-029): the shared marble confirm box (js/showdownConfirm.js, loaded on first use) replaces the native confirm().
-// It resolves true only for OK; Cancel, Esc or a box that cannot load resolve false (undefined when no loader exists).
-function dashboardAskConfirm(message,tone){return typeof window.askShowdownConfirm==="function"?window.askShowdownConfirm(message,{tone}):typeof window.loadRuntimeScript==="function"?window.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof window.askShowdownConfirm==="function").then(()=>window.askShowdownConfirm(message,{tone}),()=>false):Promise.resolve(undefined);}
-
 window.getShowdownSeason = (showdown, progression = window.CareerModeProductionSharedMultiSeasonProgression) => showdown.sharedJourney?.mode === "shared" && typeof progression?.resolveSeason === "function" ? progression.resolveSeason(showdown.currentRound) : showdown.currentRound;
 
 function cacheDashboardUI(){
@@ -147,51 +143,6 @@ function ensureDashboardIntegrityStatus(){
     note.id = "dashboardIntegrityStatus";
     note.className = "stateNote hidden";
     overview.appendChild(note);
-}
-
-/* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
-   The sweep lives in diagnostics.js (the only non-startup file allowed to touch browser storage directly) and loads on demand; it needs no rivalry id, so it also works offline or before the pair module loads. */
-function sweepDashboardShowdownDrafts(){
-    try{
-        return Promise.resolve(window.ensureDiagnosticsModule()).then(() => window.clearAllShowdownDraftKeys() === true).catch(() => false);
-    }catch(_error){
-        return Promise.resolve(false);
-    }
-}
-
-async function deleteCurrentShowdownFromDashboard(){
-    if(!currentShowdown && !hasSavedShowdown()){ return; }
-    const saved = currentShowdown || loadSavedShowdown();
-    // r80: a two-player Showdown is never removed from this browser alone; it ends for both players through END SHOWDOWN.
-    if(saved && saved.sharedJourney && saved.sharedJourney.mode === "shared"){
-        if(typeof window.endSettingsCurrentShowdown === "function"){ return window.endSettingsCurrentShowdown(null); }
-        if(typeof window.openSettings === "function"){ window.openSettings(); }
-        return;
-    }
-    const name = saved && saved.name ? saved.name : "the current showdown";
-    const isCompleted = saved && saved.status === "Completed";
-    const message = isCompleted
-        ? `Delete the active copy of "${name}"? Its completed Legacy record will remain available.`
-        : `Delete "${name}" and all of its unfinished progress? This cannot be undone.`;
-
-    if(await dashboardAskConfirm(message, "danger") !== true){ return; }
-    if(!clearSavedShowdown()){
-        if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The active showdown could not be deleted.", "error");
-        }
-        return;
-    }
-    sweepDashboardShowdownDrafts();
-
-    if(typeof window.stopTransferTimerLoop === "function"){ window.stopTransferTimerLoop(); }
-    if(typeof window.resetTransientSelectionOperations === "function"){ window.resetTransientSelectionOperations(); }
-    if(typeof window.resetNavigationState === "function"){ window.resetNavigationState(); }
-
-    currentShowdown = null;
-    if(typeof window.refreshMainMenuExperience === "function"){
-        window.refreshMainMenuExperience();
-    }
-    showScreen("mainMenu", false);
 }
 
 function getTransferPhaseForDashboard(challenge){

@@ -367,7 +367,7 @@ async function seedBase(env,now){
     ok("career analytics: both rows' totals equal the Terminal Close totals, every season score is 0..15, career points and seasons add up across the two Showdowns, and Nik's best season is 15");
 
     // Showdown A: threshold 150, nobody Golden.
-    assert.equal(Seam.seasonMaxFor(rowA),15);assert.equal(Seam.goldenShowdownPoints(rowA),150);
+    assert.equal(Seam.SEASON_MAX.primePack,15);assert.equal(Seam.goldenShowdownPoints(rowA),150);
     assert.deepEqual(Seam.goldenShowdownManagers(rowA),[]);
     assert.ok(finals["Showdown A"].totals.playerOne<150&&finals["Showdown A"].totals.playerTwo<150);
     assert.equal(Seam.goldenShowdownPoints({...rowA,setupConfirmedAt:Date.parse("2026-10-01T00:00:00Z")}),110,"a Showdown confirmed before Prime Pack keeps 110");

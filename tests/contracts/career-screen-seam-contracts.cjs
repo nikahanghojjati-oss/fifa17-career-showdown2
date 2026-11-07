@@ -217,7 +217,7 @@ await check("16. Internal containment retained; History and Statistics reachable
   assert.equal(identity.includes("#careerStatisticsButton"),false,"Career Statistics is reachable online");
   assert.equal(source("index.html").includes("trophyRoomButton"),false);
   // r90: the retired local analytics engine is deleted; the seam stays in the shell list.
-  assert.ok(source("service-worker.js").includes('    "js/careerScreenSeam.js",'));assert.equal(source("service-worker.js").includes("js/analytics.js"),false);
+  assert.ok(source("service-worker.js").includes('    "js/careerScreenSeam.js",'));assert.equal(source("service-worker.js").includes('    "js/analytics.js",'),false,"analytics.js is off the shell list");
 });
 await check("17. Pure and frozen",()=>{
   frozenTree(Seam);assert.equal(Seam.contractVersion,1);

@@ -43,7 +43,7 @@ ok('T1','the seam, the Gazette and the transfer hook use the round\'s own start 
 // T2 the season maximum and the Golden total per Showdown
 const id='pair_'+'c'.repeat(64);
 // Nik 2026-11-01 18:32 UTC: no 11 anywhere; every Showdown's season maximum is 15, whatever its confirm time or seasons.
-for(const row of [{rivalryId:id,setupConfirmedAt:AFTER},{rivalryId:id,setupConfirmedAt:BEFORE},{rivalryId:id,setupConfirmedAt:null,seasons:[{score:{daniel:11,nik:3}}]},{seasons:[]},null])assert.equal(Seam.seasonMaxFor(row),15);
+assert.equal(Seam.SEASON_MAX.primePack,15,'one season maximum (r90: the always-15 seasonMaxFor helper had no caller and is gone)');
 assert.equal(Seam.goldenShowdownPoints({rivalryId:id,setupConfirmedAt:AFTER}),150);assert.equal(Seam.goldenShowdownPoints({rivalryId:id,setupConfirmedAt:BEFORE}),150,'r87 (Nik 2026-11-01 17:35 UTC): no 110 Golden Showdown');
 ok('T2','the season maximum is 15 for a Showdown that plays Prime Pack and 11 before it (the race maths); the Golden Showdown is 150 in every Showdown');
 
