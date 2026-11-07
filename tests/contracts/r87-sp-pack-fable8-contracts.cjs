@@ -98,5 +98,12 @@ ok("R90-PS6 Nik's tighter rhythm (2026-11-07 22:50 UTC): four quicker stretches,
   assert.match(page,/SCOUT_HOLD=2\.8,/);
   assert.match(page,/stepParticles\(dt\*ps\); stepChunks\(dt\*ps\);/,"sparks keep their own speed");
 });
+ok("R90-PS7 quality by level (Nik 23:44 UTC): MSAA, shadows, filtering and card sharpness follow the gfxTier level; light draws less",()=>{
+  assert.match(page,/const GL_LVL=GP\?GP\.level:2, GQ=\{ samples:\[2,2,4,8,8\]\[GL_LVL\], shadow:GP\?GP\.shadowSize:2048, aniso:\[4,8,16,16,16\]\[GL_LVL\], cardMax:GL_LVL>=3\?2\.5:2 \};/);
+  assert.match(page,/samples:Math\.min\(PHONE_GPU\?2:GQ\.samples,renderer\.capabilities\.maxSamples\|\|4\)/,"never past what the GPU allows");
+  assert.match(page,/sun\.shadow\.mapSize\.set\(PHONE_GPU\?1024:GQ\.shadow,PHONE_GPU\?1024:GQ\.shadow\)/);
+  assert.match(page,/Math\.min\(GQ\.cardMax,Math\.ceil\(px\/CH\*4\)\/4\)/,"card art only as sharp as the screen needs");
+  assert.ok(!/anisotropy=8;/.test(page),"filtering follows the level");
+});
 
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
