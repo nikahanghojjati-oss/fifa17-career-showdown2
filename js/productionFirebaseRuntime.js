@@ -9,24 +9,20 @@
   const PRODUCTION_PATH_PREFIX="/fifa17-career-showdown2/";
   const FIREBASE_SDK_VERSION="12.17.0";
   const CONFIG_PATH="firebase.runtime-config.json";
-  const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
   const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
   const FALLBACK_RUNTIME_REVISION="1.9.0-r1";
   const BROWSER_FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
-  const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
   const FIREBASE_AUTH_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-auth.js`;
   const FIREBASE_FIRESTORE_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-firestore.js`;
 
   let runtimeState=Object.freeze({status:"idle",attempted:false,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
   let runtimePromise=null;
-  let bootstrapPromise=null;
   let connectedAccountPromise=null;
   let connectedAccountBridgeObserver=null;
   let productionApp=null;
   let productionAppCheck=null;
   let productionAppCheckGetToken=null;
-  let appCheckTokenObserverUnsubscribe=null;
   let accountServices=null;
   let accountServicesPromise=null;
   let tokenRefreshPromise=null;
@@ -87,27 +83,6 @@
     }
   }
 
-  function getBootstrap(){
-    return root.CareerModeProductionAppCheckBootstrap||null;
-  }
-
-  async function loadBootstrapScript(){
-    const existing=getBootstrap();
-    if(existing)return existing;
-    if(bootstrapPromise)return bootstrapPromise;
-    if(!root.document)return null;
-    bootstrapPromise=new Promise(resolve=>{
-      const script=root.document.createElement("script");
-      script.src=buildVersionedLocalUrl(BOOTSTRAP_PATH);
-      script.async=false;
-      script.dataset.productionAppCheckBootstrap="true";
-      script.addEventListener("load",()=>resolve(getBootstrap()),{once:true});
-      script.addEventListener("error",()=>resolve(null),{once:true});
-      root.document.head.appendChild(script);
-    }).finally(()=>{bootstrapPromise=null;});
-    return bootstrapPromise;
-  }
-
   function getConnectedAccount(){
     return root.CareerModeSparkConnectedAccount||null;
   }
@@ -129,81 +104,10 @@
     return connectedAccountPromise;
   }
 
-  function buildBootstrapInput(config){
-    return {
-      origin:PRODUCTION_ORIGIN,
-      firebaseConfig:config.firebaseConfig,
-      recaptchaEnterpriseSiteKey:config.recaptchaEnterpriseSiteKey,
-      debug:false,
-      enforcement:false
-    };
-  }
-
   async function loadFirebaseSdk(importImpl=url=>import(url)){
     const appModule=await importImpl(FIREBASE_APP_MODULE);
     return {initializeApp:appModule.initializeApp};
   }
-  function appCheckTokenObserved(tokenResult){
-    return Boolean(tokenResult&&typeof tokenResult.token==="string"&&tokenResult.token.length>0);
-  }
-
-  function appCheckTokenExpiry(tokenResult){
-    return Number.isFinite(tokenResult&&tokenResult.expireTimeMillis)?tokenResult.expireTimeMillis:null;
-  }
-
-  function recordAppCheckTokenObservation(tokenResult,source){
-    const observed=appCheckTokenObserved(tokenResult);
-    const nextExpiry=appCheckTokenExpiry(tokenResult);
-    const previousExpiry=Number.isFinite(runtimeState.tokenExpireTimeMillis)?runtimeState.tokenExpireTimeMillis:null;
-    const transitioned=Boolean(observed&&nextExpiry!==null&&previousExpiry!==null&&nextExpiry!==previousExpiry);
-    const tokenRefreshCount=(runtimeState.tokenRefreshCount||0)+(transitioned?1:0);
-    return setRuntimeState({
-      ...runtimeState,
-      status:observed?"ready":"ready-app-check-degraded",
-      connected:true,
-      tokenObserved:observed,
-      appCheckDegraded:!observed,
-      tokenExpireTimeMillis:nextExpiry!==null?nextExpiry:previousExpiry,
-      tokenLifecycleObserved:runtimeState.tokenLifecycleObserved===true||transitioned,
-      tokenRefreshCount,
-      lastTokenTransition:transitioned?source:(runtimeState.lastTokenTransition||"initial"),
-      appCheckTokenObserverHealthy:runtimeState.appCheckTokenObserverInstalled===true?true:runtimeState.appCheckTokenObserverHealthy
-    });
-  }
-
-  function installAppCheckTokenLifecycleObserver(appCheck,sdk){
-    if(typeof sdk.onTokenChanged!=="function"){
-      setRuntimeState({...runtimeState,appCheckTokenObserverInstalled:false,appCheckTokenObserverHealthy:null});
-      return false;
-    }
-    if(typeof appCheckTokenObserverUnsubscribe==="function"){
-      try{appCheckTokenObserverUnsubscribe();}catch(_error){}
-      appCheckTokenObserverUnsubscribe=null;
-    }
-    try{
-      const unsubscribe=sdk.onTokenChanged(appCheck,{
-        next(tokenResult){
-          recordAppCheckTokenObservation(tokenResult,"sdk-token-changed");
-        },
-        error(error){
-          setRuntimeState({...runtimeState,appCheckTokenObserverInstalled:true,appCheckTokenObserverHealthy:false,lastTokenLifecycleError:"observer-callback-error"});
-          if(root.console&&typeof root.console.warn==="function"){
-            root.console.warn("[Career Mode Showdown] App Check token lifecycle observation reported an error; connected and local state remain unchanged.",error);
-          }
-        }
-      });
-      appCheckTokenObserverUnsubscribe=typeof unsubscribe==="function"?unsubscribe:null;
-      setRuntimeState({...runtimeState,appCheckTokenObserverInstalled:true,appCheckTokenObserverHealthy:true});
-      return true;
-    }catch(error){
-      setRuntimeState({...runtimeState,appCheckTokenObserverInstalled:false,appCheckTokenObserverHealthy:false,lastTokenLifecycleError:"observer-registration-failed"});
-      if(root.console&&typeof root.console.warn==="function"){
-        root.console.warn("[Career Mode Showdown] App Check token lifecycle observer is unavailable; SDK auto-refresh remains enabled and local mode is unaffected.",error);
-      }
-      return false;
-    }
-  }
-
   async function loadAccountFirebaseSdk(importImpl=url=>import(url)){
     const [authModule,firestoreModule]=await Promise.all([
       importImpl(FIREBASE_AUTH_MODULE),
@@ -423,7 +327,6 @@
     firebaseAuthModule:FIREBASE_AUTH_MODULE,
     firebaseFirestoreModule:FIREBASE_FIRESTORE_MODULE,
     runtimeConfigPath:CONFIG_PATH,
-    bootstrapPath:BOOTSTRAP_PATH,
     connectedAccountPath:CONNECTED_ACCOUNT_PATH,
     enforcementEnabled:false,
     billingRequired:false,
