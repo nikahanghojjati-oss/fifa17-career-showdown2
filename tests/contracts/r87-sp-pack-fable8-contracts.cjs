@@ -55,7 +55,7 @@ ok("R90-PS1 no beat redraws or re-uploads a card face: every face, coin and flag
   assert.ok(!/(?:front|back|coinTex|f\.tex)\.tx\.needsUpdate=true/.test(page),"no per-beat canvas re-upload");
   assert.ok(!/drawCard(?:Back|Front)\(back\.ctx|drawCardFront\(front\.ctx|drawScoutBack\(back\.ctx/.test(page),"the card is never redrawn mid-reveal");
   assert.match(page,/function prepareCards\(\)\{[\s\S]*renderer\.initTexture\(tx\)/,"prepared faces are uploaded up front");
-  assert.match(page,/resize\(\); prepareCards\(\); buildEnv\(\);[^\n]*warmTextures\(\); warmDraw\(\); startPlayer\(0\);/,"prepared and warmed before the first frame the game shows");
+  assert.match(page,/resize\(\); prepareCards\(\); buildEnv\(\);[^\n]*warmTextures\(\); warmDraw\(\);[^\n]*startGfx\(\); startPlayer\(0\);/,"prepared and warmed before the first frame the game shows");
   for(const beat of ["pos","nat","club"])assert.match(page,new RegExp(`at\\(tt,[0-9.]+,"${beat}",\\(\\)=>\\{ clueMaps\\(`),`${beat} clue only swaps a texture`);
 });
 ok("R90-PS2 the baked soft stadium photos replace the full-size ones, and only the two shown card tiers are fetched",()=>{
@@ -67,10 +67,16 @@ ok("R90-PS2 the baked soft stadium photos replace the full-size ones, and only t
   assert.ok(!/softImage\(/.test(page),"no shrinking at load");
   assert.match(page,/function loadCardArt\(\)\{ const want=new Set\(Object\.values\(pair\)\.map\(p=>p\.tier\)\);/);
 });
-ok("R90-PS3 quality follows the device: a frame governor under the screen's own pixel ratio, ?fps=1 counter, real-time timeline",()=>{
-  assert.match(page,/const DPR=Math\.min\(devicePixelRatio\|\|1, PHONE_GPU\?2:3\);/,"never above the device pixel ratio");
-  assert.match(page,/const RS_STEPS=\[\.5,\.625,\.75,\.875,1\]; let rsI=2,/,"starts light, steps up while smooth");
-  assert.match(page,/function frame\(\)\{ if\(manual===null\)\{ tick\(true\); govern\(\); \}/);
+ok("R90-PS3 quality follows the device: the shared gfxTier governor (Settings 3D quality), ?fps=1 counter, real-time timeline",()=>{
+  // r90 follow-up: the governor is js/gfxTier.js's, so the pack follows the Settings "3D quality" choice like the other 3D screens.
+  assert.match(page,/<script src="\.\.\/\.\.\/\.\.\/js\/gfxTier\.js"><\/script>/,"the shared quality module loads before the scene");
+  assert.match(page,/const GFX=window\.CareerModeGfxTier\|\|null, GP=GFX\?GFX\.profile\(\):null;/);
+  assert.match(page,/let PR=GP\?GP\.pixelRatio:DPR\*\.75/,"starts at the profile's ratio (Auto never above the screen's)");
+  assert.match(page,/GFX\.calibrate\(renderer,render\)/,"timed frames behind the loading screen");
+  assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \}\}\);/);
+  assert.match(page,/function frame\(\)\{ if\(manual===null\)\{ tick\(true\); if\(gov\) gov\.frame\(performance\.now\(\)\); \}/);
+  assert.match(page,/GFX\.overlay\(/,"?fps=1 counter from the shared module");
+  assert.ok(!/RS_STEPS|function govern\(|fpsEl/.test(page),"no second governor or counter left in the page");
   assert.match(page,/dt=Math\.min\(\.1,gap\);/,"the timeline keeps real time on a slow device");
   assert.match(reveal,/\[\?&\]fps=1/,"the game passes ?fps=1 to the page");
 });
