@@ -2986,6 +2986,15 @@
         "^tests/contracts/r89\\-sacked\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r90-gfx-tier-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r90\\-gfx\\-tier\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
