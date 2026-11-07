@@ -158,7 +158,22 @@ if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.W
   else document.body.insertAdjacentText("beforeend","This browser can't draw the 3D revolver (WebGL is off).");
   return;
 }
-const T=THREE, $=(id)=>document.getElementById(id), qs=new URLSearchParams(location.search);
+/* r90 high quality (Nik 2026-11-07: "4K quality and high quality hugely improved ... most emphasis on a high-end PC ... without any more
+   pressure on a Chromebook or a phone"): on High every round part (barrel, drum, chamber holes, lantern, cups, rims) is built with 1.5x
+   its segments, on Extra and Ultra with 2x (capped at 256), so curves stay round at 4K. The props are baked into one mesh per material,
+   so this adds triangles, never draw calls. Light and Medium build exactly the meshes they did before (T is plain three.js there). */
+const SEGK=(()=>{ try{ const lv=window.CareerModeGfxTier.profile().level; return lv>=3?2:lv>=2?1.5:1; }catch(e){ return 1; } })();
+const T=SEGK===1?THREE:(()=>{ const B=THREE, k=n=>Math.min(256,Math.max(3,Math.round(n*SEGK))), o=Object.create(B), def=(n,C)=>Object.defineProperty(o,n,{value:C});
+  def("CylinderGeometry",class extends B.CylinderGeometry{ constructor(a,b,h,r=32,hs=1,oe,ts,tl){ super(a,b,h,k(r),hs,oe,ts,tl); } });
+  def("ConeGeometry",class extends B.ConeGeometry{ constructor(r,h,rs=32,hs=1,oe,ts,tl){ super(r,h,k(rs),hs,oe,ts,tl); } });
+  def("TorusGeometry",class extends B.TorusGeometry{ constructor(r,t,rs=12,ts=48,a){ super(r,t,k(rs),k(ts),a); } });
+  def("TubeGeometry",class extends B.TubeGeometry{ constructor(p,ts=64,r,rs=8,c){ super(p,k(ts),r,k(rs),c); } });
+  def("LatheGeometry",class extends B.LatheGeometry{ constructor(p,seg=12,ps,pl){ super(p,k(seg),ps,pl); } });
+  def("SphereGeometry",class extends B.SphereGeometry{ constructor(r,w=32,h=16,...a){ super(r,k(w),k(h),...a); } });
+  def("CircleGeometry",class extends B.CircleGeometry{ constructor(r,seg=32,...a){ super(r,k(seg),...a); } });
+  def("ExtrudeGeometry",class extends B.ExtrudeGeometry{ constructor(sh,op){ const q=Object.assign({},op); q.curveSegments=k(q.curveSegments||12); if(q.bevelEnabled!==false) q.bevelSegments=k(q.bevelSegments||3); super(sh,q); } });
+  return o; })();
+const $=(id)=>document.getElementById(id), qs=new URLSearchParams(location.search);
 /* r89 engine upgrade (r128 -> r187): colours stay as written (L() converts by hand) and the lights keep their r128 maths */
 T.ColorManagement.enabled=false; T.cmsLegacyLights();
 const LOOK={hdri:null};
@@ -175,6 +190,10 @@ const LAYOUT={ danielClub: qs.get("d")||"Manchester United", nikClub: qs.get("n"
    ================= */
 const GFXT=window.CareerModeGfxTier;
 const GFX=GFXT.profile();
+/* r90 high quality: from High up, the lacquered wood, the glazed cups and the felt get their real second layer (a clear lacquer coat,
+   a glaze, a velvet sheen); Light and Medium keep the one-lobe standard material, so their frames cost what they did */
+const HQ=GFX.level>=2;
+function mat(p,hq){ return HQ&&hq?new T.MeshPhysicalMaterial(Object.assign({},p,hq)):new T.MeshStandardMaterial(p); }
 
 /* ================= renderer ================= */
 const stage=$("stage");
@@ -223,15 +242,15 @@ function cv(w,h){ const c=document.createElement("canvas"); c.width=w; c.height=
 let NOISE=null; function grain(ctx,w,h,a){ if(!NOISE){ const [c,x]=cv(256,256), d=x.createImageData(256,256), q=d.data; for(let i=0;i<q.length;i+=4){ q[i]=q[i+1]=q[i+2]=Math.random()*255; q[i+3]=255; } x.putImageData(d,0,0); NOISE=c; }
   ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalCompositeOperation="overlay"; ctx.globalAlpha=Math.min(1,a/120); ctx.fillStyle=ctx.createPattern(NOISE,"repeat"); ctx.fillRect(0,0,w,h); ctx.restore(); }
 /* plank wood: staggered boards per row, each with its own tone, long figured grain, a dark bevelled gap and a thin lit edge */
-function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}; const [c,ctx]=cv(w,h); ctx.fillStyle=base; ctx.fillRect(0,0,w,h);
+function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}, sc=o.scale||1; const [c,ctx]=cv(w*sc,h*sc); ctx.scale(sc,sc); ctx.fillStyle=base; ctx.fillRect(0,0,w,h);
   const ph=h/planks, bl=o.boardLen||w; for(let p=0;p<planks;p++){ const y0=p*ph; let x=-Math.random()*bl*.8;
     while(x<w){ const len=bl*(.7+Math.random()*.6), tone=(Math.random()-.5)*(o.vary||.16); ctx.fillStyle=tone>0?`rgba(255,205,150,${tone})`:`rgba(0,0,0,${-tone*1.6})`; ctx.fillRect(x,y0,len,ph);
       const off=Math.random()*900; for(let i=0;i<(o.lines||60);i++){ const y=y0+Math.random()*ph; ctx.strokeStyle=`rgba(${Math.random()<.5?"0,0,0":"255,215,165"},${.05+Math.random()*.12})`; ctx.lineWidth=.6+Math.random()*2.2; ctx.beginPath(); for(let xx=x;xx<=x+len;xx+=18){ ctx.lineTo(xx,y+Math.sin((xx+off)*.011)*5+Math.sin((xx+off)*.031)*2.4); } ctx.stroke(); }
       if(len<w){ ctx.fillStyle=dark; ctx.fillRect(x+len-2,y0,3,ph); ctx.fillStyle="rgba(255,225,180,.1)"; ctx.fillRect(x+len+1,y0,1,ph); } x+=len; }
     ctx.fillStyle=dark; ctx.fillRect(0,y0,w,3); ctx.fillStyle="rgba(255,230,190,.14)"; ctx.fillRect(0,y0+3,w,1); ctx.fillStyle="rgba(0,0,0,.22)"; ctx.fillRect(0,y0+ph-2,w,2); }
-  grain(ctx,w,h,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
-function feltTex(){ const [c,ctx]=cv(1024,1024); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
-  ctx.globalAlpha=.06; for(let i=0;i<1024;i+=2){ ctx.fillStyle=i%4?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024,1024,26);
+  grain(ctx,w*sc,h*sc,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
+function feltTex(){ const F=HQ?2:1, [c,ctx]=cv(1024*F,1024*F); ctx.scale(F,F); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
+  ctx.globalAlpha=.06; for(let i=0;i<1024;i+=2){ ctx.fillStyle=i%4?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024*F,1024*F,26);
   const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
 /* floor marble (r89, Nik 2026-11-03: "match the tile style of the background picture's flooring"): the cafe picture's floor is a bright
@@ -282,15 +301,15 @@ const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"r
 /* ================= materials ================= */
 /* r90 (frame budget): every surface is one MeshStandardMaterial (no clearcoat or sheen lobes), so the scene compiles a handful of
    programs and each pixel runs one specular term; the look comes from the maps, the roughness and the room light */
-const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1]);
+const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1],{scale:HQ?2:1});   /* r90: drawn at twice the pixels from High up, same pattern */
 const gripTex=woodTex(256,256,"#6b3a1b","#2a1406",2,[1,1]);
 const M={
   floor:new T.MeshStandardMaterial({map:(()=>{ const t=floorMarbleTex(); t.repeat.set(5.5,5.5); return t; })(), roughness:.12, metalness:0, color:0xf1f5fc}),   /* cream marble floor, the website's marble look */
-  felt:new T.MeshStandardMaterial({map:feltTex(), roughness:.96, metalness:0, color:0x7c9c7a}),
+  felt:mat({map:feltTex(), roughness:.96, metalness:0, color:0x7c9c7a},{sheen:.5, sheenRoughness:.8, sheenColor:L("#2a5232")}),
   brass:new T.MeshStandardMaterial({color:L("#c99c46"), roughness:.26, metalness:1}),
   brassDark:new T.MeshStandardMaterial({color:L("#6f4e1c"), roughness:.4, metalness:1}),
   gold:new T.MeshStandardMaterial({color:L("#e6bd5e"), roughness:.2, metalness:1}),
-  porcelain:new T.MeshStandardMaterial({color:L("#f4ede2"), roughness:.18, metalness:0}),
+  porcelain:mat({color:L("#f4ede2"), roughness:.18, metalness:0},{roughness:.35, clearcoat:1, clearcoatRoughness:.04}),
   coffee:new T.MeshStandardMaterial({color:L("#1d0e05"), roughness:.06, metalness:0}),
   glass:new T.MeshStandardMaterial({color:0xfff2dc, roughness:.02, metalness:0, transparent:true, opacity:.22, side:T.DoubleSide, depthWrite:false}),
   card:new T.MeshStandardMaterial({color:L("#eee4c8"), roughness:.8}),
@@ -326,7 +345,7 @@ function bake(root,skip){ root.updateMatrixWorld(true); const inv=root.matrixWor
 /* the dealer's table: round, green felt, lacquered mahogany rim with a gold inlay, turned pedestal */
 const table=new T.Group(); scene.add(table);
 { const R=.78; const top=mesh(new T.CylinderGeometry(R-.06,R-.06,.03,96),M.felt,0,.735,0,table); top.receiveShadow=true;
-  const mahog=new T.MeshStandardMaterial({map:tableWoodTex, color:0x5e2a1a, roughness:.16, metalness:.05});
+  const mahog=mat({map:tableWoodTex, color:0x5e2a1a, roughness:.16, metalness:.05},{roughness:.42, clearcoat:1, clearcoatRoughness:.06});
   /* rim: an ogee moulding turned from a profile (r,y), two gold beads and a gold inlay line on the felt side */
   const rimProf=[[R-.065,.735],[R-.06,.752],[R-.04,.76],[R-.015,.762],[R+.005,.755],[R+.015,.74],[R+.018,.72],[R+.012,.70],[R,.69],[R-.02,.685],[R-.06,.682],[R-.065,.735]];
   const rim=mesh(new T.LatheGeometry(rimProf.map(q=>new T.Vector2(q[0],q[1])),128),mahog,0,0,0,table); rim.castShadow=true; rim.receiveShadow=true;
@@ -386,7 +405,7 @@ const table=new T.Group(); scene.add(table);
 
 /* ================= lights (r90: one tight table light with the one static shadow map, a dim fill, the lantern on the table and one
    effects light; the hall's wall, window, ceiling and fill lights went with the hall) ================= */
-const key=new T.SpotLight(L("#ffd092"),1.7,10,.52,.55,1.3); key.position.set(.6,3.4,1.8); key.target.position.set(0,.8,.1); scene.add(key,key.target); key.castShadow=true; key.shadow.mapSize.set(GFX.shadowSize,GFX.shadowSize); key.shadow.bias=-.0004; key.shadow.radius=2.5;
+const key=new T.SpotLight(L("#ffd092"),1.7,10,.52,.55,1.3); key.position.set(.6,3.4,1.8); key.target.position.set(0,.8,.1); scene.add(key,key.target); key.castShadow=true; key.shadow.mapSize.set(GFX.shadowSize,GFX.shadowSize); key.shadow.bias=-.0004; key.shadow.radius=2.5*Math.sqrt(GFX.shadowSize/1024);   /* r90: a bigger map keeps the same soft edge, only smoother */
 const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),.3); scene.add(fill);   /* r90: dimmer, so the floor falls off into the dark outside the table light */
 /* the effects light: the cool key over the steel in the close-ups, the muzzle flash and the hit flash take turns on ONE point light
    (each frame it plays whichever is brightest; they barely overlap), so every material carries two point lights instead of eight */
@@ -450,7 +469,7 @@ const GM={
   bright:new T.MeshStandardMaterial({color:L("#cfd5de"), metalness:1, roughness:.2}),
   brass:new T.MeshStandardMaterial({color:L("#c9a24a"), roughnessMap:rghT, metalness:1, roughness:.24}),
   gold:new T.MeshStandardMaterial({color:L("#e6bf5c"), metalness:1, roughness:.18}),
-  walnut:new T.MeshStandardMaterial({map:woodTex(256,256,"#5a2e14","#2a1206",1,[2,2]), color:0xb07a50, roughness:.32}),
+  walnut:mat({map:woodTex(256,256,"#5a2e14","#2a1206",1,[2,2],{scale:HQ?2:1}), color:0xb07a50, roughness:.32},{roughness:.5, clearcoat:.6, clearcoatRoughness:.18}),
   bore:new T.MeshStandardMaterial({color:0x020202, roughness:.95}),
   boreIn:new T.MeshStandardMaterial({color:L("#15181d"), metalness:.7, roughness:.62, side:T.DoubleSide}),
   drum:new T.MeshStandardMaterial({color:L("#8f99a8"), metalness:.92, roughness:.26}),   /* r87 polish: nickel steel like the hand picture's cylinder, not cream */
@@ -579,7 +598,7 @@ window.__dbg={gun,cyl,crane,hammer,muzzle,spin,lie,scene,renderer,get camera(){r
 const boards={ D:null, N:null };
 const BOARD_W=.84, BOARD_H=.64;
 function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
-const lacquer=new T.MeshStandardMaterial({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05});
+const lacquer=mat({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05},{roughness:.45, clearcoat:.8, clearcoatRoughness:.1});
 function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
   const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
