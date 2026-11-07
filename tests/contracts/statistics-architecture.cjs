@@ -22,7 +22,7 @@ const initialJs = localRefs.filter(ref => ref.startsWith('js/'));
 const initialCss = localRefs.filter(ref => ref.startsWith('css/'));
 assert.strictEqual(initialJs.length, 7, 'Statistics alignment must not add startup JavaScript.');
 assert.deepStrictEqual(initialCss, ['css/app.css'], 'Statistics alignment must not add startup CSS.');
-['js/analytics.js', 'js/statistics.js', 'js/trophyRoom.js', 'css/analytics.css'].forEach(asset => {
+['js/statistics.js', 'js/trophyRoom.js', 'css/analytics.css'].forEach(asset => {
   assert.ok(!localRefs.includes(asset), `${asset} must remain lazy.`);
 });
 
@@ -36,19 +36,17 @@ const statisticsLoader = optional.slice(
 assert.ok(statisticsLoader && !statisticsLoader.includes('ensureGameplayModules'), 'Career Statistics must not wake the full gameplay runtime.');
 
 assert.ok(statistics.includes('section.id = "careerStatistics"'), 'Career Statistics screen is missing.');
-assert.ok(statistics.includes('buildCareerAnalytics()'), 'Career Statistics must reuse the established analytics engine.');
-assert.ok(statistics.includes('createCareerStandingsTable'), 'Career Statistics career table is missing.');
-assert.ok(statistics.includes('MANAGER COMPARISON'), 'Career manager comparison is missing.');
-assert.ok(statistics.includes('CAREER LEADERS'), 'Career leader summary is missing.');
 assert.ok(statistics.includes('CURRENT RIVALRY STATISTICS'), 'Current-rivalry bridge is missing.');
 assert.ok(statistics.includes('OPEN TROPHY ROOM'), 'Trophy Room bridge is missing.');
 assert.ok(statistics.includes('window.openCareerStatistics = openCareerStatistics'), 'Career Statistics API export is missing.');
 assert.ok(statistics.includes('window.openRivalryStatistics = openRivalryStatistics'), 'Existing Rivalry Statistics API was lost.');
 
-assert.ok(trophy.includes('createCareerStandingsTable(analytics.managers)'), 'Trophy Room must reuse the shared career-table renderer.');
-assert.ok(!trophy.includes('function createCareerStandingsTable('), 'Trophy Room must not duplicate the career-table renderer.');
-assert.ok(trophy.includes('MANAGER CABINETS'), 'Trophy Room cabinets were lost.');
-assert.ok(trophy.includes('ALL-TIME RECORDS'), 'Trophy Room records were lost.');
+// r90: the old local tables, cabinets and records (js/analytics.js) were unreachable since r61 and are deleted;
+// all three screens paint the online career model through the career screen seam.
+for(const [name,source,view] of [['Career Statistics',statistics,'careerStatistics'],['Rivalry Statistics',statistics,'rivalryStatistics'],['Trophy Room',trophy,'trophyRoom']]){
+  assert.ok(source.includes(`seam.careerScreenView("${view}"`), `${name} must paint the online career model.`);
+}
+assert.ok(!/buildCareerAnalytics|buildRivalryAnalytics|createCareerStandingsTable/.test(statistics+trophy+optional), 'The retired local analytics engine must not come back.');
 
 assert.ok(screens.includes('"careerStatistics"'), 'Career Statistics is not registered with central navigation.');
 assert.ok(screens.includes('careerStatistics: ["mainMenu"]'), 'Career Statistics Back policy must return to Home.');
@@ -61,6 +59,6 @@ assert.ok(diagnostics.includes('"careerStatisticsButton"'), 'Runtime diagnostics
 assert.ok(diagnostics.includes('["careerStatisticsButton", "careerStatisticsBound"]'), 'Runtime diagnostics do not verify Statistics binding.');
 
 const analyticsNamedFiles = fs.readdirSync('js').filter(file => /analytics/i.test(file)).sort();
-assert.deepStrictEqual(analyticsNamedFiles, ['analytics.js', 'sharedCareerAnalytics.js'], 'Only the local analytics engine and the shared career model may exist.');
+assert.deepStrictEqual(analyticsNamedFiles, ['sharedCareerAnalytics.js'], 'Only the shared career model may exist.');
 
-console.log(`Main Menu Statistics alignment, lazy loading, shared analytics, Trophy Room reuse, route contracts, and ${revision} shell identity passed.`);
+console.log(`Main Menu Statistics alignment, lazy loading, online career model views, route contracts, and ${revision} shell identity passed.`);

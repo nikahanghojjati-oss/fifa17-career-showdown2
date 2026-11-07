@@ -5,7 +5,7 @@ const {webcrypto}=require("node:crypto");
 const {TextEncoder}=require("node:util");
 const read=file=>fs.readFileSync(file,"utf8");
 const source={
-  storage:read("js/storage.js"),transaction:read("js/storageTransaction.js"),foundation:read("js/saveLibraryFoundation.js"),persistence:read("js/saveLibraryPersistence.js"),runtime:read("js/saveLibraryRuntime.js"),ui:read("js/saveLibraryUI.js"),analytics:read("js/analytics.js"),trophy:read("js/trophyRoom.js")
+  storage:read("js/storage.js"),transaction:read("js/storageTransaction.js"),foundation:read("js/saveLibraryFoundation.js"),persistence:read("js/saveLibraryPersistence.js"),runtime:read("js/saveLibraryRuntime.js"),ui:read("js/saveLibraryUI.js")
 };
 const keys={saveLibrary:"careerModeShowdown.saveLibrary",activeShowdown:"careerModeShowdown.activeShowdown",legacyShowdowns:"careerModeShowdown.legacyShowdowns",preferences:"careerModeShowdown.preferences"};
 
@@ -14,7 +14,6 @@ assert.ok(source.runtime.includes("runtimeFlushBeforeIdentityMutation")&&source.
 assert.ok(source.runtime.includes("record.identity&&record.identity.saveId===saveId"),"Save-to-Legacy propagation must use stable Save identity, never visible-name equality.");
 assert.ok(source.ui.includes("No names are matched automatically")&&source.ui.includes("Historical roles can stay explicitly unresolved"),"Visible identity controls must explain explicit-only mapping and unresolved history.");
 assert.ok(!/\blocalStorage\b/.test(source.ui),"Identity linkage UI must not create a raw browser-storage writer.");
-assert.ok(source.analytics.includes("analyticsNormalizeName")&&source.trophy.includes("buildCareerAnalytics"),"This foundation candidate must not silently replace the separately bounded Analytics/Trophy aggregation layer.");
 
 function showdown(id,name="Rivalry",one="Same Name",two="Same Name",status="Created"){
   return {schemaVersion:2,integrityWarnings:[],id,name,managers:{playerOne:one,playerTwo:two},totalRounds:3,currentRound:1,status,selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],createdAt:"2026-08-14T00:00:00.000Z",updatedAt:"2026-08-14T00:00:00.000Z",completedAt:status==="Completed"?"2026-08-14T01:00:00.000Z":null,archivedAt:null};

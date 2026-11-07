@@ -315,22 +315,12 @@ throw error;
 return requiredFootballVisualPromise;
 }
 
-async function ensureAnalyticsEngine(){
-await loadRuntimeScript(
-"analytics-engine",
-"js/analytics.js",
-() => typeof window.buildRivalryAnalytics === "function" && typeof window.buildCareerAnalytics === "function"
-);
-}
-
 async function ensureStatisticsScript(){
-await ensureAnalyticsEngine();
 await loadRuntimeScript(
 "statistics-ui",
 "js/statistics.js",
 () => typeof window.openRivalryStatistics === "function"
 && typeof window.openCareerStatistics === "function"
-&& typeof window.createAnalyticsStat === "function"
 );
 }
 

@@ -130,27 +130,5 @@ async function summaryChecks(){
   ok("F7-03","a phone-copy put that never settles hangs neither the career load nor the summary save");
 }
 
-// ---- F7-07 ----
-{
-  const c={console};c.window=c;c.currentShowdown=null;c.loadLegacyShowdowns=()=>[];c.loadSavedShowdown=()=>null;c.getLegacyStorageRevision=()=>0;
-  vm.createContext(c);vm.runInContext(read("js/scoring.js"),c);
-  vm.runInContext(read("js/analytics.js")+"\n;globalThis.__career=buildCareerAnalytics;",c);
-  const A="profile_"+"c".repeat(24),B="profile_"+"d".repeat(24);
-  const player=(o)=>({leaguePosition:5,leaguePoints:60,leagueGoals:50,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false,...o});
-  const showdown=(id,rounds,score)=>({id,name:id,status:"Completed",managers:{playerOne:"Daniel",playerTwo:"Nik"},identity:{schemaVersion:1,saveId:"save_"+"1".repeat(24),managerProfileIds:{playerOne:A,playerTwo:B}},clubs:{playerOne:"X",playerTwo:"Y"},selectedLeague:{id:"pl",name:"Premier League"},score,rounds});
-  // Daniel: 1 Showdown win, 2 trophies, 4 points. Nik: 1 Showdown win, 1 trophy, 6 points.
-  const history=[
-    showdown("a",[{roundNumber:1,winner:"playerOne",playerOne:{...player({leaguePosition:1,domesticCup:true}),scoring:{total:4}},playerTwo:{...player(),scoring:{total:0}}}],{playerOne:4,playerTwo:0}),
-    showdown("b",[{roundNumber:1,winner:"playerTwo",playerOne:{...player(),scoring:{total:0}},playerTwo:{...player({championsLeague:true,topScorer:true}),scoring:{total:6}}}],{playerOne:0,playerTwo:6})
-  ];
-  const ranked=c.__career(history);
-  assert.deepEqual(clone(ranked.managers.map(m=>m.profileId)),[B,A],"more career points ranks first, whatever the trophies");
-  assert.equal(ranked.managers.some(m=>m.level),false);
-  const level=c.__career([history[0],showdown("c",[{roundNumber:1,winner:"playerTwo",playerOne:{...player(),scoring:{total:0}},playerTwo:{...player({leaguePosition:1,topScorer:true}),scoring:{total:4}}}],{playerOne:0,playerTwo:4})]);
-  assert.equal(level.managers[0].totalPoints,level.managers[1].totalPoints);
-  assert.deepEqual(clone(level.managers.map(m=>m.level)),[true,true],"equal career points are level");
-  assert.deepEqual(clone(level.managers.map(m=>m.profileId)),[A,B],"level rows keep their order (no tiebreak)");
-  ok("F7-07","the old career table ranks by career points only; equal career points are level");
-}
 
 summaryChecks().then(()=>console.log(`r87 Fable career truth contracts passed (${checks} checks)`)).catch(error=>{console.error(error);process.exit(1);});

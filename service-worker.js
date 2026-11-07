@@ -92,7 +92,6 @@ const SHELL_PATHS = Object.freeze([
     "data/footballVisuals.js",
     "data/leagues.js",
     "data/transferOptions.js",
-    "js/analytics.js",
     "js/careerScreenSeam.js",
     "js/careerScreensV10.js",
   "visual-assets/v10_1/legacy/legacy.css",
@@ -349,7 +348,7 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // scene and stadium (players and stadium GLBs are Team V images, V10_IMAGE_PATH runtime cache). Removed: three.js r128, which
 // a page rolled back to 2.1.0 still finds in its own retained shell. The STORY site (chronicle/) is never precached.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js"]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.

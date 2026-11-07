@@ -132,11 +132,7 @@ for(const f of ["js/statistics.js","js/trophyRoom.js","js/ruleBook.js"]){
 // maximum uses 15, and no screen text or Golden rule is left on 11 or 110.
 {
   const src=f=>fs.readFileSync(require("node:path").join(__dirname,"..","..",f),"utf8");
-  assert.doesNotMatch(src("js/trophyRoom.js"),/PERFECT 11-POINT/i,"Trophy Room records card says 15");
-  assert.match(src("js/trophyRoom.js"),/"PERFECT 15-POINT SEASONS"/);
   assert.match(src("index.html"),/Prime Pack \+4, \+3, \+2 or \+1\. Maximum season score: 15\./,"the Season Results hint gives Prime Pack and 15");
-  assert.match(src("js/statistics.js"),/\(Number\(score\) \/ 15\) \* 100/,"a season score bar fills at 15");
-  assert.match(src("js/analytics.js"),/if\(score >= 15\)\{ stats\.perfectSeasons \+= 1; \}/,"local analytics: perfect is 15");
   assert.doesNotMatch(src("js/touchlineGazette.js"),/points:110/,"the Gazette's Golden mark is 150");
   // Rivalry Statistics (the live Showdown): a 14 is not perfect, a 15 is, although the History projection counts 11 or more.
   const A=require("../../js/sharedActiveShowdownAdapter.js");
@@ -145,5 +141,5 @@ for(const f of ["js/statistics.js","js/trophyRoom.js","js/ruleBook.js"]){
   const m=career([showdown('c',Array.from({length:10},()=>[plainSeason(),perfect()]),BEFORE)]);
   assert.equal(m.managers.nik.perfectSeasons,0,"an 11 before Prime Pack is not a perfect season");
 }
-ok('T7','Trophy Room, Season Results hint, score bars, local analytics and the Gazette all use 15; an 11 is never perfect');
+ok('T7','Season Results hint, the career model and the Gazette all use 15; an 11 is never perfect');
 console.log(`PASS r87 Prime Pack totals contracts (${checks} checks)`);
