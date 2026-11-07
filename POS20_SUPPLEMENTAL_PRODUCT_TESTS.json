@@ -2984,6 +2984,18 @@
         "^tests/contracts/r89\\-sacked\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r90-no-dead-js-contracts.cjs",
+      "patterns": [
+        "^js/.+\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^production-authorization-acceptance\\.html$",
+        "^visual-assets/.+\\.(?:html|js)$",
+        "^tests/contracts/r90\\-no\\-dead\\-js\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
