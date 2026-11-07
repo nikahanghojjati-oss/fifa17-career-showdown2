@@ -1877,7 +1877,7 @@ function startPlayer(i,bridge){
   idx=i; const p=cur(); fired={}; t0=clock(); vtt=bridge?BRIDGE_T0:0; phase="run"; camBlendAt=-1; if(!bridge) who.classList.remove("big");
   if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(Lc(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
-  const pp=prep(); backMat.map=pp.back[0]; frontFull=false; count=null; ovrMesh.visible=false; coinFaceMat.map=pp.coin; setFlagTex(pp.flag);
+  const pp=prep(); backMat.map=pp.back[0]; frontFull=false; count=null; ovrMesh.visible=false; coinFaceMat.map=pp.coin; /* the flag swaps at the nation clue (Codex P2 #1259: Daniel's flags are still rolling up during the handover) */
   if(!bridge){ flags.forEach(f=>{f.target=0; f.drop=0; f.rolling=false; f.mesh.visible=false; f.mesh.scale.y=.001;}); clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
   clearSmoke(); clearChunks(); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
   frontMat.map=backMat.map;
@@ -2046,7 +2046,7 @@ function run(tt){
   /* 4  clues one at a time: position (5.0), nation (5.8) */
   at(tt,5.0,"pos",()=>{ clueMaps(1); pulse=1; burst(new T.Vector3(-.62,2.9,-1.1),[0xffffff,tc],70,3.2,.6,.16); });
   sweep(5.0);
-  at(tt,5.8,"nat",()=>{ clueMaps(2); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
+  at(tt,5.8,"nat",()=>{ clueMaps(2); setFlagTex(prep().flag); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
     flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); });
     [-.8,-.4,0,.4,.8].forEach((x,i)=>later(()=>starburst(skyPoint(x+(Math.random()-.5)*.1,.42+Math.random()*.18,-34),nat.concat([0xffffff]),Math.round(38*pw),7,1.3),200+i*160)); });
   if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });

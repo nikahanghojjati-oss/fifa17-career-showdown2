@@ -81,5 +81,9 @@ ok("R90-PS4 Prime Pack: art decoded before ready, the pack and the card on their
   assert.ok(!/\.card \.face \{[^}]*filter:/.test(ig),"no blur on the face the sheen sweeps");
   assert.match(ig,/artReady\.then\(\(\)=>\{ if\(EMBED\) toGame\("cms-ig-ready"/,"ready only after the art is decoded");
 });
-
+ok("R90-PS5 Codex P2 #1259: the next player's flag only shows at his nation clue, never during the handover",()=>{
+  const start=page.slice(page.indexOf("function startPlayer("),page.indexOf("function settle("));
+  assert.ok(!/setFlagTex\(/.test(start),"startPlayer never swaps the flags (Daniel's are still rolling up)");
+  assert.match(page,/at\(tt,5\.8,"nat",\(\)=>\{ clueMaps\(2\); setFlagTex\(prep\(\)\.flag\);/,"the flag swaps at the nation clue");
+});
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
