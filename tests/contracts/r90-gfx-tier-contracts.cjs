@@ -195,7 +195,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     const names=CHOICES_FROM_SRC();assert.deepEqual(names,['auto','light','medium','high','extra','ultra'],'Settings values match the module');
     // G7 Device check (lead, from Nik 2026-11-07): device-check.html times each scene's ?gfx=N&bench=1 frame for 10 s and saves
     // the best level that holds 60 fps as this device's Auto; it loads no game, no sign-in and no Firestore.
-    const dc=fs.readFileSync(path.join(ROOT,'device-check.html'),'utf8'),bench=fs.readFileSync(path.join(ROOT,'visual-assets/v10_1/chamber-men/bench.html'),'utf8');
+    const dc=fs.readFileSync(path.join(ROOT,'device-check.html'),'utf8'),bench=fs.readFileSync(path.join(ROOT,'device-check-chamber.html'),'utf8');
     const scripts=html=>[...html.matchAll(/<script[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1]);
     assert.deepEqual(scripts(dc),['js/storage.js','js/gfxTier.js'],'the Device check loads only storage and the quality module');
     assert.deepEqual(scripts(bench),['js/chamberMenScene3d.js'],'the Chamber Men frame loads only the scene');

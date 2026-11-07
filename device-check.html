@@ -36,7 +36,7 @@ td small{display:block;color:var(--mute);font-size:12px}
 .ok{color:var(--good)}.no{color:var(--bad)}.skip{color:var(--mute)}
 #result{text-align:center;font-weight:700;font-size:17px}
 #result small{display:block;font-weight:400;font-size:14px;color:var(--mute)}
-.wrap{overflow-x:auto}
+@media (max-width:520px){th{font-size:11px;letter-spacing:.04em}th,td{padding:7px 4px}td small{font-size:11px;overflow-wrap:anywhere}.card{padding:12px}}
 </style>
 </head>
 <body>
@@ -55,7 +55,7 @@ td small{display:block;color:var(--mute);font-size:12px}
   <section class="card">
     <p id="result" aria-live="polite"></p>
     <div class="wrap"><table>
-      <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">Smooth?</th></tr></thead>
+      <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">60 fps?</th></tr></thead>
       <tbody id="rows"></tbody>
     </table></div>
   </section>
@@ -68,7 +68,7 @@ td small{display:block;color:var(--mute);font-size:12px}
   const T=window.CareerModeGfxTier;
   const LEVELS=["Light","Balanced","High","Extra","Ultra"];
   const SCENES=[
-    {key:"chamber-men",name:"Chamber Men",path:"visual-assets/v10_1/chamber-men/bench.html"},
+    {key:"chamber-men",name:"Chamber Men",path:"device-check-chamber.html"},
     {key:"rrr",name:"Russian Roulette",path:"visual-assets/v10_1/roulette/index.html"}
   ];
   // Holds 60 fps: the average stays within 5% of 60 and the worst 1% of frames stays above 45 fps.
