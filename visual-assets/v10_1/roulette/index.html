@@ -191,7 +191,7 @@ renderer.outputColorSpace=T.SRGBColorSpace; renderer.toneMapping=T.ACESFilmicTon
    a picture under it), so no frame ever re-renders the scene for the light */
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap; renderer.shadowMap.autoUpdate=false;
 renderer.setPixelRatio(GFX.pixelRatio); stage.appendChild(renderer.domElement);
-const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new T.FogExp2(0x07050a,.14);   /* the dark room: the floor fades out a few metres from the table */
+const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new T.FogExp2(0x07050a,.2);   /* the dark room: the floor fades out a few metres from the table */
 const camera=new T.PerspectiveCamera(38,1,.05,60);
 /* THE HAND (ticket 1854): a painted gloved hand holding the revolver, cut out on black, rides on the camera as a layer in the shooter's view. The person sits in the dark: no face, no body. */
 let handHold=false, handK=0, handRecoil=0, handSide=-1, handAspect=16/9, hasHand=false, handAimAt=null; const HAND_MUZZLE={u:.22,v:.70}, HAND_REAR={u:.41,v:.79};
@@ -394,7 +394,7 @@ const table=new T.Group(); scene.add(table);
 /* ================= lights (r90: one tight table light with the one static shadow map, a dim fill, the lantern on the table and one
    effects light; the hall's wall, window, ceiling and fill lights went with the hall) ================= */
 const key=new T.SpotLight(L("#ffd092"),1.7,10,.52,.55,1.3); key.position.set(.6,3.4,1.8); key.target.position.set(0,.8,.1); scene.add(key,key.target); key.castShadow=true; key.shadow.mapSize.set(GFX.shadowSize,GFX.shadowSize); key.shadow.bias=-.0004; key.shadow.radius=2.5;
-const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),.5); scene.add(fill);
+const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),.3); scene.add(fill);   /* r90: dimmer, so the floor falls off into the dark outside the table light */
 /* the effects light: the cool key over the steel in the close-ups, the muzzle flash and the hit flash take turns on ONE point light
    (each frame it plays whichever is brightest; they barely overlap), so every material carries two point lights instead of eight */
 const fxLight=new T.PointLight(0xffffff,0,2,2); scene.add(fxLight);
