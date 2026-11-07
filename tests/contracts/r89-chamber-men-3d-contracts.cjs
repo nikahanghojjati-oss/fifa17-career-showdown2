@@ -33,7 +33,8 @@ const ENGINE="visual-assets/v10_1/roulette/vendor/three-r187.min.js";
   assert.ok(list("const UNVERSIONED_SHELL_ASSET_PATHS").includes(`"${ENGINE}"`),"the engine is served from the shell without ?v");
   assert.ok(scene.includes(`const ENGINE_PATH="${ENGINE}";`),"the scene loads the one vendored build");
   assert.ok(!/ENGINE_PATH\s*\+|\?v=/.test(scene),"by its plain path (no ?v, so the shell copy answers offline)");
-  assert.ok(scene.includes('const ENV_PATH="visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr";')&&list("const UNVERSIONED_SHELL_ASSET_PATHS").includes('"visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr"'),"the CC0 hall light is the roulette's shell copy");
+  // r90 (Nik 2026-11-07, cut the waste): one look only; the gold hall and the roulette's lounge light it loaded are gone.
+  assert.ok(!/ENV_LOUNGE|EXRLoader|r78-marble-tile|CMS_CHAMBER_MEN_BROADCAST/.test(scene),"no lounge light, no marble hall, no second look");
   assert.ok(!/https?:\/\//.test(scene.replace(/\/\/[^\n]*/g,"")),"no CDN, no network address in code");
   const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);
   vm.runInContext(read(ENGINE),sandbox);
@@ -75,7 +76,7 @@ async function c3d2(){
   assert.match(step,/if\(!stageShown&&!sceneShown\)\{sceneShown=true;sceneReady\.then\(showStage\);\}/,"the stage shows once the goal is drawn");
   assert.match(step,/const showStage=\(\)=>\{if\(stageShown\|\|finished\)return;stageShown=true;ui\.stage\.style\.visibility="visible";cmsLoadingOff\(\);/,"one way to show the stage");
   assert.match(step,/if\(clock&&!stageShown\)\{ui\.goal\.dropScene\?\.\(\);showStage\(\);\}/,"Codex C2: a running pick clock never waits on the scene");
-  assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*layout\(\);renderer\.compile\(scene,camera\);cm3Draw\(\);/,"mount resolves after the first frame is drawn");
+  assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*fit\(\);cameraAt\(0,0\);renderer\.compile\(scene,camera\);paint\(\);/,"mount resolves after the first frame is drawn");
   ok("C3D4","Reus Gate: the stage shows with the goal already drawn");
 }
 // C3D5
@@ -86,7 +87,7 @@ async function c3d2(){
   assert.match(block,/\.cmGoal3d \{[^}]*pointer-events: none;/,"the canvas never takes a tap");
   assert.ok(!/Math\.random/.test(scene),"nothing invented");
   assert.match(scene,/const still=!k\.animate\|\|reducedMotion\(\);/,"reduced motion: the end of the kick, no flight");
-  assert.match(scene,/if\(!canvas\.isConnected\|\|!svg\.isConnected\)\{dispose\(\);return;\}/,"stops drawing when the stage goes");
+  assert.match(scene,/if\(!canvas\.isConnected\|\|!svg\.isConnected\)\{free\(\);return;\}/,"stops drawing when the stage goes");
   assert.match(scene,/renderer\.dispose\(\);try\{renderer\.forceContextLoss\(\);\}catch\(_error\)\{\}/,"frees its WebGL context for the roulette");
   ok("C3D5","no dimming, no taps on the canvas, nothing invented, reduced motion, context freed");
 }
@@ -104,9 +105,9 @@ async function c3d2(){
   assert.ok(kickMs>=320+runup+520+1200,`a reveal holds the run-up, flight and at least 1.2 s of result (${kickMs} ms)`);
   assert.match(scene,/K\.textures\(club,\{layout:a\.body,role,vsClub:vs,size:kitSize\}\)/,"kits17 paints the kit on each body's own layout");
   assert.match(scene,/dress\(taker,next\.taker,"outfield",next\.keeper\);dress\(keeper,next\.keeper,"gk",next\.taker\);/,"taker in his club kit, keeper in his club's keeper kit against it");
-  assert.match(scene,/if\(!api\)api=build\(T,svg,env,marble\);/,"no stadium or players: the hall scene");
+  assert.match(scene,/if\(!extras\)return null;/,"no stadium or players in time: the SVG goal");
   assert.ok(scene.includes('const PLAYER_PATH="visual-assets/v10_1/chamber-men/players/";'),"players from the repo");
-  ok("C3D6","broadcast penalty: taker in his manager's club kit, keeper never clashing, words after the ball, hall fallback");
+  ok("C3D6","broadcast penalty: taker in his manager's club kit, keeper never clashing, words after the ball, SVG fallback");
 }
 // C3D7
 {
