@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-06 8:55 PM Boston time (EST)",
+ "generated": "2026-11-07 2:52 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1857,13 +1857,7 @@
    "when": "2026-11-06T08:49:27-05:00",
    "subject": "Release 2.2.0 (r89): Sacked, Chamber Men 3D, Studio Small Axe (#1254)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1254,
-     "title": "Release 2.2.0 (r89): Sacked, Chamber Men 3D, Studio Small Axe",
-     "merged": "2026-11-06T13:49:28Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
