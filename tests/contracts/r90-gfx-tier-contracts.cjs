@@ -12,12 +12,14 @@
 //      still while held, steps up only after a timed frame shows room, and remembers where it settled
 //   G4 calibrate moves auto at most one level and never moves a level the player picked
 //   G5 the frame counter appears only with ?fps=1; the service worker precaches the module
+//   G6 Settings: one 3D QUALITY pick (Auto names its suggestion), saved through the module, from the next 3D screen
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const ROOT=path.resolve(__dirname,'../..');
 const SRC=fs.readFileSync(path.join(ROOT,'js/gfxTier.js'),'utf8');
+const CHOICES_FROM_SRC=()=>JSON.parse(/const CHOICES=(\[[^\]]*\])/.exec(SRC)[1]);
 let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${text}`);};
 
 function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={}}={}){
@@ -168,6 +170,20 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(!/\bimport\b|\bexport\b/.test(SRC.replace(/\/\/.*$/gm,'')),'a classic script (the roulette page loads it with a script tag)');
     assert.ok(!/\blocalStorage\b/.test(SRC)&&SRC.includes('gfxStore("readStorageValue")'),'saved through js/storage.js (its parent\'s in the roulette frame)');
     ok('G5','frame counter only with ?fps=1; precached; classic script');
+    // G6 Settings (lead 2026-11-07): one 3D QUALITY pick in MOTION & FEEDBACK: Auto (suggests X) / Light / Balanced /
+    // High / Extra / Ultra, saved through the module, applying from the next 3D screen; on landscape desktops it shares the
+    // MENU CLICK FEEDBACK line (the plate has no height to spare at 1366x640; browser sweep on the PR).
+    const set=fs.readFileSync(path.join(ROOT,'js/settings.js'),'utf8'),css=fs.readFileSync(path.join(ROOT,'css/r78-type.css'),'utf8');
+    assert.ok(set.includes('const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra"]];'),'the six choices, in order');
+    assert.ok(set.includes('select.options[0].textContent = suggested ? `Auto (suggests ${suggested})` : "Auto";'),'Auto names its suggestion');
+    assert.ok(set.includes('const saved = tier.setChoice(select.value);')&&set.includes('"Applies from the next 3D screen."'),'saved through the module, applies next screen');
+    assert.ok(set.includes('window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)'),'Settings loads the module on demand, under the scene\'s key');
+    assert.ok(set.includes('panel.append(summary, choices, createMenuFeedbackControl(), createGfxQualityControl());'),'in MOTION & FEEDBACK, under the menu click');
+    assert.ok(set.includes('select.setAttribute("aria-labelledby", "settingsGfxLabel");'),'the select has its label');
+    assert.ok(!/localStorage/.test(set.slice(set.indexOf('const SETTINGS_GFX_CHOICES'),set.indexOf('function createGfxQualityControl'))),'no storage of its own');
+    assert.ok(css.includes('@media (min-width: 1200px) and (orientation: landscape) {\n  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap;'),'one shared line on landscape desktops');
+    const names=CHOICES_FROM_SRC();assert.deepEqual(names,['auto','light','medium','high','extra','ultra'],'Settings values match the module');
+    ok('G6','Settings: 3D QUALITY with Auto (suggests X) and five levels, saved through the module, next 3D screen');
     console.log(`PASS r90 gfx tier contracts (${checks} checks)`);
   })().catch(e=>{console.error(e);process.exitCode=1;});
 }
