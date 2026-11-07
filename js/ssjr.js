@@ -12,8 +12,18 @@
   const physicalEnabled=acceptanceEnabled&&!witnessEnabled&&params.get("ssjr-physical")==="1";
   const ssjrTestEnabled=params.get("ssjr")==="1";
   // JOB-24: Team V's screen loader and navigation bar, once the browser is idle (independent of the chain below).
-  const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>root.CareerModeV10Screens.install()).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
-  const resultsV10=()=>load("v10-season-final","js/seasonFinalV10.js",()=>root.CareerModeSeasonFinalV10).then(()=>root.CareerModeSeasonFinalV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Results visuals unavailable.",error));
+  const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>{root.CareerModeV10Screens.install();deferSkins();}).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
+  // r90 W8 (Home first, Nik 2026-11-07: "speed up the loading time"): the Team V files of the screens Home does not show
+  // (Start/League/Showdown Home, Club Assignment, Transfer War, Season Results/Final Winner/Standings) are asked for only once the
+  // startup loading screen has handed Home over, then when the browser is idle, so they no longer share the first load with Home.
+  // A screen opened before its file has arrived (a quick tap, or a reload resuming into a live game) is held under the loading
+  // screen and asks for that file at once (js/v10Screens.js defer()). once(): one load each; a failed one may be asked for again.
+  const once=fn=>{let p=null;return()=>p||(p=Promise.resolve().then(fn).then(ok=>{if(!ok)p=null;return ok;}));};
+  let resultsReady=false;
+  const resultsV10=once(()=>load("v10-season-final","js/seasonFinalV10.js",()=>root.CareerModeSeasonFinalV10).then(()=>root.CareerModeSeasonFinalV10.install()).then(ok=>{resultsReady=ok===true;return ok;}).catch(error=>root.console?.warn?.("[Career Mode Showdown] Results visuals unavailable.",error)));
+  // Bounded like the startup cap: after 20 s they load anyway.
+  const handedOver=()=>new Promise(resolve=>{let n=0;const check=()=>{const el=root.document&&root.document.getElementById("loadingScreen");if(++n>200||root.careerModeHomeHold===0&&(!el||el.hidden))resolve();else root.setTimeout(check,100);};check();});
+  const afterHome=fn=>handedOver().then(()=>typeof root.requestIdleCallback==="function"?root.requestIdleCallback(()=>fn(),{timeout:1500}):root.setTimeout(fn,200));
   // The Reus Gate (r75; owner, 2026-10-13: the old or half-loaded Home flashed for seconds as the Reus loading screen left on a slow
   // or cold start). Home is the first screen, so its Team V look starts loading at once instead of on idle, and js/app.js keeps the
   // loading screen up until Home is really ready, judged by ready signals and never by a fixed time: the Team V Home has mounted
@@ -92,16 +102,21 @@
   const liveGameGate=async()=>{while(liveGameResumeOpen())await new Promise(resolve=>root.setTimeout(resolve,50));};
   root.careerModeHomeHold=1;
   const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>home.then(resultsV10),600);
   // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
-  const v10Setup=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error));
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Setup,{timeout:3000});else root.setTimeout?.(v10Setup,700);
+  const v10Setup=once(()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.loadRuntimeStyle?.(...root.CareerModeV10Setup.STYLE)?.catch(()=>null)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error)));
   // JOB-27: Team V's Transfer War skin for the shared Transfer Challenge (registers with the loader above).
-  const v10Transfer=()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error));
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Transfer,{timeout:3000});else root.setTimeout?.(v10Transfer,700);
+  const v10Transfer=once(()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error)));
   // JOB-34: Team V's Club Assignment for the club reveal (registers with the loader above; owns clubWheelScreen).
-  const v10Club=()=>load("v10-club","js/clubScreenV10.js",()=>root.CareerModeClubScreenV10).then(()=>root.CareerModeClubScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Club Assignment visuals unavailable.",error));
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Club,{timeout:3000});else root.setTimeout?.(v10Club,700);
+  const v10Club=once(()=>load("v10-club","js/clubScreenV10.js",()=>root.CareerModeClubScreenV10).then(()=>root.CareerModeClubScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Club Assignment visuals unavailable.",error)));
+  function deferSkins(){
+    const V=root.CareerModeV10Screens;
+    if(!V||typeof V.defer!=="function")return;
+    V.defer(["createShowdown","leagueWheelScreen","dashboard"],v10Setup);V.defer(["clubWheelScreen"],v10Club);
+    V.defer(["transferChallenge"],v10Transfer);V.defer(["seasonEntry","standings"],resultsV10);
+    // The Standings tab before Season Results' file (which owns that route) is in: load it, then take its route.
+    V.setNavRoute("standings",app=>resultsV10().then(()=>resultsReady?V.navigate("standings",app):app.navigateTo("dashboard")));
+  }
+  for(const skin of [v10Setup,v10Club,v10Transfer,resultsV10])afterHome(skin);
   (async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");

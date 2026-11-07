@@ -24,6 +24,18 @@ const runLabel = process.env.CMS_AUDIT_RUN || "v10-screen-flash";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
 const CPU_THROTTLE = Number(process.env.CMS_FLASH_CPU_THROTTLE || 4);
 const SETTLE_MS = 450;
+// r90 W8 (Home first): CMS_FLASH_LATE_SKINS=1 slows the Team V files that now load only after Home (js/ssjr.js afterHome) by
+// LATE_SKIN_MS and runs Setup and Season Results first, so those screens open before their file has arrived (a quick tap): they
+// must stay held under the loading screen, never show the old design, and mount once the file lands.
+const LATE_SKINS = process.env.CMS_FLASH_LATE_SKINS === "1";
+const LATE_SKIN_MS = 1500;
+async function slowLateSkins(context){
+    if(!LATE_SKINS) return;
+    await context.route(/\/js\/(v10Setup|clubScreenV10|transferScreenV10|seasonFinalV10)\.js/, async route => {
+        await new Promise(resolve => setTimeout(resolve, LATE_SKIN_MS));
+        await route.continue().catch(() => {});
+    });
+}
 const SHOW_TIMEOUT_MS = 8000;
 const OLD_PAGE = "rgb(168, 189, 197)";
 
@@ -442,12 +454,14 @@ async function clubReducedMotionPass(browser, report, pageErrors){
             const page = await context.newPage();
             page.on("pageerror", error => pageErrors.push(`${vp.name}: ${error.message}`));
             await page.addInitScript(RECORDER);
+            await slowLateSkins(context);
             const cdp = await context.newCDPSession(page);
             await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU_THROTTLE });
             await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
             await waitForHome(page);
             const summary = { name: vp.name, journeys: [] };
-            for(const journey of journeys){
+            const order = LATE_SKINS ? [...journeys].sort((a, b) => ["setup", "seasonResults"].includes(b.name) - ["setup", "seasonResults"].includes(a.name)) : journeys;
+            for(const journey of order){
                 const result = await runJourney(page, journey, vp.name);
                 if(result.skipped){
                     console.log(`SKIP ${result.skipped}`);

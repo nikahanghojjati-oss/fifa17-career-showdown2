@@ -529,12 +529,14 @@ check("S9 static guards: skin only, lazy only, no new storage, Rules, Firestore,
       assert.ok(!/(button|menuButton|backButton|setupBox|wheelContainer|clubAssignmentShell|#spinLeague|#openClubPack|#startShowdown|selectedLeague|footballVisual)/.test(selector)||/(::before|::after|\.v26Art)/.test(selector),`never hides product controls or the licensed photographs: ${selector.trim()}`);
     }
   }
-  // Lazy: only js/ssjr.js (idle) loads it; index.html and the startup scripts do not grow.
+  // Lazy: only js/ssjr.js loads it (r90 W8: once Home is handed over, then idle, or at once when its screen opens first);
+  // index.html and the startup scripts do not grow.
   const html=read("index.html");
   assert.ok(!html.includes("v10Setup"),"index.html does not load the skin");
   const ssjr=read("js/ssjr.js");
   assert.ok(ssjr.includes('load("v10-setup","js/v10Setup.js"'),"js/ssjr.js loads the skin");
-  assert.match(ssjr,/requestIdleCallback\(v10Setup/);
+  assert.match(ssjr,/for\(const skin of \[v10Setup,[^\]]*\]\)afterHome\(skin\)/,"the skin loads after Home");
+  assert.match(ssjr,/V\.defer\(\["createShowdown","leagueWheelScreen","dashboard"\],v10Setup\)/,"its screens ask for it when opened first");
   const sw=read("service-worker.js");
   for(const file of ["js/v10Setup.js","css/v10Setup.css"])assert.ok(sw.includes(`"${file}"`),`${file} in SHELL_PATHS`);
   for(const file of fs.readdirSync(path.join(ROOT,"js")).filter(f=>/^(productionShared|spark|persistentNikDanielPair)/.test(f)))assert.ok(!read(`js/${file}`).includes("v10Setup"),`${file} untouched by the skin`);
