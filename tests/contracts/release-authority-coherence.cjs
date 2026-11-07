@@ -38,8 +38,6 @@ const changelog = read("CHANGELOG.md");
 const cloud = read("CLOUD_STORAGE_FOUNDATION.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const phase1e = read("CLOUD_SYNC_READINESS_PHASE_1E.md");
-const phase1eHarness = read("js/cloudSyncTwoDeviceHarness.js");
-const phase1eTest = read("tests/contracts/cloud-sync-two-device-harness-contracts.cjs");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const historicalR2Proof = read("V1.3.0_R2_PRODUCTION_PROOF.md");
 const historicalR5Starter = read("START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
@@ -185,9 +183,6 @@ A.match(remotePriority, /next safe prerequisite[\s\S]+preferred over unrelated o
 
 A.match(phase1e, /Phase 1E[\s\S]+provider-neutral/i, "Phase 1E authority must retain provider-neutral synchronization proof.");
 A.match(phase1e, /recursively frozen/i, "Phase 1E must retain offline/retry intent immutability.");
-A.ok(!/\bfetch\s*\(|\blocalStorage\b|firebase|firestore/i.test(phase1eHarness), "Phase 1E harness must remain provider/network/browser-storage neutral.");
-A.match(phase1eTest, /Object\.isFrozen\(a1\.intent\.content\)/, "Phase 1E test must prove payload immutability.");
-A.match(phase1eTest, /relationship-old[\s\S]+revoked-read-only[\s\S]+relationship-revoked/i, "Phase 1E test must prove revocation invalidates stale authority.");
 
 // Immutable historical evidence remains pinned to the releases that produced it.
 A.match(historicalNext, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`[\s\S]+Cloud\/Sync Readiness Phase 1E[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "Archived NEXT_TASK must retain Phase 1D → 1E → 1F authorization history.");

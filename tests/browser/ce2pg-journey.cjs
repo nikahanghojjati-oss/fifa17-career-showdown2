@@ -1295,7 +1295,7 @@ async function killTab(m){
   await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
   await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:45000});
   const last=[...outageRuns].reverse().find(o=>o.user===m.user);if(last)last.killed=true;
-  // Sign-in is session-only by design (browserSessionPersistence, checked by firebaseProductionPreflight.js), so a new tab
+  // Sign-in is session-only by design (browserSessionPersistence, set in js/sparkConnectedAccount.js), so a new tab
   // asks for SIGN IN WITH GOOGLE once; the player is then known from the Google account.
   const label=NAMES[m.account];
   const sign=m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"});

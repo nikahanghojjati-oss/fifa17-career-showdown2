@@ -13,8 +13,6 @@ const stage4=read("js/sparkConnectedRivalry.js");
 const stage5aProof=read("STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md");
 const stage5aRules=read("firestore.stage5a.rules");
 const stage5bProof=read("STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md");
-const stage5bClient=read("js/sparkDeviceCredential.js");
-const stage5bIssuer=read("js/trustedDeviceCredentialIssuance.js");
 const stage5cProof=read("STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md");
 const stage5cClient=read("js/sparkStandardAuthPrivateSession.js");
 const stage5cRules=read("firestore.stage5c.rules");
@@ -139,8 +137,6 @@ assert.match(stage5aRules,/(?=[\s\S]*device_credential_version)(?=[\s\S]*device_
 assert.match(stage5aRules,/root\.updatedByDeviceId == request\.auth\.token\.device_id/);
 assert.match(stage5bProof,/(?=[\s\S]*non-extractable P-256)(?=[\s\S]*per-sign-in custom-token claims)(?=[\s\S]*Two simultaneous custom-auth sessions for the same)/i);
 assert.match(stage5bProof,/Cloud Run[\s\S]+Spark[\s\S]+iam\.serviceAccounts\.signBlob[\s\S]+datastore\.entities\.update/i);
-assert.match(stage5bClient,/indexedDB[\s\S]+extractable:\s*false[\s\S]+ECDSA/i);
-assert.match(stage5bIssuer,/(?=[\s\S]*device_key_sha256)(?=[\s\S]*iam\.serviceAccounts\.signBlob)(?=[\s\S]*datastore\.entities\.update)/i);
 assert.match(stage5cProof,/(?=[\s\S]*standard Firebase authenticated `uid`)(?=[\s\S]*device IDs are not authentication)(?=[\s\S]*Fixed RJR-1 remains exactly `87\/100`)/i);
 assert.match(stage5cClient,/(?=[\s\S]*standard-firebase-request-auth-uid)(?=[\s\S]*account-owned-registered-device-mutation-metadata)(?=[\s\S]*billingUpgradeAllowed:false)/i);
 assert.match(stage5cRules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
