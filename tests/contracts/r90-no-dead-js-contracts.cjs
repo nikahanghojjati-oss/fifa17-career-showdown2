@@ -20,7 +20,7 @@ const STANDALONE_ROOTS={
 };
 // js/ files allowed to exist without a page loading them. Keep empty unless a file truly has no page; give the reason.
 const ALLOWED_UNLOADED={
-  "js/gfxTier.js":"r90 device-quality system (PR #1260) landed ahead of its users; the RRR, Chamber Men and pack threads wire it in. D2 fails once it is loaded, so this entry is dropped then."
+  "js/gfxTier.js":"r90 device-quality system (PR #1260) landed ahead of its users; the RRR, Chamber Men and pack threads wire it in. D2 fails once it is loaded, so the PR that wires it drops this entry."
 };
 
 const pageRoots=["index.html",...walk("visual-assets").filter(file=>file.endsWith(".html")),...Object.keys(STANDALONE_ROOTS)];
@@ -56,7 +56,7 @@ check("D2 every standalone root and allow-list entry exists, has a reason and is
   for(const [file,reason] of Object.entries(ALLOWED_UNLOADED)){
     assert.ok(jsSet.has(file),`${file} is allowed but gone: drop it from ALLOWED_UNLOADED`);
     assert.ok(reason.length>20,`${file} needs a reason`);
-    assert.equal(reached.has(file),false,`${file} is loaded now: drop it from ALLOWED_UNLOADED`);
+    assert.equal(reached.has(file),false,`${file} is loaded now: drop it from ALLOWED_UNLOADED (the exception must not outlive the wiring)`);
   }
 });
 
