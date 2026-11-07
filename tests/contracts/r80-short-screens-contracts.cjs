@@ -60,20 +60,17 @@ const homeCss=read("css/homeV10.css");
 
 {
   const src=flat(seasonJs);
-  const bands=[
-    "(min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape),",
-    "(min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),",
-    "(min-width:1401px) and (max-width:1879px) and (min-height:620px) and (max-height:1039px) and (orientation:landscape),",
-    "(min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {"
-  ];
-  for(const band of bands){
-    const count=src.split(band).length-1;
-    assert.ok(count>=2,`Season Results page-scroll band ${band} is in the flow layout and its :active list (${count})`);
-  }
+  // r90: one landscape-desktop rule replaced four size bands; their gaps (1920x906, 1280x900, 1366x900) left the review
+  // board absolute with an extra margin, over Nik's face and off the right edge.
+  const band="(min-width:901px) and (min-height:501px) and (max-height:1120px) and (orientation:landscape) {";
+  const count=src.split(band).length-1;
+  assert.ok(count>=2,`Season Results page-scroll rule is in the flow layout and its :active list (${count})`);
+  assert.doesNotMatch(src,/\(min-width:1880px\) and \(max-width:2620px\) and \(min-height:1040px\) and \(max-height:1120px\) \{/,"no size-band gaps on wide windows");
+  assert.match(src,/\(min-aspect-ratio:16\/9\) and \(orientation:landscape\) \{ #app #seasonEntry\.seasonScreenV10:not\(\.v10FinalMode\) \.v10SeasonStage \.sd-stage__registered \{ top:0!important;width:100vw!important;height:56\.25vw!important; \}/,"wide windows fill the width with the plate");
   const body=mediaBlock(seasonJs,"(min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape)");
   assert.match(body,/\.v10SeasonStage \.sd-stage__layer--ui \{ z-index:5; \}/,"cards stay in front of the cut-out and light layers");
   assert.match(body,/\.sd-stage__registered \{ top:0!important;width:max\(100vw,177\.77778svh\)!important;height:max\(56\.25vw,100svh\)!important; \}/,"the plate fills the window");
-  ok("S4 Season Results: 901-1239 x 501-800 and 1401-1879 x 620-1039 use the page-scroll layout");
+  ok("S4 Season Results: every landscape desktop window up to 1120px tall uses the page-scroll layout");
 }
 
 {

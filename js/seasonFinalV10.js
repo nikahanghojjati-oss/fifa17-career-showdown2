@@ -1434,10 +1434,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 
 /* Approved NEXT_SEASON_RESULTS: central scoring/card/actions, responsive to
    the viewport height. Retain the registered Team V plate, trophy and badge. */
-@media (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
-       (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape),
-       (min-width:1401px) and (max-width:1879px) and (min-height:620px) and (max-height:1039px) and (orientation:landscape),
-       (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
+/* r90: one rule for every landscape desktop window up to 1120px tall. The old list of exact size bands left gaps (1920x906
+   windowed Chromebook, 1280x900, 1366x900), where the board stayed absolute and an extra margin pushed it over Nik's face. */
+@media (min-width:901px) and (min-height:501px) and (max-height:1120px) and (orientation:landscape) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
  }
@@ -1511,10 +1510,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
-       (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
-       (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape),
-       (min-width:1401px) and (max-width:1879px) and (min-height:620px) and (max-height:1039px) and (orientation:landscape),
-       (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
+       (min-width:901px) and (min-height:501px) and (max-height:1120px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
   filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
  }
@@ -2085,6 +2081,13 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  /* the stadium plate fills the window from its top, as on the fixed stage (no black bands on 4:3 and 16:10 windows) */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
   top:0!important;width:max(100vw,177.77778svh)!important;height:max(56.25vw,100svh)!important;
+ }
+}
+/* r90: windows wider than 16:9 (a windowed 1920x906 Chromebook, 2560x1080) fill the width with the stadium plate from its
+   top instead of showing black bands at both sides; the faces keep their place across the width. */
+@media (min-width:901px) and (min-height:501px) and (max-height:1120px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
+  top:0!important;width:100vw!important;height:56.25vw!important;
  }
 }
 /* r80 short screens: the final season's result line ("DANIEL TAKES THE SEASON") wraps inside its own cell of the summary
