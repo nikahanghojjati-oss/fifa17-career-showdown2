@@ -50,4 +50,36 @@ ok("F8-11 Replay drops the last run's pending cues",()=>{
 });
 
 
+// r90 pack smooth (Nik 2026-11-07: the Special Player pack and the Prime Pack were choppy on his Chromebook)
+ok("R90-PS1 no beat redraws or re-uploads a card face: every face, coin and flag is prepared once, before the page is shown",()=>{
+  assert.ok(!/(?:front|back|coinTex|f\.tex)\.tx\.needsUpdate=true/.test(page),"no per-beat canvas re-upload");
+  assert.ok(!/drawCard(?:Back|Front)\(back\.ctx|drawCardFront\(front\.ctx|drawScoutBack\(back\.ctx/.test(page),"the card is never redrawn mid-reveal");
+  assert.match(page,/function prepareCards\(\)\{[\s\S]*renderer\.initTexture\(tx\)/,"prepared faces are uploaded up front");
+  assert.match(page,/resize\(\); prepareCards\(\); buildEnv\(\);[^\n]*warmTextures\(\); warmDraw\(\); startPlayer\(0\);/,"prepared and warmed before the first frame the game shows");
+  for(const beat of ["pos","nat","club"])assert.match(page,new RegExp(`at\\(tt,[0-9.]+,"${beat}",\\(\\)=>\\{ clueMaps\\(`),`${beat} clue only swaps a texture`);
+});
+ok("R90-PS2 the baked soft stadium photos replace the full-size ones, and only the two shown card tiers are fetched",()=>{
+  for(const f of ["stadium","stand","stand_left","stand_right"]){
+    assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/special-player/assets/${f}.jpg`)),`${f}.jpg is gone`);
+    assert.ok(fs.statSync(path.join(ROOT,`visual-assets/v10_1/special-player/assets/${f}_soft_V1.jpg`)).size<200000,`${f}_soft_V1.jpg is small`);
+    assert.ok(page.includes(`assets/${f}_soft_V1.jpg`));
+  }
+  assert.ok(!/softImage\(/.test(page),"no shrinking at load");
+  assert.match(page,/function loadCardArt\(\)\{ const want=new Set\(Object\.values\(pair\)\.map\(p=>p\.tier\)\);/);
+});
+ok("R90-PS3 quality follows the device: a frame governor under the screen's own pixel ratio, ?fps=1 counter, real-time timeline",()=>{
+  assert.match(page,/const DPR=Math\.min\(devicePixelRatio\|\|1, PHONE_GPU\?2:3\);/,"never above the device pixel ratio");
+  assert.match(page,/const RS_STEPS=\[\.5,\.625,\.75,\.875,1\]; let rsI=2,/,"starts light, steps up while smooth");
+  assert.match(page,/function frame\(\)\{ if\(manual===null\)\{ tick\(true\); govern\(\); \}/);
+  assert.match(page,/dt=Math\.min\(\.1,gap\);/,"the timeline keeps real time on a slow device");
+  assert.match(reveal,/\[\?&\]fps=1/,"the game passes ?fps=1 to the page");
+});
+ok("R90-PS4 Prime Pack: art decoded before ready, the pack and the card on their own layers, the shadow off the sheen's layer",()=>{
+  const ig=read("visual-assets/v10_1/icon-guess/index.html");
+  assert.match(ig,/\.pack, \.card \{ will-change: transform, opacity; \}/);
+  assert.match(ig,/\.card::before \{[^}]*filter: drop-shadow/);
+  assert.ok(!/\.card \.face \{[^}]*filter:/.test(ig),"no blur on the face the sheen sweeps");
+  assert.match(ig,/artReady\.then\(\(\)=>\{ if\(EMBED\) toGame\("cms-ig-ready"/,"ready only after the art is decoded");
+});
+
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
