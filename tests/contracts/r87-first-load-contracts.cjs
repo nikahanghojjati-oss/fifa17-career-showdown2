@@ -42,7 +42,11 @@ function run(loading,{idle=true,advance=0}={}){
   const rev=html.match(/<meta name="app-asset-revision" content="([^"]+)">/)[1];
   assert.ok(html.includes(`<link rel="stylesheet" href="assets/fonts/barlow-condensed.css?v=${rev}">\n<link rel="stylesheet" id="appStyles"`),"local font sheet sits where the Google sheet was, before app.css");
   // 2b. The nine faces: 600/700/800 x vietnamese, latin-ext, latin, in Google's order, each file present and precached.
-  const faces=[...fonts.matchAll(/\/\* (\S+) \*\/\n@font-face \{[^}]*font-family: 'Barlow Condensed';[^}]*font-weight: (\d+);[^}]*font-display: swap;[^}]*src: url\((barlow-condensed-[^)]+\.woff2)\) format\('woff2'\);[^}]*unicode-range: [^;]+;\n\}/g)];
+  // r90 W8: latin 700 points at Team V's byte-identical copy (one download instead of two); the file below stays checked.
+  const SHARED_700="../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2";
+  assert.equal(fs.readFileSync(path.join(root,"assets/fonts/barlow-condensed-latin-700-normal.woff2")).compare(fs.readFileSync(path.join(root,"visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2"))),0,"the shared latin 700 file is the same bytes as Google's");
+  const faces=[...fonts.replace(`url(${SHARED_700})`,"url(barlow-condensed-latin-700-normal.woff2)").matchAll(/\/\* (\S+) \*\/\n@font-face \{[^}]*font-family: 'Barlow Condensed';[^}]*font-weight: (\d+);[^}]*font-display: swap;[^}]*src: url\((barlow-condensed-[^)]+\.woff2)\) format\('woff2'\);[^}]*unicode-range: [^;]+;\n\}/g)];
+  assert.ok(fonts.includes(`src: url(${SHARED_700}) format('woff2');`),"latin 700 loads the shared copy");
   assert.deepEqual(faces.map(f=>`${f[1]}-${f[2]}`),["vietnamese-600","latin-ext-600","latin-600","vietnamese-700","latin-ext-700","latin-700","vietnamese-800","latin-ext-800","latin-800"]);
   const shell=[...sw.match(/const SHELL_PATHS = Object\.freeze\(\[([\s\S]*?)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
   const unversioned=[...sw.match(/const UNVERSIONED_SHELL_ASSET_PATHS = new Set\(\[([\s\S]*?)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
