@@ -86,4 +86,11 @@ ok("R90-PS5 Codex P2 #1259: the next player's flag only shows at his nation clue
   assert.ok(!/setFlagTex\(/.test(start),"startPlayer never swaps the flags (Daniel's are still rolling up)");
   assert.match(page,/at\(tt,5\.8,"nat",\(\)=>\{ clueMaps\(2\); setFlagTex\(prep\(\)\.flag\);/,"the flag swaps at the nation clue");
 });
+ok("R90-PS6 Nik's tighter rhythm (2026-11-07 22:50 UTC): four quicker stretches, half-speed burst, 2.8 s scouting hold",()=>{
+  assert.match(page,/const PACE=\[\[0,\.9,\.9\/\.4\],\[1\.65,2\.3,\.65\/\.35\],\[3\.7,5\.0,1\.3\/\.9\],\[6\.4,7\.5,1\.1\/\.8\]\];/);
+  assert.match(page,/Math\.min\(1-\.5\*Math\.max\(0,Math\.min\(1,\(t-3\.6\)\/\.12,\(4\.15-t\)\/\.2\)\),freezeAt\(t\)\)\*paceAt\(t\)/);
+  assert.match(page,/SCOUT_HOLD=2\.8,/);
+  assert.match(page,/stepParticles\(dt\*ps\); stepChunks\(dt\*ps\);/,"sparks keep their own speed");
+});
+
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
