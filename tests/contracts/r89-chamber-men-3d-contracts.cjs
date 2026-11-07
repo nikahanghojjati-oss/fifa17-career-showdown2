@@ -140,4 +140,25 @@ async function c3d2(){
   assert.ok(read("js/chamberMenStadium3d.js").includes("if(net.t0<0||e<0||e>2.5){"),"a clock before the hit keeps the net flat");
   ok("C3D8","Reduce Motion: players, crowd, net, camera and dissolve stand still; lineup and result still change");
 }
+// C3D9 r90 W4 (Nik 2026-11-07, "FC quality, light on every device"): the scene takes its quality from js/gfxTier.js
+// (pixel ratio, shadows, crowd density, grass size), the governor never changes level during a kick, run-ups vary per
+// taker and round (six styles, one stutter), shots curl, and some goals go in off the post or the bar. Nothing invented:
+// every choice comes from the hash of the lineup and the kick; the woodwork only ever appears on a goal.
+{
+  assert.ok(scene.includes('const GFX_JS="js/gfxTier.js";'),"the quality module is loaded by its plain path");
+  assert.ok(scene.includes("setPixelRatio(Q.pixelRatio)"),"the pixel ratio comes from the device profile");
+  assert.ok(scene.includes('gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,'),"one governor per scene");
+  assert.ok(scene.includes("RUNUP*1000);frozenAt=null;gov?.hold(true);")&&scene.includes("ballFree.on=false;gov?.hold(false);},"),"no level change during a kick");
+  assert.ok(/const GFX_FALLBACK=\{level:1,name:"medium",pixelRatio:1,/.test(scene),"a light fallback when the module cannot load");
+  const runups=/const RUNUPS=(\[.*?\]);\n/.exec(scene);assert.ok(runups,"run-up table");
+  assert.strictEqual((runups[1].match(/\{jog:/g)||[]).length,6,"six run-up styles");
+  assert.ok(runups[1].includes("stutter:"),"one stutter run-up");
+  assert.ok(scene.includes("const styleOf=(takerClub,round)=>cm3Hash(`run|${takerClub||\"\"}|${round||1}`)%RUNUPS.length;"),"the run-up comes from the taker and the round");
+  assert.ok(/luck=cm3Hash\(`ball\|\$\{lineup\.taker\}\|\$\{round\}\|\$\{k\.shot\}\|\$\{k\.dive\}\|\$\{k\.goal\}`\)/.test(scene)||scene.includes("luck=cm3Hash(`ball|"),"ball luck from the kick, never random");
+  const wood=scene.indexOf("luck%4===0"),save=scene.indexOf("}else{",wood),goalAt=scene.lastIndexOf("if(k.goal",wood);
+  assert.ok(wood>0&&goalAt>0&&save>wood&&scene.slice(goalAt,wood).indexOf("}else{")<0,"woodwork only inside the goal branch");
+  assert.ok(scene.includes("luck%3===0){target=v3(s[0],BAR_Y-"),"high middle goals can come down off the bar");
+  assert.ok(scene.includes("const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);"),"the net bulges after the wood");
+  ok("C3D9","r90: device quality, steady level during a kick, six run-ups, curl, in off the post or the bar on goals only");
+}
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

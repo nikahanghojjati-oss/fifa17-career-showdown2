@@ -60,7 +60,8 @@
     // ---------- pitch ----------
     const grass=tex.grass;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(130/3.5,150/3.5);// one 3.5 m tile
     const gn=tex.grassNormal;gn.wrapS=gn.wrapT=T.RepeatWrapping;gn.repeat.copy(grass.repeat);
-    const pitchMat=keep(new T.MeshStandardMaterial({map:grass,normalMap:gn,normalScale:new T.Vector2(.6,.6),roughness:.92,metalness:0}));
+    // The turf photo is a sunny yellow-green; under floodlights a TV pitch reads cooler and deeper.
+    const pitchMat=keep(new T.MeshStandardMaterial({map:grass,color:new T.Color(.74,.9,.78),normalMap:gn,normalScale:new T.Vector2(.6,.6),roughness:.92,metalness:0}));
     // Mown stripes: bands 5.5 m deep parallel to the goal line, light and dark (direction of the cut), plus a soft wear patch
     // around the spot and in the six-yard box. Done in the shader so the grass detail stays one small tiling texture.
     pitchMat.onBeforeCompile=sh=>{

@@ -16,10 +16,13 @@
   const ENGINE_PATH="visual-assets/v10_1/roulette/vendor/three-r187.min.js";
   // Goal and pitch in metres (a real goal: 7.32 x 2.44). The goal line is z 0, the camera looks from the penalty spot side (+z).
   const GOAL_W=7.32,GOAL_H=2.44,HALF=GOAL_W/2,BALL_R=.11,SPOT_Z=11;
+  // The stadium kit's 12 cm round posts and bar (js/chamberMenStadium3d.js): bar centre just over the goal height.
+  const WOOD_R=.06,BAR_Y=GOAL_H+WOOD_R/2;
   const FLIGHT=.46,SETTLE=2.0,GRAVITY=-9.8;
   let enginePromise=null;
 
   function doc(){return root.document||null;}
+  function cm3Easy(u){return u<=0?0:u>=1?1:u*u*(3-2*u);}
   function reducedMotion(){try{return Boolean(root.matchMedia&&root.matchMedia("(prefers-reduced-motion: reduce)").matches);}catch(_error){return false;}}
   function hasWebgl2(){
     try{
@@ -68,7 +71,10 @@
   // jog: the frame whose feet match the first frame of penaltyKick (left foot down, right foot pushing off).
   const JOG_JOIN=1.933;
   // Run-ups, one per kick in turn: a jog, a longer, slower jog, and two steps from a standstill (FIFA 17's "still").
-  const RUNUPS=[{jog:1.1,rate:1},{jog:1.3,rate:.82},{jog:0,rate:1}];
+  // r90 (Nik 2026-11-07: "the way that player run up"): six run-ups, picked per taker and kick (both phones pick the same).
+  // jog = seconds of running before the plant foot, rate = how fast the stride plays (feet never slide: the travel comes
+  // from the clip), stutter = a check in the stride (at seconds into the run, len seconds, stride down to k).
+  const RUNUPS=[{jog:1.1,rate:1},{jog:1.3,rate:.82},{jog:0,rate:1},{jog:.72,rate:1.14},{jog:1.25,rate:.96,stutter:{at:.42,len:.42,k:.22}},{jog:1.35,rate:.74}];
   // Keeper moves by the side he goes to (world -x is the keeper's right; "m" mirrors a clip to the other side). tc is the
   // clip time of full stretch (the glove meets the ball there), s the speed it plays at so the dive starts on the strike.
   const KEEPS={
@@ -229,9 +235,12 @@
       const jog=rebase(taker,TK.jog,"cmJog",{from:jogJoin,to:kick0});
       const styles=RUNUPS.map((r,i)=>{
         let start=kick0;
-        if(r.jog){const h=hipsOf(taker,jog,JOG_JOIN-r.jog*r.rate);start=h;}
+        // Clip seconds used after u seconds of running (a stutter slows the stride, so the run covers less ground).
+        const N=48,cum=[0];for(let j=1;j<=N;j+=1){const u=(j-.5)*r.jog/N;let f=1;if(r.stutter){const {at,len,k}=r.stutter,e=Math.min(.12,len/3);f=1-(1-k)*cm3Easy((u-at)/e)*cm3Easy((at+len-u)/e);}cum.push(cum[j-1]+f*r.rate*r.jog/N);}
+        const total=cum[N],clipAt=u=>{const x=Math.max(0,Math.min(N,u/(r.jog||1)*N)),j=Math.min(N-1,Math.floor(x));return cum[j]+(cum[j+1]-cum[j])*(x-j);};
+        if(r.jog){const h=hipsOf(taker,jog,JOG_JOIN-total);start=h;}
         const idle0=hipsOf(taker,TK.offensiveIdle,0);
-        return {...r,start,idle:rebase(taker,TK.offensiveIdle,`cmIdle${i}`,{zero:"xz",from:idle0,to:start})};
+        return {...r,total,clipAt,start,idle:rebase(taker,TK.offensiveIdle,`cmIdle${i}`,{zero:"xz",from:idle0,to:start})};
       });
       const react={victory:rebase(taker,TK.victory,"cmVictory",{zero:"xz",from:hipsOf(taker,TK.victory,0),to:kickEnd}),
         disappointed:rebase(taker,TK.disappointed,"cmDown",{zero:"xz",from:hipsOf(taker,TK.disappointed,0),to:kickEnd})};
@@ -326,6 +335,7 @@
     const ballFree={p:new T.Vector3(),v:new T.Vector3(),t:0,on:false};
     const v3=(a,b,c)=>new T.Vector3(a,b,c);
     const pick=(list,n)=>list[((n%list.length)+list.length)%list.length];
+    const styleOf=(takerClub,round)=>cm3Hash(`run|${takerClub||""}|${round||1}`)%RUNUPS.length;
     // The palms: between the wrist and the middle knuckle of each glove.
     const gloveL=new T.Vector3(),gloveR=new T.Vector3(),knuckle=new T.Vector3();
     const palms=()=>{const B=keeper.bones;
@@ -336,12 +346,19 @@
     const makePlan=k=>{
       const round=k.round||1,side=k.dive||"M",move=pick(KEEPS[side]||KEEPS.M,round*3+(k.shot==="R"?1:0));
       const start=v3(0,BALL_R,SPOT_Z);let target,after,hold=false;
+      // One number per kick for its small variations (curl, woodwork): the same on both phones.
+      const luck=cm3Hash(`ball|${lineup.taker}|${round}|${k.shot||"-"}|${k.dive||"M"}|${k.goal?1:0}`);
       // Where the keeper's gloves are at full stretch: a save meets them there.
       keeperAt(move,move.tc);
       if(!k.shot){target=v3(.7,GOAL_H+1.05,-.3);after={kind:"over"};}
       else if(k.goal){
         const s=k.shot==="M"?pick(GOAL_SPOTS.mid,round):pick(GOAL_SPOTS.side,round),sx=k.shot==="L"?-1:k.shot==="R"?1:1;
         target=v3(k.shot==="M"?s[0]:sx*s[0],s[1],0);after={kind:"net"};
+        // r90 woodwork: now and then a goal goes in off the inside of the post, or a high one down off the bar. The ball
+        // arrives touching the wood (centres 17 cm apart) and glances in; nothing changes the result.
+        const touch=WOOD_R+BALL_R,phi=.17;
+        if(k.shot!=="M"&&luck%4===0){const y=.55+(luck>>3)%9*.12;target=v3(sx*(HALF-touch*Math.cos(phi)),y,touch*Math.sin(phi));after={kind:"net",wood:v3(-sx*Math.cos(phi),0,Math.sin(phi))};}
+        else if(k.shot==="M"&&s[1]>1.8&&luck%3===0){target=v3(s[0],BAR_Y-touch*Math.cos(phi),touch*Math.sin(phi));after={kind:"net",wood:v3(0,-Math.cos(phi),Math.sin(phi))};}
       }else{
         // A save: the ball's surface meets the leading palm (both palms on a catch), on the side the shot comes from.
         hold=Boolean(move.hold);
@@ -350,12 +367,17 @@
         target=palm.clone().addScaledVector(toShot,BALL_R+(hold?.0:.02));target.y=Math.max(BALL_R,target.y);
         after={kind:hold?"held":"parry",palm};
       }
-      // Real flight: one launch velocity under gravity that reaches the target at the arrival time (about 90 km/h).
-      const v0=target.clone().sub(start).addScaledVector(G,-.5*FLIGHT*FLIGHT).multiplyScalar(1/FLIGHT);
-      const spinAxis=v3(0,1,0).cross(v0).normalize(),spinRate=v0.length()/BALL_R*.18;
-      return {...k,round,move,style:pick(RUNUPS.map((_r,i)=>i),round),start,target,v0,spinAxis,spinRate,after,hold,kStart:FLIGHT-move.tc/move.s,netHit:false};
+      // Real flight (about 90 km/h): gravity plus the side spin's Magnus pull. A placed side shot curls out toward its corner,
+      // a middle one barely bends; one launch velocity is solved so the ball still reaches its target at the arrival time.
+      const sideSign=target.x<-.3?-1:target.x>.3?1:(luck&1?1:-1);
+      const curl=v3(sideSign*(Math.abs(target.x)>.3?1.4+(luck>>4)%7*.35:.25+(luck>>4)%3*.15),0,0);
+      const acc=G.clone().add(curl);
+      const v0=target.clone().sub(start).addScaledVector(acc,-.5*FLIGHT*FLIGHT).multiplyScalar(1/FLIGHT);
+      // The ball turns the way that makes the curl (v x a) with a little topspin, ~10 turns a second.
+      const spinSide=v0.clone().cross(curl).normalize(),top=v3(0,1,0).cross(v0).normalize();
+      const spinAxis=spinSide.multiplyScalar(.85).addScaledVector(top,.4).normalize(),spinRate=v0.length()/BALL_R*.18;
+      return {...k,round,move,style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-move.tc/move.s,netHit:false};
     };
-    const cm3Easy=u=>u<=0?0:u>=1?1:u*u*(3-2*u);
     // The taker at time t (seconds from the strike); idle while waiting.
     const takerAt=(t,live)=>{
       const st=styles[plan?plan.style:lineup.style||0];
@@ -378,7 +400,7 @@
         const b=cm3Easy((kickT+.28)/.28);taker.pose([idle,{clip:TK.penaltyKick,time:0,w:b}]);return;
       }
       if(t<runStart){taker.pose([idle]);return;}
-      const jt=JOG_JOIN-(-KICK_HIT-t)*st.rate,b=cm3Easy((t-runStart)/.3);
+      const jt=JOG_JOIN-st.total+st.clipAt(t-runStart),b=cm3Easy((t-runStart)/.3);
       taker.pose([{...idle,w:1-b},{clip:jog,time:jt,w:b}]);
     };
     const keeperPose=(t,live)=>{
@@ -408,13 +430,15 @@
     const ballAt=t=>{
       if(!plan||t<=0){ball.position.set(0,BALL_R,SPOT_Z);ball.rotation.set(.3,.6,0);ballFree.on=false;return;}
       if(t<FLIGHT){
-        ball.position.copy(plan.start).addScaledVector(plan.v0,t).addScaledVector(G,.5*t*t);
+        ball.position.copy(plan.start).addScaledVector(plan.v0,t).addScaledVector(plan.acc,.5*t*t);
         ball.rotation.set(.3,.6,0);spinQ.setFromAxisAngle(plan.spinAxis,plan.spinRate*t);ball.quaternion.premultiply(spinQ);ballFree.on=false;return;}
       if(plan.hold){// caught: the ball stays between his palms
         palms();ball.position.copy(gloveL).add(gloveR).multiplyScalar(.5);ball.position.y=Math.max(BALL_R,ball.position.y);return;}
       if(!ballFree.on||ballFree.t>t+1e-6){
         ballFree.on=true;ballFree.t=FLIGHT;ballFree.p.copy(plan.target);
-        const vA=plan.v0.clone().addScaledVector(G,FLIGHT);
+        const vA=plan.v0.clone().addScaledVector(plan.acc,FLIGHT);
+        // Off the wood: the glancing part of the speed turns about the contact normal and loses some pace.
+        const n=plan.after.wood;if(n){const vn=vA.dot(n);if(vn<0)vA.addScaledVector(n,-(1+.55)*vn);vA.multiplyScalar(.9);}
         if(plan.after.kind==="parry"){
           // Off the glove: away from the palm (never back through the hand or body), out toward the pitch and wide.
           const n=plan.target.clone().sub(plan.after.palm).normalize();n.z=Math.max(n.z,.45);n.x+=Math.sign(plan.target.x||1)*.6;n.y=Math.max(n.y,.25);n.normalize();
@@ -482,7 +506,8 @@
       keeperPose(t,live);takerAt(t,live);ballAt(t);
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
-      if(!still&&plan&&plan.after.kind==="net"&&!plan.netHit&&t>=FLIGHT+.07){plan.netHit=true;S.update((plan.startAt-t0)/1000+FLIGHT+.07,1);S.hitNet(plan.target.x,plan.target.y*.9,plan.v0.length());}
+      const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);
+      if(!still&&plan&&plan.after.kind==="net"&&!plan.netHit&&t>=netAt){plan.netHit=true;S.update((plan.startAt-t0)/1000+netAt,1);S.hitNet(plan.target.x*(plan.after.wood?.8:1),plan.target.y*(plan.after.wood&&plan.after.wood.y<0?.4:.9),plan.v0.length());}
       S.update(stadiumT,still?.2:excitement(t));
       cameraAt(t,live);
       renderer.render(scene,camera);
@@ -518,7 +543,7 @@
     };
     const setLineup=(takerClub,keeperClub,round)=>{
       const next={taker:String(takerClub||""),keeper:String(keeperClub||""),round:round||1};
-      next.style=pick(RUNUPS.map((_r,i)=>i),next.round);
+      next.style=styleOf(next.taker,next.round);
       if(next.taker===lineup.taker&&next.keeper===lineup.keeper&&next.style===lineup.style)return false;
       lineup=next;useRigs(next.taker,next.keeper);dress(taker,next.taker,"outfield",next.keeper);dress(keeper,next.keeper,"gk",next.taker);
       return true;
@@ -527,7 +552,7 @@
       mode:"broadcast",
       reset(){if(plan&&clockNow()-snapAt>120)dissolveFrom();plan=null;frozenAt=null;ballFree.on=false;gov?.hold(false);},
       // Who is on the pitch for the coming kick: the shooter's club takes it, the other club keeps goal.
-      lineup(k){const fresh=k&&(String(k.taker||"")!==lineup.taker||String(k.keeper||"")!==lineup.keeper||pick(RUNUPS.map((_r,i)=>i),k.round||1)!==lineup.style);
+      lineup(k){const fresh=k&&(String(k.taker||"")!==lineup.taker||String(k.keeper||"")!==lineup.keeper||styleOf(String(k.taker||""),k.round||1)!==lineup.style);
         if(fresh&&!plan&&clockNow()-snapAt>120&&lineup.taker!==null)dissolveFrom();if(k)setLineup(k.taker,k.keeper,k.round);},
       // k = {shot: "L"|"M"|"R"|null (clock ran out), dive: "L"|"M"|"R", goal: boolean, animate: boolean, round}
       kick(k){
