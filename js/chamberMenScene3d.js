@@ -95,10 +95,9 @@
   }
   // One body per club for the whole Showdown (its taker and its keeper), from the club's name: nothing random.
   function cm3BodyOf(club,list){return list[cm3Hash(`body|${club||""}`)%list.length];}
-  function cm3Prefetch(phone,clubs){
+  function cm3Prefetch(tier,clubs){
     const scripts=Promise.all([cm3Script("chamber-men-stadium",STADIUM_JS,()=>Boolean(root.CareerModeChamberMenStadium)),cm3Script("kits17",KITS_JS,()=>Boolean(root.CareerModeKits17)),
       cm3Script("visual-identity",CREST_JS,()=>typeof root.getClubCrestSvg==="function").catch(()=>false)]).then(([okS,okK])=>Boolean(okS&&okK),()=>false);
-    const tier=phone?"phone":"desktop";
     const get=file=>typeof root.fetch!=="function"?Promise.resolve(null):root.fetch(PLAYER_PATH+file).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null);
     const anims=get(`anims_${tier}.glb`);
     const bodies=scripts.then(ok=>{
@@ -109,13 +108,13 @@
     });
     return {scripts,anims,bodies};
   }
-  function cm3Extras(T,phone,pre){
+  function cm3Extras(T,Q,pre){
     if(typeof T.GLTFLoader!=="function"||typeof T.AnimationMixer!=="function"||!pre)return Promise.resolve(null);
     let late=false;
     const work=(async()=>{
       if(!await pre.scripts)return null;
       const S=root.CareerModeChamberMenStadium;
-      const [tex,anims,bufs]=await Promise.all([S.load(T,{phone}),pre.anims,pre.bodies]);
+      const [tex,anims,bufs]=await Promise.all([S.load(T,{phone:Q.assets==="phone",level:Q.level}),pre.anims,pre.bodies]);
       if(!anims||!bufs){for(const t of Object.values(tex||{}))t.dispose?.();return null;}
       const parse=buf=>new T.GLTFLoader().parseAsync(buf.slice(0),PLAYER_PATH);
       const clips=await parse(anims);
@@ -136,14 +135,13 @@
     for(const g of all)try{g?.scene?.traverse(o=>{o.geometry?.dispose?.();for(const m of [].concat(o.material||[])){for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();m.dispose?.();}});}catch(_error){}
   }
 
-  function buildBroadcast(T,svg,x,opts){
+  function buildBroadcast(T,svg,x,opts,Q){
     const d=doc(),canvas=d.createElement("canvas");
     canvas.className="cmGoal3d";canvas.setAttribute("aria-hidden","true");
-    const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
-    const phone=Math.min(root.screen?.width||1e4,root.screen?.height||1e4)<700;
-    // Sharpness steps: the scene starts at the screen's own pixel ratio (capped) and steps down when frames run long.
-    const prMax=Math.min(root.devicePixelRatio||1,phone?2:2.25),prSteps=[prMax,Math.max(1,prMax*.85),Math.max(1,prMax*.72),Math.max(1,prMax*.6),1].filter((v,i,a)=>i===0||v<a[i-1]-.01);
-    let prStep=0;renderer.setPixelRatio(prSteps[0]);
+    // r90 quality from the device (js/gfxTier.js): MSAA, pixel ratio, shadow size and crowd density by level.
+    const renderer=new T.WebGLRenderer({canvas,antialias:Q.antialias,alpha:false,powerPreference:"high-performance"});
+    const phone=Q.assets==="phone";
+    renderer.setPixelRatio(Q.pixelRatio);
     renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
     renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFShadowMap;
     const aniso=Math.min(8,renderer.capabilities.getMaxAnisotropy());
@@ -152,13 +150,13 @@
     const clubs=(opts&&opts.clubs)||{};
     const K=x.K,colourOf=club=>{try{return parseInt(String(K.kit(club).dominant).replace("#",""),16);}catch(_error){return 0x888888;}};
     // Stadium: white posts like FIFA 17, the crowd in each club's colour.
-    const S=x.S.build(T,x.tex,{phone,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),aniso});
+    const S=x.S.build(T,x.tex,{phone,density:Q.density,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),aniso});
     scene.add(S.group);
     const ball=S.ball;
     // Night match light: floodlights from high over both corners of the box, a cool sky, a soft rim behind the goal.
     scene.add(new T.HemisphereLight(0xdde6ff,0x15200f,.55));
     const key=new T.DirectionalLight(0xfff3e2,2.7);key.position.set(9,30,24);key.target.position.set(0,0,6);
-    key.castShadow=true;key.shadow.mapSize.set(phone?1024:2048,phone?1024:2048);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=2;
+    key.castShadow=true;key.shadow.mapSize.set(Q.shadowSize,Q.shadowSize);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=2;
     Object.assign(key.shadow.camera,{left:-11,right:11,top:13,bottom:-11,near:10,far:70});key.shadow.camera.updateProjectionMatrix();
     scene.add(key,key.target);
     const fill=new T.DirectionalLight(0xe4ecff,.75);fill.position.set(-14,20,18);scene.add(fill);
@@ -491,27 +489,25 @@
       const fade=still?0:1-(now-snapAt)/(DISSOLVE*1000);
       if(fade>0&&snap){overlayMat.opacity=cm3Easy(fade);renderer.autoClear=false;renderer.render(overlay,overlayCam);renderer.autoClear=true;}
     };
-    // Smoothness first (Nik 2026-11-04): frame times are watched; when the average runs past ~20 ms (under 50 fps) for a
-    // second, sharpness steps down, then the shadow map; a step that ran slow is never taken again on this screen, so the
-    // picture never pumps. Motion never depends on the frame rate: every pose is read from the clock.
-    let lastFrame=0,avg=16.7,slowFor=0;
-    const govern=time=>{
-      const dt=lastFrame?Math.min(100,time-lastFrame):16.7;lastFrame=time;avg+=(dt-avg)*.08;
-      slowFor=avg>20.5?slowFor+dt:0;
-      if(slowFor<1000)return;
-      slowFor=0;avg=16.7;
-      if(prStep<prSteps.length-1){prStep+=1;renderer.setPixelRatio(prSteps[prStep]);cssW=0;fit();}
-      else if(key.shadow.mapSize.x>512){key.shadow.mapSize.set(512,512);key.shadow.map?.dispose();key.shadow.map=null;}
-    };
+    // Smoothness first (Nik 2026-11-04, 2026-11-07): the shared governor (js/gfxTier.js) moves the pixel ratio: down after a
+    // second of slow frames, up only when a timed frame shows room, never back to a step that ran slow, and never during a
+    // kick (held from kick() to the next reset). Motion never depends on the frame rate: every pose is read from the clock.
+    const GFX=root.CareerModeGfxTier;
+    const gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,onChange:()=>{cssW=0;layoutDirty=true;}}):null;
+    const fps=GFX?GFX.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles,extra:`crowd ${S.crowdCount}`})):null;
+    // The box is measured only when it changes (a ResizeObserver, a window resize), never every frame.
+    let layoutDirty=true;
     const tick=time=>{
       raf=0;if(disposed)return;
       if(!canvas.isConnected||!svg.isConnected){free();return;}
-      if(d.visibilityState!=="hidden"){govern(time);fit();paint();}else lastFrame=0;
+      if(d.visibilityState!=="hidden"){gov?.frame(time);if(layoutDirty){layoutDirty=false;fit();}paint();}
       raf=root.requestAnimationFrame(tick);
     };
-    const ro=typeof root.ResizeObserver==="function"?new root.ResizeObserver(()=>{if(!disposed)fit();}):null;
+    const relayout=()=>{layoutDirty=true;};
+    const ro=typeof root.ResizeObserver==="function"?new root.ResizeObserver(relayout):null;
     const free=()=>{
-      if(disposed)return;disposed=true;alive=false;if(raf)root.cancelAnimationFrame(raf);ro?.disconnect();
+      if(disposed)return;disposed=true;alive=false;if(raf)root.cancelAnimationFrame(raf);ro?.disconnect();root.removeEventListener?.("resize",relayout);
+      gov?.end();fps?.stop();
       for(const r of Object.values(rigs))for(const a of [r.taker.a,r.keeper.a])try{a.mixer.stopAllAction();a.mixer.uncacheRoot(a.model);}catch(_error){}
       scene.traverse(o=>{if(o.geometry)o.geometry.dispose();for(const m of [].concat(o.material||[]))for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();});
       try{S.dispose();}catch(_error){}
@@ -529,7 +525,7 @@
     };
     const api={
       mode:"broadcast",
-      reset(){if(plan&&clockNow()-snapAt>120)dissolveFrom();plan=null;frozenAt=null;ballFree.on=false;},
+      reset(){if(plan&&clockNow()-snapAt>120)dissolveFrom();plan=null;frozenAt=null;ballFree.on=false;gov?.hold(false);},
       // Who is on the pitch for the coming kick: the shooter's club takes it, the other club keeps goal.
       lineup(k){const fresh=k&&(String(k.taker||"")!==lineup.taker||String(k.keeper||"")!==lineup.keeper||pick(RUNUPS.map((_r,i)=>i),k.round||1)!==lineup.style);
         if(fresh&&!plan&&clockNow()-snapAt>120&&lineup.taker!==null)dissolveFrom();if(k)setLineup(k.taker,k.keeper,k.round);},
@@ -538,21 +534,23 @@
         plan=makePlan({shot:k.shot||null,dive:k.dive||"M",goal:Boolean(k.goal),round:k.round||1});
         ballFree.on=false;
         const still=!k.animate||reducedMotion();
-        plan.startAt=clockNow()+(still?-SETTLE*1000:RUNUP*1000);frozenAt=null;
+        plan.startAt=clockNow()+(still?-SETTLE*1000:RUNUP*1000);frozenAt=null;gov?.hold(true);
       },
       runUpMs:RUNUP*1000,
       // clock (ms, optional) also freezes the scene clock, so a proof can step through a dissolve frame by frame.
       at(t,clock){frozenAt=typeof t==="number"?t:null;frozenClock=typeof clock==="number"?clock:null;fit();paint();},
+      // Behind the loading screen: a few timed frames pick the level for this device (they also compile every shader).
+      async warm(){if(!GFX)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,paint,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
       dispose:free,
       lit:Boolean(scene.environment),
-      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:+avg.toFixed(1),kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()]};},
+      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()]};},
       get alive(){return alive;}
     };
     setLineup(clubs.playerOne,clubs.playerTwo,1);
     svg.parentNode.insertBefore(canvas,svg);
     svg.classList.add("cm3d-on");
     fit();cameraAt(0,0);renderer.compile(scene,camera);paint();
-    ro?.observe(svg);
+    ro?.observe(svg);if(svg.parentNode)ro?.observe(svg.parentNode);root.addEventListener?.("resize",relayout);
     raf=root.requestAnimationFrame(tick);
     return api;
   }
@@ -560,18 +558,27 @@
 
   // mount(svg) (cm3Mount): the 3D goal in place of the SVG art, resolved once its first frame is drawn; null when it cannot run here.
   // opts = {clubs:{playerOne, playerTwo}}: the taker and keeper clubs for the first kick.
+  // The device's level (js/gfxTier.js, in the shell); light and phone screens take the lighter player and ball files.
+  const GFX_JS="js/gfxTier.js";
+  const GFX_FALLBACK={level:1,name:"medium",pixelRatio:1,antialias:true,shadowSize:1024,density:.7,bloom:false};
+  async function cm3Quality(){
+    const ok=await cm3Script("gfx-tier",GFX_JS,()=>Boolean(root.CareerModeGfxTier)).catch(()=>false);
+    let p=GFX_FALLBACK;try{if(ok)p=root.CareerModeGfxTier.profile();}catch(_error){}
+    const phoneScreen=Math.min(root.screen?.width||1e4,root.screen?.height||1e4)<700;
+    return {...p,assets:phoneScreen||p.level<=1?"phone":"desktop"};
+  }
   async function cm3Mount(svg,opts){
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2())return null;
     try{
-      const phone=Math.min(root.screen?.width||1e4,root.screen?.height||1e4)<700;
-      const pre=cm3Prefetch(phone,opts&&opts.clubs);
+      const Q=await cm3Quality();
+      const pre=cm3Prefetch(Q.assets,opts&&opts.clubs);
       const T=await loadEngine();
-      const extras=await cm3Extras(T,phone,pre);
+      const extras=await cm3Extras(T,Q,pre);
       // r90: no stadium or players in time is the SVG goal, never a second look (the gold hall and its lounge light are gone).
       if(!extras)return null;
       if(!svg.isConnected){cm3FreeExtras(extras);return null;}
       let api=null;
-      try{api=buildBroadcast(T,svg,extras,opts);}
+      try{api=buildBroadcast(T,svg,extras,opts,Q);await api.warm();}
       catch(error){try{root.console?.warn?.("Chamber Men 3D scene failed; the drawn goal plays.",error);}catch(_error){}cm3FreeExtras(extras);svg.parentNode?.querySelector?.(":scope > canvas.cmGoal3d")?.remove();svg.classList.remove("cm3d-on");return null;}
       CareerModeChamberMen3d.last=api;
       return api;
