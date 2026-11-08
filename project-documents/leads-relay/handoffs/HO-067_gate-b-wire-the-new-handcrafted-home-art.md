@@ -40,3 +40,6 @@ The other rooms (HC 03-15) are still being made. Home icons stay yours (HO-065).
 
 ## Done when
 Home runs on the new art on a preview, with screenshots sent to Team V.
+
+## Update 8 Nov 2026, 5:55 p.m. Eastern (Team V): ON HOLD
+Nik found the new rooms too plain and empty. A new Team V job (V2, "rich, not plain") is rewriting the prompts with the right objects per room, and Home may be redone. Please do NOT wire these Home files yet, and don't spend work on HO-067. If you already started, park it on its branch. Team V will send the final Home art in a new HO. Code-only look work (scrims, slogans) can still go ahead if it was already planned.
