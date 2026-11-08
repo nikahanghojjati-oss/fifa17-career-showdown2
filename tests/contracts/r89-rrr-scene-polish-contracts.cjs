@@ -16,6 +16,8 @@
 //   P7 no spoiler (r90): until the hit nothing names or points out the target;
 //   P11 (r90 LOOK L27) no spin before the scene is ready; six spins in a row start and end with no page error;
 //   P9 (r90 LOOK L08/L09) close rest shot on the revolver, words in the bottom strip, the gold button only when there is a tap;
+//   P10 (r90 MOTION M8/M9/M13/M15/M30) local title fonts, Opus cues loaded at once with a WAV fallback, shaders built in batches that
+//      report progress (and the step renews its wait on it), the drum/crane/hammer baked, faded flash sprites skipped, a lost context hands back;
 //   P6 (real scene, software WebGL) one fired turn stepped on the scene's own clock: the camera never cuts (every tick's step is small),
 //      from the crane shut to the shot its speed has one peak and then only falls, it is still creeping at the shot, and the drum stops on
 //      the planned chamber. CMS_RRR_SCENE_SKIP_BROWSER=1 skips P6 (no Chromium).
@@ -93,24 +95,24 @@ has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(
 lacks(/shadowCool/,'the per-turn shadow redraw');
 has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving revolver casts no map shadow (its contact shadow is a picture)');
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
-// r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Medium keep one-lobe materials and plain three.js meshes.
+// r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Balanced keep one-lobe materials and plain three.js meshes.
 assert.equal((html.match(/MeshPhysicalMaterial/g)||[]).length,1,'one place makes a two-lobe material');
-has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;[^\n]*\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
+has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3;[\s\S]{0,600}?\nfunction mat\(p,lobe2\)\{ return HIGH_UP&&lobe2\?new T\.MeshPhysicalMaterial\(Object\.assign\(\{map:WHITE1\},/,'and only from High up');
 has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from High up');
-has(/const T=SEGK===1\?THREE:/,'Light and Medium build with plain three.js');
+has(/const T=SEGK===1\?THREE:/,'Light and Balanced build with plain three.js');
 lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
 // r90 (Nik 2026-11-08: "dark room for the lower quality, a proper background with tables for the higher, nothing excessive"): the room
 // by level. Light and Balanced build and download nothing behind the table; High adds a dark far wall with glowing lamps (no lights);
 // Extra, Ultra and 8K add the sharp café picture (Team V RR_ROOM_V2, 4K on Ultra up), the café tables and one room light.
-has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;/,'High and Extra are the two room steps');
-has(/HALL\?loadImg\(ROOM_4K\?"assets\/RR_ROOM_V2_4K\.webp":"assets\/RR_ROOM_V2_1080\.webp"\):null/,'the café picture loads only on Extra up');
-has(/const ROOM_4K=\(GFX\.assetLevel\?\?GFX\.level\)>=3&&Math\.max\(screen\.width\|\|0,screen\.height\|\|0\)\*\(devicePixelRatio\|\|1\)>2560;/,'the 4K file only above 2560 device pixels');
-has(/if\(HQ\)\{ const lampTex=lampGlassTex\(\)/,'the far wall and its lamps are built only from High up');
-has(/if\(HALL\)\{ const top=mat\(/,'the café tables only from Extra up');
+has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3;/,'High and Extra are the two room steps');
+has(/EXTRA_UP\?loadImg\(ROOM_BIG\?"assets\/RR_ROOM_V2_4K\.webp":"assets\/RR_ROOM_V2_1080\.webp"\):null/,'the café picture loads only on Extra up');
+has(/const ROOM_BIG=\(GFX\.assetLevel\?\?GFX\.level\)>=3&&Math\.max\(screen\.width\|\|0,screen\.height\|\|0\)\*\(devicePixelRatio\|\|1\)>2560;/,'the 4K file only above 2560 device pixels');
+has(/if\(HIGH_UP\)\{ const lampTex=lampGlassTex\(\)/,'the far wall and its lamps are built only from High up');
+has(/if\(EXTRA_UP\)\{ const top=mat\(/,'the café tables only from Extra up');
 has(/if\(hallLamps\) hallLamps\.visible=false; scene\.fog=null;/,'the picture replaces the far wall and lifts the fog');
 lacks(/RR_ROOM\.jpg|RR_ROOM\.webp/,'the old café plates (the 523 KB jpg and the dimmed, faded WebP)');
 assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,3,'three point lights: the lantern, the one effects light and the room light');
-has(/if\(HALL\)\{ const roomLight=new T\.PointLight\(/,'the room light exists only on Extra up');
+has(/if\(EXTRA_UP\)\{ const roomLight=new T\.PointLight\(/,'the room light exists only on Extra up');
 lacks(/backWall|wallLamp|chandelier|function dado/,'the 2.2.0 hall builders (balcony, ceiling, chandelier: ten lights)');
 lacks(/const floorTex=woodTex\(2048/,'the unused 2048 px wood floor texture');
 lacks(/for\(let i=0;i<d\.length;i\+=4\)\{ const n=\(Math\.random\(\)-\.5\)\*a;/,'the per-pixel grain loop');
@@ -165,6 +167,42 @@ has(/d=Math\.min\(2\.3,Math\.max\(\.35,\(PH\?\.42:\.44\)\/hh\)\)/,'its distance 
 has(/fov=lerp\(fovIdle,fovRest,k\); \}/,'the turn eases from the rest lens to its own lens on the crane up');
 has(/spin\.rotation\.y=-2;/,'the revolver waits turned so barrel, drum and grip read');
 ok('P9','the rest shot opens close on the revolver, words only in the bottom strip, the gold button only when there is a tap');
+// P10 (r90 MOTION hunt M8/M9/M13/M15/M30)
+{
+  const step=fs.readFileSync(path.join(ROOT,'js/rosterRouletteStep.js'),'utf8');
+  const pm=JSON.parse(fs.readFileSync(path.join(ROOT,'visual-assets/v10_1/roulette/platemap.json'),'utf8'));
+  const sw=fs.readFileSync(path.join(ROOT,'service-worker.js'),'utf8');
+  // M8: every face is local, preloaded, and precached for offline
+  assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/,'M8 no Google Fonts');
+  for(const f of ['big-shoulders-display-latin-800-normal','big-shoulders-display-latin-900-normal','rye-latin-400-normal']){
+    assert.ok(fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${f}.woff2`)),`M8 ${f} ships`);
+    assert.ok(sw.split(`"visual-assets/v10_1/shared/fonts/${f}.woff2"`).length-1>=4,`M8 ${f} is in the shell, the offline pack, the unversioned list and the added list`);
+  }
+  // M13: Opus cues with a .wav fallback, loaded in parallel, room tone as soon as it lands
+  for(const [name,src] of Object.entries(pm.sfx)){ assert.match(src,/^assets\/sfx\/[a-z_]+\.ogg$/,`M13 ${name} is Opus`); for(const ext of ['ogg','wav']) assert.ok(fs.existsSync(path.join(ROOT,'visual-assets/v10_1/roulette',src.replace(/\.ogg$/,'.'+ext))),`M13 ${name}.${ext} ships`); }
+  const sfxBytes=Object.values(pm.sfx).reduce((n,src)=>n+fs.statSync(path.join(ROOT,'visual-assets/v10_1/roulette',src)).size,0);
+  assert.ok(sfxBytes<400*1024,`M13 the cues weigh ${Math.round(sfxBytes/1024)} KB (limit 400 KB; the WAVs were 1.85 MB)`);
+  has(/await Promise\.all\(Object\.entries\(map\)\.map\(async\(\[name,src\]\)=>/,'M13 every cue loads at once');
+  has(/decode\(src\.replace\(\/\\\.ogg\$\/,"\.wav"\)\)/,'M13 an .ogg that does not decode falls back to its .wav');
+  has(/if\(name==="roomTone"&&on\) roomTone\(true\);/,'M13 the room tone starts the moment it lands');
+  assert.match(sw,/\|svg\|wav\|ogg\|glb\)\$\/i;/,'M13 the worker runtime-caches .ogg like the images');
+  // M9: shaders in batches with progress, and the step renews its wait on progress
+  has(/if\(!renderer\.extensions\.has\("KHR_parallel_shader_compile"\)\)\{/,'M9 batches only where the GPU cannot compile in the background');
+  has(/for\(const b of batches\)\{ b\.forEach\(o=>renderer\.compile\(o,camera,scene\)\); toGame2\("cms-rr-loading"/,'M9 each batch compiles only its own objects (lights and environment from the whole scene) and reports progress');
+  assert.doesNotMatch(html,/o\.visible=keep\.has\(o\)/,'M9 no visibility switching: compile() walks hidden objects too');
+  assert.match(step,/if\(event\.data\.type==="cms-rr-loading"\)renew\(\);/,'M9 progress renews the start wait');
+  assert.match(step,/COLD_LOADING_MS=90000/,'M9 the whole start is capped');
+  assert.match(step,/if\(!slow\)sceneFailedHere\.add\(rrsKey\(ctx\)\);/,'M9 a slow start is never skipped for good: it is tried again the next time the screen opens');
+  assert.equal((step.match(/sceneFailedHere/g)||[]).length,4,'M9 the broken-page skip lives only in memory for this visit (never stored)');
+  assert.match(step,/if\(!graced&&Date\.now\(\)-due>1000\)\{graced=true;arm\(2000\);return;\}/,'M9 a late timer (held main thread) looks again before failing');
+  // M15: drum, crane and hammer baked; faded flash sprites not drawn
+  has(/bake\(cyl,o=>o===cyl\.userData\.round\|\|o\.renderOrder>=2\); bake\(crane,o=>o===cyl\|\|o===cyl\.userData\.pointer\); bake\(hammer\);/,'M15 the moving gun parts are baked per piece');
+  has(/applyFx\(\); fxIdle\.forEach\(fxVis\);/,'M15 faded flash sprites are skipped');
+  // M30: a lost context hands back at once
+  has(/addEventListener\("webglcontextlost",e=>\{ e\.preventDefault\(\); if\(leaving\) return;[^\n]*toGame\("cms-rr-error",\{message:"webgl context lost"\}\)/,'M30 a lost context hands the game back');
+  has(/leaving=true; renderer\.dispose\(\); try\{ renderer\.forceContextLoss\(\); \}/,'M30 our own release on the way out is not a loss');
+}
+ok('P10','MOTION: local fonts, Opus cues in parallel with a WAV fallback, batched shader build with progress, baked gun parts, lost context hands back');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}
