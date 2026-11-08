@@ -123,6 +123,8 @@ ok("R90-PS8 hunt L05/L06: the light pillar rises behind the pack, softer on port
   assert.match(page,/new T\.DirectionalLight\(L\(0xfff3e2\),2\.7\)/,"Chamber Men's floodlight key");
   assert.match(page,/if\(night>\.5\)\{/,"the stadium photo is graded to night");
   assert.match(page,/"assets\/board_night_V1\.jpg"/,"black and gold boards");
+  assert.match(page,/lp\+=exp\(-dl\*dl\*70\.\); fl\+=exp\(-dl\*dl\*1600\.\);/,"floodlight flares with light pools on the stands");
+  assert.match(page,/const n=tt<4\.5\?8:4; for\(let i=0;i<n;i\+\+\)\{ const a=Math\.random\(\)\*Math\.PI\*2, r=Math\.sqrt\(Math\.random\(\)\)\*\.7\*/,"a small sparkle at the base, not a carpet");
 });
 
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
