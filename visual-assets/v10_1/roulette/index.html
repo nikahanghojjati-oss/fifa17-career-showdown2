@@ -1306,12 +1306,17 @@ function disposeAll(){ cancelAnimationFrame(rafId); if(GOV) GOV.end(); const see
    makes again what lived only on the GPU (the reflections and the one shadow map), then draws on. js/gfxTier.js still lowers this
    device one level for next time. Only a context that never comes back (20 s on screen) hands the turn to the game's result card.
    Our own release on the way out is not a loss. */
-let leaving=false, lostSent=false, lostTimer=0;
-function lostGiveUp(){ lostTimer=0; if(leaving||lostSent||!renderer.getContext().isContextLost()) return; if(document.visibilityState==="hidden"){ lostTimer=setTimeout(lostGiveUp,20000); return; }
+let leaving=false, lostSent=false, lostTimer=0, lostLeft=0, lostMark=0, lostOn=false;
+/* the 20 s count only on-screen time (Codex P2 on #1326): a phone that drops the context in the background and comes back is given the full wait */
+function lostGiveUp(){ lostTimer=0; lostOn=false; if(leaving||lostSent||!renderer.getContext().isContextLost()) return;
   lostSent=true; if(EMBED) toGame("cms-rr-error",{message:"webgl context lost"}); else location.reload(); }
-renderer.domElement.addEventListener("webglcontextlost",e=>{ e.preventDefault(); if(leaving) return; cancelAnimationFrame(rafId); rafId=0; clearTimeout(lostTimer); lostTimer=setTimeout(lostGiveUp,20000); },false);
-renderer.domElement.addEventListener("webglcontextrestored",()=>{ clearTimeout(lostTimer); lostTimer=0; if(leaving||lostSent) return;
-  try{ buildEnv(); }catch(e){} renderer.shadowMap.needsUpdate=true; last=now(); if(window.__rrReady&&!rafId) rafId=requestAnimationFrame(frame); },false);
+function lostClock(){ if(!lostOn) return; clearTimeout(lostTimer); lostTimer=0; if(document.visibilityState==="hidden"){ if(lostMark){ lostLeft-=Date.now()-lostMark; lostMark=0; } return; } lostMark=Date.now(); lostTimer=setTimeout(lostGiveUp,Math.max(0,lostLeft)); }
+addEventListener("visibilitychange",lostClock);
+renderer.domElement.addEventListener("webglcontextlost",e=>{ e.preventDefault(); if(leaving) return; cancelAnimationFrame(rafId); rafId=0; lostOn=true; lostLeft=20000; lostMark=0; lostClock(); },false);
+/* on restore the frame clock keeps the last frame's time (as on the way back from the back-forward cache, Codex P2 on #1326), so tick()
+   moves the turn clock past the gap and the turn picks up where it stopped instead of firing its cues together */
+renderer.domElement.addEventListener("webglcontextrestored",()=>{ clearTimeout(lostTimer); lostTimer=0; lostOn=false; if(leaving||lostSent) return;
+  try{ buildEnv(); }catch(e){} renderer.shadowMap.needsUpdate=true; if(window.__rrReady&&!rafId) rafId=requestAnimationFrame(frame); },false);
 /* back-forward cache (Codex P2 on #1261): a page kept for Back is only paused and picks up again on pageshow; a real unload frees everything.
    On the way back "last" keeps the time of the final frame before the pause, so tick() moves the turn clock past the whole gap
    (the same pause as a hidden tab) and the turn resumes where it stopped instead of finishing at once with every cue */

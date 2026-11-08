@@ -207,9 +207,10 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   has(/bake\(cyl,o=>o===cyl\.userData\.round\|\|o\.renderOrder>=2\); bake\(crane,o=>o===cyl\|\|o===cyl\.userData\.pointer\); bake\(hammer\);/,'M15 the moving gun parts are baked per piece');
   has(/applyFx\(\); fxIdle\.forEach\(fxVis\);/,'M15 faded flash sprites are skipped');
   // M30 + r90 Light: a lost context is rebuilt in place; only one that never comes back (20 s on screen) hands the game back
-  has(/addEventListener\("webglcontextlost",e=>\{ e\.preventDefault\(\); if\(leaving\) return; cancelAnimationFrame\(rafId\); rafId=0; clearTimeout\(lostTimer\); lostTimer=setTimeout\(lostGiveUp,20000\); \},false\);/,'Light: a lost context waits for the browser to give it back');
-  has(/addEventListener\("webglcontextrestored",\(\)=>\{ clearTimeout\(lostTimer\); lostTimer=0; if\(leaving\|\|lostSent\) return;\n\s*try\{ buildEnv\(\); \}catch\(e\)\{\} renderer\.shadowMap\.needsUpdate=true;[^\n]*rafId=requestAnimationFrame\(frame\);/,'Light: on restore the reflections and the shadow map are made again and the scene draws on');
-  has(/if\(document\.visibilityState==="hidden"\)\{ lostTimer=setTimeout\(lostGiveUp,20000\); return; \}\n\s*lostSent=true; if\(EMBED\) toGame\("cms-rr-error",\{message:"webgl context lost"\}\)/,'Light: only a context that never comes back (on screen) hands the game back');
+  has(/addEventListener\("webglcontextlost",e=>\{ e\.preventDefault\(\); if\(leaving\) return; cancelAnimationFrame\(rafId\); rafId=0; lostOn=true; lostLeft=20000; lostMark=0; lostClock\(\); \},false\);/,'Light: a lost context waits for the browser to give it back');
+  has(/addEventListener\("webglcontextrestored",\(\)=>\{ clearTimeout\(lostTimer\); lostTimer=0; lostOn=false; if\(leaving\|\|lostSent\) return;\n\s*try\{ buildEnv\(\); \}catch\(e\)\{\} renderer\.shadowMap\.needsUpdate=true; if\(window\.__rrReady&&!rafId\) rafId=requestAnimationFrame\(frame\); \},false\);/,'Light: on restore the reflections and the shadow map are made again and the turn clock skips the gap (no last=now())');
+  has(/if\(document\.visibilityState==="hidden"\)\{ if\(lostMark\)\{ lostLeft-=Date\.now\(\)-lostMark; lostMark=0; \} return; \}/,'Light: the 20 s give-up counts only on-screen time');
+  has(/lostSent=true; if\(EMBED\) toGame\("cms-rr-error",\{message:"webgl context lost"\}\)/,'Light: only a context that never comes back hands the game back');
   has(/pm\.dispose\(\); if\(LOOK\.hdri\) LOOK\.hdri\.dispose\(\);   \/\*/,'Light: the EXR stays in memory so the reflections can be made again');
   has(/leaving=true; renderer\.dispose\(\); try\{ renderer\.forceContextLoss\(\); \}/,'M30 our own release on the way out is not a loss');
 }
