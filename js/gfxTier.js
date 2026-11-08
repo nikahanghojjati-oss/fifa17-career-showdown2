@@ -88,6 +88,8 @@
     let level=1;
     if(software)level=0;
     else if(strongPhone)level=2;
+    // Mali-G76/G77/G78 and G610/G615 (2019-2022 flagships, two-digit or 6x0 names) start Balanced; calibrate can lift them.
+    else if(/mali-g7[6-9]\b|mali-g6[1-9]\d\b/.test(g))level=1;
     else if(/mali|powervr|adreno \(tm\) [1-5]\d\d\b|adreno [1-5]\d\d\b|intel.*\b(hd|uhd) graphics( [2-6]\d\d)?\b|apple a(9|1[0-2])\b/.test(g))level=0;
     else if(/rtx [2-9]0[6-9]0|rtx [4-9]0\d0|radeon rx [6-9]\d{3}|apple m[1-9] (pro|max|ultra)/.test(g))level=3;
     else if(/nvidia|geforce|rtx|gtx|quadro|radeon rx|radeon pro|apple m[1-9]|apple gpu/.test(g))level=2;
@@ -105,7 +107,14 @@
   }
   // 8K needs a GPU that can hold a 7680 px buffer and texture; never software GL, never a phone.
   function gfxCan8k(info,env){return Boolean(info&&!info.software&&!(env&&env.phone)&&info.maxBuffer>=7680&&info.maxTexture>=7680);}
-  function gfxCap(){try{const v=JSON.parse(gfxRead(CAP_KEY)||"null");return v&&v.reason&&Number.isInteger(v.level)&&v.level>=0&&v.level<=4?v:null;}catch(_error){return null;}}
+  // The cap is not for ever (lead review on #1271): one stray driver reset must not cost a level for good. It expires after
+  // 7 days, or after 3 clean scenes (20 s or more, no failure) at the capped level.
+  const CAP_DAYS_MS=7*864e5,CAP_CLEAN=3,CAP_CLEAN_MS=20000;
+  function gfxCap(){
+    try{const v=JSON.parse(gfxRead(CAP_KEY)||"null");if(!(v&&v.reason&&Number.isInteger(v.level)&&v.level>=0&&v.level<=4))return null;
+      if(Date.now()-Number(v.at||0)>CAP_DAYS_MS||(v.clean|0)>=CAP_CLEAN){gfxWrite(CAP_KEY,"null");return null;}return v;}catch(_error){return null;}
+  }
+  function gfxCapClean(level){const v=gfxCap();if(!v||v.level!==level)return;v.clean=(v.clean|0)+1;gfxWrite(CAP_KEY,v.clean>=CAP_CLEAN?"null":JSON.stringify(v));if(v.clean>=CAP_CLEAN)cached=null;}
   // Downloads follow the connection as well as the device (Nik 2026-11-08): Save-Data, or a 2g/3g connection, loads one
   // size down; the drawing level stays.
   function gfxSlowNet(){
@@ -161,8 +170,10 @@
   // The device could not hold this level (a lost context, an out-of-memory error, an 8K buffer or target refused): one
   // level down, remembered, the live governor moved at once. Scenes call gov.end() before forceContextLoss() on dispose,
   // so their own clean-up never counts; neither does a context lost while the page is hidden (the browser reclaiming it).
+  let failCount=0;
   function gfxFail(reason){
     if(root.document&&root.document.visibilityState==="hidden")return gfxProfile();
+    failCount+=1;
     const cur=(cached||gfxProfile()).level,old=gfxCap();
     const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
     gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now()}));cached=null;
@@ -183,7 +194,8 @@
       catch(_error){byFormat[k]=null;}
     }
     const list=byFormat[k]||[4];
-    return list.find(n=>n<=w)??list[list.length-1];
+    // Never more than asked: a GPU that lists only bigger counts gets none.
+    return list.find(n=>n<=w)??0;
   }
   // After a target is (re)made: bind it once; an incomplete framebuffer steps its samples 8+ -> 4 -> 0. Returns whether it is
   // complete. On 8K, a target that is incomplete even without MSAA sends the device back to Ultra.
@@ -258,7 +270,7 @@
     // A level that ran slow last time on this screen is where the next visit starts.
     const settled=key?Number(gfxRead(MEMORY_KEY(key))):NaN;
     if(p.auto&&Number.isFinite(settled)&&settled>0)at=Math.max(at,nearest(settled));
-    const bad=new Set();let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
+    const bad=new Set(),born=gfxNow(),fails0=failCount;let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
     const lost=()=>{if(!ended)gfxFail("the GPU dropped the picture (context lost)");};
     try{renderer.domElement?.addEventListener?.("webglcontextlost",lost);}catch(_error){}
     const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,p,()=>list[at]):null;
@@ -296,7 +308,7 @@
       name(){return p.name;},
       pixelRatio(){return list[at];},
       frameMs(){return +avg.toFixed(1);},
-      end(){if(ended)return;ended=true;try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}if(key&&p.auto)gfxWrite(MEMORY_KEY(key),list[at]);if(active===api)active=null;}
+      end(){if(ended)return;ended=true;if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}if(key&&p.auto)gfxWrite(MEMORY_KEY(key),list[at]);if(active===api)active=null;}
     };
     active=api;
     return api;
