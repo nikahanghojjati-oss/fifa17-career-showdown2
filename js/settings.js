@@ -434,12 +434,16 @@ function getSettingsSeasonsLeftText(){
 // the DETAILS line; "plenty" is ten seasons or more, the longest Showdown.
 function getSettingsOnlinePlayText(){
     try{
-        const left = window.CareerModeFirestoreBudget?.seasonsLeftToday?.();
+        const budget = window.CareerModeFirestoreBudget;
+        const left = budget?.seasonsLeftToday?.();
         if(!left || !Number.isFinite(left.seasons)){ return ""; }
         const n = Math.max(0, Math.floor(left.seasons));
         if(n >= 10){ return "Plenty left"; }
         if(n >= 3){ return `Enough for about ${n} more seasons`; }
         if(n >= 1){ return `Running low: about ${n} more ${n === 1 ? "season" : "seasons"}`; }
+        // Zero whole seasons is not "used up" while some free use is left and play is not paused: the count rounds down.
+        const paused = Boolean(budget?.paused?.());
+        if(!paused && Number(left.billedLeft) > 0){ return "Running low: less than one season left"; }
         return "Used up for today, back at 3 a.m. Boston time";
     }catch(_error){
         return "";
