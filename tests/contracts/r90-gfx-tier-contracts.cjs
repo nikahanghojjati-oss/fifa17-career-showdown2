@@ -130,8 +130,14 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   }
   assert.equal(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G.profile().level,0,'light can be picked');
   const sg=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G;
-  assert.deepEqual({...sg.suggested()},{level:3,name:'extra',measured:false},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
+  assert.deepEqual({...sg.suggested()},{level:3,name:'extra',measured:false,now:3,nowName:'extra',lowered:false},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
   assert.equal(sg.setChoice('bogus'),'auto');assert.equal(sg.profile().level,3,'a new pick applies to the next screen');
+  // Codex on #1284: a crash cap or Device check saved by the roulette/SP frame's own copy shows in Settings without a reload.
+  {const sx=sandbox({gpu:strong,dpr:1,memory:32,cores:16});sx.G.profile();
+   sx.store['careerModeShowdown.gfxCap.v1']=JSON.stringify({level:1,reason:'frame',at:Date.now()});
+   assert.deepEqual([sx.G.suggested().now,sx.G.suggested().lowered],[1,true],'a cap saved elsewhere lowers the Auto line');
+   sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v1']=JSON.stringify({level:2,at:Date.now()});
+   assert.deepEqual([sx.G.suggested().now,sx.G.suggested().measured],[2,true],'a Device check saved elsewhere shows as measured');}
   ok('G2','auto and named levels never above devicePixelRatio; ultra up to 2x within a 4K buffer; Settings key, unknown is auto, ?gfx forces');
 }
 // G3
@@ -202,19 +208,23 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(!/\bimport\b|\bexport\b/.test(SRC.replace(/\/\/.*$/gm,'')),'a classic script (the roulette page loads it with a script tag)');
     assert.ok(!/\blocalStorage\b/.test(SRC)&&SRC.includes('gfxStore("readStorageValue")'),'saved through js/storage.js (its parent\'s in the roulette frame)');
     ok('G5','frame counter only with ?fps=1; precached; classic script');
-    // G6 Settings (lead 2026-11-07): one 3D QUALITY pick in MOTION & FEEDBACK: Auto (suggests X) / Light / Balanced /
+    // G6 Settings (lead 2026-11-07): one 3D QUALITY pick in MOTION & FEEDBACK: Auto (its pick in a line under the name) / Light / Balanced /
     // High / Extra / Ultra, saved through the module, applying from the next 3D screen; on landscape desktops it shares the
     // MENU CLICK FEEDBACK line (the plate has no height to spare at 1366x640; browser sweep on the PR).
     const set=fs.readFileSync(path.join(ROOT,'js/settings.js'),'utf8'),css=fs.readFileSync(path.join(ROOT,'css/r78-type.css'),'utf8');
-    assert.ok(set.includes('const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra"]];'),'the six choices, in order');
-    assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\\"8k\\"]")){'),'8K is added only where the GPU can hold it');
-    assert.ok(set.includes('select.options[0].textContent = suggested ? `Auto (${measured ? "measured" : "suggests"} ${suggested})` : "Auto";'),'Auto names its suggestion (or the measured level)');
+    // r90 one framework (docs/QUALITY_LEVELS.md): the choices and their names come from the module (choices, labels).
+    assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
+    assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }'),'8K is offered only where the GPU can hold it');
+    // r90 (Nik 2026-11-08): what Auto chose is one quiet line under 3D QUALITY, read from the saved state (Device check, crash cap).
+    assert.ok(set.includes('if(!onAuto){ return `Auto would pick ${name} here.`; }')&&set.includes('`Auto measured ${name} here.` : `Auto picked ${name} here.`'),'Auto names what it picked (or measured) here');
+    assert.ok(set.includes('window.addEventListener("cms-gfx-level", onLevel);')&&SRC.includes('new root.CustomEvent("cms-gfx-level"'),'the line follows a level change while Settings is open');
+    assert.ok(/settingsGfxAuto \{ display: block;/.test(css),'the line shows at every width');
     assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');
     assert.ok(set.includes('const saved = tier.setChoice(select.value);')&&set.includes('"Applies from the next 3D screen."'),'saved through the module, applies next screen');
     assert.ok(set.includes('window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)'),'Settings loads the module on demand, under the scene\'s key');
     assert.ok(set.includes('panel.append(summary, choices, createMenuFeedbackControl(), createGfxQualityControl());'),'in MOTION & FEEDBACK, under the menu click');
     assert.ok(set.includes('select.setAttribute("aria-labelledby", "settingsGfxLabel");'),'the select has its label');
-    assert.ok(!/localStorage/.test(set.slice(set.indexOf('const SETTINGS_GFX_CHOICES'),set.indexOf('function createGfxQualityControl'))),'no storage of its own');
+    assert.ok(!/localStorage/.test(set.slice(set.indexOf('const SETTINGS_GFX_CHECK'),set.indexOf('function createGfxQualityControl'))),'no storage of its own');
     assert.ok(css.includes('@media (min-width: 1200px) and (orientation: landscape) {\n  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap;'),'one shared line on landscape desktops');
     const names=CHOICES_FROM_SRC();assert.deepEqual(names,['auto','light','medium','high','extra','ultra','8k'],'Settings values match the module (8K added when capable)');
     // G7 Device check (lead, from Nik 2026-11-07): device-check.html times each scene's ?gfx=N&bench=1 frame for 10 s and saves
@@ -249,7 +259,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     {const d=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]}).G.device();
      assert.deepEqual([d.phone,d.strongPhone,d.guessName,d.can8k],[true,true,'high',false],'an iPhone 17 reads as a strong phone that starts High');}
     ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');
-    ok('G6','Settings: 3D QUALITY with Auto (suggests X) and five levels, saved through the module, next 3D screen');
+    ok('G6','Settings: 3D QUALITY with Auto (named under the row) and five levels, saved through the module, next 3D screen');
     g8();await g9();await g10();await g11();
     console.log(`PASS r90 gfx tier contracts (${checks} checks)`);
   })().catch(e=>{console.error(e);process.exitCode=1;});
@@ -269,7 +279,7 @@ function g8(){
   assert.equal(lost[0][0],'webglcontextlost');lost[0][1]();
   const f=s.G.profile();assert.deepEqual([f.level,f.name],[4,'ultra'],'context lost: Ultra');assert.ok(/context lost/.test(f.fellBack.reason));
   assert.ok(gov.pixelRatio()**2*1920*1080<=3840*2160+1,`the governor moved back under the 4K buffer (${gov.pixelRatio()})`);gov.end();
-  assert.ok(SRC.includes('...(p.fellBack?[`fell back from ${NAMES[p.fellBack.from]} to ${p.name}: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');assert.equal(f.fellBack.from,5);
+  assert.ok(SRC.includes('...(p.fellBack?[`fell back from ${LABELS[p.fellBack.from]} to ${LABELS[p.level]}: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');assert.equal(f.fellBack.from,5);
   assert.equal(s.G.profile().level,4,'stays Ultra on the next screen');s.G.setChoice('8k');assert.equal(s.G.profile().level,5,'picking 8K again tries again');
   // Never offered: a GPU under 7680, a phone, software GL; Auto never picks it (a measured result tops out at Ultra).
   for(const [why,o] of [['small buffer',{maxBuffer:4096}],['small texture',{maxTexture:4096}],['phone',{screen:[402,874],dpr:3}],['software',{gpu:'SwiftShader'}]]){

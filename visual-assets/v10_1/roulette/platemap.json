@@ -1,14 +1,15 @@
 {
-  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. r90: Light and Balanced draw a dark room; High and up add the room picture behind the table. The hand picture, the room picture and the sound files are the only layers.",
+  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. r90: Light and Balanced draw a dark room; High adds a dark far wall with glowing lamps; Extra and up add the café picture, the café tables and a room light. The hand picture, the room picture and the sound files are the only layers.",
   "room": {
-    "file": "assets/RR_ROOM.webp",
-    "ticket": "1851-5",
+    "file": "assets/RR_ROOM_V2_1080.webp",
+    "ticket": "1851-5 / HO-059",
     "z": -3.9,
     "height": 5.2,
     "floorCut": 0.405,
-    "tone": 0.62,
-    "levels": "High and up only (gfxTier level 2+)",
-    "note": "16:9 marble cafe plate (Nik 29 Oct; back on High+ 2026-11-08). Softened 1.6 px and its edges fade into the room colour in the file itself; tone dims it at draw time so the table light stays the key light. floorCut = fraction of the picture hidden under the 3D floor"
+    "tone": 1,
+    "levels": "Extra, Ultra and 8K only (gfxTier level 3+); High draws a dark far wall with glowing lamps, Light and Balanced the dark room",
+    "note": "16:9 marble cafe plate (Nik 29 Oct; back sharp on Extra+ 2026-11-08: 'a proper background, not a dimmed sticker'). Team V HO-059 RR_ROOM_V2: the same room at 4K with a calmer evening grade, already darker in the file, so it is drawn at tone 1 (never dimmed twice). 1080 below 2560 device px, 4K above. floorCut = fraction of the picture hidden under the 3D floor (bar base at 59%)",
+    "file4k": "assets/RR_ROOM_V2_4K.webp"
   },
   "boards": {
     "daniel": {

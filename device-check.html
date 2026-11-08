@@ -74,7 +74,8 @@ td small{display:block;color:var(--mute);font-size:12px}
 (function(){
   "use strict";
   const T=window.CareerModeGfxTier;
-  const LEVELS=["Light","Balanced","High","Extra","Ultra"];
+  // The shared level names (js/gfxTier.js); 8K is never benched (picked only, in Settings).
+  const LEVELS=window.CareerModeGfxTier.labels.slice(0,5);
   const SCENES=[
     {key:"chamber-men",name:"Chamber Men",path:"device-check-chamber.html"},
     {key:"rrr",name:"Russian Roulette",path:"visual-assets/v10_1/roulette/index.html"}
