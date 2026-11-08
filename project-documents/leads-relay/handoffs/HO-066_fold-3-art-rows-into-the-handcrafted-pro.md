@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-08T18:21:09Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-08T18:24:45Z", "by": "V", "status": "RECEIVED", "note": "Passed to the Team V writer thread for round 2"}],
+ "evidence": ["claude/handcrafted-prompts-v1 6c5e3103 TICKET-HANDCRAFTED_V1.md: row 1 in HC 09 pass check (Club 2560x1000), row 2 in HC 04 (Season Review band under music pill), row 3 in HC 11 + HC 12 (Transfer 1180x620, 1920x906, 390x844)"],
+ "log": [{"at": "2026-11-08T18:21:09Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-08T18:24:45Z", "by": "V", "status": "RECEIVED", "note": "Passed to the Team V writer thread for round 2"}, {"at": "2026-11-08T18:35:10Z", "by": "V", "status": "DONE", "note": "All 3 rows covered; Claude checks each at intake"}],
  "from_session": "session_01GU43Q5aWwvAxHbnmJQquBz",
  "sessions": {"G": "session_01GU43Q5aWwvAxHbnmJQquBz", "V": "session_01GU43Q55MWFc5kxaqRPspjd"}
 }
