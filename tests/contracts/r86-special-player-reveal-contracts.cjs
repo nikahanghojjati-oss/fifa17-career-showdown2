@@ -192,4 +192,24 @@ const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
   ok('R12','no dimming, vignette or lowered exposure; Special Player wording; no network; reduced motion keeps no tilt or slow motion');
 }
 
-console.log(`PASS r86 Special Player reveal contracts: ${checks} numbered checks (who, same players, messages, Career Start order, offline shell, confirm time, journeys, hype ladder, skip guard, encore, vibration, no dimming).`);
+// R13 (r90 BUG-06): the 15 s load limit counts only visible time
+{
+  let clock=0,ticks=[];const listeners={};
+  const doc={visibilityState:'visible',addEventListener:(t,f)=>{listeners[t]=f;},removeEventListener:(t)=>{delete listeners[t];}};
+  const root={document:doc,performance:{now:()=>clock},setInterval:f=>{ticks.push(f);return ticks.length;},clearInterval:id=>{ticks[id-1]=null;},setTimeout,clearTimeout};
+  vm.runInNewContext(revealSource,{globalThis:root});const api=root.CareerModeSpecialPlayerReveal;
+  let fired=0;const t=api.visibleTimeout(api.maxLoadingMs,()=>{fired+=1;});
+  const run=()=>ticks.forEach(f=>f&&f());
+  clock=5000;run();assert.equal(fired,0);
+  doc.visibilityState='hidden';listeners.visibilitychange();
+  clock=60000;run();assert.equal(fired,0,'a minute in the background does not use up the limit');
+  doc.visibilityState='visible';listeners.visibilitychange();
+  clock=69000;run();assert.equal(fired,0,'5 s + 9 s visible: still waiting');
+  clock=70100;run();assert.equal(fired,1,'fires once 15 s of visible time have passed');
+  clock=90000;run();assert.equal(fired,1,'fires once');assert.ok(!listeners.visibilitychange,'cleans up its listener');
+  assert.match(revealSource,/const limit=spVisibleTimeout\(MAX_LOADING_MS,\(\)=>onReady\("timeout"\)\);/,'the reveal uses it');
+  assert.ok(!/setTimeout\(\(\)=>onReady\("timeout"\)/.test(revealSource),'no wall-clock load limit left');
+  ok('R13','the load limit counts only time the tab is visible (BUG-06)');
+}
+
+console.log(`PASS r86 Special Player reveal contracts: ${checks} numbered checks (who, same players, messages, Career Start order, offline shell, confirm time, journeys, hype ladder, skip guard, encore, vibration, no dimming, visible-time load limit).`);

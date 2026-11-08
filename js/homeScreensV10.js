@@ -45,6 +45,17 @@
   });
   // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
   // Nik, 2026-10-05: Home shows all seven of Team V's tiles, so Legacy and Statistics are no longer contained.
+  // r90 W8 (right-sized pictures): each Home picture also comes as a half-size copy (*_<width>W.webp, same art) and the browser
+  // picks the smallest one that is sharp for the box it paints at this window size and pixel density (measured 2026-11-07:
+  // wordmark 266-794 px wide, about 31% of a desktop window; tiles at most 12% of the window, under 110 px on phones).
+  const WORDMARK_SIZES="(max-width: 900px) 330px, 31vw";
+  const TILE_SIZES="(max-width: 900px) 120px, 12vw";
+  const TILE_HALF=Object.freeze({"TILE_CONTINUE_V1.webp":[170,341],"TRO_LEAGUE_TITLE_V1_512.webp":[170,341]});
+  function hmTileSet(img,src){
+    const name=src.split("/").pop(),[half,full]=TILE_HALF[name]||[256,512];
+    img.srcset=src.replace(/\.webp$/,"_"+half+"W.webp")+" "+half+"w, "+src+" "+full+"w";
+    img.sizes=name==="TILE_CONTINUE_V1.webp"?"(max-width: 900px) 110px, 140px":name==="TRO_LEAGUE_TITLE_V1_512.webp"?"(max-width: 900px) 70px, 8vw":TILE_SIZES;
+  }
   const TILE_ART=Object.freeze({
     continueCareer:"TILE_CONTINUE_V1.webp",newShowdown:"TILE_TACTICS_V1.webp",legacyButton:"TILE_HISTORY_V1.webp",careerStatisticsButton:"TILE_STATISTICS_V1.webp",
     ruleBookButton:"TILE_RULEBOOK_V1.webp",settingsButton:"TILE_SETTINGS_V1.webp"
@@ -65,7 +76,7 @@
   const STORY_SCREEN="story";
   const STORY_OFFLINE_LINE="Connect to the internet to read the full story.";
   // Team V's film-reel tile art (HO-055, claude-visual/story-film-reel @ 78917ec6). Decorative, no lettering.
-  const STORY_ART='<img class="tileArt storyTileArt" src="'+BASE+'shared/art/home-tiles/TILE_STORY_V1.webp" alt="" aria-hidden="true" decoding="async">';
+  const STORY_ART='<img class="tileArt storyTileArt" src="'+BASE+'shared/art/home-tiles/TILE_STORY_V1.webp" srcset="'+BASE+'shared/art/home-tiles/TILE_STORY_V1_256W.webp 256w, '+BASE+'shared/art/home-tiles/TILE_STORY_V1.webp 512w" sizes="'+TILE_SIZES+'" alt="" aria-hidden="true" decoding="async">';
   const STORY_SECTIONS=Object.freeze([
     Object.freeze(["THE BEGINNING","It started as a free way to keep score in a FIFA 17 Career Mode rivalry between two mates, Daniel and Nik: one league, two clubs kept for the whole Showdown, trophies for points and a timed Transfer War."]),
     Object.freeze(["HOW IT GREW","The score sheet became a two-phone online game: private pairing, shared seasons on both phones, the league and club wheels, Roster Roulette, the Prime Pack and the marble look, each step tested on Daniel's and Nik's real phones before it shipped."]),
@@ -94,13 +105,13 @@
     return frag;
   }
   function hmLockup(){
-    return hmEl("div","homeLockup",'<p class="lockupKicker sd-label" aria-hidden="true">THE SHOWDOWN STARTS HERE</p><div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div><p class="lockupLegacy sd-tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>');
+    return hmEl("div","homeLockup",'<p class="lockupKicker sd-label" aria-hidden="true">THE SHOWDOWN STARTS HERE</p><div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1_640W.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp 1040w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div><p class="lockupLegacy sd-tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>');
   }
   function hmTile(id,file,path){
     const button=hmDoc().getElementById(id);
     if(!button)return;
     if(!button.querySelector(".tileArt")){
-      const img=hmEl("img","tileArt");img.src=BASE+(path||"shared/art/home-tiles/"+file);img.alt="";img.setAttribute("aria-hidden","true");img.decoding="async";
+      const img=hmEl("img","tileArt"),src=BASE+(path||"shared/art/home-tiles/"+file);img.src=src;hmTileSet(img,src);img.alt="";img.setAttribute("aria-hidden","true");img.decoding="async";
       button.appendChild(img);
     }
     if(!button.querySelector(".tileChevron"))button.insertAdjacentHTML("beforeend",CHEVRON);

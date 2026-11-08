@@ -22,8 +22,8 @@
   const PITCH_HALF_W=34,PITCH_L=105,BOX_D=16.5,BOX_HALF_W=20.16,SIX_D=5.5,SIX_HALF_W=9.16,SPOT_Z=11,ARC_R=9.15;
 
   const FILES={
-    desktop:{ballColor:"ball_color_4k.webp",ballNormal:"ball_normal_4k.webp",ballOrm:"ball_orm_4k.webp",crowd:"crowd_atlas_2k.webp"},
-    phone:{ballColor:"ball_color_2k.webp",ballNormal:"ball_normal_2k.webp",ballOrm:"ball_orm_2k.webp",crowd:"crowd_atlas_1k.webp"},
+    desktop:{crowd:"crowd_atlas_2k.webp"},
+    phone:{crowd:"crowd_atlas_1k.webp"},
     both:{crowdTint:"crowd_tint_1k.webp",net:"net_cell_512.webp",seats:"seats_512.webp",concrete:"concrete_512.webp",flare:"flare_256.webp",
       boardA:"board_chamber_men.webp",boardB:"board_cms.webp",boardC:"board_chevrons.webp"}
   };
@@ -31,15 +31,22 @@
   // (js/gfxTier.js): light 1k colour + 512 normal, medium/high 2k + 1k, extra/ultra 4k + 2k.
   const GRASS=[["grass_color_V2_1k.webp","grass_normal_V2_512.webp"],["grass_color_V2_2k.webp","grass_normal_V2_1k.webp"],["grass_color_V2_2k.webp","grass_normal_V2_1k.webp"],
     ["grass_color_V2_4k.webp","grass_normal_V2_2k.webp"],["grass_color_V2_4k.webp","grass_normal_V2_2k.webp"]];
+  // r90 ball: Innerscene "Soccer ball" (CC0), a classic 32-panel cover with match wear (tools/chamber-men-assets/gen_ball_v3.py).
+  // It is 20 to 80 px tall on screen, so light draws it at 512, medium/high at 1k, extra/ultra at 2k (the old 4k set cost
+  // ~250 MB of GPU memory for a ball).
+  const BALL_MESH="ball_mesh_V3.glb",BALL=["512","1k","1k","2k","2k"];
   // Colour maps are sRGB; normal, roughness/metal and masks are linear data.
   const SRGB=new Set(["ballColor","crowd","grass","seats","concrete","flare","boardA","boardB","boardC"]);
 
   function load(T,opts){
     const o=opts||{},level=Number.isInteger(o.level)?Math.max(0,Math.min(4,o.level)):(o.phone?0:2),[grass,grassNormal]=GRASS[level];
-    const set={...(o.phone?FILES.phone:FILES.desktop),...FILES.both,grass,grassNormal},loader=new T.TextureLoader(),base=o.base||BASE;
+    const b=BALL[level],ballSet={ballColor:`ball_color_V3_${b}.webp`,ballNormal:`ball_normal_V3_${b}.webp`,ballOrm:`ball_orm_V3_${b}.webp`};
+    const set={...(o.phone?FILES.phone:FILES.desktop),...FILES.both,...ballSet,grass,grassNormal},loader=new T.TextureLoader(),base=o.base||BASE;
     const keys=Object.keys(set);
-    return Promise.all(keys.map(k=>loader.loadAsync(base+set[k]).then(t=>{t.colorSpace=SRGB.has(k)?T.SRGBColorSpace:T.NoColorSpace;return t;}))).then(list=>{
-      const tex={};keys.forEach((k,i)=>{tex[k]=list[i];});return tex;
+    const mesh=new T.GLTFLoader().loadAsync(base+BALL_MESH).then(g=>{let geo=null;g.scene.traverse(x=>{if(!geo&&x.isMesh)geo=x.geometry;});if(!geo)throw new Error("ball mesh");return geo;});
+    return Promise.all([mesh,...keys.map(k=>loader.loadAsync(base+set[k]).then(t=>{t.colorSpace=SRGB.has(k)?T.SRGBColorSpace:T.NoColorSpace;return t;}))]).then(([geo,...list])=>{
+      // glTF UVs: no vertical flip.
+      const tex={};keys.forEach((k,i)=>{tex[k]=list[i];if(k.startsWith("ball"))list[i].flipY=false;});tex.ballGeo=geo;return tex;
     });
   }
 
@@ -50,12 +57,14 @@
     const o=opts||{},phone=Boolean(o.phone),aniso=o.aniso||4,own=[],keep=x=>{own.push(x);return x;};
     const group=new T.Group();group.name="cmStadium";
     const add=(g,m,parent)=>{const x=new T.Mesh(keep(g),m);(parent||group).add(x);return x;};
-    for(const t of Object.values(tex)){t.anisotropy=aniso;}
+    for(const t of Object.values(tex))if(t&&t.isTexture)t.anisotropy=aniso;
 
     // ---------- ball ----------
     const ballMat=keep(new T.MeshPhysicalMaterial({map:tex.ballColor,normalMap:tex.ballNormal,roughnessMap:tex.ballOrm,metalnessMap:tex.ballOrm,
-      roughness:1,metalness:1,clearcoat:.35,clearcoatRoughness:.28}));
-    const ball=add(new T.SphereGeometry(BALL_R,phone?48:72,phone?32:48),ballMat);ball.castShadow=true;ball.position.set(0,BALL_R,SPOT_Z);ball.name="cmBall";
+      roughness:1,metalness:1,clearcoat:.3,clearcoatRoughness:.35}));
+    // The source mesh has radius 0.1098 m: scaled to ours once.
+    const ballGeo=tex.ballGeo.clone();ballGeo.computeBoundingSphere();ballGeo.scale(BALL_R/ballGeo.boundingSphere.radius,BALL_R/ballGeo.boundingSphere.radius,BALL_R/ballGeo.boundingSphere.radius);
+    const ball=add(ballGeo,ballMat);ball.castShadow=true;ball.position.set(0,BALL_R,SPOT_Z);ball.name="cmBall";
 
     // ---------- pitch ----------
     const grass=tex.grass;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(130/3.5,150/3.5);// one 3.5 m tile
@@ -234,7 +243,8 @@
     const rnd=stadiumSeeded(17);
     const fans=[];
     for(const s of seatsAll){
-      const keepRate=(s.si===0?(phone?.82:.93):s.si===3?(phone?.3:.6):(phone?.35:.7))*(o.density>0&&o.density<1?.4+.6*o.density:1);// a few empty seats; thinner far stands on phones and light devices
+      // Extra and Ultra fill the far stands too (a sold-out night); lower levels keep them thinner.
+      const keepRate=(s.si===0?(phone?.82:.93):s.si===3?(phone?.3:o.full?.86:.6):(phone?.35:o.full?.9:.7))*(o.density>0&&o.density<1?.4+.6*o.density:1);// a few empty seats; thinner far stands on phones and light devices
       if(rnd()>keepRate)continue;
       const v=new T.Vector3(s.x,s.y,s.z);stands[s.si].localToWorld(v);
       fans.push({p:v,yaw:stands[s.si].rotation.y,si:s.si});

@@ -124,9 +124,9 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   assert.ok(!refs.includes("js/clubScreenV10.js")&&!refs.includes("css/v10Club.css"),"not a startup file");
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=33913,`startup gzip ${gzip} must stay <= 33913 (2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   assert.match(ssjr,/load\("v10-club","js\/clubScreenV10\.js",\(\)=>root\.CareerModeClubScreenV10\)\.then\(\(\)=>root\.CareerModeClubScreenV10\.install\(\)\)/);
-  assert.match(ssjr,/requestIdleCallback\(v10Club/);
+  assert.match(ssjr,/for\(const skin of \[[^\]]*v10Club[^\]]*\]\)afterHome\(skin\)/,"r90 W8: the skin loads after Home");
   const shell=new Set([...sw.matchAll(/^\s+"([^"]+)",?$/gm)].map(m=>m[1]));
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   for(const file of ["js/clubScreenV10.js","css/v10Club.css",DIR+"club.css",DIR+"club.js",DIR+"assets/platemap.json",DIR+"assets/handmap.json"])assert.ok(shell.has(file),`shell lists ${file}`);

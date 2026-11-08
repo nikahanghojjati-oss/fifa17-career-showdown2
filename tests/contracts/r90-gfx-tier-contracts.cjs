@@ -19,7 +19,8 @@
 //      7680x4320; a lost context or refused buffer falls back to Ultra (said in the overlay) until 8K is picked again;
 //      MSAA from the sample counts both formats support, an incomplete target steps 8 -> 4 -> 0
 //   G10 html[data-gfx] carries the resolved level for 2D screens: on load, on a pick, after calibrate, on an 8K fallback
-//   G11 never crash first: a lost context or out-of-memory error drops any level one step, remembered until a new pick;
+//   G11 never crash first: a lost context or out-of-memory error drops any level one step, remembered until a new pick,
+//      7 days or 3 clean scenes; Mali-G7x starts Balanced; samples() never above the wish;
 //      the download level also follows Save-Data and 2g/3g (html[data-assets])
 //   G9 phones (Nik 2026-11-07, iPhone 17 at the best it can hold): strong phone GPUs start High, weak ones Light, calibrate
 //      runs, at most 3x CSS and a 4K buffer, textures one size down below High
@@ -352,5 +353,18 @@ async function g11(){
     assert.deepEqual([q.level,q.assetLevel,q.slowNet,html(n).assets],[3,slow?2:3,slow,String(slow?2:3)],JSON.stringify(c));
   }
   assert.equal(sandbox({connection:{saveData:true}}).G.profile().assetLevel,0,'never below 0');
+  // Lead review on #1271: the cap is not for ever. 7 days, or 3 clean scenes of 20 s at the capped level, clear it.
+  {const c=sandbox({gpu:strong,memory:32,cores:16});c.G.fallback('x');assert.equal(c.G.profile().level,2);
+   const old=JSON.parse(c.store['careerModeShowdown.gfxCap.v1']);old.at-=8*864e5;c.store['careerModeShowdown.gfxCap.v1']=JSON.stringify(old);c.G.reset();
+   assert.equal(c.G.profile().level,3,'a cap older than 7 days is gone');
+   c.G.fallback('y');assert.equal(c.G.profile().level,2);
+   for(let i=0;i<3;i+=1){c.G.reset();const g=c.G.governor(fakeRenderer(c.clock,()=>1),{});c.clock.t+=i===0?5000:21000;g.end();}
+   c.G.reset();assert.equal(c.G.profile().level,2,'a short scene does not count');
+   const g=c.G.governor(fakeRenderer(c.clock,()=>1),{});c.clock.t+=21000;g.end();c.G.reset();assert.equal(c.G.profile().level,3,'3 clean scenes clear it');}
+  // Mali-G76/G77/G78 and G610 start Balanced (two-digit names), and calibrate can lift them to High.
+  for(const gpu of ['ANGLE (ARM, Mali-G78, OpenGL ES 3.2)','Mali-G76','ANGLE (ARM, Mali-G610, OpenGL ES 3.2)'])assert.equal(sandbox().G.classify(gpu,{phone:true,deviceMemory:8,cores:8}).level,1,gpu);
+  {const m=sandbox({gpu:'ANGLE (ARM, Mali-G78, OpenGL ES 3.2)',dpr:2.6,memory:8,cores:8,screen:[393,851]});const n=await m.G.calibrate(fakeRenderer(m.clock,()=>2),()=>{});assert.equal(n.level,2,'calibrate lifts a G78 with room');}
+  // samples() never returns more than asked.
+  {const gl={RENDERBUFFER:1,SAMPLES:2,RGBA16F:3,RGBA8:4,DEPTH_COMPONENT24:5,getInternalformatParameter:()=>[8]};assert.equal(sandbox().G.samples({getContext:()=>gl},4,true),0,'only 8 listed, 4 asked: none');}
   ok('G11','never crash first: a lost context or out-of-memory drops one level, remembered until a new pick; downloads follow Save-Data and 2g/3g');
 }

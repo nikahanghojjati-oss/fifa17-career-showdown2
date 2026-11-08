@@ -51,7 +51,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   const lic=read("tools/chamber-men-assets/LICENSES.md");// docs live with the generators: everything under visual-assets/v10_1 is served (images by the runtime rule, the rest from the shell)
   const files=fs.readdirSync(path.join(ROOT,DIR)).filter(f=>f.endsWith(".webp"));
   for(const f of files)assert.ok(lic.includes(f),`${f} is listed in LICENSES.md`);
-  const gens=["build_all.py","common.py","gen_ball.py","gen_stadium.py","gen_grass.py"].map(f=>"tools/chamber-men-assets/"+f);
+  const gens=["build_all.py","common.py","gen_ball_v3.py","gen_stadium.py","gen_grass.py"].map(f=>"tools/chamber-men-assets/"+f);
   for(const g of gens)assert.ok(fs.existsSync(path.join(ROOT,g)),`${g} exists`);
   const src=gens.map(read).join("\n");
   for(const f of files){const stem=f.replace(/_(4k|2k|1k|512|256)\.webp$/,"").replace(/\.webp$/,"");assert.ok(src.includes(stem),`${f} is made by a generator`);}
