@@ -78,7 +78,8 @@ assert.ok(routeInstall>=0,'Shared Season Results route must be installed by the 
 assert.ok(transferInstall>=0,'Shared Transfer Challenge must remain installed');
 assert.ok(routeInstall<transferInstall,'Season Results route capture must install before the inherited Transfer Challenge capture');
 assert.doesNotMatch(bootstrap,/await install\("ssjr-production-season-results-route"/,'r9 route loading must not serially block paired-first entry/guard startup');
-assert.match(bootstrap,/const seasonResultsRoute=install\("ssjr-production-season-results-route"[\s\S]*await Promise\.all\(\[[\s\S]*ssjr-production-entry[\s\S]*ssjr-production-guard[\s\S]*async\(\)=>\{await seasonResultsRoute;return install\("ssjr-production-transfer-challenge"/,'paired-first entry and guard must start in parallel while only Transfer Challenge waits for r9 capture ordering');
+// r90 W8: entry and guard start at once, before the chain (which may follow Home); the chain still awaits them with the rest.
+assert.match(bootstrap,/const entry=install\("ssjr-production-entry"[\s\S]*const guard=install\("ssjr-production-guard"[\s\S]*const seasonResultsRoute=install\("ssjr-production-season-results-route"[\s\S]*await Promise\.all\(\[\s*firebaseRuntime,entry,guard,[\s\S]*async\(\)=>\{await seasonResultsRoute;return install\("ssjr-production-transfer-challenge"/,'paired-first entry and guard must start in parallel while only Transfer Challenge waits for r9 capture ordering');
 assert.match(bootstrap,/CareerModeProductionSharedSeasonResults/);
 assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistCompletedSeason\(roundRecord, seasonNumber\)/,'ordinary local Season Results persistence must remain intact behind the shared capture boundary');
 assert.match(transfer,/SEASON RESULTS NEXT/,'r8 remains fail-closed when the r9 route is unavailable');

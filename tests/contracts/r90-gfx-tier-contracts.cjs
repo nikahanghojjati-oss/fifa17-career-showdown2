@@ -36,9 +36,10 @@ let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${te
 function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384,connection=null}={}){
   const clock={t:0};
   const store={...storage};
-  const appended=[];
+  const appended=[],counts={canvas:0};
   const doc={
     createElement(tag){
+      if(tag==='canvas')counts.canvas+=1;
       if(tag==='canvas')return {getContext:()=>({RENDERER:7937,MAX_RENDERBUFFER_SIZE:34024,MAX_TEXTURE_SIZE:3379,
         getExtension:n=>n==='WEBGL_debug_renderer_info'?{UNMASKED_RENDERER_WEBGL:37446}:{loseContext(){}},
         getParameter:k=>k===37446||k===7937?gpu:k===34024?maxBuffer:k===3379?maxTexture:null})};
@@ -52,7 +53,7 @@ function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), Ope
     performance:{now:()=>clock.t},setTimeout:(f)=>{f();return 0;},requestAnimationFrame:()=>1,cancelAnimationFrame(){},URLSearchParams};
   ctx.globalThis=ctx;ctx.parent=ctx;
   vm.createContext(ctx);vm.runInContext(SRC,ctx);
-  return {G:ctx.CareerModeGfxTier,clock,store,appended,ctx};
+  return {G:ctx.CareerModeGfxTier,clock,store,appended,ctx,counts};
 }
 // A renderer stand-in: records the pixel ratio; a draw costs `cost(pr)` ms on the fake clock.
 function fakeRenderer(clock,cost,css=[1280,720]){
@@ -260,7 +261,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
      assert.deepEqual([d.phone,d.strongPhone,d.guessName,d.can8k],[true,true,'high',false],'an iPhone 17 reads as a strong phone that starts High');}
     ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');
     ok('G6','Settings: 3D QUALITY with Auto (named under the row) and five levels, saved through the module, next 3D screen');
-    g8();await g9();await g10();await g11();
+    g8();await g9();await g10();await g11();g12();
     console.log(`PASS r90 gfx tier contracts (${checks} checks)`);
   })().catch(e=>{console.error(e);process.exitCode=1;});
 }
@@ -377,4 +378,20 @@ async function g11(){
   // samples() never returns more than asked.
   {const gl={RENDERBUFFER:1,SAMPLES:2,RGBA16F:3,RGBA8:4,DEPTH_COMPONENT24:5,getInternalformatParameter:()=>[8]};assert.equal(sandbox().G.samples({getContext:()=>gl},4,true),0,'only 8 listed, 4 asked: none');}
   ok('G11','never crash first: a lost context or out-of-memory drops one level, remembered until a new pick; downloads follow Save-Data and 2g/3g');
+}
+
+// G12 r90 MOTION round 2: the first WebGL context of a page is the startup stall (735-887 ms on a Chromebook), so the GPU
+//     answer is kept per browser; a later open probes nothing and Auto picks the same level; another browser probes again.
+function g12(){
+  const gpu='ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 Direct3D11 vs_5_0 ps_5_0, D3D11)';
+  const first=sandbox({gpu,memory:16,cores:12});const a=first.G.profile();
+  assert.equal(first.counts.canvas,1,'the first open probes once');assert.ok(first.store['careerModeShowdown.gfxGpu.v1'],'the answer is kept');
+  const again=sandbox({gpu:'never read',memory:16,cores:12,storage:{...first.store}});const b=again.G.profile();
+  assert.equal(again.counts.canvas,0,'a later open makes no context');assert.deepEqual([b.level,b.gpu,b.can8k],[a.level,a.gpu,a.can8k],'and Auto picks the same');
+  const kept=JSON.parse(first.store['careerModeShowdown.gfxGpu.v1']);kept.ua='another browser';
+  const other=sandbox({gpu:'Apple GPU',memory:8,cores:8,storage:{'careerModeShowdown.gfxGpu.v1':JSON.stringify(kept)}});
+  assert.deepEqual([other.G.profile().gpu,other.counts.canvas],['Apple GPU',1],'another browser probes again');
+  const src=fs.readFileSync(path.join(__dirname,'../../js/gfxTier.js'),'utf8');
+  assert.ok(src.includes('(()=>gfxRemark(),{timeout:10000})'),'the first probe waits for a truly idle moment');
+  ok('G12','the GPU probe runs once per browser (kept answer, same Auto pick); the first one waits for an idle moment');
 }

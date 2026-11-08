@@ -10,7 +10,7 @@ function setupState({phase,revision,leagueId=null,clubs=null,totalSeasons=null,c
 
 async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=true,totalRounds=5,providerDelayMs=0}){
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==="function"&&typeof window.loadRuntimeScript==="function",null,{timeout:12000});
   // This proof owns the already-authorized Shared Showdown presentation subsystem, not the new
   // normal-play sign-in gate. Let online identity finish booting, then remove only its visual

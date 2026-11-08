@@ -70,7 +70,7 @@ async function openCase(browser,acceptance,mode="ready"){
   },{raw,finalSetup,seedSetup,mode,recorderCatalog,acceptance});
   const url=new URL(baseUrl.href);if(acceptance)url.searchParams.set("ssjr-acceptance","1");
   await page.goto(url.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   return {context,page,pageErrors};
 }
 
