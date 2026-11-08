@@ -9,7 +9,7 @@ const rivalryId='pair_'+'a'.repeat(64);
 async function prepare(page,role){
   await page.route('**/js/ssjr.js',route=>route.fulfill({status:200,contentType:'application/javascript',body:'window.__r15AutomaticBootstrapSuppressed=true;'}));
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   return page.evaluate(async({role,rivalryId,canonicalKeys})=>{
     const load=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load ${path}`));document.head.appendChild(script);});
     await load('js/sharedJourneyConflicts.js');

@@ -225,19 +225,33 @@
       g.fillStyle=shade(k.body,-.4);g.beginPath();g.ellipse(W*.5,0,W*.043,H*.045,0,0,Math.PI);g.fill();
     }
   }
+  // Print colour on a plain ground: the trim when it reads (4:1) on that ground, else near-black or near-white.
+  const printFont=(px)=>`800 ${px}px 'Barlow Condensed', 'Arial Narrow', sans-serif`,font=printFont;
+  function printInk(k,ground){
+    const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);},bg=ground||k.body;
+    const plain=ratio("#141414",bg)>=ratio("#f4f4f2",bg)?"#141414":"#f4f4f2";
+    const ink=ground&&ratio(k.trim,bg)>=4?k.trim:plain;
+    return {ink,edge:lum(ink)>.5?"rgba(0,0,0,.55)":"rgba(255,255,255,.35)"};
+  }
+  // r90 L04/L30: keepers face the camera, so the keeper's number is also on the chest (under the crest) and the front of the
+  // left leg of his shorts, as on the 2016-17 keeper kits. Outfield kits keep the number on the back only.
+  function frontNumber(g,x,y,px,k,ground,number){
+    if(number==null||number==="")return;
+    const {ink,edge}=printInk(k,ground);g.font=printFont(Math.round(px));g.textAlign="center";g.textBaseline="middle";g.lineJoin="round";
+    // A keeper is small on screen, so the figure is fattened with a stroke in its own ink inside a fine edge: it reads at 70 px
+    // whichever fallback face the canvas gets.
+    const t=String(number);g.lineWidth=px*.2;g.strokeStyle=edge;g.strokeText(t,x,y);
+    g.lineWidth=px*.1;g.strokeStyle=ink;g.strokeText(t,x,y);g.fillStyle=ink;g.fillText(t,x,y);
+  }
   function backPrint(g,W,H,k,number,name){
     // Number and surname on the back (back centre is u=0 and u=1, so each is drawn at both edges and the seam meets in the middle).
     const solidBack=k.pattern==="solid"||k.pattern==="gk";
     // Striped and hooped backs carry a plain panel in the body colour behind the name and number, as the real shirts do.
     const panel=!solidBack;
-    const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
-    const plain=ratio("#141414",k.body)>=ratio("#f4f4f2",k.body)?"#141414":"#f4f4f2";
-    const ink=solidBack&&ratio(k.trim,k.body)>=4?k.trim:plain;
+    const {ink,edge}=printInk(k,solidBack?k.body:null);
     if(panel){g.fillStyle=k.body;for(const cx of [0,W]){g.beginPath();const pw=W*.13,top=H*.13,bot=H*.7,r=W*.012;
       g.moveTo(cx-pw+r,top);g.lineTo(cx+pw-r,top);g.quadraticCurveTo(cx+pw,top,cx+pw,top+r);g.lineTo(cx+pw,bot-r);g.quadraticCurveTo(cx+pw,bot,cx+pw-r,bot);
       g.lineTo(cx-pw+r,bot);g.quadraticCurveTo(cx-pw,bot,cx-pw,bot-r);g.lineTo(cx-pw,top+r);g.quadraticCurveTo(cx-pw,top,cx-pw+r,top);g.fill();}}
-    const edge=lum(ink)>.5?"rgba(0,0,0,.55)":"rgba(255,255,255,.35)";
-    const font=(px)=>`800 ${px}px 'Barlow Condensed', 'Arial Narrow', sans-serif`;
     for(const cx of [0,W]){
       g.textAlign="center";g.textBaseline="middle";g.lineJoin="round";
       if(name){
@@ -276,7 +290,8 @@
     // aspect: how much shorter a texel is than it is wide on the body (a wrap is 2:1 but a torso is not), so crest and numbers
     // stay true to shape on a mapped body.
     const a=opts.aspect||1,squash=(cy,fn)=>{g.save();g.translate(0,cy);g.scale(1,a);g.translate(0,-cy);fn();g.restore();};
-    if(opts.badge!==false)squash(H*.25,()=>drawCrest(g,im,W*.575,H*.25,H*(k.role==="gk"?.13:.15),k));
+    if(opts.badge!==false)squash(H*.25,()=>drawCrest(g,im,W*.575,H*.25,H*(k.role==="gk"?.18:.15),k));
+    if(k.role==="gk")squash(H*.5,()=>frontNumber(g,W*.5,H*.5,H*.3,k,k.body,opts.number));
     if(opts.number!=null||opts.name)squash(H*.4,()=>backPrint(g,W,H,k,opts.number,opts.name));
     overlayKnit(g,W,H,.22,Math.max(1,W/1024));
   }
@@ -292,7 +307,7 @@
     g.strokeStyle="rgba(0,0,0,.22)";g.lineWidth=Math.max(1,W/512);g.setLineDash([W/200,W/300]);g.beginPath();g.moveTo(1,0);g.lineTo(1,H);g.moveTo(W-1,0);g.lineTo(W-1,H);g.stroke();g.setLineDash([]);
     overlayKnit(g,W,H,.22,Math.max(1,W/512));
   }
-  function paintShorts(c,k,im,badge){
+  function paintShorts(c,k,im,badge,number){
     const W=c.width,H=c.height,g=c.getContext("2d");
     g.fillStyle=k.shorts;g.fillRect(0,0,W,H);
     const accent=deltaE(k.shorts,k.trim)>20?k.trim:(deltaE(k.shorts,k.body)>20?k.body:shade(k.shorts,lum(k.shorts)>.5?-.3:.3));
@@ -300,6 +315,7 @@
     g.fillStyle=shade(k.shorts,-.12);g.fillRect(0,0,W,H*.12);
     g.strokeStyle="rgba(0,0,0,.25)";g.lineWidth=Math.max(1,W/512);g.setLineDash([W/200,W/300]);g.beginPath();g.moveTo(0,H*.12);g.lineTo(W,H*.12);g.moveTo(0,H*.95);g.lineTo(W,H*.95);g.stroke();g.setLineDash([]);
     if(k.role!=="gk"&&badge!==false)drawCrest(g,im,W*.6,H*.34,H*.16,k);
+    if(k.role==="gk")frontNumber(g,W*.6,H*.42,H*.3,k,k.shorts,number);
     overlayKnit(g,W,H,.18,Math.max(1,W/512));
   }
   function paintSocks(c,k){
@@ -354,7 +370,7 @@
       neck(pts,curve);g.strokeStyle=k.trim;g.lineWidth=X(wd);g.stroke();
       neck(pts,curve);g.strokeStyle=shade(k.trim,lum(k.trim)>.5?-.25:.25);g.lineWidth=X(wd*.18);g.stroke();
     }
-    {const [cx,cy,cs]=REMY.crest;drawCrest(g,im,X(cx),X(cy),X(k.role==="gk"?cs*.85:cs),k);}
+    {const [cx,cy,cs]=REMY.crest;drawCrest(g,im,X(cx),X(cy),X(k.role==="gk"?cs*1.15:cs),k);}
     overlayKnit(g,N,N,.12,Math.max(1,N/1024));
     flipInto(out.shirt,c);
     // Shorts: the wrap turned half a turn so its front centre lands on x 0/1.
@@ -431,7 +447,7 @@
     const paint=(im,map)=>{
       const shirtOpts=remy&&!mapped?Object.assign({},opts,{badge:false}):mapped?Object.assign({},opts,{aspect:mapped.aspect}):opts;
       paintShirt(wrap.shirt,k,im,shirtOpts);paintSleeve(wrap.sleeveL,k,"L");paintSleeve(wrap.sleeveR,k,"R");
-      paintShorts(wrap.shorts,k,im,!remy||Boolean(mapped));paintSocks(wrap.socks,k);
+      paintShorts(wrap.shorts,k,im,!remy||Boolean(mapped),opts.number);paintSocks(wrap.socks,k);
       if(remy&&!mapped)paintRemy(out,wrap,k,im);
       if(mapped&&mapped.socks==="remy")paintRemySocks(out.socks,wrap.socks);
       if(mapped&&map)paintMapped(out.shirt,map,wrap,k);
@@ -515,6 +531,6 @@
     return t.ready;
   }
 
-  return Object.freeze({version:"r90-kits17-2",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,
+  return Object.freeze({version:"r90-kits17-3",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,
     layouts:Object.freeze(["wrap","remy","ch38","ch42"]),layout:Object.freeze({uv:"wrap",frontU:.5,backU:0,leftOfWearer:"u rises",vHem:0,vNeck:1,crestU:.575,crestV:.75})});
 });

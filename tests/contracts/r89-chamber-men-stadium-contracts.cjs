@@ -118,6 +118,12 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   const sandbox={};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(kit,sandbox);
   const files=Object.values({...sandbox.CareerModeChamberMenStadium.files.both});
   assert.ok(files.every(f=>!/^board_/.test(f)),"no board file in the load set");
+    // r90 LOOK round 2 (L02, L30): stair aisles and empty patches, fans of their own size and some standing, and the home
+  //    supporters' flags on the front rail either side of the goal (cloth, no lettering), merged into one draw.
+  {const st=fs.readFileSync(path.join(ROOT,"js/chamberMenStadium3d.js"),"utf8");
+   assert.ok(/const aisle=\(p,si\)=>/.test(st)&&/if\(aisle\(s\.p,s\.si\)\|\|patch\(s\.p,s\.si\)\)continue;/.test(st)&&/if\(aisle\(v,s\.si\)\|\|patch\(v,s\.si\)\)continue;/.test(st),"aisles and empty patches on the bowl and the built stands");
+   assert.ok(/dummy\.scale\.set\(f\.sx,f\.sy,1\)/.test(st)&&/up=rnd\(\)<\(awayEnd\?\.55:\.12\)/.test(st),"each fan his own size, some standing");
+   assert.ok(/m\.name="cmBanner";m\.userData\.bake=true;/.test(st)&&!/fillText/.test(st.slice(st.indexOf("// ---------- banners"),st.indexOf("// ---------- floodlight flares"))),"flags merged, no lettering");}
   ok("S6","night stand, club-colour crowd, run-time ad boards with crests and no cut or CMS lettering");
 }
 // S7 r90 big stadium (High and above): Innerscene "Football stadium" (CC0) trimmed by gen_bowl.py into one 1k GLB that only

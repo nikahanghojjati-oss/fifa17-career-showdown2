@@ -67,7 +67,7 @@ const showdown = showdownStorage();
 
 // ---------- openers (each starts on a freshly loaded Home and leaves its screen shown) ----------
 async function waitForHome(page){
-    await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 30000 });
+    await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 30000 });await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(() => window.CareerModeV10Screens && window.CareerModeV10Screens.isMounted("mainMenu") && window.getActiveScreenName() === "mainMenu", null, { timeout: 30000 });
 }
 async function seed(page, name){

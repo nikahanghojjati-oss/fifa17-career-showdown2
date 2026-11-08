@@ -20,7 +20,7 @@ async function run(browser,spec){
   const pageErrors=[];page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:20000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:20000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&document.getElementById("newShowdown")&&document.getElementById("startShowdown"),null,{timeout:12000});
     // Daniel, signed in, nothing live: START makes a new shell and the code.
     await page.evaluate(()=>{

@@ -47,7 +47,7 @@ async function installAuditRuntime(page){
   await page.addInitScript({path:axePath});
 }
 async function waitForApplication(page){
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.locator("#newShowdown").waitFor({state:"visible",timeout:12000});
   assert.equal(await page.locator("#app").getAttribute("aria-hidden"),null);
   assert.equal(await page.locator("#app").evaluate(element=>element.inert),false);

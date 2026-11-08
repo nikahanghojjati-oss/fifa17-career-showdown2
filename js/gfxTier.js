@@ -54,14 +54,20 @@
     try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=4?m:null;}catch(_error){return null;}
   }
 
-  // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once).
+  // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once). r90 MOTION round 2:
+  // the first WebGL context of a page starts the GPU side (735-887 ms on a Chromebook, one long task), so the answer is kept
+  // per browser (same user agent) and later opens read it back; Auto picks exactly what a fresh probe would.
+  const GPU_KEY="careerModeShowdown.gfxGpu.v1";
   function gfxGpuInfo(){
+    const ua=String(root.navigator?.userAgent||"");
+    try{const k=JSON.parse(gfxRead(GPU_KEY)||"null");if(k&&k.ua===ua&&typeof k.name==="string")return {name:k.name,maxBuffer:Number(k.maxBuffer)||0,maxTexture:Number(k.maxTexture)||0};}catch(_error){}
     try{
       const c=root.document.createElement("canvas"),gl=c.getContext("webgl2")||c.getContext("webgl");if(!gl)return {name:"",maxBuffer:0,maxTexture:0};
       const ext=gl.getExtension("WEBGL_debug_renderer_info");
       const name=String(ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER)||"");
       const maxBuffer=Number(gl.getParameter(gl.MAX_RENDERBUFFER_SIZE))||0,maxTexture=Number(gl.getParameter(gl.MAX_TEXTURE_SIZE))||0;
       gl.getExtension("WEBGL_lose_context")?.loseContext();
+      gfxWrite(GPU_KEY,JSON.stringify({ua,name,maxBuffer,maxTexture}));
       return {name,maxBuffer,maxTexture};
     }catch(_error){return {name:"",maxBuffer:0,maxTexture:0};}
   }
@@ -385,8 +391,9 @@
     fallback:gfxFail,fallback8k:gfxFail,
     reset(){cached=null;}};
   // On load: a level the player picked or the Device check measured is marked at once (no GPU probe); the full profile
-  // (one throwaway context for the GPU name) follows when the page is idle.
+  // follows when the page is idle (the GPU name from the kept answer, or, the first time in this browser, from one throwaway
+  // context in a truly idle moment: no 2 s deadline that could land it in the middle of Home's first taps).
   try{const c=gfxChoice(),m=gfxMeasured(),l=c!=="auto"&&c!=="8k"?gfxChoiceLevel(c):c==="auto"&&m?m.level:null,cap=gfxCap();
     if(l!==null){const lv=cap?Math.min(l,cap.level):l,phone=gfxScreenEnv().phone;gfxMarkRoot(lv,Math.max(0,Math.min(4,phone&&lv<2?lv-1:lv)-(gfxSlowNet()?1:0)));}}catch(_error){}
-  try{(root.requestIdleCallback||(f=>root.setTimeout(f,200)))(()=>gfxRemark(),{timeout:2000});}catch(_error){}
+  try{(root.requestIdleCallback||(f=>root.setTimeout(f,200)))(()=>gfxRemark(),{timeout:10000});}catch(_error){}
 })(typeof globalThis!=="undefined"?globalThis:this);

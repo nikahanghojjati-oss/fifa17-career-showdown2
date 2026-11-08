@@ -17,7 +17,7 @@ async function installHarness(page,{role,saveId,totalSeasons,rivalrySeed}){
     window.getOfflineAppDiagnostics=()=>({isolatedR13Audit:true});
   });
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function',null,{timeout:12000});
   return page.evaluate(async({role,saveId,totalSeasons,rivalryId,sessionId,deviceId,accountId,canonicalKeys})=>{
     await ensureGameplayModules();
