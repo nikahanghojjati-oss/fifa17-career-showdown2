@@ -98,7 +98,7 @@ has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from Hi
 has(/const T=SEGK===1\?THREE:/,'Light and Medium build with plain three.js');
 lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
 // r90 (Nik 2026-11-08): the café room picture is back from High up only; Light and Balanced never download it and keep the dark room.
-has(/HQ\?loadImg\("assets\/RR_ROOM\.webp"\):null/,'the room picture loads only from High up');
+has(/\(GFX\.assetLevel\?\?GFX\.level\)>=2\?loadImg\("assets\/RR_ROOM\.webp"\):null/,'the room picture loads only from High up (and only on a download level that allows it)');
 has(/fog:false, depthWrite:false\}\)\);/,'it sits behind the fogged 3D floor as one unlit plane');
 lacks(/RR_ROOM\.jpg/,'the old 523 KB jpg');
 assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,2,'two point lights: the lantern and the one effects light');

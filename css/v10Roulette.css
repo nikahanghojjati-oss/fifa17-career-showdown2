@@ -13,9 +13,14 @@
   backdrop-filter: none;
   overflow: auto;
 }
-/* No scene behind the card: the room photo fills the screen (opaque, not a scrim), so no page shows around the card. */
+/* No scene behind the card: the room fills the screen (opaque, not a scrim), so no page shows around the card. Like the scene,
+   the dark room on Light and Balanced (nothing downloaded) and the café room picture from High up (html[data-assets], js/gfxTier.js).
+   r90 BUG-01: the old RR_ROOM.jpg is gone, so this no longer asks for a missing file on every open. */
 :root:not(#r78):not(#r78) #rrStepPanel.rrStepOverlay.rrStepRoom { /* beats the r78 overlay reset (7d) */
-  background: #050403 url("../visual-assets/v10_1/roulette/assets/RR_ROOM.jpg") center / cover no-repeat;
+  background: #050403;
+}
+:root:not(#r78):not(#r78):is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #rrStepPanel.rrStepOverlay.rrStepRoom {
+  background: #050403 url("../visual-assets/v10_1/roulette/assets/RR_ROOM.webp") center / cover no-repeat;
 }
 #rrStepPanel .rrStepShell {
   width: min(640px, 100%);

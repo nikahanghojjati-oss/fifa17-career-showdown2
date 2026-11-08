@@ -1033,7 +1033,10 @@ function tick(draw){ const t=now();
   { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
   applyFx();
   if(draw){ renderer.render(scene,camera); if(manual===null&&GOV) GOV.frame(performance.now()); } }
-let rafId=0; function frame(){ if(manual===null) tick(true); rafId=requestAnimationFrame(frame); }
+/* r90 BUG-02: in the game the stage stays hidden until the page is armed, so nothing is drawn before the setup arrives (the main
+   thread is free to take it at once), and "armed" goes out only after the first frame with this Showdown's boards is drawn,
+   so the first frame the manager sees is already complete */
+let rafId=0, armAfterFrame=false; function frame(){ if(manual===null) tick(!(EMBED&&!GAME)); if(armAfterFrame&&manual===null){ armAfterFrame=false; toGame("cms-rr-armed"); } rafId=requestAnimationFrame(frame); }
 
 /* ================= sound (Web Audio, synthesized; off until turned on) ================= */
 const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, lead=0;
@@ -1068,7 +1071,7 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
 /* r90: the room photo, the top-down gun photo and the flash picture are gone (the room is dark now; the other two never shipped) */
 const PLATEMAP={};
 async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
-  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),HQ?loadImg("assets/RR_ROOM.webp"):null,loadLookEnv()]);
+  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),(GFX.assetLevel??GFX.level)>=2?loadImg("assets/RR_ROOM.webp"):null,loadLookEnv()]);
   /* r90 (Nik 2026-11-08): from High up the café room is back behind the table, as one picture (Light and Balanced never download it and
      keep the dark room). It is softened and dimmed, its edges fade into the dark, and the fog stays on the 3D floor, so the table light is
      still the key light: the table in front, the room behind. One plane, one texture, one draw call. */
@@ -1127,7 +1130,7 @@ if(EMBED){ document.body.classList.add("embed");
       return Object.assign({},base,{club:clubName,xi,subs,formation:typeof formation==="string"?formation:null}); };
     const dEntry=merge(g.d,g.boards.D,g.formations&&g.formations.D), nEntry=merge(g.n,g.boards.N,g.formations&&g.formations.N);
     if(Number.isInteger(g.seed)) seed=g.seed>>>0;   /* cosmetic draws (sparks, smoke) start from the Showdown's seed on both phones */
-    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent=chamberCaption(g)||"One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
+    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent=chamberCaption(g)||"One bullet. Seven chambers."; embedLabel(); if(manual===null) armAfterFrame=true; else toGame("cms-rr-armed"); });
   addEventListener("rr:end",e=>{ toGame("cms-rr-end",{detail:e.detail}); setTimeout(embedLabel,0); }); }
 cta.addEventListener("click",()=>{ if(playing) return;
   if(EMBED){ if(!GAME) return; if(turn>=2){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; toGame("cms-rr-continue"); return; }
