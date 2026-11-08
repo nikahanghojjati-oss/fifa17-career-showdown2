@@ -171,6 +171,18 @@
   // ---------- the screen ----------
   const SVG_NS="http://www.w3.org/2000/svg";
   const ZONE_X=Object.freeze({L:62,M:150,R:238});
+  // r90 (Nik 2026-11-08, "less AI-made"): a small goal on each pick (posts, bar and the third it aims at), so the choice reads
+  // without words; the LEFT / MIDDLE / RIGHT word stays for screen readers and clarity. Drawn in currentColor.
+  function cmsAimMark(side){
+    const NS="http://www.w3.org/2000/svg",doc=cmsDoc(),mk=(tag,attrs)=>{const n=doc.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,String(attrs[k]));return n;};
+    const svg=mk("svg",{class:"cmAim",viewBox:"0 0 40 16","aria-hidden":"true",focusable:"false"});
+    const x={L:2,M:14,R:26}[side]??14;
+    // The goal's posts and bar, the third it aims at lightly filled, and the ball in that third.
+    svg.append(mk("rect",{x:x+.75,y:2.75,width:10.5,height:12.5,fill:"currentColor","fill-opacity":".28"}),
+      mk("path",{d:"M2 15.5V2h36v13.5",fill:"none",stroke:"currentColor","stroke-width":"1.5"}),
+      mk("circle",{cx:x+6,cy:10,r:2.6,fill:"currentColor"}));
+    return svg;
+  }
   function cmsEl(tag,className,text){const node=cmsDoc().createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function cmsSvg(tag,attrs){const node=cmsDoc().createElementNS(SVG_NS,tag);for(const [k,v] of Object.entries(attrs||{}))node.setAttribute(k,String(v));return node;}
   function cmsRemove(){const node=cmsDoc()?.getElementById(STAGE_ID);if(node)node.remove();}
@@ -304,7 +316,8 @@
     const picks=cmsEl("div","cmPicks"),rows={};
     for(const [kind,label] of [["shot","Pick your shot"],["dive","Pick your dive"]]){
       const row=cmsEl("div","cmRow"),choices=cmsEl("div","cmChoices"),buttons={};row.dataset.kind=kind;
-      for(const side of ["L","M","R"]){const b=cmsEl("button","cmChoice",SIDE_WORD[side]);b.type="button";b.setAttribute("aria-pressed","false");b.dataset.kind=kind;b.dataset.side=side;buttons[side]=b;choices.append(b);}
+      for(const side of ["L","M","R"]){const b=cmsEl("button","cmChoice",SIDE_WORD[side]);b.type="button";b.setAttribute("aria-pressed","false");b.dataset.kind=kind;b.dataset.side=side;
+        b.prepend(cmsAimMark(side));buttons[side]=b;choices.append(b);}
       row.append(cmsEl("div","cmRowLabel",label),choices);rows[kind]={row,buttons};picks.append(row);
     }
     rows.dive.row.hidden=true;

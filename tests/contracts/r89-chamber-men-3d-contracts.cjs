@@ -168,4 +168,23 @@ async function c3d2(){
      assert.ok(y>=.55&&y<=1.52&&c>=1.4&&c<=3.5,`${club} r${round} ${shot}/${dive}: post height ${y}, curl ${c}`);}}
   ok("C3D9","r90: device quality, steady level during a kick, six run-ups, curl, in off the post or the bar on goals only");
 }
+// C3D10 r90 W4 quality (Nik 2026-11-07, "hugely improve on a strong PC ... no extra load on a Chromebook or a phone"): every
+// extra is gated on the device level (8K uses Ultra's), the ball and grass come in one size per texture level (a phone below
+// High one size down), and the picks are flat and matte with gold only for the live choice (Nik 2026-11-08, "less AI-made").
+{
+  const ex=/const CM3_LEVEL_EXTRAS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(ex,"one extras table");
+  assert.strictEqual((ex[1].match(/\{aniso:/g)||[]).length,5,"one row per level");
+  assert.ok(/\{aniso:4,softness:1\.5,secondShadow:false,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  assert.ok(scene.includes("QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))]"),"8K uses Ultra's extras");
+  assert.ok(scene.includes('S.load(T,{phone:Q.assets==="phone",level:Q.textureLevel??Q.level})'),"textures follow the texture level");
+  const stadium=read("js/chamberMenStadium3d.js");
+  assert.ok(stadium.includes('const BALL_MESH="ball_mesh_V3.glb",BALL=["512","1k","1k","2k","2k"];'),"one ball size per level, never 4k");
+  assert.ok(!/ball_(color|normal|orm)_4k/.test(stadium),"the old 4k ball is gone");
+  const choice=/#cmStage \.cmChoice \{[\s\S]*?\n\}/.exec(css)[0],pressed=/#cmStage \.cmChoice\[aria-pressed="true"\] \{[^}]*\}/.exec(css)[0];
+  assert.ok(!/gradient|glow/.test(choice+pressed)&&/box-shadow: none;/.test(choice),"flat and matte: no gradient, no glow");
+  assert.ok(pressed.includes("background: #f2c45b;")&&pressed.includes("color: #0b0906;"),"the live choice is solid gold with black text");
+  assert.ok(step.includes("b.prepend(cmsAimMark(side));")&&step.includes('const svg=mk("svg",{class:"cmAim",viewBox:"0 0 40 16","aria-hidden":"true",focusable:"false"});'),"a small goal on each pick, hidden from screen readers");
+  assert.ok(/min-height: 4[4-8]px/.test(choice)&&/@media \(max-width: 560px\) and \(max-height: 760px\) \{[\s\S]*?#cmStage \.cmChoice \{ min-height: 44px; \}/.test(css),"at least 44 px on phones");
+  ok("C3D10","r90 quality: extras by level, ball and grass by texture level, flat picks with gold only for the live choice");
+}
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
