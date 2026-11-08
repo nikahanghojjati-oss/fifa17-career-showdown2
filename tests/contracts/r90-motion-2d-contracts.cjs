@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 // r90 MOTION hunt, 2D rows: the Final Winner ceremony never dims or flashes (M7), and at Light (html[data-gfx="0"], set by
-// js/gfxTier.js) the heavy 2D effects step down while Balanced and up keep today's look (M18-M26).
+// js/gfxTier.js) the heavy 2D effects step down while Balanced and up keep today's look (M18-M26). Layout shift rows: CLS.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path");
 const ROOT=path.resolve(__dirname,"../..");const read=p=>fs.readFileSync(path.join(ROOT,p),"utf8");
 let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
@@ -31,4 +31,14 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
 {for(const [file,name,vw] of [["js/careerScreensV10.js","TITLE_CS_V2","40vw"],["visual-assets/v10_1/trophy-room/trophy-room.js","TITLE_TR_V2","35vw"],["visual-assets/v10_1/season-results/app-shell.html","TITLE_SR_V2","46vw"],["visual-assets/v10_1/final-winner/app-shell.html","TITLE_FINAL_WINNER_V2","31vw"],["js/rivalryLegacyV10Markup.js","TITLE_LG_V2","34vw"]])
     assert.match(read(file),new RegExp(name+"_480\\.webp 480w[^\"\\\\]*\\\\?\"\\s*sizes=\\\\?\"\\(max-width: 900px\\) 92vw, "+vw),`${name} sizes ${vw}`);
   ok("M27","the five stage wordmarks ask for their drawn width, not 60vw");}
+// CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
+// loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
+{const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");
+  assert.match(shell,/@media \(min-width: 901px\) \{\n  html\[data-nav="hub"\] #app, html\[data-nav="hidden"\] #app, html\[data-nav="none"\] #app \{ padding-top: var\(--sd-nav-top-h, 52px\); \}/,"the bar's height stays reserved under the gate");
+  assert.match(read("js/v10Screens.js"),/mode:loading\?"none":entry\?entry\[1\]:"hidden"/,"nav is \"none\" only while a loading screen covers the app");
+  assert.match(club,/#clubWheelScreen\[data-v10-pending\]:not\(\.cl-on\) \{ visibility: hidden; \}/,"Club stays unseen between its styles and its mount");
+  assert.match(club,/html:not\(\[data-v10-screen="clubWheelScreen"\]\) #app > main:has\(> #clubWheelScreen:not\(\.hidden\)\) \{ position: static; inset: auto; z-index: auto; pointer-events: auto; \}/,"club.css's bare main rule cannot move the app's main before Club is named");
+  assert.match(read("js/clubScreenV10.js"),/section\.classList\.add\("cl-on"\);\n      clDecorate\(section\);[\s\S]{0,240}root\.ClubPlate\.app\.mount\(/,"cl-on and Team V's first layout land in the same task");
+  assert.match(read("js/v10Screens.js"),/liveIds\.some\(id=>\{const def=registry\.get\(id\);return Boolean\(def&&def\.css\.some\(css=>BASE\+css===file\)&&\(mounted\.has\(id\)\|\|def\.css\.every\(css=>styles\.get\(BASE\+css\)\?\.settled===true\)\)\);\}\)/,"a screen's sheets switch on together, once all have settled or it has mounted");
+  ok("CLS","the top bar's room is kept under the gate, and Club shows only once laid out");}
 console.log(`PASS r90 MOTION 2D contracts: ${n} numbered checks.`);

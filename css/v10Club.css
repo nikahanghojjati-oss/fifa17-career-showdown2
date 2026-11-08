@@ -10,8 +10,15 @@
   contain: none; overflow: hidden; background: #050607; animation: none; will-change: auto; pointer-events: none;
 }
 #clubWheelScreen.cl-on::after { content: none; }
+/* r90 W8 (Club CLS): the screen's styles switch on while it is still pending (js/v10Screens.js), a frame or more before
+   club.js mounts, and in that gap club.css's layers sat at 0,0 before jumping to their places. The section stays unseen
+   until the look is on; if it never comes, the pending state ends and the app's own screen shows as before. */
+#clubWheelScreen[data-v10-pending]:not(.cl-on) { visibility: hidden; }
 /* club.css styles Team V's own page main; the app's main keeps its place (the section is the stage now). */
 html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: auto; z-index: auto; pointer-events: auto; overflow: hidden; }
+/* r90 W8 (Club CLS): club.css's bare main rule is on from the moment Club starts loading, which can be a frame before
+   html[data-v10-screen] names Club; in that frame the app's main stays where it is instead of jumping to the top. */
+html:not([data-v10-screen="clubWheelScreen"]) #app > main:has(> #clubWheelScreen:not(.hidden)) { position: static; inset: auto; z-index: auto; pointer-events: auto; }
 /* The app header keeps the chips every Team V screen shows (css/v10Shell.css), above the stage on desktop. */
 @media (min-width: 761px) {
   html[data-v10-screen="clubWheelScreen"]:not([data-v10-setup]) #app #topHeader { z-index: 31; }

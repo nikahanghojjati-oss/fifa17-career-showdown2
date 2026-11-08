@@ -144,7 +144,10 @@
   function vsStyle(file){
     if(styles.has(file))return styles.get(file).ready;
     const doc=vsDoc(),link=doc.createElement("link");
-    link.rel="stylesheet";link.href=vsAssetUrl(file);link.setAttribute("data-v10-style",file);
+    // r90 W8 (Club CLS): media="not all" until it settles. Chromium applies a loaded sheet a frame before its load handler can
+    // switch it off, so club.css painted ahead of the app glue loading beside it and moved the app's main. The request still goes
+    // out at once (only link.disabled drops it); the handler restores the media and vsSyncStyles sets the wanted state in one task.
+    link.rel="stylesheet";link.media="not all";link.href=vsAssetUrl(file);link.setAttribute("data-v10-style",file);
     // A link is left alone until it settles (load, error or timeout): disabling a stylesheet that is still loading
     // makes Chromium drop the request, and enabling it later never reloads it. On settling, the wanted state applies.
     const entry={link,ready:null,settled:false,loaded:null};
@@ -153,7 +156,7 @@
       let timer=null;
       // The timeout releases the screen, but a link whose sheet is still null is still loading: it stays unsettled (left
       // alone) until it really loads or errors. The sync runs in the load handler itself, so an unwanted sheet is off before paint.
-      const done=real=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(real||link.sheet!==null)entry.settled=true;vsSyncStyles();if(resolve)resolve(true);resolve=null;};
+      const done=real=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(real||link.sheet!==null){entry.settled=true;if(link.sheet&&link.sheet.disabled!==true)link.sheet.disabled=true;link.media="";}vsSyncStyles();if(resolve)resolve(true);resolve=null;};
       link.addEventListener("load",()=>done(true));link.addEventListener("error",()=>done(true));
       timer=root.setTimeout(()=>done(false),STYLE_TIMEOUT_MS);
     });
@@ -276,7 +279,9 @@
       const link=entry.link;
       if(!entry.settled)continue;
       let on=ALWAYS_ON.includes(file);
-      if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||live.some(def=>def.css.some(css=>BASE+css===file));
+      // r90 W8 (Club CLS): a screen's own sheets switch on together, once all of them have settled (or it has mounted), so a
+      // Team V sheet never applies a frame ahead of the app glue loaded before it (club.css moved the app's main for that frame).
+      if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||liveIds.some(id=>{const def=registry.get(id);return Boolean(def&&def.css.some(css=>BASE+css===file)&&(mounted.has(id)||def.css.every(css=>styles.get(BASE+css)?.settled===true)));});
       // JOB-1635 C-1: only the loaded CSSStyleSheet is toggled, never link.disabled. Chromium drops a disabled link's sheet and
       // fetches it again on enable, which blanked Home's tile and tab labels for about 100 ms on every return. A link that
       // errored has no sheet and nothing to toggle (js/rulesSettingsV10.js does the same for its own glue sheet).
