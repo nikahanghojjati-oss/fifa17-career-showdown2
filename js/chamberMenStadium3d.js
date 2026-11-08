@@ -375,10 +375,16 @@
     for(const t of [crowdTex,tintTex]){t.generateMipmaps=true;t.minFilter=T.LinearMipmapLinearFilter;}
     const rnd=stadiumSeeded(17);
     const fans=[];
+    // r90 LOOK round 2 (L02, L30): a stand, not a wall of cards. Every stand has stair aisles (1.1 m every 12 m, none right
+    // behind the goal); the side and far stands have a few patches of empty seats (fewer on a sold-out level).
+    const along=(p,si)=>si===0||si===3?p.x:p.z;
+    const aisle=(p,si)=>(((along(p,si)+6.55)%12)+12)%12<1.1;
+    const patch=(p,si)=>{if(si===0)return false;const h=Math.imul((Math.floor(along(p,si)/4)*73856093)^(Math.floor(p.y/1.6)*19349663)^(si*83492791),2654435761)>>>0;return h%100<(o.full?5:12);};
     if(bowlSeats.length){
       // The bowl: a full house behind the goal, the sides a little thinner on lower levels.
       for(const s of bowlSeats){const keepRate=(s.si===0?.95:o.full?.9:.75)*(o.density>0&&o.density<1?.4+.6*o.density:1);if(rnd()>keepRate)continue;
         if(s.si===0&&Math.abs(s.p.x-(PITCH_HALF_W-14))<1.3)continue;
+        if(aisle(s.p,s.si)||patch(s.p,s.si))continue;
         fans.push({p:s.p,yaw:s.yaw,si:s.si});}
     }
     for(const s of bowlSeats.length?[]:seatsAll){
@@ -387,6 +393,7 @@
       if(rnd()>keepRate)continue;
       const v=new T.Vector3(s.x,s.y,s.z);stands[s.si].localToWorld(v);
       if(s.si===0&&Math.abs(v.x-(PITCH_HALF_W-14))<1.3)continue;// the empty strip between home and away fans
+      if(aisle(v,s.si)||patch(v,s.si))continue;
       fans.push({p:v,yaw:stands[s.si].rotation.y,si:s.si});
     }
     const N=fans.length;
@@ -409,11 +416,13 @@
       // Vary the shade a little so the shirts do not read as one flat block.
       const k=.8+rnd()*.3;aTint[i*3]=c.r*k;aTint[i*3+1]=c.g*k;aTint[i*3+2]=c.b*k;
       aOff[i*4]=f.p.x;aOff[i*4+1]=f.p.y;aOff[i*4+2]=f.p.z;aOff[i*4+3]=f.yaw;
+      // Each fan his own build, and some on their feet: most of the away end, a few of the home fans.
+      const sc=.9+rnd()*.2,up=rnd()<(awayEnd?.55:.12);f.sx=sc*(.94+rnd()*.12);f.sy=sc*(up?1.1:1);f.lift=up?.16:0;
     }
     const inst=new T.InstancedMesh(keep(cardGeo),null,N);
     // The vendor build has no InstancedBufferAttribute, so the card data rides in the instance matrix: translation = seat, and the free row (elements 3, 7, 11) = cell,
     // phase, yaw; instanceColor = shirt tint.
-    for(let i=0;i<N;i+=1){dummy.position.set(aOff[i*4],aOff[i*4+1],aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.updateMatrix();
+    for(let i=0;i<N;i+=1){const f=fans[i];dummy.position.set(aOff[i*4],aOff[i*4+1]+f.lift,aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.scale.set(f.sx,f.sy,1);dummy.updateMatrix();
       const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=0;inst.setMatrixAt(i,dummy.matrix);
       inst.setColorAt(i,new T.Color(aTint[i*3],aTint[i*3+1],aTint[i*3+2]));}
     const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.02,.028,.05)}};
@@ -456,6 +465,40 @@
         "}"].join("\n")
     }));
     inst.material=crowdMat;inst.frustumCulled=false;inst.name="cmCrowd";group.add(inst);
+
+    // ---------- banners ----------
+    // r90 LOOK round 2 (L02): supporters' flags hung over the front rail behind the goal, in the home club's colours (cloth,
+    // no lettering): stripes, bands and a sash, one canvas for all of them, lit by the floodlights like the stand.
+    const banners=[];
+    {
+      let fz=-Infinity,fy=0;for(const f of fans)if(f.si===0&&f.p.z>fz){fz=f.p.z;fy=f.p.y;}
+      for(const f of fans)if(f.si===0&&f.p.z>fz-.3)fy=Math.min(fy,f.p.y);
+      const d=root.document;const cv=Number.isFinite(fz)&&d&&d.createElement?d.createElement("canvas"):null;
+      if(cv){
+        cv.width=512;cv.height=512;const g=cv.getContext("2d");
+        const css=c=>`#${new T.Color(c).getHexString()}`,H1=css(home),H2=css(homeAlt),A1=css(away),A2=css(awayAlt);
+        const draw=(row,fn)=>{g.save();g.translate(0,row*128);g.beginPath();g.rect(0,0,512,128);g.clip();fn();
+          // Cloth: soft vertical folds and a darker hem.
+          for(let x=0;x<512;x+=1){const k=.5+.5*Math.sin(x/512*Math.PI*9+row);g.fillStyle=`rgba(0,0,0,${(.05+.12*k).toFixed(3)})`;g.fillRect(x,0,1,128);}
+          g.fillStyle="rgba(0,0,0,.25)";g.fillRect(0,120,512,8);g.restore();};
+        draw(0,()=>{for(let i=0;i<8;i+=1){g.fillStyle=i%2?H2:H1;g.fillRect(i*64,0,64,128);}});
+        draw(1,()=>{g.fillStyle=H1;g.fillRect(0,0,512,128);g.fillStyle=H2;g.fillRect(0,43,512,42);});
+        draw(2,()=>{g.fillStyle=H2;g.fillRect(0,0,512,128);g.fillStyle=H1;g.beginPath();g.moveTo(120,0);g.lineTo(260,0);g.lineTo(392,128);g.lineTo(252,128);g.fill();});
+        draw(3,()=>{g.fillStyle=A1;g.fillRect(0,0,256,128);g.fillStyle=A2;g.fillRect(256,0,256,128);});
+        const t=keep(new T.CanvasTexture(cv));t.colorSpace=T.SRGBColorSpace;t.anisotropy=aniso;
+        const mat=keep(new T.MeshStandardMaterial({map:t,roughness:.88,metalness:0,side:T.DoubleSide}));
+        // [centre x, width, art row]: either side of the goal (never behind the keeper), clear of the aisles; the away
+        // flag hangs in the away corner.
+        for(const [x,w,row] of [[-12.5,4.6,0],[-24.5,4.4,1],[10,4.6,2],[AWAY_X+5,4.4,3]]){
+          const geo=new T.PlaneGeometry(w,.9,16,1),P=geo.attributes.position,uv=geo.attributes.uv;
+          for(let k=0;k<P.count;k+=1){const u=uv.getX(k),y=P.getY(k);uv.setY(k,1-(row+(y>0?0:1))/4+(y>0?-.002:.002));
+            // Hung from the rail: the bottom edge sags a little and the cloth ripples.
+            if(y<0)P.setY(k,y-.08*Math.sin(Math.PI*u));P.setZ(k,.04*Math.sin(u*Math.PI*7+x));}
+          geo.computeVertexNormals();
+          const m=add(geo,mat);m.position.set(x,fy,fz+.42);m.receiveShadow=true;m.name="cmBanner";m.userData.bake=true;banners.push(m);
+        }
+      }
+    }
 
     // ---------- floodlight flares and sky ----------
     // All flares in one Points draw (a sprite each would cost a draw call per lamp).
