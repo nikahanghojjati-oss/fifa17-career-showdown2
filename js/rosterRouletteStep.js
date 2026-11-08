@@ -26,7 +26,10 @@
   // r90 BUG-02: the page now answers "armed" once it has drawn a frame with this Showdown's boards, so on a slow Chromebook
   // that can take a few seconds; ARMED_WAIT_MS is only the last resort for a page that hangs (a page that cannot take the
   // setup says so at once with cms-rr-error). The loading screen stays up meanwhile (Reus Gate).
-  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=20000;
+  // r90 MOTION M9: MAX_LOADING_MS is the wait since the page last said it is still busy ("cms-rr-loading", sent as it builds
+  // and after every batch of shaders), so a cold Chromebook that is visibly making progress is never cut off at 15 s;
+  // COLD_LOADING_MS caps the whole start (on-screen time only).
+  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,COLD_LOADING_MS=90000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=20000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
   // holding (Fable F2-17): from START until close() (or the way back to Home), so the screens that open the Transfer Challenge
@@ -178,7 +181,11 @@
     const doc=rrsDoc();let timer=null,stopped=false,away=false;
     const hidden=()=>Boolean(doc&&doc.visibilityState==="hidden");
     const onVisibility=()=>{if(hidden())away=true;};
-    const arm=()=>{timer=root.setTimeout(()=>{if(stopped)return;if(away||hidden()){away=hidden();arm();return;}stop();onTimeout();},ms);};
+    // r90 MOTION M9: a timer that fires much later than asked means the main thread was held (the frame shares it while the
+    // scene builds its shaders); the page's messages from that moment are still queued behind it, so it looks again shortly
+    // after instead of failing a page that was busy, not stuck.
+    let due=0,graced=false;
+    const arm=(wait=ms)=>{due=Date.now()+wait;timer=root.setTimeout(()=>{if(stopped)return;if(away||hidden()){away=hidden();arm();return;}if(!graced&&Date.now()-due>1000){graced=true;arm(2000);return;}stop();onTimeout();},wait);};
     const stop=()=>{stopped=true;root.clearTimeout(timer);doc?.removeEventListener?.("visibilitychange",onVisibility);};
     doc?.addEventListener?.("visibilitychange",onVisibility);arm();
     return stop;
@@ -200,7 +207,8 @@
     const ready=new Promise(resolve=>{onReady=resolve;}),done=new Promise(resolve=>{onDone=resolve;}),armed=new Promise(resolve=>{onArmed=resolve;});
     const handler=event=>{
       if(event.source!==frame.contentWindow||event.origin!==origin||!event.data)return;
-      if(event.data.type==="cms-rr-ready")onReady("ready");
+      if(event.data.type==="cms-rr-loading")renew();
+      else if(event.data.type==="cms-rr-ready")onReady("ready");
       else if(event.data.type==="cms-rr-armed")onArmed("armed");
       else if(event.data.type==="cms-rr-error"){onReady("error");onArmed("error");onDone("error");}
       else if(event.data.type==="cms-rr-continue")onDone("continue");
@@ -209,8 +217,11 @@
     // A page that loads without its 3D library, or not at all, is dropped at once instead of after the full wait.
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
-    const stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));
-    return {ready:ready.finally(stopWait),armed,done,stop(){root.removeEventListener("message",handler);stopWait();}};
+    let stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout")),started=false;
+    const stopCap=rrsVisibleWait(COLD_LOADING_MS,()=>onReady("timeout"));
+    function renew(){if(started)return;stopWait();stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));}
+    const stopAll=()=>{started=true;stopWait();stopCap();};
+    return {ready:ready.finally(stopAll),armed,done,stop(){root.removeEventListener("message",handler);stopAll();}};
   }
   // "watched" when both spins played to the end, "skipped" when the page could not run (the result still shows).
   async function rrsScene(ctx,plan){

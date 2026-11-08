@@ -142,7 +142,7 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   // r87: the roulette's sounds (.wav) follow the same runtime rule as the images.
   // r89: the Chamber Men player models (.glb) too.
-  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav|glb)$/i.test(file);
+  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav|ogg|glb)$/i.test(file);
   for(const file of lazy){
     if(isImage(file)){assert.ok(imageRule.test(file),`runtime image rule covers ${file}`);assert.ok(!shell.has(file),`${file} not precached`);}
     else assert.ok(shell.has(file),`shell lists ${file}`);

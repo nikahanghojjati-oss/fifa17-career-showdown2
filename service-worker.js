@@ -11,9 +11,10 @@ const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 const V10_IMAGE_CACHE_PREFIX = "career-mode-showdown-v10-images-";
 const V10_IMAGE_CACHE_NAME = `${V10_IMAGE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFIX}${revision}` : ""; }
-// r87: the Russian Roster Roulette sounds (visual-assets/v10_1/roulette/assets/sfx/*.wav, 1.8 MB) follow the same cache-first
+// r87: the Russian Roster Roulette sounds (r90 M13: assets/sfx/*.ogg, 238 KB Opus; the .wav originals are the fallback
+// where Ogg Opus does not decode) follow the same cache-first
 // runtime rule as Team V's images instead of the install precache.
-const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav|glb)$/i;
+const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav|ogg|glb)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
@@ -39,6 +40,9 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/roulette/platemap.json",
     "visual-assets/v10_1/roulette/assets/squads.json",
     "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
     "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
@@ -126,6 +130,9 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt",
   "visual-assets/v10_1/roulette/assets/squads.json",
   "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr",
+  "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
+  "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
+  "visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2",
   "js/kits17.js",
   "js/gfxTier.js",
   "js/touchlineGazette.js",
@@ -354,7 +361,7 @@ const OFFLINE_PACK_PATHS = new Set([
     "data/deadlineDayLines.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","data/fifa17Players.js","css/v10Roulette.css",
     "visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r187.min.js",
     "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json",
-    "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/commentaryEngine.js","data/commentaryLines.js","data/gazetteCopy.js",
+    "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","js/kits17.js","js/commentaryEngine.js","data/commentaryLines.js","data/gazetteCopy.js",
     "data/gazetteSacked.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css",
     "visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2",
     "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2",
@@ -398,9 +405,9 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
 // 2.2.0 (r89): PREVIOUS is 2.1.0-r88 (270 paths, tests/fixtures/shell-paths/2.1.0-r88.json). Added: three.js r187 and the
 // lounge HDRI for the roulette and Chamber Men, the Kits 17 painter, the Final Gazette's sacked lines, and Chamber Men's 3D
-// scene and stadium, and (r90) the shared 3D quality module js/gfxTier.js (players and stadium GLBs are Team V images, V10_IMAGE_PATH runtime cache). Removed: three.js r128, which
+// scene and stadium, and (r90) the shared 3D quality module js/gfxTier.js and the roulette's own title faces (Big Shoulders Display, Rye; M8) (players and stadium GLBs are Team V images, V10_IMAGE_PATH runtime cache). Removed: three.js r128, which
 // a page rolled back to 2.1.0 still finds in its own retained shell. The STORY site (chronicle/) is never precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/gfxTier.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js"]);
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/gfxTier.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks

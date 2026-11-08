@@ -94,17 +94,17 @@
     ],
     "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom)"
   },
-  "sfx_note": "HO-047 (Team G r87 lead, 29 Oct 2026): made in-house, synthesised by assets/sfx/make_sfx.py (numpy; no samples or third-party recordings). WAV, not MP3, so every cue lands on its frame (MP3 adds ~25 ms of encoder silence). handUp and roomTone are the two extras; roomTone is a seamless 24 s loop at 22.05 kHz. A listed file replaces the synthesized cue of that name; the page loads every entry, so keep only sound names in \"sfx\".",
+  "sfx_note": "HO-047 (Team G r87 lead, 29 Oct 2026): made in-house, synthesised by assets/sfx/make_sfx.py (numpy; no samples or third-party recordings). r90 M13: served as Ogg Opus (238 KB in all, was 1.85 MB of WAV), measured sample-exact against the WAV in Chromium decodeAudioData (same length, 0-sample lag; heart 4 samples), so every cue still lands on its frame (MP3 would add ~25 ms of encoder silence). The page loads them in parallel, starts the room tone the moment it lands, and fetches the .wav original of any cue whose .ogg does not decode (older Safari). handUp and roomTone are the two extras; roomTone is a seamless 24 s loop at 22.05 kHz. A listed file replaces the synthesized cue of that name; the page loads every entry, so keep only sound names in \"sfx\".",
   "sfx": {
-    "spinStart": "assets/sfx/spin_start.wav",
-    "felt": "assets/sfx/felt.wav",
-    "click": "assets/sfx/click.wav",
-    "cock": "assets/sfx/cock.wav",
-    "heart": "assets/sfx/heart.wav",
-    "dry": "assets/sfx/dry.wav",
-    "bang": "assets/sfx/bang.wav",
-    "splinter": "assets/sfx/splinter.wav",
-    "handUp": "assets/sfx/hand_up.wav",
-    "roomTone": "assets/sfx/room_tone.wav"
+    "spinStart": "assets/sfx/spin_start.ogg",
+    "felt": "assets/sfx/felt.ogg",
+    "click": "assets/sfx/click.ogg",
+    "cock": "assets/sfx/cock.ogg",
+    "heart": "assets/sfx/heart.ogg",
+    "dry": "assets/sfx/dry.ogg",
+    "bang": "assets/sfx/bang.ogg",
+    "splinter": "assets/sfx/splinter.ogg",
+    "handUp": "assets/sfx/hand_up.ogg",
+    "roomTone": "assets/sfx/room_tone.ogg"
   }
 }

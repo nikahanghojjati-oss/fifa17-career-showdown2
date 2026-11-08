@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Russian Roster Roulette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<!-- Polish RR-3: Barlow Condensed (every board name, rating, button and result line) ships with the app from ../shared/fonts
-     (shell-cached), so offline it never falls back to a serif. Big Shoulders Display (the RELEASED stamp) and Rye (the
-     title) have no OFL files in the repo yet, so they still come from Google Fonts and fall back when offline. -->
-<!-- Fable F11-02: the title fonts load without blocking the scene scripts; a stalled connection must not hold three.js (precached) back. Local fallbacks draw until they arrive. -->
-<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Rye&display=swap">
+<!-- r90 MOTION M8: every face ships with the app from ../shared/fonts (OFL, Fontsource builds), so the page never asks Google
+     Fonts, the text never swaps when a font lands, and offline it looks the same. The start waits on them (fontsReady). -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/barlow-condensed-latin-700-normal.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/big-shoulders-display-latin-800-normal.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/rye-latin-400-normal.woff2">
 <style>
 @font-face { font-family: "Barlow Condensed"; font-weight: 500 600; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 700 900; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Big Shoulders Display"; font-weight: 700 800; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2"); }
+@font-face { font-family: "Big Shoulders Display"; font-weight: 900; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2"); }
+@font-face { font-family: "Rye"; font-weight: 400; font-display: swap; src: url(../shared/fonts/rye-latin-400-normal.woff2) format("woff2"); }
 /* HO-040 Russian Roster Roulette · real 3D stage (three.js r128) with the Showdown HUD over it. Same tokens as the Special Player screen. */
 :root {
   --ink: #050506; --gold: #f1c35a; --gold-hi: #fff3c4; --gold-deep: #9c6e22; --ivory: #f6eedb; --muted: #c9bc9c;
@@ -147,7 +149,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
  window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="../../../js/gfxTier.js"></script><!-- r90: the shared device-quality picker (Auto / Medium / High / Extra high / 4K) for every 3D screen -->
+<script src="../../../js/gfxTier.js"></script><!-- r90: the shared device-quality picker (Settings › 3D QUALITY: Auto, Light, Balanced, High, Extra, Ultra, 8K) for every 3D screen -->
 <script src="vendor/three-r187.min.js"></script><!-- three.js r187 (MIT, vendor/THREE_LICENSE.txt; built by tools/three-vendor), bundled so the scene works offline and never depends on a CDN -->
 <script>
 (function(){
@@ -162,7 +164,7 @@ if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.W
 /* r90 high quality (Nik 2026-11-07: "4K quality and high quality hugely improved ... most emphasis on a high-end PC ... without any more
    pressure on a Chromebook or a phone"): on High every round part (barrel, drum, chamber holes, lantern, cups, rims) is built with 1.5x
    its segments, on Extra and Ultra with 2x (capped at 256), so curves stay round at 4K. The props are baked into one mesh per material,
-   so this adds triangles, never draw calls. Light and Medium build exactly the meshes they did before (T is plain three.js there). */
+   so this adds triangles, never draw calls. Light and Balanced build exactly the meshes they did before (T is plain three.js there). */
 const SEGK=(()=>{ try{ const lv=window.CareerModeGfxTier.profile().level; return lv>=3?2:lv>=2?1.5:1; }catch(e){ return 1; } })();
 const T=SEGK===1?THREE:(()=>{ const B=THREE, k=n=>Math.min(256,Math.max(3,Math.round(n*SEGK))), o=Object.create(B), def=(n,C)=>Object.defineProperty(o,n,{value:C});
   def("CylinderGeometry",class extends B.CylinderGeometry{ constructor(a,b,h,r=32,hs=1,oe,ts,tl){ super(a,b,h,k(r),hs,oe,ts,tl); } });
@@ -192,9 +194,12 @@ const LAYOUT={ danielClub: qs.get("d")||"Manchester United", nikClub: qs.get("n"
 const GFXT=window.CareerModeGfxTier;
 const GFX=GFXT.profile();
 /* r90 high quality: from High up, the lacquered wood, the glazed cups and the felt get their real second layer (a clear lacquer coat,
-   a glaze, a velvet sheen); Light and Medium keep the one-lobe standard material, so their frames cost what they did */
-const HQ=GFX.level>=2, HALL=GFX.level>=3;   /* r90 (Nik 2026-11-08): High gets a hint of the café, Extra/Ultra/8K the whole café */
-function mat(p,hq){ return HQ&&hq?new T.MeshPhysicalMaterial(Object.assign({},p,hq)):new T.MeshStandardMaterial(p); }
+   a glaze, a velvet sheen); Light and Balanced keep the one-lobe standard material, so their frames cost what they did */
+const HIGH_UP=GFX.level>=2, EXTRA_UP=GFX.level>=3;   /* r90 (Nik 2026-11-08): High gets a hint of the café, Extra/Ultra/8K the whole café */
+/* r90 compile: a second-lobe material without a picture gets a 1x1 white one, so the cups share the lacquered wood's shader program
+   (white times the colour is the same colour) instead of costing one more of the large physical programs on a cold start */
+const WHITE1=(()=>{ const t=new T.DataTexture(new Uint8Array([255,255,255,255]),1,1); t.colorSpace=T.SRGBColorSpace; t.needsUpdate=true; return t; })();
+function mat(p,lobe2){ return HIGH_UP&&lobe2?new T.MeshPhysicalMaterial(Object.assign({map:WHITE1},p,lobe2)):new T.MeshStandardMaterial(p); }
 
 /* ================= renderer ================= */
 const stage=$("stage");
@@ -250,7 +255,7 @@ function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}, sc=o.scale||1
       if(len<w){ ctx.fillStyle=dark; ctx.fillRect(x+len-2,y0,3,ph); ctx.fillStyle="rgba(255,225,180,.1)"; ctx.fillRect(x+len+1,y0,1,ph); } x+=len; }
     ctx.fillStyle=dark; ctx.fillRect(0,y0,w,3); ctx.fillStyle="rgba(255,230,190,.14)"; ctx.fillRect(0,y0+3,w,1); ctx.fillStyle="rgba(0,0,0,.22)"; ctx.fillRect(0,y0+ph-2,w,2); }
   grain(ctx,w*sc,h*sc,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
-function feltTex(){ const F=HQ?2:1, [c,ctx]=cv(1024*F,1024*F); ctx.scale(F,F); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
+function feltTex(){ const F=HIGH_UP?2:1, [c,ctx]=cv(1024*F,1024*F); ctx.scale(F,F); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
   ctx.globalAlpha=.06; for(let i=0;i<1024;i+=2){ ctx.fillStyle=i%4?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024*F,1024*F,26);
   const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
@@ -314,8 +319,8 @@ const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"r
 
 /* ================= materials ================= */
 /* r90 (frame budget): on Light and Balanced every surface is one MeshStandardMaterial (one specular term per pixel, a handful of
-   programs); from High up mat() gives the lacquered wood, the glazed cups and the felt their second lobe (see HQ above) */
-const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1],{scale:HQ?2:1});   /* r90: drawn at twice the pixels from High up, same pattern */
+   programs); from High up mat() gives the lacquered wood, the glazed cups and the felt their second lobe (see HIGH_UP above) */
+const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1],{scale:HIGH_UP?2:1});   /* r90: drawn at twice the pixels from High up, same pattern */
 const gripTex=woodTex(256,256,"#6b3a1b","#2a1406",2,[1,1]);
 const M={
   floor:new T.MeshStandardMaterial({map:(()=>{ const t=floorMarbleTex(); t.repeat.set(5.5,5.5); return t; })(), roughness:.12, metalness:0, color:0xf1f5fc}),   /* cream marble floor, the website's marble look */
@@ -420,10 +425,10 @@ const table=new T.Group(); scene.add(table);
 /* ================= lights (r90: one tight table light with the one static shadow map, a dim fill, the lantern on the table and one
    effects light; the hall's wall, window, ceiling and fill lights went with the hall) ================= */
 const key=new T.SpotLight(L("#ffd092"),1.7,10,.52,.55,1.3); key.position.set(.6,3.4,1.8); key.target.position.set(0,.8,.1); scene.add(key,key.target); key.castShadow=true; key.shadow.mapSize.set(GFX.shadowSize,GFX.shadowSize); key.shadow.bias=-.0004; key.shadow.radius=2.5*Math.sqrt(GFX.shadowSize/1024);   /* r90: a bigger map keeps the same soft edge, only smoother */
-const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),HALL?.42:.3); scene.add(fill);
+const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),EXTRA_UP?.42:.3); scene.add(fill);
 /* Extra and up: one warm room light in front of the far wall lights the café tables and the floor between them and the table (the
    2.2.0 room had ten lights and bloom; this is the table light, the lantern, the fill and this one) */
-if(HALL){ const roomLight=new T.PointLight(L("#ffa65a"),.8,9,2); roomLight.position.set(0,1.8,-3.0); scene.add(roomLight); }   /* r90: dimmer, so the floor falls off into the dark outside the table light */
+if(EXTRA_UP){ const roomLight=new T.PointLight(L("#ffa65a"),.8,9,2); roomLight.position.set(0,1.8,-3.0); scene.add(roomLight); }   /* r90: dimmer, so the floor falls off into the dark outside the table light */
 /* the effects light: the cool key over the steel in the close-ups, the muzzle flash and the hit flash take turns on ONE point light
    (each frame it plays whichever is brightest; they barely overlap), so every material carries two point lights instead of eight */
 const fxLight=new T.PointLight(0xffffff,0,2,2); scene.add(fxLight);
@@ -486,7 +491,7 @@ const GM={
   bright:new T.MeshStandardMaterial({color:L("#cfd5de"), metalness:1, roughness:.2}),
   brass:new T.MeshStandardMaterial({color:L("#c9a24a"), roughnessMap:rghT, metalness:1, roughness:.24}),
   gold:new T.MeshStandardMaterial({color:L("#e6bf5c"), metalness:1, roughness:.18}),
-  walnut:mat({map:woodTex(256,256,"#5a2e14","#2a1206",1,[2,2],{scale:HQ?2:1}), color:0xb07a50, roughness:.32},{roughness:.5, clearcoat:.6, clearcoatRoughness:.18}),
+  walnut:mat({map:woodTex(256,256,"#5a2e14","#2a1206",1,[2,2],{scale:HIGH_UP?2:1}), color:0xb07a50, roughness:.32},{roughness:.5, clearcoat:.6, clearcoatRoughness:.18}),
   bore:new T.MeshStandardMaterial({color:0x020202, roughness:.95}),
   boreIn:new T.MeshStandardMaterial({color:L("#15181d"), metalness:.7, roughness:.62, side:T.DoubleSide}),
   drum:new T.MeshStandardMaterial({color:L("#8f99a8"), metalness:.92, roughness:.26}),   /* r87 polish: nickel steel like the hand picture's cylinder, not cream */
@@ -602,6 +607,9 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     const bow=new T.Mesh(new T.TubeGeometry(curve,36,.0026,12,false),GM.brass); bow.castShadow=true; g.add(bow); }
   const trig=extrude(smooth([[-.003,0],[.004,0],[.005,-.009],[.003,-.016],[-.002,-.02],[-.006,-.016],[-.005,-.008]],40),.003,.0005,GM.bright,2); trig.position.set(0,-.036,-.006); g.add(trig);
   const gate=extrude(smooth([[-.011,-.011],[.011,-.011],[.011,.011],[-.011,.011]],40),.0016,.0008,GM.bluedPlain,2); gate.position.set(.0106,-.004,-.028); g.add(gate);
+  /* r90 MOTION M15: the drum, the crane and the hammer each move as one piece, so each is baked too (one draw per material instead of
+     seven bores, seven floors and the pins); the cartridge, the spin blur and the FIRE pointer keep their own meshes because they move or fade */
+  bake(cyl,o=>o===cyl.userData.round||o.renderOrder>=2); bake(crane,o=>o===cyl||o===cyl.userData.pointer); bake(hammer);
   gun.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); bake(gun,o=>o===crane||o===hammer);   /* r90: the gun moves, so it is out of the one static shadow; its contact shadow is the soft picture under it */
 }
 /* the gun lies on its right side on the felt: spin group turns on the world Y axis, inner tilts the gun flat */
@@ -626,8 +634,8 @@ const lacquer=mat({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.0
          light joins the table light (four lights in all, no bloom). ================= */
 const hall=new T.Group(); scene.add(hall); let hallLamps=null;
 /* the café picture: the 3840 px file only on a screen wider than 2560 device pixels (and a download level that allows it), 1920 px below */
-const ROOM_4K=(GFX.assetLevel??GFX.level)>=3&&Math.max(screen.width||0,screen.height||0)*(devicePixelRatio||1)>2560;
-if(HQ){ const lampTex=lampGlassTex(), glassM=new T.MeshStandardMaterial({map:lampTex, emissiveMap:lampTex, emissive:0xffffff, emissiveIntensity:1.05, roughness:.35, side:T.DoubleSide, fog:false});
+const ROOM_BIG=(GFX.assetLevel??GFX.level)>=3&&Math.max(screen.width||0,screen.height||0)*(devicePixelRatio||1)>2560;
+if(HIGH_UP){ const lampTex=lampGlassTex(), glassM=new T.MeshStandardMaterial({map:lampTex, emissiveMap:lampTex, emissive:0xffffff, emissiveIntensity:1.05, roughness:.35, side:T.DoubleSide, fog:false});
   const haloM=new T.MeshBasicMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffa850, opacity:.5, fog:false, toneMapped:false});
   const wallT=marblePanelTex(); wallT.repeat.set(7,2); wallT.offset.y=-.476;
   const wall=new T.Group(); hall.add(wall); hallLamps=wall;
@@ -638,7 +646,7 @@ if(HQ){ const lampTex=lampGlassTex(), glassM=new T.MeshStandardMaterial({map:lam
   [-6.4,-4.8,-3.2,-1.6,1.6,3.2,4.8,6.4].forEach(x=>{ mesh(new T.BoxGeometry(.1,.28,.03),M.brassDark,x,1.72,-4.12,wall); const a=mesh(new T.CylinderGeometry(.011,.011,.22,6),M.brass,x,1.78,-4.03,wall); a.rotation.x=.956;
     mesh(shadeG,glassM,x,1.885,-3.95,wall); const h=mesh(haloG,haloM,x,1.98,-3.93,wall); h.renderOrder=2; });
   bake(wall); }
-if(HALL){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, metalness:0},{clearcoat:.8, clearcoatRoughness:.12}), velvet=new T.MeshStandardMaterial({color:L("#4a1217"), roughness:.96, metalness:0});
+if(EXTRA_UP){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, metalness:0},{clearcoat:.8, clearcoatRoughness:.12}), velvet=new T.MeshStandardMaterial({color:L("#4a1217"), roughness:.96, metalness:0});
   /* the side walls: the café picture covers the back, these close the room where the shooter's view looks past it (black marble panels
      over a lacquered dado with a gold rail, as on the far wall) */
   const sideT=marblePanelTex(); sideT.repeat.set(5,2); sideT.offset.y=-.476; const sideM=new T.MeshStandardMaterial({map:sideT, roughness:.3, metalness:.05});
@@ -1072,6 +1080,8 @@ function gunInHand(){ gun.visible=!(handHold&&handK>.55); }   /* the revolver on
 
 /* ================= tick ================= */
 const bubbleTmp=new T.Vector3(); let GOV=null;
+/* r90 MOTION M15: a flash sprite that has faded out is not drawn at all (it was 6 of the 65 draws at rest); only what this hid comes back */
+const fxIdle=[flashSprite,flashSide,flashCore,...petals,hitFlash]; function fxVis(o){ const on=o.material.opacity>.002; if(!on&&o.visible){ o.visible=false; o.userData.fxHid=true; } else if(on&&o.userData.fxHid){ o.visible=true; o.userData.fxHid=false; } }
 const fxs=[closeKey,flashLight,hitLight]; function applyFx(){ let b=fxs[0]; for(const f of fxs) if(f.intensity>b.intensity) b=f; fxLight.intensity=b.intensity; if(b.intensity>.001){ fxLight.position.copy(b.position); fxLight.color.copy(b.color); fxLight.distance=b.distance; fxLight.decay=b.decay; } }
 function tick(draw){ const t=now();
   /* Fable F11-01: no frame runs while the page is hidden (phone locked, app switched). The turn clock pauses for that gap, so the spin resumes where it stopped instead of jumping to the end with every cue at once. */
@@ -1094,7 +1104,7 @@ function tick(draw){ const t=now();
   splinters.forEach(p=>{ if(p.life<=0){ p.m.visible=false; return; } p.life-=dtF; p.m.position.addScaledVector(p.v,dtF); p.v.y-=dtF*5.5; p.v.multiplyScalar(Math.pow(.5,dtF)); p.m.rotation.x+=p.w.x*dtF; p.m.rotation.y+=p.w.y*dtF; if(p.m.position.y<.76&&Math.abs(p.m.position.x)<.75&&Math.abs(p.m.position.z)<.75){ p.m.position.y=.76; p.v.y*=-.25; p.v.x*=.6; p.v.z*=.6; p.w.multiplyScalar(.3); } if(p.m.position.y<0) p.life=0; });
   ["D","N"].forEach(k=>{ const b=boards[k].userData; b.joltV.addScaledVector(b.jolt,-dtF*90); b.joltV.multiplyScalar(Math.pow(.002,dtF)); b.jolt.addScaledVector(b.joltV,dtF); b.inner.rotation.set(b.jolt.z*.12,b.jolt.x*.18,b.jolt.x*.08); b.inner.position.set(0,0,-Math.abs(b.jolt.z)*.015); });
   { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
-  applyFx();
+  applyFx(); fxIdle.forEach(fxVis);
   if(draw){ renderer.render(scene,camera); if(manual===null&&GOV) GOV.frame(performance.now()); } }
 /* r90 BUG-02: in the game the stage stays hidden until the page is armed, so nothing is drawn before the setup arrives (the main
    thread is free to take it at once), and "armed" goes out only after the first frame with this Showdown's boards is drawn,
@@ -1125,7 +1135,10 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
   };
   /* real recordings drop in without a code change: assets/sfx/<name>.mp3 (or .ogg/.wav) listed in platemap.json "sfx" replaces the synthesized cue of that name; the first argument stays a 0-1 volume */
   const loaded={};
-  async function loadFiles(map){ if(!map) return; init(); if(!ctx) return; for(const [name,src] of Object.entries(map)){ try{ const buf=await fetch(src).then(r=>r.ok?r.arrayBuffer():null); if(buf) loaded[name]=await ctx.decodeAudioData(buf); }catch(e){} } if(on) roomTone(true); }
+  /* r90 M13: every cue loads at once (was one after another) and the room tone starts the moment it lands; an .ogg (Opus) that does
+     not decode (older Safari) falls back to its .wav original next to it */
+  const decode=src=>fetch(src).then(r=>r.ok?r.arrayBuffer():Promise.reject(r.status)).then(b=>new Promise((ok,no)=>{ const p=ctx.decodeAudioData(b,ok,no); if(p&&p.catch) p.catch(no); }));
+  async function loadFiles(map){ if(!map) return; init(); if(!ctx) return; await Promise.all(Object.entries(map).map(async([name,src])=>{ try{ loaded[name]=await decode(src).catch(e=>/\.ogg$/.test(src)?decode(src.replace(/\.ogg$/,".wav")):Promise.reject(e)); if(name==="roomTone"&&on) roomTone(true); }catch(e){} })); }
   function playFile(name,v){ const b=loaded[name]; if(!b) return false; const s=ctx.createBufferSource(); s.buffer=b; const g=ctx.createGain(); g.gain.value=(typeof v==="number"?v:1); s.connect(g); out(g,name==="bang"||name==="splinter"||name==="cock"); s.start(nowT()); return true; }
   let bed=null; function roomTone(v){ if(!ctx) return; if(v&&!bed&&loaded.roomTone){ bed=ctx.createBufferSource(); bed.buffer=loaded.roomTone; bed.loop=true; const g=ctx.createGain(); g.gain.value=.5; bed.connect(g); out(g,false); bed.start(nowT()); } if(!v&&bed){ try{ bed.stop(); }catch(e){} bed=null; } }
   return { get on(){ return on; }, enable(v){ on=v; if(v){ init(); if(ctx&&ctx.state==="suspended") ctx.resume(); } roomTone(v); }, loadFiles, play(name,vol,delay){ if(!on||!ctx) return; lead=delay>0?delay:0; try{ if(!playFile(name,vol)) fx[name](vol); }catch(e){} lead=0; } }; })();
@@ -1134,7 +1147,7 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
 /* r90: the room photo, the top-down gun photo and the flash picture are gone (the room is dark now; the other two never shipped) */
 const PLATEMAP={};
 async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
-  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),HALL?loadImg(ROOM_4K?"assets/RR_ROOM_V2_4K.webp":"assets/RR_ROOM_V2_1080.webp"):null,loadLookEnv()]);
+  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),EXTRA_UP?loadImg(ROOM_BIG?"assets/RR_ROOM_V2_4K.webp":"assets/RR_ROOM_V2_1080.webp"):null,loadLookEnv()]);
   /* r90 (Nik 2026-11-08: "a proper background ... not a dimmed sticker"): on Extra, Ultra and 8K the café picture (Team V HO-059 RR_ROOM_V2:
      the 2.2.0 room redrawn at 4K with a calmer evening grade; 1920 px, or 3840 px on a screen wider than 2560 device pixels) stands across the back at full
      sharpness, from the floor line up, as in 2.2.0; it replaces the far wall and its lamps (they are in the picture),
@@ -1153,18 +1166,36 @@ function loadLookEnv(){ if(!T.EXRLoader) return Promise.resolve(null); return ne
 /* the sunlit window in the picture is hundreds of times brighter than the room; capped, so polished steel shows a bright window, not a white blaze */
 const LOOK_ENV_MAX=4;
 function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture; pm.dispose(); LOOK.hdri.dispose(); LOOK.hdri=null;
-  scene.environmentIntensity=HALL?.6:.5; M.floor.envMapIntensity=HALL?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
+  scene.environmentIntensity=EXTRA_UP?.6:.5; M.floor.envMapIntensity=EXTRA_UP?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
 /* r90 warm-up (Reus Gate): every texture goes to the GPU and every shader compiles (in parallel where the browser can) BEFORE the page
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
    The old page compiled each of those the first time it appeared, in the middle of a turn. Then js/gfxTier.js times a few real frames. */
+function toGame2(type,extra){ if(EMBED) try{ parent.postMessage(Object.assign({type},extra||{}),location.origin); }catch(e){} }
 async function warmUp(){ const all=new Set(); scene.traverse(o=>{ (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(!m) return; for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!v.isRenderTargetTexture) all.add(v); } }); });
   ["D","N"].forEach(k=>{ const c=boards[k].userData.spare; if(c) all.add(c.__tex); }); all.forEach(t=>{ try{ renderer.initTexture(t); }catch(e){} });
+  toGame2("cms-rr-loading",{stage:"compile"});
+  /* r90 MOTION M9: where the GPU cannot compile in the background (no KHR_parallel_shader_compile: most Chromebooks, software GL)
+     compileAsync is one long blocking task (59.7 s in the container). The shaders are built a few materials at a time instead,
+     each batch in its own task, so the game's loading screen keeps moving and hears that the page is still busy (cms-rr-loading
+     after every batch) instead of timing out on a scene that would have worked. Same programs, same total GPU work. */
+  if(!renderer.extensions.has("KHR_parallel_shader_compile")){ try{ const objs=[], vis=new Map(); scene.traverse(o=>{ if(o.material){ vis.set(o,o.visible); objs.push(o); } }); /* only drawn objects are switched: lights stay as they are, so every batch builds the exact program the frame uses */
+    const done=new Set(), batches=[]; let cur=[], fresh=0; objs.forEach(o=>{ const ms=(Array.isArray(o.material)?o.material:[o.material]); const n=ms.filter(m=>m&&!done.has(m)).length; ms.forEach(m=>done.add(m)); cur.push(o); fresh+=n; if(fresh>=3){ batches.push(cur); cur=[]; fresh=0; } }); if(cur.length) batches.push(cur);
+    for(const b of batches){ const keep=new Set(); b.forEach(o=>{ for(let q=o;q;q=q.parent) keep.add(q); }); vis.forEach((v,o)=>{ o.visible=keep.has(o)&&v; }); renderer.compile(scene,camera); vis.forEach((v,o)=>{ o.visible=v; }); toGame2("cms-rr-loading",{stage:"compile"}); await new Promise(r=>setTimeout(r,0)); }
+  }catch(e){} }
   try{ await renderer.compileAsync(scene,camera); }catch(e){ try{ renderer.compile(scene,camera); }catch(_e){} }
+  toGame2("cms-rr-loading",{stage:"calibrate"});
   try{ await GFXT.calibrate(renderer,()=>{ tick(false); renderer.render(scene,camera); },{frames:6}); }catch(e){ renderer.render(scene,camera); } }
 /* r90: leaving the page (the game removes the frame when the roulette ends) hands every GPU buffer back at once instead of waiting for
    the garbage collector, so the next 3D screen starts with the memory free */
 function disposeAll(){ cancelAnimationFrame(rafId); if(GOV) GOV.end(); const seen=new Set(); scene.traverse(o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(!m||seen.has(m)) return; seen.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } } m.dispose(); }); });
-  if(scene.environment) scene.environment.dispose(); ["D","N"].forEach(k=>{ const b=boards[k].userData; [b.first,b.spare].forEach(c=>{ if(c){ c.width=c.height=0; } }); }); renderer.dispose(); try{ renderer.forceContextLoss(); }catch(e){} }
+  if(scene.environment) scene.environment.dispose(); ["D","N"].forEach(k=>{ const b=boards[k].userData; [b.first,b.spare].forEach(c=>{ if(c){ c.width=c.height=0; } }); }); leaving=true; renderer.dispose(); try{ renderer.forceContextLoss(); }catch(e){} }
+/* r90 MOTION M30: a lost GPU context (a GPU reset on a Chromebook, a phone that drops it in the background) used to leave a black canvas
+   until the game's clock ran out. The scene can't rebuild its lounge lighting once the source is freed, so in the game it hands back
+   at once (cms-rr-error: the result card shows the spin, which the server already holds) and js/gfxTier.js lowers this device one
+   level for next time; on its own the page reloads when the context comes back. Our own release on the way out is not a loss. */
+let leaving=false, lostSent=false;
+renderer.domElement.addEventListener("webglcontextlost",e=>{ e.preventDefault(); if(leaving) return; cancelAnimationFrame(rafId); rafId=0; if(EMBED&&!lostSent){ lostSent=true; toGame("cms-rr-error",{message:"webgl context lost"}); } },false);
+renderer.domElement.addEventListener("webglcontextrestored",()=>{ if(!leaving&&!EMBED) location.reload(); },false);
 /* back-forward cache (Codex P2 on #1261): a page kept for Back is only paused and picks up again on pageshow; a real unload frees everything.
    On the way back "last" keeps the time of the final frame before the pause, so tick() moves the turn clock past the whole gap
    (the same pause as a hidden tab) and the turn resumes where it stopped instead of finishing at once with every cue */
@@ -1209,11 +1240,11 @@ if(qs.get("tools")!=="1") document.body.classList.add("game");
 window.__rr={ get cylZ(){ return cyl.rotation.z; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardAimWorld(playing.who).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, programs:ri.programs.length, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, level:GFX.name, pixelRatio:renderer.getPixelRatio(), bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
-const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
-Promise.all([fontsReady,loadAssets()]).then(async()=>{ layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
+const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','800 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
+Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",{stage:"build"}); layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
   camPos.copy(camRest); camLook.copy(lookRest); last=now(); if(EMBED) cta.disabled=true;
   await warmUp(); last=now();
-  GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights 2pt+1spot"}; });
+  GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:3)+" + shot flash"}; });
   window.__rrReady=true; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
   /* r90 Device check (?bench=1&gfx=N): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
      no Firestore; js/gfxTier.js times the frames through the governor and posts the result to the Device check page */
