@@ -24,8 +24,7 @@
   const FILES={
     desktop:{crowd:"crowd_atlas_2k.webp"},
     phone:{crowd:"crowd_atlas_1k.webp"},
-    both:{crowdTint:"crowd_tint_1k.webp",net:"net_cell_512.webp",seats:"seats_512.webp",concrete:"concrete_512.webp",flare:"flare_256.webp",
-      boardA:"board_chamber_men.webp",boardB:"board_cms.webp",boardC:"board_chevrons.webp"}
+    both:{crowdTint:"crowd_tint_1k.webp",net:"net_cell_512.webp",seats:"seats_512.webp",concrete:"concrete_512.webp",flare:"flare_256.webp"}
   };
   // r90 grass: TextureCan "Ground 0040" (CC0, mown football turf, Nik's download 2026-11-07), one size per device level
   // (js/gfxTier.js): light 1k colour + 512 normal, medium/high 2k + 1k, extra/ultra 4k + 2k.
@@ -36,7 +35,7 @@
   // ~250 MB of GPU memory for a ball).
   const BALL_MESH="ball_mesh_V3.glb",BALL=["512","1k","1k","2k","2k"];
   // Colour maps are sRGB; normal, roughness/metal and masks are linear data.
-  const SRGB=new Set(["ballColor","crowd","grass","seats","concrete","flare","boardA","boardB","boardC"]);
+  const SRGB=new Set(["ballColor","crowd","grass","seats","concrete","flare"]);
 
   function load(T,opts){
     const o=opts||{},level=Number.isInteger(o.level)?Math.max(0,Math.min(4,o.level)):(o.phone?0:2),[grass,grassNormal]=GRASS[level];
@@ -48,6 +47,83 @@
       // glTF UVs: no vertical flip.
       const tex={};keys.forEach((k,i)=>{tex[k]=list[i];if(k.startsWith("ball"))list[i].flipY=false;});tex.ballGeo=geo;return tex;
     });
+  }
+
+  // r90 LOOK (L02): the crowd atlas cells whose shirt carries the tint mask (crowd_tint_1k.webp, 16x12 cells, an arms-down /
+  // arms-up pair per cell). Club fans wear only these, so every shirt in a club block is the club's colour; the other cells
+  // (fixed jackets) are the few neutral fans, darkened for a night game.
+  const TINT_CELLS=[0,1,3,4,5,6,11,13,14,15,17,18,20,21,22,23,25,26,27,28,30,32,33,34,35,36,37,38,39,40,47,49,50,51,53,55,56,57,58,59,60,61,62,
+    65,66,67,68,69,71,76,77,78,79,80,81,83,86,89,91,92,93];
+  const PLAIN_CELLS=Array.from({length:96},(_v,i)=>i).filter(i=>!TINT_CELLS.includes(i));
+
+  // r90 LOOK (L03): the LED boards, drawn at run time on canvases (no image files): our CM17 wordmark, each club's crest and
+  // name, and a plain gold pattern, black and gold like the rest of the game. Each board holds its whole message inside its
+  // own 8 m with room to spare, and a gold hairline runs along the top and bottom of every board, so a run reads as one
+  // continuous LED strip and no word ever crosses a join. Crests come from visualIdentity's getClubCrestSvg (drawn by
+  // code, no lettering); until a crest image decodes, the board shows the name alone.
+  const BOARD_GOLD="#f2c45b",BOARD_INK="#0a0806",BOARD_TEXT="#efe4c8";
+  function boardArt(T,o){
+    const d=root.document;if(!d||typeof d.createElement!=="function")return null;
+    const W=o.px||1024,H=Math.round(W/8.9),list=[];
+    const font=px=>`700 ${px}px "Barlow Condensed","Arial Narrow",Arial,sans-serif`;
+    // The biggest size up to maxH whose width fits maxW.
+    const fit=(g,text,maxW,maxH)=>{let px=Math.max(8,Math.round(maxH));g.font=font(px);const w=g.measureText(text).width;if(w>maxW){px=Math.max(8,Math.floor(px*maxW/w));g.font=font(px);}return g.measureText(text).width;};
+    const base=g=>{
+      const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,"#17130d");gr.addColorStop(.5,BOARD_INK);gr.addColorStop(1,"#050403");
+      g.fillStyle=gr;g.fillRect(0,0,W,H);
+      // LED rows: a faint dark line every few pixels, so up close it reads as a screen, not a printed sheet.
+      g.fillStyle="rgba(0,0,0,.28)";const step=Math.max(3,Math.round(H/36));for(let y=0;y<H;y+=step)g.fillRect(0,y,W,1);
+      g.fillStyle=BOARD_GOLD;const hl=Math.max(2,Math.round(H*.035));g.fillRect(0,Math.round(H*.06),W,hl);g.fillRect(0,H-Math.round(H*.06)-hl,W,hl);
+    };
+    const chevrons=(g,y0,y1,alpha)=>{
+      const h=y1-y0,pitch=W/32;g.strokeStyle=`rgba(242,196,91,${alpha})`;g.lineWidth=Math.max(2,h*.12);
+      for(let x=-pitch;x<W+pitch;x+=pitch){g.beginPath();g.moveTo(x,y0);g.lineTo(x+pitch*.45,(y0+y1)/2);g.lineTo(x,y1);g.stroke();}
+    };
+    const crestImg={};
+    const crestOf=club=>{
+      if(!club||typeof o.crest!=="function"||typeof root.Image!=="function")return null;
+      if(crestImg[club]!==undefined)return crestImg[club];
+      crestImg[club]=null;
+      try{const svg=String(o.crest(club)||"");if(!svg.startsWith("<svg"))return null;
+        const img=new root.Image();img.decoding="async";
+        // Only a crest that leaves the canvas clean goes on (a tainted canvas cannot be uploaded to WebGL).
+        img.onload=()=>{try{const c=d.createElement("canvas");c.width=c.height=2;const g=c.getContext("2d");g.drawImage(img,0,0,2,2);g.getImageData(0,0,1,1);}catch(_error){return;}
+          crestImg[club]=img;for(const b of list)b.paint();};
+        img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg.replace("<svg ",`<svg width="240" height="288" `));}catch(_error){}
+      return null;
+    };
+    const make=draw=>{
+      const c=d.createElement("canvas");c.width=W;c.height=H;const g=c.getContext("2d");if(!g)return null;
+      const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.wrapS=T.RepeatWrapping;t.anisotropy=o.aniso||4;
+      const b={t,paint(){base(g);draw(g);t.needsUpdate=true;}};b.paint();list.push(b);return t;
+    };
+    // The wordmark: CM17 in the middle, gold rules out to the board's ends.
+    const word=make(g=>{
+      const w=fit(g,"CM17",W*.4,H*.6);g.fillStyle=BOARD_GOLD;g.textAlign="center";g.textBaseline="middle";g.fillText("CM17",W/2,H*.53);
+      const r=Math.max(2,Math.round(H*.03)),gap=H*.35;g.fillRect(W*.1,H/2-r/2,W/2-w/2-gap-W*.1,r);g.fillRect(W/2+w/2+gap,H/2-r/2,W*.4-w/2-gap,r);
+    });
+    // Matchday: both crests either side of the wordmark.
+    const duo=make(g=>{
+      const w=fit(g,"CM17",W*.22,H*.56);g.fillStyle=BOARD_GOLD;g.textAlign="center";g.textBaseline="middle";g.fillText("CM17",W/2,H*.53);
+      const ch=H*.72,cw=ch*120/144,y=(H-ch)/2;
+      for(const [club,x] of [[o.home,W/2-w/2-H*.5-cw],[o.away,W/2+w/2+H*.5]]){const img=crestOf(club);if(img)g.drawImage(img,x,y,cw,ch);}
+    });
+    // A club: its crest at the end nearest the goal, its name beside it, the pair inside 60% of the board.
+    const club=(name,inner)=>make(g=>{
+      const label=String(name||"").toUpperCase(),ch=H*.72,cw=ch*120/144,pad=W*.07,gap=H*.3,img=crestOf(name);
+      const room=W*.6-(img?cw+gap:0);g.fillStyle=BOARD_TEXT;g.textBaseline="middle";
+      const tw=label?fit(g,label,room,H*.48):0;
+      const x0=inner==="left"?pad:W-pad-(img?cw+gap:0)-tw;
+      if(inner==="left"){if(img)g.drawImage(img,x0,(H-ch)/2,cw,ch);g.textAlign="left";if(label)g.fillText(label,x0+(img?cw+gap:0),H*.54);}
+      else{g.textAlign="left";if(label)g.fillText(label,x0,H*.54);if(img)g.drawImage(img,x0+tw+gap,(H-ch)/2,cw,ch);}
+    });
+    const homeL=club(o.home,"left"),homeR=club(o.home,"right"),awayL=club(o.away,"left"),awayR=club(o.away,"right");
+    const pattern=make(g=>chevrons(g,H*.22,H*.78,.42));
+    // The fascia ribbon between the tiers: the same strip, chevrons only, repeated along the stand.
+    const ribbon=make(g=>chevrons(g,H*.3,H*.7,.3));
+    // The page's condensed face may still be loading: draw again once it is in.
+    try{d.fonts?.load?.(font(40)).then(()=>{for(const b of list)b.paint();},()=>{});}catch(_error){}
+    return {word,duo,homeL,homeR,awayL,awayR,pattern,ribbon,textures:list.map(b=>b.t)};
   }
 
   // A small deterministic random, so the crowd is the same every load.
@@ -79,7 +155,10 @@
         "#include <map_fragment>\n{float band=step(.5,fract(vCmWorld.z/11.0+.25));float edge=smoothstep(.0,.04,abs(fract(vCmWorld.z/5.5)-.5)*2.0-.0);"+
         "diffuseColor.rgb*=mix(.78,1.12,band);"+
         "float wear=exp(-pow(length(vCmWorld.xz-vec2(0.0,11.0))/1.3,2.0))*.45+exp(-pow(length((vCmWorld.xz-vec2(0.0,2.2))*vec2(.35,1.0))/1.6,2.0))*.25;"+
-        "diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.05,.92,.7),wear);}");
+        "diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.05,.92,.7),wear);"+
+        // r90 LOOK (L01, night pass): the floodlights pool on the box, brighter in the middle; the turf falls away toward the
+        // touchlines and behind the taker, so the frame reads floodlit, not evenly lit.
+        "diffuseColor.rgb*=mix(1.16,.36,smoothstep(4.0,24.0,length((vCmWorld.xz-vec2(0.0,8.0))*vec2(.75,1.0))));}");
     };
     const pitch=add(new T.PlaneGeometry(130,150),pitchMat);pitch.rotation.x=-Math.PI/2;pitch.position.set(0,0,PITCH_L/2);pitch.receiveShadow=true;
     // Chalk lines for the whole 105 x 68 pitch: one merged geometry a few mm over the grass.
@@ -158,31 +237,47 @@
     const backBase=Float32Array.from(backGeo.attributes.position.array);
 
     // ---------- ad boards ----------
-    // LED boards: unlit (they are lights), just bright enough to bloom a little at threshold 1.
-    const boards=[];
-    const boardMat=t=>{t.wrapS=T.RepeatWrapping;t.colorSpace=T.SRGBColorSpace;const m=keep(new T.MeshBasicMaterial({map:t,color:new T.Color(1.15,1.15,1.15),toneMapped:true}));boards.push(m);return m;};
-    const bA=boardMat(tex.boardA),bB=boardMat(tex.boardB),bC=boardMat(tex.boardC);
-    const boardTex=[tex.boardA,tex.boardB,tex.boardC];let boardStep=-1;
+    // LED boards: unlit (they are lights), just bright enough to bloom a little at threshold 1. r90 LOOK (L03): drawn here
+    // (boardArt), the run behind the goal centred on it: the wordmark right behind the goal, a club either side (home on the
+    // left, away on the right, the crest at the end nearest the goal, swapping sides with the matchday board every 9 s), the
+    // pattern further out. At the penalty framing every word on screen sits whole inside its board on any window.
+    const art=boardArt(T,{px:o.boardPx||1024,home:o.homeName,away:o.awayName,crest:o.crest,aniso});
+    if(art)for(const t of art.textures)keep(t);
+    const boardMat=t=>keep(new T.MeshBasicMaterial({map:t||null,color:t?new T.Color(1.15,1.15,1.15):new T.Color(.04,.035,.03),toneMapped:true}));
+    const mWord=boardMat(art&&art.word),mLeft=boardMat(art&&art.homeR),mRight=boardMat(art&&art.awayL),mPattern=boardMat(art&&art.pattern),mRibbon=boardMat(art&&art.ribbon);
+    let boardStep=-1;
     const backBoardMat=keep(new T.MeshStandardMaterial({color:new T.Color(.05,.05,.055),roughness:.6}));
-    // A run of 8 m boards along local x, facing local +z, leaning back a little; parent places and turns the run.
-    const boardRun=(parent,x0,x1,mats)=>{
+    // A run of 8 m boards along local x, facing local +z, leaning back a little; parent places and turns the run. The first
+    // board may be shorter (first), so a whole board sits where the run wants it; a short board always carries the pattern.
+    const boardRun=(parent,x0,x1,pick,first)=>{
       const BW=8,BH=.9;let i=0;
-      for(let x=x0;x<x1-.01;x+=BW,i+=1){const w=Math.min(BW,x1-x),m=mats[i%mats.length];
+      for(let x=x0;x<x1-.01;i+=1){const w=Math.min(i===0&&first?first:BW,x1-x),m=w<BW-.01?mPattern:pick(i,x+w/2);
         const g=new T.PlaneGeometry(w,BH);const uv=g.attributes.uv;for(let k=0;k<uv.count;k+=1)uv.setX(k,uv.getX(k)*w/BW);
         const p=add(g,m,parent);p.position.set(x+w/2,BH/2+.02,0);p.rotation.x=-.12;p.userData.bake=true;
-        const bk=add(new T.BoxGeometry(w,BH,.18),backBoardMat,parent);bk.position.set(x+w/2,BH/2,-.1);bk.rotation.x=-.12;bk.receiveShadow=true;bk.userData.bake=true;}
+        const bk=add(new T.BoxGeometry(w,BH,.18),backBoardMat,parent);bk.position.set(x+w/2,BH/2,-.1);bk.rotation.x=-.12;bk.receiveShadow=true;bk.userData.bake=true;
+        x+=w;}
     };
-    const runs=[{x:0,z:-4.6,yaw:0,x0:-PITCH_HALF_W-6,x1:PITCH_HALF_W+6,mats:[bA,bB,bC,bB]},
-      {x:0,z:PITCH_L+4.6,yaw:Math.PI,x0:-PITCH_HALF_W-6,x1:PITCH_HALF_W+6,mats:[bB,bC,bA]},
-      {x:-(PITCH_HALF_W+4),z:0,yaw:Math.PI/2,x0:-PITCH_L-2,x1:2,mats:[bB,bA,bC]},
-      {x:PITCH_HALF_W+4,z:0,yaw:-Math.PI/2,x0:-2,x1:PITCH_L+2,mats:[bB,bA,bC]}];
-    for(const r of runs){const g=new T.Group();g.position.set(r.x,0,r.z);g.rotation.y=r.yaw;group.add(g);boardRun(g,r.x0,r.x1,r.mats);}
+    // Behind the goal: wordmark at the middle (centre x 0), the clubs either side, pattern beyond. Elsewhere (never in the
+    // penalty framing): wordmark and pattern in turn.
+    const behind=(_i,xc)=>Math.abs(xc)<.5?mWord:Math.abs(xc+8)<.5?mLeft:Math.abs(xc-8)<.5?mRight:mPattern;
+    const around=i=>i%2?mPattern:mWord;
+    const runs=[{x:0,z:-4.6,yaw:0,x0:-PITCH_HALF_W-6,x1:PITCH_HALF_W+6,pick:behind,first:4},
+      {x:0,z:PITCH_L+4.6,yaw:Math.PI,x0:-PITCH_HALF_W-6,x1:PITCH_HALF_W+6,pick:around,first:4},
+      {x:-(PITCH_HALF_W+4),z:0,yaw:Math.PI/2,x0:-PITCH_L-2,x1:2,pick:around},
+      {x:PITCH_HALF_W+4,z:0,yaw:-Math.PI/2,x0:-2,x1:PITCH_L+2,pick:around}];
+    for(const r of runs){const g=new T.Group();g.position.set(r.x,0,r.z);g.rotation.y=r.yaw;group.add(g);boardRun(g,r.x0,r.x1,r.pick,r.first);}
 
     // ---------- stands ----------
     const concrete=tex.concrete;concrete.wrapS=concrete.wrapT=T.RepeatWrapping;
-    const concMat=keep(new T.MeshStandardMaterial({map:concrete,roughness:.9,color:new T.Color(.55,.55,.58)}));
+    // r90 LOOK (L01): a night stand. The floodlights catch the front rows and the rows fall away into the dark under the
+    // roof (the stands are lit by the same directional lights as the pitch, so without this they read flat and evenly lit).
+    const nightStand=m=>{m.onBeforeCompile=sh=>{
+      sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvCmY=(modelMatrix*vec4(transformed,1.0)).y;");
+      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <map_fragment>","#include <map_fragment>\ndiffuseColor.rgb*=mix(vec3(1.0),vec3(.14,.16,.25),smoothstep(.5,12.0,vCmY));");};
+      m.customProgramCacheKey=()=>"cmNightStand";return m;};
+    const concMat=keep(nightStand(new T.MeshStandardMaterial({map:concrete,roughness:.9,color:new T.Color(.34,.34,.37)})));
     const seatsTex=tex.seats;seatsTex.wrapS=T.RepeatWrapping;seatsTex.wrapT=T.ClampToEdgeWrapping;
-    const stepMat=keep(new T.MeshStandardMaterial({map:seatsTex,roughness:.75}));
+    const stepMat=keep(nightStand(new T.MeshStandardMaterial({map:seatsTex,roughness:.75,color:new T.Color(.62,.62,.66)})));
     const darkMat=keep(new T.MeshStandardMaterial({color:new T.Color(.025,.025,.03),roughness:.8}));
     const seatsAll=[];// [x,y,z,yaw] for the crowd
     // One tier: rows of steps (tread + riser), each row one v of the seat texture, u = 1 m.
@@ -208,7 +303,8 @@
       const front=add(new T.BoxGeometry(x1-x0,1.2,.4),concMat,st);front.position.set((x0+x1)/2,.6,.2);
       const topLow=1.2+lowerRows*.42,backLow=-lowerRows*.82;
       // Concourse band between tiers: dark with a gold LED ribbon (the FIFA 17 stadiums all have one).
-      const fascia=add(new T.PlaneGeometry(x1-x0,1.3),bC,st);fascia.position.set((x0+x1)/2,topLow+1.6,backLow-.3);
+      const fg=new T.PlaneGeometry(x1-x0,1.3),fu=fg.attributes.uv;for(let k=0;k<fu.count;k+=1)fu.setX(k,fu.getX(k)*(x1-x0)/8);
+      const fascia=add(fg,mRibbon,st);fascia.position.set((x0+x1)/2,topLow+1.6,backLow-.3);
       let topY=topLow+2.4,backZ=backLow-.6;
       if(upperRows){
         const upper=add(tier(x0,x1,backLow-1.2,topLow+2.3,upperRows,.8,.58,si),stepMat,st);upper.receiveShadow=true;
@@ -247,20 +343,28 @@
       const keepRate=(s.si===0?(phone?.82:.93):s.si===3?(phone?.3:o.full?.86:.6):(phone?.35:o.full?.9:.7))*(o.density>0&&o.density<1?.4+.6*o.density:1);// a few empty seats; thinner far stands on phones and light devices
       if(rnd()>keepRate)continue;
       const v=new T.Vector3(s.x,s.y,s.z);stands[s.si].localToWorld(v);
+      if(s.si===0&&Math.abs(v.x-(PITCH_HALF_W-14))<1.3)continue;// the empty strip between home and away fans
       fans.push({p:v,yaw:stands[s.si].rotation.y,si:s.si});
     }
     const N=fans.length;
     const cardGeo=new T.PlaneGeometry(.62,.78);cardGeo.translate(0,.39-.12,0);
     const aCell=new Float32Array(N),aPhase=new Float32Array(N),aTint=new Float32Array(N*3),aOff=new Float32Array(N*4);
     const home=new T.Color(o.home!=null?o.home:0xb81d24),away=new T.Color(o.away!=null?o.away:0x1d4fb8);
+    // r90 LOOK (L02): each club's block wears its colours: mostly the dominant colour, some the second kit colour, and a few
+    // neutral fans in dark jackets. The away fans have the corner of the end behind the goal (seen on every penalty) and the
+    // far end, with an empty strip of seats between them and the home fans, like a real segregation line.
+    const homeAlt=new T.Color(o.homeAlt!=null?o.homeAlt:0xf2f2ee),awayAlt=new T.Color(o.awayAlt!=null?o.awayAlt:0xf2f2ee);
+    const AWAY_X=PITCH_HALF_W-14;
+    const pickCell=list=>list[Math.floor(rnd()*list.length)]||0;
     const dummy=new T.Object3D();
     for(let i=0;i<N;i+=1){const f=fans[i];
-      aCell[i]=Math.floor(rnd()*96);aPhase[i]=rnd()*6.283;
-      // Behind the goal is the home end; the away end sits in one corner of the left stand.
-      const awayEnd=f.si===3||(f.si===1&&f.p.z>75);// the away fans: the far end and the far corner of the left stand
-      const c=awayEnd?away:(rnd()<.85?home:new T.Color(.7,.7,.72));// neutral shirts in soft grey, not paper white
+      aPhase[i]=rnd()*6.283;
+      const awayEnd=f.si===3||(f.si===0&&f.p.x>AWAY_X);
+      const r=rnd(),plain=r<.1;
+      aCell[i]=plain?pickCell(PLAIN_CELLS):pickCell(TINT_CELLS);
+      const c=plain?new T.Color(.42,.42,.44):awayEnd?(r<.8?away:awayAlt):(r<.8?home:homeAlt);
       // Vary the shade a little so the shirts do not read as one flat block.
-      const k=.82+rnd()*.3;aTint[i*3]=c.r*k;aTint[i*3+1]=c.g*k;aTint[i*3+2]=c.b*k;
+      const k=.8+rnd()*.3;aTint[i*3]=c.r*k;aTint[i*3+1]=c.g*k;aTint[i*3+2]=c.b*k;
       aOff[i*4]=f.p.x;aOff[i*4+1]=f.p.y;aOff[i*4+2]=f.p.z;aOff[i*4+3]=f.yaw;
     }
     const inst=new T.InstancedMesh(keep(cardGeo),null,N);
@@ -269,7 +373,7 @@
     for(let i=0;i<N;i+=1){dummy.position.set(aOff[i*4],aOff[i*4+1],aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.updateMatrix();
       const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=0;inst.setMatrixAt(i,dummy.matrix);
       inst.setColorAt(i,new T.Color(aTint[i*3],aTint[i*3+1],aTint[i*3+2]));}
-    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.055,.055,.065)}};
+    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.02,.028,.05)}};
     const crowdMat=keep(new T.ShaderMaterial({
       uniforms:{...crowdUniforms,fogColor:{value:new T.Color(0,0,0)},fogNear:{value:1},fogFar:{value:2000},fogDensity:{value:.00025}},fog:true,
       vertexShader:[
@@ -288,7 +392,7 @@
         " vTint=instanceColor;",
         // Floodlit at the front, darker toward the back under the roof; a little light-to-light variation per fan.
         " vec3 wp=(m*vec4(0.0,0.0,0.0,1.0)).xyz;float back=length(wp.xz-vec2(0.0,52.5))-50.0;",
-        " vShade=mix(1.05,.55,smoothstep(0.0,32.0,back+wp.y*.6))*(.85+.3*h);",
+        " vShade=mix(.92,.4,smoothstep(0.0,30.0,back+wp.y*.6))*mix(1.0,.34,smoothstep(3.0,16.0,wp.y))*(.85+.3*h);",
         " vec4 mvPosition=modelViewMatrix*m*vec4(p,1.0);gl_Position=projectionMatrix*mvPosition;vDist=-mvPosition.z;",
         " #include <fog_vertex>",
         "}"].join("\n"),
@@ -300,8 +404,9 @@
         " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade;",
         // FIFA 17 stands are soft: less saturation and contrast, highlights held down, and a floodlight haze that grows with
         // distance so the back rows melt into the stand.
-        " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.7);rgb=rgb*.8/(1.0+rgb*.6);",
-        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.55);gl_FragColor=vec4(rgb,1.0);",
+        " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.55+.3*k);rgb=rgb*.8/(1.0+rgb*.6);",
+        " rgb*=mix(vec3(1.0),vec3(.74,.82,1.06),clamp(1.0-vShade,0.0,.8));",
+        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.6);gl_FragColor=vec4(rgb,1.0);",
         " #include <tonemapping_fragment>",
         " #include <colorspace_fragment>",
         " #include <fog_fragment>",
@@ -313,13 +418,16 @@
     // All flares in one Points draw (a sprite each would cost a draw call per lamp).
     const fp=[];for(const st of stands)for(const v0 of st.userData.lamps){const v=v0.clone();st.localToWorld(v);fp.push(v.x,v.y,v.z);}
     const flareGeo=new T.BufferGeometry();flareGeo.setAttribute("position",new T.Float32BufferAttribute(fp,3));
-    const flareMat=keep(new T.PointsMaterial({map:tex.flare,size:7,sizeAttenuation:true,color:new T.Color(1,.97,.9),blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
+    const flareMat=keep(new T.PointsMaterial({map:tex.flare,size:9,sizeAttenuation:true,color:new T.Color(1,.97,.9),blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
     const flares=new T.Points(keep(flareGeo),flareMat);flares.frustumCulled=false;group.add(flares);
+    // r90 LOOK (L01): a wide soft halo round each bank, the glow a floodlight throws into the night air (one more draw).
+    const haloMat=keep(new T.PointsMaterial({map:tex.flare,size:38,sizeAttenuation:true,color:new T.Color(.2,.18,.14),blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
+    const halo=new T.Points(flareGeo,haloMat);halo.frustumCulled=false;group.add(halo);
     // Night sky: a big inverted sphere with a gradient (deep navy up high, a warm haze over the roofs from the floodlights).
     const skyMat=keep(new T.ShaderMaterial({side:T.BackSide,depthWrite:false,fog:false,uniforms:{},
       vertexShader:"varying vec3 vDir;void main(){vDir=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
-      fragmentShader:"varying vec3 vDir;void main(){float h=clamp(vDir.y,0.0,1.0);vec3 top=vec3(.006,.009,.02),mid=vec3(.03,.035,.05),haze=vec3(.16,.13,.09);"+
-        "vec3 c=mix(mid,top,smoothstep(.12,.6,h));c=mix(c,haze,exp(-h*9.0)*.8);gl_FragColor=vec4(c,1.0);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}"}));
+      fragmentShader:"varying vec3 vDir;void main(){float h=clamp(vDir.y,0.0,1.0);vec3 top=vec3(.003,.007,.03),mid=vec3(.016,.026,.062),haze=vec3(.15,.12,.085);"+
+        "vec3 c=mix(mid,top,smoothstep(.12,.6,h));c=mix(c,haze,exp(-h*11.0)*.6);gl_FragColor=vec4(c,1.0);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}"}));
     const sky=add(new T.SphereGeometry(300,32,16),skyMat);sky.renderOrder=-1;sky.frustumCulled=false;
 
     // ---------- bake ----------
@@ -347,7 +455,10 @@
       crowdUniforms.uTime.value=t;crowdUniforms.uExcite.value=Math.max(0,Math.min(1,excite||0));
       // LED boards change picture together every 9 s (a hard cut, the way real ones flip), never scroll: scrolling slid
       // the words across the joins between boards.
-      const step=Math.floor(t/9);if(step!==boardStep){boardStep=step;for(let i=0;i<boards.length;i+=1)boards[i].map=boardTex[(i+step)%boardTex.length];}
+      // r90: the boards behind the goal swap together: wordmark with the clubs either side, then the matchday board with
+      // the clubs swapped (home right, away left).
+      const step=Math.floor(t/9);if(art&&step!==boardStep){boardStep=step;const odd=step%2===1;
+        mWord.map=odd?art.duo:art.word;mLeft.map=odd?art.awayR:art.homeR;mRight.map=odd?art.homeL:art.awayL;}
       // Net bulge: a damped push at the hit point. A clock before the hit (Reduce Motion turned on after a goal sets the
       // scene clock to 0) restores the flat net, never an inverted bulge.
       const pos=backGeo.attributes.position,arr=pos.array;const e=t-net.t0;

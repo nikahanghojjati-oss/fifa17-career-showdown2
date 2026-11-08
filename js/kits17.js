@@ -193,6 +193,10 @@
       g.globalAlpha=.12;g.strokeStyle=s0;g.lineWidth=H*.012;
       for(let i=0;i<22;i++){const v=.08+i*.04;for(const c of [.5,0,1]){g.beginPath();g.moveTo(X(c-.25),Y(v+.05));g.lineTo(X(c),Y(v));g.lineTo(X(c+.25),Y(v+.05));g.stroke();}}
       g.globalAlpha=1;
+      // r90 L04: side panels in the darker shade from hem to armpit, piped in the trim, so a keeper's shirt reads as a real
+      // goalkeeper jersey, not a plain template (the sides of the wrap are u .25 and .75).
+      for(const c of [.25,.75]){g.fillStyle=s0;g.fillRect(X(c-.045),Y(.62),X(.09),H);
+        g.fillStyle=k.trim;for(const e of [-.045,.045])g.fillRect(X(c+e)-Math.max(1,W/700),Y(.62),Math.max(2,W/350),H);}
     }
   }
   function sleeveColour(k,side){
@@ -375,14 +379,14 @@
   function paintRemySocks(target,socks){const Q=target.width,c=canvas(Q,Q),g=c.getContext("2d");g.drawImage(socks,0,0,Q/2,Q);g.drawImage(socks,Q/2,0,Q/2,Q);flipInto(target,c);}
 
   // ---------- mapped bodies (Ch38, Ch42): a baked kit map per body ----------
-  // visual-assets/v10_1/chamber-men/players/kitmap/<body>.png, baked from the body's glTF by tools/kits17/bake_kitmap.py: per
+  // visual-assets/v10_1/chamber-men/players/kitmap/<body>.webp (lossless, r90; was .png), baked from the body's glTF by tools/kits17/bake_kitmap.py: per
   // atlas texel R = wrap u, G = wrap v, B = part<<5 | distance to the neck rim in mm (parts: 1 torso, 2 left sleeve, 3 right
   // sleeve, 4 shorts, 5 left sock, 6 right sock). Shirt, shorts (and Ch38's socks) share the body's atlas, so one canvas serves
   // every kit material; texels outside the kit get the body colour so mipmaps never bleed skin into the kit.
   const MAPPED={ch38:{socks:"map",aspect:.77},ch42:{socks:"remy",aspect:.77}};
   const mapCache=new Map();
   function loadKitMap(name,base){
-    const url=(base||"visual-assets/v10_1/chamber-men/players/kitmap/")+name+".png";
+    const url=(base||"visual-assets/v10_1/chamber-men/players/kitmap/")+name+".webp";
     if(!mapCache.has(url))mapCache.set(url,new Promise((res,rej)=>{const im=new Image();im.onload=()=>{
       const c=canvas(im.naturalWidth,im.naturalHeight),g=c.getContext("2d",{willReadFrequently:true});g.drawImage(im,0,0);
       res({w:c.width,h:c.height,d:g.getImageData(0,0,c.width,c.height).data});};im.onerror=()=>rej(new Error("kit map "+url));im.src=url;}));

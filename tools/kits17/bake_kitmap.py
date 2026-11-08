@@ -102,5 +102,7 @@ for name,m in M.items():
             s=q[sm]; lp=P[np.sign(P[:,0])==side]; lx,lz=lp[:,0].mean(),lp[:,2].mean()
             uu=.5+np.arctan2(s[:,0]-lx,s[:,2]-lz)/(2*np.pi); vv=(s[:,1]-lp[:,1].min())/(lp[:,1].max()-lp[:,1].min())
             mm=np.zeros_like(hit); mm[idx[sm,0],idx[sm,1]]=True; put(mm,uu,vv,part)
-Image.fromarray(np.dstack([R,G,B])).save(out,optimize=True)
+# r90: the game reads <body>.webp; lossless WebP keeps every texel (exact) and is about 30% smaller than the PNG.
+img=Image.fromarray(np.dstack([R,G,B]))
+img.save(out,lossless=True,quality=100,method=6,exact=True) if out.lower().endswith(".webp") else img.save(out,optimize=True)
 print(report)

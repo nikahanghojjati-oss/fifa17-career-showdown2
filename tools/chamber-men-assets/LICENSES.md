@@ -8,9 +8,8 @@ required, credited here anyway), resized and converted by `gen_grass.py`, and th
 match wear by `gen_ball_v3.py`. No real ball maker, league, club or sponsor mark
 appears anywhere.
 
-The ad-board lettering is set in Inter (SIL Open Font Licence 1.1). Only the rendered letters are
-baked into the boards; no font file ships here. The boards show only our own marks: CHAMBER MEN,
-CMS, CAREER MODE SHOWDOWN.
+The LED ad boards are drawn at run time by js/chamberMenStadium3d.js (r90): the CM17 wordmark in
+the page's own font and the two clubs' crests from js/visualIdentity.js. No board image ships.
 
 Crowd fans are simple drawn figures with no likeness of any real person.
 
@@ -22,7 +21,6 @@ Crowd fans are simple drawn figures with no likeness of any real person.
 | ball_orm_V3_2k.webp, ball_orm_V3_1k.webp, ball_orm_V3_512.webp | ball G roughness (worn panels rougher), B metalness 0 | gen_ball_v3.py |
 | crowd_atlas_2k.webp, crowd_atlas_1k.webp | 96 fans x 2 poses (arms down / up), 16 x 12 cards | gen_stadium.py |
 | crowd_tint_1k.webp | mask: where a fan's shirt takes the club colour | gen_stadium.py |
-| board_chamber_men.webp, board_cms.webp, board_chevrons.webp | LED ad boards | gen_stadium.py |
 | grass_color_V2_4k.webp, grass_color_V2_2k.webp, grass_color_V2_1k.webp, grass_normal_V2_2k.webp, grass_normal_V2_1k.webp, grass_normal_V2_512.webp | pitch grass, one size per device level (3.5 m a tile); TextureCan Ground 0040, CC0 | gen_grass.py |
 | net_cell_512.webp | one 12 cm knotted net cell, RGBA | gen_stadium.py |
 | seats_512.webp | one stand step: black and gold seats, riser | gen_stadium.py |
