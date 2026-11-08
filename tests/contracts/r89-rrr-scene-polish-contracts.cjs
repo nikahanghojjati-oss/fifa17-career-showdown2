@@ -20,6 +20,7 @@
 //   P9 (r90 LOOK L08/L09) close rest shot on the revolver, words in the bottom strip, the gold button only when there is a tap;
 //   P10 (r90 MOTION M8/M9/M13/M15/M30) local title fonts, Opus cues loaded at once with a WAV fallback, shaders built in batches that
 //      report progress (and the step renews its wait on it), the drum/crane/hammer baked, faded flash sprites skipped, a lost context hands back;
+//   P14 (r90 MOTION M31) ?showcase=1 plays the demo loop on the game's path; ?bench=1 (Device check) still plays it and times frames;
 //   P6 (real scene, software WebGL) one fired turn stepped on the scene's own clock: the camera never cuts (every tick's step is small),
 //      from the crane shut to the shot its speed has one peak and then only falls, it is still creeping at the shot, and the drum stops on
 //      the planned chamber. CMS_RRR_SCENE_SKIP_BROWSER=1 skips P6 (no Chromium).
@@ -230,6 +231,14 @@ ok('P12','L10 board: crest header, no dead tabs, late kits redrawn; L28 side wal
   has(/const s=new T\.Shape\(flute\.map\(V2\)\);/,'L29 the drum is extruded from the fluted outline');
 }
 ok('P13','L29 revolver steel reflects its own studio; fluted drum');
+
+// P14 (r90 MOTION M31): the demo loop has its own switch, so a measured run is the game's path; the Device check (?bench=1) still plays it
+{
+  has(/const SHOWCASE=qs\.get\("showcase"\)==="1"\|\|qs\.get\("bench"\)==="1";/,'M31 ?showcase=1 plays the loop without the gfxTier bench; ?bench=1 still does both');
+  has(/if\(SHOWCASE&&!EMBED\)\{ let n=0;/,'M31 the loop never runs inside the game');
+  assert.doesNotMatch(html,/qs\.get\("bench"\)==="1"&&!EMBED/,'M31 the loop no longer keys on bench alone');
+}
+ok('P14','M31 showcase loop on its own switch');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}
