@@ -726,6 +726,9 @@ body {
   filter: blur(5px);
 }
 
+/* r90 M24 (Light): the spotlight gradient is already soft; no blur pass. */
+html[data-gfx="0"] .finalWinnerManagerSpotlight { filter: none; }
+
 .finalWinnerManagerSpotlight--daniel { left: 10.8%; }
 .finalWinnerManagerSpotlight--nik { left: 64.0%; }
 
@@ -1883,11 +1886,7 @@ body {
 
 /* JOB-183 pack-rip ceremony: transform and opacity only. */
 .finalWinnerFx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.finalWinnerFlash { position: absolute; inset: 0; z-index: 30; pointer-events: none; opacity: 0; background: radial-gradient(circle at 50% 38%, rgb(255 244 200 / .95), rgb(245 197 24 / .35) 45%, transparent 75%); }
-.finalWinnerFlash.is-flashing { animation: fwFlash 220ms ease-out both; }
-@keyframes fwFlash { 0% { opacity: 0; } 25% { opacity: .9; } 100% { opacity: 0; } }
-#stage-root.fwAnticipate::after { content: ""; position: absolute; inset: 0; z-index: 29; pointer-events: none; background: rgb(0 0 0 / .5); animation: fwDim 400ms ease-in-out both; }
-@keyframes fwDim { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: .2; } }
+/* r90 M7: the ceremony never dims the stage and never flashes; light and motion only. */
 #stage-root.fwAnticipate .winnerTrophyGlow { animation: fwDrum 200ms ease-in-out 2 both; }
 @keyframes fwDrum { 0%, 100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.14); opacity: 1; } }
 #stage-root.fwSettled .winnerTrophyGlow { animation: fwShine 120ms ease-in-out 1; }
@@ -1897,13 +1896,11 @@ body {
 .finalWinnerNavTabs button, .finalWinnerSettings, .finalWinnerActionsSlot button, .finalWinnerPhoneTabs label { transition: filter 100ms ease-out, color 100ms linear, background-color 100ms linear, transform 100ms ease-out; }
 .finalWinnerActionsSlot button:active, .finalWinnerNavTabs button:active { transform: scale(.985); }
 @media (prefers-reduced-motion: reduce) {
-  .finalWinnerFx, .finalWinnerFlash, #stage-root.fwAnticipate::after { display: none !important; }
+  .finalWinnerFx { display: none !important; }
   #stage-root .winnerTrophyGlow, .finalWinnerOutcome { animation: none !important; }
   .finalWinnerNavTabs button, .finalWinnerSettings, .finalWinnerActionsSlot button, .finalWinnerPhoneTabs label { transition: none; }
 }
-html[data-motion-reduced="true"] .finalWinnerFx, html[data-reduced-motion="true"] .finalWinnerFx,
-html[data-motion-reduced="true"] .finalWinnerFlash, html[data-reduced-motion="true"] .finalWinnerFlash,
-html[data-motion-reduced="true"] #stage-root.fwAnticipate::after, html[data-reduced-motion="true"] #stage-root.fwAnticipate::after { display: none !important; }
+html[data-motion-reduced="true"] .finalWinnerFx, html[data-reduced-motion="true"] .finalWinnerFx { display: none !important; }
 html[data-motion-reduced="true"] #stage-root .winnerTrophyGlow, html[data-reduced-motion="true"] #stage-root .winnerTrophyGlow { animation: none !important; }
 html[data-motion-reduced="true"] .finalWinnerNavTabs button, html[data-reduced-motion="true"] .finalWinnerNavTabs button,
 html[data-motion-reduced="true"] .finalWinnerActionsSlot button, html[data-reduced-motion="true"] .finalWinnerActionsSlot button { transition: none; }

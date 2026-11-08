@@ -3019,6 +3019,27 @@
       ]
     },
     {
+      "path": "tests/contracts/r90-motion-2d-contracts.cjs",
+      "patterns": [
+        "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.js$",
+        "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.css$",
+        "^visual\\-assets/v10_1/shared/showdown\\-ui\\.css$",
+        "^visual\\-assets/v10_1/shared/stage\\.css$",
+        "^css/homeV10\\.css$",
+        "^css/rulesSettingsV10\\.css$",
+        "^css/v10Club\\.css$",
+        "^visual\\-assets/v10_1/club/club\\.js$",
+        "^js/gfxTier\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^visual\\-assets/v10_1/trophy\\-room/trophy\\-room\\.js$",
+        "^visual\\-assets/v10_1/season\\-results/app\\-shell\\.html$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-shell\\.html$",
+        "^js/rivalryLegacyV10Markup\\.js$",
+        "^tests/contracts/r90\\-motion\\-2d\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r90-ssjr-defer-contracts.cjs",
       "patterns": [
         "^js/ssjr\\.js$",

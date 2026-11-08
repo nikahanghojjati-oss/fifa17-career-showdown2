@@ -1,5 +1,15 @@
 {
-  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. r90: the room is dark (no room picture); the hand picture and the sound files are the only layers.",
+  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. r90: Light and Balanced draw a dark room; High and up add the room picture behind the table. The hand picture, the room picture and the sound files are the only layers.",
+  "room": {
+    "file": "assets/RR_ROOM.webp",
+    "ticket": "1851-5",
+    "z": -3.9,
+    "height": 5.2,
+    "floorCut": 0.405,
+    "tone": 0.62,
+    "levels": "High and up only (gfxTier level 2+)",
+    "note": "16:9 marble cafe plate (Nik 29 Oct; back on High+ 2026-11-08). Softened 1.6 px and its edges fade into the room colour in the file itself; tone dims it at draw time so the table light stays the key light. floorCut = fraction of the picture hidden under the 3D floor"
+  },
   "boards": {
     "daniel": {
       "x": -1.08,

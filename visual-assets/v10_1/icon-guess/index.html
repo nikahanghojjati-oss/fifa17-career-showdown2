@@ -59,6 +59,8 @@ html.kb .packtitle { display: none; }
 /* r90 lean: the stage picture is picked by the layout (data-stage, set with the shape), so a screen only fetches its own one */
 #app[data-stage="wide"] .stage { background-image: url("assets/stage_desktop.webp"); }
 #app[data-stage="tall"] .stage { background-image: url("assets/stage_phone.webp"); }
+/* r90 HO-060: Team V's 4K master (same picture and geometry), only on a screen wider than 2560 device px at Extra and up */
+#app[data-stage="wide4k"] .stage { background-image: url("assets/stage_desktop_4k_V1.webp"); }
 
 /* ---------- top: PRIME PACK, the stage and its timer, then the result line ---------- */
 .top { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 6px); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -72,7 +74,10 @@ html.kb .packtitle { display: none; }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .ring circle { fill: none; stroke-width: 3.5; }
 .ring .track { stroke: rgba(255,240,200,.16); }
-.ring .left { stroke: var(--foil-2); stroke-linecap: round; }
+.ring .left { stroke: var(--foil-2); stroke-linecap: round; transition: stroke-dashoffset 250ms linear; }
+html[data-gfx="0"] .ring .left { transition-duration: 1000ms; }
+html.rm .ring .left { transition: none; }
+@media (prefers-reduced-motion: reduce) { .ring .left { transition: none; } }
 .ring.low .left { stroke: #ff9a6a; }
 .ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 20px/1 var(--cond); color: var(--foil-1); }
 .pill { font: 700 16px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 8px 14px 7px; border-radius: 999px;
@@ -255,6 +260,13 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 html.still *, html.still *::before, html.still *::after { transition: none !important; animation: none !important; }
 @media (prefers-reduced-motion: reduce) { .card .face::after { animation: none; } .chip { transition: none; } }
 html.rm .card .face::after { animation: none; }
+/* r90 M6: the page follows Settings 3D QUALITY (html[data-gfx], mirrored from the game page). Light: no looping sheen layer
+   and a tighter card shadow (cheaper raster). Balanced and High: the look as approved. Extra and up: a brighter, quicker sheen.
+   Timers, stages and points are the same at every level. */
+html[data-gfx="0"] .card .face::after { animation: none; display: none; }
+html[data-gfx="0"] .card::before { filter: drop-shadow(0 8px 12px rgba(0,0,0,.55)); }
+html[data-gfx="3"] .card .face::after, html[data-gfx="4"] .card .face::after, html[data-gfx="5"] .card .face::after {
+  background-image: linear-gradient(105deg, rgba(255,255,255,0) 38%, rgba(255,244,210,.3) 50%, rgba(255,255,255,0) 62%); animation-duration: 4.5s; }
 </style>
 </head>
 <body>
@@ -350,6 +362,15 @@ const QS = new URLSearchParams(location.search);
 const REDUCED = QS.get("rm")==="1" || (typeof matchMedia==="function" && matchMedia("(prefers-reduced-motion: reduce)").matches);
 const NAME_AFTER_MS = REDUCED ? 300 : 900;                          // the result: who won first, then the name
 if(REDUCED) document.documentElement.classList.add("rm");
+// r90 M6: the quality level the game page marks (js/gfxTier.js html[data-gfx]); ?gfx=N when the page runs on its own.
+function gfxLevelNow(){ try{ const p=window.parent!==window && window.parent.document && window.parent.document.documentElement; const v=p && p.dataset ? p.dataset.gfx : undefined; if(v!==undefined && v!=="") return v; }catch(_e){}
+  const q=QS.get("gfx"); return q!==null && /^[0-5]$/.test(q) ? q : "2"; }
+let gfxLive=false;
+function gfxMirror(){ const v=gfxLevelNow(), el=document.documentElement; if(el.dataset.gfx===v) return; el.dataset.gfx=v; if(gfxLive) try{ layoutStage(); }catch(_e){} }
+gfxMirror(); gfxLive=true;
+try{ const pr=window.parent!==window && window.parent.document && window.parent.document.documentElement;
+  if(pr && typeof MutationObserver==="function") new MutationObserver(gfxMirror).observe(pr,{ attributes:true, attributeFilter:["data-gfx"] });
+  if(window.parent!==window) window.parent.addEventListener("cms-gfx-level", gfxMirror); }catch(_e){}
 const $ = (id) => document.getElementById(id);
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const smooth = (a, b, x) => { const k=clamp((x-a)/(b-a),0,1); return k*k*(3-2*k); };
@@ -599,13 +620,15 @@ function fitViewport(){
 // with the two boxes inside the gold arcs, left and right of the card; tall screens use the phone plate with the boxes side
 // by side on the floor below the pedestal. Everything is placed from these numbers, so nothing covers anything at any size.
 const STAGE_ART = { wide:{ w:2560, h:1440, ped:.705, front:.05 }, tall:{ w:1179, h:2556, ped:.428, front:.036 } };
+// Which stage picture a wide screen gets: the 4K master past 2560 device px at Extra (3) and up, else the 2560 one.
+function wideStage(W){ return (W||innerWidth)*(window.devicePixelRatio||1)>2560 && Number(document.documentElement.dataset.gfx)>=3 ? "wide4k" : "wide"; }
 function layoutShape(w,h){ const W=w||$("app").clientWidth||innerWidth, H=h||$("app").clientHeight||innerHeight; return W/H < 1.05 || W < 120 + 2*(190+32+12) ? "tall" : "wide"; }
 function layoutStage(){
   const app=$("app"), W=app.clientWidth||innerWidth, H=app.clientHeight||innerHeight;
   // Wide only when it really fits: a card of at least 120 px plus both boxes (190 px each at least) and their gaps across the
   // width. A phone held upright with the keyboard open (e.g. 390x350) is wider than tall but keeps the phone layout.
   const tall = layoutShape(W,H)==="tall", art = tall ? STAGE_ART.tall : STAGE_ART.wide;
-  app.dataset.shape = app.dataset.stage = tall ? "tall" : "wide";
+  app.dataset.shape = tall ? "tall" : "wide"; app.dataset.stage = tall ? "tall" : wideStage(W);
   let s = Math.max(W/art.w, H/art.h), ped = (H-art.h*s)/2 + art.ped*art.h*s;
   const boxesH = tall ? Math.ceil($("guessbar").getBoundingClientRect().height) || 76 : 0;
   if(tall){
@@ -703,7 +726,7 @@ function render(){
     const pts=stagePoints(S.beat), st=S.stages[S.beat], left=guessLeft(t);
     beat.hidden=false; beat.textContent = `Stage ${S.beat+1} · ${pts} pt${pts===1?"":"s"}`; beat.classList.toggle("last", S.beat===LAST_BEAT);
     ring.hidden=false;
-    $("ringLeft").setAttribute("stroke-dashoffset", String(RING*(1-clamp(left/st.guessMs,0,1))));
+    $("ringLeft").style.strokeDashoffset = String(+(RING*(1-clamp(left/st.guessMs,0,1))).toFixed(2));
     $("ringNum").textContent=String(Math.ceil(left/1000)); ring.classList.toggle("low", left<5000);
   }
   paintCard(t);
@@ -719,7 +742,20 @@ function render(){
     if(!canType()) $("suggest").hidden=true;
   }
 }
-function frame(){ tickDriver(); render(); if(!frozen) requestAnimationFrame(frame); }
+// r90 M6/M17: the frame loop no longer rewrites the page every frame. A full render runs while something moves on the
+// page clock (a stage reveal, the pack opening, the name coming up); in the guessing window only when what is on screen
+// changes: the ring steps every 250 ms (1 s at Light; a CSS transition fills in between), the number once a second, and
+// any hook (a guess, a chip, a new stage) still renders at once.
+let frameKey = "";
+function frameNeeds(t){
+  if(!S.round) return "none";
+  if(S.result) return S.nameAt!==null && t<S.nameAt ? "r0" : "r1";
+  if(S.beat<0) return "w"+(S.waitingFor||"")+(S.countIn?1:0);
+  if(S.revealEndsAt!==null && t<S.revealEndsAt) return "a"+t;              // reveal and opening: every frame
+  const step = document.documentElement.dataset.gfx==="0" ? 1000 : 250;
+  return "g"+S.beat+":"+Math.ceil(guessLeft(t)/step)+":"+(canGuess()?1:0)+(canType()?1:0);
+}
+function frame(){ tickDriver(); const k=frameNeeds(now()); if(k!==frameKey){ frameKey=k; render(); } if(!frozen) requestAnimationFrame(frame); }
 
 /* ================= preview driver (no embed): plays a made-up round so the page can be looked at on its own =================
    The player is fictional, with made-up numbers: the page never carries real card data. SAMPLE_STAGES is a copy of the
@@ -806,7 +842,7 @@ window.__ig = {
    wait, at most 4 s), so the pack opening and the card frame no longer decode on the frame they first show */
 /* r90 lean (Nik 23:44 UTC): only the stage this screen shows is decoded up front (the wide one on a computer, the tall one on a
    phone), so neither device holds the other's 12-15 MB picture; turning a tablet loads the other one when it is needed */
-const ART = [layoutShape()==="tall"?"stage_phone":"stage_desktop","pack_sealed","pack_opening","card_frame","token_full","token_spent"].map(n=>"assets/"+n+".webp");
+const ART = [layoutShape()==="tall"?"stage_phone":wideStage()==="wide4k"?"stage_desktop_4k_V1":"stage_desktop","pack_sealed","pack_opening","card_frame","token_full","token_spent"].map(n=>"assets/"+n+".webp");
 const artReady = Promise.race([Promise.all(ART.map(src=>{ const im=new Image(); im.src=src; window.__igArt=(window.__igArt||[]).concat(im); return (im.decode?im.decode():Promise.resolve()).catch(()=>null); })), new Promise(r=>setTimeout(r,4000))]);
 artReady.then(()=>{ if(EMBED) toGame("cms-ig-ready", { reduced: REDUCED }); else startPreview(); });
 if(frozen){ manualMs=0; render(); } else requestAnimationFrame(frame);
