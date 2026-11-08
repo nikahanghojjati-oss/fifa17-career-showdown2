@@ -610,23 +610,9 @@ const V10_IMAGES={
     // HO-005 (V-243, factory 2daf437): phone overlays without the ghost coat
     "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp":"9c2bde331c0025b69d9122b0dc8e76200b914e2d10dc4e1f476525562f825193",
     "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp":"8b65513283e570a8a66a6de8762369f33354d751764e2dbf71f715338bddf374",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1.webp":"37ec183f8f282b0314fed20b1ee48cfc7c6c35b40cd88676ff7ee12bda3f7d68",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp":"3ad7b30b692ad37f4f366357a7515c7765ec7a11302bcce186b468a7772a68c5",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp":"e185a67497b0ce0340043ee5bc0e8efd35e8143679b806ad0a48d197885d7cf7",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_STORY_V1.webp":"41744296918d43d6f3ed2ea51781afe6ef821a74cf823b47b3786649a01c8ff0",
     // r90 W8: half-size copies of the Home pictures (same art, resized; picked by srcset/sizes in js/homeScreensV10.js).
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1_640W.webp":"dbf609b9c826e36ad277b74d1bd3f810b7b18a4d3808bfc3274d02d969304729",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1_170W.webp":"2e18d354c645c24fdffeff8970850d676a738d97be70f42f220f7a189221ac35",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1_256W.webp":"55ee10b71ed75c0d87e1828fdfbbbe4801ec868658aaeef7b66953a6a1cd2156",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1_256W.webp":"3cd8e29a05a8604075ce8978b94534171d0a0ec4aea615be43027d6d2404019e",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1_256W.webp":"8043d8caca73680b892dc48db5a37eb58b483604536f43e0175fb473b370ff73",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1_256W.webp":"d01579b38a60d77953689da46928c970b027749c9c2f4fe4978d1b63233f3cf2",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_STORY_V1_256W.webp":"aa3e9286dec052d53b6d103c86aae0653fd4bc69942c280a8af7772aa89d4cc4",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1_256W.webp":"0512544545823d92c0d581b98f8d545e55ef21e06fe9fe4736b79302643a1922",
     "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512_170W.webp":"f1cc7d72e6eac28e48fa7989c272c20729a79512ad09b77e70f70f2d161ca885",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp":"92364b627bfb2f42dc62610e69c548eef6f51b3a465fc036d962e6cb6f4aa3ff",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1.webp":"e331ed59ebd2d9e8512299a31b4f47b13cc685fd1eb037259a97eca9ec8abac0",
-    "visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1.webp":"148683d7a6ff038176c0f8a9cf599a36645a08f4361e59be25ded2095f5ae153",
     // job 26 (Start/Join, League wheel, Club packs): Team V 5e05a1f, unchanged
     "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
     "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",

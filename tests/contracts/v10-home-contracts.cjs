@@ -52,7 +52,10 @@ test("Home keeps every product id, button and text; the skin only decorates",()=
   assert.doesNotMatch(binder,/(?:continueCareer|newShowdown|legacyButton|careerStatisticsButton|ruleBookButton|settingsButton)["')\]][^\n]*(?:\.remove\(\)|replaceWith|outerHTML)/);
   assert.doesNotMatch(binder,/createElement\("button"\)[^\n]*trophyRoomButton|id="trophyRoomButton"/,"no second #trophyRoomButton (Career Statistics owns it)");
   assert.doesNotMatch(binder,/localStorage|sessionStorage|indexedDB/);
-  assert.equal(Home.TILE_ART.continueCareer,"TILE_CONTINUE_V1.webp","Continue shows Team V's number-17 player (owner, 2026-10-05)");
+  // r90 W9 (LOOK hunt L12): one hand-drawn line-icon set on every tile; Continue shows a drawn number-17 shirt, no photo.
+  assert.equal(Home.TILE_ICONS.continueCareer,"continue");
+  for(const id of ["newShowdown","legacyButton","careerStatisticsButton","homeTrophyRoomButton","homeStoryButton","ruleBookButton","settingsButton"])assert.ok(Home.ICON_PATHS[Home.TILE_ICONS[id]],id);
+  assert.doesNotMatch(binder,/home-tiles\/|TILE_[A-Z]+_V1/,"no tile render is fetched");
 });
 test("Daniel starts and Nik joins with the product's own copy (the binder never writes it)",()=>{
   assert.match(html,/START A SHOWDOWN/);
@@ -151,7 +154,7 @@ test("Home CSS/JS are precached; Home images use the revision-keyed runtime imag
   const images=[...binder.matchAll(/BASE\+"([^"]+\.webp)/g),...binder.matchAll(/\$\{BASE\}\$\{file\}/g)].length;
   assert.ok(images>0);
   const files=[...[...binder.matchAll(/pic\("[^"]+","([^"]+\.webp)"/g)].map(m=>m[1]),"home/assets/LOGO_CM17_WORDMARK_V1.webp",
-    ...Object.values(Home.TILE_ART).map(f=>"shared/art/home-tiles/"+f),...[...homeCss.matchAll(/url\("?(assets\/[^")]+\.webp)"?\)/g)].map(m=>"home/"+m[1])];
+...[...homeCss.matchAll(/url\("?(assets\/[^")]+\.webp)"?\)/g)].map(m=>"home/"+m[1])];
   for(const file of files){const full="visual-assets/v10_1/"+file;assert.ok(fs.existsSync(path.join(ROOT,full)),full);assert.ok(imageRule.test(full),full);}
   for(const m of homeCss.matchAll(/url\((\.\.\/shared\/fonts\/[^)]+\.woff2)\)/g))assert.ok(shell.has("visual-assets/v10_1/"+m[1].slice(3)),m[1]);
   assert.doesNotMatch(homeCss,/tr2\/slice-02-plate/,"fonts come from the shared kit");
@@ -161,8 +164,7 @@ test("Home shows all seven of Team V's tiles (Nik, 2026-10-05): Legacy and Stati
   assert.doesNotMatch(appCss,/#(?:legacyButton|careerStatisticsButton)[^{]*\{[^}]*display:none/,"Legacy and Statistics are not hidden");
   assert.match(appCss,/#rivalryStatisticsButton:not\(\[data-test-surface=internal-audit\]\)\{display:none!important\}/,"the dashboard's local Rivalry Statistics stays contained");
   assert.equal(Home.TROPHY_TILE.id,"homeTrophyRoomButton","Career Statistics keeps #trophyRoomButton");
-  assert.equal(Home.TROPHY_TILE.art,"shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp","Team V's Home frame art for Trophy Room");
-  assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/"+Home.TROPHY_TILE.art)));
+  assert.equal(Home.TILE_ICONS[Home.TROPHY_TILE.id],"homeTrophyRoomButton","r90 W9: Trophy Room carries the drawn cup of the Home icon set");
   assert.match(binder,/root\.openOptionalModule\("trophyRoom"\)/,"the tile opens the product's own Trophy Room route");
   const phone=adapter.split("/* ---------- phone portrait")[1];
   for(const id of ["continueCareer","newShowdown","legacyButton","careerStatisticsButton","homeTrophyRoomButton","ruleBookButton","settingsButton"])assert.match(phone,new RegExp(`#${id} \\{ grid-column`),id);

@@ -1232,3 +1232,26 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 @media (min-width: 901px) {
   html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app:has(#mainMenu.v10Home:not(.hidden)) > footer { background: transparent; border-top-color: transparent; }
 }
+
+/* r90 W9 (LOOK hunt L12): one hand-drawn line-icon set on every tile, flat gold on the marble (ink on the gold CONTINUE tile).
+   The boxes keep the sizes and places the tile pictures had at every window size; the icons are drawn, so they carry no
+   glow, no drop shadow and no 3D tilt on hover. */
+#mainMenu.v10Home .menuTile .tileIcon {
+  fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; overflow: visible;
+  color: var(--gold, #F2C45B); opacity: 1; filter: none; transform: none !important; transition: none;
+}
+#mainMenu.v10Home .menuTile:not(:disabled):hover .tileIcon { color: var(--gold-hi, #FFE08A); }
+#mainMenu.v10Home #continueCareer .tileIcon,
+#mainMenu.v10Home #continueCareer:disabled .tileIcon {
+  color: #3B2C0C; stroke-width: 1.5; top: 50% !important; bottom: auto !important; translate: 0 -50%;
+  right: 30px !important; width: auto !important; height: min(76%, 112px) !important; aspect-ratio: 1 / 1; filter: none;
+}
+#mainMenu.v10Home #continueCareer:not(:disabled):hover .tileIcon { color: #3B2C0C; }
+#mainMenu.v10Home #continueCareer .tileIcon { translate: 0 -50% !important; }
+/* Desktop windows: every small tile's icon is the same size, bottom right, clear of the chevron. */
+@media (min-width: 901px) and (min-height: 501px) {
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileIcon {
+    position: absolute !important; margin: 0 !important; top: auto !important; left: auto !important; right: 28px !important; bottom: 12px !important; translate: none !important;
+    width: var(--w9-icon) !important; height: var(--w9-icon) !important; --w9-icon: clamp(36px, calc(var(--tile-h, 158px) - 92px), 60px);
+  }
+}
