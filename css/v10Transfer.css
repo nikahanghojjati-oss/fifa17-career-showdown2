@@ -1139,6 +1139,30 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
    the painted sign), so "READY" ran through "15:00" (1920x906, 1200x900, 1024x768). While the clock shows, the status starts
    on its own rows under it: the sign's top padding + the clock's line box (--l07-clock) + a gap. On the painted sign (windows
    that do not get the gold board below) the clock is a little smaller so both fit on the sign. Sideways phones keep their band. */
+/* r90 L35 follow-up (Nik: nothing crowds at any size): on a small desktop picture (800x600, a 1180x620 window) the rules
+   card is 110-145 px wide and its 12 px floor labels MIN SIGNINGS GUESSES ran into each other (0-4 px apart). Under 140 px
+   of room the labels lose most of their tracking, under 118 px they go to 11 px; 1366x768 and up are unchanged. */
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
+  #app #transferChallenge .tw-host .rules-inner { container-type: inline-size; }
+  /* the note under the figures needs three to four lines at the 12 px floor, more than the plate's card holds on a small
+     picture (it ran 25-31 px out of the frame at 960x600 and 800x600): the window-phase card grows down to its content and
+     its gold frame is drawn on the card itself, so it follows. Where the content fits it is the plate's rect, as before. */
+  #app #transferChallenge .tw-host .world > .rules-card > .rules-inner.reg { height: auto; min-height: calc(var(--k) * var(--h) * 1px); isolation: isolate; }
+  #app #transferChallenge .tw-host .world > .rules-card::before { display: none; }
+  #app #transferChallenge .tw-host .world > .rules-card > .rules-inner.reg::before {
+    content: ""; position: absolute; z-index: -1; pointer-events: none; display: block; box-sizing: border-box;
+    left: calc(var(--k) * -14px); right: calc(var(--k) * -12px); top: calc(var(--k) * -35px); bottom: calc(var(--k) * -12px);
+    border: max(3px, calc(var(--k) * 5px)) solid transparent; border-radius: calc(var(--k) * 10px);
+    background: linear-gradient(180deg, #14110bf0, #070607f5 60%, #050506f8) padding-box, var(--tp-bevel) border-box;
+    box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 calc(var(--k) * 2px) #0a0907, 0 0 calc(var(--k) * 22px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 26px) #000b;
+  }
+  @container (max-width: 140px) {
+    #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: .02em; }
+  }
+  @container (max-width: 118px) {
+    #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: 0; font-size: 11px; }
+  }
+}
 @media (min-width: 761px) and (min-height: 501px) {
   #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(var(--k) * 28px); }
   #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"]:has(.sign-screen.is-live) .sign-status.reg:not(.full) {

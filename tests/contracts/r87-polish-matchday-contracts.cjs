@@ -192,6 +192,8 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   assert.ok(!/min-width: 1200px\) and \(min-height: 600px\) and \(min-aspect-ratio: 3\/2\)/.test(tw),'no window falls back to the TR2 plate');
   assert.match(tw,/\.transfer-wordmark \{ left: var\(--tw-wm-left, max\(/,'the title can move in from a cropped edge');
   assert.match(js,/beside=\(436-leftPlate\)\/400,above=Math\.min\(1,\(boardLeft-16-leftPlate\)\/400,\(97-topPlate\)\/\(400\*ratio\)\)/,'the title stays off Daniel\'s hair and the clock board');
+  assert.match(tw,/@container \(max-width: 140px\) \{\s*#app #transferChallenge \.tw-host \.rules-line \.stat-l \{ letter-spacing: \.02em; \}/,'small rules cards: the labels lose their tracking, not their gaps');
+  assert.match(tw,/\.world > \.rules-card > \.rules-inner\.reg \{ height: auto; min-height: calc\(var\(--k\) \* var\(--h\) \* 1px\);/,'the rules card grows to its note instead of spilling out of its frame');
   ok('L35','every desktop window draws the V2 Transfer War plate, title readable and off the faces (r90 LOOK round 3)');
 }
 console.log(`PASS r87 match-day polish contracts (${checks} checks)`);
