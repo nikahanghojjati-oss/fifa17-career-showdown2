@@ -149,9 +149,9 @@ check("5 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   assert.ok(!refs.includes("js/ssjr.js")&&!refs.includes("js/transferScreenV10.js"),"not a startup script");
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=33913,`startup gzip ${gzip} must stay <= 33913 (2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   assert.match(ssjr,/load\("v10-transfer","js\/transferScreenV10\.js",\(\)=>root\.CareerModeTransferScreenV10\)\.then\(\(\)=>root\.CareerModeTransferScreenV10\.install\(\)\)/);
-  assert.match(ssjr,/requestIdleCallback\(v10Transfer/);
+  assert.match(ssjr,/for\(const skin of \[[^\]]*v10Transfer[^\]]*\]\)afterHome\(skin\)/,"r90 W8: the skin loads after Home");
   const shell=new Set([...sw.matchAll(/^\s+"([^"]+)",?$/gm)].map(m=>m[1]));
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   for(const file of ["js/transferScreenV10.js","css/v10Transfer.css",DIR+"plate.css",DIR+"plate.js",DIR+"platemap.json"])assert.ok(shell.has(file),`shell lists ${file}`);

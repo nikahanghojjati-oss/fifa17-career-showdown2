@@ -614,6 +614,16 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp":"3ad7b30b692ad37f4f366357a7515c7765ec7a11302bcce186b468a7772a68c5",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp":"e185a67497b0ce0340043ee5bc0e8efd35e8143679b806ad0a48d197885d7cf7",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_STORY_V1.webp":"41744296918d43d6f3ed2ea51781afe6ef821a74cf823b47b3786649a01c8ff0",
+    // r90 W8: half-size copies of the Home pictures (same art, resized; picked by srcset/sizes in js/homeScreensV10.js).
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1_640W.webp":"dbf609b9c826e36ad277b74d1bd3f810b7b18a4d3808bfc3274d02d969304729",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1_170W.webp":"2e18d354c645c24fdffeff8970850d676a738d97be70f42f220f7a189221ac35",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1_256W.webp":"55ee10b71ed75c0d87e1828fdfbbbe4801ec868658aaeef7b66953a6a1cd2156",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1_256W.webp":"3cd8e29a05a8604075ce8978b94534171d0a0ec4aea615be43027d6d2404019e",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1_256W.webp":"8043d8caca73680b892dc48db5a37eb58b483604536f43e0175fb473b370ff73",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1_256W.webp":"d01579b38a60d77953689da46928c970b027749c9c2f4fe4978d1b63233f3cf2",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_STORY_V1_256W.webp":"aa3e9286dec052d53b6d103c86aae0653fd4bc69942c280a8af7772aa89d4cc4",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1_256W.webp":"0512544545823d92c0d581b98f8d545e55ef21e06fe9fe4736b79302643a1922",
+    "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512_170W.webp":"f1cc7d72e6eac28e48fa7989c272c20729a79512ad09b77e70f70f2d161ca885",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp":"92364b627bfb2f42dc62610e69c548eef6f51b3a465fc036d962e6cb6f4aa3ff",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1.webp":"e331ed59ebd2d9e8512299a31b4f47b13cc685fd1eb037259a97eca9ec8abac0",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1.webp":"148683d7a6ff038176c0f8a9cf599a36645a08f4361e59be25ded2095f5ae153",
@@ -959,7 +969,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=33913,`startup gzip ${gzip} must stay <= 33913 (2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   const ssjr=read("js/ssjr.js");
   assert.match(ssjr,/load\("v10-screens","js\/v10Screens\.js",\(\)=>root\.CareerModeV10Screens\)/,"loader starts lazily after start-up");
   assert.match(ssjr,/requestIdleCallback/);
