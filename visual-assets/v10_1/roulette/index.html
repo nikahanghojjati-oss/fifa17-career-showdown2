@@ -56,7 +56,7 @@ body.ready .boot { opacity: 0; visibility: hidden; }
 .title::before { content: attr(data-t); position: absolute; inset: 0; color: transparent; -webkit-text-stroke: 2px #2a1c05; filter: drop-shadow(0 2px 0 #120c02) drop-shadow(0 8px 14px rgba(0,0,0,.55)); z-index: -1; }
 .title::after { content: attr(data-t); position: absolute; inset: 0; color: transparent; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.95) 48%, transparent 56%) no-repeat; background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; animation: shine 5s ease-in-out infinite; }
 @keyframes shine { 0%, 55% { background-position: 130% 0; } 100% { background-position: -30% 0; } }
-@media (prefers-reduced-motion: reduce) { .title::after { animation: none; } .boot { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .title::after { animation: none; } .boot, .top { transition: none; } }   /* r90 L38: under Reduce Motion the loading line and the title switch at ready with no fade */
 /* centre column: result line + button */
 /* r90 LOOK L08: the words live in the bottom strip, above the panel, never over the revolver */
 .mid { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); transform: translateX(-50%); width: 440px; text-align: center; pointer-events: auto; }
