@@ -5,20 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r89 Kits 17 (Nik 2026-11-04: "the player wears the penalty taker's team's kit ... high fidelity ... for all 98 teams ... the same
-  // kit can be used in Russian Roulette as well"). Every club's 2016-17 HOME kit as FIFA 17 shows it, and a keeper kit that never
-  // clashes, painted in canvas at runtime (no image files, any size). Club crests come from getClubCrestSvg (js/visualIdentity.js):
-  // our own drawings, never lettering. No sponsor words, no maker logos.
-  //
-  // UV layout ("wrap", the same as a LatheGeometry body): u runs around the body, front centre at u=0.5, back centre at u=0 and 1;
-  // u rises toward the wearer's LEFT (viewed from the front the texture reads left to right). v=0 is the hem, v=1 the neck.
-  // Sleeves: u around the arm (u=0.5 the front of the arm), v=0 cuff, v=1 shoulder. Shorts: one wrap around the hips, v=0 hem,
-  // v=1 waistband. Socks: v=0 ankle, v=1 top. Normal map: one tileable knit (repeat it ~24 x 12 on the shirt).
-  //
-  // API: kit(club) -> data (shirt, shorts, socks, collar, dominant); keeperKit(club,vsClub) -> the keeper's kit;
-  // textures(club,{role:"outfield"|"gk",vsClub,size:"full"|"phone"|"small",number,name}) -> {shirt,sleeveL,sleeveR,shorts,socks,
-  // normal,material,ready}; await ready before uploading (the crest is an SVG image); drawFlat(ctx,club,x,y,s,opts) draws a
-  // front-view (or back-view, opts.back) shirt for 2D boards; prepare(clubs) preloads crests for drawFlat.
+  // Kits 17 (r89): every club's 2016-17 HOME kit as FIFA 17 shows it, for all 98 clubs, plus a keeper kit that never clashes, painted in canvas at runtime (no image files, any size), shared by Chamber Men and Russian Roulette. Crests come from getClubCrestSvg (js/visualIdentity.js): our own drawings, never lettering. No sponsor words, no maker logos.
+  // UV ("wrap", as a LatheGeometry body): u runs around the body (front centre 0.5, back centre 0 and 1) and rises toward the wearer's LEFT; v=0 hem, v=1 neck. Sleeves: u around the arm (0.5 the front), v=0 cuff, v=1 shoulder. Shorts: one wrap around the hips, v=0 hem, v=1 waistband. Socks: v=0 ankle, v=1 top. Normal map: one tileable knit (repeat it ~24 x 12 on the shirt).
+  // API: kit(club) -> {shirt,shorts,socks,collar,dominant}; keeperKit(club,vsClub); textures(club,{role:"outfield"|"gk",vsClub,size:"full"|"phone"|"small",number,name}) -> {shirt,sleeveL,sleeveR,shorts,socks,normal,material,ready}; await ready before uploading (the crest is an SVG image).
+  // drawFlat(ctx,club,x,y,s,opts) draws a front-view (or back-view, opts.back) shirt for 2D boards; prepare(clubs) preloads crests for drawFlat.
 
   // [pattern, body, second colour, sleeves (null: the pattern runs over the sleeves), trim] (r90: the only kit table; the roulette and SP copies are gone)
   // + [shorts, socks, sock top, collar]. Colour tokens: p body, s second, t trim, w white, k black, or a hex.

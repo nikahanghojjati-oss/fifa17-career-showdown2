@@ -5,28 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r88 Chamber Men, the season step (Nik 2026-11-02; design https://claude.ai/artifact/KzN1uypy5EZhLx8C4AiQMK; rules in
-  // js/chamberMen.js). Every season of a Showdown confirmed from the r88 release on, before Roster Russian Roulette, both
-  // phones play a 7-round shootout, turn by turn (Nik 2026-11-03: "No one does both at the same time"). Each round has two
-  // kicks: kick A Daniel shoots and Nik keeps, kick B Nik shoots and Daniel keeps. On each kick the shooter's phone shows
-  // only YOU SHOOT and "Pick your shot", the keeper's only YOU KEEP and "Pick your dive" (Left, Middle, Right); each locks
-  // in; once both are in, both phones show that kick (the shot, the dive, GOAL or SAVED), then the next kick. Each manager
-  // takes exactly 7 shots. His k-th shot fills chamber k of the rival's cylinder (goal = live round). The roulette then
-  // spins with those cylinders (js/rosterRoulette.js loaded chambers).
-  //
-  // What the phones share is one small record, rivalries/{rid}/chamberMenRounds/season_N (Rules: the season-results
-  // fragment): each manager's pick string, one letter per kick (his shot on a kick he takes, his dive on a kick he keeps),
-  // which only ever grows by his own letter for the kick on now, and only while he is not ahead of the other manager. A
-  // kick shows only once both letters are in, so nobody sees the other's pick first. One phone never sends the other
-  // manager's pick: when this manager's own clock runs out, his own phone sends "-" for that kick, even
-  // when a side was chosen but not locked in (Codex #1232): a "-" shot misses, a "-" dive stays in the middle.
-  // Clock: 10 s on the Transfer Challenge's server clock, started on a manager's phone when the rival has locked in for that
-  // kick (and that phone has finished showing the last kick), so nobody is timed out while the other is still on his way.
-  // The deadline is tied to the rival's lock-in time on the server, so reopening the screen never resets it.
-  //
-  // Reads: one listener on the round record while the screen is open (each of the 28 letters is one delivery per phone),
-  // one transaction read per letter this phone sends (14 a season). A finished shootout is kept on this phone, so the
-  // roulette needs no read for it.
+  // Chamber Men season step (r88; rules js/chamberMen.js; design https://claude.ai/artifact/KzN1uypy5EZhLx8C4AiQMK). Before Roster Russian Roulette both phones play 7 rounds turn by turn: kick A Daniel shoots and Nik keeps, kick B the reverse. Each phone shows only its own role (YOU SHOOT / YOU KEEP), and a kick is revealed once both picks are in. A manager's k-th shot fills chamber k of the rival's cylinder (goal = live round).
+  // Shared record rivalries/{rid}/chamberMenRounds/season_N (Rules: season-results fragment): one pick letter per kick per manager, appended only by its owner, only for the kick on now and never ahead of the rival. A phone never sends the rival's pick; on its own timeout it sends "-" (the shot misses, the dive stays in the middle), even when a side was chosen but not locked in (Codex #1232).
+  // Clock: 10 s on the Transfer Challenge server clock, started on a phone once the rival has locked in for that kick and this phone has finished showing the last kick; the deadline hangs on the rival's server lock-in time, so reopening the screen never resets it.
+  // Reads: one listener while the screen is open (each of the 28 letters is one delivery per phone) plus one transaction read per letter this phone sends (14 a season); a finished shootout is kept on this phone, so the roulette needs no read for it.
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
   const DONE_KEY="careerModeShowdown.chamberMenDone.v2",KEPT_KEY="careerModeShowdown.chamberMenKicks.v2",KEYS_MAX=60,SCHEMA=2;

@@ -1,25 +1,10 @@
 (function(root){
   "use strict";
 
-  // r90 one quality system for every 3D screen (Nik 2026-11-07: "you should really adapt to your computer. If I'm running
-  // on a Chromebook, it should run great. If someone is on a high-end PC, it should be like much quality, 4K").
-  // Plain script, no imports: the root page and the roulette page (../../../js/gfxTier.js) load the same file.
-  //
-  //   const p=CareerModeGfxTier.profile();                 // before the WebGLRenderer: antialias is fixed at context creation
-  //   const renderer=new THREE.WebGLRenderer({antialias:p.antialias,...});renderer.setPixelRatio(p.pixelRatio);
-  //   await CareerModeGfxTier.calibrate(renderer,()=>renderer.render(scene,camera));   // behind the loading screen (skipped on software GL)
-  //   const gov=CareerModeGfxTier.governor(renderer,{key:"chamber",draw:()=>renderer.render(scene,camera),onChange(p){...}});
-  //     (draw is optional: without it the governor only steps down)
-  //   each frame: gov.frame(now);  between beats: gov.hold(false);  on dispose: gov.end();
-  //   CareerModeGfxTier.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles}));  // ?fps=1 only
-  //
-  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (only when picked: always the screen's native
-  // size, so a 4K or 8K screen is sharp, and up to 2x past it while the buffer stays within 3840x2160), 5 8k (only when
-  // picked, only on a GPU with a 7680 px buffer, never a phone: up to 4x past native within 7680x4320; a lost context or a
-  // refused buffer falls back to ultra, said in the ?fps=1 overlay). Auto never picks ultra or 8k and never renders
-  // above devicePixelRatio. A picked level is held as picked (the governor moves only Auto). Scene knobs (crowd, bloom, shadow
-  // size) read the profile; the governor only moves the pixel ratio, steps down when frames run long, steps up only after
-  // a timed frame shows room, and never goes back to a step that ran slow (no see-saw).
+  // One quality system for every 3D screen (r90): adapt to the device, so a Chromebook runs smooth and a high-end PC gets up to 4K. Plain script, no imports: the root page and the roulette page (../../../js/gfxTier.js) load the same file.
+  // Use: p=profile() before the WebGLRenderer (antialias is fixed at context creation), then setPixelRatio(p.pixelRatio); await calibrate(renderer,draw) behind the loading screen (skipped on software GL); gov=governor(renderer,{key,draw,onChange}) (without draw it only steps down), then gov.frame(now) each frame, gov.hold(false) between beats, gov.end() on dispose; overlay(()=>({calls,tris})) shows only with ?fps=1.
+  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (picked only: native size, up to 2x past it within 3840x2160), 5 8k (picked only, on a GPU with a 7680 px buffer, never a phone: up to 4x past native within 7680x4320; a lost context or refused buffer falls back to ultra, said in the ?fps=1 overlay). Auto never picks ultra or 8k and never renders above devicePixelRatio.
+  // A picked level is held as picked (the governor moves only Auto). Scene knobs (crowd, bloom, shadow size) read the profile; the governor only moves the pixel ratio: down when frames run long, up only after a timed frame shows room, never back to a step that ran slow (no see-saw).
   const KEY="careerModeShowdown.gfxQuality.v1";
   const CHOICES=["auto","light","medium","high","extra","ultra","8k"];
   const NAMES=["light","medium","high","extra","ultra","8k"];

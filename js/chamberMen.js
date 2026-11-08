@@ -5,23 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r88 Chamber Men (Nik 2026-11-02 13:53 UTC, name and rule; design https://claude.ai/artifact/KzN1uypy5EZhLx8C4AiQMK):
-  // every season, before Roster Russian Roulette, the two managers take a 7-round penalty shootout against each other.
-  // Turn by turn (Nik 2026-11-03: "In each turn one player shoots and the other dives, then the other player shoots and the
-  // first one dives. No one does both at the same time."): each round has two kicks. Kick A: Daniel (playerOne, the
-  // Showdown starter) shoots and Nik keeps; kick B: Nik shoots and Daniel keeps. So the 14 kicks go Daniel, Nik, Daniel, ...
-  // On each kick the shooter only picks his shot and the keeper only picks his dive (Left, Middle, Right). A kick is a goal
-  // when the shot and the keeper's dive differ. Each manager always takes exactly 7 shots (no early finish). Kick k of a
-  // manager (his k-th shot) fills chamber k of the RIVAL's roulette cylinder: a goal is a live round, a miss an empty
-  // chamber. The roulette then spins once as before and fires only on a live round, so the chance a manager loses a player
-  // is the rival's goals out of 7. No Showdown points: the 15-a-season total is unchanged.
-  // penaltymen.com (the inspiration) is not open source: nothing of it is copied, only the pick-a-corner idea.
-  //
-  // This file is the pure part: the pick format, the scoring and the cylinders. No read, no write, no clock.
-  // The shared record (js/chamberMenStep.js) keeps each manager's picks as one string, one letter per kick (14 at most):
-  // on a kick he shoots it is his shot, on a kick he keeps it is his dive; each one of L M R, or "-" when his own clock ran
-  // out (a "-" shot is a miss, a "-" dive stays in the middle). A string only ever grows by one kick, never runs more than
-  // one kick ahead of the other, and is never changed (the Rules bind all three).
+  // Chamber Men rules (r88; design https://claude.ai/artifact/KzN1uypy5EZhLx8C4AiQMK): every season, before Roster Russian Roulette, a 7-round penalty shootout turn by turn. Kick A: Daniel (playerOne, the starter) shoots and Nik keeps; kick B: the reverse, so the 14 kicks go Daniel, Nik, Daniel, ...; no one shoots and keeps at the same time.
+  // The shooter picks a shot, the keeper a dive (Left, Middle, Right); a goal when they differ. Each manager always takes 7 shots (no early finish); his k-th shot fills chamber k of the RIVAL's cylinder (goal = live round, miss = empty), so the roulette, which spins once and fires only on a live round, takes a player with chance rival goals / 7. No Showdown points (the 15-a-season total is unchanged). Only the pick-a-corner idea comes from penaltymen.com (not open source); nothing is copied.
+  // This file is the pure part (pick format, scoring, cylinders): no read, write or clock. The shared record (js/chamberMenStep.js) keeps each manager's picks as one string, one letter per kick (14 at most): his shot on kicks he takes, his dive on kicks he keeps; each L, M or R, or "-" when his own clock ran out (a "-" shot misses, a "-" dive stays in the middle).
+  // A string only ever grows by one kick, never runs more than one kick ahead of the other, and is never changed (the Rules bind all three).
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),OTHER=Object.freeze({playerOne:"playerTwo",playerTwo:"playerOne"});
   const ROUNDS=7,KICKS_TOTAL=14,CHAMBERS=7,MAX_SEASONS=10;
