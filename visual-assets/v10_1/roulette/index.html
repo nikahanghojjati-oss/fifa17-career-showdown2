@@ -714,7 +714,16 @@ let KITS=null;
 const CRESTS=new Map(); const crestNow=n=>{ const c=CRESTS.get(n); return c&&c.img||null; };
 function crestLoad(n){ if(CRESTS.has(n)) return CRESTS.get(n).p; const e={img:null}; e.p=new Promise(res=>{ let svg=null; try{ svg=typeof window.getClubCrestSvg==="function"?window.getClubCrestSvg(n):null; }catch(_e){} if(!svg) return res(null);
   if(!/xmlns=/.test(svg)) svg=svg.replace("<svg","<svg xmlns=\"http://www.w3.org/2000/svg\""); const im=new Image(); im.onload=()=>{ e.img=im; res(im); }; im.onerror=()=>res(null); im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg); }); CRESTS.set(n,e); return e.p; }
-function kitShirt(ctx,x,y,s,club,pos,vsClub){ if(KITS){ try{ KITS.drawFlat(ctx,club.club,x,y,s,{role:pos==="GK"?"gk":"outfield",vsClub}); return; }catch(e){} } const a=club.kit||["#8a8f98","#ffffff","#ffffff"]; ctx.save(); ctx.translate(x,y); ctx.scale(s,s); ctx.beginPath(); ctx.moveTo(-.2,-.5); ctx.quadraticCurveTo(0,-.42,.2,-.5); ctx.lineTo(.46,-.42); ctx.lineTo(.68,-.1); ctx.lineTo(.42,0); ctx.lineTo(.39,.5); ctx.quadraticCurveTo(0,.55,-.39,.5); ctx.lineTo(-.42,0); ctx.lineTo(-.68,-.1); ctx.lineTo(-.46,-.42); ctx.closePath(); ctx.fillStyle=pos==="GK"?"#2fb0a8":a[0]; ctx.fill(); ctx.lineWidth=.035; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(); ctx.restore(); }
+/* r90 MOTION: a shirt is painted once per club, role and size and then stamped. Each board is drawn several times while the
+   screen loads (first pass, again once the kits and crests are in, the shot frames for each turn), and the painted shirt costs
+   seconds in total on a slow CPU. Cleared when the kits or crests arrive, so the stamp never misses a crest. */
+const SHIRTS=new Map();
+function kitShirt(ctx,x,y,s,club,pos,vsClub){ if(KITS){ try{ const role=pos==="GK"?"gk":"outfield", k=ctx.getTransform().a||1, sh=ctx.shadowColor+"/"+ctx.shadowBlur+"/"+ctx.shadowOffsetX+"/"+ctx.shadowOffsetY,
+      key=club.club+"|"+role+"|"+(vsClub||"")+"|"+s+"|"+k+"|"+sh; let c=SHIRTS.get(key);
+    if(!c){ const pad=Math.ceil(s*.8); c=document.createElement("canvas"); c.width=c.height=Math.ceil(pad*2*k); const g=c.getContext("2d"); g.setTransform(k,0,0,k,0,0);
+      g.shadowColor=ctx.shadowColor; g.shadowBlur=ctx.shadowBlur; g.shadowOffsetX=ctx.shadowOffsetX; g.shadowOffsetY=ctx.shadowOffsetY;   /* the board's shadow state, as the shirt was painted under it */
+      KITS.drawFlat(g,club.club,pad,pad,s,{role,vsClub}); c.__pad=pad; SHIRTS.set(key,c); }
+    const p=c.__pad; ctx.save(); ctx.shadowColor="transparent"; ctx.drawImage(c,Math.round((x-p)*k)/k,Math.round((y-p)*k)/k,c.width/k,c.height/k); ctx.restore(); return; }catch(e){} } const a=club.kit||["#8a8f98","#ffffff","#ffffff"]; ctx.save(); ctx.translate(x,y); ctx.scale(s,s); ctx.beginPath(); ctx.moveTo(-.2,-.5); ctx.quadraticCurveTo(0,-.42,.2,-.5); ctx.lineTo(.46,-.42); ctx.lineTo(.68,-.1); ctx.lineTo(.42,0); ctx.lineTo(.39,.5); ctx.quadraticCurveTo(0,.55,-.39,.5); ctx.lineTo(-.42,0); ctx.lineTo(-.68,-.1); ctx.lineTo(-.46,-.42); ctx.closePath(); ctx.fillStyle=pos==="GK"?"#2fb0a8":a[0]; ctx.fill(); ctx.lineWidth=.035; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(); ctx.restore(); }
 function loadScript(src){ return new Promise(res=>{ const el=document.createElement("script"); el.onload=()=>res(true); el.onerror=()=>res(false); el.src=src; document.head.appendChild(el); }); }
 async function loadKits(){ if(KITS||window.CareerModeKits17) return KITS=window.CareerModeKits17||KITS; const v=qs.get("v"), ver=v?"?v="+encodeURIComponent(v):"";
   /* the game serves these two with its own version (same ?v as this page), so the service worker hands out the cached shell copies offline */
@@ -816,7 +825,7 @@ let prepared={};
 function setBoards(dClub,nClub){ if(!SQUADS) return; const d=clubByName(dClub), n=clubByName(nClub); prepared={}; boards.D.userData.hit=null; boards.N.userData.hit=null; boards.D.userData.club=d; boards.N.userData.club=n; drawBoard("D",d); drawBoard("N",n);
   /* r89 Kits 17: the crests decode in a moment; the boards are drawn again with them unless a turn has started or the clubs changed meanwhile */
   const done=()=>{ ["D","N"].forEach(k=>{ try{ renderer.initTexture(boards[k].userData.canvas.__tex); }catch(e){} }); prepareHits(); };
-  if(KITS) Promise.all([KITS.prepare([d.club,n.club]),crestLoad(d.club),crestLoad(n.club)]).then(()=>{ if(playing||boards.D.userData.club!==d||boards.N.userData.club!==n) return; drawBoard("D",d); drawBoard("N",n); done(); }).catch(()=>{}); else done(); }
+  if(KITS) Promise.all([KITS.prepare([d.club,n.club]),crestLoad(d.club),crestLoad(n.club)]).then(()=>{ if(playing||boards.D.userData.club!==d||boards.N.userData.club!==n) return; SHIRTS.clear(); drawBoard("D",d); drawBoard("N",n); done(); }).catch(()=>{}); else done(); }
 /* r90: in the game both turns are known when the page is set up, so a shot's hole-and-stamp board is drawn and sent to the GPU while
    the managers are still reading the screen, not at the tap (startTurn falls back to drawing it then if the tap comes first) */
 function prepareHits(){ if(!GAME||turn>0) return; GAME.turns.forEach((o,t)=>{ if(!o||o.fire!==true) return; const who=ORDER[t], b=boards[who].userData, plan=rrPlanTurn(o,b.bubbles); if(plan) prepared[t]=boardFrames(who,plan.pick,true); }); }

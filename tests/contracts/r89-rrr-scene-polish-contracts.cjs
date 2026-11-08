@@ -211,6 +211,8 @@ ok('P10','MOTION: local fonts, Opus cues in parallel with a WAV fallback, batche
   assert.doesNotMatch(html,/"FORMATIONS"|"INSTRUCTIONS"|"TACTICS"|BENCH · /,'L10 no fake FIFA menu tabs and no bench count line on the board');
   has(/const crest=crestNow\(club\.club\)/,'L10 the board header draws the club crest');
   has(/Promise\.all\(\[KITS\.prepare\(\[d\.club,n\.club\]\),crestLoad\(d\.club\),crestLoad\(n\.club\)\]\)/,'L10 the boards are drawn again once kits and crests are ready');
+  has(/const SHIRTS=new Map\(\);/,'L10 MOTION a board shirt is painted once per club, role, size, scale and shadow, then stamped');
+  has(/SHIRTS\.clear\(\); drawBoard\("D",d\); drawBoard\("N",n\);/,'L10 MOTION the stamps are painted again once kits and crests are in');
   has(/if\(!KITS\) loads\.then\(done=>\{[^\n]*turn===0&&!playing\) setBoards\(d\.club,n\.club\);/,'L10 kits that land after the 6 s wait still reach the boards before the first turn');
   const hq=html.slice(html.indexOf('if(HIGH_UP){ const lampTex'),html.indexOf('if(EXTRA_UP){ const top=mat('));
   assert.match(hq,/const sides=new T\.Group\(\);[\s\S]*bake\(sides\); \}$/m,'L28 the side walls and their lamps are built from High up, baked');
