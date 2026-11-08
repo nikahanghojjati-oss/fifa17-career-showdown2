@@ -165,8 +165,8 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 /* Desktop and laptops: NEXT_STANDINGS framing (full gold frame, filled active scope, gold row rules). Board geometry stays Team V's. */
 @media (min-width:901px){
   #app #standings.standingsScreenV10 .sdg-board.sd-panel{border:2px solid #ddb747;box-shadow:inset 0 0 0 2px #6a4c13,inset 0 0 22px rgba(215,161,28,.12),0 12px 32px rgba(0,0,0,.5),0 0 10px rgba(231,185,67,.2)}
-  #app #standings.standingsScreenV10 .sdg-toggle button[aria-selected="true"]{background:linear-gradient(180deg,#ffe38a,#c99420);color:#15110a;box-shadow:inset 0 0 0 1px #ffe9a0}
-  #app #standings.standingsScreenV10 .sdg-toggle button:not([aria-selected="true"]):hover{background:rgba(242,196,91,.12)}
+  /* r90 W9 (LOOK hunt L22): THIS SHOWDOWN | CAREER are flat underline tabs like the top nav (showdown-ui.css .sd-tabs), not a gold pill. */
+  #app #standings.standingsScreenV10 .sdg-toggle button:not([aria-selected="true"]):hover{color:#f6efd8}
   #app #standings.standingsScreenV10 .sdg-row{border-top-color:rgba(214,176,70,.55)}
   #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(13px,1.05vw,17px);color:#d9d4c6}
   #app #standings.standingsScreenV10 .sdg-rows{margin-bottom:14px}
@@ -206,8 +206,6 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     -webkit-backdrop-filter:none;backdrop-filter:none;
     box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 calc(var(--sgu) * 3) #0a0907,inset 0 0 0 calc(var(--sgu) * 4) #d9aa3cb0,0 0 calc(var(--sgu) * 30) #f0c84b66,0 calc(var(--sgu) * 14) calc(var(--sgu) * 34) #000c;
   }
-  #app #standings.standingsScreenV10 .sdg-toggle{border:2px solid #d9aa3c;border-radius:calc(var(--sgu) * 8);overflow:hidden;background:#07080a}
-  #app #standings.standingsScreenV10 .sdg-toggle button[aria-selected="true"]{background:linear-gradient(180deg,#fff0a6 0,#f8d764 22%,#e4b032 56%,#f4cf58 82%,#c98f1c 100%);box-shadow:inset 0 1px 0 #fffbe0,inset 0 -2px 0 #a87a1288;color:#1a1305}
   #app #standings.standingsScreenV10 .sdg-row{border-top:1px solid #c9983a99}
   /* the plate paints its own crown above the title; the live crown would stack a second one (compact titles keep theirs) */
   @media (min-height:701px) and (max-aspect-ratio:2/1){#app #standings.standingsScreenV10 .sdg-header .sd-eyebrow::before{display:none}}

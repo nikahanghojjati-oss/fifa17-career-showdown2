@@ -1545,7 +1545,10 @@
   // sizes.
   const CAREER_POLISH_R87B_CSS=String.raw`
 #app #careerStatistics.careerScreenV10 .headlinePair small {font-size:max(10px,.66vw);font-weight:800;letter-spacing:.04em}
-#app #careerStatistics.careerScreenV10 .headlinePair small:first-of-type {color:#5cb9eb}
+#app #careerStatistics.careerScreenV10 .headlinePair small:first-of-type {color:#e4dfd2}
+/* r90 W9 (LOOK hunt L17): Daniel is silver and Nik gold on the comparison bars too; no blue in the black-and-gold game. */
+#app #careerStatistics.careerScreenV10 .compareRow .dValue {color:#e4dfd2}
+#app #careerStatistics.careerScreenV10 .compareTrack .danielBar {background:#cfc9bb}
 #app #careerStatistics.careerScreenV10 .headlinePair small:last-of-type {color:#f0d900}
 #app #careerStatistics.careerScreenV10 .leaderCard::after {content:none}
 @media (max-width:760px) and (orientation:portrait) {
