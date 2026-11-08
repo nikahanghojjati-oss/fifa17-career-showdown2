@@ -241,7 +241,9 @@
   // goal.dropScene() is kept for callers that give up on the scene outright (the drawn goal shows at once).
   function cmsScene(goal){
     if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
-    let late=false,cut=null;
+    // settled: the mount has answered (a scene or none); a box never waits after that (Codex #1325: no WebGL2 answers null
+    // before the rival's pick arrives, and the panel would hide the drawn goal until the cap).
+    let late=false,settled=false,cut=null;
     // BUGS hunt BUG-05: a scene given up is aborted, not only flagged: its downloads stop and the mount builds nothing more.
     const stop=typeof root.AbortController==="function"?new root.AbortController():null;
     const wait=on=>{goal.box.classList.toggle("cm3d-wait",Boolean(on));};
@@ -249,13 +251,14 @@
     const dropped=new Promise(resolve=>{cut=resolve;});
     goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};
     // The clock started before the scene: the box waits for it (the step calls this when it shows the stage early).
-    goal.awaitScene=()=>{if(!goal.scene&&!late)wait(true);};
+    goal.awaitScene=()=>{if(!goal.scene&&!late&&!settled)wait(true);};
     const script=()=>cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d));
     const made=script().catch(()=>late?false:script()).then(ok=>ok&&!late?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs,signal:stop?.signal}):null).then(scene=>{
+      settled=true;
       if(!scene){wait(false);return null;}
       if(late){try{scene.dispose();}catch(_error){}return null;}
       goal.scene=scene;cmsSync(goal);wait(false);return scene;
-    },()=>{wait(false);return null;});
+    },()=>{settled=true;wait(false);return null;});
     return Promise.race([made,dropped,cmsWait(SCENE_CAP_MS).then(()=>{if(!goal.scene)giveUp();return null;})]);
   }
   // A scene that mounts late takes the lineup on screen and, when a kick was revealed while it loaded, that kick at its end

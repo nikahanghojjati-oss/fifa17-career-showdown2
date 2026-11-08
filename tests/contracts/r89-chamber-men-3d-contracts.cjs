@@ -62,7 +62,7 @@ async function c3d2(){
   assert.match(step,/const made=script\(\)\.catch\(\(\)=>late\?false:script\(\)\)/,"the scene script is fetched once more before the drawn goal");
   assert.match(scene,/const T=await loadEngine\(\)\.catch\(\(\)=>off\(\)\?null:loadEngine\(\)\);/,"the engine is fetched once more");
   assert.match(scene,/if\(!extras&&!off\(\)\)\{pre=cm3Prefetch\(Q\.assets,opts&&opts\.clubs\);extras=await cm3Extras\(T,Q,pre\);\}/,"the stadium and players are fetched once more");
-  assert.match(step,/\.then\(scene=>\{[\s\S]*?\},\(\)=>\{wait\(false\);return null;\}\);/,"a load fault leaves the SVG goal");
+  assert.match(step,/\.then\(scene=>\{[\s\S]*?\},\(\)=>\{settled=true;wait\(false\);return null;\}\);/,"a load fault leaves the SVG goal");
   assert.match(scene,/catch\(error\)\{[\s\S]*?return null;\s*\}/,"a fault while building the scene leaves the SVG goal");
   ok("C3D2","the SVG goal only for no WebGL2, the kill switch, a fault after one retry, or past the 90 s cap; a slow scene is waited for");
 }
@@ -85,7 +85,7 @@ async function c3d2(){
   // Codex C2: a running pick clock never waits on the scene. r90 Light: the stage shows with the picks live and the box
   // holds a loading panel (never the drawn goal) until the scene lands, synced to the lineup and any revealed kick.
   assert.match(step,/if\(clock&&!stageShown\)\{ui\.goal\.awaitScene\?\.\(\);showStage\(\);\}/,"Codex C2: a running pick clock never waits on the scene");
-  assert.match(step,/goal\.awaitScene=\(\)=>\{if\(!goal\.scene&&!late\)wait\(true\);\};/,"the box waits for the scene");
+  assert.match(step,/goal\.awaitScene=\(\)=>\{if\(!goal\.scene&&!late&&!settled\)wait\(true\);\};/,"the box waits for the scene, never once the mount has answered");
   assert.match(step,/goal\.scene=scene;cmsSync\(goal\);wait\(false\);return scene;/,"the late scene takes the box at what the screen shows");
   assert.match(css,/#cmStage \.cmGoalBox\.cm3d-wait \.cmGoal \{ visibility: hidden; \}/,"the drawn goal never shows while the box waits");
   assert.match(css,/#cmStage \.cmGoalBox\.cm3d-wait::after \{\s*content: "LOADING CHAMBER MEN";/,"the box says it is loading");
@@ -319,6 +319,8 @@ const c3d17=(async()=>{
   {const r=await run({mount:later(120,{dispose(){}})});r.goal.awaitScene();assert.ok(r.classes.has("cm3d-wait"),"the box waits while the clock runs");
     const scene=await r.ready;assert.ok(scene&&r.goal.scene===scene,"a slow scene is taken, not dropped");assert.ok(!r.classes.has("cm3d-wait"),"the panel goes when it lands");assert.deepEqual(r.log,["load:true","mount","sync:true"],"synced to what the screen shows");}
   {const r=await run({mount:later(10,null)});r.goal.awaitScene();assert.equal(await r.ready,null,"no 3D (no WebGL2 or a fault): null");assert.ok(!r.classes.has("cm3d-wait"),"the SVG goal shows");}
+  // Codex #1325: no 3D answered before the rival's pick arrives: the clock starting later never puts the panel up.
+  {const r=await run({mount:later(5,null)});assert.equal(await r.ready,null);r.goal.awaitScene();assert.ok(!r.classes.has("cm3d-wait"),"a settled mount never waits again");}
   {const r=await run({mount:later(10,{dispose(){}}),loads:[false,true]});assert.ok(await r.ready,"a failed script load is fetched once more");assert.deepEqual(r.log.slice(0,3),["load:false","load:true","mount"]);}
   {const r=await run({mount:later(10,{dispose(){}}),loads:[false,false]});assert.equal(await r.ready,null,"two failed loads: the SVG goal");}
   ok("C3D17","r90 Light: a slow scene is waited for with the box loading, a late scene takes the box synced, one retry of a failed load");
