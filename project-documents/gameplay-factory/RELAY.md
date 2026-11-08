@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 3:07 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 3:09 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `363c525` (Sun 8 Nov 3:03 AM Boston time) · 200 messages · 61 hand-offs · 388 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `95e1b08` (Sun 8 Nov 3:09 AM Boston time) · 200 messages · 61 hand-offs · 389 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -33,8 +33,9 @@ The file is on a Team V branch and Team G has the branch name.
 
 ### HO-059 · V → G · RR_ROOM_V2 café room 4K delivered (r90)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Sun 8 Nov 3:09 AM · Team V · Done · Nik OK 8 Nov 3:08 a.m. Eastern
 - Sun 8 Nov 3:03 AM · Team G · Received
 - Sun 8 Nov 3:02 AM · Team V · Sent
 - Sun 8 Nov 3:03 AM · relay Action · Delivered in full as a wake comment on PR #312
