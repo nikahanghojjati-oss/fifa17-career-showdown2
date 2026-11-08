@@ -18,6 +18,7 @@
 //   G8 8K (Nik 2026-11-07): picked only, a GPU with a 7680 px buffer and texture, never a phone or software GL; up to
 //      7680x4320; a lost context or refused buffer falls back to Ultra (said in the overlay) until 8K is picked again;
 //      MSAA from the sample counts both formats support, an incomplete target steps 8 -> 4 -> 0
+//   G10 html[data-gfx] carries the resolved level for 2D screens: on load, on a pick, after calibrate, on an 8K fallback
 //   G9 phones (Nik 2026-11-07, iPhone 17 at the best it can hold): strong phone GPUs start High, weak ones Light, calibrate
 //      runs, at most 3x CSS and a 4K buffer, textures one size down below High
 const assert=require('node:assert/strict');
@@ -40,7 +41,8 @@ function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), Ope
         getParameter:k=>k===37446||k===7937?gpu:k===34024?maxBuffer:k===3379?maxTexture:null})};
       return {style:{},setAttribute(){},append(){},remove(){},get isConnected(){return true;},textContent:''};
     },
-    body:{append:x=>appended.push(x)}
+    body:{append:x=>appended.push(x)},
+    documentElement:{dataset:{}}
   };
   const ctx={document:doc,devicePixelRatio:dpr,navigator:{deviceMemory:memory,hardwareConcurrency:cores},screen:{width:screen[0],height:screen[1]},
     location:{search},readStorageValue:k=>k in store?store[k]:null,writeStorageValue:(k,v)=>{store[k]=String(v);return true;},
@@ -245,7 +247,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
      assert.deepEqual([d.phone,d.strongPhone,d.guessName,d.can8k],[true,true,'high',false],'an iPhone 17 reads as a strong phone that starts High');}
     ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');
     ok('G6','Settings: 3D QUALITY with Auto (suggests X) and five levels, saved through the module, next 3D screen');
-    g8();await g9();
+    g8();await g9();await g10();
     console.log(`PASS r90 gfx tier contracts (${checks} checks)`);
   })().catch(e=>{console.error(e);process.exitCode=1;});
 }
@@ -303,4 +305,18 @@ function g9(){
     assert.ok(scene.includes('return {...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};')&&!scene.includes('phoneScreen'),'Chamber Men assets follow the texture level');
     ok('G9','phones: strong GPUs start High, weak Light; calibrate runs; at most 3x and a 4K buffer; textures one size down below High');
   });
+}
+
+async function g10(){
+  const html=sb=>sb.ctx.document.documentElement.dataset.gfx;
+  const strong='ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)';
+  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'high'}})),'2','a picked level is marked on load');
+  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxMeasured.v1':JSON.stringify({level:1,at:1})}})),'1','a measured Auto is marked on load');
+  assert.equal(html(sandbox()),'0','a Chromebook reads Light once the profile runs');
+  const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16});assert.equal(html(s),'3');
+  s.G.setChoice('light');assert.equal(html(s),'0','a new pick moves it at once');
+  s.G.setChoice('8k');assert.equal(html(s),'5');s.G.fallback8k('test');assert.equal(html(s),'4','an 8K fallback reads Ultra');
+  s.G.setChoice('auto');const n=await s.G.calibrate(fakeRenderer(s.clock,()=>15),()=>{});assert.equal(html(s),String(n.level),'calibrate marks the level it settles on');
+  assert.ok(n.level===2,'calibrate stepped down one');
+  ok('G10','html[data-gfx] carries the resolved level for 2D screens: on load, on a pick, after calibrate, on an 8K fallback');
 }

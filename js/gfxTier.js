@@ -133,10 +133,21 @@
     let level=forcedLevel!==null?forcedLevel:c==="auto"?autoLevel:gfxChoiceLevel(c);
     cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,choice:forcedLevel!==null?`gfx=${forcedLevel}`:c});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
+    gfxMarkRoot(cached.level);
     return cached;
   }
+  // r90 (Nik 2026-11-08, "the best quality it can hold, on every screen"): the resolved level on the root element as
+  // html[data-gfx="0".."5"], here and on the app page around the roulette frame, so 2D screens (marble plates, blurs,
+  // shadows, CSS animations) can lighten heavy effects at Light. Set when the module loads and whenever the level changes
+  // (calibrate, a new pick, a Device check result, an 8K fallback).
+  function gfxMarkRoot(level){
+    const v=String(level);
+    for(const w of [root,gfxParent()]){try{const el=w&&w.document&&w.document.documentElement;if(el&&el.dataset&&el.dataset.gfx!==v)el.dataset.gfx=v;}catch(_error){}}
+  }
+  function gfxParent(){try{return root.parent&&root.parent!==root&&root.parent.document?root.parent:null;}catch(_error){return null;}}
+  function gfxRemark(){try{gfxMarkRoot(gfxProfile().level);}catch(_error){}}
   function gfxSetLevel(level){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,choice:p.choice});
-    next.auto=p.auto;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;return next;}
+    next.auto=p.auto;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level);return next;}
   // 8K could not hold here: remember it (Ultra until 8K is picked again), rebuild the profile and move the live governor.
   function gfx8kFail(reason){
     gfxWrite(FALLBACK_8K_KEY,JSON.stringify({reason:String(reason||"failed"),at:Date.now()}));cached=null;
@@ -337,10 +348,14 @@
     // Device check: the best level this device held, saved as its Auto; clearMeasured() goes back to the GPU-name guess.
     measured:gfxMeasured,benchStats:gfxBenchStats,
     setMeasured(level,detail){const l=Math.max(0,Math.min(4,Math.round(Number(level))));if(!Number.isFinite(l))return null;
-      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;return l;},
-    clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;},
-    choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);if(v==="8k")gfxWrite(FALLBACK_8K_KEY,"null");cached=null;return v;},
+      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
+    clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
+    choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);if(v==="8k")gfxWrite(FALLBACK_8K_KEY,"null");cached=null;gfxRemark();return v;},
     // 8K is offered only where it can run (Settings shows it only then); samples()/checkTarget() size MSAA for render targets.
     can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,fallback8k:gfx8kFail,
     reset(){cached=null;}};
+  // On load: a level the player picked or the Device check measured is marked at once (no GPU probe); the full profile
+  // (one throwaway context for the GPU name) follows when the page is idle.
+  try{const c=gfxChoice(),m=gfxMeasured();if(c!=="auto"&&c!=="8k")gfxMarkRoot(gfxChoiceLevel(c));else if(c==="auto"&&m)gfxMarkRoot(m.level);}catch(_error){}
+  try{(root.requestIdleCallback||(f=>root.setTimeout(f,200)))(()=>gfxRemark(),{timeout:2000});}catch(_error){}
 })(typeof globalThis!=="undefined"?globalThis:this);
