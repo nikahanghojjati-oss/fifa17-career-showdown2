@@ -161,10 +161,10 @@ async function partA(){
     const run=w.step.runBeforeTransfers(ctx);
     await until(()=>w.frame(),"the roulette page");
     w.setVisibility("hidden");
-    await wait(400);// past MAX_LOADING_MS (15 s at this scale) while locked
+    await wait(500);// past MAX_LOADING_MS (45 s at this scale) while locked
     assert.ok(w.stage(),"the scene is still loading after the lock");assert.equal(w.panel(),null,"not skipped while away");
     w.setVisibility("visible");w.pageSays("cms-rr-ready");
-    w.setVisibility("hidden");await wait(150);// past ARMED_WAIT_MS while locked again
+    w.setVisibility("hidden");await wait(500);// past ARMED_WAIT_MS (45 s) while locked again
     assert.ok(w.stage(),"the armed wait does not run out while locked");
     w.setVisibility("visible");w.pageSays("cms-rr-armed");
     await until(()=>w.stage()&&w.stage().style.visibility==="visible","the stage to show after the lock");

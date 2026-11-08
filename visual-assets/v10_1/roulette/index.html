@@ -157,7 +157,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
 // r87 (Team G): a browser without WebGL (switched off, old GPU, some headless runs) cannot draw the stage. Say so once
 // instead of letting three.js throw: in the game the result and the release still show without the scene.
 if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGL2RenderingContext&&c.getContext("webgl2")); /* r89: three.js r187 draws with WebGL 2 only */ }catch(e){ return false; } })()){
-  if(/[?&]embed=1(?:&|$)/.test(location.search)){ try{ parent.postMessage({type:"cms-rr-error",message:"WebGL is not available"},location.origin); }catch(e){} }
+  if(/[?&]embed=1(?:&|$)/.test(location.search)){ try{ parent.postMessage({type:"cms-rr-error",message:"WebGL is not available",webgl:false},location.origin); }catch(e){} }   /* r90 Light: the one case the game skips the scene for (webgl:false) */
   else document.body.insertAdjacentText("beforeend","This browser can't draw the 3D revolver (WebGL is off).");
   return;
 }
@@ -211,7 +211,7 @@ renderer.outputColorSpace=T.SRGBColorSpace; renderer.toneMapping=T.ACESFilmicTon
 /* r90: the one shadow map is drawn once when the room is laid out (the revolver casts none: it moves, and its soft contact shadow is
    a picture under it), so no frame ever re-renders the scene for the light */
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap; renderer.shadowMap.autoUpdate=false;
-renderer.setPixelRatio(GFX.pixelRatio); stage.appendChild(renderer.domElement);
+renderer.setPixelRatio(GFX.pixelRatio); renderer.domElement.style.background="#07050a"; stage.appendChild(renderer.domElement);   /* r90 Light: while a lost context comes back the room stays dark, never a white page */
 const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new T.FogExp2(0x07050a,.2);   /* the dark room: the floor fades out a few metres from the table */
 const camera=new T.PerspectiveCamera(38,1,.05,60);
 /* THE HAND (ticket 1854): a painted gloved hand holding the revolver, cut out on black, rides on the camera as a layer in the shooter's view. The person sits in the dark: no face, no body. */
@@ -1205,9 +1205,9 @@ function gunStudio(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new 
   add(10,10,[.018,.04,.022],0,-4.9,0); add(3.4,2.2,[2.2,2.1,1.95],0,4.7,-1.4); add(5,2,[2.6,2.5,2.3],0,3.4,-4.9); add(7,.45,[1.2,1.15,1.1],0,1.2,-4.9); add(1.5,1.5,[1.9,1.4,.85],-4.9,1.3,1.6);
   const t=pm.fromScene(s,.04,.1,20,{size:128}).texture; s.traverse(o=>{ if(o.isMesh){ o.geometry.dispose(); o.material.dispose(); } }); return t; }
 const GUN_STEEL={blued:3, bluedBarrel:3, bluedPlain:2.2, worn:1.4, bright:1, drum:.8, drumFace:.9};
-function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture;
+function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); if(scene.environment) scene.environment.dispose(); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture;
   { const st=gunStudio(pm); Object.entries(GUN_STEEL).forEach(([k,v])=>{ GM[k].envMap=st; GM[k].envMapIntensity=v; GM[k].needsUpdate=true; }); GM.drum.roughness=.38; GM.drumFace.roughness=.42; GM.bright.roughness=.3; }   /* satin, so the flutes and the hammer show their shape instead of one mirror stripe */
-  pm.dispose(); LOOK.hdri.dispose(); LOOK.hdri=null;
+  pm.dispose(); LOOK.hdri.dispose();   /* the GPU copy goes; the small EXR stays in memory so a lost context can make the reflections again */
   scene.environmentIntensity=EXTRA_UP?.6:.5; M.floor.envMapIntensity=EXTRA_UP?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
 /* r90 warm-up (Reus Gate): every texture goes to the GPU and every shader compiles (in parallel where the browser can) BEFORE the page
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
@@ -1234,13 +1234,18 @@ async function warmUp(){ const all=new Set(); scene.traverse(o=>{ (Array.isArray
    the garbage collector, so the next 3D screen starts with the memory free */
 function disposeAll(){ cancelAnimationFrame(rafId); if(GOV) GOV.end(); const seen=new Set(); scene.traverse(o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(!m||seen.has(m)) return; seen.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } } m.dispose(); }); });
   if(scene.environment) scene.environment.dispose(); ["D","N"].forEach(k=>{ const b=boards[k].userData; [b.first,b.spare].forEach(c=>{ if(c){ c.width=c.height=0; } }); }); leaving=true; renderer.dispose(); try{ renderer.forceContextLoss(); }catch(e){} }
-/* r90 MOTION M30: a lost GPU context (a GPU reset on a Chromebook, a phone that drops it in the background) used to leave a black canvas
-   until the game's clock ran out. The scene can't rebuild its lounge lighting once the source is freed, so in the game it hands back
-   at once (cms-rr-error: the result card shows the spin, which the server already holds) and js/gfxTier.js lowers this device one
-   level for next time; on its own the page reloads when the context comes back. Our own release on the way out is not a loss. */
-let leaving=false, lostSent=false;
-renderer.domElement.addEventListener("webglcontextlost",e=>{ e.preventDefault(); if(leaving) return; cancelAnimationFrame(rafId); rafId=0; if(EMBED&&!lostSent){ lostSent=true; toGame("cms-rr-error",{message:"webgl context lost"}); } },false);
-renderer.domElement.addEventListener("webglcontextrestored",()=>{ if(!leaving&&!EMBED) location.reload(); },false);
+/* r90 MOTION M30 + Light (Nik 2026-11-08: "3D light for Chamber Men and RRR is a guarantee"): a lost GPU context (a GPU reset on a
+   Chromebook, a phone that drops it in the background) no longer ends the scene. The page keeps its place in the turn and waits;
+   when the browser gives the context back, three.js uploads every geometry, texture and board picture again by itself, and the page
+   makes again what lived only on the GPU (the reflections and the one shadow map), then draws on. js/gfxTier.js still lowers this
+   device one level for next time. Only a context that never comes back (20 s on screen) hands the turn to the game's result card.
+   Our own release on the way out is not a loss. */
+let leaving=false, lostSent=false, lostTimer=0;
+function lostGiveUp(){ lostTimer=0; if(leaving||lostSent||!renderer.getContext().isContextLost()) return; if(document.visibilityState==="hidden"){ lostTimer=setTimeout(lostGiveUp,20000); return; }
+  lostSent=true; if(EMBED) toGame("cms-rr-error",{message:"webgl context lost"}); else location.reload(); }
+renderer.domElement.addEventListener("webglcontextlost",e=>{ e.preventDefault(); if(leaving) return; cancelAnimationFrame(rafId); rafId=0; clearTimeout(lostTimer); lostTimer=setTimeout(lostGiveUp,20000); },false);
+renderer.domElement.addEventListener("webglcontextrestored",()=>{ clearTimeout(lostTimer); lostTimer=0; if(leaving||lostSent) return;
+  try{ buildEnv(); }catch(e){} renderer.shadowMap.needsUpdate=true; last=now(); if(window.__rrReady&&!rafId) rafId=requestAnimationFrame(frame); },false);
 /* back-forward cache (Codex P2 on #1261): a page kept for Back is only paused and picks up again on pageshow; a real unload frees everything.
    On the way back "last" keeps the time of the final frame before the pause, so tick() moves the turn clock past the whole gap
    (the same pause as a hidden tab) and the turn resumes where it stopped instead of finishing at once with every cue */

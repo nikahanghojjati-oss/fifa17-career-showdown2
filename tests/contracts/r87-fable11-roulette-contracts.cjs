@@ -67,7 +67,7 @@ const step=read("js/rosterRouletteStep.js");
 assert.match(step,/if\(go===false\)\{leftForHome=true;holding=false;rrsLoadingOn\(\);const tear=\(\)=>\{if\(\(running&&running!==run\)\|\|holding\)return;rrsRemovePanel\(\);rrsRemoveStage\(\);rrsLoadingOff\(\);\};/);
 assert.match(step,/void Promise\.resolve\(\)\.then\(\(\)=>root\.navigateTo\("mainMenu"\)\)\.catch\(\(\)=>\{\}\)\.finally\(tear\);else tear\(\);/);
 ok("A5","F11-08 the roulette stays up until Showdown Home is on screen");
-assert.match(step,/if\(end!=="continue"\)\{sceneFailedHere\.add\(rrsKey\(ctx\)\);rrsRemoveStage\(\);return "skipped";\}/);
+assert.match(step,/if\(end!=="continue"\)\{if\(end==="nowebgl"\)sceneFailedHere\.add\(rrsKey\(ctx\)\);rrsRemoveStage\(\);return "skipped";\}/);
 assert.match(step,/for\(const other of pressed\)other\.disabled=true;/);
 ok("A6","F11-11 no dead frame under the card; F11-12 one answer per card");
 // r89: the bench is a strip of FIFA 17 cards; each surname is fitted to its card by fitText (shrink to 18 px, then "…").
