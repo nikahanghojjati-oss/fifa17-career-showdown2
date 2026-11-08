@@ -413,6 +413,9 @@ window.ShowdownLegacyBoot = function () {
     if (!ARCHIVE_FILTERS.some(([key]) => key === prefs.filter)) prefs.filter = "all";
     if (prefs.view !== "list") prefs.view = "cards";
     const allRecords = frame.showdowns || [];
+    // r90 W9 (Codex on #1298): with one Showdown or none the filter controls are hidden, so a filter kept from a longer
+    // history must not stay on and hide the only Showdown.
+    if (allRecords.length <= 1) prefs.filter = "all";
     const cardPageSize = Math.max(1, Number(frame.ui.pageSize) || 4);
     let listSize = LIST_PAGE_SIZE;
     let fitFrame = 0;
