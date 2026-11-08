@@ -89,8 +89,7 @@ ok("R90-PS4 Prime Pack: art decoded before ready, the pack and the card on their
 });
 ok("R90-PS5 Codex P2 #1259: the next player's flag only shows at his nation clue, never during the handover",()=>{
   const start=page.slice(page.indexOf("function startPlayer("),page.indexOf("function settle("));
-  assert.ok(!/setFlagTex\(/.test(start),"startPlayer never swaps the flags (Daniel's are still rolling up)");
-  assert.match(page,/at\(tt,5\.8,"nat",\(\)=>\{ clueMaps\(2\); setFlagTex\(prep\(\)\.flag\);/,"the flag swaps at the nation clue");
+  assert.match(page,/at\(tt,5\.8,"nat",\(\)=>\{ clueMaps\(2\); pulse=1;/,"the nation shows at its clue (on the card; the roof flags are gone, L31 round 2)");
 });
 ok("R90-PS6 Nik's tighter rhythm (2026-11-07 22:50 UTC): four quicker stretches, half-speed burst, 2.8 s scouting hold",()=>{
   assert.match(page,/const PACE=\[\[0,\.9,\.9\/\.4\],\[1\.65,2\.3,\.65\/\.35\],\[3\.7,5\.0,1\.3\/\.9\],\[6\.4,7\.5,1\.1\/\.8\]\];/);
@@ -161,10 +160,12 @@ ok("R90-PS11 LOOK round 2 L31/L05/L32: the reveal stays a night stadium, calmer 
   assert.match(page,/rays\.position\.set\(0,1\.9,-1\.5\); rays\.scale\.set\(8,8,1\); scene\.add\(rays\);/,"L31: the rays are a halo round the card, not a sky-wide sunburst");
   assert.ok(!/rays\.scale\.set\(14,14,1\)/.test(page));
   assert.match(page,/rays\.scale\.setScalar\(3\.5\+charge\*2\.5\)/,"L31: the charge halo stays round the pack");
-  assert.match(page,/roughness:\.8, color:new T\.Color\(\.42,\.42,\.42\)\}\)/,"L31: the nation flags are floodlit cloth at night");
+  assert.ok(!/flagMounts|setFlagTex|const flags=/.test(page),"L31 round 2: no giant roof flags");
   assert.match(page,/const CALM=\.55;/,"L31: about half the paper and sparks, same beats");
-  for(const re of [/Math\.round\(240\*pw\*CALM\)/,/Math\.round\(380\*pw\*CALM\)/,/Math\.round\(200\*pw\*CALM\)/,/Math\.round\(38\*pw\*CALM\)/,/Math\.round\(44\*pw\*CALM\)/])assert.match(page,re);
-  assert.match(page,/beamMat\.color\.copy\(sigCol\)\.lerp\(WHITE,\.1\)\.multiplyScalar\(1\.1\*grow\*fade\*\(camera\.aspect<1\?\.6:1\)\)/,"L05: tinted shafts, not white bars");
+  assert.match(page,/burst\(CARD_POS\.clone\(\)\.add\(new T\.Vector3\(0,0,\.3\)\),\[0xf1c35a,0xffd77a,0xfff1c2\],Math\.round\(240\*pw\*CALM\)/,"L31 round 2: one short gold burst at the flash");
+  assert.match(page,/confettiCannon\(1,cc,Math\.round\(200\*pw\*CALM\)\)/,"the club beat keeps its (calmer) cannons");
+  assert.ok(!/380\*pw|function fountain|\[0x3355ff,0xf1c35a/.test(page),"no flash rain, floor fountains or blue firework mix");
+  assert.ok(!/beamMat|const beams=/.test(page),"L05 round 2: no signature beams at any level");
   assert.match(page,/Math\.sin\(gs\*Math\.PI\)\*8\*pw\*\(camera\.aspect<1\?\.6:1\)/,"L31: a smaller flash glow on portrait");
   assert.match(page,/if\(rest>0\)\{ const k=Math\.max\(\.7,1-rest\/\(PACK_H\*\.95\)\); pack\.scale\.multiplyScalar\(k\);/,"L32: a smaller pack where lowering alone leaves its top under the title");
 });
