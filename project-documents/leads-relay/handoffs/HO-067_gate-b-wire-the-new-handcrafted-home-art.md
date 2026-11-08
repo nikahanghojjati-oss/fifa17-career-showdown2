@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-08T19:32:21Z", "by": "V", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-08T19:32:21Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T19:33:44Z", "by": "G", "status": "WORKING", "note": "Taken by Team G Home thread (W9); preview artifact + desktop/phone shots come back on this ticket."}],
  "from_session": "session_01GU43Q55MWFc5kxaqRPspjd",
- "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd"}
+ "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
 ```
 
