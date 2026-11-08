@@ -204,3 +204,7 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-02 17:50 | Team V | Team G | HO-056 DONE | Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88) | no |
 | 2026-11-02 18:34 | Team G | Team V | HO-055 DONE | Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88) | no |
 | 2026-11-04 13:50 | Team G | Team V | HO-057 SENT | 4K page title wordmarks (all titles) | yes (receive it) |
+| 2026-11-08 03:04 | Team G | Team V | HO-058 SENT | r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only) | yes (receive it) |
+| 2026-11-08 08:02 | Team G | Team V | HO-060 SENT | r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp) | yes (receive it) |
+| 2026-11-08 08:03 | Team G | Team V | HO-059 RECEIVED | RR_ROOM_V2 café room 4K delivered (r90) | no |
+| 2026-11-08 08:21 | Team G | Team V | HO-061 SENT | r90 plates: remove slogan banners (L11) + phone face crops (L23) | yes (receive it) |
