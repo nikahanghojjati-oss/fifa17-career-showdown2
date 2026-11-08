@@ -1252,7 +1252,7 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 
 
 /* r90 W9 (LOOK hunt L14): the free-quota numbers sit under a quiet DETAILS toggle below the plain ONLINE PLAY TODAY line. */
-#settingsOverlay.v10Settings .settingsUsageDetails { margin: 6px 0 10px; }
+#settingsOverlay.v10Settings .settingsUsageDetails { margin: 0 0 4px; }
 #settingsOverlay.v10Settings .settingsUsageDetails > summary {
   display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 2px; cursor: pointer; list-style: none;
   font: 600 11px/1.2 var(--sd-font-condensed, inherit); letter-spacing: .14em; color: #c1b9aa;
