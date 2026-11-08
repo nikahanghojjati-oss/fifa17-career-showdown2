@@ -115,5 +115,14 @@ ok("R90-PS8 lead review #1270: the pack still reveals if js/kits17.js did not lo
   assert.match(page,/window\.addEventListener\('error',function\(e\)\{ if\(e\.target&&e\.target\.src&&\/\\\/js\\\/\(kits17\|visualIdentity\)\\\.js\/\.test\(e\.target\.src\)\) return;/,"a failed kits17/visualIdentity load is not reported as an error, so the game does not skip the reveal");
   assert.match(page,/try\{ const im=new Image\(\);[^\n]*window\.getClubCrestSvg\(c\)[^\n]*\}catch\(e\)\{ res\(\); \}/,"no crest module: the coin falls back to a plain shield");
 });
+ok("R90-PS8 hunt L05/L06: the light pillar rises behind the pack, softer on portrait; the stadium is Chamber Men's floodlit night",()=>{
+  assert.match(page,/pack\.localToWorld\(new T\.Vector3\(-\.12,0,-PACK_D\/2-\.12\)\)/,"pillar behind the pack, never across its face");
+  assert.ok(!/new T\.Vector3\(-\.12,0,PACK_D\/2\+\.1\)/.test(page),"no pillar in front of the pack");
+  assert.match(page,/\(1\.5\+charge\*charge\*4\)\*\(camera\.aspect<1\?\.6:1\)/,"softer pillar on a portrait screen");
+  assert.match(page,/new T\.HemisphereLight\(L\(0xdde6ff\),L\(0x15200f\),0\.55\)/,"Chamber Men's night hemisphere");
+  assert.match(page,/new T\.DirectionalLight\(L\(0xfff3e2\),2\.7\)/,"Chamber Men's floodlight key");
+  assert.match(page,/if\(night>\.5\)\{/,"the stadium photo is graded to night");
+  assert.match(page,/"assets\/board_night_V1\.jpg"/,"black and gold boards");
+});
 
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
