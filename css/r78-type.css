@@ -1633,11 +1633,22 @@
 #app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > img,
 #app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > .finalWinnerTotalMark { visibility: hidden !important; }
 #app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric--total > span:not(.finalWinnerTotalMark) { justify-self: center !important; text-align: center !important; }
-/* r90 W9 (Codex on #1308): in the 4:3 to 3:2 windows the plate zoom stops at 0.75, so the 12px type floor divides by that
-   real zoom too; dividing by the unfloored window ratio made the eyebrows outgrow their line and run onto the panel titles
-   (1200x900, 1200x805). */
+/* r90 W9 (Codex on #1308 and #1315): in 4:3 to 3:2 windows the panels zoom to the window (0.625 at 1200x900), so the 12px
+   floor makes the eyebrows 18-19px before the zoom; their fixed 13px line let them run onto the panel titles. The line now
+   follows the type, so they render at 12px and clear the titles. */
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 3/2) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
-    :root #settingsOverlay.v10Settings { --sa-settings-tz: max(min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5), 0.75); }
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel .settingsPanelEyebrow { line-height: 1.1; }
   }
+}
+/* r90 W9: the DETAILS toggle under ONLINE PLAY TODAY takes the same 12px floor as the other small Settings type when the
+   panels zoom (it rendered at 7px at 1200x900). */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel .settingsUsageDetails > summary { font-size: max(12px, calc(12px / var(--sa-settings-tz))); }
+  }
+}
+/* r90 W9: on phones the two free-use row labels behind DETAILS were 10px; they take the 12px minimum like the rest. */
+@media (max-width: 480px) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
 }
