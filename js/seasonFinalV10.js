@@ -1498,6 +1498,22 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions button { min-width:0;min-height:44px;max-width:100%;white-space:normal;overflow-wrap:normal; }
 }
+/* r90 W9 (window sweep): from 2560px wide the Season Results boards keep the 1920x1080 look at the window's scale. Their type,
+   paddings and buttons were fixed px (or capped), so at 3840x2160 they read at half size in a board twice as wide. Each board
+   is zoomed by the window over 1920x1080 (never below 1); the svh and vw sizes inside are divided back so they do not grow twice. */
+@media (min-width:2560px) and (min-height:501px) and (orientation:landscape) {
+ @supports (zoom: calc(1px / 1px)) {
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { --s4k-z:max(1,min(calc(100vw / 1920px),calc(100svh / 1080px))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid:not(.hidden),.season-action-row,#seasonEntryError,.season-review-panel:not(.hidden)) { zoom:var(--s4k-z); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { min-height:calc(20svh / var(--s4k-z));padding-block:clamp(8px,calc(1svh / var(--s4k-z)),12px); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:calc(16svh / var(--s4k-z)); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { min-height:max(220px,calc(32svh / var(--s4k-z))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row button { min-height:clamp(44px,calc(5.2svh / var(--s4k-z)),60px); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel :is(.seasonReviewIntro,.seasonReviewResult) { font-size:max(12px,calc(.7vw / var(--s4k-z))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel :is(.seasonReviewAchievements span,.seasonReviewWarning) { font-size:max(12px,calc(.65vw / var(--s4k-z))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions { width:auto; }
+ }
+}
 @media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
