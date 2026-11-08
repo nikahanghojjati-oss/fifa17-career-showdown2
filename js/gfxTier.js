@@ -410,5 +410,12 @@
   // context in a truly idle moment: no 2 s deadline that could land it in the middle of Home's first taps).
   try{const c=gfxChoice(),m=gfxMeasured(),l=c!=="auto"&&c!=="8k"?gfxChoiceLevel(c):c==="auto"&&m?m.level:null,cap=gfxCap();
     if(l!==null){const lv=cap?Math.min(l,cap.level):l,phone=gfxScreenEnv().phone;gfxMarkRoot(lv,Math.max(0,Math.min(4,phone&&lv<2?lv-1:lv)-(gfxSlowNet()?1:0)));}}catch(_error){}
-  try{(root.requestIdleCallback||(f=>root.setTimeout(f,200)))(()=>gfxRemark(),{timeout:10000});}catch(_error){}
+  // r90 MOTION M32: the first probe in a browser also waits until the loading screen has handed over to Home (the same
+  // test js/ssjr.js uses), so its long task never lands under the loading screen or Home's first frame; with a kept answer
+  // the remark costs nothing and follows at the first idle moment.
+  const gfxKept=()=>{try{const k=JSON.parse(gfxRead(GPU_KEY)||"null");return Boolean(k&&k.ua===String(root.navigator?.userAgent||""));}catch(_error){return false;}};
+  const gfxHandedOver=()=>{try{const el=root.document?.getElementById?.("loadingScreen");return !root.careerModeHomeHold&&(!el||el.hidden||el.classList?.contains("hidden"));}catch(_error){return true;}};
+  const gfxIdle=f=>(root.requestIdleCallback||(g=>root.setTimeout(g,200)))(f,{timeout:10000});
+  try{if(gfxKept())gfxIdle(()=>gfxRemark());
+    else{let n=0;const wait=()=>{if(gfxHandedOver()||++n>120)gfxIdle(()=>gfxRemark());else root.setTimeout(wait,250);};wait();}}catch(_error){}
 })(typeof globalThis!=="undefined"?globalThis:this);
