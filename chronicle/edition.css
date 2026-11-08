@@ -292,8 +292,6 @@ h2+p,h2+.lead,h2+.intro{margin-top:26px}
 .portal-archives{gap:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
 .portal-archives a{padding:16px 18px;font-family:var(--ed-label);font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ed-ivory-2)}
 .portal-archives b{font-size:26px;margin-right:6px;letter-spacing:0}
-.portal-volumes{gap:0;border-top:1px solid var(--ed-hair)}
-.portal-volumes a{font-family:var(--ed-serif);font-size:17px;font-weight:700;color:var(--ed-ivory-2);border-bottom:1px solid var(--ed-hair);padding:14px 0}
 .portal-volumes a:hover{color:var(--ed-gold-hi)}
 .chapter-links{border-top:1px solid var(--ed-hair);border-bottom:1px solid var(--ed-hair);background:var(--ed-page-2)}
 .chapter-links a,.chapter-links span{font-family:var(--ed-label);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase}

@@ -300,6 +300,7 @@ async function browserChecks(){
 
     check("7b the pack emblems and labels never run into the hero band's edge or the progress line, in every reveal state (375x553, 390x844, 852x393)",async()=>{
       // Whatever the state, a badge is either drawn whole inside the plate band, above the progress line, or not drawn at all
+      // r90 W9 (LOOK hunt L19): the stepper is no longer drawn; when it is hidden there is no line to stay above.
       // (the confirmation panels cover the packs on a short phone; the badge then gives way instead of covering them).
       // Where the band has room (the sealed and reveal states on 375x553 and every state on the taller phones) it is drawn.
       for(const name of ["ready","manager-one","manager-two","versus","confirmation"]){
@@ -311,7 +312,7 @@ async function browserChecks(){
             const scene=document.querySelector("#clubWheelScreen .clPhoneScene"),band=scene.getBoundingClientRect(),progress=document.querySelector("#clubWheelScreen .clubRevealProgress").getBoundingClientRect();
             return ["::before","::after"].map(pseudo=>{
               const css=getComputedStyle(scene,pseudo),left=band.left+parseFloat(css.left),top=band.top+parseFloat(css.top),width=parseFloat(css.width)||0,height=parseFloat(css.height)||0;
-              return {drawn:css.content!=="none"&&css.display!=="none"&&width>0&&height>0,left,top,right:left+width,bottom:top+height,bandRight:band.right,bandBottom:band.bottom,progressTop:progress.top};});
+              return {drawn:css.content!=="none"&&css.display!=="none"&&width>0&&height>0,left,top,right:left+width,bottom:top+height,bandRight:band.right,bandBottom:band.bottom,progressTop:progress.height>0?progress.top:Infinity};});
           });
           const label=`${name} ${size.width}x${size.height}`;
           for(const [i,b] of found.entries()){

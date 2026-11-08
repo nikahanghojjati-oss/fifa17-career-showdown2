@@ -57,7 +57,22 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     // r87: the rest of the local faces, so the offline and error screens keep the brush title and body type offline
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2"
+    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    // r90 M8: the Special Player page's own faces (was Google Fonts)
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"
 ]);
 const NETWORK_ONLY_ASSET_PATHS = new Set([
     "js/productionAuthorizationAcceptance.js",
@@ -282,6 +297,20 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2",
     "visual-assets/v10_1/shared/motion.css",
     "visual-assets/v10_1/shared/motion.js",
     "visual-assets/v10_1/shared/showdown-tokens.css",
@@ -394,7 +423,8 @@ const OFFLINE_PACK_PATHS = new Set([
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2","css/v10Club.css","visual-assets/v10_1/club/club.css",
     "visual-assets/v10_1/club/club.js","visual-assets/v10_1/club/assets/platemap.json","visual-assets/v10_1/club/assets/handmap.json",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"
 ]);
 const INSTALL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!OFFLINE_PACK_PATHS.has(path)));
 const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
@@ -407,7 +437,11 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // lounge HDRI for the roulette and Chamber Men, the Kits 17 painter, the Final Gazette's sacked lines, and Chamber Men's 3D
 // scene and stadium, and (r90) the shared 3D quality module js/gfxTier.js and the roulette's own title faces (Big Shoulders Display, Rye; M8) (players and stadium GLBs are Team V images, V10_IMAGE_PATH runtime cache). Removed: three.js r128, which
 // a page rolled back to 2.1.0 still finds in its own retained shell. The STORY site (chronicle/) is never precached.
+<<<<<<< HEAD
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/gfxTier.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2"]);
+=======
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/gfxTier.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"]);
+>>>>>>> origin/gameplay/r90
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks

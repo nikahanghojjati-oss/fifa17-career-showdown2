@@ -995,3 +995,10 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
 @media (max-width: 760px) and (orientation: portrait), (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .clubAssignmentShell:not(:has(> #clubAssignmentBack.hidden)) > #continueClubAssignment { grid-column: 2; }
 }
+/* r90 M25 (Light): the panel's blurred gold under-glow is an SVG blur over 187k px²; Light leaves it out. */
+html[data-gfx="0"] #clubWheelScreen #covers polygon[filter="url(#cvUnder)"] { display: none; }
+
+/* r90 W9 (LOOK hunt L19): the RIVALRY / VS plate is a flat dark panel with one hairline, no bevel rings. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubVs::after { box-shadow: none !important; border-color: rgba(210, 170, 89, .55) !important; }
+}

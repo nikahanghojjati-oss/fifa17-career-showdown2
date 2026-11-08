@@ -14,6 +14,7 @@
 //   P5 frame rate (r90): one static shadow map, no bloom chain, standard materials, two point lights, no marble hall, quality and governor from
 //      js/gfxTier.js (held during a turn), shaders and textures warmed before ready, baked props, the hit frame uploaded before the spin;
 //   P7 no spoiler (r90): until the hit nothing names or points out the target;
+//   P11 (r90 LOOK L27) no spin before the scene is ready; six spins in a row start and end with no page error;
 //   P9 (r90 LOOK L08/L09) close rest shot on the revolver, words in the bottom strip, the gold button only when there is a tap;
 //   P10 (r90 MOTION M8/M9/M13/M15/M30) local title fonts, Opus cues loaded at once with a WAV fallback, shaders built in batches that
 //      report progress (and the step renews its wait on it), the drum/crane/hammer baked, faded flash sprites skipped, a lost context hands back;
@@ -130,7 +131,7 @@ has(/function bake\(root,skip\)/,'static props are baked into one mesh per mater
 has(/bake\(table\);/,'the table and everything on it');
 has(/bake\(gun,o=>o===crane\|\|o===hammer\);/,'the revolver frame (the crane, drum and hammer still move)');
 has(/function boardFrames\(key,pick,fire\)/,'the board\'s hit look is pre-rendered');
-has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFrames\(who,pick,fire\); delete prepared\[turn\]; if\(frames\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts (in the game already at setup)');
+has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFrames\(who,pick,fire\); delete prepared\[turn\]; if\(frames&&b\.bubbles\[frames\.i\]\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts (in the game already at setup)');
 has(/function prepareHits\(\)\{ if\(!GAME\|\|turn>0\) return;/,'the game\'s planned shots are drawn while the screen is read');
 has(/try\{ renderer\.initTexture\(c\.__tex\); \}catch\(e\)\{\} return \{i,plain,hit:c\}; \}/,'and sent to the GPU then, on its own texture');
 has(/if\(p\.frames&&p\.frames\.hit&&p\.frames\.i===i\) showFrame\(p\.who,p\.frames\.hit,b\.userData\.hit\); else drawBoard/,'the hole and stamp are a texture swap');
@@ -242,15 +243,26 @@ ok('P10','MOTION: local fonts, Opus cues in parallel with a WAV fallback, batche
     await bp.route(url=>!String(url).startsWith(base),route=>route.abort());
     await bp.addInitScript(()=>{window.__skew=0;const pn=performance.now.bind(performance);performance.now=()=>pn()+window.__skew;});
     await bp.goto(`${base}visual-assets/v10_1/roulette/index.html?seed=7`,{waitUntil:'commit'});
+    // P11 (r90 LOOK L27): before the scene is ready there is no spin button to press (a press then found no board and blanked the scene)
+    await bp.waitForSelector('#cta',{state:'attached',timeout:60000});
+    const early=await bp.evaluate(()=>({ready:Boolean(window.__rrReady),disabled:document.getElementById('cta').disabled}));
+    if(!early.ready) assert.equal(early.disabled,true,'L27 the spin button is off until the scene is ready');
     await bp.waitForFunction(()=>window.__rrReady,null,{timeout:180000});
+    assert.equal(await bp.evaluate(()=>document.getElementById('cta').disabled),false,'L27 and on once it is ready');
     await bp.evaluate(()=>__rr.play({fire:true}));await bp.waitForTimeout(1500);
     const tt0=await bp.evaluate(()=>{const tt=__rr.state.tt;dispatchEvent(new PageTransitionEvent('pagehide',{persisted:true}));window.__skew+=30000;return tt;});
     await bp.waitForTimeout(300);
     // Two animation frames after pageshow: the page's own frame (queued first) has run its tick on the way back.
     await bp.evaluate(()=>{dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
     const back=await bp.evaluate(()=>({tt:__rr.state.tt,playing:__rr.state.playing}));
+    // P11 (r90 LOOK L27): spin after spin, shots and clicks, on the scene's own clock: every turn starts, reaches its end and leaves no error
+    const errs0=errors.length;
+    const spins=await bp.evaluate(()=>{ __rr.clock(); __rr.advance(30,false); const out=[]; for(let k=0;k<6;k++){ const started=Boolean(__rr.play({fire:k%3!==1})); __rr.advance(30,false); out.push({started,ended:!__rr.state.playing}); } __rr.advance(.1,true); return out; });
+    assert.equal(errors.length,errs0,`L27 no page error over six spins (${errors.slice(errs0).join(' | ')})`);
+    assert.ok(spins.every(x=>x.started&&x.ended),`L27 every spin starts and ends (${JSON.stringify(spins)})`);
     await bfc.close();
     assert.ok(back.playing&&back.tt-tt0<5,`after 30 s in the back-forward cache the turn resumes where it stopped (turn time ${tt0.toFixed(2)} s -> ${back.tt==null?'ended':back.tt.toFixed(2)+' s'})`);
+    ok('P11','L27: no spin button before the scene is ready; six spins in a row start, end and throw nothing');
     ok('P8',`back-forward cache: 30 s away, turn time ${tt0.toFixed(2)} s -> ${back.tt.toFixed(2)} s, still playing`);
     const {B,rows}=out;
     assert.ok(out.ended,'the turn ended');

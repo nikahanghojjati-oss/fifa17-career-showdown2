@@ -84,18 +84,17 @@ check('B4 a career whose only Showdowns ended early shows Career Statistics and 
 });
 
 // ---- B5: a record nobody holds is a dash, never "0 Shared" ----
-check('B5 Trophy Room shows no holder ("—") for a record nobody holds, never "0 Shared"',()=>{
+check('B5 Trophy Room never shows "0 Shared"; r90 W9 (LOOK L26): a record nobody holds is left out, not a dash',()=>{
   const m=model([completed(1,1,[[Z,Z]])]);
   const byLabel=Object.fromEntries(m.trophyRoom.records.map(r=>[r.label,r]));
   for(const label of ['Highest season score','Most perfect seasons'])if(byLabel[label]){assert.equal(byLabel[label].value,null,`${label}: no best at 0`);}
   const frame=V10.toV10Frame(m,'trophyRoom');
-  assert.ok(frame.records.length>=4);
   for(const record of frame.records){
     assert.ok(!(record.manager==='shared'&&record.value===0),`${record.label}: never 0 Shared`);
-    if(record.value==='—')assert.equal(record.manager,'','no holder named');
+    assert.ok(typeof record.value==='number'&&record.value>0,`${record.label}: only held records are drawn`);
   }
-  assert.ok(frame.records.some(r=>/PERFECT/.test(r.label)&&r.value==='—'),'MOST PERFECT SEASONS reads —');
-  assert.ok(frame.records.some(r=>/SEASON SCORE/.test(r.label)&&r.value==='—'),'HIGHEST SEASON SCORE reads — after a 0-0');
+  assert.ok(!frame.records.some(r=>/PERFECT/.test(r.label)),'MOST PERFECT SEASONS is left out while nobody holds it');
+  assert.ok(!frame.records.some(r=>/SEASON SCORE/.test(r.label)),'HIGHEST SEASON SCORE is left out after a 0-0');
   // a record somebody holds is unchanged
   const held=V10.toV10Frame(model([completed(2,1,[[{...PERFECT,primePack:4},Z]])]),'trophyRoom'); // r87: a perfect season is 15
   assert.ok(held.records.some(r=>/PERFECT/.test(r.label)&&r.value===1&&r.manager==='daniel'));

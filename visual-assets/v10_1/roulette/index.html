@@ -124,7 +124,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
     <div class="chips"><span class="chip" id="chipWho">Daniel</span><span class="chip">Season 1 / 1</span><span class="gear">⚙</span></div></div>
   <div class="pchips"><span class="chip" id="pchipWho">Daniel</span><span class="chip">Season 1 / 1</span></div><span class="gear pgear" style="display:none">⚙</span>
   <div class="top"><div class="kicker"><span class="badge">Career Mode Showdown 17</span></div><div class="title" data-t="Russian Roster Roulette"><span>Russian Roster Roulette</span></div></div>
-  <div class="mid"><div class="result" id="result" aria-live="polite">One bullet. Seven chambers.</div><button class="cta" id="cta" type="button">Spin the cylinder</button></div>
+  <div class="mid"><div class="result" id="result" aria-live="polite">One bullet. Seven chambers.</div><button class="cta" id="cta" type="button" disabled>Spin the cylinder</button></div>
   <div class="bottom">
     <div class="slot dan"><em>01</em><b>Daniel</b><span id="slotD" class="wait">At the table</span></div>
     <div class="slot nik"><em>02</em><b>Nik</b><span id="slotN" class="wait">Waits</span></div>
@@ -149,7 +149,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
  window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="../../../js/gfxTier.js"></script><!-- r90: the shared device-quality picker (Settings › 3D QUALITY: Auto, Light, Balanced, High, Extra, Ultra, 8K) for every 3D screen -->
+<script src="../../../js/gfxTier.js"></script><!-- r90: the shared device-quality system (Auto, Light, Balanced, High, Extra, Ultra (4K), 8K) for every 3D screen; docs/QUALITY_LEVELS.md -->
 <script src="vendor/three-r187.min.js"></script><!-- three.js r187 (MIT, vendor/THREE_LICENSE.txt; built by tools/three-vendor), bundled so the scene works offline and never depends on a CDN -->
 <script>
 (function(){
@@ -788,7 +788,7 @@ function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=
   ctx.fillStyle="#050302"; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, rr=r*(.7+R()*.5); ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill();
   ctx.strokeStyle="rgba(255,120,40,.55)"; ctx.lineWidth=2; ctx.stroke();
   ctx.save(); ctx.translate(x,y+10); ctx.rotate(-.1); /* across the shirt: the surname under it stays readable */ ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=6; ctx.fillStyle="rgba(196,22,22,.95)"; ctx.fillRect(-78,-17,156,34); ctx.shadowColor="transparent"; ctx.strokeStyle="#ffd6c8"; ctx.lineWidth=2.5; ctx.strokeRect(-74,-13,148,26); ctx.fillStyle="#fff"; ctx.font="900 24px 'Big Shoulders Display'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore(); }
-function boardHitPoint(key,bubble){ const g=boards[key]; const p=new T.Vector3((bubble.u-.5)*BOARD_W,(bubble.v-.5)*BOARD_H,.012); g.updateMatrixWorld(true); return g.userData.inner.localToWorld(p); }
+function boardHitPoint(key,bubble){ if(!bubble) return boardAimWorld(key); const g=boards[key]; const p=new T.Vector3((bubble.u-.5)*BOARD_W,(bubble.v-.5)*BOARD_H,.012); g.updateMatrixWorld(true); return g.userData.inner.localToWorld(p); }
 function boardTargetWorld(key,bubble){ return boardHitPoint(key,bubble); }
 /* r90 spoiler rule (Nik 2026-11-07: "never reveal who the gun is aiming at"): until the shot the barrel, the hand and the shooter's eye all
    point at the middle of the board, never at a player; only the bullet (after the trigger) flies to the one it hits */
@@ -875,8 +875,9 @@ function rrPlanTurn(o,free){ if(!o||!Number.isInteger(o.bulletChamber)||!Number.
   const pick=(Number.isInteger(at)&&free.find(x=>x.slot===at))||(o.target&&free.find(x=>x.name===o.target))||free[0];
   return {bulletAt:((o.bulletChamber%7)+7)%7, chamber:((o.stopChamber%7)+7)%7, pick, fire:o.fire===true, loadedChambers:Array.isArray(o.loadedChambers)?o.loadedChambers:null}; }
 /* rrPlanTurn end */
+/* r90 LOOK L27: a turn needs its board drawn (the scene ready); a press before that used to find no player and blank the scene */
 function startTurn(force,targetName,planned){ if(playing) return; const who=ORDER[turn%2];
-  const b=boards[who].userData; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const plan=rrPlanTurn(planned,free); let pick, fire;
+  const b=boards[who].userData; if(!b.bubbles||!b.bubbles.length) return; const free=b.bubbles.filter((x,i)=>!b.hit||b.hit.i!==i); const plan=rrPlanTurn(planned,free); let pick, fire;
   if(plan){ bulletAt=plan.bulletAt; loaded=true; if(plan.loadedChambers) cyl.userData.placeRounds(plan.loadedChambers); else cyl.userData.placeRound(bulletAt); chamber=plan.chamber; pick=plan.pick; fire=plan.fire; }
   else{
     if(!loaded){ bulletAt=Math.floor(rnd()*7); loaded=true; cyl.userData.placeRound(bulletAt); }
@@ -884,7 +885,8 @@ function startTurn(force,targetName,planned){ if(playing) return; const who=ORDE
     chamber=want===null?Math.floor(rnd()*7):(want?bulletAt:(bulletAt+1+Math.floor(rnd()*6))%7);
     pick=(targetName&&free.find(x=>x.name===targetName))||free[Math.floor(rnd()*free.length)];   /* the gallery (no plan) picks one */
     fire=chamber===bulletAt; }
-  const ready=prepared[turn], frames=ready&&fire&&ready.i===b.bubbles.indexOf(pick)?ready:boardFrames(who,pick,fire); delete prepared[turn]; if(frames) pick=b.bubbles[frames.i];   /* drawBoard rebuilds the bubble list: point at the live entry */
+  if(!pick) return;
+  const ready=prepared[turn], frames=ready&&fire&&ready.i===b.bubbles.indexOf(pick)?ready:boardFrames(who,pick,fire); delete prepared[turn]; if(frames&&b.bubbles[frames.i]) pick=b.bubbles[frames.i];   /* drawBoard rebuilds the bubble list: point at the live entry */
   playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, cyl0:cyl.rotation.z, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0, frames }; fired={}; if(GOV) GOV.hold(true);   /* r90: the resolution never changes during a shot */
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const aim=boardAimWorld(who); const dir=aim.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
@@ -1109,7 +1111,8 @@ function tick(draw){ const t=now();
 /* r90 BUG-02: in the game the stage stays hidden until the page is armed, so nothing is drawn before the setup arrives (the main
    thread is free to take it at once), and "armed" goes out only after the first frame with this Showdown's boards is drawn,
    so the first frame the manager sees is already complete */
-let rafId=0, armAfterFrame=false; function frame(){ if(manual===null) tick(!(EMBED&&!GAME)); if(armAfterFrame&&manual===null){ armAfterFrame=false; toGame("cms-rr-armed"); } rafId=requestAnimationFrame(frame); }
+/* r90 LOOK L27: one bad frame must never stop the loop (a throw used to leave a black screen for good); it is logged once */
+let rafId=0, armAfterFrame=false, tickErr=false; function frame(){ if(manual===null){ try{ tick(!(EMBED&&!GAME)); }catch(e){ if(!tickErr){ tickErr=true; console.error(e); } } } if(armAfterFrame&&manual===null){ armAfterFrame=false; toGame("cms-rr-armed"); } rafId=requestAnimationFrame(frame); }
 
 /* ================= sound (Web Audio, synthesized; off until turned on) ================= */
 const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, lead=0;
@@ -1242,10 +1245,10 @@ window.__rr={ get cylZ(){ return cyl.rotation.z; }, get kits(){ return !!KITS; }
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','800 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
 Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",{stage:"build"}); layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
-  camPos.copy(camRest); camLook.copy(lookRest); last=now(); if(EMBED) cta.disabled=true;
+  camPos.copy(camRest); camLook.copy(lookRest); last=now(); cta.disabled=true;
   await warmUp(); last=now();
   GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:3)+" + shot flash"}; });
-  window.__rrReady=true; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
+  window.__rrReady=true; if(!EMBED) cta.disabled=false; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
   /* r90 Device check (?bench=1&gfx=N): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
      no Firestore; js/gfxTier.js times the frames through the governor and posts the result to the Device check page */
   if(qs.get("bench")==="1"&&!EMBED){ let n=0; const go=()=>startTurn(n++%2===0); addEventListener("rr:end",()=>setTimeout(()=>{ setBoards(LAYOUT.danielClub,LAYOUT.nikClub); go(); },800)); go(); } });
