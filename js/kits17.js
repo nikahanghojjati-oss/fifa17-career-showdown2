@@ -375,14 +375,14 @@
   function paintRemySocks(target,socks){const Q=target.width,c=canvas(Q,Q),g=c.getContext("2d");g.drawImage(socks,0,0,Q/2,Q);g.drawImage(socks,Q/2,0,Q/2,Q);flipInto(target,c);}
 
   // ---------- mapped bodies (Ch38, Ch42): a baked kit map per body ----------
-  // visual-assets/v10_1/chamber-men/players/kitmap/<body>.png, baked from the body's glTF by tools/kits17/bake_kitmap.py: per
+  // visual-assets/v10_1/chamber-men/players/kitmap/<body>.webp (lossless, r90; was .png), baked from the body's glTF by tools/kits17/bake_kitmap.py: per
   // atlas texel R = wrap u, G = wrap v, B = part<<5 | distance to the neck rim in mm (parts: 1 torso, 2 left sleeve, 3 right
   // sleeve, 4 shorts, 5 left sock, 6 right sock). Shirt, shorts (and Ch38's socks) share the body's atlas, so one canvas serves
   // every kit material; texels outside the kit get the body colour so mipmaps never bleed skin into the kit.
   const MAPPED={ch38:{socks:"map",aspect:.77},ch42:{socks:"remy",aspect:.77}};
   const mapCache=new Map();
   function loadKitMap(name,base){
-    const url=(base||"visual-assets/v10_1/chamber-men/players/kitmap/")+name+".png";
+    const url=(base||"visual-assets/v10_1/chamber-men/players/kitmap/")+name+".webp";
     if(!mapCache.has(url))mapCache.set(url,new Promise((res,rej)=>{const im=new Image();im.onload=()=>{
       const c=canvas(im.naturalWidth,im.naturalHeight),g=c.getContext("2d",{willReadFrequently:true});g.drawImage(im,0,0);
       res({w:c.width,h:c.height,d:g.getImageData(0,0,c.width,c.height).data});};im.onerror=()=>rej(new Error("kit map "+url));im.src=url;}));

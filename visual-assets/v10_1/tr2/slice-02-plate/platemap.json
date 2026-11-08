@@ -176,7 +176,7 @@
   "mobile": {
     "_note": "Phone (owner note 2026-09-28 09:56): keep both managers whole (never narrower than wholeX), never show the painted desktop panels (content fades out above y 528, where the panel tops start at ~520). Spare height becomes a dark cinematic band around the scene, not zoom.",
     "glass": {
-      "file": "assets/DER_TR2_PLATE_G_GLASS_C_V1.png",
+      "file": "assets/DER_TR2_PLATE_G_GLASS_C_V1.webp",
       "srcRectPlate": [
         1299,
         552,

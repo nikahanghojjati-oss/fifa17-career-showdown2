@@ -270,7 +270,18 @@ function scheduleAutoApplyUpdate(){
         await activateWaitingUpdate({quiet:true});
     },AUTO_UPDATE_DELAY_MS);
 }
-function markUpdateReady(){ dispatchOfflineState(); scheduleAutoApplyUpdate(); }
+// r90 W8: the install holds only the essential shell; the later screens' offline pack downloads once the worker is active, at
+// idle and a little after Home, two files at a time (service-worker.js CMS_FILL_OFFLINE_PACK). One ask per page.
+const OFFLINE_PACK_DELAY_MS=8000;
+let offlinePackAsked=false;
+function scheduleOfflinePack(){
+    if(offlinePackAsked)return; offlinePackAsked=true;
+    const ask=()=>{ const worker=offlineRegistration?.active; if(!worker||isOffline()||typeof MessageChannel!=="function"){ offlinePackAsked=false; return; }
+        const channel=new MessageChannel(); channel.port1.onmessage=()=>{ channel.port1.close(); void verifyOfflineReadiness(worker); };
+        worker.postMessage({type:"CMS_FILL_OFFLINE_PACK"},[channel.port2]); };
+    setTimeout(()=>typeof requestIdleCallback==="function"?requestIdleCallback(ask,{timeout:10000}):ask(),OFFLINE_PACK_DELAY_MS);
+}
+function markUpdateReady(){ dispatchOfflineState(); scheduleAutoApplyUpdate(); scheduleOfflinePack(); }
 
 async function requestOfflineAppInstall(){
     installedStandalone=isStandaloneDisplay();
