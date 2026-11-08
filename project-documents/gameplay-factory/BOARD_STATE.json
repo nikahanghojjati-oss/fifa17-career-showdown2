@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08 3:45 AM Boston time (EST)",
+ "generated": "2026-11-08 3:50 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 204,
@@ -1897,7 +1897,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1285 has waited 3 min for a machine; Showdown Gate on #1288 has waited 2 min for a machine; Showdown Gate on #1283 has waited 1 min for a machine.",
+   "line": "Barking: Showdown Gate on #1284 has waited 7 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2684,7 +2684,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 341
+    "waiting_min": 346
    },
    {
     "id": "HO-059",
