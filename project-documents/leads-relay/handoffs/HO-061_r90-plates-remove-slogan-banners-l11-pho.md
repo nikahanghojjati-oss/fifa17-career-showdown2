@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-08T08:21:32Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-08T08:21:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-08T08:22:52Z", "by": "V", "status": "RECEIVED", "note": "Team V thread picked it up; work on claude/project-thread-kxgun9"}],
  "from_session": "session_01GU43Q5aWwvAxHbnmJQquBz",
- "sessions": {"G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
+ "sessions": {"G": "session_01GU43Q5aWwvAxHbnmJQquBz", "V": "session_01GU43Q55MWFc5kxaqRPspjd"}
 }
 ```
 
