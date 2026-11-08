@@ -15,6 +15,8 @@
 //      js/gfxTier.js (held during a turn), shaders and textures warmed before ready, baked props, the hit frame uploaded before the spin;
 //   P7 no spoiler (r90): until the hit nothing names or points out the target;
 //   P11 (r90 LOOK L27) no spin before the scene is ready; six spins in a row start and end with no page error;
+//   P12 (r90 LOOK L10/L28) the board is the club's own (crest, no dead tabs, late kits redrawn); side walls with lamps from High up;
+//   P13 (r90 LOOK L29) the revolver's steel reflects its own small studio at the room's size, satin drum with seven flutes;
 //   P9 (r90 LOOK L08/L09) close rest shot on the revolver, words in the bottom strip, the gold button only when there is a tap;
 //   P10 (r90 MOTION M8/M9/M13/M15/M30) local title fonts, Opus cues loaded at once with a WAV fallback, shaders built in batches that
 //      report progress (and the step renews its wait on it), the drum/crane/hammer baked, faded flash sprites skipped, a lost context hands back;
@@ -203,6 +205,31 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   has(/leaving=true; renderer\.dispose\(\); try\{ renderer\.forceContextLoss\(\); \}/,'M30 our own release on the way out is not a loss');
 }
 ok('P10','MOTION: local fonts, Opus cues in parallel with a WAV fallback, batched shader build with progress, baked gun parts, lost context hands back');
+// P12 (r90 LOOK L10/L28): the squad board is the club's own (no dead menu tabs, the crest beside the name, the bench count line gone,
+// the kits redrawn when they land late), and from High up the side walls with their lamps give the room depth
+{
+  assert.doesNotMatch(html,/"FORMATIONS"|"INSTRUCTIONS"|"TACTICS"|BENCH · /,'L10 no fake FIFA menu tabs and no bench count line on the board');
+  has(/const crest=crestNow\(club\.club\)/,'L10 the board header draws the club crest');
+  has(/Promise\.all\(\[KITS\.prepare\(\[d\.club,n\.club\]\),crestLoad\(d\.club\),crestLoad\(n\.club\)\]\)/,'L10 the boards are drawn again once kits and crests are ready');
+  has(/const SHIRTS=new Map\(\);/,'L10 MOTION a board shirt is painted once per club, role, size, scale and shadow, then stamped');
+  has(/SHIRTS\.clear\(\); drawBoard\("D",d\); drawBoard\("N",n\);/,'L10 MOTION the stamps are painted again once kits and crests are in');
+  has(/if\(!KITS\) loads\.then\(done=>\{[^\n]*turn===0&&!playing\) setBoards\(d\.club,n\.club\);/,'L10 kits that land after the 6 s wait still reach the boards before the first turn');
+  const hq=html.slice(html.indexOf('if(HIGH_UP){ const lampTex'),html.indexOf('if(EXTRA_UP){ const top=mat('));
+  assert.match(hq,/const sides=new T\.Group\(\);[\s\S]*bake\(sides\); \}$/m,'L28 the side walls and their lamps are built from High up, baked');
+  assert.doesNotMatch(html.slice(html.indexOf('if(EXTRA_UP){ const top=mat(')),/marblePanelTex\(\); sideT/,'L28 the café no longer builds its own side walls');
+}
+ok('P12','L10 board: crest header, no dead tabs, late kits redrawn; L28 side walls with lamps from High up');
+
+// P13 (r90 LOOK L29): the gun lying on the felt mirrored the room's dark ceiling (black slab, black bar, chrome tube); it now reflects a
+// small studio of its own, built once at the room's PMREM size so its shaders stay the same programs, and the drum carries seven flutes
+{
+  has(/function gunStudio\(pm\)\{[\s\S]{0,900}?pm\.fromScene\(s,\.04,\.1,20,\{size:128\}\)\.texture;/,'L29 the gun studio is one PMREM at the room size (512 px EXR / 4 = 128)');
+  has(/\{ const st=gunStudio\(pm\); Object\.entries\(GUN_STEEL\)\.forEach\(\(\[k,v\]\)=>\{ GM\[k\]\.envMap=st;/,'L29 only the gun steel takes the studio');
+  has(/o\.geometry\.dispose\(\); o\.material\.dispose\(\);/,'L29 the studio scene is freed after the bake');
+  has(/const FW=\.24, FD=\.0026, flute=\[\]; for\(let i=0;i<224;i\+\+\)/,'L29 the drum outline is cut with flutes between the chambers');
+  has(/const s=new T\.Shape\(flute\.map\(V2\)\);/,'L29 the drum is extruded from the fluted outline');
+}
+ok('P13','L29 revolver steel reflects its own studio; fluted drum');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}

@@ -537,7 +537,8 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
   { const arm=new T.Mesh(new T.BoxGeometry(.005,.012,.028),GM.bluedPlain); arm.position.set(0,-.001,.004); crane.add(arm); const hinge=new T.Mesh(new T.CylinderGeometry(.0032,.0032,.034,16),GM.bright); hinge.rotation.x=Math.PI/2; hinge.position.z=.004; crane.add(hinge); }
   { const R=.0205, n=7, chambers=[]; const CR=.0135, HR=.0046;   /* 7 holes of .0052 drawn on a .0135 circle leave a .0012 wall between them: overlapping holes break the cap triangulation */   /* extrude bevel grows the walls by bevelSize, so holes are drawn .0006 wide and the rim .0006 small. plain polished drum like a real swing-out cylinder: no scallops, seven clean holes close to the rim */
     const holes=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2+Math.PI/2; holes.push([Math.cos(a)*CR,Math.sin(a)*CR]); chambers.push({a}); }
-    const V2=q=>new T.Vector2(q[0],q[1]); const s=new T.Shape(circlePts(0,0,R-.0006,96).map(V2)); holes.forEach(h=>s.holes.push(new T.Path(circlePts(h[0],h[1],HR+.0006,32).map(V2))));   /* point lists, no closePath: a repeated end point breaks the cap triangulation */
+    const V2=q=>new T.Vector2(q[0],q[1]); const FW=.24, FD=.0026, flute=[]; for(let i=0;i<224;i++){ const t=i/224*Math.PI*2, m=n*(t-Math.PI/2)/(Math.PI*2)-.5, u=Math.abs((m-Math.round(m))*Math.PI*2/n)/FW, r=R-.0006-(u<1?FD*Math.sqrt(1-u*u):0); flute.push([Math.cos(t)*r,Math.sin(t)*r]); }   /* r90 LOOK L29: seven flutes cut between the chambers (no wall thinner than the rim over a chamber), so the drum reads as a revolver cylinder, not a tube */
+    const s=new T.Shape(flute.map(V2)); holes.forEach(h=>s.holes.push(new T.Path(circlePts(h[0],h[1],HR+.0006,32).map(V2))));   /* point lists, no closePath: a repeated end point breaks the cap triangulation */
     const fg=new T.ExtrudeGeometry(s,{depth:.046, bevelEnabled:true, bevelThickness:.0006, bevelSize:.0006, bevelSegments:4}); fg.translate(0,0,-.0236); const drum=new T.Mesh(fg,[GM.drumFace,GM.drum]); drum.castShadow=true; drum.receiveShadow=false; /* table shadow map is far too coarse for the bores: self-shadow off */ cyl.add(drum);
     /* every chamber is a real bore you can look down: a dark steel tube with a floor at the back */
     chambers.forEach(({a})=>{ const cx=Math.cos(a)*CR, cy=Math.sin(a)*CR;
@@ -645,13 +646,18 @@ if(HIGH_UP){ const lampTex=lampGlassTex(), glassM=new T.MeshStandardMaterial({ma
   const shadeG=lathe([[.022,0],[.03,.012],[.026,.05],[.04,.11],[.066,.165],[.072,.19]],12), haloG=new T.PlaneGeometry(.62,.62);
   [-6.4,-4.8,-3.2,-1.6,1.6,3.2,4.8,6.4].forEach(x=>{ mesh(new T.BoxGeometry(.1,.28,.03),M.brassDark,x,1.72,-4.12,wall); const a=mesh(new T.CylinderGeometry(.011,.011,.22,6),M.brass,x,1.78,-4.03,wall); a.rotation.x=.956;
     mesh(shadeG,glassM,x,1.885,-3.95,wall); const h=mesh(haloG,haloM,x,1.98,-3.93,wall); h.renderOrder=2; });
-  bake(wall); }
-if(EXTRA_UP){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, metalness:0},{clearcoat:.8, clearcoatRoughness:.12}), velvet=new T.MeshStandardMaterial({color:L("#4a1217"), roughness:.96, metalness:0});
-  /* the side walls: the café picture covers the back, these close the room where the shooter's view looks past it (black marble panels
-     over a lacquered dado with a gold rail, as on the far wall) */
+  bake(wall);
+  /* r90 LOOK L28: the side walls close the room from High up (before, only from Extra), so a strong phone looks past the rim into a
+     room with depth, not a void: black marble panels over a lacquered dado with a gold rail, two lamps on each wall, low enough to show in the shooter's view. Same materials
+     and shaders as the far wall, baked into one draw per material, no extra light. On Extra and up the café picture fills the back */
   const sideT=marblePanelTex(); sideT.repeat.set(5,2); sideT.offset.y=-.476; const sideM=new T.MeshStandardMaterial({map:sideT, roughness:.3, metalness:.05});
-  [-1,1].forEach(sx=>{ const w=mesh(new T.PlaneGeometry(8,4.2),sideM,sx*4.6,2.1,0); w.rotation.y=-sx*Math.PI/2;
-    const d=mesh(new T.BoxGeometry(8,.98,.03),lacquer,sx*4.58,.6,0); d.rotation.y=-sx*Math.PI/2; const r=mesh(new T.BoxGeometry(8,.01,.095),M.gold,sx*4.56,1.065,0); r.rotation.y=-sx*Math.PI/2; });
+  const sides=new T.Group(); hall.add(sides);
+  [-1,1].forEach(sx=>{ const g=new T.Group(); g.position.set(sx*4.6,0,0); g.rotation.y=-sx*Math.PI/2; sides.add(g);
+    mesh(new T.PlaneGeometry(8,4.2),sideM,0,2.1,0,g); mesh(new T.BoxGeometry(8,.98,.03),lacquer,0,.6,.02,g); mesh(new T.BoxGeometry(8,.01,.095),M.gold,0,1.065,.04,g);
+    [-2.4,-.4].forEach(z=>{ const u=z*sx; mesh(new T.BoxGeometry(.1,.28,.03),M.brassDark,u,1.42,.08,g); const a=mesh(new T.CylinderGeometry(.011,.011,.22,6),M.brass,u,1.48,.17,g); a.rotation.x=.956;
+      mesh(shadeG,glassM,u,1.585,.25,g); const h=mesh(haloG,haloM,u,1.68,.27,g); h.renderOrder=2; }); });
+  bake(sides); }
+if(EXTRA_UP){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, metalness:0},{clearcoat:.8, clearcoatRoughness:.12}), velvet=new T.MeshStandardMaterial({color:L("#4a1217"), roughness:.96, metalness:0});
   const cafe=new T.Group(); hall.add(cafe);
   function chair(x,z,ry){ const c=new T.Group(); c.position.set(x,0,z); c.rotation.y=ry; cafe.add(c);
     mesh(new T.BoxGeometry(.46,.05,.46),lacquer,0,.44,0,c); mesh(new T.BoxGeometry(.4,.045,.4),velvet,0,.49,0,c); mesh(new T.BoxGeometry(.44,.06,.04),lacquer,0,.98,-.21,c); mesh(new T.BoxGeometry(.44,.05,.035),lacquer,0,.72,-.21,c); mesh(new T.BoxGeometry(.4,.2,.03),velvet,0,.85,-.21,c);
@@ -704,12 +710,30 @@ const POS_XY={ GK:[.5,.9], LB:[.12,.72], LWB:[.1,.62], LCB:[.34,.76], CB:[.5,.76
    (js/visualIdentity.js) are loaded with the scene's assets. r90 W7: the board's own copy of the kit table is gone (one kit module for every
    screen); if the module cannot load, a plain shirt in the squad file's club colour keeps the board from blanking. */
 let KITS=null;
-function kitShirt(ctx,x,y,s,club,pos,vsClub){ if(KITS){ try{ KITS.drawFlat(ctx,club.club,x,y,s,{role:pos==="GK"?"gk":"outfield",vsClub}); return; }catch(e){} } const a=club.kit||["#8a8f98","#ffffff","#ffffff"]; ctx.save(); ctx.translate(x,y); ctx.scale(s,s); ctx.beginPath(); ctx.moveTo(-.2,-.5); ctx.quadraticCurveTo(0,-.42,.2,-.5); ctx.lineTo(.46,-.42); ctx.lineTo(.68,-.1); ctx.lineTo(.42,0); ctx.lineTo(.39,.5); ctx.quadraticCurveTo(0,.55,-.39,.5); ctx.lineTo(-.42,0); ctx.lineTo(-.68,-.1); ctx.lineTo(-.46,-.42); ctx.closePath(); ctx.fillStyle=pos==="GK"?"#2fb0a8":a[0]; ctx.fill(); ctx.lineWidth=.035; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(); ctx.restore(); }
+/* r90 LOOK L10: the club crest for the board header, drawn from js/visualIdentity.js (loaded with the kits); none = the name alone */
+const CRESTS=new Map(); const crestNow=n=>{ const c=CRESTS.get(n); return c&&c.img||null; };
+function crestLoad(n){ if(CRESTS.has(n)) return CRESTS.get(n).p; const e={img:null}; e.p=new Promise(res=>{ let svg=null; try{ svg=typeof window.getClubCrestSvg==="function"?window.getClubCrestSvg(n):null; }catch(_e){} if(!svg) return res(null);
+  if(!/xmlns=/.test(svg)) svg=svg.replace("<svg","<svg xmlns=\"http://www.w3.org/2000/svg\""); const im=new Image(); im.onload=()=>{ e.img=im; res(im); }; im.onerror=()=>res(null); im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg); }); CRESTS.set(n,e); return e.p; }
+/* r90 MOTION: a shirt is painted once per club, role and size and then stamped. Each board is drawn several times while the
+   screen loads (first pass, again once the kits and crests are in, the shot frames for each turn), and the painted shirt costs
+   seconds in total on a slow CPU. Cleared when the kits or crests arrive, so the stamp never misses a crest. */
+const SHIRTS=new Map();
+function kitShirt(ctx,x,y,s,club,pos,vsClub){ if(KITS){ try{ const role=pos==="GK"?"gk":"outfield", k=ctx.getTransform().a||1, sh=ctx.shadowColor+"/"+ctx.shadowBlur+"/"+ctx.shadowOffsetX+"/"+ctx.shadowOffsetY,
+      key=club.club+"|"+role+"|"+(vsClub||"")+"|"+s+"|"+k+"|"+sh; let c=SHIRTS.get(key);
+    if(!c){ const pad=Math.ceil(s*.8); c=document.createElement("canvas"); c.width=c.height=Math.ceil(pad*2*k); const g=c.getContext("2d"); g.setTransform(k,0,0,k,0,0);
+      g.shadowColor=ctx.shadowColor; g.shadowBlur=ctx.shadowBlur; g.shadowOffsetX=ctx.shadowOffsetX; g.shadowOffsetY=ctx.shadowOffsetY;   /* the board's shadow state, as the shirt was painted under it */
+      KITS.drawFlat(g,club.club,pad,pad,s,{role,vsClub}); c.__pad=pad; SHIRTS.set(key,c); }
+    const p=c.__pad; ctx.save(); ctx.shadowColor="transparent"; ctx.drawImage(c,Math.round((x-p)*k)/k,Math.round((y-p)*k)/k,c.width/k,c.height/k); ctx.restore(); return; }catch(e){} } const a=club.kit||["#8a8f98","#ffffff","#ffffff"]; ctx.save(); ctx.translate(x,y); ctx.scale(s,s); ctx.beginPath(); ctx.moveTo(-.2,-.5); ctx.quadraticCurveTo(0,-.42,.2,-.5); ctx.lineTo(.46,-.42); ctx.lineTo(.68,-.1); ctx.lineTo(.42,0); ctx.lineTo(.39,.5); ctx.quadraticCurveTo(0,.55,-.39,.5); ctx.lineTo(-.42,0); ctx.lineTo(-.68,-.1); ctx.lineTo(-.46,-.42); ctx.closePath(); ctx.fillStyle=pos==="GK"?"#2fb0a8":a[0]; ctx.fill(); ctx.lineWidth=.035; ctx.strokeStyle="rgba(0,0,0,.6)"; ctx.stroke(); ctx.restore(); }
 function loadScript(src){ return new Promise(res=>{ const el=document.createElement("script"); el.onload=()=>res(true); el.onerror=()=>res(false); el.src=src; document.head.appendChild(el); }); }
 async function loadKits(){ if(KITS||window.CareerModeKits17) return KITS=window.CareerModeKits17||KITS; const v=qs.get("v"), ver=v?"?v="+encodeURIComponent(v):"";
   /* the game serves these two with its own version (same ?v as this page), so the service worker hands out the cached shell copies offline */
-  const ok=await Promise.race([Promise.all([loadScript("../../../js/visualIdentity.js"+ver),loadScript("../../../js/kits17.js"+ver)]).then(r=>r.every(Boolean)),new Promise(r=>setTimeout(()=>r(false),6000))]);
-  KITS=ok&&window.CareerModeKits17||null; return KITS; }
+  const loads=Promise.all([loadScript("../../../js/visualIdentity.js"+ver),loadScript("../../../js/kits17.js"+ver)]).then(r=>r.every(Boolean));
+  const ok=await Promise.race([loads,new Promise(r=>setTimeout(()=>r(false),6000))]);
+  KITS=ok&&window.CareerModeKits17||null;
+  /* r90 LOOK L10: the scene does not wait longer than 6 s for the kits, but it no longer gives up on them: when they land late (a busy
+     first open) the boards are drawn again in the real shirts and crests, as long as no turn has started */
+  if(!KITS) loads.then(done=>{ if(!done||!window.CareerModeKits17||KITS) return; KITS=window.CareerModeKits17; const d=boards.D.userData.club, n=boards.N.userData.club; if(SQUADS&&d&&n&&turn===0&&!playing) setBoards(d.club,n.club); });
+  return KITS; }
 function formationOf(xi){ const D=xi.filter(([p])=>/B$/.test(p)).length, A=xi.filter(([p])=>/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(p)).length; const M=xi.length-1-D-A; return `${D}-${M}-${A}`; }
 function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 const POS_COL=(pos)=>pos==="GK"?"#f2d23c":/B$/.test(pos)?"#3f86e8":/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(pos)?"#e8502f":"#4fc74d";
@@ -733,20 +757,21 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   const form=(club.formation||formationOf(club.xi));
   ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H); ctx.textBaseline="middle";
   { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b1e24"); g.addColorStop(1,"#101216"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
-  /* tab bar */
-  { const tabs=["SQUAD","FORMATIONS","ROLES","INSTRUCTIONS","TACTICS"], tw=W/tabs.length; ctx.fillStyle="#22262d"; ctx.fillRect(0,0,W,50);
-    tabs.forEach((t,i)=>{ const cx=tw*(i+.5); if(!i){ ctx.fillStyle="#2f343d"; ctx.fillRect(0,0,tw,50); ctx.fillStyle="#f6d13a"; ctx.fillRect(14,45,tw-28,5); } ctx.font="700 27px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.fillStyle=i?"#e4e6ea":"#f6d13a"; ctx.fillText(t,cx,26); }); }
-  /* header: the club's best player on the left (shirt, position, overall, bar, surname), the club and its XI on the right */
+  /* r90 LOOK L10: no dead menu tabs (nothing on this board is a button). The header is the club's own: its crest and name on the right
+     with the starting XI line, the club's best player on the left in the club's Kits 17 shirt */
   const best=club.xi.reduce((a,r)=>r[2]>a[2]?r:a,club.xi[0]), avg=Math.round(club.xi.reduce((a,r)=>a+r[2],0)/club.xi.length);
-  { const g=ctx.createLinearGradient(0,50,0,162); g.addColorStop(0,"#f2f4f6"); g.addColorStop(1,"#d6dade"); ctx.fillStyle=g; ctx.fillRect(0,50,W,112);
-    ctx.save(); ctx.beginPath(); ctx.arc(150,104,48,0,7); ctx.clip(); ctx.strokeStyle="rgba(240,196,48,.75)"; ctx.lineWidth=3; for(let i=-6;i<8;i++){ ctx.beginPath(); ctx.moveTo(100+i*12,160); ctx.lineTo(160+i*12,48); ctx.stroke(); } ctx.restore();
-    ctx.fillStyle=POS_COL(best[0]); ctx.beginPath(); ctx.arc(30,88,8,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 32px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(best[0],44,89);
-    kitShirt(ctx,150,98,62,club,best[0],vsClub);
-    ctx.font="800 76px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(String(best[2]),196,96);
-    ctx.fillStyle="#2b3038"; ctx.fillRect(24,129,270,8); ctx.fillStyle="#46cf3a"; ctx.fillRect(25,130,268*Math.min(1,best[2]/99),6);
-    ctx.textAlign="center"; ctx.fillStyle="#22252b"; ctx.fillText(fitText(ctx,surname(best[1]),700,30,22,270),159,150);
-    ctx.textAlign="right"; ctx.fillStyle="#1d2026"; ctx.fillText(fitText(ctx,club.club.toUpperCase(),800,46,30,600),W-30,88);
-    ctx.font="600 25px 'Barlow Condensed'"; ctx.fillStyle="#4f5560"; ctx.fillText("STARTING XI · "+form+" · OVR "+avg,W-30,130); }
+  { const g=ctx.createLinearGradient(0,0,0,162); g.addColorStop(0,"#f2f4f6"); g.addColorStop(1,"#d6dade"); ctx.fillStyle=g; ctx.fillRect(0,0,W,162);
+    ctx.fillStyle="#c9a24a"; ctx.fillRect(0,158,W,4);
+    ctx.save(); ctx.beginPath(); ctx.arc(150,78,52,0,7); ctx.clip(); ctx.strokeStyle="rgba(240,196,48,.75)"; ctx.lineWidth=3; for(let i=-6;i<8;i++){ ctx.beginPath(); ctx.moveTo(100+i*12,136); ctx.lineTo(160+i*12,24); ctx.stroke(); } ctx.restore();
+    ctx.fillStyle=POS_COL(best[0]); ctx.beginPath(); ctx.arc(30,58,8,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 32px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(best[0],44,59);
+    kitShirt(ctx,150,72,66,club,best[0],vsClub);
+    ctx.font="800 76px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(String(best[2]),200,68);
+    ctx.fillStyle="#2b3038"; ctx.fillRect(24,104,270,8); ctx.fillStyle="#46cf3a"; ctx.fillRect(25,105,268*Math.min(1,best[2]/99),6);
+    ctx.textAlign="center"; ctx.fillStyle="#22252b"; ctx.fillText(fitText(ctx,surname(best[1]),700,30,22,270),159,132);
+    const crest=crestNow(club.club), cs=118, crx=W-24-cs, nameR=crest?crx-18:W-30;
+    if(crest){ const k=Math.min(cs/crest.width,cs/crest.height), cw=crest.width*k, chh=crest.height*k; ctx.drawImage(crest,crx+(cs-cw)/2,20+(cs-chh)/2,cw,chh); }
+    ctx.textAlign="right"; ctx.fillStyle="#1d2026"; ctx.fillText(fitText(ctx,club.club.toUpperCase(),800,50,30,nameR-330),nameR,64);
+    ctx.font="600 25px 'Barlow Condensed'"; ctx.fillStyle="#4f5560"; ctx.fillText("STARTING XI · "+form+" · OVR "+avg,nameR,110); }
   /* the pitch in perspective (one half: halfway line at the top, our box at the bottom) with a thick turf edge */
   const PT=174, PB=616, TL=98, TR=926, BLx=28, BRx=996; const kOf=y=>(y-PT)/(PB-PT); const X=(u,y)=>{ const k=kOf(y), l=TL+(BLx-TL)*k, r=TR+(BRx-TR)*k; return l+u*(r-l); };
   { ctx.beginPath(); ctx.moveTo(BLx,PB); ctx.lineTo(BRx,PB); ctx.lineTo(BRx-3,PB+12); ctx.lineTo(BLx+3,PB+12); ctx.closePath(); const e=ctx.createLinearGradient(0,PB,0,PB+12); e.addColorStop(0,"#2e7426"); e.addColorStop(1,"#1d4a18"); ctx.fillStyle=e; ctx.fill();
@@ -770,7 +795,7 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   spots.sort((a,c)=>a.y-c.y||a.x-c.x).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); });
   spots.forEach(sp=>playerCard(ctx,sp,club,vsClub));
   /* the bench: a strip of cards under the pitch */
-  const BT=636; ctx.fillStyle="#23272e"; ctx.fillRect(0,BT,W,32); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",22,BT+17); ctx.textAlign="right"; ctx.font="600 21px 'Barlow Condensed'"; ctx.fillStyle="#9ea4b0"; ctx.fillText("BENCH · "+club.subs.length,W-22,BT+17);
+  const BT=636; ctx.fillStyle="#23272e"; ctx.fillRect(0,BT,W,32); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",22,BT+17);   /* r90 L10: the bench count line is gone; the four cards say it */
   const subs=club.subs.slice(0,4), gapC=10, cw=(W-44-gapC*3)/4, cy=BT+38, ch=H-cy-6;
   subs.forEach(([pos,name,rating],i)=>{ const cx=22+i*(cw+gapC); const g=ctx.createLinearGradient(0,cy,0,cy+ch); g.addColorStop(0,"#262a32"); g.addColorStop(1,"#1a1d22"); roundRect(ctx,cx,cy,cw,ch,6); ctx.fillStyle=g; ctx.fill(); ctx.strokeStyle="rgba(255,255,255,.07)"; ctx.lineWidth=1.5; ctx.stroke();
     const idx=11+i, sx=cx+cw*.5, sy=cy+38; b.bubbles.push({slot:idx,x:sx,y:sy,name,pos,rating,u:sx/W,v:1-sy/H});
@@ -800,7 +825,7 @@ let prepared={};
 function setBoards(dClub,nClub){ if(!SQUADS) return; const d=clubByName(dClub), n=clubByName(nClub); prepared={}; boards.D.userData.hit=null; boards.N.userData.hit=null; boards.D.userData.club=d; boards.N.userData.club=n; drawBoard("D",d); drawBoard("N",n);
   /* r89 Kits 17: the crests decode in a moment; the boards are drawn again with them unless a turn has started or the clubs changed meanwhile */
   const done=()=>{ ["D","N"].forEach(k=>{ try{ renderer.initTexture(boards[k].userData.canvas.__tex); }catch(e){} }); prepareHits(); };
-  if(KITS) KITS.prepare([d.club,n.club]).then(()=>{ if(playing||boards.D.userData.club!==d||boards.N.userData.club!==n) return; drawBoard("D",d); drawBoard("N",n); done(); }).catch(()=>{}); else done(); }
+  if(KITS) Promise.all([KITS.prepare([d.club,n.club]),crestLoad(d.club),crestLoad(n.club)]).then(()=>{ if(playing||boards.D.userData.club!==d||boards.N.userData.club!==n) return; SHIRTS.clear(); drawBoard("D",d); drawBoard("N",n); done(); }).catch(()=>{}); else done(); }
 /* r90: in the game both turns are known when the page is set up, so a shot's hole-and-stamp board is drawn and sent to the GPU while
    the managers are still reading the screen, not at the tap (startTurn falls back to drawing it then if the tap comes first) */
 function prepareHits(){ if(!GAME||turn>0) return; GAME.turns.forEach((o,t)=>{ if(!o||o.fire!==true) return; const who=ORDER[t], b=boards[who].userData, plan=rrPlanTurn(o,b.bubbles); if(plan) prepared[t]=boardFrames(who,plan.pick,true); }); }
@@ -1168,7 +1193,18 @@ async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch(
 function loadLookEnv(){ if(!T.EXRLoader) return Promise.resolve(null); return new T.EXRLoader().setDataType(T.FloatType).loadAsync("assets/ENV_LOUNGE_V1.exr").then(t=>{ const d=t.image&&t.image.data; if(d) for(let i=0;i<d.length;i++){ if(d[i]>LOOK_ENV_MAX) d[i]=LOOK_ENV_MAX; } t.needsUpdate=true; t.mapping=T.EquirectangularReflectionMapping; LOOK.hdri=t; }).catch(()=>null); }
 /* the sunlit window in the picture is hundreds of times brighter than the room; capped, so polished steel shows a bright window, not a white blaze */
 const LOOK_ENV_MAX=4;
-function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture; pm.dispose(); LOOK.hdri.dispose(); LOOK.hdri=null;
+/* r90 LOOK L29: at every level the revolver's steel reflects a small dark studio of its own: a softbox overhead and a little behind, a
+   long strip behind, the oil lamp's warm glow on its left, the green felt below. Lying on the table it otherwise mirrors the room's dark
+   ceiling, so the blued frame read as a black slab, the barrel as a black bar and the nickel drum as a plain chrome tube. Built once at
+   load at the room's size (128), so the gun's shaders are the same programs; every other surface keeps the room. */
+function gunStudio(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:new T.Color(...c), side:T.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
+  s.add(new T.Mesh(new T.BoxGeometry(10,10,10),new T.MeshBasicMaterial({color:new T.Color(.014,.012,.011), side:T.BackSide})));
+  add(10,10,[.018,.04,.022],0,-4.9,0); add(3.4,2.2,[2.2,2.1,1.95],0,4.7,-1.4); add(5,2,[2.6,2.5,2.3],0,3.4,-4.9); add(7,.45,[1.2,1.15,1.1],0,1.2,-4.9); add(1.5,1.5,[1.9,1.4,.85],-4.9,1.3,1.6);
+  const t=pm.fromScene(s,.04,.1,20,{size:128}).texture; s.traverse(o=>{ if(o.isMesh){ o.geometry.dispose(); o.material.dispose(); } }); return t; }
+const GUN_STEEL={blued:3, bluedBarrel:3, bluedPlain:2.2, worn:1.4, bright:1, drum:.8, drumFace:.9};
+function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture;
+  { const st=gunStudio(pm); Object.entries(GUN_STEEL).forEach(([k,v])=>{ GM[k].envMap=st; GM[k].envMapIntensity=v; GM[k].needsUpdate=true; }); GM.drum.roughness=.38; GM.drumFace.roughness=.42; GM.bright.roughness=.3; }   /* satin, so the flutes and the hammer show their shape instead of one mirror stripe */
+  pm.dispose(); LOOK.hdri.dispose(); LOOK.hdri=null;
   scene.environmentIntensity=EXTRA_UP?.6:.5; M.floor.envMapIntensity=EXTRA_UP?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
 /* r90 warm-up (Reus Gate): every texture goes to the GPU and every shader compiles (in parallel where the browser can) BEFORE the page
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
