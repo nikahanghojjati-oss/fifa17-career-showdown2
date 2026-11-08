@@ -1793,7 +1793,7 @@ grassMat.onBeforeCompile=(sh)=>{
    .replace("#include <dithering_fragment>","#include <dithering_fragment>\n gl_FragColor.a=diffuseColor.a;"); };
 const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGround.rotation.x=-Math.PI/2; shadowGround.position.y=0; shadowGround.receiveShadow=true;
 function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
-function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
+function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.webp",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 /* r89 (Nik's look frame SP_LOOKFRAME_V1): a camera focused on the card sees the far stands soft, so the card stands out from them.
    r90 pack smooth: that soft focus (half size, then a sixth of the photo) is baked into the *_soft_V1.jpg files, so the page
    fetches 0.4 MB instead of 5.9 MB and no longer decodes and shrinks four big photos on the main thread at load. */

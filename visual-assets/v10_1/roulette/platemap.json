@@ -1,7 +1,7 @@
 {
   "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. Edit these numbers when a picture layer drops into assets/; no code change needed.",
   "room": {
-    "file": "assets/RR_ROOM.jpg",
+    "file": "assets/RR_ROOM.webp",
     "ticket": "1851-5",
     "z": -3.9,
     "height": 5.2,

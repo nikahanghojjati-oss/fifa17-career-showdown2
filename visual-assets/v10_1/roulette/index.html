@@ -344,7 +344,7 @@ const M={
   lampGlass:new T.MeshStandardMaterial({map:lampTex, emissiveMap:lampTex, emissive:0xffffff, emissiveIntensity:1.05, roughness:.35, side:T.DoubleSide})
 };
 
-/* ================= room (full 3D fallback; RR_ROOM.jpg replaces the back wall when it exists) ================= */
+/* ================= room (full 3D fallback; RR_ROOM.webp replaces the back wall when it exists) ================= */
 const room=new T.Group(); scene.add(room);
 function mesh(g,m,x,y,z,parent){ const o=new T.Mesh(g,m); o.position.set(x||0,y||0,z||0); (parent||room).add(o); return o; }
 function lathe(pts,seg){ return new T.LatheGeometry(pts.map(p=>new T.Vector2(p[0],p[1])),seg||24); }
@@ -1219,7 +1219,7 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
 /* ================= asset contract: each picture drops in without a code change ================= */
 const PLATEMAP={}; let hasRoom=false, hasGunTop=false;
 async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
-  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.jpg"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),loadLookEnv()]);
+  const [room,top,flash,sq,handImg]=await Promise.all([loadImg("assets/RR_ROOM.webp"),(PLATEMAP.gunTop&&PLATEMAP.gunTop.present?loadImg("assets/RR_GUN_TOP.png"):null),(PLATEMAP.flash&&PLATEMAP.flash.present?loadImg("assets/RR_FLASH.png"):null),fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),loadLookEnv()]);
   { const hc=handImg?keyOutBlack(handImg):handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.CanvasTexture(hc); ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq;
   if(room){ hasRoom=true; const bw=room.width/room.height; const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:new T.Texture(room), toneMapped:false})); pl.material.map.colorSpace=T.SRGBColorSpace; pl.material.map.needsUpdate=true; const H=(PLATEMAP.room&&PLATEMAP.room.height)||4.6; const cut=(PLATEMAP.room&&PLATEMAP.room.floorCut)||0; pl.scale.set(H*bw,H,1); pl.position.set(0,H/2-cut*H,(PLATEMAP.room&&PLATEMAP.room.z)||-3.9); scene.add(pl); scene.getObjectByName("backWall").visible=false; scene.fog=null; }
