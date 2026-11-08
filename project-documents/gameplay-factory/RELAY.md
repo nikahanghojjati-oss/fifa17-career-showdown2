@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 1:36 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 1:40 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `f7bb49e` (Sat 7 Nov 10:04 PM Boston time) · 200 messages · 59 hand-offs · 0 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `f7bb49e` (Sat 7 Nov 10:04 PM Boston time) · 200 messages · 59 hand-offs · 385 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -13,6 +13,7 @@ Relay branch `leads/relay` head `f7bb49e` (Sat 7 Nov 10:04 PM Boston time) · 20
 ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sat 7 Nov 10:04 PM · Team G · Sent
+- Sat 7 Nov 10:04 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -74,6 +75,7 @@ Team G changed `js/visualIdentity.js` in PR #1270, which merged into gameplay/r9
 - Wed 4 Nov 12:47 PM · Team V · In progress · Files DELIVERED: branch claude/project-thread-m5zk5e commit 2b58eae0, visual-assets/v10_1/shared/wordmarks/v2/README.md (60 WebP, TITLE_<NAME>_V2_<w>.webp next to each V1 file; 960 lighter than V1). Ready for Studio Small Axe to wire now. Waiting only on Nik's look OK before DONE.
 - Wed 4 Nov 9:03 AM · Team V · Received
 - Wed 4 Nov 8:50 AM · Team G · Sent
+- Wed 4 Nov 8:51 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -132,6 +134,7 @@ Nik: "Include 4k titles in 2.2" (17:45 UTC). Priority is now TOP: this is in the
 
 - Mon 2 Nov 12:50 PM · Team V · Done · recorded by G lead from PR #1207 (V thread did not write the relay)
 - Mon 2 Nov 12:23 PM · Team G · Sent
+- Mon 2 Nov 12:25 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -165,6 +168,7 @@ Nik's decision (2026-11-02 ~17:20 UTC): one pull per season, chance = goals/7. C
 - Mon 2 Nov 1:34 PM · Team G · Done · Art merged into gameplay/r88 via PR #1208; phone bar fits above the tab bar at 393x660 in r88's layout
 - Mon 2 Nov 12:33 PM · Team V · Done · Art ready on claude-visual/story-film-reel: TILE_STORY_V1.webp (512 RGBA q88) + TILE_STORY_V1.png master in visual-assets/v10_1/shared/art/home-tiles/. Previews + notes in project-documents/factory/reviews/STORY_TILE/. Phone: the 44 px bar does not fit under the grid at 393x660 today (tab bar covers it); G owns that layout.
 - Mon 2 Nov 12:23 PM · Team G · Sent
+- Mon 2 Nov 12:25 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -219,6 +223,7 @@ Push to a `claude-visual/…` branch or open a PR, and tell Team G's lead the br
 - Sun 1 Nov 11:04 AM · Team V · Done · PR #1180 into gameplay/r87 (0c35a641): ::after cover removed; title revealed by its own clip-path inset(-8px 100% -8px -8px) -> inset(-8px), same 450 ms + ease; entered = clip-path none; reduced motion never clips. sd-title-wipe-cover keyframes kept for tr2 verdict brush. Contracts: no new failures vs base (57 pre-existing). Browser: 0 dark px in title box at every frame.
 - Sun 1 Nov 11:00 AM · Team V · Received · V on it now: clip-path reveal, transparent cover, same 450 ms; tiny PR into gameplay/r87 before 16:40 UTC (12:40 p.m. Eastern).
 - Sun 1 Nov 10:57 AM · Team G · Sent
+- Sun 1 Nov 10:58 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -237,6 +242,7 @@ Ask: reveal the title with a clip-path (or mask) wipe so no opaque cover ever pa
 - Sun 1 Nov 10:42 AM · Team V · Done
 - Sun 1 Nov 10:25 AM · Team V · Received · Team V will review G's desktop+phone shots against attachments/HO-051/V sheets as soon as they land (~16:15 UTC) and answer yes/no before 16:45 UTC.
 - Sun 1 Nov 10:21 AM · Team G · Sent
+- Sun 1 Nov 10:21 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -260,6 +266,7 @@ Ask: when G posts desktop + phone shots (~16:15 UTC), give a quick yes/no that i
 - Sun 1 Nov 7:57 AM · Team V · Done
 - Sun 1 Nov 7:35 AM · Team V · Received · Team V picked it up 12:36 UTC. ETA: PR into gameplay/r87 by 14:15 UTC, inside the 15:00 freeze (2.0.0). Bases on #1168 once it merges, else on its branch.
 - Sun 1 Nov 7:30 AM · Team G · Sent
+- Sun 1 Nov 7:32 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -286,6 +293,7 @@ The r87 (2.0.0) freeze is 15:00 UTC. If it can't be green by then, it ships in 2
 - Sun 1 Nov 5:51 AM · Team V · Done
 - Sun 1 Nov 5:35 AM · Team V · Received · Team V picked it up 1 Nov 10:40 UTC. ETA: PR into gameplay/r87 (based on #1149) with all shots by 15:30 UTC (10:30 a.m. Eastern). Art is Nik's GPT set as attached; no new pictures needed unless a cut-out fails.
 - Sun 1 Nov 5:33 AM · Team G · Sent
+- Sun 1 Nov 5:33 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -357,6 +365,7 @@ The card frame (03_prime_card_frame_transparent) has slots for overall (shield),
 - Sat 31 Oct 3:48 PM · Team V · Done · F3 strip clear at 1280-2560x1440 (ultrawide 21:10 pre-existing, open); F6 main only scroller at 844x390/740x360
 - Sat 31 Oct 3:40 PM · Team V · In progress · Team V thread on it now; PR into gameplay/r87 before 21:00 UTC
 - Sat 31 Oct 3:35 PM · Team G · Sent
+- Sat 31 Oct 3:39 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -379,6 +388,7 @@ Base: latest gameplay/r87. One PR into gameplay/r87, CSS/layout only. Shots: des
 - Sat 31 Oct 12:00 AM · Team V · In progress · Team V thread building items 1-3 on gameplay/r87; item 4 as 2 options for Nik
 - Fri 30 Oct 11:59 PM · Team V · Received · Team V: received; routing to a Team V thread via the coordinator
 - Fri 30 Oct 11:48 PM · Team G · Sent
+- Fri 30 Oct 11:50 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -403,6 +413,7 @@ Rules: premium black-and-gold marble, nothing covers anything at any size, no di
 - Sun 1 Nov 6:16 AM · Team G · Done · Merged into gameplay/r87 via #1110; ships in 2.0.0. Shots from gameplay/r87 f4efa199 (emulator CE2PG): season 1 of 3 paper and FINAL EDITION, desktop 1440x900 + phone 390x844.
 - Fri 30 Oct 10:01 PM · Team G · Received · r87 lead: building it now (branch claude-gameplay/r87-gazette); season edition after each Season Results, final after Final Winner (Nik 01:28 UTC). Paper text deterministic per Showdown+season so both phones match.
 - Fri 30 Oct 9:52 PM · Team V · Sent
+- Fri 30 Oct 9:53 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -446,6 +457,7 @@ Season front page and Final Winner page in the live game show real copy from the
 - Thu 29 Oct 7:02 PM · Team G · In progress · r87 lead: making the eight cues in-house (synthesised, no third-party samples); PR into the HO-040 branch
 - Thu 29 Oct 7:00 PM · Team G · Received · Received by the r86 lead; the r87 lead (thread 'Team G lead: r87 Squad Roulette') owns Russian Roster Roulette and builds the sounds.
 - Thu 29 Oct 6:54 PM · Team V · Sent
+- Thu 29 Oct 6:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -496,6 +508,7 @@ Produce or source the eight files, add the `"sfx"` block to platemap.json, and P
 - Thu 29 Oct 3:12 PM · Team G · Done · Merged into r86 by G lead; ships with r86.
 - Thu 29 Oct 3:07 PM · Team G · Received · PR #1058 checked by G lead (contracts green on current r86); Codex asked, merging into r86 when clean.
 - Thu 29 Oct 2:54 PM · Team V · Sent
+- Thu 29 Oct 2:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -542,6 +555,7 @@ Merge the PR into gameplay/r86 (ships with r86). No test changes needed.
 - Thu 29 Oct 11:17 AM · Team G · In progress · Team G: built in PR #1057 into gameplay/r86 (ships with r86), together with the HO-044 tall plate media query (aspect 17/48 to 59/128) on top of your #1056 commits. Your two notes checked: both true; held for Nik's call, not built.
 - Thu 29 Oct 10:55 AM · Team G · Received · Team G r86 lead: received; building it with the HO-044 tall-plate media query on one r86 PR
 - Thu 29 Oct 10:24 AM · Team V · Sent
+- Thu 29 Oct 10:27 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -568,6 +582,7 @@ Reply needed: yes (which release carries it).
 - Thu 29 Oct 9:44 AM · Team V · In progress · Team V (thread Hunt and fix visual bugs): a stretched/outpainted copy of V5 built in code looked wrong (seams, doubled stands), so this goes the HO-032 V5 way: picture ticket 1852 for Nik (ChatGPT paints only a border around the exact V5 picture, scaled 0.879 on a 1179x2620 canvas; Claude pastes the V5 middle back pixel for pixel). Faces land 14.0% in from each side, so cover works down to 340x960 (0.354). Face zones for the tall plate: Daniel [0.1396,0.2807,0.2834,0.3660], Nik [0.7159,0.2792,0.8590,0.3643]. Waiting on Nik to run the ticket. Note: Team V's own Select League title-ring ticket was renumbered HO-045 to leave HO-044 to this one.
 - Thu 29 Oct 9:40 AM · Team V · Received · Team V: received; asking the coordinator to route it to a Team V thread
 - Thu 29 Oct 9:26 AM · Team G · Sent
+- Thu 29 Oct 9:26 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -607,6 +622,7 @@ Adds a second media query for tall portrait phones (aspect below 59/128) that dr
 - Thu 29 Oct 9:23 AM · Team V · Done · Team V: PR #1052 into gameplay/r87, CSS only. Fixed: 2 (dialogs = one low strip under the League buttons / over the Club button row, since Club has no free band), 3 (history inside the empty Legacy pane above the pager), 5 (waiting buttons solid black/gold, no see-through), 6b (review text 14px), 4c (phone lock note on marble panel), 7 (phone Standings title same height on both tabs), 1 (only dim found on phone Home = music sheet backdrop, now clear; the Join panel itself does not dim). Reported back without change: 4a/4b (phone titles match approved PHONE_*_MARBLE mockups, faces clear - Nik's call), 6a (Settings 75% is the largest zoom that fits the approved NEXT_SETTINGS layout at 1440x900). Flash audit 0 problems, face check PASS, r80 short screens no new findings.
 - Thu 29 Oct 4:20 AM · Team V · Received · Team V: received; asking the coordinator for a dedicated Team V thread
 - Thu 29 Oct 4:16 AM · Team G · Sent
+- Thu 29 Oct 4:16 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -642,6 +658,7 @@ Each item fixed on its screen, one desktop (1440x900 or 1920x1080) and one phone
 - Thu 29 Oct 4:05 AM · Team V · Done
 - Thu 29 Oct 3:59 AM · Team V · In progress · Team V Big Jump owner fixing all three on factory special-player + preview
 - Thu 29 Oct 3:53 AM · Team G · Sent
+- Thu 29 Oct 3:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -664,6 +681,7 @@ Keep the data contract unchanged (MP_LIST, tiers, shirt numbers, the reveal orde
 - Thu 29 Oct 4:49 AM · Team G · Done · Merged into gameplay/r86 as b91fdcc4 (Codex clean, 8/8 checks green). Ships with r86.
 - Thu 29 Oct 3:54 AM · Team G · Received
 - Thu 29 Oct 3:53 AM · Team V · Sent
+- Thu 29 Oct 3:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -713,6 +731,7 @@ Club Assignment fades in from black for ~0.5 s after the wheel (that screen's ow
 - Thu 29 Oct 8:18 PM · Team V · Done · Nik approved the screen 29 Oct 8:16 p.m. Eastern. Real 3D screen (three.js, one page, no build) at visual-assets/v10_1/roulette/ on claude/project-thread-6rq94x f598b44dc. Package HANDOFF_HO-040_DONE.md has the wiring contract: URL params d/n/seed, window.__rr.play({fire,target}), rr:end event, squads.json shape, 22 s turn, sfx map (HO-047 merged). Team G decides outcomes (HO040-M1), the page's own random is demo only. Evidence sheets + 23 s videos in evidence/.
 - Wed 28 Oct 8:13 PM · Team V · Received · Team V: received; asking the coordinator to open a new Team V thread for it (picture tickets + layered assets)
 - Wed 28 Oct 8:06 PM · Team G · Sent
+- Wed 28 Oct 8:06 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -760,6 +779,7 @@ Nik approves NEXT_ROULETTE and PHONE_ROULETTE, and the layered assets are on a b
 
 - Wed 28 Oct 6:56 PM · Team G · Done · Nik chose r86 (22:55 UTC): #1033 retargeted and merged into gameplay/r86; ships with merge r86 after the gallery. Claude Review + Deep Audit disabled in Actions and deleted from main.
 - Wed 28 Oct 6:26 PM · Team V · Sent
+- Wed 28 Oct 6:27 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -795,6 +815,7 @@ Pictures: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/fa
 - Wed 28 Oct 5:58 PM · Team G · Done · Merged into gameplay/r86 as d9eacff1 (PR #1031, Codex clean, Gate green): your 15 crests as given, plus CLUB_IDENTITY_ALIASES so the 23 launch-dataset names (FC Barcelona, Inter, AS Monaco ...) draw the catalog crest. Contract L6: all 76 Marquee clubs draw a real crest.
 - Wed 28 Oct 4:05 PM · Team G · Received · Team G lead got it; adding the 15 crests to js/visualIdentity.js on gameplay/r86 now (PR + Gate + Codex), re-pinning the crest sha in v10-setup-contracts.
 - Wed 28 Oct 3:53 PM · Team V · Sent
+- Wed 28 Oct 3:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -879,6 +900,7 @@ Run your crest contracts; every new recipe uses existing shapes and only the new
 - Wed 28 Oct 2:36 PM · Team G · In progress · LIST READY for you: data/marqueePlayers.js on branch claude-gameplay/r86-launch-list @5c2cfc87 (PR #1030, merging into gameplay/r86 once green). Nik widened it to the TOP 300 and chose to keep ties at the cut whole: 305 rows, last rank 298. 46 nations (ISO codes: AM AR AT BA BE BF BR CD CH CI CL CO CR CZ DE DK DZ EG ES FR GA GB-ENG GB-WLS GH GR HR IT JM MA ME MX NG NL PL PT PY RS SE SI SK SN TR UA US UY VE), 76 clubs. Launch values throughout; printed card stats; no Gabriel Jesus; Mbappé shown as 'K. Mbappé'. Scouting cards (data/scoutingCards.js) follow the same order. Row shape is the object {rank,name,club,overall,potential,number,nation,nationCode,position,stats}.
 - Wed 28 Oct 2:08 PM · Team G · In progress · Built: PR #1030 (branch claude-gameplay/r86-launch-list @d8425ac4) into gameplay/r86. Source SoFIFA roster 170002 (Sept 2016 launch, players_17.csv). 155 stay, 45 out, 52 in; tie at the cut (8 players at 86/76) kept whole = 207 rows pending Nik's card (199/200 = one-line change). Printed card stats, launch clubs/numbers/nations/positions; no Gabriel Jesus; scouting cards re-ordered + 52 new. Final SHA follows when merged.
 - Wed 28 Oct 1:49 PM · Team V · Sent
+- Wed 28 Oct 1:52 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -927,6 +949,7 @@ The list is now the **top 300**, not 200. Tiers: 1-3 black, 4-10 blue, 11-20 gol
 - Wed 28 Oct 8:39 AM · Team G · Received · ADDENDUM from Team G (Nik 2026-10-28 12:39 UTC asked for smart UI tied to your FIFA 17 pack-opening MP design): (1) SCOUTING CARD = the BACK of your MP card: after the card lands and flips to its face, a tap (or 3 s) flips it again to the back with style tag, report and special in the same tier finish; flip back on tap. Nothing new on screen, nothing covers the face. (2) SEASON FRONT PAGE screen = classic spinning-newspaper drop onto the marble desk, settles, headline then subhead then the two crests and scores, one Continue. (3) COMMENTARY = a broadcast lower-third strip in flow under the scores (FIFA 17 TV style), text types in with the spoken line; on Final Winner the same strip. (4) CLUB CARD = slides up under the crest after the Club Assignment reveal. Team G owns the smart pick: the line/page is chosen by situation priority and seeded by Showdown id + season so both phones show the same one with no reads, never repeating within a Showdown.
 - Wed 28 Oct 1:22 AM · Team V · Received · Team V lead got it; starts after Nik's verdict on the HO-035 MP 3D preview. HO-035 data (PR #1028/#1029) noted for the MP build.
 - Wed 28 Oct 1:09 AM · Team G · Sent
+- Wed 28 Oct 1:10 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -977,6 +1000,7 @@ The plates are on a Team V branch with evidence, the ticket is DONE with that br
 - Tue 27 Oct 7:54 PM · Team V · In progress · Building visual-assets/v10_1/marquee on branch claude/project-thread-3ux89z: club plate scene reused, code-drawn original shirts, gold faceless silhouette for the player step, tier badge, MP chip
 - Tue 27 Oct 7:52 PM · Team V · Received · Team V lead started it in this thread 27 Oct 7:5x p.m. Eastern
 - Tue 27 Oct 7:12 PM · Team G · Sent
+- Tue 27 Oct 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1031,6 +1055,7 @@ The plate and chip are on a Team V branch with evidence, the ticket is DONE with
 - Mon 19 Oct 1:23 AM · Team V · In progress · picture ticket 1848 with Nik; original cup in the Europa silhouette (tall silver, wide flared bowl, no handles), same render recipe as the other four trophies
 - Mon 19 Oct 1:22 AM · Team V · Received
 - Mon 19 Oct 1:21 AM · Team G · Sent
+- Mon 19 Oct 1:22 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1064,6 +1089,7 @@ Both files must match the existing set exactly: same canvas size, same framing, 
 - Sat 17 Oct 6:21 PM · Team G · In progress · items 1-9 in one PR; render check per changed screen
 - Sat 17 Oct 6:21 PM · Team G · Received · r79 lead: starting now in a helper, branch claude-gameplay/r79-visual-fixes into gameplay/r79
 - Sat 17 Oct 6:19 PM · Team V · Sent
+- Sat 17 Oct 6:20 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1098,6 +1124,7 @@ Known and not in scope: League on taller phones (412x915, 360x800), already on y
 - Sat 17 Oct 10:28 AM · Team G · In progress · V2 + wheel 15% smaller (254px at 393x852, centre and buttons unchanged; audit now tests the wheel as a circle). Face check, Daniel/Nik under #leagueWheel/.wheelTrack: 393x852 FAIL 2%/1% (gold rim 12.6px into Daniel's zone at chin/shoulder, 8.9px into Nik's at his hand, inner bottom corner); 393x660, 375x667, 360x640 OK (faint shadow only). V2 would need ~23% shrink to clear the rim, ~28% to clear the outer ring. Please make the V4 plate: men up or outward at 393x852 by ~13px (Daniel) / ~9px (Nik) plus margin. Daniel's and Nik's zones also touch the screen edges at 393x852 (hair crop). Team G's wiring is ready locally and ships as soon as V4 lands.
 - Sat 17 Oct 10:20 AM · Team G · Received · Team G starting now: phone wheel ~15% smaller on ENV_LEAGUE_PHONE_V2; per-size numbers come back here if faces still overlap
 - Sat 17 Oct 10:19 AM · Team V · Sent
+- Sat 17 Oct 10:20 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1120,6 +1147,7 @@ Ask (phone and sideways only, desktop unchanged):
 - Sat 17 Oct 12:39 PM · Team G · Done · All 12 phone screens on marble plates in r78
 - Sat 17 Oct 12:44 AM · Team G · In progress · Team G starting now: swap 12 phone plates, drop OVL layers on phone, face check each screen
 - Sat 17 Oct 12:44 AM · Team V · Sent
+- Sat 17 Oct 12:45 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1148,6 +1176,7 @@ If a screen genuinely cannot keep its approved layout around the painted men, sa
 - Sat 17 Oct 12:18 AM · Team V · In progress · Team V lead started. Steps: style picked, pictures made, code handed back
 - Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
 - Fri 16 Oct 11:38 PM · Team G · Sent
+- Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1173,6 +1202,7 @@ The current loading screen looks washed out. Nik wants a big quality upgrade.
 - Fri 16 Oct 11:44 PM · Team G · Received · Team G: full list of error screens, notes, 13 native confirm() sites, modals and toasts (base gameplay/clean-start 614f999b). Native confirm() needs a custom modal; Team G will wire it.
 - Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
 - Fri 16 Oct 11:38 PM · Team G · Sent
+- Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1199,6 +1229,7 @@ Rules: no dimming or dark overlay behind dialogs (HO-027); readable body type (s
 - Sat 17 Oct 12:18 AM · Team V · In progress · Team V lead started. Steps: style picked, pictures made, code handed back
 - Fri 16 Oct 11:39 PM · Team V · Received · Team V lead received; work starts in the fresh Team V lead thread
 - Fri 16 Oct 11:38 PM · Team G · Sent
+- Fri 16 Oct 11:39 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1222,6 +1253,7 @@ Rules that apply: one unified marble look; no dimming or see-through text panels
 - Sat 17 Oct 12:20 AM · Team G · Done · r78: 26 state-dimming spots removed (PR #890, merged into gameplay/clean-start 426245d8); ships in 1.9.2-r78
 - Mon 12 Oct 8:44 PM · Team G · Received
 - Mon 12 Oct 8:43 PM · Team V · Sent
+- Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1252,6 +1284,7 @@ Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Mon 12 Oct 8:44 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1269,6 +1302,7 @@ Team V adds the same rule to PRODUCT_TRUTH.md and to every picture ticket.
 - Mon 12 Oct 5:58 PM · Team V · In progress · Tickets for the 3 sample marble phone mockups are ready for Nik (factory/v1-wtt5ye 0fa01a28b, tickets/TICKET-1799_*).
 - Mon 12 Oct 5:56 PM · Team V · Received · Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner.
 - Mon 12 Oct 5:55 PM · Team G · Sent
+- Mon 12 Oct 5:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1328,6 +1362,7 @@ Team G starts wiring as soon as each screen's plate lands. It browser-checks eve
 - Sat 10 Oct 11:37 PM · Team G · Done · Done. From now on every G hand-off change runs feed_sync --team G in the same commit and wakes Team V.
 - Sat 10 Oct 11:35 PM · Team G · Received · Team G lead ran feed_sync --team G (backfill HO-006..HO-024 G rows) and moved INBOX G to the lead thread; feed_sync runs with every handoff change from now on
 - Sat 10 Oct 11:32 PM · Team V · Sent
+- Sat 10 Oct 11:33 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1366,6 +1401,7 @@ FEED.md has rows for both teams' hand-off moves up to now, INBOX.json `G` is cur
 - Sat 10 Oct 11:37 AM · Team G · Done · All 126 study items now say 'Work toward PHONE_<KEY>.png / NEXT_<KEY>.png' (fetch from factory/v1-wtt5ye). They are held: the item replies 'on hold until Team V approves its picture, try N+1' and the board's Type now list skips them. To release a screen, add its key under approved.PHONE or approved.NEXT in queue/PICTURES.json (Team V relay note PHONE_HOME approved -> Team G lead forwards to the mega factory). Keys: HOME CONNECT_PLAYERS SEASON_RESULTS TRANSFER LEAGUE CLUB STATISTICS RIVALRY LEGACY TROPHY_ROOM FINAL_WINNER SETTINGS RULE_BOOK STANDINGS.
 - Sat 10 Oct 11:35 AM · Team G · Received · Team G lead: forwarded to the mega factory (owns study tickets 226-476): add the PHONE_/NEXT_ picture target and hold each screen's studies until Team V approves its picture
 - Sat 10 Oct 11:35 AM · Team V · Sent
+- Sat 10 Oct 11:35 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1396,6 +1432,7 @@ I'm writing the tickets now, starting with Home. The ticket set is job 1588 at `
 - Sat 10 Oct 11:33 AM · Team G · Done · Fixed: art folders (transfer to tr2 plate assets; rule-book, settings, standings to shared), mockup path on factory/v1-wtt5ye, phone fit 393x660/360x640/375x553, Daniel left and no photos or real crests, home tile art rule; items 316/334/344/362 now start from the 1035/1036 designs.
 - Sat 10 Oct 11:30 AM · Team G · Received · Team G lead: forwarded to the mega factory, which owns the study tickets (items 226-476); it will apply the five fixes before Nik types them
 - Sat 10 Oct 11:30 AM · Team V · Sent
+- Sat 10 Oct 11:30 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1438,6 +1475,7 @@ Team V's INBOX entry points to this session (session_013pn5j1NjipzmcDNVpF7Fd3), 
 
 - Sat 10 Oct 10:18 AM · Team V · Received · Team V will judge mega factory phone/desktop studies (items 226-476) and log adopted/not adopted in queue/V_ADOPTION.md; NEEDS TEAM V items come as normal hand-offs.
 - Sat 10 Oct 10:17 AM · Team G · Sent
+- Sat 10 Oct 10:17 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1474,6 +1512,7 @@ Mark this RECEIVED. Fill in `V_ADOPTION.md` whenever studies come in; the first 
 - Thu 8 Oct 11:02 PM · Team V · In progress · Part 2 (sideways phone) design ready: port visual-assets/v10_1/tr2/evidence/1035/PORT.md on factory/v1-wtt5ye. Part 1 (upright tablet) is job 1036, in progress
 - Thu 8 Oct 10:06 PM · Team V · Received · Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job
 - Thu 8 Oct 10:05 PM · Team G · Sent
+- Thu 8 Oct 10:06 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1505,6 +1544,7 @@ Studio Z fixed the connectivity, refresh and sign-in problems from Nik and Danie
 - Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Tue 6 Oct 1:16 AM · Team G · Received
 - Tue 6 Oct 1:16 AM · Team V · Sent
+- Tue 6 Oct 1:17 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1548,6 +1588,7 @@ The screen is still released after 4 s, but the link is only toggled once it has
 - Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Tue 6 Oct 1:08 AM · Team G · Received
 - Tue 6 Oct 1:07 AM · Team V · Sent
+- Tue 6 Oct 1:08 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1575,6 +1616,7 @@ https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-w
 - Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Tue 6 Oct 12:47 AM · Team G · Received
 - Tue 6 Oct 12:47 AM · Team V · Sent
+- Tue 6 Oct 12:47 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1605,6 +1647,7 @@ https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-w
 
 - Tue 6 Oct 12:03 AM · Team V · Received · Team V lead received; setting up mockup-progress board
 - Tue 6 Oct 12:02 AM · Team G · Sent
+- Tue 6 Oct 12:03 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1635,6 +1678,7 @@ Acknowledge this ticket. Then set up your mockup-progress board and plan your wo
 - Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:54 PM · Team G · Received · bug factory: job 1021 · G (GPT green); lead verifies with v10-transfer contracts, Team V re-checks
 - Mon 5 Oct 9:53 PM · Team V · Sent
+- Mon 5 Oct 9:53 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1665,6 +1709,7 @@ Team V re-checks your PR at 393x660, 360x640 and 375x553: send the link.
 - Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:38 PM · Team G · Received · bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check
 - Mon 5 Oct 9:37 PM · Team V · Sent
+- Mon 5 Oct 9:38 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1700,6 +1745,7 @@ Team V's 1012 is the visual check: send the PR link and the lead renders the ent
 - Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:32 PM · Team G · Received · bug factory: job 1015 · G (GPT green; Sonnet if green fails), lead runs pairing contracts + audits, Team V 1013 visual check
 - Mon 5 Oct 9:31 PM · Team V · Sent
+- Mon 5 Oct 9:32 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1736,6 +1782,7 @@ Team V's 1013 is the visual check: when your PR is up, send the link and the lea
 - Sat 17 Oct 5:51 PM · Team G · In progress · r79 lead triaging this 2026-10-06 ticket against r78 main (screens since redesigned); closes as DONE/superseded or moves into r79
 - Mon 5 Oct 9:30 PM · Team G · Received · bug factory: job 1014 · G (GPT green), lead verifies with the reconnect audit
 - Mon 5 Oct 9:29 PM · Team V · Sent
+- Mon 5 Oct 9:30 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1759,6 +1806,7 @@ Team V's 1013 is the visual check: when your PR is up, send the link and the lea
 - Mon 5 Oct 8:54 PM · Team V · In progress · V archives its own board (factory BOARD.md -> BOARD_ARCHIVE.md, generator paused); V coordinator switches its Custom view to a verbatim copy of CUSTOM_VIEW_V.html
 - Mon 5 Oct 8:54 PM · Team V · Received
 - Mon 5 Oct 8:53 PM · Team G · Sent
+- Mon 5 Oct 8:54 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1801,6 +1849,7 @@ Your lead view shows the same content as `CUSTOM_VIEW_V.html`, Team V first, wit
 - Mon 5 Oct 8:35 PM · Team V · In progress · design packaged as 1006 · V for GPT blue (PR #393): FINAL SEASON cell first in the summary strip (desktop 3 cells; phone full-width top row of SUMMARY). Waiting for Nik to type 1006; lead renders, then sends ids + CSS.
 - Mon 5 Oct 8:32 PM · Team V · Received · received; packaging the design as a GPT blue job (shared number), lead renders phone + desktop
 - Mon 5 Oct 8:31 PM · Team G · Sent
+- Mon 5 Oct 8:32 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1829,6 +1878,7 @@ Team G turns the design into GPT job 1005 · G (js/seasonFinalV10.js + its CSS),
 - Mon 5 Oct 8:20 PM · Team G · Done · Job 1003 merged into gameplay/bug-list-1 (PR #391); rides Team G's next release to main
 - Mon 5 Oct 8:05 PM · Team G · Received · Packaged as job 1003 · G for GPT blue; rides Team G's next release
 - Mon 5 Oct 8:04 PM · Team V · Sent
+- Mon 5 Oct 8:05 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1857,6 +1907,7 @@ Lead check evidence (phone 390x664, 360x640, 375x553 and desktop 1366, 1920): fa
 - Mon 5 Oct 7:42 PM · Team G · Done · Block added as WORKER_HANDBOOK.md section 9b on factory/gameplay-v1 (f4cbb74). Cause was ours: job 1001's branch was cut from main after #385 while its base gameplay/bug-list-1 was at 61489dd. Base is now brought up to main (84a04d8) and future job branches are cut from the base. Gate list matches ours.
 - Mon 5 Oct 7:42 PM · Team G · Received · Team G bug factory thread picked it up
 - Mon 5 Oct 7:41 PM · Team V · Sent
+- Mon 5 Oct 7:43 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1890,6 +1941,7 @@ CHECKS AND THE PHYSIO (5 Oct 2026). The repo has automatic CI checks ("gates") a
 - Mon 5 Oct 7:32 PM · Team V · Done · Team V is a bug factory now: GPT blue (sol-chat) and green (sol-work) lanes, shared numbers, ladder blue/green > Sonnet > Opus > Fable, images to Nik first, lead-verified done. Rules: factory/v1-wtt5ye project-documents/factory/BUG_FACTORY.md. Bug board: factory/v1-wtt5ye project-documents/factory/BOARD.md (bug jobs as NNNN · V).
 - Mon 5 Oct 7:31 PM · Team V · Received · received; switching Team V factory to bug mode (GPT blue/green lanes, shared numbers, ladder)
 - Mon 5 Oct 7:31 PM · Team G · Sent
+- Mon 5 Oct 7:31 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1921,6 +1973,7 @@ Mark this ticket RECEIVED, then DONE once your factory is switched over, with a 
 - Mon 5 Oct 7:45 PM · Team V · Done · first Team V job on the shared counter: 1002 · V (Transfer War window strings, PR #389, GPT blue)
 - Mon 5 Oct 7:24 PM · Team V · Received · received; next new Team V job takes its number from claim_number.py
 - Mon 5 Oct 7:23 PM · Team G · Sent
+- Mon 5 Oct 7:27 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1947,6 +2000,7 @@ Nik (2026-10-05, 7:23 PM Boston) approved one shared job counter for both teams,
 - Mon 5 Oct 2:40 PM · Team G · In progress · Folded into r60 (PR #378, commit d0d0cbc8). V-247 block appended to main's home.css as is; on the 7-tile phone grid (3 per row) the label keeps the top and the icon fills the lower right at up to 62% of tile height, never clipped. Checked 390x844, 393x660, 360x640, 375x553.
 - Mon 5 Oct 2:40 PM · Team G · Received · Team G lead picked it up
 - Mon 5 Oct 2:32 PM · Team V · Sent
+- Mon 5 Oct 2:33 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -1978,6 +2032,7 @@ Exact diff against main 02080325: `project-documents/factory/reviews/V-247/TEAM_
 - Mon 5 Oct 12:03 PM · Team V · In progress · V2 overlays on branch v-243-home-phone-overlays-v2, PR #372
 - Mon 5 Oct 11:46 AM · Team V · Received · top priority; V2 phone overlays, each manager only
 - Mon 5 Oct 9:02 AM · Team G · Sent
+- Mon 5 Oct 9:03 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -2014,6 +2069,7 @@ Fix the mobile Home hero so the area between Daniel's and Nik's coats has no blu
 - Mon 5 Oct 12:19 PM · Team V · In progress
 - Mon 5 Oct 11:46 AM · Team V · Received · Sonnet QA pass
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -2048,6 +2104,7 @@ Nik (2026-10-05) sees "many elements from the old design colliding with the new 
 - Mon 5 Oct 12:19 PM · Team V · In progress
 - Mon 5 Oct 11:46 AM · Team V · Received · spec after HO-002 and HO-005
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -2082,6 +2139,7 @@ Design how the app's own header (manager name chip and SEASON chip, or SIGN IN a
 - Mon 5 Oct 12:13 PM · Team V · In progress · calm stage: dust and flare play once, then hold still
 - Mon 5 Oct 11:46 AM · Team V · Received · top priority; Team V picks the calm stage option and sends a branch for the fps probe
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -2115,6 +2173,7 @@ Team G's stopgap went live in r56 (main 00a1eb8): stage.js pauses the dust and f
 - Mon 5 Oct 11:47 AM · Team V · Done · tickets shown on Team V board
 - Mon 5 Oct 11:46 AM · Team V · Received · read; Team V adopts hand-off tickets
 - Mon 5 Oct 8:51 AM · Team G · Sent
+- Mon 5 Oct 8:52 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
