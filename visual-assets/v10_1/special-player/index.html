@@ -605,7 +605,7 @@ const roofPoints=PER.filter((q,i)=>i%3===0&&q[1]<20).map(q=>new T.Vector3(q[0]+q
 const FLAG_TEX0=canvasTex(4,4,null).tx; /* r90: a stand-in until prepareCards hands over the nation flag */
 const flags=flagMounts.map((m)=>{
   const geo=new T.PlaneGeometry(m.w,m.h,12,18); geo.translate(0,-m.h/2,0);
-  const mat=new T.MeshStandardMaterial({map:FLAG_TEX0, side:T.DoubleSide, roughness:.8});
+  const mat=new T.MeshStandardMaterial({map:FLAG_TEX0, side:T.DoubleSide, roughness:.8, color:new T.Color(.42,.42,.42)}); /* r90 L31: floodlit cloth at night, not pastel plates */
   const mesh=new T.Mesh(geo,mat); mesh.position.copy(m.pos); mesh.rotation.y=m.rotY; mesh.scale.y=.001; mesh.visible=false; mesh.castShadow=true; scene.add(mesh);
   return {mesh, base:geo.attributes.position.array.slice(), drop:0, target:0, h:m.h};
 });
@@ -678,6 +678,7 @@ function clearConfetti(){ for(let i=0;i<CONF;i++){ conf[i].on=false; dummy.scale
 const packTex=canvasTex(512,736,null);
 const packFace=new T.MeshStandardMaterial({map:packTex.tx, metalness:.55, roughness:.3, emissive:new T.Color(0,0,0)});
 const blackMetal=new T.MeshStandardMaterial({color:L(0x121214), metalness:.7, roughness:.32});
+const CALM=.55; /* r90 L31 (night reveal): every celebration keeps its beat with about half the paper and sparks */
 const PACK_W=1.8, PACK_H=2.6, PACK_D=.46, PACK_REST=new T.Vector3(0,1.78,-1.2);
 const pack=new T.Group(); scene.add(pack);
 { const body=new T.Mesh(new T.BoxGeometry(PACK_W-.06,PACK_H-.06,PACK_D),blackMetal); body.castShadow=true; pack.add(body);
@@ -764,7 +765,7 @@ const COIN_R=.62, COIN_SPIN=Math.PI/2;
 
 const raysTex=canvasTex(512,512,(c)=>{ c.translate(256,256); const r=seeded(9); for(let i=0;i<36;i++){ const a=i/36*Math.PI*2+r()*.08, w=.025+r()*.05; const g=c.createLinearGradient(0,0,Math.cos(a)*256,Math.sin(a)*256); g.addColorStop(0,"rgba(255,255,255,.9)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.beginPath(); c.moveTo(0,0); c.arc(0,0,256,a-w,a+w); c.closePath(); c.fill(); } }, true);
 const rays=new T.Mesh(new T.PlaneGeometry(1,1), new T.MeshBasicMaterial({map:raysTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, opacity:0, fog:false, color:new T.Color(.35,.35,.35)}));
-rays.position.set(0,1.9,-1.5); rays.scale.set(14,14,1); scene.add(rays);
+rays.position.set(0,1.9,-1.5); rays.scale.set(8,8,1); scene.add(rays); /* r90 L31: a halo round the card; at 14 m it washed the whole night stand in the tier colour */
 const glowTex=canvasTex(256,256,(c)=>{ const g=c.createRadialGradient(128,128,0,128,128,128); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.2,"rgba(255,255,255,.5)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.fillRect(0,0,256,256); }, true);
 const aura=new T.Sprite(new T.SpriteMaterial({map:glowTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, opacity:0})); aura.position.set(0,1.86,-1.65); aura.visible=false; scene.add(aura);
 const glow=new T.Sprite(new T.SpriteMaterial({map:glowTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false})); glow.scale.set(0,0,1); glow.position.set(0,1.86,-1.3); scene.add(glow);
@@ -923,7 +924,7 @@ function settle(natural){
   backMat.map=prep().scout;
   if(!frontFull) frontMat.map=prep().bare;
   pack.visible=false; coin.visible=false; packLight.intensity=0; card.visible=true; card.position.copy(CARD_POS); card.rotation.set(0,0,0); card.scale.setScalar(1);
-  rays.material.opacity=.16; rays.material.color.copy(Lc(TIER[p.tier].glow)).multiplyScalar(.35);
+  rays.material.opacity=.06; rays.material.color.copy(Lc(TIER[p.tier].glow)).multiplyScalar(.35);
   
   const slot=order[idx]==="daniel"?slotD:slotN; slot.textContent=p.name; slot.className=""; $(order[idx]==="daniel"?"rkD":"rkN").textContent="#"+p.rank+" "+TIERLABEL[p.tier];
   $("l3tag").textContent=(order[idx]==="daniel"?"01 · Daniel":"02 · Nik")+" · #"+p.rank+" "+TIERLABEL[p.tier];
@@ -1042,7 +1043,7 @@ function run(tt){
     const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(Lc(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10)*(camera.aspect<1?.55:1)); /* r90 L05: a softer slit on a portrait screen, so the pack art reads through it */
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,-PACK_D/2-.12)); /* r90 L05: behind the pack, which hides its lower part, never across the pack face */ pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
       pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)); }
-    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
+    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.22; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(3.5+charge*2.5); /* r90 L31: a halo round the pack, not a sunburst over the stand */
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
   else pillar.visible=false;
@@ -1058,8 +1059,8 @@ function run(tt){
     glow.material.color.copy(Lc(0xffe2a0)); });
   const gb=S(3.7,.75,tt); if(gb>0&&gb<1){ const s=Math.sin(gb*Math.PI)*5.5*pw; glow.position.set(0,PACK_REST.y,-.8); glow.scale.set(s,s*1.3,1); glow.material.opacity=(1-gb)*.6; }
   /* 3  the card is left floating, face hidden (3.7 - 4.6 s); the comet leaves to the other side */
-  if(tt>=3.7){ rays.position.set(0,1.9,-1.5); rays.scale.set(14,14,1); const ap=ease.outQuint(S(3.7,.9,tt)); card.position.set(0,lerp(PACK_REST.y,CARD_POS.y,ap),CARD_POS.z); card.scale.setScalar(.8+.2*ap+pulse*.035); card.rotation.set(0,Math.PI+(1-ap)*.9*side,0);
-    rays.material.opacity=Math.max(0,.4-S(3.7,1.5,tt)*.28); rays.material.color.copy(Lc(tc)).multiplyScalar(.35); rays.rotation.z=tt*.08; }
+  if(tt>=3.7){ rays.position.set(0,1.9,-1.5); rays.scale.set(8,8,1); const ap=ease.outQuint(S(3.7,.9,tt)); card.position.set(0,lerp(PACK_REST.y,CARD_POS.y,ap),CARD_POS.z); card.scale.setScalar(.8+.2*ap+pulse*.035); card.rotation.set(0,Math.PI+(1-ap)*.9*side,0);
+    rays.material.opacity=Math.max(0,.18-S(3.7,1.5,tt)*.12); rays.material.color.copy(Lc(tc)).multiplyScalar(.35); rays.rotation.z=tt*.08; }
   comet(tt,4.2,.55,new T.Vector3(.3,1.9,-.9),new T.Vector3(2.4*side,2.4,.2),new T.Vector3(7.5*side,3.2,1.2),BLUE);
   at(tt,4.5,"twinkle",()=>{ [[-1.05,1.5],[1.05,-.85]].forEach(([x,y])=>emit(card.localToWorld(new T.Vector3(x,y,.1)),new T.Vector3(),0xffffff,.5,1.1,0,0,0)); });
   const sweep=(t)=>{ if(tt>=t&&tt<t+.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-t)/.9); };
@@ -1068,7 +1069,7 @@ function run(tt){
   sweep(5.0);
   at(tt,5.8,"nat",()=>{ clueMaps(2); setFlagTex(prep().flag); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
     flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); });
-    [-.8,-.4,0,.4,.8].forEach((x,i)=>later(()=>starburst(skyPoint(x+(Math.random()-.5)*.1,.42+Math.random()*.18,-34),nat.concat([0xffffff]),Math.round(38*pw),7,1.3),200+i*160)); });
+    [-.6,0,.6].forEach((x,i)=>later(()=>starburst(skyPoint(x+(Math.random()-.5)*.1,.42+Math.random()*.18,-34),nat.concat([0xf1c35a]),Math.round(38*pw*CALM),7,1.3),200+i*180)); });
   if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });
   sweep(5.8);
   /* 5  the club badge coin rolls in, then flies onto the card (6.4 - 8.0 s); confetti cannons fire from both sides */
@@ -1082,7 +1083,7 @@ function run(tt){
     else { const k=ease.inOut(flyT); coin.position.lerpVectors(new T.Vector3(coinStopX*side,y0,zC),COIN_ON_CARD,k); coin.position.y+=Math.sin(k*Math.PI)*.8; const s=lerp(COIN_R,46/CW*2.2,k); coin.scale.set(s,1-.6*k,s); coin.rotation.set(Math.PI/2,0,0); coin.rotateY(k*Math.PI*2+COIN_SPIN); }
   }
   at(tt,8.0,"club",()=>{ clueMaps(3); pulse=1; shake=.15; burst(COIN_ON_CARD,[0xffffff,0xffd77a],70,3,.6,.16);
-    const cc=[tc,0xf1c35a,0xfff3c4,0x2f7bff]; confettiCannon(1,cc,Math.round(200*pw)); confettiCannon(-1,cc,Math.round(200*pw)); });
+    const cc=[tc,0xf1c35a,0xfff3c4,0x2f7bff]; confettiCannon(1,cc,Math.round(200*pw*CALM)); confettiCannon(-1,cc,Math.round(200*pw*CALM)); });
   sweep(8.0);
   /* 6  the card turns to show the face, big flash (8.9 - 10.1 s) */
   /* idea 1: for the top 20 and up the turn starts at 8.45 s and speeds up from its first frame (quad), so it is seen at once;
@@ -1090,14 +1091,14 @@ function run(tt){
   const cres=CRES[lvl], turnAt=cres?8.45:8.9, fl=S(turnAt,cres?1.65:1.2,tt);
   if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&!faceShown()){ frontMat.map=prep().bare; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.22; }
   at(tt,9.6,"sig",()=>startSig(p));
-  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(Lc(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
-    confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-4.6,5); /* z -7.1 to -2.1: behind the card */
-    [-.85,-.55,-.2,.2,.55,.85].forEach((x,i)=>later(()=>starburst(skyPoint(x,.38+Math.random()*.22,-36),[tc,0xffffff,0xfff1c2].concat(nat),Math.round(44*pw),8,1.4),i*120)); });
+  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(Lc(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xfff1c2,0xf1c35a],Math.round(240*pw*CALM),11,1.3,.2);
+    confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw*CALM),-4.6,5); /* z -7.1 to -2.1: behind the card */
+    [-.7,0,.7].forEach((x,i)=>later(()=>starburst(skyPoint(x,.38+Math.random()*.22,-36),[0xf1c35a,0xfff1c2,tc],Math.round(44*pw*CALM),8,1.4),i*160)); }); /* r90 L31: three gold volleys, not six multicolour ones */
   if(tt>9.6&&tt<12.2) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9));
   /* idea 1: the tier glow grows behind the card (depth-hidden by it, so never over its text) into the burst, then hands over */
   aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(Lc(tc)).multiplyScalar(1.5); aura.scale.setScalar((3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4)); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt))*(lvl>=3?.67:1); } /* top 3/top 10 blue: a third lighter so the stands stay readable */
-  const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*8*pw; glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.6; } else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
-  if(tt>9.6){ rays.material.opacity=lerp(.5,.16,S(9.6,2,tt)); rays.material.color.copy(Lc(tc)).multiplyScalar(.35); rays.rotation.z=tt*.06; }
+  const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*8*pw*(camera.aspect<1?.6:1); glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.45; } /* r90 L31: on a portrait screen the flash glow no longer washes the night stand and the flags */ else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
+  if(tt>9.6){ rays.material.opacity=lerp(.22,.06,S(9.6,2,tt)); rays.material.color.copy(Lc(tc)).multiplyScalar(.35); rays.rotation.z=tt*.06; }
   if(tt>10.3&&tt<11.2) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-10.3)/.9);
   if(tt>10.8&&phase==="run") settle(true);
 }
@@ -1108,8 +1109,8 @@ function run(tt){
 const ENCORE={ "black-blue-gold":[2.2,4.0,5.8], "blue-gold":[2.2,4.2], "gold":[2.4] }, ENCORE_TAIL=2.2;
 const encoreFor=(tier)=>(ENCORE[tier]||[]).filter(t=>t+ENCORE_TAIL<scoutInFor(tier));
 function encore(p,i){ const tc=TIER[p.tier].glow, lvl=tierLevel(p.tier), side=i%2?-1:1, cols=[tc,0xffffff,0xfff1c2,0xf1c35a];
-  [[.78,.5],[-.6,.42],[.55,.6],[-.8,.56]].forEach(([x,y],j)=>later(()=>starburst(skyPoint(side*x,y+(Math.random()-.5)*.08,-34),cols.concat(natCols(p.nation)),Math.round(52*PK*(.8+lvl*.1)),7.5,1.3),j*170));
-  confettiRain(natCols(p.nation).concat([0xf1c35a,0xfff3c4]),Math.round(110*PK),-6,6,3,4);
+  [[.78,.5],[-.6,.42],[.55,.6],[-.8,.56]].forEach(([x,y],j)=>later(()=>starburst(skyPoint(side*x,y+(Math.random()-.5)*.08,-34),cols.concat(natCols(p.nation)),Math.round(52*PK*CALM*(.8+lvl*.1)),7.5,1.3),j*170));
+  confettiRain(natCols(p.nation).concat([0xf1c35a,0xfff3c4]),Math.round(110*PK*CALM),-6,6,3,4);
   SFX.play("crowd",3,.55+lvl*.1); SFX.play("pops",3+lvl); }
 
 /* idea 8: rating count-up from 40, landing on the real number with a tick per step; quicker for a lower tier (.7 s at rank 51+,
@@ -1133,7 +1134,7 @@ function stepSig(now){ if(sigAt<0) return; const s=now-sigAt; if(s>2.6){ endSig(
   const grow=ease.out(clamp01(s/.35)), fade=1-clamp01((s-1.1)/1.2);
   beams.forEach((b,i)=>{ b.visible=sigLvl>=(i?3:2)&&fade>0; if(!b.visible) return; const x=i?fitX((i===1?-1:1)*2.3,CARD_POS.z-.9):0;
     b.position.set(x,.05,CARD_POS.z-(i?.9:.6)); b.rotation.set(0,Math.atan2(camera.position.x-x,camera.position.z-b.position.z),0); if(i) b.rotateZ(i===1?.12:-.12); b.scale.set((i?.7:1.7)*(.35+grow*.65),24*grow,1); });
-  beamMat.color.copy(sigCol).lerp(WHITE,.2).multiplyScalar(2.6*grow*fade);
+  beamMat.color.copy(sigCol).lerp(WHITE,.1).multiplyScalar(1.1*grow*fade*(camera.aspect<1?.6:1)); /* r90 L05: tinted shafts behind the card, not white bars over the reveal */
   compMat.uniforms.strength.value=.3+(sigLvl>=4?.5*Math.sin(clamp01((s-.2)/1.1)*Math.PI):0); }
 
 /* idea 11: the ending. Once both cards are out, the better pull's name in the bar gets a gold pulse (both on a tie), a closing
@@ -1185,7 +1186,10 @@ const PACK_TOP=[[-1,-1],[1,-1],[-1,1],[1,1]], packV=new T.Vector3();
 function keepPackUnderTitle(){ const yNow=pack.position.y; pack.position.y=PACK_REST.y+.05; pack.updateMatrixWorld(); /* .05: the landed float's highest point */ camera.updateMatrixWorld();
   let top=-9; PACK_TOP.forEach(([x,z])=>{ packV.set(x*PACK_W/2,PACK_H/2+.04,z*(PACK_D/2+.04)); pack.localToWorld(packV).project(camera); top=Math.max(top,packV.y); });
   const perNdc=camera.position.distanceTo(PACK_REST)*Math.tan(camera.fov*Math.PI/360);
-  pack.position.y=yNow-(top>bandTop?Math.min(.45,(top-bandTop)*perNdc*1.03):0); pack.updateMatrixWorld(); }
+  const need=top>bandTop?(top-bandTop)*perNdc*1.03:0, low=Math.min(.45,need), rest=need-low;
+  /* r90 L32: on 16:9 laptops and phones lowering alone left the top under the title; the rest comes from a smaller pack (base on the grass) */
+  if(rest>0){ const k=Math.max(.7,1-rest/(PACK_H*.95)); pack.scale.multiplyScalar(k); pack.position.y=yNow-low-(1-k)*PACK_H/2; } else pack.position.y=yNow-low;
+  pack.updateMatrixWorld(); }
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
 /* r90: the frame governor and the ?fps=1 counter are js/gfxTier.js's (startGfx, after the warm-up). It only moves the pixel
    ratio; every change re-sizes the scene and bloom targets through resize(). */
