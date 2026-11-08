@@ -214,3 +214,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-08 15:15 | Team G | Team V | HO-063 DONE | Home icons: Team V prompt job owns them, W9 stops (Nik) | no |
 | 2026-11-08 15:18 | Team G | Team V | HO-064 RECEIVED | Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art | no |
 | 2026-11-08 15:18 | Team G | Team V | HO-064 DONE | Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art | no |
+| 2026-11-08 15:25 | Team G | Team V | HO-065 SENT | Pause the Home icon part of the prompt job (Nik) | yes (receive it) |
