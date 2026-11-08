@@ -3051,6 +3051,23 @@
         "^tests/contracts/r90\\-quality\\-levels\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r90-offline-shell-contracts.cjs",
+      "patterns": [
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^manifest\\.webmanifest$",
+        "^js/app\\.js$",
+        "^js/offlineApp\\.js$",
+        "^css/offline\\.css$",
+        "^js/settings\\.js$",
+        "^css/settings\\.css$",
+        "^assets/icons/.+\\.svg$",
+        "^\\.github/workflows/validate\\-stability\\-lane\\.yml$",
+        "^tests/contracts/r90\\-offline\\-shell\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
