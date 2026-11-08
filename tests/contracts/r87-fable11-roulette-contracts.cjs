@@ -4,7 +4,7 @@
 //     through a later refill (rrTakeReserve asks rrExcluded like every other route).
 //  A2 F11-07 a kept signing weaker than every fitting starter and every sub is named on the card ("waits in your reserves").
 //  A3 F11-01 the scene's turn clock pauses while no frame ran (phone locked, app switched).
-//  A4 F11-02 the Google title fonts never block the scene scripts.
+//  A4 F11-02 the title fonts never block the scene scripts; r90 M8: they ship with the app (no Google Fonts).
 //  A5 F11-08 BACK TO SHOWDOWN HOME keeps the roulette and the loading screen up until Home is on screen.
 //  A6 F11-11 / F11-12 no dead frame under the result card; a card's buttons answer once.
 //  A7 F11-19 long bench surnames are fitted.
@@ -56,9 +56,13 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
 const scene=read("visual-assets/v10_1/roulette/index.html");
 assert.match(scene,/function tick\(draw\)\{ const t=now\(\);\s*\/\*[^*]*\*\/\s*if\(manual===null&&playing&&last>0&&t-last>\.25\) playing\.t0\+=t-last-\.016;/);
 ok("A3","F11-01 the turn clock pauses while no frame ran");
-assert.match(scene,/<link rel="stylesheet" media="print" onload="this\.media='all'" href="https:\/\/fonts\.googleapis\.com\/css2\?family=Big\+Shoulders\+Display/);
-assert.doesNotMatch(scene,/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com/,"no render-blocking font stylesheet is left");
-ok("A4","F11-02 the title fonts never block the scene scripts");
+// r90 MOTION M8: the title faces ship with the app, so nothing asks Google Fonts at all (and nothing can block the scripts)
+assert.doesNotMatch(scene,/fonts\.googleapis\.com|fonts\.gstatic\.com/,"no font comes from Google Fonts");
+for(const face of ["big-shoulders-display-latin-800-normal","big-shoulders-display-latin-900-normal","rye-latin-400-normal"]){
+  assert.match(scene,new RegExp(`url\\(\\.\\./shared/fonts/${face}\\.woff2\\)`),`${face} is served locally`);
+  assert.ok(fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${face}.woff2`)),`${face}.woff2 ships`);
+}
+ok("A4","F11-02 + M8 the title fonts never block the scene scripts and never leave the app");
 const step=read("js/rosterRouletteStep.js");
 assert.match(step,/if\(go===false\)\{leftForHome=true;holding=false;rrsLoadingOn\(\);const tear=\(\)=>\{if\(\(running&&running!==run\)\|\|holding\)return;rrsRemovePanel\(\);rrsRemoveStage\(\);rrsLoadingOff\(\);\};/);
 assert.match(step,/void Promise\.resolve\(\)\.then\(\(\)=>root\.navigateTo\("mainMenu"\)\)\.catch\(\(\)=>\{\}\)\.finally\(tear\);else tear\(\);/);
