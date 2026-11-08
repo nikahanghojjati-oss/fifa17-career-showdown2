@@ -162,7 +162,7 @@
     const v=String(level),a=assets===undefined?null:String(assets);
     for(const w of [root,gfxParent()]){try{const el=w&&w.document&&w.document.documentElement;if(!el||!el.dataset)continue;
       if(el.dataset.gfx!==v)el.dataset.gfx=v;if(a!==null&&el.dataset.assets!==a)el.dataset.assets=a;}catch(_error){}}
-    // Settings listens for this to keep its "Auto picked ..." line true when a 3D screen's calibration moves the level.
+    // Settings listens for this and reads the saved state again (a crash cap or a Device check result moves Auto).
     if(v!==lastMark){lastMark=v;try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-level",{detail:{level}}));}catch(_error){}}
   }
   let lastMark=null;
@@ -376,9 +376,11 @@
     profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.
-    // On Auto, "now" is the level Auto is actually running (after this session's calibration or a crash fallback).
-    suggested(){const p=gfxProfile(),now=p.auto?p.level:p.autoLevel;return {level:p.autoLevel,name:NAMES[p.autoLevel],measured:Boolean(p.measured),
-      now,nowName:NAMES[now],lowered:Boolean(p.auto&&p.fellBack)};},
+    // "now" is the level Auto starts at on this device, read fresh from storage each call (Codex on #1284): the Device check
+    // result and a crash cap may have been saved by the roulette or SP frame's own copy of this module. A scene's five-frame
+    // calibration is not saved (each scene calibrates again), so it is not part of what Settings shows.
+    suggested(){const p=gfxProfile(),m=gfxMeasured(),level=m?m.level:p.guessLevel,cap=gfxCap(),now=cap?Math.min(level,cap.level):level;
+      return {level,name:NAMES[level],measured:Boolean(m),now,nowName:NAMES[now],lowered:now<level};},
     // Device check: what this device is taken for before any check (phone or computer, GPU, the level Auto starts at).
     device(){const p=gfxProfile();return {phone:Boolean(p.phone),gpu:p.gpu,software:Boolean(p.software),strongPhone:Boolean(p.strongPhone),
       guessLevel:p.guessLevel,guessName:NAMES[p.guessLevel],can8k:Boolean(p.can8k),dpr:p.dpr};},

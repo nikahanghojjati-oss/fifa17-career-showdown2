@@ -404,7 +404,7 @@ function createGfxQualityControl(){
     const load = ready() ? Promise.resolve(true)
         : typeof window.loadRuntimeScript === "function" ? Promise.resolve(window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)) : Promise.resolve(false);
     load.then(() => fillSettingsGfxSelect(select, note), () => {});
-    // Calibration on a 3D screen (or a crash fallback) can move Auto; the line follows while Settings is open.
+    // A crash cap or a Device check result can move Auto; the line reads the saved state again while Settings is open.
     const onLevel = () => {
         if(!select.isConnected){ window.removeEventListener("cms-gfx-level", onLevel); return; }
         if(window.CareerModeGfxTier){ note.textContent = getSettingsGfxAutoText(window.CareerModeGfxTier); note.hidden = !note.textContent; }
