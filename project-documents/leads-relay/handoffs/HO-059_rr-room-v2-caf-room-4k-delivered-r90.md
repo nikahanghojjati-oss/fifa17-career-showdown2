@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-08T08:02:18Z", "by": "V", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-08T08:02:18Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T08:03:12Z", "by": "G", "status": "RECEIVED", "note": ""}],
  "from_session": "session_01GU43Q7QN4svQiijKTnMq6Z",
- "sessions": {"V": "session_01GU43Q7QN4svQiijKTnMq6Z"}
+ "sessions": {"V": "session_01GU43Q7QN4svQiijKTnMq6Z", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
 ```
 
