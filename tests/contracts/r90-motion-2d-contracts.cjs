@@ -25,6 +25,8 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   light("css/v10Club.css",/html\[data-gfx="0"\] #clubWheelScreen #covers polygon\[filter="url\(#cvUnder\)"\] \{ display: none; \}/,"Club Assignment leaves out the blurred under-glow at Light");
   assert.match(read("visual-assets/v10_1/club/club.js"),/<polygon points="\$\{pts\(s\.panel\)\}" fill="#F2C45B" opacity="\.18" filter="url\(#cvUnder\)"/,"Team V's under-glow polygon is the one Light hides (club.js untouched)");
   assert.match(read("js/gfxTier.js"),/function gfxMarkRoot\(level,assets\)\{/,"js/gfxTier.js writes html[data-gfx]");
+  light("visual-assets/v10_1/shared/stage.css",/html\[data-gfx="0"\] \.sd-stage \{ will-change: opacity; \}/,"M33: at Light the stage keeps its own layer once the dust is gone");
+  assert.match(read("visual-assets/v10_1/shared/stage.css"),/\.sd-stage \{\n[^}]*isolation: isolate;/,"the stage is already isolated, so the hint changes no stacking");
   ok("M18-M26","at Light the panels, stage dust and flare, Home tiles, Rule Book cards, Final Winner spotlights and Club glow step down; other levels are untouched");}
 // M27: wordmark srcset sizes match the drawn width (measured 25-44% of the window at 1366 and 1920), so a DPR 1 screen
 // fetches the 480/960 file instead of the 960/1920 one; phones keep 92vw.
