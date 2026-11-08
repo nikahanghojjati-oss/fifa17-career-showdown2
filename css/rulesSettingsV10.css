@@ -1250,3 +1250,15 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 #app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown strong { color:#f7c93e; font-weight:700; letter-spacing:.08em; white-space:nowrap; }
 #app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown span { min-width:0; }
 
+
+/* r90 W9 (LOOK hunt L14): the free-quota numbers sit under a quiet DETAILS toggle below the plain ONLINE PLAY TODAY line. */
+#settingsOverlay.v10Settings .settingsUsageDetails { margin: 6px 0 10px; }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 2px; cursor: pointer; list-style: none;
+  font: 600 11px/1.2 var(--sd-font-condensed, inherit); letter-spacing: .14em; color: #c1b9aa;
+}
+#settingsOverlay.v10Settings .settingsUsageDetails > summary::-webkit-details-marker { display: none; }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary::after { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translateY(-2px); }
+#settingsOverlay.v10Settings .settingsUsageDetails[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary:hover, #settingsOverlay.v10Settings .settingsUsageDetails > summary:focus-visible { color: #f2c45b; }
+#settingsOverlay.v10Settings .settingsUsageDetails > .settingsInfoGrid { grid-template-columns: minmax(0, 1fr); margin-top: 4px; }
