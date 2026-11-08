@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-08T18:21:09Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-08T18:21:09Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-08T18:24:45Z", "by": "V", "status": "RECEIVED", "note": "Passed to the Team V writer thread for round 2"}],
  "from_session": "session_01GU43Q5aWwvAxHbnmJQquBz",
- "sessions": {"G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
+ "sessions": {"G": "session_01GU43Q5aWwvAxHbnmJQquBz", "V": "session_01GU43Q55MWFc5kxaqRPspjd"}
 }
 ```
 
