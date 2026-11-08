@@ -35,7 +35,6 @@ const EXEMPT_FILES=Object.freeze({
   "js/importAnalysis.js":"backup-file preview screen",
   "js/backup.js":"backup-file export",
   "js/saveLibraryUI.js":"the Save Library editor: hidden in the online product (checked below)",
-  "js/cloudSyncRemoteContract.js":"schema notes; the app never loads this file (checked below)",
   "js/productionAuthorizationAcceptance.js":"acceptance tool (acceptance mode only)",
   "js/stage5fProductionAuthenticatedNegatives.js":"acceptance tool (acceptance mode only)",
   "js/ssjrPhysicalJourneyAcceptance.js":"acceptance tool (acceptance mode only)",
@@ -118,10 +117,9 @@ check("W4 index.html and the visual-assets strings.json files carry none of the 
   for(const file of strings)for(const text of jsonStrings(JSON.parse(read(file))))assert.equal(banned(text),null,`${file}: ${text}`);
 });
 
-check("W5 the exemptions hold: the Save Library editor is hidden in the online product and the schema notes are never loaded",()=>{
+check("W5 the exemption holds: the Save Library editor is hidden in the online product",()=>{
   const identity=read("js/onlinePlayerIdentity.js");
   assert.match(identity,/#saveLibraryProductPanel:not\(\[data-test-surface=\\"internal-audit\\"\]\)[^"]*\{display:none!important\}/,"the online product hides the Save Library editor");
-  for(const file of ["index.html","service-worker.js",...tracked("js/*.js")])assert.ok(!read(file).includes("cloudSyncRemoteContract"),`${file} never loads js/cloudSyncRemoteContract.js`);
 });
 
 check("W6 the r80 wording: END, not delete; a live game continues; nothing claims a local copy",()=>{

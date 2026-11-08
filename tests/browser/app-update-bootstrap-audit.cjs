@@ -9,11 +9,16 @@ module.exports = async function auditUpdateBootstrap(){
   const root = path.resolve(__dirname, '../..');
   const latest = fs.readFileSync(path.join(root, 'service-worker.js'), 'utf8').match(/const RUNTIME_REVISION = "([^"]+)"/)[1];
   let old = true;
+  const r29Worker = fs.readFileSync(path.join(__dirname,'../fixtures/service-worker-r29.js'),'utf8');
+  const R29_SHELL = new Set([...(r29Worker.match(/const SHELL_PATHS = Object\.freeze\(\[([\s\S]*?)\]\)/)||['',''])[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]));
   const mime = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.webp':'image/webp'};
   const server = http.createServer((req,res) => {
     const requested = new URL(req.url, 'http://localhost').pathname;
     const file = requested === '/' ? 'index.html' : requested.slice(1);
     try{
+      // The r29 worker precaches the r29 shell. A file it listed that was deleted since (r90: js/analytics.js) existed when r29
+      // was live, so the old deployment serves a stand-in for it; the latest deployment 404s it like any other missing file.
+      if(old && !fs.existsSync(path.join(root,file)) && R29_SHELL.has(file)){res.writeHead(200,{'content-type':'text/javascript','cache-control':'no-store'});res.end('/* r29 file, deleted since */');return;}
       let bytes = fs.readFileSync(path.join(root,file));
       if(old && file === 'service-worker.js') bytes = fs.readFileSync(path.join(__dirname,'../fixtures/service-worker-r29.js'));
       else if(old && ['.js','.html','.webmanifest'].includes(path.extname(file)) && file !== 'production-authorization-acceptance.html') bytes = Buffer.from(bytes.toString().replaceAll(latest, '1.9.1-r29'));

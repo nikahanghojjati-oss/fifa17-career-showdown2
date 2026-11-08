@@ -108,10 +108,9 @@
         makeReceipt(attempt,{classification,providerCode,providerInvoked:true,retryCount});throw error;
       }
     }
-    function getReceipt(surface,operationId){return receipts.get(`${surface}|${operationId}`)||null;}
     function clearExpired(nowEpochMs=Date.now()){const now=jcEpoch(nowEpochMs);let removed=0;for(const [entryKey,receipt] of receipts){if(now>=receipt.expiresAtEpochMs){receipts.delete(entryKey);removed+=1;}}if(lastReceipt&&now>=lastReceipt.expiresAtEpochMs)lastReceipt=null;return removed;}
     function reset(){receipts.clear();lastReceipt=null;return true;}
-    return jcFreeze({contractVersion:1,feature:"ssjr-shared-journey-conflicts",runtimeRevision:RUNTIME_REVISION,receiptTtlMs:ttl,execute,preflight,verifyReceipt:jcVerifyReceipt,getReceipt,getLastReceipt:()=>lastReceipt,clearExpired,reset,classify:jcClassification,providerAuthorityPreserved:true,nonAuthorizingReceipts:true,boundedStaleRetry:true,alteredReplayPreProviderDenied:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false});
+    return jcFreeze({contractVersion:1,feature:"ssjr-shared-journey-conflicts",runtimeRevision:RUNTIME_REVISION,receiptTtlMs:ttl,execute,preflight,verifyReceipt:jcVerifyReceipt,getLastReceipt:()=>lastReceipt,clearExpired,reset,classify:jcClassification,providerAuthorityPreserved:true,nonAuthorizingReceipts:true,boundedStaleRetry:true,alteredReplayPreProviderDenied:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false});
   }
 
   return Object.freeze({contractVersion:1,feature:"ssjr-shared-journey-conflicts-protocol-factory",runtimeRevision:RUNTIME_REVISION,defaultReceiptTtlMs:DEFAULT_TTL_MS,maxReceiptTtlMs:MAX_TTL_MS,roles:ROLES,surfaces:SURFACES,createGuard,classify:jcClassification,verifyReceipt:jcVerifyReceipt,providerAuthorityPreserved:true,nonAuthorizingReceipts:true,boundedStaleRetry:true,alteredReplayPreProviderDenied:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false});

@@ -186,10 +186,9 @@ const V10=require(path.join(ROOT,"js/v10Screens.js"));
 const KIT_STYLES=V10.KIT.styles.map(file=>V10.BASE+file);
 
 check("F1 the loader API is small and fixed",()=>{
-  for(const name of ["install","ensureKit","register","show","hide","invalidate","isMounted","navFor","navigate","setNavRoute","getUiPreference","setUiPreference"])assert.equal(typeof V10[name],"function",name);
+  for(const name of ["install","ensureKit","register","show","hide","invalidate","isMounted","navFor","navigate","setNavRoute"])assert.equal(typeof V10[name],"function",name);
   assert.equal(V10.BASE,"visual-assets/v10_1/");
   assert.equal(V10.EVENT,EVENT);
-  assert.equal(V10.UI_KEY,"cms.v10.ui");
   assert.deepEqual([...V10.KIT.styles],["shared/showdown-tokens.css","shared/showdown-type.css","shared/showdown-ui.css","shared/stage.css","shared/motion.css"]);
   assert.deepEqual(V10.KIT.scripts.map(s=>s[1]),["shared/stage.js","shared/motion.js"]);
   assert.deepEqual(V10.NAV.tabs,["home","career","standings","stats","rules"]);
@@ -982,24 +981,12 @@ check("F11 Team V files are copied unchanged; no docs, previews or images are co
   assert.ok(!/fetch\(/.test(src),"the loader makes no data requests");
 });
 
-check("F12 UI preferences use the one key cms.v10.ui, through storage.js, and nothing else",async()=>{
+check("F12 the screen registry keeps no browser storage of its own (r90: the unused UI preference API is gone)",async()=>{
   const src=read("js/v10Screens.js");
   assert.doesNotMatch(src,/\blocalStorage\b/,"storage.js owns browser storage");
-  const uses=[...src.matchAll(/root\.(readStorageValue|writeStorageValue|removeStorageValue)\(([^,)]+)/g)].map(m=>m[2].trim());
-  assert.ok(uses.length>=2,"reads and writes the UI key");
-  assert.ok(uses.every(key=>key==="UI_KEY"),uses.join());
-  assert.match(read("js/storage.js"),/function readStorageValue\(key\)[\s\S]*function writeStorageValue\(key,value\)/);
+  assert.doesNotMatch(src,/root\.(readStorageValue|writeStorageValue|removeStorageValue)\(/,"no UI preference reads or writes");
   const root=await installed();
-  const V=root.CareerModeV10Screens;
-  assert.equal(V.getUiPreference("muted"),null);
-  assert.equal(V.setUiPreference("muted",true),true);
-  assert.equal(V.getUiPreference("muted"),true);
-  assert.deepEqual(root.calls.filter(c=>c[0]==="writeStorageValue").map(c=>c[1]),["cms.v10.ui"],"one key, written only when asked");
-  root.writeStorageValue=()=>false;
-  assert.equal(V.setUiPreference("muted",false),false,"a failed write reports false");
-  root.readStorageValue=()=>"{not json";
-  assert.equal(V.getUiPreference("muted"),null,"a broken value reads as unset");
-  assert.equal(V.setUiPreference("",1),false);
+  assert.equal("getUiPreference" in root.CareerModeV10Screens,false);
 });
 
 check("F13 job 13's Career Statistics and Trophy Room run on the registry and show the same frames",async()=>{

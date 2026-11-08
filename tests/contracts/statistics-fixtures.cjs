@@ -1,166 +1,50 @@
-const fs = require('node:fs');
-const vm = require('node:vm');
-const assert = require('node:assert');
+"use strict";
+// r90: the old local engine (js/analytics.js) is deleted; these fixtures now pin the live Career Statistics, Trophy Room and
+// Rivalry Statistics model (js/sharedCareerAnalytics.js) that every career screen draws from finished-Showdown history.
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const Analytics=require("../../js/sharedCareerAnalytics.js");
+const {result,projection,finalFor}=require("../support/career-fixture-helpers.cjs");
 
-const context = { console };
-context.window = context;
-context.currentShowdown = null;
-context.loadLegacyShowdowns = () => [];
-context.loadSavedShowdown = () => null;
-context.getLegacyStorageRevision = () => 0;
-vm.createContext(context);
+const entry=p=>({rivalryId:p.rivalryId,classification:"completed",projection:p,final:finalFor(p)});
+const model=showdowns=>Analytics.buildCareerModel({indexStatus:"ready",showdowns});
 
-const scoringSource = fs.readFileSync('js/scoring.js', 'utf8');
-vm.runInContext(scoringSource, context, { filename: 'js/scoring.js' });
-const analyticsSource = fs.readFileSync('js/analytics.js', 'utf8');
-vm.runInContext(`${analyticsSource}\n;globalThis.__analyticsTest = { buildCareerAnalytics, buildRivalryAnalytics };`, context, { filename: 'js/analytics.js' });
-const api = context.__analyticsTest;
+// Showdown 1: Daniel wins (league + Champions League in S1); Nik takes a cup in S2; S3 is level.
+const first=projection({seed:"1",totalSeasons:3,seasons:[[result({leaguePosition:1,championsLeague:true}),result()],[result(),result({domesticCup:true})],[result(),result()]]});
+// Showdown 2: Nik wins with a league title and 100-point season; Daniel takes a cup.
+const second=projection({seed:"2",totalSeasons:3,seasons:[[result(),result({leaguePosition:1,leaguePoints:100})],[result({domesticCup:true}),result()],[result(),result({championsLeague:true})]]});
+// Showdown 3: both managers finish level: a DRAW, never a tiebreak.
+const level=projection({seed:"3",totalSeasons:1,seasons:[[result({domesticCup:true}),result({domesticCup:true})]]});
 
-const alexProfile = 'profile_aaaaaaaaaaaaaaaaaaaaaaaa';
-const jordanProfile = 'profile_bbbbbbbbbbbbbbbbbbbbbbbb';
-
-const history = [
-  {
-    id: 's1',
-    name: 'First Rivalry',
-    status: 'Completed',
-    managers: { playerOne: 'Alex', playerTwo: 'Jordan' },
-    identity: { schemaVersion: 1, saveId: 'save_111111111111111111111111', managerProfileIds: { playerOne: alexProfile, playerTwo: jordanProfile } },
-    clubs: { playerOne: 'Arsenal', playerTwo: 'Chelsea' },
-    selectedLeague: { id: 'premier-league', name: 'Premier League' },
-    score: { playerOne: 6, playerTwo: 5 },
-    transferChallenges: [{
-      seasonNumber: 1,
-      status: 'completed',
-      signings: {
-        playerOne: [{ name: 'A', release: false }, { name: 'B', release: true }],
-        playerTwo: [{ name: 'C', release: false }]
-      }
-    }],
-    rounds: [{
-      roundNumber: 1,
-      winner: 'playerOne',
-      playerOne: {
-        leaguePosition: 1,
-        leaguePoints: 100,
-        leagueGoals: 95,
-        domesticCup: true,
-        championsLeague: false,
-        topScorer: true,
-        topAssist: false,
-        scoring: { total: 6, performanceBonus: 1, individualAwardsBonus: 1 }
-      },
-      playerTwo: {
-        leaguePosition: 2,
-        leaguePoints: 90,
-        leagueGoals: 85,
-        domesticCup: false,
-        championsLeague: true,
-        topScorer: false,
-        topAssist: false,
-        scoring: { total: 5, performanceBonus: 0, individualAwardsBonus: 0 }
-      }
-    }]
-  },
-  {
-    id: 's2',
-    name: 'Second Rivalry',
-    status: 'Completed',
-    managers: { playerOne: 'Alex', playerTwo: 'Jordan' },
-    identity: { schemaVersion: 1, saveId: 'save_222222222222222222222222', managerProfileIds: { playerOne: alexProfile, playerTwo: jordanProfile } },
-    clubs: { playerOne: 'Liverpool', playerTwo: 'Manchester City' },
-    selectedLeague: { id: 'premier-league', name: 'Premier League' },
-    score: { playerOne: 6, playerTwo: 10 },
-    transferChallenges: [],
-    rounds: [
-      {
-        roundNumber: 1,
-        winner: 'playerTwo',
-        playerOne: {
-          leaguePosition: 3,
-          leaguePoints: 80,
-          leagueGoals: 80,
-          domesticCup: true,
-          championsLeague: false,
-          topScorer: false,
-          topAssist: false,
-          scoring: { total: 1, performanceBonus: 0, individualAwardsBonus: 0 }
-        },
-        playerTwo: {
-          leaguePosition: 1,
-          leaguePoints: 95,
-          leagueGoals: 100,
-          domesticCup: false,
-          championsLeague: false,
-          topScorer: false,
-          topAssist: true,
-          scoring: { total: 5, performanceBonus: 1, individualAwardsBonus: 1 }
-        }
-      },
-      {
-        roundNumber: 2,
-        winner: 'draw',
-        playerOne: {
-          leaguePosition: 2,
-          leaguePoints: 88,
-          leagueGoals: 91,
-          domesticCup: false,
-          championsLeague: true,
-          topScorer: false,
-          topAssist: false,
-          scoring: { total: 5, performanceBonus: 0, individualAwardsBonus: 0 }
-        },
-        playerTwo: {
-          leaguePosition: 2,
-          leaguePoints: 88,
-          leagueGoals: 92,
-          domesticCup: false,
-          championsLeague: true,
-          topScorer: false,
-          topAssist: false,
-          scoring: { total: 5, performanceBonus: 0, individualAwardsBonus: 0 }
-        }
-      }
-    ]
-  }
-];
-
-const career = api.buildCareerAnalytics(history);
-assert.strictEqual(career.totals.showdowns, 2, 'Career totals must count completed showdowns once.');
-assert.strictEqual(career.totals.seasons, 3, 'Career totals must count showdown seasons once, not once per manager.');
-assert.strictEqual(career.totals.points, 27, 'Career points total must equal both managers final showdown points.');
-assert.strictEqual(career.totals.trophies, 7, 'Career trophy total must include league, domestic-cup and Champions League wins.');
-assert.strictEqual(career.managers.length, 2, 'Two stable profile identities should produce two current career rows.');
-assert.strictEqual(career.identity.unresolvedRoleCount, 0, 'Stable profile fixtures must not be classified as unresolved.');
-
-const alex = career.managers.find(manager => manager.profileId === alexProfile);
-const jordan = career.managers.find(manager => manager.profileId === jordanProfile);
-assert.ok(alex && jordan, 'Both stable manager profiles must exist in Career Statistics.');
-assert.strictEqual(alex.name, 'Alex', 'Profile-backed label fallback changed.');
-assert.strictEqual(jordan.name, 'Jordan', 'Profile-backed label fallback changed.');
-assert.strictEqual(alex.showdowns, 2, 'Alex showdown count is incorrect.');
-assert.strictEqual(jordan.showdowns, 2, 'Jordan showdown count is incorrect.');
-assert.strictEqual(alex.showdownWins, 1, 'Alex showdown-win count is incorrect.');
-assert.strictEqual(jordan.showdownWins, 1, 'Jordan showdown-win count is incorrect.');
-assert.strictEqual(alex.totalPoints, 12, 'Alex career points are incorrect.');
-assert.strictEqual(jordan.totalPoints, 15, 'Jordan career points are incorrect.');
-assert.strictEqual(alex.totalTrophies, 4, 'Alex trophy total is incorrect.');
-assert.strictEqual(jordan.totalTrophies, 3, 'Jordan trophy total is incorrect.');
-assert.strictEqual(alex.signings, 2, 'Alex transfer signing accumulation is incorrect.');
-assert.strictEqual(alex.releasedSignings, 1, 'Alex release accumulation is incorrect.');
-assert.strictEqual(jordan.signings, 1, 'Jordan transfer signing accumulation is incorrect.');
-assert.strictEqual(career.records.highestLeaguePoints.value, 100, 'Highest league-points record is incorrect.');
-assert.strictEqual(career.records.highestLeagueGoals.value, 100, 'Highest league-goals record is incorrect.');
-assert.strictEqual(career.records.highestSeasonScore.value, 6, 'Highest season-score record is incorrect.');
-// r87 Fable F7-07: ranked by career points only (Jordan 15 > Alex 12, although Alex has more trophies); no tiebreak.
-assert.strictEqual(career.managers[0].profileId, jordanProfile, 'Career table is ranked by career points only.');
-assert.strictEqual(career.managers.some(manager => manager.level), false, 'Unequal career points are not level.');
-
-const rivalry = api.buildRivalryAnalytics(history[0]);
-assert.strictEqual(rivalry.playerOne.name, 'Alex', 'Rivalry manager label changed.');
-assert.strictEqual(rivalry.playerOne.totalPoints, 6, 'Rivalry points are incorrect.');
-assert.strictEqual(rivalry.playerTwo.totalPoints, 5, 'Rivalry points are incorrect.');
-assert.strictEqual(rivalry.seasonRows.length, 1, 'Rivalry season progression is incorrect.');
-assert.strictEqual(rivalry.seasonRows[0].winner, 'playerOne', 'Rivalry season winner is incorrect.');
-
-console.log('Career totals, stable profile manager records, trophy accumulation, transfer totals, and label-scoped Rivalry Statistics fixtures passed.');
+const m=model([entry(first),entry(second),entry(level)]);
+const totals=s=>m.history.showdowns.find(row=>row.rivalryId===s.rivalryId).totals;
+assert.equal(m.status,"ready");
+assert.equal(m.history.showdowns.length,3,"each finished Showdown is listed once");
+assert.equal(m.managers.daniel.showdowns.completed,3,"completed Showdowns are counted once per manager");
+assert.equal(m.managers.daniel.seasons,7,"seasons are counted once, not once per manager");
+assert.equal(m.managers.nik.seasons,7);
+for(const manager of ["daniel","nik"]){
+  const role=manager==="daniel"?"daniel":"nik";
+  const sum=[first,second,level].reduce((n,s)=>n+totals(s)[role],0);
+  assert.equal(m.managers[manager].careerPoints,sum,`${manager} career points are the sum of their final Showdown points`);
+}
+assert.deepEqual(m.managers.daniel.showdowns,{completed:3,wins:1,draws:1,losses:1});
+assert.deepEqual(m.managers.nik.showdowns,{completed:3,wins:1,draws:1,losses:1});
+assert.equal(m.history.showdowns.find(row=>row.rivalryId===level.rivalryId).winner,"draw","equal points are a DRAW (no tiebreak)");
+// Trophy accumulation: league titles, domestic cups and Champions League across every Showdown.
+assert.deepEqual(m.trophyRoom.cabinet.daniel,{championsLeagues:1,europaLeagues:0,leagueTitles:1,domesticCups:2,totalTrophies:4});
+assert.deepEqual(m.trophyRoom.cabinet.nik,{championsLeagues:1,europaLeagues:0,leagueTitles:1,domesticCups:2,totalTrophies:4});
+assert.equal(m.managers.nik.hundredPointSeasons,1);
+// Standings are ranked by career points only.
+const standings=m.trophyRoom.standings;
+assert.equal(standings.length,2);
+assert.ok(standings[0].careerPoints>=standings[1].careerPoints,"standings are ranked by career points");
+// Rivalry rows: per-season scores and winners, with a level season shown as a draw.
+const rivalry=m.history.showdowns.find(row=>row.rivalryId===first.rivalryId);
+assert.deepEqual(rivalry.seasons.map(row=>row.winner),["daniel","nik","draw"]);
+assert.equal(rivalry.winner,"daniel");
+assert.equal(rivalry.seasons[2].tiebreak,"draw");
+// The live screens draw from this model, not a local engine.
+assert.equal(fs.existsSync("js/analytics.js"),false,"the retired local engine stays deleted");
+for(const file of ["js/statistics.js","js/trophyRoom.js"])assert.ok(fs.readFileSync(file,"utf8").includes("seam.careerScreenView("),`${file} draws through the career-screen seam`);
+console.log("Career totals, trophy accumulation, points-only standings, DRAW on level totals and Rivalry Statistics fixtures passed (live sharedCareerAnalytics model).");

@@ -70,20 +70,9 @@
   const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:150,primePackPoints:150});
   const SEASON_MAX=Object.freeze({primePack:15});
   const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
-  const PAIR_ID=/^pair_[0-9a-f]{64}$/;
-  function csSeasonScores(row){
-    const out=[];
-    for(const season of Array.isArray(row&&row.seasons)?row.seasons:[]){const score=season&&season.score;if(score)for(const key of ["daniel","nik","playerOne","playerTwo"])if(Number.isInteger(score[key]))out.push(score[key]);}
-    return out;
-  }
-  function csLiveSetup(){try{const state=root.CareerModeProductionSharedShowdownSetup?.getState?.();return state&&state.ready===true&&state.setup?.phase==="SHOWDOWN_CONFIRMED"&&PAIR_ID.test(String(state.rivalryId))&&Number.isFinite(state.setupUpdatedAtMs)?state:null;}catch(_error){return null;}}
-  // The most one season of this Showdown can score: 15 with Prime Pack, 11 before. Known from the Showdown's confirm time;
-  // without one, a season over 11 can only be Prime Pack, and the live Showdown's Setup (when it is this Showdown) decides.
-  // Nik 2026-11-01 18:32 UTC: there is no 11 anywhere. A season is worth at most 15 in every Showdown (one max for the
-  // race maths, perfect seasons and Golden); a Showdown from before 2.0.0 is not kept on its own scale.
-  function seasonMaxFor(_row){return SEASON_MAX.primePack;}
+  // Nik 2026-11-01 18:32 UTC: there is no 11 anywhere. A season is worth at most 15 in every Showdown (SEASON_MAX.primePack).
   // Nik 2026-11-01 17:35 UTC: there was never a real 10-season Showdown before Prime Pack, so no old record to keep. The
-  // Golden Showdown is 150 in every Showdown (seasonMaxFor still gives the race maths each Showdown's own season maximum).
+  // Golden Showdown is 150 in every Showdown.
   function goldenShowdownPoints(_row){return GOLDEN_SHOWDOWN.primePackPoints;}
   function goldenShowdownManagers(row){
     if(!row||row.status!=="completed"||row.totalSeasons!==GOLDEN_SHOWDOWN.seasons||row.seasonsPlayed!==GOLDEN_SHOWDOWN.seasons||!row.totals)return [];
@@ -198,5 +187,5 @@
     }
     fragment.appendChild(root);return fragment;
   }
-  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,SEASON_MAX,PRIME_PACK_FROM_MS,seasonMaxFor,goldenShowdownPoints,endedEarlyText,sackedText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
+  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,SEASON_MAX,PRIME_PACK_FROM_MS,goldenShowdownPoints,endedEarlyText,sackedText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
 });

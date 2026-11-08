@@ -58,11 +58,11 @@
       "testIndexes": [
         11,
         12,
+        54,
         55,
         56,
         57,
-        58,
-        59
+        58
       ],
       "consumers": [],
       "proofBundles": [
@@ -131,8 +131,7 @@
         37,
         38,
         39,
-        40,
-        41
+        40
       ],
       "consumers": [
         "PAIRING_RIVALRY"
@@ -144,13 +143,13 @@
     },
     "PAIRING_RIVALRY": {
       "testIndexes": [
+        41,
         42,
         43,
         44,
-        45,
+        51,
         52,
-        53,
-        54
+        53
       ],
       "consumers": [
         "REMOTE_JOINING"
@@ -161,13 +160,13 @@
     },
     "REMOTE_JOINING": {
       "testIndexes": [
+        45,
         46,
         47,
         48,
         49,
         50,
-        51,
-        60
+        59
       ],
       "consumers": [
         "SHARED_SETUP"
@@ -191,19 +190,16 @@
       "SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR",
       "STAGE3_PRIVATE_PAIRING_BROWSER",
       "PAIRING_FOUR_CODE_BROWSER",
-      "STAGE5B_DEVICE_CREDENTIAL_BROWSER",
       "SHARED_PAIRED_FIRST_BROWSER",
       "STAGE4_RECONCILIATION_BROWSER",
       "STAGE4_MUTATION_RATE_CONTRACT",
       "STAGE5A_PRIVATE_SESSION_CONTRACT",
-      "STAGE5B_DEVICE_CREDENTIAL_CONTRACT",
       "STAGE3_PAIRING_EMULATOR",
       "STAGE4_CONNECTED_EMULATOR",
       "STAGE4_IDEMPOTENCY_EMULATOR",
       "STAGE4_ABUSE_EMULATOR",
       "STAGE4_MUTATION_RATE_EMULATOR",
       "STAGE5A_SESSION_EMULATOR",
-      "STAGE5B_CREDENTIAL_EMULATOR",
       "STAGE5C_AUTH_SESSION_EMULATOR",
       "SHARED_SETUP_PROVIDER_EMULATOR",
       "SHARED_SETUP_PROVIDER_SESSION_EMULATOR",

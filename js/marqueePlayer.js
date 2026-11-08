@@ -82,7 +82,6 @@
     return Object.freeze(Object.fromEntries(ROLES.map(role=>[role,mpPlayer(list.players[picks[role]],list.listVersion)])));
   }
   // The same pair for a Showdown being set up on this build right now (the reveal): no confirm time yet.
-  function mpForNewShowdown(rivalryId,clubs){return mpForShowdown(rivalryId,Number.MAX_SAFE_INTEGER,{fromMs:0,clubs});}
   // The list positions of the pair (the reveal animates the list): the same choice as mpForShowdown.
   function mpPicksForShowdown(rivalryId,confirmedAt,clubs){
     const at=mpMillis(confirmedAt),list=mpList();
@@ -100,5 +99,5 @@
     return [player.name,source].some(n=>n&&mpFold(n)===mpFold(name));
   }
 
-  return Object.freeze({contractVersion:1,feature:"cms-marquee-player",fromMs:MARQUEE_FROM_MS,ownClubFromMs:OWN_CLUB_FROM_MS,roles:ROLES,tier:mpTier,picks:mpPicks,picksForShowdown:mpPicksForShowdown,clubAliases:CLUB_ALIASES,forShowdown:mpForShowdown,forNewShowdown:mpForNewShowdown,isOwnSpecial:mpIsOwnSpecial});
+  return Object.freeze({contractVersion:1,feature:"cms-marquee-player",fromMs:MARQUEE_FROM_MS,ownClubFromMs:OWN_CLUB_FROM_MS,roles:ROLES,tier:mpTier,picks:mpPicks,picksForShowdown:mpPicksForShowdown,clubAliases:CLUB_ALIASES,forShowdown:mpForShowdown,isOwnSpecial:mpIsOwnSpecial});
 });

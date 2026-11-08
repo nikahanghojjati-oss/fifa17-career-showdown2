@@ -15,7 +15,6 @@
   const v10Node=typeof module!=="undefined"&&module.exports;
   const BASE="visual-assets/v10_1/";
   const EVENT="career-mode-screen-shown";
-  const UI_KEY="cms.v10.ui";
   const STYLE_TIMEOUT_MS=4000;
   // r87 (lead, 2026-11-01): a shown screen whose Team V files are still arriving when STYLE_TIMEOUT_MS ends stays held (under
   // the in-app Reus) until they land or fail, up to this cap; only then does the app's own screen show.
@@ -129,20 +128,6 @@
     if(!Object.prototype.hasOwnProperty.call(ROUTES,key))throw new TypeError("V10_NAV_ROUTE_UNKNOWN");
     if(typeof handler!=="function")throw new TypeError("V10_NAV_ROUTE_HANDLER");
     routeOverrides.set(key,handler);
-  }
-
-  // ---- UI-only preferences: one storage key (UI_KEY), never game data ----
-  // storage.js owns browser storage; its readStorageValue/writeStorageValue helpers are used with UI_KEY only.
-  function vsReadUi(){
-    if(typeof root.readStorageValue!=="function")return {};
-    try{const raw=root.readStorageValue(UI_KEY);const value=raw?JSON.parse(raw):{};return value&&typeof value==="object"&&!Array.isArray(value)?value:{};}
-    catch(error){return {};}
-  }
-  function vsGetUiPreference(name){const value=vsReadUi()[name];return value===undefined?null:value;}
-  function vsSetUiPreference(name,value){
-    if(typeof name!=="string"||!name||typeof root.writeStorageValue!=="function")return false;
-    try{const next=vsReadUi();next[name]=value;return root.writeStorageValue(UI_KEY,JSON.stringify(next))===true;}
-    catch(error){return false;}
   }
 
   // ---- files ----
@@ -638,9 +623,9 @@
   }
 
   const api=Object.freeze({
-    contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,HOLD,
+    contractVersion:1,BASE,EVENT,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,HOLD,
     install:vsInstall,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
-    navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute,getUiPreference:vsGetUiPreference,setUiPreference:vsSetUiPreference
+    navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute
   });
   return api;
 });

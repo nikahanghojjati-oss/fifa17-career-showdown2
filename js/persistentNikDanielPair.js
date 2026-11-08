@@ -125,7 +125,6 @@
   function pairNormalizeManagerRole(value){const role=typeof value==="string"?value.trim():"";if(!MANAGER_BY_ROLE[role])throw pairErrorWithCode("PERSISTENT_PAIR_ROLE_INVALID","Choose Daniel or Nik before continuing.");return role;}
   function pairNormalizeManagerId(value){const id=typeof value==="string"?value.trim().toLowerCase():"";if(!MANAGER_BY_ID[id])throw pairErrorWithCode("PERSISTENT_PAIR_MANAGER_INVALID","Choose Daniel or Nik before continuing.");return id;}
   function pairManagerForRole(role){return MANAGER_BY_ROLE[pairNormalizeManagerRole(role)];}
-  function pairManagerForId(id){return MANAGER_BY_ID[pairNormalizeManagerId(id)];}
   function pairAssertCanonicalIdentity(role,managerId){const normalizedRole=pairNormalizeManagerRole(role),normalizedManagerId=pairNormalizeManagerId(managerId),expected=pairManagerForRole(normalizedRole);if(expected.id!==normalizedManagerId)throw pairErrorWithCode("PERSISTENT_PAIR_IDENTITY_MISMATCH",`${expected.label} must use ${normalizedRole==="playerOne"?"Player One":"Player Two"}.`);return expected;}
   function pairCurrentIdentityManagerId(){const identity=root.CareerModeOnlinePlayerIdentity?.getState?.();return identity?.managerId&&MANAGER_BY_ID[identity.managerId]?identity.managerId:null;}
   function pairCurrentIdentityRole(){const managerId=pairCurrentIdentityManagerId();return managerId?ROLE_BY_MANAGER[managerId]:null;}

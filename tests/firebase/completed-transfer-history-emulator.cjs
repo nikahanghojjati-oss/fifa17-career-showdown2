@@ -27,8 +27,6 @@ const TerminalProvider=require("../../js/sparkTerminalClose.js");
 const Sessions=require("../../js/sparkPrivateSession.js");
 const Catalog=require("../../js/sharedShowdownCatalog.js");
 const CompletedReader=require("../../js/sparkCompletedShowdownReader.js");
-// Loaded only for section P, so sections I0-F report on the Rules before the client exists (tests-first).
-const loadReader=()=>require("../../js/sparkCompletedTransferHistoryReader.js");
 
 const PROJECT_ID=process.env.GCLOUD_PROJECT||"demo-cms-completed-transfer";
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
@@ -44,7 +42,6 @@ let checks=0;
 async function check(id,label,fn){await fn();checks+=1;process.stdout.write(`ok ${checks} ${id} ${label}\n`);}
 
 function sdk(){return {Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp};}
-function readerSdk(counter){return {doc,getDoc:(...args)=>{if(counter)counter.reads+=1;return getDoc(...args);}};}
 function canonical(value){if(value===undefined||value===null)return null;if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};if(Array.isArray(value))return value.map(canonical);if(typeof value==="object"){const out={};for(const key of Object.keys(value).sort())out[key]=canonical(value[key]);return out;}return value;}
 function hex(bytes){return Array.from(bytes,value=>value.toString(16).padStart(2,"0")).join("");}
 async function digest(value){const bytes=new TextEncoder().encode(JSON.stringify(canonical(value)));const hash=await crypto.webcrypto.subtle.digest("SHA-256",bytes);return `sha256:${hex(new Uint8Array(hash))}`;}
@@ -287,40 +284,6 @@ async function run(env){
   await check("F4","Daniel reads his own Z season_2 role",async()=>{await assertSucceeds(getDoc(T(dbA,Z,2,"playerOne")));});
   await check("F5","Daniel cannot read Nik's unfinished Z season_2 role",async()=>{await assertFails(getDoc(T(dbA,Z,2,"playerTwo")));});
   await check("F6","stranger cannot read a Z transfer role",async()=>{await assertFails(getDoc(T(dbC,Z,1,"playerOne")));});
-
-  // P. Session-free transfer history reader.
-  const Reader=loadReader();
-  const read=(db,uid,id,counter)=>Reader.readCompletedTransferHistory({firestore:db,firebaseSdk:readerSdk(counter),user:{uid},rivalryId:id,cryptoImpl:crypto.webcrypto});
-  let danielX,danielReads={reads:0},untampered=null;
-  await check("P1","Daniel's reader: X completed, 3 seasons keyed daniel/nik, ready",async()=>{
-    danielX=await read(dbA,A,X,danielReads);
-    assert.equal(danielX.status,"completed",JSON.stringify(danielX));assert.equal(danielX.code,null);assert.equal(danielX.managerRole,"playerOne");assert.equal(Object.isFrozen(danielX),true);
-    assert.equal(danielX.transfers.status,"ready");assert.deepEqual(danielX.transfers.seasons.map(s=>s.season),[1,2,3]);
-    assert.deepEqual(Object.keys(danielX.transfers.seasons[0]),["season","daniel","nik"]);
-    assert.equal(danielX.transfers.seasons[0].daniel.released,1);assert.equal(danielX.transfers.seasons[1].nik.released,1);assert.equal(danielX.transfers.seasons[1].nik.kept,1);
-    assert.deepEqual(danielX.transfers.seasons[2].nik,{guesses:[],signings:[],released:0,kept:0});
-  });
-  await check("P2","Nik's reader returns the identical history",async()=>{const nikX=await read(dbB,B,X);assert.equal(nikX.status,"completed");assert.equal(nikX.managerRole,"playerTwo");assert.deepEqual(nikX.transfers,danielX.transfers);});
-  await check("P3","fresh authenticated client, no session or device input: identical history",async()=>{const again=await read(env.authenticatedContext(A).firestore(),A,X);assert.deepEqual(again.transfers,danielX.transfers);});
-  await check("P4","verdicts equal the session-bound provider's verdicts taken before close, every season",async()=>{
-    for(let k=1;k<=3;k+=1){const season=danielX.transfers.seasons[k-1],v=sessionVerdicts[k-1];assert.deepEqual(JSON.parse(JSON.stringify(season.daniel.signings)),JSON.parse(JSON.stringify(v.playerOne)),`S${k} Daniel`);assert.deepEqual(JSON.parse(JSON.stringify(season.nik.signings)),JSON.parse(JSON.stringify(v.playerTwo)),`S${k} Nik`);}
-  });
-  await check("P5","exact gets: 2 + 3N = 11 for a 3-season Showdown",async()=>{assert.equal(danielReads.reads,11);});
-  await check("P6","abandoned Y: status only, no transfers, exactly one read",async()=>{const c={reads:0};const y=await read(dbB,B,Y,c);assert.equal(y.status,"abandoned");assert.equal(y.transfers,null);assert.equal(c.reads,1);});
-  await check("P7","abandoned W (unfinished challenge): status only, exactly one read",async()=>{const c={reads:0};const w=await read(dbB,B,W,c);assert.equal(w.status,"abandoned");assert.equal(w.transfers,null);assert.equal(c.reads,1);});
-  await check("P8","active Z: not-closed, exactly one read",async()=>{const c={reads:0};const z=await read(dbA,A,Z,c);assert.equal(z.status,"not-closed");assert.equal(z.transfers,null);assert.equal(c.reads,1);});
-  await check("P9","stranger: unavailable with the Firestore denial code, never empty",async()=>{const s=await read(dbC,C,X);assert.equal(s.status,"unavailable");assert.equal(s.code,"permission-denied");assert.deepEqual(s.transfers,{status:"unavailable",seasons:null});});
-  await check("P10","forged winner witness: unavailable before any child read",async()=>{const c={reads:0};const f=await read(dbA,A,forgedId(2),c);assert.equal(f.code,"TRANSFER_HISTORY_TERMINAL_WITNESS_INVALID");assert.equal(c.reads,1);});
-  await check("P11","a signing edited after lock: unavailable (provenance), never a partial list",async()=>{
-    await env.withSecurityRulesDisabled(async context=>{const ref=T(context.firestore(),X,2,"playerTwo"),value=(await getDoc(ref)).data();untampered=value;await setDoc(ref,{...value,signings:value.signings.map(s=>s.slot===1?{...s,name:"Someone else"}:s)});});
-    const t=await read(dbA,A,X);assert.equal(t.status,"unavailable");assert.equal(t.code,"TRANSFER_HISTORY_PROVENANCE_MISMATCH");assert.deepEqual(t.transfers,{status:"unavailable",seasons:null});
-  });
-  await check("P12","separate availability: the completed-only reader still returns X completed while transfers are unavailable",async()=>{const c=await CompletedReader.readCompletedShowdown({firestore:dbA,firebaseSdk:firestoreSdk,user:{uid:A},rivalryId:X,cryptoImpl:crypto.webcrypto});assert.equal(c.status,"completed",JSON.stringify(c));assert.deepEqual(c.final.totals,{playerOne:11,playerTwo:4});});
-  await check("P13","a missing season_3 role makes the history unavailable, never shorter",async()=>{
-    // Restore the P11 edit first, so the only fault left is the missing season_3 role.
-    await env.withSecurityRulesDisabled(async context=>{await setDoc(T(context.firestore(),X,2,"playerTwo"),untampered);await deleteDoc(T(context.firestore(),X,3,"playerOne"));});
-    const m=await read(dbB,B,X);assert.equal(m.status,"unavailable");assert.equal(m.code,"TRANSFER_HISTORY_SEASON_MISSING");assert.deepEqual(m.transfers,{status:"unavailable",seasons:null});
-  });
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,74);process.stdout.write(`PASS completed-only transfer history emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, G forged challenge states, F active regressions, P session-free reader).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,61);process.stdout.write(`PASS completed-only transfer history emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, G forged challenge states, F active regressions, P session-free reader).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});

@@ -195,7 +195,6 @@ function census(){
   };
   const excluded={
     'sparkSharedShowdownSetup.js':'mentions getDoc in a comment only; its preflight read is a counted transaction',
-    'sparkCompletedTransferHistoryReader.js':'no caller in js/; any caller passing budget services gets a metered getDoc',
     'productionAuthorizationAcceptance.js':'operator acceptance page (network-only, never loaded by the app page or its counter)',
     'productionProviderAbuseAcceptance.js':'operator acceptance page (network-only, never loaded by the app page or its counter)'
   };

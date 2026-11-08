@@ -112,8 +112,9 @@ async function waitForHome(page){
   await page.locator("#careerStatisticsButton").waitFor({state:"visible",timeout:15000});
 }
 
-// r61: Career Statistics and Trophy Room are always Team V's screens (js/careerScreenSeam.js); the app's old local
-// analytics pages no longer ship. Identity safety is checked on the analytics model both screens are built from.
+// r61: Career Statistics and Trophy Room are always Team V's screens (js/careerScreenSeam.js). r90: the old local analytics
+// engine is deleted, so identity safety is what a player sees: with local history alone, before and after a local identity
+// mapping, both screens show only their unavailable state and never a local name or total.
 async function openTeamVScreen(page,screen){
   await page.waitForFunction(screen=>document.documentElement.dataset.v10Screen===screen,screen,{timeout:15000});
   assert.equal(await page.locator(`#${screen}Content .analyticsIdentityNotice, #${screen}Content .careerStandingsRow, #${screen}Content .managerCabinet`).count(),0,`${screen} must not paint the old local analytics page.`);
@@ -141,18 +142,6 @@ async function openCareerStatistics(page){
   await openTeamVScreen(page,"careerStatistics");
 }
 
-async function readAnalytics(page){
-  return page.evaluate(()=>{
-    const analytics=window.buildCareerAnalytics();
-    return {
-      managers:analytics.managers.map(manager=>({profileId:manager.profileId,name:manager.name,showdowns:manager.showdowns,totalPoints:manager.totalPoints,totalTrophies:manager.totalTrophies})),
-      identity:analytics.identity,
-      totals:analytics.totals,
-      highestSeasonScore:analytics.records.highestSeasonScore
-    };
-  });
-}
-
 (async()=>{
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch(runtime);
@@ -173,17 +162,6 @@ async function readAnalytics(page){
     await waitForHome(page);
     await openCareerStatistics(page);
 
-    let analytics=await readAnalytics(page);
-    assert.equal(analytics.totals.showdowns,3,"Overall Career Analytics must retain all completed historical Showdowns.");
-    assert.equal(analytics.managers.length,4,"Four stable Local Profiles must remain four longitudinal identities despite the same visible name.");
-    assert.equal(new Set(analytics.managers.map(manager=>manager.profileId)).size,4,"Browser Career Analytics collapsed distinct profile IDs.");
-    const reused=analytics.managers.find(manager=>manager.profileId===ids.profileA);
-    assert.ok(reused,"Explicitly reused profile is missing from the career table.");
-    assert.equal(reused.showdowns,2,"One explicitly reused profile must aggregate across its two historical Saves.");
-    assert.equal(reused.totalPoints,8,"Reused profile points did not aggregate correctly.");
-    assert.equal(reused.name,"Canonical Manager","Identified career labels should use the Local Profile display name when available.");
-    assert.equal(analytics.identity.unresolvedRoleCount,1,"Unresolved historical role must remain explicit in browser Analytics.");
-    assert.equal(analytics.highestSeasonScore.value,11,"Season-scoped records must retain unresolved historical achievements.");
     await assertTeamVIdentitySafe(page,"careerStatistics","one unresolved role");
     await page.evaluate(()=>window.openOptionalModule("trophyRoom"));
     await openTeamVScreen(page,"trophyRoom");
@@ -191,14 +169,12 @@ async function readAnalytics(page){
     await page.evaluate(()=>window.openOptionalModule("careerStatistics"));
     await openTeamVScreen(page,"careerStatistics");
 
-    assert.equal(analytics.managers.filter(manager=>manager.profileId===ids.profileA).length,1,"Explicitly reused profile must be one longitudinal career identity.");
     assert.equal(
       await page.evaluate(()=>Boolean(window.CareerModeSaveLibraryRuntime?.isReady?.())),
       false,
       "Read-only Career Statistics presentation must not require Save Library mutation authority activation."
     );
 
-    const beforeRevision=await page.evaluate(()=>window.getCareerAnalyticsRevisionKey());
     await page.evaluate(async({profileA})=>{
       if(typeof window.loadRuntimeScript!=="function"){
         throw new Error("Optional runtime loader is unavailable during Analytics identity mapping audit.");
@@ -214,27 +190,13 @@ async function readAnalytics(page){
         throw new Error("Canonical Save Library identity mapping failed during Analytics audit.");
       }
     },{profileA:ids.profileA});
-    const afterRevision=await page.evaluate(()=>window.getCareerAnalyticsRevisionKey());
-    assert.notEqual(afterRevision,beforeRevision,"Explicit historical identity mapping must invalidate the Career Analytics render/cache revision.");
-
-    analytics=await readAnalytics(page);
-    assert.equal(analytics.identity.unresolvedRoleCount,0,"Explicit historical mapping must clear the unresolved career role.");
-    const remapped=analytics.managers.find(manager=>manager.profileId===ids.profileA);
-    assert.equal(remapped.showdowns,3,"Mapped historical role must join the explicitly selected stable profile's longitudinal career.");
-    assert.equal(remapped.totalPoints,19,"Mapped historical contribution did not join the selected stable profile.");
-    assert.equal(analytics.managers.length,4,"Mapping one unresolved role must not merge any unrelated same-name profiles.");
+    await page.evaluate(()=>window.openOptionalModule("careerStatistics"));
+    await openTeamVScreen(page,"careerStatistics");
     await assertTeamVIdentitySafe(page,"careerStatistics","after mapping");
 
     await page.evaluate(()=>window.openOptionalModule("trophyRoom"));
     await page.locator("#trophyRoom").waitFor({state:"visible",timeout:15000});
     await openTeamVScreen(page,"trophyRoom");
-    const trophyRevision=await page.evaluate(()=>({career:window.getCareerAnalyticsRevisionKey(),trophy:typeof getTrophyRoomRenderKey==="function"?getTrophyRoomRenderKey():null}));
-    assert.equal(trophyRevision.career,afterRevision,"Career Analytics revision changed unexpectedly before Trophy Room validation.");
-    assert.equal(trophyRevision.trophy,afterRevision,"Trophy Room must consume the current Career Analytics revision.");
-    const trophyAnalytics=await readAnalytics(page);
-    assert.equal(trophyAnalytics.managers.length,4,"Trophy Room must consume the same four stable longitudinal identities.");
-    assert.equal(trophyAnalytics.managers.find(manager=>manager.profileId===ids.profileA)?.showdowns,3,"Trophy Room analytics must include the explicitly mapped historical Showdown.");
-    assert.equal(trophyAnalytics.identity.unresolvedRoleCount,0,"Resolved historical identity must not leave a stale unresolved role.");
     await assertTeamVIdentitySafe(page,"trophyRoom","after mapping");
 
     const singleton=await page.evaluate(key=>localStorage.getItem(key),singletonKey);
@@ -245,16 +207,12 @@ async function readAnalytics(page){
     const result={
       runLabel,
       baseUrl:baseUrl.href,
-      stableManagerCount:analytics.managers.length,
       linkedProfile:ids.profileA,
-      linkedShowdowns:remapped.showdowns,
-      unresolvedAfterMapping:analytics.identity.unresolvedRoleCount,
-      trophyRevision,
       screenshot:screenshotPath
     };
     fs.writeFileSync(path.join(resultsDirectory,`identity-safe-career-analytics-${runLabel}.json`),JSON.stringify(result,null,2));
     assert.deepEqual(errors,[],`Identity-safe Career Analytics emitted page/console errors: ${errors.join(" | ")}`);
-    console.log("Identity-safe Career Analytics browser audit passed: same-name profiles remain distinct, explicit profile reuse aggregates across Saves, unresolved history stays honest, mapping refreshes the analytics behind Career Statistics and Trophy Room (both Team V screens), and singleton authority stays retired.");
+    console.log("Identity-safe career screens browser audit passed: with local history only, Career Statistics and Trophy Room show their unavailable state and no local name or total, before and after a local identity mapping; no Save Library authority needed; no singleton resurrected.");
   }finally{
     await context.close();
     await browser.close();

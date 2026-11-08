@@ -129,7 +129,6 @@
     return answer.catch(()=>false);
   }
 
-  function scIsOpen(){return open!==null;}
 
-  return Object.freeze({contractVersion:1,feature:"r78-marble-confirm",nativeConfirmReplaced:true,LAYER_ID,LABELS,ask:scAsk,isOpen:scIsOpen,isFramed:scIsFramed,framedAnswer:false,splitMessage:scSplitMessage});
+  return Object.freeze({contractVersion:1,feature:"r78-marble-confirm",nativeConfirmReplaced:true,LAYER_ID,LABELS,ask:scAsk,isFramed:scIsFramed,framedAnswer:false,splitMessage:scSplitMessage});
 });

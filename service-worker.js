@@ -17,7 +17,6 @@ const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|sv
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
-const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
 const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
     "production-authorization-acceptance.html"
 ]);
@@ -92,7 +91,6 @@ const SHELL_PATHS = Object.freeze([
     "data/footballVisuals.js",
     "data/leagues.js",
     "data/transferOptions.js",
-    "js/analytics.js",
     "js/careerScreenSeam.js",
     "js/careerScreensV10.js",
   "visual-assets/v10_1/legacy/legacy.css",
@@ -350,7 +348,7 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // scene and stadium, and (r90) the shared 3D quality module js/gfxTier.js (players and stadium GLBs are Team V images, V10_IMAGE_PATH runtime cache). Removed: three.js r128, which
 // a page rolled back to 2.1.0 still finds in its own retained shell. The STORY site (chronicle/) is never precached.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/gfxTier.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js"]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
@@ -471,7 +469,7 @@ self.addEventListener("fetch",event=>{
         if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||fetch(request); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS,previousShellPaths:PREVIOUS_SHELL_PATHS});

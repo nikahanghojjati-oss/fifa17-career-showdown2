@@ -40,7 +40,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 // what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs names any drift. R89_ADDED and R89_REMOVED are
 // re-derived at the r89 freeze.
 {
-  const R89_ADDED=['visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr','js/kits17.js','js/gfxTier.js','data/gazetteSacked.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js'],R89_REMOVED=['visual-assets/v10_1/roulette/vendor/three-r128.min.js'];
+  const R89_ADDED=['visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr','js/kits17.js','js/gfxTier.js','data/gazetteSacked.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js'],R89_REMOVED=['js/analytics.js','visual-assets/v10_1/roulette/vendor/three-r128.min.js']; // r90 dead-code cut: js/analytics.js leaves the shell
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.2\.0-r89";\nconst PREVIOUS_RUNTIME_REVISION = "2\.1\.0-r88";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');

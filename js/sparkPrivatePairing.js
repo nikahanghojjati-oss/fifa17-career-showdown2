@@ -371,34 +371,6 @@
   }catch(error){return asResultError(error,"PAIRING_REDEEM_FAILED");}
 }
 
-async function revokePairing(options={}){
-    try{
-      validateFirestoreInputs(options);
-      const accountId=normalizeAccountId(options.user);
-      const identity=options.identity;
-      if(!validDeviceIdentity(identity))throw errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","A stable registered device is required.");
-      const capability=normalizeCapability(options.capability);
-      const sdk=options.firebaseSdk;
-      const now=sdk.Timestamp.fromMillis(options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs));
-      const deviceReference=sdk.doc(options.firestore,"accounts",accountId,"devices",identity.deviceId);
-      const inviteReference=sdk.doc(options.firestore,"rivalries",capability,"invites",capability);
-      const result=await sdk.runTransaction(options.firestore,async transaction=>{
-        const deviceSnapshot=await transaction.get(deviceReference);
-        assertActiveDeviceSnapshot(deviceSnapshot,identity.deviceId);
-        const inviteSnapshot=await transaction.get(inviteReference);
-        if(!isEnvelope(inviteSnapshot,"invite",capability))throw errorWithCode("PAIRING_CAPABILITY_NOT_FOUND","The private pairing code was not found.");
-        const invite=inviteSnapshot.data();
-        if(!invite.data||invite.data.createdByAccountId!==accountId)throw errorWithCode("PAIRING_REVOKE_DENIED","Only the account that created this pairing code can revoke it.");
-        if(invite.data.state!=="open")throw errorWithCode("PAIRING_CAPABILITY_ALREADY_USED","This private pairing code is no longer open.");
-        const inviteData={...invite.data,state:"revoked",revokedAt:now,redeemedByAccountId:null,redeemedAt:null};
-        const envelope=await buildEnvelope({objectType:"invite",objectId:capability,revision:invite.revision+1,parentRevision:invite.revision,priorContentHash:invite.contentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:inviteData,cryptoImpl:options.cryptoImpl||root.crypto});
-        transaction.set(inviteReference,envelope);
-        return {revision:envelope.revision};
-      });
-      return {ok:true,capability,...result};
-    }catch(error){return asResultError(error,"PAIRING_REVOKE_FAILED");}
-  }
-
   function localBindingOptions(saveRuntime=root.CareerModeSaveLibraryRuntime){
     if(!saveRuntime||typeof saveRuntime.getLibrarySnapshot!=="function"||typeof saveRuntime.isReady!=="function"||saveRuntime.isReady()!==true)return [];
     const library=saveRuntime.getLibrarySnapshot();
@@ -635,7 +607,6 @@ async function revokePairing(options={}){
     revokeDevice:revokeRegisteredDevice,
     createPairing,
     redeemPairing,
-    revokePairing,
     initialize,
     mountWhenSettingsReady,
     subscribe,

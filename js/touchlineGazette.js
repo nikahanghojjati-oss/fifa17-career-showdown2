@@ -707,8 +707,6 @@
     root.document.addEventListener("career-mode-screen-shown",warm);
     return true;
   }
-  // Proof and test hook: draws an edition on the current Season Results screen exactly as a tap would.
-  function showForProof(edition,proceedFn){return within(tgPrepare(edition),ASSET_CAP_MS).then(ready=>ready&&tgRender({kind:edition.kind,edition,button:null,proceed:proceedFn||(()=>false)}));}
 
-  return Object.freeze({contractVersion:1,feature:"r87-touchline-gazette",firestoreReads:0,firestoreWrites:0,SEEN_KEY,FIT_FLOOR,FONT_FILES,hash:tgHash,fill,seasonSituations:(projection,N)=>{const f=readHistory(projection,N);return f?seasonSituations(f,N):null;},seasonEdition,finalEdition,seasonInput,finalInput,paperText,planFor,install:tgInstall,showForProof,isOpen:()=>Boolean(current),close:tgClose});
+  return Object.freeze({contractVersion:1,feature:"r87-touchline-gazette",firestoreReads:0,firestoreWrites:0,SEEN_KEY,FIT_FLOOR,FONT_FILES,hash:tgHash,fill,seasonSituations:(projection,N)=>{const f=readHistory(projection,N);return f?seasonSituations(f,N):null;},seasonEdition,finalEdition,seasonInput,finalInput,paperText,planFor,install:tgInstall,isOpen:()=>Boolean(current),close:tgClose});
 });
