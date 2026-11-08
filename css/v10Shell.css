@@ -1,7 +1,9 @@
 /* JOB-24: room for Team V's navigation bar around the existing app shell. Looks only; nothing is hidden or moved
-   out of the page flow. html[data-nav] is set by js/v10Screens.js: hub | hidden (no phone bar) | none (Loading). */
+   out of the page flow. html[data-nav] is set by js/v10Screens.js: hub | hidden (no phone bar) | none (Loading).
+   r90 W8 (Club CLS): the bar's 52 px stays reserved under "none" too, so a screen laid out under the loading
+   screen or the Reus Gate is already in its final place when the bar comes back. Nothing jumps. */
 @media (min-width: 901px) {
-  html[data-nav="hub"] #app, html[data-nav="hidden"] #app { padding-top: var(--sd-nav-top-h, 52px); }
+  html[data-nav="hub"] #app, html[data-nav="hidden"] #app, html[data-nav="none"] #app { padding-top: var(--sd-nav-top-h, 52px); }
 }
 @media (max-width: 900px) {
   html[data-nav="hub"] #app { padding-bottom: var(--sd-nav-bottom-space, 56px); }
