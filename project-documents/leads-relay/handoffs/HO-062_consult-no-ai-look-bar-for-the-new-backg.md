@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-08T12:56:08Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T12:58:02Z", "by": "G", "status": "RECEIVED", "note": ""}],
+ "evidence": ["leads/relay @ 8f0e0606 - handoffs/HO-062/G_ANSWERS.md + HUNT_LOOK.md"],
+ "log": [{"at": "2026-11-08T12:56:08Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T12:58:02Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-11-08T12:58:14Z", "by": "G", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q55MWFc5kxaqRPspjd",
  "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
