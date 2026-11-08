@@ -537,7 +537,8 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
   { const arm=new T.Mesh(new T.BoxGeometry(.005,.012,.028),GM.bluedPlain); arm.position.set(0,-.001,.004); crane.add(arm); const hinge=new T.Mesh(new T.CylinderGeometry(.0032,.0032,.034,16),GM.bright); hinge.rotation.x=Math.PI/2; hinge.position.z=.004; crane.add(hinge); }
   { const R=.0205, n=7, chambers=[]; const CR=.0135, HR=.0046;   /* 7 holes of .0052 drawn on a .0135 circle leave a .0012 wall between them: overlapping holes break the cap triangulation */   /* extrude bevel grows the walls by bevelSize, so holes are drawn .0006 wide and the rim .0006 small. plain polished drum like a real swing-out cylinder: no scallops, seven clean holes close to the rim */
     const holes=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2+Math.PI/2; holes.push([Math.cos(a)*CR,Math.sin(a)*CR]); chambers.push({a}); }
-    const V2=q=>new T.Vector2(q[0],q[1]); const s=new T.Shape(circlePts(0,0,R-.0006,96).map(V2)); holes.forEach(h=>s.holes.push(new T.Path(circlePts(h[0],h[1],HR+.0006,32).map(V2))));   /* point lists, no closePath: a repeated end point breaks the cap triangulation */
+    const V2=q=>new T.Vector2(q[0],q[1]); const FW=.24, FD=.0026, flute=[]; for(let i=0;i<224;i++){ const t=i/224*Math.PI*2, m=n*(t-Math.PI/2)/(Math.PI*2)-.5, u=Math.abs((m-Math.round(m))*Math.PI*2/n)/FW, r=R-.0006-(u<1?FD*Math.sqrt(1-u*u):0); flute.push([Math.cos(t)*r,Math.sin(t)*r]); }   /* r90 LOOK L29: seven flutes cut between the chambers (no wall thinner than the rim over a chamber), so the drum reads as a revolver cylinder, not a tube */
+    const s=new T.Shape(flute.map(V2)); holes.forEach(h=>s.holes.push(new T.Path(circlePts(h[0],h[1],HR+.0006,32).map(V2))));   /* point lists, no closePath: a repeated end point breaks the cap triangulation */
     const fg=new T.ExtrudeGeometry(s,{depth:.046, bevelEnabled:true, bevelThickness:.0006, bevelSize:.0006, bevelSegments:4}); fg.translate(0,0,-.0236); const drum=new T.Mesh(fg,[GM.drumFace,GM.drum]); drum.castShadow=true; drum.receiveShadow=false; /* table shadow map is far too coarse for the bores: self-shadow off */ cyl.add(drum);
     /* every chamber is a real bore you can look down: a dark steel tube with a floor at the back */
     chambers.forEach(({a})=>{ const cx=Math.cos(a)*CR, cy=Math.sin(a)*CR;
@@ -1183,7 +1184,18 @@ async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch(
 function loadLookEnv(){ if(!T.EXRLoader) return Promise.resolve(null); return new T.EXRLoader().setDataType(T.FloatType).loadAsync("assets/ENV_LOUNGE_V1.exr").then(t=>{ const d=t.image&&t.image.data; if(d) for(let i=0;i<d.length;i++){ if(d[i]>LOOK_ENV_MAX) d[i]=LOOK_ENV_MAX; } t.needsUpdate=true; t.mapping=T.EquirectangularReflectionMapping; LOOK.hdri=t; }).catch(()=>null); }
 /* the sunlit window in the picture is hundreds of times brighter than the room; capped, so polished steel shows a bright window, not a white blaze */
 const LOOK_ENV_MAX=4;
-function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture; pm.dispose(); LOOK.hdri.dispose(); LOOK.hdri=null;
+/* r90 LOOK L29: at every level the revolver's steel reflects a small dark studio of its own: a softbox overhead and a little behind, a
+   long strip behind, the oil lamp's warm glow on its left, the green felt below. Lying on the table it otherwise mirrors the room's dark
+   ceiling, so the blued frame read as a black slab, the barrel as a black bar and the nickel drum as a plain chrome tube. Built once at
+   load at the room's size (128), so the gun's shaders are the same programs; every other surface keeps the room. */
+function gunStudio(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:new T.Color(...c), side:T.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
+  s.add(new T.Mesh(new T.BoxGeometry(10,10,10),new T.MeshBasicMaterial({color:new T.Color(.014,.012,.011), side:T.BackSide})));
+  add(10,10,[.018,.04,.022],0,-4.9,0); add(3.4,2.2,[2.2,2.1,1.95],0,4.7,-1.4); add(5,2,[2.6,2.5,2.3],0,3.4,-4.9); add(7,.45,[1.2,1.15,1.1],0,1.2,-4.9); add(1.5,1.5,[1.9,1.4,.85],-4.9,1.3,1.6);
+  const t=pm.fromScene(s,.04,.1,20,{size:128}).texture; s.traverse(o=>{ if(o.isMesh){ o.geometry.dispose(); o.material.dispose(); } }); return t; }
+const GUN_STEEL={blued:3, bluedBarrel:3, bluedPlain:2.2, worn:1.4, bright:1, drum:.8, drumFace:.9};
+function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture;
+  { const st=gunStudio(pm); Object.entries(GUN_STEEL).forEach(([k,v])=>{ GM[k].envMap=st; GM[k].envMapIntensity=v; GM[k].needsUpdate=true; }); GM.drum.roughness=.38; GM.drumFace.roughness=.42; GM.bright.roughness=.3; }   /* satin, so the flutes and the hammer show their shape instead of one mirror stripe */
+  pm.dispose(); LOOK.hdri.dispose(); LOOK.hdri=null;
   scene.environmentIntensity=EXTRA_UP?.6:.5; M.floor.envMapIntensity=EXTRA_UP?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
 /* r90 warm-up (Reus Gate): every texture goes to the GPU and every shader compiles (in parallel where the browser can) BEFORE the page
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
