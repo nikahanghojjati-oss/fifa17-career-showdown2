@@ -338,6 +338,63 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
+// r90 W8: the install precaches only the ESSENTIAL shell (INSTALL_PATHS): Home, Settings with backup and restore, sign-in and
+// pairing, the offline and error screens. The rest of SHELL_PATHS, the files of the screens a Showdown opens later, is this
+// revision's OFFLINE PACK: once the worker is active the page asks for it at idle (CMS_FILL_OFFLINE_PACK, two files at a time),
+// and a pack file a screen asks for first is fetched and kept on the spot. Both land in this revision's shell cache, so a page
+// still reads one revision, and a pack file is kept only while the deployed worker is still this revision. Activation and
+// updates check the essential shell; a RETAINED revision is a rollback target only with its full SHELL_PATHS list, because the
+// network can no longer supply an older build's files. SHELL_PATHS stays the full list (tests/fixtures/shell-paths), so the
+// next release's PREVIOUS_SHELL_PATHS asks for this build's pack too. A 2.2.0 Chromebook fetched all 276 files at once.
+const OFFLINE_PACK_PATHS = new Set([
+    "css/analytics.css","css/legacy.css","css/rulebook.css","css/season.css","css/transfer.css","data/clubs.js","data/leagues.js",
+    "data/transferOptions.js","js/careerScreenSeam.js","js/careerScreensV10.js","visual-assets/v10_1/legacy/legacy.css",
+    "visual-assets/v10_1/legacy/legacy.js","visual-assets/v10_1/legacy/strings.json","visual-assets/v10_1/legacy/assets/platemap.json",
+    "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js",
+    "visual-assets/v10_1/rivalry-statistics/strings.json","visual-assets/v10_1/rivalry-statistics/assets/platemap.json","js/rivalryLegacyV10.js",
+    "js/rivalryLegacyV10Markup.js","js/sharedCareerAnalytics.js","js/sharedActiveShowdownAdapter.js","js/sharedClosedShowdownAdapter.js",
+    "js/sparkCompletedShowdownReader.js","js/sparkClosedShowdownCareerLoader.js","js/careerSummaryStore.js","js/specialPlayerReveal.js",
+    "visual-assets/v10_1/special-player/index.html","data/deadlineDayLines.js","js/rosterRouletteStep.js","js/rosterRoulette.js",
+    "data/rosterSquads.js","data/fifa17Players.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html",
+    "visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r187.min.js",
+    "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json",
+    "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/commentaryEngine.js","data/commentaryLines.js","data/gazetteCopy.js",
+    "data/gazetteSacked.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css",
+    "visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
+    "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
+    "js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html","js/chamberMenStep.js",
+    "js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","css/rivalryLegacyV10.css","js/clubAssignment.js",
+    "js/dataEngine.js","js/leagueWheel.js","js/legacy.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js",
+    "js/sparkSharedTransferChallenge.js","js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js",
+    "js/transferChallenge.js","js/transferSelector.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
+    "assets/football/anthony-martial-cska-2017-v113.webp","assets/football/antoine-griezmann-atletico-2016-v113.webp",
+    "assets/football/cristiano-ronaldo-euro-2016-v113.webp","assets/football/james-rodriguez-world-cup-2014-v113.webp",
+    "assets/football/lionel-messi-barcelona-2016-subject-r4.webp","assets/football/marcus-rashford-chelsea-2017-v113.webp",
+    "assets/football/mario-balotelli-euro-2012-celebration-v113.webp","assets/football/neymar-brazil-olympic-gold-2016-v113.webp",
+    "assets/football/paul-pogba-man-utd-2016-v113.webp","assets/football/philipp-lahm-world-cup-2014-focus-r4.webp",
+    "assets/football/radamel-falcao-europa-league-2012-v113.webp","assets/football/zlatan-ibrahimovic-man-utd-2016-v113.webp",
+    "visual-assets/v10_1/career-statistics/assets/platemap.json","visual-assets/v10_1/career-statistics/career-statistics.css",
+    "visual-assets/v10_1/career-statistics/career-statistics.js","visual-assets/v10_1/trophy-room/assets/platemap.json",
+    "visual-assets/v10_1/trophy-room/trophy-room.css","visual-assets/v10_1/trophy-room/trophy-room.js","visual-assets/v10_1/standings/standings.css",
+    "visual-assets/v10_1/standings/standings.js","visual-assets/v10_1/standings/app-shell.html","visual-assets/v10_1/standings/app-strings.json",
+    "visual-assets/v10_1/rule-book/rule-book.css","js/showdownConfirm.js","css/v10Transfer.css","visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+    "visual-assets/v10_1/tr2/slice-02-plate/plate.js","visual-assets/v10_1/tr2/slice-02-plate/platemap.json",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2","css/v10Club.css","visual-assets/v10_1/club/club.css",
+    "visual-assets/v10_1/club/club.js","visual-assets/v10_1/club/assets/platemap.json","visual-assets/v10_1/club/assets/handmap.json",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
+]);
+const INSTALL_PATHS = Object.freeze(SHELL_PATHS.filter(path=>!OFFLINE_PACK_PATHS.has(path)));
+const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // The retained previous shell was installed by its own worker with its own list, so it is verified against that list, not
 // this one: checked against SHELL_PATHS it would lack this release's new files, fail, and be deleted on activation, leaving
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
@@ -354,7 +411,7 @@ const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["js/analytics.js","visual-as
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
 const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze([...SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)),...SHELL_PATHS_REMOVED_SINCE_PREVIOUS]);
-function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:SHELL_PATHS; }
+function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:INSTALL_PATHS; }
 
 function scopeUrl(path = ""){
     return new URL(path, self.registration.scope);
@@ -389,7 +446,8 @@ async function findRecoveryRuntime(){
     }
     return {ok:false,available:false,cacheName:"",revision:"",expected:0,missing:[]};
 }
-function requestForShellPath(path){ return new Request(versionedShellUrl(path), { cache: "reload", credentials:"same-origin" }); }
+// "no-cache" asks the server every time, like "reload" did, but a file the page has just loaded comes back as a 304, not twice.
+function requestForShellPath(path){ return new Request(versionedShellUrl(path), { cache: "no-cache", credentials:"same-origin" }); }
 function relativeScopePath(url){
     const scope = scopeUrl();
     if(url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)){ return ""; }
@@ -403,10 +461,46 @@ async function verifyCache(revision = RUNTIME_REVISION){
     for(const path of paths){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
     return { ok:missing.length===0, available:true, cacheName, revision,expected:paths.length, missing };
 }
+// A few files at a time, not cache.addAll's all-at-once burst. strict: any failure fails the install (as addAll did); otherwise a
+// file that fails is left for the next try, and the run stops once the deployed worker is no longer this revision.
+async function cacheShellPaths(cache,paths,lanes,strict){
+    let next=0,stopped=false;
+    const lane=async()=>{ while(!stopped&&next<paths.length){ const path=paths[next++];
+        if(!strict&&!(await deployedRevisionIsCurrent())){ stopped=true; return; }
+        try{ const response=await fetch(requestForShellPath(path)); if(!response.ok){ throw new Error(`${path} answered ${response.status}`); } await cache.put(versionedShellUrl(path),response); }
+        catch(error){ if(strict){ stopped=true; throw error; } } } };
+    await Promise.all(Array.from({length:Math.min(lanes,paths.length)},lane));
+}
 async function populateCurrentCache(){
     const cache=await caches.open(CACHE_NAME);
-    try{ await cache.addAll(SHELL_PATHS.map(requestForShellPath)); const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){ throw new Error(`Application shell cache is incomplete: ${status.missing.join(", ")}`); } return status; }
+    try{ await cacheShellPaths(cache,INSTALL_PATHS,INSTALL_LANES,true); const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){ throw new Error(`Application shell cache is incomplete: ${status.missing.join(", ")}`); } return status; }
     catch(error){ await caches.delete(CACHE_NAME); throw error; }
+}
+let deployedRevisionCheck=null;
+function deployedRevisionIsCurrent(){
+    const now=Date.now(); if(deployedRevisionCheck&&now-deployedRevisionCheck.at<DEPLOYED_CHECK_MS){ return deployedRevisionCheck.result; }
+    const url=scopeUrl("service-worker.js"); url.searchParams.set("pack-check",String(now));
+    const result=fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin"})).then(async response=>response.ok&&(await response.text()).includes(`const RUNTIME_REVISION = "${RUNTIME_REVISION}";`)).catch(()=>false);
+    deployedRevisionCheck={at:now,result}; return result;
+}
+async function verifyOfflinePack(){
+    const expected=SHELL_PATHS.filter(path=>OFFLINE_PACK_PATHS.has(path)); if(!(await cacheExists(CACHE_NAME))){ return { ok:false, expected:expected.length, missing:expected }; }
+    const cache=await caches.open(CACHE_NAME); const missing=[];
+    for(const path of expected){ const response=await cache.match(versionedShellUrl(path)); if(!response||!response.ok){ missing.push(path); } }
+    return { ok:missing.length===0, expected:expected.length, missing };
+}
+let offlinePackFill=null;
+function fillOfflinePack(){
+    return offlinePackFill||(offlinePackFill=(async()=>{ try{
+        const status=await verifyOfflinePack(); if(status.ok||!(await cacheExists(CACHE_NAME))||!(await deployedRevisionIsCurrent())){ return status; }
+        await cacheShellPaths(await caches.open(CACHE_NAME),status.missing,OFFLINE_PACK_LANES,false); return verifyOfflinePack();
+    } finally { offlinePackFill=null; } })());
+}
+async function keepOfflinePackFile(path,response){ if(await cacheExists(CACHE_NAME)&&await deployedRevisionIsCurrent()){ await (await caches.open(CACHE_NAME)).put(versionedShellUrl(path),response); } }
+// A pack file this revision's page asks for before the pack is in: the same request the install makes, kept for next time.
+async function offlinePackResponse(event,path){
+    try{ const response=await fetch(requestForShellPath(path)); if(response.ok&&!response.redirected){ event.waitUntil(keepOfflinePackFile(path,response.clone()).catch(()=>{})); } return response; }
+    catch(error){ return Response.error(); }
 }
 async function readForcedRevision(){
     if(!(await cacheExists(MODE_CACHE_NAME))){ return ""; }
@@ -422,7 +516,7 @@ async function chooseNavigationRuntime(){
     const recovery=await findRecoveryRuntime(); if(recovery.ok)return recovery;
     return null;
 }
-async function getStatusBundle(){ const current=await verifyCache(RUNTIME_REVISION); const previous=PREVIOUS_RUNTIME_REVISION?await verifyCache(PREVIOUS_RUNTIME_REVISION):{ok:false,available:false,cacheName:"",revision:"",expected:SHELL_PATHS.length,missing:SHELL_PATHS.slice()}; const recovery=await findRecoveryRuntime(); return{current,previous,recovery,forcedRevision:await readForcedRevision(),cacheNames:await caches.keys()}; }
+async function getStatusBundle(){ const current=await verifyCache(RUNTIME_REVISION); const pack=await verifyOfflinePack(); const previous=PREVIOUS_RUNTIME_REVISION?await verifyCache(PREVIOUS_RUNTIME_REVISION):{ok:false,available:false,cacheName:"",revision:"",expected:SHELL_PATHS.length,missing:SHELL_PATHS.slice()}; const recovery=await findRecoveryRuntime(); return{current,pack:{ok:pack.ok,expected:pack.expected,missing:pack.missing.length},previous,recovery,forcedRevision:await readForcedRevision(),cacheNames:await caches.keys()}; }
 async function probeNetwork(){
     const controller=new AbortController(); const timeout=setTimeout(()=>controller.abort(),NETWORK_PROBE_TIMEOUT_MS); const url=scopeUrl("service-worker.js"); url.searchParams.set("network-probe",`${Date.now()}-${Math.random().toString(36).slice(2)}`);
     try{ const response=await fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin",signal:controller.signal})); return{online:response.ok,status:response.status}; }
@@ -437,6 +531,7 @@ self.addEventListener("message",event=>{
     if(type==="CMS_GET_CACHE_STATUS"){ event.waitUntil((async()=>{ try{ const status=await getStatusBundle(); replyToClient(event,{type:"CMS_CACHE_STATUS",ok:status.current.ok,revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,...status}); }catch(error){ replyToClient(event,{type:"CMS_CACHE_STATUS",ok:false,revision:RUNTIME_REVISION,error:error?.message||String(error)}); } })()); return; }
     if(type==="CMS_ACTIVATE_UPDATE"){ event.waitUntil((async()=>{ try{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){ replyToClient(event,{type:"CMS_ACTIVATION_REJECTED",ok:false,revision:RUNTIME_REVISION,missing:status.missing}); return; } await self.skipWaiting(); replyToClient(event,{type:"CMS_ACTIVATION_ACCEPTED",ok:true,revision:RUNTIME_REVISION}); }catch(error){ replyToClient(event,{type:"CMS_ACTIVATION_REJECTED",ok:false,revision:RUNTIME_REVISION,error:error?.message||String(error)}); } })()); return; }
     if(type==="CMS_ROLLBACK_TO_PREVIOUS"){ event.waitUntil((async()=>{ try{ const recovery=await findRecoveryRuntime(); if(!recovery.ok){throw new Error("No verified previous application shell is available for rollback.");} await writeForcedRevision(recovery.revision); replyToClient(event,{type:"CMS_ROLLBACK_ACCEPTED",ok:true,revision:recovery.revision}); }catch(error){ replyToClient(event,{type:"CMS_ROLLBACK_REJECTED",ok:false,error:error?.message||String(error)}); } })()); return; }
+    if(type==="CMS_FILL_OFFLINE_PACK"){ event.waitUntil(fillOfflinePack().then(status=>replyToClient(event,{type:"CMS_OFFLINE_PACK_STATUS",ok:status.ok,revision:RUNTIME_REVISION,expected:status.expected,missing:status.missing.length})).catch(()=>{})); return; }
     if(type==="CMS_CLEAR_ROLLBACK"){ event.waitUntil((async()=>{ await clearForcedRevision(); replyToClient(event,{type:"CMS_ROLLBACK_CLEARED",ok:true,revision:RUNTIME_REVISION}); })()); }
 });
 self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const keepImageCaches=new Set([V10_IMAGE_CACHE_NAME,recovery.ok?v10ImageCacheName(recovery.revision):""].filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&!keepImageCaches.has(name)){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
@@ -454,9 +549,9 @@ async function v10ImageResponse(event,request,path){
     if(response&&response.ok&&response.type==="basic"){ event.waitUntil(cache.put(key,response.clone()).catch(()=>{})); }
     return response;
 }
-async function unversionedShellResponse(request,path){
+async function unversionedShellResponse(event,request,path){
     const revision=await v10ImageRevision(); const cached=await cachedShellResponse(path,revision)||(revision!==RUNTIME_REVISION?await cachedShellResponse(path,RUNTIME_REVISION):null);
-    return cached||fetch(request);
+    return cached||(revision===RUNTIME_REVISION&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):fetch(request));
 }
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
@@ -466,10 +561,10 @@ self.addEventListener("fetch",event=>{
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
-        if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||fetch(request); })()); return; }
+        if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||((!selected||selected.revision===RUNTIME_REVISION)&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):fetch(request)); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
-    event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(event,request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||(requestedRevision===RUNTIME_REVISION&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):Response.error());})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS,previousShellPaths:PREVIOUS_SHELL_PATHS});
