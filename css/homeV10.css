@@ -982,6 +982,8 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
     -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
     box-shadow: 0 12px 26px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.7), inset 0 0 22px rgba(242,196,91,.07);
   }
+  /* r90 M23 (Light): the tile face is .9-.96 opaque, so the tiles drop the live blur and keep their look. */
+  html[data-gfx="0"] #app #mainMenu.v10Home .fifaMenuGrid > .menuTile { -webkit-backdrop-filter: none; backdrop-filter: none; }
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile::before {
     content: ""; position: absolute; z-index: 0; inset: 0; pointer-events: none;
     border: 1px solid rgba(255,241,184,.3); border-bottom-color: rgba(201,155,69,.22);

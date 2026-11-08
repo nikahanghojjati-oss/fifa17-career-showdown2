@@ -163,6 +163,10 @@ html[data-sd-pointer-active] .sd-stage__flare { animation-play-state: paused; }
   mix-blend-mode: soft-light;
 }
 
+/* r90 M18 (Light): no settling dust, and the one flare sweep without its 18 px blur (the gradient is already soft). */
+html[data-gfx="0"] .sd-stage__dust { display: none; }
+html[data-gfx="0"] .sd-stage__flare { filter: none; }
+
 @media (prefers-reduced-motion: reduce) {
   .sd-stage__layer--atmosphere { display: none !important; }
   .sd-stage__dust i, .sd-stage__flare { animation: none !important; }
