@@ -357,11 +357,9 @@
        Panel sizes, positions and order are unchanged. */
     :root #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { padding-top: 12px; padding-bottom: 12px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading { margin-bottom: 6px; padding-bottom: 6px; }
-    :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading p { margin-top: 3px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoGrid { row-gap: 2px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow { padding-top: 2px; padding-bottom: 2px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow strong { margin-top: 1px; }
-    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionSummary { padding-top: 22px; }
     :root #settingsOverlay.v10Settings #settingsContent :is(.settingsOfflineNote, .settingsApplicationUpdateStatus) { margin-top: 6px; padding-top: 5px; padding-bottom: 5px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsOfflineActions { margin-top: 8px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsDataNote { margin-top: 6px; }
@@ -472,7 +470,6 @@
     }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading p { margin-top: 0; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanel .menuButton {
-      font-size: calc(var(--sa-type-small) / var(--r78-settings-zoom));
       letter-spacing: .12em;
     }
   }
@@ -689,7 +686,7 @@
    over Daniel's cheek and Nik's beard; the faces sit at ~23.3% and ~76% of the window on every desktop size, so the board
    now spans 25.3%-72.3%, clear of both faces from 1280 to 1440 wide. */
 @media (min-width: 901px) and (max-height: 1000px) {
-  :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { width: 47%; margin-left: 25.3%; margin-right: auto; }
+  :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { width: 47%; margin-right: auto; }
 }
 /* Transfer War guess entry: the board said WINDOW CLOSED twice (the closed sign, then the status "Window closed - Guess
    entry"). Hierarchy: one message, as the signing phase already does. */
