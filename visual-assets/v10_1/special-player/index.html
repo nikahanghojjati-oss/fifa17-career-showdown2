@@ -1468,7 +1468,7 @@ function drawLed(c){
   ["FIFA 17 SHOWDOWN","SPECIAL PLAYER"].forEach((s,i)=>{ c.fillText(s,i*1024+512,34); c.fillRect(i*1024+60,30,40,4); c.fillRect(i*1024+924,30,40,4); });
   c.fillStyle="rgba(0,0,0,.35)"; for(let x=0;x<2048;x+=4) c.fillRect(x,0,1,64); for(let y=0;y<64;y+=4) c.fillRect(0,y,2048,1);
 }
-function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c.width=w; c.height=h; const ctx=c.getContext("2d"); draw&&draw(ctx); const tx=new T.CanvasTexture(c); if(!linear) tx.colorSpace=T.SRGBColorSpace; tx.anisotropy=8; return {c,ctx,tx}; }
+function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c.width=w; c.height=h; const ctx=c.getContext("2d"); draw&&draw(ctx); const tx=new T.CanvasTexture(c); if(!linear) tx.colorSpace=T.SRGBColorSpace; tx.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); return {c,ctx,tx}; }
 
 /* ================= renderer + bloom ================= */
 const stage=document.getElementById("stage");
@@ -1483,6 +1483,11 @@ const PHONE_GPU=matchMedia("(pointer: coarse)").matches && Math.min(innerWidth,i
 const GFX=window.CareerModeGfxTier||null, GP=GFX?GFX.profile():null;
 const DPR=GP?GP.maxPixelRatio:Math.min(devicePixelRatio||1, PHONE_GPU?2:3);
 let PR=GP?GP.pixelRatio:DPR*.75, gov=null;
+/* r90 pack quality (Nik 2026-11-07 23:44 UTC: "hugely improve" High/Extra/Ultra, Light and Medium as good as they can be with no
+   extra load). Each knob follows the profile's level (0 light .. 4 ultra; 2 without the module): edges (MSAA), shadow map,
+   texture filtering at angles, and how far past 2x the card art may be drawn on a big sharp screen (its text and numbers). Light
+   and Medium draw less than before (2x MSAA, 1024 shadows), which leaves the governor room for a sharper pixel ratio. */
+const GL_LVL=GP?GP.level:2, GQ={ samples:[2,2,4,8,8][GL_LVL], shadow:GP?GP.shadowSize:2048, aniso:[4,8,16,16,16][GL_LVL], cardMax:GL_LVL>=3?2.5:2 };
 renderer.setPixelRatio(PR);
 renderer.outputColorSpace=T.LinearSRGBColorSpace; renderer.toneMapping=T.NoToneMapping;
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap;
@@ -1490,7 +1495,14 @@ stage.appendChild(renderer.domElement);
 /* Fable F8-05: render to half-float only where the GPU can; otherwise 8-bit targets (and a lower bloom threshold) instead of a black stage. */
 const HDR=renderer.extensions.has("EXT_color_buffer_float")||renderer.extensions.has("EXT_color_buffer_half_float"), RT_TYPE=HDR?T.HalfFloatType:T.UnsignedByteType;
 const RTO={type:RT_TYPE, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:false};
-const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:PHONE_GPU?2:4}); /* r89: WebGL 2 only, so the scene target is always multisampled */
+/* r90 (Codex P2 #1265): the sample count must be one the GPU supports for BOTH the colour format (RGBA16F, or RGBA8 without
+   half-float targets) and the depth format; MAX_SAMPLES alone is not enough, and some GPUs leave an 8x RGBA16F framebuffer
+   incomplete, which loses the whole scene. MSAA_OK is that shared list (highest first); fitSamples picks the highest count at
+   or under the wish, and without the query it falls back to 4, then 0. */
+const MSAA_OK=(()=>{ try{ const gl=renderer.getContext(), q=(f)=>Array.from(gl.getInternalformatParameter(gl.RENDERBUFFER,f,gl.SAMPLES)||[]);
+  const c=q(HDR?gl.RGBA16F:gl.RGBA8), d=q(gl.DEPTH_COMPONENT24), both=c.filter(n=>d.includes(n)).sort((a,b)=>b-a); return both.length?both:null; }catch(e){ return null; } })();
+const fitSamples=(want)=>{ if(want<=0) return 0; const list=MSAA_OK||[4]; return list.find(n=>n<=want)??list[list.length-1]; }; /* none at or under (a GPU that lists only 4): its lowest */
+const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:fitSamples(PHONE_GPU?2:GQ.samples)}); /* r89: WebGL 2 only, so the scene target is always multisampled; r90: samples by quality level */
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
 const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:HDR?1.5:.8}},vertexShader:VS,depthTest:false,depthWrite:false,
@@ -1510,7 +1522,7 @@ const camera=new T.PerspectiveCamera(40,1,0.1,900);
 scene.add(new T.HemisphereLight(L(0xcfe4ff),L(0x2d5a22),0.45));
 const SUN=new T.Vector3(-36,79,49);
 const sun=new T.DirectionalLight(L(0xfff0d8),2.3); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
-sun.shadow.mapSize.set(PHONE_GPU?1024:2048,PHONE_GPU?1024:2048); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
+sun.shadow.mapSize.set(PHONE_GPU?1024:GQ.shadow,PHONE_GPU?1024:GQ.shadow); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
 const sky=new T.Mesh(new T.SphereGeometry(500,32,16), new T.ShaderMaterial({side:T.BackSide, depthWrite:false, fog:false,
   uniforms:{top:{value:L(0x1f5fbf)},hor:{value:L(0xd2e6f7)},sunDir:{value:SUN.clone().normalize()}},
@@ -1793,7 +1805,7 @@ grassMat.onBeforeCompile=(sh)=>{
    .replace("#include <dithering_fragment>","#include <dithering_fragment>\n gl_FragColor.a=diffuseColor.a;"); };
 const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGround.rotation.x=-Math.PI/2; shadowGround.position.y=0; shadowGround.receiveShadow=true;
 function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
-function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
+function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 /* r89 (Nik's look frame SP_LOOKFRAME_V1): a camera focused on the card sees the far stands soft, so the card stands out from them.
    r90 pack smooth: that soft focus (half size, then a sixth of the photo) is baked into the *_soft_V1.jpg files, so the page
    fetches 0.4 MB instead of 5.9 MB and no longer decodes and shrinks four big photos on the main thread at load. */
@@ -1801,7 +1813,7 @@ function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t
 /* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
    (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
 const boards=new T.Group(); let boardTex=null, boardTex2=null;
-function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=8; boardTex=t;
+function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
   boardTex2=t.clone(); boardTex2.needsUpdate=true;
   const face=new T.MeshBasicMaterial({map:t, fog:false}); face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
   const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
@@ -1824,8 +1836,9 @@ function loadPano(){ return new Promise((res,rej)=>new T.TextureLoader().load("a
 
 /* ================= r90 pack smooth: every card face, coin and flag prepared up front ================= */
 /* The card art is drawn at the size the card is seen at: its height on screen (the band between the title and the bar) in
-   device pixels, from 1x (512x745) to 2x (1024x1490) in quarter steps. */
-function cardScale(){ const px=H*Math.max(.5,bandTop-bandBot)/2*.9*DPR; return Math.max(1,Math.min(2,Math.ceil(px/CH*4)/4)); }
+   device pixels, from 1x (512x745) to 2x (1024x1490) in quarter steps; Extra and Ultra on a big sharp screen (a 4K monitor) up to
+   2.5x (1280x1863), so the name, rating and numbers stay crisp at native size. */
+function cardScale(){ const px=H*Math.max(.5,bandTop-bandBot)/2*.9*DPR; return Math.max(1,Math.min(GQ.cardMax,Math.ceil(px/CH*4)/4)); }
 function prepTex(w,h,draw){ const t=canvasTex(w,h,draw); return t.tx; }
 function prepareCards(){
   const sc=cardScale(), key=[pair.daniel.rank,pair.daniel.name,pair.nik.rank,pair.nik.name,sc,Object.keys(CARD_ART).length,Object.keys(CREST_IMG).length].join("|");
@@ -2182,9 +2195,18 @@ function startGfx(){ if(!GFX) return;
   gov=GFX.governor(renderer,{key:"sp",draw:render,onChange(p){ PR=p.pixelRatio; resize(); }});
   GFX.overlay(()=>({extra:`${renderer.domElement.width}x${renderer.domElement.height} · card ${SC}x`}));
   addEventListener("resize",()=>gov.resize()); addEventListener("pagehide",()=>gov.end()); }
+/* allocate the scene target now and check it once; an incomplete framebuffer steps down (8 -> 4 -> 0 samples) instead of a black stage */
+function checkSceneRT(){ const gl=renderer.getContext(); for(let k=0;k<3;k++){ let ok=true;
+    try{ renderer.setRenderTarget(sceneRT); ok=gl.checkFramebufferStatus(gl.FRAMEBUFFER)===gl.FRAMEBUFFER_COMPLETE; }catch(e){ ok=false; } renderer.setRenderTarget(null);
+    if(ok||sceneRT.samples===0) break; sceneRT.samples=sceneRT.samples>4?4:0; sceneRT.dispose(); }
+  sceneRT.__checked=true; }
 function resize(){
   W=innerWidth; H=innerHeight; renderer.setPixelRatio(PR); renderer.setSize(W,H,false);
-  const pw=Math.floor(W*PR), ph=Math.floor(H*PR); sceneRT.setSize(pw,ph); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
+  const pw=Math.floor(W*PR), ph=Math.floor(H*PR);
+  /* r90 lean: 8x edges only up to a 2560x1440 buffer; past it (a 4K draw) the pixels are already fine enough, and 8 samples of a
+     half-float 4K target would hold about half a gigabyte, so it keeps 4 */
+  const smp=fitSamples(PHONE_GPU?2:(pw*ph>2560*1440?Math.min(4,GQ.samples):GQ.samples)), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
+  sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
   const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
@@ -2295,7 +2317,10 @@ window.__pick=(d,n)=>{ pickD=d; pickN=n; pair={daniel:mpByIdx(d), nik:mpByIdx(n)
 const EMBED=qs.get("embed")==="1"; const toGame=(type)=>{ try{ parent.postMessage({type},location.origin); }catch(e){} };
 cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); $("again").hidden=true; return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
 window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } },
-  pr(v){ if(v!=null){ PR=v; renderer.setPixelRatio(PR); resize(); } return PR; }, get cardScale(){ return SC; },
+  pr(v){ if(v!=null){ PR=v; renderer.setPixelRatio(PR); resize(); } return PR; }, get cardScale(){ return SC; }, get gq(){ return {...GQ,level:GL_LVL,samples:sceneRT.samples}; },
+  /* r90: a GPU memory estimate in MB (card faces with mipmaps, scene and bloom targets, shadow map, drawing buffer) for the quality proof */
+  mem(){ const cv=renderer.domElement, sm=sun.shadow.mapSize.x, cards=2*7*CW*SC*CH*SC*4*4/3, rt=sceneRT.width*sceneRT.height*(HDR?8:4)*((sceneRT.samples||0)+1),
+    mips=mipA.concat(mipB).reduce((a,m)=>a+m.width*m.height*(HDR?8:4),0); return { cards:cards/1048576, targets:(rt+mips)/1048576, shadow:sm*sm*4/1048576, buffer:cv.width*cv.height*12/1048576 }; },
   get t(){ return vtt; }, get band(){ return bandDbg; }, get phase(){ return phase; }, get idx(){ return idx; } };
 
 const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))).catch(()=>null), new Promise(r=>setTimeout(r,3000))]); /* Fable F8-03: a failed font falls back, never fails the page */
