@@ -1190,3 +1190,14 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 @media (min-width: 1200px) and (min-height: 600px) and (max-height: 760px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   body #settingsOverlay.v10Settings #settingsDialog #settingsContent { padding-bottom: 0; row-gap: 3px; }
 }
+/* r90 W9 (LOOK hunt L14): the free-quota numbers sit under a quiet DETAILS toggle below the plain ONLINE PLAY TODAY line. */
+#settingsOverlay.v10Settings .settingsUsageDetails { margin: 0 0 4px; }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 2px; cursor: pointer; list-style: none;
+  font: 600 11px/1.2 var(--sd-font-condensed, inherit); letter-spacing: .14em; color: #c1b9aa;
+}
+#settingsOverlay.v10Settings .settingsUsageDetails > summary::-webkit-details-marker { display: none; }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary::after { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translateY(-2px); }
+#settingsOverlay.v10Settings .settingsUsageDetails[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary:hover, #settingsOverlay.v10Settings .settingsUsageDetails > summary:focus-visible { color: #f2c45b; }
+#settingsOverlay.v10Settings .settingsUsageDetails > .settingsInfoGrid { grid-template-columns: minmax(0, 1fr); margin-top: 4px; }

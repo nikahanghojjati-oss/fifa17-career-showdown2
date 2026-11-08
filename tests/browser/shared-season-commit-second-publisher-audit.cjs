@@ -22,7 +22,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
   const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
   try{
     await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-    await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+    await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
     await page.evaluate(async({rivalryId,sessionId,canonicalKeys,resultOne,resultTwo})=>{
       await ensureGameplayModules();

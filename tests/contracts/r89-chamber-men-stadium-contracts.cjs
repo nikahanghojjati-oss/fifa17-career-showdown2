@@ -69,13 +69,16 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     const n=b.readUInt32LE(12);return {size:b.length,json:JSON.parse(b.toString("utf8",20,20+n))};};
   for(const tier of ["desktop","phone"]){
     const clips=glb(`anims_${tier}.glb`).json.animations.map(a=>a.name);
-    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog","strikeJog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch","gkCatch1","gkCatch2"])assert.ok(clips.includes(c),`anims_${tier} has clip ${c}`);
+    // r90: the clips the scene plays. idle, walk, run, strikeJog and gkCatch went (nothing played them); the reactions
+    // victory2, cheer, salute and defeated came from Nik's Mixamo files (tools/chamber-men-players/clips_r90.json).
+    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated"];
+    assert.deepEqual(clips.slice().sort(),PLAYED.slice().sort(),`anims_${tier} holds exactly the played clips`);
     assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
   }
   // v2: one shared clip file per tier plus one light body file per body; same bones, kit materials, hips scale for clips
-  for(const [tier,amax,bmax] of [["desktop",1.6e6,4.8e6],["phone",1.4e6,2.4e6]]){
+  for(const [tier,amax,bmax] of [["desktop",1.2e6,4.8e6],["phone",1.12e6,2.4e6]]){
     const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
-    assert.equal(a.json.animations.length,18,`anims_${tier} has the 18 clips`);
+    assert.equal(a.json.animations.length,17,`anims_${tier} has the 17 clips`);
     for(const id of ["remy","ch38","ch42"]){
       const {size,json}=glb(`body_${id}_${tier}.glb`);
       assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
@@ -115,6 +118,12 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   const sandbox={};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(kit,sandbox);
   const files=Object.values({...sandbox.CareerModeChamberMenStadium.files.both});
   assert.ok(files.every(f=>!/^board_/.test(f)),"no board file in the load set");
+    // r90 LOOK round 2 (L02, L30): stair aisles and empty patches, fans of their own size and some standing, and the home
+  //    supporters' flags on the front rail either side of the goal (cloth, no lettering), merged into one draw.
+  {const st=fs.readFileSync(path.join(ROOT,"js/chamberMenStadium3d.js"),"utf8");
+   assert.ok(/const aisle=\(p,si\)=>/.test(st)&&/if\(aisle\(s\.p,s\.si\)\|\|patch\(s\.p,s\.si\)\)continue;/.test(st)&&/if\(aisle\(v,s\.si\)\|\|patch\(v,s\.si\)\)continue;/.test(st),"aisles and empty patches on the bowl and the built stands");
+   assert.ok(/dummy\.scale\.set\(f\.sx,f\.sy,1\)/.test(st)&&/up=rnd\(\)<\(awayEnd\?\.55:\.12\)/.test(st),"each fan his own size, some standing");
+   assert.ok(/m\.name="cmBanner";m\.userData\.bake=true;/.test(st)&&!/fillText/.test(st.slice(st.indexOf("// ---------- banners"),st.indexOf("// ---------- floodlight flares"))),"flags merged, no lettering");}
   ok("S6","night stand, club-colour crowd, run-time ad boards with crests and no cut or CMS lettering");
 }
 // S7 r90 big stadium (High and above): Innerscene "Football stadium" (CC0) trimmed by gen_bowl.py into one 1k GLB that only

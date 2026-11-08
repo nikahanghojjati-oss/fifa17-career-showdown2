@@ -82,6 +82,10 @@
     R:[{c:"gkDive",m:0,tc:1.1,s:1.6},{c:"gkDive1",m:1,tc:.9,s:1.35},{c:"gkBlock",m:0,tc:.8,s:1.25},{c:"gkBlock1",m:1,tc:.7,s:1.15},{c:"gkBlock2",m:0,tc:.7,s:1.15}],
     M:[{c:"gkCatch1",m:0,tc:.4,s:1,hold:1},{c:"gkCatch2",m:0,tc:.8,s:1.2,hold:1}]
   };
+  // A keeper who stayed in the middle while the ball went to a corner: set until it is past him, then hands to knees.
+  const ROOTED={c:"defeated",m:0,tc:-.15,s:1,rooted:1};
+  // The taker's reaction after the follow-through, one per kick from these (both phones pick the same).
+  const REACTIONS={goal:["victory","victory2","cheer","salute"],miss:["disappointed","defeated"]};
   // Goals: where in the zone the ball goes (heights), by kick.
   const GOAL_SPOTS={side:[[2.75,.32],[2.6,1.05],[2.85,1.85],[2.95,.6]],mid:[[.35,1.55],[-.3,.95],[.15,1.95]]};
 
@@ -329,8 +333,10 @@
         const idle0=hipsOf(taker,TK.offensiveIdle,0);
         return {...r,total,clipAt,start,idle:rebase(taker,TK.offensiveIdle,`cmIdle${i}`,{zero:"xz",from:idle0,to:start})};
       });
-      const react={victory:rebase(taker,TK.victory,"cmVictory",{zero:"xz",from:hipsOf(taker,TK.victory,0),to:kickEnd}),
-        disappointed:rebase(taker,TK.disappointed,"cmDown",{zero:"xz",from:hipsOf(taker,TK.disappointed,0),to:kickEnd})};
+      // r90 (Nik's Mixamo uploads 2026-11-08): a few reactions each way, picked per kick (REACTIONS); a clip file without
+      // the newer ones still plays the first of each.
+      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:hipsOf(taker,TK[n],0),to:kickEnd});
+      const react={};for(const [k,list] of Object.entries(REACTIONS))react[k]=list.filter(n=>TK[n]).map(reaction);
       const struck=strikeOf(taker,TK);
       const hit=struck?struck.hit:KICK_HIT_GUESS,at=struck?struck.ball:KICK_BALL_GUESS;
       taker.holder.rotation.y=TAKER_YAW;
@@ -342,6 +348,7 @@
       need(keeper,["gkIdle","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"]);
       const KC={gkIdle:rebase(keeper,keeper.clips.gkIdle,"cmGkIdle",{zero:"xz"})};
       for(const n of ["gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
+      if(keeper.clips.defeated)KC.defeated=rebase(keeper,keeper.clips.defeated,"cm_gkDefeated",{zero:"xz"});
       keeper.holder.position.set(0,0,.25);
       return {a:keeper,KC};
     };
@@ -429,21 +436,26 @@
         if(o.name==="Body"&&m.name==="Bodymat")m.color.setRGB(sk[0],sk[1],sk[2]);
         if(o.name==="Hair"||m.name==="Hairmat")m.color.setRGB(hr[0],hr[1],hr[2]);});
     };
+    const kitMemo=new Map(),kitTex=new Map();
     const dress=(a,club,role,vs)=>{
       look(a,club,role);
       // r90 L04: a squad number on the back (the camera is behind the taker): one per club for the Showdown, 1 for keepers.
       const number=role==="gk"?1:SHIRT_NUMBERS[cm3Hash(`number|${club}`)%SHIRT_NUMBERS.length];
-      let t;try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize,number});}catch(_error){return;}
+      // r90 MOTION M2: a Showdown has four kits at most (each club taking and keeping, against the other), so each is painted
+      // once and its textures stay uploaded: a new kick only swaps maps (painting one cost 1.1-2.2 s of main thread).
+      const memo=`${a.body}|${club}|${role}|${vs}|${number}`;
+      let t=kitMemo.get(memo);if(!t){try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize,number});}catch(_error){return;}kitMemo.set(memo,t);}
       // One texture per canvas: on Ch38 and Ch42 the shirt, shorts (and Ch38's socks) share one atlas.
-      const put=()=>{const made=new Map(),olds=new Set();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
+      const put=()=>{const made=new Map();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
         const mat=a.mats[m],c=t[k];if(!mat||!c)continue;
-        let tex=made.get(c);if(!tex){tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;tex.userData.cmKit=true;made.set(c,tex);}
-        if(mat.map&&mat.map.userData?.cmKit&&mat.map!==tex)olds.add(mat.map);mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;
-      }for(const o of olds)o.dispose();};
+        let tex=made.get(c)||kitTex.get(c);if(!tex){tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;tex.userData.cmKit=true;kitTex.set(c,tex);}made.set(c,tex);
+        if(mat.map!==tex){mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;}
+      }};
       const token=a.kitToken=(a.kitToken||0)+1;
       // A body-mapped kit is blank until its kit map has loaded: it goes on only when painted (the last kit stays meanwhile).
       if(t.shirt===t.shorts){Promise.resolve(t.ready).then(()=>{if(!disposed&&a.kitToken===token)put();},()=>{});return;}
-      put();Promise.resolve(t.ready).then(()=>{if(disposed||a.kitToken!==token)return;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
+      // A kit painted in full already went up to the GPU: no second upload.
+      put();if(t.cmUploaded)return;Promise.resolve(t.ready).then(()=>{if(disposed||a.kitToken!==token)return;t.cmUploaded=true;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
     };
 
     // ---------- the kick ----------
@@ -494,7 +506,10 @@
       // The ball turns the way that makes the curl (v x a) with a little topspin, ~10 turns a second.
       const spinSide=v0.clone().cross(curl).normalize(),top=v3(0,1,0).cross(v0).normalize();
       const spinAxis=spinSide.multiplyScalar(.85).addScaledVector(top,.4).normalize(),spinRate=v0.length()/BALL_R*.18;
-      return {...k,round,move,style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-move.tc/move.s,netHit:false};
+      const scored=Boolean(k.goal&&k.shot),pool=scored?react.goal:react.miss;
+      // Beaten standing still (he stayed in the middle, the ball went to a corner): no catch at thin air; he watches it in.
+      const rooted=k.goal&&k.shot&&side==="M"&&KC.defeated?ROOTED:null;
+      return {...k,round,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-(rooted||move).tc/(rooted||move).s,netHit:false};
     };
     // The taker at time t (seconds from the strike); idle while waiting.
     const takerAt=(t,live)=>{
@@ -510,7 +525,7 @@
           if(!st.jog&&kickT<.001){taker.pose([idle]);return;}
           taker.pose([k]);return;
         }
-        const r=plan.goal&&plan.shot?react.victory:react.disappointed,rt=kickT-end,b=cm3Easy(rt/.4);
+        const r=plan.react,rt=kickT-end,b=cm3Easy(rt/.4);
         taker.pose([{clip:TK.penaltyKick,time:end,w:1-b},{clip:r,time:rt,w:b}]);return;
       }
       if(!st.jog){
@@ -524,7 +539,7 @@
     const keeperPose=(t,live)=>{
       const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
       if(!plan||t<plan.kStart){keeper.holder.scale.x=1;keeper.pose([idle]);breathe(keeper,live,.8);return;}
-      const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*.12));
+      const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*(m.rooted?.45:.12)));
       keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
     };
     // The loose ball: gravity, air drag, bounces that lose speed, grass friction while it rolls, and inside the goal the
@@ -670,6 +685,7 @@
       gov?.end();fps?.stop();
       for(const r of Object.values(rigs))for(const a of [r.taker.a,r.keeper.a])try{a.mixer.stopAllAction();a.mixer.uncacheRoot(a.model);}catch(_error){}
       scene.traverse(o=>{if(o.geometry)o.geometry.dispose();for(const m of [].concat(o.material||[]))for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();});
+      for(const t of kitTex.values())t.dispose();kitTex.clear();kitMemo.clear();
       try{S.dispose();}catch(_error){}
       for(const v of own)try{v.dispose&&v.dispose();}catch(_error){}
       snap?.dispose();
@@ -703,7 +719,7 @@
       async warm(){if(!GFX)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,paint,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
       dispose:free,
       lit:Boolean(scene.environment),
-      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
+      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,react:plan&&plan.react?plan.react.name:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
       get alive(){return alive;}
     };
     setLineup(clubs.playerOne,clubs.playerTwo,1);

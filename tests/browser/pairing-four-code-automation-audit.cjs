@@ -32,7 +32,7 @@ async function preparePage(browser,accountId,iteration){
   const pageErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.setContent('<div id="settingsOverlay" class="settingsOverlay"><div class="settingsDialog"><header class="settingsHeader"><div class="settingsHeading"><span class="settingsEyebrow">SAVE LIBRARY</span><h2>SETTINGS</h2></div></header><div id="settingsContent" class="settingsContent"></div><footer class="settingsFooter"></footer></div></div>');
   await page.addStyleTag({url:new URL("css/app.css",baseUrl).href});
   await page.addStyleTag({url:new URL("css/settings.css",baseUrl).href});

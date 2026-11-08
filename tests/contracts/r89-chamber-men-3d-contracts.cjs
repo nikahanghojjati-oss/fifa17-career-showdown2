@@ -124,7 +124,8 @@ async function c3d2(){
   assert.match(scene,/const pairs=BODY_LOOKS\[a\.body\]\|\|BODY_LOOKS\.remy,\[sk,hr\]=pairs\[cm3Hash\(`\$\{club\}\|\$\{role\}`\)%pairs\.length\];/,"skin and hair as a pair, per body");
   assert.match(scene,/const k=c\.clone\(\);for\(const t of k\.tracks\)if\(t\.name\.endsWith\("\.position"\)\)/,"clips retargeted by the body's hips scale");
   assert.match(scene,/if\(t\.shirt===t\.shorts\)\{Promise\.resolve\(t\.ready\)\.then\(\(\)=>\{if\(!disposed&&a\.kitToken===token\)put\(\);\}/,"a body-mapped kit goes on only once painted, never blank");
-  assert.match(scene,/let tex=made\.get\(c\);/,"one texture per kit canvas (shared atlas uploads once)");
+  assert.match(scene,/let tex=made\.get\(c\)\|\|kitTex\.get\(c\);/,"one texture per kit canvas (shared atlas uploads once), kept for the Showdown (r90 M2)");
+  assert.ok(/let t=kitMemo\.get\(memo\);if\(!t\)/.test(scene)&&scene.includes("for(const t of kitTex.values())t.dispose();"),"r90 M2: each kit painted once per Showdown, its textures freed with the scene");
   ok("C3D7","several bodies: shared clips, one body per club, only natural skin and hair pairs, only bodies kits17 can dress");
 }
 // C3D8 Reduce Motion (Codex on #1254 at 9bd35452): the broadcast scene's clocks stand still, the kick shows its settled
@@ -236,5 +237,20 @@ async function c3d2(){
   const live=/#cmStage \.cmChamber\.is-live \{[^}]*\}/.exec(css)[0],empty=/#cmStage \.cmChamber\.is-empty \{[^}]*\}/.exec(css)[0];
   assert.ok(!/gradient|#ff/.test(live+empty)&&/box-shadow: none;/.test(live)&&live.includes("background: #d4a017;"),"L24: flat gold dots, no gloss or glow");
   ok("C3D12","r90 floodlights from six roof banks at every level, more shadows higher up, reflections of the same banks, no glare; HUD cylinder strip");
+}
+// C3D13 r90 player moves from Nik's Mixamo files (2026-11-08), baked into our own anims_*.glb (no FBX in the repo): the
+//    taker's reaction varies per kick (four after a goal, two after a miss or save), picked from the kick's own hash so both
+//    phones agree; a keeper who stayed in the middle while the ball went into a corner stays set, then drops his hands to
+//    his knees (no catch at thin air). A clip file without the new clips still plays the first reaction of each kind.
+{
+  assert.ok(scene.includes('const REACTIONS={goal:["victory","victory2","cheer","salute"],miss:["disappointed","defeated"]};'),"reaction pools");
+  assert.ok(/react\[k\]=list\.filter\(n=>TK\[n\]\)\.map\(reaction\)/.test(scene),"reactions present in the file only");
+  assert.ok(/react:pool\[\(luck>>>8\)%pool\.length\]/.test(scene)&&/const luck=cm3Hash\(`ball\|\$\{lineup\.taker\}\|\$\{round\}/.test(scene),"picked from the kick's hash");
+  assert.ok(/const rooted=k\.goal&&k\.shot&&side==="M"&&KC\.defeated\?ROOTED:null;/.test(scene)&&scene.includes('const ROOTED={c:"defeated",m:0,tc:-.15,s:1,rooted:1};'),"rooted keeper on a goal past him");
+  const tool=read("tools/chamber-men-players/clips_r90.json");
+  for(const n of ["victory2","cheer","salute","defeated"])assert.ok(tool.includes(`"${n}"`),`clips_r90.json bakes ${n}`);
+  const fbx=require("node:child_process").execFileSync("git",["ls-files","*.fbx","*.FBX","*.zip"],{cwd:path.join(__dirname,"../.."),encoding:"utf8"}).trim();
+  assert.equal(fbx,"","no Mixamo source (FBX or zip) in the repo");
+  ok("C3D13","r90 moves: reactions vary per kick, rooted keeper, clips baked from Nik's Mixamo files with no FBX committed");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

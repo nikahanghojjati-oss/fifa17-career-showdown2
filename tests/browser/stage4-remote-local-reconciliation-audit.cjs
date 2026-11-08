@@ -66,7 +66,7 @@ const rawSeed={
     },{rawSeed,ids});
 
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity?.getState?.().status==="choose-manager",null,{timeout:15000});
     await page.evaluate(()=>window.CareerModeOnlinePlayerIdentity.chooseManager("daniel"));
     await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity?.getState?.().status==="ready",null,{timeout:15000});
