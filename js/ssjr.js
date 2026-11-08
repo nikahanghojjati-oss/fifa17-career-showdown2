@@ -102,6 +102,10 @@
   const liveGameGate=async()=>{while(liveGameResumeOpen())await new Promise(resolve=>root.setTimeout(resolve,50));};
   root.careerModeHomeHold=1;
   const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
+  // r90 (Nik 2026-11-08, "every screen adapts to the device"): js/gfxTier.js once Home is up and the page is idle, so
+  // html[data-gfx] and html[data-assets] are set for the 2D screens too (a picked or measured level costs no GPU probe).
+  const gfxTier=()=>load("gfx-tier","js/gfxTier.js",()=>root.CareerModeGfxTier).catch(()=>null);
+  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(gfxTier),{timeout:3000});else root.setTimeout?.(()=>home.then(gfxTier),700);
   // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
   const v10Setup=once(()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.loadRuntimeStyle?.(...root.CareerModeV10Setup.STYLE)?.catch(()=>null)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error)));
   // JOB-27: Team V's Transfer War skin for the shared Transfer Challenge (registers with the loader above).

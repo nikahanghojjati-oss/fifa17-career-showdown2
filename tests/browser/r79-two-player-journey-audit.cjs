@@ -867,12 +867,15 @@ async function main(){
     await daniel.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
     assert.match((await noticeText(daniel))?.text||"",/^This Showdown was ended for both players\. History keeps it as Ended early\.$/);
     ok("R80g.2","Nik opened a brand-new browser and, without CONTINUE (no setup state, no session on that page), tapped END SHOWDOWN in Settings: R3 closed with endedEarly {seasonsPlayed: 1}; Daniel's phone went Home by itself");
+    // R3 can end on a later calendar day than R2 when a run crosses midnight: accept R2's date or the date now.
+    const todayNow=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));
+    const r3Day=todayNow===today?today:`(?:${today}|${todayNow})`;
     for(const m of [daniel,nik]){
       const cards=await legacyCards(m,{abandoned:2,name:"r80g-legacy"}),ended=cards.filter(c=>c.status==="abandoned");
       assert.equal(ended.length,2,`${m.user}: two Ended early rows: ${JSON.stringify(cards)}`);
       const row3=ended.find(c=>/^Showdown #3(?!\d)/.test(c.text));
       assert.ok(row3,`${m.user}: R3 is History's Showdown #3: ${JSON.stringify(ended)}`);
-      assert.match(row3.text,new RegExp(`^Showdown #3\\s*Ended early · ${today} · 1 season$`),`${m.user}: ${row3.text}`);
+      assert.match(row3.text,new RegExp(`^Showdown #3\\s*Ended early · ${r3Day} · 1 season$`),`${m.user}: ${row3.text}`);
       assert.ok(ended.some(c=>new RegExp(`^Showdown #2\\s*Ended early · ${today} · 1 season$`).test(c.text)),`${m.user}: R2's row is unchanged: ${JSON.stringify(ended)}`);
       assert.equal(cards.filter(c=>c.status==="completed").length,1,`${m.user}: one completed Showdown`);
     }

@@ -321,6 +321,7 @@ function createMenuFeedbackControl(){
 // screen through js/gfxTier.js. Auto names the level it suggests here; a new pick applies from the next 3D screen (a
 // screen never changes quality mid-scene).
 const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra"]];
+const SETTINGS_GFX_CHECK = "device-check";
 function settingsGfxLabel(name){
     const found = SETTINGS_GFX_CHOICES.find(([value]) => value === name);
     return found ? found[1] : "";
@@ -330,13 +331,29 @@ function fillSettingsGfxSelect(select){
     if(!tier || !select.isConnected){ return; }
     let suggested = "";
     try{ suggested = settingsGfxLabel(tier.suggested().name); }catch(_error){ suggested = ""; }
-    select.options[0].textContent = suggested ? `Auto (suggests ${suggested})` : "Auto";
+    let measured = false;
+    try{ measured = Boolean(tier.suggested().measured); }catch(_error){ measured = false; }
+    select.options[0].textContent = suggested ? `Auto (${measured ? "measured" : "suggests"} ${suggested})` : "Auto";
+    // 8K is only offered where the GPU can hold a 7680 px picture (never a phone, never software GL); Auto never picks it.
+    let can8k = false;
+    try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }
+    if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\"8k\"]")){
+        const option = createSettingsElement("option", "", "8K");
+        option.value = "8k";
+        select.insertBefore(option, select.querySelector(`option[value="${SETTINGS_GFX_CHECK}"]`));
+    }
     select.value = tier.choice();
     select.disabled = false;
 }
 function setSettingsGfxChoice(select){
     const tier = window.CareerModeGfxTier;
     if(!tier){ return; }
+    // The last entry opens the Device check page (device-check.html); the pick itself stays as it was.
+    if(select.value === SETTINGS_GFX_CHECK){
+        select.value = tier.choice();
+        window.location.assign("device-check.html");
+        return;
+    }
     const saved = tier.setChoice(select.value);
     select.value = saved;
     if(typeof window.showAppNotice === "function"){
@@ -357,6 +374,9 @@ function createGfxQualityControl(){
         option.value = value;
         select.append(option);
     }
+    const check = createSettingsElement("option", "", "Device check…");
+    check.value = SETTINGS_GFX_CHECK;
+    select.append(check);
     select.addEventListener("change", () => setSettingsGfxChoice(select));
     row.append(copy, select);
     const ready = () => Boolean(window.CareerModeGfxTier);

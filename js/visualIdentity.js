@@ -519,21 +519,49 @@ function buildCrestMotifs(tokens){
     return { inside: inside.join(""), above: above.join("") };
 }
 
-/* CREST-V2 premium finish: bevelled gold rim, enamel sheen, gold-edged
-   emblems and an optional ring band (gold marks, never lettering). */
+/* CREST-V4 cloth-patch finish (r90 W7, Nik 2026-11-07: "closer to the real badge ... without breaking any licence"; outside
+   art review: "the shared glossy bevel is the AI tell, draw them flatter, like cloth patches"). Flat colours only: an
+   embroidered edge in the club's own rim colour (flat gold only where the club's crest is gold-edged), one stitch line inside
+   it, a faint twill on the field, emblems with a flat outline. No gradients, no gloss, no bevel, no drop shadow. Never
+   lettering, names, years, mottos or trademarked marks: outline family + public heraldry + our own drawn emblem. */
 const CREST_RING_MARKS = Object.freeze({
     dots: n => Array.from({ length: n }, (_, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return `<circle cx="${(60 + 48 * Math.cos(a)).toFixed(1)}" cy="${(70 + 48 * Math.sin(a)).toFixed(1)}" r="1.9"/>`; }).join(""),
     stars: n => Array.from({ length: n }, (_, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return crestStar(60 + 48 * Math.cos(a), 70 + 48 * Math.sin(a), 3.6, "inherit"); }).join("")
 });
 
-function buildCrestRing(ring, palette, gold){
+const CREST_GOLD = "#d2a943";
+
+function crestHexRgb(hex){
+    const n = parseInt(String(hex || "").replace("#", ""), 16);
+    return Number.isNaN(n) ? [128, 128, 128] : [n >> 16 & 255, n >> 8 & 255, n & 255];
+}
+
+function crestLuma(hex){
+    const [r, g, b] = crestHexRgb(hex);
+    return (r * .299 + g * .587 + b * .114) / 255;
+}
+
+/* The edge colour: a recipe's own rim, else flat gold when the club's accent is gold, else the darkest club colour. */
+/* Clubs whose real badge is edged in a colour the palette does not carry (shape and edge only, never the artwork). */
+const CREST_RIMS = Object.freeze({ "Arsenal": "g" });
+
+function crestRimColour(recipe, palette, clubName){
+    const own = recipe.rim || CREST_RIMS[clubName];
+    if(own){ return resolveCrestColour(own, palette, CREST_GOLD); }
+    const [r, g, b] = crestHexRgb(palette.accent);
+    if(r > 170 && g > 130 && b < 110 && r - b > 90){ return CREST_GOLD; }
+    const darkest = [palette.primary, palette.secondary, palette.accent].reduce((dark, c) => crestLuma(c) < crestLuma(dark) ? c : dark);
+    return crestLuma(darkest) < .3 ? darkest : "#1a1c21";
+}
+
+function buildCrestRing(ring, palette, rim){
     const band = resolveCrestColour(ring.colour, palette, palette.secondary);
     const marks = ring.marks === "none" ? "" : (CREST_RING_MARKS[ring.marks] || CREST_RING_MARKS.dots)(ring.count || 16).replace(/fill="inherit"/g, "");
-    const engraving = [43.5, 45.5, 50.5, 52.5].map(rr => `<circle cx="60" cy="70" r="${rr}"/>`).join("");
+    const thread = crestLuma(band) > .55 ? "#1a1c21" : "#f3efe4";
     return `<path d="M60 15A55 55 0 1 1 59.99 15ZM60 29A41 41 0 1 0 60.01 29Z" fill="${band}" fill-rule="evenodd"/>`
-        + `<g fill="none" stroke="#000" stroke-opacity=".16" stroke-width=".6">${engraving}</g>`
-        + `<g fill="none" stroke="url(#${gold})"><circle cx="60" cy="70" r="41" stroke-width="2.2"/><circle cx="60" cy="70" r="53.6" stroke-width="1.2"/></g>`
-        + `<g fill="${ring.markColour ? resolveCrestColour(ring.markColour, palette, "#f5f5f3") : `url(#${gold})`}">${marks}</g>`;
+        + `<circle cx="60" cy="70" r="51.2" fill="none" stroke="${thread}" stroke-opacity=".38" stroke-width=".8" stroke-dasharray="2.2 1.7"/>`
+        + `<circle cx="60" cy="70" r="41" fill="none" stroke="${rim}" stroke-width="2.4"/>`
+        + `<g fill="${ring.markColour ? resolveCrestColour(ring.markColour, palette, "#f5f5f3") : CREST_GOLD}">${marks}</g>`;
 }
 
 function buildCrestSvgMarkup(recipe, palette, idPrefix){
@@ -548,34 +576,28 @@ function buildCrestSvgMarkup(recipe, palette, idPrefix){
         return draw ? draw(layer.c1, layer.c2, idPrefix) : "";
     }).join("");
     const motifs = buildCrestMotifs(parseCrestTokens(recipe.motif, palette));
-    const r = `${idPrefix}r`, b = `${idPrefix}b`, s = `${idPrefix}s`, v = `${idPrefix}v`, c = `${idPrefix}c`, e = `${idPrefix}e`, ic = `${idPrefix}i`;
+    const rim = crestRimColour(recipe, palette, palette.club);
+    const thread = crestLuma(rim) > .55 ? "#1a1c21" : "#f3efe4";
+    const c = `${idPrefix}c`, e = `${idPrefix}e`, ea = `${idPrefix}a`, ic = `${idPrefix}i`, tw = `${idPrefix}t`;
     const ring = recipe.ring && recipe.shape === "roundel" ? recipe.ring : null;
     const around = (k, inner) => `<path d="${shape}" ${inner} transform="translate(60 70) scale(${k}) translate(-60 -70)"/>`;
-    const emblem = motifs.inside ? `<g filter="url(#${e})">${motifs.inside}</g>` : "";
+    const emblem = (art, id = e) => art ? `<g filter="url(#${id})">${art}</g>` : "";
     const inside = ring
-        ? `<clipPath id="${ic}"><circle cx="60" cy="70" r="41"/></clipPath><g clip-path="url(#${ic})">${pattern}<g transform="translate(60 70) scale(.72) translate(-60 -70)">${emblem}</g></g>${buildCrestRing(ring, palette, r)}`
-        : `${pattern}${emblem}`;
+        ? `<clipPath id="${ic}"><circle cx="60" cy="70" r="41"/></clipPath><g clip-path="url(#${ic})">${pattern}<g transform="translate(60 70) scale(.72) translate(-60 -70)">${emblem(motifs.inside)}</g></g>${buildCrestRing(ring, palette, rim)}`
+        : `${pattern}${emblem(motifs.inside)}`;
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false"><defs>`
-        + `<linearGradient id="${r}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".28" stop-color="#e2b84a"/><stop offset=".52" stop-color="#9a7022"/><stop offset=".74" stop-color="#f6dc84"/><stop offset="1" stop-color="#7d5a17"/></linearGradient>`
-        + `<linearGradient id="${b}" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fbe7a1"/><stop offset=".5" stop-color="#b8892c"/><stop offset="1" stop-color="#5e4210"/></linearGradient>`
-        + `<linearGradient id="${s}" x1=".2" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset=".42" stop-color="#fff" stop-opacity=".06"/><stop offset=".43" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient>`
-        + `<radialGradient id="${v}" cx=".5" cy=".46" r=".62"><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></radialGradient>`
-        + `<filter id="${e}" x="-25%" y="-25%" width="150%" height="150%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.6" result="o"/><feMorphology in="SourceAlpha" operator="dilate" radius="1.2" result="i"/>`
-        + `<feOffset in="o" dy="1.8" result="d"/><feGaussianBlur in="d" stdDeviation="1.2" result="d"/><feFlood flood-color="#000" flood-opacity=".5"/><feComposite in2="d" operator="in" result="sh"/>`
-        + `<feFlood flood-color="#e8c25c"/><feComposite in2="o" operator="in" result="go"/><feFlood flood-color="#1c1407"/><feComposite in2="i" operator="in" result="dk"/>`
-        + `<feOffset in="SourceAlpha" dy="1.3" result="up"/><feComposite in="SourceAlpha" in2="up" operator="out" result="hiE"/><feFlood flood-color="#fff" flood-opacity=".55"/><feComposite in2="hiE" operator="in" result="hi"/>`
-        + `<feOffset in="SourceAlpha" dy="-1.3" result="dn"/><feComposite in="SourceAlpha" in2="dn" operator="out" result="loE"/><feFlood flood-color="#000" flood-opacity=".4"/><feComposite in2="loE" operator="in" result="lo"/>`
-        + `<feMerge><feMergeNode in="sh"/><feMergeNode in="go"/><feMergeNode in="dk"/><feMergeNode in="SourceGraphic"/><feMergeNode in="hi"/><feMergeNode in="lo"/></feMerge></filter>`
+        + `<filter id="${e}" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="o"/>`
+        + `<feFlood flood-color="${rim}"/><feComposite in2="o" operator="in" result="edge"/><feMerge><feMergeNode in="edge"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`
+        /* a mark above the badge sits on the page, not the field: its edge is the light thread when the rim is dark */
+        + (motifs.above ? `<filter id="${ea}" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="o"/><feFlood flood-color="${crestLuma(rim) < .4 ? "#f3efe4" : rim}"/><feComposite in2="o" operator="in" result="edge"/><feMerge><feMergeNode in="edge"/><feMergeNode in="SourceGraphic"/></feMerge></filter>` : "")
+        + `<pattern id="${tw}" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.1" height="3" fill="#000" fill-opacity=".05"/></pattern>`
         + `<clipPath id="${c}"><path d="${shape}"/></clipPath></defs>`
         + `<g transform="translate(0 4)">`
-        + `<path d="${shape}" fill="#000" fill-opacity=".4" transform="translate(60 72.5) scale(1.1) translate(-60 -70)"/>`
-        + around(1.1, `fill="url(#${r})"`)
-        + around(1.05, `fill="#1c1407"`)
-        + around(1.035, `fill="url(#${b})"`)
-        + `<path d="${shape}" fill="${field}"/><g clip-path="url(#${c})">${inside}`
-        + `<path d="${shape}" fill="url(#${v})"/><path d="${shape}" fill="url(#${s})"/>`
-        + `<path d="${shape}" fill="none" stroke="#1c1407" stroke-opacity=".55" stroke-width="2.4"/></g>`
-        + `</g>${motifs.above ? `<g filter="url(#${e})">${motifs.above}</g>` : ""}</svg>`;
+        + around(1.085, `fill="${rim}"`)
+        + `<path d="${shape}" fill="${field}"/><g clip-path="url(#${c})">${inside}<path d="${shape}" fill="url(#${tw})"/></g>`
+        + around(1.042, `fill="none" stroke="${thread}" stroke-opacity=".42" stroke-width=".9" stroke-dasharray="2.4 1.8"`)
+        + `<path d="${shape}" fill="none" stroke="${rim}" stroke-width="1.6"/>`
+        + `</g>${emblem(motifs.above, ea)}</svg>`;
 }
 
 function toSvgDataUri(svg){
@@ -918,9 +940,14 @@ function getClubCrestSvg(clubName){
     return buildCrestSvgMarkup(identity.recipe, identity, nextCrestIdPrefix());
 }
 
-function getClubIdentity(clubName){
+/* r90 W7: the one club-name table for crests and kits (js/kits17.js reads it through window.getClubCanonicalName). */
+function getClubCanonicalName(clubName){
     const rawName = String(clubName || "").trim();
-    const name = Object.prototype.hasOwnProperty.call(CLUB_IDENTITY_ALIASES, rawName) ? CLUB_IDENTITY_ALIASES[rawName] : rawName;
+    return Object.prototype.hasOwnProperty.call(CLUB_IDENTITY_ALIASES, rawName) ? CLUB_IDENTITY_ALIASES[rawName] : rawName;
+}
+
+function getClubIdentity(clubName){
+    const name = getClubCanonicalName(clubName);
     if(clubIdentityCache.has(name)){
         return clubIdentityCache.get(name);
     }
@@ -933,6 +960,7 @@ function getClubIdentity(clubName){
         : buildFallbackCrestRecipe(hash);
 
     const draft = {
+        club: name,
         initials: getClubIdentityInitials(name),
         primary: palette[0],
         secondary: palette[1],
@@ -1019,5 +1047,6 @@ window.getClubIdentity = getClubIdentity;
 window.applyClubIdentity = applyClubIdentity;
 window.refreshClubVisualIdentity = refreshClubVisualIdentity;
 window.getClubCrestSvg = getClubCrestSvg;
+window.getClubCanonicalName = getClubCanonicalName;
 window.getLeagueMark = getLeagueMark;
 window.applyLeagueMark = applyLeagueMark;

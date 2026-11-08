@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- r90 Device check frame (device-check.html; at the root, so the v10_1 shell rule does not apply): the real Chamber Men scene on demo data, kicks on a loop. With ?gfx=N&bench=1
+     js/gfxTier.js holds level N and posts the frame times to the parent. No game state, no Firestore, no app scripts. -->
+<title>Chamber Men bench</title>
+<!-- Codex on #1266: the goal takes the size it has in the game (css/chamberMen.css: full width up to 760 px on phones and
+     tablets, the 1180 px shell on wider screens, the same height clamps), so each level is timed on the real canvas. -->
+<style>
+html,body{margin:0;height:100%;background:#050505;overflow:hidden}
+#cmStage{position:absolute;inset:0}
+.cmGoalBox{position:relative;width:min(760px,100%);margin:16px auto 0;container-type:inline-size}
+.cmGoal{display:block;width:100%;height:clamp(180px,calc(100dvh - 430px),66.7cqw)}
+@media (max-width:560px) and (max-height:760px){.cmGoal{height:clamp(170px,calc(100dvh - 410px),66.7cqw)}}
+@media (max-width:560px) and (max-height:660px){.cmGoal{height:clamp(160px,calc(100dvh - 426px),66.7cqw)}}
+@media (min-width:900px){.cmGoalBox{width:calc(min(1180px,100%) - 32px);margin-top:14px}.cmGoal{height:clamp(260px,calc(100dvh - 300px),56.25cqw)}}
+</style>
+</head>
+<body>
+<div id="cmStage"><div class="cmGoalBox"><svg class="cmGoal" viewBox="0 0 300 160" aria-hidden="true"></svg></div></div>
+<script src="js/chamberMenScene3d.js"></script>
+<script>
+(function(){
+  "use strict";
+  const CLUBS={playerOne:"Barcelona",playerTwo:"Chelsea"};
+  // Every side, both keepers' guesses, saves and goals (some go in off the wood): the same list on every device.
+  const KICKS=[["L","R",true],["R","R",false],["M","L",true],["R","L",true],["L","L",false],["M","M",false],["R","M",true],["L","M",true]];
+  const tell=msg=>{try{if(parent!==window)parent.postMessage({type:"cms-gfx-bench",scene:"chamber-men",...msg},location.origin);}catch(_error){}};
+  async function start(){
+    const svg=document.querySelector(".cmGoal");
+    let api=null;
+    try{api=await window.CareerModeChamberMen3d.mount(svg,{clubs:CLUBS});}catch(_error){api=null;}
+    if(!api){tell({error:"The 3D scene did not start on this device (no WebGL2, or it loaded too slowly)."});return;}
+    window.__cmBenchReady=true;
+    let n=0;
+    const next=()=>{
+      const [shot,dive,goal]=KICKS[n%KICKS.length],round=1+(n%7),odd=n%2===1;
+      const taker=odd?CLUBS.playerTwo:CLUBS.playerOne,keeper=odd?CLUBS.playerOne:CLUBS.playerTwo;
+      try{api.reset();api.lineup({taker,keeper,round});api.kick({shot,dive,goal,round,animate:true});}catch(_error){}
+      n+=1;
+    };
+    next();setInterval(next,4500);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
+})();
+</script>
+</body>
+</html>
