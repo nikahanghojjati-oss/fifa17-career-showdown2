@@ -94,16 +94,23 @@ has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving re
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
 // r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Medium keep one-lobe materials and plain three.js meshes.
 assert.equal((html.match(/MeshPhysicalMaterial/g)||[]).length,1,'one place makes a two-lobe material');
-has(/const HQ=GFX\.level>=2;\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
+has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;[^\n]*\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
 has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from High up');
 has(/const T=SEGK===1\?THREE:/,'Light and Medium build with plain three.js');
 lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
-// r90 (Nik 2026-11-08): the café room picture is back from High up only; Light and Balanced never download it and keep the dark room.
-has(/\(GFX\.assetLevel\?\?GFX\.level\)>=2\?loadImg\("assets\/RR_ROOM\.webp"\):null/,'the room picture loads only from High up (and only on a download level that allows it)');
-has(/fog:false, depthWrite:false\}\)\);/,'it sits behind the fogged 3D floor as one unlit plane');
-lacks(/RR_ROOM\.jpg/,'the old 523 KB jpg');
-assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,2,'two point lights: the lantern and the one effects light');
-lacks(/RR_ROOM\.jpg|backWall|wallLamp|chandelier|cafeTable|function dado/,'the marble hall');
+// r90 (Nik 2026-11-08: "dark room for the lower quality, a proper background with tables for the higher, nothing excessive"): the room
+// by level. Light and Balanced build and download nothing behind the table; High adds a dark far wall with glowing lamps (no lights);
+// Extra, Ultra and 8K add the sharp café picture (Team V RR_ROOM_V2, 4K on Ultra up), the café tables and one room light.
+has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;/,'High and Extra are the two room steps');
+has(/HALL\?loadImg\(ROOM_4K\?"assets\/RR_ROOM_V2_4K\.webp":"assets\/RR_ROOM_V2_1080\.webp"\):null/,'the café picture loads only on Extra up');
+has(/const ROOM_4K=\(GFX\.assetLevel\?\?GFX\.level\)>=3&&Math\.max\(screen\.width\|\|0,screen\.height\|\|0\)\*\(devicePixelRatio\|\|1\)>2560;/,'the 4K file only above 2560 device pixels');
+has(/if\(HQ\)\{ const lampTex=lampGlassTex\(\)/,'the far wall and its lamps are built only from High up');
+has(/if\(HALL\)\{ const top=mat\(/,'the café tables only from Extra up');
+has(/if\(hallLamps\) hallLamps\.visible=false; scene\.fog=null;/,'the picture replaces the far wall and lifts the fog');
+lacks(/RR_ROOM\.jpg|RR_ROOM\.webp/,'the old café plates (the 523 KB jpg and the dimmed, faded WebP)');
+assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,3,'three point lights: the lantern, the one effects light and the room light');
+has(/if\(HALL\)\{ const roomLight=new T\.PointLight\(/,'the room light exists only on Extra up');
+lacks(/backWall|wallLamp|chandelier|function dado/,'the 2.2.0 hall builders (balcony, ceiling, chandelier: ten lights)');
 lacks(/const floorTex=woodTex\(2048/,'the unused 2048 px wood floor texture');
 lacks(/for\(let i=0;i<d\.length;i\+=4\)\{ const n=\(Math\.random\(\)-\.5\)\*a;/,'the per-pixel grain loop');
 lacks(/Math\.max\(devicePixelRatio\|\|1,1\.5\)/,'the forced 1.5x resolution');
@@ -128,7 +135,7 @@ has(/if\(p\.frames&&p\.frames\.hit&&p\.frames\.i===i\) showFrame\(p\.who,p\.fram
 has(/addEventListener\("pagehide",e=>\{ if\(e\.persisted\)\{ cancelAnimationFrame\(rafId\); rafId=0; return; \} disposeAll\(\); \}\);/,'leaving the page frees the GPU at once; a page kept in the back-forward cache only pauses');
 has(/addEventListener\("pageshow",e=>\{ if\(e\.persisted&&window\.__rrReady&&!rafId\) rafId=requestAnimationFrame\(frame\); \}\);/,'and a page restored from that cache picks up its frame loop again');
 has(/if\(manual===null&&playing&&last>0&&t-last>\.25\) playing\.t0\+=t-last-\.016;/,'with the turn clock moved past the pause, so the turn resumes where it stopped');
-ok('P5','lean frame: static shadow, no bloom chain, standard materials, two point lights, no hall, shared quality governor held during turns, warm-up before ready, baked props, pre-uploaded hit frame, dispose on exit');
+ok('P5','lean frame: static shadow, no bloom chain, standard materials, calm lights (the room light only on Extra up), the room by level, shared quality governor held during turns, warm-up before ready, baked props, pre-uploaded hit frame, dispose on exit');
 
 // P7 no spoiler (r90, Nik 2026-11-07: "never reveal who the gun is aiming at while it is locking on; only say the target when hit/removed").
 lacks(/"Aimed at "\+T/,'the status line naming the target before the shot');
