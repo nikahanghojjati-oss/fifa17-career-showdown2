@@ -72,7 +72,7 @@ function api_page(){return revealWorld().api.page;}
   assert.ok(!/cdnjs\.cloudflare\.com/.test(page),'no CDN script on the reveal page');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\);\s*spMarkSeen\(pick\.key\);/,'seen is kept as soon as the reveal is shown, not at Continue (red team #1)');
   assert.ok(!/failedHere/.test(revealSource),'no page-only skip list');
-  assert.match(page,/function loadPano\(\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>rej\(/,'a failed stadium image ends the page at once (red team #2)');
+  assert.match(page,/function loadPano\(retry\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>retry\?rej\(new Error\("The stadium image did not load\."\)\):loadPano\(true\)\.then\(res,rej\)\)\)/,'a failed stadium image is tried once more, then ends the page (red team #2, r90 Light rule)');
   assert.match(revealSource,/event\.data\.type==="cms-sp-error"\)\{onReady\("error"\);onContinue\("error"\);\}/,'an error after ready also ends the Continue wait (Codex P2 on #1035)');
   assert.match(revealSource,/if\(end==="error"\)\{spRemoveStage\(\);return null;\}/,'so the broken stage is removed and Career Start opens');
   assert.match(revealSource,/stage\.style\.visibility="visible";\s*frame\.contentWindow\.postMessage/,'the stage is shown before the loading screen fades');
@@ -207,7 +207,15 @@ const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
   clock=69000;run();assert.equal(fired,0,'5 s + 9 s visible: still waiting');
   clock=70100;run();assert.equal(fired,1,'fires once 15 s of visible time have passed');
   clock=90000;run();assert.equal(fired,1,'fires once');assert.ok(!listeners.visibilitychange,'cleans up its listener');
-  assert.match(revealSource,/const limit=spVisibleTimeout\(MAX_LOADING_MS,\(\)=>onReady\("timeout"\)\);/,'the reveal uses it');
+  assert.match(revealSource,/let limit=spVisibleTimeout\(MAX_LOADING_MS,\(\)=>onReady\("timeout"\)\),settled=false;/,'the reveal uses it');
+  // r90 Light rule (Nik 2026-11-08): the pack stays 3D on Light. The 15 s limit is renewed by each "still busy" ping, under a
+  // 90 s cap of visible time; a lost context is not an error on the page any more (it rebuilds on restore).
+  assert.equal(api.coldLoadingMs,90000);
+  assert.match(revealSource,/event\.data\.type==="cms-sp-loading"\)spRenew\(\);/,'a busy ping renews the wait');
+  assert.match(revealSource,/const cap=spVisibleTimeout\(COLD_LOADING_MS,\(\)=>onReady\("timeout"\)\);/,'with a hard cap');
+  assert.match(page,/const busy=\(v\)=>\{ if\(EMBED\) toGame\("cms-sp-loading"\); return v; \}/,'the page says it is busy');
+  assert.ok(!/webglcontextlost/.test(page),'a lost context no longer skips the reveal');
+  assert.match(page,/addEventListener\("webglcontextrestored",\(\)=>\{ try\{ PREP_KEY=""; prepareCards\(\);/,'and rebuilds on restore');
   assert.ok(!/setTimeout\(\(\)=>onReady\("timeout"\)/.test(revealSource),'no wall-clock load limit left');
   ok('R13','the load limit counts only time the tab is visible (BUG-06)');
 }
