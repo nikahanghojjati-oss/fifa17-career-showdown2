@@ -100,8 +100,9 @@ ok("R90-PS6 Nik's tighter rhythm (2026-11-07 22:50 UTC): four quicker stretches,
 });
 ok("R90-PS7 quality by level (Nik 23:44 UTC): MSAA, shadows, filtering and card sharpness follow the gfxTier level; light draws less",()=>{
   assert.match(page,/const GL_LVL=GP\?GP\.level:2, GQ_I=Math\.max\(0,Math\.min\(4,GL_LVL\|0\)\), GQ=\{ samples:\[2,2,4,8,8\]\[GQ_I\], shadow:GP&&GP\.shadowSize\|\|2048, aniso:\[4,8,16,16,16\]\[GQ_I\], cardMax:GL_LVL>=3\?2\.5:2 \};/,"every level, 8K included, has its knobs");
-  assert.match(page,/samples:fitSamples\(PHONE_GPU\?2:GQ\.samples\)/,"only a count the GPU supports for both formats");
-  assert.match(page,/sun\.shadow\.mapSize\.set\(PHONE_GPU\?1024:GQ\.shadow,PHONE_GPU\?1024:GQ\.shadow\)/);
+  assert.match(page,/samples:fitSamples\(GQ\.samples\)/,"only a count the GPU supports for both formats");
+  assert.match(page,/sun\.shadow\.mapSize\.set\(GQ\.shadow,GQ\.shadow\)/);
+  assert.ok(!/PHONE_GPU/.test(page),"one system: no phone rule of its own, a picked level holds on a phone (gfxTier handles phones)");
   assert.match(page,/Math\.min\(GQ\.cardMax,Math\.ceil\(px\/CH\*4\)\/4\)/,"card art only as sharp as the screen needs");
   assert.ok(!/anisotropy=8;/.test(page),"filtering follows the level");
   assert.match(page,/const fitSamples=\(want\)=>GFX&&GFX\.samples\?GFX\.samples\(renderer,want,HDR\):/,"per-format sample counts from gfxTier (Codex P2 #1265)");
@@ -133,7 +134,7 @@ ok("R90-PS9 hunt M3/M4/M5/M8: wall-clock timeline, bloom by level, 4x MSAA above
   assert.match(page,/const BLOOM=!\(GP&&GP\.bloom===false\), BLOOM_D=GL_LVL<=1\?4:2;/,"M4: off at Light, half-size mips at Balanced");
   assert.match(page,/if\(BLOOM\)\{ brightMat\.uniforms\.tex\.value=sceneRT\.texture; pass\(brightMat,mipA\[0\]\);/,"M4: Light skips the bright and blur passes");
   assert.match(page,/if\(bloomOn>\.5\) b=[^;]*; else b=max\(c-vec3\(\.8\),vec3\(0\.\)\)\*1\.6;/,"M4: Light keeps a cheap in-place glow");
-  assert.match(page,/pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\)/,"M5: 8x only up to 1080p, 4x above");
+  assert.match(page,/fitSamples\(pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\):GQ\.samples\)/,"M5: 8x only up to 1080p, 4x above");
   assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(page),"M8: no Google Fonts request");
   const faces=[...page.matchAll(/url\("\.\.\/shared\/fonts\/([^"]+\.woff2)"\)/g)].map(m=>m[1]);
   assert.ok(faces.length>=16,"Barlow Condensed and Big Shoulders, latin and latin-ext");

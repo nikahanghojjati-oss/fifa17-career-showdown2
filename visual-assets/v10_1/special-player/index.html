@@ -468,13 +468,12 @@ const stage=document.getElementById("stage");
 const renderer=new T.WebGLRenderer({antialias:false, powerPreference:"high-performance"});
 /* r87 start-polish: phones (a touch screen whose short side is at most 600px) get a lighter pipeline: pixel ratio
    capped at 1.5, a 1024 shadow map and 2x MSAA. Desktop, laptops and tablets keep 2 / 2048 / 4x. */
-const PHONE_GPU=matchMedia("(pointer: coarse)").matches && Math.min(innerWidth,innerHeight)<=600;
 /* r90 (Nik 2026-11-07: quality follows the device): the pixel ratio comes from js/gfxTier.js, the same quality system as the
    roulette and Chamber Men. Auto reads the GPU and never draws above the screen's own pixel ratio; a level picked in Settings
    is held as picked. Its governor steps down when frames run long and up when a timed frame shows room. Without the module
    (a failed load) the page draws at three quarters of the screen's ratio. DPR is the ceiling the card art is drawn for. */
 const GFX=window.CareerModeGfxTier||null, GP=GFX?GFX.profile():null;
-const DPR=GP?GP.maxPixelRatio:Math.min(devicePixelRatio||1, PHONE_GPU?2:3);
+const DPR=GP?GP.maxPixelRatio:Math.min(devicePixelRatio||1, 2) /* r90: phones and every level come from gfxTier; this is only the no-module fallback */;
 let PR=GP?GP.pixelRatio:DPR*.75, gov=null;
 /* r90 pack quality (Nik 2026-11-07 23:44 UTC: "hugely improve" High/Extra/Ultra, Light and Medium as good as they can be with no
    extra load). Each knob follows the profile's level (0 light .. 4 ultra; 2 without the module): edges (MSAA), shadow map,
@@ -491,7 +490,7 @@ const RTO={type:RT_TYPE, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilte
 /* r90 (Codex P2 #1265): MSAA is a count the GPU supports for both the colour and the depth format, from js/gfxTier.js
    (CareerModeGfxTier.samples); without the module, 4 when asked for any. */
 const fitSamples=(want)=>GFX&&GFX.samples?GFX.samples(renderer,want,HDR):(want>0?4:0);
-const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:fitSamples(PHONE_GPU?2:GQ.samples)}); /* r89: WebGL 2 only, so the scene target is always multisampled; r90: samples by quality level */
+const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:fitSamples(GQ.samples)}); /* r89: WebGL 2 only, so the scene target is always multisampled; r90: samples by quality level */
 /* r90 M4: bloom follows the tier: off at Light (11 passes saved), half-size mips at Balanced, full from High. */
 const BLOOM=!(GP&&GP.bloom===false), BLOOM_D=GL_LVL<=1?4:2;
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
@@ -515,7 +514,7 @@ const camera=new T.PerspectiveCamera(40,1,0.1,900);
 scene.add(new T.HemisphereLight(L(0xdde6ff),L(0x15200f),0.55));
 const SUN=new T.Vector3(-36,79,49);
 const sun=new T.DirectionalLight(L(0xfff3e2),2.7); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
-sun.shadow.mapSize.set(PHONE_GPU?1024:GQ.shadow,PHONE_GPU?1024:GQ.shadow); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
+sun.shadow.mapSize.set(GQ.shadow,GQ.shadow); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
 const sky=new T.Mesh(new T.SphereGeometry(500,32,16), new T.ShaderMaterial({side:T.BackSide, depthWrite:false, fog:false,
   uniforms:{top:{value:L(0x1f5fbf)},hor:{value:L(0xd2e6f7)},sunDir:{value:SUN.clone().normalize()}},
@@ -1203,7 +1202,7 @@ function resize(){
   const pw=Math.floor(W*PR), ph=Math.floor(H*PR);
   /* r90 lean: 8x edges only up to a 2560x1440 buffer; past it (a 4K draw) the pixels are already fine enough, and 8 samples of a
      half-float 4K target would hold about half a gigabyte, so it keeps 4 */
-  const smp=fitSamples(PHONE_GPU?2:(pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples)), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
+  const smp=fitSamples(pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
   sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); if(BLOOM) for(let i=0;i<LV;i++){ const d=BLOOM_D*Math.pow(2,i); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
   const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
