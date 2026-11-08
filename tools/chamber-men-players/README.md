@@ -95,12 +95,15 @@ skipped. The scene loads the decoder (`visual-assets/v10_1/chamber-men/vendor/me
 | anims_phone.glb | 1,082,124 | 581,064 |
 | anims_desktop.glb | 1,160,204 | 607,628 |
 | body_remy_phone.glb | 1,852,028 | 1,322,788 |
-| body_ch38_phone.glb | 1,986,460 | 1,203,044 |
-| body_ch42_phone.glb | 2,179,192 | 1,375,224 |
+| body_ch38_phone.glb | 1,986,460 | 822,768 (hair 512 px, `hair-light.py`) |
+| body_ch42_phone.glb | 2,179,192 | 955,568 (hair 512 px, `hair-light.py`) |
 | body_remy_desktop.glb | 2,591,820 | 1,709,840 |
 | body_ch38_desktop.glb | 4,221,644 | 2,953,196 |
 | body_ch42_desktop.glb | 4,609,848 | 3,288,224 |
 | ball_mesh_V3.glb | 283,836 | 101,940 |
 | stadium_bowl_V1_1k.glb | 2,346,404 | 1,257,512 |
 
-The body textures (WebP) are already compressed and are what is left of each body file.
+The body textures (WebP) are already compressed and are what is left of each body file. On the Light/Balanced
+(phone) files, Ch38's and Ch42's hair card texture goes to 512 px after packing (`python3 hair-light.py <glb>...`):
+almost all of it was soft strand alpha, and at the broadcast framing the GPU already samples a mip under 512.
+Close-ups before/after: `project-documents/factory/reviews/CHAMBER_MEN/r90-m1-hair/`. High and up keep the 2k texture.

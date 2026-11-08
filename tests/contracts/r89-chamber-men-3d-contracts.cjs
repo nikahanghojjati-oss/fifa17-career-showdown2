@@ -263,6 +263,12 @@ let c3d14=Promise.resolve();
   const glb=f=>{const b=fs.readFileSync(path.join(ROOT,P+f));return JSON.parse(b.toString("utf8",20,20+b.readUInt32LE(12)));};
   for(const f of ["players/anims_desktop.glb","players/anims_phone.glb",...["remy","ch38","ch42"].flatMap(b=>[`players/body_${b}_desktop.glb`,`players/body_${b}_phone.glb`]),"assets/ball_mesh_V3.glb","assets/stadium_bowl_V1_1k.glb"])
     assert.ok((glb(f).extensionsRequired||[]).includes("EXT_meshopt_compression"),`${f} is meshopt-packed`);
+  // Light/Balanced bodies carry the hair cards at 512 px (hair-light.py); High and up keep 2k.
+  {const hairPx=f=>{const b=fs.readFileSync(path.join(ROOT,P+f)),n=b.readUInt32LE(12),j=JSON.parse(b.toString("utf8",20,20+n)),bin=20+n+8;
+     const m=j.materials.find(x=>x.name==="Hairmat"),t=j.textures[m.pbrMetallicRoughness.baseColorTexture.index],img=j.images[t.extensions.EXT_texture_webp.source],v=j.bufferViews[img.bufferView];
+     const d=b.subarray(bin+(v.byteOffset||0),bin+(v.byteOffset||0)+v.byteLength);assert.equal(d.toString("ascii",8,12),"WEBP");
+     const vp8x=d.indexOf("VP8X");return 1+d.readUIntLE(vp8x+12,3);};
+   for(const b of ["ch38","ch42"]){assert.equal(hairPx(`players/body_${b}_phone.glb`),512,`${b} Light hair 512`);assert.equal(hairPx(`players/body_${b}_desktop.glb`),2048,`${b} High hair 2k`);}}
   const DEC=P+"vendor/meshopt_decoder-0.22.0.js";
   assert.ok(/^\/\*\n \* meshoptimizer 0\.22\.0 decoder[\s\S]*?MIT License[\s\S]*?Permission is hereby granted/.test(read(DEC)),"decoder vendored with its MIT licence");
   assert.ok(scene.includes(`const MESHOPT_JS="${DEC}";`)&&scene.includes("new T.GLTFLoader().setMeshoptDecoder(meshopt).parseAsync("),"players parse with the decoder");
