@@ -42,6 +42,11 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
 .top { position: absolute; left: 0; right: 0; top: 46px; text-align: center; transition: opacity .45s ease; }
 /* r87 scene polish: during a turn the camera goes in close (drum, shooter's view, the bullet), so the title lockup steps aside and never stands over a board name or the drum; it is back for the wide shot. Nothing else fades. */
 body.turning .top { opacity: 0; }
+/* r90 LOOK L38: until the first frame of the scene is drawn the page shows one quiet line and nothing else (no title or words over a black
+   page); the title and the words come in with the room */
+body:not(.ready) .top, body:not(.ready) .mid { opacity: 0; visibility: hidden; }
+.boot { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font: 700 15px/1 var(--disp); letter-spacing: .28em; text-transform: uppercase; color: rgba(230,196,120,.78); pointer-events: none; transition: opacity .4s ease, visibility .4s; }
+body.ready .boot { opacity: 0; visibility: hidden; }
 .kicker { display: flex; justify-content: center; align-items: center; gap: 12px; }
 .kicker::before, .kicker::after { content: ""; width: clamp(28px, 7vw, 90px); height: 1px; background: linear-gradient(90deg, transparent, var(--gold-hi)); box-shadow: 0 0 6px rgba(255,220,140,.8); }
 .kicker::after { transform: scaleX(-1); }
@@ -51,7 +56,7 @@ body.turning .top { opacity: 0; }
 .title::before { content: attr(data-t); position: absolute; inset: 0; color: transparent; -webkit-text-stroke: 2px #2a1c05; filter: drop-shadow(0 2px 0 #120c02) drop-shadow(0 8px 14px rgba(0,0,0,.55)); z-index: -1; }
 .title::after { content: attr(data-t); position: absolute; inset: 0; color: transparent; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.95) 48%, transparent 56%) no-repeat; background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; animation: shine 5s ease-in-out infinite; }
 @keyframes shine { 0%, 55% { background-position: 130% 0; } 100% { background-position: -30% 0; } }
-@media (prefers-reduced-motion: reduce) { .title::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .title::after { animation: none; } .boot, .top { transition: none; } }   /* r90 L38: under Reduce Motion the loading line and the title switch at ready with no fade */
 /* centre column: result line + button */
 /* r90 LOOK L08: the words live in the bottom strip, above the panel, never over the revolver */
 .mid { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); transform: translateX(-50%); width: 440px; text-align: center; pointer-events: auto; }
@@ -123,6 +128,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
   <div class="bar"><span class="cm">CM17</span><nav><a href="#">Home</a><a href="#" class="on">Career</a><a href="#">Standings</a><a href="#">Stats</a><a href="#">Rules</a></nav>
     <div class="chips"><span class="chip" id="chipWho">Daniel</span><span class="chip">Season 1 / 1</span><span class="gear">⚙</span></div></div>
   <div class="pchips"><span class="chip" id="pchipWho">Daniel</span><span class="chip">Season 1 / 1</span></div><span class="gear pgear" style="display:none">⚙</span>
+  <div class="boot" id="boot" role="status">Setting the table…</div>
   <div class="top"><div class="kicker"><span class="badge">Career Mode Showdown 17</span></div><div class="title" data-t="Russian Roster Roulette"><span>Russian Roster Roulette</span></div></div>
   <div class="mid"><div class="result" id="result" aria-live="polite">One bullet. Seven chambers.</div><button class="cta" id="cta" type="button" disabled>Spin the cylinder</button></div>
   <div class="bottom">
@@ -414,7 +420,7 @@ const table=new T.Group(); scene.add(table);
   const lantern=LIGHT?null:new T.PointLight(L("#ffb15a"),1.85,6,2); if(lantern){ lantern.position.set(0,.43,0); lan.add(lantern); }
   table.userData=Object.assign(table.userData,{flame,halo,lantern});
   /* coffee pot: tall pewter-brass body with a belly, a domed hinged lid with a finial, a gooseneck spout and a looped handle */
-  { const pg=new T.Group(); pg.position.set(.04,.75,-.6); pg.rotation.y=-.5; table.add(pg); /* r87: back of the table, off both shooting lines; r87 polish: nearer the middle, so in Nik's phone shot it no longer stands over the corner of his board */
+  { const pg=new T.Group(); pg.position.set(-.46,.75,-.5); pg.rotation.y=.6; pg.scale.setScalar(.62); table.add(pg); /* r90 LOOK L39: smaller and to the back left (lantern front left, cups front right), so the rest shot has one centrepiece, the revolver, and nothing as tall as the title stands dead centre behind it; still off both shooting lines (.2 m or more) */ /* r87: back of the table, off both shooting lines; r87 polish: nearer the middle, so in Nik's phone shot it no longer stands over the corner of his board */
     const body=lathe([[0,0],[.062,0],[.07,.008],[.072,.03],[.066,.07],[.054,.11],[.046,.15],[.045,.18],[.05,.196],[.058,.204],[.056,.212],[.03,.216],[.03,.222],[.04,.236],[.03,.25],[.012,.258],[0,.26]],56); const bm=mesh(body,M.brass,0,0,0,pg); bm.castShadow=true;
     mesh(new T.TorusGeometry(.057,.003,8,48),M.gold,0,.208,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.069,.004,8,48),M.gold,0,.012,0,pg).rotation.x=Math.PI/2;
     mesh(new T.TorusGeometry(.0665,.0025,8,64),M.gold,0,.06,0,pg).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.0555,.0025,8,64),M.gold,0,.105,0,pg).rotation.x=Math.PI/2; for(let i=0;i<18;i++){ const a=i/18*Math.PI*2; const fl=mesh(new T.CylinderGeometry(.0035,.0045,.04,8),M.gold,Math.cos(a)*.0665,.085,Math.sin(a)*.0665,pg); fl.rotation.y=-a; }   /* engraved band + flutes */
@@ -914,7 +920,9 @@ const hitFlash=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.Add
 const hitLight=fxSrc(L("#ffd0a0"),2.5,2);
 [flashSprite,flashCore,flashSide,...petals].forEach(o=>{ o.renderOrder=30; o.material.depthTest=false; }); sparks.forEach(p=>{ p.s.renderOrder=28; }); smokes.forEach(p=>{ p.s.renderOrder=25; });
 /* dust in the lamp light */
-const dust=(()=>{ const n=260, pos=new Float32Array(n*3), base=[]; for(let i=0;i<n;i++){ const x=(rnd()-.5)*3.2, y=.7+rnd()*2.2, z=-2.2+rnd()*3.2; pos.set([x,y,z],i*3); base.push(x,y,z); } const g=new T.BufferGeometry(); g.setAttribute("position",new T.BufferAttribute(pos,3)); const m=new T.PointsMaterial({map:dustT, size:.016, transparent:true, opacity:.5, depthWrite:false, blending:T.AdditiveBlending, color:0xffd9a0, sizeAttenuation:true}); const p=new T.Points(g,m); scene.add(p); return {p,base,pos}; })();
+/* r90 LOOK L39: the motes float only in the lamp's light over the table and fade with their distance from the lantern, so they read as
+   dust in a warm glow, never as stars in the dark room behind */
+const dust=(()=>{ const n=160, pos=new Float32Array(n*3), col=new Float32Array(n*3), base=[], lamp=new T.Vector3(-.38,1.18,.36); for(let i=0;i<n;i++){ const x=(rnd()-.5)*2, y=.82+rnd()*1.05, z=-.9+rnd()*1.6; pos.set([x,y,z],i*3); base.push(x,y,z); const k=Math.pow(Math.max(0,1-lamp.distanceTo(new T.Vector3(x,y,z))/1.25),2); col.set([k,k,k],i*3); } const g=new T.BufferGeometry(); g.setAttribute("position",new T.BufferAttribute(pos,3)); g.setAttribute("color",new T.BufferAttribute(col,3)); const m=new T.PointsMaterial({map:dustT, size:.014, transparent:true, opacity:.45, depthWrite:false, blending:T.AdditiveBlending, color:0xffd9a0, vertexColors:true, sizeAttenuation:true}); const p=new T.Points(g,m); scene.add(p); return {p,base,pos}; })();
 /* bullet tracer: a short bright line that lives 0.12 s */
 const tracer=new T.Mesh(new T.CylinderGeometry(.002,.002,1,6),new T.MeshBasicMaterial({color:0xffe0a0, transparent:true, opacity:.9, toneMapped:false, map:LIGHT?WHITE1:null}));   /* r90 Light: a white picture puts it on the hand's shader program */ tracer.visible=false; scene.add(tracer);
 /* the bullet the camera rides: lead slug with a copper band, spinning, with a hot streak behind it and a soft shock halo */
@@ -1379,7 +1387,7 @@ Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",
   camPos.copy(camRest); camLook.copy(lookRest); last=now(); cta.disabled=true;
   await warmUp(); last=now();
   GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:LIGHT?2:3)+" + shot flash"}; });
-  window.__rrReady=true; if(!EMBED) cta.disabled=false; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
+  window.__rrReady=true; if(!EMBED) cta.disabled=false; rafId=requestAnimationFrame(frame); requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add("ready"))); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
   /* r90 Device check (?bench=1&gfx=N) and measurements (?showcase=1): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
      no Firestore; js/gfxTier.js times the frames through the governor and posts the result to the Device check page */
   if(SHOWCASE&&!EMBED){ let n=0; const go=()=>startTurn(n++%2===0); addEventListener("rr:end",()=>setTimeout(()=>{ setBoards(LAYOUT.danielClub,LAYOUT.nikClub); go(); },800)); go(); } });

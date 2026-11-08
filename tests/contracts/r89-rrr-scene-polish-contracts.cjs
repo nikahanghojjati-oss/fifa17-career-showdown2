@@ -269,6 +269,17 @@ ok('P14','M31 showcase loop on its own switch');
   has(/const twoSided=m=>LIGHT&&!m\.transparent&&\(m\.userData\.twoSided\|\|m\.side===T\.DoubleSide\);/,'Light: two-sided parts baked with both windings');
 }
 ok('P16','Light: one key light + hemisphere + shot flash, lamp light baked into the felt, no EXR, particles batched, shared look-alike materials');
+// P17 (r90 LOOK L38/L39): before ready the page shows one calm status line, never the bare title over black; the pot stands back left
+// and smaller, off both shooting lines; the dust is fewer, softer motes that live only in the lamp's light
+{
+  assert.match(html,/body:not\(\.ready\) \.top, body:not\(\.ready\) \.mid \{ opacity: 0; visibility: hidden; \}/,'L38 the title and the result line wait for the first frame');
+  has(/<div class="boot" id="boot" role="status">Setting the table…<\/div>/,'L38 one status line while the table is set');
+  has(/requestAnimationFrame\(\(\)=>requestAnimationFrame\(\(\)=>document\.body\.classList\.add\("ready"\)\)\);/,'L38 the page shows itself after the first drawn frame');
+  has(/pg\.position\.set\(-\.46,\.75,-\.5\); pg\.rotation\.y=\.6; pg\.scale\.setScalar\(\.62\);/,'L39 the pot back left, smaller');
+  has(/const dust=\(\(\)=>\{ const n=160,/,'L39 fewer motes');
+  has(/vertexColors:true/,'L39 motes fade away from the lamp');
+}
+ok('P17','L38 a status line before ready; L39 the pot back left and smaller, softer lamp-lit dust');
 
 // P15 (r90 LOOK L37): at rest the picture is lens-shifted down just enough for each board face to clear the title (measured from the real
 // title box); the shift eases out during a turn
