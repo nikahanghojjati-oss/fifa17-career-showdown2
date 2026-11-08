@@ -34,7 +34,7 @@ How do the Showdown backgrounds and Home icons stop looking prompted, and instea
 - Quieter: Settings, Rule Book, Story, Career Statistics, Standings, Trophy Room. Here, decide between one calm, low-contrast dark-marble or dark-cloth surface with no scene, and keeping today's plate cleaned. Recommend one.
 - Home icons: ONLY IF this brief's header says `ICONS: YES`. Then write one family: engraved gold on black marble, struck-medal low relief, one warm key light, same angle and line weight, no text, readable at 48 px; the same family later covers trophy cups and league marks. If `ICONS: NO`, leave icons out (Team G's W9 owns them in code).
 
-ICONS: (Claude writes YES or NO here after Nik decides)
+ICONS: YES (Nik, 8 Nov 2026, 10:14 a.m. Eastern; Team G W9 stops its code icon redraw)
 
 ## Bounded work plan (workflow)
 1. Study (≤ 4 helpers, in parallel): each takes a screen group and returns at most 8 short bullets: what reads as prompted, what to keep, and the one picture it needs.
