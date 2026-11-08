@@ -14,7 +14,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&document.getElementById("newShowdown")&&document.getElementById("startShowdown"),null,{timeout:12000});
     assert.equal(await page.locator("#startSharedShowdown").count(),0,"The retired duplicate Shared Showdown entry must not return.");
 
@@ -183,7 +183,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     // Durable setup authority must survive reload without depending on sessionStorage.
     await page.evaluate(()=>sessionStorage.clear());
     await page.reload({waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(()=>typeof window.loadRuntimeScript==="function",null,{timeout:12000});
     await page.evaluate(async()=>{
       await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.ensureSaveLibraryRuntimeAuthority==="function");

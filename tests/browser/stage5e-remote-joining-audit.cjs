@@ -61,7 +61,7 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     });
 
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.locator("#remoteJoiningButton").waitFor({state:"attached",timeout:12000});
     const identityStatus=await page.evaluate(async()=>{
       await window.loadRuntimeScript("online-player-identity","js/onlinePlayerIdentity.js",()=>Boolean(window.CareerModeOnlinePlayerIdentity));

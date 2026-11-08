@@ -42,7 +42,7 @@ async function preparePage(browser,identity){
   await page.exposeFunction("__stage5gProviderCall",(action,sessionId)=>providerCall(identity.accountId,identity.deviceId,identity.rivalryId,action,sessionId));
   await page.addInitScript(()=>{window.requestIdleCallback=()=>1;window.cancelIdleCallback=()=>{};});
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   const before=await page.evaluate(()=>["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"].map(key=>[key,localStorage.getItem(key)]));
   await page.evaluate(async identity=>{
     const protocol={
