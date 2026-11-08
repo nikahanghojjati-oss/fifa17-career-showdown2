@@ -42,3 +42,8 @@ r90 (2026-11-08): the taker reactions `victory2` (Mixamo "Victory"), `cheer` ("C
 `defeated` ("Defeated") come from Mixamo animations Nik downloaded on Remy (FBX, 30 fps) and uploaded to the project; they are
 cut to the seconds the scene shows and baked into `anims_*.glb` by `tools/chamber-men-players` (`clips_r90.json`). Same terms:
 the FBX files and the "Soccer Game Pack" zip stay out of the repository.
+
+r90 M1 (2026-11-08): every Chamber Men GLB (players, clips, `ball_mesh_V3.glb`, `stadium_bowl_V1_1k.glb`) is meshopt-packed by
+`tools/chamber-men-players/pack-meshopt.mjs` (glTF-Transform, MIT). The page unpacks them with meshoptimizer's decoder
+(MIT, Arseny Kapoulkine), shipped unchanged as `visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js` with
+its licence at the top of the file.

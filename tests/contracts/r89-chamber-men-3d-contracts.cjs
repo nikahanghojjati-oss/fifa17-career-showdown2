@@ -177,7 +177,7 @@ async function c3d2(){
   assert.strictEqual((ex[1].match(/\{aniso:/g)||[]).length,5,"one row per level");
   assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
   assert.ok(scene.includes("QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))]"),"8K uses Ultra's extras");
-  assert.ok(scene.includes('S.load(T,{phone:Q.assets==="phone",level:Q.textureLevel??Q.level})'),"textures follow the texture level");
+  assert.ok(scene.includes('look={phone:Q.assets==="phone",level:Q.textureLevel??Q.level,meshopt};')&&scene.includes('S.load(T,look)'),"textures follow the texture level");
   const stadium=read("js/chamberMenStadium3d.js");
   assert.ok(stadium.includes('const BALL_MESH="ball_mesh_V3.glb",BALL=["512","1k","1k","2k","2k"];'),"one ball size per level, never 4k");
   assert.ok(!/ball_(color|normal|orm)_4k/.test(stadium),"the old 4k ball is gone");
@@ -187,10 +187,10 @@ async function c3d2(){
   assert.ok(step.includes("b.prepend(cmsAimMark(side));")&&step.includes('const svg=mk("svg",{class:"cmAim",viewBox:"0 0 40 16","aria-hidden":"true",focusable:"false"});'),"a small goal on each pick, hidden from screen readers");
   assert.ok(/min-height: 4[4-8]px/.test(choice)&&/@media \(max-width: 560px\) and \(max-height: 760px\) \{[\s\S]*?#cmStage \.cmChoice \{ min-height: 44px; \}/.test(css),"at least 44 px on phones");
   // BUGS hunt (2026-11-08): BUG-03 the finished kick's clock goes during its reveal; BUG-05 a scene given up is aborted
-  // (downloads and the mount stop), not only flagged.
+  // (parsing and building stop), not only flagged. r90 M1: its downloads finish into the cache for the next open (C3D14).
   assert.ok(step.includes('clock=null;ui.clock.textContent="";\n        if(from>=kicks.length){revealing=null;render();return;}'),"BUG-03: no stale clock during the reveal");
   assert.ok(step.includes("const giveUp=()=>{late=true;try{stop?.abort();}catch(_error){}};")&&step.includes("goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};"),"BUG-05: dropping the scene aborts it");
-  assert.ok(scene.includes("root.fetch(PLAYER_PATH+file,signal?{signal}:undefined)")&&scene.includes("const T=await loadEngine();if(off())return null;")&&scene.includes("if(off()){api.dispose();return null;}"),"BUG-05: the mount stops downloading and building");
+  assert.ok(scene.includes("const get=file=>cm3Blob(PLAYER_PATH+file)")&&scene.includes("const T=await loadEngine();if(off())return null;")&&scene.includes("if(off()){api.dispose();return null;}"),"BUG-05: the mount stops building (M1: the files still finish into the cache)");
   ok("C3D10","r90 quality: extras by level, ball and grass by texture level, flat picks with gold only for the live choice");
 }
 // C3D11 r90 LOOK (hunt L01-L03): a night grade (less sky fill), contact shadows under the taker, keeper and ball at every
@@ -253,4 +253,54 @@ async function c3d2(){
   assert.equal(fbx,"","no Mixamo source (FBX or zip) in the repo");
   ok("C3D13","r90 moves: reactions vary per kick, rooted keeper, clips baked from Nik's Mixamo files with no FBX committed");
 }
-c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
+let c3d14=Promise.resolve();
+// C3D14 r90 M1 (MOTION hunt): a first Chamber Men on a 10 Mbps line never mounted the 3D pitch (about 7 MB at Light against
+//    the 4.2 s wait). The GLBs are meshopt-packed (one shared decoder, shell-cached) and the season page warms this
+//    device's files ahead, once per season, a few seconds after it shows and at an idle moment; one download per file is
+//    shared with the mount and never aborted.
+{
+  const P="visual-assets/v10_1/chamber-men/";
+  const glb=f=>{const b=fs.readFileSync(path.join(ROOT,P+f));return JSON.parse(b.toString("utf8",20,20+b.readUInt32LE(12)));};
+  for(const f of ["players/anims_desktop.glb","players/anims_phone.glb",...["remy","ch38","ch42"].flatMap(b=>[`players/body_${b}_desktop.glb`,`players/body_${b}_phone.glb`]),"assets/ball_mesh_V3.glb","assets/stadium_bowl_V1_1k.glb"])
+    assert.ok((glb(f).extensionsRequired||[]).includes("EXT_meshopt_compression"),`${f} is meshopt-packed`);
+  // Light/Balanced bodies carry the hair cards at 512 px (hair-light.py); High and up keep 2k.
+  {const hairPx=f=>{const b=fs.readFileSync(path.join(ROOT,P+f)),n=b.readUInt32LE(12),j=JSON.parse(b.toString("utf8",20,20+n)),bin=20+n+8;
+     const m=j.materials.find(x=>x.name==="Hairmat"),t=j.textures[m.pbrMetallicRoughness.baseColorTexture.index],img=j.images[t.extensions.EXT_texture_webp.source],v=j.bufferViews[img.bufferView];
+     const d=b.subarray(bin+(v.byteOffset||0),bin+(v.byteOffset||0)+v.byteLength);assert.equal(d.toString("ascii",8,12),"WEBP");
+     const vp8x=d.indexOf("VP8X");return 1+d.readUIntLE(vp8x+12,3);};
+   for(const b of ["ch38","ch42"]){assert.equal(hairPx(`players/body_${b}_phone.glb`),512,`${b} Light hair 512`);assert.equal(hairPx(`players/body_${b}_desktop.glb`),2048,`${b} High hair 2k`);}}
+  const DEC=P+"vendor/meshopt_decoder-0.22.0.js";
+  assert.ok(/^\/\*\n \* meshoptimizer 0\.22\.0 decoder[\s\S]*?MIT License[\s\S]*?Permission is hereby granted/.test(read(DEC)),"decoder vendored with its MIT licence");
+  assert.ok(scene.includes(`const MESHOPT_JS="${DEC}";`)&&scene.includes("new T.GLTFLoader().setMeshoptDecoder(meshopt).parseAsync("),"players parse with the decoder");
+  assert.ok(read("js/chamberMenStadium3d.js").includes("l.setMeshoptDecoder(o.meshopt)"),"ball and bowl load with the decoder");
+  // Each body is parsed once; the keeper is a copy bound to its own bones, with its own materials.
+  assert.ok(scene.includes("const taker=await parse(buf);bodies[n]={taker,keeper:cm3CloneBody(taker)};")&&!scene.includes("parse(buf),parse(buf)"),"one parse per body");
+  assert.ok(/skeleton\.bones=from\.skeleton\.bones\.map\(b=>toCopy\.get\(b\)\);/.test(scene)&&/o\.material=Array\.isArray\(o\.material\)\?o\.material\.map\(m=>m\.clone\(\)\):o\.material\.clone\(\);/.test(scene),"the copy has its own bones and materials");
+  const shellList=sw.slice(sw.indexOf("const SHELL_PATHS"),sw.indexOf("];",sw.indexOf("const SHELL_PATHS"))),pack=sw.slice(sw.indexOf("const OFFLINE_PACK_PATHS"),sw.indexOf("]);",sw.indexOf("const OFFLINE_PACK_PATHS")));
+  assert.ok(shellList.includes(`"${DEC}"`)&&pack.includes(`"${DEC}"`),"decoder in the shell, filled with the offline pack");
+  assert.ok(fs.existsSync(path.join(ROOT,"tools/chamber-men-players/pack-meshopt.mjs")),"packing tool in the repo");
+  const pstc=read("js/productionSharedTransferChallenge.js");
+  assert.ok(/if\(decorated&&!openPromise&&!pstcShowdownComplete\(\)\)pstcWarmChamberMen\(\);/.test(pstc)&&/confirmedAtMs<CHAMBER_FROM_MS\)return;/.test(pstc)&&/chamberWarmKey===key/.test(pstc)&&/root\.setTimeout\(\(\)=>\{if\(typeof root\.requestIdleCallback==="function"\)root\.requestIdleCallback\(go,\{timeout:2500\}\);else go\(\);\},1500\);/.test(pstc),"the season page warms once per season, late and idle");
+  // Behaviour: warm() asks for exactly this level's files, each once, and the mount shares a download still in flight.
+  const asked=[];let release;const gate=new Promise(r=>{release=r;});
+  const sb={console,setTimeout,clearTimeout,Promise,URL,WebGL2RenderingContext:function(){},navigator:{},
+    fetch:(u,o)=>{asked.push([u,o&&o.priority]);return gate.then(()=>({ok:true,blob:()=>Promise.resolve({arrayBuffer:()=>Promise.resolve(new ArrayBuffer(8))})}));},
+    CareerModeGfxTier:{profile:()=>({level:0,textureLevel:0,name:"light"})},CareerModeKits17:{layouts:["wrap","remy","ch38","ch42"]},MeshoptDecoder:{ready:Promise.resolve()},
+    document:{createElement:()=>({}),head:{append(){}}}};
+  sb.globalThis=sb;sb.window=sb;vm.createContext(sb);vm.runInContext(read("js/chamberMenStadium3d.js"),sb);vm.runInContext(scene,sb);
+  const warm=sb.CareerModeChamberMen3d.warm({clubs:{playerOne:"Barcelona",playerTwo:"Chelsea"}});
+  c3d14=(async()=>{
+    for(let i=0;i<20;i+=1)await Promise.resolve();
+    release();
+    assert.equal(await warm,true,"warm resolves true");
+    const urls=asked.map(a=>a[0]);
+    assert.equal(new Set(urls).size,urls.length,"each file once");
+    assert.ok(asked.every(a=>a[1]==="low"),"low priority");
+    assert.ok(scene.includes("while(next<urls.length&&!cm3Mounting){const u=urls[next];next+=1;if(!await cm3Blob(u,true))ok=false;}"),"one file at a time, none new once a mount starts");
+    assert.ok(urls.includes(ENGINE)&&urls.includes(P+"players/anims_phone.glb"),"engine and Light clips");
+    assert.ok(urls.filter(u=>/players\/body_\w+_phone\.glb$/.test(u)).length>=1&&!urls.some(u=>/_desktop\.glb$/.test(u)),"Light bodies only");
+    assert.ok(!urls.some(u=>/stadium_bowl/.test(u))&&urls.some(u=>/grass_color_V2_1k\.webp$/.test(u)),"Light stadium files, no bowl");
+    ok("C3D14","r90 M1: meshopt-packed GLBs with a shell-cached decoder; the season page warms this level's files once, shared with the mount");
+  })();
+}
+c3d2().then(()=>c3d14).then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
