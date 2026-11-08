@@ -203,7 +203,7 @@ async function c3d2(){
   // night pass + L04: corner glare from the floodlights (two small screen quads, every level), the low camera behind and
   // left of the taker, a squad number on the back, breathing on the idles.
   assert.ok(/q\.name="cmGlare"/.test(scene)&&/x0=sx<0\?-1:\.4,x1=sx<0\?-\.4:1,y0=\.1,y1=1/.test(scene),"floodlight glare in the top corners only");
-  assert.ok(/const CAMB=\{pos:v3\(-1\.7,2\.55,SPOT_Z\+15\)/.test(scene),"low broadcast camera behind and left of the taker");
+  assert.ok(/const CAMB=\{pos:v3\(-1\.3,3\.05,SPOT_Z\+15\),look:v3\(-1\.3,/.test(scene),"low broadcast camera behind and left of the taker");
   assert.ok(/const number=role==="gk"\?1:SHIRT_NUMBERS\[cm3Hash\(`number\|\$\{club\}`\)%SHIRT_NUMBERS\.length\]/.test(scene)&&/size:kitSize,number\}/.test(scene),"squad number on the shirt");
   assert.ok(/breathe\(taker,live,1\)/.test(scene)&&/breathe\(keeper,live,\.8\)/.test(scene),"both players breathe while they wait");
   ok("C3D11","r90 LOOK: night grade, glare, contact shadows, low camera, numbers, breathing, both clubs on the boards and in the crowd");

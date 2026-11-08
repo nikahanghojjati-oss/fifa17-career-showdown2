@@ -524,9 +524,11 @@
     // Camera: behind and above the taker. Waiting: a slow drift; run-up: a push-in; after the strike it leans after the ball.
     const camera=new T.PerspectiveCamera(30,16/9,.1,400);
     // r90 L04: a low broadcast camera behind and to the left of the taker (ball, taker and keeper in one frame, the stand
-    // rising behind the goal), the way a TV penalty is shot; it eases in toward the spot for the kick.
-    const CAMB={pos:v3(-1.7,2.55,SPOT_Z+15),look:v3(.35,.95,5),hfov:40,vmin:21};
-    const CAMP={pos:v3(-.4,2.45,SPOT_Z+11.5),look:v3(0,.85,3)};
+    // rising behind the goal), the way a TV penalty is shot; it eases in toward the spot for the kick. It looks straight down
+    // the pitch (no yaw), so the goal line and the box lines stay level on screen: a turned camera slants them, and on a small
+    // screen a slanted 12 cm line breaks into dashes.
+    const CAMB={pos:v3(-1.3,3.05,SPOT_Z+15),look:v3(-1.3,.85,5),hfov:40,vmin:21};
+    const CAMP={pos:v3(-.4,2.75,SPOT_Z+11.5),look:v3(0,.85,3)};
     const camLook=new T.Vector3();
     const cameraAt=(t,live)=>{
       const drift=reducedMotion()?0:1;
