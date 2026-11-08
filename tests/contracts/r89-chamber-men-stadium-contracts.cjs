@@ -193,7 +193,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(/X\.userData\.bake="stand"/.test(code)||/\.userData\.bake="stand"/.test(code),"stand pieces are marked for the bake");
   assert.ok(/const shade=x\.userData\.bake!=="stand"\|\|x\.receiveShadow;x\.userData\.shade=shade;const key=`\$\{x\.material\.uuid\}\|\$\{shade\}`;/.test(code),"a stand piece keeps whether it takes shadows");
   assert.ok(/if\(o\.lean\)stadiumMerge\(T,frame\.concat\(bars\),goal\)\.name="cmStanchions";\s*else\{stadiumMerge\(T,frame,goal\)\.name="cmStanchions";stadiumMerge\(T,bars,goal\)\.name="cmGroundBars";\}/.test(code),"ground bars join the stanchions at Light only");
-  assert.ok(/if\(o\.lean\)\{stadiumMerge\(T,pb\.concat\(fp\),goal\)\.name="cmPosts";group\.remove\(far\);\}/.test(code),"both goals one draw at Light");
+  assert.ok(/if\(o\.lean\)\{group\.updateMatrixWorld\(true\);stadiumMerge\(T,pb\.concat\(fp\),goal\)\.name="cmPosts";group\.remove\(far\);\}/.test(code),"both goals one draw at Light");
   assert.ok(/if\(o\.lean\)\{const one=keep\(netMat\.clone\(\)\);one\.forceSinglePass=true;back\.material=one;\}/.test(code),"the back net in one pass at Light");
   assert.ok(/mat\.customProgramCacheKey=\(\)=>"cmBoardAtlas";/.test(code)&&/atlas\.uRow\.value\.set\(/.test(code),"boards from one atlas, the 9 s swap a uniform");
   assert.ok(/m\.customProgramCacheKey=\(\)=>"cmFlares";/.test(code)&&/gl_PointSize = size \* aCmSize;/.test(code),"flares and halo one draw at Light");

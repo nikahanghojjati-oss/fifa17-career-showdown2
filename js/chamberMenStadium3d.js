@@ -245,7 +245,7 @@
       for(const x of [-HALF,HALF]){const p=add(new T.CylinderGeometry(PR,PR,GOAL_H,12),postMat,far);p.position.set(x,GOAL_H/2,0);fp.push(p);}
       const fb=add(new T.CylinderGeometry(PR,PR,GOAL_W,12),postMat,far);fb.rotation.z=Math.PI/2;fb.position.set(0,GOAL_H,0);fp.push(fb);
     // r90 Light draw budget (o.lean): both goals' posts and bars are one draw.
-    if(o.lean){stadiumMerge(T,pb.concat(fp),goal).name="cmPosts";group.remove(far);}
+    if(o.lean){group.updateMatrixWorld(true);stadiumMerge(T,pb.concat(fp),goal).name="cmPosts";group.remove(far);}
     else{stadiumMerge(T,pb,goal).name="cmPosts";stadiumMerge(T,fp,far);}}
     // Box net frame: a stanchion curving back from each top corner to a ground bar 2.2 m behind the line.
     const DEPTH=2.2,TOP_BACK=1.0,ROOF_H=GOAL_H-.04;
