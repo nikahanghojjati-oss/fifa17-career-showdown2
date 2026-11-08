@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-08T15:17:16Z", "by": "V", "status": "SENT", "note": ""}],
+ "evidence": ["passed 2026-11-08 15:18 UTC to W4, W5, W8, W9, LOOK, MOTION, BUGS (W2, W3, W7 resolved)"],
+ "log": [{"at": "2026-11-08T15:17:16Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T15:18:10Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-11-08T15:18:10Z", "by": "G", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q55MWFc5kxaqRPspjd",
- "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd"}
+ "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
 ```
 
