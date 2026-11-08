@@ -12,7 +12,17 @@
 //      still while held, steps up only after a timed frame shows room, and remembers where it settled
 //   G4 calibrate moves auto at most one level and never moves a level the player picked
 //   G5 the frame counter appears only with ?fps=1; the service worker precaches the module
-//   G6 Settings: one 3D QUALITY pick (Auto names its suggestion), saved through the module, from the next 3D screen
+//   G6 Settings: one 3D QUALITY pick (Auto names its suggestion), saved through the module, from the next 3D screen; 8K
+//      only where the GPU can hold it
+//   G7 Device check page: bench frames, best 60 fps level saved as Auto, the device class line
+//   G8 8K (Nik 2026-11-07): picked only, a GPU with a 7680 px buffer and texture, never a phone or software GL; up to
+//      7680x4320; a lost context or refused buffer falls back to Ultra (said in the overlay) until 8K is picked again;
+//      MSAA from the sample counts both formats support, an incomplete target steps 8 -> 4 -> 0
+//   G10 html[data-gfx] carries the resolved level for 2D screens: on load, on a pick, after calibrate, on an 8K fallback
+//   G11 never crash first: a lost context or out-of-memory error drops any level one step, remembered until a new pick;
+//      the download level also follows Save-Data and 2g/3g (html[data-assets])
+//   G9 phones (Nik 2026-11-07, iPhone 17 at the best it can hold): strong phone GPUs start High, weak ones Light, calibrate
+//      runs, at most 3x CSS and a 4K buffer, textures one size down below High
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -22,18 +32,21 @@ const SRC=fs.readFileSync(path.join(ROOT,'js/gfxTier.js'),'utf8');
 const CHOICES_FROM_SRC=()=>JSON.parse(/const CHOICES=(\[[^\]]*\])/.exec(SRC)[1]);
 let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${text}`);};
 
-function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={}}={}){
+function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384,connection=null}={}){
   const clock={t:0};
   const store={...storage};
   const appended=[];
   const doc={
     createElement(tag){
-      if(tag==='canvas')return {getContext:()=>({RENDERER:7937,getExtension:n=>n==='WEBGL_debug_renderer_info'?{UNMASKED_RENDERER_WEBGL:37446}:{loseContext(){}},getParameter:k=>k===37446||k===7937?gpu:null})};
+      if(tag==='canvas')return {getContext:()=>({RENDERER:7937,MAX_RENDERBUFFER_SIZE:34024,MAX_TEXTURE_SIZE:3379,
+        getExtension:n=>n==='WEBGL_debug_renderer_info'?{UNMASKED_RENDERER_WEBGL:37446}:{loseContext(){}},
+        getParameter:k=>k===37446||k===7937?gpu:k===34024?maxBuffer:k===3379?maxTexture:null})};
       return {style:{},setAttribute(){},append(){},remove(){},get isConnected(){return true;},textContent:''};
     },
-    body:{append:x=>appended.push(x)}
+    body:{append:x=>appended.push(x)},
+    documentElement:{dataset:{}}
   };
-  const ctx={document:doc,devicePixelRatio:dpr,navigator:{deviceMemory:memory,hardwareConcurrency:cores},screen:{width:screen[0],height:screen[1]},
+  const ctx={document:doc,devicePixelRatio:dpr,navigator:{deviceMemory:memory,hardwareConcurrency:cores,...(connection?{connection}:{})},screen:{width:screen[0],height:screen[1]},
     location:{search},readStorageValue:k=>k in store?store[k]:null,writeStorageValue:(k,v)=>{store[k]=String(v);return true;},
     performance:{now:()=>clock.t},setTimeout:(f)=>{f();return 0;},requestAnimationFrame:()=>1,cancelAnimationFrame(){},URLSearchParams};
   ctx.globalThis=ctx;ctx.parent=ctx;
@@ -62,14 +75,23 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     ['Apple M1',{memory:8,cores:8},2],
     ['Apple M2 Max',{memory:32,cores:12},3],
     ['Apple GPU',{phone:true,memory:6,cores:6},2],
-    ['Adreno (TM) 740',{phone:true,memory:8,cores:8},1],
+    ['Apple GPU',{phone:true,cores:4},2],
+    ['Adreno (TM) 740',{phone:true,memory:8,cores:8},2],
+    ['ANGLE (Qualcomm, Adreno (TM) 830, OpenGL ES 3.2)',{phone:true,memory:8,cores:8},2],
+    ['ANGLE (ARM, Mali-G715, OpenGL ES 3.2)',{phone:true,memory:8,cores:8},2],
+    ['ANGLE (ARM, Immortalis-G720, OpenGL ES 3.2)',{phone:true,memory:8,cores:8},2],
+    ['Adreno (TM) 650',{phone:true,memory:8,cores:8},1],
+    ['Adreno (TM) 530',{phone:true,memory:4,cores:4},0],
+    ['ANGLE (ARM, Mali-G57, OpenGL ES 3.2)',{phone:true,memory:4,cores:8},0],
+    ['PowerVR Rogue GE8320',{phone:true,memory:2,cores:8},0],
+    ['Adreno (TM) 740',{phone:true,memory:4,cores:8},1],
     ['Some New GPU 9000',{memory:16,cores:12},1],
     ['ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 Direct3D11 vs_5_0 ps_5_0, D3D11)',{memory:2,cores:16},0]
   ];
   const {G}=sandbox();
   for(const [gpu,env,want] of cases)assert.equal(G.classify(gpu,{deviceMemory:env.memory,cores:env.cores,phone:env.phone}).level,want,`${gpu} ${JSON.stringify(env)}`);
   assert.equal(G.classify('SwiftShader',{}).software,true);
-  ok('G1',`auto level from the GPU name, held down by memory, cores and phone screens (${cases.length} devices)`);
+  ok('G1',`auto level from the GPU name, held down by memory and cores; strong phone GPUs start High (${cases.length} devices)`);
 }
 // G2
 {
@@ -184,6 +206,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     // MENU CLICK FEEDBACK line (the plate has no height to spare at 1366x640; browser sweep on the PR).
     const set=fs.readFileSync(path.join(ROOT,'js/settings.js'),'utf8'),css=fs.readFileSync(path.join(ROOT,'css/r78-type.css'),'utf8');
     assert.ok(set.includes('const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra"]];'),'the six choices, in order');
+    assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\\"8k\\"]")){'),'8K is added only where the GPU can hold it');
     assert.ok(set.includes('select.options[0].textContent = suggested ? `Auto (${measured ? "measured" : "suggests"} ${suggested})` : "Auto";'),'Auto names its suggestion (or the measured level)');
     assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');
     assert.ok(set.includes('const saved = tier.setChoice(select.value);')&&set.includes('"Applies from the next 3D screen."'),'saved through the module, applies next screen');
@@ -192,7 +215,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(set.includes('select.setAttribute("aria-labelledby", "settingsGfxLabel");'),'the select has its label');
     assert.ok(!/localStorage/.test(set.slice(set.indexOf('const SETTINGS_GFX_CHOICES'),set.indexOf('function createGfxQualityControl'))),'no storage of its own');
     assert.ok(css.includes('@media (min-width: 1200px) and (orientation: landscape) {\n  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap;'),'one shared line on landscape desktops');
-    const names=CHOICES_FROM_SRC();assert.deepEqual(names,['auto','light','medium','high','extra','ultra'],'Settings values match the module');
+    const names=CHOICES_FROM_SRC();assert.deepEqual(names,['auto','light','medium','high','extra','ultra','8k'],'Settings values match the module (8K added when capable)');
     // G7 Device check (lead, from Nik 2026-11-07): device-check.html times each scene's ?gfx=N&bench=1 frame for 10 s and saves
     // the best level that holds 60 fps as this device's Auto; it loads no game, no sign-in and no Firestore.
     const dc=fs.readFileSync(path.join(ROOT,'device-check.html'),'utf8'),bench=fs.readFileSync(path.join(ROOT,'device-check-chamber.html'),'utf8');
@@ -221,8 +244,113 @@ function fakeRenderer(clock,cost,css=[1280,720]){
      assert.equal(s8.G.profile().level,2);s8.G.setMeasured(0);assert.deepEqual([s8.G.profile().level,s8.G.suggested().measured],[0,true],'a measured level is Auto');
      s8.G.setChoice('ultra');assert.equal(s8.G.profile().level,4,'a picked level still wins');s8.G.setChoice('auto');
      s8.G.clearMeasured();assert.equal(s8.G.profile().level,2,'forgetting goes back to the guess');}
+    assert.ok(dc.includes('$("device").innerHTML=`This device: <b>${esc(kind)}</b>'),'the Device check names the device class');
+    {const d=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]}).G.device();
+     assert.deepEqual([d.phone,d.strongPhone,d.guessName,d.can8k],[true,true,'high',false],'an iPhone 17 reads as a strong phone that starts High');}
     ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');
     ok('G6','Settings: 3D QUALITY with Auto (suggests X) and five levels, saved through the module, next 3D screen');
+    g8();await g9();await g10();await g11();
     console.log(`PASS r90 gfx tier contracts (${checks} checks)`);
   })().catch(e=>{console.error(e);process.exitCode=1;});
+}
+
+function g8(){
+  const strong='ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)',pick={'careerModeShowdown.gfxQuality.v1':'8k'};
+  const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[1920,1080],storage:pick});
+  const p=s.G.profile();assert.deepEqual([p.level,p.name,p.can8k,p.bufferCap],[5,'8k',true,7680*4320],'8K when picked on a capable GPU');
+  assert.ok(p.pixelRatio===4&&p.maxPixelRatio===4,`8K on 1080p starts at 4x (${p.pixelRatio}/${p.maxPixelRatio})`);
+  const lost=[];const r={...fakeRenderer(s.clock,()=>1,[1920,1080])};r.domElement.addEventListener=(n,f)=>lost.push([n,f]);r.domElement.removeEventListener=()=>{};
+  const gov=s.G.governor(r,{key:'chamber'});
+  assert.equal(gov.pixelRatio(),4,'a 1080p canvas draws a 7680x4320 buffer');
+  {const w=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:pick});const gw=w.G.governor(fakeRenderer(w.clock,()=>1,[2560,1440]),{});
+   assert.ok(gw.pixelRatio()**2*2560*1440<=7680*4320+1&&gw.pixelRatio()>=2.75,`a 1440p canvas stays within 7680x4320 (${gw.pixelRatio()})`);gw.end();}
+  // A lost context sends it back to Ultra, says so, and moves the live governor.
+  assert.equal(lost[0][0],'webglcontextlost');lost[0][1]();
+  const f=s.G.profile();assert.deepEqual([f.level,f.name],[4,'ultra'],'context lost: Ultra');assert.ok(/context lost/.test(f.fellBack.reason));
+  assert.ok(gov.pixelRatio()**2*1920*1080<=3840*2160+1,`the governor moved back under the 4K buffer (${gov.pixelRatio()})`);gov.end();
+  assert.ok(SRC.includes('...(p.fellBack?[`fell back from ${NAMES[p.fellBack.from]} to ${p.name}: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');assert.equal(f.fellBack.from,5);
+  assert.equal(s.G.profile().level,4,'stays Ultra on the next screen');s.G.setChoice('8k');assert.equal(s.G.profile().level,5,'picking 8K again tries again');
+  // Never offered: a GPU under 7680, a phone, software GL; Auto never picks it (a measured result tops out at Ultra).
+  for(const [why,o] of [['small buffer',{maxBuffer:4096}],['small texture',{maxTexture:4096}],['phone',{screen:[402,874],dpr:3}],['software',{gpu:'SwiftShader'}]]){
+    const n=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:pick,...o}).G;assert.equal(n.can8k(),false,why);assert.ok(n.profile().level<=4,`${why}: 8K pick plays Ultra`);
+  }
+  const a=sandbox({gpu:strong,dpr:1,memory:32,cores:16}).G;assert.ok(a.profile().level<4,'Auto never Ultra or 8K');a.setMeasured(5);assert.equal(a.measured().level,4,'a measured level stops at Ultra');
+  assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,search:'?gfx=5'}).G.profile().level,5,'?gfx=5 forces 8K for proofs');
+  // MSAA: the highest count both RGBA16F (or RGBA8) and DEPTH_COMPONENT24 support, at or under the wish.
+  const gl={RENDERBUFFER:1,SAMPLES:2,RGBA16F:3,RGBA8:4,DEPTH_COMPONENT24:5,FRAMEBUFFER:6,FRAMEBUFFER_COMPLETE:7,
+    getInternalformatParameter:(_t,f)=>f===3?[8,4,2]:f===4?[16,8,4,2]:[8,4,2],checkFramebufferStatus:()=>gl.status()};
+  const R={getContext:()=>gl,setRenderTarget(t){R.bound=t;}};
+  assert.deepEqual([s.G.samples(R,16,false),s.G.samples(R,4,true),s.G.samples(R,3,true),s.G.samples(R,0,true)],[8,4,2,0]);
+  const none={getContext:()=>({getInternalformatParameter(){throw new Error('no');}})};assert.equal(s.G.samples(none,8,true),4,'no query: 4');
+  gl.status=()=>R.bound&&R.bound.samples===0?7:0;const t={samples:8,dispose(){}};
+  assert.equal(s.G.checkTarget(R,t),true);assert.equal(t.samples,0,'an incomplete target steps 8 -> 4 -> 0');
+  const scene=fs.readFileSync(path.join(ROOT,'js/chamberMenScene3d.js'),'utf8');
+  assert.ok(scene.includes('samples:G?.samples?G.samples(renderer,phone?0:4,true):0')&&scene.includes('if(snap.samples&&G?.checkTarget)G.checkTarget(renderer,snap);'),'the Chamber Men dissolve uses the shared helper');
+  ok('G8','8K: picked only, capable GPU, never phone/software, 7680x4320 cap, falls back to Ultra and says so; shared MSAA helper');
+}
+function g9(){
+  // iPhone 17 class: Apple GPU, 3x, no deviceMemory (Safari), 6 cores.
+  const s=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]});
+  const p=s.G.profile();assert.deepEqual([p.level,p.phone,p.textureLevel],[2,true,2],'an iPhone starts High with full textures');
+  assert.ok(p.maxPixelRatio<=3,'never past 3x');
+  const cal=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]});
+  const rc=fakeRenderer(cal.clock,()=>2,[402,874]);return cal.G.calibrate(rc,()=>{}).then(n=>{
+    assert.equal(n.level,3,'calibrate runs on phones and steps up when there is room');
+    const u=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[440,956],storage:{'careerModeShowdown.gfxQuality.v1':'ultra'}});
+    const pu=u.G.profile();assert.ok(pu.maxPixelRatio<=3,`a phone on Ultra stays at 3x (${pu.maxPixelRatio})`);
+    const gu=u.G.governor(fakeRenderer(u.clock,()=>1,[1400,1000]),{});assert.ok(gu.pixelRatio()**2*1400*1000<=3840*2160+1,`under the 4K buffer (${gu.pixelRatio()})`);
+    const w=sandbox({gpu:'ANGLE (ARM, Mali-G57, OpenGL ES 3.2)',dpr:2.6,memory:4,cores:8,screen:[393,851]}).G.profile();
+    assert.deepEqual([w.level,w.textureLevel],[0,0],'a weak phone starts Light');
+    const m=sandbox({gpu:'Adreno (TM) 650',dpr:2.6,memory:8,cores:8,screen:[393,851]}).G.profile();assert.deepEqual([m.level,m.textureLevel],[1,0],'a phone below High: one texture size down');
+    const d=sandbox({gpu:'ANGLE (Intel, Intel(R) Iris(R) Xe Graphics Direct3D11 vs_5_0 ps_5_0, D3D11)',memory:16,cores:8}).G.profile();assert.deepEqual([d.level,d.textureLevel],[1,1],'a computer keeps its level');
+    const scene=fs.readFileSync(path.join(ROOT,'js/chamberMenScene3d.js'),'utf8');
+    assert.ok(scene.includes('return {...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};')&&!scene.includes('phoneScreen'),'Chamber Men assets follow the texture level');
+    ok('G9','phones: strong GPUs start High, weak Light; calibrate runs; at most 3x and a 4K buffer; textures one size down below High');
+  });
+}
+
+async function g10(){
+  const html=sb=>sb.ctx.document.documentElement.dataset.gfx;
+  const strong='ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)';
+  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'high'}})),'2','a picked level is marked on load');
+  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxMeasured.v1':JSON.stringify({level:1,at:1})}})),'1','a measured Auto is marked on load');
+  assert.equal(html(sandbox()),'0','a Chromebook reads Light once the profile runs');
+  const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16});assert.equal(html(s),'3');
+  s.G.setChoice('light');assert.equal(html(s),'0','a new pick moves it at once');
+  s.G.setChoice('8k');assert.equal(html(s),'5');s.G.fallback8k('test');assert.equal(html(s),'4','an 8K fallback reads Ultra');
+  s.G.setChoice('auto');const n=await s.G.calibrate(fakeRenderer(s.clock,()=>15),()=>{});assert.equal(html(s),String(n.level),'calibrate marks the level it settles on');
+  assert.ok(n.level===2,'calibrate stepped down one');
+  {const sl=sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'high'},connection:{saveData:true}});assert.deepEqual([html(sl),sl.ctx.document.documentElement.dataset.assets],['2','1'],'data-assets on load follows the connection');}
+  const ssjr=fs.readFileSync(path.join(ROOT,'js/ssjr.js'),'utf8');
+  assert.ok(ssjr.includes('const gfxTier=()=>load("gfx-tier","js/gfxTier.js",()=>root.CareerModeGfxTier).catch(()=>null);')&&ssjr.includes('root.requestIdleCallback(()=>home.then(gfxTier),{timeout:3000})'),'loaded once Home is up, when the page is idle (never on the first-load path)');
+  ok('G10','html[data-gfx] carries the resolved level for 2D screens: on load, on a pick, after calibrate, on an 8K fallback');
+}
+
+async function g11(){
+  const strong='ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)',html=sb=>sb.ctx.document.documentElement.dataset;
+  // A lost context at High (Auto) drops to Balanced and stays there on the next screen; a pick clears it.
+  const s=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8});
+  const lost=[];const r=fakeRenderer(s.clock,()=>2);r.domElement.addEventListener=(n,f)=>lost.push(f);r.domElement.removeEventListener=()=>{};
+  const gov=s.G.governor(r,{key:'chamber'});assert.equal(s.G.profile().level,2);lost[0]();
+  assert.deepEqual([s.G.profile().level,s.G.profile().fellBack.from,html(s).gfx],[1,2,'1'],'context lost: one level down, marked');
+  s.G.reset();assert.equal(s.G.profile().level,1,'remembered on this device');
+  lost[0]();assert.equal(s.G.profile().level,0,'a second loss goes down again');gov.end();
+  s.G.setChoice('auto');assert.equal(s.G.profile().level,2,'a new pick in Settings tries again');
+  // A picked level is held down too (never crash first); the page being hidden is the browser reclaiming, not a failure.
+  const p=sandbox({gpu:strong,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'ultra'}});p.G.fallback('test');assert.equal(p.G.profile().level,3);
+  const h=sandbox({gpu:strong,memory:32,cores:16});h.ctx.document.visibilityState='hidden';h.G.fallback('hidden');h.ctx.document.visibilityState='visible';h.G.reset();assert.equal(h.G.profile().level,3,'hidden: not counted');
+  // gov.end() first: a scene's own dispose never counts.
+  const e=sandbox({gpu:strong,memory:32,cores:16});const le=[];const re=fakeRenderer(e.clock,()=>1);re.domElement.addEventListener=(n,f)=>le.push(f);re.domElement.removeEventListener=()=>{};
+  const ge=e.G.governor(re,{});ge.end();le[0]();e.G.reset();assert.equal(e.G.profile().level,3,'after end(), a context loss is the scene\'s own');
+  // Out of memory while calibrating: one level down.
+  const o=sandbox({gpu:strong,memory:32,cores:16});const ro=fakeRenderer(o.clock,()=>8);const gl=ro.getContext();ro.getContext=()=>({...gl,OUT_OF_MEMORY:1285,getError:()=>1285});
+  await o.G.calibrate(ro,()=>{});o.G.reset();assert.equal(o.G.profile().level,2,'OUT_OF_MEMORY: one level down');
+  // Memory: 4 GB or less is at most Balanced (also on a phone); the connection moves only the download size.
+  assert.equal(sandbox({gpu:'Apple GPU',memory:4,cores:6,screen:[402,874],dpr:3}).G.profile().level,1,'a 4 GB phone is at most Balanced');
+  for(const [c,slow] of [[{saveData:true,effectiveType:'4g'},true],[{effectiveType:'3g'},true],[{effectiveType:'2g'},true],[{effectiveType:'4g'},false]]){
+    const n=sandbox({gpu:strong,memory:32,cores:16,connection:c});const q=n.G.profile();
+    assert.deepEqual([q.level,q.assetLevel,q.slowNet,html(n).assets],[3,slow?2:3,slow,String(slow?2:3)],JSON.stringify(c));
+  }
+  assert.equal(sandbox({connection:{saveData:true}}).G.profile().assetLevel,0,'never below 0');
+  ok('G11','never crash first: a lost context or out-of-memory drops one level, remembered until a new pick; downloads follow Save-Data and 2g/3g');
 }

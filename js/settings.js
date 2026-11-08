@@ -334,6 +334,14 @@ function fillSettingsGfxSelect(select){
     let measured = false;
     try{ measured = Boolean(tier.suggested().measured); }catch(_error){ measured = false; }
     select.options[0].textContent = suggested ? `Auto (${measured ? "measured" : "suggests"} ${suggested})` : "Auto";
+    // 8K is only offered where the GPU can hold a 7680 px picture (never a phone, never software GL); Auto never picks it.
+    let can8k = false;
+    try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }
+    if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\"8k\"]")){
+        const option = createSettingsElement("option", "", "8K");
+        option.value = "8k";
+        select.insertBefore(option, select.querySelector(`option[value="${SETTINGS_GFX_CHECK}"]`));
+    }
     select.value = tier.choice();
     select.disabled = false;
 }
