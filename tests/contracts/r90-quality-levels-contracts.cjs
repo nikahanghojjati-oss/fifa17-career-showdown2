@@ -48,8 +48,9 @@ const GL=SCREENS.filter(p=>/new (T|THREE)\.WebGLRenderer\(/.test(read(p)));
 // Q3
 {
   // Density pickers for image-set() plates and a confetti canvas match what the browser draws; they pick no quality.
-  // Prime Pack's stage picks its 4K-wide art only where the screen is that sharp and data-gfx is Extra or above.
-  const DENSITY_ONLY=new Set(["js/connectPlayersScreenV10.js","js/ssjr.js","js/v10Screens.js","visual-assets/v10_1/shared/motion.js","visual-assets/v10_1/icon-guess/index.html"]);
+  // Prime Pack's stage picks its 4K-wide art only where the screen is that sharp and data-gfx is Extra or above; RRR's café
+  // hall does the same for its 4K room art (Extra and above, and a screen over 2560 device pixels).
+  const DENSITY_ONLY=new Set(["js/connectPlayersScreenV10.js","js/ssjr.js","js/v10Screens.js","visual-assets/v10_1/shared/motion.js","visual-assets/v10_1/icon-guess/index.html","visual-assets/v10_1/roulette/index.html"]);
   for(const p of SCREENS){
     const s=strip(read(p));
     if(/WEBGL_debug_renderer_info|\bhardwareConcurrency\b|\bdeviceMemory\b/.test(s))assert.fail(`${p}: reads a device signal to pick quality (gfxTier does that)`);
