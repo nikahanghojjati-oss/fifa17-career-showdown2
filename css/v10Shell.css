@@ -724,3 +724,15 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
     background-position:calc(50% + 40px) top;
   }
 }
+
+/* r90 W9 (LOOK hunt L36): the 5x4 px padlock on locked tabs read as an unread dot. The dimmed label and the
+   "finish this step first" toast on tap say the tab is locked; no marker. The phone MUSIC tab keeps its own ::before face. */
+.sd-nav[data-locked="true"] .sd-nav-tab:not([aria-current="page"]):not(.cmsMusicTab)::before { content: none; }
+
+/* r90 W9 (LOOK hunt L42): in short desktop windows (700 px high or less, e.g. a 1180x620 Chromebook window) the cup's
+   foot ran into the SHOWDOWN CHAMPION plinth and covered its first word. The cup's box now ends 3 px above the plinth
+   (the plinth is 27% of the ceremony, at least 42 px), so the cup stands whole on it at every short size; taller windows
+   keep Team V's layout. */
+@media (max-height: 700px) and (min-width: 761px) {
+  html[data-v10-screen="trophyRoom"] #trophyRoom .heroCeremony .heroTrophyPicture { height: auto; bottom: max(calc(27% + 3px), 45px); }
+}

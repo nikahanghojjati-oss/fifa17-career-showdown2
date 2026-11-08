@@ -8,14 +8,16 @@
   // r86 Special Player reveal (Nik 2026-10-27, look = Team V HO-035): after Club Assignment, before Career Start, each
   // manager watches both Special Players come out of a pack, on Team V's page in a full-screen frame. The draw is
   // js/marqueePlayer.js (no read, no write). The loading screen stays up until the page has drawn its first frame (Reus
-  // Gate: at least 1 s, at most 15 s); a page that fails or is too slow is skipped and Career Start opens as before.
+  // Gate: at least 1 s). r90 Light rule (Nik 2026-11-08: the pack stays 3D on Light, his Chromebook): the 15 s limit is the
+  // wait since the page last said it is still busy ("cms-sp-loading", after each file and build step), with a 90 s cap on
+  // screen time, like the RRR; only a page that cannot run (no 3D library, no WebGL) or hangs is skipped.
   // Shown once per manager per Showdown on this browser; never for a Showdown confirmed before r86.
   // r86 (red team #1): "seen" is kept as soon as the reveal is shown, and a skipped reveal counts as seen too, both on this
   // browser's storage. Before, a reload in season 1 (before Continue, or after a skip) ran the reveal again over the live game.
   const PAGE="visual-assets/v10_1/special-player/index.html";
   const STAGE_ID="specialPlayerStage";
   const SEEN_KEY="careerModeShowdown.specialPlayerSeen.v1",SEEN_MAX=40;
-  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,REFRESH_WAIT_MS=5000;
+  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,COLD_LOADING_MS=90000,REFRESH_WAIT_MS=5000;
   const LOADING_TEXT="PREPARING YOUR SPECIAL PLAYERS";
   let running=null;
 
@@ -92,6 +94,7 @@
     const handler=event=>{
       if(event.source!==frame.contentWindow||event.origin!==origin||!event.data)return;
       if(event.data.type==="cms-sp-ready")onReady("ready");
+      else if(event.data.type==="cms-sp-loading")spRenew();
       // An error after "ready" (the animation failing before Continue) also ends the Continue wait, so the stage is removed
       // and Career Start opens instead of the manager being stuck on a broken reveal (Codex P2 on #1035).
       else if(event.data.type==="cms-sp-error"){onReady("error");onContinue("error");}
@@ -101,8 +104,11 @@
     // A page that loads without its 3D library, or not at all, is skipped at once instead of after the full wait.
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
-    const limit=spVisibleTimeout(MAX_LOADING_MS,()=>onReady("timeout"));
-    return {ready:ready.finally(()=>limit.stop()),cont,stop(){root.removeEventListener("message",handler);limit.stop();}};
+    let limit=spVisibleTimeout(MAX_LOADING_MS,()=>onReady("timeout")),settled=false;
+    const cap=spVisibleTimeout(COLD_LOADING_MS,()=>onReady("timeout"));
+    function spRenew(){if(settled)return;limit.stop();limit=spVisibleTimeout(MAX_LOADING_MS,()=>onReady("timeout"));}
+    const stopAll=()=>{settled=true;limit.stop();cap.stop();};
+    return {ready:ready.finally(stopAll),cont,stop(){root.removeEventListener("message",handler);stopAll();}};
   }
   async function spRun(setupApi){
     if(!setupApi||typeof setupApi.getState!=="function")return null;
@@ -134,5 +140,5 @@
     running=run;return run;
   }
 
-  return Object.freeze({contractVersion:1,feature:"cms-special-player-reveal",page:PAGE,stageId:STAGE_ID,seenKey:SEEN_KEY,minLoadingMs:MIN_LOADING_MS,maxLoadingMs:MAX_LOADING_MS,decide:spDecide,runBeforeCareerStart,visibleTimeout:spVisibleTimeout});
+  return Object.freeze({contractVersion:1,feature:"cms-special-player-reveal",page:PAGE,stageId:STAGE_ID,seenKey:SEEN_KEY,minLoadingMs:MIN_LOADING_MS,maxLoadingMs:MAX_LOADING_MS,coldLoadingMs:COLD_LOADING_MS,decide:spDecide,runBeforeCareerStart,visibleTimeout:spVisibleTimeout});
 });

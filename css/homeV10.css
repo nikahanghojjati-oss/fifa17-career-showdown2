@@ -1242,6 +1242,13 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 @media (min-width: 901px) and (min-height: 501px) {
   #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileIcon {
     position: absolute !important; margin: 0 !important; top: auto !important; left: auto !important; right: 28px !important; bottom: 12px !important; translate: none !important;
-    width: var(--w9-icon) !important; height: var(--w9-icon) !important; --w9-icon: clamp(36px, calc(var(--tile-h, 158px) - 92px), 60px);
+    width: var(--w9-icon) !important; height: var(--w9-icon) !important; --w9-icon: clamp(40px, calc(var(--tile-h, 158px) - 88px), 60px);
   }
+}
+
+/* r90 W9 (LOOK hunt L51): in laptop and Chromebook windows (1180-1439 wide) CONTINUE CAREER broke onto two lines at 26px
+   and the small-tile icons sat at 44px. The hero label now scales with the window so it keeps one line, and the icons are
+   48px on the 136px tiles (tile height minus 88px). Nothing moves; START A SHOWDOWN still takes two lines in a 110px tile. */
+@media (min-width: 901px) and (max-width: 1439px) and (min-height: 501px) {
+  #app #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: min(26px, 1.6vw); white-space: nowrap; }
 }
