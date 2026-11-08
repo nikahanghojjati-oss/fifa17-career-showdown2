@@ -1,11 +1,19 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-08T04:02:11.661Z",
+  "at": "2026-11-08T04:07:30.971Z",
   "state": "BARKING",
-  "checks": [],
-  "helpers_paused": [
-    "Gameplay factory progress poller"
+  "checks": [
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "ad8885c6d6db21bb41d3967ae23b9a64fc199255",
+      "pr": 1278,
+      "queued_minutes": 21.3,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    }
   ],
+  "helpers_paused": [],
   "gate": null,
   "pos20": {
     "pr": 304,
