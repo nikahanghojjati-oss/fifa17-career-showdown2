@@ -133,6 +133,33 @@
   // A small deterministic random, so the crowd is the same every load.
   function stadiumSeeded(seed){let s=seed>>>0;return ()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
 
+  // r90 draw calls: static pieces that share a material drawn as one mesh. Each piece's positions and normals are moved
+  // into `space` (the parent the merged mesh joins), so the pixels stay the same and only the number of draws drops.
+  function stadiumMerge(T,list,space){
+    space.updateMatrixWorld(true);
+    const inv=new T.Matrix4().copy(space.matrixWorld).invert(),m=new T.Matrix4(),n=new T.Matrix3(),v=new T.Vector3();
+    const uv=list.every(x=>x.geometry.attributes.uv);let nv=0,ni=0;
+    for(const x of list){const g=x.geometry;nv+=g.attributes.position.count;ni+=g.index?g.index.count:g.attributes.position.count;}
+    const P=new Float32Array(nv*3),N=new Float32Array(nv*3),U=uv?new Float32Array(nv*2):null,I=nv>65535?new Uint32Array(ni):new Uint16Array(ni);
+    let o=0,k=0;
+    for(const x of list){
+      x.updateMatrixWorld(true);m.multiplyMatrices(inv,x.matrixWorld);n.getNormalMatrix(m);
+      const g=x.geometry,pa=g.attributes.position,na=g.attributes.normal,ua=g.attributes.uv,ix=g.index,flip=m.determinant()<0;
+      for(let i=0;i<pa.count;i+=1){const j=o+i;
+        v.fromBufferAttribute(pa,i).applyMatrix4(m);P[j*3]=v.x;P[j*3+1]=v.y;P[j*3+2]=v.z;
+        v.fromBufferAttribute(na,i).applyMatrix3(n).normalize();N[j*3]=v.x;N[j*3+1]=v.y;N[j*3+2]=v.z;
+        if(U){U[j*2]=ua.getX(i);U[j*2+1]=ua.getY(i);}}
+      const cnt=ix?ix.count:pa.count,at=i=>(ix?ix.getX(i):i)+o;
+      // A mirrored piece keeps its faces pointing the same way.
+      for(let i=0;i<cnt;i+=3){I[k++]=at(i);I[k++]=at(flip?i+2:i+1);I[k++]=at(flip?i+1:i+2);}
+      o+=pa.count;}
+    const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(P,3));g.setAttribute("normal",new T.BufferAttribute(N,3));
+    if(U)g.setAttribute("uv",new T.BufferAttribute(U,2));g.setIndex(new T.BufferAttribute(I,1));
+    const out=new T.Mesh(g,list[0].material);out.castShadow=list[0].castShadow;out.receiveShadow=list[0].receiveShadow;out.renderOrder=list[0].renderOrder;
+    for(const x of list){x.removeFromParent();x.geometry.dispose();}
+    space.add(out);return out;
+  }
+
   function stadiumBuild(T,tex,opts){
     const o=opts||{},phone=Boolean(o.phone),aniso=o.aniso||4,own=[],keep=x=>{own.push(x);return x;};
     const group=new T.Group();group.name="cmStadium";
@@ -188,10 +215,13 @@
       rect(-PITCH_HALF_W,0,-PITCH_HALF_W+W,PITCH_L);rect(PITCH_HALF_W-W,0,PITCH_HALF_W,PITCH_L);// touchlines
       rect(-PITCH_HALF_W,PITCH_L/2-W/2,PITCH_HALF_W,PITCH_L/2+W/2);arc(0,PITCH_L/2,ARC_R,0,Math.PI*2,72);// halfway line, centre circle
       end(0,1);end(PITCH_L,-1);
+      // The penalty spots and the centre spot, in the same draw (2 mm proud of the lines, as before).
+      for(const z of [SPOT_Z,PITCH_L-SPOT_Z,PITCH_L/2]){const r=z===SPOT_Z?.1:.15,c0=n;pos.push(0,.007,z);n+=1;
+        for(let i=0;i<=28;i+=1){const a=i/28*Math.PI*2;pos.push(Math.cos(a)*r,.007,z-Math.sin(a)*r);n+=1;}
+        for(let i=1;i<=28;i+=1)idx.push(c0,c0+i,c0+i+1);}
       const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setIndex(idx);
       const nrm=new Float32Array(pos.length);for(let i=1;i<nrm.length;i+=3)nrm[i]=1;g.setAttribute("normal",new T.BufferAttribute(nrm,3));
       const lines=add(g,chalk);lines.receiveShadow=true;}
-    for(const z of [SPOT_Z,PITCH_L-SPOT_Z,PITCH_L/2]){const spot=add(new T.CircleGeometry(z===SPOT_Z?.1:.15,28),chalk);spot.rotation.x=-Math.PI/2;spot.position.set(0,.007,z);spot.receiveShadow=true;}
 
     // ---------- goal ----------
     const white=o.posts!=="gold";
@@ -202,20 +232,27 @@
     const goal=new T.Group();goal.name="cmGoal";group.add(goal);
     // Posts and bar: 12 cm round (Law 1 allows round or elliptical; FIFA 17 draws them round and white).
     const PR=.06;
-    for(const x of [-HALF,HALF]){const p=add(new T.CylinderGeometry(PR,PR,GOAL_H+PR,32),postMat,goal);p.position.set(x,(GOAL_H+PR)/2,0);p.castShadow=true;}
-    {const b=add(new T.CylinderGeometry(PR,PR,GOAL_W+PR*2,32),postMat,goal);b.rotation.z=Math.PI/2;b.position.set(0,GOAL_H+PR/2,0);b.castShadow=true;}
+    // Each set of pieces sharing a material and a shadow role is one draw (r90 draw calls): posts and bar, the stanchions,
+    // the ground bars, the far goal.
+    const frame=[],bars=[];
+    {const pb=[];
+      for(const x of [-HALF,HALF]){const p=add(new T.CylinderGeometry(PR,PR,GOAL_H+PR,32),postMat,goal);p.position.set(x,(GOAL_H+PR)/2,0);p.castShadow=true;pb.push(p);}
+      const b=add(new T.CylinderGeometry(PR,PR,GOAL_W+PR*2,32),postMat,goal);b.rotation.z=Math.PI/2;b.position.set(0,GOAL_H+PR/2,0);b.castShadow=true;pb.push(b);
+      stadiumMerge(T,pb,goal).name="cmPosts";}
     // The far goal, 105 m away: posts and bar only (a dot on screen, seen on the keeper's-eye and reverse shots).
-    {const far=new T.Group();far.position.z=PITCH_L;group.add(far);
-      for(const x of [-HALF,HALF]){const p=add(new T.CylinderGeometry(PR,PR,GOAL_H,12),postMat,far);p.position.set(x,GOAL_H/2,0);}
-      const b=add(new T.CylinderGeometry(PR,PR,GOAL_W,12),postMat,far);b.rotation.z=Math.PI/2;b.position.set(0,GOAL_H,0);}
+    {const far=new T.Group();far.position.z=PITCH_L;group.add(far);const fp=[];
+      for(const x of [-HALF,HALF]){const p=add(new T.CylinderGeometry(PR,PR,GOAL_H,12),postMat,far);p.position.set(x,GOAL_H/2,0);fp.push(p);}
+      const b=add(new T.CylinderGeometry(PR,PR,GOAL_W,12),postMat,far);b.rotation.z=Math.PI/2;b.position.set(0,GOAL_H,0);fp.push(b);
+      stadiumMerge(T,fp,far);}
     // Box net frame: a stanchion curving back from each top corner to a ground bar 2.2 m behind the line.
     const DEPTH=2.2,TOP_BACK=1.0,ROOF_H=GOAL_H-.04;
     for(const x of [-HALF,HALF]){
       const c=new T.CatmullRomCurve3([new T.Vector3(x,ROOF_H,-.06),new T.Vector3(x,ROOF_H-.02,-TOP_BACK),new T.Vector3(x,ROOF_H*.62,-DEPTH+.12),new T.Vector3(x,.02,-DEPTH)]);
-      add(new T.TubeGeometry(c,32,.025,10,false),frameMat,goal).castShadow=true;
-      const g=add(new T.CylinderGeometry(.022,.022,DEPTH,10),frameMat,goal);g.rotation.x=Math.PI/2;g.position.set(x,.022,-DEPTH/2);
+      const s=add(new T.TubeGeometry(c,32,.025,10,false),frameMat,goal);s.castShadow=true;frame.push(s);
+      const g=add(new T.CylinderGeometry(.022,.022,DEPTH,10),frameMat,goal);g.rotation.x=Math.PI/2;g.position.set(x,.022,-DEPTH/2);bars.push(g);
     }
-    {const g=add(new T.CylinderGeometry(.022,.022,GOAL_W,12),frameMat,goal);g.rotation.z=Math.PI/2;g.position.set(0,.022,-DEPTH);}
+    {const g=add(new T.CylinderGeometry(.022,.022,GOAL_W,12),frameMat,goal);g.rotation.z=Math.PI/2;g.position.set(0,.022,-DEPTH);bars.push(g);}
+    stadiumMerge(T,frame,goal).name="cmStanchions";stadiumMerge(T,bars,goal).name="cmGroundBars";
     // Net: 12 cm square knotted cells (tex.net is one cell). alphaTest keeps it crisp and cheap; with MSAA on it uses
     // alpha-to-coverage for soft edges. The back sheet has many vertices so it can bulge where the ball hits.
     const CELL=.12;
@@ -236,10 +273,15 @@
     backGeo.attributes.position.setUsage(T.DynamicDrawUsage);
     const back=add(backGeo,netMat,goal);back.name="cmNetBack";
     // Side nets: the panel under the profile, from the stanchion curve down to the ground, in the plane of each post.
-    for(const x of [-HALF,HALF]){
-      const g=sheet((u,v)=>{const p=prof.getPointAt(v);return [x,p.y*(1-u)+.02*u,p.z,-p.z/CELL,p.y*(1-u)/CELL];},8,phone?14:20);
-      add(g,netMat,goal);
-    }
+    // r90 draw calls: both panels in one draw, in one pass. Each panel is flat, so only one of its faces ever faces the
+    // camera and the second pass a double-sided net normally takes drew nothing; the two panels are the same white cord.
+    {const sides=[];
+      for(const x of [-HALF,HALF]){
+        const g=sheet((u,v)=>{const p=prof.getPointAt(v);return [x,p.y*(1-u)+.02*u,p.z,-p.z/CELL,p.y*(1-u)/CELL];},8,phone?14:20);
+        sides.push(add(g,netMat,goal));
+      }
+      const sideMat=keep(netMat.clone());sideMat.forceSinglePass=true;
+      const m=stadiumMerge(T,sides,goal);m.material=sideMat;m.name="cmNetSides";}
     const backBase=Float32Array.from(backGeo.attributes.position.array);
 
     // ---------- ad boards ----------
@@ -352,6 +394,10 @@
             // the built stands' tone.
             if(/concrete|paint|steel|aluminium/i.test(m.name))m.color.multiplyScalar(.3);}
           if(/lamp/i.test(m.name)&&m.emissive)m.emissive.setRGB(2.2,2.1,1.9);}});
+      // r90 draw calls: the bowl's 13 parts carry 23 pieces over 14 materials; every material is one draw (concrete was 6,
+      // the seat rows 2, the vision glass 2). The bowl never moves, so nothing about the picture changes.
+      {const by=new Map();bowl.traverse(x=>{if(x.isMesh&&!Array.isArray(x.material)){if(!by.has(x.material))by.set(x.material,[]);by.get(x.material).push(x);}});
+        for(const [mat,list] of by)if(list.length>1){const one=stadiumMerge(T,list,bowl);keep(one.geometry);one.name=mat.name;}}
       for(const st of stands)st.visible=false;
       // Seats every half metre along each row's centre line, in our axes, facing the pitch centre; rows behind the camera
       // (more than 30 m down the pitch) never show and are skipped.
@@ -565,5 +611,5 @@
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 
-  root.CareerModeChamberMenStadium={contractVersion:1,base:BASE,files:FILES,grass:GRASS,load,urls,build:stadiumBuild};
+  root.CareerModeChamberMenStadium={contractVersion:1,base:BASE,files:FILES,grass:GRASS,load,urls,build:stadiumBuild,merge:stadiumMerge};
 })(typeof globalThis!=="undefined"?globalThis:this);

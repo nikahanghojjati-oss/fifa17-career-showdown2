@@ -253,6 +253,18 @@ async function c3d2(){
   assert.equal(fbx,"","no Mixamo source (FBX or zip) in the repo");
   ok("C3D13","r90 moves: reactions vary per kick, rooted keeper, clips baked from Nik's Mixamo files with no FBX committed");
 }
+// C3D15 r90 draw calls: each player's opaque pieces cast one shadow draw (a shadow-only copy on the same bones, drawn
+//    only inside the shadow-map pass, in the pieces' own bind space), hair keeps its own, eyelashes cast none.
+{
+  const code=scene.replace(/\/\/[^\n]*/g,"");
+  assert.ok(/sm\.render=\(\.\.\.args\)=>\{for\(const p of shadowBodies\)\{p\.visible=true;p\.skeleton\.update\(\);\}/.test(code)&&/finally\{for\(const p of shadowBodies\)p\.visible=false;\}/.test(code),"the shadow copy shows only while the shadow maps draw");
+  assert.ok(/!\(o\.material\.alphaTest>0\)&&!o\.material\.alphaMap&&!o\.material\.transparent/.test(code),"alpha-cut pieces (hair) keep their own shadow");
+  assert.ok(/Math\.abs\(x-e\[k\]\)>1e-4\)\)return;/.test(code),"a body whose pieces disagree on a bind pose keeps per-piece shadows");
+  assert.ok(/const same=o\.bindMatrix\.equals\(bind\)/.test(code)&&/proxy\.bind\(keep\(new T\.Skeleton\(bones,inv\)\),bind\)/.test(code),"positions copied in the pieces' own bind space");
+  assert.ok(/for\(const o of parts\)o\.castShadow=false;/.test(code)&&/shadowBody\(model\);/.test(code),"every actor gets one");
+  assert.ok(/o\.castShadow=!\/lash\/i\.test\(/.test(code),"eyelashes cast no shadow");
+  ok("C3D15","r90 draw calls: one shadow draw per player body, hair its own, no eyelash shadow");
+}
 let c3d14=Promise.resolve();
 // C3D14 r90 M1 (MOTION hunt): a first Chamber Men on a 10 Mbps line never mounted the 3D pitch (about 7 MB at Light against
 //    the 4.2 s wait). The GLBs are meshopt-packed (one shared decoder, shell-cached) and the season page warms this

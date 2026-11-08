@@ -153,4 +153,36 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(kit.includes("group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake)"),"the bake merges only what shows (the hidden stands' lamps stay out)");
   ok("S7","big stadium: CC0 bowl, 1k WebP, High and above only, fallback to the built stands, crowd on its rows");
 }
+// S8 r90 draw calls (High at 80 or fewer): static pieces sharing a material are one draw, placed exactly where they were:
+//    the bowl by material, the goal's posts and bar, stanchions, ground bars and far goal, both side nets in one single-pass
+//    draw, the spots inside the chalk lines.
+{
+  const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read(ENGINE),sandbox);
+  const T=sandbox.THREE||sandbox.window.THREE;
+  const sb={};sb.globalThis=sb;vm.createContext(sb);vm.runInContext(kit,sb);const merge=sb.CareerModeChamberMenStadium.merge;
+  const space=new T.Group();space.position.set(3,0,-2);space.rotation.y=.7;
+  const mat=new T.MeshStandardMaterial(),a=new T.Mesh(new T.BoxGeometry(1,2,3),mat),b=new T.Mesh(new T.CylinderGeometry(.1,.1,2,8),mat),c=new T.Mesh(new T.BoxGeometry(1,1,1),mat);
+  a.position.set(1,2,3);b.rotation.z=Math.PI/2;b.position.set(-1,0,0);c.scale.set(-1,1,1);c.position.set(0,0,4);b.castShadow=a.castShadow=c.castShadow=true;
+  for(const m of [a,b,c])space.add(m);space.updateMatrixWorld(true);
+  const want=[],tri=[];const v=new T.Vector3(),n=new T.Vector3();
+  for(const m of [a,b,c]){const g=m.geometry,ix=g.index;for(let i=0;i<ix.count;i+=1){want.push(v.fromBufferAttribute(g.attributes.position,ix.getX(i)).applyMatrix4(m.matrixWorld).clone());}
+    for(let i=0;i<ix.count;i+=3){const p=[0,1,2].map(k=>v.fromBufferAttribute(g.attributes.position,ix.getX(i+k)).applyMatrix4(m.matrixWorld).clone());
+      const fn=new T.Vector3().subVectors(p[1],p[0]).cross(new T.Vector3().subVectors(p[2],p[0])).normalize();
+      if(m.matrixWorld.determinant()<0)fn.negate();tri.push(fn);}}
+  const one=merge(T,[a,b,c],space);one.updateMatrixWorld(true);
+  assert.equal(space.children.length,1,"the pieces leave, the merged mesh joins their parent");
+  assert.ok(one.castShadow&&one.material===mat,"same material and shadow role");
+  const g=one.geometry,ix=g.index;assert.equal(ix.count,want.length,"every triangle kept");
+  for(let i=0;i<ix.count;i+=1){const p=v.fromBufferAttribute(g.attributes.position,ix.getX(i)).applyMatrix4(one.matrixWorld),t=i-i%3;
+    assert.ok([0,1,2].some(k=>p.distanceTo(want[t+k])<1e-5),"every corner where it was");}
+  for(let i=0;i<ix.count;i+=3){const p=[0,1,2].map(k=>v.fromBufferAttribute(g.attributes.position,ix.getX(i+k)).applyMatrix4(one.matrixWorld).clone());
+    n.subVectors(p[1],p[0]).cross(new T.Vector3().subVectors(p[2],p[0])).normalize();assert.ok(n.dot(tri[i/3])>.999,"every face still faces the same way (mirrored pieces too)");}
+  const code=kit.replace(/\/\/[^\n]*/g,"");
+  assert.ok(/bowl\.traverse\(x=>\{if\(x\.isMesh&&!Array\.isArray\(x\.material\)\)\{if\(!by\.has\(x\.material\)\)/.test(code)&&/const one=stadiumMerge\(T,list,bowl\)/.test(code),"the bowl is one draw per material");
+  for(const name of ["cmPosts","cmStanchions","cmGroundBars","cmNetSides"])assert.ok(code.includes(`"${name}"`),`${name} is one draw`);
+  assert.ok(/stadiumMerge\(T,fp,far\)/.test(code),"the far goal is one draw");
+  assert.ok(/sideMat\.forceSinglePass=true/.test(code)&&/back=add\(backGeo,netMat,goal\)/.test(code),"the flat side nets draw in one pass; the curved back net keeps both");
+  assert.ok(!/CircleGeometry/.test(code)&&/for\(const z of \[SPOT_Z,PITCH_L-SPOT_Z,PITCH_L\/2\]\)\{const r=z===SPOT_Z\?\.1:\.15/.test(code),"the spots are drawn with the chalk lines");
+  ok("S8","r90 draw calls: bowl, goal, far goal, side nets and spots merged by material, every corner where it was");
+}
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);
