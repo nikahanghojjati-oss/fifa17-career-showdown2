@@ -298,7 +298,7 @@ window.CHRONICLE_VOLUME18={
    "number": 181,
    "part": "chromebook-light",
    "title": "The packs, without the stutter",
-   "dek": "The Special Player pack opens in half the wait, the Prime Pack stops fighting its own shadow, and the 2D screens breathe.",
+   "dek": "The Special Player pack loads without its long freeze, the Prime Pack stops fighting its own shadow, and the 2D screens breathe.",
    "blocks": [
     {
      "type": "callout",
@@ -319,7 +319,7 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "Now the shaders are prepared one at a time while the page keeps breathing, the card faces are painted one per beat, and the stadium nobody saw is never built. The longest freeze on the copy of Nik’s Chromebook fell from 6.4 seconds to 0.29. The wait before the pack is ready fell from about 17 seconds to 8.8 on that copy. That copy draws in software, so on the real graphics chip both figures should be shorter; what they show like for like is that the wait was halved. The pack itself got lighter too, from 3.84 MB to 3.54, and plays with no freezes at any level."
+     "text": "Now the shaders are prepared one at a time while the page keeps breathing, the card faces are painted one per beat, and the stadium nobody saw is never built. The longest freeze on the copy of Nik’s Chromebook fell from 6.4 seconds to 0.29. The pack itself got lighter too, from 3.84 MB to 3.54, and plays with no freezes at any level."
     },
     {
      "type": "h2",
@@ -411,9 +411,9 @@ window.CHRONICLE_VOLUME18={
     "2D screens",
     "Light"
    ],
-   "words": 646,
+   "words": 601,
    "minutes": 3
   }
  ],
- "wordCount": 2072
+ "wordCount": 2027
 };
