@@ -331,7 +331,7 @@
    On screen: panel intros, notes and row values 14px; motion/audio helper lines 13px; row labels 12px.
    Each size divides by the same zoom factor so it SHOWS at that size from 1440x900 up to 2560x1440; the type is paid for
    with tighter spacing inside the panels. Short laptop windows: see the block after this one. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings { --r78-settings-zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
     :root #settingsOverlay.v10Settings :is(.settingsPanelHeading p, .settingsDataNote, .settingsOfflineNote,
@@ -383,6 +383,13 @@
   }
 }
 @media (min-width: 1200px) and (min-height: 600px) and (max-height: 899px) and (max-aspect-ratio: 169/100) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root #settingsOverlay.v10Settings { --r78-settings-zoom: max(min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5), 0.75); }
+  }
+}
+/* r90 W9: 4:3 to 3:2 laptop windows (1280x900, 1280x960) take the desktop Settings composition too; the same 0.75 floor
+   keeps its type from outgrowing the narrower panels. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 3/2) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings { --r78-settings-zoom: max(min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5), 0.75); }
   }
@@ -454,7 +461,7 @@
 /* 4a · Settings, big landscape desktops (same zoomed composition as 3d+): a real heading step between the gold
    eyebrow (12px) and the intro line (14px): panel titles were 13.6px on screen, below their own intro text.
    Panel buttons share one label size (they were 10.5 / 11 / 12.75px). */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanelEyebrow {
       font-size: calc(var(--sa-type-eyebrow) / var(--r78-settings-zoom));
@@ -1115,7 +1122,7 @@
    At the desktop plate only: Application and Motion side by side on top,
    Account and Data below, Application facts in two columns so the panels
    carry no empty space. Phones and tablets keep their layout. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--application { grid-column: 1 / 7 !important; grid-row: 1 !important; }
   :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--motion { grid-column: 7 / 13 !important; grid-row: 1 !important; }
   :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanel--account, .settingsConnectedAccountPanel) { grid-column: 1 / 5 !important; grid-row: 2 !important; }
@@ -1145,7 +1152,7 @@
 :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow small.settingsInfoHint {
   display: block; margin-top: 0; color: #c1b9aa; font: 400 12px/1.3 var(--sd-font-body, inherit); letter-spacing: 0; text-transform: none;
 }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings { --sa-settings-tz: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
     :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel :is(.settingsPanelEyebrow, .settingsStatus, .settingsAudioToggle strong) {
@@ -1219,12 +1226,12 @@
 }
 /* 4p.2 Short 16:9 laptops (1280x720): with the 12px floor the panel grid ends at 621px, under DONE's top edge (617px).
    DONE keeps its bottom-right corner and drops 34px closer to the window edge, 30px clear of the Showdown Data card. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 740px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 740px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   :root body #settingsOverlay.v10Settings .settingsFooter { bottom: max(20px, 3.5%); }
 }
 /* 4p.3 Nik 2026-11-04 ("Move both", Fable's spot): on the desktop plate DONE sits in the panel grid's last row,
    right-aligned with the cards' right edge, one grid gap under them. js/settings.js moves the footer into #settingsContent here. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   :root body #settingsOverlay.v10Settings #settingsContent > .settingsFooter[data-sa-in-grid] {
     position: static; inset: auto; grid-column: 1 / -1; grid-row: 3; justify-self: end; align-self: start;
     width: auto; margin: 0; transform: none;
@@ -1626,3 +1633,22 @@
 #app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > img,
 #app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > .finalWinnerTotalMark { visibility: hidden !important; }
 #app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric--total > span:not(.finalWinnerTotalMark) { justify-self: center !important; text-align: center !important; }
+/* r90 W9 (Codex on #1308 and #1315): in 4:3 to 3:2 windows the panels zoom to the window (0.625 at 1200x900), so the 12px
+   floor makes the eyebrows 18-19px before the zoom; their fixed 13px line let them run onto the panel titles. The line now
+   follows the type, so they render at 12px and clear the titles. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel .settingsPanelEyebrow { line-height: 1.1; }
+  }
+}
+/* r90 W9: the DETAILS toggle under ONLINE PLAY TODAY takes the same 12px floor as the other small Settings type when the
+   panels zoom (it rendered at 7px at 1200x900). */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel .settingsUsageDetails > summary { font-size: max(12px, calc(12px / var(--sa-settings-tz))); }
+  }
+}
+/* r90 W9: on phones the two free-use row labels behind DETAILS were 10px; they take the 12px minimum like the rest. */
+@media (max-width: 480px) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
+}

@@ -62,7 +62,8 @@ const homeCss=read("css/homeV10.css");
   const src=flat(seasonJs);
   // r90: one landscape-desktop rule replaced four size bands; their gaps (1920x906, 1280x900, 1366x900) left the review
   // board absolute with an extra margin, over Nik's face and off the right edge.
-  const band="(min-width:901px) and (min-height:501px) and (max-height:1120px) and (orientation:landscape) {";
+  // r90 W9 (window sweep): no height cap either; taller windows (1920x1200, 2560x1440, 3840x2160) scrolled inside the board.
+  const band="(min-width:901px) and (min-height:501px) and (orientation:landscape) {";
   const count=src.split(band).length-1;
   assert.ok(count>=2,`Season Results page-scroll rule is in the flow layout and its :active list (${count})`);
   assert.doesNotMatch(src,/\(min-width:1880px\) and \(max-width:2620px\) and \(min-height:1040px\) and \(max-height:1120px\) \{/,"no size-band gaps on wide windows");
@@ -70,7 +71,7 @@ const homeCss=read("css/homeV10.css");
   const body=mediaBlock(seasonJs,"(min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape)");
   assert.match(body,/\.v10SeasonStage \.sd-stage__layer--ui \{ z-index:5; \}/,"cards stay in front of the cut-out and light layers");
   assert.match(body,/\.sd-stage__registered \{ top:0!important;width:max\(100vw,177\.77778svh\)!important;height:max\(56\.25vw,100svh\)!important; \}/,"the plate fills the window");
-  ok("S4 Season Results: every landscape desktop window up to 1120px tall uses the page-scroll layout");
+  ok("S4 Season Results: every landscape desktop window, at any height, uses the page-scroll layout");
 }
 
 {

@@ -1825,3 +1825,11 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 #app #clubWheelScreen .clubRevealProgress { display: none !important; }
 #app #clubWheelScreen .clubVs strong { filter: none !important; -webkit-text-stroke: 0 !important; }
 #app #clubWheelScreen .clubVs .clubVsFallback { background: none !important; color: #F2C45B !important; -webkit-text-fill-color: #F2C45B !important; }
+
+/* r90 W9 (window sweep): on wide, short windows (2560x1000) the plinth line sits only ~80px above the bottom, less than the
+   112px the note and the two actions need, so the wheel's scale went negative and the wheel was not drawn at all. The wheel's
+   base line now stays at least 130px above the bottom: there the wheel rests a little above the plinth instead of vanishing.
+   Wider-but-taller windows (2560x1080, 3440x1440) keep the plinth line unchanged. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  #app #leagueWheelScreen.v26Skin { --lp-yb: min(calc(626 * var(--lp-s) - var(--lp-y0)), calc(100vh - 130px)); }
+}
