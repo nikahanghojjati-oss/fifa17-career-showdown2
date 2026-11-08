@@ -83,7 +83,9 @@
     // with no holder, never "0 Shared".
     // Every record counts up (season score, league points, league goals, biggest win, perfect seasons), so a best of 0 is
     // held by nobody either.
-    const records=room.records.filter(row=>v10Finite(row.value)||row.value===null).map(row=>v10Finite(row.value)&&row.value>0?{label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}:{label:String(row.label).toUpperCase(),manager:"",value:"\u2014"});
+    // r90 W9 (LOOK hunt L26): a record nobody holds yet is left out instead of showing a dash; with none held the ribbon is
+    // not drawn at all (Team V's renderer draws nothing for an empty list).
+    const records=room.records.filter(row=>v10Finite(row.value)&&row.value>0).map(row=>({label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}));
     const frame={status,activeCategory:"ALL",managerOrder:MANAGERS.slice(),managers,standings,records,showdowns};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
     v10GoldenShowdowns(model,frame);v10SpecialPlayers(model,frame);
@@ -919,6 +921,14 @@
   #app #trophyRoom .managerCounts strong {font-size:clamp(15px,1.15vw,25px);line-height:1.1}
   #app #trophyRoom .notWonYet {position:relative;inset:auto;margin:2px 0 0;min-height:10px;font-size:clamp(8px,.55vw,12px);line-height:1.15;letter-spacing:.04em}
   #app #trophyRoom .recordRibbon {position:relative;inset:auto;height:auto;min-height:44px;grid-template-columns:minmax(90px,.6fr) repeat(5,minmax(0,1fr));margin-top:5px;overflow:visible}
+  /* r90 W9 (LOOK hunt L26): only the records someone holds are drawn, so the ribbon shares its width among however many there are. */
+  #app #trophyRoom .recordRibbon {grid-template-columns:minmax(90px,.6fr);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+  /* r90 W9 (LOOK hunt L26 + L22): the six category tabs are the game's flat underline tabs (gold words and a gold rule under the
+     chosen one), not six filled boxes with a gold slab. Same places and sizes; nothing moves. */
+  #app #trophyRoom .trophyTabs {background:rgba(6,7,8,.72) !important;border:0 !important;border-bottom:1px solid rgba(217,174,83,.48) !important;box-shadow:none !important}
+  #app #trophyRoom .trophyTab {background:transparent !important;border:0 !important;color:#c9c0aa !important;box-shadow:none !important}
+  #app #trophyRoom .trophyTab:hover:not(:disabled):not(.is-active) {color:#f6efd8 !important}
+  #app #trophyRoom .trophyTab.is-active {color:#f2c45b !important;box-shadow:inset 0 -2px #f2c45b !important}
   #app #trophyRoom .recordRibbonHeading {font-size:clamp(9px,.58vw,13px);line-height:1.2;padding:5px 7px}
   #app #trophyRoom .recordItem {padding:5px 7px;row-gap:3px}
   #app #trophyRoom .recordItem small {font-size:clamp(9px,.62vw,14px);line-height:1.2;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:normal}

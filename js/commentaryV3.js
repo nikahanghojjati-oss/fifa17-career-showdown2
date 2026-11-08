@@ -357,11 +357,13 @@
     return {showdownId:rid,primePack:Number.isFinite(at)?at>=PRIME_PACK_FROM_MS:undefined,seasons:p.totalSeasons,league:p.leagueId,clubs:{playerOne:p.managerRecords?.playerOne?.club,playerTwo:p.managerRecords?.playerTwo?.club},
       teamCount:Array.isArray(teams)?teams.length:null,history:p.seasonHistory,season:p.totalSeasons};
   }
+  // r90 W9 (LOOK hunt L18): the FULL TIME bar starts 48px under the Final Winner stage (was 22px), so its tab no longer peeks
+  // in a cut sliver at the bottom of a desktop window; main scrolls to it in full.
   function cvFinalRule(doc){
     if(doc.getElementById("commentaryV3FinalRule"))return;
     const style=doc.createElement("style");style.id="commentaryV3FinalRule";
     style.textContent=`
-#${FINAL_ID}{display:block;box-sizing:border-box;width:min(1040px,100%);margin:0 auto;padding:22px 16px 28px;pointer-events:none;user-select:text}
+#${FINAL_ID}{display:block;box-sizing:border-box;width:min(1040px,100%);margin:0 auto;padding:48px 16px 28px;pointer-events:none;user-select:text}
 #${FINAL_ID} .cmx-bar__slab{flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 44px 10px 30px}
 #${FINAL_ID} .cmv3-line{position:relative;margin:0}
 #${FINAL_ID} .cmv3-lead{color:#f6f2e8;font:600 18px/1.22 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9);text-wrap:pretty}

@@ -1620,3 +1620,9 @@
 @media (max-width:1199px) and (max-height:500px) and (orientation:landscape) {
   :root :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) { --settings-touch-rail: 84px; }
 }
+
+/* r90 W9 (LOOK hunt L18): Final Winner's honours board reads as plain rows (number, honour, number). The tiny trophy pictures
+   and the "Σ" text glyph on TOTAL TROPHIES are gone; their columns stay, so every row keeps its alignment at every size. */
+#app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > img,
+#app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > .finalWinnerTotalMark { visibility: hidden !important; }
+#app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric--total > span:not(.finalWinnerTotalMark) { justify-self: center !important; text-align: center !important; }
