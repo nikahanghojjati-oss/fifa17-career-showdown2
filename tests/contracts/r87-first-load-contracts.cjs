@@ -61,7 +61,14 @@ function run(loading,{idle=true,advance=0}={}){
     assert.equal(buf.subarray(0,4).toString("latin1"),"wOF2",`${file} is a WOFF2 file`);
     assert.ok(shell.includes(file),`${file} precached`);assert.ok(unversioned.includes(file),`${file} served from the shell without ?v=`);
   }
-  for(const name of Object.keys(SHARED))assert.ok(!shell.includes(`assets/fonts/${name}`),`the unloaded local ${name} is not precached a second time`);
+  const removed=[...sw.match(/const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
+  for(const name of Object.keys(SHARED)){
+    assert.ok(!shell.includes(`assets/fonts/${name}`),`the unloaded local ${name} is not precached a second time`);
+    // Codex #1305 P2: a page rolled back to 2.1.0 still asks for the local copy without ?v=, so the worker must keep
+    // answering it from that build's retained shell (listed as removed since the previous build, still unversioned).
+    assert.ok(removed.includes(`assets/fonts/${name}`),`the local ${name} stays in the previous build's shell for rollback`);
+    assert.ok(unversioned.includes(`assets/fonts/${name}`),`the local ${name} is still served from the retained shell without ?v= after a rollback`);
+  }
   // 2c. The sheet stands in for the external Google sheet, which the 37,500-byte startup budget never counted. It stays small:
   // nine @font-face rules and nothing else, so it cannot grow into a second startup stylesheet.
   const gz=require("node:zlib").gzipSync(Buffer.from(fonts),{level:9}).length;

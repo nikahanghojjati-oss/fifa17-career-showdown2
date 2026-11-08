@@ -49,6 +49,10 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
     "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
     "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    // r90: no longer precached (the sheet loads the shared copies), but a page rolled back to 2.1.0 still asks for these
+    // without ?v=, so they stay here and are answered from that build's retained shell offline.
+    "assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "assets/fonts/barlow-condensed-latin-800-normal.woff2",
     // r87: the rest of the local faces, so the offline and error screens keep the brush title and body type offline
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
