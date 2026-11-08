@@ -768,10 +768,28 @@
     }catch(_error){return false;}
   }
   function pstcOpenFinalResult(){const entry=root.CareerModeProductionSharedJourneyEntry;return typeof entry?.openFinalResult==="function"?Promise.resolve(entry.openFinalResult()).catch(error=>{pstcReport("Unable to open the final result",error);return false;}):Promise.resolve(false);}
+  // r90 M1 (MOTION hunt): this season's Chamber Men opens on the next tap, so its 3D files (players, clips, stadium) come
+  // down now, 1.5 s after the season page shows and at an idle moment (js/chamberMenScene3d.js warm(): fetched only,
+  // nothing parsed or drawn). The browser and the app's worker keep them, so a first open on a slow line mounts the 3D pitch
+  // inside its wait instead of the drawn goal. Once per season on this page; a fault only skips it.
+  let chamberWarmKey="";
+  function pstcWarmChamberMen(){
+    try{
+      if(!view||view.state||!view.managerRole||root.CMS_CHAMBER_MEN==="off"||root.CMS_CHAMBER_MEN_3D==="off"||!root.WebGL2RenderingContext)return;
+      const key=pstcCurrentContextKey(),confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
+      if(!key||chamberWarmKey===key||!Number.isFinite(confirmedAtMs)||confirmedAtMs<CHAMBER_FROM_MS)return;
+      chamberWarmKey=key;
+      const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
+      const go=()=>{if(chamberWarmKey!==key||root.document?.visibilityState==="hidden")return;
+        pstcLoadScript("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(()=>root.CareerModeChamberMen3d?.warm?.({clubs})).catch(()=>{});};
+      root.setTimeout(()=>{if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(go,{timeout:2500});else go();},1500);
+    }catch(_error){}
+  }
   const pstcDecorateLiveDashboard=pstcDecorateDashboard;
   // The live decoration stays exactly as it is; only a complete Showdown's button and status are replaced after it.
   pstcDecorateDashboard=function(){
-    const decorated=pstcDecorateLiveDashboard();if(!decorated||openPromise||!pstcShowdownComplete())return decorated;
+    const decorated=pstcDecorateLiveDashboard();if(decorated&&!openPromise&&!pstcShowdownComplete())pstcWarmChamberMen();
+    if(!decorated||openPromise||!pstcShowdownComplete())return decorated;
     const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus");
     if(button){button.textContent="VIEW FINAL RESULT";button.disabled=false;}
     if(status)status.textContent="Showdown complete";

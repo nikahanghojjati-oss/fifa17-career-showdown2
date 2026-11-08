@@ -81,3 +81,29 @@ Checked against what the game already had: Nik's two "Goalkeeper Diving Save" fi
 Soccer Game Pack's catches and blocks are the gkCatch*/gkBlock* clips (its "catch (2)" is a shorter gkCatch1); its scoop and
 "catch (3)" run 4 m off the line (no use at a penalty). "Angry Gesture" and "Fist Pump" are too small to read from the
 broadcast camera; the crowd clips (Clapping, Cheering, Sitting Idle, Excited) wait for the crowd bake.
+
+## r90 M1: meshopt packing (`pack-meshopt.mjs`)
+
+A first Chamber Men on a 10 Mbps line never mounted the 3D pitch: about 7 MB at Light could not come down inside the
+scene's 4.2 s wait (MOTION hunt M1). Every GLB here and in `../chamber-men-assets` output is now packed with
+EXT_meshopt_compression (FILTER method: positions, UVs, joints, weights and key times stay exact; normals go to 8 bits and
+rotations to 16 bits, which no frame shows). Run it after `convert2.cjs` or `gen_bowl.py` writes a file; packed files are
+skipped. The scene loads the decoder (`visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js`) before parsing.
+
+| file | before | after |
+| --- | ---: | ---: |
+| anims_phone.glb | 1,082,124 | 581,064 |
+| anims_desktop.glb | 1,160,204 | 607,628 |
+| body_remy_phone.glb | 1,852,028 | 1,322,788 |
+| body_ch38_phone.glb | 1,986,460 | 822,768 (hair 512 px, `hair-light.py`) |
+| body_ch42_phone.glb | 2,179,192 | 955,568 (hair 512 px, `hair-light.py`) |
+| body_remy_desktop.glb | 2,591,820 | 1,709,840 |
+| body_ch38_desktop.glb | 4,221,644 | 2,953,196 |
+| body_ch42_desktop.glb | 4,609,848 | 3,288,224 |
+| ball_mesh_V3.glb | 283,836 | 101,940 |
+| stadium_bowl_V1_1k.glb | 2,346,404 | 1,257,512 |
+
+The body textures (WebP) are already compressed and are what is left of each body file. On the Light/Balanced
+(phone) files, Ch38's and Ch42's hair card texture goes to 512 px after packing (`python3 hair-light.py <glb>...`):
+almost all of it was soft strand alpha, and at the broadcast framing the GPU already samples a mip under 512.
+Close-ups before/after: `project-documents/factory/reviews/CHAMBER_MEN/r90-m1-hair/`. High and up keep the 2k texture.
