@@ -335,7 +335,15 @@ const c3d17=(async()=>{
   assert.ok(/if\(q\.assets==="desktop"&&cm3SlowLink\(\)&&\(cm3Parsed\?\.lite\|\|!await cm3Scripts\(\)\|\|!\(await Promise\.all\(cm3Urls\(q,clubs\)\.map\(cm3Cached\)\)\)\.every\(Boolean\)\)\)\{\s*q\.full=\{textureLevel:q\.textureLevel\?\?q\.level\};q\.assets="phone";q\.textureLevel=1;\}/.test(scene),"a high level on a slow line opens on the lighter set until its own is cached");
   assert.ok(/if\(Q\.full\)\{const full=cm3Urls\(\{\.\.\.Q,assets:"desktop",textureLevel:Q\.full\.textureLevel\},opts&&opts\.clubs\);/.test(scene),"the season page then fetches the level's own set for a later open");
   assert.ok(!/q\.(pixelRatio|maxPixelRatio|level)=/.test(scene.slice(scene.indexOf("async function cm3Quality"),scene.indexOf("function cm3SlowLink"))),"the level, its lights, shadows and pixel ratio stay (only the file set changes)");
-  ok("C3D18","r90 Light budget and M36: lean stadium at Light, no lashes, kit pieces share one shader, slow line opens on the lighter set");
+  {// The worker keeps files under path?v=<revision>: a file cached that way counts as cached (Codex on #1327).
+    const src=scene.slice(scene.indexOf("async function cm3Cached(path)"),scene.indexOf("function cm3Urls("));
+    const keys=new Set(["https://x.test/game/visual-assets/a.glb?v=2.2.0-r89","https://x.test/game/plain.js"]);
+    const root={caches:{match:async k=>keys.has(k)?{ok:true}:undefined},location:{href:"https://x.test/game/index.html"},
+      document:{querySelector:q=>q==='meta[name="app-asset-revision"]'?{content:"2.2.0-r89"}:null}};
+    const cached=new Function("root",`${src};return cm3Cached;`)(root);
+    return Promise.all([cached("visual-assets/a.glb"),cached("plain.js"),cached("visual-assets/b.glb")]).then(r=>{
+      assert.deepEqual(r,[true,true,false],"versioned worker keys and plain keys count, a missing file does not");
+      ok("C3D18","r90 Light budget and M36: lean stadium at Light, no lashes, kit pieces share one shader, slow line opens on the lighter set");});}
 }
 })();
 let c3d14=Promise.resolve();

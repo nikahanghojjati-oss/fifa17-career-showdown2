@@ -945,7 +945,11 @@
     return q;
   }
   function cm3SlowLink(){const c=root.navigator?.connection;return Boolean(c&&Number.isFinite(c.downlink)&&c.downlink>0&&c.downlink<10);}
-  async function cm3Cached(path){try{if(!root.caches||typeof root.caches.match!=="function")return false;return Boolean(await root.caches.match(new URL(path,root.location.href).href));}catch(_error){return false;}}
+  // The service worker keeps every game file under its versioned key (the path with v set to the page's app-asset-revision), so
+  // that key is the one looked up; the plain URL is checked first for a cache without the worker (Codex on #1327).
+  async function cm3Cached(path){try{if(!root.caches||typeof root.caches.match!=="function")return false;const u=new URL(path,root.location.href);
+    if(await root.caches.match(u.href))return true;const rev=root.document?.querySelector?.('meta[name="app-asset-revision"]')?.content;if(!rev)return false;
+    u.searchParams.set("v",rev);return Boolean(await root.caches.match(u.href));}catch(_error){return false;}}
   function cm3Urls(Q,clubs){
     const S=root.CareerModeChamberMenStadium,level=Q.textureLevel??Q.level;
     return [ENGINE_PATH,PLAYER_PATH+`anims_${Q.assets}.glb`,...cm3BodyFiles(Q.assets,clubs).map(([_n,f])=>PLAYER_PATH+f),
