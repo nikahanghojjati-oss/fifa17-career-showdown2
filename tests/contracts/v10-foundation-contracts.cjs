@@ -792,6 +792,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp":"1087e684e01ea45d1d9d4b88c65bb9a841e9f43295cbf6e8bdafff0c56d46a5c",
     "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp":"471173df754656a8d6eef7c1a6cd9a10141cc18809709b44464427775a61dab6",
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
+    "visual-assets/v10_1/roulette/assets/RR_ROOM.webp":"b553adcffee84eb3292ba3b9c96c1b1c81e00452622f80e6e9af22af380a7603",   // r90: the café room back on High+ (softened, edge-faded WebP of the r87 plate)
     "visual-assets/v10_1/special-player/assets/board.jpg":"e5eff37ae5c37939bb82117b20ee971caae8c3be4cd74f58990f4fabfbd6788e",
     "visual-assets/v10_1/special-player/assets/card_black.jpg":"44c96b79f9b039d15c060d0a324f30ba03e25a9430f2bfab485685e3875881fb",
     "visual-assets/v10_1/special-player/assets/card_blue.jpg":"aa09951a2b4ada2fa263c539032d0acb4610bc4b30b2924f3fac5359b34eb9fc",
@@ -897,6 +898,7 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp",
   "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp",
   "visual-assets/v10_1/roulette/assets/RR_HAND.webp",
+  "visual-assets/v10_1/roulette/assets/RR_ROOM.webp",
   "visual-assets/v10_1/special-player/assets/board.jpg",
   "visual-assets/v10_1/special-player/assets/card_black.jpg",
   "visual-assets/v10_1/special-player/assets/card_blue.jpg",
