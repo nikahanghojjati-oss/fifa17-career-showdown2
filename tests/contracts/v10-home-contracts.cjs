@@ -52,9 +52,11 @@ test("Home keeps every product id, button and text; the skin only decorates",()=
   assert.doesNotMatch(binder,/(?:continueCareer|newShowdown|legacyButton|careerStatisticsButton|ruleBookButton|settingsButton)["')\]][^\n]*(?:\.remove\(\)|replaceWith|outerHTML)/);
   assert.doesNotMatch(binder,/createElement\("button"\)[^\n]*trophyRoomButton|id="trophyRoomButton"/,"no second #trophyRoomButton (Career Statistics owns it)");
   assert.doesNotMatch(binder,/localStorage|sessionStorage|indexedDB/);
-  // r90 W9 (LOOK hunt L12): one hand-drawn line-icon set on every tile; Continue shows a drawn number-17 shirt, no photo.
+  // r90 W9 (LOOK hunt L12): one struck-medal icon set on every tile; Continue shows a drawn number-17 shirt, no photo.
   assert.equal(Home.TILE_ICONS.continueCareer,"continue");
-  for(const id of ["newShowdown","legacyButton","careerStatisticsButton","homeTrophyRoomButton","homeStoryButton","ruleBookButton","settingsButton"])assert.ok(Home.ICON_PATHS[Home.TILE_ICONS[id]],id);
+  for(const id of ["newShowdown","legacyButton","careerStatisticsButton","homeTrophyRoomButton","homeStoryButton","ruleBookButton","settingsButton"])assert.ok(Array.isArray(Home.ICON_ART[Home.TILE_ICONS[id]])&&Home.ICON_ART[Home.TILE_ICONS[id]].length>=2,id);
+  // every icon is relief, not a flat line drawing: raised metal with a lit rim, and ids that are unique to its tile
+  for(const key of Object.values(Home.TILE_ICONS)){const svg=Home.tileIcon(key);assert.match(svg,/<mask id="w9i-/,key);assert.match(svg,/linearGradient/,key);assert.doesNotMatch(svg,/filter=|feGaussianBlur|feSpecular/,key+": no glow or gloss filters");}
   assert.doesNotMatch(binder,/home-tiles\/|TILE_[A-Z]+_V1/,"no tile render is fetched");
 });
 test("Daniel starts and Nik joins with the product's own copy (the binder never writes it)",()=>{

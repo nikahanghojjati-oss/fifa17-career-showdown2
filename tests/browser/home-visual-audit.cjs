@@ -76,7 +76,7 @@ async function inspectHome(page){
             icon: art.dataset.icon || "",
             opacity: artStyle.opacity,
             filter: artStyle.filter,
-            art: { left: artRect.left, right: artRect.right, top: artRect.top, width: artRect.width, height: artRect.height },
+            art: { left: artRect.left, right: artRect.right, top: artRect.top, bottom: artRect.bottom, width: artRect.width, height: artRect.height },
             tile: { left: tileRect.left, right: tileRect.right, top: tileRect.top, bottom: tileRect.bottom },
             labelRight: labelRect.right,
             reusShown: shown(reus),
