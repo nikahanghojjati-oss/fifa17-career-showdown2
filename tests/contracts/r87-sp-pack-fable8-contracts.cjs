@@ -41,8 +41,13 @@ ok("F8-06 sound unlocks on the end of a touch too, and a refused resume is ignor
   assert.match(page,/Promise\.resolve\(ctx\.resume\(\)\)\.catch\(\(\)=>\{\}\)/);
 });
 
-ok("F8-07 every shader compiles during the loading screen",()=>{
-  assert.match(page,/buildEnv\(\); lightMetals\(\); busy\(\);\n[^\n]*\n  try\{ if\(renderer\.compileAsync\) await renderer\.compileAsync\(scene,camera\); else renderer\.compile\(scene,camera\); \}catch\(e\)\{ try\{ renderer\.compile\(scene,camera\); \}catch\(_e\)\{\} \}[^\n]*startPlayer\(0\);/);
+ok("F8-07 every shader compiles during the loading screen, each link checked in its own task (r90 lean load)",()=>{
+  assert.match(page,/async function compileSlow\(\)\{ warmPose\(true\);\n  try\{ if\(renderer\.compileAsync\) await renderer\.compileAsync\(scene,camera\); else renderer\.compile\(scene,camera\); \}catch\(e\)\{ try\{ renderer\.compile\(scene,camera\); \}catch\(_e\)\{\} \}/,"every object out while compiling");
+  assert.match(page,/gl\.fenceSync\(gl\.SYNC_GPU_COMMANDS_COMPLETE,0\)/,"a GPU fence instead of a blocking link wait");
+  assert.match(page,/for\(const pr of renderer\.info\.programs\.slice\(\)\)\{[^\n]*pr\.getUniforms\(\);[^\n]*await nextTask\(\); \}/,"one program check per task");
+  assert.match(page,/await prepareCardsSlow\(\); busy\(\);\n  await compileSlow\(\); await warmTexturesSlow\(\); busy\(\); warmDraw\(\);[^\n]*startPlayer\(0\);/,"faces, shaders and uploads before the first frame");
+  assert.match(page,/function\* prepareSteps\(\)\{[\s\S]*?yield;/,"one face per step");
+  assert.ok(!/const pitchTex=|function loft\(|function drawLed\(/.test(page),"the thrown-away drawn stadium is gone");
 });
 
 ok("F8-11 Replay drops the last run's pending cues",()=>{
@@ -55,7 +60,7 @@ ok("R90-PS1 no beat redraws or re-uploads a card face: every face, coin and flag
   assert.ok(!/(?:front|back|coinTex|f\.tex)\.tx\.needsUpdate=true/.test(page),"no per-beat canvas re-upload");
   assert.ok(!/drawCard(?:Back|Front)\(back\.ctx|drawCardFront\(front\.ctx|drawScoutBack\(back\.ctx/.test(page),"the card is never redrawn mid-reveal");
   assert.match(page,/function prepareCards\(\)\{[\s\S]*renderer\.initTexture\(tx\)/,"prepared faces are uploaded up front");
-  assert.match(page,/resize\(\); prepareCards\(\); buildEnv\(\);[\s\S]{0,400}?warmTextures\(\); warmDraw\(\);[^\n]*startGfx\(\); startPlayer\(0\);/,"prepared and warmed before the first frame the game shows");
+  assert.match(page,/resize\(\);[^\n]*buildEnv\(\);[^\n]*await prepareCardsSlow\(\);[\s\S]{0,200}?await warmTexturesSlow\(\); busy\(\); warmDraw\(\);[^\n]*startGfx\(\); startPlayer\(0\);/,"prepared and warmed before the first frame the game shows");
   for(const beat of ["pos","nat","club"])assert.match(page,new RegExp(`at\\(tt,[0-9.]+,"${beat}",\\(\\)=>\\{ clueMaps\\(`),`${beat} clue only swaps a texture`);
 });
 ok("R90-PS2 the baked soft stadium photos replace the full-size ones, and only the two shown card tiers are fetched",()=>{
