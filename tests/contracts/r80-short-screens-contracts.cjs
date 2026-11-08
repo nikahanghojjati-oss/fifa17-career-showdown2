@@ -12,6 +12,9 @@
 //   S7 Home 1024x768, 1100x600, 1024x600 and 1366x640: the heading and tile names fit (r87: no soundtrack card on Home)
 //      (AUDIUS SOUNDTRACK is not cut) and ends above the tile row; at 1024x600 SHOWDOWN HQ keeps one line, so HOME
 //      no longer runs into TWO MANAGERS · ONE LEGACY; from 1001px to 1099px the tile names fit their text column.
+//   S9 r90 L41 Final Winner 1180x620: 1024-1199px wide windows at 3:2 or wider take the desktop picture layout (the cup on
+//      its pedestal, the honours board below it), so Team V's tablet fallback no longer stands the board over the trophy;
+//      iPads (1024x768, 1180x820) are narrower than 3:2 and keep their tablet layout and button kit.
 //   S8 the browser audit covers every screen and window size above and fails on any finding outside its listed design items;
 //      test:browser (the Gate's full browser bundle) runs every screen at 1366x768, 1100x600, 1024x768, 844x390 and 393x660.
 const assert=require("node:assert/strict");
@@ -115,6 +118,16 @@ const homeCss=read("css/homeV10.css");
     assert.ok(bundle.includes(`CMS_SHORT_SIZES=${size} node tests/browser/r80-short-screens-audit.cjs`),`test:browser runs the short-screens audit at ${size}`);
   assert.equal(pkg.scripts["test:short-screens"],"node tests/browser/r80-short-screens-audit.cjs","the full 13-size sweep stays a script");
   ok("S8 the browser audit sweeps 13 sizes and 13 screens, fails on any open finding, and test:browser runs it at five sizes");
+}
+
+{
+  const fw=read("js/seasonFinalV10.js");
+  const reg="(min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape)";
+  for(const [marker,label] of [["{\n #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {\n  --fw-k:","plate and slots"],["{\n #app #seasonEntry .v10FinalStage {\n  --fw-r0:","plaque rides up"]])
+    assert.ok(fw.includes(`@media ${reg} ${marker}`),`S9 the Final Winner ${label} block starts at 1024px wide on 3:2 windows`);
+  assert.ok(fw.includes(`@media (min-width:1200px) and (min-height:600px),\n       ${reg} {\n #app #seasonEntry .v10FinalStage { container-type:size;`),"S9 the desktop Final Winner stage also covers 1024-1199px at 3:2");
+  assert.ok(fw.includes("@media (min-width:901px) and (max-width:1023px) and (min-height:501px),\n       (min-width:1024px) and (max-width:1199px) and (min-height:501px) and (max-height:599px),\n       (min-width:1024px) and (max-width:1199px) and (min-height:600px) and (max-aspect-ratio:1499/1000),"),"S9 the tablet button kit leaves the new desktop range alone and keeps iPads");
+  ok("S9 Final Winner 1024-1199px at 3:2 uses the desktop picture layout; iPads keep the tablet one");
 }
 
 console.log(`r80 short-screens contracts: ${checks} checks passed`);

@@ -1526,7 +1526,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* JOB-1289: desktop Final Winner, built from Team V's adopted study desktop-a-1289 and NEXT_FINAL_WINNER.
    Desktop only (1200x600 and up since FINAL-WINNER-PLATE-V2, it was 700); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
    stage width, shrunk on a short stage; positions are fractions of the stage so nothing scrolls. Words, taps and order are the live ones. */
-@media (min-width:1200px) and (min-height:600px) {
+@media (min-width:1200px) and (min-height:600px),
+       (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage { container-type:size; --fwu:min(1cqw,1.89cqh); --sd-z-ui:5; }
  #app #seasonEntry .v10FinalStage #finalWinnerScreen { inset:0; width:100%; max-width:none; margin:0; padding:0; }
  #app #seasonEntry .v10FinalStage .sd-stage__plate { filter:contrast(1.06) saturate(.92); }
@@ -1802,14 +1803,16 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 
 /* FINAL-WINNER-PLATE-V2 (ticket 1610P): desktop Final Winner on Team V's black-marble champion-hall plate
    (visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_*), drawn to match NEXT_FINAL_WINNER. Strictly the desktop picture
-   range: wide landscape windows of at least 1200x600; phones, sideways phones and tablets keep their art and rules. The plate
+   range: wide landscape windows of at least 1200x600 (r90 L41: and 1024-1199px wide windows at 3:2 or wider, such as a
+   windowed 1180x620 Chromebook, where Team V's tablet fallback stood the honours board over the trophy); phones, sideways
+   phones and tablets (iPad 1024x768 and 1180x820 are narrower than 3:2) keep their art and rules. The plate
    is the background of the screen's own scroller (so it fills the window under the top bar, as in the picture), fitted to the
    window height and centred, with a darkened soft side fill on windows wider than 16:9, and loads with this screen, never
    with the startup bundle. It carries both managers, every banner, the name tags and an empty marble pedestal with a flat
    top: the live champion trophy is seated on it. The old plate layer and manager cut-outs are not drawn. Every slot is placed
    in plate units (--fw-k is one plate pixel) so it stays registered on every window shape. Looks only: every word, id and tap
    order stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   --fw-k:calc(100svh / 864); --fw-top:calc(var(--sd-nav-top-h,52px) + 14px);
   --fw-edge:linear-gradient(90deg,#000b,#0000);
@@ -1911,7 +1914,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-5px; }
 /* desktop picture range: the plaque keeps its place in the picture unless the window is too short for plaque, strip and
    buttons; then it rides up just enough. The buttons always sit 6px under the plaque, never on it. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage {
   --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(148 * var(--fw-k)),124px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
   --fw-rt:min(var(--fw-r0),calc(100% - var(--fw-rh) - var(--fw-bh) - var(--fw-th) - 6px));
@@ -1922,7 +1925,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot { top:calc(var(--fw-rt) + var(--fw-rh) + 6px + var(--fw-th)); bottom:auto; }
  #app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { left:50%; right:auto; width:max(calc(913 * var(--fw-k)),59.3cqw); translate:-50% 0; }
 }
-@media (min-width:1200px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:1024px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage { --fw-r0:calc(598 * var(--fw-k) - var(--fw-top)); }
 }
 /* big sideways phones (iPhone Plus and Pro Max, 932x430) use the sideways layout; from 901px wide the game's top bar
@@ -1937,7 +1940,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell--lastSeason { grid-column:auto; border-bottom:0; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell~.finalWinnerMetaCell { border-left:1px solid #d9b64e66; }
 }
-@media (min-width:901px) and (max-width:1199px) and (min-height:501px),
+@media (min-width:901px) and (max-width:1023px) and (min-height:501px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:501px) and (max-height:599px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:600px) and (max-aspect-ratio:1499/1000),
        (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:959px),
        (min-width:761px) and (max-width:900px) and (min-height:1241px) {
  /* small laptops and tablets on their side (1024x768, 1180x820): the two exits in the black-and-gold kit, not the old
@@ -2118,7 +2123,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch[aria-busy="true"] { cursor:progress; }
 /* r87 polish: desktop exits are three equal cells (they were 1 / .78 / 1.12 of the row, and BACK TO SHOWDOWN HOME ran past its
    gold edge at 1366x768 and 1920x1080). A label too long for its cell breaks onto two balanced lines, as REMATCH does. */
-@media (min-width:1200px) and (min-height:600px) {
+@media (min-width:1200px) and (min-height:600px),
+       (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > button {
   flex:1 1 0;min-width:0;padding:0 10px;white-space:normal;text-wrap:balance;overflow-wrap:normal;word-break:normal;line-height:1.1;
  }
