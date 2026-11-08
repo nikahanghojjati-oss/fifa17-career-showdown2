@@ -74,6 +74,17 @@
     stage.append(frame);doc.body.append(stage);
     return {stage,frame};
   }
+  // r90 BUG-06: the load limit counts only time this tab is visible (like the RRR turn clock after bfcache). A tab put in the
+  // background while the page loads (Chrome slows its timers and its frames) no longer comes back to a skipped reveal.
+  function spVisibleTimeout(ms,fire){
+    const doc=spDoc(),now=()=>root.performance&&typeof root.performance.now==="function"?root.performance.now():Date.now();
+    const visible=()=>!doc||doc.visibilityState!=="hidden";
+    let shown=visible(),spent=0,last=now(),done=false,timer=null;
+    const tick=()=>{if(done)return;const t=now();if(shown)spent+=t-last;last=t;shown=visible();if(spent>=ms){stop();fire();}};
+    const stop=()=>{if(done)return;done=true;if(timer!==null)root.clearInterval(timer);doc?.removeEventListener?.("visibilitychange",tick);};
+    timer=root.setInterval(tick,250);doc?.addEventListener?.("visibilitychange",tick);
+    return {stop,tick,spent:()=>spent};
+  }
   // Resolves "ready", "error" or "timeout"; then waits for the Continue tap.
   function spListen(frame){
     const origin=root.location&&root.location.origin;let onReady,onContinue;
@@ -90,8 +101,8 @@
     // A page that loads without its 3D library, or not at all, is skipped at once instead of after the full wait.
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
-    const timer=root.setTimeout(()=>onReady("timeout"),MAX_LOADING_MS);
-    return {ready:ready.finally(()=>root.clearTimeout(timer)),cont,stop(){root.removeEventListener("message",handler);root.clearTimeout(timer);}};
+    const limit=spVisibleTimeout(MAX_LOADING_MS,()=>onReady("timeout"));
+    return {ready:ready.finally(()=>limit.stop()),cont,stop(){root.removeEventListener("message",handler);limit.stop();}};
   }
   async function spRun(setupApi){
     if(!setupApi||typeof setupApi.getState!=="function")return null;
@@ -123,5 +134,5 @@
     running=run;return run;
   }
 
-  return Object.freeze({contractVersion:1,feature:"cms-special-player-reveal",page:PAGE,stageId:STAGE_ID,seenKey:SEEN_KEY,minLoadingMs:MIN_LOADING_MS,maxLoadingMs:MAX_LOADING_MS,decide:spDecide,runBeforeCareerStart});
+  return Object.freeze({contractVersion:1,feature:"cms-special-player-reveal",page:PAGE,stageId:STAGE_ID,seenKey:SEEN_KEY,minLoadingMs:MIN_LOADING_MS,maxLoadingMs:MAX_LOADING_MS,decide:spDecide,runBeforeCareerStart,visibleTimeout:spVisibleTimeout});
 });
