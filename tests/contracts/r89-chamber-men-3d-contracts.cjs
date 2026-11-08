@@ -33,7 +33,8 @@ const ENGINE="visual-assets/v10_1/roulette/vendor/three-r187.min.js";
   assert.ok(list("const UNVERSIONED_SHELL_ASSET_PATHS").includes(`"${ENGINE}"`),"the engine is served from the shell without ?v");
   assert.ok(scene.includes(`const ENGINE_PATH="${ENGINE}";`),"the scene loads the one vendored build");
   assert.ok(!/ENGINE_PATH\s*\+|\?v=/.test(scene),"by its plain path (no ?v, so the shell copy answers offline)");
-  assert.ok(scene.includes('const ENV_PATH="visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr";')&&list("const UNVERSIONED_SHELL_ASSET_PATHS").includes('"visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr"'),"the CC0 hall light is the roulette's shell copy");
+  // r90 (Nik 2026-11-07, cut the waste): one look only; the gold hall and the roulette's lounge light it loaded are gone.
+  assert.ok(!/ENV_LOUNGE|EXRLoader|r78-marble-tile|CMS_CHAMBER_MEN_BROADCAST/.test(scene),"no lounge light, no marble hall, no second look");
   assert.ok(!/https?:\/\//.test(scene.replace(/\/\/[^\n]*/g,"")),"no CDN, no network address in code");
   const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);
   vm.runInContext(read(ENGINE),sandbox);
@@ -62,7 +63,10 @@ async function c3d2(){
 {
   assert.match(step,/goal\.keeper\.dataset\.pose="ready";goal\.scene\?\.reset\(\);/,"reset with the step's own reset");
   assert.match(step,/g\.keeper\.dataset\.pose=dive;[\s\S]*?const k3=\{shot:shot===engine\.timeout\?null:shot,dive,goal:Boolean\(kick\.goal\),round:kick\.kick\};g\.state=\{\.\.\.g\.state,kick:k3\};\s*g\.scene\?\.kick\(\{\.\.\.k3,animate:animate&&sceneAtStart\}\);/,"kick with what the step draws (a scene mounted since shows the end pose)");
-  for(const hook of ['class:"cmGoal"','cmsSvg("g",{class:"cmKeeper","data-pose":"ready"})','cmsSvg("g",{class:"cmBall"})','class:"cmZone"'])assert.ok(step.includes(hook),`the SVG goal keeps ${hook}`);
+  for(const hook of ['class:"cmGoal"','cmsSvg("g",{class:"cmKeeper","data-pose":"ready"})','cmsSvg("g",{class:"cmBall"})'])assert.ok(step.includes(hook),`the SVG goal keeps ${hook}`);
+  // r90 (Nik 2026-11-07): no yellow LEFT / MIDDLE / RIGHT words over the goal; the choice buttons still name the sides.
+  assert.ok(!/cmZone/.test(step)&&!/cmZone/.test(scene),"no zone words drawn over the goal");
+  assert.match(step,/const b=cmsEl\("button","cmChoice",SIDE_WORD\[side\]\);/,"the choice buttons keep LEFT / MIDDLE / RIGHT");
   assert.match(step,/pitch\.append\(board,goal\.box\);/,"same place in the screen (the pitch column, Fable F17-07)");
   ok("C3D3","the step stays the owner: SVG hooks unchanged, the scene follows reset and kick");
 }
@@ -72,7 +76,7 @@ async function c3d2(){
   assert.match(step,/if\(!stageShown&&!sceneShown\)\{sceneShown=true;sceneReady\.then\(showStage\);\}/,"the stage shows once the goal is drawn");
   assert.match(step,/const showStage=\(\)=>\{if\(stageShown\|\|finished\)return;stageShown=true;ui\.stage\.style\.visibility="visible";cmsLoadingOff\(\);/,"one way to show the stage");
   assert.match(step,/if\(clock&&!stageShown\)\{ui\.goal\.dropScene\?\.\(\);showStage\(\);\}/,"Codex C2: a running pick clock never waits on the scene");
-  assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*layout\(\);renderer\.compile\(scene,camera\);cm3Draw\(\);/,"mount resolves after the first frame is drawn");
+  assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*fit\(\);cameraAt\(0,0\);renderer\.compile\(scene,camera\);paint\(\);/,"mount resolves after the first frame is drawn");
   ok("C3D4","Reus Gate: the stage shows with the goal already drawn");
 }
 // C3D5
@@ -83,7 +87,7 @@ async function c3d2(){
   assert.match(block,/\.cmGoal3d \{[^}]*pointer-events: none;/,"the canvas never takes a tap");
   assert.ok(!/Math\.random/.test(scene),"nothing invented");
   assert.match(scene,/const still=!k\.animate\|\|reducedMotion\(\);/,"reduced motion: the end of the kick, no flight");
-  assert.match(scene,/if\(!canvas\.isConnected\|\|!svg\.isConnected\)\{dispose\(\);return;\}/,"stops drawing when the stage goes");
+  assert.match(scene,/if\(!canvas\.isConnected\|\|!svg\.isConnected\)\{free\(\);return;\}/,"stops drawing when the stage goes");
   assert.match(scene,/renderer\.dispose\(\);try\{renderer\.forceContextLoss\(\);\}catch\(_error\)\{\}/,"frees its WebGL context for the roulette");
   ok("C3D5","no dimming, no taps on the canvas, nothing invented, reduced motion, context freed");
 }
@@ -101,9 +105,9 @@ async function c3d2(){
   assert.ok(kickMs>=320+runup+520+1200,`a reveal holds the run-up, flight and at least 1.2 s of result (${kickMs} ms)`);
   assert.match(scene,/K\.textures\(club,\{layout:a\.body,role,vsClub:vs,size:kitSize\}\)/,"kits17 paints the kit on each body's own layout");
   assert.match(scene,/dress\(taker,next\.taker,"outfield",next\.keeper\);dress\(keeper,next\.keeper,"gk",next\.taker\);/,"taker in his club kit, keeper in his club's keeper kit against it");
-  assert.match(scene,/if\(!api\)api=build\(T,svg,env,marble\);/,"no stadium or players: the hall scene");
+  assert.match(scene,/if\(!extras\)return null;/,"no stadium or players in time: the SVG goal");
   assert.ok(scene.includes('const PLAYER_PATH="visual-assets/v10_1/chamber-men/players/";'),"players from the repo");
-  ok("C3D6","broadcast penalty: taker in his manager's club kit, keeper never clashing, words after the ball, hall fallback");
+  ok("C3D6","broadcast penalty: taker in his manager's club kit, keeper never clashing, words after the ball, SVG fallback");
 }
 // C3D7
 {
@@ -135,5 +139,33 @@ async function c3d2(){
   assert.ok(scene.includes("const fade=still?0:")&&scene.includes("if(!cssW||(frozenClock===null&&reducedMotion()))return;"),"no dissolve");
   assert.ok(read("js/chamberMenStadium3d.js").includes("if(net.t0<0||e<0||e>2.5){"),"a clock before the hit keeps the net flat");
   ok("C3D8","Reduce Motion: players, crowd, net, camera and dissolve stand still; lineup and result still change");
+}
+// C3D9 r90 W4 (Nik 2026-11-07, "FC quality, light on every device"): the scene takes its quality from js/gfxTier.js
+// (pixel ratio, shadows, crowd density, grass size), the governor never changes level during a kick, run-ups vary per
+// taker and round (six styles, one stutter), shots curl, and some goals go in off the post or the bar. Nothing invented:
+// every choice comes from the hash of the lineup and the kick; the woodwork only ever appears on a goal.
+{
+  assert.ok(scene.includes('const GFX_JS="js/gfxTier.js";'),"the quality module is loaded by its plain path");
+  assert.ok(scene.includes("setPixelRatio(Q.pixelRatio)"),"the pixel ratio comes from the device profile");
+  assert.ok(scene.includes('gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,'),"one governor per scene");
+  assert.ok(scene.includes("RUNUP*1000);frozenAt=null;gov?.hold(true);")&&scene.includes("ballFree.on=false;gov?.hold(false);},"),"no level change during a kick");
+  assert.ok(/const GFX_FALLBACK=\{level:1,name:"medium",pixelRatio:1,/.test(scene),"a light fallback when the module cannot load");
+  const runups=/const RUNUPS=(\[.*?\]);\n/.exec(scene);assert.ok(runups,"run-up table");
+  assert.strictEqual((runups[1].match(/\{jog:/g)||[]).length,6,"six run-up styles");
+  assert.ok(runups[1].includes("stutter:"),"one stutter run-up");
+  assert.ok(scene.includes("const styleOf=(takerClub,round)=>cm3Hash(`run|${takerClub||\"\"}|${round||1}`)%RUNUPS.length;"),"the run-up comes from the taker and the round");
+  assert.ok(/luck=cm3Hash\(`ball\|\$\{lineup\.taker\}\|\$\{round\}\|\$\{k\.shot\}\|\$\{k\.dive\}\|\$\{k\.goal\}`\)/.test(scene)||scene.includes("luck=cm3Hash(`ball|"),"ball luck from the kick, never random");
+  const wood=scene.indexOf("luck%4===0"),save=scene.indexOf("}else{",wood),goalAt=scene.lastIndexOf("if(k.goal",wood);
+  assert.ok(wood>0&&goalAt>0&&save>wood&&scene.slice(goalAt,wood).indexOf("}else{")<0,"woodwork only inside the goal branch");
+  assert.ok(scene.includes("luck%3===0){target=v3(s[0],BAR_Y-"),"high middle goals can come down off the bar");
+  assert.ok(scene.includes("const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);"),"the net bulges after the wood");
+  // Codex on #1263: the hash is unsigned, so its bits are read with >>> (a signed shift went negative: a post shot under the
+  // pitch, a curl the wrong way). Every post height and curl from the hash stays in range for any lineup and kick.
+  assert.ok(!/luck>>[0-9]/.test(scene)&&scene.includes("(luck>>>3)%9")&&scene.includes("(luck>>>4)%7"),"unsigned shifts on the kick hash");
+  {const h=s=>{let v=2166136261;for(const ch of s)v=Math.imul(v^ch.charCodeAt(0),16777619)>>>0;return v;};
+   for(const club of ["Arsenal","Barcelona","Chelsea","Real Madrid","Juventus"])for(let round=1;round<=7;round+=1)for(const shot of "LMR")for(const dive of "LMR")for(const goal of [1,0]){
+     const luck=h(`ball|${club}|${round}|${shot}|${dive}|${goal}`),y=.55+(luck>>>3)%9*.12,c=1.4+(luck>>>4)%7*.35;
+     assert.ok(y>=.55&&y<=1.52&&c>=1.4&&c<=3.5,`${club} r${round} ${shot}/${dive}: post height ${y}, curl ${c}`);}}
+  ok("C3D9","r90: device quality, steady level during a kick, six run-ups, curl, in off the post or the bar on goals only");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

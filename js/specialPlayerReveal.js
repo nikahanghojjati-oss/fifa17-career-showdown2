@@ -67,7 +67,9 @@
     stage.style.cssText="position:fixed;inset:0;z-index:95;background:#050403;visibility:hidden";
     const frame=doc.createElement("iframe");frame.title="Special Player reveal";frame.allow="autoplay";
     const base=typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(PAGE):PAGE;
-    frame.src=`${base}${base.includes("?")?"&":"?"}embed=1&d=${pick.d}&n=${pick.n}`;
+    // r90: ?fps=1 on the game's address passes through, so the page shows its frame counter (Nik's Chromebook check).
+    const fps=/[?&]fps=1(?:&|$)/.test(String(root.location&&root.location.search||""))?"&fps=1":"";
+    frame.src=`${base}${base.includes("?")?"&":"?"}embed=1&d=${pick.d}&n=${pick.n}${fps}`;
     frame.style.cssText="display:block;width:100%;height:100%;border:0;background:#050403";
     stage.append(frame);doc.body.append(stage);
     return {stage,frame};

@@ -1185,6 +1185,32 @@
 :root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle.enabled .settingsAudioToggleTrack { background: var(--sd-gold-500, #f5c518); border-color: var(--sd-gold-500, #f5c518); }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle.enabled .settingsAudioToggleTrack::after { left: 20px; background: #15120c; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
+/* r90 W4: the 3D quality pick (js/settings.js) sits under MENU CLICK FEEDBACK in the same row style; one gold-edged
+   select, 44px tall like the toggle. The two rows share the space the old single row took (no extra margin above). */
+:root body #settingsOverlay.v10Settings #settingsContent .settingsPanel > .settingsAudioRow + .settingsGfxRow { margin-top: 6px; }
+/* Landscape desktops: the Settings plate has no height to spare (1366x640 fills it exactly), so the two rows share one
+   line: MENU CLICK FEEDBACK on the left, 3D QUALITY on the right. The panel wraps its children; every other child keeps a
+   full line, and the shared line stays at the panel's foot as the single row did. */
+@media (min-width: 1200px) and (orientation: landscape) {
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap; align-content: flex-start; column-gap: 10px; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) > * { flex: 1 0 100%; min-width: 0; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsAudioRow:not(.settingsGfxRow) { flex: 1 1 0; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow { flex: 0 0 auto; margin-top: auto; gap: 12px; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small { display: none; }
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect {
+  flex: 0 0 auto; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 30px 0 12px; border: 1px solid rgba(219, 178, 94, .55); border-radius: 0;
+  background: rgba(0, 0, 0, .6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23f5c518'/%3E%3C/svg%3E") no-repeat right 11px center;
+  color: #f5f1e8; font: inherit; font-weight: 600; letter-spacing: .04em; appearance: none; -webkit-appearance: none; cursor: pointer;
+}
+/* Touch widths (the one main scroller): the select drops under its words when they would wrap past two lines. */
+@media (max-width: 1199px) {
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow { flex-wrap: wrap; row-gap: 8px; }
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsAudioCopy { flex: 1 1 150px; }
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect option { background: #15120c; color: #f5f1e8; }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:disabled { opacity: .6; cursor: default; }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionChoice, .settingsAudioToggle) {
     transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out);

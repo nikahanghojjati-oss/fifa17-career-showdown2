@@ -48,6 +48,7 @@ const commands = {
   RUNTIME_BOUNDARY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" npm run test:runtime-boundary`,
   SAVE_LIBRARY_UI_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/save-library-ui-audit.cjs`,
   MANAGER_IDENTITY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/manager-identity-linkage-audit.cjs`,
+  IDENTITY_SAFE_ANALYTICS_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/identity-safe-career-analytics-audit.cjs`,
   OFFLINE_BOUNDARY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/offline-boundary-audit.cjs`,
   OFFLINE_CACHE_LIFECYCLE_BROWSER: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/offline-cache-lifecycle-v2-audit.cjs`,
   FULL_BROWSER_BUNDLE: `CMS_AUDIT_RUN="pos10-impact-full" npm run test:browser`

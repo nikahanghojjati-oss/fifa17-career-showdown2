@@ -1,4 +1,4 @@
-"""Stadium kit for Chamber Men: crowd cards, ad boards, grass, net cell, seats, concrete, floodlight flare.
+"""Stadium kit for Chamber Men: crowd cards, ad boards, net cell, seats, concrete, floodlight flare (grass: gen_grass.py).
 
 All drawn here in code (numpy + Pillow). Ad boards carry only our own marks (CHAMBER MEN, CMS, CAREER MODE SHOWDOWN),
 set in Inter (SIL Open Font Licence 1.1; the letters are baked into the images, no font file ships).
@@ -218,36 +218,6 @@ def ad_boards():
     return sizes
 
 
-# ---------------------------------------------------------------- grass
-def grass():
-    N = 1024  # tiles every 2 m: 2 mm a pixel
-    n1 = rng.standard_normal((N, N)).astype(np.float32)
-    # Blades: noise stretched along v (blades stand up; seen from low they streak toward the camera).
-    blades = blur(n1, 0.7)
-    stretch = np.real(np.fft.ifft2(np.fft.fft2(rng.standard_normal((N, N))) * np.exp(-2 * np.pi ** 2 * ((np.fft.fftfreq(N)[None, :] * 1.1) ** 2 + (np.fft.fftfreq(N)[:, None] * 2.2) ** 2))))
-    clumps = blur(rng.standard_normal((N, N)).astype(np.float32), 18)
-    patches = blur(rng.standard_normal((N, N)).astype(np.float32), 90)
-    def z(a):
-        return (a - a.mean()) / (a.std() + 1e-6)
-    blades, stretch, clumps, patches = z(blades), z(stretch), z(clumps), z(patches)
-    h = .3 * stretch + .6 * blades + .12 * clumps
-    base = np.array([.16, .36, .11])
-    tipc = np.array([.32, .55, .2])
-    dark = np.array([.06, .17, .05])
-    t = np.clip(h * .25 + .5, 0, 1)[..., None]
-    col = dark * (1 - t) + base * t
-    col = col * (1 - np.clip(h - 1.3, 0, 1)[..., None]) + tipc * np.clip(h - 1.3, 0, 1)[..., None]
-    col *= (1 + .035 * patches[..., None])
-    sizes = {}
-    sizes['grass_color_1k.webp'] = save_webp(col, 'grass_color_1k.webp', 86)
-    nrm = normal_from_height(h * .0012, .002, .002)
-    sizes['grass_normal_1k.webp'] = save_webp(nrm, 'grass_normal_1k.webp', 86)
-    n5 = resize(nrm * 2 - 1, 512, 512)
-    n5 /= np.linalg.norm(n5, axis=-1, keepdims=True)
-    sizes['grass_normal_512.webp'] = save_webp(n5 * .5 + .5, 'grass_normal_512.webp', 82)
-    return sizes
-
-
 # ---------------------------------------------------------------- net cell
 def net_cell():
     """One knotted mesh cell (12 cm square in the builder), white cord with soft shading, RGBA. Tiles in both directions."""
@@ -314,7 +284,7 @@ def flare():
 
 def main():
     sizes = {}
-    for f in (crowd_atlas, ad_boards, grass, net_cell, seats, concrete, flare):
+    for f in (crowd_atlas, ad_boards, net_cell, seats, concrete, flare):
         sizes.update(f())
     return sizes
 

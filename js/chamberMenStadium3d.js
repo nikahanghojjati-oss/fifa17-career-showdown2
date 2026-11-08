@@ -22,16 +22,21 @@
   const PITCH_HALF_W=34,PITCH_L=105,BOX_D=16.5,BOX_HALF_W=20.16,SIX_D=5.5,SIX_HALF_W=9.16,SPOT_Z=11,ARC_R=9.15;
 
   const FILES={
-    desktop:{ballColor:"ball_color_4k.webp",ballNormal:"ball_normal_4k.webp",ballOrm:"ball_orm_4k.webp",crowd:"crowd_atlas_2k.webp",grassNormal:"grass_normal_1k.webp"},
-    phone:{ballColor:"ball_color_2k.webp",ballNormal:"ball_normal_2k.webp",ballOrm:"ball_orm_2k.webp",crowd:"crowd_atlas_1k.webp",grassNormal:"grass_normal_512.webp"},
-    both:{crowdTint:"crowd_tint_1k.webp",grass:"grass_color_1k.webp",net:"net_cell_512.webp",seats:"seats_512.webp",concrete:"concrete_512.webp",flare:"flare_256.webp",
+    desktop:{ballColor:"ball_color_4k.webp",ballNormal:"ball_normal_4k.webp",ballOrm:"ball_orm_4k.webp",crowd:"crowd_atlas_2k.webp"},
+    phone:{ballColor:"ball_color_2k.webp",ballNormal:"ball_normal_2k.webp",ballOrm:"ball_orm_2k.webp",crowd:"crowd_atlas_1k.webp"},
+    both:{crowdTint:"crowd_tint_1k.webp",net:"net_cell_512.webp",seats:"seats_512.webp",concrete:"concrete_512.webp",flare:"flare_256.webp",
       boardA:"board_chamber_men.webp",boardB:"board_cms.webp",boardC:"board_chevrons.webp"}
   };
+  // r90 grass: TextureCan "Ground 0040" (CC0, mown football turf, Nik's download 2026-11-07), one size per device level
+  // (js/gfxTier.js): light 1k colour + 512 normal, medium/high 2k + 1k, extra/ultra 4k + 2k.
+  const GRASS=[["grass_color_V2_1k.webp","grass_normal_V2_512.webp"],["grass_color_V2_2k.webp","grass_normal_V2_1k.webp"],["grass_color_V2_2k.webp","grass_normal_V2_1k.webp"],
+    ["grass_color_V2_4k.webp","grass_normal_V2_2k.webp"],["grass_color_V2_4k.webp","grass_normal_V2_2k.webp"]];
   // Colour maps are sRGB; normal, roughness/metal and masks are linear data.
   const SRGB=new Set(["ballColor","crowd","grass","seats","concrete","flare","boardA","boardB","boardC"]);
 
   function load(T,opts){
-    const o=opts||{},set={...(o.phone?FILES.phone:FILES.desktop),...FILES.both},loader=new T.TextureLoader(),base=o.base||BASE;
+    const o=opts||{},level=Number.isInteger(o.level)?Math.max(0,Math.min(4,o.level)):(o.phone?0:2),[grass,grassNormal]=GRASS[level];
+    const set={...(o.phone?FILES.phone:FILES.desktop),...FILES.both,grass,grassNormal},loader=new T.TextureLoader(),base=o.base||BASE;
     const keys=Object.keys(set);
     return Promise.all(keys.map(k=>loader.loadAsync(base+set[k]).then(t=>{t.colorSpace=SRGB.has(k)?T.SRGBColorSpace:T.NoColorSpace;return t;}))).then(list=>{
       const tex={};keys.forEach((k,i)=>{tex[k]=list[i];});return tex;
@@ -53,9 +58,10 @@
     const ball=add(new T.SphereGeometry(BALL_R,phone?48:72,phone?32:48),ballMat);ball.castShadow=true;ball.position.set(0,BALL_R,SPOT_Z);ball.name="cmBall";
 
     // ---------- pitch ----------
-    const grass=tex.grass;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(45,30);
+    const grass=tex.grass;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(130/3.5,150/3.5);// one 3.5 m tile
     const gn=tex.grassNormal;gn.wrapS=gn.wrapT=T.RepeatWrapping;gn.repeat.copy(grass.repeat);
-    const pitchMat=keep(new T.MeshStandardMaterial({map:grass,normalMap:gn,normalScale:new T.Vector2(.6,.6),roughness:.92,metalness:0}));
+    // The turf photo is a sunny yellow-green; under floodlights a TV pitch reads cooler and deeper.
+    const pitchMat=keep(new T.MeshStandardMaterial({map:grass,color:new T.Color(.74,.9,.78),normalMap:gn,normalScale:new T.Vector2(.6,.6),roughness:.92,metalness:0}));
     // Mown stripes: bands 5.5 m deep parallel to the goal line, light and dark (direction of the cut), plus a soft wear patch
     // around the spot and in the six-yard box. Done in the shader so the grass detail stays one small tiling texture.
     pitchMat.onBeforeCompile=sh=>{
@@ -228,7 +234,7 @@
     const rnd=stadiumSeeded(17);
     const fans=[];
     for(const s of seatsAll){
-      const keepRate=s.si===0?(phone?.82:.93):s.si===3?(phone?.3:.6):(phone?.35:.7);// a few empty seats; thinner far stands on phones
+      const keepRate=(s.si===0?(phone?.82:.93):s.si===3?(phone?.3:.6):(phone?.35:.7))*(o.density>0&&o.density<1?.4+.6*o.density:1);// a few empty seats; thinner far stands on phones and light devices
       if(rnd()>keepRate)continue;
       const v=new T.Vector3(s.x,s.y,s.z);stands[s.si].localToWorld(v);
       fans.push({p:v,yaw:stands[s.si].rotation.y,si:s.si});
@@ -352,5 +358,5 @@
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 
-  root.CareerModeChamberMenStadium={contractVersion:1,base:BASE,files:FILES,load,build:stadiumBuild};
+  root.CareerModeChamberMenStadium={contractVersion:1,base:BASE,files:FILES,grass:GRASS,load,build:stadiumBuild};
 })(typeof globalThis!=="undefined"?globalThis:this);

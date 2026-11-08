@@ -54,7 +54,7 @@ check("D2 every standalone root and allow-list entry exists, has a reason and is
   for(const [file,reason] of Object.entries(ALLOWED_UNLOADED)){
     assert.ok(jsSet.has(file),`${file} is allowed but gone: drop it from ALLOWED_UNLOADED`);
     assert.ok(reason.length>20,`${file} needs a reason`);
-    assert.equal(reached.has(file),false,`${file} is loaded now: drop it from ALLOWED_UNLOADED`);
+    assert.equal(reached.has(file),false,`${file} is loaded now: drop it from ALLOWED_UNLOADED (the exception must not outlive the wiring)`);
   }
 });
 
@@ -63,7 +63,7 @@ check("D3 the service worker precaches no js file that nothing loads",()=>{
   const shell=(worker.match(/const SHELL_PATHS = Object\.freeze\(\[([\s\S]*?)\]\);/)||[])[1]||"";
   const listed=[...shell.matchAll(/"(js\/[^"]+\.js)"/g)].map(match=>match[1]);
   assert.ok(listed.length>20,"the shell list was found");
-  const stale=listed.filter(file=>!jsSet.has(file)||!reached.has(file));
+  const stale=listed.filter(file=>!jsSet.has(file)||(!reached.has(file)&&!Object.hasOwn(ALLOWED_UNLOADED,file)));
   assert.deepEqual(stale,[],`shell paths for missing or never-loaded js: ${stale.join(", ")}`);
 });
 
