@@ -493,9 +493,11 @@ function pass(mat,target){ quad.material=mat; renderer.setRenderTarget(target); 
 
 const scene=new T.Scene(); scene.fog=new T.Fog(L(0xc9dcef),70,240);
 const camera=new T.PerspectiveCamera(40,1,0.1,900);
-scene.add(new T.HemisphereLight(L(0xcfe4ff),L(0x2d5a22),0.45));
+/* r90 L06 (Nik 2026-11-07: one night light for both 3D scenes): Chamber Men's night match light, a cool sky and dark ground
+   with one warm floodlight key from high over a corner; the stadium photo is graded to night in the panorama shader */
+scene.add(new T.HemisphereLight(L(0xdde6ff),L(0x15200f),0.55));
 const SUN=new T.Vector3(-36,79,49);
-const sun=new T.DirectionalLight(L(0xfff0d8),2.3); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
+const sun=new T.DirectionalLight(L(0xfff3e2),2.7); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
 sun.shadow.mapSize.set(PHONE_GPU?1024:GQ.shadow,PHONE_GPU?1024:GQ.shadow); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
 const sky=new T.Mesh(new T.SphereGeometry(500,32,16), new T.ShaderMaterial({side:T.BackSide, depthWrite:false, fog:false,
@@ -757,9 +759,9 @@ const pmrem=new T.PMREMGenerator(renderer);
 /* Big Jump: the photo panorama is the stadium. It is drawn on a sphere that follows the camera,
    pre-compensated so the film curve in the final pass gives back the photo's own colours. */
 let pano=null;
-const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:/[?&]look=0(?:&|$)/.test(location.search)?0:1}},
+const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:0},night:{value:/[?&]look=day(?:&|$)/.test(location.search)?0:1}},
   vertexShader:"varying vec3 vD; void main(){ vD=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }",
-  fragmentShader:`uniform sampler2D tex,plate,plateL,plateR; uniform float yaw,expo,hasPlate,hasL,hasR,warm; varying vec3 vD;
+  fragmentShader:`uniform sampler2D tex,plate,plateL,plateR; uniform float yaw,expo,hasPlate,hasL,hasR,warm,night; varying vec3 vD;
   vec3 plateMix(vec3 c, vec3 d, sampler2D pl, float a){ vec3 q=vec3(d.x*cos(a)+d.z*sin(a), d.y, -d.x*sin(a)+d.z*cos(a)); if(q.z>-.2) return c; vec2 g=q.xy/(-q.z); vec2 pu=vec2(.5+g.x/1.453, (g.y+.098)/.8177);
     float m=smoothstep(0.,.09,pu.x)*smoothstep(1.,.91,pu.x)*smoothstep(0.,.04,pu.y)*smoothstep(1.,.8,pu.y); return m>0.?mix(c,pow(texture2D(pl,clamp(pu,0.,1.)).rgb,vec3(2.2)),m):c; }
   vec3 invAces(vec3 y){ y=min(y,vec3(.985)); vec3 a=2.51-2.43*y, b=.03-.59*y, c=-.14*y; return (-b+sqrt(b*b-4.*a*c))/(2.*a); }
@@ -768,10 +770,14 @@ const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest
     if(hasL>.5) c=plateMix(c,d,plateL,yaw-1.2566); if(hasR>.5) c=plateMix(c,d,plateR,yaw+1.2566);
     if(hasPlate>.5) c=plateMix(c,d,plate,yaw);
     /* r89 (SP_LOOKFRAME_V1): late-afternoon light. A warmer stadium, and a low sun glowing through the roof at the top left. */
-    if(warm>.5){ c*=vec3(1.07,.985,.87); float s=max(dot(d,normalize(vec3(-.62,.42,-.66))),0.); c+=vec3(1.,.72,.38)*(pow(s,10.)*.55+pow(s,60.)*1.4)*c.g*1.6+vec3(1.,.8,.5)*pow(s,200.)*.6; }
+    /* r90 L06 night: the daytime photo graded to a floodlit night, stands almost black with a little of their colour, the roof
+       line warm from the floodlights, and above it Chamber Men's night sky (deep navy) */
+    if(night>.5){ float l=dot(c,vec3(.2126,.7152,.0722)); c=mix(vec3(l),c,.2)*vec3(.09,.094,.112);
+      c+=vec3(.16,.13,.09)*exp(-abs(d.y-.3)*12.)*.9; float h=clamp(d.y,0.,1.); vec3 skyN=mix(vec3(.03,.035,.05),vec3(.006,.009,.02),smoothstep(.12,.6,h)); c=mix(c,skyN,smoothstep(.4,.62,d.y)); }
+    else if(warm>.5){ c*=vec3(1.07,.985,.87); float s=max(dot(d,normalize(vec3(-.62,.42,-.66))),0.); c+=vec3(1.,.72,.38)*(pow(s,10.)*.55+pow(s,60.)*1.4)*c.g*1.6+vec3(1.,.8,.5)*pow(s,200.)*.6; }
     gl_FragColor=vec4(min(invAces(c)/expo,vec3(1.35)),1.); }`});
 const panoSphere=new T.Mesh(new T.SphereGeometry(400,64,32),panoMat); panoSphere.renderOrder=-1; panoSphere.frustumCulled=false;
-const grassMat=new T.MeshStandardMaterial({color:L(0xc9d9b4), roughness:.92, metalness:0, transparent:true, depthWrite:true});
+const grassMat=new T.MeshStandardMaterial({color:L(/[?&]look=day(?:&|$)/.test(location.search)?0xc9d9b4:0x93a184), /* r90 L06: a floodlit night pitch, as deep as Chamber Men's */ roughness:.92, metalness:0, transparent:true, depthWrite:true});
 grassMat.onBeforeCompile=(sh)=>{
   sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvWp=(modelMatrix*vec4(transformed,1.)).xyz;");
   sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vWp;")
@@ -787,7 +793,7 @@ function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t
 /* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
    (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
 const boards=new T.Group(); let boardTex=null, boardTex2=null;
-function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
+function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board_night_V1.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
   boardTex2=t.clone(); boardTex2.needsUpdate=true;
   const face=new T.MeshBasicMaterial({map:t, fog:false}); face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
   const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
@@ -803,7 +809,7 @@ function buildEnv(){
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
   scene.fog=null; scene.add(panoSphere,shadowGround,boards);
   panoMat.uniforms.tex.value=pano;
-  const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.colorSpace=T.SRGBColorSpace; scene.environment=pmrem.fromEquirectangular(e).texture;
+  const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.colorSpace=T.SRGBColorSpace; scene.environment=pmrem.fromEquirectangular(e).texture; scene.environmentIntensity=panoMat.uniforms.night.value?.6:1; /* r90 L06: the daylight photo reflects less at night */
 }
 /* r86 (red team #2): the stadium is the one image the scene cannot draw without, so a failed load ends the page at once (the game skips the reveal) instead of waiting out the 15 s limit */
 function loadPano(){ return new Promise((res,rej)=>new T.TextureLoader().load("assets/stadium_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>rej(new Error("The stadium image did not load.")))); }
@@ -1015,9 +1021,9 @@ function run(tt){
     if(charge>.5){ pack.position.x+=(Math.random()-.5)*.05*charge; pack.position.y+=(Math.random()-.5)*.03*charge; }
     keepPackUnderTitle();
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
-    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(Lc(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10));
-    pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,PACK_D/2+.1)); pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar(1.5+charge*charge*4); }
+    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(Lc(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10)*(camera.aspect<1?.55:1)); /* r90 L05: a softer slit on a portrait screen, so the pack art reads through it */
+    pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,-PACK_D/2-.12)); /* r90 L05: behind the pack, which hides its lower part, never across the pack face */ pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)); }
     packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
