@@ -1,31 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-08T15:02:54.879Z",
+  "at": "2026-11-08T15:20:50.682Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
-      "head_sha": "4df4667df761fbe0d0dc4d9db10bc1ec6c814813",
-      "pr": 1303,
-      "queued_minutes": 26.1,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "7bea38865658f731f76d67b26e0d7b9b0be7e05f",
-      "pr": 1308,
-      "queued_minutes": 15.4,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "342be7c9b63cd9ae83573f8a165406a152526dd2",
-      "pr": 1313,
-      "queued_minutes": 11.5,
+      "head_sha": "b0ab58c88533a4802e111e86e47af951700dcf02",
+      "pr": 1309,
+      "queued_minutes": 40.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +16,43 @@
       "workflow": "Showdown Gate",
       "head_sha": "ef534167c7b4e4f176b8545acfd76603a3a69842",
       "pr": 1311,
-      "queued_minutes": 8.5,
+      "queued_minutes": 26.4,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "c6f5138753c2beb9cad5892fb19f0be2966e1a25",
+      "pr": 1314,
+      "queued_minutes": 8.4,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "534d85ab0dd611d421dd5dd46c13cc3bef78964c",
+      "pr": 1315,
+      "queued_minutes": 8.1,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "52c4f3a0fba8a6fd616191de8cb9cea4387490dd",
+      "pr": 1305,
+      "queued_minutes": 7.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Validate POS20",
+      "head_sha": "70afa1e22f85fb5b8faeb7738f0d647373f535f0",
+      "pr": 312,
+      "queued_minutes": 2.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
