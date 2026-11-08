@@ -299,8 +299,8 @@ function petalTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128);
 const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"rgba(255,240,200,0)"]]);
 
 /* ================= materials ================= */
-/* r90 (frame budget): every surface is one MeshStandardMaterial (no clearcoat or sheen lobes), so the scene compiles a handful of
-   programs and each pixel runs one specular term; the look comes from the maps, the roughness and the room light */
+/* r90 (frame budget): on Light and Balanced every surface is one MeshStandardMaterial (one specular term per pixel, a handful of
+   programs); from High up mat() gives the lacquered wood, the glazed cups and the felt their second lobe (see HQ above) */
 const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1],{scale:HQ?2:1});   /* r90: drawn at twice the pixels from High up, same pattern */
 const gripTex=woodTex(256,256,"#6b3a1b","#2a1406",2,[1,1]);
 const M={
