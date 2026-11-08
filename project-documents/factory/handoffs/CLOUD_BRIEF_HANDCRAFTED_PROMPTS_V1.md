@@ -4,8 +4,8 @@
 |---|---|
 | Surface | claude.ai/code, Ultra Code (workflow) |
 | Model / effort | Opus 5.5 · High |
-| STOP_BUDGET | 60 minutes or about $15, whichever comes first. At 80%, stop adding scope and commit. At 100%, stop. |
-| Helpers | 8 subagents at most, in one workflow run. No second run. |
+| STOP_BUDGET | 90 minutes or about $30, whichever comes first (raised by Nik, 8 Nov 10:18 a.m. Eastern). At 80%, stop adding scope and commit. At 100%, stop. |
+| Helpers | 12 subagents at most, in one workflow run. No second run. |
 | Branch | `claude/handcrafted-prompts-v1`, cut from `origin/gameplay/r90`. Never push to main or gameplay/*. |
 | Output | ONE ticket file plus up to 12 small guide pictures. No game code, no CSS, no new art pixels. |
 
@@ -37,10 +37,10 @@ How do the Showdown backgrounds and Home icons stop looking prompted, and instea
 ICONS: YES (Nik, 8 Nov 2026, 10:14 a.m. Eastern; Team G W9 stops its code icon redraw)
 
 ## Bounded work plan (workflow)
-1. Study (≤ 4 helpers, in parallel): each takes a screen group and returns at most 8 short bullets: what reads as prompted, what to keep, and the one picture it needs.
+1. Study (≤ 7 helpers, in parallel, about one per new-picture screen plus one for the reading screens and one for icons): each takes its part and returns at most 8 short bullets: what reads as prompted, what to keep, and the one picture it needs.
 2. Free-tool check (1 helper, web search, 10 minutes max): is any FREE image tool clearly better than ChatGPT image (Plus) for photo-real interiors that keep two real faces from a reference? Only recommend a switch with concrete evidence (a dated source). Otherwise say "stay on ChatGPT".
 3. Write (1 helper): the ticket.
-4. Review (≤ 2 helpers): check every prompt against HUNT_LOOK rows L01-L34 and the fixed rules; fix it, or cut that prompt.
+4. Review (≤ 3 helpers, by screen group): check every prompt against HUNT_LOOK rows L01-L34 and the fixed rules; fix it, or cut that prompt.
 
 ## The ticket file
 `project-documents/factory/tickets/TICKET-HANDCRAFTED_V1.md`, at most 400 lines. Contents:
