@@ -23,6 +23,9 @@
   const KEY="careerModeShowdown.gfxQuality.v1";
   const CHOICES=["auto","light","medium","high","extra","ultra","8k"];
   const NAMES=["light","medium","high","extra","ultra","8k"];
+  // r90 (Nik 2026-11-08: "unified levels for our screens"): the one list of level names a player ever reads (Settings, the
+  // Device check, the ?fps=1 overlay). docs/QUALITY_LEVELS.md; tests/contracts/r90-quality-levels-contracts.cjs.
+  const LABELS=["Light","Balanced","High","Extra","Ultra (4K)","8K"];
   // Per level: the pixel ratio it starts at and may reach (both capped by the screen), shadow map size, crowd density, bloom.
   const LEVELS=[
     {pr:1,max:1,shadowSize:1024,density:.45,bloom:false},
@@ -337,7 +340,7 @@
       done=true;
       const draws=[];if(typeof draw==="function")for(let i=0;i<5;i+=1){try{draws.push(gfxTimedDraw(renderer,draw));}catch(_error){}}
       draws.sort((a,b)=>a-b);
-      const result={type:"cms-gfx-bench",scene:key||"scene",level:p.level,name:p.name,pixelRatio:pr(),software:Boolean(p.software),gpu:p.gpu,
+      const result={type:"cms-gfx-bench",scene:key||"scene",level:p.level,name:p.name,label:LABELS[p.level],pixelRatio:pr(),software:Boolean(p.software),gpu:p.gpu,
         ...gfxBenchStats(dts),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null};
       try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-bench",{detail:result}));}catch(_error){}
       try{if(root.parent&&root.parent!==root)root.parent.postMessage(result,root.location.origin);}catch(_error){}
@@ -358,8 +361,8 @@
       if(t-shown>=250&&n){
         const ms=acc/n,p=gfxProfile(),gov=active,extra=(()=>{try{return info?info()||{}:{};}catch(_error){return {};}})();
         const lines=[`${Math.round(1000/ms)} fps  ${ms.toFixed(1)} ms  pr ${(gov?gov.pixelRatio():p.pixelRatio).toFixed(2)}`,
-          `${p.name} (${p.choice}${p.auto&&p.level!==p.autoLevel?`, device says ${NAMES[p.autoLevel]}`:""})${p.calibratedMs!=null?`  cal ${p.calibratedMs} ms`:""}`,
-          ...(p.fellBack?[`fell back from ${NAMES[p.fellBack.from]} to ${p.name}: ${p.fellBack.reason}`]:[]),
+          `${LABELS[p.level]} (${p.auto?"Auto":"picked"}${p.auto&&p.level!==p.autoLevel?`, device says ${LABELS[p.autoLevel]}`:""})${p.calibratedMs!=null?`  cal ${p.calibratedMs} ms`:""}`,
+          ...(p.fellBack?[`fell back from ${LABELS[p.fellBack.from]} to ${LABELS[p.level]}: ${p.fellBack.reason}`]:[]),
           p.gpu?p.gpu.slice(0,60):"gpu ?"];
         if(extra.calls!=null||extra.tris!=null)lines.push(`${extra.calls??"?"} calls  ${extra.tris!=null?(extra.tris/1000).toFixed(0)+"k":"?"} tris`);
         if(extra.extra)lines.push(String(extra.extra));
@@ -372,7 +375,8 @@
     return {stop(){stopped=true;if(raf)root.cancelAnimationFrame(raf);box.remove();}};
   }
 
-  root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),
+  root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
+    label(level){return LABELS[Math.max(0,Math.min(5,Math.round(Number(level))||0))];},
     profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.

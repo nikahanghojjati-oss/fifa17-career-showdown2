@@ -323,14 +323,14 @@ function createMenuFeedbackControl(){
 // r90 (Nik 2026-11-08: "auto, medium, high, ultra, 4K ... let us know what was the automatic option for the device ... in the
 // setting"): the names Nik uses, and one quiet line under the pick that says what Auto chose here. Settings only, never on a
 // game screen.
-const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra (4K)"]];
-const SETTINGS_GFX_NAMES = { light: "Light", medium: "Balanced", high: "High", extra: "Extra", ultra: "Ultra (4K)", "8k": "8K" };
+// The level names come from js/gfxTier.js (CareerModeGfxTier.labels), the one list every screen uses; Settings has none of
+// its own. Until the module is in, the pick shows Auto alone and stays disabled.
 const SETTINGS_GFX_CHECK = "device-check";
 function getSettingsGfxAutoText(tier){
     try{
         const s = tier.suggested();
         const onAuto = tier.choice() === "auto";
-        const name = SETTINGS_GFX_NAMES[onAuto ? s.nowName : s.name];
+        const name = tier.label(onAuto ? s.now : s.level);
         if(!name){ return ""; }
         if(!onAuto){ return `Auto would pick ${name} for your screen and graphics.`; }
         if(s.lowered){ return `Auto picked ${name} for your screen and graphics (lowered after a graphics error).`; }
@@ -346,14 +346,18 @@ function fillSettingsGfxSelect(select, note){
         note.textContent = getSettingsGfxAutoText(tier);
         note.hidden = !note.textContent;
     }
-    // 8K is only offered where the GPU can hold a 7680 px picture (never a phone, never software GL); Auto never picks it.
+    // Auto, then every level by its shared name. 8K is only offered where the GPU can hold a 7680 px picture (never a phone,
+    // never software GL); Auto never picks it.
     let can8k = false;
     try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }
-    if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\"8k\"]")){
-        const option = createSettingsElement("option", "", "8K");
-        option.value = "8k";
-        select.insertBefore(option, select.querySelector(`option[value="${SETTINGS_GFX_CHECK}"]`));
-    }
+    const check = select.querySelector(`option[value="${SETTINGS_GFX_CHECK}"]`);
+    for(const old of [...select.options]){ if(old !== check){ old.remove(); } }
+    tier.choices.forEach((value, index) => {
+        if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }
+        const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);
+        option.value = value;
+        select.insertBefore(option, check);
+    });
     select.value = tier.choice();
     select.disabled = false;
 }
@@ -383,11 +387,9 @@ function createGfxQualityControl(){
     const select = createSettingsElement("select", "settingsGfxSelect");
     select.setAttribute("aria-labelledby", "settingsGfxLabel");
     select.disabled = true;
-    for(const [value, text] of SETTINGS_GFX_CHOICES){
-        const option = createSettingsElement("option", "", text);
-        option.value = value;
-        select.append(option);
-    }
+    const auto = createSettingsElement("option", "", "Auto");
+    auto.value = "auto";
+    select.append(auto);
     const check = createSettingsElement("option", "", "Device check…");
     check.value = SETTINGS_GFX_CHECK;
     select.append(check);

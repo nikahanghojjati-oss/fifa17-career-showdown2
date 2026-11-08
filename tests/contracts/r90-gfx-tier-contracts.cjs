@@ -212,8 +212,9 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     // High / Extra / Ultra, saved through the module, applying from the next 3D screen; on landscape desktops it shares the
     // MENU CLICK FEEDBACK line (the plate has no height to spare at 1366x640; browser sweep on the PR).
     const set=fs.readFileSync(path.join(ROOT,'js/settings.js'),'utf8'),css=fs.readFileSync(path.join(ROOT,'css/r78-type.css'),'utf8');
-    assert.ok(set.includes('const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra (4K)"]];'),'the six choices, in order, in Nik\'s names');
-    assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\\"8k\\"]")){'),'8K is added only where the GPU can hold it');
+    // r90 one framework (docs/QUALITY_LEVELS.md): the choices and their names come from the module (choices, labels).
+    assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
+    assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }'),'8K is offered only where the GPU can hold it');
     // r90 (Nik 2026-11-08): what Auto chose is one quiet line under 3D QUALITY, read from the saved state (Device check, crash cap).
     assert.ok(set.includes('if(!onAuto){ return `Auto would pick ${name} for your screen and graphics.`; }')&&set.includes('`Auto measured ${name} on your screen and graphics.` : `Auto picked ${name} for your screen and graphics.`'),'Auto names what it picked (or measured) here');
     assert.ok(set.includes('window.addEventListener("cms-gfx-level", onLevel);')&&SRC.includes('new root.CustomEvent("cms-gfx-level"'),'the line follows a level change while Settings is open');
@@ -223,7 +224,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(set.includes('window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)'),'Settings loads the module on demand, under the scene\'s key');
     assert.ok(set.includes('panel.append(summary, choices, createMenuFeedbackControl(), createGfxQualityControl());'),'in MOTION & FEEDBACK, under the menu click');
     assert.ok(set.includes('select.setAttribute("aria-labelledby", "settingsGfxLabel");'),'the select has its label');
-    assert.ok(!/localStorage/.test(set.slice(set.indexOf('const SETTINGS_GFX_CHOICES'),set.indexOf('function createGfxQualityControl'))),'no storage of its own');
+    assert.ok(!/localStorage/.test(set.slice(set.indexOf('const SETTINGS_GFX_CHECK'),set.indexOf('function createGfxQualityControl'))),'no storage of its own');
     assert.ok(css.includes('@media (min-width: 1200px) and (orientation: landscape) {\n  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap;'),'one shared line on landscape desktops');
     const names=CHOICES_FROM_SRC();assert.deepEqual(names,['auto','light','medium','high','extra','ultra','8k'],'Settings values match the module (8K added when capable)');
     // G7 Device check (lead, from Nik 2026-11-07): device-check.html times each scene's ?gfx=N&bench=1 frame for 10 s and saves
@@ -278,7 +279,7 @@ function g8(){
   assert.equal(lost[0][0],'webglcontextlost');lost[0][1]();
   const f=s.G.profile();assert.deepEqual([f.level,f.name],[4,'ultra'],'context lost: Ultra');assert.ok(/context lost/.test(f.fellBack.reason));
   assert.ok(gov.pixelRatio()**2*1920*1080<=3840*2160+1,`the governor moved back under the 4K buffer (${gov.pixelRatio()})`);gov.end();
-  assert.ok(SRC.includes('...(p.fellBack?[`fell back from ${NAMES[p.fellBack.from]} to ${p.name}: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');assert.equal(f.fellBack.from,5);
+  assert.ok(SRC.includes('...(p.fellBack?[`fell back from ${LABELS[p.fellBack.from]} to ${LABELS[p.level]}: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');assert.equal(f.fellBack.from,5);
   assert.equal(s.G.profile().level,4,'stays Ultra on the next screen');s.G.setChoice('8k');assert.equal(s.G.profile().level,5,'picking 8K again tries again');
   // Never offered: a GPU under 7680, a phone, software GL; Auto never picks it (a measured result tops out at Ultra).
   for(const [why,o] of [['small buffer',{maxBuffer:4096}],['small texture',{maxTexture:4096}],['phone',{screen:[402,874],dpr:3}],['software',{gpu:'SwiftShader'}]]){
