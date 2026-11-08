@@ -320,28 +320,44 @@ function createMenuFeedbackControl(){
 // r90 W4 (Nik 2026-11-07: "the player can pick a level ... 8K"): one 3D quality pick for this device, shared by every 3D
 // screen through js/gfxTier.js. Auto names the level it suggests here; a new pick applies from the next 3D screen (a
 // screen never changes quality mid-scene).
-const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra"]];
+// r90 (Nik 2026-11-08: "auto, medium, high, ultra, 4K ... let us know what was the automatic option for the device ... in the
+// setting"): the names Nik uses, and one quiet line under the pick that says what Auto chose here. Settings only, never on a
+// game screen.
+// The level names come from js/gfxTier.js (CareerModeGfxTier.labels), the one list every screen uses; Settings has none of
+// its own. Until the module is in, the pick shows Auto alone and stays disabled.
 const SETTINGS_GFX_CHECK = "device-check";
-function settingsGfxLabel(name){
-    const found = SETTINGS_GFX_CHOICES.find(([value]) => value === name);
-    return found ? found[1] : "";
+function getSettingsGfxAutoText(tier){
+    try{
+        const s = tier.suggested();
+        const onAuto = tier.choice() === "auto";
+        const name = tier.label(onAuto ? s.now : s.level);
+        if(!name){ return ""; }
+        if(!onAuto){ return `Auto would pick ${name} here.`; }
+        if(s.lowered){ return `Auto picked ${name} here (lowered after a graphics error).`; }
+        return s.measured && s.now === s.level ? `Auto measured ${name} here.` : `Auto picked ${name} here.`;
+    }catch(_error){
+        return "";
+    }
 }
-function fillSettingsGfxSelect(select){
+function fillSettingsGfxSelect(select, note){
     const tier = window.CareerModeGfxTier;
     if(!tier || !select.isConnected){ return; }
-    let suggested = "";
-    try{ suggested = settingsGfxLabel(tier.suggested().name); }catch(_error){ suggested = ""; }
-    let measured = false;
-    try{ measured = Boolean(tier.suggested().measured); }catch(_error){ measured = false; }
-    select.options[0].textContent = suggested ? `Auto (${measured ? "measured" : "suggests"} ${suggested})` : "Auto";
-    // 8K is only offered where the GPU can hold a 7680 px picture (never a phone, never software GL); Auto never picks it.
+    if(note){
+        note.textContent = getSettingsGfxAutoText(tier);
+        note.hidden = !note.textContent;
+    }
+    // Auto, then every level by its shared name. 8K is only offered where the GPU can hold a 7680 px picture (never a phone,
+    // never software GL); Auto never picks it.
     let can8k = false;
     try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }
-    if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\"8k\"]")){
-        const option = createSettingsElement("option", "", "8K");
-        option.value = "8k";
-        select.insertBefore(option, select.querySelector(`option[value="${SETTINGS_GFX_CHECK}"]`));
-    }
+    const check = select.querySelector(`option[value="${SETTINGS_GFX_CHECK}"]`);
+    for(const old of [...select.options]){ if(old !== check){ old.remove(); } }
+    tier.choices.forEach((value, index) => {
+        if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }
+        const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);
+        option.value = value;
+        select.insertBefore(option, check);
+    });
     select.value = tier.choice();
     select.disabled = false;
 }
@@ -356,6 +372,8 @@ function setSettingsGfxChoice(select){
     }
     const saved = tier.setChoice(select.value);
     select.value = saved;
+    const note = select.parentElement?.querySelector(".settingsGfxAuto");
+    if(note){ note.textContent = getSettingsGfxAutoText(tier); note.hidden = !note.textContent; }
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(`3D quality: ${select.options[select.selectedIndex].textContent}. Applies from the next 3D screen.`, "success", 3000);
     }
@@ -369,20 +387,33 @@ function createGfxQualityControl(){
     const select = createSettingsElement("select", "settingsGfxSelect");
     select.setAttribute("aria-labelledby", "settingsGfxLabel");
     select.disabled = true;
-    for(const [value, text] of SETTINGS_GFX_CHOICES){
-        const option = createSettingsElement("option", "", text);
-        option.value = value;
-        select.append(option);
-    }
+    const auto = createSettingsElement("option", "", "Auto");
+    auto.value = "auto";
+    select.append(auto);
     const check = createSettingsElement("option", "", "Device check…");
     check.value = SETTINGS_GFX_CHECK;
     select.append(check);
     select.addEventListener("change", () => setSettingsGfxChoice(select));
+    // The Auto line sits under the row's name, beside the pick: the landscape Settings plate has no height to spare.
+    const note = createSettingsElement("small", "settingsGfxAuto", "");
+    note.setAttribute("aria-live", "polite");
+    note.hidden = true;
+    copy.append(note);
+    // Part of the select's name (axe label-title-only fails a select described with no <label>): "3D QUALITY, Auto picked
+    // High here."
+    select.setAttribute("aria-labelledby", "settingsGfxLabel settingsGfxAuto");
+    note.id = "settingsGfxAuto";
     row.append(copy, select);
     const ready = () => Boolean(window.CareerModeGfxTier);
     const load = ready() ? Promise.resolve(true)
         : typeof window.loadRuntimeScript === "function" ? Promise.resolve(window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)) : Promise.resolve(false);
-    load.then(() => fillSettingsGfxSelect(select), () => {});
+    load.then(() => fillSettingsGfxSelect(select, note), () => {});
+    // A crash cap or a Device check result can move Auto; the line reads the saved state again while Settings is open.
+    const onLevel = () => {
+        if(!select.isConnected){ window.removeEventListener("cms-gfx-level", onLevel); return; }
+        if(window.CareerModeGfxTier){ note.textContent = getSettingsGfxAutoText(window.CareerModeGfxTier); note.hidden = !note.textContent; }
+    };
+    window.addEventListener("cms-gfx-level", onLevel);
     return row;
 }
 

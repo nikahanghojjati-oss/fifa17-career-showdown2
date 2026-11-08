@@ -1814,3 +1814,14 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   #createShowdown.v26Skin:has(.setupBox .cmsSeasonsStartMessage:not([hidden])) #roundAmount { min-height: 44px; }
   #createShowdown.v26Skin .setupBox .cmsSeasonsStartMessage { font-size: 13px; line-height: 1.3; }
 }
+
+/* r90 W9 (LOOK hunt L20): the league wheel is typographic. The five marks were drawn five ways (a crown, a bull, a "1", two
+   shields), so the segments carry only the league names, in one type style. */
+#app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before { display: none !important; }
+#app #leagueWheelScreen.v26Skin .wheelItem { letter-spacing: .04em; }
+
+/* r90 W9 (LOOK hunt L19): Club Assignment loses the web-template stepper (five empty circles on a line, 01 DRAW ... 05 LOCK);
+   the status line under the title already says where the draw is. The VS is flat gold type: no gradient, no outline glow. */
+#app #clubWheelScreen .clubRevealProgress { display: none !important; }
+#app #clubWheelScreen .clubVs strong { filter: none !important; -webkit-text-stroke: 0 !important; }
+#app #clubWheelScreen .clubVs .clubVsFallback { background: none !important; color: #F2C45B !important; -webkit-text-fill-color: #F2C45B !important; }
