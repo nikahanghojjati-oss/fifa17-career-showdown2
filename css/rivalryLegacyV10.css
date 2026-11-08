@@ -2005,3 +2005,25 @@
     width:25%; white-space:nowrap; letter-spacing:.04em; padding-left:6px; padding-right:2px;
   }
 }
+
+/* r90 W9 (LOOK hunt L13): the finder is as big as the history needs. GO TO # shows past 20 Showdowns, the filters from two
+   Showdowns (empty ones left out, js in legacy.js), and on desktop the chips are sized to their words, right-aligned on the
+   toolbar row instead of six stretched boxes. Phones keep FIND, and leave it out when there is nothing to find. */
+#app #legacy[data-rivalry-legacy-v10] .legacyTools[data-jump="false"] .legacyJump,
+#app #legacy[data-rivalry-legacy-v10] .legacyTools[data-filters="false"] .legacyFilters,
+#app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools[data-jump="false"][data-filters="false"] .legacyFindToggle { display:none !important; }
+#app #legacy[data-rivalry-legacy-v10] .legacyFilters > button[hidden] { display:none !important; }
+@media (min-width:901px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools { grid-template-columns:auto auto minmax(0,1fr); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyViewToggle { width:max-content; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyViewToggle button { width:auto; padding-inline:18px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyJump { grid-template-columns:auto 72px auto; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters {
+    grid-column:3; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters > button { width:auto; flex:0 0 auto; gap:10px; padding-inline:12px; }
+}
+@media (min-width:901px) and (max-width:1199px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools { grid-template-columns:auto auto minmax(0,1fr); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters { grid-column:3; }
+}
