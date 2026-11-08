@@ -901,10 +901,11 @@
 }
 
 /* TRANSFER-PLATE-V2 (ticket 1610P): desktop Transfer War on Team V's clean office plate (visual-assets/v10_1/plates-v2/), drawn
-   to match NEXT_TRANSFER. Strictly the desktop picture range (wide landscape windows of at least 1200x600); phones, sideways
-   phones and tablets keep their art. The plate carries Daniel, Nik, both name tags and Nik's finger, so the old fingertip cut-out
+   to match NEXT_TRANSFER. r90 LOOK L35: every window that uses the desktop picture gets it (a Chromebook window of 1180x620
+   showed the old TR2 plate, so one resize swapped the whole picture); only upright phones (760 px and under), sideways
+   phones (500 px tall and 1100 px wide or less) and upright tablets (761-1100 px) keep their own art. The plate carries Daniel, Nik, both name tags and Nik's finger, so the old fingertip cut-out
    is hidden; the title, hanging sign, YOU chip, panels and buttons stay live on top. Every word, id and tap order is unchanged. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
   #app #transferChallenge .tw-host .stage {
     --tp-bevel: linear-gradient(135deg, #fff1b8 0%, #e8b94a 15%, #8a6a12 36%, #f2c45b 56%, #fff1b8 73%, #b8862a 100%);
   }
@@ -919,8 +920,9 @@
     left: calc(var(--k) * 36px); top: calc(var(--k) * 62px + var(--tw-wm-drop, 0px)); width: calc(var(--k) * 400px * var(--tw-wm-scale, 1)); height: auto;
   }
   /* HO-033 item 9: when the plate is wider than the window (1440x900, 1280x800) the world is pushed left off-screen and the
-     title's first letter was clipped. Keep the title at least 16px inside the visible window; no change where the world fits. */
-  #app #transferChallenge .tw-host .world > .transfer-wordmark { left: max(calc(var(--k) * 36px), calc(100% - 100vw + 16px)); }
+     title's first letter was clipped. Keep the title at least 16px inside the visible window; no change where the world fits.
+     r90 L35: js/transferScreenV10.js tfWordmarkClear sets --tw-wm-left (and shrinks the title) from the real camera. */
+  #app #transferChallenge .tw-host .world > .transfer-wordmark { left: var(--tw-wm-left, max(calc(var(--k) * 36px), calc(100% - 100vw + 16px))); }
   #app #transferChallenge .tw-host .world > .transfer-wordmark img { display: block; width: 100%; height: auto; }
   /* the plate has no sign either: a live gold-bevel board behind the clock/status text, centred where NEXT_TRANSFER hangs it */
   #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) {
@@ -1148,7 +1150,7 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
   #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(var(--k) * 30px * .95 + var(--k) * 2px); }
   #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer { font-size: calc(var(--k) * 30px); margin-bottom: calc(var(--k) * 2px); }
 }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
   #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(max(34px, calc(var(--k) * 52px)) * .95 + calc(var(--k) * 6px)); }
   #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"]:has(.sign-screen.is-live) .sign-status.reg:not(.full) { letter-spacing: .14em; font-size: max(12px, calc(var(--k) * 14.5px)); }
   #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer { font-size: max(34px, calc(var(--k) * 52px)); margin-bottom: calc(var(--k) * 6px); }

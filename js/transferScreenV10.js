@@ -358,16 +358,34 @@
   function tfWordmarkClear(){
     const world=stage&&stage.querySelector(".world"),mark=world&&world.querySelector(":scope > .transfer-wordmark");
     if(!mark)return;
-    mark.style.removeProperty("--tw-wm-drop");mark.style.removeProperty("--tw-wm-scale");
+    mark.style.removeProperty("--tw-wm-drop");mark.style.removeProperty("--tw-wm-scale");mark.style.removeProperty("--tw-wm-left");
     const view=mark.ownerDocument&&mark.ownerDocument.defaultView;
     if(!view||view.getComputedStyle(mark).position!=="absolute"||!world.offsetHeight)return;// phones: the title is in flow
     const bar=mark.ownerDocument.querySelector(".sd-nav-top"),barBox=bar&&bar.getBoundingClientRect();
     const barBottom=barBox&&barBox.height>0?barBox.bottom:0,box=world.getBoundingClientRect(),scale=box.height/world.offsetHeight||1;
+    // r90 LOOK L35: a narrow window (4:3, 5:4) crops the plate's sides. The title then starts 16 px inside the window and
+    // keeps clear of Daniel's hair (plate x 446 on, from y 103) and of the clock board: it either ends at plate
+    // x 436 as the plate places it, shrinking a little, or, when that would leave it under 75 %, rises to 8 px under the top
+    // bar and ends above his hair, as wide as the board allows.
+    const k=world.offsetWidth/1672,ppx=k*scale,leftPlate=Math.max(36,(16-box.left)/ppx);
+    let fit=1;
+    if(leftPlate>36){
+      const ratio=mark.offsetHeight/Math.max(1,mark.offsetWidth)||.21,topPlate=Math.max(0,(barBottom+8-box.top)/ppx);
+      // the board's gold frame reaches 79 plate px left of the clock box (css/v10Transfer.css .sign-screen::before)
+      const sign=stage.querySelector(".sign-screen"),signBox=sign&&sign.getBoundingClientRect();
+      const boardLeft=signBox&&signBox.width>0?(signBox.left-box.left)/ppx-79:690;
+      const beside=(436-leftPlate)/400,above=Math.min(1,(boardLeft-16-leftPlate)/400,(97-topPlate)/(400*ratio));
+      mark.style.setProperty("--tw-wm-left",`${(leftPlate*k).toFixed(1)}px`);
+      if(beside<.75&&above>beside){fit=above;mark.style.setProperty("--tw-wm-drop",`${((topPlate-62)*k).toFixed(1)}px`);}
+      else fit=Math.min(1,beside);
+      mark.style.setProperty("--tw-wm-scale",fit.toFixed(3));
+      if(fit!==Math.min(1,beside))return;// raised under the bar already
+    }
     const need=barBottom+8-(box.top+mark.offsetTop*scale);
     if(need<=0)return;
     const drop=Math.ceil(need/scale),platePx=drop/(world.offsetWidth/1672);
     mark.style.setProperty("--tw-wm-drop",`${drop}px`);
-    mark.style.setProperty("--tw-wm-scale",Math.max(.7,1-platePx/400).toFixed(3));
+    mark.style.setProperty("--tw-wm-scale",Math.min(fit,Math.max(.7,1-platePx/400)).toFixed(3));
   }
   function tfTeardown(section){
     try{root.CareerModeDeadlineDay?.detach?.();}catch(_error){}
