@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-08 10:18 AM Boston time (EST)",
+ "generated": "2026-11-08 10:24 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 208,
+  "count": 210,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1875,6 +1875,24 @@
     "subject": "Home icons: Team V prompt job owns them, W9 stops (Nik)",
     "reply": "no",
     "boston": "Sun 8 Nov 10:15 AM"
+   },
+   {
+    "time": "2026-11-08 15:18",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-064 RECEIVED",
+    "subject": "Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art",
+    "reply": "no",
+    "boston": "Sun 8 Nov 10:18 AM"
+   },
+   {
+    "time": "2026-11-08 15:18",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-064 DONE",
+    "subject": "Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art",
+    "reply": "no",
+    "boston": "Sun 8 Nov 10:18 AM"
    }
   ],
   "g2v": {
@@ -1895,8 +1913,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "11d7f82",
-  "head_boston": "Sun 8 Nov 10:17 AM",
+  "head": "70afa1e",
+  "head_boston": "Sun 8 Nov 10:18 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1932,10 +1950,10 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "POS20 #304 7/7",
-   "source": "github"
+   "state": "barking",
+   "line": "Barking: POS20 on #312 has waited 6 min for a machine; Showdown Gate on #1308 has waited 3 min for a machine; Showdown Gate on #1315 has waited 2 min for a machine; Showdown Gate on #1316 has waited 2 min for a machine.",
+   "gate": "POS20 #304 6/16",
+   "source": "physio"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -2720,7 +2738,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 734
+    "waiting_min": 740
    },
    {
     "id": "HO-059",
