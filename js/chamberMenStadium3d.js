@@ -225,9 +225,11 @@
 
     // ---------- goal ----------
     const white=o.posts!=="gold";
+    // r90 Light program budget (o.lean): plain standard posts share the goal frame's shader (no clearcoat program).
+    const Post=o.lean?T.MeshStandardMaterial:T.MeshPhysicalMaterial,coat=(a,b)=>o.lean?{}:{clearcoat:a,clearcoatRoughness:b};
     const postMat=keep(white
-      ?new T.MeshPhysicalMaterial({color:new T.Color(.95,.95,.94),roughness:.32,clearcoat:.6,clearcoatRoughness:.15})
-      :new T.MeshPhysicalMaterial({color:new T.Color(1,.77,.36),metalness:1,roughness:.17,clearcoat:.5,clearcoatRoughness:.08}));
+      ?new Post({color:new T.Color(.95,.95,.94),roughness:.32,...coat(.6,.15)})
+      :new Post({color:new T.Color(1,.77,.36),metalness:1,roughness:.17,...coat(.5,.08)}));
     const frameMat=keep(new T.MeshStandardMaterial({color:white?new T.Color(.8,.8,.8):new T.Color(.36,.25,.09),metalness:white?.2:1,roughness:.45}));
     const goal=new T.Group();goal.name="cmGoal";group.add(goal);
     // Posts and bar: 12 cm round (Law 1 allows round or elliptical; FIFA 17 draws them round and white).
@@ -238,12 +240,13 @@
     {const pb=[];
       for(const x of [-HALF,HALF]){const p=add(new T.CylinderGeometry(PR,PR,GOAL_H+PR,32),postMat,goal);p.position.set(x,(GOAL_H+PR)/2,0);p.castShadow=true;pb.push(p);}
       const b=add(new T.CylinderGeometry(PR,PR,GOAL_W+PR*2,32),postMat,goal);b.rotation.z=Math.PI/2;b.position.set(0,GOAL_H+PR/2,0);b.castShadow=true;pb.push(b);
-      stadiumMerge(T,pb,goal).name="cmPosts";}
     // The far goal, 105 m away: posts and bar only (a dot on screen, seen on the keeper's-eye and reverse shots).
-    {const far=new T.Group();far.position.z=PITCH_L;group.add(far);const fp=[];
+    const far=new T.Group();far.position.z=PITCH_L;group.add(far);const fp=[];
       for(const x of [-HALF,HALF]){const p=add(new T.CylinderGeometry(PR,PR,GOAL_H,12),postMat,far);p.position.set(x,GOAL_H/2,0);fp.push(p);}
-      const b=add(new T.CylinderGeometry(PR,PR,GOAL_W,12),postMat,far);b.rotation.z=Math.PI/2;b.position.set(0,GOAL_H,0);fp.push(b);
-      stadiumMerge(T,fp,far);}
+      const fb=add(new T.CylinderGeometry(PR,PR,GOAL_W,12),postMat,far);fb.rotation.z=Math.PI/2;fb.position.set(0,GOAL_H,0);fp.push(fb);
+    // r90 Light draw budget (o.lean): both goals' posts and bars are one draw.
+    if(o.lean){group.updateMatrixWorld(true);stadiumMerge(T,pb.concat(fp),goal).name="cmPosts";group.remove(far);}
+    else{stadiumMerge(T,pb,goal).name="cmPosts";stadiumMerge(T,fp,far);}}
     // Box net frame: a stanchion curving back from each top corner to a ground bar 2.2 m behind the line.
     const DEPTH=2.2,TOP_BACK=1.0,ROOF_H=GOAL_H-.04;
     for(const x of [-HALF,HALF]){
@@ -252,7 +255,10 @@
       const g=add(new T.CylinderGeometry(.022,.022,DEPTH,10),frameMat,goal);g.rotation.x=Math.PI/2;g.position.set(x,.022,-DEPTH/2);bars.push(g);
     }
     {const g=add(new T.CylinderGeometry(.022,.022,GOAL_W,12),frameMat,goal);g.rotation.z=Math.PI/2;g.position.set(0,.022,-DEPTH);bars.push(g);}
-    stadiumMerge(T,frame,goal).name="cmStanchions";stadiumMerge(T,bars,goal).name="cmGroundBars";
+    // r90 Light draw budget (o.lean): the ground bars join the stanchions (one draw; a 2 cm bar on the grass casts no shadow
+    // a viewer can find).
+    if(o.lean)stadiumMerge(T,frame.concat(bars),goal).name="cmStanchions";
+    else{stadiumMerge(T,frame,goal).name="cmStanchions";stadiumMerge(T,bars,goal).name="cmGroundBars";}
     // Net: 12 cm square knotted cells (tex.net is one cell). alphaTest keeps it crisp and cheap; with MSAA on it uses
     // alpha-to-coverage for soft edges. The back sheet has many vertices so it can bulge where the ball hits.
     const CELL=.12;
@@ -272,6 +278,9 @@
     const backGeo=sheet((u,v)=>{const p=prof.getPointAt(v),x=-HALF+GOAL_W*u,s=sag(u)*Math.sin(Math.PI*v);return [x,p.y-.05*s,p.z-.06*s,GOAL_W*u/CELL,profLen*(1-v)/CELL];},phone?40:61,phone?24:36);
     backGeo.attributes.position.setUsage(T.DynamicDrawUsage);
     const back=add(backGeo,netMat,goal);back.name="cmNetBack";
+    // r90 Light draw budget (o.lean): the back net in one pass (both faces drawn together) instead of a back-face pass then a
+    // front-face pass of the same white cord.
+    if(o.lean){const one=keep(netMat.clone());one.forceSinglePass=true;back.material=one;}
     // Side nets: the panel under the profile, from the stanchion curve down to the ground, in the plane of each post.
     // r90 draw calls: both panels in one draw, in one pass. Each panel is flat, so only one of its faces ever faces the
     // camera and the second pass a double-sided net normally takes drew nothing; the two panels are the same white cord.
@@ -294,14 +303,36 @@
     const boardMat=t=>keep(new T.MeshBasicMaterial({map:t||null,color:t?new T.Color(1.15,1.15,1.15):new T.Color(.04,.035,.03),toneMapped:true}));
     const mWord=boardMat(art&&art.word),mLeft=boardMat(art&&art.homeR),mRight=boardMat(art&&art.awayL),mPattern=boardMat(art&&art.pattern),mRibbon=boardMat(art&&art.ribbon);
     let boardStep=-1;
+    // r90 Light draw budget (o.lean): the boards behind and around the pitch draw from one atlas of their seven pictures, so
+    // the wordmark, both club boards and the pattern are one draw (four before). Each board's u carries its slot (u + 2 x
+    // slot), and the 9 s swap moves which atlas row each slot reads (a uniform; no texture upload at the swap).
+    let atlas=null;
+    if(o.lean&&art&&art.word&&art.word.image&&typeof root.document?.createElement==="function"){
+      const rows=[art.word,art.duo,art.homeL,art.homeR,art.awayL,art.awayR,art.pattern],W=rows[0].image.width,H=rows[0].image.height,PAD=4,R=H+PAD*2,N=rows.length;
+      const c=root.document.createElement("canvas");c.width=W;c.height=R*N;const g=c.getContext("2d");
+      if(g){
+        const t=keep(new T.CanvasTexture(c));t.colorSpace=T.SRGBColorSpace;t.anisotropy=aniso;
+        // Each row padded with its own edge lines, so mipmaps never bleed one board into the next.
+        const draw=()=>{for(let i=0;i<N;i+=1){const im=rows[i].image,y=i*R;g.drawImage(im,0,0,W,1,0,y,W,PAD);g.drawImage(im,0,y+PAD);g.drawImage(im,0,H-1,W,1,0,y+PAD+H,W,PAD);}t.needsUpdate=true;};
+        const uRow={value:new T.Vector4(0,3,4,6)};
+        const mat=keep(new T.MeshBasicMaterial({map:t,color:new T.Color(1.15,1.15,1.15),toneMapped:true}));
+        mat.onBeforeCompile=sh=>{sh.uniforms.uCmRow=uRow;
+          sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nuniform vec4 uCmRow;").replace("#include <uv_vertex>",
+            `#include <uv_vertex>\n{float s=floor(vMapUv.x*.5+.001);float r=s<.5?uCmRow.x:s<1.5?uCmRow.y:s<2.5?uCmRow.z:uCmRow.w;vMapUv.x-=s*2.;vMapUv.y=1.-(r*${R}.+${PAD}.+(1.-vMapUv.y)*${H}.)/${R*N}.;}`);};
+        mat.customProgramCacheKey=()=>"cmBoardAtlas";
+        atlas={mat,uRow,draw,rows,ver:-1,slot:new Map([[mWord,0],[mLeft,1],[mRight,2],[mPattern,3]])};
+        draw();atlas.ver=rows.reduce((n,x)=>n+x.version,0);
+      }
+    }
     const backBoardMat=keep(new T.MeshStandardMaterial({color:new T.Color(.05,.05,.055),roughness:.6}));
     // A run of 8 m boards along local x, facing local +z, leaning back a little; parent places and turns the run. The first
     // board may be shorter (first), so a whole board sits where the run wants it; a short board always carries the pattern.
     const boardRun=(parent,x0,x1,pick,first)=>{
       const BW=8,BH=.9;let i=0;
       for(let x=x0;x<x1-.01;i+=1){const w=Math.min(i===0&&first?first:BW,x1-x),m=w<BW-.01?mPattern:pick(i,x+w/2);
-        const g=new T.PlaneGeometry(w,BH);const uv=g.attributes.uv;for(let k=0;k<uv.count;k+=1)uv.setX(k,uv.getX(k)*w/BW);
-        const p=add(g,m,parent);p.position.set(x+w/2,BH/2+.02,0);p.rotation.x=-.12;p.userData.bake=true;
+        const g=new T.PlaneGeometry(w,BH);const uv=g.attributes.uv,slot=atlas?atlas.slot.get(m):undefined;
+        for(let k=0;k<uv.count;k+=1)uv.setX(k,uv.getX(k)*w/BW+(slot!==undefined?slot*2:0));
+        const p=add(g,slot!==undefined?atlas.mat:m,parent);p.position.set(x+w/2,BH/2+.02,0);p.rotation.x=-.12;p.userData.bake=true;
         const bk=add(new T.BoxGeometry(w,BH,.18),backBoardMat,parent);bk.position.set(x+w/2,BH/2,-.1);bk.rotation.x=-.12;bk.receiveShadow=true;bk.userData.bake=true;
         x+=w;}
     };
@@ -347,23 +378,23 @@
       // its front at z 0, then turned and placed (origin {x,z}).
       const st=new T.Group();
       const lowerRows=big?22:18,upperRows=big?18:0;
-      const lower=add(tier(x0,x1,0,1.2,lowerRows,.82,.42,si),stepMat,st);lower.receiveShadow=true;
-      const front=add(new T.BoxGeometry(x1-x0,1.2,.4),concMat,st);front.position.set((x0+x1)/2,.6,.2);
+      const lower=add(tier(x0,x1,0,1.2,lowerRows,.82,.42,si),stepMat,st);lower.receiveShadow=true;lower.userData.bake="stand";
+      const front=add(new T.BoxGeometry(x1-x0,1.2,.4),concMat,st);front.position.set((x0+x1)/2,.6,.2);front.userData.bake="stand";
       const topLow=1.2+lowerRows*.42,backLow=-lowerRows*.82;
       // Concourse band between tiers: dark with a gold LED ribbon (the FIFA 17 stadiums all have one).
       const fg=new T.PlaneGeometry(x1-x0,1.3),fu=fg.attributes.uv;for(let k=0;k<fu.count;k+=1)fu.setX(k,fu.getX(k)*(x1-x0)/8);
-      const fascia=add(fg,mRibbon,st);fascia.position.set((x0+x1)/2,topLow+1.6,backLow-.3);
+      const fascia=add(fg,mRibbon,st);fascia.position.set((x0+x1)/2,topLow+1.6,backLow-.3);fascia.userData.bake="stand";
       let topY=topLow+2.4,backZ=backLow-.6;
       if(upperRows){
-        const upper=add(tier(x0,x1,backLow-1.2,topLow+2.3,upperRows,.8,.58,si),stepMat,st);upper.receiveShadow=true;
+        const upper=add(tier(x0,x1,backLow-1.2,topLow+2.3,upperRows,.8,.58,si),stepMat,st);upper.receiveShadow=true;upper.userData.bake="stand";
         topY=topLow+2.3+upperRows*.58;backZ=backLow-1.2-upperRows*.8;
       }
       // Back wall and the void under the steps (never seen from the pitch, but closes the silhouette against the sky).
-      const wall=add(new T.PlaneGeometry(x1-x0,topY+6),darkMat,st);wall.position.set((x0+x1)/2,(topY+6)/2,backZ-.3);
+      const wall=add(new T.PlaneGeometry(x1-x0,topY+6),darkMat,st);wall.position.set((x0+x1)/2,(topY+6)/2,backZ-.3);wall.userData.bake="stand";
       // Roof: a thin slab overhanging the stand, light truss edge, a row of floodlight panels on its front edge.
       const roofY=topY+5,roofFront=big?-2:0,roofBack=backZ-1,roofD=roofFront-roofBack;
-      const roof=add(new T.BoxGeometry(x1-x0+2,.5,roofD),darkMat,st);roof.position.set((x0+x1)/2,roofY,(roofFront+roofBack)/2);
-      const edge=add(new T.BoxGeometry(x1-x0+2,.9,.3),concMat,st);edge.position.set((x0+x1)/2,roofY-.2,roofFront);
+      const roof=add(new T.BoxGeometry(x1-x0+2,.5,roofD),darkMat,st);roof.position.set((x0+x1)/2,roofY,(roofFront+roofBack)/2);roof.userData.bake="stand";
+      const edge=add(new T.BoxGeometry(x1-x0+2,.9,.3),concMat,st);edge.position.set((x0+x1)/2,roofY-.2,roofFront);edge.userData.bake="stand";
       const lamps=[];for(let x=x0+3;x<x1-2;x+=6)lamps.push(x);
       st.userData.lamps=lamps.map(x=>new T.Vector3(x,roofY-.75,roofFront+.2));
       const lampMat=keep(new T.MeshBasicMaterial({color:new T.Color(2.2,2.1,1.9)}));
@@ -554,6 +585,15 @@
     // r90 LOOK (L01): a wide soft halo round each bank, the glow a floodlight throws into the night air (one more draw).
     const haloMat=keep(new T.PointsMaterial({map:tex.flare,size:38,sizeAttenuation:true,color:new T.Color(.2,.18,.14),blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
     const halo=new T.Points(flareGeo,haloMat);halo.frustumCulled=false;group.add(halo);
+    // r90 Light draw budget (o.lean): flares and halo in one Points draw (each lamp twice, its size and colour per point).
+    if(o.lean){const n=fp.length/3,size=new Float32Array(n*2),col=new Float32Array(n*6);
+      for(let i=0;i<n;i+=1){size[i]=1;size[n+i]=38/9;col.set([1,.97,.9],i*3);col.set([.2,.18,.14],(n+i)*3);}
+      const g=keep(new T.BufferGeometry());g.setAttribute("position",new T.Float32BufferAttribute(fp.concat(fp),3));
+      g.setAttribute("aCmSize",new T.BufferAttribute(size,1));g.setAttribute("color",new T.BufferAttribute(col,3));
+      const m=keep(new T.PointsMaterial({map:tex.flare,size:9,sizeAttenuation:true,vertexColors:true,blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
+      m.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nattribute float aCmSize;").replace("gl_PointSize = size;","gl_PointSize = size * aCmSize;");};
+      m.customProgramCacheKey=()=>"cmFlares";
+      flares.geometry=g;flares.material=m;flares.name="cmFlares";group.remove(halo);}
     // Night sky: a big inverted sphere with a gradient (deep navy up high, a warm haze over the roofs from the floodlights).
     const skyMat=keep(new T.ShaderMaterial({side:T.BackSide,depthWrite:false,fog:false,uniforms:{},
       vertexShader:"varying vec3 vDir;void main(){vDir=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
@@ -565,9 +605,11 @@
     // Boards and lamps are many small static meshes: merge them per material so the whole kit draws in a few dozen calls.
     {group.updateMatrixWorld(true);const buckets=new Map(),drop=[];
       // Only what shows: with the bowl the built stands are hidden, and their lamps must not come back merged (Codex on #1288).
-      group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake){if(!buckets.has(x.material))buckets.set(x.material,[]);buckets.get(x.material).push(x);drop.push(x);}});
+      // r90 Light draw budget: the built stands' steps, fronts, fascias, walls and roofs join too (one draw per material for
+      // all four stands, 26 draws to 5). A stand piece keeps whether it takes shadows (boards and lamps take them, as before).
+      group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake){const shade=x.userData.bake!=="stand"||x.receiveShadow;x.userData.shade=shade;const key=`${x.material.uuid}|${shade}`;if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(x);drop.push(x);}});
       const v=new T.Vector3();
-      for(const [mat,list] of buckets){
+      for(const [_key,list] of buckets){const mat=list[0].material,shade=list[0].userData.shade;
         let count=0;for(const m of list){const g=m.geometry;count+=g.index?g.index.count:g.attributes.position.count;}
         const P=new Float32Array(count*3),N=new Float32Array(count*3),U=new Float32Array(count*2);let o=0;
         for(const m of list){const g=m.geometry,pa=g.attributes.position,na=g.attributes.normal,ua=g.attributes.uv,ix=g.index;
@@ -577,7 +619,7 @@
             v.fromBufferAttribute(na,k).transformDirection(m.matrixWorld);N[o*3]=v.x;N[o*3+1]=v.y;N[o*3+2]=v.z;
             U[o*2]=ua?ua.getX(k):0;U[o*2+1]=ua?ua.getY(k):0;o+=1;}}
         const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(P,3));g.setAttribute("normal",new T.BufferAttribute(N,3));g.setAttribute("uv",new T.BufferAttribute(U,2));
-        const merged=add(g,mat);merged.receiveShadow=true;}
+        const merged=add(g,mat);merged.receiveShadow=shade;}
       for(const m of drop){m.removeFromParent();m.geometry.dispose();}}
 
     // ---------- live ----------
@@ -590,7 +632,10 @@
       // r90: the boards behind the goal swap together: wordmark with the clubs either side, then the matchday board with
       // the clubs swapped (home right, away left).
       const step=Math.floor(t/9);if(art&&step!==boardStep){boardStep=step;const odd=step%2===1;
-        mWord.map=odd?art.duo:art.word;mLeft.map=odd?art.awayR:art.homeR;mRight.map=odd?art.homeL:art.awayL;}
+        mWord.map=odd?art.duo:art.word;mLeft.map=odd?art.awayR:art.homeR;mRight.map=odd?art.homeL:art.awayL;
+        if(atlas)atlas.uRow.value.set(odd?1:0,odd?5:3,odd?2:4,6);}
+      // A board repainted (its font or a crest came in): the atlas copies it again.
+      if(atlas){const v=atlas.rows.reduce((n,x)=>n+x.version,0);if(v!==atlas.ver){atlas.ver=v;atlas.draw();}}
       // Net bulge: a damped push at the hit point. A clock before the hit (Reduce Motion turned on after a goal sets the
       // scene clock to 0) restores the flat net, never an inverted bulge.
       const pos=backGeo.attributes.position,arr=pos.array;const e=t-net.t0;
@@ -606,6 +651,11 @@
       for(const t of Object.values(tex))try{t.dispose();}catch(_error){}
       group.removeFromParent();
     }
+    // r90 Light program budget (o.lean): the untextured flat colours (lamps, dark boards) read a 1x1 white map, so they
+    // share the textured flat shader instead of compiling one more (same colour on screen: white x colour).
+    if(o.lean){let white1=null;group.traverse(x=>{const m=x.material;if(!x.isMesh||!m||!m.isMeshBasicMaterial||m.map||m.vertexColors||m.onBeforeCompile!==T.MeshBasicMaterial.prototype.onBeforeCompile)return;
+      if(!white1){white1=keep(new T.DataTexture(new Uint8Array([255,255,255,255]),1,1));white1.colorSpace=T.SRGBColorSpace;white1.needsUpdate=true;}
+      m.map=white1;m.needsUpdate=true;});}
     update(0,0);
     return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,hitNet,dispose:stadiumDispose,
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};

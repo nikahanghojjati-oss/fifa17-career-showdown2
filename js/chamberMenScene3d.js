@@ -147,11 +147,9 @@
   async function cm3Warm(opts){
     // Data Saver on: nothing ahead (the screen still loads what it needs when it opens).
     if(root.CMS_CHAMBER_MEN_3D==="off"||!root.WebGL2RenderingContext||root.navigator?.connection?.saveData===true)return false;
-    const Q=await cm3Quality();
+    const Q=await cm3Quality(opts&&opts.clubs);
     if(!await cm3Scripts())return false;
-    const S=root.CareerModeChamberMenStadium,level=Q.textureLevel??Q.level;
-    const urls=[ENGINE_PATH,PLAYER_PATH+`anims_${Q.assets}.glb`,...cm3BodyFiles(Q.assets,opts&&opts.clubs).map(([_n,f])=>PLAYER_PATH+f),
-      ...(typeof S.urls==="function"?S.urls({phone:Q.assets==="phone",level}):[])];
+    const urls=cm3Urls(Q,opts&&opts.clubs);
     let next=0,ok=true;
     // One file at a time, so the season page's own reads never wait behind the warm-up.
     while(next<urls.length&&!cm3Mounting){const u=urls[next];next+=1;if(!await cm3Blob(u,true))ok=false;}
@@ -167,9 +165,13 @@
         if(x)for(const k of cm3KitPlan(x.K,Q,opts&&opts.clubs)){if(cm3Mounting)break;await cm3Idle();if(cm3Kits.has(k.memo))continue;
           try{const t=x.K.textures(k.club,k.opts);cm3Kits.set(k.memo,t);await Promise.resolve(t.ready).catch(()=>{});}catch(_error){}}
         return x;})().catch(()=>null);
-      cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work};
+      cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work,lite:Boolean(Q.full)};
       await work;
     }
+    // M36: a high level opened on the lighter set on a slow line: its own set comes down now, one file at a time at low
+    // priority, for the next open (never parsed here).
+    if(Q.full){const full=cm3Urls({...Q,assets:"desktop",textureLevel:Q.full.textureLevel},opts&&opts.clubs);
+      for(const u of full){if(cm3Mounting)break;await cm3Blob(u,true);}}
     return ok;
   }
   let cm3Parsed=null;const cm3Kits=new Map();
@@ -316,7 +318,7 @@
     const L=Number.isInteger(Q.level)?Q.level:1,QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))];
     const aniso=Math.min(QX.aniso,renderer.capabilities.getMaxAnisotropy());
     const scene=new T.Scene();scene.background=new T.Color(0x05070b);scene.fog=new T.FogExp2(0x0a0d14,.0045);
-    const own=[];const keep=v=>{own.push(v);return v;};
+    const own=[];const keep=v=>{own.push(v);return v;};let flatNormal=null;
     const clubs=(opts&&opts.clubs)||{};
     const K=x.K,hex=v=>{const n=parseInt(String(v||"").replace("#",""),16);return Number.isFinite(n)?n:null;};
     const colourOf=club=>{try{return hex(K.kit(club).dominant)??0x888888;}catch(_error){return 0x888888;}};
@@ -325,7 +327,7 @@
     // Stadium: white posts like FIFA 17, the crowd in each club's colours, the boards with each club's crest and name.
     const crest=typeof root.getClubCrestSvg==="function"?name=>root.getClubCrestSvg(name):null;
     const S=x.S.build(T,x.tex,{phone,density:Q.density,full:QX.fullCrowd,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),
-      homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso});
+      homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso,lean:L===0});
     scene.add(S.group);
     const ball=S.ball;
     // ---------- floodlights ----------
@@ -406,9 +408,16 @@
       model.traverse(o=>{
         // Eyelashes cast no shadow (r90 draw calls): a lash is far under one shadow texel, so its shadow was a draw per light
         // that changed no pixel.
-        if(o.isMesh){o.castShadow=!/lash/i.test(`${o.name} ${[].concat(o.material).map(m=>m&&m.name).join(" ")}`);o.receiveShadow=true;o.frustumCulled=false;for(const m of [].concat(o.material)){if(m&&m.name)mats[m.name]=m;keep(m);}}
+        // r90 Light draw budget: no eyelashes at Light (the taker shows his back, the keeper's face is about 10 px high at
+        // 1920x866): two draws that changed no pixel a viewer can find.
+        if(o.isMesh){const lash=/lash/i.test(`${o.name} ${[].concat(o.material).map(m=>m&&m.name).join(" ")}`);o.castShadow=!lash;if(lash&&L===0)o.visible=false;o.receiveShadow=true;o.frustumCulled=false;for(const m of [].concat(o.material)){if(m&&m.name)mats[m.name]=m;keep(m);}}
         if(o.isBone&&!bones[o.name])bones[o.name]=o;
       });
+      // r90 Light program budget: a kit piece the model ships without a normal map reads a flat one (no change on screen),
+      // so every opaque kit piece of both players shares one shader instead of two.
+      if(L===0)for(const m of Object.values(mats))if(m.isMeshStandardMaterial&&(m.map||/^kit/.test(m.name))&&!m.normalMap&&!m.transparent&&!(m.alphaTest>0)&&!m.alphaMap){
+        if(!flatNormal){flatNormal=keep(new T.DataTexture(new Uint8Array([128,128,255,255]),1,1));flatNormal.needsUpdate=true;}
+        m.normalMap=flatNormal;m.needsUpdate=true;}
       shadowBody(model);
       const clips=retarget(scaleOf(gltf));
       const mixer=new T.AnimationMixer(model),actions=new Map();
@@ -541,21 +550,28 @@
     // r90 LOOK: contact shadows. A soft dark disc on the turf under the taker, the keeper and the ball, at every level: it
     // is what plants them on the grass (Light's shadow map is small and soft). Higher levels keep their real shadows and
     // the disc goes lighter. One small canvas texture, three quads.
+    // r90 Light draw budget: the three contact shadows are one mesh of three quads (one draw, was three); each quad keeps
+    // its own size and strength (vertex alpha), moved every frame with the taker, the keeper and the ball.
     const blob=(()=>{
       const d=doc(),c=d.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d");if(!g)return null;
       const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(0,0,0,1)");gr.addColorStop(.45,"rgba(0,0,0,.6)");gr.addColorStop(1,"rgba(0,0,0,0)");
       g.fillStyle=gr;g.fillRect(0,0,64,64);const t=keep(new T.CanvasTexture(c));
-      const geo=keep(new T.PlaneGeometry(1,1));geo.rotateX(-Math.PI/2);
-      const strength=L<=0?.62:.5;
-      const one=(name,w,d0)=>{const m=keep(new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,opacity:strength,color:0x000000,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
-        const q=new T.Mesh(geo,m);q.name=name;q.scale.set(w,1,d0);q.position.y=.006;q.renderOrder=1;scene.add(q);return q;};
-      return {taker:one("cmBlobTaker",1.15,.9),keeper:one("cmBlobKeeper",1.25,.85),ball:one("cmBlobBall",.36,.36),strength};
+      const strength=L<=0?.62:.5,P=new Float32Array(36),C=new Float32Array(48),U=new Float32Array(24),I=[];
+      for(let q=0;q<3;q+=1){U.set([0,1,1,1,0,0,1,0],q*8);const o=q*4;I.push(o,o+2,o+1,o+2,o+3,o+1);}
+      const geo=keep(new T.BufferGeometry());geo.setAttribute("position",new T.BufferAttribute(P,3).setUsage(T.DynamicDrawUsage));
+      geo.setAttribute("color",new T.BufferAttribute(C,4).setUsage(T.DynamicDrawUsage));geo.setAttribute("uv",new T.BufferAttribute(U,2));geo.setIndex(I);
+      const m=keep(new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,vertexColors:true,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
+      const mesh=new T.Mesh(geo,m);mesh.name="cmBlobs";mesh.renderOrder=1;mesh.frustumCulled=false;scene.add(mesh);
+      return {taker:{i:0,w:1.15,d:.9},keeper:{i:1,w:1.25,d:.85},ball:{i:2,w:.36,d:.36},strength,geo,P,C};
     })();
     const blobAt=(q,a,lift)=>{
-      if(!q)return;q.visible=Boolean(a?a.holder.visible:true);if(!q.visible)return;
-      if(a){a.hips.getWorldPosition(sample);}else sample.copy(ball.position);
-      const h=Math.max(0,sample.y-lift),k=Math.max(0,1-h/2.2);
-      q.position.x=sample.x;q.position.z=sample.z;q.material.opacity=blob.strength*k;const sc=1+h*.5;q.scale.x=q.userData.w??(q.userData.w=q.scale.x);q.scale.x*=sc;
+      if(!q)return;const B=blob,on=Boolean(a?a.holder.visible:true);let alpha=0,x=0,z=0,w=0,dd=0;
+      if(on){if(a){a.hips.getWorldPosition(sample);}else sample.copy(ball.position);
+        const h=Math.max(0,sample.y-lift),k=Math.max(0,1-h/2.2);alpha=B.strength*k;x=sample.x;z=sample.z;w=q.w*(1+h*.5)/2;dd=q.d/2;}
+      // Corners in PlaneGeometry order, laid flat (rotated -90 degrees about x): the near edge first.
+      const o=q.i*12;B.P.set([x-w,.006,z-dd,x+w,.006,z-dd,x-w,.006,z+dd,x+w,.006,z+dd],o);
+      for(let v=0;v<4;v+=1)B.C.set([1,1,1,alpha],q.i*16+v*4);
+      B.geo.attributes.position.needsUpdate=true;B.geo.attributes.color.needsUpdate=true;
     };
 
     // Kits: the taker in his club's home kit, the keeper in his own club's keeper kit picked against the taker's.
@@ -914,11 +930,30 @@
   // The device's level (js/gfxTier.js, in the shell); light and phone screens take the lighter player and ball files.
   const GFX_JS="js/gfxTier.js";
   const GFX_FALLBACK={level:1,name:"medium",pixelRatio:1,antialias:true,shadowSize:1024,density:.7,bloom:false};
-  async function cm3Quality(){
+  async function cm3Quality(clubs){
     const ok=await cm3Script("gfx-tier",GFX_JS,()=>Boolean(root.CareerModeGfxTier)).catch(()=>false);
     let p=GFX_FALLBACK;try{if(ok)p=root.CareerModeGfxTier.profile();}catch(_error){}
     // Asset size follows the texture level (a phone below High is one size down; a strong phone at High+ gets the full set).
-    return {...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};
+    const q={...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};
+    // r90 MOTION M36 (Nik: never flat on his Chromebook): on a slow line (under 10 Mbps) a high level's full set (9.9-14 MB)
+    // cannot come in a screen's wait. It opens on the Balanced file set (5.2 MB; same lights, shadows and pixel ratio for its
+    // level) until its own set is in the cache: the season page fetches that at low priority after the lighter set, so a
+    // later open has it.
+    // A light set the season page already parsed is used before a full set that came in since (no parse at the tap).
+    if(q.assets==="desktop"&&cm3SlowLink()&&(cm3Parsed?.lite||!await cm3Scripts()||!(await Promise.all(cm3Urls(q,clubs).map(cm3Cached))).every(Boolean))){
+      q.full={textureLevel:q.textureLevel??q.level};q.assets="phone";q.textureLevel=1;}
+    return q;
+  }
+  function cm3SlowLink(){const c=root.navigator?.connection;return Boolean(c&&Number.isFinite(c.downlink)&&c.downlink>0&&c.downlink<10);}
+  // The service worker keeps every game file under its versioned key (the path with v set to the page's app-asset-revision), so
+  // that key is the one looked up; the plain URL is checked first for a cache without the worker (Codex on #1327).
+  async function cm3Cached(path){try{if(!root.caches||typeof root.caches.match!=="function")return false;const u=new URL(path,root.location.href);
+    if(await root.caches.match(u.href))return true;const rev=root.document?.querySelector?.('meta[name="app-asset-revision"]')?.content;if(!rev)return false;
+    u.searchParams.set("v",rev);return Boolean(await root.caches.match(u.href));}catch(_error){return false;}}
+  function cm3Urls(Q,clubs){
+    const S=root.CareerModeChamberMenStadium,level=Q.textureLevel??Q.level;
+    return [ENGINE_PATH,PLAYER_PATH+`anims_${Q.assets}.glb`,...cm3BodyFiles(Q.assets,clubs).map(([_n,f])=>PLAYER_PATH+f),
+      ...(S&&typeof S.urls==="function"?S.urls({phone:Q.assets==="phone",level}):[])];
   }
   async function cm3Mount(svg,opts){
     // opts.signal (BUGS hunt BUG-05): the step gave up on the scene; nothing more is parsed or built (r90 M1: the downloads
@@ -927,7 +962,7 @@
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2()||off())return null;
     cm3Mounting+=1;
     try{
-      const Q=await cm3Quality();if(off())return null;
+      const Q=await cm3Quality(opts&&opts.clubs);if(off())return null;
       // r90 Light: a file that fails to come in (a dropped connection on a slow line) is fetched once more before the
       // drawn goal is used: a failed download is not a missing GPU.
       // The season page's parse for this level and these clubs, when it made one (a parse for others is let go).
