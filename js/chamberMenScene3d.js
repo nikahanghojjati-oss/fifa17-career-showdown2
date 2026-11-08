@@ -328,14 +328,53 @@
     const retarget=scale=>{const out={};for(const c of x.clips.animations){
       if(scale===1){out[c.name]=c;continue;}
       const k=c.clone();for(const t of k.tracks)if(t.name.endsWith(".position")){const v=t.values;for(let i=0;i<v.length;i+=1)v[i]*=scale;}out[c.name]=k;}return out;};
+    // r90 draw calls: one shadow draw per player body instead of one per piece. The opaque pieces (skin, shirt, shorts,
+    // socks, boots, eyes) are copied once into a shadow-only mesh on the same bones, posed exactly as they are; it shows only
+    // while the shadow maps render, so the picture never draws it. Hair (alpha-cut) keeps its own shadow. A body whose
+    // pieces disagree on a bone's bind pose keeps the per-piece shadows.
+    const shadowBodies=[];
+    {const sm=renderer.shadowMap,draw=sm.render.bind(sm);
+      sm.render=(...args)=>{for(const p of shadowBodies){p.visible=true;p.skeleton.update();}
+        try{return draw(...args);}finally{for(const p of shadowBodies)p.visible=false;}};}
+    const shadowBody=model=>{
+      const parts=[];model.updateMatrixWorld(true);
+      model.traverse(o=>{if(o.isSkinnedMesh&&o.castShadow&&!Array.isArray(o.material)&&!(o.material.alphaTest>0)&&!o.material.alphaMap&&!o.material.transparent)parts.push(o);});
+      if(parts.length<2||parts.some(o=>o.material.side!==parts[0].material.side||o.material.shadowSide!==parts[0].material.shadowSide))return;
+      const bones=[],inv=[],at=new Map();
+      for(const o of parts)for(let i=0;i<o.skeleton.bones.length;i+=1){const b=o.skeleton.bones[i],m=o.skeleton.boneInverses[i];
+        if(!at.has(b)){at.set(b,bones.length);bones.push(b);inv.push(m.clone());}
+        else{const e=inv[at.get(b)].elements;if(m.elements.some((x,k)=>Math.abs(x-e[k])>1e-4))return;}}
+      let nv=0,ni=0;for(const o of parts){const g=o.geometry;nv+=g.attributes.position.count;ni+=g.index?g.index.count:g.attributes.position.count;}
+      // Every piece in the same bind space as the first (they normally share one, so the positions copy over bit for bit).
+      const P=new Float32Array(nv*3),SI=new Uint16Array(nv*4),SW=new Float32Array(nv*4),I=nv>65535?new Uint32Array(ni):new Uint16Array(ni),v=new T.Vector3();
+      const bind=parts[0].bindMatrix.clone(),toBind=new T.Matrix4().copy(bind).invert(),m=new T.Matrix4();
+      let o0=0,k=0;
+      for(const o of parts){const g=o.geometry,pa=g.attributes.position,si=g.attributes.skinIndex,sw=g.attributes.skinWeight,ix=g.index,map=o.skeleton.bones.map(b=>at.get(b));
+        const same=o.bindMatrix.equals(bind);m.multiplyMatrices(toBind,o.bindMatrix);
+        for(let i=0;i<pa.count;i+=1){const j=o0+i;v.fromBufferAttribute(pa,i);if(!same)v.applyMatrix4(m);P[j*3]=v.x;P[j*3+1]=v.y;P[j*3+2]=v.z;
+          SI[j*4]=map[si.getX(i)];SI[j*4+1]=map[si.getY(i)];SI[j*4+2]=map[si.getZ(i)];SI[j*4+3]=map[si.getW(i)];
+          SW[j*4]=sw.getX(i);SW[j*4+1]=sw.getY(i);SW[j*4+2]=sw.getZ(i);SW[j*4+3]=sw.getW(i);}
+        if(ix)for(let i=0;i<ix.count;i+=1)I[k++]=ix.getX(i)+o0;else for(let i=0;i<pa.count;i+=1)I[k++]=i+o0;
+        o0+=pa.count;}
+      const g=keep(new T.BufferGeometry());g.setAttribute("position",new T.BufferAttribute(P,3));g.setAttribute("skinIndex",new T.BufferAttribute(SI,4));
+      g.setAttribute("skinWeight",new T.BufferAttribute(SW,4));g.setIndex(new T.BufferAttribute(I,1));
+      const mat=keep(new T.MeshBasicMaterial({side:parts[0].material.side}));mat.shadowSide=parts[0].material.shadowSide;
+      const proxy=new T.SkinnedMesh(g,mat);proxy.name="cmShadowBody";proxy.castShadow=true;proxy.frustumCulled=false;proxy.visible=false;
+      model.add(proxy);proxy.bind(keep(new T.Skeleton(bones,inv)),bind);
+      for(const o of parts)o.castShadow=false;
+      shadowBodies.push(proxy);
+    };
     const actor=(gltf,name,body)=>{
       const model=gltf.scene,holder=new T.Group();holder.name=name;holder.add(model);holder.visible=false;scene.add(holder);
       model.position.y=BODY_LIFT[body]||0;
       const mats={},bones={};
       model.traverse(o=>{
-        if(o.isMesh){o.castShadow=true;o.receiveShadow=true;o.frustumCulled=false;for(const m of [].concat(o.material)){if(m&&m.name)mats[m.name]=m;keep(m);}}
+        // Eyelashes cast no shadow (r90 draw calls): a lash is far under one shadow texel, so its shadow was a draw per light
+        // that changed no pixel.
+        if(o.isMesh){o.castShadow=!/lash/i.test(`${o.name} ${[].concat(o.material).map(m=>m&&m.name).join(" ")}`);o.receiveShadow=true;o.frustumCulled=false;for(const m of [].concat(o.material)){if(m&&m.name)mats[m.name]=m;keep(m);}}
         if(o.isBone&&!bones[o.name])bones[o.name]=o;
       });
+      shadowBody(model);
       const clips=retarget(scaleOf(gltf));
       const mixer=new T.AnimationMixer(model),actions=new Map();
       const act=clip=>{let a=actions.get(clip);if(!a){a=mixer.clipAction(clip);a.setLoop(T.LoopRepeat,Infinity);a.play();a.enabled=false;actions.set(clip,a);}return a;};
