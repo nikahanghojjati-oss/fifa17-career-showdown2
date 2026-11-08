@@ -101,10 +101,10 @@
   }
   // One body per club for the whole Showdown (its taker and its keeper), from the club's name: nothing random.
   function cm3BodyOf(club,list){return list[cm3Hash(`body|${club||""}`)%list.length];}
-  function cm3Prefetch(tier,clubs){
+  function cm3Prefetch(tier,clubs,signal){
     const scripts=Promise.all([cm3Script("chamber-men-stadium",STADIUM_JS,()=>Boolean(root.CareerModeChamberMenStadium)),cm3Script("kits17",KITS_JS,()=>Boolean(root.CareerModeKits17)),
       cm3Script("visual-identity",CREST_JS,()=>typeof root.getClubCrestSvg==="function").catch(()=>false)]).then(([okS,okK])=>Boolean(okS&&okK),()=>false);
-    const get=file=>typeof root.fetch!=="function"?Promise.resolve(null):root.fetch(PLAYER_PATH+file).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null);
+    const get=file=>typeof root.fetch!=="function"?Promise.resolve(null):root.fetch(PLAYER_PATH+file,signal?{signal}:undefined).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null);
     const anims=get(`anims_${tier}.glb`);
     const bodies=scripts.then(ok=>{
       if(!ok)return null;
@@ -619,17 +619,19 @@
     return {...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};
   }
   async function cm3Mount(svg,opts){
-    if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2())return null;
+    // opts.signal (BUGS hunt BUG-05): the step gave up on the scene; downloads stop and nothing more is built.
+    const off=()=>Boolean(opts&&opts.signal&&opts.signal.aborted);
+    if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2()||off())return null;
     try{
-      const Q=await cm3Quality();
-      const pre=cm3Prefetch(Q.assets,opts&&opts.clubs);
-      const T=await loadEngine();
+      const Q=await cm3Quality();if(off())return null;
+      const pre=cm3Prefetch(Q.assets,opts&&opts.clubs,opts&&opts.signal);
+      const T=await loadEngine();if(off())return null;
       const extras=await cm3Extras(T,Q,pre);
       // r90: no stadium or players in time is the SVG goal, never a second look (the gold hall and its lounge light are gone).
       if(!extras)return null;
-      if(!svg.isConnected){cm3FreeExtras(extras);return null;}
+      if(!svg.isConnected||off()){cm3FreeExtras(extras);return null;}
       let api=null;
-      try{api=buildBroadcast(T,svg,extras,opts,Q);await api.warm();}
+      try{api=buildBroadcast(T,svg,extras,opts,Q);await api.warm();if(off()){api.dispose();return null;}}
       catch(error){try{root.console?.warn?.("Chamber Men 3D scene failed; the drawn goal plays.",error);}catch(_error){}cm3FreeExtras(extras);svg.parentNode?.querySelector?.(":scope > canvas.cmGoal3d")?.remove();svg.classList.remove("cm3d-on");return null;}
       CareerModeChamberMen3d.last=api;
       return api;

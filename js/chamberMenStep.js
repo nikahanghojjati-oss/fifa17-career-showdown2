@@ -258,14 +258,18 @@
   function cmsScene(goal){
     if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
     let late=false,cut=null;
+    // BUGS hunt BUG-05: a scene given up is aborted, not only flagged: its downloads stop and the mount builds nothing more,
+    // so a slow device is not still making a scene nobody will see through the pick clock.
+    const stop=typeof root.AbortController==="function"?new root.AbortController():null;
+    const giveUp=()=>{late=true;try{stop?.abort();}catch(_error){}};
     const dropped=new Promise(resolve=>{cut=resolve;});
-    goal.dropScene=()=>{if(!goal.scene)late=true;cut(null);};
-    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs}):null).then(scene=>{
+    goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};
+    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok&&!late?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs,signal:stop?.signal}):null).then(scene=>{
       if(!scene)return null;
       if(late){try{scene.dispose();}catch(_error){}return null;}
       goal.scene=scene;cmsSync(goal);return scene;
     },()=>null);
-    return Promise.race([made,dropped,cmsWait(SCENE_WAIT_MS).then(()=>{late=true;return null;})]);
+    return Promise.race([made,dropped,cmsWait(SCENE_WAIT_MS).then(()=>{if(!goal.scene)giveUp();return null;})]);
   }
   // A scene that mounts late takes the lineup on screen and, when a kick was revealed while it loaded, that kick at its end
   // pose (its words are already up), never a fresh run-up.
@@ -451,6 +455,8 @@
       };
       // Shows the newly finished kicks one after the other, then carries on.
       const revealFrom=(from,kicks)=>{
+        // BUGS hunt BUG-03: the finished kick's pick clock goes while it is shown (render() waits until the reveal ends).
+        clock=null;ui.clock.textContent="";
         if(from>=kicks.length){revealing=null;render();return;}
         drawBoard(from+1);showKick(kicks[from],true);
         revealing=root.setTimeout(()=>{if(finished)return;shown=from+1;revealFrom(from+1,kicks);},KICK_MS);
