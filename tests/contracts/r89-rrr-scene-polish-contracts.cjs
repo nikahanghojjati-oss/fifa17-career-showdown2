@@ -91,7 +91,12 @@ has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(
 lacks(/shadowCool/,'the per-turn shadow redraw');
 has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving revolver casts no map shadow (its contact shadow is a picture)');
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
-lacks(/MeshPhysicalMaterial|clearcoat:|sheen:/,'clearcoat and sheen lobes');
+// r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Medium keep one-lobe materials and plain three.js meshes.
+assert.equal((html.match(/MeshPhysicalMaterial/g)||[]).length,1,'one place makes a two-lobe material');
+has(/const HQ=GFX\.level>=2;\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
+has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from High up');
+has(/const T=SEGK===1\?THREE:/,'Light and Medium build with plain three.js');
+lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
 assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,2,'two point lights: the lantern and the one effects light');
 lacks(/RR_ROOM\.jpg|backWall|wallLamp|chandelier|cafeTable|function dado/,'the marble hall');
 lacks(/const floorTex=woodTex\(2048/,'the unused 2048 px wood floor texture');
