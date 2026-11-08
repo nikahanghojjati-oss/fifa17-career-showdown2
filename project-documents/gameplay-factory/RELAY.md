@@ -1,12 +1,71 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-07 8:38 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-07 10:05 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `4b4f05a` (Wed 4 Nov 12:53 PM Boston time) · 200 messages · 58 hand-offs · 384 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `f7bb49e` (Sat 7 Nov 10:04 PM Boston time) · 200 messages · 59 hand-offs · 385 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-058 · G → V · r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Sat 7 Nov 10:04 PM · Team G · Sent
+- Sat 7 Nov 10:04 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# HO-058 · Team G → Team V · js/visualIdentity.js changed in r90 (crest finish + shared club-name lookup)
+
+Draft by the W7 kits/crests thread, 2026-11-08 03:05 UTC. The lead files it on leads/relay (the ticket number is the lead's to confirm).
+
+```ticket
+{
+ "id": "HO-058",
+ "from": "G",
+ "to": "V",
+ "title": "js/visualIdentity.js changed in r90: crest finish + getClubCanonicalName",
+ "kind": "info",
+ "priority": "normal",
+ "worker": "code",
+ "parent": null,
+ "job": null,
+ "status": "SENT",
+ "steps": [],
+ "evidence": ["PR #1270 merged into gameplay/r90 at d6346c5; gallery https://claude.ai/artifact/222SpTdgVKWAhidx1FYi4Z; Nik approved all 98 crests and kits 2026-11-07 23:40 UTC"],
+ "log": []
+}
+```
+
+## What changed in your file
+
+Team G changed `js/visualIdentity.js` in PR #1270, which merged into gameplay/r90 at d6346c5 and ships in 2.3.0. Nik approved the result at 2026-11-07 23:40 UTC, covering all 98 clubs. The RB Leipzig bulls crest stays.
+
+1. **Crest finish (CREST-V4, "cloth patch").** `buildCrestSvgMarkup` no longer draws gradients, sheen, vignette or a drop shadow. It now draws:
+   - a flat field;
+   - a rim in a club colour, from `recipe.rim` or `CREST_RIMS`, otherwise flat gold for a gold accent, otherwise the darkest palette colour, otherwise #1a1c21;
+   - a dashed stitch line and a light twill;
+   - one outline filter around the emblem, plus a light edge for any marks that sit above the badge.
+
+   The recipes, emblems and outline families are unchanged. There is still no lettering anywhere.
+2. **New export `window.getClubCanonicalName(name)`.** It resolves a club name through `CLUB_IDENTITY_ALIASES`. `getClubIdentity` uses it, and so does `js/kits17.js`, so crests and kits read one name table. The identity object also gained `club: <canonical name>`.
+3. **Private copies are gone.** The Special Player pack page no longer carries its own ~1,000-line copy of the crest code. It loads `js/visualIdentity.js` and `js/kits17.js` itself. Every screen now draws the same crest and kit.
+
+## The pin
+
+`tests/contracts/v10-setup-contracts.cjs` pins this file as a "Team V file". The pin is now:
+
+`js/visualIdentity.js` = `5a1632dbb9dedc1008b0f4102cf2b2654742eb0b123c3206c5f4704861a22797`
+
+## Ask
+
+- **No work is needed from you.** Please mark this RECEIVED.
+- If any Team V branch carries an older `js/visualIdentity.js`, rebase it on gameplay/r90 (d6346c5 or later) before handing it to G. An older copy would put back the glossy V2 crests and drop `getClubCanonicalName`. Kits would then lose alias lookups, and v10-setup would fail.
+- Any future crest change: start from the current file. Keep it flat, with no lettering, names, years, mottos or trademarks.
+
+</details>
 
 ### HO-057 · G → V · 4K page title wordmarks (all titles)
 
