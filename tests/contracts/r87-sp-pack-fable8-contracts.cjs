@@ -109,4 +109,11 @@ ok("R90-PS7 quality by level (Nik 23:44 UTC): MSAA, shadows, filtering and card 
   assert.match(page,/checkFramebufferStatus\(gl\.FRAMEBUFFER\)===gl\.FRAMEBUFFER_COMPLETE/,"an incomplete target steps down");
 });
 
+ok("R90-PS8 lead review #1270: the pack still reveals if js/kits17.js did not load (plain club-colour shirt, plain coin face)",()=>{
+  assert.match(page,/const KIT17=window\.CareerModeKits17\|\|\{\n  kit\(club\)\{[^\n]*window\.getClubIdentity\(club\)[^\n]*return \{body:c\}; \},\n  drawFlat\(ctx,club,cx,cy,h\)\{/,"one guard with both calls the page makes");
+  assert.equal((page.match(/KIT17\.(\w+)\(/g)||[]).filter(x=>!/KIT17\.(kit|drawFlat)\(/.test(x)).length,0,"the page calls only kit() and drawFlat(), which the fallback covers");
+  assert.match(page,/window\.addEventListener\('error',function\(e\)\{ if\(e\.target&&e\.target\.src&&\/\\\/js\\\/\(kits17\|visualIdentity\)\\\.js\/\.test\(e\.target\.src\)\) return;/,"a failed kits17/visualIdentity load is not reported as an error, so the game does not skip the reveal");
+  assert.match(page,/try\{ const im=new Image\(\);[^\n]*window\.getClubCrestSvg\(c\)[^\n]*\}catch\(e\)\{ res\(\); \}/,"no crest module: the coin falls back to a plain shield");
+});
+
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
