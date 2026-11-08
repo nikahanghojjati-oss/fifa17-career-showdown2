@@ -55,8 +55,10 @@ html.kb .packtitle { display: none; }
 
 /* ---------- Nik's stage art: marble hall, pedestal, gold arcs (desktop plate wide, phone plate tall) ---------- */
 .stage { position: absolute; left: var(--st-l); top: var(--st-t); width: var(--st-w); height: var(--st-h); z-index: 0; pointer-events: none;
-  background: #050403 url("assets/stage_desktop.webp") center / 100% 100% no-repeat; }
-#app[data-shape="tall"] .stage { background-image: url("assets/stage_phone.webp"); }
+  background: #050403 center / 100% 100% no-repeat; }
+/* r90 lean: the stage picture is picked by the layout (data-stage, set with the shape), so a screen only fetches its own one */
+#app[data-stage="wide"] .stage { background-image: url("assets/stage_desktop.webp"); }
+#app[data-stage="tall"] .stage { background-image: url("assets/stage_phone.webp"); }
 
 /* ---------- top: PRIME PACK, the stage and its timer, then the result line ---------- */
 .top { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 6px); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -597,12 +599,13 @@ function fitViewport(){
 // with the two boxes inside the gold arcs, left and right of the card; tall screens use the phone plate with the boxes side
 // by side on the floor below the pedestal. Everything is placed from these numbers, so nothing covers anything at any size.
 const STAGE_ART = { wide:{ w:2560, h:1440, ped:.705, front:.05 }, tall:{ w:1179, h:2556, ped:.428, front:.036 } };
+function layoutShape(w,h){ const W=w||$("app").clientWidth||innerWidth, H=h||$("app").clientHeight||innerHeight; return W/H < 1.05 || W < 120 + 2*(190+32+12) ? "tall" : "wide"; }
 function layoutStage(){
   const app=$("app"), W=app.clientWidth||innerWidth, H=app.clientHeight||innerHeight;
   // Wide only when it really fits: a card of at least 120 px plus both boxes (190 px each at least) and their gaps across the
   // width. A phone held upright with the keyboard open (e.g. 390x350) is wider than tall but keeps the phone layout.
-  const tall = W/H < 1.05 || W < 120 + 2*(190+32+12), art = tall ? STAGE_ART.tall : STAGE_ART.wide;
-  app.dataset.shape = tall ? "tall" : "wide";
+  const tall = layoutShape(W,H)==="tall", art = tall ? STAGE_ART.tall : STAGE_ART.wide;
+  app.dataset.shape = app.dataset.stage = tall ? "tall" : "wide";
   let s = Math.max(W/art.w, H/art.h), ped = (H-art.h*s)/2 + art.ped*art.h*s;
   const boxesH = tall ? Math.ceil($("guessbar").getBoundingClientRect().height) || 76 : 0;
   if(tall){
@@ -801,7 +804,9 @@ window.__ig = {
 
 /* r90 pack smooth: every picture is fetched and decoded before the page says it is ready (the game's loading screen covers the
    wait, at most 4 s), so the pack opening and the card frame no longer decode on the frame they first show */
-const ART = ["stage_desktop","stage_phone","pack_sealed","pack_opening","card_frame","token_full","token_spent"].map(n=>"assets/"+n+".webp");
+/* r90 lean (Nik 23:44 UTC): only the stage this screen shows is decoded up front (the wide one on a computer, the tall one on a
+   phone), so neither device holds the other's 12-15 MB picture; turning a tablet loads the other one when it is needed */
+const ART = [layoutShape()==="tall"?"stage_phone":"stage_desktop","pack_sealed","pack_opening","card_frame","token_full","token_spent"].map(n=>"assets/"+n+".webp");
 const artReady = Promise.race([Promise.all(ART.map(src=>{ const im=new Image(); im.src=src; window.__igArt=(window.__igArt||[]).concat(im); return (im.decode?im.decode():Promise.resolve()).catch(()=>null); })), new Promise(r=>setTimeout(r,4000))]);
 artReady.then(()=>{ if(EMBED) toGame("cms-ig-ready", { reduced: REDUCED }); else startPreview(); });
 if(frozen){ manualMs=0; render(); } else requestAnimationFrame(frame);

@@ -11,8 +11,9 @@
 //      chamber line is crossed, the crane-shut click lands when the crane seats, the shot and the splinter are scheduled cues, and the old
 //      doubled heartbeat and the extra click after the crane shut are gone;
 //   P4 the camera from the drum close-up to the shot is one branch on the settle clock (path, look and lens), the old three-piece glide is gone;
-//   P5 frame rate: the shadow map is drawn only while the gun moves, the board's later looks are pre-rendered before the spin and swapped in
-//      (select, hit, deselect), and the resolution governor works in half-second windows from 2.5 s after load, both ways, with a see-saw lock;
+//   P5 frame rate (r90): one static shadow map, no bloom chain, standard materials, two point lights, no marble hall, quality and governor from
+//      js/gfxTier.js (held during a turn), shaders and textures warmed before ready, baked props, the hit frame uploaded before the spin;
+//   P7 no spoiler (r90): until the hit nothing names or points out the target;
 //   P6 (real scene, software WebGL) one fired turn stepped on the scene's own clock: the camera never cuts (every tick's step is small),
 //      from the crane shut to the shot its speed has one peak and then only falls, it is still creeping at the shot, and the drum stops on
 //      the planned chamber. CMS_RRR_SCENE_SKIP_BROWSER=1 skips P6 (no Chromium).
@@ -84,19 +85,58 @@ has(/const e=1-Math\.pow\(1-k,2\); const prev=spin\.rotation\.y; spin\.rotation\
 lacks(/Math\.sin\(\(tt-B\.spinEnd\)\*14\)/,'the gun wobble after the stop');
 ok('P4','drum close-up to shot is one motion on the settle clock; the gun yaw stops under plain friction with no wobble or snap');
 
-// P5 frame rate.
+// P5 frame rate (r90, Nik 2026-11-07: the first open crashed his Chromebook; choppy after). The page draws lean and never stalls mid-turn.
 has(/renderer\.shadowMap\.autoUpdate=false;/,'the shadow map is not redrawn every frame');
-has(/renderer\.shadowMap\.needsUpdate=!!playing\|\|shadowCool>0; shadowCool=Math\.max\(0,shadowCool-dt\);/,'the shadow map is drawn while the gun moves and for a moment after');
-has(/function boardFrames\(key,pick,fire\)/,'the board\'s later looks are pre-rendered');
-has(/const frames=boardFrames\(who,pick,fire\); if\(frames\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts');
-has(/if\(p\.frames&&p\.frames\.i===i\) showFrame\(p\.who,p\.frames\.sel,i,bu\.hit\); else drawBoard/,'the marked player is a swap');
-has(/if\(p\.frames&&p\.frames\.hit&&p\.frames\.i===i\) showFrame\(p\.who,p\.frames\.hit,i,b\.userData\.hit\); else drawBoard/,'the hole and stamp are a swap');
-has(/if\(p\.frames\) showFrame\(p\.who,p\.frames\.plain,null,bu\.hit\); else drawBoard/,'the deselect is a swap');
-has(/if\(pt-fpsT>500\)\{/,'half-second governor windows');
-has(/if\(pt>2500&&!document\.hidden&&pt-fpsT<900\)\{ if\(fps<50&&prNow>PR_FLOOR\(\)\+\.01\)/,'the governor steps down from 2.5 s after load');
-has(/else if\(!playing&&!govLock&&fps>=58&&pt-govAt>6000&&prNow<prCap-\.01\)/,'and steps back up only between turns, after 6 s, unless locked');
-has(/if\(govUpAt>=0&&pt-govUpAt<3000\) govLock=true;/,'a step up undone within 3 s locks the governor');
-ok('P5','shadow pass only while the gun moves; board looks pre-rendered and swapped; two-way governor with a see-saw lock');
+has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(GOV\) GOV\.resize\(\); \}/,'the one static shadow map is drawn when the room is laid out');
+lacks(/shadowCool/,'the per-turn shadow redraw');
+has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving revolver casts no map shadow (its contact shadow is a picture)');
+lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
+// r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Medium keep one-lobe materials and plain three.js meshes.
+assert.equal((html.match(/MeshPhysicalMaterial/g)||[]).length,1,'one place makes a two-lobe material');
+has(/const HQ=GFX\.level>=2;\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
+has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from High up');
+has(/const T=SEGK===1\?THREE:/,'Light and Medium build with plain three.js');
+lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
+assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,2,'two point lights: the lantern and the one effects light');
+lacks(/RR_ROOM\.jpg|backWall|wallLamp|chandelier|cafeTable|function dado/,'the marble hall');
+lacks(/const floorTex=woodTex\(2048/,'the unused 2048 px wood floor texture');
+lacks(/for\(let i=0;i<d\.length;i\+=4\)\{ const n=\(Math\.random\(\)-\.5\)\*a;/,'the per-pixel grain loop');
+lacks(/Math\.max\(devicePixelRatio\|\|1,1\.5\)/,'the forced 1.5x resolution');
+has(/const GFXT=window\.CareerModeGfxTier;/,'quality comes from the shared js/gfxTier.js (no local stand-in)');
+has(/<script src="\.\.\/\.\.\/\.\.\/js\/gfxTier\.js"><\/script>/,'gfxTier.js is a required script, so a missing file shows the error screen');
+has(/new T\.WebGLRenderer\(\{antialias:GFX\.antialias,/,'antialiasing is the quality level\'s choice');
+has(/renderer\.setPixelRatio\(GFX\.pixelRatio\);/,'the start resolution is the quality level\'s');
+has(/GOV=GFXT\.governor\(renderer,\{key:"rrr",draw:/,'the shared governor keeps the frames smooth');
+has(/if\(GOV\) GOV\.hold\(true\);/,'it holds during a turn');
+has(/if\(GOV\) GOV\.hold\(false\);/,'and lets go between turns');
+has(/await renderer\.compileAsync\(scene,camera\);/,'every shader compiles behind the loading screen');
+has(/renderer\.initTexture\(t\)/,'every texture is on the GPU before the page is ready');
+assert.ok(html.indexOf('await warmUp();')<html.indexOf('window.__rrReady=true;')&&html.indexOf('window.__rrReady=true;')<html.indexOf('toGame("cms-rr-ready")'),'ready is said only after the warm-up');
+has(/function bake\(root,skip\)/,'static props are baked into one mesh per material');
+has(/bake\(table\);/,'the table and everything on it');
+has(/bake\(gun,o=>o===crane\|\|o===hammer\);/,'the revolver frame (the crane, drum and hammer still move)');
+has(/function boardFrames\(key,pick,fire\)/,'the board\'s hit look is pre-rendered');
+has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFrames\(who,pick,fire\); delete prepared\[turn\]; if\(frames\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts (in the game already at setup)');
+has(/function prepareHits\(\)\{ if\(!GAME\|\|turn>0\) return;/,'the game\'s planned shots are drawn while the screen is read');
+has(/try\{ renderer\.initTexture\(c\.__tex\); \}catch\(e\)\{\} return \{i,plain,hit:c\}; \}/,'and sent to the GPU then, on its own texture');
+has(/if\(p\.frames&&p\.frames\.hit&&p\.frames\.i===i\) showFrame\(p\.who,p\.frames\.hit,b\.userData\.hit\); else drawBoard/,'the hole and stamp are a texture swap');
+has(/addEventListener\("pagehide",e=>\{ if\(e\.persisted\)\{ cancelAnimationFrame\(rafId\); rafId=0; return; \} disposeAll\(\); \}\);/,'leaving the page frees the GPU at once; a page kept in the back-forward cache only pauses');
+has(/addEventListener\("pageshow",e=>\{ if\(e\.persisted&&window\.__rrReady&&!rafId\) rafId=requestAnimationFrame\(frame\); \}\);/,'and a page restored from that cache picks up its frame loop again');
+has(/if\(manual===null&&playing&&last>0&&t-last>\.25\) playing\.t0\+=t-last-\.016;/,'with the turn clock moved past the pause, so the turn resumes where it stopped');
+ok('P5','lean frame: static shadow, no bloom chain, standard materials, two point lights, no hall, shared quality governor held during turns, warm-up before ready, baked props, pre-uploaded hit frame, dispose on exit');
+
+// P7 no spoiler (r90, Nik 2026-11-07: "never reveal who the gun is aiming at while it is locking on; only say the target when hit/removed").
+lacks(/"Aimed at "\+T/,'the status line naming the target before the shot');
+has(/st:N\+" takes aim at the board"/,'the aim beat names the board only');
+lacks(/at\(tt,B\.aim,"select"/,'the board marking the target before the shot');
+lacks(/b\.sel===|\.sel=/,'any selected-player look on the board');
+has(/const aim=boardAimWorld\(who\); const dir=aim\.clone\(\)\.sub\(spin\.position\); playing\.yawTarget=Math\.atan2\(dir\.x,dir\.z\);/,'the revolver on the felt stops on the middle of the board');
+has(/handAimAt=aimAt;/,'the hand aims at the middle of the board');
+has(/const tx=0, ty=0, hs=who==="D"\?-1:1;/,'the shooter\'s view frames the board, not the player');
+{ const w=html.slice(html.indexOf('function beatWords(p)'),html.indexOf('.filter(([t,k])=>!(REDUCED'));
+  const before=w.slice(0,w.indexOf('"wImpact"'));
+  assert.ok(!/\bT\b(?!\.length)/.test(before.replace(/const N=NAME\[p\.who\], T=p\.target\.name/,'')),'no beat before the impact uses the target name'); }
+ok('P7','until the hit no line, board look, barrel, hand or camera names or points out the target');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}
@@ -131,6 +171,23 @@ ok('P5','shadow pass only while the gun moves; board looks pre-rendered and swap
       return {B,rest,chamber,rows,ended:!__rr.state.playing};
     }).catch(e=>{throw new Error(`${e.message} :: ${errors.slice(0,6).join(' | ')}`);});
     await context.close();
+    // P8 (Codex P2 on #1261) Back/Forward cache: a turn paused in the cache for 30 s resumes where it stopped on the way back.
+    // The page clock is skewed by 30 s while it sits in the cache (no frames run there); the turn must not count that time.
+    const bfc=await browser.newContext({viewport:{width:640,height:400},serviceWorkers:'block'});
+    const bp=await bfc.newPage();bp.on('pageerror',e=>errors.push(String(e)));
+    await bp.route(url=>!String(url).startsWith(base),route=>route.abort());
+    await bp.addInitScript(()=>{window.__skew=0;const pn=performance.now.bind(performance);performance.now=()=>pn()+window.__skew;});
+    await bp.goto(`${base}visual-assets/v10_1/roulette/index.html?seed=7`,{waitUntil:'commit'});
+    await bp.waitForFunction(()=>window.__rrReady,null,{timeout:180000});
+    await bp.evaluate(()=>__rr.play({fire:true}));await bp.waitForTimeout(1500);
+    const tt0=await bp.evaluate(()=>{const tt=__rr.state.tt;dispatchEvent(new PageTransitionEvent('pagehide',{persisted:true}));window.__skew+=30000;return tt;});
+    await bp.waitForTimeout(300);
+    // Two animation frames after pageshow: the page's own frame (queued first) has run its tick on the way back.
+    await bp.evaluate(()=>{dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
+    const back=await bp.evaluate(()=>({tt:__rr.state.tt,playing:__rr.state.playing}));
+    await bfc.close();
+    assert.ok(back.playing&&back.tt-tt0<5,`after 30 s in the back-forward cache the turn resumes where it stopped (turn time ${tt0.toFixed(2)} s -> ${back.tt==null?'ended':back.tt.toFixed(2)+' s'})`);
+    ok('P8',`back-forward cache: 30 s away, turn time ${tt0.toFixed(2)} s -> ${back.tt.toFixed(2)} s, still playing`);
     const {B,rows}=out;
     assert.ok(out.ended,'the turn ended');
     const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
