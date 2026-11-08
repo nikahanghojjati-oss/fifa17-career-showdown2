@@ -5,17 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Russian Roster Roulette, the season step (Nik 2026-10-28/29/30; look = Team V HO-040, approved 29 Oct). Every season,
-  // before this manager's Transfer Challenge opens, both spins play in Team V's page in a full-screen frame, Daniel first, with
-  // the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms the
-  // release in his FIFA 17 save. The app never releases anyone itself. The boards build themselves (Nik 2026-10-30): the
-  // FIFA 17 launch board excluding the Special Player, then each season's shot player out and kept signings in by position and overall, from
-  // last seasons' Transfer War verdicts and saved shots (kept on this phone when they were shown; otherwise plain reads of
-  // both verdict documents and the saved spins per missing season, all seasons at once; F2-12). No board is saved anywhere and nobody types one.
-  // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
-  // before r87. A page that fails to load skips only the animation: the result and the release still show. Anything else that
-  // fails (engine, data, an error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded
-  // shot still counts on later boards, so a manager must never reach the window without being told about it.
+  // r87 Russian Roster Roulette season step (Nik 2026-10-28/30; look Team V HO-040): before each manager's Transfer Challenge both spins play full-screen, Daniel first, outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); he then confirms the release in his FIFA 17 save. The app never releases anyone itself.
+  // Boards build themselves, never saved or typed (Nik 2026-10-30): FIFA 17 launch board minus the Special Player, then each season's shot player out and kept signings in by position and overall, from Transfer War verdicts and saved shots (kept on this phone when shown, else plain reads of both verdict documents and the saved spins for every missing season at once; F2-12).
+  // Shown once per manager per season on this browser (a watched spin is not replayed); never for a Showdown confirmed before r87. A page that fails to load skips only the animation: the result and the release still show.
+  // Any other failure (engine, data, error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded shot still counts on later boards, so a manager must never reach the window untold.
   const PAGE="visual-assets/v10_1/roulette/index.html";
   const STAGE_ID="rrStage",PANEL_ID="rrStepPanel";
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;

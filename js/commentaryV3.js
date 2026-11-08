@@ -5,27 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Commentary v3 (Nik 2026-10-31: "a huge jump from commentary v2 ... only in selected screens that make sense ...
-  // must fit very nice in the UI and never cover any faces or any button, field or game function ... from data only").
-  //
-  // What v3 adds over v2 (js/commentaryEngine.js picks one stock line for the most specific true situation):
-  //   1. A two-voice TV booth. The COMMENTARY line (a checked v2 line) tells the story; the BY THE NUMBERS line underneath
-  //      is written here from the Showdown's own numbers: exact decider maths ("needs to win the final season by 4 or
-  //      more; by exactly 3 it ends level"), lead changes, streaks, Showdown records, trophy and season counts.
-  //   2. Story-aware choice. The lead line follows the biggest story of the season (a decided Showdown, a new leader, a
-  //      perfect season) and the numbers line never repeats the lead line's topic.
-  //   3. No repeats in a Showdown, the same on both phones. The lines used in earlier seasons are re-derived from the same
-  //      verified history (nothing stored), so no line is said twice in one Showdown and both phones show the same words.
-  //   4. The last season tells the whole Showdown: its bar carries the Showdown verdict (comeback, wire to wire, the
-  //      Golden Showdown, a drawn Showdown).
-  //
-  // Where: one Team V TV bar (visual-assets/v10_1/content/content.css .cmx-bar, Nik's FIFA 17 presentation bar) inside the
-  // SEASON SCORE box of Season Results, in the normal layout flow under the season winner line. Nothing overlays the
-  // screen, nothing dims, nothing is tappable. Shown only once the season is committed and its score is reconciled.
-  // Data: only what the screen already holds (Shared Setup, the acknowledged Season Commit, the reconciled canonical
-  // score and the converged Shared History). No Firebase read, no write, no storage.
-  // Rules: a season is 0 to 11 Showdown points (0 to 15 in a Showdown that plays r87 Prime Pack: 11 + up to 4); equal points is a draw (no tiebreak: league position, league points and
-  // goals never decide anything between the two managers).
+  // Commentary v3 (r87) adds to v2 (js/commentaryEngine.js, one stock line for the most specific true situation) a two-voice booth: the COMMENTARY line (a checked v2 line) tells the story; the BY THE NUMBERS line is built here from the Showdown's own numbers (exact decider maths, lead changes, streaks, Showdown records, trophy and season counts).
+  // The lead line follows the season's biggest story and the numbers line never repeats its topic. No line repeats in a Showdown: earlier seasons' lines are re-derived from the same verified history (nothing stored), so both phones show the same words. The last season's bar carries the Showdown verdict (comeback, wire to wire, Golden Showdown, drawn).
+  // Shown in one Team V TV bar (visual-assets/v10_1/content/content.css .cmx-bar) inside the SEASON SCORE box of Season Results, in normal flow under the season winner line, only once the season is committed and its score reconciled: no overlay, no dimming, nothing tappable, never over faces, buttons or fields. Data: only what the screen holds (Shared Setup, acknowledged Season Commit, reconciled canonical score, converged Shared History); no Firebase read, write or storage.
+  // Rules: a season is 0 to 11 Showdown points (0 to 15 in a Showdown that plays r87 Prime Pack: 11 + up to 4); equal points is a draw (no tiebreak: league position, league points and goals never decide anything between the two managers).
 
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});

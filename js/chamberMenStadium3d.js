@@ -1,22 +1,10 @@
 (function(root){
   "use strict";
 
-  // r89 Chamber Men stadium kit (Nik 2026-11-04: "it should look like what it looks like in FIFA 17"). Builds, in three.js r187,
-  // everything around the penalty except the players: the Showdown match ball, the goal (posts, bar, stanchions, a knotted
-  // net), the pitch (mown stripes, chalk lines), LED ad boards (our own marks only), a two-tier stand behind the goal and two
-  // side stands with a moving card crowd, the roof with its floodlights, and a night sky.
-  //
-  // Every texture is drawn by code in tools/chamber-men-assets (numpy + Pillow, rebuilt with `python3 build_all.py`), so the
-  // whole kit is ours: no third-party licence, no real brand. Files: visual-assets/v10_1/chamber-men/assets/ (licences: tools/chamber-men-assets/LICENSES.md).
-  //
-  // Units and axes match js/chamberMenScene3d.js: metres, Y up, goal line on z 0, goal centred on x 0, posts 7.32 apart,
-  // bar 2.44 high, ball radius .11, penalty spot at z +11, the pitch runs toward +z.
-  //
-  // Use:
-  //   const kit=await CareerModeChamberMenStadium.load(THREE,{phone});           // textures (about 1.3 MB phone, 2.6 MB desktop)
-  //   const s=CareerModeChamberMenStadium.build(THREE,kit,{phone,posts:"white",home:0x7a1f3d,away:0x6cabdd,aniso});
-  //   scene.add(s.group);  s.ball (mesh), s.goal.back (net sheet that bulges), s.update(seconds,excitement 0..1), s.dispose()
-  // Only names already in the vendor build are used (no loaders beyond TextureLoader).
+  // Chamber Men stadium kit (r89, the FIFA 17 look) in three.js r187: everything around the penalty except the players: the Showdown match ball, the goal (posts, bar, stanchions, a knotted net), a mown pitch with chalk lines, LED ad boards (our own marks only), a two-tier stand behind the goal, two side stands with a moving card crowd, the roof floodlights and a night sky.
+  // Every texture is drawn by code in tools/chamber-men-assets (numpy + Pillow, rebuilt with `python3 build_all.py`): no third-party licence, no real brand. Files: visual-assets/v10_1/chamber-men/assets/ (licences: tools/chamber-men-assets/LICENSES.md). Only names already in the vendor build are used (no loaders beyond TextureLoader).
+  // Units match js/chamberMenScene3d.js: metres, Y up, goal line on z 0, goal centred on x 0, posts 7.32 apart, bar 2.44 high, ball radius .11, penalty spot at z +11, the pitch runs toward +z.
+  // Use: kit=await CareerModeChamberMenStadium.load(THREE,{phone}) (about 1.3 MB phone, 2.6 MB desktop); s=build(THREE,kit,{phone,posts:"white",home,away,aniso}); scene.add(s.group); s.ball, s.goal.back (the net sheet that bulges), s.update(seconds,excitement 0..1), s.dispose().
   const BASE="visual-assets/v10_1/chamber-men/assets/";
   const GOAL_W=7.32,GOAL_H=2.44,HALF=GOAL_W/2,BALL_R=.11;
   const PITCH_HALF_W=34,PITCH_L=105,BOX_D=16.5,BOX_HALF_W=20.16,SIX_D=5.5,SIX_HALF_W=9.16,SPOT_Z=11,ARC_R=9.15;
