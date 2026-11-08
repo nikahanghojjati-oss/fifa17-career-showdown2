@@ -1965,6 +1965,33 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { left:50%; right:auto; width:min(66vw,820px); translate:-50% 0; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { translate:0 calc(0px - var(--fw-th)); }
 }
+/* r90 L41 (tablets and small laptops, 1024x768, 1180x820): Team V's tablet trophy seat ran its stem and base under the
+   honours board. The slot now ends 8px above the board (and the close strip, while it shows), and the trophy keeps the crown
+   line and the largest size it had: where the room is shorter it shrinks from the base up, so the crown still clears
+   DANIEL WINS and the board covers nothing (on windows near 600px tall the cup gets small rather than sit under the board). --fw-cup-s mirrors Team V's per-width trophy scale, --fw-cup-y and --fw-cup-k
+   its short-window drop and scale (1024px and wider, up to 700px tall); 150.15cqw is the trophy picture's height at full
+   slot width (512/341). Looks only: no art change. */
+@media (min-width:901px) and (max-width:1023px) and (min-height:501px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:501px) and (max-height:599px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:600px) and (max-aspect-ratio:1499/1000),
+       (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:959px),
+       (min-width:761px) and (max-width:900px) and (min-height:1241px) {
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot {
+  --fw-cup-s:.89; --fw-cup-y:0px; --fw-cup-k:1;
+  container-type:inline-size; height:auto; bottom:calc(12.24% + max(12.5%,132px) + 8px + var(--fw-th));
+  translate:none; scale:none; overflow:visible;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture {
+  position:absolute; left:0; right:0; width:auto; scale:none;
+  top:calc(var(--fw-cup-y) + var(--fw-cup-k) * (1 - var(--fw-cup-s)) * 150.15cqw); bottom:0; height:auto;
+  max-height:calc(var(--fw-cup-k) * var(--fw-cup-s) * 150.15cqw);
+ }
+}
+/* the matching Team V trophy scale per width, and its short-window drop (read only by the tablet rule above) */
+@media (max-width:999px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-s:.8; } }
+@media (max-width:899px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-s:.68; } }
+@media (max-width:819px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-s:.62; } }
+@media (min-width:1024px) and (max-height:700px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-y:48px; --fw-cup-k:.82; } }
 /* phone upright, sideways and tablet: the summary panel ends higher by the strip's height while the strip shows */
 @media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:72px; }
