@@ -1181,9 +1181,12 @@ async function warmUp(){ const all=new Set(); scene.traverse(o=>{ (Array.isArray
      compileAsync is one long blocking task (59.7 s in the container). The shaders are built a few materials at a time instead,
      each batch in its own task, so the game's loading screen keeps moving and hears that the page is still busy (cms-rr-loading
      after every batch) instead of timing out on a scene that would have worked. Same programs, same total GPU work. */
-  if(!renderer.extensions.has("KHR_parallel_shader_compile")){ try{ const objs=[], vis=new Map(); scene.traverse(o=>{ if(o.material){ vis.set(o,o.visible); objs.push(o); } }); /* only drawn objects are switched: lights stay as they are, so every batch builds the exact program the frame uses */
-    const done=new Set(), batches=[]; let cur=[], fresh=0; objs.forEach(o=>{ const ms=(Array.isArray(o.material)?o.material:[o.material]); const n=ms.filter(m=>m&&!done.has(m)).length; ms.forEach(m=>done.add(m)); cur.push(o); fresh+=n; if(fresh>=3){ batches.push(cur); cur=[]; fresh=0; } }); if(cur.length) batches.push(cur);
-    for(const b of batches){ const keep=new Set(); b.forEach(o=>{ for(let q=o;q;q=q.parent) keep.add(q); }); vis.forEach((v,o)=>{ o.visible=keep.has(o)&&v; }); renderer.compile(scene,camera); vis.forEach((v,o)=>{ o.visible=v; }); toGame2("cms-rr-loading",{stage:"compile"}); await new Promise(r=>setTimeout(r,0)); }
+  if(!renderer.extensions.has("KHR_parallel_shader_compile")){ try{ const objs=[]; scene.traverse(o=>{ if(!o.material) return; let lit=false; o.traverse(q=>{ if(q.isLight) lit=true; }); if(!lit) objs.push(o); });
+    /* renderer.compile() walks every object under its first argument, visible or not, so each batch compiles only its own objects
+       (compile(obj, camera, scene)): the lights, environment and fog still come from the whole scene, so every batch builds the exact
+       program the frame uses. An object with a light under it would add that light twice, so it is left to the full pass below. */
+    const done=new Set(), batches=[]; let cur=[], fresh=0; objs.forEach(o=>{ const ms=(Array.isArray(o.material)?o.material:[o.material]); const n=ms.filter(m=>m&&!done.has(m)).length; if(!n) return; ms.forEach(m=>done.add(m)); cur.push(o); fresh+=n; if(fresh>=3){ batches.push(cur); cur=[]; fresh=0; } }); if(cur.length) batches.push(cur);
+    for(const b of batches){ b.forEach(o=>renderer.compile(o,camera,scene)); toGame2("cms-rr-loading",{stage:"compile"}); await new Promise(r=>setTimeout(r,0)); }
   }catch(e){} }
   try{ await renderer.compileAsync(scene,camera); }catch(e){ try{ renderer.compile(scene,camera); }catch(_e){} }
   toGame2("cms-rr-loading",{stage:"calibrate"});
