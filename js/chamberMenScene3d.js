@@ -143,6 +143,8 @@
 
   // Scene extras per level (light .. ultra): texture filtering, shadow softness (PCF radius), a second shadow-casting
   // floodlight, and fuller far stands. Pixel ratio, MSAA, shadow size and crowd density come from js/gfxTier.js.
+  // r90 L04: the squad numbers a club's penalty taker wears (one per club for the Showdown, from its name).
+  const SHIRT_NUMBERS=[7,8,9,10,11,14,17,19,20,23];
   const CM3_LEVEL_EXTRAS=[
     {aniso:4,softness:1.5,secondShadow:false,fullCrowd:false},
     {aniso:8,softness:2,secondShadow:false,fullCrowd:false},
@@ -179,7 +181,7 @@
     // Night match light: floodlights from high over both corners of the box, a cool sky, a soft rim behind the goal.
     // r90 LOOK (L01): a night grade. Less sky fill, so the stands and the far pitch fall dark and the floodlit box carries
     // the picture; a touch more key on the penalty area.
-    scene.add(new T.HemisphereLight(0xc9d6ff,0x0d150a,.3));
+    scene.add(new T.HemisphereLight(0xc9d6ff,0x0d150a,.24));
     const key=new T.DirectionalLight(0xfff3e2,3.0);key.position.set(9,30,24);key.target.position.set(0,0,6);
     key.castShadow=true;key.shadow.mapSize.set(Q.shadowSize,Q.shadowSize);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=QX.softness;
     Object.assign(key.shadow.camera,{left:-11,right:11,top:13,bottom:-11,near:10,far:70});key.shadow.camera.updateProjectionMatrix();
@@ -324,6 +326,15 @@
     };
     useRigs(clubs.playerOne,clubs.playerTwo);
 
+    // r90 L04: breathing on top of the idle clips while a player waits: the chest rises and the shoulders lift a little on a
+    // slow breath (about 15 a minute, each man on his own phase), the head held level. Bones are posed fresh every frame, so
+    // this never builds up; Reduce Motion stops the clock and with it the breath.
+    const breathe=(a,live,amt)=>{
+      const b=a.bones,ph=a.holder.name.length*.7,s=Math.sin(live*1.65+ph),k=.022*amt*s;
+      b.mixamorigSpine2?.rotateX(-k);b.mixamorigNeck?.rotateX(k*.8);
+      b.mixamorigLeftShoulder?.rotateZ(k*.35);b.mixamorigRightShoulder?.rotateZ(-k*.35);
+    };
+
     // r90 LOOK: contact shadows. A soft dark disc on the turf under the taker, the keeper and the ball, at every level: it
     // is what plants them on the grass (Light's shadow map is small and soft). Higher levels keep their real shadows and
     // the disc goes lighter. One small canvas texture, three quads.
@@ -336,6 +347,24 @@
       const one=(name,w,d0)=>{const m=keep(new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,opacity:strength,color:0x000000,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
         const q=new T.Mesh(geo,m);q.name=name;q.scale.set(w,1,d0);q.position.y=.006;q.renderOrder=1;scene.add(q);return q;};
       return {taker:one("cmBlobTaker",1.15,.9),keeper:one("cmBlobKeeper",1.25,.85),ball:one("cmBlobBall",.36,.36),strength};
+    })();
+    // r90 night pass: the floodlights stand above the penalty framing, so their glare comes into the top corners of the
+    // picture, the way a broadcast lens catches them: a warm bloom with a few soft rays from each corner. Two small quads in
+    // screen space (about a quarter of the frame, one draw, a few ALU per pixel), the same at every level.
+    const glare=(()=>{
+      const P=[],I=[];let n=0;
+      for(const sx of [-1,1]){const x0=sx<0?-1:.4,x1=sx<0?-.4:1,y0=.1,y1=1;P.push(x0,y0,0,x1,y0,0,x1,y1,0,x0,y1,0);I.push(n,n+1,n+2,n,n+2,n+3);n+=4;}
+      const g=keep(new T.BufferGeometry());g.setAttribute("position",new T.Float32BufferAttribute(P,3));g.setIndex(I);
+      const m=keep(new T.ShaderMaterial({uniforms:{uAspect:{value:1}},transparent:true,depthTest:false,depthWrite:false,blending:T.AdditiveBlending,toneMapped:false,fog:false,
+        vertexShader:"varying vec2 vP;void main(){vP=position.xy;gl_Position=vec4(position.xy,0.0,1.0);}",
+        fragmentShader:["uniform float uAspect;varying vec2 vP;",
+          "void main(){float sx=vP.x<0.0?-1.0:1.0;vec2 d=(vP-vec2(sx*.96,1.08))*vec2(uAspect,1.0);float r=length(d);",
+          " float a=atan(d.y,d.x*sx);float rays=pow(abs(sin(a*6.0+.7)),28.0)*exp(-r*2.4)*.16;",
+          " float g=.9*exp(-r*r*6.0)+.22*exp(-r*2.4)+rays*2.0;",
+          // the glare fades out before the quad's edges, so no seam shows
+          " g*=smoothstep(.1,.3,vP.y)*smoothstep(.4,.62,abs(vP.x))*min(1.0,uAspect/1.9);",
+          " gl_FragColor=vec4(vec3(1.0,.86,.64)*g,1.0);}"].join("\n")}));
+      const q=new T.Mesh(g,m);q.name="cmGlare";q.frustumCulled=false;q.renderOrder=1000;scene.add(q);return m;
     })();
     const blobAt=(q,a,lift)=>{
       if(!q)return;q.visible=Boolean(a?a.holder.visible:true);if(!q.visible)return;
@@ -357,7 +386,9 @@
     };
     const dress=(a,club,role,vs)=>{
       look(a,club,role);
-      let t;try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize});}catch(_error){return;}
+      // r90 L04: a squad number on the back (the camera is behind the taker): one per club for the Showdown, 1 for keepers.
+      const number=role==="gk"?1:SHIRT_NUMBERS[cm3Hash(`number|${club}`)%SHIRT_NUMBERS.length];
+      let t;try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize,number});}catch(_error){return;}
       // One texture per canvas: on Ch38 and Ch42 the shirt, shorts (and Ch38's socks) share one atlas.
       const put=()=>{const made=new Map(),olds=new Set();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
         const mat=a.mats[m],c=t[k];if(!mat||!c)continue;
@@ -423,7 +454,7 @@
     // The taker at time t (seconds from the strike); idle while waiting.
     const takerAt=(t,live)=>{
       const st=styles[plan?plan.style:lineup.style||0];
-      if(!plan){taker.pose([{clip:st.idle,time:live%st.idle.duration,w:1}]);return;}
+      if(!plan){taker.pose([{clip:st.idle,time:live%st.idle.duration,w:1}]);breathe(taker,live,1);return;}
       const kickT=t+KICK_HIT,jogLen=st.jog,runStart=-KICK_HIT-jogLen;
       const idle={clip:st.idle,time:(live)%st.idle.duration,w:1};
       if(kickT>=0){
@@ -447,7 +478,7 @@
     };
     const keeperPose=(t,live)=>{
       const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
-      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;keeper.pose([idle]);return;}
+      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;keeper.pose([idle]);breathe(keeper,live,.8);return;}
       const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*.12));
       keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
     };
@@ -492,8 +523,10 @@
     };
     // Camera: behind and above the taker. Waiting: a slow drift; run-up: a push-in; after the strike it leans after the ball.
     const camera=new T.PerspectiveCamera(30,16/9,.1,400);
-    const CAMB={pos:v3(0,3.9,SPOT_Z+17),look:v3(0,.5,5.5),hfov:40,vmin:21};
-    const CAMP={pos:v3(.3,3.2,SPOT_Z+13),look:v3(0,.75,3)};
+    // r90 L04: a low broadcast camera behind and to the left of the taker (ball, taker and keeper in one frame, the stand
+    // rising behind the goal), the way a TV penalty is shot; it eases in toward the spot for the kick.
+    const CAMB={pos:v3(-1.7,2.55,SPOT_Z+15),look:v3(.35,.95,5),hfov:40,vmin:21};
+    const CAMP={pos:v3(-.4,2.45,SPOT_Z+11.5),look:v3(0,.85,3)};
     const camLook=new T.Vector3();
     const cameraAt=(t,live)=>{
       const drift=reducedMotion()?0:1;
@@ -557,6 +590,7 @@
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
       keeperPose(t,live);takerAt(t,live);ballAt(t);
+      glare.uniforms.uAspect.value=camera.aspect;
       if(blob){blobAt(blob.taker,taker,1);blobAt(blob.keeper,keeper,1);blobAt(blob.ball,null,BALL_R);}
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;

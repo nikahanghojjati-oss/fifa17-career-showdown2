@@ -103,7 +103,7 @@ async function c3d2(){
   assert.match(step,/const wait=animate&&g\.scene\?\.runUpMs\?320\+g\.scene\.runUpMs\+520:0;/,"the result waits for the run-up and the flight");
   const runup=Number(/const RUNUP=([0-9.]+),/.exec(scene)[1])*1000,kickMs=Number(/KICK_MS=(\d+)/.exec(step)[1]);
   assert.ok(kickMs>=320+runup+520+1200,`a reveal holds the run-up, flight and at least 1.2 s of result (${kickMs} ms)`);
-  assert.match(scene,/K\.textures\(club,\{layout:a\.body,role,vsClub:vs,size:kitSize\}\)/,"kits17 paints the kit on each body's own layout");
+  assert.match(scene,/K\.textures\(club,\{layout:a\.body,role,vsClub:vs,size:kitSize,number\}\)/,"kits17 paints the kit on each body's own layout");
   assert.match(scene,/dress\(taker,next\.taker,"outfield",next\.keeper\);dress\(keeper,next\.keeper,"gk",next\.taker\);/,"taker in his club kit, keeper in his club's keeper kit against it");
   assert.match(scene,/if\(!extras\)return null;/,"no stadium or players in time: the SVG goal");
   assert.ok(scene.includes('const PLAYER_PATH="visual-assets/v10_1/chamber-men/players/";'),"players from the repo");
@@ -195,11 +195,17 @@ async function c3d2(){
 // C3D11 r90 LOOK (hunt L01-L03): a night grade (less sky fill), contact shadows under the taker, keeper and ball at every
 //    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
 {
-  assert.ok(/new T\.HemisphereLight\(0xc9d6ff,0x0d150a,\.3\)/.test(scene),"night: less sky fill");
+  assert.ok(/new T\.HemisphereLight\(0xc9d6ff,0x0d150a,\.24\)/.test(scene),"night: less sky fill");
   assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/one\("cmBlobTaker"/.test(scene)&&/one\("cmBlobKeeper"/.test(scene)&&/one\("cmBlobBall"/.test(scene),"three contact shadows");
   assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/const strength=L<=0\?\.62:L<=2\?\.5:\.4/.test(scene),"at every level, lighter at the top");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
-  ok("C3D11","r90 LOOK: night grade, contact shadows, both clubs on the boards and in the crowd");
+  // night pass + L04: corner glare from the floodlights (two small screen quads, every level), the low camera behind and
+  // left of the taker, a squad number on the back, breathing on the idles.
+  assert.ok(/q\.name="cmGlare"/.test(scene)&&/x0=sx<0\?-1:\.4,x1=sx<0\?-\.4:1,y0=\.1,y1=1/.test(scene),"floodlight glare in the top corners only");
+  assert.ok(/const CAMB=\{pos:v3\(-1\.7,2\.55,SPOT_Z\+15\)/.test(scene),"low broadcast camera behind and left of the taker");
+  assert.ok(/const number=role==="gk"\?1:SHIRT_NUMBERS\[cm3Hash\(`number\|\$\{club\}`\)%SHIRT_NUMBERS\.length\]/.test(scene)&&/size:kitSize,number\}/.test(scene),"squad number on the shirt");
+  assert.ok(/breathe\(taker,live,1\)/.test(scene)&&/breathe\(keeper,live,\.8\)/.test(scene),"both players breathe while they wait");
+  ok("C3D11","r90 LOOK: night grade, glare, contact shadows, low camera, numbers, breathing, both clubs on the boards and in the crowd");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

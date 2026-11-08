@@ -156,8 +156,9 @@
         "diffuseColor.rgb*=mix(.78,1.12,band);"+
         "float wear=exp(-pow(length(vCmWorld.xz-vec2(0.0,11.0))/1.3,2.0))*.45+exp(-pow(length((vCmWorld.xz-vec2(0.0,2.2))*vec2(.35,1.0))/1.6,2.0))*.25;"+
         "diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.05,.92,.7),wear);"+
-        // r90 LOOK (L01): the floodlights pool on the penalty area; the turf falls off toward the corners and the halfway line.
-        "diffuseColor.rgb*=mix(1.04,.62,smoothstep(12.0,42.0,length((vCmWorld.xz-vec2(0.0,9.0))*vec2(.8,1.0))));}");
+        // r90 LOOK (L01, night pass): the floodlights pool on the box, brighter in the middle; the turf falls away toward the
+        // touchlines and behind the taker, so the frame reads floodlit, not evenly lit.
+        "diffuseColor.rgb*=mix(1.16,.36,smoothstep(4.0,24.0,length((vCmWorld.xz-vec2(0.0,8.0))*vec2(.75,1.0))));}");
     };
     const pitch=add(new T.PlaneGeometry(130,150),pitchMat);pitch.rotation.x=-Math.PI/2;pitch.position.set(0,0,PITCH_L/2);pitch.receiveShadow=true;
     // Chalk lines for the whole 105 x 68 pitch: one merged geometry a few mm over the grass.
@@ -272,7 +273,7 @@
     // roof (the stands are lit by the same directional lights as the pitch, so without this they read flat and evenly lit).
     const nightStand=m=>{m.onBeforeCompile=sh=>{
       sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvCmY=(modelMatrix*vec4(transformed,1.0)).y;");
-      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <map_fragment>","#include <map_fragment>\ndiffuseColor.rgb*=mix(1.0,.22,smoothstep(1.0,17.0,vCmY));");};
+      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <map_fragment>","#include <map_fragment>\ndiffuseColor.rgb*=mix(vec3(1.0),vec3(.14,.16,.25),smoothstep(.5,12.0,vCmY));");};
       m.customProgramCacheKey=()=>"cmNightStand";return m;};
     const concMat=keep(nightStand(new T.MeshStandardMaterial({map:concrete,roughness:.9,color:new T.Color(.34,.34,.37)})));
     const seatsTex=tex.seats;seatsTex.wrapS=T.RepeatWrapping;seatsTex.wrapT=T.ClampToEdgeWrapping;
@@ -372,7 +373,7 @@
     for(let i=0;i<N;i+=1){dummy.position.set(aOff[i*4],aOff[i*4+1],aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.updateMatrix();
       const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=0;inst.setMatrixAt(i,dummy.matrix);
       inst.setColorAt(i,new T.Color(aTint[i*3],aTint[i*3+1],aTint[i*3+2]));}
-    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.03,.032,.042)}};
+    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.02,.028,.05)}};
     const crowdMat=keep(new T.ShaderMaterial({
       uniforms:{...crowdUniforms,fogColor:{value:new T.Color(0,0,0)},fogNear:{value:1},fogFar:{value:2000},fogDensity:{value:.00025}},fog:true,
       vertexShader:[
@@ -391,7 +392,7 @@
         " vTint=instanceColor;",
         // Floodlit at the front, darker toward the back under the roof; a little light-to-light variation per fan.
         " vec3 wp=(m*vec4(0.0,0.0,0.0,1.0)).xyz;float back=length(wp.xz-vec2(0.0,52.5))-50.0;",
-        " vShade=mix(1.05,.42,smoothstep(0.0,30.0,back+wp.y*.6))*mix(1.0,.5,smoothstep(4.0,24.0,wp.y))*(.85+.3*h);",
+        " vShade=mix(.92,.4,smoothstep(0.0,30.0,back+wp.y*.6))*mix(1.0,.34,smoothstep(3.0,16.0,wp.y))*(.85+.3*h);",
         " vec4 mvPosition=modelViewMatrix*m*vec4(p,1.0);gl_Position=projectionMatrix*mvPosition;vDist=-mvPosition.z;",
         " #include <fog_vertex>",
         "}"].join("\n"),
@@ -404,7 +405,8 @@
         // FIFA 17 stands are soft: less saturation and contrast, highlights held down, and a floodlight haze that grows with
         // distance so the back rows melt into the stand.
         " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.55+.3*k);rgb=rgb*.8/(1.0+rgb*.6);",
-        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.55);gl_FragColor=vec4(rgb,1.0);",
+        " rgb*=mix(vec3(1.0),vec3(.74,.82,1.06),clamp(1.0-vShade,0.0,.8));",
+        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.6);gl_FragColor=vec4(rgb,1.0);",
         " #include <tonemapping_fragment>",
         " #include <colorspace_fragment>",
         " #include <fog_fragment>",
@@ -424,8 +426,8 @@
     // Night sky: a big inverted sphere with a gradient (deep navy up high, a warm haze over the roofs from the floodlights).
     const skyMat=keep(new T.ShaderMaterial({side:T.BackSide,depthWrite:false,fog:false,uniforms:{},
       vertexShader:"varying vec3 vDir;void main(){vDir=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
-      fragmentShader:"varying vec3 vDir;void main(){float h=clamp(vDir.y,0.0,1.0);vec3 top=vec3(.006,.009,.02),mid=vec3(.03,.035,.05),haze=vec3(.16,.13,.09);"+
-        "vec3 c=mix(mid,top,smoothstep(.12,.6,h));c=mix(c,haze,exp(-h*9.0)*.8);gl_FragColor=vec4(c,1.0);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}"}));
+      fragmentShader:"varying vec3 vDir;void main(){float h=clamp(vDir.y,0.0,1.0);vec3 top=vec3(.003,.007,.03),mid=vec3(.016,.026,.062),haze=vec3(.15,.12,.085);"+
+        "vec3 c=mix(mid,top,smoothstep(.12,.6,h));c=mix(c,haze,exp(-h*11.0)*.6);gl_FragColor=vec4(c,1.0);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}"}));
     const sky=add(new T.SphereGeometry(300,32,16),skyMat);sky.renderOrder=-1;sky.frustumCulled=false;
 
     // ---------- bake ----------

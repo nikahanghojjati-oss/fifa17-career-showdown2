@@ -193,6 +193,10 @@
       g.globalAlpha=.12;g.strokeStyle=s0;g.lineWidth=H*.012;
       for(let i=0;i<22;i++){const v=.08+i*.04;for(const c of [.5,0,1]){g.beginPath();g.moveTo(X(c-.25),Y(v+.05));g.lineTo(X(c),Y(v));g.lineTo(X(c+.25),Y(v+.05));g.stroke();}}
       g.globalAlpha=1;
+      // r90 L04: side panels in the darker shade from hem to armpit, piped in the trim, so a keeper's shirt reads as a real
+      // goalkeeper jersey, not a plain template (the sides of the wrap are u .25 and .75).
+      for(const c of [.25,.75]){g.fillStyle=s0;g.fillRect(X(c-.045),Y(.62),X(.09),H);
+        g.fillStyle=k.trim;for(const e of [-.045,.045])g.fillRect(X(c+e)-Math.max(1,W/700),Y(.62),Math.max(2,W/350),H);}
     }
   }
   function sleeveColour(k,side){
