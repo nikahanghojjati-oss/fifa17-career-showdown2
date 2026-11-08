@@ -131,7 +131,7 @@
       // r78 HO-031: the old phone hero (plate + two cut-outs) was always hidden by css/v10Club.css; its pictures are
       // dropped so the phone no longer fetches them. The empty stage keeps its place in the markup.
       phone:'<div class="phoneHeroScrim"></div>',
-      footer:'<span class="footText">CM17<br>CAREER MODE SHOWDOWN 17</span><span class="footSlogan"><span>FOOTBALL BRINGS US TOGETHER</span><i class="crown"></i></span>'
+      footer:'<span class="footText">CM17<br>CAREER MODE SHOWDOWN 17</span>'
     };
   }
   function clDecorate(section){

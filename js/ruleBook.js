@@ -56,7 +56,7 @@ function createRuleBookScreen(){
         // only what the player sees (10 seconds, then a miss or a keeper in the middle); the grace for the last kick and the
         // network stays in the code and the Rules.
         createRuleSection("03", "CHAMBER MEN", [
-            "Every season, before the Roster Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in Showdowns started on version 2.1.0 or later.",
+            "Every season, before the Roster Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in every Showdown started from midday on 4 November 2026 (Boston time).",
             "It goes turn by turn: Daniel shoots and Nik keeps, then Nik shoots and Daniel keeps, for 7 rounds. Nobody shoots and keeps on the same kick.",
             "The shooter picks LEFT, MIDDLE or RIGHT for his shot. The keeper picks where to dive. Neither sees the other's pick until both have locked in.",
             "The shot goes in when the keeper dives the other way. Both phones show the kick, then the next one starts.",
@@ -105,7 +105,7 @@ function createRuleBookScreen(){
         createSpecialPlayerRuleSection(),
         // r89 Sacked (Nik 2026-11-03): a sacking ends the Showdown after that season; the points so far decide.
         createRuleSection("10", "SACKED", [
-            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final. It is on the card in Showdowns started on version 2.2.0 or later.",
+            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final. It is on the card in every Showdown started from 10:00 on 6 November 2026 (Boston time).",
             "Either manager, or both, can be sacked. Any sacking ends the Showdown after that season: no more seasons are played.",
             "Every point up to then counts. Most Showdown points wins, even for a sacked manager. Equal totals are a draw.",
             "A sacked Showdown is a completed Showdown: it counts on History, Legacy, the Trophy Room and every stats screen, marked SACKED.",

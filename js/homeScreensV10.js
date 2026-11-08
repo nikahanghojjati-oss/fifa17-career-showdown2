@@ -280,7 +280,7 @@
       heading.querySelector(".fifaMenuHeadingMeta")?.classList.add("sd-body");
       heading.querySelector(".fifaMenuHeadingMeta > span")?.classList.add("sd-label");
       host.appendChild(hmDecor("nav-reserve"));
-      host.appendChild(hmDecor("footDeco",'<span>FOOTBALL BRINGS US TOGETHER</span><svg viewBox="0 0 24 18" focusable="false"><path d="M2 16h20l1.5-12-6 5L12 1 6.5 9l-6-5z" fill="#F2C45B"/></svg>'));
+      // r90 W9 (LOOK hunt L46): no code copy of the plate slogan in the footer (HO-061 takes it off the plates too).
     }
     ["continueCareer","newShowdown","legacyButton","careerStatisticsButton","ruleBookButton","settingsButton"].forEach(hmTile);
     hmTrophyTile(grid);
