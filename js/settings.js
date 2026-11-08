@@ -22,6 +22,13 @@ function getSettingsAssetRevision(){
     return meta && meta.content ? meta.content.trim() : "Unknown build";
 }
 
+function getSettingsVersionText(){
+    const version = getSettingsApplicationVersion();
+    const build = getSettingsAssetRevision();
+    const suffix = build.startsWith(`${version}-`) ? build.slice(version.length + 1) : build;
+    return suffix && suffix !== "Unknown build" ? `v${version} · ${suffix}` : `v${version}`;
+}
+
 function getSettingsApplicationVersion(){
     return typeof APP_VERSION === "string" ? APP_VERSION : "1.2.1";
 }
@@ -489,8 +496,8 @@ function createApplicationPanel(){
     );
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
-        createSettingsInfoRow("APPLICATION VERSION", `v${getSettingsApplicationVersion()}`),
-        createSettingsInfoRow("BUILD", getSettingsAssetRevision()),
+        // r90 W9 (LOOK hunt L45): one VERSION row; the build suffix (r89, r90...) rides on it for support, no separate BUILD row.
+        createSettingsInfoRow("VERSION", getSettingsVersionText()),
         createSettingsInfoRow("CAREER DATA", "Automatic Showdown storage"),
         createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );

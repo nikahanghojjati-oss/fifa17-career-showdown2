@@ -2023,3 +2023,11 @@
     width: var(--w9-rv-title-w); left: calc(50% - var(--w9-rv-title-w) / 2);
   }
 }
+
+/* r90 W9 (LOOK hunt L43): in narrower desktop windows (1180x620) a two-digit score such as "18 – 16" broke after the dash.
+   Every score now keeps one line on desktop and shrinks with its card when the card is narrow, the way 100+ scores already
+   did (data-wide-score). The columns stay as they are, so the club names and the winner line keep their room. From 1600 px
+   wide the cards are wide enough and nothing changes. */
+@media (min-width:901px) and (max-width:1599px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard:not([data-wide-score="true"]) .legacyScore { white-space:nowrap; font-size:min(clamp(22px,1.9vw,56px),11cqi); }
+}
