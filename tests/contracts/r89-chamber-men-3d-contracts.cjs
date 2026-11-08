@@ -211,7 +211,7 @@ async function c3d2(){
 //    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
 {
   assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,LIGHT_ONE\.hemi\)/.test(scene)&&/const LIGHT_ONE=L===0\?\{key:1\.5,env:1\.1,hemi:\.22\}:\{key:1,env:1,hemi:\.08\};/.test(scene),"night: a faint sky fill, the floodlights carry the picture (r90 Light: one light, the sky lifted to .22)");
-  assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/one\("cmBlobTaker"/.test(scene)&&/one\("cmBlobKeeper"/.test(scene)&&/one\("cmBlobBall"/.test(scene),"three contact shadows");
+  assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/mesh\.name="cmBlobs"/.test(scene)&&/return \{taker:\{i:0,w:1\.15,d:\.9\},keeper:\{i:1,w:1\.25,d:\.85\},ball:\{i:2,w:\.36,d:\.36\},strength,geo,P,C\};/.test(scene),"three contact shadows (r90 Light draw budget: one mesh, a quad each)");
   assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/const strength=L<=0\?\.62:\.5/.test(scene),"at every level (the floodlights' own shadows are soft, several at once)");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
@@ -279,7 +279,7 @@ async function c3d2(){
   assert.ok(/Math\.abs\(x-e\[k\]\)>1e-4\)\)return;/.test(code),"a body whose pieces disagree on a bind pose keeps per-piece shadows");
   assert.ok(/const same=o\.bindMatrix\.equals\(bind\)/.test(code)&&/proxy\.bind\(keep\(new T\.Skeleton\(bones,inv\)\),bind\)/.test(code),"positions copied in the pieces' own bind space");
   assert.ok(/for\(const o of parts\)o\.castShadow=false;/.test(code)&&/shadowBody\(model\);/.test(code),"every actor gets one");
-  assert.ok(/o\.castShadow=!\/lash\/i\.test\(/.test(code),"eyelashes cast no shadow");
+  assert.ok(/const lash=\/lash\/i\.test\(/.test(code)&&/o\.castShadow=!lash;/.test(code),"eyelashes cast no shadow");
   ok("C3D15","r90 draw calls: one shadow draw per player body, hair its own, no eyelash shadow");
 }
 // C3D16 r90 Light (Nik 2026-11-08: smooth on his Chromebook, 3D guaranteed): nothing compiles or uploads during play, the
@@ -294,7 +294,7 @@ async function c3d2(){
   assert.ok(scene.includes('canvas.removeEventListener("webglcontextrestored",restored);'),"and the hook goes with the scene");
   // The season page (cm3Warm) also runs three.js, parses the stadium and players and paints the four kits at idle moments;
   // the mount takes them for the same level and clubs and never parses or paints twice.
-  assert.ok(scene.includes("if(ok&&!cm3Mounting&&!cm3Parsed){")&&scene.includes("cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work};"),"the season page parses ahead, once");
+  assert.ok(scene.includes("if(ok&&!cm3Mounting&&!cm3Parsed){")&&scene.includes("cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work,lite:Boolean(Q.full)};"),"the season page parses ahead, once");
   assert.ok(scene.includes("for(const k of cm3KitPlan(x.K,Q,opts&&opts.clubs)){if(cm3Mounting)break;await cm3Idle();"),"the four kits are painted one per idle moment, and stop when the screen opens");
   assert.ok(scene.includes("let extras=held?await held:await cm3Extras(T,Q,pre);")&&scene.includes("if(cm3Parsed&&!held)cm3Parsed.work.then(x=>{if(x)cm3FreeExtras(x);},()=>{});"),"the mount takes the parse for its level and clubs, lets any other go");
   assert.ok(scene.includes("if(!kitMemo.has(memo)&&cm3Kits.has(memo)){kitMemo.set(memo,cm3Kits.get(memo));cm3Kits.delete(memo);}")&&scene.includes("await kits();cm3Kits.clear();"),"kits painted ahead are taken over, the rest let go");
@@ -324,6 +324,19 @@ const c3d17=(async()=>{
   {const r=await run({mount:later(10,{dispose(){}}),loads:[false,true]});assert.ok(await r.ready,"a failed script load is fetched once more");assert.deepEqual(r.log.slice(0,3),["load:false","load:true","mount"]);}
   {const r=await run({mount:later(10,{dispose(){}}),loads:[false,false]});assert.equal(await r.ready,null,"two failed loads: the SVG goal");}
   ok("C3D17","r90 Light: a slow scene is waited for with the box loading, a late scene takes the box synced, one retry of a failed load");
+// C3D18 r90 Light budget (lead: 40 draws or fewer, fewer programs, no lower resolution) and MOTION M36 (never flat on a slow
+//    line): the lean stadium at Light, no eyelashes at Light, kit pieces share one shader, and a high level on a slow line opens
+//    on the Balanced file set until its own set is in the cache.
+{
+  assert.ok(/lean:L===0/.test(scene),"Light builds the lean stadium");
+  assert.ok(/if\(lash&&L===0\)o\.visible=false/.test(scene),"no eyelashes at Light");
+  assert.ok(/if\(L===0\)for\(const m of Object\.values\(mats\)\)if\(m\.isMeshStandardMaterial&&\(m\.map\|\|\/\^kit\/\.test\(m\.name\)\)&&!m\.normalMap/.test(scene)&&/new Uint8Array\(\[128,128,255,255\]\)/.test(scene),"a kit piece without a normal map reads a flat one at Light");
+  assert.ok(/function cm3SlowLink\(\)\{const c=root\.navigator\?\.connection;return Boolean\(c&&Number\.isFinite\(c\.downlink\)&&c\.downlink>0&&c\.downlink<10\);\}/.test(scene),"a slow line is under 10 Mbps");
+  assert.ok(/if\(q\.assets==="desktop"&&cm3SlowLink\(\)&&\(cm3Parsed\?\.lite\|\|!await cm3Scripts\(\)\|\|!\(await Promise\.all\(cm3Urls\(q,clubs\)\.map\(cm3Cached\)\)\)\.every\(Boolean\)\)\)\{\s*q\.full=\{textureLevel:q\.textureLevel\?\?q\.level\};q\.assets="phone";q\.textureLevel=1;\}/.test(scene),"a high level on a slow line opens on the lighter set until its own is cached");
+  assert.ok(/if\(Q\.full\)\{const full=cm3Urls\(\{\.\.\.Q,assets:"desktop",textureLevel:Q\.full\.textureLevel\},opts&&opts\.clubs\);/.test(scene),"the season page then fetches the level's own set for a later open");
+  assert.ok(!/q\.(pixelRatio|maxPixelRatio|level)=/.test(scene.slice(scene.indexOf("async function cm3Quality"),scene.indexOf("function cm3SlowLink"))),"the level, its lights, shadows and pixel ratio stay (only the file set changes)");
+  ok("C3D18","r90 Light budget and M36: lean stadium at Light, no lashes, kit pieces share one shader, slow line opens on the lighter set");
+}
 })();
 let c3d14=Promise.resolve();
 // C3D14 r90 M1 (MOTION hunt): a first Chamber Men on a 10 Mbps line never mounted the 3D pitch (about 7 MB at Light against

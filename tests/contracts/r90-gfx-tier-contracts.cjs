@@ -317,7 +317,7 @@ function g9(){
     const m=sandbox({gpu:'Adreno (TM) 650',dpr:2.6,memory:8,cores:8,screen:[393,851]}).G.profile();assert.deepEqual([m.level,m.textureLevel],[1,0],'a phone below High: one texture size down');
     const d=sandbox({gpu:'ANGLE (Intel, Intel(R) Iris(R) Xe Graphics Direct3D11 vs_5_0 ps_5_0, D3D11)',memory:16,cores:8}).G.profile();assert.deepEqual([d.level,d.textureLevel],[1,1],'a computer keeps its level');
     const scene=fs.readFileSync(path.join(ROOT,'js/chamberMenScene3d.js'),'utf8');
-    assert.ok(scene.includes('return {...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};')&&!scene.includes('phoneScreen'),'Chamber Men assets follow the texture level');
+    assert.ok(scene.includes('const q={...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};')&&!scene.includes('phoneScreen'),'Chamber Men assets follow the texture level');
     ok('G9','phones: strong GPUs start High, weak Light; calibrate runs; at most 3x and a 4K buffer; textures one size down below High');
   });
 }

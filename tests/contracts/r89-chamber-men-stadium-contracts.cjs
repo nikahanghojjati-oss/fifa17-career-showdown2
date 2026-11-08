@@ -185,4 +185,19 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(!/CircleGeometry/.test(code)&&/for\(const z of \[SPOT_Z,PITCH_L-SPOT_Z,PITCH_L\/2\]\)\{const r=z===SPOT_Z\?\.1:\.15/.test(code),"the spots are drawn with the chalk lines");
   ok("S8","r90 draw calls: bowl, goal, far goal, side nets and spots merged by material, every corner where it was");
 }
+// S9 r90 Light draw budget (o.lean, Light only): stand pieces baked per material (shadow role kept), ground bars with the
+//    stanchions, both goals' posts one draw, the back net in one pass, the boards from one atlas, flares and halo one Points
+//    draw, untextured flat colours on a 1x1 white map, plain standard posts. Other levels keep every piece as before.
+{
+  const code=kit.replace(/\/\/[^\n]*/g,"");
+  assert.ok(/X\.userData\.bake="stand"/.test(code)||/\.userData\.bake="stand"/.test(code),"stand pieces are marked for the bake");
+  assert.ok(/const shade=x\.userData\.bake!=="stand"\|\|x\.receiveShadow;x\.userData\.shade=shade;const key=`\$\{x\.material\.uuid\}\|\$\{shade\}`;/.test(code),"a stand piece keeps whether it takes shadows");
+  assert.ok(/if\(o\.lean\)stadiumMerge\(T,frame\.concat\(bars\),goal\)\.name="cmStanchions";\s*else\{stadiumMerge\(T,frame,goal\)\.name="cmStanchions";stadiumMerge\(T,bars,goal\)\.name="cmGroundBars";\}/.test(code),"ground bars join the stanchions at Light only");
+  assert.ok(/if\(o\.lean\)\{stadiumMerge\(T,pb\.concat\(fp\),goal\)\.name="cmPosts";group\.remove\(far\);\}/.test(code),"both goals one draw at Light");
+  assert.ok(/if\(o\.lean\)\{const one=keep\(netMat\.clone\(\)\);one\.forceSinglePass=true;back\.material=one;\}/.test(code),"the back net in one pass at Light");
+  assert.ok(/mat\.customProgramCacheKey=\(\)=>"cmBoardAtlas";/.test(code)&&/atlas\.uRow\.value\.set\(/.test(code),"boards from one atlas, the 9 s swap a uniform");
+  assert.ok(/m\.customProgramCacheKey=\(\)=>"cmFlares";/.test(code)&&/gl_PointSize = size \* aCmSize;/.test(code),"flares and halo one draw at Light");
+  assert.ok(/const Post=o\.lean\?T\.MeshStandardMaterial:T\.MeshPhysicalMaterial/.test(code),"plain standard posts at Light, clearcoat above");
+  ok("S9","r90 Light draw budget: lean stadium merges and shared shaders at Light only");
+}
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);

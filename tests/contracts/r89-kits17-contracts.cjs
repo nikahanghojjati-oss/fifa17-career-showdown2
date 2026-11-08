@@ -18,5 +18,5 @@ assert.strictEqual(fronts.length,2,"front number painted on the keeper shirt and
 for(const line of fronts)assert.match(line,/if\(k\.role==="gk"\)/,`front number only on keepers: ${line.trim()}`);
 assert.match(kitsSrc,/REMY\.crest;drawCrest\([^\n]*k\.role==="gk"\?cs\*1\.15:cs/,"keeper patch crest is bigger on the Remy atlas");
 const sceneSrc=fs.readFileSync(path.join(__dirname,"../../js/chamberMenScene3d.js"),"utf8");
-assert.match(sceneSrc,/const number=role==="gk"\?1:/,"Chamber Men gives every keeper number 1");
+assert.match(sceneSrc,/function cm3KitNumber\(club,role\)\{return role==="gk"\?1:/,"Chamber Men gives every keeper number 1");
 console.log(`r89 kits17 contracts: PASS (98 clubs, worst keeper clearance ${worst})`);
