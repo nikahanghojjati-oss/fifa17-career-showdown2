@@ -60,7 +60,7 @@ async function preparePage(browser,identity){
     window.addEventListener("offline",()=>{window.__stage5hOfflineEvents+=1;});
   });
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   const before=await page.evaluate(()=>["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"].map(key=>[key,localStorage.getItem(key)]));
   await page.evaluate(async identity=>{
     function offlineError(action){const error=new Error(`simulated real-browser offline ${action}`);error.code="network-request-failed";return error;}
