@@ -839,6 +839,7 @@ function sweepSettingsShowdownDrafts(){
    close panel says what to do (reconnect, then it saves). The active Showdown and its drafts stay until that close lands. */
 async function finishSettingsSackedShowdown(name){
     closeSettings(false);
+    await window.CareerModeSharedJourneyReady?.();
     const close = window.CareerModeProductionSharedTerminalClose;
     let phase = null;
     try{

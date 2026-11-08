@@ -3017,6 +3017,16 @@
         "^tests/contracts/r90\\-offline\\-pack\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r90-ssjr-defer-contracts.cjs",
+      "patterns": [
+        "^js/ssjr\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/settings\\.js$",
+        "^tests/contracts/r90\\-ssjr\\-defer\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
