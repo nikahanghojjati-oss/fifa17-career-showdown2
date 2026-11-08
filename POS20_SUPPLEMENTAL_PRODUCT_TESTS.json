@@ -3007,6 +3007,16 @@
         "^tests/contracts/r90\\-no\\-dead\\-js\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r90-offline-pack-contracts.cjs",
+      "patterns": [
+        "^service-worker\\.js$",
+        "^js/offlineApp\\.js$",
+        "^index\\.html$",
+        "^tests/contracts/r90\\-offline\\-pack\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

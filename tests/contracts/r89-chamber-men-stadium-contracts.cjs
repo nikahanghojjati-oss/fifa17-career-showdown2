@@ -91,4 +91,30 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   for(const k of ["GLTFLoader","SkinnedMesh","AnimationMixer","LoopOnce","LoopRepeat"])assert.ok(k in T,`engine has ${k}`);
   ok("S5","players: shared clip file with every clip and three light bodies with the kit meshes (desktop and phone); the engine can load and play it");
 }
+// S6 r90 LOOK (hunt L01-L03, at every level): a night stand that falls dark under the roof, a floodlight halo, the pitch lit
+//    in a pool round the box; each club's colours in its own block (tintable cells only, away fans in the corner behind the
+//    goal past an empty strip); LED boards drawn at run time with the CM17 wordmark and both clubs' crests and names, each
+//    message inside its own board, the run behind the goal centred on it, no board images and no "CMS" lettering.
+{
+  const code=kit.replace(/\/\/[^\n]*/g,"");
+  for(const f of ["board_chamber_men.webp","board_cms.webp","board_chevrons.webp"]){
+    assert.ok(!fs.existsSync(path.join(ROOT,DIR,f)),`${f} retired`);assert.ok(!kit.includes(f),`${f} not loaded`);}
+  assert.ok(!/["'`][^"'`\n]*\bCMS\b[^"'`\n]*["'`]/.test(code),"no CMS lettering on any board");
+  assert.ok(/const word=make\(/.test(kit)&&/fillText\("CM17"/.test(kit),"the CM17 wordmark board");
+  assert.ok(/const club=\(name,inner\)=>make\(/.test(kit)&&/crestOf\(name\)/.test(kit)&&/getImageData/.test(kit),"club boards: crest (only when it leaves the canvas clean) and name");
+  assert.ok(/const fit=\(g,text,maxW,maxH\)=>/.test(kit),"every name is fitted to its board");
+  assert.ok(/x0:-PITCH_HALF_W-6,x1:PITCH_HALF_W\+6,pick:behind,first:4/.test(kit)&&/Math\.abs\(xc\)<\.5\?mWord/.test(kit),"the run behind the goal is centred on it");
+  assert.ok(/m=w<BW-\.01\?mPattern:/.test(kit),"a short board only carries the pattern");
+  assert.ok(/const nightStand=m=>/.test(kit)&&(kit.match(/nightStand\(new T\.MeshStandardMaterial/g)||[]).length===2,"stands and concrete fall dark with height");
+  assert.ok(/const halo=new T\.Points\(flareGeo,haloMat\)/.test(kit),"floodlight halo");
+  assert.ok(/mix\(1\.16,\.36,smoothstep\(4\.0,24\.0,length\(\(vCmWorld\.xz-vec2\(0\.0,8\.0\)\)/.test(kit),"the floodlit pool on the box, the turf falling away round it");
+  assert.ok(/vec3\(\.14,\.16,\.25\),smoothstep\(\.5,12\.0,vCmY\)/.test(kit),"the stand falls into a cool dark above the front rows");
+  assert.ok(/top=vec3\(\.003,\.007,\.03\),mid=vec3\(\.016,\.026,\.062\)/.test(kit),"a darker, bluer night sky");
+  assert.ok(/aCell\[i\]=plain\?pickCell\(PLAIN_CELLS\):pickCell\(TINT_CELLS\)/.test(kit)&&/o\.homeAlt/.test(kit)&&/o\.awayAlt/.test(kit),"club blocks in each club's two colours");
+  assert.ok(/const awayEnd=f\.si===3\|\|\(f\.si===0&&f\.p\.x>AWAY_X\)/.test(kit),"away fans in the corner behind the goal");
+  const sandbox={};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(kit,sandbox);
+  const files=Object.values({...sandbox.CareerModeChamberMenStadium.files.both});
+  assert.ok(files.every(f=>!/^board_/.test(f)),"no board file in the load set");
+  ok("S6","night stand, club-colour crowd, run-time ad boards with crests and no cut or CMS lettering");
+}
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);
