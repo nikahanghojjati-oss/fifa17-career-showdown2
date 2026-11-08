@@ -74,10 +74,11 @@ html.kb .packtitle { display: none; }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .ring circle { fill: none; stroke-width: 3.5; }
 .ring .track { stroke: rgba(255,240,200,.16); }
-.ring .left { stroke: var(--foil-2); stroke-linecap: round; transition: stroke-dashoffset 250ms linear; }
-html[data-gfx="0"] .ring .left { transition-duration: 1000ms; }
-html.rm .ring .left { transition: none; }
-@media (prefers-reduced-motion: reduce) { .ring .left { transition: none; } }
+/* r90 Prime Pack smooth (Nik 2026-11-08, "smooth 2D"): the ring steps every 200 ms with no transition. A stroke transition
+   repainted the ring on every frame of the whole guessing window; a step is about 1 px of arc, and the ring is its own layer,
+   so each step repaints only the ring */
+.ring { will-change: transform; }
+.ring .left { stroke: var(--foil-2); stroke-linecap: round; }
 .ring.low .left { stroke: #ff9a6a; }
 .ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 20px/1 var(--cond); color: var(--foil-1); }
 .pill { font: 700 16px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 8px 14px 7px; border-radius: 999px;
@@ -122,10 +123,10 @@ html.rm .banner { animation: fade 220ms linear both; }
 .card .foil { display: none; }
 .card .face { position: absolute; inset: 0; background: url("assets/card_frame.webp") center / 100% 100% no-repeat; overflow: hidden;
 }
-/* r90: the card's shadow sits on its own copy of the frame under the face, so the sheen sweep (its own layer) never re-rasters
-   the blurred shadow */
-.card::before { content: ""; position: absolute; inset: 0; background: url("assets/card_frame.webp") center / 100% 100% no-repeat;
-  filter: drop-shadow(0 14px 26px rgba(0,0,0,.6)); }
+/* r90 Prime Pack smooth: the card's shadow is a picture, blurred once offline from the frame (the same drop-shadow, 14 px down,
+   26 px soft at the usual card size). A live drop-shadow filter on the card was blurred again on every frame the card's layer
+   moved or changed (the rise, each stage's tiles), the biggest cost on the Chromebook profile after the ring */
+.card::before { content: ""; position: absolute; inset: -8.333% -12.5%; background: url("assets/card_shadow_V1.webp") center / 100% 100% no-repeat; }
 .card .face::after { will-change: transform; content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,240,196,.22) 50%, rgba(255,255,255,0) 60%) 0 0 / 300% 100% no-repeat;
   -webkit-mask: url("assets/card_frame.webp") center / 100% 100% no-repeat; mask: url("assets/card_frame.webp") center / 100% 100% no-repeat;
@@ -260,11 +261,9 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 html.still *, html.still *::before, html.still *::after { transition: none !important; animation: none !important; }
 @media (prefers-reduced-motion: reduce) { .card .face::after { animation: none; } .chip { transition: none; } }
 html.rm .card .face::after { animation: none; }
-/* r90 M6: the page follows Settings 3D QUALITY (html[data-gfx], mirrored from the game page). Light: no looping sheen layer
-   and a tighter card shadow (cheaper raster). Balanced and High: the look as approved. Extra and up: a brighter, quicker sheen.
+/* r90 M6: the page follows Settings 3D QUALITY (html[data-gfx], mirrored from the game page). Light: no looping sheen layer. Balanced and High: the look as approved. Extra and up: a brighter, quicker sheen.
    Timers, stages and points are the same at every level. */
 html[data-gfx="0"] .card .face::after { animation: none; display: none; }
-html[data-gfx="0"] .card::before { filter: drop-shadow(0 8px 12px rgba(0,0,0,.55)); }
 html[data-gfx="3"] .card .face::after, html[data-gfx="4"] .card .face::after, html[data-gfx="5"] .card .face::after {
   background-image: linear-gradient(105deg, rgba(255,255,255,0) 38%, rgba(255,244,210,.3) 50%, rgba(255,255,255,0) 62%); animation-duration: 4.5s; }
 </style>
@@ -744,7 +743,7 @@ function render(){
 }
 // r90 M6/M17: the frame loop no longer rewrites the page every frame. A full render runs while something moves on the
 // page clock (a stage reveal, the pack opening, the name coming up); in the guessing window only when what is on screen
-// changes: the ring steps every 250 ms (1 s at Light; a CSS transition fills in between), the number once a second, and
+// changes: the ring steps every 200 ms (no transition: a stroke transition repaints every frame), the number once a second, and
 // any hook (a guess, a chip, a new stage) still renders at once.
 let frameKey = "";
 function frameNeeds(t){
@@ -752,7 +751,7 @@ function frameNeeds(t){
   if(S.result) return S.nameAt!==null && t<S.nameAt ? "r0" : "r1";
   if(S.beat<0) return "w"+(S.waitingFor||"")+(S.countIn?1:0);
   if(S.revealEndsAt!==null && t<S.revealEndsAt) return "a"+t;              // reveal and opening: every frame
-  const step = document.documentElement.dataset.gfx==="0" ? 1000 : 250;
+  const step = 200;                                                         // r90 smooth: the ring's step, every level
   return "g"+S.beat+":"+Math.ceil(guessLeft(t)/step)+":"+(canGuess()?1:0)+(canType()?1:0);
 }
 function frame(){ tickDriver(); const k=frameNeeds(now()); if(k!==frameKey){ frameKey=k; render(); } if(!frozen) requestAnimationFrame(frame); }
