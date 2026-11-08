@@ -332,9 +332,9 @@ function getSettingsGfxAutoText(tier){
         const onAuto = tier.choice() === "auto";
         const name = SETTINGS_GFX_NAMES[onAuto ? s.nowName : s.name];
         if(!name){ return ""; }
-        if(!onAuto){ return `Auto would pick ${name} for your screen and graphics.`; }
-        if(s.lowered){ return `Auto picked ${name} for your screen and graphics (lowered after a graphics error).`; }
-        return s.measured && s.now === s.level ? `Auto measured ${name} on your screen and graphics.` : `Auto picked ${name} for your screen and graphics.`;
+        if(!onAuto){ return `Auto would pick ${name} here.`; }
+        if(s.lowered){ return `Auto picked ${name} here (lowered after a graphics error).`; }
+        return s.measured && s.now === s.level ? `Auto measured ${name} here.` : `Auto picked ${name} here.`;
     }catch(_error){
         return "";
     }
@@ -398,7 +398,7 @@ function createGfxQualityControl(){
     note.hidden = true;
     copy.append(note);
     // Part of the select's name (axe label-title-only fails a select described with no <label>): "3D QUALITY, Auto picked
-    // High for your screen and graphics."
+    // High here."
     select.setAttribute("aria-labelledby", "settingsGfxLabel settingsGfxAuto");
     note.id = "settingsGfxAuto";
     row.append(copy, select);
