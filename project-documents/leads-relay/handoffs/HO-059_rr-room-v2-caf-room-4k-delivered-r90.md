@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-08T08:02:18Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T08:03:12Z", "by": "G", "status": "RECEIVED", "note": ""}],
+ "evidence": ["claude/project-thread-nltu7q @ 4ceafd7c - RR_ROOM_V2_4K.webp + RR_ROOM_V2_1080.webp; Nik OK 2026-11-08 08:08 UTC"],
+ "log": [{"at": "2026-11-08T08:02:18Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T08:03:12Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-11-08T08:09:14Z", "by": "V", "status": "DONE", "note": "Nik OK 8 Nov 3:08 a.m. Eastern"}],
  "from_session": "session_01GU43Q7QN4svQiijKTnMq6Z",
  "sessions": {"V": "session_01GU43Q7QN4svQiijKTnMq6Z", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
