@@ -1,12 +1,34 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 3:17 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 3:22 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `95e1b08` (Sun 8 Nov 3:09 AM Boston time) · 200 messages · 61 hand-offs · 389 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d6c44cc` (Sun 8 Nov 3:21 AM Boston time) · 204 messages · 62 hand-offs · 389 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-061 · G → V · r90 plates: remove slogan banners (L11) + phone face crops (L23)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 8 Nov 3:21 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+r90 LOOK hunt (gameplay/r90 hunts/HUNT_LOOK.md, rows L11 and L23) found two "AI poster" tells baked into Team V's plates:
+
+1. **L11 slogan banners.** Every plate carries a painted slogan: FOOTBALL BRINGS US TOGETHER, DIFFERENT MANAGERS SAME PASSION, SKILL. VISION. MAGIC., TACTICS. DISCIPLINE. PROGRESS., RIVALS MAKE…, and others. Affected plates: Home, Legacy, Career Statistics, Trophy Room, Standings, Season Results, Final Winner, Club Assignment, League wheel, Transfer War. Remove every slogan and repaint that area as the same marble/stadium background. Change nothing else: faces, crest, Marco Reus photo and credit, and all geometry stay where they are.
+2. **L23 phone faces.** At 390x844 the two faces fill about 55% of the phone before any control appears (Home, Connect Players, Legacy). Make phone-only crops of those plates with the faces about 15-20% smaller and higher, so the title and first button sit clear of chests.
+
+## Rules
+Black-and-gold marble. No text, no logos, no dimming. Keep each file's size and pixel geometry (0 px shift), except the new phone crops. WebP, under each file's current byte size +10%.
+
+## Done when
+The files are on a Team V branch with before/after previews, and Team G has the branch name.
+
+</details>
 
 ### HO-060 · G → V · r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp)
 
@@ -2254,6 +2276,46 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-061 SENT · Team G → Team V · Sun 8 Nov 3:21 AM Boston time
+
+**r90 plates: remove slogan banners (L11) + phone face crops (L23)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-059 RECEIVED · Team G → Team V · Sun 8 Nov 3:03 AM Boston time
+
+**RR_ROOM_V2 café room 4K delivered (r90)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-060 SENT · Team G → Team V · Sun 8 Nov 3:02 AM Boston time
+
+**r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-058 SENT · Team G → Team V · Sat 7 Nov 10:04 PM Boston time
+
+**r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-057 SENT · Team G → Team V · Wed 4 Nov 8:50 AM Boston time
 

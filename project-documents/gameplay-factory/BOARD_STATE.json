@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-08 3:17 AM Boston time (EST)",
+ "generated": "2026-11-08 3:22 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 200,
+  "count": 204,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1803,6 +1803,42 @@
     "subject": "4K page title wordmarks (all titles)",
     "reply": "yes (receive it)",
     "boston": "Wed 4 Nov 8:50 AM"
+   },
+   {
+    "time": "2026-11-08 03:04",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-058 SENT",
+    "subject": "r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only)",
+    "reply": "yes (receive it)",
+    "boston": "Sat 7 Nov 10:04 PM"
+   },
+   {
+    "time": "2026-11-08 08:02",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-060 SENT",
+    "subject": "r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 3:02 AM"
+   },
+   {
+    "time": "2026-11-08 08:03",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-059 RECEIVED",
+    "subject": "RR_ROOM_V2 café room 4K delivered (r90)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 3:03 AM"
+   },
+   {
+    "time": "2026-11-08 08:21",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-061 SENT",
+    "subject": "r90 plates: remove slogan banners (L11) + phone face crops (L23)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 3:21 AM"
    }
   ],
   "g2v": {
@@ -1823,8 +1859,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "95e1b08",
-  "head_boston": "Sun 8 Nov 3:09 AM",
+  "head": "d6c44cc",
+  "head_boston": "Sun 8 Nov 3:21 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2648,7 +2684,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 313
+    "waiting_min": 317
    },
    {
     "id": "HO-059",
@@ -2673,6 +2709,19 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-060_r90-prime-pack-desktop-stage-4k-master-s.md",
     "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-061",
+    "from": "G",
+    "to": "V",
+    "title": "r90 plates: remove slogan banners (L11) + phone face crops (L23)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-061_r90-plates-remove-slogan-banners-l11-pho.md",
+    "worker": "images",
     "pickup_min": null,
     "waiting_min": null
    }
@@ -2746,7 +2795,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
