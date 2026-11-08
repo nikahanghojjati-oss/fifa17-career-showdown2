@@ -190,7 +190,8 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   assert.match(sw,/\|svg\|wav\|ogg\|glb\)\$\/i;/,'M13 the worker runtime-caches .ogg like the images');
   // M9: shaders in batches with progress, and the step renews its wait on progress
   has(/if\(!renderer\.extensions\.has\("KHR_parallel_shader_compile"\)\)\{/,'M9 batches only where the GPU cannot compile in the background');
-  has(/renderer\.compile\(scene,camera\); vis\.forEach\(\(v,o\)=>\{ o\.visible=v; \}\); toGame2\("cms-rr-loading"/,'M9 each batch reports progress and restores visibility');
+  has(/for\(const b of batches\)\{ b\.forEach\(o=>renderer\.compile\(o,camera,scene\)\); toGame2\("cms-rr-loading"/,'M9 each batch compiles only its own objects (lights and environment from the whole scene) and reports progress');
+  assert.doesNotMatch(html,/o\.visible=keep\.has\(o\)/,'M9 no visibility switching: compile() walks hidden objects too');
   assert.match(step,/if\(event\.data\.type==="cms-rr-loading"\)renew\(\);/,'M9 progress renews the start wait');
   assert.match(step,/COLD_LOADING_MS=90000/,'M9 the whole start is capped');
   assert.match(step,/if\(!slow\)sceneFailedHere\.add\(rrsKey\(ctx\)\);/,'M9 a slow start is never skipped for good: it is tried again the next time the screen opens');
