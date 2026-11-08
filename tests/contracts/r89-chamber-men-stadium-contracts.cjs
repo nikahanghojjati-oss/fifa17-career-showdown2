@@ -69,13 +69,16 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     const n=b.readUInt32LE(12);return {size:b.length,json:JSON.parse(b.toString("utf8",20,20+n))};};
   for(const tier of ["desktop","phone"]){
     const clips=glb(`anims_${tier}.glb`).json.animations.map(a=>a.name);
-    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog","strikeJog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch","gkCatch1","gkCatch2"])assert.ok(clips.includes(c),`anims_${tier} has clip ${c}`);
+    // r90: the clips the scene plays. idle, walk, run, strikeJog and gkCatch went (nothing played them); the reactions
+    // victory2, cheer, salute and defeated came from Nik's Mixamo files (tools/chamber-men-players/clips_r90.json).
+    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated"];
+    assert.deepEqual(clips.slice().sort(),PLAYED.slice().sort(),`anims_${tier} holds exactly the played clips`);
     assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
   }
   // v2: one shared clip file per tier plus one light body file per body; same bones, kit materials, hips scale for clips
-  for(const [tier,amax,bmax] of [["desktop",1.6e6,4.8e6],["phone",1.4e6,2.4e6]]){
+  for(const [tier,amax,bmax] of [["desktop",1.2e6,4.8e6],["phone",1.12e6,2.4e6]]){
     const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
-    assert.equal(a.json.animations.length,18,`anims_${tier} has the 18 clips`);
+    assert.equal(a.json.animations.length,17,`anims_${tier} has the 17 clips`);
     for(const id of ["remy","ch38","ch42"]){
       const {size,json}=glb(`body_${id}_${tier}.glb`);
       assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
