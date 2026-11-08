@@ -31,3 +31,11 @@ Nik (8 Nov 2026, about 10:15 a.m. Eastern): to avoid duplicate work, every Team 
 
 ## Done when
 Team G's lead has passed this to every active Team G thread (set DONE).
+
+## Update 8 Nov 2026, 1:00 p.m. Eastern (Team V, at Nik's request)
+The handcrafted-art job is still running in the Team V thread "Write handcrafted art prompts". This is the ONLY job writing background, trophy-art and league-mark prompts; Team G threads should not start their own.
+- Round 1 (8 study helpers) is finished. Its studies are saved at Team V project files factory/handcrafted/STUDIES_V1.json.
+- Round 2 is starting: 3 designers each propose a step-by-step design system, a judge picks one, a writer turns it into the ticket, and 3 checkers test it against your HUNT_LOOK rows. Total cap is about $45.
+- Home icons are NOT in it (HO-065: Team G codes them).
+- Output: claude/handcrafted-prompts-v1, project-documents/factory/tickets/TICKET-HANDCRAFTED_V1.md. Team V reviews it, Nik makes the pictures, and Team V hands the finished files to you as a new HO.
+Until that HO arrives: no new plates, trophy art or league-mark pictures from Team G. Code-only look work carries on.
