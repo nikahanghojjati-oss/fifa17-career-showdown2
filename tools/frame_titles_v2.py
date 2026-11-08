@@ -6,6 +6,7 @@ screen that sizes a title by both width and height (fill or contain) would draw 
 trims only fully clear rows above and below the lettering (centred on it) so each file has its V1 ratio; when a title's
 lettering is taller than the V1 frame allows (Season Results), it pads clear columns instead and keeps the file width.
 Run from the repo root: python3 tools/frame_titles_v2.py   (Pillow). Idempotent: a file already at its V1 ratio is skipped.
+r90: the V2 files are framed and the V1 sources (except LG) were removed; to rerun, restore them from branch archive/pre-r90.
 """
 from PIL import Image
 import os

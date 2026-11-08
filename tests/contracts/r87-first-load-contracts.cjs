@@ -42,20 +42,26 @@ function run(loading,{idle=true,advance=0}={}){
   const rev=html.match(/<meta name="app-asset-revision" content="([^"]+)">/)[1];
   assert.ok(html.includes(`<link rel="stylesheet" href="assets/fonts/barlow-condensed.css?v=${rev}">\n<link rel="stylesheet" id="appStyles"`),"local font sheet sits where the Google sheet was, before app.css");
   // 2b. The nine faces: 600/700/800 x vietnamese, latin-ext, latin, in Google's order, each file present and precached.
-  // r90 W8: latin 700 points at Team V's byte-identical copy (one download instead of two); the file below stays checked.
-  const SHARED_700="../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2";
-  assert.equal(fs.readFileSync(path.join(root,"assets/fonts/barlow-condensed-latin-700-normal.woff2")).compare(fs.readFileSync(path.join(root,"visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2"))),0,"the shared latin 700 file is the same bytes as Google's");
-  const faces=[...fonts.replace(`url(${SHARED_700})`,"url(barlow-condensed-latin-700-normal.woff2)").matchAll(/\/\* (\S+) \*\/\n@font-face \{[^}]*font-family: 'Barlow Condensed';[^}]*font-weight: (\d+);[^}]*font-display: swap;[^}]*src: url\((barlow-condensed-[^)]+\.woff2)\) format\('woff2'\);[^}]*unicode-range: [^;]+;\n\}/g)];
-  assert.ok(fonts.includes(`src: url(${SHARED_700}) format('woff2');`),"latin 700 loads the shared copy");
+  // r90: latin 600 and 700 load Team V's byte-identical shared copies (one download each instead of two). The local
+  // copies stay in the repository for older shells; the worker precaches only the copy the sheet loads.
+  const SHARED=Object.fromEntries([600,700].map(w=>[`barlow-condensed-latin-${w}-normal.woff2`,`visual-assets/v10_1/shared/fonts/barlow-condensed-latin-${w}-normal.woff2`]));
+  let local=fonts;
+  for(const [name,shared] of Object.entries(SHARED)){
+    assert.equal(fs.readFileSync(path.join(root,"assets/fonts",name)).compare(fs.readFileSync(path.join(root,shared))),0,`the shared ${name} is the same bytes as Google's`);
+    assert.ok(fonts.includes(`src: url(../../${shared}) format('woff2');`),`${name} loads the shared copy`);
+    local=local.replace(`url(../../${shared})`,`url(${name})`);
+  }
+  const faces=[...local.matchAll(/\/\* (\S+) \*\/\n@font-face \{[^}]*font-family: 'Barlow Condensed';[^}]*font-weight: (\d+);[^}]*font-display: swap;[^}]*src: url\((barlow-condensed-[^)]+\.woff2)\) format\('woff2'\);[^}]*unicode-range: [^;]+;\n\}/g)];
   assert.deepEqual(faces.map(f=>`${f[1]}-${f[2]}`),["vietnamese-600","latin-ext-600","latin-600","vietnamese-700","latin-ext-700","latin-700","vietnamese-800","latin-ext-800","latin-800"]);
   const shell=[...sw.match(/const SHELL_PATHS = Object\.freeze\(\[([\s\S]*?)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
   const unversioned=[...sw.match(/const UNVERSIONED_SHELL_ASSET_PATHS = new Set\(\[([\s\S]*?)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
   assert.ok(shell.includes("assets/fonts/barlow-condensed.css"),"font sheet precached");
   for(const f of faces){
-    const file=`assets/fonts/${f[3]}`,buf=fs.readFileSync(path.join(root,file));
+    const file=SHARED[f[3]]||`assets/fonts/${f[3]}`,buf=fs.readFileSync(path.join(root,file));
     assert.equal(buf.subarray(0,4).toString("latin1"),"wOF2",`${file} is a WOFF2 file`);
     assert.ok(shell.includes(file),`${file} precached`);assert.ok(unversioned.includes(file),`${file} served from the shell without ?v=`);
   }
+  for(const name of Object.keys(SHARED))assert.ok(!shell.includes(`assets/fonts/${name}`),`the unloaded local ${name} is not precached a second time`);
   // 2c. The sheet stands in for the external Google sheet, which the 37,500-byte startup budget never counted. It stays small:
   // nine @font-face rules and nothing else, so it cannot grow into a second startup stylesheet.
   const gz=require("node:zlib").gzipSync(Buffer.from(fonts),{level:9}).length;
