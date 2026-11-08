@@ -171,6 +171,18 @@
   // ---------- the screen ----------
   const SVG_NS="http://www.w3.org/2000/svg";
   const ZONE_X=Object.freeze({L:62,M:150,R:238});
+  // r90 (Nik 2026-11-08, "less AI-made"): a small goal on each pick (posts, bar and the third it aims at), so the choice reads
+  // without words; the LEFT / MIDDLE / RIGHT word stays for screen readers and clarity. Drawn in currentColor.
+  function cmsAimMark(side){
+    const NS="http://www.w3.org/2000/svg",doc=cmsDoc(),mk=(tag,attrs)=>{const n=doc.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,String(attrs[k]));return n;};
+    const svg=mk("svg",{class:"cmAim",viewBox:"0 0 40 16","aria-hidden":"true",focusable:"false"});
+    const x={L:2,M:14,R:26}[side]??14;
+    // The goal's posts and bar, the third it aims at lightly filled, and the ball in that third.
+    svg.append(mk("rect",{x:x+.75,y:2.75,width:10.5,height:12.5,fill:"currentColor","fill-opacity":".28"}),
+      mk("path",{d:"M2 15.5V2h36v13.5",fill:"none",stroke:"currentColor","stroke-width":"1.5"}),
+      mk("circle",{cx:x+6,cy:10,r:2.6,fill:"currentColor"}));
+    return svg;
+  }
   function cmsEl(tag,className,text){const node=cmsDoc().createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function cmsSvg(tag,attrs){const node=cmsDoc().createElementNS(SVG_NS,tag);for(const [k,v] of Object.entries(attrs||{}))node.setAttribute(k,String(v));return node;}
   function cmsRemove(){const node=cmsDoc()?.getElementById(STAGE_ID);if(node)node.remove();}
@@ -246,14 +258,18 @@
   function cmsScene(goal){
     if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
     let late=false,cut=null;
+    // BUGS hunt BUG-05: a scene given up is aborted, not only flagged: its downloads stop and the mount builds nothing more,
+    // so a slow device is not still making a scene nobody will see through the pick clock.
+    const stop=typeof root.AbortController==="function"?new root.AbortController():null;
+    const giveUp=()=>{late=true;try{stop?.abort();}catch(_error){}};
     const dropped=new Promise(resolve=>{cut=resolve;});
-    goal.dropScene=()=>{if(!goal.scene)late=true;cut(null);};
-    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs}):null).then(scene=>{
+    goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};
+    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok&&!late?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs,signal:stop?.signal}):null).then(scene=>{
       if(!scene)return null;
       if(late){try{scene.dispose();}catch(_error){}return null;}
       goal.scene=scene;cmsSync(goal);return scene;
     },()=>null);
-    return Promise.race([made,dropped,cmsWait(SCENE_WAIT_MS).then(()=>{late=true;return null;})]);
+    return Promise.race([made,dropped,cmsWait(SCENE_WAIT_MS).then(()=>{if(!goal.scene)giveUp();return null;})]);
   }
   // A scene that mounts late takes the lineup on screen and, when a kick was revealed while it loaded, that kick at its end
   // pose (its words are already up), never a fresh run-up.
@@ -304,7 +320,8 @@
     const picks=cmsEl("div","cmPicks"),rows={};
     for(const [kind,label] of [["shot","Pick your shot"],["dive","Pick your dive"]]){
       const row=cmsEl("div","cmRow"),choices=cmsEl("div","cmChoices"),buttons={};row.dataset.kind=kind;
-      for(const side of ["L","M","R"]){const b=cmsEl("button","cmChoice",SIDE_WORD[side]);b.type="button";b.setAttribute("aria-pressed","false");b.dataset.kind=kind;b.dataset.side=side;buttons[side]=b;choices.append(b);}
+      for(const side of ["L","M","R"]){const b=cmsEl("button","cmChoice",SIDE_WORD[side]);b.type="button";b.setAttribute("aria-pressed","false");b.dataset.kind=kind;b.dataset.side=side;
+        b.prepend(cmsAimMark(side));buttons[side]=b;choices.append(b);}
       row.append(cmsEl("div","cmRowLabel",label),choices);rows[kind]={row,buttons};picks.append(row);
     }
     rows.dive.row.hidden=true;
@@ -438,6 +455,8 @@
       };
       // Shows the newly finished kicks one after the other, then carries on.
       const revealFrom=(from,kicks)=>{
+        // BUGS hunt BUG-03: the finished kick's pick clock goes while it is shown (render() waits until the reveal ends).
+        clock=null;ui.clock.textContent="";
         if(from>=kicks.length){revealing=null;render();return;}
         drawBoard(from+1);showKick(kicks[from],true);
         revealing=root.setTimeout(()=>{if(finished)return;shown=from+1;revealFrom(from+1,kicks);},KICK_MS);

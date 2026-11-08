@@ -53,7 +53,7 @@ async function c3d2(){
   assert.equal(await make({WebGL2RenderingContext:function(){},CMS_CHAMBER_MEN_3D:"off"}).CareerModeChamberMen3d.mount(svg),null,"kill switch: null");
   assert.equal(await make({WebGL2RenderingContext:function(){}}).CareerModeChamberMen3d.mount(svg),null,"no WebGL2 context: null");
   assert.match(step,/function cmsScene\(goal\)\{\s*if\(root\.CMS_CHAMBER_MEN_3D==="off"\)return Promise\.resolve\(null\);/,"the step honours the kill switch too");
-  assert.match(step,/return Promise\.race\(\[made,dropped,cmsWait\(SCENE_WAIT_MS\)\.then\(\(\)=>\{late=true;return null;\}\)\]\);/,"a slow scene does not hold the screen");
+  assert.match(step,/return Promise\.race\(\[made,dropped,cmsWait\(SCENE_WAIT_MS\)\.then\(\(\)=>\{if\(!goal\.scene\)giveUp\(\);return null;\}\)\]\);/,"a slow scene does not hold the screen (and is aborted)");
   assert.match(step,/if\(late\)\{try\{scene\.dispose\(\);\}catch\(_error\)\{\}return null;\}/,"a late scene is thrown away, never swapped in");
   assert.match(step,/\.then\(scene=>\{[\s\S]*?\},\(\)=>null\);/,"a load fault leaves the SVG goal");
   assert.match(scene,/catch\(error\)\{[\s\S]*?return null;\s*\}/,"a fault while building the scene leaves the SVG goal");
@@ -96,7 +96,7 @@ async function c3d2(){
   const pstc=read("js/productionSharedTransferChallenge.js");
   assert.ok(pstc.includes('confirmedAtMs,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")}};'),"Chamber Men gets both assigned clubs");
   assert.match(step,/goal\.clubs=ctx\.clubs\|\|null;/,"the goal keeps the clubs");
-  assert.match(step,/mount\(goal\.svg,\{clubs:goal\.clubs\}\)/,"the scene mounts with the clubs");
+  assert.match(step,/mount\(goal\.svg,\{clubs:goal\.clubs,signal:stop\?\.signal\}\)/,"the scene mounts with the clubs (and can be aborted)");
   assert.match(step,/goal\.scene\.lineup\(\{taker:c\[shooter\],keeper:c\[cmsOther\(shooter\)\],round\}\);/,"the shooter's club takes the kick, the rival's keeps");
   assert.match(step,/cmsReset\(ui\.goal\);cmsLineup\(ui\.goal,kick\.shooter,n\);/,"every new kick names its taker and keeper");
   assert.match(step,/cmsReset\(g\);cmsLineup\(g,kick\.shooter,kick\.kick\);/,"and so does every reveal");
@@ -167,5 +167,29 @@ async function c3d2(){
      const luck=h(`ball|${club}|${round}|${shot}|${dive}|${goal}`),y=.55+(luck>>>3)%9*.12,c=1.4+(luck>>>4)%7*.35;
      assert.ok(y>=.55&&y<=1.52&&c>=1.4&&c<=3.5,`${club} r${round} ${shot}/${dive}: post height ${y}, curl ${c}`);}}
   ok("C3D9","r90: device quality, steady level during a kick, six run-ups, curl, in off the post or the bar on goals only");
+}
+// C3D10 r90 W4 quality (Nik 2026-11-07, "hugely improve on a strong PC ... no extra load on a Chromebook or a phone"): every
+// extra is gated on the device level (8K uses Ultra's), the ball and grass come in one size per texture level (a phone below
+// High one size down), and the picks are flat and matte with gold only for the live choice (Nik 2026-11-08, "less AI-made").
+{
+  const ex=/const CM3_LEVEL_EXTRAS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(ex,"one extras table");
+  assert.strictEqual((ex[1].match(/\{aniso:/g)||[]).length,5,"one row per level");
+  assert.ok(/\{aniso:4,softness:1\.5,secondShadow:false,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  assert.ok(scene.includes("QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))]"),"8K uses Ultra's extras");
+  assert.ok(scene.includes('S.load(T,{phone:Q.assets==="phone",level:Q.textureLevel??Q.level})'),"textures follow the texture level");
+  const stadium=read("js/chamberMenStadium3d.js");
+  assert.ok(stadium.includes('const BALL_MESH="ball_mesh_V3.glb",BALL=["512","1k","1k","2k","2k"];'),"one ball size per level, never 4k");
+  assert.ok(!/ball_(color|normal|orm)_4k/.test(stadium),"the old 4k ball is gone");
+  const choice=/#cmStage \.cmChoice \{[\s\S]*?\n\}/.exec(css)[0],pressed=/#cmStage \.cmChoice\[aria-pressed="true"\] \{[^}]*\}/.exec(css)[0];
+  assert.ok(!/gradient|glow/.test(choice+pressed)&&/box-shadow: none;/.test(choice),"flat and matte: no gradient, no glow");
+  assert.ok(pressed.includes("background: #f2c45b;")&&pressed.includes("color: #0b0906;"),"the live choice is solid gold with black text");
+  assert.ok(step.includes("b.prepend(cmsAimMark(side));")&&step.includes('const svg=mk("svg",{class:"cmAim",viewBox:"0 0 40 16","aria-hidden":"true",focusable:"false"});'),"a small goal on each pick, hidden from screen readers");
+  assert.ok(/min-height: 4[4-8]px/.test(choice)&&/@media \(max-width: 560px\) and \(max-height: 760px\) \{[\s\S]*?#cmStage \.cmChoice \{ min-height: 44px; \}/.test(css),"at least 44 px on phones");
+  // BUGS hunt (2026-11-08): BUG-03 the finished kick's clock goes during its reveal; BUG-05 a scene given up is aborted
+  // (downloads and the mount stop), not only flagged.
+  assert.ok(step.includes('clock=null;ui.clock.textContent="";\n        if(from>=kicks.length){revealing=null;render();return;}'),"BUG-03: no stale clock during the reveal");
+  assert.ok(step.includes("const giveUp=()=>{late=true;try{stop?.abort();}catch(_error){}};")&&step.includes("goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};"),"BUG-05: dropping the scene aborts it");
+  assert.ok(scene.includes("root.fetch(PLAYER_PATH+file,signal?{signal}:undefined)")&&scene.includes("const T=await loadEngine();if(off())return null;")&&scene.includes("if(off()){api.dispose();return null;}"),"BUG-05: the mount stops downloading and building");
+  ok("C3D10","r90 quality: extras by level, ball and grass by texture level, flat picks with gold only for the live choice");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
