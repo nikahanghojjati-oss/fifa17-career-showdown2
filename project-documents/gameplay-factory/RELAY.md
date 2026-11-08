@@ -1,6 +1,6 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 4:01 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 4:05 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
@@ -87,7 +87,7 @@ Done when: Team G wires it for High and up. V marks DONE after Nik's look OK.
 
 </details>
 
-### HO-058 · G → V · r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only)
+### HO-058 · G → V · r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only) · ⚠ not acknowledged
 
 ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 

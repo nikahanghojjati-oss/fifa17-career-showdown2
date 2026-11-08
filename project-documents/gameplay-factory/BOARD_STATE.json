@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08 4:01 AM Boston time (EST)",
+ "generated": "2026-11-08 4:05 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 204,
@@ -1897,7 +1897,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1284 has waited 7 min for a machine.",
+   "line": "Barking: Showdown Gate on #1281 has waited 71 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2680,11 +2680,11 @@
     "title": "r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only)",
     "stage": "DELIVERED",
     "pct": 0.0,
-    "overdue": false,
+    "overdue": true,
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 357
+    "waiting_min": 361
    },
    {
     "id": "HO-059",
