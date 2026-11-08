@@ -100,14 +100,14 @@ has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving re
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
 // r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Balanced keep one-lobe materials and plain three.js meshes.
 assert.equal((html.match(/MeshPhysicalMaterial/g)||[]).length,1,'one place makes a two-lobe material');
-has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3;[\s\S]{0,600}?\nfunction mat\(p,lobe2\)\{ return HIGH_UP&&lobe2\?new T\.MeshPhysicalMaterial\(Object\.assign\(\{map:WHITE1\},/,'and only from High up');
+has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3, LIGHT=GFX\.level===0;[\s\S]{0,600}?\nfunction mat\(p,lobe2\)\{ return HIGH_UP&&lobe2\?new T\.MeshPhysicalMaterial\(Object\.assign\(\{map:WHITE1\},/,'and only from High up');
 has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from High up');
 has(/const T=SEGK===1\?THREE:/,'Light and Balanced build with plain three.js');
 lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
 // r90 (Nik 2026-11-08: "dark room for the lower quality, a proper background with tables for the higher, nothing excessive"): the room
 // by level. Light and Balanced build and download nothing behind the table; High adds a dark far wall with glowing lamps (no lights);
 // Extra, Ultra and 8K add the sharp café picture (Team V RR_ROOM_V2, 4K on Ultra up), the café tables and one room light.
-has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3;/,'High and Extra are the two room steps');
+has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3, LIGHT=GFX\.level===0;/,'High and Extra are the two room steps');
 has(/EXTRA_UP\?loadImg\(ROOM_BIG\?"assets\/RR_ROOM_V2_4K\.webp":"assets\/RR_ROOM_V2_1080\.webp"\):null/,'the café picture loads only on Extra up');
 has(/const ROOM_BIG=\(GFX\.assetLevel\?\?GFX\.level\)>=3&&Math\.max\(screen\.width\|\|0,screen\.height\|\|0\)\*\(devicePixelRatio\|\|1\)>2560;/,'the 4K file only above 2560 device pixels');
 has(/if\(HIGH_UP\)\{ const lampTex=lampGlassTex\(\)/,'the far wall and its lamps are built only from High up');
@@ -130,9 +130,9 @@ has(/if\(GOV\) GOV\.hold\(false\);/,'and lets go between turns');
 has(/await renderer\.compileAsync\(scene,camera\);/,'every shader compiles behind the loading screen');
 has(/renderer\.initTexture\(t\)/,'every texture is on the GPU before the page is ready');
 assert.ok(html.indexOf('await warmUp();')<html.indexOf('window.__rrReady=true;')&&html.indexOf('window.__rrReady=true;')<html.indexOf('toGame("cms-rr-ready")'),'ready is said only after the warm-up');
-has(/function bake\(root,skip\)/,'static props are baked into one mesh per material');
+has(/function bake\(root,skip,alias\)/,'static props are baked into one mesh per material');
 has(/bake\(table\);/,'the table and everything on it');
-has(/bake\(gun,o=>o===crane\|\|o===hammer\);/,'the revolver frame (the crane, drum and hammer still move)');
+has(/bake\(gun,o=>o===crane\|\|o===hammer,LIGHT\?new Map\(\[\[GM\.gold,GM\.brass\]\]\):null\);/,'the revolver frame (the crane, drum and hammer still move)');
 has(/function boardFrames\(key,pick,fire\)/,'the board\'s hit look is pre-rendered');
 has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFrames\(who,pick,fire\); delete prepared\[turn\]; if\(frames&&b\.bubbles\[frames\.i\]\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts (in the game already at setup)');
 has(/function prepareHits\(\)\{ if\(!GAME\|\|turn>0\) return;/,'the game\'s planned shots are drawn while the screen is read');
@@ -210,7 +210,7 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   has(/addEventListener\("webglcontextlost",e=>\{ e\.preventDefault\(\); if\(leaving\) return; cancelAnimationFrame\(rafId\); rafId=0; clearTimeout\(lostTimer\); lostTimer=setTimeout\(lostGiveUp,20000\); \},false\);/,'Light: a lost context waits for the browser to give it back');
   has(/addEventListener\("webglcontextrestored",\(\)=>\{ clearTimeout\(lostTimer\); lostTimer=0; if\(leaving\|\|lostSent\) return;\n\s*try\{ buildEnv\(\); \}catch\(e\)\{\} renderer\.shadowMap\.needsUpdate=true;[^\n]*rafId=requestAnimationFrame\(frame\);/,'Light: on restore the reflections and the shadow map are made again and the scene draws on');
   has(/if\(document\.visibilityState==="hidden"\)\{ lostTimer=setTimeout\(lostGiveUp,20000\); return; \}\n\s*lostSent=true; if\(EMBED\) toGame\("cms-rr-error",\{message:"webgl context lost"\}\)/,'Light: only a context that never comes back (on screen) hands the game back');
-  has(/pm\.dispose\(\); LOOK\.hdri\.dispose\(\);   \/\*/,'Light: the EXR stays in memory so the reflections can be made again');
+  has(/pm\.dispose\(\); if\(LOOK\.hdri\) LOOK\.hdri\.dispose\(\);   \/\*/,'Light: the EXR stays in memory so the reflections can be made again');
   has(/leaving=true; renderer\.dispose\(\); try\{ renderer\.forceContextLoss\(\); \}/,'M30 our own release on the way out is not a loss');
 }
 ok('P10','MOTION: local fonts, Opus cues in parallel with a WAV fallback, batched shader build with progress, baked gun parts; Light: no give-up timers, one rebuild, lost context rebuilt in place');
