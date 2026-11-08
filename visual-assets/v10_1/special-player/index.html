@@ -466,15 +466,14 @@ function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c
 /* ================= renderer + bloom ================= */
 const stage=document.getElementById("stage");
 const renderer=new T.WebGLRenderer({antialias:false, powerPreference:"high-performance"});
-/* r87 start-polish: phones (a touch screen whose short side is at most 600px) get a lighter pipeline: pixel ratio
-   capped at 1.5, a 1024 shadow map and 2x MSAA. Desktop, laptops and tablets keep 2 / 2048 / 4x. */
+/* r90: phones are not a tier of their own here; js/gfxTier.js decides every device's level (docs/QUALITY_LEVELS.md). */
 /* r90 (Nik 2026-11-07: quality follows the device): the pixel ratio comes from js/gfxTier.js, the same quality system as the
    roulette and Chamber Men. Auto reads the GPU and never draws above the screen's own pixel ratio; a level picked in Settings
    is held as picked. Its governor steps down when frames run long and up when a timed frame shows room. Without the module
-   (a failed load) the page draws at three quarters of the screen's ratio. DPR is the ceiling the card art is drawn for. */
+   (a failed load) the page draws at 1x. DPR is the ceiling the card art is drawn for. */
 const GFX=window.CareerModeGfxTier||null, GP=GFX?GFX.profile():null;
-const DPR=GP?GP.maxPixelRatio:Math.min(devicePixelRatio||1, 2) /* r90: phones and every level come from gfxTier; this is only the no-module fallback */;
-let PR=GP?GP.pixelRatio:DPR*.75, gov=null;
+const DPR=GP?GP.maxPixelRatio:1 /* r90: phones and every level come from gfxTier; without the module, 1x like Chamber Men (docs/QUALITY_LEVELS.md) */;
+let PR=GP?GP.pixelRatio:1, gov=null;
 /* r90 pack quality (Nik 2026-11-07 23:44 UTC: "hugely improve" High/Extra/Ultra, Light and Medium as good as they can be with no
    extra load). Each knob follows the profile's level (0 light .. 4 ultra; 2 without the module): edges (MSAA), shadow map,
    texture filtering at angles, and how far past 2x the card art may be drawn on a big sharp screen (its text and numbers). Light

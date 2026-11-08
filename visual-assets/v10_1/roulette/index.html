@@ -147,7 +147,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
  window.addEventListener('error',function(e){ if(e&&e.target&&e.target.tagName==='LINK') return; show('Error: '+(e.message||e.type)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:'')+(e.target&&e.target.src?' '+e.target.src:'')); },true);
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="../../../js/gfxTier.js"></script><!-- r90: the shared device-quality picker (Auto / Medium / High / Extra high / 4K) for every 3D screen -->
+<script src="../../../js/gfxTier.js"></script><!-- r90: the shared device-quality system (Auto, Light, Balanced, High, Extra, Ultra (4K), 8K) for every 3D screen; docs/QUALITY_LEVELS.md -->
 <script src="vendor/three-r187.min.js"></script><!-- three.js r187 (MIT, vendor/THREE_LICENSE.txt; built by tools/three-vendor), bundled so the scene works offline and never depends on a CDN -->
 <script>
 (function(){

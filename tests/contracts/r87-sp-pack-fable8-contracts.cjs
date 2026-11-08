@@ -71,7 +71,7 @@ ok("R90-PS3 quality follows the device: the shared gfxTier governor (Settings 3D
   // r90 follow-up: the governor is js/gfxTier.js's, so the pack follows the Settings "3D quality" choice like the other 3D screens.
   assert.match(page,/<script src="\.\.\/\.\.\/\.\.\/js\/gfxTier\.js"><\/script>/,"the shared quality module loads before the scene");
   assert.match(page,/const GFX=window\.CareerModeGfxTier\|\|null, GP=GFX\?GFX\.profile\(\):null;/);
-  assert.match(page,/let PR=GP\?GP\.pixelRatio:DPR\*\.75/,"starts at the profile's ratio (Auto never above the screen's)");
+  assert.match(page,/let PR=GP\?GP\.pixelRatio:1,/,"starts at the profile's ratio (Auto never above the screen's); 1x without the module (docs/QUALITY_LEVELS.md)");
   assert.match(page,/GFX\.calibrate\(renderer,render\)/,"timed frames behind the loading screen");
   assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \}\}\);/);
   assert.match(page,/function frame\(\)\{ if\(manual===null\)\{ tick\(true\); if\(gov\) gov\.frame\(performance\.now\(\)\); \}/);
