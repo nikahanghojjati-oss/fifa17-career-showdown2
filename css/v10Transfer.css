@@ -916,7 +916,7 @@
   /* the plate no longer paints the brush title: show the live one on the left wall */
   #app #transferChallenge .tw-host .world > .transfer-wordmark {
     display: block; position: absolute; z-index: 3; margin: 0; pointer-events: none;
-    left: calc(var(--k) * 36px); top: calc(var(--k) * 62px); width: calc(var(--k) * 400px); height: auto;
+    left: calc(var(--k) * 36px); top: calc(var(--k) * 62px + var(--tw-wm-drop, 0px)); width: calc(var(--k) * 400px * var(--tw-wm-scale, 1)); height: auto;
   }
   /* HO-033 item 9: when the plate is wider than the window (1440x900, 1280x800) the world is pushed left off-screen and the
      title's first letter was clipped. Keep the title at least 16px inside the visible window; no change where the world fits. */
