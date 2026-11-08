@@ -1198,7 +1198,9 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 }
 /* r90 L35 follow-up (Nik: nothing crowds at any size): on a small desktop picture (800x600, a 1180x620 window) the rules
    card is 110-145 px wide and its 12 px floor labels MIN SIGNINGS GUESSES ran into each other (0-4 px apart). Under 140 px
-   of room the labels lose most of their tracking, under 118 px they go to 11 px; 1366x768 and up are unchanged. */
+   of room the labels lose most of their tracking, under 118 px all of it and the figures use the card's side padding
+   too (12 px floor kept);
+   1366x768 and up are unchanged. */
 @media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
   #app #transferChallenge .tw-host .rules-inner { container-type: inline-size; }
   /* the note under the figures needs three to four lines at the 12 px floor, more than the plate's card holds on a small
@@ -1216,7 +1218,9 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
   @container (max-width: 140px) {
     #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: .02em; }
   }
+  /* 12 px is the floor (Studio Small Axe): under 118 px the labels lose all their tracking and the row takes the padding */
   @container (max-width: 118px) {
-    #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: 0; font-size: 11px; }
+    #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: 0; }
+    #app #transferChallenge .tw-host .rules-line { margin-inline: calc(var(--k) * -6px); }
   }
 }
