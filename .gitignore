@@ -7,3 +7,7 @@ gha-creds-*.json
 firestore.spark.generated.rules
 firestore-debug.log
 firebase-debug.log
+
+# Python bytecode from the asset tools
+__pycache__/
+*.pyc

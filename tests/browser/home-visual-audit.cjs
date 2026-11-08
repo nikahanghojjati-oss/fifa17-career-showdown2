@@ -190,7 +190,7 @@ function assertTiles(result, label, mode){
 }
 
 function assertCommon(result, label){
-    assert.match(result.src, /visual-assets\/v10_1\/shared\/art\/home-tiles\/TILE_CONTINUE_V1\.webp/, `${label}: Continue must use Team V's number-17 player.`);
+    assert.match(result.src, /visual-assets\/v10_1\/shared\/art\/home-tiles\/TILE_CONTINUE_V1(?:_170W)?\.webp/, `${label}: Continue must use Team V's number-17 player (r90: its half-size copy where that is enough).`);
     assert.ok(result.naturalWidth > 0, `${label}: Continue art did not decode.`);
     assert.equal(result.opacity, "1", `${label}: Continue art must render at full opacity.`);
     assert.doesNotMatch(result.filter, /brightness|grayscale|saturate/, `${label}: Continue art must not be dimmed or greyed.`);

@@ -77,6 +77,11 @@
   const styles=new Map();
   const routeOverrides=new Map();
   const pending=new Map();
+  // r90 W8 (Home first): screens whose Team V file js/ssjr.js loads only after Home is handed over. One shown before its file has
+  // registered it is held like LAZY_V10_SCREENS (old design never paints, Reus after GATE_GRACE_MS) and asks for that file at once;
+  // a file that fails to load lets the app's own screen show at once.
+  const deferred=new Map(),lateLoading=new Set();
+  function vsDefer(ids,load){if(typeof load!=="function")throw new TypeError("V10_DEFER_LOADER");for(const id of ids)if(!registry.has(id))deferred.set(id,load);return api;}
   let kitPromise=null,navPromise=null,navMounted=false,installed=false;
 
   function vsFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(vsFreeze);Object.freeze(value);}return value;}
@@ -282,6 +287,7 @@
     if(typeof id!=="string"||!id)throw new TypeError("V10_SCREEN_ID");
     if(!definition||typeof definition.frame!=="function"||typeof definition.mount!=="function")throw new TypeError("V10_SCREEN_DEFINITION");
     if(registry.has(id))throw new Error("V10_SCREEN_DUPLICATE");
+    deferred.delete(id);
     registry.set(id,Object.freeze({
       css:Object.freeze((definition.css||[]).slice()),
       js:Object.freeze((definition.js||[]).map(entry=>Object.freeze(entry.slice()))),
@@ -361,7 +367,7 @@
   function vsPendingTimeout(id){
     const entry=pending.get(id);
     if(!entry)return;
-    if((loadingNow.has(id)||vsHeld(id))&&vsIsShown(id)&&Date.now()-entry.since<LOAD_HOLD_MAX_MS){entry.timer=root.setTimeout(()=>vsPendingTimeout(id),250);return;}
+    if((loadingNow.has(id)||lateLoading.has(id)||vsHeld(id))&&vsIsShown(id)&&Date.now()-entry.since<LOAD_HOLD_MAX_MS){entry.timer=root.setTimeout(()=>vsPendingTimeout(id),250);return;}
     vsSettle(id);
   }
   function vsHeld(id){try{return !mounted.has(id)&&registry.get(id)?.frame?.()===HOLD;}catch(_error){return false;}}
@@ -536,13 +542,15 @@
       // file has not registered yet: its module's show() or the style timeout settles it).
       // Legacy's data tools page (backup, restore, reset) is the one career screen that keeps the app's own markup
       // (js/careerScreenSeam.js): it is never held for a Team V look that will not come.
-      const lazy=screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
+      const late=screen&&!def?deferred.get(screen)||null:null;
+      const lazy=Boolean(late)||screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
       // A screen its own module shows (auto:false) but registered with hold (Season Results / Final Winner) is held the same way:
       // without it html[data-v10-screen] and the dark page waited for the module's next tick and the old design painted first.
       const expected=def?(def.auto||def.hold)&&vsExpect(screen):lazy&&vsExpect(screen);
       if(!expected)vsSyncStyles();
       vsPaintNav(screen);
       if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));
+      if(late){lateLoading.add(screen);Promise.resolve().then(late).catch(error=>vsReport("Team V screen could not load",error)).finally(()=>{lateLoading.delete(screen);if(!registry.has(screen))vsSettle(screen);});}
     }catch(error){vsReport("Team V screen could not update",error);}
   }
   function vsHookShowScreen(){
@@ -624,7 +632,7 @@
 
   const api=Object.freeze({
     contractVersion:1,BASE,EVENT,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,HOLD,
-    install:vsInstall,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
+    install:vsInstall,defer:vsDefer,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
     navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute
   });
   return api;

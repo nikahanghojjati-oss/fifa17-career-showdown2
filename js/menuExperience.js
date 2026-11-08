@@ -117,9 +117,9 @@ function ensureMarcoReusTreatment(){
         const image = document.createElement("img");
         image.alt = "";
         image.decoding = "async";
-        image.loading = "eager";
-        image.fetchPriority = "high";
-        image.src = MARCO_REUS_IMAGE.thumbnail;
+        // r90: only the app's own Home shows it (homeV10.css hides it)
+        const attach = n => window.careerModeHomeHold === 0 || n > 60 ? document.querySelector(".v10Home") || (image.src = MARCO_REUS_IMAGE.thumbnail) : setTimeout(attach, 250, n + 1);
+        attach(0);
         image.addEventListener("load", () => {
             image.dataset.loaded = "true";
             athlete.classList.remove("imageFailed");

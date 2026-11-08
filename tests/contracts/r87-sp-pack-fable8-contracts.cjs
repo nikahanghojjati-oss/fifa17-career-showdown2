@@ -99,14 +99,14 @@ ok("R90-PS6 Nik's tighter rhythm (2026-11-07 22:50 UTC): four quicker stretches,
   assert.match(page,/stepParticles\(dt\*ps\); stepChunks\(dt\*ps\);/,"sparks keep their own speed");
 });
 ok("R90-PS7 quality by level (Nik 23:44 UTC): MSAA, shadows, filtering and card sharpness follow the gfxTier level; light draws less",()=>{
-  assert.match(page,/const GL_LVL=GP\?GP\.level:2, GQ=\{ samples:\[2,2,4,8,8\]\[GL_LVL\], shadow:GP\?GP\.shadowSize:2048, aniso:\[4,8,16,16,16\]\[GL_LVL\], cardMax:GL_LVL>=3\?2\.5:2 \};/);
+  assert.match(page,/const GL_LVL=GP\?GP\.level:2, GQ_I=Math\.max\(0,Math\.min\(4,GL_LVL\|0\)\), GQ=\{ samples:\[2,2,4,8,8\]\[GQ_I\], shadow:GP&&GP\.shadowSize\|\|2048, aniso:\[4,8,16,16,16\]\[GQ_I\], cardMax:GL_LVL>=3\?2\.5:2 \};/,"every level, 8K included, has its knobs");
   assert.match(page,/samples:fitSamples\(PHONE_GPU\?2:GQ\.samples\)/,"only a count the GPU supports for both formats");
   assert.match(page,/sun\.shadow\.mapSize\.set\(PHONE_GPU\?1024:GQ\.shadow,PHONE_GPU\?1024:GQ\.shadow\)/);
   assert.match(page,/Math\.min\(GQ\.cardMax,Math\.ceil\(px\/CH\*4\)\/4\)/,"card art only as sharp as the screen needs");
   assert.ok(!/anisotropy=8;/.test(page),"filtering follows the level");
-  assert.match(page,/getInternalformatParameter\(gl\.RENDERBUFFER,f,gl\.SAMPLES\)/,"per-format sample query (Codex P2 #1265)");
-  assert.match(page,/q\(HDR\?gl\.RGBA16F:gl\.RGBA8\), d=q\(gl\.DEPTH_COMPONENT24\)/,"colour and depth both");
-  assert.match(page,/checkFramebufferStatus\(gl\.FRAMEBUFFER\)===gl\.FRAMEBUFFER_COMPLETE/,"an incomplete target steps down");
+  assert.match(page,/const fitSamples=\(want\)=>GFX&&GFX\.samples\?GFX\.samples\(renderer,want,HDR\):/,"per-format sample counts from gfxTier (Codex P2 #1265)");
+  assert.match(page,/GFX\.checkTarget\(renderer,sceneRT\)/,"an incomplete target steps down");
+  assert.ok(!/getInternalformatParameter|MSAA_OK/.test(page),"one copy of the MSAA helper, in gfxTier");
 });
 
 ok("R90-PS8 lead review #1270: the pack still reveals if js/kits17.js did not load (plain club-colour shirt, plain coin face)",()=>{
@@ -114,6 +114,17 @@ ok("R90-PS8 lead review #1270: the pack still reveals if js/kits17.js did not lo
   assert.equal((page.match(/KIT17\.(\w+)\(/g)||[]).filter(x=>!/KIT17\.(kit|drawFlat)\(/.test(x)).length,0,"the page calls only kit() and drawFlat(), which the fallback covers");
   assert.match(page,/window\.addEventListener\('error',function\(e\)\{ if\(e\.target&&e\.target\.src&&\/\\\/js\\\/\(kits17\|visualIdentity\)\\\.js\/\.test\(e\.target\.src\)\) return;/,"a failed kits17/visualIdentity load is not reported as an error, so the game does not skip the reveal");
   assert.match(page,/try\{ const im=new Image\(\);[^\n]*window\.getClubCrestSvg\(c\)[^\n]*\}catch\(e\)\{ res\(\); \}/,"no crest module: the coin falls back to a plain shield");
+});
+ok("R90-PS8 hunt L05/L06: the light pillar rises behind the pack, softer on portrait; the stadium is Chamber Men's floodlit night",()=>{
+  assert.match(page,/pack\.localToWorld\(new T\.Vector3\(-\.12,0,-PACK_D\/2-\.12\)\)/,"pillar behind the pack, never across its face");
+  assert.ok(!/new T\.Vector3\(-\.12,0,PACK_D\/2\+\.1\)/.test(page),"no pillar in front of the pack");
+  assert.match(page,/\(1\.5\+charge\*charge\*4\)\*\(camera\.aspect<1\?\.6:1\)/,"softer pillar on a portrait screen");
+  assert.match(page,/new T\.HemisphereLight\(L\(0xdde6ff\),L\(0x15200f\),0\.55\)/,"Chamber Men's night hemisphere");
+  assert.match(page,/new T\.DirectionalLight\(L\(0xfff3e2\),2\.7\)/,"Chamber Men's floodlight key");
+  assert.match(page,/if\(night>\.5\)\{/,"the stadium photo is graded to night");
+  assert.match(page,/"assets\/board_night_V1\.jpg"/,"black and gold boards");
+  assert.match(page,/lp\+=exp\(-dl\*dl\*70\.\); fl\+=exp\(-dl\*dl\*1600\.\);/,"floodlight flares with light pools on the stands");
+  assert.match(page,/const n=tt<4\.5\?8:4; for\(let i=0;i<n;i\+\+\)\{ const a=Math\.random\(\)\*Math\.PI\*2, r=Math\.sqrt\(Math\.random\(\)\)\*\.7\*/,"a small sparkle at the base, not a carpet");
 });
 
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);

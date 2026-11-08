@@ -163,4 +163,16 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   assert.match(block,/min-height: calc\(100svh - 52px\)[^}]*padding-bottom: 4px;/,'world one rail short, no reserved fixed-rail gap');
   ok('M7','LOCK MY SIGNINGS and REFRESH never overlap on a sideways phone (sizes F11)');
 }
+{
+  // r90 LOOK L07: the live clock ran through "READY — 15 MINUTES" (1920x906 board, 1200x900 / 1024x768 painted sign).
+  const tw=read('css/v10Transfer.css'),tc=read('js/transferChallenge.js');
+  const at=tw.indexOf('r90 LOOK L07'),block=tw.slice(at,at+3200);
+  assert.ok(at>0,'L07 block present');
+  assert.match(block,/:has\(\.sign-screen\.is-live\) \.sign-status\.reg:not\(\.full\) \{\s*justify-content: flex-start;[^}]*padding-top: calc\(var\(--k\) \* 3px \+ var\(--l07-clock\) \+/,'while the clock shows, the status starts under it');
+  assert.match(block,/@media \(min-width: 761px\) and \(min-height: 501px\)/,'sideways phones keep their band');
+  assert.match(block,/--l07-clock: calc\(var\(--k\) \* 30px \* \.95 \+ var\(--k\) \* 2px\);[^\n]*\n[^\n]*\.sign-main\.timer \{ font-size: calc\(var\(--k\) \* 30px\); margin-bottom: calc\(var\(--k\) \* 2px\); \}/,'painted sign: --l07-clock matches the clock it reserves room for');
+  assert.match(block,/--l07-clock: calc\(max\(34px, calc\(var\(--k\) \* 52px\)\) \* \.95 \+ calc\(var\(--k\) \* 6px\)\);[^\n]*\n[^\n]*\n[^\n]*\.sign-main\.timer \{ font-size: max\(34px, calc\(var\(--k\) \* 52px\)\); margin-bottom: calc\(var\(--k\) \* 6px\); \}/,'gold board: the hero clock and its reserved room match');
+  assert.match(tc,/not_started: "READY · MAX 3 SIGNINGS EACH",/,'the status does not repeat the 15 minutes the clock shows');
+  ok('L07','the Transfer War clock and the READY status never overlap (r90 LOOK hunt)');
+}
 console.log(`PASS r87 match-day polish contracts (${checks} checks)`);
