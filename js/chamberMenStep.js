@@ -292,6 +292,7 @@
     const c=goal.clubs;if(!c||!goal.scene?.lineup)return;
     goal.scene.lineup({taker:c[shooter],keeper:c[cmsOther(shooter)],round});
   }
+  const cmsCylText=(role,live)=>`${NAMES[role]}'s cylinder: ${live} live ${live===1?"round":"rounds"}`;
   function cmsPlace(node,x,y,animate){node.style.transition=animate?"transform 900ms cubic-bezier(.2,.8,.2,1)":"none";node.setAttribute("transform",`translate(${x} ${y})`);node.style.transform=`translate(${x}px, ${y}px)`;}
   // The back buttons are .cmBack, never .backButton: the app's smart back (js/screens.js) takes every .backButton click
   // before the button hears it, and this button must leave the step itself.
@@ -307,9 +308,12 @@
     for(const role of ROLES){
       const side=cmsEl("div","cmSide"),goals=cmsEl("div","cmGoals","0"),cyl=cmsEl("div","cmCylinder"),chambers=[];
       for(let i=0;i<7;i+=1){const c=cmsEl("span","cmChamber");c.setAttribute("aria-hidden","true");chambers.push(c);cyl.append(c);}
-      const label=cmsEl("div","cmCylLabel","Cylinder: 0 live");label.setAttribute("aria-label",`${NAMES[role]}'s cylinder: 0 live`);
-      side.append(cmsEl("div","cmName",NAMES[role]),goals,cyl,label);sides[role]={side,goals,chambers,label};
+      // r90 LOOK L24: the cylinder count is no longer under GOALS (it read as part of the shootout score); it sits in the
+      // strip under the controls, named for its owner: "Nik's cylinder: 3 live rounds".
+      const label=cmsEl("span","cmCylLabel",cmsCylText(role,0));
+      side.append(cmsEl("div","cmName",NAMES[role]),goals,cyl);sides[role]={side,goals,chambers,label};
     }
+    const cylStrip=cmsEl("p","cmCylStrip");cylStrip.append(sides.playerOne.label,sides.playerTwo.label);
     board.append(sides.playerOne.side,cmsEl("div","cmVs","GOALS"),sides.playerTwo.side);
     const goal=cmsGoal();goal.clubs=ctx.clubs||null;const status=cmsEl("p","cmStatus","");status.setAttribute("aria-live","polite");
     // Whose turn it is, in big letters: YOU SHOOT / YOU KEEP (GOAL, SAVED or MISSED while a kick is shown), the rival's part
@@ -336,10 +340,10 @@
     // status, clock, picks, LOCK IN) underneath, laid out so the clock and LOCK IN are on screen from the first view on a phone
     // with its browser bars and at 1280x800 and 1366x768 (Fable F17-07): nobody scrolls during a kick, and nothing covers anything.
     const play=cmsEl("div","cmPlay"),pitch=cmsEl("div","cmPitch"),controls=cmsEl("div","cmControls");
-    pitch.append(board,goal.box);controls.append(turn,status,clock,picks,lines,actions);play.append(pitch,controls);
+    pitch.append(board,goal.box);controls.append(turn,status,clock,picks,lines,actions,cylStrip);play.append(pitch,controls);
     shell.append(header,play);stage.append(shell);doc.body.append(stage);
     cmsReset(goal);
-    return {stage,round:header.querySelector(".cmRound"),sides,goal,status,turn,turnHead,turnSub,turnCount,picks,rows,clock,lock,next,back,lines};
+    return {stage,round:header.querySelector(".cmRound"),sides,goal,status,turn,turnHead,turnSub,turnCount,picks,rows,clock,lock,next,back,lines,cylStrip};
   }
 
   // On true the screen stays (SPIN THE CYLINDER held down) until the caller has the roulette on screen and closes it, so the
@@ -405,7 +409,7 @@
           ui.sides[role].goals.textContent=String(score[role]);
           // A manager's own cylinder is loaded by the rival's goals.
           const live=score[cmsOther(role)];
-          ui.sides[role].label.textContent=`Cylinder: ${live} live`;ui.sides[role].label.setAttribute("aria-label",`${NAMES[role]}'s cylinder: ${live} live`);
+          ui.sides[role].label.textContent=cmsCylText(role,live);
         }
         return score;
       };
@@ -478,7 +482,7 @@
         const line=`${NAMES.playerOne} ${score.playerOne} · ${NAMES.playerTwo} ${score.playerTwo}`;
         ui.status.className="cmStatus";ui.status.textContent=score.playerOne===score.playerTwo?`Level · ${line}`:line;
         ui.lines.replaceChildren(...ROLES.map(role=>cmsEl("li","",`${NAMES[role]}'s cylinder holds ${engine.bullets(chambers[role])} live ${engine.bullets(chambers[role])===1?"round":"rounds"} of 7: ${NAMES[cmsOther(role)]} scored ${score[cmsOther(role)]}.`)));
-        ui.lines.hidden=false;ui.next.focus();
+        ui.lines.hidden=false;ui.cylStrip.hidden=true;ui.next.focus();
       };
       // ---- the state machine ----
       const render=()=>{
