@@ -64,8 +64,8 @@ check("V3 Trophy Room carries exactly the model's numbers",()=>{
       assert.equal(frame.managers[m].seasonWins,model.managers[m].seasonWins,`${id} ${m} seasonWins`);
       assert.equal(frame.showdowns[m].wins,model.managers[m].showdowns.wins,`${id} ${m} Showdown wins`);
     }
-    // r87 career fixes (B5): a record nobody holds (no best yet, or a best of 0) is a dash with no holder, never "0 Shared".
-    const records=model.trophyRoom.records.map(r=>typeof r.value==="number"&&r.value>0?[r.manager,r.value]:["","\u2014"]);
+    // r87 career fixes (B5): never "0 Shared". r90 W9 (LOOK L26): a record nobody holds (no best yet, or a best of 0) is left out.
+    const records=model.trophyRoom.records.filter(r=>typeof r.value==="number"&&r.value>0).map(r=>[r.manager,r.value]);
     assert.deepEqual(frame.records.map(r=>[r.manager,r.value]),records,`${id} records`);
   }
 });
