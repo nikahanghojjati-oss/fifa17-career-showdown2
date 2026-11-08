@@ -4,6 +4,11 @@
   --sd-danger: #b33a32;
 }
 
+/* r90 M19-M22 (Light, html[data-gfx="0"] from js/gfxTier.js): no live blur behind panels; a deeper marble tint instead.
+   Balanced and up keep the blur. */
+html[data-gfx="0"] { --sd-panel-blur: none; }
+html[data-gfx="0"] .sd-panel { background: linear-gradient(180deg, rgba(18,18,20,.95), rgba(8,9,12,.93)); }
+
 .sd-panel {
   position: relative;
   background: linear-gradient(180deg, rgba(18,18,20,.88), rgba(8,9,12,.84));
