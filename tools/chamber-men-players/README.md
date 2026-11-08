@@ -62,3 +62,22 @@ Approved skin and hair pairs (RGB multipliers on Bodymat and Hairmat colour; onl
   [.75,.7,.68]+[1,1,1]
 - ch42: [1,1,1]+[1,1,1]; [.92,.84,.78]+[1,1,1]; [.86,.76,.68]+[.6,.6,.6]; [.7,.56,.46]+[.5,.5,.5];
   [.52,.39,.31]+[.4,.4,.4]; [1,1,1]+[1.6,1.3,1]
+
+## r90 remix: new clips into the committed clip file (`clips_r90.json`)
+
+    node convert2.cjs remix - desktop new && node convert2.cjs remix - phone new
+
+Inputs: the committed `anims_{desktop,phone}.glb` copied to `out/`, and Nik's Mixamo uploads of 2026-11-08 (Remy, FBX,
+30 fps, without skin) in `in/` under the names in `clips_r90.json`: `victory2.fbx` ("Victory"), `cheering.fbx`
+("Cheering"), `shake_fist.fbx` ("Shake Fist"), `defeated.fbx` ("Defeated"). Not in the repo (Mixamo's terms).
+
+What it does: keeps the rig and every clip of the committed file as they are (checked bit for bit), drops the clips named in
+`drop` (nothing played idle, walk, run, strikeJog or gkCatch), and adds each new clip cut to `[from, to]` seconds (the part
+the scene shows: the reaction starts about 0.7 s after the strike and the next kick comes about 1.4 s later; the still frame
+for reduced motion shows 1.3 s in) with the same keyframe reduction as v2. Result: 17 clips, desktop 1,160,204 bytes (was
+1,257,612), phone 1,082,124 (was 1,178,328); parse 11.9 ms desktop, 7.9 ms phone (was 13.5 and 10.8; headless, median of 9).
+
+Checked against what the game already had: Nik's two "Goalkeeper Diving Save" files are gkDive and gkDive1 (same tracks); the
+Soccer Game Pack's catches and blocks are the gkCatch*/gkBlock* clips (its "catch (2)" is a shorter gkCatch1); its scoop and
+"catch (3)" run 4 m off the line (no use at a penalty). "Angry Gesture" and "Fist Pump" are too small to read from the
+broadcast camera; the crowd clips (Clapping, Cheering, Sitting Idle, Excited) wait for the crowd bake.

@@ -1,0 +1,9 @@
+{
+  "drop": ["idle", "walk", "run", "strikeJog", "gkCatch"],
+  "add": [
+    ["victory2.fbx", "victory2", 1.2, 4.8],
+    ["cheering.fbx", "cheer", 0, 2.9],
+    ["shake_fist.fbx", "salute", 0.15, 2.43],
+    ["defeated.fbx", "defeated", 0.9, 3.7]
+  ]
+}
