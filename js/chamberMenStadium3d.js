@@ -43,14 +43,22 @@
   // Colour maps are sRGB; normal, roughness/metal and masks are linear data.
   const SRGB=new Set(["ballColor","crowd","grass","seats","concrete","flare"]);
 
-  function load(T,opts){
+  // The files a level loads: textures by role, and the big stadium (High and above on a computer or a strong phone).
+  function pick(opts){
     const o=opts||{},level=Number.isInteger(o.level)?Math.max(0,Math.min(4,o.level)):(o.phone?0:2),[grass,grassNormal]=GRASS[level];
     const b=BALL[level],ballSet={ballColor:`ball_color_V3_${b}.webp`,ballNormal:`ball_normal_V3_${b}.webp`,ballOrm:`ball_orm_V3_${b}.webp`};
-    const set={...(o.phone?FILES.phone:FILES.desktop),...FILES.both,...ballSet,grass,grassNormal},loader=new T.TextureLoader(),base=o.base||BASE;
+    const set={...(o.phone?FILES.phone:FILES.desktop),...FILES.both,...ballSet,grass,grassNormal};
+    return {set,base:o.base||BASE,bowlFile:o.bowl===false||o.phone&&level<2?null:BOWL[level]};
+  }
+  // r90 M1: every URL load() fetches at this level, for the season page to warm ahead (js/chamberMenScene3d.js warm()).
+  function urls(opts){const p=pick(opts);return [BALL_MESH,...(p.bowlFile?[p.bowlFile]:[]),...Object.values(p.set)].map(f=>p.base+f);}
+  function load(T,opts){
+    const o=opts||{},{set,base,bowlFile}=pick(o),loader=new T.TextureLoader();
     const keys=Object.keys(set);
-    const mesh=new T.GLTFLoader().loadAsync(base+BALL_MESH).then(g=>{let geo=null;g.scene.traverse(x=>{if(!geo&&x.isMesh)geo=x.geometry;});if(!geo)throw new Error("ball mesh");return geo;});
-    const bowlFile=o.bowl===false||o.phone&&level<2?null:BOWL[level];
-    const bowl=bowlFile?new T.GLTFLoader().loadAsync(base+bowlFile).then(g=>g.scene,error=>{try{root.console?.warn?.("Chamber Men: no big stadium; the built stands stay.",error);}catch(_error){}return null;}):Promise.resolve(null);
+    // The ball and bowl are meshopt-compressed (o.meshopt: the decoder the scene loaded).
+    const gltf=()=>{const l=new T.GLTFLoader();if(o.meshopt&&typeof l.setMeshoptDecoder==="function")l.setMeshoptDecoder(o.meshopt);return l;};
+    const mesh=gltf().loadAsync(base+BALL_MESH).then(g=>{let geo=null;g.scene.traverse(x=>{if(!geo&&x.isMesh)geo=x.geometry;});if(!geo)throw new Error("ball mesh");return geo;});
+    const bowl=bowlFile?gltf().loadAsync(base+bowlFile).then(g=>g.scene,error=>{try{root.console?.warn?.("Chamber Men: no big stadium; the built stands stay.",error);}catch(_error){}return null;}):Promise.resolve(null);
     return Promise.all([mesh,bowl,...keys.map(k=>loader.loadAsync(base+set[k]).then(t=>{t.colorSpace=SRGB.has(k)?T.SRGBColorSpace:T.NoColorSpace;return t;}))]).then(([geo,bowlScene,...list])=>{
       // glTF UVs: no vertical flip.
       const tex={};keys.forEach((k,i)=>{tex[k]=list[i];if(k.startsWith("ball"))list[i].flipY=false;});tex.ballGeo=geo;tex.bowl=bowlScene;return tex;
@@ -569,5 +577,5 @@
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 
-  root.CareerModeChamberMenStadium={contractVersion:1,base:BASE,files:FILES,grass:GRASS,load,build:stadiumBuild};
+  root.CareerModeChamberMenStadium={contractVersion:1,base:BASE,files:FILES,grass:GRASS,load,urls,build:stadiumBuild};
 })(typeof globalThis!=="undefined"?globalThis:this);

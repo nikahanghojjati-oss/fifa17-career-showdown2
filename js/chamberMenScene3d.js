@@ -54,6 +54,9 @@
   // strike, so a frame can be drawn at any moment, and both phones show the same kick.
   const STADIUM_JS="js/chamberMenStadium3d.js",KITS_JS="js/kits17.js",CREST_JS="js/visualIdentity.js";
   const PLAYER_PATH="visual-assets/v10_1/chamber-men/players/";
+  // r90 M1: the players, clips, ball and bowl are meshopt-compressed (EXT_meshopt_compression, tools/chamber-men-players
+  // pack-meshopt.mjs), about 45% smaller; this decoder (meshoptimizer 0.22, MIT, its licence at the top of the file) unpacks them.
+  const MESHOPT_JS="visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js";
   // Bodies (tools/chamber-men-players): one shared clip file, then a light file per body. A body plays only once kits17
   // can paint its kit (its name is in K.layouts). Ch42's toes dip up to 3 cm into the grass, so it stands 2 cm higher.
   const BODIES=["remy","ch38","ch42"],BODY_LIFT={ch42:.02};
@@ -105,18 +108,54 @@
   }
   // One body per club for the whole Showdown (its taker and its keeper), from the club's name: nothing random.
   function cm3BodyOf(club,list){return list[cm3Hash(`body|${club||""}`)%list.length];}
-  function cm3Prefetch(tier,clubs,signal){
-    const scripts=Promise.all([cm3Script("chamber-men-stadium",STADIUM_JS,()=>Boolean(root.CareerModeChamberMenStadium)),cm3Script("kits17",KITS_JS,()=>Boolean(root.CareerModeKits17)),
-      cm3Script("visual-identity",CREST_JS,()=>typeof root.getClubCrestSvg==="function").catch(()=>false)]).then(([okS,okK])=>Boolean(okS&&okK),()=>false);
-    const get=file=>typeof root.fetch!=="function"?Promise.resolve(null):root.fetch(PLAYER_PATH+file,signal?{signal}:undefined).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null);
+  // r90 M1 (MOTION hunt): one download per file, shared by warm() and the mount, and never aborted. What comes down is kept
+  // by the browser and the app's worker (visual-assets are cache-first), so it serves every later open; a mount that starts
+  // while warm() is still fetching a file waits for that same download. A stopped mount (BUG-05) stops parsing and building only.
+  const cm3Downloads=new Map();let cm3Mounting=0;
+  // A file warm() is still fetching that the mount loads its own way (the engine script, the stadium images): the mount waits
+  // for that download and then reads it from the cache, instead of fetching it a second time alongside.
+  function cm3Settle(urls){return Promise.all(urls.map(u=>cm3Downloads.get(u)).filter(Boolean));}
+  function cm3Blob(url,low){
+    if(typeof root.fetch!=="function")return Promise.resolve(null);
+    let p=cm3Downloads.get(url);
+    if(!p){p=root.fetch(url,low?{priority:"low"}:undefined).then(r=>r.ok?r.blob():null).catch(()=>null);cm3Downloads.set(url,p);p.then(()=>{if(cm3Downloads.get(url)===p)cm3Downloads.delete(url);});}
+    return p;
+  }
+  function cm3Scripts(){
+    return Promise.all([cm3Script("chamber-men-stadium",STADIUM_JS,()=>Boolean(root.CareerModeChamberMenStadium)),cm3Script("kits17",KITS_JS,()=>Boolean(root.CareerModeKits17)),
+      cm3Script("meshopt-decoder",MESHOPT_JS,()=>Boolean(root.MeshoptDecoder))]).then(list=>list.every(Boolean),()=>false);
+  }
+  // The two body files this Showdown's clubs wear (one when both clubs share a body).
+  function cm3BodyFiles(tier,clubs){
+    const list=cm3BodyList(root.CareerModeKits17),c=clubs||{};
+    return [...new Set([cm3BodyOf(c.playerOne,list),cm3BodyOf(c.playerTwo,list)])].map(n=>[n,`body_${n}_${tier}.glb`]);
+  }
+  function cm3Prefetch(tier,clubs){
+    const scripts=Promise.all([cm3Scripts(),cm3Script("visual-identity",CREST_JS,()=>typeof root.getClubCrestSvg==="function").catch(()=>false)]).then(([ok])=>ok,()=>false);
+    const get=file=>cm3Blob(PLAYER_PATH+file).then(b=>b?b.arrayBuffer():null).catch(()=>null);
     const anims=get(`anims_${tier}.glb`);
     const bodies=scripts.then(ok=>{
       if(!ok)return null;
-      const list=cm3BodyList(root.CareerModeKits17),c=clubs||{};
-      const names=[...new Set([cm3BodyOf(c.playerOne,list),cm3BodyOf(c.playerTwo,list)])];
-      return Promise.all(names.map(n=>get(`body_${n}_${tier}.glb`))).then(bufs=>bufs.every(Boolean)?Object.fromEntries(names.map((n,i)=>[n,bufs[i]])):null);
+      const files=cm3BodyFiles(tier,clubs);
+      return Promise.all(files.map(([_n,f])=>get(f))).then(bufs=>bufs.every(Boolean)?Object.fromEntries(files.map(([n],i)=>[n,bufs[i]])):null);
     });
     return {scripts,anims,bodies};
+  }
+  // warm({clubs}): the files this device's level will ask for, fetched two at a time at low priority while the season page
+  // waits for the tap (js/productionSharedTransferChallenge.js). Nothing is parsed or drawn; true once all came down. Once a
+  // mount starts it starts no new file (the mount asks for the rest itself, all at once).
+  async function cm3Warm(opts){
+    // Data Saver on: nothing ahead (the screen still loads what it needs when it opens).
+    if(root.CMS_CHAMBER_MEN_3D==="off"||!root.WebGL2RenderingContext||root.navigator?.connection?.saveData===true)return false;
+    const Q=await cm3Quality();
+    if(!await cm3Scripts())return false;
+    const S=root.CareerModeChamberMenStadium,level=Q.textureLevel??Q.level;
+    const urls=[ENGINE_PATH,PLAYER_PATH+`anims_${Q.assets}.glb`,...cm3BodyFiles(Q.assets,opts&&opts.clubs).map(([_n,f])=>PLAYER_PATH+f),
+      ...(typeof S.urls==="function"?S.urls({phone:Q.assets==="phone",level}):[])];
+    let next=0,ok=true;
+    const lane=async()=>{while(next<urls.length&&!cm3Mounting){const u=urls[next];next+=1;if(!await cm3Blob(u,true))ok=false;}};
+    await Promise.all([lane(),lane()]);
+    return ok;
   }
   function cm3Extras(T,Q,pre){
     if(typeof T.GLTFLoader!=="function"||typeof T.AnimationMixer!=="function"||!pre)return Promise.resolve(null);
@@ -124,9 +163,11 @@
     const work=(async()=>{
       if(!await pre.scripts)return null;
       const S=root.CareerModeChamberMenStadium;
-      const [tex,anims,bufs]=await Promise.all([S.load(T,{phone:Q.assets==="phone",level:Q.textureLevel??Q.level}),pre.anims,pre.bodies]);
+      const meshopt=root.MeshoptDecoder,look={phone:Q.assets==="phone",level:Q.textureLevel??Q.level,meshopt};
+      if(typeof S.urls==="function")await cm3Settle(S.urls(look));
+      const [tex,anims,bufs]=await Promise.all([S.load(T,look),pre.anims,pre.bodies]);
       if(!anims||!bufs){for(const t of Object.values(tex||{}))t.dispose?.();return null;}
-      const parse=buf=>new T.GLTFLoader().parseAsync(buf.slice(0),PLAYER_PATH);
+      const parse=buf=>new T.GLTFLoader().setMeshoptDecoder(meshopt).parseAsync(buf.slice(0),PLAYER_PATH);
       const clips=await parse(anims);
       const bodies={};
       await Promise.all(Object.entries(bufs).map(async([n,buf])=>{const [taker,keeper]=await Promise.all([parse(buf),parse(buf)]);bodies[n]={taker,keeper};}));
@@ -744,12 +785,15 @@
     return {...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};
   }
   async function cm3Mount(svg,opts){
-    // opts.signal (BUGS hunt BUG-05): the step gave up on the scene; downloads stop and nothing more is built.
+    // opts.signal (BUGS hunt BUG-05): the step gave up on the scene; nothing more is parsed or built (r90 M1: the downloads
+    // finish into the cache, for the next open).
     const off=()=>Boolean(opts&&opts.signal&&opts.signal.aborted);
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2()||off())return null;
+    cm3Mounting+=1;
     try{
       const Q=await cm3Quality();if(off())return null;
-      const pre=cm3Prefetch(Q.assets,opts&&opts.clubs,opts&&opts.signal);
+      const pre=cm3Prefetch(Q.assets,opts&&opts.clubs);
+      await cm3Settle([ENGINE_PATH]);
       const T=await loadEngine();if(off())return null;
       const extras=await cm3Extras(T,Q,pre);
       // r90: no stadium or players in time is the SVG goal, never a second look (the gold hall and its lounge light are gone).
@@ -763,8 +807,8 @@
     }catch(error){
       try{root.console?.warn?.("Chamber Men 3D goal unavailable; the drawn goal plays instead.",error);}catch(_error){}
       return null;
-    }
+    }finally{cm3Mounting-=1;}
   }
-  const CareerModeChamberMen3d={contractVersion:1,feature:"cms-chamber-men-3d",enginePath:ENGINE_PATH,mount:cm3Mount,last:null};
+  const CareerModeChamberMen3d={contractVersion:1,feature:"cms-chamber-men-3d",enginePath:ENGINE_PATH,mount:cm3Mount,warm:cm3Warm,last:null};
   root.CareerModeChamberMen3d=CareerModeChamberMen3d;
 })(typeof globalThis!=="undefined"?globalThis:this);

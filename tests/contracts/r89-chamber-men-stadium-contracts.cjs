@@ -76,7 +76,8 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
   }
   // v2: one shared clip file per tier plus one light body file per body; same bones, kit materials, hips scale for clips
-  for(const [tier,amax,bmax] of [["desktop",1.2e6,4.8e6],["phone",1.12e6,2.4e6]]){
+  // r90 M1: meshopt-packed (tools/chamber-men-players/pack-meshopt.mjs), so the caps came down about 45%.
+  for(const [tier,amax,bmax] of [["desktop",.7e6,3.4e6],["phone",.65e6,1.45e6]]){
     const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
     assert.equal(a.json.animations.length,17,`anims_${tier} has the 17 clips`);
     for(const id of ["remy","ch38","ch42"]){
@@ -134,7 +135,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.equal(b.toString("ascii",0,4),"glTF");assert.ok(b.length<=2.6e6,`bowl ${b.length} <= 2.6 MB`);
   const j=JSON.parse(b.toString("utf8",20,20+b.readUInt32LE(12)));
   assert.match(j.asset.copyright,/Innerscene.*CC0/,"CC0 source named in the file");
-  assert.deepEqual(j.extensionsRequired,["EXT_texture_webp"]);
+  assert.deepEqual(j.extensionsRequired.slice().sort(),["EXT_meshopt_compression","EXT_texture_webp"]);
   assert.ok(j.images.every(i=>i.mimeType==="image/webp"),"WebP textures");
   assert.ok(!JSON.stringify(j.materials).includes("KHR_materials_transmission"),"no transmission pass");
   for(const gone of ["Pitch","Goals","Perimeter boards","Dugouts","Gates"])assert.ok(!j.meshes.some(m=>m.name===gone),`${gone} trimmed`);
