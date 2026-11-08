@@ -455,13 +455,6 @@ function drawPack(ctx, w, h){
   ctx.fillStyle=fr; ctx.fillRect(w*.3,h*.78,w*.4,4);
   ctx.font='900 60px "Big Shoulders Display"'; ctx.fillStyle="#fff3c4"; ctx.fillText("17",w/2,h*.88);
 }
-function drawLed(c){
-  c.fillStyle="#050505"; c.fillRect(0,0,2048,64);
-  const g=c.createLinearGradient(0,0,0,64); g.addColorStop(0,"#fff4c8"); g.addColorStop(.5,"#f2bf4c"); g.addColorStop(1,"#a77219");
-  c.fillStyle=g; c.font='800 46px "Big Shoulders Display"'; c.textBaseline="middle"; c.textAlign="center"; if(c.letterSpacing!==undefined) c.letterSpacing="6px";
-  ["FIFA 17 SHOWDOWN","SPECIAL PLAYER"].forEach((s,i)=>{ c.fillText(s,i*1024+512,34); c.fillRect(i*1024+60,30,40,4); c.fillRect(i*1024+924,30,40,4); });
-  c.fillStyle="rgba(0,0,0,.35)"; for(let x=0;x<2048;x+=4) c.fillRect(x,0,1,64); for(let y=0;y<64;y+=4) c.fillRect(0,y,2048,1);
-}
 function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c.width=w; c.height=h; const ctx=c.getContext("2d"); draw&&draw(ctx); const tx=new T.CanvasTexture(c); if(!linear) tx.colorSpace=T.SRGBColorSpace; tx.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); return {c,ctx,tx}; }
 
 /* ================= renderer + bloom ================= */
@@ -522,89 +515,9 @@ const SUN=new T.Vector3(-36,79,49);
 const sun=new T.DirectionalLight(L(0xfff3e2),2.7); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
 sun.shadow.mapSize.set(GQ.shadow,GQ.shadow); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
-const sky=new T.Mesh(new T.SphereGeometry(500,32,16), new T.ShaderMaterial({side:T.BackSide, depthWrite:false, fog:false,
-  uniforms:{top:{value:L(0x1f5fbf)},hor:{value:L(0xd2e6f7)},sunDir:{value:SUN.clone().normalize()}},
-  vertexShader:"varying vec3 vP; void main(){ vP=(modelMatrix*vec4(position,1.)).xyz; gl_Position=projectionMatrix*viewMatrix*vec4(vP,1.); }",
-  fragmentShader:"uniform vec3 top,hor,sunDir; varying vec3 vP; void main(){ vec3 d=normalize(vP); float h=clamp(d.y*1.5,0.,1.); vec3 c=mix(hor,top,pow(h,.6)); float s=max(dot(d,sunDir),0.); c+=vec3(1.,.9,.7)*(pow(s,600.)*30.+pow(s,12.)*.25); gl_FragColor=vec4(c,1.); }"}));
-scene.add(sky);
-const cloudTex=canvasTex(256,128,(c)=>{ const r=seeded(3); for(let i=0;i<18;i++){ const x=40+r()*176, y=50+r()*40, rr=18+r()*32; const g=c.createRadialGradient(x,y,0,x,y,rr); g.addColorStop(0,"rgba(255,255,255,.85)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.fillRect(0,0,256,128);} });
-[[-160,110,-330,1.2],[60,150,-380,1.6],[190,95,-300,1],[-40,175,-420,1.4],[260,140,-160,1.1],[-280,120,-120,1.3]].forEach(([x,y,z,s])=>{ const sp=new T.Sprite(new T.SpriteMaterial({map:cloudTex.tx, transparent:true, depthWrite:false, fog:false, color:new T.Color(1.4,1.4,1.45)})); sp.position.set(x,y,z); sp.scale.set(170*s,62*s,1); scene.add(sp); });
-
-/* ================= pitch ================= */
-const pitchTex=canvasTex(1024,2048,(c)=>{
-  const W=1024,H=2048, X=(x)=>W/2+x/42*W/2, Z=(z)=>H/2-z/66*H/2;
-  for(let i=0;i<24;i++){ c.fillStyle=i%2?"#2f6a22":"#3b7d2b"; c.fillRect(0,Z(66-i*5.5),W,5.5/66*H/2+1); }
-  for(let i=0;i<10;i++){ c.fillStyle=i%2?"rgba(255,255,255,.035)":"rgba(0,0,0,.05)"; c.fillRect(X(-42+i*8.4),0,8.4/42*W/2+1,H); }
-  const img=c.getImageData(0,0,W,H), r=seeded(11); for(let i=0;i<img.data.length;i+=4){ const n=(r()-.5)*20; img.data[i]+=n*.7; img.data[i+1]+=n; img.data[i+2]+=n*.5; } c.putImageData(img,0,0);
-  c.strokeStyle="rgba(255,255,255,.93)"; c.lineWidth=5;
-  c.strokeRect(X(-34),Z(52.5),X(34)-X(-34),Z(-52.5)-Z(52.5));
-  c.beginPath(); c.moveTo(X(-34),Z(0)); c.lineTo(X(34),Z(0)); c.stroke();
-  c.beginPath(); c.ellipse(X(0),Z(0),9.15/42*W/2,9.15/66*H/2,0,0,7); c.stroke();
-  c.fillStyle="#fff"; c.beginPath(); c.ellipse(X(0),Z(0),5,5,0,0,7); c.fill();
-  [1,-1].forEach(s=>{ const ez=52.5*s; c.strokeRect(X(-20.16),Math.min(Z(ez),Z(ez-16.5*s)),X(20.16)-X(-20.16),16.5/66*H/2); c.strokeRect(X(-9.16),Math.min(Z(ez),Z(ez-5.5*s)),X(9.16)-X(-9.16),5.5/66*H/2);
-    c.beginPath(); c.ellipse(X(0),Z(ez-11*s),2,2,0,0,7); c.fill(); });
-});
-const pitch=new T.Mesh(new T.PlaneGeometry(84,132), new T.MeshStandardMaterial({map:pitchTex.tx, roughness:.82}));
-pitch.rotation.x=-Math.PI/2; pitch.receiveShadow=true; scene.add(pitch);
-const apron=new T.Mesh(new T.PlaneGeometry(600,600), new T.MeshStandardMaterial({color:L(0x3a7a2a), roughness:1})); apron.rotation.x=-Math.PI/2; apron.position.y=-0.03; apron.receiveShadow=true; scene.add(apron);
-const postMat=new T.MeshStandardMaterial({color:L(0xffffff), roughness:.35});
-[-52.5,52.5].forEach(gz=>{ [-3.66,3.66].forEach(x=>{ const p=new T.Mesh(new T.CylinderGeometry(.07,.07,2.44,12),postMat); p.position.set(x,1.22,gz); p.castShadow=true; scene.add(p); });
-  const bar=new T.Mesh(new T.CylinderGeometry(.07,.07,7.32,12),postMat); bar.rotation.z=Math.PI/2; bar.position.set(0,2.44,gz); bar.castShadow=true; scene.add(bar);
-  const net=new T.Mesh(new T.BoxGeometry(7.32,2.44,2), new T.MeshStandardMaterial({color:0xffffff, transparent:true, opacity:.16, depthWrite:false})); net.position.set(0,1.22,gz+Math.sign(gz)*1); scene.add(net); });
-
-/* ================= stadium bowl (lofted along a rounded rectangle) ================= */
-const BA=41, BB=61, BR=17;
-function perimeter(A,B,R){
-  const pts=[]; const corner=(cx,cz,a0)=>{ for(let i=0;i<=10;i++){ const a=a0+i/10*Math.PI/2; pts.push([cx+Math.cos(a)*R,cz+Math.sin(a)*R,Math.cos(a),Math.sin(a)]); } };
-  const side=(x0,z0,x1,z1,nx,nz,n)=>{ for(let i=1;i<n;i++){ const k=i/n; pts.push([x0+(x1-x0)*k,z0+(z1-z0)*k,nx,nz]); } };
-  corner(A-R,B-R,0); side(A-R,B,-(A-R),B,0,1,8); corner(-(A-R),B-R,Math.PI/2); side(-A,B-R,-A,-(B-R),-1,0,12); corner(-(A-R),-(B-R),Math.PI); side(-(A-R),-B,A-R,-B,0,-1,8); corner(A-R,-(B-R),Math.PI*1.5); side(A,-(B-R),A,B-R,1,0,12);
-  pts.push(pts[0].slice()); let s=0; pts.forEach((p,i)=>{ if(i) s+=Math.hypot(p[0]-pts[i-1][0],p[1]-pts[i-1][1]); p[4]=s; }); return pts;
-}
-const PER=perimeter(BA,BB,BR);
-function loft(p0,p1,mat,uLen,vRep,cast){
-  const pos=[],uv=[],idx=[];
-  PER.forEach((q,i)=>{ [p0,p1].forEach(([d,h],j)=>{ pos.push(q[0]+q[2]*d,h,q[1]+q[3]*d); uv.push(q[4]/uLen, j*vRep); }); if(i){ const a=(i-1)*2; idx.push(a,a+2,a+1,a+1,a+2,a+3); } });
-  const g=new T.BufferGeometry(); g.setAttribute("position",new T.Float32BufferAttribute(pos,3)); g.setAttribute("uv",new T.Float32BufferAttribute(uv,2)); g.setIndex(idx); g.computeVertexNormals();
-  const m=new T.Mesh(g,mat); m.castShadow=!!cast; m.receiveShadow=true; scene.add(m); return m;
-}
-const seatTex=canvasTex(512,512,(c)=>{
-  c.fillStyle="#2c2a26"; c.fillRect(0,0,512,512);
-  const r=seeded(5);
-  for(let row=0;row<16;row++){ c.fillStyle="#46433d"; c.fillRect(0,row*32+24,512,8); c.fillStyle="#1d1c1a"; c.fillRect(0,row*32+22,512,2);
-    for(let s=0;s<16;s++){ const x=s*32, y=row*32; if(s===0){ c.fillStyle="#6a675f"; c.fillRect(x,y,32,32); c.fillStyle="#4a4741"; c.fillRect(x,y+15,32,2); continue; }
-      const black=row<2; const base=black?[22,22,26]:[232,178,36]; const v=(r()-.5)*14;
-      const g=c.createLinearGradient(0,y+3,0,y+21); g.addColorStop(0,`rgb(${base[0]+30+v},${base[1]+30+v},${base[2]+20+v})`); g.addColorStop(1,`rgb(${base[0]-40+v},${base[1]-40+v},${Math.max(0,base[2]-20)})`);
-      c.fillStyle=g; c.beginPath(); c.moveTo(x+4,y+21); c.lineTo(x+4,y+7); c.quadraticCurveTo(x+16,y+2,x+28,y+7); c.lineTo(x+28,y+21); c.fill();
-      c.fillStyle="rgba(0,0,0,.35)"; c.fillRect(x+4,y+20,24,2); } }
-});
-seatTex.tx.wrapS=seatTex.tx.wrapT=T.RepeatWrapping;
-const ledTex=canvasTex(2048,64,drawLed);
-ledTex.tx.wrapS=T.RepeatWrapping;
-const seatsLo=new T.MeshStandardMaterial({map:seatTex.tx, roughness:.75});
-const seatsUp=new T.MeshStandardMaterial({map:seatTex.tx, roughness:.75, color:L(0xe8e8e8)});
-const concrete=new T.MeshStandardMaterial({color:L(0x2a2a2e), roughness:.9, side:T.DoubleSide});
-const roofUnder=new T.MeshStandardMaterial({color:L(0x3b3d43), roughness:.7, metalness:.2, side:T.DoubleSide});
+/* r90 lean load: the drawn stadium (sky, clouds, pitch, goals, lofted bowl, roof, glare sprites) was built here and thrown
+   away by buildEnv() before the first frame, since the stadium photo replaced it; only its gold metal is still used */
 const goldMetal=new T.MeshStandardMaterial({color:L(0xe9b74e), metalness:1, roughness:.24});
-const ledMat=new T.MeshBasicMaterial({map:ledTex.tx, side:T.DoubleSide}); ledMat.color.setScalar(2.2);
-const floodMat=new T.MeshBasicMaterial({color:new T.Color(2.6,2.6,2.4), side:T.DoubleSide});
-loft([-.2,0],[-.2,1.2],concrete,10,1);
-loft([0,1.2],[13,10.4],seatsLo,8,1.3,true);
-loft([13,10.4],[13,12.2],ledMat,48,1);
-loft([13,12.2],[14.6,12.6],concrete,10,1,true);
-loft([14.6,12.6],[30,23.6],seatsUp,8,1.2,true);
-loft([30,23.6],[30.4,31],concrete,10,1,true);
-loft([30.4,31],[5,26.8],roofUnder,10,1,true);
-loft([5,26.8],[5,25.6],goldMetal,10,1,true);
-loft([5.4,25.55],[7.4,25.9],floodMat,10,1);
-loft([-5.2,0],[-5.2,.95],ledMat,24,1);
-{ const ribGeo=new T.BoxGeometry(.45,.7,26), postGeo=new T.BoxGeometry(.35,6,.35); const ribs=new T.InstancedMesh(ribGeo,goldMetal,PER.length), posts=new T.InstancedMesh(postGeo,goldMetal,PER.length); const o=new T.Object3D(); let n=0;
-  PER.forEach((q,i)=>{ if(i%2) return; o.position.set(q[0]+q[2]*17.6,29.2,q[1]+q[3]*17.6); o.rotation.set(0,Math.atan2(q[2],q[3]),0); o.rotateX(-.16); o.updateMatrix(); ribs.setMatrixAt(n,o.matrix);
-    o.position.set(q[0]+q[2]*5.6,28.4,q[1]+q[3]*5.6); o.rotation.set(0,Math.atan2(q[2],q[3]),0); o.rotateX(-.5); o.updateMatrix(); posts.setMatrixAt(n,o.matrix); n++; });
-  ribs.count=posts.count=n; ribs.castShadow=true; scene.add(ribs,posts); }
-const glareTex=canvasTex(128,128,(c)=>{ const g=c.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.15,"rgba(255,250,235,.55)"); g.addColorStop(1,"rgba(255,240,210,0)"); c.fillStyle=g; c.fillRect(0,0,128,128); c.fillStyle="rgba(255,255,255,.5)"; c.fillRect(0,63,128,2); }, true);
-PER.forEach((q,i)=>{ if(i%3) return; const sp=new T.Sprite(new T.SpriteMaterial({map:glareTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, color:new T.Color(1.6,1.55,1.4)})); sp.position.set(q[0]+q[2]*6.4,25.2,q[1]+q[3]*6.4); sp.scale.set(5,5,1); scene.add(sp); });
-/* r90 L31 (lead, round 2): the giant roof flags are gone; the nation shows on the card only */
-const roofPoints=PER.filter((q,i)=>i%3===0&&q[1]<20).map(q=>new T.Vector3(q[0]+q[2]*5.2,25.4,q[1]+q[3]*5.2));
 
 /* ================= particles (additive HDR sparks) ================= */
 const MAXP=4000;
@@ -837,15 +750,22 @@ function loadPano(retry){ return new Promise((res,rej)=>new T.TextureLoader().lo
    2.5x (1280x1863), so the name, rating and numbers stay crisp at native size. */
 function cardScale(){ const px=H*Math.max(.5,bandTop-bandBot)/2*.9*DPR; return Math.max(1,Math.min(GQ.cardMax,Math.ceil(px/CH*4)/4)); }
 function prepTex(w,h,draw){ const t=canvasTex(w,h,draw); return t.tx; }
-function prepareCards(){
+/* r90 lean load (lead, 2026-11-08: no long task over 200 ms on Nik's 2-thread Chromebook, even behind the cover): the faces are
+   drawn and uploaded one per step; the first load runs the steps in separate tasks (prepareCardsSlow), a new pick or a
+   context restore runs them at once */
+function prepareCards(){ for(const _s of prepareSteps()); }
+async function prepareCardsSlow(){ for(const _s of prepareSteps()) await nextTask(); }
+const nextTask=()=>new Promise(r=>setTimeout(r,0));
+function* prepareSteps(){
   const sc=cardScale(), key=[pair.daniel.rank,pair.daniel.name,pair.nik.rank,pair.nik.name,sc,Object.keys(CARD_ART).length,Object.keys(CREST_IMG).length].join("|");
   if(key===PREP_KEY) return; const old=PREP; PREP={}; PREP_KEY=key; SC=sc;
-  const card=(draw)=>CARD_UV(prepTex(CW*SC,CH*SC,draw));
-  ["daniel","nik"].forEach(role=>{ const p=pair[role];
-    PREP[role]={ back:[0,1,2,3].map(n=>card(c=>drawCardBack(c,p,n))), bare:card(c=>drawCardFront(c,p,true)), face:card(c=>drawCardFront(c,p)), scout:card(c=>drawScoutBack(c,p)),
-      coin:prepTex(512,512,c=>coinFace(c,p.club,256,256,255)) }; });
-  /* upload now (behind the loading screen), then let the canvases go: these textures are never redrawn */
-  Object.values(PREP).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin].forEach(tx=>{ try{ renderer.initTexture(tx); }catch(e){} const c=tx.image; if(c&&c.getContext){ c.width=c.height=1; } }));
+  /* each face: draw, upload now (behind the loading screen), then let the canvas go: these textures are never redrawn */
+  const up=(tx)=>{ try{ renderer.initTexture(tx); }catch(e){} const c=tx.image; if(c&&c.getContext){ c.width=c.height=1; } return tx; };
+  const card=(draw)=>up(CARD_UV(prepTex(CW*SC,CH*SC,draw)));
+  for(const role of ["daniel","nik"]){ const p=pair[role], set={back:[]}; PREP[role]=set;
+    for(let n=0;n<4;n++){ set.back.push(card(c=>drawCardBack(c,p,n))); yield; }
+    set.bare=card(c=>drawCardFront(c,p,true)); yield; set.face=card(c=>drawCardFront(c,p)); yield; set.scout=card(c=>drawScoutBack(c,p)); yield;
+    set.coin=up(prepTex(512,512,c=>coinFace(c,p.club,256,256,255))); yield; }
   const swap=new Map(); Object.keys(old).forEach(role=>{ const a=old[role], b=PREP[role]; if(!b) return; a.back.forEach((t,i)=>swap.set(t,b.back[i])); ["bare","face","scout","coin"].forEach(k=>swap.set(a[k],b[k])); });
   [frontMat,backMat,coinFaceMat].forEach(m=>{ const n=swap.get(m.map); if(n) m.map=n; });
   Object.values(old).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin].forEach(tx=>tx.dispose()));
@@ -860,15 +780,28 @@ function clueMaps(n){ const pp=prep(); backMat.map=pp.back[n]; if(!faceShown()) 
 
 /* r90: every texture in the scene is uploaded before the first visible frame (three uploads lazily, on the frame an object first
    shows, which stalled the pack burst and the coin) */
-function warmTextures(){ const seen=new Set(), add=(t)=>{ if(t&&t.isTexture&&!t.isRenderTargetTexture&&!seen.has(t)){ seen.add(t); try{ renderer.initTexture(t); }catch(e){} } };
+function warmTextures(){ sceneTextures().forEach(t=>{ try{ renderer.initTexture(t); }catch(e){} }); }
+async function warmTexturesSlow(){ for(const t of sceneTextures()){ try{ renderer.initTexture(t); }catch(e){} await nextTask(); } } /* r90 lean load: one decode + upload per task */
+function sceneTextures(){ const seen=new Set(), add=(t)=>{ if(t&&t.isTexture&&!t.isRenderTargetTexture&&!seen.has(t)) seen.add(t); };
   scene.traverse(o=>{ (Array.isArray(o.material)?o.material:o.material?[o.material]:[]).forEach(m=>{ add(m.map); add(m.emissiveMap); if(m.uniforms) Object.values(m.uniforms).forEach(u=>add(u&&u.value)); }); });
-  [compMat,brightMat,blurMat].forEach(m=>Object.values(m.uniforms).forEach(u=>add(u&&u.value))); add(ovrTex.tx); }
+  [compMat,brightMat,blurMat].forEach(m=>Object.values(m.uniforms).forEach(u=>add(u&&u.value))); add(ovrTex.tx); return [...seen]; }
 
 /* r90: one draw with every object out (pack, card, coin, chunks) so the shadow pass and the main pass have every
    program and texture ready before the game shows the page; startPlayer then puts everything back */
-function warmDraw(){ const shown=[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m)];
-  shown.forEach(o=>o.visible=true); pack.position.copy(PACK_REST); card.position.copy(CARD_POS); coin.position.set(0,1,-.5);
-  camera.position.copy(camRest); camera.lookAt(lookRest); try{ render(); }catch(e){} shown.forEach(o=>o.visible=false); }
+const warmShown=()=>[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m)];
+function warmPose(on){ warmShown().forEach(o=>o.visible=on); if(!on) return; pack.position.copy(PACK_REST); card.position.copy(CARD_POS); coin.position.set(0,1,-.5); camera.position.copy(camRest); camera.lookAt(lookRest); }
+function warmDraw(){ warmPose(true); try{ render(); }catch(e){} warmPose(false); }
+/* r90 lean load: every program is compiled with every object out (compileAsync: in parallel where the driver can), then each
+   program's link is waited for and checked in a task of its own, so no one task waits for all of them (6.4 s on the 2-thread
+   Chromebook profile); the warm frame then only adds the shadow pass */
+async function compileSlow(){ warmPose(true);
+  try{ if(renderer.compileAsync) await renderer.compileAsync(scene,camera); else renderer.compile(scene,camera); }catch(e){ try{ renderer.compile(scene,camera); }catch(_e){} } /* Fable F8-07 */
+  warmPose(false); busy();
+  /* without KHR_parallel_shader_compile nothing says when a link is done; a GPU fence after the links signals once the GPU side
+     has worked through them, so the checks below do not wait on the main thread */
+  try{ const gl=renderer.getContext(), f=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0); gl.flush(); const t0=performance.now();
+    while(gl.getSyncParameter(f,gl.SYNC_STATUS)!==gl.SIGNALED&&performance.now()-t0<20000){ busy(); await new Promise(r=>setTimeout(r,16)); } gl.deleteSync(f); }catch(e){}
+  for(const pr of renderer.info.programs.slice()){ const t0=performance.now(); while(pr.isReady&&!pr.isReady()&&performance.now()-t0<8000) await new Promise(r=>setTimeout(r,8)); try{ pr.getUniforms(); }catch(e){} busy(); await nextTask(); } }
 
 /* ================= timeline ================= */
 const ease={ out:(t)=>1-Math.pow(1-t,3), inOut:(t)=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, outQuint:(t)=>1-Math.pow(1-t,5) };
@@ -1248,7 +1181,7 @@ function tick(draw){
   if(camBlendAt>=0){ const b=ease.inOut(clamp01((now-camBlendAt)/.8)); camPos.lerpVectors(camFrom,camPos,b); camLook.lerpVectors(lookFrom,camLook,b); if(b>=1) camBlendAt=-1; }
   stepSig(now); stepCount(now);
   stepParticles(dt*ps); stepChunks(dt*ps); stepConfetti(dt,now,card.visible?cardShield():null); sheenMat.uniforms.t.value=now%1000;
-  ledTex.tx.offset.x=(now*.04)%1; stepBoards(now);
+  stepBoards(now);
   pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
   camera.position.copy(camPos).add(new T.Vector3((Math.random()-.5)*shake,(Math.random()-.5)*shake,0));
@@ -1323,9 +1256,8 @@ window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.lengt
   get t(){ return vtt; }, get band(){ return bandDbg; }, get phase(){ return phase; }, get idx(){ return idx; } };
 
 const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))).catch(()=>null), new Promise(r=>setTimeout(r,3000))]); /* Fable F8-03: a failed font falls back, never fails the page */
-Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left_soft_V1.jpg","plateL","hasL"),loadSide("assets/stand_right_soft_V1.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()].map(p=>Promise.resolve(p).then(busy))).then(async()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); prepareCards(); buildEnv(); lightMetals(); busy();
-  /* r90 Light: the shaders compile in parallel where the GPU driver can (KHR_parallel_shader_compile), off the main thread's long task */
-  try{ if(renderer.compileAsync) await renderer.compileAsync(scene,camera); else renderer.compile(scene,camera); }catch(e){ try{ renderer.compile(scene,camera); }catch(_e){} } /* Fable F8-07 */ busy(); warmTextures(); warmDraw(); busy(); /* r90: a few timed frames behind the loading screen settle the Auto level (skipped on software GL), then the governor starts */ (GFX?GFX.calibrate(renderer,render).then(p=>{ PR=p.pixelRatio; resize(); },()=>{}):Promise.resolve()).then(()=>{ startGfx(); startPlayer(0);
+Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left_soft_V1.jpg","plateL","hasL"),loadSide("assets/stand_right_soft_V1.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()].map(p=>Promise.resolve(p).then(busy))).then(async()=>{ resize(); busy(); await nextTask(); buildEnv(); lightMetals(); busy(); await nextTask(); await prepareCardsSlow(); busy();
+  await compileSlow(); await warmTexturesSlow(); busy(); warmDraw(); busy(); await nextTask(); /* r90: a few timed frames behind the loading screen settle the Auto level (skipped on software GL), then the governor starts */ (GFX?GFX.calibrate(renderer,render).then(p=>{ PR=p.pixelRatio; resize(); },()=>{}):Promise.resolve()).then(()=>{ startGfx(); startPlayer(0);
   /* in the game: draw the first frame, tell the game it is ready, and start once the game shows this page (its loading screen covers the wait) */
   if(EMBED){ tick(true); let started=false; addEventListener("message",e=>{ if(started||e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-sp-start") return; started=true; if(soundPref()) setSound(true,false); requestAnimationFrame(frame); }); toGame("cms-sp-ready"); }
   else requestAnimationFrame(frame); }); });
