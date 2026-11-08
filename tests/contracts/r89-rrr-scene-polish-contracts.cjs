@@ -21,6 +21,7 @@
 //   P10 (r90 MOTION M8/M9/M13/M15/M30) local title fonts, Opus cues loaded at once with a WAV fallback, shaders built in batches that
 //      report progress (and the step renews its wait on it), the drum/crane/hammer baked, faded flash sprites skipped, a lost context hands back;
 //   P14 (r90 MOTION M31) ?showcase=1 plays the demo loop on the game's path; ?bench=1 (Device check) still plays it and times frames;
+//   P15 (r90 LOOK L37) on a tall phone the rest picture is shifted down so both board faces clear the title;
 //   P6 (real scene, software WebGL) one fired turn stepped on the scene's own clock: the camera never cuts (every tick's step is small),
 //      from the crane shut to the shot its speed has one peak and then only falls, it is still creeping at the shot, and the drum stops on
 //      the planned chamber. CMS_RRR_SCENE_SKIP_BROWSER=1 skips P6 (no Chromium).
@@ -94,7 +95,7 @@ ok('P4','drum close-up to shot is one motion on the settle clock; the gun yaw st
 
 // P5 frame rate (r90, Nik 2026-11-07: the first open crashed his Chromebook; choppy after). The page draws lean and never stalls mid-turn.
 has(/renderer\.shadowMap\.autoUpdate=false;/,'the shadow map is not redrawn every frame');
-has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(GOV\) GOV\.resize\(\); \}/,'the one static shadow map is drawn when the room is laid out');
+has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(GOV\) GOV\.resize\(\); fitUnderTitle\(\); \}/,'the one static shadow map is drawn when the room is laid out');
 lacks(/shadowCool/,'the per-turn shadow redraw');
 has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving revolver casts no map shadow (its contact shadow is a picture)');
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
@@ -268,6 +269,17 @@ ok('P14','M31 showcase loop on its own switch');
   has(/const twoSided=m=>LIGHT&&!m\.transparent&&\(m\.userData\.twoSided\|\|m\.side===T\.DoubleSide\);/,'Light: two-sided parts baked with both windings');
 }
 ok('P16','Light: one key light + hemisphere + shot flash, lamp light baked into the felt, no EXR, particles batched, shared look-alike materials');
+
+// P15 (r90 LOOK L37): at rest the picture is lens-shifted down just enough for each board face to clear the title (measured from the real
+// title box); the shift eases out during a turn
+{
+  has(/function fitUnderTitle\(\)\{ restShift=0; const t=document\.querySelector\("\.title"\), r=t&&t\.getBoundingClientRect\(\);/,'L37 the clearance comes from the real title box');
+  has(/need=Math\.max\(need,r\.bottom\+10-Math\.min\(q\[0\]\.y,q\[1\]\.y\)\); \}\);/,'L37 every board face that sits under the title clears it by 10 px');
+  has(/const want=playing\?0:restShift;/,'L37 the shift is only for the rest shot');
+  has(/camera\.setViewOffset\(innerWidth,innerHeight,0,-viewShift,innerWidth,innerHeight\)/,'L37 a lens shift: nothing in the scene moves');
+  has(/camera\.updateProjectionMatrix\(\); \} applyViewShift\(dt\);/,'L37 applied every frame with the lens');
+}
+ok('P15','L37 the boards clear the title on a phone');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}
