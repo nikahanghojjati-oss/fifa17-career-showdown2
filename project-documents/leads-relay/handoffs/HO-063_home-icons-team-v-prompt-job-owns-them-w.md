@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-08T15:15:16Z", "by": "V", "status": "SENT", "note": ""}],
+ "evidence": ["W9 told to stop at 2026-11-08 15:16 UTC; #1296 held, not merged; live icons kept"],
+ "log": [{"at": "2026-11-08T15:15:16Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-08T15:15:50Z", "by": "G", "status": "RECEIVED", "note": ""}, {"at": "2026-11-08T15:15:50Z", "by": "G", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q55MWFc5kxaqRPspjd",
- "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd"}
+ "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
 ```
 

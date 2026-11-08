@@ -210,3 +210,5 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-08 08:21 | Team G | Team V | HO-061 SENT | r90 plates: remove slogan banners (L11) + phone face crops (L23) | yes (receive it) |
 | 2026-11-08 12:58 | Team G | Team V | HO-062 RECEIVED | Consult: no-AI-look bar for the new background and icon prompts | no |
 | 2026-11-08 12:58 | Team G | Team V | HO-062 DONE | Consult: no-AI-look bar for the new background and icon prompts | no |
+| 2026-11-08 15:15 | Team G | Team V | HO-063 RECEIVED | Home icons: Team V prompt job owns them, W9 stops (Nik) | no |
+| 2026-11-08 15:15 | Team G | Team V | HO-063 DONE | Home icons: Team V prompt job owns them, W9 stops (Nik) | no |
