@@ -203,6 +203,11 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(dc.includes('const SMOOTH_AVG=57,SMOOTH_LOW=45')&&dc.includes('T.setMeasured(level,'),'60 fps rule, saved as Auto');
     assert.ok(dc.includes('visual-assets/v10_1/roulette/index.html')&&dc.includes('frame.src=`${scene.path}?gfx=${level}&bench=1`;'),'both scenes, each level forced, bench mode');
     assert.ok(dc.includes('e.origin!==location.origin||e.source!==frame.contentWindow'),'only its own frame\'s message counts');
+    // Codex on #1266: timed at the game's own size (the stage fills the window; the Chamber Men goal uses the game's clamps),
+    // and a hidden tab ends the measurement under way at once.
+    assert.ok(dc.includes('#stage.live{position:fixed;inset:0;')&&dc.includes('stage.classList.add("live");'),'each level runs full window');
+    assert.ok(bench.includes('.cmGoal{display:block;width:100%;height:clamp(180px,calc(100dvh - 430px),66.7cqw)}')&&bench.includes('@media (min-width:900px){.cmGoalBox{width:calc(min(1180px,100%) - 32px);margin-top:14px}.cmGoal{height:clamp(260px,calc(100dvh - 300px),56.25cqw)}}'),'the goal at its game size');
+    assert.ok(dc.includes('cancelWait=()=>finish({aborted:true});')&&dc.includes('if(cancelWait)cancelWait();')&&dc.includes('if(got&&got.aborted)break;'),'a hidden tab stops the measurement at once');
     // The recorder: forced level, no adapting, held or not; one post with avg, 1% low and ms.
     {const s7=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2&bench=1'});
      const posted=[];s7.ctx.parent={postMessage:m=>posted.push(m),location:{search:''}};s7.ctx.location.origin='http://x';

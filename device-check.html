@@ -28,6 +28,11 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-of
 #status{min-height:1.5em;margin:10px 0 0;text-align:center;font-weight:600}
 #stage{position:relative;width:100%;aspect-ratio:16/9;max-height:60vh;margin:0 auto;background:#000;border:1px solid var(--gold-dim);overflow:hidden}
 #stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+/* Codex on #1266: each scene is measured at its real game size, so the stage fills the window while a level runs (RRR is a
+   full page in the game; the Chamber Men frame sizes its goal as css/chamberMen.css does). */
+#stage.live{position:fixed;inset:0;z-index:5;width:auto;max-height:none;aspect-ratio:auto;border:0}
+#stage .liveNote{position:absolute;left:0;right:0;bottom:max(12px,env(safe-area-inset-bottom,0px));margin:0 auto;width:max-content;max-width:calc(100% - 32px);
+  padding:6px 12px;background:rgba(5,5,5,.86);border:1px solid var(--gold-dim);color:var(--ink);font:600 13px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none}
 #stage .idle{position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);padding:16px;text-align:center}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 th,td{padding:8px 6px;border-bottom:1px solid rgba(219,178,94,.25);text-align:left;vertical-align:top}
@@ -105,12 +110,16 @@ td small{display:block;color:var(--mute);font-size:12px}
     const when=new Date(m.at);
     result.innerHTML=`Auto on this device: ${LEVELS[m.level]}<small>Measured ${when.toLocaleString()}. Settings › 3D QUALITY can still pick any level.</small>`;
   }
+  // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
+  let cancelWait=null;
   function wait(scene,level){
     return new Promise(resolve=>{
       const frame=document.createElement("iframe");
       frame.title=`${scene.name} at ${LEVELS[level]}`;frame.setAttribute("tabindex","-1");
       let done=false;
-      const finish=r=>{if(done)return;done=true;window.removeEventListener("message",onMsg);clearTimeout(timer);frame.remove();resolve(r);};
+      const finish=r=>{if(done)return;done=true;cancelWait=null;window.removeEventListener("message",onMsg);clearTimeout(timer);frame.remove();
+        stage.classList.remove("live");resolve(r);};
+      cancelWait=()=>finish({aborted:true});
       const onMsg=e=>{
         if(e.origin!==location.origin||e.source!==frame.contentWindow)return;
         const d=e.data;if(!d||d.type!=="cms-gfx-bench"||d.scene!==scene.key)return;
@@ -118,7 +127,8 @@ td small{display:block;color:var(--mute);font-size:12px}
       };
       const timer=setTimeout(()=>finish({error:"No result in 45 s."}),WAIT_MS);
       window.addEventListener("message",onMsg);
-      stage.replaceChildren(frame);
+      const note=document.createElement("div");note.className="liveNote";note.textContent=`Measuring ${scene.name} · ${LEVELS[level]} (${level+1} of ${LEVELS.length})`;
+      stage.replaceChildren(frame,note);stage.classList.add("live");
       frame.src=`${scene.path}?gfx=${level}&bench=1`;
     });
   }
@@ -136,7 +146,9 @@ td small{display:block;color:var(--mute);font-size:12px}
         const lower=level>0?results[level-1][scene.key]:null;
         if(lower&&lower.error){results[level][scene.key]={error:lower.error};draw();continue;}
         status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${LEVELS.length})…`;
-        results[level][scene.key]=await wait(scene,level);
+        const got=await wait(scene,level);
+        if(got&&got.aborted)break;
+        results[level][scene.key]=got;
         draw();
       }
       if(aborted)break;
@@ -155,7 +167,7 @@ td small{display:block;color:var(--mute);font-size:12px}
     showSaved();
   }
   // A hidden tab stops drawing, so its numbers would be wrong: stop and say so.
-  document.addEventListener("visibilitychange",()=>{if(running&&document.visibilityState==="hidden"){aborted="The tab was hidden, so the check stopped. Start it again and keep the tab in front.";stage.replaceChildren();}});
+  document.addEventListener("visibilitychange",()=>{if(running&&document.visibilityState==="hidden"){aborted="The tab was hidden, so the check stopped. Start it again and keep the tab in front.";if(cancelWait)cancelWait();stage.replaceChildren();}});
   startBtn.addEventListener("click",run);
   forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its guess from this device's graphics chip.";});
   if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
