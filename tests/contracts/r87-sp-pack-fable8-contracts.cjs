@@ -157,4 +157,16 @@ ok("R90-PS10 hunt M6/M17: Prime Pack renders on change only and follows Settings
   assert.ok(!/revealMs:\d|guessMs:\d/.test(ig.replace(/const SAMPLE_STAGES[\s\S]*?\]\);/,"")),"no timings of its own outside the preview copy");
 });
 
+ok("R90-PS11 LOOK round 2 L31/L05/L32: the reveal stays a night stadium, calmer celebration, tinted beams, pack top under the title",()=>{
+  assert.match(page,/rays\.position\.set\(0,1\.9,-1\.5\); rays\.scale\.set\(8,8,1\); scene\.add\(rays\);/,"L31: the rays are a halo round the card, not a sky-wide sunburst");
+  assert.ok(!/rays\.scale\.set\(14,14,1\)/.test(page));
+  assert.match(page,/rays\.scale\.setScalar\(3\.5\+charge\*2\.5\)/,"L31: the charge halo stays round the pack");
+  assert.match(page,/roughness:\.8, color:new T\.Color\(\.42,\.42,\.42\)\}\)/,"L31: the nation flags are floodlit cloth at night");
+  assert.match(page,/const CALM=\.55;/,"L31: about half the paper and sparks, same beats");
+  for(const re of [/Math\.round\(240\*pw\*CALM\)/,/Math\.round\(380\*pw\*CALM\)/,/Math\.round\(200\*pw\*CALM\)/,/Math\.round\(38\*pw\*CALM\)/,/Math\.round\(44\*pw\*CALM\)/])assert.match(page,re);
+  assert.match(page,/beamMat\.color\.copy\(sigCol\)\.lerp\(WHITE,\.1\)\.multiplyScalar\(1\.1\*grow\*fade\*\(camera\.aspect<1\?\.6:1\)\)/,"L05: tinted shafts, not white bars");
+  assert.match(page,/Math\.sin\(gs\*Math\.PI\)\*8\*pw\*\(camera\.aspect<1\?\.6:1\)/,"L31: a smaller flash glow on portrait");
+  assert.match(page,/if\(rest>0\)\{ const k=Math\.max\(\.7,1-rest\/\(PACK_H\*\.95\)\); pack\.scale\.multiplyScalar\(k\);/,"L32: a smaller pack where lowering alone leaves its top under the title");
+});
+
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
