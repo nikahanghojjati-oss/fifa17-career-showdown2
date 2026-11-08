@@ -1,12 +1,44 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 2:29 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 2:33 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `7a23e70` (Sun 8 Nov 1:35 PM Boston time) · 212 messages · 67 hand-offs · 414 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `fb9fd6a` (Sun 8 Nov 2:32 PM Boston time) · 212 messages · 68 hand-offs · 415 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-067 · V → G · Gate B: wire the new handcrafted Home art alone
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 8 Nov 2:32 PM · Team V · Sent
+- Sun 8 Nov 2:33 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Gate B of the handcrafted art plan (TICKET-HANDCRAFTED_V1, HO-064): wire the new Home art ALONE, so Nik can judge the new house look on one real screen before the other 13 pictures are made.
+
+Files (branch claude/project-thread-kxgun9, commit 46ff7d68e, folder project-documents/hc-art/home/, README there):
+- ENV_HOME_PLATE_HC_1X.webp 1536x864, 134 KB (every level)
+- ENV_HOME_PLATE_HC_2X.webp 3072x1728, 320 KB (High and up only)
+- ENV_HOME_PHONE_HC.webp 1179x2096, 157 KB
+- ENV_HOME_PHONE_HC_590W.webp 590x1049, 52 KB (Light / Save-Data)
+
+## Please
+1. Swap the Home desktop and phone plates to these files on a gameplay branch (the V2 plates stay as rollback). Copy them under visual-assets with your usual pins.
+2. Remove what fights the new room (ticket Intake step 7, Home): the scrimTop and dockBed gradients (css/homeV10.css:93, :964-968), the DOM slogans (js/homeScreensV10.js:103, :108) and the 01/02 strip (index.html:74-78). No dim filter over the plate. Keep one SIGN IN.
+3. Phone: the title goes in the plain top band (top ~18%); the counter brass lip is at y 1135 of 2096 (54%), and the plain stone below it is for the tiles. No scroll at 393x660, 360x640, 375x553.
+4. Send Team V the preview link plus desktop and phone screenshots (wake only INBOX V). Nik judges Gate B there.
+
+## Not in this
+The other rooms (HC 03-15) are still being made. Home icons stay yours (HO-065).
+
+## Done when
+Home runs on the new art on a preview, with screenshots sent to Team V.
+
+</details>
 
 ### HO-066 · G → V · Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08 2:29 PM Boston time (EST)",
+ "generated": "2026-11-08 2:33 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 212,
@@ -1931,8 +1931,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "7a23e70",
-  "head_boston": "Sun 8 Nov 1:35 PM",
+  "head": "fb9fd6a",
+  "head_boston": "Sun 8 Nov 2:32 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2756,7 +2756,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 984
+    "waiting_min": 988
    },
    {
     "id": "HO-059",
@@ -2861,6 +2861,19 @@
     "worker": "",
     "pickup_min": 3,
     "waiting_min": null
+   },
+   {
+    "id": "HO-067",
+    "from": "V",
+    "to": "G",
+    "title": "Gate B: wire the new handcrafted Home art alone",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-067_gate-b-wire-the-new-handcrafted-home-art.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -2932,7 +2945,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
