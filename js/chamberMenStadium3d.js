@@ -164,9 +164,11 @@
         "diffuseColor.rgb*=mix(.78,1.12,band);"+
         "float wear=exp(-pow(length(vCmWorld.xz-vec2(0.0,11.0))/1.3,2.0))*.45+exp(-pow(length((vCmWorld.xz-vec2(0.0,2.2))*vec2(.35,1.0))/1.6,2.0))*.25;"+
         "diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.05,.92,.7),wear);"+
-        // r90 LOOK (L01, night pass): the floodlights pool on the box, brighter in the middle; the turf falls away toward the
-        // touchlines and behind the taker, so the frame reads floodlit, not evenly lit.
-        "diffuseColor.rgb*=mix(1.16,.36,smoothstep(4.0,24.0,length((vCmWorld.xz-vec2(0.0,8.0))*vec2(.75,1.0))));}");
+        // r90 (Nik 2026-11-08, lighting that makes sense): a floodlit pitch is lit evenly (broadcast lighting holds the
+        // whole field within about 0.7 to 1 of its brightest point), the banks overlapping a little more on the box than far
+        // out; the light falls away only past the touchlines and the goal line, where no bank is aimed.
+        "float cmOut=max(abs(vCmWorld.x)-35.0,0.0)+max(-1.5-vCmWorld.z,0.0);"+
+        "diffuseColor.rgb*=mix(1.04,.86,smoothstep(8.0,45.0,length(vCmWorld.xz-vec2(0.0,9.0))))*mix(1.0,.5,smoothstep(0.0,8.0,cmOut));}");
     };
     const pitch=add(new T.PlaneGeometry(130,150),pitchMat);pitch.rotation.x=-Math.PI/2;pitch.position.set(0,0,PITCH_L/2);pitch.receiveShadow=true;
     // Chalk lines for the whole 105 x 68 pitch: one merged geometry a few mm over the grass.

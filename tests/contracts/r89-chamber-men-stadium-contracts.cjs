@@ -92,7 +92,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   ok("S5","players: shared clip file with every clip and three light bodies with the kit meshes (desktop and phone); the engine can load and play it");
 }
 // S6 r90 LOOK (hunt L01-L03, at every level): a night stand that falls dark under the roof, a floodlight halo, the pitch lit
-//    in a pool round the box; each club's colours in its own block (tintable cells only, away fans in the corner behind the
+//    evenly (r90 floodlights), darker past the lines; each club's colours in its own block (tintable cells only, away fans in the corner behind the
 //    goal past an empty strip); LED boards drawn at run time with the CM17 wordmark and both clubs' crests and names, each
 //    message inside its own board, the run behind the goal centred on it, no board images and no "CMS" lettering.
 {
@@ -107,7 +107,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(/m=w<BW-\.01\?mPattern:/.test(kit),"a short board only carries the pattern");
   assert.ok(/const nightStand=m=>/.test(kit)&&(kit.match(/nightStand\(new T\.MeshStandardMaterial/g)||[]).length===2,"stands and concrete fall dark with height");
   assert.ok(/const halo=new T\.Points\(flareGeo,haloMat\)/.test(kit),"floodlight halo");
-  assert.ok(/mix\(1\.16,\.36,smoothstep\(4\.0,24\.0,length\(\(vCmWorld\.xz-vec2\(0\.0,8\.0\)\)/.test(kit),"the floodlit pool on the box, the turf falling away round it");
+  assert.ok(/mix\(1\.04,\.86,smoothstep\(8\.0,45\.0,length\(vCmWorld\.xz-vec2\(0\.0,9\.0\)\)\)\)\*mix\(1\.0,\.5,smoothstep\(0\.0,8\.0,cmOut\)\)/.test(kit),"the pitch floodlit evenly, darker only past the touchlines and the goal line");
   assert.ok(/vec3\(\.14,\.16,\.25\),smoothstep\(\.5,12\.0,vCmY\)/.test(kit),"the stand falls into a cool dark above the front rows");
   assert.ok(/top=vec3\(\.003,\.007,\.03\),mid=vec3\(\.016,\.026,\.062\)/.test(kit),"a darker, bluer night sky");
   assert.ok(/aCell\[i\]=plain\?pickCell\(PLAIN_CELLS\):pickCell\(TINT_CELLS\)/.test(kit)&&/o\.homeAlt/.test(kit)&&/o\.awayAlt/.test(kit),"club blocks in each club's two colours");
