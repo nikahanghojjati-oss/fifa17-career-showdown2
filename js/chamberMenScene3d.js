@@ -436,21 +436,26 @@
         if(o.name==="Body"&&m.name==="Bodymat")m.color.setRGB(sk[0],sk[1],sk[2]);
         if(o.name==="Hair"||m.name==="Hairmat")m.color.setRGB(hr[0],hr[1],hr[2]);});
     };
+    const kitMemo=new Map(),kitTex=new Map();
     const dress=(a,club,role,vs)=>{
       look(a,club,role);
       // r90 L04: a squad number on the back (the camera is behind the taker): one per club for the Showdown, 1 for keepers.
       const number=role==="gk"?1:SHIRT_NUMBERS[cm3Hash(`number|${club}`)%SHIRT_NUMBERS.length];
-      let t;try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize,number});}catch(_error){return;}
+      // r90 MOTION M2: a Showdown has four kits at most (each club taking and keeping, against the other), so each is painted
+      // once and its textures stay uploaded: a new kick only swaps maps (painting one cost 1.1-2.2 s of main thread).
+      const memo=`${a.body}|${club}|${role}|${vs}|${number}`;
+      let t=kitMemo.get(memo);if(!t){try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize,number});}catch(_error){return;}kitMemo.set(memo,t);}
       // One texture per canvas: on Ch38 and Ch42 the shirt, shorts (and Ch38's socks) share one atlas.
-      const put=()=>{const made=new Map(),olds=new Set();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
+      const put=()=>{const made=new Map();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
         const mat=a.mats[m],c=t[k];if(!mat||!c)continue;
-        let tex=made.get(c);if(!tex){tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;tex.userData.cmKit=true;made.set(c,tex);}
-        if(mat.map&&mat.map.userData?.cmKit&&mat.map!==tex)olds.add(mat.map);mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;
-      }for(const o of olds)o.dispose();};
+        let tex=made.get(c)||kitTex.get(c);if(!tex){tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;tex.userData.cmKit=true;kitTex.set(c,tex);}made.set(c,tex);
+        if(mat.map!==tex){mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;}
+      }};
       const token=a.kitToken=(a.kitToken||0)+1;
       // A body-mapped kit is blank until its kit map has loaded: it goes on only when painted (the last kit stays meanwhile).
       if(t.shirt===t.shorts){Promise.resolve(t.ready).then(()=>{if(!disposed&&a.kitToken===token)put();},()=>{});return;}
-      put();Promise.resolve(t.ready).then(()=>{if(disposed||a.kitToken!==token)return;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
+      // A kit painted in full already went up to the GPU: no second upload.
+      put();if(t.cmUploaded)return;Promise.resolve(t.ready).then(()=>{if(disposed||a.kitToken!==token)return;t.cmUploaded=true;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
     };
 
     // ---------- the kick ----------
@@ -680,6 +685,7 @@
       gov?.end();fps?.stop();
       for(const r of Object.values(rigs))for(const a of [r.taker.a,r.keeper.a])try{a.mixer.stopAllAction();a.mixer.uncacheRoot(a.model);}catch(_error){}
       scene.traverse(o=>{if(o.geometry)o.geometry.dispose();for(const m of [].concat(o.material||[]))for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();});
+      for(const t of kitTex.values())t.dispose();kitTex.clear();kitMemo.clear();
       try{S.dispose();}catch(_error){}
       for(const v of own)try{v.dispose&&v.dispose();}catch(_error){}
       snap?.dispose();
