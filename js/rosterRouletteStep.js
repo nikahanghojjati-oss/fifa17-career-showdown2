@@ -228,10 +228,13 @@
     // The loading screen (held since START) covers a card left from a TRY AGAIN; the card goes now, so it can never stand over
     // the scene with dead buttons (Fable F2-03).
     rrsLoadingOn();rrsRemovePanel();
-    const shownAt=Date.now();let channel=null,stage=null,frame=null;
+    // r90 MOTION M9: only a page that broke (cms-rr-error, no 3D library) is skipped for the rest of this visit; one that was only
+    // slow is tried again the next time this screen opens (the result card still shows the spin now, as before).
+    const shownAt=Date.now();let channel=null,stage=null,frame=null,slow=false;
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
-      if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
+      const started=await channel.ready;if(started==="timeout")slow=true;
+      if(started!=="ready")throw new Error("Roulette page did not start.");
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
       // The whole spin plan (red team R87-C-06): the scene loads bulletChamber, stops on stopChamber and aims at hitSlot
       // (a safe turn at aimSlot), so both phones show the same chambers and the same player.
@@ -242,10 +245,11 @@
       let stopArmed=()=>{};
       const armed=await Promise.race([channel.armed,new Promise(resolve=>{stopArmed=rrsVisibleWait(ARMED_WAIT_MS,()=>resolve("timeout"));})]);
       stopArmed();
+      if(armed==="timeout")slow=true;
       if(armed!=="armed")throw new Error("Roulette page did not take the spins.");
       const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
       stage.style.visibility="visible";
-    }catch(_error){if(channel)channel.stop();sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();return "skipped";}// the result card takes over from the loading screen
+    }catch(_error){if(channel)channel.stop();if(!slow)sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();return "skipped";}// the result card takes over from the loading screen
     rrsLoadingOff();
     try{frame.focus();}catch(_error){}
     const end=await channel.done;channel.stop();

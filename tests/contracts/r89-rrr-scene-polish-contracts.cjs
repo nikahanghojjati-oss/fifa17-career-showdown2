@@ -190,6 +190,8 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   has(/renderer\.compile\(scene,camera\); vis\.forEach\(\(v,o\)=>\{ o\.visible=v; \}\); toGame2\("cms-rr-loading"/,'M9 each batch reports progress and restores visibility');
   assert.match(step,/if\(event\.data\.type==="cms-rr-loading"\)renew\(\);/,'M9 progress renews the start wait');
   assert.match(step,/COLD_LOADING_MS=90000/,'M9 the whole start is capped');
+  assert.match(step,/if\(!slow\)sceneFailedHere\.add\(rrsKey\(ctx\)\);/,'M9 a slow start is never skipped for good: it is tried again the next time the screen opens');
+  assert.equal((step.match(/sceneFailedHere/g)||[]).length,4,'M9 the broken-page skip lives only in memory for this visit (never stored)');
   assert.match(step,/if\(!graced&&Date\.now\(\)-due>1000\)\{graced=true;arm\(2000\);return;\}/,'M9 a late timer (held main thread) looks again before failing');
   // M15: drum, crane and hammer baked; faded flash sprites not drawn
   has(/bake\(cyl,o=>o===cyl\.userData\.round\|\|o\.renderOrder>=2\); bake\(crane,o=>o===cyl\|\|o===cyl\.userData\.pointer\); bake\(hammer\);/,'M15 the moving gun parts are baked per piece');
