@@ -49,6 +49,8 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
     "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
     "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    // r90: no longer precached (the sheet loads the shared copies), but a page rolled back to 2.1.0 still asks for these
+    // without ?v=, so they stay here and are answered from that build's retained shell offline.
     "assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "assets/fonts/barlow-condensed-latin-800-normal.woff2",
@@ -88,8 +90,6 @@ const SHELL_PATHS = Object.freeze([
     "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
     "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
     "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "assets/fonts/barlow-condensed-latin-800-normal.woff2",
     "css/visual-fidelity-r3.css",
     "css/offline.css",
@@ -435,7 +435,7 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // scene and stadium, and (r90) the shared 3D quality module js/gfxTier.js and the roulette's own title faces (Big Shoulders Display, Rye; M8) and the meshopt decoder for Chamber Men's packed GLBs (players and stadium GLBs are Team V images, V10_IMAGE_PATH runtime cache). Removed: three.js r128, which
 // a page rolled back to 2.1.0 still finds in its own retained shell. The STORY site (chronicle/) is never precached.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["visual-assets/v10_1/roulette/vendor/three-r187.min.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/gfxTier.js","data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.

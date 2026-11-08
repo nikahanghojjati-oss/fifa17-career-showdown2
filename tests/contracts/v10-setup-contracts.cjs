@@ -31,7 +31,6 @@ const TRUTH_MD_IDS=["newShowdown","createShowdown","createShowdownScreenTitle","
 // Team V files copied byte for byte from factory/v1-wtt5ye 5e05a1f (sha256 of `git show 5e05a1f:<path>`).
 const TEAM_V_FILES={
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
-  "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V1.webp":"a07b1e11254b36b7347b8f98e9682fa8a610d09713fcce8f028ca9ff4f024a85",
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp":"6bb7cabdc7dca0006dc46f5b05165e353eef5afdb9e565b2cdf252d82b1ab35e",
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp":"78ec9b7fc62fc6c07732c18a5c0541b71ea122956a0030bbebf4f78b1e0d970b",
   "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp":"2af3ae7e8086a619e9e507e109b035e932e0b87c51d559111e5f239697cbaebb",

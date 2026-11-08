@@ -13,7 +13,6 @@
     "work:gh:bootstrap": "node scripts/bootstrap-github-cli.mjs",
     "serve:test": "node tests/support/static-server.cjs",
     "test:contracts": "node tests/support/run-selected-product-contracts.cjs --all",
-    "test:impact:all": "node tests/support/run-selected-product-contracts.cjs --all",
     "test:ops": "node tests/support/run-operations-audit.cjs",
     "test:contracts:all": "npm run test:contracts && npm run test:ops",
     "test:saved-showdowns-still-open": "npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-saved-showdowns-open \"node tests/firebase/saved-showdowns-still-open-emulator.cjs\"",

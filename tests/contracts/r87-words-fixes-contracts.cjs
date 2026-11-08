@@ -27,15 +27,9 @@ function jsStrings(src){
     prev=c;i+=1;}
   return out;
 }
-check("W1 backup Trophy Room: record and margin units are singular at one", () => {
-  // This older function is at file scope; use its next closing brace.
-  const source = read("js/trophyRoom.js"), start = source.indexOf("function seasonRecordText("), end = source.indexOf("\n}", start);
-  const recordText = vm.runInNewContext(`(${source.slice(start, end + 2)})`);
-  for (const n of [0, 1, 2, 11]) for (const [suffix, singular] of [[" pts", " pt"], [" goals", " goal"]])
-    assert.equal(recordText({value: n, holders: [{manager: "Nik", club: "Arsenal", season: 1, showdown: "Test"}]}, suffix).value, `${n}${n === 1 ? singular : suffix}`);
-  const margin = source.match(/value: (`\$\{records.biggestShowdownMargin.value\}[^`]+`)/)[1];
-  for (const n of [1, 2, 11]) assert.equal(vm.runInNewContext(margin, {records: {biggestShowdownMargin: {value: n}}}), `${n} pt${n === 1 ? "" : "s"}`);
-});
+// W1 (old local Trophy Room record units) retired in r90: its only subject, the local all-time records in
+// js/trophyRoom.js, was deleted with the local statistics engine (#1264). The live Trophy Room shows record
+// values as bare numbers (js/careerScreenSeam.js, pinned by career-screen-seam-contracts).
 check("W2 player-facing names remain Special Player / SP, including generated copy", () => {
   const files = require("node:child_process").execFileSync("git", ["ls-files", "js/*.js", "data/*.js", "visual-assets/**/*.js", "visual-assets/**/*.json", "visual-assets/**/*.html"], {cwd: ROOT, encoding: "utf8"}).trim().split("\n");
   const hits = [];
