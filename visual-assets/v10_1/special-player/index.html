@@ -7,9 +7,24 @@
 <body>
 <title>Special Player Big Jump</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Big+Shoulders+Display:wght@700;800;900&display=swap">
 <style>
+/* r90 M8: self-hosted faces (shared folder, precached), no Google Fonts round trip before the first frame. */
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-500-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-500-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-600-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-700-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-800-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-600-italic.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-600-italic.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-700-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-800-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:900;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-900-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:900;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 /* One full-bleed 3D stage. Title over the sky, broadcast lower third (desktop), control strip on the bottom edge. */
 :root {
   --ink: #050506; --gold: #f1c35a; --gold-hi: #fff3c4; --gold-deep: #9c6e22; --ivory: #f6eedb; --muted: #c9bc9c;
@@ -477,16 +492,18 @@ const RTO={type:RT_TYPE, format:T.RGBAFormat, minFilter:T.LinearFilter, magFilte
    (CareerModeGfxTier.samples); without the module, 4 when asked for any. */
 const fitSamples=(want)=>GFX&&GFX.samples?GFX.samples(renderer,want,HDR):(want>0?4:0);
 const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:fitSamples(PHONE_GPU?2:GQ.samples)}); /* r89: WebGL 2 only, so the scene target is always multisampled; r90: samples by quality level */
+/* r90 M4: bloom follows the tier: off at Light (11 passes saved), half-size mips at Balanced, full from High. */
+const BLOOM=!(GP&&GP.bloom===false), BLOOM_D=GL_LVL<=1?4:2;
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
 const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:HDR?1.5:.8}},vertexShader:VS,depthTest:false,depthWrite:false,
   fragmentShader:"uniform sampler2D tex; uniform float thr; varying vec2 vUv; void main(){ vec3 c=texture2D(tex,vUv).rgb; float l=max(c.r,max(c.g,c.b)); float w=smoothstep(thr,thr+.8,l); gl_FragColor=vec4(min(c*w,vec3(30.)),1.); }"});
 const blurMat=new T.ShaderMaterial({uniforms:{tex:{value:null},dir:{value:new T.Vector2()}},vertexShader:VS,depthTest:false,depthWrite:false,
   fragmentShader:"uniform sampler2D tex; uniform vec2 dir; varying vec2 vUv; void main(){ vec3 c=texture2D(tex,vUv).rgb*.2270; c+=texture2D(tex,vUv+dir*1.3846).rgb*.3162; c+=texture2D(tex,vUv-dir*1.3846).rgb*.3162; c+=texture2D(tex,vUv+dir*3.2308).rgb*.0703; c+=texture2D(tex,vUv-dir*3.2308).rgb*.0703; gl_FragColor=vec4(c,1.); }"});
-const compMat=new T.ShaderMaterial({uniforms:{tex:{value:sceneRT.texture},b0:{value:mipA[0].texture},b1:{value:mipA[1].texture},b2:{value:mipA[2].texture},b3:{value:mipA[3].texture},strength:{value:.3},exposure:{value:.9},flash:{value:0}},vertexShader:VS,depthTest:false,depthWrite:false,
-  fragmentShader:`uniform sampler2D tex,b0,b1,b2,b3; uniform float strength,exposure,flash; varying vec2 vUv;
+const compMat=new T.ShaderMaterial({uniforms:{tex:{value:sceneRT.texture},b0:{value:mipA[0].texture},b1:{value:mipA[1].texture},b2:{value:mipA[2].texture},b3:{value:mipA[3].texture},strength:{value:.3},exposure:{value:.9},flash:{value:0},bloomOn:{value:BLOOM?1:0}},vertexShader:VS,depthTest:false,depthWrite:false,
+  fragmentShader:`uniform sampler2D tex,b0,b1,b2,b3; uniform float strength,exposure,flash,bloomOn; varying vec2 vUv;
   vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.); }
-  void main(){ vec3 c=texture2D(tex,vUv).rgb; vec3 b=texture2D(b0,vUv).rgb*.6+texture2D(b1,vUv).rgb*.8+texture2D(b2,vUv).rgb*1.0+texture2D(b3,vUv).rgb*1.2;
+  void main(){ vec3 c=texture2D(tex,vUv).rgb; vec3 b; if(bloomOn>.5) b=texture2D(b0,vUv).rgb*.6+texture2D(b1,vUv).rgb*.8+texture2D(b2,vUv).rgb*1.0+texture2D(b3,vUv).rgb*1.2; else b=max(c-vec3(.8),vec3(0.))*1.6; /* r90 M4: Light keeps a cheap in-place glow, no blur passes */
     c=(c+b*strength)*exposure+vec3(flash); c=aces(c); c=pow(c,vec3(1./2.2)); gl_FragColor=vec4(c,1.); }`});
 const quadScene=new T.Scene(), quadCam=new T.OrthographicCamera(-1,1,1,-1,0,1), quad=new T.Mesh(new T.PlaneGeometry(2,2),compMat); quad.frustumCulled=false; quadScene.add(quad);
 function pass(mat,target){ quad.material=mat; renderer.setRenderTarget(target); renderer.render(quadScene,quadCam); }
@@ -1186,8 +1203,8 @@ function resize(){
   const pw=Math.floor(W*PR), ph=Math.floor(H*PR);
   /* r90 lean: 8x edges only up to a 2560x1440 buffer; past it (a 4K draw) the pixels are already fine enough, and 8 samples of a
      half-float 4K target would hold about half a gigabyte, so it keeps 4 */
-  const smp=fitSamples(PHONE_GPU?2:(pw*ph>2560*1440?Math.min(4,GQ.samples):GQ.samples)), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
-  sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
+  const smp=fitSamples(PHONE_GPU?2:(pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples)), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
+  sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); if(BLOOM) for(let i=0;i<LV;i++){ const d=BLOOM_D*Math.pow(2,i); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
   const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
@@ -1208,15 +1225,15 @@ function fitL3(){
 addEventListener("resize",fitL3);
 function render(){
   renderer.setRenderTarget(sceneRT); renderer.render(scene,camera);
-  brightMat.uniforms.tex.value=sceneRT.texture; pass(brightMat,mipA[0]);
+  if(BLOOM){ brightMat.uniforms.tex.value=sceneRT.texture; pass(brightMat,mipA[0]);
   for(let i=0;i<LV;i++){ const src=i?mipA[i-1]:mipA[0]; blurMat.uniforms.tex.value=src.texture; blurMat.uniforms.dir.value.set(1/mipA[i].width,0); pass(blurMat,mipB[i]);
-    blurMat.uniforms.tex.value=mipB[i].texture; blurMat.uniforms.dir.value.set(0,1/mipA[i].height); pass(blurMat,mipA[i]); }
+    blurMat.uniforms.tex.value=mipB[i].texture; blurMat.uniforms.dir.value.set(0,1/mipA[i].height); pass(blurMat,mipA[i]); } }
   compMat.uniforms.flash.value=flash*.18; pass(compMat,null);
 }
 function tick(draw){
-  const real=manual!==null?manual:performance.now()/1000, gap=Math.max(0,real-last), dt=Math.min(.1,gap); /* r90: was .05, which slowed the whole reveal below 20 fps */ last=real; if(manual===null) simT+=Math.min(.25,gap); const now=clock(); SFX.tick();
+  const real=manual!==null?manual:performance.now()/1000, gap=Math.max(0,real-last), dt=Math.min(.1,gap), wdt=Math.min(.25,gap); /* r90 M3: dt (clamped) only steps sparks and easing; the timeline and cues run on wall clock (wdt) so beats keep their length on slow frames */ last=real; if(manual===null) simT+=wdt; const now=clock(); SFX.tick();
   for(let i=queue.length-1;i>=0;i--) if(queue[i].t<=now){ const q=queue.splice(i,1)[0]; q.fn(); }
-  const sc=phase==="run"?slowAt(vtt):1, ps=phase==="run"?sc/paceAt(vtt):1; /* ps: sparks and chunks keep their own speed through the quicker stretches */ if(phase==="run") vtt+=dt*sc; const tt=vtt;
+  const sc=phase==="run"?slowAt(vtt):1, ps=phase==="run"?sc/paceAt(vtt):1; /* ps: sparks and chunks keep their own speed through the quicker stretches */ if(phase==="run") vtt+=wdt*sc; const tt=vtt;
   if(phase==="run") run(tt);
   else if(phase==="handover") stepHandover(now,dt);
   else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
