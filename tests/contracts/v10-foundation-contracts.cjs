@@ -823,6 +823,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/stage_phone.webp":"084eec9bfa563e740187ab6aa0a7f65ddd53176c0ac0ae452a6ca2cd13833e3d",
     "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
     "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
+    // r90 Team V 4K master of the Prime Pack desktop stage (same picture as stage_desktop.webp, 3840x2160): loaded only above 2560 device px.
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V1.webp":"c6050854d41cb12988607b9071934fe3f0c548c014cacbff5667ed896139f157",
     // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
     "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
     "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
