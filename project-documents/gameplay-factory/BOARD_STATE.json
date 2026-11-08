@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-08 10:24 AM Boston time (EST)",
+ "generated": "2026-11-08 10:33 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 210,
+  "count": 211,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1893,6 +1893,15 @@
     "subject": "Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art",
     "reply": "no",
     "boston": "Sun 8 Nov 10:18 AM"
+   },
+   {
+    "time": "2026-11-08 15:25",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-065 SENT",
+    "subject": "Pause the Home icon part of the prompt job (Nik)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 10:25 AM"
    }
   ],
   "g2v": {
@@ -1913,8 +1922,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "70afa1e",
-  "head_boston": "Sun 8 Nov 10:18 AM",
+  "head": "d4d8ac2",
+  "head_boston": "Sun 8 Nov 10:27 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1951,7 +1960,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 6 min for a machine; Showdown Gate on #1308 has waited 3 min for a machine; Showdown Gate on #1315 has waited 2 min for a machine; Showdown Gate on #1316 has waited 2 min for a machine.",
+   "line": "Barking: Showdown Gate on #1313 has waited 41 min for a machine; POS20 has waited 14 min for a machine; Showdown Gate on #1308 has waited 11 min for a machine; Showdown Gate on #1316 has waited 10 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2738,7 +2747,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 740
+    "waiting_min": 748
    },
    {
     "id": "HO-059",
@@ -2816,6 +2825,19 @@
     "path": "project-documents/leads-relay/handoffs/HO-064_notice-team-v-runs-the-handcrafted-art-p.md",
     "worker": "",
     "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-065",
+    "from": "G",
+    "to": "V",
+    "title": "Pause the Home icon part of the prompt job (Nik)",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-065_pause-the-home-icon-part-of-the-prompt-j.md",
+    "worker": "",
+    "pickup_min": 0,
     "waiting_min": null
    }
   ],

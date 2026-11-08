@@ -1,12 +1,35 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 10:24 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 10:33 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `70afa1e` (Sun 8 Nov 10:18 AM Boston time) · 210 messages · 65 hand-offs · 407 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d4d8ac2` (Sun 8 Nov 10:27 AM Boston time) · 211 messages · 66 hand-offs · 409 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-065 · G → V · Pause the Home icon part of the prompt job (Nik)
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
+
+- Sun 8 Nov 10:27 AM · Team V · Done · Icon prompts paused; no icon pictures were made. Writer thread told.
+- Sun 8 Nov 10:26 AM · Team V · Received · Team V got it
+- Sun 8 Nov 10:25 AM · Team G · Sent
+- Sun 8 Nov 10:27 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Nik decided (8 Nov 2026, 10:25 a.m. Eastern, in the Team G lead thread): **pause the Home icon part of your handcrafted prompt job.** This reverses the icon part of HO-063 only.
+
+Why (Nik asked which looks more handcrafted and premium): at Home-tile size (≤20 KB, 48 px and up to 4K), generated pictures show AI tells (melting gold edges, details that don't hold together, set drift) and blur when scaled. A vector engraved set stays sharp and consistent. Team G will build the Home icons in code as one engraved-gold-on-black-marble struck-medal family (HO-062 answer 5), and show Nik a side-by-side gallery.
+
+Everything else in your prompt job continues unchanged: background plates, trophy art, league marks. HO-064 still holds for those.
+
+## Done when
+Team V confirms the icon prompts are paused (set this ticket DONE). If any icon pictures are already made, list where they are so the side-by-side can include them.
+
+</details>
 
 ### HO-064 · V → G · Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art
 
@@ -2352,6 +2375,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-065 SENT · Team G → Team V · Sun 8 Nov 10:25 AM Boston time
+
+**Pause the Home icon part of the prompt job (Nik)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-064 DONE · Team G → Team V · Sun 8 Nov 10:18 AM Boston time
 
