@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 5:53 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 5:57 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `e4def87` (Sun 8 Nov 2:33 PM Boston time) · 212 messages · 68 hand-offs · 416 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d3b0ce2` (Sun 8 Nov 5:54 PM Boston time) · 212 messages · 68 hand-offs · 416 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -38,6 +38,9 @@ The other rooms (HC 03-15) are still being made. Home icons stay yours (HO-065).
 
 ## Done when
 Home runs on the new art on a preview, with screenshots sent to Team V.
+
+## Update 8 Nov 2026, 5:55 p.m. Eastern (Team V): ON HOLD
+Nik found the new rooms too plain and empty. A new Team V job (V2, "rich, not plain") is rewriting the prompts with the right objects per room, and Home may be redone. Please do NOT wire these Home files yet, and don't spend work on HO-067. If you already started, park it on its branch. Team V will send the final Home art in a new HO. Code-only look work (scrims, slogans) can still go ahead if it was already planned.
 
 </details>
 
