@@ -83,7 +83,8 @@ ok("R90-PS3 quality follows the device: the shared gfxTier governor (Settings 3D
 ok("R90-PS4 Prime Pack: art decoded before ready, the pack and the card on their own layers, the shadow off the sheen's layer",()=>{
   const ig=read("visual-assets/v10_1/icon-guess/index.html");
   assert.match(ig,/\.pack, \.card \{ will-change: transform, opacity; \}/);
-  assert.match(ig,/\.card::before \{[^}]*filter: drop-shadow/);
+  assert.match(ig,/\.card::before \{[^}]*background: url\("assets\/card_shadow_V1\.webp"\)/,"r90 smooth: the shadow is a picture blurred offline");
+  assert.ok(!/\.card::before \{[^}]*filter:/.test(ig),"no live blur filter on the card");
   assert.ok(!/\.card \.face \{[^}]*filter:/.test(ig),"no blur on the face the sheen sweeps");
   assert.match(ig,/artReady\.then\(\(\)=>\{ if\(EMBED\) toGame\("cms-ig-ready"/,"ready only after the art is decoded");
 });
@@ -144,9 +145,11 @@ ok("R90-PS10 hunt M6/M17: Prime Pack renders on change only and follows Settings
   const ig=read("visual-assets/v10_1/icon-guess/index.html");
   assert.match(ig,/function frame\(\)\{ tickDriver\(\); const k=frameNeeds\(now\(\)\); if\(k!==frameKey\)\{ frameKey=k; render\(\); \}/,"no full render on every frame");
   assert.match(ig,/if\(S\.revealEndsAt!==null && t<S\.revealEndsAt\) return "a"\+t;/,"reveals and the opening still move every frame");
-  assert.match(ig,/const step = document\.documentElement\.dataset\.gfx==="0" \? 1000 : 250;/,"ring steps 250 ms, 1 s at Light");
-  assert.match(ig,/\.ring \.left \{[^}]*transition: stroke-dashoffset 250ms linear;/,"CSS fills the ring between steps");
-  assert.match(ig,/html\.rm \.ring \.left \{ transition: none; \}\n@media \(prefers-reduced-motion: reduce\) \{ \.ring \.left \{ transition: none; \} \}/,"Codex P2 #1285: Reduce Motion steps the ring, no glide");
+  // r90 Prime Pack smooth (Nik 2026-11-08 "smooth 2D"): the ring steps every 200 ms with no stroke transition (it repainted the
+  // ring on every frame), on its own layer; Reduce Motion has nothing left to stop
+  assert.match(ig,/const step = 200;/,"ring steps every 200 ms at every level");
+  assert.ok(!/stroke-dashoffset [0-9]+ms/.test(ig),"no stroke transition");
+  assert.match(ig,/\.ring \{ will-change: transform; \}/,"the ring is its own layer");
   assert.match(ig,/window\.parent\.document\.documentElement\.dataset\.gfx|p\.dataset\.gfx/,"reads the game page's level");
   assert.match(ig,/attributeFilter:\["data-gfx"\]/,"follows a new pick live");
   assert.match(ig,/html\[data-gfx="0"\] \.card \.face::after \{ animation: none; display: none; \}/,"Light: no looping sheen");
