@@ -42,7 +42,7 @@ ok("F8-06 sound unlocks on the end of a touch too, and a refused resume is ignor
 });
 
 ok("F8-07 every shader compiles during the loading screen",()=>{
-  assert.match(page,/buildEnv\(\); try\{ renderer\.compile\(scene,camera\); \}catch\(e\)\{\}[^\n]*startPlayer\(0\);/);
+  assert.match(page,/buildEnv\(\); lightMetals\(\); busy\(\);\n[^\n]*\n  try\{ if\(renderer\.compileAsync\) await renderer\.compileAsync\(scene,camera\); else renderer\.compile\(scene,camera\); \}catch\(e\)\{ try\{ renderer\.compile\(scene,camera\); \}catch\(_e\)\{\} \}[^\n]*startPlayer\(0\);/);
 });
 
 ok("F8-11 Replay drops the last run's pending cues",()=>{
@@ -55,7 +55,7 @@ ok("R90-PS1 no beat redraws or re-uploads a card face: every face, coin and flag
   assert.ok(!/(?:front|back|coinTex|f\.tex)\.tx\.needsUpdate=true/.test(page),"no per-beat canvas re-upload");
   assert.ok(!/drawCard(?:Back|Front)\(back\.ctx|drawCardFront\(front\.ctx|drawScoutBack\(back\.ctx/.test(page),"the card is never redrawn mid-reveal");
   assert.match(page,/function prepareCards\(\)\{[\s\S]*renderer\.initTexture\(tx\)/,"prepared faces are uploaded up front");
-  assert.match(page,/resize\(\); prepareCards\(\); buildEnv\(\);[^\n]*warmTextures\(\); warmDraw\(\);[^\n]*startGfx\(\); startPlayer\(0\);/,"prepared and warmed before the first frame the game shows");
+  assert.match(page,/resize\(\); prepareCards\(\); buildEnv\(\);[\s\S]{0,400}?warmTextures\(\); warmDraw\(\);[^\n]*startGfx\(\); startPlayer\(0\);/,"prepared and warmed before the first frame the game shows");
   for(const beat of ["pos","nat","club"])assert.match(page,new RegExp(`at\\(tt,[0-9.]+,"${beat}",\\(\\)=>\\{ clueMaps\\(`),`${beat} clue only swaps a texture`);
 });
 ok("R90-PS2 the baked soft stadium photos replace the full-size ones, and only the two shown card tiers are fetched",()=>{
@@ -130,7 +130,7 @@ ok("R90-PS8 hunt L05/L06: the light pillar rises behind the pack, softer on port
 ok("R90-PS9 hunt M3/M4/M5/M8: wall-clock timeline, bloom by level, 4x MSAA above 1080p, self-hosted faces",()=>{
   assert.match(page,/if\(phase==="run"\) vtt\+=wdt\*sc;/,"M3: beats, cues and delays keep their length on slow frames");
   assert.ok(!/vtt\+=dt\*/.test(page),"M3: the timeline never runs on the clamped frame step");
-  assert.match(page,/const BLOOM=!\(GP&&GP\.bloom===false\), BLOOM_D=GL_LVL<=1\?4:2;/,"M4: off at Light, half-size mips at Balanced");
+  assert.match(page,/const BLOOM=!DIRECT&&!\(GP&&GP\.bloom===false\), BLOOM_D=GL_LVL<=1\?4:2;/,"M4: off at Light, half-size mips at Balanced");
   assert.match(page,/if\(BLOOM\)\{ brightMat\.uniforms\.tex\.value=sceneRT\.texture; pass\(brightMat,mipA\[0\]\);/,"M4: Light skips the bright and blur passes");
   assert.match(page,/if\(bloomOn>\.5\) b=[^;]*; else b=max\(c-vec3\(\.8\),vec3\(0\.\)\)\*1\.6;/,"M4: Light keeps a cheap in-place glow");
   assert.match(page,/fitSamples\(pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\):GQ\.samples\)/,"M5: 8x only up to 1080p, 4x above");
@@ -162,12 +162,34 @@ ok("R90-PS11 LOOK round 2 L31/L05/L32: the reveal stays a night stadium, calmer 
   assert.match(page,/rays\.scale\.setScalar\(3\.5\+charge\*2\.5\)/,"L31: the charge halo stays round the pack");
   assert.ok(!/flagMounts|setFlagTex|const flags=/.test(page),"L31 round 2: no giant roof flags");
   assert.match(page,/const CALM=\.55;/,"L31: about half the paper and sparks, same beats");
-  assert.match(page,/burst\(CARD_POS\.clone\(\)\.add\(new T\.Vector3\(0,0,\.3\)\),\[0xf1c35a,0xffd77a,0xfff1c2\],Math\.round\(240\*pw\*CALM\)/,"L31 round 2: one short gold burst at the flash");
+  assert.match(page,/burst\(CARD_POS\.clone\(\)\.add\(new T\.Vector3\(0,0,\.3\)\),\[0xf1c35a,0xffd77a,0xfff1c2\],Math\.round\(120\*pw\*CALM\)/,"L31 round 2/L40 round 3: one short gold burst at the flash, half as many sparks");
   assert.match(page,/confettiCannon\(1,cc,Math\.round\(200\*pw\*CALM\)\)/,"the club beat keeps its (calmer) cannons");
   assert.ok(!/380\*pw|function fountain|\[0x3355ff,0xf1c35a/.test(page),"no flash rain, floor fountains or blue firework mix");
   assert.ok(!/beamMat|const beams=/.test(page),"L05 round 2: no signature beams at any level");
-  assert.match(page,/Math\.sin\(gs\*Math\.PI\)\*8\*pw\*\(camera\.aspect<1\?\.6:1\)/,"L31: a smaller flash glow on portrait");
+  assert.match(page,/Math\.sin\(gs\*Math\.PI\)\*4\.5\*pw\*\(camera\.aspect<1\?\.6:1\)/,"L31 round 3: a smaller flash glow, smaller still on portrait");
   assert.match(page,/if\(rest>0\)\{ const k=Math\.max\(\.7,1-rest\/\(PACK_H\*\.95\)\); pack\.scale\.multiplyScalar\(k\);/,"L32: a smaller pack where lowering alone leaves its top under the title");
+});
+
+ok("R90-PS12 LOOK round 3 L40/L31/L06/L32 + the Light rule: foil burst, gold flash, darker warm night, the drop under the title; Light draws straight to the canvas",()=>{
+  assert.ok(!/BoxGeometry\(\.16,PACK_H\+\.1,PACK_D\+\.08\)/.test(page),"L40: no side struts (the brown planks)");
+  assert.match(page,/new T\.Mesh\(new T\.BoxGeometry\(qw,qh,PACK_D\),foilEdge\)/,"L40: quarters edged in gold foil, not black blocks");
+  assert.match(page,/for\(let k=0;k<6;k\+\+\)\{ const cg=new T\.BoxGeometry\(\.24,\.17,\.025\)[^\n]*new T\.Mesh\(cg,packFace\)/,"L40: six thin chips cut from the pack art");
+  assert.match(page,/\+star\*\.22\)\*vA;/,"L40: soft sparks, not white four-point stars");
+  assert.ok(!/\[0xffd77a,0xffffff,0xffc457\]|\[0xffffff,tc\]|\[0xffffff,0xffd77a\]/.test(page),"L40: no white spark mixes");
+  assert.match(page,/glow\.material\.color\.copy\(Lc\(0xffd27a\)\);/,"L31: the flash glow is gold, not the tier colour");
+  assert.match(page,/const cc=\[0xf1c35a,0xfff3c4,0xffd77a,0xc9932e\];/,"L31: gold and cream paper only");
+  assert.match(page,/aura\.scale\.setScalar\(Math\.min\(5\.2,/,"L31: the tier aura is capped");
+  assert.match(page,/c=mix\(vec3\(l\),c,\.12\)\*vec3\(\.03,\.031,\.04\);/,"L06: a darker, warmer night grade");
+  assert.ok(!/pyro smoke|function puff/.test(page),"dead smoke sprites removed");
+  assert.match(page,/boards\.children\.forEach\(\(g,i\)=>\{ g\.visible=bk>=1\|\|i===4; \}\)/,"L06: one whole hoarding on a narrow screen");
+  assert.match(page,/if\(now>bandTop\)\{ pack\.position\.y-=\(now-bandTop\)/,"L32: the falling pack stays under the title too");
+  assert.match(page,/const DIRECT=Boolean\(GP&&GP\.level===0\);/,"Light: straight to the canvas");
+  assert.match(page,/if\(DIRECT\)\{ renderer\.toneMappingExposure=\.9\*\(1\+flash\*\.2\); renderer\.setRenderTarget\(null\); renderer\.render\(scene,camera\); return; \}/,"Light: one pass, no target");
+  assert.match(page,/renderer\.toneMapping=T\.CustomToneMapping; renderer\.toneMappingExposure=\.9;/,"Light: the composite's film curve in each material");
+  assert.match(page,/if\(!DIRECT\) scene\.add\(packLight\);/,"Light: one key light and the sky light");
+  assert.match(page,/function setEnv\(\)\{ if\(DIRECT\)\{ scene\.environment=null; return; \}/,"Light: no PMREM at runtime");
+  assert.match(page,/const CardMat=DIRECT\?T\.MeshStandardMaterial:T\.MeshPhysicalMaterial/,"Light: the card shares the pack's program");
+  assert.equal((page.match(/#include <tonemapping_fragment>/g)||[]).length,3,"the three custom shaders follow the renderer's tone mapping");
 });
 
 console.log(`PASS r87 Special Player pack (Fable job 8) contracts: ${n} checks.`);
