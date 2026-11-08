@@ -1196,7 +1196,7 @@
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) > * { flex: 1 0 100%; min-width: 0; }
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsAudioRow:not(.settingsGfxRow) { flex: 1 1 0; }
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow { flex: 0 0 auto; margin-top: auto; gap: 12px; }
-  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small { display: none; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small:not(.settingsGfxAuto) { display: none; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect {
   flex: 0 0 auto; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 30px 0 12px; border: 1px solid rgba(219, 178, 94, .55); border-radius: 0;
@@ -1211,6 +1211,9 @@
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect option { background: #15120c; color: #f5f1e8; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:disabled { opacity: .6; cursor: default; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
+/* r90: what Auto chose on this device, one quiet line under 3D QUALITY (Settings only, never on a game screen). */
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxAuto { display: block; color: rgba(245, 241, 232, .62); }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxAuto[hidden] { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionChoice, .settingsAudioToggle) {
     transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out);

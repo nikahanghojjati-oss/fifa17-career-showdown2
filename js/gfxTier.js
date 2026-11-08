@@ -162,7 +162,10 @@
     const v=String(level),a=assets===undefined?null:String(assets);
     for(const w of [root,gfxParent()]){try{const el=w&&w.document&&w.document.documentElement;if(!el||!el.dataset)continue;
       if(el.dataset.gfx!==v)el.dataset.gfx=v;if(a!==null&&el.dataset.assets!==a)el.dataset.assets=a;}catch(_error){}}
+    // Settings listens for this to keep its "Auto picked ..." line true when a 3D screen's calibration moves the level.
+    if(v!==lastMark){lastMark=v;try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-level",{detail:{level}}));}catch(_error){}}
   }
+  let lastMark=null;
   function gfxParent(){try{return root.parent&&root.parent!==root&&root.parent.document?root.parent:null;}catch(_error){return null;}}
   function gfxRemark(){try{const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);}catch(_error){}}
   function gfxSetLevel(level){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice});
@@ -373,7 +376,9 @@
     profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.
-    suggested(){const p=gfxProfile();return {level:p.autoLevel,name:NAMES[p.autoLevel],measured:Boolean(p.measured)};},
+    // On Auto, "now" is the level Auto is actually running (after this session's calibration or a crash fallback).
+    suggested(){const p=gfxProfile(),now=p.auto?p.level:p.autoLevel;return {level:p.autoLevel,name:NAMES[p.autoLevel],measured:Boolean(p.measured),
+      now,nowName:NAMES[now],lowered:Boolean(p.auto&&p.fellBack)};},
     // Device check: what this device is taken for before any check (phone or computer, GPU, the level Auto starts at).
     device(){const p=gfxProfile();return {phone:Boolean(p.phone),gpu:p.gpu,software:Boolean(p.software),strongPhone:Boolean(p.strongPhone),
       guessLevel:p.guessLevel,guessName:NAMES[p.guessLevel],can8k:Boolean(p.can8k),dpr:p.dpr};},
