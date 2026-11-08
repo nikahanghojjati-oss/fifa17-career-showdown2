@@ -297,7 +297,8 @@ function g8(){
   gl.status=()=>R.bound&&R.bound.samples===0?7:0;const t={samples:8,dispose(){}};
   assert.equal(s.G.checkTarget(R,t),true);assert.equal(t.samples,0,'an incomplete target steps 8 -> 4 -> 0');
   const scene=fs.readFileSync(path.join(ROOT,'js/chamberMenScene3d.js'),'utf8');
-  assert.ok(scene.includes('samples:G?.samples?G.samples(renderer,phone?0:4,true):0')&&scene.includes('if(snap.samples&&G?.checkTarget)G.checkTarget(renderer,snap);'),'the Chamber Men dissolve uses the shared helper');
+  // r90 Light: the Chamber Men dissolve copies the screen (no render target, so no MSAA to pick); the helper serves the others.
+  assert.ok(scene.includes('renderer.copyFramebufferToTexture(snap)')&&!scene.includes('HalfFloatType,samples'),'the Chamber Men dissolve copies the screen');
   ok('G8','8K: picked only, capable GPU, never phone/software, 7680x4320 cap, falls back to Ultra and says so; shared MSAA helper');
 }
 function g9(){
