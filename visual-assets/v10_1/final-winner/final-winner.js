@@ -196,9 +196,7 @@
 
   // JOB-183 pack-rip ceremony. All timings are constants; transform/opacity/canvas only.
   const RIP = {
-    anticipateMs: 400,     // screen dims, drum-roll pulse on the trophy glow
-    flashAtMs: 400,        // white-gold flash
-    flashMs: 220,
+    anticipateMs: 400,     // drum-roll pulse on the trophy glow (r90 M7: no dimming, no flash, light and motion only)
     burstAtMs: 300,        // confetti burst (kit sdBurst, hard cap 60)
     burstCount: 60,
     drawBurstCount: 30,    // draw: one smaller burst on each side
@@ -222,13 +220,6 @@
 
     root.classList.add("fwAnticipate");
     later(RIP.anticipateMs, () => root.classList.remove("fwAnticipate"));
-
-    const flash = document.createElement("span");
-    flash.className = "finalWinnerFlash";
-    flash.setAttribute("aria-hidden", "true");
-    root.appendChild(flash);
-    later(RIP.flashAtMs, () => flash.classList.add("is-flashing"));
-    later(RIP.flashAtMs + RIP.flashMs + 40, () => flash.remove());
 
     const canvas = document.createElement("canvas");
     canvas.className = "finalWinnerFx";
