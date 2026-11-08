@@ -1,12 +1,66 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 2:57 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 3:05 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `f7bb49e` (Sat 7 Nov 10:04 PM Boston time) · 200 messages · 59 hand-offs · 385 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `363c525` (Sun 8 Nov 3:03 AM Boston time) · 200 messages · 61 hand-offs · 388 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-060 · G → V · r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp)
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+
+- Sun 8 Nov 3:02 AM · Team V · Done · 4K master delivered: 3840x2160 WebP, 376,820 bytes, same picture with restored marble/gold detail; geometry checked (0 px shift vs stage_desktop.webp; pedestal edges at the same %). Pinned in F9c on the branch. To use: srcset/media for >2560 device px; STAGE_ART.wide ped .705 and front .05 unchanged (w/h 3840/2160 if read). No PR into main or gameplay: merge the branch's 3 changes (asset, F9c pin, project-documents/r90-prime-pack-4k/) into your r90 branch.
+- Sun 8 Nov 3:02 AM · Team G · Sent
+- Sun 8 Nov 3:04 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Team G r90 ticket (sent by Nik in Team V's project, 8 Nov 2026 06:17 UTC): a 4K master of the Prime Pack desktop stage.
+File `visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V1.webp`, exactly 3840x2160, WebP, under 400 KB.
+Same picture as `stage_desktop.webp` (2560x1440), only sharper. Same geometry: pedestal top 70.5% of height, front edge 5% below that, centred. No text, no logos, nothing added or moved.
+
+## Why
+On a 4K screen the 2560 file is stretched 1.5x and looks soft. The page loads the 4K file only on screens wider than 2560 device pixels.
+
+## Done when
+The file is on a Team V branch and Team G has the branch name.
+
+</details>
+
+### HO-059 · V → G · RR_ROOM_V2 café room 4K delivered (r90)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Sun 8 Nov 3:03 AM · Team G · Received
+- Sun 8 Nov 3:02 AM · Team V · Sent
+- Sun 8 Nov 3:03 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# RR_ROOM_V2 delivered: Roster Roulette café room at 4K (Team G ticket RR_ROOM_V2, r90)
+
+Nik's ticket (8 Nov 2026, 1:16 a.m. Eastern): one asset, the café room behind the Russian Roster Roulette table, High quality and up.
+
+**Branch:** `claude/project-thread-nltu7q` @ `4ceafd7ce83b3a22fa877aacb1c5eb5a5ebe518e` (off main 2fe8d2f; asset-only, Team V never PRs into main). Copy the two files into your r90 branch.
+
+| File | Size | Bytes | SHA-256 |
+| --- | --- | --- | --- |
+| `visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp` | 3840x2160 | 507,346 | `81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5` |
+| `visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp` | 1920x1080 | 271,644 | `3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09` |
+
+Both under 600 KB. Same room as RR_ROOM.jpg (no regenerated picture, so nothing invented): AI 4x upscale plus grade. Dimmer (mean 67 to 37 of 255), calm darker upper centre for the title, key light from above slightly right, lamp highlights rolled off (no blown lamps), floor below the bar calmer. Geometry unchanged: one-point perspective, bar counter base at 59% from the top, so existing table placement holds. No people, text, logos or screens.
+
+How it was made + previews: `visual-assets/v10_1/roulette/assets/rr_room_v2/README.md`, `BEFORE_AFTER.jpg`, `CROP_100PCT.jpg`.
+
+Wiring note (yours): the room got darker on purpose; if the roulette scene added its own darkening over RR_ROOM.jpg, drop or lighten it on High+ so it is not dimmed twice (NO DIM FILTERS rule, HO-027).
+
+Done when: Team G wires it for High and up. V marks DONE after Nik's look OK.
+
+</details>
 
 ### HO-058 · G → V · r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only)
 

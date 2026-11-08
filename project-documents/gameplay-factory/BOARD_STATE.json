@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08 2:57 AM Boston time (EST)",
+ "generated": "2026-11-08 3:05 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 200,
@@ -1823,8 +1823,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "f7bb49e",
-  "head_boston": "Sat 7 Nov 10:04 PM",
+  "head": "363c525",
+  "head_boston": "Sun 8 Nov 3:03 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2648,7 +2648,33 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 293
+    "waiting_min": 301
+   },
+   {
+    "id": "HO-059",
+    "from": "V",
+    "to": "G",
+    "title": "RR_ROOM_V2 café room 4K delivered (r90)",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-059_rr-room-v2-caf-room-4k-delivered-r90.md",
+    "worker": "images",
+    "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-060",
+    "from": "G",
+    "to": "V",
+    "title": "r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp)",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-060_r90-prime-pack-desktop-stage-4k-master-s.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -2720,7 +2746,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
