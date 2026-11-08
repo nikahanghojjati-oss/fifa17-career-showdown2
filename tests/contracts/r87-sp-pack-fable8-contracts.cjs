@@ -146,6 +146,7 @@ ok("R90-PS10 hunt M6/M17: Prime Pack renders on change only and follows Settings
   assert.match(ig,/if\(S\.revealEndsAt!==null && t<S\.revealEndsAt\) return "a"\+t;/,"reveals and the opening still move every frame");
   assert.match(ig,/const step = document\.documentElement\.dataset\.gfx==="0" \? 1000 : 250;/,"ring steps 250 ms, 1 s at Light");
   assert.match(ig,/\.ring \.left \{[^}]*transition: stroke-dashoffset 250ms linear;/,"CSS fills the ring between steps");
+  assert.match(ig,/html\.rm \.ring \.left \{ transition: none; \}\n@media \(prefers-reduced-motion: reduce\) \{ \.ring \.left \{ transition: none; \} \}/,"Codex P2 #1285: Reduce Motion steps the ring, no glide");
   assert.match(ig,/window\.parent\.document\.documentElement\.dataset\.gfx|p\.dataset\.gfx/,"reads the game page's level");
   assert.match(ig,/attributeFilter:\["data-gfx"\]/,"follows a new pick live");
   assert.match(ig,/html\[data-gfx="0"\] \.card \.face::after \{ animation: none; display: none; \}/,"Light: no looping sheen");

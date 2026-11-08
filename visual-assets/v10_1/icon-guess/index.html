@@ -76,6 +76,8 @@ html.kb .packtitle { display: none; }
 .ring .track { stroke: rgba(255,240,200,.16); }
 .ring .left { stroke: var(--foil-2); stroke-linecap: round; transition: stroke-dashoffset 250ms linear; }
 html[data-gfx="0"] .ring .left { transition-duration: 1000ms; }
+html.rm .ring .left { transition: none; }
+@media (prefers-reduced-motion: reduce) { .ring .left { transition: none; } }
 .ring.low .left { stroke: #ff9a6a; }
 .ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 20px/1 var(--cond); color: var(--foil-1); }
 .pill { font: 700 16px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 8px 14px 7px; border-radius: 999px;
