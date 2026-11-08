@@ -51,14 +51,16 @@ body.turning .top { opacity: 0; }
 @keyframes shine { 0%, 55% { background-position: 130% 0; } 100% { background-position: -30% 0; } }
 @media (prefers-reduced-motion: reduce) { .title::after { animation: none; } }
 /* centre column: result line + button */
-.mid { position: absolute; left: 50%; top: 612px; transform: translateX(-50%); width: 440px; text-align: center; pointer-events: auto; }
+/* r90 LOOK L08: the words live in the bottom strip, above the panel, never over the revolver */
+.mid { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); transform: translateX(-50%); width: 440px; text-align: center; pointer-events: auto; }
 .result { min-height: 34px; display: grid; place-items: center; font: 800 20px/1.1 var(--disp); letter-spacing: .1em; text-transform: uppercase; color: #fff8e6; text-shadow: 0 2px 4px #000, 0 0 16px rgba(0,0,0,.8); white-space: normal; overflow-wrap: anywhere; text-wrap: balance; }
 /* Polish RR-2: never cut ("BANG! NACHO MONREAL IS RELEASE"): the line wraps to a second line, and a long name shrinks a step */
 .result.long { font-size: 17px; letter-spacing: .06em; }
 .result.bang { color: #ffd77a; }
 .result.safe { color: #d8f5c8; }
-.cta { margin-top: 10px; width: 360px; height: 52px; font: 800 19px/1 var(--disp); letter-spacing: .1em; text-transform: uppercase; color: #140e04; background: linear-gradient(180deg, #fff6d2, var(--gold) 55%, #c4943e); border: 0; box-shadow: 0 0 0 1px #000, inset 0 -2px 0 rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.5); cursor: pointer; white-space: nowrap; transition: filter .3s; }
-.cta.busy { cursor: default; letter-spacing: .2em; }
+.cta { margin-top: 10px; width: 360px; height: 52px; font: 800 19px/1 var(--disp); letter-spacing: .1em; text-transform: uppercase; color: #140e04; background: linear-gradient(180deg, #fff6d2, var(--gold) 55%, #c4943e); border: 0; box-shadow: 0 0 0 1px #000, inset 0 -2px 0 rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.5); cursor: pointer; white-space: nowrap; transition: filter .3s, opacity .25s, visibility .25s; }
+/* r90 LOOK L09: one status line; the gold button is there only when there is a tap (no dead button that repeats the line) */
+.cta:disabled { visibility: hidden; opacity: 0; }
 .cta:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
 /* bottom panel: 01 DANIEL + state / 02 NIK + state */
 .bottom { position: absolute; left: 40px; right: 40px; bottom: 24px; height: 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; background: linear-gradient(180deg, #17140e, #070605); border: 1px solid rgba(241,195,90,.9); padding: 0 16px; box-shadow: inset 0 1px 0 rgba(255,243,196,.25), 0 10px 30px rgba(0,0,0,.45); pointer-events: auto; }
@@ -80,7 +82,6 @@ body.game .tools { display: none; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .toast { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); background: rgba(8,7,6,.94); border: 1px solid var(--gold); padding: 10px 16px; font: 700 14px/1 var(--num); letter-spacing: .14em; text-transform: uppercase; opacity: 0; transition: opacity .3s; pointer-events: none; }
 .toast.on { opacity: 1; }
-@media (max-height: 760px) and (min-width: 900px) { .mid { top: auto; bottom: 120px; } }
 /* phone (upright, <= 900 px): chips top-left, gear top-right, title, scene, result, button, bottom tabs */
 @media (max-width: 899px) {
   .bar, .bottom { display: none; }
@@ -90,7 +91,7 @@ body.game .tools { display: none; }
   .top { top: calc(env(safe-area-inset-top, 0px) + 46px); }
   .badge { font-size: 11px; }
   .title { font-size: clamp(22px, 7.2vw, 30px); }
-  .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 77px); width: min(353px, calc(100vw - 40px)); }
+  .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 77px); width: min(353px, calc(100vw - 40px)); }
   .result { min-height: 24px; font-size: 16px; }
   .result.long { font-size: 14px; }
   .cta { width: 100%; height: 44px; font-size: 17px; margin-top: 6px; }
@@ -107,7 +108,7 @@ body.embed .bar, body.embed .pchips, body.embed .pgear, body.embed .phonebar { d
 body.embed .tools { display: flex; bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 12px); left: auto; right: max(12px, env(safe-area-inset-right, 0px)); transform: none; }
 body.embed .tools > :not(#sound) { display: none; }
 body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 16px); }
-body.embed .mid { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
+body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
 /* Polish RR-1: on a laptop the bottom panel is 24 + 72 px (+ border) tall, so the button stands clear above it */
 @media (min-width: 900px) { body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); } }
 /* phone portrait: the title starts below the sound switch (it covered the CAREER MODE SHOWDOWN 17 plate at 390px) */
@@ -588,7 +589,7 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
   gun.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); bake(gun,o=>o===crane||o===hammer);   /* r90: the gun moves, so it is out of the one static shadow; its contact shadow is the soft picture under it */
 }
 /* the gun lies on its right side on the felt: spin group turns on the world Y axis, inner tilts the gun flat */
-const spin=new T.Group(); spin.position.set(0,.751,.02); scene.add(spin);
+const spin=new T.Group(); spin.position.set(0,.751,.02); spin.rotation.y=-2; scene.add(spin);   /* r90 LOOK L08: it waits barrel to the back left, grip to the right, so the rest shot reads as a revolver (barrel, drum, grip), never a muzzle */
 const lie=new T.Group(); lie.rotation.set(0,0,-Math.PI/2); lie.position.y=.0135; spin.add(lie); lie.add(gun);
 const gunShadow=new T.Mesh(new T.PlaneGeometry(.33,.14),new T.MeshBasicMaterial({map:softTex([[0,"rgba(0,0,0,.55)"],[.5,"rgba(0,0,0,.25)"],[1,"rgba(0,0,0,0)"]]), transparent:true, depthWrite:false})); gunShadow.rotation.x=-Math.PI/2; gunShadow.position.set(0,.0008,.06); spin.add(gunShadow);
 
@@ -777,13 +778,19 @@ function slugAt(p,tgt,k){ return p.mz.clone().lerp(tgt,k); }
 function placeTracer(a,b,k0,k1){ const p0=a.clone().lerp(b,k0), p1=a.clone().lerp(b,k1); const len=p0.distanceTo(p1); tracer.visible=len>0.001; tracer.scale.set(1,len,1); tracer.position.copy(p0).add(p1).multiplyScalar(.5); tracer.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),p1.clone().sub(p0).normalize()); }
 
 /* ================= layout: desktop vs portrait phone ================= */
-const camRest=new T.Vector3(), lookRest=new T.Vector3(); let PH=false, fovRest=38, fovNow=38;
-function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspect=w/h; fovRest=PH?54:36; camera.fov=fovNow=fovRest; camera.updateProjectionMatrix();
+const camRest=new T.Vector3(), lookRest=new T.Vector3(); let PH=false, fovRest=38, fovIdle=38, fovNow=38, DRIFT=1;
+function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspect=w/h; fovRest=PH?54:36;
   /* r87 (Nik 2026-10-30): the easels stand clear of the table on every screen (no leg or ledge inside the rim, R .78 + rim), and
      the boards never move during a turn. Desktop: beside and behind the table. Phone: behind it, raised, legs to the floor. */
   const bx=PH?.5:1.1, by=PH?1.2:1.0, bz=PH?-1.05:-.45, yaw=PH?.3:.55, sc=PH?.8:.92;
   [["D",-1],["N",1]].forEach(([k,s])=>{ const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.12,-yaw*s,0); b.scale.setScalar(sc); });
-  if(PH){ camRest.set(0,1.8,2.75); lookRest.set(0,.92,-.1); } else { camRest.set(0,1.62,2.7); lookRest.set(0,.86,-.1); }
+  /* r90 LOOK L08 (the revolver is the scene): the rest shot opens low and close over the gun like a broadcast frame, the revolver over a quarter of
+     the width on any window shape, the boards standing behind it at the sides, and the gun sitting a little below the middle, clear of the words in
+     the bottom strip. A wide lens close in (fovIdle) keeps the gun large and the boards in the corners; the turn itself keeps its own lens (fovRest).
+     The distance comes from the lens and the window's shape; the same pose closes every turn */
+  fovIdle=PH?54:60; camera.fov=fovNow=fovIdle; camera.updateProjectionMatrix();
+  const tf=Math.tan(fovIdle*Math.PI/360), hh=tf*camera.aspect, d=Math.min(2.3,Math.max(.35,(PH?.42:.44)/hh)), el=PH?.6:.55, gy=PH?.08:.14;
+  const pitch=el-Math.atan(gy*2*tf); camRest.set(0,.751+d*Math.sin(el),.02+d*Math.cos(el)); lookRest.set(0,camRest.y-d*Math.sin(pitch),camRest.z-d*Math.cos(pitch)); DRIFT=d/2.8;
   /* r90: the resolution belongs to the quality level (js/gfxTier.js and its governor), never forced above the screen's own sharpness;
      a new layout moves the boards, so the one static shadow map is drawn again */
   renderer.setSize(w,h,false); renderer.shadowMap.needsUpdate=true; if(GOV) GOV.resize(); }
@@ -795,7 +802,8 @@ const ORDER=["D","N"]; const NAME={D:"Daniel",N:"Nik"};
 let turn=0, loaded=false, chamber=0, bulletAt=0, playing=null, done={D:null,N:null};
 let manual=null, last=0, fired={}, camPos=new T.Vector3(), camLook=new T.Vector3(), shake=0, camTmp=new T.Vector3();
 function slot(el,txt,cls){ el.textContent=txt; el.className=cls||""; }
-function setBusy(b){ cta.classList.toggle("busy",b); document.body.classList.toggle("turning",b); cta.textContent=b?"Spinning…":(turn%2===0&&turn>0?"Spin again":"Spin the cylinder"); }
+function setBusy(b){ document.body.classList.toggle("turning",b); if(b){ cta.disabled=true; return; } if(EMBED) return;   /* in the game embedLabel() brings the button back */
+  cta.disabled=false; cta.textContent=turn%2===0&&turn>0?"Spin again":"Spin the cylinder"; }
 /* red team R87-C-06: in the game both phones play the engine's own plan (js/rosterRoulette.js via the season step): the round
    sits in bulletChamber, the cylinder stops on stopChamber and the barrel points at hitSlot (a safe turn at aimSlot). Board
    slots 0-10 are the XI, 11-14 the subs. No random choice is left for anything both phones see. */
@@ -817,7 +825,7 @@ function startTurn(force,targetName,planned){ if(playing) return; const who=ORDE
   playing={ who, t0:now(), fire, target:pick, hitDone:false, yaw0:spin.rotation.y, cyl0:cyl.rotation.z, slide:new T.Vector3(), slideV:new T.Vector3(), spinV:0, frames }; fired={}; if(GOV) GOV.hold(true);   /* r90: the resolution never changes during a shot */
   /* where the barrel must point when it stops: at the target board, with a natural overshoot */
   const aim=boardAimWorld(who); const dir=aim.clone().sub(spin.position); playing.yawTarget=Math.atan2(dir.x,dir.z);
-  setBusy(true); result.className="result"; result.textContent=NAME[who]+"'s turn"; cta.textContent=NAME[who]+"'s turn…"; slot(who==="D"?slotD:slotN,"At the table","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
+  setBusy(true); result.className="result"; result.textContent=NAME[who]+"'s turn"; slot(who==="D"?slotD:slotN,"At the table","wait"); $("chipWho").textContent=NAME[who]; $("pchipWho").textContent=NAME[who];
   live.textContent=`${NAME[who]}'s turn. The revolver spins on the table.`; SFX.play("spinStart"); }
 function endTurn(){ const p=playing; if(!p) return; const who=p.who; if(p.fire){ done[who]={lost:p.target.name}; slot(who==="D"?slotD:slotN,"Lost "+((typeof GAME!=="undefined"&&GAME&&GAME.turns&&GAME.turns[turn]&&GAME.turns[turn].targetLabel)||p.target.name),"lost") /* Codex C2-01: number, position and overall tell namesakes apart */; } else { done[who]={safe:true}; slot(who==="D"?slotD:slotN,"Safe","safe"); }
   try{ window.dispatchEvent(new CustomEvent("rr:end",{detail:{who, name:NAME[who], fire:p.fire, lost:p.fire?p.target.name:null, turn}})); }catch(e){}
@@ -842,25 +850,25 @@ function liveWords(){ const k=(cyl&&cyl.userData&&Number.isInteger(cyl.userData.
 function cylTarget(){ return -chamber*(Math.PI*2/7); }
 function at(tt,t,k,fn){ if(tt>=t&&!fired[k]){ fired[k]=1; fn(); } }
 /* r89 (Nik 2026-11-04): every label on the screen names the action of the beat it is shown in, never one word for the whole turn. The status
-   line under the board, the gold button and the shooter's slot in the bottom strip all follow this one table (times are the turn's beats). The
+   line and the shooter's slot in the bottom strip follow this one table (r90 LOOK L09: the gold button is hidden for the whole turn) (times are the turn's beats). The
    "Bang! … is released." and "Click. … is safe." lines stay word for word: the game's observer reads them. */
 function say(w){ if(w.st!==undefined){ result.textContent=w.st; if(w.cls!==undefined) result.className="result"+(w.cls?" "+w.cls:""); }
-  if(w.cta!==undefined) cta.textContent=w.cta; if(w.slot!==undefined) slot(playing.who==="D"?slotD:slotN,w.slot,w.slotCls||"wait"); if(w.live!==undefined) live.textContent=w.live; }
+  if(w.slot!==undefined) slot(playing.who==="D"?slotD:slotN,w.slot,w.slotCls||"wait"); if(w.live!==undefined) live.textContent=w.live; }
 function beatWords(p){ const N=NAME[p.who], T=p.target.name, L=liveWords(), longName=T.length>14?" long":"";
   return [
-    [0,              "wStart",   {st:N+"'s turn", cls:"", cta:N+"'s turn…", slot:"At the table"}],
-    [B.spin,         "wSpin",    {st:"The revolver spins on the felt", cta:"Spinning…", slot:"Spinning…"}],
-    [B.spinEnd,      "wOut",     {st:"The cylinder swings out", cta:"Cylinder out…", slot:"Cylinder out"}],
-    [B.close+.4,     "mark",     {st:L.mark, cls:"", cta:"Spinning…", slot:"Spinning…"}],
-    [B.inside-2.0,   "slowing",  {st:"Slowing down…", cta:"Slowing…", slot:"Slowing"}],
-    [B.inside-.6,    "stopped",  {st:p.fire?L.fired:L.safe, cls:p.fire?"bang":"safe", cta:"Stopped", slot:"Stopped"}],
-    [B.inside+.42,   "wLocked",  {cta:"Cylinder locked", slot:"Locked in"}],
-    [B.hand,         "wHand",    {st:N+" takes the revolver", cls:"", cta:"Taking aim…", slot:"Takes aim"}],
-    [B.cock,         "wCock",    {st:"Hammer cocked", cta:"Hammer cocked", slot:"Hammer cocked"}],
-    [B.aim,          "wAim",     {st:N+" takes aim at the board", cls:"", cta:"Aiming…", slot:"Aims"}],   /* r90: names the board, never the player, until he is hit */
-    [B.fire,         "wFire",    p.fire?{st:"Bang!", cls:"bang", cta:"Shot fired", slot:"Fires!", slotCls:"lost"}:{st:`Click. ${N} is safe.`, cls:"safe", cta:"Click. Safe", slot:"Safe", slotCls:"safe", live:`Click. ${N} is safe.`}],
-    [B.impact,       "wImpact",  p.fire?{st:T+" is hit", cls:"bang"+longName, cta:"Hit!", slot:"Hits "+T, slotCls:"lost"}:{}],
-    [p.fire?B.impact+1.6:B.fire+.7, "line", p.fire?{st:`Bang! ${T} is released.`, cls:"bang"+longName, cta:"Released", slot:"Releases "+T, slotCls:"lost", live:`Bang! ${T} is released.`}:{}] ]
+    [0,              "wStart",   {st:N+"'s turn", cls:"", slot:"At the table"}],
+    [B.spin,         "wSpin",    {st:"The revolver spins on the felt", slot:"Spinning…"}],
+    [B.spinEnd,      "wOut",     {st:"The cylinder swings out", slot:"Cylinder out"}],
+    [B.close+.4,     "mark",     {st:L.mark, cls:"", slot:"Spinning…"}],
+    [B.inside-2.0,   "slowing",  {st:"Slowing down…", slot:"Slowing"}],
+    [B.inside-.6,    "stopped",  {st:p.fire?L.fired:L.safe, cls:p.fire?"bang":"safe", slot:"Stopped"}],
+    [B.inside+.42,   "wLocked",  {slot:"Locked in"}],
+    [B.hand,         "wHand",    {st:N+" takes the revolver", cls:"", slot:"Takes aim"}],
+    [B.cock,         "wCock",    {st:"Hammer cocked", slot:"Hammer cocked"}],
+    [B.aim,          "wAim",     {st:N+" takes aim at the board", cls:"", slot:"Aims"}],   /* r90: names the board, never the player, until he is hit */
+    [B.fire,         "wFire",    p.fire?{st:"Bang!", cls:"bang", slot:"Fires!", slotCls:"lost"}:{st:`Click. ${N} is safe.`, cls:"safe", slot:"Safe", slotCls:"safe", live:`Click. ${N} is safe.`}],
+    [B.impact,       "wImpact",  p.fire?{st:T+" is hit", cls:"bang"+longName, slot:"Hits "+T, slotCls:"lost"}:{}],
+    [p.fire?B.impact+1.6:B.fire+.7, "line", p.fire?{st:`Bang! ${T} is released.`, cls:"bang"+longName, slot:"Releases "+T, slotCls:"lost", live:`Bang! ${T} is released.`}:{}] ]
     /* reduced motion: no free spin and no run-down, so no "spinning", "cylinder out" or "slowing"; the live-round line (the game's observer reads it)
        opens the turn and the stop is read before the hand comes up */
     .filter(([t,k])=>!(REDUCED&&(k==="wSpin"||k==="wOut"||k==="slowing"))).map(([t,k,w])=>[REDUCED&&k==="mark"?B.spin:REDUCED&&k==="stopped"?B.close-.2:t,k,w]).sort((a,b)=>a[0]-b[0]); }
@@ -953,8 +961,8 @@ function fireShot(p,tgt){ const mz=new T.Vector3(); if(handHold){ camera.updateM
 function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); hitFlash.position.copy(tgt).addScaledVector(n,.02); hitFlash.material.opacity=.75; hitFlash.scale.set(.05,.05,1); hitLight.position.copy(tgt).addScaledVector(n,.12); hitLight.intensity=REDUCED?.6:1.1; spray(tgt,n,REDUCED?4:9,1.8); /* r89: a tight flash and a few sparks, so the hole and the stamp stay in sight through the hit (it used to white out the frame) */ /* r87: no board kick on the hit (Nik: the boards never move); the splinters, flash and hole carry the impact */ const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; if(p.frames&&p.frames.hit&&p.frames.i===i) showFrame(p.who,p.frames.hit,b.userData.hit); else drawBoard(p.who,b.userData.club); puff(tgt,n,5,.08,.5,1.3); }
 
 /* ================= camera ================= */
-function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new T.Vector3(Math.sin(t*.23)*.05,Math.sin(t*.31)*.02,Math.cos(t*.19)*.04);
-  let pos=camRest.clone().add(drift), look=lookRest.clone(), fov=fovRest;
+function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new T.Vector3(Math.sin(t*.23)*.05,Math.sin(t*.31)*.02,Math.cos(t*.19)*.04).multiplyScalar(DRIFT);   /* the idle sway keeps its size on the screen at the close rest shot */
+  let pos=camRest.clone().add(drift), look=lookRest.clone(), fov=p?fovRest:fovIdle;
   if(p){ const gw=spin.position.clone(); const who=p.who, sx=who==="D"?-1:1; const bw=boards[who].position.clone(); const tgt=boardTargetWorld(p.who,p.target);
     const topPos=PH?new T.Vector3(0,2.5,.22):new T.Vector3(0,2.25,.3), topLook=new T.Vector3(0,.75,.0);
     /* the close-up stands off the hammer side of the gun, low over the felt, telephoto */
@@ -976,7 +984,7 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12+ty*.35:-.16+ty*.05;
     const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=PH?44:34;
     const holdLook=tgt.clone().addScaledVector(bU,-.06), holdPos=holdLook.clone().addScaledVector(bn,PH?.56:.62), holdFov=PH?42:30;   /* the hit player rides high in the frame, above the result line */
-    if(tt<1){ const k=.5-.5*Math.cos(Math.PI*S(0,1,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); }   /* r89 polish: the rise to the top shot is a 1 s sine crane-up (peak 4 m/s) instead of a .6 s cubic whip (12 m/s) */
+    if(tt<1){ const k=.5-.5*Math.cos(Math.PI*S(0,1,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); fov=lerp(fovIdle,fovRest,k); }   /* r89 polish: the rise to the top shot is a 1 s sine crane-up (peak 4 m/s) instead of a .6 s cubic whip (12 m/s) */
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
     else if(tt<GL0){ /* look inside: the camera drops to the front of the cylinder and stares down the seven bores */
       const k=.5-.5*Math.cos(Math.PI*S(B.close,1,tt)); pos.lerpVectors(topPos,insidePos,k); look.lerpVectors(topLook,insideLook,k); fov=lerp(fovRest,insideFov,k); }   /* r89 polish: a 1 s sine dive to the drum (peak 2 m/s) instead of a .7 s cubic one (6 m/s); it arrives as the drum spins up */
@@ -995,8 +1003,8 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
       const k=ease.inOut(S(B.fire+.12,.7,tt)); const from=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(from,chasePos,k); look.lerpVectors(povLook,holdLook,k); fov=lerp(povFov-2,holdFov,k); }
     else if(p.fire){ /* the impact: the camera settles square on the hole (the stamp and the neighbours in frame), holds, then floats home */
       const dir=p.dir; const arrive=tgt.clone().addScaledVector(dir,-(PH?.56:.62)).add(new T.Vector3(0,.035,0)); const k1=ease.inOut(S(B.impact,1.4,tt)); const hp=arrive.clone().lerp(holdPos,k1), hl=holdLook;
-      const k2=.5-.5*Math.cos(Math.PI*S(B.impact+2.2,B.end-B.impact-2.4,tt)); pos.lerpVectors(hp,camRest.clone().add(drift),k2);   /* r89 polish: the float home is a sine ease (half the peak speed of the cubic) */ look.lerpVectors(hl,lookRest,k2); fov=lerp(holdFov,fovRest,k2); }
-    else { const k2=.5-.5*Math.cos(Math.PI*S(B.fire+1.2,B.end-B.fire-1.4,tt)); const pp=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(povLook,lookRest,k2); fov=lerp(povFov-2,fovRest,k2); }
+      const k2=.5-.5*Math.cos(Math.PI*S(B.impact+2.2,B.end-B.impact-2.4,tt)); pos.lerpVectors(hp,camRest.clone().add(drift),k2);   /* r89 polish: the float home is a sine ease (half the peak speed of the cubic) */ look.lerpVectors(hl,lookRest,k2); fov=lerp(holdFov,fovIdle,k2); }
+    else { const k2=.5-.5*Math.cos(Math.PI*S(B.fire+1.2,B.end-B.fire-1.4,tt)); const pp=povPos.clone().addScaledVector(away,-.1); pos.lerpVectors(pp,camRest.clone().add(drift),k2); look.lerpVectors(povLook,lookRest,k2); fov=lerp(povFov-2,fovIdle,k2); }
     gunInHand(); }
   else { gunInHand(); closeKey.intensity=lerp(closeKey.intensity,0,Math.min(1,dt*6)); }
   /* r89 (Nik 2026-11-03: "camera movement throughout RRR should look consistent"): the follow is exponential in time, so the glide is the same at 30, 60 or 120 frames
@@ -1118,7 +1126,7 @@ const EMBED=qs.get("embed")==="1"; let GAME=null;
 function chamberCaption(g){ const t=g&&Array.isArray(g.turns)?g.turns:[]; if(t.length!==2||!t.every(x=>x&&Array.isArray(x.loadedChambers))) return "";
   const word=k=>k===1?"1 bullet":k+" bullets"; return "Daniel "+word(t[0].loadedChambers.length)+" · Nik "+word(t[1].loadedChambers.length)+" · Seven chambers"; }
 const toGame=(type,extra)=>{ try{ parent.postMessage(Object.assign({type},extra||{}),location.origin); }catch(e){} };
-function embedLabel(){ if(!GAME||playing) return; cta.disabled=false; cta.classList.remove("busy"); cta.textContent=turn<2?(NAME[ORDER[turn%2]]+" spins"):"Continue"; }
+function embedLabel(){ if(!GAME||playing) return; cta.disabled=false; cta.textContent=turn<2?(NAME[ORDER[turn%2]]+" spins"):"Continue"; }
 if(EMBED){ document.body.classList.add("embed");
   addEventListener("message",e=>{ if(e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-rr-setup"||GAME) return; const g=e.data;
     /* red team RT5-FLOW-01: a page that cannot take the setup (its squads file failed, or a bad message) tells the game at
@@ -1146,7 +1154,7 @@ window.__rr={ get cylZ(){ return cyl.rotation.z; }, get kits(){ return !!KITS; }
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
 Promise.all([fontsReady,loadAssets()]).then(async()=>{ layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
-  camPos.copy(camRest); camLook.copy(lookRest); last=now(); if(EMBED){ cta.disabled=true; cta.textContent="Loading…"; }
+  camPos.copy(camRest); camLook.copy(lookRest); last=now(); if(EMBED) cta.disabled=true;
   await warmUp(); last=now();
   GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights 2pt+1spot"}; });
   window.__rrReady=true; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
