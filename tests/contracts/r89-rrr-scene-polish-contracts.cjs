@@ -14,6 +14,7 @@
 //   P5 frame rate (r90): one static shadow map, no bloom chain, standard materials, two point lights, no marble hall, quality and governor from
 //      js/gfxTier.js (held during a turn), shaders and textures warmed before ready, baked props, the hit frame uploaded before the spin;
 //   P7 no spoiler (r90): until the hit nothing names or points out the target;
+//   P9 (r90 LOOK L08/L09) close rest shot on the revolver, words in the bottom strip, the gold button only when there is a tap;
 //   P6 (real scene, software WebGL) one fired turn stepped on the scene's own clock: the camera never cuts (every tick's step is small),
 //      from the crane shut to the shot its speed has one peak and then only falls, it is still creeping at the shot, and the drum stops on
 //      the planned chamber. CMS_RRR_SCENE_SKIP_BROWSER=1 skips P6 (no Chromium).
@@ -141,6 +142,21 @@ has(/const tx=0, ty=0, hs=who==="D"\?-1:1;/,'the shooter\'s view frames the boar
   const before=w.slice(0,w.indexOf('"wImpact"'));
   assert.ok(!/\bT\b(?!\.length)/.test(before.replace(/const N=NAME\[p\.who\], T=p\.target\.name/,'')),'no beat before the impact uses the target name'); }
 ok('P7','until the hit no line, board look, barrel, hand or camera names or points out the target');
+
+// P9 (r90 LOOK L08/L09): the rest shot opens close on the revolver with the words in the bottom strip, and the gold button shows only
+// when there is a tap (one status line during the turn, no dead button repeating it).
+has(/\.mid \{ position: absolute; left: 50%; bottom: calc\(env\(safe-area-inset-bottom, 0px\) \+ 110px\);/,'the status line and button in the bottom strip on a laptop');
+lacks(/\.mid \{[^}]*top: 612px/,'the old status line in the middle of the screen, over the gun');
+has(/\.cta:disabled \{ visibility: hidden; opacity: 0; \}/,'a button that cannot be tapped is not shown');
+has(/function setBusy\(b\)\{ document\.body\.classList\.toggle\("turning",b\); if\(b\)\{ cta\.disabled=true; return; \}/,'the button is hidden for the whole turn');
+{ const w=html.slice(html.indexOf('function beatWords(p)'),html.indexOf('.filter(([t,k])=>!(REDUCED'));
+  assert.ok(!/\bcta:/.test(w),'no beat writes the button: the status line is said once'); }
+lacks(/cta\.textContent=NAME\[who\]\+"'s turn…"/,'the button repeating the status line');
+has(/fovIdle=PH\?54:60;/,'the rest shot has its own wide lens close in');
+has(/d=Math\.min\(2\.3,Math\.max\(\.35,\(PH\?\.42:\.44\)\/hh\)\)/,'its distance comes from the lens and the window shape, so the gun keeps its share of the width');
+has(/fov=lerp\(fovIdle,fovRest,k\); \}/,'the turn eases from the rest lens to its own lens on the crane up');
+has(/spin\.rotation\.y=-2;/,'the revolver waits turned so barrel, drum and grip read');
+ok('P9','the rest shot opens close on the revolver, words only in the bottom strip, the gold button only when there is a tap');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}
