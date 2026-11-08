@@ -215,7 +215,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(set.includes('const SETTINGS_GFX_CHOICES = [["auto", "Auto"], ["light", "Light"], ["medium", "Balanced"], ["high", "High"], ["extra", "Extra"], ["ultra", "Ultra (4K)"]];'),'the six choices, in order, in Nik\'s names');
     assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if((can8k || tier.choice() === "8k") && !select.querySelector("option[value=\\"8k\\"]")){'),'8K is added only where the GPU can hold it');
     // r90 (Nik 2026-11-08): what Auto chose is one quiet line under 3D QUALITY, read from the saved state (Device check, crash cap).
-    assert.ok(set.includes('if(!onAuto){ return `Auto would pick ${name} for this device.`; }')&&set.includes('`Auto measured ${name} on this device.` : `Auto picked ${name} for this device.`'),'Auto names what it picked (or measured) here');
+    assert.ok(set.includes('if(!onAuto){ return `Auto would pick ${name} for your screen and graphics.`; }')&&set.includes('`Auto measured ${name} on your screen and graphics.` : `Auto picked ${name} for your screen and graphics.`'),'Auto names what it picked (or measured) here');
     assert.ok(set.includes('window.addEventListener("cms-gfx-level", onLevel);')&&SRC.includes('new root.CustomEvent("cms-gfx-level"'),'the line follows a level change while Settings is open');
     assert.ok(/settingsGfxAuto \{ display: block;/.test(css),'the line shows at every width');
     assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');
