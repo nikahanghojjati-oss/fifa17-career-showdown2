@@ -823,9 +823,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
     "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
     // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
-    "visual-assets/v10_1/chamber-men/assets/board_chamber_men.webp":"99011e7b3adc93b68847f8389da8db5014ab69b7a6ff0b4af3197768edf3c324",
-    "visual-assets/v10_1/chamber-men/assets/board_chevrons.webp":"f6582dca55edc2b26c22d5e88cafc9a7406092d1817dc19e42044a8332a3f1d9",
-    "visual-assets/v10_1/chamber-men/assets/board_cms.webp":"1b2ae9f26d97bef8df6aeef6b13bf7a375bf787db8e7174f537b276614b5886c",
     "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
     "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
     "visual-assets/v10_1/chamber-men/assets/crowd_atlas_2k.webp":"5aee1df9df63e7a0b41cedc2afc6c1ecb4f0f205628161b6b4ac473b20e4f7c4",
@@ -868,9 +865,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/chamber-men/players/uv/uv_remy_Body.webp":"ba8ca7f33938ff0a8fdee3dcddc59d0d428766b847c64cafe77792760f090451",
 };
 const V10_UNVERSIONED_FIRST_GENERATION=new Set([
-  "visual-assets/v10_1/chamber-men/assets/board_chamber_men.webp",
-  "visual-assets/v10_1/chamber-men/assets/board_chevrons.webp",
-  "visual-assets/v10_1/chamber-men/assets/board_cms.webp",
   "visual-assets/v10_1/chamber-men/assets/concrete_512.webp",
   "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp",
   "visual-assets/v10_1/chamber-men/assets/crowd_atlas_2k.webp",

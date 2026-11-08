@@ -18,7 +18,7 @@ What it builds (about 50-60 draw calls, ~60k triangles, 16k fans desktop / 11k p
 - goal: 12 cm round posts and bar (white like FIFA 17, or gold), curved box stanchions 2.2 m deep, knotted 12 cm net (sides,
   roof, back) that bulges; far goal frame;
 - pitch: tiling grass with mown stripes and wear at the spot and six-yard box (shader), every chalk line of a 105 x 68 pitch;
-- LED ad boards on all four sides (CHAMBER MEN, CMS, chevrons), scrolling slowly, merged into a few draws;
+- LED ad boards on all four sides, drawn at run time (CM17 wordmark, both clubs' crests and names, a gold pattern), merged into a few draws;
 - stands: a two-tier home end behind the goal, long single-tier side stands, an away end, roofs with floodlight panels and
   glare; black and gold seats; a night sky dome with floodlight haze;
 - crowd: one instanced draw; each fan is a card from the atlas, shirts tinted to the home colour (away colour at the far end),
