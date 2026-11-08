@@ -392,6 +392,8 @@ function g12(){
   const other=sandbox({gpu:'Apple GPU',memory:8,cores:8,storage:{'careerModeShowdown.gfxGpu.v1':JSON.stringify(kept)}});
   assert.deepEqual([other.G.profile().gpu,other.counts.canvas],['Apple GPU',1],'another browser probes again');
   const src=fs.readFileSync(path.join(__dirname,'../../js/gfxTier.js'),'utf8');
-  assert.ok(src.includes('(()=>gfxRemark(),{timeout:10000})'),'the first probe waits for a truly idle moment');
-  ok('G12','the GPU probe runs once per browser (kept answer, same Auto pick); the first one waits for an idle moment');
+  assert.ok(src.includes('const gfxIdle=f=>(root.requestIdleCallback||(g=>root.setTimeout(g,200)))(f,{timeout:10000});'),'the first probe waits for a truly idle moment');
+  // M32: with no kept answer it also waits for the loading screen to hand over to Home (bounded at 30 s).
+  assert.ok(src.includes('if(gfxKept())gfxIdle(()=>gfxRemark());')&&src.includes('if(gfxHandedOver()||++n>120)gfxIdle(()=>gfxRemark());else root.setTimeout(wait,250);')&&src.includes('return !root.careerModeHomeHold&&(!el||el.hidden||el.classList?.contains("hidden"));'),'M32: the first probe never runs under the loading screen');
+  ok('G12','the GPU probe runs once per browser (kept answer, same Auto pick); the first one waits for the loading screen to go and an idle moment');
 }

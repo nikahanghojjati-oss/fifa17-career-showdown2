@@ -82,7 +82,9 @@ async function start(browser,base,{reducedMotion="no-preference",delay=true,stub
   return {context,page,rec};
 }
 
-const CLUB_OPEN=`(async()=>{await window.ensureGameplayModules();await window.CareerModeClubScreenV10.install();
+// r90: Club Assignment's skin loads at idle after Home (js/ssjr.js afterHome); load it first, as CC3 does (#1294), so a
+// runner whose idle comes late (the 3D probe now also waits for idle after loading, #1311) never reaches install before it.
+const CLUB_OPEN=`(async()=>{await window.ensureGameplayModules();await window.loadRuntimeScript('v10-club','js/clubScreenV10.js',()=>Boolean(window.CareerModeClubScreenV10));await window.CareerModeClubScreenV10.install();
   currentShowdown={id:"reus-gate-club",name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},selectedLeague:{id:"premier_league",name:"Premier League"},clubs:{playerOne:null,playerTwo:null},totalRounds:3,status:"League Confirmed",rounds:[]};
   initializeClubAssignment();showScreen("clubWheelScreen");populateClubAssignmentBase();renderReadyAssignmentState();})()`;
 async function plateGate(browser,base,label,hostId,plate,open){
