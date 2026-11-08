@@ -229,7 +229,6 @@
   function cmsGoal(){
     const svg=cmsSvg("svg",{class:"cmGoal",viewBox:"0 0 300 160",role:"img","aria-label":"The goal: left, middle and right"});
     svg.innerHTML=CM_GOAL_ART;
-    for(const [side,x] of Object.entries(ZONE_X)){const t=cmsSvg("text",{class:"cmZone",x,y:153,"text-anchor":"middle"});t.textContent=SIDE_WORD[side];svg.append(t);}
     const keeper=cmsSvg("g",{class:"cmKeeper","data-pose":"ready"});keeper.innerHTML=CM_KEEPER_ART;
     const ball=cmsSvg("g",{class:"cmBall"});ball.innerHTML=CM_BALL_ART;
     svg.append(keeper,ball);

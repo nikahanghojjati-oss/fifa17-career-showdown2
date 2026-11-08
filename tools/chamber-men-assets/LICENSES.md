@@ -1,9 +1,10 @@
 # Chamber Men stadium kit: licences
 
 Every file in this folder is original work made for Career Mode Showdown by code in
-`tools/chamber-men-assets/` (numpy + Pillow; rebuild with `python3 build_all.py`). No third-party
-picture, model, scan or texture is used, so there is no outside licence to follow, and no real
-ball maker, league, club or sponsor mark appears anywhere.
+`tools/chamber-men-assets/` (numpy + Pillow; rebuild with `python3 build_all.py`), except the pitch grass (r90), which is
+TextureCan "Ground 0040" (https://texturecan.com/details/469), released under CC0 1.0 (public domain; no attribution
+required, credited here anyway), resized and converted by `gen_grass.py`. No real ball maker, league, club or sponsor mark
+appears anywhere.
 
 The ad-board lettering is set in Inter (SIL Open Font Licence 1.1). Only the rendered letters are
 baked into the boards; no font file ships here. The boards show only our own marks: CHAMBER MEN,
@@ -19,7 +20,7 @@ Crowd fans are simple drawn figures with no likeness of any real person.
 | crowd_atlas_2k.webp, crowd_atlas_1k.webp | 96 fans x 2 poses (arms down / up), 16 x 12 cards | gen_stadium.py |
 | crowd_tint_1k.webp | mask: where a fan's shirt takes the club colour | gen_stadium.py |
 | board_chamber_men.webp, board_cms.webp, board_chevrons.webp | LED ad boards | gen_stadium.py |
-| grass_color_1k.webp, grass_normal_1k.webp, grass_normal_512.webp | tiling grass (2 m a tile) | gen_stadium.py |
+| grass_color_V2_4k.webp, grass_color_V2_2k.webp, grass_color_V2_1k.webp, grass_normal_V2_2k.webp, grass_normal_V2_1k.webp, grass_normal_V2_512.webp | pitch grass, one size per device level (3.5 m a tile); TextureCan Ground 0040, CC0 | gen_grass.py |
 | net_cell_512.webp | one 12 cm knotted net cell, RGBA | gen_stadium.py |
 | seats_512.webp | one stand step: black and gold seats, riser | gen_stadium.py |
 | concrete_512.webp | stand concrete | gen_stadium.py |

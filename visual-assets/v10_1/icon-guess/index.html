@@ -90,6 +90,9 @@ html.rm .banner { animation: fade 220ms linear both; }
 /* ---------- the stage: Nik's PRIME PACK on the pedestal; on the stage clock it opens (his opening art) and fades out, then
    the card rises out of it (paintCard drives both: no flip, no flash) ---------- */
 .stagewrap { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+/* r90 pack smooth: the pack and the card are their own layers, so the open and the rise (opacity and transform, set from the
+   stage clock every frame) move on the compositor instead of repainting the whole page each frame */
+.pack, .card { will-change: transform, opacity; }
 .pack { position: absolute; z-index: 2; height: calc(var(--card-h) * 1.02); aspect-ratio: 1024 / 1420;
   left: 50%; top: calc(var(--ped) - var(--card-h) * 1.02); transform: translateX(-50%); }
 .pack i { position: absolute; inset: 0; background: center / 100% 100% no-repeat; transition: opacity 260ms linear; }
@@ -111,8 +114,12 @@ html.rm .banner { animation: fade 220ms linear both; }
   opacity: 0; visibility: hidden; pointer-events: auto; }
 .card .foil { display: none; }
 .card .face { position: absolute; inset: 0; background: url("assets/card_frame.webp") center / 100% 100% no-repeat; overflow: hidden;
+}
+/* r90: the card's shadow sits on its own copy of the frame under the face, so the sheen sweep (its own layer) never re-rasters
+   the blurred shadow */
+.card::before { content: ""; position: absolute; inset: 0; background: url("assets/card_frame.webp") center / 100% 100% no-repeat;
   filter: drop-shadow(0 14px 26px rgba(0,0,0,.6)); }
-.card .face::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+.card .face::after { will-change: transform; content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,240,196,.22) 50%, rgba(255,255,255,0) 60%) 0 0 / 300% 100% no-repeat;
   -webkit-mask: url("assets/card_frame.webp") center / 100% 100% no-repeat; mask: url("assets/card_frame.webp") center / 100% 100% no-repeat;
   animation: sheen 6s var(--ease) infinite 1.2s; }
@@ -792,8 +799,11 @@ window.__ig = {
       banner:$("banner").hidden?null:$("banner").textContent, source:$("source").textContent||null, cta:!$("cta").hidden, reduced:REDUCED }; }
 };
 
-if(EMBED) toGame("cms-ig-ready", { reduced: REDUCED });
-else startPreview();
+/* r90 pack smooth: every picture is fetched and decoded before the page says it is ready (the game's loading screen covers the
+   wait, at most 4 s), so the pack opening and the card frame no longer decode on the frame they first show */
+const ART = ["stage_desktop","stage_phone","pack_sealed","pack_opening","card_frame","token_full","token_spent"].map(n=>"assets/"+n+".webp");
+const artReady = Promise.race([Promise.all(ART.map(src=>{ const im=new Image(); im.src=src; window.__igArt=(window.__igArt||[]).concat(im); return (im.decode?im.decode():Promise.resolve()).catch(()=>null); })), new Promise(r=>setTimeout(r,4000))]);
+artReady.then(()=>{ if(EMBED) toGame("cms-ig-ready", { reduced: REDUCED }); else startPreview(); });
 if(frozen){ manualMs=0; render(); } else requestAnimationFrame(frame);
 })();
 </script>

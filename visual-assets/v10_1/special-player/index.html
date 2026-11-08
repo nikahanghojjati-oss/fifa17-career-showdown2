@@ -165,7 +165,7 @@ body.game #spk { display: grid; }
  window.addEventListener('unhandledrejection',function(e){ show('Error: '+(e.reason&&e.reason.message||e.reason)); });
  document.addEventListener('webglcontextlost',function(){ show('3D graphics were reset by the phone. Close the tab and open the link again.'); },true);
  setTimeout(function(){ if(!window.THREE) show('3D library did not load (three.js). Check the connection and reload.'); },8000); })();</script>
-<script src="../roulette/vendor/three-r187.min.js"></script><!-- red team R87-SP-03: the same three.js build as the roulette (r187 since r89), shell-cached by the service worker, so the reveal also plays offline -->
+<script src="../roulette/vendor/three-r187.min.js"></script><script src="../../../js/gfxTier.js"></script><!-- r90: the one 3D quality system (Settings "3D quality", Auto by default), shared with the roulette and Chamber Men --><!-- red team R87-SP-03: the same three.js build as the roulette (r187 since r89), shell-cached by the service worker, so the reveal also plays offline -->
 <script>/* r85 crest collection (js/visualIdentity.js, claude-gameplay/r85-crests) */
 /* =====================================================
    Career Mode Showdown
@@ -1172,6 +1172,8 @@ const T = THREE;
 T.ColorManagement.enabled = false; T.cmsLegacyLights();
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const L = (hex) => new T.Color(hex).convertSRGBToLinear();
+/* r90 pack smooth: the frame loop reads colours from this cache (read-only) instead of making a new Color per spark */
+const LC = new Map(), Lc = (hex) => { let c=LC.get(hex); if(!c){ c=L(hex); LC.set(hex,c); } return c; };
 
 /* ================= sample data (Team G sends the real list) ================= */
 const PAIRS = {
@@ -1331,16 +1333,20 @@ function star(ctx,x,y,r){ ctx.beginPath(); for(let i=0;i<10;i++){ const a=-Math.
 
 /* card shield: same outline as the 3D mesh (units, origin centre, 2.2 x 3.2) */
 const SHIELD=[[-1.1,1.36],[-0.9,1.6],[-0.26,1.6],[0,1.48],[0.26,1.6],[0.9,1.6],[1.1,1.36],[1.1,-0.9],[0,-1.6],[-1.1,-0.9]];
-const CW=512, CH=745, SC=2, toC=([x,y])=>[(x+1.1)/2.2*CW,(1.6-y)/3.2*CH];
+const CW=512, CH=745, toC=([x,y])=>[(x+1.1)/2.2*CW,(1.6-y)/3.2*CH];
 function shieldPath(ctx, inset){
   const c=toC([0,0]); ctx.beginPath();
   SHIELD.forEach((pt,i)=>{ let [x,y]=toC(pt); if(inset){ x=c[0]+(x-c[0])*(1-inset/CW*2); y=c[1]+(y-c[1])*(1-inset/CH*2); } i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
   ctx.closePath();
 }
+/* r90 pack smooth: card art is drawn at the size the card is seen at (1x to 2x of 512x745), see prepareCards */
+let SC=2;
 function seeded(seed){ let s=seed; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; }
 /* painted card plates (tickets 1850-4 / 1850-7): shield bounds in the picture, and its own band moved down to our name band */
 const CARD_ART={}, CARD_SRC={gold:{f:"assets/card_gold.jpg",x0:27,x1:996,y0:63,y1:1472,band:[698,797],period:46},"blue-gold":{f:"assets/card_blue.jpg",x0:27,x1:996,y0:63,y1:1472,band:[698,797],period:46},"black-blue-gold":{f:"assets/card_black.jpg",x0:0,x1:1024,y0:0,y1:1490,band:[820,936],period:1},silver:{f:"assets/card_silver.jpg",x0:0,x1:1024,y0:0,y1:1490,band:[820,936],period:1},bronze:{f:"assets/card_bronze.jpg",x0:0,x1:1024,y0:0,y1:1490,band:[820,936],period:1}};
-function loadCardArt(){ return Promise.all(Object.entries(CARD_SRC).map(([k,c])=>new Promise(res=>{ const im=new Image(); im.onload=()=>{ CARD_ART[k]=im; res(); }; im.onerror=()=>res(); im.src=c.f; }))); }
+/* r90 pack smooth: only the tiers of the two Special Players on screen are fetched and decoded (was all five) */
+function loadCardArt(){ const want=new Set(Object.values(pair).map(p=>p.tier));
+  return Promise.all(Object.entries(CARD_SRC).filter(([k])=>want.has(k)&&!CARD_ART[k]).map(([k,c])=>new Promise(res=>{ const im=new Image(); im.onload=()=>{ (im.decode?im.decode():Promise.resolve()).catch(()=>{}).then(()=>{ CARD_ART[k]=im; res(); }); }; im.onerror=()=>res(); im.src=c.f; }))); }
 function cardBase(ctx, t){
   ctx.setTransform(SC,0,0,SC,0,0); ctx.clearRect(0,0,CW,CH);
   const key=Object.keys(TIER).find(k=>TIER[k]===t), art=CARD_ART[key];
@@ -1470,8 +1476,14 @@ const renderer=new T.WebGLRenderer({antialias:false, powerPreference:"high-perfo
 /* r87 start-polish: phones (a touch screen whose short side is at most 600px) get a lighter pipeline: pixel ratio
    capped at 1.5, a 1024 shadow map and 2x MSAA. Desktop, laptops and tablets keep 2 / 2048 / 4x. */
 const PHONE_GPU=matchMedia("(pointer: coarse)").matches && Math.min(innerWidth,innerHeight)<=600;
-const DPR=Math.min(devicePixelRatio||1, PHONE_GPU?1.5:2);
-renderer.setPixelRatio(DPR);
+/* r90 (Nik 2026-11-07: quality follows the device): the pixel ratio comes from js/gfxTier.js, the same quality system as the
+   roulette and Chamber Men. Auto reads the GPU and never draws above the screen's own pixel ratio; a level picked in Settings
+   is held as picked. Its governor steps down when frames run long and up when a timed frame shows room. Without the module
+   (a failed load) the page draws at three quarters of the screen's ratio. DPR is the ceiling the card art is drawn for. */
+const GFX=window.CareerModeGfxTier||null, GP=GFX?GFX.profile():null;
+const DPR=GP?GP.maxPixelRatio:Math.min(devicePixelRatio||1, PHONE_GPU?2:3);
+let PR=GP?GP.pixelRatio:DPR*.75, gov=null;
+renderer.setPixelRatio(PR);
 renderer.outputColorSpace=T.LinearSRGBColorSpace; renderer.toneMapping=T.NoToneMapping;
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap;
 stage.appendChild(renderer.domElement);
@@ -1587,13 +1599,14 @@ const flagMounts=[];
 const roofPoints=PER.filter((q,i)=>i%3===0&&q[1]<20).map(q=>new T.Vector3(q[0]+q[2]*5.2,25.4,q[1]+q[3]*5.2));
 
 /* ================= giant nation flags (unroll from the roof) ================= */
+const FLAG_TEX0=canvasTex(4,4,null).tx; /* r90: a stand-in until prepareCards hands over the nation flag */
 const flags=flagMounts.map((m)=>{
   const geo=new T.PlaneGeometry(m.w,m.h,12,18); geo.translate(0,-m.h/2,0);
-  const tex=canvasTex(384,256,null); const mat=new T.MeshStandardMaterial({map:tex.tx, side:T.DoubleSide, roughness:.8});
+  const mat=new T.MeshStandardMaterial({map:FLAG_TEX0, side:T.DoubleSide, roughness:.8});
   const mesh=new T.Mesh(geo,mat); mesh.position.copy(m.pos); mesh.rotation.y=m.rotY; mesh.scale.y=.001; mesh.visible=false; mesh.castShadow=true; scene.add(mesh);
-  return {mesh, tex, base:geo.attributes.position.array.slice(), drop:0, target:0, h:m.h};
+  return {mesh, base:geo.attributes.position.array.slice(), drop:0, target:0, h:m.h};
 });
-function setFlagNation(code){ flags.forEach(f=>{ const c=f.tex.ctx; c.clearRect(0,0,384,256); drawFlag(c,code,0,0,384,256,true); f.tex.tx.needsUpdate=true; }); }
+function setFlagTex(tx){ flags.forEach(f=>{ f.mesh.material.map=tx; }); } /* r90: the flag is drawn and uploaded once per player in prepareCards */
 
 /* ================= particles (additive HDR sparks) ================= */
 const MAXP=4000;
@@ -1608,7 +1621,7 @@ const points=new T.Points(pGeo,pMat); points.frustumCulled=false; points.renderO
 const parts=[]; for(let i=0;i<MAXP;i++) parts.push({life:0,max:1,v:new T.Vector3(),p:new T.Vector3(),c:new T.Color(),s:1,g:0,drag:0,tw:0});
 let pCursor=0;
 let pAlive=0, pDirty=false;
-function emit(p,v,col,life,size,g,drag,tw){ pDirty=true; const q=parts[pCursor]; pCursor=(pCursor+1)%MAXP; q.p.copy(p); q.v.copy(v); q.c.copy(L(col)); q.life=q.max=life; q.s=size; q.g=g||0; q.drag=drag||0; q.tw=tw||0; }
+function emit(p,v,col,life,size,g,drag,tw){ pDirty=true; const q=parts[pCursor]; pCursor=(pCursor+1)%MAXP; q.p.copy(p); q.v.copy(v); q.c.copy(Lc(col)); q.life=q.max=life; q.s=size; q.g=g||0; q.drag=drag||0; q.tw=tw||0; }
 const tmpV=new T.Vector3();
 function burst(at,col,n,speed,life,size){ for(let i=0;i<n;i++){ tmpV.set(Math.random()-.5,Math.random()-.5,Math.random()-.5).normalize().multiplyScalar(speed*(.55+Math.random()*.6)); emit(at,tmpV,Array.isArray(col)?col[i%col.length]:col,life*(.7+Math.random()*.5),size,-2.6,1.2,1); } }
 /* Fireworks and fountains are placed inside what the camera sees (red team / hype study B, 2026-10-29): before, the sky volleys
@@ -1706,14 +1719,18 @@ const shape=new T.Shape(); SHIELD.forEach(([x,y],i)=>i?shape.lineTo(x,y):shape.m
 const card=new T.Group(); scene.add(card);
 const cardBody=new T.Mesh(new T.ExtrudeGeometry(shape,{depth:.06,bevelEnabled:true,bevelThickness:.025,bevelSize:.04,bevelSegments:3}), goldMetal);
 cardBody.geometry.translate(0,0,-.03); cardBody.castShadow=true; card.add(cardBody);
-const front=canvasTex(CW*SC,CH*SC,null), back=canvasTex(CW*SC,CH*SC,null);
-[front,back].forEach(f=>{ f.tx.repeat.set(1/2.2,1/3.2); f.tx.offset.set(.5,.5); });
+/* r90 pack smooth (Nik 2026-11-07: the pack was choppy): every face the card shows (the back with 0-3 clues, the face before and
+   after the rating count, the scouting card), the club coin and the nation flag are drawn and uploaded for BOTH players once,
+   behind the loading screen (prepareCards). A beat only swaps a texture; before, each beat redrew a 1024x1490 canvas and
+   re-uploaded it on that frame, which is what stalled the clues, the turn and the settle. */
+const CARD_UV=(tx)=>{ tx.repeat.set(1/2.2,1/3.2); tx.offset.set(.5,.5); return tx; };
+let PREP={}, PREP_KEY="";
 const faceGeo=new T.ShapeGeometry(shape);
 /* r89: a real card is laminated: a thin clear gloss over the print, which catches the stadium as the card turns (three.js clearcoat) */
 const SPLOOK=!/[?&]look=0(?:&|$)/.test(location.search);
 const CARD_GLOSS=SPLOOK?{clearcoat:.55, clearcoatRoughness:.14}:{};
-const frontMat=new T.MeshPhysicalMaterial(Object.assign({map:front.tx, metalness:.25, roughness:.38, envMapIntensity:.7},CARD_GLOSS));
-const backMat=new T.MeshPhysicalMaterial(Object.assign({map:back.tx, metalness:.25, roughness:.38, envMapIntensity:.7},CARD_GLOSS));
+const frontMat=new T.MeshPhysicalMaterial(Object.assign({map:CARD_UV(canvasTex(4,4,null).tx), metalness:.25, roughness:.38, envMapIntensity:.7},CARD_GLOSS));
+const backMat=new T.MeshPhysicalMaterial(Object.assign({map:frontMat.map, metalness:.25, roughness:.38, envMapIntensity:.7},CARD_GLOSS));
 const frontMesh=new T.Mesh(faceGeo,frontMat); frontMesh.position.z=.058; card.add(frontMesh);
 const backMesh=new T.Mesh(faceGeo,backMat); backMesh.position.z=-.058; backMesh.rotation.y=Math.PI; card.add(backMesh);
 /* foil layer on both faces: angle-dependent holographic tint, tiny glints, and the light sweep */
@@ -1735,8 +1752,7 @@ const CARD_POS=new T.Vector3(0,1.86,-1.2);
 const blobTex=canvasTex(128,128,(c)=>{ const g=c.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,"rgba(0,0,0,.55)"); g.addColorStop(1,"rgba(0,0,0,0)"); c.fillStyle=g; c.fillRect(0,0,128,128); });
 const blob=new T.Mesh(new T.PlaneGeometry(3,1.1), new T.MeshBasicMaterial({map:blobTex.tx, transparent:true, depthWrite:false})); blob.rotation.x=-Math.PI/2; blob.position.set(0,.02,-1.2); scene.add(blob);
 
-const coinTex=canvasTex(1024,1024,null);
-const coinFaceMat=new T.MeshStandardMaterial({map:coinTex.tx, metalness:.55, roughness:.28, envMapIntensity:1.3});
+const coinFaceMat=new T.MeshStandardMaterial({map:canvasTex(4,4,null).tx, metalness:.55, roughness:.28, envMapIntensity:1.3});
 const coinEdgeTex=canvasTex(512,32,(c)=>{ c.fillStyle="#d9a644"; c.fillRect(0,0,512,32); c.fillStyle="#8d621d"; for(let x=0;x<512;x+=6) c.fillRect(x,0,2,32); });
 coinEdgeTex.tx.wrapS=T.RepeatWrapping; coinEdgeTex.tx.repeat.set(8,1);
 const coin=new T.Mesh(new T.CylinderGeometry(1,1,.2,96,1), [new T.MeshStandardMaterial({map:coinEdgeTex.tx, metalness:1, roughness:.3}),coinFaceMat,coinFaceMat]);
@@ -1779,16 +1795,9 @@ const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGrou
 function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
 function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 /* r89 (Nik's look frame SP_LOOKFRAME_V1): a camera focused on the card sees the far stands soft, so the card stands out from them.
-   The stadium photo and its stand plates are drawn at a lower size once at load (a soft focus that costs nothing per frame and
-   less GPU memory); ?look=0 keeps them sharp. */
-const SP_SOFT=!/[?&]look=0(?:&|$)/.test(location.search)?6:1;
-function softImage(img){ if(SP_SOFT<=1||!img||!img.width) return img;
-  try{ const half=document.createElement("canvas"); half.width=Math.round(img.width/2); half.height=Math.round(img.height/2);
-    const a=half.getContext("2d"); a.imageSmoothingEnabled=true; a.imageSmoothingQuality="high"; a.drawImage(img,0,0,half.width,half.height);
-    const out=document.createElement("canvas"); out.width=Math.max(64,Math.round(img.width/SP_SOFT)); out.height=Math.max(32,Math.round(img.height/SP_SOFT));
-    const b=out.getContext("2d"); b.imageSmoothingEnabled=true; b.imageSmoothingQuality="high"; b.drawImage(half,0,0,out.width,out.height); return out; }
-  catch(e){ return img; } }
-function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t=>{ t.image=softImage(t.image); t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
+   r90 pack smooth: that soft focus (half size, then a sixth of the photo) is baked into the *_soft_V1.jpg files, so the page
+   fetches 0.4 MB instead of 5.9 MB and no longer decodes and shrinks four big photos on the main thread at load. */
+function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
 /* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
    (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
 const boards=new T.Group(); let boardTex=null, boardTex2=null;
@@ -1802,7 +1811,7 @@ function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("asset
 /* HO-049: hold each message 4.4 s, then roll it up over .6 s (a cut with reduced motion) */
 function stepBoards(now){ if(!boardTex) return; const P=5, R=.6, k=now%P, n=Math.floor(now/P), r=REDUCED?(k>=P-R?1:0):ease.inOut(clamp01((k-(P-R))/R));
   const y=((n+r)*.5)%1; boardTex.offset.y=y; boardTex2.offset.y=(y+.5)%1; }
-function loadPlate(){ return new Promise(res=>new T.TextureLoader().load("assets/stand.jpg",t=>{ t.image=softImage(t.image); t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
+function loadPlate(){ return new Promise(res=>new T.TextureLoader().load("assets/stand_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
   const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); smoke.forEach(q=>keep.add(q.sp)); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); beams.forEach(b=>keep.add(b)); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
@@ -1811,7 +1820,39 @@ function buildEnv(){
   const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.colorSpace=T.SRGBColorSpace; scene.environment=pmrem.fromEquirectangular(e).texture;
 }
 /* r86 (red team #2): the stadium is the one image the scene cannot draw without, so a failed load ends the page at once (the game skips the reveal) instead of waiting out the 15 s limit */
-function loadPano(){ return new Promise((res,rej)=>new T.TextureLoader().load("assets/stadium.jpg",t=>{ t.image=softImage(t.image); t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>rej(new Error("The stadium image did not load.")))); }
+function loadPano(){ return new Promise((res,rej)=>new T.TextureLoader().load("assets/stadium_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>rej(new Error("The stadium image did not load.")))); }
+
+/* ================= r90 pack smooth: every card face, coin and flag prepared up front ================= */
+/* The card art is drawn at the size the card is seen at: its height on screen (the band between the title and the bar) in
+   device pixels, from 1x (512x745) to 2x (1024x1490) in quarter steps. */
+function cardScale(){ const px=H*Math.max(.5,bandTop-bandBot)/2*.9*DPR; return Math.max(1,Math.min(2,Math.ceil(px/CH*4)/4)); }
+function prepTex(w,h,draw){ const t=canvasTex(w,h,draw); return t.tx; }
+function prepareCards(){
+  const sc=cardScale(), key=[pair.daniel.rank,pair.daniel.name,pair.nik.rank,pair.nik.name,sc,Object.keys(CARD_ART).length,Object.keys(CREST_IMG).length].join("|");
+  if(key===PREP_KEY) return; const old=PREP; PREP={}; PREP_KEY=key; SC=sc;
+  const card=(draw)=>CARD_UV(prepTex(CW*SC,CH*SC,draw));
+  ["daniel","nik"].forEach(role=>{ const p=pair[role];
+    PREP[role]={ back:[0,1,2,3].map(n=>card(c=>drawCardBack(c,p,n))), bare:card(c=>drawCardFront(c,p,true)), face:card(c=>drawCardFront(c,p)), scout:card(c=>drawScoutBack(c,p)),
+      coin:prepTex(512,512,c=>coinFace(c,p.club,256,256,255)), flag:prepTex(384,256,c=>drawFlag(c,p.nation,0,0,384,256,true)) }; });
+  /* upload now (behind the loading screen), then let the canvases go: these textures are never redrawn */
+  Object.values(PREP).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin,set.flag].forEach(tx=>{ try{ renderer.initTexture(tx); }catch(e){} const c=tx.image; if(c&&c.getContext){ c.width=c.height=1; } }));
+  Object.values(old).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin,set.flag].forEach(tx=>tx.dispose()));
+}
+const prep=()=>PREP[order[idx]];
+const faceShown=()=>{ const pp=prep(); return frontMat.map===pp.bare||frontMat.map===pp.face; };
+function clueMaps(n){ const pp=prep(); backMat.map=pp.back[n]; if(!faceShown()) frontMat.map=pp.back[n]; }
+
+/* r90: every texture in the scene is uploaded before the first visible frame (three uploads lazily, on the frame an object first
+   shows, which stalled the pack burst and the coin) */
+function warmTextures(){ const seen=new Set(), add=(t)=>{ if(t&&t.isTexture&&!t.isRenderTargetTexture&&!seen.has(t)){ seen.add(t); try{ renderer.initTexture(t); }catch(e){} } };
+  scene.traverse(o=>{ (Array.isArray(o.material)?o.material:o.material?[o.material]:[]).forEach(m=>{ add(m.map); add(m.emissiveMap); if(m.uniforms) Object.values(m.uniforms).forEach(u=>add(u&&u.value)); }); });
+  [compMat,brightMat,blurMat].forEach(m=>Object.values(m.uniforms).forEach(u=>add(u&&u.value))); add(ovrTex.tx); }
+
+/* r90: one draw with every object out (pack, card, coin, chunks, flags, beams) so the shadow pass and the main pass have every
+   program and texture ready before the game shows the page; startPlayer then puts everything back */
+function warmDraw(){ const shown=[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m),...flags.map(f=>f.mesh),...beams];
+  shown.forEach(o=>o.visible=true); pack.position.copy(PACK_REST); card.position.copy(CARD_POS); coin.position.set(0,1,-.5);
+  camera.position.copy(camRest); camera.lookAt(lookRest); try{ render(); }catch(e){} shown.forEach(o=>o.visible=false); }
 
 /* ================= timeline ================= */
 const ease={ out:(t)=>1-Math.pow(1-t,3), inOut:(t)=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, outQuint:(t)=>1-Math.pow(1-t,5) };
@@ -1833,17 +1874,22 @@ const natCols=(code)=>NATION_COLORS[code]||[0xffffff];
    .2x for FREEZE_S real seconds ending at FREEZE_END. Top 3 .2 s, top 10 .16 s, top 20 .1 s, top 50 and rank 51+ none. */
 const FREEZE_S=[0,0,.1,.16,.2], FREEZE_END=9.58, FREEZE_K=.2; let freezeS=0;
 const freezeAt=(t)=>freezeS&&t>=FREEZE_END-freezeS*FREEZE_K&&t<FREEZE_END?FREEZE_K:1;
-let vtt=0; const slowAt=(t)=>REDUCED?1:Math.min(1-.68*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)),freezeAt(t)); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
+/* r90 timing (Nik 2026-11-07 22:50 UTC, "do as you suggest"): the beats keep their written times, and the clock runs faster
+   through four quiet stretches: the empty pan before the drop (.9 s -> .4 s), the landed pack before the charge (.65 -> .35 s),
+   the face-down float before the first clue (3.7-5.0 s: 1.3 -> .9 s) and the coin roll (6.4-7.5 s: 1.1 -> .8 s). The burst's
+   slow motion is half speed (was a third), so it never reads as a freeze. */
+const PACE=[[0,.9,.9/.4],[1.65,2.3,.65/.35],[3.7,5.0,1.3/.9],[6.4,7.5,1.1/.8]];
+const paceAt=(t)=>{ for(const [a,b,k] of PACE) if(t>=a&&t<b) return k; return 1; };
+let vtt=0; const slowAt=(t)=>REDUCED?1:Math.min(1-.5*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)),freezeAt(t))*paceAt(t); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
 function startPlayer(i,bridge){
   idx=i; const p=cur(); fired={}; t0=clock(); vtt=bridge?BRIDGE_T0:0; phase="run"; camBlendAt=-1; if(!bridge) who.classList.remove("big");
   if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
-  if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(L(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
-  drawCardBack(back.ctx,p,0); back.tx.needsUpdate=true; drawCardFront(front.ctx,p,true); front.tx.needsUpdate=true; frontFull=false; count=null; ovrMesh.visible=false;
-  coinTex.ctx.setTransform(1,0,0,1,0,0); coinTex.ctx.clearRect(0,0,1024,1024); coinFace(coinTex.ctx,p.club,512,512,510); coinTex.tx.needsUpdate=true;
+  if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(Lc(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
+  const pp=prep(); backMat.map=pp.back[0]; frontFull=false; count=null; ovrMesh.visible=false; coinFaceMat.map=pp.coin; /* the flag swaps at the nation clue (Codex P2 #1259: Daniel's flags are still rolling up during the handover) */
   if(!bridge){ flags.forEach(f=>{f.target=0; f.drop=0; f.rolling=false; f.mesh.visible=false; f.mesh.scale.y=.001;}); clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
   clearSmoke(); clearChunks(); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
-  frontMat.map=back.tx; frontMat.needsUpdate=true;
+  frontMat.map=backMat.map;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
   setWho((order[idx]==="daniel"?"Daniel's":"Nik's")+" Special Player");
   if(i===0){ slotD.textContent="Revealing"; slotD.className="wait"; slotN.textContent="Next"; slotN.className="wait"; cta.disabled=!bothShown||Boolean(cta.dataset.sent); $("again").hidden=true; cta.classList.remove("shine","fast"); $("rkD").textContent=""; $("rkN").textContent=""; }
@@ -1852,7 +1898,7 @@ function startPlayer(i,bridge){
 }
 /* after the face: flip to the scouting card, hold, flip back to the face */
 /* Nik 2026-10-29: the face holds longer before the flip, by tier: top 3 x6, top 10 x5, top 20 x4, top 50 x3, top 300 x2 of 1.5 s */
-const SCOUT_IN_BASE=1.5, SCOUT_HOLD=3.4, SCOUT_X={ "black-blue-gold":6, "blue-gold":5, "gold":4, "silver":3, "bronze":2 };
+const SCOUT_IN_BASE=1.5, SCOUT_HOLD=2.8, /* r90 (Nik 22:50 UTC): was 3.4 s */ SCOUT_X={ "black-blue-gold":6, "blue-gold":5, "gold":4, "silver":3, "bronze":2 };
 const scoutInFor=(tier)=>SCOUT_IN_BASE*(SCOUT_X[tier]||2), scoutEndFor=(tier)=>scoutInFor(tier)+.7+SCOUT_HOLD+.7;
 let SCOUT_IN=scoutInFor("bronze"), SCOUT_END=scoutEndFor("bronze");
 function scoutFlip(k){ const e=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, a=SCOUT_IN, b=a+.7, c=b+SCOUT_HOLD, d=c+.7;
@@ -1863,10 +1909,10 @@ function scoutFlip(k){ const e=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, a=SCOUT_I
 function scoutCut(k){ if(k>=SCOUT_IN&&!fired.sc1){ fired.sc1=1; SFX.play("flip"); } return k>=SCOUT_IN+.35&&k<SCOUT_END-.35?Math.PI:0; }
 function settle(natural){
   const p=cur(); phase="settled"; if(!natural) endSig(); if(!natural||!count) finishCount(); guardUntil=0; hint(false); SFX.play("sting",tierLevel(p.tier)); SFX.bed(.05+tierLevel(p.tier)*.008); settledAt=clock(); fired.sc1=fired.sc2=0; SCOUT_IN=scoutInFor(p.tier); SCOUT_END=scoutEndFor(p.tier);
-  drawScoutBack(back.ctx,p); back.tx.needsUpdate=true;
-  frontMat.map=front.tx; frontMat.needsUpdate=true;
+  backMat.map=prep().scout;
+  if(!frontFull) frontMat.map=prep().bare;
   pack.visible=false; coin.visible=false; packLight.intensity=0; card.visible=true; card.position.copy(CARD_POS); card.rotation.set(0,0,0); card.scale.setScalar(1);
-  rays.material.opacity=.16; rays.material.color.copy(L(TIER[p.tier].glow)).multiplyScalar(.35);
+  rays.material.opacity=.16; rays.material.color.copy(Lc(TIER[p.tier].glow)).multiplyScalar(.35);
   
   const slot=order[idx]==="daniel"?slotD:slotN; slot.textContent=p.name; slot.className=""; $(order[idx]==="daniel"?"rkD":"rkN").textContent="#"+p.rank+" "+TIERLABEL[p.tier];
   $("l3tag").textContent=(order[idx]==="daniel"?"01 · Daniel":"02 · Nik")+" · #"+p.rank+" "+TIERLABEL[p.tier];
@@ -1951,7 +1997,7 @@ const camPos=new T.Vector3(), camLook=new T.Vector3();
 const LADDER=[0xa85a30,0xb9c8e0,0xffc74f,0x4f8bff,0x3355ff], LADDER_ACC=[0x9c5530,0xc4d2ea,0xffc74f,0x9cc4ff,0xffc74f], LADDER_BASE=0xffc457;
 const ladderStep=(p,tt)=>tt<LADDER_T0?-1:Math.min(tierLevel(p.tier),Math.floor((tt-LADDER_T0)/LADDER_DT));
 const ladC=new T.Color(), ladA=new T.Color();
-function ladderMix(out,cols,p,tt){ const st=ladderStep(p,tt); if(st<0) return out.copy(L(LADDER_BASE)); const k=clamp01((tt-LADDER_T0-st*LADDER_DT)/.12); return out.copy(L(st?cols[st-1]:LADDER_BASE)).lerp(L(cols[st]),k); }
+function ladderMix(out,cols,p,tt){ const st=ladderStep(p,tt); if(st<0) return out.copy(Lc(LADDER_BASE)); const k=clamp01((tt-LADDER_T0-st*LADDER_DT)/.12); return out.copy(Lc(st?cols[st-1]:LADDER_BASE)).lerp(Lc(cols[st]),k); }
 const ladderColor=(p,tt)=>ladderMix(ladC,LADDER,p,tt), ladderAccent=(p,tt)=>ladderMix(ladA,LADDER_ACC,p,tt);
 function comet(tt,t,dur,a,b,c,col){ const k=(tt-t)/dur; if(k<0||k>1) return; const e=ease.inOut(k), u=1-e;
   const h=new T.Vector3(u*u*a.x+2*u*e*b.x+e*e*c.x, u*u*a.y+2*u*e*b.y+e*e*c.y, u*u*a.z+2*u*e*b.z+e*e*c.z);
@@ -1982,9 +2028,9 @@ function run(tt){
     if(charge>.5){ pack.position.x+=(Math.random()-.5)*.05*charge; pack.position.y+=(Math.random()-.5)*.03*charge; }
     keepPackUnderTitle();
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
-    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(L(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10));
+    const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(Lc(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10));
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,PACK_D/2+.1)); pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(L(0xfff0c8)).lerp(lad,.85).multiplyScalar(1.5+charge*charge*4); }
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar(1.5+charge*charge*4); }
     packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.55; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(6+charge*6);
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
@@ -1998,19 +2044,19 @@ function run(tt){
   sfxAt(tt,6.4,"s_coin","coin"); sfxAt(tt,8.0,"s_club","hit",2); sfxAt(tt,8.05,"s_cannon","cannon"); sfxAt(tt,CRES[lvl]?8.45:8.9,"s_flip","flip"); sfxAt(tt,8.05,"s_riser","riser",FREEZE_END-freezeS*FREEZE_K-8.05+(freezeS?0:.02),lvl); sfxAt(tt,9.6,"s_flash","flash",pw,lvl);
   at(tt,3.7,"burst",()=>{ shake=.45; flash=.35*Math.min(1.4,pw); explodePack(); pack.visible=false; pillar.visible=false; packLight.intensity=0; card.visible=true;
     burst(new T.Vector3(0,1.4,-1.0),[0xffd77a,0xffffff,0xffc457],Math.round(150*pw),9,1.0,.16); 
-    glow.material.color.copy(L(0xffe2a0)); });
+    glow.material.color.copy(Lc(0xffe2a0)); });
   const gb=S(3.7,.75,tt); if(gb>0&&gb<1){ const s=Math.sin(gb*Math.PI)*5.5*pw; glow.position.set(0,PACK_REST.y,-.8); glow.scale.set(s,s*1.3,1); glow.material.opacity=(1-gb)*.6; }
   /* 3  the card is left floating, face hidden (3.7 - 4.6 s); the comet leaves to the other side */
   if(tt>=3.7){ rays.position.set(0,1.9,-1.5); rays.scale.set(14,14,1); const ap=ease.outQuint(S(3.7,.9,tt)); card.position.set(0,lerp(PACK_REST.y,CARD_POS.y,ap),CARD_POS.z); card.scale.setScalar(.8+.2*ap+pulse*.035); card.rotation.set(0,Math.PI+(1-ap)*.9*side,0);
-    rays.material.opacity=Math.max(0,.4-S(3.7,1.5,tt)*.28); rays.material.color.copy(L(tc)).multiplyScalar(.35); rays.rotation.z=tt*.08; }
+    rays.material.opacity=Math.max(0,.4-S(3.7,1.5,tt)*.28); rays.material.color.copy(Lc(tc)).multiplyScalar(.35); rays.rotation.z=tt*.08; }
   comet(tt,4.2,.55,new T.Vector3(.3,1.9,-.9),new T.Vector3(2.4*side,2.4,.2),new T.Vector3(7.5*side,3.2,1.2),BLUE);
   at(tt,4.5,"twinkle",()=>{ [[-1.05,1.5],[1.05,-.85]].forEach(([x,y])=>emit(card.localToWorld(new T.Vector3(x,y,.1)),new T.Vector3(),0xffffff,.5,1.1,0,0,0)); });
   const sweep=(t)=>{ if(tt>=t&&tt<t+.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-t)/.9); };
   /* 4  clues one at a time: position (5.0), nation (5.8) */
-  at(tt,5.0,"pos",()=>{ drawCardBack(back.ctx,p,1); back.tx.needsUpdate=true; pulse=1; burst(new T.Vector3(-.62,2.9,-1.1),[0xffffff,tc],70,3.2,.6,.16); });
+  at(tt,5.0,"pos",()=>{ clueMaps(1); pulse=1; burst(new T.Vector3(-.62,2.9,-1.1),[0xffffff,tc],70,3.2,.6,.16); });
   sweep(5.0);
-  at(tt,5.8,"nat",()=>{ drawCardBack(back.ctx,p,2); back.tx.needsUpdate=true; pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
-    setFlagNation(p.nation); flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); });
+  at(tt,5.8,"nat",()=>{ clueMaps(2); setFlagTex(prep().flag); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,90,3.4,.7,.16);
+    flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); });
     [-.8,-.4,0,.4,.8].forEach((x,i)=>later(()=>starburst(skyPoint(x+(Math.random()-.5)*.1,.42+Math.random()*.18,-34),nat.concat([0xffffff]),Math.round(38*pw),7,1.3),200+i*160)); });
   if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });
   sweep(5.8);
@@ -2024,23 +2070,23 @@ function run(tt){
       if(rollT<1&&Math.random()<.8) emit(new T.Vector3(x,.04,zC),new T.Vector3(-side*(1+Math.random()*2),1+Math.random(),(Math.random()-.5)),0xfff1c2,.6,.08,-4,.6,1); }
     else { const k=ease.inOut(flyT); coin.position.lerpVectors(new T.Vector3(coinStopX*side,y0,zC),COIN_ON_CARD,k); coin.position.y+=Math.sin(k*Math.PI)*.8; const s=lerp(COIN_R,46/CW*2.2,k); coin.scale.set(s,1-.6*k,s); coin.rotation.set(Math.PI/2,0,0); coin.rotateY(k*Math.PI*2+COIN_SPIN); }
   }
-  at(tt,8.0,"club",()=>{ drawCardBack(back.ctx,p,3); back.tx.needsUpdate=true; pulse=1; shake=.15; burst(COIN_ON_CARD,[0xffffff,0xffd77a],70,3,.6,.16);
+  at(tt,8.0,"club",()=>{ clueMaps(3); pulse=1; shake=.15; burst(COIN_ON_CARD,[0xffffff,0xffd77a],70,3,.6,.16);
     const cc=[tc,0xf1c35a,0xfff3c4,0x2f7bff]; confettiCannon(1,cc,Math.round(200*pw)); confettiCannon(-1,cc,Math.round(200*pw)); });
   sweep(8.0);
   /* 6  the card turns to show the face, big flash (8.9 - 10.1 s) */
   /* idea 1: for the top 20 and up the turn starts at 8.45 s and speeds up from its first frame (quad), so it is seen at once;
      the face still swaps in under the white burst. Top 50 and rank 51+ keep the old turn. */
   const cres=CRES[lvl], turnAt=cres?8.45:8.9, fl=S(turnAt,cres?1.65:1.2,tt);
-  if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&frontMat.map!==front.tx){ frontMat.map=front.tx; frontMat.needsUpdate=true; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.22; }
+  if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&!faceShown()){ frontMat.map=prep().bare; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.22; }
   at(tt,9.6,"sig",()=>startSig(p));
-  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(L(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
+  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(Lc(tc)); burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[tc,0xffffff,0xfff1c2],Math.round(240*pw),11,1.3,.2);
     confettiRain(nat.concat([0xf1c35a,0xfff3c4]),Math.round(380*pw),-4.6,5); /* z -7.1 to -2.1: behind the card */
     [-.85,-.55,-.2,.2,.55,.85].forEach((x,i)=>later(()=>starburst(skyPoint(x,.38+Math.random()*.22,-36),[tc,0xffffff,0xfff1c2].concat(nat),Math.round(44*pw),8,1.4),i*120)); });
   if(tt>9.6&&tt<12.2) [[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]].forEach(([x,z])=>fountain(new T.Vector3(fitX(x,z),.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9));
   /* idea 1: the tier glow grows behind the card (depth-hidden by it, so never over its text) into the burst, then hands over */
-  aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(L(tc)).multiplyScalar(1.5); aura.scale.setScalar((3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4)); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt))*(lvl>=3?.67:1); } /* top 3/top 10 blue: a third lighter so the stands stay readable */
+  aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(Lc(tc)).multiplyScalar(1.5); aura.scale.setScalar((3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4)); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt))*(lvl>=3?.67:1); } /* top 3/top 10 blue: a third lighter so the stands stay readable */
   const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*8*pw; glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.6; } else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
-  if(tt>9.6){ rays.material.opacity=lerp(.5,.16,S(9.6,2,tt)); rays.material.color.copy(L(tc)).multiplyScalar(.35); rays.rotation.z=tt*.06; }
+  if(tt>9.6){ rays.material.opacity=lerp(.5,.16,S(9.6,2,tt)); rays.material.color.copy(Lc(tc)).multiplyScalar(.35); rays.rotation.z=tt*.06; }
   if(tt>10.3&&tt<11.2) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(tt-10.3)/.9);
   if(tt>10.8&&phase==="run") settle(true);
 }
@@ -2060,7 +2106,7 @@ function encore(p,i){ const tc=TIER[p.tier].glow, lvl=tierLevel(p.tier), side=i%
 let count=null, frontFull=false;
 function drawOvr(v){ const c=ovrTex.ctx, t=TIER[cur().tier]; c.setTransform(2,0,0,2,0,0); c.clearRect(0,0,140,120); c.textAlign="center"; c.font='600 112px "Barlow Condensed"'; emboss(c,String(v),70,100,t.text,true); ovrTex.tx.needsUpdate=true; }
 function startCount(p){ if(frontFull||REDUCED){ finishCount(); return; } count={t0:clock(),dur:COUNT_S[tierLevel(p.tier)],to:p.ovr,shown:COUNT_FROM,tickAt:-1}; drawOvr(COUNT_FROM); ovrMesh.visible=true; }
-function finishCount(){ count=null; ovrMesh.visible=false; if(!frontFull){ drawCardFront(front.ctx,cur()); front.tx.needsUpdate=true; frontFull=true; } }
+function finishCount(){ count=null; ovrMesh.visible=false; if(!frontFull){ frontMat.map=prep().face; frontFull=true; } }
 function stepCount(now){ if(!count) return; const k=clamp01((now-count.t0-.15)/count.dur), v=Math.round(COUNT_FROM+(count.to-COUNT_FROM)*(1-Math.pow(1-k,2)));
   if(v!==count.shown){ count.shown=v; drawOvr(v); if(now-count.tickAt>.045||v===count.to){ count.tickAt=now; SFX.play("count",v===count.to); } } if(k>=1) finishCount(); }
 
@@ -2068,7 +2114,7 @@ function stepCount(now){ if(!count) return; const k=clamp01((now-count.t0-.15)/c
    rank 51+: the floor fountains (all tiers); top 50: + a ring of light; top 20: + an upward beam; top 10: + two side beams;
    top 3: + a bloom spike and a two-colour (blue and gold) firework mix. All of it sits behind the card plane, so the card hides it. */
 let sigAt=-1, sigLvl=0; const sigCol=new T.Color(), WHITE=new T.Color(1,1,1);
-function startSig(p){ const lvl=tierLevel(p.tier), tc=TIER[p.tier].glow; sigAt=clock(); sigLvl=lvl; sigCol.copy(L(tc));
+function startSig(p){ const lvl=tierLevel(p.tier), tc=TIER[p.tier].glow; sigAt=clock(); sigLvl=lvl; sigCol.copy(Lc(tc));
   if(lvl>=1){ const n=Math.round(150*PK); for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; tmpV.set(Math.cos(a),Math.sin(a),0).multiplyScalar(6.2+Math.random()*.5); emit(new T.Vector3(Math.cos(a)*.5,CARD_POS.y+Math.sin(a)*.5,CARD_POS.z-.55),tmpV,i%2?tc:0xffffff,.95,.24,0,1.9,0); } }
   if(lvl>=4) [-.72,.72,-.4,.4].forEach((x,i)=>later(()=>starburst(skyPoint(x,.42+(i%2)*.1,-34),[0x3355ff,0xf1c35a,0x6f9bff,0xffe39a],Math.round(70*PK),8,1.4),420+i*190)); }
 function endSig(){ sigAt=-1; beams.forEach(b=>b.visible=false); compMat.uniforms.strength.value=.3; }
@@ -2130,9 +2176,15 @@ function keepPackUnderTitle(){ const yNow=pack.position.y; pack.position.y=PACK_
   const perNdc=camera.position.distanceTo(PACK_REST)*Math.tan(camera.fov*Math.PI/360);
   pack.position.y=yNow-(top>bandTop?Math.min(.45,(top-bandTop)*perNdc*1.03):0); pack.updateMatrixWorld(); }
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
+/* r90: the frame governor and the ?fps=1 counter are js/gfxTier.js's (startGfx, after the warm-up). It only moves the pixel
+   ratio; every change re-sizes the scene and bloom targets through resize(). */
+function startGfx(){ if(!GFX) return;
+  gov=GFX.governor(renderer,{key:"sp",draw:render,onChange(p){ PR=p.pixelRatio; resize(); }});
+  GFX.overlay(()=>({extra:`${renderer.domElement.width}x${renderer.domElement.height} · card ${SC}x`}));
+  addEventListener("resize",()=>gov.resize()); addEventListener("pagehide",()=>gov.end()); }
 function resize(){
-  W=innerWidth; H=innerHeight; renderer.setSize(W,H,false);
-  const pw=Math.floor(W*DPR), ph=Math.floor(H*DPR); sceneRT.setSize(pw,ph); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
+  W=innerWidth; H=innerHeight; renderer.setPixelRatio(PR); renderer.setSize(W,H,false);
+  const pw=Math.floor(W*PR), ph=Math.floor(H*PR); sceneRT.setSize(pw,ph); for(let i=0;i<LV;i++){ const d=Math.pow(2,i+1); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
   const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
@@ -2159,9 +2211,9 @@ function render(){
   compMat.uniforms.flash.value=flash*.18; pass(compMat,null);
 }
 function tick(draw){
-  const real=manual!==null?manual:performance.now()/1000, gap=Math.max(0,real-last), dt=Math.min(.05,gap); last=real; if(manual===null) simT+=Math.min(.25,gap); const now=clock(); SFX.tick();
+  const real=manual!==null?manual:performance.now()/1000, gap=Math.max(0,real-last), dt=Math.min(.1,gap); /* r90: was .05, which slowed the whole reveal below 20 fps */ last=real; if(manual===null) simT+=Math.min(.25,gap); const now=clock(); SFX.tick();
   for(let i=queue.length-1;i>=0;i--) if(queue[i].t<=now){ const q=queue.splice(i,1)[0]; q.fn(); }
-  const sc=phase==="run"?slowAt(vtt):1; if(phase==="run") vtt+=dt*sc; const tt=vtt;
+  const sc=phase==="run"?slowAt(vtt):1, ps=phase==="run"?sc/paceAt(vtt):1; /* ps: sparks and chunks keep their own speed through the quicker stretches */ if(phase==="run") vtt+=dt*sc; const tt=vtt;
   if(phase==="run") run(tt);
   else if(phase==="handover") stepHandover(now,dt);
   else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
@@ -2177,7 +2229,7 @@ function tick(draw){
   flags.forEach((f,i)=>{ if(!f.mesh.visible) return; if(f.rolling&&f.drop<.02){ f.rolling=false; f.mesh.visible=false; return; } f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
     const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
-  stepParticles(dt*sc); stepChunks(dt*sc); stepConfetti(dt,now,card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
+  stepParticles(dt*ps); stepChunks(dt*ps); stepConfetti(dt,now,card.visible?cardShield():null); stepSmoke(dt); sheenMat.uniforms.t.value=now%1000;
   ledTex.tx.offset.x=(now*.04)%1; stepBoards(now);
   pulse*=Math.pow(.004,dt); packPulse*=Math.pow(.002,dt); flash*=Math.pow(.02,dt); shake*=Math.pow(.02,dt);
   blob.material.opacity=card.visible?clamp01(1-(card.position.y-CARD_POS.y)*1.2):pack.visible?1:0;
@@ -2186,7 +2238,7 @@ function tick(draw){
   if(card.visible) keepCardInBand();
   if(draw) render();
 }
-function frame(){ if(manual===null) tick(true); requestAnimationFrame(frame); }
+function frame(){ if(manual===null){ tick(true); if(gov) gov.frame(performance.now()); } requestAnimationFrame(frame); }
 
 /* ================= controls ================= */
 const toast=$("toast");
@@ -2235,20 +2287,22 @@ const unlockSound=()=>{ if(SFX.on&&!SFX.running){ SFX.enable(true); if(!unlockDo
 addEventListener("pointerdown",unlockSound,true); addEventListener("pointerup",unlockSound,true); addEventListener("touchend",unlockSound,true);
 { const opts=MP_LIST.map((r,i)=>`<option value="${i}">#${r[0]} ${r[1]} · ${r[3]} · ${({"black-blue-gold":"Black","blue-gold":"Blue","gold":"Gold","silver":"Silver","bronze":"Bronze"})[RANKTIER(r[0])]}</option>`).join("");
   [["pickD","Daniel",()=>pickD,(v)=>pickD=v],["pickN","Nik",()=>pickN,(v)=>pickN=v]].forEach(([id,who,get,set])=>{ const el=$(id); el.innerHTML=opts.replace(/<option value="/g,`<option value="`); el.value=String(get()); el.title=who+"'s player";
-    el.addEventListener("change",()=>{ set(+el.value); pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}; loadCrests().then(()=>startPlayer(0)); }); }); }
-$("tierShow").addEventListener("change",()=>{ const v=$("tierShow").value; if(!v) return; const [d,n]=v.split(",").map(Number); pickD=d; pickN=n; $("pickD").value=String(d); $("pickN").value=String(n); pair={daniel:mpByIdx(d), nik:mpByIdx(n)}; loadCrests().then(()=>startPlayer(0)); });
+    el.addEventListener("change",()=>{ set(+el.value); pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}; repick(); }); }); }
+$("tierShow").addEventListener("change",()=>{ const v=$("tierShow").value; if(!v) return; const [d,n]=v.split(",").map(Number); pickD=d; pickN=n; $("pickD").value=String(d); $("pickN").value=String(n); pair={daniel:mpByIdx(d), nik:mpByIdx(n)}; repick(); });
 $("gameview").addEventListener("click",()=>document.body.classList.add("game")); $("tools-back").addEventListener("click",()=>document.body.classList.remove("game")); if(qs.get("tools")!=="1"){ document.body.classList.add("game"); $("tools-back").style.display="none"; } /* game view by default, no preview controls; ?tools=1 shows the preview tools */
-window.__pick=(d,n)=>{ pickD=d; pickN=n; pair={daniel:mpByIdx(d), nik:mpByIdx(n)}; return loadCrests(); };
+function repick(){ return Promise.all([loadCrests(),loadCardArt()]).then(()=>{ prepareCards(); startPlayer(0); }); }
+window.__pick=(d,n)=>{ pickD=d; pickN=n; pair={daniel:mpByIdx(d), nik:mpByIdx(n)}; return Promise.all([loadCrests(),loadCardArt()]).then(()=>prepareCards()); };
 const EMBED=qs.get("embed")==="1"; const toGame=(type)=>{ try{ parent.postMessage({type},location.origin); }catch(e){} };
 cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); $("again").hidden=true; return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
 window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } },
+  pr(v){ if(v!=null){ PR=v; renderer.setPixelRatio(PR); resize(); } return PR; }, get cardScale(){ return SC; },
   get t(){ return vtt; }, get band(){ return bandDbg; }, get phase(){ return phase; }, get idx(){ return idx; } };
 
 const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))).catch(()=>null), new Promise(r=>setTimeout(r,3000))]); /* Fable F8-03: a failed font falls back, never fails the page */
-Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left.jpg","plateL","hasL"),loadSide("assets/stand_right.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()]).then(()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); buildEnv(); try{ renderer.compile(scene,camera); }catch(e){} /* Fable F8-07 */ startPlayer(0);
+Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left_soft_V1.jpg","plateL","hasL"),loadSide("assets/stand_right_soft_V1.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()]).then(()=>{ drawLed(ledTex.ctx); ledTex.tx.needsUpdate=true; resize(); prepareCards(); buildEnv(); try{ renderer.compile(scene,camera); }catch(e){} /* Fable F8-07 */ warmTextures(); warmDraw(); /* r90: a few timed frames behind the loading screen settle the Auto level (skipped on software GL), then the governor starts */ (GFX?GFX.calibrate(renderer,render).then(p=>{ PR=p.pixelRatio; resize(); },()=>{}):Promise.resolve()).then(()=>{ startGfx(); startPlayer(0);
   /* in the game: draw the first frame, tell the game it is ready, and start once the game shows this page (its loading screen covers the wait) */
   if(EMBED){ tick(true); let started=false; addEventListener("message",e=>{ if(started||e.source!==parent||e.origin!==location.origin||!e.data||e.data.type!=="cms-sp-start") return; started=true; if(soundPref()) setSound(true,false); requestAnimationFrame(frame); }); toGame("cms-sp-ready"); }
-  else requestAnimationFrame(frame); });
+  else requestAnimationFrame(frame); }); });
 })();
 </script>
 
