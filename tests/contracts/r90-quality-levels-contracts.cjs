@@ -48,13 +48,17 @@ const GL=SCREENS.filter(p=>/new (T|THREE)\.WebGLRenderer\(/.test(read(p)));
 // Q3
 {
   // Density pickers for image-set() plates and a confetti canvas match what the browser draws; they pick no quality.
-  const DENSITY_ONLY=new Set(["js/connectPlayersScreenV10.js","js/ssjr.js","js/v10Screens.js","visual-assets/v10_1/shared/motion.js"]);
+  // Prime Pack's stage picks its 4K-wide art only where the screen is that sharp and data-gfx is Extra or above.
+  const DENSITY_ONLY=new Set(["js/connectPlayersScreenV10.js","js/ssjr.js","js/v10Screens.js","visual-assets/v10_1/shared/motion.js","visual-assets/v10_1/icon-guess/index.html"]);
   for(const p of SCREENS){
     const s=strip(read(p));
     if(/WEBGL_debug_renderer_info|\bhardwareConcurrency\b|\bdeviceMemory\b/.test(s))assert.fail(`${p}: reads a device signal to pick quality (gfxTier does that)`);
     if(/\bdevicePixelRatio\b/.test(s))assert.ok(DENSITY_ONLY.has(p),`${p}: reads devicePixelRatio (only gfxTier and the listed density pickers may)`);
-    // Reading a quality switch is gfxTier's alone (the Device check only builds ?gfx=N URLs for gfxTier to read).
-    if(/\.get\(\s*["'](gfx|quality|tier|level)["']\s*\)/.test(s))assert.fail(`${p}: a quality URL switch of its own (?gfx belongs to gfxTier)`);
+    // Reading a quality switch is gfxTier's (the Device check only builds ?gfx=N URLs for gfxTier to read). A 2D frame
+    // that mirrors its parent's html[data-gfx] may read the same ?gfx=0..5 when it runs on its own (a preview); no other name
+    // or range.
+    for(const line of s.split("\n"))if(/\.get\(\s*["'](gfx|quality|tier|level)["']\s*\)/.test(line)){
+      assert.ok(/\.get\(\s*["']gfx["']\s*\)/.test(line)&&line.includes("/^[0-5]$/")&&/dataset\.gfx/.test(s),`${p}: a quality URL switch of its own (?gfx belongs to gfxTier)`);}
   }
   for(const p of GL){
     const s=strip(read(p));

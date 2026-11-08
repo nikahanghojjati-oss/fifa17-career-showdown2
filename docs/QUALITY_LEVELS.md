@@ -69,6 +69,7 @@ on a pick, after calibration and on a fallback:
 - `html[data-gfx="0".."5"]` is the level.
 - `html[data-assets="0".."4"]` is the download size, for image pickers.
 - No other values exist.
+- A 2D page in its own frame (Prime Pack) mirrors its parent's `html[data-gfx]`. Run on its own as a preview, it may read the same `?gfx=0..5`, and nothing else.
 
 Density pickers for `image-set()` plates and 2D canvases sized to the screen (confetti) read `devicePixelRatio` to match
 what the browser draws. They are not quality choices, and the contract lists them by name.
