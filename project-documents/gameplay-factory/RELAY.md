@@ -1,18 +1,20 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 3:22 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 3:23 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d6c44cc` (Sun 8 Nov 3:21 AM Boston time) · 204 messages · 62 hand-offs · 389 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `a7deddb` (Sun 8 Nov 3:22 AM Boston time) · 204 messages · 62 hand-offs · 394 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-061 · G → V · r90 plates: remove slogan banners (L11) + phone face crops (L23)
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
+- Sun 8 Nov 3:22 AM · Team V · Received · Team V thread picked it up; work on claude/project-thread-kxgun9
 - Sun 8 Nov 3:21 AM · Team G · Sent
+- Sun 8 Nov 3:22 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
