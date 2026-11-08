@@ -23,7 +23,10 @@
   // roulette. It and js/sparkSharedTransferChallenge.js ROULETTE_FROM_MS are one value, set only by
   // `node tools/set-release-time.cjs <UTC time>` (release contract r86-release RR5 checks they match).
   const RRR_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
-  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=5000;
+  // r90 BUG-02: the page now answers "armed" once it has drawn a frame with this Showdown's boards, so on a slow Chromebook
+  // that can take a few seconds; ARMED_WAIT_MS is only the last resort for a page that hangs (a page that cannot take the
+  // setup says so at once with cms-rr-error). The loading screen stays up meanwhile (Reus Gate).
+  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=20000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
   // holding (Fable F2-17): from START until close() (or the way back to Home), so the screens that open the Transfer Challenge

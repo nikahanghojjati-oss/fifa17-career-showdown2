@@ -49,7 +49,9 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r88.length,270);
   assert.deepEqual(added,shell.filter(p=>!r88.includes(p)),'the added list is this shell minus r88\'s');
-  assert.deepEqual(added,R89_ADDED,'2.2.0 adds exactly the r89 shell files');
+  // r90 M8 (#1285): the Special Player page's self-hosted faces, added on top of r89's list until the r90 freeze re-derives it.
+  const R90_ADDED=['visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2'];
+  assert.deepEqual(added,[...R89_ADDED,...R90_ADDED],'2.2.0 adds exactly the r89 shell files, plus the r90 SP faces');
   assert.deepEqual(removed,R89_REMOVED,'2.2.0 removes exactly the r88 shell files r89 drops');
   assert.deepEqual(r88.filter(p=>!shell.includes(p)),removed,'every r88 shell path is still precached');
   assert.equal(shell.length,270-removed.length+added.length);

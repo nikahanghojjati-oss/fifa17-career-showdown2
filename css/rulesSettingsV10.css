@@ -834,6 +834,8 @@
     padding:max(7px,calc(var(--rbu) * 9)) max(14px,calc(var(--rbu) * 24)) max(9px,calc(var(--rbu) * 12)) max(14px,calc(var(--rbu) * 20));
     filter:drop-shadow(0 calc(var(--rbu) * 7) calc(var(--rbu) * 11) #000a);
   }
+  /* r90 M26 (Light): no drop-shadow filter pass on the six cards. */
+  html[data-gfx="0"] #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { filter:none; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::before,
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::after {
     content:""; position:absolute; z-index:-1; pointer-events:none;

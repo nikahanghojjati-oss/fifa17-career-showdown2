@@ -299,8 +299,8 @@ function petalTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128);
 const dustT=softTex([[0,"rgba(255,240,200,1)"],[.5,"rgba(255,240,200,.3)"],[1,"rgba(255,240,200,0)"]]);
 
 /* ================= materials ================= */
-/* r90 (frame budget): every surface is one MeshStandardMaterial (no clearcoat or sheen lobes), so the scene compiles a handful of
-   programs and each pixel runs one specular term; the look comes from the maps, the roughness and the room light */
+/* r90 (frame budget): on Light and Balanced every surface is one MeshStandardMaterial (one specular term per pixel, a handful of
+   programs); from High up mat() gives the lacquered wood, the glazed cups and the felt their second lobe (see HQ above) */
 const tableWoodTex=woodTex(1024,1024,"#4a2a12","#1c0e05",3,[2,1],{scale:HQ?2:1});   /* r90: drawn at twice the pixels from High up, same pattern */
 const gripTex=woodTex(256,256,"#6b3a1b","#2a1406",2,[1,1]);
 const M={
@@ -1033,7 +1033,10 @@ function tick(draw){ const t=now();
   { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
   applyFx();
   if(draw){ renderer.render(scene,camera); if(manual===null&&GOV) GOV.frame(performance.now()); } }
-let rafId=0; function frame(){ if(manual===null) tick(true); rafId=requestAnimationFrame(frame); }
+/* r90 BUG-02: in the game the stage stays hidden until the page is armed, so nothing is drawn before the setup arrives (the main
+   thread is free to take it at once), and "armed" goes out only after the first frame with this Showdown's boards is drawn,
+   so the first frame the manager sees is already complete */
+let rafId=0, armAfterFrame=false; function frame(){ if(manual===null) tick(!(EMBED&&!GAME)); if(armAfterFrame&&manual===null){ armAfterFrame=false; toGame("cms-rr-armed"); } rafId=requestAnimationFrame(frame); }
 
 /* ================= sound (Web Audio, synthesized; off until turned on) ================= */
 const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, lead=0;
@@ -1068,7 +1071,13 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
 /* r90: the room photo, the top-down gun photo and the flash picture are gone (the room is dark now; the other two never shipped) */
 const PLATEMAP={};
 async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
-  const [sq,handImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),loadLookEnv()]);
+  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),(GFX.assetLevel??GFX.level)>=2?loadImg("assets/RR_ROOM.webp"):null,loadLookEnv()]);
+  /* r90 (Nik 2026-11-08): from High up the café room is back behind the table, as one picture (Light and Balanced never download it and
+     keep the dark room). It is softened and dimmed, its edges fade into the dark, and the fog stays on the 3D floor, so the table light is
+     still the key light: the table in front, the room behind. One plane, one texture, one draw call. */
+  if(roomImg){ const R=PLATEMAP.room||{}, H=R.height||5.2, cut=R.floorCut||0, t=new T.Texture(roomImg); t.colorSpace=T.SRGBColorSpace; t.needsUpdate=true;
+    const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:t, color:new T.Color(R.tone||.62,R.tone||.62,R.tone||.62), toneMapped:false, fog:false, depthWrite:false}));
+    pl.scale.set(H*roomImg.width/roomImg.height,H,1); pl.position.set(0,H/2-cut*H,R.z||-3.9); pl.renderOrder=-1; pl.name="roomPlate"; scene.add(pl); }
   /* the hand picture carries its own transparency (webp alpha), so it goes to the GPU as it is: no read-back pass over its pixels */
   { const hc=handImg||handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.Texture(hc); ht.needsUpdate=true; ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }
@@ -1121,7 +1130,7 @@ if(EMBED){ document.body.classList.add("embed");
       return Object.assign({},base,{club:clubName,xi,subs,formation:typeof formation==="string"?formation:null}); };
     const dEntry=merge(g.d,g.boards.D,g.formations&&g.formations.D), nEntry=merge(g.n,g.boards.N,g.formations&&g.formations.N);
     if(Number.isInteger(g.seed)) seed=g.seed>>>0;   /* cosmetic draws (sparks, smoke) start from the Showdown's seed on both phones */
-    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent=chamberCaption(g)||"One bullet. Seven chambers."; embedLabel(); toGame("cms-rr-armed"); });
+    GAME=g; SQUADS={source:SQUADS.source,clubs:[dEntry,nEntry,...SQUADS.clubs.filter(c=>c!==clubByName(g.d)&&c!==clubByName(g.n))]}; LAYOUT.danielClub=g.d; LAYOUT.nikClub=g.n; setBoards(g.d,g.n); result.textContent=chamberCaption(g)||"One bullet. Seven chambers."; embedLabel(); if(manual===null) armAfterFrame=true; else toGame("cms-rr-armed"); });
   addEventListener("rr:end",e=>{ toGame("cms-rr-end",{detail:e.detail}); setTimeout(embedLabel,0); }); }
 cta.addEventListener("click",()=>{ if(playing) return;
   if(EMBED){ if(!GAME) return; if(turn>=2){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; toGame("cms-rr-continue"); return; }
