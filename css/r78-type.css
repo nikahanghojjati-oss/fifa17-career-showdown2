@@ -1212,7 +1212,7 @@
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:disabled { opacity: .6; cursor: default; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
 /* r90: what Auto chose on this device, one quiet line under 3D QUALITY (Settings only, never on a game screen). */
-:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxAuto { display: block; color: rgba(245, 241, 232, .62); }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxAuto { display: block; white-space: normal; color: rgba(245, 241, 232, .62); }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxAuto[hidden] { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionChoice, .settingsAudioToggle) {
