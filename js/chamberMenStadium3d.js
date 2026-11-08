@@ -479,7 +479,8 @@
     // ---------- bake ----------
     // Boards and lamps are many small static meshes: merge them per material so the whole kit draws in a few dozen calls.
     {group.updateMatrixWorld(true);const buckets=new Map(),drop=[];
-      group.traverse(x=>{if(x.isMesh&&x.userData.bake){if(!buckets.has(x.material))buckets.set(x.material,[]);buckets.get(x.material).push(x);drop.push(x);}});
+      // Only what shows: with the bowl the built stands are hidden, and their lamps must not come back merged (Codex on #1288).
+      group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake){if(!buckets.has(x.material))buckets.set(x.material,[]);buckets.get(x.material).push(x);drop.push(x);}});
       const v=new T.Vector3();
       for(const [mat,list] of buckets){
         let count=0;for(const m of list){const g=m.geometry;count+=g.index?g.index.count:g.attributes.position.count;}

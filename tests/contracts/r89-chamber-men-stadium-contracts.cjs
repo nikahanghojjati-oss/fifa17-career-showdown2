@@ -140,6 +140,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   for(const lv of [2,3,4])assert.ok(asked(lv).some(u=>/stadium_bowl_V1_1k\.glb$/.test(u)),`level ${lv} fetches the 1k bowl`);
   assert.ok(/error=>\{try\{root\.console\?\.warn\?\.\("Chamber Men: no big stadium; the built stands stay\.",error\);\}catch\(_error\)\{\}return null;\}/.test(kit),"a failed bowl load leaves the built stands");
   assert.ok(/for\(const st of stands\)st\.visible=false;/.test(kit)&&/bowl\.userData&&bowl\.userData\.cmRows/.test(kit),"the bowl replaces the built stands and seats the crowd");
+  assert.ok(kit.includes("group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake)"),"the bake merges only what shows (the hidden stands' lamps stay out)");
   ok("S7","big stadium: CC0 bowl, 1k WebP, High and above only, fallback to the built stands, crowd on its rows");
 }
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);
