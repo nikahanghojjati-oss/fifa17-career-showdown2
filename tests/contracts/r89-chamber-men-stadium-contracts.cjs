@@ -117,4 +117,29 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(files.every(f=>!/^board_/.test(f)),"no board file in the load set");
   ok("S6","night stand, club-colour crowd, run-time ad boards with crests and no cut or CMS lettering");
 }
+// S7 r90 big stadium (High and above): Innerscene "Football stadium" (CC0) trimmed by gen_bowl.py into one 1k GLB that only
+//    High, Extra and Ultra fetch (Light and Balanced downloads stay as they were); a bowl that fails to load leaves the
+//    built stands; the crowd sits on the bowl's own seat rows.
+{
+  const file=path.join(ROOT,DIR,"stadium_bowl_V1_1k.glb"),b=fs.readFileSync(file);
+  assert.equal(b.toString("ascii",0,4),"glTF");assert.ok(b.length<=2.6e6,`bowl ${b.length} <= 2.6 MB`);
+  const j=JSON.parse(b.toString("utf8",20,20+b.readUInt32LE(12)));
+  assert.match(j.asset.copyright,/Innerscene.*CC0/,"CC0 source named in the file");
+  assert.deepEqual(j.extensionsRequired,["EXT_texture_webp"]);
+  assert.ok(j.images.every(i=>i.mimeType==="image/webp"),"WebP textures");
+  assert.ok(!JSON.stringify(j.materials).includes("KHR_materials_transmission"),"no transmission pass");
+  for(const gone of ["Pitch","Goals","Perimeter boards","Dugouts","Gates"])assert.ok(!j.meshes.some(m=>m.name===gone),`${gone} trimmed`);
+  const rows=j.scenes[0].extras.cmRows;assert.ok(rows.length>=40&&rows.every(r=>r.length>20&&r.length%2===1),"seat rows in extras");
+  assert.ok(/stadium_bowl_V1_1k\.glb.*CC0/.test(read("tools/chamber-men-assets/LICENSES.md")),"licence row");
+  // Which files each level asks for (a stand-in loader that records URLs).
+  const asked=level=>{const urls=[];const T={SRGBColorSpace:"s",NoColorSpace:"n",
+      TextureLoader:function(){this.loadAsync=u=>{urls.push(u);return Promise.resolve({});};},
+      GLTFLoader:function(){this.loadAsync=u=>{urls.push(u);return Promise.resolve({scene:{traverse(){}}});};}};
+    const sb={};sb.globalThis=sb;vm.createContext(sb);vm.runInContext(kit,sb);sb.CareerModeChamberMenStadium.load(T,{level,phone:false}).catch(()=>{});return urls;};
+  for(const lv of [0,1])assert.ok(!asked(lv).some(u=>/stadium_bowl/.test(u)),`level ${lv} never fetches the bowl`);
+  for(const lv of [2,3,4])assert.ok(asked(lv).some(u=>/stadium_bowl_V1_1k\.glb$/.test(u)),`level ${lv} fetches the 1k bowl`);
+  assert.ok(/error=>\{try\{root\.console\?\.warn\?\.\("Chamber Men: no big stadium; the built stands stay\.",error\);\}catch\(_error\)\{\}return null;\}/.test(kit),"a failed bowl load leaves the built stands");
+  assert.ok(/for\(const st of stands\)st\.visible=false;/.test(kit)&&/bowl\.userData&&bowl\.userData\.cmRows/.test(kit),"the bowl replaces the built stands and seats the crowd");
+  ok("S7","big stadium: CC0 bowl, 1k WebP, High and above only, fallback to the built stands, crowd on its rows");
+}
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);
