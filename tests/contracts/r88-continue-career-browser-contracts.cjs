@@ -72,7 +72,9 @@ async function primeBack(){
 }
 async function clubButtons(){
   window.setApplicationReducedMotionPreference?.(true);
-  await window.ensureGameplayModules();await window.CareerModeClubScreenV10.install();
+  // r90: Club Assignment's skin loads at idle after Home (js/ssjr.js afterHome), so a slow runner reached this before it
+  // (L1 on #1294: CareerModeClubScreenV10 undefined). Load it under the app's own key, as the app would on the way in.
+  await window.ensureGameplayModules();await window.loadRuntimeScript('v10-club','js/clubScreenV10.js',()=>Boolean(window.CareerModeClubScreenV10));await window.CareerModeClubScreenV10.install();
   currentShowdown={id:'cc-b',name:'Daniel vs Nik',managers:{playerOne:'Daniel',playerTwo:'Nik'},selectedLeague:{id:'ligue_1',name:'Ligue 1'},clubs:{playerOne:null,playerTwo:null},totalRounds:3,currentRound:1,status:'League Confirmed',rounds:[],transferChallenges:[]};
   initializeClubAssignment();showScreen('clubWheelScreen');populateClubAssignmentBase();renderReadyAssignmentState();
   currentShowdown.clubs={playerOne:'Lille',playerTwo:'Toulouse'};renderClubConfirmationState();
