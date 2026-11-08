@@ -6,11 +6,13 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 8 Nov, 10:11 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 8 Nov, 10:18 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+
+> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
 
 🌐 **Live: 2.2.0-r89** (main `2fe8d2f`, Fri 6 Nov 8:49 AM)
 
-🐕 **Barking: Showdown Gate on #1303 has waited 26 min for a machine; Showdown Gate on #1308 has waited 15 min for a machine; Showdown Gate on #1313 has waited 12 min for a machine; Showdown Gate on #1311 has waited 8 min for a machine.** · POS20 #304 6/16
+🩺 **All clear (from GitHub).** · POS20 #304 7/7
 
 ## Jobs
 
@@ -22,7 +24,7 @@ Updated Sun 8 Nov, 10:11 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 650 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 651 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +60,7 @@ Updated Sun 8 Nov, 10:11 AM Boston time. Bug hunting only, no new features until
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 589 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 590 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
@@ -1989,8 +1991,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████████░` **87.3016 %**  
-Team V hand-offs: 55 of 63 done
+`█████████░` **87.6923 %**  
+Team V hand-offs: 57 of 65 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  

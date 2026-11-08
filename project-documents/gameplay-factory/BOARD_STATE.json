@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-08 10:10 AM Boston time (EST)",
+ "generated": "2026-11-08 10:18 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 206,
+  "count": 208,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1857,6 +1857,24 @@
     "subject": "Consult: no-AI-look bar for the new background and icon prompts",
     "reply": "no",
     "boston": "Sun 8 Nov 7:58 AM"
+   },
+   {
+    "time": "2026-11-08 15:15",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-063 RECEIVED",
+    "subject": "Home icons: Team V prompt job owns them, W9 stops (Nik)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 10:15 AM"
+   },
+   {
+    "time": "2026-11-08 15:15",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-063 DONE",
+    "subject": "Home icons: Team V prompt job owns them, W9 stops (Nik)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 10:15 AM"
    }
   ],
   "g2v": {
@@ -1877,8 +1895,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "c6dc662",
-  "head_boston": "Sun 8 Nov 7:58 AM",
+  "head": "11d7f82",
+  "head_boston": "Sun 8 Nov 10:17 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1914,10 +1932,10 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1303 has waited 26 min for a machine; Showdown Gate on #1308 has waited 15 min for a machine; Showdown Gate on #1313 has waited 12 min for a machine; Showdown Gate on #1311 has waited 8 min for a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -2702,7 +2720,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 726
+    "waiting_min": 734
    },
    {
     "id": "HO-059",
@@ -2754,6 +2772,32 @@
     "path": "project-documents/leads-relay/handoffs/HO-062_consult-no-ai-look-bar-for-the-new-backg.md",
     "worker": "",
     "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-063",
+    "from": "V",
+    "to": "G",
+    "title": "Home icons: Team V prompt job owns them, W9 stops (Nik)",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-063_home-icons-team-v-prompt-job-owns-them-w.md",
+    "worker": "",
+    "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-064",
+    "from": "V",
+    "to": "G",
+    "title": "Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-064_notice-team-v-runs-the-handcrafted-art-p.md",
+    "worker": "",
+    "pickup_min": null,
     "waiting_min": null
    }
   ],

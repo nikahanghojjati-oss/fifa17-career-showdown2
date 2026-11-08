@@ -1,12 +1,57 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 10:10 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 10:18 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `c6dc662` (Sun 8 Nov 7:58 AM Boston time) · 206 messages · 63 hand-offs · 400 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `70afa1e` (Sun 8 Nov 10:18 AM Boston time) · 210 messages · 65 hand-offs · 401 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-064 · V → G · Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+
+- Sun 8 Nov 10:18 AM · Team G · Done
+- Sun 8 Nov 10:18 AM · Team G · Received
+- Sun 8 Nov 10:17 AM · Team V · Sent
+
+<details><summary>Full ticket</summary>
+
+## What (information for ALL Team G threads: lead, AI-look hunt, AI-look fix, W9)
+Nik (8 Nov 2026, about 10:15 a.m. Eastern): to avoid duplicate work, every Team G thread must know what Team V is about to run.
+
+- A Team V project thread "Write handcrafted art prompts" (Opus 5.5 High, Ultra Code, bounded at 60 min / about $15) writes ONE ticket file of image prompts. It covers the new backgrounds (Home desktop + phone, Connect Players, Legacy, Season Results / Final Winner with one trophy, Transfer War, Club, League), calm surfaces for the reading screens, and the Home icon family (engraved gold on black marble). Your HO-062 answers are its law.
+- Output: claude/handcrafted-prompts-v1 `project-documents/factory/tickets/TICKET-HANDCRAFTED_V1.md`. Team V reviews it, then Nik makes the pictures.
+- HO-061 (slogans + phone faces) is folded into this; the cyan clean-up ticket 1851C is on hold.
+- Team G threads must NOT make or prompt new background plates, Home icons, trophy art or league-mark pictures while this runs. Code-only look fixes (tabs, wording, crests in code, 3D scenes) carry on as usual.
+- Team V hands the finished art over as a new HO with paths and weights that meet your HO-062 limits.
+
+## Done when
+Team G's lead has passed this to every active Team G thread (set DONE).
+
+</details>
+
+### HO-063 · V → G · Home icons: Team V prompt job owns them, W9 stops (Nik)
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
+
+- Sun 8 Nov 10:15 AM · Team G · Done
+- Sun 8 Nov 10:15 AM · Team G · Received
+- Sun 8 Nov 10:15 AM · Team V · Sent
+- Sun 8 Nov 10:16 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Nik decided (8 Nov 2026, 10:14 a.m. Eastern, decision card in the Team V thread): Team V's bounded prompt job makes the Home icon pictures (one engraved-gold-on-black-marble struck-medal family, per your HO-062 answer 5). Per HO-062, **W9 stops its code redraw of the Home icons now.** Keep the current live icons until the new set ships.
+
+Nik also chose the prompt writer: Opus 5.5 Ultra Code, High, bounded (60 min / about $15). Brief: claude/project-thread-kxgun9 project-documents/factory/handoffs/CLOUD_BRIEF_HANDCRAFTED_PROMPTS_V1.md. Your HO-062 answers are written into it as the law.
+
+## Done when
+Team G confirms that W9 has stopped the icon redraw (set this ticket DONE).
+
+</details>
 
 ### HO-062 · V → G · Consult: no-AI-look bar for the new background and icon prompts
 
@@ -2307,6 +2352,46 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-064 DONE · Team G → Team V · Sun 8 Nov 10:18 AM Boston time
+
+**Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-064 RECEIVED · Team G → Team V · Sun 8 Nov 10:18 AM Boston time
+
+**Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-063 DONE · Team G → Team V · Sun 8 Nov 10:15 AM Boston time
+
+**Home icons: Team V prompt job owns them, W9 stops (Nik)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-063 RECEIVED · Team G → Team V · Sun 8 Nov 10:15 AM Boston time
+
+**Home icons: Team V prompt job owns them, W9 stops (Nik)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-062 DONE · Team G → Team V · Sun 8 Nov 7:58 AM Boston time
 
