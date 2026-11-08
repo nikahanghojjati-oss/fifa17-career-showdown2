@@ -166,24 +166,31 @@
     const scene=new T.Scene();scene.background=new T.Color(0x05070b);scene.fog=new T.FogExp2(0x0a0d14,.0045);
     const own=[];const keep=v=>{own.push(v);return v;};
     const clubs=(opts&&opts.clubs)||{};
-    const K=x.K,colourOf=club=>{try{return parseInt(String(K.kit(club).dominant).replace("#",""),16);}catch(_error){return 0x888888;}};
-    // Stadium: white posts like FIFA 17, the crowd in each club's colour.
-    const S=x.S.build(T,x.tex,{phone,density:Q.density,full:QX.fullCrowd,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),aniso});
+    const K=x.K,hex=v=>{const n=parseInt(String(v||"").replace("#",""),16);return Number.isFinite(n)?n:null;};
+    const colourOf=club=>{try{return hex(K.kit(club).dominant)??0x888888;}catch(_error){return 0x888888;}};
+    // The crowd's second colour: the kit's other colour (second, else trim), unless it is the dominant one again.
+    const altOf=club=>{try{const k=K.kit(club),d=String(k.dominant).toLowerCase();const c=[...(k.second||[]),k.body,k.trim].find(v=>v&&String(v).toLowerCase()!==d);return hex(c);}catch(_error){return null;}};
+    // Stadium: white posts like FIFA 17, the crowd in each club's colours, the boards with each club's crest and name.
+    const crest=typeof root.getClubCrestSvg==="function"?name=>root.getClubCrestSvg(name):null;
+    const S=x.S.build(T,x.tex,{phone,density:Q.density,full:QX.fullCrowd,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),
+      homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso});
     scene.add(S.group);
     const ball=S.ball;
     // Night match light: floodlights from high over both corners of the box, a cool sky, a soft rim behind the goal.
-    scene.add(new T.HemisphereLight(0xdde6ff,0x15200f,.55));
-    const key=new T.DirectionalLight(0xfff3e2,2.7);key.position.set(9,30,24);key.target.position.set(0,0,6);
+    // r90 LOOK (L01): a night grade. Less sky fill, so the stands and the far pitch fall dark and the floodlit box carries
+    // the picture; a touch more key on the penalty area.
+    scene.add(new T.HemisphereLight(0xc9d6ff,0x0d150a,.3));
+    const key=new T.DirectionalLight(0xfff3e2,3.0);key.position.set(9,30,24);key.target.position.set(0,0,6);
     key.castShadow=true;key.shadow.mapSize.set(Q.shadowSize,Q.shadowSize);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=QX.softness;
     Object.assign(key.shadow.camera,{left:-11,right:11,top:13,bottom:-11,near:10,far:70});key.shadow.camera.updateProjectionMatrix();
     scene.add(key,key.target);
-    const fill=new T.DirectionalLight(0xe4ecff,.75);fill.position.set(-14,20,18);scene.add(fill);
+    const fill=new T.DirectionalLight(0xe4ecff,.62);fill.position.set(-14,20,18);scene.add(fill);
     // Extra and Ultra: the second floodlight bank casts too, so the players get the faint double shadow of a lit stadium.
     if(QX.secondShadow){fill.castShadow=true;fill.shadow.mapSize.set(Q.shadowSize/2,Q.shadowSize/2);fill.shadow.bias=-.0004;fill.shadow.normalBias=.03;fill.shadow.radius=QX.softness;
       fill.target.position.set(0,0,6);scene.add(fill.target);Object.assign(fill.shadow.camera,{left:-12,right:12,top:13,bottom:-11,near:8,far:70});fill.shadow.camera.updateProjectionMatrix();}
     const rim=new T.DirectionalLight(0xfff0d0,.9);rim.position.set(-4,12,-24);scene.add(rim);
     // Reflections: the stadium itself, once (the ball and posts see the stands and lights).
-    {const pm=new T.PMREMGenerator(renderer);scene.environment=keep(pm.fromScene(scene,.04,.1,300).texture);pm.dispose();scene.environmentIntensity=.55;}
+    {const pm=new T.PMREMGenerator(renderer);scene.environment=keep(pm.fromScene(scene,.04,.1,300).texture);pm.dispose();scene.environmentIntensity=.45;}
 
     // ---------- players ----------
     const sample=new T.Vector3(),sampleQ=new T.Quaternion(),fwd=new T.Vector3();
@@ -316,6 +323,26 @@
       ({TK,jog,styles,react,struck}=tr);taker=tr.a;KICK_HIT=tr.hit;KICK_BALL=tr.ball;keeper=kr.a;KC=kr.KC;
     };
     useRigs(clubs.playerOne,clubs.playerTwo);
+
+    // r90 LOOK: contact shadows. A soft dark disc on the turf under the taker, the keeper and the ball, at every level: it
+    // is what plants them on the grass (Light's shadow map is small and soft). Higher levels keep their real shadows and
+    // the disc goes lighter. One small canvas texture, three quads.
+    const blob=(()=>{
+      const d=doc(),c=d.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d");if(!g)return null;
+      const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(0,0,0,1)");gr.addColorStop(.45,"rgba(0,0,0,.6)");gr.addColorStop(1,"rgba(0,0,0,0)");
+      g.fillStyle=gr;g.fillRect(0,0,64,64);const t=keep(new T.CanvasTexture(c));
+      const geo=keep(new T.PlaneGeometry(1,1));geo.rotateX(-Math.PI/2);
+      const strength=L<=0?.62:L<=2?.5:.4;
+      const one=(name,w,d0)=>{const m=keep(new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,opacity:strength,color:0x000000,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
+        const q=new T.Mesh(geo,m);q.name=name;q.scale.set(w,1,d0);q.position.y=.006;q.renderOrder=1;scene.add(q);return q;};
+      return {taker:one("cmBlobTaker",1.15,.9),keeper:one("cmBlobKeeper",1.25,.85),ball:one("cmBlobBall",.36,.36),strength};
+    })();
+    const blobAt=(q,a,lift)=>{
+      if(!q)return;q.visible=Boolean(a?a.holder.visible:true);if(!q.visible)return;
+      if(a){a.hips.getWorldPosition(sample);}else sample.copy(ball.position);
+      const h=Math.max(0,sample.y-lift),k=Math.max(0,1-h/2.2);
+      q.position.x=sample.x;q.position.z=sample.z;q.material.opacity=blob.strength*k;const sc=1+h*.5;q.scale.x=q.userData.w??(q.userData.w=q.scale.x);q.scale.x*=sc;
+    };
 
     // Kits: the taker in his club's home kit, the keeper in his own club's keeper kit picked against the taker's.
     let lineup={taker:null,keeper:null,round:1};
@@ -530,6 +557,7 @@
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
       keeperPose(t,live);takerAt(t,live);ballAt(t);
+      if(blob){blobAt(blob.taker,taker,1);blobAt(blob.keeper,keeper,1);blobAt(blob.ball,null,BALL_R);}
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
       const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);

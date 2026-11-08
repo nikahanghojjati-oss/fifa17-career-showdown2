@@ -1,23 +1,13 @@
-"""Stadium kit for Chamber Men: crowd cards, ad boards, net cell, seats, concrete, floodlight flare (grass: gen_grass.py).
+"""Stadium kit for Chamber Men: crowd cards, net cell, seats, concrete, floodlight flare (grass: gen_grass.py).
 
-All drawn here in code (numpy + Pillow). Ad boards carry only our own marks (CHAMBER MEN, CMS, CAREER MODE SHOWDOWN),
-set in Inter (SIL Open Font Licence 1.1; the letters are baked into the images, no font file ships).
+All drawn here in code (numpy + Pillow). The LED ad boards are no longer images: js/chamberMenStadium3d.js draws them at
+run time (r90, CM17 wordmark and the two clubs' crests and names).
 """
-import os
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter
 from common import save_webp, resize, blur, normal_from_height
 
-FONT_DIR = '/usr/share/fonts/opentype/inter/'
 rng = np.random.default_rng(1717)
-
-
-def font(name, size):
-    for n in (name, 'Inter-ExtraBold.otf', 'Inter-Bold.otf'):
-        p = os.path.join(FONT_DIR, n)
-        if os.path.exists(p):
-            return ImageFont.truetype(p, size)
-    return ImageFont.load_default()
 
 
 def to_f(img):
@@ -140,84 +130,6 @@ def crowd_atlas():
     return sizes
 
 
-# ---------------------------------------------------------------- ad boards
-def gold_text(base, text, fnt, box, skew=.18):
-    """Draw text with a vertical gold gradient into box (x0,y0,x1,y1), centred, with a faux-italic skew."""
-    W, H = base.size
-    layer = Image.new('L', (W, H), 0)
-    ld = ImageDraw.Draw(layer)
-    x0, y0, x1, y1 = box
-    bb = ld.textbbox((0, 0), text, font=fnt)
-    tw, th = bb[2] - bb[0], bb[3] - bb[1]
-    ld.text(((x0 + x1 - tw) / 2 - bb[0], (y0 + y1 - th) / 2 - bb[1]), text, font=fnt, fill=255)
-    if skew:
-        layer = layer.transform((W, H), Image.AFFINE, (1, skew, -skew * H / 2, 0, 1, 0), Image.BICUBIC)
-    g = np.linspace(0, 1, H)[:, None]
-    grad = np.stack([1.0 - .12 * g, .86 - .3 * g, .5 - .3 * g], -1) * np.ones((1, W, 1))
-    a = to_f(layer)[..., None]
-    out = to_f(base)[..., :3]
-    return out * (1 - a) + grad * a
-
-
-def led_grid(arr, pitch=4):
-    """LED board look: a fine dot grid (each 'pixel' a soft rounded cell) multiplied over the art."""
-    H, W = arr.shape[:2]
-    y = (np.arange(H) % pitch)[:, None]
-    x = (np.arange(W) % pitch)[None, :]
-    c = (pitch - 1) / 2
-    d = np.sqrt(((x - c) / pitch) ** 2 + ((y - c) / pitch) ** 2)
-    cell = np.clip(1.25 - d * 1.6, .55, 1)
-    return arr * cell[..., None]
-
-
-def chevrons(W, H, color, step=96, alpha=.5, offset=0):
-    a = np.zeros((H, W, 3), np.float32)
-    ys, xs = np.mgrid[0:H, 0:W]
-    u = (xs + np.abs(ys - H / 2) * .9 + offset) % step
-    band = ((u > 8) & (u < 26)).astype(np.float32) * alpha
-    return band[..., None] * np.array(color)[None, None, :]
-
-
-def ad_boards():
-    W, H = 2048, 256
-    sizes = {}
-    big = font('InterDisplay-Black.otf', 168)
-    mid = font('Inter-ExtraBold.otf', 118)
-    small = font('Inter-Bold.otf', 54)
-    # 1: CHAMBER MEN, gold on black with gold chevrons at both ends.
-    base = Image.new('RGB', (W, H), (6, 6, 7))
-    a = gold_text(base, 'CHAMBER MEN', big, (360, 0, W - 360, H))
-    ch = chevrons(W, H, (.85, .62, .22), 110, .55)
-    ends = ((np.arange(W) < 330) | (np.arange(W) > W - 330)).astype(np.float32)[None, :, None]
-    a = np.maximum(a, ch * ends)
-    a[:10] = [.75, .55, .2]; a[-10:] = [.75, .55, .2]
-    sizes['board_chamber_men.webp'] = save_webp(led_grid(a), 'board_chamber_men.webp', 88)
-    # 2: CMS monogram and CAREER MODE SHOWDOWN, gold field with black type (an inverse board breaks up the row).
-    g = np.linspace(0, 1, W)[None, :, None]
-    field = np.array([.92, .7, .3]) * (1 - .25 * g) + np.array([.6, .42, .14]) * .25 * g
-    field = np.ones((H, 1, 1)) * field
-    base = Image.fromarray((field * 255).astype(np.uint8))
-    lay = Image.new('L', (W, H), 0)
-    ld = ImageDraw.Draw(lay)
-    ld.rounded_rectangle([60, 40, 420, 216], radius=30, outline=255, width=12)
-    bb = ld.textbbox((0, 0), 'CMS', font=mid)
-    ld.text((240 - (bb[2] - bb[0]) / 2 - bb[0], 128 - (bb[3] - bb[1]) / 2 - bb[1]), 'CMS', font=mid, fill=255)
-    bb = ld.textbbox((0, 0), 'CAREER MODE SHOWDOWN', font=font('Inter-ExtraBold.otf', 104))
-    f2 = font('Inter-ExtraBold.otf', 104)
-    ld.text((480 + (W - 540 - (bb[2] - bb[0])) / 2 - bb[0], 128 - (bb[3] - bb[1]) / 2 - bb[1]), 'CAREER MODE SHOWDOWN', font=f2, fill=255)
-    m = to_f(lay)[..., None]
-    a = field * (1 - m) + np.array([.03, .03, .035]) * m
-    sizes['board_cms.webp'] = save_webp(led_grid(a), 'board_cms.webp', 88)
-    # 3: a motion board: black with sweeping gold chevrons and a small CMS at each end (reads well when scrolled).
-    a = chevrons(W, H, (.95, .72, .3), 128, .9)
-    a += chevrons(W, H, (.5, .36, .1), 128, .6, offset=40)
-    base = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
-    a = gold_text(base, 'CMS', mid, (0, 0, 420, H), 0)
-    a = np.maximum(a, gold_text(Image.new('RGB', (W, H)), 'CMS', mid, (W - 420, 0, W, H), 0))
-    sizes['board_chevrons.webp'] = save_webp(led_grid(a), 'board_chevrons.webp', 88)
-    return sizes
-
-
 # ---------------------------------------------------------------- net cell
 def net_cell():
     """One knotted mesh cell (12 cm square in the builder), white cord with soft shading, RGBA. Tiles in both directions."""
@@ -284,7 +196,7 @@ def flare():
 
 def main():
     sizes = {}
-    for f in (crowd_atlas, ad_boards, net_cell, seats, concrete, flare):
+    for f in (crowd_atlas, net_cell, seats, concrete, flare):
         sizes.update(f())
     return sizes
 

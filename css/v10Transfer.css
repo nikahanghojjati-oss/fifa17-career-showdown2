@@ -1133,6 +1133,26 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
   }
   #app #transferChallenge .tw-host .stage:not([data-phase="WINDOW_OPEN"]) .sign-status.reg .part + .part { margin-top: 4px; }
 }
+/* r90 LOOK L07: the status line used to sit in the same box as the live clock (centred on the desktop board, bottom-aligned on
+   the painted sign), so "READY" ran through "15:00" (1920x906, 1200x900, 1024x768). While the clock shows, the status starts
+   on its own rows under it: the sign's top padding + the clock's line box (--l07-clock) + a gap. On the painted sign (windows
+   that do not get the gold board below) the clock is a little smaller so both fit on the sign. Sideways phones keep their band. */
+@media (min-width: 761px) and (min-height: 501px) {
+  #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(var(--k) * 28px); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"]:has(.sign-screen.is-live) .sign-status.reg:not(.full) {
+    justify-content: flex-start; padding-bottom: 0; letter-spacing: .1em; font-size: max(11px, calc(var(--k) * 13px));
+    padding-top: calc(var(--k) * 3px + var(--l07-clock) + max(3px, calc(var(--k) * 3px)));
+  }
+}
+@media (min-width: 1101px) and (min-height: 501px) {
+  #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(var(--k) * 30px * .95 + var(--k) * 2px); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer { font-size: calc(var(--k) * 30px); margin-bottom: calc(var(--k) * 2px); }
+}
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(max(34px, calc(var(--k) * 52px)) * .95 + calc(var(--k) * 6px)); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"]:has(.sign-screen.is-live) .sign-status.reg:not(.full) { letter-spacing: .14em; font-size: max(12px, calc(var(--k) * 14.5px)); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer { font-size: max(34px, calc(var(--k) * 52px)); margin-bottom: calc(var(--k) * 6px); }
+}
 #app #transferChallenge .tw-host .verdict-row .vr-word {
   display: inline-block; align-self: flex-end; padding: 2px 9px 1px; margin-right: 0; border-radius: 999px;
   font-size: 13px; letter-spacing: .14em; line-height: 1.2; text-shadow: none;

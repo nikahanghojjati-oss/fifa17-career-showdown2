@@ -192,4 +192,14 @@ async function c3d2(){
   assert.ok(scene.includes("root.fetch(PLAYER_PATH+file,signal?{signal}:undefined)")&&scene.includes("const T=await loadEngine();if(off())return null;")&&scene.includes("if(off()){api.dispose();return null;}"),"BUG-05: the mount stops downloading and building");
   ok("C3D10","r90 quality: extras by level, ball and grass by texture level, flat picks with gold only for the live choice");
 }
+// C3D11 r90 LOOK (hunt L01-L03): a night grade (less sky fill), contact shadows under the taker, keeper and ball at every
+//    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
+{
+  assert.ok(/new T\.HemisphereLight\(0xc9d6ff,0x0d150a,\.3\)/.test(scene),"night: less sky fill");
+  assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/one\("cmBlobTaker"/.test(scene)&&/one\("cmBlobKeeper"/.test(scene)&&/one\("cmBlobBall"/.test(scene),"three contact shadows");
+  assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
+  assert.ok(/const strength=L<=0\?\.62:L<=2\?\.5:\.4/.test(scene),"at every level, lighter at the top");
+  assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
+  ok("C3D11","r90 LOOK: night grade, contact shadows, both clubs on the boards and in the crowd");
+}
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
