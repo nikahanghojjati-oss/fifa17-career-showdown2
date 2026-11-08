@@ -100,21 +100,24 @@
   outline: 1.5px dashed #c8a24a;
   outline-offset: -6px;
 }
+/* r90 LOOK L24: flat dots in the app's gold, no gloss or glow: a live round is a solid gold dot, an empty chamber a dark
+   one with a thin steel ring. */
 #cmStage .cmChamber.is-live {
-  border: 2px solid #ff2a1a;
+  border: 2px solid #d4a017;
   outline: none;
-  /* primer, brass case head, rim */
-  background: radial-gradient(circle at 50% 50%, #e9e2d0 0 14%, #8a6a2a 15% 20%, #ffe7a8 21% 34%, #d4a017 35% 58%, #8a5f12 59% 70%, #3d3f43 71% 100%);
-  box-shadow: 0 0 0 1px #050505, 0 0 7px #ff3b2f;
+  background: #d4a017;
+  box-shadow: none;
 }
 #cmStage .cmChamber.is-empty {
-  border: 2px solid #b9bcc2;
+  border: 2px solid #6d6f74;
   outline: none;
-  /* an empty bore: black all the way down */
-  background: radial-gradient(circle, #000 0 52%, #161718 53% 66%, #4a4c50 67% 100%);
-  box-shadow: inset 0 0 0 1px #050505, 0 0 0 1px #050505;
+  background: #0b0b0c;
+  box-shadow: none;
 }
-#cmStage .cmCylLabel { font-size: 13px; letter-spacing: .06em; color: var(--r78-ivory, #f2ebdd); white-space: nowrap; }
+/* r90 LOOK L24: the cylinders' counts, one quiet strip under the controls ("Nik's cylinder: 3 live rounds"). */
+#cmStage .cmCylStrip { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 28px; margin: 0; font-size: 13px; letter-spacing: .06em; color: var(--r78-ivory, #f2ebdd); }
+#cmStage .cmCylStrip[hidden] { display: none; }
+#cmStage .cmCylLabel { white-space: nowrap; }
 /* ---------- the goal (r88 Team V scene; art drawn in js/chamberMenStep.js cmsGoal) ---------- */
 #cmStage .cmGoal {
   width: 100%;
@@ -353,13 +356,12 @@
 #cmStage .cmSide { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 8px; row-gap: 3px; }
 #cmStage .cmSide .cmGoals { font-size: 32px; line-height: 1; }
 #cmStage .cmSide .cmCylinder { flex-basis: auto; }
-#cmStage .cmSide .cmCylLabel { flex-basis: 100%; font-size: 11px; }
 #cmStage .cmGoalBox { container-type: inline-size; margin: 0 -16px; }
 #cmStage .cmGoal { max-width: none; width: 100%; height: clamp(180px, calc(100dvh - 430px), 66.7cqw); border-left: 0; border-right: 0; border-radius: 0; }
 #cmStage .cmGoal3d { border-radius: 0; }
 #cmStage .cmPlay { align-items: stretch; }
 #cmStage .cmControls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center;
-  grid-template-areas: "turn clock" "status status" "picks picks" "lines lines" "actions actions"; }
+  grid-template-areas: "turn clock" "status status" "picks picks" "lines lines" "actions actions" "cyl cyl"; }
 /* The rival's part and the kick count each take their own line, so they never read as one run of words (gallery 2026-11-06). */
 #cmStage .cmTurn { grid-template-columns: minmax(0, 1fr); }
 #cmStage .cmControls > .cmTurn { grid-area: turn; padding: 6px 10px; gap: 2px; }
@@ -368,6 +370,7 @@
 #cmStage .cmControls > .cmPicks { grid-area: picks; gap: 6px; }
 #cmStage .cmControls > .cmLines { grid-area: lines; }
 #cmStage .cmControls > .cmActions { grid-area: actions; }
+#cmStage .cmControls > .cmCylStrip { grid-area: cyl; }
 #cmStage .cmTurnHead { font-size: clamp(26px, 7vw, 34px); }
 #cmStage .cmTurnSub, #cmStage .cmTurnCount { font-size: 13px; }
 #cmStage .cmRowLabel { font-size: 12px; }
@@ -390,7 +393,7 @@
   #cmStage .cmGoal3d { border-radius: 3px; }
   #cmStage .cmTurn { grid-template-columns: 1fr; }
   #cmStage .cmControls { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, .8fr); gap: 8px 16px; align-items: stretch;
-    grid-template-areas: "turn picks clock" "turn actions status" "lines lines lines"; padding-top: 0; }
+    grid-template-areas: "turn picks clock" "turn actions status" "lines lines lines" "cyl cyl cyl"; padding-top: 0; }
   #cmStage .cmControls > .cmClock { align-self: center; font-size: 34px; }
   #cmStage .cmControls > .cmStatus { align-self: center; text-align: center; }
   #cmStage .cmActions { flex-wrap: nowrap; }

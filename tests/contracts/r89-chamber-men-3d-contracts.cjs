@@ -174,7 +174,7 @@ async function c3d2(){
 {
   const ex=/const CM3_LEVEL_EXTRAS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(ex,"one extras table");
   assert.strictEqual((ex[1].match(/\{aniso:/g)||[]).length,5,"one row per level");
-  assert.ok(/\{aniso:4,softness:1\.5,secondShadow:false,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
   assert.ok(scene.includes("QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))]"),"8K uses Ultra's extras");
   assert.ok(scene.includes('S.load(T,{phone:Q.assets==="phone",level:Q.textureLevel??Q.level})'),"textures follow the texture level");
   const stadium=read("js/chamberMenStadium3d.js");
@@ -195,17 +195,61 @@ async function c3d2(){
 // C3D11 r90 LOOK (hunt L01-L03): a night grade (less sky fill), contact shadows under the taker, keeper and ball at every
 //    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
 {
-  assert.ok(/new T\.HemisphereLight\(0xc9d6ff,0x0d150a,\.24\)/.test(scene),"night: less sky fill");
+  assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,\.08\)/.test(scene),"night: a faint sky fill, the floodlights carry the picture");
   assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/one\("cmBlobTaker"/.test(scene)&&/one\("cmBlobKeeper"/.test(scene)&&/one\("cmBlobBall"/.test(scene),"three contact shadows");
   assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
-  assert.ok(/const strength=L<=0\?\.62:L<=2\?\.5:\.4/.test(scene),"at every level, lighter at the top");
+  assert.ok(/const strength=L<=0\?\.62:\.5/.test(scene),"at every level (the floodlights' own shadows are soft, several at once)");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
-  // night pass + L04: corner glare from the floodlights (two small screen quads, every level), the low camera behind and
+  // L04: the low camera behind and
   // left of the taker, a squad number on the back, breathing on the idles.
-  assert.ok(/q\.name="cmGlare"/.test(scene)&&/x0=sx<0\?-1:\.4,x1=sx<0\?-\.4:1,y0=\.1,y1=1/.test(scene),"floodlight glare in the top corners only");
   assert.ok(/const CAMB=\{pos:v3\(-1\.3,3\.05,SPOT_Z\+15\),look:v3\(-1\.3,/.test(scene),"low broadcast camera behind and left of the taker");
   assert.ok(/const number=role==="gk"\?1:SHIRT_NUMBERS\[cm3Hash\(`number\|\$\{club\}`\)%SHIRT_NUMBERS\.length\]/.test(scene)&&/size:kitSize,number\}/.test(scene),"squad number on the shirt");
   assert.ok(/breathe\(taker,live,1\)/.test(scene)&&/breathe\(keeper,live,\.8\)/.test(scene),"both players breathe while they wait");
-  ok("C3D11","r90 LOOK: night grade, glare, contact shadows, low camera, numbers, breathing, both clubs on the boards and in the crowd");
+  ok("C3D11","r90 LOOK: night grade, contact shadows, low camera, numbers, breathing, both clubs on the boards and in the crowd");
+}
+// C3D12 r90 floodlights (Nik 2026-11-08: "proper lighting ... that makes sense in different qualities", "lighting reflection
+//    on the stuff ... actually look better, not just a cheap lighting that you add to the corner"): no screen-space glare;
+//    every light is a floodlight bank on the 37 m roof ring, the same banks at every level (a higher level resolves more of
+//    them and lets more cast), reflections from an environment of those same banks, never from re-rendering the stadium.
+//    The HUD (LOOK L24): the cylinder counts sit in a strip under the controls, named for their owner; flat gold dots.
+{
+  assert.ok(!/cmGlare|uAspect/.test(scene),"no corner glare");
+  const banks=/const FLOOD_BANKS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(banks,"one bank table");
+  const pos=[...banks[1].matchAll(/\{p:\[(-?\d+),(\d+),(-?\d+)\],w:([\d.]+)\}/g)];
+  assert.strictEqual(pos.length,6,"six banks");
+  assert.ok(pos.every(m=>m[2]==="37"),"all on the roof ring, 37 m up");
+  const rigs=/const FLOOD_RIGS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(rigs,"one rig table");
+  const rows=rigs[1].trim().split("\n").map(r=>r.trim());assert.strictEqual(rows.length,5,"one rig per level (8K uses Ultra's)");
+  const used=r=>[...r.matchAll(/\[\[([\d,]+)\],([01])\]/g)];
+  for(const r of rows){const ids=used(r).flatMap(m=>m[1].split(",").map(Number)).sort((a,b)=>a-b);assert.deepStrictEqual(ids,[0,1,2,3,4,5],"every level lights from all six banks");}
+  const shadows=rows.map(r=>used(r).filter(m=>m[2]==="1").length),lights=rows.map(r=>used(r).length);
+  assert.deepStrictEqual(lights,[3,3,4,6,6],"Light and Balanced keep three lights (the old cost)");
+  assert.deepStrictEqual(shadows,[1,1,2,3,4],"more banks cast as the level rises");
+  assert.ok(scene.includes("const flood=cm3FloodRig(L,FLOOD_BANKS)")&&scene.includes("l.target.position.copy(FLOOD_AIM)"),"the lights are the banks, aimed at the box");
+  assert.ok(scene.includes("const env=cm3FloodEnv(T,renderer,L,FLOOD_BANKS)")&&!/pm\.fromScene\(scene/.test(scene),"reflections from the same banks, not a render of the stadium");
+  assert.ok(/for\(const b of banks\)\{const m=new T\.Mesh\(panel/.test(scene),"each bank is a bright panel in the reflections");
+  assert.ok(!/root\.__cmDebug/.test(scene),"no debug hook");
+  const stadium=read("js/chamberMenStadium3d.js");
+  assert.ok(stadium.includes("float cmOut=max(abs(vCmWorld.x)-35.0,0.0)+max(-1.5-vCmWorld.z,0.0);")&&!stadium.includes("mix(1.16,.36"),"an evenly floodlit pitch, darker only past the lines");
+  assert.ok(step.includes("const cmsCylText=(role,live)=>`${NAMES[role]}'s cylinder: ${live} live ${live===1?\"round\":\"rounds\"}`;"),"L24: named for its owner");
+  assert.ok(step.includes('const cylStrip=cmsEl("p","cmCylStrip")')&&step.includes("controls.append(turn,status,clock,picks,lines,actions,cylStrip)")&&!/Cylinder: \$\{/.test(step),"L24: in the strip under the controls, not under GOALS");
+  const live=/#cmStage \.cmChamber\.is-live \{[^}]*\}/.exec(css)[0],empty=/#cmStage \.cmChamber\.is-empty \{[^}]*\}/.exec(css)[0];
+  assert.ok(!/gradient|#ff/.test(live+empty)&&/box-shadow: none;/.test(live)&&live.includes("background: #d4a017;"),"L24: flat gold dots, no gloss or glow");
+  ok("C3D12","r90 floodlights from six roof banks at every level, more shadows higher up, reflections of the same banks, no glare; HUD cylinder strip");
+}
+// C3D13 r90 player moves from Nik's Mixamo files (2026-11-08), baked into our own anims_*.glb (no FBX in the repo): the
+//    taker's reaction varies per kick (four after a goal, two after a miss or save), picked from the kick's own hash so both
+//    phones agree; a keeper who stayed in the middle while the ball went into a corner stays set, then drops his hands to
+//    his knees (no catch at thin air). A clip file without the new clips still plays the first reaction of each kind.
+{
+  assert.ok(scene.includes('const REACTIONS={goal:["victory","victory2","cheer","salute"],miss:["disappointed","defeated"]};'),"reaction pools");
+  assert.ok(/react\[k\]=list\.filter\(n=>TK\[n\]\)\.map\(reaction\)/.test(scene),"reactions present in the file only");
+  assert.ok(/react:pool\[\(luck>>>8\)%pool\.length\]/.test(scene)&&/const luck=cm3Hash\(`ball\|\$\{lineup\.taker\}\|\$\{round\}/.test(scene),"picked from the kick's hash");
+  assert.ok(/const rooted=k\.goal&&k\.shot&&side==="M"&&KC\.defeated\?ROOTED:null;/.test(scene)&&scene.includes('const ROOTED={c:"defeated",m:0,tc:-.15,s:1,rooted:1};'),"rooted keeper on a goal past him");
+  const tool=read("tools/chamber-men-players/clips_r90.json");
+  for(const n of ["victory2","cheer","salute","defeated"])assert.ok(tool.includes(`"${n}"`),`clips_r90.json bakes ${n}`);
+  const fbx=require("node:child_process").execFileSync("git",["ls-files","*.fbx","*.FBX","*.zip"],{cwd:path.join(__dirname,"../.."),encoding:"utf8"}).trim();
+  assert.equal(fbx,"","no Mixamo source (FBX or zip) in the repo");
+  ok("C3D13","r90 moves: reactions vary per kick, rooted keeper, clips baked from Nik's Mixamo files with no FBX committed");
 }
 c3d2().then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

@@ -82,6 +82,10 @@
     R:[{c:"gkDive",m:0,tc:1.1,s:1.6},{c:"gkDive1",m:1,tc:.9,s:1.35},{c:"gkBlock",m:0,tc:.8,s:1.25},{c:"gkBlock1",m:1,tc:.7,s:1.15},{c:"gkBlock2",m:0,tc:.7,s:1.15}],
     M:[{c:"gkCatch1",m:0,tc:.4,s:1,hold:1},{c:"gkCatch2",m:0,tc:.8,s:1.2,hold:1}]
   };
+  // A keeper who stayed in the middle while the ball went to a corner: set until it is past him, then hands to knees.
+  const ROOTED={c:"defeated",m:0,tc:-.15,s:1,rooted:1};
+  // The taker's reaction after the follow-through, one per kick from these (both phones pick the same).
+  const REACTIONS={goal:["victory","victory2","cheer","salute"],miss:["disappointed","defeated"]};
   // Goals: where in the zone the ball goes (heights), by kick.
   const GOAL_SPOTS={side:[[2.75,.32],[2.6,1.05],[2.85,1.85],[2.95,.6]],mid:[[.35,1.55],[-.3,.95],[.15,1.95]]};
 
@@ -146,12 +150,72 @@
   // r90 L04: the squad numbers a club's penalty taker wears (one per club for the Showdown, from its name).
   const SHIRT_NUMBERS=[7,8,9,10,11,14,17,19,20,23];
   const CM3_LEVEL_EXTRAS=[
-    {aniso:4,softness:1.5,secondShadow:false,fullCrowd:false},
-    {aniso:8,softness:2,secondShadow:false,fullCrowd:false},
-    {aniso:16,softness:3,secondShadow:false,fullCrowd:false},
-    {aniso:16,softness:3.5,secondShadow:true,fullCrowd:true},
-    {aniso:16,softness:4,secondShadow:true,fullCrowd:true}
+    {aniso:4,softness:1.5,fullCrowd:false},
+    {aniso:8,softness:2,fullCrowd:false},
+    {aniso:16,softness:3,fullCrowd:false},
+    {aniso:16,softness:3.5,fullCrowd:true},
+    {aniso:16,softness:4,fullCrowd:true}
   ];
+  // r90 floodlight banks (metres; goal line z 0, pitch toward +z), on the roof ring 37 m up where both stadiums carry their
+  // lamps, and how much of the box's light each throws (w).
+  const FLOOD_BANKS=[
+    // Broadcast lighting (UEFA and FIFA guides) asks for more vertical light toward the main camera than away from it, so
+    // the banks on the camera's side and behind it throw more than the far ones.
+    {p:[40,37,16],w:1.5},     // right side, level with the box: the key
+    {p:[-40,37,16],w:.4},   // left side, level with the box
+    {p:[40,37,46],w:1.4},     // right side toward halfway, behind the camera: lights the taker's back
+    {p:[-40,37,46],w:.4},   // left side toward halfway
+    {p:[20,37,-12],w:.25},  // behind the goal, right: the rim on the players' heads and shoulders
+    {p:[-20,37,-12],w:.25}  // behind the goal, left
+  ];
+  const FLOOD_COLOR=0xfff4e8,FLOOD_UNIT=1.05;
+  // Per level: which banks each light carries (merged banks light from their weighted middle) and which cast shadows.
+  // Light and Balanced: three lights, one shadow (the same cost as before). High: four, two shadows. Extra: all six,
+  // three shadows. Ultra and 8K: all six, four shadows (the soft star of shadows under a player in a real stadium).
+  const FLOOD_RIGS=[
+    [[[0,2],1],[[1,3],0],[[4,5],0]],
+    [[[0,2],1],[[1,3],0],[[4,5],0]],
+    [[[0,2],1],[[1,3],1],[[4],0],[[5],0]],
+    [[[0],1],[[1],1],[[2],1],[[3],0],[[4],0],[[5],0]],
+    [[[0],1],[[1],1],[[2],1],[[3],1],[[4],0],[[5],0]]
+  ];
+  function cm3FloodRig(level,banks){
+    return FLOOD_RIGS[Math.max(0,Math.min(4,level))].map(([ids,shadow])=>{
+      let w=0;const p=[0,0,0];for(const i of ids){const b=banks[i];w+=b.w;for(let k=0;k<3;k+=1)p[k]+=b.p[k]*b.w;}
+      return {p:p.map(v=>v/w),w,shadow:Boolean(shadow)};
+    });
+  }
+  // Reflections from the same banks: a small stadium-at-night environment seen from the box (the night sky, the roof
+  // line, the lit stands, the floodlit turf below) with each bank as a bright panel where the lights are and the lamp
+  // ring round the roof, filtered once (PMREM) when the scene is built. So the ball, the posts, the boots and the kits
+  // catch highlights exactly where the light comes from, and the players pick up the green bounce off the pitch. It
+  // replaces filtering the whole stadium (six renders of every stand at load) and costs the same at every level.
+  function cm3FloodEnv(T,renderer,level,banks){
+    try{
+      const es=new T.Scene(),own=[],at=new T.Vector3(0,1.2,9);
+      const add=(g,m)=>{own.push(g,m);const x=new T.Mesh(g,m);es.add(x);return x;};
+      add(new T.SphereGeometry(90,48,24),new T.ShaderMaterial({side:T.BackSide,depthWrite:false,
+        vertexShader:"varying vec3 vD;void main(){vD=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
+        fragmentShader:["varying vec3 vD;void main(){float h=vD.y;",
+          // the night sky over the roof, a shade lighter low down where the floodlights light the air
+          " vec3 c=mix(vec3(.016,.022,.045),vec3(.002,.004,.012),smoothstep(.62,.95,h));",
+          // under the roof (dark steel), then the lit stands and crowd down to the pitch
+          " c=mix(c,vec3(.01,.011,.014),step(h,.6));",
+          " c=mix(c,vec3(.026,.025,.028)*(1.1-h),step(h,.42));",
+          // the floodlit turf: a green bounce under the players
+          " c=mix(c,vec3(.032,.055,.024),smoothstep(-.01,-.12,h));",
+          " gl_FragColor=vec4(c,1.0);}"].join("\n")}));
+      // The lamp ring under the roof edge, all round.
+      const ring=add(new T.CylinderGeometry(52,52,1.6,64,1,true),new T.MeshBasicMaterial({color:new T.Color(.6,.58,.56),side:T.DoubleSide}));ring.position.y=36-at.y;
+      // The banks: 18 x 4 m lamp arrays facing the box.
+      const panel=new T.PlaneGeometry(18,4),hot=new T.MeshBasicMaterial({color:new T.Color(1,.97,.93),side:T.DoubleSide});own.push(panel,hot);
+      for(const b of banks){const m=new T.Mesh(panel,hot.clone());own.push(m.material);m.material.color.multiplyScalar(4*b.w);
+        m.position.set(b.p[0]-at.x,b.p[1]-at.y,b.p[2]-at.z);m.lookAt(0,0,0);es.add(m);}
+      const pm=new T.PMREMGenerator(renderer);const rt=pm.fromScene(es,.015,.1,200);pm.dispose();
+      for(const x of own)x.dispose?.();
+      return rt;
+    }catch(_error){return null;}
+  }
   function buildBroadcast(T,svg,x,opts,Q){
     const d=doc(),canvas=d.createElement("canvas");
     canvas.className="cmGoal3d";canvas.setAttribute("aria-hidden","true");
@@ -178,21 +242,24 @@
       homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso});
     scene.add(S.group);
     const ball=S.ball;
-    // Night match light: floodlights from high over both corners of the box, a cool sky, a soft rim behind the goal.
-    // r90 LOOK (L01): a night grade. Less sky fill, so the stands and the far pitch fall dark and the floodlit box carries
-    // the picture; a touch more key on the penalty area.
-    scene.add(new T.HemisphereLight(0xc9d6ff,0x0d150a,.24));
-    const key=new T.DirectionalLight(0xfff3e2,3.0);key.position.set(9,30,24);key.target.position.set(0,0,6);
-    key.castShadow=true;key.shadow.mapSize.set(Q.shadowSize,Q.shadowSize);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=QX.softness;
-    Object.assign(key.shadow.camera,{left:-11,right:11,top:13,bottom:-11,near:10,far:70});key.shadow.camera.updateProjectionMatrix();
-    scene.add(key,key.target);
-    const fill=new T.DirectionalLight(0xe4ecff,.62);fill.position.set(-14,20,18);scene.add(fill);
-    // Extra and Ultra: the second floodlight bank casts too, so the players get the faint double shadow of a lit stadium.
-    if(QX.secondShadow){fill.castShadow=true;fill.shadow.mapSize.set(Q.shadowSize/2,Q.shadowSize/2);fill.shadow.bias=-.0004;fill.shadow.normalBias=.03;fill.shadow.radius=QX.softness;
-      fill.target.position.set(0,0,6);scene.add(fill.target);Object.assign(fill.shadow.camera,{left:-12,right:12,top:13,bottom:-11,near:8,far:70});fill.shadow.camera.updateProjectionMatrix();}
-    const rim=new T.DirectionalLight(0xfff0d0,.9);rim.position.set(-4,12,-24);scene.add(rim);
-    // Reflections: the stadium itself, once (the ball and posts see the stands and lights).
-    {const pm=new T.PMREMGenerator(renderer);scene.environment=keep(pm.fromScene(scene,.04,.1,300).texture);pm.dispose();scene.environmentIntensity=.45;}
+    // ---------- floodlights ----------
+    // r90 (Nik 2026-11-08: "proper lighting ... that makes sense", "lighting reflection on the stuff ... actually look
+    // better"): every light in the frame comes from a floodlight bank where the stadium has one, on the roof ring 37 m up.
+    // Banks are aimed at the box: one each side level with it, one each side toward halfway (behind the camera), and two
+    // on the roof behind the goal (the rim on the players' shoulders). The rig is the same at every level; a higher level
+    // only resolves more banks one by one and lets more of them cast, so the light never changes direction between devices,
+    // it only gets the multi-shadow look of a real stadium. LED floodlights (about 5700 K): a near-neutral white.
+    const env=cm3FloodEnv(T,renderer,L,FLOOD_BANKS);if(env){keep(env);scene.environment=env.texture;scene.environmentIntensity=1;}
+    scene.add(new T.HemisphereLight(0x9fb4e8,0x14200f,.08));
+    const flood=cm3FloodRig(L,FLOOD_BANKS),FLOOD_AIM=new T.Vector3(0,0,9),lights=[];
+    flood.forEach((f,i)=>{
+      const l=new T.DirectionalLight(FLOOD_COLOR,f.w*FLOOD_UNIT);l.position.set(...f.p);l.target.position.copy(FLOOD_AIM);l.name=`cmFlood${i}`;
+      if(f.shadow){const size=i===0?Q.shadowSize:Math.max(512,Q.shadowSize/2);l.castShadow=true;l.shadow.mapSize.set(size,size);l.shadow.bias=-.0004;l.shadow.normalBias=.03;
+        l.shadow.radius=QX.softness;
+        // The box, the goal and both players: from a 37 m bank a player's shadow runs 2-3 m, so the frustum is the box plus that.
+        Object.assign(l.shadow.camera,{left:-13,right:13,top:13,bottom:-13,near:20,far:110});l.shadow.camera.updateProjectionMatrix();}
+      scene.add(l,l.target);lights.push(l);
+    });
 
     // ---------- players ----------
     const sample=new T.Vector3(),sampleQ=new T.Quaternion(),fwd=new T.Vector3();
@@ -266,8 +333,10 @@
         const idle0=hipsOf(taker,TK.offensiveIdle,0);
         return {...r,total,clipAt,start,idle:rebase(taker,TK.offensiveIdle,`cmIdle${i}`,{zero:"xz",from:idle0,to:start})};
       });
-      const react={victory:rebase(taker,TK.victory,"cmVictory",{zero:"xz",from:hipsOf(taker,TK.victory,0),to:kickEnd}),
-        disappointed:rebase(taker,TK.disappointed,"cmDown",{zero:"xz",from:hipsOf(taker,TK.disappointed,0),to:kickEnd})};
+      // r90 (Nik's Mixamo uploads 2026-11-08): a few reactions each way, picked per kick (REACTIONS); a clip file without
+      // the newer ones still plays the first of each.
+      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:hipsOf(taker,TK[n],0),to:kickEnd});
+      const react={};for(const [k,list] of Object.entries(REACTIONS))react[k]=list.filter(n=>TK[n]).map(reaction);
       const struck=strikeOf(taker,TK);
       const hit=struck?struck.hit:KICK_HIT_GUESS,at=struck?struck.ball:KICK_BALL_GUESS;
       taker.holder.rotation.y=TAKER_YAW;
@@ -279,6 +348,7 @@
       need(keeper,["gkIdle","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"]);
       const KC={gkIdle:rebase(keeper,keeper.clips.gkIdle,"cmGkIdle",{zero:"xz"})};
       for(const n of ["gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
+      if(keeper.clips.defeated)KC.defeated=rebase(keeper,keeper.clips.defeated,"cm_gkDefeated",{zero:"xz"});
       keeper.holder.position.set(0,0,.25);
       return {a:keeper,KC};
     };
@@ -343,28 +413,10 @@
       const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(0,0,0,1)");gr.addColorStop(.45,"rgba(0,0,0,.6)");gr.addColorStop(1,"rgba(0,0,0,0)");
       g.fillStyle=gr;g.fillRect(0,0,64,64);const t=keep(new T.CanvasTexture(c));
       const geo=keep(new T.PlaneGeometry(1,1));geo.rotateX(-Math.PI/2);
-      const strength=L<=0?.62:L<=2?.5:.4;
+      const strength=L<=0?.62:.5;
       const one=(name,w,d0)=>{const m=keep(new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,opacity:strength,color:0x000000,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
         const q=new T.Mesh(geo,m);q.name=name;q.scale.set(w,1,d0);q.position.y=.006;q.renderOrder=1;scene.add(q);return q;};
       return {taker:one("cmBlobTaker",1.15,.9),keeper:one("cmBlobKeeper",1.25,.85),ball:one("cmBlobBall",.36,.36),strength};
-    })();
-    // r90 night pass: the floodlights stand above the penalty framing, so their glare comes into the top corners of the
-    // picture, the way a broadcast lens catches them: a warm bloom with a few soft rays from each corner. Two small quads in
-    // screen space (about a quarter of the frame, one draw, a few ALU per pixel), the same at every level.
-    const glare=(()=>{
-      const P=[],I=[];let n=0;
-      for(const sx of [-1,1]){const x0=sx<0?-1:.4,x1=sx<0?-.4:1,y0=.1,y1=1;P.push(x0,y0,0,x1,y0,0,x1,y1,0,x0,y1,0);I.push(n,n+1,n+2,n,n+2,n+3);n+=4;}
-      const g=keep(new T.BufferGeometry());g.setAttribute("position",new T.Float32BufferAttribute(P,3));g.setIndex(I);
-      const m=keep(new T.ShaderMaterial({uniforms:{uAspect:{value:1}},transparent:true,depthTest:false,depthWrite:false,blending:T.AdditiveBlending,toneMapped:false,fog:false,
-        vertexShader:"varying vec2 vP;void main(){vP=position.xy;gl_Position=vec4(position.xy,0.0,1.0);}",
-        fragmentShader:["uniform float uAspect;varying vec2 vP;",
-          "void main(){float sx=vP.x<0.0?-1.0:1.0;vec2 d=(vP-vec2(sx*.96,1.08))*vec2(uAspect,1.0);float r=length(d);",
-          " float a=atan(d.y,d.x*sx);float rays=pow(abs(sin(a*6.0+.7)),28.0)*exp(-r*2.4)*.16;",
-          " float g=.9*exp(-r*r*6.0)+.22*exp(-r*2.4)+rays*2.0;",
-          // the glare fades out before the quad's edges, so no seam shows
-          " g*=smoothstep(.1,.3,vP.y)*smoothstep(.4,.62,abs(vP.x))*min(1.0,uAspect/1.9);",
-          " gl_FragColor=vec4(vec3(1.0,.86,.64)*g,1.0);}"].join("\n")}));
-      const q=new T.Mesh(g,m);q.name="cmGlare";q.frustumCulled=false;q.renderOrder=1000;scene.add(q);return m;
     })();
     const blobAt=(q,a,lift)=>{
       if(!q)return;q.visible=Boolean(a?a.holder.visible:true);if(!q.visible)return;
@@ -449,7 +501,10 @@
       // The ball turns the way that makes the curl (v x a) with a little topspin, ~10 turns a second.
       const spinSide=v0.clone().cross(curl).normalize(),top=v3(0,1,0).cross(v0).normalize();
       const spinAxis=spinSide.multiplyScalar(.85).addScaledVector(top,.4).normalize(),spinRate=v0.length()/BALL_R*.18;
-      return {...k,round,move,style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-move.tc/move.s,netHit:false};
+      const scored=Boolean(k.goal&&k.shot),pool=scored?react.goal:react.miss;
+      // Beaten standing still (he stayed in the middle, the ball went to a corner): no catch at thin air; he watches it in.
+      const rooted=k.goal&&k.shot&&side==="M"&&KC.defeated?ROOTED:null;
+      return {...k,round,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-(rooted||move).tc/(rooted||move).s,netHit:false};
     };
     // The taker at time t (seconds from the strike); idle while waiting.
     const takerAt=(t,live)=>{
@@ -465,7 +520,7 @@
           if(!st.jog&&kickT<.001){taker.pose([idle]);return;}
           taker.pose([k]);return;
         }
-        const r=plan.goal&&plan.shot?react.victory:react.disappointed,rt=kickT-end,b=cm3Easy(rt/.4);
+        const r=plan.react,rt=kickT-end,b=cm3Easy(rt/.4);
         taker.pose([{clip:TK.penaltyKick,time:end,w:1-b},{clip:r,time:rt,w:b}]);return;
       }
       if(!st.jog){
@@ -479,7 +534,7 @@
     const keeperPose=(t,live)=>{
       const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
       if(!plan||t<plan.kStart){keeper.holder.scale.x=1;keeper.pose([idle]);breathe(keeper,live,.8);return;}
-      const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*.12));
+      const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*(m.rooted?.45:.12)));
       keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
     };
     // The loose ball: gravity, air drag, bounces that lose speed, grass friction while it rolls, and inside the goal the
@@ -556,7 +611,8 @@
       scene.traverse(o=>{for(const m of [].concat(o.material||[]))for(const v of Object.values(m||{}))if(v&&v.isTexture&&!seen.has(v)){seen.add(v);
         const im=v.image,w=im?.width||0,h=im?.height||0;bytes+=w*h*4*(v.generateMipmaps===false?1:4/3);}});
       const r=renderer.info;return {calls:r.render.calls,tris:r.render.triangles,geometries:r.memory.geometries,textures:r.memory.textures,texMB:+(bytes/1048576).toFixed(1),
-        shadowMB:+(key.shadow.mapSize.x*key.shadow.mapSize.y*4/1048576).toFixed(1)};
+        shadowMB:+(lights.reduce((n,l)=>n+(l.castShadow?l.shadow.mapSize.x*l.shadow.mapSize.y*4:0),0)/1048576).toFixed(1),
+        lights:lights.length,shadows:lights.filter(l=>l.castShadow).length};
     };
     const overlay=new T.Scene(),overlayCam=new T.OrthographicCamera(-1,1,1,-1,0,1);
     const overlayMat=keep(new T.MeshBasicMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:true}));
@@ -592,7 +648,6 @@
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
       keeperPose(t,live);takerAt(t,live);ballAt(t);
-      glare.uniforms.uAspect.value=camera.aspect;
       if(blob){blobAt(blob.taker,taker,1);blobAt(blob.keeper,keeper,1);blobAt(blob.ball,null,BALL_R);}
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
@@ -658,7 +713,7 @@
       async warm(){if(!GFX)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,paint,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
       dispose:free,
       lit:Boolean(scene.environment),
-      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
+      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,react:plan&&plan.react?plan.react.name:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
       get alive(){return alive;}
     };
     setLineup(clubs.playerOne,clubs.playerTwo,1);

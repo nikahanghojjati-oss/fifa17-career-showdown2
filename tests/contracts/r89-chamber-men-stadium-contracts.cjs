@@ -69,13 +69,16 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     const n=b.readUInt32LE(12);return {size:b.length,json:JSON.parse(b.toString("utf8",20,20+n))};};
   for(const tier of ["desktop","phone"]){
     const clips=glb(`anims_${tier}.glb`).json.animations.map(a=>a.name);
-    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog","strikeJog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch","gkCatch1","gkCatch2"])assert.ok(clips.includes(c),`anims_${tier} has clip ${c}`);
+    // r90: the clips the scene plays. idle, walk, run, strikeJog and gkCatch went (nothing played them); the reactions
+    // victory2, cheer, salute and defeated came from Nik's Mixamo files (tools/chamber-men-players/clips_r90.json).
+    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated"];
+    assert.deepEqual(clips.slice().sort(),PLAYED.slice().sort(),`anims_${tier} holds exactly the played clips`);
     assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
   }
   // v2: one shared clip file per tier plus one light body file per body; same bones, kit materials, hips scale for clips
-  for(const [tier,amax,bmax] of [["desktop",1.6e6,4.8e6],["phone",1.4e6,2.4e6]]){
+  for(const [tier,amax,bmax] of [["desktop",1.2e6,4.8e6],["phone",1.12e6,2.4e6]]){
     const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
-    assert.equal(a.json.animations.length,18,`anims_${tier} has the 18 clips`);
+    assert.equal(a.json.animations.length,17,`anims_${tier} has the 17 clips`);
     for(const id of ["remy","ch38","ch42"]){
       const {size,json}=glb(`body_${id}_${tier}.glb`);
       assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
@@ -92,7 +95,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   ok("S5","players: shared clip file with every clip and three light bodies with the kit meshes (desktop and phone); the engine can load and play it");
 }
 // S6 r90 LOOK (hunt L01-L03, at every level): a night stand that falls dark under the roof, a floodlight halo, the pitch lit
-//    in a pool round the box; each club's colours in its own block (tintable cells only, away fans in the corner behind the
+//    evenly (r90 floodlights), darker past the lines; each club's colours in its own block (tintable cells only, away fans in the corner behind the
 //    goal past an empty strip); LED boards drawn at run time with the CM17 wordmark and both clubs' crests and names, each
 //    message inside its own board, the run behind the goal centred on it, no board images and no "CMS" lettering.
 {
@@ -107,7 +110,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(/m=w<BW-\.01\?mPattern:/.test(kit),"a short board only carries the pattern");
   assert.ok(/const nightStand=m=>/.test(kit)&&(kit.match(/nightStand\(new T\.MeshStandardMaterial/g)||[]).length===2,"stands and concrete fall dark with height");
   assert.ok(/const halo=new T\.Points\(flareGeo,haloMat\)/.test(kit),"floodlight halo");
-  assert.ok(/mix\(1\.16,\.36,smoothstep\(4\.0,24\.0,length\(\(vCmWorld\.xz-vec2\(0\.0,8\.0\)\)/.test(kit),"the floodlit pool on the box, the turf falling away round it");
+  assert.ok(/mix\(1\.04,\.86,smoothstep\(8\.0,45\.0,length\(vCmWorld\.xz-vec2\(0\.0,9\.0\)\)\)\)\*mix\(1\.0,\.5,smoothstep\(0\.0,8\.0,cmOut\)\)/.test(kit),"the pitch floodlit evenly, darker only past the touchlines and the goal line");
   assert.ok(/vec3\(\.14,\.16,\.25\),smoothstep\(\.5,12\.0,vCmY\)/.test(kit),"the stand falls into a cool dark above the front rows");
   assert.ok(/top=vec3\(\.003,\.007,\.03\),mid=vec3\(\.016,\.026,\.062\)/.test(kit),"a darker, bluer night sky");
   assert.ok(/aCell\[i\]=plain\?pickCell\(PLAIN_CELLS\):pickCell\(TINT_CELLS\)/.test(kit)&&/o\.homeAlt/.test(kit)&&/o\.awayAlt/.test(kit),"club blocks in each club's two colours");
@@ -116,5 +119,31 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   const files=Object.values({...sandbox.CareerModeChamberMenStadium.files.both});
   assert.ok(files.every(f=>!/^board_/.test(f)),"no board file in the load set");
   ok("S6","night stand, club-colour crowd, run-time ad boards with crests and no cut or CMS lettering");
+}
+// S7 r90 big stadium (High and above): Innerscene "Football stadium" (CC0) trimmed by gen_bowl.py into one 1k GLB that only
+//    High, Extra and Ultra fetch (Light and Balanced downloads stay as they were); a bowl that fails to load leaves the
+//    built stands; the crowd sits on the bowl's own seat rows.
+{
+  const file=path.join(ROOT,DIR,"stadium_bowl_V1_1k.glb"),b=fs.readFileSync(file);
+  assert.equal(b.toString("ascii",0,4),"glTF");assert.ok(b.length<=2.6e6,`bowl ${b.length} <= 2.6 MB`);
+  const j=JSON.parse(b.toString("utf8",20,20+b.readUInt32LE(12)));
+  assert.match(j.asset.copyright,/Innerscene.*CC0/,"CC0 source named in the file");
+  assert.deepEqual(j.extensionsRequired,["EXT_texture_webp"]);
+  assert.ok(j.images.every(i=>i.mimeType==="image/webp"),"WebP textures");
+  assert.ok(!JSON.stringify(j.materials).includes("KHR_materials_transmission"),"no transmission pass");
+  for(const gone of ["Pitch","Goals","Perimeter boards","Dugouts","Gates"])assert.ok(!j.meshes.some(m=>m.name===gone),`${gone} trimmed`);
+  const rows=j.scenes[0].extras.cmRows;assert.ok(rows.length>=40&&rows.every(r=>r.length>20&&r.length%2===1),"seat rows in extras");
+  assert.ok(/stadium_bowl_V1_1k\.glb.*CC0/.test(read("tools/chamber-men-assets/LICENSES.md")),"licence row");
+  // Which files each level asks for (a stand-in loader that records URLs).
+  const asked=level=>{const urls=[];const T={SRGBColorSpace:"s",NoColorSpace:"n",
+      TextureLoader:function(){this.loadAsync=u=>{urls.push(u);return Promise.resolve({});};},
+      GLTFLoader:function(){this.loadAsync=u=>{urls.push(u);return Promise.resolve({scene:{traverse(){}}});};}};
+    const sb={};sb.globalThis=sb;vm.createContext(sb);vm.runInContext(kit,sb);sb.CareerModeChamberMenStadium.load(T,{level,phone:false}).catch(()=>{});return urls;};
+  for(const lv of [0,1])assert.ok(!asked(lv).some(u=>/stadium_bowl/.test(u)),`level ${lv} never fetches the bowl`);
+  for(const lv of [2,3,4])assert.ok(asked(lv).some(u=>/stadium_bowl_V1_1k\.glb$/.test(u)),`level ${lv} fetches the 1k bowl`);
+  assert.ok(/error=>\{try\{root\.console\?\.warn\?\.\("Chamber Men: no big stadium; the built stands stay\.",error\);\}catch\(_error\)\{\}return null;\}/.test(kit),"a failed bowl load leaves the built stands");
+  assert.ok(/for\(const st of stands\)st\.visible=false;/.test(kit)&&/bowl\.userData&&bowl\.userData\.cmRows/.test(kit),"the bowl replaces the built stands and seats the crowd");
+  assert.ok(kit.includes("group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake)"),"the bake merges only what shows (the hidden stands' lamps stay out)");
+  ok("S7","big stadium: CC0 bowl, 1k WebP, High and above only, fallback to the built stands, crowd on its rows");
 }
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);

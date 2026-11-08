@@ -166,7 +166,7 @@ const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
   for(const tier of TIERS)for(const t of hype.encoreFor(tier))assert.ok(t+hype.ENCORE_TAIL<hype.scoutInFor(tier),`${tier}: the volley at ${t} s ends before the report`);
   assert.deepEqual(TIERS.map(t=>hype.scoutInFor(t)),[3,4.5,6,7.5,9],'hold times unchanged (x2..x6 of 1.5 s)');
   assert.match(page,/if\(k>=t&&!fired\["enc"\+i\]\)\{ fired\["enc"\+i\]=1; if\(k-t<\.3&&k<SCOUT_IN-ENCORE_TAIL\) encore\(cur\(\),i\); \}/,'a volley made late by a jump to the report is dropped');
-  assert.match(page,/confettiRain\(natCols\(p\.nation\)\.concat\(\[0xf1c35a,0xfff3c4\]\),Math\.round\(110\*PK\),-6,6,3,4\);/,'encore confetti falls behind the card plane (z -9 to -3)');
+  assert.match(page,/confettiRain\(natCols\(p\.nation\)\.concat\(\[0xf1c35a,0xfff3c4\]\),Math\.round\(110\*PK\*CALM\),-6,6,3,4\);/,'encore confetti falls behind the card plane (z -9 to -3)');
   ok('R10','encore volleys: top 3 three, top 10 two, top 20 one, none below; behind the card and over before the scouting report');
 }
 // R11 vibration: feature-detected, guarded, silent when muted

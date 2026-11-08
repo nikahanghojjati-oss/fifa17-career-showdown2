@@ -96,7 +96,7 @@ async function settle(page) {
                 await page.screenshot({ path:path.join(out, `${width}x${height}-first.png`) });
                 release();
                 await page.waitForFunction(() => document.querySelector('link[data-visual-fidelity]')?.sheet);
-                for (const sheet of ['css/visual-fidelity-r2.css', 'css/offline.css']) {
+                for (const sheet of ['css/visual-fidelity-r3.css', 'css/offline.css']) {
                     await page.addStyleTag({ url:new URL(sheet,baseUrl).href });
                 }
                 await page.evaluate(() => document.fonts.ready);

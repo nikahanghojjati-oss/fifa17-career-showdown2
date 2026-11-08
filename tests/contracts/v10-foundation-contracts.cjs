@@ -802,7 +802,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp":"1087e684e01ea45d1d9d4b88c65bb9a841e9f43295cbf6e8bdafff0c56d46a5c",
     "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp":"471173df754656a8d6eef7c1a6cd9a10141cc18809709b44464427775a61dab6",
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
-    "visual-assets/v10_1/roulette/assets/RR_ROOM.webp":"b553adcffee84eb3292ba3b9c96c1b1c81e00452622f80e6e9af22af380a7603",   // r90: the café room back on High+ (softened, edge-faded WebP of the r87 plate)
+    "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp":"3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09",   // r90 Team V HO-059: the café room on Extra (1920 px)
+    "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp":"81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5",   // r90 Team V HO-059: the café room on Ultra and 8K (3840 px)
     "visual-assets/v10_1/special-player/assets/board_night_V1.jpg":"86bf0242453d8dcb4eb3dfd8d1f670fd3926c6348b8fb6eaeaa6c62f2e90bbac",
     "visual-assets/v10_1/special-player/assets/card_black.jpg":"44c96b79f9b039d15c060d0a324f30ba03e25a9430f2bfab485685e3875881fb",
     "visual-assets/v10_1/special-player/assets/card_blue.jpg":"aa09951a2b4ada2fa263c539032d0acb4610bc4b30b2924f3fac5359b34eb9fc",
@@ -823,6 +824,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/stage_phone.webp":"084eec9bfa563e740187ab6aa0a7f65ddd53176c0ac0ae452a6ca2cd13833e3d",
     "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
     "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
+    // r90 Team V 4K master of the Prime Pack desktop stage (same picture as stage_desktop.webp, 3840x2160): loaded only above 2560 device px.
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V1.webp":"c6050854d41cb12988607b9071934fe3f0c548c014cacbff5667ed896139f157",
     // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
     "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
     "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
@@ -900,7 +903,8 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp",
   "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp",
   "visual-assets/v10_1/roulette/assets/RR_HAND.webp",
-  "visual-assets/v10_1/roulette/assets/RR_ROOM.webp",
+  "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp",
+  "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp",
   "visual-assets/v10_1/special-player/assets/card_black.jpg",
   "visual-assets/v10_1/special-player/assets/card_blue.jpg",
   "visual-assets/v10_1/special-player/assets/card_bronze.jpg",

@@ -34,6 +34,12 @@
   // It is 20 to 80 px tall on screen, so light draws it at 512, medium/high at 1k, extra/ultra at 2k (the old 4k set cost
   // ~250 MB of GPU memory for a ball).
   const BALL_MESH="ball_mesh_V3.glb",BALL=["512","1k","1k","2k","2k"];
+  // r90 big stadium: Innerscene "Football stadium" (CC0), trimmed and re-packed by tools/chamber-men-assets/gen_bowl.py.
+  // High, Extra and Ultra draw it with 1k textures (a 2k set cost ~370 MB of GPU memory more for a bowl that fills a band at
+  // the top of the penalty framing, with no visible gain); Light and Balanced never load it (they keep the built stands),
+  // and a bowl that fails to load leaves the built stands in place. Its goals lie on the source's x axis: turned a quarter
+  // turn and moved 52.5 m, its near goal line lands on ours.
+  const BOWL={2:"stadium_bowl_V1_1k.glb",3:"stadium_bowl_V1_1k.glb",4:"stadium_bowl_V1_1k.glb"},BOWL_YAW=Math.PI/2,BOWL_Z=52.5;
   // Colour maps are sRGB; normal, roughness/metal and masks are linear data.
   const SRGB=new Set(["ballColor","crowd","grass","seats","concrete","flare"]);
 
@@ -43,9 +49,11 @@
     const set={...(o.phone?FILES.phone:FILES.desktop),...FILES.both,...ballSet,grass,grassNormal},loader=new T.TextureLoader(),base=o.base||BASE;
     const keys=Object.keys(set);
     const mesh=new T.GLTFLoader().loadAsync(base+BALL_MESH).then(g=>{let geo=null;g.scene.traverse(x=>{if(!geo&&x.isMesh)geo=x.geometry;});if(!geo)throw new Error("ball mesh");return geo;});
-    return Promise.all([mesh,...keys.map(k=>loader.loadAsync(base+set[k]).then(t=>{t.colorSpace=SRGB.has(k)?T.SRGBColorSpace:T.NoColorSpace;return t;}))]).then(([geo,...list])=>{
+    const bowlFile=o.bowl===false||o.phone&&level<2?null:BOWL[level];
+    const bowl=bowlFile?new T.GLTFLoader().loadAsync(base+bowlFile).then(g=>g.scene,error=>{try{root.console?.warn?.("Chamber Men: no big stadium; the built stands stay.",error);}catch(_error){}return null;}):Promise.resolve(null);
+    return Promise.all([mesh,bowl,...keys.map(k=>loader.loadAsync(base+set[k]).then(t=>{t.colorSpace=SRGB.has(k)?T.SRGBColorSpace:T.NoColorSpace;return t;}))]).then(([geo,bowlScene,...list])=>{
       // glTF UVs: no vertical flip.
-      const tex={};keys.forEach((k,i)=>{tex[k]=list[i];if(k.startsWith("ball"))list[i].flipY=false;});tex.ballGeo=geo;return tex;
+      const tex={};keys.forEach((k,i)=>{tex[k]=list[i];if(k.startsWith("ball"))list[i].flipY=false;});tex.ballGeo=geo;tex.bowl=bowlScene;return tex;
     });
   }
 
@@ -156,9 +164,11 @@
         "diffuseColor.rgb*=mix(.78,1.12,band);"+
         "float wear=exp(-pow(length(vCmWorld.xz-vec2(0.0,11.0))/1.3,2.0))*.45+exp(-pow(length((vCmWorld.xz-vec2(0.0,2.2))*vec2(.35,1.0))/1.6,2.0))*.25;"+
         "diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.05,.92,.7),wear);"+
-        // r90 LOOK (L01, night pass): the floodlights pool on the box, brighter in the middle; the turf falls away toward the
-        // touchlines and behind the taker, so the frame reads floodlit, not evenly lit.
-        "diffuseColor.rgb*=mix(1.16,.36,smoothstep(4.0,24.0,length((vCmWorld.xz-vec2(0.0,8.0))*vec2(.75,1.0))));}");
+        // r90 (Nik 2026-11-08, lighting that makes sense): a floodlit pitch is lit evenly (broadcast lighting holds the
+        // whole field within about 0.7 to 1 of its brightest point), the banks overlapping a little more on the box than far
+        // out; the light falls away only past the touchlines and the goal line, where no bank is aimed.
+        "float cmOut=max(abs(vCmWorld.x)-35.0,0.0)+max(-1.5-vCmWorld.z,0.0);"+
+        "diffuseColor.rgb*=mix(1.04,.86,smoothstep(8.0,45.0,length(vCmWorld.xz-vec2(0.0,9.0))))*mix(1.0,.5,smoothstep(0.0,8.0,cmOut));}");
     };
     const pitch=add(new T.PlaneGeometry(130,150),pitchMat);pitch.rotation.x=-Math.PI/2;pitch.position.set(0,0,PITCH_L/2);pitch.receiveShadow=true;
     // Chalk lines for the whole 105 x 68 pitch: one merged geometry a few mm over the grass.
@@ -330,6 +340,33 @@
       stand(2,-27,PITCH_L+27,-Math.PI/2,{x:PITCH_HALF_W+9,z:0},false),stand(3,-(PITCH_HALF_W+9),PITCH_HALF_W+9,Math.PI,{x:0,z:PITCH_L+8.5},false)];
     for(const st of stands)st.updateMatrixWorld(true);
 
+    // ---------- r90 big stadium (High and above) ----------
+    // The bowl takes the built stands' place (they stay built for the crowd's fallback and are hidden); its concrete and
+    // seats get the same night fall-off; its glass stays a plain tint. The crowd sits on its seat rows (cmRows).
+    const bowl=tex.bowl&&tex.bowl.isObject3D?tex.bowl:null;
+    const bowlSeats=[];
+    if(bowl){
+      bowl.rotation.y=BOWL_YAW;bowl.position.set(0,0,BOWL_Z);bowl.name="cmBowl";group.add(bowl);bowl.updateMatrixWorld(true);
+      const seen=new Set();
+      bowl.traverse(x=>{if(!x.isMesh)return;x.receiveShadow=true;x.castShadow=false;keep(x.geometry);
+        for(const m of [].concat(x.material)){if(!m||seen.has(m))continue;seen.add(m);keep(m);
+          for(const k of ["map","normalMap","roughnessMap","metalnessMap","emissiveMap","aoMap"])if(m[k]){m[k].anisotropy=aniso;keep(m[k]);}
+          if(m.isMeshStandardMaterial&&!m.transparent&&!/lamp/i.test(m.name)){nightStand(m);
+            // The source is lit for day: its pale concrete and paint read as floodlit plaster at night, so they go down to
+            // the built stands' tone.
+            if(/concrete|paint|steel|aluminium/i.test(m.name))m.color.multiplyScalar(.3);}
+          if(/lamp/i.test(m.name)&&m.emissive)m.emissive.setRGB(2.2,2.1,1.9);}});
+      for(const st of stands)st.visible=false;
+      // Seats every half metre along each row's centre line, in our axes, facing the pitch centre; rows behind the camera
+      // (more than 30 m down the pitch) never show and are skipped.
+      const rowsIn=(bowl.userData&&bowl.userData.cmRows)||[],v=new T.Vector3(),c=new T.Vector3(0,0,PITCH_L/2);
+      for(const row of rowsIn){const y=row[0],pts=[];for(let i=1;i+1<row.length;i+=2){v.set(row[i],y,row[i+1]);bowl.localToWorld(v);pts.push(v.clone());}
+        for(let i=0;i<pts.length;i+=1){const a=pts[i],b=pts[(i+1)%pts.length],len=a.distanceTo(b);
+          for(let s=.25;s<len;s+=.5){const p=a.clone().lerp(b,s/len);if(p.z>30)continue;
+            const si=p.z<-4?0:p.z>PITCH_L?3:p.x<0?1:2,yaw=Math.atan2(c.x-p.x,c.z-p.z);
+            bowlSeats.push({p:new T.Vector3(p.x,p.y+.02,p.z),yaw:si===0?0:si===1?Math.PI/2:si===2?-Math.PI/2:yaw,si});}}}
+    }
+
     // ---------- crowd ----------
     // One InstancedMesh of cards. Each fan: an atlas pair (arms down / arms up), a phase, a shirt colour (home, away or the
     // drawn colour), and an empty seat now and then. update(t,excitement) moves them: a gentle sway always, bouncing and arms
@@ -338,7 +375,13 @@
     for(const t of [crowdTex,tintTex]){t.generateMipmaps=true;t.minFilter=T.LinearMipmapLinearFilter;}
     const rnd=stadiumSeeded(17);
     const fans=[];
-    for(const s of seatsAll){
+    if(bowlSeats.length){
+      // The bowl: a full house behind the goal, the sides a little thinner on lower levels.
+      for(const s of bowlSeats){const keepRate=(s.si===0?.95:o.full?.9:.75)*(o.density>0&&o.density<1?.4+.6*o.density:1);if(rnd()>keepRate)continue;
+        if(s.si===0&&Math.abs(s.p.x-(PITCH_HALF_W-14))<1.3)continue;
+        fans.push({p:s.p,yaw:s.yaw,si:s.si});}
+    }
+    for(const s of bowlSeats.length?[]:seatsAll){
       // Extra and Ultra fill the far stands too (a sold-out night); lower levels keep them thinner.
       const keepRate=(s.si===0?(phone?.82:.93):s.si===3?(phone?.3:o.full?.86:.6):(phone?.35:o.full?.9:.7))*(o.density>0&&o.density<1?.4+.6*o.density:1);// a few empty seats; thinner far stands on phones and light devices
       if(rnd()>keepRate)continue;
@@ -417,6 +460,9 @@
     // ---------- floodlight flares and sky ----------
     // All flares in one Points draw (a sprite each would cost a draw call per lamp).
     const fp=[];for(const st of stands)for(const v0 of st.userData.lamps){const v=v0.clone();st.localToWorld(v);fp.push(v.x,v.y,v.z);}
+    // With the bowl: its floodlight ring under the roof edge (source lamps at y 37.5 round x 62.7 / z 42.7).
+    if(bowl){fp.length=0;const v=new T.Vector3();
+      for(let t=-1;t<=1.001;t+=1/10)for(const [x,z] of [[62.4,t*42.4],[-62.4,t*42.4],[t*62.4,42.4],[t*62.4,-42.4]]){v.set(x,37.3,z);bowl.localToWorld(v);fp.push(v.x,v.y,v.z);}}
     const flareGeo=new T.BufferGeometry();flareGeo.setAttribute("position",new T.Float32BufferAttribute(fp,3));
     const flareMat=keep(new T.PointsMaterial({map:tex.flare,size:9,sizeAttenuation:true,color:new T.Color(1,.97,.9),blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));
     const flares=new T.Points(keep(flareGeo),flareMat);flares.frustumCulled=false;group.add(flares);
@@ -433,7 +479,8 @@
     // ---------- bake ----------
     // Boards and lamps are many small static meshes: merge them per material so the whole kit draws in a few dozen calls.
     {group.updateMatrixWorld(true);const buckets=new Map(),drop=[];
-      group.traverse(x=>{if(x.isMesh&&x.userData.bake){if(!buckets.has(x.material))buckets.set(x.material,[]);buckets.get(x.material).push(x);drop.push(x);}});
+      // Only what shows: with the bowl the built stands are hidden, and their lamps must not come back merged (Codex on #1288).
+      group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake){if(!buckets.has(x.material))buckets.set(x.material,[]);buckets.get(x.material).push(x);drop.push(x);}});
       const v=new T.Vector3();
       for(const [mat,list] of buckets){
         let count=0;for(const m of list){const g=m.geometry;count+=g.index?g.index.count:g.attributes.position.count;}

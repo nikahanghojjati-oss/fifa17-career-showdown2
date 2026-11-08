@@ -14,6 +14,8 @@
 //   P5 frame rate (r90): one static shadow map, no bloom chain, standard materials, two point lights, no marble hall, quality and governor from
 //      js/gfxTier.js (held during a turn), shaders and textures warmed before ready, baked props, the hit frame uploaded before the spin;
 //   P7 no spoiler (r90): until the hit nothing names or points out the target;
+//   P11 (r90 LOOK L27) no spin before the scene is ready; six spins in a row start and end with no page error;
+//   P9 (r90 LOOK L08/L09) close rest shot on the revolver, words in the bottom strip, the gold button only when there is a tap;
 //   P6 (real scene, software WebGL) one fired turn stepped on the scene's own clock: the camera never cuts (every tick's step is small),
 //      from the crane shut to the shot its speed has one peak and then only falls, it is still creeping at the shot, and the drum stops on
 //      the planned chamber. CMS_RRR_SCENE_SKIP_BROWSER=1 skips P6 (no Chromium).
@@ -93,16 +95,23 @@ has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving re
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
 // r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Medium keep one-lobe materials and plain three.js meshes.
 assert.equal((html.match(/MeshPhysicalMaterial/g)||[]).length,1,'one place makes a two-lobe material');
-has(/const HQ=GFX\.level>=2;\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
+has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;[^\n]*\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
 has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from High up');
 has(/const T=SEGK===1\?THREE:/,'Light and Medium build with plain three.js');
 lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
-// r90 (Nik 2026-11-08): the café room picture is back from High up only; Light and Balanced never download it and keep the dark room.
-has(/\(GFX\.assetLevel\?\?GFX\.level\)>=2\?loadImg\("assets\/RR_ROOM\.webp"\):null/,'the room picture loads only from High up (and only on a download level that allows it)');
-has(/fog:false, depthWrite:false\}\)\);/,'it sits behind the fogged 3D floor as one unlit plane');
-lacks(/RR_ROOM\.jpg/,'the old 523 KB jpg');
-assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,2,'two point lights: the lantern and the one effects light');
-lacks(/RR_ROOM\.jpg|backWall|wallLamp|chandelier|cafeTable|function dado/,'the marble hall');
+// r90 (Nik 2026-11-08: "dark room for the lower quality, a proper background with tables for the higher, nothing excessive"): the room
+// by level. Light and Balanced build and download nothing behind the table; High adds a dark far wall with glowing lamps (no lights);
+// Extra, Ultra and 8K add the sharp café picture (Team V RR_ROOM_V2, 4K on Ultra up), the café tables and one room light.
+has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;/,'High and Extra are the two room steps');
+has(/HALL\?loadImg\(ROOM_4K\?"assets\/RR_ROOM_V2_4K\.webp":"assets\/RR_ROOM_V2_1080\.webp"\):null/,'the café picture loads only on Extra up');
+has(/const ROOM_4K=\(GFX\.assetLevel\?\?GFX\.level\)>=3&&Math\.max\(screen\.width\|\|0,screen\.height\|\|0\)\*\(devicePixelRatio\|\|1\)>2560;/,'the 4K file only above 2560 device pixels');
+has(/if\(HQ\)\{ const lampTex=lampGlassTex\(\)/,'the far wall and its lamps are built only from High up');
+has(/if\(HALL\)\{ const top=mat\(/,'the café tables only from Extra up');
+has(/if\(hallLamps\) hallLamps\.visible=false; scene\.fog=null;/,'the picture replaces the far wall and lifts the fog');
+lacks(/RR_ROOM\.jpg|RR_ROOM\.webp/,'the old café plates (the 523 KB jpg and the dimmed, faded WebP)');
+assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,3,'three point lights: the lantern, the one effects light and the room light');
+has(/if\(HALL\)\{ const roomLight=new T\.PointLight\(/,'the room light exists only on Extra up');
+lacks(/backWall|wallLamp|chandelier|function dado/,'the 2.2.0 hall builders (balcony, ceiling, chandelier: ten lights)');
 lacks(/const floorTex=woodTex\(2048/,'the unused 2048 px wood floor texture');
 lacks(/for\(let i=0;i<d\.length;i\+=4\)\{ const n=\(Math\.random\(\)-\.5\)\*a;/,'the per-pixel grain loop');
 lacks(/Math\.max\(devicePixelRatio\|\|1,1\.5\)/,'the forced 1.5x resolution');
@@ -120,14 +129,14 @@ has(/function bake\(root,skip\)/,'static props are baked into one mesh per mater
 has(/bake\(table\);/,'the table and everything on it');
 has(/bake\(gun,o=>o===crane\|\|o===hammer\);/,'the revolver frame (the crane, drum and hammer still move)');
 has(/function boardFrames\(key,pick,fire\)/,'the board\'s hit look is pre-rendered');
-has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFrames\(who,pick,fire\); delete prepared\[turn\]; if\(frames\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts (in the game already at setup)');
+has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFrames\(who,pick,fire\); delete prepared\[turn\]; if\(frames&&b\.bubbles\[frames\.i\]\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts (in the game already at setup)');
 has(/function prepareHits\(\)\{ if\(!GAME\|\|turn>0\) return;/,'the game\'s planned shots are drawn while the screen is read');
 has(/try\{ renderer\.initTexture\(c\.__tex\); \}catch\(e\)\{\} return \{i,plain,hit:c\}; \}/,'and sent to the GPU then, on its own texture');
 has(/if\(p\.frames&&p\.frames\.hit&&p\.frames\.i===i\) showFrame\(p\.who,p\.frames\.hit,b\.userData\.hit\); else drawBoard/,'the hole and stamp are a texture swap');
 has(/addEventListener\("pagehide",e=>\{ if\(e\.persisted\)\{ cancelAnimationFrame\(rafId\); rafId=0; return; \} disposeAll\(\); \}\);/,'leaving the page frees the GPU at once; a page kept in the back-forward cache only pauses');
 has(/addEventListener\("pageshow",e=>\{ if\(e\.persisted&&window\.__rrReady&&!rafId\) rafId=requestAnimationFrame\(frame\); \}\);/,'and a page restored from that cache picks up its frame loop again');
 has(/if\(manual===null&&playing&&last>0&&t-last>\.25\) playing\.t0\+=t-last-\.016;/,'with the turn clock moved past the pause, so the turn resumes where it stopped');
-ok('P5','lean frame: static shadow, no bloom chain, standard materials, two point lights, no hall, shared quality governor held during turns, warm-up before ready, baked props, pre-uploaded hit frame, dispose on exit');
+ok('P5','lean frame: static shadow, no bloom chain, standard materials, calm lights (the room light only on Extra up), the room by level, shared quality governor held during turns, warm-up before ready, baked props, pre-uploaded hit frame, dispose on exit');
 
 // P7 no spoiler (r90, Nik 2026-11-07: "never reveal who the gun is aiming at while it is locking on; only say the target when hit/removed").
 lacks(/"Aimed at "\+T/,'the status line naming the target before the shot');
@@ -141,6 +150,21 @@ has(/const tx=0, ty=0, hs=who==="D"\?-1:1;/,'the shooter\'s view frames the boar
   const before=w.slice(0,w.indexOf('"wImpact"'));
   assert.ok(!/\bT\b(?!\.length)/.test(before.replace(/const N=NAME\[p\.who\], T=p\.target\.name/,'')),'no beat before the impact uses the target name'); }
 ok('P7','until the hit no line, board look, barrel, hand or camera names or points out the target');
+
+// P9 (r90 LOOK L08/L09): the rest shot opens close on the revolver with the words in the bottom strip, and the gold button shows only
+// when there is a tap (one status line during the turn, no dead button repeating it).
+has(/\.mid \{ position: absolute; left: 50%; bottom: calc\(env\(safe-area-inset-bottom, 0px\) \+ 110px\);/,'the status line and button in the bottom strip on a laptop');
+lacks(/\.mid \{[^}]*top: 612px/,'the old status line in the middle of the screen, over the gun');
+has(/\.cta:disabled \{ visibility: hidden; opacity: 0; \}/,'a button that cannot be tapped is not shown');
+has(/function setBusy\(b\)\{ document\.body\.classList\.toggle\("turning",b\); if\(b\)\{ cta\.disabled=true; return; \}/,'the button is hidden for the whole turn');
+{ const w=html.slice(html.indexOf('function beatWords(p)'),html.indexOf('.filter(([t,k])=>!(REDUCED'));
+  assert.ok(!/\bcta:/.test(w),'no beat writes the button: the status line is said once'); }
+lacks(/cta\.textContent=NAME\[who\]\+"'s turn…"/,'the button repeating the status line');
+has(/fovIdle=PH\?54:60;/,'the rest shot has its own wide lens close in');
+has(/d=Math\.min\(2\.3,Math\.max\(\.35,\(PH\?\.42:\.44\)\/hh\)\)/,'its distance comes from the lens and the window shape, so the gun keeps its share of the width');
+has(/fov=lerp\(fovIdle,fovRest,k\); \}/,'the turn eases from the rest lens to its own lens on the crane up');
+has(/spin\.rotation\.y=-2;/,'the revolver waits turned so barrel, drum and grip read');
+ok('P9','the rest shot opens close on the revolver, words only in the bottom strip, the gold button only when there is a tap');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}
@@ -182,15 +206,26 @@ ok('P7','until the hit no line, board look, barrel, hand or camera names or poin
     await bp.route(url=>!String(url).startsWith(base),route=>route.abort());
     await bp.addInitScript(()=>{window.__skew=0;const pn=performance.now.bind(performance);performance.now=()=>pn()+window.__skew;});
     await bp.goto(`${base}visual-assets/v10_1/roulette/index.html?seed=7`,{waitUntil:'commit'});
+    // P11 (r90 LOOK L27): before the scene is ready there is no spin button to press (a press then found no board and blanked the scene)
+    await bp.waitForSelector('#cta',{state:'attached',timeout:60000});
+    const early=await bp.evaluate(()=>({ready:Boolean(window.__rrReady),disabled:document.getElementById('cta').disabled}));
+    if(!early.ready) assert.equal(early.disabled,true,'L27 the spin button is off until the scene is ready');
     await bp.waitForFunction(()=>window.__rrReady,null,{timeout:180000});
+    assert.equal(await bp.evaluate(()=>document.getElementById('cta').disabled),false,'L27 and on once it is ready');
     await bp.evaluate(()=>__rr.play({fire:true}));await bp.waitForTimeout(1500);
     const tt0=await bp.evaluate(()=>{const tt=__rr.state.tt;dispatchEvent(new PageTransitionEvent('pagehide',{persisted:true}));window.__skew+=30000;return tt;});
     await bp.waitForTimeout(300);
     // Two animation frames after pageshow: the page's own frame (queued first) has run its tick on the way back.
     await bp.evaluate(()=>{dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
     const back=await bp.evaluate(()=>({tt:__rr.state.tt,playing:__rr.state.playing}));
+    // P11 (r90 LOOK L27): spin after spin, shots and clicks, on the scene's own clock: every turn starts, reaches its end and leaves no error
+    const errs0=errors.length;
+    const spins=await bp.evaluate(()=>{ __rr.clock(); __rr.advance(30,false); const out=[]; for(let k=0;k<6;k++){ const started=Boolean(__rr.play({fire:k%3!==1})); __rr.advance(30,false); out.push({started,ended:!__rr.state.playing}); } __rr.advance(.1,true); return out; });
+    assert.equal(errors.length,errs0,`L27 no page error over six spins (${errors.slice(errs0).join(' | ')})`);
+    assert.ok(spins.every(x=>x.started&&x.ended),`L27 every spin starts and ends (${JSON.stringify(spins)})`);
     await bfc.close();
     assert.ok(back.playing&&back.tt-tt0<5,`after 30 s in the back-forward cache the turn resumes where it stopped (turn time ${tt0.toFixed(2)} s -> ${back.tt==null?'ended':back.tt.toFixed(2)+' s'})`);
+    ok('P11','L27: no spin button before the scene is ready; six spins in a row start, end and throw nothing');
     ok('P8',`back-forward cache: 30 s away, turn time ${tt0.toFixed(2)} s -> ${back.tt.toFixed(2)} s, still playing`);
     const {B,rows}=out;
     assert.ok(out.ended,'the turn ended');

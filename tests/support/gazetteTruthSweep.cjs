@@ -8,7 +8,7 @@
 // different rows. Every printed row is recorded with the facts it was printed for and sample filled texts, and every paper
 // goes through the mechanical checks (braces, undefined/NaN/null, "1 points", "a 8-point", "marquee", foreign managers and clubs, invented
 // numbers, both phones, throws/null) and a set of truth checks keyed on the facts (a draw told as a win, a 1-point win as a
-// rout, Europe without Europe, "five seasons" in a ten-season Showdown, ...). Reports under project-documents/r87/gazette-truth/.
+// rout, Europe without Europe, "five seasons" in a ten-season Showdown, ...). Reports go to test-results/gazette-truth/ (old r87 reports: branch archive/pre-r90).
 //
 //   node tests/support/gazetteTruthSweep.cjs                 full sweep, 50 ids per case, writes the JSON report
 //   node tests/support/gazetteTruthSweep.cjs --ids=N --out=name.json   fewer ids, another report name
@@ -349,7 +349,7 @@ module.exports={run,runFast,MIXES,M,PREFIX,buildProjection,seasonFacts,finalFact
 if(require.main===module){
   const fast=process.argv.includes('--fast');
   const ids=Number((process.argv.find(a=>a.startsWith('--ids='))||'').split('=')[1])||50;
-  const outDir=path.join(ROOT,'project-documents/r87/gazette-truth');
+  const outDir=path.join(ROOT,'test-results/gazette-truth');
   const t0=Date.now();
   const report=fast?runFast():run({ids,log:m=>console.log(m)});
   fs.mkdirSync(outDir,{recursive:true});

@@ -4,6 +4,7 @@
 // Chamber Men players, v2: one shared animation file (Remy's skeleton + every clip) and light body files.
 //   ?mode=anims&tier=desktop|phone          -> anims_<tier>.glb (bones only, all clips; hips moves in Remy units)
 //   ?mode=body&body=remy|Ch38|Ch42&tier=... -> body_<id>_<tier>.glb (meshes + skeleton, no clips; extras cmHipsScale)
+//   ?mode=remix&tier=desktop|phone          -> anims_<tier>.glb again: out/anims_<tier>.glb with clips_r90.json applied
 import * as THREE from 'three';
 import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
 import {GLTFExporter} from 'three/addons/exporters/GLTFExporter.js';
@@ -20,8 +21,8 @@ const BODIES={
 const MAT={Body:'Bodymat',Hair:'Hairmat',Eyelashes:'Eyelashmat',Eyes:'Eyesmat',Shirt:'kitShirt',Shorts:'kitShorts',Socks:'kitSocks',Boots:'kitBoots'};
 const RATIO=tier==='phone'?{Body:.6,Hair:.5,Boots:.5,Shirt:.7,Shorts:.7,Eyes:.6,Socks:1,Eyelashes:1}:{};
 const loader=new FBXLoader();
-const remyRaw=await loader.loadAsync('in/soccer_idle.fbx');
-const REMY_HIPS=remyRaw.getObjectByName('mixamorigHips').position.y;
+const remyRaw=mode==='remix'?null:await loader.loadAsync('in/soccer_idle.fbx');
+const REMY_HIPS=remyRaw?remyRaw.getObjectByName('mixamorigHips').position.y:0;
 function fixBones(o){o.traverse(x=>{if(x.isBone)x.name=x.name.replace(/^mixamorig\d+/,'mixamorig');});}
 function reduce(c,s){// keyframe reduction (see README)
   for(const tr of c.tracks){const n=tr.getValueSize(),T0=tr.times,V=tr.values,keepT=[T0[0]],keepV=[...V.slice(0,n)];
@@ -39,7 +40,19 @@ async function save(root,clips,extra){
 // Remy's metres-per-unit (his FBX is in odd units: 1.83 m tall)
 function remyScale(o){o.updateMatrixWorld(true);const bb=new THREE.Box3();o.traverse(m=>{if(m.isSkinnedMesh){m.geometry.computeBoundingBox();bb.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld));}});return {s:1.83/(bb.max.y-bb.min.y),minY:bb.min.y};}
 
-if(mode==='anims'){
+if(mode==='remix'){
+  // r90: the committed anims_<tier>.glb (its rig and clips kept as they are) minus the clips nothing plays, plus new
+  // clips from Nik's Mixamo files (Remy, 30 fps), each cut to the seconds the scene shows (clips_r90.json).
+  const spec=await (await fetch('clips_r90.json?'+Date.now())).json();
+  const {GLTFLoader}=await import('three/addons/loaders/GLTFLoader.js');
+  const base=await new GLTFLoader().loadAsync(`out/anims_${tier}.glb`);
+  const rig=base.scene.children[0],s=rig.scale.x;
+  const clips=base.animations.filter(c=>!spec.drop.includes(c.name));
+  for(const [file,name,from,to] of spec.add){
+    const src=await loader.loadAsync('in/'+file);const a=src.animations.find(x=>x.tracks.length);
+    const c=THREE.AnimationUtils.subclip(a,name,Math.round(from*30),Math.round(to*30),30);c.optimize();reduce(c,s);clips.push(c);log('clip',name);}
+  await save(rig,clips,{clips:clips.map(c=>[c.name,+c.duration.toFixed(2)])});
+}else if(mode==='anims'){
   const list=await (await fetch('clips.json?'+Date.now())).json();
   const {s,minY}=remyScale(remyRaw);
   const clips=[];

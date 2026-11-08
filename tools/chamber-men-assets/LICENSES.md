@@ -16,6 +16,7 @@ Crowd fans are simple drawn figures with no likeness of any real person.
 | File | What | Made by |
 |---|---|---|
 | ball_mesh_V3.glb | match ball mesh (32-panel UVs), Innerscene Soccer ball, CC0 | gen_ball_v3.py |
+| stadium_bowl_V1_1k.glb | big stadium for High and above (tiers, hospitality band, roof, floodlights, facade; seat rows in extras), Innerscene "Football stadium", CC0 1.0 (innerscene.com), trimmed, WebP textures | gen_bowl.py |
 | ball_color_V3_2k.webp, ball_color_V3_1k.webp, ball_color_V3_512.webp | ball colour with match wear (sRGB), one size per device level | gen_ball_v3.py |
 | ball_normal_V3_2k.webp, ball_normal_V3_1k.webp, ball_normal_V3_512.webp | ball normal map (glTF +Y), from the source | gen_ball_v3.py |
 | ball_orm_V3_2k.webp, ball_orm_V3_1k.webp, ball_orm_V3_512.webp | ball G roughness (worn panels rougher), B metalness 0 | gen_ball_v3.py |
@@ -36,3 +37,8 @@ with his own free Adobe account (2026-11-04) and converted by `tools/chamber-men
 characters and animations to be used royalty-free inside a game or project; they must not be redistributed as stand-alone
 assets, so the source FBX files are not kept in the repository. Socks mesh, kit material names, keyframe reduction and
 the uv layout pictures in `players/uv/` are ours.
+
+r90 (2026-11-08): the taker reactions `victory2` (Mixamo "Victory"), `cheer` ("Cheering"), `salute` ("Shake Fist") and
+`defeated` ("Defeated") come from Mixamo animations Nik downloaded on Remy (FBX, 30 fps) and uploaded to the project; they are
+cut to the seconds the scene shows and baked into `anims_*.glb` by `tools/chamber-men-players` (`clips_r90.json`). Same terms:
+the FBX files and the "Soccer Game Pack" zip stay out of the repository.
