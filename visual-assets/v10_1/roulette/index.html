@@ -184,7 +184,10 @@ const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const clamp01=(x)=>x<0?0:x>1?1:x, lerp=(a,b,k)=>a+(b-a)*k, S=(at,dur,tt)=>clamp01((tt-at)/dur);
 const ease={ out:(k)=>1-Math.pow(1-k,3), inOut:(k)=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2, in:(k)=>k*k*k, back:(k)=>{ const c=1.70158; return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2); } };
 /* seeded random so a replay with ?seed= is repeatable */
-let seed=(+qs.get("seed")||(qs.get("bench")==="1"?7:Math.floor(Math.random()*1e9)))>>>0; const rnd=()=>{ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; };
+/* r90 MOTION M31: ?showcase=1 plays the demo turn on a loop (fixed seed) on the game's own path; ?bench=1 is the Device check, which
+   plays the same loop and also has js/gfxTier.js time the frames (readPixels syncs the game never has), so measurements use showcase */
+const SHOWCASE=qs.get("showcase")==="1"||qs.get("bench")==="1";
+let seed=(+qs.get("seed")||(SHOWCASE?7:Math.floor(Math.random()*1e9)))>>>0; const rnd=()=>{ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; };
 const LAYOUT={ danielClub: qs.get("d")||"Manchester United", nikClub: qs.get("n")||"Real Madrid" };
 
 /* ================= quality (r90, Nik 2026-11-07: "you should really adapt to your computer ... a Chromebook should run great, a
@@ -1252,9 +1255,9 @@ Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",
   await warmUp(); last=now();
   GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:3)+" + shot flash"}; });
   window.__rrReady=true; if(!EMBED) cta.disabled=false; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
-  /* r90 Device check (?bench=1&gfx=N): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
+  /* r90 Device check (?bench=1&gfx=N) and measurements (?showcase=1): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
      no Firestore; js/gfxTier.js times the frames through the governor and posts the result to the Device check page */
-  if(qs.get("bench")==="1"&&!EMBED){ let n=0; const go=()=>startTurn(n++%2===0); addEventListener("rr:end",()=>setTimeout(()=>{ setBoards(LAYOUT.danielClub,LAYOUT.nikClub); go(); },800)); go(); } });
+  if(SHOWCASE&&!EMBED){ let n=0; const go=()=>startTurn(n++%2===0); addEventListener("rr:end",()=>setTimeout(()=>{ setBoards(LAYOUT.danielClub,LAYOUT.nikClub); go(); },800)); go(); } });
 })();
 </script>
 </body>
