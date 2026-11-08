@@ -198,7 +198,7 @@ const GFXT=window.CareerModeGfxTier;
 const GFX=GFXT.profile();
 /* r90 high quality: from High up, the lacquered wood, the glazed cups and the felt get their real second layer (a clear lacquer coat,
    a glaze, a velvet sheen); Light and Balanced keep the one-lobe standard material, so their frames cost what they did */
-const HIGH_UP=GFX.level>=2, EXTRA_UP=GFX.level>=3;   /* r90 (Nik 2026-11-08): High gets a hint of the café, Extra/Ultra/8K the whole café */
+const HIGH_UP=GFX.level>=2, EXTRA_UP=GFX.level>=3, LIGHT=GFX.level===0;   /* r90 Light: Nik's Chromebook budget (≤40 draws, ≤12 shader programs, baked table light) */   /* r90 (Nik 2026-11-08): High gets a hint of the café, Extra/Ultra/8K the whole café */
 /* r90 compile: a second-lobe material without a picture gets a 1x1 white one, so the cups share the lacquered wood's shader program
    (white times the colour is the same colour) instead of costing one more of the large physical programs on a cold start */
 const WHITE1=(()=>{ const t=new T.DataTexture(new Uint8Array([255,255,255,255]),1,1); t.colorSpace=T.SRGBColorSpace; t.needsUpdate=true; return t; })();
@@ -223,7 +223,7 @@ function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.
   /* r89 (Nik 2026-11-03: "placement of the gun relative to the board ... like a real game"): the hand is laid out on the unit plane, then held at arm's length
      (HAND_Z in front of the eye, scaled to match), so it looks the same but its muzzle is where a real muzzle would be and the shot crosses the room to the board */
   const px=handSide*(fw/2-pw*(PH&&handAimAt?.22:.40))+rx*handSide*.01, py=-fh/2+ph*.42-lift-low+rx*.025; hand.position.set(px*HAND_Z,py*HAND_Z,-HAND_Z); hand.scale.set(pw*handSide*HAND_Z,ph*HAND_Z,1);
-  hand.rotation.z=handAim(fw,fh,pw,ph,px,py)*Math.min(1,handK)+handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; }
+  hand.rotation.z=handAim(fw,fh,pw,ph,px,py)*Math.min(1,handK)+handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; hand.visible=handK>0; }   /* r90 Light: the hidden hand is not drawn */
 /* r87 (Nik 2026-10-30: "gun should face the board it's shooting"): while a turn aims, the hand sits a little smaller in its
    corner, so the muzzle is below and beside the board instead of in the middle of the frame, and the picture turns about its
    centre until the line from the cylinder (HAND_REAR) through the muzzle runs through the target (projected onto the hand's
@@ -346,15 +346,24 @@ function lathe(pts,seg){ return new T.LatheGeometry(pts.map(p=>new T.Vector2(p[0
 /* r90 (frame budget): a prop built from many small parts that never move against each other (the table and its lantern, pot and cups,
    an easel and its frame, the revolver's frame and barrel) is baked into one mesh per material once it is built, so the room draws in
    a few dozen calls instead of four hundred. skip(o) keeps a part (and what hangs under it) on its own: a moving part, or the board face */
-function bake(root,skip){ root.updateMatrixWorld(true); const inv=root.matrixWorld.clone().invert(), buckets=new Map(), drop=[];
-  root.traverse(o=>{ if(!o.isMesh||o===root) return; for(let q=o;q&&q!==root;q=q.parent){ if(skip&&skip(q)) return; } const mats=Array.isArray(o.material)?o.material:[o.material];
+/* r90 Light: look-alike materials share one (bake draws one mesh per material): the lamp's brass and dark brass as the gold, the coffee
+   and the black slot as the black marble, the bore floors as the bore walls */
+const LIGHT_AS=new Map();
+const twoSided=m=>LIGHT&&!m.transparent&&(m.userData.twoSided||m.side===T.DoubleSide);
+function bake(root,skip,alias){ root.updateMatrixWorld(true); const inv=root.matrixWorld.clone().invert(), buckets=new Map(), drop=[];
+  root.traverse(o=>{ if(!o.isMesh||o===root) return; for(let q=o;q&&q!==root;q=q.parent){ if(skip&&skip(q)) return; } const src=Array.isArray(o.material)?o.material:[o.material], mats=src.map(m=>alias&&alias.get(m)||LIGHT_AS.get(m)||m);
     const g=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone(); g.applyMatrix4(new T.Matrix4().multiplyMatrices(inv,o.matrixWorld));
     const groups=Array.isArray(o.material)&&g.groups.length?g.groups:[{start:0,count:g.attributes.position.count,materialIndex:0}];
-    groups.forEach(gr=>{ const m=mats[gr.materialIndex]; if(!m) return; let b=buckets.get(m); if(!b) buckets.set(m,b={parts:[],n:0,cast:false,recv:false,order:0}); b.parts.push([g,gr.start,Math.min(gr.count,g.attributes.position.count-gr.start)]); b.n+=Math.min(gr.count,g.attributes.position.count-gr.start); b.cast=b.cast||o.castShadow; b.recv=b.recv||o.receiveShadow; b.order=Math.max(b.order,o.renderOrder); });
+    groups.forEach(gr=>{ const m=mats[gr.materialIndex]; if(!m) return; let b=buckets.get(m); if(!b) buckets.set(m,b={parts:[],n:0,cast:false,recv:false,order:0}); const ct=Math.min(gr.count,g.attributes.position.count-gr.start), two=twoSided(src[gr.materialIndex]); b.parts.push([g,gr.start,ct,two]); b.n+=ct*(two?2:1); b.cast=b.cast||o.castShadow; b.recv=b.recv||o.receiveShadow; b.order=Math.max(b.order,o.renderOrder); });
     drop.push(o); });
   buckets.forEach((b,m)=>{ const P=new Float32Array(b.n*3), N=new Float32Array(b.n*3), U=new Float32Array(b.n*2); let k=0;
-    b.parts.forEach(([g,st,ct])=>{ const pa=g.attributes.position.array, na=g.attributes.normal&&g.attributes.normal.array, ua=g.attributes.uv&&g.attributes.uv.array; P.set(pa.subarray(st*3,(st+ct)*3),k*3); if(na) N.set(na.subarray(st*3,(st+ct)*3),k*3); if(ua) U.set(ua.subarray(st*2,(st+ct)*2),k*2); k+=ct; });
+    b.parts.forEach(([g,st,ct,two])=>{ const pa=g.attributes.position.array, na=g.attributes.normal&&g.attributes.normal.array, ua=g.attributes.uv&&g.attributes.uv.array; P.set(pa.subarray(st*3,(st+ct)*3),k*3); if(na) N.set(na.subarray(st*3,(st+ct)*3),k*3); if(ua) U.set(ua.subarray(st*2,(st+ct)*2),k*2);
+      /* r90 Light: a two-sided part also gets its inside as front faces (reversed winding, flipped normals), so its material can be drawn
+         one-sided: the same picture without a two-sided shader program of its own */
+      if(two){ const k2=k+ct; for(let t=0;t<ct;t+=3) for(let v=0;v<3;v++){ const a=st+t+v, d=k2+t+[0,2,1][v]; P.set(pa.subarray(a*3,a*3+3),d*3); if(na){ N[d*3]=-na[a*3]; N[d*3+1]=-na[a*3+1]; N[d*3+2]=-na[a*3+2]; } if(ua) U.set(ua.subarray(a*2,a*2+2),d*2); } }
+      k+=ct*(two?2:1); });
     const geo=new T.BufferGeometry(); geo.setAttribute("position",new T.BufferAttribute(P,3)); geo.setAttribute("normal",new T.BufferAttribute(N,3)); geo.setAttribute("uv",new T.BufferAttribute(U,2));
+    if(twoSided(m)){ m.userData.twoSided=true; m.side=0; m.needsUpdate=true; }   /* 0: front side only */
     const o=new T.Mesh(geo,m); o.castShadow=b.cast; o.receiveShadow=b.recv; o.renderOrder=b.order; root.add(o); });
   drop.forEach(o=>{ if(o.parent) o.parent.remove(o); o.geometry.dispose(); }); }
 { const floor=mesh(new T.PlaneGeometry(14,14),M.floor,0,0,0); floor.rotation.x=-Math.PI/2; floor.receiveShadow=true;
@@ -375,6 +384,7 @@ const table=new T.Group(); scene.add(table);
   const apron=mesh(new T.CylinderGeometry(R-.01,R-.03,.07,96),mahog,0,.65,0,table); apron.receiveShadow=true; mesh(new T.TorusGeometry(R-.03,.006,8,128),M.gold,0,.617,0,table).rotation.x=Math.PI/2;
   /* pedestal: black marble column with brass collars on a stepped black-marble base with gold feet */
   const bmarble=new T.MeshStandardMaterial({color:0x111116, roughness:.12, metalness:0});
+  if(LIGHT){ LIGHT_AS.set(M.coffee,bmarble); LIGHT_AS.set(M.black,bmarble); LIGHT_AS.set(M.brass,M.gold); LIGHT_AS.set(M.brassDark,M.gold); M.glass.forceSinglePass=true; }   /* r90 Light: one pass for the lamp glass (two-sided glass otherwise draws twice, with two programs) */
   mesh(lathe([[0,.1],[.12,.1],[.13,.14],[.1,.2],[.09,.38],[.1,.52],[.13,.58],[.15,.615],[0,.615]],48),bmarble,0,0,0,table);
   [.11,.2,.5].forEach((y,i)=>{ const r=i===1?.098:i?.115:.128; const t=mesh(new T.TorusGeometry(r,.012,10,64),M.brass,0,y,0,table); t.rotation.x=Math.PI/2; });
   mesh(lathe([[0,0],[.5,0],[.52,.02],[.5,.045],[.34,.06],[.2,.08],[.15,.1],[0,.1]],64),bmarble,0,0,0,table).receiveShadow=true; mesh(new T.TorusGeometry(.5,.012,8,96),M.gold,0,.03,0,table).rotation.x=Math.PI/2;
@@ -393,11 +403,16 @@ const table=new T.Group(); scene.add(table);
   const chimney=lathe([[.034,.35],[.04,.38],[.05,.43],[.054,.49],[.046,.56],[.034,.62],[.03,.66]],48); const ch=mesh(chimney,M.glass,0,0,0,lan); ch.renderOrder=5;
   mesh(new T.TorusGeometry(.0335,.004,8,32),M.brass,0,.352,0,lan).rotation.x=Math.PI/2; mesh(new T.TorusGeometry(.031,.003,8,32),M.gold,0,.66,0,lan).rotation.x=Math.PI/2;
   mesh(new T.BoxGeometry(.016,.03,.002),M.black,0,.368,0,lan);
-  const flame=new T.Sprite(new T.SpriteMaterial({map:flameTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); flame.scale.set(.09,.19,1); flame.position.set(0,.445,0); flame.renderOrder=6; lan.add(flame);
-  const halo=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xff9a40, opacity:.3})); halo.scale.set(.42,.5,1); halo.position.set(0,.44,0); halo.renderOrder=6; lan.add(halo);
-  const core=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); core.scale.set(.024,.05,1); core.position.set(0,.405,0); core.renderOrder=6; lan.add(core);
-  const lantern=new T.PointLight(L("#ffb15a"),1.85,6,2); lantern.position.set(0,.43,0); lan.add(lantern);
-  table.userData={flame,halo,lantern};
+  const flame=new T.Sprite(new T.SpriteMaterial({map:flameTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); flame.scale.set(.09,.19,1); flame.position.set(0,.445,0); flame.renderOrder=6; if(!LIGHT) lan.add(flame);
+  /* r90 Light: the warm halo and the flame painted into one picture (added together, as the two additive sprites were), one draw */
+  if(LIGHT){ const [c,x]=cv(256,304), g=x.createRadialGradient(0,0,0,0,0,1); g.addColorStop(0,"rgba(255,142,48,.3)"); g.addColorStop(.3,"rgba(255,115,23,.18)"); g.addColorStop(1,"rgba(255,75,8,0)");
+    x.save(); x.translate(128,152); x.scale(128,152); x.fillStyle=g; x.fillRect(-1,-1,2,2); x.restore(); x.globalCompositeOperation="lighter"; x.drawImage(flame.material.map.image,128-27.5,149-57.5,55,115);
+    const lt=new T.CanvasTexture(c); lt.colorSpace=T.SRGBColorSpace; const lamp=new T.Sprite(new T.SpriteMaterial({map:lt, blending:T.AdditiveBlending, depthWrite:false, transparent:true})); lamp.scale.set(.42,.5,1); lamp.position.set(0,.44,0); lamp.renderOrder=6; lan.add(lamp); table.userData.lamp=lamp; }
+  const halo=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xff9a40, opacity:.3})); halo.scale.set(.42,.5,1); halo.position.set(0,.44,0); halo.renderOrder=6; if(!LIGHT) lan.add(halo);
+  const core=new T.Sprite(new T.SpriteMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffffff})); core.scale.set(.024,.05,1); core.position.set(0,.405,0); core.renderOrder=6; if(!LIGHT) lan.add(core);
+  /* r90 Light: the lamp's warm pool is painted into the felt (bakeLampPool) instead of a second light on every pixel */
+  const lantern=LIGHT?null:new T.PointLight(L("#ffb15a"),1.85,6,2); if(lantern){ lantern.position.set(0,.43,0); lan.add(lantern); }
+  table.userData=Object.assign(table.userData,{flame,halo,lantern});
   /* coffee pot: tall pewter-brass body with a belly, a domed hinged lid with a finial, a gooseneck spout and a looped handle */
   { const pg=new T.Group(); pg.position.set(.04,.75,-.6); pg.rotation.y=-.5; table.add(pg); /* r87: back of the table, off both shooting lines; r87 polish: nearer the middle, so in Nik's phone shot it no longer stands over the corner of his board */
     const body=lathe([[0,0],[.062,0],[.07,.008],[.072,.03],[.066,.07],[.054,.11],[.046,.15],[.045,.18],[.05,.196],[.058,.204],[.056,.212],[.03,.216],[.03,.222],[.04,.236],[.03,.25],[.012,.258],[0,.26]],56); const bm=mesh(body,M.brass,0,0,0,pg); bm.castShadow=true;
@@ -423,6 +438,12 @@ const table=new T.Group(); scene.add(table);
   for(let i=0;i<5;i++){ const c=mesh(new T.BoxGeometry(.064,.002,.09),M.card,-.5+i*.02,.752+i*.002,.34,table); c.rotation.y=.4+i*.12; }
   for(let i=0;i<4;i++) mesh(new T.CylinderGeometry(.013,.013,.003,16),M.gold,.2+i*.03,.753,.45+(i%2)*.025,table);
   bake(table);
+  /* r90 Light: the oil lamp's light on the felt, painted once into the felt picture (the top's UVs map the disc: u from z, v from x),
+     with the fall-off the lamp light had (about 40 % at 0.4 m, 10 % at 0.8 m), so the table keeps its warm pool with one light fewer */
+  if(LIGHT){ const tex=M.felt.map, c=tex.image, x=c.getContext("2d"), Rt=R-.06, W=c.width, H=c.height, lx=-.38, lz=.36;
+    const px=(.5+lz/Rt*.5)*W, py=(1-(.5+lx/Rt*.5))*H, r=.85/Rt*.5*W, g=x.createRadialGradient(px,py,0,px,py,r);
+    g.addColorStop(0,"rgba(150,92,38,.62)"); g.addColorStop(.25,"rgba(120,72,30,.42)"); g.addColorStop(.5,"rgba(90,52,22,.2)"); g.addColorStop(1,"rgba(60,34,14,0)");
+    x.save(); x.setTransform(1,0,0,1,0,0); x.globalCompositeOperation="lighter"; x.fillStyle=g; x.fillRect(0,0,W,H); x.restore(); tex.needsUpdate=true; }
 }
 
 /* ================= lights (r90: one tight table light with the one static shadow map, a dim fill, the lantern on the table and one
@@ -502,6 +523,8 @@ const GM={
   drumGroove:new T.MeshStandardMaterial({color:L("#2a2f38"), metalness:.8, roughness:.5, side:T.DoubleSide}),
   lead:new T.MeshStandardMaterial({color:L("#85888c"), metalness:.6, roughness:.52})
 };
+/* r90 Light: the steel keeps its one roughness (the fine roughness picture is a second shader program for a few pixels of sheen) */
+if(LIGHT){ ["blued","bluedPlain","worn","brass"].forEach(k=>{ GM[k].roughnessMap=null; }); LIGHT_AS.set(GM.bore,GM.boreIn); }
 /* straight prism along +Z from a (x,y) section with flat faces, cylindrical UVs and a cap; every second edge (the chamfers) goes to material 1 */
 function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]; const g=new T.BufferGeometry(); let per=0; const cum=[0]; for(let j=0;j<n;j++){ const a=section[j],b=section[(j+1)%n]; per+=Math.hypot(b[0]-a[0],b[1]-a[1]); cum.push(per); }
   const tri=(p,nn,u)=>{ pos.push(...p); nor.push(...nn); uv.push(...u); };
@@ -561,7 +584,8 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     const tip=new T.Mesh(new T.SphereGeometry(.0038,20,14),GM.lead); tip.scale.z=.75; tip.position.z=.019; round.add(tip);
     round.visible=false; cyl.add(round); cyl.userData.round=round;
     /* LIVE mark: a red glowing ring around the loaded chamber's mouth, turns with the drum so the eye can follow the round through the spin */
-    const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=-.0247; round.add(liveRing);   /* on the rear face: the brass rim and primer are what say "bullet" */
+    const liveRing=new T.Mesh(new T.TorusGeometry(HR+.0011,.0007,10,40),LIGHT?new T.MeshStandardMaterial({color:0x000000, emissive:0xff1a10, roughness:1, metalness:0}):new T.MeshBasicMaterial({color:0xff1a10})); liveRing.position.z=-.0247; round.add(liveRing);   /* on the rear face: the brass rim and primer are what say "bullet"; r90 Light: the same red as a glow on the plain program */
+    bake(round,null,LIGHT?new Map([[GM.bright,GM.brass]]):null);   /* r90 Light budget: the cartridge's five parts draw as one mesh per material (brass, primer, lead, the ring); at Light the primer is brass too */
     /* r89 (Nik 2026-11-03: "does the cylinder really spin ... smoothly"): at full speed the eye can't follow seven holes, and a frame rate
        can't either (the holes strobe and seem to turn backwards). A spin-blur disc on the rear face carries the speed: the chambers smear into
        a dark ring (with a red streak while a round is in), and it fades out as the drum slows, so every hole is sharp again for the stop */
@@ -578,21 +602,28 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
       let sd=91; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
       for(let i=0;i<60;i++){ const r=rnd()*f(R); bx.strokeStyle=`rgba(${rnd()<.5?"255,255,255":"0,0,0"},${(.03+rnd()*.05).toFixed(3)})`; bx.lineWidth=.6+rnd()*1.2; bx.beginPath(); bx.arc(256,256,r,0,7); bx.stroke(); }
       const bt=new T.CanvasTexture(bc); bt.colorSpace=T.SRGBColorSpace; bt.anisotropy=8;
-      const bm=GM.drumFace.clone(); bm.color=L("#b8c0cc"); bm.map=bt; bm.transparent=true; bm.depthWrite=false; bm.opacity=0;
+      const bm=LIGHT?new T.MeshBasicMaterial({color:L("#b8c0cc").multiplyScalar(.3), map:bt, transparent:true, depthWrite:false, opacity:0}):GM.drumFace.clone(); if(!LIGHT){ bm.color=L("#b8c0cc"); bm.map=bt; bm.transparent=true; bm.depthWrite=false; bm.opacity=0; }   /* r90 Light: unlit, at about the lit steel's brightness (one shader program fewer) */
       const blur=new T.Mesh(new T.CircleGeometry(R+.0004,96),bm); blur.position.z=-.0262; blur.rotation.y=Math.PI; blur.renderOrder=2; blur.visible=false; cyl.add(blur);
       /* the live round's red mark, smeared: one faint warm thread along the band's outer edge (1 chamber in 7, so it stays faint) */
       const [rc,rx]=cv(512,512); rx.strokeStyle="rgba(255,50,30,1)"; rx.lineWidth=f(.0008); rx.beginPath(); rx.arc(256,256,f(CR+HR*.98),0,7); rx.stroke();
       const rt=new T.CanvasTexture(rc); rt.colorSpace=T.SRGBColorSpace;
       const streak=new T.Mesh(new T.CircleGeometry(R+.0004,96),new T.MeshBasicMaterial({map:rt, transparent:true, depthWrite:false, opacity:0})); streak.position.z=-.0264; streak.rotation.y=Math.PI; streak.renderOrder=3; streak.visible=false; cyl.add(streak);
-      cyl.userData.blur=(k)=>{ blur.visible=streak.visible=k>.003; bm.opacity=Math.min(1,k*1.15); streak.material.opacity=(cyl.userData.liveCount>0?k:0)*Math.min(.4,.12+.04*cyl.userData.liveCount); }; }
-    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; cyl.userData.liveCount=1; };
+      /* r90 Light: the red thread is painted into a second copy of the blur picture (one draw, not two); the drum shows it while it holds a round */
+      let btLive=null; if(LIGHT){ const [lc,lx]=cv(512,512); lx.drawImage(bc,0,0); lx.globalAlpha=.3; lx.drawImage(rc,0,0); btLive=new T.CanvasTexture(lc); btLive.colorSpace=T.SRGBColorSpace; btLive.anisotropy=8; }
+      cyl.userData.blur=(k)=>{ blur.visible=k>.003; streak.visible=!LIGHT&&k>.003; bm.opacity=Math.min(1,k*1.15); streak.material.opacity=(cyl.userData.liveCount>0?k:0)*Math.min(.4,.12+.04*cyl.userData.liveCount);
+        if(btLive){ const want=cyl.userData.liveCount>0?btLive:bt; if(bm.map!==want){ bm.map=want; } } }; }
+    cyl.userData.placeRound=(i)=>{ const a=i/n*Math.PI*2+Math.PI/2; round.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); round.visible=true; if(merged) merged.visible=false; cyl.userData.liveCount=1; };
     cyl.userData.liveCount=0;   /* r88 Team V: how many live rounds the drum holds now (0 to 7), for the result line's wording */
     /* r88 Chamber Men (Team G): a cylinder can hold up to 7 live rounds, one per goal the rival scored. The same cartridge is
        copied into every live chamber (no new art); an empty list leaves the drum empty. */
     const extra=[]; cyl.userData.placeRounds=(list)=>{ const live=Array.isArray(list)?list.filter(i=>Number.isInteger(i)&&i>=0&&i<n):[]; extra.forEach(r=>{ r.visible=false; });
       if(!live.length){ round.visible=false; cyl.userData.liveCount=0; return; } cyl.userData.placeRound(live[0]); cyl.userData.liveCount=live.length;
-      live.slice(1).forEach((i,k)=>{ let r=extra[k]; if(!r){ r=round.clone(true); cyl.add(r); extra.push(r); } const a=i/n*Math.PI*2+Math.PI/2; r.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); r.visible=true; }); };
-    cyl.userData.clearRounds=()=>{ round.visible=false; extra.forEach(r=>{ r.visible=false; }); cyl.userData.liveCount=0; };
+      live.slice(1).forEach((i,k)=>{ let r=extra[k]; if(!r){ r=round.clone(true); cyl.add(r); extra.push(r); } const a=i/n*Math.PI*2+Math.PI/2; r.position.set(Math.cos(a)*CR,Math.sin(a)*CR,0); r.visible=true; });
+      if(LIGHT) mergeRounds(); };
+    /* r90 Light: up to seven live rounds (Chamber Men) are drawn as ONE set of meshes, not seven, built when the drum is loaded */
+    let merged=null; function mergeRounds(){ if(merged){ cyl.remove(merged); merged.traverse(o=>{ if(o.isMesh) o.geometry.dispose(); }); merged=null; }
+      const live=[round,...extra].filter(r=>r.visible); if(live.length<2) return; merged=new T.Group(); live.forEach(r=>{ const c=r.clone(true); c.visible=true; merged.add(c); r.visible=false; }); cyl.add(merged); bake(merged); }
+    cyl.userData.clearRounds=()=>{ round.visible=false; extra.forEach(r=>{ r.visible=false; }); if(merged) merged.visible=false; cyl.userData.liveCount=0; };
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
@@ -614,7 +645,8 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
   /* r90 MOTION M15: the drum, the crane and the hammer each move as one piece, so each is baked too (one draw per material instead of
      seven bores, seven floors and the pins); the cartridge, the spin blur and the FIRE pointer keep their own meshes because they move or fade */
   bake(cyl,o=>o===cyl.userData.round||o.renderOrder>=2); bake(crane,o=>o===cyl||o===cyl.userData.pointer); bake(hammer);
-  gun.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); bake(gun,o=>o===crane||o===hammer);   /* r90: the gun moves, so it is out of the one static shadow; its contact shadow is the soft picture under it */
+  gun.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); bake(gun,o=>o===crane||o===hammer,LIGHT?new Map([[GM.gold,GM.brass]]):null);   /* r90 Light: the frame's few gold pins as its brass (one draw fewer) */
+   /* r90: the gun moves, so it is out of the one static shadow; its contact shadow is the soft picture under it */
 }
 /* the gun lies on its right side on the felt: spin group turns on the world Y axis, inner tilts the gun flat */
 const spin=new T.Group(); spin.position.set(0,.751,.02); spin.rotation.y=-2; scene.add(spin);   /* r90 LOOK L08: it waits barrel to the back left, grip to the right, so the rest shot reads as a revolver (barrel, drum, grip), never a muzzle */
@@ -698,7 +730,10 @@ function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=
   const ledge=new T.Mesh(new T.BoxGeometry(BOARD_W+.2,.03,.09),walnut); ledge.position.set(0,-BOARD_H/2-.095,.0); easel.add(ledge); const rail=new T.Mesh(new T.BoxGeometry(BOARD_W+.2,.012,.012),GM.gold); rail.position.set(0,-BOARD_H/2-.074,.045); easel.add(rail);
   const stretcher=new T.Mesh(new T.CylinderGeometry(.012,.012,BOARD_W+.26,10),walnut); stretcher.rotation.z=Math.PI/2; stretcher.position.set(0,-BOARD_H/2-.55,-.04); easel.add(stretcher);
   const plate=new T.Mesh(new T.PlaneGeometry(.22,.055),new T.MeshStandardMaterial({map:plateTex(label), roughness:.3, metalness:.6})); plate.position.set(0,-BOARD_H/2-.095,.047); easel.add(plate);
-  easel.traverse(o=>{ if(o.isMesh){ o.castShadow=true; } }); bake(easel); bake(inner,o=>o===face);
+  easel.traverse(o=>{ if(o.isMesh){ o.castShadow=true; } });
+  /* r90 Light budget: the easel is baked into the board's frame (it rocks with the board when the shot lands), so the walnut, the gold
+     and the frame draw once per board instead of twice */
+  if(LIGHT){ g.remove(easel); inner.add(easel); bake(inner,o=>o===face); } else { bake(easel); bake(inner,o=>o===face); }
   g.userData={inner, ctx, canvas:c, first:c, spare:null, tex, face, bubbles:[], hit:null, jolt:new T.Vector3(), joltV:new T.Vector3()}; boards[key]=g; return g; }
 makeBoard("D","DANIEL"); makeBoard("N","NIK");
 
@@ -834,11 +869,35 @@ function setBoards(dClub,nClub){ if(!SQUADS) return; const d=clubByName(dClub), 
 function prepareHits(){ if(!GAME||turn>0) return; GAME.turns.forEach((o,t)=>{ if(!o||o.fire!==true) return; const who=ORDER[t], b=boards[who].userData, plan=rrPlanTurn(o,b.bubbles); if(plan) prepared[t]=boardFrames(who,plan.pick,true); }); }
 
 /* ================= particles: smoke, splinters, dust, flash ================= */
-const smokes=[]; const smokeMat=new T.SpriteMaterial({map:smokeT, transparent:true, depthWrite:false, opacity:.5, color:0xd8d0c0});
-for(let i=0;i<36;i++){ const s=new T.Sprite(smokeMat.clone()); s.visible=false; scene.add(s); smokes.push({s, life:0, v:new T.Vector3(), rot:0}); }
+/* r90 Light (Nik's Chromebook: at the shot the old page drew every smoke puff, spark and fleck on its own, 99 draws in one frame): each
+   kind of particle is ONE batch of camera-facing quads, rebuilt on the CPU every frame (a few hundred numbers) and drawn in one call with
+   one small shader shared by all three. The particles keep the fields the effect code already moves (position, scale, colour, opacity,
+   turn), so the smoke, sparks and flecks fly exactly as before. Quads, not points: a GPU's point size limit would clip a close puff. */
+const FX_VS=`attribute vec4 fxc; varying vec4 vC; varying vec2 vU; void main(){ vC=fxc; vU=uv; gl_Position=projectionMatrix*viewMatrix*vec4(position,1.); }`;
+const FX_FS=`uniform sampler2D map; varying vec4 vC; varying vec2 vU; void main(){ vec4 t=texture2D(map,vU); gl_FragColor=vec4(vC.rgb*t.rgb,vC.a*t.a);
+#include <tonemapping_fragment>
+#include <colorspace_fragment>
+}`;
+const FXB=[];
+function fxBatch(n,map,blending,order,fleck){ const P=new Float32Array(n*12), U=new Float32Array(n*8), C=new Float32Array(n*16), I=[]; for(let i=0;i<n;i++){ const b=i*4; I.push(b,b+1,b+2,b,b+2,b+3); U.set([0,0,1,0,1,1,0,1],i*8); }
+  const g=new T.BufferGeometry(); g.setAttribute("position",new T.BufferAttribute(P,3).setUsage(T.DynamicDrawUsage)); g.setAttribute("uv",new T.BufferAttribute(U,2)); g.setAttribute("fxc",new T.BufferAttribute(C,4).setUsage(T.DynamicDrawUsage)); g.setIndex(I); g.setDrawRange(0,0);
+  const mesh=new T.Mesh(g,new T.ShaderMaterial({uniforms:{map:{value:map}}, vertexShader:FX_VS, fragmentShader:FX_FS, transparent:true, depthWrite:false, blending})); mesh.frustumCulled=false; mesh.renderOrder=order; mesh.visible=false; scene.add(mesh);
+  const list=[], rx=new T.Vector3(), uy=new T.Vector3(), a=new T.Vector3(), b=new T.Vector3();
+  const api={ make(color,opacity){ const o={visible:false, position:new T.Vector3(), scale:new T.Vector3(1,1,1), rotation:new T.Euler(), renderOrder:0, material:{opacity:opacity==null?1:opacity, rotation:0, color:new T.Color(color==null?0xffffff:color)}}; list.push(o); return o; },
+    sync(){ let k=0; rx.setFromMatrixColumn(camera.matrixWorld,0); uy.setFromMatrixColumn(camera.matrixWorld,1);
+      for(const o of list){ if(!o.visible) continue; const m=o.material, w=(fleck?.022*o.scale.x:o.scale.x)/2, h=(fleck?.022*o.scale.x:o.scale.y)/2, c=Math.cos(m.rotation), s=Math.sin(m.rotation);
+        a.copy(rx).multiplyScalar(c*w).addScaledVector(uy,s*w); b.copy(uy).multiplyScalar(c*h).addScaledVector(rx,-s*h); const p=o.position;
+        P.set([p.x-a.x-b.x,p.y-a.y-b.y,p.z-a.z-b.z, p.x+a.x-b.x,p.y+a.y-b.y,p.z+a.z-b.z, p.x+a.x+b.x,p.y+a.y+b.y,p.z+a.z+b.z, p.x-a.x+b.x,p.y-a.y+b.y,p.z-a.z+b.z],k*12);
+        const al=m.opacity*(fleck?.35+.65*Math.abs(Math.sin(o.rotation.x+o.rotation.y)):1); for(let v=0;v<4;v++) C.set([m.color.r,m.color.g,m.color.b,al],k*16+v*4); k++; }
+      g.setDrawRange(0,k*6); mesh.visible=k>0; if(k){ g.attributes.position.needsUpdate=true; g.attributes.fxc.needsUpdate=true; } } };
+  FXB.push(api); return api; }
+const fxSync=()=>{ for(const b of FXB) b.sync(); };
+const smokes=[]; const smokeMat=new T.SpriteMaterial({map:smokeT, transparent:true, depthWrite:false, opacity:.5, color:0xd8d0c0}); const smokeFx=LIGHT?fxBatch(36,smokeT,T.NormalBlending,25,false):null;
+for(let i=0;i<36;i++){ const s=smokeFx?smokeFx.make(0xd8d0c0,.5):new T.Sprite(smokeMat.clone()); s.visible=false; if(!smokeFx) scene.add(s); smokes.push({s, life:0, v:new T.Vector3(), rot:0}); }
 function puff(pos,dir,n,size,speed,life){ for(let i=0;i<n;i++){ const p=smokes.find(q=>q.life<=0); if(!p) return; p.life=life*(.7+rnd()*.6); p.max=p.life; p.s.visible=true; p.s.position.copy(pos).add(new T.Vector3((rnd()-.5)*.02,(rnd()-.5)*.02,(rnd()-.5)*.02)); p.v.copy(dir).multiplyScalar(speed*(.5+rnd())).add(new T.Vector3((rnd()-.5)*.3,.12+rnd()*.2,(rnd()-.5)*.3)); p.size=size*(.6+rnd()*.8); p.s.material.rotation=rnd()*6.28; p.rot=(rnd()-.5)*1.5; } }
 const splinters=[]; const splGeo=new T.BoxGeometry(.012,.004,.03); const splMat=new T.MeshStandardMaterial({color:L("#b9c6c9"),roughness:.12,metalness:.55,transparent:true,opacity:.75});
-for(let i=0;i<40;i++){ const m=new T.Mesh(i%3?splGeo:new T.BoxGeometry(.02,.001,.02),i%3?splMat:M.card); m.visible=false; scene.add(m); splinters.push({m, life:0, v:new T.Vector3(), w:new T.Vector3()}); }
+const fleckFx=LIGHT?fxBatch(40,sparkTex(),T.NormalBlending,26,true):null;   /* r90 Light: the glass and paper flecks as one batch; a fleck glints as it turns */
+for(let i=0;i<40;i++){ const m=fleckFx?fleckFx.make((i%3?splMat.color:M.card.color).clone().multiplyScalar(.6),i%3?.75:1):new T.Mesh(i%3?splGeo:new T.BoxGeometry(.02,.001,.02),i%3?splMat:M.card); m.visible=false; if(!fleckFx) scene.add(m); splinters.push({m, life:0, v:new T.Vector3(), w:new T.Vector3()}); }
 /* r89: glass from the board's cover and a few paper flecks, small and fast, thrown out of the hole toward the camera side, not a cloud across the frame */
 function burst(pos,normal){ splinters.forEach((p,i)=>{ if(i>=22){ p.life=0; p.m.visible=false; return; } p.life=.6+rnd()*.6; p.m.visible=true; p.m.position.copy(pos); p.v.copy(normal).multiplyScalar(.6+rnd()*1.4).add(new T.Vector3((rnd()-.5)*1.4,(rnd()-.15)*1.5,(rnd()-.5)*1.4)); p.w.set(rnd()*20,rnd()*20,rnd()*20); p.m.scale.setScalar(.14+rnd()*.26); }); }
 const flashSprite=new T.Sprite(new T.SpriteMaterial({map:flashTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0})); flashSprite.scale.set(.001,.001,1); scene.add(flashSprite);
@@ -848,7 +907,8 @@ const flashCore=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.No
 /* normal blending on the flash layers: additive over green felt turned the fire yellow-green */
 const petals=[0,1].map(()=>{ const sp=new T.Sprite(new T.SpriteMaterial({map:petalTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xffe6c8})); scene.add(sp); return sp; });
 const sparks=[]; const sparkMat=new T.SpriteMaterial({map:sparkTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffd080});
-for(let i=0;i<40;i++){ const sp=new T.Sprite(sparkMat.clone()); sp.visible=false; scene.add(sp); sparks.push({s:sp, life:0, v:new T.Vector3()}); }
+const sparkFx=LIGHT?fxBatch(40,sparkMat.map,T.AdditiveBlending,28,false):null;
+for(let i=0;i<40;i++){ const sp=sparkFx?sparkFx.make(0xffd080,1):new T.Sprite(sparkMat.clone()); sp.visible=false; if(!sparkFx) scene.add(sp); sparks.push({s:sp, life:0, v:new T.Vector3()}); }
 function spray(pos,dir,n,speed){ for(let i=0;i<n;i++){ const p=sparks.find(q=>q.life<=0); if(!p) return; p.life=.25+rnd()*.4; p.max=p.life; p.s.visible=true; p.s.position.copy(pos); const sz=.006+rnd()*.012; p.s.scale.set(sz,sz,1); p.v.copy(dir).multiplyScalar(speed*(.4+rnd())).add(new T.Vector3((rnd()-.5)*speed*.6,(rnd()-.3)*speed*.5,(rnd()-.5)*speed*.6)); } }
 const hitFlash=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, opacity:0, color:0xfff0d0})); scene.add(hitFlash);
 const hitLight=fxSrc(L("#ffd0a0"),2.5,2);
@@ -856,7 +916,7 @@ const hitLight=fxSrc(L("#ffd0a0"),2.5,2);
 /* dust in the lamp light */
 const dust=(()=>{ const n=260, pos=new Float32Array(n*3), base=[]; for(let i=0;i<n;i++){ const x=(rnd()-.5)*3.2, y=.7+rnd()*2.2, z=-2.2+rnd()*3.2; pos.set([x,y,z],i*3); base.push(x,y,z); } const g=new T.BufferGeometry(); g.setAttribute("position",new T.BufferAttribute(pos,3)); const m=new T.PointsMaterial({map:dustT, size:.016, transparent:true, opacity:.5, depthWrite:false, blending:T.AdditiveBlending, color:0xffd9a0, sizeAttenuation:true}); const p=new T.Points(g,m); scene.add(p); return {p,base,pos}; })();
 /* bullet tracer: a short bright line that lives 0.12 s */
-const tracer=new T.Mesh(new T.CylinderGeometry(.002,.002,1,6),new T.MeshBasicMaterial({color:0xffe0a0, transparent:true, opacity:.9, toneMapped:false})); tracer.visible=false; scene.add(tracer);
+const tracer=new T.Mesh(new T.CylinderGeometry(.002,.002,1,6),new T.MeshBasicMaterial({color:0xffe0a0, transparent:true, opacity:.9, toneMapped:false, map:LIGHT?WHITE1:null}));   /* r90 Light: a white picture puts it on the hand's shader program */ tracer.visible=false; scene.add(tracer);
 /* the bullet the camera rides: lead slug with a copper band, spinning, with a hot streak behind it and a soft shock halo */
 const bullet=new T.Group(); scene.add(bullet); bullet.visible=false;
 { const lead=new T.MeshStandardMaterial({color:L("#9a9ea4"), metalness:.85, roughness:.3}); const copper=new T.MeshStandardMaterial({color:L("#b9722f"), metalness:1, roughness:.25});
@@ -1119,7 +1179,7 @@ function tick(draw){ const t=now();
   let dt=Math.min(.05,t-last||.016); last=t; if(manual!==null) dt=1/30;
   stepTurn(dt); stepCamera(t,dt);
   /* lantern: living flame */
-  const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl;
+  const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; if(table.userData.lamp){ const lp=table.userData.lamp; lp.material.opacity=.82+.2*(fl-.85)/.17; lp.scale.set(.42*(.97+.04*fl),.5*(.95+.06*fl),1); } else { if(table.userData.lantern) table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl; }
   const dtF=dt*fxScale;   /* slow motion for every effect while the camera rides the bullet */
   /* r87 (Nik 2026-10-30: bullet lighting on phone): in the bullet's slow motion the muzzle light and glow used to linger and
      keep swelling, a wash of yellow over the board on phones where the camera rides close. The light and the soft glows now
@@ -1135,7 +1195,7 @@ function tick(draw){ const t=now();
   ["D","N"].forEach(k=>{ const b=boards[k].userData; b.joltV.addScaledVector(b.jolt,-dtF*90); b.joltV.multiplyScalar(Math.pow(.002,dtF)); b.jolt.addScaledVector(b.joltV,dtF); b.inner.rotation.set(b.jolt.z*.12,b.jolt.x*.18,b.jolt.x*.08); b.inner.position.set(0,0,-Math.abs(b.jolt.z)*.015); });
   { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
   applyFx(); fxIdle.forEach(fxVis);
-  if(draw){ renderer.render(scene,camera); if(manual===null&&GOV) GOV.frame(performance.now()); } }
+  if(draw){ camera.updateMatrixWorld(); fxSync(); renderer.render(scene,camera); if(manual===null&&GOV) GOV.frame(performance.now()); } }
 /* r90 BUG-02: in the game the stage stays hidden until the page is armed, so nothing is drawn before the setup arrives (the main
    thread is free to take it at once), and "armed" goes out only after the first frame with this Showdown's boards is drawn,
    so the first frame the manager sees is already complete */
@@ -1193,7 +1253,7 @@ async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch(
 /* Reflections: a Poly Haven ballroom HDRI (CC0, polyhaven.com), the 512x256 EXR "hall" from @pmndrs/assets 1.7.0 (CC0-1.0), shared with
    Chamber Men and cached. It adds reflections and a soft fill only, so polished steel, brass and gold read as metal; the table light stays
    the key. One small PMREM pass behind the loading screen (about 50 ms in the speed trace). If it fails to load the metals keep the lights. */
-function loadLookEnv(){ if(!T.EXRLoader) return Promise.resolve(null); return new T.EXRLoader().setDataType(T.FloatType).loadAsync("assets/ENV_LOUNGE_V1.exr").then(t=>{ const d=t.image&&t.image.data; if(d) for(let i=0;i<d.length;i++){ if(d[i]>LOOK_ENV_MAX) d[i]=LOOK_ENV_MAX; } t.needsUpdate=true; t.mapping=T.EquirectangularReflectionMapping; LOOK.hdri=t; }).catch(()=>null); }
+function loadLookEnv(){ if(!T.EXRLoader||LIGHT) return Promise.resolve(null);   /* r90 Light: no EXR (download, decode, PMREM); loungeEnv stands in */ return new T.EXRLoader().setDataType(T.FloatType).loadAsync("assets/ENV_LOUNGE_V1.exr").then(t=>{ const d=t.image&&t.image.data; if(d) for(let i=0;i<d.length;i++){ if(d[i]>LOOK_ENV_MAX) d[i]=LOOK_ENV_MAX; } t.needsUpdate=true; t.mapping=T.EquirectangularReflectionMapping; LOOK.hdri=t; }).catch(()=>null); }
 /* the sunlit window in the picture is hundreds of times brighter than the room; capped, so polished steel shows a bright window, not a white blaze */
 const LOOK_ENV_MAX=4;
 /* r90 LOOK L29: at every level the revolver's steel reflects a small dark studio of its own: a softbox overhead and a little behind, a
@@ -1205,9 +1265,15 @@ function gunStudio(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new 
   add(10,10,[.018,.04,.022],0,-4.9,0); add(3.4,2.2,[2.2,2.1,1.95],0,4.7,-1.4); add(5,2,[2.6,2.5,2.3],0,3.4,-4.9); add(7,.45,[1.2,1.15,1.1],0,1.2,-4.9); add(1.5,1.5,[1.9,1.4,.85],-4.9,1.3,1.6);
   const t=pm.fromScene(s,.04,.1,20,{size:128}).texture; s.traverse(o=>{ if(o.isMesh){ o.geometry.dispose(); o.material.dispose(); } }); return t; }
 const GUN_STEEL={blued:3, bluedBarrel:3, bluedPlain:2.2, worn:1.4, bright:1, drum:.8, drumFace:.9};
-function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); if(scene.environment) scene.environment.dispose(); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture;
+/* r90 Light: the room's reflections from a small dark lounge of its own (warm wall lamps, a dim ceiling, the felt below), built in one
+   small pass at the gun studio's size (128, the same shader programs) instead of loading and converting the EXR */
+function loungeEnv(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:new T.Color(...c), side:T.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
+  s.add(new T.Mesh(new T.BoxGeometry(10,10,10),new T.MeshBasicMaterial({color:new T.Color(.045,.032,.024), side:T.BackSide})));
+  add(10,10,[.02,.045,.025],0,-4.9,0); add(4,4,[.16,.12,.085],0,4.9,0); add(1.4,1.4,[1.5,1.05,.6],-4.9,1.4,-1.5); add(1.4,1.4,[1.5,1.05,.6],4.9,1.4,-1.5); add(6,1.2,[.5,.38,.26],0,1.6,-4.9); add(6,1.2,[.32,.24,.17],0,1.6,4.9);
+  const t=pm.fromScene(s,.04,.1,20,{size:128}).texture; s.traverse(o=>{ if(o.isMesh){ o.geometry.dispose(); o.material.dispose(); } }); return t; }
+function buildEnv(){ if(!LOOK.hdri&&!LIGHT) return; const pm=new T.PMREMGenerator(renderer); if(scene.environment) scene.environment.dispose(); scene.environment=LIGHT?loungeEnv(pm):pm.fromEquirectangular(LOOK.hdri).texture;
   { const st=gunStudio(pm); Object.entries(GUN_STEEL).forEach(([k,v])=>{ GM[k].envMap=st; GM[k].envMapIntensity=v; GM[k].needsUpdate=true; }); GM.drum.roughness=.38; GM.drumFace.roughness=.42; GM.bright.roughness=.3; }   /* satin, so the flutes and the hammer show their shape instead of one mirror stripe */
-  pm.dispose(); LOOK.hdri.dispose();   /* the GPU copy goes; the small EXR stays in memory so a lost context can make the reflections again */
+  pm.dispose(); if(LOOK.hdri) LOOK.hdri.dispose();   /* the GPU copy goes; the small EXR stays in memory so a lost context can make the reflections again */
   scene.environmentIntensity=EXTRA_UP?.6:.5; M.floor.envMapIntensity=EXTRA_UP?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
 /* r90 warm-up (Reus Gate): every texture goes to the GPU and every shader compiles (in parallel where the browser can) BEFORE the page
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
@@ -1294,7 +1360,7 @@ const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 3
 Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",{stage:"build"}); layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
   camPos.copy(camRest); camLook.copy(lookRest); last=now(); cta.disabled=true;
   await warmUp(); last=now();
-  GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:3)+" + shot flash"}; });
+  GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:LIGHT?2:3)+" + shot flash"}; });
   window.__rrReady=true; if(!EMBED) cta.disabled=false; rafId=requestAnimationFrame(frame); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
   /* r90 Device check (?bench=1&gfx=N) and measurements (?showcase=1): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
      no Firestore; js/gfxTier.js times the frames through the governor and posts the result to the Device check page */

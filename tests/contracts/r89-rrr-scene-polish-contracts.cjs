@@ -247,6 +247,26 @@ ok('P13','L29 revolver steel reflects its own studio; fluted drum');
   assert.doesNotMatch(html,/qs\.get\("bench"\)==="1"&&!EMBED/,'M31 the loop no longer keys on bench alone');
 }
 ok('P14','M31 showcase loop on its own switch');
+// P16 (r90 Light, Nik 2026-11-08: Light is built for his Chromebook): one key light and the hemisphere plus the shot flash, the lamp's
+// light painted into the felt, no EXR at Light, particles batched, look-alike materials shared (≤40 draws, ≤12 programs measured)
+{
+  has(/LIGHT=GFX\.level===0;/,'Light flag from the shared quality system');
+  has(/const lantern=LIGHT\?null:new T\.PointLight\(/,'Light: no lamp light; its pool is baked');
+  has(/if\(LIGHT\)\{ const tex=M\.felt\.map, c=tex\.image, x=c\.getContext\("2d"\)/,'Light: the lamp pool is painted into the felt');
+  has(/function loadLookEnv\(\)\{ if\(!T\.EXRLoader\|\|LIGHT\) return Promise\.resolve\(null\);/,'Light: no EXR');
+  has(/scene\.environment=LIGHT\?loungeEnv\(pm\):pm\.fromEquirectangular\(LOOK\.hdri\)\.texture;/,'Light: a small lounge env of its own');
+  has(/function fxBatch\(n,map,blending,order,fleck\)\{/,'Light: particles batched into one draw per kind');
+  has(/const smokeFx=LIGHT\?fxBatch\(36,smokeT,T\.NormalBlending,25,false\):null;/,'Light: smoke batched');
+  has(/const sparkFx=LIGHT\?fxBatch\(40,sparkMat\.map,T\.AdditiveBlending,28,false\):null;/,'Light: sparks batched');
+  has(/const fleckFx=LIGHT\?fxBatch\(40,sparkTex\(\),T\.NormalBlending,26,true\):null;/,'Light: flecks batched');
+  has(/camera\.updateMatrixWorld\(\); fxSync\(\); renderer\.render\(scene,camera\);/,'batches follow the camera every drawn frame');
+  has(/if\(LIGHT\) mergeRounds\(\); \};/,'Light: every live round in one set of meshes');
+  has(/if\(LIGHT\)\{ g\.remove\(easel\); inner\.add\(easel\); bake\(inner,o=>o===face\); \}/,'Light: the easel bakes with its board');
+  has(/M\.glass\.forceSinglePass=true;/,'Light: lamp glass in one pass');
+  has(/hand\.visible=handK>0;/,'the hidden hand is not drawn');
+  has(/const twoSided=m=>LIGHT&&!m\.transparent&&\(m\.userData\.twoSided\|\|m\.side===T\.DoubleSide\);/,'Light: two-sided parts baked with both windings');
+}
+ok('P16','Light: one key light + hemisphere + shot flash, lamp light baked into the felt, no EXR, particles batched, shared look-alike materials');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}
