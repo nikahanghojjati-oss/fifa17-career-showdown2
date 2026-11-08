@@ -34,8 +34,10 @@
     {pr:2,max:8,shadowSize:4096,density:1,bloom:true}
   ];
   const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3;
-  // An 8K pick that failed here (a context lost or a buffer the browser would not give) plays Ultra until 8K is picked again.
-  const FALLBACK_8K_KEY="careerModeShowdown.gfx8kFallback.v1";
+  // "Never crash" first (Nik 2026-11-08): a lost context, an out-of-memory error, or (8K) a buffer or target the GPU would
+  // not give drops this device one level below the one that failed and remembers it (any level, Auto or picked) until the
+  // player picks a level again in Settings.
+  const CAP_KEY="careerModeShowdown.gfxCap.v1";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
   // The Device check (device-check.html) saves the best level this device held at 60 fps; Auto starts there.
   const MEASURED_KEY="careerModeShowdown.gfxMeasured.v1";
@@ -103,25 +105,31 @@
   }
   // 8K needs a GPU that can hold a 7680 px buffer and texture; never software GL, never a phone.
   function gfxCan8k(info,env){return Boolean(info&&!info.software&&!(env&&env.phone)&&info.maxBuffer>=7680&&info.maxTexture>=7680);}
-  function gfxFallback8k(){try{const v=JSON.parse(gfxRead(FALLBACK_8K_KEY)||"null");return v&&v.reason?v:null;}catch(_error){return null;}}
+  function gfxCap(){try{const v=JSON.parse(gfxRead(CAP_KEY)||"null");return v&&v.reason&&Number.isInteger(v.level)&&v.level>=0&&v.level<=4?v:null;}catch(_error){return null;}}
+  // Downloads follow the connection as well as the device (Nik 2026-11-08): Save-Data, or a 2g/3g connection, loads one
+  // size down; the drawing level stays.
+  function gfxSlowNet(){
+    try{const c=root.navigator&&root.navigator.connection;if(!c)return false;return Boolean(c.saveData)||/^(slow-2g|2g|3g)$/.test(String(c.effectiveType||""));}catch(_error){return false;}
+  }
   function gfxBuild(level,base){
     let fellBack=null;
     if(level===5&&!base.can8k)level=4;
-    else if(level===5&&(fellBack=gfxFallback8k()))level=4;
+    const cap=gfxCap();if(cap&&level>cap.level){fellBack={...cap,from:level};level=cap.level;}
     const L=LEVELS[level],dpr=base.dpr,phone=Boolean(base.phone);
     // Auto and the named levels stay at or under the screen's own ratio; ultra and 8K always reach it (a 4K or 8K screen
     // draws at native size) and may draw past it (2x, 4x) while the buffer stays within 3840x2160 (8K: 7680x4320; the
     // governor checks). A phone never draws past 3x its CSS size, nor past a 4K buffer (iOS memory).
     let max=level>=4?Math.max(dpr,(level===5?4:2)*dpr):Math.min(L.max,dpr);
     if(phone)max=Math.min(max,Math.max(1,Math.min(PHONE_MAX_PR,dpr)));
-    const min=Math.min(1,dpr,max);
+    const min=Math.min(1,dpr,max),assetLevel=Math.max(0,Math.min(4,phone&&level<2?level-1:level)-(base.slowNet?1:0));
     return {level,name:NAMES[level],choice:base.choice,gpu:base.gpu,software:base.software,dpr,phone,can8k:Boolean(base.can8k),fellBack,
       // Ultra starts at native at least (a 3x phone or 8K screen); 8K starts at its ceiling, which the governor holds to a
       // 7680x4320 buffer for the live canvas (a 1080p screen draws 4x). Past native always stays within the buffer cap.
       pixelRatio:Math.max(min,Math.min(level===5?max:level===4?Math.max(L.pr,dpr):L.pr,max)),maxPixelRatio:max,minPixelRatio:min,
       bufferCap:level===5?BUFFER_CAP_8K:BUFFER_CAP,
-      // Textures and models by level; a phone below High loads one size down (iOS memory). 8K uses Ultra's assets.
-      textureLevel:Math.min(4,phone&&level<2?Math.max(0,level-1):level),
+      // Textures and models by level; a phone below High loads one size down (iOS memory), and so does a slow or Save-Data
+      // connection. 8K uses Ultra's assets. assetLevel is what screens download; textureLevel is the same value (older name).
+      assetLevel,textureLevel:assetLevel,slowNet:Boolean(base.slowNet),
       antialias:!base.software,shadowSize:L.shadowSize,density:L.density,bloom:L.bloom};
   }
   function gfxProfile(){
@@ -131,28 +139,35 @@
     const forced=gfxQuery("gfx"),forcedLevel=forced!==null&&/^[0-5]$/.test(forced)?Number(forced):null;
     const measured=gfxMeasured(),autoLevel=measured?measured.level:auto.level;
     let level=forcedLevel!==null?forcedLevel:c==="auto"?autoLevel:gfxChoiceLevel(c);
-    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,choice:forcedLevel!==null?`gfx=${forcedLevel}`:c});
+    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
-    gfxMarkRoot(cached.level);
+    gfxMarkRoot(cached.level,cached.assetLevel);
     return cached;
   }
   // r90 (Nik 2026-11-08, "the best quality it can hold, on every screen"): the resolved level on the root element as
   // html[data-gfx="0".."5"], here and on the app page around the roulette frame, so 2D screens (marble plates, blurs,
   // shadows, CSS animations) can lighten heavy effects at Light. Set when the module loads and whenever the level changes
   // (calibrate, a new pick, a Device check result, an 8K fallback).
-  function gfxMarkRoot(level){
-    const v=String(level);
-    for(const w of [root,gfxParent()]){try{const el=w&&w.document&&w.document.documentElement;if(el&&el.dataset&&el.dataset.gfx!==v)el.dataset.gfx=v;}catch(_error){}}
+  // html[data-assets="0".."4"] is the download size (image pickers follow it).
+  function gfxMarkRoot(level,assets){
+    const v=String(level),a=assets===undefined?null:String(assets);
+    for(const w of [root,gfxParent()]){try{const el=w&&w.document&&w.document.documentElement;if(!el||!el.dataset)continue;
+      if(el.dataset.gfx!==v)el.dataset.gfx=v;if(a!==null&&el.dataset.assets!==a)el.dataset.assets=a;}catch(_error){}}
   }
   function gfxParent(){try{return root.parent&&root.parent!==root&&root.parent.document?root.parent:null;}catch(_error){return null;}}
-  function gfxRemark(){try{gfxMarkRoot(gfxProfile().level);}catch(_error){}}
-  function gfxSetLevel(level){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,choice:p.choice});
-    next.auto=p.auto;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level);return next;}
-  // 8K could not hold here: remember it (Ultra until 8K is picked again), rebuild the profile and move the live governor.
-  function gfx8kFail(reason){
-    gfxWrite(FALLBACK_8K_KEY,JSON.stringify({reason:String(reason||"failed"),at:Date.now()}));cached=null;
+  function gfxRemark(){try{const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);}catch(_error){}}
+  function gfxSetLevel(level){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice});
+    next.auto=p.auto;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level,next.assetLevel);return next;}
+  // The device could not hold this level (a lost context, an out-of-memory error, an 8K buffer or target refused): one
+  // level down, remembered, the live governor moved at once. Scenes call gov.end() before forceContextLoss() on dispose,
+  // so their own clean-up never counts; neither does a context lost while the page is hidden (the browser reclaiming it).
+  function gfxFail(reason){
+    if(root.document&&root.document.visibilityState==="hidden")return gfxProfile();
+    const cur=(cached||gfxProfile()).level,old=gfxCap();
+    const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now()}));cached=null;
     try{active?.sync();}catch(_error){}
-    return gfxProfile();
+    const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);return p;
   }
   // MSAA for a render target: the highest sample count at or under the wish that the GPU supports for both the colour format
   // (RGBA16F with hdr, else RGBA8) and DEPTH_COMPONENT24 (W3's fix on #1265; MAX_SAMPLES alone is not enough). Without the
@@ -182,16 +197,21 @@
         target.samples=target.samples>4?4:0;target.dispose();
       }
     }catch(_error){ok=false;}
-    if(!ok&&cached&&cached.level===5)gfx8kFail("a render target the GPU would not complete");
+    if(!ok&&cached&&cached.level===5)gfxFail("a render target the GPU would not complete");
     return ok;
   }
 
   function gfxNow(){return root.performance?.now?.()??Date.now();}
   // One frame drawn and waited for: a 1 px read makes the GPU finish, so the time is the real cost of the frame.
+  const oomSeen=new WeakSet();
   function gfxTimedDraw(renderer,draw){
     const gl=renderer.getContext(),px=new Uint8Array(4);
     const t=gfxNow();draw();try{gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,px);}catch(_error){}
-    return gfxNow()-t;
+    const ms=gfxNow()-t;
+    // Out of GPU memory while drawing this level: never crash, one level down (once per renderer, so one bad moment is
+    // one step, not a slide to Light).
+    try{if(gl.OUT_OF_MEMORY&&!oomSeen.has(renderer)&&gl.getError()===gl.OUT_OF_MEMORY){oomSeen.add(renderer);gfxFail("the GPU ran out of memory");}}catch(_error){}
+    return ms;
   }
   // Behind the loading screen: a few timed frames (the first ones also compile every shader). On auto, a level whose
   // frames cost more than ~80% of a 60 Hz frame steps down one; one under a quarter of it steps up one (never past what the
@@ -239,13 +259,13 @@
     const settled=key?Number(gfxRead(MEMORY_KEY(key))):NaN;
     if(p.auto&&Number.isFinite(settled)&&settled>0)at=Math.max(at,nearest(settled));
     const bad=new Set();let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
-    const lost=()=>{if(p.level===5)gfx8kFail("the GPU dropped the 8K picture (context lost)");};
+    const lost=()=>{if(!ended)gfxFail("the GPU dropped the picture (context lost)");};
     try{renderer.domElement?.addEventListener?.("webglcontextlost",lost);}catch(_error){}
     const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,p,()=>list[at]):null;
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}
       // 8K: a browser that quietly gives a smaller drawing buffer than asked (its own limit) means 8K cannot hold here.
       if(p.level===5){try{const gl=renderer.getContext(),c=renderer.domElement,s=size();
-        if(gl&&c&&s.w&&gl.drawingBufferWidth&&c.width&&gl.drawingBufferWidth<c.width-2){gfx8kFail("the browser capped the 8K buffer");return;}}catch(_error){}}
+        if(gl&&c&&s.w&&gl.drawingBufferWidth&&c.width&&gl.drawingBufferWidth<c.width-2){gfxFail("the browser capped the 8K buffer");return;}}catch(_error){}}
       try{o.onChange?.({...p,pixelRatio:list[at]});}catch(_error){}};
     apply(at);
     const api={
@@ -324,7 +344,7 @@
         const ms=acc/n,p=gfxProfile(),gov=active,extra=(()=>{try{return info?info()||{}:{};}catch(_error){return {};}})();
         const lines=[`${Math.round(1000/ms)} fps  ${ms.toFixed(1)} ms  pr ${(gov?gov.pixelRatio():p.pixelRatio).toFixed(2)}`,
           `${p.name} (${p.choice}${p.auto&&p.level!==p.autoLevel?`, device says ${NAMES[p.autoLevel]}`:""})${p.calibratedMs!=null?`  cal ${p.calibratedMs} ms`:""}`,
-          ...(p.fellBack?[`8K fell back to ultra: ${p.fellBack.reason}`]:[]),
+          ...(p.fellBack?[`fell back from ${NAMES[p.fellBack.from]} to ${p.name}: ${p.fellBack.reason}`]:[]),
           p.gpu?p.gpu.slice(0,60):"gpu ?"];
         if(extra.calls!=null||extra.tris!=null)lines.push(`${extra.calls??"?"} calls  ${extra.tris!=null?(extra.tris/1000).toFixed(0)+"k":"?"} tris`);
         if(extra.extra)lines.push(String(extra.extra));
@@ -350,12 +370,15 @@
     setMeasured(level,detail){const l=Math.max(0,Math.min(4,Math.round(Number(level))));if(!Number.isFinite(l))return null;
       gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
     clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
-    choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);if(v==="8k")gfxWrite(FALLBACK_8K_KEY,"null");cached=null;gfxRemark();return v;},
+    choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
     // 8K is offered only where it can run (Settings shows it only then); samples()/checkTarget() size MSAA for render targets.
-    can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,fallback8k:gfx8kFail,
+    can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,
+    // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
+    fallback:gfxFail,fallback8k:gfxFail,
     reset(){cached=null;}};
   // On load: a level the player picked or the Device check measured is marked at once (no GPU probe); the full profile
   // (one throwaway context for the GPU name) follows when the page is idle.
-  try{const c=gfxChoice(),m=gfxMeasured();if(c!=="auto"&&c!=="8k")gfxMarkRoot(gfxChoiceLevel(c));else if(c==="auto"&&m)gfxMarkRoot(m.level);}catch(_error){}
+  try{const c=gfxChoice(),m=gfxMeasured(),l=c!=="auto"&&c!=="8k"?gfxChoiceLevel(c):c==="auto"&&m?m.level:null,cap=gfxCap();
+    if(l!==null){const lv=cap?Math.min(l,cap.level):l,phone=gfxScreenEnv().phone;gfxMarkRoot(lv,Math.max(0,Math.min(4,phone&&lv<2?lv-1:lv)-(gfxSlowNet()?1:0)));}}catch(_error){}
   try{(root.requestIdleCallback||(f=>root.setTimeout(f,200)))(()=>gfxRemark(),{timeout:2000});}catch(_error){}
 })(typeof globalThis!=="undefined"?globalThis:this);

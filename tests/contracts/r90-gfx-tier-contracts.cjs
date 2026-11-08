@@ -19,6 +19,8 @@
 //      7680x4320; a lost context or refused buffer falls back to Ultra (said in the overlay) until 8K is picked again;
 //      MSAA from the sample counts both formats support, an incomplete target steps 8 -> 4 -> 0
 //   G10 html[data-gfx] carries the resolved level for 2D screens: on load, on a pick, after calibrate, on an 8K fallback
+//   G11 never crash first: a lost context or out-of-memory error drops any level one step, remembered until a new pick;
+//      the download level also follows Save-Data and 2g/3g (html[data-assets])
 //   G9 phones (Nik 2026-11-07, iPhone 17 at the best it can hold): strong phone GPUs start High, weak ones Light, calibrate
 //      runs, at most 3x CSS and a 4K buffer, textures one size down below High
 const assert=require('node:assert/strict');
@@ -30,7 +32,7 @@ const SRC=fs.readFileSync(path.join(ROOT,'js/gfxTier.js'),'utf8');
 const CHOICES_FROM_SRC=()=>JSON.parse(/const CHOICES=(\[[^\]]*\])/.exec(SRC)[1]);
 let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${text}`);};
 
-function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384}={}){
+function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384,connection=null}={}){
   const clock={t:0};
   const store={...storage};
   const appended=[];
@@ -44,7 +46,7 @@ function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), Ope
     body:{append:x=>appended.push(x)},
     documentElement:{dataset:{}}
   };
-  const ctx={document:doc,devicePixelRatio:dpr,navigator:{deviceMemory:memory,hardwareConcurrency:cores},screen:{width:screen[0],height:screen[1]},
+  const ctx={document:doc,devicePixelRatio:dpr,navigator:{deviceMemory:memory,hardwareConcurrency:cores,...(connection?{connection}:{})},screen:{width:screen[0],height:screen[1]},
     location:{search},readStorageValue:k=>k in store?store[k]:null,writeStorageValue:(k,v)=>{store[k]=String(v);return true;},
     performance:{now:()=>clock.t},setTimeout:(f)=>{f();return 0;},requestAnimationFrame:()=>1,cancelAnimationFrame(){},URLSearchParams};
   ctx.globalThis=ctx;ctx.parent=ctx;
@@ -247,7 +249,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
      assert.deepEqual([d.phone,d.strongPhone,d.guessName,d.can8k],[true,true,'high',false],'an iPhone 17 reads as a strong phone that starts High');}
     ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');
     ok('G6','Settings: 3D QUALITY with Auto (suggests X) and five levels, saved through the module, next 3D screen');
-    g8();await g9();await g10();
+    g8();await g9();await g10();await g11();
     console.log(`PASS r90 gfx tier contracts (${checks} checks)`);
   })().catch(e=>{console.error(e);process.exitCode=1;});
 }
@@ -266,7 +268,7 @@ function g8(){
   assert.equal(lost[0][0],'webglcontextlost');lost[0][1]();
   const f=s.G.profile();assert.deepEqual([f.level,f.name],[4,'ultra'],'context lost: Ultra');assert.ok(/context lost/.test(f.fellBack.reason));
   assert.ok(gov.pixelRatio()**2*1920*1080<=3840*2160+1,`the governor moved back under the 4K buffer (${gov.pixelRatio()})`);gov.end();
-  assert.ok(SRC.includes('...(p.fellBack?[`8K fell back to ultra: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');
+  assert.ok(SRC.includes('...(p.fellBack?[`fell back from ${NAMES[p.fellBack.from]} to ${p.name}: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');assert.equal(f.fellBack.from,5);
   assert.equal(s.G.profile().level,4,'stays Ultra on the next screen');s.G.setChoice('8k');assert.equal(s.G.profile().level,5,'picking 8K again tries again');
   // Never offered: a GPU under 7680, a phone, software GL; Auto never picks it (a measured result tops out at Ultra).
   for(const [why,o] of [['small buffer',{maxBuffer:4096}],['small texture',{maxTexture:4096}],['phone',{screen:[402,874],dpr:3}],['software',{gpu:'SwiftShader'}]]){
@@ -318,5 +320,37 @@ async function g10(){
   s.G.setChoice('8k');assert.equal(html(s),'5');s.G.fallback8k('test');assert.equal(html(s),'4','an 8K fallback reads Ultra');
   s.G.setChoice('auto');const n=await s.G.calibrate(fakeRenderer(s.clock,()=>15),()=>{});assert.equal(html(s),String(n.level),'calibrate marks the level it settles on');
   assert.ok(n.level===2,'calibrate stepped down one');
+  {const sl=sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'high'},connection:{saveData:true}});assert.deepEqual([html(sl),sl.ctx.document.documentElement.dataset.assets],['2','1'],'data-assets on load follows the connection');}
+  const ssjr=fs.readFileSync(path.join(ROOT,'js/ssjr.js'),'utf8');
+  assert.ok(ssjr.includes('const gfxTier=()=>load("gfx-tier","js/gfxTier.js",()=>root.CareerModeGfxTier).catch(()=>null);')&&ssjr.includes('root.requestIdleCallback(()=>home.then(gfxTier),{timeout:3000})'),'loaded once Home is up, when the page is idle (never on the first-load path)');
   ok('G10','html[data-gfx] carries the resolved level for 2D screens: on load, on a pick, after calibrate, on an 8K fallback');
+}
+
+async function g11(){
+  const strong='ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)',html=sb=>sb.ctx.document.documentElement.dataset;
+  // A lost context at High (Auto) drops to Balanced and stays there on the next screen; a pick clears it.
+  const s=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8});
+  const lost=[];const r=fakeRenderer(s.clock,()=>2);r.domElement.addEventListener=(n,f)=>lost.push(f);r.domElement.removeEventListener=()=>{};
+  const gov=s.G.governor(r,{key:'chamber'});assert.equal(s.G.profile().level,2);lost[0]();
+  assert.deepEqual([s.G.profile().level,s.G.profile().fellBack.from,html(s).gfx],[1,2,'1'],'context lost: one level down, marked');
+  s.G.reset();assert.equal(s.G.profile().level,1,'remembered on this device');
+  lost[0]();assert.equal(s.G.profile().level,0,'a second loss goes down again');gov.end();
+  s.G.setChoice('auto');assert.equal(s.G.profile().level,2,'a new pick in Settings tries again');
+  // A picked level is held down too (never crash first); the page being hidden is the browser reclaiming, not a failure.
+  const p=sandbox({gpu:strong,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'ultra'}});p.G.fallback('test');assert.equal(p.G.profile().level,3);
+  const h=sandbox({gpu:strong,memory:32,cores:16});h.ctx.document.visibilityState='hidden';h.G.fallback('hidden');h.ctx.document.visibilityState='visible';h.G.reset();assert.equal(h.G.profile().level,3,'hidden: not counted');
+  // gov.end() first: a scene's own dispose never counts.
+  const e=sandbox({gpu:strong,memory:32,cores:16});const le=[];const re=fakeRenderer(e.clock,()=>1);re.domElement.addEventListener=(n,f)=>le.push(f);re.domElement.removeEventListener=()=>{};
+  const ge=e.G.governor(re,{});ge.end();le[0]();e.G.reset();assert.equal(e.G.profile().level,3,'after end(), a context loss is the scene\'s own');
+  // Out of memory while calibrating: one level down.
+  const o=sandbox({gpu:strong,memory:32,cores:16});const ro=fakeRenderer(o.clock,()=>8);const gl=ro.getContext();ro.getContext=()=>({...gl,OUT_OF_MEMORY:1285,getError:()=>1285});
+  await o.G.calibrate(ro,()=>{});o.G.reset();assert.equal(o.G.profile().level,2,'OUT_OF_MEMORY: one level down');
+  // Memory: 4 GB or less is at most Balanced (also on a phone); the connection moves only the download size.
+  assert.equal(sandbox({gpu:'Apple GPU',memory:4,cores:6,screen:[402,874],dpr:3}).G.profile().level,1,'a 4 GB phone is at most Balanced');
+  for(const [c,slow] of [[{saveData:true,effectiveType:'4g'},true],[{effectiveType:'3g'},true],[{effectiveType:'2g'},true],[{effectiveType:'4g'},false]]){
+    const n=sandbox({gpu:strong,memory:32,cores:16,connection:c});const q=n.G.profile();
+    assert.deepEqual([q.level,q.assetLevel,q.slowNet,html(n).assets],[3,slow?2:3,slow,String(slow?2:3)],JSON.stringify(c));
+  }
+  assert.equal(sandbox({connection:{saveData:true}}).G.profile().assetLevel,0,'never below 0');
+  ok('G11','never crash first: a lost context or out-of-memory drops one level, remembered until a new pick; downloads follow Save-Data and 2g/3g');
 }
