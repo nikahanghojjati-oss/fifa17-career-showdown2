@@ -20,9 +20,21 @@ const ssjr=read("js/ssjr.js");let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${
   assert.match(ssjr,/const ready=\(\)=>settled\?Promise\.resolve\(true\):Promise\.race\(\[sharedChain\(\)\.catch\(\(\)=>false\),new Promise\(resolve=>root\.setTimeout\(\(\)=>resolve\(false\),15e3\)\)\]\);/,"a wait is bounded at 15 s");
   const game=/const GAME=new Set\((\[[^\]]+\])\)/.exec(ssjr);assert.ok(game);const screens=JSON.parse(game[1]);
   for(const s of ["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"])assert.ok(screens.includes(s),`${s} waits for the chain`);
-  assert.match(ssjr,/root\.navigateTo=function\(screen,\.\.\.args\)\{return settled\|\|!GAME\.has\(screen\)\?nav\.call\(this,screen,\.\.\.args\):ready\(\)\.then\(\(\)=>nav\.call\(this,screen,\.\.\.args\)\);\};/);
+  assert.match(ssjr,/let navTurn=0;if\(typeof nav==="function"\)root\.navigateTo=function\(screen,\.\.\.args\)\{const turn=\+\+navTurn;return settled\|\|!GAME\.has\(screen\)\?nav\.call\(this,screen,\.\.\.args\):ready\(\)\.then\(\(\)=>turn===navTurn\?nav\.call\(this,screen,\.\.\.args\):undefined\);\};/);
   assert.match(read("js/whichShowdownIsLive.js"),/async function wslRead\(r=root,options=\{\}\)\{await r\.CareerModeSharedJourneyReady\?\.\(\);/,"the START/JOIN decision reads Terminal Close's state only once it is installed");
   assert.match(read("js/settings.js"),/async function finishSettingsSackedShowdown\(name\)\{\n    closeSettings\(false\);\n    await window\.CareerModeSharedJourneyReady\?\.\(\);/,"Settings' sacked close waits for Terminal Close");
   assert.match(ssjr,/if\(!acceptanceEnabled&&!ssjrTestEnabled\)return;\n    await sharedChain\(\);/,"the acceptance tail never starts the chain early");
   ok("D3","otherwise the chain starts after Home; game screens, the START/JOIN decision and Settings' sacked close wait for it (15 s bound)");}
-console.log(`PASS r90 SSJR deferral contracts: ${n} numbered checks.`);
+// D4 the latest tap wins while the chain loads (Codex #1283): createShowdown then mainMenu on a cold start opens Home, never Setup.
+{const src=/let navTurn=0;if\(typeof nav==="function"\)root\.navigateTo=function[^\n]*/.exec(ssjr)[0];
+  const run=async(taps)=>{let settled=false,release;const gate=new Promise(r=>{release=r;});const ready=()=>gate.then(()=>{settled=true;return true;});
+    const opened=[];const root={navigateTo:screen=>{opened.push(screen);}};const nav=root.navigateTo;const GAME=new Set(["createShowdown","dashboard","seasonEntry"]);
+    new Function("root","nav","GAME","ready","getSettled",src.replace(/settled\|\|/,"getSettled()||"))(root,nav,GAME,ready,()=>settled);
+    for(const t of taps)root.navigateTo(t);release();await gate;await new Promise(r=>setImmediate(r));return opened;};
+  (async()=>{
+    assert.deepEqual(await run(["createShowdown","mainMenu"]),["mainMenu"],"Home tapped after Setup: Home stays, the delayed Setup is dropped");
+    assert.deepEqual(await run(["createShowdown"]),["createShowdown"],"a lone game tap opens once the chain is in");
+    assert.deepEqual(await run(["createShowdown","dashboard"]),["dashboard"],"two game taps: only the newer opens");
+    ok("D4","while the chain loads, a delayed game screen opens only if no newer tap came; the latest tap always wins");
+    console.log(`PASS r90 SSJR deferral contracts: ${n} numbered checks.`);
+  })().catch(error=>{console.error(error);process.exit(1);});}

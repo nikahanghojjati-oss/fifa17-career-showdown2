@@ -215,7 +215,8 @@
     root.CareerModeSharedJourneyReady=ready;
     const GAME=new Set(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","standings"]);
     const nav=root.navigateTo;
-    if(typeof nav==="function")root.navigateTo=function(screen,...args){return settled||!GAME.has(screen)?nav.call(this,screen,...args):ready().then(()=>nav.call(this,screen,...args));};
+    /* Codex #1283: every tap takes a turn; a game screen waiting for the chain opens only if no newer tap came meanwhile. */
+    let navTurn=0;if(typeof nav==="function")root.navigateTo=function(screen,...args){const turn=++navTurn;return settled||!GAME.has(screen)?nav.call(this,screen,...args):ready().then(()=>turn===navTurn?nav.call(this,screen,...args):undefined);};
   }
   (async()=>{
     if(!acceptanceEnabled&&!ssjrTestEnabled)return;
