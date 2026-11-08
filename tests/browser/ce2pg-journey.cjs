@@ -1094,7 +1094,9 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
       const got=f[u==="daniel"?"rankDaniel":"rankNik"],a=ahead(u),want=[a===null?"1":a?"1":"2",S(x[u].total),S(x[u].W)];
       await eq(m,id(`trophy.rank.${u}`),`Trophy Room ranking: ${NAMES[u]} rank, career points, season wins`,got,want,scr("Trophy Room (ranking)"));
     }
-    const r=E.records,recWant=v=>v?(v.value>0?[S(v.value),holderName(v.holder)]:["\u2014",""]):null;
+    // r90 W9 (#1300, LOOK L26): a record nobody holds yet (no best, or a best of 0) is left off the Trophy Room ribbon, so it is
+    // expected absent, not as a dash (js/careerScreensV10.js keeps only finite values above 0).
+    const r=E.records,recWant=v=>v&&Number.isFinite(v.value)&&v.value>0?[S(v.value),holderName(v.holder)]:null;
     await eq(m,id("trophy.records"),"Trophy Room all-time records: highest season score, league points, league goals, most perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[recWant(r.season),recWant(r.points),recWant(r.goals),recWant(r.perfect),recWant(r.biggestWin)],scr("Trophy Room (records)"));
   }
   // Legacy (History): completed cards and ended-early rows, in career order, nothing else
