@@ -193,7 +193,7 @@ const GFXT=window.CareerModeGfxTier;
 const GFX=GFXT.profile();
 /* r90 high quality: from High up, the lacquered wood, the glazed cups and the felt get their real second layer (a clear lacquer coat,
    a glaze, a velvet sheen); Light and Medium keep the one-lobe standard material, so their frames cost what they did */
-const HQ=GFX.level>=2;
+const HQ=GFX.level>=2, HALL=GFX.level>=3;   /* r90 (Nik 2026-11-08): High gets a hint of the café, Extra/Ultra/8K the whole café */
 function mat(p,hq){ return HQ&&hq?new T.MeshPhysicalMaterial(Object.assign({},p,hq)):new T.MeshStandardMaterial(p); }
 
 /* ================= renderer ================= */
@@ -286,6 +286,19 @@ function flashTex(){ const [c,ctx]=cv(256,256); ctx.translate(128,128); const g=
   const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 const smokeT=softTex([[0,"rgba(255,255,255,.55)"],[.4,"rgba(255,255,255,.25)"],[1,"rgba(255,255,255,0)"]]);
 const glowT=softTex([[0,"rgba(255,235,190,1)"],[.3,"rgba(255,190,90,.6)"],[1,"rgba(255,120,30,0)"]]);
+/* r90 room textures (High up only; Light and Balanced never draw them): cream marble for the café tables, black marble wall panels with
+   gold inlay for the far wall, and warm lamp glass (amber at the burner fading to cream at the lip) */
+function marbleTex(){ const w=512,h=512,[c,ctx]=cv(w,h); ctx.fillStyle="#e8e0d2"; ctx.fillRect(0,0,w,h);
+  for(let i=0;i<34;i++){ const warm=Math.random()<.35; ctx.strokeStyle=warm?`rgba(190,160,110,${.15+Math.random()*.2})`:`rgba(80,78,84,${.1+Math.random()*.22})`; ctx.lineWidth=.6+Math.random()*2.4; const x=Math.random()*w, y=Math.random()*h; ctx.beginPath(); ctx.moveTo(x,y); ctx.bezierCurveTo(x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*300-150,y+Math.random()*300-150,x+Math.random()*400-200,y+Math.random()*400-200); ctx.stroke(); }
+  for(let i=0;i<8;i++){ ctx.fillStyle=`rgba(200,190,170,${.1+Math.random()*.15})`; ctx.beginPath(); ctx.ellipse(Math.random()*w,Math.random()*h,40+Math.random()*120,20+Math.random()*60,Math.random()*3,0,7); ctx.fill(); }
+  grain(ctx,w,h,8); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
+function marblePanelTex(){ const w=1024,h=1024,[c,ctx]=cv(w,h); const wg=ctx.createLinearGradient(0,0,0,h); wg.addColorStop(0,"#3a2415"); wg.addColorStop(.5,"#2b1a0f"); wg.addColorStop(1,"#20120a"); ctx.fillStyle=wg; ctx.fillRect(0,0,w,h);
+  for(let i=0;i<900;i++){ ctx.fillStyle=`rgba(0,0,0,${Math.random()*.12})`; ctx.fillRect(Math.random()*w,Math.random()*h,1+Math.random()*3,2+Math.random()*60); }
+  const px=70,py=70,pw=w-140,ph=h-140; ctx.fillStyle="#0b0b0e"; ctx.fillRect(px,py,pw,ph);
+  for(let i=0;i<34;i++){ ctx.strokeStyle=`rgba(${150+Math.random()*80},${150+Math.random()*70},${150+Math.random()*60},${.08+Math.random()*.28})`; ctx.lineWidth=.6+Math.random()*2.2; ctx.beginPath(); let x=px+Math.random()*pw, y=py+Math.random()*ph; ctx.moveTo(x,y); for(let k=0;k<7;k++){ x+=(Math.random()-.5)*300; y+=(Math.random()-.5)*300; ctx.lineTo(Math.max(px,Math.min(px+pw,x)),Math.max(py,Math.min(py+ph,y))); } ctx.stroke(); }
+  ctx.strokeStyle="#d9b25a"; ctx.lineWidth=5; ctx.strokeRect(px+22,py+22,pw-44,ph-44); ctx.strokeStyle="#8a6a22"; ctx.lineWidth=2; ctx.strokeRect(px+34,py+34,pw-68,ph-68); ctx.strokeStyle="#b48a3a"; ctx.lineWidth=4; ctx.strokeRect(px-6,py-6,pw+12,ph+12);
+  const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
+function lampGlassTex(){ const [c,ctx]=cv(32,128); const g=ctx.createLinearGradient(0,128,0,0); g.addColorStop(0,"#ff9a3a"); g.addColorStop(.45,"#ffcf8a"); g.addColorStop(1,"#fff2d8"); ctx.fillStyle=g; ctx.fillRect(0,0,32,128); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 /* a real lamp flame: blue root, white-yellow body, orange tip, soft edge */
 function flameTex(){ const [c,ctx]=cv(128,256); const g=ctx.createRadialGradient(64,150,4,64,140,90); g.addColorStop(0,"rgba(255,255,245,1)"); g.addColorStop(.25,"rgba(255,236,160,.95)"); g.addColorStop(.55,"rgba(255,160,50,.55)"); g.addColorStop(1,"rgba(255,90,10,0)");
   ctx.save(); ctx.translate(64,128); ctx.scale(.42,1); ctx.translate(-64,-128); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(64,10); ctx.bezierCurveTo(120,90,118,190,64,236); ctx.bezierCurveTo(10,190,8,90,64,10); ctx.fill(); ctx.restore();
@@ -407,7 +420,10 @@ const table=new T.Group(); scene.add(table);
 /* ================= lights (r90: one tight table light with the one static shadow map, a dim fill, the lantern on the table and one
    effects light; the hall's wall, window, ceiling and fill lights went with the hall) ================= */
 const key=new T.SpotLight(L("#ffd092"),1.7,10,.52,.55,1.3); key.position.set(.6,3.4,1.8); key.target.position.set(0,.8,.1); scene.add(key,key.target); key.castShadow=true; key.shadow.mapSize.set(GFX.shadowSize,GFX.shadowSize); key.shadow.bias=-.0004; key.shadow.radius=2.5*Math.sqrt(GFX.shadowSize/1024);   /* r90: a bigger map keeps the same soft edge, only smoother */
-const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),.3); scene.add(fill);   /* r90: dimmer, so the floor falls off into the dark outside the table light */
+const fill=new T.HemisphereLight(L("#3a2a1c"),L("#120a06"),HALL?.42:.3); scene.add(fill);
+/* Extra and up: one warm room light in front of the far wall lights the café tables and the floor between them and the table (the
+   2.2.0 room had ten lights and bloom; this is the table light, the lantern, the fill and this one) */
+if(HALL){ const roomLight=new T.PointLight(L("#ffa65a"),.8,9,2); roomLight.position.set(0,1.8,-3.0); scene.add(roomLight); }   /* r90: dimmer, so the floor falls off into the dark outside the table light */
 /* the effects light: the cool key over the steel in the close-ups, the muzzle flash and the hit flash take turns on ONE point light
    (each frame it plays whichever is brightest; they barely overlap), so every material carries two point lights instead of eight */
 const fxLight=new T.PointLight(0xffffff,0,2,2); scene.add(fxLight);
@@ -600,6 +616,45 @@ const boards={ D:null, N:null };
 const BOARD_W=.84, BOARD_H=.64;
 function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
 const lacquer=mat({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05},{roughness:.45, clearcoat:.8, clearcoatRoughness:.1});
+/* ================= the room behind the table, by quality level (r90, Nik 2026-11-08: "the dark room for the lower quality; for the higher
+   quality a proper background with tables and objects, good lighting but nothing excessive"):
+   Light, Balanced: the dark room (nothing here is built).
+   High: a hint of the café: the far wall in black marble panels, fading into the dark, with a row of glowing wall lamps. The lamps glow on
+         their own (emissive glass and a soft halo, no lights), so the frame costs a few draw calls and nothing per pixel in the lighting.
+   Extra, Ultra, 8K: the whole café: the sharp café picture across the back (it replaces the far wall), the bright marble floor with no
+         fog, and two café tables in 3D at the sides (marble tops, brass pedestals, bentwood chairs with velvet seats). One warm room
+         light joins the table light (four lights in all, no bloom). ================= */
+const hall=new T.Group(); scene.add(hall); let hallLamps=null;
+/* the café picture: the 3840 px file only on a screen wider than 2560 device pixels (and a download level that allows it), 1920 px below */
+const ROOM_4K=(GFX.assetLevel??GFX.level)>=3&&Math.max(screen.width||0,screen.height||0)*(devicePixelRatio||1)>2560;
+if(HQ){ const lampTex=lampGlassTex(), glassM=new T.MeshStandardMaterial({map:lampTex, emissiveMap:lampTex, emissive:0xffffff, emissiveIntensity:1.05, roughness:.35, side:T.DoubleSide, fog:false});
+  const haloM=new T.MeshBasicMaterial({map:glowT, blending:T.AdditiveBlending, depthWrite:false, transparent:true, color:0xffa850, opacity:.5, fog:false, toneMapped:false});
+  const wallT=marblePanelTex(); wallT.repeat.set(7,2); wallT.offset.y=-.476;
+  const wall=new T.Group(); hall.add(wall); hallLamps=wall;
+  mesh(new T.PlaneGeometry(14,4.2),new T.MeshStandardMaterial({map:wallT, roughness:.3, metalness:.05}),0,2.1,-4.2,wall);
+  /* the dado: lacquered panels with a gold rail along the foot of the wall */
+  mesh(new T.BoxGeometry(14,.98,.03),lacquer,0,.6,-4.18,wall); mesh(new T.BoxGeometry(14,.08,.09),lacquer,0,1.1,-4.16,wall); mesh(new T.BoxGeometry(14,.01,.095),M.gold,0,1.065,-4.15,wall);
+  const shadeG=lathe([[.022,0],[.03,.012],[.026,.05],[.04,.11],[.066,.165],[.072,.19]],12), haloG=new T.PlaneGeometry(.62,.62);
+  [-6.4,-4.8,-3.2,-1.6,1.6,3.2,4.8,6.4].forEach(x=>{ mesh(new T.BoxGeometry(.1,.28,.03),M.brassDark,x,1.72,-4.12,wall); const a=mesh(new T.CylinderGeometry(.011,.011,.22,6),M.brass,x,1.78,-4.03,wall); a.rotation.x=.956;
+    mesh(shadeG,glassM,x,1.885,-3.95,wall); const h=mesh(haloG,haloM,x,1.98,-3.93,wall); h.renderOrder=2; });
+  bake(wall); }
+if(HALL){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, metalness:0},{clearcoat:.8, clearcoatRoughness:.12}), velvet=new T.MeshStandardMaterial({color:L("#4a1217"), roughness:.96, metalness:0});
+  /* the side walls: the café picture covers the back, these close the room where the shooter's view looks past it (black marble panels
+     over a lacquered dado with a gold rail, as on the far wall) */
+  const sideT=marblePanelTex(); sideT.repeat.set(5,2); sideT.offset.y=-.476; const sideM=new T.MeshStandardMaterial({map:sideT, roughness:.3, metalness:.05});
+  [-1,1].forEach(sx=>{ const w=mesh(new T.PlaneGeometry(8,4.2),sideM,sx*4.6,2.1,0); w.rotation.y=-sx*Math.PI/2;
+    const d=mesh(new T.BoxGeometry(8,.98,.03),lacquer,sx*4.58,.6,0); d.rotation.y=-sx*Math.PI/2; const r=mesh(new T.BoxGeometry(8,.01,.095),M.gold,sx*4.56,1.065,0); r.rotation.y=-sx*Math.PI/2; });
+  const cafe=new T.Group(); hall.add(cafe);
+  function chair(x,z,ry){ const c=new T.Group(); c.position.set(x,0,z); c.rotation.y=ry; cafe.add(c);
+    mesh(new T.BoxGeometry(.46,.05,.46),lacquer,0,.44,0,c); mesh(new T.BoxGeometry(.4,.045,.4),velvet,0,.49,0,c); mesh(new T.BoxGeometry(.44,.06,.04),lacquer,0,.98,-.21,c); mesh(new T.BoxGeometry(.44,.05,.035),lacquer,0,.72,-.21,c); mesh(new T.BoxGeometry(.4,.2,.03),velvet,0,.85,-.21,c);
+    [[-.2,-.2],[.2,-.2],[-.2,.2],[.2,.2]].forEach(([a,b])=>mesh(new T.CylinderGeometry(.018,.024,.44,6),lacquer,a,.22,b,c)); [-.2,.2].forEach(a=>mesh(new T.CylinderGeometry(.016,.018,.55,6),lacquer,a,.72,-.21,c)); }
+  function cafeTable(x,z){ mesh(new T.CylinderGeometry(.48,.48,.035,28),top,x,.745,z,cafe); const r=mesh(new T.TorusGeometry(.48,.012,4,36),M.gold,x,.745,z,cafe); r.rotation.x=Math.PI/2;
+    mesh(lathe([[0,0],[.3,0],[.32,.02],[.2,.05],[.06,.1],[.045,.6],[.07,.66],[.12,.7],[.0,.72]],14),M.brass,x,0,z,cafe);
+    mesh(lathe([[.0,0],[.035,0],[.04,.02],[.03,.07],[.045,.13],[.05,.16]],12),M.glass,x+.15,.763,z-.1,cafe); }
+  /* set back toward the picture, so they read as part of the room behind the boards, never as furniture beside the shooter */
+  cafeTable(-3.5,-2.9); chair(-3.5,-3.5,0); chair(-2.85,-2.9,-Math.PI/2);
+  cafeTable(3.5,-2.9); chair(3.5,-3.5,0); chair(2.85,-2.9,Math.PI/2);
+  cafe.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=false; } }); bake(cafe); }
 function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
   const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
@@ -1079,13 +1134,15 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
 /* r90: the room photo, the top-down gun photo and the flash picture are gone (the room is dark now; the other two never shipped) */
 const PLATEMAP={};
 async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
-  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),(GFX.assetLevel??GFX.level)>=2?loadImg("assets/RR_ROOM.webp"):null,loadLookEnv()]);
-  /* r90 (Nik 2026-11-08): from High up the café room is back behind the table, as one picture (Light and Balanced never download it and
-     keep the dark room). It is softened and dimmed, its edges fade into the dark, and the fog stays on the 3D floor, so the table light is
-     still the key light: the table in front, the room behind. One plane, one texture, one draw call. */
-  if(roomImg){ const R=PLATEMAP.room||{}, H=R.height||5.2, cut=R.floorCut||0, t=new T.Texture(roomImg); t.colorSpace=T.SRGBColorSpace; t.needsUpdate=true;
-    const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:t, color:new T.Color(R.tone||.62,R.tone||.62,R.tone||.62), toneMapped:false, fog:false, depthWrite:false}));
-    pl.scale.set(H*roomImg.width/roomImg.height,H,1); pl.position.set(0,H/2-cut*H,R.z||-3.9); pl.renderOrder=-1; pl.name="roomPlate"; scene.add(pl); }
+  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),HALL?loadImg(ROOM_4K?"assets/RR_ROOM_V2_4K.webp":"assets/RR_ROOM_V2_1080.webp"):null,loadLookEnv()]);
+  /* r90 (Nik 2026-11-08: "a proper background ... not a dimmed sticker"): on Extra, Ultra and 8K the café picture (Team V HO-059 RR_ROOM_V2:
+     the 2.2.0 room redrawn at 4K with a calmer evening grade; 1920 px, or 3840 px on a screen wider than 2560 device pixels) stands across the back at full
+     sharpness, from the floor line up, as in 2.2.0; it replaces the far wall and its lamps (they are in the picture),
+     and the fog lifts so the bright marble floor runs back to it. One plane, one texture, one draw call. */
+  if(roomImg){ const R=PLATEMAP.room||{}, H=R.height||5.2, cut=R.floorCut||0, tone=R.tone||1, t=new T.Texture(roomImg); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; t.needsUpdate=true;
+    const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:t, color:new T.Color(tone,tone,tone), toneMapped:false, fog:false}));
+    pl.scale.set(H*roomImg.width/roomImg.height,H,1); pl.position.set(0,H/2-cut*H,R.z||-3.9); pl.name="roomPlate"; scene.add(pl);
+    if(hallLamps) hallLamps.visible=false; scene.fog=null; scene.background=new T.Color(0x0e0905); }
   /* the hand picture carries its own transparency (webp alpha), so it goes to the GPU as it is: no read-back pass over its pixels */
   { const hc=handImg||handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.Texture(hc); ht.needsUpdate=true; ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }
@@ -1096,7 +1153,7 @@ function loadLookEnv(){ if(!T.EXRLoader) return Promise.resolve(null); return ne
 /* the sunlit window in the picture is hundreds of times brighter than the room; capped, so polished steel shows a bright window, not a white blaze */
 const LOOK_ENV_MAX=4;
 function buildEnv(){ if(!LOOK.hdri) return; const pm=new T.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(LOOK.hdri).texture; pm.dispose(); LOOK.hdri.dispose(); LOOK.hdri=null;
-  scene.environmentIntensity=.5; M.floor.envMapIntensity=.5; }   /* the floor in the dark room only catches a faint sheen of it */
+  scene.environmentIntensity=HALL?.6:.5; M.floor.envMapIntensity=HALL?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
 /* r90 warm-up (Reus Gate): every texture goes to the GPU and every shader compiles (in parallel where the browser can) BEFORE the page
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
    The old page compiled each of those the first time it appeared, in the middle of a turn. Then js/gfxTier.js times a few real frames. */
