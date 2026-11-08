@@ -67,7 +67,7 @@ async function restoreInternalSaveLibraryContainment(page){
   page.on('pageerror',error=>errors.push(error.message));
   try{
     await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-    await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:15000});
+    await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:15000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.locator('#settingsButton').waitFor({state:'visible',timeout:10000});
     await createLocalShowdown(page);
 

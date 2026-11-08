@@ -124,7 +124,8 @@ async function c3d2(){
   assert.match(scene,/const pairs=BODY_LOOKS\[a\.body\]\|\|BODY_LOOKS\.remy,\[sk,hr\]=pairs\[cm3Hash\(`\$\{club\}\|\$\{role\}`\)%pairs\.length\];/,"skin and hair as a pair, per body");
   assert.match(scene,/const k=c\.clone\(\);for\(const t of k\.tracks\)if\(t\.name\.endsWith\("\.position"\)\)/,"clips retargeted by the body's hips scale");
   assert.match(scene,/if\(t\.shirt===t\.shorts\)\{Promise\.resolve\(t\.ready\)\.then\(\(\)=>\{if\(!disposed&&a\.kitToken===token\)put\(\);\}/,"a body-mapped kit goes on only once painted, never blank");
-  assert.match(scene,/let tex=made\.get\(c\);/,"one texture per kit canvas (shared atlas uploads once)");
+  assert.match(scene,/let tex=made\.get\(c\)\|\|kitTex\.get\(c\);/,"one texture per kit canvas (shared atlas uploads once), kept for the Showdown (r90 M2)");
+  assert.ok(/let t=kitMemo\.get\(memo\);if\(!t\)/.test(scene)&&scene.includes("for(const t of kitTex.values())t.dispose();"),"r90 M2: each kit painted once per Showdown, its textures freed with the scene");
   ok("C3D7","several bodies: shared clips, one body per club, only natural skin and hair pairs, only bodies kits17 can dress");
 }
 // C3D8 Reduce Motion (Codex on #1254 at 9bd35452): the broadcast scene's clocks stand still, the kick shows its settled

@@ -44,7 +44,7 @@ function reloadFixtures({restoreMs,rivalryId}){
   try{
     // 1. Daniel taps START: his pre-pair shell is saved with the shared marker (as in the real app) and WAITING shows his code.
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:20000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:20000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity&&document.getElementById("newShowdown")&&document.getElementById("startShowdown"),null,{timeout:12000});
     await page.evaluate(rivalryId=>{
       window.__pairState="unpaired";
@@ -69,7 +69,7 @@ function reloadFixtures({restoreMs,rivalryId}){
     await page.evaluate(()=>sessionStorage.setItem("r79ReloadHoldProbe","1"));
     await page.reload({waitUntil:"domcontentloaded"});
     await page.locator("#connectPlayersScreen #persistentNikDanielPairPanel",{hasText:"WAITING FOR THE OTHER PLAYER"}).waitFor({state:"visible",timeout:30000});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForTimeout(500);
     const result=await page.evaluate(()=>({frames:window.__frames,screen:window.getActiveScreenName?.(),stay:document.getElementById("connectPlayersScreen")?.dataset.stayOnScreen}));
     const after=result.frames.filter(frame=>!frame.loading);

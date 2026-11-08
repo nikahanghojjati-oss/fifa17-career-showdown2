@@ -121,7 +121,21 @@
     V.setNavRoute("standings",app=>resultsV10().then(()=>resultsReady?V.navigate("standings",app):app.navigateTo("dashboard")));
   }
   for(const skin of [v10Setup,v10Club,v10Transfer,resultsV10])afterHome(skin);
-  (async()=>{
+  // r90 W8 (Home first): the sign-in entry, its local-draw guard and the Firebase runtime start at once, as before. The rest of
+  // the Shared Journey chain (Career Start, Season Results, Transfer War, Season Commit, scoring, history, multi-season,
+  // reconnect, conflicts, reconciliation, Terminal Close: about 30 files) serves the game screens, not Home, so a device with
+  // no unfinished online Showdown asks for it only once Home has been handed over. Everything that needs it waits for it
+  // (CareerModeSharedJourneyReady): the game screens (navigateTo), the START/JOIN decision (js/whichShowdownIsLive.js)
+  // and Settings' sacked close. A pre-pair shell, a live game in this tab, an unfinished online Showdown on this device, an
+  // unreadable save, or a test/acceptance page loads it at startup exactly as before.
+  const firebaseRuntime=load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime);
+  const entry=install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;});
+  const guard=install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard");
+  for(const started of [firebaseRuntime,entry,guard])started.catch(()=>null);// reported where the chain awaits them
+  const unfinishedOnline=()=>{let s=null;try{s=typeof currentShowdown!=="undefined"&&currentShowdown?currentShowdown:typeof root.readSaveLibraryActive==="function"?root.readSaveLibraryActive():undefined;}catch(_error){return true;}
+    if(s===undefined)return true;return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared"&&s.status!=="Completed");};
+  const chainNow=acceptanceEnabled||ssjrTestEnabled||pendingShell()||liveGameHeld()||unfinishedOnline();
+  let chainRun=null,settled=false;const sharedChain=()=>chainRun||(chainRun=(async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");
     const canonicalScoring=(async()=>{
@@ -183,14 +197,30 @@
       return install("ssjr-production-terminal-close","js/productionSharedTerminalClose.js","CareerModeProductionSharedTerminalClose");
     })();
     await Promise.all([
-      load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
-      install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;}),
-      install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard"),
+      firebaseRuntime,entry,guard,
       install("ssjr-production-career-start","js/productionSharedCareerStart.js","CareerModeProductionSharedCareerStart"),
       install("ssjr-production-season-results","js/productionSharedSeasonResults.js","CareerModeProductionSharedSeasonResults"),
       seasonCommit,canonicalScoring,historyConvergence,multiSeason,journeyReconnect,journeyConflicts,localReconciliation,finalReconciliation,terminalClose,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
+    settled=true;return true;
+  })());
+  // Started at once, nothing waits on it (as before). Deferred: a game screen opened first (navigateTo), the START/JOIN decision
+  // and Settings' sacked close wait for it, bounded like the startup cap so a stuck file can never lock the player out.
+  const chainWarn=error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error);
+  if(chainNow){sharedChain().catch(chainWarn);root.CareerModeSharedJourneyReady=()=>Promise.resolve(true);}
+  else{
+    const ready=()=>settled?Promise.resolve(true):Promise.race([sharedChain().catch(()=>false),new Promise(resolve=>root.setTimeout(()=>resolve(false),15e3))]);
+    afterHome(()=>sharedChain().catch(chainWarn));
+    root.CareerModeSharedJourneyReady=ready;
+    const GAME=new Set(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","standings"]);
+    const nav=root.navigateTo;
+    /* Codex #1283: every tap takes a turn; a game screen waiting for the chain opens only if no newer tap came meanwhile. */
+    let navTurn=0;if(typeof nav==="function")root.navigateTo=function(screen,...args){const turn=++navTurn;return settled||!GAME.has(screen)?nav.call(this,screen,...args):ready().then(()=>turn===navTurn?nav.call(this,screen,...args):undefined);};
+  }
+  (async()=>{
+    if(!acceptanceEnabled&&!ssjrTestEnabled)return;
+    await sharedChain();
     // r85: ?ssjr=1 is the simple SSJR test. Only its panel loads: none of the older acceptance tooling or guided aside.
     if(ssjrTestEnabled&&!acceptanceEnabled)return install("ssjr-physical-journey-acceptance","js/ssjrPhysicalJourneyAcceptance.js","CareerModeSSJRPhysicalJourneyAcceptance");
     if(!acceptanceEnabled)return;

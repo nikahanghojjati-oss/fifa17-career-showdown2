@@ -25,7 +25,7 @@ async function suppressAutomaticR14(page){
 async function prepare(page,{role,accepted=1,withSession=true,fresh=0}){
   await suppressAutomaticR14(page);
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function',null,{timeout:12000});
   const identity=ids(role,fresh);
   return page.evaluate(async({role,accepted,withSession,identity,rivalryId,totalSeasons,canonicalKeys})=>{

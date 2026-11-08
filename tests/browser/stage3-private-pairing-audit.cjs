@@ -17,7 +17,7 @@ async function proveContext(runtime,label,contextOptions){
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.addScriptTag({url:new URL("js/sparkPrivatePairing.js",baseUrl).href});
 
     const first=await page.evaluate(async()=>{
@@ -47,7 +47,7 @@ async function proveContext(runtime,label,contextOptions){
     assert.equal(Object.keys(first.after).filter(key=>!canonicalKeys.has(key)).some(key=>/device|pair|remote|firebase/i.test(key)),false,`${label}: Stage 3 introduced a non-canonical localStorage authority.`);
 
     await page.reload({waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.addScriptTag({url:new URL("js/sparkPrivatePairing.js",baseUrl).href});
     const afterReload=await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getOrCreateDeviceIdentity());
     assert.deepEqual(afterReload,first.one,`${label}: reload changed the stable device identity.`);
@@ -73,7 +73,7 @@ async function proveBindingSelectionAndDeniedRedemption(runtime){
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.setContent('<div id="settingsOverlay"><div id="settingsContent"></div></div>');
     await page.evaluate(()=>{
       delete window.CareerModeSparkPrivatePairing;
