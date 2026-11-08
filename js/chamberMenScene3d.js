@@ -120,7 +120,7 @@
     const work=(async()=>{
       if(!await pre.scripts)return null;
       const S=root.CareerModeChamberMenStadium;
-      const [tex,anims,bufs]=await Promise.all([S.load(T,{phone:Q.assets==="phone",level:Q.level}),pre.anims,pre.bodies]);
+      const [tex,anims,bufs]=await Promise.all([S.load(T,{phone:Q.assets==="phone",level:Q.textureLevel??Q.level}),pre.anims,pre.bodies]);
       if(!anims||!bufs){for(const t of Object.values(tex||{}))t.dispose?.();return null;}
       const parse=buf=>new T.GLTFLoader().parseAsync(buf.slice(0),PLAYER_PATH);
       const clips=await parse(anims);
@@ -141,6 +141,15 @@
     for(const g of all)try{g?.scene?.traverse(o=>{o.geometry?.dispose?.();for(const m of [].concat(o.material||[])){for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();m.dispose?.();}});}catch(_error){}
   }
 
+  // Scene extras per level (light .. ultra): texture filtering, shadow softness (PCF radius), a second shadow-casting
+  // floodlight, and fuller far stands. Pixel ratio, MSAA, shadow size and crowd density come from js/gfxTier.js.
+  const CM3_LEVEL_EXTRAS=[
+    {aniso:4,softness:1.5,secondShadow:false,fullCrowd:false},
+    {aniso:8,softness:2,secondShadow:false,fullCrowd:false},
+    {aniso:16,softness:3,secondShadow:false,fullCrowd:false},
+    {aniso:16,softness:3.5,secondShadow:true,fullCrowd:true},
+    {aniso:16,softness:4,secondShadow:true,fullCrowd:true}
+  ];
   function buildBroadcast(T,svg,x,opts,Q){
     const d=doc(),canvas=d.createElement("canvas");
     canvas.className="cmGoal3d";canvas.setAttribute("aria-hidden","true");
@@ -150,22 +159,28 @@
     renderer.setPixelRatio(Q.pixelRatio);
     renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
     renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFShadowMap;
-    const aniso=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+    // r90 quality pass (Nik 2026-11-07: "hugely improve" the top levels, Light and Balanced better at no extra load): every
+    // extra below is gated on the level, so a Chromebook or a phone never pays for what only a strong GPU draws.
+    const L=Number.isInteger(Q.level)?Q.level:1,QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))];
+    const aniso=Math.min(QX.aniso,renderer.capabilities.getMaxAnisotropy());
     const scene=new T.Scene();scene.background=new T.Color(0x05070b);scene.fog=new T.FogExp2(0x0a0d14,.0045);
     const own=[];const keep=v=>{own.push(v);return v;};
     const clubs=(opts&&opts.clubs)||{};
     const K=x.K,colourOf=club=>{try{return parseInt(String(K.kit(club).dominant).replace("#",""),16);}catch(_error){return 0x888888;}};
     // Stadium: white posts like FIFA 17, the crowd in each club's colour.
-    const S=x.S.build(T,x.tex,{phone,density:Q.density,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),aniso});
+    const S=x.S.build(T,x.tex,{phone,density:Q.density,full:QX.fullCrowd,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),aniso});
     scene.add(S.group);
     const ball=S.ball;
     // Night match light: floodlights from high over both corners of the box, a cool sky, a soft rim behind the goal.
     scene.add(new T.HemisphereLight(0xdde6ff,0x15200f,.55));
     const key=new T.DirectionalLight(0xfff3e2,2.7);key.position.set(9,30,24);key.target.position.set(0,0,6);
-    key.castShadow=true;key.shadow.mapSize.set(Q.shadowSize,Q.shadowSize);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=2;
+    key.castShadow=true;key.shadow.mapSize.set(Q.shadowSize,Q.shadowSize);key.shadow.bias=-.0004;key.shadow.normalBias=.03;key.shadow.radius=QX.softness;
     Object.assign(key.shadow.camera,{left:-11,right:11,top:13,bottom:-11,near:10,far:70});key.shadow.camera.updateProjectionMatrix();
     scene.add(key,key.target);
     const fill=new T.DirectionalLight(0xe4ecff,.75);fill.position.set(-14,20,18);scene.add(fill);
+    // Extra and Ultra: the second floodlight bank casts too, so the players get the faint double shadow of a lit stadium.
+    if(QX.secondShadow){fill.castShadow=true;fill.shadow.mapSize.set(Q.shadowSize/2,Q.shadowSize/2);fill.shadow.bias=-.0004;fill.shadow.normalBias=.03;fill.shadow.radius=QX.softness;
+      fill.target.position.set(0,0,6);scene.add(fill.target);Object.assign(fill.shadow.camera,{left:-12,right:12,top:13,bottom:-11,near:8,far:70});fill.shadow.camera.updateProjectionMatrix();}
     const rim=new T.DirectionalLight(0xfff0d0,.9);rim.position.set(-4,12,-24);scene.add(rim);
     // Reflections: the stadium itself, once (the ball and posts see the stands and lights).
     {const pm=new T.PMREMGenerator(renderer);scene.environment=keep(pm.fromScene(scene,.04,.1,300).texture);pm.dispose();scene.environmentIntensity=.55;}
@@ -473,6 +488,14 @@
     // A new taker and keeper come in under a short broadcast dissolve: the last frame fades out over the new one (never
     // to black, never dimmed).
     let snap=null,snapAt=-1e9;
+    // Proof numbers for the quality gallery (probe only): draw calls, triangles and the textures' GPU size (mips included).
+    const gpuFootprint=()=>{
+      const seen=new Set();let bytes=0;
+      scene.traverse(o=>{for(const m of [].concat(o.material||[]))for(const v of Object.values(m||{}))if(v&&v.isTexture&&!seen.has(v)){seen.add(v);
+        const im=v.image,w=im?.width||0,h=im?.height||0;bytes+=w*h*4*(v.generateMipmaps===false?1:4/3);}});
+      const r=renderer.info;return {calls:r.render.calls,tris:r.render.triangles,geometries:r.memory.geometries,textures:r.memory.textures,texMB:+(bytes/1048576).toFixed(1),
+        shadowMB:+(key.shadow.mapSize.x*key.shadow.mapSize.y*4/1048576).toFixed(1)};
+    };
     const overlay=new T.Scene(),overlayCam=new T.OrthographicCamera(-1,1,1,-1,0,1);
     const overlayMat=keep(new T.MeshBasicMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:true}));
     const overlayGeo=keep(new T.PlaneGeometry(2,2));overlay.add(new T.Mesh(overlayGeo,overlayMat));
@@ -571,7 +594,7 @@
       async warm(){if(!GFX)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,paint,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
       dispose:free,
       lit:Boolean(scene.environment),
-      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()]};},
+      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
       get alive(){return alive;}
     };
     setLineup(clubs.playerOne,clubs.playerTwo,1);

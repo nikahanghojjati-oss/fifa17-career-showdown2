@@ -3,7 +3,9 @@
 Every file in this folder is original work made for Career Mode Showdown by code in
 `tools/chamber-men-assets/` (numpy + Pillow; rebuild with `python3 build_all.py`), except the pitch grass (r90), which is
 TextureCan "Ground 0040" (https://texturecan.com/details/469), released under CC0 1.0 (public domain; no attribution
-required, credited here anyway), resized and converted by `gen_grass.py`. No real ball maker, league, club or sponsor mark
+required, credited here anyway), resized and converted by `gen_grass.py`, and the match ball (r90), which is Innerscene "Soccer ball"
+(https://www.innerscene.com/tools/library/3d-parts/soccer-ball-f39dfd50), CC0 1.0, its mesh kept and its maps re-made with
+match wear by `gen_ball_v3.py`. No real ball maker, league, club or sponsor mark
 appears anywhere.
 
 The ad-board lettering is set in Inter (SIL Open Font Licence 1.1). Only the rendered letters are
@@ -14,9 +16,10 @@ Crowd fans are simple drawn figures with no likeness of any real person.
 
 | File | What | Made by |
 |---|---|---|
-| ball_color_4k.webp, ball_color_2k.webp | Showdown match ball colour (sRGB, equirectangular for SphereGeometry) | gen_ball.py |
-| ball_normal_4k.webp, ball_normal_2k.webp | ball normal map (OpenGL +Y): seams, print, pebble grain | gen_ball.py |
-| ball_orm_4k.webp, ball_orm_2k.webp | ball G roughness, B metalness (gold foil) | gen_ball.py |
+| ball_mesh_V3.glb | match ball mesh (32-panel UVs), Innerscene Soccer ball, CC0 | gen_ball_v3.py |
+| ball_color_V3_2k.webp, ball_color_V3_1k.webp, ball_color_V3_512.webp | ball colour with match wear (sRGB), one size per device level | gen_ball_v3.py |
+| ball_normal_V3_2k.webp, ball_normal_V3_1k.webp, ball_normal_V3_512.webp | ball normal map (glTF +Y), from the source | gen_ball_v3.py |
+| ball_orm_V3_2k.webp, ball_orm_V3_1k.webp, ball_orm_V3_512.webp | ball G roughness (worn panels rougher), B metalness 0 | gen_ball_v3.py |
 | crowd_atlas_2k.webp, crowd_atlas_1k.webp | 96 fans x 2 poses (arms down / up), 16 x 12 cards | gen_stadium.py |
 | crowd_tint_1k.webp | mask: where a fan's shirt takes the club colour | gen_stadium.py |
 | board_chamber_men.webp, board_cms.webp, board_chevrons.webp | LED ad boards | gen_stadium.py |
