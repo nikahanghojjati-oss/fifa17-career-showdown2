@@ -339,7 +339,7 @@ const SHELL_PATHS = Object.freeze([
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // r90 W8: the install precaches only the ESSENTIAL shell (INSTALL_PATHS): Home, Settings with backup and restore, sign-in and
-// pairing, the offline and error screens. The rest of SHELL_PATHS, the files of the screens a Showdown opens later, is this
+// pairing, History with its recovery tools (offline-boundary-audit opens it offline), the offline and error screens. The rest of SHELL_PATHS, the files of the screens a Showdown opens later, is this
 // revision's OFFLINE PACK: once the worker is active the page asks for it at idle (CMS_FILL_OFFLINE_PACK, two files at a time),
 // and a pack file a screen asks for first is fetched and kept on the spot. Both land in this revision's shell cache, so a page
 // still reads one revision, and a pack file is kept only while the deployed worker is still this revision. Activation and
@@ -347,16 +347,12 @@ const SHELL_PATH_SET = new Set(SHELL_PATHS);
 // network can no longer supply an older build's files. SHELL_PATHS stays the full list (tests/fixtures/shell-paths), so the
 // next release's PREVIOUS_SHELL_PATHS asks for this build's pack too. A 2.2.0 Chromebook fetched all 276 files at once.
 const OFFLINE_PACK_PATHS = new Set([
-    "css/analytics.css","css/legacy.css","css/rulebook.css","css/season.css","css/transfer.css","data/clubs.js","data/leagues.js",
-    "data/transferOptions.js","js/careerScreenSeam.js","js/careerScreensV10.js","visual-assets/v10_1/legacy/legacy.css",
-    "visual-assets/v10_1/legacy/legacy.js","visual-assets/v10_1/legacy/strings.json","visual-assets/v10_1/legacy/assets/platemap.json",
-    "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js",
-    "visual-assets/v10_1/rivalry-statistics/strings.json","visual-assets/v10_1/rivalry-statistics/assets/platemap.json","js/rivalryLegacyV10.js",
-    "js/rivalryLegacyV10Markup.js","js/sharedCareerAnalytics.js","js/sharedActiveShowdownAdapter.js","js/sharedClosedShowdownAdapter.js",
-    "js/sparkCompletedShowdownReader.js","js/sparkClosedShowdownCareerLoader.js","js/careerSummaryStore.js","js/specialPlayerReveal.js",
-    "visual-assets/v10_1/special-player/index.html","data/deadlineDayLines.js","js/rosterRouletteStep.js","js/rosterRoulette.js",
-    "data/rosterSquads.js","data/fifa17Players.js","css/v10Roulette.css","visual-assets/v10_1/roulette/index.html",
-    "visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r187.min.js",
+    "css/analytics.css","css/rulebook.css","css/season.css","css/transfer.css","data/clubs.js","data/leagues.js","data/transferOptions.js",
+    "js/careerScreensV10.js","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css",
+    "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js","visual-assets/v10_1/rivalry-statistics/strings.json",
+    "visual-assets/v10_1/rivalry-statistics/assets/platemap.json","js/specialPlayerReveal.js","visual-assets/v10_1/special-player/index.html",
+    "data/deadlineDayLines.js","js/rosterRouletteStep.js","js/rosterRoulette.js","data/rosterSquads.js","data/fifa17Players.js","css/v10Roulette.css",
+    "visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/roulette/platemap.json","visual-assets/v10_1/roulette/vendor/three-r187.min.js",
     "visual-assets/v10_1/roulette/vendor/THREE_LICENSE.txt","visual-assets/v10_1/roulette/assets/squads.json",
     "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","js/kits17.js","js/commentaryEngine.js","data/commentaryLines.js","data/gazetteCopy.js",
     "data/gazetteSacked.js","data/frontPages.js","css/v10Gazette.css","visual-assets/v10_1/content/content.css",
@@ -370,10 +366,10 @@ const OFFLINE_PACK_PATHS = new Set([
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
     "js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html","js/chamberMenStep.js",
-    "js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","css/rivalryLegacyV10.css","js/clubAssignment.js",
-    "js/dataEngine.js","js/leagueWheel.js","js/legacy.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js",
-    "js/sparkSharedTransferChallenge.js","js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js",
-    "js/transferChallenge.js","js/transferSelector.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
+    "js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/clubAssignment.js","js/dataEngine.js",
+    "js/leagueWheel.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js",
+    "js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js","js/transferChallenge.js",
+    "js/transferSelector.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp","assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp","assets/football/james-rodriguez-world-cup-2014-v113.webp",
     "assets/football/lionel-messi-barcelona-2016-subject-r4.webp","assets/football/marcus-rashford-chelsea-2017-v113.webp",
