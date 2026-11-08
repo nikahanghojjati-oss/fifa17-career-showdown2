@@ -72,7 +72,8 @@ on a pick, after calibration and on a fallback:
 - A 2D page in its own frame (Prime Pack) mirrors its parent's `html[data-gfx]`. Run on its own as a preview, it may read the same `?gfx=0..5`, and nothing else.
 
 Density pickers for `image-set()` plates and 2D canvases sized to the screen (confetti) read `devicePixelRatio` to match
-what the browser draws. They are not quality choices, and the contract lists them by name.
+what the browser draws. So do the 4K-art pickers of Prime Pack and the RRR café hall, which add their 4K art only at Extra
+and above on a screen that sharp. They are not quality choices, and the contract lists them by name.
 
 ## Proof per release
 
