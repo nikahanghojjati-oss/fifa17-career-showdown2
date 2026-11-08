@@ -141,7 +141,7 @@
     });
     return {scripts,anims,bodies};
   }
-  // warm({clubs}): the files this device's level will ask for, fetched two at a time at low priority while the season page
+  // warm({clubs}): the files this device's level will ask for, fetched one at a time at low priority while the season page
   // waits for the tap (js/productionSharedTransferChallenge.js). Nothing is parsed or drawn; true once all came down. Once a
   // mount starts it starts no new file (the mount asks for the rest itself, all at once).
   async function cm3Warm(opts){
@@ -153,8 +153,8 @@
     const urls=[ENGINE_PATH,PLAYER_PATH+`anims_${Q.assets}.glb`,...cm3BodyFiles(Q.assets,opts&&opts.clubs).map(([_n,f])=>PLAYER_PATH+f),
       ...(typeof S.urls==="function"?S.urls({phone:Q.assets==="phone",level}):[])];
     let next=0,ok=true;
-    const lane=async()=>{while(next<urls.length&&!cm3Mounting){const u=urls[next];next+=1;if(!await cm3Blob(u,true))ok=false;}};
-    await Promise.all([lane(),lane()]);
+    // One file at a time, so the season page's own reads never wait behind the warm-up.
+    while(next<urls.length&&!cm3Mounting){const u=urls[next];next+=1;if(!await cm3Blob(u,true))ok=false;}
     return ok;
   }
   function cm3Extras(T,Q,pre){
@@ -170,7 +170,9 @@
       const parse=buf=>new T.GLTFLoader().setMeshoptDecoder(meshopt).parseAsync(buf.slice(0),PLAYER_PATH);
       const clips=await parse(anims);
       const bodies={};
-      await Promise.all(Object.entries(bufs).map(async([n,buf])=>{const [taker,keeper]=await Promise.all([parse(buf),parse(buf)]);bodies[n]={taker,keeper};}));
+      // Each body file is parsed once; the keeper is a copy with its own bones and materials (r90 M1: a second parse cost a
+      // cold Light open about as much CPU again as the first).
+      await Promise.all(Object.entries(bufs).map(async([n,buf])=>{const taker=await parse(buf);bodies[n]={taker,keeper:cm3CloneBody(taker)};}));
       // Warm each body's kit map (kits17 caches it), so the first kit goes on with the first frame.
       const K=root.CareerModeKits17;
       await Promise.all(Object.keys(bufs).map(n=>{try{return Promise.resolve(K.textures("",{layout:n,size:"small"}).ready).catch(()=>null);}catch(_error){return null;}}));
@@ -179,6 +181,22 @@
       return out;
     })().catch(error=>{try{root.console?.warn?.("Chamber Men 3D: no stadium or players; the drawn goal plays.",error);}catch(_error){}return null;});
     return Promise.race([work,new Promise(resolve=>root.setTimeout(()=>{late=true;resolve(null);},EXTRAS_WAIT_MS))]);
+  }
+  // A parsed body copied for a second actor (three.js SkeletonUtils.clone, which the vendor build leaves out): the copy's
+  // skinned meshes are bound to the copy's own bones, and every material is its own (kits and skin tones are set per actor).
+  // Geometry and the body textures are shared.
+  function cm3CloneBody(gltf){
+    const src=gltf.scene,copy=src.clone(),toCopy=new Map(),fromCopy=new Map();
+    const walk=(a,b)=>{toCopy.set(a,b);fromCopy.set(b,a);for(let i=0;i<a.children.length;i+=1)walk(a.children[i],b.children[i]);};
+    walk(src,copy);
+    copy.traverse(o=>{
+      if(o.isMesh)o.material=Array.isArray(o.material)?o.material.map(m=>m.clone()):o.material.clone();
+      if(!o.isSkinnedMesh)return;
+      const from=fromCopy.get(o),skeleton=from.skeleton.clone();
+      skeleton.bones=from.skeleton.bones.map(b=>toCopy.get(b));
+      o.bind(skeleton,from.bindMatrix);
+    });
+    return {scene:copy,animations:gltf.animations};
   }
   function cm3FreeExtras(x){
     try{for(const t of Object.values(x.tex||{}))t.dispose?.();}catch(_error){}

@@ -267,6 +267,9 @@ let c3d14=Promise.resolve();
   assert.ok(/^\/\*\n \* meshoptimizer 0\.22\.0 decoder[\s\S]*?MIT License[\s\S]*?Permission is hereby granted/.test(read(DEC)),"decoder vendored with its MIT licence");
   assert.ok(scene.includes(`const MESHOPT_JS="${DEC}";`)&&scene.includes("new T.GLTFLoader().setMeshoptDecoder(meshopt).parseAsync("),"players parse with the decoder");
   assert.ok(read("js/chamberMenStadium3d.js").includes("l.setMeshoptDecoder(o.meshopt)"),"ball and bowl load with the decoder");
+  // Each body is parsed once; the keeper is a copy bound to its own bones, with its own materials.
+  assert.ok(scene.includes("const taker=await parse(buf);bodies[n]={taker,keeper:cm3CloneBody(taker)};")&&!scene.includes("parse(buf),parse(buf)"),"one parse per body");
+  assert.ok(/skeleton\.bones=from\.skeleton\.bones\.map\(b=>toCopy\.get\(b\)\);/.test(scene)&&/o\.material=Array\.isArray\(o\.material\)\?o\.material\.map\(m=>m\.clone\(\)\):o\.material\.clone\(\);/.test(scene),"the copy has its own bones and materials");
   const shellList=sw.slice(sw.indexOf("const SHELL_PATHS"),sw.indexOf("];",sw.indexOf("const SHELL_PATHS"))),pack=sw.slice(sw.indexOf("const OFFLINE_PACK_PATHS"),sw.indexOf("]);",sw.indexOf("const OFFLINE_PACK_PATHS")));
   assert.ok(shellList.includes(`"${DEC}"`)&&pack.includes(`"${DEC}"`),"decoder in the shell, filled with the offline pack");
   assert.ok(fs.existsSync(path.join(ROOT,"tools/chamber-men-players/pack-meshopt.mjs")),"packing tool in the repo");
@@ -287,6 +290,7 @@ let c3d14=Promise.resolve();
     const urls=asked.map(a=>a[0]);
     assert.equal(new Set(urls).size,urls.length,"each file once");
     assert.ok(asked.every(a=>a[1]==="low"),"low priority");
+    assert.ok(scene.includes("while(next<urls.length&&!cm3Mounting){const u=urls[next];next+=1;if(!await cm3Blob(u,true))ok=false;}"),"one file at a time, none new once a mount starts");
     assert.ok(urls.includes(ENGINE)&&urls.includes(P+"players/anims_phone.glb"),"engine and Light clips");
     assert.ok(urls.filter(u=>/players\/body_\w+_phone\.glb$/.test(u)).length>=1&&!urls.some(u=>/_desktop\.glb$/.test(u)),"Light bodies only");
     assert.ok(!urls.some(u=>/stadium_bowl/.test(u))&&urls.some(u=>/grass_color_V2_1k\.webp$/.test(u)),"Light stadium files, no bowl");
