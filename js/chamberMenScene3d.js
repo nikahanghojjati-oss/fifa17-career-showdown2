@@ -68,7 +68,7 @@
     ch42:[[[1,1,1],[1,1,1]],[[.92,.84,.78],[1,1,1]],[[.86,.76,.68],[.6,.6,.6]],[[.7,.56,.46],[.5,.5,.5]],[[.52,.39,.31],[.4,.4,.4]],[[1,1,1],[1.6,1.3,1]]]
   };
   // Seconds from kick() to the strike. The step waits for it before it shows the result words.
-  const RUNUP=2.15,EXTRAS_WAIT_MS=4200,DISSOLVE=.55;
+  const RUNUP=2.15,DISSOLVE=.55;
   // penaltyKick's strike is measured on the boot when the scene is built (strikeOf); these are only the fallback.
   const KICK_HIT_GUESS=.74,KICK_BALL_GUESS=[-.99,BALL_R,2.42];
   // jog: the frame whose feet match the first frame of penaltyKick (left foot down, right foot pushing off).
@@ -155,11 +155,37 @@
     let next=0,ok=true;
     // One file at a time, so the season page's own reads never wait behind the warm-up.
     while(next<urls.length&&!cm3Mounting){const u=urls[next];next+=1;if(!await cm3Blob(u,true))ok=false;}
+    // r90 Light (lead 2026-11-08: everything ready before the season page hands over): with the files down, the season page
+    // also runs three.js and parses the stadium and the players, one step per idle moment, and keeps the result for this
+    // level and these clubs. The mount takes it instead of parsing again (7.4 s of a 2-core, 4x-throttled CPU). Nothing is
+    // drawn and no GPU memory is taken until the screen opens.
+    if(ok&&!cm3Mounting&&!cm3Parsed){
+      const work=(async()=>{await cm3Idle();if(cm3Mounting)return null;const T=await loadEngine();await cm3Idle();
+        const x=await cm3Extras(T,Q,cm3Prefetch(Q.assets,opts&&opts.clubs));
+        // The four kits (each club taking and keeping): painted here, one per idle moment (each cost 1.1-2.2 s of main thread
+        // when it was painted at the kick, MOTION M2; 12 s of the 2-core 4x open when all four were painted at mount).
+        if(x)for(const k of cm3KitPlan(x.K,Q,opts&&opts.clubs)){if(cm3Mounting)break;await cm3Idle();if(cm3Kits.has(k.memo))continue;
+          try{const t=x.K.textures(k.club,k.opts);cm3Kits.set(k.memo,t);await Promise.resolve(t.ready).catch(()=>{});}catch(_error){}}
+        return x;})().catch(()=>null);
+      cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work};
+      await work;
+    }
     return ok;
   }
+  let cm3Parsed=null;const cm3Kits=new Map();
+  // A kit's key and its kits17 options: one per body, club, role, rival and squad number (dress() paints by the same key).
+  function cm3KitMemo(body,club,role,vs,number){return `${body}|${club}|${role}|${vs}|${number}`;}
+  function cm3KitNumber(club,role){return role==="gk"?1:SHIRT_NUMBERS[cm3Hash(`number|${club}`)%SHIRT_NUMBERS.length];}
+  function cm3KitPlan(K,Q,clubs){
+    const c=clubs||{},one=String(c.playerOne||""),two=String(c.playerTwo||""),list=cm3BodyList(K),size=Q.assets==="phone"?"phone":"full",out=[];
+    for(const [club,vs] of [[one,two],[two,one]])for(const role of ["outfield","gk"]){const body=cm3BodyOf(club,list),number=cm3KitNumber(club,role);
+      out.push({memo:cm3KitMemo(body,club,role,vs,number),club,opts:{layout:body,role,vsClub:vs,size,number}});}
+    return out;
+  }
+  function cm3ParseKey(Q,clubs){return [Q.assets,Q.level,Q.textureLevel??"",clubs?.playerOne||"",clubs?.playerTwo||""].join("|");}
+  function cm3Idle(){return new Promise(resolve=>{if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>resolve(),{timeout:3000});else root.setTimeout(resolve,50);});}
   function cm3Extras(T,Q,pre){
     if(typeof T.GLTFLoader!=="function"||typeof T.AnimationMixer!=="function"||!pre)return Promise.resolve(null);
-    let late=false;
     const work=(async()=>{
       if(!await pre.scripts)return null;
       const S=root.CareerModeChamberMenStadium;
@@ -176,11 +202,11 @@
       // Warm each body's kit map (kits17 caches it), so the first kit goes on with the first frame.
       const K=root.CareerModeKits17;
       await Promise.all(Object.keys(bufs).map(n=>{try{return Promise.resolve(K.textures("",{layout:n,size:"small"}).ready).catch(()=>null);}catch(_error){return null;}}));
-      const out={S,tex,K,clips,bodies};
-      if(late){cm3FreeExtras(out);return null;}
-      return out;
+      return {S,tex,K,clips,bodies};
     })().catch(error=>{try{root.console?.warn?.("Chamber Men 3D: no stadium or players; the drawn goal plays.",error);}catch(_error){}return null;});
-    return Promise.race([work,new Promise(resolve=>root.setTimeout(()=>{late=true;resolve(null);},EXTRAS_WAIT_MS))]);
+    // r90 Light (Nik 2026-11-08, "3D light for Chamber Men is a guarantee"): no deadline here any more. The step keeps the
+    // loading screen up while this comes in (js/chamberMenStep.js), and a mount it gives up on stops through its signal.
+    return work;
   }
   // A parsed body copied for a second actor (three.js SkeletonUtils.clone, which the vendor build leaves out): the copy's
   // skinned meshes are bound to the copy's own bones, and every material is its own (kits and skin tones are set per actor).
@@ -229,10 +255,11 @@
   ];
   const FLOOD_COLOR=0xfff4e8,FLOOD_UNIT=1.05;
   // Per level: which banks each light carries (merged banks light from their weighted middle) and which cast shadows.
-  // Light and Balanced: three lights, one shadow (the same cost as before). High: four, two shadows. Extra: all six,
+  // Light: one light with the shadow (r90, Nik's Chromebook: the fill and rim are folded into it, see LIGHT_ONE).
+  // Balanced: three lights, one shadow. High: four, two shadows. Extra: all six,
   // three shadows. Ultra and 8K: all six, four shadows (the soft star of shadows under a player in a real stadium).
   const FLOOD_RIGS=[
-    [[[0,2],1],[[1,3],0],[[4,5],0]],
+    [[[0,2],1]],
     [[[0,2],1],[[1,3],0],[[4,5],0]],
     [[[0,2],1],[[1,3],1],[[4],0],[[5],0]],
     [[[0],1],[[1],1],[[2],1],[[3],0],[[4],0],[[5],0]],
@@ -308,11 +335,17 @@
     // on the roof behind the goal (the rim on the players' shoulders). The rig is the same at every level; a higher level
     // only resolves more banks one by one and lets more of them cast, so the light never changes direction between devices,
     // it only gets the multi-shadow look of a real stadium. LED floodlights (about 5700 K): a near-neutral white.
-    const env=cm3FloodEnv(T,renderer,L,FLOOD_BANKS);if(env){keep(env);scene.environment=env.texture;scene.environmentIntensity=1;}
-    scene.add(new T.HemisphereLight(0x9fb4e8,0x14200f,.08));
+    const env=cm3FloodEnv(T,renderer,L,FLOOD_BANKS);// r90 Light (Nik's Chromebook): one real-time light. The key carries the fill's and rim's share of the light (x1.5),
+    // the reflections a little more (x1.1) and the sky a little more (.22), so the pitch, the players and the goal read as
+    // bright as under the three-light rig (frame check at 1920x866: the taker 78.4 against 78.2, the pitch 77-78 both).
+    const LIGHT_ONE=L===0?{key:1.5,env:1.1,hemi:.22}:{key:1,env:1,hemi:.08};
+    let envNow=env;if(env){scene.environment=env.texture;scene.environmentIntensity=LIGHT_ONE.env;}
+    // A lost context empties every render target, the filtered reflections with them: they are filtered again on restore.
+    const refilter=()=>{const next=cm3FloodEnv(T,renderer,L,FLOOD_BANKS);if(!next)return;envNow?.dispose();envNow=next;scene.environment=next.texture;};
+    scene.add(new T.HemisphereLight(0x9fb4e8,0x14200f,LIGHT_ONE.hemi));
     const flood=cm3FloodRig(L,FLOOD_BANKS),FLOOD_AIM=new T.Vector3(0,0,9),lights=[];
     flood.forEach((f,i)=>{
-      const l=new T.DirectionalLight(FLOOD_COLOR,f.w*FLOOD_UNIT);l.position.set(...f.p);l.target.position.copy(FLOOD_AIM);l.name=`cmFlood${i}`;
+      const l=new T.DirectionalLight(FLOOD_COLOR,f.w*FLOOD_UNIT*LIGHT_ONE.key);l.position.set(...f.p);l.target.position.copy(FLOOD_AIM);l.name=`cmFlood${i}`;
       if(f.shadow){const size=i===0?Q.shadowSize:Math.max(512,Q.shadowSize/2);l.castShadow=true;l.shadow.mapSize.set(size,size);l.shadow.bias=-.0004;l.shadow.normalBias=.03;
         l.shadow.radius=QX.softness;
         // The box, the goal and both players: from a 37 m bank a player's shadow runs 2-3 m, so the frustum is the box plus that.
@@ -333,9 +366,11 @@
     // while the shadow maps render, so the picture never draws it. Hair (alpha-cut) keeps its own shadow. A body whose
     // pieces disagree on a bone's bind pose keeps the per-piece shadows.
     const shadowBodies=[];
-    {const sm=renderer.shadowMap,draw=sm.render.bind(sm);
+    // (A restored WebGL context brings a new shadowMap object: wrapShadow runs again then.)
+    const wrapShadow=()=>{const sm=renderer.shadowMap;if(sm.cmWrapped)return;const draw=sm.render.bind(sm);sm.cmWrapped=true;
       sm.render=(...args)=>{for(const p of shadowBodies){p.visible=true;p.skeleton.update();}
-        try{return draw(...args);}finally{for(const p of shadowBodies)p.visible=false;}};}
+        try{return draw(...args);}finally{for(const p of shadowBodies)p.visible=false;}};};
+    wrapShadow();
     const shadowBody=model=>{
       const parts=[];model.updateMatrixWorld(true);
       model.traverse(o=>{if(o.isSkinnedMesh&&o.castShadow&&!Array.isArray(o.material)&&!(o.material.alphaTest>0)&&!o.material.alphaMap&&!o.material.transparent)parts.push(o);});
@@ -538,10 +573,12 @@
     const dress=(a,club,role,vs)=>{
       look(a,club,role);
       // r90 L04: a squad number on the back (the camera is behind the taker): one per club for the Showdown, 1 for keepers.
-      const number=role==="gk"?1:SHIRT_NUMBERS[cm3Hash(`number|${club}`)%SHIRT_NUMBERS.length];
+      const number=cm3KitNumber(club,role);
       // r90 MOTION M2: a Showdown has four kits at most (each club taking and keeping, against the other), so each is painted
       // once and its textures stay uploaded: a new kick only swaps maps (painting one cost 1.1-2.2 s of main thread).
-      const memo=`${a.body}|${club}|${role}|${vs}|${number}`;
+      const memo=cm3KitMemo(a.body,club,role,vs,number);
+      // Painted on the season page already (cm3Warm): taken over, never painted twice.
+      if(!kitMemo.has(memo)&&cm3Kits.has(memo)){kitMemo.set(memo,cm3Kits.get(memo));cm3Kits.delete(memo);}
       let t=kitMemo.get(memo);if(!t){try{t=K.textures(club,{layout:a.body,role,vsClub:vs,size:kitSize,number});}catch(_error){return;}kitMemo.set(memo,t);}
       // One texture per canvas: on Ch38 and Ch42 the shirt, shorts (and Ch38's socks) share one atlas.
       const put=()=>{const made=new Map();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
@@ -718,17 +755,25 @@
         lights:lights.length,shadows:lights.filter(l=>l.castShadow).length};
     };
     const overlay=new T.Scene(),overlayCam=new T.OrthographicCamera(-1,1,1,-1,0,1);
-    const overlayMat=keep(new T.MeshBasicMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:true}));
+    // r90 Light: the snap is a copy of the frame on screen (copyTexSubImage from the canvas), not a second render of the
+    // scene into a half-float target: that render built a second shader for every material (19 more programs at Light)
+    // and held 13-53 MB at 1920x866. The overlay writes the copied pixels back untouched (no tone mapping, no colour
+    // conversion: they are screen pixels already).
+    const overlayU={map:{value:null},opacity:{value:0}};
+    const overlayMat=keep(new T.ShaderMaterial({uniforms:overlayU,transparent:true,depthTest:false,depthWrite:false,toneMapped:false,
+      vertexShader:"varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}",
+      fragmentShader:"uniform sampler2D map;uniform float opacity;varying vec2 vUv;void main(){gl_FragColor=vec4(texture2D(map,vUv).rgb,opacity);}"}));
     const overlayGeo=keep(new T.PlaneGeometry(2,2));overlay.add(new T.Mesh(overlayGeo,overlayMat));
+    const snapTexture=()=>{
+      const size=renderer.getDrawingBufferSize(new T.Vector2());
+      if(!snap||snap.image.width!==size.x||snap.image.height!==size.y){snap?.dispose();
+        // three's FramebufferTexture (not in our build): storage only, filled by copyFramebufferToTexture.
+        snap=new T.Texture({width:size.x,height:size.y});snap.isFramebufferTexture=true;snap.magFilter=snap.minFilter=T.NearestFilter;snap.generateMipmaps=false;snap.needsUpdate=true;overlayU.map.value=snap;}
+      return snap;
+    };
     const dissolveFrom=()=>{
       if(!cssW||(frozenClock===null&&reducedMotion()))return;
-      const size=renderer.getDrawingBufferSize(new T.Vector2());
-      // MSAA from what this GPU supports for RGBA16F + depth (js/gfxTier.js samples/checkTarget; an incomplete target steps 4 -> 0).
-      if(!snap||snap.width!==size.x||snap.height!==size.y){snap?.dispose();const G=root.CareerModeGfxTier;
-        snap=new T.WebGLRenderTarget(size.x,size.y,{type:T.HalfFloatType,samples:G?.samples?G.samples(renderer,phone?0:4,true):0});
-        if(snap.samples&&G?.checkTarget)G.checkTarget(renderer,snap);}
-      renderer.setRenderTarget(snap);renderer.render(scene,camera);renderer.setRenderTarget(null);
-      overlayMat.map=snap.texture;overlayMat.needsUpdate=true;snapAt=clockNow();
+      snapTexture();renderer.setRenderTarget(null);renderer.render(scene,camera);renderer.copyFramebufferToTexture(snap);snapAt=clockNow();
     };
 
     // ---------- size, labels, drawing ----------
@@ -760,7 +805,7 @@
       cameraAt(t,live);
       renderer.render(scene,camera);
       const fade=still?0:1-(now-snapAt)/(DISSOLVE*1000);
-      if(fade>0&&snap){overlayMat.opacity=cm3Easy(fade);renderer.autoClear=false;renderer.render(overlay,overlayCam);renderer.autoClear=true;}
+      if(fade>0&&snap){overlayU.opacity.value=cm3Easy(fade);renderer.autoClear=false;renderer.render(overlay,overlayCam);renderer.autoClear=true;}
     };
     // Smoothness first (Nik 2026-11-04, 2026-11-07): the shared governor (js/gfxTier.js) moves the pixel ratio: down after a
     // second of slow frames, up only when a timed frame shows room, never back to a step that ran slow, and never during a
@@ -773,20 +818,21 @@
     const tick=time=>{
       raf=0;if(disposed)return;
       if(!canvas.isConnected||!svg.isConnected){free();return;}
-      if(d.visibilityState!=="hidden"){gov?.frame(time);if(layoutDirty){layoutDirty=false;fit();}paint();}
+      if(d.visibilityState!=="hidden"&&!warming){gov?.frame(time);if(layoutDirty){layoutDirty=false;fit();}paint();}
       raf=root.requestAnimationFrame(tick);
     };
     const relayout=()=>{layoutDirty=true;};
     const ro=typeof root.ResizeObserver==="function"?new root.ResizeObserver(relayout):null;
     const free=()=>{
       if(disposed)return;disposed=true;alive=false;if(raf)root.cancelAnimationFrame(raf);ro?.disconnect();root.removeEventListener?.("resize",relayout);
+      canvas.removeEventListener("webglcontextrestored",restored);
       gov?.end();fps?.stop();
       for(const r of Object.values(rigs))for(const a of [r.taker.a,r.keeper.a])try{a.mixer.stopAllAction();a.mixer.uncacheRoot(a.model);}catch(_error){}
       scene.traverse(o=>{if(o.geometry)o.geometry.dispose();for(const m of [].concat(o.material||[]))for(const v of Object.values(m))if(v&&v.isTexture)v.dispose();});
       for(const t of kitTex.values())t.dispose();kitTex.clear();kitMemo.clear();
       try{S.dispose();}catch(_error){}
       for(const v of own)try{v.dispose&&v.dispose();}catch(_error){}
-      snap?.dispose();
+      snap?.dispose();envNow?.dispose();
       renderer.dispose();try{renderer.forceContextLoss();}catch(_error){}
       canvas.remove();svg.classList.remove("cm3d-on");
     };
@@ -796,6 +842,33 @@
       if(next.taker===lineup.taker&&next.keeper===lineup.keeper&&next.style===lineup.style)return false;
       lineup=next;useRigs(next.taker,next.keeper);dress(taker,next.taker,"outfield",next.keeper);dress(keeper,next.keeper,"gk",next.taker);
       return true;
+    };
+    // r90 Light (Nik 2026-11-08: smooth on his Chromebook, 2 CPU threads): everything a Showdown can show is compiled and
+    // uploaded behind the loading screen. Both lineups (each club taking and keeping) are dressed, every rig is drawn once
+    // with its shadow, and the dissolve snap is made and drawn, so no shader compile or texture upload lands in play (the
+    // other club's first kick cost 2-7 s of long tasks on a 2-thread 4x-throttled CPU). Shaders compile in parallel where
+    // the GPU driver can (KHR_parallel_shader_compile through compileAsync).
+    let warming=null;
+    const compileAll=async()=>{
+      try{if(typeof renderer.compileAsync==="function")await renderer.compileAsync(scene,camera);else renderer.compile(scene,camera);}catch(_error){}
+    };
+    const prewarm=async()=>{
+      const one=clubs.playerOne,two=clubs.playerTwo,back={...lineup};
+      const kits=()=>Promise.all([...kitMemo.values()].map(t=>Promise.resolve(t&&t.ready).catch(()=>{})));
+      if(two!==undefined&&String(two)!==String(one)){setLineup(two,one,1);await kits();if(disposed)return;}
+      setLineup(one,two,1);await kits();cm3Kits.clear();if(disposed)return;
+      const shown=[];for(const r of Object.values(rigs))for(const a of [r.taker.a,r.keeper.a]){shown.push([a.holder,a.holder.visible]);a.holder.visible=true;}
+      try{
+        await compileAll();if(disposed)return;
+        const seen=new Set(),up=v=>{if(v&&v.isTexture&&!seen.has(v)){seen.add(v);try{renderer.initTexture(v);}catch(_error){}}};
+        scene.traverse(o=>{for(const m of [].concat(o.material||[]))for(const v of Object.values(m||{}))up(v);});
+        for(const t of kitTex.values())up(t);
+        paint();
+        if(cssW&&!reducedMotion()){dissolveFrom();overlayU.opacity.value=0;renderer.autoClear=false;renderer.render(overlay,overlayCam);renderer.autoClear=true;}
+      }finally{for(const [h,v] of shown)h.visible=v;snapAt=-1e9;}
+      // Back to the lineup on screen (a rebuild after a lost context runs this mid-Showdown).
+      if(back.taker!==null&&back.taker!==undefined)setLineup(back.taker,back.keeper,back.round);
+      if(!disposed)paint();
     };
     const api={
       mode:"broadcast",
@@ -814,7 +887,7 @@
       // clock (ms, optional) also freezes the scene clock, so a proof can step through a dissolve frame by frame.
       at(t,clock){frozenAt=typeof t==="number"?t:null;frozenClock=typeof clock==="number"?clock:null;fit();paint();},
       // Behind the loading screen: a few timed frames pick the level for this device (they also compile every shader).
-      async warm(){if(!GFX)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,paint,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
+      async warm(){if(warming)await warming;if(!GFX||disposed)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,paint,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
       dispose:free,
       lit:Boolean(scene.environment),
       probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,react:plan&&plan.react?plan.react.name:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
@@ -823,8 +896,14 @@
     setLineup(clubs.playerOne,clubs.playerTwo,1);
     svg.parentNode.insertBefore(canvas,svg);
     svg.classList.add("cm3d-on");
-    fit();cameraAt(0,0);renderer.compile(scene,camera);paint();
+    fit();cameraAt(0,0);
+    warming=prewarm().catch(()=>{}).finally(()=>{warming=null;});
     ro?.observe(svg);if(svg.parentNode)ro?.observe(svg.parentNode);root.addEventListener?.("resize",relayout);
+    // r90 Light (C7): a lost WebGL context keeps the screen. three.js holds the canvas through the loss and rebuilds its GPU
+    // state when the context comes back; then everything is compiled and uploaded again before the next frame, as at
+    // mount, so the return is one step, not a run of stalls. The drawn goal never replaces it.
+    const restored=()=>{if(disposed)return;wrapShadow();try{refilter();}catch(_error){}cssW=0;layoutDirty=true;fit();warming=prewarm().catch(()=>{}).finally(()=>{warming=null;});};
+    canvas.addEventListener("webglcontextrestored",restored);
     raf=root.requestAnimationFrame(tick);
     return api;
   }
@@ -849,10 +928,18 @@
     cm3Mounting+=1;
     try{
       const Q=await cm3Quality();if(off())return null;
-      const pre=cm3Prefetch(Q.assets,opts&&opts.clubs);
+      // r90 Light: a file that fails to come in (a dropped connection on a slow line) is fetched once more before the
+      // drawn goal is used: a failed download is not a missing GPU.
+      // The season page's parse for this level and these clubs, when it made one (a parse for others is let go).
+      const key=cm3ParseKey(Q,opts&&opts.clubs),held=cm3Parsed&&cm3Parsed.key===key?cm3Parsed.work:null;
+      if(cm3Parsed&&!held)cm3Parsed.work.then(x=>{if(x)cm3FreeExtras(x);},()=>{});
+      cm3Parsed=null;
+      let pre=held?null:cm3Prefetch(Q.assets,opts&&opts.clubs);
       await cm3Settle([ENGINE_PATH]);
-      const T=await loadEngine();if(off())return null;
-      const extras=await cm3Extras(T,Q,pre);
+      const T=await loadEngine().catch(()=>off()?null:loadEngine());if(!T||off())return null;
+      let extras=held?await held:await cm3Extras(T,Q,pre);
+      if(!extras&&!off()){pre=cm3Prefetch(Q.assets,opts&&opts.clubs);extras=await cm3Extras(T,Q,pre);}
+      if(off()){if(extras)cm3FreeExtras(extras);return null;}
       // r90: no stadium or players in time is the SVG goal, never a second look (the gold hall and its lounge light are gone).
       if(!extras)return null;
       if(!svg.isConnected||off()){cm3FreeExtras(extras);return null;}

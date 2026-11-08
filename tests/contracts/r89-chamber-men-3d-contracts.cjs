@@ -53,11 +53,18 @@ async function c3d2(){
   assert.equal(await make({WebGL2RenderingContext:function(){},CMS_CHAMBER_MEN_3D:"off"}).CareerModeChamberMen3d.mount(svg),null,"kill switch: null");
   assert.equal(await make({WebGL2RenderingContext:function(){}}).CareerModeChamberMen3d.mount(svg),null,"no WebGL2 context: null");
   assert.match(step,/function cmsScene\(goal\)\{\s*if\(root\.CMS_CHAMBER_MEN_3D==="off"\)return Promise\.resolve\(null\);/,"the step honours the kill switch too");
-  assert.match(step,/return Promise\.race\(\[made,dropped,cmsWait\(SCENE_WAIT_MS\)\.then\(\(\)=>\{if\(!goal\.scene\)giveUp\(\);return null;\}\)\]\);/,"a slow scene does not hold the screen (and is aborted)");
-  assert.match(step,/if\(late\)\{try\{scene\.dispose\(\);\}catch\(_error\)\{\}return null;\}/,"a late scene is thrown away, never swapped in");
-  assert.match(step,/\.then\(scene=>\{[\s\S]*?\},\(\)=>null\);/,"a load fault leaves the SVG goal");
+  // r90 Light (Nik 2026-11-08: "3D light for Chamber Men is a guarantee"): a slow scene is waited for, never given up for
+  // the drawn goal; only a scene still not in after SCENE_CAP_MS (90 s) is aborted.
+  assert.match(step,/const SCENE_CAP_MS=90000;/,"the only deadline is the 90 s cap");
+  assert.ok(!/SCENE_WAIT_MS/.test(step)&&!/EXTRAS_WAIT_MS/.test(scene),"no 6 s or 4.2 s give-up");
+  assert.match(step,/return Promise\.race\(\[made,dropped,cmsWait\(SCENE_CAP_MS\)\.then\(\(\)=>\{if\(!goal\.scene\)giveUp\(\);return null;\}\)\]\);/,"a scene past the cap is aborted");
+  assert.match(step,/if\(late\)\{try\{scene\.dispose\(\);\}catch\(_error\)\{\}return null;\}/,"a scene given up is thrown away");
+  assert.match(step,/const made=script\(\)\.catch\(\(\)=>late\?false:script\(\)\)/,"the scene script is fetched once more before the drawn goal");
+  assert.match(scene,/const T=await loadEngine\(\)\.catch\(\(\)=>off\(\)\?null:loadEngine\(\)\);/,"the engine is fetched once more");
+  assert.match(scene,/if\(!extras&&!off\(\)\)\{pre=cm3Prefetch\(Q\.assets,opts&&opts\.clubs\);extras=await cm3Extras\(T,Q,pre\);\}/,"the stadium and players are fetched once more");
+  assert.match(step,/\.then\(scene=>\{[\s\S]*?\},\(\)=>\{settled=true;wait\(false\);return null;\}\);/,"a load fault leaves the SVG goal");
   assert.match(scene,/catch\(error\)\{[\s\S]*?return null;\s*\}/,"a fault while building the scene leaves the SVG goal");
-  ok("C3D2","no WebGL2, kill switch, fault or slow load: the SVG goal plays; a late scene is never swapped in");
+  ok("C3D2","the SVG goal only for no WebGL2, the kill switch, a fault after one retry, or past the 90 s cap; a slow scene is waited for");
 }
 // C3D3
 {
@@ -75,8 +82,15 @@ async function c3d2(){
   assert.match(step,/const ui=cmsBuild\(ctx\),sceneReady=cmsScene\(ui\.goal\);let sceneShown=false;/,"the scene starts with the screen, under the loading screen");
   assert.match(step,/if\(!stageShown&&!sceneShown\)\{sceneShown=true;sceneReady\.then\(showStage\);\}/,"the stage shows once the goal is drawn");
   assert.match(step,/const showStage=\(\)=>\{if\(stageShown\|\|finished\)return;stageShown=true;ui\.stage\.style\.visibility="visible";cmsLoadingOff\(\);/,"one way to show the stage");
-  assert.match(step,/if\(clock&&!stageShown\)\{ui\.goal\.dropScene\?\.\(\);showStage\(\);\}/,"Codex C2: a running pick clock never waits on the scene");
-  assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*fit\(\);cameraAt\(0,0\);renderer\.compile\(scene,camera\);paint\(\);/,"mount resolves after the first frame is drawn");
+  // Codex C2: a running pick clock never waits on the scene. r90 Light: the stage shows with the picks live and the box
+  // holds a loading panel (never the drawn goal) until the scene lands, synced to the lineup and any revealed kick.
+  assert.match(step,/if\(clock&&!stageShown\)\{ui\.goal\.awaitScene\?\.\(\);showStage\(\);\}/,"Codex C2: a running pick clock never waits on the scene");
+  assert.match(step,/goal\.awaitScene=\(\)=>\{if\(!goal\.scene&&!late&&!settled\)wait\(true\);\};/,"the box waits for the scene, never once the mount has answered");
+  assert.match(step,/goal\.scene=scene;cmsSync\(goal\);wait\(false\);return scene;/,"the late scene takes the box at what the screen shows");
+  assert.match(css,/#cmStage \.cmGoalBox\.cm3d-wait \.cmGoal \{ visibility: hidden; \}/,"the drawn goal never shows while the box waits");
+  assert.match(css,/#cmStage \.cmGoalBox\.cm3d-wait::after \{\s*content: "LOADING CHAMBER MEN";/,"the box says it is loading");
+  assert.match(scene,/svg\.classList\.add\("cm3d-on"\);\s*fit\(\);cameraAt\(0,0\);\s*warming=prewarm\(\)/,"the scene warms before its first frame");
+  assert.match(scene,/async warm\(\)\{if\(warming\)await warming;/,"mount resolves after the first frame is drawn (warm waits for the prewarm)");
   ok("C3D4","Reus Gate: the stage shows with the goal already drawn");
 }
 // C3D5
@@ -189,14 +203,14 @@ async function c3d2(){
   // BUGS hunt (2026-11-08): BUG-03 the finished kick's clock goes during its reveal; BUG-05 a scene given up is aborted
   // (parsing and building stop), not only flagged. r90 M1: its downloads finish into the cache for the next open (C3D14).
   assert.ok(step.includes('clock=null;ui.clock.textContent="";\n        if(from>=kicks.length){revealing=null;render();return;}'),"BUG-03: no stale clock during the reveal");
-  assert.ok(step.includes("const giveUp=()=>{late=true;try{stop?.abort();}catch(_error){}};")&&step.includes("goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};"),"BUG-05: dropping the scene aborts it");
-  assert.ok(scene.includes("const get=file=>cm3Blob(PLAYER_PATH+file)")&&scene.includes("const T=await loadEngine();if(off())return null;")&&scene.includes("if(off()){api.dispose();return null;}"),"BUG-05: the mount stops building (M1: the files still finish into the cache)");
+  assert.ok(step.includes("const giveUp=()=>{late=true;wait(false);try{stop?.abort();}catch(_error){}};")&&step.includes("goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};"),"BUG-05: dropping the scene aborts it");
+  assert.ok(scene.includes("const get=file=>cm3Blob(PLAYER_PATH+file)")&&scene.includes("const T=await loadEngine().catch(()=>off()?null:loadEngine());if(!T||off())return null;")&&scene.includes("if(off()){api.dispose();return null;}"),"BUG-05: the mount stops building (M1: the files still finish into the cache)");
   ok("C3D10","r90 quality: extras by level, ball and grass by texture level, flat picks with gold only for the live choice");
 }
 // C3D11 r90 LOOK (hunt L01-L03): a night grade (less sky fill), contact shadows under the taker, keeper and ball at every
 //    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
 {
-  assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,\.08\)/.test(scene),"night: a faint sky fill, the floodlights carry the picture");
+  assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,LIGHT_ONE\.hemi\)/.test(scene)&&/const LIGHT_ONE=L===0\?\{key:1\.5,env:1\.1,hemi:\.22\}:\{key:1,env:1,hemi:\.08\};/.test(scene),"night: a faint sky fill, the floodlights carry the picture (r90 Light: one light, the sky lifted to .22)");
   assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/one\("cmBlobTaker"/.test(scene)&&/one\("cmBlobKeeper"/.test(scene)&&/one\("cmBlobBall"/.test(scene),"three contact shadows");
   assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/const strength=L<=0\?\.62:\.5/.test(scene),"at every level (the floodlights' own shadows are soft, several at once)");
@@ -204,7 +218,7 @@ async function c3d2(){
   // L04: the low camera behind and
   // left of the taker, a squad number on the back, breathing on the idles.
   assert.ok(/const CAMB=\{pos:v3\(-1\.3,3\.05,SPOT_Z\+15\),look:v3\(-1\.3,/.test(scene),"low broadcast camera behind and left of the taker");
-  assert.ok(/const number=role==="gk"\?1:SHIRT_NUMBERS\[cm3Hash\(`number\|\$\{club\}`\)%SHIRT_NUMBERS\.length\]/.test(scene)&&/size:kitSize,number\}/.test(scene),"squad number on the shirt");
+  assert.ok(/function cm3KitNumber\(club,role\)\{return role==="gk"\?1:SHIRT_NUMBERS\[cm3Hash\(`number\|\$\{club\}`\)%SHIRT_NUMBERS\.length\];\}/.test(scene)&&scene.includes("const number=cm3KitNumber(club,role);")&&/size:kitSize,number\}/.test(scene),"squad number on the shirt");
   assert.ok(/breathe\(taker,live,1\)/.test(scene)&&/breathe\(keeper,live,\.8\)/.test(scene),"both players breathe while they wait");
   ok("C3D11","r90 LOOK: night grade, contact shadows, low camera, numbers, breathing, both clubs on the boards and in the crowd");
 }
@@ -222,9 +236,12 @@ async function c3d2(){
   const rigs=/const FLOOD_RIGS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(rigs,"one rig table");
   const rows=rigs[1].trim().split("\n").map(r=>r.trim());assert.strictEqual(rows.length,5,"one rig per level (8K uses Ultra's)");
   const used=r=>[...r.matchAll(/\[\[([\d,]+)\],([01])\]/g)];
-  for(const r of rows){const ids=used(r).flatMap(m=>m[1].split(",").map(Number)).sort((a,b)=>a-b);assert.deepStrictEqual(ids,[0,1,2,3,4,5],"every level lights from all six banks");}
+  // r90 Light (Nik's Chromebook): one real-time light, the key banks (0 and 2) with the fill's and rim's share folded into it.
+  for(const r of rows.slice(1)){const ids=used(r).flatMap(m=>m[1].split(",").map(Number)).sort((a,b)=>a-b);assert.deepStrictEqual(ids,[0,1,2,3,4,5],"every level above Light lights from all six banks");}
+  assert.deepStrictEqual(used(rows[0]).map(m=>[m[1],m[2]]),[["0,2","1"]],"Light: the key banks, with the shadow");
+  assert.ok(scene.includes("new T.DirectionalLight(FLOOD_COLOR,f.w*FLOOD_UNIT*LIGHT_ONE.key)"),"Light: the key carries the others' share");
   const shadows=rows.map(r=>used(r).filter(m=>m[2]==="1").length),lights=rows.map(r=>used(r).length);
-  assert.deepStrictEqual(lights,[3,3,4,6,6],"Light and Balanced keep three lights (the old cost)");
+  assert.deepStrictEqual(lights,[1,3,4,6,6],"Light one light, Balanced three");
   assert.deepStrictEqual(shadows,[1,1,2,3,4],"more banks cast as the level rises");
   assert.ok(scene.includes("const flood=cm3FloodRig(L,FLOOD_BANKS)")&&scene.includes("l.target.position.copy(FLOOD_AIM)"),"the lights are the banks, aimed at the box");
   assert.ok(scene.includes("const env=cm3FloodEnv(T,renderer,L,FLOOD_BANKS)")&&!/pm\.fromScene\(scene/.test(scene),"reflections from the same banks, not a render of the stadium");
@@ -265,6 +282,49 @@ async function c3d2(){
   assert.ok(/o\.castShadow=!\/lash\/i\.test\(/.test(code),"eyelashes cast no shadow");
   ok("C3D15","r90 draw calls: one shadow draw per player body, hair its own, no eyelash shadow");
 }
+// C3D16 r90 Light (Nik 2026-11-08: smooth on his Chromebook, 3D guaranteed): nothing compiles or uploads during play, the
+//    dissolve is a copy of the screen (no second shader per material), and a lost WebGL context keeps the 3D screen.
+{
+  assert.ok(scene.includes("if(two!==undefined&&String(two)!==String(one)){setLineup(two,one,1);await kits();if(disposed)return;}")&&scene.includes("setLineup(one,two,1);await kits();"),"both lineups are dressed before ready");
+  assert.ok(/for\(const r of Object\.values\(rigs\)\)for\(const a of \[r\.taker\.a,r\.keeper\.a\]\)\{shown\.push\(\[a\.holder,a\.holder\.visible\]\);a\.holder\.visible=true;\}/.test(scene),"every rig is shown for the warm-up (compile skips hidden ones)");
+  assert.ok(scene.includes("await renderer.compileAsync(scene,camera)")&&scene.includes("renderer.initTexture(v)")&&scene.includes("for(const t of kitTex.values())up(t);"),"shaders compiled (in parallel where the driver can) and every texture uploaded, the kits too");
+  assert.ok(scene.includes('if(d.visibilityState!=="hidden"&&!warming)'),"no frame draws while the warm-up runs");
+  assert.ok(scene.includes("renderer.copyFramebufferToTexture(snap)")&&!/WebGLRenderTarget\(size/.test(scene)&&!/HalfFloatType,samples/.test(scene),"the dissolve copies the screen: no half-float target, no second shader per material");
+  assert.ok(scene.includes('canvas.addEventListener("webglcontextrestored",restored);')&&scene.includes("const restored=()=>{if(disposed)return;wrapShadow();try{refilter();}catch(_error){}"),"a restored context: the shadow hook, the reflections and the warm-up again");
+  assert.ok(scene.includes('canvas.removeEventListener("webglcontextrestored",restored);'),"and the hook goes with the scene");
+  // The season page (cm3Warm) also runs three.js, parses the stadium and players and paints the four kits at idle moments;
+  // the mount takes them for the same level and clubs and never parses or paints twice.
+  assert.ok(scene.includes("if(ok&&!cm3Mounting&&!cm3Parsed){")&&scene.includes("cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work};"),"the season page parses ahead, once");
+  assert.ok(scene.includes("for(const k of cm3KitPlan(x.K,Q,opts&&opts.clubs)){if(cm3Mounting)break;await cm3Idle();"),"the four kits are painted one per idle moment, and stop when the screen opens");
+  assert.ok(scene.includes("let extras=held?await held:await cm3Extras(T,Q,pre);")&&scene.includes("if(cm3Parsed&&!held)cm3Parsed.work.then(x=>{if(x)cm3FreeExtras(x);},()=>{});"),"the mount takes the parse for its level and clubs, lets any other go");
+  assert.ok(scene.includes("if(!kitMemo.has(memo)&&cm3Kits.has(memo)){kitMemo.set(memo,cm3Kits.get(memo));cm3Kits.delete(memo);}")&&scene.includes("await kits();cm3Kits.clear();"),"kits painted ahead are taken over, the rest let go");
+  ok("C3D16","r90 Light: both lineups and the dissolve warmed before ready, the dissolve copies the screen, a lost context comes back in 3D");
+}
+// C3D17 r90 Light: the step waits for a slow scene (no 6 s give-up), the box holds its loading panel while the pick clock
+//    runs, the late scene takes the box synced, a failed script is fetched once more, and only a null mount means the SVG.
+const c3d17=(async()=>{
+  const src=/  const SCENE_CAP_MS=90000;[\s\S]*?\n  function cmsScene\(goal\)\{[\s\S]*?\n  \}\n/.exec(step);assert.ok(src,"cmsScene found");
+  const run=async({mount,loads})=>{
+    const classes=new Set(),log=[];let loadsLeft=loads||[true];
+    const goal={svg:{},clubs:{playerOne:"A",playerTwo:"B"},box:{classList:{toggle:(c,on)=>{if(on)classes.add(c);else classes.delete(c);}}}};
+    const root={AbortController,CareerModeChamberMen3d:{mount:async()=>{log.push("mount");return mount();}}};
+    const cmsLoad=async()=>{const next=loadsLeft.shift();log.push(`load:${next}`);if(next===true)return true;throw new Error("load failed");};
+    const cmsWait=ms=>new Promise(r=>{const t=setTimeout(r,ms);t.unref?.();});
+    const cmsSync=g=>log.push(`sync:${Boolean(g.scene)}`);
+    const make=new Function("root","cmsLoad","cmsWait","cmsSync",`${src[0]}\nreturn cmsScene;`);
+    const ready=make(root,cmsLoad,cmsWait,cmsSync)(goal);
+    return {goal,classes,log,ready};
+  };
+  const later=(ms,v)=>()=>new Promise(r=>setTimeout(()=>r(v),ms));
+  {const r=await run({mount:later(120,{dispose(){}})});r.goal.awaitScene();assert.ok(r.classes.has("cm3d-wait"),"the box waits while the clock runs");
+    const scene=await r.ready;assert.ok(scene&&r.goal.scene===scene,"a slow scene is taken, not dropped");assert.ok(!r.classes.has("cm3d-wait"),"the panel goes when it lands");assert.deepEqual(r.log,["load:true","mount","sync:true"],"synced to what the screen shows");}
+  {const r=await run({mount:later(10,null)});r.goal.awaitScene();assert.equal(await r.ready,null,"no 3D (no WebGL2 or a fault): null");assert.ok(!r.classes.has("cm3d-wait"),"the SVG goal shows");}
+  // Codex #1325: no 3D answered before the rival's pick arrives: the clock starting later never puts the panel up.
+  {const r=await run({mount:later(5,null)});assert.equal(await r.ready,null);r.goal.awaitScene();assert.ok(!r.classes.has("cm3d-wait"),"a settled mount never waits again");}
+  {const r=await run({mount:later(10,{dispose(){}}),loads:[false,true]});assert.ok(await r.ready,"a failed script load is fetched once more");assert.deepEqual(r.log.slice(0,3),["load:false","load:true","mount"]);}
+  {const r=await run({mount:later(10,{dispose(){}}),loads:[false,false]});assert.equal(await r.ready,null,"two failed loads: the SVG goal");}
+  ok("C3D17","r90 Light: a slow scene is waited for with the box loading, a late scene takes the box synced, one retry of a failed load");
+})();
 let c3d14=Promise.resolve();
 // C3D14 r90 M1 (MOTION hunt): a first Chamber Men on a 10 Mbps line never mounted the 3D pitch (about 7 MB at Light against
 //    the 4.2 s wait). The GLBs are meshopt-packed (one shared decoder, shell-cached) and the season page warms this
@@ -315,4 +375,4 @@ let c3d14=Promise.resolve();
     ok("C3D14","r90 M1: meshopt-packed GLBs with a shell-cached decoder; the season page warms this level's files once, shared with the mount");
   })();
 }
-c3d2().then(()=>c3d14).then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
+c3d2().then(()=>c3d14).then(()=>c3d17).then(()=>console.log(`PASS r89 Chamber Men 3D contracts (${results.length} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

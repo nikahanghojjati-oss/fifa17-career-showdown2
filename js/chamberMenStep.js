@@ -231,27 +231,35 @@
     return {box,svg,keeper,ball,hit:svg.querySelector(".cmHit"),scene:null};
   }
   // r89 Chamber Men in 3D: mounted under the loading screen (Reus Gate), so the stage shows with the 3D goal already drawn.
-  // Not in time (SCENE_WAIT_MS), no WebGL2 or a fault: the SVG goal plays for this screen, and a late scene is thrown away,
-  // never swapped in while the stage is on screen. The kill switch CMS_CHAMBER_MEN_3D="off" keeps the SVG goal.
-  const SCENE_WAIT_MS=6000;
-  // Codex C2 (#1244): goal.dropScene() gives up a scene still loading (the SVG goal shows at once and the late scene is thrown
-  // away); a scene that does mount is first brought to what the SVG shows now (cmsSync), so a kick revealed while it loaded
-  // is never lost.
+  // r90 Light (Nik 2026-11-08: "3D light for Chamber Men is a guarantee"): with WebGL2 a slow scene is never given up for
+  // the drawn goal. The loading screen stays until the scene has drawn. If the rival's lock-in starts the pick clock first,
+  // the stage shows with the picks live and the goal box holding a loading panel (cm3d-wait: never the drawn goal, never a
+  // flat kick), and the scene takes the box when it lands, already at the lineup and any revealed kick's end pose (cmsSync).
+  // The drawn goal plays only with no WebGL2, the kill switch CMS_CHAMBER_MEN_3D="off", a scene that failed (its files
+  // are fetched once more first) or one still not in after SCENE_CAP_MS.
+  const SCENE_CAP_MS=90000;
+  // goal.dropScene() is kept for callers that give up on the scene outright (the drawn goal shows at once).
   function cmsScene(goal){
     if(root.CMS_CHAMBER_MEN_3D==="off")return Promise.resolve(null);
-    let late=false,cut=null;
-    // BUGS hunt BUG-05: a scene given up is aborted, not only flagged: its downloads stop and the mount builds nothing more,
-    // so a slow device is not still making a scene nobody will see through the pick clock.
+    // settled: the mount has answered (a scene or none); a box never waits after that (Codex #1325: no WebGL2 answers null
+    // before the rival's pick arrives, and the panel would hide the drawn goal until the cap).
+    let late=false,settled=false,cut=null;
+    // BUGS hunt BUG-05: a scene given up is aborted, not only flagged: its downloads stop and the mount builds nothing more.
     const stop=typeof root.AbortController==="function"?new root.AbortController():null;
-    const giveUp=()=>{late=true;try{stop?.abort();}catch(_error){}};
+    const wait=on=>{goal.box.classList.toggle("cm3d-wait",Boolean(on));};
+    const giveUp=()=>{late=true;wait(false);try{stop?.abort();}catch(_error){}};
     const dropped=new Promise(resolve=>{cut=resolve;});
     goal.dropScene=()=>{if(!goal.scene)giveUp();cut(null);};
-    const made=cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d)).then(ok=>ok&&!late?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs,signal:stop?.signal}):null).then(scene=>{
-      if(!scene)return null;
+    // The clock started before the scene: the box waits for it (the step calls this when it shows the stage early).
+    goal.awaitScene=()=>{if(!goal.scene&&!late&&!settled)wait(true);};
+    const script=()=>cmsLoad("chamber-men-3d","js/chamberMenScene3d.js",()=>Boolean(root.CareerModeChamberMen3d));
+    const made=script().catch(()=>late?false:script()).then(ok=>ok&&!late?root.CareerModeChamberMen3d.mount(goal.svg,{clubs:goal.clubs,signal:stop?.signal}):null).then(scene=>{
+      settled=true;
+      if(!scene){wait(false);return null;}
       if(late){try{scene.dispose();}catch(_error){}return null;}
-      goal.scene=scene;cmsSync(goal);return scene;
-    },()=>null);
-    return Promise.race([made,dropped,cmsWait(SCENE_WAIT_MS).then(()=>{if(!goal.scene)giveUp();return null;})]);
+      goal.scene=scene;cmsSync(goal);wait(false);return scene;
+    },()=>{settled=true;wait(false);return null;});
+    return Promise.race([made,dropped,cmsWait(SCENE_CAP_MS).then(()=>{if(!goal.scene)giveUp();return null;})]);
   }
   // A scene that mounts late takes the lineup on screen and, when a kick was revealed while it loaded, that kick at its end
   // pose (its words are already up), never a fresh run-up.
@@ -506,7 +514,7 @@
         // F17-03: no clock until the rival locks in, and it says so.
         const theirPart=shooting?"dive":"shot";
         ui.status.textContent=notice&&Date.now()<notice.until?notice.text:theirsSent>=n?`${NAMES[other]} has picked his ${theirPart}. Lock in your ${part}.`:`Pick your ${part}, then lock in. No clock until ${NAMES[other]} locks in his ${theirPart}.`;
-        if(clock&&!stageShown){ui.goal.dropScene?.();showStage();}
+        if(clock&&!stageShown){ui.goal.awaitScene?.();showStage();}
         if(clock){
           const left=Math.max(0,clock.deadline-now());
           ui.clock.textContent=`0:${String(Math.ceil(left/1000)).padStart(2,"0")}`;
@@ -531,8 +539,9 @@
           render();
         });
       };
-      // The stage shows once the goal is drawn: the 3D scene, or the SVG when the scene cannot come in time. Codex C2 (#1244):
-      // a running pick clock never waits on the scene; the SVG shows at once and the deadline stays the shared one.
+      // The stage shows once the goal is drawn: the 3D scene, or the SVG when there is no 3D. Codex C2 (#1244): a running
+      // pick clock never waits on the scene; the stage shows at once (r90: the box waits for the scene) and the deadline
+      // stays the shared one.
       let stageShown=false;
       const showStage=()=>{if(stageShown||finished)return;stageShown=true;ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}};
       const onData=data=>{
@@ -541,7 +550,7 @@
         // Never step back: a late delivery older than what this phone already wrote is ignored.
         if(record&&(next.playerOne.length<record.playerOne.length||next.playerTwo.length<record.playerTwo.length))return;
         record=next;lastWriteMs=cmsMillis(data&&data.updatedAt);
-        // r89: the stage shows once the goal is drawn (the 3D scene, or the SVG when the scene cannot come in time).
+        // r89: the stage shows once the goal is drawn (the 3D scene, or the SVG when there is no 3D).
         if(!stageShown&&!sceneShown){sceneShown=true;sceneReady.then(showStage);}
         render();
       };
