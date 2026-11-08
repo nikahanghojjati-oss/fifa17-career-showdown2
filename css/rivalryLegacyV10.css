@@ -2013,3 +2013,13 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools { grid-template-columns:auto auto minmax(0,1fr); }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel > .legacyTools .legacyFilters { grid-column:3; }
 }
+
+/* r90 W9 (window sweep): the wordmark grows with the window's width but the comparison panel sits at 26.4svh, so on wide,
+   short windows (2560x1000) the tagline slid under the panel. The title block is now as wide as the height between its top
+   (8svh) and the panel allows, and stays centred; at 16:9 sizes like 1920x1080 nothing changes. */
+@media (min-width:1024px) and (min-height:701px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (min-height:701px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-titleBlock {
+    --w9-rv-title-w: min(43.6%, calc((18.4svh - 52px) * 6.4));
+    width: var(--w9-rv-title-w); left: calc(50% - var(--w9-rv-title-w) / 2);
+  }
+}
