@@ -479,7 +479,10 @@
     const dissolveFrom=()=>{
       if(!cssW||(frozenClock===null&&reducedMotion()))return;
       const size=renderer.getDrawingBufferSize(new T.Vector2());
-      if(!snap||snap.width!==size.x||snap.height!==size.y){snap?.dispose();snap=new T.WebGLRenderTarget(size.x,size.y,{type:T.HalfFloatType,samples:phone?0:4});}
+      // MSAA from what this GPU supports for RGBA16F + depth (js/gfxTier.js samples/checkTarget; an incomplete target steps 4 -> 0).
+      if(!snap||snap.width!==size.x||snap.height!==size.y){snap?.dispose();const G=root.CareerModeGfxTier;
+        snap=new T.WebGLRenderTarget(size.x,size.y,{type:T.HalfFloatType,samples:G?.samples?G.samples(renderer,phone?0:4,true):0});
+        if(snap.samples&&G?.checkTarget)G.checkTarget(renderer,snap);}
       renderer.setRenderTarget(snap);renderer.render(scene,camera);renderer.setRenderTarget(null);
       overlayMat.map=snap.texture;overlayMat.needsUpdate=true;snapAt=clockNow();
     };
@@ -589,8 +592,8 @@
   async function cm3Quality(){
     const ok=await cm3Script("gfx-tier",GFX_JS,()=>Boolean(root.CareerModeGfxTier)).catch(()=>false);
     let p=GFX_FALLBACK;try{if(ok)p=root.CareerModeGfxTier.profile();}catch(_error){}
-    const phoneScreen=Math.min(root.screen?.width||1e4,root.screen?.height||1e4)<700;
-    return {...p,assets:phoneScreen||p.level<=1?"phone":"desktop"};
+    // Asset size follows the texture level (a phone below High is one size down; a strong phone at High+ gets the full set).
+    return {...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};
   }
   async function cm3Mount(svg,opts){
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2())return null;

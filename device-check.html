@@ -25,6 +25,8 @@ button,.btn{appearance:none;min-height:44px;padding:0 20px;border:1px solid var(
 button.primary{background:var(--gold);color:#15120c}
 button:disabled{opacity:.5;cursor:default}
 button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.device{margin:10px 0 0;text-align:center;color:var(--mute);font-size:14px;overflow-wrap:anywhere}
+.device b{color:var(--ink)}
 #status{min-height:1.5em;margin:10px 0 0;text-align:center;font-weight:600}
 #stage{position:relative;width:100%;aspect-ratio:16/9;max-height:60vh;margin:0 auto;background:#000;border:1px solid var(--gold-dim);overflow:hidden}
 #stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
@@ -54,6 +56,7 @@ td small{display:block;color:var(--mute);font-size:12px}
       <button id="forget" type="button" hidden>Forget result</button>
       <a class="btn" href="./">Back to the game</a>
     </div>
+    <p id="device" class="device"></p>
     <p id="status" role="status" aria-live="polite"></p>
   </section>
   <section class="card" aria-hidden="true"><div id="stage"><div class="idle">The 3D screens play here during the check.</div></div></section>
@@ -103,6 +106,13 @@ td small{display:block;color:var(--mute);font-size:12px}
       const v=verdict(i);
       return `<tr><th scope="row">${name}</th>${SCENES.map(s=>`<td>${cell(results[i][s.key])}</td>`).join("")}<td>${v===null?"<span class=\"skip\">–</span>":v?"<span class=\"ok\">Yes</span>":"<span class=\"no\">No</span>"}</td></tr>`;
     }).join("");
+  }
+  // The device class before any check: an iPhone 17 (Apple GPU) reads "Phone · Apple GPU · starts at High".
+  function showDevice(){
+    let d=null;try{d=T&&T.device();}catch(_error){d=null;}
+    if(!d){$("device").textContent="";return;}
+    const kind=d.software?"Software graphics":d.phone?(d.strongPhone?"Phone with a strong graphics chip":"Phone"):"Computer";
+    $("device").innerHTML=`This device: <b>${esc(kind)}</b> · ${esc(d.gpu||"graphics chip not named")} · Auto starts at <b>${esc(LEVELS[d.guessLevel]||"Balanced")}</b>${d.can8k?" · 8K available in Settings":""}`;
   }
   function showSaved(){
     const m=T&&T.measured();forgetBtn.hidden=!m;
@@ -171,7 +181,7 @@ td small{display:block;color:var(--mute);font-size:12px}
   startBtn.addEventListener("click",run);
   forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its guess from this device's graphics chip.";});
   if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
-  draw();showSaved();
+  draw();showDevice();showSaved();
 })();
 </script>
 </body>
