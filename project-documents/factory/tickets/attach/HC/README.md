@@ -11,3 +11,6 @@
 - HC 04 V2 (board room) try 2 accepted 9 Nov (reviews/HC/HC04_BOARD_D_V2_TRY2.png; lamp further from Daniel than try 1); the Rich chair and tray did not appear (they sit at the cut-off far left, only visible at 16:9).
 - GUIDE_HC05_BOARD_P.png: one box per man from HC 04 V2 try 2 (Daniel x 130-560, Nik x 970-1440, y 130-740), scale 0.8, side by side with a 36 px gap, lip at 50%, the half-cut wall lamp painted cyan; guide_two_boxes.py.
 - RC_BOARD_V2.png: room card with no people: the bare centre oak panel with lip and counter, the wall lamp, and the right marble pilaster.
+- HC 07 V2 (tunnel) try 1 accepted 9 Nov (reviews/HC/HC07_TUNNEL_D_V2_TRY1.png); the Rich ball net did not appear (Daniel covers that panel).
+- GUIDE_HC08_TUNNEL_P.png: one box per man from HC 07 V2 (Daniel x 40-530, Nik x 1000-1536, y 120-900), scale 0.71, the bulkhead lamp painted cyan (the phone shows no lamp); guide_two_boxes.py.
+- RC_GROUND_V2.png: the tunnel centre with the mouth onto the ground (x 535-1000), no people.
