@@ -1235,6 +1235,12 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
   }
   html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #transferChallenge .tw-host .plate {
     background-image: image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp') 1x, url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_2X.webp') 2x);
+  }  /* HO-068 (Nik: nothing may touch a face): on 3:2 and narrower windows (1180x820, 1024x768, 1280x1024) and windows under
+     1200px wide (a 1180x620 Chromebook window) the clock board's
+     gold frame reached Daniel's hair (his face ends at x 669 of the 1672 plate units, Nik's starts at 1061). The board hangs
+     44 plate px further right there, which centres its frame in the window between the two faces. */
+  @media (max-aspect-ratio: 3/2), (max-width: 1199px) {
+    #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(0px, calc(var(--k) * 24px)) !important; }
   }
 }
 @media (max-width: 760px) and (orientation: portrait),
