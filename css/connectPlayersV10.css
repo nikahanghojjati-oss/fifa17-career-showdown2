@@ -1268,6 +1268,28 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  }
  #app #connectPlayersScreen .connectPlayersHeader::before { content:none; }
 }
+/* HO-068 (Nik: words and boxes touched faces, uneven spacing). Desktop: the screen starts under the top bar, so a plate
+   pinned to the window top lost the top of both men's hair under the bar. The plate now starts so the hair (1.74% down
+   the plate) begins 6px under the bar. Daniel's face ends 25.72% and Nik's starts 74.87% across, so the cards and the
+   status line stay inside the room between the two faces, centred, one gap clear of each. */
+@media (min-width:901px) {
+ #app #connectPlayersScreen {
+  --cp-pw:max(100vw,calc(100vh * 1536 / 864)); --cp-g:clamp(10px,1.3vh,14px);
+  background-position:50% calc(6px - var(--cp-pw) * 864 / 1536 * .0174);
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace { max-width:calc(var(--cp-pw) * .4856 - var(--cp-g) * 2);margin-inline:auto; }
+}
+/* Sideways phones: the tabs, BACK and the cards want about 430px, wider than the room between the faces on a plate the
+   width of the phone, so the plate is drawn a little wider (centred) until that room is 430px plus one gap each side, but
+   never so wide that Nik's face (to 87.24% across) passes under the settings button (56px from the right edge). On the
+   narrowest phones the cards take the room there is. */
+@media (max-width:900px) and (orientation:landscape) {
+ #app #connectPlayersScreen {
+  --cp-pw:max(100vw,calc(100vh * 1536 / 864),min(calc((430px + 20px) / .4856),calc((50vw - 56px) / .3724))); --cp-g:10px;
+  background-size:var(--cp-pw) auto;
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace { max-width:calc(var(--cp-pw) * .4856 - var(--cp-g) * 2); }
+}
 @media (max-width:900px) and (orientation:portrait) {
  #app #connectPlayersScreen {
   background:#0b0a09 url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp') center top/max(100vw,calc(100svh * 1179 / 2096)) auto no-repeat;
