@@ -159,8 +159,8 @@ ok("R90-PS10 hunt M6/M17: Prime Pack renders on change only and follows Settings
   assert.match(ig,/attributeFilter:\["data-gfx"\]/,"follows a new pick live");
   assert.match(ig,/html\[data-gfx="0"\] \.card \.face::after \{ animation: none; display: none; \}/,"Light: no looping sheen");
   assert.match(ig,/function wideStage\(W\)\{ return \(W\|\|innerWidth\)\*\(window\.devicePixelRatio\|\|1\)>2560 && Number\(document\.documentElement\.dataset\.gfx\)>=3 \? "wide4k" : "wide"; \}/,"HO-060: the 4K stage only past 2560 device px at Extra and up");
-  assert.match(ig,/#app\[data-stage="wide4k"\] \.stage \{ background-image: url\("assets\/stage_desktop_4k_V1\.webp"\); \}/);
-  assert.match(ig,/wideStage\(\)==="wide4k"\?"stage_desktop_4k_V1":"stage_desktop"/,"only the stage that screen shows is decoded up front");
+  assert.match(ig,/#app\[data-stage="wide4k"\] \.stage \{ background-image: url\("assets\/stage_desktop_4k_V2\.webp"\); \}/);
+  assert.match(ig,/wideStage\(\)==="wide4k"\?"stage_desktop_4k_V2":"stage_desktop_V2"/,"only the stage that screen shows is decoded up front");
   assert.ok(!/revealMs:\d|guessMs:\d/.test(ig.replace(/const SAMPLE_STAGES[\s\S]*?\]\);/,"")),"no timings of its own outside the preview copy");
 });
 

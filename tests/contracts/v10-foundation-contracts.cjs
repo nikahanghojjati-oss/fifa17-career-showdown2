@@ -827,13 +827,13 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/card_frame.webp":"03c227e9c0e67af579d396b64dc7a97df07cdde9d3e8f5dce71e053c3b29f52c",
     "visual-assets/v10_1/icon-guess/assets/pack_opening.webp":"c45097ef594fb7385b33c77ed2fc62558c9b150408a947da04cfdf80a2cb5a14",
     "visual-assets/v10_1/icon-guess/assets/pack_sealed.webp":"f01705c412f592eb7a8897ead38f157ba0c9b5cb417bf7109910cc37b81ca10e",
-    "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp":"78edfb430cdfeb928f1d55790dfa713bf7f28621f2697e533330a14b5f2a1620",
-    "visual-assets/v10_1/icon-guess/assets/stage_phone.webp":"084eec9bfa563e740187ab6aa0a7f65ddd53176c0ac0ae452a6ca2cd13833e3d",
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop_V2.webp":"9ef6ff0febfcd69e95ccbeb215492fee3f14032c2013bfa4a7d8515c7d9c350f",   // HO-068: Team V house stage (hc-art/prime-pack a69f324c2)
+    "visual-assets/v10_1/icon-guess/assets/stage_phone_V2.webp":"ec07ef4fde64dc492d28f8d954adfe8a5f69498f1277f306775d23a391c88f3e",
     "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
     "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
-    // r90 Team V 4K master of the Prime Pack desktop stage (same picture as stage_desktop.webp, 3840x2160): loaded only above 2560 device px.
+    // r90 4K slot of the Prime Pack desktop stage (HO-068: a 3840x2160 Lanczos cut of the house stage stage_desktop_V2.webp): loaded only above 2560 device px.
     "visual-assets/v10_1/icon-guess/assets/card_shadow_V1.webp":"3cdf20976ecac1e43073008b288cbebb15363b68144da0847477c34aa1180591",   // r90 Prime Pack smooth: the card shadow, blurred once offline
-    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V1.webp":"c6050854d41cb12988607b9071934fe3f0c548c014cacbff5667ed896139f157",
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V2.webp":"43fc199b842a9a839aae8c80eb208f943f87c216f014c7ae7eb95271758915a4",
     // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
     "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
     "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
@@ -923,8 +923,6 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/icon-guess/assets/card_frame.webp",
   "visual-assets/v10_1/icon-guess/assets/pack_opening.webp",
   "visual-assets/v10_1/icon-guess/assets/pack_sealed.webp",
-  "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp",
-  "visual-assets/v10_1/icon-guess/assets/stage_phone.webp",
   "visual-assets/v10_1/icon-guess/assets/token_full.webp",
   "visual-assets/v10_1/icon-guess/assets/token_spent.webp"
 ]);

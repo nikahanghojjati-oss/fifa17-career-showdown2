@@ -57,10 +57,12 @@ html.kb .packtitle { display: none; }
 .stage { position: absolute; left: var(--st-l); top: var(--st-t); width: var(--st-w); height: var(--st-h); z-index: 0; pointer-events: none;
   background: #050403 center / 100% 100% no-repeat; }
 /* r90 lean: the stage picture is picked by the layout (data-stage, set with the shape), so a screen only fetches its own one */
-#app[data-stage="wide"] .stage { background-image: url("assets/stage_desktop.webp"); }
-#app[data-stage="tall"] .stage { background-image: url("assets/stage_phone.webp"); }
+#app[data-stage="wide"] .stage { background-image: url("assets/stage_desktop_V2.webp"); }
+#app[data-stage="tall"] .stage { background-image: url("assets/stage_phone_V2.webp"); }
 /* r90 HO-060: Team V's 4K master (same picture and geometry), only on a screen wider than 2560 device px at Extra and up */
-#app[data-stage="wide4k"] .stage { background-image: url("assets/stage_desktop_4k_V1.webp"); }
+#app[data-stage="wide4k"] .stage { background-image: url("assets/stage_desktop_4k_V2.webp"); }
+/* HO-068 (lead queue 3): Team V's house stage (archive arches, matte marble plinth, no beams; plinth in the same place).
+   The house art exists at 2560; the 4K slot holds a Lanczos 3840 cut of it so Extra and up keep a 4K file. */
 
 /* ---------- top: PRIME PACK, the stage and its timer, then the result line ---------- */
 .top { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 6px); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -841,7 +843,7 @@ window.__ig = {
    wait, at most 4 s), so the pack opening and the card frame no longer decode on the frame they first show */
 /* r90 lean (Nik 23:44 UTC): only the stage this screen shows is decoded up front (the wide one on a computer, the tall one on a
    phone), so neither device holds the other's 12-15 MB picture; turning a tablet loads the other one when it is needed */
-const ART = [layoutShape()==="tall"?"stage_phone":wideStage()==="wide4k"?"stage_desktop_4k_V1":"stage_desktop","pack_sealed","pack_opening","card_frame","token_full","token_spent"].map(n=>"assets/"+n+".webp");
+const ART = [layoutShape()==="tall"?"stage_phone_V2":wideStage()==="wide4k"?"stage_desktop_4k_V2":"stage_desktop_V2","pack_sealed","pack_opening","card_frame","token_full","token_spent"].map(n=>"assets/"+n+".webp");
 const artReady = Promise.race([Promise.all(ART.map(src=>{ const im=new Image(); im.src=src; window.__igArt=(window.__igArt||[]).concat(im); return (im.decode?im.decode():Promise.resolve()).catch(()=>null); })), new Promise(r=>setTimeout(r,4000))]);
 artReady.then(()=>{ if(EMBED) toGame("cms-ig-ready", { reduced: REDUCED }); else startPreview(); });
 if(frozen){ manualMs=0; render(); } else requestAnimationFrame(frame);
