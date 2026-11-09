@@ -18,6 +18,8 @@ async function prepare(page) {
     await page.route(/https:\/\/(?:[^/]*\.)?googleapis\.com\//, route => route.abort());
     await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 15000 });
+    // r90 W8 (js/ssjr.js): the shared chain, the real transfer module included, can load after Home; let it land before the stand-in below (#1336).
+    await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());await page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge),null,{timeout:30000});
     await page.evaluate(async fixture => {
         await ensureGameplayModules();
         for (const [key, value] of Object.entries(fixture.storage)) localStorage.setItem(key, value);
