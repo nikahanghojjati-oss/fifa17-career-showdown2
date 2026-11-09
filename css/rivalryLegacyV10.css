@@ -2031,3 +2031,30 @@
 @media (min-width:901px) and (max-width:1599px) {
   #app #legacy[data-rivalry-legacy-v10] .legacyCard:not([data-wide-score="true"]) .legacyScore { white-space:nowrap; font-size:min(clamp(22px,1.9vw,56px),11cqi); }
 }
+
+/* HO-068 archive room (Team V's handcrafted V2, visual-assets/v10_1/plates-hc/ENV_ARCHIVE_*): desktop Legacy draws the
+   archive hall plate (1X at every level, the 2X file at High and up) on the same plane as LEGACY-PLATE-V2, which stays as
+   the rollback. Upright phones up to 600px draw the archive phone plate (picked in js/rivalryLegacyV10.js): the men stand
+   behind the brass lip and the title, archive card and buttons sit on the stone below it. The plate is raised so the lip
+   meets the title; where the band is too short for the men it rises only as far as their chins clearing the title, and the
+   band grows (the page scrolls) rather than the title covering a face. No dimming, and the line under the wordmark is not
+   drawn (no slogans); wider upright screens and sideways phones keep their current art. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp'); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate {
+    background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp') 1x,url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x);
+  }
+}
+#app #legacy[data-rivalry-legacy-v10] .legacyTagline { visibility:hidden; }
+@media (max-width:600px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] {
+    --lg-pw:max(143vw,calc(100svh * 1179 / 2096)); --lg-ph:calc(var(--lg-pw) * 2096 / 1179);
+    --lg-hero-art:max(var(--lg-hero,44px),calc(var(--lg-ph) * .1 + 70px));
+  }
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { grid-template-rows:var(--lg-hero-art) auto auto auto; }
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--plate { background:#1c1814; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyPhonePlate img {
+    width:var(--lg-pw);
+    top:max(calc(var(--lg-hero-art) - 8px - var(--lg-ph) * .5048),min(calc(56px - var(--lg-ph) * .286),calc(var(--lg-hero-art) - 6px - var(--lg-ph) * .386)));
+  }
+}

@@ -1685,6 +1685,78 @@
     if(source==="local")return null;
     return source==="model"?model:UNAVAILABLE;
   }
+  // HO-068 (2026-11-09): the Trophy Room stands in Team V's handcrafted V2 archive room (plates-hc/ENV_ARCHIVE_*, Nik picked
+  // it). Upright phones draw the tall archive plate (590W on Light or Save-Data); the two cut-outs no longer load there.
+  // Upright tablets and sideways phones keep today's art for now: their layouts put the champion cup or the cabinet where
+  // the archive plate's faces are. The plates-v2/v3 Trophy Room plates and the cut-out files stay in the repo as rollback.
+  function trArchive(markup){
+    const lean=root.document?.documentElement?.dataset?.assets==="0",hc=BASE+"plates-hc/",tr=BASE+"trophy-room/assets/";
+    return markup
+      .replace(`media="(max-width: 400px) and (orientation: portrait)" type="image/webp" srcset="${BASE}plates-v3/ENV_TROPHY_ROOM_PHONE_V3.webp"`,`media="(max-width: 760px) and (orientation: portrait)" type="image/webp" srcset="${hc}ENV_ARCHIVE_PHONE_HC_V2${lean?"_590W":""}.webp"`)
+      .split("(min-width: 401px) and (max-width: 900px) and (orientation: portrait)").join("(min-width: 761px) and (max-width: 900px) and (orientation: portrait)");
+  }
+  // Upright phones: the archive plate's counter lip (1058 of 2096) meets the top of the trophy cabinet (tab row) and the champion cup stands
+  // on its name plinth on that lip. Both faces (from 0.199 of the plate height above the lip) must sit under the title, so
+  // on short phones the tab row and everything after it moves down by the missing pixels (main scrolls a little further;
+  // nothing is hidden). Measured from the live layout and kept current on resize and on every content render.
+  function trArchiveLip(host){
+    const art=host.querySelector(".trophyPhoneArt"),phone=root.matchMedia?.("(max-width: 760px) and (orientation: portrait)");
+    if(!art||!phone||typeof root.ResizeObserver!=="function")return;
+    const px=name=>parseFloat(host.style.getPropertyValue(name))||0;
+    const clear=()=>["--tr-push","--tr-lip","--tr-drop"].forEach(name=>host.style.removeProperty(name));
+    const run=()=>{
+      if(!host.isConnected){observer.disconnect();return;}
+      if(!phone.matches){clear();return;}
+      const tabs=host.querySelector(".trophyShelf"),title=host.querySelector(".trophyTitleBlock"),plinth=host.querySelector(".heroPlinth");
+      if(!tabs||!title||!plinth)return;
+      const a=art.getBoundingClientRect(),h=a.width*2096/1179,push=px("--tr-push"),drop=px("--tr-drop");
+      const tabsTop=tabs.getBoundingClientRect().top-a.top-push;
+      const need=Math.max(0,Math.ceil(title.getBoundingClientRect().bottom-a.top+h*.199+6-tabsTop));
+      const lip=tabsTop+need,plinthBottom=plinth.getBoundingClientRect().bottom-a.top-drop;
+      host.style.setProperty("--tr-push",need+"px");
+      host.style.setProperty("--tr-lip",Math.round(lip)+"px");
+      host.style.setProperty("--tr-drop",Math.max(0,Math.round(lip-plinthBottom))+"px");
+    };
+    let queued=false;
+    const queue=()=>{if(queued)return;queued=true;(root.requestAnimationFrame||setTimeout)(()=>{queued=false;run();});};
+    const observer=new root.ResizeObserver(queue);
+    observer.observe(host);
+    const content=host.querySelector(".trophyRoomContent");if(content)observer.observe(content);
+    queue();
+  }
+  // Desktop: the archive plate in the V2 plate's place (same 1536x864 units). The champion cup stands on the counter lip
+  // (plate y 479) with a small soft contact shadow and no glow or spotlight; its name and counts sit on the counter face just
+  // under the lip. The side bands are a flat stone fill, not a darkened copy. No slogan under the title.
+  const TROPHY_ARCHIVE_CSS=String.raw`
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #trophyRoom .sd-stage__layer--plate::before {background:linear-gradient(180deg,#2e2823,#1c1814 60%,#1a1613);filter:none}
+  #app #trophyRoom .sd-stage__plate {background-image:url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp')}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #trophyRoom .sd-stage__plate {background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x)}
+  #app #trophyRoom .trophyEyebrow::before {visibility:visible}
+  #app #trophyRoom .heroCeremony {top:calc(236 * var(--tr-k))}
+  #app #trophyRoom .heroTrophyPicture img {object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 3px 3px rgba(0,0,0,.6))}
+  #app #trophyRoom .heroSpotlight,#app #trophyRoom .heroTrophyPicture::after {display:none}
+}
+@media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #trophyRoom .heroCeremony {top:calc(253 * var(--tr-k))}
+}
+#app #trophyRoom .trophyTagline {visibility:hidden}
+@media (max-width:760px) and (orientation:portrait) {
+  #app #trophyRoom .trophyPhoneArt {inset:0;height:100svh}
+  #app #trophyRoom .trophyPhoneBackdrop {inset:0;overflow:hidden}
+  #app #trophyRoom .trophyPhoneBackdrop img {position:absolute;left:50%;top:0;width:max(100vw,calc(100svh * 1179 / 2096));height:auto;max-width:none;transform:translateX(-50%);object-fit:fill}
+  #app #trophyRoom :is(.trophyPhoneHero,.trophyPhoneArtShade) {display:none}
+  #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {background:none}
+}
+@media (max-width:760px) and (orientation:portrait) {
+  #app #trophyRoom .trophyPhoneBackdrop {background:#1c1814}
+  #app #trophyRoom .trophyPhoneBackdrop img {width:100vw;top:calc(var(--tr-lip,253px) - 100vw * 1058 / 1179)}
+  #app #trophyRoom .trophyShelf {margin-top:var(--tr-push,0px)}
+  #app #trophyRoom .heroCeremony {margin-top:var(--tr-drop,0px)}
+  #app #trophyRoom .heroTrophyPicture img {object-position:50% 100%;filter:drop-shadow(0 3px 3px rgba(0,0,0,.6))}
+  #app #trophyRoom .heroSpotlight,#app #trophyRoom .heroTrophyPicture::after {display:none}
+}
+`;
   function v10Render(screen,model){
     const doc=root.document,host=doc.getElementById(SCREEN_IDS[screen]);
     if(!host)return false;
@@ -1696,10 +1768,11 @@
     const other=screen==="careerStatistics"?"trophyRoom":"careerStatistics",otherHost=doc.getElementById(SCREEN_IDS[other]);
     if(otherHost&&otherHost.dataset.careerV10==="1"){v10Screens().hide(other);otherHost.remove();}
     host.dataset.careerV10="1";host.classList.add("careerScreenV10");
-    host.innerHTML=v10Markup(screen);
+    host.innerHTML=screen==="trophyRoom"?trArchive(v10Markup(screen)):v10Markup(screen);
+    if(screen==="trophyRoom")trArchiveLip(host);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS+CAREER_POLISH_R87C_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS+TROPHY_SIDEWAYS_1730_CSS+TROPHY_PLATE_V2_CSS+GOLDEN_SHOWDOWN_CSS+CAREER_POLISH_R87_CSS+CAREER_POLISH_R87B_CSS+CAREER_POLISH_R87C_CSS+TROPHY_ARCHIVE_CSS;
       host.appendChild(smallPhoneStyle);
     }else{
       const careerStatsStyle=doc.createElement("style");
