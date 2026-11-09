@@ -1917,6 +1917,8 @@ html[data-v10-setup="league"] #overlay { background: none; }
     --bx-ph: calc(var(--bx-pw) * 2620 / 1179); --bx-lip: .4653;
     background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL.webp);
   }
+  /* the lighter picture setting keeps its 590px plate on 9:20 phones too (Codex P3) */
+  html[data-assets="0"][data-v10-setup="league"] #background { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL_590W.webp); }
 }
 /* Sideways phones: the wheel takes the left half and the title and buttons the right, so either would sit on a face at
    cover size. The wide plate is drawn larger, centred on the window between the men, with the wheel on the lip; the faces

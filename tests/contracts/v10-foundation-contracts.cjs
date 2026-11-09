@@ -750,6 +750,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp":"77f9d3ca0ab75ac859429f94e3c394b0b7140953a947b153146cdfa1d7ab967d",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp":"4b4d13629323d32a0023c45172ecd144d32dd299f81efa4b1ca8f8a64f4e7058",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL.webp":"6b479780883ce5acd51442dceba2e6c2264d22a1a743b9287552783497a7c66e",
+    // HO-068 Codex P3: the 590px TALL plate for the lighter picture setting on 9:20 phones (resized from the TALL plate above)
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL_590W.webp":"38cf744789f8abd4d5f54a811c6911be0d3c0971d8ecb2a52129c94986391025",
     // HO-067 Gate B2 (2026-11-09): Team V's handcrafted Home art V2 RICH (HC 01 + HC 02 V2, claude/project-thread-kxgun9
     // 9e334b234, project-documents/hc-art/home/), which Nik picked at Gate A2; the V2 Home plates above stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp":"01c65c91b7fca42b7bebd0b2f8012f3de201efe6cd012ff2059cf2652d3cab6c",
