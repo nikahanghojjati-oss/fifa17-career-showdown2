@@ -1699,13 +1699,18 @@
   // on its name plinth on that lip. Both faces (from 0.199 of the plate height above the lip) must sit under the title, so
   // on short phones the tab row and everything after it moves down by the missing pixels (main scrolls a little further;
   // nothing is hidden). Measured from the live layout and kept current on resize and on every content render.
+  // One live lip observer at a time: a redraw (v10DestroyStages) or unmount stops the previous one before the host changes.
+  let trLipStop=null;
   function trArchiveLip(host){
+    trLipStop?.();
     const art=host.querySelector(".trophyPhoneArt"),phone=root.matchMedia?.("(max-width: 760px) and (orientation: portrait)");
     if(!art||!phone||typeof root.ResizeObserver!=="function")return;
     const px=name=>parseFloat(host.style.getPropertyValue(name))||0;
     const clear=()=>["--tr-push","--tr-lip","--tr-drop"].forEach(name=>host.style.removeProperty(name));
+    let stopped=false;
     const run=()=>{
-      if(!host.isConnected){observer.disconnect();return;}
+      if(stopped)return;
+      if(!host.isConnected){trLipStop?.();return;}
       if(!phone.matches){clear();return;}
       const tabs=host.querySelector(".trophyShelf"),title=host.querySelector(".trophyTitleBlock"),plinth=host.querySelector(".heroPlinth");
       if(!tabs||!title||!plinth)return;
@@ -1722,6 +1727,8 @@
     const observer=new root.ResizeObserver(queue);
     observer.observe(host);
     const content=host.querySelector(".trophyRoomContent");if(content)observer.observe(content);
+    const stop=()=>{stopped=true;observer.disconnect();clear();if(trLipStop===stop)trLipStop=null;};
+    trLipStop=stop;
     queue();
   }
   // Desktop: the archive plate in the V2 plate's place (same 1536x864 units). The champion cup stands on the counter lip
@@ -1800,6 +1807,7 @@
     return true;
   }
   function v10DestroyStages(){
+    trLipStop?.();
     for(const key of ["__careerStageEngine","__trophyRoomStage"]){try{root[key]?.destroy?.();}catch(_){}root[key]=null;}
   }
   // The old render paths keep running (they hold the model) and rewrite the host, so a V10 screen is always
@@ -1837,7 +1845,7 @@
           frame:()=>held.has(screen)&&screens.HOLD?screens.HOLD:v10Source(screen),
           mount:frame=>{v10Render(screen,frame===UNAVAILABLE?null:frame);},
           // Job 13 leaves its markup in the hidden section; the loader switches its styles off.
-          unmount(){onlineLifetimes[screen]++;}
+          unmount(){onlineLifetimes[screen]++;if(screen==="trophyRoom")trLipStop?.();}
         });
       }
       // Signing in (or out) while a career screen shows reloads its online model: since r61 a signed-out device sees
