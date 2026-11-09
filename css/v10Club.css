@@ -1017,3 +1017,143 @@ html[data-gfx="0"] #clubWheelScreen #covers polygon[filter="url(#cvUnder)"] { di
   html.compact #app #clubWheelScreen.cl-on > h2 { margin-top: 8px; }
   html.compact #app #clubWheelScreen.cl-on .clubAssignmentHeader { margin-top: 14px; }
 }
+
+/* HO-068 (2026-11-09, lead art queue 1): the box room. Club Assignment stands in Team V's handcrafted V2 box room (the
+   Select League room, visual-assets/v10_1/plates-hc/ENV_BOX_*) and each manager's club pack is Team V's PACK_CLUB_HC_V1
+   prop standing on the room's counter lip with a small soft contact shadow, no glow (js/clubScreenV10.js places them;
+   BOX_ROOM there is the rollback switch, and with it off none of these rules apply: they all need .cl-box). The held-pack
+   plate's own pieces (seam mends, hand cut-outs and contacts, the hairline repair, the painted-pack rip, the dark glass
+   deck cut around the old hands and packs, the drawn emblem on the old plain packs) are not drawn over the new room. */
+#app #clubWheelScreen.cl-on.cl-box .plateBase { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp); }
+html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .plateBase {
+  background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp) 2x);
+}
+#app #clubWheelScreen.cl-on.cl-box .seamMend,
+#app #clubWheelScreen.cl-on.cl-box .handContact,
+#app #clubWheelScreen.cl-on.cl-box .handCore,
+#app #clubWheelScreen.cl-on.cl-box .handOv,
+#app #clubWheelScreen.cl-on.cl-box .hairlineRepair,
+#app #clubWheelScreen.cl-on.cl-box .reveal,
+#app #clubWheelScreen.cl-on.cl-box #covers { display: none !important; }
+#app #clubWheelScreen.cl-on.cl-box .clubPackDoor::before,
+#app #clubWheelScreen.cl-on.cl-box .clubPackStage::before,
+#app #clubWheelScreen.cl-on.cl-box .clubPackDoor::after,
+#app #clubWheelScreen.cl-on.cl-box .clubPackStage::after,
+#app #clubWheelScreen.cl-on.cl-box .clPhoneScene::before,
+#app #clubWheelScreen.cl-on.cl-box .clPhoneScene::after { content: none !important; }
+#app #clubWheelScreen.cl-on.cl-box .clbPack { position: absolute; z-index: 1; pointer-events: none; }
+#app #clubWheelScreen.cl-on.cl-box .clbPack > span { position: absolute; inset: 0; display: block; }
+#app #clubWheelScreen.cl-on.cl-box .clbBody,
+#app #clubWheelScreen.cl-on.cl-box .clbTop {
+  background: url(../visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_1X.webp) 0 0 / 100% 100% no-repeat;
+}
+html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .clbBody,
+html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .clbTop {
+  background-image: image-set(url(../visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_2X.webp) 2x);
+}
+/* the split: the strip above the top crimp (art y 74 of 800) and the body under it */
+#app #clubWheelScreen.cl-on.cl-box .clbTop { clip-path: inset(0 0 90.75% 0); transform-origin: 50% 9.25%; }
+#app #clubWheelScreen.cl-on.cl-box .clbBody { clip-path: inset(9.25% 0 0 0); transform-origin: 50% 97%; }
+#app #clubWheelScreen.cl-on.cl-box .clbPack.is-open .clbTop { opacity: 0; }
+/* the contact shadow: a soft dark ellipse where the pack's foot (art y 776) meets the lip */
+#app #clubWheelScreen.cl-on.cl-box .clbShadow {
+  inset: 93.5% 4% 2% 4% !important;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, .62), rgba(0, 0, 0, .3) 55%, rgba(0, 0, 0, 0));
+}
+/* the crest sits in the pack's brass shield (art x 212-387, y 190-400) once the product has opened that pack */
+#app #clubWheelScreen.cl-on.cl-box .clbCrest { inset: 25.5% 37.3% 51.5% 37.3% !important; display: grid !important; place-items: center; }
+#app #clubWheelScreen.cl-on.cl-box .clbCrest > svg { width: 100%; height: 100%; display: block; }
+#app #clubWheelScreen.cl-on.cl-box .clbPack:not(.is-open) .clbCrest { visibility: hidden; }
+/* upright phones and tablets: the room is the screen's, its lip on the band's bottom edge (js/clubScreenV10.js --clb-bg) */
+@media (max-width: 760px) and (orientation: portrait), (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on.cl-box {
+    background: #0d0b09 url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp") no-repeat;
+    background-position: var(--clb-bg-pos, 50% 0);
+    background-size: var(--clb-bg-size, max(100vw, calc(100svh * 1179 / 2096)) auto);
+  }
+  html[data-assets="0"] #app #clubWheelScreen.cl-on.cl-box { background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp"); }
+  /* the band always holds both men whole under the title and the packs on the lip; the page scrolls if it must */
+  #app #clubWheelScreen.cl-on.cl-box .clPhoneScene { min-height: calc(70px + 100vw * .5462); flex-shrink: 0; overflow: visible; }
+}
+@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on.cl-box .clPhoneScene {
+    background: #0d0b09 url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp") no-repeat;
+    background-position: var(--clb-band-pos, 50% 0);
+    background-size: var(--clb-band-size, 100% auto);
+  }
+}
+/* desktop: each club card stands beside its manager's pack, toward the middle, never over it (Daniel's moves right of his
+   pack, plate x 290-588; Nik's ends left of his, x 946-1244), and clear of the centre column's words and buttons. Plate
+   units times --k, as club.js places them. The gold-framed lower deck (JOB-1173) runs between the two packs (plate x
+   280-1256) instead of across them; short desktops (html.compact) have no deck, so there each card gets its own plate.
+   Upright phones and tablets and sideways phones lay the cards out in the page flow and keep their own rules. */
+@media not all and (max-width: 1024px) and (orientation: portrait) {
+ @media not all and (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on.cl-box .clubCardFace { width: calc(var(--k) * 298px) !important; grid-template-columns: calc(var(--s) * 56px) auto 1fr; }
+  #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubCardFace,
+  #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubRevealIndex,
+  #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubManager { translate: calc(var(--k) * 102px) 0; }
+  #app #clubWheelScreen.cl-on.cl-box #clubCardTwo .clubCardFace,
+  #app #clubWheelScreen.cl-on.cl-box #clubCardTwo .clubRevealIndex,
+  #app #clubWheelScreen.cl-on.cl-box #clubCardTwo .clubManager { translate: calc(var(--k) * -38px) 0; }
+  html:not(.compact) #app #clubWheelScreen.cl-on.cl-box #world::after { left: calc(var(--k) * 280px); width: calc(var(--k) * 976px); }
+  /* the card's top line (CAREER DRAW · ASSIGNED CLUB) keeps its size and sets a little tighter to fit the card */
+  #app #clubWheelScreen.cl-on.cl-box .clubCardEyebrow,
+  #app #clubWheelScreen.cl-on.cl-box .clubCardLabel { letter-spacing: .09em; }
+  /* short desktops: the old glass deck is not drawn, so each card has its own opaque dark plate under its words (Daniel's
+     would otherwise sit on his white shirt): from the 01/02 row (17s + 8px over the card, club.css) to under the state
+     line, a gold hairline, no glow. The card rises until its plate ends 10px over the buttons (club.js puts the card
+     44s over them, and its words need 54px). */
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardOne,
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardTwo { --clb-up: min(0px, calc(var(--s) * 44px - 64px)); }
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubCardFace,
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubRevealIndex,
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubManager { translate: calc(var(--k) * 102px) var(--clb-up); }
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardTwo .clubCardFace,
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardTwo .clubRevealIndex,
+  html.compact #app #clubWheelScreen.cl-on.cl-box #clubCardTwo .clubManager { translate: calc(var(--k) * -38px) var(--clb-up); }
+  html.compact #app #clubWheelScreen.cl-on.cl-box .clubCardFace { z-index: 1; }
+  html.compact #app #clubWheelScreen.cl-on.cl-box .clubRevealIndex,
+  html.compact #app #clubWheelScreen.cl-on.cl-box .clubManager { z-index: 2; }
+  html.compact #app #clubWheelScreen.cl-on.cl-box .clubCardFace::before {
+    content: ""; position: absolute; z-index: -1; pointer-events: none;
+    left: calc(var(--s) * -8px); right: calc(var(--s) * -6px); top: calc(var(--s) * -17px - 14px); height: calc(var(--s) * 17px + 68px);
+    background: linear-gradient(180deg, #17140f, #0c0a08); border: 1px solid rgba(242, 196, 91, .42); border-radius: 3px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .5);
+  }
+ }
+}
+
+/* HO-068 lead fix: the box room's taller phone scene pushed CLUBS LOCKED under the sticky CONFIRM on upright phones up to
+   700px tall (375x553 had to scroll 94px). In the confirmation step the two club cards stand side by side there, crest and
+   club name only (the panel already says CLUBS LOCKED), so the whole step fits: the lock note reads above CONFIRM at first
+   paint and nothing ever scrolls under the button. Taller phones, tablets and desktop are unchanged. */
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 700px) {
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealArea {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto; column-gap: 6px;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard {
+    grid-template-columns: 22px minmax(0, 1fr); grid-template-rows: auto auto; row-gap: 4px; column-gap: 6px;
+    min-width: 0; padding: 6px 8px 7px 10px; align-items: center;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard > .clubRevealIndex { grid-row: 1; grid-column: 1; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard > .clubManager { grid-row: 1; grid-column: 2; min-width: 0; font-size: 18px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubPackStage {
+    grid-row: 2; grid-column: 1 / -1; min-height: 0;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace {
+    grid-template-columns: 32px minmax(0, 1fr); grid-template-rows: auto; min-height: 36px; column-gap: 8px;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace .shieldSlot { grid-row: 1; width: 32px; height: 35px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace .clubCardLabel,
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace .clubCardState { display: none; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace strong { grid-row: 1; grid-column: 2; font-size: 18px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRivalryLockNote { font-size: 12px; }
+}
+/* 375x553 class phones: the header's "CLUBS READY · CONFIRM TO BEGIN" line says what CONFIRM and CLUBS LOCKED already say, so
+   it steps aside in this one step, and the cards and panel sit a little tighter. */
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubAssignmentHeader .stRow { display: none !important; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard { padding-top: 4px; padding-bottom: 5px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] #clubRivalryConfirmation:not(.hidden) { padding-top: 6px; padding-bottom: 7px; }
+}

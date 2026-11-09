@@ -222,6 +222,49 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-phoneBg img{position:absolute;left:50%;top:0;width:max(100vw,calc(100svh * 1179 / 2096));height:auto;max-width:none;transform:translateX(-50%);object-fit:fill}
   #app #standings.standingsScreenV10 .sdg-phoneArt::after{content:none}
 }
+/* HO-068 (2026-11-09): Standings stands in Team V's handcrafted V2 tunnel room (plates-hc/ENV_TUNNEL_*, Nik picked it).
+   Desktop: the wide plate (2X at High and up). Upright phones and tablets: the tall plate (590W on Light or Save-Data),
+   pinned to its top and cut so x 15-85% shows on phones; sideways phones: the wide plate. The plate carries both men, so
+   the two cut-outs and the old stadium are no longer drawn (sgRooms drops their sources, so they are not downloaded). The
+   plates-v2/v3 Standings plates and the cut-outs stay in the repo as rollback. No dark grade, no slogan. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape){
+  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp')}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x)}
+  /* HO-068 (Nik: nothing may touch a face): the plate fills the window from its top, so the top bar covered both men's hair
+     (heads start 1.74% down this plate). The room is lowered just enough for the hair to clear the bar by 6px; the floor it
+     gives up is below the window's edge. */
+  #app #standings.standingsScreenV10 .sd-stage__layer--plate>.sd-stage__registered{translate:0 max(0px,calc(var(--sd-nav-top-h,52px) + 6px - max(56.25vw,100svh) * .0174))}
+}
+@media (max-width:900px){
+  #app #standings.standingsScreenV10 .sdg-phoneHero{display:none}
+  #app #standings.standingsScreenV10 .sdg-phoneArt::after{content:none}
+}
+/* The tall plate's ceiling band (0-13.8%) is plain. The plate rises so the heads (from 13.8%) clear the settings corner
+   and the chins (26%) stay above the title, without lifting the faces (from 18%) out of view. */
+@media (max-width:900px) and (orientation:portrait){
+  #app #standings.standingsScreenV10{--sg-pw:max(100vw,calc(100svh * 1179 / 2096));--sg-ph:calc(var(--sg-pw) * 2096 / 1179)}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{position:absolute;left:50%;width:var(--sg-pw);height:auto;max-width:none;transform:translateX(-50%);object-fit:fill;
+    top:max(calc(var(--sg-ph) * -.18),min(calc(56px - var(--sg-ph) * .138),calc(var(--sg-hero,0px) + 6px - var(--sg-ph) * .26)))}
+  /* HO-068 (Nik: nothing may touch a face): on short phones (375x553) the band above the title was too short for the two
+     faces, so the plate rose until their hair was cut and Nik's head ran under the settings button. The band is at least
+     tall enough for both whole faces under the button (heads from 13.8%, chins at 26% of the plate) plus 8px; the page
+     scrolls the rest. */
+  #app #standings.standingsScreenV10{--sg-hero:max(48px,calc(64px + var(--sg-ph) * .122 - 6px),calc(100svh - var(--sg-nav) - var(--sg-title) - var(--sg-board) - 32px))}
+}
+@media (max-width:760px) and (orientation:portrait){
+  #app #standings.standingsScreenV10{--sg-pw:max(143vw,calc(100svh * 1179 / 2096))}
+}
+/* HO-068 (Nik: the board covered both men's chins on sideways phones and their hair was cut at the top). The wide plate now
+   starts at the top of the screen, so both heads are whole beside the title, and the board keeps to the room between the
+   faces (Daniel's ends 25.72% across, Nik's starts at 74.87%), one 10px gap clear of each. The plate is drawn a little
+   wider than the phone, as on Connect Players, until that room is 430px, but never so wide that Nik's face (to 87.24%)
+   reaches the settings button. */
+@media (max-width:900px) and (orientation:landscape){
+  #app #standings.standingsScreenV10{--sg-lpw:max(100vw,calc(100svh * 1536 / 864),min(calc(450px / .4856),calc((50vw - 56px) / .3724)))}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{position:absolute;left:50%;top:0;width:var(--sg-lpw);height:auto;max-width:none;transform:translateX(-50%);object-fit:fill}
+  #app #standings.standingsScreenV10 .sdg-main{width:min(100%,680px,calc(var(--sg-lpw) * .4856 - 20px))}
+}
+#app #standings.standingsScreenV10 .sdg-tagline{visibility:hidden}
 `;parent.appendChild(style);
   }
   /*SG-END*/
@@ -2385,10 +2428,20 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
       const name=header.querySelector("h3");if(name)name.after(slot);else header.appendChild(slot);
     }
   }
+  // HO-068: the Standings phone art is the tunnel room. The tall plate for upright screens, the wide plate sideways, 590W on
+  // Light or Save-Data; the two cut-outs lose their sources (the plate carries both men), so nothing extra is downloaded.
+  function sgRooms(stage){
+    const doc=root.document,lean=doc?.documentElement?.dataset?.assets==="0",hc=BASE+"plates-hc/";
+    const sources=stage?.querySelectorAll?.(".sdg-phoneBg source")||[];
+    if(sources[0]){sources[0].setAttribute("media","(max-width: 900px) and (orientation: portrait)");sources[0].setAttribute("srcset",hc+"ENV_TUNNEL_PHONE_HC_V2"+(lean?"_590W":"")+".webp");}
+    if(sources[1])sources[1].setAttribute("srcset",hc+"ENV_TUNNEL_PLATE_HC_V2_1X.webp");
+    stage?.querySelectorAll?.(".sdg-phoneHero source").forEach(source=>source.remove());
+    return stage;
+  }
   function renderStandings(frame,host){
     sfStandingsRule(root.document);
     const selected=host.querySelector('#sdgViewCareer')?.getAttribute("aria-selected")==="true"?"CAREER":"SHOWDOWN";
-    host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren(stageElement("standings"));host.classList.add("standingsScreenV10");
+    host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren(sgRooms(stageElement("standings")));host.classList.add("standingsScreenV10");
     root.STANDINGS_ROOT=host.firstElementChild;root.STANDINGS_QS="frame="+selected;root.STANDINGS_FIXTURES={strings:strings.standings,frames:frame};root.ShowdownStandingsBoot();
   }
   // Register the new optional route lazily. Startup files and existing gameplay gates do not change.

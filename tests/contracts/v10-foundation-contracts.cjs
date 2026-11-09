@@ -739,6 +739,21 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp":"f1ba8d0f1c4feba538d2863f56701794c590aacc95c074921cce226054c153f8",
     "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_1X.webp":"ac069f0612bc6f36f5938f217385638ae36663d650e54f8c7b988159c8634b2a",
     "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_2X.webp":"58e3f15d3c7a802a1dfe6c3e6eed309e6c0f2e089f2ed8eb2235a9b27d6f00e1",
+    // HO-068 (2026-11-09): Team V's handcrafted V2 tunnel room (Connect Players, Standings, Rivalry) and box room (League, Club
+    // Assignment; TALL for 9:20 phones), from claude/project-thread-kxgun9 687598df6. The plates-v2 plates stay as rollback.
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp":"2d68af513bb9c528dea77d99dfdf844c72d2e9cc38a9426d97b169a14eb8b588",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp":"1ae3e25d16648eeff70e49f37324705498b70b8c76e9b72336edbdd8d3a9e638",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp":"486b214b797913a11e8d99246b058b5276067c7c85345ec39bf74f4a97e2cf75",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp":"b9fe46be16198be235cc1a78e0316b9b65c56525a2010087cb5583b6fd57346d",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp":"f78da7395ca80138339403f4b9d2a3bb13f59932485f970a712ff8e1acc991fb",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp":"cc0e47b42a5eb62d16232002b292cf406bfc091b1a85ebede86c75011bedbd29",
+    "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_2X.webp":"2da72663a210c524ddce55ae7b4882386f3759c2ccdfb3df77f50574bdec39e9",
+    "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_1X.webp":"402daae9c9f13535ed77babc57a79a7f8d0a2735b5be3733d54eecdbbcd5e0bf",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp":"77f9d3ca0ab75ac859429f94e3c394b0b7140953a947b153146cdfa1d7ab967d",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp":"4b4d13629323d32a0023c45172ecd144d32dd299f81efa4b1ca8f8a64f4e7058",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL.webp":"6b479780883ce5acd51442dceba2e6c2264d22a1a743b9287552783497a7c66e",
+    // HO-068 Codex P3: the 590px TALL plate for the lighter picture setting on 9:20 phones (resized from the TALL plate above)
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL_590W.webp":"38cf744789f8abd4d5f54a811c6911be0d3c0971d8ecb2a52129c94986391025",
     // HO-067 Gate B2 (2026-11-09): Team V's handcrafted Home art V2 RICH (HC 01 + HC 02 V2, claude/project-thread-kxgun9
     // 9e334b234, project-documents/hc-art/home/), which Nik picked at Gate A2; the V2 Home plates above stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp":"01c65c91b7fca42b7bebd0b2f8012f3de201efe6cd012ff2059cf2652d3cab6c",
