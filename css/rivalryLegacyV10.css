@@ -2036,8 +2036,8 @@
    archive hall plate (1X at every level, the 2X file at High and up) on the same plane as LEGACY-PLATE-V2, which stays as
    the rollback. Upright phones up to 600px draw the archive phone plate (picked in js/rivalryLegacyV10.js): the men stand
    behind the brass lip and the title, archive card and buttons sit on the stone below it. The plate is raised so the lip
-   meets the title; where the band is too short for the men it rises only as far as their chins clearing the title, and the
-   band grows (the page scrolls) rather than the title covering a face. No dimming, and the line under the wordmark is not
+   meets the title; where the band is too short for the men it rises only as far as their chins clearing the title. The band
+   keeps History's fitted height, so VIEW SEASON HISTORY stays on the first screen (r87 A-06). No dimming, and the line under the wordmark is not
    drawn (no slogans); wider upright screens and sideways phones keep their current art. */
 @media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp'); }
@@ -2049,7 +2049,8 @@
 @media (max-width:600px) and (orientation:portrait) {
   #app #legacy[data-rivalry-legacy-v10] {
     --lg-pw:max(143vw,calc(100svh * 1179 / 2096)); --lg-ph:calc(var(--lg-pw) * 2096 / 1179);
-    --lg-hero-art:max(var(--lg-hero,44px),calc(var(--lg-ph) * .1 + 70px));
+    /* the band keeps the fitted History height, so VIEW SEASON HISTORY stays above the tab bar on first paint */
+    --lg-hero-art:var(--lg-hero,44px);
   }
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { grid-template-rows:var(--lg-hero-art) auto auto auto; }
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--plate { background:#1c1814; }
