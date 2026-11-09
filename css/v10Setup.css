@@ -1878,19 +1878,33 @@ html[data-v10-setup="league"] #overlay { background: none; }
     --bx-pw: inherit; --bx-ph: var(--bx-href); --bx-lip: .5816;
     background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp);
     background-size: var(--bx-pw) auto;
-    background-position: 50% calc(var(--box-wb, 60svh) - var(--bx-ph) * var(--bx-lip));
+    background-position: 50% calc(var(--box-wt, 60svh) - 10px - var(--bx-ph) * var(--bx-lip));
   }
   html[data-assets="0"][data-v10-setup="league"] #background { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp); }
   #app #leagueWheelScreen.v26Skin { --v26-wheel-full: var(--v26-wheel); }
   #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) {
-    --v26-wheel: min(calc(var(--v26-wheel-full) * .85), calc(var(--bx-href) * .21));
+    --v26-wheel: min(calc(var(--v26-wheel-full) * .85), max(176px, calc(var(--bx-href) * .21)));
     --v26-wheel-cut: calc(var(--v26-wheel-full) - var(--v26-wheel));
   }
-  #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695); }
+  /* Team V review (leads/relay c3dc8779a): the wheel stands on the stone just under the lip, clear of both men, instead of on
+     the lip in front of their chests. The pointer drops by the men's height (hair at 27.5% of the plate, lip at 58.2%:
+     .307 of the plate) less the room the title already gives, and the plate is placed so its lip sits 10px above the
+     wheel's top edge (js/v10Setup.js publishes it as --box-wt). */
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695 + max(0px, var(--bx-href) * .307 - 63px)); }
   #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: calc(8px + var(--v26-wheel-cut) * .5); }
 }
 @media (max-width: 760px) and (orientation: portrait) {
   html[data-v10-setup="league"] { --bx-pw: max(143vw, calc(100svh * 1179 / 2096)); }
+}
+/* upright tablets: a 240px wheel, and the title already leaves more room above the men, so the wheel drops less and both
+   buttons stay in the first view */
+@media (min-width: 761px) and (max-width: 900px) and (orientation: portrait) {
+  #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) { --v26-wheel: min(calc(var(--v26-wheel-full) * .85), 240px); }
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695 + max(0px, var(--bx-href) * .307 - 180px)); }
+}
+/* shorter phones: the whole plate width shows (the men a little smaller), so the men, the wheel and both buttons still fit */
+@media (max-width: 760px) and (max-height: 760px) and (orientation: portrait) {
+  html[data-v10-setup="league"] { --bx-pw: max(100vw, calc(100svh * 1179 / 2096)); }
 }
 /* 9:20 and taller phones: the TALL plate (1179x2620, the same room with more counter below the lip) */
 @media (max-width: 900px) and (max-aspect-ratio: 59/128) and (orientation: portrait) {

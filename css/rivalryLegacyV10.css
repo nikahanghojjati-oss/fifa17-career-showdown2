@@ -2071,3 +2071,6 @@
 }
 #app #statistics #rvTitleBlock .sd-tagline { visibility:hidden; }
 #app #statistics #rvTitleBlock .sd-tagline > .rv-goldenTitle { visibility:visible; }
+/* Team V review (leads/relay c3dc8779a, HO-061 no slogans): the head-to-head panel's "EVERY SEASON WRITES A NEW CHAPTER."
+   line is not drawn either; it keeps its room, so the panel does not change size. */
+#app #statistics[data-rivalry-legacy-v10] .rv-headCaption { visibility:hidden; }

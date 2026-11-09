@@ -163,14 +163,14 @@
     const doc=v26Doc(),wheel=v26Byid("leagueWheel"),html=doc&&doc.documentElement;
     if(!wheel||!html||typeof wheel.getBoundingClientRect!=="function"||!html.style)return;
     let frame=0;
-    const measure=()=>{frame=0;const r=wheel.getBoundingClientRect();if(r&&r.height>0)html.style.setProperty("--box-wb",Math.round(r.bottom)+"px");};
+    const measure=()=>{frame=0;const r=wheel.getBoundingClientRect();if(r&&r.height>0){html.style.setProperty("--box-wb",Math.round(r.bottom)+"px");html.style.setProperty("--box-wt",Math.round(r.top)+"px");}};
     const queue=()=>{if(frame)return;frame=typeof root.requestAnimationFrame==="function"?root.requestAnimationFrame(measure):(measure(),0);};
     measure();
     if(typeof root.ResizeObserver==="function"){const observer=new root.ResizeObserver(queue);observer.observe(wheel);if(state.host)observer.observe(state.host);state.observers.push(observer);}
     const main=wheel.closest?.("main");
     if(typeof root.addEventListener==="function"){root.addEventListener("resize",queue);state.cleanups.push(()=>root.removeEventListener("resize",queue));}
     if(main&&typeof main.addEventListener==="function"){main.addEventListener("scroll",queue,{passive:true});state.cleanups.push(()=>main.removeEventListener("scroll",queue));}
-    state.cleanups.push(()=>{if(frame&&typeof root.cancelAnimationFrame==="function")root.cancelAnimationFrame(frame);html.style.removeProperty("--box-wb");});
+    state.cleanups.push(()=>{if(frame&&typeof root.cancelAnimationFrame==="function")root.cancelAnimationFrame(frame);html.style.removeProperty("--box-wb");html.style.removeProperty("--box-wt");});
   }
 
   // r87 HO-049: season chips. Four gold marble chips (1/3/5/10) drawn over the product's own #roundAmount, which stays
