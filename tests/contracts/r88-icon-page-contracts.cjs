@@ -213,10 +213,13 @@ const Guess=require(path.join(ROOT,'js/iconGuess.js'));
   const files=fs.readdirSync(path.join(ROOT,DIR));
   assert.deepEqual(files,['assets','index.html'],'the page and its art folder only');
   // HO-051 (Team V, 1 Nov 2026): Nik's Prime Pack art ships as seven local webp files; the flags stay drawn in code
-  const ART=['card_frame.webp','card_shadow_V1.webp','pack_opening.webp','pack_sealed.webp','stage_desktop_4k_V2.webp','stage_desktop_V2.webp','stage_phone_V2.webp','token_full.webp','token_spent.webp']; // r90 HO-060: + the 4K stage master (Extra and up, past 2560 device px)
+  const ART=['card_frame.webp','card_shadow_V1.webp','pack_opening.webp','pack_sealed.webp','stage_desktop_4k_V3.webp','stage_desktop_V2.webp','stage_phone_V2.webp','token_full.webp','token_spent.webp']; // r90 HO-060: + the 4K stage master (Extra and up, past 2560 device px)
   assert.deepEqual(fs.readdirSync(path.join(ROOT,DIR,'assets')).sort(),ART,'Nik\'s seven Prime Pack pictures plus the 4K stage master');
-  const artBytes=ART.reduce((n,f)=>n+fs.statSync(path.join(ROOT,DIR,'assets',f)).size,0);
-  assert.ok(artBytes<1200*1024,`art stays light (${Math.round(artBytes/1024)} KB, well under the Special Player's 8.4 MB)`);
+  // a screen loads one of the three stage pictures (phone, 2560 or the 4K master), so the weight is the shared art plus the
+  // heaviest stage (HO-068: Team V's real 4K master, 412 KB, replaces the 3840 Lanczos cut)
+  const size=f=>fs.statSync(path.join(ROOT,DIR,'assets',f)).size,STAGES=ART.filter(f=>f.startsWith('stage_'));
+  const artBytes=ART.filter(f=>!STAGES.includes(f)).reduce((n,f)=>n+size(f),0)+Math.max(...STAGES.map(size));
+  assert.ok(artBytes<1200*1024,`art one screen loads stays light (${Math.round(artBytes/1024)} KB, well under the Special Player's 8.4 MB)`);
   for(const f of ART)assert.ok(page.includes(`url("assets/${f}")`),`${f} is used by the page`);
   assert.ok(Buffer.byteLength(page)<80*1024,'well under the Special Player page');
   assert.ok(!/\b(fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|firebase|firestore)\b/i.test(code),'no network or Firebase');

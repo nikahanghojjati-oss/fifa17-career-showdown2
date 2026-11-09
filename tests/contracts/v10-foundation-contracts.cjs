@@ -834,7 +834,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
     // r90 4K slot of the Prime Pack desktop stage (HO-068: a 3840x2160 Lanczos cut of the house stage stage_desktop_V2.webp): loaded only above 2560 device px.
     "visual-assets/v10_1/icon-guess/assets/card_shadow_V1.webp":"3cdf20976ecac1e43073008b288cbebb15363b68144da0847477c34aa1180591",   // r90 Prime Pack smooth: the card shadow, blurred once offline
-    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V2.webp":"43fc199b842a9a839aae8c80eb208f943f87c216f014c7ae7eb95271758915a4",
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V3.webp":"3d75519892a1807c2f9994f104ae5fe219b05378b734de06a7cc8d3f00d3eb3d",
     // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
     "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
     "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
