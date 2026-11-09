@@ -505,7 +505,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
 /* the space between the heads is narrower than four totals need (plate under 2400px wide): two rows of two, the numbers a
    size smaller so each row stays short */
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (max-width: 2399px) and (max-height: 1350px) {
-  html #app #careerStatistics.careerScreenV10 { --hc-rows: 2; --hc-row: max(48px, 6.6vh); }
+  html #app #careerStatistics.careerScreenV10 { --hc-rows: 2; --hc-row: max(52px, 7vh); }
   html #app #careerStatistics.careerScreenV10 .headlineTiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   html #app #careerStatistics.careerScreenV10 .headlineTile { padding-block: calc(var(--hc-u) * .35); align-content: center; }
   html #app #careerStatistics.careerScreenV10 .headlineNumber { font-size: max(30px, calc(var(--hc-u) * 2.6)); }

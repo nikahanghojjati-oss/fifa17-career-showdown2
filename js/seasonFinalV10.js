@@ -2283,8 +2283,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { top:calc(var(--fw-lip) - var(--fw-ph) * .5239); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:calc(var(--fw-lip) + var(--fw-gap)); }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { top:var(--fw-panel); bottom:auto; height:max(172px,calc(100svh - 86px - var(--fw-panel))); }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { top:calc(var(--fw-panel) + max(172px,calc(100svh - 86px - var(--fw-panel))) + 20px); bottom:auto; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { top:var(--fw-panel); bottom:auto; height:max(192px,calc(100svh - 86px - var(--fw-panel))); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { top:calc(var(--fw-panel) + max(192px,calc(100svh - 86px - var(--fw-panel))) + 20px); bottom:auto; }
 }
 @media (max-width:760px) and (max-height:720px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root { --fw-tb:82px; }
