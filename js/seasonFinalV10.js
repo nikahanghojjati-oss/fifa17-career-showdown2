@@ -2209,6 +2209,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   background-color:#1d1a16;
   background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
   background-size:auto 100svh; background-position:50% calc(0px - var(--sd-nav-top-h,52px)); background-repeat:no-repeat;
+  /* HO-068 (Nik: nothing may touch a face): drawn from the window's top edge, the room put Daniel's hair under the top bar
+     (1280x720) or touching it (1440x900; heads from 5.79% of the plate). The room and every slot placed on it move down
+     just enough for the hair to clear the bar by 6px; the strip above stays behind the bar and main scrolls the rest. */
+  --fw-drop:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 100svh * .0579));
+  --fw-top:calc(var(--sd-nav-top-h,52px) + 14px - var(--fw-drop));
+  background-position:50% calc(var(--fw-drop) - var(--sd-nav-top-h,52px));
  }
  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x);
