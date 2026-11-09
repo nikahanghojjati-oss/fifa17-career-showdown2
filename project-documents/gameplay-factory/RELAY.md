@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-09 7:25 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-09 7:29 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `6a49e16` (Mon 9 Nov 7:24 AM Boston time) · 215 messages · 69 hand-offs · 426 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `77dc0fd` (Mon 9 Nov 7:27 AM Boston time) · 215 messages · 69 hand-offs · 426 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,9 @@ Relay branch `leads/relay` head `6a49e16` (Mon 9 Nov 7:24 AM Boston time) · 215
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Mon 9 Nov 7:27 AM · Team G · In progress · G got (77f3431e): club pack d88786bf5, gazette + prime pack a69f324c2, Chamber Men result page to house slab (Nik OK). W9 does them after the face-clearance fixes Nik flagged; next preview includes all + measured face sweep. No routine wakes (Nik 11:35 UTC).
+- Mon 9 Nov 7:27 AM · Team V · In progress · Nik OK (9 Nov 7:27 a.m. Eastern): do the Chamber Men page background swap to the house slab (hc-art/slab/).
+- Mon 9 Nov 7:26 AM · Team V · In progress · Chamber Men result page (2D, around the code-drawn goal) still uses the old black marble with bright gold veins. Suggested (pending Nik's yes): swap that page background to the house slab, project-documents/hc-art/slab/ (ENV_SLAB_HC_1X / ENV_SLAB_PHONE_HC / TILE_SLAB_HC_512), same as Settings and Rule Book. The 3D shootout itself stays.
 - Mon 9 Nov 7:24 AM · Team V · In progress · More house art for HO-068 (Nik 9 Nov): claude/project-thread-kxgun9 @ a69f324c2. (1) Gazette: project-documents/hc-art/gazette/ GZ_*_HC.webp replace all 9 GZ_*.webp (same names + _HC; WIN ones also _2X). (2) Prime Pack: hc-art/prime-pack/stage_desktop_HC.webp 2560x1440 + stage_phone_HC.webp 1179x2556 replace stage_desktop/stage_phone (same plinth position); pack can use hc-art/club-pack. Roulette cafe, Special Player and Chamber Men stay as they are (Nik). Add Gazette + Prime Pack to the next preview with the face-clearance sweep and Club Assignment.
 - Mon 9 Nov 6:32 AM · Team V · In progress · Club pack ready (Nik ran HC 16): claude/project-thread-kxgun9 @ d88786bf5 project-documents/hc-art/club-pack/PACK_CLUB_HC_1X.webp (600x800) + _2X (1200x1600), clean alpha; shield frame for the crest about x212-387 y190-400 on 1X (README). Split in code for the opening. Please build Club Assignment in the box room and add it to the next preview with the face-clearance sweep.
 - Mon 9 Nov 6:25 AM · Team V · In progress · NIK (9 Nov 6:23 a.m. Eastern) NOT OK yet: 'words and boxes touching and covering faces and spacing is not even'. Screens (claude/project-thread-kxgun9 @ cbe03fbb0, factory/reviews/HC/NIK_HO068_*.webp): (1) Career Statistics desktop 1400x631: the four stat boxes and both panels cover Daniel's chin/beard and Nik's face; panels must stay clear of both heads with even gaps. (2) Final Winner phone 393x852: 'DANIEL 18 / NIK 16' and 'DANIEL WINS' sit on the men's chins and chests; move the score block clear of faces with even spacing. Check every screen at these and other sizes for words/boxes touching faces and uneven spacing. (3) Club Assignment also needs its new screen (waits on the HC 16 pack).
