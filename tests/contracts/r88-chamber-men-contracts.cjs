@@ -218,7 +218,7 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
     const r=await Step.send(a,ctx,"L",1);assert.equal(r.ok,true);assert.equal(writes[0][1].kicks.playerOne,"L");assert.equal(writes[0][1].schemaVersion,2);}
   // An old two-letters-a-round record (schemaVersion 1) is never read as kicks.
   assert.equal(Step.record({...doc("LR","RL"),schemaVersion:1},1),null);
-  assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(timedOut\?null:sel\),kick\)/,"the screen sends the kick it is showing; out of time it sends \"-\" (Codex #1232)");
+  assert.match(read("js/chamberMenStep.js"),/cmsSend\(io,ctx,engine\.pick\(timedOut\?null:sel\),kick,confirmed\)/,"the screen sends the kick it is showing; out of time it sends \"-\" (Codex #1232)");
   // Both lock in at once: the Rules refuse the loser against the record the winner just changed; one retry on the record as
   // it is now puts his letter in; a second refusal is passed on (no loop of billed reads).
   {
@@ -231,6 +231,26 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
     const twice=race(2);await assert.rejects(Step.send(twice.io,ctx,"M",2),e=>e.code==="permission-denied");assert.equal(twice.calls(),2,"never more than one retry");
     const offline=race(0);offline.io.sdk.runTransaction=async()=>{throw Object.assign(new Error("x"),{code:"unavailable"});};
     await assert.rejects(Step.send(offline.io,ctx,"M",2),e=>e.code==="unavailable");
+  }
+  // r90 reads (proposal A): with the listener's confirmed record the letter goes as a plain update built from it (no
+  // transaction read). A refused update (the record moved) goes on through the transaction; any other failure is passed on.
+  {
+    const plain=({fail,data:d0}={})=>{const calls={tx:0,update:[]};const data=d0||doc("L","R");
+      const sdk={doc:()=>({}),serverTimestamp:()=>"ts",onSnapshot:()=>()=>{},
+        updateDoc:async(_r,d)=>{if(fail)throw Object.assign(new Error("x"),{code:fail});calls.update.push(d);},
+        runTransaction:async(_f,fn)=>{calls.tx+=1;return fn({get:async()=>({exists:()=>true,data:()=>({...data,revision:data.revision+1,kicks:{playerOne:data.kicks.playerOne,playerTwo:data.kicks.playerTwo}})}),set(){},update:(_r,d)=>calls.update.push({tx:true,...d})});}};
+      return {io:{firestore:{},sdk,rivalryId:rid,sessionId:"s",deviceId:"d",now:()=>Date.now()},calls,data};};
+    {const t=plain();const r=await Step.send(t.io,ctx,"M",2,t.data);
+      assert.equal(r.ok,true);assert.equal(t.calls.tx,0,"no transaction read");
+      assert.deepEqual([t.calls.update[0]["kicks.playerOne"],t.calls.update[0].revision,t.calls.update[0].activeSessionId],["LM",4,"s"],"one letter on the confirmed record, revision + 1");}
+    {const t=plain({fail:"permission-denied"});const r=await Step.send(t.io,ctx,"M",2,t.data);
+      assert.equal(r.ok,true);assert.equal(t.calls.tx,1,"a refused update goes on through the transaction");assert.equal(t.calls.update[0].tx,true);}
+    {const t=plain({fail:"unavailable"});await assert.rejects(Step.send(t.io,ctx,"M",2,t.data),e=>e.code==="unavailable");assert.equal(t.calls.tx,0,"other failures are passed on (notice, retry by the clock)");}
+    {const t=plain();const r=await Step.send(t.io,ctx,"M",1,t.data);assert.equal(r.ok,false);assert.equal(r.reason,"NOT_THIS_KICK");assert.equal(t.calls.update.length,0,"a kick the confirmed record does not allow is never sent plain");}
+    {const t=plain({data:{...doc("L","RL"),updatedAt:Date.now()-60000}});const r=await Step.send(t.io,ctx,"M",2,t.data);
+      assert.equal(r.ok,true);assert.equal(t.calls.update[0]["kicks.playerOne"],"L-","past the rival's lock-in + LATE_MS it is the timeout, as in the transaction");}
+    {const t=plain();delete t.io.sdk.updateDoc;const r=await Step.send(t.io,ctx,"M",2,t.data);assert.equal(r.ok,true);assert.equal(t.calls.tx,1,"no update in the SDK at hand: the transaction");}
+    assert.match(read("js/chamberMenStep.js"),/record=next;lastWriteMs=cmsMillis\(data&&data\.updatedAt\);confirmed=data\|\|null;/,"the confirmed copy is the listener's server delivery the screen took");
   }
   ok("CM10","a pick goes in only as the kick it was made for; a late or repeated send is refused");
   // CM11
