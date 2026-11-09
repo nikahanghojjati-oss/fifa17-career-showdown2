@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-09T06:03:13Z", "by": "V", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-09T06:03:13Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-09T06:03:51Z", "by": "G", "status": "RECEIVED", "note": "Lead got it; W9 (Home art thread) wires the rooms on gameplay/r90 in batches, preview back to V."}],
  "from_session": "session_01GU43Q55MWFc5kxaqRPspjd",
- "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd"}
+ "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
 ```
 

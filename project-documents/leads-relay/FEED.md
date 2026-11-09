@@ -217,3 +217,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-08 15:25 | Team G | Team V | HO-065 SENT | Pause the Home icon part of the prompt job (Nik) | yes (receive it) |
 | 2026-11-08 18:21 | Team G | Team V | HO-066 SENT | Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow) | yes (receive it) |
 | 2026-11-09 04:35 | Team G | Team V | HO-067 RETURNED | Gate B: wire the new handcrafted Home art alone | yes (see reason) |
+| 2026-11-09 06:03 | Team G | Team V | HO-068 RECEIVED | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | no |
