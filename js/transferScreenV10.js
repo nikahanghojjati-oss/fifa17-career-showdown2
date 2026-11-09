@@ -141,7 +141,7 @@
   const BASE="visual-assets/v10_1/";
   const ASSET_BASE=BASE+DIR;
   const ACTION_CLASSES=Object.freeze({start:"btn-end sd-btn sd-btn--secondary",continueReplay:"btn-continue sd-btn sd-btn--secondary",error:"error-line"});
-  let wordmarkClear=null,nameCells=[],installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
+  let wordmarkClear=null,cameraWatch=null,nameCells=[],installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
   const v10Screens=()=>root.CareerModeV10Screens;
   const tfDoc=()=>root.document||null;
   function tfWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -355,7 +355,30 @@
   // TRANSFER WAR title (plate y 62) slid under the top bar or off the window. Keep its place; drop it only by the pixels
   // it needs to clear the bar (8 px gap), and shrink it by as much as it drops (down to 70 %) so "WAR" stays off Daniel's
   // hair, which leans in under the title's right end. Runs after the plate's own re-frame on every resize.
+  // HO-068 (Nik: nothing may touch a face): Team V's desktop camera covers the window and keeps the panels in view, so on
+  // wide windows (1920x866, 2560x1000) it cropped the men's hair under the top bar and at 3440x1080 Daniel's whole face off
+  // the window. In the office room their hair starts at plate row 65; when rows 60 to the panels' bottom do not fit, the
+  // world is scaled down as one piece with the same "fit" look Team V's camera uses on short screens (the plate blurred in
+  // the side bands). The camera's own result stands everywhere else, and plate.js stays Team V's.
+  const TF_KEEP_TOP=60;
+  function tfCameraClear(){
+    const world=stage&&stage.querySelector(".world"),kv=platemap&&platemap.keepVisible;
+    if(!world||!kv||stage.dataset.mode!=="desktop"||stage.classList.contains("short"))return;
+    const vw=stage.clientWidth,vh=stage.clientHeight,k=+stage.dataset.k;
+    if(!vw||!vh||!k)return;
+    const footer=36,content=Math.max(kv.panelBottom,kv.contentBottom||0,+(stage.dataset.contentBottom||0));
+    const s=Math.min(1,(vh-footer-6)/((content-TF_KEEP_TOP)*k));
+    if(s>=1)return;
+    const Ws=1672*k*s,Hs=941*k*s,offY=Math.max(0,Math.min(Hs-vh,content*k*s+footer+6-vh));
+    const left=Ws<vw?(vw-Ws)/2:-Math.max(0,Math.min(Ws-vw,(kv.x[0]+kv.x[1])/2*k*s-vw/2)),top=-offY;
+    const now=/scale\(([\d.]+)\)/.exec(world.style.transform||"");
+    if(now&&Math.abs(+now[1]-s)<1e-4&&Math.abs(parseFloat(world.style.left)-left)<.5&&Math.abs(parseFloat(world.style.top)-top)<.5)return;
+    world.style.transform=`scale(${s.toFixed(5)})`;world.style.transformOrigin="0 0";
+    world.style.left=`${left.toFixed(1)}px`;world.style.top=`${top.toFixed(1)}px`;
+    stage.classList.toggle("fit",Ws<vw-1);stage.dataset.scale=s.toFixed(4);stage.dataset.offY=String(Math.round(offY));
+  }
   function tfWordmarkClear(){
+    tfCameraClear();
     const world=stage&&stage.querySelector(".world"),mark=world&&world.querySelector(":scope > .transfer-wordmark");
     if(!mark)return;
     mark.style.removeProperty("--tw-wm-drop");mark.style.removeProperty("--tw-wm-scale");mark.style.removeProperty("--tw-wm-left");
@@ -397,6 +420,7 @@
     if(stageSize){stageSize.disconnect();stageSize=null;}
     if(reframe!==null){root.cancelAnimationFrame(reframe);reframe=null;}
     if(wordmarkClear){root.removeEventListener("resize",wordmarkClear);wordmarkClear=null;}
+    if(cameraWatch){cameraWatch.disconnect();cameraWatch=null;}
     if(host)host.remove();
     if(section)section.classList.remove("tw-on");
     stage=null;mountedFrame=null;
@@ -419,6 +443,21 @@
       if(typeof root.ResizeObserver==="function"&&typeof root.requestAnimationFrame==="function"){let last="";stageSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;last=size;if(reframe===null&&typeof root.dispatchEvent==="function"&&typeof root.Event==="function")reframe=root.requestAnimationFrame(()=>{reframe=null;root.dispatchEvent(new root.Event("resize"));});});stageSize.observe(stage);}
       tfAdoptAll(frame,section);
       tfFlowDesktop(frame);
+      // HO-068: the title was sometimes placed while the top bar was still hidden behind Loading (html[data-nav="none"],
+      // so the bar measured 0px) and kept that drop once the bar showed: at 1920x866 and 2560x1000 it then sat under the top
+      // bar. The camera also moves without a resize (the stage's first styled size), and the title image can load late.
+      // Whenever the bar shows or hides, the camera writes the world's place or the title image loads, the title is placed
+      // again on the next frame.
+      const world=stage.querySelector(".world");
+      if(world&&typeof root.MutationObserver==="function"&&typeof root.requestAnimationFrame==="function"){
+        let queued=false;
+        const again=()=>{if(queued)return;queued=true;root.requestAnimationFrame(()=>{queued=false;if(wordmarkClear)tfWordmarkClear();});};
+        cameraWatch=new root.MutationObserver(again);
+        cameraWatch.observe(world,{attributes:true,attributeFilter:["style"]});
+        if(doc.documentElement)cameraWatch.observe(doc.documentElement,{attributes:true,attributeFilter:["data-nav"]});
+        const markImg=world.querySelector(":scope > .transfer-wordmark img, :scope > img.transfer-wordmark");
+        if(markImg&&!markImg.complete)markImg.addEventListener("load",again,{once:true});
+      }
       // after the plate's resize listener (registered by render above), so it reads the new camera
       if(typeof root.addEventListener==="function"){wordmarkClear=()=>tfWordmarkClear();root.addEventListener("resize",wordmarkClear);}
       tfWordmarkClear();
