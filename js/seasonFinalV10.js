@@ -316,6 +316,12 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     }).catch(()=>{}).then(()=>{if(standingsCareerLoad===load)standingsCareerLoad=null;signature="";wake();});
   }
   function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
+  // HO-068: Team V's markup still names the plates-v2 phone plate; the Final Winner phone picture is the board room now
+  // (its 590 px copy at the smallest download size, html[data-assets="0"]).
+  function sfRooms(text){
+    const lean=root.document?.documentElement?.dataset?.assets==="0";
+    return text.split("plates-v2/ENV_FINAL_WINNER_PHONE_V2.webp").join("plates-hc/ENV_BOARD_PHONE_HC_V2"+(lean?"_590W":"")+".webp");
+  }
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
   // r87 (CE2PG season 3: net::ERR_FAILED on TRO_SHOWDOWN_CHAMPION_V1_512.webp on both phones): Season Results and Final
@@ -323,7 +329,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // the first <img> was removed while its load was still in the service worker and the load was cancelled. The trophy is
   // now loaded once into memory while the screen prepares (behind the loading screen, at most 2.5 s, never an error), and
   // both stages take it from there. Same URL as the stages use, so it is the same cache entry.
-  const TROPHY_PATH="visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp";
+  const TROPHY_PATH="visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp";
   let trophyWarm=null,trophyImage=null;
   function sfWarmTrophy(){
     if(trophyWarm)return trophyWarm;
@@ -336,7 +342,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   }
   async function prepare(folder){
     if(folder==="season-results"||folder==="final-winner")await sfWarmTrophy();
-    if(!templates[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-shell.html"));if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
+    if(!templates[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-shell.html"));if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=sfRooms(await r.text());}
     if(folder!=="season-results"&&!strings[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-strings.json"));if(!r.ok)throw new Error("V10_RESULTS_STRINGS");strings[folder]=(await r.json()).strings;strings[folder].previewLabel="";}
   }
   // The skin mounts after the legacy form is live and reparents it (and the action row). Moving a focused
@@ -2156,6 +2162,117 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   flex:1 1 0;min-width:0;padding:0 10px;white-space:normal;text-wrap:balance;overflow-wrap:normal;word-break:normal;line-height:1.1;
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch { flex:1 1 0;white-space:nowrap; }
+}
+/* HO-068 board room (Team V's handcrafted V2 room, Nik's pick): Season Results and Final Winner stand in the board room.
+   visual-assets/v10_1/plates-hc/ENV_BOARD_*: the 1X plate at every level, the 2X plate at High and up (html[data-assets]
+   2-4), the phone plate, and its 590 px copy at the smallest download size (html[data-assets="0"]). The managers stand
+   behind the counter (desktop men cut line 641 of 864, phone 1098 of 2096); the plates-v2 pictures stay as rollback. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
+  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
+ }
+ html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
+  background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block::before { content:none; }
+}
+/* HO-068: no slogans in the board room: the "TWO MANAGERS · ONE LEGACY" line under the Season Results and Final Winner
+   titles keeps its place (nothing moves) but is not shown. */
+#app #seasonEntry :is(.season-tagline,.finalWinnerTagline) { visibility:hidden !important; }
+/* Final Winner, desktop picture range: the board room, fitted to the window height as the old plate was (--fw-k is one
+   plate pixel). The champion trophy stands on the counter's lip (plate y 641) between the two managers, its foot on the
+   lip (or on the honours plaque when a short window raises the plaque above it). Beside a plate narrower than the window
+   the side bands take the room's own dark wood colour: no darkened copy of the picture, no shading. */
+@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  background-color:#1d1a16;
+  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
+  background-size:auto 100svh; background-position:50% calc(0px - var(--sd-nav-top-h,52px)); background-repeat:no-repeat;
+ }
+ html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x);
+ }
+ #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock::before { content:none; }
+ #app #seasonEntry .v10FinalStage {
+  --fw-cup-b:min(calc(641 * var(--fw-k) - var(--fw-top)),var(--fw-rt));
+  --fw-cup-h:min(calc(300 * var(--fw-k)),calc(var(--fw-cup-b) - 350 * var(--fw-k) + var(--fw-top)));
+ }
+ #app #seasonEntry .v10FinalStage .winnerTrophySlot {
+  top:calc(var(--fw-cup-b) - var(--fw-cup-h) * 744 / 768); height:var(--fw-cup-h); width:calc(var(--fw-cup-h) * 2 / 3);
+ }
+ #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture { position:absolute; inset:0; width:100%; height:100%; scale:none; }
+ #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture img { width:100%; height:100%; object-fit:contain; object-position:50% 100%; }
+}
+/* Final Winner, upright phones and tablets: the board phone plate is drawn from the top at the screen's width or height
+   (whichever covers), and the champion trophy stands on the counter's brass lip (plate y 1098 of 2096), centred between
+   the two score columns, under the winner line. Where a short phone leaves little room above the lip, the plate is drawn
+   a little taller (the managers' faces stay above the winner line) so the cup keeps at least 76px. */
+@media (max-width:760px) and (orientation:portrait),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root {
+  --fw-win:304px;
+  --fw-ph:max(100svh,calc(100vw * 2096 / 1179),calc((var(--fw-win) + 80px) / .5239));
+  --fw-lip:calc(var(--fw-ph) * .5239);
+  --fw-cup:min(150px,calc(var(--fw-lip) - var(--fw-win) - 4px));
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img {
+  position:absolute; top:0; left:50%; translate:-50% 0; width:auto; height:var(--fw-ph); max-width:none; object-fit:fill;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot {
+  top:calc(var(--fw-lip) - var(--fw-cup) * 744 / 768); bottom:auto; height:var(--fw-cup); width:calc(var(--fw-cup) * 2 / 3);
+  left:50%; transform:translateX(-50%); translate:none; scale:none; container-type:normal;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture { position:absolute; inset:0; top:0; width:100%; height:100%; max-height:none; scale:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture img { width:100%; height:100%; object-fit:contain; object-position:50% 100%; }
+}
+/* short phones (iPhone SE 375x667, 393x660, 360x640): the plate is drawn tall enough to put the lip just above the
+   summary panel's top (the screen height less 290px), so the cup has the room between the winner line and the panel */
+@media (max-width:760px) and (max-height:720px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root { --fw-win:300px; --fw-ph:max(100svh,calc(100vw * 2096 / 1179),calc((100svh - 290px) / .5239)); }
+}
+/* upright tablets: the plate rises 28px so its lip stands just above the summary panel */
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root { --fw-win:604px; --fw-ph:max(100svh,calc(100vw * 2096 / 1179)); --fw-lip:calc(var(--fw-ph) * .5239 - 28px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { top:-28px; }
+}
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ /* the board plate's ceiling band (0-20%) is plain wood; it rises so the managers' heads sit at the top of the hero band,
+    above the title, as on the old plate, with the counter behind the tabs */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
+  --sr-hc-w:max(100vw,calc(100svh * 1179 / 2096));
+  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2.webp")}");
+  background-position:50% calc(14px - var(--sr-hc-w) * 2096 / 1179 * .2);
+ }
+ html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp")}"); }
+}
+/* Sideways phones: the board plate fills the left half (cover, 50% 30%). The cup stands on the counter lip (1098/2096)
+   between the two managers, and the result (SHOWDOWN CLOSED, the winner and both scores) moves down onto the counter
+   face under the lip, so the cup and the words never cross. */
+@media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root {
+  --fw-h:calc(100svh - var(--sd-nav-top-h,52px)); --fw-p:.35;
+  --fw-ph:max(50vw * 2096 / 1179,var(--fw-h)); --fw-lip:calc((var(--fw-h) - var(--fw-ph)) * var(--fw-p) + var(--fw-ph) * .5239);
+  --fw-cup:min(72px,calc(var(--fw-lip) * .26));
+ }
+ /* 411-500px tall: the top bar shows, so the plate box is shorter; it rises a little more so the result fits on the counter */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:50% 35%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot {
+  top:calc(var(--fw-lip) - var(--fw-cup) * 744 / 768); bottom:auto; height:var(--fw-cup); width:calc(var(--fw-cup) * 2 / 3); aspect-ratio:auto;
+  left:25%; transform:translateX(-50%); translate:none; scale:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:calc(var(--fw-lip) + 4px); }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture { position:absolute; inset:0; width:100%; height:100%; max-height:none; scale:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture img { width:100%; height:100%; object-fit:contain; object-position:50% 100%; }
+}
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ /* no top bar here: the plate box is the full height */
+ #app #seasonEntry.v10FinalMode #stage-root { --fw-h:100svh; --fw-p:.3; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:50% 30%; }
+}
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2.webp")}"); }
+ html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp")}"); }
 }
 `;
     parent.appendChild(style);

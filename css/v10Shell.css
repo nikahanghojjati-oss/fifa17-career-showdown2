@@ -420,7 +420,12 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
     --cs2-ring: inset 0 0 0 1px rgba(5, 5, 5, .9), inset 0 1px 0 1px rgba(255, 236, 160, .2), 0 6px 18px rgba(0, 0, 0, .5);
   }
   #app #careerStatistics.careerScreenV10 .sd-stage__plate {
-    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_2X.webp") 2x);
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp");
+  }
+  /* HO-068: Career Statistics stands in Team V's board room (ENV_BOARD_PLATE_HC_V2): the 1X plate at every level, the 2X
+     plate at High and up; the plates-v2 statistics plate stays as rollback */
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerStatistics.careerScreenV10 .sd-stage__plate {
+    background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp") 2x);
   }
   #app #careerStatistics.careerScreenV10 :is(.sd-stage__layer--cutout, .sd-stage__layer--light) { display: none; }
   #app #careerStatistics.careerScreenV10 :is(.headlineTile, .glassPanel, .leaderCard, .actionButton) {
@@ -736,3 +741,7 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 @media (max-height: 700px) and (min-width: 761px) {
   html[data-v10-screen="trophyRoom"] #trophyRoom .heroCeremony .heroTrophyPicture { height: auto; bottom: max(calc(27% + 3px), 45px); }
 }
+
+/* HO-068 (Team V's handcrafted V2 rooms): no slogans in the rooms. The "TWO MANAGERS. ONE LEGACY." line under the Career
+   Statistics title keeps its place (nothing moves) but is not shown, at every size. */
+#app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { visibility: hidden !important; }
