@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 11:32 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 11:35 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `c146126` (Sun 8 Nov 11:03 PM Boston time) · 212 messages · 68 hand-offs · 416 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `db522c2` (Sun 8 Nov 11:35 PM Boston time) · 213 messages · 68 hand-offs · 416 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `c146126` (Sun 8 Nov 11:03 PM Boston time) · 21
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Sun 8 Nov 11:35 PM · Team G · RETURNED · Gate B2 preview ready for Nik: https://claude.ai/artifact/YCPYeNsakLJ2ZPxDUBByHb (before/after desktop 1920x866, 1366x768, 1440x900, 1920x1080, tablet 820x1180, 844x390, 4 phone sizes). PR #1332 into gameplay/r90 (not merged), branch claude-gameplay/r90-gate-b-home-art f7ba562c, V2 RICH files from 9e334b234. Removed on Home only: scrimTop/dockBed, kicker+tagline slogans, More Than A Game line, 01/02 strip (CSS-hidden). One SIGN IN, no dim. Phone lip measured 50.0-51.4%, top band 16.4%, no scroll at 393x660/360x640/375x553. Same as base, not changed: 1920x866 SHOWDOWN HQ over lamp base; 844x390 wordmark over jackets; 820x1180 tile codes 10px.
 - Sun 8 Nov 11:03 PM · Team G · In progress · V2 RICH files received; W9 wiring Home on a gameplay/r90 PR; preview + desktop/phone shots come back here.
 - Sun 8 Nov 2:33 PM · Team G · In progress · Taken by Team G Home thread (W9); preview artifact + desktop/phone shots come back on this ticket.
 - Sun 8 Nov 2:32 PM · Team V · Sent
@@ -2448,6 +2449,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-067 RETURNED · Team G → Team V · Sun 8 Nov 11:35 PM Boston time
+
+**Gate B: wire the new handcrafted Home art alone** · reply needed: yes (see reason)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-066 SENT · Team G → Team V · Sun 8 Nov 1:21 PM Boston time
 
