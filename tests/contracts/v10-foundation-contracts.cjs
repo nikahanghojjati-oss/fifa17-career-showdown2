@@ -739,6 +739,12 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp":"f1ba8d0f1c4feba538d2863f56701794c590aacc95c074921cce226054c153f8",
     "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_1X.webp":"ac069f0612bc6f36f5938f217385638ae36663d650e54f8c7b988159c8634b2a",
     "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_2X.webp":"58e3f15d3c7a802a1dfe6c3e6eed309e6c0f2e089f2ed8eb2235a9b27d6f00e1",
+    // HO-067 Gate B2 (2026-11-09): Team V's handcrafted Home art V2 RICH (HC 01 + HC 02 V2, claude/project-thread-kxgun9
+    // 9e334b234, project-documents/hc-art/home/), which Nik picked at Gate A2; the V2 Home plates above stay as rollback.
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp":"01c65c91b7fca42b7bebd0b2f8012f3de201efe6cd012ff2059cf2652d3cab6c",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp":"28c6f56205c1fcbf2db3df9b1e0292b02d5c272f4ed11f265774185d53cd37d8",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2.webp":"1b11bb0ceb356c2fca0dbf53be6460f1bb0654d20ca58db6ab8a34ce153e0c26",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2_590W.webp":"10ec8eb21b143385c93e81d006139917f7a84e5c80fd9b0f8862045495527fb9",
     "visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_1X.webp":"7f186eaba7fe87b9355c4a188e367a1b5633826fbe501151fb09615a0555699c",
     "visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_2X.webp":"f9b440cf0054d28d0874bbd80139a252ae6d9d310cbb1cfdce3fa62f9c87e2b3",
     "visual-assets/v10_1/plates-v2/ENV_LEGACY_PLATE_V2_1X.webp":"f35969337c19c8cfb2d31e300a10487edf96a60c9154832ff3134c5ca1d0777e",
