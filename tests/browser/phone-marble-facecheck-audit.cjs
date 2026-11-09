@@ -95,7 +95,8 @@ const SCREENS = {
         currentShowdown = normalizeShowdown({ schemaVersion: 2, id: "phone-marble-league", name: "Daniel vs Nik", managers: { playerOne: "Daniel", playerTwo: "Nik" }, totalRounds: 3, currentRound: 1, status: "Created", selectedLeague: null, clubs: { playerOne: null, playerTwo: null }, score: { playerOne: 0, playerTwo: 0 }, transferChallenges: [], rounds: [], integrityWarnings: [], createdAt: now, updatedAt: now, completedAt: null, archivedAt: null });
         showScreen("leagueWheelScreen");
     }) },
-    TRANSFER: { host: "transferChallenge", open: page => page.evaluate(async () => {
+    // r90 W8 (js/ssjr.js): the shared chain, the real transfer module included, can load after Home; let it land before the stand-in below (#1336).
+    TRANSFER: { host: "transferChallenge", open: async page => { await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());await page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge),null,{timeout:30000}); return page.evaluate(async () => {
         await window.ensureGameplayModules();
         const now = new Date().toISOString();
         currentShowdown = normalizeShowdown({ schemaVersion: 2, id: "phone-marble-transfer", name: "Daniel vs Nik", managers: { playerOne: "Daniel", playerTwo: "Nik" }, totalRounds: 3, currentRound: 1, status: "Ready", selectedLeague: { id: "premier_league", name: "Premier League" }, clubs: { playerOne: "Arsenal", playerTwo: "Liverpool" }, score: { playerOne: 0, playerTwo: 0 }, transferChallenges: [], rounds: [], integrityWarnings: [], createdAt: now, updatedAt: now, completedAt: null, archivedAt: null });
@@ -105,7 +106,7 @@ const SCREENS = {
         window.CareerModeProductionSharedTransferChallenge = { isActive: () => true, canRoute: () => true, getState: () => ({ managerRole: "playerOne", seasonNumber: 1, state: { phase: "WINDOW_OPEN" } }) };
         await window.CareerModeTransferScreenV10.install();
         window.openTransferChallenge();
-    }) },
+    }); } },
     CONNECT_PLAYERS: { host: "connectPlayersScreen", open: page => page.evaluate(async () => {
         if(!window.CareerModeConnectPlayersScreenV10) await loadRuntimeScript("layout-connect", "js/connectPlayersScreenV10.js", () => Boolean(window.CareerModeConnectPlayersScreenV10));
         await CareerModeConnectPlayersScreenV10.open({ sync: false });
