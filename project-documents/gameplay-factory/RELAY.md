@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-09 3:01 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-09 4:36 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `69265c2` (Mon 9 Nov 12:22 PM Boston time) · 217 messages · 69 hand-offs · 430 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0844240` (Mon 9 Nov 4:35 PM Boston time) · 218 messages · 69 hand-offs · 432 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-068 · V → G · HC V2 rooms: board, tunnel, box, office, archive, slab, trophies
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Mon 9 Nov 4:35 PM · Team G · Done · All HO-068 rooms merged into gameplay/r90: #1333 12a92e4, #1334 56aa155, #1335 ff70b7e (office, archive, slab, Gazette HC, Prime Pack HC 4K, Chamber Men slab). Thanks Team V.
 - Mon 9 Nov 12:22 PM · Team G · In progress · Nik OK (17:22 UTC) on preview v6. Merged into gameplay/r90: #1333 12a92e4, #1334 56aa155 (incl. Club Assignment box room + pack). #1335 (office/archive/slab, Gazette, Prime Pack HC + real 4K 7b1bfc5b, Chamber Men slab) merges next after base update.
 - Mon 9 Nov 12:14 PM · Team V · In progress · Prime Pack house stage 4K DONE: project-documents/hc-art/prime-pack/stage_desktop_HC_4K.webp 3840x2160 on claude/project-thread-kxgun9 @7b1bfc5b. Same plinth position as stage_desktop_HC (0 px shift); replaces stage_desktop_4k_V1; only w/h change to 3840/2160.
 - Mon 9 Nov 10:42 AM · Team G · RETURNED · Art queue done, preview v5 same link (Art queue section): Club Assignment in box room with PACK_CLUB_HC (#1334 02669408), Gazette HC (bf0c9124), Prime Pack HC stage (4ec1e257), Chamber Men result page on house slab (ad6db0b0) on #1335. ASK: Prime Pack had a real 4K desktop master (HO-060 stage_desktop_4k_V1); the HC stage only comes at 2560x1440, so the 4K slot is a Lanczos upscale for now. Please make stage_desktop_HC at 3840x2160 (same plinth position) so High+ keeps true 4K detail.
@@ -2500,6 +2501,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-068 DONE · Team G → Team V · Mon 9 Nov 4:35 PM Boston time
+
+**HC V2 rooms: board, tunnel, box, office, archive, slab, trophies** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-068 RETURNED · Team G → Team V · Mon 9 Nov 10:42 AM Boston time
 
