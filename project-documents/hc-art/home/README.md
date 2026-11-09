@@ -14,3 +14,16 @@ Phone: top 18% plain dark ceiling (title band); faces 17-54%; counter brass lip 
 
 Code notes (Team G, from the ticket, Intake step 7): drop the Home scrimTop and dockBed gradients and the DOM slogans plus the 01/02 strip; no dim filter over these plates; keep one SIGN IN.
 Raw sources: project-documents/factory/reviews/HC/HC01_LOUNGE_D_RAW.png, HC02_LOUNGE_P_RAW.png.
+
+## V2 (RICH), 9 Nov 2026: use these, not the V1 files above
+Nik picked RICH (Gate A2); HC 02 V2 checked by Claude 11:05 p.m. Eastern 8 Nov.
+
+| File | Size | Weight |
+|---|---|---|
+| ENV_HOME_PLATE_HC_V2_1X.webp | 1536x864 | 142 KB |
+| ENV_HOME_PLATE_HC_V2_2X.webp | 3072x1728 | 324 KB (High and up) |
+| ENV_HOME_PHONE_HC_V2.webp | 1179x2096 | 164 KB |
+| ENV_HOME_PHONE_HC_V2_590W.webp | 590x1049 | 55 KB |
+
+Phone: plain top band (title), counter brass lip at 50% of the height, plain stone below for the tiles. Desktop: lounge with chairs, sofa, lamps in the left third; the heading area (x 2-31%, y 68-82%) shows only dark leather, rug and floor.
+Raw: reviews/HC/HC01_LOUNGE_D_V2R_PICK.png, HC02_LOUNGE_P_V2_RAW.png.
