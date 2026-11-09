@@ -41,6 +41,9 @@ export function onSnapshot(...args){
   const count=snap=>{try{
     if(!snap||!snap.metadata)return;
     if(snap.metadata.fromCache){if(!first)cached=true;emit({k:"listenCache",op:"listen",path:target,n:0});return;}
+    // r90: a snapshot raised by this page's own pending write (latency compensation) comes from the local cache, not the
+    // server, and Firestore bills nothing for it; the server's copy of that write arrives next and is counted then.
+    if(snap.metadata.hasPendingWrites){emit({k:"listenLocal",op:"listen",path:target,n:0});return;}
     const reconnect=cached;cached=false;
     if(typeof snap.docChanges==="function"){const n=snap.docChanges().length;const billed=first||reconnect?Math.max(1,n):n;first=false;if(billed)emit({k:"read",op:"listen",path:target,n:billed,...(reconnect?{reconnect:true}:{})});return;}
     const sig=typeof snap.exists==="function"&&snap.exists()?JSON.stringify(snap.data()):"null";

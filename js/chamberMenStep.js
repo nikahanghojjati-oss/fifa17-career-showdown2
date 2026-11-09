@@ -81,7 +81,18 @@
   // record the first one just changed (kick 1: both create it; later kicks: a stale revision) and refuse it before the
   // transaction can retry, so a refused send is tried once more, on the record as it is now (one more transaction read,
   // only in that race). A second refusal is passed on (the clock or LOCK IN tries again).
-  async function cmsSend(io,ctx,letter,kick){
+  // r90 reads (proposal A): with the listener's last confirmed record in hand, the letter goes as a plain update built from
+  // it (no transaction read: one billed read and one Rules lookup less per send). The Rules refuse it unless the record is
+  // still the one it was built on (revision + 1, the rival's string unchanged, exactly one letter, the late rule), so a
+  // stale copy (the rival's letter on its way, a second tab) is refused and the send goes on through the transaction below,
+  // on the record as it is now. Kick 1 of the first manager creates the record and always takes the transaction.
+  async function cmsSend(io,ctx,letter,kick,confirmed){
+    if(confirmed){
+      let plain=null;
+      try{plain=await cmsSendPlain(io,ctx,letter,kick,confirmed);}
+      catch(error){if(!/permission/i.test(String(error&&error.code||"")))throw error;}
+      if(plain)return plain;
+    }
     try{return await cmsSendOnce(io,ctx,letter,kick);}
     catch(error){
       if(!/permission/i.test(String(error&&error.code||"")))throw error;
@@ -110,6 +121,21 @@
       tx.update(ref,{[`kicks.${me}`]:next[me],revision:data.revision+1,...cmsStamp(io)});
       return {ok:true,record:next};
     });
+  }
+  // The plain update for proposal A, or null when the confirmed copy does not allow it (not this kick on that copy, no
+  // update in the SDK at hand): the transaction then decides on the record as it is now.
+  async function cmsSendPlain(io,ctx,letter,kick,data){
+    const me=ctx.managerRole,engine=cmsEngine(),record=cmsRecord(data,ctx.season);
+    if(!record||!Number.isInteger(data.revision)||!Number.isInteger(kick)||record[me].length!==kick-1)return null;
+    const api=await cmsSnapshotApi(io);
+    if(!api||typeof api.updateDoc!=="function")return null;
+    // Codex C2, as in the transaction: once the rival has locked in, a letter past his lock-in + LATE_MS is the timeout '-'.
+    const rivalAt=cmsMillis(data.updatedAt),late=record[cmsOther(me)].length>=kick&&Number.isFinite(rivalAt)&&cmsNow(io)>rivalAt+LATE_MS;
+    const next=engine.send(record,me,late?engine.timeout:letter);
+    if(!next)return null;
+    const ref=api===io.sdk?cmsRef(io,ctx.season):api.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,cmsSeasonId(ctx.season));
+    await api.updateDoc(ref,{[`kicks.${me}`]:next[me],revision:data.revision+1,...cmsStamp(io)});
+    return {ok:true,record:next};
   }
   // One plain read of the record (the roulette on a phone that did not keep the finished shootout).
   async function cmsReadRecord(io,season){
@@ -385,7 +411,7 @@
       // record: the latest from the server. shown: how many kicks are shown (drawn or replayed) on screen. clock: {kick,
       // deadline} in server ms. sel: this manager's choice for the kick on now. revealUntil: the server time the kick on
       // screen stops being shown.
-      let record=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false,kickToken=0;
+      let record=null,confirmed=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false,kickToken=0;
       const now=()=>{try{return io.now();}catch(_error){return Date.now();}};
       const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(revealing);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
       const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"CHAMBER_MEN_FAILED"});};
@@ -527,7 +553,7 @@
         if(engine.nextKick(record,me)!==kick)return;
         if(!timedOut&&!sel)return;
         sending=true;setChoices(false,sel);
-        cmsSend(io,ctx,engine.pick(timedOut?null:sel),kick).then(result=>{
+        cmsSend(io,ctx,engine.pick(timedOut?null:sel),kick,confirmed).then(result=>{
           sending=false;
           if(result&&result.ok){notice=null;record=result.record;render();return;}
           if(result&&result.record){record=result.record;}
@@ -549,7 +575,7 @@
         if(!next)return fail({code:"CHAMBER_MEN_BAD_RECORD"});
         // Never step back: a late delivery older than what this phone already wrote is ignored.
         if(record&&(next.playerOne.length<record.playerOne.length||next.playerTwo.length<record.playerTwo.length))return;
-        record=next;lastWriteMs=cmsMillis(data&&data.updatedAt);
+        record=next;lastWriteMs=cmsMillis(data&&data.updatedAt);confirmed=data||null;
         // r89: the stage shows once the goal is drawn (the 3D scene, or the SVG when there is no 3D).
         if(!stageShown&&!sceneShown){sceneShown=true;sceneReady.then(showStage);}
         render();
