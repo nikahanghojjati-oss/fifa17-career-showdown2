@@ -1217,10 +1217,13 @@
   #app #careerStatistics.careerScreenV10 .actionRow .actionButton { font-size:13px; }
 }
 /* Short upright phones (660px tall and less): the bigger type needs about 50px more for the six comparison rows, so the hub
-   starts just under the managers' faces (the plate is drawn cover from the top: faces end at 25.31% of its height, Team V
-   PHONE_FACE_ZONES), and a panel that still runs long scrolls inside itself instead of being cut. */
+   starts just under the managers' faces, and a panel that still runs long scrolls inside itself instead of being cut. */
 @media (max-width:760px) and (orientation:portrait) and (max-height:700px) {
-  #app #careerStatistics.careerScreenV10 { --cs-face-bottom:calc(max(100vw * 2096 / 1179, 100svh) * .2531); }
+  /* HO-068: on Team V's board room the heads start at 19.5% of the plate and the chins end at 31.5%, so the plate is raised
+     until the heads sit 56px down (just under the title) and the hub starts 12px under the chins. The empty panelling
+     above the heads is what goes off the top; the plate still covers the whole stage below. */
+  #app #careerStatistics.careerScreenV10 { --cs-ph:max(100vw * 2096 / 1179, 100svh); --cs-face-bottom:calc(var(--cs-ph) * .12 + 56px); }
+  #app #careerStatistics.careerScreenV10 .phoneBackground img { object-position:50% min(0px, calc(56px - var(--cs-ph) * .195)); }
   #app #careerStatistics.careerScreenV10 .phoneHub { top:calc(var(--cs-face-bottom) + 12px); }
   #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { top:calc(var(--cs-face-bottom) + 52px); }
   #app #careerStatistics.careerScreenV10 .partialBanner { top:calc(var(--cs-face-bottom) + 10px); }

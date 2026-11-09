@@ -2252,11 +2252,15 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root {
   --fw-h:calc(100svh - var(--sd-nav-top-h,52px)); --fw-p:.35;
-  --fw-ph:max(50vw * 2096 / 1179,var(--fw-h)); --fw-lip:calc((var(--fw-h) - var(--fw-ph)) * var(--fw-p) + var(--fw-ph) * .5239);
+  --fw-ph:max(50vw * 2096 / 1179,var(--fw-h));
+  /* the lip never comes lower than the result's own height (about 98px) above the stage foot, so SHOWDOWN CLOSED, the winner
+     and both scores always show: on a very wide, short window (1199x340, 1000x400) the plate rises further instead */
+  --fw-lip:min(calc((var(--fw-h) - var(--fw-ph)) * var(--fw-p) + var(--fw-ph) * .5239),calc(var(--fw-h) - 102px));
   --fw-cup:min(72px,calc(var(--fw-lip) * .26));
  }
- /* 411-500px tall: the top bar shows, so the plate box is shorter; it rises a little more so the result fits on the counter */
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:50% 35%; }
+ /* 411-500px tall: the top bar shows, so the plate box is shorter; it rises a little more so the result fits on the counter.
+    The plate is placed from the lip, so the painted lip and the cup's foot always meet. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:50% calc(var(--fw-lip) - var(--fw-ph) * .5239); }
  #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot {
   top:calc(var(--fw-lip) - var(--fw-cup) * 744 / 768); bottom:auto; height:var(--fw-cup); width:calc(var(--fw-cup) * 2 / 3); aspect-ratio:auto;
   left:25%; transform:translateX(-50%); translate:none; scale:none;
@@ -2268,7 +2272,6 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  /* no top bar here: the plate box is the full height */
  #app #seasonEntry.v10FinalMode #stage-root { --fw-h:100svh; --fw-p:.3; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:50% 30%; }
 }
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2.webp")}"); }
