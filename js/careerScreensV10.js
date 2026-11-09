@@ -1751,6 +1751,16 @@
 @media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #trophyRoom .heroCeremony {top:calc(253 * var(--tr-k))}
 }
+/* HO-068 (Nik: nothing may cover a face): the plate is drawn the window's height from its top edge, so on windows up to
+   about 900px tall the top bar covered the men's hair (from 5.79% of the plate). The whole stage moves down just enough for
+   the hair to clear the bar by 6px (the strip above stays behind the bar), and BACK follows the records instead of riding
+   over them; main scrolls the few pixels more. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #trophyRoom .sd-stage {margin-top:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 100svh * .0579))}
+}
+@media (min-width:1200px) and (min-height:600px) and (max-height:900px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #trophyRoom .backButton {position:static}
+}
 #app #trophyRoom .trophyTagline {visibility:hidden}
 @media (max-width:760px) and (orientation:portrait) {
   #app #trophyRoom .trophyPhoneArt {inset:0;height:100svh}
