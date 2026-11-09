@@ -5,3 +5,6 @@
 - reviews/HC/HC01_LOUNGE_D_RAW.png: Nik's approved HC 01 (Gate A, 8 Nov 2026 2:14 p.m. Eastern), try 4 of 6.
 - HC01_LOUNGE_D_LOCK.png (V2 ticket, 9 Nov 2026): the approved HC 01 as it is. The men in it are the ones Nik approved at Gate A, so no lock step was run; the name matches the V2 ticket links.
 - HC04_BOARD_D_TRY_A_LOCK.png (V2 ticket): V1 board-room try A (no lamps) as it is, same reason.
+- V2 (9 Nov 2026): Nik picked RICH; Claude picked try 1 of 7 (chairs face each other across the table, round laced ball). Raw: reviews/HC/HC01_LOUNGE_D_V2R_PICK.png.
+- GUIDE_HC02_LOUNGE_P_V2.png: same box as V1 (x 470-1525, y 160-886) from the V2 pick, lip at 50%, guide_from_room.py.
+- RC_LOUNGE_V2.png: room card with no people: the left lounge (x 0-470) and the right pier with its lamp (x 1240-1536) side by side.
