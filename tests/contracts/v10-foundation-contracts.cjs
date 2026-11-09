@@ -795,6 +795,19 @@ const V10_IMAGES={
     "visual-assets/v10_1/content/gazette/GZ_THINK_NIK.webp":"e784ea13d111d71952cc1a19ce1b951728d910b8974ec1e941fd0c75dd3316d7",
     "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp":"1087e684e01ea45d1d9d4b88c65bb9a841e9f43295cbf6e8bdafff0c56d46a5c",
     "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp":"471173df754656a8d6eef7c1a6cd9a10141cc18809709b44464427775a61dab6",
+    // HO-068 lead queue 2 (2026-11-09): Team V's handcrafted house Gazette photos (claude/project-thread-kxgun9 a69f324c2,
+    // project-documents/hc-art/gazette); js/touchlineGazette.js draws these, the first set above stays as rollback.
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW_HC_V1.webp":"f38de3960516189becabe9f08b7dacb21245f0bcba7cf88b1350c6f2c4e3871d",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_FINAL_HC_V1.webp":"f4d1ab68aa04946d3296a8762ed2c3c164ec538cd7809688ad3d28755a5d2c7d",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_GOLD_HC_V1.webp":"c57e4402d4e090b66a4e0efd2059141e960b728b980c934d9899c9d26ee9be17",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_PRESS_HC_V1.webp":"b111096438431c67e010a71cc5ccfe5c3c5768e40ce19d450f3cf464efadf26d",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_SEASON_HC_V1.webp":"d1aac5a27985a91d7c979d7b91b62cdbc9756223c8ca2ea4b87a5dbab4027f27",
+    "visual-assets/v10_1/content/gazette/GZ_THINK_DANIEL_HC_V1.webp":"9d1141300ef7ee0df6e7c0aa55a2dd81bf34db8a5ce31122d5550f3a78f8dddd",
+    "visual-assets/v10_1/content/gazette/GZ_THINK_NIK_HC_V1.webp":"ff1895e5747228212f418129fc35f7b65b1b7e01f3004ef304e28bee4dd37c2e",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL_HC_V1.webp":"92952440339be34e7d3ef3bdba5c73e7ff4ff45086ca7701232576255f78a0ae",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL_HC_V1_2X.webp":"6dd86855a3f748f8e8ef3f253f9201b6da6f4a74321bbfa27dc227c753f5fb80",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_NIK_HC_V1.webp":"3cef2e6ab3b35036556bdcea766e1cb0e7ab7f099050238f21e87d7cdcd5388a",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_NIK_HC_V1_2X.webp":"47f5b6de67d6d060455427378c913a770ed604a2cc984d637ed1bcf52a251d24",
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp":"3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09",   // r90 Team V HO-059: the café room on Extra (1920 px)
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp":"81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5",   // r90 Team V HO-059: the café room on Ultra and 8K (3840 px)

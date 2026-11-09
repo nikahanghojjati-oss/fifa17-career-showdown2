@@ -475,7 +475,17 @@
     assetsPromise.catch(()=>{assetsPromise=null;});
     return assetsPromise;
   }
-  const art=name=>root.ShowdownContent?.frontPage?.art?root.ShowdownContent.frontPage.art(name):`${BASE}gazette/${name}.webp`;
+  // HO-068 (lead queue 2): the press photos are Team V's handcrafted house set (GZ_*_HC, claude/project-thread-kxgun9
+  // a69f324c2 hc-art/gazette, same sizes and framing, saved here as GZ_*_HC_V1). The edition keeps the plain names; only
+  // the file changes, and the first set (GZ_*.webp) stays on disk as the rollback. The two winner portraits also have a 2X.
+  const art=name=>/^GZ_[A-Z_]+$/.test(name)?`${BASE}gazette/${name}_HC_V1.webp`:root.ShowdownContent?.frontPage?.art?root.ShowdownContent.frontPage.art(name):`${BASE}gazette/${name}.webp`;
+  function tgSharpPortraits(page){
+    if(typeof page?.querySelectorAll!=="function")return;
+    for(const img of page.querySelectorAll("img")){
+      const src=img.getAttribute?.("src")||"";
+      if(/gazette\/GZ_WIN_(?:DANIEL|NIK)_HC_V1\.webp$/.test(src))img.setAttribute("srcset",`${src} 1x, ${src.replace(/_HC_V1\.webp$/,"_HC_V1_2X.webp")} 2x`);
+    }
+  }
   function edPictures(edition){const p=edition.paper;return [p.photo?.name,p.portrait?.name,...p.briefs.map(b=>b.trophy)].filter(Boolean).map(art);}
   // Fable job 5 F5-01: a picture that cannot load (offline, 404) fails the paper: no edition is printed with a broken image
   // (the tap goes on as before and the paper is not marked seen, so it can print another time). A decode() that rejects for
@@ -574,6 +584,7 @@
     try{
       root.ShowdownContent.frontPage.screen(page,paperFor(plan.edition,compact),()=>proceed(),{eyebrow:eyebrowFor(plan.edition),title:"Read all about it",button:"Continue",still:Boolean(previous)});
       page.querySelector(".cmx-fp-screen__title")?.remove();
+      tgSharpPortraits(page);
       const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}}
       button=page.querySelector(".cmx-continue");if(!button)throw new Error("GAZETTE_CONTINUE_MISSING");
       button.id="touchlineGazetteContinue";
