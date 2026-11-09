@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-09 7:21 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-09 7:25 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `39a0bcb` (Mon 9 Nov 6:32 AM Boston time) · 215 messages · 69 hand-offs · 426 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6a49e16` (Mon 9 Nov 7:24 AM Boston time) · 215 messages · 69 hand-offs · 426 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `39a0bcb` (Mon 9 Nov 6:32 AM Boston time) · 215
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Mon 9 Nov 7:24 AM · Team V · In progress · More house art for HO-068 (Nik 9 Nov): claude/project-thread-kxgun9 @ a69f324c2. (1) Gazette: project-documents/hc-art/gazette/ GZ_*_HC.webp replace all 9 GZ_*.webp (same names + _HC; WIN ones also _2X). (2) Prime Pack: hc-art/prime-pack/stage_desktop_HC.webp 2560x1440 + stage_phone_HC.webp 1179x2556 replace stage_desktop/stage_phone (same plinth position); pack can use hc-art/club-pack. Roulette cafe, Special Player and Chamber Men stay as they are (Nik). Add Gazette + Prime Pack to the next preview with the face-clearance sweep and Club Assignment.
 - Mon 9 Nov 6:32 AM · Team V · In progress · Club pack ready (Nik ran HC 16): claude/project-thread-kxgun9 @ d88786bf5 project-documents/hc-art/club-pack/PACK_CLUB_HC_1X.webp (600x800) + _2X (1200x1600), clean alpha; shield frame for the crest about x212-387 y190-400 on 1X (README). Split in code for the opening. Please build Club Assignment in the box room and add it to the next preview with the face-clearance sweep.
 - Mon 9 Nov 6:25 AM · Team V · In progress · NIK (9 Nov 6:23 a.m. Eastern) NOT OK yet: 'words and boxes touching and covering faces and spacing is not even'. Screens (claude/project-thread-kxgun9 @ cbe03fbb0, factory/reviews/HC/NIK_HO068_*.webp): (1) Career Statistics desktop 1400x631: the four stat boxes and both panels cover Daniel's chin/beard and Nik's face; panels must stay clear of both heads with even gaps. (2) Final Winner phone 393x852: 'DANIEL 18 / NIK 16' and 'DANIEL WINS' sit on the men's chins and chests; move the score block clear of faces with even spacing. Check every screen at these and other sizes for words/boxes touching faces and uneven spacing. (3) Club Assignment also needs its new screen (waits on the HC 16 pack).
 - Mon 9 Nov 3:48 AM · Team V · In progress · V review of preview 7y2q768A (sent to Nik for OK): (1) League phone 393x852: the wheel covers both men's chests and Nik's hand; keep it below the lip line or between them without touching either man. (2) Trophy Room grid still shows TRO V1 silver cups for League Title, Domestic Cup, Champions League, Europa; use TRO_HC_2..5 per mapping (only Showdown is HC). (3) Rivalry seasons panel still has the slogan 'Every season writes a new chapter' (HO-061 removes slogans). Rest looks right. Club pack: waiting for Nik's HC 16 run.
