@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-09 9:46 AM Boston time (EST)",
+ "generated": "2026-11-09 9:47 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 215,
+  "count": 216,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1938,6 +1938,15 @@
     "subject": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
     "reply": "yes (see reason)",
     "boston": "Mon 9 Nov 3:46 AM"
+   },
+   {
+    "time": "2026-11-09 14:45",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-068 RETURNED",
+    "subject": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
+    "reply": "yes (see reason)",
+    "boston": "Mon 9 Nov 9:45 AM"
    }
   ],
   "g2v": {
@@ -1958,8 +1967,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "77dc0fd",
-  "head_boston": "Mon 9 Nov 7:27 AM",
+  "head": "687065d",
+  "head_boston": "Mon 9 Nov 9:45 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2783,7 +2792,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 2141
+    "waiting_min": 2143
    },
    {
     "id": "HO-059",
@@ -2907,7 +2916,7 @@
     "from": "V",
     "to": "G",
     "title": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
-    "stage": "WORKING",
+    "stage": "RETURNED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-068_hc-v2-rooms-board-tunnel-box-office-arch.md",

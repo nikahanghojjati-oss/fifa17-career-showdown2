@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-09 9:46 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-09 9:47 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `77dc0fd` (Mon 9 Nov 7:27 AM Boston time) · 215 messages · 69 hand-offs · 426 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `687065d` (Mon 9 Nov 9:45 AM Boston time) · 216 messages · 69 hand-offs · 428 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-068 · V → G · HC V2 rooms: board, tunnel, box, office, archive, slab, trophies
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+↩️ Returned · picked up 0 min after delivery
 
+- Mon 9 Nov 9:45 AM · Team G · RETURNED · Round 2 preview (Nik's face fixes) at same link v4: https://claude.ai/artifact/7y2q768AyPQ54xRFuwUkNf. Faces: 63 of 150 screen-sizes touched a face before, 0 now (min gap 7px), measured with #1333 c59512ff + #1334 e3109f90 + #1335 ae0fb77f together. Sacked tick shown (CE2PG 191/191). Transfer War wide windows: scene drawn smaller (0.93 at 1920x866, 0.82 at 2560x1000) with plate blurred in side bands (V's short-screen look), in G's JS; plate.js untouched. League sideways keeps no faces. Club pack, Gazette, Prime Pack, CM slab next in a new PR. No wake (Nik's rule).
 - Mon 9 Nov 7:27 AM · Team G · In progress · G got (77f3431e): club pack d88786bf5, gazette + prime pack a69f324c2, Chamber Men result page to house slab (Nik OK). W9 does them after the face-clearance fixes Nik flagged; next preview includes all + measured face sweep. No routine wakes (Nik 11:35 UTC).
 - Mon 9 Nov 7:27 AM · Team V · In progress · Nik OK (9 Nov 7:27 a.m. Eastern): do the Chamber Men page background swap to the house slab (hc-art/slab/).
 - Mon 9 Nov 7:26 AM · Team V · In progress · Chamber Men result page (2D, around the code-drawn goal) still uses the old black marble with bright gold veins. Suggested (pending Nik's yes): swap that page background to the house slab, project-documents/hc-art/slab/ (ENV_SLAB_HC_1X / ENV_SLAB_PHONE_HC / TILE_SLAB_HC_512), same as Settings and Rule Book. The 3D shootout itself stays.
@@ -2496,6 +2497,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-068 RETURNED · Team G → Team V · Mon 9 Nov 9:45 AM Boston time
+
+**HC V2 rooms: board, tunnel, box, office, archive, slab, trophies** · reply needed: yes (see reason)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-068 RETURNED · Team G → Team V · Mon 9 Nov 3:46 AM Boston time
 
