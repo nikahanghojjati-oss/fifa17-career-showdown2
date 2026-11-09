@@ -739,6 +739,22 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp":"f1ba8d0f1c4feba538d2863f56701794c590aacc95c074921cce226054c153f8",
     "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_1X.webp":"ac069f0612bc6f36f5938f217385638ae36663d650e54f8c7b988159c8634b2a",
     "visual-assets/v10_1/plates-v2/ENV_HOME_PLATE_V2_2X.webp":"58e3f15d3c7a802a1dfe6c3e6eed309e6c0f2e089f2ed8eb2235a9b27d6f00e1",
+    // HO-068 (2026-11-09): Team V's handcrafted V2 office room (Transfer War), archive room (Trophy Room, Legacy) and slab
+    // (Settings, Rule Book; ENV_SLAB_HC_1X / ENV_SLAB_PHONE_HC renamed _V1 for F9c, and a 590W cut of the phone slab made
+    // here for Light or Save-Data, since the set has none), claude/project-thread-kxgun9 687598df6.
+    // The plates-v2/v3 plates they replace stay as rollback.
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp":"aa296ae5b206e42f8317c133ff2d2d7c8f1ca6a4f0c5a670b193a9cc8f3b8aa9",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_2X.webp":"f0e395ee4705950485e067f9850032d90ac246c95f62904d77db77ea4ccad75c",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp":"ca81f0f88015c53fa03b3854756efcffd4840ba8b8e36fc1269397f41564be06",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp":"4d53f6dfadad65f334d753352e6a5e6c03b9d32f3700fe6aeeaac61b1c3359de",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp":"445321a35c63f7145c29eefd5d5868b6988427420b33f10b6806592d1615e280",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp":"590cd8025b971200f860ced27ff050e68d271c7e266556902249973b1fb3c7a5",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2.webp":"03867ffa3e292915085ed13353b0f2e21598473eb3baaee291afbb9770837cb2",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2_590W.webp":"a09a57eaedf0824a27cce8b353d477f05fd39e3f3a37574494d641ca14f29201",
+    "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp":"ebed7be9406625bedd032967276a36ac8298f393bef00b9eb83ac0fefac61d22",
+    "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp":"897f5639fe3ac3790594070d0fd55b121094bae70265c9bcc96e7038c152c78c",
+    "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp":"774945d8dee301e6f147f943df9abea1ea3263444853256e6cdf7a8ef2b5ab11",
+    "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp":"76cf5166df341e532ae707615c2daddd49ad8fa83b0db2ca018640658f083e71",
     // HO-068 (2026-11-09): Team V's handcrafted V2 tunnel room (Connect Players, Standings, Rivalry) and box room (League, Club
     // Assignment; TALL for 9:20 phones), from claude/project-thread-kxgun9 687598df6. The plates-v2 plates stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp":"2d68af513bb9c528dea77d99dfdf844c72d2e9cc38a9426d97b169a14eb8b588",
@@ -811,6 +827,19 @@ const V10_IMAGES={
     "visual-assets/v10_1/content/gazette/GZ_THINK_NIK.webp":"e784ea13d111d71952cc1a19ce1b951728d910b8974ec1e941fd0c75dd3316d7",
     "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL.webp":"1087e684e01ea45d1d9d4b88c65bb9a841e9f43295cbf6e8bdafff0c56d46a5c",
     "visual-assets/v10_1/content/gazette/GZ_WIN_NIK.webp":"471173df754656a8d6eef7c1a6cd9a10141cc18809709b44464427775a61dab6",
+    // HO-068 lead queue 2 (2026-11-09): Team V's handcrafted house Gazette photos (claude/project-thread-kxgun9 a69f324c2,
+    // project-documents/hc-art/gazette); js/touchlineGazette.js draws these, the first set above stays as rollback.
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW_HC_V1.webp":"f38de3960516189becabe9f08b7dacb21245f0bcba7cf88b1350c6f2c4e3871d",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_FINAL_HC_V1.webp":"f4d1ab68aa04946d3296a8762ed2c3c164ec538cd7809688ad3d28755a5d2c7d",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_GOLD_HC_V1.webp":"c57e4402d4e090b66a4e0efd2059141e960b728b980c934d9899c9d26ee9be17",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_PRESS_HC_V1.webp":"b111096438431c67e010a71cc5ccfe5c3c5768e40ce19d450f3cf464efadf26d",
+    "visual-assets/v10_1/content/gazette/GZ_LEAD_SEASON_HC_V1.webp":"d1aac5a27985a91d7c979d7b91b62cdbc9756223c8ca2ea4b87a5dbab4027f27",
+    "visual-assets/v10_1/content/gazette/GZ_THINK_DANIEL_HC_V1.webp":"9d1141300ef7ee0df6e7c0aa55a2dd81bf34db8a5ce31122d5550f3a78f8dddd",
+    "visual-assets/v10_1/content/gazette/GZ_THINK_NIK_HC_V1.webp":"ff1895e5747228212f418129fc35f7b65b1b7e01f3004ef304e28bee4dd37c2e",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL_HC_V1.webp":"92952440339be34e7d3ef3bdba5c73e7ff4ff45086ca7701232576255f78a0ae",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_DANIEL_HC_V1_2X.webp":"6dd86855a3f748f8e8ef3f253f9201b6da6f4a74321bbfa27dc227c753f5fb80",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_NIK_HC_V1.webp":"3cef2e6ab3b35036556bdcea766e1cb0e7ab7f099050238f21e87d7cdcd5388a",
+    "visual-assets/v10_1/content/gazette/GZ_WIN_NIK_HC_V1_2X.webp":"47f5b6de67d6d060455427378c913a770ed604a2cc984d637ed1bcf52a251d24",
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp":"3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09",   // r90 Team V HO-059: the café room on Extra (1920 px)
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp":"81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5",   // r90 Team V HO-059: the café room on Ultra and 8K (3840 px)
@@ -830,13 +859,13 @@ const V10_IMAGES={
     "visual-assets/v10_1/icon-guess/assets/card_frame.webp":"03c227e9c0e67af579d396b64dc7a97df07cdde9d3e8f5dce71e053c3b29f52c",
     "visual-assets/v10_1/icon-guess/assets/pack_opening.webp":"c45097ef594fb7385b33c77ed2fc62558c9b150408a947da04cfdf80a2cb5a14",
     "visual-assets/v10_1/icon-guess/assets/pack_sealed.webp":"f01705c412f592eb7a8897ead38f157ba0c9b5cb417bf7109910cc37b81ca10e",
-    "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp":"78edfb430cdfeb928f1d55790dfa713bf7f28621f2697e533330a14b5f2a1620",
-    "visual-assets/v10_1/icon-guess/assets/stage_phone.webp":"084eec9bfa563e740187ab6aa0a7f65ddd53176c0ac0ae452a6ca2cd13833e3d",
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop_V2.webp":"9ef6ff0febfcd69e95ccbeb215492fee3f14032c2013bfa4a7d8515c7d9c350f",   // HO-068: Team V house stage (hc-art/prime-pack a69f324c2)
+    "visual-assets/v10_1/icon-guess/assets/stage_phone_V2.webp":"ec07ef4fde64dc492d28f8d954adfe8a5f69498f1277f306775d23a391c88f3e",
     "visual-assets/v10_1/icon-guess/assets/token_full.webp":"c92d861a2930b3526c6446d4a9f5275cdcdb4bc37cbf6ecd04a55e253adec82e",
     "visual-assets/v10_1/icon-guess/assets/token_spent.webp":"67935464fe41c4fefa56da9280c3ff18fb953127579138981392dae9f1e2ba93",
-    // r90 Team V 4K master of the Prime Pack desktop stage (same picture as stage_desktop.webp, 3840x2160): loaded only above 2560 device px.
+    // r90 4K slot of the Prime Pack desktop stage (HO-068: a 3840x2160 Lanczos cut of the house stage stage_desktop_V2.webp): loaded only above 2560 device px.
     "visual-assets/v10_1/icon-guess/assets/card_shadow_V1.webp":"3cdf20976ecac1e43073008b288cbebb15363b68144da0847477c34aa1180591",   // r90 Prime Pack smooth: the card shadow, blurred once offline
-    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V1.webp":"c6050854d41cb12988607b9071934fe3f0c548c014cacbff5667ed896139f157",
+    "visual-assets/v10_1/icon-guess/assets/stage_desktop_4k_V3.webp":"3d75519892a1807c2f9994f104ae5fe219b05378b734de06a7cc8d3f00d3eb3d",
     // Team G Chamber Men 3D textures and uv sheets (r89, unshipped first generation): pinned like Team V art.
     "visual-assets/v10_1/chamber-men/assets/concrete_512.webp":"dea059b601bdfbedf1e001ccfb9a6bf2f20b318c2036f1275f279dcee0d0446a",
     "visual-assets/v10_1/chamber-men/assets/crowd_atlas_1k.webp":"685af7f6cca295c6ca93ca8f8eb3d4be8c956212e5aebcceadeba04cb76f4191",
@@ -926,8 +955,6 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/icon-guess/assets/card_frame.webp",
   "visual-assets/v10_1/icon-guess/assets/pack_opening.webp",
   "visual-assets/v10_1/icon-guess/assets/pack_sealed.webp",
-  "visual-assets/v10_1/icon-guess/assets/stage_desktop.webp",
-  "visual-assets/v10_1/icon-guess/assets/stage_phone.webp",
   "visual-assets/v10_1/icon-guess/assets/token_full.webp",
   "visual-assets/v10_1/icon-guess/assets/token_spent.webp"
 ]);

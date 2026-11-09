@@ -1201,3 +1201,14 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 #settingsOverlay.v10Settings .settingsUsageDetails[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
 #settingsOverlay.v10Settings .settingsUsageDetails > summary:hover, #settingsOverlay.v10Settings .settingsUsageDetails > summary:focus-visible { color: #f2c45b; }
 #settingsOverlay.v10Settings .settingsUsageDetails > .settingsInfoGrid { grid-template-columns: minmax(0, 1fr); margin-top: 4px; }
+
+/* HO-068 reading slab (Team V's handcrafted V1, visual-assets/v10_1/plates-hc/ENV_SLAB_*): Settings and the Rule Book sit on a
+   plain black marble surface with no people, no banners and no slogans, at every size. The stage plane draws the slab where
+   it showed the V2 picture plates or the old system plate (desktop, sideways, the wide tablet range); upright phones and
+   tablets draw the phone slab (picked in js/rulesSettingsV10.js). The set ships the slab at 1X only, so High and up use the
+   same file. The Settings line "TWO MANAGERS. ONE LEGACY." is not drawn (it keeps its room, so nothing moves). The
+   plates-v2 and shared/plates files stay as the rollback. */
+:is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate {
+  background-image:url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp');
+}
+:is(#app #settingsOverlay.v10Settings,#app ~ #settingsOverlay.v10Settings,body #settingsOverlay.v10Settings) .settingsTagline { visibility:hidden; }

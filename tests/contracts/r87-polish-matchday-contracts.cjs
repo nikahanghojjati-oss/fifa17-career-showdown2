@@ -191,7 +191,8 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   assert.ok(tw.includes(q+'\n  #app #transferChallenge .tw-host .stage {\n    --tp-bevel:'),'the V2 plate block covers every desktop-picture window');
   assert.ok(!/min-width: 1200px\) and \(min-height: 600px\) and \(min-aspect-ratio: 3\/2\)/.test(tw),'no window falls back to the TR2 plate');
   assert.match(tw,/\.transfer-wordmark \{ left: var\(--tw-wm-left, max\(/,'the title can move in from a cropped edge');
-  assert.match(js,/beside=\(436-leftPlate\)\/400,above=Math\.min\(1,\(boardLeft-16-leftPlate\)\/400,\(97-topPlate\)\/\(400\*ratio\)\)/,'the title stays off Daniel\'s hair and the clock board');
+  // HO-068: Team V's office room puts Daniel's hair at x 441, y 65 of the 1672 units (the old plate: x 446, y 103).
+  assert.match(js,/beside=\(431-leftPlate\)\/400,above=Math\.min\(1,\(boardLeft-16-leftPlate\)\/400,\(59-topPlate\)\/\(400\*ratio\)\)/,'the title stays off Daniel\'s hair and the clock board');
   assert.match(tw,/@container \(max-width: 140px\) \{\s*#app #transferChallenge \.tw-host \.rules-line \.stat-l \{ letter-spacing: \.02em; \}/,'small rules cards: the labels lose their tracking, not their gaps');
   assert.match(tw,/\.world > \.rules-card > \.rules-inner\.reg \{ height: auto; min-height: calc\(var\(--k\) \* var\(--h\) \* 1px\);/,'the rules card grows to its note instead of spilling out of its frame');
   assert.ok(!/@container[^{]*\{[^}]*font-size: 1[01](\.\d+)?px/.test(tw),'the rules labels keep the 12 px floor (Codex P1 on #1318)');
