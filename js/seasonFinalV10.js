@@ -2291,9 +2291,20 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:calc(var(--fw-lip) + var(--fw-gap)); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { top:var(--fw-panel); bottom:auto; height:max(192px,calc(100svh - 86px - var(--fw-panel))); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { top:calc(var(--fw-panel) + max(192px,calc(100svh - 86px - var(--fw-panel))) + 20px); bottom:auto; }
+ /* the screen grows to the foot of the exits (54px row and a 12px margin), so on short phones REVIEW SEASON, REMATCH and BACK
+    are reached by scrolling main (the stage clips at its own height); the same sums as on #stage-root above */
+ #app #seasonEntry.seasonScreenV10.v10FinalMode {
+  --fw-tb:102px; --fw-gap:12px; --fw-copy:80px;
+  --fw-ph:max(100svh,calc(100vw * 2096 / 1179),calc((100svh - var(--fw-tb) - 10px) / .802));
+  --fw-lip:calc(var(--fw-tb) + 10px + var(--fw-ph) * .3259);
+  --fw-panel:calc(var(--fw-lip) + var(--fw-gap) * 2 + var(--fw-copy));
+  height:max(100svh,calc(var(--fw-panel) + 192px + 20px + 54px + 12px));
+ }
+ #app #seasonEntry.v10FinalMode #stage-root.v10FinalStage { max-height:none; }
 }
 @media (max-width:760px) and (max-height:720px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root { --fw-tb:82px; }
+ #app #seasonEntry.seasonScreenV10.v10FinalMode { --fw-tb:82px; }
 }
 /* Sideways phones: the board plate fills the left half (cover, 50% 30%). The cup stands on the counter lip (1098/2096)
    between the two managers, and the result (SHOWDOWN CLOSED, the winner and both scores) moves down onto the counter
