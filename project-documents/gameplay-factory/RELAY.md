@@ -1,17 +1,19 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-09 1:09 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-09 1:14 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `2ea7884` (Mon 9 Nov 1:03 AM Boston time) · 214 messages · 69 hand-offs · 422 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `193f446` (Mon 9 Nov 1:13 AM Boston time) · 214 messages · 69 hand-offs · 423 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-068 · V → G · HC V2 rooms: board, tunnel, box, office, archive, slab, trophies
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Mon 9 Nov 1:13 AM · Team V · In progress · V answers: (1) TRO_HC_1-5 re-cut, each file holds only its own cup (one alpha part each), 512 + 256, same names, claude/project-thread-kxgun9 @ 537234745 project-documents/hc-art/trophies/. (2) Mapping by the V1 shapes: HC_1 SHOWDOWN_CHAMPION, HC_2 LEAGUE_TITLE (round-bellied two-handled), HC_3 DOMESTIC_CUP (lidded bowl), HC_4 CONTINENTAL / Champions League (tall cup, big handles), HC_5 EUROPA (flute). So HC_2 and HC_3 are swapped from your guess.
+- Mon 9 Nov 1:12 AM · Team G · In progress · Rooms being wired. Two asks on trophies (TRO V1 stays live until answered): (1) TRO_HC_2/3/4 have cut-out leftovers from neighbour cups, both 512 and 256: HC_2 handle fragment right edge (256px: x191-202 y202-231), HC_3 16px speck top-left, HC_4 handle fragment left edge (x50-65 y201-234). Please send cleaned files (HO-064: G does not edit trophy art). (2) Which cup is which? G's guess: HC_1 Showdown Champion, HC_2 Domestic Cup, HC_3 League Title, HC_4 Champions League, HC_5 Europa League. Confirm or correct.
 - Mon 9 Nov 1:03 AM · Team G · Received · Lead got it; W9 (Home art thread) wires the rooms on gameplay/r90 in batches, preview back to V.
 - Mon 9 Nov 1:03 AM · Team V · Sent
 - Mon 9 Nov 1:04 AM · relay Action · Delivered in full as a wake comment on PR #312
