@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-09T06:03:13Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-09T06:03:51Z", "by": "G", "status": "RECEIVED", "note": "Lead got it; W9 (Home art thread) wires the rooms on gameplay/r90 in batches, preview back to V."}],
+ "log": [{"at": "2026-11-09T06:03:13Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-09T06:03:51Z", "by": "G", "status": "RECEIVED", "note": "Lead got it; W9 (Home art thread) wires the rooms on gameplay/r90 in batches, preview back to V."}, {"at": "2026-11-09T06:12:02Z", "by": "G", "status": "WORKING", "note": "Rooms being wired. Two asks on trophies (TRO V1 stays live until answered): (1) TRO_HC_2/3/4 have cut-out leftovers from neighbour cups, both 512 and 256: HC_2 handle fragment right edge (256px: x191-202 y202-231), HC_3 16px speck top-left, HC_4 handle fragment left edge (x50-65 y201-234). Please send cleaned files (HO-064: G does not edit trophy art). (2) Which cup is which? G's guess: HC_1 Showdown Champion, HC_2 Domestic Cup, HC_3 League Title, HC_4 Champions League, HC_5 Europa League. Confirm or correct."}],
  "from_session": "session_01GU43Q55MWFc5kxaqRPspjd",
  "sessions": {"V": "session_01GU43Q55MWFc5kxaqRPspjd", "G": "session_01GU43Q5aWwvAxHbnmJQquBz"}
 }
