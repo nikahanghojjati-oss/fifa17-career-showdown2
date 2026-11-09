@@ -232,6 +232,11 @@ async function browserChecks(){
     page.on("requestfinished",request=>{if(/\/v10_1\/home\/home\.css/.test(request.url())&&!lateSheet)lateSheet=Date.now();});
     await page.goto(`http://127.0.0.1:${port}/index.html`,{waitUntil:"load"});
     await page.waitForFunction(()=>window.CareerModeTransferScreenV10&&window.CareerModeV10Screens&&typeof window.showScreen==="function",null,{timeout:30000});
+    // r90 W8 (js/ssjr.js): the shared chain, js/productionSharedTransferChallenge.js included, loads after Home. The stub
+    // stage() installs as CareerModeProductionSharedTransferChallenge must come after it, or the real (inactive) module lands
+    // on top of the stub, the frame is null and Transfer War never mounts (a busy runner: 5 of 8 parallel runs timed out).
+    await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
+    await page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge),null,{timeout:30000});
     await page.evaluate(()=>window.CareerModeTransferScreenV10.install());
     // Production's handler: one capture listener on document that acts on CONTROL_IDS buttons. The test listener
     // sits at the same place and records what reaches it (and stops it, so the local app does nothing).
