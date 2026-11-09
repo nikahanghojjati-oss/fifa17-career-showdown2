@@ -23,3 +23,8 @@
 - RC_BOX_V2.png: left x0-105 (oak, coat hook) + centre glass x580-960 (stand, empty block, thin pitch, table front with lip) of reviews/HC/HC09_BOX_D_V2_TRY2B_PICK.png.
 - GUIDE_HC10_BOX_P.png (+ .json): guide_two_boxes.py (now takes LIP from env) with LIP=891 (58%), scale 0.8, Daniel 105,172,580,752 / Nik 960,180,1475,752; plaid, cabinet and the two roof lamp banks above the heads painted cyan first. Faces at about 22% and 64-74% of the width.
 - Desktop lip at y ~752 (73.4%). Roof lamp banks at ~16% sit just above both heads (small and dim; accepted).
+
+## Archive (HC 13 V2 picked: try 1B, 9 Nov 2026)
+- Pick has the plinth lip at y ~585 (57%, ticket said 64%); it hides both men's hands as the pass check asks. Team G gets the exact y.
+- RC_ARCHIVE_V2.png: x0-110 (ball case), x590-945 (hall, niche, plinth), x1455-1536 of the pick.
+- GUIDE_HC14_ARCHIVE_P.png (+ .json): GAP=80 (about one head) LIP=768, scale 0.78, Daniel 110,150,590,582 / Nik 945,160,1455,582; both lit cases painted cyan first. guide_two_boxes.py now reads LIP and GAP from env.
