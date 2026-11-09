@@ -14,3 +14,7 @@
 - HC 07 V2 (tunnel) try 1 accepted 9 Nov (reviews/HC/HC07_TUNNEL_D_V2_TRY1.png); the Rich ball net did not appear (Daniel covers that panel).
 - GUIDE_HC08_TUNNEL_P.png: one box per man from HC 07 V2 (Daniel x 40-530, Nik x 1000-1536, y 120-900), scale 0.71, the bulkhead lamp painted cyan (the phone shows no lamp); guide_two_boxes.py.
 - RC_GROUND_V2.png: the tunnel centre with the mouth onto the ground (x 535-1000), no people.
+
+## Office (HC 11 V2 picked: try 2B, 9 Nov 2026)
+- RC_OFFICE_V2.png: left x0-175 (oak, ball, cup, folders) + right x1320-1536 (olive tree, desk lamp) of reviews/HC/HC11_OFFICE_D_V2_TRY2B_PICK.png, side by side, full height.
+- GUIDE_HC12_OFFICE_P.png (+ .json): one box x170-1330 / y150-665 of the pick at 0.70 scale, x 106-918, hair at ~16%, table top at y 559 (36.4%); cup fragment at the lower-left corner painted cyan. The men fill x 10-90%, so the phone ball and desk lamp have no room beside them: the phone shows the room through the windows, mast and oak only (prompt add-on line given to Nik).
