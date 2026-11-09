@@ -792,7 +792,6 @@
         "^css/homeV10\\.css$",
         "^js/diagnostics\\.js$",
         "^js/onlinePlayerIdentity\\.js$",
-        "^visual-assets/v10_1/shared/art/home-tiles/",
         "^tests/contracts/v10-home-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -3049,6 +3048,33 @@
         "^device-check(?:-chamber)?\\.html$",
         "^docs/QUALITY_LEVELS\\.md$",
         "^tests/contracts/r90\\-quality\\-levels\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-ssjr-defer-contracts.cjs",
+      "patterns": [
+        "^js/ssjr\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/settings\\.js$",
+        "^tests/contracts/r90\\-ssjr\\-defer\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-offline-shell-contracts.cjs",
+      "patterns": [
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^manifest\\.webmanifest$",
+        "^js/app\\.js$",
+        "^js/offlineApp\\.js$",
+        "^css/offline\\.css$",
+        "^js/settings\\.js$",
+        "^css/settings\\.css$",
+        "^assets/icons/.+\\.svg$",
+        "^\\.github/workflows/validate\\-stability\\-lane\\.yml$",
+        "^tests/contracts/r90\\-offline\\-shell\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

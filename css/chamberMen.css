@@ -337,6 +337,13 @@
 #cmStage .cmGoal3d { position: absolute; display: block; pointer-events: none; z-index: 0; border-radius: 3px; background: #0a0806; }
 #cmStage .cmGoal.cm3d-on { position: relative; z-index: 1; background: transparent; }
 #cmStage .cmGoal.cm3d-on > * { display: none; }
+/* r90 Light: the pick clock started before the 3D scene landed. The box holds a loading panel (never the drawn goal) until it does. */
+#cmStage .cmGoalBox.cm3d-wait .cmGoal { visibility: hidden; }
+#cmStage .cmGoalBox.cm3d-wait::after {
+  content: "LOADING CHAMBER MEN"; position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; border-radius: 3px;
+  background: #0b0906 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  color: var(--sd-gold-300, #ffd34d); font: 700 clamp(16px, 2.4vw, 24px)/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .12em;
+}
 
 /* ---------- r89 broadcast layout (Nik 2026-11-04, option A): the score, the pitch across the whole width, the controls under it ----------
    The pitch is a TV picture of the penalty (js/chamberMenScene3d.js). Its height is what the screen has left once the score and
@@ -386,11 +393,14 @@
   #cmStage .cmGoal { height: clamp(160px, calc(100dvh - 428px), 66.7cqw); }
 }
 @media (min-width: 900px) {
-  #cmStage .cmShell { width: min(1180px, 100%); padding-top: 14px; gap: 10px; }
+  /* LOOK L48: on a tall window the stage grows with the height (the pitch keeps 16:9 and the 300 px the score and the
+     controls take), so a 1920x1080 screen has no empty band under the controls; 1180 px stays the narrowest. */
+  #cmStage .cmShell { width: min(max(1180px, calc((100dvh - 300px) * 16 / 9)), 100%); padding-top: 14px; gap: 10px; }
   #cmStage .cmPlay { display: flex; gap: 10px; }
   #cmStage .cmGoalBox { margin: 0; }
   #cmStage .cmGoal { height: clamp(260px, calc(100dvh - 300px), 56.25cqw); border: 1px solid var(--r78-gold-edge, #d4a017); border-radius: 3px; }
   #cmStage .cmGoal3d { border-radius: 3px; }
+  #cmStage .cmGoalBox.cm3d-wait::after { border: 1px solid var(--r78-gold-edge, #d4a017); }
   #cmStage .cmTurn { grid-template-columns: 1fr; }
   #cmStage .cmControls { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, .8fr); gap: 8px 16px; align-items: stretch;
     grid-template-areas: "turn picks clock" "turn actions status" "lines lines lines" "cyl cyl cyl"; padding-top: 0; }

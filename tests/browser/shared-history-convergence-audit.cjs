@@ -17,7 +17,7 @@ const scoreB2={championsLeague:0,leagueTitle:3,domesticCup:0,performanceBonus:1,
 
 async function prepare(page,{role,saveId}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.showScreen==='function',null,{timeout:12000});
   await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultA1,resultB1,resultA2,resultB2,scoreA1,scoreB1,scoreA2,scoreB2})=>{
     await ensureGameplayModules();

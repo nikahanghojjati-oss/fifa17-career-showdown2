@@ -1,25 +1,10 @@
 (function(root){
   "use strict";
 
-  // r90 one quality system for every 3D screen (Nik 2026-11-07: "you should really adapt to your computer. If I'm running
-  // on a Chromebook, it should run great. If someone is on a high-end PC, it should be like much quality, 4K").
-  // Plain script, no imports: the root page and the roulette page (../../../js/gfxTier.js) load the same file.
-  //
-  //   const p=CareerModeGfxTier.profile();                 // before the WebGLRenderer: antialias is fixed at context creation
-  //   const renderer=new THREE.WebGLRenderer({antialias:p.antialias,...});renderer.setPixelRatio(p.pixelRatio);
-  //   await CareerModeGfxTier.calibrate(renderer,()=>renderer.render(scene,camera));   // behind the loading screen (skipped on software GL)
-  //   const gov=CareerModeGfxTier.governor(renderer,{key:"chamber",draw:()=>renderer.render(scene,camera),onChange(p){...}});
-  //     (draw is optional: without it the governor only steps down)
-  //   each frame: gov.frame(now);  between beats: gov.hold(false);  on dispose: gov.end();
-  //   CareerModeGfxTier.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles}));  // ?fps=1 only
-  //
-  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (only when picked: always the screen's native
-  // size, so a 4K or 8K screen is sharp, and up to 2x past it while the buffer stays within 3840x2160), 5 8k (only when
-  // picked, only on a GPU with a 7680 px buffer, never a phone: up to 4x past native within 7680x4320; a lost context or a
-  // refused buffer falls back to ultra, said in the ?fps=1 overlay). Auto never picks ultra or 8k and never renders
-  // above devicePixelRatio. A picked level is held as picked (the governor moves only Auto). Scene knobs (crowd, bloom, shadow
-  // size) read the profile; the governor only moves the pixel ratio, steps down when frames run long, steps up only after
-  // a timed frame shows room, and never goes back to a step that ran slow (no see-saw).
+  // One quality system for every 3D screen (r90): adapt to the device, so a Chromebook runs smooth and a high-end PC gets up to 4K. Plain script, no imports: the root page and the roulette page (../../../js/gfxTier.js) load the same file.
+  // Use: p=profile() before the WebGLRenderer (antialias is fixed at context creation), then setPixelRatio(p.pixelRatio); await calibrate(renderer,draw) behind the loading screen (skipped on software GL); gov=governor(renderer,{key,draw,onChange}) (without draw it only steps down), then gov.frame(now) each frame, gov.hold(false) between beats, gov.end() on dispose; overlay(()=>({calls,tris})) shows only with ?fps=1.
+  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (picked only: native size, up to 2x past it within 3840x2160), 5 8k (picked only, on a GPU with a 7680 px buffer, never a phone: up to 4x past native within 7680x4320; a lost context or refused buffer falls back to ultra, said in the ?fps=1 overlay). Auto never picks ultra or 8k and never renders above devicePixelRatio.
+  // A picked level is held as picked (the governor moves only Auto). Scene knobs (crowd, bloom, shadow size) read the profile; the governor only moves the pixel ratio: down when frames run long, up only after a timed frame shows room, never back to a step that ran slow (no see-saw).
   const KEY="careerModeShowdown.gfxQuality.v1";
   const CHOICES=["auto","light","medium","high","extra","ultra","8k"];
   const NAMES=["light","medium","high","extra","ultra","8k"];
@@ -69,14 +54,20 @@
     try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=4?m:null;}catch(_error){return null;}
   }
 
-  // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once).
+  // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once). r90 MOTION round 2:
+  // the first WebGL context of a page starts the GPU side (735-887 ms on a Chromebook, one long task), so the answer is kept
+  // per browser (same user agent) and later opens read it back; Auto picks exactly what a fresh probe would.
+  const GPU_KEY="careerModeShowdown.gfxGpu.v1";
   function gfxGpuInfo(){
+    const ua=String(root.navigator?.userAgent||"");
+    try{const k=JSON.parse(gfxRead(GPU_KEY)||"null");if(k&&k.ua===ua&&typeof k.name==="string")return {name:k.name,maxBuffer:Number(k.maxBuffer)||0,maxTexture:Number(k.maxTexture)||0};}catch(_error){}
     try{
       const c=root.document.createElement("canvas"),gl=c.getContext("webgl2")||c.getContext("webgl");if(!gl)return {name:"",maxBuffer:0,maxTexture:0};
       const ext=gl.getExtension("WEBGL_debug_renderer_info");
       const name=String(ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER)||"");
       const maxBuffer=Number(gl.getParameter(gl.MAX_RENDERBUFFER_SIZE))||0,maxTexture=Number(gl.getParameter(gl.MAX_TEXTURE_SIZE))||0;
       gl.getExtension("WEBGL_lose_context")?.loseContext();
+      gfxWrite(GPU_KEY,JSON.stringify({ua,name,maxBuffer,maxTexture}));
       return {name,maxBuffer,maxTexture};
     }catch(_error){return {name:"",maxBuffer:0,maxTexture:0};}
   }
@@ -400,8 +391,16 @@
     fallback:gfxFail,fallback8k:gfxFail,
     reset(){cached=null;}};
   // On load: a level the player picked or the Device check measured is marked at once (no GPU probe); the full profile
-  // (one throwaway context for the GPU name) follows when the page is idle.
+  // follows when the page is idle (the GPU name from the kept answer, or, the first time in this browser, from one throwaway
+  // context in a truly idle moment: no 2 s deadline that could land it in the middle of Home's first taps).
   try{const c=gfxChoice(),m=gfxMeasured(),l=c!=="auto"&&c!=="8k"?gfxChoiceLevel(c):c==="auto"&&m?m.level:null,cap=gfxCap();
     if(l!==null){const lv=cap?Math.min(l,cap.level):l,phone=gfxScreenEnv().phone;gfxMarkRoot(lv,Math.max(0,Math.min(4,phone&&lv<2?lv-1:lv)-(gfxSlowNet()?1:0)));}}catch(_error){}
-  try{(root.requestIdleCallback||(f=>root.setTimeout(f,200)))(()=>gfxRemark(),{timeout:2000});}catch(_error){}
+  // r90 MOTION M32: the first probe in a browser also waits until the loading screen has handed over to Home (the same
+  // test js/ssjr.js uses), so its long task never lands under the loading screen or Home's first frame; with a kept answer
+  // the remark costs nothing and follows at the first idle moment.
+  const gfxKept=()=>{try{const k=JSON.parse(gfxRead(GPU_KEY)||"null");return Boolean(k&&k.ua===String(root.navigator?.userAgent||""));}catch(_error){return false;}};
+  const gfxHandedOver=()=>{try{const el=root.document?.getElementById?.("loadingScreen");return !root.careerModeHomeHold&&(!el||el.hidden||el.classList?.contains("hidden"));}catch(_error){return true;}};
+  const gfxIdle=f=>(root.requestIdleCallback||(g=>root.setTimeout(g,200)))(f,{timeout:10000});
+  try{if(gfxKept())gfxIdle(()=>gfxRemark());
+    else{let n=0;const wait=()=>{if(gfxHandedOver()||++n>120)gfxIdle(()=>gfxRemark());else root.setTimeout(wait,250);};wait();}}catch(_error){}
 })(typeof globalThis!=="undefined"?globalThis:this);

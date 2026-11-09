@@ -5,26 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Touchline Gazette (Nik 2026-10-31: "the Gazette is part of r87"). Team V's HO-041 newspaper
-  // (visual-assets/v10_1/content/frontpage.js) on its own page:
-  //   SEASON edition: after a season's Season Results, when the player taps CONTINUE TO SEASON N+1. Its one CONTINUE then
-  //     runs exactly what that tap ran (js/productionSharedMultiSeasonProgression.js continueToNextSeason).
-  //   FINAL edition: after Final Winner, when the player leaves it (BACK TO SHOWDOWN HOME or REMATCH). Its CONTINUE then
-  //     runs that same button (the same click, let through untouched).
-  //   The last season of a Showdown has no CONTINUE TO SEASON tap (Final Winner follows by itself), so it is told by the
-  //   FINAL edition, whose table carries every season.
-  // Every word comes from what the screen already holds (the converged Shared History projection, the Final Winner frame
-  // and the Special Player chip): no Firebase read, no write, nothing sent. Each phone builds its own copy; nothing waits for
-  // the partner. The text is chosen by a hash of the Showdown id, the edition and the season, never by who is looking, so
-  // both phones print the same paper. Equal points are a DRAW (no tiebreak) and the copy is picked only from the situations
-  // that are true (a 1-point win is never a big win, a draw is never a win). Screen words say "Special Player" or "SP".
-  // A paper already read on this phone (its CONTINUE tapped) is not shown again (one small local list,
-  // careerModeShowdown.gazetteSeen.v1). If its files or pictures cannot load within a few seconds the tap simply goes on as
-  // before, so the Gazette can never hold anyone up and never prints a broken picture.
-  // Fable job 2 F2-16: the Special Players line is read from the chip only after the chip and its data have loaded, as one of
-  // the paper's files, so a phone where the chip was still missing at the tap prints the same line as the other phone.
-  // F2-15: a SEASON paper stays up (its CONTINUE busy) until continueToNextSeason has finished or failed; no timer closes it
-  // mid-flight, and a step that fails or stays here gives Season Results back with its own working button.
+  // Touchline Gazette (r87): Team V's HO-041 newspaper (visual-assets/v10_1/content/frontpage.js) on its own page. SEASON edition: after Season Results, on CONTINUE TO SEASON N+1; its CONTINUE runs exactly that tap (js/productionSharedMultiSeasonProgression.js continueToNextSeason). FINAL edition: on leaving Final Winner (BACK TO SHOWDOWN HOME or REMATCH); its CONTINUE lets that same click through. The last season has no CONTINUE TO SEASON tap, so the FINAL edition (every season in its table) tells it.
+  // Every word comes from what the screen already holds (converged Shared History, the Final Winner frame, the Special Player chip): no Firebase read or write, nothing sent, nothing waits for the partner. Copy is chosen by a hash of Showdown id, edition and season (never the viewer), so both phones print the same paper, and only from true situations: equal points are a DRAW (no tiebreak), a 1-point win is never a big win, a draw never a win. Screen words say "Special Player" or "SP".
+  // A paper already read on this phone (CONTINUE tapped) is not shown again (careerModeShowdown.gazetteSeen.v1). If its files or pictures cannot load within a few seconds the tap goes on as before, so it never holds anyone up or prints a broken picture. F2-16: the Special Players line is read from the chip only after the chip and its data have loaded, so both phones print the same line.
+  // F2-15: a SEASON paper stays up (its CONTINUE busy) until continueToNextSeason has finished or failed; no timer closes it mid-flight, and a step that fails or stays here gives Season Results back with its own working button.
   const node=typeof module!=="undefined"&&module.exports;
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const ROLES=Object.freeze(["playerOne","playerTwo"]);

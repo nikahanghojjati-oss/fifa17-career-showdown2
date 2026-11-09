@@ -175,4 +175,26 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   assert.match(tc,/not_started: "READY · MAX 3 SIGNINGS EACH",/,'the status does not repeat the 15 minutes the clock shows');
   ok('L07','the Transfer War clock and the READY status never overlap (r90 LOOK hunt)');
 }
+{
+  // r90 LOOK L33: the live TRANSFER WAR title slid under the top bar on wide windows (1920x906 19 px; 2560x1000 off the window).
+  const tw=read('css/v10Transfer.css'),js=read('js/transferScreenV10.js');
+  assert.match(tw,/top: calc\(var\(--k\) \* 62px \+ var\(--tw-wm-drop, 0px\)\); width: calc\(var\(--k\) \* 400px \* var\(--tw-wm-scale, 1\)\);/,'the title keeps its plate place unless it must drop');
+  assert.match(js,/function tfWordmarkClear\(\)\{[\s\S]*?querySelector\("\.sd-nav-top"\)[\s\S]*?const need=barBottom\+8-\(box\.top\+mark\.offsetTop\*scale\);[\s\S]*?Math\.max\(\.7,1-platePx\/400\)/,'drop only the pixels needed to clear the bar, shrink by as much (70 % floor)');
+  assert.match(js,/wordmarkClear=\(\)=>tfWordmarkClear\(\);root\.addEventListener\("resize",wordmarkClear\);\}\n\s*tfWordmarkClear\(\);/,'after the plate re-frames, on every resize');
+  assert.match(js,/if\(wordmarkClear\)\{root\.removeEventListener\("resize",wordmarkClear\);wordmarkClear=null;\}/,'teardown removes the listener');
+  ok('L33','the Transfer War title never sits under the top bar (r90 LOOK round 2)');
+}
+{
+  // r90 LOOK L35: a Chromebook window (1180x620) showed the old TR2 plate; only windows of 1200x600+ at 3:2 got Team V's V2.
+  const tw=read('css/v10Transfer.css'),js=read('js/transferScreenV10.js');
+  const q='@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {';
+  assert.ok(tw.includes(q+'\n  #app #transferChallenge .tw-host .stage {\n    --tp-bevel:'),'the V2 plate block covers every desktop-picture window');
+  assert.ok(!/min-width: 1200px\) and \(min-height: 600px\) and \(min-aspect-ratio: 3\/2\)/.test(tw),'no window falls back to the TR2 plate');
+  assert.match(tw,/\.transfer-wordmark \{ left: var\(--tw-wm-left, max\(/,'the title can move in from a cropped edge');
+  assert.match(js,/beside=\(436-leftPlate\)\/400,above=Math\.min\(1,\(boardLeft-16-leftPlate\)\/400,\(97-topPlate\)\/\(400\*ratio\)\)/,'the title stays off Daniel\'s hair and the clock board');
+  assert.match(tw,/@container \(max-width: 140px\) \{\s*#app #transferChallenge \.tw-host \.rules-line \.stat-l \{ letter-spacing: \.02em; \}/,'small rules cards: the labels lose their tracking, not their gaps');
+  assert.match(tw,/\.world > \.rules-card > \.rules-inner\.reg \{ height: auto; min-height: calc\(var\(--k\) \* var\(--h\) \* 1px\);/,'the rules card grows to its note instead of spilling out of its frame');
+  assert.ok(!/@container[^{]*\{[^}]*font-size: 1[01](\.\d+)?px/.test(tw),'the rules labels keep the 12 px floor (Codex P1 on #1318)');
+  ok('L35','every desktop window draws the V2 Transfer War plate, title readable and off the faces (r90 LOOK round 3)');
+}
 console.log(`PASS r87 match-day polish contracts (${checks} checks)`);

@@ -5,28 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Prime Pack, the season step (Nik 2026-10-31, renamed and moved to r87 on 2026-11-01; spec
-  // project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md). Once a season, right after Roster Roulette and before the
-  // Transfer Challenge opens, both phones show one masked Icon card (the stand-in page visual-assets/v10_1/icon-guess, Team V's
-  // art later) and reveal it in four stages (Nik 2026-11-01): the position and one seeded stat, then one more stat per stage.
-  // Each manager has two guesses; the first right one the server records wins 4, 3, 2 or 1 Showdown points by its stage (the
-  // sparse primePack result key, season maximum 15). Nobody by the end of stage 4 is a draw and the whole card is shown.
-  // Old Showdowns never play it (js/iconGuess.js eligible, the same boundary as Roster Roulette).
-  //
-  // What the phones share is one small record, rivalries/{rid}/primePackRounds/season_N (Rules: the season-results fragment):
-  // each arrival (server time), each manager's used guesses and namedBy (the winner). The start is the later arrival + 3 s, so both
-  // phones count in together and every stage follows from the server clock the Transfer Challenge already keeps (a reload
-  // lands on the current stage). Fair first guess: guesses are transactions on this one record, so the server orders them;
-  // the first right one to commit sets namedBy and every later write is refused. Its stage, and so its points, comes from
-  // that write's server time (updatedAt), never from a phone clock, and the Rules check the result against it. Which icon it is comes from the Showdown id (no read, never stored); whether a guess is
-  // right is decided here, and the record only says who won. Wrong guesses are never stored: the other phone sees only
-  // the chip count drop.
-  //
-  // Reads: one listener on the round record while the screen is open (each change is one read: two arrivals, up to four
-  // guesses), one transaction read per write. A Showdown the game does not apply to costs nothing.
-  //
-  // The file names keep the working name (iconGuess*, icon-guess) so the three reviewed parts stay where they were reviewed;
-  // everything a player sees says Prime Pack.
+  // Prime Pack season step (r87; spec project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md). Once a season, after Roster Roulette and before the Transfer Challenge, both phones reveal one masked Icon card in four stages (position + one seeded stat, then one more stat per stage). Two guesses each; the first right one the server records wins 4, 3, 2 or 1 by stage (sparse primePack result key, season maximum 15); nobody by stage 4 is a draw and the whole card shows. Old Showdowns never play it (js/iconGuess.js eligible, the same boundary as Roster Roulette).
+  // Shared record rivalries/{rid}/primePackRounds/season_N (Rules: season-results fragment): arrivals (server time), each manager's used guesses, namedBy. The start is the later arrival + 3 s and every stage follows the Transfer Challenge server clock, so a reload lands on the current stage. Guesses are transactions on this record: the first right commit sets namedBy, every later write is refused, and its stage (so its points) comes from that write's server updatedAt, never a phone clock; the Rules check it.
+  // The icon comes from the Showdown id (no read, never stored); rightness is decided here and the record only says who won. Wrong guesses are never stored: the other phone sees only the chip count drop. Reads: one listener while open (two arrivals, up to four guesses) plus one transaction read per write; a Showdown the game does not apply to costs nothing.
+  // File names keep the working name (iconGuess*, icon-guess) so the reviewed parts stay where they were reviewed; everything a player sees says Prime Pack.
   const PAGE="visual-assets/v10_1/icon-guess/index.html";
   const STAGE_ID="igStage",PANEL_ID="igStepPanel",COLLECTION="primePackRounds";
   const DONE_KEY="careerModeShowdown.primePackDone.v1",KEYS_MAX=60;

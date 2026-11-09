@@ -15,7 +15,13 @@
 //      js/gfxTier.js (held during a turn), shaders and textures warmed before ready, baked props, the hit frame uploaded before the spin;
 //   P7 no spoiler (r90): until the hit nothing names or points out the target;
 //   P11 (r90 LOOK L27) no spin before the scene is ready; six spins in a row start and end with no page error;
+//   P12 (r90 LOOK L10/L28) the board is the club's own (crest, no dead tabs, late kits redrawn); side walls with lamps from High up;
+//   P13 (r90 LOOK L29) the revolver's steel reflects its own small studio at the room's size, satin drum with seven flutes;
 //   P9 (r90 LOOK L08/L09) close rest shot on the revolver, words in the bottom strip, the gold button only when there is a tap;
+//   P10 (r90 MOTION M8/M9/M13/M15/M30) local title fonts, Opus cues loaded at once with a WAV fallback, shaders built in batches that
+//      report progress (and the step renews its wait on it), the drum/crane/hammer baked, faded flash sprites skipped, a lost context hands back;
+//   P14 (r90 MOTION M31) ?showcase=1 plays the demo loop on the game's path; ?bench=1 (Device check) still plays it and times frames;
+//   P15 (r90 LOOK L37) on a tall phone the rest picture is shifted down so both board faces clear the title;
 //   P6 (real scene, software WebGL) one fired turn stepped on the scene's own clock: the camera never cuts (every tick's step is small),
 //      from the crane shut to the shot its speed has one peak and then only falls, it is still creeping at the shot, and the drum stops on
 //      the planned chamber. CMS_RRR_SCENE_SKIP_BROWSER=1 skips P6 (no Chromium).
@@ -89,28 +95,28 @@ ok('P4','drum close-up to shot is one motion on the settle clock; the gun yaw st
 
 // P5 frame rate (r90, Nik 2026-11-07: the first open crashed his Chromebook; choppy after). The page draws lean and never stalls mid-turn.
 has(/renderer\.shadowMap\.autoUpdate=false;/,'the shadow map is not redrawn every frame');
-has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(GOV\) GOV\.resize\(\); \}/,'the one static shadow map is drawn when the room is laid out');
+has(/renderer\.setSize\(w,h,false\); renderer\.shadowMap\.needsUpdate=true; if\(GOV\) GOV\.resize\(\); fitUnderTitle\(\); \}/,'the one static shadow map is drawn when the room is laid out');
 lacks(/shadowCool/,'the per-turn shadow redraw');
 has(/gun\.traverse\(o=>\{ if\(o\.isMesh\)\{ o\.castShadow=false;/,'the moving revolver casts no map shadow (its contact shadow is a picture)');
 lacks(/EffectComposer|UnrealBloomPass|OutputPass|makePost|INV_ACES/,'the bloom post chain and its tone-mapping workaround');
-// r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Medium keep one-lobe materials and plain three.js meshes.
+// r90 high quality: the second lobes (lacquer, glaze, velvet) exist only from High up; Light and Balanced keep one-lobe materials and plain three.js meshes.
 assert.equal((html.match(/MeshPhysicalMaterial/g)||[]).length,1,'one place makes a two-lobe material');
-has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;[^\n]*\nfunction mat\(p,hq\)\{ return HQ&&hq\?new T\.MeshPhysicalMaterial\(/,'and only from High up');
+has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3, LIGHT=GFX\.level===0;[\s\S]{0,600}?\nfunction mat\(p,lobe2\)\{ return HIGH_UP&&lobe2\?new T\.MeshPhysicalMaterial\(Object\.assign\(\{map:WHITE1\},/,'and only from High up');
 has(/return lv>=3\?2:lv>=2\?1\.5:1;/,'round parts get more segments only from High up');
-has(/const T=SEGK===1\?THREE:/,'Light and Medium build with plain three.js');
+has(/const T=SEGK===1\?THREE:/,'Light and Balanced build with plain three.js');
 lacks(/new T\.MeshStandardMaterial\(\{[^}]*(clearcoat|sheen)/,'no clearcoat or sheen on a standard material');
 // r90 (Nik 2026-11-08: "dark room for the lower quality, a proper background with tables for the higher, nothing excessive"): the room
 // by level. Light and Balanced build and download nothing behind the table; High adds a dark far wall with glowing lamps (no lights);
 // Extra, Ultra and 8K add the sharp café picture (Team V RR_ROOM_V2, 4K on Ultra up), the café tables and one room light.
-has(/const HQ=GFX\.level>=2, HALL=GFX\.level>=3;/,'High and Extra are the two room steps');
-has(/HALL\?loadImg\(ROOM_4K\?"assets\/RR_ROOM_V2_4K\.webp":"assets\/RR_ROOM_V2_1080\.webp"\):null/,'the café picture loads only on Extra up');
-has(/const ROOM_4K=\(GFX\.assetLevel\?\?GFX\.level\)>=3&&Math\.max\(screen\.width\|\|0,screen\.height\|\|0\)\*\(devicePixelRatio\|\|1\)>2560;/,'the 4K file only above 2560 device pixels');
-has(/if\(HQ\)\{ const lampTex=lampGlassTex\(\)/,'the far wall and its lamps are built only from High up');
-has(/if\(HALL\)\{ const top=mat\(/,'the café tables only from Extra up');
+has(/const HIGH_UP=GFX\.level>=2, EXTRA_UP=GFX\.level>=3, LIGHT=GFX\.level===0;/,'High and Extra are the two room steps');
+has(/EXTRA_UP\?loadImg\(ROOM_BIG\?"assets\/RR_ROOM_V2_4K\.webp":"assets\/RR_ROOM_V2_1080\.webp"\):null/,'the café picture loads only on Extra up');
+has(/const ROOM_BIG=\(GFX\.assetLevel\?\?GFX\.level\)>=3&&Math\.max\(screen\.width\|\|0,screen\.height\|\|0\)\*\(devicePixelRatio\|\|1\)>2560;/,'the 4K file only above 2560 device pixels');
+has(/if\(HIGH_UP\)\{ const lampTex=lampGlassTex\(\)/,'the far wall and its lamps are built only from High up');
+has(/if\(EXTRA_UP\)\{ const top=mat\(/,'the café tables only from Extra up');
 has(/if\(hallLamps\) hallLamps\.visible=false; scene\.fog=null;/,'the picture replaces the far wall and lifts the fog');
 lacks(/RR_ROOM\.jpg|RR_ROOM\.webp/,'the old café plates (the 523 KB jpg and the dimmed, faded WebP)');
 assert.equal((html.match(/new T\.PointLight\(/g)||[]).length,3,'three point lights: the lantern, the one effects light and the room light');
-has(/if\(HALL\)\{ const roomLight=new T\.PointLight\(/,'the room light exists only on Extra up');
+has(/if\(EXTRA_UP\)\{ const roomLight=new T\.PointLight\(/,'the room light exists only on Extra up');
 lacks(/backWall|wallLamp|chandelier|function dado/,'the 2.2.0 hall builders (balcony, ceiling, chandelier: ten lights)');
 lacks(/const floorTex=woodTex\(2048/,'the unused 2048 px wood floor texture');
 lacks(/for\(let i=0;i<d\.length;i\+=4\)\{ const n=\(Math\.random\(\)-\.5\)\*a;/,'the per-pixel grain loop');
@@ -125,9 +131,9 @@ has(/if\(GOV\) GOV\.hold\(false\);/,'and lets go between turns');
 has(/await renderer\.compileAsync\(scene,camera\);/,'every shader compiles behind the loading screen');
 has(/renderer\.initTexture\(t\)/,'every texture is on the GPU before the page is ready');
 assert.ok(html.indexOf('await warmUp();')<html.indexOf('window.__rrReady=true;')&&html.indexOf('window.__rrReady=true;')<html.indexOf('toGame("cms-rr-ready")'),'ready is said only after the warm-up');
-has(/function bake\(root,skip\)/,'static props are baked into one mesh per material');
+has(/function bake\(root,skip,alias\)/,'static props are baked into one mesh per material');
 has(/bake\(table\);/,'the table and everything on it');
-has(/bake\(gun,o=>o===crane\|\|o===hammer\);/,'the revolver frame (the crane, drum and hammer still move)');
+has(/bake\(gun,o=>o===crane\|\|o===hammer,LIGHT\?new Map\(\[\[GM\.gold,GM\.brass\]\]\):null\);/,'the revolver frame (the crane, drum and hammer still move)');
 has(/function boardFrames\(key,pick,fire\)/,'the board\'s hit look is pre-rendered');
 has(/frames=ready&&fire&&ready\.i===b\.bubbles\.indexOf\(pick\)\?ready:boardFrames\(who,pick,fire\); delete prepared\[turn\]; if\(frames&&b\.bubbles\[frames\.i\]\) pick=b\.bubbles\[frames\.i\];/,'pre-rendered before the spin starts (in the game already at setup)');
 has(/function prepareHits\(\)\{ if\(!GAME\|\|turn>0\) return;/,'the game\'s planned shots are drawn while the screen is read');
@@ -165,6 +171,126 @@ has(/d=Math\.min\(2\.3,Math\.max\(\.35,\(PH\?\.42:\.44\)\/hh\)\)/,'its distance 
 has(/fov=lerp\(fovIdle,fovRest,k\); \}/,'the turn eases from the rest lens to its own lens on the crane up');
 has(/spin\.rotation\.y=-2;/,'the revolver waits turned so barrel, drum and grip read');
 ok('P9','the rest shot opens close on the revolver, words only in the bottom strip, the gold button only when there is a tap');
+// P10 (r90 MOTION hunt M8/M9/M13/M15/M30)
+{
+  const step=fs.readFileSync(path.join(ROOT,'js/rosterRouletteStep.js'),'utf8');
+  const pm=JSON.parse(fs.readFileSync(path.join(ROOT,'visual-assets/v10_1/roulette/platemap.json'),'utf8'));
+  const sw=fs.readFileSync(path.join(ROOT,'service-worker.js'),'utf8');
+  // M8: every face is local, preloaded, and precached for offline
+  assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/,'M8 no Google Fonts');
+  for(const f of ['big-shoulders-display-latin-800-normal','big-shoulders-display-latin-900-normal','rye-latin-400-normal']){
+    assert.ok(fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${f}.woff2`)),`M8 ${f} ships`);
+    assert.ok(sw.split(`"visual-assets/v10_1/shared/fonts/${f}.woff2"`).length-1>=4,`M8 ${f} is in the shell, the offline pack, the unversioned list and the added list`);
+  }
+  // M13: Opus cues with a .wav fallback, loaded in parallel, room tone as soon as it lands
+  for(const [name,src] of Object.entries(pm.sfx)){ assert.match(src,/^assets\/sfx\/[a-z_]+\.ogg$/,`M13 ${name} is Opus`); for(const ext of ['ogg','wav']) assert.ok(fs.existsSync(path.join(ROOT,'visual-assets/v10_1/roulette',src.replace(/\.ogg$/,'.'+ext))),`M13 ${name}.${ext} ships`); }
+  const sfxBytes=Object.values(pm.sfx).reduce((n,src)=>n+fs.statSync(path.join(ROOT,'visual-assets/v10_1/roulette',src)).size,0);
+  assert.ok(sfxBytes<400*1024,`M13 the cues weigh ${Math.round(sfxBytes/1024)} KB (limit 400 KB; the WAVs were 1.85 MB)`);
+  has(/await Promise\.all\(Object\.entries\(map\)\.map\(async\(\[name,src\]\)=>/,'M13 every cue loads at once');
+  has(/decode\(src\.replace\(\/\\\.ogg\$\/,"\.wav"\)\)/,'M13 an .ogg that does not decode falls back to its .wav');
+  has(/if\(name==="roomTone"&&on\) roomTone\(true\);/,'M13 the room tone starts the moment it lands');
+  assert.match(sw,/\|svg\|wav\|ogg\|glb\)\$\/i;/,'M13 the worker runtime-caches .ogg like the images');
+  // M9: shaders in batches with progress, and the step renews its wait on progress
+  has(/if\(!renderer\.extensions\.has\("KHR_parallel_shader_compile"\)\)\{/,'M9 batches only where the GPU cannot compile in the background');
+  has(/for\(const b of batches\)\{ b\.forEach\(o=>renderer\.compile\(o,camera,scene\)\); toGame2\("cms-rr-loading"/,'M9 each batch compiles only its own objects (lights and environment from the whole scene) and reports progress');
+  assert.doesNotMatch(html,/o\.visible=keep\.has\(o\)/,'M9 no visibility switching: compile() walks hidden objects too');
+  assert.match(step,/if\(event\.data\.type==="cms-rr-loading"\)renew\(\);/,'M9 progress renews the start wait');
+  // r90 Light (Nik 2026-11-08: "3D light for Chamber Men and RRR is a guarantee"): no 15 s / 20 s give-ups; 45 s of silence, a
+  // 4-minute cap, one fresh rebuild before any card, and only a missing WebGL is remembered for the visit
+  assert.match(step,/MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2;/,'Light: the start waits are long and a stuck page is built again once');
+  assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*run=await rrsSceneTry\(ctx,plan\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
+  assert.match(step,/const why=event\.data\.webgl===false\?"nowebgl":"error";/,'Light: the page says when WebGL itself is missing');
+  assert.match(html,/message:"WebGL is not available",webgl:false\}/,'Light: the no-WebGL report is the only one marked webgl:false');
+  assert.match(step,/function renew\(\)\{if\(armedWait\)\{armedWait\.renew\(\);return;\}/,'Light: progress pings keep the armed wait open too');
+  assert.equal((step.match(/sceneFailedHere/g)||[]).length,4,'M9 the broken-page skip lives only in memory for this visit (never stored)');
+  assert.match(step,/if\(!graced&&Date\.now\(\)-due>1000\)\{graced=true;arm\(2000\);return;\}/,'M9 a late timer (held main thread) looks again before failing');
+  // M15: drum, crane and hammer baked; faded flash sprites not drawn
+  has(/bake\(cyl,o=>o===cyl\.userData\.round\|\|o\.renderOrder>=2\); bake\(crane,o=>o===cyl\|\|o===cyl\.userData\.pointer\); bake\(hammer\);/,'M15 the moving gun parts are baked per piece');
+  has(/applyFx\(\); fxIdle\.forEach\(fxVis\);/,'M15 faded flash sprites are skipped');
+  // M30 + r90 Light: a lost context is rebuilt in place; only one that never comes back (20 s on screen) hands the game back
+  has(/addEventListener\("webglcontextlost",e=>\{ e\.preventDefault\(\); if\(leaving\) return; cancelAnimationFrame\(rafId\); rafId=0; lostOn=true; lostLeft=20000; lostMark=0; lostClock\(\); \},false\);/,'Light: a lost context waits for the browser to give it back');
+  has(/addEventListener\("webglcontextrestored",\(\)=>\{ clearTimeout\(lostTimer\); lostTimer=0; lostOn=false; if\(leaving\|\|lostSent\) return;\n\s*try\{ buildEnv\(\); \}catch\(e\)\{\} renderer\.shadowMap\.needsUpdate=true; if\(window\.__rrReady&&!rafId\) rafId=requestAnimationFrame\(frame\); \},false\);/,'Light: on restore the reflections and the shadow map are made again and the turn clock skips the gap (no last=now())');
+  has(/if\(document\.visibilityState==="hidden"\)\{ if\(lostMark\)\{ lostLeft-=Date\.now\(\)-lostMark; lostMark=0; \} return; \}/,'Light: the 20 s give-up counts only on-screen time');
+  has(/lostSent=true; if\(EMBED\) toGame\("cms-rr-error",\{message:"webgl context lost"\}\)/,'Light: only a context that never comes back hands the game back');
+  has(/pm\.dispose\(\); if\(LOOK\.hdri\) LOOK\.hdri\.dispose\(\);   \/\*/,'Light: the EXR stays in memory so the reflections can be made again');
+  has(/leaving=true; renderer\.dispose\(\); try\{ renderer\.forceContextLoss\(\); \}/,'M30 our own release on the way out is not a loss');
+}
+ok('P10','MOTION: local fonts, Opus cues in parallel with a WAV fallback, batched shader build with progress, baked gun parts; Light: no give-up timers, one rebuild, lost context rebuilt in place');
+// P12 (r90 LOOK L10/L28): the squad board is the club's own (no dead menu tabs, the crest beside the name, the bench count line gone,
+// the kits redrawn when they land late), and from High up the side walls with their lamps give the room depth
+{
+  assert.doesNotMatch(html,/"FORMATIONS"|"INSTRUCTIONS"|"TACTICS"|BENCH · /,'L10 no fake FIFA menu tabs and no bench count line on the board');
+  has(/const crest=crestNow\(club\.club\)/,'L10 the board header draws the club crest');
+  has(/Promise\.all\(\[KITS\.prepare\(\[d\.club,n\.club\]\),crestLoad\(d\.club\),crestLoad\(n\.club\)\]\)/,'L10 the boards are drawn again once kits and crests are ready');
+  has(/const SHIRTS=new Map\(\);/,'L10 MOTION a board shirt is painted once per club, role, size, scale and shadow, then stamped');
+  has(/SHIRTS\.clear\(\); drawBoard\("D",d\); drawBoard\("N",n\);/,'L10 MOTION the stamps are painted again once kits and crests are in');
+  has(/if\(!KITS\) loads\.then\(done=>\{[^\n]*turn===0&&!playing\) setBoards\(d\.club,n\.club\);/,'L10 kits that land after the 6 s wait still reach the boards before the first turn');
+  const hq=html.slice(html.indexOf('if(HIGH_UP){ const lampTex'),html.indexOf('if(EXTRA_UP){ const top=mat('));
+  assert.match(hq,/const sides=new T\.Group\(\);[\s\S]*bake\(sides\); \}$/m,'L28 the side walls and their lamps are built from High up, baked');
+  assert.doesNotMatch(html.slice(html.indexOf('if(EXTRA_UP){ const top=mat(')),/marblePanelTex\(\); sideT/,'L28 the café no longer builds its own side walls');
+}
+ok('P12','L10 board: crest header, no dead tabs, late kits redrawn; L28 side walls with lamps from High up');
+
+// P13 (r90 LOOK L29): the gun lying on the felt mirrored the room's dark ceiling (black slab, black bar, chrome tube); it now reflects a
+// small studio of its own, built once at the room's PMREM size so its shaders stay the same programs, and the drum carries seven flutes
+{
+  has(/function gunStudio\(pm\)\{[\s\S]{0,900}?pm\.fromScene\(s,\.04,\.1,20,\{size:128\}\)\.texture;/,'L29 the gun studio is one PMREM at the room size (512 px EXR / 4 = 128)');
+  has(/\{ const st=gunStudio\(pm\); Object\.entries\(GUN_STEEL\)\.forEach\(\(\[k,v\]\)=>\{ GM\[k\]\.envMap=st;/,'L29 only the gun steel takes the studio');
+  has(/o\.geometry\.dispose\(\); o\.material\.dispose\(\);/,'L29 the studio scene is freed after the bake');
+  has(/const FW=\.24, FD=\.0026, flute=\[\]; for\(let i=0;i<224;i\+\+\)/,'L29 the drum outline is cut with flutes between the chambers');
+  has(/const s=new T\.Shape\(flute\.map\(V2\)\);/,'L29 the drum is extruded from the fluted outline');
+}
+ok('P13','L29 revolver steel reflects its own studio; fluted drum');
+
+// P14 (r90 MOTION M31): the demo loop has its own switch, so a measured run is the game's path; the Device check (?bench=1) still plays it
+{
+  has(/const SHOWCASE=qs\.get\("showcase"\)==="1"\|\|qs\.get\("bench"\)==="1";/,'M31 ?showcase=1 plays the loop without the gfxTier bench; ?bench=1 still does both');
+  has(/if\(SHOWCASE&&!EMBED\)\{ let n=0;/,'M31 the loop never runs inside the game');
+  assert.doesNotMatch(html,/qs\.get\("bench"\)==="1"&&!EMBED/,'M31 the loop no longer keys on bench alone');
+}
+ok('P14','M31 showcase loop on its own switch');
+// P16 (r90 Light, Nik 2026-11-08: Light is built for his Chromebook): one key light and the hemisphere plus the shot flash, the lamp's
+// light painted into the felt, no EXR at Light, particles batched, look-alike materials shared (≤40 draws, ≤12 programs measured)
+{
+  has(/LIGHT=GFX\.level===0;/,'Light flag from the shared quality system');
+  has(/const lantern=LIGHT\?null:new T\.PointLight\(/,'Light: no lamp light; its pool is baked');
+  has(/if\(LIGHT\)\{ const tex=M\.felt\.map, c=tex\.image, x=c\.getContext\("2d"\)/,'Light: the lamp pool is painted into the felt');
+  has(/function loadLookEnv\(\)\{ if\(!T\.EXRLoader\|\|LIGHT\) return Promise\.resolve\(null\);/,'Light: no EXR');
+  has(/scene\.environment=LIGHT\?loungeEnv\(pm\):pm\.fromEquirectangular\(LOOK\.hdri\)\.texture;/,'Light: a small lounge env of its own');
+  has(/function fxBatch\(n,map,blending,order,fleck\)\{/,'Light: particles batched into one draw per kind');
+  has(/const smokeFx=LIGHT\?fxBatch\(36,smokeT,T\.NormalBlending,25,false\):null;/,'Light: smoke batched');
+  has(/const sparkFx=LIGHT\?fxBatch\(40,sparkMat\.map,T\.AdditiveBlending,28,false\):null;/,'Light: sparks batched');
+  has(/const fleckFx=LIGHT\?fxBatch\(40,sparkTex\(\),T\.NormalBlending,26,true\):null;/,'Light: flecks batched');
+  has(/camera\.updateMatrixWorld\(\); fxSync\(\); renderer\.render\(scene,camera\);/,'batches follow the camera every drawn frame');
+  has(/if\(LIGHT\) mergeRounds\(\); \};/,'Light: every live round in one set of meshes');
+  has(/if\(LIGHT\)\{ g\.remove\(easel\); inner\.add\(easel\); bake\(inner,o=>o===face\); \}/,'Light: the easel bakes with its board');
+  has(/M\.glass\.forceSinglePass=true;/,'Light: lamp glass in one pass');
+  has(/hand\.visible=handK>0;/,'the hidden hand is not drawn');
+  has(/const twoSided=m=>LIGHT&&!m\.transparent&&\(m\.userData\.twoSided\|\|m\.side===T\.DoubleSide\);/,'Light: two-sided parts baked with both windings');
+}
+ok('P16','Light: one key light + hemisphere + shot flash, lamp light baked into the felt, no EXR, particles batched, shared look-alike materials');
+// P17 (r90 LOOK L38/L39): before ready the page shows one calm status line, never the bare title over black; the pot stands back left
+// and smaller, off both shooting lines; the dust is fewer, softer motes that live only in the lamp's light
+{
+  assert.match(html,/body:not\(\.ready\) \.top, body:not\(\.ready\) \.mid \{ opacity: 0; visibility: hidden; \}/,'L38 the title and the result line wait for the first frame');
+  has(/<div class="boot" id="boot" role="status">Setting the table…<\/div>/,'L38 one status line while the table is set');
+  has(/requestAnimationFrame\(\(\)=>requestAnimationFrame\(\(\)=>document\.body\.classList\.add\("ready"\)\)\);/,'L38 the page shows itself after the first drawn frame');
+  has(/pg\.position\.set\(-\.46,\.75,-\.5\); pg\.rotation\.y=\.6; pg\.scale\.setScalar\(\.62\);/,'L39 the pot back left, smaller');
+  has(/const dust=\(\(\)=>\{ const n=160,/,'L39 fewer motes');
+  has(/vertexColors:true/,'L39 motes fade away from the lamp');
+}
+ok('P17','L38 a status line before ready; L39 the pot back left and smaller, softer lamp-lit dust');
+
+// P15 (r90 LOOK L37): at rest the picture is lens-shifted down just enough for each board face to clear the title (measured from the real
+// title box); the shift eases out during a turn
+{
+  has(/function fitUnderTitle\(\)\{ restShift=0; const t=document\.querySelector\("\.title"\), r=t&&t\.getBoundingClientRect\(\);/,'L37 the clearance comes from the real title box');
+  has(/need=Math\.max\(need,r\.bottom\+10-Math\.min\(q\[0\]\.y,q\[1\]\.y\)\); \}\);/,'L37 every board face that sits under the title clears it by 10 px');
+  has(/const want=playing\?0:restShift;/,'L37 the shift is only for the rest shot');
+  has(/camera\.setViewOffset\(innerWidth,innerHeight,0,-viewShift,innerWidth,innerHeight\)/,'L37 a lens shift: nothing in the scene moves');
+  has(/camera\.updateProjectionMatrix\(\); \} applyViewShift\(dt\);/,'L37 applied every frame with the lens');
+}
+ok('P15','L37 the boards clear the title on a phone');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){finished=true;console.log(`PASS r89 RRR scene polish contracts: ${checks} checks (browser part skipped).`);return;}

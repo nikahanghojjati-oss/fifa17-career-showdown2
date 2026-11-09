@@ -1404,6 +1404,9 @@
 }
 @media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #trophyRoom .heroPlinth {top:calc(229 * var(--tr-k))}
+  /* r90 W9 (LOOK hunt L42): the lifted pedestal ran 14 units into the cup's 243-unit box, so its foot covered the start of
+     SHOWDOWN CHAMPION (1366x640, 1280x700). The cup's box now ends 3 units above the pedestal. */
+  #app #trophyRoom .heroTrophyPicture {height:calc(226 * var(--tr-k))}
 }
 `;
 

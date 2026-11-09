@@ -22,6 +22,13 @@ function getSettingsAssetRevision(){
     return meta && meta.content ? meta.content.trim() : "Unknown build";
 }
 
+function getSettingsVersionText(){
+    const version = getSettingsApplicationVersion();
+    const build = getSettingsAssetRevision();
+    const suffix = build.startsWith(`${version}-`) ? build.slice(version.length + 1) : build;
+    return suffix && suffix !== "Unknown build" ? `v${version} · ${suffix}` : `v${version}`;
+}
+
 function getSettingsApplicationVersion(){
     return typeof APP_VERSION === "string" ? APP_VERSION : "1.2.1";
 }
@@ -134,6 +141,8 @@ function refreshSettingsPartnerMeter(){
         const seasons = settingsContent.querySelector(".settingsSeasonsLeft");
         if(reads){ reads.textContent = getSettingsReadsTodayText(); }
         if(seasons){ seasons.textContent = getSettingsSeasonsLeftText(); }
+        const plain = settingsContent.querySelector(".settingsOnlinePlay");
+        if(plain){ plain.textContent = getSettingsOnlinePlayText(); }
     }, () => {});
 }
 
@@ -459,6 +468,26 @@ function getSettingsSeasonsLeftText(){
     }
 }
 
+// r90 W9 (LOOK hunt L14): the free daily quota in the player's words. The count comes from the same seasons-left estimate as
+// the DETAILS line; "plenty" is ten seasons or more, the longest Showdown.
+function getSettingsOnlinePlayText(){
+    try{
+        const budget = window.CareerModeFirestoreBudget;
+        const left = budget?.seasonsLeftToday?.();
+        if(!left || !Number.isFinite(left.seasons)){ return ""; }
+        const n = Math.max(0, Math.floor(left.seasons));
+        if(n >= 10){ return "Plenty left"; }
+        if(n >= 3){ return `Enough for about ${n} more seasons`; }
+        if(n >= 1){ return `Running low: about ${n} more ${n === 1 ? "season" : "seasons"}`; }
+        // Zero whole seasons is not "used up" while some free use is left and play is not paused: the count rounds down.
+        const paused = Boolean(budget?.paused?.());
+        if(!paused && Number(left.billedLeft) > 0){ return "Running low: less than one season left"; }
+        return "Used up for today, back at 3 a.m. Boston time";
+    }catch(_error){
+        return "";
+    }
+}
+
 function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
@@ -467,16 +496,26 @@ function createApplicationPanel(){
     );
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
-        createSettingsInfoRow("APPLICATION VERSION", `v${getSettingsApplicationVersion()}`),
-        createSettingsInfoRow("BUILD", getSettingsAssetRevision()),
+        // r90 W9 (LOOK hunt L45): one VERSION row; the build suffix (r89, r90...) rides on it for support, no separate BUILD row.
+        createSettingsInfoRow("VERSION", getSettingsVersionText()),
         createSettingsInfoRow("CAREER DATA", "Automatic Showdown storage"),
         createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
-    const readsToday = getSettingsReadsTodayText();
-    if(readsToday){ info.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday, "settingsReadsToday")); }
-    const seasonsLeft = getSettingsSeasonsLeftText();
-    if(seasonsLeft){ info.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft, "settingsSeasonsLeft")); }
+    // r90 W9 (LOOK hunt L14): one plain line for the player; the free-quota numbers stay one tap away under DETAILS.
+    const onlinePlay = getSettingsOnlinePlayText();
+    if(onlinePlay){ info.appendChild(createSettingsInfoRow("ONLINE PLAY TODAY", onlinePlay, "settingsOnlinePlay")); }
     panel.appendChild(info);
+    const readsToday = getSettingsReadsTodayText();
+    const seasonsLeft = getSettingsSeasonsLeftText();
+    if(readsToday || seasonsLeft){
+        const details = createSettingsElement("details", "settingsUsageDetails");
+        const summary = createSettingsElement("summary", "", "DETAILS");
+        const grid = createSettingsElement("div", "settingsInfoGrid");
+        if(readsToday){ grid.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday, "settingsReadsToday")); }
+        if(seasonsLeft){ grid.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft, "settingsSeasonsLeft")); }
+        details.append(summary, grid);
+        panel.appendChild(details);
+    }
     const updateState = getSettingsOfflineState();
     const update = createSettingsElement("button", "menuButton settingsApplicationUpdateButton", updateState.updateActionLabel || "UPDATE TO LATEST VERSION");
     update.type = "button";
@@ -870,6 +909,7 @@ function sweepSettingsShowdownDrafts(){
    close panel says what to do (reconnect, then it saves). The active Showdown and its drafts stay until that close lands. */
 async function finishSettingsSackedShowdown(name){
     closeSettings(false);
+    await window.CareerModeSharedJourneyReady?.();
     const close = window.CareerModeProductionSharedTerminalClose;
     let phase = null;
     try{

@@ -206,7 +206,7 @@ check("R4c an r79-only shell cache survives r80 activation and stays the rollbac
   assert.equal(diag.previousRevision,"2.1.0-r88");
   assert.equal(diag.previousShellPaths.length,270,"r88 shipped 270 shell paths");
   assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r88's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"],"2.2.0 removes only three.js r128 (replaced by r187) and, from r90, the retired local analytics engine");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","js/analytics.js","visual-assets/v10_1/roulette/vendor/three-r128.min.js"],"2.2.0 removes only three.js r128 (replaced by r187) and, from r90, the retired local analytics engine and the two local Barlow Condensed latin faces the font sheet now loads from Team V's byte-identical shared copies");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover

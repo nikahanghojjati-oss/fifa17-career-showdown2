@@ -5,23 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
 
-  // r88 Prime Pack (named by Nik 2026-11-01; earlier working name Prime Pack; Nik 2026-10-31, spec project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md):
-  // once a season, after Roster Roulette and before the transfer window, both managers race to name a male outfield Legend,
-  // Icon, FUT Hero or Hall of FUT player from a card that reveals itself in four stages (Nik 2026-11-01): stage 1 shows the
-  // position and one random face stat, and each later stage adds one more stat. The first right guess the server records
-  // wins 4 Showdown points in stage 1, 3 in stage 2, 2 in stage 3 and 1 in stage 4; nobody by the end of stage 4 is a draw
-  // and the whole card is shown. Each manager has two guesses a card (default until Nik says otherwise).
-  //
-  // This module is the round logic only, with no IO, no clock and no randomness of its own:
-  //  - the draw: which icon each season and the stat order, read from the Showdown's own id like js/marqueePlayer.js and
-  //    js/rosterRoulette.js, so both phones agree with zero reads or writes, and no icon repeats in one Showdown;
-  //  - the reveal clock: which stage ("beat") is showing at a given server time, from the round's server start time; both
-  //    phones show each stage at the same server moment, and a guess counts for the stage its server write time falls in;
-  //  - the round record: the one small shared record per season round (arrivals, chips used, the winner). applyGuess is
-  //    the pure step the sync layer runs inside its transaction, so the first right guess the server records wins and
-  //    phone clocks never decide it. Wrong guesses are never stored: only the chip count moves.
-  // Name matching and the icon list live elsewhere (js/iconNames.js, data/icons.js); the round speaks in list indexes
-  // and icon ids only.
+  // Prime Pack round logic (r88; spec project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md): once a season, after Roster Roulette and before the transfer window, both managers race to name a male outfield Legend, Icon, FUT Hero or Hall of FUT player from a card revealed in four stages (stage 1: position and one random face stat; each later stage adds one stat).
+  // The first right guess the server records wins 4 Showdown points in stage 1, 3 in stage 2, 2 in stage 3 and 1 in stage 4; nobody by the end of stage 4 is a draw and the whole card shows. Each manager has two guesses a card.
+  // Pure (no IO, clock or randomness of its own): the draw (icon and stat order from the Showdown id, like js/marqueePlayer.js and js/rosterRoulette.js: zero reads or writes, no repeat in a Showdown); the reveal clock (the stage showing at a server time, from the round's server start; a guess counts for the stage its server write time falls in); the round record (arrivals, chips used, winner).
+  // applyGuess is the pure step the sync layer runs inside its transaction, so the first right guess the server records wins and phone clocks never decide it; wrong guesses are never stored, only the chip count moves. Name matching and the icon list live in js/iconNames.js and data/icons.js; the round speaks in list indexes and icon ids only.
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]); // playerOne = Daniel, playerTwo = Nik (app-wide convention)
   const STATS=Object.freeze(["PAC","SHO","PAS","DRI","DEF","PHY"]);

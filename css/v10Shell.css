@@ -1,7 +1,9 @@
 /* JOB-24: room for Team V's navigation bar around the existing app shell. Looks only; nothing is hidden or moved
-   out of the page flow. html[data-nav] is set by js/v10Screens.js: hub | hidden (no phone bar) | none (Loading). */
+   out of the page flow. html[data-nav] is set by js/v10Screens.js: hub | hidden (no phone bar) | none (Loading).
+   r90 W8 (Club CLS): the bar's 52 px stays reserved under "none" too, so a screen laid out under the loading
+   screen or the Reus Gate is already in its final place when the bar comes back. Nothing jumps. */
 @media (min-width: 901px) {
-  html[data-nav="hub"] #app, html[data-nav="hidden"] #app { padding-top: var(--sd-nav-top-h, 52px); }
+  html[data-nav="hub"] #app, html[data-nav="hidden"] #app, html[data-nav="none"] #app { padding-top: var(--sd-nav-top-h, 52px); }
 }
 @media (max-width: 900px) {
   html[data-nav="hub"] #app { padding-bottom: var(--sd-nav-bottom-space, 56px); }
@@ -106,10 +108,11 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
 /* Old analytics.css styles .trophyShelf (a light #e9eef0 band), a class name Team V's Trophy Room reuses. */
 .careerScreenV10 .trophyShelf { background: none; }
 
-/* Nik (2026-10-05): the corner Settings button uses Team V's premium gear from the Home Settings tile, not the flat glyph. */
+/* Nik (2026-10-05): the corner Settings button shows the same gear as the Home Settings tile, not the old flat glyph.
+   r90 W9 (LOOK hunt L12): that gear is the outline of the Home tiles' struck-medal gear (js/homeScreensV10.js), flat gold. */
 .sd-nav .sd-nav-gear svg { position: absolute; width: 0; height: 0; overflow: hidden; }
-.sd-nav .sd-nav-gear::before { content: ""; width: 34px; height: 34px; background: url("../visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1_256W.webp") center / contain no-repeat; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); transition: filter .15s ease, transform .15s ease; }
-.sd-nav .sd-nav-gear:hover::before, .sd-nav .sd-nav-gear:focus-visible::before, .sd-nav .sd-nav-gear[aria-current="page"]::before { filter: drop-shadow(0 0 6px rgba(240,190,60,.55)) brightness(1.12); }
+.sd-nav .sd-nav-gear::before { content: ""; width: 30px; height: 30px; background: var(--sd-gold-500, #F2C45B); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill-rule='evenodd' stroke='%23000' stroke-width='.8' stroke-linejoin='round' d='M19.47 10.33L20.38 6.16L27.62 6.16L28.53 10.33L30.46 11.13L34.06 8.83L39.17 13.94L36.87 17.54L37.67 19.47L41.84 20.38L41.84 27.62L37.67 28.53L36.87 30.46L39.17 34.06L34.06 39.17L30.46 36.87L28.53 37.67L27.62 41.84L20.38 41.84L19.47 37.67L17.54 36.87L13.94 39.17L8.83 34.06L11.13 30.46L10.33 28.53L6.16 27.62L6.16 20.38L10.33 19.47L11.13 17.54L8.83 13.94L13.94 8.83L17.54 11.13ZM24 18.6A5.4 5.4 0 1 0 24 29.4 5.4 5.4 0 1 0 24 18.6Z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill-rule='evenodd' stroke='%23000' stroke-width='.8' stroke-linejoin='round' d='M19.47 10.33L20.38 6.16L27.62 6.16L28.53 10.33L30.46 11.13L34.06 8.83L39.17 13.94L36.87 17.54L37.67 19.47L41.84 20.38L41.84 27.62L37.67 28.53L36.87 30.46L39.17 34.06L34.06 39.17L30.46 36.87L28.53 37.67L27.62 41.84L20.38 41.84L19.47 37.67L17.54 36.87L13.94 39.17L8.83 34.06L11.13 30.46L10.33 28.53L6.16 27.62L6.16 20.38L10.33 19.47L11.13 17.54L8.83 13.94L13.94 8.83L17.54 11.13ZM24 18.6A5.4 5.4 0 1 0 24 29.4 5.4 5.4 0 1 0 24 18.6Z'/%3E%3C/svg%3E") center / contain no-repeat; transition: background-color .15s ease; }
+.sd-nav .sd-nav-gear:hover::before, .sd-nav .sd-nav-gear:focus-visible::before, .sd-nav .sd-nav-gear[aria-current="page"]::before { background: var(--sd-gold-300, #FFE08A); }
 @media (prefers-reduced-motion: reduce) { .sd-nav .sd-nav-gear::before { transition: none; } }
 
 /* r78 (HO-029): the sign-in / connection card (js/onlinePlayerIdentity.js) is Team V's marble error screen now
@@ -720,4 +723,16 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
     background-size:auto 60svh;
     background-position:calc(50% + 40px) top;
   }
+}
+
+/* r90 W9 (LOOK hunt L36): the 5x4 px padlock on locked tabs read as an unread dot. The dimmed label and the
+   "finish this step first" toast on tap say the tab is locked; no marker. The phone MUSIC tab keeps its own ::before face. */
+.sd-nav[data-locked="true"] .sd-nav-tab:not([aria-current="page"]):not(.cmsMusicTab)::before { content: none; }
+
+/* r90 W9 (LOOK hunt L42): in short desktop windows (700 px high or less, e.g. a 1180x620 Chromebook window) the cup's
+   foot ran into the SHOWDOWN CHAMPION plinth and covered its first word. The cup's box now ends 3 px above the plinth
+   (the plinth is 27% of the ceremony, at least 42 px), so the cup stands whole on it at every short size; taller windows
+   keep Team V's layout. */
+@media (max-height: 700px) and (min-width: 761px) {
+  html[data-v10-screen="trophyRoom"] #trophyRoom .heroCeremony .heroTrophyPicture { height: auto; bottom: max(calc(27% + 3px), 45px); }
 }

@@ -69,13 +69,17 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     const n=b.readUInt32LE(12);return {size:b.length,json:JSON.parse(b.toString("utf8",20,20+n))};};
   for(const tier of ["desktop","phone"]){
     const clips=glb(`anims_${tier}.glb`).json.animations.map(a=>a.name);
-    for(const c of ["idle","offensiveIdle","gkIdle","walk","penaltyKick","run","jog","strikeJog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch","gkCatch1","gkCatch2"])assert.ok(clips.includes(c),`anims_${tier} has clip ${c}`);
+    // r90: the clips the scene plays. idle, walk, run, strikeJog and gkCatch went (nothing played them); the reactions
+    // victory2, cheer, salute and defeated came from Nik's Mixamo files (tools/chamber-men-players/clips_r90.json).
+    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated"];
+    assert.deepEqual(clips.slice().sort(),PLAYED.slice().sort(),`anims_${tier} holds exactly the played clips`);
     assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
   }
   // v2: one shared clip file per tier plus one light body file per body; same bones, kit materials, hips scale for clips
-  for(const [tier,amax,bmax] of [["desktop",1.6e6,4.8e6],["phone",1.4e6,2.4e6]]){
+  // r90 M1: meshopt-packed (tools/chamber-men-players/pack-meshopt.mjs), so the caps came down about 45%.
+  for(const [tier,amax,bmax] of [["desktop",.7e6,3.4e6],["phone",.65e6,1.45e6]]){
     const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
-    assert.equal(a.json.animations.length,18,`anims_${tier} has the 18 clips`);
+    assert.equal(a.json.animations.length,17,`anims_${tier} has the 17 clips`);
     for(const id of ["remy","ch38","ch42"]){
       const {size,json}=glb(`body_${id}_${tier}.glb`);
       assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
@@ -115,6 +119,12 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   const sandbox={};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(kit,sandbox);
   const files=Object.values({...sandbox.CareerModeChamberMenStadium.files.both});
   assert.ok(files.every(f=>!/^board_/.test(f)),"no board file in the load set");
+    // r90 LOOK round 2 (L02, L30): stair aisles and empty patches, fans of their own size and some standing, and the home
+  //    supporters' flags on the front rail either side of the goal (cloth, no lettering), merged into one draw.
+  {const st=fs.readFileSync(path.join(ROOT,"js/chamberMenStadium3d.js"),"utf8");
+   assert.ok(/const aisle=\(p,si\)=>/.test(st)&&/if\(aisle\(s\.p,s\.si\)\|\|patch\(s\.p,s\.si\)\)continue;/.test(st)&&/if\(aisle\(v,s\.si\)\|\|patch\(v,s\.si\)\)continue;/.test(st),"aisles and empty patches on the bowl and the built stands");
+   assert.ok(/dummy\.scale\.set\(f\.sx,f\.sy,1\)/.test(st)&&/up=rnd\(\)<\(awayEnd\?\.55:\.12\)/.test(st),"each fan his own size, some standing");
+   assert.ok(/m\.name="cmBanner";m\.userData\.bake=true;/.test(st)&&!/fillText/.test(st.slice(st.indexOf("// ---------- banners"),st.indexOf("// ---------- floodlight flares"))),"flags merged, no lettering");}
   ok("S6","night stand, club-colour crowd, run-time ad boards with crests and no cut or CMS lettering");
 }
 // S7 r90 big stadium (High and above): Innerscene "Football stadium" (CC0) trimmed by gen_bowl.py into one 1k GLB that only
@@ -125,7 +135,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.equal(b.toString("ascii",0,4),"glTF");assert.ok(b.length<=2.6e6,`bowl ${b.length} <= 2.6 MB`);
   const j=JSON.parse(b.toString("utf8",20,20+b.readUInt32LE(12)));
   assert.match(j.asset.copyright,/Innerscene.*CC0/,"CC0 source named in the file");
-  assert.deepEqual(j.extensionsRequired,["EXT_texture_webp"]);
+  assert.deepEqual(j.extensionsRequired.slice().sort(),["EXT_meshopt_compression","EXT_texture_webp"]);
   assert.ok(j.images.every(i=>i.mimeType==="image/webp"),"WebP textures");
   assert.ok(!JSON.stringify(j.materials).includes("KHR_materials_transmission"),"no transmission pass");
   for(const gone of ["Pitch","Goals","Perimeter boards","Dugouts","Gates"])assert.ok(!j.meshes.some(m=>m.name===gone),`${gone} trimmed`);
@@ -142,5 +152,52 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(/for\(const st of stands\)st\.visible=false;/.test(kit)&&/bowl\.userData&&bowl\.userData\.cmRows/.test(kit),"the bowl replaces the built stands and seats the crowd");
   assert.ok(kit.includes("group.traverseVisible(x=>{if(x.isMesh&&x.userData.bake)"),"the bake merges only what shows (the hidden stands' lamps stay out)");
   ok("S7","big stadium: CC0 bowl, 1k WebP, High and above only, fallback to the built stands, crowd on its rows");
+}
+// S8 r90 draw calls (High at 80 or fewer): static pieces sharing a material are one draw, placed exactly where they were:
+//    the bowl by material, the goal's posts and bar, stanchions, ground bars and far goal, both side nets in one single-pass
+//    draw, the spots inside the chalk lines.
+{
+  const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read(ENGINE),sandbox);
+  const T=sandbox.THREE||sandbox.window.THREE;
+  const sb={};sb.globalThis=sb;vm.createContext(sb);vm.runInContext(kit,sb);const merge=sb.CareerModeChamberMenStadium.merge;
+  const space=new T.Group();space.position.set(3,0,-2);space.rotation.y=.7;
+  const mat=new T.MeshStandardMaterial(),a=new T.Mesh(new T.BoxGeometry(1,2,3),mat),b=new T.Mesh(new T.CylinderGeometry(.1,.1,2,8),mat),c=new T.Mesh(new T.BoxGeometry(1,1,1),mat);
+  a.position.set(1,2,3);b.rotation.z=Math.PI/2;b.position.set(-1,0,0);c.scale.set(-1,1,1);c.position.set(0,0,4);b.castShadow=a.castShadow=c.castShadow=true;
+  for(const m of [a,b,c])space.add(m);space.updateMatrixWorld(true);
+  const want=[],tri=[];const v=new T.Vector3(),n=new T.Vector3();
+  for(const m of [a,b,c]){const g=m.geometry,ix=g.index;for(let i=0;i<ix.count;i+=1){want.push(v.fromBufferAttribute(g.attributes.position,ix.getX(i)).applyMatrix4(m.matrixWorld).clone());}
+    for(let i=0;i<ix.count;i+=3){const p=[0,1,2].map(k=>v.fromBufferAttribute(g.attributes.position,ix.getX(i+k)).applyMatrix4(m.matrixWorld).clone());
+      const fn=new T.Vector3().subVectors(p[1],p[0]).cross(new T.Vector3().subVectors(p[2],p[0])).normalize();
+      if(m.matrixWorld.determinant()<0)fn.negate();tri.push(fn);}}
+  const one=merge(T,[a,b,c],space);one.updateMatrixWorld(true);
+  assert.equal(space.children.length,1,"the pieces leave, the merged mesh joins their parent");
+  assert.ok(one.castShadow&&one.material===mat,"same material and shadow role");
+  const g=one.geometry,ix=g.index;assert.equal(ix.count,want.length,"every triangle kept");
+  for(let i=0;i<ix.count;i+=1){const p=v.fromBufferAttribute(g.attributes.position,ix.getX(i)).applyMatrix4(one.matrixWorld),t=i-i%3;
+    assert.ok([0,1,2].some(k=>p.distanceTo(want[t+k])<1e-5),"every corner where it was");}
+  for(let i=0;i<ix.count;i+=3){const p=[0,1,2].map(k=>v.fromBufferAttribute(g.attributes.position,ix.getX(i+k)).applyMatrix4(one.matrixWorld).clone());
+    n.subVectors(p[1],p[0]).cross(new T.Vector3().subVectors(p[2],p[0])).normalize();assert.ok(n.dot(tri[i/3])>.999,"every face still faces the same way (mirrored pieces too)");}
+  const code=kit.replace(/\/\/[^\n]*/g,"");
+  assert.ok(/bowl\.traverse\(x=>\{if\(x\.isMesh&&!Array\.isArray\(x\.material\)\)\{if\(!by\.has\(x\.material\)\)/.test(code)&&/const one=stadiumMerge\(T,list,bowl\)/.test(code),"the bowl is one draw per material");
+  for(const name of ["cmPosts","cmStanchions","cmGroundBars","cmNetSides"])assert.ok(code.includes(`"${name}"`),`${name} is one draw`);
+  assert.ok(/stadiumMerge\(T,fp,far\)/.test(code),"the far goal is one draw");
+  assert.ok(/sideMat\.forceSinglePass=true/.test(code)&&/back=add\(backGeo,netMat,goal\)/.test(code),"the flat side nets draw in one pass; the curved back net keeps both");
+  assert.ok(!/CircleGeometry/.test(code)&&/for\(const z of \[SPOT_Z,PITCH_L-SPOT_Z,PITCH_L\/2\]\)\{const r=z===SPOT_Z\?\.1:\.15/.test(code),"the spots are drawn with the chalk lines");
+  ok("S8","r90 draw calls: bowl, goal, far goal, side nets and spots merged by material, every corner where it was");
+}
+// S9 r90 Light draw budget (o.lean, Light only): stand pieces baked per material (shadow role kept), ground bars with the
+//    stanchions, both goals' posts one draw, the back net in one pass, the boards from one atlas, flares and halo one Points
+//    draw, untextured flat colours on a 1x1 white map, plain standard posts. Other levels keep every piece as before.
+{
+  const code=kit.replace(/\/\/[^\n]*/g,"");
+  assert.ok(/X\.userData\.bake="stand"/.test(code)||/\.userData\.bake="stand"/.test(code),"stand pieces are marked for the bake");
+  assert.ok(/const shade=x\.userData\.bake!=="stand"\|\|x\.receiveShadow;x\.userData\.shade=shade;const key=`\$\{x\.material\.uuid\}\|\$\{shade\}`;/.test(code),"a stand piece keeps whether it takes shadows");
+  assert.ok(/if\(o\.lean\)stadiumMerge\(T,frame\.concat\(bars\),goal\)\.name="cmStanchions";\s*else\{stadiumMerge\(T,frame,goal\)\.name="cmStanchions";stadiumMerge\(T,bars,goal\)\.name="cmGroundBars";\}/.test(code),"ground bars join the stanchions at Light only");
+  assert.ok(/if\(o\.lean\)\{group\.updateMatrixWorld\(true\);stadiumMerge\(T,pb\.concat\(fp\),goal\)\.name="cmPosts";group\.remove\(far\);\}/.test(code),"both goals one draw at Light");
+  assert.ok(/if\(o\.lean\)\{const one=keep\(netMat\.clone\(\)\);one\.forceSinglePass=true;back\.material=one;\}/.test(code),"the back net in one pass at Light");
+  assert.ok(/mat\.customProgramCacheKey=\(\)=>"cmBoardAtlas";/.test(code)&&/atlas\.uRow\.value\.set\(/.test(code),"boards from one atlas, the 9 s swap a uniform");
+  assert.ok(/m\.customProgramCacheKey=\(\)=>"cmFlares";/.test(code)&&/gl_PointSize = size \* aCmSize;/.test(code),"flares and halo one draw at Light");
+  assert.ok(/const Post=o\.lean\?T\.MeshStandardMaterial:T\.MeshPhysicalMaterial/.test(code),"plain standard posts at Light, clearcoat above");
+  ok("S9","r90 Light draw budget: lean stadium merges and shared shaders at Light only");
 }
 console.log(`PASS r89 Chamber Men stadium kit (${results.length} checks)`);

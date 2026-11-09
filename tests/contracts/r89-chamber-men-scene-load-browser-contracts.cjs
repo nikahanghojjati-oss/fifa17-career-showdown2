@@ -4,8 +4,9 @@
 // The real step (js/chamberMenStep.js) on the real app page, fed an in-memory record, with a stand-in 3D scene whose mount
 // is held back (as on a slow phone or throttled network):
 //   SL1 the rival has locked in, so the 10 s pick clock runs while the scene is still loading (mount held 8 s): the stage
-//       shows at once with the SVG goal and the full shared clock (never "0:05" on first paint); the late scene is thrown
-//       away (disposed, never mounted over the SVG);
+//       shows at once with the full shared clock (never "0:05" on first paint) and the picks live; r90 Light (Nik
+//       2026-11-08, "3D light for Chamber Men is a guarantee"): the goal box holds the marble loading panel, never the SVG
+//       goal, and the late scene takes the box, synced to the lineup on screen (never disposed);
 //   SL2 this manager has locked in, the rival locks in while the scene loads (mount held 2.5 s), so the kick is revealed on
 //       the SVG first: when the scene mounts it takes that kick's lineup (the shooter's club takes it, the rival's keeps)
 //       and that kick's shot, dive and result at its end pose (animate false), matching the words on screen.
@@ -45,10 +46,11 @@ async function run({mode}){
   void step.run({rivalryId:rid,managerRole:'playerOne',season:2,confirmedAtMs:CM.fromMs,clubs},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
   if(mode==='reveal')setTimeout(()=>{doc={...doc,kicks:{playerOne:'LRMMRLML',playerTwo:'RLLMRRMR'},revision:14,updatedAt:{seconds:Date.now()/1000,nanoseconds:0}};push(doc);},1200);
   const stage=await new Promise((resolve,reject)=>{const tick=()=>{const s=document.getElementById('cmStage');if(s&&s.style.visibility==='visible')return resolve(s);if(performance.now()-t0>15000)return reject(new Error('stage never showed'));setTimeout(tick,25);};tick();});
-  const out={shownAfter:Math.round(performance.now()-t0),firstClock:stage.querySelector('.cmClock').textContent,svg3d:stage.querySelector('svg')?.classList.contains('cm3d-on')||false};
+  const out={shownAfter:Math.round(performance.now()-t0),firstClock:stage.querySelector('.cmClock').textContent,svg3d:stage.querySelector('svg')?.classList.contains('cm3d-on')||false,
+    waiting:stage.querySelector('.cmGoalBox').classList.contains('cm3d-wait'),svgShown:getComputedStyle(stage.querySelector('svg.cmGoal')).visibility==='visible'};
   await new Promise(r=>setTimeout(r,mode==='clock'?8600-(performance.now()-t0):Math.max(0,3200-(performance.now()-t0))));
   out.calls=JSON.parse(JSON.stringify(calls));out.mountedAfter=calls.mountedAt?Math.round(calls.mountedAt-t0):null;
-  out.status=stage.querySelector('.cmStatus').textContent;
+  out.status=stage.querySelector('.cmStatus').textContent;out.waitingAfter=stage.querySelector('.cmGoalBox').classList.contains('cm3d-wait');
   const record={playerOne:'LRMMRLML',playerTwo:'RLLMRRMR'},k8=(CM.kicksOf(CM.record(record))||[])[7];
   out.expect=k8?{taker:clubs[k8.shooter],keeper:clubs[k8.keeper],shot:k8.shotSide===CM.timeout?null:k8.shotSide,dive:CM.dive(k8.dive),goal:Boolean(k8.goal),round:k8.kick}:null;
   return out;
@@ -78,10 +80,13 @@ async function run({mode}){
     const a=await go('clock');
     assert.ok(a.shownAfter<2000,`the stage shows at once while the scene loads (${a.shownAfter} ms)`);
     assert.match(a.firstClock,/^0:(09|10)$/,`the first paint shows the full shared clock, not what is left after the load (${a.firstClock})`);
-    assert.equal(a.svg3d,false,'the SVG goal plays');
-    assert.equal(a.calls.disposed,true,'the late scene is thrown away');
-    assert.deepEqual([a.calls.lineups.length,a.calls.kicks.length],[0,0],'and never driven');
-    ok('SL1',`a running pick clock never waits on the scene: stage after ${a.shownAfter} ms with ${a.firstClock}, late scene disposed`);
+    assert.equal(a.waiting,true,'the goal box waits for the scene');
+    assert.equal(a.svgShown,false,'the SVG goal never shows');
+    assert.equal(a.calls.disposed,false,'the late scene is kept');
+    assert.ok(a.mountedAfter>=7500,`it lands late (${a.mountedAfter} ms)`);
+    assert.ok(a.calls.lineups.length>=1,'and takes the lineup on screen');
+    assert.equal(a.waitingAfter,false,'the panel goes when it lands');
+    ok('SL1',`a running pick clock never waits on the scene: stage after ${a.shownAfter} ms with ${a.firstClock}, the box waits, the late scene takes it at ${a.mountedAfter} ms`);
     const b=await go('reveal');
     assert.ok(b.expect,'kick 8 is complete in the record');
     assert.equal(b.calls.disposed,false,'the scene mounts');

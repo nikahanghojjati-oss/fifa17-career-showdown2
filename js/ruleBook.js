@@ -52,21 +52,22 @@ function createRuleBookScreen(){
         // Prime Pack, then the Transfer War. Chamber Men is turn by turn (js/chamberMen.js); the Prime Pack lines match
         // js/iconGuess.js (STAGES, CHIPS) and the roulette lines js/rosterRoulette.js.
         // r89: a real pick that lands past the rival's lock-in + LATE_MS (10 s clock + the 4.6 s reveal + 2 s) is stored as
-        // the timeout '-' (js/chamberMenStep.js; the Rules hold the same 16.6 s).
+        // the timeout '-' (js/chamberMenStep.js; the Rules hold the same 16.6 s). r90 W9 (LOOK hunt L16): the Rule Book says
+        // only what the player sees (10 seconds, then a miss or a keeper in the middle); the grace for the last kick and the
+        // network stays in the code and the Rules.
         createRuleSection("03", "CHAMBER MEN", [
-            "Every season, before the Roster Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in Showdowns started on version 2.1.0 or later.",
+            "Every season, before the Roster Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in every Showdown started from midday on 4 November 2026 (Boston time).",
             "It goes turn by turn: Daniel shoots and Nik keeps, then Nik shoots and Daniel keeps, for 7 rounds. Nobody shoots and keeps on the same kick.",
             "The shooter picks LEFT, MIDDLE or RIGHT for his shot. The keeper picks where to dive. Neither sees the other's pick until both have locked in.",
             "The shot goes in when the keeper dives the other way. Both phones show the kick, then the next one starts.",
             "Once your rival has locked in, you have 10 seconds. Out of time, a shot is a miss and a keeper stays in the middle.",
-            "A pick that reaches the game more than 16.6 seconds after your rival locked in (10 seconds to pick, 4.6 for the last kick to show, 2 for the network) is stored as out of time: a miss, or a keeper in the middle.",
             "Each goal you score loads one live round into your rival's roulette cylinder for that season. 0 or 7 goals still spin.",
             "Chamber Men scores no Showdown points."
         ]),
         // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
         createRuleSection("04", "ROSTER RUSSIAN ROULETTE", [
             "Every season, before the Transfer War, Daniel and then Nik spin the roulette: one trigger pull each.",
-            "Your cylinder has seven chambers. In a Chamber Men Showdown it holds one live round for each goal your rival scored, so your chance of a hit is his goals out of 7: 0 goals never fires, 7 always does. In older Showdowns it holds one bullet.",
+            "Your cylinder has seven chambers. In a Chamber Men Showdown it holds one live round for each goal your rival scored, so your chance of a hit is his goals out of 7: 0 goals never fires, 7 always does.",
             "A hit releases one player from your starting XI or 4 subs: release him in FIFA 17. A player the roulette shot never comes back and can't be signed back. Your Special Player is never on your board, so he is never hit.",
             "Your board starts as your FIFA 17 launch squad. Kept signings, at the overall you typed, replace any weaker starter or sub, even when nobody was lost.",
             "A lost player's place goes first to that window's signing in his line, however weak, then to your best sub. No keeper left: your best outfielder goes in goal until you sign one.",
@@ -104,7 +105,7 @@ function createRuleBookScreen(){
         createSpecialPlayerRuleSection(),
         // r89 Sacked (Nik 2026-11-03): a sacking ends the Showdown after that season; the points so far decide.
         createRuleSection("10", "SACKED", [
-            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final. It is on the card in Showdowns started on version 2.2.0 or later.",
+            "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final. It is on the card in every Showdown started from 10:00 on 6 November 2026 (Boston time).",
             "Either manager, or both, can be sacked. Any sacking ends the Showdown after that season: no more seasons are played.",
             "Every point up to then counts. Most Showdown points wins, even for a sacked manager. Equal totals are a draw.",
             "A sacked Showdown is a completed Showdown: it counts on History, Legacy, the Trophy Room and every stats screen, marked SACKED.",

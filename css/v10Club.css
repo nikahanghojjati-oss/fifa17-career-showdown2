@@ -10,8 +10,15 @@
   contain: none; overflow: hidden; background: #050607; animation: none; will-change: auto; pointer-events: none;
 }
 #clubWheelScreen.cl-on::after { content: none; }
+/* r90 W8 (Club CLS): the screen's styles switch on while it is still pending (js/v10Screens.js), a frame or more before
+   club.js mounts, and in that gap club.css's layers sat at 0,0 before jumping to their places. The section stays unseen
+   until the look is on; if it never comes, the pending state ends and the app's own screen shows as before. */
+#clubWheelScreen[data-v10-pending]:not(.cl-on) { visibility: hidden; }
 /* club.css styles Team V's own page main; the app's main keeps its place (the section is the stage now). */
 html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: auto; z-index: auto; pointer-events: auto; overflow: hidden; }
+/* r90 W8 (Club CLS): club.css's bare main rule is on from the moment Club starts loading, which can be a frame before
+   html[data-v10-screen] names Club; in that frame the app's main stays where it is instead of jumping to the top. */
+html:not([data-v10-screen="clubWheelScreen"]) #app > main:has(> #clubWheelScreen:not(.hidden)) { position: static; inset: auto; z-index: auto; pointer-events: auto; }
 /* The app header keeps the chips every Team V screen shows (css/v10Shell.css), above the stage on desktop. */
 @media (min-width: 761px) {
   html[data-v10-screen="clubWheelScreen"]:not([data-v10-setup]) #app #topHeader { z-index: 31; }
@@ -1001,4 +1008,12 @@ html[data-gfx="0"] #clubWheelScreen #covers polygon[filter="url(#cvUnder)"] { di
 /* r90 W9 (LOOK hunt L19): the RIVALRY / VS plate is a flat dark panel with one hairline, no bevel rings. */
 @media (min-width: 1200px) and (min-height: 700px) {
   html:not(.compact) #app #clubWheelScreen.cl-on .clubVs::after { box-shadow: none !important; border-color: rgba(210, 170, 89, .55) !important; }
+}
+
+/* r90 W9 (LOOK hunt L50): on short desktops (html.compact: 1180x620, 1366x640, 1920x866) club.js places the title 10 px
+   under the 52 px top bar and the status lines 2 px under the title. Team V's club.js stays byte-for-byte, so the room is
+   added here: the title moves 8 px down (18 px under the bar) and the status lines 14 px (8 px under the title). */
+@media (min-width: 901px) {
+  html.compact #app #clubWheelScreen.cl-on > h2 { margin-top: 8px; }
+  html.compact #app #clubWheelScreen.cl-on .clubAssignmentHeader { margin-top: 14px; }
 }

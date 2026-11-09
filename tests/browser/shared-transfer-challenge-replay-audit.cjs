@@ -9,7 +9,7 @@ const sessionId='session_'+('c'.repeat(64));
 
 async function prepare(page,{managerRole,saveId}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function',null,{timeout:12000});
   await page.evaluate(async({managerRole,saveId,rivalryA,rivalryB,sessionId})=>{
     await ensureGameplayModules();

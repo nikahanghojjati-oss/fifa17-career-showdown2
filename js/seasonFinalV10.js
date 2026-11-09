@@ -1423,9 +1423,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 
 /* Approved NEXT_SEASON_RESULTS: central scoring/card/actions, responsive to
    the viewport height. Retain the registered Team V plate, trophy and badge. */
-/* r90: one rule for every landscape desktop window up to 1120px tall. The old list of exact size bands left gaps (1920x906
-   windowed Chromebook, 1280x900, 1366x900), where the board stayed absolute and an extra margin pushed it over Nik's face. */
-@media (min-width:901px) and (min-height:501px) and (max-height:1120px) and (orientation:landscape) {
+/* r90: one rule for every landscape desktop window. The old list of exact size bands left gaps (1920x906 windowed
+   Chromebook, 1280x900, 1366x900), where the board stayed absolute and an extra margin pushed it over Nik's face.
+   r90 W9 (window sweep): no height cap either; above 1120px tall (1920x1200, 2560x1440, 3840x2160) the board stayed absolute
+   and scrolled inside itself. */
+@media (min-width:901px) and (min-height:501px) and (orientation:landscape) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
  }
@@ -1496,10 +1498,26 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions button { min-width:0;min-height:44px;max-width:100%;white-space:normal;overflow-wrap:normal; }
 }
+/* r90 W9 (window sweep): from 2560px wide the Season Results boards keep the 1920x1080 look at the window's scale. Their type,
+   paddings and buttons were fixed px (or capped), so at 3840x2160 they read at half size in a board twice as wide. Each board
+   is zoomed by the window over 1920x1080 (never below 1); the svh and vw sizes inside are divided back so they do not grow twice. */
+@media (min-width:2560px) and (min-height:501px) and (orientation:landscape) {
+ @supports (zoom: calc(1px / 1px)) {
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { --s4k-z:max(1,min(calc(100vw / 1920px),calc(100svh / 1080px))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid:not(.hidden),.season-action-row,#seasonEntryError,.season-review-panel:not(.hidden)) { zoom:var(--s4k-z); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { min-height:calc(20svh / var(--s4k-z));padding-block:clamp(8px,calc(1svh / var(--s4k-z)),12px); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:calc(16svh / var(--s4k-z)); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { min-height:max(220px,calc(32svh / var(--s4k-z))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row button { min-height:clamp(44px,calc(5.2svh / var(--s4k-z)),60px); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel :is(.seasonReviewIntro,.seasonReviewResult) { font-size:max(12px,calc(.7vw / var(--s4k-z))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel :is(.seasonReviewAchievements span,.seasonReviewWarning) { font-size:max(12px,calc(.65vw / var(--s4k-z))); }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions { width:auto; }
+ }
+}
 @media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
-       (min-width:901px) and (min-height:501px) and (max-height:1120px) and (orientation:landscape) {
+       (min-width:901px) and (min-height:501px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
   filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
  }
@@ -1508,7 +1526,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* JOB-1289: desktop Final Winner, built from Team V's adopted study desktop-a-1289 and NEXT_FINAL_WINNER.
    Desktop only (1200x600 and up since FINAL-WINNER-PLATE-V2, it was 700); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
    stage width, shrunk on a short stage; positions are fractions of the stage so nothing scrolls. Words, taps and order are the live ones. */
-@media (min-width:1200px) and (min-height:600px) {
+@media (min-width:1200px) and (min-height:600px),
+       (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage { container-type:size; --fwu:min(1cqw,1.89cqh); --sd-z-ui:5; }
  #app #seasonEntry .v10FinalStage #finalWinnerScreen { inset:0; width:100%; max-width:none; margin:0; padding:0; }
  #app #seasonEntry .v10FinalStage .sd-stage__plate { filter:contrast(1.06) saturate(.92); }
@@ -1784,14 +1803,16 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 
 /* FINAL-WINNER-PLATE-V2 (ticket 1610P): desktop Final Winner on Team V's black-marble champion-hall plate
    (visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_*), drawn to match NEXT_FINAL_WINNER. Strictly the desktop picture
-   range: wide landscape windows of at least 1200x600; phones, sideways phones and tablets keep their art and rules. The plate
+   range: wide landscape windows of at least 1200x600 (r90 L41: and 1024-1199px wide windows at 3:2 or wider, such as a
+   windowed 1180x620 Chromebook, where Team V's tablet fallback stood the honours board over the trophy); phones, sideways
+   phones and tablets (iPad 1024x768 and 1180x820 are narrower than 3:2) keep their art and rules. The plate
    is the background of the screen's own scroller (so it fills the window under the top bar, as in the picture), fitted to the
    window height and centred, with a darkened soft side fill on windows wider than 16:9, and loads with this screen, never
    with the startup bundle. It carries both managers, every banner, the name tags and an empty marble pedestal with a flat
    top: the live champion trophy is seated on it. The old plate layer and manager cut-outs are not drawn. Every slot is placed
    in plate units (--fw-k is one plate pixel) so it stays registered on every window shape. Looks only: every word, id and tap
    order stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   --fw-k:calc(100svh / 864); --fw-top:calc(var(--sd-nav-top-h,52px) + 14px);
   --fw-edge:linear-gradient(90deg,#000b,#0000);
@@ -1811,6 +1832,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  /* a soft dark pool behind the title lines, so they read over the bright arena lights */
  #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock::before { content:""; position:absolute; z-index:-1; left:-12%; right:-12%; top:-8%; bottom:-30%; pointer-events:none; background:radial-gradient(ellipse at 50% 52%,#050608a0,#05060860 48%,transparent 72%); }
  #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock { top:calc(108 * var(--fw-k) - var(--fw-top)); width:calc(522 * var(--fw-k)); }
+ /* r90 W9 (window sweep, 3840x2160): the title wipe clips to this block, and the eyebrow and tagline ink runs a few px past
+    their line boxes once the stage scales up; a little room inside the block, taken back by the margin, keeps every line where it was. */
+ #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock { padding-block:calc(6 * var(--fw-k)); margin-block:calc(-6 * var(--fw-k)); box-sizing:border-box; }
  #app #seasonEntry .v10FinalStage :is(.finalWinnerCrown--daniel,.finalWinnerCrown--nik) { top:calc(80 * var(--fw-k) - var(--fw-top)); }
  #app #seasonEntry .v10FinalStage .finalWinnerHeroCopySlot { top:calc(238 * var(--fw-k) - var(--fw-top)); width:calc(418 * var(--fw-k)); }
  /* the champion trophy stands on the pedestal's flat top (plate y 575 to 600) */
@@ -1890,7 +1914,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-5px; }
 /* desktop picture range: the plaque keeps its place in the picture unless the window is too short for plaque, strip and
    buttons; then it rides up just enough. The buttons always sit 6px under the plaque, never on it. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage {
   --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(148 * var(--fw-k)),124px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
   --fw-rt:min(var(--fw-r0),calc(100% - var(--fw-rh) - var(--fw-bh) - var(--fw-th) - 6px));
@@ -1901,7 +1925,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot { top:calc(var(--fw-rt) + var(--fw-rh) + 6px + var(--fw-th)); bottom:auto; }
  #app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { left:50%; right:auto; width:max(calc(913 * var(--fw-k)),59.3cqw); translate:-50% 0; }
 }
-@media (min-width:1200px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:1024px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage { --fw-r0:calc(598 * var(--fw-k) - var(--fw-top)); }
 }
 /* big sideways phones (iPhone Plus and Pro Max, 932x430) use the sideways layout; from 901px wide the game's top bar
@@ -1916,7 +1940,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell--lastSeason { grid-column:auto; border-bottom:0; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell~.finalWinnerMetaCell { border-left:1px solid #d9b64e66; }
 }
-@media (min-width:901px) and (max-width:1199px) and (min-height:501px),
+@media (min-width:901px) and (max-width:1023px) and (min-height:501px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:501px) and (max-height:599px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:600px) and (max-aspect-ratio:1499/1000),
        (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:959px),
        (min-width:761px) and (max-width:900px) and (min-height:1241px) {
  /* small laptops and tablets on their side (1024x768, 1180x820): the two exits in the black-and-gold kit, not the old
@@ -1939,6 +1965,33 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { left:50%; right:auto; width:min(66vw,820px); translate:-50% 0; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { translate:0 calc(0px - var(--fw-th)); }
 }
+/* r90 L41 (tablets and small laptops, 1024x768, 1180x820): Team V's tablet trophy seat ran its stem and base under the
+   honours board. The slot now ends 8px above the board (and the close strip, while it shows), and the trophy keeps the crown
+   line and the largest size it had: where the room is shorter it shrinks from the base up, so the crown still clears
+   DANIEL WINS and the board covers nothing (on windows near 600px tall the cup gets small rather than sit under the board). --fw-cup-s mirrors Team V's per-width trophy scale, --fw-cup-y and --fw-cup-k
+   its short-window drop and scale (1024px and wider, up to 700px tall); 150.15cqw is the trophy picture's height at full
+   slot width (512/341). Looks only: no art change. */
+@media (min-width:901px) and (max-width:1023px) and (min-height:501px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:501px) and (max-height:599px),
+       (min-width:1024px) and (max-width:1199px) and (min-height:600px) and (max-aspect-ratio:1499/1000),
+       (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:959px),
+       (min-width:761px) and (max-width:900px) and (min-height:1241px) {
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot {
+  --fw-cup-s:.89; --fw-cup-y:0px; --fw-cup-k:1;
+  container-type:inline-size; height:auto; bottom:calc(12.24% + max(12.5%,132px) + 8px + var(--fw-th));
+  translate:none; scale:none; overflow:visible;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture {
+  position:absolute; left:0; right:0; width:auto; scale:none;
+  top:calc(var(--fw-cup-y) + var(--fw-cup-k) * (1 - var(--fw-cup-s)) * 150.15cqw); bottom:0; height:auto;
+  max-height:calc(var(--fw-cup-k) * var(--fw-cup-s) * 150.15cqw);
+ }
+}
+/* the matching Team V trophy scale per width, and its short-window drop (read only by the tablet rule above) */
+@media (max-width:999px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-s:.8; } }
+@media (max-width:899px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-s:.68; } }
+@media (max-width:819px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-s:.62; } }
+@media (min-width:1024px) and (max-height:700px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-y:48px; --fw-cup-k:.82; } }
 /* phone upright, sideways and tablet: the summary panel ends higher by the strip's height while the strip shows */
 @media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:72px; }
@@ -2071,7 +2124,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* r90: windows wider than 16:9 (a windowed 1920x906 Chromebook, 2560x1080) fill the width with the stadium plate from its
    top instead of showing black bands at both sides; the faces keep their place across the width. */
-@media (min-width:901px) and (min-height:501px) and (max-height:1120px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
+@media (min-width:901px) and (min-height:501px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
   top:0!important;width:100vw!important;height:56.25vw!important;
  }
@@ -2097,7 +2150,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > #finalWinnerRematch[aria-busy="true"] { cursor:progress; }
 /* r87 polish: desktop exits are three equal cells (they were 1 / .78 / 1.12 of the row, and BACK TO SHOWDOWN HOME ran past its
    gold edge at 1366x768 and 1920x1080). A label too long for its cell breaks onto two balanced lines, as REMATCH does. */
-@media (min-width:1200px) and (min-height:600px) {
+@media (min-width:1200px) and (min-height:600px),
+       (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > button {
   flex:1 1 0;min-width:0;padding:0 10px;white-space:normal;text-wrap:balance;overflow-wrap:normal;word-break:normal;line-height:1.1;
  }
