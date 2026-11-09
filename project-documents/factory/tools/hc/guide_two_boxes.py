@@ -4,7 +4,9 @@ python3 guide_two_boxes.py ROOM.png SCALE 'dx0,dy0,dx1,dy1' 'nx0,ny0,nx1,ny1' OU
 Both boxes must share the same bottom (the counter lip)."""
 import sys, json
 from PIL import Image, ImageDraw
-W, H, LIP, GAP = 1024, 1536, 768, 36
+import os
+W, H, GAP = 1024, 1536, 36
+LIP = int(os.environ.get("LIP", 768))
 room = Image.open(sys.argv[1]).convert("RGB")
 s = float(sys.argv[2]); d = list(map(int, sys.argv[3].split(","))); n = list(map(int, sys.argv[4].split(",")))
 if len(sys.argv) > 6:

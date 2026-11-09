@@ -18,3 +18,8 @@
 ## Office (HC 11 V2 picked: try 2B, 9 Nov 2026)
 - RC_OFFICE_V2.png: left x0-175 (oak, ball, cup, folders) + right x1320-1536 (olive tree, desk lamp) of reviews/HC/HC11_OFFICE_D_V2_TRY2B_PICK.png, side by side, full height.
 - GUIDE_HC12_OFFICE_P.png (+ .json): one box x170-1330 / y150-665 of the pick at 0.70 scale, x 106-918, hair at ~16%, table top at y 559 (36.4%); cup fragment at the lower-left corner painted cyan. The men fill x 10-90%, so the phone ball and desk lamp have no room beside them: the phone shows the room through the windows, mast and oak only (prompt add-on line given to Nik).
+
+## Box (HC 09 V2 picked: try 2B, 9 Nov 2026; grey scarf + plaid as the ticket says)
+- RC_BOX_V2.png: left x0-105 (oak, coat hook) + centre glass x580-960 (stand, empty block, thin pitch, table front with lip) of reviews/HC/HC09_BOX_D_V2_TRY2B_PICK.png.
+- GUIDE_HC10_BOX_P.png (+ .json): guide_two_boxes.py (now takes LIP from env) with LIP=891 (58%), scale 0.8, Daniel 105,172,580,752 / Nik 960,180,1475,752; plaid, cabinet and the two roof lamp banks above the heads painted cyan first. Faces at about 22% and 64-74% of the width.
+- Desktop lip at y ~752 (73.4%). Roof lamp banks at ~16% sit just above both heads (small and dim; accepted).
