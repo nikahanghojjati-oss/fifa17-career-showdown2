@@ -2031,3 +2031,43 @@
 @media (min-width:901px) and (max-width:1599px) {
   #app #legacy[data-rivalry-legacy-v10] .legacyCard:not([data-wide-score="true"]) .legacyScore { white-space:nowrap; font-size:min(clamp(22px,1.9vw,56px),11cqi); }
 }
+
+/* HO-068 (2026-11-09): Rivalry Statistics stands in Team V's handcrafted V2 tunnel room (visual-assets/v10_1/plates-hc/
+   ENV_TUNNEL_*, Nik picked it). Desktop: the wide plate (2X at High and up). Upright phones and tablets: the tall plate
+   behind the whole screen (590W on Light or Save-Data), cut so x 15-85% shows on phones. Its plain ceiling band rises so
+   the heads clear the settings corner and the chins stay above the title. Sideways phones: the tall plate in the left
+   band. The plate carries both men, so the old stadium and the two cut-outs are not drawn on tablets either now. The
+   plates-v2/v3 Rivalry plates stay in the repo as rollback. The "TWO MANAGERS • ONE LEGACY" slogan is hidden (layout
+   kept); the Golden Showdown chip that shares its row stays visible. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate {
+    background-image:image-set(url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp) 1x,url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp) 2x);
+  }
+}
+@media (max-width:900px) and (orientation:portrait) {
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) {
+    --rv-pw:max(100vw,calc(100svh * 1179 / 2096)); --rv-ph:calc(var(--rv-pw) * 2096 / 1179); --rv-band:490px;
+    background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp") no-repeat;
+    background-size:var(--rv-pw) auto;
+    background-position:50% max(calc(var(--rv-ph) * -.18),min(calc(56px - var(--rv-ph) * .138),calc(var(--rv-band) + 20px - var(--rv-ph) * .26)));
+  }
+  html[data-assets="0"] #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { background-image:url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp"); }
+  #app #statistics[data-rivalry-legacy-v10] .rv-stage { background-color:transparent; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background:none; }
+  #app #statistics[data-rivalry-legacy-v10] :is(.rv-adoptedPhoneStadium,.rv-adoptedPhoneManager) { display:none; }
+}
+@media (max-width:760px) and (orientation:portrait) {
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { --rv-pw:max(143vw,calc(100svh * 1179 / 2096)); }
+}
+@media (max-width:600px) and (orientation:portrait) {
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { --rv-band:clamp(0px,calc(100svh - 465px - env(safe-area-inset-bottom)),360px); }
+}
+@media (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
+    background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp") center 22% / cover no-repeat;
+  }
+  html[data-assets="0"] #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background-image:url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp"); }
+}
+#app #statistics #rvTitleBlock .sd-tagline { visibility:hidden; }
+#app #statistics #rvTitleBlock .sd-tagline > .rv-goldenTitle { visibility:visible; }

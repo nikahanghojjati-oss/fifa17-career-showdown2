@@ -1833,3 +1833,73 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
   #app #leagueWheelScreen.v26Skin { --lp-yb: min(calc(626 * var(--lp-s) - var(--lp-y0)), calc(100vh - 130px)); }
 }
+
+/* HO-068 (2026-11-09): Select League stands in Team V's handcrafted V2 box room (visual-assets/v10_1/plates-hc/ENV_BOX_*,
+   Nik picked it). The wheel stands on the room's counter lip (plate y 652 of 864 desktop, 1219 of 2096 phone, 1219 of 2620
+   on the 9:20 TALL plate) with a small soft contact shadow and no glow. Desktop picture range: the plate's lip replaces the
+   old plinth line (626), and the plate rises (y0) on short windows so the note and both buttons still fit under the lip.
+   Everywhere else the live layout places the wheel; js/v10Setup.js publishes its bottom edge as --box-wb and the plate is
+   placed so its lip meets it. 2X at High and up, 590W on Light or Save-Data. No dark overlay over the room. The V1/V2/V5
+   League plates and the phone cut-outs stay in the repo as rollback. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html[data-v10-setup="league"] { --lp-y0: max(0px, calc(652 * var(--lp-s) - 100vh + 130px)); }
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp);
+  }
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"])[data-v10-setup="league"] #background {
+    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp) 2x);
+  }
+  #app #leagueWheelScreen.v26Skin {
+    --lp-yb: calc(652 * var(--lp-s) - var(--lp-y0));
+    --lp-yd: calc(236 * var(--lp-s) - var(--lp-y0));
+  }
+}
+html[data-v10-setup="league"] #overlay { background: none; }
+#app #leagueWheelScreen.v26Skin #leagueWheel { box-shadow: 0 5px 7px -3px rgba(0, 0, 0, .6), 0 12px 10px -12px rgba(0, 0, 0, .55); }
+@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    --bx-pw: max(100vw, calc(100vh * 1536 / 864)); --bx-ph: calc(var(--bx-pw) * 864 / 1536);
+    background-color: #0d0b09;
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp);
+    background-size: var(--bx-pw) auto;
+    background-position: 50% min(0px, calc(var(--box-wb, 75vh) - var(--bx-ph) * .7546));
+  }
+  #leagueWheelScreen.v26Skin .v26Art { display: none; }
+}
+/* Upright phones and tablets: the tall plate, cut so x 15-85% shows on phones. The wheel is at most 21% of the plate's
+   height across, so its rim stays clear of both faces beside it (the chins sit 18.6% of the plate height above the lip);
+   the space it gives up goes above and below it, so the result line and both buttons keep their places. */
+@media (max-width: 900px) and (orientation: portrait) {
+  html[data-v10-setup="league"] { --bx-pw: max(100vw, calc(100svh * 1179 / 2096)); --bx-href: calc(var(--bx-pw) * 2096 / 1179); }
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    --bx-pw: inherit; --bx-ph: var(--bx-href); --bx-lip: .5816;
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp);
+    background-size: var(--bx-pw) auto;
+    background-position: 50% calc(var(--box-wb, 60svh) - var(--bx-ph) * var(--bx-lip));
+  }
+  html[data-assets="0"][data-v10-setup="league"] #background { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp); }
+  #app #leagueWheelScreen.v26Skin { --v26-wheel-full: var(--v26-wheel); }
+  #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) {
+    --v26-wheel: min(calc(var(--v26-wheel-full) * .85), calc(var(--bx-href) * .21));
+    --v26-wheel-cut: calc(var(--v26-wheel-full) - var(--v26-wheel));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin-top: calc(var(--v26-wheel-cut) * .5695); }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: calc(8px + var(--v26-wheel-cut) * .5); }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  html[data-v10-setup="league"] { --bx-pw: max(143vw, calc(100svh * 1179 / 2096)); }
+}
+/* 9:20 and taller phones: the TALL plate (1179x2620, the same room with more counter below the lip) */
+@media (max-width: 900px) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background,
+  html[data-assets="0"][data-v10-setup="league"] #background {
+    --bx-ph: calc(var(--bx-pw) * 2620 / 1179); --bx-lip: .4653;
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL.webp);
+  }
+}
+/* Sideways phones: the wheel takes the left half and the title and buttons the right, so either would sit on a face at
+   cover size. The wide plate is drawn larger, centred on the window between the men, with the wheel on the lip; the faces
+   fall outside the screen and the room reads through the window, the counter and both men's shoulders. */
+@media (max-width: 900px) and (orientation: landscape) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { --bx-pw: max(220vw, calc(100vh * 1536 / 864)); }
+}
