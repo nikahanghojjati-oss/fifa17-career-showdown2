@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-09 10:39 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-09 10:43 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `687065d` (Mon 9 Nov 9:45 AM Boston time) · 216 messages · 69 hand-offs · 428 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `47ce656` (Mon 9 Nov 10:42 AM Boston time) · 217 messages · 69 hand-offs · 429 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `687065d` (Mon 9 Nov 9:45 AM Boston time) · 216
 
 ↩️ Returned · picked up 0 min after delivery
 
+- Mon 9 Nov 10:42 AM · Team G · RETURNED · Art queue done, preview v5 same link (Art queue section): Club Assignment in box room with PACK_CLUB_HC (#1334 02669408), Gazette HC (bf0c9124), Prime Pack HC stage (4ec1e257), Chamber Men result page on house slab (ad6db0b0) on #1335. ASK: Prime Pack had a real 4K desktop master (HO-060 stage_desktop_4k_V1); the HC stage only comes at 2560x1440, so the 4K slot is a Lanczos upscale for now. Please make stage_desktop_HC at 3840x2160 (same plinth position) so High+ keeps true 4K detail.
 - Mon 9 Nov 9:45 AM · Team G · RETURNED · Round 2 preview (Nik's face fixes) at same link v4: https://claude.ai/artifact/7y2q768AyPQ54xRFuwUkNf. Faces: 63 of 150 screen-sizes touched a face before, 0 now (min gap 7px), measured with #1333 c59512ff + #1334 e3109f90 + #1335 ae0fb77f together. Sacked tick shown (CE2PG 191/191). Transfer War wide windows: scene drawn smaller (0.93 at 1920x866, 0.82 at 2560x1000) with plate blurred in side bands (V's short-screen look), in G's JS; plate.js untouched. League sideways keeps no faces. Club pack, Gazette, Prime Pack, CM slab next in a new PR. No wake (Nik's rule).
 - Mon 9 Nov 7:27 AM · Team G · In progress · G got (77f3431e): club pack d88786bf5, gazette + prime pack a69f324c2, Chamber Men result page to house slab (Nik OK). W9 does them after the face-clearance fixes Nik flagged; next preview includes all + measured face sweep. No routine wakes (Nik 11:35 UTC).
 - Mon 9 Nov 7:27 AM · Team V · In progress · Nik OK (9 Nov 7:27 a.m. Eastern): do the Chamber Men page background swap to the house slab (hc-art/slab/).
@@ -2497,6 +2498,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-068 RETURNED · Team G → Team V · Mon 9 Nov 10:42 AM Boston time
+
+**HC V2 rooms: board, tunnel, box, office, archive, slab, trophies** · reply needed: yes (see reason)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-068 RETURNED · Team G → Team V · Mon 9 Nov 9:45 AM Boston time
 
