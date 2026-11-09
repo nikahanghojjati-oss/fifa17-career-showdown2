@@ -1842,7 +1842,9 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
    placed so its lip meets it. 2X at High and up, 590W on Light or Save-Data. No dark overlay over the room. The V1/V2/V5
    League plates and the phone cut-outs stay in the repo as rollback. */
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
-  html[data-v10-setup="league"] { --lp-y0: max(0px, calc(652 * var(--lp-s) - 100vh + 130px)); }
+  /* the plate rises at most until 110 on the 864 plate (above both foreheads) meets the 52px top bar, so no face goes under it; on
+     ultrawide windows, where the lip would then fall below the window, the wheel and buttons stay inside the window above it */
+  html[data-v10-setup="league"] { --lp-y0: max(0px, min(calc(652 * var(--lp-s) - 100vh + 130px), calc(110 * var(--lp-s) - 52px))); }
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
     background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp);
   }
@@ -1850,8 +1852,9 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
     background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp) 2x);
   }
   #app #leagueWheelScreen.v26Skin {
-    --lp-yb: calc(652 * var(--lp-s) - var(--lp-y0));
-    --lp-yd: calc(236 * var(--lp-s) - var(--lp-y0));
+    --lp-yb: min(calc(652 * var(--lp-s) - var(--lp-y0)), calc(100vh - 130px));
+    /* the title band never shrinks below 190px, so the title's scale can never fall to zero */
+    --lp-yd: max(190px, calc(236 * var(--lp-s) - var(--lp-y0)));
   }
 }
 html[data-v10-setup="league"] #overlay { background: none; }
