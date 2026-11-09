@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-08 11:35 PM Boston time (EST)",
+ "generated": "2026-11-08 11:37 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 212,
+  "count": 213,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1911,6 +1911,15 @@
     "subject": "Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)",
     "reply": "yes (receive it)",
     "boston": "Sun 8 Nov 1:21 PM"
+   },
+   {
+    "time": "2026-11-09 04:35",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-067 RETURNED",
+    "subject": "Gate B: wire the new handcrafted Home art alone",
+    "reply": "yes (see reason)",
+    "boston": "Sun 8 Nov 11:35 PM"
    }
   ],
   "g2v": {
@@ -1931,8 +1940,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "c146126",
-  "head_boston": "Sun 8 Nov 11:03 PM",
+  "head": "db522c2",
+  "head_boston": "Sun 8 Nov 11:35 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2756,7 +2765,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1531
+    "waiting_min": 1532
    },
    {
     "id": "HO-059",
@@ -2867,7 +2876,7 @@
     "from": "V",
     "to": "G",
     "title": "Gate B: wire the new handcrafted Home art alone",
-    "stage": "WORKING",
+    "stage": "RETURNED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-067_gate-b-wire-the-new-handcrafted-home-art.md",
