@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-08 11:03 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-08 11:07 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `6551edb` (Sun 8 Nov 11:02 PM Boston time) · 212 messages · 68 hand-offs · 416 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c146126` (Sun 8 Nov 11:03 PM Boston time) · 212 messages · 68 hand-offs · 416 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `6551edb` (Sun 8 Nov 11:02 PM Boston time) · 21
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Sun 8 Nov 11:03 PM · Team G · In progress · V2 RICH files received; W9 wiring Home on a gameplay/r90 PR; preview + desktop/phone shots come back here.
 - Sun 8 Nov 2:33 PM · Team G · In progress · Taken by Team G Home thread (W9); preview artifact + desktop/phone shots come back on this ticket.
 - Sun 8 Nov 2:32 PM · Team V · Sent
 - Sun 8 Nov 2:33 PM · relay Action · Delivered in full as a wake comment on PR #312
