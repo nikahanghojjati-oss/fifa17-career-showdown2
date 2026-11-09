@@ -2175,6 +2175,27 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x);
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block::before { content:none; }
+ /* HO-068 (Nik: boxes touching faces). On this plate Daniel's face ends at 29.3% of its width and Nik's starts at 67.06%
+    and ends 32.6% down (beard included). The plate is 100vw wide here, so the scoring card is never wider than the room
+    between the two faces less one layout gap each side; it stays centred and simply wraps a line where it must. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage {
+  --sr-g:clamp(8px,1.3svh,14px); --sr-clear:calc(34.12vw - var(--sr-g) * 2);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { width:min(44.47%,var(--sr-clear)); }
+}
+/* HO-068: on windows wider than 16:9 the plate starts at the top of the window, so the nav bar covered the top of both
+   men's hair (heads start 5.8% down the plate). The plate is lowered just enough for the hair to clear the bar by 6px;
+   the panelling it gives up at the bottom is below the fold. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
+  top:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 3.2625vw))!important;
+ }
+}
+/* HO-068: ultrawide windows (3440x1080) draw the room across the whole width, so the two entry cards (72.66% of the
+   centred 16:9 column) reached Nik's beard. They keep to the room between the faces, like the scoring card. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:14/5) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) { width:min(72.66%,var(--sr-clear)); }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { width:min(56%,var(--sr-clear)); }
 }
 /* HO-068: no slogans in the board room: the "TWO MANAGERS · ONE LEGACY" line under the Season Results and Final Winner
    titles keeps its place (nothing moves) but is not shown. */
@@ -2246,6 +2267,28 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp")}"); }
 }
+/* HO-068 (Nik 2026-11-09): on upright phones the result (SHOWDOWN CLOSED, the winner and both scores) sat on both men's chins
+   and chests. It now stands on the counter face under the brass lip, as on sideways phones, and the plate rises so the
+   heads sit one gap under the title: the lip is placed from the title's foot (--fw-tb) plus the head-to-lip height of the
+   plate (32.59% of it), the cup stands on the lip between the two men below their chins, and the summary panel starts one
+   gap under the result. Where the screen is too short for the panel it runs on below and main scrolls (nothing is hidden). */
+@media (max-width:760px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root {
+  --fw-tb:102px; --fw-gap:12px; --fw-copy:80px;
+  /* tall enough that the raised plate still reaches the foot of the screen (head to foot is 80.2% of the plate) */
+  --fw-ph:max(100svh,calc(100vw * 2096 / 1179),calc((100svh - var(--fw-tb) - 10px) / .802));
+  --fw-lip:calc(var(--fw-tb) + 10px + var(--fw-ph) * .3259);
+  --fw-cup:min(150px,calc(var(--fw-ph) * .155));
+  --fw-panel:calc(var(--fw-lip) + var(--fw-gap) * 2 + var(--fw-copy));
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { top:calc(var(--fw-lip) - var(--fw-ph) * .5239); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:calc(var(--fw-lip) + var(--fw-gap)); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { top:var(--fw-panel); bottom:auto; height:max(172px,calc(100svh - 86px - var(--fw-panel))); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { top:calc(var(--fw-panel) + max(172px,calc(100svh - 86px - var(--fw-panel))) + 20px); bottom:auto; }
+}
+@media (max-width:760px) and (max-height:720px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root { --fw-tb:82px; }
+}
 /* Sideways phones: the board plate fills the left half (cover, 50% 30%). The cup stands on the counter lip (1098/2096)
    between the two managers, and the result (SHOWDOWN CLOSED, the winner and both scores) moves down onto the counter
    face under the lip, so the cup and the words never cross. */
@@ -2272,6 +2315,29 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  /* no top bar here: the plate box is the full height */
  #app #seasonEntry.v10FinalMode #stage-root { --fw-h:100svh; --fw-p:.3; }
+}
+/* HO-068 (Nik 2026-11-09): sideways, the two-line eyebrow and the wordmark ran over both men's hair. The title takes one line
+   for the eyebrow and a 24px wordmark, the heads stand one gap under it (the lip is placed from the title's foot plus the
+   plate's head-to-lip height, 32.59% of it), and the result keeps its place on the counter under the lip in a slightly
+   smaller size. Where a wide phone's half is too wide for that (the plate would put the heads under the title), the plate
+   is drawn a little narrower than the half and the side bands take the room's own dark wood colour. */
+@media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root {
+  --fw-tb:46px; --fw-copy:80px;
+  --fw-ph:min(max(50vw * 2096 / 1179,var(--fw-h)),calc((var(--fw-h) - var(--fw-copy) - 8px - var(--fw-tb) - 8px) / .3259));
+  --fw-lip:min(calc(var(--fw-tb) + 8px + var(--fw-ph) * .3259),calc(var(--fw-h) - var(--fw-copy) - 8px));
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { background-color:#1d1a16; overflow:hidden; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img {
+  position:absolute; top:calc(var(--fw-lip) - var(--fw-ph) * .5239); left:50%; translate:-50% 0; height:var(--fw-ph); width:auto; max-width:none; object-fit:fill; object-position:50% 0;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { top:6px; width:min(44%,360px); row-gap:2px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock .finalWinnerEyebrow { white-space:nowrap; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock .finalWinnerWordmark { width:auto; height:24px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock .finalWinnerWordmark img { width:auto; height:24px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:calc(var(--fw-lip) + 4px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot .finalWinnerOutcome { font-size:20px; line-height:1.05; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot .finalWinnerTotals strong { font-size:26px; line-height:1; }
 }
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2.webp")}"); }

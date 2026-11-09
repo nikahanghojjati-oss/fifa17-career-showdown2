@@ -1229,6 +1229,16 @@
   #app #careerStatistics.careerScreenV10 .partialBanner { top:calc(var(--cs-face-bottom) + 10px); }
   #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel) { overflow-y:auto;overscroll-behavior:contain; }
 }
+/* HO-068 (Nik: the totals sat on both men's chins on the upright tablet). The board plate is raised the same way as on short
+   phones: the heads start 104px down, one even gap under the title and tagline, and the hub starts 16px under the lowest
+   chin (Nik's, 32.5% of the plate). The panels gain the height the plate gave up. */
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+  #app #careerStatistics.careerScreenV10 { --cs-ph:max(100vw * 2096 / 1179, 100svh); --cs-head:104px; --cs-face-bottom:calc(var(--cs-ph) * .13 + var(--cs-head)); }
+  #app #careerStatistics.careerScreenV10 .phoneBackground img { object-position:50% min(0px, calc(var(--cs-head) - var(--cs-ph) * .195)); }
+  #app #careerStatistics.careerScreenV10 .phoneHub { top:calc(var(--cs-face-bottom) + 16px); }
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { top:calc(var(--cs-face-bottom) + 60px); }
+  #app #careerStatistics.careerScreenV10 .partialBanner { top:calc(var(--cs-face-bottom) + 12px); }
+}
 /* Sideways phones (852x393): the upright plate ran the full width, so Nik's face sat behind the Career Table panel and
    Daniel's head was a big crop. The plate now fills only the left band under the title (the hub owns the right side),
    shown from the top so both managers stand side by side below the title and no panel covers a face. */
@@ -1717,6 +1727,7 @@
       root.CAREER_STATISTICS_PLATEMAP=platemaps.careerStatistics;
       root.CAREER_STATISTICS_ASSETS={plate1x:cs+"assets/ENV_CS_PLATE_V1_1X.webp",plate2x:cs+"assets/ENV_CS_PLATE_V1_2X.webp"};
       root.ShowdownCareerStatisticsBoot();
+      csFaceGuard(host);
     }else{
       root.TROPHY_ROOM_APP=true;root.TROPHY_ROOM_BASE=BASE+"trophy-room/";root.TROPHY_ROOM_FRAME="LIVE";
       root.TROPHY_ROOM_FIXTURES={strings:STRINGS.trophyRoom,frames:{LIVE:frame}};
@@ -1725,7 +1736,47 @@
     }
     return true;
   }
+  // HO-068 (Nik 2026-11-09): desktop Career Statistics keeps every total, panel and button off the two faces on Team V's
+  // board room. The stage places the plate itself (cover, and centred lower on ultrawide screens), so the faces are read from
+  // the drawn plate: --hc-chin-px is where Nik's chin ends (32.64% of the plate height) and --hc-face-half-px the room from
+  // the centre line to the nearer face (Daniel's beard ends at 29.30%, Nik's face starts at 67.06% of the plate width).
+  // css/v10Shell.css lays the rows out from them. One live guard at a time; a redraw or unmount stops it.
+  let csGuardStop=null;
+  function csFaceGuard(host){
+    csGuardStop?.();
+    const desk=root.matchMedia?.("(min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape)");
+    if(!desk||typeof root.ResizeObserver!=="function")return;
+    const doc=root.document,names=["--hc-chin-px","--hc-face-half-px","--hc-plate-drop"],clear=()=>names.forEach(name=>host.style.removeProperty(name));
+    let stopped=false,queued=false;
+    const run=()=>{
+      if(stopped)return;
+      if(!host.isConnected){csGuardStop?.();return;}
+      if(!desk.matches){clear();return;}
+      const plate=host.querySelector(".sd-stage__plate"),screen=host.querySelector(".careerScreen");
+      if(!plate||!screen)return;
+      const r=plate.getBoundingClientRect(),c=screen.getBoundingClientRect();
+      if(r.width<2||r.height<2)return;
+      // where the stage drew the plate before our own lowering (ultrawide screens centre it, which put the tops of both
+      // heads under the top bar): lower it until the hair clears the bar, never so far that the plate leaves a gap above
+      const was=parseFloat(host.style.getPropertyValue("--hc-plate-drop"))||0,top=r.top-was;
+      const bar=doc.querySelector(".sd-nav")?.getBoundingClientRect().bottom||0;
+      const drop=Math.max(0,Math.min(-top,Math.ceil(bar+6-(top+r.height*.0579))));
+      host.style.setProperty("--hc-plate-drop",drop+"px");
+      const p={left:r.left,top:top+drop,width:r.width,height:r.height};
+      const mid=c.left+c.width/2;
+      host.style.setProperty("--hc-chin-px",Math.round(p.top+p.height*.3264-c.top)+"px");
+      host.style.setProperty("--hc-face-half-px",Math.floor(Math.min(mid-(p.left+p.width*.293),p.left+p.width*.6706-mid))+"px");
+    };
+    const queue=()=>{if(queued)return;queued=true;(root.requestAnimationFrame||setTimeout)(()=>{queued=false;run();});};
+    const observer=new root.ResizeObserver(queue);
+    observer.observe(host);
+    const reg=host.querySelector(".sd-stage__registered");if(reg)observer.observe(reg);
+    const stop=()=>{stopped=true;observer.disconnect();clear();if(csGuardStop===stop)csGuardStop=null;};
+    csGuardStop=stop;
+    queue();
+  }
   function v10DestroyStages(){
+    csGuardStop?.();
     for(const key of ["__careerStageEngine","__trophyRoomStage"]){try{root[key]?.destroy?.();}catch(_){}root[key]=null;}
   }
   // The old render paths keep running (they hold the model) and rewrite the host, so a V10 screen is always

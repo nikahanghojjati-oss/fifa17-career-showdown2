@@ -454,6 +454,77 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 .titleWordmark { width: min(93.6%, 66.2vh); left: calc(50% - min(46.8%, 33.1vh)); }
 }
 
+/* HO-068 (Nik 2026-11-09, "words and boxes touching and covering faces"): on Team V's board room the men's heads are large and
+   sit in the top third, so the r72 content column ran over Daniel's beard and Nik's face at every desktop size. The plate is
+   drawn cover from the top-centre of the stage (1672x941 registration, plate 1536x864), so the faces are known in CSS:
+   Daniel's beard ends at x 29.30% and Nik's face starts at 67.06% of the plate width, and Nik's chin ends at 32.64% of its
+   height. The four totals now sit between the two heads, centred, with the same gap to each face; the Career Table, Manager
+   Comparison, Career Leaders and the actions start one gap below the chins and keep one even gap between every row. Where
+   the space between the heads is too narrow for four totals in a row they take two rows of two. Words, ids and tap order are
+   unchanged. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html #app #careerStatistics.careerScreenV10 {
+    --hc-u: min(1vw, 1.7778vh);
+    --hc-rw: max(100vw, 100vh * 1672 / 941); --hc-rh: calc(var(--hc-rw) * 941 / 1672);
+    --hc-g: clamp(10px, calc(var(--hc-u) * .8), 16px);
+    /* half the width that clears both heads, measured from the centre line to Nik's face (the nearer one) */
+    --hc-half: calc(var(--hc-face-half-px, calc(var(--hc-rw) * .1706)) - var(--hc-g) - 6px);
+    --hc-chin: var(--hc-chin-px, calc(var(--hc-rh) * .3264));
+    --hc-tiles-w: min(52vw, var(--hc-half) * 2);
+    /* the wordmark ends at 24.9% of the stage height at every desktop size */
+    --hc-tiles-top: calc(24.9vh + var(--hc-g)); --hc-row: 12.5vh; --hc-rows: 1;
+    --hc-tiles-h: calc(var(--hc-row) * var(--hc-rows) + var(--hc-g) * (var(--hc-rows) - 1));
+    --hc-p: max(calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g)), calc(var(--hc-chin) + var(--hc-g)));
+    /* what the Manager Comparison's seven rows and the leader cards need, so neither is ever cut */
+    --hc-pmin: calc(var(--hc-u) * 3.7 + 7 * max(18px, calc(var(--hc-u) * 1.4)));
+    --hc-lmin: max(104px, calc(var(--hc-u) * 8));
+    --hc-act-h: max(44px, 6.5vh);
+    --hc-end: min(calc(100vh - 8px), max(90.5vh, calc(var(--hc-p) + var(--hc-pmin) + var(--hc-lmin) + var(--hc-act-h) + var(--hc-g) * 2)));
+    --hc-avail: calc(var(--hc-end) - var(--hc-p) - var(--hc-act-h) - var(--hc-g) * 2);
+    --hc-panel-h: max(var(--hc-pmin), min(calc(var(--hc-avail) * .58), calc(var(--hc-avail) - var(--hc-lmin))));
+    --hc-lead-h: calc(var(--hc-avail) - var(--hc-panel-h));
+    --hc-col-w: 52vw; --hc-half-col: calc((var(--hc-col-w) - var(--hc-g)) / 2);
+  }
+  html #app #careerStatistics.careerScreenV10 .headlineTiles {
+    left: calc(50vw - var(--hc-tiles-w) / 2); width: var(--hc-tiles-w); top: var(--hc-tiles-top); height: var(--hc-tiles-h);
+    gap: var(--hc-g); grid-template-rows: repeat(var(--hc-rows), minmax(0, 1fr));
+  }
+  html #app #careerStatistics.careerScreenV10 :is(.careerTablePanel, .comparisonPanel) { top: var(--hc-p); height: var(--hc-panel-h); width: var(--hc-half-col); }
+  html #app #careerStatistics.careerScreenV10 .careerTablePanel { left: calc(50vw - var(--hc-col-w) / 2); }
+  html #app #careerStatistics.careerScreenV10 .comparisonPanel { left: calc(50vw + var(--hc-g) / 2); }
+  html #app #careerStatistics.careerScreenV10 .leadersPanel { left: calc(50vw - var(--hc-col-w) / 2); width: var(--hc-col-w); top: calc(var(--hc-p) + var(--hc-panel-h) + var(--hc-g)); height: var(--hc-lead-h); }
+  html #app #careerStatistics.careerScreenV10 .actionRow { left: calc(50vw - var(--hc-col-w) / 2); width: var(--hc-col-w); top: calc(var(--hc-end) - var(--hc-act-h)); height: var(--hc-act-h); }
+  html #app #careerStatistics.careerScreenV10 .partialBanner { left: calc(50vw - var(--hc-col-w) / 2); width: var(--hc-col-w); top: calc(var(--hc-p) - var(--hc-g) / 2 - 12px); }
+  html #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] :is(.careerTablePanel, .comparisonPanel) { top: calc(var(--hc-p) + 18px); height: calc(var(--hc-panel-h) - 18px); }
+  html #app #careerStatistics.careerScreenV10 .sd-stage__layer--plate > .sd-stage__registered { translate: 0 var(--hc-plate-drop, 0px); }
+  /* the wordmark keeps the same room from both faces */
+  html #app #careerStatistics.careerScreenV10 .titleWordmark img { display: block; margin-inline: auto; max-width: calc(var(--hc-half) * 2); height: auto; }
+  /* no shade behind the title: it reached Nik's hair (no dimming, no scrims) */
+  html #app #careerStatistics.careerScreenV10 .titleBlock::before { content: none; }
+}
+/* the space between the heads is narrower than four totals need (plate under 2400px wide): two rows of two, the numbers a
+   size smaller so each row stays short */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (max-width: 2399px) and (max-height: 1350px) {
+  html #app #careerStatistics.careerScreenV10 { --hc-rows: 2; --hc-row: max(48px, 6.6vh); }
+  html #app #careerStatistics.careerScreenV10 .headlineTiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html #app #careerStatistics.careerScreenV10 .headlineTile { padding-block: calc(var(--hc-u) * .35); align-content: center; }
+  html #app #careerStatistics.careerScreenV10 .headlineNumber { font-size: max(30px, calc(var(--hc-u) * 2.6)); }
+  html #app #careerStatistics.careerScreenV10 .headlinePair { margin-top: 0; }
+  html #app #careerStatistics.careerScreenV10 .headlineCopy { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; column-gap: 8px; }
+  html #app #careerStatistics.careerScreenV10 .headlineLabel { grid-column: 1 / -1; }
+  html #app #careerStatistics.careerScreenV10 .headlineTogether { margin: 0; }
+  html #app #careerStatistics.careerScreenV10 .headlinePair b { font-size: max(24px, calc(var(--hc-u) * 2)); }
+}
+
+/* ultrawide (plate 2700px wide and more): the heads are so tall that rows below the chins no longer fit, but the room
+   between them is wide enough for the whole column, so every row stands between the two faces instead */
+@media (min-width: 2700px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html #app #careerStatistics.careerScreenV10 {
+    --hc-col-w: min(52vw, var(--hc-half) * 2);
+    --hc-p: calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g));
+  }
+}
+
 /* r85 (Nik 2026-10-27): the soundtrack player (js/musicDockV10.js). Desktop: a compact dock in the top bar after the tabs, on
    every screen, Home included; it narrows itself before it reaches the account chips (mdFitTop). Phone: a sixth MUSIC tab.
    Both open one player panel. It is opaque and the screen behind it is never dimmed.
