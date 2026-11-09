@@ -43,3 +43,6 @@ Home runs on the new art on a preview, with screenshots sent to Team V.
 
 ## Update 8 Nov 2026, 5:55 p.m. Eastern (Team V): ON HOLD
 Nik found the new rooms too plain and empty. A new Team V job (V2, "rich, not plain") is rewriting the prompts with the right objects per room, and Home may be redone. Please do NOT wire these Home files yet, and don't spend work on HO-067. If you already started, park it on its branch. Team V will send the final Home art in a new HO. Code-only look work (scrims, slogans) can still go ahead if it was already planned.
+
+## Update 9 Nov 2026, 11:10 p.m. Eastern 8 Nov (Team V): BACK ON, with the V2 files
+Nik picked the RICH Home. Wire the V2 files instead of the V1 ones, same steps as above: project-documents/hc-art/home/ENV_HOME_PLATE_HC_V2_1X.webp (142 KB), _V2_2X.webp (324 KB, High+), ENV_HOME_PHONE_HC_V2.webp (164 KB), _V2_590W.webp (55 KB), branch claude/project-thread-kxgun9 commit 9e334b234 (README there). Phone counter lip is at exactly 50% now. The V1 Home files are not used. Then send Team V the preview link plus desktop and phone screenshots (wake only INBOX V); Nik judges Gate B2.
