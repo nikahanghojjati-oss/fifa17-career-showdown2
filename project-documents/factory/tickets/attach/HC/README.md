@@ -8,3 +8,6 @@
 - V2 (9 Nov 2026): Nik picked RICH; Claude picked try 1 of 7 (chairs face each other across the table, round laced ball). Raw: reviews/HC/HC01_LOUNGE_D_V2R_PICK.png.
 - GUIDE_HC02_LOUNGE_P_V2.png: same box as V1 (x 470-1525, y 160-886) from the V2 pick, lip at 50%, guide_from_room.py.
 - RC_LOUNGE_V2.png: room card with no people: the left lounge (x 0-470) and the right pier with its lamp (x 1240-1536) side by side.
+- HC 04 V2 (board room) try 1 accepted 9 Nov (reviews/HC/HC04_BOARD_D_V2_TRY1.png); the Rich chair and tray did not appear (they sit at the cut-off far left, only visible at 16:9).
+- GUIDE_HC05_BOARD_P.png: one box per man from HC 04 V2 (Daniel x 130-560, Nik x 970-1430, y 130-740), scale 0.8, side by side with a 36 px gap, lip at 50%, the half-cut wall lamp painted cyan; guide_two_boxes.py.
+- RC_BOARD_V2.png: room card with no people: the bare centre oak panel with lip and counter, the wall lamp, and the right marble pilaster.
