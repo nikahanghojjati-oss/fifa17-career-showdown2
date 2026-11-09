@@ -1736,6 +1736,10 @@
   #app #trophyRoom .heroCeremony {top:calc(236 * var(--tr-k))}
   #app #trophyRoom .heroTrophyPicture img {object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 3px 3px rgba(0,0,0,.6))}
   #app #trophyRoom .heroSpotlight,#app #trophyRoom .heroTrophyPicture::after {display:none}
+  /* the counter face between the lip and the trophy tabs holds one line, so the plinth reads "SHOWDOWN CHAMPION  DANIEL ×1 ·
+     NIK ×0" on one line there instead of two (two ran under the tabs at 1366x768 and 1280x650) */
+  #app #trophyRoom .heroPlinth {flex-direction:row;flex-wrap:nowrap;align-items:baseline;justify-content:center;gap:10px;height:auto;min-height:0;padding-block:4px;white-space:nowrap}
+  #app #trophyRoom .heroPlinth small {margin:0}
 }
 @media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #trophyRoom .heroCeremony {top:calc(253 * var(--tr-k))}
