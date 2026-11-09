@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-09 1:02 AM Boston time (EST)",
+ "generated": "2026-11-09 1:04 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 213,
+  "count": 214,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1920,6 +1920,15 @@
     "subject": "Gate B: wire the new handcrafted Home art alone",
     "reply": "yes (see reason)",
     "boston": "Sun 8 Nov 11:35 PM"
+   },
+   {
+    "time": "2026-11-09 06:03",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-068 RECEIVED",
+    "subject": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
+    "reply": "no",
+    "boston": "Mon 9 Nov 1:03 AM"
    }
   ],
   "g2v": {
@@ -1940,8 +1949,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "dcb2f8a",
-  "head_boston": "Sun 8 Nov 11:45 PM",
+  "head": "2ea7884",
+  "head_boston": "Mon 9 Nov 1:03 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2765,7 +2774,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1617
+    "waiting_min": 1620
    },
    {
     "id": "HO-059",
@@ -2883,6 +2892,19 @@
     "worker": "",
     "pickup_min": null,
     "waiting_min": null
+   },
+   {
+    "id": "HO-068",
+    "from": "V",
+    "to": "G",
+    "title": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-068_hc-v2-rooms-board-tunnel-box-office-arch.md",
+    "worker": "",
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -2954,7 +2976,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,

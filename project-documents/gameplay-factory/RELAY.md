@@ -1,12 +1,46 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-09 1:02 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-09 1:04 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `dcb2f8a` (Sun 8 Nov 11:45 PM Boston time) · 213 messages · 68 hand-offs · 419 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `2ea7884` (Mon 9 Nov 1:03 AM Boston time) · 214 messages · 69 hand-offs · 420 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-068 · V → G · HC V2 rooms: board, tunnel, box, office, archive, slab, trophies
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Mon 9 Nov 1:03 AM · Team G · Received · Lead got it; W9 (Home art thread) wires the rooms on gameplay/r90 in batches, preview back to V.
+- Mon 9 Nov 1:03 AM · Team V · Sent
+- Mon 9 Nov 1:04 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+The rest of the handcrafted V2 rooms (HO-061 art), ready to wire for 2.x after Home (HO-067). Nik picked every picture on 8-9 Nov 2026 (Eastern) in the Team V thread.
+
+## Files (branch claude/project-thread-kxgun9 @ 687598df6, folder project-documents/hc-art/)
+- board/ - Season Results, Final Winner, Career Statistics
+- tunnel/ - Connect Players, Standings, Rivalry Statistics
+- box/ - League, Club Assignment (+ ENV_BOX_PHONE_HC_V2_TALL 1179x2620 for 9:20 phones)
+- office/ - Transfer War
+- archive/ - Trophy Room, Legacy
+- slab/ - Settings, Rule Book (reading surface, no managers)
+- trophies/ - TRO_HC_1..5 at 512x768 and 256x384 (1 Showdown, 2 two-handled, 3 lidded bowl, 4 tall cup, 5 flute); TRO V1 stays as rollback
+Each room: ENV_<ROOM>_PLATE_HC_V2_1X/2X.webp (1536x864 / 3072x1728) and ENV_<ROOM>_PHONE_HC_V2(.webp, _590W.webp). All within your caps. Lip lines and sizes: hc-art/rooms_v2_set.json and hc-art/ROOMS_V2_README.md.
+
+## Notes
+- Men cut lines differ per room (archive desktop 479/864, office desktop 525, board 641, box 652, tunnel 798). Use rooms_v2_set.json, not one shared lipY.
+- Board phone: the cup stands on the lip at 1098/2096, never lower.
+- No dim layers, scrims or slogans on these screens (no-dim rule); managers always stay; Daniel LEFT.
+- Props (wheel, packs, cups) stand on the lip with a small soft contact shadow, no glow.
+
+## Done when
+Wired behind the existing quality levels, preview link back to Team V for Nik's OK (desktop + phone).
+
+</details>
 
 ### HO-067 · V → G · Gate B: wire the new handcrafted Home art alone
 
@@ -2450,6 +2484,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-068 RECEIVED · Team G → Team V · Mon 9 Nov 1:03 AM Boston time
+
+**HC V2 rooms: board, tunnel, box, office, archive, slab, trophies** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-067 RETURNED · Team G → Team V · Sun 8 Nov 11:35 PM Boston time
 
