@@ -132,17 +132,21 @@
   function hmScene(){
     const pic=(cls,file,extra)=>`<picture class="${cls}"${extra||""}><source media="(max-width: 760px) and (orientation: portrait), (max-width: 900px) and (max-height: 480px) and (orientation: landscape)" srcset="${BASE}${file}" type="image/webp"><img alt="" decoding="async"></picture>`;
     const frag=hmDoc().createDocumentFragment();
-    // r78 HO-031: the phone plate is Team V's marble ENV_HOME_PHONE_V2 with both managers painted in, so the phone
-    // cut-out layer (OVL_HOME_*_PHONE_V2) is gone.
+    // HO-067 Gate B2: the phone plate is Team V's handcrafted ENV_HOME_PHONE_HC_V2 (css/homeV10.css draws it; the earlier
+    // ENV_HOME_PHONE_V2 stays in visual-assets/v10_1/plates-v2/ as rollback).
+    // The picture fetches the same file the CSS draws, so the plate loads once: the 590 px plate at the smallest download
+    // size (html[data-assets="0"], set by js/gfxTier.js), the full plate otherwise.
+    const lean=hmDoc().documentElement?.dataset?.assets==="0";
     frag.append(
-      hmDecor("plateView",pic("phoneHeroBackground","plates-v2/ENV_HOME_PHONE_V2.webp")+'<div class="plateLayer"></div>'),
-      hmDecor("phoneHeroGrade"),hmDecor("scrim scrimTop"),hmDecor("scrim scrimLow"),hmDecor("dockBed"),
-      hmDecor("scriptLine","<span>More Than A Game</span>")
+      hmDecor("plateView",pic("phoneHeroBackground","plates-hc/ENV_HOME_PHONE_HC_V2"+(lean?"_590W":"")+".webp")+'<div class="plateLayer"></div>'),
+      hmDecor("phoneHeroGrade"),hmDecor("scrim scrimLow")
     );
     return frag;
   }
   function hmLockup(){
-    return hmEl("div","homeLockup",'<p class="lockupKicker sd-label" aria-hidden="true">THE SHOWDOWN STARTS HERE</p><div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1_640W.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp 1040w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div><p class="lockupLegacy sd-tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>');
+    // HO-067 Gate B2: the handcrafted Home room carries no slogans, so the lockup is the wordmark alone (the kicker
+    // "THE SHOWDOWN STARTS HERE", the tagline "TWO MANAGERS · ONE LEGACY" and the "More Than A Game" script line are gone).
+    return hmEl("div","homeLockup",'<div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1_640W.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp 1040w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div>');
   }
   function hmTile(id){
     const button=hmDoc().getElementById(id);

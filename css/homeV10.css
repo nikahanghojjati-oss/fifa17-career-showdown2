@@ -1252,3 +1252,54 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 @media (min-width: 901px) and (max-width: 1439px) and (min-height: 501px) {
   #app #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: min(26px, 1.6vw); white-space: nowrap; }
 }
+
+/* HO-067 Gate B2 (Team V's handcrafted Home art V2 RICH, HC 01 + HC 02 V2): Home stands in the new room alone so Nik can judge it.
+   - Desktop and tablet: ENV_HOME_PLATE_HC_V2, cover-fit and top-anchored as before. Every level loads the 1X plate; High
+     and up (html[data-assets] 2-4) add the 2X plate for sharp screens. The plates-v2 Home plates stay as rollback.
+   - Phone (portrait and sideways): ENV_HOME_PHONE_HC_V2, and the 590 px plate where the device's download size is the
+     smallest (html[data-assets="0"]: Light, a Balanced phone, or Save-Data / a slow connection).
+   - The room is calm and dark where text sits, so nothing is laid over it: no top scrim, no dock bed (both gone from the
+     DOM), no dark patch behind the wordmark or the heading, and the 01/02 strip is not drawn on Home. */
+@media (min-width: 761px) and (orientation: portrait), (min-width: 901px), (min-height: 481px) and (orientation: landscape) {
+  html #app #mainMenu.v10Home .plateView { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp); }
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #mainMenu.v10Home .plateView {
+    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp) 2x);
+  }
+  html #app #mainMenu.v10Home .homeLockup::before, html #app #mainMenu.v10Home .homeLockup::after,
+  html #app #mainMenu.v10Home .fifaMenuHeading::before { background: none; }
+}
+html #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2.webp); }
+html[data-assets="0"] #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2_590W.webp); }
+html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
+/* HO-067 Gate B, upright phone: Team V painted ENV_HOME_PHONE_HC_V2 for this layout. Its top 16% is a plain dark ceiling
+   (the title band), the managers stand from about 16.4% (hair, y 344 of 2096) to the counter's brass lip, which runs from
+   50% to 51.4% (y 1048-1076), and everything below the lip is plain stone for the tiles. All three follow the plate's drawn height (--hc-ph):
+   - the tiles shrink toward their floors (Continue 66 px so its "No Showdown live" line keeps its room, tiles 44 px, Story 44 px) until they start on the stone, 4 px
+     under the lip, so a phone of 393x660 or 360x640 keeps every tile below the lip with no scroll;
+   - only when even the floors do not fit (375x553) does the plate rise, never so far that the hair meets the title, so
+     the tiles then reach a little over the managers' lower jackets and never a face;
+   - the wordmark sits alone in the ceiling band, centred between SIGN IN and the gear, sized to the band. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #mainMenu.v10Home {
+    --hc-ph: max(var(--home-vh), calc(100vw * 2096 / 1179));
+    --hc-hair: calc(var(--hc-ph) * .164);
+    --hc-lip: calc(var(--hc-ph) * .514);
+    --hc-floor: calc(66px + 2 * 44px + var(--home-story-h) + 3 * var(--home-gap) + 16px);
+    --phone-control: min(calc(var(--home-continue-h) + 2 * var(--home-tile-h) + var(--home-story-h) + 3 * var(--home-gap) + 16px),
+      max(var(--hc-floor), calc(var(--home-vh) - var(--phone-nav) - var(--hc-lip) + 4px)));
+    --home-logo-w: min(230px, calc(100vw - 150px), max(150px, calc((var(--hc-hair) - 22px) * 1040 / 378)));
+    --hc-title-b: calc(10px + var(--home-logo-w) * 378 / 1040);
+    --hc-shift: min(0px, max(calc(var(--home-vh) - var(--phone-nav) - var(--phone-control) + 4px - var(--hc-lip)),
+      calc(var(--hc-title-b) + 6px - var(--hc-hair))));
+  }
+  #app #mainMenu.v10Home .phoneHeroBackground {
+    background-size: auto var(--hc-ph); background-position: 50% var(--hc-shift); background-repeat: no-repeat;
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid {
+    grid-template-rows: minmax(66px, var(--home-continue-h)) minmax(44px, var(--home-tile-h)) minmax(44px, var(--home-tile-h)) var(--home-story-h);
+  }
+  #app #mainMenu.v10Home .homeLockup {
+    top: max(10px, calc((var(--hc-hair) + var(--hc-shift) - var(--home-logo-w) * 378 / 1040) / 2 - 4px));
+    width: var(--home-logo-w);
+  }
+}
