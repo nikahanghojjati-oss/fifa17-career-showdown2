@@ -13,7 +13,7 @@
     '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="m32 3 8 18 20 2-15 13 5 20-18-11-18 11 5-20L4 23l20-2z"/></svg>',
     '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="none" stroke="currentColor" stroke-width="6"/><path d="m32 17 10 7-4 12H26l-4-12zm-17 11 11 8-4 13-10-8zm34 0-11 8 4 13 10-8z"/></svg>',
     '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 52h10V34H8zm18 0h10V22H26zm18 0h10V10H44z"/></svg>',
-    `<img src="${window.CAREER_STATISTICS_BASE || ""}../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true">`
+    `<img src="${window.CAREER_STATISTICS_BASE || ""}../shared/trophies-hc/TRO_HC_1_V2_512.webp" alt="" aria-hidden="true">`
   ];
 
   async function loadFixtures() {
@@ -108,7 +108,7 @@
     if (golden && (golden.daniel>0 || golden.nik>0)) {
       const note=document.createElement("p"); note.className="goldenShowdownNote"; note.dataset.goldenShowdown="true";
       const who=["daniel","nik"].filter(role=>golden[role]>0).map(role=>`${NAMES[role]} ×${golden[role]}`).join(" · ");
-      note.innerHTML=`<img src="${window.CAREER_STATISTICS_BASE || ""}../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><strong>${fx.strings.goldenShowdown || "GOLDEN SHOWDOWN"}</strong><span>${who}</span>`;
+      note.innerHTML=`<img src="${window.CAREER_STATISTICS_BASE || ""}../shared/trophies-hc/TRO_HC_1_V2_512.webp" alt="" aria-hidden="true"><strong>${fx.strings.goldenShowdown || "GOLDEN SHOWDOWN"}</strong><span>${who}</span>`;
       panel.appendChild(note);
     }
   }
