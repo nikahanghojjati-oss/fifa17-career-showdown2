@@ -393,13 +393,30 @@
       animation.finish();
     }
   }
-  function clLayout(){if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app){root.ClubPlate.app.layout();clBoxLayout(mountedSection);clFinishReducedMotion();}}
+  // HO-068 lead fix: in the side-by-side CLUBS LOCKED cards on short upright phones (css/v10Club.css), a club name whose
+  // longest word is wider than its card (Mönchengladbach) steps its type down, never below 13px, instead of running into the
+  // card's edge. Every other layout keeps the type its stylesheet gives.
+  const FIT_MEDIA="(max-width: 760px) and (orientation: portrait) and (max-height: 700px)";
+  function clFitNames(section){
+    if(!section||typeof root.requestAnimationFrame!=="function")return;
+    root.requestAnimationFrame(()=>{
+      const fit=section.dataset.clubRevealStage==="confirmation"&&typeof root.matchMedia==="function"&&root.matchMedia(FIT_MEDIA).matches;
+      for(const name of section.querySelectorAll(".clubCardFace strong")){
+        if(name.hasAttribute("data-cl-fit")){name.style.removeProperty("font-size");name.removeAttribute("data-cl-fit");}
+        if(!fit)continue;
+        let size=parseFloat(root.getComputedStyle(name).fontSize)||0;
+        while(size>13&&name.scrollWidth>name.clientWidth+1){size-=1;name.style.setProperty("font-size",`${size}px`);name.setAttribute("data-cl-fit","");}
+      }
+    });
+  }
+  function clLayout(){if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app){root.ClubPlate.app.layout();clBoxLayout(mountedSection);clFitNames(mountedSection);clFinishReducedMotion();}}
   function clUpdate(frame,section){
     fx.clubs={...frame.clubs};fx.frames=toPlateData(frame).fx.frames;
     clSyncCrests(frame,section);
     mountedFrame=frame;
     root.ClubPlate.app.frame(frame.frameId);
     clBoxPacks(section,frame,true);
+    clFitNames(section);
     clFinishReducedMotion();
   }
   function clMount(frame,section){
@@ -414,6 +431,7 @@
       mountedFrame=frame;mountedSection=section;crestFor=[frame.clubs.playerOne,frame.clubs.playerTwo];
       root.ClubPlate.app.mount({fx,map:clBoxMap(platemap),hands:handmap,frame:data.frame});
       if(BOX_ROOM){section.classList.add("cl-box");boxOpen=[false,false];clBoxPacks(section,frame,false);}
+      clFitNames(section);
       // Registered after Team V's resize listener, so its rebuilt effects settle
       // before the resize paints. Preference changes settle an already-open stage.
       root.addEventListener("resize",clFinishReducedMotion);

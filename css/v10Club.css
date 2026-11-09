@@ -1123,3 +1123,37 @@ html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelS
   }
  }
 }
+
+/* HO-068 lead fix: the box room's taller phone scene pushed CLUBS LOCKED under the sticky CONFIRM on upright phones up to
+   700px tall (375x553 had to scroll 94px). In the confirmation step the two club cards stand side by side there, crest and
+   club name only (the panel already says CLUBS LOCKED), so the whole step fits: the lock note reads above CONFIRM at first
+   paint and nothing ever scrolls under the button. Taller phones, tablets and desktop are unchanged. */
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 700px) {
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealArea {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto; column-gap: 6px;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard {
+    grid-template-columns: 22px minmax(0, 1fr); grid-template-rows: auto auto; row-gap: 4px; column-gap: 6px;
+    min-width: 0; padding: 6px 8px 7px 10px; align-items: center;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard > .clubRevealIndex { grid-row: 1; grid-column: 1; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard > .clubManager { grid-row: 1; grid-column: 2; min-width: 0; font-size: 18px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubPackStage {
+    grid-row: 2; grid-column: 1 / -1; min-height: 0;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace {
+    grid-template-columns: 32px minmax(0, 1fr); grid-template-rows: auto; min-height: 36px; column-gap: 8px;
+  }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace .shieldSlot { grid-row: 1; width: 32px; height: 35px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace .clubCardLabel,
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace .clubCardState { display: none; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubCardFace strong { grid-row: 1; grid-column: 2; font-size: 18px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRivalryLockNote { font-size: 12px; }
+}
+/* 375x553 class phones: the header's "CLUBS READY · CONFIRM TO BEGIN" line says what CONFIRM and CLUBS LOCKED already say, so
+   it steps aside in this one step, and the cards and panel sit a little tighter. */
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubAssignmentHeader .stRow { display: none !important; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard { padding-top: 4px; padding-bottom: 5px; }
+  #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] #clubRivalryConfirmation:not(.hidden) { padding-top: 6px; padding-bottom: 7px; }
+}
