@@ -94,8 +94,8 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
 // stages in the last season never cancels its load (CE2PG net::ERR_FAILED); it never blocks longer than 2.5 s.
 {
   const src=read('js/seasonFinalV10.js');
-  assert.match(src,/const TROPHY_PATH="visual-assets\/v10_1\/shared\/trophies\/TRO_SHOWDOWN_CHAMPION_V1_512\.webp"/);
-  for(const shell of ['visual-assets/v10_1/final-winner/app-shell.html','visual-assets/v10_1/season-results/app-shell.html'])assert.ok(read(shell).includes('"visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp"'),`${shell} uses the same URL`);
+  assert.match(src,/const TROPHY_PATH="visual-assets\/v10_1\/shared\/trophies-hc\/TRO_HC_1_V2_512\.webp"/);
+  for(const shell of ['visual-assets/v10_1/final-winner/app-shell.html','visual-assets/v10_1/season-results/app-shell.html'])assert.ok(read(shell).includes('"visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp"'),`${shell} uses the same URL`);
   assert.match(src,/if\(folder==="season-results"\|\|folder==="final-winner"\)await sfWarmTrophy\(\);/);
   assert.match(src,/root\.setTimeout\(\(\)=>finish\(false\),2500\)/);
   // Under node (no Image) the warm-up resolves false at once and prepare carries on.

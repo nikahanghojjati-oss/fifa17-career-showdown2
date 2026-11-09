@@ -230,7 +230,8 @@ function standingsAndFinal(){
   const shell=read("visual-assets/v10_1/final-winner/app-shell.html"),fw=read("visual-assets/v10_1/final-winner/final-winner.js"),fws=JSON.parse(read("visual-assets/v10_1/final-winner/app-strings.json")).strings;
   for(const id of ["panelDanielEuropa","panelNikEuropa"])assert.equal((shell.match(new RegExp(`id="${id}"`,"g"))||[]).length,1,id);
   assert.ok(shell.indexOf("panelNikContinental")<shell.indexOf("panelDanielEuropa")&&shell.indexOf("panelDanielEuropa")<shell.indexOf("panelDanielLeague"),"the EL row follows the CL row");
-  assert.equal((shell.match(/TRO_EUROPA_V1_512\.webp/g)||[]).length,2);
+  // HO-068: the Europa League cup is Team V's handcrafted TRO_HC_5 (TRO V1 stays in the repo as rollback, pinned below).
+  assert.equal((shell.match(/trophies-hc\/TRO_HC_5_V2_512\.webp/g)||[]).length,2);
   // Team V HO-034 (ticket 1848) art, byte for byte as handed off (TRO_EUROPA_V1.md on factory/v1-wtt5ye @ b6928ba4).
   for(const [file,sha] of [["TRO_EUROPA_V1_512.webp","8dd3147c1100ece7289ab7569a1cbbd20d823193c8ee255eb63cf91fb73d2030"],["TRO_EUROPA_V1_1536.webp","9bdfbee3a11c2d725ec477601e58050da5e955d4805eadeff14a1cdf408069c7"]])
     assert.equal(require("node:crypto").createHash("sha256").update(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/shared/trophies",file))).digest("hex"),sha,file);

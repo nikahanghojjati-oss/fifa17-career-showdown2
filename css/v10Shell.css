@@ -420,7 +420,12 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
     --cs2-ring: inset 0 0 0 1px rgba(5, 5, 5, .9), inset 0 1px 0 1px rgba(255, 236, 160, .2), 0 6px 18px rgba(0, 0, 0, .5);
   }
   #app #careerStatistics.careerScreenV10 .sd-stage__plate {
-    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_2X.webp") 2x);
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp");
+  }
+  /* HO-068: Career Statistics stands in Team V's board room (ENV_BOARD_PLATE_HC_V2): the 1X plate at every level, the 2X
+     plate at High and up; the plates-v2 statistics plate stays as rollback */
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerStatistics.careerScreenV10 .sd-stage__plate {
+    background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp") 2x);
   }
   #app #careerStatistics.careerScreenV10 :is(.sd-stage__layer--cutout, .sd-stage__layer--light) { display: none; }
   #app #careerStatistics.careerScreenV10 :is(.headlineTile, .glassPanel, .leaderCard, .actionButton) {
@@ -447,6 +452,95 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
 /* Ultrawide: the wordmark is sized from the title block's width, so on 2560x1080 it grew over the tagline; here it keeps its 1920x1080 size. */
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 11/5) and (orientation: landscape) {
   #app #careerStatistics.careerScreenV10 .titleWordmark { width: min(93.6%, 66.2vh); left: calc(50% - min(46.8%, 33.1vh)); }
+}
+
+/* HO-068 (Nik 2026-11-09, "words and boxes touching and covering faces"): on Team V's board room the men's heads are large and
+   sit in the top third, so the r72 content column ran over Daniel's beard and Nik's face at every desktop size. The plate is
+   drawn cover from the top-centre of the stage (1672x941 registration, plate 1536x864), so the faces are known in CSS:
+   Daniel's beard ends at x 29.30% and Nik's face starts at 67.06% of the plate width, and Nik's chin ends at 32.64% of its
+   height. The four totals now sit between the two heads, centred, with the same gap to each face; the Career Table, Manager
+   Comparison, Career Leaders and the actions start one gap below the chins and keep one even gap between every row. Where
+   the space between the heads is too narrow for four totals in a row they take two rows of two. Words, ids and tap order are
+   unchanged. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html #app #careerStatistics.careerScreenV10 {
+    --hc-u: min(1vw, 1.7778vh);
+    --hc-rw: max(100vw, 100vh * 1672 / 941); --hc-rh: calc(var(--hc-rw) * 941 / 1672);
+    --hc-g: clamp(10px, calc(var(--hc-u) * .8), 16px);
+    /* half the width that clears both heads, measured from the centre line to Nik's face (the nearer one) */
+    --hc-half: calc(var(--hc-face-half-px, calc(var(--hc-rw) * .1706)) - var(--hc-g) - 6px);
+    --hc-chin: var(--hc-chin-px, calc(var(--hc-rh) * .3264));
+    --hc-tiles-w: min(52vw, var(--hc-half) * 2);
+    /* the wordmark ends at 24.9% of the stage height at every desktop size */
+    --hc-tiles-top: calc(24.9vh + var(--hc-g)); --hc-row: 12.5vh; --hc-rows: 1;
+    --hc-tiles-h: calc(var(--hc-row) * var(--hc-rows) + var(--hc-g) * (var(--hc-rows) - 1));
+    --hc-p: max(calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g)), calc(var(--hc-chin) + var(--hc-g)));
+    /* what the Manager Comparison's seven rows and the leader cards need, so neither is ever cut */
+    --hc-pmin: calc(var(--hc-u) * 3.7 + 7 * max(18px, calc(var(--hc-u) * 1.4)));
+    --hc-lmin: max(104px, calc(var(--hc-u) * 8));
+    --hc-act-h: max(44px, 6.5vh);
+    --hc-end: min(calc(100vh - 8px), max(90.5vh, calc(var(--hc-p) + var(--hc-pmin) + var(--hc-lmin) + var(--hc-act-h) + var(--hc-g) * 2)));
+    --hc-avail: calc(var(--hc-end) - var(--hc-p) - var(--hc-act-h) - var(--hc-g) * 2);
+    --hc-panel-h: max(var(--hc-pmin), min(calc(var(--hc-avail) * .58), calc(var(--hc-avail) - var(--hc-lmin))));
+    --hc-lead-h: calc(var(--hc-avail) - var(--hc-panel-h));
+    --hc-col-w: 52vw; --hc-half-col: calc((var(--hc-col-w) - var(--hc-g)) / 2);
+  }
+  html #app #careerStatistics.careerScreenV10 .headlineTiles {
+    left: calc(50vw - var(--hc-tiles-w) / 2); width: var(--hc-tiles-w); top: var(--hc-tiles-top); height: var(--hc-tiles-h);
+    gap: var(--hc-g); grid-template-rows: repeat(var(--hc-rows), minmax(0, 1fr));
+  }
+  html #app #careerStatistics.careerScreenV10 :is(.careerTablePanel, .comparisonPanel) { top: var(--hc-p); height: var(--hc-panel-h); width: var(--hc-half-col); }
+  html #app #careerStatistics.careerScreenV10 .careerTablePanel { left: calc(50vw - var(--hc-col-w) / 2); }
+  html #app #careerStatistics.careerScreenV10 .comparisonPanel { left: calc(50vw + var(--hc-g) / 2); }
+  html #app #careerStatistics.careerScreenV10 .leadersPanel { left: calc(50vw - var(--hc-col-w) / 2); width: var(--hc-col-w); top: calc(var(--hc-p) + var(--hc-panel-h) + var(--hc-g)); height: var(--hc-lead-h); }
+  html #app #careerStatistics.careerScreenV10 .actionRow { left: calc(50vw - var(--hc-col-w) / 2); width: var(--hc-col-w); top: calc(var(--hc-end) - var(--hc-act-h)); height: var(--hc-act-h); }
+  html #app #careerStatistics.careerScreenV10 .partialBanner { left: calc(50vw - var(--hc-col-w) / 2); width: var(--hc-col-w); top: calc(var(--hc-p) - var(--hc-g) / 2 - 12px); }
+  html #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] :is(.careerTablePanel, .comparisonPanel) { top: calc(var(--hc-p) + 18px); height: calc(var(--hc-panel-h) - 18px); }
+  html #app #careerStatistics.careerScreenV10 .sd-stage__layer--plate > .sd-stage__registered { translate: 0 var(--hc-plate-drop, 0px); }
+  /* the wordmark keeps the same room from both faces */
+  html #app #careerStatistics.careerScreenV10 .titleWordmark img { display: block; margin-inline: auto; max-width: calc(var(--hc-half) * 2); height: auto; }
+  /* no shade behind the title: it reached Nik's hair (no dimming, no scrims) */
+  html #app #careerStatistics.careerScreenV10 .titleBlock::before { content: none; }
+}
+/* the space between the heads is narrower than four totals need (plate under 2400px wide): two rows of two, the numbers a
+   size smaller so each row stays short */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (max-width: 2399px) and (max-height: 1350px) {
+  html #app #careerStatistics.careerScreenV10 { --hc-rows: 2; --hc-row: max(52px, 7vh); }
+  /* the table between the faces is narrower than before: "Showdowns" takes 2 points of width from the name column
+     (it ran 1px past its cell at 1280x650) */
+  :root #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(2) { width: 22%; }
+  :root #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(3) { width: 22%; }
+  html #app #careerStatistics.careerScreenV10 .headlineTiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html #app #careerStatistics.careerScreenV10 .headlineTile { padding-block: calc(var(--hc-u) * .35); align-content: center; }
+  html #app #careerStatistics.careerScreenV10 .headlineNumber { font-size: max(30px, calc(var(--hc-u) * 2.6)); }
+  html #app #careerStatistics.careerScreenV10 .headlinePair { margin-top: 0; }
+  html #app #careerStatistics.careerScreenV10 .headlineCopy { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; column-gap: 8px; }
+  html #app #careerStatistics.careerScreenV10 .headlineLabel { grid-column: 1 / -1; }
+  html #app #careerStatistics.careerScreenV10 .headlineTogether { margin: 0; }
+  html #app #careerStatistics.careerScreenV10 .headlinePair b { font-size: max(24px, calc(var(--hc-u) * 2)); }
+}
+
+/* short desktop windows (1200x600 class, Codex on #1333): the rows below the chins needed about 25px more than the window has,
+   and Career Leaders was cut to 79px. Here every gap is 8px (still one even gap), the totals keep a 48px row, the leader cards
+   get the 100px they draw and the column ends 4px from the window edge, so the Manager Comparison keeps its seven rows and
+   Career Leaders shows whole. Below the chins the leaders and the three buttons take the room between the men's shoulders, as
+   before HO-068, so no button label runs to three lines. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (max-width: 2399px) and (max-height: 630px) {
+  html #app #careerStatistics.careerScreenV10 {
+    --hc-g: 8px; --hc-row: 48px; --hc-lmin: 100px;
+    --hc-end: min(calc(100vh - 4px), max(90.5vh, calc(var(--hc-p) + var(--hc-pmin) + var(--hc-lmin) + var(--hc-act-h) + var(--hc-g) * 2)));
+  }
+  html #app #careerStatistics.careerScreenV10 .headlineTile { padding-block: 1px; }
+  html #app #careerStatistics.careerScreenV10 :is(.leadersPanel, .actionRow) { left: 14vw; width: 72vw; }
+}
+
+/* ultrawide (plate 2700px wide and more): the heads are so tall that rows below the chins no longer fit, but the room
+   between them is wide enough for the whole column, so every row stands between the two faces instead */
+@media (min-width: 2700px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html #app #careerStatistics.careerScreenV10 {
+    --hc-col-w: min(52vw, var(--hc-half) * 2);
+    --hc-p: calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g));
+  }
 }
 
 /* r85 (Nik 2026-10-27): the soundtrack player (js/musicDockV10.js). Desktop: a compact dock in the top bar after the tabs, on
@@ -736,3 +830,7 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 @media (max-height: 700px) and (min-width: 761px) {
   html[data-v10-screen="trophyRoom"] #trophyRoom .heroCeremony .heroTrophyPicture { height: auto; bottom: max(calc(27% + 3px), 45px); }
 }
+
+/* HO-068 (Team V's handcrafted V2 rooms): no slogans in the rooms. The "TWO MANAGERS. ONE LEGACY." line under the Career
+   Statistics title keeps its place (nothing moves) but is not shown, at every size. */
+#app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { visibility: hidden !important; }
