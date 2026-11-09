@@ -83,6 +83,114 @@
   const ROOT_CLASSES=Object.freeze(["phone","desktop","compact","ready","scrolly"]);
   const ROOT_PROPS=Object.freeze(["--s","--k","--compactRoom","--noteBleedL","--noteBleedR","--tabH","--btnTop","--btnCx","--vsFs","--club-walkout-ms","--club-walkout-ease","--club-anticipation-ms","--club-anticipation-ease","--club-vs-ms","--club-vs-ease","--club-lock-ms","--club-lock-ease"]);
   const MOTION_CLASSES=Object.freeze(["sd-entered","sd-is-animating","sd-is-pulsing","sd-is-popping","sd-is-flipping","sd-is-slamming","sd-is-glinting","sd-motion-ready","clubNameWalkout","is-vs-slamming","is-lock-stamping","is-anticipating"]);
+  // HO-068 (2026-11-09, lead art queue 1): Club Assignment stands in Team V's handcrafted box room (the Select League room,
+  // visual-assets/v10_1/plates-hc/ENV_BOX_*) with Team V's club pack prop (PACK_CLUB_HC_V1, one sealed pack). Each manager's
+  // pack stands on the room's counter lip (plate y 652 of 864 desktop, 1219 of 2096 phone) with a small soft contact shadow
+  // and no glow; the live game splits it along the top crimp to open it and puts the club's crest in the pack's empty brass
+  // shield. club.js still lays out every product element: it is handed the box room's face and pack boxes (same 1536x864
+  // plate units), so the pack shells (and their tap targets) sit on the new packs. Rollback: BOX_ROOM=false brings back
+  // the held-pack plate exactly as before (nothing of it was removed).
+  const BOX_ROOM=true;
+  const BOX_PACKS=Object.freeze([[130,431,270,652],[1266,431,1406,652]]);
+  // club.js's pack shells (the packs' tap targets, which the cards are placed from) keep the old shells' bottom edge (598),
+  // so the lower deck and the CLUBS LOCKED tab stay exactly where they were.
+  const BOX=Object.freeze({face_daniel:[205,70,415,315],face_nik:[1075,85,1250,325],pack_daniel:[130,431,270,598],pack_nik:[1266,431,1406,598]});
+  // Upright phones and sideways phones: the packs stand between the men on the phone plate's lip (1179x2096 plate px);
+  // Daniel points down at his.
+  const BOX_PHONE=Object.freeze({lip:1219,hair:575,packs:[[444,985,590,1215],[602,985,748,1215]]});
+  // PACK_CLUB_HC_V1 is 600x800 with the pack itself at x 61-538, y 24-776; the top crimp ends at y 74.
+  const PACK_ART=Object.freeze({w:600,h:800,box:[61,24,538,776]});
+  const clBoxMap=map=>BOX_ROOM&&map?{...map,protected_boxes:{...map.protected_boxes,...BOX}}:map;
+  let boxOpen=[false,false],boxBand=null;
+  const PHONE_MQ="(max-width: 760px) and (orientation: portrait)";
+  const SIDE_MQ="(min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape)";
+  const TABLET_MQ="(min-width: 761px) and (max-width: 1024px) and (orientation: portrait)";
+  const clMatch=query=>Boolean(root.matchMedia&&root.matchMedia(query).matches);
+  // The element box of a pack drawn so that its pack (PACK_ART.box) fills the plate rect r.
+  function clPackBox(r){
+    const [x0,y0,x1]=r,b=PACK_ART.box,q=(x1-x0)/(b[2]-b[0]);
+    return {left:x0-b[0]*q,top:y0-b[1]*q,width:PACK_ART.w*q,height:PACK_ART.h*q};
+  }
+  function clPackNode(index){
+    const pack=clMake("div","clbPack");pack.dataset.side=String(index);
+    pack.innerHTML='<span class="clbShadow"></span><span class="clbBody"></span><span class="clbCrest"></span><span class="clbTop"></span>';
+    return pack;
+  }
+  // The packs on the stage (desktop: in the plate world, placed in plate percent) and in the phone band (placed in px).
+  function clBoxPacks(section,frame,animate){
+    if(!BOX_ROOM||!section)return;
+    const world=section.querySelector(":scope > .cl-stage #world"),band=section.querySelector(":scope > .clPhoneScene");
+    const hosts=[];
+    if(world)hosts.push([world,"world"]);
+    if(band)hosts.push([band,"band"]);
+    ROLES.forEach((role,index)=>{
+      const club=frame?frame.clubs[role]:"",open=Boolean(club),opening=open&&!boxOpen[index]&&animate;
+      for(const [host,kind] of hosts){
+        let pack=host.querySelector(`:scope > .clbPack[data-side="${index}"]`);
+        if(!pack){
+          pack=clPackNode(index);host.appendChild(pack);
+          if(kind==="world"){
+            const box=clPackBox(BOX_PACKS[index]);
+            Object.assign(pack.style,{left:`${box.left/15.36}%`,top:`${box.top/8.64}%`,width:`${box.width/15.36}%`,height:`${box.height/8.64}%`});
+          }
+        }
+        const crest=pack.querySelector(".clbCrest");
+        if(open&&crest.dataset.club!==club){crest.innerHTML=typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";crest.dataset.club=club;}
+        if(!open&&crest.dataset.club){crest.innerHTML="";delete crest.dataset.club;}
+        pack.classList.toggle("is-open",open);
+        if(opening&&typeof pack.animate==="function"&&pack.getClientRects().length)clPackOpen(pack,index);
+      }
+      boxOpen[index]=open;
+    });
+    clBoxLayout(section);
+  }
+  function clBoxClear(section){
+    if(!section||!section.style)return;
+    section.style.removeProperty("--clb-bg-pos");section.style.removeProperty("--clb-bg-size");
+    if(section.getAttribute("style")==="")section.removeAttribute("style");
+  }
+  // The split: the strip above the top crimp tears off and falls away to the outside, the pack settles, and the crest
+  // rises into the shield. Web Animations on the screen's own nodes, so reduced motion settles them (clFinishReducedMotion).
+  function clPackOpen(pack,index){
+    const out=index?1:-1,top=pack.querySelector(".clbTop"),body=pack.querySelector(".clbBody"),crest=pack.querySelector(".clbCrest");
+    top.animate([{transform:"none",opacity:1},{transform:`translate(${out*2}%,-4%) rotate(${out*5}deg)`,opacity:1,offset:.4},{transform:`translate(${out*7}%,-12%) rotate(${out*13}deg)`,opacity:0}],{duration:560,easing:"cubic-bezier(.16,.78,.24,1)"});
+    body.animate([{transform:"none"},{transform:"translateY(-1.2%) scale(1.012)",offset:.35},{transform:"none"}],{duration:520,easing:"cubic-bezier(.2,.7,.3,1)"});
+    crest.animate([{opacity:0,transform:"translateY(9%) scale(.82)"},{opacity:1,transform:"none"}],{duration:460,delay:240,easing:"cubic-bezier(.22,1,.36,1)",fill:"backwards"});
+  }
+  // Phones: where the plate is drawn and where the packs stand, from the band's live size. Upright: the plate is the
+  // screen's (drawn on the section) and its lip meets the band's bottom edge, at a width that keeps both heads under the
+  // title (hair at plate y 575) and at most 125vw on phones, so both heads stay whole (Daniel's hair starts at plate x 135,
+  // 11.5% in); sideways: the plate fills the band's width with its lip at most 10px above its bottom.
+  function clBoxLayout(section){
+    if(!BOX_ROOM||!section)return;
+    const band=section.querySelector(":scope > .clPhoneScene");
+    const portrait=clMatch(PHONE_MQ)||clMatch(TABLET_MQ),side=clMatch(SIDE_MQ);
+    if(!band||!(portrait||side)){clBoxClear(section);return;}
+    const sec=section.getBoundingClientRect(),b=band.getBoundingClientRect();
+    if(!b.width||!b.height)return;
+    let w,x,y;
+    if(portrait){
+      // the lip sits on the band's bottom edge, or 8px above RIVALRY VS where that rides up into the band
+      const vs=section.querySelector(".clubVs"),v=vs?vs.getBoundingClientRect():null;
+      const lip=Math.min(b.bottom,v&&v.height&&v.top>b.top?v.top-8:b.bottom)-sec.top;
+      const max=clMatch(PHONE_MQ)?sec.width*1.25:sec.width,title=64;
+      w=Math.max(sec.width,Math.min(max,(lip-title)*1179/(BOX_PHONE.lip-BOX_PHONE.hair)));
+      x=(sec.width-w)/2;y=lip-BOX_PHONE.lip*w/1179;
+      section.style.setProperty("--clb-bg-pos",`${x.toFixed(1)}px ${y.toFixed(1)}px`);section.style.setProperty("--clb-bg-size",`${w.toFixed(1)}px auto`);
+      x-=b.left-sec.left;y-=b.top-sec.top;
+    }else{
+      const vs=section.querySelector(".clubVs"),v=vs?vs.getBoundingClientRect():null;
+      const lip=Math.min(b.height-10,v&&v.height&&v.top>b.top?v.top-b.top-8:b.height);
+      w=b.width;x=0;y=Math.min(0,lip-BOX_PHONE.lip*w/1179);
+      clBoxClear(section);
+      band.style.setProperty("--clb-band-pos",`${x.toFixed(1)}px ${y.toFixed(1)}px`);band.style.setProperty("--clb-band-size",`${w.toFixed(1)}px auto`);
+    }
+    const k=w/1179;
+    band.querySelectorAll(":scope > .clbPack").forEach(pack=>{
+      const box=clPackBox(BOX_PHONE.packs[Number(pack.dataset.side)]);
+      Object.assign(pack.style,{left:`${(x+box.left*k).toFixed(1)}px`,top:`${(y+box.top*k).toFixed(1)}px`,width:`${(box.width*k).toFixed(1)}px`,height:`${(box.height*k).toFixed(1)}px`});
+    });
+  }
   let installed=false,registered=null,platemap=null,handmap=null,cached=null,mountedFrame=null,mountedSection=null,fx=null;
   let records=[],classStates=new Map(),observers=[],sectionSize=null,relayout=null,crestFor=["",""],glyphs=null,fontsWait=false;
   const v10Screens=()=>root.CareerModeV10Screens;
@@ -259,12 +367,14 @@
     root.removeEventListener("resize",clFinishReducedMotion);
     for(const observer of observers.splice(0))observer.disconnect();
     if(sectionSize){sectionSize.disconnect();sectionSize=null;}
+    if(boxBand){boxBand.disconnect();boxBand=null;}
     if(relayout!==null){root.cancelAnimationFrame(relayout);relayout=null;}
     if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app){try{root.ClubPlate.app.unmount();}catch(_error){}}
     const host=section||mountedSection;
     if(host){
       clUndecorate(host);
-      host.classList.remove("cl-on","sd-motion-ready");
+      host.classList.remove("cl-on","cl-box","sd-motion-ready");
+      clBoxClear(host);
       if(host.dataset)delete host.dataset.sdMotionReduced;
     }
     clRestore();
@@ -283,12 +393,13 @@
       animation.finish();
     }
   }
-  function clLayout(){if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app){root.ClubPlate.app.layout();clFinishReducedMotion();}}
+  function clLayout(){if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app){root.ClubPlate.app.layout();clBoxLayout(mountedSection);clFinishReducedMotion();}}
   function clUpdate(frame,section){
     fx.clubs={...frame.clubs};fx.frames=toPlateData(frame).fx.frames;
     clSyncCrests(frame,section);
     mountedFrame=frame;
     root.ClubPlate.app.frame(frame.frameId);
+    clBoxPacks(section,frame,true);
     clFinishReducedMotion();
   }
   function clMount(frame,section){
@@ -301,7 +412,8 @@
       clDecorate(section);
       const data=toPlateData(frame);fx=data.fx;
       mountedFrame=frame;mountedSection=section;crestFor=[frame.clubs.playerOne,frame.clubs.playerTwo];
-      root.ClubPlate.app.mount({fx,map:platemap,hands:handmap,frame:data.frame});
+      root.ClubPlate.app.mount({fx,map:clBoxMap(platemap),hands:handmap,frame:data.frame});
+      if(BOX_ROOM){section.classList.add("cl-box");boxOpen=[false,false];clBoxPacks(section,frame,false);}
       // Registered after Team V's resize listener, so its rebuilt effects settle
       // before the resize paints. Preference changes settle an already-open stage.
       root.addEventListener("resize",clFinishReducedMotion);
@@ -322,6 +434,8 @@
         let last="";
         sectionSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;last=size;if(relayout===null)relayout=root.requestAnimationFrame(()=>{relayout=null;clLayout();});});
         sectionSize.observe(section);
+        const band=BOX_ROOM&&section.querySelector(":scope > .clPhoneScene");
+        if(band){boxBand=new root.ResizeObserver(()=>{if(relayout===null)relayout=root.requestAnimationFrame(()=>{relayout=null;clLayout();});});boxBand.observe(band);}
       }
       const fonts=root.document.fonts;
       if(fonts&&fonts.ready&&!fontsWait){fontsWait=true;fonts.ready.then(()=>{fontsWait=false;clLayout();},()=>{fontsWait=false;});}

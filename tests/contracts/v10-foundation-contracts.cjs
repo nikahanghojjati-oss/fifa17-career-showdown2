@@ -747,6 +747,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp":"b9fe46be16198be235cc1a78e0316b9b65c56525a2010087cb5583b6fd57346d",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp":"f78da7395ca80138339403f4b9d2a3bb13f59932485f970a712ff8e1acc991fb",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp":"cc0e47b42a5eb62d16232002b292cf406bfc091b1a85ebede86c75011bedbd29",
+    "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_2X.webp":"2da72663a210c524ddce55ae7b4882386f3759c2ccdfb3df77f50574bdec39e9",
+    "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_1X.webp":"402daae9c9f13535ed77babc57a79a7f8d0a2735b5be3733d54eecdbbcd5e0bf",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp":"77f9d3ca0ab75ac859429f94e3c394b0b7140953a947b153146cdfa1d7ab967d",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp":"4b4d13629323d32a0023c45172ecd144d32dd299f81efa4b1ca8f8a64f4e7058",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL.webp":"6b479780883ce5acd51442dceba2e6c2264d22a1a743b9287552783497a7c66e",

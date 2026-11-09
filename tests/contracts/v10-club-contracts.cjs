@@ -298,30 +298,34 @@ async function browserChecks(){
       await page.evaluate(()=>{document.getElementById("sharedShowdownPresentationStatus").remove();document.getElementById("sharedShowdownSeasonChoice").remove();});
     });
 
-    check("7b the pack emblems and labels never run into the hero band's edge or the progress line, in every reveal state (375x553, 390x844, 852x393)",async()=>{
-      // Whatever the state, a badge is either drawn whole inside the plate band, above the progress line, or not drawn at all
-      // r90 W9 (LOOK hunt L19): the stepper is no longer drawn; when it is hidden there is no line to stay above.
-      // (the confirmation panels cover the packs on a short phone; the badge then gives way instead of covering them).
-      // Where the band has room (the sealed and reveal states on 375x553 and every state on the taller phones) it is drawn.
+    check("7b HO-068 box room: on phones both packs stand whole on the lip, clear of the faces, RIVALRY VS and the title, in every reveal state (375x553, 390x844, 852x393)",async()=>{
+      // The old plate's drawn pack badges (.clPhoneScene::before/::after) are not drawn over the box room; Team V's pack prop
+      // (.clbPack) stands on the room's lip instead (js/clubScreenV10.js BOX_PHONE). Upright phones may scroll to keep both
+      // men whole under the title (the band keeps its height), so "on screen" is measured on the page, not the viewport.
       for(const name of ["ready","manager-one","manager-two","versus","confirmation"]){
         await page.setViewportSize({width:1920,height:1080});
         await stage(page,name);
         for(const size of [{width:375,height:553},{width:390,height:844},{width:852,height:393}]){
           await page.setViewportSize(size);await page.waitForTimeout(400);
           const found=await page.evaluate(()=>{
-            const scene=document.querySelector("#clubWheelScreen .clPhoneScene"),band=scene.getBoundingClientRect(),progress=document.querySelector("#clubWheelScreen .clubRevealProgress").getBoundingClientRect();
-            return ["::before","::after"].map(pseudo=>{
-              const css=getComputedStyle(scene,pseudo),left=band.left+parseFloat(css.left),top=band.top+parseFloat(css.top),width=parseFloat(css.width)||0,height=parseFloat(css.height)||0;
-              return {drawn:css.content!=="none"&&css.display!=="none"&&width>0&&height>0,left,top,right:left+width,bottom:top+height,bandRight:band.right,bandBottom:band.bottom,progressTop:progress.height>0?progress.top:Infinity};});
+            const scene=document.querySelector("#clubWheelScreen .clPhoneScene"),band=scene.getBoundingClientRect();
+            const vs=document.querySelector("#clubWheelScreen .clubVs").getBoundingClientRect(),title=document.querySelector("#clubWheelScreen > h2").getBoundingClientRect();
+            const badges=["::before","::after"].map(pseudo=>getComputedStyle(scene,pseudo).content!=="none");
+            const packs=[...scene.querySelectorAll(":scope > .clbPack")].map(p=>{const r=p.getBoundingClientRect(),w=r.width,h=r.height;
+              return {left:r.left+w*61/600,top:r.top+h*24/800,right:r.left+w*538/600,bottom:r.top+h*776/800,open:p.classList.contains("is-open")};});
+            return {badges,packs,band:{left:band.left,right:band.right,bottom:band.bottom},vs:{top:vs.top,left:vs.left,right:vs.right,bottom:vs.bottom},titleBottom:title.bottom};
           });
           const label=`${name} ${size.width}x${size.height}`;
-          for(const [i,b] of found.entries()){
-            if(b.drawn){
-              assert.ok(b.left>=0&&b.right<=b.bandRight+.5&&b.bottom<=b.bandBottom+.5,`${label}: pack badge ${i+1} is inside the plate band, not clipped: ${JSON.stringify(b)}`);
-              if(size.width<size.height)assert.ok(b.bottom<=b.progressTop+.5,`${label}: pack badge ${i+1} ends above the progress line: ${JSON.stringify(b)}`);
-            }
-            else assert.ok(size.height===553&&(name==="versus"||name==="confirmation"),`${label}: pack badge ${i+1} is drawn (only the versus and confirmation states of 375x553 have no room)`);
+          assert.deepEqual(found.badges,[false,false],`${label}: the old plate's pack badges are not drawn`);
+          assert.equal(found.packs.length,2,`${label}: both packs stand in the band`);
+          for(const [i,b] of found.packs.entries()){
+            assert.ok(b.left>=found.band.left-.5&&b.right<=found.band.right+.5&&b.bottom<=found.band.bottom+.5,`${label}: pack ${i+1} is whole inside the band: ${JSON.stringify(found)}`);
+            assert.ok(b.top>=found.titleBottom,`${label}: pack ${i+1} is under the title: ${JSON.stringify(found)}`);
+            const clear=b.bottom<=found.vs.top+.5||b.right<=found.vs.left||b.left>=found.vs.right||b.top>=found.vs.bottom;
+            assert.ok(clear,`${label}: pack ${i+1} is clear of RIVALRY VS: ${JSON.stringify(found)}`);
           }
+          const revealed=name!=="ready";
+          assert.equal(found.packs[0].open,revealed,`${label}: Daniel's pack is open once the product revealed it`);
         }
       }
       await page.setViewportSize({width:1920,height:1080});

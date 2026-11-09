@@ -149,7 +149,8 @@ function exposedOldHome(rec){
     // screen was revealed as a dark stage and its plate painted in later (Club: a second show() of the same frame also settled the
     // cover early); the cover now stays until the plate is decoded (capped).
     await plateGate(browser,base,"Rule Book","ruleBook",/ENV_RULE_BOOK_PLATE_V2_1X\.webp/,"window.openOptionalModule('ruleBook')");
-    await plateGate(browser,base,"Club","clubWheelScreen",/ENV_CLUB_PLATE_V2_1X\.webp/,CLUB_OPEN);
+    // HO-068: Club stands in the box room (js/clubScreenV10.js BOX_ROOM), so its plate is the box room plate.
+    await plateGate(browser,base,"Club","clubWheelScreen",/ENV_BOX_PLATE_HC_V2_1X\.webp/,CLUB_OPEN);
     // Safety: with no lazy loader at all (idle callbacks never run, as some audits arrange) the loading screen still leaves.
     {
       const {context,rec}=await start(browser,base,{delay:false,stubIdle:true,cpu:1});
