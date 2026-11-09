@@ -29,7 +29,8 @@ const ENGINE="visual-assets/v10_1/roulette/vendor/three-r187.min.js";
 {
   const list=name=>{const at=sw.indexOf(name);return sw.slice(at,sw.indexOf("]);",at));};
   assert.ok(list("const SHELL_PATHS = Object.freeze([").includes('"js/chamberMenScene3d.js"'),"the scene is precached");
-  assert.ok(list("const SHELL_PATHS_ADDED_SINCE_PREVIOUS").includes('"js/chamberMenScene3d.js"'),"the scene is new since the last release");
+  // 2.3.0: the scene shipped in 2.2.0, so it is in r89's own shell list (the rollback target), not new since it.
+  assert.ok(JSON.parse(read("tests/fixtures/shell-paths/2.2.0-r89.json")).paths.includes("js/chamberMenScene3d.js")&&!list("const SHELL_PATHS_ADDED_SINCE_PREVIOUS").includes('"js/chamberMenScene3d.js"'),"the scene shipped in 2.2.0 and is in the rollback shell");
   assert.ok(list("const UNVERSIONED_SHELL_ASSET_PATHS").includes(`"${ENGINE}"`),"the engine is served from the shell without ?v");
   assert.ok(scene.includes(`const ENGINE_PATH="${ENGINE}";`),"the scene loads the one vendored build");
   assert.ok(!/ENGINE_PATH\s*\+|\?v=/.test(scene),"by its plain path (no ?v, so the shell copy answers offline)");
