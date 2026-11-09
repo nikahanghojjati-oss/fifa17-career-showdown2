@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-09 3:53 AM Boston time (EST)",
+ "generated": "2026-11-09 3:57 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 215,
@@ -1995,8 +1995,8 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 4 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2783,7 +2783,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 1788
+    "waiting_min": 1792
    },
    {
     "id": "HO-059",
