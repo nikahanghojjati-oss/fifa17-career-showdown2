@@ -754,6 +754,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp":"ebed7be9406625bedd032967276a36ac8298f393bef00b9eb83ac0fefac61d22",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp":"897f5639fe3ac3790594070d0fd55b121094bae70265c9bcc96e7038c152c78c",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp":"774945d8dee301e6f147f943df9abea1ea3263444853256e6cdf7a8ef2b5ab11",
+    "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp":"76cf5166df341e532ae707615c2daddd49ad8fa83b0db2ca018640658f083e71",
     // HO-067 Gate B2 (2026-11-09): Team V's handcrafted Home art V2 RICH (HC 01 + HC 02 V2, claude/project-thread-kxgun9
     // 9e334b234, project-documents/hc-art/home/), which Nik picked at Gate A2; the V2 Home plates above stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp":"01c65c91b7fca42b7bebd0b2f8012f3de201efe6cd012ff2059cf2652d3cab6c",

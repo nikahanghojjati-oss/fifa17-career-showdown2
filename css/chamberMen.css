@@ -8,7 +8,7 @@
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   color: var(--r78-ivory, #f2ebdd);
-  background: #050403 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  background: #050403 url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp") 50% 50% / cover no-repeat;
   font: 500 16px/1.4 var(--r78-font-body, "Barlow", system-ui, sans-serif);
 }
 #cmStage .cmShell {
@@ -125,7 +125,7 @@
   margin: 0 auto;
   display: block;
   box-sizing: border-box;
-  background: #0b0906 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  background: #0b0906 url("../visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp") 0 0 / 256px 256px repeat;
   border: 1px solid var(--r78-gold-edge, #d4a017);
   border-radius: 3px;
   box-shadow: inset 0 0 0 3px #110f0c, inset 0 0 0 4px #6b5323;
@@ -341,7 +341,7 @@
 #cmStage .cmGoalBox.cm3d-wait .cmGoal { visibility: hidden; }
 #cmStage .cmGoalBox.cm3d-wait::after {
   content: "LOADING CHAMBER MEN"; position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; border-radius: 3px;
-  background: #0b0906 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  background: #0b0906 url("../visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp") 0 0 / 256px 256px repeat;
   color: var(--sd-gold-300, #ffd34d); font: 700 clamp(16px, 2.4vw, 24px)/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .12em;
 }
 
@@ -410,4 +410,15 @@
   #cmStage .cmActions > button.menuButton, #cmStage .cmActions > button.cmBack { min-width: 0; }
   #cmStage .cmActions > button.cmLock, #cmStage .cmActions > button.cmNext { flex: 1 1 auto; }
   #cmStage .cmActions > button.cmBack { flex: 0 0 auto; padding: 10px 14px; font-size: 14px; }
+}
+
+/* HO-068 house slab (Team V's handcrafted V1, visual-assets/v10_1/plates-hc/ENV_SLAB_* and TILE_SLAB_HC_V1_512): the 2D page
+   around the shootout (score, controls, the full-time result) sits on the same black marble slab as Settings and the Rule Book,
+   in place of the old r78 tile. The slab covers the stage and stays put while the page scrolls inside it; the goal frame and
+   the loading panel use the slab tile (512 drawn at 256 so it is sharp on 2x screens). Upright phones and tablets draw the
+   phone slab, the smallest asset tier (html[data-assets="0"]) its 590W copy. The 3D shootout itself is unchanged.
+   css/r78-marble-tile.webp stays (other screens use it). */
+@media (max-width: 760px) and (orientation: portrait) {
+  #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
+  html[data-assets="0"] #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
 }
