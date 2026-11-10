@@ -102,9 +102,20 @@ Billed = document reads + Security Rules lookups, both phones together. Spark al
 about 60 middle seasons a day on reads. Full table: project file gameplay/r90/release/READS_PER_SEASON.md and
 gameplay/r90/release/chamber-reads/.
 
+## Story
+
+- Edition 14, Volume 18 (#1329) was written from gameplay/r90 before #1330 to #1336. Since then only Home's art, the HC
+  rooms and the Prime Pack stage art changed among the screens its numbers describe; the Chamber Men, roulette and Special
+  Player pack files it measured are byte-identical. Re-measured on the Chromebook profile (walk2d, 1920x866, 4x CPU,
+  8.7 Mbps), the same harness on both trees: Home at hand-over 1.76 MB → 1.62 MB with the same 58 requests, and History,
+  Settings and Season Results paint costs within run-to-run noise. Nothing the Story says got worse, so its numbers stand.
+
 ## Checks
 
-- Contract census on the release head: see the release-items PR.
+- Full contract census on the release head (336 registered contracts, 4 parallel lanes): 336/336 pass. Eight failed only
+  in parallel (the four that need this release file, two that write the generated Rules file, and the two career-load-gate
+  timing contracts) and pass when run alone; none of them fails on the base.
+- Startup gzip 33,954 bytes (cap 34,000).
 
 ## SSJR status
 
