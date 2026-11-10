@@ -35,49 +35,48 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   ok('RR2','the site deploy waits for the same commit\'s Rules deploy, or for the last one on main to have succeeded');
 }
 
-// RR3 (red team #5, moved on by 2.0.0, 2.1.0 and again by 2.2.0): PREVIOUS is the live 2.1.0-r88, so the retained shell is
-// exactly r88's own 270 paths (tests/fixtures/shell-paths/2.1.0-r88.json): this release's shell minus what r89 added, plus
-// what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs names any drift. R89_ADDED and R89_REMOVED are
-// re-derived at the r89 freeze.
+// RR3 (red team #5, moved on by 2.0.0, 2.1.0, 2.2.0 and again by 2.3.0): PREVIOUS is the live 2.2.0-r89, so the retained
+// shell is exactly r89's own 275 paths (tests/fixtures/shell-paths/2.2.0-r89.json, main 2fe8d2f5): this release's shell minus
+// what r90 added, plus what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs names any drift.
 {
-  const R89_ADDED=['visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr','js/kits17.js','js/gfxTier.js','data/gazetteSacked.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js'],R89_REMOVED=['assets/fonts/barlow-condensed-latin-600-normal.woff2','assets/fonts/barlow-condensed-latin-700-normal.woff2','js/analytics.js','visual-assets/v10_1/roulette/vendor/three-r128.min.js']; // r90 dead-code cut: js/analytics.js leaves the shell
+  // r90: the shared 3D quality module (#1260), the self-hosted Special Player and roulette faces (M8 #1285, Rye #1290) and the
+  // meshopt decoder for Chamber Men's packed GLBs (M1). Removed: the app's own Barlow Condensed 600/700 latin copies (the sheet
+  // loads the shared ones) and js/analytics.js (r90 dead-code cut).
+  const R90_ADDED=['js/gfxTier.js','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2','visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js'];
+  const R90_REMOVED=['assets/fonts/barlow-condensed-latin-600-normal.woff2','assets/fonts/barlow-condensed-latin-700-normal.woff2','js/analytics.js'];
   const sw=read('service-worker.js');
-  assert.match(sw,/const RUNTIME_REVISION = "2\.2\.0-r89";\nconst PREVIOUS_RUNTIME_REVISION = "2\.1\.0-r88";/);
+  assert.match(sw,/const RUNTIME_REVISION = "2\.3\.0-r90";\nconst PREVIOUS_RUNTIME_REVISION = "2\.2\.0-r89";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');
   const added=set('SHELL_PATHS_ADDED_SINCE_PREVIOUS'),removed=set('SHELL_PATHS_REMOVED_SINCE_PREVIOUS');
-  const r88=JSON.parse(read('tests/fixtures/shell-paths/2.1.0-r88.json')).paths;
+  const r89=JSON.parse(read('tests/fixtures/shell-paths/2.2.0-r89.json')).paths;
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(r88.length,270);
-  assert.deepEqual(added,shell.filter(p=>!r88.includes(p)),'the added list is this shell minus r88\'s');
-  // r90 M8 (#1285): the Special Player page's self-hosted faces (and the roulette's Rye title face, #1290), added on top of r89's list until the r90 freeze re-derives it.
-  const R90_ADDED=['visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2','visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2'];
-  // r90 M1: the meshopt decoder for Chamber Men's packed GLBs.
-  R90_ADDED.push('visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js');
-  assert.deepEqual(added,[...R89_ADDED,...R90_ADDED],'2.2.0 adds exactly the r89 shell files, plus the r90 SP faces');
-  assert.deepEqual(removed,R89_REMOVED,'2.2.0 removes exactly the r88 shell files r89 drops');
-  assert.deepEqual(r88.filter(p=>!shell.includes(p)),removed,'every r88 shell path is still precached');
-  assert.equal(shell.length,270-removed.length+added.length);
-  for(const p of ['js/chamberMenStep.js','js/chamberMen.js','css/chamberMen.css','js/iconGuessStep.js','js/commentaryV3.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r88.includes(p)&&!added.includes(p),`r88's ${p} is in r88's own list`);
+  assert.equal(r89.length,275);
+  assert.deepEqual(added,shell.filter(p=>!r89.includes(p)),'the added list is this shell minus r89\'s');
+  assert.deepEqual(added,R90_ADDED,'2.3.0 adds exactly the r90 shell files');
+  assert.deepEqual(removed,R90_REMOVED,'2.3.0 removes exactly the r89 shell files r90 drops');
+  assert.deepEqual(r89.filter(p=>!shell.includes(p)),removed,'every other r89 shell path is still precached');
+  assert.equal(shell.length,275-removed.length+added.length);
+  for(const p of ['js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r89.includes(p)&&!added.includes(p),`r89's ${p} is in r89's own list`);
   assert.ok(!shell.some(p=>p.startsWith('visual-assets/v10_1/icon-guess/')&&/\.(webp|png|jpe?g)$/.test(p)),'Prime Pack pictures stay runtime-cached (V10_IMAGE_PATH)');
   assert.ok(!shell.some(p=>p.startsWith('chronicle/')),'the STORY site (chronicle/) is never precached');
-  ok('RR3','the retained 2.1.0-r88 shell is verified against its own 270 paths');
+  ok('RR3','the retained 2.2.0-r89 shell is verified against its own 275 paths');
 }
 
-// RR4 (2.2.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
+// RR4 (2.3.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
 // asset revision, every ?v= on Home's own files and the manifest icons, and the service worker.
 {
   const html=read('index.html'),app=read('js/app.js'),sw=read('service-worker.js'),manifest=read('manifest.webmanifest');
-  assert.equal(JSON.parse(read('package.json')).version,'2.2.0');
-  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.2.0');assert.equal(lock.packages[''].version,'2.2.0');
-  assert.match(app,/^const APP_VERSION = "2\.2\.0";/);
-  assert.match(html,/<meta name="app-asset-revision" content="2\.2\.0-r89">/);
-  assert.match(html,/<footer>Career Mode Showdown<br>v2\.2\.0<\/footer>/);
+  assert.equal(JSON.parse(read('package.json')).version,'2.3.0');
+  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.3.0');assert.equal(lock.packages[''].version,'2.3.0');
+  assert.match(app,/^const APP_VERSION = "2\.3\.0";/);
+  assert.match(html,/<meta name="app-asset-revision" content="2\.3\.0-r90">/);
+  assert.match(html,/<footer>Career Mode Showdown<br>v2\.3\.0<\/footer>/);
   const pins=[...html.matchAll(/\?v=([0-9][^"&]*)/g),...manifest.matchAll(/\?v=([0-9][^"&]*)/g),...app.matchAll(/\?v=([0-9][^"&]*)/g),...read('js/menuExperience.js').matchAll(/\?v=([0-9][^"&]*)/g)].map(m=>m[1]);
-  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.2.0-r89'],'every pinned asset revision is 2.2.0-r89');
-  assert.match(sw,/^const RUNTIME_REVISION = "2\.2\.0-r89";/);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.1.0-r88'),`${file} has no r88 pin`);
-  ok('RR4','2.2.0-r89 is the one version pinned everywhere');
+  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.3.0-r90'],'every pinned asset revision is 2.3.0-r90');
+  assert.match(sw,/^const RUNTIME_REVISION = "2\.3\.0-r90";/);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87','2.1.0-r88'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.2.0-r89'),`${file} has no r89 pin`);
+  ok('RR4','2.3.0-r90 is the one version pinned everywhere');
 }
 
 // RR5 (red team R87-C-07): the roulette starts at the 2.0.0 release time. Every start constant that must equal it is set by

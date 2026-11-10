@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.2.0-r89","RUNTIME_REVISION is the r89 release (2.2.0-r89)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.1.0-r88");
+  assert.equal(revision,"2.3.0-r90","RUNTIME_REVISION is the r90 release (2.3.0-r90)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.2.0-r89");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.2.0-r89");assert.equal(prev,"2.1.0-r88");
+  assert.equal(cur,"2.3.0-r90");assert.equal(prev,"2.2.0-r89");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -999,7 +999,9 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-03 by the 2.1.0 release PR: the 2.0.0 file with its 2.1.0-r88 pins and v2.1.0 footer, nothing else.
   // Re-pinned 2026-11-06 at the r89 freeze by the 2.2.0 release PR: gameplay/r89 94438bee's file (2.1.0 plus r89's Sacked
   // ticks and the other r89 feature changes) with its 2.2.0-r89 pins and v2.2.0 footer, nothing else.
-  assert.equal(sha256("index.html"),"a384fe2221734243206856760241b5d59639e0973d832d7d62cb9ed0269b9735","index.html byte-identical to the 2.2.0 release");
+  // Re-pinned 2026-11-09 by the 2.3.0 release PR: gameplay/r90 ff70b7e's file with its 2.3.0-r90 pins and v2.3.0 footer, nothing
+  // else (r90's own index.html changes were already pinned as a384fe22 by their feature PRs).
+  assert.equal(sha256("index.html"),"74e9b22ddf4581525e6c1a84cdc24a01812240dfb9ad11a54409642bdcc0c5e0","index.html byte-identical to the 2.3.0 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
