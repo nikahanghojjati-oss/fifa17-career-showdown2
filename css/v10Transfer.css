@@ -940,6 +940,15 @@
     background: linear-gradient(180deg, #14110bf2, #070607f5) padding-box, var(--tp-bevel) border-box;
     box-shadow: 0 0 calc(var(--k) * 26px) #f0c84b55, 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a;
   }
+  /* 2.3.0 final pass F03 (Nik: nothing touches a face): in Chromebook-size windows (1280x720) the board's frame stood
+     24px from Daniel's hair and its glow reached into it. The clock stays where it hangs; the frame hugs the clock and
+     status lines tighter (56 plate px each side instead of 79), so it keeps about 40px from Daniel and 30px from Nik. */
+  @media (max-width: 1599px) {
+    #app #transferChallenge .tw-host .sign-screen::before { left: calc(var(--k) * -56px); right: calc(var(--k) * -56px); box-shadow: 0 0 calc(var(--k) * 14px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a; }
+  }
+  /* F09 (2.3.0 final pass): Team V's plate.css draws the YOU / SEALED chips at max(10.5px, k x 13px), 10.5px in a 1280x720
+     window; the 12px type floor applies here too (their stylesheet stays as it is) */
+  #app #transferChallenge .tw-host .chip { font-size: max(12px, calc(var(--k) * 13px)); }
   #app #transferChallenge .tw-host .you-chip { --ay: 352 !important; --ax: 124 !important; }
   /* gold-bevel panels. In the entry and verdict phases the panels are real boxes in .tw-desktop-content and wear the bevel
      themselves; in the window phase they are zero-size shells over the plate, so each draws its frame at Team V's panel rect. */
