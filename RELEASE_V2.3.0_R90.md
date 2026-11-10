@@ -114,7 +114,7 @@ gameplay/r90/release/chamber-reads/.
 
 - Full contract census on the release head (336 registered contracts, 4 parallel lanes): 336/336 pass. Eight failed only
   in parallel (the four that need this release file, two that write the generated Rules file, and the two career-load-gate
-  timing contracts) and pass when run alone; none of them fails on the base.
+  timing contracts) and pass when run alone.
 - Startup gzip 33,954 bytes (cap 34,000).
 
 ## SSJR status
