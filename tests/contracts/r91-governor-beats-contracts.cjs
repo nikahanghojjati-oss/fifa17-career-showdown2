@@ -18,11 +18,16 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
+// Light: the Chromebook, as the device lab describes it (tests/browser/device-lab.cjs PROFILES: Intel UHD JSL, 4 GB, 2 threads,
+// a 1920x1080 screen at 1x). The sandbox's defaults below are that device.
+const {PROFILES: LAB} = require("../support/device-lab-profiles.cjs");
+const CHROMEBOOK = LAB.chromebook866, UHD = CHROMEBOOK.renderer;
+assert.deepEqual([CHROMEBOOK.dpr, CHROMEBOOK.memory, CHROMEBOOK.cores, CHROMEBOOK.screen.width, CHROMEBOOK.screen.height, CHROMEBOOK.viewport.width, CHROMEBOOK.viewport.height],
+  [1, 4, 2, 1920, 1080, 1920, 866], "the lab's Chromebook is the device this contract's defaults stand for");
 
 const ROOT = path.resolve(__dirname, "../..");
 const SRC = fs.readFileSync(path.join(ROOT, "js/gfxTier.js"), "utf8");
 const GTX = "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)";       // High
-const UHD = "ANGLE (Intel, Mesa Intel(R) UHD Graphics (JSL), OpenGL ES 3.2)";                 // Light: Nik's Chromebook class
 const IRIS = "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics Direct3D11 vs_5_0 ps_5_0, D3D11)";  // Balanced
 let checks = 0;
 const ok = (id, text) => { checks += 1; console.log(`ok ${checks} ${id} ${text}`); };

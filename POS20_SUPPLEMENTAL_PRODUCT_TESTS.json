@@ -3079,6 +3079,8 @@
         "^js/gfxTier\\.js$",
         "^docs/QUALITY_LEVELS\\.md$",
         "^tests/contracts/r91\\-governor\\-beats\\-contracts\\.cjs$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
