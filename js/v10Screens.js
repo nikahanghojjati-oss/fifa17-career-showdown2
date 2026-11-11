@@ -545,10 +545,8 @@
       const def=screen?registry.get(screen):null;
       // expect() before the style sync, so the screen keeps Team V's look while it loads (also for a screen whose Team V
       // file has not registered yet: its module's show() or the style timeout settles it).
-      // Legacy's data tools page (backup, restore, reset) is the one career screen that keeps the app's own markup
-      // (js/careerScreenSeam.js): it is never held for a Team V look that will not come.
       const late=screen&&!def?deferred.get(screen)||null:null;
-      const lazy=Boolean(late)||screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
+      const lazy=Boolean(late)||screen&&LAZY_V10_SCREENS.includes(screen);
       // A screen its own module shows (auto:false) but registered with hold (Season Results / Final Winner) is held the same way:
       // without it html[data-v10-screen] and the dark page waited for the module's next tick and the old design painted first.
       const expected=def?(def.auto||def.hold)&&vsExpect(screen):lazy&&vsExpect(screen);

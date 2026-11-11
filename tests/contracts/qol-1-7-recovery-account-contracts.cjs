@@ -112,49 +112,36 @@ async function q1RecoveryLeadsWithTheSafeButton(){
   const panel=h.panel();
   assert.match(panel.textContent,/OLD SHOWDOWN FOUND/);
   const found=buttons(panel);
-  assert.deepEqual(found.map(b=>b.textContent),["RESTORE BACKUP","DELETE OLD SHOWDOWN & START OVER"],"Q1 RESTORE BACKUP is first, the delete second, and nothing else was added or removed");
-  const [restore,remove]=found;
-  assert.equal(restore.disabled,false);assert.equal(remove.disabled,false);
-  assert.equal(panel.all().indexOf(restore)<panel.all().indexOf(remove),true,"Q1 RESTORE BACKUP comes first in DOM order, which is focus order");
-  assert.equal(classesOf(restore).includes("dangerButton"),false,"Q1 the safe button is not styled as danger");
+  assert.deepEqual(found.map(b=>b.textContent),["DELETE OLD SHOWDOWN & START OVER"],"Q1 the Recovery screen offers only the confirm-gated delete (r91: the backup-file restore was cut)");
+  const [remove]=found;
+  assert.equal(remove.disabled,false);
   assert.equal(classesOf(remove).includes("dangerButton"),true,"Q1 the delete keeps its danger styling");
   assert.equal(classesOf(remove).includes("pairRecoverySecondary"),true,"Q1 the delete carries the smaller-secondary hook");
-  assert.equal(classesOf(restore).includes("pairRecoverySecondary"),false);
   assert.match(panel.textContent,/THIS SHOWDOWN COULD NOT BE LOADED HERE/,"Q1 the explanatory note is still shown");
-  const actions=restore.parent;
-  assert.equal(actions.children[0],restore,"Q1 the first child of the action row is the safe button");
-  assert.equal(actions.children.indexOf(remove),1);
-  ok("Q1 the Recovery screen leads with RESTORE BACKUP; the delete stays second as a smaller secondary; the note is kept");
+  assert.equal(remove.parent.children[0],remove,"Q1 the first child of the action row is the delete");
+  ok("Q1 the Recovery screen offers START OVER alone; the note is kept");
 }
 
 async function q1HandlersAreUnchanged(){
-  // RESTORE BACKUP still opens the verified recovery surface and does not delete anything.
-  {
-    const h=recoveryHarness({confirm:()=>{throw new Error("restore must not ask to delete");}});
-    await h.pair.initialize({force:true});h.pair.render();
-    buttons(h.panel())[0].click();await settle();
-    assert.equal(h.deleted.length,0);
-    assert.equal(h.docs.get(`rivalries/${RIVALRY}`).data.connectionState,"active","Q1 RESTORE BACKUP never closes the online Showdown");
-  }
   // The delete is still gated by an explicit confirm()===true: no confirm, or a declined one, changes nothing.
   for(const confirm of [undefined,()=>false,()=>undefined,()=>"yes"]){
     const h=recoveryHarness({confirm});
     await h.pair.initialize({force:true});h.pair.render();
-    const remove=buttons(h.panel())[1];
+    const remove=buttons(h.panel())[0];
     assert.equal(remove.textContent,"DELETE OLD SHOWDOWN & START OVER");
     remove.click();await settle();
     assert.equal(h.docs.get(`rivalries/${RIVALRY}`).data.connectionState,"active","Q1 without an explicit yes the old Showdown is not closed");
     assert.equal(h.calls.navigate.length,0);
   }
-  // Same handlers as before, in the source: restore -> pairOpenRecoverySurface, delete -> pairStartOverFromRecovery.
-  assert.match(pairSource,/startOver\.addEventListener\("click",\(\)=>void pairStartOverFromRecovery\(\)\);recover\.addEventListener\("click",\(\)=>void pairOpenRecoverySurface\(\)\);/);
+  // Same handler as before, in the source: delete -> pairStartOverFromRecovery.
+  assert.match(pairSource,/startOver\.addEventListener\("click",\(\)=>void pairStartOverFromRecovery\(\)\);/);
   assert.match(pairSource,/const confirmed=await pairAskConfirm\("Delete the old Showdown and start over\?/);
   assert.match(pairSource,/if\(confirmed!==true\)return false;/);
-  ok("Q1 RESTORE BACKUP and the confirm-gated delete behave exactly as before");
+  ok("Q1 the confirm-gated delete behaves exactly as before");
 }
 
 function q2StylingAndNoScroller(){
-  assert.match(adapterSource,/const PRIMARY=\/\^\(START A SHOWDOWN\|CHOOSE SEASONS\|CREATE CODE FOR NIK\|JOIN DANIEL'S SHOWDOWN\|START CAREER\|TRY CONTINUE AGAIN\|RESTORE BACKUP\)\$\/;/,"Q2 the Connect Players adapter makes RESTORE BACKUP the solid primary button");
+  assert.match(adapterSource,/const PRIMARY=\/\^\(START A SHOWDOWN\|CHOOSE SEASONS\|CREATE CODE FOR NIK\|JOIN DANIEL'S SHOWDOWN\|START CAREER\|TRY CONTINUE AGAIN\)\$\/;/,"Q2 the Connect Players adapter keeps the solid primary buttons (RESTORE BACKUP is gone)");
   assert.equal(/DELETE OLD/.test(adapterSource.match(/const PRIMARY=[^\n]*/)[0]),false,"Q2 the delete is never a primary button");
   const rule=connectCss.match(/(^|\n)(#app #connectPlayersScreen #persistentNikDanielPairPanel \.menuButton\.pairRecoverySecondary)\{([^}]*)\}/);
   assert.ok(rule,"Q2 the smaller-secondary rule is #app-prefixed so it beats the Team V sheets that load later");
@@ -162,7 +149,7 @@ function q2StylingAndNoScroller(){
   assert.doesNotMatch(rule[3],/overflow|position\s*:\s*(fixed|sticky)|display\s*:\s*none|visibility|opacity|pointer-events|order\s*:/,"Q2 the delete is not hidden, disabled, reordered by CSS or turned into a scroller");
   assert.match(rule[3],/min-height:\s*(?:3[6-9]|4\d)px/,"Q2 the smaller delete is still a tappable size");
   assert.equal((connectCss.match(/\.pairRecoverySecondary/g)||[]).length,1,"Q2 one rule, no stray overrides");
-  ok("Q2 RESTORE BACKUP is the primary style; the delete is a smaller #app-prefixed secondary and nothing scrolls or hides");
+  ok("Q2 the delete is a smaller #app-prefixed secondary and nothing scrolls or hides");
 }
 
 function q3WrongAccountSaysWhatToDo(){
@@ -199,7 +186,8 @@ function q4NothingElseMoved(){
   // r79: +1, CHOOSE SEASONS replaces CREATE CODE FOR NIK for Daniel while no seasons are chosen (no more bounce to the seasons screen).
   // r79 Codex #915: +1, PAIR AGAIN replaces CREATE CODE FOR NIK for Daniel when Nik unpaired while he chose the seasons.
   // r87 Fable F4-02: +2, PAIR AGAIN replaces NEW CODE / the expired-code hint on Daniel's waiting panel when Nik unpaired.
-  assert.equal(createButtons,17,"Q4 only the r79 CHOOSE SEASONS and PAIR AGAIN buttons were added to the pair panel");
+  // r91 cut: -1, RESTORE BACKUP left the recovery screen with the backup-file restore.
+  assert.equal(createButtons,16,"Q4 only the r79 CHOOSE SEASONS and PAIR AGAIN buttons were added to the pair panel");
   assert.equal((pairSource.match(/pairCreateElement\("button","menuButton","CHOOSE SEASONS"\)/g)||[]).length,1,"Q4 (r79) the one added button is CHOOSE SEASONS");
   ok("Q4 the creator guard, two-manager rule and sign-in mechanics are untouched and no control was added");
 }

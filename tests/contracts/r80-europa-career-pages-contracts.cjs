@@ -98,8 +98,7 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
   assert.match(legacy,/season\.europaLeague && season\.europaLeague\[manager\] === true/);
   assert.match(legacy,/strings\.ui\.europaLeague \|\| "Europa League winner"/);
   assert.equal(JSON.parse(read("visual-assets/v10_1/legacy/strings.json")).ui.europaLeague,"Europa League winner");
-  assert.match(read("js/legacy.js"),/player\.europaLeague === true/);
-  ok("E6 History marks each Europa League winner and the old local History counts the Europa League");
+  ok("E6 History marks each Europa League winner");
 }
 {
   const screen=read("js/connectPlayersScreenV10.js").replace(/\\"/g,"\"");

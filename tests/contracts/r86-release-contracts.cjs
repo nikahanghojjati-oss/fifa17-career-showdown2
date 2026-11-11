@@ -43,7 +43,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   // meshopt decoder for Chamber Men's packed GLBs (M1). Removed: the app's own Barlow Condensed 600/700 latin copies (the sheet
   // loads the shared ones) and js/analytics.js (r90 dead-code cut).
   const R90_ADDED=['js/gfxTier.js','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2','visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js'];
-  const R90_REMOVED=['assets/fonts/barlow-condensed-latin-600-normal.woff2','assets/fonts/barlow-condensed-latin-700-normal.woff2','js/analytics.js'];
+  // r91 cut step 3 also drops css/restore.css, css/saveLibrary.css, js/restoreUI.js and js/saveLibraryUI.js (re-pin both lists at the 2.4.0 bump).
+  const R90_REMOVED=['assets/fonts/barlow-condensed-latin-600-normal.woff2','assets/fonts/barlow-condensed-latin-700-normal.woff2','css/restore.css','css/saveLibrary.css','js/analytics.js','js/restoreUI.js','js/saveLibraryUI.js'];
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.3\.0-r90";\nconst PREVIOUS_RUNTIME_REVISION = "2\.2\.0-r89";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');
@@ -53,7 +54,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.equal(r89.length,275);
   assert.deepEqual(added,shell.filter(p=>!r89.includes(p)),'the added list is this shell minus r89\'s');
   assert.deepEqual(added,R90_ADDED,'2.3.0 adds exactly the r90 shell files');
-  assert.deepEqual(removed,R90_REMOVED,'2.3.0 removes exactly the r89 shell files r90 drops');
+  assert.deepEqual(removed,R90_REMOVED,'this tree removes exactly the r89 shell files r90 and r91 drop');
   assert.deepEqual(r89.filter(p=>!shell.includes(p)),removed,'every other r89 shell path is still precached');
   assert.equal(shell.length,275-removed.length+added.length);
   for(const p of ['js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r89.includes(p)&&!added.includes(p),`r89's ${p} is in r89's own list`);

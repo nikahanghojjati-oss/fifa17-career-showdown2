@@ -58,11 +58,11 @@
       "testIndexes": [
         11,
         12,
-        54,
-        55,
-        56,
-        57,
-        58
+        48,
+        49,
+        50,
+        51,
+        52
       ],
       "consumers": [],
       "proofBundles": [
@@ -107,31 +107,23 @@
         23,
         24,
         25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31
+        26
       ],
       "consumers": [
         "SHARED_SETUP"
       ],
-      "proofBundles": [
-        "STORAGE_BROWSER"
-      ]
+      "proofBundles": []
     },
     "IDENTITY_CLOUD_FOUNDATION": {
       "testIndexes": [
+        27,
+        28,
+        29,
+        30,
+        31,
         32,
         33,
-        34,
-        35,
-        36,
-        37,
-        38,
-        39,
-        40
+        34
       ],
       "consumers": [
         "PAIRING_RIVALRY"
@@ -143,13 +135,13 @@
     },
     "PAIRING_RIVALRY": {
       "testIndexes": [
-        41,
-        42,
-        43,
-        44,
-        51,
-        52,
-        53
+        35,
+        36,
+        37,
+        38,
+        45,
+        46,
+        47
       ],
       "consumers": [
         "REMOTE_JOINING"
@@ -160,13 +152,13 @@
     },
     "REMOTE_JOINING": {
       "testIndexes": [
-        45,
-        46,
-        47,
-        48,
-        49,
-        50,
-        59
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        53
       ],
       "consumers": [
         "SHARED_SETUP"
@@ -209,12 +201,6 @@
       "STAGE5F_ACCOUNT_CHOOSER_CONTRACT",
       "STAGE5F_AUTH_NEGATIVES_CONTRACT"
     ],
-    "STORAGE_BROWSER": [
-      "BACKUP_BROWSER",
-      "IMPORT_BROWSER",
-      "RESTORE_BROWSER",
-      "MULTI_SAVE_BROWSER"
-    ],
     "VISUAL_BROWSER": [
       "HOME_VISUAL",
       "LOADING_VISUAL",
@@ -224,8 +210,6 @@
     ],
     "FULL_BROWSER": [
       "RUNTIME_BOUNDARY_BROWSER",
-      "SAVE_LIBRARY_UI_BROWSER",
-      "MANAGER_IDENTITY_BROWSER",
       "IDENTITY_SAFE_ANALYTICS_BROWSER",
       "OFFLINE_BOUNDARY_BROWSER",
       "OFFLINE_CACHE_LIFECYCLE_BROWSER",
@@ -251,7 +235,6 @@
     "STATIC_SPARK": "STATIC",
     "REMOTE_PROVIDER": "REMOTE",
     "STAGE5F_AUTH": "REMOTE",
-    "STORAGE_BROWSER": "STORAGE",
     "VISUAL_BROWSER": "VISUAL",
     "FULL_BROWSER": "FULL",
     "INLINE_HOME": "INLINE",
@@ -264,7 +247,6 @@
     "STATIC_SPARK": 8,
     "REMOTE_PROVIDER": 90,
     "STAGE5F_AUTH": 2,
-    "STORAGE_BROWSER": 16,
     "VISUAL_BROWSER": 16,
     "FULL_BROWSER": 36,
     "INLINE_HOME": 2,
@@ -512,7 +494,6 @@
     "STATIC_SPARK",
     "REMOTE_PROVIDER",
     "STAGE5F_AUTH",
-    "STORAGE_BROWSER",
     "VISUAL_BROWSER",
     "FULL_BROWSER",
     "INLINE_HOME",

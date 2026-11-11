@@ -31,10 +31,8 @@ const BANNED=[
 // Whole files, each with its reason. Nothing else is skipped.
 const EXEMPT_FILES=Object.freeze({
   "js/restore.js":"backup-file restore: it really does replace this browser's data from a backup file",
-  "js/restoreUI.js":"backup-file restore screen",
   "js/importAnalysis.js":"backup-file preview screen",
   "js/backup.js":"backup-file export",
-  "js/saveLibraryUI.js":"the Save Library editor: hidden in the online product (checked below)",
   "js/productionAuthorizationAcceptance.js":"acceptance tool (acceptance mode only)",
   "js/stage5fProductionAuthenticatedNegatives.js":"acceptance tool (acceptance mode only)",
   "js/ssjrPhysicalJourneyAcceptance.js":"acceptance tool (acceptance mode only)",
@@ -117,9 +115,10 @@ check("W4 index.html and the visual-assets strings.json files carry none of the 
   for(const file of strings)for(const text of jsonStrings(JSON.parse(read(file))))assert.equal(banned(text),null,`${file}: ${text}`);
 });
 
-check("W5 the exemption holds: the Save Library editor is hidden in the online product",()=>{
-  const identity=read("js/onlinePlayerIdentity.js");
-  assert.match(identity,/#saveLibraryProductPanel:not\(\[data-test-surface=\\"internal-audit\\"\]\)[^"]*\{display:none!important\}/,"the online product hides the Save Library editor");
+check("W5 the Save Library editor is gone (r91)",()=>{
+  assert.equal(fs.existsSync(path.join(ROOT,"js/saveLibraryUI.js")),false,"js/saveLibraryUI.js is cut");
+  assert.equal(fs.existsSync(path.join(ROOT,"js/restoreUI.js")),false,"js/restoreUI.js is cut");
+  assert.doesNotMatch(read("js/onlinePlayerIdentity.js"),/saveLibraryProductPanel/,"no hidden Save Library panel is left to contain");
 });
 
 check("W6 the r80 wording: END, not delete; a live game continues; nothing claims a local copy",()=>{
@@ -159,9 +158,7 @@ check("W7 r80 Season Results: the result check speaks of the shared result, and 
   assert.match(lr,/lrText\(ui\.heading,"SAVE CHECK"\);/);
   assert.match(lr,/lrText\(ui\.summary,"Optional: check that your saved Showdown matches the shared result\. Nothing is changed\."\);/);
   assert.match(lr,/"CHECKING…":"CHECK MY SAVE"/);
-  const legacy=read("js/legacy.js");
-  assert.match(legacy,/backupTitle\.textContent = "BACKUP FILE";/);
-  assert.match(legacy,/"Download a checksum-protected backup file before destructive maintenance\./);
+  assert.doesNotMatch(read("js/legacy.js"),/BACKUP FILE|checksum-protected/,"the backup-file page is gone (r91)");
   const shown=[];
   for(const file of [...tracked("js/*.js"),"index.html",...tracked("visual-assets/**/*.js"),...tracked("visual-assets/**/strings.json")]){
     const text=file.endsWith(".js")?jsStrings(read(file)).join("\n"):read(file);

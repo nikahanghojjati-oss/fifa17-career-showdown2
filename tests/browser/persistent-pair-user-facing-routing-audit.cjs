@@ -330,18 +330,13 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"Storage invalidation alone must not replace a still-valid ACTIVE pair with recovery UI.");
 
-    // Fresh-browser active-pair recovery must expose a real backup path and one-click remote deletion escape.
+    // Fresh-browser active-pair recovery must expose the one-click remote deletion escape.
     await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;window.__providerAbandonCount=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
     await page.locator("#persistentNikDanielPairPanel",{hasText:"OLD SHOWDOWN FOUND"}).waitFor({state:"visible",timeout:5000});
-    const recovery=page.locator("#persistentNikDanielPairPanel button",{hasText:"RESTORE BACKUP"});
-    await recovery.waitFor({state:"visible"});
+    assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"RESTORE BACKUP"}).count(),0,"r91: the backup-file restore was cut, so the recovery screen offers only START OVER.");
     const startOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOver.waitFor({state:"visible"});
     assert.match(await panel.innerText(),/The online Showdown is still live, but it could not be loaded here\./i,"r80: a live Showdown that could not be rebuilt here says so plainly.");
-    await recovery.click();
-    await page.waitForFunction(()=>window.__recoveryOpened===1,null,{timeout:3000});
-    await page.locator("#careerModeRestorePanel input[type=file]").waitFor({state:"attached",timeout:3000});
-    assert.equal(await page.locator("#careerModeRestorePanel input[type=file]").evaluate(input=>document.activeElement===input),true,"Recovery routing must focus the verified restore input.");
     await page.evaluate(async()=>{window.showScreen("mainMenu",false);window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
     await page.evaluate(()=>window.__pairRoutingEntry.openPanel({routeToRemote:false}));
     await page.locator("#productionSharedJourneyEntryOverlay button",{hasText:/CONNECT PLAYERS|REVIEW CONNECTION/}).click();
@@ -374,7 +369,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: Home shows Legacy and Statistics (Nik, 2026-10-05) and Rule Book; CONNECT PLAYERS reaches the real persistent-pair panel, stale Nik pending host-state resets safely to JOIN DANIEL'S SHOWDOWN, transient pair reads reconcile stale roles, Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: Home shows Legacy and Statistics (Nik, 2026-10-05) and Rule Book; CONNECT PLAYERS reaches the real persistent-pair panel, stale Nik pending host-state resets safely to JOIN DANIEL'S SHOWDOWN, transient pair reads reconcile stale roles, Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
