@@ -286,7 +286,10 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
 {
   has(/function fitUnderTitle\(\)\{ restShift=0; restZoom=1; const t=document\.querySelector\("\.title"\), r=t&&t\.getBoundingClientRect\(\);/,'L37 the clearance comes from the real title box');
   has(/need=Math\.max\(need,r\.bottom\+10-Math\.min\(q\[0\]\.y,q\[1\]\.y\)\); \}\);/,'L37 every board face that sits under the title clears it by 10 px');
-  has(/const want=playing\?0:restShift, wantZ=playing\?1:restZoom,/,'L37 the shift (and the short-phone zoom) is only for the rest shot');
+  has(/const want=playing\?closeLift:restShift, wantZ=playing\?1:restZoom,/,'L37 the shift (and the zoom) is only for the rest shot; a turn lifts the picture only in the drum close-up (strict A7)');
+  // 2.3.0 strict C7/D10/E5: the rest picture is pulled back (the same view-offset zoom) until both squad boards stay in view; A7: the drum close-up is lifted above the caption
+  has(/function fitBoardsWide\(c,w,h\)/,'strict C7 the rest picture is zoomed out just enough that each board stays in view (landscape 14 % of the width each side, upright whole boards), capped at 1.6');
+  has(/function measureCloseLift\(\)/,'strict A7 the drum close-up lifts so the lowest chamber hole clears the real caption box by 14 px');
   has(/camera\.setViewOffset\(W,H,0,-viewShift,W,H\)/,'L37 a lens shift: nothing in the scene moves');
   // 2.3.0 final pass: on upright phones 700 px tall or less the rest picture is also zoomed out about its centre (a view offset) so the
   // easel tops clear the title by 8 px and the revolver clears the caption by 8 px; taller phones and desktops keep the plain shift
