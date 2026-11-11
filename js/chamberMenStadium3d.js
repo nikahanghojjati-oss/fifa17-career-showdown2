@@ -675,7 +675,11 @@
       for(const m of drop){m.removeFromParent();m.geometry.dispose();}}
 
     // ---------- live ----------
-    const net={x:0,y:1.2,t0:-1,amp:0};
+    const net={x:0,y:1.2,t0:-1,amp:0,px:0,py:1.2,pz:null};
+    // r91 netPush(x, y, z): the back of the ball at (x, y, z) in the goal's space, or null. Every cord behind that point
+    // is held behind it in a tent (a paraboloid round the ball, about a metre across at 30 cm deep), so the net wraps the
+    // ball wherever it pushes and never cuts through it; the damped ripple of the hit runs on top.
+    function netPush(x,y,z){net.px=x;net.py=y;net.pz=Number.isFinite(z)?z:null;}
     // contact([[ax,az,bx,bz,radius,strength] x 3]): taker, keeper, ball; strength 0 leaves one out.
     function contact(list){for(let i=0;i<3;i+=1){const c=list&&list[i];if(c){contactU.seg.value[i].set(c[0],c[1],c[2],c[3]);contactU.rk.value[i].set(Math.max(.01,c[4]),Math.max(0,Math.min(1,c[5])));}else contactU.rk.value[i].set(1,0);}}
     function hitNet(x,y,speed){net.x=x;net.y=y;net.t0=crowdUniforms.uTime.value;net.amp=Math.min(1,(speed||20)/25);}
@@ -695,11 +699,16 @@
       if(atlas){const v=atlas.rows.reduce((n,x)=>n+x.version,0);if(v!==atlas.ver){atlas.ver=v;atlas.draw();}}
       // Net bulge: a damped push at the hit point. A clock before the hit (Reduce Motion turned on after a goal sets the
       // scene clock to 0) restores the flat net, never an inverted bulge.
-      const pos=backGeo.attributes.position,arr=pos.array;const e=t-net.t0;
-      if(net.t0<0||e<0||e>2.5){if(arr.__moved){arr.set(backBase);pos.needsUpdate=true;arr.__moved=false;}return;}
-      const amp=(e<.08?e/.08:Math.exp(-(e-.08)*3.4)*Math.cos((e-.08)*12))*net.amp;
+      const pos=backGeo.attributes.position,arr=pos.array;const e=t-net.t0,ripple=!(net.t0<0||e<0||e>2.5),pz=net.pz;
+      if(!ripple&&pz===null){if(arr.__moved){arr.set(backBase);pos.needsUpdate=true;arr.__moved=false;}return;}
+      // the ball at rest in the net after the ripple: the cords are already where they belong, nothing to send
+      if(!ripple&&arr.__moved&&pz===net.drawn&&net.px===net.dx&&net.py===net.dy)return;
+      net.drawn=pz;net.dx=net.px;net.dy=net.py;
+      // r91: with the ball pushing the cords (netPush), the hit's own wave is the smaller ripple running out from it.
+      const amp=ripple?(e<.08?e/.08:Math.exp(-(e-.08)*3.4)*Math.cos((e-.08)*12))*net.amp*.35:0;
       for(let i=0;i<arr.length;i+=3){const dx=backBase[i]-net.x,dy=backBase[i+1]-net.y,w=Math.exp(-(dx*dx+dy*dy)/.5);
-        arr[i]=backBase[i];arr[i+1]=backBase[i+1]-w*amp*.06;arr[i+2]=backBase[i+2]-w*amp*.5;}
+        let z=backBase[i+2]-w*amp*.5;if(pz!==null){const px=backBase[i]-net.px,py=backBase[i+1]-net.py;z=Math.min(z,pz+1.2*(px*px+py*py));}
+        arr[i]=backBase[i];arr[i+1]=backBase[i+1]-w*amp*.06;arr[i+2]=z;}
       arr.__moved=true;pos.needsUpdate=true;
     }
     function stadiumDispose(){
@@ -714,7 +723,7 @@
       if(!white1){white1=keep(new T.DataTexture(new Uint8Array([255,255,255,255]),1,1));white1.colorSpace=T.SRGBColorSpace;white1.needsUpdate=true;}
       m.map=white1;m.needsUpdate=true;});}
     update(0,0);
-    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,mood,contact,hitNet,dispose:stadiumDispose,
+    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,mood,contact,hitNet,netPush,dispose:stadiumDispose,
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 

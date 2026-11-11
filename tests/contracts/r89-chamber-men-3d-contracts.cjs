@@ -153,7 +153,8 @@ async function c3d2(){
   assert.ok(scene.includes("const stadiumT=still?0:")&&scene.includes("S.update(stadiumT,still?.2:excitement(t));"),"the crowd stands still");
   assert.ok(scene.includes("if(!still&&plan&&plan.after.kind===\"net\""),"no net bulge");
   assert.ok(scene.includes("const fade=still?0:")&&scene.includes("if(!cssW||(frozenClock===null&&reducedMotion()))return;"),"no dissolve");
-  assert.ok(read("js/chamberMenStadium3d.js").includes("if(net.t0<0||e<0||e>2.5){"),"a clock before the hit keeps the net flat");
+  // r91: the ball stretching the net (netPush) is off while still; with no push and no ripple the net is set flat again.
+  assert.ok(read("js/chamberMenStadium3d.js").includes("ripple=!(net.t0<0||e<0||e>2.5),pz=net.pz;")&&read("js/chamberMenStadium3d.js").includes("if(!ripple&&pz===null){if(arr.__moved){arr.set(backBase);")&&scene.includes("const on=Boolean(!still&&plan&&plan.after.kind===\"net\"&&ballFree.on);")&&scene.includes("netPushAt(still);"),"a clock before the hit keeps the net flat");
   ok("C3D8","Reduce Motion: players, crowd, net, camera and dissolve stand still; lineup and result still change");
 }
 // C3D9 r90 W4 (Nik 2026-11-07, "FC quality, light on every device"): the scene takes its quality from js/gfxTier.js

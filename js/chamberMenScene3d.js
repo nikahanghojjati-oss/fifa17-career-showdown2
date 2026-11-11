@@ -608,6 +608,11 @@
     const clockNow=()=>frozenClock!==null?frozenClock:cm3Clock();
     const t0=cm3Clock();
     const ballFree={p:new T.Vector3(),v:new T.Vector3(),t:0,on:false};
+    // The back net's plane at a height (z): upright to 1.5 m, then sloping forward to the roof.
+    const netBack=y=>-2.08+Math.max(0,y-1.5)*1.1;
+    // The ball in the back net: S.netPush moves the cords behind it, so they always wrap the ball as it stretches them.
+    const netPushAt=still=>{if(!S.netPush)return;const on=Boolean(!still&&plan&&plan.after.kind==="net"&&ballFree.on);
+      S.netPush(ball.position.x,ball.position.y,on?ball.position.z-BALL_R:null);};
     const v3=(a,b,c)=>new T.Vector3(a,b,c);
     const pick=(list,n)=>list[((n%list.length)+list.length)%list.length];
     const styleOf=(takerClub,round)=>cm3Hash(`run|${takerClub||""}|${round||1}`)%RUNUPS.length;
@@ -706,8 +711,12 @@
       if(s.p.y<BALL_R){s.p.y=BALL_R;if(s.v.y<0){s.v.y=-s.v.y*.55;s.v.x*=.86;s.v.z*=.86;}if(Math.abs(s.v.y)<.35)s.v.y=0;}
       if(s.p.y<=BALL_R+1e-4&&s.v.y===0){const h=Math.hypot(s.v.x,s.v.z),dec=Math.min(h,1.3*dt);if(h>0){s.v.x-=s.v.x/h*dec;s.v.z-=s.v.z/h*dec;}}
       if(plan&&plan.after.kind==="net"&&s.p.z<.05){
-        const back=-2.08+Math.max(0,s.p.y-1.5)*1.1,side=HALF-.08-BALL_R,roof=GOAL_H-.06-BALL_R;
-        if(s.p.z<back+BALL_R){s.p.z=back+BALL_R;if(s.v.z<0)s.v.z=-s.v.z*.08;s.v.x*=.35;s.v.y*=.35;}
+        const back=netBack(s.p.y),side=HALF-.08-BALL_R,roof=GOAL_H-.06-BALL_R;
+        // r91: the back net gives. It stretches round the ball like a stiff, heavily damped spring (about 0.4 m for a
+        // 20 m/s strike), grips it (the cords drag on its sideways and falling pace), and lets it go with almost nothing,
+        // so the ball sinks into the net and drops down inside it instead of stopping dead on the cords.
+        const pen=back-.06+BALL_R-s.p.z;// the cords hang a few cm behind the frame's line (their sag)
+        if(pen>0){s.v.z+=(1100*pen-50*s.v.z)*dt;const grip=Math.exp(-7*dt);s.v.x*=grip;s.v.y*=grip;}
         if(Math.abs(s.p.x)>side){s.p.x=Math.sign(s.p.x)*side;s.v.x*=-.1;s.v.z*=.5;}
         if(s.p.y>roof){s.p.y=roof;if(s.v.y>0)s.v.y*=-.1;}
       }
@@ -822,7 +831,7 @@
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
       keeperPose(t,live);takerAt(t,live);ballAt(t);
-      contactAt();
+      contactAt();netPushAt(still);
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
       const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);
