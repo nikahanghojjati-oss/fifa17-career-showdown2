@@ -1,5 +1,5 @@
 "use strict";
-// r87 Russian Roster Roulette in browser journeys: every season, before the Transfer Challenge opens, each manager plays
+// r87 Roster Russian Roulette in browser journeys: every season, before the Transfer Challenge opens, each manager plays
 // both spins (Team V's page in the #rrStage frame: "Daniel spins", "Nik spins", "Continue") and taps the result panel's
 // primary button (I'VE RELEASED HIM / GO TO THE PRIME PACK / GO TO THE TRANSFER WAR). A scene that cannot load (no three.js) is skipped by the
 // app and only the panel shows. waitForTransfer() plays whatever roulette is on screen until the Transfer Challenge shows.

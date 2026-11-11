@@ -140,7 +140,7 @@ function renderLeagueWheelState(){
     if(!currentShowdown || !currentShowdown.selectedLeague){
         if(!leagueWheelSpinInProgress){
             setWheelRotationWithoutAnimation(track, 0);
-            if(result.textContent !== "Spin to select league"){ result.textContent = "Spin to select league"; }
+            if(result.textContent !== "Spin to pick the league"){ result.textContent = "Spin to pick the league"; }
             if(spinButton.textContent !== "SPIN WHEEL"){ spinButton.textContent = "SPIN WHEEL"; }
         }
         spinButton.disabled = leagueWheelSpinInProgress;
@@ -161,7 +161,7 @@ function renderLeagueWheelState(){
         if(spinButton.textContent !== "LEAGUE LOCKED"){ spinButton.textContent = "LEAGUE LOCKED"; }
         spinButton.disabled = true;
         if(note){
-            const message = "League and clubs are permanent for this showdown.";
+            const message = "League and clubs are fixed for this Showdown.";
             if(note.textContent !== message){ note.textContent = message; }
             note.classList.remove("hidden");
             note.classList.add("locked");
@@ -173,8 +173,8 @@ function renderLeagueWheelState(){
         spinButton.disabled = false;
         if(note){
             const message = isLeagueSelectionConfirmed()
-                ? `${selected.name} is confirmed. Continue when you are ready to open Club Assignment.`
-                : `${selected.name} has been selected and locked. Press Continue to confirm the league and open Club Assignment.`;
+                ? `${selected.name} is confirmed. Continue when you are ready for Club Assignment.`
+                : `${selected.name} is selected and locked. Tap Continue to confirm it and open Club Assignment.`;
             if(note.textContent !== message){ note.textContent = message; }
             note.classList.remove("hidden", "locked");
         }
@@ -222,7 +222,7 @@ function handleLeagueWheelAction(){
         if(hasLockedClubAssignment()){
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(
-                    "The league is locked because clubs have already been assigned for this showdown.",
+                    "The league is locked: clubs are already assigned for this Showdown.",
                     "error",
                     6000
                 );
@@ -257,7 +257,7 @@ function spinLeagueWheel(){
     const selected = getRandomLeague();
     if(!selected){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("No league could be selected. Refresh the page and try again.", "error");
+            window.showAppNotice("The wheel could not pick a league. Refresh the page and try again.", "error");
         }
         return;
     }
@@ -269,8 +269,8 @@ function spinLeagueWheel(){
 
     setLeagueWheelBusy(true);
     spinButton.disabled = true;
-    spinButton.textContent = "SPINNING...";
-    result.textContent = "SPINNING...";
+    spinButton.textContent = "SPINNING…";
+    result.textContent = "SPINNING…";
     if(note){ note.classList.add("hidden"); }
 
     // Arm animation only for this explicit spin.
@@ -304,7 +304,7 @@ function spinLeagueWheel(){
 
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(
-                    "The selected league could not be saved. The selection was not locked.",
+                    "The league did not save, so it is not locked.",
                     "error",
                     9000
                 );
