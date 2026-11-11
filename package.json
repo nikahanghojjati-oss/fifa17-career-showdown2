@@ -69,7 +69,7 @@
     "test:persistent-pair-routing": "node tests/browser/persistent-pair-user-facing-routing-audit.cjs",
     "ssjr2:credit": "node scripts/ssjr2-physical-run-credit.mjs",
     "test:r83-gallery-layout": "node tests/browser/r83-gallery-layout-audit.cjs",
-    "test:r87:release": "node tests/contracts/r86-release-contracts.cjs && node tests/contracts/r87-upgrade-rollback-list-contracts.cjs && node tools/set-release-time.cjs",
+    "test:r87:release": "node tests/contracts/r86-release-contracts.cjs && node tests/contracts/r87-upgrade-rollback-list-contracts.cjs",
     "test:r87:upgrade": "node tests/browser/r87-upgrade-from-r86-audit.cjs",
     "test:r87:ce2pg10": "CE2PG_PLAN=single CE2PG_SEASONS=10 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs",
     "test:r87:lengths": "CE2PG_PLAN=single CE2PG_SEASONS=1 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs && CE2PG_PLAN=single CE2PG_SEASONS=3 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs && CE2PG_PLAN=single CE2PG_SEASONS=5 NODE_OPTIONS=\"--require ./tests/browser/support/ce2pg-roulette-observer.cjs\" node tests/browser/ce2pg-journey.cjs",

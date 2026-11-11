@@ -808,6 +808,7 @@
     // screen a slanted 12 cm line breaks into dashes.
     const CAMB={pos:v3(-1.3,3.05,SPOT_Z+15),look:v3(-1.3,.85,5),hfov:40,vmin:21};
     const CAMP={pos:v3(-.4,2.75,SPOT_Z+11.5),look:v3(0,.85,3)};
+    const CAMSLIDE=1.5;
     const camLook=new T.Vector3();
     const cameraAt=(t,live)=>{
       const drift=reducedMotion()?0:1;
@@ -815,7 +816,10 @@
       p.x+=Math.sin(w)*.18*drift;p.y+=Math.sin(w*.7)*.05*drift;
       if(plan&&!reducedMotion()){
         const k=cm3Easy((t+RUNUP)/(RUNUP+.4));p.lerp(CAMP.pos,k);l.lerp(CAMP.look,k);
-        if(t>0){const f=cm3Easy(t/1.1);l.x+=ball.position.x*.22*f;l.y+=Math.max(-.2,ball.position.y-1)*.12*f;}
+        if(t>0){const f=cm3Easy(t/1.1);l.x+=ball.position.x*.22*f;l.y+=Math.max(-.2,ball.position.y-1)*.12*f;
+          // r91: once the ball is struck the camera slides a little to the right (no turn, so the lines stay level), so the
+          // taker standing on the spot no longer hides the keeper and both reactions read.
+          const sl=cm3Easy((t-.35)/1.4);p.x+=CAMSLIDE*sl;l.x+=CAMSLIDE*.55*sl;}
       }
       camera.position.copy(p);camLook.copy(l);
       // Proofs only: a close camera on the foot or the gloves ({pos, look, fov}); the game never sets it.
