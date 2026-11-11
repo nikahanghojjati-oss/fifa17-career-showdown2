@@ -3061,6 +3061,18 @@
         "^tests/contracts/r91\\-old\\-art\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-device-check-published-contracts.cjs",
+      "patterns": [
+        "^[^/]+\\.html$",
+        "^service\\-worker\\.js$",
+        "^js/.+\\.js$",
+        "^\\.github/workflows/deploy\\-github\\-pages\\.yml$",
+        "^tests/support/stage\\-pages\\-artifact\\.cjs$",
+        "^tests/contracts/r91\\-device\\-check\\-published\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
