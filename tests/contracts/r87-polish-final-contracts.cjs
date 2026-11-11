@@ -150,7 +150,7 @@ check("P-01b/P-08 a reconnect note on Home is out of the page flow, under the ch
 });
 // Sweep P-09: desktop Home footer: two lines centred in its unchanged 28px band, no longer touching the window edge.
 check("P-09 desktop Home footer is centred in its band",()=>{
-  assert.match(read("css/v10Shell.css"),/@media \(min-width: 901px\) \{\s*html\[data-v10-screen="mainMenu"\]:not\(\[data-v10-setup\]\) #app > footer \{ display: flex; align-items: center; padding-top: 0; padding-bottom: 0; font-size: 10\.5px; line-height: 12px;/);
+  assert.match(read("css/v10Shell.css"),/@media \(min-width: 901px\) \{\s*html\[data-v10-screen="mainMenu"\]:not\(\[data-v10-setup\]\) #app > footer \{ display: flex; align-items: center; padding-top: 0; padding-bottom: 0; font-size: 12px; line-height: 13px;/);
 });
 // Sweep P-10: laptop Settings scales its 1920 composition down (zoom 0.75 at 1440, 0.67 at 1280x720), which took the cards'
 // smallest capitals to 6-8px. They never render below 11px now (photo credit 9px).
