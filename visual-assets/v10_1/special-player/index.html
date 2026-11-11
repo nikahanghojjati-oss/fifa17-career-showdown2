@@ -689,7 +689,8 @@ function lightMetals(){ if(!DIRECT) return; [[goldMetal,.5,.34,0x3a2606],[foilEd
   { const gt=canvasTex(256,256,(c)=>{ c.fillStyle="#c9c9c9"; c.fillRect(0,0,256,256); let sd=4111; const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
       c.save(); c.filter="blur(10px)"; for(let i=0;i<8;i++){ const x=r()*256, w=12+r()*36, lit=r()<.5; c.fillStyle=lit?`rgba(255,255,255,${(.65+r()*.35).toFixed(2)})`:`rgba(50,50,50,${(.45+r()*.3).toFixed(2)})`; for(const o of [-256,0,256]){ c.save(); c.translate(o,0); c.transform(1,0,-.3,1,0,0); c.fillRect(x,-60,w,380); c.restore(); } } c.restore();
       for(let i=0;i<900;i++){ c.fillStyle=`rgba(${r()<.5?"255,255,255":"0,0,0"},${(.03+r()*.06).toFixed(3)})`; c.fillRect(r()*256,r()*256,8+r()*40,1); } });
-    gt.tx.wrapS=gt.tx.wrapT=T.RepeatWrapping; gt.tx.repeat.set(.9,.9); goldMetal.map=gt.tx; goldMetal.color.multiplyScalar(1.12); goldMetal.needsUpdate=true; }
+    gt.tx.wrapS=gt.tx.wrapT=T.RepeatWrapping; gt.tx.repeat.set(.9,.9); goldMetal.map=gt.tx; goldMetal.color.multiplyScalar(1.12); goldMetal.needsUpdate=true;
+    foilEdge.map=gt.tx; foilEdge.color.multiplyScalar(1.12); foilEdge.needsUpdate=true; /* the burst's foil quarters are the same gold */ }
   grassMat.color.multiply(new T.Color(1.25,1.27,1.38)); /* r91: without the stadium reflection the floodlit pitch came out olive (measured 72/94/42 against Extra's 93/120/60 on the settled card); the same green at no cost */ }
 let pano=null;
 const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:0},night:{value:/[?&]look=day(?:&|$)/.test(location.search)?0:1}},
