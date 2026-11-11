@@ -441,6 +441,6 @@
   #cmStage .cmGoalBox.cm3d-wait::after { border: 1px solid var(--r78-gold-edge, #d4a017); }
   #cmStage .cmControls { gap: 4px 10px; }
   #cmStage .cmTurnHead { font-size: 24px; }
-  #cmStage .cmChoice, #cmStage .cmActions > button.menuButton, #cmStage .cmActions > button.cmBack { min-height: 40px; }
+  #cmStage .cmChoice, #cmStage .cmActions > button.menuButton, #cmStage .cmActions > button.cmBack { min-height: 44px; }
   #cmStage .cmActions { gap: 6px; }
 }
