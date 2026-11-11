@@ -141,7 +141,7 @@
 }
 /* Big landscape desktops (>=1200 wide, 3:2 and wider) draw the gold bevel in ::before and the face in ::after;
    keep the bevel, swap the face for the same opaque marble. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
     background: none !important;
@@ -660,7 +660,7 @@
    The status board hung 44 plate-px left of centre, so it touched Daniel's hair while leaving a wide gap to Nik. Its centre
    now sits on the midpoint between the two heads (plate x 5 right of the old anchor), giving equal gaps on both sides.
    The three entry/verdict boxes get equal gutters within the same 1405 plate-px row. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(calc(var(--k) * 5px), calc(var(--k) * 24px)) !important; }
 }
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 11/5) and (orientation: landscape) {
@@ -698,7 +698,7 @@
 /* Transfer War guess entry: the board said WINDOW CLOSED twice (the closed sign, then the status "Window closed - Guess
    entry"). Hierarchy: one message, as the signing phase already does. */
 :root #app #transferChallenge .tw-host .sign-screen:not(.is-live):not(.status-board) .sign-main.closed { display: none; }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host .sign-status.reg:not(.full):not(.two-line) { justify-content: center; white-space: normal; text-align: center; }
 }
 
@@ -1039,10 +1039,10 @@
 /* 4v Studio Small Axe 40/40, per-screen finishes (desktop plate layout only; phones unchanged).
    Rule Book: the brush wordmark's top strokes touched the CAREER MODE SHOWDOWN kicker above it. 6 more units of air so
    kicker and title read as two lines. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (orientation:landscape) {
   :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 14); }
 }
-@media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:820px) and (orientation:landscape) {
   :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 11); }
 }
 /* Season Results review: the two SEASON SCORE plaques are the answer of the whole board, but they sat as quietly as the
@@ -1114,7 +1114,7 @@
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(1) { animation-delay: 80ms; }
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(2) { animation-delay: 120ms; }
 }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #dashboard.v26Skin .showdownOverview { width: min(680px, 92vw); margin-top: 12px; }
 }
 

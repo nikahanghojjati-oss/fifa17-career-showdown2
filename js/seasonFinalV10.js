@@ -195,7 +195,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
    phones and tablets keep their art. The plate carries Daniel, Nik, both banners and both name tags, so only the live title,
    board and rows are layered on it. It is the stage's own fixed plate layer, anchored to the top like the picture. The board
    keeps Team V's geometry and every word, id and tap order; only its frame and glass change. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape){
+@media (min-width:901px){
   #app #standings.standingsScreenV10{--sg-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);--sgu:min(calc(100vw / 1536),calc(100svh / 864))}
   #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_2X.webp') 2x)}
   #app #standings.standingsScreenV10 .sd-stage__layer--plate .sd-stage__registered{top:0}
@@ -227,7 +227,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
    pinned to its top and cut so x 15-85% shows on phones; sideways phones: the wide plate. The plate carries both men, so
    the two cut-outs and the old stadium are no longer drawn (sgRooms drops their sources, so they are not downloaded). The
    plates-v2/v3 Standings plates and the cut-outs stay in the repo as rollback. No dark grade, no slogan. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape){
+@media (min-width:901px){
   #app #standings.standingsScreenV10 .sd-stage__plate{background-image:url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp')}
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x)}
   /* HO-068 (Nik: nothing may touch a face): the plate fills the window from its top, so the top bar covered both men's hair
@@ -624,7 +624,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 /* JOB-1597: adopted 1226 entry layout, limited to the upright phone range.
    Existing nodes, labels, badges, input values and event handlers remain authoritative.
    Review/error content may grow; main is the only scroll owner. */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) { overflow-y:auto; overflow-x:hidden; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { min-width:0; padding:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage:not([hidden]) {
@@ -865,7 +865,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 /* JOB-1599: adopted tablet 1230. Only upright 700-900px by 960-1240px.
    Live controls/words and DOM tap order stay intact; provider-hidden fields stay hidden. */
 #app #seasonEntry .v10SeasonTabletSealed { display:none; }
-@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) { overflow-y:auto; overflow-x:hidden; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { min-width:0; padding:0; overflow:visible; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage:not([hidden]) { box-sizing:border-box; min-width:0; min-height:100%; height:auto; position:relative; overflow:visible; }
@@ -1379,9 +1379,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 
 /* JOB-1700: finish the adopted entry compositions, using the live nodes only.
    Entry fits the first view; review, scoring and error states grow in main. */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
  }
@@ -1424,7 +1424,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 /* Remove the empty review track, rather than compressing fields or actions. */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
   grid-template-rows:minmax(clamp(110px,30svh,200px),1fr) 44px auto 56px;gap:6px;
  }
@@ -1456,7 +1456,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   align-self:start;position:sticky;top:10px;height:calc(100svh - 20px);min-height:0;
  }
 }
-@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
   grid-template-rows:minmax(160px,1fr) 56px auto 64px;
  }
@@ -1575,9 +1575,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions { width:auto; }
  }
 }
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait),
        (min-width:901px) and (min-height:501px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
   filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
@@ -1588,7 +1588,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    Desktop only (1200x600 and up since FINAL-WINNER-PLATE-V2, it was 700); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
    stage width, shrunk on a short stage; positions are fractions of the stage so nothing scrolls. Words, taps and order are the live ones. */
 @media (min-width:1200px) and (min-height:600px),
-       (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+       (min-width:901px) {
  #app #seasonEntry .v10FinalStage { container-type:size; --fwu:min(1cqw,1.89cqh); --sd-z-ui:5; }
  #app #seasonEntry .v10FinalStage #finalWinnerScreen { inset:0; width:100%; max-width:none; margin:0; padding:0; }
  #app #seasonEntry .v10FinalStage .sd-stage__plate { filter:contrast(1.06) saturate(.92); }
@@ -1631,10 +1631,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* JOB-1702: Final Winner at phone, sideways and tablet (adopted studies 1284, 1287, 1288 and PHONE_FINAL_WINNER).
    Desktop (the JOB-1289 block above) is untouched. main is the only scroll owner; the stage fits the first view,
    so Team V's 660px minimum and its inner stage scroll are reset here. Words, ids and tap order are the live ones. */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
  }
@@ -1669,7 +1669,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 /* Phone upright: Team V's phone composition on the full screen; the panel ends just above the exits. */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
  /* The crown sat over the gap between SHOWDOWN and CHAMPION. */
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerCrown { display:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot {
@@ -1680,7 +1680,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    portraits, Daniel on the left). The desktop plate, rims, shades and spotlights are hidden by class, not by src. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerManagerShade,.finalWinnerManagerSpotlight,.finalWinnerCrown,.finalWinnerTopbar) { display:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { position:absolute;inset:0;z-index:1;display:block;overflow:hidden;pointer-events:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%; }
@@ -1773,7 +1773,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetricValue { font-size:17px; }
 }
 /* Tablet upright (study 1288): the phone ceremony scaled up; Summary and Honours side by side; exits clear. */
-@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil {
   background:linear-gradient(180deg,transparent 0 46%,rgb(3 5 7 / .72) 56%,rgb(3 5 7 / .96) 63%,#050607 100%);
  }
@@ -1819,7 +1819,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    one, so the stage keeps registering it exactly as before; it loads with this screen, never with the startup bundle.
    Both managers' fists are painted on the plate, so the old registered fist overlays are not drawn on top of it.
    Looks only: every word, id and tap order stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage {
   --sr-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
  }
@@ -1855,7 +1855,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 /* short windows (1280x650): a slimmer frame and tighter card padding keep the whole screen, buttons included, on the page */
- @media (min-width:1200px) and (min-height:600px) and (max-height:700px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ @media (min-width:901px) and (max-height:700px) and (orientation:landscape) {
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) { border-width:3px; }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { padding-top:6px;padding-bottom:6px; }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout { padding-bottom:0;gap:6px; }
@@ -1873,7 +1873,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    top: the live champion trophy is seated on it. The old plate layer and manager cut-outs are not drawn. Every slot is placed
    in plate units (--fw-k is one plate pixel) so it stays registered on every window shape. Looks only: every word, id and tap
    order stays as it was. */
-@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   --fw-k:calc(100svh / 864); --fw-top:calc(var(--sd-nav-top-h,52px) + 14px);
   --fw-edge:linear-gradient(90deg,#000b,#0000);
@@ -1975,7 +1975,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-5px; }
 /* desktop picture range: the plaque keeps its place in the picture unless the window is too short for plaque, strip and
    buttons; then it rides up just enough. The buttons always sit 6px under the plaque, never on it. */
-@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
  #app #seasonEntry .v10FinalStage {
   --fw-r0:calc(640 * var(--fw-k) - var(--fw-top)); --fw-rh:max(calc(148 * var(--fw-k)),124px); --fw-bh:calc(max(44px,var(--fwu) * 2.9) + 12px);
   --fw-rt:min(var(--fw-r0),calc(100% - var(--fw-rh) - var(--fw-bh) - var(--fw-th) - 6px));
@@ -1986,7 +1986,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot { top:calc(var(--fw-rt) + var(--fw-rh) + 6px + var(--fw-th)); bottom:auto; }
  #app #seasonEntry.v10FinalMode #stage-root #v10TerminalSlot { left:50%; right:auto; width:max(calc(913 * var(--fw-k)),59.3cqw); translate:-50% 0; }
 }
-@media (min-width:1024px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:800px) and (orientation:landscape) {
  #app #seasonEntry .v10FinalStage { --fw-r0:calc(598 * var(--fw-k) - var(--fw-top)); }
 }
 /* big sideways phones (iPhone Plus and Pro Max, 932x430) use the sideways layout; from 901px wide the game's top bar
@@ -1996,7 +1996,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10.v10FinalMode { height:calc(100svh - var(--sd-nav-top-h,52px)); }
 }
 /* phone upright, pending: one row of season facts so the summary fits the shorter panel */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaStrip { grid-template-columns:1.4fr 1fr 1fr; grid-template-rows:1fr; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell--lastSeason { grid-column:auto; border-bottom:0; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerMetaCell~.finalWinnerMetaCell { border-left:1px solid #d9b64e66; }
@@ -2054,7 +2054,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (max-width:819px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-s:.62; } }
 @media (min-width:1024px) and (max-height:700px) { #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { --fw-cup-y:48px; --fw-cup-k:.82; } }
 /* phone upright, sideways and tablet: the summary panel ends higher by the strip's height while the strip shows */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:72px; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(max(12px,env(safe-area-inset-bottom)) + 74px + var(--fw-th)); }
 }
@@ -2068,11 +2068,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:72px; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 58px + var(--fw-th)); }
 }
-@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 72px + var(--fw-th)); }
 }/* r78 phone marble: below the desktop picture range the Season Results tab bar and the action row are no longer glass
    (no backdrop blur); the row wears desktop's black-marble face. Looks only: size, place and order are unchanged. */
-@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media not all and (min-width:901px) {
  #app #seasonEntry .v10SeasonStage .season-phone-toolbar { -webkit-backdrop-filter:none; backdrop-filter:none; }
  #app #seasonEntry .season-action-row { background:linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%); -webkit-backdrop-filter:none; backdrop-filter:none; }
 }
@@ -2080,8 +2080,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    in place of the old phone backgrounds and the managers' cut-outs; no dark veils or spotlights over the men. Upright phones
    and tablets: the plate covers the whole screen from the top (the managers' band keeps its height, so every tab, card and
    button stays where it was). Sideways phones: Season Results keeps the plate in its left band. */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
   background:#090b0e url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PHONE_V2.webp")}") center top/max(100vw,calc(100svh * 1179 / 2096)) auto no-repeat;
  }
@@ -2092,14 +2092,14 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   background:#090b0e url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PHONE_V2.webp")}") center top/cover no-repeat;
  }
 }
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { content:none; }
 }
 @media (max-width:760px),
        (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:center top; }
  #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerPhoneVeil,.finalWinnerManagerShade,.finalWinnerManagerSpotlight) { display:none; }
 }
@@ -2134,7 +2134,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 /* The upright phone grid (JOB-1597) keeps the entry action row in a fixed 56px track: the band's padding fits inside it. */
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError) { padding-top:4px;padding-bottom:max(4px,env(safe-area-inset-bottom)); }
 }
 /* HO-033 item 4 · Full-HD desktop (JOB-1214 range, 1920x1080): the review grows in the page scroll, which left CONFIRM &
@@ -2212,7 +2212,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* r87 polish: desktop exits are three equal cells (they were 1 / .78 / 1.12 of the row, and BACK TO SHOWDOWN HOME ran past its
    gold edge at 1366x768 and 1920x1080). A label too long for its cell breaks onto two balanced lines, as REMATCH does. */
 @media (min-width:1200px) and (min-height:600px),
-       (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+       (min-width:901px) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions > button {
   flex:1 1 0;min-width:0;padding:0 10px;white-space:normal;text-wrap:balance;overflow-wrap:normal;word-break:normal;line-height:1.1;
  }
@@ -2222,7 +2222,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    visual-assets/v10_1/plates-hc/ENV_BOARD_*: the 1X plate at every level, the 2X plate at High and up (html[data-assets]
    2-4), the phone plate, and its 590 px copy at the smallest download size (html[data-assets="0"]). The managers stand
    behind the counter (desktop men cut line 641 of 864, phone 1098 of 2096); the plates-v2 pictures stay as rollback. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
   background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
  }
@@ -2259,7 +2259,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    plate pixel). The champion trophy stands on the counter's lip (plate y 641) between the two managers, its foot on the
    lip (or on the honours plaque when a short window raises the plaque above it). Beside a plate narrower than the window
    the side bands take the room's own dark wood colour: no darkened copy of the picture, no shading. */
-@media (min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   background-color:#1d1a16;
   background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
@@ -2285,12 +2285,19 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture { position:absolute; inset:0; width:100%; height:100%; scale:none; }
  #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture img { width:100%; height:100%; object-fit:contain; object-position:50% 100%; }
 }
+/* r91 old-art: upright windows wider than 900 keep this desktop layout; the room is drawn the window's width (one plate
+   pixel = 100vw / 1536) instead of its height, so both men stay whole, and the wood colour carries on below. */
+@media (min-width:901px) and (orientation:portrait) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  --fw-k:calc(100vw / 1536); --fw-drop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - 56.25vw * .0567)); background-size:100vw auto;
+ }
+}
 /* Final Winner, upright phones and tablets: the board phone plate is drawn from the top at the screen's width or height
    (whichever covers), and the champion trophy stands on the counter's brass lip (plate y 1098 of 2096), centred between
    the two score columns, under the winner line. Where a short phone leaves little room above the lip, the plate is drawn
    a little taller (the managers' faces stay above the winner line) so the cup keeps at least 76px. */
 @media (max-width:760px) and (orientation:portrait),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root {
   --fw-win:304px;
   --fw-ph:max(100svh,calc(100vw * 2096 / 1179),calc((var(--fw-win) + 80px) / .5239));
@@ -2313,12 +2320,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root { --fw-win:300px; --fw-ph:max(100svh,calc(100vw * 2096 / 1179),calc((100svh - 290px) / .5239)); }
 }
 /* upright tablets: the plate rises 28px so its lip stands just above the summary panel */
-@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root { --fw-win:604px; --fw-ph:max(100svh,calc(100vw * 2096 / 1179)); --fw-lip:calc(var(--fw-ph) * .5239 - 28px); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { top:-28px; }
 }
-@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
-       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  /* the board plate's ceiling band (0-20%) is plain wood; it rises so the managers' heads sit at the top of the hero band,
     above the title, as on the old plate, with the counter behind the tabs */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {

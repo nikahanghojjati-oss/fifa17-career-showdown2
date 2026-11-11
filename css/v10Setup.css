@@ -1618,7 +1618,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
    plate up by y0 so the heads stay under the nav bar while the plinth stays in view. The wheel's bottom edge is pinned to the
    plinth top (plate y 626) and the label sits on the thin gold lines the plate carries beside it (plate y 200); k is the
    content scale of the wheel (s, or less when the stack would not fit the window) and kt the title's. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   html[data-v10-setup="league"] {
     --lp-s: max(calc(100vw / 1536), calc(100vh / 864));
     --lp-y0: 0px;
@@ -1717,7 +1717,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 /* Short windows (up to 700px high) and ultrawide windows: the note and the two actions tuck in right under the wheel
    (they overlap the plinth's front, as in NEXT_LEAGUE) so the whole stack stays in view without a scroll. Ultrawide also
    keeps the note and actions at about 1:1 so the wheel can stay large on the big plinth. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape),
+@media (min-width:901px) and (max-height: 700px) and (orientation: landscape),
        (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
   #app #leagueWheelScreen.v26Skin {
     --lp-g3: calc(14 * var(--lp-k));
@@ -1734,7 +1734,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
    its 96px cap, the 1.2vh gap under it and 8px of air. The stack below the plinth is 14 + 51 + 12 = 77 units plus a button of
    max(44px, 50 units). Ultrawide (21:10 and wider) is left as it was: there the plinth sits too low for any stack to fit
    above the strip (open item, told Team G). */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 2099/1000) and (orientation: landscape) {
+@media (min-width:901px) and (max-aspect-ratio: 2099/1000) and (orientation: landscape) {
   html[data-v10-setup="league"]:has(.remoteJoiningOverlay:is(#sparkRemoteJoiningOverlay, #productionSharedCareerStartOverlay, #productionSharedSetupOverlay):not(.hidden)) #app #leagueWheelScreen.v26Skin {
     --lp-strip: calc(96px + 1.2vh + 8px);
     --lp-g3: calc(14 * var(--lp-k));
@@ -1747,7 +1747,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 /* r78 phone marble: below the desktop picture range the Start / Join, League, Club and Showdown Home panels, notes and
    Back buttons are no longer glass (no backdrop blur); they wear desktop's black-marble face. Looks only: borders, sizes,
    places, words and tap order are unchanged. */
-@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media not all and (min-width:901px) and (orientation: landscape) {
   :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin :is(.stateNote, .backButton),
   #createShowdown.v26Skin .setupBox,
   #dashboard.v26Skin :is(.showdownOverview, .lastSeasonSummary, .playerCard) {
@@ -1843,7 +1843,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
    Everywhere else the live layout places the wheel; js/v10Setup.js publishes its bottom edge as --box-wb and the plate is
    placed so its lip meets it. 2X at High and up, 590W on Light or Save-Data. No dark overlay over the room. The V1/V2/V5
    League plates and the phone cut-outs stay in the repo as rollback. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   /* the plate rises at most until the top of both men's hair (70 on the 864 plate) is 6px under the 52px top bar, so no
      face or hair goes under it (HO-068, Nik: nothing touches a face); on short and ultrawide windows, where the lip would
      then fall low, the wheel and buttons stay inside the window above it */
@@ -1862,7 +1862,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 }
 html[data-v10-setup="league"] #overlay { background: none; }
 #app #leagueWheelScreen.v26Skin #leagueWheel { box-shadow: 0 5px 7px -3px rgba(0, 0, 0, .6), 0 12px 10px -12px rgba(0, 0, 0, .55); }
-@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media not all and (min-width:901px) and (orientation: landscape) {
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
     --bx-pw: max(100vw, calc(100vh * 1536 / 864)); --bx-ph: calc(var(--bx-pw) * 864 / 1536);
     background-color: #0d0b09;

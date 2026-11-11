@@ -952,7 +952,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
    cover-fit and top-anchored (desktop rule near the top), 2X on high-density screens, and loads with Home, never with
    the startup bundle. The plate already carries the banner words and the name tags, so the live script line is not
    drawn over it, and the old plate's darkening scrims are lightened because the marble is already dark where text sits. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   #app #mainMenu.v10Home {
     --bevel-gold: linear-gradient(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%);
     --bevel-gold-soft: linear-gradient(135deg, #FFE9A0 0%, #D9A83A 28%, #7A5C10 52%, #E8B94A 78%, #FFF1B8 100%);
@@ -1008,13 +1008,13 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 /* HOME-PLATE-V2 placement: keep the soundtrack card and the headline off the managers' faces and hands. The plate is
    cover-fit and top-anchored, so a plate pixel (x, y) lands at (50vw + (x - 768) * s, y * s), s being the cover scale.
    Nik's watch ends at plate y 462 and his hand at plate x 1222; Daniel's pointing hand starts at plate x 585. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   #app #mainMenu.v10Home { --plate-s: max(100vw / 1536, 100vh / 864); --col-w: min(36vw, 560px, calc(50vw - 183 * var(--plate-s) - 14px - var(--gutter))); }
 }
 
 /* On short mouse windows the plate is small and its banner script ("More Than A Game") starts right under the nav bar,
    so the two identity chips sit a few pixels higher and a little slimmer there. Touch screens keep their 44px chips. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 820px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (pointer: fine) {
+@media (min-width:901px) and (max-height: 820px) and (orientation: landscape) and (pointer: fine) {
   #app #topHeader { top: calc(var(--sd-nav-top-h, 52px) + 4px); }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 26px; padding-top: 4px !important; padding-bottom: 4px !important; }
 }
@@ -1022,7 +1022,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 /* r78 phone marble: below the desktop picture range the Home tiles and the soundtrack card are no longer glass (no
    backdrop blur); they wear the same black-marble face as the desktop tiles. CONTINUE CAREER keeps its gold. Looks only:
    frames, sizes, places, words and tap order are unchanged. */
-@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media not all and (min-width:901px) and (orientation: landscape) {
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer){
     background: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
     -webkit-backdrop-filter: none;

@@ -741,7 +741,7 @@
    nothing is drawn over it but the live cards. Size is one unit, --rbu, a picture pixel at this window (1536x864
    picture); the board stays content-sized and main stays the only scroller. Looks only: every word, id and tap order
    stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (orientation:landscape) {
   #app #ruleBook.v10RuleBook {
     --rbu:min(calc(100vw / 1536),calc(100svh / 864));
     --rb-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);

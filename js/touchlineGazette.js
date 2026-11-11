@@ -610,12 +610,13 @@
     if(previous&&previous.page.isConnected)previous.page.remove();
     const page=doc.createElement("div");page.id="touchlineGazette";page.className=`tgzPage tgzPage--${plan.kind}`;page.setAttribute("role","region");page.setAttribute("aria-label","The Touchline Gazette");
     page.dataset.gazetteKey=plan.edition.key;
-    // the plate the screen just showed (Season Results or Final Winner), with the shell's own urls: already in the cache
-    const plate=plan.kind==="final"?"FINAL_WINNER":"SEASON_RESULTS",dir="visual-assets/v10_1/plates-v2/ENV_"+plate;
+    // the room the screen just showed (Season Results and Final Winner both stand in the HO-068 board room), with the
+    // shell's own urls: already in the cache. r91 old-art: the plates-v2 Season Results and Final Winner plates are retired.
+    const dir="visual-assets/v10_1/plates-hc/ENV_BOARD_",lean=doc.documentElement?.dataset?.assets==="0";
     // (absolute: a url() inside a custom property resolves against the stylesheet that uses it, css/)
     const abs=path=>{const url=assetUrl(path);try{return new URL(url,doc.baseURI).href;}catch(error){return url;}};
-    page.style.setProperty("--tgz-plate-desktop",`image-set(url("${abs(dir+"_PLATE_V2_1X.webp")}") 1x,url("${abs(dir+"_PLATE_V2_2X.webp")}") 2x)`);
-    page.style.setProperty("--tgz-plate-phone",`url("${abs(dir+"_PHONE_V2.webp")}")`);
+    page.style.setProperty("--tgz-plate-desktop",`image-set(url("${abs(dir+"PLATE_HC_V2_1X.webp")}") 1x,url("${abs(dir+"PLATE_HC_V2_2X.webp")}") 2x)`);
+    page.style.setProperty("--tgz-plate-phone",`url("${abs(dir+"PHONE_HC_V2"+(lean?"_590W":"")+".webp")}")`);
     // F5-15: where the screen was scrolled, given back if the paper closes onto it again
     const main=host.closest?.("main");
     const scroll=previous?previous.scroll:{main:main?Number(main.scrollTop)||0:0,window:Number(root.scrollY??root.pageYOffset)||0};
