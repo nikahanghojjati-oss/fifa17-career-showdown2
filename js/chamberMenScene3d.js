@@ -23,7 +23,10 @@
 
   function doc(){return root.document||null;}
   function cm3Easy(u){return u<=0?0:u>=1?1:u*u*(3-2*u);}
-  function reducedMotion(){try{return Boolean(root.matchMedia&&root.matchMedia("(prefers-reduced-motion: reduce)").matches);}catch(_error){return false;}}
+  // The Device check's frame (mount(..., {fullFiles:true})) plays the kick in full under Reduce Motion too: it times the
+  // level, it is not the player's view (review on #1389: a still scene gave too few frames to time).
+  let benchMount=false;
+  function reducedMotion(){if(benchMount)return false;try{return Boolean(root.matchMedia&&root.matchMedia("(prefers-reduced-motion: reduce)").matches);}catch(_error){return false;}}
   function hasWebgl2(){
     try{
       if(!root.WebGL2RenderingContext)return false;
@@ -1059,6 +1062,7 @@
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2()||off())return null;
     cm3Mounting+=1;
     try{
+      benchMount=Boolean(opts&&opts.fullFiles);
       const Q=await cm3Quality(opts&&opts.clubs,Boolean(opts&&opts.fullFiles));if(off())return null;
       // r90 Light: a file that fails to come in (a dropped connection on a slow line) is fetched once more before the
       // drawn goal is used: a failed download is not a missing GPU.
