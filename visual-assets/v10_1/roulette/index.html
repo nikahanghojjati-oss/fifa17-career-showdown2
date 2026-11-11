@@ -294,12 +294,17 @@ function floorMarbleTex(){ const w=GFX.level>=2?2048:1024,h=w, VEIN=GFX.level>=3
   const TB=(n,f)=>{ const a=new Float64Array(n); for(let i=0;i<n;i++) a[i]=f(i); return a; };
   const AY=TB(q,y=>Math.sin(y/q*TAU*3+ph[0])*13+Math.sin(y/q*TAU*11+ph[1])*3.5), SXY=TB(2*q,t=>Math.sin(t/q*TAU*7)*2.5), BX=TB(q,x=>Math.sin(x/q*TAU*4+ph[2])*12+Math.sin(x/q*TAU*13+ph[3])*3),
     CSX=TB(q,x=>Math.sin(x/q*TAU*2)), CCX=TB(q,x=>Math.cos(x/q*TAU*2)), WSX=TB(q,x=>Math.sin(x/q*TAU*17)), WCX=TB(q,x=>Math.cos(x/q*TAU*17));
+  /* r91 round 12: the web faded along its length by a soft tiling noise (two octaves of smooth value noise), so the veins run, thin out
+     and break as in real marble instead of closing every cell like dried mud. Per-row and per-column tables keep it cheap */
+  const vn=(n)=>{ const V=new Float64Array(n*n); for(let i=0;i<n*n;i++) V[i]=Math.random(); const I0=new Int32Array(q), I1=new Int32Array(q), F=new Float64Array(q); for(let i=0;i<q;i++){ const u=i/q*n, k=Math.floor(u), f=u-k; I0[i]=k%n; I1[i]=(k+1)%n; F[i]=f*f*(3-2*f); } return {n,V,I0,I1,F}; };
+  const NA=vn(5), NB=vn(13), nz=(N,x,y)=>{ const {n,V,I0,I1,F}=N, r0=I0[y]*n, r1=I1[y]*n, fx=F[x], a=V[r0+I0[x]]+(V[r0+I1[x]]-V[r0+I0[x]])*fx, b=V[r1+I0[x]]+(V[r1+I1[x]]-V[r1+I0[x]])*fx; return a+(b-a)*F[y]; };
   for(let y=0;y<q;y++){ const cb=Math.sin(y/q*TAU*2)*1.5, cS=Math.sin(cb), cC=Math.cos(cb), c2=Math.sin(y/q*TAU*3+ph[1]), wb=y/q*TAU*5+ph[0], wS=Math.sin(wb), wC=Math.cos(wb), w2=Math.sin(y/q*TAU*13+ph[2]), ay=AY[y];
     for(let x=0;x<q;x++){
       const wx=x+ay+SXY[x+y], wy=y+BX[x];
       edge(G1,wx,wy); const e=E, s1=P1[I+2]; edge(G2,wx+Math.sin(wy/q*TAU*9)*4.5,wy+Math.sin(wx/q*TAU*8)*4.5); const e2=E;
       const cloud=.5+.5*(CSX[x]*cC+CCX[x]*cS)*c2; const wob=.55+.45*(WSX[x]*wC+WCX[x]*wS)*w2;
-      let r=240-cloud*9, g=238-cloud*9, b=235-cloud*8; const width=((s1<.16?4.6:2.6)*wob+.4)/qs, v=Math.max(0,1-e/width); let k=v*(s1<.16?.9:.78)*VEIN; const v2=Math.max(0,1-e2/((.9+wob*.8)/qs)); k=Math.max(k,v2*.3*wob*VEIN); const warm=s1>.93;
+      let r=240-cloud*9, g=238-cloud*9, b=235-cloud*8; const width=((s1<.16?4.6:2.6)*wob+.4)/qs, v=Math.max(0,1-e/width), v2=Math.max(0,1-e2/((.9+wob*.8)/qs)); let k=0;
+      if(v>0||v2>0){ const fn=nz(NA,x,y)*.65+nz(NB,x,y)*.35, fade=fn<.36?.1:fn>.68?1:.1+.9*(fn-.36)/.32; k=Math.max(v*(s1<.16?.9:.78)*VEIN*(s1<.16?Math.max(fade,.55):fade),v2*.3*wob*VEIN*(.35+.65*fade)); }   /* the fade is only worked out on the web itself */ const warm=s1>.93;
       r=r*(1-k)+(warm?150:70)*k; g=g*(1-k)+(warm?122:70)*k; b=b*(1-k)+(warm?84:76)*k;
       const o=(y*q+x)*4; d[o]=r; d[o+1]=g; d[o+2]=b; d[o+3]=255; } }
   qx.putImageData(img,0,0); ctx.imageSmoothingQuality="high"; ctx.drawImage(qc,0,0,w,h);
