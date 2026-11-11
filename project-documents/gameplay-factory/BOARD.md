@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 2:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 3:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🐕 **Barking: Showdown Gate on #1391 has waited 56 min for a machine; Showdown Gate on #1394 has waited 52 min for a machine; Showdown Gate on #1357 has waited 40 min for a machine; Showdown Gate on #1397 has waited 38 min for a machine; Showdown Gate on #1400 has waited 28 min for a machine; Showdown Gate on #1399 has waited 26 min for a machine; Showdown Gate on #1398 has waited 26 min for a machine; Showdown Gate on #1402 has waited 14 min for a machine; Showdown Gate on #1401 has waited 13 min for a machine; Showdown Gate on #1403 has waited 8 min for a machine; Showdown Gate on #1404 has waited 4 min for a machine; POS20 on #312 has waited 3 min for a machine; Showdown Gate on #1389 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1394 has waited 56 min for a machine; Showdown Gate on #1357 has waited 45 min for a machine; Showdown Gate on #1396 has waited 43 min for a machine; Showdown Gate on #1397 has waited 42 min for a machine; Showdown Gate on #1400 has waited 32 min for a machine; Showdown Gate on #1399 has waited 31 min for a machine; Showdown Gate on #1398 has waited 30 min for a machine; Showdown Gate on #1401 has waited 17 min for a machine; Showdown Gate on #1403 has waited 13 min for a machine; Showdown Gate on #1404 has waited 8 min for a machine; POS20 on #312 has waited 8 min for a machine; Showdown Gate on #1389 has waited 6 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
