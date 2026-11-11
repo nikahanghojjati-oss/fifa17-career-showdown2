@@ -967,7 +967,7 @@ const dust=(()=>{ const n=160, pos=new Float32Array(n*3), col=new Float32Array(n
 const tracer=new T.Mesh(new T.CylinderGeometry(.002,.002,1,6),new T.MeshBasicMaterial({color:0xffe0a0, transparent:true, opacity:.9, toneMapped:false, map:LIGHT?WHITE1:null}));   /* r90 Light: a white picture puts it on the hand's shader program */ tracer.visible=false; scene.add(tracer);
 /* the bullet the camera rides: lead slug with a copper band, spinning, with a hot streak behind it and a soft shock halo */
 const bullet=new T.Group(); scene.add(bullet); bullet.visible=false;
-{ const lead=new T.MeshStandardMaterial({color:L("#9a9ea4"), metalness:.85, roughness:.3}); const copper=new T.MeshStandardMaterial({color:L("#b9722f"), metalness:1, roughness:.25});
+{ const lead=new T.MeshStandardMaterial({color:L("#c4c8ce"), metalness:.55, roughness:.36}); const copper=new T.MeshStandardMaterial({color:L("#c98040"), metalness:.75, roughness:.3});   /* r91: as full mirrors the slug and its band reflected the dark room and the camera riding behind saw a black ball; part metal, the lamps light them */
   const body=new T.Mesh(new T.CylinderGeometry(.0045,.0045,.012,24),lead); body.rotation.x=Math.PI/2; body.position.z=-.004; bullet.add(body);
   const band=new T.Mesh(new T.CylinderGeometry(.0046,.0046,.003,24),copper); band.rotation.x=Math.PI/2; band.position.z=-.009; bullet.add(band);
   const nose=new T.Mesh(new T.SphereGeometry(.0045,24,16),lead); nose.scale.z=1.9; nose.position.z=.003; bullet.add(nose);
