@@ -35,13 +35,26 @@ Wrong last time: the stadium, a banner, writing or sparkle came back, or the mid
 ```
 
 ## 2 of 4 · Phone · Start · code `HC 22 START`
-- **Depends on:** HC 21 approved. Claude posts `GUIDE_HC22_START_P.png` (your two men from HC 21 on cyan, faces at least 16% in from the sides) and `RC_HALL.png` (the empty hall) in this thread, with links.
-- **Attach (2 files, in this order):** GUIDE_HC22_START_P.png, then RC_HALL.png
-- **Save as:** `HC22_START_P.png`. Claude makes the 1179x2556 phone, the 590 W copy and the 9:20 tall copy (like ENV_BOX_PHONE_HC_V2_TALL) from it, with no extra run.
-- **Prompt:** Claude posts it with the guide (the V2 phone prompt for this room: top 16% plain, the doors between the heads, the stairs on the left edge, no lamp in frame, lip at about 50%, calm below).
+- **Depends on:** HC 21 approved (try 1, 11 Nov 10:22 a.m. Eastern; saved as reviews/HC/HC21_START_D_TRY1.png).
+- **Attach (2 files, in this order):** GUIDE_HC22_START_P.png, then RC_HALL.png (links in the thread message, pinned to the commit).
+- **Save as:** `HC22_START_P.png`. Claude makes the 1179x2096 phone, the 590 W copy and the 9:20 tall copy (like ENV_BOX_PHONE_HC_V2_TALL) from it, with no extra run.
+```
+Edit this photo. Keep the two men exactly as they are: same faces, hair, beards, skin, build, suits, shirts, hands, pose and position. The man on the left stays on the left and the man on the right stays on the right; never flip the picture. Do not redraw their faces. Picture 1 is the photo to edit. Picture 2 is the same front hall seen wide, with nobody in it: copy its stone, oak doors, columns and floor, nothing else from it. The solid cyan areas in picture 1 are empty: paint them as the room below so no cyan is left. The men are already in the right place and size; do not move or resize them.
+The same front hall in a tall frame, camera at chest height, 50 mm lens, straight on, everything sharp. Top 16% of the height: a plain flat dark plaster ceiling with no fixtures, nothing bright (title band). Behind the men: the honed dark grey stone wall in large blocks, and between their heads, from 18% to 48% of the height, the upper part of the tall closed double doors of dark smoked oak with plain raised panels, shut, no gap of light; the black marble columns beside them; on the far left edge the stone stairs and dark oak handrail already in the picture, carried on; on the right the wall lamp already in the picture is the only lamp. The centre column, 38% to 62% of the width, stays plain oak doors and stone from 18% of the height down to the counter lip. The counter's 1 cm brushed-brass lip runs straight and level at exactly 50% of the height, where the men's bodies end, unlit. Below it: only the plain matte honed black marble counter front with a few dull ochre and off-white veins, very low detail, calm for cards. The light on the two men stays exactly as it is now; it comes from in front of them, from behind the camera. A real photograph taken by an interior photographer on a tripod: everything sharp, true colours, no grading.
+Remove: any leftover cyan. Never add: words, letters, numbers, slogans, banners, name tags, signs, logos, crests, sponsors, crowns, trophies, extra people, light beams, sparkles, lens flare, bokeh dots, glow or outline around the men, dark overlay, vignette, blur, mirror-gloss floors, marble veins that give off light, LED strips, bright blue, daylight, any fixture on the ceiling, any lamp or plant not named here, a visible bulb, a bright ring around a lamp shade, matching pairs, gold objects, chrome or shiny metal, labels, screens, clocks, paintings, framed pictures, posters, mirrors, flowers, candles, string lights, plastic, steam, smoke, haze, floating objects, a stadium, a city skyline, anything standing in front of either man, anything touching a head.
+Portrait 2:3, the largest size available. Faces and shoulders stay in the band from about 17% to 50% of the height.
+```
+**Pass check**
+- No cyan is left; the top sixth is plain; one lamp only (right, the one already there).
+- The doors sit between the heads, plain; the lip is straight at the middle and everything below is plain marble.
+- Daniel is LEFT pointing at you, Nik is RIGHT, not flipped; the same hall as HC 21.
+```
+Wrong last time: cyan is left, the middle got busy or something was added. Paint every cyan part as the stone hall; between the men only the plain closed oak doors and stone; below the lip only plain marble counter front. Keep the two men exactly as they are, the man on the left on the left.
+```
 
 ## 3 of 4 · Desktop · Squad Management · code `HC 23 SQUAD`
 - **Attach (2 files, in this order):** [GUIDE_HC23_SQUAD_D.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/a37b4bedaeda71c57ff325d79253ab316f684501/project-documents/factory/tickets/attach/HC/GUIDE_HC23_SQUAD_D.png), then [RC_BOX_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/7b1bfc5b59e6bdfe55ed941363f84d69ed856a33/project-documents/factory/tickets/attach/HC/RC_BOX_V2.png)
+- **Result:** try 1 approved by Claude 11 Nov 10:22 a.m. Eastern (reviews/HC/HC23_SQUAD_D_TRY1.png); files in hc-art/coaches/.
 - **Save as:** `HC23_SQUAD_D.png`. Claude locks the men back, makes 1X and 2X and cuts RC_COACHES for the phone.
 ```
 Edit this photo. Keep the two men exactly as they are: same faces, hair, beards, skin, build, suits, shirts, hands, pose, size and position. The man on the left stays on the left and the man on the right stays on the right; never flip the picture. Do not redraw their faces. Do not move or resize them. Picture 1 is the photo to edit: the solid cyan areas are empty; paint them as the room below so no cyan is left. Picture 2 is the directors' box next door with nobody in it: copy its oak, glass, marble and brass, nothing else from it.
