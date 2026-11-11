@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-11T15:39:52Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-11T15:39:52Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T18:54:59Z", "by": "V", "status": "RECEIVED", "note": "Starting now in Team V thread 'Fit Gazette CONTINUE at 1920x866'"}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
- "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
+ "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6Eo5P3BFCt1TTnuWb"}
 }
 ```
 

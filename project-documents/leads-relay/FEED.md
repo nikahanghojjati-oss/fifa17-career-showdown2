@@ -204,21 +204,39 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-02 17:50 | Team V | Team G | HO-056 DONE | Chamber Men shootout scene, cylinder strip and multi-bullet roulette wording (r88) | no |
 | 2026-11-02 18:34 | Team G | Team V | HO-055 DONE | Story Home tile: film-reel tile art TILE_STORY_V1.webp (r88) | no |
 | 2026-11-04 13:50 | Team G | Team V | HO-057 SENT | 4K page title wordmarks (all titles) | yes (receive it) |
+| 2026-11-04 14:03 | Team V | Team G | HO-057 RECEIVED | 4K page title wordmarks (all titles) | no |
+| 2026-11-04 17:53 | Team V | Team G | HO-057 DONE | 4K page title wordmarks (all titles) | no |
 | 2026-11-08 03:04 | Team G | Team V | HO-058 SENT | r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only) | yes (receive it) |
 | 2026-11-08 08:02 | Team G | Team V | HO-060 SENT | r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp) | yes (receive it) |
+| 2026-11-08 08:02 | Team V | Team G | HO-059 SENT | RR_ROOM_V2 café room 4K delivered (r90) | yes (receive it) |
+| 2026-11-08 08:02 | Team V | Team G | HO-060 DONE | r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp) | no |
 | 2026-11-08 08:03 | Team G | Team V | HO-059 RECEIVED | RR_ROOM_V2 café room 4K delivered (r90) | no |
+| 2026-11-08 08:09 | Team V | Team G | HO-059 DONE | RR_ROOM_V2 café room 4K delivered (r90) | no |
 | 2026-11-08 08:21 | Team G | Team V | HO-061 SENT | r90 plates: remove slogan banners (L11) + phone face crops (L23) | yes (receive it) |
+| 2026-11-08 08:22 | Team V | Team G | HO-061 RECEIVED | r90 plates: remove slogan banners (L11) + phone face crops (L23) | no |
+| 2026-11-08 12:56 | Team V | Team G | HO-062 SENT | Consult: no-AI-look bar for the new background and icon prompts | yes (receive it) |
 | 2026-11-08 12:58 | Team G | Team V | HO-062 RECEIVED | Consult: no-AI-look bar for the new background and icon prompts | no |
 | 2026-11-08 12:58 | Team G | Team V | HO-062 DONE | Consult: no-AI-look bar for the new background and icon prompts | no |
 | 2026-11-08 15:15 | Team G | Team V | HO-063 RECEIVED | Home icons: Team V prompt job owns them, W9 stops (Nik) | no |
 | 2026-11-08 15:15 | Team G | Team V | HO-063 DONE | Home icons: Team V prompt job owns them, W9 stops (Nik) | no |
+| 2026-11-08 15:15 | Team V | Team G | HO-063 SENT | Home icons: Team V prompt job owns them, W9 stops (Nik) | yes (receive it) |
+| 2026-11-08 15:17 | Team V | Team G | HO-064 SENT | Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art | yes (receive it) |
 | 2026-11-08 15:18 | Team G | Team V | HO-064 RECEIVED | Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art | no |
 | 2026-11-08 15:18 | Team G | Team V | HO-064 DONE | Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art | no |
 | 2026-11-08 15:25 | Team G | Team V | HO-065 SENT | Pause the Home icon part of the prompt job (Nik) | yes (receive it) |
+| 2026-11-08 15:26 | Team V | Team G | HO-065 RECEIVED | Pause the Home icon part of the prompt job (Nik) | no |
+| 2026-11-08 15:27 | Team V | Team G | HO-065 DONE | Pause the Home icon part of the prompt job (Nik) | no |
 | 2026-11-08 18:21 | Team G | Team V | HO-066 SENT | Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow) | yes (receive it) |
+| 2026-11-08 18:24 | Team V | Team G | HO-066 RECEIVED | Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow) | no |
+| 2026-11-08 18:35 | Team V | Team G | HO-066 DONE | Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow) | no |
+| 2026-11-08 19:32 | Team V | Team G | HO-067 SENT | Gate B: wire the new handcrafted Home art alone | yes (receive it) |
 | 2026-11-09 04:35 | Team G | Team V | HO-067 RETURNED | Gate B: wire the new handcrafted Home art alone | yes (see reason) |
+| 2026-11-09 04:45 | Team V | Team G | HO-067 DONE | Gate B: wire the new handcrafted Home art alone | no |
 | 2026-11-09 06:03 | Team G | Team V | HO-068 RECEIVED | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | no |
+| 2026-11-09 06:03 | Team V | Team G | HO-068 SENT | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | yes (receive it) |
 | 2026-11-09 08:46 | Team G | Team V | HO-068 RETURNED | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | yes (see reason) |
 | 2026-11-09 14:45 | Team G | Team V | HO-068 RETURNED | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | yes (see reason) |
 | 2026-11-09 15:42 | Team G | Team V | HO-068 RETURNED | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | yes (see reason) |
 | 2026-11-09 21:35 | Team G | Team V | HO-068 DONE | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | no |
+| 2026-11-11 15:06 | Team V | Team G | HO-069 RECEIVED | HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops | no |
+| 2026-11-11 18:54 | Team V | Team G | HO-070 RECEIVED | Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866 | no |
