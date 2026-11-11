@@ -2167,6 +2167,10 @@
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { padding-top:54px; align-content:start; grid-template-rows:60px auto 44px auto; row-gap:6px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel { gap:4px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel button { min-height:44px; padding-top:6px; padding-bottom:6px; }
+  /* Scroll room by design: the bar is 56 px plus env(safe-area-inset-bottom), so the scrolling layer keeps the bar height, 6 px
+     and the inset below its last row. Whatever the card's height (a long career, two-line club names), main scrolls the arrows
+     fully clear of the bar. */
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { padding-bottom:calc(62px + env(safe-area-inset-bottom, 0px)); }
   /* Pager arrows sit right under the card (not at the bottom of the tab column), so a bottom safe-area inset (the bar grows by
      env(safe-area-inset-bottom)) never reaches them: at an inset of 21 px they end at y 300 and the bar starts at 313. The tab
      column spans a flexible last row, so it no longer stretches the card's row. Banner states keep the grid above. */
