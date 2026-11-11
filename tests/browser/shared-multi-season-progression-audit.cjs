@@ -33,6 +33,7 @@ async function installHarness(page,{role,saveId,totalSeasons,rivalrySeed}){
     window.__r13HistorySeason=0;
     window.__r13ProviderCalls=[];
     window.__r13CursorEvents=[];
+    window.CareerModeIconGuessStep={ensure:async()=>true,applies:()=>false,pointsFor:async()=>0}; // r91: the audit plays no Prime Pack round; this stub keeps the season publish off its Firestore read
     window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedHistoryConvergence={
       refresh:async()=>window.CareerModeProductionSharedHistoryConvergence.getState(),
