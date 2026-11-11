@@ -84,19 +84,22 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   const xiName=(sheet,n)=>sheet.xi.some(p=>p&&p.name===n),boardName=(sheet,n)=>sheet.bench.slice(0,4).some(p=>p&&p.name===n);
   // Nik's no-hiding rule (2026-11-11): from season 2 the XI holds each line's best and subs 1-4 are the best 4 left.
   assert.equal(S.hidingIssue(s2),null,'season 2 opens with nobody hidden');
-  assert.ok(xiName(s2,'P. Mertesacker')&&!xiName(s2,'Héctor Bellerín'),'Mertesacker 83 (DEF) starts over Bellerín 79');
-  assert.ok(!boardName(s2,'Héctor Bellerín')&&boardName(s2,'D. Welbeck'),'Welbeck 80 takes a board seat over Bellerín 79');
+  assert.ok(xiName(s2,'M. Debuchy')&&!xiName(s2,'Héctor Bellerín'),'Debuchy 80 (RB) starts over Bellerín 79 (RB)');
+  assert.ok(boardName(s2,'P. Mertesacker')&&!xiName(s2,'P. Mertesacker'),'Mertesacker (CB) can cover RB, but flex never forces him in: he stays on the board');
+  assert.ok(!boardName(s2,'Héctor Bellerín'),'Bellerín 79 is not among the best 4 left');
   assert.equal(S.hidingIssue(s1),null,'season 1 is the launch squad as it is');
-  const mert=xiRef(s2,p=>p.name==='P. Mertesacker'),giroud=xiRef(s2,p=>p.name==='O. Giroud');
-  assert.match(S.canSwap(s2,ref('bench',4),mert).reason,/better/,'Debuchy 80 cannot replace Mertesacker 83');
-  assert.match(S.canSwap(s2,ref('bench',0),giroud).reason,/better/,'Giroud 83 cannot be dragged out for Welbeck 80');
-  assert.match(S.canSwap(s2,ref('bench',5),giroud).reason,/can't play|better/,'a left back cannot replace a striker');
+  const rb=xiRef(s2,p=>p.name==='M. Debuchy'),giroud=xiRef(s2,p=>p.name==='O. Giroud');
+  assert.ok(S.canSwap(s2,ref('bench',0),rb).ok,'the manager may choose Mertesacker 83 at RB');
+  assert.match(S.canSwap(s2,resRef(s2,'Héctor Bellerín'),rb).reason,/better/,'Bellerín 79 cannot replace Debuchy 80');
+  assert.match(S.canSwap(s2,resRef(s2,'Lucas Pérez'),giroud).reason,/better/,'Giroud 83 cannot be dragged out for Lucas Pérez 81');
+  assert.match(S.canSwap(s2,resRef(s2,'K. Gibbs'),giroud).reason,/can't play|better/,'a left back cannot replace a striker');
   assert.match(S.canSwap(s2,ref('bench',1),giroud).reason,/can't play/,'Coquelin (CDM) cannot play striker');
   assert.match(S.canSwap(s2,resRef(s2,'D. Ospina'),xiRef(s2,p=>p.name==='P. Čech')).reason,/better/,'Čech 88 cannot be hidden for Ospina 79');
   // ties are the manager's choice; subs 5-7 and the reserves (both off the board) swap freely
-  assert.ok(S.swap(s2,ref('bench',0),ref('bench',4)).ok,'Welbeck 80 and Debuchy 80: a tie');
+  assert.ok(S.swap(s2,ref('bench',1),ref('bench',2)).ok,'Coquelin 81 and Walcott 81 trade board seats');
+  assert.ok(S.swap(s2,ref('bench',5),ref('bench',6)).ok,'subs 5-7 reorder freely');
   assert.ok(S.swap(s2,resRef(s2,'C. Jenkinson'),ref('bench',6)).ok,'a reserve for sub 7');
-  assert.match(S.canSwap(s2,ref('bench',1),ref('bench',4)).reason,/15 on the Roulette board/,'Coquelin 81 cannot leave the board for Debuchy 80');
+  assert.match(S.canSwap(s2,ref('bench',1),ref('bench',4)).reason,/15 on the Roulette board/,'Coquelin 81 cannot leave the board for a weaker sub');
   // the reserves can be reordered (only for show); the order survives later automatic changes, a newcomer slots in by overall
   const firstTwo=s2.reserves.slice(0,2).map(p=>p.name);
   const reordered=S.swap(s2,{zone:'res',index:0},{zone:'res',index:1});
@@ -106,23 +109,33 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.ok(after.ok&&after.sheet.reserves.findIndex(p=>p.name===firstTwo[1])<after.sheet.reserves.findIndex(p=>p.name===firstTwo[0]),'the manager\'s reserve order stays');
   // a reported overall moves players by itself, both ways
   const up=S.rate(s2,s2.reserves.find(p=>p.name==='C. Jenkinson').id,86);
-  assert.ok(up.ok&&xiName(up.sheet,'C. Jenkinson')&&boardName(up.sheet,'Nacho Monreal')&&!xiName(up.sheet,'Nacho Monreal')&&S.hidingIssue(up.sheet)===null&&S.validate(up.sheet).ok,'Jenkinson rated 86 starts; Monreal 81, now the weakest defender, drops to the board');
+  assert.ok(up.ok&&xiName(up.sheet,'C. Jenkinson')&&!xiName(up.sheet,'M. Debuchy')&&S.hidingIssue(up.sheet)===null&&S.validate(up.sheet).ok,'Jenkinson (RB) rated 86 starts at RB over Debuchy 80');
   const down=S.rate(s2,giroud&&s2.xi[giroud.index].id,70);
   assert.ok(down.ok&&!xiName(down.sheet,'O. Giroud')&&S.hidingIssue(down.sheet)===null&&S.validate(down.sheet).ok,'Giroud rated 70 leaves the XI');
+  // flex is a permission, not a mandate: at Athletic, San José (CDM, also CB) does not push Balenziaga (LB) out
+  {
+    const ath=S.advance(S.advance(S.launch('Athletic Club'),{}),{});
+    const lbAt=ath.slots.indexOf('LB');
+    assert.equal(ath.xi[lbAt].name,'Balenziaga','the natural left back starts');
+    const msj=resRef(ath,'Mikel San José');
+    if(msj.zone!=='xi'&&msj.index>=0)assert.ok(S.canSwap(ath,msj,ref('xi',lbAt)).ok,'the manager may still choose San José at LB');
+  }
   // across lines (Nik 00:54): in a 4-3-3 with no RM slot a right midfielder rated best still starts, on the wing
   const wide=S.setFormation(s2,'4-3-3');assert.ok(wide.ok&&S.hidingIssue(wide.sheet)===null);
   const ox=S.rate(wide.sheet,wide.sheet.reserves.find(p=>p.name==='A. Oxlade-Chamberlain').id,90);
   const oxAt=ox.sheet.xi.findIndex(p=>p&&p.name==='A. Oxlade-Chamberlain');
-  assert.ok(ox.ok&&oxAt>=0&&['RW','LW'].includes(ox.sheet.slots[oxAt])&&S.validate(ox.sheet).ok,'Oxlade-Chamberlain (RM) rated 90 starts on the wing in a 4-3-3');
+  assert.ok(ox.ok&&ox.sheet.slots[oxAt]==='RW'&&S.validate(ox.sheet).ok,'Oxlade-Chamberlain rated 90 starts at RW, one of his own positions');
+  assert.ok(boardName(ox.sheet,'A. Sánchez')&&S.hidingIssue(ox.sheet)===null,'Sánchez 87 is never hidden: he stays on the Roulette board');
   // XI <-> XI inside a line, and AUTO restores natural seats
   const lb=xiRef(s2,p=>p.name==='Nacho Monreal');
-  assert.match(S.canSwap(s2,mert,lb).reason,/can't play/,'no right back to left back across the defence');
+  assert.match(S.canSwap(s2,rb,lb).reason,/can't play/,'no right back to left back across the defence');
   const rcb=xiRef(s2,p=>p.name==='S. Mustafi');
-  const crossed=S.swap(s2,mert,rcb);assert.ok(crossed.ok,'two centre backs swap (CB -> RB is on the list)');
+  assert.match(S.canSwap(s2,rb,rcb).reason,/Mertesacker/,'Debuchy at CB would leave Mertesacker 83 (a centre back) out: refused');
+  const crossed=S.swap(s2,rcb,xiRef(s2,p=>p.name==='L. Koscielny'));assert.ok(crossed.ok,'two centre backs swap sides');
   const auto=S.autoPlace(crossed.sheet);assert.ok(auto.ok&&S.validate(auto.sheet).ok);
   assert.equal(auto.sheet.xi[lb.index].name,'Nacho Monreal');
   // XI <-> bench across lines is refused; board order is free
-  assert.equal(S.canSwap(s2,ref('bench',3),mert).ok,false);
+  assert.equal(S.canSwap(s2,resRef(s2,'Lucas Pérez'),rb).ok,false);
   assert.ok(S.swap(s2,ref('bench',1),ref('bench',2)).ok);
   assert.match(S.canSwap(s2,ref('bench',4),giroud).reason||'',/better|can't play/);
 }

@@ -328,9 +328,8 @@
 
   // ---------- Nik's no-hiding rule (2026-11-11 00:38 UTC), from season 2 ----------
   // The squad shows the save as it is: nobody better can be kept out of the XI or the Roulette board to protect him.
-  // (1) No bench or reserve player may be rated above a starter in a slot he can play: his own position, the flex list
-  //     (including Nik's cross-line RM<->RW, LM<->LW, CF<->CAM) or out of position inside his own line (GK/DEF/MID/ATT),
-  //     so the XI always holds each line's best for the chosen formation; flex decides who covers which slot.
+  // (1) No bench or reserve player may be rated above a starter standing in one of his own FIFA positions. Flex lets the
+  //     manager field someone elsewhere (and the refill uses it), but it never forces anyone in.
   // (2) Subs 1-4 (on the Roulette board) are the best of the rest: nobody in subs 5-7 or the reserves is rated above them.
   // Ties are the manager's choice. Season 1 keeps the launch squad as it is (only moves are checked there).
   function hidingIssue(sheet){
@@ -339,9 +338,10 @@
     for(const {p:q,ref} of outside){
       let best=null;
       sheet.xi.forEach((p,i)=>{
-        // He must start over p whenever he can stand in p's slot: his own position, Nik's flex list (with the cross-line
-        // RM<->RW, LM<->LW, CF<->CAM) or out of position inside his own line.
-        if(!p||isStopgap(sheet,i)||!(q.rating>p.rating)||!allowed(sheet,q,sheet.slots[i]))return;
+        // He must start over p when p's slot is one of his own FIFA positions. Flex (the list, the cross-line RM<->RW,
+        // LM<->LW, CF<->CAM, out of position inside a line) is the manager's choice and never forces anyone in
+        // (r91 lead, 2026-11-11 00:59 UTC: a CDM who also plays CB must not push the left back out).
+        if(!p||isStopgap(sheet,i)||!(q.rating>p.rating)||sqFit(q,sheet.slots[i])<3)return;
         const f=slotFit(sheet,q,sheet.slots[i]);
         if(!best||f>best.fit||(f===best.fit&&p.rating<best.p.rating))best={kind:"xi",q,from:ref,p,index:i,fit:f};
       });
