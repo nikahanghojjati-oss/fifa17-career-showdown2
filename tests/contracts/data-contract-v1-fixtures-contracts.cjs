@@ -12,7 +12,7 @@ const Seam=require(path.join(ROOT,"js/careerScreenSeam.js"));
 const StartJoin=require(path.join(ROOT,"js/startJoinViewModel.js"));
 const CONTRACT_VERSION="1.0";
 const DIR="tests/fixtures/data-contract-v1";
-const INTERIM="Current Showdown only. Career history is not yet available.";
+const INTERIM="This Showdown only. Career history is not available yet.";
 const STATUS5=["loading","empty","unavailable","partial","ready"];
 const MANAGERS=["daniel","nik"];
 const TEAMS={premier_league:20,laliga:20,bundesliga:18,serie_a:20,ligue_1:20};
@@ -93,7 +93,7 @@ const SPEC={
   historyRow:["number","rivalryId","status","leagueId","clubs","seasonsPlayed","totalSeasons","totals","winner","seasons","setupConfirmedAt"], // V1 §8 + rivalryId (G-3 ref target) + r86 Special Player confirm time (null before r86)
   historySeason:["season","score","winner","tiebreak","leaguePosition","leaguePoints","leagueGoals"],
   record:["label","manager","value","ref"],
-  recordLabels:["Highest season score","Highest league points","Highest league goals","Biggest Showdown win","Most perfect seasons"],
+  recordLabels:["Best season score","Best league points","Best league goals","Biggest Showdown win","Perfect seasons"],
   checkSource:["ref","totalSeasons","leagueId","state","seasons"]
 };
 const pairOf=(v,where,test)=>{exact(v,MANAGERS,where);for(const m of MANAGERS)test(v[m],where+"."+m);};

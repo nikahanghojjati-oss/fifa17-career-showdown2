@@ -249,7 +249,9 @@
     // Striped and hooped backs carry a plain panel in the body colour behind the name and number, as the real shirts do.
     const panel=!solidBack;
     const {ink,edge}=printInk(k,solidBack?k.body:null);
-    if(panel){g.fillStyle=k.body;for(const cx of [0,W]){g.beginPath();const pw=W*.13,top=H*.13,bot=H*.7,r=W*.012;
+    // r91: on stripes the panel ends on a stripe edge (stripes are 1/14 wide, the back centre stripe spans ±.5/14), so no
+    // stripe beside it is cut part-way; a part-cut stripe showed as a rectangular notch near the shoulders on the body.
+    if(panel){g.fillStyle=k.body;for(const cx of [0,W]){g.beginPath();const pw=k.pattern==="stripes"?W*1.5/14:W*.13,top=H*.13,bot=H*.7,r=W*.012;
       g.moveTo(cx-pw+r,top);g.lineTo(cx+pw-r,top);g.quadraticCurveTo(cx+pw,top,cx+pw,top+r);g.lineTo(cx+pw,bot-r);g.quadraticCurveTo(cx+pw,bot,cx+pw-r,bot);
       g.lineTo(cx-pw+r,bot);g.quadraticCurveTo(cx-pw,bot,cx-pw,bot-r);g.lineTo(cx-pw,top+r);g.quadraticCurveTo(cx-pw,top,cx-pw+r,top);g.fill();}}
     for(const cx of [0,W]){

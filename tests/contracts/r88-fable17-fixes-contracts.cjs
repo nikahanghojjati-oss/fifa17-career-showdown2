@@ -68,11 +68,11 @@ const names=board=>board.map(row=>row&&row.name);
   out=await Step.earlierChambers({...ctx,season:2},RR,{1:null},chamber({1:{ok:false,reason:"BAD_RECORD"}}));
   assert.deepEqual(asked,[1]);assert.equal(out[1],undefined);
   const step=read("js/rosterRouletteStep.js");
-  assert.match(step,/const chambers=chamber&&known\?await rrsEarlierChambers\(ctx,engine,hits,chamber\):null;if\(chamber&&known&&!chambers\)return false;/,"a failed read asks TRY AGAIN / BACK, never spins");
+  assert.match(step,/const chambers=chamber&&known\?(\(squads\?\{\.\.\.\(chamber\.chambers\|\|\{\}\)\}:)?await rrsEarlierChambers\(ctx,engine,hits,chamber\)\)?:null;if\(chamber&&known&&!chambers\)return false;/,"a failed read asks TRY AGAIN / BACK, never spins");
   assert.match(step,/Season \$\{k\}'s roulette spin was not saved and its Chamber Men result could not be used to replay it/,"the card's reason names the season and Chamber Men");
   const pstc=read("js/productionSharedTransferChallenge.js");
   assert.match(pstc,/earlier:k=>step\.cylinders\(\{\.\.\.ctx,season:k\},io\)\};/,"the shootout step reads an earlier season's cylinders");
-  assert.match(pstc,/score:chamberGate\.score,earlier:chamberGate\.earlier\}:null\};/,"and the roulette gets that reader");
+  assert.match(pstc,/score:chamberGate\.score,earlier:chamberGate\.earlier\}:null[,}]/,"and the roulette gets that reader");
   ok("F17-01b","the roulette reads an earlier season's shootout only when that season's saved outcome is missing");
 
   // F17-02 / F17-03 / F17-06 (wording on the shootout screen).

@@ -87,7 +87,7 @@ check('B4 a career whose only Showdowns ended early shows Career Statistics and 
 check('B5 Trophy Room never shows "0 Shared"; r90 W9 (LOOK L26): a record nobody holds is left out, not a dash',()=>{
   const m=model([completed(1,1,[[Z,Z]])]);
   const byLabel=Object.fromEntries(m.trophyRoom.records.map(r=>[r.label,r]));
-  for(const label of ['Highest season score','Most perfect seasons'])if(byLabel[label]){assert.equal(byLabel[label].value,null,`${label}: no best at 0`);}
+  for(const label of ['Best season score','Perfect seasons'])if(byLabel[label]){assert.equal(byLabel[label].value,null,`${label}: no best at 0`);}
   const frame=V10.toV10Frame(m,'trophyRoom');
   for(const record of frame.records){
     assert.ok(!(record.manager==='shared'&&record.value===0),`${record.label}: never 0 Shared`);
@@ -388,7 +388,7 @@ check('B1 History & Backup shows the online career Settings counts, never added-
   assert.ok(!stats.some(s=>s.includes(String(D+N))&&D&&N),'no added-together figure');
   assert.ok(!box.textContent.includes('No completed Showdowns yet. Finish one and it appears here.'),'not the empty local list');
   const open=box.all().find(e=>e.className==='compactButton legacyOpenHistory');
-  assert.ok(open&&open.textContent==='OPEN HISTORY','a way to the real History screen');
+  assert.ok(open&&open.textContent==='OPEN LEGACY','a way to the real History screen');
   // the local fallback keeps one figure per manager too
   const totals=ctx.__totals([{managers:{playerOne:'Daniel',playerTwo:'Nik'},score:{playerOne:7,playerTwo:4},rounds:[]},{managers:{playerOne:'Daniel',playerTwo:'Nik'},score:{playerOne:2,playerTwo:9},rounds:[]}]);
   assert.deepEqual(JSON.parse(JSON.stringify(totals.points)),{daniel:9,nik:13});

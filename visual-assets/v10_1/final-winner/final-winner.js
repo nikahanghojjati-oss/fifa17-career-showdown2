@@ -285,7 +285,7 @@
       console.warn("Final Winner fixtures unavailable", error);
       root.dataset.status = "unavailable";
       setText("finalWinnerHeading", "Final result unavailable");
-      setText("finalWinnerMessage", "The shared Showdown result could not be read. Missing values are not zero.");
+      setText("finalWinnerMessage", "The shared Showdown result could not be read. Anything missing is unknown, not zero.");
     });
   }
   window.ShowdownFinalWinnerBoot = bootFinalWinner;

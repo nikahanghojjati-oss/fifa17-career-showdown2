@@ -125,12 +125,21 @@ ok("R90-PS8 hunt L05/L06: the light pillar rises behind the pack, softer on port
   assert.match(page,/pack\.localToWorld\(new T\.Vector3\(-\.12,0,-PACK_D\/2-\.12\)\)/,"pillar behind the pack, never across its face");
   assert.ok(!/new T\.Vector3\(-\.12,0,PACK_D\/2\+\.1\)/.test(page),"no pillar in front of the pack");
   assert.match(page,/\(1\.5\+charge\*charge\*4\)\*\(camera\.aspect<1\?\.6:1\)/,"softer pillar on a portrait screen");
-  assert.match(page,/new T\.HemisphereLight\(L\(0xdde6ff\),L\(0x15200f\),0\.55\)/,"Chamber Men's night hemisphere");
-  assert.match(page,/new T\.DirectionalLight\(L\(0xfff3e2\),2\.7\)/,"Chamber Men's floodlight key");
-  assert.match(page,/if\(night>\.5\)\{/,"the stadium photo is graded to night");
-  assert.match(page,/"assets\/board_night_V1\.jpg"/,"black and gold boards");
-  assert.match(page,/lp\+=exp\(-dl\*dl\*70\.\); fl\+=exp\(-dl\*dl\*1600\.\);/,"floodlight flares with light pools on the stands");
-  assert.match(page,/const n=tt<4\.5\?8:4; for\(let i=0;i<n;i\+\+\)\{ const a=Math\.random\(\)\*Math\.PI\*2, r=Math\.sqrt\(Math\.random\(\)\)\*\.7\*/,"a small sparkle at the base, not a carpet");
+  assert.match(page,/NIGHT\?new T\.HemisphereLight\(L\(0xdde6ff\),L\(0x15200f\),0\.55\):new T\.HemisphereLight\(L\(0xcfe4ff\),L\(0x2d5a22\),0\.45\)/,"?look=night: Chamber Men's night hemisphere");
+  assert.match(page,/NIGHT\?new T\.DirectionalLight\(L\(0xfff3e2\),2\.7\):new T\.DirectionalLight\(L\(0xfff0d8\),2\.3\)/,"?look=night: Chamber Men's floodlight key");
+  assert.match(page,/if\(night>\.5\)\{/,"?look=night: the stadium photo is graded to night");
+  assert.match(page,/NIGHT\?"assets\/board_night_V1\.jpg":"assets\/board\.jpg"/,"?look=night: black and gold boards");
+  assert.match(page,/lp\+=exp\(-dl\*dl\*70\.\); float f=exp\(-dl\*dl\*1600\.\); fl\+=f;/,"floodlight flares with light pools on the stands");
+  assert.match(page,/if\(f>\.02\)\{ for\(int k=0;k<5;k\+\+\)/,"r91: each floodlight is a bank of lamps, worked out only near a lamp");
+  assert.match(page,/const n=Math\.round\(\(tt<4\.5\?8:4\)\*\(BLOOM\?1:\.6\)\); for\(let i=0;i<n;i\+\+\)\{ const a=Math\.random\(\)\*Math\.PI\*2, r=Math\.sqrt\(Math\.random\(\)\)\*\.7\*Math\.max\(\.5,/,"a small sparkle at the base, not a carpet (r91: spread from the start, fewer on Light)");
+});
+
+ok("r91 SP stadium (Nik 2026-11-11 \"I want the yellow vibrant stadium we had\"): r89's sunlit yellow stadium and yellow boards are the default on every level",()=>{
+  assert.match(page,/const NIGHT=\/\[\?&\]look=night\(\?:&\|\$\)\/\.test\(location\.search\);/,"night only with ?look=night");
+  assert.match(page,/warm:\{value:NIGHT\|\|\/\[\?&\]look=0\(\?:&\|\$\)\/\.test\(location\.search\)\?0:1\},night:\{value:NIGHT\?1:0\}/,"r89's late-afternoon grade (SP_LOOKFRAME_V1) on the photo, no night grade");
+  assert.match(page,/color:L\(NIGHT\?0x93a184:0xc9d9b4\)/,"r89's sunlit pitch");
+  assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/special-player/assets/board.jpg")),"r89's yellow boards ship again");
+  assert.match(page,/if\(!NIGHT\) panoMat\.uniforms\.expo\.value=\.78;/,"Light (no bloom) draws the sunlit photo a little brighter, at no cost");
 });
 
 ok("R90-PS9 hunt M3/M4/M5/M8: wall-clock timeline, bloom by level, 4x MSAA above 1080p, self-hosted faces",()=>{

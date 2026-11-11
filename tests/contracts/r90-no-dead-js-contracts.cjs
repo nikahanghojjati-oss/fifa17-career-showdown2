@@ -19,7 +19,8 @@ const STANDALONE_ROOTS={
   "production-authorization-acceptance.html":"Stage 5F production acceptance page (manual, outside the game); it is also the network-only update entry that serves js/appUpdateBootstrap.js to old r29 service workers."
 };
 // js/ files allowed to exist without a page loading them. Keep empty unless a file truly has no page; give the reason.
-const ALLOWED_UNLOADED={};
+const ALLOWED_UNLOADED={
+};
 
 const pageRoots=["index.html",...walk("visual-assets").filter(file=>file.endsWith(".html")),...Object.keys(STANDALONE_ROOTS)];
 const frameScripts=walk("visual-assets").filter(file=>file.endsWith(".js")&&!/\/vendor\//.test(file));

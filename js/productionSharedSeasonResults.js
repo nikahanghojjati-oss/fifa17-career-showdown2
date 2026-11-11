@@ -15,11 +15,10 @@
   // FIFA saves, so nothing is ever compared across them.
   // r89 Sacked (Nik 2026-11-03): each manager ticks only his own "I was sacked" (his card is the only one he can edit). Any
   // sacking ends the Showdown after this season; the points so far decide. Stored as the sparse result key sacked:true (an
-  // unticked box leaves the result unchanged), shown only for Showdowns confirmed from the r89 release on (SACKED_FROM_MS),
+  // unticked box leaves the result unchanged), shown once the Showdown's confirm time is known,
   // and PUBLISH asks once more before a sacked result goes in (it is final).
   const RESULT_SUFFIXES=Object.freeze(["LeaguePosition","LeaguePoints","LeagueGoals","DomesticCup","ChampionsLeague","EuropaLeague","TopScorer","TopAssist","Sacked"]);
   const SPARSE_CHECKS=Object.freeze(["EuropaLeague","Sacked"]);
-  const SACKED_FROM_MS=Date.parse("2026-11-06T15:00:00Z");
   let formContextKey="",installed=false,busy=false,provider=null,setupApi=null,transferApi=null,catalogApi=null,view=null,draft=null,pollTimer=null,providerChain=Promise.resolve(),refreshPromise=null,contextKey="",renderedContextKey="",errorNode=null,errorMessage="";
 
   function pssrFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -51,8 +50,8 @@
   function pssrOtherRole(role){return role==="playerOne"?"playerTwo":"playerOne";}
   function pssrManagerName(role){const showdown=pssrShowdown();return showdown?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function pssrSetupState(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
-  // r89 Sacked: only a Showdown confirmed at or after the r89 release time shows the tick (an older phone could not verify the end).
-  function pssrSackedApplies(){const at=pssrSetupState()?.setupUpdatedAtMs;return root.CMS_SACKED!=="off"&&Number.isFinite(at)&&at>=SACKED_FROM_MS;}
+  // r89 Sacked: the tick shows once the Showdown's confirm time is known.
+  function pssrSackedApplies(){return Number.isFinite(pssrSetupState()?.setupUpdatedAtMs);}
   // r89 Sacked (Codex C3): a 2.1.0 phone cannot read a sacked result (it stops with its own error until it updates; nothing is
   // lost). Only a 2.2.0 phone can tick, so the phone that published the sacking says what the rival must do while it waits.
   // The running build's version (APP_VERSION from js/app.js), so this text never goes stale at a version bump.
@@ -194,35 +193,24 @@
   }
   function pssrEdit(){if(busy||view?.ownResult)return false;draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
   // Prime Pack: the manager who named this season's masked Icon first publishes his result with primePack:N, N = 4, 3, 2 or 1
-  // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record, only for a Showdown that plays
-  // Prime Pack; an older Showdown never loads the step or reads anything. A read that fails stops the publish (TRY AGAIN),
+  // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   async function pssrWithPrimePack(ctx,request,result){
     if(!result||typeof result!=="object")return result;
     let confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;
     if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;}
     // Fable F13-04: an unknown confirm time never publishes without the Prime Pack point (it could drop a won point): TRY AGAIN.
     if(!Number.isFinite(confirmedAtMs))pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown's confirm time could not be read. Check the connection and try again.");
-    // Old Showdowns never load the step (the same boundary as js/iconGuess.js fromMs; a contract keeps them equal).
-    if(confirmedAtMs<PRIME_PACK_FROM_MS)return result;
-    // Fable F16-01: with the kill switch off the Prime Pack can never block a publish (it is the rescue for a 2.0.0
-    // Showdown): a load or read that fails scores 0, but a point this phone already saw won still counts (F14-02).
-    const off=root.CMS_PRIME_PACK==="off";
     const gameCtx={rivalryId:ctx.options.rivalryId,managerRole:ctx.setup.managerRole,season:request.seasonNumber,confirmedAtMs};
     const{primePack:_drop,...rest}=result;
     const withPoints=points=>Number.isInteger(points)&&points>=1&&points<=4?{...rest,primePack:points}:rest;
     const loaded=root.CareerModeIconGuessStep||await (typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep).then(()=>root.CareerModeIconGuessStep,()=>null):null);
-    const memo=off?loaded?.wonPoints?.(gameCtx):null;
-    if(off&&Number.isInteger(memo))return withPoints(memo);
     // applies() needs the round engine (js/iconGuess.js): load it first, or a won Prime Pack point would be dropped.
     const step=loaded&&await Promise.resolve(loaded.ensure()).catch(()=>false)?loaded:null;
-    if(!step){if(off)return rest;pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");}
-    // Fable F14-02: the kill switch never drops a point already won: the round record is still read (no record is 0 points).
-    if(!step.applies(gameCtx,{ignoreSwitch:true}))return result;
-    let points;
-    try{points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx,{ignoreSwitch:true});}
-    catch(error){if(!off)throw error;root.CareerModeFirestoreBudget?.noteError?.(error);points=0;}
+    if(!step){pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");}
+    // The round record is always read (no record is 0 points).
+    if(!step.applies(gameCtx))return result;
+    const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);
     return withPoints(points);
   }
   async function pssrPublish(){

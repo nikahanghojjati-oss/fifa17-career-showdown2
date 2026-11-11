@@ -236,12 +236,13 @@
   // floodlight, and fuller far stands. Pixel ratio, MSAA, shadow size and crowd density come from js/gfxTier.js.
   // r90 L04: the squad numbers a club's penalty taker wears (one per club for the Showdown, from its name).
   const SHIRT_NUMBERS=[7,8,9,10,11,14,17,19,20,23];
+  // r91 shells: the layers of real grass blades in front of the camera (js/chamberMenStadium3d.js), Extra and Ultra only.
   const CM3_LEVEL_EXTRAS=[
-    {aniso:4,softness:1.5,fullCrowd:false},
-    {aniso:8,softness:2,fullCrowd:false},
-    {aniso:16,softness:3,fullCrowd:false},
-    {aniso:16,softness:3.5,fullCrowd:true},
-    {aniso:16,softness:4,fullCrowd:true}
+    {aniso:4,softness:1.5,fullCrowd:false,shells:0},
+    {aniso:8,softness:2,fullCrowd:false,shells:0},
+    {aniso:16,softness:3,fullCrowd:false,shells:0},
+    {aniso:16,softness:3.5,fullCrowd:true,shells:10},
+    {aniso:16,softness:4,fullCrowd:true,shells:14}
   ];
   // r90 floodlight banks (metres; goal line z 0, pitch toward +z), on the roof ring 37 m up where both stadiums carry their
   // lamps, and how much of the box's light each throws (w).
@@ -327,7 +328,7 @@
     // Stadium: white posts like FIFA 17, the crowd in each club's colours, the boards with each club's crest and name.
     const crest=typeof root.getClubCrestSvg==="function"?name=>root.getClubCrestSvg(name):null;
     const S=x.S.build(T,x.tex,{phone,density:Q.density,full:QX.fullCrowd,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),
-      homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso,lean:L===0});
+      homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso,lean:L===0,shells:QX.shells});
     scene.add(S.group);
     const ball=S.ball;
     // ---------- floodlights ----------
@@ -401,6 +402,11 @@
       for(const o of parts)o.castShadow=false;
       shadowBodies.push(proxy);
     };
+    // r91 High, Extra and Ultra: the kit is cloth. Shirt, shorts and socks take a fabric sheen (the soft rim a woven shirt shows
+    // where it turns away from a floodlight, tinted by the kit's own colours), so the kit reads as fabric, not painted
+    // plastic. One more shader for the two players; Light and Balanced (the Chromebook and lighter phones) keep the plain kit.
+    const toCloth=m=>{const p=new T.MeshPhysicalMaterial();T.MeshStandardMaterial.prototype.copy.call(p,m);p.defines={STANDARD:"",PHYSICAL:""};
+      p.sheen=1;p.sheenRoughness=.45;p.sheenColor.setRGB(.55,.55,.55);return p;};
     const actor=(gltf,name,body)=>{
       const model=gltf.scene,holder=new T.Group();holder.name=name;holder.add(model);holder.visible=false;scene.add(holder);
       model.position.y=BODY_LIFT[body]||0;
@@ -410,6 +416,8 @@
         // that changed no pixel.
         // r90 Light draw budget: no eyelashes at Light (the taker shows his back, the keeper's face is about 10 px high at
         // 1920x866): two draws that changed no pixel a viewer can find.
+        if(o.isMesh&&L>=2&&!Array.isArray(o.material)&&o.material?.isMeshStandardMaterial&&!o.material.isMeshPhysicalMaterial&&/^kit(Shirt|Shorts|Socks)$/.test(o.material.name)){
+          const was=o.material;o.material=toCloth(was);was.dispose();}
         if(o.isMesh){const lash=/lash/i.test(`${o.name} ${[].concat(o.material).map(m=>m&&m.name).join(" ")}`);o.castShadow=!lash;if(lash&&L===0)o.visible=false;o.receiveShadow=true;o.frustumCulled=false;for(const m of [].concat(o.material)){if(m&&m.name)mats[m.name]=m;keep(m);}}
         if(o.isBone&&!bones[o.name])bones[o.name]=o;
       });
@@ -418,6 +426,26 @@
       if(L===0)for(const m of Object.values(mats))if(m.isMeshStandardMaterial&&(m.map||/^kit/.test(m.name))&&!m.normalMap&&!m.transparent&&!(m.alphaTest>0)&&!m.alphaMap){
         if(!flatNormal){flatNormal=keep(new T.DataTexture(new Uint8Array([128,128,255,255]),1,1));flatNormal.needsUpdate=true;}
         m.normalMap=flatNormal;m.needsUpdate=true;}
+      // r91 keeper gloves: the keeper's hands were bare skin. His body's skin shader now covers every vertex the hand and finger
+      // bones carry with a padded glove (a little fuller than the hand, a light latex palm and back, a dark wrist strap). The
+      // hook goes on every piece of both players with the same key, so the pieces that shared a shader still share one (no new
+      // program at any level); only the keeper's body switches it on. A body whose hand bones are not in two runs keeps bare hands.
+      const glove=role=>{let body=null;model.traverse(o=>{if(o.isSkinnedMesh&&o.name==="Body")body=o;});
+        const runs=[];if(body){let s=-1;body.skeleton.bones.forEach((b,i,all)=>{const h=/Hand/.test(b.name);if(h&&s<0)s=i;if(s>=0&&(!h||i===all.length-1)){runs.push([s,h?i:i-1]);s=-1;}});}
+        const on=role==="keeper"&&runs.length===2,ws=body?body.getWorldScale(new T.Vector3()).x:1;
+        model.traverse(o=>{if(!o.isSkinnedMesh)return;for(const m of [].concat(o.material)){if(!m?.isMeshStandardMaterial)continue;
+          const u={uCmHand:{value:new T.Vector4(...(runs.length===2?[...runs[0],...runs[1]]:[-9,-9,-9,-9]))},uCmGlove:{value:on&&o===body?1:0},uCmInflate:{value:.004/(ws||1)}};
+          m.onBeforeCompile=sh=>{Object.assign(sh.uniforms,u);
+            sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nuniform vec4 uCmHand;uniform float uCmGlove,uCmInflate;varying float vCmGlove;").replace("#include <begin_vertex>",
+              "#include <begin_vertex>\nfloat cmG=0.0;\n#ifdef USE_SKINNING\nfor(int k=0;k<4;k++){float i=skinIndex[k];cmG+=skinWeight[k]*(step(uCmHand.x-.5,i)*step(i,uCmHand.y+.5)+step(uCmHand.z-.5,i)*step(i,uCmHand.w+.5));}\n#endif\n"+
+              "vCmGlove=cmG*uCmGlove;transformed+=normal*(uCmInflate*smoothstep(.35,.8,vCmGlove));");
+            sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying float vCmGlove;").replace("#include <map_fragment>",
+              "#include <map_fragment>\n{float g=smoothstep(.42,.62,vCmGlove),strap=g*(1.0-smoothstep(.72,.86,vCmGlove));"+
+              // the skin map's own creases and knuckles kept as folds in the glove
+              "float fold=1.0;\n#ifdef USE_MAP\nfold=clamp(dot(sampledDiffuseColor.rgb,vec3(.3,.59,.11))*2.2,.72,1.12);\n#endif\n"+
+              "diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.46,.48,.5)*fold,vec3(.04,.05,.06),strap),g);}");};
+          m.customProgramCacheKey=()=>"cmGlove";m.needsUpdate=true;}});};
+      glove(name.startsWith("cmKeeper")?"keeper":"taker");
       shadowBody(model);
       const clips=retarget(scaleOf(gltf));
       const mixer=new T.AnimationMixer(model),actions=new Map();
@@ -434,13 +462,16 @@
     // Root motion. A clip's hips track is in the hips' parent space; we move it in world space (the model at rest at the
     // origin): optionally drop its travel along x/z, then turn it by yaw about `from` and carry `from` to `to`.
     const hipsOf=(a,clip,time)=>{a.pose([{clip,time,w:1}]);a.hips.getWorldPosition(sample);a.hips.getWorldQuaternion(sampleQ);fwd.set(0,0,1).applyQuaternion(sampleQ);return {x:sample.x,z:sample.z,face:Math.atan2(fwd.x,fwd.z)};};
-    const rebase=(a,clip,name,{zero,from,to})=>{
+    // Where a pose stands: the middle of its two toes on the grass (with the hips' facing).
+    const feetOf=(a,clip,time)=>{const h=hipsOf(a,clip,time),l=a.bones.mixamorigLeftToeBase,r=a.bones.mixamorigRightToeBase;if(!l||!r)return h;
+      l.getWorldPosition(sample);const x=sample.x,z=sample.z;r.getWorldPosition(sample);return {x:(x+sample.x)/2,z:(z+sample.z)/2,face:h.face};};
+    const rebase=(a,clip,name,{zero,from,to,share})=>{
       const P=a.hips.parent;a.holder.updateMatrixWorld(true);
       const M=P.matrixWorld.clone(),Mi=M.clone().invert(),Pq=new T.Quaternion(),Ps=new T.Vector3(),Pp=new T.Vector3();M.decompose(Pp,Pq,Ps);
       const yaw=to&&from?to.face-from.face:0,Q=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),yaw);
       const Lq=Pq.clone().invert().multiply(Q).multiply(Pq);
       const tracks=clip.tracks.map(t=>{
-        const n=t.name;if(!n.startsWith(`${a.hips.name}.`))return t.clone();
+        const n=t.name;if(!n.startsWith(`${a.hips.name}.`))return share&&!yaw?t:t.clone();
         const c=t.clone(),v=c.values;
         if(n.endsWith(".position")){
           const w0=new T.Vector3(v[0],v[1],v[2]).applyMatrix4(M),w=new T.Vector3();
@@ -477,7 +508,12 @@
       });
       // r90 (Nik's Mixamo uploads 2026-11-08): a few reactions each way, picked per kick (REACTIONS); a clip file without
       // the newer ones still plays the first of each.
-      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:hipsOf(taker,TK[n],0),to:kickEnd});
+      // r91: a reaction joins the follow-through on the foot he stands on. The kick ends with the kicking (right) foot down
+      // and the left one lifting (toe 10 cm up), so the right toe stays where the kick left it (turned with the hips) and
+      // the lifting foot steps into the reaction's stance; carrying the hips over slid a standing foot 20-40 cm.
+      const plant=(clip,time)=>{const h=hipsOf(taker,clip,time),f=taker.bones.mixamorigRightToeBase;if(!f)return h;f.getWorldPosition(sample);return {x:sample.x,z:sample.z,face:h.face};};
+      const kickPlant=plant(TK.penaltyKick,TK.penaltyKick.duration-.034);
+      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:plant(TK[n],0),to:kickPlant});
       const react={};for(const [k,list] of Object.entries(REACTIONS))react[k]=list.filter(n=>TK[n]).map(reaction);
       const struck=strikeOf(taker,TK);
       const hit=struck?struck.hit:KICK_HIT_GUESS,at=struck?struck.ball:KICK_BALL_GUESS;
@@ -491,6 +527,21 @@
       const KC={gkIdle:rebase(keeper,keeper.clips.gkIdle,"cmGkIdle",{zero:"xz"})};
       for(const n of ["gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
       if(keeper.clips.defeated)KC.defeated=rebase(keeper,keeper.clips.defeated,"cm_gkDefeated",{zero:"xz"});
+      // r91: a keeper's shuffle along his line during the run-up (Nik's Soccer Game Pack, Mixamo "Goalkeeper Sidestep", both
+      // ways): the step keeps its sideways travel, so the feet never slide.
+      for(const n of ["gkStepL","gkStepR"])if(keeper.clips[n])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
+      // r91: once his dive or block is over and he is back on his feet, the keeper reacts: a fist pump when the ball stayed
+      // out, head down when it went in. Each reaction starts where that move ends: the middle of his feet is carried there
+      // (no turn), so going into it each foot moves only by the change of stance (10-14 cm, both feet alike), never a
+      // slide. Only the hips track is new, the other tracks are shared with the clip. Reduce Motion shows the move's
+      // settled end, without a reaction.
+      KC.after={};
+      for(const [k,n] of [["save","cheer"],["goal","disappointed"]])if(keeper.clips[n]){
+        const c=keeper.clips[n],from=feetOf(keeper,c,0),by={};
+        for(const m of new Set([...KEEPS.L,...KEEPS.R].filter(m=>!m.hold).map(m=>m.c))){
+          const to=feetOf(keeper,KC[m],KC[m].duration-1e-3);
+          by[m]=rebase(keeper,c,`cm_gk_${k}_${m}`,{zero:"xz",from,to:{x:to.x,z:to.z,face:from.face},share:true});}
+        KC.after[k]=by;}
       keeper.holder.position.set(0,0,.25);
       return {a:keeper,KC};
     };
@@ -547,32 +598,22 @@
       b.mixamorigLeftShoulder?.rotateZ(k*.35);b.mixamorigRightShoulder?.rotateZ(-k*.35);
     };
 
-    // r90 LOOK: contact shadows. A soft dark disc on the turf under the taker, the keeper and the ball, at every level: it
+    // r90 LOOK: contact shadows. A soft dark patch on the turf under the taker, the keeper and the ball, at every level: it
     // is what plants them on the grass (Light's shadow map is small and soft). Higher levels keep their real shadows and
-    // the disc goes lighter. One small canvas texture, three quads.
-    // r90 Light draw budget: the three contact shadows are one mesh of three quads (one draw, was three); each quad keeps
-    // its own size and strength (vertex alpha), moved every frame with the taker, the keeper and the ball.
-    const blob=(()=>{
-      const d=doc(),c=d.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d");if(!g)return null;
-      const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(0,0,0,1)");gr.addColorStop(.45,"rgba(0,0,0,.6)");gr.addColorStop(1,"rgba(0,0,0,0)");
-      g.fillStyle=gr;g.fillRect(0,0,64,64);const t=keep(new T.CanvasTexture(c));
-      const strength=L<=0?.62:.5,P=new Float32Array(36),C=new Float32Array(48),U=new Float32Array(24),I=[];
-      for(let q=0;q<3;q+=1){U.set([0,1,1,1,0,0,1,0],q*8);const o=q*4;I.push(o,o+2,o+1,o+2,o+3,o+1);}
-      const geo=keep(new T.BufferGeometry());geo.setAttribute("position",new T.BufferAttribute(P,3).setUsage(T.DynamicDrawUsage));
-      geo.setAttribute("color",new T.BufferAttribute(C,4).setUsage(T.DynamicDrawUsage));geo.setAttribute("uv",new T.BufferAttribute(U,2));geo.setIndex(I);
-      const m=keep(new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,vertexColors:true,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
-      const mesh=new T.Mesh(geo,m);mesh.name="cmBlobs";mesh.renderOrder=1;mesh.frustumCulled=false;scene.add(mesh);
-      return {taker:{i:0,w:1.15,d:.9},keeper:{i:1,w:1.25,d:.85},ball:{i:2,w:.36,d:.36},strength,geo,P,C};
-    })();
-    const blobAt=(q,a,lift)=>{
-      if(!q)return;const B=blob,on=Boolean(a?a.holder.visible:true);let alpha=0,x=0,z=0,w=0,dd=0;
-      if(on){if(a){a.hips.getWorldPosition(sample);}else sample.copy(ball.position);
-        const h=Math.max(0,sample.y-lift),k=Math.max(0,1-h/2.2);alpha=B.strength*k;x=sample.x;z=sample.z;w=q.w*(1+h*.5)/2;dd=q.d/2;}
-      // Corners in PlaneGeometry order, laid flat (rotated -90 degrees about x): the near edge first.
-      const o=q.i*12;B.P.set([x-w,.006,z-dd,x+w,.006,z-dd,x-w,.006,z+dd,x+w,.006,z+dd],o);
-      for(let v=0;v<4;v+=1)B.C.set([1,1,1,alpha],q.i*16+v*4);
-      B.geo.attributes.position.needsUpdate=true;B.geo.attributes.color.needsUpdate=true;
+    // the patch goes lighter. r91: drawn by the turf itself (S.contact, no draw of its own), each player as a capsule from
+    // between his feet to under his head, so a keeper down after a dive shades the grass along his whole length; the
+    // patch widens and fades as a body leaves the ground (the hips' height over its standing height).
+    const contactK=L<=0?.62:.5,CONTACT={taker:1.15,keeper:1.25,ball:.36},cFeet=new T.Vector3(),cHead=new T.Vector3();
+    const contactOf=(a,w,lift)=>{
+      if(a&&!a.holder.visible)return null;
+      if(a){a.hips.getWorldPosition(sample);const lf=a.bones.mixamorigLeftFoot,rf=a.bones.mixamorigRightFoot,hd=a.bones.mixamorigHead;
+        if(lf&&rf){lf.getWorldPosition(cFeet);rf.getWorldPosition(cHead);cFeet.add(cHead).multiplyScalar(.5);}else cFeet.copy(sample);
+        if(hd)hd.getWorldPosition(cHead);else cHead.copy(sample);}
+      else{sample.copy(ball.position);cFeet.copy(sample);cHead.copy(sample);}
+      const h=Math.max(0,sample.y-lift),k=Math.max(0,1-h/2.2);
+      return [cFeet.x,cFeet.z,cHead.x,cHead.z,w*(1+h*.5)/2,contactK*k];
     };
+    const contactAt=()=>S.contact?.([contactOf(taker,CONTACT.taker,1),contactOf(keeper,CONTACT.keeper,1),contactOf(null,CONTACT.ball,BALL_R)]);
 
     // Kits: the taker in his club's home kit, the keeper in his own club's keeper kit picked against the taker's.
     let lineup={taker:null,keeper:null,round:1};
@@ -600,7 +641,7 @@
       const put=()=>{const made=new Map();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
         const mat=a.mats[m],c=t[k];if(!mat||!c)continue;
         let tex=made.get(c)||kitTex.get(c);if(!tex){tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;tex.userData.cmKit=true;kitTex.set(c,tex);}made.set(c,tex);
-        if(mat.map!==tex){mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;}
+        if(mat.map!==tex){mat.map=tex;if(mat.isMeshPhysicalMaterial)mat.sheenColorMap=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;}
       }};
       const token=a.kitToken=(a.kitToken||0)+1;
       // A body-mapped kit is blank until its kit map has loaded: it goes on only when painted (the last kit stays meanwhile).
@@ -614,6 +655,11 @@
     const clockNow=()=>frozenClock!==null?frozenClock:cm3Clock();
     const t0=cm3Clock();
     const ballFree={p:new T.Vector3(),v:new T.Vector3(),t:0,on:false};
+    // The back net's plane at a height (z): upright to 1.5 m, then sloping forward to the roof.
+    const netBack=y=>-2.08+Math.max(0,y-1.5)*1.1;
+    // The ball in the back net: S.netPush moves the cords behind it, so they always wrap the ball as it stretches them.
+    const netPushAt=still=>{if(!S.netPush)return;const on=Boolean(!still&&plan&&plan.after.kind==="net"&&ballFree.on);
+      const b=ball.position;S.netPush(b.x,b.y,on?b.z-BALL_R:null,on?b.x+Math.sign(b.x||1)*BALL_R:null,b.z);};
     const v3=(a,b,c)=>new T.Vector3(a,b,c);
     const pick=(list,n)=>list[((n%list.length)+list.length)%list.length];
     const styleOf=(takerClub,round)=>cm3Hash(`run|${takerClub||""}|${round||1}`)%RUNUPS.length;
@@ -660,7 +706,14 @@
       const scored=Boolean(k.goal&&k.shot),pool=scored?react.goal:react.miss;
       // Beaten standing still (he stayed in the middle, the ball went to a corner): no catch at thin air; he watches it in.
       const rooted=k.goal&&k.shot&&side==="M"&&KC.defeated?ROOTED:null;
-      return {...k,round,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-(rooted||move).tc/(rooted||move).s,netHit:false};
+      // r91: two kicks in three the keeper shuffles one step along his line during the run-up and back (the same step played
+      // backwards, so he lands where he started and every save still meets the ball), done before he sets for the strike.
+      // It always ends before he sets for the dive: an early dive moves it earlier, and one too early for it leaves it out.
+      const kStart=FLIGHT-(rooted||move).tc/(rooted||move).s;
+      let shuffle=null;
+      if(KC.gkStepL&&KC.gkStepR&&(luck>>>12)%3){const c=(luck>>>14)%2?"gkStepL":"gkStepR",len=2*(KC[c].duration-1e-3)+.12+.22;
+        const at=Math.min(-1.95+((luck>>>16)%5)*.06,kStart-.05-len);if(at>=-RUNUP+.1)shuffle={c,at};}
+      return {...k,round,shuffle,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart,netHit:false};
     };
     // The taker at time t (seconds from the strike); idle while waiting.
     const takerAt=(t,live)=>{
@@ -673,7 +726,6 @@
         if(kickT<end){
           const k={clip:TK.penaltyKick,time:kickT,w:1};
           if(st.jog&&kickT<.12){const j=cm3Easy(kickT/.12);taker.pose([{clip:jog,time:JOG_JOIN+kickT*st.rate,w:1-j},{...k,w:j}]);return;}
-          if(!st.jog&&kickT<.001){taker.pose([idle]);return;}
           taker.pose([k]);return;
         }
         const r=plan.react,rt=kickT-end,b=cm3Easy(rt/.4);
@@ -681,17 +733,26 @@
       }
       if(!st.jog){
         // Two steps from a standstill: he waits, then goes.
-        const b=cm3Easy((kickT+.28)/.28);taker.pose([idle,{clip:TK.penaltyKick,time:0,w:b}]);return;
+        const b=cm3Easy((kickT+.28)/.28);taker.pose([{...idle,w:1-b},{clip:TK.penaltyKick,time:0,w:b}]);return;
       }
       if(t<runStart){taker.pose([idle]);return;}
       const jt=JOG_JOIN-st.total+st.clipAt(t-runStart),b=cm3Easy((t-runStart)/.3);
       taker.pose([{...idle,w:1-b},{clip:jog,time:jt,w:b}]);
     };
-    const keeperPose=(t,live)=>{
+    const keeperPose=(t,live,still)=>{
       const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
-      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;keeper.pose([idle]);breathe(keeper,live,.8);return;}
+      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;
+        const sh=plan&&plan.shuffle,c=sh&&KC[sh.c];
+        if(c){const D=c.duration-1e-3,H=.12,u=t-sh.at;
+          // out, a beat on the far foot, back (the step backwards), then into his stance again
+          if(u>0&&u<2*D+H+.22){const ct=u<D?u:u<D+H?D:Math.max(0,2*D+H-u),w=u<.12?cm3Easy(u/.12):u>2*D+H?1-cm3Easy((u-2*D-H)/.22):1;
+            keeper.pose([{...idle,w:1-w},{clip:c,time:ct,w}]);return;}}
+        keeper.pose([idle]);breathe(keeper,live,.8);return;}
       const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*(m.rooted?.45:.12)));
-      keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
+      keeper.holder.scale.x=m.m?-1:1;
+      const D=KC[m.c].duration-1e-3,r=!still&&!m.rooted&&!m.hold&&KC.after[plan.goal&&plan.shot?"goal":"save"]?.[m.c];
+      if(r&&ct>D){const rt=(ct-D)/m.s,w=cm3Easy(rt/.5);keeper.pose([{clip:KC[m.c],time:D,w:1-w},{clip:r,time:rt,w}]);return;}
+      keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
     };
     // The loose ball: gravity, air drag, bounces that lose speed, grass friction while it rolls, and inside the goal the
     // net (back, sides and roof) takes its pace; it rolls the way it moves.
@@ -703,9 +764,15 @@
       if(s.p.y<BALL_R){s.p.y=BALL_R;if(s.v.y<0){s.v.y=-s.v.y*.55;s.v.x*=.86;s.v.z*=.86;}if(Math.abs(s.v.y)<.35)s.v.y=0;}
       if(s.p.y<=BALL_R+1e-4&&s.v.y===0){const h=Math.hypot(s.v.x,s.v.z),dec=Math.min(h,1.3*dt);if(h>0){s.v.x-=s.v.x/h*dec;s.v.z-=s.v.z/h*dec;}}
       if(plan&&plan.after.kind==="net"&&s.p.z<.05){
-        const back=-2.08+Math.max(0,s.p.y-1.5)*1.1,side=HALF-.08-BALL_R,roof=GOAL_H-.06-BALL_R;
-        if(s.p.z<back+BALL_R){s.p.z=back+BALL_R;if(s.v.z<0)s.v.z=-s.v.z*.08;s.v.x*=.35;s.v.y*=.35;}
-        if(Math.abs(s.p.x)>side){s.p.x=Math.sign(s.p.x)*side;s.v.x*=-.1;s.v.z*=.5;}
+        const back=netBack(s.p.y),side=HALF-.04-BALL_R,roof=GOAL_H-.06-BALL_R;
+        // r91: the back net gives. It stretches round the ball like a stiff, heavily damped spring (about 0.4 m for a
+        // 20 m/s strike), grips it (the cords drag on its sideways and falling pace), and lets it go with almost nothing,
+        // so the ball sinks into the net and drops down inside it instead of stopping dead on the cords.
+        const pen=back-.06+BALL_R-s.p.z;// the cords hang a few cm behind the frame's line (their sag)
+        if(pen>0){s.v.z+=(1100*pen-50*s.v.z)*dt;const grip=Math.exp(-7*dt);s.v.x*=grip;s.v.y*=grip;}
+        // the side netting the same way (it hangs on the posts' line)
+        const ps=Math.abs(s.p.x)-side;
+        if(ps>0){const sg=Math.sign(s.p.x);s.v.x-=(sg*1100*ps+50*s.v.x)*dt;const grip=Math.exp(-7*dt);s.v.z*=grip;s.v.y*=grip;}
         if(s.p.y>roof){s.p.y=roof;if(s.v.y>0)s.v.y*=-.1;}
       }
       ball.position.copy(s.p);
@@ -740,6 +807,7 @@
     // screen a slanted 12 cm line breaks into dashes.
     const CAMB={pos:v3(-1.3,3.05,SPOT_Z+15),look:v3(-1.3,.85,5),hfov:40,vmin:21};
     const CAMP={pos:v3(-.4,2.75,SPOT_Z+11.5),look:v3(0,.85,3)};
+    const CAMSLIDE=1.5;
     const camLook=new T.Vector3();
     const cameraAt=(t,live)=>{
       const drift=reducedMotion()?0:1;
@@ -747,12 +815,25 @@
       p.x+=Math.sin(w)*.18*drift;p.y+=Math.sin(w*.7)*.05*drift;
       if(plan&&!reducedMotion()){
         const k=cm3Easy((t+RUNUP)/(RUNUP+.4));p.lerp(CAMP.pos,k);l.lerp(CAMP.look,k);
-        if(t>0){const f=cm3Easy(t/1.1);l.x+=ball.position.x*.22*f;l.y+=Math.max(-.2,ball.position.y-1)*.12*f;}
+        if(t>0){const f=cm3Easy(t/1.1);l.x+=ball.position.x*.22*f;l.y+=Math.max(-.2,ball.position.y-1)*.12*f;
+          // r91: once the ball is struck the camera slides a little to the right (no turn, so the lines stay level), so the
+          // taker standing on the spot no longer hides the keeper and both reactions read.
+          const sl=cm3Easy((t-.35)/1.4);p.x+=CAMSLIDE*sl;l.x+=CAMSLIDE*.55*sl;}
       }
+      // r91: the next lineup's shot starts exactly where the last kick's shot ended (the camera has slid aside and pushed
+      // in by then) and eases back to the waiting shot, so the dissolve between them never shows two goals side by side.
+      if(carry.at>-1e8){const k=cm3Easy((clockNow()-carry.at)/1400);if(k<1&&!reducedMotion()){p.lerpVectors(carry.p,p,k);l.lerpVectors(carry.l,l,k);}else carry.at=-1e9;}
       camera.position.copy(p);camLook.copy(l);
       // Proofs only: a close camera on the foot or the gloves ({pos, look, fov}); the game never sets it.
       const cu=api.closeup;if(cu){camera.position.fromArray(cu.pos);camLook.fromArray(cu.look);camera.fov=cu.fov||20;camera.updateProjectionMatrix();}
       camera.lookAt(camLook);camera.updateMatrixWorld();
+    };
+    const crowdMood=(t,still)=>{
+      if(!plan||still||t<FLIGHT)return [null,null];
+      const won=plan.goal&&plan.shot?lineup.taker:lineup.keeper,home=String(clubs.playerOne??""),away=String(clubs.playerTwo??"");
+      if(home===away)return [null,null];
+      const k=cm3Easy((t-FLIGHT)/.35),base=excitement(t),joy=Math.max(.55,1-Math.max(0,t-2.4)*.12),hush=.1;
+      return [base+((won===home?joy:hush)-base)*k,base+((won===away?joy:hush)-base)*k];
     };
     const excitement=t=>{if(!plan)return .2;if(t<0)return .2+.4*cm3Easy((t+RUNUP)/RUNUP);if(t<FLIGHT)return .6;
       if(plan.goal&&plan.shot)return Math.max(.45,1-Math.max(0,t-1.6)*.2);return Math.max(.3,.7-(t-FLIGHT)*.35);};
@@ -760,7 +841,7 @@
     // ---------- the dissolve between kicks ----------
     // A new taker and keeper come in under a short broadcast dissolve: the last frame fades out over the new one (never
     // to black, never dimmed).
-    let snap=null,snapAt=-1e9;
+    let snap=null,snapAt=-1e9;const carry={p:new T.Vector3(),l:new T.Vector3(),at:-1e9};
     // Proof numbers for the quality gallery (probe only): draw calls, triangles and the textures' GPU size (mips included).
     const gpuFootprint=()=>{
       const seen=new Set();let bytes=0;
@@ -790,6 +871,7 @@
     const dissolveFrom=()=>{
       if(!cssW||(frozenClock===null&&reducedMotion()))return;
       snapTexture();renderer.setRenderTarget(null);renderer.render(scene,camera);renderer.copyFramebufferToTexture(snap);snapAt=clockNow();
+      carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;
     };
 
     // ---------- size, labels, drawing ----------
@@ -811,13 +893,15 @@
       const still=frozenClock===null&&reducedMotion();
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
-      keeperPose(t,live);takerAt(t,live);ballAt(t);
-      if(blob){blobAt(blob.taker,taker,1);blobAt(blob.keeper,keeper,1);blobAt(blob.ball,null,BALL_R);}
+      keeperPose(t,live,still);takerAt(t,live);ballAt(t);
+      contactAt();netPushAt(still);
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
       const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);
       if(!still&&plan&&plan.after.kind==="net"&&!plan.netHit&&t>=netAt){plan.netHit=true;S.update((plan.startAt-t0)/1000+netAt,1);S.hitNet(plan.target.x*(plan.after.wood?.8:1),plan.target.y*(plan.after.wood&&plan.after.wood.y<0?.4:.9),plan.v0.length());}
       S.update(stadiumT,still?.2:excitement(t));
+      // r91: once the ball is in or kept out, the club that won the kick erupts and the other end falls quiet.
+      S.mood?.(...crowdMood(t,still));
       cameraAt(t,live);
       renderer.render(scene,camera);
       const fade=still?0:1-(now-snapAt)/(DISSOLVE*1000);

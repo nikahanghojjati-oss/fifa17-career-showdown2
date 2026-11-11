@@ -164,7 +164,7 @@
     }
     panels.forEach(x=>x.hidden=true); state.hidden=false; state.replaceChildren();
     let heading="", body="", icon="◇";
-    if(frame.status==="empty") { heading=fx.strings.noCompletedRecord || "No completed record yet"; body="Career Statistics fill in after your first finished Showdown. The live Showdown's numbers are on Standings and Rivalry Statistics."; icon="0"; }
+    if(frame.status==="empty") { heading=fx.strings.noCompletedRecord || "No completed record yet"; body="Career Statistics fill in after your first completed Showdown. This Showdown's numbers are on Standings and Rivalry Statistics."; icon="0"; }
     else { const c=fx.strings.stateCopy[frame.status]; heading=c.heading; body=c.body; icon=frame.status==="loading"?"…":"!"; }
     state.innerHTML=`<div class="stateIcon" aria-hidden="true">${icon}</div><h2>${heading}</h2><p>${body}</p>`;
     // r87 polish (P-07): an unavailable career offers TRY AGAIN, which opens the screen again the way the menu does (the same

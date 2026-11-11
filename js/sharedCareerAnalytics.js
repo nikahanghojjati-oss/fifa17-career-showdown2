@@ -11,7 +11,7 @@
   const BESTS=Object.freeze(["bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"]);
   const AVERAGES=Object.freeze(["averageSeasonScore","averageLeaguePoints","averageLeagueGoals"]);
   const CABINET=Object.freeze(["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"]);
-  const LABELS=Object.freeze(["Highest season score","Highest league points","Highest league goals","Biggest Showdown win","Most perfect seasons"]);
+  const LABELS=Object.freeze(["Best season score","Best league points","Best league goals","Biggest Showdown win","Perfect seasons"]);
 
   function caFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(caFreeze);Object.freeze(value);}return value;}
   function managerBase(unknown){
@@ -79,8 +79,6 @@
   }
   // r87 Prime Pack (Nik 2026-11-01 17:35 UTC): a perfect season is 15 points (11 + a 4-point Prime Pack), in every
   // Showdown. An older Showdown's 11 stays in its History but is not a perfect season: one meaning on every screen.
-  // PRIME_PACK_FROM_MS stays on the release-time list (tools/set-release-time.cjs) with the other Prime Pack boundaries.
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   const PERFECT_SEASON=15;
   function seasonMaxOf(_entry,_seasons){return PERFECT_SEASON;}
   function accumulate(record,season,role,sums,max=PERFECT_SEASON){
@@ -123,7 +121,7 @@
     return {cabinet,standings,records};
   }
   function buildCareerModel({indexStatus,showdowns=[],...options}={}){
-    const interimLabel=options["current"+"ShowdownOnly"]===true?"Current Showdown only. Career history is not yet available.":null;
+    const interimLabel=options["current"+"ShowdownOnly"]===true?"This Showdown only. Career history is not available yet.":null;
     const unknown=indexStatus!=="ready";
     const managers={daniel:managerBase(unknown),nik:managerBase(unknown)};
     if(unknown)return caFreeze({status:indexStatus==="loading"?"loading":"unavailable",interimLabel,coverage:{readable:null,indexed:null},managers,biggestShowdownWin:null,trophyRoom:trophyRoom(managers,[],true),history:{showdowns:[]}});

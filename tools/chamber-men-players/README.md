@@ -82,6 +82,22 @@ Soccer Game Pack's catches and blocks are the gkCatch*/gkBlock* clips (its "catc
 "catch (3)" run 4 m off the line (no use at a penalty). "Angry Gesture" and "Fist Pump" are too small to read from the
 broadcast camera; the crowd clips (Clapping, Cheering, Sitting Idle, Excited) wait for the crowd bake.
 
+## r91 remix: the keeper's shuffle (`clips_r91.json`)
+
+    cp ../../visual-assets/v10_1/chamber-men/players/anims_*.glb out/
+    SPEC=clips_r91.json node convert2.cjs remix - desktop new && SPEC=clips_r91.json node convert2.cjs remix - phone new
+    node pack-meshopt.mjs new/anims_desktop.glb new/anims_phone.glb   # from the repo root, paths adjusted
+
+`?spec=` picks the clip list (default `clips_r90.json`), and remix now reads the committed, meshopt-packed `out/` files
+through the meshopt decoder. Inputs in `in/` (not in the repo): Nik's Soccer Game Pack "Goalkeeper Sidestep" both ways,
+`goalkeeper_sidestep.fbx` (gkStepL, toward +x, about 1.27 m in 0.53 s) and `goalkeeper_sidestep_2.fbx` (gkStepR, toward
+-x, about 1.67 m in 0.5 s). The older clips come through unchanged (within 2 int16 units). Result: 19 clips, desktop
+650,764 bytes, phone 623,804 (caps .7 MB and .65 MB in the stadium contract S5). The scene plays a step out, a beat, the same
+step backwards and back to idle during the run-up, done before his dive starts.
+
+Tried and not used: "Goalkeeper Idle" 2 as a set before the dive (gloves in at the waist read narrower than the wide-armed
+idle from the broadcast camera); "Goalkeeper Directing" walks 7 m.
+
 ## r90 M1: meshopt packing (`pack-meshopt.mjs`)
 
 A first Chamber Men on a 10 Mbps line never mounted the 3D pitch: about 7 MB at Light could not come down inside the

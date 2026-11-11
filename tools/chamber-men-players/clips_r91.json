@@ -1,0 +1,7 @@
+{
+  "drop": [],
+  "add": [
+    ["goalkeeper_sidestep.fbx", "gkStepL", 0, 0.533],
+    ["goalkeeper_sidestep_2.fbx", "gkStepR", 0, 0.5]
+  ]
+}

@@ -62,7 +62,7 @@ async function main(){
   const commit=read("js/productionSharedSeasonCommit.js");
   assert.match(commit,/if\(psscContextMatches\(request\)&&psscResultsPublished\(request\)&&!\/_CONTEXT_STALE\$\/\.test\(String\(error\?\.code\|\|""\)\)\)\{[^}]*psscReport\("Could not check the season",error\)/,"QS4 the Season Commit check stays quiet on a nested *_CONTEXT_STALE and still reports other failures");
   const history=read("js/productionSharedHistoryConvergence.js");
-  assert.match(history,/error=>\{if\(\/_CONTEXT_STALE\$\/\.test\(String\(error\?\.code\|\|""\)\)\)return view&&contextKey===request\.key\?view:null;if\(phcContextMatches\(request\)\)\{[\s\S]{0,300}phcReport\("Unable to converge Shared History",error\)/,"QS4 Shared History stays quiet on a nested *_CONTEXT_STALE and still reports repeated failures");
+  assert.match(history,/error=>\{if\(\/_CONTEXT_STALE\$\/\.test\(String\(error\?\.code\|\|""\)\)\)return view&&contextKey===request\.key\?view:null;if\(phcContextMatches\(request\)\)\{[\s\S]{0,300}phcReport\("Could not bring History up to date",error\)/,"QS4 Shared History stays quiet on a nested *_CONTEXT_STALE and still reports repeated failures");
   console.log("PASS context-stale quiet contracts: 4 numbered checks (QS1-QS4) - a refresh that outlives its season is not reported and keeps the last view; real failures are still reported.");
 }
 

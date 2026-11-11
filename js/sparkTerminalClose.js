@@ -9,7 +9,7 @@
   // (checked per manager only). A result without it keeps the r79 7-key shape, and the key is copied only when present, so old seasons score as before.
   const PROGRESS_KEYS=Object.freeze(["schemaVersion","runtimeRevision","totalSeasons","acceptedThroughSeason","managerTotals","closedSessionRevision"]);
   function stpFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
-  function stcResultError(error,fallback){return {ok:false,code:error&&typeof error.code==="string"?error.code:fallback,message:error&&error.message?error.message:"Terminal Close could not be completed."};}
+  function stcResultError(error,fallback){return {ok:false,code:error&&typeof error.code==="string"?error.code:fallback,message:error&&error.message?error.message:"The Showdown could not be closed."};}
   function stpClone(value){return JSON.parse(JSON.stringify(value));}
   function stpFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(stpFreeze);Object.freeze(value);}return value;}
   function stpCanonical(value){if(value===undefined||value===null)return null;if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};if(value instanceof Date)return {$timestamp:value.getTime()};if(Array.isArray(value))return value.map(stpCanonical);if(typeof value==="object"){const out={};for(const key of Object.keys(value).sort())out[key]=stpCanonical(value[key]);return out;}return value;}

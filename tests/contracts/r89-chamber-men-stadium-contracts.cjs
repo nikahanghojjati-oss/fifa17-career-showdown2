@@ -71,7 +71,8 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     const clips=glb(`anims_${tier}.glb`).json.animations.map(a=>a.name);
     // r90: the clips the scene plays. idle, walk, run, strikeJog and gkCatch went (nothing played them); the reactions
     // victory2, cheer, salute and defeated came from Nik's Mixamo files (tools/chamber-men-players/clips_r90.json).
-    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated"];
+    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated","gkStepL","gkStepR"];
+    // r91: gkStepL and gkStepR (the keeper's shuffle along his line in the run-up) came from clips_r91.json.
     assert.deepEqual(clips.slice().sort(),PLAYED.slice().sort(),`anims_${tier} holds exactly the played clips`);
     assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
   }
@@ -79,7 +80,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   // r90 M1: meshopt-packed (tools/chamber-men-players/pack-meshopt.mjs), so the caps came down about 45%.
   for(const [tier,amax,bmax] of [["desktop",.7e6,3.4e6],["phone",.65e6,1.45e6]]){
     const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
-    assert.equal(a.json.animations.length,17,`anims_${tier} has the 17 clips`);
+    assert.equal(a.json.animations.length,19,`anims_${tier} has the 19 clips`);
     for(const id of ["remy","ch38","ch42"]){
       const {size,json}=glb(`body_${id}_${tier}.glb`);
       assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
@@ -155,7 +156,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
 }
 // S8 r90 draw calls (High at 80 or fewer): static pieces sharing a material are one draw, placed exactly where they were:
 //    the bowl by material, the goal's posts and bar, stanchions, ground bars and far goal, both side nets in one single-pass
-//    draw, the spots inside the chalk lines.
+//    draw, the spots inside the chalk lines (r91: all chalk in the turf shader).
 {
   const sandbox={window:{},self:{}};sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read(ENGINE),sandbox);
   const T=sandbox.THREE||sandbox.window.THREE;
@@ -182,7 +183,8 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   for(const name of ["cmPosts","cmStanchions","cmGroundBars","cmNetSides"])assert.ok(code.includes(`"${name}"`),`${name} is one draw`);
   assert.ok(/stadiumMerge\(T,fp,far\)/.test(code),"the far goal is one draw");
   assert.ok(/sideMat\.forceSinglePass=true/.test(code)&&/back=add\(backGeo,netMat,goal\)/.test(code),"the flat side nets draw in one pass; the curved back net keeps both");
-  assert.ok(!/CircleGeometry/.test(code)&&/for\(const z of \[SPOT_Z,PITCH_L-SPOT_Z,PITCH_L\/2\]\)\{const r=z===SPOT_Z\?\.1:\.15/.test(code),"the spots are drawn with the chalk lines");
+  // r91: the chalk lines and spots are drawn in the turf's shader by pixel coverage (no mesh lines to break into dashes).
+  assert.ok(!/CircleGeometry/.test(code)&&/float cmChalk\(vec2 w\)\{/.test(code)&&/cmChalk\(vCmWorld\.xz\)/.test(code)&&/cmDot\(p,vec2\(0\.0,\$\{SPOT_Z\.toFixed\(1\)\}\),\.1,/.test(code),"the spots are drawn with the chalk lines");
   ok("S8","r90 draw calls: bowl, goal, far goal, side nets and spots merged by material, every corner where it was");
 }
 // S9 r90 Light draw budget (o.lean, Light only): stand pieces baked per material (shadow role kept), ground bars with the
