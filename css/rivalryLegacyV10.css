@@ -2144,10 +2144,12 @@
 
 /* r90 strict D1/D2 (Legacy, upright phones): the Back box (bottom 52 px) and the corner Settings gear (bottom 51 px) sat 0 to 4 px
    from the managers' hair, inside the 7 px halo. Both now end at 44 px, so the nearest hair is at least 7 px away at 360x780 and
-   375x667. Same place, same look, 36 px high (still above the 24 px touch minimum); nothing else moves. */
+   375x667. Same place, same look, 36 px high; an invisible ::after keeps the tap area 44 px (Codex P2, AGENTS.md phone target). */
 @media (max-width: 480px) and (orientation: portrait) {
   #app #legacy[data-rivalry-legacy-v10] .legacyBackV10 { top:8px; min-height:36px; height:36px; padding:0 6px; }
-  html[data-v10-screen="legacy"] .sd-nav .sd-nav-gear { min-height:36px; min-width:36px; width:36px; height:36px; align-self:center; }
+  html[data-v10-screen="legacy"] .sd-nav .sd-nav-gear { min-height:36px; min-width:36px; width:36px; height:36px; align-self:center; overflow:visible; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyBackV10::after,
+  html[data-v10-screen="legacy"] .sd-nav .sd-nav-gear::after { content:""; position:absolute; inset:-5px; }
 }
 
 /* r90 strict C9 (12 px type floor, windows up to 900 px wide): History, the Legacy card and Rivalry Statistics kept 9 to 11.5 px
