@@ -94,7 +94,7 @@ async function openCase(browser,acceptance,mode="ready"){
     assert.match(await activeLocked.page.locator(".ssjrPrimary").textContent(),/CHECK SHARED SETUP/,"an already ACTIVE private session must never loop the owner back to OPEN PRIVATE SESSION");
     const lockedGuidance=await activeLocked.page.locator(".ssjrNext").textContent();
     assert.match(lockedGuidance,/Private session is ACTIVE/,"simple mode must acknowledge the already ACTIVE session");
-    assert.match(lockedGuidance,/Registered browser authority is unavailable/,"simple mode must surface the Shared Setup blocker instead of hiding it");
+    assert.match(lockedGuidance,/Registration is unavailable here/,"simple mode must surface the Shared Setup blocker instead of hiding it");
     await activeLocked.page.locator(".ssjrPrimary").click();
     await activeLocked.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:5000});
     assert.equal(await activeLocked.page.evaluate(()=>window.CareerModeProductionSharedShowdownPresentation?.isPresentationActive()===true),true,"visible League Wheel must be owned by the active polished presentation");
