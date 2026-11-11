@@ -99,7 +99,7 @@ Wrong last time: cyan is left, something was added on the oak or the marble, or 
 Both first results passed the rules but were too plain: the hall had a big bare floor and wall, and in the coaches' room you stood in two window niches. Round 2 keeps everything that passed and adds a real layer of things, the V2 way (named things with a reason, wear, depth). 
 
 ### 1b · Desktop · Start · code `HC 21 START V2`
-- **Attach (2 files, in this order):** [HC21_START_D_TRY1.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/SHA/project-documents/factory/reviews/HC/HC21_START_D_TRY1.png) (the approved hall), then [RC_LOUNGE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/7b1bfc5b59e6bdfe55ed941363f84d69ed856a33/project-documents/factory/tickets/attach/HC/RC_LOUNGE_V2.png)
+- **Attach (2 files, in this order):** [HC21_START_D_TRY1.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/7c69e3b7393d177e6869321711eef15c617d8c9b/project-documents/factory/reviews/HC/HC21_START_D_TRY1.png) (the approved hall), then [RC_LOUNGE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/7b1bfc5b59e6bdfe55ed941363f84d69ed856a33/project-documents/factory/tickets/attach/HC/RC_LOUNGE_V2.png)
 - **Save as:** `HC21_START_D_V2.png`. No Rich add-on: the extra things are already in.
 ```
 Edit this photo. Keep the two men exactly as they are: same faces, hair, beards, skin, build, suits, shirts, hands, pose, size and position. The man on the left stays on the left and the man on the right stays on the right; never flip the picture. Do not redraw their faces. Picture 1 is the photo to edit. Picture 2 shows only the house: copy its oak, wool and lamp shade, never its layout.
@@ -117,7 +117,7 @@ Wrong last time: the men changed, something extra appeared, or the fanlight is b
 ```
 
 ### 3b · Desktop · Squad Management · code `HC 23 SQUAD V2`
-- **New guide:** [GUIDE_HC23_SQUAD_D_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/SHA/project-documents/factory/tickets/attach/HC/GUIDE_HC23_SQUAD_D_V2.png). You two now come from the board room (Nik approved, oak panelling right behind you), so you stand against the oak wall of the room itself, not in windows. Daniel keeps the board room's wall lamp beside him, Nik the door behind him.
+- **New guide:** [GUIDE_HC23_SQUAD_D_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/7c69e3b7393d177e6869321711eef15c617d8c9b/project-documents/factory/tickets/attach/HC/GUIDE_HC23_SQUAD_D_V2.png). You two now come from the board room (Nik approved, oak panelling right behind you), so you stand against the oak wall of the room itself, not in windows. Daniel keeps the board room's wall lamp beside him, Nik the door behind him.
 - **Attach (2 files, in this order):** GUIDE_HC23_SQUAD_D_V2.png, then [RC_BOARD_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/7b1bfc5b59e6bdfe55ed941363f84d69ed856a33/project-documents/factory/tickets/attach/HC/RC_BOARD_V2.png)
 - **Save as:** `HC23_SQUAD_D_V2.png`. No Rich add-on: the extra things are already in.
 ```
