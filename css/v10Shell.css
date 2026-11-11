@@ -475,7 +475,12 @@ html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerSta
     /* the wordmark ends at 24.9% of the stage height at every desktop size */
     --hc-tiles-top: calc(24.9vh + var(--hc-g)); --hc-row: 12.5vh; --hc-rows: 1;
     --hc-tiles-h: calc(var(--hc-row) * var(--hc-rows) + var(--hc-g) * (var(--hc-rows) - 1));
-    --hc-p: max(calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g)), calc(var(--hc-chin) + var(--hc-g)));
+    /* r91 (art thread, 1920x866): in a wide, short window the corner of CAREER TABLE sat on Daniel's knuckles (his fist reaches
+       35.5% down the plate, below his chin at 32.64%). The rows start below the knuckles too, but only as far as the rest still fits
+       above the bottom edge (--hc-fist-room), so a very wide window never pushes the buttons off the screen. */
+    --hc-fist: var(--hc-fist-px, calc(var(--hc-rh) * .355));
+    --hc-fist-room: calc(100vh - 8px - 7 * max(18px, calc(var(--hc-u) * 1.4)) - var(--hc-u) * 3.7 - max(126px, calc(var(--hc-u) * 9.2)) - max(44px, 6.5vh) - var(--hc-g) * 2);
+    --hc-p: max(calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g)), calc(var(--hc-chin) + var(--hc-g)), min(calc(var(--hc-fist) + var(--hc-g)), var(--hc-fist-room)));
     /* what the Manager Comparison's seven rows and the leader cards need, so neither is ever cut */
     --hc-pmin: calc(var(--hc-u) * 3.7 + 7 * max(18px, calc(var(--hc-u) * 1.4)));
     /* F01 (2.3.0 final pass): a leader card draws a two-line label, the name and the value (about 76px at 1280x720), so the

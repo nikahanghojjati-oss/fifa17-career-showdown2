@@ -3073,6 +3073,18 @@
         "^tests/contracts/r91\\-device\\-check\\-published\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-device-check-verdict-contracts.cjs",
+      "patterns": [
+        "^device-check(?:-chamber)?\\.html$",
+        "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^visual-assets/v10_1/(?:roulette|special-player)/index\\.html$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-device\\-check\\-verdict\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

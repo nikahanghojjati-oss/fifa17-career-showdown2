@@ -1556,6 +1556,18 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions button { min-width:0;min-height:44px;max-width:100%;white-space:normal;overflow-wrap:normal; }
 }
+/* r91 (art thread, 1920x866): CONFIRM & SAVE SEASON sat 40px below the first view (the board started at 367px and is 610px
+    tall). On wide windows up to 1000px tall the review card (the scoring card steps aside there) keeps to the room between the
+    two faces, as the old 44% column did, so it can start one gap under the title (the title ends at 25.4% of the window height)
+    and the whole card, with CONFIRM and EDIT, fits the first view. Narrower windows keep the chin rule above. */
+@media (min-width:1880px) and (max-height:1000px) and (min-aspect-ratio:16/9) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
+  padding-top:calc(25.4svh + 14px);
+ }
+ :root:root:root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) {
+  width:min(56%,var(--sr-clear,56%));margin-inline:auto;
+ }
+}
 /* r90 W9 (window sweep): from 2560px wide the Season Results boards keep the 1920x1080 look at the window's scale. Their type,
    paddings and buttons were fixed px (or capped), so at 3840x2160 they read at half size in a board twice as wide. Each board
    is zoomed by the window over 1920x1080 (never below 1); the svh and vw sizes inside are divided back so they do not grow twice. */

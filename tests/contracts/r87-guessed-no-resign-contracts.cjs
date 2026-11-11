@@ -34,7 +34,7 @@ check("GN3","no kept verdicts, bad role or empty name refuses nothing",()=>{
 check("GN4","LOCK refuses with TRANSFER_SIGNING_GUESSED_BEFORE, gated on Roster Roulette, earlier seasons' guesses only",()=>{
   assert.ok(source.includes('pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE"'));
   const fn=source.slice(source.indexOf("function pstcBlockedNow("),source.indexOf("function pstcRefuse("));
-  assert.ok(fn.includes("at<from)return Promise.resolve(new Map())"),"a Showdown from before Roster Roulette refuses nothing");
+  assert.ok(fn.includes("!provider?.rouletteEligible?.(at))return Promise.resolve(new Map())"),"a Showdown the roulette does not apply to (no readable confirm time) refuses nothing");
   const pure=source.slice(source.indexOf("function pstcRouletteBlocked("),source.indexOf("const PSTC_BLOCKED_CHECK_TEXT"));
   assert.ok(pure.includes("for(let k=1;k<season;k+=1)"),"guesses of earlier seasons only");
 });
