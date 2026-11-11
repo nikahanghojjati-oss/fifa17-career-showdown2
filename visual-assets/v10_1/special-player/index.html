@@ -728,9 +728,11 @@ grassMat.onBeforeCompile=(sh)=>{
 const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGround.rotation.x=-Math.PI/2; shadowGround.position.y=0; shadowGround.receiveShadow=true;
 /* r91 (first open on a 2-thread Chromebook): each loaded picture is turned into an ImageBitmap, decoded and flipped for WebGL off the
    main thread, so the upload at the first frame no longer decodes the pack art, grass and boards on the main thread (about 350 ms at 4x
-   CPU throttle). Without createImageBitmap, or if it fails, the plain image is used. The bitmap is kept, so a context restore re-uploads it */
+   CPU throttle). Without createImageBitmap, or if it fails, the plain image is used. The bitmap is kept, so a context restore re-uploads it.
+   Safari and every iOS browser keep the plain image, as three's own glTF loader does: older WebKit ignores the flip option (upside-down art) */
+const BITMAP_OK=typeof createImageBitmap==="function"&&!/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 function loadTex(url,onLoad,onProgress,onError){ return new T.TextureLoader().load(url,t=>{ const im=t.image;
-  if(typeof createImageBitmap!=="function"||!im) return onLoad(t);
+  if(!BITMAP_OK||!im) return onLoad(t);
   createImageBitmap(im,{imageOrientation:"flipY"}).then(bm=>{ t.image=bm; t.flipY=false; t.needsUpdate=true; onLoad(t); },()=>onLoad(t)); },onProgress,onError); }
 function loadGrass(){ return new Promise(res=>loadTex("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
 function loadPackArt(){ return new Promise(res=>loadTex("assets/pack.webp",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
