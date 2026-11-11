@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11 3:35 AM Boston time (EST)",
+ "generated": "2026-11-11 3:39 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 218,
@@ -2025,10 +2025,10 @@
      "draft": false,
      "branch": "gameplay/r90",
      "sha": "156a257f107449f59f3e1112f3239bcf676aacb2",
-     "updated": "2026-11-11T08:31:33Z",
+     "updated": "2026-11-11T08:37:41Z",
      "gates": {
-      "passed": 0,
-      "running": 7,
+      "passed": 2,
+      "running": 5,
       "failed": 0,
       "cancelled": 0
      }
@@ -2825,7 +2825,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 4650
+    "waiting_min": 4654
    },
    {
     "id": "HO-059",
@@ -4250,10 +4250,10 @@
     "draft": false,
     "branch": "gameplay/r90",
     "sha": "156a257f107449f59f3e1112f3239bcf676aacb2",
-    "updated": "2026-11-11T08:31:33Z",
+    "updated": "2026-11-11T08:37:41Z",
     "gates": {
-     "passed": 0,
-     "running": 7,
+     "passed": 2,
+     "running": 5,
      "failed": 0,
      "cancelled": 0
     }
