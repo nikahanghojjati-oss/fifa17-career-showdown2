@@ -628,18 +628,18 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
          nickel drum: bright steel, the seven bores smeared into a deep band (dark tubes over three quarters of that circle), the flutes darkening
          the outer edge, the star a soft bright hub, the lathe lines, and (painted below, held still against the turn in onBeforeRender)
          the "butterfly" glint a spinning polished face throws back at the light, which is what tells the eye it is metal and moving */
-      for(let px=Math.ceil(f(R+.0004));px>=0;px--){ const r=px/256*(R+.0004), d=r-CR, c=Math.abs(d)<HR&&r>0?Math.min(.8,7*2*Math.sqrt(HR*HR-d*d)/(2*Math.PI*r)):0;
+      for(let px=Math.ceil(f(R+.0004));px>=0;px--){ const r=px/256*(R+.0004), d=r-CR, c=Math.abs(d)<HR&&r>0?Math.min(.66,7*2*Math.sqrt(HR*HR-d*d)/(2*Math.PI*r)):0;   /* r91 round 5: a little lighter, the band read as a black record groove on the lit levels */
         const hub=r<.0088?.25*(1-r/.0088):0, flute=r>R-.0045?.28*Math.min(1,(r-(R-.0045))/.002):0, edge=r>R-.0010?.45*(r-(R-.0010))/.0014:0, lit=(1-flute-edge)*(.93+.07*Math.cos(r/R*7.5))+hub;
         const s0=[236*lit,240*lit,248*lit], m=(a,b)=>Math.max(0,Math.min(255,Math.round(a+(b-a)*c)));
-        bx.fillStyle=`rgb(${m(s0[0],66)},${m(s0[1],60)},${m(s0[2],58)})`; bx.beginPath(); bx.arc(256,256,px+.5,0,7); bx.fill(); }
+        bx.fillStyle=`rgb(${m(s0[0],92)},${m(s0[1],86)},${m(s0[2],84)})`; bx.beginPath(); bx.arc(256,256,px+.5,0,7); bx.fill(); }
       /* faint fine rings, like the lathe lines a spinning face throws back */
       let sd=91; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
       for(let i=0;i<70;i++){ const r=rnd()*f(R); bx.strokeStyle=`rgba(${rnd()<.5?"255,255,255":"0,0,0"},${(.03+rnd()*.06).toFixed(3)})`; bx.lineWidth=.6+rnd()*1.2; bx.beginPath(); bx.arc(256,256,r,0,7); bx.stroke(); }
       /* the glint: two opposite soft wedges through the hub, brightest on the steel rings, fading on the bore band */
       bx.save(); bx.globalCompositeOperation="lighter"; bx.translate(256,256); for(const s of [1,-1]){ for(let k=0;k<3;k++){ const w=[.22,.11,.045][k], al=[.10,.16,.22][k]; const gg=bx.createRadialGradient(0,0,f(.003),0,0,f(R)); gg.addColorStop(0,`rgba(255,250,240,${al})`); gg.addColorStop(.42,`rgba(255,250,240,${al*.35})`); gg.addColorStop(.62,`rgba(255,250,240,${al*.9})`); gg.addColorStop(1,`rgba(255,250,240,${al*.2})`); bx.fillStyle=gg; bx.beginPath(); bx.moveTo(0,0); bx.arc(0,0,f(R),(s>0?0:Math.PI)-w,(s>0?0:Math.PI)+w); bx.closePath(); bx.fill(); } } bx.restore();
       const bt=new T.CanvasTexture(bc); bt.colorSpace=T.SRGBColorSpace; bt.anisotropy=8;
-      const bm=LIGHT?new T.MeshBasicMaterial({color:L("#b8c0cc").multiplyScalar(.42) /* r91: follows the brighter nickel drum */, map:bt, transparent:true, depthWrite:false, opacity:0}):GM.drumFace.clone(); if(!LIGHT){ bm.color=L("#b8c0cc"); bm.map=bt; bm.transparent=true; bm.depthWrite=false; bm.opacity=0; }   /* r90 Light: unlit, at about the lit steel's brightness (one shader program fewer) */
-      const blur=new T.Mesh(new T.CircleGeometry(R+.0004,96),bm); blur.position.z=-.0262; blur.rotation.y=Math.PI; blur.renderOrder=2; blur.visible=false; cyl.add(blur);
+      const bm=LIGHT?new T.MeshBasicMaterial({color:L("#b8c0cc").multiplyScalar(.42) /* r91: follows the brighter nickel drum */, map:bt, transparent:true, depthWrite:false, opacity:0}):GM.drumFace.clone(); if(!LIGHT){ bm.color=L("#b8c0cc"); bm.map=bt; bm.transparent=true; bm.depthWrite=false; bm.opacity=0; bm.metalness=.45; bm.roughness=.45; }   /* r91: half metal, so the painted long exposure shows by the lamps' light; as full metal it mirrored the dark room and read as a black record */   /* r90 Light: unlit, at about the lit steel's brightness (one shader program fewer) */
+      cyl.userData.blurMat=bm; const blur=new T.Mesh(new T.CircleGeometry(R+.0004,96),bm); blur.position.z=-.0262; blur.rotation.y=Math.PI; blur.renderOrder=2; blur.visible=false; cyl.add(blur);
       /* r91: the glint stays where the light is while the drum turns under it (the disc turns back by the drum's own angle each frame) */
       blur.onBeforeRender=()=>{ blur.rotation.z=cyl.rotation.z+.9; blur.updateMatrixWorld(); };
       /* the live round's red mark, smeared: one faint warm thread along the band's outer edge (1 chamber in 7, so it stays faint) */
@@ -1377,7 +1377,9 @@ function loungeEnv(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new 
   add(10,10,[.02,.045,.025],0,-4.9,0); add(4,4,[.16,.12,.085],0,4.9,0); add(1.4,1.4,[1.5,1.05,.6],-4.9,1.4,-1.5); add(1.4,1.4,[1.5,1.05,.6],4.9,1.4,-1.5); add(6,1.2,[.5,.38,.26],0,1.6,-4.9); add(6,1.2,[.32,.24,.17],0,1.6,4.9);
   const t=pm.fromScene(s,.04,.1,20,{size:128}).texture; s.traverse(o=>{ if(o.isMesh){ o.geometry.dispose(); o.material.dispose(); } }); return t; }
 function buildEnv(){ if(!LOOK.hdri&&!LIGHT) return; const pm=new T.PMREMGenerator(renderer); if(scene.environment) scene.environment.dispose(); scene.environment=LIGHT?loungeEnv(pm):pm.fromEquirectangular(LOOK.hdri).texture;
-  { const st=gunStudio(pm); Object.entries(GUN_STEEL).forEach(([k,v])=>{ GM[k].envMap=st; GM[k].envMapIntensity=v; GM[k].needsUpdate=true; }); GM.drum.roughness=.38; GM.drumFace.roughness=.42; GM.bright.roughness=.3; }   /* satin, so the flutes and the hammer show their shape instead of one mirror stripe */
+  { const st=gunStudio(pm); Object.entries(GUN_STEEL).forEach(([k,v])=>{ GM[k].envMap=st; GM[k].envMapIntensity=v; GM[k].needsUpdate=true; }); GM.drum.roughness=.38; GM.drumFace.roughness=.42; GM.bright.roughness=.3;
+    /* r91: the lit spin-blur disc (Balanced and up) is a copy of the drum face made before this, so it mirrored the dark room and read as a black record over the nickel drum; it now sees the same studio as the drum */
+    const bmx=cyl.userData.blurMat; if(bmx&&bmx.isMeshStandardMaterial){ bmx.envMap=st; bmx.envMapIntensity=GUN_STEEL.drumFace; bmx.needsUpdate=true; } }   /* satin, so the flutes and the hammer show their shape instead of one mirror stripe */
   pm.dispose(); if(LOOK.hdri) LOOK.hdri.dispose();   /* the GPU copy goes; the small EXR stays in memory so a lost context can make the reflections again */
   scene.environmentIntensity=EXTRA_UP?.6:.5; M.floor.envMapIntensity=EXTRA_UP?.65:.5; }   /* the floor in the dark room only catches a faint sheen of it; in the café (Extra up) it reads as polished marble */
 /* r90 warm-up (Reus Gate): every texture goes to the GPU and every shader compiles (in parallel where the browser can) BEFORE the page
