@@ -1,0 +1,46 @@
+{
+ "desktop_1X": {
+  "file": "REUS_D_1X.webp",
+  "frame": [
+   1920,
+   1080
+  ],
+  "scale_vs_source": 0.5,
+  "size": [
+   610,
+   1031
+  ],
+  "top_px": 18,
+  "left_px": 38,
+  "note": "bottom of layer runs under the ledge; put LEDGE layer above it"
+ },
+ "desktop_2X": {
+  "file": "REUS_D_2X.webp",
+  "frame": [
+   3840,
+   2160
+  ],
+  "scale_vs_source": 1.001,
+  "size": [
+   1221,
+   2061
+  ],
+  "top_px": 37,
+  "left_px": 77,
+  "note": "bottom of layer runs under the ledge; put LEDGE layer above it"
+ },
+ "phone": {
+  "file": "REUS_P.webp",
+  "frame": [
+   1179,
+   2096
+  ],
+  "scale_vs_source": 0.854,
+  "size": [
+   1042,
+   1760
+  ],
+  "top_px": 317,
+  "left_px": 68
+ }
+}
