@@ -154,7 +154,7 @@
     const rows=result&&result.verdicts&&Array.isArray(result.verdicts[role])?result.verdicts[role]:null;
     if(!rows)return null;
     const hit=result.hits&&result.hits[role];
-    const shot=hit&&hit.fired===true&&typeof hit.hitName==="string"&&hit.hitName.trim()?{name:hit.hitName.trim(),number:isInt(hit.hitNumber)?hit.hitNumber:null,signedSeason:isInt(hit.hitSignedSeason)?hit.hitSignedSeason:null}:null;
+    const shot=hit&&hit.fired===true&&typeof hit.hitName==="string"&&hit.hitName.trim()?{name:hit.hitName.trim(),number:isInt(hit.hitNumber)?hit.hitNumber:null,signedSeason:isInt(hit.hitSignedSeason)&&hit.hitSignedSeason>=1&&hit.hitSignedSeason<=10?hit.hitSignedSeason:null}:null;
     return {
       shot,
       released:rows.filter(r=>r&&r.release===true&&typeof r.name==="string"&&r.name.trim()).map(r=>r.name.trim()),
@@ -285,6 +285,8 @@
       const ready=sheets=>{
         if(sheets)boardsMemo.set(`${ctx.rivalryId}|${ctx.season}`,sheets);
         next.hidden=false;next.disabled=false;
+        // The way on sits under the squad: bring it into view (the page scrolls; nothing is hidden).
+        try{next.scrollIntoView({block:"nearest",behavior:"smooth"});}catch(_error){}
         say(ctx.stage==="pre"?`Both squads are locked. ${rivalName}'s squad shows on the Russian Roulette board.`:"Your squad is locked for next season.");
       };
       const afterLock=data=>{

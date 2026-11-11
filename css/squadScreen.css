@@ -259,4 +259,5 @@
 #sqStage .sqActions>button:hover:not(:disabled){border-color:#fff0b8}
 #sqStage .sqActions>button:focus-visible{outline:2px solid #fff3bd;outline-offset:2px}
 #sqStage [hidden]{display:none!important}
-@media (max-width:560px){#sqStage .sqHeader{font-size:12px;letter-spacing:.1em}#sqStage .sqActions>button.menuButton,#sqStage .sqActions>button.sqBack{min-height:44px}}
+@media (max-width:560px){#sqStage .sqHeader{display:grid;grid-template-columns:1fr auto;row-gap:6px;font-size:12px;letter-spacing:.1em}#sqStage .sqHeader .sqTitle{grid-column:1/-1;grid-row:1}#sqStage .sqHeader .sqWhen{text-align:right}#sqStage .sqActions>button.menuButton,#sqStage .sqActions>button.sqBack{min-height:44px}}
+@media (max-width:760px) and (orientation:portrait){#sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp")}html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp")}}
