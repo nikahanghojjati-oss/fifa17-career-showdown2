@@ -288,7 +288,7 @@
     },
     "TRANSFER_WORKSTREAM_INLINE": {
       "source": "tests/proof-sources/workflows/validate-transfer-workstream.yml",
-      "gitBlobSha": "cc5efc0069340ffe9909adb458653bcedfce9a69"
+      "gitBlobSha": "d7c802238895d9a9cb6f3809ff6589ddc122c38c"
     },
     "V1_VISUAL_IMMERSION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-v1-visual-immersion.yml",
