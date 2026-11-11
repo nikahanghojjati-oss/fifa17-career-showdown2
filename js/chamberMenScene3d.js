@@ -402,6 +402,11 @@
       for(const o of parts)o.castShadow=false;
       shadowBodies.push(proxy);
     };
+    // r91 Extra and Ultra: the kit is cloth. Shirt, shorts and socks take a fabric sheen (the soft rim a woven shirt shows
+    // where it turns away from a floodlight, tinted by the kit's own colours), so the kit reads as fabric, not painted
+    // plastic. One more shader for the two players; Light, Balanced and High keep the plain kit.
+    const toCloth=m=>{const p=new T.MeshPhysicalMaterial();T.MeshStandardMaterial.prototype.copy.call(p,m);p.defines={STANDARD:"",PHYSICAL:""};
+      p.sheen=1;p.sheenRoughness=.45;p.sheenColor.setRGB(.55,.55,.55);return p;};
     const actor=(gltf,name,body)=>{
       const model=gltf.scene,holder=new T.Group();holder.name=name;holder.add(model);holder.visible=false;scene.add(holder);
       model.position.y=BODY_LIFT[body]||0;
@@ -411,6 +416,8 @@
         // that changed no pixel.
         // r90 Light draw budget: no eyelashes at Light (the taker shows his back, the keeper's face is about 10 px high at
         // 1920x866): two draws that changed no pixel a viewer can find.
+        if(o.isMesh&&L>=3&&!Array.isArray(o.material)&&o.material?.isMeshStandardMaterial&&!o.material.isMeshPhysicalMaterial&&/^kit(Shirt|Shorts|Socks)$/.test(o.material.name)){
+          const was=o.material;o.material=toCloth(was);was.dispose();}
         if(o.isMesh){const lash=/lash/i.test(`${o.name} ${[].concat(o.material).map(m=>m&&m.name).join(" ")}`);o.castShadow=!lash;if(lash&&L===0)o.visible=false;o.receiveShadow=true;o.frustumCulled=false;for(const m of [].concat(o.material)){if(m&&m.name)mats[m.name]=m;keep(m);}}
         if(o.isBone&&!bones[o.name])bones[o.name]=o;
       });
@@ -594,7 +601,7 @@
       const put=()=>{const made=new Map();for(const [m,k] of [["kitShirt","shirt"],["kitShorts","shorts"],["kitSocks","socks"]]){
         const mat=a.mats[m],c=t[k];if(!mat||!c)continue;
         let tex=made.get(c)||kitTex.get(c);if(!tex){tex=new T.CanvasTexture(c);tex.flipY=false;tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;tex.userData.cmKit=true;kitTex.set(c,tex);}made.set(c,tex);
-        if(mat.map!==tex){mat.map=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;}
+        if(mat.map!==tex){mat.map=tex;if(mat.isMeshPhysicalMaterial)mat.sheenColorMap=tex;mat.color.setRGB(1,1,1);mat.roughness=.72;mat.needsUpdate=true;}
       }};
       const token=a.kitToken=(a.kitToken||0)+1;
       // A body-mapped kit is blank until its kit map has loaded: it goes on only when painted (the last kit stays meanwhile).
