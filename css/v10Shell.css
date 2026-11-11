@@ -43,12 +43,12 @@ html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > footer { min-heigh
 /* r87 sweep P-09: on desktop Home the footer's two lines (name, version) filled its 28px band edge to edge and touched the
    window bottom. Slightly smaller type, centred in the same band; the band keeps its place and size, so nothing on Home moves. */
 @media (min-width: 901px) {
-  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > footer { display: flex; align-items: center; padding-top: 0; padding-bottom: 0; font-size: 10.5px; line-height: 12px; letter-spacing: .04em; }
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > footer { display: flex; align-items: center; padding-top: 0; padding-bottom: 0; font-size: 12px; line-height: 13px; letter-spacing: .04em; }
 }
 @media (max-width: 900px) {
   html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; padding-right: 0; }
   html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
-  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 12px !important; }
 }
 
 /* HO-003 (Team V spec, job V-246): the app header and footer on Team V screens other than Home and setup.
@@ -504,9 +504,11 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   /* no shade behind the title: it reached Nik's hair (no dimming, no scrims) */
   html #app #careerStatistics.careerScreenV10 .titleBlock::before { content: none; }
 }
-/* the space between the heads is narrower than four totals need (plate under 2400px wide): two rows of two, the numbers a
-   size smaller so each row stays short */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (max-width: 2399px) and (max-height: 1350px) {
+/* the space between the heads is narrower than four totals need: two rows of two, the numbers a size smaller so each row
+   stays short. 2.3.0 strict pass (E-b/E1): this held only under 2400x1350, but above it four tiles in a row still left
+   each "D 18 / N 16" pair about 100px for 160-260px of numbers (Nik's "16" cut at 2560x1080, 2560x1440 and 3840x2160),
+   so every desktop size now takes two rows of two. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
   html #app #careerStatistics.careerScreenV10 { --hc-rows: 2; --hc-row: max(52px, 7vh); }
   /* the table between the faces is narrower than before: "Showdowns" takes 2 points of width from the name column
      (it ran 1px past its cell at 1280x650) */
@@ -537,8 +539,10 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
 }
 
 /* ultrawide (plate 2700px wide and more): the heads are so tall that rows below the chins no longer fit, but the room
-   between them is wide enough for the whole column, so every row stands between the two faces instead */
-@media (min-width: 2700px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+   between them is wide enough for the whole column, so every row stands between the two faces instead. 2.3.0 strict pass
+   (E2): only on windows twice as wide as tall; a 16:9 4K window (3840x2160) has the 1920x1080 proportions, and squeezing
+   its 4K-sized type between the heads made the table headers collide and the leader values run out of their cards. */
+@media (min-width: 2700px) and (min-height: 600px) and (min-aspect-ratio: 2/1) and (orientation: landscape) {
   html #app #careerStatistics.careerScreenV10 {
     --hc-col-w: min(52vw, var(--hc-half) * 2);
     --hc-p: calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g));
@@ -582,7 +586,7 @@ html[data-nav="none"] .cmsMusicDock { display: none !important; }
 .cmsMusicDockText strong { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 700 13px/1.05 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .06em; color: var(--cms-ink); }
 .cmsMusicDockText small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 500 12px/1.1 var(--sd-font-body, "Barlow", sans-serif); color: var(--cms-meta); }
 .cmsMusicDock[data-failed="true"] .cmsMusicDockText small { color: var(--cms-gold); }
-.cmsMusicDock button { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box; padding: 0; cursor: pointer; font: 700 11px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .12em; }
+.cmsMusicDock button { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box; padding: 0; cursor: pointer; font: 700 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .12em; }
 .cmsMusicDockPlay { width: 30px; height: 30px; border-radius: 50%; color: var(--sd-text-on-gold, #07080a); background: linear-gradient(180deg, #fff3b0 0%, #ffd34d 40%, #d4a017 100%); border: 1px solid #f5d77a; box-shadow: inset 0 1px 0 rgba(255,248,214,.8), 0 3px 10px rgba(224,168,46,.3); }
 .cmsMusicDockMute { width: 30px; height: 30px; border-radius: 50%; color: var(--cms-ink); background: rgba(9,8,6,.82); border: 1px solid rgba(212,160,23,.7); }
 .cmsMusicDockMute:disabled { opacity: .45; cursor: default; }
@@ -845,4 +849,32 @@ html[data-v10-screen="trophyRoom"] #trophyRoom .careerRank > :is(span, small) { 
    and its base cut the first line. The cup is 14% smaller, with the same top, so its box ends 3 px above the plaque (37 px high at 852x393). */
 @media (min-width: 761px) and (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
   html[data-v10-screen="trophyRoom"] #trophyRoom .heroCeremony .heroTrophyPicture { height: 96px !important; bottom: 40px !important; }
+}
+
+/* 2.3.0 strict pass (C8, Nik's 12px type floor): on tablets held sideways (1180x820 class: landscape, outside the desktop
+   board-room range) Career Statistics drew "Together" at 7px, the table, names and leader names at 10px and the headers
+   and comparison labels at 11px; Final Winner drew "3 SEASONS" at 9px. They are 12px here; the boxes keep their size. */
+@media (min-width: 901px) and (max-width: 1199px) and (orientation: landscape),
+       (min-width: 1200px) and (max-aspect-ratio: 149/100) and (orientation: landscape) {
+  html #app #careerStatistics.careerScreenV10 :is(.headlineTogether, .headlinePair small, .careerTable th, .careerTable td, .managerName, .compareLabel, .leaderLabel, .leaderName) { font-size: 12px; }
+  html #app #careerStatistics.careerScreenV10 .headlineTogether { letter-spacing: .04em; }
+  html body #app #seasonEntry.v10FinalMode #stage-root .finalWinnerEyebrow { font-size: 12px; }
+  html body #app #seasonEntry.v10FinalMode #stage-root #finalWinnerRematch#finalWinnerRematch .finalWinnerRematchSub { font-size: 12px; }
+  html body #app main:has(> #seasonEntry.v10FinalMode) :is(.cmx-bar__tab, .cmv3-numbers > b) { font-size: 12px; }
+}
+
+/* 2.3.0 strict pass (D7, Nik's 12px type floor): the Season Results phone tabs' DANIEL / NIK label was 10-11px and the
+   YOUR ENTRY / SUBMITTED / SEALED line under it 7px. Both are 12px; the 44px tab holds the two lines. */
+html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab:is([for="season-phone-tab-daniel"], [for="season-phone-tab-nik"]) { font-size: 12px; line-height: 1; }
+html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab::after { font-size: 12px; line-height: 1; letter-spacing: .06em; }
+
+/* 2.3.0 colour pass (COL-01, COL-02): the club name under each manager on Season Results kept the old slate grey
+   (#5b6973, 3.2:1 on the warm black panel); it takes the house muted text colour (#b9b3a4, about 8:1). The not-earned
+   zero rows of the calculated score stay dimmed, but at .65 instead of .48 (over 4.5:1). */
+html #app #seasonEntry.seasonScreenV10 .seasonManagerHeader p { color: #b9b3a4; }
+html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; }
+/* r90 strict C10: the shared bottom bar's labels were 10.5 px (Team V navbar.css) on upright tablets, where each of the six tabs is
+   126 px wide; 12 px is the type floor. Phones keep their 10.5 px fit. Screens that size their own bar (Connect Players, 15 px) win by specificity. */
+@media (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
+  .sd-nav.sd-nav-bottom .sd-nav-tab { font-size: 12px; }
 }

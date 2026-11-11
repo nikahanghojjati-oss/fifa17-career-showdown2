@@ -959,12 +959,27 @@ addEventListener("resize",layout);
    top of each board face to clear the title; the empty felt at the bottom gives the room. A turn eases the shift back out, since the
    title fades with it. Measured from the real title box, so it holds for any phone, font or embed offset. */
 let restShift=0, viewShift=0, restZoom=1, viewZoom=1;
+/* 2.3.0 strict C7 (tablet hunter, Nik's rule "nothing cut"): the rest picture is built around the revolver, and on a window narrower than 16:9 the
+   two squad boards slid out of the sides, leaving about 30 px of each (the names cut mid-word). A narrow upright window (a tablet column, 760 px)
+   cut both boards at the outer edges. The picture is zoomed out about its centre (a view offset, so nothing in the scene moves, turns or changes
+   size; the turn's close-ups are untouched) by the least amount that
+   - landscape: shows as much of each board as the approved 16:9 desktop shows (14 % of the window width from each side),
+   - upright (portrait layout): brings both whole boards inside the window with an 8 px margin.
+   Returns the zoom (1 = no change, capped at 1.6). A window that already fits is not touched. */
+function fitBoardsWide(c,w,h){ let z=1;
+  ["D","N"].forEach((k,i)=>{ const g=boards[k], f=g&&g.userData.inner; if(!f) return; g.updateMatrixWorld(true);
+    const xs=[-1,1].flatMap(sx=>[-1,1].map(sy=>f.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(c))).map(v=>(v.x+1)/2*w), lo=Math.min(...xs), hi=Math.max(...xs);
+    if(PH){ const m=8; z=Math.max(z,(w/2-lo)/(w/2-m),(hi-w/2)/(w/2-m)); }                 /* whole board inside the window */
+    else if(i===0){ const inner=hi, want=.14*w; if(inner<want) z=Math.max(z,(w/2-inner)/(w/2-want)); }   /* Daniel's board, on the left: its inner edge reaches 14 % of the width */
+    else { const inner=lo, want=w-.14*w; if(inner>want) z=Math.max(z,(inner-w/2)/(want-w/2)); } });   /* Nik's board, on the right */
+  return Math.min(1.6,z); }
 function fitUnderTitle(){ restShift=0; restZoom=1; const t=document.querySelector(".title"), r=t&&t.getBoundingClientRect(); if(!r||!r.height) return; const w=innerWidth, h=innerHeight;
   const c=camera.clone(); c.clearViewOffset(); c.fov=fovIdle; c.position.copy(camRest); c.lookAt(lookRest); c.updateProjectionMatrix(); c.updateMatrixWorld(); let need=0;
-  ["D","N"].forEach(k=>{ const g=boards[k], f=g&&g.userData.face; if(!f) return; g.updateMatrixWorld(true);
-    const q=[-1,1].map(sx=>f.localToWorld(new T.Vector3(sx*BOARD_W/2,BOARD_H/2,0)).project(c)).map(v=>({x:(v.x+1)/2*w,y:(1-v.y)/2*h}));
+  const zW=fitBoardsWide(c,w,h);   /* 2.3.0 strict C7: pull back just enough that both squad boards stay readable at the sides */
+  ["D","N"].forEach(k=>{ const g=boards[k], f=g&&g.userData.inner; if(!f) return; g.updateMatrixWorld(true);
+    const q=[-1,1].map(sx=>f.localToWorld(new T.Vector3(sx*BOARD_W/2,BOARD_H/2,0)).project(c)).map(v=>({x:w/2+((v.x+1)/2*w-w/2)/zW,y:h/2+((1-v.y)/2*h-h/2)/zW}));
     if(Math.max(q[0].x,q[1].x)<r.left||Math.min(q[0].x,q[1].x)>r.right) return; need=Math.max(need,r.bottom+10-Math.min(q[0].y,q[1].y)); });
-  restShift=Math.min(h*.22,Math.max(0,need));   /* Codex P2 on #1317: a short 16:9 phone (360x640) needs about 20 % of the height; .22 leaves the revolver above the button */
+  restShift=Math.min(h*.22,Math.max(0,need)); restZoom=zW;   /* Codex P2 on #1317: a short 16:9 phone (360x640) needs about 20 % of the height; .22 leaves the revolver above the button */
   if(PH&&h<=700) fitShortPhone(c,w,h,r); }
 /* 2.3.0 final pass (lead, Nik's rule "nothing touches or covers anything"): on a short upright phone (700 px tall or less: 375x553, 360x640,
    393x660) the shift above could not give both: the 22 % cap left the board tops on the title and the revolver under the caption.
@@ -979,9 +994,19 @@ function fitShortPhone(c,w,h,r){ const cap=result.getBoundingClientRect(); if(!c
   gun.updateWorldMatrix(true,true); const gb=new T.Box3().setFromObject(gun);   /* parents too: before the first frame the spin and lie groups have no world matrix yet */
   for(const X of [gb.min.x,gb.max.x]) for(const Y of [gb.min.y,gb.max.y]) for(const Z of [gb.min.z,gb.max.z]) bot=Math.max(bot,y(new T.Vector3(X,Y,Z)));
   if(!isFinite(top)||!isFinite(bot)) return;
-  const z=Math.max(1,(bot-top)/(B-A)), spare=(B-A)-(bot-top)/z;
+  const z=Math.max(1,restZoom,(bot-top)/(B-A)), spare=(B-A)-(bot-top)/z;
   restZoom=z; restShift=A+spare/2-h/2-(top-h/2)/z; }
-function applyViewShift(dt){ const want=playing?0:restShift, wantZ=playing?1:restZoom, k=1-Math.exp(-dt*4); viewShift=REDUCED||Math.abs(want-viewShift)<.5?want:viewShift+(want-viewShift)*k;   /* Codex P2 on #1317: reduced motion snaps, no pan */
+/* 2.3.0 strict RRR A7 (nothing covers anything): in the drum close-up ("Stopped on the live round", 1920x1035) the caption sat on the chamber holes,
+   the very thing the beat shows. During the look-inside beats the picture is lifted (the same lens shift as the rest shot, so nothing in the scene moves)
+   by just enough that the lowest chamber hole ends 14 px above the caption. Measured from the real caption box and the holes' own ring, so it holds at every
+   window size and wording; where the holes already clear the caption the lift is 0. */
+let closeLift=0, closeDbg=null;
+function measureCloseLift(){ const cap=result.getBoundingClientRect(); if(!cap.height||!cyl) { closeLift=0; return; }
+  camera.updateMatrixWorld(true); cyl.updateWorldMatrix(true,true); const R=.0135+.0046, H=innerHeight; let bot=-Infinity, v=new T.Vector3();
+  for(const z of [-.0236,.0224]) for(let i=0;i<14;i++){ const a=i/14*Math.PI*2; v.set(Math.cos(a)*R,Math.sin(a)*R,z); cyl.localToWorld(v); v.project(camera); bot=Math.max(bot,(1-v.y)/2*H); }   /* both faces of the drum: the camera is so close that the near face is the larger */
+  if(!isFinite(bot)) { closeLift=0; return; }
+  const need=(bot-viewShift)-(cap.top-14); closeLift=-Math.min(H*.3,Math.max(0,need)); closeDbg=[Math.round(bot),Math.round(cap.top),Math.round(viewShift)]; }
+function applyViewShift(dt){ const want=playing?closeLift:restShift, wantZ=playing?1:restZoom, k=1-Math.exp(-dt*4); viewShift=REDUCED||Math.abs(want-viewShift)<.5?want:viewShift+(want-viewShift)*k;   /* Codex P2 on #1317: reduced motion snaps, no pan */
   viewZoom=REDUCED||Math.abs(wantZ-viewZoom)<.002?wantZ:viewZoom+(wantZ-viewZoom)*k;
   const W=innerWidth, H=innerHeight;
   if(viewZoom>1.002) camera.setViewOffset(W,H,-(viewZoom-1)*W/2,H/2-viewZoom*(H/2+viewShift),W*viewZoom,H*viewZoom);   /* zoomed out about the centre, then shifted (short phones) */
@@ -1205,7 +1230,7 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
   const fk=1-Math.exp(-dt*(p?12:3)), pk=1-Math.exp(-dt*(p?14:2));
   fovNow=lerp(fovNow,fov,fk); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); } applyViewShift(dt);
   camPos.lerp(pos,pk); camLook.lerp(look,pk);
-  camera.position.copy(camPos).add(camTmp.set((Math.sin(t*71)+Math.sin(t*43.7))*.5*shake,(Math.sin(t*59.3+1.3)+Math.sin(t*37.1))*.5*shake,0)); camera.lookAt(camLook); placeHand(); }
+  camera.position.copy(camPos).add(camTmp.set((Math.sin(t*71)+Math.sin(t*43.7))*.5*shake,(Math.sin(t*59.3+1.3)+Math.sin(t*37.1))*.5*shake,0)); camera.lookAt(camLook); placeHand(); if(p&&tt>=B.close&&tt<(REDUCED?B.close+.6:B.inside+.15)) measureCloseLift(); else closeLift=0;   /* Reduce Motion has no look-inside beat (B.close = B.inside), so its window is the .6 s after the close cue, never empty */ }
 function gunInHand(){ gun.visible=!(handHold&&handK>.55); }   /* the revolver on the felt hides once the hand holds it, so it is never in two places */
 
 /* ================= tick ================= */
@@ -1398,7 +1423,7 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ get cylZ(){ return cyl.rotation.z; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
+window.__rr={ get cylZ(){ return cyl.rotation.z; }, get rest(){ return {zoom:restZoom,shift:Math.round(restShift),lift:Math.round(closeLift),dbg:closeDbg}; }, get boardRects(){ camera.updateMatrixWorld(true); const o={}; ["D","N"].forEach(k=>{ const g=boards[k]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); const X=(v.x+1)/2*innerWidth, Y=(1-v.y)/2*innerHeight; x0=Math.min(x0,X); x1=Math.max(x1,X); y0=Math.min(y0,Y); y1=Math.max(y1,Y); })); o[k]=[x0,y0,x1,y1].map(Math.round); }); return o; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardAimWorld(playing.who).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, programs:ri.programs.length, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, level:GFX.name, pixelRatio:renderer.getPixelRatio(), bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','800 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
