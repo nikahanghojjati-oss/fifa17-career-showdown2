@@ -6,11 +6,13 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 2:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 2:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+
+> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear (from GitHub).** · POS20 #304 7/7
 
 ## Jobs
 
@@ -70,7 +72,7 @@ Updated Wed 11 Nov, 2:02 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 623 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 624 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
