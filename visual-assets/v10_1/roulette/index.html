@@ -741,7 +741,12 @@ window.__dbg={gun,cyl,crane,hammer,muzzle,spin,lie,scene,renderer,get camera(){r
 /* ================= the boards on brass easels (Daniel LEFT, Nik RIGHT) ================= */
 const boards={ D:null, N:null };
 const BOARD_W=.84, BOARD_H=.64;
-function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
+/* r91 (first open on a 2-thread Chromebook): the hand and room pictures become ImageBitmaps, decoded and flipped for WebGL before the scene
+   needs them, so their upload no longer decodes them on the main thread (the hand alone took ~140 ms at 4x CPU throttle). Safari and iOS keep
+   the plain image, as three's own glTF loader does (older WebKit ignores the flip). texFrom() sets flipY to match */
+const BITMAP_OK=typeof createImageBitmap==="function"&&!/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>{ if(!BITMAP_OK) return res(im); createImageBitmap(im,{imageOrientation:"flipY",premultiplyAlpha:"none"}).then(res,()=>res(im)); }; im.onerror=()=>res(null); im.src=src; }); }
+function texFrom(img){ const t=new T.Texture(img); if(typeof ImageBitmap!=="undefined"&&img instanceof ImageBitmap) t.flipY=false; return t; }
 const lacquer=mat({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05},{roughness:.45, clearcoat:.8, clearcoatRoughness:.1});
 /* ================= the room behind the table, by quality level (r90, Nik 2026-11-08: "the dark room for the lower quality; for the higher
    quality a proper background with tables and objects, good lighting but nothing excessive"):
@@ -1393,12 +1398,12 @@ async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch(
      the 2.2.0 room redrawn at 4K with a calmer evening grade; 1920 px, or 3840 px on a screen wider than 2560 device pixels) stands across the back at full
      sharpness, from the floor line up, as in 2.2.0; it replaces the far wall and its lamps (they are in the picture),
      and the fog lifts so the bright marble floor runs back to it. One plane, one texture, one draw call. */
-  if(roomImg){ const R=PLATEMAP.room||{}, H=R.height||5.2, cut=R.floorCut||0, tone=R.tone||1, t=new T.Texture(roomImg); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; t.needsUpdate=true;
+  if(roomImg){ const R=PLATEMAP.room||{}, H=R.height||5.2, cut=R.floorCut||0, tone=R.tone||1, t=texFrom(roomImg); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; t.needsUpdate=true;
     const pl=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:t, color:new T.Color(tone,tone,tone), toneMapped:false, fog:false}));
     pl.scale.set(H*roomImg.width/roomImg.height,H,1); pl.position.set(0,H/2-cut*H,R.z||-3.9); pl.name="roomPlate"; scene.add(pl);
     if(hallLamps) hallLamps.visible=false; scene.fog=null; scene.background=new T.Color(0x0e0905); }
   /* the hand picture carries its own transparency (webp alpha), so it goes to the GPU as it is: no read-back pass over its pixels */
-  { const hc=handImg||handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=new T.Texture(hc); ht.needsUpdate=true; ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
+  { const hc=handImg||handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=texFrom(hc); ht.needsUpdate=true; ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
   SQUADS=sq; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }
 /* Reflections: a Poly Haven ballroom HDRI (CC0, polyhaven.com), the 512x256 EXR "hall" from @pmndrs/assets 1.7.0 (CC0-1.0), shared with
    Chamber Men and cached. It adds reflections and a soft fill only, so polished steel, brass and gold read as metal; the table light stays
