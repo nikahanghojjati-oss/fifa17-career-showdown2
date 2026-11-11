@@ -463,7 +463,13 @@
           if(m.isMeshStandardMaterial&&!m.transparent&&!/lamp/i.test(m.name)){nightStand(m);
             // The source is lit for day: its pale concrete and paint read as floodlit plaster at night, so they go down to
             // the built stands' tone.
-            if(/concrete|paint|steel|aluminium/i.test(m.name))m.color.multiplyScalar(.3);}
+            if(/concrete|paint|steel|aluminium/i.test(m.name))m.color.multiplyScalar(.3);
+            // r91: the stand's front wall over the boards read as a bare pale band right behind the goal. Below the first
+            // row it goes to the dark painted finish the built stands' front has, so the boards, the goal and the crowd
+            // stand out from it as they do at Light and Balanced.
+            if(/concrete/i.test(m.name)){const night=m.onBeforeCompile;m.onBeforeCompile=sh=>{night(sh);
+              sh.fragmentShader=sh.fragmentShader.replace("#include <map_fragment>","#include <map_fragment>\ndiffuseColor.rgb*=mix(.3,1.0,smoothstep(2.6,3.4,vCmY));");};
+              m.customProgramCacheKey=()=>"cmNightStandFront";}}
           if(/lamp/i.test(m.name)&&m.emissive)m.emissive.setRGB(2.2,2.1,1.9);}});
       // r90 draw calls: the bowl's 13 parts carry 23 pieces over 14 materials; every material is one draw (concrete was 6,
       // the seat rows 2, the vision glass 2). The bowl never moves, so nothing about the picture changes.
