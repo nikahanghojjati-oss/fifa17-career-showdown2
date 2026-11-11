@@ -487,13 +487,19 @@ function extrude(points,depth,bevel,m,segs,holes){ const s=new T.Shape(); points
 /* r91 (Nik 2026-11-11, "keep improving the RRR scene"): three's ExtrudeGeometry shades every facet flat, so the frame's and the grip's rounded
    edges showed as stair steps in the drum close-ups. creased() gives each corner the area-weighted normal of the faces that meet it within
    the crease angle (radians): the bevels and the curved outline turn smooth, the true corners of the silhouette stay sharp. Load time only */
-function creased(g,crease){ const P=g.attributes.position.array, n=P.length/3, N=new Float32Array(n*3), F=new Float32Array(n), map=new Map(), cosC=Math.cos(crease), q=v=>Math.round(v*1e5);
-  const fn=[]; for(let t=0;t<n;t+=3){ const ax=P[t*3],ay=P[t*3+1],az=P[t*3+2], ux=P[t*3+3]-ax,uy=P[t*3+4]-ay,uz=P[t*3+5]-az, vx=P[t*3+6]-ax,vy=P[t*3+7]-ay,vz=P[t*3+8]-az;
-    const cx=uy*vz-uz*vy, cy=uz*vx-ux*vz, cz=ux*vy-uy*vx; fn.push(cx,cy,cz); }
-  for(let i=0;i<n;i++){ const k=q(P[i*3])+","+q(P[i*3+1])+","+q(P[i*3+2]); let l=map.get(k); if(!l) map.set(k,l=[]); l.push(i); }
-  map.forEach(l=>{ for(const i of l){ const f=(i/3|0)*3, fx=fn[f],fy=fn[f+1],fz=fn[f+2], fl=Math.hypot(fx,fy,fz)||1; let sx=0,sy=0,sz=0;
-    for(const j of l){ const h=(j/3|0)*3, hx=fn[h],hy=fn[h+1],hz=fn[h+2], hl=Math.hypot(hx,hy,hz)||1; if((fx*hx+fy*hy+fz*hz)/(fl*hl)>=cosC){ sx+=hx; sy+=hy; sz+=hz; } }
-    const sl=Math.hypot(sx,sy,sz)||1; N[i*3]=sx/sl; N[i*3+1]=sy/sl; N[i*3+2]=sz/sl; } });
+function creased(g,crease){ const P=g.attributes.position.array, n=P.length/3, nt=n/3|0, N=new Float32Array(n*3), FN=new Float32Array(nt*3), FL=new Float32Array(nt), cosC=Math.cos(crease);
+  for(let t=0;t<nt;t++){ const o=t*9, ax=P[o],ay=P[o+1],az=P[o+2], ux=P[o+3]-ax,uy=P[o+4]-ay,uz=P[o+5]-az, vx=P[o+6]-ax,vy=P[o+7]-ay,vz=P[o+8]-az;
+    const cx=uy*vz-uz*vy, cy=uz*vx-ux*vz, cz=ux*vy-uy*vx; const ln=Math.sqrt(cx*cx+cy*cy+cz*cz)||1; FN[t*3]=cx; FN[t*3+1]=cy; FN[t*3+2]=cz; FL[t]=1/ln; }
+  /* r91 (load time): corners that share a position (0.1 mm grid) are chained through an open-addressing table of typed arrays, no strings
+     and no Map: the 80k corners of the gun, drum and boards take a few tens of ms on a Chromebook-class CPU instead of about 200 */
+  const size=1<<Math.ceil(Math.log2(n*2+2)), mask=size-1, slot=new Int32Array(size).fill(-1), next=new Int32Array(n), Q=new Int32Array(n*3);
+  for(let i=0;i<n;i++){ const qx=Math.round(P[i*3]*1e4), qy=Math.round(P[i*3+1]*1e4), qz=Math.round(P[i*3+2]*1e4); Q[i*3]=qx; Q[i*3+1]=qy; Q[i*3+2]=qz;
+    let h=((qx*73856093)^(qy*19349663)^(qz*83492791))&mask;
+    for(;;){ const r=slot[h]; if(r<0){ slot[h]=i; next[i]=-1; break; } if(Q[r*3]===qx&&Q[r*3+1]===qy&&Q[r*3+2]===qz){ next[i]=next[r]; next[r]=i; break; } h=(h+1)&mask; } }
+  const l=[]; for(let si=0;si<size;si++){ const h0=slot[si]; if(h0<0) continue; l.length=0; for(let i=h0;i>=0;i=next[i]) l.push(i);
+    for(const i of l){ const f=(i/3|0), fl=FL[f], fx=FN[f*3]*fl,fy=FN[f*3+1]*fl,fz=FN[f*3+2]*fl; let sx=0,sy=0,sz=0;
+      for(const j of l){ const h=(j/3|0), hx=FN[h*3],hy=FN[h*3+1],hz=FN[h*3+2]; if((fx*hx+fy*hy+fz*hz)*FL[h]>=cosC){ sx+=hx; sy+=hy; sz+=hz; } }
+      const sl=Math.sqrt(sx*sx+sy*sy+sz*sz)||1; N[i*3]=sx/sl; N[i*3+1]=sy/sl; N[i*3+2]=sz/sl; } }
   g.setAttribute("normal",new T.BufferAttribute(N,3)); return g; }
 /* smooth outline helper: Catmull-Rom through the control points */
 function smooth(points,n){ const c=new T.CatmullRomCurve3(points.map(p=>new T.Vector3(p[0],p[1],0)),true,"catmullrom",.6); return c.getPoints(n).map(v=>[v.x,v.y]); }
@@ -1369,7 +1375,7 @@ function gunStudio(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new 
   s.add(new T.Mesh(new T.BoxGeometry(10,10,10),new T.MeshBasicMaterial({color:new T.Color(.014,.012,.011), side:T.BackSide})));
   add(10,10,[.018,.04,.022],0,-4.9,0); add(3.4,2.2,[2.2,2.1,1.95],0,4.7,-1.4); add(5,2,[2.6,2.5,2.3],0,3.4,-4.9); add(7,.45,[1.2,1.15,1.1],0,1.2,-4.9); add(1.5,1.5,[1.9,1.4,.85],-4.9,1.3,1.6);
   const t=pm.fromScene(s,.04,.1,20,{size:128}).texture; s.traverse(o=>{ if(o.isMesh){ o.geometry.dispose(); o.material.dispose(); } }); return t; }
-const GUN_STEEL={blued:3, bluedBarrel:3, bluedPlain:2.2, worn:1.4, bright:1, drum:1.35, drumFace:1.5, hammer:1.6};   /* r91: the drum at .8/.9 read as dark grey plastic in its close-ups; nickel throws the softbox back brighter. The case-hardened hammer reflects the studio too */
+const GUN_STEEL={blued:3, bluedBarrel:3, bluedPlain:2.2, worn:1.4, bright:1, drum:1.35, drumFace:1.5};   /* r91: the drum at .8/.9 read as dark grey plastic in its close-ups; nickel throws the softbox back brighter. The case-hardened hammer stays out of the studio: lying on the table its spur mirrored the softbox as a white blade */
 /* r90 Light: the room's reflections from a small dark lounge of its own (warm wall lamps, a dim ceiling, the felt below), built in one
    small pass at the gun studio's size (128, the same shader programs) instead of loading and converting the EXR */
 function loungeEnv(pm){ const s=new T.Scene(), add=(w,h,c,x,y,z)=>{ const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:new T.Color(...c), side:T.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
