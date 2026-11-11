@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-11T15:03:45Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T15:04:25Z", "by": "G", "status": "SENT", "note": "Update: items 3 (Career Leaders faces) and 4 (Transfer War wide bands) are now fixed in code from existing HC art (board room plate, office room). Drop them unless you want dedicated tiles. Still needed: 1 Start room, 2 Squad Management room, 5 crops (list follows)."}],
+ "log": [{"at": "2026-11-11T15:03:45Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T15:04:25Z", "by": "G", "status": "SENT", "note": "Update: items 3 (Career Leaders faces) and 4 (Transfer War wide bands) are now fixed in code from existing HC art (board room plate, office room). Drop them unless you want dedicated tiles. Still needed: 1 Start room, 2 Squad Management room, 5 crops (list follows)."}, {"at": "2026-11-11T15:06:39Z", "by": "V", "status": "RECEIVED", "note": "Team V HC art thread started. Items 3+4 dropped per G update (fixed in code). Working: 1 Start room, 2 Squad Management room; 5 crops wait for G's size list."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
- "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
+ "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q7DGKBkW2AjMf6jJyd"}
 }
 ```
 
