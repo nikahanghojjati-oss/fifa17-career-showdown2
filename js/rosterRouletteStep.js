@@ -25,7 +25,7 @@
   // whole start may take 4 minutes, and a page that broke, hung or loaded without its 3D library is built again once in a
   // fresh frame (SCENE_TRIES) before the result card stands in. Only a page that says WebGL is missing (webgl:false) goes
   // straight to the card, and only that is remembered for the rest of the visit.
-  const MIN_LOADING_MS=1000,MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2;
+  const MIN_LOADING_MS=1000,MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2,RETRY_MIN_MS=30000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
   // holding (Fable F2-17): from START until close() (or the way back to Home), so the screens that open the Transfer Challenge
@@ -186,6 +186,14 @@
     doc?.addEventListener?.("visibilitychange",onVisibility);arm();
     return stop;
   }
+  // r91 B23-02: on-screen time since a start began (a locked or switched-away phone does not use it up), so the start's one
+  // cold budget can be shared by both tries.
+  function rrsVisibleClock(){
+    const doc=rrsDoc(),hidden=()=>Boolean(doc&&doc.visibilityState==="hidden");let spent=0,since=Date.now(),away=hidden();
+    const on=()=>{const h=hidden();if(h&&!away){spent+=Date.now()-since;away=true;}else if(!h&&away){since=Date.now();away=false;}};
+    doc?.addEventListener?.("visibilitychange",on);
+    return {ms(){return spent+(away?0:Date.now()-since);},stop(){doc?.removeEventListener?.("visibilitychange",on);}};
+  }
   function rrsRemoveStage(){const stage=rrsDoc()?.getElementById(STAGE_ID);if(stage)stage.remove();}
   function rrsCreateStage(ctx){
     const doc=rrsDoc();rrsRemoveStage();
@@ -198,7 +206,7 @@
     stage.append(frame);doc.body.append(stage);
     return {stage,frame};
   }
-  function rrsListen(frame){
+  function rrsListen(frame,capMs){
     const origin=root.location&&root.location.origin;let onReady,onDone,onArmed;
     const ready=new Promise(resolve=>{onReady=resolve;}),done=new Promise(resolve=>{onDone=resolve;}),armed=new Promise(resolve=>{onArmed=resolve;});
     const handler=event=>{
@@ -214,7 +222,7 @@
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
     let stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout")),started=false;
-    const stopCap=rrsVisibleWait(COLD_LOADING_MS,()=>onReady("timeout"));
+    const stopCap=rrsVisibleWait(capMs,()=>onReady("timeout"));
     // r90 Light: the "still busy" pings also keep the wait for "armed" open (the page draws the boards and its first frame)
     let armedWait=null;
     function renew(){if(armedWait){armedWait.renew();return;}if(started)return;stopWait();stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));}
@@ -225,10 +233,10 @@
   }
   // "watched" when both spins played to the end, "skipped" when the page could not run (the result still shows).
   // One try: a fresh frame, its page loaded, ready and armed with this season's spins. Resolves to the frame, or to why not.
-  async function rrsSceneTry(ctx,plan){
+  async function rrsSceneTry(ctx,plan,capMs){
     let channel=null,stage=null,frame=null;
     try{
-      ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
+      ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame,capMs);
       const started=await channel.ready;
       if(started!=="ready")throw new Error(started);
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
@@ -249,12 +257,17 @@
     rrsLoadingOn();rrsRemovePanel();
     // r90 Light: a page that broke, hung or loaded without three.js is built once more in a fresh frame (a cold Chromebook's
     // second start is warm: files and shaders are cached); only a device without WebGL 2 is skipped for the rest of this visit.
-    const shownAt=Date.now();let run=null;
+    // r91 B23-02: COLD_LOADING_MS is the budget of the whole start, both tries together. Each try used to get its own 4 minutes,
+    // so a page that was slow but still reporting progress (software GL after a GPU crash) held the loading screen about 8 minutes
+    // before the card. A fresh frame is built only while at least RETRY_MIN_MS of the budget is left, and it gets what is left.
+    const shownAt=Date.now(),clock=rrsVisibleClock();let run=null;
     for(let attempt=1;attempt<=SCENE_TRIES;attempt++){
-      run=await rrsSceneTry(ctx,plan);
+      const budget=COLD_LOADING_MS-clock.ms();if(attempt>1&&budget<RETRY_MIN_MS)break;
+      run=await rrsSceneTry(ctx,plan,budget);
       if(!run.failed)break;
-      if(run.failed==="nowebgl"){sceneFailedHere.add(rrsKey(ctx));return "skipped";}// the result card takes over from the loading screen
+      if(run.failed==="nowebgl"){clock.stop();sceneFailedHere.add(rrsKey(ctx));return "skipped";}// the result card takes over from the loading screen
     }
+    clock.stop();
     if(run.failed)return "skipped";
     const {channel,stage,frame}=run;
     const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
