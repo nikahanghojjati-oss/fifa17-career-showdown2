@@ -8,14 +8,14 @@ shared system". This page is that system. `tests/contracts/r90-quality-levels-co
 One list, in `js/gfxTier.js` (`CareerModeGfxTier.labels`). Settings, the Device check and the `?fps=1` overlay show these
 names and no others.
 
-| # | Name | Who gets it | Pixel ratio (start / most) | Shadow map | Crowd | Downloads |
+| # | Name | Who gets it | Pixel ratio (start / most) | Shadow map | Crowd (Chamber Men seats) | Downloads |
 |---|---|---|---|---|---|---|
-| 0 | Light | Chromebooks, weak phones, software GL | 1 / 1 | 1024 | 45% | Light assets |
-| 1 | Balanced | most laptops, older flagship phones | 1.25 / 1.5 | 1024 | 70% | Balanced assets |
-| 2 | High | gaming laptops, strong phones (iPhone 17 class) | 1.5 / 2 | 2048 | full | High assets |
-| 3 | Extra | strong desktop GPUs | 2 / 3 | 2048 | full | Extra assets |
-| 4 | Ultra (4K) | measured by the Device check, or picked in Settings | the screen's own, up to 2x past it within a 3840x2160 buffer | 4096 | full | Ultra assets |
-| 5 | 8K | measured by the Device check or picked in Settings, on a GPU with a 7680 px buffer, never a phone | up to 4x past native within 7680x4320 | 4096 | full | Ultra assets |
+| 0 | Light | Chromebooks, weak phones, software GL | 1 / 1 | 1024 | 8,400 | Light assets |
+| 1 | Balanced | most laptops, older flagship phones | 1.25 / 1.5 | 1024 | 9,025 | Balanced assets |
+| 2 | High | gaming laptops, strong phones (iPhone 17 class) | 1.5 / 2 | 2048 | 15,316 | High assets |
+| 3 | Extra | strong desktop GPUs | 2 / 3 | 2048 | 16,354 | Extra assets |
+| 4 | Ultra (4K) | measured by the Device check, or picked in Settings | the screen's own, up to 2x past it within a 3840x2160 buffer | 4096 | 16,354 | Ultra assets |
+| 5 | 8K | measured by the Device check or picked in Settings, on a GPU with a 7680 px buffer, never a phone | up to 4x past native within 7680x4320 | 4096 | 16,354 | Ultra assets |
 
 - Auto and every named level stay at or under the screen's own pixel ratio. Only Ultra (4K) and 8K draw past it.
 - A phone never draws past 3x its CSS size, nor past a 4K buffer.
@@ -30,14 +30,28 @@ names and no others.
   - The Device check (`device-check.html`) replaces the guess with the best level this device really held at 60 fps, any
     level from Light to 8K (Nik, 2026-11-11: "Auto should allow all qualities based on device real test ... from light
     to 8k"). See "The Device check" below.
-  - Each scene's first timed frames may move Auto one level up or down for that scene. That is never saved.
+  - Each scene's first timed frames (`calibrate`) may move Auto one level up or down. The scene in front of them is
+    already built, so the move is for the scenes that follow on that page and for this scene's pixel ratio. The scene
+    itself stays the level it was built at (`governor.level()`, `builtLevel(renderer)`), and a slow warm-up also starts its
+    heavy parts one step down. A level found slow is not tried again on that page. That is never saved.
 - **A picked level** (Settings › 3D QUALITY) is held as picked on every screen. Settings says in one line what Auto picked (or measured) for this screen and graphics. The line is never shown on a game screen.
 - **Never crash first.** A lost context, an out-of-memory error, or (8K) a refused buffer drops the device one level below the one that failed. This applies to any level, Auto or picked.
   - The cap is saved and every screen honours it.
   - It lifts after 7 days, or after 3 clean scenes at the capped level, or when the player picks again.
-- **The governor** (`CareerModeGfxTier.governor`) is the only thing that moves quality during a scene, and it only moves the pixel ratio:
-  - On Auto it steps down when frames run long. It steps up only after a timed frame shows room, and never back to a step that ran slow.
-  - A picked level never adapts.
+- **The governor** (`CareerModeGfxTier.governor`) is the only thing that moves quality during a scene. On Auto it walks
+  one ladder per scene:
+  - First the pixel ratio, a quarter at a time, down to the level's floor.
+  - Then the scene's own heavy parts (crowd, shadows, glow), which the scene offers as `detail: {steps, apply}`:
+    step 0 is the scene as built, the last step its lightest. `apply(step, why)` is the only place those parts move.
+  - Steps are taken between beats only. While a scene holds (a kick, a turn, a reveal) nothing changes; a beat that
+    ran slow steps down as it ends.
+  - A step down needs the scene to be the cost: a busy frame callback or a dear timed draw. A screen or power mode
+    that simply runs under 60 Hz is not a reason to drop quality.
+  - It steps up only after a timed frame shows room, never back to a step that ran slow on that visit. A scene that
+    plays in beats and started low steps up only after a beat ran smooth. A heavy part that came back and ran slow
+    again stays off for a week of visits.
+  - Each scene starts its next visit where the last one settled (for the same built level).
+  - A picked level never adapts, and neither does the Device check's frame.
 
 ## The Device check
 
@@ -72,6 +86,7 @@ renderer.setPixelRatio(p.pixelRatio);
 await CareerModeGfxTier.calibrate(renderer, draw);           // behind the loading screen
 const gov = CareerModeGfxTier.governor(renderer, {key: "scene", draw, info});   // info(): what was built, for the Device check
 gov.hold(true); /* a kick, a turn, a reveal */ gov.hold(false);                 // one beat: no quality step inside it
+// heavy parts the governor may step between beats: governor(renderer, {..., beats: true, detail: {steps, apply}})
 // MSAA for a render target: CareerModeGfxTier.samples(renderer, want, halfFloat) and checkTarget(renderer, target)
 // its own out-of-memory sign: CareerModeGfxTier.fallback(reason)
 ```
@@ -81,7 +96,7 @@ Each screen's own knobs (crowd, lights, shadows that cast, texture sizes, MSAA c
 
 - reads `devicePixelRatio`, `hardwareConcurrency`, `deviceMemory`, the GPU name or `(pointer: coarse)` to pick quality;
 - sets a pixel ratio of its own;
-- runs a frame-time loop of its own;
+- runs a frame-time loop of its own, or moves its heavy parts anywhere but in `detail.apply`;
 - offers a level, a name or a URL switch the others don't have (`?gfx=0..5` belongs to `js/gfxTier.js`).
 
 **A 2D screen** (Prime Pack, Home, career screens): the root element carries the level and the download size, set on load,
