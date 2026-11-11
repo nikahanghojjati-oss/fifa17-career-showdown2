@@ -198,9 +198,10 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   // r90 Light (Nik 2026-11-08: "3D light for Chamber Men and RRR is a guarantee"): no 15 s / 20 s give-ups; 45 s of silence, a
   // 4-minute cap, one fresh rebuild before any card, and only a missing WebGL is remembered for the visit
   assert.match(step,/MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2,RETRY_MIN_MS=30000;/,'Light: the start waits are long and a stuck page is built again once');
-  assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*const budget=COLD_LOADING_MS-clock\.ms\(\);if\(attempt>1&&budget<RETRY_MIN_MS\)break;\n\s*run=await rrsSceneTry\(ctx,plan,budget\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{clock\.stop\(\);sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
+  assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*const budget=COLD_LOADING_MS-clock\.ms\(\);if\(attempt>1&&budget<RETRY_MIN_MS\)break;\n\s*run=await rrsSceneTry\(ctx,plan,clock\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{clock\.stop\(\);sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
   // r91 B23-02: the 4-minute cap is one budget for the whole start (both tries), counted in on-screen time
-  assert.match(step,/const stopCap=rrsVisibleWait\(capMs,\(\)=>onReady\("timeout"\)\);/,'B23-02 each try is capped by what is left of the start budget');
+  assert.match(step,/const stopCap=rrsBudgetWait\(clock,COLD_LOADING_MS,\(\)=>onReady\("timeout"\)\);/,'B23-02 each try is capped by the start budget, read from the shared on-screen clock whenever its timer wakes');
+  assert.match(step,/run=await rrsSceneTry\(ctx,plan,clock\);/,'B23-02 both tries share one clock');
   assert.match(step,/const shownAt=Date\.now\(\),clock=rrsVisibleClock\(\);let run=null;/,'B23-02 the start budget counts on-screen time from the first show');
   assert.match(step,/const why=event\.data\.webgl===false\?"nowebgl":"error";/,'Light: the page says when WebGL itself is missing');
   assert.match(html,/message:"WebGL is not available",webgl:false\}/,'Light: the no-WebGL report is the only one marked webgl:false');

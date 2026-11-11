@@ -194,6 +194,20 @@
     doc?.addEventListener?.("visibilitychange",on);
     return {ms(){return spent+(away?0:Date.now()-since);},stop(){doc?.removeEventListener?.("visibilitychange",on);}};
   }
+  // r91 B23-02 (Codex P2 on #1353): the start's cap reads that clock every time it wakes, so a phone hidden part-way through a try
+  // neither restarts the budget nor uses it up. Like rrsVisibleWait, a timer that fires much later than asked (the main thread was
+  // held by the scene's shader build) looks again shortly after instead of failing a page that was busy, not stuck.
+  function rrsBudgetWait(clock,budget,onTimeout){
+    const doc=rrsDoc();let timer=null,stopped=false,due=0,graced=false;
+    const arm=wait=>{due=Date.now()+wait;timer=root.setTimeout(check,wait);};
+    const check=()=>{if(stopped)return;const left=budget-clock.ms();
+      const away=Boolean(doc&&doc.visibilityState==="hidden");if(left>250||away){arm(away?1000:left);return;}
+      if(!graced&&Date.now()-due>1000){graced=true;arm(2000);return;}
+      stop();onTimeout();};
+    const stop=()=>{stopped=true;root.clearTimeout(timer);};
+    arm(Math.max(250,budget-clock.ms()));
+    return stop;
+  }
   function rrsRemoveStage(){const stage=rrsDoc()?.getElementById(STAGE_ID);if(stage)stage.remove();}
   function rrsCreateStage(ctx){
     const doc=rrsDoc();rrsRemoveStage();
@@ -206,7 +220,7 @@
     stage.append(frame);doc.body.append(stage);
     return {stage,frame};
   }
-  function rrsListen(frame,capMs){
+  function rrsListen(frame,clock){
     const origin=root.location&&root.location.origin;let onReady,onDone,onArmed;
     const ready=new Promise(resolve=>{onReady=resolve;}),done=new Promise(resolve=>{onDone=resolve;}),armed=new Promise(resolve=>{onArmed=resolve;});
     const handler=event=>{
@@ -222,7 +236,7 @@
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
     let stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout")),started=false;
-    const stopCap=rrsVisibleWait(capMs,()=>onReady("timeout"));
+    const stopCap=rrsBudgetWait(clock,COLD_LOADING_MS,()=>onReady("timeout"));
     // r90 Light: the "still busy" pings also keep the wait for "armed" open (the page draws the boards and its first frame)
     let armedWait=null;
     function renew(){if(armedWait){armedWait.renew();return;}if(started)return;stopWait();stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));}
@@ -233,10 +247,10 @@
   }
   // "watched" when both spins played to the end, "skipped" when the page could not run (the result still shows).
   // One try: a fresh frame, its page loaded, ready and armed with this season's spins. Resolves to the frame, or to why not.
-  async function rrsSceneTry(ctx,plan,capMs){
+  async function rrsSceneTry(ctx,plan,clock){
     let channel=null,stage=null,frame=null;
     try{
-      ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame,capMs);
+      ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame,clock);
       const started=await channel.ready;
       if(started!=="ready")throw new Error(started);
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
@@ -263,7 +277,7 @@
     const shownAt=Date.now(),clock=rrsVisibleClock();let run=null;
     for(let attempt=1;attempt<=SCENE_TRIES;attempt++){
       const budget=COLD_LOADING_MS-clock.ms();if(attempt>1&&budget<RETRY_MIN_MS)break;
-      run=await rrsSceneTry(ctx,plan,budget);
+      run=await rrsSceneTry(ctx,plan,clock);
       if(!run.failed)break;
       if(run.failed==="nowebgl"){clock.stop();sceneFailedHere.add(rrsKey(ctx));return "skipped";}// the result card takes over from the loading screen
     }
