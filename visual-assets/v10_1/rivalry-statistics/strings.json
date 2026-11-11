@@ -2,7 +2,7 @@
   "heading": "RIVALRY STATISTICS",
   "back": "BACK TO SHOWDOWN HOME",
   "previewLabel": "",
-  "interimLabel": "Current Showdown only. Career history is not yet available.",
+  "interimLabel": "This Showdown only. Career history is not available yet.",
   "heroScoreLabel": "SHOWDOWN POINTS",
   "sections": {
     "rivalryTotals": "RIVALRY TOTALS",
@@ -14,15 +14,15 @@
     "Showdown Points",
     "Season Wins",
     "Total Trophies",
-    "Champions Leagues",
-    "Europa Leagues",
+    "Champions League",
+    "Europa League",
     "League Titles",
     "Domestic Cups"
   ],
   "seasonLabelTemplate": "SEASON {SEASON}",
   "draw": "Draw",
   "unavailable": "Unavailable",
-  "emptySeasonHistory": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
+  "emptySeasonHistory": "No season has been completed yet. Statistics fill in by themselves as seasons are played.",
   "noActiveShowdown": "No Showdown in progress. Start or join one from Home.",
   "continueToLoad": "This Showdown's live numbers load once you continue it from Home. Nothing is lost.",
   "leagueFallback": "League not selected",
@@ -40,7 +40,7 @@
       "source": "mockup"
     },
     "tagline": {
-      "text": "TWO MANAGERS • ONE LEGACY",
+      "text": "TWO MANAGERS · ONE LEGACY",
       "source": "mockup"
     },
     "leftBanner": {
@@ -48,7 +48,7 @@
       "source": "mockup"
     },
     "rightBanner": {
-      "text": "DIFFERENT MANAGERS SAME PASSION",
+      "text": "DIFFERENT MANAGERS · SAME PASSION",
       "source": "mockup"
     }
   },
@@ -104,7 +104,7 @@
       "source": "new"
     },
     "partial": {
-      "text": "Partial rivalry history. Totals reflect available seasons only.",
+      "text": "Partial history: totals cover only the seasons that could be read.",
       "source": "new"
     },
     "coverage": {

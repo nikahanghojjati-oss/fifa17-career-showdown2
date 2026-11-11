@@ -79,7 +79,7 @@ check("V29.3 Standings copies acknowledged rivalry rows and career standings in 
 check("V29.4 failed and partial reads stay honest; interim history never masquerades as career",()=>{
   assert.equal(api.standingsFrames(null,null).CAREER.model.status,"unavailable");
   const fx=JSON.parse(read("tests/fixtures/data-contract-v1/active-mid-season.json"));
-  assert.equal(api.standingsFrames(null,{...fx.career,interimLabel:"Current Showdown only. Career history is not yet available."}).CAREER.model.status,"unavailable");
+  assert.equal(api.standingsFrames(null,{...fx.career,interimLabel:"This Showdown only. Career history is not available yet."}).CAREER.model.status,"unavailable");
   const partial={...fx.viewers.daniel.rivalry,status:"partial",coverage:{readable:1,indexed:2}};
   const {doc}=visualEnv("standings",api.standingsFrames(partial,null));
   assert.equal(doc.getElementById("stage-root").dataset.status,"partial");

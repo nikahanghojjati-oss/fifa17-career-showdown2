@@ -18,17 +18,14 @@ globalThis.CareerModeIconNames=globalThis.CareerModeIconNames||Names;
 const RID=`pair_${"7".repeat(64)}`;
 const ts=ms=>({toMillis:()=>ms});
 
-// S1 who plays it: Showdowns confirmed on r87 or later only (the Roster Roulette boundary), seasons 1 to 10, the kill switch.
+// S1 who plays it: every Showdown with a readable confirm time, seasons 1 to 10.
 {
-  const now=Math.max(Date.now(),Guess.fromMs+3600000),ctx={rivalryId:RID,managerRole:"playerOne",season:1,confirmedAtMs:now};
+  const now=Date.now(),ctx={rivalryId:RID,managerRole:"playerOne",season:1,confirmedAtMs:now};
   assert.equal(Step.applies(ctx),true);
-  assert.equal(Step.applies({...ctx,confirmedAtMs:Guess.fromMs-1}),false,"a Showdown confirmed before r87 never plays it");
   assert.equal(Step.applies({...ctx,confirmedAtMs:null}),false,"no confirm time, no Prime Pack");
   assert.equal(Step.applies({...ctx,season:11}),false);assert.equal(Step.applies({...ctx,managerRole:"host"}),false);
   assert.equal(Step.applies({...ctx,rivalryId:"pair_x"}),false);
-  globalThis.CMS_PRIME_PACK="off";assert.equal(Step.applies(ctx),false,"the kill switch turns it off");delete globalThis.CMS_PRIME_PACK;
-  assert.equal(Guess.fromMs,require("../../js/rosterRouletteStep.js").fromMs,"the same boundary as Roster Roulette");
-  ok("S1","only Showdowns confirmed on r87 or later play Prime Pack, seasons 1 to 10; the kill switch turns it off");
+  ok("S1","every Showdown with a readable confirm time plays Prime Pack, seasons 1 to 10; no start time, no kill switch");
 }
 
 // S2 the stored round reads back as the round logic's record.

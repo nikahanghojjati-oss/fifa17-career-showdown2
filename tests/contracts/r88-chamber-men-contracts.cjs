@@ -10,8 +10,7 @@
 //   CM4 roulette: in a Chamber Men Showdown the spin fires exactly when the cylinder stops on a live chamber (goals out of 7),
 //       aims at the same player as before, never falls back to one bullet, and a one-bullet Showdown plays exactly as 2.0.0.
 //   CM5 order: Chamber Men -> Roster Russian Roulette -> Prime Pack -> Transfer War, the roulette fed by this season's cylinders.
-//   CM6 boundary: only Showdowns confirmed from CHAMBER_FROM_MS on (r88's own release time, set by tools/set-release-time.cjs
-//       --r88), never before 2.0.0's release; old Showdowns keep one bullet.
+//   CM6 no gate: every Showdown plays Chamber Men (no start time, no off switch).
 //   CM7 shell + Rules: the step, rules and styles are precached; the Rules allow own-string appends only.
 //   CM8 screen: no dimming, no rgba scrim, nothing invented (no Math.random), every button reachable on a scrolling stage.
 //   CM9 hand-off: BACK TO SHOWDOWN HOME runs the step's own handler (the app's smart-back delegation leaves it alone), and
@@ -134,7 +133,7 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
   assert.match(pstc,/function pstcCloseRoulette\(\)\{try\{root\.CareerModeChamberMenStep\?\.close\?\.\(\);/,"the step closes with the others");
   const step=read("js/rosterRouletteStep.js");
   assert.match(step,/chamberMen:Boolean\(chamber\),chambers:chamber\?chambers:null/);
-  assert.match(step,/const chambers=chamber&&known\?await rrsEarlierChambers\(ctx,engine,hits,chamber\):null;/,"earlier seasons without a saved spin replay their own shootout (F17-01)");
+  assert.match(step,/const chambers=chamber&&known\?(\(squads\?\{\.\.\.\(chamber\.chambers\|\|\{\}\)\}:)?await rrsEarlierChambers\(ctx,engine,hits,chamber\)\)?:null;/,"earlier seasons without a saved spin replay their own shootout (F17-01)");
   assert.match(step,/loadedChambers:Array\.isArray\(turn\.loadedChambers\)/,"the scene gets the live chambers");
   const page=read("visual-assets/v10_1/roulette/index.html");
   assert.match(page,/cyl\.userData\.placeRounds=/);assert.match(page,/if\(plan\.loadedChambers\) cyl\.userData\.placeRounds\(plan\.loadedChambers\)/);
@@ -142,22 +141,17 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
 }
 // CM6
 {
-  const tool=require("../../tools/set-release-time.cjs");
-  assert.deepEqual(tool.R88_RELEASE_TIME_CONSTANTS.map(c=>`${c.file}:${c.name}`),["js/chamberMen.js:CHAMBER_FROM_MS","js/productionSharedTransferChallenge.js:CHAMBER_FROM_MS"]);
-  const times=tool.read(tool.R88_RELEASE_TIME_CONSTANTS),r88=times[0].value,r87=tool.read()[0].value;
-  assert.ok(times.every(t=>t.value===r88),"both Chamber Men start times are the same minute");
-  // A Showdown confirmed before it never loads the step (a step file that fails to load cannot stop an older Showdown).
-  assert.match(read("js/productionSharedTransferChallenge.js"),/if\(confirmedAtMs<CHAMBER_FROM_MS\)return true;\n\s*let timer;const step=await Promise\.race\(\[pstcLoadScript\("chamber-men-step"/);
-  assert.ok(Date.parse(r88)>Date.parse(r87),"Chamber Men starts after 2.0.0's release");
-  assert.equal(CM.fromMs,Date.parse(r88));
-  const rid=`pair_${"ab".repeat(32)}`;
-  assert.equal(CM.eligible(rid,Date.parse(r87)+3600000),false,"a 2.0.0 Showdown keeps one bullet");
-  assert.equal(CM.eligible(rid,CM.fromMs),true);assert.equal(CM.eligible("pair_x",CM.fromMs),false);assert.equal(CM.eligible(rid,null),false);
+  // Old-era cut: every Showdown plays Chamber Men; there is no start time and no off switch.
+  assert.ok(!("fromMs" in CM),"no start time exported");
+  assert.doesNotMatch(read("js/chamberMen.js"),/CHAMBER_FROM_MS/);assert.doesNotMatch(read("js/productionSharedTransferChallenge.js"),/CHAMBER_FROM_MS|CMS_CHAMBER_MEN==="off"/);
+  assert.match(read("js/productionSharedTransferChallenge.js"),/if\(!Number\.isFinite\(confirmedAtMs\)\)\{rouletteError=PSTC_ROULETTE_TEXT\.setup;return false;\}\n\s*let timer;const step=await Promise\.race\(\[pstcLoadScript\("chamber-men-step"/);
+  const rid=`pair_${"ab".repeat(32)}`,any=Date.parse("2026-11-12T00:00:00Z");
+  assert.equal(CM.eligible(rid,any),true);assert.equal(CM.eligible("pair_x",any),false);assert.equal(CM.eligible(rid,null),false);
   const Step=require("../../js/chamberMenStep.js");
-  assert.equal(Step.applies({rivalryId:rid,managerRole:"playerOne",season:1,confirmedAtMs:CM.fromMs}),true);
-  assert.equal(Step.applies({rivalryId:rid,managerRole:"playerOne",season:11,confirmedAtMs:CM.fromMs}),false);
-  assert.equal(Step.applies({rivalryId:rid,managerRole:"playerOne",season:1,confirmedAtMs:CM.fromMs-1}),false);
-  ok("CM6",`only Showdowns confirmed from ${r88} (r88's own release time) play Chamber Men`);
+  assert.equal(Step.applies({rivalryId:rid,managerRole:"playerOne",season:1,confirmedAtMs:any}),true);
+  assert.equal(Step.applies({rivalryId:rid,managerRole:"playerOne",season:11,confirmedAtMs:any}),false);
+  assert.equal(Step.applies({rivalryId:rid,managerRole:"playerOne",season:1,confirmedAtMs:NaN}),false);
+  ok("CM6","every Showdown with a readable confirm time plays Chamber Men; no start time, no off switch");
 }
 // CM7
 {
@@ -193,7 +187,7 @@ const results=[];const ok=(id,label)=>{results.push(id);console.log(`ok ${result
   assert.match(screens,/event\.target\.closest\("\.backButton"\)/,"smart back still only takes .backButton");
   assert.match(step,/running=cmsRunNow\(ctx,io\)\.then\(go=>\{if\(!go\)cmsClose\(\);return go;\}/,"a true result keeps the screen up");
   assert.match(pstc,/const rouletteGo=await pstcRouletteFirst\(request\);try\{root\.CareerModeChamberMenStep\?\.close\?\.\(\);\}catch\(_error\)\{\}/,"the window closes it once the roulette has run");
-  assert.match(read("tests/browser/support/roster-roulette.cjs"),/async function playChamberMen\(page\)/,"browser journeys play it (CMS_CHAMBER_MEN_NOW=1)");
+  assert.match(read("tests/browser/support/roster-roulette.cjs"),/async function playChamberMen\(page\)/,"browser journeys play it");
   ok("CM9","BACK TO SHOWDOWN HOME leaves the step; after SPIN THE CYLINDER the screen holds until the roulette has run");
 }
 // CM10

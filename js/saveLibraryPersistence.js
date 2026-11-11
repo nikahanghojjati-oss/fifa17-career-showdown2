@@ -117,7 +117,7 @@
             return {
                 ok: false,
                 status: "dual-authority-conflict",
-                errors: ["Save Library and singleton active storage do not form a verified interrupted migration state."],
+                errors: ["The Save Library and the single saved Showdown do not match a verified interrupted conversion."],
                 candidateRaw: {},
                 expectedRaw: cloneSaveLibraryPersistenceValue(raw)
             };
@@ -196,10 +196,10 @@
         saveLibraryPersistenceInFlight = true;
         try{
             if(typeof root.flushPendingApplicationWrites !== "function" || root.flushPendingApplicationWrites() === false){
-                return { ok: false, status: "flush-failed", errors: ["Pending application writes could not be flushed safely."] };
+                return { ok: false, status: "flush-failed", errors: ["Pending saves could not be written out safely."] };
             }
             if(typeof root.captureCareerModeRawSaveLibraryMigrationSnapshot !== "function"){
-                return { ok: false, status: "snapshot-unavailable", errors: ["Exact Save Library migration snapshot authority is unavailable."] };
+                return { ok: false, status: "snapshot-unavailable", errors: ["The tool that takes the exact conversion snapshot is unavailable."] };
             }
             const snapshot = root.captureCareerModeRawSaveLibraryMigrationSnapshot();
             if(!snapshot || snapshot.ok !== true || !snapshot.raw){
@@ -215,7 +215,7 @@
                 return { ...plan, transaction: null };
             }
             if(typeof root.applyCareerModeRawStorageTransaction !== "function"){
-                return { ok: false, status: "transaction-unavailable", plan, errors: ["Canonical storage transaction authority is unavailable."] };
+                return { ok: false, status: "transaction-unavailable", plan, errors: ["The storage transaction tool is unavailable."] };
             }
             const transaction = root.applyCareerModeRawStorageTransaction(
                 plan.candidateRaw,
@@ -238,7 +238,7 @@
                     plan,
                     transaction,
                     changedKeys: Array.isArray(transaction.preconditionMismatches) ? transaction.preconditionMismatches.slice() : [],
-                    errors: ["Canonical storage changed at the Save Library migration boundary. No unverified migration result was accepted."]
+                    errors: ["Stored data changed while the Save Library conversion was running. No unverified result was accepted."]
                 };
             }
             return {

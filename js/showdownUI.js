@@ -189,8 +189,8 @@ function renderDashboardIntegrityStatus(){
 
 function getCompletedShowdownResultText(){
     const winner = typeof getShowdownWinner === "function" ? getShowdownWinner(currentShowdown) : "draw";
-    if(winner === "playerOne"){ return `${currentShowdown.managers.playerOne} wins the showdown`; }
-    if(winner === "playerTwo"){ return `${currentShowdown.managers.playerTwo} wins the showdown`; }
+    if(winner === "playerOne"){ return `${currentShowdown.managers.playerOne} wins the Showdown`; }
+    if(winner === "playerTwo"){ return `${currentShowdown.managers.playerTwo} wins the Showdown`; }
     return "The Showdown is a draw";
 }
 

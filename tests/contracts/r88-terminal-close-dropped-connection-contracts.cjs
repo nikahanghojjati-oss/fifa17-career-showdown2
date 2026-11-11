@@ -1,6 +1,6 @@
 "use strict";
 // r88: a Terminal Close refresh that meets a dropped connection must not put a red notice on the screen. The r79 two-player
-// journey saw, about 1 run in 4 on CI (#1198, #1200), Nik's page log "Unable to refresh Shared Showdown Terminal Close: Error:
+// journey saw, about 1 run in 4 on CI (#1198, #1200), Nik's page log "Could not refresh the close status: Error:
 // Connection failed." Cause: in step P4 Nik's phone is offline for 6 s; a Terminal Close wake in that window read the rivalry,
 // the SDK answered UNAVAILABLE "Connection failed." (a request with no answer), and ptcRefresh reported it at once, as a 10 s red
 // notice. The other shared refreshers (Multi Season, Journey Reconnect) already hold a first transient failure.
@@ -77,7 +77,7 @@ const live=readImpl=>boot({showdown:shell(SAVE_R2),setup:confirmedSetup(R2),befo
   assert.deepEqual(o1.page.reads,[R2],"O1: the read was really tried");
   await o1.api.refresh();
   assert.equal(o1.page.reports.length,1,"O1: the same failure on the next refresh is reported");
-  assert.match(o1.page.reports[0],/^Unable to refresh Shared Showdown Terminal Close: Connection failed\.$/);
+  assert.match(o1.page.reports[0],/^Could not refresh the close status: Connection failed\.$/);
   console.log("ok O1 one dropped connection is held quietly; the same failure on the next refresh is reported");
 
   answer=DROP;

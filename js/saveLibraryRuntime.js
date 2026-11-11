@@ -293,7 +293,7 @@
             return true;
         }catch(error){
             showdown.updatedAt=previousUpdatedAt;
-            runtimeReportSaveFailure("The active Showdown could not be saved under Save Library authority",error);
+            runtimeReportSaveFailure("The active Showdown could not be saved to the Save Library",error);
             return false;
         }
     }
@@ -305,7 +305,7 @@
             const entry=runtimeGetActiveEntry(library);
             return entry?runtimeCloneValue(entry.showdown):null;
         }catch(error){
-            runtimeReportSaveFailure("The authoritative Save Library could not be loaded",error);
+            runtimeReportSaveFailure("The Save Library could not be loaded",error);
             return null;
         }
     }
@@ -560,7 +560,7 @@
         let projectedActiveRaw=raw.activeShowdown;
         if(raw.saveLibrary!==null){
             if(raw.activeShowdown!==null){
-                warnings.push("Save Library and singleton active storage both exist. No active Showdown was selected for backup because authority is ambiguous.");
+                warnings.push("Both a Save Library and a single saved Showdown exist, so none was chosen for backup: it is unclear which one is current.");
                 recovery.saveLibrary={storageKey:SAVE_LIBRARY_KEY,raw:raw.saveLibrary,reason:warnings[warnings.length-1]};
                 recovery.activeShowdown={storageKey:SINGLETON_KEY,raw:raw.activeShowdown,reason:warnings[warnings.length-1]};
                 projectedActiveRaw=null;

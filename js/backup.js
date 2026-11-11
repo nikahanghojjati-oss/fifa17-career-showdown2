@@ -37,7 +37,7 @@ function inspectBackupRecord(raw, validator, label){
         if(!validator(value)){ throw new Error(`${label} has an unsupported shape.`); }
         return { state: "valid", raw, value, warning: null };
     }catch(error){
-        return { state: "corrupt", raw, value: null, warning: `${label} could not be safely interpreted: ${error.message || String(error)}` };
+        return { state: "corrupt", raw, value: null, warning: `${label} could not be read safely: ${error.message || String(error)}` };
     }
 }
 
@@ -96,7 +96,7 @@ function buildCareerModeBackupSnapshot(){
             activeShowdown = cloneBackupValue(currentShowdown);
             activeSource = "runtime";
         }catch(error){
-            warnings.push(`The in-memory active Showdown could not be cloned; persisted storage was used instead: ${error.message || String(error)}`);
+            warnings.push(`The Showdown in memory could not be copied, so the saved copy was used instead: ${error.message || String(error)}`);
         }
     }
 

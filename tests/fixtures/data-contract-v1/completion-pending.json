@@ -181,19 +181,19 @@
       ],
       "records": [
         {
-          "label": "Highest season score",
+          "label": "Best season score",
           "manager": "shared",
           "value": null,
           "ref": null
         },
         {
-          "label": "Highest league points",
+          "label": "Best league points",
           "manager": "shared",
           "value": null,
           "ref": null
         },
         {
-          "label": "Highest league goals",
+          "label": "Best league goals",
           "manager": "shared",
           "value": null,
           "ref": null
@@ -205,7 +205,7 @@
           "ref": null
         },
         {
-          "label": "Most perfect seasons",
+          "label": "Perfect seasons",
           "manager": "shared",
           "value": null,
           "ref": null
@@ -302,7 +302,7 @@
   },
   "careerInterim": {
     "status": "ready",
-    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "interimLabel": "This Showdown only. Career history is not available yet.",
     "coverage": {
       "readable": 1,
       "indexed": 1
@@ -405,7 +405,7 @@
       ],
       "records": [
         {
-          "label": "Highest season score",
+          "label": "Best season score",
           "manager": "nik",
           "value": 8,
           "ref": {
@@ -414,7 +414,7 @@
           }
         },
         {
-          "label": "Highest league points",
+          "label": "Best league points",
           "manager": "daniel",
           "value": 85,
           "ref": {
@@ -423,7 +423,7 @@
           }
         },
         {
-          "label": "Highest league goals",
+          "label": "Best league goals",
           "manager": "daniel",
           "value": 101,
           "ref": {
@@ -438,7 +438,7 @@
           "ref": null
         },
         {
-          "label": "Most perfect seasons",
+          "label": "Perfect seasons",
           "manager": "shared",
           "value": null,
           "ref": null
