@@ -857,3 +857,9 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
    YOUR ENTRY / SUBMITTED / SEALED line under it 7px. Both are 12px; the 44px tab holds the two lines. */
 html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab:is([for="season-phone-tab-daniel"], [for="season-phone-tab-nik"]) { font-size: 12px; line-height: 1; }
 html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab::after { font-size: 12px; line-height: 1; letter-spacing: .06em; }
+
+/* 2.3.0 colour pass (COL-01, COL-02): the club name under each manager on Season Results kept the old slate grey
+   (#5b6973, 3.2:1 on the warm black panel); it takes the house muted text colour (#b9b3a4, about 8:1). The not-earned
+   zero rows of the calculated score stay dimmed, but at .65 instead of .48 (over 4.5:1). */
+html #app #seasonEntry.seasonScreenV10 .seasonManagerHeader p { color: #b9b3a4; }
+html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; }

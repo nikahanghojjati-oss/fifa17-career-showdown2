@@ -1547,9 +1547,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   position:relative;inset:auto;width:56%;height:auto;max-height:none;padding:12px 18px;margin:0 auto;overflow:visible;overscroll-behavior:auto;
  }
  /* 2.3.0 strict pass (B1/B1b/A1): the review board is two cards wide, wider than the room between the heads, so it starts
-    below Nik's chin (32.64% down the plate, beard included) plus one clear gap; on short windows main scrolls the rest. */
+    below Nik's chin (32.64% down the plate, which is always drawn 100vw wide, beard included) plus one clear gap; on short windows main scrolls the rest. */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
-  padding-top:max(30.5svh,calc(var(--sr-ptop) + min(56.25vw,100svh) * .3264 + 14px));
+  padding-top:max(30.5svh,calc(var(--sr-ptop) + 56.25vw * .3264 + 14px));
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions {
   position:static;inset:auto;flex-wrap:wrap;max-width:100%;background:none;
@@ -1565,7 +1565,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid:not(.hidden),.season-action-row,#seasonEntryError,.season-review-panel:not(.hidden)) { zoom:var(--s4k-z); }
   /* 2.3.0 strict pass (E-a): the zoom grew the scoring card past the room between the heads (it reached Nik's beard at
      2560x1440); its width is divided back so the zoomed card keeps to that room. */
-  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { width:calc(min(44.47%,var(--sr-clear,44.47%)) / var(--s4k-z)); }
+  html body #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { width:calc(min(44.47%,var(--sr-clear,44.47%)) / var(--s4k-z)); }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { min-height:calc(20svh / var(--s4k-z));padding-block:clamp(8px,calc(1svh / var(--s4k-z)),12px); }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:calc(16svh / var(--s4k-z)); }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { min-height:max(220px,calc(32svh / var(--s4k-z))); }

@@ -1866,7 +1866,11 @@
     const observer=new root.ResizeObserver(queue);
     observer.observe(host);
     const reg=host.querySelector(".sd-stage__registered");if(reg)observer.observe(reg);
-    const stop=()=>{stopped=true;observer.disconnect();clear();if(csGuardStop===stop)csGuardStop=null;};
+    // 2.3.0 strict pass (B2): a guard run during the stage's entrance animation measured the plate mid-move and could keep
+    // a zero drop once it settled (no resize follows), leaving the top bar on Daniel's hair; measure again when any
+    // entrance animation or transition on the screen ends.
+    host.addEventListener("animationend",queue,true);host.addEventListener("transitionend",queue,true);
+    const stop=()=>{stopped=true;observer.disconnect();host.removeEventListener("animationend",queue,true);host.removeEventListener("transitionend",queue,true);clear();if(csGuardStop===stop)csGuardStop=null;};
     csGuardStop=stop;
     queue();
   }
