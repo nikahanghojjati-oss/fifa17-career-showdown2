@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11 10:00 AM Boston time (EST)",
+ "generated": "2026-11-11 10:05 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 218,
@@ -1985,8 +1985,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0844240",
-  "head_boston": "Mon 9 Nov 4:35 PM",
+  "head": "372ea42",
+  "head_boston": "Wed 11 Nov 10:04 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2816,7 +2816,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5035
+    "waiting_min": 5041
    },
    {
     "id": "HO-059",
@@ -2947,6 +2947,19 @@
     "worker": "",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-069",
+    "from": "G",
+    "to": "V",
+    "title": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-069_hc-art-for-screens-still-on-old-art-star.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3018,7 +3031,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
