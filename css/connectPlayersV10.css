@@ -658,7 +658,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #connectPlayersScreen { overflow-x:hidden; overflow-y:auto; overscroll-behavior-y:contain; }
  #connectPlayersScreen .connectPlayersKicker { top:calc(16.6vh - var(--cp-top)); font-size:clamp(13px,min(.95vw,1.7vh),30px); }
  #connectPlayersScreen h2#connectPlayersTitle { top:calc(22vh - var(--cp-top)); font-size:clamp(2.8rem,min(4.96vw,8.8vh),9rem); }
- #connectPlayersScreen .connectPlayersTagline { top:calc(32.6vh - var(--cp-top)); font-size:clamp(10px,min(.68vw,1.2vh),20px); color:#f1e2b5; text-shadow:0 0 3px #000,0 1px 2px #000,0 0 12px #000,0 0 22px #000c; }
+ #connectPlayersScreen .connectPlayersTagline { top:calc(32.6vh - var(--cp-top)); font-size:clamp(12px,min(.68vw,1.2vh),20px); color:#f1e2b5; text-shadow:0 0 3px #000,0 1px 2px #000,0 0 12px #000,0 0 22px #000c; }
  #connectPlayersScreen .connectPlayersWorkspace {
   position:absolute; left:25.5%; top:calc(38.3vh - var(--cp-top)); width:49.2%; min-width:0; height:auto;
   max-height:calc(100vh - 40.3vh); margin:0; padding:0; border:0; background:none; box-shadow:none; overflow:visible;
@@ -1125,7 +1125,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  }
  #app #connectPlayersScreen .connectPlayersTagline {
   top:calc(32.6svh - var(--cp-top));left:50%;width:80%;margin:0;
-  font-size:clamp(10px,min(.68vw,1.2svh),20px);
+  font-size:clamp(12px,min(.68vw,1.2svh),20px);
   white-space:normal;overflow-wrap:normal;
  }
  #app #connectPlayersScreen .connectPlayersWorkspace {

@@ -477,7 +477,9 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
     --hc-p: max(calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g)), calc(var(--hc-chin) + var(--hc-g)));
     /* what the Manager Comparison's seven rows and the leader cards need, so neither is ever cut */
     --hc-pmin: calc(var(--hc-u) * 3.7 + 7 * max(18px, calc(var(--hc-u) * 1.4)));
-    --hc-lmin: max(104px, calc(var(--hc-u) * 8));
+    /* F01 (2.3.0 final pass): a leader card draws a two-line label, the name and the value (about 76px at 1280x720), so the
+       row gets that room; at 104px the values ran 13px out of the cards at 1280x720 and 2px at 1920x866 */
+    --hc-lmin: max(126px, calc(var(--hc-u) * 9.2));
     --hc-act-h: max(44px, 6.5vh);
     --hc-end: min(calc(100vh - 8px), max(90.5vh, calc(var(--hc-p) + var(--hc-pmin) + var(--hc-lmin) + var(--hc-act-h) + var(--hc-g) * 2)));
     --hc-avail: calc(var(--hc-end) - var(--hc-p) - var(--hc-act-h) - var(--hc-g) * 2);

@@ -1569,8 +1569,8 @@
 #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel { color:#e9dfc6; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:block; font-size:20px; line-height:22px; font-weight:800; color:#f4f1ea; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td[data-won="true"] .legacyHistoryPoints { color:var(--sd-gold-300,#ffd34d); text-shadow:0 0 10px rgba(255,211,77,.35); }
-#app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:block; margin-top:2px; color:#b9b3a4; font-size:11px; line-height:14px; }
-#app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { display:block; margin-top:2px; color:#f3ce6a; font-size:11px; line-height:14px; font-weight:700; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:block; margin-top:2px; color:#b9b3a4; font-size:12px; line-height:14px; }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { display:block; margin-top:2px; color:#f3ce6a; font-size:12px; line-height:14px; font-weight:700; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryResult { white-space:nowrap; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryMark { display:inline-block; min-width:1.1em; margin-right:4px; color:var(--sd-gold-300,#ffd34d); font-size:14px; font-weight:800; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { color:#f4f1ea; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }

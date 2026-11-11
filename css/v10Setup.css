@@ -1650,6 +1650,8 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
     width: calc(620 * var(--lp-kt)); max-width: calc(100% - 16px);
     margin: max(0px, calc(var(--lp-yd) - 24 * var(--lp-k) - 121 * var(--lp-kt) - 52px)) auto calc(10 * var(--lp-k));
   }
+  /* B6 strict look: on 16:10 screens (1280x800, 1440x900) the title's right end came 5-6 px from Nik's hair; 3% smaller there. */
+  @media (max-aspect-ratio: 17/10) { #app #leagueWheelScreen.v26Skin > h2 { width: calc(600 * var(--lp-kt)); } }
   #app #leagueWheelScreen.v26Skin .wheelContainer {
     width: calc(587 * var(--lp-kb)); column-gap: calc(10 * var(--lp-kb));
     grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr);
@@ -1673,7 +1675,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
      The rim art's solid band starts at 0.72 of the radius at its studs; the marks and names stay inside about 0.66 of it. ---- */
   #app #leagueWheelScreen.v26Skin .wheelItem {
     width: calc(var(--R) * .62); margin-left: calc(var(--R) * -.31);
-    font-size: max(9px, calc(var(--v26-wheel) * 16 / 480));
+    font-size: max(12px, calc(var(--v26-wheel) * 16 / 480)); /* F08: 12px type floor (10.9px at 1280x720) */
     transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.465))
       rotate(calc(0deg - var(--v26-a))) translateY(calc(var(--R) * -.18));
   }
