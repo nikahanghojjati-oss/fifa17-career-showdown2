@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 9:52 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 10:01 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🐕 **Barking: Showdown Gate on #1357 has waited 35 min for a machine; Showdown Gate on #1379 has waited 24 min for a machine; Showdown Gate on #1376 has waited 13 min for a machine; Showdown Gate on #1380 has waited 12 min for a machine; Showdown Gate on #1366 has waited 9 min for a machine; Showdown Gate on #1381 has waited 5 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1361 has waited 62 min for a machine; Showdown Gate on #1375 has waited 44 min for a machine; Showdown Gate on #1377 has waited 44 min for a machine; Showdown Gate on #1380 has waited 27 min for a machine; Showdown Gate on #1381 has waited 20 min for a machine; Showdown Gate on #1379 has waited 14 min for a machine; Showdown Gate on #1382 has waited 14 min for a machine; Showdown Gate on #1383 has waited 14 min for a machine; Showdown Gate on #1357 has waited 11 min for a machine; Showdown Gate on #1385 has waited 6 min for a machine; Showdown Gate on #1386 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
