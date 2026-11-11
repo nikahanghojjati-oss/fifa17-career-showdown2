@@ -14,9 +14,9 @@
   "states": {
     "abandoned": "Ended early",
     "completionPending": "Completion pending",
-    "interim": "Current Showdown only. Career history is not yet available.",
+    "interim": "This Showdown only. Career history is not available yet.",
     "loading": "Loading your Showdown history…",
-    "partial": "Some Showdowns could not be loaded. Showing {READABLE} of {INDEXED} Showdowns.",
+    "partial": "Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns.",
     "unavailable": "Your Showdown history could not be loaded.",
     "empty": "No finished Showdowns yet. Each one is added here when it ends."
   },
@@ -30,7 +30,7 @@
   "decorative": {
     "wordmark": "CM 17",
     "moreThanAGame": "More Than A Game",
-    "leftBanner": "TWO MANAGERS ONE LEGACY",
+    "leftBanner": "TWO MANAGERS · ONE LEGACY",
     "rightBanner": "FOOTBALL BRINGS US TOGETHER"
   },
   "ui": {

@@ -90,7 +90,7 @@
   // CE2PG: after a Showdown closes the pair holds no rivalry id but names the closed one, so a career read after Showdown A
   // and one after Showdown B no longer share a key (Standings and Settings showed A's career after B had finished).
   const context=()=>{const pair=state("CareerModePersistentNikDanielPair");return JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,pair?.rivalryId??null,pair?.closedRivalryId??null,markerEpoch()]);};
-  const report=error=>root.reportApplicationError?.("History and stats screens could not load",error);
+  const report=error=>root.reportApplicationError?.("Legacy and stats screens could not load",error);
   // r87 career fixes (A-08): the toast says what happened in plain words; the code stays on error.code for diagnostics.
   const TIMEOUT_CODE="RIVALRY_LEGACY_LOAD_TIMEOUT";
   function rlTimeoutError(){const error=new Error("The connection was too slow. It tries again by itself when you are back online.");error.code=TIMEOUT_CODE;return error;}

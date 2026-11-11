@@ -304,7 +304,7 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.match(pstc,/verdicts:season=>pstcRouletteVerdicts\(request,season\)/);
   assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v1/);
   assert.match(pstc,/provider\.readRouletteSeason\(\{\.\.\.await pstcRouletteServices\(\),rivalryId:request\.rivalryId,seasonNumber:season,/);
-  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
+  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1(&&!squads)?\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
   assert.match(rules,/Special Player is never on your board, so he is never hit/,'Rule Book: the Special Player is never on the board');
   ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');

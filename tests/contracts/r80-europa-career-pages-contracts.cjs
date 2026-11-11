@@ -4,9 +4,9 @@
 // those counts everywhere a Champions League win is shown, with Team V's own Europa trophy picture.
 //   E1 the career model counts both cups per manager, Total Trophies includes the Europa League, and a season row names its
 //      Europa League winners only when one was won (old seasons keep the r79 row shape).
-//   E2 the seam's Trophy Room and Rivalry views carry a Europa Leagues row next to Champions Leagues.
+//   E2 the seam's Trophy Room and Rivalry views carry a Europa League row next to Champions League.
 //   E3 Trophy Room: a fifth case and a sixth tab EUROPA LEAGUE using TRO_EUROPA_V1, and every layout fits 5 cases + 6 tabs.
-//   E4 Rivalry Statistics: a Europa Leagues row (seven rows) and a fifth trophy in the Trophies grid.
+//   E4 Rivalry Statistics: a Europa League row (seven rows) and a fifth trophy in the Trophies grid.
 //   E5 Career Statistics: EUROPA LEAGUE WINS in the comparison panel, mapped to europaLeagues.
 //   E6 History / Legacy: a season line says "Europa League winner" for the manager who won it; the old local screens count it.
 //   E7 CONNECT PLAYERS title is Team V's wordmark picture; the words stay as visually hidden text (never display:none).
@@ -47,12 +47,12 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
 {
   const labels=view=>view.sections[0].rows.map(r=>r.label);
   const trophy=Seam.careerScreenView("trophyRoom",model);
-  assert.deepEqual(labels(trophy),["Champions Leagues","Europa Leagues","League titles","Domestic cups","Total trophies"]);
-  assert.deepEqual(trophy.sections[0].rows[1],{label:"Europa Leagues",daniel:"1",nik:"2"});
+  assert.deepEqual(labels(trophy),["Champions League","Europa League","League titles","Domestic cups","Total trophies"]);
+  assert.deepEqual(trophy.sections[0].rows[1],{label:"Europa League",daniel:"1",nik:"2"});
   const rivalry=Seam.careerScreenView("rivalryStatistics",model);
-  const el=rivalry.sections[0].rows.find(r=>r.label==="Europa Leagues");
-  assert.deepEqual(el,{label:"Europa Leagues",daniel:"1",nik:"2"});
-  ok("E2 the seam's Trophy Room and Rivalry views carry Europa Leagues next to Champions Leagues");
+  const el=rivalry.sections[0].rows.find(r=>r.label==="Europa League");
+  assert.deepEqual(el,{label:"Europa League",daniel:"1",nik:"2"});
+  ok("E2 the seam's Trophy Room and Rivalry views carry Europa League next to Champions League");
 }
 {
   const assets=["visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_512.webp","visual-assets/v10_1/shared/trophies/TRO_EUROPA_V1_1536.webp"];
@@ -75,15 +75,15 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
 }
 {
   const renderer=read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js");
-  assert.match(renderer,/"Europa Leagues":"europaLeagues"/);
+  assert.match(renderer,/"Europa League":"europaLeagues"/);
   assert.match(renderer,/TRO_HC_5_V2_512\.webp/);
   assert.match(renderer,/a\.europaLeagues\?\?"—",b\.europaLeagues\?\?"—"/);
   const strings=JSON.parse(read("visual-assets/v10_1/rivalry-statistics/strings.json"));
-  assert.ok(JSON.stringify(strings).includes("Europa Leagues"),"strings list the Europa Leagues row");
+  assert.ok(JSON.stringify(strings).includes("Europa League"),"strings list the Europa League row");
   const css=read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css");
   assert.match(css,/\.rv-rows\{[^}]*grid-template-rows:repeat\(7,1fr\)/,"seven comparison rows");
   assert.match(css,/\.rv-trophyGrid\{[^}]*grid-template-columns:repeat\(5,1fr\)/,"five trophies");
-  ok("E4 Rivalry Statistics shows a Europa Leagues row and a fifth trophy");
+  ok("E4 Rivalry Statistics shows a Europa League row and a fifth trophy");
 }
 {
   const renderer=read("visual-assets/v10_1/career-statistics/career-statistics.js");
