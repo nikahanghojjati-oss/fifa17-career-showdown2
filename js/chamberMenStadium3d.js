@@ -396,9 +396,10 @@
     const concrete=tex.concrete;concrete.wrapS=concrete.wrapT=T.RepeatWrapping;
     // r90 LOOK (L01): a night stand. The floodlights catch the front rows and the rows fall away into the dark under the
     // roof (the stands are lit by the same directional lights as the pitch, so without this they read flat and evenly lit).
+    // r91 (Nik 2026-11-11: "vibrant ... not overly shiny or golden"): a gentle fall, the upper rows keep half their light.
     const nightStand=m=>{m.onBeforeCompile=sh=>{
       sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvCmY=(modelMatrix*vec4(transformed,1.0)).y;");
-      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <map_fragment>","#include <map_fragment>\ndiffuseColor.rgb*=mix(vec3(1.0),vec3(.14,.16,.25),smoothstep(.5,12.0,vCmY));");};
+      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying float vCmY;").replace("#include <map_fragment>","#include <map_fragment>\ndiffuseColor.rgb*=mix(vec3(1.0),vec3(.5,.52,.6),smoothstep(.5,12.0,vCmY));");};
       m.customProgramCacheKey=()=>"cmNightStand";return m;};
     const concMat=keep(nightStand(new T.MeshStandardMaterial({map:concrete,roughness:.9,color:new T.Color(.34,.34,.37)})));
     const seatsTex=tex.seats;seatsTex.wrapS=T.RepeatWrapping;seatsTex.wrapT=T.ClampToEdgeWrapping;
@@ -581,9 +582,10 @@
         // second, a few at a time): a real light in the crowd, no glow added round it. Off while the crowd waits or stands still.
         " float slot=floor(uTime*5.0+phase*3.7),r=fract(sin(slot*12.9898+phase*78.233)*43758.545);",
         " vFlash=step(1.0-.012*smoothstep(.3,1.0,ex),r)*(1.0-fract(uTime*5.0+phase*3.7))*step(.3,ex);",
-        // Floodlit at the front, darker toward the back under the roof; a little light-to-light variation per fan.
+        // Floodlit at the front, a little darker toward the back under the roof (r91 vibrant: a gentle fall, not a night
+        // fade); a little light-to-light variation per fan.
         " vec3 wp=(m*vec4(0.0,0.0,0.0,1.0)).xyz;float back=length(wp.xz-vec2(0.0,52.5))-50.0;",
-        " vShade=mix(.92,.4,smoothstep(0.0,30.0,back+wp.y*.6))*mix(1.0,.34,smoothstep(3.0,16.0,wp.y))*(.85+.3*h);",
+        " vShade=mix(1.0,.7,smoothstep(0.0,30.0,back+wp.y*.6))*mix(1.0,.72,smoothstep(3.0,16.0,wp.y))*(.85+.3*h);",
         " vec4 mvPosition=modelViewMatrix*m*vec4(p,1.0);gl_Position=projectionMatrix*mvPosition;vDist=-mvPosition.z;",
         " #include <fog_vertex>",
         "}"].join("\n"),
@@ -592,12 +594,12 @@
         "#include <fog_pars_fragment>",
         // A slightly softer mip (bias .7): a TV stand reads as soft texture, not sharp speckle.
         "void main(){vec4 c=texture2D(uAtlas,vUv,.7);if(c.a<.5)discard;float k=texture2D(uTint,vUv,.7).r;",
-        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade*mix(.5,1.0,vLow)*vKey;",
+        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade*mix(.72,1.0,vLow)*vKey;",
         // FIFA 17 stands are soft: less saturation and contrast, highlights held down, and a floodlight haze that grows with
         // distance so the back rows melt into the stand.
-        " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.55+.3*k);rgb=rgb*.8/(1.0+rgb*.6);",
-        " rgb*=mix(vec3(1.0),vec3(.74,.82,1.06),clamp(1.0-vShade,0.0,.8));",
-        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.6);",
+        " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.8+.25*k);rgb=rgb*.95/(1.0+rgb*.4);",
+        " rgb*=mix(vec3(1.0),vec3(.92,.95,1.02),clamp(1.0-vShade,0.0,.8));",
+        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.3);",
         // the flash: the phone held up at head height, a few centimetres across
         " vec2 q=fract(vUv*vec2(16.0,12.0));rgb+=vec3(6.0,6.0,5.6)*vFlash*step(length((q-vec2(.5,.78))*vec2(1.0,1.3)),.16);",
         " gl_FragColor=vec4(rgb,1.0);",

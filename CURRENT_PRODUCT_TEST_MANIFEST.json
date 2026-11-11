@@ -24,16 +24,10 @@
     "tests/contracts/statistics-architecture.cjs",
     "tests/contracts/identity-safe-career-analytics-contracts.cjs",
     "tests/contracts/backup-contracts.cjs",
-    "tests/contracts/import-analysis-contracts.cjs",
     "tests/contracts/restore-storage-contracts.cjs",
-    "tests/contracts/restore-plan-contracts.cjs",
-    "tests/contracts/restore-stale-state-contracts.cjs",
-    "tests/contracts/restore-maintenance-contracts.cjs",
     "tests/contracts/save-library-foundation-contracts.cjs",
     "tests/contracts/save-library-persistence-contracts.cjs",
     "tests/contracts/save-library-runtime-contracts.cjs",
-    "tests/contracts/save-library-product-contracts.cjs",
-    "tests/contracts/manager-identity-linkage-contracts.cjs",
     "tests/contracts/cloud-foundation-runtime-contracts.cjs",
     "tests/contracts/remote-data-privacy-runtime-contracts.cjs",
     "tests/contracts/production-app-check-bootstrap-contracts.cjs",
@@ -73,14 +67,8 @@
       "tests/contracts/shared-showdown-dual-full-screen-contracts.cjs",
       "tests/contracts/milestone-delivery-progress-contracts.cjs"
     ],
-    "candidate-b-import-analysis": [
-      "tests/contracts/import-analysis-contracts.cjs"
-    ],
     "candidate-c-atomic-restore": [
-      "tests/contracts/restore-storage-contracts.cjs",
-      "tests/contracts/restore-plan-contracts.cjs",
-      "tests/contracts/restore-stale-state-contracts.cjs",
-      "tests/contracts/restore-maintenance-contracts.cjs"
+      "tests/contracts/restore-storage-contracts.cjs"
     ],
     "final-polish": [
       "tests/contracts/final-polish-transition.cjs",

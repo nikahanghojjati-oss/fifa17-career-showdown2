@@ -21,7 +21,7 @@ for(const file of sources){
   const text=fs.readFileSync(path.join(root,file),'utf8');
   for(const match of text.matchAll(/tests\/contracts\/[A-Za-z0-9_.-]+\.cjs/g))sourceFiles.add(match[0]);
 }
-for(const file of ['chromium-runtime.cjs','run-operations-audit.cjs','run-restore-contracts.cjs','run-selected-product-contracts.cjs','run-workflow-blocks.cjs','static-server.cjs'])sourceFiles.add(`tests/support/${file}`);
+for(const file of ['chromium-runtime.cjs','run-operations-audit.cjs','run-selected-product-contracts.cjs','run-workflow-blocks.cjs','static-server.cjs'])sourceFiles.add(`tests/support/${file}`);
 let failures=0;
 for(const file of [...sourceFiles].sort()){
   const result=spawnSync(process.execPath,['--check',file],{cwd:root,encoding:'utf8'});

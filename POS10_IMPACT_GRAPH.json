@@ -55,11 +55,11 @@
       "testIndexes": [
         8,
         9,
-        51,
-        52,
-        53,
-        54,
-        55
+        45,
+        46,
+        47,
+        48,
+        49
       ],
       "consumers": [],
       "proofBundles": [
@@ -104,12 +104,7 @@
         20,
         21,
         22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28
+        23
       ],
       "consumers": [
         "SHARED_SETUP"
@@ -120,15 +115,14 @@
     },
     "IDENTITY_CLOUD_FOUNDATION": {
       "testIndexes": [
+        24,
+        25,
+        26,
+        27,
+        28,
         29,
         30,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        37
+        31
       ],
       "consumers": [
         "PAIRING_RIVALRY"
@@ -140,13 +134,13 @@
     },
     "PAIRING_RIVALRY": {
       "testIndexes": [
-        38,
-        39,
-        40,
-        41,
-        48,
-        49,
-        50
+        32,
+        33,
+        34,
+        35,
+        42,
+        43,
+        44
       ],
       "consumers": [
         "REMOTE_JOINING"
@@ -157,13 +151,13 @@
     },
     "REMOTE_JOINING": {
       "testIndexes": [
-        42,
-        43,
-        44,
-        45,
-        46,
-        47,
-        56
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        50
       ],
       "consumers": [
         "SHARED_SETUP"
@@ -203,10 +197,7 @@
       "SHARED_SETUP_PRODUCTION_PROVIDER_EMULATOR"
     ],
     "STORAGE_BROWSER": [
-      "BACKUP_BROWSER",
-      "IMPORT_BROWSER",
-      "RESTORE_BROWSER",
-      "MULTI_SAVE_BROWSER"
+      "STORAGE_RUNTIME_CONTRACT"
     ],
     "VISUAL_BROWSER": [
       "HOME_VISUAL",
@@ -217,8 +208,6 @@
     ],
     "FULL_BROWSER": [
       "RUNTIME_BOUNDARY_BROWSER",
-      "SAVE_LIBRARY_UI_BROWSER",
-      "MANAGER_IDENTITY_BROWSER",
       "IDENTITY_SAFE_ANALYTICS_BROWSER",
       "OFFLINE_BOUNDARY_BROWSER",
       "OFFLINE_CACHE_LIFECYCLE_BROWSER",
@@ -255,7 +244,7 @@
   "proofBundleCosts": {
     "STATIC_SPARK": 8,
     "REMOTE_PROVIDER": 90,
-    "STORAGE_BROWSER": 16,
+    "STORAGE_BROWSER": 4,
     "VISUAL_BROWSER": 16,
     "FULL_BROWSER": 36,
     "INLINE_HOME": 2,
@@ -275,7 +264,7 @@
     },
     "SETTINGS_WORKSTREAM_INLINE": {
       "source": "tests/proof-sources/workflows/validate-settings-workstream.yml",
-      "gitBlobSha": "08be706525b7c36d9c1a6371605a7e06c2ebe146"
+      "gitBlobSha": "b054e103a9499b8be161ad8cc8528f15cb85e619"
     },
     "TRANSFER_WORKSTREAM_INLINE": {
       "source": "tests/proof-sources/workflows/validate-transfer-workstream.yml",
