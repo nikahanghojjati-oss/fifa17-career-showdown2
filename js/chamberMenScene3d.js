@@ -508,7 +508,12 @@
       });
       // r90 (Nik's Mixamo uploads 2026-11-08): a few reactions each way, picked per kick (REACTIONS); a clip file without
       // the newer ones still plays the first of each.
-      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:hipsOf(taker,TK[n],0),to:kickEnd});
+      // r91: a reaction joins the follow-through on the foot he stands on. The kick ends with the kicking (right) foot down
+      // and the left one lifting (toe 10 cm up), so the right toe stays where the kick left it (turned with the hips) and
+      // the lifting foot steps into the reaction's stance; carrying the hips over slid a standing foot 20-40 cm.
+      const plant=(clip,time)=>{const h=hipsOf(taker,clip,time),f=taker.bones.mixamorigRightToeBase;if(!f)return h;f.getWorldPosition(sample);return {x:sample.x,z:sample.z,face:h.face};};
+      const kickPlant=plant(TK.penaltyKick,TK.penaltyKick.duration-.034);
+      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:plant(TK[n],0),to:kickPlant});
       const react={};for(const [k,list] of Object.entries(REACTIONS))react[k]=list.filter(n=>TK[n]).map(reaction);
       const struck=strikeOf(taker,TK);
       const hit=struck?struck.hit:KICK_HIT_GUESS,at=struck?struck.ball:KICK_BALL_GUESS;
