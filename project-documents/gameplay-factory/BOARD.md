@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 4:20 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 4:24 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 2.2.0-r89** (main `2fe8d2f`, Fri 6 Nov 8:49 AM)
+🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
 🩺 **All clear: every check has a machine.** · Gate #1348: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #1348 0/16
 
@@ -34,7 +34,7 @@ Updated Wed 11 Nov, 4:20 AM Boston time. Bug hunting only, no new features until
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 716 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 717 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -62,7 +62,7 @@ Updated Wed 11 Nov, 4:20 AM Boston time. Bug hunting only, no new features until
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 652 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 653 h ago
 
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
@@ -78,7 +78,7 @@ Updated Wed 11 Nov, 4:20 AM Boston time. Bug hunting only, no new features until
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 610 h ago
+⚪ Team white · model not set · worker working, draft PR #876 · CI 7 of 8 passed · last move 611 h ago
 
 **#17 · 1839** `G` r76 gallery refresh: every screen from the final workbench, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -2118,12 +2118,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1348](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1348) | Release 2.3.0 (r90): cut the waste, quality first | ⏳ 6 passed, 1 running |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2144,4 +2138,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 4:23 AM · #1348 Release 2.3.0 (r90): cut the waste, quality first
 
