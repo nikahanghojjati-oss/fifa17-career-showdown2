@@ -1,7 +1,6 @@
 "use strict";
 // r87 Fable job 7 (career truth): each fixed finding, driven through the real modules.
-// F7-01 equal-points seasons and finals rebuild as a draw (tamper and unequal mismatches still fail); F7-02 History & Backup
-// never shows the current-only model as career points; F7-03 a stalled IndexedDB put never hangs a career load or save;
+// F7-01 equal-points seasons and finals rebuild as a draw (tamper and unequal mismatches still fail); F7-03 a stalled IndexedDB put never hangs a career load or save;
 // F7-07 the old career table ranks by career points only (equal = level).
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -77,27 +76,6 @@ const wonP1=result({leaguePosition:1}),wonP2=result();
     assert.equal(model.history.showdowns[0].status,"unavailable",`an unequal final named ${winner} still fails`);
   }
   ok("F7-01d","a level Showdown whose final names a winner counts as a DRAW; an unequal mismatch is still unavailable");
-}
-
-// ---- F7-02 ----
-{
-  function legacyPage(model){
-    const c={console,Intl,document:{}};c.window=c;
-    c.CareerModeRivalryLegacyV10={cachedCareerModel:()=>model,careerModelLoading:()=>false};
-    vm.createContext(c);vm.runInContext(read("js/legacy.js")+"\n;globalThis.__career=getLegacyOnlineCareer;",c,{filename:"js/legacy.js"});
-    return c.__career();
-  }
-  const p=build([[wonP1,wonP2,"playerOne"]]);
-  const career=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:RID,classification:"completed",projection:p,final:{totals:{playerOne:p.managerRecords.playerOne.totalPoints,playerTwo:p.managerRecords.playerTwo.totalPoints},winner:"playerOne"}}]});
-  const interim=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:RID,classification:"active",projection:p,final:null}],currentShowdownOnly:true});
-  assert.ok(interim.interimLabel&&["ready","partial","empty"].includes(interim.status),"fixture: a labelled current-only model");
-  assert.ok(interim.managers.daniel.careerPoints>0,"fixture: the interim model carries the live Showdown's points");
-  const shown=legacyPage(interim);
-  assert.equal(shown.points,null,"no career points from the current-only model");assert.equal(shown.completed,null);
-  assert.equal(shown.status,"unavailable");
-  const real=legacyPage(career);
-  assert.equal(real.status,"ready");assert.deepEqual({...real.points},{daniel:p.managerRecords.playerOne.totalPoints,nik:p.managerRecords.playerTwo.totalPoints});
-  ok("F7-02","History & Backup shows dashes, not the live Showdown's points, while only the current-only model is held");
 }
 
 // ---- F7-03 ----

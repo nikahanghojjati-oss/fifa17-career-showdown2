@@ -344,20 +344,12 @@ await Promise.all([stylePromise, visualPromise]);
 
 async function ensureLegacyModule(){
 const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
-const restoreStylePromise = loadRuntimeStyle("restore-ui", "css/restore.css");
-await ensureCandidateC();
-await loadRuntimeScript(
-"restore-ui",
-"js/restoreUI.js",
-() => typeof window.initializeCareerModeRestoreUI === "function" && typeof window.mountCareerModeRestorePanel === "function"
-);
 await loadRuntimeScript(
 "legacy-ui",
 "js/legacy.js",
 () => typeof window.renderLegacy === "function"
 );
-await Promise.all([stylePromise, restoreStylePromise]);
-window.initializeCareerModeRestoreUI();
+await stylePromise;
 }
 
 async function ensureCandidateC(){
@@ -484,11 +476,7 @@ window.openRivalryStatistics();
 }else if(name === "trophyRoom"){
 window.openTrophyRoom();
 }else if(name === "legacy"){
-const opened = showScreen("legacy");
-if(opened && typeof window.mountCareerModeRestorePanel === "function"){
-window.mountCareerModeRestorePanel();
-}
-return opened;
+return showScreen("legacy");
 }else if(name === "ruleBook"){
 window.openRuleBook();
 }else if(name === "settings"){

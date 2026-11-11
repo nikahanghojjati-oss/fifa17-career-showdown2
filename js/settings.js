@@ -729,36 +729,6 @@ function refreshSettingsOfflinePanel(){
     return true;
 }
 
-async function openSettingsDataManagement(){
-    closeSettings(false);
-
-    if(typeof window.openOptionalModule !== "function"){
-        if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Data Management could not be opened.", "error");
-        }
-        openSettings();
-        return;
-    }
-
-    // Legacy is Team V's History screen; this button asks for its data tools page (backup, restore, reset) instead.
-    window.careerModeLegacyDataTools = true;
-    // r87 Fable F4-13: a module that fails to load (offline, a script error) reopens Settings with a message instead of leaving
-    // nothing on screen.
-    let opened = false;
-    try{
-        opened = await window.openOptionalModule("legacy");
-    }catch(_error){
-        opened = false;
-        if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Data Management could not be opened. Check your connection, then try again.", "error");
-        }
-    }
-    if(!opened){
-        window.careerModeLegacyDataTools = false;
-        openSettings();
-    }
-}
-
 async function ensureSettingsShowdownStorageAuthority(){
     if(window.CareerModeSaveLibraryRuntime?.isReady?.()){
         return true;
@@ -1041,7 +1011,7 @@ function createDataPanel(){
     const panel = createSettingsPanel(
         "CAREER DATA",
         "SHOWDOWN DATA",
-        "End the current Showdown or open History & Backup. Your player and device stay set up."
+        "End the current Showdown. Your player and device stay set up."
     );
     panel.classList.add("settingsDataPanel");
 
@@ -1067,24 +1037,15 @@ function createDataPanel(){
         actions.appendChild(endCurrent);
     }
 
-    const historyAction = createSettingsElement(
-        "button",
-        "menuButton settingsDataButton",
-        "OPEN HISTORY & BACKUP"
-    );
-    historyAction.type = "button";
-    historyAction.addEventListener("click", openSettingsDataManagement);
-    actions.appendChild(historyAction);
-
     const note = createSettingsElement(
         "p",
         "settingsDataNote",
         active
             ? "END SHOWDOWN ends it for both players. History keeps it as Ended early. Your player, device, history and settings stay."
-            : "No Showdown in progress. History, backup and reset are under History & Backup."
+            : "No Showdown in progress. Your finished Showdowns are on the History screen."
     );
 
-    panel.append(info, actions, note);
+    if(active){ panel.append(info, actions, note); }else{ panel.append(info, note); }
     return panel;
 }
 
@@ -1146,8 +1107,7 @@ function getSettingsFocusRestoreSelector(){
         ".settingsAudioToggle",
         ".settingsOfflineInstallButton",
         ".settingsOfflineUpdateButton",
-        ".settingsApplicationUpdateButton",
-        ".settingsDataButton"
+        ".settingsApplicationUpdateButton"
     ]){
         if(active.matches(selector)){ return selector; }
     }

@@ -233,7 +233,6 @@ async function tour(page, sheets, viewport) {
     await page.evaluate(() => navigateTo('mainMenu'));
     await page.evaluate(() => document.getElementById('settingsButton').click());
     await settle(page, 'settingsOverlay', true);
-    await page.waitForFunction(() => document.getElementById('saveLibraryProductPanel'));
     await sample(page, sheets, 'settingsOverlay', ['mainMenu', 'settingsOverlay'], viewport);
     await page.evaluate(() => closeSettings());
     // Live Legacy's explicit data-management mode retains the restore and maintenance UI.
