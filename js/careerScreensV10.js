@@ -1412,8 +1412,11 @@
    (1280x650, 1366x768) keep the live rows, which already fit one screen with BACK, and lift the pedestal text a little. */
 @media (min-width:1200px) and (min-height:821px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {padding-top:calc(540 * var(--tr-k))}
-  #app #trophyRoom .careerRanks {top:calc(465 * var(--tr-k))}
-  #app #trophyRoom .careerRank {top:0;bottom:auto}
+  /* r91 (art thread, 1920x866): the cards hung down from y 465 and their second line ran under the tab row once the window was
+     shorter than about 1050 px (the cards are as tall as their text, not as tall as the picture's 75 units). They now stand
+     on a line 10 units above the tab row and grow upward, so the gap to the tabs is the same at every height. */
+  #app #trophyRoom .careerRanks {top:calc(530 * var(--tr-k));height:0}
+  #app #trophyRoom .careerRank {top:auto;bottom:0}
 }
 @media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   #app #trophyRoom .heroPlinth {top:calc(229 * var(--tr-k))}
@@ -1840,7 +1843,7 @@
     csGuardStop?.();
     const desk=root.matchMedia?.("(min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape)");
     if(!desk||typeof root.ResizeObserver!=="function")return;
-    const doc=root.document,names=["--hc-chin-px","--hc-face-half-px","--hc-plate-drop"],clear=()=>names.forEach(name=>host.style.removeProperty(name));
+    const doc=root.document,names=["--hc-chin-px","--hc-fist-px","--hc-face-half-px","--hc-plate-drop"],clear=()=>names.forEach(name=>host.style.removeProperty(name));
     let stopped=false,queued=false;
     const run=()=>{
       if(stopped)return;
@@ -1860,6 +1863,8 @@
       const p={left:r.left,top:top+drop,width:r.width,height:r.height};
       const mid=c.left+c.width/2;
       host.style.setProperty("--hc-chin-px",Math.round(p.top+p.height*.3264-c.top)+"px");
+      // r91 (art thread, 1920x866): Daniel's knuckles (right end of his fist) reach 34.9% of the plate height
+      host.style.setProperty("--hc-fist-px",Math.round(p.top+p.height*.355-c.top)+"px");
       host.style.setProperty("--hc-face-half-px",Math.floor(Math.min(mid-(p.left+p.width*.293),p.left+p.width*.6706-mid))+"px");
     };
     const queue=()=>{if(queued)return;queued=true;(root.requestAnimationFrame||setTimeout)(()=>{queued=false;run();});};
