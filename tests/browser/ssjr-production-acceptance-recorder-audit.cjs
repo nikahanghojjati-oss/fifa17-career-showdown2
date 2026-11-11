@@ -39,7 +39,7 @@ async function openCase(browser,acceptance,mode="ready"){
       try{sessionStorage.setItem("careerModeShowdown.ssjrAcceptance.safe.v1",JSON.stringify({schemaVersion:1,runtimeRevision:"1.9.1-r0",managerRole:"stale-role",pairedActiveBeforeSetup:{at:"stale"}}));}catch(_error){}
     }
     let state=mode==="active-locked"
-      ? {status:"locked",open:false,busy:false,ready:false,revision:0,phase:null,rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,setup:null,message:"This browser's registration is unavailable."}
+      ? {status:"locked",open:false,busy:false,ready:false,revision:0,phase:null,rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,setup:null,message:"Registration is unavailable here."}
       : restoredFinal
         ? {status:"ready",open:false,busy:false,ready:true,revision:6,phase:"SHOWDOWN_CONFIRMED",rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:structuredClone(finalSetup),message:"test-reload"}
         : {status:"ready",open:false,busy:false,ready:true,revision:0,phase:null,rivalryId:raw.rivalry,sessionId:raw.initialSession,accountId:raw.account,deviceId:raw.device,managerRole:"playerOne",remoteRole:"host",setup:null,message:"test"};
