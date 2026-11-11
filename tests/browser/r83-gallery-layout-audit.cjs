@@ -27,7 +27,7 @@ async function visibleInk(page,selector){
 (async()=>{
   const browser=await chromium.launch({headless:true,...await resolveChromiumRuntime()}),failures=[];
   const dir=process.env.CMS_GALLERY_SHOTS;if(dir)fs.mkdirSync(dir,{recursive:true});
-  try{for(const [width,height] of [[1920,1080],[1366,768],[393,852]]){
+  try{for(const [width,height] of [[1920,1080],[1920,1035],[1920,866],[1366,768],[393,852]]){
     const context=await browser.newContext({viewport:{width,height},isMobile:width<900});
     await context.route("**/*",r=>new URL(r.request().url()).origin===new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/").origin?r.continue():r.abort());
     const page=await context.newPage(),errors=[];page.on("pageerror",e=>errors.push(e.message));
@@ -71,9 +71,21 @@ async function visibleInk(page,selector){
       const scrollers=await page.evaluate(()=>[...document.querySelectorAll("#app main *")].filter(n=>n.checkVisibility()&&n.scrollHeight>n.clientHeight+2&&/auto|scroll/.test(getComputedStyle(n).overflowY)).map(n=>n.id||n.className));
       assert.deepEqual(scrollers,[],"main is the only vertical scroller");
       await page.evaluate(()=>document.querySelector("#app main").scrollTop=0);
+      // 2.3.0 strict pass (lead's call, 2026-11-11): the Season Review board now starts under Nik's chin so it never touches a
+      // face, so on short desktop windows CONTINUE can sit below the first view. It must then be reached by scrolling main
+      // (the only scroller): once main brings it into view the whole button is inside the window, under the top bar, with no
+      // sideways scroll, and nothing (top bar, music dock, sticky row) covers its centre or its corners.
       if(screen==="season-results"&&width>=1366){
-        const bottom=await page.locator("#sharedMultiSeasonProgressionAction").evaluate(n=>n.getBoundingClientRect().bottom);
-        assert.ok(bottom<=height,"desktop CONTINUE remains fully on the first view");
+        const reach=await page.evaluate(()=>{
+          const main=document.querySelector("#app main"),el=document.getElementById("sharedMultiSeasonProgressionAction");
+          el.scrollIntoView({block:"nearest",behavior:"instant"});
+          const r=el.getBoundingClientRect(),bar=document.querySelector(".sd-nav-top")?.getBoundingClientRect().bottom||0,out=[];
+          if(r.top<bar-0.5||r.bottom>innerHeight+0.5||r.left<0||r.right>innerWidth)out.push(`not fully in view after scrolling main (${Math.round(r.top)}-${Math.round(r.bottom)}, bar ${Math.round(bar)}, window ${innerHeight})`);
+          if(document.documentElement.scrollWidth>innerWidth+1||main.scrollWidth>main.clientWidth+1)out.push("sideways scroll");
+          for(const [fx,fy] of [[.5,.5],[.08,.2],[.92,.2],[.08,.8],[.92,.8]]){const hit=document.elementFromPoint(r.left+r.width*fx,r.top+r.height*fy);if(!hit||!(el.contains(hit)||hit.contains(el)))out.push(`covered at ${fx},${fy} by ${hit?(hit.id||hit.className):"nothing"}`);}
+          main.scrollTop=0;return out;
+        });
+        assert.deepEqual(reach,[],"desktop CONTINUE is reached by scrolling main, whole and uncovered");
       }
       if(screen==="season-results"&&width<900)await page.locator("#sharedCanonicalScoringWinner").scrollIntoViewIfNeeded();
       await page.mouse.move(0,0);await page.waitForTimeout(150);

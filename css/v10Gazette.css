@@ -54,14 +54,14 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { font-size: 14px; line-height: 1.42; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief p { font-size: 13px; line-height: 1.32; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums { font-size: 13.5px; }
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums th { font-size: 10.5px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums th { font-size: 13px; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums td:first-child { white-space: nowrap; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap,
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait figcaption { font-size: 12.5px; line-height: 1.3; }
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap span { font-size: 10px; }
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { font-size: 11px; }
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__byline { font-size: 11px; }
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote cite { font-size: 10.5px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait figcaption { font-size: 13px; line-height: 1.25; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap span { font-size: 13px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { font-size: 13px; line-height: 1.15; padding: 3px 6px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__byline { font-size: 13px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote cite { font-size: 13px; }
 /* a wider, shorter lead photo and a numbers column wide enough for one line a row keep the bigger paper inside the window */
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__front { grid-template-columns: 1fr 200px; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 3 / 1; }
@@ -94,7 +94,7 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   justify-content: center;
   gap: 2px 10px;
   margin: 4px 0 0;
-  font: 600 12.5px/1.25 var(--sd-font-condensed, "Barlow Condensed", sans-serif);
+  font: 600 13px/1.25 var(--sd-font-condensed, "Barlow Condensed", sans-serif);
   letter-spacing: .04em;
   color: #14100b;
 }
@@ -128,11 +128,11 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   color: #14100b;
 }
 #touchlineGazette .tgz-race__chips li { display: inline-flex; gap: 2px; align-items: baseline; padding: 3px 6px 2px; border: 1px solid rgba(27, 23, 18, .35); }
-#touchlineGazette .tgz-race__chips b { margin-right: 3px; font-size: 10.5px; letter-spacing: .12em; color: #4a3d26; }
+#touchlineGazette .tgz-race__chips b { margin-right: 2px; font-size: 13px; letter-spacing: .04em; color: #4a3d26; }
 #touchlineGazette .tgz-race__chips .is-left span:first-of-type,
 #touchlineGazette .tgz-race__chips .is-right span:last-of-type { font-weight: 800; color: #000; }
 #touchlineGazette .tgz-race__chips .is-draw { border-style: dashed; }
-#touchlineGazette .cmx-gz__inside { height: auto; max-height: 2.6em; padding: 4px 9px 3px; font-size: 12px; }
+#touchlineGazette .cmx-gz__inside { height: auto; max-height: 2.6em; padding: 4px 9px 3px; font-size: 13px; }
 
 /* Reading ink and a clean paper ground (2.0.0 readability). Every block of words is set in full-strength ink (at least 4.5:1
    on the paper; tests/contracts/r87-gazette-readability-contracts.cjs checks it), and the bands that carry the story, the
@@ -179,11 +179,11 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   #touchlineGazette .cmx-fp-screen { position: relative; padding: max(calc(100vw * 168 / 393), calc(100dvh * 168 / 698.7)) 10px 16px; }
   #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: max(calc(100vw * 258 / 393), calc(100dvh * 258 / 698.7)); }
   #touchlineGazette .cmx-gz--compact .tgz-race { gap: 2px 8px; margin-top: 5px; padding-top: 4px; }
-  #touchlineGazette .cmx-gz--compact .tgz-race h4 { font-size: 10.5px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race h4 { font-size: 12px; }
   #touchlineGazette .cmx-gz--compact .tgz-race__line { font-size: 13px; }
   #touchlineGazette .cmx-gz--compact .tgz-race__chips { font-size: 12px; gap: 3px; }
   #touchlineGazette .cmx-gz--compact .tgz-race__chips li { padding: 3px 5px 2px; }
-  #touchlineGazette .cmx-gz--compact .tgz-race__chips b { font-size: 9.5px; margin-right: 2px; }
+  #touchlineGazette .cmx-gz--compact .tgz-race__chips b { font-size: 12px; margin-right: 2px; letter-spacing: .04em; }
   #touchlineGazette .cmx-fp-screen__eyebrow { display: none; }
   #touchlineGazette .cmx-fp-screen__desk { width: 100%; }
   /* 2.0.0 readability: the phone story runs in one full-width column at 13px (two 10px columns of ~22 letters were too
@@ -223,3 +223,78 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   #touchlineGazette .cmx-paper { will-change: auto; }
 }
+
+/* 2.3.0 strict look (B3, B4, D6; Nik 2026-11-11): every word on the paper is 12px or more as the eye gets it, and on a
+   laptop window (1280x800, 1440x900, 1600x900) the paper and its CONTINUE fit without scrolling.
+   Desktop: fit() never scales the paper under FIT_FLOOR.desktop (0.924), so the smallest type here is 13px (13 x 0.924 =
+   12.01px on screen). The phone edition is never scaled, so its smallest type is 12px.
+   Room comes from tightening, never from hiding or moving: the ears take the width either side of the masthead (two or
+   three lines instead of five), the lead photo is a little wider, the race chips share the race line when they fit, and
+   the gaps above the paper and above CONTINUE are smaller. */
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-paper__dateline { font-size: 13px; letter-spacing: .12em; padding-bottom: 2px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__mastrow { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 12px; margin: 2px 0; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__edline { font-size: 13px; letter-spacing: .2em; margin-bottom: 6px; padding: 2px 0; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-paper__kicker { font-size: 13px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-paper__who small { font-size: 13px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) h4,
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums tr.is-total td,
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief h5,
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief p { font-size: 13px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__nums td { padding: 2px 0; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote { margin-top: 6px; padding: 4px 0; }
+/* the race runs as one paragraph: its title, the standing, then the season chips straight after the last word */
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race { display: block; line-height: 22px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race h4 { display: inline; margin-right: 10px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race__line { display: inline; margin-right: 8px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race__chips { display: inline-flex; vertical-align: 1px; gap: 3px; }
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race__chips li { padding: 2px 4px 1px; }
+/* the band under the desk: 13px, two whole lines at most (16px lines with a 2px row gap) (a teaser that does not fit is left out whole, never cut) */
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { box-sizing: border-box; font-size: 13px; line-height: 16px; max-height: calc(34px + 7px); padding: 4px 9px 3px; }
+/* (the desktop page only: the phone edition keeps its face-safe top lines below) */
+@media (min-width: 701px) and (min-height: 521px), (min-width: 1001px) {
+  #touchlineGazette .cmx-fp-screen { padding-top: calc(var(--sd-nav-top-h, 52px) + 10px); padding-bottom: 14px; }
+  #touchlineGazette .cmx-fp-screen__eyebrow { margin-bottom: 8px; padding: 4px 14px 3px; }
+  #touchlineGazette .cmx-continue { margin-top: 12px; }
+}
+@media (max-height: 960px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 4.2 / 1; }
+  /* a wider numbers column holds the pull quote in two lines, so the column beside the photo is no taller than the photo */
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__front { grid-template-columns: 1fr 232px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote p { line-height: 1.15; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief p { line-height: 1.22; }
+  #touchlineGazette .cmx-gz.cmx-paper:not(.cmx-gz--compact) { padding: 9px 16px 10px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { max-height: calc(16px + 7px); }
+  /* (js/touchlineGazette.js fit() opens the second row when it fits with CONTINUE in view) */
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside.is-open { max-height: calc(34px + 7px); }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-paper__subhead { margin-bottom: 5px; }
+}
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__side h4 { letter-spacing: .14em; }
+@media (max-height: 880px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__leadimg { aspect-ratio: 4.8 / 1; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief p { line-height: 1.2; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__front { margin-bottom: 4px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__desk,
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race { margin-top: 4px; }
+  #touchlineGazette .cmx-fp-screen__desk:has(.cmx-gz:not(.cmx-gz--compact)) ~ .cmx-continue { min-height: 44px; margin-top: 6px; }
+  #touchlineGazette .cmx-fp-screen:has(.cmx-gz:not(.cmx-gz--compact)) { padding-top: calc(var(--sd-nav-top-h, 52px) + 6px); padding-bottom: 4px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { line-height: 1.08; padding: 2px 6px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { line-height: 1.28; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap { line-height: 1.18; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__body { padding-top: 4px; }
+  #touchlineGazette .cmx-fp-screen:has(.cmx-gz:not(.cmx-gz--compact)) .cmx-fp-screen__eyebrow { margin-bottom: 6px; padding: 3px 14px 2px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__edline { margin-bottom: 4px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief { grid-template-columns: 32px 1fr; gap: 6px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__tro { width: 32px; height: 40px; }
+}
+
+/* 2.3.0 strict look (B4, D6): the phone edition is never scaled, so its smallest type is 12px. The dateline may take two
+   lines on the narrowest phones rather than shrink. */
+#touchlineGazette .cmx-gz--compact .cmx-paper__dateline { flex-wrap: wrap; justify-content: space-between; gap: 0 6px; padding-bottom: 2px; font-size: 12px; letter-spacing: 0; }
+#touchlineGazette .cmx-gz--compact .cmx-gz__edline { margin-bottom: 3px; padding: 0; font-size: 12px; letter-spacing: .14em; }
+#touchlineGazette .cmx-gz--compact .cmx-paper__kicker { margin-bottom: 2px; padding: 1px 8px 0; font-size: 12px; }
+#touchlineGazette .cmx-gz--compact .cmx-paper__who small { font-size: 12px; }
+/* the phone race runs as one paragraph too (title, standing, chips), as on desktop */
+#touchlineGazette .cmx-gz--compact .tgz-race { display: block; line-height: 20px; }
+#touchlineGazette .cmx-gz--compact .tgz-race h4 { display: inline; margin-right: 8px; }
+#touchlineGazette .cmx-gz--compact .tgz-race__line { display: inline; margin-right: 6px; }
+#touchlineGazette .cmx-gz--compact .tgz-race__chips { display: inline-flex; flex-wrap: wrap; vertical-align: 1px; }

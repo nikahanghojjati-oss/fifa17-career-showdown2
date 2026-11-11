@@ -11,6 +11,9 @@
 //      effective desktop story (size x FIT_FLOOR) >= 12.5px; the phone edition is never scaled
 //   R3 the story, race and trophy-desk bands lie on plain paper colour; no dimming (no opacity, no backdrop filter)
 //   R4 the headlines and masthead keep Team V's sizes (this pass does not touch them)
+//   R5 2.3.0 strict look (B4/D6, Nik 2026-11-11: 12px type floor): every size this sheet sets is 12px or more on screen
+//      (desktop sizes x FIT_FLOOR.desktop, phone sizes as they are), and every small label of Team V's base sheet
+//      (dateline, ears, edition line, kicker, club names, credits, headings, cites, chips) is raised here
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path");
 const ROOT=path.resolve(__dirname,"../.."),read=f=>fs.readFileSync(path.join(ROOT,f),"utf8");
 const css=read("css/v10Gazette.css"),base=read("visual-assets/v10_1/content/content.css");
@@ -79,5 +82,21 @@ const px=v=>{const m=/(\d+(?:\.\d+)?)px/.exec(v);assert.ok(m,`px in ${v}`);retur
   assert.ok(!/cmx-paper__headline|cmx-paper__masthead/.test(css.replace(/\/\*[\s\S]*?\*\//g,"")),"no headline or masthead rule in the page sheet");
   assert.match(base,/\.cmx-gz \.cmx-paper__headline \{ margin: 0 0 4px; font: 900 30px\/\.98 "Gazette Head"/,"Team V's headline");
   ok("R4 headlines and masthead keep Team V's type");
+}
+// R5 the 12px floor
+{
+  const floor=G.FIT_FLOOR.desktop,flat=css.replace(/\/\*[\s\S]*?\*\//g,"");
+  for(const m of flat.matchAll(/([^{}]+)\{([^{}]*)\}/g)){
+    const sel=m[1].trim(),fs=/font(?:-size)?:[^;]*?(\d+(?:\.\d+)?)px/.exec(m[2]);if(!fs||!sel.includes("#touchlineGazette"))continue;
+    const size=Number(fs[1]),phone=sel.split(",").every(s=>s.includes("--compact"));
+    if(/::first-letter/.test(sel))continue;
+    assert.ok(phone?size>=12:size*floor>=12,`${sel.replace(/\s+/g," ").slice(0,90)}: ${size}px${phone?"":` x ${floor}`} is under 12px`);
+  }
+  const nc="#touchlineGazette .cmx-gz:not(.cmx-gz--compact)",cp="#touchlineGazette .cmx-gz--compact";
+  for(const sel of [".cmx-paper__dateline",".cmx-gz__ear",".cmx-gz__edline",".cmx-paper__kicker",".cmx-paper__who small",".cmx-gz__cap span",".cmx-gz__nums th",".cmx-gz__quote cite",".cmx-gz__byline"])
+    assert.ok(px(decl(css,`${nc} ${sel}`,"font-size"))*floor>=12,`desktop ${sel}`);
+  for(const sel of [".cmx-paper__dateline",".cmx-gz__edline",".cmx-paper__kicker",".cmx-paper__who small",".tgz-race h4",".tgz-race__chips b"])
+    assert.ok(px(decl(css,`${cp} ${sel}`,"font-size"))>=12,`phone ${sel}`);
+  ok("R5 every size on the paper is 12px or more on screen (desktop at the fit floor, phone as set)");
 }
 console.log(`r87 Gazette readability contracts: ${n} checks passed`);

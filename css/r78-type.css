@@ -1289,6 +1289,11 @@
 @media (orientation: landscape) and (max-height: 500px) {
   :root #app #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel { font-size: 12px; line-height: 1.08; letter-spacing: .02em; text-wrap: balance; min-width: 0; }
 }
+/* 4w.7b (2.3.0 final pass F02) Career Statistics on narrow upright phones (375x553, 360 wide): "CURRENT RIVALRY STATISTICS" ran to
+   three lines in its 117px label and the third was cut by the 42px button. Tighter tracking at 13px keeps it to two lines. */
+@media (max-width: 389px) and (orientation: portrait) {
+  :root #app #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel { font-size: 13px; line-height: 1.1; letter-spacing: .03em; text-wrap: balance; min-width: 0; }
+}
 /* 4w.8 Sideways phones: the Rule Book summary and the Transfer War window status sit straight on busy photos; same dark marble strip as the upright info line. */
 @media (orientation: landscape) and (max-height: 500px) {
   :root #app .ruleBookHero .ruleBookSummary,
