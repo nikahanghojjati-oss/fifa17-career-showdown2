@@ -266,12 +266,13 @@ function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}, sc=o.scale||1
   grain(ctx,w*sc,h*sc,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* r91 felt (Nik 2026-11-11, "keep improving the 3D screens"): a card-room baize, not a carpet. The old felt laid a 1 px grid and a
    coarse noise tile at 22 %, which the camera magnifies into a grassy grain. Now: the dye's soft clouds, a fine fibre fuzz from one
-   small tile (cheap at load), and a contact shade where the cloth meets the raised rim */
+   small tile (cheap at load), and a contact shade where the cloth meets the raised rim. Round 11: the fibres are shorter and softer (they read
+   as blades of grass where the camera sits close over the cloth) */
 function feltTex(){ const F=HIGH_UP?2:1, [c,ctx]=cv(1024*F,1024*F); ctx.scale(F,F); let sd=1709; const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
   const g=ctx.createRadialGradient(512,512,0,512,512,512); g.addColorStop(0,"#2c6c40"); g.addColorStop(.55,"#1f5733"); g.addColorStop(.89,"#18452a"); g.addColorStop(.95,"#123620"); g.addColorStop(1,"#0c2817"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);   /* one gradient: the lamp-lit middle, the cloth, and the contact shade where it meets the rim */
   { const [mc,mx]=cv(128,128); for(let i=0;i<46;i++){ const x=r()*128, y=r()*128, rad=7.5+r()*24, cg=mx.createRadialGradient(x,y,0,x,y,rad), lt=r()<.5; cg.addColorStop(0,lt?"rgba(70,130,80,.07)":"rgba(5,25,12,.09)"); cg.addColorStop(1,"rgba(0,0,0,0)"); mx.fillStyle=cg; mx.fillRect(x-rad,y-rad,rad*2,rad*2); } ctx.imageSmoothingQuality="high"; ctx.drawImage(mc,0,0,1024,1024); }   /* the clouds are soft, so they are painted small and drawn up */
-  const [fc,fx]=cv(256,256); for(let b=0;b<12;b++){ const lt=b<6, k=(b%6)/5; fx.strokeStyle=lt?`rgba(150,205,160,${(.10+k*.16).toFixed(3)})`:`rgba(0,18,6,${(.12+k*.18).toFixed(3)})`; fx.lineWidth=.5+((b*7)%6)/10; fx.beginPath(); for(let i=0;i<560;i++){ const x=r()*256, y=r()*256, a=r()*Math.PI, l=1.5+r()*4.5; fx.moveTo(x,y); fx.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l); } fx.stroke(); }   /* 12 strokes of 560 fibres each (light and dark, six shades), not 5200 strokes: a fifth of the load time */
-  ctx.save(); ctx.globalAlpha=.7; ctx.fillStyle=ctx.createPattern(fc,"repeat"); ctx.fillRect(0,0,1024,1024); ctx.restore();
+  const [fc,fx]=cv(256,256); for(let b=0;b<12;b++){ const lt=b<6, k=(b%6)/5; fx.strokeStyle=lt?`rgba(150,205,160,${(.10+k*.16).toFixed(3)})`:`rgba(0,18,6,${(.12+k*.18).toFixed(3)})`; fx.lineWidth=.5+((b*7)%6)/10; fx.beginPath(); for(let i=0;i<560;i++){ const x=r()*256, y=r()*256, a=r()*Math.PI, l=.8+r()*2.2; fx.moveTo(x,y); fx.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l); } fx.stroke(); }   /* 12 strokes of 560 fibres each (light and dark, six shades), not 5200 strokes: a fifth of the load time */
+  ctx.save(); ctx.globalAlpha=.55; ctx.fillStyle=ctx.createPattern(fc,"repeat"); ctx.fillRect(0,0,1024,1024); ctx.restore();
   grain(ctx,1024*F,1024*F,7);
   const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
