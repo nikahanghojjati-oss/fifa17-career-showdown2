@@ -273,7 +273,7 @@
     },
     "SETTINGS_WORKSTREAM_INLINE": {
       "source": "tests/proof-sources/workflows/validate-settings-workstream.yml",
-      "gitBlobSha": "08be706525b7c36d9c1a6371605a7e06c2ebe146"
+      "gitBlobSha": "b054e103a9499b8be161ad8cc8528f15cb85e619"
     },
     "TRANSFER_WORKSTREAM_INLINE": {
       "source": "tests/proof-sources/workflows/validate-transfer-workstream.yml",
