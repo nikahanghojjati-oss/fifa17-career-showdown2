@@ -244,8 +244,8 @@
           " float hgt=(.4+.6*h1)*(1.0-smoothstep(11.0,20.0,distance(vCmWorld,cameraPosition)));",
           " vec2 at=(vec2(h2,h3)-.5)*.45;float w=.3*(1.0-lay/max(hgt,1e-3))+.05;",
           " if(lay>hgt||length((f-at)*vec2(1.0,.55))>w)discard;",
-          // dark at the root (light reaches the root only between blades), the tips catching the floodlights
-          " diffuseColor.rgb*=mix(.72,1.12,lay/max(hgt,1e-3));}"].join("\n"):"")+"");
+          // dark at the root (light reaches the root only between blades), the tips catching the floodlights; each blade its own shade
+          " diffuseColor.rgb*=mix(.72,1.12,lay/max(hgt,1e-3))*mix(.84,1.1,fract(h1*13.0));}"].join("\n"):"")+"");
     };
     pitchMat.onBeforeCompile=turf(false);
     pitchMat.customProgramCacheKey=()=>"cmPitchChalk";
@@ -259,7 +259,10 @@
         idx.push(b,b+2,b+1,b+1,b+2,b+3);}
       const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setAttribute("normal",new T.Float32BufferAttribute(nrm,3));
       g.setAttribute("uv",new T.Float32BufferAttribute(uv,2));g.setIndex(idx);
-      const bladeMat=keep(pitchMat.clone());bladeMat.onBeforeCompile=turf(true);bladeMat.customProgramCacheKey=()=>"cmPitchBlades";
+      // r91 round 13: no turf normal map on the blades. With it, the layers lost the floodlight shadows (the players' shadows
+      // all but vanished at Extra and Ultra, the taker seemed to float); a blade's cross-section is too small for the turf's
+      // bumps to show anyway, so the blades shade from their own up-facing normal, one texture read less per layer.
+      const bladeMat=keep(pitchMat.clone());bladeMat.normalMap=null;bladeMat.onBeforeCompile=turf(true);bladeMat.customProgramCacheKey=()=>"cmPitchBlades";
       const blades=add(g,bladeMat);blades.receiveShadow=true;blades.name="cmBlades";
     }
 
