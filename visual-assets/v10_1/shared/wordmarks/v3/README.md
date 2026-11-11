@@ -17,6 +17,7 @@ Font: **Cormorant SC Bold**, SIL Open Font License 1.1 (free for web, embedding 
   text-shadow: .045em .045em 0 #30120E;   /* sign-writer's shade: 0 blur, never a glow */
   font-size: clamp(22px, 3.4vw, 64px); line-height: 1; margin: 0; }
 ```
+No gold glow, halo or bloom anywhere (HO-074, PR #1404 removed it from .sd-title): titles are gold lettering lit by the room, not light sources. The pictures bake none either.
 The cap height of Cormorant SC Bold is about 0.63 em. Use one font-size for every page title so all of them share
 cap height, stroke and baseline. The pictures add only the leaf grain, which is invisible below ~40 px caps.
 
