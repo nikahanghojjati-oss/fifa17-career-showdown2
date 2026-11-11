@@ -26,7 +26,11 @@ assert.equal(fit(['RW'],'ST'),2);assert.equal(fit(['LW'],'LS'),2);assert.equal(f
 assert.equal(fit(['RB'],'RCB'),2);assert.equal(fit(['CB'],'RB'),2);assert.equal(fit(['CB'],'LB'),2);assert.equal(fit(['LB'],'LCB'),2);
 assert.equal(fit(['GK'],'CB'),0);assert.equal(fit(['CB'],'GK'),0);assert.equal(fit(['CB'],'ST'),0);assert.equal(fit(['CDM'],'RW'),0);
 assert.equal(fit(['ST'],'ST'),3);assert.equal(fit(['CB'],'RWB'),1);assert.equal(fit(['CDM'],'LM'),1);
-ok('C1','four lines and Nik\'s flex list; a keeper never plays outfield and no outfielder plays in goal');
+// Nik 2026-11-11 00:54 UTC: the only moves across lines are RM<->RW, LM<->LW and CF->CAM (CAM->CF was already in).
+assert.equal(fit(['RM'],'RW'),2);assert.equal(fit(['RW'],'RM'),2);assert.equal(fit(['LM'],'LW'),2);assert.equal(fit(['LW'],'LM'),2);
+assert.equal(fit(['CF'],'CAM'),2);assert.equal(fit(['CAM'],'CF'),2);
+assert.equal(fit(['RM'],'ST'),0);assert.equal(fit(['ST'],'CAM'),0);assert.equal(fit(['RW'],'RCM'),0);assert.equal(fit(['CF'],'CM'),0);
+ok('C1','four lines and Nik\'s flex list with the cross-line RM<->RW, LM<->LW, CF<->CAM; a keeper never plays outfield and no outfielder plays in goal');
 
 // C2 season 1 = the launch squad exactly, every club.
 for(const club of clubs){
@@ -105,6 +109,11 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.ok(up.ok&&xiName(up.sheet,'C. Jenkinson')&&boardName(up.sheet,'Nacho Monreal')&&!xiName(up.sheet,'Nacho Monreal')&&S.hidingIssue(up.sheet)===null&&S.validate(up.sheet).ok,'Jenkinson rated 86 starts; Monreal 81, now the weakest defender, drops to the board');
   const down=S.rate(s2,giroud&&s2.xi[giroud.index].id,70);
   assert.ok(down.ok&&!xiName(down.sheet,'O. Giroud')&&S.hidingIssue(down.sheet)===null&&S.validate(down.sheet).ok,'Giroud rated 70 leaves the XI');
+  // across lines (Nik 00:54): in a 4-3-3 with no RM slot a right midfielder rated best still starts, on the wing
+  const wide=S.setFormation(s2,'4-3-3');assert.ok(wide.ok&&S.hidingIssue(wide.sheet)===null);
+  const ox=S.rate(wide.sheet,wide.sheet.reserves.find(p=>p.name==='A. Oxlade-Chamberlain').id,90);
+  const oxAt=ox.sheet.xi.findIndex(p=>p&&p.name==='A. Oxlade-Chamberlain');
+  assert.ok(ox.ok&&oxAt>=0&&['RW','LW'].includes(ox.sheet.slots[oxAt])&&S.validate(ox.sheet).ok,'Oxlade-Chamberlain (RM) rated 90 starts on the wing in a 4-3-3');
   // XI <-> XI inside a line, and AUTO restores natural seats
   const lb=xiRef(s2,p=>p.name==='Nacho Monreal');
   const crossed=S.swap(s2,mert,lb);assert.ok(crossed.ok);

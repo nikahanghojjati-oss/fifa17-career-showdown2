@@ -47,11 +47,12 @@
   const family=pos=>FAMILY[pos]||pos;
   const LINE_OF=Object.freeze({GK:"GK",CB:"DEF",RB:"DEF",LB:"DEF",RWB:"DEF",LWB:"DEF",CDM:"MID",CM:"MID",CAM:"MID",RM:"MID",LM:"MID",RW:"ATT",LW:"ATT",CF:"ATT",ST:"ATT"});
   const lineOf=pos=>LINE_OF[family(pos)]||null;
-  // Player position -> slot families he can cover out of his natural role (fit 2, gold ring).
+  // Player position -> slot families he can cover out of his natural role (fit 2, gold ring). Nik 2026-11-11 00:54 UTC: the
+  // only moves across lines are RM<->RW, LM<->LW and CF->CAM (and CAM->CF); a player still belongs to his own line.
   const FLEX=Object.freeze({
     RM:["RW","CM"],LM:["LW","CM"],RW:["RM","ST"],LW:["LM","ST"],
     RB:["RWB","CB"],LB:["LWB","CB"],RWB:["RB"],LWB:["LB"],CB:["RB","LB"],
-    CDM:["CM"],CM:["CDM","CAM"],CAM:["CF","CM"],CF:["ST"],ST:["CF"]
+    CDM:["CM"],CM:["CDM","CAM"],CAM:["CF","CM"],CF:["ST","CAM"],ST:["CF"]
   });
   // 3 natural, 2 flex, 1 same line (out of position, amber), 0 not allowed.
   function sqFit(player,slotPos){
@@ -324,8 +325,8 @@
 
   // ---------- Nik's no-hiding rule (2026-11-11 00:38 UTC), from season 2 ----------
   // The squad shows the save as it is: nobody better can be kept out of the XI or the Roulette board to protect him.
-  // (1) No bench or reserve player may be rated above a starter standing in a slot of his own line (GK/DEF/MID/ATT, from
-  //     his first FIFA 17 position),
+  // (1) No bench or reserve player may be rated above a starter in a slot he can play: his own position, the flex list
+  //     (including Nik's cross-line RM<->RW, LM<->LW, CF<->CAM) or out of position inside his own line (GK/DEF/MID/ATT),
   //     so the XI always holds each line's best for the chosen formation; flex decides who covers which slot.
   // (2) Subs 1-4 (on the Roulette board) are the best of the rest: nobody in subs 5-7 or the reserves is rated above them.
   // Ties are the manager's choice. Season 1 keeps the launch squad as it is (only moves are checked there).
@@ -333,10 +334,11 @@
     if(!sheet||sheet.season<2)return null;
     const outside=[...sheet.bench.map((p,b)=>({p,ref:{zone:"bench",index:b}})),...sheet.reserves.map((p,r)=>({p,ref:{zone:"res",index:r}}))].filter(x=>x.p).sort((x,y)=>order(x.p,y.p));
     for(const {p:q,ref} of outside){
-      const line=lineOf(q.positions[0]||"");// his own line: a CDM who can cover CB is still a midfielder
       let best=null;
       sheet.xi.forEach((p,i)=>{
-        if(!p||isStopgap(sheet,i)||!(q.rating>p.rating)||line!==lineOf(sheet.slots[i])||!allowed(sheet,q,sheet.slots[i]))return;
+        // He must start over p whenever he can stand in p's slot: his own position, Nik's flex list (with the cross-line
+        // RM<->RW, LM<->LW, CF<->CAM) or out of position inside his own line.
+        if(!p||isStopgap(sheet,i)||!(q.rating>p.rating)||!allowed(sheet,q,sheet.slots[i]))return;
         const f=slotFit(sheet,q,sheet.slots[i]);
         if(!best||f>best.fit||(f===best.fit&&p.rating<best.p.rating))best={kind:"xi",q,from:ref,p,index:i,fit:f};
       });
