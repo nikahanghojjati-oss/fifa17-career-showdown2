@@ -349,8 +349,10 @@
     return pstcRouletteBlocked(earlier,hits,request.seasonNumber,role);
   }
   function pstcBlockedNow(request=pstcRequestContext(),role=view?.managerRole){
-    const at=pstcSetupState()?.setupUpdatedAtMs,from=provider?.rouletteFromMs;
-    if(!request||!role||!Number.isInteger(request.seasonNumber)||!Number.isFinite(at)||!Number.isFinite(from)||at<from)return Promise.resolve(new Map());
+    // r91 cut fix: every Showdown with a readable confirm time plays the roulette (step 2 removed the provider's old
+    // rouletteFromMs boundary, which left this check always empty, so LOCK let a shot or guessed player be signed again).
+    const at=pstcSetupState()?.setupUpdatedAtMs;
+    if(!request||!role||!Number.isInteger(request.seasonNumber)||!Number.isFinite(at)||!provider?.rouletteEligible?.(at))return Promise.resolve(new Map());
     const key=`${request.key}|${role}`;if(blockedMemo&&blockedMemo.key===key)return blockedMemo.run;
     const run=pstcLoadBlocked(request,role);blockedMemo={key,run};
     run.catch(()=>{if(blockedMemo&&blockedMemo.run===run)blockedMemo=null;});

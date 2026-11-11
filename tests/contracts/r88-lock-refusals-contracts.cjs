@@ -28,6 +28,7 @@ const SQ=require(path.join(ROOT,"data/rosterSquads.js")).squads;
 const FILE=path.join(ROOT,"js/productionSharedTransferChallenge.js");
 const source=fs.readFileSync(FILE,"utf8");
 const api=require(FILE);
+const Real=require(path.join(ROOT,"js/sparkSharedTransferChallenge.js"));
 const ROLES=["playerOne","playerTwo"],other=r=>r==="playerOne"?"playerTwo":"playerOne";
 let checks=0;
 function check(id,label,fn){fn();checks+=1;process.stdout.write(`ok ${checks} ${id} ${label}\n`);}
@@ -196,7 +197,8 @@ const V={1:{playerOne:[{slot:1,name:"Renato Sanches",overall:78,position:"CM",re
 const H={1:{playerOne:safe,playerTwo:safe},2:{playerOne:{fired:true,hitName:"T. Walcott",hitNumber:14,hitSlot:7,hitSignedSeason:null,version:"v"},playerTwo:safe},
   3:{playerOne:{fired:true,hitName:"Big Striker",hitNumber:null,hitSlot:9,hitSignedSeason:2,version:"v"},playerTwo:safe}};
 function fakeProvider(){
-  const p={gets:0,calls:[],rouletteFromMs:Date.parse("2026-11-02T05:00:00Z"),outcomeValid:v=>Boolean(v&&typeof v.fired==="boolean"&&typeof v.version==="string"),
+  // The real provider's shape (js/sparkSharedTransferChallenge.js): rouletteEligible, no release-time boundary (r91 cut).
+  const p={gets:0,calls:[],rouletteEligible:Real.rouletteEligible,outcomeValid:v=>Boolean(v&&typeof v.fired==="boolean"&&typeof v.version==="string"),
     async readRouletteSeason(o){p.calls.push({season:o.seasonNumber,verdicts:o.verdicts!==false});p.gets+=o.verdicts===false?1:3;
       return o.verdicts===false?{ok:true,hits:H[o.seasonNumber]}:{ok:true,verdicts:V[o.seasonNumber],hits:H[o.seasonNumber]};},
     read(){},startWindow(){},requestEndWindow(){},advanceExpiredWindow(){},lockGuesses(){},lockSignings(){}};
@@ -261,12 +263,19 @@ async function lr6(){
     const {lr,request}=sandbox({provider});
     await assert.rejects(lr.now(request,"playerOne"),e=>e.code==="TRANSFER_ROULETTE_CHECK_FAILED"&&/tap LOCK again/.test(e.message));
   }
-  // before Roster Roulette: nothing read, nothing refused
+  // no readable confirm time: nothing read, nothing refused
   {
-    const provider=fakeProvider(),{lr,request}=sandbox({provider,confirmedAtMs:Date.parse("2026-10-01T00:00:00Z")});
+    const provider=fakeProvider(),{lr,request}=sandbox({provider,confirmedAtMs:Number.NaN});
     const blocked=await lr.now(request,"playerOne");assert.equal(blocked.size,0);assert.equal(provider.gets,0);
   }
-  checks+=1;process.stdout.write(`ok ${checks} LR6 fresh browser 7 gets once then 0; roulette phone 0; failed read refuses; old Showdown 0\n`);
+  // r91 cut fix: any confirm time (even one before the old 2.0.0 boundary) reads and refuses; the real provider has no
+  // rouletteFromMs, so the check never depends on it.
+  {
+    assert.equal(Object.hasOwn(Real,"rouletteFromMs"),false,"the real provider has no release-time boundary");
+    const provider=fakeProvider(),{lr,request}=sandbox({provider,confirmedAtMs:Date.parse("2026-10-01T00:00:00Z")});
+    const blocked=await lr.now(request,"playerOne");assert.ok(blocked.size>0,"refusals load");assert.ok(provider.gets>0);
+  }
+  checks+=1;process.stdout.write(`ok ${checks} LR6 fresh browser 7 gets once then 0; roulette phone 0; failed read refuses; no confirm time 0; any confirm time loads\n`);
   const fn=source.slice(source.indexOf("function pstcNameKey("),source.indexOf("function pstcRefuse("));
   assert.equal(/onSnapshot|addSnapshotListener|getDocs|setInterval/.test(fn),false,"no listener, no query");
   checks+=1;process.stdout.write(`ok ${checks} LR7 no listener or query in the new code\n`);
