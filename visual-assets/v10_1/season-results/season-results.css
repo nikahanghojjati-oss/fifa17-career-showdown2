@@ -182,7 +182,7 @@ body {
 
 .season-brand {
   color: var(--sd-gold, #f2c45b);
-  font: 800 24px/1 var(--sd-font-display, sans-serif);
+  font: 800 24px/1 var(--sd-font-condensed, sans-serif);
   letter-spacing: -.04em;
 }
 
@@ -978,9 +978,9 @@ body {
 
   .season-phone-tab::after {
     content: "SUBMITTED";
-    color: rgb(255 255 255 / .48);
-    font-size: 7px;
-    letter-spacing: .12em;
+    color: rgb(255 255 255 / .56);
+    font-size: 12px;
+    letter-spacing: .08em;
   }
 
   .season-layout:has(#daniel-entry-panel.is-sealed) .season-phone-tab--daniel::after,

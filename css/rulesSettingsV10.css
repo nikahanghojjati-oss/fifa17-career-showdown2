@@ -18,7 +18,7 @@
 #settingsOverlay.v10Settings .settingsConnectedAccountPanel { grid-column:1/4; grid-row:1; }
 #settingsOverlay.v10Settings .settingsPanelHeading { margin:0 0 12px; padding:0 0 10px; border-bottom:1px solid rgba(219,178,94,.25); }
 #settingsOverlay.v10Settings .settingsPanelEyebrow { color:#d9b15f; font:700 11px/1.2 var(--sd-font-condensed); letter-spacing:.2em; }
-#settingsOverlay.v10Settings .settingsPanelHeading h3 { color:#f5f1e8; font:700 clamp(1rem,1.26vw,1.35rem)/1.05 var(--sd-font-display,sans-serif); letter-spacing:.035em; }
+#settingsOverlay.v10Settings .settingsPanelHeading h3 { color:#f5f1e8; font:700 clamp(1rem,1.26vw,1.35rem)/1.05 var(--sd-font-condensed, sans-serif); letter-spacing:.035em; }
 #settingsOverlay.v10Settings .settingsPanelHeading p,
 #settingsOverlay.v10Settings .settingsDataNote,
 #settingsOverlay.v10Settings .settingsOfflineNote { color:rgba(245,241,232,.78); font:400 12px/1.45 var(--sd-font-body); }
