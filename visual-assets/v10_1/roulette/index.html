@@ -577,7 +577,37 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
   [[.006,-.041],[-.015,-.03],[-.023,-.01],[.012,.04]].forEach(([y,z])=>[1,-1].forEach(sx=>{ const s=new T.Mesh(new T.LatheGeometry(screwProf,18),GM.bright); s.rotation.z=sx*Math.PI/2; s.position.set(-sx*.0122,y,z); g.add(s); const slot=new T.Mesh(new T.BoxGeometry(.0006,.0005,.0032),GM.bore); slot.rotation.x=.6; slot.position.set(-sx*.0135,y,z); g.add(slot); }));
   /* GRIP FRAME in brass (backstrap + front strap), walnut panels proud of it either side, gold medallions */
   const gripPts=smooth([[-.044,-.012],[-.05,-.028],[-.06,-.05],[-.072,-.072],[-.082,-.092],[-.08,-.105],[-.066,-.109],[-.046,-.106],[-.035,-.093],[-.029,-.072],[-.027,-.05],[-.029,-.036],[-.038,-.03]],100);
+  /* r91 (Nik 2026-11-11, "keep improving the RRR scene"): the brass backstrap filled the drum close-ups as one flat brown slab. It now carries
+     scroll engraving cut into the brass, clipped to its own outline with a plain border. The picture is white outside the outline and clamps
+     at its edges, so the parts with 0-1 UVs that share the brass (trigger guard, cartridge, medallions on Light) keep their plain brass.
+     A map on the brass shares the blued frame's shader program: no draws or programs are added */
+  const GB=[-.084,-.131,-.025,-.009], GBAND=[-.129,-.113];   /* texture box in grip-shape space, and the strip below the grip used for its rim */
+  { const B=GB, w=512, h=Math.round(w*(B[3]-B[1])/(B[2]-B[0])), [c,ctx]=cv(w,h); const px=p=>[(p[0]-B[0])/(B[2]-B[0])*w,(B[3]-p[1])/(B[3]-B[1])*h];
+    const path=()=>{ ctx.beginPath(); gripPts.forEach((p,i)=>{ const q=px(p); i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); }); ctx.closePath(); };
+    const sc=(x,y,r,dir,rot,sx,lw=1)=>{ for(let pass=0;pass<2;pass++){ ctx.strokeStyle=pass?"rgba(255,248,225,.9)":`rgba(80,50,14,${.7*lw})`; const o=pass?-.9:.9; for(let i=0;i<40;i++){ const t0=i/40,t1=(i+1)/40, a0=rot+t0*9.4*dir, a1=rot+t1*9.4*dir, r0=r*(1-t0*.88), r1=r*(1-t1*.88); ctx.lineWidth=(pass?1.1:2.6)*lw*(1-t0*.6); ctx.beginPath(); ctx.moveTo(x+o+Math.cos(a0)*r0*sx,y+o+Math.sin(a0)*r0); ctx.lineTo(x+o+Math.cos(a1)*r1*sx,y+o+Math.sin(a1)*r1); ctx.stroke(); } } };
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); ctx.lineCap="round";
+    ctx.save(); path(); ctx.clip();
+    ctx.fillStyle="rgba(120,80,25,.16)"; for(let i=0;i<3400;i++) ctx.fillRect(Math.random()*w,Math.random()*h,1.4,1.4);
+    const st=76; for(let y=st*.5,row=0;y<h;y+=st,row++) for(let x=st*.5+(row%2)*st*.5;x<w;x+=st) sc(x+(Math.random()-.5)*10,y+(Math.random()-.5)*10,st*(.34+Math.random()*.06),(row+(x/st|0))%2?1:-1,Math.random()*6.3,1);
+    ctx.restore(); path(); ctx.strokeStyle="#fff"; ctx.lineWidth=34; ctx.stroke(); ctx.strokeStyle="rgba(80,50,14,.55)"; ctx.lineWidth=22; ctx.stroke(); ctx.strokeStyle="#fff"; ctx.lineWidth=18; ctx.stroke();
+    /* the rim strip: two cut border lines and a running scroll between them; the strip is about half as long per pixel as it is tall, so scrolls are drawn narrow */
+    const y0=px([0,GBAND[1]])[1], y1=px([0,GBAND[0]])[1], bh=y1-y0, my=(y0+y1)/2;
+    ctx.save(); ctx.beginPath(); ctx.rect(4,y0,w-8,bh); ctx.clip();
+    ctx.fillStyle="rgba(120,80,25,.16)"; for(let i=0;i<900;i++) ctx.fillRect(Math.random()*w,y0+Math.random()*bh,1.2,1.4);
+    [.2,.8].forEach(f=>{ ctx.fillStyle="rgba(80,50,14,.6)"; ctx.fillRect(0,y0+bh*f-1.6,w,2.2); ctx.fillStyle="rgba(255,248,225,.8)"; ctx.fillRect(0,y0+bh*f+.6,w,.9); });
+    for(let x=10,k=0;x<w;x+=16,k++) sc(x,my,bh*.2,k%2?1:-1,k*1.7,.5,.75);
+    ctx.restore();
+    const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; GM.brass.map=uvFit(t,...B); GM.brass.map.wrapS=GM.brass.map.wrapT=T.ClampToEdgeWrapping; GM.brass.needsUpdate=true; }
   const gripFrame=extrude(gripPts,.0255,.0016,GM.brass,3); g.add(gripFrame);
+  /* the grip's rim (its outline, extruded) takes the strip: u runs along the outline from the top, where it meets the frame, v across its width */
+  { const P=gripFrame.geometry.attributes.position.array, U=gripFrame.geometry.attributes.uv.array, n=P.length/3, D=.0255/2+.0016, cum=[0];
+    for(let i=1;i<=gripPts.length;i++){ const a=gripPts[i-1], b=gripPts[i%gripPts.length]; cum.push(cum[i-1]+Math.hypot(b[0]-a[0],b[1]-a[1])); } const per=cum[gripPts.length];
+    for(let t=0;t<n;t+=3){ const o=t*3, ux=P[o+3]-P[o],uy=P[o+4]-P[o+1],uz=P[o+5]-P[o+2], vx=P[o+6]-P[o],vy=P[o+7]-P[o+1],vz=P[o+8]-P[o+2]; const nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx;
+      if(Math.abs(nx)>.9*Math.sqrt(nx*nx+ny*ny+nz*nz)) continue;   /* a flat side keeps its engraving */
+      const f=[0,0,0]; for(let k=0;k<3;k++){ const z=P[(t+k)*3+2], y=P[(t+k)*3+1]; let bi=0,bd=1e9; for(let j=0;j<gripPts.length;j++){ const d=(gripPts[j][0]-z)**2+(gripPts[j][1]-y)**2; if(d<bd){ bd=d; bi=j; } } f[k]=cum[bi]/per; }
+      if(Math.max(...f)-Math.min(...f)>.5) for(let k=0;k<3;k++) if(f[k]<.5) f[k]+=1;   /* the seam under the frame: past the strip's end the picture clamps to plain brass */
+      for(let k=0;k<3;k++){ const x=P[(t+k)*3]; U[(t+k)*2]=GB[0]+f[k]*(GB[2]-GB[0]); U[(t+k)*2+1]=GBAND[0]+Math.min(1,Math.max(0,(x+D)/(2*D)))*(GBAND[1]-GBAND[0]); } }
+    gripFrame.geometry.attributes.uv.needsUpdate=true; }
   const panelPts=smooth([[-.047,-.034],[-.054,-.05],[-.064,-.07],[-.074,-.09],[-.072,-.1],[-.062,-.103],[-.047,-.1],[-.038,-.088],[-.034,-.07],[-.034,-.052],[-.037,-.04]],80);
   [1,-1].forEach(sx=>{ const p=extrude(panelPts,.004,.003,GM.walnut,4); p.position.x=sx*.0138; g.add(p);
     const med=new T.Mesh(new T.LatheGeometry([[0,0],[.0062,0],[.0068,.0004],[.0062,.0009],[0,.0011]].map(q=>new T.Vector2(q[0],q[1])),28),GM.gold); med.rotation.z=-sx*Math.PI/2; med.position.set(sx*.0186,-.071,-.054); g.add(med); });
