@@ -279,7 +279,8 @@
 }
 /* Not ready yet (no shot or dive picked, or already locked in): the same gold, flat and quiet, never dimmed over anything. */
 #cmStage .cmActions > button.menuButton:disabled {
-  color: #8a7a52;
+  opacity: 1; /* css/app.css fades a disabled .menuButton to .48, which left the name at 2.1:1 (colour hunt COL-04); solid and readable instead */
+  color: #b5a36a;
   background: #17140e;
   border-color: rgba(242, 196, 91, .45);
   box-shadow: none;
