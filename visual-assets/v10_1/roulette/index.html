@@ -956,7 +956,7 @@ const sparks=[];
 const sparkFx=fxBatch(40,streakTex(),T.AdditiveBlending,28,false,true);
 for(let i=0;i<40;i++){ const sp=sparkFx.make(0xffd080,1), v=new T.Vector3(); sp.vel=v; sparks.push({s:sp, life:0, v}); }
 function spray(pos,dir,n,speed){ for(let i=0;i<n;i++){ const p=sparks.find(q=>q.life<=0); if(!p) return; p.life=.25+rnd()*.4; p.max=p.life; p.s.visible=true; p.s.position.copy(pos); const sz=.006+rnd()*.012; p.s.scale.set(sz,sz,1); p.v.copy(dir).multiplyScalar(speed*(.4+rnd())).add(new T.Vector3((rnd()-.5)*speed*.6,(rnd()-.3)*speed*.5,(rnd()-.5)*speed*.6)); } }
-const hitFlash=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.AdditiveBlending, depthWrite:false, transparent:true, opacity:0, color:0xfff0d0})); scene.add(hitFlash);
+const hitFlash=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xfff0d0})); scene.add(hitFlash);   /* r91: normal blending, as the muzzle flash: added over the green board the hit glow turned yellow-green */
 const hitLight=fxSrc(L("#ffd0a0"),2.5,2);
 [flashSprite,flashCore,flashSide,...petals].forEach(o=>{ o.renderOrder=30; o.material.depthTest=false; }); sparks.forEach(p=>{ p.s.renderOrder=28; }); smokes.forEach(p=>{ p.s.renderOrder=25; });
 /* dust in the lamp light */
