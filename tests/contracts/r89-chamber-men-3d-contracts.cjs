@@ -374,7 +374,7 @@ let c3d14=Promise.resolve();
   assert.ok(shellList.includes(`"${DEC}"`)&&pack.includes(`"${DEC}"`),"decoder in the shell, filled with the offline pack");
   assert.ok(fs.existsSync(path.join(ROOT,"tools/chamber-men-players/pack-meshopt.mjs")),"packing tool in the repo");
   const pstc=read("js/productionSharedTransferChallenge.js");
-  assert.ok(/if\(decorated&&!openPromise&&!pstcShowdownComplete\(\)\)pstcWarmChamberMen\(\);/.test(pstc)&&/confirmedAtMs<CHAMBER_FROM_MS\)return;/.test(pstc)&&/chamberWarmKey===key/.test(pstc)&&/root\.setTimeout\(\(\)=>\{if\(typeof root\.requestIdleCallback==="function"\)root\.requestIdleCallback\(go,\{timeout:2500\}\);else go\(\);\},1500\);/.test(pstc),"the season page warms once per season, late and idle");
+  assert.ok(/if\(decorated&&!openPromise&&!pstcShowdownComplete\(\)\)pstcWarmChamberMen\(\);/.test(pstc)&&/chamberWarmKey===key/.test(pstc)&&/root\.setTimeout\(\(\)=>\{if\(typeof root\.requestIdleCallback==="function"\)root\.requestIdleCallback\(go,\{timeout:2500\}\);else go\(\);\},1500\);/.test(pstc),"the season page warms once per season, late and idle");
   // Behaviour: warm() asks for exactly this level's files, each once, and the mount shares a download still in flight.
   const asked=[];let release;const gate=new Promise(r=>{release=r;});
   const sb={console,setTimeout,clearTimeout,Promise,URL,WebGL2RenderingContext:function(){},navigator:{},

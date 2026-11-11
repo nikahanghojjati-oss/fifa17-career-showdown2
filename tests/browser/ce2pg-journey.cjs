@@ -36,9 +36,7 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   that tree first; the Showdown starts and plays CE2PG_UPGRADE_AFTER (default 1) season(s) on it, then, right after CONTINUE
 //   TO SEASON k+1, the server switches to this tree, both phones drop their service worker and caches (the update the phone
 //   applies on Home, proven on its own by tests/browser/r87-upgrade-from-r86-audit.cjs) and reload into the new build in the
-//   middle of the live Showdown, which then plays to the end with every check. CE2PG_UPGRADE_PIN=1 (default) also serves the
-//   roulette start time (RRR_FROM_MS / ROULETTE_FROM_MS) as the switch time, as the release PR pins it; 0 leaves the
-//   placeholder, so an r86 Showdown gets the roulette from the next season. The seasons played on r86 skip the r87-only
+//   middle of the live Showdown, which then plays to the end with every check. The seasons played on the old tree skip the r87-only
 //   checks (Gazette, signing overall/position, r87 Shared History wording); Daniel's emulator runs with the composed Rules of
 //   THIS tree throughout (the Rules deploy goes first).
 // Output: test-results/<tag>.json (every check, problem, raw screen text and the meter) and screenshots in test-results/<tag>/.
@@ -141,18 +139,9 @@ const BUDGET_MODE=process.env.CE2PG_BUDGET==="1";
 const SLIM=BUDGET_MODE&&process.env.CE2PG_BUDGET_FULL!=="1";
 const UPGRADE_FROM=process.env.CE2PG_UPGRADE_FROM?path.resolve(process.env.CE2PG_UPGRADE_FROM):"";
 const UPGRADE_AFTER=Number(process.env.CE2PG_UPGRADE_AFTER||1);
-const UPGRADE_PIN=process.env.CE2PG_UPGRADE_PIN!=="0";
-// The literal both start constants carry in this tree (tools/set-release-time.cjs sets them together); the upgrade run swaps it.
-const RRR_PLACEHOLDER=`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`;
-// r88 Chamber Men starts at its own release time (CHAMBER_FROM_MS); CMS_CHAMBER_MEN_NOW=1 moves it into the past too.
-const CHAMBER_PLACEHOLDER=(()=>{const t=require("../../tools/set-release-time.cjs");return `Date.parse("${t.read(t.R88_RELEASE_TIME_CONSTANTS)[0].value}")`;})();
-const CHAMBER_NOW=process.env.CMS_CHAMBER_MEN_NOW==="1"?[[CHAMBER_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]:[];
 // r89 Sacked: CE2PG_SACKED="K:daniel|nik|both" ticks "I was sacked this season" for that manager in season K of the single
-// Showdown, which then ends after season K. The tick shows only from SACKED_FROM_MS; a sacked run (or CMS_SACKED_NOW=1)
-// moves that start into the past like the Chamber Men one.
+// Showdown, which then ends after season K. The tick is on every Season Results card.
 const SACKED=(()=>{const raw=process.env.CE2PG_SACKED||"";if(!raw)return null;const m=/^(\d+):(daniel|nik|both)$/.exec(raw);if(!m)throw new Error(`CE2PG_SACKED must be "K:daniel|nik|both", got "${raw}"`);return {season:Number(m[1]),who:m[2]==="both"?["daniel","nik"]:[m[2]]};})();
-const SACKED_PLACEHOLDER=(()=>{const t=require("../../tools/set-release-time.cjs");return `Date.parse("${t.read(t.R89_RELEASE_TIME_CONSTANTS)[0].value}")`;})();
-const SACKED_NOW=SACKED||process.env.CMS_SACKED_NOW==="1"?[[SACKED_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]:[];
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
 function startAppServer(rewrites=[]){
   appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
@@ -628,7 +617,7 @@ async function fillSeasonResult(m,prefix,result){
   await m.page.locator(`#${prefix}LeaguePoints`).fill(String(result.leaguePoints));
   await m.page.locator(`#${prefix}LeagueGoals`).fill(String(result.leagueGoals));
   for(const [suffix,key] of [["DomesticCup","domesticCup"],["ChampionsLeague","championsLeague"],["TopScorer","topScorer"],["TopAssist","topAssist"]])await m.page.locator(`#${prefix}${suffix}`).setChecked(Boolean(result[key]));
-  if(SACKED_NOW.length){
+  {
     // r89 Sacked: the manager's own tick is on his own card, shown and unticked until he ticks it.
     const tick=m.page.locator(`#${prefix}Sacked`);
     const shown=await tick.isVisible().catch(()=>false);
@@ -869,7 +858,7 @@ async function upgradeBoth(daniel,nik,sessionCode,k){
   const at=new Date().toISOString();
   appServer.kill();await new Promise(resolve=>setTimeout(resolve,300));
   servingOld=false;
-  await startAppServer(UPGRADE_PIN?[[RRR_PLACEHOLDER,`Date.parse("${at}")`]]:[]);
+  await startAppServer([]);
   report.upgrade.switchedAt=at;report.upgrade.switchedAfterSeason=k;
   for(const m of [daniel,nik])await m.page.evaluate(async()=>{try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();}catch(_e){}try{for(const k of await caches.keys())await caches.delete(k);}catch(_e){}});
   await reloadBoth(daniel,nik,sessionCode);
@@ -1591,12 +1580,10 @@ async function main(){
   if(UPGRADE_FROM&&(PLAN_NAME!=="single"||!(Number.isInteger(UPGRADE_AFTER)&&UPGRADE_AFTER>=1&&UPGRADE_AFTER<SEASONS)))throw new Error("CE2PG_UPGRADE_FROM needs CE2PG_PLAN=single and 1 <= CE2PG_UPGRADE_AFTER < CE2PG_SEASONS");
   if(UPGRADE_FROM){
     const old=fs.readFileSync(path.join(UPGRADE_FROM,"service-worker.js"),"utf8").match(/const RUNTIME_REVISION = "([^"]+)"/)?.[1];
-    report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,pinned:UPGRADE_PIN,switchedAt:null};
-    console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree${UPGRADE_PIN?" (roulette start pinned to the switch time)":" (roulette start left at the placeholder)"}`);
+    report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,switchedAt:null};
+    console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree`);
   }
-  // The roulette starts at the 2.0.0 release time (tools/set-release-time.cjs). A run before that time still plays it: the
-  // server sends the r87 placeholder start (2026-10-30) unless CE2PG_REAL_RELEASE_TIME=1 (or this is the upgrade run).
-  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")'],...CHAMBER_NOW,...SACKED_NOW]);
+  if(!process.env.CMS_BASE_URL)await startAppServer([]);
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[],retired=[];

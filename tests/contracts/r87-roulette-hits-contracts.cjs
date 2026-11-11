@@ -15,6 +15,7 @@
 //  H8 S6 the reconnect banner's 15 s check waits while the full-screen roulette is up.
 //  H9 F2-19 a signing the board rules keep off is listed with the reason on the result card, never dropped silently.
 const assert=require("node:assert/strict");
+const ROULETTE_T=Date.parse("2026-11-02T05:00:00Z");
 const fs=require("node:fs");
 const path=require("node:path");
 const vm=require("node:vm");
@@ -154,7 +155,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const press=(p,label)=>{const b=p.all().find(n=>n.tagName==="button"&&n.textContent===label);assert.ok(b,`button ${label}: ${p.all().filter(n=>n.tagName==="button").map(n=>n.textContent)}`);b.listeners.click[0]();};
     return {doc,body,store,step,R,panel,title,lines,press};
   }
-  const ctxFor=(extra)=>({rivalryId:RID,managerRole:"playerOne",season:1,clubs:CLUBS,confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:"NOT_STARTED",verdicts:async()=>({ok:false}),...extra});
+  const ctxFor=(extra)=>({rivalryId:RID,managerRole:"playerOne",season:1,clubs:CLUBS,confirmedAtMs:(Date.parse("2026-11-12T00:00:00Z")+3600000),phase:"NOT_STARTED",verdicts:async()=>({ok:false}),...extra});
 
   // ---------- H4 ----------
   {
@@ -249,13 +250,13 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
       readStorageValue:k=>storage.has(k)?storage.get(k):null,writeStorageValue:(k,v)=>{storage.set(k,v);return true;},removeStorageValue:k=>{storage.delete(k);},
       currentShowdown:{id:"save_1",currentRound:1,sharedJourney:{mode:"shared",rivalryId},managers:{playerOne:"Daniel",playerTwo:"Nik"},clubs:{playerOne:"Liverpool",playerTwo:"Arsenal"}},
       navigateTo:async id=>{doc.getElementById(id).classList.remove("hidden");return true;},
-      CareerModeProductionSharedShowdownSetup:{refresh:async()=>null,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:CLUBS},setupUpdatedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),managerRole:"playerOne",rivalryId,sessionId,deviceId:device1})},
+      CareerModeProductionSharedShowdownSetup:{refresh:async()=>null,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:CLUBS},setupUpdatedAtMs:(Date.parse("2026-11-12T00:00:00Z")+3600000),managerRole:"playerOne",rivalryId,sessionId,deviceId:device1})},
       CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
       CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider,
       CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"manager_one",getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{getDoc:async()=>null,doc:()=>null}})},
       CareerModeRosterRouletteStep:step,
     // r87 Prime Pack runs after the roulette; here it is already done.
-    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}};
+    CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){},close(){}},CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}};
     sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read("js/productionSharedTransferChallenge.js"),sandbox,{filename:"productionSharedTransferChallenge.js"});
     return {api:sandbox.CareerModeProductionSharedTransferChallenge,doc,tap,storage,text:id=>doc.getElementById(id).textContent};
   }

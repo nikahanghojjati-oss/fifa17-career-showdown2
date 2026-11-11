@@ -173,9 +173,8 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
 
 // ---------- 3. wiring and rules ----------
 const src=read("js/commentaryV3.js");
-// r87 Prime Pack: the booth's boundary is js/iconGuess.js fromMs, and both browser fact builders pass it on.
-{const IG=require("../../js/iconGuess.js");ok(src.includes(`PRIME_PACK_FROM_MS=Date.parse("${new Date(IG.fromMs).toISOString().replace(".000Z","Z")}")`),"the booth's Prime Pack boundary is js/iconGuess.js fromMs");
- ok((src.match(/primePack:Number\.isFinite\(at\)\?at>=PRIME_PACK_FROM_MS:undefined/g)||[]).length===2,"Season Results and Final Winner both pass primePack");}
+// r87 Prime Pack: the booth has one season maximum (15) and no per-Showdown boundary.
+ok(!/PRIME_PACK_FROM_MS/.test(src)&&!/primePack:Number\.isFinite\(at\)/.test(src),"the booth carries no Prime Pack release boundary");
 ok(/load\("ssjr-shared-setup-catalog","js\/sharedShowdownCatalog\.js"/.test(src),"Fable F5-17: the booth loads the league catalog itself");
 ok(!/getDoc|getDocs|onSnapshot|setDoc|updateDoc|runTransaction|firestore\b|fetch\(|XMLHttpRequest|localStorage|sessionStorage|indexedDB/.test(src),"the booth reads only what the screen holds: no Firebase, network or storage");
 ok(!/Math\.random|Date\.now|new Date/.test(src),"no randomness or clock: both phones show the same words");

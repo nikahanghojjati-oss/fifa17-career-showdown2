@@ -13,7 +13,6 @@
 // Run inside the Firestore emulator:
 //   npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal \
 //     "node tests/firebase/prime-pack-ten-season-emulator.cjs"
-require("../support/release-time-started.cjs");
 const assert=require("node:assert/strict");
 const crypto=require("node:crypto");
 const fs=require("node:fs");
@@ -155,18 +154,17 @@ async function seedBase(env,now){
       const must=(what,value)=>{if(!value||!value.ok)throw new Error(`${label} ${what} failed: ${JSON.stringify(value)}`);return value;};
       const tag=`${label}`;
 
-      // ---- Setup (10 seasons), confirmed after the Prime Pack boundary, Career Start. ----
+      // ---- Setup (10 seasons), confirmed, Career Start. ----
       for(const [type,baseRevision,n,extra] of [["open",0,1,{}],["commit-league",1,2,{}],["commit-clubs",2,3,{}],["commit-length",3,4,{totalSeasons:TOTAL_SEASONS}]])must(`setup ${type}`,await Setup.mutate({...a(n*10),type,baseRevision,operationId:op("setup_op_",n),...extra}));
       must("setup confirm A",await Setup.mutate({...a(50),type:"confirm",baseRevision:4,operationId:op("setup_op_",5)}));
       const confirmed=must("setup confirm B",await Setup.mutate({...b(60),type:"confirm",baseRevision:5,operationId:op("setup_op_",6)}));
       assert.equal(confirmed.state.phase,"SHOWDOWN_CONFIRMED");assert.equal(confirmed.state.totalSeasons,TOTAL_SEASONS);
       const ledger=await readRaw(d=>doc(d,"rivalries",rid,"sharedSetup","authoritative"));
       const confirmedAt=ledger.updatedAt.toMillis();
-      assert.ok(Guess.eligible(rid,confirmedAt),`${label}: confirmed after the Prime Pack boundary`);
-      assert.ok(confirmedAt>=Seam.PRIME_PACK_FROM_MS);
+      assert.ok(Guess.eligible(rid,confirmedAt),`${label}: eligible for Prime Pack`);
       must("career A",await Career.acknowledge({...a(70),operationId:op("career_start_op_",1),baseRevision:0}));
       must("career B",await Career.acknowledge({...b(80),operationId:op("career_start_op_",2),baseRevision:1}));
-      ok(`${tag}: a 10-season Showdown is confirmed after the Prime Pack boundary and plays Prime Pack`);
+      ok(`${tag}: a 10-season Showdown is confirmed and plays Prime Pack`);
 
       // ---- The ten rounds. The Rules do not order a round against the Transfer Challenge, so all ten run at once (each waits for
       // its own stage, measured from the server-stamped later arrival) instead of one after the other. ----
@@ -370,8 +368,8 @@ async function seedBase(env,now){
     assert.equal(Seam.SEASON_MAX.primePack,15);assert.equal(Seam.goldenShowdownPoints(rowA),150);
     assert.deepEqual(Seam.goldenShowdownManagers(rowA),[]);
     assert.ok(finals["Showdown A"].totals.playerOne<150&&finals["Showdown A"].totals.playerTwo<150);
-    assert.equal(Seam.goldenShowdownPoints({...rowA,setupConfirmedAt:Date.parse("2026-10-01T00:00:00Z")}),110,"a Showdown confirmed before Prime Pack keeps 110");
-    ok(`Showdown A (Daniel ${finals["Showdown A"].totals.playerOne}, Nik ${finals["Showdown A"].totals.playerTwo}): goldenShowdownPoints is 150 (110 only for a Showdown confirmed before Prime Pack) and nobody is Golden`);
+    assert.equal(Seam.goldenShowdownPoints({...rowA,setupConfirmedAt:Date.parse("2026-10-01T00:00:00Z")}),150,"every Showdown is 150 (no 110 anywhere)");
+    ok(`Showdown A (Daniel ${finals["Showdown A"].totals.playerOne}, Nik ${finals["Showdown A"].totals.playerTwo}): goldenShowdownPoints is 150 and nobody is Golden`);
     // Showdown B: Nik at 150.
     assert.equal(finals["Showdown B"].totals.playerTwo,150);
     assert.equal(Seam.goldenShowdownPoints(rowB),150);assert.deepEqual(Seam.goldenShowdownManagers(rowB),["nik"]);
