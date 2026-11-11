@@ -1327,3 +1327,7 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
 @media (min-width: 761px) and (max-width: 1366px) {
   #app #mainMenu.v10Home #continueCareer .menuTileMeta { font-size: 12px; }
 }
+
+/* r90 strict COL-05 (latent): css/app.css:79 colours the START A SHOWDOWN and RULE BOOK subtitles #354650, slate on near-black
+   (1.4-2.0:1). Every tile subtitle is hidden today, but any size that shows them reads like the other tiles' #cfc6b4. */
+#mainMenu.v10Home .menuTile:not(#continueCareer) .menuTileMeta { color: #cfc6b4; }
