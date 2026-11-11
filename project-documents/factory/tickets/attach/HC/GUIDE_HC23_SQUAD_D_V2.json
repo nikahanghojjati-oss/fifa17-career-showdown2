@@ -1,0 +1,33 @@
+{
+ "room": "hc-art/board/ENV_BOARD_PLATE_HC_V2_2X.webp (board room men, oak behind them)",
+ "scale": 0.275,
+ "daniel_box": [
+  200,
+  100,
+  1120,
+  1280
+ ],
+ "nik_box": [
+  1950,
+  100,
+  2900,
+  1280
+ ],
+ "at": [
+  [
+   0,
+   316,
+   253,
+   640
+  ],
+  [
+   1275,
+   316,
+   1536,
+   640
+  ]
+ ],
+ "lip": 640,
+ "daniel_w": 253,
+ "nik_w": 261
+}
