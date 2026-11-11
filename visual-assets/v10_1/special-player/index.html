@@ -708,9 +708,11 @@ const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest
        line warm from the floodlights, and above it Chamber Men's night sky (deep navy) */
     if(night>.5){ float l=dot(c,vec3(.2126,.7152,.0722)); c=mix(vec3(l),c,.12)*vec3(.03,.031,.04); /* r90 L06 round 3: darker and warmer, not an overcast grey */
       /* floodlights: five lamps along the roof (small hot flares) each throwing a soft warm pool down onto the stands */
-      float lp=0.,fl=0.; for(int i=0;i<5;i++){ float dl=lon-(-1.2+float(i)*.6); dl-=6.2831853*floor((dl+3.1415926)/6.2831853); lp+=exp(-dl*dl*70.); fl+=exp(-dl*dl*1600.); }
+      float lp=0.,fl=0.,bk=0.; for(int i=0;i<5;i++){ float dl=lon-(-1.2+float(i)*.6); dl-=6.2831853*floor((dl+3.1415926)/6.2831853); lp+=exp(-dl*dl*70.); float f=exp(-dl*dl*1600.); fl+=f;
+        /* r91: a floodlight is a bank of lamps, not a soft ball: two rows of five hot points inside the glow (only near a lamp, so the sky costs nothing) */
+        if(f>.02){ for(int k=0;k<5;k++){ float u=dl-(float(k)-2.)*.0075; float eu=exp(-u*u*2e5); bk+=eu*(exp(-pow((d.y-.3055)*520.,2.))+exp(-pow((d.y-.3145)*520.,2.))); } } }
       c+=vec3(.95,.78,.5)*lp*(.004+.035*l)*smoothstep(-.06,.1,d.y)*smoothstep(.34,.18,d.y);
-      c+=vec3(1.,.86,.62)*fl*exp(-pow((d.y-.31)*60.,2.))*.75; float h=clamp(d.y,0.,1.); vec3 skyN=mix(vec3(.03,.035,.05),vec3(.006,.009,.02),smoothstep(.12,.6,h)); c=mix(c,skyN,smoothstep(.4,.62,d.y)); }
+      c+=vec3(1.,.86,.62)*fl*exp(-pow((d.y-.31)*60.,2.))*.55+vec3(1.,.95,.85)*bk*1.6; float h=clamp(d.y,0.,1.); vec3 skyN=mix(vec3(.03,.035,.05),vec3(.006,.009,.02),smoothstep(.12,.6,h)); c=mix(c,skyN,smoothstep(.4,.62,d.y)); }
     else if(warm>.5){ c*=vec3(1.07,.985,.87); float s=max(dot(d,normalize(vec3(-.62,.42,-.66))),0.); c+=vec3(1.,.72,.38)*(pow(s,10.)*.55+pow(s,60.)*1.4)*c.g*1.6+vec3(1.,.8,.5)*pow(s,200.)*.6; }
     gl_FragColor=vec4(min(invAces(c)/expo,vec3(1.35)),1.);
  #include <tonemapping_fragment>
