@@ -266,6 +266,16 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
           return {inside:r.left>=0&&r.top>=0&&r.right<=W&&r.bottom<=H,hits:pts.every(([x,y])=>el.contains(document.elementFromPoint(x,y))),shape:document.getElementById("app").dataset.shape};});
         assert.equal(go.inside&&go.hits,true,`${size.width}x${size.height}: the Guess button is fully on screen and clickable (${go.shape} layout)`);
         if(size.width<500)assert.equal(go.shape,"tall",`${size.width}x${size.height}: a phone keeps the phone layout`);
+        // r91 Prime Pack look 1 (reviewer P3): the suggestion list ends inside the screen and never covers the card, whatever the
+        // height (it scrolls inside the room that is left), and moving through it with the keyboard scrolls only the list
+        await p.evaluate(()=>window.PrimePackPage.setSuggestions(["Sample Icon","Sample Striker","Sample Winger","Simon Sample","Samuel Example","Sam Long Name"]));
+        for(let k=0;k<6;k++)await p.keyboard.press("ArrowDown");
+        const sg=await p.evaluate(()=>{const r=(id)=>document.getElementById(id).getBoundingClientRect(),u=r("suggest"),c=r("card"),H=visualViewport.height,app=document.getElementById("app"),act=document.querySelector("#suggest li[aria-selected=true]"),ar=act&&act.getBoundingClientRect();
+          return{visible:!document.getElementById("suggest").hidden,inScreen:u.bottom<=H+1,overCard:!(u.bottom<=c.top||u.top>=c.bottom||u.right<=c.left||u.left>=c.right),appScroll:app.scrollTop+document.body.scrollTop+document.documentElement.scrollTop,activeInList:!ar||(ar.top>=u.top-1&&ar.bottom<=u.bottom+1)};});
+        assert.equal(sg.visible,true,`${size.width}x${size.height}: the suggestions show`);assert.equal(sg.inScreen,true,`${size.width}x${size.height}: the suggestion list ends inside the screen`);
+        if(size.height>=400)assert.equal(sg.overCard,false,`${size.width}x${size.height}: the suggestion list never covers the card`);   // under that (card at its smallest, keyboard open) it opens above the boxes rather than be cut by the screen edgeassert.equal(sg.appScroll,0,`${size.width}x${size.height}: the keyboard scrolls the list only, never the page`);
+        assert.equal(sg.activeInList,true,`${size.width}x${size.height}: the picked row stays inside the list`);
+        await p.evaluate(()=>window.PrimePackPage.setSuggestions([]));
         if(size.height===430)await shot(p,"8-keyboard-height");
         if(size.height===350)await shot(p,"8b-keyboard-350");
       }

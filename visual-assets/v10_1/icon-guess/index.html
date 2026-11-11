@@ -247,6 +247,7 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .btn:disabled { background: linear-gradient(180deg, #4d4430, #2f2919); color: #b3a580; box-shadow: inset 0 0 0 1px rgba(196,147,47,.5); cursor: default; }
 .suggest { position: absolute; left: 0; right: 0; top: calc(100% + 6px); box-sizing: border-box; margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810;
   border: 1px solid rgba(241,207,122,.55); box-shadow: 0 8px 20px rgba(0,0,0,.55); max-height: var(--sg-max, 40vh); overflow: auto; overscroll-behavior: contain; z-index: 5; }
+.suggest.up { top: auto; bottom: calc(100% + 6px); box-shadow: 0 -8px 20px rgba(0,0,0,.55); }
 .suggest li { padding: 11px 10px; font: 600 18px/1.1 var(--body); letter-spacing: .02em; color: var(--text); border-radius: 3px; cursor: pointer; }
 .suggest li[aria-selected="true"], .suggest li:hover { background: rgba(241,207,122,.16); }
 .note { min-height: 18px; margin-top: 5px; font: 600 15px/1.15 var(--body); letter-spacing: .03em; text-align: center; color: var(--text-2); }
@@ -563,13 +564,17 @@ function setSuggestions(names){
   fitSuggest();
 }
 // The list opens downward from the boxes into the free floor (never over the card). It is as tall as the room that is left
-// under the boxes (at least two rows, so a keyboard-open phone still shows two names) and scrolls inside that, so every name
-// stays reachable and nothing is cut off by the screen's edge.
+// under the boxes and scrolls inside that, so every name stays reachable and nothing is cut off by the screen's edge.
+// Scrolls the list itself (scrollTop), never scrollIntoView: that can scroll #app too, and main is the only scroller.
+function keepInView(li){ const ul=$("suggest"), top=li.offsetTop, bottom=top+li.offsetHeight; if(top<ul.scrollTop) ul.scrollTop=top; else if(bottom>ul.scrollTop+ul.clientHeight) ul.scrollTop=bottom-ul.clientHeight; }
 function fitSuggest(){
   const ul=$("suggest"); if(ul.hidden) return;
-  const app=$("app"), a=app.getBoundingClientRect(), r=ul.getBoundingClientRect(), row=ul.firstElementChild ? ul.firstElementChild.getBoundingClientRect().height : 40;
-  const room = a.bottom - r.top - 10;
-  ul.style.setProperty("--sg-max", Math.max(room, 2*row+8)+"px");
+  const a=$("app").getBoundingClientRect(); ul.classList.remove("up"); ul.style.removeProperty("--sg-max");
+  let r=ul.getBoundingClientRect(), room=Math.floor(a.bottom - r.top - 10);
+  // Under about a row of room (a phone under ~360 px tall with the keyboard open, where even the card is at its smallest) the
+  // list opens above the boxes instead, so a name is never half cut off by the screen's edge; it scrolls inside either way
+  if(room < 56){ ul.classList.add("up"); r=ul.getBoundingClientRect(); room=Math.floor(r.bottom - a.top - 10); }
+  ul.style.setProperty("--sg-max", Math.max(0, room)+"px");     // never taller than the room, so no row is cut by the screen edge
 }
 // Feedback on this phone's own guess. "not-in-list": costs no token. "wrong": shown only here; the other phone sees
 // only the token count drop. "used": both tokens gone. Anything else just clears the pending state.
@@ -627,7 +632,7 @@ $("guess").addEventListener("keydown",(e)=>{
   const n=S.suggestions.length;
   if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault();
     S.active = e.key==="ArrowDown" ? (S.active+1>=n ? -1 : S.active+1) : (S.active-1<-1 ? n-1 : S.active-1);
-    [...$("suggest").children].forEach((li,i)=>{ li.setAttribute("aria-selected",String(i===S.active)); if(i===S.active) li.scrollIntoView({block:"nearest"}); }); }
+    [...$("suggest").children].forEach((li,i)=>{ li.setAttribute("aria-selected",String(i===S.active)); if(i===S.active) keepInView(li); }); }
   else if(e.key==="Escape") setSuggestions([]);
 });
 $("cta").addEventListener("click",()=>{ if(S.continued) return; S.continued=true; const c=$("cta"); c.disabled=true; c.textContent="Opening the Transfer War…"; toGame("cms-ig-continue"); });
