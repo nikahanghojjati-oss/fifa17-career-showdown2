@@ -1,0 +1,596 @@
+{
+ "daniel": {
+  "fig": {
+   "summary": [
+    "1",
+    "1",
+    "1",
+    "9",
+    "3",
+    "2",
+    "1"
+   ],
+   "noRecord": false,
+   "table_daniel": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "9",
+    "2"
+   ],
+   "table_nik": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "3",
+    "1"
+   ],
+   "compareTitles": [
+    "1",
+    "0"
+   ],
+   "compareCups": [
+    "0",
+    "1"
+   ],
+   "compareCl": [
+    "1",
+    "0"
+   ],
+   "compareWins": [
+    "1",
+    "0"
+   ],
+   "compareAvgPoints": [
+    "87",
+    "84"
+   ],
+   "compareAvgGoals": [
+    "93",
+    "101"
+   ],
+   "leadWins": [
+    "Daniel",
+    "1"
+   ],
+   "leadTrophies": [
+    "Daniel",
+    "2"
+   ],
+   "leadPoints": [
+    "Daniel",
+    "9"
+   ],
+   "leadBest": [
+    "Daniel",
+    "9"
+   ],
+   "standings": {
+    "points": [
+     "9",
+     "3"
+    ],
+    "W": [
+     "1",
+     "0"
+    ],
+    "D": [
+     "0",
+     "0"
+    ],
+    "L": [
+     "0",
+     "1"
+    ],
+    "cl": [
+     "1",
+     "0"
+    ],
+    "league": [
+     "1",
+     "0"
+    ],
+    "cup": [
+     "0",
+     "1"
+    ],
+    "trophies": [
+     "2",
+     "1"
+    ],
+    "leader": "DANIEL",
+    "unavailable": false
+   },
+   "standingsFirst": {
+    "points": [
+     "9",
+     "3"
+    ],
+    "W": [
+     "1",
+     "0"
+    ],
+    "D": [
+     "0",
+     "0"
+    ],
+    "L": [
+     "0",
+     "1"
+    ],
+    "cl": [
+     "1",
+     "0"
+    ],
+    "league": [
+     "1",
+     "0"
+    ],
+    "cup": [
+     "0",
+     "1"
+    ],
+    "trophies": [
+     "2",
+     "1"
+    ],
+    "leader": "DANIEL",
+    "unavailable": false
+   },
+   "thisShowdown": {
+    "season": null,
+    "points": null,
+    "W": null,
+    "D": null,
+    "L": null,
+    "cl": null,
+    "league": null,
+    "cup": null,
+    "trophies": null
+   },
+   "rivalryFigures": {
+    "completed": [
+     "1",
+     "1"
+    ],
+    "points": [
+     "9",
+     "3"
+    ],
+    "W": [
+     "1",
+     "0"
+    ],
+    "trophies": [
+     "2",
+     "1"
+    ],
+    "cl": [
+     "1",
+     "0"
+    ],
+    "league": [
+     "1",
+     "0"
+    ],
+    "cup": [
+     "0",
+     "1"
+    ],
+    "unavailable": false
+   },
+   "rankDaniel": [
+    "1",
+    "9",
+    "1"
+   ],
+   "rankNik": [
+    "2",
+    "3",
+    "0"
+   ],
+   "recSeason": [
+    "9",
+    "DANIEL"
+   ],
+   "recPoints": [
+    "87",
+    "DANIEL"
+   ],
+   "recGoals": [
+    "101",
+    "NIK"
+   ],
+   "recPerfect": null,
+   "recBiggest": [
+    "6",
+    "DANIEL"
+   ],
+   "cabChampion": [
+    "1",
+    "—"
+   ],
+   "cabLeague": [
+    "1",
+    "—"
+   ],
+   "cabCup": [
+    "—",
+    "1"
+   ],
+   "cabCl": [
+    "1",
+    "—"
+   ],
+   "legacyEmpty": false,
+   "legacyStatuses": [
+    "completed"
+   ],
+   "legacyRows": [
+    {
+     "number": "1",
+     "score": [
+      "9",
+      "3"
+     ],
+     "seasons": [
+      "1",
+      "1"
+     ],
+     "result": "DANIEL WINS"
+    }
+   ]
+  },
+  "text": {
+   "standingsCareerText": "CAREER MODE SHOWDOWN 17 STANDINGS THIS SHOWDOWN CAREER CAREER STANDINGS DANIEL CAREER POINTS 9 : 3 DANIEL LEADS NIK 1 SEASON WINS 0 0 SEASON DRAWS 0 0 SEASON LOSSES 1 1 CHAMPIONS LEAGUE 0 0 EUROPA LEAGUE 0 1 LEAGUE TITLES 0 0 DOMESTIC CUPS 1 2 TOTAL TROPHIES 1",
+   "standingsFirstCareerText": "CAREER MODE SHOWDOWN 17 STANDINGS THIS SHOWDOWN CAREER CAREER STANDINGS DANIEL CAREER POINTS 9 : 3 DANIEL LEADS NIK 1 SEASON WINS 0 0 SEASON DRAWS 0 0 SEASON LOSSES 1 1 CHAMPIONS LEAGUE 0 0 EUROPA LEAGUE 0 1 LEAGUE TITLES 0 0 DOMESTIC CUPS 1 2 TOTAL TROPHIES 1",
+   "thisShowdownText": "CAREER MODE SHOWDOWN 17 STANDINGS THIS SHOWDOWN CAREER HEAD-TO-HEAD No Showdown in progress. Start or join one from Home. SEE CAREER STANDINGS",
+   "legacyCards": [
+    {
+     "status": "completed",
+     "text": "Showdown #1DanielMálaga9 – 3♛ Daniel winsNikReal Betis1 / 1 Seasons"
+    }
+   ],
+   "seasonHistory": "CAREER MODE SHOWDOWN 17 LEGACY LIVE LEGACY ARCHIVE TROPHY ROOM RECORDS CARDS LIST Showdown #1 Daniel Málaga 9 – 3 ♛ Daniel wins Nik Real Betis 1 / 1 Seasons ‹ › VIEW SEASON HISTORY CLOSE SEASON HISTORY SHOWDOWN #1 · SEASON BY SEASON SEASON DANIEL NIK RESULT SEASON 1 9 #1 · 87 league pts · 93 goals 3 #2 · 84 league pts · 101 goals ♛ DANIEL BACK",
+   "rivalry": "CAREER MODE SHOWDOWN 17 RIVALRY STATISTICS TOTALS HEAD-TO-HEAD SEASONS TROPHIES DANIEL MÁLAGA NIK REAL BETIS 1 / 1 SEASONS COMPLETED 9 ◇ SHOWDOWN POINTS 3 1 ▦ Season Wins 0 2 ♛ Total Trophies 1 1 ✦ Champions League 0 0 ✧ Europa League 0 1 ⬡ League Titles 0 0 ♜ Domestic Cups 1 BACK TO SHOWDOWN HOME",
+   "settings": {
+    "rows": {
+     "PLAYER": "Daniel",
+     "THIS DEVICE": "Ready",
+     "CAREER": "Saved online for both of you",
+     "PARTNER": "Paired with Nik",
+     "VERSION": "v2.3.0 · r90",
+     "CAREER DATA": "Automatic Showdown storage",
+     "PLAY MODE": "Daniel vs Nik · two devices",
+     "ONLINE PLAY TODAY": "Plenty left",
+     "FREE ONLINE USE TODAY": "About 50 of 50,000 · estimated for both phones · 40 here",
+     "SEASONS LEFT TODAY": "About 62 seasons · estimate until a season is played today",
+     "DEVICE PREFERENCE": "Standard motion",
+     "EFFECTIVE APP MOTION": "Standard motion",
+     "INSTALLATION": "Browser install",
+     "OFFLINE SHELL": "Offline files ready",
+     "CONNECTIVITY": "Online",
+     "CURRENT SHOWDOWN": "None",
+     "HISTORY": "1 completed showdown"
+    },
+    "buttons": [
+     "×",
+     "CHANGE PLAYER",
+     "UNPAIR",
+     "UPDATE TO LATEST VERSION",
+     "FOLLOW DEVICEMatch your device's accessibility setting.",
+     "FULL MOTIONAlways play transitions and reveals.",
+     "REDUCE MOTIONCut menu transitions, the wheel delay and club reveal effects.",
+     "ON",
+     "DONE"
+    ]
+   }
+  },
+  "chips": {
+   "legacy": 0,
+   "trophyRoom": 0,
+   "careerStatistics": 0,
+   "standings": 0,
+   "statistics": 0
+  }
+ },
+ "nik": {
+  "fig": {
+   "summary": [
+    "1",
+    "1",
+    "1",
+    "9",
+    "3",
+    "2",
+    "1"
+   ],
+   "noRecord": false,
+   "table_daniel": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "9",
+    "2"
+   ],
+   "table_nik": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "3",
+    "1"
+   ],
+   "compareTitles": [
+    "1",
+    "0"
+   ],
+   "compareCups": [
+    "0",
+    "1"
+   ],
+   "compareCl": [
+    "1",
+    "0"
+   ],
+   "compareWins": [
+    "1",
+    "0"
+   ],
+   "compareAvgPoints": [
+    "87",
+    "84"
+   ],
+   "compareAvgGoals": [
+    "93",
+    "101"
+   ],
+   "leadWins": [
+    "Daniel",
+    "1"
+   ],
+   "leadTrophies": [
+    "Daniel",
+    "2"
+   ],
+   "leadPoints": [
+    "Daniel",
+    "9"
+   ],
+   "leadBest": [
+    "Daniel",
+    "9"
+   ],
+   "standings": {
+    "points": [
+     "9",
+     "3"
+    ],
+    "W": [
+     "1",
+     "0"
+    ],
+    "D": [
+     "0",
+     "0"
+    ],
+    "L": [
+     "0",
+     "1"
+    ],
+    "cl": [
+     "1",
+     "0"
+    ],
+    "league": [
+     "1",
+     "0"
+    ],
+    "cup": [
+     "0",
+     "1"
+    ],
+    "trophies": [
+     "2",
+     "1"
+    ],
+    "leader": "DANIEL",
+    "unavailable": false
+   },
+   "standingsFirst": {
+    "points": [
+     "9",
+     "3"
+    ],
+    "W": [
+     "1",
+     "0"
+    ],
+    "D": [
+     "0",
+     "0"
+    ],
+    "L": [
+     "0",
+     "1"
+    ],
+    "cl": [
+     "1",
+     "0"
+    ],
+    "league": [
+     "1",
+     "0"
+    ],
+    "cup": [
+     "0",
+     "1"
+    ],
+    "trophies": [
+     "2",
+     "1"
+    ],
+    "leader": "DANIEL",
+    "unavailable": false
+   },
+   "thisShowdown": {
+    "season": null,
+    "points": null,
+    "W": null,
+    "D": null,
+    "L": null,
+    "cl": null,
+    "league": null,
+    "cup": null,
+    "trophies": null
+   },
+   "rivalryFigures": {
+    "completed": [
+     "1",
+     "1"
+    ],
+    "points": [
+     "9",
+     "3"
+    ],
+    "W": [
+     "1",
+     "0"
+    ],
+    "trophies": [
+     "2",
+     "1"
+    ],
+    "cl": [
+     "1",
+     "0"
+    ],
+    "league": [
+     "1",
+     "0"
+    ],
+    "cup": [
+     "0",
+     "1"
+    ],
+    "unavailable": false
+   },
+   "rankDaniel": [
+    "1",
+    "9",
+    "1"
+   ],
+   "rankNik": [
+    "2",
+    "3",
+    "0"
+   ],
+   "recSeason": [
+    "9",
+    "DANIEL"
+   ],
+   "recPoints": [
+    "87",
+    "DANIEL"
+   ],
+   "recGoals": [
+    "101",
+    "NIK"
+   ],
+   "recPerfect": null,
+   "recBiggest": [
+    "6",
+    "DANIEL"
+   ],
+   "cabChampion": [
+    "1",
+    "—"
+   ],
+   "cabLeague": [
+    "1",
+    "—"
+   ],
+   "cabCup": [
+    "—",
+    "1"
+   ],
+   "cabCl": [
+    "1",
+    "—"
+   ],
+   "legacyEmpty": false,
+   "legacyStatuses": [
+    "completed"
+   ],
+   "legacyRows": [
+    {
+     "number": "1",
+     "score": [
+      "9",
+      "3"
+     ],
+     "seasons": [
+      "1",
+      "1"
+     ],
+     "result": "DANIEL WINS"
+    }
+   ]
+  },
+  "text": {
+   "standingsCareerText": "CAREER MODE SHOWDOWN 17 STANDINGS THIS SHOWDOWN CAREER CAREER STANDINGS DANIEL CAREER POINTS 9 : 3 DANIEL LEADS NIK 1 SEASON WINS 0 0 SEASON DRAWS 0 0 SEASON LOSSES 1 1 CHAMPIONS LEAGUE 0 0 EUROPA LEAGUE 0 1 LEAGUE TITLES 0 0 DOMESTIC CUPS 1 2 TOTAL TROPHIES 1",
+   "standingsFirstCareerText": "CAREER MODE SHOWDOWN 17 STANDINGS THIS SHOWDOWN CAREER CAREER STANDINGS DANIEL CAREER POINTS 9 : 3 DANIEL LEADS NIK 1 SEASON WINS 0 0 SEASON DRAWS 0 0 SEASON LOSSES 1 1 CHAMPIONS LEAGUE 0 0 EUROPA LEAGUE 0 1 LEAGUE TITLES 0 0 DOMESTIC CUPS 1 2 TOTAL TROPHIES 1",
+   "thisShowdownText": "CAREER MODE SHOWDOWN 17 STANDINGS THIS SHOWDOWN CAREER HEAD-TO-HEAD No Showdown in progress. Start or join one from Home. SEE CAREER STANDINGS",
+   "legacyCards": [
+    {
+     "status": "completed",
+     "text": "Showdown #1DanielMálaga9 – 3♛ Daniel winsNikReal Betis1 / 1 Seasons"
+    }
+   ],
+   "seasonHistory": "CAREER MODE SHOWDOWN 17 LEGACY LIVE LEGACY ARCHIVE TROPHY ROOM RECORDS CARDS LIST Showdown #1 Daniel Málaga 9 – 3 ♛ Daniel wins Nik Real Betis 1 / 1 Seasons ‹ › VIEW SEASON HISTORY CLOSE SEASON HISTORY SHOWDOWN #1 · SEASON BY SEASON SEASON DANIEL NIK RESULT SEASON 1 9 #1 · 87 league pts · 93 goals 3 #2 · 84 league pts · 101 goals ♛ DANIEL BACK",
+   "rivalry": "CAREER MODE SHOWDOWN 17 RIVALRY STATISTICS TOTALS HEAD-TO-HEAD SEASONS TROPHIES DANIEL MÁLAGA NIK REAL BETIS 1 / 1 SEASONS COMPLETED 9 ◇ SHOWDOWN POINTS 3 1 ▦ Season Wins 0 2 ♛ Total Trophies 1 1 ✦ Champions League 0 0 ✧ Europa League 0 1 ⬡ League Titles 0 0 ♜ Domestic Cups 1 BACK TO SHOWDOWN HOME",
+   "settings": {
+    "rows": {
+     "PLAYER": "Nik",
+     "THIS DEVICE": "Ready",
+     "CAREER": "Saved online for both of you",
+     "PARTNER": "Paired with Daniel",
+     "VERSION": "v2.3.0 · r90",
+     "CAREER DATA": "Automatic Showdown storage",
+     "PLAY MODE": "Daniel vs Nik · two devices",
+     "ONLINE PLAY TODAY": "Plenty left",
+     "FREE ONLINE USE TODAY": "About 60 of 50,000 · estimated for both phones · 50 here",
+     "SEASONS LEFT TODAY": "About 62 seasons · estimate until a season is played today",
+     "DEVICE PREFERENCE": "Standard motion",
+     "EFFECTIVE APP MOTION": "Standard motion",
+     "INSTALLATION": "Browser install",
+     "OFFLINE SHELL": "Offline files ready",
+     "CONNECTIVITY": "Online",
+     "CURRENT SHOWDOWN": "None",
+     "HISTORY": "1 completed showdown"
+    },
+    "buttons": [
+     "×",
+     "CHANGE PLAYER",
+     "UNPAIR",
+     "UPDATE TO LATEST VERSION",
+     "FOLLOW DEVICEMatch your device's accessibility setting.",
+     "FULL MOTIONAlways play transitions and reveals.",
+     "REDUCE MOTIONCut menu transitions, the wheel delay and club reveal effects.",
+     "ON",
+     "DONE"
+    ]
+   }
+  },
+  "chips": {
+   "legacy": 0,
+   "trophyRoom": 0,
+   "careerStatistics": 0,
+   "standings": 0,
+   "statistics": 0
+  }
+ }
+}
