@@ -87,7 +87,7 @@
     let tab="squad",cursor={zone:"xi",index:0},picked=null,drag=null,locked=Boolean(options.locked);
     // Where the last tap landed: the status repeats right there on a phone, so the reason a move was refused is in view
     // without scrolling to the club panel (nothing floats over the squad).
-    let noteAt=null;
+    let noteAt=null,lastRef=null;
     const note=zone=>{if(!message||noteAt!==zone)return null;const n=el("p","sqmNote",message);n.dataset.kind=messageKind;n.setAttribute("aria-hidden","true");return n;};
     let carousel=Math.max(0,formations.findIndex(f=>f.name===sheet.formation)),message="",messageKind="";
     let pendingLeave=null;
@@ -203,6 +203,7 @@
       });
       stage.appendChild(pitch);
       panel.appendChild(stage);
+      const t1=playerTools("xi");if(t1)panel.appendChild(t1);
       const n1=note("xi");if(n1)panel.appendChild(n1);
       // Nik 2026-11-11 00:29 UTC: the 7 substitutes and then the reserves sit under the pitch, always visible; the page scrolls.
       const shelf=el("div","sqmShelf");
@@ -215,7 +216,7 @@
       const subs=el("div","sqmShelfGrid is-board");
       sheet.bench.slice(0,4).forEach((p,i)=>subs.appendChild(shelfCard({zone:"bench",index:i})));
       shelf.appendChild(subs);
-      const n2=note("board");if(n2)shelf.appendChild(n2);
+      inRow(subs,"board",0);
       const more=el("div","sqmShelfHead is-more");
       more.appendChild(el("h4","sqmShelfSub","Subs 5-7"));
       more.appendChild(el("span","sqmShelfTag is-plain","Not on the Russian Roulette board"));
@@ -223,7 +224,7 @@
       const rest=el("div","sqmShelfGrid is-more");
       sheet.bench.slice(4).forEach((p,i)=>rest.appendChild(shelfCard({zone:"bench",index:i+4})));
       shelf.appendChild(rest);
-      const n3=note("more");if(n3)shelf.appendChild(n3);
+      inRow(rest,"more",4);
       const rhead=el("div","sqmShelfHead is-res");
       rhead.appendChild(el("h3","sqmShelfTitle",`Reserves  ${sheet.reserves.length}`));
       if(sheet.season<2)rhead.appendChild(el("span","sqmShelfTag is-plain","Reserves can come in from season 2"));
@@ -231,8 +232,8 @@
       const res=el("div","sqmShelfGrid");
       sheet.reserves.forEach((p,i)=>res.appendChild(shelfCard({zone:"res",index:i})));
       if(!sheet.reserves.length)res.appendChild(el("p","sqmShelfNote","Nobody else is at the club."));
-      const n4=note("res");if(n4)shelf.appendChild(n4);
       shelf.appendChild(res);
+      inRow(res,"res",0);
       panel.appendChild(shelf);
       const hint=el("div","sqmHint");
       hint.appendChild(el("p",null,locked?"Your squad is locked for this screen.":picked?"Now tap where he should go. Green rings show where he can play. Tap him again to cancel.":"Tap a player, then another, to swap them. On a computer you can also drag."));
@@ -297,6 +298,49 @@
       sqmRender();
     }
 
+    // The picked player's tools (season 2+): his overall in your save and "Left the club". They sit right under the group
+    // he is in (pitch, board subs, subs 5-7, reserves), so a phone never has to scroll to find them (Nik, 01:12 UTC).
+    function playerTools(zone){
+      const sel=playerAt(picked);
+      if(!(sheet.season>=2&&sel&&!locked&&picked&&noteZone(picked)===zone))return null;
+      {
+        const box=el("div","sqmReport");
+        box.appendChild(el("h3","sqmSideTitle",shortName(sel.name)));
+        if(pendingLeave){
+          box.appendChild(el("p","sqmSideNote","Why did he leave the club?"));
+          const chips=el("div","sqmReasons");
+          for(const r of S.leaveReasons){const b=el("button","sqmBtn",REASON_WORD[r]);b.type="button";b.addEventListener("click",()=>{const name=sel.name;noteAt=noteZone(picked);lastRef=picked;if(commit({t:"leave",id:sel.id,reason:r})){say(r==="loaned"?`${name} is out on loan and comes back next season. His place went to the best player of his line.`:`${name} has left (${REASON_WORD[r].toLowerCase()}). His place went to the best player of his line.`,"ok");}picked=null;pendingLeave=null;sqmRender();});chips.appendChild(b);}
+          const back=el("button","sqmBtn is-quiet","Cancel");back.type="button";back.addEventListener("click",()=>{pendingLeave=null;sqmRender();});chips.appendChild(back);
+          box.appendChild(chips);
+        }else{
+          const leave=el("button","sqmBtn","Left the club");leave.type="button";leave.addEventListener("click",()=>{pendingLeave=true;sqmRender();});
+          const ov=el("div","sqmOverall");
+          const minus=el("button","sqmBtn is-step","−");minus.type="button";minus.setAttribute("aria-label","Lower overall");
+          const plus=el("button","sqmBtn is-step","+");plus.type="button";plus.setAttribute("aria-label","Raise overall");
+          const val=el("input","sqmOverallVal");val.type="number";val.min="30";val.max="99";val.inputMode="numeric";val.value=String(sel.rating);val.setAttribute("aria-label",`${sel.name}'s overall`);
+          val.addEventListener("change",()=>{const n=Number(val.value);if(n!==sel.rating)step(n-sel.rating);});
+          const step=d=>{const id=sel.id,next=sel.rating+d;if(commit({t:"rate",id,overall:next})){const r=S.findPlayer(sheet,id);picked=r;if(r){noteAt=noteZone(r);lastRef=r;}say(`New overall saved: ${next}.`,"ok");}sqmRender();};
+          minus.addEventListener("click",()=>step(-1));plus.addEventListener("click",()=>step(1));
+          ov.append(el("span","sqmSideNote","Overall in your save"),minus,val,plus);
+          box.append(leave,ov);
+        }
+        return box;
+      }
+    }
+    // Tools and the status go in the grid right after the row of the player they are about (full width), so they sit
+    // next to him even deep in the reserves.
+    function inRow(grid,zone,first){
+      const tools=playerTools(zone),n=note(zone);
+      if(!tools&&!n)return;
+      const narrow=typeof root.matchMedia==="function"&&root.matchMedia("(max-width:520px)").matches;
+      const cols=narrow?(zone==="board"?2:3):4;
+      const about=zone===(picked&&noteZone(picked))&&tools?picked:noteAt===zone?lastRef:null;
+      const i=about?about.index-first:grid.children.length-1;
+      const after=Math.min(grid.children.length,(Math.floor(i/cols)+1)*cols);
+      const ref=grid.children[after]||null;
+      for(const node of [tools,n])if(node){node.classList.add("is-row");grid.insertBefore(node,ref);}
+    }
+    const noteZone=ref=>ref.zone==="bench"?(ref.index<4?"board":"more"):ref.zone;
     function renderSide(){
       side.innerHTML="";
       const crest=el("div","sqmCrest");
@@ -309,31 +353,6 @@
       lines.append(el("b",null,`${f?f.title:sheet.formation} ${f&&f.variant?f.variant:""}`),el("span",null,`1 goalkeeper · ${c.DEF} defenders · ${c.MID} midfielders · ${c.ATT} attackers`));
       side.appendChild(lines);
       side.appendChild(live);live.textContent=message;live.dataset.kind=messageKind;
-      // Selected-player actions (season 2+): left the club, new overall.
-      const sel=playerAt(picked);
-      if(sheet.season>=2&&sel&&!locked){
-        const box=el("div","sqmReport");
-        box.appendChild(el("h3","sqmSideTitle",shortName(sel.name)));
-        if(pendingLeave){
-          box.appendChild(el("p","sqmSideNote","Why did he leave the club?"));
-          const chips=el("div","sqmReasons");
-          for(const r of S.leaveReasons){const b=el("button","sqmBtn",REASON_WORD[r]);b.type="button";b.addEventListener("click",()=>{const name=sel.name;if(commit({t:"leave",id:sel.id,reason:r})){say(r==="loaned"?`${name} is out on loan and comes back next season. His place went to the best player of his line.`:`${name} has left (${REASON_WORD[r].toLowerCase()}). His place went to the best player of his line.`,"ok");}picked=null;pendingLeave=null;sqmRender();});chips.appendChild(b);}
-          const back=el("button","sqmBtn is-quiet","Cancel");back.type="button";back.addEventListener("click",()=>{pendingLeave=null;sqmRender();});chips.appendChild(back);
-          box.appendChild(chips);
-        }else{
-          const leave=el("button","sqmBtn","Left the club");leave.type="button";leave.addEventListener("click",()=>{pendingLeave=true;sqmRender();});
-          const ov=el("div","sqmOverall");
-          const minus=el("button","sqmBtn is-step","−");minus.type="button";minus.setAttribute("aria-label","Lower overall");
-          const plus=el("button","sqmBtn is-step","+");plus.type="button";plus.setAttribute("aria-label","Raise overall");
-          const val=el("input","sqmOverallVal");val.type="number";val.min="30";val.max="99";val.inputMode="numeric";val.value=String(sel.rating);val.setAttribute("aria-label",`${sel.name}'s overall`);
-          val.addEventListener("change",()=>{const n=Number(val.value);if(n!==sel.rating)step(n-sel.rating);});
-          const step=d=>{const id=sel.id,next=sel.rating+d;if(commit({t:"rate",id,overall:next})){const r=S.findPlayer(sheet,id);picked=r;say(`New overall saved: ${next}.`,"ok");}sqmRender();};
-          minus.addEventListener("click",()=>step(-1));plus.addEventListener("click",()=>step(1));
-          ov.append(el("span","sqmSideNote","Overall in your save"),minus,val,plus);
-          box.append(leave,ov);
-        }
-        side.appendChild(box);
-      }
       if(sheet.out.length){
         const gone=el("div","sqmGone");gone.appendChild(el("h3","sqmSideTitle","Left the club"));
         const list=el("ul");for(const o of sheet.out.slice().reverse().slice(0,8))list.appendChild(el("li",null,`${shortName(o.name)}  ·  ${REASON_WORD[o.reason]||o.reason}${o.returned?", back":""}  ·  S${o.season}`));
@@ -370,7 +389,7 @@
     }
     function trySwap(a,b){
       const pa=playerAt(a),pb=playerAt(b);
-      noteAt=b.zone==="bench"?(b.index<4?"board":"more"):b.zone;
+      noteAt=noteZone(b);lastRef=b;
       if(commit({t:"swap",a,b})){
         say(pa&&pb?`${shortName(pa.name)} and ${shortName(pb.name)} swapped.`:`${shortName((pa||pb).name)} moved.`,"ok");
         picked=null;pendingLeave=null;cursor=b;

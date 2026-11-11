@@ -230,3 +230,14 @@
 }
 @media (prefers-reduced-motion:reduce){.sqm *{transition:none!important;scroll-behavior:auto!important}}
 @media (min-width:961px){.sqmNote{display:none}}
+/* The picked player's tools, inline under his group (season 2+). */
+.sqmPanel>.sqmReport,.sqmShelfGrid>.sqmReport{flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0;border-radius:0;padding:12px 14px;border-top:1px solid var(--frostLine)}
+.sqmPanel>.sqmReport{background:#dfe4ea;color:var(--frostInk)}
+.sqmShelfGrid>.sqmReport{margin:8px 8px 2px;border-radius:2px;border:1px solid var(--line);background:#2d333c;color:#eef0f3}
+.sqmShelfGrid>.sqmReport .sqmSideNote{color:var(--soft)}
+.sqmShelfGrid>.sqmReport .sqmBtn.is-quiet{color:#eef0f3;border-color:#5a626e}
+.sqmPanel>.sqmReport .sqmSideTitle,.sqmShelfGrid>.sqmReport .sqmSideTitle{margin:0;flex:1 1 100%}
+.sqmPanel>.sqmReport .sqmOverall,.sqmShelfGrid>.sqmReport .sqmOverall{flex:1 1 auto}
+.sqmPanel>.sqmReport .sqmOverall .sqmSideNote,.sqmShelfGrid>.sqmReport .sqmOverall .sqmSideNote{flex:0 1 auto}
+.sqmReport .sqmReasons{flex:1 1 100%}
+.sqmShelfGrid>.is-row{grid-column:1/-1;margin:4px 0}
