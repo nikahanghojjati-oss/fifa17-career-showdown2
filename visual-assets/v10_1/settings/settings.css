@@ -182,7 +182,7 @@
 #settingsOverlay.v10Settings .settingsPanel--account h2,
 #settingsOverlay.v10Settings .settingsPanel--application h2 {
   margin: 0;
-  font: 700 clamp(1rem, 1.26vw, 1.35rem)/1.05 var(--sd-font-display, sans-serif);
+  font: 700 clamp(1rem, 1.26vw, 1.35rem)/1.05 var(--sd-font-condensed, sans-serif);
   letter-spacing: 0.035em;
   text-transform: uppercase;
   color: #f5f1e8;
@@ -282,7 +282,7 @@
 }
 #settingsOverlay.v10Settings #motionTitle {
   margin: 0;
-  font: 700 clamp(1.22rem, 1.65vw, 1.7rem)/1 var(--sd-font-display, sans-serif);
+  font: 700 clamp(1.22rem, 1.65vw, 1.7rem)/1 var(--sd-font-condensed, sans-serif);
   letter-spacing: 0.035em;
   text-transform: uppercase;
   color: #f7f3e9;
@@ -419,7 +419,7 @@
 }
 #settingsOverlay.v10Settings #dataTitle {
   margin: 0;
-  font: 700 clamp(1rem,1.28vw,1.4rem)/1.05 var(--sd-font-display,sans-serif);
+  font: 700 clamp(1rem,1.28vw,1.4rem)/1.05 var(--sd-font-condensed, sans-serif);
   color: #f5f1e8;
 }
 #settingsOverlay.v10Settings #dataDescription {
