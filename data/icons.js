@@ -6,9 +6,8 @@
   "use strict";
 
   // R88 Prime Pack (Nik 2026-10-31/11-01): male outfield Legends, Icons, FUT Heroes and Hall of FUT players, one card each
-  // (the Icon card always wins: the highest Legend or Icon card; a Hero or Hall of FUT card only for a player with none; the
-  // newer game wins a tie). Written by scripts/r88-icons-from-csv.mjs on 2026-11-01 from the checked CSVs:
-  // 232 players (17 Legend, 103 Icon Prime, 26 Icon Base, 68 Hero, 18 Hall of FUT),
+  // (Nik 2026-11-11: the highest-rated card of any version; on a tie the Legend or Icon card, then the newer game). Written by scripts/r88-icons-from-csv.mjs on 2026-11-11 from the checked CSVs:
+  // 232 players (16 Legend, 103 Icon Prime, 26 Icon Base, 69 Hero, 18 Hall of FUT),
   // Prime cards up to FIFA 23. Do not edit by hand: fix the CSVs and run the script again.
   // The order is part of the draw: never reorder rows or change who is in them once released; a new list is a new LIST_VERSION.
   const LIST_VERSION=1;
@@ -182,7 +181,7 @@
     {"id":"patrick-vieira","name":"Vieira","fullName":"Patrick Vieira","acceptedNames":["Vieira","Patrick Vieira"],"nation":"France","nationCode":"FR","position":"CM","game":"FIFA 23","cardVersion":"Icon Prime","overall":91,"stats":{"PAC":83,"SHO":80,"PAS":82,"DRI":85,"DEF":90,"PHY":91}},
     {"id":"paul-scholes","name":"Scholes","fullName":"Paul Scholes","acceptedNames":["Scholes","Paul Scholes"],"nation":"England","nationCode":"GB-ENG","position":"CM","game":"FIFA 23","cardVersion":"Icon Prime","overall":91,"stats":{"PAC":72,"SHO":87,"PAS":91,"DRI":80,"DEF":64,"PHY":82}},
     {"id":"pauleta","name":"Pauleta","fullName":"Pedro Miguel Carreiro Resendes","acceptedNames":["Pauleta","Pedro Miguel Carreiro Resendes"],"nation":"Portugal","nationCode":"PT","position":"ST","game":"FIFA 17","cardVersion":"Legend","overall":87,"stats":{"PAC":82,"SHO":86,"PAS":72,"DRI":78,"DEF":31,"PHY":72}},
-    {"id":"paulo-futre","name":"Futre","fullName":"Paulo Futre","acceptedNames":["Futre","Paulo Futre"],"nation":"Portugal","nationCode":"PT","position":"LW","game":"FIFA 17","cardVersion":"Legend","overall":87,"stats":{"PAC":84,"SHO":80,"PAS":78,"DRI":92,"DEF":28,"PHY":55}},
+    {"id":"paulo-futre","name":"Futre","fullName":"Paulo Futre","acceptedNames":["Futre","Paulo Futre"],"nation":"Portugal","nationCode":"PT","position":"LW","game":"FC 27","cardVersion":"Hero","overall":88,"stats":{"PAC":93,"SHO":81,"PAS":80,"DRI":93,"DEF":37,"PHY":61}},
     {"id":"pavel-nedved","name":"Nedvěd","fullName":"Pavel Nedvěd","acceptedNames":["Nedvěd","Pavel Nedvěd"],"nation":"Czech Republic","nationCode":"CZ","position":"LM","game":"FIFA 23","cardVersion":"Icon Prime","overall":91,"stats":{"PAC":85,"SHO":88,"PAS":90,"DRI":90,"DEF":60,"PHY":81}},
     {"id":"pele","name":"Pelé","fullName":"Edson Arantes do Nascimento","acceptedNames":["Pelé","Edson Arantes do Nascimento","Nascimento","O Rei"],"nation":"Brazil","nationCode":"BR","position":"CAM","game":"FIFA 23","cardVersion":"Icon Prime","overall":98,"stats":{"PAC":95,"SHO":96,"PAS":93,"DRI":96,"DEF":60,"PHY":76}},
     {"id":"pep-guardiola","name":"Guardiola","fullName":"Josep Guardiola Sala","acceptedNames":["Guardiola","Josep Guardiola Sala","Pep Guardiola"],"nation":"Spain","nationCode":"ES","position":"CDM","game":"FIFA 22","cardVersion":"Icon Prime","overall":90,"stats":{"PAC":78,"SHO":65,"PAS":88,"DRI":81,"DEF":88,"PHY":83}},

@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Russian Roster Roulette season step (Nik 2026-10-28/30; look Team V HO-040): before each manager's Transfer Challenge both spins play full-screen, Daniel first, outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); he then confirms the release in his FIFA 17 save. The app never releases anyone itself.
+  // r87 Roster Russian Roulette season step (Nik 2026-10-28/30; look Team V HO-040): before each manager's Transfer Challenge both spins play full-screen, Daniel first, outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); he then confirms the release in his FIFA 17 save. The app never releases anyone itself.
   // Boards build themselves, never saved or typed (Nik 2026-10-30): FIFA 17 launch board minus the Special Player, then each season's shot player out and kept signings in by position and overall, from Transfer War verdicts and saved shots (kept on this phone when shown, else plain reads of both verdict documents and the saved spins for every missing season at once; F2-12).
   // Shown once per manager per season on this browser (a watched spin is not replayed); never for a Showdown confirmed before r87. A page that fails to load skips only the animation: the result and the release still show.
   // Any other failure (engine, data, error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded shot still counts on later boards, so a manager must never reach the window untold.
@@ -82,7 +82,7 @@
     rrsRemovePanel();
     const overlay=rrsEl("div","remoteJoiningOverlay rrStepOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",label);
     const shell=rrsEl("div","remoteJoiningShell rrStepShell"),header=rrsEl("div","remoteJoiningHeader");
-    header.append(rrsEl("strong","",`SEASON ${ctx.season} · RUSSIAN ROSTER ROULETTE`));
+    header.append(rrsEl("strong","",`SEASON ${ctx.season} · ROSTER RUSSIAN ROULETTE`));
     const body=rrsEl("div","rrStepBody");body.append(rrsEl("h2","rrStepTitle",heading));
     // No finished scene behind the card (WebGL missing, scene seen before a reload, history retry): stand it in the room, never on the page below.
     if(!rrsDoc().getElementById(STAGE_ID))overlay.classList.add("rrStepRoom");
@@ -113,10 +113,10 @@
   function rrsReadError(result,season){
     const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result);if(quota)return quota;
     const code=String(result&&result.code||"");
-    if(/permission/i.test(code))return `Season ${season}'s Transfer War could not be read: the Showdown is not open here. Go back to Showdown Home and open it again.`;
+    if(/permission/i.test(code))return `Season ${season}'s Transfer War could not be read because this Showdown is not open here. Go back to Showdown Home and open it again.`;
     if(code==="TRANSFER_NOT_COMPLETED")return `Season ${season}'s Transfer War never reached its verdicts, and this season's boards are built from them. Nothing was spun or saved.`;
     if(/STALE|MISMATCH/.test(code))return `This Showdown moved on while this screen was open, so Season ${season}'s Transfer War no longer matches it. Go back to Showdown Home and open it again.`;
-    if(!code||/unavailable|deadline|offline|network|aborted|timeout|PROVIDER_FAILED/i.test(code))return `Season ${season}'s Transfer War could not be reached: the connection dropped. Try again when it is back.`;
+    if(!code||/unavailable|deadline|offline|network|aborted|timeout|PROVIDER_FAILED/i.test(code))return `Season ${season}'s Transfer War could not be reached because the connection dropped. Try again once it is back.`;
     return `Season ${season}'s Transfer War could not be read (${code}). Nothing was spun or saved.`;
   }
   // The Special Players both phones drew for this Showdown (js/marqueePlayer.js): {role:{name, overall, number,
@@ -207,9 +207,9 @@
   function rrsRemoveStage(){const stage=rrsDoc()?.getElementById(STAGE_ID);if(stage)stage.remove();}
   function rrsCreateStage(ctx){
     const doc=rrsDoc();rrsRemoveStage();
-    const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Russian Roster Roulette");
+    const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Roster Russian Roulette");
     stage.style.cssText="position:fixed;inset:0;z-index:95;background:#050403;visibility:hidden";
-    const frame=doc.createElement("iframe");frame.title="Russian Roster Roulette";
+    const frame=doc.createElement("iframe");frame.title="Roster Russian Roulette";
     const base=typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(PAGE):PAGE;
     frame.src=`${base}${base.includes("?")?"&":"?"}embed=1&d=${encodeURIComponent(ctx.clubs.playerOne)}&n=${encodeURIComponent(ctx.clubs.playerTwo)}`;
     frame.style.cssText="display:block;width:100%;height:100%;border:0;background:#050403";
