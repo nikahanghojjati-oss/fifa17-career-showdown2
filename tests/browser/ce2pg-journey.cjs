@@ -1019,14 +1019,14 @@ function extract(raw){
   o.standingsCareerText=stCareer.toUpperCase();o.standingsFirstCareerText=stFirst.toUpperCase();
   const live=raw?.standings?.["THIS SHOWDOWN"]||"";o.thisShowdownText=live;
   o.thisShowdown={season:pair(live,/SEASON (\d+) OF (\d+)/),points:pair(live,/SHOWDOWN POINTS\s+(\d+)\s*:\s*(\d+)/)};
-  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
+  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES?","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
   const rv=corpus(raw,"statistics");
   o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions League\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
   // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
   const R=label=>new RegExp(label+String.raw`\s+(\d+|\u2014)\s*(DANIEL|NIK|LEVEL)?`);
-  o.recSeason=rec(R("HIGHEST SEASON SCORE"));o.recPoints=rec(R("HIGHEST LEAGUE POINTS"));o.recGoals=rec(R("HIGHEST LEAGUE GOALS"));o.recPerfect=rec(R("MOST PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
+  o.recSeason=rec(R("BEST SEASON SCORE"));o.recPoints=rec(R("BEST LEAGUE POINTS"));o.recGoals=rec(R("BEST LEAGUE GOALS"));o.recPerfect=rec(R("PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;
   o.legacyCards=(raw?.legacy?.cards||[]).map(c=>({status:c.status,text:c.text}));
@@ -1089,7 +1089,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
     // r90 W9 (#1300, LOOK L26): a record nobody holds yet (no best, or a best of 0) is left off the Trophy Room ribbon, so it is
     // expected absent, not as a dash (js/careerScreensV10.js keeps only finite values above 0).
     const r=E.records,recWant=v=>v&&Number.isFinite(v.value)&&v.value>0?[S(v.value),holderName(v.holder)]:null;
-    await eq(m,id("trophy.records"),"Trophy Room all-time records: highest season score, league points, league goals, most perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[recWant(r.season),recWant(r.points),recWant(r.goals),recWant(r.perfect),recWant(r.biggestWin)],scr("Trophy Room (records)"));
+    await eq(m,id("trophy.records"),"Trophy Room all-time records: best season score, league points, league goals, perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[recWant(r.season),recWant(r.points),recWant(r.goals),recWant(r.perfect),recWant(r.biggestWin)],scr("Trophy Room (records)"));
   }
   // Legacy (History): completed cards and ended-early rows, in career order, nothing else
   const wantCards=E.rows.map(s=>{
