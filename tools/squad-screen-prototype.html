@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Squad Management prototype</title>
+<link rel="stylesheet" href="../css/squadScreen.css">
+<style>
+  html,body{margin:0;min-height:100%;background:#0d1014}
+  body{background:radial-gradient(120% 80% at 70% 10%,#3b4656 0%,#1a2029 45%,#0b0d11 100%) fixed;color:#f4f5f7;font-family:Barlow,Arial,sans-serif}
+  main{padding:18px 16px 40px}
+  .proto{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:center;margin:0 auto 16px;max-width:1030px;font-size:14px;color:#c9d0da}
+  .proto label{display:flex;gap:6px;align-items:center;max-width:100%}
+  .proto select{max-width:min(100%,calc(100vw - 90px))}
+  .proto select,.proto button{font:600 14px Barlow,Arial,sans-serif;min-height:36px;padding:4px 8px;border-radius:3px;border:1px solid #4a5260;background:#262b33;color:#f4f5f7}
+  .proto b{color:#e8c065;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<main>
+  <div class="proto">
+    <b>Prototype</b>
+    <label>Club <select id="club"></select></label>
+    <label>Screen <select id="scene">
+      <option value="s1pre">Season 1 · before Russian Roulette</option>
+      <option value="s1post">Season 1 · after Transfer War (sample signings, one shot)</option>
+      <option value="s2pre">Season 2 · before Russian Roulette</option>
+    </select></label>
+    <button type="button" id="reset">Start over</button>
+  </div>
+  <div id="squad"></div>
+</main>
+<script src="../data/clubs.js"></script>
+<script src="../data/fifa17Players.js"></script>
+<script src="../data/rosterSquads.js"></script>
+<script src="../js/visualIdentity.js"></script>
+<script src="../js/kits17.js"></script>
+<script src="../js/squadSheet.js"></script>
+<script src="../js/squadScreen.js"></script>
+<script>
+(function(){
+  const S=window.CareerModeSquadSheet,P=window.CareerModeFifa17Players;
+  const clubSel=document.getElementById("club"),sceneSel=document.getElementById("scene"),host=document.getElementById("squad");
+  for(const c of Object.keys(P.clubs).sort()){const o=document.createElement("option");o.value=o.textContent=c;clubSel.appendChild(o);}
+  const q=new URLSearchParams(location.search);
+  clubSel.value=q.get("club")&&P.clubs[q.get("club")]?q.get("club"):"Athletic Club" in P.clubs?"Athletic Club":"Arsenal";
+  if(q.get("scene"))sceneSel.value=q.get("scene");
+  let screen=null;
+  // Sample Transfer War signings: one strong player in each outfield line from other clubs, so the screen shows NEW players.
+  function sampleSignings(club){
+    const pick=[],want=["ST","CM","CB"];
+    for(const [other,data] of Object.entries(P.clubs)){
+      if(other===club)continue;
+      for(const row of data.players){const pos=row[2][0];const i=want.indexOf(pos);if(i>=0&&row[1]>=80&&row[1]<=86){pick.push({name:row[0],overall:row[1],position:pos});want.splice(i,1);}if(!want.length)break;}
+      if(!want.length)break;
+    }
+    return pick;
+  }
+  function build(){
+    const club=clubSel.value;let sheet=S.launch(club);
+    if(sceneSel.value!=="s1pre"){
+      const shot=sheet.xi.filter(Boolean).sort((a,b)=>a.rating-b.rating)[2];
+      sheet=S.advance(sheet,{shot:{name:shot.name,number:shot.number,signedSeason:null},released:[],kept:sampleSignings(club)});
+    }
+    if(sceneSel.value==="s2pre")sheet=S.advance(sheet,{});
+    if(screen)screen.destroy();
+    screen=window.CareerModeSquadScreen.mount(host,{sheet,club,draft:{read:()=>{try{return JSON.parse(localStorage.getItem(`sqm-proto|${club}|${sceneSel.value}`)||"[]");}catch(e){return [];}},write:ops=>{try{localStorage.setItem(`sqm-proto|${club}|${sceneSel.value}`,JSON.stringify(ops));}catch(e){}}},onLock:()=>{}});
+    if(window.CareerModeKits17&&window.CareerModeKits17.prepare)window.CareerModeKits17.prepare([club]).then(()=>{}).catch(()=>{});
+  }
+  clubSel.addEventListener("change",build);sceneSel.addEventListener("change",build);
+  document.getElementById("reset").addEventListener("click",()=>{try{localStorage.removeItem(`sqm-proto|${clubSel.value}|${sceneSel.value}`);}catch(e){}build();});
+  build();
+})();
+</script>
+</body>
+</html>
