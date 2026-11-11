@@ -1657,3 +1657,13 @@
 @media (max-width: 480px) {
   :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
 }
+
+/* r91 art ledger R1 (Nik 2026-11-11: "titles and the pages look ... over decorated"): the crown glyph and the
+   "CAREER MODE SHOWDOWN 17" line above a screen title repeat on every screen and say nothing new. They are hidden, not
+   removed: each box keeps its size, so no title, face or panel moves, and screen readers still get the screen title.
+   Rule Book keeps its own header until its rewrite (PR #1391) lands.
+   The :not(#sa-f*) chain is this sheet's usual way to outrank the per-screen rules (Trophy Room and Final Winner set
+   visibility on the kicker and its crown themselves). */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(.legacyTitleBlock, .titleBlock, .trophyTitleBlock, .finalWinnerTitleBlock, #rvTitleBlock, .sdg-header, .settingsTitleBlock) > .sd-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(.legacyTitleBlock, .titleBlock, .trophyTitleBlock, .finalWinnerTitleBlock, #rvTitleBlock, .sdg-header, .settingsTitleBlock) > .sd-eyebrow::before,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) .season-title-block > .season-eyebrow { visibility: hidden; }
