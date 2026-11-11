@@ -492,6 +492,9 @@
       const KC={gkIdle:rebase(keeper,keeper.clips.gkIdle,"cmGkIdle",{zero:"xz"})};
       for(const n of ["gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2"])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
       if(keeper.clips.defeated)KC.defeated=rebase(keeper,keeper.clips.defeated,"cm_gkDefeated",{zero:"xz"});
+      // r91: a keeper's shuffle along his line during the run-up (Nik's Soccer Game Pack, Mixamo "Goalkeeper Sidestep", both
+      // ways): the step keeps its sideways travel, so the feet never slide.
+      for(const n of ["gkStepL","gkStepR"])if(keeper.clips[n])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
       keeper.holder.position.set(0,0,.25);
       return {a:keeper,KC};
     };
@@ -661,7 +664,10 @@
       const scored=Boolean(k.goal&&k.shot),pool=scored?react.goal:react.miss;
       // Beaten standing still (he stayed in the middle, the ball went to a corner): no catch at thin air; he watches it in.
       const rooted=k.goal&&k.shot&&side==="M"&&KC.defeated?ROOTED:null;
-      return {...k,round,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-(rooted||move).tc/(rooted||move).s,netHit:false};
+      // r91: two kicks in three the keeper shuffles one step along his line during the run-up and back (the same step played
+      // backwards, so he lands where he started and every save still meets the ball), done before he sets for the strike.
+      const shuffle=KC.gkStepL&&KC.gkStepR&&(luck>>>12)%3?{c:(luck>>>14)%2?"gkStepL":"gkStepR",at:-1.95+((luck>>>16)%5)*.06}:null;
+      return {...k,round,shuffle,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-(rooted||move).tc/(rooted||move).s,netHit:false};
     };
     // The taker at time t (seconds from the strike); idle while waiting.
     const takerAt=(t,live)=>{
@@ -690,7 +696,13 @@
     };
     const keeperPose=(t,live)=>{
       const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
-      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;keeper.pose([idle]);breathe(keeper,live,.8);return;}
+      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;
+        const sh=plan&&plan.shuffle,c=sh&&KC[sh.c];
+        if(c){const D=c.duration-1e-3,H=.12,u=t-sh.at;
+          // out, a beat on the far foot, back (the step backwards), then into his stance again
+          if(u>0&&u<2*D+H+.22){const ct=u<D?u:u<D+H?D:Math.max(0,2*D+H-u),w=u<.12?cm3Easy(u/.12):u>2*D+H?1-cm3Easy((u-2*D-H)/.22):1;
+            keeper.pose([{...idle,w:1-w},{clip:c,time:ct,w}]);return;}}
+        keeper.pose([idle]);breathe(keeper,live,.8);return;}
       const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*(m.rooted?.45:.12)));
       keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
     };

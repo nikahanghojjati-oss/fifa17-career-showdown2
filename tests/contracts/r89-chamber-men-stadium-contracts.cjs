@@ -71,7 +71,8 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
     const clips=glb(`anims_${tier}.glb`).json.animations.map(a=>a.name);
     // r90: the clips the scene plays. idle, walk, run, strikeJog and gkCatch went (nothing played them); the reactions
     // victory2, cheer, salute and defeated came from Nik's Mixamo files (tools/chamber-men-players/clips_r90.json).
-    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated"];
+    const PLAYED=["offensiveIdle","gkIdle","penaltyKick","jog","victory","disappointed","gkDive","gkDive1","gkBlock","gkBlock1","gkBlock2","gkCatch1","gkCatch2","victory2","cheer","salute","defeated","gkStepL","gkStepR"];
+    // r91: gkStepL and gkStepR (the keeper's shuffle along his line in the run-up) came from clips_r91.json.
     assert.deepEqual(clips.slice().sort(),PLAYED.slice().sort(),`anims_${tier} holds exactly the played clips`);
     assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/chamber-men/players/player_${tier}.glb`)),`retired player_${tier}.glb is gone`);
   }
@@ -79,7 +80,7 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   // r90 M1: meshopt-packed (tools/chamber-men-players/pack-meshopt.mjs), so the caps came down about 45%.
   for(const [tier,amax,bmax] of [["desktop",.7e6,3.4e6],["phone",.65e6,1.45e6]]){
     const a=glb(`anims_${tier}.glb`);assert.ok(a.size<=amax,`anims_${tier}.glb ${a.size} <= ${amax}`);
-    assert.equal(a.json.animations.length,17,`anims_${tier} has the 17 clips`);
+    assert.equal(a.json.animations.length,19,`anims_${tier} has the 19 clips`);
     for(const id of ["remy","ch38","ch42"]){
       const {size,json}=glb(`body_${id}_${tier}.glb`);
       assert.ok(size<=bmax,`body_${id}_${tier}.glb ${size} <= ${bmax}`);
