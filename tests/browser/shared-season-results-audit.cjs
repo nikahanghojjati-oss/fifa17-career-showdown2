@@ -178,9 +178,9 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
   await page.evaluate(({prefix,value})=>{document.getElementById(`${prefix}LeaguePoints`).value=String(value);},{prefix,value:result.leaguePoints+1});
   const before=server.publishes.length;
   await page.locator('#confirmSeasonCompletion').click();
-  await page.waitForFunction(()=>/changed after review/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
+  await page.waitForFunction(()=>/changed after you reviewed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
   await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
-  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after review/i,'refresh must not erase a publication/review error before the player can read it');
+  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after you reviewed/i,'refresh must not erase a publication/review error before the player can read it');
   assert.equal(server.publishes.length,before,'review fingerprint mismatch must block provider publication');
   await page.locator('#editSeasonResults').click();
   await fillOwnResult(page,role,result);
