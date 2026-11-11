@@ -337,6 +337,9 @@
     return rows?{formation:data.formation,board:rows.map(row=>({...row,positions:row.positions.slice()}))}:null;
   }
 
+  // r91: the Transfer War's player list (js/playerSearch.js fetches and parses it at idle, the worker keeps it) starts loading
+  // while the managers set their squads, so the name search is ready when the Transfer War opens. Nothing waits on it.
+  function sqsWarmPlayerList(){try{if(typeof root.ensureTransferPlayerList==="function")root.ensureTransferPlayerList(null);}catch(error){}}
   async function sqsRunNow(ctx,io){
     if(!sqsApplies(ctx))return true;
     // Seen to the end on this phone (locked, and before the Roulette both locked): straight on. The Roulette still gets both
@@ -352,7 +355,7 @@
         if(!built.ok)answer={retry:true,text:sqsReadText(built),error:built.error};
         // After the Transfer War nobody waits for anyone: a squad already locked (on another device) is simply kept.
         else if(built.sheet&&ctx.stage==="post"){sqsMarkDone(ctx);return true;}
-        else answer=await sqsScreen(ctx,io,history,built);
+        else{if(ctx.stage==="pre")sqsWarmPlayerList();answer=await sqsScreen(ctx,io,history,built);}
       }
       if(answer==="next"){sqsMarkDone(ctx);return true;}
       if(answer==="back"){wentHome=true;return false;}

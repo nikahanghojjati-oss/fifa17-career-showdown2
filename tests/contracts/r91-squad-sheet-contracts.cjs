@@ -456,7 +456,16 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
     assert.match(screen,/input\.type="search"/);assert.match(screen,/S\.searchFormations\(query\)/);
     ok('C13','all 33 FIFA 17 formations under their FIFA 17 names (1 GK + 10, the back line as named), and the Formations search finds them by numbers (with or without dashes), alias or variant');
   }
-  // C14 (review of #1390, Nik: "not synced"): gazetteEnsure gives a phone that never kept the sheets a paper needs (a new
+  // C14 a finger's drag survives the redraw at the 300 ms hold: the scroll is held back on the finger's own node, which
+  // leaves the page when the squad redraws, so its touchmoves never reach the panel (iPhone: the drag was cancelled).
+  {
+    const screen=fs.readFileSync(path.join(__dirname,'../../js/squadScreen.js'),'utf8');
+    assert.match(screen,/const held=e\.target,hold=ev=>\{if\(drag&&drag\.ghost&&ev\.cancelable\)ev\.preventDefault\(\);\};/);
+    assert.match(screen,/held\.addEventListener\("touchmove",hold,\{passive:false\}\);held\.addEventListener\("touchend",done\);held\.addEventListener\("touchcancel",done\);/);
+    assert.match(screen,/panel\.addEventListener\("touchmove",e=>\{if\(drag&&drag\.ghost&&e\.cancelable\)e\.preventDefault\(\);\},\{passive:false\}\);/,'the panel keeps its own hold too');
+    ok('C14','a finger drag holds the scroll back on its own node, so the redraw at the 300 ms hold no longer cancels it');
+  }
+  // C15 (review of #1390, Nik: "not synced"): gazetteEnsure gives a phone that never kept the sheets a paper needs (a new
   // device, cleared storage) the same sheets the other phone has: it reads only the missing season N-1 and N "pre" documents
   // (at most 4, each kept, an empty answer too), nothing on a phone that has them, nothing twice; a failed read says false.
   {
@@ -490,7 +499,7 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
     const D=phone({fail:true});use(D.env);assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),false,'a read that fails says so');
     const E=phone();use({...E.env,CareerModeProductionFirebaseRuntime:undefined});assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),false,'no account services: false, no throw');
     for(const k of ['readStorageValue','writeStorageValue','CareerModeProductionFirebaseRuntime'])delete globalThis[k];
-    ok('C14','review of #1390: gazetteEnsure reads only the missing "pre" sheets a paper needs (at most 4, once, kept), none on a phone that has them, so both phones tell the same squad news');
+    ok('C15','review of #1390: gazetteEnsure reads only the missing "pre" sheets a paper needs (at most 4, once, kept), none on a phone that has them, so both phones tell the same squad news');
   }
   console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exit(1);});

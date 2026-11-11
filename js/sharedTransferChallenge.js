@@ -77,9 +77,11 @@
       // r87 (Nik 2026-10-30): a signing also carries the player's FIFA 17 overall (30-99), entered by his own manager and never
       // guessed; Russian Roster Roulette uses it for the board from season 2. Rows locked before r87 have none.
       // r87 (Nik 2026-10-30 16:53 UTC): and his FIFA 17 position (own only, never guessed), so the board can place him.
-      const hasOverall=stcPlainHasOverall(item),hasPosition=Boolean(item&&typeof item==="object"&&Object.hasOwn(item,"position"));
-      stcExact(item,["slot","name","leagueId","nationalityId",...(hasOverall?["overall"]:[]),...(hasPosition?["position"]:[])],"TRANSFER_SIGNINGS_INVALID");
+      // r91 (2.4.0): and the SoFIFA id of a player picked from the autocomplete (optional, 1..999999).
+      const hasOverall=stcPlainHasOverall(item),hasPosition=Boolean(item&&typeof item==="object"&&Object.hasOwn(item,"position")),hasPlayerId=Boolean(item&&typeof item==="object"&&Object.hasOwn(item,"playerId"));
+      stcExact(item,["slot","name","leagueId","nationalityId",...(hasOverall?["overall"]:[]),...(hasPosition?["position"]:[]),...(hasPlayerId?["playerId"]:[])],"TRANSFER_SIGNINGS_INVALID");
       if(hasOverall&&!stcOverallValid(item.overall))stcFail("TRANSFER_SIGNINGS_INVALID");
+      if(hasPlayerId&&!(Number.isInteger(item.playerId)&&item.playerId>=1&&item.playerId<=999999))stcFail("TRANSFER_SIGNINGS_INVALID");
       if(hasPosition&&!POSITIONS.includes(item.position))stcFail("TRANSFER_SIGNINGS_INVALID");
       if(!Number.isInteger(item.slot)||item.slot<1||item.slot>3||seen.has(item.slot))stcFail("TRANSFER_SIGNINGS_INVALID");
       seen.add(item.slot);
@@ -87,7 +89,7 @@
       if(!name||name.length>80||name!==item.name)stcFail("TRANSFER_SIGNINGS_INVALID");
       if(!leagueIds.has(item.leagueId)||!nationalityIds.has(item.nationalityId))stcFail("TRANSFER_SIGNINGS_INVALID");
       const row={slot:item.slot,name,leagueId:item.leagueId,nationalityId:item.nationalityId};
-      if(hasOverall)row.overall=item.overall;if(hasPosition)row.position=item.position;
+      if(hasOverall)row.overall=item.overall;if(hasPosition)row.position=item.position;if(hasPlayerId)row.playerId=item.playerId;
       return row;
     }).sort((a,b)=>a.slot-b.slot);
   }
