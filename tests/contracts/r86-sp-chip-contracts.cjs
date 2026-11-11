@@ -19,17 +19,18 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 const NOT_SHOWN=/marquee|\bMP\b/i;
 const AT=MP.fromMs+60*60*1000,BEFORE=MP.fromMs-24*60*60*1000;
 const plain=value=>JSON.parse(JSON.stringify(value));
+const NC={playerOne:'No Such Club A',playerTwo:'No Such Club B'};
 
 // S1 the chip: the reveal's draw, Daniel = playerOne and Nik = playerTwo, the badge in the tier's words; none before r86.
 {
-  const id='pair_'+'0'.repeat(64),pair=MP.forShowdown(id,AT),sp=Chip.forShowdown(id,AT);
+  const id='pair_'+'0'.repeat(64),pair=MP.forShowdown(id,AT,{clubs:NC}),sp=Chip.forShowdown(id,AT,NC);
   assert.equal(sp.daniel.name,pair.playerOne.name);assert.equal(sp.nik.name,pair.playerTwo.name);
   assert.deepEqual(plain(sp.daniel),{name:'Neymar',club:pair.playerOne.club,rank:1,tier:'black-blue-gold',badge:'#1 TOP 3'});
   assert.equal(sp.nik.badge,'#2 TOP 3');
   assert.deepEqual(Chip.tiers,{'black-blue-gold':'TOP 3','blue-gold':'TOP 10',gold:'TOP 20',silver:'TOP 50',bronze:'TOP 300'});
-  for(const seed of '123456789abcdef'){const s=Chip.forShowdown('pair_'+seed.repeat(64),AT);for(const m of ['daniel','nik'])assert.equal(s[m].badge,`#${s[m].rank} ${Chip.tiers[s[m].tier]}`);}
-  for(const at of [BEFORE,MP.fromMs-1,null,undefined,'x',NaN])assert.equal(Chip.forShowdown(id,at),null,`confirm time ${at}`);
-  for(const rid of [null,'','pair_short',42])assert.equal(Chip.forShowdown(rid,AT),null);
+  for(const seed of '123456789abcdef'){const s=Chip.forShowdown('pair_'+seed.repeat(64),AT,NC);for(const m of ['daniel','nik'])assert.equal(s[m].badge,`#${s[m].rank} ${Chip.tiers[s[m].tier]}`);}
+  for(const at of [BEFORE,MP.fromMs-1,null,undefined,'x',NaN])assert.equal(Chip.forShowdown(id,at,NC),null,`confirm time ${at}`);
+  for(const rid of [null,'','pair_short',42])assert.equal(Chip.forShowdown(rid,AT,NC),null);
   assert.equal(Chip.forRow({rivalryId:id}),null,'an old History row (no setupConfirmedAt) has none');
   assert.equal(Chip.forRow(null),null);
   const html=Chip.html(sp.daniel);
@@ -42,11 +43,11 @@ const plain=value=>JSON.parse(JSON.stringify(value));
 // S2 History rows: an r86 Showdown carries specialPlayers on every career frame; a pre-r86 one carries no field.
 const old=projection({seed:'1',totalSeasons:1,seasons:[[result({leaguePosition:1,leaguePoints:90}),result({leaguePosition:2})]]});
 const r86=projection({seed:'b',totalSeasons:1,seasons:[[result({leaguePosition:2}),result({leaguePosition:1,leaguePoints:92})]]});
-const row=(p,setupConfirmedAt)=>({rivalryId:p.rivalryId,classification:'completed',projection:p,final:finalFor(p),...(setupConfirmedAt==null?{}:{setupConfirmedAt})});
+const row=(p,setupConfirmedAt)=>({rivalryId:p.rivalryId,classification:'completed',projection:p,final:finalFor(p),clubs:NC,...(setupConfirmedAt==null?{}:{setupConfirmedAt})});
 const both=Career.buildCareerModel({indexStatus:'ready',showdowns:[row(old,BEFORE),row(r86,AT)]});
 const oldOnly=Career.buildCareerModel({indexStatus:'ready',showdowns:[row(old,BEFORE)]});
 const noTime=Career.buildCareerModel({indexStatus:'ready',showdowns:[row(r86)]});
-const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
+const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
 {
   const legacy=RL.toV10Frame(both,'legacy'),byId=Object.fromEntries(both.history.showdowns.map(r=>[r.rivalryId,r.number]));
   const card=n=>legacy.showdowns.find(s=>s.number===n);
@@ -69,13 +70,13 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
 // S3 the live Showdown: the confirmed shared Setup's rivalry and confirm time (no read of its own); another rivalry: none.
 {
   const live=projection({seed:'9',totalSeasons:3,seasons:[[result(),result()]]});
-  const state={ready:true,rivalryId:live.rivalryId,setupUpdatedAtMs:AT,setup:{phase:'SHOWDOWN_CONFIRMED'}};
+  const state={ready:true,rivalryId:live.rivalryId,setupUpdatedAtMs:AT,setup:{phase:'SHOWDOWN_CONFIRMED',clubs:NC}};
   const counts=()=>({seasonWins:1,seasonDraws:0,seasonLosses:0,championsLeagues:0,europaLeagues:0,leagueTitles:1,domesticCups:0,totalTrophies:1});
   const rivalry={status:'ready',score:{daniel:7,nik:9},managers:{daniel:counts(),nik:counts()}};
   try{
     assert.equal(Chip.live(),null,'no Setup: none');
     globalThis.CareerModeProductionSharedShowdownSetup={getState:()=>state};
-    const sp=plain(Chip.forShowdown(live.rivalryId,AT));
+    const sp=plain(Chip.forShowdown(live.rivalryId,AT,NC));
     assert.deepEqual(plain(Chip.live()),sp);assert.deepEqual(plain(Chip.liveFor(live.rivalryId)),sp);assert.equal(Chip.liveFor(r86.rivalryId),null);
     assert.deepEqual(plain(SF.standingsFrames(rivalry,null).SHOWDOWN.model.specialPlayers),sp,'Standings THIS SHOWDOWN');
     assert.deepEqual(plain(CS.toV10Frame(both,'careerStatistics').specialPlayers),sp,'career-wide screens show the live Showdown first');
@@ -113,7 +114,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   };
   for(const [file,patterns] of Object.entries(hooks)){const src=read(file);for(const re of patterns)assert.match(src,re,`${file} ${re}`);assert.match(src,/CareerModeSpecialPlayerChip/,`${file} uses the shared chip`);}
   // The string renderers really render it for an r86 frame and render nothing for an old one.
-  const sp=Chip.forShowdown(r86.rivalryId,AT);
+  const sp=Chip.forShowdown(r86.rivalryId,AT,NC);
   globalThis.window={CareerModeSpecialPlayerChip:Chip};
   try{
     for(const file of ['visual-assets/v10_1/career-statistics/career-statistics.js','visual-assets/v10_1/trophy-room/trophy-room.js']){
@@ -152,7 +153,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
 
 // S6 Career Start: one line per manager with the Special Player's original club ("No club" when the list has none).
 {
-  const sp=Chip.forShowdown('pair_'+'5'.repeat(64),AT);
+  const sp=Chip.forShowdown('pair_'+'5'.repeat(64),AT,NC);
   assert.equal(Chip.clubLine(sp.daniel),'A. Vidal · FC Bayern München');assert.equal(Chip.clubLine(sp.nik),'C. Musonda · Real Betis');
   assert.equal(Chip.clubLine({...sp.daniel,club:null}),'A. Vidal · No club');assert.equal(Chip.clubLine(null),'');
   const pc=read('js/productionSharedCareerStart.js');
@@ -165,7 +166,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
 
 // S7 naming: screens say "Special Player" or "SP" only.
 {
-  const sp=Chip.forShowdown('pair_'+'e'.repeat(64),AT);
+  const sp=Chip.forShowdown('pair_'+'e'.repeat(64),AT,NC);
   const shown=[Chip.rule.label,Chip.rule.text,Chip.html(sp.daniel),Chip.html(sp.nik),Chip.title(sp.daniel),Chip.clubLine(sp.nik),...[...Chip.css.matchAll(/content:\s*("[^"]*"|'[^']*')/g)].map(m=>m[1])];
   for(const text of shown)assert.doesNotMatch(text,NOT_SHOWN,text);
   assert.match(Chip.rule.text,/Your Special Player scores no points\. Full rules in card 09\./);
@@ -194,7 +195,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
 // sides; the published Season Results cards carry the chip; long names wrap in the phone Career Table.
 {
   const live=projection({seed:'9',totalSeasons:3,seasons:[[result(),result()]]});
-  const state={ready:true,rivalryId:live.rivalryId,setupUpdatedAtMs:AT,setup:{phase:'SHOWDOWN_CONFIRMED'}};
+  const state={ready:true,rivalryId:live.rivalryId,setupUpdatedAtMs:AT,setup:{phase:'SHOWDOWN_CONFIRMED',clubs:NC}};
   try{
     globalThis.CareerModeProductionSharedShowdownSetup={getState:()=>state};
     const sp=plain(Chip.live());assert.ok(sp&&sp.daniel&&sp.nik);
@@ -221,11 +222,11 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
 // S10 red team R87-SP-01: with no live Setup, an in-progress Showdown whose row has no confirm time owns the current
 // Special Players; the career screens show no chip rather than the previous Showdown's pair.
 {
-  const finished={rivalryId:r86.rivalryId,status:'completed',setupConfirmedAt:AT};
-  const live={rivalryId:'pair_'+'c'.repeat(64),status:'in-progress',setupConfirmedAt:null};
+  const finished={rivalryId:r86.rivalryId,status:'completed',setupConfirmedAt:AT,clubs:NC};
+  const live={rivalryId:'pair_'+'c'.repeat(64),status:'in-progress',setupConfirmedAt:null,clubs:NC};
   assert.deepEqual(plain(Chip.latest([finished])),r86Sp,'no Showdown in progress: the latest confirmed one');
   assert.equal(Chip.latest([finished,live]),null,'an in-progress Showdown without its confirm time: no chip, never an older pair');
-  assert.deepEqual(plain(Chip.latest([finished,{...live,setupConfirmedAt:AT+1}])),plain(Chip.forShowdown(live.rivalryId,AT+1)),'with its confirm time: its own pair');
+  assert.deepEqual(plain(Chip.latest([finished,{...live,setupConfirmedAt:AT+1}])),plain(Chip.forShowdown(live.rivalryId,AT+1,NC)),'with its confirm time: its own pair');
   ok('S10','red team R87-SP-01: an in-progress Showdown without a confirm time shows no chip, never the previous Showdown\'s');
 }
 

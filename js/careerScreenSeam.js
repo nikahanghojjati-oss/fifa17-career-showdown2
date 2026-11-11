@@ -65,11 +65,9 @@
   // Showdown. Each manager is judged on their own total, so both can earn it in one Showdown. An ended-early, unfinished or
   // shorter Showdown never earns it. Read from the completed rows already loaded; nothing is stored.
   // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so its
-  // Golden Showdown is 150 in every Showdown (Nik 2026-11-01: no 11 or 110 anywhere). PRIME_PACK_FROM_MS is
-  // js/iconGuess.js fromMs (the Roster Roulette boundary; tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
+  // Golden Showdown is 150 in every Showdown (Nik 2026-11-01: no 11 or 110 anywhere).
   const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:150,primePackPoints:150});
   const SEASON_MAX=Object.freeze({primePack:15});
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   // Nik 2026-11-01 18:32 UTC: there is no 11 anywhere. A season is worth at most 15 in every Showdown (SEASON_MAX.primePack).
   // Nik 2026-11-01 17:35 UTC: there was never a real 10-season Showdown before Prime Pack, so no old record to keep. The
   // Golden Showdown is 150 in every Showdown.
@@ -187,5 +185,5 @@
     }
     fragment.appendChild(root);return fragment;
   }
-  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,SEASON_MAX,PRIME_PACK_FROM_MS,goldenShowdownPoints,endedEarlyText,sackedText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
+  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,SEASON_MAX,goldenShowdownPoints,endedEarlyText,sackedText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
 });
