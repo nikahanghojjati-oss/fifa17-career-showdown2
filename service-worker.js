@@ -18,9 +18,6 @@ const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|sv
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
-const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
-    "production-authorization-acceptance.html"
-]);
 // r86: the Special Player page is its own document in a frame (js/specialPlayerReveal.js). A frame load is a navigation:
 // it gets that page from the shell the app runs (then the network), never the shell's index.html. Its images follow the
 // Team V cache-first image rule.
@@ -76,10 +73,6 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"
-]);
-const NETWORK_ONLY_ASSET_PATHS = new Set([
-    "js/productionAuthorizationAcceptance.js",
-    "js/productionProviderAbuseAcceptance.js"
 ]);
 
 const SHELL_PATHS = Object.freeze([
@@ -448,7 +441,7 @@ const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condens
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
-const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
+const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrPhysicalJourneyAcceptance.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze([...SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)),...SHELL_PATHS_REMOVED_SINCE_PREVIOUS]);
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:INSTALL_PATHS; }
 
@@ -612,11 +605,10 @@ self.addEventListener("fetch",event=>{
     if(CHRONICLE_PATH.test(relativeScopePath(url))){return;}
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
-        if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
         if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||((!selected||selected.revision===RUNTIME_REVISION)&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):fetch(request)); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(event,request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(event,request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||(requestedRevision===RUNTIME_REVISION&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):Response.error());})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS,previousShellPaths:PREVIOUS_SHELL_PATHS});
