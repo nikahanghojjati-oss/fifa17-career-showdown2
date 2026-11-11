@@ -321,6 +321,7 @@
     // r90 Light draw budget (o.lean): the back net in one pass (both faces drawn together) instead of a back-face pass then a
     // front-face pass of the same white cord.
     if(o.lean){const one=keep(netMat.clone());one.forceSinglePass=true;back.material=one;}
+    let sideNet=null,sideBase=null;
     // Side nets: the panel under the profile, from the stanchion curve down to the ground, in the plane of each post.
     // r90 draw calls: both panels in one draw, in one pass. Each panel is flat, so only one of its faces ever faces the
     // camera and the second pass a double-sided net normally takes drew nothing; the two panels are the same white cord.
@@ -330,7 +331,9 @@
         sides.push(add(g,netMat,goal));
       }
       const sideMat=keep(netMat.clone());sideMat.forceSinglePass=true;
-      const m=stadiumMerge(T,sides,goal);m.material=sideMat;m.name="cmNetSides";}
+      const m=stadiumMerge(T,sides,goal);m.material=sideMat;m.name="cmNetSides";
+      // r91: the side netting gives too (netPush), so it keeps its cords as they were to go back to.
+      m.geometry.attributes.position.setUsage(T.DynamicDrawUsage);sideNet=m;sideBase=Float32Array.from(m.geometry.attributes.position.array);}
     const backBase=Float32Array.from(backGeo.attributes.position.array);
 
     // ---------- ad boards ----------
@@ -686,11 +689,19 @@
       for(const m of drop){m.removeFromParent();m.geometry.dispose();}}
 
     // ---------- live ----------
-    const net={x:0,y:1.2,t0:-1,amp:0,px:0,py:1.2,pz:null};
-    // r91 netPush(x, y, z): the back of the ball at (x, y, z) in the goal's space, or null. Every cord behind that point
-    // is held behind it in a tent (a paraboloid round the ball, about a metre across at 30 cm deep), so the net wraps the
-    // ball wherever it pushes and never cuts through it; the damped ripple of the hit runs on top.
-    function netPush(x,y,z){net.px=x;net.py=y;net.pz=Number.isFinite(z)?z:null;}
+    const net={x:0,y:1.2,t0:-1,amp:0,px:0,py:1.2,pz:null,sx:null,cz:0};
+    // r91 netPush(x, y, z, xOut, zc): the ball in the goal, in the goal's space: x, y of its centre, z of its back (or null),
+    // the x of its outer side (or null) and the z of its centre. Every cord of the back net behind it, and of the side
+    // netting beyond it, is held there in a tent (a paraboloid round the ball, about a metre across at 30 cm deep), so the
+    // net wraps the ball wherever it pushes and never cuts through it; the damped ripple of the hit runs on top.
+    function netPush(x,y,z,xOut,zc){net.px=x;net.py=y;net.pz=Number.isFinite(z)?z:null;net.sx=Number.isFinite(xOut)?xOut:null;net.cz=Number.isFinite(zc)?zc:0;}
+    function sideNetAt(){if(!sideNet)return;const P=sideNet.geometry.attributes.position,a=P.array,sx=net.sx??null;
+      if(sx===null){if(a.__moved){a.set(sideBase);P.needsUpdate=true;a.__moved=false;}return;}
+      if(a.__moved&&sx===net.sdx&&net.py===net.sdy&&net.cz===net.sdz)return;
+      net.sdx=sx;net.sdy=net.py;net.sdz=net.cz;const reach=Math.abs(sx),sg=Math.sign(sx);
+      for(let i=0;i<a.length;i+=3){const bx=sideBase[i];a[i]=bx;a[i+1]=sideBase[i+1];a[i+2]=sideBase[i+2];if(Math.sign(bx)!==sg)continue;
+        const dy=sideBase[i+1]-net.py,dz=sideBase[i+2]-net.cz;a[i]=sg*Math.max(Math.abs(bx),reach-1.2*(dy*dy+dz*dz));}
+      a.__moved=true;P.needsUpdate=true;}
     // contact([[ax,az,bx,bz,radius,strength] x 3]): taker, keeper, ball; strength 0 leaves one out.
     function contact(list){for(let i=0;i<3;i+=1){const c=list&&list[i];if(c){contactU.seg.value[i].set(c[0],c[1],c[2],c[3]);contactU.rk.value[i].set(Math.max(.01,c[4]),Math.max(0,Math.min(1,c[5])));}else contactU.rk.value[i].set(1,0);}}
     function hitNet(x,y,speed){net.x=x;net.y=y;net.t0=crowdUniforms.uTime.value;net.amp=Math.min(1,(speed||20)/25);}
@@ -710,6 +721,7 @@
       if(atlas){const v=atlas.rows.reduce((n,x)=>n+x.version,0);if(v!==atlas.ver){atlas.ver=v;atlas.draw();}}
       // Net bulge: a damped push at the hit point. A clock before the hit (Reduce Motion turned on after a goal sets the
       // scene clock to 0) restores the flat net, never an inverted bulge.
+      sideNetAt();
       const pos=backGeo.attributes.position,arr=pos.array;const e=t-net.t0,ripple=!(net.t0<0||e<0||e>2.5),pz=net.pz;
       if(!ripple&&pz===null){if(arr.__moved){arr.set(backBase);pos.needsUpdate=true;arr.__moved=false;}return;}
       // the ball at rest in the net after the ripple: the cords are already where they belong, nothing to send
