@@ -461,7 +461,9 @@
     margin-top:8px; padding-top:6px; font:600 11px/1.2 var(--sd-font-condensed);
   }
   #app #ruleBook.v10RuleBook .ruleScoreMaximum strong { font-size:23px; }
-  #app #ruleBook.v10RuleBook .ruleBookActions { flex:0 0 auto; margin:0 auto; bottom:8px; }
+  /* r91 (Nik 2026-11-11): on tablets BACK TO HOME sits at the end of the page, as on desktop; the sticky copy floated over the
+     rules while you scrolled. Phones keep their own rules above. */
+  #app #ruleBook.v10RuleBook .ruleBookActions { flex:0 0 auto; margin:0 auto; position:relative; bottom:auto; z-index:auto; padding:4px; background:none; }
 }
 
 /* Approved NEXT desktop: centered gold title, ordered 2x3 board and gold Back.
