@@ -1,0 +1,41 @@
+{
+ "A": {
+  "ecc": 0.9999,
+  "shift_px": [
+   0.0,
+   0.0
+  ]
+ },
+ "B": {
+  "ecc": 0.9998,
+  "shift_px": [
+   -0.02,
+   0.04
+  ]
+ },
+ "C": {
+  "ecc": 1.0,
+  "shift_px": [
+   0.0,
+   -0.0
+  ]
+ },
+ "ENV_HOME_PLATE_HC_V2_2X.webp": {
+  "bytes": 291464,
+  "sha256": "f2650322b5da09f9046f57e81bc32f6d418e95c932c3d029eabf5606fc03ed83"
+ },
+ "ENV_HOME_PLATE_HC_V2_1X.webp": {
+  "bytes": 111446,
+  "sha256": "bb48edc0e2050f85be25cb56e950cc1f00695b90e024df1f9e25a39378083800"
+ },
+ "ENV_HOME_PHONE_HC_V2.webp": {
+  "bytes": 112292,
+  "sha256": "97e3625921ecbc90bb80d70395fe56ab348cc9eb03301fd3fa9ce2644fa2cf0e"
+ },
+ "ENV_HOME_PHONE_HC_V2_590W.webp": {
+  "bytes": 40880,
+  "sha256": "6c6ee2a2d90684733f4d6f4535bef0cf66438e6c13dec117ff7910d752ea73d3"
+ },
+ "max_change_outside_desktop": 0.0,
+ "max_change_outside_phone": 0.0
+}

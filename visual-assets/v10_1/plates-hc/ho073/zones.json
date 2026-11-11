@@ -1,0 +1,119 @@
+{
+ "note": "HO-073. Coordinates in pixels of ENV_HOME_PLATE_HC_V2_2X (3072x1728) and ENV_HOME_PHONE_HC_V2 (1179x2096) at gameplay/r91 ec357470d.",
+ "desktop_panes": {
+  "A": [
+   910,
+   232,
+   1724,
+   1120
+  ],
+  "B": [
+   1762,
+   232,
+   2464,
+   1120
+  ],
+  "C": [
+   2746,
+   232,
+   3072,
+   1124
+  ]
+ },
+ "crops": {
+  "A": {
+   "pane": "A",
+   "box": [
+    910,
+    470,
+    1724,
+    1013
+   ],
+   "send_size": [
+    1536,
+    1024
+   ]
+  },
+  "B": {
+   "pane": "B",
+   "box": [
+    1762,
+    500,
+    2464,
+    968
+   ],
+   "send_size": [
+    1536,
+    1024
+   ]
+  },
+  "C": {
+   "pane": "C",
+   "box": [
+    2470,
+    560,
+    3072,
+    961
+   ],
+   "send_size": [
+    1536,
+    1024
+   ]
+  }
+ },
+ "feather_px": 10,
+ "phone_panes": {
+  "A": [
+   62,
+   390,
+   458,
+   825
+  ],
+  "B": [
+   470,
+   390,
+   825,
+   825
+  ],
+  "C1": [
+   957,
+   390,
+   1060,
+   825
+  ],
+  "C2": [
+   1060,
+   390,
+   1160,
+   825
+  ]
+ },
+ "phone_map_note": "phone pixel (x,y) shows desktop pixel (bx + s*x, by + s*y); measured by template match (scores A 0.89, B 0.98, C1 0.98, C2 0.88). The phone's right pane repeats desktop pane C (C2 = C shifted).",
+ "phone_map": {
+  "A": {
+   "s": 2.0346,
+   "bx": 798.2,
+   "by": -560.9
+  },
+  "B": {
+   "s": 2.0346,
+   "bx": 798.2,
+   "by": -560.9
+  },
+  "C1": {
+   "s": 2.0305,
+   "bx": 802.9,
+   "by": -557.4
+  },
+  "C2": {
+   "s": 2.0367,
+   "bx": 587.3,
+   "by": -561.7
+  }
+ },
+ "band_y": [
+  625,
+  852
+ ],
+ "band_y_note": "desktop rows that may change: under the roof steel line, down to the pitch rail; pitch, roof and floodlights keep original pixels. Phone limits follow through phone_map."
+}
