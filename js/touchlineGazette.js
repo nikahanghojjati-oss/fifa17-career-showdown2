@@ -539,7 +539,7 @@
   // The whole paper and its CONTINUE fit the window where they can: on desktop the paper is scaled down a little on short
   // windows, never below FIT_FLOOR (2.0.0 readability: the story stays at reading size), after which the page scrolls as
   // usual. The phone edition is never scaled (it scrolls). CONTINUE itself is never scaled.
-  const FIT_FLOOR=Object.freeze({desktop:0.92,phone:1});
+  const FIT_FLOOR=Object.freeze({desktop:0.924,phone:1});
   function fit(){
     const state=current;if(!state||!state.page.isConnected)return;
     const compact=compactNow();
