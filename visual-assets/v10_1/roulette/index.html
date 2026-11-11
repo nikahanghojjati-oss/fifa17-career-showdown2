@@ -1451,6 +1451,13 @@ async function warmUp(){ const all=new Set(); scene.traverse(o=>{ (Array.isArray
     for(const b of batches){ b.forEach(o=>renderer.compile(o,camera,scene)); toGame2("cms-rr-loading",{stage:"compile"}); await new Promise(r=>setTimeout(r,0)); }
   }catch(e){} }
   try{ await renderer.compileAsync(scene,camera); }catch(e){ try{ renderer.compile(scene,camera); }catch(_e){} }
+  /* r91 (Nik 2026-11-11, smooth on the Chromebook): compiling is not the whole of it. The browser (ANGLE) finishes a program's link, and the
+     GPU driver builds its pipeline, only when the program is first checked or drawn, so the hand, the board close-up and the shot's flash
+     and smoke still paid for theirs in the middle of a turn (5 s of link checks at the aim and 1 s at the shot in the container). One frame
+     with every object shown and nothing culled settles all of them now. The visibility is put back and the real frame drawn over it in the
+     same task, so the canvas never shows that frame */
+  toGame2("cms-rr-loading",{stage:"compile"}); await new Promise(r=>setTimeout(r,0));
+  try{ const keep=[]; scene.traverse(o=>{ keep.push([o,o.visible,o.frustumCulled]); o.visible=true; o.frustumCulled=false; }); try{ renderer.render(scene,camera); }finally{ keep.forEach(([o,v,f])=>{ o.visible=v; o.frustumCulled=f; }); } renderer.render(scene,camera); }catch(e){}
   toGame2("cms-rr-loading",{stage:"calibrate"});
   try{ await GFXT.calibrate(renderer,()=>{ tick(false); renderer.render(scene,camera); },{frames:6}); }catch(e){ renderer.render(scene,camera); } }
 /* r90: leaving the page (the game removes the frame when the roulette ends) hands every GPU buffer back at once instead of waiting for
