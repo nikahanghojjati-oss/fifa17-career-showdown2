@@ -154,11 +154,11 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .ovr { color: var(--slot-ink); text-shadow: 0 0 2.4cqw rgba(241,207,122,.55); }
 .ovrtile.fresh .f { text-shadow: 0 0 3cqw rgba(241,207,122,.95); }
 .postile { left: 14.3cqw; top: 32.2cqh; width: 20.3cqw; height: 6.1cqh; }
-.postile .b, .pos { font: 700 7.4cqw/1 var(--cond); letter-spacing: .06em; }
+.postile .b, .pos { font: 700 max(12px, 7.4cqw)/1 var(--cond); letter-spacing: .06em; }
 .postile .b { color: var(--foil-3); }
 .pos { color: var(--slot-ink); }
 .flagtile { left: 42.2cqw; top: 84.5cqh; width: 16.8cqw; height: 6.6cqh; }
-.flagtile .b { justify-content: center; color: var(--foil-3); font: 700 6.4cqw/1 var(--cond); }
+.flagtile .b { justify-content: center; color: var(--foil-3); font: 700 max(12px, 6.4cqw)/1 var(--cond); }
 .flagtile .f { justify-content: center; }
 .flagtile canvas { width: 76%; height: 70%; display: block; border-radius: .5cqw; box-shadow: 0 0 0 .4cqw rgba(196,147,47,.7); }
 .flagtile.fresh .f canvas { box-shadow: 0 0 0 .4cqw rgba(196,147,47,.7), 0 0 4cqw rgba(241,207,122,.95); }
@@ -168,17 +168,18 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .nameplate { left: 15cqw; right: 15cqw; top: 55.3cqh; height: 6cqh; text-align: center; z-index: 2; border-radius: 1.3cqw; box-sizing: border-box;
   background: linear-gradient(180deg, #1a150d 0%, #0b0906 100%);
   box-shadow: inset 0 0 0 .55cqw #c99a3c, inset 0 0 0 .95cqw #3a2a0e, inset 0 0 0 1.25cqw rgba(241,207,122,.45), 0 .6cqw 1.6cqw rgba(0,0,0,.6);
-  font: 700 7.6cqw/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; color: var(--slot-ink); white-space: nowrap; }
+  font: 700 max(12px, 7.6cqw)/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; color: var(--slot-ink); white-space: nowrap; }
 .nametile .b { visibility: hidden; }
 .nametile .b, .nametile .f { justify-content: center; overflow: hidden; transform: none !important; }
 .nametile .f { left: 3cqw; right: 3cqw; opacity: 0; transition: opacity 650ms linear; text-shadow: 0 0 2cqw rgba(241,207,122,.45); }
 .nametile[data-shown="1"] .f { opacity: 1; }
 .stats { position: absolute; left: 16cqw; right: 15.2cqw; top: 61.85cqh; display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column;
   grid-template-rows: repeat(3, 5.86cqh); column-gap: 11.7cqw; row-gap: 1.43cqh; z-index: 2; }
-.stat .b, .stat .f { justify-content: center; gap: 3cqw; font: 700 6.6cqw/1 var(--cond); }
-.stat .b i { font-style: normal; color: var(--foil-3); letter-spacing: .06em; width: 8cqw; text-align: right; }
-.stat .b span, .stat .f span { color: var(--slot-label); font-size: 5.4cqw; letter-spacing: .08em; width: 9cqw; }
-.stat .f em { font-style: normal; color: var(--slot-ink); width: 8cqw; text-align: right; }
+/* strict look D13 (Nik 12 px floor): the stat type never scales below 12 px, so the label and value widths follow the type (em) when the card is small */
+.stat .b, .stat .f { justify-content: center; gap: 3cqw; font: 700 max(12px, 6.6cqw)/1 var(--cond); }
+.stat .b i { font-style: normal; color: var(--foil-3); letter-spacing: .06em; width: max(8cqw, 1.2em); text-align: right; }
+.stat .b span, .stat .f span { color: var(--slot-label); font-size: max(12px, 5.4cqw); letter-spacing: .08em; width: max(9cqw, 1.55em); }
+.stat .f em { font-style: normal; color: var(--slot-ink); width: max(8cqw, 1.2em); text-align: right; }
 .stat.fresh .f em { color: #ffe08a; text-shadow: 0 0 2.4cqw rgba(241,207,122,.95); }
 
 /* ---------- the two boxes: Daniel's (left) and Nik's (right), both always on screen, each with his two guess tokens ---------- */
@@ -204,7 +205,7 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .gbox[data-role="playerTwo"] .who { flex-direction: row-reverse; }
 .gbox[data-role="playerOne"] .who { color: var(--daniel); }
 .gbox[data-role="playerTwo"] .who { color: var(--nik); }
-.gbox .you { font: 700 11px/1 var(--cond); letter-spacing: .14em; color: var(--ink); background: var(--foil-2); padding: 3px 5px 2px; border-radius: 2px; flex: none; }
+.gbox .you { font: 700 12px/1 var(--cond); letter-spacing: .14em; color: var(--ink); background: var(--foil-2); padding: 3px 5px 2px; border-radius: 2px; flex: none; }
 .gbox:not([data-me="1"]) .you { display: none; }
 .chips { grid-area: chips; display: flex; gap: 6px; flex: none; }
 .chip { width: 30px; height: 30px; display: block; transition: transform 300ms var(--ease);
@@ -651,10 +652,17 @@ addEventListener("resize", layoutStage);
 // One line, never cut off: shrink the name's font until it fits the plate (in card units, so it holds at every size).
 const NAME_CQW = 7.6;
 function fitName(){
-  const el=$("nameValue"); el.style.fontSize="";
+  const el=$("nameValue"); el.style.fontSize=""; el.style.letterSpacing="";
   const range=document.createRange(); range.selectNodeContents(el);
-  const room=el.clientWidth, need=range.getBoundingClientRect().width * (el.offsetWidth ? el.offsetWidth/el.getBoundingClientRect().width : 1);
-  if(room>0 && need>room) el.style.fontSize=(NAME_CQW*room/need*.97).toFixed(2)+"cqw";
+  const measure=()=>({ room:el.clientWidth, need:range.getBoundingClientRect().width * (el.offsetWidth ? el.offsetWidth/el.getBoundingClientRect().width : 1) });
+  const m=measure();
+  // strict look D13 (Nik's 12 px floor): the name stays at 12 px or more whenever it fits there (tightening its letter spacing
+  // before shrinking); only a name too long even for 12 px with no spacing still shrinks to fit, because a cut name is worse
+  if(m.room>0 && m.need>m.room){
+    const cur=parseFloat(getComputedStyle(el).fontSize), card=$("card").clientWidth || 1, fitted=(cur*m.room/m.need*.97/card*100).toFixed(2)+"cqw";
+    for(const ls of ["", "0"]){ el.style.letterSpacing=ls; el.style.fontSize="12px"; const k=measure(); if(k.need<=k.room) return; }
+    el.style.letterSpacing=""; el.style.fontSize=fitted;
+  }
 }
 if(window.visualViewport){ visualViewport.addEventListener("resize",fitViewport); visualViewport.addEventListener("scroll",fitViewport); fitViewport(); } else layoutStage();
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(layoutStage);
