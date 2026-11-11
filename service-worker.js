@@ -15,6 +15,11 @@ function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFI
 // where Ogg Opus does not decode) follow the same cache-first
 // runtime rule as Team V's images instead of the install precache.
 const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav|ogg|glb)$/i;
+// r91 (2.4.0): the full FIFA 17 player list for Transfer War autocomplete (scripts/build-fifa17-database.py). It is never
+// precached and never in the idle offline pack: the first Transfer War of a revision fetches it (about 300 KB gzipped) and
+// keeps it in that revision's image cache, the same cache-first path as Team V images. Its name carries its content hash, so a
+// kept copy is never stale and a new list is a new name.
+const ON_DEMAND_DATA_PATH = /^data\/fifa17\/players-\d+\.[0-9a-f]{8}\.json$/;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
@@ -267,6 +272,7 @@ const SHELL_PATHS = Object.freeze([
     "js/storageTransaction.js",
     "js/transferChallenge.js",
     "js/transferSelector.js",
+    "js/playerSearch.js",
     "js/trophyRoom.js",
     "js/visualIdentity.js",
     "assets/marco-reus-2015-cc-by.webp",
@@ -405,7 +411,7 @@ const OFFLINE_PACK_PATHS = new Set([
     "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/clubAssignment.js","js/dataEngine.js",
     "js/leagueWheel.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js",
     "js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js","js/transferChallenge.js",
-    "js/transferSelector.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
+    "js/transferSelector.js","js/playerSearch.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp","assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp","assets/football/james-rodriguez-world-cup-2014-v113.webp",
     "assets/football/lionel-messi-barcelona-2016-subject-r4.webp","assets/football/marcus-rashford-chelsea-2017-v113.webp",
@@ -439,7 +445,7 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // Team V plates stay Team V images, V10_IMAGE_PATH runtime cache). Removed: the app's own Barlow Condensed 600/700 latin copies
 // (the sheet loads the shared ones) and js/analytics.js; a page rolled back to 2.2.0 still finds them in its own retained
 // shell. W8 (#1278) split install from the offline pack but keeps SHELL_PATHS the full list. The STORY site is never precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","js/playerSearch.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","js/analytics.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
@@ -584,7 +590,7 @@ self.addEventListener("message",event=>{
 });
 self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const keepImageCaches=new Set([V10_IMAGE_CACHE_NAME,recovery.ok?v10ImageCacheName(recovery.revision):""].filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&!keepImageCaches.has(name)){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
-function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path); }
+function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path)||ON_DEMAND_DATA_PATH.test(path); }
 // Images follow the shell the page runs: after a rollback they come from the retained revision's own image cache
 // (or its shell cache, for revisions that precached them), so an offline rollback keeps the art it had viewed. A miss is
 // fetched by path: each Team V image path names one generation (_V<n> name, bytes pinned by v10-foundation F9c).

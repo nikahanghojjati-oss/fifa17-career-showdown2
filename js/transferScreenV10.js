@@ -191,7 +191,7 @@
       const node=tfProduction(id),name=stage.querySelector(`[id="${id.replace(/Overall$/,"Name")}"]`),pos=tfProduction(id.replace(/Overall$/,"Position"));
       if(!node||!name||!tfIsAdopted(name)||!name.parentNode)continue;
       const cell=doc.createElement("div");cell.className="signing-name-cell";
-      name.parentNode.insertBefore(cell,name);cell.appendChild(name);nameCells.push(cell);
+      const unit=tfUnit(name);unit.parentNode.insertBefore(cell,unit);cell.appendChild(unit);nameCells.push(cell);
       if(pos)tfAdopt(pos,cell,"append");
       tfAdopt(node,cell,"append");
     }

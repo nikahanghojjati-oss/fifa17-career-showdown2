@@ -1061,7 +1061,7 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 /* r87 (Team G): production's position and overall boxes sit in Team V's name cell after the player name at every size
    (name, POS, OVR). POS keeps 62px+ so "CAM" and its arrow never clip, OVR 46px+ for two digits; the name gives way first. */
 #transferChallenge .tw-host .signing-name-cell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(62px, 4.4em) minmax(46px, 3.6em); gap: 4px; min-width: 0; align-items: center; }
-#transferChallenge .tw-host .signing-name-cell > :is(input, select) { min-width: 0; width: 100%; grid-column: auto; }
+#transferChallenge .tw-host .signing-name-cell > :is(input, select, .transferCombobox) { min-width: 0; width: 100%; grid-column: auto; }
 #transferChallenge .tw-host .signing-row input.signingOverall { text-align: center; padding-inline: 2px; font-variant-numeric: tabular-nums; }
 /* the position box wears the plate's field look (visual-assets/v10_1/tr2/slice-02-plate/plate.css .signing-row input) with
    the guess selectors' gold arrow */
@@ -1128,6 +1128,10 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 #app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption:is(.active, :hover) { background: rgba(242, 196, 91, .16); color: #fff6dc; box-shadow: inset 3px 0 0 var(--gold, #f2c45b); }
 #app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption:is(.active, :hover) span { color: #e9d9a8; }
 #app #transferChallenge .tw-host .transferComboboxList .transferComboboxEmpty { padding: 14px 12px; color: #d6c496; font-size: 14px; }
+/* r91 player list: the same black-and-gold rows; the refusal tag is a warm red, the hint and LOCK's words sit in the list. */
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxPlayer em { margin-top: 2px; color: #ff8f7a; font-size: 12px; letter-spacing: .04em; }
+#app #transferChallenge .tw-host .transferComboboxList :is(.transferComboboxHint, .transferComboboxNotice) { padding: 10px 12px; color: #d6c496; background: rgba(242, 196, 91, .06); font-size: 12px; line-height: 1.35; }
+#app #transferChallenge .tw-host .transferComboboxList .transferComboboxNotice { color: #ffd2c8; background: rgba(176, 52, 36, .32); border-bottom: 1px solid rgba(255, 143, 122, .4); font-weight: 600; }
 #app #transferChallenge .tw-host .transferCombobox > .transferComboboxList { scroll-margin: 12px 0 24px; }
 @media (max-width: 760px) and (orientation: portrait) {
   #app #transferChallenge .tw-host .transferCombobox > .transferComboboxList { scroll-margin: 12px 0 calc(var(--footer-h, 56px) + var(--phone-action-h, 48px) + 28px); }
