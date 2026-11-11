@@ -180,48 +180,50 @@
     const pitchMat=keep(new T.MeshStandardMaterial({map:grass,color:new T.Color(.74,.9,.78),normalMap:gn,normalScale:new T.Vector2(.6,.6),roughness:.92,metalness:0}));
     // Mown stripes: bands 5.5 m deep parallel to the goal line, light and dark (direction of the cut), plus a soft wear patch
     // around the spot and in the six-yard box. Done in the shader so the grass detail stays one small tiling texture.
+    // r91 chalk (the box line and the six-yard line broke into dashes far off: a 12 cm line seen from a 3 m camera 25 m away is
+    // under a pixel deep, so a mesh line drops whole pixels): every line of the 105 x 68 pitch is drawn in the turf's own shader
+    // from its distance to the pixel, and each pixel takes the share of chalk it really covers. Far lines thin out to a faint
+    // unbroken thread instead of dashes, near lines stay crisp, at every level and pixel ratio; one draw less than the mesh.
+    const cmChalk=[
+      "float cmCov(float d,float F){F=max(F,1e-4);return clamp((min(.06,d+F*.5)-max(-.06,d-F*.5))/F,0.0,1.0);}",
+      // horizontal segment at z from x0 to x1 (p = |x|, z); vertical at x from z0 to z1; a circle line of radius r round c
+      "float cmH(vec2 p,float z,float x0,float x1,vec2 fz){float d=length(vec2(max(max(x0-p.x,p.x-x1),0.0),p.y-z));return cmCov(d,fz.y);}",
+      "float cmV(vec2 p,float x,float z0,float z1,vec2 fz){float d=length(vec2(p.x-x,max(max(z0-p.y,p.y-z1),0.0)));return cmCov(d,fz.x);}",
+      "float cmO(vec2 p,vec2 c,float r,vec2 dx,vec2 dy){vec2 n=normalize(p-c+vec2(1e-5));float F=abs(dot(n,dx))+abs(dot(n,dy));return cmCov(abs(length(p-c)-r),F);}",
+      "float cmDot(vec2 p,vec2 c,float r,vec2 dx,vec2 dy){vec2 n=normalize(p-c+vec2(1e-5));float F=abs(dot(n,dx))+abs(dot(n,dy));return clamp((r-length(p-c))/max(F,1e-4)+.5,0.0,1.0);}",
+      "float cmChalk(vec2 w){",
+      // The near and far ends are the same: mirrored on x and on the halfway line. Footprint of a pixel along x and along z.
+      " vec2 dx=dFdx(w),dy=dFdy(w),fz=vec2(abs(dx.x)+abs(dy.x),abs(dx.y)+abs(dy.y));",
+      ` float ax=abs(w.x),e=min(w.y,${PITCH_L.toFixed(1)}-w.y);vec2 p=vec2(ax,e);`,
+      ` float c=cmH(p,.06,0.0,${PITCH_HALF_W.toFixed(2)},fz);`,
+      ` c=max(c,cmV(p,${(PITCH_HALF_W-.06).toFixed(2)},0.0,${(PITCH_L/2).toFixed(2)},fz));`,
+      ` c=max(c,cmH(p,${(SIX_D-.06).toFixed(2)},0.0,${SIX_HALF_W.toFixed(2)},fz));c=max(c,cmV(p,${(SIX_HALF_W-.06).toFixed(2)},0.0,${SIX_D.toFixed(2)},fz));`,
+      ` c=max(c,cmH(p,${(BOX_D-.06).toFixed(2)},0.0,${BOX_HALF_W.toFixed(2)},fz));c=max(c,cmV(p,${(BOX_HALF_W-.06).toFixed(2)},0.0,${BOX_D.toFixed(2)},fz));`,
+      // the D outside the box, the corner arcs inside the pitch
+      ` if(e>${BOX_D.toFixed(2)})c=max(c,cmO(p,vec2(0.0,${SPOT_Z.toFixed(1)}),${ARC_R.toFixed(2)},dx,dy));`,
+      ` if(ax<${PITCH_HALF_W.toFixed(1)}&&e<1.2)c=max(c,cmO(p,vec2(${PITCH_HALF_W.toFixed(1)},0.0),1.0,dx,dy));`,
+      // halfway line, centre circle, the spots
+      ` vec2 h=vec2(ax,w.y-${(PITCH_L/2).toFixed(2)});c=max(c,cmH(h,0.0,0.0,${PITCH_HALF_W.toFixed(2)},fz));c=max(c,cmO(h,vec2(0.0),${ARC_R.toFixed(2)},dx,dy));`,
+      ` c=max(c,cmDot(p,vec2(0.0,${SPOT_Z.toFixed(1)}),.1,dx,dy));c=max(c,cmDot(h,vec2(0.0),.15,dx,dy));`,
+      // nothing past the touchlines and the goal lines
+      ` return ax>${(PITCH_HALF_W+.3).toFixed(1)}||w.y<-.3||w.y>${(PITCH_L+.3).toFixed(1)}?0.0:c;}`].join("\n");
     pitchMat.onBeforeCompile=sh=>{
       sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvCmWorld=(modelMatrix*vec4(transformed,1.0)).xyz;");
-      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;").replace("#include <map_fragment>",
+      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;\n"+cmChalk).replace("#include <map_fragment>",
         "#include <map_fragment>\n{float band=step(.5,fract(vCmWorld.z/11.0+.25));float edge=smoothstep(.0,.04,abs(fract(vCmWorld.z/5.5)-.5)*2.0-.0);"+
         "diffuseColor.rgb*=mix(.78,1.12,band);"+
         "float wear=exp(-pow(length(vCmWorld.xz-vec2(0.0,11.0))/1.3,2.0))*.45+exp(-pow(length((vCmWorld.xz-vec2(0.0,2.2))*vec2(.35,1.0))/1.6,2.0))*.25;"+
         "diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.05,.92,.7),wear);"+
+        // chalk: the old line material's white (.93,.93,.9 through the pitch's own light), a touch of grass through it
+        "diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.86,.86,.83),cmChalk(vCmWorld.xz)*.94);"+
         // r90 (Nik 2026-11-08, lighting that makes sense): a floodlit pitch is lit evenly (broadcast lighting holds the
         // whole field within about 0.7 to 1 of its brightest point), the banks overlapping a little more on the box than far
         // out; the light falls away only past the touchlines and the goal line, where no bank is aimed.
         "float cmOut=max(abs(vCmWorld.x)-35.0,0.0)+max(-1.5-vCmWorld.z,0.0);"+
         "diffuseColor.rgb*=mix(1.04,.86,smoothstep(8.0,45.0,length(vCmWorld.xz-vec2(0.0,9.0))))*mix(1.0,.5,smoothstep(0.0,8.0,cmOut));}");
     };
+    pitchMat.customProgramCacheKey=()=>"cmPitchChalk";
     const pitch=add(new T.PlaneGeometry(130,150),pitchMat);pitch.rotation.x=-Math.PI/2;pitch.position.set(0,0,PITCH_L/2);pitch.receiveShadow=true;
-    // Chalk lines for the whole 105 x 68 pitch: one merged geometry a few mm over the grass.
-    const chalk=keep(new T.MeshStandardMaterial({color:new T.Color(.93,.93,.9),roughness:.9,polygonOffset:true,polygonOffsetFactor:-2}));
-    {const W=.12,pos=[],idx=[];let n=0;
-      const quad=(a,b,c,d)=>{// counter-clockwise seen from above, so the face (and its normal) points up
-        if((b[1]-a[1])*(c[0]-a[0])-(b[0]-a[0])*(c[1]-a[1])<0){const t=b;b=d;d=t;}
-        for(const q of [a,b,c,d])pos.push(q[0],.006,q[1]);idx.push(n,n+1,n+2,n,n+2,n+3);n+=4;};
-      const rect=(x0,z0,x1,z1)=>quad([x0,z0],[x1,z0],[x1,z1],[x0,z1]);
-      const arc=(cx,cz,r,a0,a1,seg)=>{for(let i=0;i<seg;i+=1){const a=a0+(a1-a0)*i/seg,b=a0+(a1-a0)*(i+1)/seg,p=(t,rr)=>[cx+Math.sin(t)*rr,cz+Math.cos(t)*rr];
-        quad(p(a,r-W/2),p(b,r-W/2),p(b,r+W/2),p(a,r+W/2));}};
-      // One end: goal line at zl, the pitch runs toward zl+dir*... (dir +1 for the near end, -1 for the far end).
-      const end=(zl,dir)=>{const z=d=>zl+dir*d;
-        rect(-SIX_HALF_W,z(SIX_D-W),SIX_HALF_W,z(SIX_D));rect(-SIX_HALF_W,zl,-SIX_HALF_W+W,z(SIX_D));rect(SIX_HALF_W-W,zl,SIX_HALF_W,z(SIX_D));
-        rect(-BOX_HALF_W,z(BOX_D-W),BOX_HALF_W,z(BOX_D));rect(-BOX_HALF_W,zl,-BOX_HALF_W+W,z(BOX_D));rect(BOX_HALF_W-W,zl,BOX_HALF_W,z(BOX_D));
-        // The D: the part of the 9.15 m circle round the spot outside the box.
-        const a0=Math.acos((BOX_D-SPOT_Z)/ARC_R);arc(0,z(SPOT_Z),ARC_R,(dir>0?0:Math.PI)-a0,(dir>0?0:Math.PI)+a0,40);
-        for(const cx of [-PITCH_HALF_W,PITCH_HALF_W])arc(cx,zl,1,cx<0?(dir>0?0:Math.PI/2):(dir>0?-Math.PI/2:Math.PI),cx<0?(dir>0?Math.PI/2:Math.PI):(dir>0?0:Math.PI*1.5),12);
-      };
-      rect(-PITCH_HALF_W,0,PITCH_HALF_W,W);rect(-PITCH_HALF_W,PITCH_L-W,PITCH_HALF_W,PITCH_L);// goal lines (their outer edge is the line)
-      rect(-PITCH_HALF_W,0,-PITCH_HALF_W+W,PITCH_L);rect(PITCH_HALF_W-W,0,PITCH_HALF_W,PITCH_L);// touchlines
-      rect(-PITCH_HALF_W,PITCH_L/2-W/2,PITCH_HALF_W,PITCH_L/2+W/2);arc(0,PITCH_L/2,ARC_R,0,Math.PI*2,72);// halfway line, centre circle
-      end(0,1);end(PITCH_L,-1);
-      // The penalty spots and the centre spot, in the same draw (2 mm proud of the lines, as before).
-      for(const z of [SPOT_Z,PITCH_L-SPOT_Z,PITCH_L/2]){const r=z===SPOT_Z?.1:.15,c0=n;pos.push(0,.007,z);n+=1;
-        for(let i=0;i<=28;i+=1){const a=i/28*Math.PI*2;pos.push(Math.cos(a)*r,.007,z-Math.sin(a)*r);n+=1;}
-        for(let i=1;i<=28;i+=1)idx.push(c0,c0+i,c0+i+1);}
-      const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setIndex(idx);
-      const nrm=new Float32Array(pos.length);for(let i=1;i<nrm.length;i+=3)nrm[i]=1;g.setAttribute("normal",new T.BufferAttribute(nrm,3));
-      const lines=add(g,chalk);lines.receiveShadow=true;}
 
     // ---------- goal ----------
     const white=o.posts!=="gold";
@@ -356,7 +358,7 @@
       m.customProgramCacheKey=()=>"cmNightStand";return m;};
     const concMat=keep(nightStand(new T.MeshStandardMaterial({map:concrete,roughness:.9,color:new T.Color(.34,.34,.37)})));
     const seatsTex=tex.seats;seatsTex.wrapS=T.RepeatWrapping;seatsTex.wrapT=T.ClampToEdgeWrapping;
-    const stepMat=keep(nightStand(new T.MeshStandardMaterial({map:seatsTex,roughness:.75,color:new T.Color(.62,.62,.66)})));
+    const stepMat=keep(nightStand(new T.MeshStandardMaterial({map:seatsTex,roughness:.75,color:new T.Color(.4,.4,.44)})));
     const darkMat=keep(new T.MeshStandardMaterial({color:new T.Color(.025,.025,.03),roughness:.8}));
     const seatsAll=[];// [x,y,z,yaw] for the crowd
     // One tier: rows of steps (tread + riser), each row one v of the seat texture, u = 1 m.
@@ -455,14 +457,14 @@
     const patch=(p,si)=>{if(si===0)return false;const h=Math.imul((Math.floor(along(p,si)/4)*73856093)^(Math.floor(p.y/1.6)*19349663)^(si*83492791),2654435761)>>>0;return h%100<(o.full?5:12);};
     if(bowlSeats.length){
       // The bowl: a full house behind the goal, the sides a little thinner on lower levels.
-      for(const s of bowlSeats){const keepRate=(s.si===0?.95:o.full?.9:.75)*(o.density>0&&o.density<1?.4+.6*o.density:1);if(rnd()>keepRate)continue;
+      for(const s of bowlSeats){const keepRate=s.si===0?.97:(o.full?.9:.75)*(o.density>0&&o.density<1?.4+.6*o.density:1);if(rnd()>keepRate)continue;
         if(s.si===0&&Math.abs(s.p.x-(PITCH_HALF_W-14))<1.3)continue;
         if(aisle(s.p,s.si)||patch(s.p,s.si))continue;
         fans.push({p:s.p,yaw:s.yaw,si:s.si});}
     }
     for(const s of bowlSeats.length?[]:seatsAll){
       // Extra and Ultra fill the far stands too (a sold-out night); lower levels keep them thinner.
-      const keepRate=(s.si===0?(phone?.82:.93):s.si===3?(phone?.3:o.full?.86:.6):(phone?.35:o.full?.9:.7))*(o.density>0&&o.density<1?.4+.6*o.density:1);// a few empty seats; thinner far stands on phones and light devices
+      const keepRate=s.si===0?.96:(s.si===3?(phone?.3:o.full?.86:.6):(phone?.35:o.full?.9:.7))*(o.density>0&&o.density<1?.4+.6*o.density:1);// a few empty seats; thinner far stands on phones and light devices
       if(rnd()>keepRate)continue;
       const v=new T.Vector3(s.x,s.y,s.z);stands[s.si].localToWorld(v);
       if(s.si===0&&Math.abs(v.x-(PITCH_HALF_W-14))<1.3)continue;// the empty strip between home and away fans
@@ -502,7 +504,7 @@
     const crowdMat=keep(new T.ShaderMaterial({
       uniforms:{...crowdUniforms,fogColor:{value:new T.Color(0,0,0)},fogNear:{value:1},fogFar:{value:2000},fogDensity:{value:.00025}},fog:true,
       vertexShader:[
-        "uniform float uTime;uniform float uExcite;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;",
+        "uniform float uTime;uniform float uExcite;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;",
         "#include <fog_pars_vertex>",
         "void main(){",
         " mat4 m=instanceMatrix;float cell=m[0][3],phase=m[1][3];m[0][3]=0.0;m[1][3]=0.0;m[2][3]=0.0;",
@@ -515,6 +517,13 @@
         " float col=mod(cell,8.0)*2.0+up,row=floor(cell/8.0);",
         " vUv=vec2((col+uv.x)/16.0,1.0-(row+1.0-uv.y)/12.0);",
         " vTint=instanceColor;",
+        // r91 depth: the seat back and the heads of the row in front hide a fan's lower half from the floodlights, so each
+        // row reads as standing behind the next one instead of a flat sheet of cards.
+        " vLow=smoothstep(.05,.5,uv.y);",
+        // r91: phone camera flashes in the stand as the taker runs up and when the net bulges (one fan's phone, a fifth of a
+        // second, a few at a time): a real light in the crowd, no glow added round it. Off while the crowd waits or stands still.
+        " float slot=floor(uTime*5.0+phase*3.7),r=fract(sin(slot*12.9898+phase*78.233)*43758.545);",
+        " vFlash=step(1.0-.012*smoothstep(.3,1.0,uExcite),r)*(1.0-fract(uTime*5.0+phase*3.7))*step(.3,uExcite);",
         // Floodlit at the front, darker toward the back under the roof; a little light-to-light variation per fan.
         " vec3 wp=(m*vec4(0.0,0.0,0.0,1.0)).xyz;float back=length(wp.xz-vec2(0.0,52.5))-50.0;",
         " vShade=mix(.92,.4,smoothstep(0.0,30.0,back+wp.y*.6))*mix(1.0,.34,smoothstep(3.0,16.0,wp.y))*(.85+.3*h);",
@@ -522,16 +531,19 @@
         " #include <fog_vertex>",
         "}"].join("\n"),
       fragmentShader:[
-        "uniform sampler2D uAtlas;uniform sampler2D uTint;uniform vec3 uLight;uniform vec3 uHaze;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;",
+        "uniform sampler2D uAtlas;uniform sampler2D uTint;uniform vec3 uLight;uniform vec3 uHaze;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;",
         "#include <fog_pars_fragment>",
         // A slightly softer mip (bias .7): a TV stand reads as soft texture, not sharp speckle.
         "void main(){vec4 c=texture2D(uAtlas,vUv,.7);if(c.a<.5)discard;float k=texture2D(uTint,vUv,.7).r;",
-        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade;",
+        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade*mix(.5,1.0,vLow);",
         // FIFA 17 stands are soft: less saturation and contrast, highlights held down, and a floodlight haze that grows with
         // distance so the back rows melt into the stand.
         " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.55+.3*k);rgb=rgb*.8/(1.0+rgb*.6);",
         " rgb*=mix(vec3(1.0),vec3(.74,.82,1.06),clamp(1.0-vShade,0.0,.8));",
-        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.6);gl_FragColor=vec4(rgb,1.0);",
+        " rgb=mix(rgb,uHaze,smoothstep(20.0,95.0,vDist)*.6);",
+        // the flash: the phone held up at head height, a few centimetres across
+        " vec2 q=fract(vUv*vec2(16.0,12.0));rgb+=vec3(6.0,6.0,5.6)*vFlash*step(length((q-vec2(.5,.78))*vec2(1.0,1.3)),.16);",
+        " gl_FragColor=vec4(rgb,1.0);",
         " #include <tonemapping_fragment>",
         " #include <colorspace_fragment>",
         " #include <fog_fragment>",
