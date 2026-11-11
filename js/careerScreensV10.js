@@ -1851,11 +1851,11 @@
       const r=plate.getBoundingClientRect(),c=screen.getBoundingClientRect();
       if(r.width<2||r.height<2)return;
       // where the stage drew the plate before our own lowering (ultrawide screens centre it, which put the tops of both
-      // heads under the top bar): lower it until the hair clears the bar by 6px. Any gap this leaves above the plate stays
+      // heads under the top bar): lower it until the hair (Daniel's top curls, 5.67% down) clears the bar by 10px (2.3.0 strict B2). Any gap this leaves above the plate stays
       // behind the top bar (short windows such as 1400x631 and 1280x720 draw the plate from the top edge).
       const was=parseFloat(host.style.getPropertyValue("--hc-plate-drop"))||0,top=r.top-was;
       const bar=doc.querySelector(".sd-nav")?.getBoundingClientRect().bottom||0;
-      const drop=Math.max(0,Math.min(Math.max(0,-top)+bar,Math.ceil(bar+6-(top+r.height*.0579))));
+      const drop=Math.max(0,Math.min(Math.max(0,-top)+bar,Math.ceil(bar+10-(top+r.height*.0567))));
       host.style.setProperty("--hc-plate-drop",drop+"px");
       const p={left:r.left,top:top+drop,width:r.width,height:r.height};
       const mid=c.left+c.width/2;

@@ -1485,13 +1485,18 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   --sru:min(1vw,1.77778svh);position:relative;inset:auto;height:auto;min-height:100svh;max-height:none;overflow:visible;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--atmosphere,.sd-stage__layer--cutout,.sd-stage__layer--light) { height:100svh; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage { --sr-ptop:calc((100svh - min(56.25vw,100svh))/2); }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
-  left:50%!important;top:calc((100svh - min(56.25vw,100svh))/2)!important;
+  left:50%!important;top:var(--sr-ptop)!important;
   width:min(100vw,177.77778svh)!important;height:min(56.25vw,100svh)!important;transform:translateX(-50%);
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui {
   position:relative;inset:auto;width:min(100%,177.77778svh);height:auto;min-height:100svh;margin:0 auto;overflow:visible;
  }
+ /* 2.3.0 strict pass (C5): on the stadium plate (tablets sideways, 1180x820 and 1366x1024) Daniel's raised-fist cut-out and
+    its rim light were drawn over his own entry card and hid "D" of DANIEL and "LEAGUE" in its labels. The cards, words and
+    buttons now stand in front of the cut-outs; the managers stay where they are, behind the cards. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui { z-index:5; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-results-screen { position:relative;inset:auto;min-height:100svh;overflow:visible; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block { position:absolute;inset:0;height:100svh;margin:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-eyebrow { top:9%; }
@@ -1541,7 +1546,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) {
   position:relative;inset:auto;width:56%;height:auto;max-height:none;padding:12px 18px;margin:0 auto;overflow:visible;overscroll-behavior:auto;
  }
- #app #seasonEntry.seasonScreenV10:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout { padding-top:30.5svh; }
+ /* 2.3.0 strict pass (B1/B1b/A1): the review board is two cards wide, wider than the room between the heads, so it starts
+    below Nik's chin (32.64% down the plate, beard included) plus one clear gap; on short windows main scrolls the rest. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
+  padding-top:max(30.5svh,calc(var(--sr-ptop) + min(56.25vw,100svh) * .3264 + 14px));
+ }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions {
   position:static;inset:auto;flex-wrap:wrap;max-width:100%;background:none;
  }
@@ -1554,6 +1563,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  @supports (zoom: calc(1px / 1px)) {
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { --s4k-z:max(1,min(calc(100vw / 1920px),calc(100svh / 1080px))); }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid:not(.hidden),.season-action-row,#seasonEntryError,.season-review-panel:not(.hidden)) { zoom:var(--s4k-z); }
+  /* 2.3.0 strict pass (E-a): the zoom grew the scoring card past the room between the heads (it reached Nik's beard at
+     2560x1440); its width is divided back so the zoomed card keeps to that room. */
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { width:calc(min(44.47%,var(--sr-clear,44.47%)) / var(--s4k-z)); }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { min-height:calc(20svh / var(--s4k-z));padding-block:clamp(8px,calc(1svh / var(--s4k-z)),12px); }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:calc(16svh / var(--s4k-z)); }
   #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { min-height:max(220px,calc(32svh / var(--s4k-z))); }
@@ -2227,12 +2239,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { width:min(44.47%,var(--sr-clear)); }
 }
 /* HO-068: on windows wider than 16:9 the plate starts at the top of the window, so the nav bar covered the top of both
-   men's hair (heads start 5.8% down the plate). The plate is lowered just enough for the hair to clear the bar by 6px;
-   the panelling it gives up at the bottom is below the fold. */
+   men's hair. The plate is lowered just enough for the hair to clear the bar; the panelling it gives up at the bottom is
+   below the fold. 2.3.0 strict pass (B2): Daniel's top curls start 5.67% down the plate (not 5.8%) and the clear gap is
+   10px (Nik's 7px face halo plus rounding), so the bar no longer meets his hair at 1366x768, 1536x864 or 1600x900. */
 @media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
- #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
-  top:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 3.2625vw))!important;
- }
+ html #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage { --sr-ptop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - 3.1894vw)); }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered { top:var(--sr-ptop)!important; }
 }
 /* HO-068: ultrawide windows (3440x1080) draw the room across the whole width, so the two entry cards (72.66% of the
    centred 16:9 column) reached Nik's beard. They keep to the room between the faces, like the scoring card. */
@@ -2253,9 +2265,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
   background-size:auto 100svh; background-position:50% calc(0px - var(--sd-nav-top-h,52px)); background-repeat:no-repeat;
   /* HO-068 (Nik: nothing may touch a face): drawn from the window's top edge, the room put Daniel's hair under the top bar
-     (1280x720) or touching it (1440x900; heads from 5.79% of the plate). The room and every slot placed on it move down
-     just enough for the hair to clear the bar by 6px; the strip above stays behind the bar and main scrolls the rest. */
-  --fw-drop:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 100svh * .0579));
+     (1280x720) or touching it (1440x900; heads from 5.67% of the plate, Daniel's top curls). The room and every slot placed
+     on it move down just enough for the hair to clear the bar by 10px (2.3.0 strict pass B2: 6px was under the 7px halo); the strip above stays behind the bar and main scrolls the rest. */
+  --fw-drop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - 100svh * .0567));
   --fw-top:calc(var(--sd-nav-top-h,52px) + 14px - var(--fw-drop));
   background-position:50% calc(var(--fw-drop) - var(--sd-nav-top-h,52px));
  }
@@ -2344,6 +2356,13 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   height:max(100svh,calc(var(--fw-panel) + 192px + 20px + 54px + 12px));
  }
  #app #seasonEntry.v10FinalMode #stage-root.v10FinalStage { max-height:none; }
+}
+/* 2.3.0 strict pass (C4): on upright tablets (760px layout, 700-900px wide and 960px+ tall) the result keeps the tablet type
+   (44px outcome, 54px totals), about 130px tall, so the 80px phone room let both totals run into the honours panel. There
+   the room under the lip is the copy's real height and the panel starts one gap under it. */
+@media (min-width:700px) and (max-width:760px) and (min-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root { --fw-copy:134px; }
+ #app #seasonEntry.seasonScreenV10.v10FinalMode { --fw-copy:134px; }
 }
 @media (max-width:760px) and (max-height:720px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root { --fw-tb:82px; }

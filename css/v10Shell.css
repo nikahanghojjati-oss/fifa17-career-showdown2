@@ -504,9 +504,11 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   /* no shade behind the title: it reached Nik's hair (no dimming, no scrims) */
   html #app #careerStatistics.careerScreenV10 .titleBlock::before { content: none; }
 }
-/* the space between the heads is narrower than four totals need (plate under 2400px wide): two rows of two, the numbers a
-   size smaller so each row stays short */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (max-width: 2399px) and (max-height: 1350px) {
+/* the space between the heads is narrower than four totals need: two rows of two, the numbers a size smaller so each row
+   stays short. 2.3.0 strict pass (E-b/E1): this held only under 2400x1350, but above it four tiles in a row still left
+   each "D 18 / N 16" pair about 100px for 160-260px of numbers (Nik's "16" cut at 2560x1080, 2560x1440 and 3840x2160),
+   so every desktop size now takes two rows of two. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
   html #app #careerStatistics.careerScreenV10 { --hc-rows: 2; --hc-row: max(52px, 7vh); }
   /* the table between the faces is narrower than before: "Showdowns" takes 2 points of width from the name column
      (it ran 1px past its cell at 1280x650) */
@@ -537,8 +539,10 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
 }
 
 /* ultrawide (plate 2700px wide and more): the heads are so tall that rows below the chins no longer fit, but the room
-   between them is wide enough for the whole column, so every row stands between the two faces instead */
-@media (min-width: 2700px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+   between them is wide enough for the whole column, so every row stands between the two faces instead. 2.3.0 strict pass
+   (E2): only on windows twice as wide as tall; a 16:9 4K window (3840x2160) has the 1920x1080 proportions, and squeezing
+   its 4K-sized type between the heads made the table headers collide and the leader values run out of their cards. */
+@media (min-width: 2700px) and (min-height: 600px) and (min-aspect-ratio: 2/1) and (orientation: landscape) {
   html #app #careerStatistics.careerScreenV10 {
     --hc-col-w: min(52vw, var(--hc-half) * 2);
     --hc-p: calc(var(--hc-tiles-top) + var(--hc-tiles-h) + var(--hc-g));
@@ -836,3 +840,20 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 /* HO-068 (Team V's handcrafted V2 rooms): no slogans in the rooms. The "TWO MANAGERS. ONE LEGACY." line under the Career
    Statistics title keeps its place (nothing moves) but is not shown, at every size. */
 #app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { visibility: hidden !important; }
+
+/* 2.3.0 strict pass (C8, Nik's 12px type floor): on tablets held sideways (1180x820 class: landscape, outside the desktop
+   board-room range) Career Statistics drew "Together" at 7px, the table, names and leader names at 10px and the headers
+   and comparison labels at 11px; Final Winner drew "3 SEASONS" at 9px. They are 12px here; the boxes keep their size. */
+@media (min-width: 901px) and (max-width: 1199px) and (orientation: landscape),
+       (min-width: 1200px) and (max-aspect-ratio: 149/100) and (orientation: landscape) {
+  html #app #careerStatistics.careerScreenV10 :is(.headlineTogether, .headlinePair small, .careerTable th, .careerTable td, .managerName, .compareLabel, .leaderLabel, .leaderName) { font-size: 12px; }
+  html #app #careerStatistics.careerScreenV10 .headlineTogether { letter-spacing: .04em; }
+  html body #app #seasonEntry.v10FinalMode #stage-root .finalWinnerEyebrow { font-size: 12px; }
+  html body #app #seasonEntry.v10FinalMode #stage-root #finalWinnerRematch#finalWinnerRematch .finalWinnerRematchSub { font-size: 12px; }
+  html body #app main:has(> #seasonEntry.v10FinalMode) :is(.cmx-bar__tab, .cmv3-numbers > b) { font-size: 12px; }
+}
+
+/* 2.3.0 strict pass (D7, Nik's 12px type floor): the Season Results phone tabs' DANIEL / NIK label was 10-11px and the
+   YOUR ENTRY / SUBMITTED / SEALED line under it 7px. Both are 12px; the 44px tab holds the two lines. */
+html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab:is([for="season-phone-tab-daniel"], [for="season-phone-tab-nik"]) { font-size: 12px; line-height: 1; }
+html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab::after { font-size: 12px; line-height: 1; letter-spacing: .06em; }
