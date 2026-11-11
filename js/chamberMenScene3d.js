@@ -551,32 +551,22 @@
       b.mixamorigLeftShoulder?.rotateZ(k*.35);b.mixamorigRightShoulder?.rotateZ(-k*.35);
     };
 
-    // r90 LOOK: contact shadows. A soft dark disc on the turf under the taker, the keeper and the ball, at every level: it
+    // r90 LOOK: contact shadows. A soft dark patch on the turf under the taker, the keeper and the ball, at every level: it
     // is what plants them on the grass (Light's shadow map is small and soft). Higher levels keep their real shadows and
-    // the disc goes lighter. One small canvas texture, three quads.
-    // r90 Light draw budget: the three contact shadows are one mesh of three quads (one draw, was three); each quad keeps
-    // its own size and strength (vertex alpha), moved every frame with the taker, the keeper and the ball.
-    const blob=(()=>{
-      const d=doc(),c=d.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d");if(!g)return null;
-      const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(0,0,0,1)");gr.addColorStop(.45,"rgba(0,0,0,.6)");gr.addColorStop(1,"rgba(0,0,0,0)");
-      g.fillStyle=gr;g.fillRect(0,0,64,64);const t=keep(new T.CanvasTexture(c));
-      const strength=L<=0?.62:.5,P=new Float32Array(36),C=new Float32Array(48),U=new Float32Array(24),I=[];
-      for(let q=0;q<3;q+=1){U.set([0,1,1,1,0,0,1,0],q*8);const o=q*4;I.push(o,o+2,o+1,o+2,o+3,o+1);}
-      const geo=keep(new T.BufferGeometry());geo.setAttribute("position",new T.BufferAttribute(P,3).setUsage(T.DynamicDrawUsage));
-      geo.setAttribute("color",new T.BufferAttribute(C,4).setUsage(T.DynamicDrawUsage));geo.setAttribute("uv",new T.BufferAttribute(U,2));geo.setIndex(I);
-      const m=keep(new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,vertexColors:true,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
-      const mesh=new T.Mesh(geo,m);mesh.name="cmBlobs";mesh.renderOrder=1;mesh.frustumCulled=false;scene.add(mesh);
-      return {taker:{i:0,w:1.15,d:.9},keeper:{i:1,w:1.25,d:.85},ball:{i:2,w:.36,d:.36},strength,geo,P,C};
-    })();
-    const blobAt=(q,a,lift)=>{
-      if(!q)return;const B=blob,on=Boolean(a?a.holder.visible:true);let alpha=0,x=0,z=0,w=0,dd=0;
-      if(on){if(a){a.hips.getWorldPosition(sample);}else sample.copy(ball.position);
-        const h=Math.max(0,sample.y-lift),k=Math.max(0,1-h/2.2);alpha=B.strength*k;x=sample.x;z=sample.z;w=q.w*(1+h*.5)/2;dd=q.d/2;}
-      // Corners in PlaneGeometry order, laid flat (rotated -90 degrees about x): the near edge first.
-      const o=q.i*12;B.P.set([x-w,.006,z-dd,x+w,.006,z-dd,x-w,.006,z+dd,x+w,.006,z+dd],o);
-      for(let v=0;v<4;v+=1)B.C.set([1,1,1,alpha],q.i*16+v*4);
-      B.geo.attributes.position.needsUpdate=true;B.geo.attributes.color.needsUpdate=true;
+    // the patch goes lighter. r91: drawn by the turf itself (S.contact, no draw of its own), each player as a capsule from
+    // between his feet to under his head, so a keeper down after a dive shades the grass along his whole length; the
+    // patch widens and fades as a body leaves the ground (the hips' height over its standing height).
+    const contactK=L<=0?.62:.5,CONTACT={taker:1.15,keeper:1.25,ball:.36},cFeet=new T.Vector3(),cHead=new T.Vector3();
+    const contactOf=(a,w,lift)=>{
+      if(a&&!a.holder.visible)return null;
+      if(a){a.hips.getWorldPosition(sample);const lf=a.bones.mixamorigLeftFoot,rf=a.bones.mixamorigRightFoot,hd=a.bones.mixamorigHead;
+        if(lf&&rf){lf.getWorldPosition(cFeet);rf.getWorldPosition(cHead);cFeet.add(cHead).multiplyScalar(.5);}else cFeet.copy(sample);
+        if(hd)hd.getWorldPosition(cHead);else cHead.copy(sample);}
+      else{sample.copy(ball.position);cFeet.copy(sample);cHead.copy(sample);}
+      const h=Math.max(0,sample.y-lift),k=Math.max(0,1-h/2.2);
+      return [cFeet.x,cFeet.z,cHead.x,cHead.z,w*(1+h*.5)/2,contactK*k];
     };
+    const contactAt=()=>S.contact?.([contactOf(taker,CONTACT.taker,1),contactOf(keeper,CONTACT.keeper,1),contactOf(null,CONTACT.ball,BALL_R)]);
 
     // Kits: the taker in his club's home kit, the keeper in his own club's keeper kit picked against the taker's.
     let lineup={taker:null,keeper:null,round:1};
@@ -832,7 +822,7 @@
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
       keeperPose(t,live);takerAt(t,live);ballAt(t);
-      if(blob){blobAt(blob.taker,taker,1);blobAt(blob.keeper,keeper,1);blobAt(blob.ball,null,BALL_R);}
+      contactAt();
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
       const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);

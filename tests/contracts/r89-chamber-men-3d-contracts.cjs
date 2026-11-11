@@ -214,9 +214,9 @@ async function c3d2(){
 //    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
 {
   assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,LIGHT_ONE\.hemi\)/.test(scene)&&/const LIGHT_ONE=L===0\?\{key:1\.5,env:1\.1,hemi:\.22\}:\{key:1,env:1,hemi:\.08\};/.test(scene),"night: a faint sky fill, the floodlights carry the picture (r90 Light: one light, the sky lifted to .22)");
-  assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/mesh\.name="cmBlobs"/.test(scene)&&/return \{taker:\{i:0,w:1\.15,d:\.9\},keeper:\{i:1,w:1\.25,d:\.85\},ball:\{i:2,w:\.36,d:\.36\},strength,geo,P,C\};/.test(scene),"three contact shadows (r90 Light draw budget: one mesh, a quad each)");
-  assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
-  assert.ok(/const strength=L<=0\?\.62:\.5/.test(scene),"at every level (the floodlights' own shadows are soft, several at once)");
+  // r91: the three contact shadows are drawn by the turf (S.contact, capsules feet to head), no quad mesh of their own.
+  assert.ok(!/cmBlobs/.test(scene)&&/const contactK=L<=0\?\.62:\.5,CONTACT=\{taker:1\.15,keeper:1\.25,ball:\.36\}/.test(scene),"three contact shadows at every level (lighter where the floodlights' own shadows are soft, several at once)");
+  assert.ok(/S\.contact\?\.\(\[contactOf\(taker,CONTACT\.taker,1\),contactOf\(keeper,CONTACT\.keeper,1\),contactOf\(null,CONTACT\.ball,BALL_R\)\]\)/.test(scene)&&/keeperPose\(t,live\);takerAt\(t,live\);ballAt\(t\);\n      contactAt\(\);/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
   // L04: the low camera behind and
   // left of the taker, a squad number on the back, breathing on the idles.

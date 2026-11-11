@@ -212,9 +212,19 @@
     // the blades stand up out of the pitch, darker at the root, the boots and the ball sitting in them. They thin out with
     // distance (from 11 m, gone by 20 m), where a blade is under a pixel and the flat turf already reads the same. One draw.
     const BLADE_H=.026;
+    // r91 contact shadows in the turf (contact()): the soft dark under the taker, the keeper and the ball, drawn by the turf
+    // itself as a capsule from each player's feet to his head on the ground, so a keeper lying after a dive darkens the grass
+    // along his whole body, the grass blades at Extra and Ultra take it down to their roots, and a quad draw is saved.
+    const contactU={seg:{value:[0,1,2].map(()=>new T.Vector4())},rk:{value:[0,1,2].map(()=>new T.Vector2())}};
+    const cmContact=[
+      "uniform vec4 uCmAoSeg[3];uniform vec2 uCmAoRK[3];",
+      "float cmContact(vec2 w){float o=1.0;for(int i=0;i<3;i++){vec4 s=uCmAoSeg[i];vec2 rk=uCmAoRK[i];if(rk.y<=0.0)continue;",
+      " vec2 pa=w-s.xy,ba=s.zw-s.xy;float d=length(pa-ba*clamp(dot(pa,ba)/max(dot(ba,ba),1e-6),0.0,1.0));",
+      " o*=1.0-rk.y*(1.0-smoothstep(0.0,1.0,d/rk.x));}return o;}"].join("\n");
     const turf=blades=>sh=>{
+      sh.uniforms.uCmAoSeg=contactU.seg;sh.uniforms.uCmAoRK=contactU.rk;
       sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;"+(blades?"varying float vCmLayer;":"")).replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvCmWorld=(modelMatrix*vec4(transformed,1.0)).xyz;"+(blades?`vCmLayer=position.y*${(1/BLADE_H).toFixed(4)};`:""));
-      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;\n"+(blades?"varying float vCmLayer;\n":"")+cmChalk).replace("#include <map_fragment>",
+      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;\n"+(blades?"varying float vCmLayer;\n":"")+cmChalk+"\n"+cmContact).replace("#include <map_fragment>",
         "#include <map_fragment>\n{float band=step(.5,fract(vCmWorld.z/11.0+.25));float edge=smoothstep(.0,.04,abs(fract(vCmWorld.z/5.5)-.5)*2.0-.0);"+
         "diffuseColor.rgb*=mix(.78,1.12,band);"+
         "float wear=exp(-pow(length(vCmWorld.xz-vec2(0.0,11.0))/1.3,2.0))*.45+exp(-pow(length((vCmWorld.xz-vec2(0.0,2.2))*vec2(.35,1.0))/1.6,2.0))*.25;"+
@@ -225,7 +235,8 @@
         // whole field within about 0.7 to 1 of its brightest point), the banks overlapping a little more on the box than far
         // out; the light falls away only past the touchlines and the goal line, where no bank is aimed.
         "float cmOut=max(abs(vCmWorld.x)-35.0,0.0)+max(-1.5-vCmWorld.z,0.0);"+
-        "diffuseColor.rgb*=mix(1.04,.86,smoothstep(8.0,45.0,length(vCmWorld.xz-vec2(0.0,9.0))))*mix(1.0,.5,smoothstep(0.0,8.0,cmOut));}"+
+        "diffuseColor.rgb*=mix(1.04,.86,smoothstep(8.0,45.0,length(vCmWorld.xz-vec2(0.0,9.0))))*mix(1.0,.5,smoothstep(0.0,8.0,cmOut));"+
+        "diffuseColor.rgb*=cmContact(vCmWorld.xz);}"+
         (blades?["{float lay=vCmLayer;vec2 g=vCmWorld.xz*125.0+vec2(0.0,lay*.45);vec2 cell=floor(g),f=fract(g)-.5;",
           // a blade per 8 mm cell: its height, its place in the cell and its width from an integer hash of the cell
           " uvec2 q=uvec2(ivec2(cell)+ivec2(65536));uint hx=q.x*1664525u^q.y*1013904223u;hx^=hx>>16;hx*=2246822519u;hx^=hx>>13;",
@@ -665,6 +676,8 @@
 
     // ---------- live ----------
     const net={x:0,y:1.2,t0:-1,amp:0};
+    // contact([[ax,az,bx,bz,radius,strength] x 3]): taker, keeper, ball; strength 0 leaves one out.
+    function contact(list){for(let i=0;i<3;i+=1){const c=list&&list[i];if(c){contactU.seg.value[i].set(c[0],c[1],c[2],c[3]);contactU.rk.value[i].set(Math.max(.01,c[4]),Math.max(0,Math.min(1,c[5])));}else contactU.rk.value[i].set(1,0);}}
     function hitNet(x,y,speed){net.x=x;net.y=y;net.t0=crowdUniforms.uTime.value;net.amp=Math.min(1,(speed||20)/25);}
     // r91: the two ends apart. mood(home, away): each club's fans at their own excitement (0..1); null for one shared crowd.
     function mood(homeEx,awayEx){const u=crowdUniforms.uMood.value;
@@ -701,7 +714,7 @@
       if(!white1){white1=keep(new T.DataTexture(new Uint8Array([255,255,255,255]),1,1));white1.colorSpace=T.SRGBColorSpace;white1.needsUpdate=true;}
       m.map=white1;m.needsUpdate=true;});}
     update(0,0);
-    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,mood,hitNet,dispose:stadiumDispose,
+    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,mood,contact,hitNet,dispose:stadiumDispose,
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 
