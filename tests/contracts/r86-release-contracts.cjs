@@ -53,7 +53,10 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r89.length,275);
   assert.deepEqual(added,shell.filter(p=>!r89.includes(p)),'the added list is this shell minus r89\'s');
-  assert.deepEqual(added,R90_ADDED,'2.3.0 adds exactly the r90 shell files (plus r91 Squad Management)');
+  // r91 (2.4.0) shell files land before the release moves PREVIOUS to 2.3.0-r90: they sit in shell order among r90's.
+  const R91_ADDED=['js/playerSearch.js'];
+  assert.deepEqual(added.filter(p=>!R91_ADDED.includes(p)),R90_ADDED,'2.3.0 adds exactly the r90 shell files (plus r91 Squad Management)');
+  assert.deepEqual(added.filter(p=>R91_ADDED.includes(p)),R91_ADDED,'r91 adds exactly its listed shell files');
   assert.deepEqual(removed,R90_REMOVED,'2.3.0 removes exactly the r89 shell files r90 drops');
   assert.deepEqual(r89.filter(p=>!shell.includes(p)),removed,'every other r89 shell path is still precached');
   assert.equal(shell.length,275-removed.length+added.length);
