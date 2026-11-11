@@ -401,10 +401,13 @@
       if(choice==="back")return false;
     }
     const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx),special=rrsSpecial(ctx);
-    const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special}):null;
+    const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special,sheets:ctx.squads||null}):null;
     if(!await rrsVersionStop(ctx,version))return false;
     const hits={};
-    const history=ctx.season>1?await rrsHistory(ctx,hits):[null];if(!history)return false;
+    // r91 Squad Management: with both locked squads as this season's boards, nothing earlier is replayed, so the earlier
+    // seasons' verdicts and shootouts are not read.
+    const squads=ctx.squads&&typeof ctx.squads==="object"?ctx.squads:null;
+    const history=ctx.season>1&&!squads?await rrsHistory(ctx,hits):[null];if(!history)return false;
     // This season: a saved mark (this manager's own on a second browser, the partner's always) is the authority for that turn.
     hits[ctx.season]=Object.fromEntries(ROLES.map(role=>[role,rrsOutcomeOf(ctx.marks&&ctx.marks[role])]));
     // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player. A club the data
@@ -413,8 +416,8 @@
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
     // r88 Chamber Men: this season's two cylinders from the shootout (ctx.chamberMen), never one bullet in such a Showdown.
     const chamber=ctx.chamberMen&&ctx.chamberMen.active===true?ctx.chamberMen:null;
-    const chambers=chamber&&known?await rrsEarlierChambers(ctx,engine,hits,chamber):null;if(chamber&&known&&!chambers)return false;
-    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chambers:null}):null;
+    const chambers=chamber&&known?(squads?{...(chamber.chambers||{})}:await rrsEarlierChambers(ctx,engine,hits,chamber)):null;if(chamber&&known&&!chambers)return false;
+    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chambers:null,sheets:squads}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history,chamber?{chambers,hits}:null);
       await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The Transfer War stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
@@ -476,5 +479,5 @@
   // Fable F2-11: a new open forgets an earlier BACK, so a later failure that never reached the roulette is not read as one.
   function rrsForgetHome(){leftForHome=false;return true;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,decide:rrsDecide,nextLabel:rrsNextLabel,special:rrsSpecial,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
 });

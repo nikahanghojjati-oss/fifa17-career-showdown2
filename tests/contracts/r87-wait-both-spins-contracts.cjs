@@ -155,6 +155,8 @@ async function phone({role,confirmedAtMs,store,step=null,awaitOpen=true}){
     CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider.api,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==="playerOne"?uid1:uid2,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
+    // r91 Squad Management: this harness plays a Showdown whose squads are not asked here (tests/contracts/r91-squad-sheet-contracts.cjs).
+    CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
     CareerModeRosterRouletteStep:step||{fromMs:ROULETTE_T,decide:()=>false,runBeforeTransfers:async()=>true,close(){}},
     // r87 Prime Pack runs after the roulette; here it is already played on this browser (the step resolves true at once).
     CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){},close(){}},CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
