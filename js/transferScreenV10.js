@@ -215,7 +215,8 @@
   // Team V's labelling elements keep their place under a "tw-" id, so no id exists twice.
   function tfRenameIds(){
     const renamed=new Map();
-    for(const node of stage.querySelectorAll("[id]")){if(tfIsAdopted(node)||node.id.startsWith("tw-"))continue;const next=`tw-${node.id}`;renamed.set(node.id,next);node.id=next;}
+    // A selector's listbox and its rows belong to the adopted box (its aria-controls / aria-activedescendant name them).
+    for(const node of stage.querySelectorAll("[id]")){const box=node.closest&&node.closest(".transferCombobox");if(tfIsAdopted(node)||node.id.startsWith("tw-")||(box&&tfIsAdopted(box.querySelector("input"))))continue;const next=`tw-${node.id}`;renamed.set(node.id,next);node.id=next;}
     for(const node of stage.querySelectorAll("[aria-labelledby]")){const value=node.getAttribute("aria-labelledby").split(/\s+/).map(id=>renamed.get(id)||id).join(" ");node.setAttribute("aria-labelledby",value);}
   }
   function tfPlace(id){for(const node of stage.querySelectorAll(`[id="${id}"]`))if(!tfIsAdopted(node))return node;return null;}

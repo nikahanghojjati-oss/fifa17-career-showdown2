@@ -1060,7 +1060,9 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 
 /* r87 (Team G): production's position and overall boxes sit in Team V's name cell after the player name at every size
    (name, POS, OVR). POS keeps 62px+ so "CAM" and its arrow never clip, OVR 46px+ for two digits; the name gives way first. */
-#transferChallenge .tw-host .signing-name-cell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(62px, 4.4em) minmax(46px, 3.6em); gap: 4px; min-width: 0; align-items: center; }
+#transferChallenge .tw-host .signing-name-cell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(62px, 4.4em) minmax(46px, 3.6em); gap: 4px; min-width: 0; align-items: start; }
+/* r91: the three boxes are the same height, so "start" reads as before; with the player list open under the name, POS and OVR
+   stay beside the name instead of sliding down to the middle of the taller cell. */
 #transferChallenge .tw-host .signing-name-cell > :is(input, select, .transferCombobox) { min-width: 0; width: 100%; grid-column: auto; }
 #transferChallenge .tw-host .signing-row input.signingOverall { text-align: center; padding-inline: 2px; font-variant-numeric: tabular-nums; }
 /* the position box wears the plate's field look (visual-assets/v10_1/tr2/slice-02-plate/plate.css .signing-row input) with
