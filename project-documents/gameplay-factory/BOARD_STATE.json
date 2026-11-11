@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11 4:00 AM Boston time (EST)",
+ "generated": "2026-11-11 4:04 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 218,
@@ -2024,11 +2024,11 @@
      "title": "Release 2.3.0 (r90): cut the waste, quality first",
      "draft": false,
      "branch": "gameplay/r90",
-     "sha": "156a257f107449f59f3e1112f3239bcf676aacb2",
-     "updated": "2026-11-11T08:40:48Z",
+     "sha": "22d25878042b86ab150cd9f7fa9f8d6bff46ec8f",
+     "updated": "2026-11-11T09:02:00Z",
      "gates": {
-      "passed": 8,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -2825,7 +2825,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 4675
+    "waiting_min": 4679
    },
    {
     "id": "HO-059",
@@ -4249,11 +4249,11 @@
     "title": "Release 2.3.0 (r90): cut the waste, quality first",
     "draft": false,
     "branch": "gameplay/r90",
-    "sha": "156a257f107449f59f3e1112f3239bcf676aacb2",
-    "updated": "2026-11-11T08:40:48Z",
+    "sha": "22d25878042b86ab150cd9f7fa9f8d6bff46ec8f",
+    "updated": "2026-11-11T09:02:00Z",
     "gates": {
-     "passed": 8,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
