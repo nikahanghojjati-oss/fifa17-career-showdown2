@@ -462,6 +462,9 @@
     // Root motion. A clip's hips track is in the hips' parent space; we move it in world space (the model at rest at the
     // origin): optionally drop its travel along x/z, then turn it by yaw about `from` and carry `from` to `to`.
     const hipsOf=(a,clip,time)=>{a.pose([{clip,time,w:1}]);a.hips.getWorldPosition(sample);a.hips.getWorldQuaternion(sampleQ);fwd.set(0,0,1).applyQuaternion(sampleQ);return {x:sample.x,z:sample.z,face:Math.atan2(fwd.x,fwd.z)};};
+    // Where a pose stands: the middle of its two toes on the grass (with the hips' facing).
+    const feetOf=(a,clip,time)=>{const h=hipsOf(a,clip,time),l=a.bones.mixamorigLeftToeBase,r=a.bones.mixamorigRightToeBase;if(!l||!r)return h;
+      l.getWorldPosition(sample);const x=sample.x,z=sample.z;r.getWorldPosition(sample);return {x:(x+sample.x)/2,z:(z+sample.z)/2,face:h.face};};
     const rebase=(a,clip,name,{zero,from,to,share})=>{
       const P=a.hips.parent;a.holder.updateMatrixWorld(true);
       const M=P.matrixWorld.clone(),Mi=M.clone().invert(),Pq=new T.Quaternion(),Ps=new T.Vector3(),Pp=new T.Vector3();M.decompose(Pp,Pq,Ps);
@@ -523,14 +526,15 @@
       // ways): the step keeps its sideways travel, so the feet never slide.
       for(const n of ["gkStepL","gkStepR"])if(keeper.clips[n])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
       // r91: once his dive or block is over and he is back on his feet, the keeper reacts: a fist pump when the ball stayed
-      // out, head down when it went in. Each reaction starts where that move ends (its hips carried there, no turn), so
-      // his feet never slide; only the hips track is new, the other tracks are shared with the clip. Reduce Motion shows
-      // the move's settled end, without a reaction.
+      // out, head down when it went in. Each reaction starts where that move ends: the middle of his feet is carried there
+      // (no turn), so going into it each foot moves only by the change of stance (10-14 cm, both feet alike), never a
+      // slide. Only the hips track is new, the other tracks are shared with the clip. Reduce Motion shows the move's
+      // settled end, without a reaction.
       KC.after={};
       for(const [k,n] of [["save","cheer"],["goal","disappointed"]])if(keeper.clips[n]){
-        const c=keeper.clips[n],from=hipsOf(keeper,c,0),by={};
+        const c=keeper.clips[n],from=feetOf(keeper,c,0),by={};
         for(const m of new Set([...KEEPS.L,...KEEPS.R].filter(m=>!m.hold).map(m=>m.c))){
-          const to=hipsOf(keeper,KC[m],KC[m].duration-1e-3);
+          const to=feetOf(keeper,KC[m],KC[m].duration-1e-3);
           by[m]=rebase(keeper,c,`cm_gk_${k}_${m}`,{zero:"xz",from,to:{x:to.x,z:to.z,face:from.face},share:true});}
         KC.after[k]=by;}
       keeper.holder.position.set(0,0,.25);
