@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11 10:33 AM Boston time (EST)",
+ "generated": "2026-11-11 10:47 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 218,
@@ -1985,8 +1985,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "625d35f",
-  "head_boston": "Wed 11 Nov 10:16 AM",
+  "head": "ac339c0",
+  "head_boston": "Wed 11 Nov 10:39 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2029,7 +2029,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1380 has waited 61 min for a machine; Showdown Gate on #1379 has waited 48 min for a machine; Showdown Gate on #1382 has waited 48 min for a machine; Showdown Gate on #1385 has waited 40 min for a machine; Showdown Gate on #1386 has waited 35 min for a machine; Showdown Gate on #1387 has waited 28 min for a machine; Showdown Gate on #1378 has waited 28 min for a machine; Showdown Gate on #1383 has waited 27 min for a machine; Showdown Gate on #1388 has waited 19 min for a machine; POS20 on #312 has waited 17 min for a machine; Showdown Gate on #1389 has waited 3 min for a machine; Showdown Gate on #1361 has waited 2 min for a machine.",
+   "line": "Barking: Showdown Gate on #1379 has waited 60 min for a machine; Showdown Gate on #1357 has waited 57 min for a machine; Showdown Gate on #1384 has waited 54 min for a machine; Showdown Gate on #1388 has waited 31 min for a machine; POS20 has waited 28 min for a machine; Showdown Gate on #1389 has waited 14 min for a machine; Showdown Gate on #1361 has waited 13 min for a machine; Showdown Gate on #1390 has waited 11 min for a machine; Showdown Gate on #1391 has waited 7 min for a machine; Showdown Gate on #1392 has waited 5 min for a machine; Showdown Gate on #1383 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2816,7 +2816,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5069
+    "waiting_min": 5082
    },
    {
     "id": "HO-059",
@@ -2960,6 +2960,19 @@
     "worker": "images",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-070",
+    "from": "G",
+    "to": "V",
+    "title": "Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-070_gazette-look-hide-boxed-eyebrow-wider-de.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 2
    }
   ],
   "relay_ok": true
@@ -3031,7 +3044,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 45,
   "next": 42,
   "nik": 2,
   "later": 21,
