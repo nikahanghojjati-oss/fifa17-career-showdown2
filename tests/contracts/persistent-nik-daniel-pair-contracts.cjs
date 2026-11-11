@@ -226,19 +226,15 @@ assert.doesNotMatch(joinFunction,/pairEnsurePreparedBinding\(context,role\)/,'Ni
 
 assert.match(joinFunction,/pairProviderConflictNeedsRefresh\(error\)[\s\S]*pairInitialize\(\{force:true\}\)/,'A stale registered joining browser must re-read durable provider authority after an active-pair conflict.');
 assert.doesNotMatch(joinFunction,/pairPersistPairLinkWithRetry/,'Successful one-use redemption must not depend on a later pair-link write.');
-assert.match(pairSource,/"RESTORE BACKUP"/);
+assert.doesNotMatch(pairSource,/"RESTORE BACKUP"/,"r91: the backup-file restore button was cut");
 assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"/);
 assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*pairAbandonCurrentShowdown\(\{expectedRivalryId:rivalryId\}\)[\s\S]*navigateTo\("createShowdown"/,'Recovery start-over must close the exact stale provider Showdown before routing to explicit new-Showdown season selection.');
 assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*const refreshed=await pairInitialize\(\{force:true\}\)[\s\S]*refreshed\.status==="paired"[\s\S]*Continue Career instead of deleting it/,'Recovery start-over must revalidate local recovery before showing destructive confirmation and cancel deletion when a restored career is now valid.');
 assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*const confirmed=await pairAskConfirm\([\s\S]*const rechecked=await pairInitialize\(\{force:true\}\)[\s\S]*rechecked\.rivalryId!==rivalryId[\s\S]*Nothing was deleted/,'Recovery start-over must revalidate again after confirmation so another tab or successful restore cannot redirect a destructive click.');
 
 assert.match(pairSource,/async function pairStartOverFromRecovery\(\)[\s\S]*Delete the old Showdown and start over\?[\s\S]*player identity, registered device, Legacy history and app settings are kept/,'Destructive fresh-browser recovery must explain its exact preservation boundary before provider mutation.');
-assert.match(pairSource,/The online Showdown is still live, but it could not be loaded here\. Tap BACK, then LOAD SHOWDOWN on Home to try again\. You can also restore a backup or start over\./,'r80: when the live Showdown could not be rebuilt here the copy says so plainly (online is the truth) rather than implying a local backup exists; r80 gallery: its try-again names the real action (BACK, then the LOAD SHOWDOWN tile), not a reload with no button.');
-assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*openOptionalModule\("legacy"\)[\s\S]*mountCareerModeRestorePanel[\s\S]*careerModeRestorePanel[\s\S]*scrollIntoView[\s\S]*input\.focus\(\)/,'Backup recovery must wait for Legacy to open, mount the verified restore panel, then scroll and focus the file picker instead of landing at the top of an empty-looking page.');
-assert.match(pairSource,/async function pairOpenRecoverySurface\(\)[\s\S]*showScreen\("mainMenu",false\)/,'A missing restore surface must fail back to Home instead of stranding the player in Legacy.');
+assert.match(pairSource,/The online Showdown is still live, but it could not be loaded here\. Tap BACK, then LOAD SHOWDOWN on Home to try again, or start over\./,'r80: when the live Showdown could not be rebuilt here the copy says so plainly (online is the truth) (r91: no backup restore is offered); r80 gallery: its try-again names the real action (BACK, then the LOAD SHOWDOWN tile), not a reload with no button.');
 
-assert.match(pairSource,/root\.openOptionalModule\("legacy"\)/,'Recovery-required must route through the bounded Legacy/Candidate C loader before locating restore controls.');
-assert.match(optionalSource,/async function ensureLegacyModule\(\)[\s\S]*ensureCandidateC\(\)[\s\S]*js\/restoreUI\.js[\s\S]*mountCareerModeRestorePanel/,'The approved Legacy loader must prepare Candidate C and mount the verified restore panel.');
 assert.match(entrySource,/openPersistentPairControls/);
 assert.doesNotMatch(entrySource,/openSaveLibrary/,'Connect Players must not route through normal Settings or Save Library.');
 assert.doesNotMatch(entrySource,/if\(round\)round\.value="1"/,'Shared start must preserve the selected 1\/3\/5\/10 season count.');

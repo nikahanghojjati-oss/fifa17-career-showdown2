@@ -80,7 +80,7 @@
     // product setClubText(button, ...) targets the label span so the aria-hidden glyphs survive
     const lab = b => $(".btnLabel", b) || b;
     if (f.open.text) setClubText(lab(open), f.open.text);
-    setClubText(lab(cont), "CONFIRM RIVALRY & START SHOWDOWN");
+    setClubText(lab(cont), "CONFIRM & START SHOWDOWN");
   }
   const STAGES = ["ready", "opening", "manager-one", "manager-two", "versus", "confirmation"];
   function setClubRevealStage(stage) {

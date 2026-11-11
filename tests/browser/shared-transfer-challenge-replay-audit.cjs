@@ -137,7 +137,7 @@ async function assertActiveGuessGuard(page,roleLabel){
   });
   await page.evaluate(()=>CareerModeProductionSharedTransferChallenge.refresh());
   assert.equal(await value.isDisabled(),true,`${roleLabel} guess value must stay disabled until League or Nationality is selected.`);
-  assert.equal(await value.getAttribute('placeholder'),'Choose League or Nationality first');
+  assert.equal(await value.getAttribute('placeholder'),'Pick League or Nationality first');
   await type.selectOption('league');
   assert.equal(await value.isEnabled(),true,`${roleLabel} choosing League must enable the matching FIFA 17 league selector.`);
   assert.equal(await value.getAttribute('placeholder'),'Search FIFA 17 league');

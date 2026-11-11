@@ -180,12 +180,15 @@ ok("R90-PS11 LOOK round 2 L31/L05/L32: the reveal stays a night stadium, calmer 
   assert.match(page,/rays\.scale\.setScalar\(3\.5\+charge\*2\.5\)/,"L31: the charge halo stays round the pack");
   assert.match(page,/const flags=flagMounts\.map\(/,"r91 (Nik 2026-11-11 \"yes to nation flag\"): 2.2.0's five roof flags are back");
   assert.match(page,/set\.flag=up\(prepTex\(384,256,c=>drawFlag\(c,p\.nation,0,0,384,256,true\)\)\)/,"r91: the flag is drawn and uploaded once per player, behind the loading screen");
-  assert.match(page,/const warmShown=\(\)=>\[[^\]]*\.\.\.flags\.map\(f=>f\.mesh\)\]/,"r91: the flags are out in the warm draw, so their program and shadow pass are ready before the first frame");
+  assert.match(page,/const warmShown=\(\)=>\[[^\]]*\.\.\.flags\.map\(f=>f\.mesh\)(?:,\.\.\.beams)?\]/,"r91: the flags are out in the warm draw, so their program and shadow pass are ready before the first frame");
   assert.match(page,/const CALM=\.55;/,"L31: about half the paper and sparks, same beats");
   assert.match(page,/burst\(CARD_POS\.clone\(\)\.add\(new T\.Vector3\(0,0,\.3\)\),\[0xf1c35a,0xffd77a,0xfff1c2\],Math\.round\(120\*pw\*CALM\)/,"L31 round 2/L40 round 3: one short gold burst at the flash, half as many sparks");
   assert.match(page,/confettiCannon\(1,cc,Math\.round\(200\*pw\*CALM\)\)/,"the club beat keeps its (calmer) cannons");
-  assert.ok(!/380\*pw|function fountain|\[0x3355ff,0xf1c35a/.test(page),"no flash rain, floor fountains or blue firework mix");
-  assert.ok(!/beamMat|const beams=/.test(page),"L05 round 2: no signature beams at any level");
+  assert.ok(!/380\*pw|\[0x3355ff,0xf1c35a/.test(page),"no flash rain or blue firework mix");
+  assert.match(page,/function litFountains\(\)\{ fountainsOn=FOUNTAINS\.map\(\(\[x,z\]\)=>\[fitX\(x,z\),z\]\)\.filter\(\(\[x,z\]\)=>clearOfCard\(x,z,\.7\)\); \}/,"r91 (Nik's pick): 2.2.0's floor fountains are back, only those clear of the card on that screen");
+  assert.match(page,/const beams=\[-1,1\]\.map\(/,"r91 (Nik's pick): only 2.2.0's two side beams (top 10) are back; the centre beam that rose behind the card stays out");
+  assert.match(page,/b\.visible=sigLvl>=3&&fade>0&&x!==null;/,"a side beam shows only where it stands clear of the card"); assert.match(page,/while\(x<=edge&&!clearOfCard\(side\*x,z,\.35\)\) x\+=\.1;/,"it moves out until clear of the card, and is left out where the screen has no room");
+  assert.match(page,/beamMat\.color\.copy\(sigCol\)\.lerp\(WHITE,\.2\)\.multiplyScalar\(2\.6\*grow\*fade\);/,"2.2.0's strength");
   assert.match(page,/Math\.sin\(gs\*Math\.PI\)\*4\.5\*pw\*\(camera\.aspect<1\?\.6:1\)/,"L31 round 3: a smaller flash glow, smaller still on portrait");
   assert.match(page,/if\(rest>0\)\{ const k=Math\.max\(\.7,1-rest\/\(PACK_H\*\.95\)\); pack\.scale\.multiplyScalar\(k\);/,"L32: a smaller pack where lowering alone leaves its top under the title");
 });

@@ -115,13 +115,13 @@ async function t3QuietWhenSessionEnded(){
   ];
   for(const [label,remote] of cases){
     const h=terminalCloseHarness(remote);
-    const reported=await h.api.reportUnlessClosed("Unable to refresh Shared Multi Season progression",failure);
+    const reported=await h.api.reportUnlessClosed("Could not refresh season progress",failure);
     assert.equal(reported,false,`T3 ${label}: the failure is not reported`);
     assert.equal(h.reports.length,0,`T3 ${label}: no red error toast`);
     assert.equal(h.refreshes.length,1,`T3 ${label}: the RECONNECT SESSION banner is woken instead`);
   }
   const active=terminalCloseHarness({sessionState:"active",sessionId:NEW_SESSION,pendingAction:null,expiresAtEpochMs:Date.now()+FOUR_HOURS});
-  assert.equal(await active.api.reportUnlessClosed("Unable to refresh Shared Multi Season progression",failure),true,"T3 with an exact ACTIVE session the failure is still reported");
+  assert.equal(await active.api.reportUnlessClosed("Could not refresh season progress",failure),true,"T3 with an exact ACTIVE session the failure is still reported");
   assert.equal(active.reports.length,1);assert.equal(active.reports[0].code,"MULTI_SEASON_SETUP_NOT_CONFIRMED");
   assert.equal(active.refreshes.length,0);
   console.log("ok T3 an ended session wakes the reconnect banner instead of stacking error toasts; real failures still report");

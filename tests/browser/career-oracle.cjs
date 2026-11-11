@@ -1,7 +1,7 @@
 "use strict";
 // r87 W3-3: the career-screen number oracle.
-// After real emulator Showdowns, every number on History, Standings, Rivalry Statistics, Trophy Room, Career Statistics and
-// History & Backup (plus the Settings HISTORY row) is compared with what the stored Firestore documents say, for Daniel and for
+// After real emulator Showdowns, every number on History, Standings, Rivalry Statistics, Trophy Room, Career Statistics
+// (plus the Settings HISTORY row) is compared with what the stored Firestore documents say, for Daniel and for
 // Nik, on a desktop and on a phone, each in a FRESH browser (empty storage, so every figure is read from Firebase).
 //
 // How the career is built (all on the local emulators, demo project; production Firebase is never contacted):
@@ -195,10 +195,9 @@ function checkBrowser(who,raw,E){
       {completed:g.completed,points:g.points,W:g.W,trophies:g.trophies,cl:g.cl,league:g.league,cup:g.cup},
       {completed:two(rs.seasons.length,rs.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),trophies:two(t.daniel.trophies,t.nik.trophies),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup)},o("Rivalry Statistics"));
   }
-  // Settings and History & Backup
+  // Settings
   const st=f.settings;
   check(id("settings.history"),`Settings: HISTORY counts ${E.completedCount} completed Showdown(s)`,st&&st.rows.HISTORY===`${E.completedCount} completed showdown${E.completedCount===1?"":"s"}`,st?.rows,o("Settings"));
-  eq(id("backup.figures"),"History & Backup: Showdowns completed and each manager's career points",f.backupFigures,{completed:S(E.completedCount),daniel:S(x.daniel.total),nik:S(x.nik.total)},o("History & Backup"));
   // Speed
   const slow=Object.entries(f.openMs).filter(([,ms])=>ms!==null&&ms>SLOW_OPEN_MS);
   check(id("speed"),`every career screen settles within ${SLOW_OPEN_MS/1000} s of its tap (fresh browser, ${E.history.length} History cards)`,slow.length===0,f.openMs,o("All career screens"));
@@ -260,7 +259,7 @@ async function main(){
     }
     // The same figures everywhere.
     const labels=Object.keys(facts);
-    const strip=f=>{const c={...f};for(const k of ["settings","openMs","historyNav","historyCards","seasonHistory","seasonHistoryFor","rivalryText","standingsText","standingsFirstText","thisShowdownText","backup"])delete c[k];c.cards=f.historyCards.map(h=>`${h.number}:${h.status}:${h.text}`);return c;};
+    const strip=f=>{const c={...f};for(const k of ["settings","openMs","historyNav","historyCards","seasonHistory","seasonHistoryFor","rivalryText","standingsText","standingsFirstText","thisShowdownText"])delete c[k];c.cards=f.historyCards.map(h=>`${h.number}:${h.status}:${h.text}`);return c;};
     for(const other of labels.slice(1)){
       const a=strip(facts[labels[0]]),b=strip(facts[other]);
       const diffs=Object.keys(a).filter(k=>JSON.stringify(a[k])!==JSON.stringify(b[k])).map(k=>`${k}: ${JSON.stringify(a[k]).slice(0,200)} vs ${JSON.stringify(b[k]).slice(0,200)}`);

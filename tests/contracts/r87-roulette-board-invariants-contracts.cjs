@@ -1,5 +1,5 @@
 'use strict';
-// r87 test gaps (2026-10-31): seeded property test for the Russian Roster Roulette boards over whole 10-season careers.
+// r87 test gaps (2026-10-31): seeded property test for the Roster Russian Roulette boards over whole 10-season careers.
 // The fixed cases in r87-roster-roulette-contracts.cjs pin one example per bug (SQ-2-01..03, R87-C-01/05, R87-E-02). This
 // file drives js/rosterRoulette.js with many random Showdowns and random Transfer War histories (kept signings, released
 // signings, guessed incumbents, repeats, accent and case variants of names) and checks, for every season of every career:

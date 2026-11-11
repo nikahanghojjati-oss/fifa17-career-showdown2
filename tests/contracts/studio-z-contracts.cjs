@@ -61,7 +61,7 @@ check("Z5","a waiting update applies by itself only on a safe Home screen",()=>{
 });
 
 check("Z9","Settings never shows the old engineering panels, even if the identity module starts late or not at all",()=>{
-  assert.match(read("css/rulesSettingsV10.css"),/#settingsOverlay #settingsContent :is\(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel\):not\(\[data-test-surface="internal-audit"\]\) \{ display:none !important; \}/);
+  assert.match(read("css/rulesSettingsV10.css"),/#settingsOverlay #settingsContent :is\(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, .settingsOfflinePanel\):not\(\[data-test-surface="internal-audit"\]\) \{ display:none !important; \}/);
 });
 
 check("Z6","a stuck or cancelled Google sign-in returns to SIGN IN WITH GOOGLE",()=>{

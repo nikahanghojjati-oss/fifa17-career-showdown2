@@ -95,13 +95,27 @@
     "4-1-2-1-2":["4-1-2-1-2","WIDE"],"4-1-2-1-2 (2)":["4-1-2-1-2","NARROW"],
     "4-2-3-1":["4-2-3-1","NARROW"],"4-2-3-1 (2)":["4-2-3-1","WIDE"],
     "4-3-3":["4-3-3","FLAT"],"4-3-3 (2)":["4-3-3","HOLDING"],"4-3-3 (3)":["4-3-3","DEFEND"],"4-3-3 (4)":["4-3-3","ATTACK"],"4-3-3 (5)":["4-3-3","FALSE 9"],
-    "4-4-1-1":["4-4-1-1","MIDFIELD"],"4-4-1-1 (2)":["4-4-1-1","ATTACK"],"4-4-2":["4-4-2","FLAT"],"4-4-2 (2)":["4-4-2","HOLDING"],
+    "4-4-1-1":["4-4-1-1","ATTACK"],"4-4-1-1 (2)":["4-4-1-1","MIDFIELD"],"4-4-2":["4-4-2","FLAT"],"4-4-2 (2)":["4-4-2","HOLDING"],
     "4-5-1":["4-5-1","ATTACK"],"4-5-1 (2)":["4-5-1","FLAT"],"5-4-1":["5-4-1","DIAMOND"],"5-4-1 (2)":["5-4-1","FLAT"]
   });
+  // (FIFA 17's names, checked against Nik's video, 2026-11-11: MIDFIELD has the CAM behind the striker, ATTACK the CF.)
+  // Other names the same formation goes by, for the search (5-2-2-1 is also listed as 5-2-3).
+  const FORMATION_ALIASES=Object.freeze({"5-2-2-1":["5-2-3"]});
   const titleOf=name=>{const t=FORMATION_TITLES[name];return Object.freeze({main:t?t[0]:name,variant:t?t[1]:""});};
   function allFormations(){
     const d=data();
     return d?{...d.players.formations,...EXTRA_FORMATIONS}:{...EXTRA_FORMATIONS};
+  }
+  // The Formations search: "4-3-3", "433", "43" (every formation starting 4-3), "false 9", "433 attack", "diamond". Each
+  // word of the query must start a word of the formation (its numbers, with or without dashes, an alias, or its variant).
+  // [] = all of them, in the list's order.
+  function searchFormations(query){
+    const norm=t=>String(t).toLowerCase().replace(/[\s()]+/g," ").trim();
+    const words=norm(query).split(" ").filter(Boolean).map(w=>/^[\d-]+$/.test(w)?w.replace(/-/g,""):w);
+    return formations().filter(f=>{
+      const own=[f.title,...(FORMATION_ALIASES[f.name]||[])].map(t=>t.replace(/-/g,"")).concat(norm(f.variant).split(" ").filter(Boolean));
+      return words.every(w=>own.some(o=>o.startsWith(w)));
+    }).map(f=>f.name);
   }
   function formationSlots(name){
     const f=allFormations();
@@ -816,7 +830,7 @@
   return Object.freeze({
     version:VERSION,feature:"cms-squad-sheet",xiSize:XI_SIZE,benchSize:BENCH_SIZE,boardSubs:FEATURED,maxSeasons:MAX_SEASONS,
     lines:LINES,stages:STAGES,leaveReasons:LEAVE_REASONS,buyBack:BUY_BACK,flex:FLEX,
-    lineOf,family,fit:sqFit,playerLines,formations,formationSlots,lineCounts,pitchSpots,titleOf,idOf,allowedIn:(sheet,player,slot)=>allowed(sheet,player,slot),slotFit:(sheet,player,slot)=>slotFit(sheet,player,slot),findPlayer,
+    lineOf,family,fit:sqFit,playerLines,formations,searchFormations,formationSlots,lineCounts,pitchSpots,titleOf,idOf,allowedIn:(sheet,player,slot)=>allowed(sheet,player,slot),slotFit:(sheet,player,slot)=>slotFit(sheet,player,slot),findPlayer,
     launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc,replay,boardFromDoc,
     hidingIssue:sheet=>{const i=hidingIssue(sheet);return i?Object.freeze({kind:i.kind,better:i.q.name,over:i.p?i.p.name:null,reason:hidingReason(i)}):null;}
   });

@@ -4,7 +4,7 @@
 // (js/showdownConfirm.js, styled by Team V's .r78-modal in css/r78-marble-surfaces.css).
 // Source: no native confirm() is left anywhere in the app; each of the 12 live audited call sites (C1-C11, C11 twice; C12 retired in r79) keeps its
 // exact wording and awaits the box; the r78 sheets and the box stay out of the startup bundle.
-// Browser: the real Settings > History & Backup > RESET ALL SHOWDOWN DATA button (C3) opens the box over the unchanged
+// Browser (r91: the History & Backup page and its RESET button were cut, so a test button asks the same shared box): it opens the box over the unchanged
 // screen (no dimming or blur, opaque marble panel); focus is trapped, Esc = Cancel, Enter = OK, Cancel never resets,
 // focus returns to the button, OK runs the reset, and window.confirm is never called.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),net=require("node:net");
@@ -26,14 +26,8 @@ function walk(dir,out=[]){
 const code=source=>source.replace(/\/\*[\s\S]*?\*\//g,"").replace(/(^|[\s;{}(),])\/\/[^\n]*/g,"$1");
 
 const SITES=[
-  ["C1","js/legacy.js","legacyAskConfirm(warning, \"danger\")",['from Legacy and remove its active completed copy? This cannot be undone.`','from Legacy? This cannot be undone.`']],
-  ["C2","js/legacy.js","legacyAskConfirm(warning, \"danger\")",["Delete every archived showdown from Legacy? The active copy of the completed showdown will also be removed so it cannot immediately re-archive. Unfinished active saves are not affected. This cannot be undone.","Delete every archived showdown from Legacy? Your unfinished active showdown, if any, will remain. This cannot be undone."]],
-  ["C3","js/legacy.js","legacyAskConfirm(\"Reset ALL Career Mode Showdown data? This deletes the active showdown and every Legacy record. This cannot be undone.\", \"danger\")",[]],
   // C4 (the dashboard DELETE CURRENT SHOWDOWN box) is retired in r90: its button was gone since r80 and the dead handler is deleted;
   // ending a Showdown is Settings END SHOWDOWN (C9).
-  ["C5","js/saveLibraryUI.js","saveLibraryUIAskConfirm(`Delete only “${name}” from this device? Other local Saves, Local Profiles, Legacy history and app settings remain. This cannot be undone.`,\"danger\")",[]],
-  ["C6","js/saveLibraryUI.js","saveLibraryUIAskConfirm(action,\"primary\")",["as unresolved? This removes only its explicit Local Profile link. The historical display name stays unchanged.`","This changes stable manager identity only. Saved and historical display names stay unchanged.`"]],
-  ["C7","js/restoreUI.js","restoreAskConfirm(\"Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy.\",\"primary\")",[]],
   ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,\"primary\")",[]],
   // r80: DELETE CURRENT SHOWDOWN became END SHOWDOWN (same red button, same marble box, Ended early wording).
   ["C9","js/settings.js","settingsAskConfirm(\n        `End the \"${name}\" Showdown? Ends this Showdown for both players. Legacy keeps it as Ended early. This cannot be undone.`,\n        \"danger\"",[]],
@@ -59,19 +53,15 @@ check("R1 no native confirm() is left in the app (js/, visual-assets/, index.htm
 });
 
 check("R2 the 13 audited confirm sites await the shared box with their exact wording, and only OK counts as consent",()=>{
-  assert.equal(SITES.length,11,"13 audited r78 sites minus C12 and C10 (retired in r79) and C4 (retired in r90), plus C13 (r79 PR4 UNPAIR)");
+  assert.equal(SITES.length,5,"13 audited r78 sites minus C12 and C10 (retired in r79), C4 (retired in r90) and C1-C3, C5-C7 (Legacy delete/reset, Save Library editor, backup restore: retired in r91), plus C13 (r79 PR4 UNPAIR)");
   for(const [id,file,call,extra] of SITES){
     const source=read(file);
     assert.ok(source.includes(call),`${id} ${file}: ${call.slice(0,60)}`);
     for(const text of extra)assert.ok(source.includes(text),`${id} ${file}: wording ${text.slice(0,50)}`);
   }
-  assert.equal((read("js/legacy.js").match(/await legacyAskConfirm\([^)]*\) !== true/g)||[]).length,3,"C1-C3 only an explicit OK deletes or resets");
   assert.doesNotMatch(read("js/showdownUI.js"),/dashboardAskConfirm/,"C4 retired (r90)");
   assert.equal((read("js/settings.js").match(/if\(confirmed !== true\)\{ return false; \}/g)||[]).length,1,"C9 (C10 retired in r79 PR4)");
   assert.match(read("js/showdownModes.js"),/const ok=await smAskConfirm\([^\n]*\);\n\s*if\(ok!==true\)return false;/,"C13 only an explicit OK unpairs");
-  assert.match(read("js/restoreUI.js"),/if\(await restoreAskConfirm\([^)]*\)!==true\)return;/);
-  assert.match(read("js/saveLibraryUI.js"),/const confirmed=await saveLibraryUIAskConfirm\([\s\S]*?\);\n\s*if\(confirmed!==true\|\|saveLibraryUIBusy\)return;/);
-  assert.match(read("js/saveLibraryUI.js"),/if\(await saveLibraryUIAskConfirm\(action,"primary"\)!==true\|\|saveLibraryUIBusy\)return;/);
   assert.equal((read("js/persistentNikDanielPair.js").match(/const confirmed=await pairAskConfirm\([^;]*;\n[^\n]*\n\s*if\(confirmed!==true\)return false;/g)||[]).length,2,"C11 x2 BH-11: only an explicit yes");
   assert.doesNotMatch(read("js/productionSharedJourneyEntry.js"),/entryAskConfirm|askShowdownConfirm|Start a new Showdown\? This will close/,"C12 retired (r79): START never asks to close a live Showdown");
   // C8 keeps its one exception: no confirm box at all (no loader) still locks as before; a Cancel never locks.
@@ -80,7 +70,7 @@ check("R2 the 13 audited confirm sites await the shared box with their exact wor
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(guesses\.length,"guesses"\)\)return false;/);
   assert.match(pstc,/if\(!await pstcConfirmPartialLock\(signings\.length,"signings"\)\)return false;/);
   // each helper prefers the loaded box, loads it on first use, and never treats a load failure as consent
-  for(const [file,name] of [["js/legacy.js","legacyAskConfirm"],["js/settings.js","settingsAskConfirm"],["js/showdownModes.js","smAskConfirm"],["js/restoreUI.js","restoreAskConfirm"],["js/saveLibraryUI.js","saveLibraryUIAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"]]){
+  for(const [file,name] of [["js/settings.js","settingsAskConfirm"],["js/showdownModes.js","smAskConfirm"],["js/productionSharedTransferChallenge.js","pstcAskConfirm"],["js/persistentNikDanielPair.js","pairAskConfirm"]]){
     const source=read(file);
     assert.match(source,new RegExp(`function ${name}\\(message,tone\\)\\{return typeof (?:window|root)\\.askShowdownConfirm==="function"\\?[^\\n]*loadRuntimeScript\\("showdown-confirm","js/showdownConfirm\\.js"[^\\n]*,\\(\\)=>false\\):Promise\\.resolve\\(undefined\\);\\}`),`${file} ${name}`);
   }
@@ -207,7 +197,7 @@ check("R4c an r79-only shell cache survives r80 activation and stays the rollbac
   assert.equal(diag.previousRevision,"2.2.0-r89");
   assert.equal(diag.previousShellPaths.length,275,"r89 shipped 275 shell paths");
   assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r89's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","js/analytics.js"],"2.3.0 removes only the retired local analytics engine and the two local Barlow Condensed copies the shared sheet replaced");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","css/restore.css","css/saveLibrary.css","js/analytics.js","js/restoreUI.js","js/saveLibraryUI.js"],"this tree removes only the retired local analytics engine, the two local Barlow Condensed copies the shared sheet replaced and (r91) the backup-restore and Save Library editor UI files");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover
@@ -255,10 +245,18 @@ async function openTools(page,base){
   await page.addInitScript(()=>{window.__nativeConfirmCalls=0;window.confirm=()=>{window.__nativeConfirmCalls+=1;return true;};});
   await page.goto(base,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:20000});
-  await page.locator("#settingsButton").evaluate(button=>button.click());
-  await page.locator(".settingsDataButton").waitFor({timeout:15000});
-  await page.locator(".settingsDataButton").click();
-  const reset=page.locator("button",{hasText:"RESET ALL SHOWDOWN DATA"});
+  // r91: Settings > History & Backup > RESET ALL SHOWDOWN DATA was cut. A test button asks the same shared box the same way the old call site did.
+  await page.evaluate(({title,body,done})=>{
+    const ask=message=>typeof window.askShowdownConfirm==="function"?window.askShowdownConfirm(message,{tone:"danger"}):window.loadRuntimeScript("showdown-confirm","js/showdownConfirm.js",()=>typeof window.askShowdownConfirm==="function").then(()=>window.askShowdownConfirm(message,{tone:"danger"}),()=>false);
+    const button=document.createElement("button");button.type="button";button.id="r78TestTrigger";button.textContent="RESET ALL SHOWDOWN DATA";button.style.cssText="position:fixed;left:40px;top:300px;z-index:2000000;padding:12px 16px";
+    button.addEventListener("click",async()=>{
+      if(await ask(title+" "+body)!==true)return;
+      const notice=document.getElementById("appRuntimeNotice")||Object.assign(document.createElement("div"),{id:"appRuntimeNotice"});
+      notice.textContent=done;document.body.append(notice);
+    });
+    document.body.append(button);
+  },{title:RESET_TITLE,body:RESET_BODY,done:RESET_DONE});
+  const reset=page.locator("#r78TestTrigger");
   await reset.waitFor({timeout:15000});
   return reset;
 }
@@ -338,7 +336,7 @@ async function auditViewport(browser,base,options){
     const base=`http://127.0.0.1:${port}/`;
     await auditViewport(browser,base,{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
     await auditViewport(browser,base,{viewport:{width:1280,height:800}});
-    passed+=1;console.log(`ok ${passed} R5 the real RESET ALL SHOWDOWN DATA confirm works by keyboard and pointer at 390x844 and 1280x800`);
+    passed+=1;console.log(`ok ${passed} R5 the shared confirm box works by keyboard and pointer at 390x844 and 1280x800`);
     console.log(`PASS r78 marble confirm contracts: ${passed} checks (no native confirm() left; 11 call sites keep their words; one keyboard-accessible marble box).`);
   }finally{
     if(browser)await browser.close();

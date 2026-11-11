@@ -256,7 +256,7 @@
       const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
       if(!pair||typeof pair.continuePair!=="function")throw new Error("Career continue is unavailable.");
       // PR #901: continuePair() reports a failure in its returned state (error / recovery-required) instead of rejecting, so a
-      // failed continue reopens Connect Players with that state (TRY CONTINUE AGAIN / RESTORE BACKUP) like the auto-continue
+      // failed continue reopens Connect Players with that state (TRY CONTINUE AGAIN) like the auto-continue
       // fallback does, instead of rendering into a hidden panel. Nothing is created.
       const next=await pair.continuePair();
       if(next&&next.busy!==true&&next.status!=="paired"){

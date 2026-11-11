@@ -138,7 +138,13 @@
 .sqmFormPreview .sqmChipOvr{right:calc(50% + 20px);font-size:16px}
 .sqmFormNote{margin:0;padding:9px 16px;background:#fff1b8;color:#3b2d00;font-family:var(--text);font-weight:600;font-size:14px}
 .sqmFormRail{background:var(--slate);color:var(--ink);padding:10px 8px 12px}
-.sqmFormRail .sqmShelfTitle{padding:0 6px 9px}
+.sqmFormRail .sqmShelfTitle{padding:0 6px}
+.sqmFormHead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;padding:0 0 9px}
+.sqmFormSearch{flex:0 1 300px;min-width:0;display:flex}
+.sqmFormSearch input{width:100%;min-width:0;box-sizing:border-box;height:36px;padding:0 12px;background:var(--slate2);color:#eef0f3;border:1px solid #4a5260;border-radius:2px;font:600 16px/1 var(--text);letter-spacing:.01em}
+.sqmFormSearch input::placeholder{color:var(--soft);opacity:1}
+.sqmFormSearch input:focus{outline:none;border-color:var(--yellow)}
+.sqmFormNone{margin:0;padding:18px 10px;background:var(--slate2);font-family:var(--text);font-weight:600;font-size:15px;color:#eef0f3}
 .sqmFormRow{display:flex;align-items:stretch;gap:6px}
 .sqmFormArrow{flex:0 0 40px;background:var(--slate3);border:1px solid #4a5260;border-radius:2px;font-size:28px;line-height:1;cursor:pointer}
 .sqmFormArrow:disabled{opacity:.35;cursor:default}
@@ -223,6 +229,7 @@
   .sqmShelfPos{font-size:13px}.sqmShelfOvr{font-size:22px}.sqmShelfName{font-size:14px}
   .sqmShelfCard .sqmShirt{width:30px;height:33px}
   .sqmFormCard b{font-size:16px}
+  .sqmFormSearch{flex:1 1 100%}
   .sqmFormArrow{flex-basis:32px}
   .sqmFormPreview .sqmChip{width:72px}
   .sqmFormPreview .sqmChip .sqmShirt{width:36px;height:40px}

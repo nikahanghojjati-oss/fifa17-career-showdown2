@@ -46,7 +46,7 @@
     "</section>"
   ].join("\n");
   let layer=null,opening=null,opener=null,observer=null,homeObserver=null;
-  const PRIMARY=/^(START A SHOWDOWN|CHOOSE SEASONS|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN|RESTORE BACKUP)$/;
+  const PRIMARY=/^(START A SHOWDOWN|CHOOSE SEASONS|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN|TRY AGAIN)$/;
   const inertBefore=new Map();
   function byId(id){return root.document?.getElementById(id)||null;}
   function report(error){root.reportApplicationError?.("Could not open Connect Players",error);}
@@ -119,7 +119,7 @@
     byId("connectPlayersSetup").addEventListener("click",()=>void chooseSeasons().catch(report));
     layer.addEventListener("click",event=>{
       const button=event.target.closest?.("#persistentNikDanielPairPanel button");
-      if(button&&!button.disabled&&/^(START CAREER|TRY CONTINUE AGAIN|RESTORE BACKUP)$/.test(button.textContent.trim()))close({restoreFocus:false});
+      if(button&&!button.disabled&&/^(START CAREER|TRY CONTINUE AGAIN)$/.test(button.textContent.trim()))close({restoreFocus:false});
     },true);
     layer.addEventListener("keydown",event=>{
       if(event.key==="Escape"){event.preventDefault();event.stopPropagation();close();return;}

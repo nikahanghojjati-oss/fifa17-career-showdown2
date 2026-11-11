@@ -117,7 +117,7 @@ ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the 
   assert.equal(MP.forShowdown(mb,AT,{clubs:NC}).playerOne.name,'K. Mbappé');
   for(const typed of ['K. Mbappé','K. Mbappe','K. Mbappe Lottin'])assert.equal(MP.isOwnSpecial(mb,AT,'playerOne',typed,NC),true,typed);
   const pstc=read('js/productionSharedTransferChallenge.js');
-  assert.match(pstc,/if\(pstcIsOwnSpecial\(role,player\)\)pstcFail\("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing \$\{i\} is your Special Player\./,'the signing form refuses him with a plain line');
+  assert.match(pstc,/if\(pstcIsOwnSpecial\(role,player\)\)pstcFail\("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing \$\{i\} is your Special Player,/,'the signing form refuses him with a plain line');
   assert.match(pstc,/step\.isOwnSpecial\(request\.rivalryId,at,role,name,setup\?\.setup\?\.clubs\)/,'asked of the season step with the Setup confirm time the page holds');
   assert.match(read('js/rosterRouletteStep.js'),/draw\.isOwnSpecial\(rivalryId,confirmedAtMs,role,name,clubs\)/,'the step asks the draw');
 }

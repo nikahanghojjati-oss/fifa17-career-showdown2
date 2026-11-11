@@ -275,6 +275,8 @@ async function c3d2(){
   for(const n of ["victory2","cheer","salute","defeated"])assert.ok(tool.includes(`"${n}"`),`clips_r90.json bakes ${n}`);
   const fbx=require("node:child_process").execFileSync("git",["ls-files","*.fbx","*.FBX","*.zip"],{cwd:path.join(__dirname,"../.."),encoding:"utf8"}).trim();
   assert.equal(fbx,"","no Mixamo source (FBX or zip) in the repo");
+  // r91: a flipped move never flips the keeper mid-stance: his waiting clips are kept mirrored and play flipped from the kick's start.
+  assert.ok(/KC\.mirror=\{\};for\(const n of \["gkIdle","gkStepL","gkStepR"\]\)/.test(scene)&&/const flip=Boolean\(plan&&plan\.move\.m\),W=flip\?KC\.mirror:KC/.test(scene)&&/keeper\.holder\.scale\.x=flip\?-1:1;/.test(scene),"a flipped move starts from a mirrored stance, no flip in play");
   ok("C3D13","r90 moves: reactions vary per kick, rooted keeper, clips baked from Nik's Mixamo files with no FBX committed");
 }
 // C3D15 r90 draw calls: each player's opaque pieces cast one shadow draw (a shadow-only copy on the same bones, drawn

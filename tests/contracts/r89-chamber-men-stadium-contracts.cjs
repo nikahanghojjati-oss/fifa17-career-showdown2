@@ -113,7 +113,9 @@ const DIR="visual-assets/v10_1/chamber-men/assets/";
   assert.ok(/const nightStand=m=>/.test(kit)&&(kit.match(/nightStand\(new T\.MeshStandardMaterial/g)||[]).length===2,"stands and concrete fall dark with height");
   assert.ok(/const halo=new T\.Points\(flareGeo,haloMat\)/.test(kit),"floodlight halo");
   assert.ok(/mix\(1\.04,\.86,smoothstep\(8\.0,45\.0,length\(vCmWorld\.xz-vec2\(0\.0,9\.0\)\)\)\)\*mix\(1\.0,\.5,smoothstep\(0\.0,8\.0,cmOut\)\)/.test(kit),"the pitch floodlit evenly, darker only past the touchlines and the goal line");
-  assert.ok(/vec3\(\.14,\.16,\.25\),smoothstep\(\.5,12\.0,vCmY\)/.test(kit),"the stand falls into a cool dark above the front rows");
+  // r91 (Nik 2026-11-11, "vibrant ... not overly shiny or golden"): the upper rows keep most of their light.
+  assert.ok(/vec3\(\.5,\.52,\.6\),smoothstep\(\.5,12\.0,vCmY\)/.test(kit),"the stand keeps most of its light above the front rows (vibrant)");
+  assert.ok(/vShade=mix\(1\.0,\.7,/.test(kit)&&/rgb=mix\(rgb,uHaze,smoothstep\(20\.0,95\.0,vDist\)\*\.3\)/.test(kit),"the crowd keeps its light and kit colours, half the night haze");
   assert.ok(/top=vec3\(\.003,\.007,\.03\),mid=vec3\(\.016,\.026,\.062\)/.test(kit),"a darker, bluer night sky");
   assert.ok(/aCell\[i\]=plain\?pickCell\(PLAIN_CELLS\):pickCell\(TINT_CELLS\)/.test(kit)&&/o\.homeAlt/.test(kit)&&/o\.awayAlt/.test(kit),"club blocks in each club's two colours");
   assert.ok(/const awayEnd=f\.si===3\|\|\(f\.si===0&&f\.p\.x>AWAY_X\)/.test(kit),"away fans in the corner behind the goal");

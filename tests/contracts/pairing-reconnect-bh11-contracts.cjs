@@ -331,7 +331,8 @@ async function r2ExplicitConfirm(){
   assert.doesNotMatch(entry,/abandonCurrentShowdown|askShowdownConfirm/,"R2 (r79) START A SHOWDOWN never closes or offers to close a live pair");
   assert.match(start,/const decision=await whichShowdownIsLive\(\),realStart=await needsCareerStart\(decision\);\s*if\(decision\.action!=="new"&&!realStart\)\{await followStartDecision\(decision\);return false;\}/,"R2 (r79) over a live pair START follows it (continue / WAITING / JOIN) and creates nothing");
   assert.doesNotMatch(entry+pairSource,/confirmed===false/,"R2 no destructive path treats a missing confirm() as consent");
-  assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\),recover=pairCreateElement\("button","menuButton","RESTORE BACKUP"\)/,"R2 the recovery buttons and their order are unchanged (owner decision)");
+  assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\);startOver\.type="button"/,"R2 the recovery screen offers the confirm-gated START OVER (r91: the backup-file restore button was cut)");
+  assert.doesNotMatch(pairSource,/RESTORE BACKUP/,"R2 no RESTORE BACKUP button comes back");
   console.log("ok R2 destructive start-over paths need confirm()===true");
 }
 
