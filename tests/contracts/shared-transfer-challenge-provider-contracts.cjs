@@ -54,7 +54,7 @@ function createHarness(){
 
 (async()=>{
   assert.equal(leagueIds.length,36);
-  assert.equal(nationalityIds.length,164);
+  assert.equal(nationalityIds.length,166);
   assert.equal(Provider.feature,'ssjr-spark-shared-transfer-challenge');
   assert.equal(Provider.runtimeRevision,'1.9.1-r8');
   assert.equal(Provider.billingRequired,false);

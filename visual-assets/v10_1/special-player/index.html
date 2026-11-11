@@ -192,7 +192,8 @@ body.game #spk { display: grid; }
 const T = THREE;
 /* r89 engine upgrade (r128 -> r187): colours stay as written (L() converts by hand) and the lights keep their r128 maths */
 T.ColorManagement.enabled = false; T.cmsLegacyLights();
-const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* r91 Device check (?bench=1): the reveal plays in full under Reduce Motion too. It times the level; it is not the player's view (a cut reveal held and settled in one tick, so no beat was ever timed). */
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches && new URLSearchParams(location.search).get("bench")!=="1";
 const L = (hex) => new T.Color(hex).convertSRGBToLinear();
 /* r90 pack smooth: the frame loop reads colours from this cache (read-only) instead of making a new Color per spark */
 const LC = new Map(), Lc = (hex) => { let c=LC.get(hex); if(!c){ c=L(hex); LC.set(hex,c); } return c; };

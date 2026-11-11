@@ -554,12 +554,13 @@
     device(){const p=gfxProfile();return {phone:Boolean(p.phone),gpu:p.gpu,software:Boolean(p.software),strongPhone:Boolean(p.strongPhone),
       guessLevel:p.guessLevel,guessName:NAMES[p.guessLevel],can8k:Boolean(p.can8k),dpr:p.dpr};},
     // Device check: the best level this device held, saved as its Auto; clearMeasured() goes back to the GPU-name guess.
-    // r91 (Nik 2026-11-11): any level, Light to 8K (8K only where the GPU can hold it). A fresh, complete measurement also
-    // lifts an older crash cap: the check has just played every scene at that level.
+    // r91 (Nik 2026-11-11): any level, Light to 8K (8K only where the GPU can hold it). A crash cap is left alone (review
+    // on #1389): a device whose GPU gave up at a level in play keeps that cap even when the check then holds the level;
+    // the cap ends by its own rules (7 days, 3 clean scenes, or a pick in Settings).
     measured:gfxMeasured,benchStats:gfxBenchStats,
     setMeasured(level,detail){const n=Math.round(Number(level));if(!Number.isFinite(n))return null;
       const l=Math.max(0,Math.min(gfxProfile().can8k?5:4,n));
-      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return l;},
+      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
     clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
     // 8K is offered only where it can run (Settings shows it only then); samples()/checkTarget() size MSAA for render targets.
