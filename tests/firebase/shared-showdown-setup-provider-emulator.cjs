@@ -15,7 +15,7 @@ global.localStorage={
 const provider=require("../../js/sparkSharedShowdownSetup.js");
 
 const PROJECT_ID="demo-career-mode-showdown-shared-setup-provider";
-const RULES=fs.readFileSync("firestore.shared-setup-candidate.rules","utf8");
+const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const A="acct_setup_a",B="acct_setup_b",C="acct_setup_c";
 const R=`pair_${"a".repeat(64)}`;
 const R2=`pair_${"b".repeat(64)}`;

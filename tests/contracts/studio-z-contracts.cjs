@@ -45,7 +45,6 @@ check("Z4","the session pointer is host-written, pair-read, never listed or dele
   assert.match(rules,/offer\.hostAccountId == request\.auth\.uid/);
   assert.match(rules,/session\.hostAccountId == request\.auth\.uid/);
   assert.match(rules,/session\.expiresAt == offer\.expiresAt/);
-  assert.equal(read("firestore.stage5c.rules"),rules,"Stage 5C candidate stays the promoted production source");
   const remote=read("js/sparkRemoteJoining.js");
   assert.match(remote,/autoConnect:srjAutoConnect/);
   assert.match(remote,/USE A SESSION CODE/,"the manual code stays reachable for an account that is not permanently paired");

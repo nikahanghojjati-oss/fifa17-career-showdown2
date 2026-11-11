@@ -34,7 +34,7 @@ const session=require("../../js/sparkStandardAuthPrivateSession.js");
 
 const PROJECT_ID="demo-career-mode-showdown-stage5c";
 const AUTH_EMULATOR_URL="http://127.0.0.1:9099";
-const RULES=fs.readFileSync("firestore.stage5c.rules","utf8");
+const RULES=fs.readFileSync("firestore.spark.rules","utf8");
 const RIVALRY_ID=`pair_${"d".repeat(64)}`;
 const DEVICE_A=`device_${"a".repeat(32)}`;
 const DEVICE_B=`device_${"b".repeat(32)}`;

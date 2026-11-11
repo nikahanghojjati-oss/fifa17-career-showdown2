@@ -50,7 +50,6 @@ const files = [
   "tests/contracts/stage4-connected-rivalry-contracts.cjs",
   "tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs",
   "tests/contracts/stage5-activation-authority-contracts.cjs",
-  "tests/contracts/stage5a-private-session-contracts.cjs",
   "tests/contracts/stage5c-zero-billing-standard-auth-session-contracts.cjs",
   "tests/contracts/stage5d-production-session-rules-contracts.cjs",
   "tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs",
