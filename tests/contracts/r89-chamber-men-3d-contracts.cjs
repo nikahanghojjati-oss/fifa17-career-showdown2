@@ -190,7 +190,9 @@ async function c3d2(){
 {
   const ex=/const CM3_LEVEL_EXTRAS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(ex,"one extras table");
   assert.strictEqual((ex[1].match(/\{aniso:/g)||[]).length,5,"one row per level");
-  assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false,shells:0\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  // r91: the grass blade layers are an Extra and Ultra extra only.
+  assert.deepStrictEqual(ex[1].split("\n").slice(1,6).map(r=>Number((/shells:(\d+)/.exec(r)||[])[1])),[0,0,0,10,14],"grass blades at Extra and Ultra only");
   assert.ok(scene.includes("QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))]"),"8K uses Ultra's extras");
   assert.ok(scene.includes('look={phone:Q.assets==="phone",level:Q.textureLevel??Q.level,meshopt};')&&scene.includes('S.load(T,look)'),"textures follow the texture level");
   const stadium=read("js/chamberMenStadium3d.js");
