@@ -387,6 +387,16 @@
   }
 
   // ---------- season events ----------
+  // A signing typed without a position takes the first FIFA 17 position of a namesake at another club (a manager never buys
+  // his own player), as the Russian Roulette board does (js/rosterRoulette.js rrSigningPositions).
+  let byName=null;
+  function signingPositions(name,club){
+    const d=data();if(!d)return [];
+    if(!byName){byName=new Map();for(const [c,row] of Object.entries(d.players.clubs))for(const r of row.players){const k=sqKey(r[0]),list=byName.get(k)||[];list.push({club:c,positions:r[2]});byName.set(k,list);}}
+    const list=byName.get(sqKey(name));if(!list)return [];
+    const found=list.find(p=>p.club!==club)||list[0];
+    return found.positions.slice(0,1).filter(p=>LINE_OF[family(p)]);
+  }
   // Moves a locked sheet to the next screen's starting proposal.
   // - locked "pre" (season N) -> "post" (season N): events.shot = the player the RRR hit ({name, number, signedSeason}) or
   //   null; events.released = names of this window's signings the rival guessed (never join); events.kept = this window's
@@ -426,7 +436,7 @@
     const kept=[];
     for(const row of Array.isArray(ev.kept)?ev.kept:[]){
       if(!row||typeof row.name!=="string"||!row.name.trim()||!validOverall(row.overall))continue;
-      const positions=LINE_OF[row.position]?[row.position]:[];
+      const positions=LINE_OF[row.position]?[row.position]:signingPositions(row.name.trim(),sheet.club);
       const p=person(row.name.trim(),null,row.overall,positions,sheet.season);
       if(ex.has(p.id)){sheet.notes.push({name:p.name,reason:"excluded"});continue;}
       if(findPlayer(sheet,p.id)||kept.some(k=>k.id===p.id))continue;// signed again: keeps his first window and place (SQ-2-03)
@@ -712,7 +722,7 @@
   function everyoneById(sheet,id){return everyone(sheet).find(p=>p.id===id)||sheet.out.find(o=>o.id===id)||{name:"",number:null,signedSeason:null};}
   // Rebuilds a locked sheet from its document and the proposal the same screen opened on (same season and stage), which
   // holds every person who could be in it. Returns null when the document names someone the proposal doesn't have.
-  function fromDoc(doc,proposal){
+  function fromDoc(doc,proposal,opts){
     if(!doc||doc.schemaVersion!==VERSION||!proposal||doc.seasonNumber!==proposal.season||doc.stage!==proposal.stage)return null;
     const slots=formationSlots(doc.formation);
     if(!slots||!Array.isArray(doc.names)||doc.names.length!==XI_SIZE+BENCH_SIZE)return null;
@@ -722,14 +732,25 @@
       const id=idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i]),p=everyone(sheet).find(q=>q.id===id);
       if(p&&validOverall(doc.ovValues[i])){p.rating=doc.ovValues[i];sheet.ratings[id]=doc.ovValues[i];}
     }
+    // The departures list is cumulative, so the document alone says who is away: the proposal may be the screen's own (it
+    // already holds the earlier departures) or the automatic chain from launch with no manager edits (the store rebuilds a
+    // sheet from its one document that way, with no read of the earlier ones). A loan from an earlier season is over: he is
+    // back at the club. Anyone else listed is out for good.
+    const outIds=(doc.outNames||[]).map((name,i)=>idFor(name,doc.outNumbers[i],doc.outSigned[i]));
     const known=new Set(sheet.out.map(o=>o.id)),ex=new Set(sheet.excluded);
-    for(let i=0;i<(doc.outNames||[]).length;i+=1){
-      const id=idFor(doc.outNames[i],doc.outNumbers[i],doc.outSigned[i]);
+    for(let i=0;i<outIds.length;i+=1){
+      const id=outIds[i],reason=doc.outReasons[i],season=doc.outSeasons[i];
+      if(!LEAVE_REASONS.includes(reason)||!Number.isInteger(season)||season<2||season>doc.seasonNumber)return null;
       if(known.has(id))continue;
-      const p=everyone(sheet).find(q=>q.id===id);if(!p)return null;
-      if(!LEAVE_REASONS.includes(doc.outReasons[i]))return null;
-      sheet.out.push({id,name:p.name,number:p.number,signedSeason:p.signedSeason,reason:doc.outReasons[i],season:doc.outSeasons[i],stage:doc.stage,player:doc.outReasons[i]==="loaned"?clone(p):null});
-      ex.add(id);known.add(id);
+      known.add(id);
+      const away=outIds.map((other,j)=>other===id?j:-1).filter(j=>j>=0);
+      const gone=away.some(j=>doc.outReasons[j]!=="loaned"||doc.outSeasons[j]===doc.seasonNumber);
+      for(const j of away){
+        const p=everyone(sheet).find(q=>q.id===id);
+        const loanOver=doc.outReasons[j]==="loaned"&&doc.outSeasons[j]<doc.seasonNumber;
+        sheet.out.push({id,name:p?p.name:doc.outNames[j],number:p?p.number:(doc.outNumbers[j]>=0?doc.outNumbers[j]:null),signedSeason:p?p.signedSeason:(doc.outSigned[j]>0?doc.outSigned[j]:null),reason:doc.outReasons[j],season:doc.outSeasons[j],stage:doc.stage,player:doc.outReasons[j]==="loaned"&&p?clone(p):null,...(loanOver?{returned:doc.outSeasons[j]+1}:{})});
+      }
+      if(gone)ex.add(id);
     }
     sheet.excluded=[...ex].sort();
     const pool=everyone(sheet).filter(p=>!ex.has(p.id));
@@ -739,14 +760,64 @@
     sheet.formation=doc.formation;sheet.slots=slots;sheet.xi=fifteen.slice(0,XI_SIZE);sheet.bench=fifteen.slice(XI_SIZE);
     sheet.reserves=pool;sortReserves(sheet);
     sheet.stopgaps=sheet.xi.map((p,i)=>p&&!allowed(sheet,p,slots[i])?i:-1).filter(i=>i>=0);
-    return validate(sheet).ok?sheet:null;
+    // opts.trust: a stored document is the manager's own lock, accepted by the Rules; it stands even if this build would
+    // judge it differently (the store and the Roulette board use it so). The screen's own check runs before LOCK.
+    return opts&&opts.trust||validate(sheet).ok?sheet:null;
+  }
+
+  // ---------- the season chain (what the store rebuilds, with no read beyond the documents it has) ----------
+  // input = {club, special, season, stage, events, docs}:
+  // - events[k] = {shot, released, kept} for every season k the chain passes (season k's RRR shot of this manager, his
+  //   signings the rival guessed and his kept signings, as advance() takes them);
+  // - docs["k_pre"|"k_post"] = this manager's stored documents that this phone has (any subset: a missing one is the
+  //   proposal of that screen, as if he had locked it unchanged).
+  // Each stored document is rebuilt from itself and the automatic chain (launch + events, no manager edits), so two phones
+  // holding different subsets of the earlier documents get the same sheet from the latest one.
+  // Returns {proposal, sheet, auto} for the target screen (sheet: the locked one, or null when it has no document), or
+  // {error, season, stage} when an input is missing or a document names someone the club never had.
+  function replay(input){
+    const target=input||{},events=target.events||[],docs=target.docs||{};
+    if(!Number.isInteger(target.season)||target.season<1||target.season>MAX_SEASONS||!STAGES.includes(target.stage))return {error:"BAD_TARGET"};
+    let auto=launch(target.club,{special:target.special});
+    if(!auto)return {error:"NO_CLUB"};
+    let proposal=clone(auto);
+    for(let k=1;k<=target.season;k+=1){
+      for(const stage of STAGES){
+        if(stage==="post"){
+          const ev=events[k];if(!ev)return {error:"NO_EVENTS",season:k,stage};
+          const lockedPre=proposal;// the pre screen's locked sheet, carried over below
+          auto=advance(auto,ev);proposal=advance(lockedPre,ev);
+          if(!auto||!proposal)return {error:"NO_CHAIN",season:k,stage};
+        }
+        const doc=docs[`${k}_${stage}`],sheet=doc?fromDoc(doc,auto,{trust:true}):null;
+        if(doc&&!sheet)return {error:"BAD_DOC",season:k,stage};
+        if(k===target.season&&stage===target.stage)return {proposal,sheet,auto};
+        if(sheet)proposal=sheet;
+      }
+      if(k<target.season){auto=advance(auto);proposal=advance(proposal);if(!auto||!proposal)return {error:"NO_CHAIN",season:k+1,stage:"pre"};}
+    }
+    return {error:"BAD_TARGET"};
+  }
+  // The Russian Roulette rows straight from a stored "pre" document (the authority both phones read), for a document this build
+  // cannot rebuild in full: every named player stands where the document puts him, with what the club data knows of him.
+  function boardFromDoc(doc,auto){
+    if(!doc||doc.schemaVersion!==VERSION||!Array.isArray(doc.names)||doc.names.length!==XI_SIZE+BENCH_SIZE)return null;
+    const slots=formationSlots(doc.formation);if(!slots)return null;
+    const pool=auto?everyone(auto):[];
+    const rows=doc.names.slice(0,XI_SIZE+FEATURED).map((name,i)=>{
+      if(!name)return {slot:i,bench:i>=XI_SIZE,pos:i<XI_SIZE?slots[i]:"SUB",name:null,number:null,rating:0,positions:Object.freeze([]),special:false,signedSeason:null};
+      const number=doc.numbers[i]>=0?doc.numbers[i]:null,signedSeason=doc.signed[i]>0?doc.signed[i]:null,id=idOf({name,number,signedSeason});
+      const p=pool.find(q=>q.id===id),ov=(doc.ovNames||[]).findIndex((n,j)=>idOf({name:n,number:doc.ovNumbers[j]>=0?doc.ovNumbers[j]:null,signedSeason:doc.ovSigned[j]>0?doc.ovSigned[j]:null})===id);
+      return {slot:i,bench:i>=XI_SIZE,pos:i<XI_SIZE?slots[i]:"SUB",name,number,rating:ov>=0&&validOverall(doc.ovValues[ov])?doc.ovValues[ov]:p?p.rating:0,positions:Object.freeze(p?p.positions.slice():[]),special:false,signedSeason};
+    });
+    return Object.freeze(rows.map(r=>Object.freeze(r)));
   }
 
   return Object.freeze({
     version:VERSION,feature:"cms-squad-sheet",xiSize:XI_SIZE,benchSize:BENCH_SIZE,boardSubs:FEATURED,maxSeasons:MAX_SEASONS,
     lines:LINES,stages:STAGES,leaveReasons:LEAVE_REASONS,buyBack:BUY_BACK,flex:FLEX,
     lineOf,family,fit:sqFit,playerLines,formations,formationSlots,lineCounts,pitchSpots,titleOf,idOf,allowedIn:(sheet,player,slot)=>allowed(sheet,player,slot),slotFit:(sheet,player,slot)=>slotFit(sheet,player,slot),findPlayer,
-    launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc,
+    launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc,replay,boardFromDoc,
     hidingIssue:sheet=>{const i=hidingIssue(sheet);return i?Object.freeze({kind:i.kind,better:i.q.name,over:i.p?i.p.name:null,reason:hidingReason(i)}):null;}
   });
 });

@@ -268,4 +268,75 @@ ok('C9','a loaned player is away for the season and back next season (starting a
   assert.equal(b.length,15);assert.ok(b.slice(0,11).every(row=>!row.bench&&row.pos!=='SUB'));assert.ok(b.slice(11).every(row=>row.bench&&row.pos==='SUB'));
 }
 ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
+// C10 the store's chain (js/squadSheetStep.js): each screen's sheet comes from js/squadSheet.js replay with the Transfer War
+// events and whatever stored documents a phone holds. Seeded 10-season careers lock random moves on every screen; at every
+// screen the phone holding every earlier document and a fresh phone holding only the latest one must get the same
+// proposal, and the locked document must rebuild the exact squad the manager locked (also from the automatic chain alone).
+{
+  const R=require('../../js/rosterRoulette.js');
+  let screens=0,careers10=0;
+  for(let c=0;c<98;c+=1){
+    const r=rng(c*104729+3),club=clubs[(c*13+7)%98];
+    const other=Players.clubs[clubs[(c*29+1)%98]].players,sp=other[Math.floor(r()*other.length)];
+    const special={playerOne:{name:sp[0],overall:sp[1],number:sp[4]},playerTwo:null};
+    const events=[null],docs={};let latestKey=null;
+    for(let season=1;season<=10;season+=1){
+      for(const stage of ['pre','post']){
+        if(stage==='post'){
+          // this season's events: the Roulette's shot (on the locked pre board), kept and guessed signings
+          const preOut=S.replay({club,special,season,stage:'pre',events,docs}),pre=preOut.sheet||preOut.proposal;
+          const board=S.board(pre).filter(row=>row.name);
+          const ev={shot:null,released:[],kept:[]};
+          if(r()<0.35&&board.length){const hit=board[Math.floor(r()*board.length)];ev.shot={name:hit.name,number:hit.number,signedSeason:hit.signedSeason};}
+          for(let k=0;k<1+Math.floor(r()*3);k+=1){const row={name:`Sig ${c}-${season}-${k}`,overall:55+Math.floor(r()*40),position:r()<0.15?null:POS[Math.floor(r()*POS.length)]};if(r()<0.2)ev.released.push(row.name);else ev.kept.push(row);}
+          events[season]=ev;
+        }
+        const full=S.replay({club,special,season,stage,events,docs});
+        const sparse=S.replay({club,special,season,stage,events,docs:latestKey?{[latestKey]:docs[latestKey]}:{}});
+        assert.ok(!full.error&&!sparse.error,`${club} s${season} ${stage}: ${full.error||sparse.error}`);
+        assert.equal(full.sheet,null);assert.equal(sparse.sheet,null);
+        assert.deepEqual(S.board(sparse.proposal).map(row=>row.name),S.board(full.proposal).map(row=>row.name),`${club} s${season} ${stage}: a fresh phone gets the same proposal`);
+        assert.deepEqual(names(sparse.proposal.reserves).sort(),names(full.proposal.reserves).sort());
+        // the manager's moves, then LOCK (a screen left unlocked keeps the proposal: some screens have no document at all)
+        if(r()<0.15)continue;
+        const ops=[];
+        if(r()<0.3)ops.push({t:'formation',name:formationNames[Math.floor(r()*formationNames.length)]});
+        if(season>=2){
+          const pool=[...full.proposal.xi,...full.proposal.bench,...full.proposal.reserves].filter(Boolean);
+          if(r()<0.5&&pool.length){const p=pool[Math.floor(r()*pool.length)];ops.push({t:'leave',id:p.id,reason:S.leaveReasons[Math.floor(r()*S.leaveReasons.length)]});}
+          if(r()<0.5&&pool.length){const p=pool[Math.floor(r()*pool.length)];ops.push({t:'rate',id:p.id,overall:50+Math.floor(r()*45)});}
+        }
+        for(let m=0;m<5;m+=1)ops.push({t:'swap',a:{zone:['xi','bench','res'][Math.floor(r()*3)],index:Math.floor(r()*11)},b:{zone:['xi','bench','res'][Math.floor(r()*3)],index:Math.floor(r()*11)}});
+        const locked=S.apply(full.proposal,ops).sheet;
+        assert.ok(S.validate(locked).ok);
+        const key=`${season}_${stage}`;
+        docs[key]={...S.toDoc(locked),rivalryId:'pair_x',role:'playerOne'};latestKey=key;
+        const again=S.replay({club,special,season,stage,events,docs:{[key]:docs[key]}});
+        assert.ok(again.sheet,`${club} s${season} ${stage}: the document rebuilds from the automatic chain alone`);
+        assert.deepEqual(names(again.sheet.xi),names(locked.xi));assert.deepEqual(names(again.sheet.bench),names(locked.bench));
+        assert.equal(again.sheet.formation,locked.formation);
+        assert.deepEqual(names(again.sheet.reserves).sort(),names(locked.reserves).sort(),`${club} s${season} ${stage}: the same reserves`);
+        assert.deepEqual(again.sheet.excluded,locked.excluded,`${club} s${season} ${stage}: the same players away`);
+        assert.ok(S.validate(again.sheet).ok);
+        // the lenient Roulette rows (a document this build could not rebuild) name the same 15
+        assert.deepEqual(S.boardFromDoc(docs[key],again.auto).map(row=>row.name),S.board(locked).map(row=>row.name));
+        if(stage==='pre'){
+          // the Roulette on these sheets: the boards are the sheets, the draw is the seeded one, the version names the sheets
+          const sheets={playerOne:{formation:locked.formation,board:S.board(locked)},playerTwo:{formation:locked.formation,board:S.board(locked)}};
+          const rid=`pair_${'ab'.repeat(32)}`,clubsRR={playerOne:club,playerTwo:club};
+          const plan=R.forSeason(rid,clubsRR,season,{special,sheets});
+          assert.ok(plan,'a plan on the sheets');
+          assert.deepEqual(plan.boards.playerOne.map(row=>row.name),S.board(locked).map(row=>row.name));
+          assert.equal(plan.formations.playerOne,locked.formation);
+          for(const turn of plan.turns)if(turn.fired)assert.equal(turn.player.name,plan.boards[turn.role][turn.hitSlot].name);
+          const v1=R.version(clubsRR,{special,sheets}),v0=R.version(clubsRR,{special});
+          assert.ok(v1&&v0&&v1!==v0,'the version names the sheets');
+        }
+        screens+=1;
+      }
+    }
+    careers10+=1;
+  }
+  ok('C10',`${careers10} seeded 10-season careers through the store's chain (${screens} locked screens): a phone with only the latest document gets the same proposal as one with all of them, every locked document rebuilds the exact squad from the automatic chain alone, and the Roulette's boards are the locked sheets`);
+}
 console.log(`PASS r91 squad sheet contracts (${checks} checks)`);

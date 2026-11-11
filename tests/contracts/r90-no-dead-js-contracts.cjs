@@ -20,8 +20,6 @@ const STANDALONE_ROOTS={
 };
 // js/ files allowed to exist without a page loading them. Keep empty unless a file truly has no page; give the reason.
 const ALLOWED_UNLOADED={
-  "js/squadSheet.js":"r91 / 2.4.0 Squad Management engine, built ahead on claude-gameplay/r91-squad-screen (tests/contracts/r91-squad-sheet-contracts.cjs, tools/squad-screen-prototype.html); the screen PR loads it through js/optionalModules.js and removes this entry.",
-  "js/squadScreen.js":"r91 / 2.4.0 Squad Management screen, prototype on claude-gameplay/r91-squad-screen (tools/squad-screen-prototype.html); the screen PR loads it through js/optionalModules.js and removes this entry."
 };
 
 const pageRoots=["index.html",...walk("visual-assets").filter(file=>file.endsWith(".html")),...Object.keys(STANDALONE_ROOTS)];

@@ -88,7 +88,7 @@
     try{const kits=root.CareerModeKits17;if(kits&&typeof kits.prepare==="function")Promise.resolve(kits.prepare([club].concat(rival?[rival]:[]))).then(()=>{if(!host.isConnected||!host.classList.contains("sqm"))return;shirtCache.clear();sqmRender();}).catch(()=>{});}catch(e){}
     const formations=S.formations(),byName=new Map(formations.map(f=>[f.name,f]));
     let ops=readDraft(),sheet=S.apply(base,ops).sheet;
-    let tab="squad",cursor={zone:"xi",index:0},picked=null,drag=null,locked=Boolean(options.locked);
+    let tab="squad",cursor={zone:"xi",index:0},picked=null,drag=null,locked=Boolean(options.locked),saving=false;
     // Where the last tap landed: the status repeats right there on a phone, so the reason a move was refused is in view
     // without scrolling to the club panel (nothing floats over the squad).
     let noteAt=null,lastRef=null;
@@ -289,7 +289,7 @@
       rail.appendChild(row);
       panel.appendChild(rail);
       const act=el("div","sqmFormActions");
-      const use=el("button","sqmBtn is-primary",f.name===sheet.formation?"In use":"Use this formation");use.type="button";use.disabled=locked||f.name===sheet.formation||!preview.ok;
+      const use=el("button","sqmBtn is-primary",f.name===sheet.formation?"In use":"Use this formation");use.type="button";use.disabled=locked||saving||f.name===sheet.formation||!preview.ok;
       use.addEventListener("click",useFormation);
       act.appendChild(use);
       act.appendChild(el("span","sqmFormCount",`${carousel+1} of ${formations.length}  ·  ${f.counts.DEF} defenders, ${f.counts.MID} midfielders, ${f.counts.ATT} attackers`));
@@ -297,7 +297,7 @@
     }
     function defaultFormation(){const d=root.CareerModeFifa17Players;return d&&d.clubs[club]?d.clubs[club].formation:"";}
     function useFormation(){
-      const f=formations[carousel];if(!f||locked)return;
+      const f=formations[carousel];if(!f||locked||saving)return;
       if(commit({t:"formation",name:f.name})){say(`${[f.title,f.variant].filter(Boolean).join(" ")} is in. Starters who still fit kept their places.`,"ok");tab="squad";}
       sqmRender();
     }
@@ -306,7 +306,7 @@
     // he is in (pitch, board subs, subs 5-7, reserves), so a phone never has to scroll to find them (Nik, 01:12 UTC).
     function playerTools(zone){
       const sel=playerAt(picked);
-      if(!(sheet.season>=2&&sel&&!locked&&picked&&noteZone(picked)===zone))return null;
+      if(!(sheet.season>=2&&sel&&!locked&&!saving&&picked&&noteZone(picked)===zone))return null;
       {
         const box=el("div","sqmReport");
         box.appendChild(el("h3","sqmSideTitle",shortName(sel.name)));
@@ -363,16 +363,26 @@
         gone.appendChild(list);side.appendChild(gone);
       }
       const actions=el("div","sqmActions");
-      const auto=el("button","sqmBtn","Auto");auto.type="button";auto.title="Put every starter in his best spot";auto.disabled=locked;
+      const auto=el("button","sqmBtn","Auto");auto.type="button";auto.title="Put every starter in his best spot";auto.disabled=locked||saving;
       auto.addEventListener("click",()=>{if(commit({t:"auto"}))say("Every starter is in his best spot.","ok");picked=null;sqmRender();});
-      const undo=el("button","sqmBtn","Undo");undo.type="button";undo.disabled=locked||!ops.length;
+      const undo=el("button","sqmBtn","Undo");undo.type="button";undo.disabled=locked||saving||!ops.length;
       undo.addEventListener("click",()=>{ops=ops.slice(0,-1);sheet=S.apply(base,ops).sheet;saveDraft();picked=null;say("Last change undone.","");sqmRender();});
-      const lock=el("button","sqmBtn is-primary",locked?"Squad locked":"Lock my squad");lock.type="button";lock.disabled=locked;
-      lock.addEventListener("click",()=>{
+      const lock=el("button","sqmBtn is-primary",saving?"Saving…":locked?"Squad locked":"Lock my squad");lock.type="button";lock.disabled=locked||saving;
+      if(saving)lock.setAttribute("aria-busy","true");
+      // options.onLock(sheet, ops) may answer a promise (the game saves the sheet to Firestore): false or a throw keeps the
+      // screen open with the draft as it was and says so; the button is off while the save runs, so a second tap can't send it twice.
+      lock.addEventListener("click",async()=>{
+        if(locked||saving)return;
         const v=S.validate(sheet);
         if(!v.ok){say(v.problems[0],"no");return;}
-        locked=true;picked=null;say("Squad locked.","ok");sqmRender();
-        if(typeof options.onLock==="function")options.onLock(sheet,ops.slice());
+        picked=null;
+        if(typeof options.onLock!=="function"){locked=true;say("Squad locked.","ok");sqmRender();return;}
+        saving=true;say("Saving your squad…","");sqmRender();
+        let answer;
+        try{answer=await options.onLock(sheet,ops.slice());}catch(e){answer=false;}
+        saving=false;
+        if(answer===false||(answer&&answer.ok===false)){say(answer&&answer.reason||"Couldn't save. Try again.","no");sqmRender();return;}
+        locked=true;say(answer&&answer.reason||"Squad locked.","ok");sqmRender();
       });
       actions.append(auto,undo,lock);
       side.appendChild(actions);
@@ -385,7 +395,7 @@
     }
     function refFrom(node){const b=node&&node.closest&&node.closest("[data-zone]");if(!b||!panel.contains(b))return null;return {zone:b.dataset.zone,index:Number(b.dataset.index)};}
     function tapOn(ref){
-      if(locked){cursor=ref;sqmRender();return;}
+      if(locked||saving){cursor=ref;sqmRender();return;}
       cursor=ref;
       if(!picked){if(playerAt(ref)||ref.zone!=="res"){picked=ref;pendingLeave=null;}sqmRender();return;}
       if(same(picked,ref)){picked=null;pendingLeave=null;sqmRender();return;}
@@ -427,7 +437,7 @@
     });
     // Drag: a mouse drags at once; a finger holds 300 ms first, so a swipe always scrolls and never moves a player.
     panel.addEventListener("pointerdown",e=>{
-      if(locked||tab!=="squad"||e.button>0)return;
+      if(locked||saving||tab!=="squad"||e.button>0)return;
       const ref=refFrom(e.target);if(!ref||!playerAt(ref))return;
       drag={ref,x:e.clientX,y:e.clientY,id:e.pointerId,moved:false,ready:e.pointerType==="mouse",ghost:null,timer:null,travel:0,before:picked};
       if(!drag.ready)drag.timer=setTimeout(()=>{if(drag){drag.ready=true;start(e);}},300);
@@ -525,6 +535,8 @@
     return {
       get sheet(){return sheet;},get ops(){return ops.slice();},
       lock(){locked=true;sqmRender();},
+      // A line for the club panel's status (the game's own: "Waiting for Daniel to lock his squad").
+      say(text,kind){say(text,kind);},
       destroy(){host.innerHTML="";host.classList.remove("sqm");}
     };
   }
