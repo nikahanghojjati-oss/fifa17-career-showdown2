@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Russian Roster Roulette</title>
+<title>Roster Russian Roulette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <!-- r90 MOTION M8: every face ships with the app from ../shared/fonts (OFL, Fontsource builds), so the page never asks Google
      Fonts, the text never swaps when a font lands, and offline it looks the same. The start waits on them (fontsReady). -->
@@ -16,7 +16,7 @@
 @font-face { font-family: "Big Shoulders Display"; font-weight: 700 800; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2"); }
 @font-face { font-family: "Big Shoulders Display"; font-weight: 900; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2"); }
 @font-face { font-family: "Rye"; font-weight: 400; font-display: swap; src: url(../shared/fonts/rye-latin-400-normal.woff2) format("woff2"); }
-/* HO-040 Russian Roster Roulette · real 3D stage (three.js r128) with the Showdown HUD over it. Same tokens as the Special Player screen. */
+/* HO-040 Roster Russian Roulette · real 3D stage (three.js r128) with the Showdown HUD over it. Same tokens as the Special Player screen. */
 :root {
   --ink: #050506; --gold: #f1c35a; --gold-hi: #fff3c4; --gold-deep: #9c6e22; --ivory: #f6eedb; --muted: #c9bc9c;
   --num: "Barlow Condensed", "Arial Narrow", sans-serif;
@@ -129,7 +129,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
     <div class="chips"><span class="chip" id="chipWho">Daniel</span><span class="chip">Season 1 / 1</span><span class="gear">⚙</span></div></div>
   <div class="pchips"><span class="chip" id="pchipWho">Daniel</span><span class="chip">Season 1 / 1</span></div><span class="gear pgear" style="display:none">⚙</span>
   <div class="boot" id="boot" role="status">Setting the table…</div>
-  <div class="top"><div class="kicker"><span class="badge">Career Mode Showdown 17</span></div><div class="title" data-t="Russian Roster Roulette"><span>Russian Roster Roulette</span></div></div>
+  <div class="top"><div class="kicker"><span class="badge">Career Mode Showdown 17</span></div><div class="title" data-t="Roster Russian Roulette"><span>Roster Russian Roulette</span></div></div>
   <div class="mid"><div class="result" id="result" aria-live="polite">One bullet. Seven chambers.</div><button class="cta" id="cta" type="button" disabled>Spin the cylinder</button></div>
   <div class="bottom">
     <div class="slot dan"><em>01</em><b>Daniel</b><span id="slotD" class="wait">At the table</span></div>
@@ -164,7 +164,7 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
 // instead of letting three.js throw: in the game the result and the release still show without the scene.
 if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGL2RenderingContext&&c.getContext("webgl2")); /* r89: three.js r187 draws with WebGL 2 only */ }catch(e){ return false; } })()){
   if(/[?&]embed=1(?:&|$)/.test(location.search)){ try{ parent.postMessage({type:"cms-rr-error",message:"WebGL is not available",webgl:false},location.origin); }catch(e){} }   /* r90 Light: the one case the game skips the scene for (webgl:false) */
-  else document.body.insertAdjacentText("beforeend","This browser can't draw the 3D revolver (WebGL is off).");
+  else document.body.insertAdjacentText("beforeend","This browser cannot draw the 3D revolver. WebGL is switched off.");
   return;
 }
 /* r90 high quality (Nik 2026-11-07: "4K quality and high quality hugely improved ... most emphasis on a high-end PC ... without any more
@@ -186,7 +186,8 @@ const $=(id)=>document.getElementById(id), qs=new URLSearchParams(location.searc
 /* r89 engine upgrade (r128 -> r187): colours stay as written (L() converts by hand) and the lights keep their r128 maths */
 T.ColorManagement.enabled=false; T.cmsLegacyLights();
 const LOOK={hdri:null};
-const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* r91 Device check (?bench=1): the whole turn plays under Reduce Motion too; it times the level, it is not the player's view. */
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches&&new URLSearchParams(location.search).get("bench")!=="1";
 const clamp01=(x)=>x<0?0:x>1?1:x, lerp=(a,b,k)=>a+(b-a)*k, S=(at,dur,tt)=>clamp01((tt-at)/dur);
 const ease={ out:(k)=>1-Math.pow(1-k,3), inOut:(k)=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2, in:(k)=>k*k*k, back:(k)=>{ const c=1.70158; return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2); } };
 /* seeded random so a replay with ?seed= is repeatable */

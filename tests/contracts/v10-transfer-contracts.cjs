@@ -193,7 +193,7 @@ async function stage(page,phase,role,extra={}){
     $("transferManagerOne").textContent="Daniel";$("transferManagerTwo").textContent="Nik";$("transferClubOne").textContent="Sampdoria";$("transferClubTwo").textContent="Chievo";
     $("transferPhaseStatus").textContent=extra.status||"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD";
     for(const id of ["startTransferTimer","endTransferTimer","completeTransferChallenge","continueFromTransfers"])$(id).classList.add("hidden");
-    if(!$("refreshSharedTransferChallenge")){const b=document.createElement("button");b.id="refreshSharedTransferChallenge";b.className="menuButton";b.type="button";b.textContent="REFRESH CHALLENGE";section.querySelector(".transferTimerActions").appendChild(b);}
+    if(!$("refreshSharedTransferChallenge")){const b=document.createElement("button");b.id="refreshSharedTransferChallenge";b.className="menuButton";b.type="button";b.textContent="REFRESH";section.querySelector(".transferTimerActions").appendChild(b);}
     if(phase==="WINDOW_OPEN"){$("endTransferTimer").classList.remove("hidden");$("endTransferTimer").textContent="REQUEST EARLY END";$("transferTimerDisplay").textContent="14:59";}
     if(phase==="GUESS_ENTRY"||phase==="SIGNING_ENTRY"){$("completeTransferChallenge").classList.remove("hidden");$("completeTransferChallenge").textContent=phase==="GUESS_ENTRY"?"LOCK MY GUESSES":"LOCK MY SIGNINGS";}
     if(phase==="COMPLETED"){$("continueFromTransfers").classList.remove("hidden");$("continueFromTransfers").textContent="CONTINUE TO SEASON RESULTS";}

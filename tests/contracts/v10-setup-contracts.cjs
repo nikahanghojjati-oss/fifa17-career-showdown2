@@ -160,7 +160,7 @@ function buildSetupMarkup(doc,main){
   const wheel=el(doc,container,"div",{id:"leagueWheel",cls:"leagueWheel"});
   const track=el(doc,wheel,"div",{cls:"wheelTrack"});
   LEAGUES.forEach(([,name],index)=>{const item=el(doc,track,"div",{cls:"wheelItem",text:name});item.style.transform=`rotate(${index*72}deg)`;});
-  el(doc,container,"div",{id:"selectedLeague",text:"Spin to select league",attrs:{role:"status","aria-live":"polite"}});
+  el(doc,container,"div",{id:"selectedLeague",text:"Spin to pick the league",attrs:{role:"status","aria-live":"polite"}});
   const note=el(doc,container,"div",{id:"leagueStateNote",cls:"stateNote hidden"});note.textContent="";
   el(doc,container,"button",{id:"spinLeague",cls:"menuButton",text:"SPIN WHEEL",attrs:{type:"button"}});
   el(doc,container,"button",{cls:"backButton",text:"BACK",attrs:{type:"button","data-smart-back":""}});
@@ -325,7 +325,7 @@ check("S1 the skin API is small, frozen and points at Team V's copied files",()=
 
 check("S2 pure helpers: league from shown text, pointer index, pack result",()=>{
   for(const [id,name] of LEAGUES){assert.equal(Setup.leagueFromText(name),id);assert.equal(Setup.leagueFromText(` ${name.toUpperCase()} `),id);}
-  for(const text of ["","Spin to select league","SPINNING...","League wheel ready","LaLiga has been selected",null,undefined])assert.equal(Setup.leagueFromText(text),null,String(text));
+  for(const text of ["","Spin to pick the league","SPINNING…","League wheel ready","LaLiga has been selected",null,undefined])assert.equal(Setup.leagueFromText(text),null,String(text));
   LEAGUES.forEach((_league,index)=>{
     assert.equal(Setup.topIndex(`rotate(${-index*72}deg)`),index);
     assert.equal(Setup.topIndex(`rotate(${-(1800+index*72)}deg)`),index,"after full turns");
@@ -399,7 +399,7 @@ check("S5 the wheel shows the provider's league only after the wheel stops; the 
     assert.deepEqual(selected(),[],"nothing highlighted before a spin");
     assert.equal(host.dataset.v26League,undefined);
     // The local wheel says SPINNING while it turns.
-    result.textContent="SPINNING...";root.mutated(result);
+    result.textContent="SPINNING…";root.mutated(result);
     assert.deepEqual(selected(),[]);
     // The shared presentation writes the provider's league at once and animates the track for 4 s.
     track.dataset.leagueWheelAnimating="true";track.style.transform=`rotate(${-(1800+index*72)}deg)`;root.mutated(track);
@@ -424,7 +424,7 @@ check("S5 the wheel shows the provider's league only after the wheel stops; the 
     assert.deepEqual(selected().map(item=>item.textContent),[provider.league.name]);
     assert.equal(host.querySelectorAll(".v26Flash").length,0,"no payoff without a spin");
     // A reset back to the prompt clears the highlight.
-    result.textContent="Spin to select league";root.mutated(result);
+    result.textContent="Spin to pick the league";root.mutated(result);
     assert.deepEqual(selected(),[]);assert.equal(host.dataset.v26League,undefined);
     assert.deepEqual(root.warnings,[]);
   }
