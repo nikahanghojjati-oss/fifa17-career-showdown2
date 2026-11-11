@@ -58,6 +58,8 @@ const fetchEvent=url=>{const waits=[];let reply=null;return {event:{request:new 
     const kept=await (await s.caches.open(s.sw.CACHE_NAME)).match(s.sw.versionedShellUrl(file));assert.ok(kept,"a pack file opened first is kept for offline");
     const older=fetchEvent(s.sw.versionedShellUrl("js/chamberMen.js",PREVIOUS_RUNTIME_REVISION));s.listeners.fetch(older.event);assert.equal((await older.reply()).type,"error","another revision's file never comes from today's network");
     const notPack=fetchEvent(s.sw.versionedShellUrl("js/not-a-shell-file.js"));s.listeners.fetch(notPack.event);assert.equal((await notPack.reply()).type,"error","a versioned file outside the shell is still a hard miss");
+    live="9.9.9-r999";const second="data/clubs.js";const raced=fetchEvent(s.sw.versionedShellUrl(second));s.listeners.fetch(raced.event);await raced.reply();await raced.settle();
+    assert.equal(await (await s.caches.open(s.sw.CACHE_NAME)).match(s.sw.versionedShellUrl(second)),undefined,"a pack file is kept only after a fresh deployed check, never on a memoised answer from before a release");live=RUNTIME_REVISION;
     const s2=sandbox({deployed:()=>live});await s2.sw.populateCurrentCache();live="9.9.9-r999";
     const late=fetchEvent(s2.sw.versionedShellUrl(file));s2.listeners.fetch(late.event);assert.equal((await late.reply()).status,200);await late.settle();
     assert.equal(await (await s2.caches.open(s2.sw.CACHE_NAME)).match(s2.sw.versionedShellUrl(file)),undefined,"once another release is deployed, its bytes are never kept under this revision");}
