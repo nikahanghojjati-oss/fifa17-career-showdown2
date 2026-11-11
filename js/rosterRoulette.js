@@ -25,7 +25,7 @@
   // F2-02 (Fable job 2): the engine revision. Bump it whenever a board or a shot can come out differently for the same
   // Showdown, season and history (tests/contracts/r87-roulette-hits-contracts.cjs pins it to this file's text). It is part of
   // the version string each manager's spin mark carries (rrVersion), so two phones on different builds are told so.
-  const ENGINE_REVISION=2;
+  const ENGINE_REVISION=3;
   const POSITIONS=Object.freeze(["GK","SW","RWB","RB","RCB","CB","LCB","LB","LWB","RDM","CDM","LDM","RM","RCM","CM","LCM","LM","RAM","CAM","LAM","RF","CF","LF","RW","RS","ST","LS","LW","SUB"]);
 
   function rrSquads(){
@@ -348,6 +348,9 @@
     }
     const special=options&&options.special;
     parts.push(ROLES.map(role=>rrSpecial(special,role)));
+    // r91: with squad sheets the boards are the sheets, so they are part of what both phones must agree on.
+    const sheets=rrSheets(options&&options.sheets);
+    if(sheets)parts.push(ROLES.map(role=>[sheets[role].formation,sheets[role].board.map(row=>[row.name,row.number,row.signedSeason])]));
     return `rr${4}.${ENGINE_REVISION}.${rrHash(JSON.stringify(parts))}`;
   }
   // A persisted outcome is used only when it is whole: fired true with a name and a board slot 0-14, or fired false with none.
@@ -393,6 +396,19 @@
     const signed=turn.player.signedSeason;
     return Object.freeze({fired:true,hitName:String(turn.player.name).trim(),hitNumber:Number.isInteger(turn.player.number)?turn.player.number:null,hitSlot:turn.hitSlot,hitSignedSeason:Number.isInteger(signed)&&signed>=1&&signed<=MAX_SEASONS?signed:null,version});
   }
+  // options.sheets = {playerOne:{formation, board}, playerTwo:{...}}: each board 15 rows (11 XI slots, then 4 subs) as
+  // js/squadSheet.js board() writes them. Anything else is null (the replay from launch is used).
+  function rrSheets(value){
+    if(!value||typeof value!=="object")return null;
+    const out={};
+    for(const role of ROLES){
+      const s=value[role];
+      if(!s||typeof s.formation!=="string"||!Array.isArray(s.board)||s.board.length!==BOARD_SIZE)return null;
+      if(!s.board.every((row,i)=>row&&row.slot===i&&row.bench===(i>=XI_SIZE)&&typeof row.pos==="string"&&(row.name===null||typeof row.name==="string")&&Array.isArray(row.positions)))return null;
+      out[role]=Object.freeze({formation:s.formation,board:Object.freeze(s.board.map(row=>Object.freeze({...row,special:false})))});
+    }
+    return Object.freeze(out);
+  }
   function rrArgs(rivalryId,clubs,season){
     const match=RIVALRY_ID.exec(String(rivalryId||""));
     if(!match||!Number.isInteger(season)||season<1||season>MAX_SEASONS||!clubs)return null;
@@ -415,11 +431,21 @@
     // cylinders gives no plan (the screen says so and nothing is spun).
     const chamberMen=Boolean(options&&options.chamberMen),chambers=options&&options.chambers;
     const boards={},turns={},skipped={};
-    const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,rrPlayers().clubs[clubs[role]].formation])));
+    // r91 Squad Management (2.4.0): the board is each manager's locked squad sheet for this season (XI in his formation, then
+    // subs 1-4), read from rivalries/{rid}/squadSheets on both phones, so nothing is replayed here. Both or neither.
+    const sheets=rrSheets(options&&options.sheets);
+    const formations=Object.freeze(Object.fromEntries(ROLES.map(role=>[role,sheets?sheets[role].formation:rrPlayers().clubs[clubs[role]].formation])));
     // The Special Player is never on any board, bench or reserve list anywhere: both managers' draws are excluded from
     // both clubs (red team R87-C-01). One in the club's launch board is skipped and the next player takes his place.
     const specials=ROLES.flatMap(role=>rrSpecial(special,role)||[]);
     for(const role of ROLES){
+      if(sheets){
+        boards[role]=sheets[role].board;skipped[role]=Object.freeze([]);
+        const turn=rrTurn(args.hex,season,role,boards[role],chamberMen?rrCylinder(chambers,season,role):null),saved=rrSavedHit(hits,season,role);
+        if(chamberMen&&!saved&&!turn.loadedChambers)return null;
+        turns[role]=saved?rrSavedTurn(turn,saved,boards[role]):{...turn,authority:"computed",shot:null};
+        continue;
+      }
       const state={club:clubs[role],launch:args.launch[role],board:args.launch[role].slice(),reserves:[],vacant:null,excluded:new Set(),excludedClubNames:new Set()};
       for(const sp of specials)rrExcludeSpecial(state,sp);
       for(const [,name,number,rating] of rrSquads().squads[state.club].reserves)

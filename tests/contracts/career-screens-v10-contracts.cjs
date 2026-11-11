@@ -114,7 +114,7 @@ check("V7 loading and unavailable carry no numbers; no preview chip with real da
   assert.ok(!JSON.stringify(V10.STRINGS).includes("Preview data"));
   for(const screen of SCREENS)assert.equal(V10.STRINGS[screen].previewLabel,"");
   const interim=V10.toV10Frame(fixture("finished-three-seasons").careerInterim,"careerStatistics");
-  assert.equal(interim.previewLabel,"Current Showdown only. Career history is not yet available.");
+  assert.equal(interim.previewLabel,"This Showdown only. Career history is not available yet.");
   const tr=read("visual-assets/v10_1/trophy-room/trophy-room.js");
   assert.ok(tr.includes('${preview ? `<div class="previewPill">'),"Trophy Room draws no empty preview pill");
   assert.match(read("visual-assets/v10_1/career-statistics/career-statistics.js"),/chip\.hidden = !label;/);

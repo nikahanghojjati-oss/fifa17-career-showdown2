@@ -135,7 +135,7 @@ function checkBrowser(who,raw,E){
   for(const [key,which] of [["standingsFirst","opened first"],["standings","opened after the other pages"]]){
     const s=f[key],text=key==="standings"?f.standingsText:f.standingsFirstText;
     check(id(`${key}.available`),`Standings (Career, ${which}) loads`,Boolean(text)&&!/unavailable|could not/i.test(text.replace(/^.*?CAREER STANDINGS/,"")),text.slice(0,300),o("Standings (Career)"));
-    // The Europa Leagues row exists only once someone has won one; when it is not shown, it must be because both are 0.
+    // The Europa League row exists only once someone has won one; when it is not shown, it must be because both are 0.
     const got={...s};if(got.el===null&&x.daniel.el===0&&x.nik.el===0)got.el=two(0,0);
     eq(id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions League, Europa League, titles, cups, trophies (D / N)`,got,want,o("Standings (Career)"));
   }

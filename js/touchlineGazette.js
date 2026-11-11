@@ -19,14 +19,7 @@
   const GOLDEN=Object.freeze({seasons:10,points:150}),PERFECT=15;
   // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so
   // its race counts 15 a season left (every Showdown, Nik 2026-11-01 18:32 UTC).
-  // PRIME_PACK_FROM_MS is js/iconGuess.js fromMs (tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
-  const SEASON_MAX=Object.freeze({primePack:15}),PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
-  // true/false when this Showdown's confirm time is known (given, or the live Setup when it is this Showdown), else null.
-  function tgPrimePack(rivalryId,confirmedAt){
-    if(Number.isFinite(confirmedAt))return confirmedAt>=PRIME_PACK_FROM_MS;
-    try{const setup=root.CareerModeProductionSharedShowdownSetup?.getState?.();if(setup&&setup.rivalryId===rivalryId&&setup.setup?.phase==="SHOWDOWN_CONFIRMED"&&Number.isFinite(setup.setupUpdatedAtMs))return setup.setupUpdatedAtMs>=PRIME_PACK_FROM_MS;}catch(_error){}
-    return null;
-  }
+  const SEASON_MAX=Object.freeze({primePack:15});
   const TROPHY_ART=Object.freeze({"champions-league":"TRO_CONTINENTAL","europa-league":"TRO_EUROPA","league-title":"TRO_LEAGUE_TITLE","domestic-cup":"TRO_DOMESTIC_CUP"});
   // A headline, story, quote or caption that talks about silverware is not printed for a winner whose season had no
   // trophy (a 1 or 2 point win from the bonuses alone); final pages never print "next season" lines.
@@ -426,14 +419,14 @@
     const history=states?.history,projection=history?.projection;
     if(history?.authoritative!==true||history.phase!=="HISTORY_CONVERGED"||!plain(projection))return null;
     const N=Number(history.throughSeason);if(!Number.isInteger(N)||projection.acceptedSeasons!==N)return null;
-    return {projection,seasonNumber:N,specialPlayers:states.specialPlayers||null,primePack:tgPrimePack(projection.rivalryId,history.setupConfirmedAt)};
+    return {projection,seasonNumber:N,specialPlayers:states.specialPlayers||null};
   }
   // FINAL: the Final Winner frame on screen and the verified history it was drawn from (js/seasonFinalV10.js).
   function finalInput(states){
     const final=states?.final,history=states?.history,projection=history?.projection;
     if(!plain(final)||!final.winner||!plain(projection)||history?.phase!=="HISTORY_CONVERGED")return null;
     if(Number.isInteger(final.seasonsPlayed)&&final.seasonsPlayed!==tgEndOf(projection).played)return null;
-    return {projection,final,specialPlayers:final.specialPlayers||states.specialPlayers||null,primePack:tgPrimePack(projection.rivalryId,history.setupConfirmedAt)};
+    return {projection,final,specialPlayers:final.specialPlayers||states.specialPlayers||null};
   }
 
   // ---------- the page (browser only) ----------

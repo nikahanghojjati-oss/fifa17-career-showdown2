@@ -287,7 +287,7 @@
       ],
       "records": [
         {
-          "label": "Highest season score",
+          "label": "Best season score",
           "manager": "nik",
           "value": 11,
           "ref": {
@@ -296,7 +296,7 @@
           }
         },
         {
-          "label": "Highest league points",
+          "label": "Best league points",
           "manager": "nik",
           "value": 101,
           "ref": {
@@ -305,7 +305,7 @@
           }
         },
         {
-          "label": "Highest league goals",
+          "label": "Best league goals",
           "manager": "nik",
           "value": 104,
           "ref": {
@@ -322,7 +322,7 @@
           }
         },
         {
-          "label": "Most perfect seasons",
+          "label": "Perfect seasons",
           "manager": "shared",
           "value": null,
           "ref": null
@@ -535,7 +535,7 @@
   },
   "careerInterim": {
     "status": "ready",
-    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "interimLabel": "This Showdown only. Career history is not available yet.",
     "coverage": {
       "readable": 1,
       "indexed": 1
@@ -640,13 +640,13 @@
       ],
       "records": [
         {
-          "label": "Highest season score",
+          "label": "Best season score",
           "manager": "shared",
           "value": 4,
           "ref": null
         },
         {
-          "label": "Highest league points",
+          "label": "Best league points",
           "manager": "nik",
           "value": 87,
           "ref": {
@@ -655,7 +655,7 @@
           }
         },
         {
-          "label": "Highest league goals",
+          "label": "Best league goals",
           "manager": "nik",
           "value": 90,
           "ref": {
@@ -670,7 +670,7 @@
           "ref": null
         },
         {
-          "label": "Most perfect seasons",
+          "label": "Perfect seasons",
           "manager": "shared",
           "value": null,
           "ref": null

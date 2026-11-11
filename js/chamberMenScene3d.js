@@ -462,13 +462,16 @@
     // Root motion. A clip's hips track is in the hips' parent space; we move it in world space (the model at rest at the
     // origin): optionally drop its travel along x/z, then turn it by yaw about `from` and carry `from` to `to`.
     const hipsOf=(a,clip,time)=>{a.pose([{clip,time,w:1}]);a.hips.getWorldPosition(sample);a.hips.getWorldQuaternion(sampleQ);fwd.set(0,0,1).applyQuaternion(sampleQ);return {x:sample.x,z:sample.z,face:Math.atan2(fwd.x,fwd.z)};};
-    const rebase=(a,clip,name,{zero,from,to})=>{
+    // Where a pose stands: the middle of its two toes on the grass (with the hips' facing).
+    const feetOf=(a,clip,time)=>{const h=hipsOf(a,clip,time),l=a.bones.mixamorigLeftToeBase,r=a.bones.mixamorigRightToeBase;if(!l||!r)return h;
+      l.getWorldPosition(sample);const x=sample.x,z=sample.z;r.getWorldPosition(sample);return {x:(x+sample.x)/2,z:(z+sample.z)/2,face:h.face};};
+    const rebase=(a,clip,name,{zero,from,to,share})=>{
       const P=a.hips.parent;a.holder.updateMatrixWorld(true);
       const M=P.matrixWorld.clone(),Mi=M.clone().invert(),Pq=new T.Quaternion(),Ps=new T.Vector3(),Pp=new T.Vector3();M.decompose(Pp,Pq,Ps);
       const yaw=to&&from?to.face-from.face:0,Q=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),yaw);
       const Lq=Pq.clone().invert().multiply(Q).multiply(Pq);
       const tracks=clip.tracks.map(t=>{
-        const n=t.name;if(!n.startsWith(`${a.hips.name}.`))return t.clone();
+        const n=t.name;if(!n.startsWith(`${a.hips.name}.`))return share&&!yaw?t:t.clone();
         const c=t.clone(),v=c.values;
         if(n.endsWith(".position")){
           const w0=new T.Vector3(v[0],v[1],v[2]).applyMatrix4(M),w=new T.Vector3();
@@ -505,7 +508,12 @@
       });
       // r90 (Nik's Mixamo uploads 2026-11-08): a few reactions each way, picked per kick (REACTIONS); a clip file without
       // the newer ones still plays the first of each.
-      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:hipsOf(taker,TK[n],0),to:kickEnd});
+      // r91: a reaction joins the follow-through on the foot he stands on. The kick ends with the kicking (right) foot down
+      // and the left one lifting (toe 10 cm up), so the right toe stays where the kick left it (turned with the hips) and
+      // the lifting foot steps into the reaction's stance; carrying the hips over slid a standing foot 20-40 cm.
+      const plant=(clip,time)=>{const h=hipsOf(taker,clip,time),f=taker.bones.mixamorigRightToeBase;if(!f)return h;f.getWorldPosition(sample);return {x:sample.x,z:sample.z,face:h.face};};
+      const kickPlant=plant(TK.penaltyKick,TK.penaltyKick.duration-.034);
+      const reaction=n=>rebase(taker,TK[n],`cmReact_${n}`,{zero:"xz",from:plant(TK[n],0),to:kickPlant});
       const react={};for(const [k,list] of Object.entries(REACTIONS))react[k]=list.filter(n=>TK[n]).map(reaction);
       const struck=strikeOf(taker,TK);
       const hit=struck?struck.hit:KICK_HIT_GUESS,at=struck?struck.ball:KICK_BALL_GUESS;
@@ -522,6 +530,18 @@
       // r91: a keeper's shuffle along his line during the run-up (Nik's Soccer Game Pack, Mixamo "Goalkeeper Sidestep", both
       // ways): the step keeps its sideways travel, so the feet never slide.
       for(const n of ["gkStepL","gkStepR"])if(keeper.clips[n])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
+      // r91: once his dive or block is over and he is back on his feet, the keeper reacts: a fist pump when the ball stayed
+      // out, head down when it went in. Each reaction starts where that move ends: the middle of his feet is carried there
+      // (no turn), so going into it each foot moves only by the change of stance (10-14 cm, both feet alike), never a
+      // slide. Only the hips track is new, the other tracks are shared with the clip. Reduce Motion shows the move's
+      // settled end, without a reaction.
+      KC.after={};
+      for(const [k,n] of [["save","cheer"],["goal","disappointed"]])if(keeper.clips[n]){
+        const c=keeper.clips[n],from=feetOf(keeper,c,0),by={};
+        for(const m of new Set([...KEEPS.L,...KEEPS.R].filter(m=>!m.hold).map(m=>m.c))){
+          const to=feetOf(keeper,KC[m],KC[m].duration-1e-3);
+          by[m]=rebase(keeper,c,`cm_gk_${k}_${m}`,{zero:"xz",from,to:{x:to.x,z:to.z,face:from.face},share:true});}
+        KC.after[k]=by;}
       keeper.holder.position.set(0,0,.25);
       return {a:keeper,KC};
     };
@@ -706,7 +726,6 @@
         if(kickT<end){
           const k={clip:TK.penaltyKick,time:kickT,w:1};
           if(st.jog&&kickT<.12){const j=cm3Easy(kickT/.12);taker.pose([{clip:jog,time:JOG_JOIN+kickT*st.rate,w:1-j},{...k,w:j}]);return;}
-          if(!st.jog&&kickT<.001){taker.pose([idle]);return;}
           taker.pose([k]);return;
         }
         const r=plan.react,rt=kickT-end,b=cm3Easy(rt/.4);
@@ -714,13 +733,13 @@
       }
       if(!st.jog){
         // Two steps from a standstill: he waits, then goes.
-        const b=cm3Easy((kickT+.28)/.28);taker.pose([idle,{clip:TK.penaltyKick,time:0,w:b}]);return;
+        const b=cm3Easy((kickT+.28)/.28);taker.pose([{...idle,w:1-b},{clip:TK.penaltyKick,time:0,w:b}]);return;
       }
       if(t<runStart){taker.pose([idle]);return;}
       const jt=JOG_JOIN-st.total+st.clipAt(t-runStart),b=cm3Easy((t-runStart)/.3);
       taker.pose([{...idle,w:1-b},{clip:jog,time:jt,w:b}]);
     };
-    const keeperPose=(t,live)=>{
+    const keeperPose=(t,live,still)=>{
       const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
       if(!plan||t<plan.kStart){keeper.holder.scale.x=1;
         const sh=plan&&plan.shuffle,c=sh&&KC[sh.c];
@@ -730,7 +749,10 @@
             keeper.pose([{...idle,w:1-w},{clip:c,time:ct,w}]);return;}}
         keeper.pose([idle]);breathe(keeper,live,.8);return;}
       const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*(m.rooted?.45:.12)));
-      keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
+      keeper.holder.scale.x=m.m?-1:1;
+      const D=KC[m.c].duration-1e-3,r=!still&&!m.rooted&&!m.hold&&KC.after[plan.goal&&plan.shot?"goal":"save"]?.[m.c];
+      if(r&&ct>D){const rt=(ct-D)/m.s,w=cm3Easy(rt/.5);keeper.pose([{clip:KC[m.c],time:D,w:1-w},{clip:r,time:rt,w}]);return;}
+      keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
     };
     // The loose ball: gravity, air drag, bounces that lose speed, grass friction while it rolls, and inside the goal the
     // net (back, sides and roof) takes its pace; it rolls the way it moves.
@@ -785,6 +807,7 @@
     // screen a slanted 12 cm line breaks into dashes.
     const CAMB={pos:v3(-1.3,3.05,SPOT_Z+15),look:v3(-1.3,.85,5),hfov:40,vmin:21};
     const CAMP={pos:v3(-.4,2.75,SPOT_Z+11.5),look:v3(0,.85,3)};
+    const CAMSLIDE=1.5;
     const camLook=new T.Vector3();
     const cameraAt=(t,live)=>{
       const drift=reducedMotion()?0:1;
@@ -792,8 +815,14 @@
       p.x+=Math.sin(w)*.18*drift;p.y+=Math.sin(w*.7)*.05*drift;
       if(plan&&!reducedMotion()){
         const k=cm3Easy((t+RUNUP)/(RUNUP+.4));p.lerp(CAMP.pos,k);l.lerp(CAMP.look,k);
-        if(t>0){const f=cm3Easy(t/1.1);l.x+=ball.position.x*.22*f;l.y+=Math.max(-.2,ball.position.y-1)*.12*f;}
+        if(t>0){const f=cm3Easy(t/1.1);l.x+=ball.position.x*.22*f;l.y+=Math.max(-.2,ball.position.y-1)*.12*f;
+          // r91: once the ball is struck the camera slides a little to the right (no turn, so the lines stay level), so the
+          // taker standing on the spot no longer hides the keeper and both reactions read.
+          const sl=cm3Easy((t-.35)/1.4);p.x+=CAMSLIDE*sl;l.x+=CAMSLIDE*.55*sl;}
       }
+      // r91: the next lineup's shot starts exactly where the last kick's shot ended (the camera has slid aside and pushed
+      // in by then) and eases back to the waiting shot, so the dissolve between them never shows two goals side by side.
+      if(carry.at>-1e8){const k=cm3Easy((clockNow()-carry.at)/1400);if(k<1&&!reducedMotion()){p.lerpVectors(carry.p,p,k);l.lerpVectors(carry.l,l,k);}else carry.at=-1e9;}
       camera.position.copy(p);camLook.copy(l);
       // Proofs only: a close camera on the foot or the gloves ({pos, look, fov}); the game never sets it.
       const cu=api.closeup;if(cu){camera.position.fromArray(cu.pos);camLook.fromArray(cu.look);camera.fov=cu.fov||20;camera.updateProjectionMatrix();}
@@ -812,7 +841,7 @@
     // ---------- the dissolve between kicks ----------
     // A new taker and keeper come in under a short broadcast dissolve: the last frame fades out over the new one (never
     // to black, never dimmed).
-    let snap=null,snapAt=-1e9;
+    let snap=null,snapAt=-1e9;const carry={p:new T.Vector3(),l:new T.Vector3(),at:-1e9};
     // Proof numbers for the quality gallery (probe only): draw calls, triangles and the textures' GPU size (mips included).
     const gpuFootprint=()=>{
       const seen=new Set();let bytes=0;
@@ -842,6 +871,7 @@
     const dissolveFrom=()=>{
       if(!cssW||(frozenClock===null&&reducedMotion()))return;
       snapTexture();renderer.setRenderTarget(null);renderer.render(scene,camera);renderer.copyFramebufferToTexture(snap);snapAt=clockNow();
+      carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;
     };
 
     // ---------- size, labels, drawing ----------
@@ -863,7 +893,7 @@
       const still=frozenClock===null&&reducedMotion();
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
-      keeperPose(t,live);takerAt(t,live);ballAt(t);
+      keeperPose(t,live,still);takerAt(t,live);ballAt(t);
       contactAt();netPushAt(still);
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
